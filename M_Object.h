@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Minty.h"
+#define NOMINMAX
+#include "M_Main.h"
 #include <string>
+#include <format>
 
 namespace minty
 {
@@ -13,6 +15,10 @@ namespace minty
 	public:
 		virtual ~Object() {}
 
+		/// <summary>
+		/// Converts the Object to a string.
+		/// </summary>
+		/// <returns></returns>
 		virtual std::string const toString() const;
 	};
 }
