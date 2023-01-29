@@ -50,7 +50,7 @@ namespace minty
 
         Transform& transform = mp_registry->emplace<Transform>(entity);
         transform.setWorldPosition(x, y, mp_registry);
-        transform.localIndex = z;
+        transform.index = z;
 
         SDL_Surface* surface = resources_load_image(path);
 

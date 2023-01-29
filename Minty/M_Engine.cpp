@@ -221,12 +221,16 @@ namespace minty
 				if (registry->valid(activeScene->mainCamera()))
 				{
 					Transform const& cameraTransform = registry->get<Transform>(activeScene->mainCamera());
+					PointF cameraWorldPos = cameraTransform.worldPosition(registry);
+					PointF worldPos;
 					for (auto&& [entity, transform, sprite] : registry->view<Transform const, SpriteRenderer const>().each())
 					{
 						// if the sprite is visible, render a copy of it
 						if (!sprite.invisible)
 						{
-							queue.push(transform.localIndex, Pair<Point, Sprite const*>(Point(transform.worldPosX - cameraTransform.worldPosX, transform.worldPosY - cameraTransform.worldPosY), sprite.sprite));
+							worldPos = transform.worldPosition(registry);
+
+							queue.push(transform.worldIndex(registry), Pair<Point, Sprite const*>(Point(worldPos.x - cameraWorldPos.x, worldPos.y - cameraWorldPos.y), sprite.sprite));
 						}
 					}
 					

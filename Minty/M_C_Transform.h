@@ -12,35 +12,25 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Transform
 	{
-		float localPosX;
-		float localPosY;
-		float worldPosX;
-		float worldPosY;
+		float positionX;
+		float positionY;
 
-		int localIndex;
-		int worldIndex;
+		int index;
 
 		// float rotation;
 
-		float localSizeX;
-		float localSizeY;
-		float worldSizeX;
-		float worldSizeY;
+		float scaleX;
+		float scaleY;
 
 		entt::entity parent;
 		std::set<entt::entity>* children;
 
 		Transform()
-			: localPosX(0.0f)
-			, localPosY(0.0f)
-			, worldPosX(0.0f)
-			, worldPosY(0.0f)
-			, localIndex(0)
-			, worldIndex(0)
-			, localSizeX(1.0f)
-			, localSizeY(1.0f)
-			, worldSizeX(1.0f)
-			, worldSizeY(1.0f)
+			: positionX(0.0f)
+			, positionY(0.0f)
+			, index(0)
+			, scaleX(1.0f)
+			, scaleY(1.0f)
 			, parent(entt::null)
 			, children(nullptr)
 		{}
@@ -57,41 +47,42 @@ namespace minty
 		/// Gets the local position.
 		/// </summary>
 		/// <returns></returns>
-		PointF localPosition() const { return PointF(localPosX, localPosY); }
+		inline PointF localPosition() const { return PointF(positionX, positionY); }
 
 		/// <summary>
 		/// Gets the world position, influenced by the parent.
 		/// </summary>
 		/// <returns></returns>
-		PointF worldPosition() const { return PointF(worldPosX, worldPosY); }
+		PointF worldPosition(entt::registry const* const registry) const;
 
 		/// <summary>
-		/// Gets the local size.
+		/// Gets the local scale.
 		/// </summary>
 		/// <returns></returns>
-		PointF localSize() const { return PointF(localSizeX, localSizeY); }
+		inline PointF localScale() const { return PointF(scaleX, scaleY); }
 
 		/// <summary>
-		/// Gets the world size, influenced by the parent.
+		/// Gets the world scale, influenced by the parent.
 		/// </summary>
 		/// <returns></returns>
-		PointF worldSize() const { return PointF(worldSizeX, worldSizeY); }
+		PointF worldScale(entt::registry const* const registry) const;
+
+		constexpr int localIndex() const { return index; }
+
+		int worldIndex(entt::registry const* const registry) const;
 
 		void setParent(entt::entity const entity, entt::entity const newParentEntity, entt::registry* const registry);
 
-		void setLocalPosition(float const x, float const y, entt::registry* const registry);
+		void setLocalPosition(float const x, float const y);
 
 		void setWorldPosition(float const x, float const y, entt::registry* const registry);
 
-		void setLocalIndex(int const index, entt::registry* const registry);
+		void setLocalScale(float const x, float const y);
 
-		void setWorldIndex(int const index, entt::registry* const registry);
+		void setWorldScale(float const x, float const y, entt::registry* const registry);
 
-	private:
-		void updatePosition(Transform const* const parentTransform, entt::registry* const registry);
-		void updatePosition(entt::registry* const registry);
+		void setLocalIndex(int const i);
 
-		void updateIndex(Transform const* const parentTransform, entt::registry* const registry);
-		void updateIndex(entt::registry* const registry);
+		void setWorldIndex(int const i, entt::registry* const registry);
 	};
 }

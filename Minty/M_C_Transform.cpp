@@ -3,6 +3,46 @@
 
 namespace minty
 {
+	PointF Transform::worldPosition(entt::registry const* const registry) const
+	{
+		// if parent, use parent's values
+		if (registry->valid(parent))
+		{
+			Transform const& parentTransform = registry->get<Transform>(parent);
+
+			PointF parentPos = parentTransform.worldPosition(registry);
+			PointF parentScale = parentTransform.worldScale(registry);
+
+			return PointF(parentPos.x + positionX * parentScale.x, parentPos.y + positionY * parentScale.y);
+		}
+
+		return localPosition();
+	}
+
+	PointF Transform::worldScale(entt::registry const* const registry) const
+	{
+		// if parent, use parent's values
+		if (registry->valid(parent))
+		{
+			PointF parentWorldScale = registry->get<Transform>(parent).worldScale(registry);
+
+			return PointF(parentWorldScale.x * scaleX, parentWorldScale.y * scaleY);
+		}
+
+		return localScale();
+	}
+
+	int Transform::worldIndex(entt::registry const* const registry) const
+	{
+		// if parent, use parent's values
+		if (registry->valid(parent))
+		{
+			return registry->get<Transform>(parent).worldIndex(registry) + index;
+		}
+
+		return localIndex();
+	}
+
 	void Transform::setParent(entt::entity const entity, entt::entity const newParentEntity, entt::registry* const registry)
 	{
 		// remove from old parent list
@@ -33,140 +73,73 @@ namespace minty
 		}
 	}
 
-	void Transform::setLocalPosition(float const x, float const y, entt::registry* const registry)
+	void Transform::setLocalPosition(float const x, float const y)
 	{
-		localPosX = x;
-		localPosY = y;
-
-		updatePosition(registry);
+		positionX = x;
+		positionY = y;
 	}
 
 	void Transform::setWorldPosition(float const x, float const y, entt::registry* const registry)
 	{
 		if (registry->valid(parent))
 		{
-			Transform* parentTransform = &registry->get<Transform>(parent);
+			Transform const& parentTransform = registry->get<Transform>(parent);
 
-			if (parentTransform->worldSizeX != 0.0f && parentTransform->worldSizeY != 0.0f)
+			PointF parentSize = parentTransform.worldScale(registry);
+
+			if (parentSize.x != 0.0f && parentSize.y != 0.0f)
 			{
-				localPosX = (x - parentTransform->worldPosX) / parentTransform->worldSizeX;
-				localPosY = (y - parentTransform->worldPosY) / parentTransform->worldSizeY;
+				PointF parentPos = parentTransform.worldPosition(registry);
 
-				updatePosition(parentTransform, registry);
+				positionX = (x - parentPos.x) / parentSize.x;
+				positionY = (y - parentPos.y) / parentSize.y;
+			}
+			else
+			{
+				// parent size = 0, so ignore?
 			}
 		}
 		else
 		{
-			localPosX = x;
-			localPosY = y;
-
-			updatePosition(nullptr, registry);
+			setLocalPosition(x, y);
 		}
 	}
 
-	void Transform::setLocalIndex(int const index, entt::registry* const registry)
+	void Transform::setLocalScale(float const x, float const y)
 	{
-		localIndex = index;
-
-		updateIndex(registry);
+		scaleX = x;
+		scaleY = y;
 	}
 
-	void Transform::setWorldIndex(int const index, entt::registry* const registry)
+	void Transform::setWorldScale(float const x, float const y, entt::registry* const registry)
 	{
 		if (registry->valid(parent))
 		{
-			Transform* parentTransform = &registry->get<Transform>(parent);
+			PointF parentSize = registry->get<Transform>(parent).worldScale(registry);
 
-			localIndex = index - parentTransform->worldIndex;
-
-			updateIndex(parentTransform, registry);
+			scaleX = x * parentSize.x;
+			scaleY = y * parentSize.y;
 		}
 		else
 		{
-			localIndex = index;
-
-			updateIndex(nullptr, registry);
+			setLocalScale(x, y);
 		}
 	}
 
-	void Transform::updatePosition(Transform const* const parent, entt::registry* const registry)
+	void Transform::setLocalIndex(int const i)
 	{
-		// get position from parent
-		// update based on that
-
-		if (parent)
-		{
-			worldPosX = parent->worldPosX + parent->worldSizeX * localPosX;
-			worldPosY = parent->worldPosY + parent->worldSizeY * localPosY;
-
-			worldSizeX = parent->worldSizeX * localSizeX;
-			worldSizeY = parent->worldSizeY * localSizeY;
-		}
-		else
-		{
-			worldPosX = localPosX;
-			worldPosY = localPosY;
-
-			worldSizeX = localSizeX;
-			worldSizeY = localSizeY;
-		}
-
-		// update children
-		if (children)
-		{
-			for (auto entity : *children)
-			{
-				registry->get<Transform>(entity).updatePosition(this, registry);
-			}
-		}
+		index = i;
 	}
 
-	void Transform::updatePosition(entt::registry* const registry)
+	void Transform::setWorldIndex(int const i, entt::registry* const registry)
 	{
 		if (registry->valid(parent))
 		{
-			Transform* parentTransform = &registry->get<Transform>(parent);
-
-			updatePosition(parentTransform, registry);
+			index = i - registry->get<Transform>(parent).worldIndex(registry);
 		}
 		else
 		{
-			updatePosition(nullptr, registry);
-		}		
-	}
-
-	void Transform::updateIndex(Transform const* const parent, entt::registry* const registry)
-	{
-		if (parent)
-		{
-			worldIndex = parent->worldIndex + localIndex;
-		}
-		else
-		{
-			worldIndex = localIndex;
-		}
-
-		// update children
-		if (children)
-		{
-			for (auto entity : *children)
-			{
-				registry->get<Transform>(entity).updateIndex(this, registry);
-			}
-		}
-	}
-
-	void Transform::updateIndex(entt::registry* const registry)
-	{
-		if (registry->valid(parent))
-		{
-			Transform* parentTransform = &registry->get<Transform>(parent);
-
-			updateIndex(parentTransform, registry);
-		}
-		else
-		{
-			updateIndex(nullptr, registry);
+			index = i;
 		}
 	}
 }
