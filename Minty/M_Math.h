@@ -93,6 +93,20 @@ namespace minty
     /// <returns></returns>
     MINTY_API inline float math_center(float const x, float const w, float const c);
 
+    /// <summary>
+    /// Converts the given degrees into radians.
+    /// </summary>
+    /// <param name="deg"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_deg2rad(float const deg);
+
+    /// <summary>
+    /// Converts the given radians into degrees.
+    /// </summary>
+    /// <param name="rad"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_rad2deg(float const rad);
+
 #pragma endregion
 
 #pragma region int

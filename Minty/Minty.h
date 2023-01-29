@@ -47,12 +47,10 @@
 //			Components
 #include "M_C_Acceleration.h"
 #include "M_C_Camera.h"
-#include "M_C_Child.h"
-#include "M_C_Parent.h"
-#include "M_C_Position.h"
-#include "M_C_Scale.h"
 #include "M_C_Size.h"
 #include "M_C_SpriteRenderer.h"
+#include "M_C_Target.h"
+#include "M_C_Transform.h"
 #include "M_C_Velocity.h"
 
 //			Tags

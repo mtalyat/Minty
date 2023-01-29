@@ -12,7 +12,7 @@
 
 #include "M_SceneManager.h"
 
-#include "M_C_Position.h"
+#include "M_C_Transform.h"
 #include "M_C_Size.h"
 #include "M_C_Camera.h"
 #include "M_C_SpriteRenderer.h"
@@ -37,7 +37,7 @@ namespace minty
     {
         entt::entity camera = mp_registry->create();
 
-        mp_registry->emplace<Position>(camera);
+        mp_registry->emplace<Transform>(camera);
         mp_registry->emplace<Size>(camera, static_cast<float>(mp_engine->screen()->width), static_cast<float>(mp_game->engine()->screen()->height));
         mp_registry->emplace<Camera>(camera);
 
@@ -48,7 +48,8 @@ namespace minty
     {
         entt::entity entity = mp_registry->create();
 
-        mp_registry->emplace<Position>(entity, x, y);
+        Transform& transform = mp_registry->emplace<Transform>(entity);
+        transform.setWorldPosition(entity, x, y, mp_registry);
 
         SDL_Surface* surface = resources_load_image(path);
 

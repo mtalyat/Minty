@@ -63,6 +63,16 @@ namespace minty
 		return x + w * c;
 	}
 
+	MINTY_API float math_deg2rad(float const deg)
+	{
+		return static_cast<float>(deg * (M_PI / 180.0f));
+	}
+
+	MINTY_API float math_rad2deg(float const rad)
+	{
+		return static_cast<float>(rad * (180.0f / M_PI));
+	}
+
 	int MINTY_API math_max(int const left, int const right)
 	{
 		return left > right ? left : right;

@@ -155,12 +155,9 @@
     <ClInclude Include="M_Coroutine.h" />
     <ClInclude Include="M_C_Acceleration.h" />
     <ClInclude Include="M_C_Camera.h" />
-    <ClInclude Include="M_C_Child.h" />
-    <ClInclude Include="M_C_Parent.h" />
-    <ClInclude Include="M_C_Position.h" />
-    <ClInclude Include="M_C_Scale.h" />
     <ClInclude Include="M_C_Size.h" />
     <ClInclude Include="M_C_SpriteRenderer.h" />
+    <ClInclude Include="M_C_Target.h" />
     <ClInclude Include="M_C_Velocity.h" />
     <ClInclude Include="M_Debug.h" />
     <ClInclude Include="M_Direction.h" />
@@ -191,6 +188,7 @@
     <ClInclude Include="M_Screen.h" />
     <ClInclude Include="M_Sprite.h" />
     <ClInclude Include="M_Time.h" />
+    <ClInclude Include="M_C_Transform.h" />
     <ClInclude Include="M_T_Destroy.h" />
     <ClInclude Include="M_T_Gravity.h" />
     <ClInclude Include="M_T_NoDestroy.h" />
@@ -226,6 +224,7 @@
     <ClCompile Include="M_Sprite.cpp" />
     <ClCompile Include="M_Text.cpp" />
     <ClCompile Include="M_Time.cpp" />
+    <ClCompile Include="M_C_Transform.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

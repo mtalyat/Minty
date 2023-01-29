@@ -22,7 +22,7 @@
 #include "FastNoiseLite.h"
 #include "entt.hpp"
 
-#include "M_C_Position.h"
+#include "M_C_Transform.h"
 #include "M_C_Velocity.h"
 #include "M_C_SpriteRenderer.h"
 #include "M_C_Camera.h"
@@ -220,13 +220,13 @@ namespace minty
 				// render sprites based on main camera position
 				if (registry->valid(activeScene->mainCamera()))
 				{
-					Position cameraPos = registry->get<Position>(activeScene->mainCamera());
-					for (auto&& [entity, pos, sprite] : registry->view<Position const, SpriteRenderer const>().each())
+					Transform const& cameraTransform = registry->get<Transform>(activeScene->mainCamera());
+					for (auto&& [entity, transform, sprite] : registry->view<Transform const, SpriteRenderer const>().each())
 					{
 						// if the sprite is visible, render a copy of it
 						if (!sprite.invisible)
 						{
-							queue.push(sprite.order, Pair<Point, Sprite const*>(Point(pos.x - cameraPos.x, pos.y - cameraPos.y), sprite.sprite));
+							queue.push(sprite.order, Pair<Point, Sprite const*>(Point(transform.worldPosX - cameraTransform.worldPosX, transform.worldPosY - cameraTransform.worldPosY), sprite.sprite));
 						}
 					}
 
