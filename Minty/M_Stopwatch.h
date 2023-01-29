@@ -59,6 +59,12 @@ namespace minty
         long elapsed() const;
 
         /// <summary>
+        /// Manually set the time elapsed from the start.
+        /// </summary>
+        /// <param name="elapsed"></param>
+        void setElapsed(long const elapsed);
+
+        /// <summary>
         /// Creates a new Stopwatch, and starts it immediately after.
         /// </summary>
         /// <returns></returns>

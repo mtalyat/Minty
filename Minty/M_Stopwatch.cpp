@@ -53,6 +53,18 @@ namespace minty
 		}
 	}
 
+	void Stopwatch::setElapsed(long const elapsed)
+	{
+		// set elapsed time
+		m_elapsed = elapsed;
+
+		// if running, restart clock
+		if (m_running)
+		{
+			m_start = clock();
+		}
+	}
+
 	std::string const Stopwatch::toString() const
 	{
 		// convert to seconds, minutes, and hours

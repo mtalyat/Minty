@@ -265,7 +265,7 @@ namespace minty
 				Debug::log(std::to_string(frames) + "fps");
 
 				frames = 0;
-				fpsWatch.restart();
+				fpsWatch.setElapsed(fpsWatch.elapsed() % 1000);
 			}
 
 			loopWatch.stop();
