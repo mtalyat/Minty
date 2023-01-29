@@ -79,14 +79,14 @@ namespace minty
 		// create game
 		if (mp_game->onCreate())
 		{
-			abort("Failed to create game.");
+			abort(11, "Failed to create game.");
 			return;
 		}
 
 		// start game
 		if (mp_game->onStart())
 		{
-			abort("Failed to start game.");
+			abort(12, "Failed to start game.");
 			return;
 		}
 
@@ -124,7 +124,7 @@ namespace minty
 			// if no scene
 			if (!activeScene)
 			{
-				Debug::logError("No active scene, aborting program.");
+				abort(10, "No active scene.");
 				break;
 			}
 
@@ -230,16 +230,6 @@ namespace minty
 						}
 					}
 
-					//// add local positioned sprites
-					//for (auto&& [entity, pos, sprite] : activeScene->registry().view<C_LocalPosition const, C_Sprite const>().each())
-					//{
-					//	// if the sprite is visible, render a copy of it
-					//	if (sprite.sprite->isVisible())
-					//	{
-					//		queue.push(sprite.sprite->order(), Pair<Point, Sprite const*>(Point(pos.x, pos.y), sprite.sprite));
-					//	}
-					//}
-
 					//// add UI elements
 					//for (auto visual : activeScene->mainCanvas()->visuals())
 					//{
@@ -293,13 +283,13 @@ namespace minty
 
 		if (mp_game->onStop())
 		{
-			abort("Failed to stop game.");
+			abort(13, "Failed to stop game.");
 			return;
 		}
 
 		if (mp_game->onDestroy())
 		{
-			abort("Failed to destroy game.");
+			abort(14, "Failed to destroy game.");
 			return;
 		}
 
@@ -328,13 +318,13 @@ namespace minty
 		// initialize SDL
 		if (SDL_Init(SDL_INIT_VIDEO))
 		{
-			Debug::logErrorSDL("Failed to init SDL.");
+			Debug::logErrorSDL(1, "Failed to init SDL.");
 		}
 
 		// init IMG SDL
 		if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
 		{
-			Debug::logErrorSDL("Failed to init IMG.");
+			Debug::logErrorSDL(2, "Failed to init IMG.");
 		}
 
 		// init screen/window, since it must be done after SDL_Init
@@ -343,25 +333,18 @@ namespace minty
 		// initialize random values
 		random_seed_time();
 
-		//// init ui clicking
-		//InputMap* defaultMap = mp_input->defaultMap();
-		//defaultMap->emplace_mouse_down(SDL_BUTTON_LEFT, [this](SDL_MouseButtonEvent* button)
-		//	{
-		//		uiClick(button);
-		//	});
-
 		// initialize debug
 		Debug::setWatch(&m_gameWatch);
 	}
 
-	void Engine::abort(std::string const& errorMessage)
+	void Engine::abort(unsigned int const code, std::string const& errorMessage)
 	{
 		m_quit = false;
 		m_isRunning = false;
 
 		if (!errorMessage.empty())
 		{
-			Debug::logError(errorMessage);
+			Debug::logError(code, "Engine aborted. " + errorMessage);
 		}
 
 		Debug::log("Aborting game.");

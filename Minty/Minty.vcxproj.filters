@@ -276,4 +276,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="ERROR_CODES.md">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

@@ -117,7 +117,7 @@ namespace minty
 		}
 		else
 		{
-			Debug::logError(std::format("Could not find input map \"{0}\".", name));
+			Debug::logError(19, std::format("Could not find input map \"{0}\".", name));
 		}
 	}
 }

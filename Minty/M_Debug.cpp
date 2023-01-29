@@ -26,45 +26,45 @@ namespace minty
 		}
 	}
 
-	void Debug::logError(std::string const& str)
+	void Debug::logError(unsigned int const code, std::string const& str)
 	{
 		if (msp_stopwatch)
 		{
 			// stopwatch, so print
-			std::cout << "[" << msp_stopwatch->toString() << "] " << "ERR: " << str << END_OF_LINE;
+			std::cout << "[" << msp_stopwatch->toString() << "] ERR CODE: " << code << ", ERR: " << str << END_OF_LINE;
 		}
 		else
 		{
 			// no stopwatch, just print
-			std::cout << "ERR: " << str << END_OF_LINE;
+			std::cout << "ERR CODE: " << code << ", ERR: " << str << END_OF_LINE;
 		}
 	}
 
-	void Debug::logError(std::string const& str, Object const& obj)
+	void Debug::logError(unsigned int const code, std::string const& str, Object const& obj)
 	{
 		if (msp_stopwatch)
 		{
 			// stopwatch, so print
-			std::cout << "[" << msp_stopwatch->toString() << "] " << "ERR: Object(" << obj.toString() << ") " << str << END_OF_LINE;
+			std::cout << "[" << msp_stopwatch->toString() << "] ERR CODE: " << code <<  ", ERR: Object(" << obj.toString() << ") " << str << END_OF_LINE;
 		}
 		else
 		{
 			// no stopwatch, just print
-			std::cout << "ERR: Object(" << obj.toString() << ") " << str << END_OF_LINE;
+			std::cout << "ERR CODE: " << code << ", ERR: Object(" << obj.toString() << ") " << str << END_OF_LINE;
 		}
 	}
 
-	void Debug::logErrorSDL(std::string const& str)
+	void Debug::logErrorSDL(unsigned int const code, std::string const& str)
 	{
 		if (msp_stopwatch)
 		{
 			// stopwatch, so print
-			std::cout << "[" << msp_stopwatch->toString() << "] " << "ERR: " << str << " Error: \"" << SDL_GetError() << "\"" << END_OF_LINE;
+			std::cout << "[" << msp_stopwatch->toString() << "] ERR CODE: " << code << ", ERR: " << str << " Error: \"" << SDL_GetError() << "\"" << END_OF_LINE;
 		}
 		else
 		{
 			// no stopwatch, just print
-			std::cout << "ERR: " << str << " Error: \"" << SDL_GetError() << "\"" << END_OF_LINE;
+			std::cout << "ERR CODE: " << code << ", ERR: " << str << " Error: \"" << SDL_GetError() << "\"" << END_OF_LINE;
 		}
 	}
 }

@@ -107,7 +107,7 @@ namespace minty
         /// <summary>
         /// Aborts the currently running Game.
         /// </summary>
-        void abort(std::string const& errorMessage = "");
+        void abort(unsigned int const code, std::string const& errorMessage = "");
 
         /// <summary>
         /// Called when the Game starts.

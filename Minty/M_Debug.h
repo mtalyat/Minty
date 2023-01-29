@@ -51,20 +51,20 @@ namespace minty
 		/// Debugs a string to the console, prepended by "ERR: ".
 		/// </summary>
 		/// <param name="str"></param>
-		static void logError(std::string const& str);
+		static void logError(unsigned int const code, std::string const& str);
 
 		/// <summary>
 		/// Debugs a string to the console, prepended by "ERR: Object( ... ) " where ... is the given obj.toString().
 		/// </summary>
 		/// <param name="str"></param>
 		/// <param name="obj"></param>
-		static void logError(std::string const& str, Object const& obj);
+		static void logError(unsigned int const code, std::string const& str, Object const& obj);
 
 		/// <summary>
 		/// Debugs a string to the console, prepended by "ERR: ", and postpended by the SDL error message.
 		/// </summary>
 		/// <param name="str"></param>
-		static void logErrorSDL(std::string const& str);
+		static void logErrorSDL(unsigned int const code, std::string const& str);
 	};
 
 	template<typename T>

@@ -32,7 +32,7 @@ namespace minty
             file.close();
         }
         else {
-            Debug::logError("File not found at: " + path);
+            Debug::logError(15, "File not found at: " + path);
             return nullptr;
         }
 
@@ -60,7 +60,7 @@ namespace minty
             file.close();
         }
         else {
-            Debug::logError("File not found at: " + path);
+            Debug::logError(16, "File not found at: " + path);
             return nullptr;
         }
 
@@ -92,7 +92,7 @@ namespace minty
         // check if file does not exist
         if (!file.is_open())
         {
-            Debug::logError("File not found at: " + path);
+            Debug::logError(17, "File not found at: " + path);
             return nullptr;
         }
 
@@ -102,7 +102,7 @@ namespace minty
         if (!std::getline(file, line))
         {
             // no line to read
-            Debug::logError("File was empty: " + path);
+            Debug::logError(18, "File was empty: " + path);
             return nullptr;
         }
 

@@ -11,20 +11,20 @@ namespace minty
 		// create window with title
 		if (!(mp_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_OPENGL)))
 		{
-			Debug::logErrorSDL("Failed to create window.");
+			Debug::logErrorSDL(00003, "Failed to create window.");
 		}
 
 		// create renderer for the window
 		if (!(mp_renderer = SDL_CreateRenderer(mp_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE)))
 		{
-			Debug::logErrorSDL("Failed to create renderer.");
+			Debug::logErrorSDL(00004, "Failed to create renderer.");
 		}
 
 		// set icon
 		SDL_Surface* icon = resources_load_image("Icon.png");
 		if (!icon)
 		{
-			Debug::logErrorSDL("Failed to load icon.");
+			Debug::logErrorSDL(00005, "Failed to load icon.");
 		}
 		else
 		{
@@ -42,7 +42,7 @@ namespace minty
 		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
 		if (SDL_RenderSetLogicalSize(mp_renderer, width, height))
 		{
-			Debug::logErrorSDL("Failed to set logical renderer size.");
+			Debug::logErrorSDL(00006, "Failed to set logical renderer size.");
 		}
 
 		// support transparency

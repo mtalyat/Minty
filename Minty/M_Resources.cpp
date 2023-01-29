@@ -22,7 +22,7 @@ namespace minty
 
 		if (!surface)
 		{
-			Debug::logErrorSDL(std::format("Could not load image at path \"{0}\".", path));
+			Debug::logErrorSDL(7, std::format("Could not load image at path \"{0}\".", path));
 		}
 
 		return surface;
@@ -52,7 +52,7 @@ namespace minty
 
 			if (!(surfaces[i] = IMG_Load(finalPath.c_str())))
 			{
-				Debug::logErrorSDL(std::format("Failed to create image from resources at path: \"{0}\"", finalPath));
+				Debug::logErrorSDL(8, std::format("Failed to create image from resources at path: \"{0}\"", finalPath));
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace minty
 
 			if (!surface)
 			{
-				Debug::logErrorSDL(std::format("Failed to create image from resources at path: \"{0}\"", finalPath));
+				Debug::logErrorSDL(9, std::format("Failed to create image from resources at path: \"{0}\"", finalPath));
 				break;
 			}
 

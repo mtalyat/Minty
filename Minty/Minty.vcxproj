@@ -233,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="M_Stopwatch.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="ERROR_CODES.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
