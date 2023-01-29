@@ -57,6 +57,11 @@ namespace minty
 		}
 	}
 
+	elapsed_t Stopwatch::elapsed_ms() const
+	{
+		return elapsed() / ONE_MILLISECOND;
+	}
+
 	void Stopwatch::setElapsed(elapsed_t const elapsed)
 	{
 		// set elapsed time

@@ -73,6 +73,12 @@ namespace minty
         elapsed_t elapsed() const;
 
         /// <summary>
+        /// How much time (in milliseconds) have elapsed since the start?
+        /// </summary>
+        /// <returns></returns>
+        elapsed_t elapsed_ms() const;
+
+        /// <summary>
         /// Manually set the time elapsed from the start.
         /// </summary>
         /// <param name="elapsed">The amount of time that has elapsed in nanoseconds.</param>
