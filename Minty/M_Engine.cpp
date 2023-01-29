@@ -36,7 +36,7 @@
 
 #include "M_Time.h"
 
-constexpr long FRAME_TIME = 16; // roughly 1/60, rounded down
+constexpr elapsed_t FRAME_TIME = 16666667; // Roughly 1/60 in nanoseconds, rounded.
 
 namespace minty
 {
@@ -197,7 +197,7 @@ namespace minty
 			if (renderWatch.elapsed() >= FRAME_TIME)
 			{
 				// reset watch
-				renderWatch.reset();
+				renderWatch.reset(FRAME_TIME);
 
 				// clear the screen so there is no smearing
 				if (mp_screen->backgroundTexture())
@@ -226,7 +226,7 @@ namespace minty
 						// if the sprite is visible, render a copy of it
 						if (!sprite.invisible)
 						{
-							queue.push(transform.zIndex, Pair<Point, Sprite const*>(Point(transform.worldPosX - cameraTransform.worldPosX, transform.worldPosY - cameraTransform.worldPosY), sprite.sprite));
+							queue.push(transform.localIndex, Pair<Point, Sprite const*>(Point(transform.worldPosX - cameraTransform.worldPosX, transform.worldPosY - cameraTransform.worldPosY), sprite.sprite));
 						}
 					}
 					
@@ -259,7 +259,7 @@ namespace minty
 			}
 
 			// if a second has passed, display FPS
-			if (fpsWatch.elapsed() > 1000)
+			if (fpsWatch.elapsed() > ONE_SECOND)
 			{
 				// one second passed
 				Debug::log(std::to_string(frames) + "fps");

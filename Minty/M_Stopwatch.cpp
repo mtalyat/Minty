@@ -3,14 +3,12 @@
 #include "M_Text.h"
 #include <iostream>
 
-constexpr long ONE_HOUR_IN_MS = 3600000;
-constexpr long ONE_MINUTE_IN_MS = 60000;
-constexpr long ONE_SECOND_IN_MS = 1000;
+#define NOW() std::chrono::steady_clock::now()
 
 namespace minty
 {
 	inline Stopwatch::Stopwatch()
-		: m_start(clock())
+		: m_start(NOW())
 		, m_elapsed(0)
 		, m_running(false) {}
 
@@ -18,9 +16,9 @@ namespace minty
 	{
 		if (!m_running)
 		{
-			m_start = clock();
-
 			m_running = true;
+
+			m_start = NOW();
 		}
 	}
 
@@ -28,7 +26,7 @@ namespace minty
 	{
 		if (m_running)
 		{
-			m_elapsed += clock() - m_start;
+			m_elapsed += std::chrono::duration_cast<std::chrono::nanoseconds>(NOW() - m_start).count();
 
 			m_running = false;
 		}
@@ -36,16 +34,22 @@ namespace minty
 
 	void Stopwatch::reset()
 	{
-		m_start = clock();
 		m_elapsed = 0;
+		m_start = NOW();
 	}
 
-	long Stopwatch::elapsed() const
+	void Stopwatch::reset(elapsed_t const mod)
+	{
+		m_elapsed %= mod;
+		m_start = NOW();
+	}
+
+	elapsed_t Stopwatch::elapsed() const
 	{
 		// if running, get until now, otherwise until stop
 		if (m_running)
 		{
-			return m_elapsed + (clock() - m_start);
+			return m_elapsed + std::chrono::duration_cast<std::chrono::nanoseconds>(NOW() - m_start).count();
 		}
 		else
 		{
@@ -53,7 +57,7 @@ namespace minty
 		}
 	}
 
-	void Stopwatch::setElapsed(long const elapsed)
+	void Stopwatch::setElapsed(elapsed_t const elapsed)
 	{
 		// set elapsed time
 		m_elapsed = elapsed;
@@ -61,29 +65,31 @@ namespace minty
 		// if running, restart clock
 		if (m_running)
 		{
-			m_start = clock();
+			m_start = NOW();
 		}
 	}
 
 	std::string const Stopwatch::toString() const
 	{
 		// convert to seconds, minutes, and hours
-		long ms = elapsed();
+		elapsed_t ns = elapsed();
 
-		long hours = ms / ONE_HOUR_IN_MS;
-		ms -= hours * ONE_HOUR_IN_MS;
-		long minutes = ms / ONE_MINUTE_IN_MS;
-		ms -= minutes * ONE_MINUTE_IN_MS;
-		long seconds = ms / ONE_SECOND_IN_MS;
-		ms -= seconds * ONE_SECOND_IN_MS;
+		elapsed_t hours = ns / ONE_HOUR;
+		ns -= hours * ONE_HOUR;
+		elapsed_t minutes = ns / ONE_MINUTE;
+		ns -= minutes * ONE_MINUTE;
+		elapsed_t seconds = ns / ONE_SECOND;
+		ns -= seconds * ONE_SECOND;
+		elapsed_t milli = ns / ONE_MILLISECOND;
+		ns -= milli * ONE_MILLISECOND;
 
-		// print in format: HH:MM:SS:mmm
+		// print in format: HH:MM:SS:nnnnnn
 
 		std::string temp = std::format("{0}:{1}:{2}.{3}",
 			text_pad_left(std::to_string(hours), 2, '0'),
 			text_pad_left(std::to_string(minutes), 2, '0'),
 			text_pad_left(std::to_string(seconds), 2, '0'),
-			text_pad_left(std::to_string(ms), 3, '0'));
+			text_pad_left(std::to_string(ns), 6, '0'));
 
 		return temp;
 	}

@@ -33,7 +33,7 @@ namespace minty
 		}
 	}
 
-	void Transform::setLocalPosition(entt::entity const entity, float const x, float const y, entt::registry* const registry)
+	void Transform::setLocalPosition(float const x, float const y, entt::registry* const registry)
 	{
 		localPosX = x;
 		localPosY = y;
@@ -41,7 +41,7 @@ namespace minty
 		updatePosition(registry);
 	}
 
-	void Transform::setWorldPosition(entt::entity const entity, float const x, float const y, entt::registry* const registry)
+	void Transform::setWorldPosition(float const x, float const y, entt::registry* const registry)
 	{
 		if (registry->valid(parent))
 		{
@@ -61,6 +61,31 @@ namespace minty
 			localPosY = y;
 
 			updatePosition(nullptr, registry);
+		}
+	}
+
+	void Transform::setLocalIndex(int const index, entt::registry* const registry)
+	{
+		localIndex = index;
+
+		updateIndex(registry);
+	}
+
+	void Transform::setWorldIndex(int const index, entt::registry* const registry)
+	{
+		if (registry->valid(parent))
+		{
+			Transform* parentTransform = &registry->get<Transform>(parent);
+
+			localIndex = index - parentTransform->worldIndex;
+
+			updateIndex(parentTransform, registry);
+		}
+		else
+		{
+			localIndex = index;
+
+			updateIndex(nullptr, registry);
 		}
 	}
 
@@ -86,9 +111,6 @@ namespace minty
 			worldSizeY = localSizeY;
 		}
 
-		// set position based on parent pos and size
-
-
 		// update children
 		if (children)
 		{
@@ -111,5 +133,40 @@ namespace minty
 		{
 			updatePosition(nullptr, registry);
 		}		
+	}
+
+	void Transform::updateIndex(Transform const* const parent, entt::registry* const registry)
+	{
+		if (parent)
+		{
+			worldIndex = parent->worldIndex + localIndex;
+		}
+		else
+		{
+			worldIndex = localIndex;
+		}
+
+		// update children
+		if (children)
+		{
+			for (auto entity : *children)
+			{
+				registry->get<Transform>(entity).updateIndex(this, registry);
+			}
+		}
+	}
+
+	void Transform::updateIndex(entt::registry* const registry)
+	{
+		if (registry->valid(parent))
+		{
+			Transform* parentTransform = &registry->get<Transform>(parent);
+
+			updateIndex(parentTransform, registry);
+		}
+		else
+		{
+			updateIndex(nullptr, registry);
+		}
 	}
 }

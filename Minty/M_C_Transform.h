@@ -17,7 +17,8 @@ namespace minty
 		float worldPosX;
 		float worldPosY;
 
-		int zIndex;
+		int localIndex;
+		int worldIndex;
 
 		// float rotation;
 
@@ -34,7 +35,8 @@ namespace minty
 			, localPosY(0.0f)
 			, worldPosX(0.0f)
 			, worldPosY(0.0f)
-			, zIndex(0)
+			, localIndex(0)
+			, worldIndex(0)
 			, localSizeX(1.0f)
 			, localSizeY(1.0f)
 			, worldSizeX(1.0f)
@@ -77,12 +79,19 @@ namespace minty
 
 		void setParent(entt::entity const entity, entt::entity const newParentEntity, entt::registry* const registry);
 
-		void setLocalPosition(entt::entity const entity, float const x, float const y, entt::registry* const registry);
+		void setLocalPosition(float const x, float const y, entt::registry* const registry);
 
-		void setWorldPosition(entt::entity const entity, float const x, float const y, entt::registry* const registry);
+		void setWorldPosition(float const x, float const y, entt::registry* const registry);
 
+		void setLocalIndex(int const index, entt::registry* const registry);
+
+		void setWorldIndex(int const index, entt::registry* const registry);
+
+	private:
 		void updatePosition(Transform const* const parentTransform, entt::registry* const registry);
-
 		void updatePosition(entt::registry* const registry);
+
+		void updateIndex(Transform const* const parentTransform, entt::registry* const registry);
+		void updateIndex(entt::registry* const registry);
 	};
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "M_Main.h"
+#include "M_Stopwatch.h"
 #include <ctime>
 
 namespace minty
@@ -37,7 +38,7 @@ namespace minty
 		/// Sets the delta time from the most recent frame.
 		/// </summary>
 		/// <param name="time"></param>
-		static void setDeltaTime(long const time);
+		static void setDeltaTime(elapsed_t const time);
 
 		/// <summary>
 		/// Gets the time scale.

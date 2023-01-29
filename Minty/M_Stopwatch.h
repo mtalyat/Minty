@@ -1,9 +1,17 @@
 #pragma once
 
 #include "M_Object.h"
+#include <chrono>
+
+#define elapsed_t long long
 
 namespace minty
 {
+    constexpr elapsed_t ONE_MILLISECOND = 1000000;
+    constexpr elapsed_t ONE_SECOND = ONE_MILLISECOND * 1000;
+    constexpr elapsed_t ONE_MINUTE = ONE_SECOND * 60;
+    constexpr elapsed_t ONE_HOUR = ONE_MINUTE * 60;
+
     /// <summary>
     /// Holds data for time elapsed over a time period recorded.
     /// </summary>
@@ -12,14 +20,14 @@ namespace minty
     {
     private:
         /// <summary>
-        /// The start time in clock ticks, when this Stopwatch was started.
+        /// The start time in nanoseconds, when this Stopwatch was started.
         /// </summary>
-        clock_t m_start;
+        std::chrono::steady_clock::time_point m_start;
 
         /// <summary>
-        /// The total amount of time in click ticks that have passed.
+        /// The total amount of time in nanoseconds that have passed.
         /// </summary>
-        long m_elapsed;
+        elapsed_t m_elapsed;
 
         /// <summary>
         /// Is the Stopwatch currently recording time?
@@ -48,6 +56,12 @@ namespace minty
         void reset();
 
         /// <summary>
+        /// Reset the time recorded (mod elapsed time by the given mod value).
+        /// </summary>
+        /// <param name="mod"></param>
+        void reset(elapsed_t const mod);
+
+        /// <summary>
         /// Stop, reset and start.
         /// </summary>
         inline void restart() { stop(); reset(); start(); }
@@ -55,14 +69,14 @@ namespace minty
         /// <summary>
         /// How much time has elapsed since the start?
         /// </summary>
-        /// <returns></returns>
-        long elapsed() const;
+        /// <returns>Time elapsed in nanoseconds.</returns>
+        elapsed_t elapsed() const;
 
         /// <summary>
         /// Manually set the time elapsed from the start.
         /// </summary>
-        /// <param name="elapsed"></param>
-        void setElapsed(long const elapsed);
+        /// <param name="elapsed">The amount of time that has elapsed in nanoseconds.</param>
+        void setElapsed(elapsed_t const elapsed);
 
         /// <summary>
         /// Creates a new Stopwatch, and starts it immediately after.

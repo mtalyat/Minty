@@ -49,8 +49,8 @@ namespace minty
         entt::entity entity = mp_registry->create();
 
         Transform& transform = mp_registry->emplace<Transform>(entity);
-        transform.setWorldPosition(entity, x, y, mp_registry);
-        transform.zIndex = z;
+        transform.setWorldPosition(x, y, mp_registry);
+        transform.localIndex = z;
 
         SDL_Surface* surface = resources_load_image(path);
 

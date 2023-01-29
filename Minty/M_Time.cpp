@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "M_Time.h"
-#include <ctime>
 
 namespace minty
 {
@@ -10,17 +9,18 @@ namespace minty
 
 	float Time::s_timeScale = 1.0f;
 
-	void Time::setDeltaTime(long const time)
+	void Time::setDeltaTime(elapsed_t const time)
 	{
 		// only set if not zero
-		if (time)
+		if (time > 0)
 		{
 			s_deltaTimeRaw = time;
-			s_deltaTime = time / 1000.0f;
+			s_deltaTime = time / static_cast<float>(ONE_SECOND);
 		}
-		else {
+		else
+		{
 			s_deltaTimeRaw = 1;
-			s_deltaTime = 1.0f / 1000.0f;
+			s_deltaTime = 1.0f / static_cast<float>(ONE_SECOND);
 		}
 	}
 }
