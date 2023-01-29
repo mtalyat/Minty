@@ -16,11 +16,6 @@ namespace minty
 		Sprite* sprite;
 
 		/// <summary>
-		/// The Z order that this Sprite will be rendered in.
-		/// </summary>
-		int order;
-
-		/// <summary>
 		/// Is this sprite invisible?
 		/// </summary>
 		bool invisible;

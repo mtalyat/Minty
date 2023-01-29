@@ -10,7 +10,10 @@ namespace minty
 		{
 			Transform& parentTransform = registry->get<Transform>(parent);
 
-			parentTransform.children->erase(entity);
+			if (parentTransform.children)
+			{
+				parentTransform.children->erase(entity);
+			}
 		}
 
 		// set parent
@@ -21,6 +24,11 @@ namespace minty
 		{
 			Transform& newParentTransform = registry->get<Transform>(parent);
 
+			if (!newParentTransform.children)
+			{
+				newParentTransform.children = new std::set<entt::entity>();
+			}
+
 			newParentTransform.children->emplace(entity);
 		}
 	}
@@ -30,14 +38,7 @@ namespace minty
 		localPosX = x;
 		localPosY = y;
 
-		if (registry->valid(parent))
-		{
-			updatePosition(&registry->get<Transform>(parent), registry);
-		}
-		else
-		{
-			updatePosition(nullptr, registry);
-		}
+		updatePosition(registry);
 	}
 
 	void Transform::setWorldPosition(entt::entity const entity, float const x, float const y, entt::registry* const registry)
@@ -46,7 +47,7 @@ namespace minty
 		{
 			Transform* parentTransform = &registry->get<Transform>(parent);
 
-			if (parentTransform->worldSizeX != 0.0f && parentTransform->worldSizeX != 0.0f)
+			if (parentTransform->worldSizeX != 0.0f && parentTransform->worldSizeY != 0.0f)
 			{
 				localPosX = (x - parentTransform->worldPosX) / parentTransform->worldSizeX;
 				localPosY = (y - parentTransform->worldPosY) / parentTransform->worldSizeY;
@@ -89,9 +90,12 @@ namespace minty
 
 
 		// update children
-		for (auto entity : *children)
+		if (children)
 		{
-			registry->get<Transform>(entity).updatePosition(this, registry);
+			for (auto entity : *children)
+			{
+				registry->get<Transform>(entity).updatePosition(this, registry);
+			}
 		}
 	}
 
@@ -102,10 +106,10 @@ namespace minty
 			Transform* parentTransform = &registry->get<Transform>(parent);
 
 			updatePosition(parentTransform, registry);
-
-			return;
 		}
-
-		updatePosition(nullptr, registry);
+		else
+		{
+			updatePosition(nullptr, registry);
+		}		
 	}
 }

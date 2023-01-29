@@ -44,12 +44,13 @@ namespace minty
         return camera;
     }
 
-    entt::entity Scene::create_basic_sprite(float const x, float const y, std::string const& path, int const order)
+    entt::entity Scene::create_basic_sprite(std::string const& path, float const x, float const y, int const z)
     {
         entt::entity entity = mp_registry->create();
 
         Transform& transform = mp_registry->emplace<Transform>(entity);
         transform.setWorldPosition(entity, x, y, mp_registry);
+        transform.zIndex = z;
 
         SDL_Surface* surface = resources_load_image(path);
 
@@ -60,7 +61,7 @@ namespace minty
         }
 
         mp_registry->emplace<Size>(entity, static_cast<float>(surface->w), static_cast<float>(surface->h));
-        mp_registry->emplace<SpriteRenderer>(entity, new Sprite(surface, mp_engine->screen()->renderer()), order);
+        mp_registry->emplace<SpriteRenderer>(entity, new Sprite(surface, mp_engine->screen()->renderer()));
 
         return entity;
     }

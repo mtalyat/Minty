@@ -226,10 +226,10 @@ namespace minty
 						// if the sprite is visible, render a copy of it
 						if (!sprite.invisible)
 						{
-							queue.push(sprite.order, Pair<Point, Sprite const*>(Point(transform.worldPosX - cameraTransform.worldPosX, transform.worldPosY - cameraTransform.worldPosY), sprite.sprite));
+							queue.push(transform.zIndex, Pair<Point, Sprite const*>(Point(transform.worldPosX - cameraTransform.worldPosX, transform.worldPosY - cameraTransform.worldPosY), sprite.sprite));
 						}
 					}
-
+					
 					//// add UI elements
 					//for (auto visual : activeScene->mainCanvas()->visuals())
 					//{
@@ -346,8 +346,6 @@ namespace minty
 		{
 			Debug::logError(code, "Engine aborted. " + errorMessage);
 		}
-
-		Debug::log("Aborting game.");
 
 		onFinish();
 	}

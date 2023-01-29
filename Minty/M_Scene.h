@@ -86,6 +86,6 @@ namespace minty
     protected:
         entt::entity create_basic_camera();
 
-        entt::entity create_basic_sprite(float const x, float const y, std::string const& path, int const order = 0);
+        entt::entity create_basic_sprite(std::string const& path, float const x, float const y, int const z = 0);
     };
 }

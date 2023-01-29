@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "M_Object.h"
 #include "M_Stopwatch.h"
 #include <SDL.h>
@@ -14,7 +13,7 @@ namespace minty
 	/// <summary>
 	/// Static class for debuging and testing.
 	/// </summary>
-	class Debug
+	class MINTY_API Debug
 	{
 	private:
 		static Stopwatch* msp_stopwatch;
@@ -39,15 +38,6 @@ namespace minty
 		static void log(std::string const& str);
 
 		/// <summary>
-		/// Debugs a string to the console, followed by the given T.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="str"></param>
-		/// <param name="value"></param>
-		template<typename T>
-		static void log(std::string const& str, T const value);
-
-		/// <summary>
 		/// Debugs a string to the console, prepended by "ERR: ".
 		/// </summary>
 		/// <param name="str"></param>
@@ -66,21 +56,4 @@ namespace minty
 		/// <param name="str"></param>
 		static void logErrorSDL(unsigned int const code, std::string const& str);
 	};
-
-	template<typename T>
-	void Debug::log(std::string const& str, T const value)
-	{
-		std::cout << str << value << END_OF_LINE;
-
-		if (msp_stopwatch)
-		{
-			// stopwatch, so print
-			std::cout << "[" << msp_stopwatch->toString() << "] " << str << value << END_OF_LINE;
-		}
-		else
-		{
-			// no stopwatch, just print
-			std::cout << str << value << END_OF_LINE;
-		}
-	}
 }
