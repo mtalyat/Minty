@@ -7,8 +7,9 @@
 
 namespace minty
 {
-	Game::Game(Engine* const engine)
-		: mp_engine(engine)
+	Game::Game(std::string const& name, Engine* const engine)
+		: m_name(name)
+		, mp_engine(engine)
 		, mp_registry(new entt::registry())
 		, mp_sceneManager(new SceneManager())
 	{}

@@ -24,3 +24,4 @@
 | 00020 | "Failed to stop scene '...'." | M_SceneManager.cpp | load() |
 | 00021 | "Failed to start scene '...'." | M_SceneManager.cpp | load() |
 | 00022 | "No scene found for name '...'." | M_SceneManager.cpp | load() |
+| 00023 | "Failed to fullscreen window." | M_Screen.cpp | Screen() |

@@ -15,6 +15,9 @@ namespace minty
 	class MINTY_API Game :
 		public Object
 	{
+	private:
+		std::string m_name;
+
 	protected:
 		Engine* const mp_engine;
 
@@ -23,7 +26,7 @@ namespace minty
 		SceneManager* const mp_sceneManager;
 
 	public:
-		Game(Engine* const engine);
+		Game(std::string const& name, Engine* const engine);
 		virtual ~Game();
 
 		/// <summary>
@@ -49,6 +52,8 @@ namespace minty
 		/// </summary>
 		/// <returns></returns>
 		virtual int onDestroy() = 0;
+
+		std::string const& name() const { return m_name; }
 
 		/// <summary>
 		/// Gets the entity registry for this Game.

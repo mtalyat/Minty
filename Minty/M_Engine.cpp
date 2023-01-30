@@ -36,17 +36,16 @@
 
 #include "M_Time.h"
 
-constexpr elapsed_t FRAME_TIME = 16666667; // Roughly 1/60 in nanoseconds, rounded.
-
 namespace minty
 {
 	Engine* Engine::sp_active = nullptr;
 
-	Engine::Engine()
+	Engine::Engine(EngineConfig const* const config)
 		: m_quit(false)
 		, m_isRunning(false)
 		, m_isPaused(false)
 		, m_gameWatch()
+		, mp_config(config == nullptr ? new EngineConfig() : config)
 		, mp_screen(nullptr)
 		, mp_input(new Input())
 		, mp_coroutineManager(new CoroutineManager())
@@ -95,6 +94,7 @@ namespace minty
 		// FPS
 		Stopwatch fpsWatch = Stopwatch::startNew();
 		size_t frames = 0;
+		elapsed_t frameTime = mp_config->getFPNS();
 
 		// testing
 		Stopwatch updateWatch;
@@ -194,10 +194,10 @@ namespace minty
 				updateMax = updateMax > updateWatch.elapsed() ? updateMax : updateWatch.elapsed();
 			}
 
-			if (renderWatch.elapsed() >= FRAME_TIME)
+			if (renderWatch.elapsed() >= frameTime)
 			{
 				// reset watch
-				renderWatch.reset(FRAME_TIME);
+				renderWatch.reset(frameTime);
 
 				// clear the screen so there is no smearing
 				if (mp_screen->backgroundTexture())
@@ -297,10 +297,10 @@ namespace minty
 			return;
 		}
 
-		Debug::log(std::format("Update max: {0}ms", std::to_string(updateMax)));
-		Debug::log(std::format("Loop max: {0}ms", std::to_string(loopMax)));
-		Debug::log(std::format("Loop w/o update max: {0}ms", std::to_string(loopMax - updateMax)));
-		Debug::log(std::format("Diff max: {0}ms", std::to_string(diffMax)));
+		Debug::log(std::format("Update max: {0}ns", std::to_string(updateMax)));
+		Debug::log(std::format("Loop max: {0}ns", std::to_string(loopMax)));
+		Debug::log(std::format("Loop w/o update max: {0}ns", std::to_string(loopMax - updateMax)));
+		Debug::log(std::format("Diff max: {0}ns", std::to_string(diffMax)));
 
 		onFinish();
 
@@ -313,6 +313,15 @@ namespace minty
 		{
 			m_quit = true;
 		}
+	}
+
+	void Engine::load(Game* const game)
+	{
+		// assign game
+		mp_game = game;
+
+		// set screen title
+		mp_screen->setTitle(game->name());
 	}
 
 	void Engine::initialize()
@@ -332,7 +341,7 @@ namespace minty
 		}
 
 		// init screen/window, since it must be done after SDL_Init
-		mp_screen = new Screen("Sand Game", 480, 270);
+		mp_screen = new Screen("Minty Engine", mp_config);
 
 		// initialize random values
 		random_seed_time();
@@ -364,10 +373,5 @@ namespace minty
 		m_gameWatch.stop();
 
 		Debug::log("Program ran for: " + m_gameWatch.toString());
-	}
-
-	void Engine::uiClick(SDL_MouseButtonEvent* buttonEvent)
-	{
-
 	}
 }

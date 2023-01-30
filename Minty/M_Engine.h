@@ -2,6 +2,7 @@
 
 #include "M_Object.h"
 #include "M_Stopwatch.h"
+#include "M_EngineConfig.h"
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -27,6 +28,8 @@ namespace minty
 
         Stopwatch m_gameWatch;
 
+        EngineConfig const* const mp_config;
+
         Screen* mp_screen;
 
         Input* const mp_input;
@@ -40,7 +43,7 @@ namespace minty
         /// <summary>
         /// Creates a new Engine.
         /// </summary>
-        Engine();
+        Engine(EngineConfig const* const config = nullptr);
         ~Engine();
 
         /// <summary>
@@ -72,7 +75,7 @@ namespace minty
         /// Loads a Game into the Engine.
         /// </summary>
         /// <param name="game"></param>
-        inline void load(Game* const game) { mp_game = game; }
+        void load(Game* const game);
 
         /// <summary>
         /// Gets the Screen data associated with this session.
@@ -118,7 +121,5 @@ namespace minty
         /// Called when the Game finishes.
         /// </summary>
         void onFinish();
-
-        void uiClick(SDL_MouseButtonEvent* buttonEvent);
     };
 }

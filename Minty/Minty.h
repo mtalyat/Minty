@@ -36,6 +36,7 @@
 //		Engine
 #include "M_Coroutine.h"
 #include "M_Engine.h"
+#include "M_EngineConfig.h"
 #include "M_Game.h"
 #include "M_Input.h"
 #include "M_InputMap.h"

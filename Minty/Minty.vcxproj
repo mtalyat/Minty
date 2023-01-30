@@ -163,6 +163,7 @@
     <ClInclude Include="M_Direction.h" />
     <ClInclude Include="M_Engine.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="M_EngineConfig.h" />
     <ClInclude Include="M_Event.h" />
     <ClInclude Include="M_File.h" />
     <ClInclude Include="M_Game.h" />
