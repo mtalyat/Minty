@@ -6,6 +6,7 @@
 #include "M_Main.h"
 
 //		Data Types
+#include "M_Collision.h"
 #include "M_Color.h"
 #include "M_Direction.h"
 #include "M_Event.h"
@@ -59,6 +60,7 @@
 
 //			Systems
 #include "M_S_CollisionSystem.h"
+#include "M_S_PhysicsSystem.h"
 
 //			Tags
 #include "M_T_Destroy.h"

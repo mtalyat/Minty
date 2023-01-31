@@ -18,7 +18,6 @@ namespace minty
 	private:
 		int m_cellSize;
 
-		std::set<entt::entity>* mp_entities;
 		std::map<Point, std::vector<entt::entity>*>* mp_cells;
 		std::map<entt::entity, std::set<entt::entity>>* mp_relationships;
 
@@ -26,15 +25,12 @@ namespace minty
 		CollisionSystem(entt::registry* const registry, int const cellSize)
 			: System(registry)
 			, m_cellSize(cellSize)
-			, mp_entities(new std::set<entt::entity>())
 			, mp_cells(new std::map<Point, std::vector<entt::entity>*>())
 			, mp_relationships(new std::map<entt::entity, std::set<entt::entity>>())
 		{}
 
-		~CollisionSystem()
+		~CollisionSystem() override
 		{
-			delete mp_entities;
-
 			for (auto pair : *mp_cells)
 			{
 				delete pair.second;

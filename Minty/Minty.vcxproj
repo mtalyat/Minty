@@ -196,6 +196,7 @@
     <ClInclude Include="M_SystemManager.h" />
     <ClInclude Include="M_S_CollisionSystem.h" />
     <ClInclude Include="M_System.h" />
+    <ClInclude Include="M_S_PhysicsSystem.h" />
     <ClInclude Include="M_Time.h" />
     <ClInclude Include="M_C_Transform.h" />
     <ClInclude Include="M_T_Destroy.h" />
@@ -234,8 +235,10 @@
     <ClCompile Include="M_SceneManager.cpp" />
     <ClCompile Include="M_Screen.cpp" />
     <ClCompile Include="M_Sprite.cpp" />
+    <ClCompile Include="M_System.cpp" />
     <ClCompile Include="M_SystemManager.cpp" />
     <ClCompile Include="M_S_ColliderSystem.cpp" />
+    <ClCompile Include="M_S_PhysicsSystem.cpp" />
     <ClCompile Include="M_Text.cpp" />
     <ClCompile Include="M_Time.cpp" />
     <ClCompile Include="M_C_Transform.cpp" />

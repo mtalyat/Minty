@@ -10,7 +10,7 @@ namespace minty
 	/// <summary>
 	/// Holds data relevant to a collision between two entities.
 	/// </summary>
-	struct Collision
+	struct MINTY_API Collision
 		: public Object
 	{
 		entt::entity entity;
