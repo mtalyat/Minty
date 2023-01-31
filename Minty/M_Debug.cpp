@@ -26,7 +26,7 @@ namespace minty
 		}
 	}
 
-	void Debug::logError(unsigned int const code, std::string const& str)
+	void Debug::logError(int const code, std::string const& str)
 	{
 		if (msp_stopwatch)
 		{
@@ -40,7 +40,7 @@ namespace minty
 		}
 	}
 
-	void Debug::logError(unsigned int const code, std::string const& str, Object const& obj)
+	void Debug::logError(int const code, std::string const& str, Object const& obj)
 	{
 		if (msp_stopwatch)
 		{
@@ -54,7 +54,7 @@ namespace minty
 		}
 	}
 
-	void Debug::logErrorSDL(unsigned int const code, std::string const& str)
+	void Debug::logErrorSDL(int const code, std::string const& str)
 	{
 		if (msp_stopwatch)
 		{
@@ -65,6 +65,20 @@ namespace minty
 		{
 			// no stopwatch, just print
 			std::cout << "ERR CODE: " << code << ", ERR: " << str << " Error: \"" << SDL_GetError() << "\"" << END_OF_LINE;
+		}
+	}
+
+	void Debug::logNotImplemented(std::string const& notImplemented, std::string const& function, std::string const& file)
+	{
+		if (msp_stopwatch)
+		{
+			// stopwatch, so print
+			std::cout << "[" << msp_stopwatch->toString() << "] WARN: " << notImplemented << " has not been implemented yet. Function: " << function << ", File: " << file << END_OF_LINE;
+		}
+		else
+		{
+			// no stopwatch, just print
+			std::cout << "WARN: " << notImplemented << " has not been implemented yet. Function: " << function << ", File: " << file << END_OF_LINE;
 		}
 	}
 }

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "M_Object.h"
+#include "M_Rect.h"
+#include "M_SystemManager.h"
 #include "entt.hpp"
 
 namespace minty
@@ -23,6 +25,8 @@ namespace minty
 
     protected:
         entt::registry* mp_registry;
+
+        SystemManager m_systemManager;
 
         entt::entity m_mainCamera;
         //UI_Canvas* mp_mainCanvas;
@@ -46,10 +50,16 @@ namespace minty
         virtual int onLoad() = 0;
 
         /// <summary>
+        /// Preforms update methods for Systems, followed by onUpdate().
+        /// </summary>
+        /// <returns></returns>
+        int update();
+
+        /// <summary>
         /// Called every update loop when this Scene is loaded.
         /// </summary>
         /// <returns></returns>
-        virtual int onUpdate() = 0;
+        virtual int onUpdate() = 0; // TODO update()
 
         /// <summary>
         /// Called when the Scene is unloaded from the Game.
@@ -75,6 +85,12 @@ namespace minty
         /// <returns></returns>
         inline entt::entity& mainCamera() { return m_mainCamera; }
 
+        /// <summary>
+        /// Gets the SystemManager in this Scene.
+        /// </summary>
+        /// <returns></returns>
+        inline SystemManager* const systemManager() { return &m_systemManager; }
+
         //inline UI_Canvas* mainCanvas() { return mp_mainCanvas; }
 
         /// <summary>
@@ -84,8 +100,38 @@ namespace minty
         inline Game* const game() const { return mp_game; }
 
     protected:
-        entt::entity create_basic_camera();
 
-        entt::entity create_basic_sprite(std::string const& path, float const x, float const y, int const z = 0);
+        /*
+                The following methods are helper methods for creating generic entities that may commonly be created within the scene. 
+                This helps with development of projects, and should help reduce the code that is written. For example, almost every
+                scene will need an entity with a Camera component.
+        */
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: Transform, Size and Camera.
+        /// </summary>
+        /// <returns></returns>
+        entt::entity createEntity_camera();
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: Transform, Size and SpriteRenderer.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
+        entt::entity createEntity_sprite(std::string const& path, float const x, float const y, int const z = 0);
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: Transform, Size, SpriteRenderer and Collider.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="bounds"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
+        entt::entity createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z = 0, bool const isTrigger = false, bool const isStatic = false, Rect const* const rect = nullptr);
     };
 }

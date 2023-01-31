@@ -25,6 +25,7 @@
 //		Helpers
 #include "M_Debug.h"
 #include "M_File.h"
+#include "M_Line.h"
 #include "M_Math.h"
 #include "M_Packing.h"
 #include "M_Parse.h"
@@ -44,15 +45,20 @@
 #include "M_SceneManager.h"
 #include "M_Screen.h"
 #include "M_Sprite.h"
+#include "M_System.h"
 
 //			Components
 #include "M_C_Acceleration.h"
 #include "M_C_Camera.h"
+#include "M_C_Collider.h"
 #include "M_C_Size.h"
 #include "M_C_SpriteRenderer.h"
 #include "M_C_Target.h"
 #include "M_C_Transform.h"
 #include "M_C_Velocity.h"
+
+//			Systems
+#include "M_S_CollisionSystem.h"
 
 //			Tags
 #include "M_T_Destroy.h"

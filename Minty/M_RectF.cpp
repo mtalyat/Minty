@@ -4,13 +4,13 @@
 
 namespace minty
 {
-	inline bool minty::RectF::overlaps(RectF const& other)
+	bool RectF::overlaps(RectF const& other)
 	{
 		return left() < other.right() && right() > other.left() &&
 			top() < other.bottom() && bottom() > other.top();
 	}
 
-	inline RectF RectF::overlap(RectF const& other) const
+	RectF RectF::overlap(RectF const& other) const
 	{
 		float xMin = math_clamp(other.x - x, 0.0f, width);
 		float yMin = math_clamp(other.y - y, 0.0f, height);

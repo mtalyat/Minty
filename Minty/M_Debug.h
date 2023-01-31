@@ -41,19 +41,27 @@ namespace minty
 		/// Debugs a string to the console, prepended by "ERR: ".
 		/// </summary>
 		/// <param name="str"></param>
-		static void logError(unsigned int const code, std::string const& str);
+		static void logError(int const code, std::string const& str);
 
 		/// <summary>
 		/// Debugs a string to the console, prepended by "ERR: Object( ... ) " where ... is the given obj.toString().
 		/// </summary>
 		/// <param name="str"></param>
 		/// <param name="obj"></param>
-		static void logError(unsigned int const code, std::string const& str, Object const& obj);
+		static void logError(int const code, std::string const& str, Object const& obj);
 
 		/// <summary>
 		/// Debugs a string to the console, prepended by "ERR: ", and postpended by the SDL error message.
 		/// </summary>
 		/// <param name="str"></param>
-		static void logErrorSDL(unsigned int const code, std::string const& str);
+		static void logErrorSDL(int const code, std::string const& str);
+
+		/// <summary>
+		/// Debugs a string to the console, letting the user know of something that has not yet been implemented yet.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="function"></param>
+		/// <param name="file"></param>
+		static void logNotImplemented(std::string const& message, std::string const& function, std::string const& file);
 	};
 }

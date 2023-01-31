@@ -25,3 +25,4 @@
 | 00021 | "Failed to start scene '...'." | M_SceneManager.cpp | load() |
 | 00022 | "No scene found for name '...'." | M_SceneManager.cpp | load() |
 | 00023 | "Failed to fullscreen window." | M_Screen.cpp | Screen() |
+| 00024 | "Failed to update active scene." | M_Engine.cpp | run() |

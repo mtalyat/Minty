@@ -6,8 +6,10 @@
 #include "M_Engine.h"
 #include "M_Game.h"
 #include "M_Input.h"
+#include "M_System.h"
 #include "M_Screen.h"
 #include "M_Resources.h"
+#include "M_Hitbox.h"
 //#include "UI_Canvas.h"
 
 #include "M_SceneManager.h"
@@ -16,12 +18,14 @@
 #include "M_C_Size.h"
 #include "M_C_Camera.h"
 #include "M_C_SpriteRenderer.h"
+#include "M_C_Collider.h"
 
 namespace minty
 {
     Scene::Scene(std::string const& name, Game* const game)
         : m_name(name)
         , mp_registry(game->registry())
+        , m_systemManager()
         , m_mainCamera()
         //, mp_mainCanvas(new UI_Canvas(game->engine()->screen()))
         , mp_game(game)
@@ -33,7 +37,14 @@ namespace minty
         //delete mp_mainCanvas;
     }
 
-    entt::entity Scene::create_basic_camera()
+    int Scene::update()
+    {
+        m_systemManager.update();
+
+        return onUpdate();
+    }
+
+    entt::entity Scene::createEntity_camera()
     {
         entt::entity camera = mp_registry->create();
 
@@ -44,7 +55,7 @@ namespace minty
         return camera;
     }
 
-    entt::entity Scene::create_basic_sprite(std::string const& path, float const x, float const y, int const z)
+    entt::entity Scene::createEntity_sprite(std::string const& path, float const x, float const y, int const z)
     {
         entt::entity entity = mp_registry->create();
 
@@ -62,6 +73,33 @@ namespace minty
 
         mp_registry->emplace<Size>(entity, static_cast<float>(surface->w), static_cast<float>(surface->h));
         mp_registry->emplace<SpriteRenderer>(entity, new Sprite(surface, mp_engine->screen()->renderer()));
+
+        return entity;
+    }
+
+    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z, bool const isTrigger, bool const isStatic, Rect const* const rect)
+    {
+        // create entity with sprite
+        entt::entity entity = createEntity_sprite(path, x, y, z);
+
+        // get sprite renderer
+        SpriteRenderer const& renderer = mp_registry->get<SpriteRenderer>(entity);
+
+        Rect bounds;
+
+        if (rect)
+        {
+            bounds = *rect;
+        }
+        else {
+            bounds = Rect(0, 0, renderer.sprite->width(), renderer.sprite->height());
+        }
+
+        // create hitbox
+        Hitbox* hitbox = new Hitbox(bounds, Mask::fromSprite(renderer.sprite, &bounds));
+
+        // add to collider
+        mp_registry->emplace<Collider>(entity, hitbox, isTrigger, isStatic, bounds);
 
         return entity;
     }

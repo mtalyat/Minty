@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "M_Rect.h"
+#include "M_RectF.h"
 
 namespace minty
 {
@@ -33,5 +34,10 @@ namespace minty
 	Rect Rect::bounds(int const left, int const right, int const top, int const bottom)
 	{
 		return Rect(left, top, right - left + 1, bottom - top + 1);
+	}
+	
+	Rect Rect::round(RectF const& rect)
+	{
+		return Rect(math_roundToInt(rect.x), math_roundToInt(rect.y), math_roundToInt(rect.width), math_roundToInt(rect.height));
 	}
 }

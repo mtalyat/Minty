@@ -93,5 +93,7 @@ namespace minty
 		std::string const toString() const override;
 
 		static Rect bounds(int const left, int const right, int const top, int const bottom);
+
+		static Rect round(RectF const& rect);
 	};
 }

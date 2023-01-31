@@ -183,11 +183,26 @@ namespace minty
 				mp_coroutineManager->run();
 
 				// update scene
-				activeScene->onUpdate();
+				if (activeScene->update())
+				{
+					Debug::logError(24, "Failed to update active scene.");
+				}
 
 				// destroy entities that are needing to be destroyed
 				auto destroyView = registry->view<Destroy>();
-				registry->destroy(destroyView.begin(), destroyView.end());
+
+				// remove from systems
+				for (auto [entity] : destroyView.each())
+				{
+					for (auto system : *activeScene->systemManager()->list())
+					{
+						system->erase(entity);
+					}
+
+					registry->destroy(entity);
+				}
+
+				//registry->destroy(destroyView.begin(), destroyView.end());
 
 				updateWatch.stop();
 

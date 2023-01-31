@@ -80,14 +80,14 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		inline bool collidesWith(Mask const& other) const;
+		bool collidesWith(Mask const& other) const;
 
 		/// <summary>
 		/// Checks if this Mask is the same size as the given Mask.
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		inline bool sameSize(Mask const& other) const;
+		bool sameSize(Mask const& other) const;
 
 		/// <summary>
 		/// Takes a slice of this Mask, then returns it as a new Mask.
@@ -104,14 +104,14 @@ namespace minty
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <returns></returns>
-		inline Mask slice(Rect const& rect) const;
+		Mask slice(Rect const& rect) const;
 
 		/// <summary>
 		/// Generates a mask from the given sprite data.
 		/// </summary>
 		/// <param name="sprite"></param>
 		/// <returns></returns>
-		static Mask* fromSprite(Sprite* const sprite, Rect* const rect = nullptr);
+		static Mask* fromSprite(Sprite const* const sprite, Rect const* const rect = nullptr);
 
 		std::string const toString() const override;
 	private:

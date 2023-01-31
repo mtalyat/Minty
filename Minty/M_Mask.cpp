@@ -5,35 +5,35 @@
 
 namespace minty
 {
-	inline minty::Mask::Mask()
+	Mask::Mask()
 		: m_width(0)
 		, m_height(0)
 		, mp_bytes(nullptr)
 	{}
 
-	inline Mask::Mask(int const width, int const height)
+	Mask::Mask(int const width, int const height)
 		: m_width(width)
 		, m_height(height)
 		, mp_bytes(new mask_t[width * height])
 	{}
 
-	inline Mask::Mask(int const width, int const height, mask_t* const bytes)
+	Mask::Mask(int const width, int const height, mask_t* const bytes)
 		: m_width(width)
 		, m_height(height)
 		, mp_bytes(bytes)
 	{}
 
-	inline bool Mask::collidesWith(Mask const& other) const
+	bool Mask::collidesWith(Mask const& other) const
 	{
 		return sameSize(other) && checkForCollision(other);
 	}
 
-	inline bool Mask::sameSize(Mask const& other) const
+	bool Mask::sameSize(Mask const& other) const
 	{
 		return m_width == other.m_width && m_height == other.m_height;
 	}
 
-	inline Mask Mask::slice(int const x, int const y, int const width, int const height) const
+	Mask Mask::slice(int const x, int const y, int const width, int const height) const
 	{
 		// make a new array
 		mask_t* output = new mask_t[width * height];
@@ -47,12 +47,12 @@ namespace minty
 		return Mask(width, height, output);
 	}
 
-	inline Mask Mask::slice(Rect const& rect) const
+	Mask Mask::slice(Rect const& rect) const
 	{
 		return slice(rect.x, rect.y, rect.width, rect.height);
 	}
 
-	Mask* Mask::fromSprite(Sprite* const sprite, Rect* const rect)
+	Mask* Mask::fromSprite(Sprite const* const sprite, Rect const* const rect)
 	{
 		if (!sprite)
 		{
