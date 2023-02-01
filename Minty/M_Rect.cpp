@@ -4,13 +4,13 @@
 
 namespace minty
 {
-	inline bool minty::Rect::overlaps(Rect const& other)
+	bool Rect::overlaps(Rect const& other)
 	{
 		return left() < other.right() && right() > other.left() &&
 			top() < other.bottom() && bottom() > other.top();
 	}
 
-	inline Rect Rect::overlap(Rect const& other)
+	Rect Rect::overlap(Rect const& other)
 	{
 		int xMin = math_clamp(other.x - x, 0, width);
 		int yMin = math_clamp(other.y - y, 0, height);
@@ -21,7 +21,7 @@ namespace minty
 		return Rect(xMin, yMin, xMax - xMin, yMax - yMin);
 	}
 
-	inline bool Rect::contains(Point const& other)
+	bool Rect::contains(Point const& other)
 	{
 		return other.x >= x && other.x < x + width && other.y >= y && other.y < y + height;
 	}

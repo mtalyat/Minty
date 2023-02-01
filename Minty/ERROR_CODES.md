@@ -26,3 +26,4 @@
 | 00022 | "No scene found for name '...'." | M_SceneManager.cpp | load() |
 | 00023 | "Failed to fullscreen window." | M_Screen.cpp | Screen() |
 | 00024 | "Failed to update active scene." | M_Engine.cpp | run() |
+| 00025 | "Could not blit surface when slicing sprite." | M_Sprite.cpp | slice() |

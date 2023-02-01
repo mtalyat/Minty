@@ -2,6 +2,7 @@
 
 #include "M_Object.h"
 #include "M_Point.h"
+#include <SDL.h>
 
 namespace minty
 {
@@ -74,7 +75,7 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		inline bool overlaps(Rect const& other);
+		bool overlaps(Rect const& other);
 
 		/// <summary>
 		/// Returns the Rect that contains the area that this Rect and the given Rect overlap in.
@@ -88,7 +89,9 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		inline bool contains(Point const& other);
+		bool contains(Point const& other);
+
+		inline SDL_Rect toSDL() const { return SDL_Rect{ x, y, width, height }; }
 
 		std::string const toString() const override;
 

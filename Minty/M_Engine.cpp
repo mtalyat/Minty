@@ -73,7 +73,8 @@ namespace minty
 		m_isRunning = true;
 		m_isPaused = false;
 
-		onStart();
+		// start game clock
+		m_gameWatch.start();
 
 		// create game
 		if (mp_game->onCreate())
@@ -209,11 +210,9 @@ namespace minty
 				updateMax = updateMax > updateWatch.elapsed() ? updateMax : updateWatch.elapsed();
 			}
 
-			if (renderWatch.elapsed() >= frameTime)
+			// if time to render
+			if (renderWatch.lap(frameTime))
 			{
-				// reset watch
-				renderWatch.reset(frameTime);
-
 				// clear the screen so there is no smearing
 				if (mp_screen->backgroundTexture())
 				{
@@ -238,14 +237,14 @@ namespace minty
 					Transform const& cameraTransform = registry->get<Transform>(activeScene->mainCamera());
 					PointF cameraWorldPos = cameraTransform.worldPosition(registry);
 					PointF worldPos;
-					for (auto&& [entity, transform, sprite] : registry->view<Transform const, SpriteRenderer const>().each())
+					for (auto&& [entity, transform, renderer] : registry->view<Transform const, SpriteRenderer const>().each())
 					{
 						// if the sprite is visible, render a copy of it
-						if (!sprite.invisible)
+						if (renderer.isVisible())
 						{
 							worldPos = transform.worldPosition(registry);
 
-							queue.push(transform.worldIndex(registry), Pair<Point, Sprite const*>(Point(worldPos.x - cameraWorldPos.x, worldPos.y - cameraWorldPos.y), sprite.sprite));
+							queue.push(transform.worldIndex(registry), Pair<Point, Sprite const*>(Point(worldPos.x - cameraWorldPos.x, worldPos.y - cameraWorldPos.y), renderer.sprite));
 						}
 					}
 					
@@ -265,7 +264,7 @@ namespace minty
 					// render in order
 					while (queue.pop(renderPair))
 					{
-						SDL_Rect dstrect = { renderPair.first.x, renderPair.first.y, renderPair.second->width(), renderPair.second->height() };
+						SDL_Rect dstrect = { renderPair.first.x, renderPair.first.y, renderPair.second->width, renderPair.second->height };
 						SDL_RenderCopy(renderer, renderPair.second->texture(), NULL, &dstrect);
 					}
 				}
@@ -278,13 +277,12 @@ namespace minty
 			}
 
 			// if a second has passed, display FPS
-			if (fpsWatch.elapsed() > ONE_SECOND)
+			if (fpsWatch.lap(ONE_SECOND))
 			{
-				// one second passed
-				Debug::log(std::to_string(frames) + "fps");
+				// one second passed, log FPS
 
+				Debug::log(std::to_string(frames) + "fps");
 				frames = 0;
-				fpsWatch.setElapsed(fpsWatch.elapsed() % 1000);
 			}
 
 			loopWatch.stop();
@@ -312,10 +310,13 @@ namespace minty
 			return;
 		}
 
-		Debug::log(std::format("Update max: {0}ns", std::to_string(updateMax)));
-		Debug::log(std::format("Loop max: {0}ns", std::to_string(loopMax)));
-		Debug::log(std::format("Loop w/o update max: {0}ns", std::to_string(loopMax - updateMax)));
-		Debug::log(std::format("Diff max: {0}ns", std::to_string(diffMax)));
+		// stop game clock
+		m_gameWatch.stop();
+
+		Debug::logRaw(std::format("Update max: {0}ns", std::to_string(updateMax)));
+		Debug::logRaw(std::format("Loop max: {0}ns", std::to_string(loopMax)));
+		Debug::logRaw(std::format("Loop w/o update max: {0}ns", std::to_string(loopMax - updateMax)));
+		Debug::logRaw(std::format("Diff max: {0}ns", std::to_string(diffMax)));
 
 		onFinish();
 
@@ -337,6 +338,11 @@ namespace minty
 
 		// set screen title
 		mp_screen->setTitle(game->name());
+	}
+
+	SDL_Renderer* const Engine::renderer() const
+	{
+		return mp_screen->renderer();
 	}
 
 	void Engine::initialize()
@@ -376,11 +382,6 @@ namespace minty
 		}
 
 		onFinish();
-	}
-
-	void Engine::onStart()
-	{
-		m_gameWatch.start();
 	}
 
 	void Engine::onFinish()

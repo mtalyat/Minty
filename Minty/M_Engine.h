@@ -78,10 +78,16 @@ namespace minty
         void load(Game* const game);
 
         /// <summary>
-        /// Gets the Screen data associated with this session.
+        /// Gets the Screen data for this Engine.
         /// </summary>
         /// <returns></returns>
         inline Screen* const screen() const { return mp_screen; }
+
+        /// <summary>
+        /// Gets the SDL Renderer associated with this screen for this Engine.
+        /// </summary>
+        /// <returns></returns>
+        SDL_Renderer* const renderer() const;
 
         /// <summary>
         /// Gets the Input for the Engine.

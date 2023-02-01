@@ -21,4 +21,8 @@ namespace minty
 	};
 
 	MINTY_API Point direction_toPoint(int const dir);
+
+	MINTY_API std::string direction_toString(int const dir);
+
+	MINTY_API Direction direction_getCardinalDirection(float const x, float const y);
 }

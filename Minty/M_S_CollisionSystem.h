@@ -41,21 +41,10 @@ namespace minty
 			delete mp_relationships;
 		}
 
-		/// <summary>
-		/// Puts the given entity into the HitboxGrid system.
-		/// </summary>
-		/// <param name="entity"></param>
 		bool emplace(entt::entity const entity) override;
 
-		/// <summary>
-		/// Removes the given entity from the HitboxGrid system.
-		/// </summary>
-		/// <param name="entity"></param>
 		bool erase(entt::entity const entity) override;
 
-		/// <summary>
-		/// Checks collisions of each hitbox. 
-		/// </summary>
 		void update() override;
 
 		void emplaceOnEnter(entt::entity const entity, Event<Collision* const>::func const& func);

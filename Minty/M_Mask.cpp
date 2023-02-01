@@ -59,7 +59,7 @@ namespace minty
 			return nullptr;
 		}
 
-		Rect bounds = Rect(0, 0, sprite->width(), sprite->height());
+		Rect bounds = Rect(0, 0, sprite->width, sprite->height);
 
 		if (rect)
 		{
@@ -77,7 +77,7 @@ namespace minty
 		{
 			for (int x = 0; x < bounds.width; x++)
 			{
-				bytes[y * bounds.width + x] = static_cast<mask_t>(Color(pixels[(bounds.y + y) * sprite->width() + (bounds.x + x)]).a() != 0);
+				bytes[y * bounds.width + x] = static_cast<mask_t>(Color(pixels[(bounds.y + y) * sprite->width + (bounds.x + x)]).a() != 0);
 			}
 		}
 

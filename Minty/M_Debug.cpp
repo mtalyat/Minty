@@ -26,6 +26,20 @@ namespace minty
 		}
 	}
 
+	void Debug::logWarning(std::string const& str)
+	{
+		if (msp_stopwatch)
+		{
+			// stopwatch, so print
+			std::cout << "[" << msp_stopwatch->toString() << "] WRN: " << str << END_OF_LINE;
+		}
+		else
+		{
+			// no stopwatch, just print
+			std::cout << "WRN: " << str << END_OF_LINE;
+		}
+	}
+
 	void Debug::logError(int const code, std::string const& str)
 	{
 		if (msp_stopwatch)

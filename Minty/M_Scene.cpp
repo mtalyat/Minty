@@ -92,7 +92,7 @@ namespace minty
             bounds = *rect;
         }
         else {
-            bounds = Rect(0, 0, renderer.sprite->width(), renderer.sprite->height());
+            bounds = Rect(0, 0, renderer.sprite->width, renderer.sprite->height);
         }
 
         // create hitbox

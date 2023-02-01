@@ -18,8 +18,6 @@ namespace minty
 
 		if (!transform)
 		{
-			Debug::logError(-1, "Could not emplace entity within CollisionSystem: missing Transform component.");
-
 			return false;
 		}
 
@@ -29,8 +27,6 @@ namespace minty
 
 		if (!collider)
 		{
-			Debug::logError(-1, "Could not emplace entity within CollisionSystem: missing Collider component.");
-
 			return false;
 		}
 

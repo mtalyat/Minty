@@ -19,5 +19,11 @@ namespace minty
 		/// Is this sprite invisible?
 		/// </summary>
 		bool invisible;
+
+		/// <summary>
+		/// Checks if this SpriteRenderer is visible.
+		/// </summary>
+		/// <returns></returns>
+		constexpr bool isVisible() const { return !invisible && sprite; }
 	};
 }

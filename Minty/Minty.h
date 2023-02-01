@@ -6,6 +6,8 @@
 #include "M_Main.h"
 
 //		Data Types
+#include "M_Animation.h"
+#include "M_Atlas.h"
 #include "M_Collision.h"
 #include "M_Color.h"
 #include "M_Direction.h"
@@ -50,6 +52,7 @@
 
 //			Components
 #include "M_C_Acceleration.h"
+#include "M_C_Animator.h"
 #include "M_C_Camera.h"
 #include "M_C_Collider.h"
 #include "M_C_Size.h"
@@ -59,6 +62,7 @@
 #include "M_C_Velocity.h"
 
 //			Systems
+#include "M_S_AnimationSystem.h"
 #include "M_S_CollisionSystem.h"
 #include "M_S_PhysicsSystem.h"
 

@@ -216,6 +216,18 @@
     <ClInclude Include="M_S_PhysicsSystem.h">
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="M_C_Animator.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Animation.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_S_AnimationSystem.h">
+      <Filter>Header Files\Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Atlas.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -327,6 +339,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_C_Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_S_AnimationSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_Atlas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

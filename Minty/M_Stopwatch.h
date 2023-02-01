@@ -56,10 +56,17 @@ namespace minty
         void reset();
 
         /// <summary>
-        /// Reset the time recorded (mod elapsed time by the given mod value).
+        /// Checks if this Stopwatch is recording time.
+        /// </summary>
+        /// <returns></returns>
+        constexpr bool isRunning() const { return m_running; }
+
+        /// <summary>
+        /// Attempts to lap. Returns the number of laps that have occured.
         /// </summary>
         /// <param name="mod"></param>
-        void reset(elapsed_t const mod);
+        /// <returns>The maximum number of laps.</returns>
+        elapsed_t lap(elapsed_t const mod);
 
         /// <summary>
         /// Stop, reset and start.
@@ -79,10 +86,10 @@ namespace minty
         elapsed_t elapsed_ms() const;
 
         /// <summary>
-        /// Manually set the time elapsed from the start.
+        /// How much time (in seconds) have elapsed since the start?
         /// </summary>
-        /// <param name="elapsed">The amount of time that has elapsed in nanoseconds.</param>
-        void setElapsed(elapsed_t const elapsed);
+        /// <returns></returns>
+        float elapsed_s() const;
 
         /// <summary>
         /// Creates a new Stopwatch, and starts it immediately after.

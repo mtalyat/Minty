@@ -34,7 +34,6 @@ namespace minty
 
 		SDL_Surface* surface = resources_load_image(path);
 		Sprite* sprite = new Sprite(surface, renderer);
-		SDL_FreeSurface(surface);
 		return sprite;
 	}
 

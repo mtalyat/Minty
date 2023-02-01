@@ -38,6 +38,12 @@ namespace minty
 		static void log(std::string const& str);
 
 		/// <summary>
+		/// Debugs a string to the console, prepended by "WRN: ".
+		/// </summary>
+		/// <param name="str"></param>
+		static void logWarning(std::string const& str);
+
+		/// <summary>
 		/// Debugs a string to the console, prepended by "ERR: ".
 		/// </summary>
 		/// <param name="str"></param>

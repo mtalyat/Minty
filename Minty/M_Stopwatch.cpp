@@ -38,10 +38,16 @@ namespace minty
 		m_start = NOW();
 	}
 
-	void Stopwatch::reset(elapsed_t const mod)
+	elapsed_t Stopwatch::lap(elapsed_t const mod)
 	{
-		m_elapsed %= mod;
+		elapsed_t time = elapsed();
+
+		elapsed_t laps = time / mod;
+
+		m_elapsed = time - laps * mod;
 		m_start = NOW();
+
+		return laps;
 	}
 
 	elapsed_t Stopwatch::elapsed() const
@@ -62,16 +68,9 @@ namespace minty
 		return elapsed() / ONE_MILLISECOND;
 	}
 
-	void Stopwatch::setElapsed(elapsed_t const elapsed)
+	float Stopwatch::elapsed_s() const
 	{
-		// set elapsed time
-		m_elapsed = elapsed;
-
-		// if running, restart clock
-		if (m_running)
-		{
-			m_start = NOW();
-		}
+		return elapsed() / static_cast<float>(ONE_SECOND);
 	}
 
 	std::string const Stopwatch::toString() const
