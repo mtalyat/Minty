@@ -27,6 +27,7 @@
 #include "M_C_SpriteRenderer.h"
 #include "M_C_Camera.h"
 #include "M_T_Destroy.h"
+#include "M_C_DestroyTimer.h"
 
 //#include "UI_Canvas.h"
 //#include "UI_IClickable.h"
@@ -188,6 +189,21 @@ namespace minty
 				{
 					Debug::logError(24, "Failed to update active scene.");
 				}
+				
+				// check update timers
+				float deltaTime = Time::deltaTime();
+
+				for (auto [entity, timer] : registry->view<DestroyTimer>().each())
+				{
+					// increment time
+					timer.timer -= deltaTime;
+
+					// if <= 0.0, then timer is up, destroy now
+					if (timer.timer <= 0.0f)
+					{
+						registry->emplace<Destroy>(entity);
+					}
+				}
 
 				// destroy entities that are needing to be destroyed
 				auto destroyView = registry->view<Destroy>();
@@ -229,7 +245,7 @@ namespace minty
 					SDL_RenderClear(renderer);
 				}
 
-				PriorityQueue<Pair<Point, Sprite const*>> queue;
+				PriorityQueue<Pair<Rect, Sprite const*>> queue;
 
 				// render sprites based on main camera position
 				if (registry->valid(activeScene->mainCamera()))
@@ -237,14 +253,16 @@ namespace minty
 					Transform const& cameraTransform = registry->get<Transform>(activeScene->mainCamera());
 					PointF cameraWorldPos = cameraTransform.worldPosition(registry);
 					PointF worldPos;
+					PointF worldScale;
 					for (auto&& [entity, transform, renderer] : registry->view<Transform const, SpriteRenderer const>().each())
 					{
 						// if the sprite is visible, render a copy of it
 						if (renderer.isVisible())
 						{
 							worldPos = transform.worldPosition(registry);
+							worldScale = transform.worldScale(registry);
 
-							queue.push(transform.worldIndex(registry), Pair<Point, Sprite const*>(Point(worldPos.x - cameraWorldPos.x, worldPos.y - cameraWorldPos.y), renderer.sprite));
+							queue.push(transform.worldIndex(registry), Pair<Rect, Sprite const*>(Rect(worldPos.x - cameraWorldPos.x, worldPos.y - cameraWorldPos.y, math_floorToInt(renderer.sprite->width * worldScale.x), math_floorToInt(renderer.sprite->height * worldScale.y)), renderer.sprite));
 						}
 					}
 					
@@ -259,12 +277,12 @@ namespace minty
 					//	}
 					//}
 
-					Pair<Point, Sprite const*> renderPair;
+					Pair<Rect, Sprite const*> renderPair;
 
 					// render in order
 					while (queue.pop(renderPair))
 					{
-						SDL_Rect dstrect = { renderPair.first.x, renderPair.first.y, renderPair.second->width, renderPair.second->height };
+						SDL_Rect dstrect = renderPair.first.toSDL();
 						SDL_RenderCopy(renderer, renderPair.second->texture(), NULL, &dstrect);
 					}
 				}
