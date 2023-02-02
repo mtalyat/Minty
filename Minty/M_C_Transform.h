@@ -84,5 +84,11 @@ namespace minty
 		void setLocalIndex(int const i);
 
 		void setWorldIndex(int const i, entt::registry* const registry);
+
+		void detach(entt::entity const entity, entt::registry* const registry);
+
+		void detachFromParent(entt::entity const entity, entt::registry* const registry);
+
+		void detachFromChildren(entt::entity const entity, entt::registry* const registry);
 	};
 }

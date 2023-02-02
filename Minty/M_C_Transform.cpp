@@ -45,6 +45,9 @@ namespace minty
 
 	void Transform::setParent(entt::entity const entity, entt::entity const newParentEntity, entt::registry* const registry)
 	{
+		// get world position
+		PointF worldPos = worldPosition(registry);
+
 		// remove from old parent list
 		if (registry->valid(parent))
 		{
@@ -71,6 +74,9 @@ namespace minty
 
 			newParentTransform.children->emplace(entity);
 		}
+
+		// set new world pos
+		setWorldPosition(worldPos.x, worldPos.y, registry);
 	}
 
 	void Transform::setLocalPosition(float const x, float const y)
@@ -140,6 +146,41 @@ namespace minty
 		else
 		{
 			index = i;
+		}
+	}
+
+	void Transform::detach(entt::entity const entity, entt::registry* const registry)
+	{
+		// remove children
+		detachFromChildren(entity, registry);
+		detachFromParent(entity, registry);
+	}
+
+	void Transform::detachFromParent(entt::entity const entity, entt::registry* const registry)
+	{
+		// if parent, remove this entity from its children
+		if (registry->valid(parent))
+		{
+			Transform& parentTransform = registry->get<Transform>(parent);
+
+			parentTransform.children->erase(entity);
+
+			setParent(entity, entt::null, registry);
+		}
+	}
+
+	void Transform::detachFromChildren(entt::entity const entity, entt::registry* const registry)
+	{
+		if (children)
+		{
+			for (auto child : *children)
+			{
+				Transform& childTransform = registry->get<Transform>(child);
+
+				childTransform.setParent(child, entt::null, registry);
+			}
+
+			children->clear();
 		}
 	}
 }
