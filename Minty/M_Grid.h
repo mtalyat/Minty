@@ -1,6 +1,7 @@
 #pragma once
 
 #include "M_Object.h"
+#include <vector>
 
 namespace minty
 {
