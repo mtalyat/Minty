@@ -184,6 +184,7 @@
     <ClInclude Include="M_Event.h" />
     <ClInclude Include="M_File.h" />
     <ClInclude Include="M_Game.h" />
+    <ClInclude Include="M_Grid.h" />
     <ClInclude Include="M_Hitbox.h" />
     <ClInclude Include="M_Input.h" />
     <ClInclude Include="M_InputMap.h" />

@@ -13,6 +13,7 @@
 #include "M_Color.h"
 #include "M_Direction.h"
 #include "M_Event.h"
+#include "M_Grid.h"
 #include "M_Mask.h"
 #include "M_Object.h"
 #include "M_Pair.h"
