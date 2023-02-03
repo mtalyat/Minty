@@ -47,6 +47,12 @@ namespace minty
         virtual int onCreate() { return 0; }
 
         /// <summary>
+        /// Performs load methods for Systems, followed by onLoad().
+        /// </summary>
+        /// <returns></returns>
+        int load();
+
+        /// <summary>
         /// Called when the Scene is loaded into the Game.
         /// </summary>
         /// <returns></returns>
@@ -62,7 +68,13 @@ namespace minty
         /// Called every update loop when this Scene is loaded.
         /// </summary>
         /// <returns></returns>
-        virtual int onUpdate() = 0; // TODO update()
+        virtual int onUpdate() = 0;
+
+        /// <summary>
+        /// Performs unload methods for Systems, followed by onUnload().
+        /// </summary>
+        /// <returns></returns>
+        int unload();
 
         /// <summary>
         /// Called when the Scene is unloaded from the Game.

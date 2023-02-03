@@ -203,25 +203,6 @@ namespace minty
 				{
 					Debug::logError(24, "Failed to update active scene.");
 				}
-				
-				// check update timers
-				float deltaTime = Time::deltaTime();
-
-				for (auto [entity, timer] : registry->view<DestroyTimer>().each())
-				{
-					// increment time
-					timer.timer -= deltaTime;
-
-					// if <= 0.0, then timer is up, destroy now
-					if (timer.timer <= 0.0f)
-					{
-						registry->emplace<Destroy>(entity);
-					}
-				}
-
-				// destroy entities that are needing to be destroyed
-				auto destroyView = registry->view<Destroy>();
-				registry->destroy(destroyView.begin(), destroyView.end());
 
 				updateWatch.stop();
 

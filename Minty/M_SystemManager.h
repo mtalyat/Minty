@@ -37,8 +37,18 @@ namespace minty
 		void erase(System* const system);
 
 		/// <summary>
+		/// Runs the load method on each System within this SystemManager.
+		/// </summary>
+		void load();
+
+		/// <summary>
 		/// Runs the update method on each System within this SystemManager.
 		/// </summary>
 		void update();
+
+		/// <summary>
+		/// Runs the unload method on each System within this SystemManager.
+		/// </summary>
+		void unload();
 	};
 }

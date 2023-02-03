@@ -51,6 +51,17 @@ namespace minty
 		}
 	}
 
+	void SystemManager::load()
+	{
+		for (auto& pair : *mp_systems)
+		{
+			for (auto system : pair.second)
+			{
+				system->load();
+			}
+		}
+	}
+
 	void SystemManager::update()
 	{
 		for (auto& pair : *mp_systems)
@@ -58,6 +69,17 @@ namespace minty
 			for (auto system : pair.second)
 			{
 				system->update();
+			}
+		}
+	}
+	
+	void SystemManager::unload()
+	{
+		for (auto& pair : *mp_systems)
+		{
+			for (auto system : pair.second)
+			{
+				system->unload();
 			}
 		}
 	}

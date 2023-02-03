@@ -39,7 +39,7 @@ namespace minty
 		// stop current scene
 		if (mp_active)
 		{
-			if (mp_active->onUnload()) {
+			if (mp_active->unload()) {
 				Debug::logError(20, std::format("Failed to stop scene \"{0}\".", name), *mp_active);
 			}
 
@@ -51,7 +51,7 @@ namespace minty
 		{
 			mp_active = mp_scenes->at(name);
 
-			if (mp_active->onLoad()) {
+			if (mp_active->load()) {
 				Debug::logError(21, std::format("Failed to start scene \"{0}\".", name), *mp_active);
 			}
 		}
@@ -60,5 +60,10 @@ namespace minty
 			// scene name not found
 			Debug::logError(22, std::format("No scene found for name \"{0}\".", name));
 		}
+	}
+
+	void SceneManager::reload()
+	{
+		load(mp_active->name());
 	}
 }

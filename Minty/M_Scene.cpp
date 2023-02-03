@@ -10,7 +10,7 @@
 #include "M_Screen.h"
 #include "M_Resources.h"
 #include "M_Hitbox.h"
-//#include "UI_Canvas.h"
+#include "M_Time.h"
 
 #include "M_SceneManager.h"
 
@@ -21,6 +21,9 @@
 #include "M_C_Renderer.h"
 #include "M_C_Renderable.h"
 #include "M_C_Collider.h"
+#include "M_T_Destroy.h"
+#include "M_C_DestroyTimer.h"
+#include "M_T_NoDestroy.h"
 
 namespace minty
 {
@@ -34,6 +37,10 @@ namespace minty
         , mp_inputSystem(new InputSystem(mp_registry))
         , mp_renderSystem(new RenderSystem(mp_registry, &m_mainCamera, mp_engine->screen()))
     {
+        // ensure camera is not destroyed across scene transitions
+        mp_registry->emplace<NoDestroy>(m_mainCamera);
+
+        // emplace input system
         m_systemManager.emplace(mp_inputSystem);
     }
 
@@ -42,11 +49,69 @@ namespace minty
         delete mp_renderSystem;
     }
 
+    int Scene::load()
+    {
+        m_systemManager.load();
+
+        return onLoad();
+    }
+
     int Scene::update()
     {
         m_systemManager.update();
 
-        return onUpdate();
+        int result = onUpdate();
+
+        if (!result)
+        {
+            // successfully updated, so delete entities
+            
+            float deltaTime = Time::deltaTime();
+
+            // destroy timers
+            for (auto [entity, timer] : mp_registry->view<DestroyTimer>().each())
+            {
+                // increment time
+                timer.timer -= deltaTime;
+
+                // if <= 0.0, then timer is up, destroy now
+                if (timer.timer <= 0.0f)
+                {
+                    mp_registry->emplace<Destroy>(entity);
+                }
+            }
+
+            // destroy entities that are needing to be destroyed
+            auto destroyView = mp_registry->view<Destroy>();
+            mp_registry->destroy(destroyView.begin(), destroyView.end());
+        }
+
+        return result;
+    }
+
+    int Scene::unload()
+    {
+        // delete all entities that do not have the NoDestroy tag
+        mp_registry->each([this](auto entity)
+            {
+                if (!mp_registry->any_of<NoDestroy>(entity))
+                {
+                    // does not have the NoDestroy tag
+                    mp_registry->emplace<Destroy>(entity);
+                }
+            });
+
+        // let systems clean up
+        m_systemManager.unload();
+
+        // let scene clean up
+        int result = onUnload();
+
+        // destroy entities
+        auto destroyView = mp_registry->view<Destroy>();
+        mp_registry->destroy(destroyView.begin(), destroyView.end());
+
+        return result;
     }
 
     entt::entity Scene::createEntity_camera()

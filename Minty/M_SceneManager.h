@@ -25,12 +25,35 @@ namespace minty
 
 		~SceneManager();
 
+		/// <summary>
+		/// Checks if this SceneManager contains a Scene with the given name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		bool contains(std::string const& name);
 
+		/// <summary>
+		/// Adds a Scene to the SceneManager.
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <returns></returns>
 		bool add(Scene* const scene);
 
+		/// <summary>
+		/// Loads the Scene with the given name.
+		/// </summary>
+		/// <param name="name"></param>
 		void load(std::string const& name);
 
+		/// <summary>
+		/// Unloads and loads the active Scene.
+		/// </summary>
+		void reload();
+
+		/// <summary>
+		/// Gets the active Scene.
+		/// </summary>
+		/// <returns></returns>
 		inline Scene* const active() { return mp_active; }
 	};
 }
