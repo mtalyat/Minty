@@ -142,6 +142,11 @@ namespace minty
 					break;
 				case SDL_KEYDOWN:
 					mp_input->onKeyDown(event.key.keysym.sym);
+
+					if (mp_config->quitOnEscape && event.key.keysym.sym == SDLK_ESCAPE)
+					{
+						quit();
+					}
 					break;
 				case SDL_KEYUP:
 					mp_input->onKeyUp(event.key.keysym.sym);

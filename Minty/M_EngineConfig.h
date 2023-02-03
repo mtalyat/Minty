@@ -19,6 +19,7 @@ namespace minty
 		bool resizable;
 		bool maximized;
 		bool fullscreen;
+		bool quitOnEscape;
 
 		EngineConfig()
 			: maxFPS(60)
@@ -27,6 +28,7 @@ namespace minty
 			, resizable(true)
 			, maximized(true)
 			, fullscreen(true)
+			, quitOnEscape(true)
 		{}
 
 		elapsed_t getFPNS() const
