@@ -161,6 +161,7 @@
     <ClInclude Include="M_C_Animator.h" />
     <ClInclude Include="M_C_Bounds.h" />
     <ClInclude Include="M_C_Camera.h" />
+    <ClInclude Include="M_C_Center.h" />
     <ClInclude Include="M_C_Clickable.h" />
     <ClInclude Include="M_C_Collider.h" />
     <ClInclude Include="M_C_DestroyTimer.h" />

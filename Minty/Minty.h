@@ -55,6 +55,7 @@
 #include "M_C_Acceleration.h"
 #include "M_C_Animator.h"
 #include "M_C_Camera.h"
+#include "M_C_Center.h"
 #include "M_C_Clickable.h"
 #include "M_C_Collider.h"
 #include "M_C_DestroyTimer.h"
