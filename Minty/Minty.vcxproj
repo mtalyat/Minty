@@ -194,6 +194,7 @@
     <ClInclude Include="M_Object.h" />
     <ClInclude Include="M_Packing.h" />
     <ClInclude Include="M_Pair.h" />
+    <ClInclude Include="M_Palette.h" />
     <ClInclude Include="M_Parse.h" />
     <ClInclude Include="M_Path.h" />
     <ClInclude Include="M_Point.h" />

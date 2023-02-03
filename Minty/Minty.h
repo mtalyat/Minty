@@ -16,6 +16,7 @@
 #include "M_Mask.h"
 #include "M_Object.h"
 #include "M_Pair.h"
+#include "M_Palette.h"
 #include "M_Point.h"
 #include "M_PointF.h"
 #include "M_Rect.h"
