@@ -21,7 +21,7 @@ namespace minty
 		return RectF(xMin, yMin, xMax - xMin, yMax - yMin);
 	}
 
-	inline bool RectF::contains(PointF const& other)
+	bool RectF::contains(PointF const& other)
 	{
 		return other.x >= x && other.x < x + width && other.y >= y && other.y < y + height;
 	}
@@ -44,10 +44,5 @@ namespace minty
 	Rect RectF::ceil(RectF const& rect)
 	{
 		return Rect(math_ceilToInt(rect.x), math_ceilToInt(rect.y), math_ceilToInt(rect.width), math_ceilToInt(rect.height));
-	}
-
-	std::string const RectF::toString() const
-	{
-		return std::format("RectF({0}, {1}, {2}, {3})", x, y, width, height);
 	}
 }

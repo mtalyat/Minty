@@ -27,3 +27,4 @@
 | 00023 | "Failed to fullscreen window." | M_Screen.cpp | Screen() |
 | 00024 | "Failed to update active scene." | M_Engine.cpp | run() |
 | 00025 | "Could not blit surface when slicing sprite." | M_Sprite.cpp | slice() |
+| 00026 | "No camera has been instantiated in the Scene." | M_S_RenderSystem.cpp | update() |

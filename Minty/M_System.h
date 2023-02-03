@@ -15,33 +15,12 @@ namespace minty
 		/// </summary>
 		entt::registry* const mp_registry;
 
-		/// <summary>
-		/// The entities within this System.
-		/// </summary>
-		std::set<entt::entity>* mp_entities;
-
 	public:
 		System(entt::registry* const registry)
 			: mp_registry(registry)
-			, mp_entities(new std::set<entt::entity>())
 		{}
 
-		virtual ~System()
-		{
-			delete mp_entities;
-		}
-
-		/// <summary>
-		/// Adds an entity to the System.
-		/// </summary>
-		/// <param name="entity"></param>
-		virtual bool emplace(entt::entity const entity);
-
-		/// <summary>
-		/// Removes an entity from the System.
-		/// </summary>
-		/// <param name="entity"></param>
-		virtual bool erase(entt::entity const entity);
+		virtual ~System(){}
 
 		/// <summary>
 		/// Does one frame of work on the System.

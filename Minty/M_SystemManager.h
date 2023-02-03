@@ -2,6 +2,8 @@
 
 #include "M_Object.h"
 #include "M_System.h"
+#include <map>
+#include <set>
 
 namespace minty
 {
@@ -12,7 +14,7 @@ namespace minty
 		: public Object
 	{
 	private:
-		std::vector<System*>* mp_systems;
+		std::map<int, std::set<System*>>* mp_systems;
 
 	public:
 		/// <summary>
@@ -26,7 +28,7 @@ namespace minty
 		/// Places the given System within the SystemManager.
 		/// </summary>
 		/// <param name="system"></param>
-		void emplace(System* const system);
+		void emplace(System* const system, int const priority = 0);
 
 		/// <summary>
 		/// Removes the given System from the SystemManager.
@@ -38,11 +40,5 @@ namespace minty
 		/// Runs the update method on each System within this SystemManager.
 		/// </summary>
 		void update();
-
-		/// <summary>
-		/// Returns the vector of Systems within this SystemManager.
-		/// </summary>
-		/// <returns></returns>
-		std::vector<System*>* list() const { return mp_systems; }
 	};
 }

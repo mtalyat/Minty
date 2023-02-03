@@ -5,6 +5,8 @@
 #include "M_Object.h"
 #include "M_Rect.h"
 #include "M_SystemManager.h"
+#include "M_S_RenderSystem.h"
+#include "M_S_InputSystem.h"
 #include "entt.hpp"
 
 namespace minty
@@ -25,14 +27,15 @@ namespace minty
 
     protected:
         entt::registry* mp_registry;
+        Game* const mp_game;
+        Engine* const mp_engine;
 
         SystemManager m_systemManager;
 
         entt::entity m_mainCamera;
-        //UI_Canvas* mp_mainCanvas;
-
-        Game* const mp_game;
-        Engine* const mp_engine;
+    private:
+        InputSystem* const mp_inputSystem;
+        RenderSystem* const mp_renderSystem;
     public:
         Scene(std::string const& name, Game* const game);
         virtual ~Scene();
@@ -90,6 +93,18 @@ namespace minty
         /// </summary>
         /// <returns></returns>
         inline SystemManager* const systemManager() { return &m_systemManager; }
+
+        /// <summary>
+        /// Gets the InputSystem for this Scene.
+        /// </summary>
+        /// <returns></returns>
+        inline InputSystem* const inputSystem() { return mp_inputSystem; }
+
+        /// <summary>
+        /// Gets the RenderSystem in this Scene.
+        /// </summary>
+        /// <returns></returns>
+        inline RenderSystem* const renderSystem() { return mp_renderSystem; }
 
         //inline UI_Canvas* mainCanvas() { return mp_mainCanvas; }
 

@@ -8,6 +8,7 @@
 //		Data Types
 #include "M_Animation.h"
 #include "M_Atlas.h"
+#include "M_Click.h"
 #include "M_Collision.h"
 #include "M_Color.h"
 #include "M_Direction.h"
@@ -54,18 +55,28 @@
 #include "M_C_Acceleration.h"
 #include "M_C_Animator.h"
 #include "M_C_Camera.h"
+#include "M_C_Clickable.h"
 #include "M_C_Collider.h"
 #include "M_C_DestroyTimer.h"
+#include "M_C_MouseClick.h"
+#include "M_C_MouseDown.h"
+#include "M_C_MouseUp.h"
+#include "M_C_Position.h"
+#include "M_C_Renderable.h"
+#include "M_C_Renderer.h"
+#include "M_C_Scale.h"
 #include "M_C_Size.h"
-#include "M_C_SpriteRenderer.h"
 #include "M_C_Target.h"
-#include "M_C_Transform.h"
+#include "M_C_UI.h"
 #include "M_C_Velocity.h"
 
 //			Systems
 #include "M_S_AnimationSystem.h"
 #include "M_S_CollisionSystem.h"
+#include "M_S_InputSystem.h"
 #include "M_S_PhysicsSystem.h"
+#include "M_S_RenderSystem.h"
+#include "M_S_UserInterfaceSystem.h"
 
 //			Tags
 #include "M_T_Destroy.h"

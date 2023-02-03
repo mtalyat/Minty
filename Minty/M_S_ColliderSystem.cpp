@@ -9,66 +9,11 @@
 
 namespace minty
 {
-	bool CollisionSystem::emplace(entt::entity const entity)
-	{
-		// add to cell list at applicable positions
-
-		// get rect so we know where the hitbox is in the world
-		Transform* transform = mp_registry->try_get<Transform>(entity);
-
-		if (!transform)
-		{
-			return false;
-		}
-
-		PointF const pos = transform->worldPosition(mp_registry);
-
-		Collider* collider = mp_registry->try_get<Collider>(entity);
-
-		if (!collider)
-		{
-			return false;
-		}
-
-		RectF worldHitbox = getWorldHitbox(pos, *collider);
-
-		Rect bounds = getCellBounds(worldHitbox);
-
-		collider->cellBounds = bounds;
-
-		addToCells(bounds, entity);
-
-		mp_entities->emplace(entity);
-
-		return true;
-	}
-
-	bool CollisionSystem::erase(entt::entity const entity)
-	{
-		Collider* collider = mp_registry->try_get<Collider>(entity);
-
-		if (!collider)
-		{
-			Debug::logError(-1, "Could not remove entity from CollisionSystem: missing Collider component.");
-
-			return false;
-		}
-
-		// remove entity from system
-		removeFromCells(collider->cellBounds, entity);
-
-		collider->cellBounds = Rect();
-
-		mp_entities->erase(entity);
-
-		return true;
-	}
-
 	void CollisionSystem::updateEntity(entt::entity const entity)
 	{
 		// assume entity has moved
 		// check if cell bounds are the same
-		PointF const pos = mp_registry->get<Transform>(entity).worldPosition(mp_registry);
+		Position const& pos = mp_registry->get<Position>(entity);
 		Collider& hitbox = mp_registry->get<Collider>(entity);
 
 		RectF worldHitbox = getWorldHitbox(pos, hitbox);
@@ -92,11 +37,10 @@ namespace minty
 
 	void CollisionSystem::update()
 	{
-		// update each entity
-		for (auto entity : *mp_entities)
-		{
-			updateEntity(entity);
-		}
+		mp_registry->view<Collider>().each([this](auto entity, auto& collider)
+			{
+				updateEntity(entity);
+			});
 
 		// check for collisions
 		// for now, just debug if there is one
@@ -112,18 +56,16 @@ namespace minty
 				for (int i = 0; i < size - 1; i++)
 				{
 					entt::entity e1 = pair.second->at(i);
-					Transform& transform1 = mp_registry->get<Transform>(e1);
-					PointF pos1 = transform1.worldPosition(mp_registry);
+					Position& position1 = mp_registry->get<Position>(e1);
 					Collider const hitbox1 = mp_registry->get<Collider>(e1);
-					RectF worldHitbox1 = getWorldHitbox(pos1, hitbox1);
+					RectF worldHitbox1 = getWorldHitbox(position1, hitbox1);
 
 					for (int j = i + 1; j < size; j++)
 					{
 						entt::entity e2 = pair.second->at(j);
-						Transform& transform2 = mp_registry->get<Transform>(e2);
-						PointF pos2 = transform2.worldPosition(mp_registry);
+						Position& position2 = mp_registry->get<Position>(e2);
 						Collider const hitbox2 = mp_registry->get<Collider>(e2);
-						RectF worldHitbox2 = getWorldHitbox(pos2, hitbox2);
+						RectF worldHitbox2 = getWorldHitbox(position2, hitbox2);
 
 						// check for overlap
 						if (!worldHitbox1.overlaps(worldHitbox2))
@@ -169,13 +111,13 @@ namespace minty
 								{
 									// 1 has velocity
 
-									shiftOutOfCollision(e1, transform1, *vel1, hitbox1, e2, worldHitbox2, hitbox2);
+									shiftOutOfCollision(e1, position1, *vel1, hitbox1, e2, worldHitbox2, hitbox2);
 								}
 								else if (!vel1 && vel2)
 								{
 									// 2 has velocity
 
-									shiftOutOfCollision(e2, transform2, *vel2, hitbox2, e1, worldHitbox1, hitbox1);
+									shiftOutOfCollision(e2, position2, *vel2, hitbox2, e1, worldHitbox1, hitbox1);
 								}
 								else
 								{
@@ -348,21 +290,18 @@ namespace minty
 		collider->triggerOnStay(&collision);
 	}
 
-	void CollisionSystem::shiftOutOfCollision(entt::entity const entity, Transform& transform, Velocity& vel, Collider const& hitbox, entt::entity const other, RectF const& otherWorldHitbox, Collider const& otherHitbox)
+	void CollisionSystem::shiftOutOfCollision(entt::entity const entity, Position& position, Velocity& velocity, Collider const& hitbox, entt::entity const other, RectF const& otherWorldHitbox, Collider const& otherHitbox)
 	{
-		// no velocity of second object
-		PointF pos = transform.worldPosition(mp_registry);
-
 		// move 1 backwards until not colliding
 		float incX, incY;
-		line_normalized(math_floorToInt(pos.x), math_floorToInt(pos.y), math_floorToInt(pos.x - vel.x), math_floorToInt(pos.y - vel.y), incX, incY);
+		line_normalized(math_floorToInt(position.x), math_floorToInt(position.y), math_floorToInt(position.x - velocity.x), math_floorToInt(position.y - velocity.y), incX, incY);
 
 		// no longer moving
-		vel.x = 0.0f;
-		vel.y = 0.0f;
+		velocity.x = 0.0f;
+		velocity.y = 0.0f;
 
-		float x = pos.x;
-		float y = pos.y;
+		float x = position.x;
+		float y = position.y;
 
 		// max distance
 		int max = hitbox.hitbox->rect().area();
@@ -370,11 +309,11 @@ namespace minty
 		for (int i = 0; i < max; i++)
 		{
 			// move pos
-			pos.x += incX;
-			pos.y += incY;
+			position.x += incX;
+			position.y += incY;
 
 			// check new pos
-			RectF worldHitbox = getWorldHitbox(pos, hitbox);
+			RectF worldHitbox = getWorldHitbox(position, hitbox);
 
 			Rect overlap1 = Rect::round(worldHitbox.overlap(otherWorldHitbox));
 			Rect overlap2 = Rect::round(otherWorldHitbox.overlap(worldHitbox));
@@ -400,7 +339,7 @@ namespace minty
 			math_floorToInt(worldHitbox.bottom() / m_cellSize));
 	}
 
-	RectF CollisionSystem::getWorldHitbox(PointF const& pos, Collider const& hitbox) const
+	RectF CollisionSystem::getWorldHitbox(Position const& pos, Collider const& hitbox) const
 	{
 		Rect hitboxRect = hitbox.hitbox->rect();
 

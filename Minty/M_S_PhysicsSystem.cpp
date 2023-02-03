@@ -5,7 +5,7 @@
 
 #include "M_C_Acceleration.h"
 #include "M_C_Velocity.h"
-#include "M_C_Transform.h"
+#include "M_C_Position.h"
 #include "M_T_Gravity.h"
 
 namespace minty
@@ -30,10 +30,10 @@ namespace minty
         }
 
         // apply velocity
-        for (auto [entity, transform, velocity] : mp_registry->view<Transform, Velocity const>().each())
+        for (auto [entity, position, velocity] : mp_registry->view<Position, Velocity const>().each())
         {
-            transform.positionX += velocity.x * deltaTime;
-            transform.positionY += velocity.y * deltaTime;
+            position.x += velocity.x * deltaTime;
+            position.y += velocity.y * deltaTime;
         }
     }
 }

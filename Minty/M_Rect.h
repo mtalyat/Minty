@@ -60,6 +60,16 @@ namespace minty
 			return x != other.x || y != other.y || width != other.width || height != other.height;
 		}
 
+		Rect operator +(Point const& point) const
+		{
+			return Rect(x + point.x, y + point.y, width, height);
+		}
+
+		Rect operator -(Point const& point) const
+		{
+			return Rect(x - point.x, y - point.y, width, height);
+		}
+
 		constexpr int left() const { return x; }
 		constexpr int right() const { return x + width; }
 		constexpr int top() const { return y; }
@@ -93,7 +103,7 @@ namespace minty
 
 		inline SDL_Rect toSDL() const { return SDL_Rect{ x, y, width, height }; }
 
-		std::string const toString() const override;
+		std::string const toString() const override { return std::format("Rect({0}, {1}, {2}, {3})", x, y, width, height); }
 
 		static Rect bounds(int const left, int const right, int const top, int const bottom);
 

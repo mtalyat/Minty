@@ -7,7 +7,7 @@
 
 namespace minty
 {
-	struct RectF
+	struct MINTY_API RectF
 		: public Object
 	{
 	public:
@@ -63,6 +63,26 @@ namespace minty
 			, height(static_cast<float>(size.y))
 		{}
 
+		bool operator ==(RectF const& other) const
+		{
+			return x == other.x && y == other.y && width == other.width && height == other.height;
+		}
+
+		bool operator !=(RectF const& other) const
+		{
+			return x != other.x || y != other.y || width != other.width || height != other.height;
+		}
+
+		RectF operator +(PointF const& point) const
+		{
+			return RectF(x + point.x, y + point.y, width, height);
+		}
+
+		RectF operator -(PointF const& point) const
+		{
+			return RectF(x - point.x, y - point.y, width, height);
+		}
+
 		constexpr float left() const { return x; }
 		constexpr float right() const { return x + width; }
 		constexpr float top() const { return y; }
@@ -92,7 +112,7 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		inline bool contains(PointF const& other);
+		bool contains(PointF const& other);
 
 		static RectF bounds(float const left, float const right, float const top, float const bottom);
 
@@ -100,6 +120,6 @@ namespace minty
 		static Rect round(RectF const& rect);
 		static Rect ceil(RectF const& rect);
 
-		std::string const toString() const override;
+		std::string const toString() const override { return std::format("RectF({0}, {1}, {2}, {3})", x, y, width, height); }
 	};
 }

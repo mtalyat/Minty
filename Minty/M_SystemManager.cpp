@@ -4,33 +4,48 @@
 namespace minty
 {
 	SystemManager::SystemManager()
-		: mp_systems(new std::vector<System*>())
+		: mp_systems(new std::map<int, std::set<System*>>())
 	{}
 
 	SystemManager::~SystemManager()
 	{
 		// delete each system
-		for (auto system : *mp_systems)
+		for (auto& pair : *mp_systems)
 		{
-			delete system;
+			for (auto system : pair.second)
+			{
+				delete system;
+			}
 		}
 
 		delete mp_systems;
 	}
 
-	void SystemManager::emplace(System* const system)
+	void SystemManager::emplace(System* const system, int const priority)
 	{
-		mp_systems->push_back(system);
+		auto found = mp_systems->find(priority);
+
+		if (found == mp_systems->end())
+		{
+			// new list
+			mp_systems->emplace(priority, std::set<System*>());
+			mp_systems->at(priority).emplace(system);
+		}
+		else
+		{
+			// existing list
+			found->second.emplace(system);
+		}
 	}
 
 	void SystemManager::erase(System* const system)
 	{
-		for (size_t i = 0; i < mp_systems->size(); i++)
+		// find system, remove it from list
+		for (auto& pair : *mp_systems)
 		{
-			if (mp_systems->at(i) == system)
+			if (pair.second.erase(system))
 			{
-				mp_systems->erase(mp_systems->begin() + i);
-
+				// found
 				return;
 			}
 		}
@@ -38,9 +53,12 @@ namespace minty
 
 	void SystemManager::update()
 	{
-		for (auto system : *mp_systems)
+		for (auto& pair : *mp_systems)
 		{
-			system->update();
+			for (auto system : pair.second)
+			{
+				system->update();
+			}
 		}
 	}
 }

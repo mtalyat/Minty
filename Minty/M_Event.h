@@ -8,7 +8,7 @@
 namespace minty
 {
 	template<typename T = void>
-	class MINTY_API Event
+	class Event
 		: public Object
 	{
 	public:
@@ -32,7 +32,7 @@ namespace minty
 		/// Add a new function to be ran when this event is invoked.
 		/// </summary>
 		/// <param name="f"></param>
-		inline void emplace(func const& f)
+		void emplace(func const& f)
 		{
 			mp_functions->push_back(f);
 		}
@@ -51,7 +51,7 @@ namespace minty
 	};
 
 	template<>
-	class MINTY_API Event<void>
+	class Event<void>
 		: public Object
 	{
 	public:

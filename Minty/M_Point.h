@@ -6,6 +6,8 @@
 
 namespace minty
 {
+    struct PointF;
+
     /// <summary>
     /// Holds X and Y coordinates for a point in space.
     /// </summary>
@@ -65,6 +67,8 @@ namespace minty
         {
             return Point(x - other.x, y - other.y);
         }
+
+        PointF toPointF() const;
 
         std::string const toString() const override { return std::format("Point({0}, {1})", x, y); }
     };

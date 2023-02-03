@@ -12,8 +12,6 @@ namespace minty
 			: System(registry)
 		{}
 
-		bool emplace(entt::entity const entity) override;
-
 		void update() override;
 	};
 }

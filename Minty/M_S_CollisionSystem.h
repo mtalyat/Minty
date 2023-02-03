@@ -5,7 +5,8 @@
 #include "M_RectF.h"
 #include "entt.hpp"
 
-#include "M_C_Transform.h"
+#include "M_C_Position.h"
+#include "M_C_Scale.h"
 #include "M_C_Velocity.h"
 #include "M_C_Collider.h"
 #include "M_Collision.h"
@@ -41,10 +42,6 @@ namespace minty
 			delete mp_relationships;
 		}
 
-		bool emplace(entt::entity const entity) override;
-
-		bool erase(entt::entity const entity) override;
-
 		void update() override;
 
 		void emplaceOnEnter(entt::entity const entity, Event<Collision* const>::func const& func);
@@ -64,10 +61,10 @@ namespace minty
 
 		void onCollision(entt::entity const entity, entt::entity const other);
 
-		void shiftOutOfCollision(entt::entity const entity, Transform& transform, Velocity& vel, Collider const& collider, entt::entity const other, RectF const& otherWorldHitbox, Collider const& otherCollider);
+		void shiftOutOfCollision(entt::entity const entity, Position& pos, Velocity& vel, Collider const& collider, entt::entity const other, RectF const& otherWorldHitbox, Collider const& otherCollider);
 
 		Rect getCellBounds(RectF const& worldHitbox) const;
 
-		RectF getWorldHitbox(PointF const& pos, Collider const& collider) const;
+		RectF getWorldHitbox(Position const& pos, Collider const& collider) const;
 	};
 }

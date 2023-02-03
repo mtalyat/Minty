@@ -14,10 +14,12 @@
 
 #include "M_SceneManager.h"
 
-#include "M_C_Transform.h"
+#include "M_C_Position.h"
+#include "M_C_Scale.h"
 #include "M_C_Size.h"
 #include "M_C_Camera.h"
-#include "M_C_SpriteRenderer.h"
+#include "M_C_Renderer.h"
+#include "M_C_Renderable.h"
 #include "M_C_Collider.h"
 
 namespace minty
@@ -25,16 +27,19 @@ namespace minty
     Scene::Scene(std::string const& name, Game* const game)
         : m_name(name)
         , mp_registry(game->registry())
-        , m_systemManager()
-        , m_mainCamera()
-        //, mp_mainCanvas(new UI_Canvas(game->engine()->screen()))
         , mp_game(game)
         , mp_engine(game->engine())
-    {}
+        , m_systemManager()
+        , m_mainCamera(createEntity_camera())
+        , mp_inputSystem(new InputSystem(mp_registry))
+        , mp_renderSystem(new RenderSystem(mp_registry, &m_mainCamera, mp_engine->screen()))
+    {
+        m_systemManager.emplace(mp_inputSystem);
+    }
 
     Scene::~Scene()
     {
-        //delete mp_mainCanvas;
+        delete mp_renderSystem;
     }
 
     int Scene::update()
@@ -48,7 +53,7 @@ namespace minty
     {
         entt::entity camera = mp_registry->create();
 
-        mp_registry->emplace<Transform>(camera);
+        mp_registry->emplace<Position>(camera);
         mp_registry->emplace<Size>(camera, static_cast<float>(mp_engine->screen()->width), static_cast<float>(mp_game->engine()->screen()->height));
         mp_registry->emplace<Camera>(camera);
 
@@ -59,9 +64,7 @@ namespace minty
     {
         entt::entity entity = mp_registry->create();
 
-        Transform& transform = mp_registry->emplace<Transform>(entity);
-        transform.setWorldPosition(x, y, mp_registry);
-        transform.index = z;
+        Position& position = mp_registry->emplace<Position>(entity, x, y);
 
         SDL_Surface* surface = resources_load_image(path);
 
@@ -72,7 +75,8 @@ namespace minty
         }
 
         mp_registry->emplace<Size>(entity, static_cast<float>(surface->w), static_cast<float>(surface->h));
-        mp_registry->emplace<SpriteRenderer>(entity, new Sprite(surface, mp_engine->screen()->renderer()));
+        mp_registry->emplace<Renderer>(entity, new Sprite(surface, mp_engine->screen()->renderer()), z);
+        mp_registry->emplace<Renderable>(entity);
 
         return entity;
     }
@@ -83,7 +87,7 @@ namespace minty
         entt::entity entity = createEntity_sprite(path, x, y, z);
 
         // get sprite renderer
-        SpriteRenderer const& renderer = mp_registry->get<SpriteRenderer>(entity);
+        Renderer const& renderer = mp_registry->get<Renderer>(entity);
 
         Rect bounds;
 

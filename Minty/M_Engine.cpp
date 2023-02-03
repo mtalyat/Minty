@@ -18,20 +18,18 @@
 #include "M_Coroutine.h"
 #include "M_Point.h"
 #include "M_Pair.h"
+#include "M_Sprite.h"
 
 #include "FastNoiseLite.h"
 #include "entt.hpp"
 
-#include "M_C_Transform.h"
+#include "M_C_Position.h"
+#include "M_C_Scale.h"
+#include "M_C_Renderer.h"
 #include "M_C_Velocity.h"
-#include "M_C_SpriteRenderer.h"
 #include "M_C_Camera.h"
 #include "M_T_Destroy.h"
 #include "M_C_DestroyTimer.h"
-
-//#include "UI_Canvas.h"
-//#include "UI_IClickable.h"
-//#include "UI_IVisual.h"
 
 #include "M_PriorityQueue.h"
 
@@ -130,9 +128,6 @@ namespace minty
 				break;
 			}
 
-			// get the canvas
-			//UI_Canvas* activeCanvas = activeScene->mainCanvas();
-
 			// force events
 			SDL_PumpEvents();
 
@@ -152,21 +147,35 @@ namespace minty
 					mp_input->onKeyUp(event.key.keysym.sym);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
+				{
 					mp_input->onMouseDown(&event.button);
-					//// canvas
-					//for (UI_IClickable* c : activeCanvas->clickables())
-					//{
-					//	c->onDown(&event.button);
-					//}
+
+					Click click
+					{
+						event.button.button,
+						event.button.clicks,
+						event.button.x,
+						event.button.y
+					};
+
+					activeScene->inputSystem()->onMouseDown(&click);
 					break;
+				}
 				case SDL_MOUSEBUTTONUP:
+				{
 					mp_input->onMouseUp(&event.button);
-					//// canvas
-					//for (UI_IClickable* c : activeCanvas->clickables())
-					//{
-					//	c->onUp(&event.button);
-					//}
+
+					Click click
+					{
+						event.button.button,
+						event.button.clicks,
+						event.button.x,
+						event.button.y
+					};
+
+					activeScene->inputSystem()->onMouseUp(&click);
 					break;
+				}
 				case SDL_MOUSEMOTION:
 					mp_input->onMouseMove(&event.motion);
 					break;
@@ -207,19 +216,7 @@ namespace minty
 
 				// destroy entities that are needing to be destroyed
 				auto destroyView = registry->view<Destroy>();
-
-				// remove from systems
-				for (auto [entity] : destroyView.each())
-				{
-					for (auto system : *activeScene->systemManager()->list())
-					{
-						system->erase(entity);
-					}
-
-					registry->destroy(entity);
-				}
-
-				//registry->destroy(destroyView.begin(), destroyView.end());
+				registry->destroy(destroyView.begin(), destroyView.end());
 
 				updateWatch.stop();
 
@@ -229,66 +226,7 @@ namespace minty
 			// if time to render
 			if (renderWatch.lap(frameTime))
 			{
-				// clear the screen so there is no smearing
-				if (mp_screen->backgroundTexture())
-				{
-					// background
-					SDL_RenderCopy(renderer, mp_screen->backgroundTexture(), NULL, NULL);
-				}
-				else
-				{
-					// set background color
-					Color bgColor = mp_screen->backgroundColor();
-					SDL_SetRenderDrawColor(renderer, bgColor.r(), bgColor.g(), bgColor.b(), bgColor.a());
-					
-					// color background
-					SDL_RenderClear(renderer);
-				}
-
-				PriorityQueue<Pair<Rect, Sprite const*>> queue;
-
-				// render sprites based on main camera position
-				if (registry->valid(activeScene->mainCamera()))
-				{
-					Transform const& cameraTransform = registry->get<Transform>(activeScene->mainCamera());
-					PointF cameraWorldPos = cameraTransform.worldPosition(registry);
-					PointF worldPos;
-					PointF worldScale;
-					for (auto&& [entity, transform, renderer] : registry->view<Transform const, SpriteRenderer const>().each())
-					{
-						// if the sprite is visible, render a copy of it
-						if (renderer.isVisible())
-						{
-							worldPos = transform.worldPosition(registry);
-							worldScale = transform.worldScale(registry);
-
-							queue.push(transform.worldIndex(registry), Pair<Rect, Sprite const*>(Rect(worldPos.x - cameraWorldPos.x, worldPos.y - cameraWorldPos.y, math_floorToInt(renderer.sprite->width * worldScale.x), math_floorToInt(renderer.sprite->height * worldScale.y)), renderer.sprite));
-						}
-					}
-					
-					//// add UI elements
-					//for (auto visual : activeScene->mainCanvas()->visuals())
-					//{
-					//	Sprite* visualSprite = visual->sprite();
-
-					//	if (visualSprite->isVisible())
-					//	{
-					//		queue.push(visualSprite->order(), Pair<Point, Sprite const*>(visual->position(), visualSprite));
-					//	}
-					//}
-
-					Pair<Rect, Sprite const*> renderPair;
-
-					// render in order
-					while (queue.pop(renderPair))
-					{
-						SDL_Rect dstrect = renderPair.first.toSDL();
-						SDL_RenderCopy(renderer, renderPair.second->texture(), NULL, &dstrect);
-					}
-				}
-
-				// draw to the screen
-				SDL_RenderPresent(renderer);
+				activeScene->renderSystem()->update();
 
 				// another frame completed
 				frames++;
@@ -331,10 +269,12 @@ namespace minty
 		// stop game clock
 		m_gameWatch.stop();
 
-		Debug::logRaw(std::format("Update max: {0}ns", std::to_string(updateMax)));
-		Debug::logRaw(std::format("Loop max: {0}ns", std::to_string(loopMax)));
-		Debug::logRaw(std::format("Loop w/o update max: {0}ns", std::to_string(loopMax - updateMax)));
-		Debug::logRaw(std::format("Diff max: {0}ns", std::to_string(diffMax)));
+		Debug::setWatch(nullptr);
+
+		Debug::log(std::format("Update max: {0}ns", std::to_string(updateMax)));
+		Debug::log(std::format("Loop max: {0}ns", std::to_string(loopMax)));
+		Debug::log(std::format("Loop w/o update max: {0}ns", std::to_string(loopMax - updateMax)));
+		Debug::log(std::format("Diff max: {0}ns", std::to_string(diffMax)));
 
 		onFinish();
 

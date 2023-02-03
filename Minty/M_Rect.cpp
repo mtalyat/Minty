@@ -26,11 +26,6 @@ namespace minty
 		return other.x >= x && other.x < x + width && other.y >= y && other.y < y + height;
 	}
 
-	std::string const Rect::toString() const
-	{
-		return std::format("Rect({0}, {1}, {2}, {3})", x, y, width, height);
-	}
-
 	Rect Rect::bounds(int const left, int const right, int const top, int const bottom)
 	{
 		return Rect(left, top, right - left + 1, bottom - top + 1);
