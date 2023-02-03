@@ -6,6 +6,9 @@ namespace minty
 {
 	class Screen;
 
+	/// <summary>
+	/// Handles all of the rendering within the Scene.
+	/// </summary>
 	class MINTY_API RenderSystem
 		: public System
 	{

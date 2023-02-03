@@ -8,6 +8,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds a map of inputs that will be invoked when SDL triggers them.
+	/// </summary>
 	class MINTY_API InputMap
 		: public Object
 	{

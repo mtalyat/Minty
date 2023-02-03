@@ -6,6 +6,9 @@ namespace minty
 {
 	class Screen;
 
+	/// <summary>
+	/// Handles positioning of all user interface entities within the Scene.
+	/// </summary>
 	class MINTY_API UserInterfaceSystem
 		: public System
 	{

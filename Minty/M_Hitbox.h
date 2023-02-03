@@ -6,6 +6,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds specific collider data for an entity.
+	/// </summary>
 	class MINTY_API Hitbox
 		: public Object
 	{

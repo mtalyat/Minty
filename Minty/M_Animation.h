@@ -6,6 +6,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds data for one animation.
+	/// </summary>
 	class MINTY_API Animation
 		: public Object
 	{

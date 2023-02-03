@@ -10,6 +10,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds data relating to a Window.
+	/// </summary>
 	class MINTY_API Screen :
 		public Object
 	{

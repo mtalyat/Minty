@@ -6,6 +6,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds a surface and texture, that can be rendered to the screen.
+	/// </summary>
 	class MINTY_API Sprite :
 		public Object
 	{

@@ -6,6 +6,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// The base class for systems, which provide functionality and conduct the behavior of the ECS engine.
+	/// </summary>
 	class MINTY_API System
 		: public Object
 	{

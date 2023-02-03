@@ -9,6 +9,9 @@ namespace minty
 {
 	template class MINTY_API Event<Click const* const>;
 
+	/// <summary>
+	/// Holds data for when the mouse is pressed down on an entity.
+	/// </summary>
 	struct MINTY_API MouseDown
 	{
 		Event<Click const* const>* onDown;

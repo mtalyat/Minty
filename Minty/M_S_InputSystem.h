@@ -6,6 +6,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Handles all inputs within the Scene, excluding those within the Input class.
+	/// </summary>
 	class MINTY_API InputSystem
 		: public System
 	{

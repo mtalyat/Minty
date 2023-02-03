@@ -6,6 +6,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds an atlas of sprites, which all originate from a single sprite.
+	/// </summary>
 	class MINTY_API Atlas
 		: public Object
 	{

@@ -8,6 +8,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Handles all of the inputs (keyboard, mouse, etc.) provided by SDL.
+	/// </summary>
 	class MINTY_API Input
 		: public Object
 	{

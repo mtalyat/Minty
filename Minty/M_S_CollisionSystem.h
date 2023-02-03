@@ -13,6 +13,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Handles all collisions within the Scene.
+	/// </summary>
 	class MINTY_API CollisionSystem
 		: public System
 	{

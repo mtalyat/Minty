@@ -7,6 +7,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds data that will change how the Engine functions.
+	/// </summary>
 	struct MINTY_API EngineConfig
 		: public Object
 	{

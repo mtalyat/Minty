@@ -10,6 +10,11 @@
 
 namespace minty
 {
+	template class MINTY_API Event<Collision* const>;
+
+	/// <summary>
+	/// Holds data regarding a collision.
+	/// </summary>
 	struct MINTY_API Collider
 	{
 		Hitbox* hitbox;

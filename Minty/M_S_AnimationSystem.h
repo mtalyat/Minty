@@ -4,6 +4,9 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Handles all animations within the Scene.
+	/// </summary>
 	class MINTY_API AnimationSystem
 		: public System
 	{
