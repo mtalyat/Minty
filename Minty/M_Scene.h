@@ -14,6 +14,7 @@ namespace minty
     class Engine;
     class Game;
     class Input;
+    class Sprite;
     //class UI_Canvas;
 
     /// <summary>
@@ -135,13 +136,13 @@ namespace minty
         */
 
         /// <summary>
-        /// Creates and returns an entity with the following components: Transform, Size and Camera.
+        /// Creates and returns an entity with the following components: Position, Size, Camera.
         /// </summary>
         /// <returns></returns>
         entt::entity createEntity_camera();
 
         /// <summary>
-        /// Creates and returns an entity with the following components: Transform, Size and SpriteRenderer.
+        /// Creates and returns an entity with the following components: Position, Renderer, Renderable.
         /// </summary>
         /// <param name="path"></param>
         /// <param name="x"></param>
@@ -151,7 +152,7 @@ namespace minty
         entt::entity createEntity_sprite(std::string const& path, float const x, float const y, int const z = 0);
 
         /// <summary>
-        /// Creates and returns an entity with the following components: Transform, Size, SpriteRenderer and Collider.
+        /// Creates and returns an entity with the following components: Position, Renderer, Renderable, Collider.
         /// </summary>
         /// <param name="path"></param>
         /// <param name="x"></param>
@@ -160,5 +161,33 @@ namespace minty
         /// <param name="z"></param>
         /// <returns></returns>
         entt::entity createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z = 0, bool const isTrigger = false, bool const isStatic = false, Rect const* const rect = nullptr);
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: UI, Renderer, Renderable.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="anchorX"></param>
+        /// <param name="anchorY"></param>
+        /// <param name="pivotX"></param>
+        /// <param name="pivotY"></param>
+        /// <returns></returns>
+        entt::entity createEntity_ui(std::string const& path, float const x, float const y, int const z = 0, float const anchorX = 0.0f, float const anchorY = 0.0f, float const pivotX = 0.0f, float const pivotY = 0.0f);
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: UI, Renderer, Renderable.
+        /// </summary>
+        /// <param name="sprite"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="anchorX"></param>
+        /// <param name="anchorY"></param>
+        /// <param name="pivotX"></param>
+        /// <param name="pivotY"></param>
+        /// <returns></returns>
+        entt::entity createEntity_ui(Sprite* const sprite, float const x, float const y, int const z = 0, float const anchorX = 0.0f, float const anchorY = 0.0f, float const pivotX = 0.0f, float const pivotY = 0.0f);
     };
 }

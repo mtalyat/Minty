@@ -11,5 +11,7 @@ namespace minty
 	struct MINTY_API Target
 	{
 		entt::entity target;
+
+		float lerp;
 	};
 }

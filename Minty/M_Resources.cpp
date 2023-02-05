@@ -37,7 +37,7 @@ namespace minty
 		return sprite;
 	}
 
-	SDL_Surface** resources_load_images(std::string const& path, std::string const& extension, int const count)
+	SDL_Surface** resources_load_surfaces(std::string const& path, std::string const& extension, int const count)
 	{
 		SDL_Surface** surfaces = new SDL_Surface * [count];
 
@@ -58,7 +58,7 @@ namespace minty
 		return surfaces;
 	}
 
-	std::vector<SDL_Surface*>* resources_load_all_images(std::string const& path, std::string const& extension)
+	std::vector<SDL_Surface*>* resources_load_all_surfaces(std::string const& path, std::string const& extension)
 	{
 		std::vector<SDL_Surface*>* surfaces = new std::vector<SDL_Surface*>();
 
@@ -89,5 +89,30 @@ namespace minty
 		}
 
 		return surfaces;
+	}
+	
+	MINTY_API std::vector<Sprite*>* resources_load_all_sprites(std::string const& path, std::string const& extension, SDL_Renderer* const renderer)
+	{
+		std::vector<Sprite*>* sprites = new std::vector<Sprite*>();
+
+		std::string basePath = path_combine(RESOURCES_DIRECTORY, path);
+
+		std::string finalPath = basePath + "0" + extension;
+
+		size_t i = 0;
+		SDL_Surface* surface;
+		// while file exists, add to vector
+		while (file_exists(finalPath))
+		{
+			// add to vector
+			sprites->push_back(resources_load_sprite(finalPath, renderer));
+
+			i++;
+
+			// get next path
+			finalPath = basePath + std::to_string(i) + extension;
+		}
+
+		return sprites;
 	}
 }

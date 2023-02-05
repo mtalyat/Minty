@@ -6,10 +6,21 @@
 namespace minty
 {	
 	Sprite::Sprite(SDL_Surface* const surface, SDL_Renderer* const renderer)
+		: Sprite(surface, SDL_CreateTextureFromSurface(renderer, surface))
+	{}
+
+	Sprite::Sprite(SDL_Texture* const texture, int const w, int const h)
+		: width(w)
+		, height(h)
+		, mp_surface(nullptr)
+		, mp_texture(texture)
+	{}
+
+	Sprite::Sprite(SDL_Surface* const surface, SDL_Texture* const texture)
 		: width(surface->w)
 		, height(surface->h)
 		, mp_surface(surface)
-		, mp_texture(SDL_CreateTextureFromSurface(renderer, surface))
+		, mp_texture(texture)
 	{
 		if (!mp_surface)
 		{
@@ -28,6 +39,22 @@ namespace minty
 	Sprite::~Sprite()
 	{
 		SDL_DestroyTexture(mp_texture);
+	}
+
+	Color Sprite::getColor(int const x, int const y)
+	{
+		// get the pixel pos within this sprite
+		int xFixed = math_mod_positive(x, width);
+		int yFixed = math_mod_positive(y, height);
+
+		// return pixel at position
+		return at(xFixed, yFixed);
+	}
+
+	Color Sprite::at(int const x, int const y)
+	{
+		// return pixel at position
+		return static_cast<Color*>(mp_surface->pixels)[y * width + x];
 	}
 
 	Sprite* Sprite::slice(Rect const& rect, SDL_Renderer* const renderer) const

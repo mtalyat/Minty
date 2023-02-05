@@ -15,14 +15,14 @@ namespace minty
 	// template from:
 	// https://www.scs.stanford.edu/~dm/blog/c++-coroutines.html
 	template <typename T>
-	struct MINTY_API Coroutine
+	struct Coroutine
 	{
 		bool valid;
 
 		struct promise_type;
 		using handle_type = std::coroutine_handle<promise_type>;
 
-		struct MINTY_API promise_type
+		struct promise_type
 		{
 			T value;
 			std::exception_ptr exception;

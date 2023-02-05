@@ -11,6 +11,7 @@
 #include "M_Resources.h"
 #include "M_Hitbox.h"
 #include "M_Time.h"
+#include "M_Sprite.h"
 
 #include "M_SceneManager.h"
 
@@ -23,6 +24,7 @@
 #include "M_C_Collider.h"
 #include "M_T_Destroy.h"
 #include "M_C_DestroyTimer.h"
+#include "M_C_UI.h"
 #include "M_T_NoDestroy.h"
 
 namespace minty
@@ -129,18 +131,8 @@ namespace minty
     {
         entt::entity entity = mp_registry->create();
 
-        Position& position = mp_registry->emplace<Position>(entity, x, y);
-
-        SDL_Surface* surface = resources_load_image(path);
-
-        if (surface == nullptr)
-        {
-            // no surface loaded
-            return entity;
-        }
-
-        mp_registry->emplace<Size>(entity, static_cast<float>(surface->w), static_cast<float>(surface->h));
-        mp_registry->emplace<Renderer>(entity, new Sprite(surface, mp_engine->screen()->renderer()), z);
+        mp_registry->emplace<Position>(entity, x, y);
+        mp_registry->emplace<Renderer>(entity, resources_load_sprite(path, mp_engine->renderer()), z);
         mp_registry->emplace<Renderable>(entity);
 
         return entity;
@@ -160,7 +152,8 @@ namespace minty
         {
             bounds = *rect;
         }
-        else {
+        else
+        {
             bounds = Rect(0, 0, renderer.sprite->width, renderer.sprite->height);
         }
 
@@ -169,6 +162,23 @@ namespace minty
 
         // add to collider
         mp_registry->emplace<Collider>(entity, hitbox, isTrigger, isStatic, bounds);
+
+        return entity;
+    }
+    
+    entt::entity Scene::createEntity_ui(std::string const& path, float const x, float const y, int const z, float const anchorX, float const anchorY, float const pivotX, float const pivotY)
+    {
+        return createEntity_ui(resources_load_sprite(path, mp_engine->renderer()), x, y, z, anchorX, anchorY, pivotX, pivotY);
+    }
+    
+    entt::entity Scene::createEntity_ui(Sprite* const sprite, float const x, float const y, int const z, float const anchorX, float const anchorY, float const pivotX, float const pivotY)
+    {
+        entt::entity entity = mp_registry->create();
+
+        mp_registry->emplace<Renderer>(entity, sprite, z);
+        mp_registry->emplace<Renderable>(entity);
+
+        mp_registry->emplace<UI>(entity, x, y, anchorX, anchorY, pivotX, pivotY);
 
         return entity;
     }

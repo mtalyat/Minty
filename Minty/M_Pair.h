@@ -10,7 +10,7 @@ namespace minty
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="U"></typeparam>
 	template<typename T, typename U = T>
-	struct MINTY_API Pair
+	struct Pair
 		: public Object
 	{
 		T first;

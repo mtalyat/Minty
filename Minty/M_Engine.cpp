@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#define SDL_MAIN_HANDLED
+//#define SDL_MAIN_HANDLED
 
 #include "M_Engine.h"
 
@@ -291,7 +291,7 @@ namespace minty
 
 	void Engine::initialize()
 	{
-		SDL_SetMainReady();
+		//SDL_SetMainReady();
 
 		// initialize SDL
 		if (SDL_Init(SDL_INIT_VIDEO))

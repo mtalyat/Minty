@@ -1,12 +1,18 @@
 #include "pch.h"
 #include "M_Atlas.h"
 
+#include "M_Resources.h"
+
 namespace minty
 {
 	Atlas::Atlas(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
 		: m_widthInTiles(sprite->width / tileWidth)
 		, m_heightInTiles(sprite->width / tileHeight)
 		, mp_tiles(generateTiles(sprite, tileWidth, tileHeight, renderer))
+	{}
+
+	Atlas::Atlas(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
+		: Atlas(resources_load_sprite(path, renderer), tileWidth, tileHeight, renderer)
 	{}
 
 	Atlas::~Atlas()

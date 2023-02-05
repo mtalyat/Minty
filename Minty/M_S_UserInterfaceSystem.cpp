@@ -14,8 +14,8 @@ namespace minty
 		// update rendering positioning
 		for (auto [entity, ui, renderable, renderer] : mp_registry->view<UI const, Renderable, Renderer const>().each())
 		{
-			renderable.x = ui.x + mp_screen->width * ui.anchorX - renderer.sprite->width * (1.0f - ui.pivotX);
-			renderable.y = ui.y + mp_screen->height * ui.anchorY - renderer.sprite->height * (1.0f - ui.pivotY);
+			renderable.x = ui.x + mp_screen->width * ui.anchorX - renderer.sprite->width * ui.pivotX;
+			renderable.y = ui.y + mp_screen->height * ui.anchorY - renderer.sprite->height * ui.pivotY;
 		}
 	}
 }
