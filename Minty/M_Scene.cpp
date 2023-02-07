@@ -134,8 +134,7 @@ namespace minty
         entt::entity entity = mp_registry->create();
 
         mp_registry->emplace<Position>(entity, x, y);
-        Renderer& renderer = mp_registry->emplace<Renderer>(entity, resources_load_sprite(path, mp_engine->renderer()), z);
-        renderer.sprite->setPivot(PointF(pivotX, pivotY));
+        mp_registry->emplace<Renderer>(entity, resources_load_sprite(path, mp_engine->renderer(), PointF(pivotX, pivotY)), z);
         mp_registry->emplace<Renderable>(entity);
 
         return entity;
