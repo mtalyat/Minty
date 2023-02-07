@@ -31,7 +31,7 @@ namespace minty
 			, resizable(true)
 			, maximized(true)
 			, fullscreen(true)
-			, quitOnEscape(true)
+			, quitOnEscape(false)
 		{}
 
 		elapsed_t getFPNS() const
