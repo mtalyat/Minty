@@ -11,10 +11,6 @@ namespace minty
 		, mp_tiles(generateTiles(sprite, tileWidth, tileHeight, renderer))
 	{}
 
-	Atlas::Atlas(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
-		: Atlas(resources_load_sprite(path, renderer), tileWidth, tileHeight, renderer)
-	{}
-
 	Atlas::~Atlas()
 	{
 		// delete each sprite
@@ -43,5 +39,19 @@ namespace minty
 		}
 
 		return tiles;
+	}
+	
+	Atlas* Atlas::fromResources(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
+	{
+		// get sprite
+		Sprite* sprite = resources_load_sprite(path, renderer);
+
+		// use sprite
+		Atlas* atlas = new Atlas(sprite, tileWidth, tileHeight, renderer);
+
+		// delete sprite
+		delete sprite;
+
+		return atlas;
 	}
 }

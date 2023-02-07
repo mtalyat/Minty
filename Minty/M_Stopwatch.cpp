@@ -84,8 +84,6 @@ namespace minty
 		ns -= minutes * ONE_MINUTE;
 		elapsed_t seconds = ns / ONE_SECOND;
 		ns -= seconds * ONE_SECOND;
-		elapsed_t milli = ns / ONE_MILLISECOND;
-		ns -= milli * ONE_MILLISECOND;
 
 		// print in format: HH:MM:SS:nnnnnn
 
@@ -93,7 +91,7 @@ namespace minty
 			text_pad_left(std::to_string(hours), 2, '0'),
 			text_pad_left(std::to_string(minutes), 2, '0'),
 			text_pad_left(std::to_string(seconds), 2, '0'),
-			text_pad_left(std::to_string(ns), 6, '0'));
+			text_pad_left(std::to_string(ns / 100), 7, '0'));
 
 		return temp;
 	}

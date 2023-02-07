@@ -56,7 +56,7 @@ namespace minty
 	Color Sprite::at(int const x, int const y)
 	{
 		// return pixel at position
-		return static_cast<Color*>(mp_surface->pixels)[y * width + x];
+		return Color(static_cast<Uint32*>(mp_surface->pixels)[y * width + x]);
 	}
 
 	Sprite* Sprite::slice(Rect const& rect, SDL_Renderer* const renderer) const

@@ -20,11 +20,9 @@ namespace minty
 	public:
 		Atlas(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer);
 
-		Atlas(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer);
-
 		~Atlas();
 
-		inline Sprite* at(int const row, int const col) const { return mp_tiles[row * m_widthInTiles + col]; }
+		inline Sprite* at(int const x, int const y) const { return mp_tiles[y * m_widthInTiles + x]; }
 
 		inline Sprite* at(int const index) const { return mp_tiles[index]; }
 
@@ -33,5 +31,7 @@ namespace minty
 		constexpr int size() const { return m_widthInTiles * m_heightInTiles; }
 
 		static Sprite** generateTiles(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer);
+
+		static Atlas* fromResources(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer);
 	};
 }
