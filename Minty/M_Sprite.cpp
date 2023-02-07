@@ -12,6 +12,7 @@ namespace minty
 	Sprite::Sprite(SDL_Texture* const texture, int const w, int const h)
 		: width(w)
 		, height(h)
+		, m_offset()
 		, mp_surface(nullptr)
 		, mp_texture(texture)
 	{}
@@ -19,6 +20,7 @@ namespace minty
 	Sprite::Sprite(SDL_Surface* const surface, SDL_Texture* const texture)
 		: width(surface->w)
 		, height(surface->h)
+		, m_offset()
 		, mp_surface(surface)
 		, mp_texture(texture)
 	{

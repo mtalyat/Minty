@@ -25,6 +25,7 @@
 #include "M_T_Destroy.h"
 #include "M_C_DestroyTimer.h"
 #include "M_C_UI.h"
+#include "M_C_Center.h"
 #include "M_T_NoDestroy.h"
 
 namespace minty
@@ -116,29 +117,31 @@ namespace minty
         return result;
     }
 
-    entt::entity Scene::createEntity_camera()
+    entt::entity Scene::createEntity_camera(float const pivotX, float const pivotY)
     {
         entt::entity camera = mp_registry->create();
 
         mp_registry->emplace<Position>(camera);
         mp_registry->emplace<Size>(camera, static_cast<float>(mp_engine->screen()->width), static_cast<float>(mp_game->engine()->screen()->height));
-        mp_registry->emplace<Camera>(camera);
+        mp_registry->emplace<Camera>(camera, math_floorToInt(-pivotX * mp_engine->screen()->width), math_floorToInt(-pivotY * mp_engine->screen()->height));
+        mp_registry->emplace<Renderable>(camera);
 
         return camera;
     }
 
-    entt::entity Scene::createEntity_sprite(std::string const& path, float const x, float const y, int const z)
+    entt::entity Scene::createEntity_sprite(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY)
     {
         entt::entity entity = mp_registry->create();
 
         mp_registry->emplace<Position>(entity, x, y);
-        mp_registry->emplace<Renderer>(entity, resources_load_sprite(path, mp_engine->renderer()), z);
+        Renderer& renderer = mp_registry->emplace<Renderer>(entity, resources_load_sprite(path, mp_engine->renderer()), z);
+        renderer.sprite->setPivot(PointF(pivotX, pivotY));
         mp_registry->emplace<Renderable>(entity);
 
         return entity;
     }
 
-    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z, bool const isTrigger, bool const isStatic, Rect const* const rect)
+    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY, bool const isTrigger, bool const isStatic, Rect const* const rect)
     {
         // create entity with sprite
         entt::entity entity = createEntity_sprite(path, x, y, z);
@@ -166,19 +169,20 @@ namespace minty
         return entity;
     }
     
-    entt::entity Scene::createEntity_ui(std::string const& path, float const x, float const y, int const z, float const anchorX, float const anchorY, float const pivotX, float const pivotY)
+    entt::entity Scene::createEntity_ui(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
     {
         return createEntity_ui(resources_load_sprite(path, mp_engine->renderer()), x, y, z, anchorX, anchorY, pivotX, pivotY);
     }
     
-    entt::entity Scene::createEntity_ui(Sprite* const sprite, float const x, float const y, int const z, float const anchorX, float const anchorY, float const pivotX, float const pivotY)
+    entt::entity Scene::createEntity_ui(Sprite* const sprite, float const x, float const y, int const z, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
     {
         entt::entity entity = mp_registry->create();
 
+        sprite->setPivot(PointF(pivotX, pivotY));
         mp_registry->emplace<Renderer>(entity, sprite, z);
         mp_registry->emplace<Renderable>(entity);
 
-        mp_registry->emplace<UI>(entity, x, y, anchorX, anchorY, pivotX, pivotY);
+        mp_registry->emplace<UI>(entity, x, y, anchorX, anchorY);
 
         return entity;
     }

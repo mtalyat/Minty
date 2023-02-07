@@ -410,6 +410,9 @@
     <ClCompile Include="M_S_TargetSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="M_C_Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ERROR_CODES.md">

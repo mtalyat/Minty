@@ -19,11 +19,5 @@ namespace minty
 		/// 0, 0 is top left.
 		/// </summary>
 		float anchorX, anchorY;
-
-		/// <summary>
-		/// The pivot data. Determines which point on the entity the positional data is relative to.
-		/// 0, 0 is top left.
-		/// </summary>
-		float pivotX, pivotY;
 	};
 }

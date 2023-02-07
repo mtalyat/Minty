@@ -5,6 +5,8 @@
 #include "M_Pair.h"
 #include "M_PriorityQueue.h"
 
+#include "M_C_Camera.h"
+#include "M_C_Center.h"
 #include "M_C_Renderer.h"
 #include "M_C_Renderable.h"
 #include "M_C_Position.h"
@@ -35,10 +37,17 @@ namespace minty
 			SDL_RenderClear(renderer);
 		}
 
+		// update cameras
+		for (auto [entity, camera, position, renderable] : mp_registry->view<Camera const, Position const, Renderable>().each())
+		{
+			renderable.x = math_floorToInt(position.x) + camera.offsetX;
+			renderable.y = math_floorToInt(position.y) + camera.offsetY;
+		}
+
 		PriorityQueue<Pair<Rect, Sprite const*>> queue;
 
 		// get camera pos
-		Position* const cameraPos = mp_registry->try_get<Position>(*mp_mainCameraEntity);
+		Renderable* const cameraPos = mp_registry->try_get<Renderable>(*mp_mainCameraEntity);
 
 		if (cameraPos)
 		{
@@ -82,12 +91,13 @@ namespace minty
 		//}
 
 		// does not account for scale
+		Point offset;
 		for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
 		{
 			if (renderer.isVisible())
 			{
-				//queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(renderable.x, renderable.y, math_floorToInt(renderer.sprite->width * scale.x), math_floorToInt(renderer.sprite->height * scale.y)), renderer.sprite));
-				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(renderable.x, renderable.y, renderer.sprite->width, renderer.sprite->height), renderer.sprite));
+				offset = renderer.sprite->offset();
+				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(renderable.x + offset.x, renderable.y + offset.y, renderer.sprite->width, renderer.sprite->height), renderer.sprite));
 			}
 		}
 

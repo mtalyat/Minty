@@ -5,12 +5,15 @@
 #include "M_C_Position.h"
 
 #include "M_Math.h"
+#include "M_Time.h"
 
 void minty::TargetSystem::update()
 {
 	auto group = mp_registry->group<Target>(entt::get<Position>);
 
 	Position* targetPosition;
+
+	float deltaTime = Time::deltaTime();
 
 	for (auto [entity, target, position] : group.each())
 	{
@@ -23,7 +26,7 @@ void minty::TargetSystem::update()
 		}
 
 		// lerp
-		position.x = math_lerp(position.x, targetPosition->x, target.lerp);
-		position.y = math_lerp(position.y, targetPosition->y, target.lerp);
+		position.x = math_lerp(position.x, targetPosition->x, target.lerp * deltaTime);
+		position.y = math_lerp(position.y, targetPosition->y, target.lerp * deltaTime);
 	}
 }

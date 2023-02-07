@@ -232,6 +232,7 @@
     <ClCompile Include="M_Atlas.cpp" />
     <ClCompile Include="M_Color.cpp" />
     <ClCompile Include="M_C_Animator.cpp" />
+    <ClCompile Include="M_C_Camera.cpp" />
     <ClCompile Include="M_C_Collider.cpp" />
     <ClCompile Include="M_Debug.cpp" />
     <ClCompile Include="M_Direction.cpp" />

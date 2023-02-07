@@ -101,7 +101,9 @@ namespace minty
 		/// <returns></returns>
 		bool contains(Point const& other);
 
-		inline SDL_Rect toSDL() const { return SDL_Rect{ x, y, width, height }; }
+		SDL_Rect toSDL() const;
+
+		RectF toRectF() const;
 
 		std::string const toString() const override { return std::format("Rect({0}, {1}, {2}, {3})", x, y, width, height); }
 

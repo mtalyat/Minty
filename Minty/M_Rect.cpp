@@ -26,6 +26,16 @@ namespace minty
 		return other.x >= x && other.x < x + width && other.y >= y && other.y < y + height;
 	}
 
+	SDL_Rect Rect::toSDL() const
+	{
+		return SDL_Rect{ x, y, width, height };
+	}
+
+	RectF Rect::toRectF() const
+	{
+		return RectF(x, y, width, height);
+	}
+
 	Rect Rect::bounds(int const left, int const right, int const top, int const bottom)
 	{
 		return Rect(left, top, right - left + 1, bottom - top + 1);
