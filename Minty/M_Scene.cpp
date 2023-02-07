@@ -171,7 +171,7 @@ namespace minty
     
     entt::entity Scene::createEntity_ui(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
     {
-        return createEntity_ui(resources_load_sprite(path, mp_engine->renderer()), x, y, z, anchorX, anchorY, pivotX, pivotY);
+        return createEntity_ui(resources_load_sprite(path, mp_engine->renderer()), x, y, z, pivotX, pivotY, anchorX, anchorY);
     }
     
     entt::entity Scene::createEntity_ui(Sprite* const sprite, float const x, float const y, int const z, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
