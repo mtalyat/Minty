@@ -216,5 +216,13 @@ namespace minty
     /// <returns></returns>
     MINTY_API inline int math_mod_positive(int const value, int const mod);
 
+    /// <summary>
+    /// Performs the modulus operation on a float value, and ensures the output is positive.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="mod"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_mod_positive(float const value, float const mod);
+
 #pragma endregion
 }

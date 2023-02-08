@@ -137,4 +137,9 @@ namespace minty
 	{
 		return value < 0 ? (value % mod + mod) : (value % mod);
 	}
+	
+	MINTY_API float math_mod_positive(float const value, float const mod)
+	{
+		return value < 0.0f ? (math_mod(value, mod) + mod) : math_mod(value, mod);
+	}
 }
