@@ -11,7 +11,7 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Renderable
 	{
-		int x, y;
+		float x, y;
 
 		inline Point toPoint() const { return Point(x, y); }
 		inline PointF toPointF() const { return PointF(x, y); }

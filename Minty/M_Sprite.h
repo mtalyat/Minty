@@ -19,7 +19,7 @@ namespace minty
 		int const width;
 		int const height;
 	private:
-		Point m_offset;
+		PointF m_offset;
 		SDL_Surface* mp_surface;
 		SDL_Texture* mp_texture;
 
@@ -34,8 +34,8 @@ namespace minty
 
 		constexpr int size() const { return width * height; }
 		inline Rect rect() const { return Rect(m_offset.x, m_offset.y, width, height); }
-		void setPivot(PointF const& pivot) { m_offset = Point(math_floorToInt(-pivot.x * static_cast<float>(width)), math_floorToInt(-pivot.y * static_cast<float>(height))); }
-		inline Point offset() const { return m_offset; }
+		void setPivot(PointF const& pivot) { m_offset = PointF(-pivot.x * static_cast<float>(width), -pivot.y * static_cast<float>(height)); }
+		inline PointF offset() const { return m_offset; }
 		inline SDL_Surface* surface() const { return mp_surface; }
 		inline SDL_Texture* texture() const { return mp_texture; }
 

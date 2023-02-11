@@ -40,8 +40,8 @@ namespace minty
 		// update cameras
 		for (auto [entity, camera, position, renderable] : mp_registry->view<Camera const, Position const, Renderable>().each())
 		{
-			renderable.x = math_floorToInt(position.x) + camera.offsetX;
-			renderable.y = math_floorToInt(position.y) + camera.offsetY;
+			renderable.x = position.x + camera.offsetX;
+			renderable.y = position.y + camera.offsetY;
 		}
 
 		PriorityQueue<Pair<Rect, Sprite const*>> queue;
@@ -54,8 +54,8 @@ namespace minty
 			// if has a position, change renderable position to reflect camera position
 			for (auto [entity, position, renderable] : mp_registry->view<Position const, Renderable>().each())
 			{
-				renderable.x = math_floorToInt(position.x - cameraPos->x);
-				renderable.y = math_floorToInt(position.y - cameraPos->y);
+				renderable.x = position.x - cameraPos->x;
+				renderable.y = position.y - cameraPos->y;
 			}
 		}
 		else
@@ -63,8 +63,8 @@ namespace minty
 			// no camera position
 			for (auto [entity, position, renderable] : mp_registry->view<Position const, Renderable>().each())
 			{
-				renderable.x = math_floorToInt(position.x);
-				renderable.y = math_floorToInt(position.y);
+				renderable.x = position.x;
+				renderable.y = position.y;
 			}
 		}
 
@@ -91,13 +91,13 @@ namespace minty
 		//}
 
 		// does not account for scale
-		Point offset;
+		PointF offset;
 		for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
 		{
 			if (renderer.isVisible())
 			{
 				offset = renderer.sprite->offset();
-				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(renderable.x + offset.x, renderable.y + offset.y, renderer.sprite->width, renderer.sprite->height), renderer.sprite));
+				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(math_floorToInt(renderable.x + offset.x), math_floorToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), renderer.sprite));
 			}
 		}
 

@@ -123,7 +123,7 @@ namespace minty
 
         mp_registry->emplace<Position>(camera);
         mp_registry->emplace<Size>(camera, static_cast<float>(mp_engine->screen()->width), static_cast<float>(mp_game->engine()->screen()->height));
-        mp_registry->emplace<Camera>(camera, math_floorToInt(-pivotX * mp_engine->screen()->width), math_floorToInt(-pivotY * mp_engine->screen()->height));
+        mp_registry->emplace<Camera>(camera, -pivotX * mp_engine->screen()->width, -pivotY * mp_engine->screen()->height);
         mp_registry->emplace<Renderable>(camera);
 
         return camera;
