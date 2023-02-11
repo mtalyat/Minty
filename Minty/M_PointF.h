@@ -67,7 +67,7 @@ namespace minty
             return PointF(x - other.x, y - other.y);
         }
 
-        Point toPoint() const;
+        Point toPointF() const;
 
         std::string const toString() const override;
     };

@@ -18,6 +18,13 @@ namespace minty
 		, mp_mask(mask)
 	{}
 
+	Hitbox::Hitbox(Mask* const mask)
+		: m_rect(mask == nullptr ? Rect() : Rect(0, 0, mask->width(), mask->height()))
+		, mp_mask(mask)
+	{
+
+	}
+
 	std::string const Hitbox::toString() const
 	{
 		return m_rect.toString();

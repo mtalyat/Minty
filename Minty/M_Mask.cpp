@@ -54,6 +54,7 @@ namespace minty
 
 	Mask* Mask::fromSprite(Sprite const* const sprite, Rect const* const rect)
 	{
+		// no sprite
 		if (!sprite)
 		{
 			return nullptr;
@@ -66,18 +67,26 @@ namespace minty
 			bounds = *rect;
 		}
 
+		int size = bounds.area();
+		mask_t* bytes = new mask_t[size];
+
+		// if no surface, we cannot read pixel data, so just assume every pixel is empty
+		if (!sprite->surface())
+		{
+			std::memset(bytes, 0, size);
+
+			return new Mask(bounds.width, bounds.height, bytes);
+		}
+
+		// has a surface, so use those pixels
 		color_t* pixels = static_cast<color_t*>(sprite->surface()->pixels);
 		int pitch = sprite->surface()->pitch;
-
-		int size = bounds.area();
-
-		mask_t* bytes = new mask_t[size];
 
 		for (int y = 0; y < bounds.height; y++)
 		{
 			for (int x = 0; x < bounds.width; x++)
 			{
-				bytes[y * bounds.width + x] = static_cast<mask_t>(Color(pixels[(bounds.y + y) * sprite->width + (bounds.x + x)]).a() != 0);
+				bytes[y * bounds.width + x] = static_cast<mask_t>(Color(pixels[(bounds.y + y) * sprite->width + (bounds.x + x)]).mask());
 			}
 		}
 

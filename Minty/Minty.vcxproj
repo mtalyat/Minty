@@ -168,6 +168,7 @@
     <ClInclude Include="M_C_MouseClick.h" />
     <ClInclude Include="M_C_MouseDown.h" />
     <ClInclude Include="M_C_MouseUp.h" />
+    <ClInclude Include="M_C_Name.h" />
     <ClInclude Include="M_C_Position.h" />
     <ClInclude Include="M_C_Renderable.h" />
     <ClInclude Include="M_C_Scale.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="M_C_Animator.cpp" />
     <ClCompile Include="M_C_Camera.cpp" />
     <ClCompile Include="M_C_Collider.cpp" />
+    <ClCompile Include="M_C_Name.cpp" />
     <ClCompile Include="M_Debug.cpp" />
     <ClCompile Include="M_Direction.cpp" />
     <ClCompile Include="M_Engine.cpp" />

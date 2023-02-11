@@ -21,6 +21,7 @@ namespace minty
 		Hitbox(Rect const rect, Mask* const mask = nullptr);
 		Hitbox(Point const offset, Point const size, Mask* const mask = nullptr);
 		Hitbox(int const xOffset, int const yOffset, int const width, int const height, Mask* const mask = nullptr);
+		Hitbox(Mask* const mask = nullptr);
 
 		inline Rect const& rect() const { return m_rect; }
 		inline Mask* const mask() const { return mp_mask; }

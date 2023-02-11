@@ -52,8 +52,6 @@ namespace minty
 		void emplaceOnExit(entt::entity const entity, Event<Collision* const>::func const& func);
 
 	private:
-		void updateEntity(entt::entity const entity);
-
 		void addToCell(Point const& pos, entt::entity const entity);
 
 		void addToCells(Rect const& cellBounds, entt::entity const entity);

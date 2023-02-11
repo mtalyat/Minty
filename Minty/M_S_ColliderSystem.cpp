@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "M_S_CollisionSystem.h"
 
+#include "M_C_Name.h"
+
 #include "M_Debug.h"
 
 #include "M_Line.h"
@@ -9,37 +11,30 @@
 
 namespace minty
 {
-	void CollisionSystem::updateEntity(entt::entity const entity)
+	void CollisionSystem::update()
 	{
-		// assume entity has moved
-		// check if cell bounds are the same
-		Position const& pos = mp_registry->get<Position>(entity);
-		Collider& hitbox = mp_registry->get<Collider>(entity);
+		mp_registry->view<Collider, Position>().each([this](auto entity, auto& collider, auto const& pos)
+			{
+				// assume entity has moved
+// check if cell bounds are the same
 
-		RectF worldHitbox = getWorldHitbox(pos, hitbox);
+		RectF worldHitbox = getWorldHitbox(pos, collider);
 
 		Rect bounds = getCellBounds(worldHitbox);
 
-		if (hitbox.cellBounds != bounds)
+		if (collider.cellBounds != bounds)
 		{
 			// moved
 
 			// remove from old lists
-			removeFromCells(hitbox.cellBounds, entity);
+			removeFromCells(collider.cellBounds, entity);
 
 			// add to new ones
 			addToCells(bounds, entity);
 
 			// update bounds
-			hitbox.cellBounds = bounds;
+			collider.cellBounds = bounds;
 		}
-	}
-
-	void CollisionSystem::update()
-	{
-		mp_registry->view<Collider>().each([this](auto entity, auto& collider)
-			{
-				updateEntity(entity);
 			});
 
 		// check for collisions

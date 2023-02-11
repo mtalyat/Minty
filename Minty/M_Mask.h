@@ -76,6 +76,20 @@ namespace minty
 		constexpr int size() const { return m_width * m_height; }
 
 		/// <summary>
+		/// Returns the mask_t at the given index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		mask_t at(int const index) const { return mp_bytes[index]; }
+
+		/// <summary>
+		/// Sets the mask_t at the given index.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="value"></param>
+		void emplace(int const index, mask_t const value) { mp_bytes[index] = value; }
+
+		/// <summary>
 		/// Checks if this Mask collides with the given Mask.
 		/// </summary>
 		/// <param name="other"></param>
@@ -111,7 +125,7 @@ namespace minty
 		/// </summary>
 		/// <param name="sprite"></param>
 		/// <returns></returns>
-		static Mask* fromSprite(Sprite const* const sprite, Rect const* const rect = nullptr);
+		MINTY_API static Mask* fromSprite(Sprite const* const sprite, Rect const* const rect = nullptr);
 
 		std::string const toString() const override;
 	private:

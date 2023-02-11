@@ -12,6 +12,6 @@ namespace minty
 	{
 		float x, y;
 
-		inline PointF toPoint() const { return PointF(x, y); }
+		inline PointF toPointF() const { return PointF(x, y); }
 	};
 }

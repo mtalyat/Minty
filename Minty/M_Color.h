@@ -97,6 +97,12 @@ namespace minty
 		inline channel_t a() const { return value & 0xff; }
 
 		/// <summary>
+		/// Returns a 1 if this color is visible in the slightest, or 0 if alpha is zero.
+		/// </summary>
+		/// <returns></returns>
+		inline channel_t mask() const { return (value & 0xff) > 0; }
+
+		/// <summary>
 		/// Darkens this Color by the given percent.
 		/// </summary>
 		/// <param name="p"></param>
