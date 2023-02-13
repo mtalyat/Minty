@@ -69,9 +69,6 @@
     <ClInclude Include="M_T_NoDestroy.h">
       <Filter>Header Files\Engine\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="M_T_Gravity.h">
-      <Filter>Header Files\Engine\Tags</Filter>
-    </ClInclude>
     <ClInclude Include="M_C_Acceleration.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
@@ -277,6 +274,9 @@
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
     <ClInclude Include="M_C_Name.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_Gravity.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>

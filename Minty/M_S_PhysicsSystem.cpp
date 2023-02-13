@@ -6,7 +6,7 @@
 #include "M_C_Acceleration.h"
 #include "M_C_Velocity.h"
 #include "M_C_Position.h"
-#include "M_T_Gravity.h"
+#include "M_C_Gravity.h"
 
 namespace minty
 {
@@ -17,9 +17,9 @@ namespace minty
         float gravityDeltaTime = GRAVITY * deltaTime;
 
         // apply gravity
-        for (auto [entity, velocity] : mp_registry->view<Velocity, Gravity const>().each())
+        for (auto [entity, velocity, gravity] : mp_registry->view<Velocity, Gravity const>().each())
         {
-            velocity.y += gravityDeltaTime;
+            velocity.y += gravityDeltaTime * gravity.scale;
         }
 
         // apply acceleration

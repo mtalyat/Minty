@@ -74,6 +74,7 @@
 #include "M_C_Target.h"
 #include "M_C_UI.h"
 #include "M_C_Velocity.h"
+#include "M_C_Gravity.h"
 
 //			Systems
 #include "M_S_AnimationSystem.h"
@@ -86,7 +87,6 @@
 
 //			Tags
 #include "M_T_Destroy.h"
-#include "M_T_Gravity.h"
 #include "M_T_NoDestroy.h"
 
 //		Libraries

@@ -4,7 +4,7 @@
 
 namespace minty
 {
-	constexpr float GRAVITY = 9.81f;
+	constexpr float GRAVITY = 9.81;
 
 	/// <summary>
 	/// Handles all movement and physics within the Scene, excluding collisions.
