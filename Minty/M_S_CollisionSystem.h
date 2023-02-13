@@ -47,9 +47,9 @@ namespace minty
 
 		void update() override;
 
-		void emplaceOnEnter(entt::entity const entity, Event<Collision* const>::func const& func);
-		void emplaceOnStay(entt::entity const entity, Event<Collision* const>::func const& func);
-		void emplaceOnExit(entt::entity const entity, Event<Collision* const>::func const& func);
+		void emplaceOnEnter(entt::entity const entity, collider_event_t::func const& func);
+		void emplaceOnStay(entt::entity const entity, collider_event_t::func const& func);
+		void emplaceOnExit(entt::entity const entity, collider_event_t::func const& func);
 
 	private:
 		void addToCell(Point const& pos, entt::entity const entity);
@@ -60,9 +60,9 @@ namespace minty
 
 		void removeFromCells(Rect const& cellBounds, entt::entity const entity);
 
-		void onCollision(entt::entity const entity, entt::entity const other);
+		void onCollision(Collision const& collision);
 
-		void shiftOutOfCollision(entt::entity const entity, Position& pos, Velocity& vel, Collider const& collider, entt::entity const other, RectF const& otherWorldHitbox, Collider const& otherCollider);
+		void shiftOutOfCollision(Collision const& collision, Position& pos, Velocity& vel, RectF const& worldHitbox, RectF const& otherWorldHitbox, RectF const& worldOverlap);
 
 		Rect getCellBounds(RectF const& worldHitbox) const;
 

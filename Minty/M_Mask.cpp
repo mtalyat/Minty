@@ -23,6 +23,11 @@ namespace minty
 		, mp_bytes(bytes)
 	{}
 
+	Mask::~Mask()
+	{
+		delete[] mp_bytes;
+	}
+
 	bool Mask::collidesWith(Mask const& other) const
 	{
 		return sameSize(other) && checkForCollision(other);

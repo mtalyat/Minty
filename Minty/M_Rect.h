@@ -79,6 +79,7 @@ namespace minty
 
 		inline Point position() const { return Point(x, y); }
 		inline Point size() const { return Point(width, height); }
+		inline Point center() const { return Point(x + width / 2, y + height / 2); }
 
 		/// <summary>
 		/// Checks if this Rect overlaps with the given Rect.

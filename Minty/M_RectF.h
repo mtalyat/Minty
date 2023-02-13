@@ -92,6 +92,7 @@ namespace minty
 
 		inline PointF position() const { return PointF(x, y); }
 		inline PointF size() const { return PointF(width, height); }
+		inline PointF center() const { return PointF(x + width / 2.0f, y + height / 2.0f); }
 
 		/// <summary>
 		/// Checks if this RectF overlaps with the given RectF.

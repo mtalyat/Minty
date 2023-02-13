@@ -40,6 +40,8 @@ namespace minty
 		// check for collisions
 		// for now, just debug if there is one
 
+		std::set<entt::entity> oldEntities;
+
 		// go through each cell
 		for (auto pair : *mp_cells)
 		{
@@ -51,6 +53,13 @@ namespace minty
 				for (int i = 0; i < size - 1; i++)
 				{
 					entt::entity e1 = pair.second->at(i);
+
+					if (!mp_registry->valid(e1))
+					{
+						oldEntities.emplace(e1);
+						continue;
+					}
+
 					Position& position1 = mp_registry->get<Position>(e1);
 					Collider const hitbox1 = mp_registry->get<Collider>(e1);
 					RectF worldHitbox1 = getWorldHitbox(position1, hitbox1);
@@ -58,6 +67,13 @@ namespace minty
 					for (int j = i + 1; j < size; j++)
 					{
 						entt::entity e2 = pair.second->at(j);
+
+						if (!mp_registry->valid(e2))
+						{
+							oldEntities.emplace(e2);
+							continue;
+						}
+
 						Position& position2 = mp_registry->get<Position>(e2);
 						Collider const hitbox2 = mp_registry->get<Collider>(e2);
 						RectF worldHitbox2 = getWorldHitbox(position2, hitbox2);
@@ -68,6 +84,14 @@ namespace minty
 							// no overlap
 							continue;
 						}
+
+						// find world overlap
+						RectF worldOverlap = worldHitbox1.overlap(worldHitbox2);
+						worldOverlap.x += worldHitbox1.x;
+						worldOverlap.y += worldHitbox1.y;
+
+						Collision collision1 = { e1, &hitbox1, e2, &hitbox2, worldOverlap };
+						Collision collision2 = { e2, &hitbox2, e1, &hitbox1, worldOverlap };
 
 						// get overlap, check pixels
 						if (hitbox1.hitbox->mask() && hitbox2.hitbox->mask())
@@ -106,13 +130,13 @@ namespace minty
 								{
 									// 1 has velocity
 
-									shiftOutOfCollision(e1, position1, *vel1, hitbox1, e2, worldHitbox2, hitbox2);
+									shiftOutOfCollision(collision1, position1, *vel1, worldHitbox1, worldHitbox2, worldOverlap);
 								}
 								else if (!vel1 && vel2)
 								{
 									// 2 has velocity
 
-									shiftOutOfCollision(e2, position2, *vel2, hitbox2, e1, worldHitbox1, hitbox1);
+									shiftOutOfCollision(collision2, position2, *vel2, worldHitbox2, worldHitbox1, worldOverlap);
 								}
 								else
 								{
@@ -122,13 +146,25 @@ namespace minty
 							}
 						}
 
-						// collision detected
+						// collision detected, trigger events
 
-						// trigger events
-
-						onCollision(e1, e2);
-						onCollision(e2, e1);
+						// pass in appropriate collision data for each side
+						onCollision(collision1);
+						onCollision(collision2);
 					}
+				}
+
+				// remove old entities that no longer exist
+				if (oldEntities.size())
+				{
+					for (int i = pair.second->size() - 1; i >= 0; i--)
+					{
+						if (oldEntities.contains(pair.second->at(i)))
+						{
+							pair.second->erase(pair.second->begin() + i);
+						}
+					}
+					oldEntities.clear();
 				}
 			}
 		}
@@ -136,7 +172,7 @@ namespace minty
 		// TODO: trigger on exit
 	}
 
-	void CollisionSystem::emplaceOnEnter(entt::entity const entity, Event<Collision* const>::func const& func)
+	void CollisionSystem::emplaceOnEnter(entt::entity const entity, collider_event_t::func const& func)
 	{
 		Collider* collider = mp_registry->try_get<Collider>(entity);
 
@@ -146,16 +182,10 @@ namespace minty
 			return;
 		}
 
-		if (!collider->onEnter)
-		{
-			// no event
-			collider->onEnter = new Event<Collision* const>();
-		}
-
-		collider->onEnter->emplace(func);
+		collider->emplaceOnEnter(func);
 	}
 
-	void CollisionSystem::emplaceOnStay(entt::entity const entity, Event<Collision* const>::func const& func)
+	void CollisionSystem::emplaceOnStay(entt::entity const entity, collider_event_t::func const& func)
 	{
 		Collider* collider = mp_registry->try_get<Collider>(entity);
 
@@ -165,16 +195,10 @@ namespace minty
 			return;
 		}
 
-		if (!collider->onStay)
-		{
-			// no event
-			collider->onStay = new Event<Collision* const>();
-		}
-
-		collider->onStay->emplace(func);
+		collider->emplaceOnStay(func);
 	}
 
-	void CollisionSystem::emplaceOnExit(entt::entity const entity, Event<Collision* const>::func const& func)
+	void CollisionSystem::emplaceOnExit(entt::entity const entity, collider_event_t::func const& func)
 	{
 		Collider* collider = mp_registry->try_get<Collider>(entity);
 
@@ -184,13 +208,7 @@ namespace minty
 			return;
 		}
 
-		if (!collider->onExit)
-		{
-			// no event
-			collider->onExit = new Event<Collision* const>();
-		}
-
-		collider->onExit->emplace(func);
+		collider->emplaceOnExit(func);
 	}
 
 	void CollisionSystem::addToCell(Point const& pos, entt::entity const entity)
@@ -262,44 +280,51 @@ namespace minty
 		}
 	}
 
-	void CollisionSystem::onCollision(entt::entity const entity, entt::entity const other)
+	void CollisionSystem::onCollision(Collision const& collision)
 	{
-		Collider* collider = &mp_registry->get<Collider>(entity);
-
-		Collision collision(entity, collider, other, &mp_registry->get<Collider>(other));
-
-		if (!mp_relationships->contains(entity))
+		if (!mp_relationships->contains(collision.entity))
 		{
-			mp_relationships->emplace(entity, std::set<entt::entity>());
-			mp_relationships->at(entity).emplace(other);
+			mp_relationships->emplace(collision.entity, std::set<entt::entity>());
+			mp_relationships->at(collision.entity).emplace(collision.otherEntity);
 
-			collider->triggerOnEnter(&collision);
+			collision.collider->triggerOnEnter(collision);
 		}
-		else if (!mp_relationships->at(entity).contains(other))
+		else if (!mp_relationships->at(collision.entity).contains(collision.otherEntity))
 		{
-			mp_relationships->at(entity).emplace(other);
+			mp_relationships->at(collision.entity).emplace(collision.otherEntity);
 
-			collider->triggerOnEnter(&collision);
+			collision.collider->triggerOnEnter(collision);
 		}
 
-		collider->triggerOnStay(&collision);
+		collision.collider->triggerOnStay(collision);
 	}
 
-	void CollisionSystem::shiftOutOfCollision(entt::entity const entity, Position& position, Velocity& velocity, Collider const& hitbox, entt::entity const other, RectF const& otherWorldHitbox, Collider const& otherHitbox)
+	void CollisionSystem::shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, RectF const& worldHitbox, RectF const& otherWorldHitbox, RectF const& worldOverlap)
 	{
 		// move 1 backwards until not colliding
+		// move towards center of entity
+		//PointF direction = worldHitbox.center() - otherWorldHitbox.center();
+		//PointF direction = worldHitbox.center() - worldOverlap.center();
+		PointF direction(position.x - velocity.x, position.y - velocity.y);
+
 		float incX, incY;
-		line_normalized(math_floorToInt(position.x), math_floorToInt(position.y), math_floorToInt(position.x - velocity.x), math_floorToInt(position.y - velocity.y), incX, incY);
+		line_normalized(math_floorToInt(position.x), math_floorToInt(position.y), math_floorToInt(direction.x), math_floorToInt(direction.y), incX, incY);
 
 		// no longer moving
-		velocity.x = 0.0f;
-		velocity.y = 0.0f;
+		if (math_abs(incY) >= math_abs(incX))
+		{
+			velocity.y = 0.0f;
+		}
+		else
+		{
+			velocity.x = 0.0f;
+		}
 
 		float x = position.x;
 		float y = position.y;
 
 		// max distance
-		int max = hitbox.hitbox->rect().area();
+		int max = collision.collider->hitbox->rect().area();
 
 		for (int i = 0; i < max; i++)
 		{
@@ -308,13 +333,13 @@ namespace minty
 			position.y += incY;
 
 			// check new pos
-			RectF worldHitbox = getWorldHitbox(position, hitbox);
+			RectF worldHitbox = getWorldHitbox(position, *collision.collider);
 
 			Rect overlap1 = Rect::round(worldHitbox.overlap(otherWorldHitbox));
 			Rect overlap2 = Rect::round(otherWorldHitbox.overlap(worldHitbox));
 
-			Mask slice1 = hitbox.hitbox->mask()->slice(overlap1);
-			Mask slice2 = otherHitbox.hitbox->mask()->slice(overlap2);
+			Mask slice1 = collision.collider->hitbox->mask()->slice(overlap1);
+			Mask slice2 = collision.otherCollider->hitbox->mask()->slice(overlap2);
 
 			if (!slice1.collidesWith(slice2))
 			{

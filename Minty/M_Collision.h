@@ -1,6 +1,7 @@
 #pragma once
 
-#include "M_Object.h"
+#include "M_Main.h"
+#include "M_RectF.h"
 #include "entt.hpp"
 
 namespace minty
@@ -11,7 +12,6 @@ namespace minty
 	/// Holds data relevant to a collision between two entities.
 	/// </summary>
 	struct MINTY_API Collision
-		: public Object
 	{
 		/// <summary>
 		/// The entity that triggered this collision.
@@ -21,7 +21,7 @@ namespace minty
 		/// <summary>
 		/// The collider that belongs to this entity.
 		/// </summary>
-		Collider* collider;
+		Collider const* collider;
 
 		/// <summary>
 		/// The other entity that triggered this collision.
@@ -31,14 +31,11 @@ namespace minty
 		/// <summary>
 		/// The other collider that belongs to the other entity.
 		/// </summary>
-		Collider* otherCollider;
+		Collider const* otherCollider;
 
-		Collision(entt::entity const ent, Collider* const col, entt::entity const otherEnt, Collider* otherCol)
-			: Object()
-			, entity(ent)
-			, collider(col)
-			, otherEntity(otherEnt)
-			, otherCollider(otherCol)
-		{}
+		/// <summary>
+		/// The overlap between the two entities when they collided.
+		/// </summary>
+		RectF overlap;
 	};
 }

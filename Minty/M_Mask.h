@@ -42,6 +42,8 @@ namespace minty
 		/// <param name="bytes"></param>
 		Mask(int const width, int const height, mask_t* const bytes);
 
+		~Mask();
+
 		mask_t operator [](int const index) const
 		{
 			return mp_bytes[index];

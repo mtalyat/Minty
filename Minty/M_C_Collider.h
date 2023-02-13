@@ -6,11 +6,12 @@
 #include "M_Collision.h"
 #include "entt.hpp"
 
-#define collider_event_t Event<Collision* const>
+#define collider_event_arg_t Collision const&
+#define collider_event_t Event<collider_event_arg_t>
 
 namespace minty
 {
-	template class MINTY_API Event<Collision* const>;
+	template class MINTY_API Event<Collision const&>;
 
 	/// <summary>
 	/// Holds data regarding a collision.
@@ -24,15 +25,17 @@ namespace minty
 
 		Rect cellBounds;
 
-		Event<Collision* const>* onEnter;
-		Event<Collision* const>* onStay;
-		Event<Collision* const>* onExit;
+		collider_event_t* onEnter;
+		collider_event_t* onStay;
+		collider_event_t* onExit;
 
 	public:
-		void triggerOnEnter(Collision* const) const;
+		void emplaceOnEnter(collider_event_t::func const& func);
+		void emplaceOnStay(collider_event_t::func const& func);
+		void emplaceOnExit(collider_event_t::func const& func);
 
-		void triggerOnStay(Collision* const) const;
-
-		void triggerOnExit(Collision* const) const;
+		void triggerOnEnter(collider_event_arg_t) const;
+		void triggerOnStay(collider_event_arg_t) const;
+		void triggerOnExit(collider_event_arg_t) const;
 	};
 }
