@@ -25,3 +25,5 @@ The Minty game engine takes advantage of the following libraries:
 # Notes
 
 This library will constantly be updated, changed, and improved by me until I believe it is in a state that will no longer require large changes. As this is still heavily in development, it is possible that I will remove or change entire chunks of code as time goes on, to suit my needs. Not to mention, I am always learning, and may change things as I discover new and better ways of doing things.
+
+A guide to using the engine will be added to this repository once the engine is more functional and more stable.
