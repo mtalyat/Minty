@@ -124,7 +124,7 @@ namespace minty
 								if (vel1 && vel2)
 								{
 									// both have velocity
-									Debug::logNotImplemented("Two moving objects collision handling", "CollisionSystem::update()", "M_S_CollisionSystem.cpp");
+									//Debug::logNotImplemented("Two moving objects collision handling", "CollisionSystem::update()", "M_S_CollisionSystem.cpp");
 								}
 								else if (vel1 && !vel2)
 								{
@@ -141,7 +141,7 @@ namespace minty
 								else
 								{
 									// neither have velocity
-									Debug::logNotImplemented("Two non-moving objects collision handling", "CollisionSystem::update()", "M_S_CollisionSystem.cpp");
+									//Debug::logNotImplemented("Two non-moving objects collision handling", "CollisionSystem::update()", "M_S_CollisionSystem.cpp");
 								}
 							}
 						}
@@ -305,20 +305,14 @@ namespace minty
 		// move towards center of entity
 		//PointF direction = worldHitbox.center() - otherWorldHitbox.center();
 		//PointF direction = worldHitbox.center() - worldOverlap.center();
-		PointF direction(position.x - velocity.x, position.y - velocity.y);
+		PointF direction(-velocity.x, -velocity.y);
 
 		float incX, incY;
-		line_normalized(math_floorToInt(position.x), math_floorToInt(position.y), math_floorToInt(direction.x), math_floorToInt(direction.y), incX, incY);
+		line_normalized(0, 0, math_roundToInt(direction.x), math_roundToInt(direction.y), incX, incY);
 
 		// no longer moving
-		if (math_abs(incY) >= math_abs(incX))
-		{
-			velocity.y = 0.0f;
-		}
-		else
-		{
-			velocity.x = 0.0f;
-		}
+		velocity.x = 0.0f;
+		velocity.y = 0.0f;
 
 		float x = position.x;
 		float y = position.y;

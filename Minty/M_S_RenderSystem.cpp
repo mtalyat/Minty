@@ -68,28 +68,6 @@ namespace minty
 			}
 		}
 
-		// required: renderer, position
-		// optional: scale
-
-		//auto groupNoScale = mp_registry->group<Renderer, Renderable>({}, entt::exclude<Scale>);
-		//auto groupScale = mp_registry->group<Renderer, Renderable, Scale>();
-
-		//for (auto [entity, renderer, renderable] : groupNoScale.each())
-		//{
-		//	if (renderer.isVisible())
-		//	{
-		//		queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(renderable.x, renderable.y, renderer.sprite->width, renderer.sprite->height), renderer.sprite));
-		//	}
-		//}
-
-		//for (auto [entity, renderer, renderable, scale] : groupScale.each())
-		//{
-		//	if (renderer.isVisible())
-		//	{
-		//		queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(renderable.x, renderable.y, math_floorToInt(renderer.sprite->width * scale.x), math_floorToInt(renderer.sprite->height * scale.y)), renderer.sprite));
-		//	}
-		//}
-
 		// does not account for scale
 		PointF offset;
 		for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
@@ -97,7 +75,7 @@ namespace minty
 			if (renderer.isVisible())
 			{
 				offset = renderer.sprite->offset();
-				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(math_floorToInt(renderable.x + offset.x), math_floorToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), renderer.sprite));
+				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(math_roundToInt(renderable.x + offset.x), math_roundToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), renderer.sprite));
 			}
 		}
 
