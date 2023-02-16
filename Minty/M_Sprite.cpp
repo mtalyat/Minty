@@ -43,7 +43,7 @@ namespace minty
 		SDL_DestroyTexture(mp_texture);
 	}
 
-	Color Sprite::getColor(int const x, int const y)
+	Color Sprite::getColor(int const x, int const y) const
 	{
 		// get the pixel pos within this sprite
 		int xFixed = math_mod_positive(x, width);
@@ -53,10 +53,15 @@ namespace minty
 		return at(xFixed, yFixed);
 	}
 
-	Color Sprite::at(int const x, int const y)
+	Color Sprite::at(int const x, int const y) const
 	{
 		// return pixel at position
 		return Color(static_cast<Uint32*>(mp_surface->pixels)[y * width + x]);
+	}
+
+	color_t* Sprite::pixels() const
+	{
+		return static_cast<color_t*>(mp_surface->pixels);
 	}
 
 	Sprite* Sprite::slice(Rect const& rect, SDL_Renderer* const renderer) const

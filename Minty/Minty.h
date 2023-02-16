@@ -23,6 +23,7 @@
 #include "M_PointF.h"
 #include "M_Rect.h"
 #include "M_RectF.h"
+#include "M_Sprite.h"
 #include "M_Stopwatch.h"
 #include "M_Time.h"
 
@@ -51,7 +52,6 @@
 #include "M_Scene.h"
 #include "M_SceneManager.h"
 #include "M_Screen.h"
-#include "M_Sprite.h"
 #include "M_System.h"
 
 //			Components

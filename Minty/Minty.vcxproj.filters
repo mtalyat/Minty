@@ -165,9 +165,6 @@
     <ClInclude Include="M_Screen.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="M_Sprite.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="M_Time.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
@@ -278,6 +275,12 @@
     </ClInclude>
     <ClInclude Include="M_C_Gravity.h">
       <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Sprite.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_ProceduralSprite.h">
+      <Filter>Header Files\Data Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,6 +420,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_C_Name.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_ProceduralSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

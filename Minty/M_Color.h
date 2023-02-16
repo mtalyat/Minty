@@ -9,10 +9,10 @@
 
 namespace minty
 {
-	constexpr color_t COLOR_R_MASK = 0x000000FFu;
-	constexpr color_t COLOR_G_MASK = 0x0000FF00u;
-	constexpr color_t COLOR_B_MASK = 0x00FF0000u;
-	constexpr color_t COLOR_A_MASK = 0xFF000000u;
+	constexpr color_t SDL_R_MASK = 0x000000FFu;
+	constexpr color_t SDL_G_MASK = 0x0000FF00u;
+	constexpr color_t SDL_B_MASK = 0x00FF0000u;
+	constexpr color_t SDL_A_MASK = 0xFF000000u;
 
 	/// <summary>
 	/// Holds color data within a color_t, used to represent a pixel.
@@ -76,25 +76,25 @@ namespace minty
 		/// Returns the red value of this Color.
 		/// </summary>
 		/// <returns></returns>
-		inline channel_t r() const { return (value >> 24) & 0xff; }
+		inline channel_t r() const { return getR(value); }
 
 		/// <summary>
 		/// Returns the green value of this Color.
 		/// </summary>
 		/// <returns></returns>
-		inline channel_t g() const { return (value >> 16) & 0xff; }
+		inline channel_t g() const { return getG(value); }
 
 		/// <summary>
 		/// Returns the blue value of this Color.
 		/// </summary>
 		/// <returns></returns>
-		inline channel_t b() const { return (value >> 8) & 0xff; }
+		inline channel_t b() const { return getB(value); }
 
 		/// <summary>
 		/// Returns the alpha value of this Color.
 		/// </summary>
 		/// <returns></returns>
-		inline channel_t a() const { return value & 0xff; }
+		inline channel_t a() const { return getA(value); }
 
 		/// <summary>
 		/// Returns a 1 if this color is visible in the slightest, or 0 if alpha is zero.
@@ -125,7 +125,7 @@ namespace minty
 		/// <param name="right"></param>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		static Color lerp_rgba(Color const left, Color const right, float const t);
+		static Color lerp_rgba(color_t const left, color_t const right, float const t);
 
 		/// <summary>
 		/// Lerps two colors, minus the alpha value. The alpha value is taken from the left argument. t = 0.0 -> left. t = 1.0 -> right.
@@ -134,7 +134,7 @@ namespace minty
 		/// <param name="right"></param>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		static Color lerp_rgb(Color const left, Color const right, float const t);
+		static Color lerp_rgb(color_t const left, color_t const right, float const t);
 
 		/// <summary>
 		/// Gets a Color with random rgba values.
@@ -156,5 +156,10 @@ namespace minty
 		inline static Color rgba(unsigned char const r, unsigned char const g, unsigned char const b, unsigned char const a) { return Color(r, g, b, a); }
 
 		inline static Color abgr(unsigned char const a, unsigned char const b, unsigned char const g, unsigned char const r) { return Color(r, g, b, a); }
+
+		inline static channel_t getR(color_t const color) { return static_cast<channel_t>((color >> 24) & 0xff); }
+		inline static channel_t getG(color_t const color) { return static_cast<channel_t>((color >> 16) & 0xff); }
+		inline static channel_t getB(color_t const color) { return static_cast<channel_t>((color >> 8) & 0xff); }
+		inline static channel_t getA(color_t const color) { return static_cast<channel_t>(color & 0xff); }
 	};
 }

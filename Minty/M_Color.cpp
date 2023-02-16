@@ -11,14 +11,14 @@ namespace minty
 
 	inline std::string const Color::toString() const { return std::format("Color({0}, {1}, {2}, {3})", r(), g(), b(), a()); }
 
-    inline Color Color::lerp_rgba(Color const left, Color const right, float const t)
+    inline Color Color::lerp_rgba(color_t const left, color_t const right, float const t)
     {
-        return Color(math_lerp(left.r(), right.r(), t), math_lerp(left.g(), right.g(), t), math_lerp(left.b(), right.b(), t), math_lerp(left.a(), right.a(), t));
+        return Color(math_lerp(getR(left), getR(right), t), math_lerp(getG(left), getG(right), t), math_lerp(getB(left), getB(right), t), math_lerp(getA(left), getA(right), t));
     }
 
-    inline Color Color::lerp_rgb(Color const left, Color const right, float const t)
+    inline Color Color::lerp_rgb(color_t const left, color_t const right, float const t)
     {
-        return Color(math_lerp(left.r(), right.r(), t), math_lerp(left.g(), right.g(), t), math_lerp(left.b(), right.b(), t), left.a());
+        return Color(math_lerp(getR(left), getR(right), t), math_lerp(getG(left), getG(right), t), math_lerp(getB(left), getB(right), t), getA(left));
     }
 
     inline Color Color::random() { return Color(random_range(256), random_range(256), random_range(256), 255); }

@@ -45,7 +45,7 @@ namespace minty
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		Color getColor(int const x, int const y);
+		Color getColor(int const x, int const y) const;
 
 		/// <summary>
 		/// Gets the pixel at the given X and Y positions.
@@ -53,7 +53,13 @@ namespace minty
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		Color at(int const x, int const y);
+		Color at(int const x, int const y) const;
+
+		/// <summary>
+		/// Gets the array of pixels from the surface for this Sprite.
+		/// </summary>
+		/// <returns></returns>
+		inline color_t* pixels() const;
 
 		Sprite* slice(Rect const& rect, SDL_Renderer* const renderer) const;
 	};

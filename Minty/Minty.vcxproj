@@ -202,6 +202,7 @@
     <ClInclude Include="M_Point.h" />
     <ClInclude Include="M_PointF.h" />
     <ClInclude Include="M_PriorityQueue.h" />
+    <ClInclude Include="M_ProceduralSprite.h" />
     <ClInclude Include="M_Random.h" />
     <ClInclude Include="M_Rect.h" />
     <ClInclude Include="M_RectF.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="M_Path.cpp" />
     <ClCompile Include="M_Point.cpp" />
     <ClCompile Include="M_PointF.cpp" />
+    <ClCompile Include="M_ProceduralSprite.cpp" />
     <ClCompile Include="M_Random.cpp" />
     <ClCompile Include="M_Rect.cpp" />
     <ClCompile Include="M_RectF.cpp" />

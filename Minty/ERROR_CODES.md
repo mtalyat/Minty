@@ -28,3 +28,5 @@
 | 00024 | "Failed to update active scene." | M_Engine.cpp | run() |
 | 00025 | "Could not blit surface when slicing sprite." | M_Sprite.cpp | slice() |
 | 00026 | "No camera has been instantiated in the Scene." | M_S_RenderSystem.cpp | update() |
+| 00027 | "Could not lock surface." | M_ProceduralSprite.cpp | create() |
+| 00028 | "Duplicate color in ProceduralSprite." | M_ProceduralSprite.cpp | ProceduralSprite() |

@@ -2,6 +2,10 @@
 #include "M_Resources.h"
 #include "M_File.h"
 #include "M_Debug.h"
+#include "M_Path.h"
+#include "M_Sprite.h"
+#include "M_ProceduralSprite.h"
+#include "M_Animation.h"
 #include <SDL_image.h>
 
 namespace minty
@@ -36,6 +40,53 @@ namespace minty
 		Sprite* sprite = new Sprite(surface, renderer);
 		sprite->setPivot(pivot);
 		return sprite;
+	}
+
+	MINTY_API ProceduralSprite* resources_load_proceduralSprite(std::string const& path, std::vector<std::string> const& artsPaths, SDL_Renderer* const renderer, PointF const& pivot)
+	{
+		// load main sprite
+		Sprite* design = resources_load_sprite(path, renderer, pivot);
+
+		// load art
+		Sprite** arts = new Sprite * [artsPaths.size()];
+		for (size_t i = 0; i < artsPaths.size(); i++)
+		{
+			arts[i] = resources_load_sprite(artsPaths[i], renderer, pivot);
+		}
+
+		// compile
+		ProceduralSprite* sprite = new ProceduralSprite(design, arts, artsPaths.size());
+
+		// delete design, but keep arts, those are being used
+		delete design;
+
+		return sprite;
+	}
+
+	Animation* resources_load_animation_single(std::string const& path, SDL_Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping, PointF const& pivot)
+	{
+		// get sprite, turn it into an animation
+		Sprite* sprite = resources_load_sprite(path, renderer); // pivot does not matter here
+
+		Animation* animation = Animation::fromSprite_single(sprite, renderer, tileWidth, tileHeight, frameTime, looping);
+
+		// no longer need original sprite
+		delete sprite;
+
+		return animation;
+	}
+
+	MINTY_API std::vector<Animation*> resources_load_animation_multiple(std::string const& path, SDL_Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping, std::vector<size_t> const& framesPerAnimation, PointF const& pivot)
+	{
+		// get sprite, turn it into an animation
+		Sprite* sprite = resources_load_sprite(path, renderer); // pivot does not matter here
+
+		std::vector<Animation*> animations = Animation::fromSprite_multiple(sprite, renderer, tileWidth, tileHeight, frameTime, looping, framesPerAnimation);
+
+		// no longer need original sprite
+		delete sprite;
+
+		return animations;
 	}
 
 	SDL_Surface** resources_load_surfaces(std::string const& path, std::string const& extension, int const count)
