@@ -43,6 +43,15 @@ namespace minty
 		Sprite* create(Sprite const* const design, SDL_Renderer* const renderer);
 
 		/// <summary>
+		/// Creates a Sprite from multiple layers of designs, and generates all pieces of art (in order) to the new Sprite, then returns it.
+		/// </summary>
+		/// <param name="designs"></param>
+		/// <param name="count"></param>
+		/// <param name="renderer"></param>
+		/// <returns></returns>
+		Sprite* create(Sprite* const* const designs, int const count, SDL_Renderer* const renderer);
+
+		/// <summary>
 		/// Creates multiple Sprites and generates all pieces of art (in order) to the new Sprites, then returns them.
 		/// </summary>
 		/// <param name="designs"></param>
@@ -50,6 +59,16 @@ namespace minty
 		/// <param name="renderer"></param>
 		/// <returns></returns>
 		Sprite** createMultiple(Sprite* const* const designs, int const count, SDL_Renderer* const renderer);
+
+		/// <summary>
+		/// Creates multiple Sprites from multiple layers of designs, and generates all pieces of art (in order) to the new Sprites, then returns them.
+		/// </summary>
+		/// <param name="designs"></param>
+		/// <param name="count"></param>
+		/// <param name="layerCount"></param>
+		/// <param name="renderer"></param>
+		/// <returns></returns>
+		Sprite** createMultiple(Sprite* const* const designs, int const frameCount, int const layerCount, SDL_Renderer* const renderer);
 
 	private:
 		/// <summary>

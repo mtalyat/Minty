@@ -50,8 +50,11 @@ namespace minty
 		// get sprites
 		Sprite** tiles = Atlas::generateTiles(sprite, tileWidth, tileHeight, renderer);
 
+		size_t totalTiles = static_cast<size_t>(widthInTiles * heightInTiles);
+		size_t frameCount = framesPerAnimation.size();
+
 		// create an animation for every X frames
-		for (size_t i = 0, j = 0; i < widthInTiles * heightInTiles && j + framesPerAnimation[j] < framesPerAnimation.size(); i += framesPerAnimation[j], j++)
+		for (size_t i = 0, j = 0; j < frameCount && i + framesPerAnimation[j] <= totalTiles; i += framesPerAnimation[j], j++)
 		{
 			animations.push_back(new Animation(&tiles[i], framesPerAnimation[j], frameTime, looping));
 		}
@@ -97,8 +100,11 @@ namespace minty
 		// get sprites
 		Sprite** tiles = Atlas::generateTiles(sprite, tileWidth, tileHeight, renderer);
 
+		size_t totalTiles = static_cast<size_t>(widthInTiles * heightInTiles);
+		size_t frameCount = framesPerAnimation.size();
+
 		// create an animation for every X frames
-		for (size_t i = 0, j = 0; i < widthInTiles * heightInTiles && j + framesPerAnimation[j] < framesPerAnimation.size(); i += framesPerAnimation[j], j++)
+		for (size_t i = 0, j = 0; j < frameCount && i + framesPerAnimation[j] <= totalTiles; i += framesPerAnimation[j], j++)
 		{
 			animations.push_back(new Animation(proceduralSprite->createMultiple(&tiles[i], framesPerAnimation[j], renderer), framesPerAnimation[j], frameTime, looping));
 		}

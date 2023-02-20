@@ -30,3 +30,4 @@
 | 00026 | "No camera has been instantiated in the Scene." | M_S_RenderSystem.cpp | update() |
 | 00027 | "Could not lock surface." | M_ProceduralSprite.cpp | create() |
 | 00028 | "Duplicate color in ProceduralSprite." | M_ProceduralSprite.cpp | ProceduralSprite() |
+| 00029 | "No index found for given ID." | M_ProceduralSprite.cpp | generate() |

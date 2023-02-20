@@ -131,10 +131,15 @@ namespace minty
 
     entt::entity Scene::createEntity_sprite(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY)
     {
+        return createEntity_sprite(resources_load_sprite(path, mp_engine->renderer(), PointF(pivotX, pivotY)), x, y, z);
+    }
+
+    entt::entity Scene::createEntity_sprite(Sprite* const sprite, float const x, float const y, int const z)
+    {
         entt::entity entity = mp_registry->create();
 
         mp_registry->emplace<Position>(entity, x, y);
-        mp_registry->emplace<Renderer>(entity, resources_load_sprite(path, mp_engine->renderer(), PointF(pivotX, pivotY)), z);
+        mp_registry->emplace<Renderer>(entity, sprite, z);
         mp_registry->emplace<Renderable>(entity);
 
         return entity;

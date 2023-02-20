@@ -152,6 +152,18 @@ namespace minty
         entt::entity createEntity_sprite(std::string const& path, float const x, float const y, int const z = 0, float const pivotX = 0.0f, float const pivotY = 0.0f);
 
         /// <summary>
+        /// Creates and returns an entity with the following components: Position, Renderer, Renderable.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="pivotX"></param>
+        /// <param name="pivotY"></param>
+        /// <returns></returns>
+        entt::entity createEntity_sprite(Sprite* const sprite, float const x, float const y, int const z = 0);
+
+        /// <summary>
         /// Creates and returns an entity with the following components: Position, Renderer, Renderable, Collider.
         /// </summary>
         /// <param name="path"></param>

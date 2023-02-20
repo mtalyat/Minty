@@ -21,6 +21,7 @@
 #include "M_Palette.h"
 #include "M_Point.h"
 #include "M_PointF.h"
+#include "M_ProceduralSprite.h"
 #include "M_Rect.h"
 #include "M_RectF.h"
 #include "M_Sprite.h"

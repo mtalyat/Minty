@@ -7,7 +7,10 @@ namespace minty
 {	
 	Sprite::Sprite(SDL_Surface* const surface, SDL_Renderer* const renderer)
 		: Sprite(surface, SDL_CreateTextureFromSurface(renderer, surface))
-	{}
+	{
+		// allow for transparency
+		SDL_SetTextureBlendMode(mp_texture, SDL_BLENDMODE_BLEND);
+	}
 
 	Sprite::Sprite(SDL_Texture* const texture, int const w, int const h)
 		: width(w)

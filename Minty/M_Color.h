@@ -9,10 +9,18 @@
 
 namespace minty
 {
-	constexpr color_t SDL_R_MASK = 0x000000FFu;
-	constexpr color_t SDL_G_MASK = 0x0000FF00u;
-	constexpr color_t SDL_B_MASK = 0x00FF0000u;
-	constexpr color_t SDL_A_MASK = 0xFF000000u;
+	constexpr channel_t CHANNEL_MAX = static_cast<channel_t>(0xff);
+	constexpr channel_t CHANNEL_MIN = static_cast<channel_t>(0x00);
+
+	constexpr int COLOR_SHAMT_A = 24;
+	constexpr int COLOR_SHAMT_R = 0;
+	constexpr int COLOR_SHAMT_G = 8;
+	constexpr int COLOR_SHAMT_B = 16;
+
+	constexpr color_t SDL_R_MASK = CHANNEL_MAX << COLOR_SHAMT_R;
+	constexpr color_t SDL_G_MASK = CHANNEL_MAX << COLOR_SHAMT_G;
+	constexpr color_t SDL_B_MASK = CHANNEL_MAX << COLOR_SHAMT_B;
+	constexpr color_t SDL_A_MASK = CHANNEL_MAX << COLOR_SHAMT_A;
 
 	/// <summary>
 	/// Holds color data within a color_t, used to represent a pixel.
@@ -42,7 +50,7 @@ namespace minty
 		/// <param name="g"></param>
 		/// <param name="b"></param>
 		Color(channel_t const r, channel_t const g, channel_t const b)
-			: value((r << 24) | (g << 16) | (b << 8) | 255) {}
+			: value((r << COLOR_SHAMT_R) | (b << COLOR_SHAMT_G) | (g << COLOR_SHAMT_B) | (255 << COLOR_SHAMT_A)) {}
 
 		/// <summary>
 		/// Creates a Color using the given r, g, b, and a values.
@@ -52,7 +60,7 @@ namespace minty
 		/// <param name="b"></param>
 		/// <param name="a"></param>
 		Color(channel_t const r, channel_t const g, channel_t const b, channel_t const a)
-			: value((r << 24) | (g << 16) | (b << 8) | a) {}
+			: value((r << COLOR_SHAMT_R) | (b << COLOR_SHAMT_G) | (g << COLOR_SHAMT_B) | (a << COLOR_SHAMT_A)) {}
 
 		Color(Color const& c)
 			: value(c.value) {}
@@ -100,7 +108,7 @@ namespace minty
 		/// Returns a 1 if this color is visible in the slightest, or 0 if alpha is zero.
 		/// </summary>
 		/// <returns></returns>
-		inline channel_t mask() const { return (value & 0xff) > 0; }
+		inline channel_t mask() const { return getA(value) > CHANNEL_MIN; }
 
 		/// <summary>
 		/// Darkens this Color by the given percent.
@@ -157,9 +165,9 @@ namespace minty
 
 		inline static Color abgr(unsigned char const a, unsigned char const b, unsigned char const g, unsigned char const r) { return Color(r, g, b, a); }
 
-		inline static channel_t getR(color_t const color) { return static_cast<channel_t>((color >> 24) & 0xff); }
-		inline static channel_t getG(color_t const color) { return static_cast<channel_t>((color >> 16) & 0xff); }
-		inline static channel_t getB(color_t const color) { return static_cast<channel_t>((color >> 8) & 0xff); }
-		inline static channel_t getA(color_t const color) { return static_cast<channel_t>(color & 0xff); }
+		inline static channel_t getA(color_t const color) { return static_cast<channel_t>((color >> COLOR_SHAMT_A) & CHANNEL_MAX); }
+		inline static channel_t getR(color_t const color) { return static_cast<channel_t>((color >> COLOR_SHAMT_R) & CHANNEL_MAX); }
+		inline static channel_t getG(color_t const color) { return static_cast<channel_t>((color >> COLOR_SHAMT_G) & CHANNEL_MAX); }
+		inline static channel_t getB(color_t const color) { return static_cast<channel_t>((color >> COLOR_SHAMT_B) & CHANNEL_MAX); }
 	};
 }
