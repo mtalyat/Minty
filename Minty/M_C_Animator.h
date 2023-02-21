@@ -29,13 +29,16 @@ namespace minty
 		~Animator()
 		{
 			// delete animations
-			for (auto pair : *mp_animations)
-			{
-				delete pair.second;
-			}
+			//if (mp_animations)
+			//{
+			//	for (auto pair : *mp_animations)
+			//	{
+			//		delete pair.second;
+			//	}
 
-			// delete list
-			delete mp_animations;
+			//	// delete list
+			//	delete mp_animations;
+			//}
 		}
 
 		/// <summary>
@@ -97,6 +100,5 @@ namespace minty
 		/// </summary>
 		/// <returns></returns>
 		inline Animation* getActive() const { return mp_activeAnimation; }
-	private:
 	};
 }

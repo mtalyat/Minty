@@ -97,7 +97,7 @@ namespace minty
         // delete all entities that do not have the NoDestroy tag
         mp_registry->each([this](auto entity)
             {
-                if (!mp_registry->any_of<NoDestroy>(entity))
+                if (mp_registry->valid(entity) && !mp_registry->any_of<NoDestroy>(entity))
                 {
                     // does not have the NoDestroy tag
                     mp_registry->emplace<Destroy>(entity);
