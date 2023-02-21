@@ -33,7 +33,7 @@ namespace minty
 		~Sprite();
 
 		constexpr int size() const { return width * height; }
-		inline Rect rect() const { return Rect(m_offset.x, m_offset.y, width, height); }
+		inline Rect rect() const { return Rect(math_floorToInt(m_offset.x), math_floorToInt(m_offset.y), width, height); }
 		void setPivot(PointF const& pivot) { m_offset = PointF(-pivot.x * static_cast<float>(width), -pivot.y * static_cast<float>(height)); }
 		inline PointF offset() const { return m_offset; }
 		inline SDL_Surface* surface() const { return mp_surface; }

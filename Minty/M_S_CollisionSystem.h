@@ -5,6 +5,8 @@
 #include "M_RectF.h"
 #include "entt.hpp"
 
+#include <unordered_map>
+
 #include "M_C_Position.h"
 #include "M_C_Scale.h"
 #include "M_C_Velocity.h"
@@ -22,15 +24,15 @@ namespace minty
 	private:
 		int m_cellSize;
 
-		std::map<Point, std::vector<entt::entity>*>* mp_cells;
-		std::map<entt::entity, std::set<entt::entity>>* mp_relationships;
+		std::unordered_map<Point, std::vector<entt::entity>*>* mp_cells;
+		std::unordered_map<entt::entity, std::set<entt::entity>>* mp_relationships;
 
 	public:
 		CollisionSystem(entt::registry* const registry, int const cellSize)
 			: System(registry)
 			, m_cellSize(cellSize)
-			, mp_cells(new std::map<Point, std::vector<entt::entity>*>())
-			, mp_relationships(new std::map<entt::entity, std::set<entt::entity>>())
+			, mp_cells(new std::unordered_map<Point, std::vector<entt::entity>*>())
+			, mp_relationships(new std::unordered_map<entt::entity, std::set<entt::entity>>())
 		{}
 
 		~CollisionSystem() override
@@ -52,6 +54,8 @@ namespace minty
 		void emplaceOnExit(entt::entity const entity, collider_event_t::func const& func);
 
 	private:
+		bool isColliding(entt::entity const e1, entt::entity const e2);
+
 		void addToCell(Point const& pos, entt::entity const entity);
 
 		void addToCells(Rect const& cellBounds, entt::entity const entity);
@@ -61,6 +65,8 @@ namespace minty
 		void removeFromCells(Rect const& cellBounds, entt::entity const entity);
 
 		void onCollision(Collision const& collision);
+
+		void onCollisionEnd(Collision const& collision);
 
 		void shiftOutOfCollision(Collision const& collision, Position& pos, Velocity& vel, RectF const& worldHitbox, RectF const& otherWorldHitbox, RectF const& worldOverlap);
 

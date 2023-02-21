@@ -266,7 +266,7 @@
     <ClCompile Include="M_System.cpp" />
     <ClCompile Include="M_SystemManager.cpp" />
     <ClCompile Include="M_S_AnimationSystem.cpp" />
-    <ClCompile Include="M_S_ColliderSystem.cpp" />
+    <ClCompile Include="M_S_CollisionSystem.cpp" />
     <ClCompile Include="M_S_InputSystem.cpp" />
     <ClCompile Include="M_S_PhysicsSystem.cpp" />
     <ClCompile Include="M_S_RenderSystem.cpp" />

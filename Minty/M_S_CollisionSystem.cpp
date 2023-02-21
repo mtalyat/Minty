@@ -18,7 +18,7 @@ namespace minty
 				// assume entity has moved
 // check if cell bounds are the same
 
-		RectF worldHitbox = getWorldHitbox(pos, collider);
+				RectF worldHitbox = getWorldHitbox(pos, collider);
 
 		Rect bounds = getCellBounds(worldHitbox);
 
@@ -41,6 +41,8 @@ namespace minty
 		// for now, just debug if there is one
 
 		std::set<entt::entity> oldEntities;
+
+		std::unordered_map<entt::entity, entt::entity> notColliding;
 
 		// go through each cell
 		for (auto pair : *mp_cells)
@@ -78,13 +80,6 @@ namespace minty
 						Collider const hitbox2 = mp_registry->get<Collider>(e2);
 						RectF worldHitbox2 = getWorldHitbox(position2, hitbox2);
 
-						// check for overlap
-						if (!worldHitbox1.overlaps(worldHitbox2))
-						{
-							// no overlap
-							continue;
-						}
-
 						// find world overlap
 						RectF worldOverlap = worldHitbox1.overlap(worldHitbox2);
 						worldOverlap.x += worldHitbox1.x;
@@ -92,6 +87,18 @@ namespace minty
 
 						Collision collision1 = { e1, &hitbox1, e2, &hitbox2, worldOverlap };
 						Collision collision2 = { e2, &hitbox2, e1, &hitbox1, worldOverlap };
+
+						// check for overlap
+						if (!worldHitbox1.overlaps(worldHitbox2))
+						{
+							// no overlap
+							if (isColliding(e1, e2))
+							{
+								onCollisionEnd(collision1);
+								onCollisionEnd(collision2);
+							}
+							continue;
+						}
 
 						// get overlap, check pixels
 						if (hitbox1.hitbox->mask() && hitbox2.hitbox->mask())
@@ -110,6 +117,11 @@ namespace minty
 							if (!slice1.collidesWith(slice2))
 							{
 								// no collision
+								if (isColliding(e1, e2))
+								{
+									onCollisionEnd(collision1);
+									onCollisionEnd(collision2);
+								}
 								continue;
 							}
 
@@ -168,8 +180,6 @@ namespace minty
 				}
 			}
 		}
-
-		// TODO: trigger on exit
 	}
 
 	void CollisionSystem::emplaceOnEnter(entt::entity const entity, collider_event_t::func const& func)
@@ -209,6 +219,21 @@ namespace minty
 		}
 
 		collider->emplaceOnExit(func);
+	}
+
+	bool CollisionSystem::isColliding(entt::entity const e1, entt::entity const e2)
+	{
+		auto found = mp_relationships->find(e1);
+
+		if (found != mp_relationships->end())
+		{
+			if (found->second.contains(e2))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	void CollisionSystem::addToCell(Point const& pos, entt::entity const entity)
@@ -297,6 +322,35 @@ namespace minty
 		}
 
 		collision.collider->triggerOnStay(collision);
+	}
+
+	void CollisionSystem::onCollisionEnd(Collision const& collision)
+	{
+		// find relationship
+		auto found = mp_relationships->find(collision.entity);
+
+		if (found != mp_relationships->end())
+		{
+			// ok, find actual relationship
+			if (found->second.contains(collision.otherEntity))
+			{
+				// relationship found
+				// remove
+				found->second.erase(collision.otherEntity);
+
+				// if list is empty, remove key
+				if (found->second.size() == 0)
+				{
+					mp_relationships->erase(collision.entity);
+				}
+
+				// call event
+				if (collision.collider->onExit)
+				{
+					collision.collider->onExit->invoke(collision);
+				}
+			}
+		}
 	}
 
 	void CollisionSystem::shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, RectF const& worldHitbox, RectF const& otherWorldHitbox, RectF const& worldOverlap)

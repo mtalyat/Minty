@@ -377,7 +377,7 @@
     <ClCompile Include="M_C_Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="M_S_ColliderSystem.cpp">
+    <ClCompile Include="M_S_CollisionSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Line.cpp">
