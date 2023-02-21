@@ -40,6 +40,12 @@ namespace minty
 
 	elapsed_t Stopwatch::lap(elapsed_t const mod)
 	{
+		// if mod is 0, do nothing
+		if (!mod)
+		{
+			return 0;
+		}
+
 		elapsed_t time = elapsed();
 
 		elapsed_t laps = time / mod;
