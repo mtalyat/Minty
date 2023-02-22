@@ -22,9 +22,18 @@ namespace minty
 
     bool Animator::select(std::string const& animationName)
     {
+        // if does not contain an animation with this name, do nothing
         if (!mp_animations->contains(animationName))
         {
             return false;
+        }
+
+        Animation* selectedAnimation = mp_animations->at(animationName);
+
+        // if already running this animation, do nothing
+        if (mp_activeAnimation && mp_activeAnimation == selectedAnimation)
+        {
+            return true;
         }
 
         // contains animation

@@ -21,9 +21,16 @@ namespace minty
 		int index;
 
 		/// <summary>
-		/// Is this sprite invisible?
+		/// Is this Sprite invisible?
 		/// </summary>
 		bool invisible;
+
+		/// <summary>
+		/// Is the Renderer flipped?
+		/// </summary>
+		int flip;
+
+		inline SDL_RendererFlip getFlip() const { return static_cast<SDL_RendererFlip>(flip); }
 
 		/// <summary>
 		/// Checks if this SpriteRenderer is visible.

@@ -44,8 +44,6 @@ namespace minty
 			renderable.y = position.y + camera.offsetY;
 		}
 
-		PriorityQueue<Pair<Rect, Sprite const*>> queue;
-
 		// get camera pos
 		Renderable* const cameraPos = mp_registry->try_get<Renderable>(*mp_mainCameraEntity);
 
@@ -68,6 +66,8 @@ namespace minty
 			}
 		}
 
+		PriorityQueue<Pair<Rect, Renderer const*>> queue;
+
 		// does not account for scale
 		PointF offset;
 		for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
@@ -75,17 +75,18 @@ namespace minty
 			if (renderer.isVisible())
 			{
 				offset = renderer.sprite->offset();
-				queue.push(renderer.index, Pair<Rect, Sprite const*>(Rect(math_roundToInt(renderable.x + offset.x), math_roundToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), renderer.sprite));
+				queue.push(renderer.index, Pair<Rect, Renderer const*>(Rect(math_roundToInt(renderable.x + offset.x), math_roundToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), &renderer));
 			}
 		}
 
-		Pair<Rect, Sprite const*> renderPair;
+		Pair<Rect, Renderer const*> renderPair;
 
 		// render in order
 		while (queue.pop(renderPair))
 		{
 			SDL_Rect dstrect = renderPair.first.toSDL();
-			SDL_RenderCopy(renderer, renderPair.second->texture(), NULL, &dstrect);
+			//SDL_RenderCopy(renderer, renderPair.second->sprite->texture(), NULL, &dstrect);
+			SDL_RenderCopyEx(renderer, renderPair.second->sprite->texture(), NULL, &dstrect, 0.0, NULL, renderPair.second->getFlip());
 		}
 
 		SDL_RenderPresent(renderer);
