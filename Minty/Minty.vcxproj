@@ -186,7 +186,6 @@
     <ClInclude Include="M_File.h" />
     <ClInclude Include="M_Game.h" />
     <ClInclude Include="M_Grid.h" />
-    <ClInclude Include="M_Hitbox.h" />
     <ClInclude Include="M_Input.h" />
     <ClInclude Include="M_InputMap.h" />
     <ClInclude Include="M_Line.h" />
@@ -242,7 +241,6 @@
     <ClCompile Include="M_Engine.cpp" />
     <ClCompile Include="M_File.cpp" />
     <ClCompile Include="M_Game.cpp" />
-    <ClCompile Include="M_Hitbox.cpp" />
     <ClCompile Include="M_Input.cpp" />
     <ClCompile Include="M_InputMap.cpp" />
     <ClCompile Include="M_Line.cpp" />

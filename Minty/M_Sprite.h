@@ -5,6 +5,7 @@
 #include "M_Point.h"
 #include "M_PointF.h"
 #include "M_Color.h"
+#include "M_Mask.h"
 #include <SDL.h>
 
 namespace minty
@@ -22,6 +23,7 @@ namespace minty
 		PointF m_offset;
 		SDL_Surface* mp_surface;
 		SDL_Texture* mp_texture;
+		Mask* mp_mask;
 
 	public:
 		Sprite(SDL_Surface* const surface, SDL_Renderer* const renderer);
@@ -38,6 +40,8 @@ namespace minty
 		inline PointF offset() const { return m_offset; }
 		inline SDL_Surface* surface() const { return mp_surface; }
 		inline SDL_Texture* texture() const { return mp_texture; }
+		inline Mask* getMask() const { return mp_mask; }
+		void generateMask();
 
 		/// <summary>
 		/// Gets the color using the relative positions of the given X and Y positions.

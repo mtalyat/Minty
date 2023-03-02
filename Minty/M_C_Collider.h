@@ -1,9 +1,9 @@
 #pragma once
 
 #include "M_Main.h"
-#include "M_Hitbox.h"
 #include "M_Event.h"
 #include "M_Collision.h"
+#include "M_Rect.h"
 #include "entt.hpp"
 
 #define collider_event_arg_t Collision const&
@@ -18,7 +18,7 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Collider
 	{
-		Hitbox* hitbox;
+		Rect bounds;
 
 		bool isTrigger;
 		bool isStatic;

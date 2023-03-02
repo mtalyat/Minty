@@ -2,6 +2,7 @@
 #include "M_S_CollisionSystem.h"
 
 #include "M_C_Name.h"
+#include "M_C_Renderer.h"
 
 #include "M_Debug.h"
 
@@ -65,6 +66,7 @@ namespace minty
 					Position& position1 = mp_registry->get<Position>(e1);
 					Collider const hitbox1 = mp_registry->get<Collider>(e1);
 					RectF worldHitbox1 = getWorldHitbox(position1, hitbox1);
+					Renderer const* renderer1 = mp_registry->try_get<Renderer>(e1);
 
 					for (int j = i + 1; j < size; j++)
 					{
@@ -79,6 +81,7 @@ namespace minty
 						Position& position2 = mp_registry->get<Position>(e2);
 						Collider const hitbox2 = mp_registry->get<Collider>(e2);
 						RectF worldHitbox2 = getWorldHitbox(position2, hitbox2);
+						Renderer const* renderer2 = mp_registry->try_get<Renderer>(e2);
 
 						// find world overlap
 						RectF worldOverlap = worldHitbox1.overlap(worldHitbox2);
@@ -101,13 +104,17 @@ namespace minty
 						}
 
 						// get overlap, check pixels
-						if (hitbox1.hitbox->mask() && hitbox2.hitbox->mask())
+						if (renderer1 && renderer2)
 						{
 							Rect overlap1 = Rect::round(worldHitbox1.overlap(worldHitbox2));
 							Rect overlap2 = Rect::round(worldHitbox2.overlap(worldHitbox1));
 
-							Mask slice1 = hitbox1.hitbox->mask()->slice(overlap1);
-							Mask slice2 = hitbox2.hitbox->mask()->slice(overlap2);
+							// ensure there are masks
+							renderer1->sprite->generateMask();
+							renderer2->sprite->generateMask();
+
+							Mask slice1 = renderer1->sprite->getMask()->slice(overlap1);
+							Mask slice2 = renderer2->sprite->getMask()->slice(overlap2);
 
 							if (!slice1.sameSize(slice2))
 							{
@@ -142,13 +149,13 @@ namespace minty
 								{
 									// 1 has velocity
 
-									shiftOutOfCollision(collision1, position1, *vel1, worldHitbox1, worldHitbox2, worldOverlap);
+									shiftOutOfCollision(collision1, position1, *vel1, renderer1, worldHitbox1, worldHitbox2, renderer2, worldOverlap);
 								}
 								else if (!vel1 && vel2)
 								{
 									// 2 has velocity
 
-									shiftOutOfCollision(collision2, position2, *vel2, worldHitbox2, worldHitbox1, worldOverlap);
+									shiftOutOfCollision(collision2, position2, *vel2, renderer2, worldHitbox2, worldHitbox1, renderer1, worldOverlap);
 								}
 								else
 								{
@@ -353,7 +360,7 @@ namespace minty
 		}
 	}
 
-	void CollisionSystem::shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, RectF const& worldHitbox, RectF const& otherWorldHitbox, RectF const& worldOverlap)
+	void CollisionSystem::shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, Renderer const* const renderer, RectF const& worldHitbox, RectF const& otherWorldHitbox, Renderer const* const otherRenderer, RectF const& worldOverlap)
 	{
 		// move 1 backwards until not colliding
 		// move towards center of entity
@@ -372,7 +379,7 @@ namespace minty
 		float y = position.y;
 
 		// max distance
-		int max = collision.collider->hitbox->rect().area();
+		int max = collision.collider->bounds.area();
 
 		for (int i = 0; i < max; i++)
 		{
@@ -381,19 +388,33 @@ namespace minty
 			position.y += incY;
 
 			// check new pos
-			RectF worldHitbox = getWorldHitbox(position, *collision.collider);
+			RectF worldHitbox = this->getWorldHitbox(position, *collision.collider);
 
-			Rect overlap1 = Rect::round(worldHitbox.overlap(otherWorldHitbox));
-			Rect overlap2 = Rect::round(otherWorldHitbox.overlap(worldHitbox));
-
-			Mask slice1 = collision.collider->hitbox->mask()->slice(overlap1);
-			Mask slice2 = collision.otherCollider->hitbox->mask()->slice(overlap2);
-
-			if (!slice1.collidesWith(slice2))
+			if (renderer && otherRenderer)
 			{
-				// no collision
-				// done searching
-				break;
+				// get overlaps
+				Rect overlap1 = Rect::round(worldHitbox.overlap(otherWorldHitbox));
+				Rect overlap2 = Rect::round(otherWorldHitbox.overlap(worldHitbox));
+
+				// check pixels
+				Mask slice1 = renderer->sprite->getMask()->slice(overlap1);
+				Mask slice2 = otherRenderer->sprite->getMask()->slice(overlap2);
+
+				if (!slice1.collidesWith(slice2))
+				{
+					// no collision
+					// done searching
+					break;
+				}
+			}
+			else
+			{
+				if (!worldHitbox.overlaps(otherWorldHitbox))
+				{
+					// no overlap
+					// does not even overlap anymore
+					break;
+				}
 			}
 		}
 	}
@@ -409,7 +430,7 @@ namespace minty
 
 	RectF CollisionSystem::getWorldHitbox(Position const& pos, Collider const& hitbox) const
 	{
-		Rect hitboxRect = hitbox.hitbox->rect();
+		Rect hitboxRect = hitbox.bounds;
 
 		return RectF(pos.x + hitboxRect.x, pos.y + hitboxRect.y, static_cast<float>(hitboxRect.width), static_cast<float>(hitboxRect.height));
 	}

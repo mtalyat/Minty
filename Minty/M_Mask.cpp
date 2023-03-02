@@ -28,6 +28,11 @@ namespace minty
 		delete[] mp_bytes;
 	}
 
+	void Mask::emplace(int const index, mask_t const value)
+	{
+		mp_bytes[index] = value;
+	}
+
 	bool Mask::collidesWith(Mask const& other) const
 	{
 		return sameSize(other) && checkForCollision(other);

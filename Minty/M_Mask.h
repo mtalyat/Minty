@@ -11,9 +11,9 @@ namespace minty
 	class Sprite;
 
 	/// <summary>
-	/// Holds data for a psuedo bitmask. Each "bit" is actually 2 bits (4 values: 0, 1, 2, and 3).
+	/// Holds data for a psuedo bitmask, made of bytes.
 	/// </summary>
-	class Mask
+	class MINTY_API Mask
 		: public Object
 	{
 	private:
@@ -89,7 +89,7 @@ namespace minty
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="value"></param>
-		void emplace(int const index, mask_t const value) { mp_bytes[index] = value; }
+		void emplace(int const index, mask_t const value);
 
 		/// <summary>
 		/// Checks if this Mask collides with the given Mask.
@@ -127,7 +127,7 @@ namespace minty
 		/// </summary>
 		/// <param name="sprite"></param>
 		/// <returns></returns>
-		MINTY_API static Mask* fromSprite(Sprite const* const sprite, Rect const* const rect = nullptr);
+		static Mask* fromSprite(Sprite const* const sprite, Rect const* const rect = nullptr);
 
 		std::string const toString() const override;
 	private:

@@ -2,6 +2,7 @@
 #include "M_Sprite.h"
 #include "M_Color.h"
 #include "M_Debug.h"
+#include "M_Mask.h"
 
 namespace minty
 {	
@@ -18,6 +19,7 @@ namespace minty
 		, m_offset()
 		, mp_surface(nullptr)
 		, mp_texture(texture)
+		, mp_mask(nullptr)
 	{}
 
 	Sprite::Sprite(SDL_Surface* const surface, SDL_Texture* const texture)
@@ -26,6 +28,7 @@ namespace minty
 		, m_offset()
 		, mp_surface(surface)
 		, mp_texture(texture)
+		, mp_mask(nullptr)
 	{
 		if (!mp_surface)
 		{
@@ -44,6 +47,22 @@ namespace minty
 	Sprite::~Sprite()
 	{
 		SDL_DestroyTexture(mp_texture);
+
+		if (mp_mask)
+		{
+			delete mp_mask;
+		}
+	}
+
+	void Sprite::generateMask()
+	{
+		if (mp_mask)
+		{
+			return;
+		}
+
+		// mask does not exist, generate it
+		mp_mask = Mask::fromSprite(this);
 	}
 
 	Color Sprite::getColor(int const x, int const y) const

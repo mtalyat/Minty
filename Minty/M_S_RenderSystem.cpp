@@ -85,7 +85,6 @@ namespace minty
 		while (queue.pop(renderPair))
 		{
 			SDL_Rect dstrect = renderPair.first.toSDL();
-			//SDL_RenderCopy(renderer, renderPair.second->sprite->texture(), NULL, &dstrect);
 			SDL_RenderCopyEx(renderer, renderPair.second->sprite->texture(), NULL, &dstrect, 0.0, NULL, renderPair.second->getFlip());
 		}
 

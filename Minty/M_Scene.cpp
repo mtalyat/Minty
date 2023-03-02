@@ -9,7 +9,6 @@
 #include "M_System.h"
 #include "M_Screen.h"
 #include "M_Resources.h"
-#include "M_Hitbox.h"
 #include "M_Time.h"
 #include "M_Sprite.h"
 
@@ -164,11 +163,8 @@ namespace minty
             bounds = Rect(0, 0, renderer.sprite->width, renderer.sprite->height);
         }
 
-        // create hitbox
-        Hitbox* hitbox = new Hitbox(bounds, Mask::fromSprite(renderer.sprite, &bounds));
-
         // add to collider
-        mp_registry->emplace<Collider>(entity, hitbox, isTrigger, isStatic, bounds);
+        mp_registry->emplace<Collider>(entity, bounds, isTrigger, isStatic, Rect());
 
         return entity;
     }

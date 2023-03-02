@@ -186,9 +186,6 @@
     <ClInclude Include="M_C_Collider.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="M_Hitbox.h">
-      <Filter>Header Files\Data Types</Filter>
-    </ClInclude>
     <ClInclude Include="M_S_CollisionSystem.h">
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
@@ -369,9 +366,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="M_Hitbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_C_Collider.cpp">
