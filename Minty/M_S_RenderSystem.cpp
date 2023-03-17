@@ -7,10 +7,11 @@
 
 #include "M_C_Camera.h"
 #include "M_C_Center.h"
-#include "M_C_Renderer.h"
 #include "M_C_Renderable.h"
 #include "M_C_Position.h"
 #include "M_C_Scale.h"
+#include "M_C_SpriteRenderer.h"
+#include "M_C_TextRenderer.h"
 
 #include "M_Screen.h"
 #include <SDL.h>
@@ -19,6 +20,7 @@ namespace minty
 {
 	void RenderSystem::update()
 	{
+		// get the renderer for use
 		SDL_Renderer* const renderer = mp_screen->renderer();
 
 		// clear the screen so there is no smearing
@@ -66,27 +68,125 @@ namespace minty
 			}
 		}
 
-		PriorityQueue<Pair<Rect, Renderer const*>> queue;
+		// TODO: only sort when new renderable added to registry
+		// should be a way to do that with EnTT
 
-		// does not account for scale
-		PointF offset;
-		for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
-		{
-			if (renderer.isVisible())
+		// sort it
+		mp_registry->sort<Renderable>([](Renderable const& left, Renderable const& right)
 			{
-				offset = renderer.sprite->offset();
-				queue.push(renderer.index, Pair<Rect, Renderer const*>(Rect(math_roundToInt(renderable.x + offset.x), math_roundToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), &renderer));
+				if (left.layer != right.layer)
+				{
+					// unequal layers
+					return left.layer < right.layer;
+				}
+				else
+				{
+					// equal layers
+					return left.order < right.order;
+				}
+			});
+
+		Sprite* sprite;
+
+		// since entities are sorted, just render them in iteration order
+		for (auto [entity, renderable] : mp_registry->view<Renderable>().each())
+		{
+			// skip if invisible
+			if (renderable.invisible)
+			{
+				continue;
+			}
+
+			// render based on type
+			switch (renderable.rendererType)
+			{
+			case RendererType::Sprite:
+			{
+				SpriteRenderer* sr = mp_registry->try_get<SpriteRenderer>(entity);
+
+				if (!sr)
+				{
+					break;
+				}
+
+				sprite = sr->sprite;
+
+				// if renderer exists, and sprite exists
+				if (sprite)
+				{
+					PointF offset = sprite->offset();
+
+					SDL_Rect dstrect = SDL_Rect{
+						math_roundToInt(renderable.x + offset.x),
+						math_roundToInt(renderable.y + offset.y),
+						sprite->width,
+						sprite->height
+					};
+
+					SDL_RenderCopyEx(renderer, sprite->texture(), NULL, &dstrect, 0.0, NULL, renderable.getFlip());
+				}
+
+				break;
+			}
+			case RendererType::Text:
+			{
+				TextRenderer* tr = mp_registry->try_get<TextRenderer>(entity);
+				
+				if (!tr || !tr->text)
+				{
+					break;
+				}
+
+				// if text has been edited, apply first
+				if (tr->text->isDirty())
+				{
+					tr->text->apply(renderer);
+				}
+
+				// get sprite to render
+				sprite = tr->text->getSprite();
+
+				// if renderer exists, and text exists, and font exists
+				if (sprite)
+				{
+					PointF offset = sprite->offset();
+
+					SDL_Rect dstrect = SDL_Rect{
+						math_roundToInt(renderable.x + offset.x),
+						math_roundToInt(renderable.y + offset.y),
+						sprite->width,
+						sprite->height
+					};
+
+					SDL_RenderCopyEx(renderer, sprite->texture(), NULL, &dstrect, 0.0, NULL, renderable.getFlip());
+				}
+
+				break;
+			}
 			}
 		}
 
-		Pair<Rect, Renderer const*> renderPair;
+		//PriorityQueue<Pair<Rect, Renderer const*>> queue;
 
-		// render in order
-		while (queue.pop(renderPair))
-		{
-			SDL_Rect dstrect = renderPair.first.toSDL();
-			SDL_RenderCopyEx(renderer, renderPair.second->sprite->texture(), NULL, &dstrect, 0.0, NULL, renderPair.second->getFlip());
-		}
+		//// does not account for scale
+		//PointF offset;
+		//for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
+		//{
+		//	if (renderer.isVisible())
+		//	{
+		//		offset = renderer.sprite->offset();
+		//		queue.push(renderer.index, Pair<Rect, Renderer const*>(Rect(math_roundToInt(renderable.x + offset.x), math_roundToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), &renderer));
+		//	}
+		//}
+
+		//Pair<Rect, Renderer const*> renderPair;
+
+		//// render in order
+		//while (queue.pop(renderPair))
+		//{
+		//	SDL_Rect dstrect = renderPair.first.toSDL();
+		//	SDL_RenderCopyEx(renderer, renderPair.second->sprite->texture(), NULL, &dstrect, 0.0, NULL, renderPair.second->getFlip());
+		//}
 
 		SDL_RenderPresent(renderer);
 	}

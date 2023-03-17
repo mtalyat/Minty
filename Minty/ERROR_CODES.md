@@ -31,3 +31,4 @@
 | 00027 | "Could not lock surface." | M_ProceduralSprite.cpp | create() |
 | 00028 | "Duplicate color in ProceduralSprite." | M_ProceduralSprite.cpp | ProceduralSprite() |
 | 00029 | "No index found for given ID." | M_ProceduralSprite.cpp | generate() |
+| 00030 | "Could not generate text sprite." | M_Text.cpp | apply() |

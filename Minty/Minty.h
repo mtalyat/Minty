@@ -13,6 +13,7 @@
 #include "M_Color.h"
 #include "M_Direction.h"
 #include "M_Event.h"
+#include "M_Font.h"
 #include "M_Grid.h"
 #include "M_Mask.h"
 #include "M_Object.h"
@@ -25,6 +26,7 @@
 #include "M_RectF.h"
 #include "M_Sprite.h"
 #include "M_Stopwatch.h"
+#include "M_Text.h"
 #include "M_Time.h"
 
 //		Data Structures
@@ -40,7 +42,7 @@
 #include "M_Path.h"
 #include "M_Random.h"
 #include "M_Resources.h"
-#include "M_Text.h"
+#include "M_String.h"
 
 //		Engine
 #include "M_Coroutine.h"
@@ -68,10 +70,11 @@
 #include "M_C_Name.h"
 #include "M_C_Position.h"
 #include "M_C_Renderable.h"
-#include "M_C_Renderer.h"
 #include "M_C_Scale.h"
 #include "M_C_Size.h"
+#include "M_C_SpriteRenderer.h"
 #include "M_C_Target.h"
+#include "M_C_TextRenderer.h"
 #include "M_C_UI.h"
 #include "M_C_Velocity.h"
 #include "M_C_Gravity.h"
@@ -91,6 +94,7 @@
 
 //		Libraries
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include "entt.hpp"
 #include "FastNoiseLite.h"
 

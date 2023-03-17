@@ -18,7 +18,8 @@
 #include "M_C_Scale.h"
 #include "M_C_Size.h"
 #include "M_C_Camera.h"
-#include "M_C_Renderer.h"
+#include "M_C_SpriteRenderer.h"
+#include "M_C_TextRenderer.h"
 #include "M_C_Renderable.h"
 #include "M_C_Collider.h"
 #include "M_T_Destroy.h"
@@ -128,29 +129,29 @@ namespace minty
         return camera;
     }
 
-    entt::entity Scene::createEntity_sprite(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY)
+    entt::entity Scene::createEntity_sprite(std::string const& path, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY)
     {
-        return createEntity_sprite(resources_load_sprite(path, mp_engine->renderer(), PointF(pivotX, pivotY)), x, y, z);
+        return createEntity_sprite(resources_load_sprite(path, mp_engine->renderer(), PointF(pivotX, pivotY)), x, y, layer, order);
     }
 
-    entt::entity Scene::createEntity_sprite(Sprite* const sprite, float const x, float const y, int const z)
+    entt::entity Scene::createEntity_sprite(Sprite* const sprite, float const x, float const y, int const layer, int const order)
     {
         entt::entity entity = mp_registry->create();
 
         mp_registry->emplace<Position>(entity, x, y);
-        mp_registry->emplace<Renderer>(entity, sprite, z);
-        mp_registry->emplace<Renderable>(entity);
+        mp_registry->emplace<SpriteRenderer>(entity, sprite);
+        mp_registry->emplace<Renderable>(entity, RendererType::Sprite, layer, order);
 
         return entity;
     }
 
-    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY, bool const isTrigger, bool const isStatic, Rect const* const rect)
+    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, bool const isTrigger, bool const isStatic, Rect const* const rect)
     {
         // create entity with sprite
-        entt::entity entity = createEntity_sprite(path, x, y, z);
+        entt::entity entity = createEntity_sprite(path, x, y, layer, order);
 
         // get sprite renderer
-        Renderer const& renderer = mp_registry->get<Renderer>(entity);
+        SpriteRenderer const& renderer = mp_registry->get<SpriteRenderer>(entity);
 
         Rect bounds;
 
@@ -169,19 +170,29 @@ namespace minty
         return entity;
     }
     
-    entt::entity Scene::createEntity_ui(std::string const& path, float const x, float const y, int const z, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
+    entt::entity Scene::createEntity_ui(std::string const& path, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
     {
-        return createEntity_ui(resources_load_sprite(path, mp_engine->renderer()), x, y, z, pivotX, pivotY, anchorX, anchorY);
+        return createEntity_ui(resources_load_sprite(path, mp_engine->renderer()), x, y, layer, order, pivotX, pivotY, anchorX, anchorY);
     }
     
-    entt::entity Scene::createEntity_ui(Sprite* const sprite, float const x, float const y, int const z, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
+    entt::entity Scene::createEntity_ui(Sprite* const sprite, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
     {
         entt::entity entity = mp_registry->create();
 
         sprite->setPivot(PointF(pivotX, pivotY));
-        mp_registry->emplace<Renderer>(entity, sprite, z);
-        mp_registry->emplace<Renderable>(entity);
+        mp_registry->emplace<SpriteRenderer>(entity, sprite);
+        mp_registry->emplace<Renderable>(entity, RendererType::Sprite, layer, order);
+        mp_registry->emplace<UI>(entity, x, y, anchorX, anchorY);
 
+        return entity;
+    }
+    
+    entt::entity Scene::createEntity_ui_text(Text* const text, float const x, float const y, int const layer, int const order, float const anchorX, float const anchorY)
+    {
+        entt::entity entity = mp_registry->create();
+
+        mp_registry->emplace<TextRenderer>(entity, text);
+        mp_registry->emplace<Renderable>(entity, RendererType::Text, layer, order);
         mp_registry->emplace<UI>(entity, x, y, anchorX, anchorY);
 
         return entity;

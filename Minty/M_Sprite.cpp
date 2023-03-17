@@ -41,7 +41,7 @@ namespace minty
 		}
 
 		// for slicing, make sure the blend mode is set to none
-		SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_NONE);
+		SDL_SetSurfaceBlendMode(mp_surface, SDL_BLENDMODE_NONE);
 	}
 	
 	Sprite::~Sprite()

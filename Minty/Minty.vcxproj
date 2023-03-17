@@ -85,7 +85,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -150,6 +150,7 @@
     <ClInclude Include="entt.hpp" />
     <ClInclude Include="FastNoiseLite.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="M_Manager.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="M_Animation.h" />
     <ClInclude Include="M_Atlas.h" />
@@ -173,7 +174,7 @@
     <ClInclude Include="M_C_Renderable.h" />
     <ClInclude Include="M_C_Scale.h" />
     <ClInclude Include="M_C_Size.h" />
-    <ClInclude Include="M_C_Renderer.h" />
+    <ClInclude Include="M_C_SpriteRenderer.h" />
     <ClInclude Include="M_C_Target.h" />
     <ClInclude Include="M_C_UI.h" />
     <ClInclude Include="M_C_Velocity.h" />
@@ -184,6 +185,8 @@
     <ClInclude Include="M_EngineConfig.h" />
     <ClInclude Include="M_Event.h" />
     <ClInclude Include="M_File.h" />
+    <ClInclude Include="M_Font.h" />
+    <ClInclude Include="M_FontManager.h" />
     <ClInclude Include="M_Game.h" />
     <ClInclude Include="M_Grid.h" />
     <ClInclude Include="M_Input.h" />
@@ -219,13 +222,15 @@
     <ClInclude Include="M_S_RenderSystem.h" />
     <ClInclude Include="M_S_TargetSystem.h" />
     <ClInclude Include="M_S_UserInterfaceSystem.h" />
+    <ClInclude Include="M_Text.h" />
     <ClInclude Include="M_Time.h" />
     <ClInclude Include="M_T_Destroy.h" />
     <ClInclude Include="M_C_Gravity.h" />
     <ClInclude Include="M_T_NoDestroy.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="M_Text.h" />
+    <ClInclude Include="M_String.h" />
     <ClInclude Include="M_Stopwatch.h" />
+    <ClInclude Include="M_C_TextRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -240,6 +245,7 @@
     <ClCompile Include="M_Direction.cpp" />
     <ClCompile Include="M_Engine.cpp" />
     <ClCompile Include="M_File.cpp" />
+    <ClCompile Include="M_FontManager.cpp" />
     <ClCompile Include="M_Game.cpp" />
     <ClCompile Include="M_Input.cpp" />
     <ClCompile Include="M_InputMap.cpp" />
@@ -270,7 +276,7 @@
     <ClCompile Include="M_S_RenderSystem.cpp" />
     <ClCompile Include="M_S_TargetSystem.cpp" />
     <ClCompile Include="M_S_UserInterfaceSystem.cpp" />
-    <ClCompile Include="M_Text.cpp" />
+    <ClCompile Include="M_String.cpp" />
     <ClCompile Include="M_Time.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

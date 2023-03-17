@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "M_Stopwatch.h"
-#include "M_Text.h"
+#include "M_String.h"
 #include <iostream>
 
 #define NOW() std::chrono::steady_clock::now()

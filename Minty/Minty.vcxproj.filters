@@ -81,9 +81,6 @@
     <ClInclude Include="M_C_Size.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="M_C_Renderer.h">
-      <Filter>Header Files\Engine\Components</Filter>
-    </ClInclude>
     <ClInclude Include="M_PriorityQueue.h">
       <Filter>Header Files\Data Structures</Filter>
     </ClInclude>
@@ -171,7 +168,7 @@
     <ClInclude Include="M_Stopwatch.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
-    <ClInclude Include="M_Text.h">
+    <ClInclude Include="M_String.h">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="M_C_Target.h">
@@ -279,6 +276,24 @@
     <ClInclude Include="M_ProceduralSprite.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
+    <ClInclude Include="M_C_SpriteRenderer.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_FontManager.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Manager.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Font.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_TextRenderer.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Text.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -293,7 +308,7 @@
     <ClCompile Include="M_Math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="M_Text.cpp">
+    <ClCompile Include="M_String.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Random.cpp">
@@ -417,6 +432,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_ProceduralSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_FontManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

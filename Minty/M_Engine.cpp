@@ -25,7 +25,6 @@
 
 #include "M_C_Position.h"
 #include "M_C_Scale.h"
-#include "M_C_Renderer.h"
 #include "M_C_Velocity.h"
 #include "M_C_Camera.h"
 #include "M_T_Destroy.h"
@@ -34,6 +33,8 @@
 #include "M_PriorityQueue.h"
 
 #include "M_Time.h"
+
+#include <SDL_ttf.h>
 
 namespace minty
 {
@@ -61,7 +62,9 @@ namespace minty
 		delete mp_coroutineManager;
 		delete mp_screen;
 
-		// clean up SDL
+		// clean up
+		IMG_Quit();
+		TTF_Quit();
 		SDL_Quit();
 	}
 
@@ -297,6 +300,12 @@ namespace minty
 		if (SDL_Init(SDL_INIT_VIDEO))
 		{
 			Debug::logErrorSDL(1, "Failed to init SDL.");
+		}
+
+		// init ttf
+		if (TTF_Init())
+		{
+			Debug::logError(-1, TTF_GetError());
 		}
 
 		// init IMG SDL

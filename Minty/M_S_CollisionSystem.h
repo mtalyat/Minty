@@ -15,7 +15,7 @@
 
 namespace minty
 {
-	struct Renderer;
+	struct SpriteRenderer;
 
 	/// <summary>
 	/// Handles all collisions within the Scene.
@@ -70,7 +70,7 @@ namespace minty
 
 		void onCollisionEnd(Collision const& collision);
 
-		void shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, Renderer const* const renderer, RectF const& worldHitbox, RectF const& otherWorldHitbox, Renderer const* const otherRenderer, RectF const& worldOverlap);
+		void shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, SpriteRenderer const* const renderer, RectF const& worldHitbox, RectF const& otherWorldHitbox, SpriteRenderer const* const otherRenderer, RectF const& worldOverlap);
 
 		Rect getCellBounds(RectF const& worldHitbox) const;
 

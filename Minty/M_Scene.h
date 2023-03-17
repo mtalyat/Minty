@@ -7,6 +7,7 @@
 #include "M_SystemManager.h"
 #include "M_S_RenderSystem.h"
 #include "M_S_InputSystem.h"
+#include "M_Text.h"
 #include "entt.hpp"
 
 namespace minty
@@ -149,7 +150,7 @@ namespace minty
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        entt::entity createEntity_sprite(std::string const& path, float const x, float const y, int const z = 0, float const pivotX = 0.0f, float const pivotY = 0.0f);
+        entt::entity createEntity_sprite(std::string const& path, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f);
 
         /// <summary>
         /// Creates and returns an entity with the following components: Position, Renderer, Renderable.
@@ -161,7 +162,7 @@ namespace minty
         /// <param name="pivotX"></param>
         /// <param name="pivotY"></param>
         /// <returns></returns>
-        entt::entity createEntity_sprite(Sprite* const sprite, float const x, float const y, int const z = 0);
+        entt::entity createEntity_sprite(Sprite* const sprite, float const x, float const y, int const layer = 0, int const order = 0);
 
         /// <summary>
         /// Creates and returns an entity with the following components: Position, Renderer, Renderable, Collider.
@@ -172,7 +173,7 @@ namespace minty
         /// <param name="bounds"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        entt::entity createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const z = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, bool const isTrigger = false, bool const isStatic = false, Rect const* const rect = nullptr);
+        entt::entity createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, bool const isTrigger = false, bool const isStatic = false, Rect const* const rect = nullptr);
 
         /// <summary>
         /// Creates and returns an entity with the following components: UI, Renderer, Renderable.
@@ -186,7 +187,7 @@ namespace minty
         /// <param name="pivotX"></param>
         /// <param name="pivotY"></param>
         /// <returns></returns>
-        entt::entity createEntity_ui(std::string const& path, float const x, float const y, int const z = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
+        entt::entity createEntity_ui(std::string const& path, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
 
         /// <summary>
         /// Creates and returns an entity with the following components: UI, Renderer, Renderable.
@@ -200,6 +201,18 @@ namespace minty
         /// <param name="pivotX"></param>
         /// <param name="pivotY"></param>
         /// <returns></returns>
-        entt::entity createEntity_ui(Sprite* const sprite, float const x, float const y, int const z = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
+        entt::entity createEntity_ui(Sprite* const sprite, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: Renderable, TextRenderer.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="layer"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        entt::entity createEntity_ui_text(Text* const text, float const x, float const y, int const layer = 0, int const order = 0, float const anchorX = 0.0f, float const anchorY = 0.0f);
     };
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "M_Object.h"
+#include <SDL.h>
 
 // type associated with entire color
 #define color_t unsigned int
@@ -123,6 +124,8 @@ namespace minty
 		/// <param name="p"></param>
 		/// <returns></returns>
 		inline Color lighten(float const p) const;
+
+		inline SDL_Color toSDL() const;
 
 		inline std::string const toString() const;
 

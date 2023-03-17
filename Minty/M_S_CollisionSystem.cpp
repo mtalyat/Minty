@@ -2,7 +2,7 @@
 #include "M_S_CollisionSystem.h"
 
 #include "M_C_Name.h"
-#include "M_C_Renderer.h"
+#include "M_C_SpriteRenderer.h"
 
 #include "M_Debug.h"
 
@@ -17,7 +17,7 @@ namespace minty
 		mp_registry->view<Collider, Position>().each([this](auto entity, auto& collider, auto const& pos)
 			{
 				// assume entity has moved
-// check if cell bounds are the same
+				// check if cell bounds are the same
 
 				RectF worldHitbox = getWorldHitbox(pos, collider);
 
@@ -66,7 +66,7 @@ namespace minty
 					Position& position1 = mp_registry->get<Position>(e1);
 					Collider const hitbox1 = mp_registry->get<Collider>(e1);
 					RectF worldHitbox1 = getWorldHitbox(position1, hitbox1);
-					Renderer const* renderer1 = mp_registry->try_get<Renderer>(e1);
+					SpriteRenderer const* renderer1 = mp_registry->try_get<SpriteRenderer>(e1);
 
 					for (int j = i + 1; j < size; j++)
 					{
@@ -81,7 +81,7 @@ namespace minty
 						Position& position2 = mp_registry->get<Position>(e2);
 						Collider const hitbox2 = mp_registry->get<Collider>(e2);
 						RectF worldHitbox2 = getWorldHitbox(position2, hitbox2);
-						Renderer const* renderer2 = mp_registry->try_get<Renderer>(e2);
+						SpriteRenderer const* renderer2 = mp_registry->try_get<SpriteRenderer>(e2);
 
 						// find world overlap
 						RectF worldOverlap = worldHitbox1.overlap(worldHitbox2);
@@ -360,7 +360,7 @@ namespace minty
 		}
 	}
 
-	void CollisionSystem::shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, Renderer const* const renderer, RectF const& worldHitbox, RectF const& otherWorldHitbox, Renderer const* const otherRenderer, RectF const& worldOverlap)
+	void CollisionSystem::shiftOutOfCollision(Collision const& collision, Position& position, Velocity& velocity, SpriteRenderer const* const renderer, RectF const& worldHitbox, RectF const& otherWorldHitbox, SpriteRenderer const* const otherRenderer, RectF const& worldOverlap)
 	{
 		// move 1 backwards until not colliding
 		// move towards center of entity
