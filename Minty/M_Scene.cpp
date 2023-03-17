@@ -145,7 +145,7 @@ namespace minty
         return entity;
     }
 
-    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, bool const isTrigger, bool const isStatic, Rect const* const rect)
+    entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, bool const isTrigger, bool const isStatic, bool const isDynamic, Rect const* const rect)
     {
         // create entity with sprite
         entt::entity entity = createEntity_sprite(path, x, y, layer, order);
@@ -165,7 +165,7 @@ namespace minty
         }
 
         // add to collider
-        mp_registry->emplace<Collider>(entity, bounds, isTrigger, isStatic, Rect());
+        mp_registry->emplace<Collider>(entity, bounds, isTrigger, isStatic, (isDynamic || !renderer.sprite) ? nullptr : renderer.sprite->getMask());
 
         return entity;
     }

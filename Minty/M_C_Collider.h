@@ -4,6 +4,7 @@
 #include "M_Event.h"
 #include "M_Collision.h"
 #include "M_Rect.h"
+#include "M_Mask.h"
 #include "entt.hpp"
 
 #define collider_event_arg_t Collision const&
@@ -22,6 +23,8 @@ namespace minty
 
 		bool isTrigger;
 		bool isStatic;
+
+		Mask* mask;
 
 		Rect cellBounds;
 

@@ -25,7 +25,11 @@ namespace minty
 
 	Mask::~Mask()
 	{
-		delete[] mp_bytes;
+		if (mp_bytes)
+		{
+			delete[] mp_bytes;
+			mp_bytes = nullptr;
+		}
 	}
 
 	void Mask::emplace(int const index, mask_t const value)
@@ -35,7 +39,7 @@ namespace minty
 
 	bool Mask::collidesWith(Mask const& other) const
 	{
-		return sameSize(other) && checkForCollision(other);
+		return !isEmpty() && sameSize(other) && checkForCollision(other);
 	}
 
 	bool Mask::sameSize(Mask const& other) const
@@ -43,8 +47,13 @@ namespace minty
 		return m_width == other.m_width && m_height == other.m_height;
 	}
 
-	Mask Mask::slice(int const x, int const y, int const width, int const height) const
+	Mask* Mask::slice(int const x, int const y, int const width, int const height) const
 	{
+		if (width * height == 0)
+		{
+			return new Mask();
+		}
+
 		// make a new array
 		mask_t* output = new mask_t[width * height];
 
@@ -54,10 +63,10 @@ namespace minty
 			std::memcpy(&output[i * width], &mp_bytes[(y + i) * m_width + x], width);
 		}
 
-		return Mask(width, height, output);
+		return new Mask(width, height, output);
 	}
 
-	Mask Mask::slice(Rect const& rect) const
+	Mask* Mask::slice(Rect const& rect) const
 	{
 		return slice(rect.x, rect.y, rect.width, rect.height);
 	}

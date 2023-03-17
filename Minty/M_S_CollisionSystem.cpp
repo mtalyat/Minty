@@ -113,15 +113,17 @@ namespace minty
 							renderer1->sprite->generateMask();
 							renderer2->sprite->generateMask();
 
-							Mask slice1 = renderer1->sprite->getMask()->slice(overlap1);
-							Mask slice2 = renderer2->sprite->getMask()->slice(overlap2);
+							//Mask slice1 = renderer1->sprite->getMask()->slice(overlap1);
+							//Mask slice2 = renderer2->sprite->getMask()->slice(overlap2);
+							Mask* slice1 = hitbox1.mask != nullptr ? hitbox1.mask->slice(overlap1) : renderer1->sprite->getMask()->slice(overlap1);
+							Mask* slice2 = hitbox2.mask != nullptr ? hitbox2.mask->slice(overlap2) : renderer2->sprite->getMask()->slice(overlap2);
 
-							if (!slice1.sameSize(slice2))
+							if (!slice1->sameSize(*slice2))
 							{
 								continue;
 							}
 
-							if (!slice1.collidesWith(slice2))
+							if (!slice1->collidesWith(*slice2))
 							{
 								// no collision
 								if (isColliding(e1, e2))
@@ -131,6 +133,9 @@ namespace minty
 								}
 								continue;
 							}
+
+							delete slice1;
+							delete slice2;
 
 							// collisions, not triggers
 							if (!hitbox1.isTrigger && !hitbox2.isTrigger)
@@ -397,15 +402,22 @@ namespace minty
 				Rect overlap2 = Rect::round(otherWorldHitbox.overlap(worldHitbox));
 
 				// check pixels
-				Mask slice1 = renderer->sprite->getMask()->slice(overlap1);
-				Mask slice2 = otherRenderer->sprite->getMask()->slice(overlap2);
+				//Mask* slice1 = renderer->sprite->getMask()->slice(overlap1);
+				//Mask* slice2 = otherRenderer->sprite->getMask()->slice(overlap2);
+				Mask* slice1 = collision.collider->mask != nullptr ? collision.collider->mask->slice(overlap1) : renderer->sprite->getMask()->slice(overlap1);
+				Mask* slice2 = collision.otherCollider->mask != nullptr ? collision.otherCollider->mask->slice(overlap2) : otherRenderer->sprite->getMask()->slice(overlap2);
 
-				if (!slice1.collidesWith(slice2))
+				if (!slice1->collidesWith(*slice2))
 				{
 					// no collision
 					// done searching
+					delete slice1;
+					delete slice2;
 					break;
 				}
+
+				delete slice1;
+				delete slice2;
 			}
 			else
 			{

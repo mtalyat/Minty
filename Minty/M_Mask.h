@@ -78,6 +78,12 @@ namespace minty
 		constexpr int size() const { return m_width * m_height; }
 
 		/// <summary>
+		/// Is this Mask empty?
+		/// </summary>
+		/// <returns></returns>
+		constexpr bool isEmpty() const { return m_width == 0 || m_height == 0; }
+
+		/// <summary>
 		/// Returns the mask_t at the given index.
 		/// </summary>
 		/// <param name="index"></param>
@@ -113,14 +119,14 @@ namespace minty
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		/// <returns></returns>
-		Mask slice(int const x, int const y, int const width, int const height) const;
+		Mask* slice(int const x, int const y, int const width, int const height) const;
 
 		/// <summary>
 		/// Takes a slice of this Mask, then returns it as a new Mask.
 		/// </summary>
 		/// <param name="rect"></param>
 		/// <returns></returns>
-		Mask slice(Rect const& rect) const;
+		Mask* slice(Rect const& rect) const;
 
 		/// <summary>
 		/// Generates a mask from the given sprite data.

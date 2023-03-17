@@ -173,7 +173,7 @@ namespace minty
         /// <param name="bounds"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        entt::entity createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, bool const isTrigger = false, bool const isStatic = false, Rect const* const rect = nullptr);
+        entt::entity createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, bool const isTrigger = false, bool const isStatic = false, bool const isDynamic = true, Rect const* const rect = nullptr);
 
         /// <summary>
         /// Creates and returns an entity with the following components: UI, Renderer, Renderable.
