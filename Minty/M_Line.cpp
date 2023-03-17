@@ -40,9 +40,11 @@ namespace minty
 		// also amount of times to increment
 		int dmax = math_abs(math_abs(dx) > math_abs(dy) ? dx : dy);
 
+		float dmaxf = static_cast<float>(dmax);
+
 		// determine increment amount
-		xinc = static_cast<float>(dx) / static_cast<float>(dmax);
-		yinc = static_cast<float>(dy) / static_cast<float>(dmax);
+		xinc = dmaxf == 0.0f ? 0.0f : static_cast<float>(dx) / dmaxf;
+		yinc = dmaxf == 0.0f ? 0.0f : static_cast<float>(dy) / dmaxf;
 
 		return dmax;
 	}
