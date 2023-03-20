@@ -4,6 +4,8 @@
 
 namespace minty
 {
+	constexpr float GRAVITY = 9.81f;
+
 	/// <summary>
 	/// A component that will apply gravity to the velocity component associated with the entity.
 	/// </summary>
@@ -11,7 +13,7 @@ namespace minty
 	{
 		float scale;
 
-		Gravity(float const s = 1.0f)
+		Gravity(float const s = GRAVITY)
 			: scale(s)
 		{}
 	};
