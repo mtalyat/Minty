@@ -120,6 +120,8 @@ namespace minty
 
 							if (!slice1->sameSize(*slice2))
 							{
+								delete slice1;
+								delete slice2;
 								continue;
 							}
 
@@ -131,6 +133,8 @@ namespace minty
 									onCollisionEnd(collision1);
 									onCollisionEnd(collision2);
 								}
+								delete slice1;
+								delete slice2;
 								continue;
 							}
 
