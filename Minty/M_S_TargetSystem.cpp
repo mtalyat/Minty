@@ -2,6 +2,7 @@
 #include "M_S_TargetSystem.h"
 
 #include "M_C_Target.h"
+#include "M_C_Follow.h"
 #include "M_C_Position.h"
 
 #include "M_Math.h"
@@ -9,24 +10,36 @@
 
 void minty::TargetSystem::update()
 {
-	auto group = mp_registry->group<Target>(entt::get<Position>);
-
-	Position* targetPosition;
-
 	float deltaTime = Time::deltaTime();
 
-	for (auto [entity, target, position] : group.each())
+	Position* targetPosition;
+	float offsetX, offsetY;
+	float l;
+
+	// follows
+	for (auto [entity, target, follow, position] : mp_registry->group<Target>(entt::get<Follow, Position>).each())
 	{
 		// if target exists and has a position, lerp to it
 		targetPosition = mp_registry->try_get<Position>(target.target);
 
+		// if no target position, do nothing
 		if (!targetPosition)
 		{
 			continue;
 		}
 
-		// lerp
-		position.x = math_lerp(position.x, targetPosition->x, target.lerp * deltaTime);
-		position.y = math_lerp(position.y, targetPosition->y, target.lerp * deltaTime);
+		l = follow.lerp * deltaTime;
+
+		// get offsets
+		offsetX = (targetPosition->x - follow.x) * l;
+		offsetY = (targetPosition->y - follow.y) * l;
+
+		// apply offsets to follow
+		follow.x += offsetX;
+		follow.y += offsetY;
+
+		// move position
+		position.x = (follow.x - targetPosition->x) * follow.lead + targetPosition->x;
+		position.y = (follow.y - targetPosition->y) * follow.lead + targetPosition->y;
 	}
 }

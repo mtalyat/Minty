@@ -150,6 +150,7 @@
     <ClInclude Include="entt.hpp" />
     <ClInclude Include="FastNoiseLite.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="M_C_Follow.h" />
     <ClInclude Include="M_Manager.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="M_Animation.h" />

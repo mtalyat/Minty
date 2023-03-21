@@ -64,6 +64,7 @@
 #include "M_C_Clickable.h"
 #include "M_C_Collider.h"
 #include "M_C_DestroyTimer.h"
+#include "M_C_Follow.h"
 #include "M_C_MouseClick.h"
 #include "M_C_MouseDown.h"
 #include "M_C_MouseUp.h"
