@@ -13,7 +13,7 @@ namespace minty
 	{
 		float scale;
 
-		Gravity(float const s = GRAVITY)
+		Gravity(float const s = 1.0f)
 			: scale(s)
 		{}
 	};
