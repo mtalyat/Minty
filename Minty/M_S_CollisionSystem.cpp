@@ -433,6 +433,11 @@ namespace minty
 				}
 			}
 		}
+
+		// lastly, round position
+		position.x = math_round(position.x);
+		position.y = math_round(position.y);
+
 	}
 
 	Rect CollisionSystem::getCellBounds(RectF const& worldHitbox) const

@@ -53,7 +53,7 @@ namespace minty
     /// <param name="value"></param>
     /// <param name="r"></param>
     /// <returns></returns>
-    MINTY_API inline float math_round(float const value, float const r = 1.0f);
+    MINTY_API inline float math_round(float const value, float const r);
 
     /// <summary>
     /// Floors the given value.
