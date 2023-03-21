@@ -42,7 +42,7 @@ namespace minty
 		m_texturesCount = texturesCount;
 	}
 
-	Sprite* ProceduralSprite::create(Sprite const* const design, SDL_Renderer* const renderer)
+	Sprite* ProceduralSprite::create(Sprite const* const design, SDL_Renderer* const renderer, PointF const& pivot)
 	{
 		// create a surface to modify
 		SDL_Surface* const designSurface = design->surface();
@@ -67,10 +67,13 @@ namespace minty
 		// done editing
 		SDL_UnlockSurface(surface);
 
-		return new Sprite(surface, renderer);
+		Sprite* sprite = new Sprite(surface, renderer);
+		sprite->setPivot(pivot);
+
+		return sprite;
 	}
 
-	Sprite* ProceduralSprite::create(Sprite* const* const designs, int const count, SDL_Renderer* const renderer)
+	Sprite* ProceduralSprite::create(Sprite* const* const designs, int const count, SDL_Renderer* const renderer, PointF const& pivot)
 	{
 		if (count <= 0)
 		{
@@ -103,28 +106,31 @@ namespace minty
 		// done editing
 		SDL_UnlockSurface(surface);
 
-		return new Sprite(surface, renderer);
+		Sprite* sprite = new Sprite(surface, renderer);
+		sprite->setPivot(pivot);
+
+		return sprite;
 	}
 
-	Sprite** ProceduralSprite::createMultiple(Sprite* const* const designs, int const count, SDL_Renderer* const renderer)
+	Sprite** ProceduralSprite::createMultiple(Sprite* const* const designs, int const count, SDL_Renderer* const renderer, PointF const& pivot)
 	{
 		Sprite** sprites = new Sprite * [count];
 
 		for (int i = 0; i < count; i++)
 		{
-			sprites[i] = create(designs[i], renderer);
+			sprites[i] = create(designs[i], renderer, pivot);
 		}
 
 		return sprites;
 	}
 
-	Sprite** ProceduralSprite::createMultiple(Sprite* const* const designs, int const frameCount, int const layerCount, SDL_Renderer* const renderer)
+	Sprite** ProceduralSprite::createMultiple(Sprite* const* const designs, int const frameCount, int const layerCount, SDL_Renderer* const renderer, PointF const& pivot)
 	{
 		Sprite** sprites = new Sprite * [frameCount];
 
 		for (int i = 0; i < frameCount; i++)
 		{
-			sprites[i] = create(&designs[i * layerCount], layerCount, renderer);
+			sprites[i] = create(&designs[i * layerCount], layerCount, renderer, pivot);
 		}
 
 		return sprites;

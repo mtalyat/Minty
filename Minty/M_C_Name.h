@@ -10,6 +10,6 @@ namespace minty
 	{
 		std::string name;
 
-		static std::string const& getName(entt::entity const entity, entt::registry* const registry);
+		static std::string getName(entt::entity const entity, entt::registry* const registry);
 	};
 }

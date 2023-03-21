@@ -104,8 +104,17 @@ namespace minty
 						}
 
 						// get overlap, check pixels
-						if (renderer1 && renderer2)
+						if (renderer1 && renderer1->sprite && renderer2 && renderer2->sprite)
 						{
+							// adjust for sprite offsets
+							PointF offset = renderer1->sprite->offset();
+							worldHitbox1.x += offset.x;
+							worldHitbox1.y += offset.y;
+							offset = renderer2->sprite->offset();
+							worldHitbox2.x += offset.x;
+							worldHitbox2.y += offset.y;
+
+							// get overlaps
 							Rect overlap1 = Rect::round(worldHitbox1.overlap(worldHitbox2));
 							Rect overlap2 = Rect::round(worldHitbox2.overlap(worldHitbox1));
 
@@ -401,6 +410,11 @@ namespace minty
 
 			if (renderer && otherRenderer)
 			{
+				// adjust for sprite offsets
+				PointF offset = renderer->sprite->offset();
+				worldHitbox.x += offset.x;
+				worldHitbox.y += offset.y;
+
 				// get overlaps
 				Rect overlap1 = Rect::round(worldHitbox.overlap(otherWorldHitbox));
 				Rect overlap2 = Rect::round(otherWorldHitbox.overlap(worldHitbox));

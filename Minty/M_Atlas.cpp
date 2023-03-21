@@ -5,10 +5,10 @@
 
 namespace minty
 {
-	Atlas::Atlas(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
+	Atlas::Atlas(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer, PointF const& pivot)
 		: m_widthInTiles(sprite->width / tileWidth)
 		, m_heightInTiles(sprite->width / tileHeight)
-		, mp_tiles(generateTiles(sprite, tileWidth, tileHeight, renderer))
+		, mp_tiles(generateTiles(sprite, tileWidth, tileHeight, renderer, pivot))
 	{}
 
 	Atlas::~Atlas()
@@ -23,7 +23,7 @@ namespace minty
 		delete[] mp_tiles;
 	}
 
-	Sprite** Atlas::generateTiles(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
+	Sprite** Atlas::generateTiles(Sprite* const sprite, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer, PointF const& pivot)
 	{
 		int widthInTiles = sprite->width / tileWidth;
 		int heightInTiles = sprite->height / tileHeight;
@@ -34,20 +34,20 @@ namespace minty
 		{
 			for (int col = 0; col < widthInTiles; col++)
 			{
-				tiles[row * widthInTiles + col] = sprite->slice(Rect(col * tileWidth, row * tileHeight, tileWidth, tileHeight), renderer);
+				tiles[row * widthInTiles + col] = sprite->slice(Rect(col * tileWidth, row * tileHeight, tileWidth, tileHeight), renderer, pivot);
 			}
 		}
 
 		return tiles;
 	}
 	
-	Atlas* Atlas::fromResources(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer)
+	Atlas* Atlas::fromResources(std::string const& path, int const tileWidth, int const tileHeight, SDL_Renderer* const renderer, PointF const& pivot)
 	{
 		// get sprite
 		Sprite* sprite = resources_load_sprite(path, renderer);
 
 		// use sprite
-		Atlas* atlas = new Atlas(sprite, tileWidth, tileHeight, renderer);
+		Atlas* atlas = new Atlas(sprite, tileWidth, tileHeight, renderer, pivot);
 
 		// delete sprite
 		delete sprite;

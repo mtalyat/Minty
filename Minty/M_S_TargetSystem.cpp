@@ -13,6 +13,7 @@ void minty::TargetSystem::update()
 	float deltaTime = Time::deltaTime();
 
 	Position* targetPosition;
+	PointF targetPos;
 	float offsetX, offsetY;
 	float l;
 
@@ -28,18 +29,20 @@ void minty::TargetSystem::update()
 			continue;
 		}
 
+		targetPos = targetPosition->toPointF();
+
 		l = follow.lerp * deltaTime;
 
 		// get offsets
-		offsetX = (targetPosition->x - follow.x) * l;
-		offsetY = (targetPosition->y - follow.y) * l;
+		offsetX = (targetPos.x - follow.x) * l;
+		offsetY = (targetPos.y - follow.y) * l;
 
 		// apply offsets to follow
 		follow.x += offsetX;
 		follow.y += offsetY;
 
 		// move position
-		position.x = (follow.x - targetPosition->x) * follow.lead + targetPosition->x;
-		position.y = (follow.y - targetPosition->y) * follow.lead + targetPosition->y;
+		position.x = (follow.x - targetPos.x) * follow.lead + targetPos.x;
+		position.y = (follow.y - targetPos.y) * follow.lead + targetPos.y;
 	}
 }

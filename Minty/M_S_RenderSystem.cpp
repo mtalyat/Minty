@@ -13,6 +13,8 @@
 #include "M_C_SpriteRenderer.h"
 #include "M_C_TextRenderer.h"
 
+#include "M_C_Name.h"
+
 #include "M_Screen.h"
 #include <SDL.h>
 
@@ -165,28 +167,6 @@ namespace minty
 			}
 			}
 		}
-
-		//PriorityQueue<Pair<Rect, Renderer const*>> queue;
-
-		//// does not account for scale
-		//PointF offset;
-		//for (auto [entity, renderer, renderable] : mp_registry->view<Renderer const, Renderable const>().each())
-		//{
-		//	if (renderer.isVisible())
-		//	{
-		//		offset = renderer.sprite->offset();
-		//		queue.push(renderer.index, Pair<Rect, Renderer const*>(Rect(math_roundToInt(renderable.x + offset.x), math_roundToInt(renderable.y + offset.y), renderer.sprite->width, renderer.sprite->height), &renderer));
-		//	}
-		//}
-
-		//Pair<Rect, Renderer const*> renderPair;
-
-		//// render in order
-		//while (queue.pop(renderPair))
-		//{
-		//	SDL_Rect dstrect = renderPair.first.toSDL();
-		//	SDL_RenderCopyEx(renderer, renderPair.second->sprite->texture(), NULL, &dstrect, 0.0, NULL, renderPair.second->getFlip());
-		//}
 
 		SDL_RenderPresent(renderer);
 	}

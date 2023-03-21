@@ -65,7 +65,14 @@ namespace minty
 		/// <returns></returns>
 		inline color_t* pixels() const;
 
-		Sprite* slice(Rect const& rect, SDL_Renderer* const renderer) const;
+		/// <summary>
+		/// Creates a Sprite from a part of this Sprite.
+		/// </summary>
+		/// <param name="rect"></param>
+		/// <param name="renderer"></param>
+		/// <param name="pivot"></param>
+		/// <returns></returns>
+		Sprite* slice(Rect const& rect, SDL_Renderer* const renderer, PointF const& pivot = PointF()) const;
 	};
 }
 

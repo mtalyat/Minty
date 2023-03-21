@@ -148,7 +148,7 @@ namespace minty
     entt::entity Scene::createEntity_spriteWithCollider(std::string const& path, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, bool const isTrigger, bool const isStatic, bool const isDynamic, Rect const* const rect)
     {
         // create entity with sprite
-        entt::entity entity = createEntity_sprite(path, x, y, layer, order);
+        entt::entity entity = createEntity_sprite(path, x, y, layer, order, pivotX, pivotY);
 
         // get sprite renderer
         SpriteRenderer const& renderer = mp_registry->get<SpriteRenderer>(entity);

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "M_C_Name.h"
 
-std::string const& minty::Name::getName(entt::entity const entity, entt::registry* const registry)
+std::string minty::Name::getName(entt::entity const entity, entt::registry* const registry)
 {
 	// get name component
 	Name* name = registry->try_get<Name>(entity);

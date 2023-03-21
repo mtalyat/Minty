@@ -84,7 +84,7 @@ namespace minty
 		return static_cast<color_t*>(mp_surface->pixels);
 	}
 
-	Sprite* Sprite::slice(Rect const& rect, SDL_Renderer* const renderer) const
+	Sprite* Sprite::slice(Rect const& rect, SDL_Renderer* const renderer, PointF const& pivot) const
 	{
 		// create new surface of area we want
 		SDL_Surface* newSurface = SDL_CreateRGBSurface(0, rect.width, rect.height, mp_surface->format->BitsPerPixel, mp_surface->format->Rmask, mp_surface->format->Gmask, mp_surface->format->Bmask, mp_surface->format->Amask);
@@ -100,6 +100,9 @@ namespace minty
 		}
 
 		// return new sprite
-		return new Sprite(newSurface, renderer);
+		Sprite* sprite = new Sprite(newSurface, renderer);
+		sprite->setPivot(pivot);
+		
+		return sprite;
 	}
 }

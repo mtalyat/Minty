@@ -10,9 +10,18 @@ namespace minty
 {
 	void AnimationSystem::update()
 	{
+		Sprite* sprite;
+
 		for (auto [entity, renderer, animator] : mp_registry->view<SpriteRenderer, Animator>().each())
 		{
-			renderer.sprite = animator.update();
+			// only update sprite if not null
+
+			sprite = animator.update();
+
+			if (sprite)
+			{
+				renderer.sprite = sprite;
+			}
 		}
 	}
 }
