@@ -54,15 +54,13 @@ namespace minty
 		}
 	}
 
-	void Sprite::generateMask()
+	void Sprite::createMask()
 	{
-		if (mp_mask)
+		if (!mp_mask)
 		{
-			return;
+			// mask does not exist, generate it
+			mp_mask = Mask::fromSprite(this);
 		}
-
-		// mask does not exist, generate it
-		mp_mask = Mask::fromSprite(this);
 	}
 
 	Color Sprite::getColor(int const x, int const y) const

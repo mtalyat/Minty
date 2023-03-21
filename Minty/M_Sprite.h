@@ -41,7 +41,7 @@ namespace minty
 		inline SDL_Surface* surface() const { return mp_surface; }
 		inline SDL_Texture* texture() const { return mp_texture; }
 		inline Mask* getMask() const { return mp_mask; }
-		void generateMask();
+		void createMask();
 
 		/// <summary>
 		/// Gets the color using the relative positions of the given X and Y positions.

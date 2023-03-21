@@ -110,8 +110,8 @@ namespace minty
 							Rect overlap2 = Rect::round(worldHitbox2.overlap(worldHitbox1));
 
 							// ensure there are masks
-							renderer1->sprite->generateMask();
-							renderer2->sprite->generateMask();
+							renderer1->sprite->createMask();
+							renderer2->sprite->createMask();
 
 							//Mask slice1 = renderer1->sprite->getMask()->slice(overlap1);
 							//Mask slice2 = renderer2->sprite->getMask()->slice(overlap2);
