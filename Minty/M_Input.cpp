@@ -105,6 +105,12 @@ namespace minty
 			// value already exists
 			delete map;
 		}
+
+		// if only map value, select it
+		if (mp_inputMaps->size() == 1)
+		{
+			select(map->name());
+		}
 	}
 
 	inline void Input::select(std::string const& name)
