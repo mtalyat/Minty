@@ -108,11 +108,11 @@ namespace minty
 						{
 							// adjust for sprite offsets
 							PointF offset = renderer1->sprite->offset();
-							worldHitbox1.x += offset.x;
-							worldHitbox1.y += offset.y;
+							worldHitbox1.x += offset.x - hitbox1.bounds.x;
+							worldHitbox1.y += offset.y - hitbox2.bounds.y;
 							offset = renderer2->sprite->offset();
-							worldHitbox2.x += offset.x;
-							worldHitbox2.y += offset.y;
+							worldHitbox2.x += offset.x - hitbox2.bounds.x;
+							worldHitbox2.y += offset.y - hitbox2.bounds.y;
 
 							// get overlaps
 							Rect overlap1 = Rect::round(worldHitbox1.overlap(worldHitbox2));
@@ -397,23 +397,42 @@ namespace minty
 		float y = position.y;
 
 		// max distance
-		int max = collision.collider->bounds.area();
+		int max = math_max(collision.collider->bounds.width, collision.collider->bounds.height);
 
-		for (int i = 0; i < max; i++)
+		if ((collision.collider->mask && collision.collider->mask->isEmpty()) || (collision.otherCollider->mask && collision.otherCollider->mask->isEmpty()))
 		{
-			// move pos
-			position.x += incX;
-			position.y += incY;
-
-			// check new pos
-			RectF worldHitbox = this->getWorldHitbox(position, *collision.collider);
-
-			if (renderer && otherRenderer)
+			for (int i = 0; i < max; i++)
 			{
+				// move pos
+				position.x += incX;
+				position.y += incY;
+
+				// check new pos
+				RectF worldHitbox = this->getWorldHitbox(position, *collision.collider);
+
+				if (!worldHitbox.overlaps(otherWorldHitbox))
+				{
+					// no overlap
+					// does not even overlap anymore
+					break;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < max; i++)
+			{
+				// move pos
+				position.x += incX;
+				position.y += incY;
+
+				// check new pos
+				RectF worldHitbox = this->getWorldHitbox(position, *collision.collider);
+
 				// adjust for sprite offsets
 				PointF offset = renderer->sprite->offset();
-				worldHitbox.x += offset.x;
-				worldHitbox.y += offset.y;
+				worldHitbox.x += offset.x - collision.collider->bounds.x;
+				worldHitbox.y += offset.y - collision.collider->bounds.y;
 
 				// get overlaps
 				Rect overlap1 = Rect::round(worldHitbox.overlap(otherWorldHitbox));
@@ -437,16 +456,9 @@ namespace minty
 				delete slice1;
 				delete slice2;
 			}
-			else
-			{
-				if (!worldHitbox.overlaps(otherWorldHitbox))
-				{
-					// no overlap
-					// does not even overlap anymore
-					break;
-				}
-			}
 		}
+
+		
 
 		// lastly, round position
 		position.x = math_round(position.x);
