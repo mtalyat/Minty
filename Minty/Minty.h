@@ -8,6 +8,10 @@
 //		Data Types
 #include "M_Animation.h"
 #include "M_Atlas.h"
+#include "M_Brush.h"
+#include "M_Brush_Solid.h"
+#include "M_Brush_Sprite.h"
+#include "M_Canvas.h"
 #include "M_Click.h"
 #include "M_Collision.h"
 #include "M_Color.h"

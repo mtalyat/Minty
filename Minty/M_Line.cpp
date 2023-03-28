@@ -46,6 +46,7 @@ namespace minty
 		xinc = dmaxf == 0.0f ? 0.0f : static_cast<float>(dx) / dmaxf;
 		yinc = dmaxf == 0.0f ? 0.0f : static_cast<float>(dy) / dmaxf;
 
+		// dmax is the number of times to iterate
 		return dmax;
 	}
 }
