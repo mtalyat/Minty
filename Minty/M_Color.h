@@ -51,7 +51,7 @@ namespace minty
 		/// <param name="g"></param>
 		/// <param name="b"></param>
 		Color(channel_t const r, channel_t const g, channel_t const b)
-			: value((r << COLOR_SHAMT_R) | (b << COLOR_SHAMT_G) | (g << COLOR_SHAMT_B) | (255 << COLOR_SHAMT_A)) {}
+			: value((r << COLOR_SHAMT_R) | (g << COLOR_SHAMT_G) | (b << COLOR_SHAMT_B) | (255 << COLOR_SHAMT_A)) {}
 
 		/// <summary>
 		/// Creates a Color using the given r, g, b, and a values.
@@ -61,7 +61,7 @@ namespace minty
 		/// <param name="b"></param>
 		/// <param name="a"></param>
 		Color(channel_t const r, channel_t const g, channel_t const b, channel_t const a)
-			: value((r << COLOR_SHAMT_R) | (b << COLOR_SHAMT_G) | (g << COLOR_SHAMT_B) | (a << COLOR_SHAMT_A)) {}
+			: value((r << COLOR_SHAMT_R) | (g << COLOR_SHAMT_G) | (b << COLOR_SHAMT_B) | (a << COLOR_SHAMT_A)) {}
 
 		Color(Color const& c)
 			: value(c.value) {}
