@@ -6,6 +6,12 @@ namespace minty
 {
 #pragma region float
 
+    constexpr float MATH_PI = 3.141592f; // most digits we can get for pi
+
+    constexpr float MATH_DEG_TO_RAD = MATH_PI / 180.0f;
+
+    constexpr float MATH_RAD_TO_DEG = 180.0f / MATH_PI;
+
     /// <summary>
     /// Returns the higher of the two given values.
     /// </summary>
@@ -94,18 +100,85 @@ namespace minty
     MINTY_API inline float math_center(float const x, float const w, float const c);
 
     /// <summary>
-    /// Converts the given degrees into radians.
-    /// </summary>
-    /// <param name="deg"></param>
-    /// <returns></returns>
-    MINTY_API inline float math_deg2rad(float const deg);
-
-    /// <summary>
-    /// Converts the given radians into degrees.
+    /// Gets the sine of the value, given in radians.
     /// </summary>
     /// <param name="rad"></param>
     /// <returns></returns>
-    MINTY_API inline float math_rad2deg(float const rad);
+    MINTY_API inline float math_sin(float const rad);
+
+    /// <summary>
+    /// Gets the cosine of the value, given in radians.
+    /// </summary>
+    /// <param name="rad"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_cos(float const rad);
+
+    /// <summary>
+    /// Gets the tangent of the value, given in radians.
+    /// </summary>
+    /// <param name="rad"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_tan(float const rad);
+
+    /// <summary>
+    /// Gets the arcsine of the value, given in radians.
+    /// </summary>
+    /// <param name="rad"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_asin(float const rad);
+
+    /// <summary>
+    /// Gets the arccosine of the value, given in radians.
+    /// </summary>
+    /// <param name="rad"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_acos(float const rad);
+
+    /// <summary>
+    /// Gets the arctangent of the value, given in radians.
+    /// </summary>
+    /// <param name="rad"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_atan(float const rad);
+
+    /// <summary>
+    /// Gets the arctangent using the given y and x values.
+    /// </summary>
+    /// <param name="y"></param>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_atan2(float const y, float const x);
+
+    /// <summary>
+    /// Gets the angle from the origin in radians from the given x and y coordinates.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_angle(float const x, float const y);
+
+    /// <summary>
+    /// Gets the distance from the origin from the given x and y coordinates.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_distance(float const x, float const y);
+
+    /// <summary>
+    /// Performs a square root on x.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_sqrt(float const x);
+
+    /// <summary>
+    /// Performs a power operation on x to the power of y.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_pow(float const x, float const y);
 
 #pragma endregion
 

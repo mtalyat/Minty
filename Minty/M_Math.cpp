@@ -73,6 +73,61 @@ namespace minty
 		return static_cast<float>(rad * (180.0f / M_PI));
 	}
 
+	MINTY_API float math_sin(float const rad)
+	{
+		return sinf(rad);
+	}
+
+	MINTY_API float math_cos(float const rad)
+	{
+		return cosf(rad);
+	}
+
+	MINTY_API float math_tan(float const rad)
+	{
+		return tanf(rad);
+	}
+
+	MINTY_API float math_asin(float const rad)
+	{
+		return asinf(rad);
+	}
+
+	MINTY_API float math_acos(float const rad)
+	{
+		return acosf(rad);
+	}
+
+	MINTY_API float math_atan(float const rad)
+	{
+		return atanf(rad);
+	}
+
+	MINTY_API float math_atan2(float const y, float const x)
+	{
+		return atan2f(y, x);
+	}
+
+	MINTY_API float math_angle(float const x, float const y)
+	{
+		return atan2f(y, x);
+	}
+
+	MINTY_API float math_distance(float const x, float const y)
+	{
+		return sqrtf(x * x + y * y);
+	}
+
+	MINTY_API float math_sqrt(float const x)
+	{
+		return sqrtf(x);
+	}
+
+	MINTY_API float math_pow(float const x, float const y)
+	{
+		return powf(x, y);
+	}
+
 	int MINTY_API math_max(int const left, int const right)
 	{
 		return left > right ? left : right;
