@@ -135,4 +135,40 @@ namespace minty
 
 		return -1;
 	}
+	
+	MINTY_API unsigned int parse_binary(std::string const& str)
+	{
+		size_t size = str.size();
+		unsigned int out = 0;
+
+		for (size_t i = 0; i < size; i++)
+		{
+			if (str.at(i) == '1')
+			{
+				out |= 1u << (size - 1u - i);
+			}
+		}
+
+		return out;
+	}
+	
+	MINTY_API bool try_parse_binary(std::string const& str, unsigned int& out)
+	{
+		if (str.empty())
+		{
+			return false;
+		}
+
+		for (char c : str)
+		{
+			if (c != '0' && c != '1')
+			{
+				// not binary
+				return false;
+			}
+		}
+
+		out = parse_binary(str);
+		return true;
+	}
 }

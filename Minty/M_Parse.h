@@ -27,4 +27,8 @@ namespace minty
 	MINTY_API bool try_parse_longLong(std::string const& str, long long& out);
 
 	MINTY_API int parse_enum(std::string const& str, std::map<std::string, int> const& map);
+
+	MINTY_API unsigned int parse_binary(std::string const& str);
+
+	MINTY_API bool try_parse_binary(std::string const& str, unsigned int& out);
 }
