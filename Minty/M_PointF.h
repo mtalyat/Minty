@@ -70,6 +70,10 @@ namespace minty
         Point toPointF() const;
 
         std::string const toString() const override;
+
+        static PointF polarToCartesian(PointF& const polar);
+
+        static PointF cartesianToPolar(PointF& const cartesian);
     };
 }
 

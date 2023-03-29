@@ -11,4 +11,14 @@ namespace minty
     }
 
     inline std::string const PointF::toString() const { return std::format("PointF({0}, {1})", x, y); }
+    
+    PointF PointF::polarToCartesian(PointF& const polar)
+    {
+        return PointF(math_cos(polar.x) * polar.y, math_sin(polar.x) * polar.y);
+    }
+
+    PointF PointF::cartesianToPolar(PointF& const cartesian)
+    {
+        return PointF(math_angle(cartesian.x, cartesian.y), math_distance(cartesian.x, cartesian.y));
+    }
 }

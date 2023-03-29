@@ -71,6 +71,10 @@ namespace minty
         PointF toPointF() const;
 
         std::string const toString() const override { return std::format("Point({0}, {1})", x, y); }
+
+        static Point polarToCartesian(Point& const polar);
+
+        static Point cartesianToPolar(Point& const cartesian);
     };
 }
 
