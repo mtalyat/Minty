@@ -5,6 +5,7 @@
 #include "M_Sprite.h"
 #include "M_Brush.h"
 #include <SDL.h>
+#include <vector>
 
 namespace minty
 {
@@ -45,7 +46,7 @@ namespace minty
 
 #pragma region Drawing
 
-		void draw(int const x, int const y, Brush const* const brush);
+		void draw(int const x, int const y, Brush const& brush);
 
 		/// <summary>
 		/// Draws a line from (x1, y1) to (x2, y2), using the given Brush and brush width.
@@ -55,11 +56,11 @@ namespace minty
 		/// <param name="x2"></param>
 		/// <param name="y2"></param>
 		/// <param name="brush"></param>
-		void drawLine(int const x1, int const y1, int const x2, int const y2, Brush const* const brush);
+		void drawLine(int const x1, int const y1, int const x2, int const y2, Brush const& brush);
 
-		void drawRect(int const x, int const y, int const width, int const height, Brush const* const brush);
+		void drawRect(int const x, int const y, int const width, int const height, Brush const& brush);
 
-		void drawCircle(int const xm, int const ym, int const radius, Brush const* const brush);
+		void drawCircle(int const xm, int const ym, int const radius, Brush const& brush);
 
 		void drawSprite(int const x, int const y, Sprite const* const sprite);
 
@@ -67,9 +68,11 @@ namespace minty
 
 #pragma region Filling
 
-		void fillRect(int const x, int const y, int const width, int const height, Brush const* const brush);
+		void fillRect(int const x, int const y, int const width, int const height, Brush const& brush);
 
-		void fillCircle(int const xm, int const ym, int const radius, Brush const* const brush);
+		void fillCircle(int const xm, int const ym, int const radius, Brush const& brush);
+
+		void fillSlices(int const xm, int const ym, int const radius, std::vector<Sprite*> const& sprites, float offset = 0.0f);
 
 #pragma endregion
 
