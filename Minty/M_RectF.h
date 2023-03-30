@@ -99,7 +99,7 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		bool overlaps(RectF const& other);
+		bool overlaps(RectF const& other) const;
 
 		/// <summary>
 		/// Returns the RectF that contains the area that this RectF and the given RectF overlap in.
@@ -113,7 +113,7 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		bool contains(PointF const& other);
+		bool contains(PointF const& other) const;
 
 		static RectF bounds(float const left, float const right, float const top, float const bottom);
 

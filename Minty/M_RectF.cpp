@@ -4,7 +4,7 @@
 
 namespace minty
 {
-	bool RectF::overlaps(RectF const& other)
+	bool RectF::overlaps(RectF const& other) const
 	{
 		return left() < other.right() && right() > other.left() &&
 			top() < other.bottom() && bottom() > other.top();
@@ -21,7 +21,7 @@ namespace minty
 		return RectF(xMin, yMin, xMax - xMin, yMax - yMin);
 	}
 
-	bool RectF::contains(PointF const& other)
+	bool RectF::contains(PointF const& other) const
 	{
 		return other.x >= x && other.x < x + width && other.y >= y && other.y < y + height;
 	}

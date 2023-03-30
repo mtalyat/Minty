@@ -86,21 +86,21 @@ namespace minty
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		bool overlaps(Rect const& other);
+		bool overlaps(Rect const& other) const;
 
 		/// <summary>
 		/// Returns the Rect that contains the area that this Rect and the given Rect overlap in.
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		Rect overlap(Rect const& other);
+		Rect overlap(Rect const& other) const;
 
 		/// <summary>
 		/// Checks if this Rect contains the given Point.
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		bool contains(Point const& other);
+		bool contains(Point const& other) const;
 
 		SDL_Rect toSDL() const;
 
