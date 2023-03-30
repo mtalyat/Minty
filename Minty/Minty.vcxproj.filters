@@ -183,9 +183,6 @@
     <ClInclude Include="M_C_Collider.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="M_S_CollisionSystem.h">
-      <Filter>Header Files\Engine\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="M_Line.h">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
@@ -399,9 +396,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_C_Collider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="M_S_CollisionSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Line.cpp">

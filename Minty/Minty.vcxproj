@@ -218,7 +218,6 @@
     <ClInclude Include="M_Sprite.h" />
     <ClInclude Include="M_SystemManager.h" />
     <ClInclude Include="M_S_AnimationSystem.h" />
-    <ClInclude Include="M_S_CollisionSystem.h" />
     <ClInclude Include="M_System.h" />
     <ClInclude Include="M_S_InputSystem.h" />
     <ClInclude Include="M_S_PhysicsSystem.h" />
@@ -279,7 +278,6 @@
     <ClCompile Include="M_System.cpp" />
     <ClCompile Include="M_SystemManager.cpp" />
     <ClCompile Include="M_S_AnimationSystem.cpp" />
-    <ClCompile Include="M_S_CollisionSystem.cpp" />
     <ClCompile Include="M_S_InputSystem.cpp" />
     <ClCompile Include="M_S_PhysicsSystem.cpp" />
     <ClCompile Include="M_S_RenderSystem.cpp" />

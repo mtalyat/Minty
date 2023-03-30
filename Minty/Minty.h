@@ -86,7 +86,6 @@
 
 //			Systems
 #include "M_S_AnimationSystem.h"
-#include "M_S_CollisionSystem.h"
 #include "M_S_InputSystem.h"
 #include "M_S_PhysicsSystem.h"
 #include "M_S_RenderSystem.h"
