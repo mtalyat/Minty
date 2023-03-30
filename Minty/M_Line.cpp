@@ -49,4 +49,22 @@ namespace minty
 		// dmax is the number of times to iterate
 		return dmax;
 	}
+	
+	int line_normalized(float const x1, float const y1, float const x2, float const y2, float& xinc, float& yinc)
+	{
+		// find difference between two points
+		float dx = x2 - x1;
+		float dy = y2 - y1;
+
+		// find max of two differences
+		// also amount of times to increment
+		float dmax = math_abs(math_abs(dx) > math_abs(dy) ? dx : dy);
+
+		// determine increment amount
+		xinc = dmax == 0.0f ? 0.0f : static_cast<float>(dx) / dmax;
+		yinc = dmax == 0.0f ? 0.0f : static_cast<float>(dy) / dmax;
+
+		// dmax is the number of times to iterate
+		return math_floorToInt(dmax);
+	}
 }
