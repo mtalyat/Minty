@@ -115,10 +115,10 @@ namespace minty
 		Stopwatch updateWatch;
 		Stopwatch fixedUpdateWatch;
 		Stopwatch loopWatch;
-		long updateMax = 0;
-		long fixedUpdateMax = 0;
-		long loopMax = 0;
-		long diffMax = 0;
+		elapsed_t updateMax = 0;
+		elapsed_t fixedUpdateMax = 0;
+		elapsed_t loopMax = 0;
+		elapsed_t diffMax = 0;
 
 		// used in loop
 		Scene* activeScene;
