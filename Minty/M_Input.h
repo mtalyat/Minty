@@ -2,12 +2,15 @@
 
 #include "M_Object.h"
 #include "M_InputMap.h"
+#include "M_Point.h"
 #include <SDL.h>
 #include <map>
 #include <unordered_set>
 
 namespace minty
 {
+	class Screen;
+
 	/// <summary>
 	/// Handles all of the inputs (keyboard, mouse, etc.) provided by SDL.
 	/// </summary>
@@ -27,6 +30,18 @@ namespace minty
 		Input();
 
 		~Input();
+
+		/// <summary>
+		/// Gets the mouse position of the cursor, relative to the window.
+		/// </summary>
+		/// <returns></returns>
+		Point getMousePositionRaw() const;
+
+		/// <summary>
+		/// Gets the mouse position of the cursor, relative to the screen.
+		/// </summary>
+		/// <returns></returns>
+		Point getMousePosition(Screen const* const screen) const;
 
 		/// <summary>
 		/// Checks if the given key is currently being held down.

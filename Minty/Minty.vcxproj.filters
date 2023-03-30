@@ -225,9 +225,6 @@
     <ClInclude Include="M_S_RenderSystem.h">
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="M_S_UserInterfaceSystem.h">
-      <Filter>Header Files\Engine\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="M_S_InputSystem.h">
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
@@ -423,9 +420,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_S_RenderSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="M_S_UserInterfaceSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_S_InputSystem.cpp">

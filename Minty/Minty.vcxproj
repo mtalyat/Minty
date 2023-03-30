@@ -223,7 +223,6 @@
     <ClInclude Include="M_S_PhysicsSystem.h" />
     <ClInclude Include="M_S_RenderSystem.h" />
     <ClInclude Include="M_S_TargetSystem.h" />
-    <ClInclude Include="M_S_UserInterfaceSystem.h" />
     <ClInclude Include="M_Text.h" />
     <ClInclude Include="M_Time.h" />
     <ClInclude Include="M_T_Destroy.h" />
@@ -282,7 +281,6 @@
     <ClCompile Include="M_S_PhysicsSystem.cpp" />
     <ClCompile Include="M_S_RenderSystem.cpp" />
     <ClCompile Include="M_S_TargetSystem.cpp" />
-    <ClCompile Include="M_S_UserInterfaceSystem.cpp" />
     <ClCompile Include="M_String.cpp" />
     <ClCompile Include="M_Time.cpp" />
     <ClCompile Include="pch.cpp">

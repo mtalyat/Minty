@@ -12,6 +12,7 @@
 #include "M_C_Scale.h"
 #include "M_C_SpriteRenderer.h"
 #include "M_C_TextRenderer.h"
+#include "M_C_UI.h"
 
 #include "M_C_Name.h"
 
@@ -51,6 +52,8 @@ namespace minty
 		// get camera pos
 		Renderable* const cameraPos = mp_registry->try_get<Renderable>(*mp_mainCameraEntity);
 
+		// update renderable positions
+		// normal objects
 		if (cameraPos)
 		{
 			// if has a position, change renderable position to reflect camera position
@@ -68,6 +71,12 @@ namespace minty
 				renderable.x = position.x;
 				renderable.y = position.y;
 			}
+		}
+		// ui objects
+		for (auto [entity, ui, renderable, renderer] : mp_registry->view<UI const, Renderable, SpriteRenderer const>().each())
+		{
+			renderable.x = ui.x + mp_screen->width * ui.anchorX;
+			renderable.y = ui.y + mp_screen->height * ui.anchorY;
 		}
 
 		// TODO: only sort when new renderable added to registry
