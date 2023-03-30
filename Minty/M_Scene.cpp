@@ -67,26 +67,21 @@ namespace minty
 
         if (!result)
         {
-            // successfully updated, so delete entities
-            
-            float deltaTime = Time::deltaTime();
+            cleanup();
+        }
 
-            // destroy timers
-            for (auto [entity, timer] : mp_registry->view<DestroyTimer>().each())
-            {
-                // increment time
-                timer.timer -= deltaTime;
+        return result;
+    }
 
-                // if <= 0.0, then timer is up, destroy now
-                if (timer.timer <= 0.0f)
-                {
-                    mp_registry->emplace<Destroy>(entity);
-                }
-            }
+    int Scene::fixedUpdate()
+    {
+        m_systemManager.fixedUpdate();
 
-            // destroy entities that are needing to be destroyed
-            auto destroyView = mp_registry->view<Destroy>();
-            mp_registry->destroy(destroyView.begin(), destroyView.end());
+        int result = onFixedUpdate();
+
+        if (!result)
+        {
+            cleanup();
         }
 
         return result;
@@ -196,5 +191,28 @@ namespace minty
         mp_registry->emplace<UI>(entity, x, y, anchorX, anchorY);
 
         return entity;
+    }
+    
+    void Scene::cleanup()
+    {
+        // successfully updated, so delete entities
+        float deltaTime = Time::deltaTime();
+
+        // destroy timers
+        for (auto [entity, timer] : mp_registry->view<DestroyTimer>().each())
+        {
+            // increment time
+            timer.timer -= deltaTime;
+
+            // if <= 0.0, then timer is up, destroy now
+            if (timer.timer <= 0.0f)
+            {
+                mp_registry->emplace<Destroy>(entity);
+            }
+        }
+
+        // destroy entities that are needing to be destroyed
+        auto destroyView = mp_registry->view<Destroy>();
+        mp_registry->destroy(destroyView.begin(), destroyView.end());
     }
 }

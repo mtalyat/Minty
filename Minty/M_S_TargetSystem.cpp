@@ -8,9 +8,9 @@
 #include "M_Math.h"
 #include "M_Time.h"
 
-void minty::TargetSystem::update()
+void minty::TargetSystem::fixedUpdate()
 {
-	float deltaTime = Time::deltaTime();
+	float deltaTime = Time::fixedDeltaTime();
 
 	Position* targetPosition;
 	PointF targetPos;

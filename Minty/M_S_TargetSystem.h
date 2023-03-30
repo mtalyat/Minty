@@ -12,6 +12,6 @@ namespace minty
 			: System(registry)
 		{}
 
-		virtual void update() override;
+		virtual void fixedUpdate() override;
 	};
 }

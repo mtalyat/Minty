@@ -33,7 +33,12 @@ namespace minty
 		/// <summary>
 		/// Does one frame of work on the System.
 		/// </summary>
-		virtual void update() = 0;
+		virtual void update() {}
+
+		/// <summary>
+		/// Does one fixed frame of work on the System.
+		/// </summary>
+		virtual void fixedUpdate() {}
 
 		/// <summary>
 		/// Called when the Scene is being unloaded.

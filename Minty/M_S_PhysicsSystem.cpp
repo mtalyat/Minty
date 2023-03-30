@@ -15,7 +15,7 @@
 
 namespace minty
 {
-	void PhysicsSystem::update()
+	void PhysicsSystem::fixedUpdate()
 	{
 		// for each entity with velocity, collider
 		//		get future position
@@ -23,7 +23,7 @@ namespace minty
 		//			if collision, step from start to new spot, stop one hit something, stop velocity
 		//		if no collision, just move there
 
-		float deltaTime = Time::deltaTime();
+		float deltaTime = Time::fixedDeltaTime();
 
 		float gravityDeltaTime = GRAVITY * deltaTime;
 

@@ -49,7 +49,7 @@ namespace minty
 			delete mp_relationships;
 		}
 
-		void update() override;
+		void fixedUpdate() override;
 
 		void emplaceOnEnter(entt::entity const entity, collider_event_t::func const& func);
 		void emplaceOnStay(entt::entity const entity, collider_event_t::func const& func);

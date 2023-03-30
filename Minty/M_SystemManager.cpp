@@ -72,6 +72,17 @@ namespace minty
 			}
 		}
 	}
+
+	void SystemManager::fixedUpdate()
+	{
+		for (auto& pair : *mp_systems)
+		{
+			for (auto system : pair.second)
+			{
+				system->fixedUpdate();
+			}
+		}
+	}
 	
 	void SystemManager::unload()
 	{

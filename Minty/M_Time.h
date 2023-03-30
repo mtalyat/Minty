@@ -11,7 +11,11 @@ namespace minty
 	private:
 		static float s_deltaTime;
 
+		static float s_fixedDeltaTime;
+
 		static clock_t s_deltaTimeRaw;
+
+		static clock_t s_fixedDeltaTimeRaw;
 
 		static float s_timeScale;
 
@@ -29,16 +33,40 @@ namespace minty
 		inline static float deltaTime() { return s_deltaTime * s_timeScale; }
 
 		/// <summary>
-		/// Gets the raw time elapsed over the previous frame, as milliseconds clock_t.
+		/// Gets the raw time elapsed over the previous frame, as nanoseconds clock_t.
 		/// </summary>
 		/// <returns></returns>
 		inline static clock_t deltaTimeRaw() { return s_deltaTimeRaw; }
+
+		/// <summary>
+		/// Gets the fixed time that elapsed over the previous frame, unaltered by time scale.
+		/// </summary>
+		/// <returns></returns>
+		inline static float fixedDeltaTimeUnscaled() { return s_fixedDeltaTime; }
+
+		/// <summary>
+		/// Gets the fixed time that elapsed over the previous frame, multiplied by the time scale.
+		/// </summary>
+		/// <returns></returns>
+		inline static float fixedDeltaTime() { return s_fixedDeltaTime * s_timeScale; }
+
+		/// <summary>
+		/// Gets the raw fixed time elapsed over the previous frame, as nanoseconds clock_t.
+		/// </summary>
+		/// <returns></returns>
+		inline static float fixedDeltaTimeRaw() { return s_fixedDeltaTimeRaw; }
 
 		/// <summary>
 		/// Sets the delta time from the most recent frame.
 		/// </summary>
 		/// <param name="time"></param>
 		static void setDeltaTime(elapsed_t const time);
+
+		/// <summary>
+		/// Sets the fixed delta time from the most recent frame.
+		/// </summary>
+		/// <param name="time"></param>
+		static void setFixedDeltaTime(elapsed_t const time);
 
 		/// <summary>
 		/// Gets the time scale.

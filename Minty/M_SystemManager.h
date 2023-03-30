@@ -47,6 +47,11 @@ namespace minty
 		void update();
 
 		/// <summary>
+		/// Runs the fixedUpdate method on each System within this SystemManager.
+		/// </summary>
+		void fixedUpdate();
+
+		/// <summary>
 		/// Runs the unload method on each System within this SystemManager.
 		/// </summary>
 		void unload();

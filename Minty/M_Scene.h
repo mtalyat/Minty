@@ -73,6 +73,18 @@ namespace minty
         virtual int onUpdate() = 0;
 
         /// <summary>
+        /// Preforms fixed update methods for Systems, followed by onFixedUpdate().
+        /// </summary>
+        /// <returns></returns>
+        int fixedUpdate();
+
+        /// <summary>
+        /// Called very fixed update loop when this Scene is loaded.
+        /// </summary>
+        /// <returns></returns>
+        virtual int onFixedUpdate() = 0;
+
+        /// <summary>
         /// Performs unload methods for Systems, followed by onUnload().
         /// </summary>
         /// <returns></returns>
@@ -214,5 +226,11 @@ namespace minty
         /// <param name="order"></param>
         /// <returns></returns>
         entt::entity createEntity_ui_text(Text* const text, float const x, float const y, int const layer = 0, int const order = 0, float const anchorX = 0.0f, float const anchorY = 0.0f);
+
+        private:
+            /// <summary>
+            /// Will delete entities and other tasks that need to be done to "clean up."
+            /// </summary>
+            void cleanup();
     };
 }

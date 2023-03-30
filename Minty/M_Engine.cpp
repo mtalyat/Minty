@@ -38,6 +38,8 @@
 
 namespace minty
 {
+	constexpr elapsed_t FIXED_UPDATE_TIME = ONE_MILLISECOND * 20;// 0.02 seconds
+
 	Engine* Engine::sp_active = nullptr;
 
 	Engine::Engine(EngineConfig const* const config)
@@ -94,19 +96,29 @@ namespace minty
 
 		Debug::log("Initialization completed in: " + m_gameWatch.toString());
 
+		Time::setFixedDeltaTime(FIXED_UPDATE_TIME);
+
+		// debug
+		Debug::log(std::format("Fixed time: {}", std::to_string(Time::fixedDeltaTime())));
+
 		// FPS
 		Stopwatch fpsWatch = Stopwatch::startNew();
 		size_t frames = 0;
+		size_t fixedFrames = 0;
 		elapsed_t frameTime = mp_config->getFPNS();
+
+		// timers
+		Stopwatch renderWatch;
+		Stopwatch fixedWatch;
 
 		// testing
 		Stopwatch updateWatch;
-		long updateMax = 0;
+		Stopwatch fixedUpdateWatch;
 		Stopwatch loopWatch;
+		long updateMax = 0;
+		long fixedUpdateMax = 0;
 		long loopMax = 0;
 		long diffMax = 0;
-
-		Stopwatch renderWatch;
 
 		// used in loop
 		Scene* activeScene;
@@ -115,6 +127,9 @@ namespace minty
 		SDL_Renderer* const renderer = mp_screen->renderer();
 		entt::registry* registry = mp_game->registry();
 		SceneManager* sceneManager = mp_game->sceneManager();
+
+		// start watches
+		fixedWatch.start();
 
 		while (!m_quit)
 		{
@@ -208,8 +223,23 @@ namespace minty
 				}
 
 				updateWatch.stop();
-
 				updateMax = updateMax > updateWatch.elapsed() ? updateMax : updateWatch.elapsed();
+
+				// fixed update scene
+				if (fixedWatch.lap(FIXED_UPDATE_TIME))
+				{
+					fixedUpdateWatch.start();
+
+					if (activeScene->fixedUpdate())
+					{
+						Debug::logError(33, "Failed to fixed update active scene.");
+					}
+
+					fixedUpdateWatch.stop();
+					fixedUpdateMax = fixedUpdateMax > fixedUpdateWatch.elapsed() ? fixedUpdateMax : fixedUpdateWatch.elapsed();
+
+					fixedFrames++;
+				}
 			}
 
 			// if time to render
@@ -226,8 +256,9 @@ namespace minty
 			{
 				// one second passed, log FPS
 
-				Debug::log(std::to_string(frames) + "fps");
+				Debug::log(std::format("{0}fps, {1}tps", std::to_string(frames), std::to_string(fixedFrames)));
 				frames = 0;
+				fixedFrames = 0;
 			}
 
 			loopWatch.stop();
@@ -241,6 +272,7 @@ namespace minty
 
 			loopWatch.reset();
 			updateWatch.reset();
+			fixedUpdateWatch.reset();
 		}
 
 		if (mp_game->onStop())
@@ -261,6 +293,7 @@ namespace minty
 		Debug::setWatch(nullptr);
 
 		Debug::log(std::format("Update max: {0}ns", std::to_string(updateMax)));
+		Debug::log(std::format("Fixed update max: {0}ns", std::to_string(fixedUpdateMax)));
 		Debug::log(std::format("Loop max: {0}ns", std::to_string(loopMax)));
 		Debug::log(std::format("Loop w/o update max: {0}ns", std::to_string(loopMax - updateMax)));
 		Debug::log(std::format("Diff max: {0}ns", std::to_string(diffMax)));
