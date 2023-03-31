@@ -22,6 +22,7 @@ namespace minty
 	private:
 		color_t* mp_pixels;
 		Sprite* const mp_sprite;
+		bool m_dirty;
 
 	public:
 		Canvas(int const width, int const height, SDL_Renderer* const renderer);

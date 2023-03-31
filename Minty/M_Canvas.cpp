@@ -11,7 +11,8 @@ namespace minty
 		: width(width)
 		, height(height)
 		, mp_pixels(nullptr)
-		, mp_sprite(new Sprite(SDL_CreateTexture(renderer, SDL_PixelFormatEnum::SDL_PIXELFORMAT_ABGR8888, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, width, height), width, height))
+		, mp_sprite(new Sprite(SDL_CreateRGBSurface(0, width, height, 32, SDL_R_MASK, SDL_G_MASK, SDL_B_MASK, SDL_A_MASK), renderer))// SDL_CreateTexture(renderer, SDL_PixelFormatEnum::SDL_PIXELFORMAT_ABGR8888, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, width, height), width, height)
+		, m_dirty(false)
 	{
 		if (!mp_sprite->texture())
 		{
@@ -29,17 +30,27 @@ namespace minty
 
 	void Canvas::lock()
 	{
-		int pitch;
-
-		if (SDL_LockTexture(mp_sprite->texture(), nullptr, (void**)(&mp_pixels), &pitch))
+		if (SDL_LockSurface(mp_sprite->surface()))
 		{
 			Debug::logErrorSDL(32, "Failed to lock Canvas.");
+			mp_pixels = nullptr;
+		}
+		else
+		{
+			mp_pixels = static_cast<color_t*>(mp_sprite->surface()->pixels);
 		}
 	}
 
 	void Canvas::unlock()
 	{
-		SDL_UnlockTexture(mp_sprite->texture());
+		SDL_UnlockSurface(mp_sprite->surface());
+
+		// if changes made, update texture
+		if (m_dirty)
+		{
+			SDL_UpdateTexture(mp_sprite->texture(), nullptr, mp_pixels, width * 4);
+		}
+
 		mp_pixels = nullptr;
 	}
 
@@ -79,6 +90,8 @@ namespace minty
 	void Canvas::draw(int const x, int const y, Brush const& brush)
 	{
 		set_s(x, y, brush.getColor(x, y));
+
+		m_dirty = true;
 	}
 
 	void Canvas::drawLine(int const x1, int const y1, int const x2, int const y2, Brush const& brush)
@@ -113,6 +126,8 @@ namespace minty
 				err += dx; y += sy;
 			}
 		}
+
+		m_dirty = true;
 	}
 
 	void Canvas::drawRect(int const x, int const y, int const width, int const height, Brush const& brush)
@@ -140,6 +155,8 @@ namespace minty
 			set_s(x, j, brush.getColor(x, y, x, j));
 			set_s(k, j, brush.getColor(x, y, k, j));
 		}
+
+		m_dirty = true;
 	}
 
 	void Canvas::drawCircle(int const xm, int const ym, int const radius, Brush const& brush)
@@ -158,6 +175,8 @@ namespace minty
 			if (r <= y) err += ++y * 2 + 1;           /* e_xy+e_y < 0 */
 			if (r > x || err > y) err += ++x * 2 + 1; /* e_xy+e_x > 0 or no 2nd y-step */
 		} while (x < 0);
+
+		m_dirty = true;
 	}
 
 	void Canvas::drawSprite(int const x, int const y, Sprite const* const sprite)
@@ -196,6 +215,8 @@ namespace minty
 				set(x1, y1, sprite->getColor(x1, y1));
 			}
 		}
+
+		m_dirty = true;
 	}
 
 	void Canvas::fillRect(int const x, int const y, int const width, int const height, Brush const& brush)
@@ -228,6 +249,8 @@ namespace minty
 				set(x1, y1, brush.getColor(x, y, x1, y1));
 			}
 		}
+
+		m_dirty = true;
 	}
 	
 	void Canvas::fillCircle(int const xm, int const ym, int const radius, Brush const& brush)
@@ -269,6 +292,8 @@ namespace minty
 				set(x1, y1, brush.getColor(xm - radius, ym - radius, x1, y1));
 			}
 		}
+
+		m_dirty = true;
 	}
 
 	void Canvas::fillSlices(int const xm, int const ym, int const radius, std::vector<Sprite*> const& sprites, float offset)
@@ -351,6 +376,8 @@ namespace minty
 				delete brush;
 			}
 		}
+
+		m_dirty = true;
 	}
 	
 	void Canvas::clear(color_t const color)
@@ -359,5 +386,7 @@ namespace minty
 		{
 			mp_pixels[i] = color;
 		}
+
+		m_dirty = true;
 	}
 }

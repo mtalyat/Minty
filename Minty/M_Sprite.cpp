@@ -94,7 +94,9 @@ namespace minty
 		// copy area to that new surface
 		if (SDL_BlitSurface(mp_surface, &sdlRect, newSurface, nullptr))
 		{
-			Debug::logErrorSDL(25, "Could not blit surface when slicing.");
+			Debug::logErrorSDL(25, "Could not blit surface when slicing sprite.");
+
+			SDL_FreeSurface(newSurface);
 
 			return nullptr;
 		}
@@ -104,5 +106,22 @@ namespace minty
 		sprite->setPivot(pivot);
 		
 		return sprite;
+	}
+	
+	Sprite* Sprite::copy(SDL_Renderer* const renderer) const
+	{
+		SDL_Surface* newSurface = SDL_CreateRGBSurface(0, width, height, mp_surface->format->BitsPerPixel, mp_surface->format->Rmask, mp_surface->format->Gmask, mp_surface->format->Bmask, mp_surface->format->Amask);
+
+		// copy area to that new surface
+		if (SDL_BlitSurface(mp_surface, nullptr, newSurface, nullptr))
+		{
+			Debug::logErrorSDL(34, "Could not blit surface when copying sprite.");
+
+			SDL_FreeSurface(newSurface);
+
+			return nullptr;
+		}
+
+		return new Sprite(newSurface, renderer);
 	}
 }

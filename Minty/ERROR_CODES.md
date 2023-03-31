@@ -35,3 +35,4 @@
 | 00031 | "Failed to create Canvas texture." | M_Canvas.cpp | Canvas() |
 | 00032 | "Failed to lock Canvas." | M_Canvas.cpp | lock() |
 | 00033 | "Failed to fixed update active scene." | M_Engine.cpp | run() |
+| 00034 | "Could not blit surface when copying sprite." | M_Sprite.cpp | copy() |

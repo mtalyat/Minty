@@ -73,6 +73,13 @@ namespace minty
 		/// <param name="pivot"></param>
 		/// <returns></returns>
 		Sprite* slice(Rect const& rect, SDL_Renderer* const renderer, PointF const& pivot = PointF()) const;
+
+		/// <summary>
+		/// Creates a new copy of this Sprite and returns it.
+		/// </summary>
+		/// <param name="renderer"></param>
+		/// <returns></returns>
+		Sprite* copy(SDL_Renderer* const renderer) const;
 	};
 }
 
