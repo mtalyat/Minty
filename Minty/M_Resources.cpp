@@ -20,6 +20,11 @@ namespace minty
 		return file_readAllLines(path_combine(RESOURCES_DIRECTORY, path));
 	}
 
+	MINTY_API Font* resources_load_font(std::string const& path, int const size)
+	{
+		return TTF_OpenFont(path_combine(RESOURCES_DIRECTORY, path).c_str(), size);
+	}
+
 	SDL_Surface* resources_load_image(std::string const& path)
 	{
 		SDL_Surface* surface = IMG_Load(path_combine(RESOURCES_DIRECTORY, path).c_str());
