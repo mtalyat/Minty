@@ -79,6 +79,15 @@ namespace minty
 			return *this;
 		}
 
+		void stop()
+		{
+			// if a valid coroutine, and not done doing work, destroy self
+			if (valid && !handle.done())
+			{
+				destroy();
+			}
+		}
+
 		void destroy()
 		{
 			handle.destroy();
