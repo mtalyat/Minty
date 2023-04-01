@@ -6,11 +6,12 @@ namespace minty
 {
 #pragma region float
 
-    constexpr float MATH_PI = 3.141592f; // most digits we can get for pi
+    // most digits we can get for pi
+    #define MATH_PI 3.141592f
 
-    constexpr float MATH_DEG_TO_RAD = MATH_PI / 180.0f;
+    #define MATH_DEG_TO_RAD MATH_PI / 180.0f
 
-    constexpr float MATH_RAD_TO_DEG = 180.0f / MATH_PI;
+    #define MATH_RAD_TO_DEG 180.0f / MATH_PI
 
     /// <summary>
     /// Returns the higher of the two given values.
