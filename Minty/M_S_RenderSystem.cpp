@@ -72,8 +72,9 @@ namespace minty
 				renderable.y = position.y;
 			}
 		}
+
 		// ui objects
-		for (auto [entity, ui, renderable, renderer] : mp_registry->view<UI const, Renderable, SpriteRenderer const>().each())
+		for (auto [entity, ui, renderable] : mp_registry->view<UI const, Renderable>().each())
 		{
 			renderable.x = ui.x + mp_screen->width * ui.anchorX;
 			renderable.y = ui.y + mp_screen->height * ui.anchorY;
