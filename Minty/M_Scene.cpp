@@ -36,13 +36,10 @@ namespace minty
         , mp_game(game)
         , mp_engine(game->engine())
         , m_systemManager()
-        , m_mainCamera(createEntity_camera())
+        , m_mainCamera(entt::null)
         , mp_inputSystem(new InputSystem(mp_registry))
         , mp_renderSystem(new RenderSystem(mp_registry, &m_mainCamera, mp_engine->screen()))
     {
-        // ensure camera is not destroyed across scene transitions
-        mp_registry->emplace<NoDestroy>(m_mainCamera);
-
         // emplace input system
         m_systemManager.emplace(mp_inputSystem);
     }
@@ -54,6 +51,10 @@ namespace minty
 
     int Scene::load()
     {
+        // create camera
+        m_mainCamera = createEntity_camera();
+
+        // load systems
         m_systemManager.load();
 
         return onLoad();
@@ -99,7 +100,8 @@ namespace minty
                 }
             });
 
-        // let systems clean up
+        // cleanup
+        m_mainCamera = entt::null;
         m_systemManager.unload();
 
         // let scene clean up
