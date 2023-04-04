@@ -5,7 +5,7 @@
 
 namespace minty
 {
-    Point PointF::toPointF() const
+    Point PointF::toPoint() const
     {
         return Point(math_floorToInt(x), math_floorToInt(y));
     }
