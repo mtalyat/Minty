@@ -1,6 +1,9 @@
 #pragma once
 
 #include "M_System.h"
+#include "M_Point.h"
+#include "M_PointF.h"
+#include "entt.hpp"
 
 namespace minty
 {
@@ -24,5 +27,9 @@ namespace minty
 		{}
 
 		void update() override;
+
+		PointF screenToWorldPosition(Point const& screenPosition, entt::entity const cameraEntity);
+
+		Point worldToScreenPosition(PointF const& worldPosition, entt::entity const cameraEntity);
 	};
 }

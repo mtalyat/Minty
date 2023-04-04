@@ -180,4 +180,18 @@ namespace minty
 
 		SDL_RenderPresent(renderer);
 	}
+	
+	PointF RenderSystem::screenToWorldPosition(Point const& screenPosition, entt::entity const cameraEntity)
+	{
+		Position const& cameraPos = mp_registry->get<Position>(cameraEntity);
+		Camera const& camera = mp_registry->get<Camera>(cameraEntity);
+
+		return PointF(cameraPos.x + camera.offsetX + screenPosition.x, cameraPos.y + camera.offsetY + screenPosition.y);
+	}
+	
+	Point RenderSystem::worldToScreenPosition(PointF const& worldPosition, entt::entity const cameraEntity)
+	{
+		Debug::logNotImplemented("", "GameScene::worldToScreenPoint()", "GameScene.cpp");
+		return Point();
+	}
 }
