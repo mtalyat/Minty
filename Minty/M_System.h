@@ -12,6 +12,9 @@ namespace minty
 	class MINTY_API System
 		: public Object
 	{
+	private:
+		bool m_enabled;
+
 	protected:
 		/// <summary>
 		/// The registry that this System is part of.
@@ -20,10 +23,33 @@ namespace minty
 
 	public:
 		System(entt::registry* const registry)
-			: mp_registry(registry)
+			: m_enabled(true)
+			, mp_registry(registry)
 		{}
 
 		virtual ~System(){}
+
+		/// <summary>
+		/// Enables this System. The System will run update() or fixedUpdate() when enabled.
+		/// </summary>
+		void enable() { m_enabled = true; }
+
+		/// <summary>
+		/// Disables this System. The System will not run update() or fixedUpdate() when disabled.
+		/// </summary>
+		void disable() { m_enabled = false; }
+
+		/// <summary>
+		/// Sets the enabled state of this System.
+		/// </summary>
+		/// <param name="enabled"></param>
+		void setEnabled(bool const enabled) { m_enabled = enabled; }
+
+		/// <summary>
+		/// Checks if this System is enabled or not.
+		/// </summary>
+		/// <returns></returns>
+		constexpr bool isEnabled() const { return m_enabled; }
 
 		/// <summary>
 		/// Called when the Scene is being loaded.

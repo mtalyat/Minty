@@ -68,7 +68,10 @@ namespace minty
 		{
 			for (auto system : pair.second)
 			{
-				system->update();
+				if (system->isEnabled())
+				{
+					system->update();
+				}
 			}
 		}
 	}
@@ -79,7 +82,10 @@ namespace minty
 		{
 			for (auto system : pair.second)
 			{
-				system->fixedUpdate();
+				if (system->isEnabled())
+				{
+					system->fixedUpdate();
+				}
 			}
 		}
 	}
