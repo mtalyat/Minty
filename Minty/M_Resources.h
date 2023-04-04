@@ -3,6 +3,8 @@
 #include "M_PointF.h"
 #include "M_Stopwatch.h"
 #include "M_Font.h"
+#include "M_Music.h"
+#include "M_Sound.h"
 #include <string>
 #include <vector>
 #include <SDL.h>
@@ -20,6 +22,10 @@ namespace minty
 	MINTY_API std::vector<std::string>* resources_load_lines(std::string const& path);
 
 	MINTY_API Font* resources_load_font(std::string const& path, int const size);
+
+	MINTY_API Music* resources_load_music(std::string const& path);
+
+	MINTY_API Sound* resources_load_sound(std::string const& path);
 
 	MINTY_API SDL_Surface* resources_load_image(std::string const& path);
 

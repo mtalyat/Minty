@@ -85,7 +85,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
+      <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -108,7 +108,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib</AdditionalDependencies>
+      <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -150,6 +150,7 @@
     <ClInclude Include="entt.hpp" />
     <ClInclude Include="FastNoiseLite.h" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="M_Audio.h" />
     <ClInclude Include="M_Brush.h" />
     <ClInclude Include="M_Canvas.h" />
     <ClInclude Include="M_C_Follow.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="M_Mask.h" />
     <ClInclude Include="M_Math.h" />
     <ClInclude Include="M_Main.h" />
+    <ClInclude Include="M_Music.h" />
     <ClInclude Include="M_Object.h" />
     <ClInclude Include="M_Packing.h" />
     <ClInclude Include="M_Pair.h" />
@@ -215,10 +217,12 @@
     <ClInclude Include="M_Scene.h" />
     <ClInclude Include="M_SceneManager.h" />
     <ClInclude Include="M_Screen.h" />
+    <ClInclude Include="M_Sound.h" />
     <ClInclude Include="M_Sprite.h" />
     <ClInclude Include="M_SystemManager.h" />
     <ClInclude Include="M_S_AnimationSystem.h" />
     <ClInclude Include="M_System.h" />
+    <ClInclude Include="M_S_AudioSystem.h" />
     <ClInclude Include="M_S_InputSystem.h" />
     <ClInclude Include="M_S_PhysicsSystem.h" />
     <ClInclude Include="M_S_RenderSystem.h" />
@@ -239,6 +243,7 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="M_Animation.cpp" />
     <ClCompile Include="M_Atlas.cpp" />
+    <ClCompile Include="M_Audio.cpp" />
     <ClCompile Include="M_Brush.cpp" />
     <ClCompile Include="M_Brush_Solid.cpp" />
     <ClCompile Include="M_Brush_Sprite.cpp" />
@@ -277,6 +282,7 @@
     <ClCompile Include="M_System.cpp" />
     <ClCompile Include="M_SystemManager.cpp" />
     <ClCompile Include="M_S_AnimationSystem.cpp" />
+    <ClCompile Include="M_S_AudioSystem.cpp" />
     <ClCompile Include="M_S_InputSystem.cpp" />
     <ClCompile Include="M_S_PhysicsSystem.cpp" />
     <ClCompile Include="M_S_RenderSystem.cpp" />

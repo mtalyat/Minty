@@ -303,6 +303,18 @@
     <ClInclude Include="M_Brush_Sprite.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
+    <ClInclude Include="M_S_AudioSystem.h">
+      <Filter>Header Files\Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Sound.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Music.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Audio.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -450,6 +462,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Brush_Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_S_AudioSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

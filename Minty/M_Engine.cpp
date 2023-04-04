@@ -35,6 +35,7 @@
 #include "M_Time.h"
 
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 namespace minty
 {
@@ -65,6 +66,7 @@ namespace minty
 		delete mp_screen;
 
 		// clean up
+		Mix_Quit();
 		IMG_Quit();
 		TTF_Quit();
 		SDL_Quit();
@@ -345,6 +347,18 @@ namespace minty
 		if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG))
 		{
 			Debug::logErrorSDL(2, "Failed to init IMG.");
+		}
+
+		// init mixer
+		Mix_Init(MIX_INIT_MP3);
+		if (SDL_Init(SDL_INIT_AUDIO))
+		{
+			Debug::logErrorSDL(39, "Failed to init AUDIO.");
+		}
+
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048))
+		{
+			Debug::logErrorSDL(40, "Failed to init MIXER.");
 		}
 
 		// init screen/window, since it must be done after SDL_Init

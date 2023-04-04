@@ -36,3 +36,9 @@
 | 00032 | "Failed to lock Canvas." | M_Canvas.cpp | lock() |
 | 00033 | "Failed to fixed update active scene." | M_Engine.cpp | run() |
 | 00034 | "Could not blit surface when copying sprite." | M_Sprite.cpp | copy() |
+| 00035 | "Failed to load music at path: '...'." | M_Resources.cpp | resources_load_music() |
+| 00036 | "Failed to load sound at path: '...'." | M_Resources.cpp | resources_load_sound() |
+| 00037 | "Music not found: '...'." | M_S_AudioSystem.cpp | playMusic() |
+| 00038 | "Sound not found: '...'." | M_S_AudioSystem.cpp | playSound() |
+| 00039 | "Failed to init AUDIO." | M_Engine.cpp | initialize() |
+| 00040 | "Failed to init MIXER." | M_Engine.cpp | initialize() |

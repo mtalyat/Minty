@@ -7,6 +7,7 @@
 #include "M_ProceduralSprite.h"
 #include "M_Animation.h"
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 
 namespace minty
 {
@@ -25,10 +26,39 @@ namespace minty
 		return TTF_OpenFont(path_combine(RESOURCES_DIRECTORY, path).c_str(), size);
 	}
 
+	MINTY_API Music* resources_load_music(std::string const& path)
+	{
+		Mix_Music* m = Mix_LoadMUS(path_combine(RESOURCES_DIRECTORY, path).c_str());
+
+		// if did not load...
+		if (!m)
+		{
+			Debug::logErrorSDL(35, std::format("Failed to load music at path: \"{}\".", path));
+			return nullptr;
+		}
+
+		return new Music(m);
+	}
+
+	MINTY_API Sound* resources_load_sound(std::string const& path)
+	{
+		Mix_Chunk* m = Mix_LoadWAV(path_combine(RESOURCES_DIRECTORY, path).c_str());
+
+		// if did not load...
+		if (!m)
+		{
+			Debug::logErrorSDL(36, std::format("Failed to load sound at path: \"{}\".", path));
+			return nullptr;
+		}
+
+		return new Sound(m);
+	}
+
 	SDL_Surface* resources_load_image(std::string const& path)
 	{
 		SDL_Surface* surface = IMG_Load(path_combine(RESOURCES_DIRECTORY, path).c_str());
 
+		// if did not load...
 		if (!surface)
 		{
 			Debug::logErrorSDL(7, std::format("Could not load image at path \"{0}\".", path));
