@@ -64,8 +64,9 @@ namespace minty
             swap(y1 * m_width + x1, y2 * m_width + x2);
         }
 
-        inline int width() const { return m_width; }
-        inline int height() const { return m_height; }
+        constexpr int width() const { return m_width; }
+        constexpr int height() const { return m_height; }
+        constexpr int size() const { return m_width * m_height; }
 
         std::string const toString() const override { return std::format("Grid({0}, {1})", m_width, m_height); }
     };
