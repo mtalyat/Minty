@@ -120,13 +120,13 @@ namespace minty
 		elapsed_t loopMax = 0;
 		elapsed_t diffMax = 0;
 
-		// used in loop
-		Scene* activeScene;
-		SDL_Event event;
-
 		SDL_Renderer* const renderer = mp_screen->renderer();
 		entt::registry* registry = mp_game->registry();
 		SceneManager* sceneManager = mp_game->sceneManager();
+
+		// used in loop
+		Scene* activeScene = sceneManager->active();
+			SDL_Event event;
 
 		// start watches
 		fixedWatch.start();
@@ -135,16 +135,6 @@ namespace minty
 		{
 			loopWatch.start();
 			renderWatch.start();
-
-			// get the active scene
-			activeScene = sceneManager->active();
-
-			// if no scene
-			if (!activeScene)
-			{
-				abort(10, "No active scene.");
-				break;
-			}
 
 			// force events
 			SDL_PumpEvents();
@@ -206,6 +196,16 @@ namespace minty
 					mp_input->onMouseScroll(&event.wheel);
 					break;
 				}
+			}
+
+			// get the active scene
+			activeScene = sceneManager->active();
+
+			// if no scene
+			if (!activeScene)
+			{
+				abort(10, "No active scene.");
+				break;
 			}
 
 			// only update if not paused, or if the >>| key is being pressed.
