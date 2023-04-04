@@ -7,6 +7,7 @@
 #include "M_SystemManager.h"
 #include "M_S_RenderSystem.h"
 #include "M_S_InputSystem.h"
+#include "M_C_MouseClick.h"
 #include "M_Text.h"
 #include "entt.hpp"
 
@@ -202,7 +203,7 @@ namespace minty
         entt::entity createEntity_ui(std::string const& path, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
 
         /// <summary>
-        /// Creates and returns an entity with the following components: UI, Renderer, Renderable.
+        /// Creates and returns an entity with the following components: UI, SpriteRenderer, Renderable.
         /// </summary>
         /// <param name="sprite"></param>
         /// <param name="x"></param>
@@ -214,6 +215,22 @@ namespace minty
         /// <param name="pivotY"></param>
         /// <returns></returns>
         entt::entity createEntity_ui(Sprite* const sprite, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
+
+        /// <summary>
+        /// Creates and returns an entity with the following components: UI, SpriteRenderer, Renderable, MouseClick, Clickable.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="func"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="layer"></param>
+        /// <param name="order"></param>
+        /// <param name="pivotX"></param>
+        /// <param name="pivotY"></param>
+        /// <param name="anchorX"></param>
+        /// <param name="anchorY"></param>
+        /// <returns></returns>
+        entt::entity createEntity_ui_button(std::string const& path, mouseclick_t::func const& func, float const x, float const y, int const layer = 0, int const order = 0, float const pivotX = 0.0f, float const pivotY = 0.0f, float const anchorX = 0.0f, float const anchorY = 0.0f);
 
         /// <summary>
         /// Creates and returns an entity with the following components: Renderable, TextRenderer.

@@ -5,16 +5,19 @@
 #include "M_Click.h"
 #include "M_Event.h"
 
+#define mouseclick_event_t Click const* const
+#define mouseclick_t Event<mouseclick_event_t>
+
 namespace minty
 {
-	template class MINTY_API Event<Click const* const>;
+	template class MINTY_API mouseclick_t;
 
 	/// <summary>
 	/// Holds data for when a mouse is clicked on the entity.
 	/// </summary>
 	struct MINTY_API MouseClick
 	{
-		Event<Click const* const>* onClick;
+		mouseclick_t* onClick;
 
 		bool clicked;
 	};

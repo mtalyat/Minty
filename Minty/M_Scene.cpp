@@ -27,6 +27,10 @@
 #include "M_C_UI.h"
 #include "M_C_Center.h"
 #include "M_T_NoDestroy.h"
+#include "M_C_Clickable.h"
+#include "M_C_MouseClick.h"
+#include "M_C_MouseDown.h"
+#include "M_C_MouseUp.h"
 
 namespace minty
 {
@@ -184,6 +188,23 @@ namespace minty
         return entity;
     }
     
+    entt::entity Scene::createEntity_ui_button(std::string const& path, mouseclick_t::func const& func, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
+    {
+        // create UI
+        entt::entity entity = createEntity_ui(path, x, y, layer, order, pivotX, pivotY, anchorX, anchorY);
+
+        // use sprite for bounds
+        SpriteRenderer const& sr = mp_registry->get<SpriteRenderer>(entity);
+
+        // add click to it
+        mp_registry->emplace<Clickable>(entity, sr.sprite->rect().toRectF());
+        MouseClick& click = mp_registry->emplace<MouseClick>(entity, new mouseclick_t());
+        click.onClick->emplace(func);
+
+        // all done
+        return entity;
+    }
+
     entt::entity Scene::createEntity_ui_text(Text* const text, float const x, float const y, int const layer, int const order, float const anchorX, float const anchorY)
     {
         entt::entity entity = mp_registry->create();
