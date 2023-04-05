@@ -62,8 +62,11 @@ namespace minty
 			// get mask
 			Mask* mask = getMask(entity, collider);
 
-			float futurex = position.x + velocity.x * deltaTime;
-			float futurey = position.y + velocity.y * deltaTime;
+			float velx = velocity.x * deltaTime;
+			float vely = velocity.y * deltaTime;
+
+			float futurex = position.x + velx;
+			float futurey = position.y + vely;
 
 			// start moving, check for collisions each step
 			float incx, incy;
@@ -85,14 +88,36 @@ namespace minty
 				if (checkCollision(entity, collider, mask, RectF(worldHitbox.x + movex, worldHitbox.y + movey, worldHitbox.width, worldHitbox.height), getOffset(entity)))
 				{
 					// collision, so stop moving
+					// if no steps have occured yet, zero out smaller inc and try again
+					if (i == 0)
+					{
+						if (math_abs(incx) < math_abs(incy) && math_abs(incx) != 0.0f)
+						{
+							i--;
+							movex = 0.0f;
+							movey = 0.0f;
+							incx = 0.0f;
+							futurex = position.x;
+							continue;
+						}
+						else if (math_abs(incy) < math_abs(incx) && math_abs(incy) != 0.0f)
+						{
+							i--;
+							movex = 0.0f;
+							movey = 0.0f;
+							incy = 0.0f;
+							futurey = position.y;
+							continue;
+						}
+					}
 					
 					// return to previous position
 					movex -= incx;
 					movey -= incy;
 
-					// stop moving
-					velocity.x = 0.0f;
-					velocity.y = 0.0f;
+					// stop moving, based on increment
+					velocity.x *= velx == 0.0f ? 0.0f : movex / velx;
+					velocity.y *= vely == 0.0f ? 0.0f : movey / vely;
 
 					break;
 				}
