@@ -43,12 +43,12 @@ namespace minty
 		return pack_set_int(data, offset, 1, bit ? 1 : 0);
 	}
 
-	MINTY_API bool pack_get_bit(unsigned char const data, int const offset)
+	MINTY_API bool pack_get_bit(uchar const data, int const offset)
 	{
 		return (data >> offset) & 1;
 	}
 
-	MINTY_API unsigned char pack_set_bit(unsigned char const data, int const offset, bool const bit)
+	MINTY_API unsigned char pack_set_bit(uchar const data, int const offset, bool const bit)
 	{
 		return (data & ~(1 << offset)) | (bit << offset);
 	}
