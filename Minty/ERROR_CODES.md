@@ -21,8 +21,8 @@
 | 00017 | "File not found at: ..." | M_File.cpp | file_readAllCSV() |
 | 00018 | "File was empty: ..." | M_File.cpp | file_readAllCSV() |
 | 00019 | "Could not find input map '...'." | M_Input.cpp | select() |
-| 00020 | "Failed to stop scene '...'." | M_SceneManager.cpp | load() |
-| 00021 | "Failed to start scene '...'." | M_SceneManager.cpp | load() |
+| 00020 | "Failed to unload scene '...'." | M_SceneManager.cpp | unload() |
+| 00021 | "Failed to load scene '...'." | M_SceneManager.cpp | load() |
 | 00022 | "No scene found for name '...'." | M_SceneManager.cpp | load() |
 | 00023 | "Failed to fullscreen window." | M_Screen.cpp | Screen() |
 | 00024 | "Failed to update active scene." | M_Engine.cpp | run() |
@@ -42,3 +42,4 @@
 | 00038 | "Sound not found: '...'." | M_S_AudioSystem.cpp | playSound() |
 | 00039 | "Failed to init AUDIO." | M_Engine.cpp | initialize() |
 | 00040 | "Failed to init MIXER." | M_Engine.cpp | initialize() |
+| 000 | "No scene found for name '...'." | M_SceneManager.cpp | load() |
