@@ -54,4 +54,9 @@ namespace minty
 	{
 		return (rand() % range) < value;
 	}
+	
+	MINTY_API bool random_chance_b(int const value)
+	{
+		return (rand() % 255) < value;
+	}
 }

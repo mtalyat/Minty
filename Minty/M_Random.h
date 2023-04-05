@@ -70,4 +70,11 @@ namespace minty
 	/// <param name="range"></param>
 	/// <returns></returns>
 	MINTY_API inline bool random_chance(int const value, int const range);
+
+	/// <summary>
+	/// Returns true if the random byte generated is less than the given value.
+	/// </summary>
+	/// <param name="value"></param>
+	/// <returns></returns>
+	MINTY_API inline bool random_chance_b(int const value);
 }
