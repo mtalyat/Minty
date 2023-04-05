@@ -128,7 +128,7 @@ namespace minty
 
 		// used in loop
 		Scene* activeScene = sceneManager->active();
-			SDL_Event event;
+		SDL_Event event;
 
 		// start watches
 		fixedWatch.start();

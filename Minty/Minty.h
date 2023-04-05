@@ -8,6 +8,7 @@
 //		Data Types
 #include "M_Animation.h"
 #include "M_Atlas.h"
+#include "M_Audio.h"
 #include "M_Brush.h"
 #include "M_Brush_Solid.h"
 #include "M_Brush_Sprite.h"
@@ -20,6 +21,7 @@
 #include "M_Font.h"
 #include "M_Grid.h"
 #include "M_Mask.h"
+#include "M_Music.h"
 #include "M_Object.h"
 #include "M_Pair.h"
 #include "M_Palette.h"
@@ -28,6 +30,7 @@
 #include "M_ProceduralSprite.h"
 #include "M_Rect.h"
 #include "M_RectF.h"
+#include "M_Sound.h"
 #include "M_Sprite.h"
 #include "M_Stopwatch.h"
 #include "M_Text.h"
@@ -86,6 +89,7 @@
 
 //			Systems
 #include "M_S_AnimationSystem.h"
+#include "M_S_AudioSystem.h"
 #include "M_S_InputSystem.h"
 #include "M_S_PhysicsSystem.h"
 #include "M_S_RenderSystem.h"

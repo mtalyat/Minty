@@ -4,6 +4,10 @@
 #include "M_Music.h"
 #include "M_Sound.h"
 #include <unordered_map>
+#include <climits>
+
+#define LOOP_ONCE 0
+#define LOOP_FOREVER INT_MAX
 
 namespace minty
 {
@@ -30,8 +34,8 @@ namespace minty
 
 		void setVolume(int const channel, unsigned char const volume);
 
-		void playSound(std::string const& name, int const channel = 0, bool const loops = false, bool const oride = true);
+		void playSound(std::string const& name, int const channel = 0, int const loops = LOOP_ONCE, bool const oride = true);
 
-		void playMusic(std::string const& name, bool const loops = true, bool const oride = true);
+		void playMusic(std::string const& name, int const loops = LOOP_FOREVER, bool const oride = true);
 	};
 }

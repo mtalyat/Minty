@@ -6,6 +6,7 @@
 #include "M_Rect.h"
 #include "M_SystemManager.h"
 #include "M_S_RenderSystem.h"
+#include "M_S_AudioSystem.h"
 #include "M_S_InputSystem.h"
 #include "M_C_MouseClick.h"
 #include "M_Text.h"
@@ -39,6 +40,7 @@ namespace minty
     private:
         InputSystem* const mp_inputSystem;
         RenderSystem* const mp_renderSystem;
+        AudioSystem* const mp_audioSystem;
     public:
         Scene(std::string const& name, Game* const game);
         virtual ~Scene();
@@ -125,13 +127,19 @@ namespace minty
         /// Gets the InputSystem for this Scene.
         /// </summary>
         /// <returns></returns>
-        inline InputSystem* const inputSystem() { return mp_inputSystem; }
+        inline InputSystem* const inputSystem() const { return mp_inputSystem; }
 
         /// <summary>
         /// Gets the RenderSystem in this Scene.
         /// </summary>
         /// <returns></returns>
-        inline RenderSystem* const renderSystem() { return mp_renderSystem; }
+        inline RenderSystem* const renderSystem() const { return mp_renderSystem; }
+
+        /// <summary>
+        /// Gets the AudioSystem in this Scene.
+        /// </summary>
+        /// <returns></returns>
+        inline AudioSystem* const audioSystem() const { return mp_audioSystem; }
 
         //inline UI_Canvas* mainCanvas() { return mp_mainCanvas; }
 

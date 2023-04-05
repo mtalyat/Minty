@@ -43,7 +43,7 @@ namespace minty
 		Mix_Volume(channel, volume);
 	}
 	
-	void AudioSystem::playSound(std::string const& name, int const channel, bool const loops, bool const oride)
+	void AudioSystem::playSound(std::string const& name, int const channel, int const loops, bool const oride)
 	{
 		// get sound
 		auto const& found = mp_sounds->find(name);
@@ -65,7 +65,7 @@ namespace minty
 		Mix_PlayChannel(channel, found->second->getAudio(), loops);
 	}
 	
-	void AudioSystem::playMusic(std::string const& name, bool const loops, bool const oride)
+	void AudioSystem::playMusic(std::string const& name, int const loops, bool const oride)
 	{
 		// get music
 		auto const& found = mp_musics->find(name);

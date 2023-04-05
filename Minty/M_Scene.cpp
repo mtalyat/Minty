@@ -43,14 +43,17 @@ namespace minty
         , m_mainCamera(entt::null)
         , mp_inputSystem(new InputSystem(mp_registry))
         , mp_renderSystem(new RenderSystem(mp_registry, &m_mainCamera, mp_engine->screen()))
+        , mp_audioSystem(new AudioSystem(mp_registry))
     {
         // emplace input system
         m_systemManager.emplace(mp_inputSystem);
+        m_systemManager.emplace(mp_renderSystem);
+        m_systemManager.emplace(mp_audioSystem);
     }
 
     Scene::~Scene()
     {
-        delete mp_renderSystem;
+        
     }
 
     int Scene::load()
