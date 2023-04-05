@@ -46,12 +46,6 @@ namespace minty
         virtual ~Scene();
 
         /// <summary>
-        /// Called when the Engine starts, and will only be called once during the length of the program.
-        /// </summary>
-        /// <returns></returns>
-        virtual int onCreate() { return 0; }
-
-        /// <summary>
         /// Performs load methods for Systems, followed by onLoad().
         /// </summary>
         /// <returns></returns>
@@ -61,7 +55,7 @@ namespace minty
         /// Called when the Scene is loaded into the Game.
         /// </summary>
         /// <returns></returns>
-        virtual int onLoad() = 0;
+        virtual int onLoad() { return 0; }
 
         /// <summary>
         /// Preforms update methods for Systems, followed by onUpdate().
@@ -73,7 +67,7 @@ namespace minty
         /// Called every update loop when this Scene is loaded.
         /// </summary>
         /// <returns></returns>
-        virtual int onUpdate() = 0;
+        virtual int onUpdate() { return 0; }
 
         /// <summary>
         /// Preforms fixed update methods for Systems, followed by onFixedUpdate().
@@ -85,7 +79,7 @@ namespace minty
         /// Called very fixed update loop when this Scene is loaded.
         /// </summary>
         /// <returns></returns>
-        virtual int onFixedUpdate() = 0;
+        virtual int onFixedUpdate() { return 0; }
 
         /// <summary>
         /// Performs unload methods for Systems, followed by onUnload().
@@ -97,13 +91,7 @@ namespace minty
         /// Called when the Scene is unloaded from the Game.
         /// </summary>
         /// <returns></returns>
-        virtual int onUnload() = 0;
-
-        /// <summary>
-        /// Called when the Engine stops, and will only be called once during the length of the program.
-        /// </summary>
-        /// <returns></returns>
-        virtual int onDestroy() { return 0; }
+        virtual int onUnload() { return 0; }
 
         /// <summary>
         /// Gets the name of this Scene.

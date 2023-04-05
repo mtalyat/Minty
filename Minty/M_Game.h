@@ -30,13 +30,7 @@ namespace minty
 		virtual ~Game();
 
 		/// <summary>
-		/// Called when the Engine starts.
-		/// </summary>
-		/// <returns></returns>
-		virtual int onCreate() = 0;
-
-		/// <summary>
-		/// Called when the Engine has started, after onCreate.
+		/// Called when the Engine has started.
 		/// </summary>
 		/// <returns></returns>
 		virtual int onStart() = 0;
@@ -46,12 +40,6 @@ namespace minty
 		/// </summary>
 		/// <returns></returns>
 		virtual int onStop() = 0;
-
-		/// <summary>
-		/// Called when the Engine is stopped, after onStop.
-		/// </summary>
-		/// <returns></returns>
-		virtual int onDestroy() = 0;
 
 		std::string const& name() const { return m_name; }
 

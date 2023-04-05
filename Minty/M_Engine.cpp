@@ -82,13 +82,6 @@ namespace minty
 		// start game clock
 		m_gameWatch.start();
 
-		// create game
-		if (mp_game->onCreate())
-		{
-			abort(11, "Failed to create game.");
-			return;
-		}
-
 		// start game
 		if (mp_game->onStart())
 		{
@@ -280,12 +273,6 @@ namespace minty
 		if (mp_game->onStop())
 		{
 			abort(13, "Failed to stop game.");
-			return;
-		}
-
-		if (mp_game->onDestroy())
-		{
-			abort(14, "Failed to destroy game.");
 			return;
 		}
 

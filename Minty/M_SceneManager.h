@@ -16,13 +16,11 @@ namespace minty
 	{
 	private:
 		std::map<std::string, Scene*>* mp_scenes;
-		std::vector<Scene*>* mp_activeScenes;
 		Scene* mp_active;
 
 	public:
 		SceneManager()
 			: mp_scenes(new std::map<std::string, Scene*>())
-			, mp_activeScenes(new std::vector<Scene*>())
 			, mp_active(nullptr)
 		{}
 
@@ -46,12 +44,7 @@ namespace minty
 		/// Loads the Scene with the given name, and emplaces it on the top of the Stack.
 		/// </summary>
 		/// <param name="name"></param>
-		void load(std::string const& name, bool const unloadActive = true);
-
-		/// <summary>
-		/// Unloads the current active Scene, and returns to the topmost Scene in the Stack.
-		/// </summary>
-		void unload();
+		void load(std::string const& name);
 
 		/// <summary>
 		/// Unloads and loads the active Scene.
@@ -63,12 +56,5 @@ namespace minty
 		/// </summary>
 		/// <returns></returns>
 		inline Scene* const active() { return mp_active; }
-
-	private:
-		// adds scene to stack, sets as active
-		void push(Scene* const scene);
-
-		// removes scene from stack, sets active as top of stack or null if empty
-		void pop();
 	};
 }

@@ -34,18 +34,17 @@ namespace minty
 		return false;
 	}
 
-	void SceneManager::load(std::string const& name, bool const unloadActive)
+	void SceneManager::load(std::string const& name)
 	{
 		// load new scene
 		if (contains(name))
 		{
-			// stop current scene, if supposed to
-			if (unloadActive)
-			{
-				unload();
+			// unload active scene, if there is one
+			if (mp_active && mp_active->unload()) {
+				Debug::logError(20, std::format("Failed to unload scene \"{0}\".", mp_active->name()), *mp_active);
 			}
 
-			push(mp_scenes->at(name));
+			mp_active = mp_scenes->at(name);
 
 			if (mp_active->load()) {
 				Debug::logError(21, std::format("Failed to load scene \"{0}\".", mp_active->name()), *mp_active);
@@ -57,40 +56,8 @@ namespace minty
 		}
 	}
 
-	void SceneManager::unload()
-	{
-		if (mp_active)
-		{
-			if (mp_active->unload()) {
-				Debug::logError(20, std::format("Failed to unload scene \"{0}\".", mp_active->name()), *mp_active);
-			}
-
-			pop();
-		}
-	}
-
 	void SceneManager::reload()
 	{
 		load(mp_active->name());
-	}
-	
-	void SceneManager::push(Scene* const scene)
-	{
-		mp_activeScenes->push_back(scene);
-		mp_active = scene;
-	}
-	
-	void SceneManager::pop()
-	{
-		mp_activeScenes->pop_back();
-
-		if (mp_activeScenes->empty())
-		{
-			mp_active = nullptr;
-		}
-		else
-		{
-			mp_active = mp_activeScenes->back();
-		}
 	}
 }

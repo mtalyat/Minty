@@ -12,10 +12,10 @@
 | 00008 | "Failed to create image from resources at path: '...'." | M_Resources.cpp | resources_load_images() |
 | 00009 | "Failed to create image from resources at path: '...'." | M_Resources.cpp | resources_load_all_images() |
 | 00010 | "Engine aborted. No active scene." | M_Engine.cpp | run() |
-| 00011 | "Engine aborted. Failed to create game." | M_Engine.cpp | run() |
+
 | 00012 | "Engine aborted. Failed to start game." | M_Engine.cpp | run() |
 | 00013 | "Engine aborted. Failed to stop game." | M_Engine.cpp | run() |
-| 00014 | "Engine aborted. Failed to destroy game." | M_Engine.cpp | run() |
+
 | 00015 | "File not found at: ..." | M_File.cpp | file_readAllText() |
 | 00016 | "File not found at: ..." | M_File.cpp | file_readAllLines() |
 | 00017 | "File not found at: ..." | M_File.cpp | file_readAllCSV() |
@@ -42,4 +42,3 @@
 | 00038 | "Sound not found: '...'." | M_S_AudioSystem.cpp | playSound() |
 | 00039 | "Failed to init AUDIO." | M_Engine.cpp | initialize() |
 | 00040 | "Failed to init MIXER." | M_Engine.cpp | initialize() |
-| 000 | "No scene found for name '...'." | M_SceneManager.cpp | load() |
