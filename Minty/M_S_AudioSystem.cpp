@@ -64,6 +64,11 @@ namespace minty
 		Mix_Volume(found->second->getVolume(), channel);
 		Mix_PlayChannel(channel, found->second->getAudio(), loops);
 	}
+
+	void AudioSystem::stopSound(int const channel)
+	{
+		Mix_HaltChannel(channel);
+	}
 	
 	void AudioSystem::playMusic(std::string const& name, int const loops, bool const oride)
 	{
@@ -85,5 +90,10 @@ namespace minty
 
 		Mix_VolumeMusic(found->second->getVolume());
 		Mix_PlayMusic(found->second->getAudio(), loops);
+	}
+
+	void AudioSystem::stopMusic()
+	{
+		Mix_HaltMusic();
 	}
 }

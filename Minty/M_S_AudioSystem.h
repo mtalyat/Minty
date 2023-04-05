@@ -34,8 +34,12 @@ namespace minty
 
 		void setVolume(int const channel, unsigned char const volume);
 
-		void playSound(std::string const& name, int const channel = 0, int const loops = LOOP_ONCE, bool const oride = true);
+		void playSound(std::string const& name, int const channel = -1, int const loops = LOOP_ONCE, bool const oride = true);
+
+		void stopSound(int const channel = -1);
 
 		void playMusic(std::string const& name, int const loops = LOOP_FOREVER, bool const oride = true);
+
+		void stopMusic();
 	};
 }
