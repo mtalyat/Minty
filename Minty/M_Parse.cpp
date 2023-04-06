@@ -23,6 +23,30 @@ namespace minty
 			}
 		}
 
+		out = parse_sbyte(str);
+		return true;
+	}
+
+	MINTY_API signed char parse_sbyte(std::string const& str)
+	{
+		return static_cast<signed char>(std::stol(str));
+	}
+
+	MINTY_API bool try_parse_sbyte(std::string const& str, signed char& out)
+	{
+		if (str.empty())
+		{
+			return false;
+		}
+
+		for (char c : str)
+		{
+			if (!isdigit(c))
+			{
+				return false;
+			}
+		}
+
 		out = parse_byte(str);
 		return true;
 	}
@@ -32,7 +56,7 @@ namespace minty
 		return static_cast<unsigned short>(std::stoul(str));
 	}
 
-	MINTY_API bool try_parse_ushort(std::string const& str, unsigned char& out)
+	MINTY_API bool try_parse_ushort(std::string const& str, unsigned short& out)
 	{
 		if (str.empty())
 		{

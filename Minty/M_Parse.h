@@ -10,9 +10,13 @@ namespace minty
 
 	MINTY_API bool try_parse_byte(std::string const& str, unsigned char& out);
 
+	MINTY_API inline signed char parse_sbyte(std::string const& str);
+
+	MINTY_API bool try_parse_sbyte(std::string const& str, signed char& out);
+
 	MINTY_API inline unsigned short parse_ushort(std::string const& str);
 
-	MINTY_API bool try_parse_ushort(std::string const& str, unsigned char& out);
+	MINTY_API bool try_parse_ushort(std::string const& str, unsigned short& out);
 
 	MINTY_API inline int parse_int(std::string const& str);
 
