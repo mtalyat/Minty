@@ -1,5 +1,9 @@
 #include "pch.h"
 #include "M_Path.h"
+//#ifndef BOOST_ALL_DYN_LINK
+//#define BOOST_ALL_DYN_LINK
+//#endif 
+#include <boost/filesystem.hpp>
 
 namespace minty
 {
@@ -15,6 +19,6 @@ namespace minty
 		}
 
 		// neither start with one another, so combine
-		return (std::filesystem::path(left) / right).string();
+		return (boost::filesystem::path(left) / boost::filesystem::path(right)).string();
 	}
 }

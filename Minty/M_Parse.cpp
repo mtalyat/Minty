@@ -41,7 +41,7 @@ namespace minty
 
 		for (char c : str)
 		{
-			if (!isdigit(c))
+			if (!isdigit(c) && c != '-')
 			{
 				return false;
 			}
@@ -89,7 +89,7 @@ namespace minty
 
 		for (char c : str)
 		{
-			if (!isdigit(c))
+			if (!isdigit(c) && c != '-')
 			{
 				return false;
 			}
@@ -137,7 +137,7 @@ namespace minty
 
 		for (char c : str)
 		{
-			if (!isdigit(c))
+			if (!isdigit(c) && c != '-')
 			{
 				return false;
 			}
@@ -193,6 +193,30 @@ namespace minty
 		}
 
 		out = parse_binary(str);
+		return true;
+	}
+	
+	MINTY_API float parse_float(std::string const& str)
+	{
+		return std::stof(str);
+	}
+	
+	MINTY_API bool try_parse_float(std::string const& str, float& out)
+	{
+		if (str.empty())
+		{
+			return false;
+		}
+
+		for (char c : str)
+		{
+			if (!isdigit(c) && c != '-' && c != '.')
+			{
+				return false;
+			}
+		}
+
+		out = parse_float(str);
 		return true;
 	}
 }

@@ -35,4 +35,8 @@ namespace minty
 	MINTY_API unsigned int parse_binary(std::string const& str);
 
 	MINTY_API bool try_parse_binary(std::string const& str, unsigned int& out);
+
+	MINTY_API float parse_float(std::string const& str);
+
+	MINTY_API bool try_parse_float(std::string const& str, float& out);
 }

@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Engine\Systems">
       <UniqueIdentifier>{1b683a07-62f4-4890-9efd-718d36535982}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Abstract">
+      <UniqueIdentifier>{5be19814-e240-4fe1-a23e-3f92311b2b28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -315,6 +318,18 @@
     <ClInclude Include="M_Audio.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
+    <ClInclude Include="M_SaveLoad.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Directory.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Saveable.h">
+      <Filter>Header Files\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Serialization.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -468,6 +483,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_SaveLoad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_Directory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_Serialization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

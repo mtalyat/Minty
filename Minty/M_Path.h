@@ -1,7 +1,7 @@
 #pragma once
 
+#include "M_Main.h"
 #include <string>
-#include <filesystem>
 
 namespace minty
 {
@@ -11,5 +11,5 @@ namespace minty
 	/// <param name="left"></param>
 	/// <param name="right"></param>
 	/// <returns></returns>
-	std::string path_combine(std::string const& left, std::string const& right);
+	MINTY_API std::string path_combine(std::string const& left, std::string const& right);
 }

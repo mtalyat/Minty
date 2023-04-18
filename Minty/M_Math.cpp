@@ -128,6 +128,16 @@ namespace minty
 		return powf(x, y);
 	}
 
+	MINTY_API float math_sign(float const x)
+	{
+		return x >= 0.0f ? 1.0f : -1.0f;
+	}
+
+	MINTY_API float math_sign_z(float const x)
+	{
+		return x == 0.0f ? 0.0f : (x > 0.0f ? 1.0f : -1.0f);
+	}
+
 	int MINTY_API math_max(int const left, int const right)
 	{
 		return left > right ? left : right;
@@ -196,5 +206,15 @@ namespace minty
 	MINTY_API float math_mod_positive(float const value, float const mod)
 	{
 		return value < 0.0f ? (math_mod(value, mod) + mod) : math_mod(value, mod);
+	}
+	
+	MINTY_API int math_sign(int const x)
+	{
+		return x >= 0 ? 1 : -1;
+	}
+	
+	MINTY_API int math_sign_z(int const x)
+	{
+		return x == 0 ? 0 : (x > 0 ? 1 : -1);
 	}
 }

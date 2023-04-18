@@ -70,23 +70,25 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;MINTY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\GL\SDLbin\include;include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_79_0;C:\GL\SDLbin\include;include</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_79_0\bin\$(PlatformTarget)\lib;C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,10 +99,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;MINTY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\GL\SDLbin\include;include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_81_0;C:\GL\SDLbin\include;include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_81_0\bin\$(PlatformTarget)\lib;C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,6 +156,7 @@
     <ClInclude Include="M_Brush.h" />
     <ClInclude Include="M_Canvas.h" />
     <ClInclude Include="M_C_Follow.h" />
+    <ClInclude Include="M_Directory.h" />
     <ClInclude Include="M_Manager.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="M_Animation.h" />
@@ -214,9 +217,11 @@
     <ClInclude Include="M_Rect.h" />
     <ClInclude Include="M_RectF.h" />
     <ClInclude Include="M_Resources.h" />
+    <ClInclude Include="M_SaveLoad.h" />
     <ClInclude Include="M_Scene.h" />
     <ClInclude Include="M_SceneManager.h" />
     <ClInclude Include="M_Screen.h" />
+    <ClInclude Include="M_Serialization.h" />
     <ClInclude Include="M_Sound.h" />
     <ClInclude Include="M_Sprite.h" />
     <ClInclude Include="M_SystemManager.h" />
@@ -238,6 +243,7 @@
     <ClInclude Include="M_C_TextRenderer.h" />
     <ClInclude Include="M_Brush_Solid.h" />
     <ClInclude Include="M_Brush_Sprite.h" />
+    <ClInclude Include="M_Saveable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -255,6 +261,7 @@
     <ClCompile Include="M_C_Name.cpp" />
     <ClCompile Include="M_Debug.cpp" />
     <ClCompile Include="M_Direction.cpp" />
+    <ClCompile Include="M_Directory.cpp" />
     <ClCompile Include="M_Engine.cpp" />
     <ClCompile Include="M_File.cpp" />
     <ClCompile Include="M_FontManager.cpp" />
@@ -275,9 +282,11 @@
     <ClCompile Include="M_Rect.cpp" />
     <ClCompile Include="M_RectF.cpp" />
     <ClCompile Include="M_Resources.cpp" />
+    <ClCompile Include="M_SaveLoad.cpp" />
     <ClCompile Include="M_Scene.cpp" />
     <ClCompile Include="M_SceneManager.cpp" />
     <ClCompile Include="M_Screen.cpp" />
+    <ClCompile Include="M_Serialization.cpp" />
     <ClCompile Include="M_Sprite.cpp" />
     <ClCompile Include="M_System.cpp" />
     <ClCompile Include="M_SystemManager.cpp" />
@@ -301,6 +310,5 @@
     <Text Include="ERROR_CODES.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

@@ -181,6 +181,20 @@ namespace minty
     /// <returns></returns>
     MINTY_API inline float math_pow(float const x, float const y);
 
+    /// <summary>
+    /// Returns the sign of the given value (1 or -1).
+    /// </summary>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_sign(float const x);
+
+    /// <summary>
+    /// Returns the sign of the given value, including zero (1, 0 or -1).
+    /// </summary>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    MINTY_API inline float math_sign_z(float const x);
+
 #pragma endregion
 
 #pragma region int
@@ -297,6 +311,20 @@ namespace minty
     /// <param name="mod"></param>
     /// <returns></returns>
     MINTY_API inline float math_mod_positive(float const value, float const mod);
+
+    /// <summary>
+    /// Returns the sign of the given value (1 or -1).
+    /// </summary>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    MINTY_API inline int math_sign(int const x);
+
+    /// <summary>
+    /// Returns the sign of the given value, including zero (1, 0 or -1).
+    /// </summary>
+    /// <param name="x"></param>
+    /// <returns></returns>
+    MINTY_API inline int math_sign_z(int const x);
 
 #pragma endregion
 }
