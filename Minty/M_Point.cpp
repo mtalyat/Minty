@@ -12,6 +12,18 @@ namespace minty
 		return PointF(x, y);
 	}
 	
+	void Point::serialize(boost::property_tree::ptree& ptree)
+	{
+		ptree.put("x", x);
+		ptree.put("y", y);
+	}
+
+	void Point::deserialize(boost::property_tree::ptree const& ptree)
+	{
+		x = ptree.get("x", 0);
+		y = ptree.get("y", 0);
+	}
+
 	Point Point::polarToCartesian(Point& const polar)
 	{
 		return Point(math_cos(polar.x) * polar.y, math_sin(polar.x) * polar.y);

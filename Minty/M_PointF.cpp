@@ -12,6 +12,18 @@ namespace minty
 
     inline std::string const PointF::toString() const { return std::format("PointF({0}, {1})", x, y); }
     
+    void PointF::serialize(boost::property_tree::ptree& ptree)
+    {
+        ptree.put("x", x);
+        ptree.put("y", y);
+    }
+
+    void PointF::deserialize(boost::property_tree::ptree const& ptree)
+    {
+        x = ptree.get("x", 0.0f);
+        y = ptree.get("y", 0.0f);
+    }
+
     PointF PointF::polarToCartesian(PointF& const polar)
     {
         return PointF(math_cos(polar.x) * polar.y, math_sin(polar.x) * polar.y);

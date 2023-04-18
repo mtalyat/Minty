@@ -36,6 +36,22 @@ namespace minty
 		return RectF(x, y, width, height);
 	}
 
+	void Rect::serialize(boost::property_tree::ptree& ptree)
+	{
+		ptree.put("x", x);
+		ptree.put("y", y);
+		ptree.get("w", width);
+		ptree.get("h", height);
+	}
+
+	void Rect::deserialize(const boost::property_tree::ptree& ptree)
+	{
+		x = ptree.get("x", 0);
+		y = ptree.get("y", 0);
+		width = ptree.get("w", 0);
+		height = ptree.get("h", 0);
+	}
+
 	Rect Rect::bounds(int const left, int const right, int const top, int const bottom)
 	{
 		return Rect(left, top, right - left + 1, bottom - top + 1);

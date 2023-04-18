@@ -1,6 +1,6 @@
 #pragma once
 
-#include "M_Object.h"
+#include "M_Saveable.h"
 #include "M_PointF.h"
 #include "M_Point.h"
 #include "M_Rect.h"
@@ -8,7 +8,7 @@
 namespace minty
 {
 	struct MINTY_API RectF
-		: public Object
+		: public Saveable
 	{
 	public:
 		float x, y, width, height;
@@ -121,6 +121,9 @@ namespace minty
 		static Rect round(RectF const& rect);
 		static Rect ceil(RectF const& rect);
 
+		void serialize(boost::property_tree::ptree& ptree) override;
+		void deserialize(boost::property_tree::ptree const& ptree) override;
+
 		std::string const toString() const override { return std::format("RectF({0}, {1}, {2}, {3})", x, y, width, height); }
-	};
+};
 }

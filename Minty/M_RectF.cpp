@@ -45,4 +45,20 @@ namespace minty
 	{
 		return Rect(math_ceilToInt(rect.x), math_ceilToInt(rect.y), math_ceilToInt(rect.width), math_ceilToInt(rect.height));
 	}
+	
+	void RectF::serialize(boost::property_tree::ptree& ptree)
+	{
+		ptree.put("x", x);
+		ptree.put("y", y);
+		ptree.get("w", width);
+		ptree.get("h", height);
+	}
+	
+	void RectF::deserialize(const boost::property_tree::ptree& ptree)
+	{
+		x = ptree.get("x", 0.0f);
+		y = ptree.get("y", 0.0f);
+		width = ptree.get("w", 0.0f);
+		height = ptree.get("h", 0.0f);
+	}
 }

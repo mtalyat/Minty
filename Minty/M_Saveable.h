@@ -6,6 +6,7 @@
 namespace minty
 {
 	class MINTY_API Saveable
+		: public Object
 	{
 	public:
 		virtual void serialize(boost::property_tree::ptree& ptree) = 0;

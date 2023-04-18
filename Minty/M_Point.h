@@ -1,6 +1,6 @@
 #pragma once
 
-#include "M_Object.h"
+#include "M_Saveable.h"
 #include "M_Math.h"
 #include <iostream>
 
@@ -12,7 +12,7 @@ namespace minty
     /// Holds X and Y coordinates for a point in space.
     /// </summary>
     struct MINTY_API Point :
-        public Object
+        public Saveable
     {
         int x, y;
 
@@ -71,6 +71,9 @@ namespace minty
         PointF toPointF() const;
 
         std::string const toString() const override { return std::format("Point({0}, {1})", x, y); }
+
+        void serialize(boost::property_tree::ptree& ptree) override;
+        void deserialize(boost::property_tree::ptree const& ptree) override;
 
         static Point polarToCartesian(Point& const polar);
 
