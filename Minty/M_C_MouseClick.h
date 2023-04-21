@@ -17,8 +17,14 @@ namespace minty
 	/// </summary>
 	struct MINTY_API MouseClick
 	{
+		/// <summary>
+		/// The event to call on a successful mouse click.
+		/// </summary>
 		mouseclick_t* onClick;
 
+		/// <summary>
+		/// Is the entity being clicked?
+		/// </summary>
 		bool clicked;
 	};
 }

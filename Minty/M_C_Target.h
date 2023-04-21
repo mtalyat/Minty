@@ -10,8 +10,14 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Target
 	{
+		/// <summary>
+		/// The target entity.
+		/// </summary>
 		entt::entity target;
 
+		/// <summary>
+		/// The amount to lerp by to get to the target entity.
+		/// </summary>
 		float lerp;
 	};
 }

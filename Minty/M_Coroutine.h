@@ -17,6 +17,9 @@ namespace minty
 	template <typename T>
 	struct Coroutine
 	{
+		/// <summary>
+		/// Is this Coroutine still valid and representative of an active Coroutine?
+		/// </summary>
 		bool valid;
 
 		struct promise_type;
@@ -54,22 +57,32 @@ namespace minty
 
 		handle_type handle;
 
+		/// <summary>
+		/// Creates an empty Coroutine.
+		/// </summary>
 		Coroutine() : valid(false), handle() {}
 
+		/// <summary>
+		/// Creates a Coroutine from the given handle.
+		/// </summary>
+		/// <param name="h"></param>
 		Coroutine(handle_type h) : valid(true), handle(h) {}
 
+		// copy constructor
 		Coroutine(Coroutine const& other)
 			: valid(other.valid)
 			, handle(other.handle)
 			, m_isFull(other.m_isFull)
 		{}
 
+		// move constructor
 		Coroutine(Coroutine&& other) noexcept
 			: valid(other.valid)
 			, handle(other.handle)
 			, m_isFull(other.m_isFull)
 		{}
 
+		// assignment operator
 		Coroutine& operator=(Coroutine const& other)
 		{
 			valid = other.valid;
@@ -79,6 +92,9 @@ namespace minty
 			return *this;
 		}
 
+		/// <summary>
+		/// Stop this Coroutine.
+		/// </summary>
 		void stop()
 		{
 			// if a valid coroutine, and not done doing work, destroy self
@@ -88,6 +104,9 @@ namespace minty
 			}
 		}
 
+		/// <summary>
+		/// Destroy this Coroutine.
+		/// </summary>
 		void destroy()
 		{
 			handle.destroy();
@@ -96,12 +115,14 @@ namespace minty
 
 		//~Coroutine() { handle.destroy(); }
 
+		// iterates the coroutine
 		explicit operator bool()
 		{
 			fill();
 			return !handle.done();
 		}
 
+		// runs the coroutine
 		T operator()()
 		{
 			fill();
@@ -127,13 +148,20 @@ namespace minty
 		}
 	};
 
+	/// <summary>
+	/// Manages and runs coroutines in an orderly method.
+	/// </summary>
 	class MINTY_API CoroutineManager
 		: public Object
 	{
 	private:
+		// the coroutines to run
 		std::vector<Coroutine<int>>* mp_coroutines;
 
 	public:
+		/// <summary>
+		/// Creates a new CoroutineManager.
+		/// </summary>
 		CoroutineManager()
 			: mp_coroutines(new std::vector<Coroutine<int>>())
 		{}
@@ -146,7 +174,7 @@ namespace minty
 		/// <summary>
 		/// Adds a new Coroutine to the CoroutineManager.
 		/// </summary>
-		/// <param name="coroutine"></param>
+		/// <param name="coroutine">The coroutine to add.</param>
 		void emplace(Coroutine<int> const& coroutine)
 		{
 			mp_coroutines->push_back(coroutine);

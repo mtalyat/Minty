@@ -100,7 +100,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;MINTY_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_81_0;C:\GL\SDLbin\include;include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\boost\boost_1_79_0;C:\GL\SDLbin\include;include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -111,7 +111,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>Shell32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_81_0\bin\$(PlatformTarget)\lib;C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files\boost\boost_1_79_0\bin\$(PlatformTarget)\lib;C:\GL\SDLbin\lib\x86</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -202,7 +202,7 @@
     <ClInclude Include="M_Mask.h" />
     <ClInclude Include="M_Math.h" />
     <ClInclude Include="M_Main.h" />
-    <ClInclude Include="M_Music.h" />
+    <ClInclude Include="M_Audio_Music.h" />
     <ClInclude Include="M_Object.h" />
     <ClInclude Include="M_Packing.h" />
     <ClInclude Include="M_Pair.h" />
@@ -222,7 +222,7 @@
     <ClInclude Include="M_SceneManager.h" />
     <ClInclude Include="M_Screen.h" />
     <ClInclude Include="M_Serialization.h" />
-    <ClInclude Include="M_Sound.h" />
+    <ClInclude Include="M_Audio_Sound.h" />
     <ClInclude Include="M_Sprite.h" />
     <ClInclude Include="M_SystemManager.h" />
     <ClInclude Include="M_S_AnimationSystem.h" />
@@ -234,6 +234,7 @@
     <ClInclude Include="M_S_TargetSystem.h" />
     <ClInclude Include="M_Text.h" />
     <ClInclude Include="M_Time.h" />
+    <ClInclude Include="M_Types.h" />
     <ClInclude Include="M_T_Destroy.h" />
     <ClInclude Include="M_C_Gravity.h" />
     <ClInclude Include="M_T_NoDestroy.h" />
@@ -244,6 +245,7 @@
     <ClInclude Include="M_Brush_Solid.h" />
     <ClInclude Include="M_Brush_Sprite.h" />
     <ClInclude Include="M_Saveable.h" />
+    <ClInclude Include="M_Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -297,6 +299,7 @@
     <ClCompile Include="M_S_RenderSystem.cpp" />
     <ClCompile Include="M_S_TargetSystem.cpp" />
     <ClCompile Include="M_String.cpp" />
+    <ClCompile Include="M_Text.cpp" />
     <ClCompile Include="M_Time.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

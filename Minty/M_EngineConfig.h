@@ -14,16 +14,40 @@ namespace minty
 		: public Object
 	{
 	public:
+		/// <summary>
+		/// The maximum FPS allowed.
+		/// </summary>
 		unsigned int maxFPS;
 
+		/// <summary>
+		/// The resolution of the Screen, in pixels.
+		/// </summary>
 		Point resolution;
+		/// <summary>
+		/// The window size of the Screen.
+		/// </summary>
 		Point windowSize;
 
+		/// <summary>
+		/// Is the window resizable?
+		/// </summary>
 		bool resizable;
+		/// <summary>
+		/// Is the window maximized?
+		/// </summary>
 		bool maximized;
+		/// <summary>
+		/// Is the window fullscreen?
+		/// </summary>
 		bool fullscreen;
+		/// <summary>
+		/// Should the engine quit when escape is pressed, no matter the Scene?
+		/// </summary>
 		bool quitOnEscape;
 
+		/// <summary>
+		/// Creates a default EngineConfig.
+		/// </summary>
 		EngineConfig()
 			: maxFPS(60)
 			, resolution(480, 270)
@@ -34,6 +58,10 @@ namespace minty
 			, quitOnEscape(false)
 		{}
 
+		/// <summary>
+		/// Gets the frames per nanosecond.
+		/// </summary>
+		/// <returns></returns>
 		elapsed_t getFPNS() const
 		{
 			return static_cast<elapsed_t>(1.0f / maxFPS * ONE_SECOND);

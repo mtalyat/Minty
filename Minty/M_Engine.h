@@ -22,22 +22,32 @@ namespace minty
         public Object
     {
     private:
+        // is the engine quitting
         bool m_quit;
+        // is the engine running
         bool m_isRunning;
+        // is the engine paused
         bool m_isPaused;
 
+        // the game timer
         Stopwatch m_gameWatch;
 
+        // the config settings for the engine
         EngineConfig const* const mp_config;
 
+        // the screen the engine is rendering to
         Screen* mp_screen;
 
+        // the input system the engine will use to handle input
         Input* const mp_input;
 
+        // the coroutine manager the engine will use to handle coroutines
         CoroutineManager* const mp_coroutineManager;
 
+        // the game the engine is running
         Game* mp_game;
 
+        // a reference to the running Engine
         static Engine* sp_active;
     public:
         /// <summary>

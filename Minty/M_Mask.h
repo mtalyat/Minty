@@ -17,8 +17,11 @@ namespace minty
 		: public Object
 	{
 	private:
+		// the width of the mask
 		int m_width;
+		// the height of the mask
 		int m_height;
+		// the mask data in bytes
 		mask_t* mp_bytes;
 
 	public:
@@ -44,16 +47,19 @@ namespace minty
 
 		~Mask();
 
+		// index operator
 		mask_t operator [](int const index) const
 		{
 			return mp_bytes[index];
 		}
 
+		// equals operator
 		bool operator ==(Mask const& other) const
 		{
 			return sameSize(other) && compare(other);
 		}
 
+		// not equals operator
 		bool operator !=(Mask const& other) const
 		{
 			return m_width != other.m_width || m_height != other.m_height || !compare(other);

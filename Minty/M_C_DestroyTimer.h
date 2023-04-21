@@ -9,6 +9,9 @@ namespace minty
 	/// </summary>
 	struct MINTY_API DestroyTimer
 	{
+		/// <summary>
+		/// The amount of time remaining in seconds before the entity is destroyed.
+		/// </summary>
 		float timer;
 	};
 }

@@ -16,26 +16,26 @@ namespace minty
     /// <summary>
     /// Returns the higher of the two given values.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left value.</param>
+    /// <param name="right">The right value.</param>
+    /// <returns>The maximum value.</returns>
     MINTY_API inline float math_max(float const left, float const right);
 
     /// <summary>
     /// Returns the smaller of the two given values.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The left value.</param>
+    /// <param name="right">The right value.</param>
+    /// <returns>The minimum value.</returns>
     MINTY_API inline float math_min(float const left, float const right);
 
     /// <summary>
     /// Returns the value, clamped between the min and max values.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
-    /// <returns></returns>
+    /// <param name="value">The value to clamp.</param>
+    /// <param name="min">The highest possible value.</param>
+    /// <param name="max">The lowest possible value.</param>
+    /// <returns>The value, clamped between min and max.</returns>
     MINTY_API inline float math_clamp(float const value, float const min, float const max);
 
     /// <summary>

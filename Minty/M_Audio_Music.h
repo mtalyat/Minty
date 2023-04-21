@@ -12,13 +12,22 @@ namespace minty
 		: public Audio
 	{
 	private:
+		// the music file
 		Mix_Music* const mp_audio;
 
 	public:
+		/// <summary>
+		/// Creates a new Music Audio clip.
+		/// </summary>
+		/// <param name="music"></param>
 		Music(Mix_Music* const music)
 			: mp_audio(music)
 		{}
 
+		/// <summary>
+		/// Gets the audio.
+		/// </summary>
+		/// <returns>The audio clip.</returns>
 		Mix_Music* getAudio() const { return mp_audio; }
 	};
 }

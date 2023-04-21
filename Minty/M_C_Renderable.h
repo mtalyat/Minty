@@ -60,6 +60,10 @@ namespace minty
 		/// </summary>
 		float x, y;
 
+		/// <summary>
+		/// Gets the renderer flip mode for this entity.
+		/// </summary>
+		/// <returns></returns>
 		inline SDL_RendererFlip getFlip() const { return static_cast<SDL_RendererFlip>(flip); }
 
 		/// <summary>
@@ -68,7 +72,15 @@ namespace minty
 		/// <returns></returns>
 		constexpr bool isVisible() const { return !invisible; }
 
+		/// <summary>
+		/// Gets the rendering position as a Point.
+		/// </summary>
+		/// <returns>The rendering position.</returns>
 		inline Point toPoint() const { return Point(x, y); }
+		/// <summary>
+		/// Gets the rendering position as a PointF.
+		/// </summary>
+		/// <returns>The rendering position.</returns>
 		inline PointF toPointF() const { return PointF(x, y); }
 	};
 }

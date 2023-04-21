@@ -6,10 +6,13 @@
 namespace minty
 {
 	/// <summary>
-	/// Renders a Sprite to the screen.
+	/// Renders a Sprite to the Screen.
 	/// </summary>
 	struct MINTY_API SpriteRenderer
 	{
+		/// <summary>
+		/// The Sprite to be rendered.
+		/// </summary>
 		Sprite* sprite;
 	};
 }

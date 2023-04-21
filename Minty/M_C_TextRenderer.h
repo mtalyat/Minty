@@ -5,8 +5,14 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Renders Text to the Screen.
+	/// </summary>
 	struct MINTY_API TextRenderer
 	{
+		/// <summary>
+		/// The Text to render.
+		/// </summary>
 		Text* text;
 	};
 }

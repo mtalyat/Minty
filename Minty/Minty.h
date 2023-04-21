@@ -15,6 +15,8 @@
 #include "M_Animation.h"
 #include "M_Atlas.h"
 #include "M_Audio.h"
+#include "M_Audio_Music.h"
+#include "M_Audio_Sound.h"
 #include "M_Brush.h"
 #include "M_Brush_Solid.h"
 #include "M_Brush_Sprite.h"
@@ -27,7 +29,6 @@
 #include "M_Font.h"
 #include "M_Grid.h"
 #include "M_Mask.h"
-#include "M_Music.h"
 #include "M_Object.h"
 #include "M_Pair.h"
 #include "M_Palette.h"
@@ -36,7 +37,6 @@
 #include "M_ProceduralSprite.h"
 #include "M_Rect.h"
 #include "M_RectF.h"
-#include "M_Sound.h"
 #include "M_Sprite.h"
 #include "M_Stopwatch.h"
 #include "M_Text.h"
@@ -57,6 +57,9 @@
 #include "M_Serialization.h"
 #include "M_String.h"
 
+//		Other
+#include "M_Types.h"
+
 //		Engine
 #include "M_Coroutine.h"
 #include "M_Engine.h"
@@ -64,6 +67,7 @@
 #include "M_Game.h"
 #include "M_Input.h"
 #include "M_InputMap.h"
+#include "M_Renderer.h";
 #include "M_Scene.h"
 #include "M_SceneManager.h"
 #include "M_Screen.h"

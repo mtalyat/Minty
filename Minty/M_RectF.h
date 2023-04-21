@@ -7,13 +7,34 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds an X and Y coordinate, as well as a width and height for a rectangle in space.
+	/// </summary>
 	struct MINTY_API RectF
 		: public Saveable
 	{
 	public:
-		float x, y, width, height;
+		/// <summary>
+		/// The column position of the Rectangle.
+		/// </summary>
+		float const x;
+		/// <summary>
+		/// The row position of the Rectangle.
+		/// </summary>
+		float const y;
+		/// <summary>
+		/// The width of the Rectangle.
+		/// </summary>
+		float const width;
+		/// <summary>
+		/// The height of the Rectangle.
+		/// </summary>
+		float const height;
 
 	public:
+		/// <summary>
+		/// Creates an empty Rectangle.
+		/// </summary>
 		RectF()
 			: x(0)
 			, y(0)
@@ -21,6 +42,11 @@ namespace minty
 			, height(0)
 		{}
 
+		/// <summary>
+		/// Creates a new Rectangle using the given width and height.
+		/// </summary>
+		/// <param name="width">The width of the Rectangle.</param>
+		/// <param name="height">The height of the Rectangle.</param>
 		RectF(float const width, float const height)
 			: x(0)
 			, y(0)
@@ -28,6 +54,10 @@ namespace minty
 			, height(height)
 		{}
 
+		/// <summary>
+		/// Creates a new Rectangle using the given Point size.
+		/// </summary>
+		/// <param name="size">The size of the Rectangle.</param>
 		RectF(PointF const size)
 			: x(0)
 			, y(0)
@@ -35,6 +65,13 @@ namespace minty
 			, height(size.y)
 		{}
 
+		/// <summary>
+		/// Creates a new Rectangle using the given X and Y position, width and height.
+		/// </summary>
+		/// <param name="x">The column of the Rectangle.</param>
+		/// <param name="y">The row of the Rectangle.</param>
+		/// <param name="width">The width of the Rectangle.</param>
+		/// <param name="height">The height of the Rectangle.</param>
 		RectF(float const x, float const y, float const width, float const height)
 			: x(x)
 			, y(y)
@@ -42,6 +79,13 @@ namespace minty
 			, height(height)
 		{}
 
+		/// <summary>
+		/// Creates a new Rectangle using the given X and Y position, width and height.
+		/// </summary>
+		/// <param name="x">The column of the Rectangle.</param>
+		/// <param name="y">The row of the Rectangle.</param>
+		/// <param name="width">The width of the Rectangle.</param>
+		/// <param name="height">The height of the Rectangle.</param>
 		RectF(int const x, int const y, int const width, int const height)
 			: x(static_cast<float>(x))
 			, y(static_cast<float>(y))
@@ -49,6 +93,11 @@ namespace minty
 			, height(static_cast<float>(height))
 		{}
 
+		/// <summary>
+		/// Creates a new Rectangle using the given position and size.
+		/// </summary>
+		/// <param name="position">The position of the Rectangle.</param>
+		/// <param name="size">The size of the Rectangle.</param>
 		RectF(PointF const position, PointF const size)
 			: x(position.x)
 			, y(position.y)
@@ -56,6 +105,11 @@ namespace minty
 			, height(size.y)
 		{}
 
+		/// <summary>
+		/// Creates a new Rectangle using the given position and size.
+		/// </summary>
+		/// <param name="position">The position of the Rectangle.</param>
+		/// <param name="size">The size of the Rectangle.</param>
 		RectF(Point const position, Point const size)
 			: x(static_cast<float>(position.x))
 			, y(static_cast<float>(position.y))
@@ -63,35 +117,71 @@ namespace minty
 			, height(static_cast<float>(size.y))
 		{}
 
+		// equals operator
 		bool operator ==(RectF const& other) const
 		{
 			return x == other.x && y == other.y && width == other.width && height == other.height;
 		}
 
+		// not equals operator
 		bool operator !=(RectF const& other) const
 		{
 			return x != other.x || y != other.y || width != other.width || height != other.height;
 		}
 
+		// add operator
 		RectF operator +(PointF const& point) const
 		{
 			return RectF(x + point.x, y + point.y, width, height);
 		}
 
+		// subtract operator
 		RectF operator -(PointF const& point) const
 		{
 			return RectF(x - point.x, y - point.y, width, height);
 		}
 
+		/// <summary>
+		/// Gets the leftmost column of the Rectangle.
+		/// </summary>
+		/// <returns>The minimum X position.</returns>
 		constexpr float left() const { return x; }
+		/// <summary>
+		/// Gets the rightmost column of the Rectangle.
+		/// </summary>
+		/// <returns>The maximum X position.</returns>
 		constexpr float right() const { return x + width; }
+		/// <summary>
+		/// Gets the topmost row of the Rectangle.
+		/// </summary>
+		/// <returns>The minimum Y position.</returns>
 		constexpr float top() const { return y; }
+		/// <summary>
+		/// Gets the bottommost row of the Rectangle.
+		/// </summary>
+		/// <returns>The maximum Y position.</returns>
 		constexpr float bottom() const { return y + height; }
 
+		/// <summary>
+		/// Gets the area of the Rectangle.
+		/// </summary>
+		/// <returns>The width * height.</returns>
 		constexpr float area() const { return width * height; }
 
+		/// <summary>
+		/// Gets the position of the Rectangle, as a Point.
+		/// </summary>
+		/// <returns>The X and Y position.</returns>
 		inline PointF position() const { return PointF(x, y); }
+		/// <summary>
+		/// Gets the size of the Rectangle, as a Point.
+		/// </summary>
+		/// <returns>The size.</returns>
 		inline PointF size() const { return PointF(width, height); }
+		/// <summary>
+		/// Gets the center position of the Rectangle, as a Point.
+		/// </summary>
+		/// <returns>The center position.</returns>
 		inline PointF center() const { return PointF(x + width / 2.0f, y + height / 2.0f); }
 
 		/// <summary>
@@ -115,10 +205,33 @@ namespace minty
 		/// <returns></returns>
 		bool contains(PointF const& other) const;
 
+		/// <summary>
+		/// Creates a Rect using the given bounds of each size of the Rect.
+		/// </summary>
+		/// <param name="left">The minimum X.</param>
+		/// <param name="right">The maximum X.</param>
+		/// <param name="top">The minimum Y.</param>
+		/// <param name="bottom">The maximum Y.</param>
+		/// <returns></returns>
 		static RectF bounds(float const left, float const right, float const top, float const bottom);
 
+		/// <summary>
+		/// Floors the given RectF.
+		/// </summary>
+		/// <param name="rect">The RectF to floor.</param>
+		/// <returns>A RectF, with the given values, floored.</returns>
 		static Rect floor(RectF const& rect);
+		/// <summary>
+		/// Rounds the given RectF.
+		/// </summary>
+		/// <param name="rect">The RectF to round.</param>
+		/// <returns>A RectF, with the given values, rounded.</returns>
 		static Rect round(RectF const& rect);
+		/// <summary>
+		/// Ceil the given RectF.
+		/// </summary>
+		/// <param name="rect">The RectF to ceil.</param>
+		/// <returns>A RectF, with the given values, ceiled.</returns>
 		static Rect ceil(RectF const& rect);
 
 		void serialize(boost::property_tree::ptree& ptree) override;

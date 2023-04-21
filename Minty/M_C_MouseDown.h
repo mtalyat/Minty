@@ -14,6 +14,9 @@ namespace minty
 	/// </summary>
 	struct MINTY_API MouseDown
 	{
+		/// <summary>
+		/// The event called when the mouse is pressed down on this entity.
+		/// </summary>
 		Event<Click const* const>* onDown;
 	};
 }

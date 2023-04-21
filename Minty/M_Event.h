@@ -7,18 +7,27 @@
 
 namespace minty
 {
+	/// <summary>
+	/// An event is something that can have multiple functions be called upon the Event being invoked.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template<typename T = void>
 	class Event
 		: public Object
 	{
 	public:
+		// the function type
 		typedef std::function<void(T)> func;
 
 	private:
+		// the list of functions to be called
 		std::vector<func>* mp_functions;
 
 	public:
 
+		/// <summary>
+		/// Creates a new Event.
+		/// </summary>
 		Event()
 			: mp_functions(new std::vector<func>())
 		{}
@@ -26,6 +35,12 @@ namespace minty
 		~Event()
 		{
 			delete mp_functions;
+		}
+
+		// () operator
+		void operator()(T const arg) const
+		{
+			invoke(arg);
 		}
 
 		/// <summary>
@@ -62,6 +77,9 @@ namespace minty
 
 	public:
 
+		/// <summary>
+		/// Creates a new Event.
+		/// </summary>
 		Event()
 			: mp_functions(new std::vector<func>())
 		{}
@@ -71,6 +89,7 @@ namespace minty
 			delete mp_functions;
 		}
 
+		// () operator
 		void operator()() const
 		{
 			invoke();

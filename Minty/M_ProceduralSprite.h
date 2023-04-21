@@ -17,14 +17,30 @@ namespace minty
 		: public Object
 	{
 	private:
+		// the mapped color indices
 		std::map<color_t, int>* mp_indices;
+		// the textures to references
 		Sprite* const* mp_textures;
+		// the number of textures
 		size_t m_texturesCount;
 
 	public:
-		int const width, height;
+		/// <summary>
+		/// The width of the ProceduralSprite.
+		/// </summary>
+		int const width;
+		/// <summary>
+		/// The height of the ProceduralSprite.
+		/// </summary>
+		int const height;
 
 	public:
+		/// <summary>
+		/// Creates a new ProceduralSprite from the given Sprite, and given Sprite array of textures.
+		/// </summary>
+		/// <param name="sprite">The mapping Sprite.</param>
+		/// <param name="textures">The art Sprites.</param>
+		/// <param name="texturesCount">The number of art Sprites.</param>
 		ProceduralSprite(Sprite const* const sprite, Sprite* const* const textures, size_t const texturesCount);
 
 		/// <summary>

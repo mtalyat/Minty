@@ -13,12 +13,19 @@ namespace minty
 	struct MINTY_API Animator
 	{
 	private:
+		// the animations in this animator
 		std::map<std::string, Animation*>* mp_animations;
+		// the animation currently playing
 		Animation* mp_activeAnimation;
+		// the timer for animation frames
 		Stopwatch m_stopwatch;
+		// the current frame in the active animation
 		int m_frameIndex;
 
 	public:
+		/// <summary>
+		/// Creates a new Animator component.
+		/// </summary>
 		Animator()
 			: mp_animations(new std::map<std::string, Animation*>())
 			, mp_activeAnimation(nullptr)

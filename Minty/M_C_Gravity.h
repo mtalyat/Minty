@@ -11,8 +11,15 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Gravity
 	{
+		/// <summary>
+		/// The amount to scale the gravity by.
+		/// </summary>
 		float scale;
 
+		/// <summary>
+		/// Creates a new Gravity component.
+		/// </summary>
+		/// <param name="s"></param>
 		Gravity(float const s = 1.0f)
 			: scale(s)
 		{}

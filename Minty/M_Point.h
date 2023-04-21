@@ -14,6 +14,7 @@ namespace minty
     struct MINTY_API Point :
         public Saveable
     {
+        // the x and y position
         int x, y;
 
         /// <summary>
@@ -37,16 +38,19 @@ namespace minty
         /// <param name="_y"></param>
         Point(float const _x, float const _y);
 
+        // copy constructor
         Point(Point const& other)
             : x(other.x)
             , y(other.y)
         {}
 
+        // equals operator
         bool operator ==(Point const& other) const
         {
             return x == other.x && y == other.y;
         }
 
+        // less than operator
         bool operator < (Point const& other) const
         {
             if (y == other.y)
@@ -58,25 +62,41 @@ namespace minty
             }
         }
 
+        // add operator
         Point operator +(Point const& other) const
         {
             return Point(x + other.x, y + other.y);
         }
 
+        // subtract operator
         Point operator -(Point const& other) const
         {
             return Point(x - other.x, y - other.y);
         }
 
+        /// <summary>
+        /// Converts this Point to a PointF.
+        /// </summary>
+        /// <returns>A PointF containing this Point's values.</returns>
         PointF toPointF() const;
 
         std::string const toString() const override { return std::format("Point({0}, {1})", x, y); }
 
         void serialize(boost::property_tree::ptree& ptree) override;
         void deserialize(boost::property_tree::ptree const& ptree) override;
-
+        
+        /// <summary>
+        /// Converts the given polar coordinates to cartesian coordinates.
+        /// </summary>
+        /// <param name="polar">The polar coordinates.</param>
+        /// <returns>The cartesian coordinates.</returns>
         static Point polarToCartesian(Point& const polar);
 
+        /// <summary>
+        /// Converts the given cartesian coordinates to polar coordinates.
+        /// </summary>
+        /// <param name="cartesian">The cartesian coordinates.</param>
+        /// <returns>The polar coordinates.</returns>
         static Point cartesianToPolar(Point& const cartesian);
     };
 }

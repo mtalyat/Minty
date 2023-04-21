@@ -11,6 +11,9 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Clickable
 	{
+		/// <summary>
+		/// The hitbox that the cursor must click inside of.
+		/// </summary>
 		RectF hitbox;
 	};
 }

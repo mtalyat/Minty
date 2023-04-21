@@ -16,6 +16,7 @@ namespace minty
 	class MINTY_API Debug
 	{
 	private:
+		// the game time stopwatch
 		static Stopwatch* msp_stopwatch;
 
 	public:

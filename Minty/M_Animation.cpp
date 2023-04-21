@@ -24,7 +24,7 @@ namespace minty
 		//delete[] mp_sprites;
 	}
 
-	Animation* Animation::fromSprite_single(Sprite* const sprite, SDL_Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping)
+	Animation* Animation::fromSprite_single(Sprite* const sprite, Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping)
 	{
 		// calculate number of sprites
 		int widthInTiles = sprite->width / tileWidth;
@@ -33,7 +33,7 @@ namespace minty
 		return new Animation(Atlas::generateTiles(sprite, tileWidth, tileHeight, renderer), widthInTiles * heightInTiles, frameTime, looping);
 	}
 	
-	std::vector<Animation*> Animation::fromSprite_multiple(Sprite* const sprite, SDL_Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping, std::vector<size_t> const& framesPerAnimation)
+	std::vector<Animation*> Animation::fromSprite_multiple(Sprite* const sprite, Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping, std::vector<size_t> const& framesPerAnimation)
 	{
 		if (!framesPerAnimation.size())
 		{
@@ -62,7 +62,7 @@ namespace minty
 		return animations;
 	}
 	
-	Animation* Animation::fromSprite_single_p(Sprite* const sprite, ProceduralSprite* const proceduralSprite, SDL_Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping)
+	Animation* Animation::fromSprite_single_p(Sprite* const sprite, ProceduralSprite* const proceduralSprite, Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping)
 	{
 		// calculate number of sprites
 		int widthInTiles = sprite->width / tileWidth;
@@ -83,7 +83,7 @@ namespace minty
 		return new Animation(tiles, widthInTiles * heightInTiles, frameTime, looping);
 	}
 	
-	std::vector<Animation*> Animation::fromSprite_multiple_p(Sprite* const sprite, ProceduralSprite* const proceduralSprite, SDL_Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping, std::vector<size_t> const& framesPerAnimation)
+	std::vector<Animation*> Animation::fromSprite_multiple_p(Sprite* const sprite, ProceduralSprite* const proceduralSprite, Renderer* const renderer, int const tileWidth, int const tileHeight, elapsed_t const frameTime, bool const looping, std::vector<size_t> const& framesPerAnimation)
 	{
 		if (!framesPerAnimation.size())
 		{

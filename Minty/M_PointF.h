@@ -12,6 +12,7 @@ namespace minty
     struct MINTY_API PointF :
         public Saveable
     {
+        // the x and y position
         float x, y;
 
         /// <summary>
@@ -41,11 +42,13 @@ namespace minty
             , y(other.y)
         {}
 
+        // equals operator
         bool operator ==(PointF const& other) const
         {
             return x == other.x && y == other.y;
         }
 
+        // less than operator
         bool operator < (PointF const& other) const
         {
             if (y == other.y)
@@ -57,16 +60,22 @@ namespace minty
             }
         }
 
+        // add operator
         PointF operator +(PointF const& other) const
         {
             return PointF(x + other.x, y + other.y);
         }
 
+        // subtract operator
         PointF operator -(PointF const& other) const
         {
             return PointF(x - other.x, y - other.y);
         }
 
+        /// <summary>
+        /// Converts this PointF to a Point.
+        /// </summary>
+        /// <returns>A Point containing this PointF's values, rounded.</returns>
         Point toPoint() const;
 
         std::string const toString() const override;
@@ -74,8 +83,18 @@ namespace minty
         void serialize(boost::property_tree::ptree& ptree) override;
         void deserialize(boost::property_tree::ptree const& ptree) override;
 
+        /// <summary>
+        /// Converts the given polar coordinates to cartesian coordinates.
+        /// </summary>
+        /// <param name="polar">The polar coordinates.</param>
+        /// <returns>The cartesian coordinates.</returns>
         static PointF polarToCartesian(PointF& const polar);
 
+        /// <summary>
+        /// Converts the given cartesian coordinates to polar coordinates.
+        /// </summary>
+        /// <param name="cartesian">The cartesian coordinates.</param>
+        /// <returns>The polar coordinates.</returns>
         static PointF cartesianToPolar(PointF& const cartesian);
     };
 }

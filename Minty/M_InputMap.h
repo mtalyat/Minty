@@ -15,13 +15,20 @@ namespace minty
 		: public Object
 	{
 	private:
+		// the name of the input map
 		std::string m_name;
 
+		// the events for when keys are pressed down
 		std::map<SDL_Keycode, Event<>>* mp_keyDownEvents;
+		// the events for when keys are released
 		std::map<SDL_Keycode, Event<>>* mp_keyUpEvents;
+		// the events for when a mouse button is pressed down
 		std::map<Uint8, Event<SDL_MouseButtonEvent*>>* mp_mouseDownEvents;
+		// the events for when a mouse button is released
 		std::map<Uint8, Event<SDL_MouseButtonEvent*>>* mp_mouseUpEvents;
+		// the events for when the mouse moves
 		Event<SDL_MouseMotionEvent*>* mp_mouseMoveEvent;
+		// the events for when the mouse scrolls
 		Event<SDL_MouseWheelEvent*>* mp_mouseScrollEvent;
 
 	public:
@@ -32,6 +39,10 @@ namespace minty
 
 		~InputMap();
 
+		/// <summary>
+		/// Gets the name of this InputMap.
+		/// </summary>
+		/// <returns></returns>
 		std::string const& name() const { return m_name; }
 
 #pragma region Events

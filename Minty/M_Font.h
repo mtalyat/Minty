@@ -5,5 +5,6 @@
 
 namespace minty
 {
+	// font type
 	typedef TTF_Font Font;
 }

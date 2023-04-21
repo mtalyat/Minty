@@ -9,6 +9,13 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Center
 	{
-		float x, y;
+		/// <summary>
+		/// The normalized X value.
+		/// </summary>
+		float x;
+		/// <summary>
+		/// The normalized Y value.
+		/// </summary>
+		float y;
 	};
 }

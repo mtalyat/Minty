@@ -3,12 +3,12 @@
 
 namespace minty
 {
-	MINTY_API unsigned char parse_byte(std::string const& str)
+	MINTY_API byte parse_byte(std::string const& str)
 	{
 		return static_cast<unsigned char>(std::stoul(str));
 	}
 
-	MINTY_API bool try_parse_byte(std::string const& str, unsigned char& out)
+	MINTY_API bool try_parse_byte(std::string const& str, byte& out)
 	{
 		if (str.empty())
 		{
@@ -27,12 +27,12 @@ namespace minty
 		return true;
 	}
 
-	MINTY_API signed char parse_sbyte(std::string const& str)
+	MINTY_API sbyte parse_sbyte(std::string const& str)
 	{
 		return static_cast<signed char>(std::stol(str));
 	}
 
-	MINTY_API bool try_parse_sbyte(std::string const& str, signed char& out)
+	MINTY_API bool try_parse_sbyte(std::string const& str, sbyte& out)
 	{
 		if (str.empty())
 		{
@@ -51,12 +51,12 @@ namespace minty
 		return true;
 	}
 
-	MINTY_API unsigned short parse_ushort(std::string const& str)
+	MINTY_API ushort parse_ushort(std::string const& str)
 	{
 		return static_cast<unsigned short>(std::stoul(str));
 	}
 
-	MINTY_API bool try_parse_ushort(std::string const& str, unsigned short& out)
+	MINTY_API bool try_parse_ushort(std::string const& str, ushort& out)
 	{
 		if (str.empty())
 		{
@@ -99,12 +99,12 @@ namespace minty
 		return true;
 	}
 
-	MINTY_API unsigned int parse_uint(std::string const& str)
+	MINTY_API uint parse_uint(std::string const& str)
 	{
 		return static_cast<unsigned int>(std::stoul(str));
 	}
 
-	MINTY_API bool try_parse_uint(std::string const& str, unsigned int& out)
+	MINTY_API bool try_parse_uint(std::string const& str, uint& out)
 	{
 		if (str.empty())
 		{
@@ -160,7 +160,7 @@ namespace minty
 		return -1;
 	}
 	
-	MINTY_API unsigned int parse_binary(std::string const& str)
+	MINTY_API uint parse_binary(std::string const& str)
 	{
 		size_t size = str.size();
 		unsigned int out = 0;
@@ -176,7 +176,7 @@ namespace minty
 		return out;
 	}
 	
-	MINTY_API bool try_parse_binary(std::string const& str, unsigned int& out)
+	MINTY_API bool try_parse_binary(std::string const& str, uint& out)
 	{
 		if (str.empty())
 		{

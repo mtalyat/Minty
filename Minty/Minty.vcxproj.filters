@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Abstract">
       <UniqueIdentifier>{5be19814-e240-4fe1-a23e-3f92311b2b28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Other">
+      <UniqueIdentifier>{39a5309e-1687-4b91-9890-29179d11bd56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -309,10 +312,10 @@
     <ClInclude Include="M_S_AudioSystem.h">
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="M_Sound.h">
+    <ClInclude Include="M_Audio_Sound.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
-    <ClInclude Include="M_Music.h">
+    <ClInclude Include="M_Audio_Music.h">
       <Filter>Header Files\Data Types</Filter>
     </ClInclude>
     <ClInclude Include="M_Audio.h">
@@ -329,6 +332,12 @@
     </ClInclude>
     <ClInclude Include="M_Serialization.h">
       <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Renderer.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="M_Types.h">
+      <Filter>Header Files\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -492,6 +501,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Serialization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

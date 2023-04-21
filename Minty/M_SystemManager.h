@@ -14,6 +14,7 @@ namespace minty
 		: public Object
 	{
 	private:
+		// the systems to manage
 		std::map<int, std::set<System*>>* mp_systems;
 
 	public:
@@ -27,7 +28,8 @@ namespace minty
 		/// <summary>
 		/// Places the given System within the SystemManager.
 		/// </summary>
-		/// <param name="system"></param>
+		/// <param name="system">The system to add.</param>
+		/// <param name="priority">The priority in which to update this System in.</param>
 		void emplace(System* const system, int const priority = 0);
 
 		/// <summary>

@@ -13,6 +13,7 @@ namespace minty
 		: public Object
 	{
 	private:
+		// is this system enabled?
 		bool m_enabled;
 
 	protected:
@@ -22,6 +23,10 @@ namespace minty
 		entt::registry* const mp_registry;
 
 	public:
+		/// <summary>
+		/// Creates a new System.
+		/// </summary>
+		/// <param name="registry">The entity registry belonging to this System.</param>
 		System(entt::registry* const registry)
 			: m_enabled(true)
 			, mp_registry(registry)

@@ -15,10 +15,15 @@ namespace minty
 		public Object
 	{
 	private:
+		// the scenes being managed
 		std::map<std::string, Scene*>* mp_scenes;
+		// the scene actively loaded
 		Scene* mp_active;
 
 	public:
+		/// <summary>
+		/// Creates a new SceneManager.
+		/// </summary>
 		SceneManager()
 			: mp_scenes(new std::map<std::string, Scene*>())
 			, mp_active(nullptr)

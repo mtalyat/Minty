@@ -17,9 +17,13 @@ namespace minty
 		public Object
 	{
 	private:
+		// the window to render to
 		SDL_Window* mp_window;
+		// the renderer to use to render
 		SDL_Renderer* mp_renderer;
+		// the background texture for the window
 		SDL_Texture* mp_background_texture;
+		// the background color to render to the window, if no texture
 		Color m_background_color;
 
 	public:
@@ -36,13 +40,29 @@ namespace minty
 		/// <summary>
 		/// Creates a new Screen (Window) with the given title, width and height.
 		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="w"></param>
-		/// <param name="h"></param>
+		/// <param name="title">The title of the Window.</param>
+		/// <param name="w">The width of the window.</param>
+		/// <param name="h">The height of the window.</param>
 		Screen(std::string const& title, int const w, int const h);
 
+		/// <summary>
+		/// Creates a new Screen (Window) with the given title, width, height, resolution, and other options.
+		/// </summary>
+		/// <param name="title">The title of the Window.</param>
+		/// <param name="w">The width of the window.</param>
+		/// <param name="h">The height of the window.</param>
+		/// <param name="resW">The resolution width of the Screen in pixels.</param>
+		/// <param name="resH">The resolution height of the Screen in pixels.</param>
+		/// <param name="resizable">Is the Window resizable?</param>
+		/// <param name="maximized">Is the Window maximized?</param>
+		/// <param name="fullscreen">Is the Window fullscreen?</param>
 		Screen(std::string const& title, int const w, int const h, int const resW, int const resH, bool const resizable, bool const maximized, bool const fullscreen);
 
+		/// <summary>
+		/// Creates a new Screen using the given title and EngineConfig.
+		/// </summary>
+		/// <param name="title">The title of the Window.</param>
+		/// <param name="config">The Engine configuration.</param>
 		Screen(std::string const& title, EngineConfig const* const config);
 
 		~Screen();

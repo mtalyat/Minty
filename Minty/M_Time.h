@@ -6,17 +6,25 @@
 
 namespace minty
 {
+	/// <summary>
+	/// Holds value related to Time.
+	/// </summary>
 	class MINTY_API Time
 	{
 	private:
+		// the time elapsed over last frame, in seconds
 		static float s_deltaTime;
 
+		// the time elapsed over last fixed frame, in seconds
 		static float s_fixedDeltaTime;
 
+		// the time elapsed over last frame
 		static clock_t s_deltaTimeRaw;
 
+		// the time elapsed over last fixed frame
 		static clock_t s_fixedDeltaTimeRaw;
 
+		// the value to scale time by
 		static float s_timeScale;
 
 	public:

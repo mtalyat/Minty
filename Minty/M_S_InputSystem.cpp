@@ -20,7 +20,7 @@ namespace minty
 		{
 			// if within position, trigger event
 
-			if ((clickable.hitbox + renderable.toPointF()).contains(click->pos().toPointF()))
+			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				// clicked
 				onDown.onDown->invoke(click);
@@ -32,7 +32,7 @@ namespace minty
 		{
 			// mark as clicked
 
-			onClick.clicked = (clickable.hitbox + renderable.toPointF()).contains(click->pos().toPointF());
+			onClick.clicked = (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF());
 		}
 	}
 
@@ -43,7 +43,7 @@ namespace minty
 		{
 			// if within position, trigger event
 
-			if ((clickable.hitbox + position.toPointF()).contains(click->pos().toPointF()))
+			if ((clickable.hitbox + position.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				// clicked
 				onUp.onUp->invoke(click);
@@ -54,7 +54,7 @@ namespace minty
 		for (auto [entity, position, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// if marked as clicked, and released here, trigger event
-			if (onClick.clicked && (clickable.hitbox + position.toPointF()).contains(click->pos().toPointF()))
+			if (onClick.clicked && (clickable.hitbox + position.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				onClick.onClick->invoke(click);
 			}

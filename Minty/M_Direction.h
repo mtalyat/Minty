@@ -5,8 +5,14 @@
 
 namespace minty
 {
+	/// <summary>
+	/// The total number of possible Directions, not including 
+	/// </summary>
 	constexpr int DIRECTION_COUNT = 8;
 
+	/// <summary>
+	/// Represents a direction on a 2D plane.
+	/// </summary>
 	enum MINTY_API Direction
 	{
 		None,

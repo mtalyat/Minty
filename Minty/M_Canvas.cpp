@@ -7,7 +7,7 @@
 
 namespace minty
 {
-	Canvas::Canvas(int const width, int const height, SDL_Renderer* const renderer)
+	Canvas::Canvas(int const width, int const height, Renderer* const renderer)
 		: width(width)
 		, height(height)
 		, mp_pixels(nullptr)

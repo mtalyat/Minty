@@ -9,6 +9,13 @@ namespace minty
 	/// </summary>
 	struct MINTY_API Scale
 	{
-		float x, y;
+		/// <summary>
+		/// The scale on the X axis.
+		/// </summary>
+		float x;
+		/// <summary>
+		/// The scale on the Y axis.
+		/// </summary>
+		float y;
 	};
 }

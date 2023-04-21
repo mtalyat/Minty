@@ -18,9 +18,13 @@ namespace minty
 		: public Object
 	{
 	private:
+		// the input maps
 		std::map<std::string, InputMap*>* mp_inputMaps;
+		// the keys currently being pressed down
 		std::unordered_set<SDL_Keycode>* mp_downKeys;
+		// the mouse buttons currently being pressed down
 		std::unordered_set<Uint8>* mp_downMice;
+		// the active input map being used
 		InputMap* mp_activeMap;
 
 	public:

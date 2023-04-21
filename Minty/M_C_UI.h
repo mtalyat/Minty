@@ -10,14 +10,21 @@ namespace minty
 	struct MINTY_API UI
 	{
 		/// <summary>
-		/// The positional data.
+		/// The X position.
 		/// </summary>
-		float x, y;
+		float x;
+		/// <summary>
+		/// The Y position.
+		/// </summary>
+		float y;
 
 		/// <summary>
-		/// The anchor data. Determines which point on the screen the positional data is relative to.
-		/// 0, 0 is top left.
+		/// The X anchor value. 0.0 is left, and 1.0 is right.
 		/// </summary>
-		float anchorX, anchorY;
+		float anchorX;
+		/// <summary>
+		/// The Y anchor value. 0.0 is top, and 1.0 is bottom.
+		/// </summary>
+		float anchorY;
 	};
 }

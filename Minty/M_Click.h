@@ -25,6 +25,10 @@ namespace minty
 		/// </summary>
 		int x, y;
 
-		inline Point pos() const { return Point(x, y); }
+		/// <summary>
+		/// Gets the screen position of the click as a Point.
+		/// </summary>
+		/// <returns>x and y inside of a Point.</returns>
+		inline Point toPoint() const { return Point(x, y); }
 	};
 }

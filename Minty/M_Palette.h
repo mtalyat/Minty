@@ -14,10 +14,16 @@ namespace minty
         : public Object
     {
     private:
+        // the maximum number of elements
         ID const m_capacity;
+        // the elements
         std::map<ID, V> m_data;
 
     public:
+        /// <summary>
+        /// Creats a new palatte using the given capacity.
+        /// </summary>
+        /// <param name="capacity"></param>
         Palette(ID const capacity)
             : m_capacity(capacity)
             , m_data(std::map<ID, V>(capacity))
@@ -43,7 +49,7 @@ namespace minty
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        bool add(ID const id, V const value)
+        bool emplace(ID const id, V const value)
         {
             if (contains(id)) return false;
 

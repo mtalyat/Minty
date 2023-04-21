@@ -16,16 +16,25 @@ namespace minty
 		public Object
 	{
 	private:
+		// the name of the game
 		std::string m_name;
 
 	protected:
+		// the engine that this Game belngs to
 		Engine* const mp_engine;
 
+		// the registry that this Game will use
 		entt::registry* mp_registry;
-
+		
+		// the scene manager this game will use to load and manage scenes
 		SceneManager* const mp_sceneManager;
 
 	public:
+		/// <summary>
+		/// Creates a new Game.
+		/// </summary>
+		/// <param name="name">The name of the Game.</param>
+		/// <param name="engine">The Engine this Game belongs to.</param>
 		Game(std::string const& name, Engine* const engine);
 		virtual ~Game();
 
@@ -41,6 +50,10 @@ namespace minty
 		/// <returns></returns>
 		virtual int onStop() = 0;
 
+		/// <summary>
+		/// Gets the name of this Game.
+		/// </summary>
+		/// <returns></returns>
 		std::string const& name() const { return m_name; }
 
 		/// <summary>

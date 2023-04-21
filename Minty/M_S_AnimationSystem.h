@@ -11,6 +11,10 @@ namespace minty
 		: public System
 	{
 	public:
+		/// <summary>
+		/// Creates a new AnimationSystem.
+		/// </summary>
+		/// <param name="registry">The entity registry belonging to this System.</param>
 		AnimationSystem(entt::registry* const registry)
 			: System(registry)
 		{}
