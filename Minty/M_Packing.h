@@ -1,10 +1,7 @@
 #pragma once
 
 #include "M_Main.h"
-
-#define uchar unsigned char
-#define ushort unsigned short
-#define uint unsigned int
+#include "M_Types.h"
 
 namespace minty
 {
@@ -16,7 +13,7 @@ namespace minty
 	/// <param name="b2"></param>
 	/// <param name="b3">The most significant byte.</param>
 	/// <returns>An int with all of the packed bytes.</returns>
-	MINTY_API inline int pack_int(uchar const b0, uchar const b1, uchar const b2, uchar const b3);
+	MINTY_API inline int pack_int(byte const b0, byte const b1, byte const b2, byte const b3);
 
 	/// <summary>
 	/// Combines the two given unsigned shorts into one integer.
@@ -42,7 +39,7 @@ namespace minty
 	/// <param name="offset">The offset within the data to the bytes to get, in bytes.</param>
 	/// <param name="size">The number of bytes to get.</param>
 	/// <returns>The desired bytes, in an int.</returns>
-	MINTY_API inline uchar pack_get_byte(int const data, int const offset, int const size);
+	MINTY_API inline byte pack_get_byte(int const data, int const offset, int const size);
 
 	/// <summary>
 	/// Gets a bit from the given data int.
@@ -70,7 +67,7 @@ namespace minty
 	/// <param name="size">The number of bytes to set.</param>
 	/// <param name="newData">The bytes to set, in an int, starting at the least significant bit.</param>
 	/// <returns>Data, with the new bytes set.</returns>
-	MINTY_API inline int pack_set_byte(int const data, int const offset, int const size, uchar const newData);
+	MINTY_API inline int pack_set_byte(int const data, int const offset, int const size, byte const newData);
 
 	/// <summary>
 	/// Sets the bit to the given data int.
@@ -87,7 +84,7 @@ namespace minty
 	/// <param name="data">The byte to get the bit from.</param>
 	/// <param name="offset">The offset within the data to the bit to get, in bits.</param>
 	/// <returns>The desired bit, as a bool.</returns>
-	MINTY_API inline bool pack_get_bit(uchar const data, int const offset);
+	MINTY_API inline bool pack_get_bit(byte const data, int const offset);
 
 	/// <summary>
 	/// Sets the bit to the given data byte.
@@ -96,5 +93,5 @@ namespace minty
 	/// <param name="offset">The offset within the data to the bit to set, in bits.</param>
 	/// <param name="bit">The bit to set.</param>
 	/// <returns>Data, with the new bit set.</returns>
-	MINTY_API inline unsigned char pack_set_bit(uchar const data, int const offset, bool const bit);
+	MINTY_API inline byte pack_set_bit(byte const data, int const offset, bool const bit);
 }
