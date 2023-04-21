@@ -12,8 +12,16 @@ namespace minty
     struct MINTY_API PointF :
         public Saveable
     {
-        // the x and y position
-        float x, y;
+        /// <summary>
+        /// The X position.
+        /// </summary>
+        float x;
+
+        /// <summary>
+        /// The Y position.
+        /// </summary>
+        float y;
+
 
         /// <summary>
         /// Creates a new floating Point at (0, 0).

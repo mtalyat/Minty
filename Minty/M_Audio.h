@@ -32,6 +32,6 @@ namespace minty
 		/// Gets the volume of this Audio.
 		/// </summary>
 		/// <returns>The volume of this Audio.</returns>
-		constexpr unsigned char getVolume() const { return m_volume; }
+		constexpr unsigned char volume() const { return m_volume; }
 	};
 }

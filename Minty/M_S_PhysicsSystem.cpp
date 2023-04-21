@@ -498,7 +498,7 @@ namespace minty
 		if (sr && sr->sprite)
 		{
 			sr->sprite->createMask();
-			return sr->sprite->getMask();
+			return sr->sprite->mask();
 		}
 
 		// no mask available

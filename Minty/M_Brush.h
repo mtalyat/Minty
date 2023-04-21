@@ -37,7 +37,7 @@ namespace minty
 		/// <param name="baseY">The stroke starting Y position.</param>
 		/// <param name="x">The current X position.</param>
 		/// <param name="y">The current Y position.</param>
-		/// <returns></returns>
+		/// <returns>The color at that position.</returns>
 		color_t getColor(int const baseX, int const baseY, int const x, int const y) const;
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace minty
 		/// </summary>
 		/// <param name="x">The current X position.</param>
 		/// <param name="y">The current Y position.</param>
-		/// <returns></returns>
+		/// <returns>The color at that position.</returns>
 		virtual color_t getColor(int const x, int const y) const = 0;
 	};
 }

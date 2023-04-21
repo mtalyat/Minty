@@ -1,8 +1,8 @@
 #pragma once
 
 #include "M_System.h"
-#include "M_Music.h"
-#include "M_Sound.h"
+#include "M_Audio_Music.h"
+#include "M_Audio_Sound.h"
 #include <unordered_map>
 #include <climits>
 

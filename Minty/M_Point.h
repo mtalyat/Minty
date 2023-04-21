@@ -14,8 +14,15 @@ namespace minty
     struct MINTY_API Point :
         public Saveable
     {
-        // the x and y position
-        int x, y;
+        /// <summary>
+        /// The X position.
+        /// </summary>
+        int x;
+
+        /// <summary>
+        /// The Y position.
+        /// </summary>
+        int y;
 
         /// <summary>
         /// Creates a new Point at (0, 0).

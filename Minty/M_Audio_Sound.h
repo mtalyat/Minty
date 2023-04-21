@@ -27,6 +27,6 @@ namespace minty
 		/// Gets the audio.
 		/// </summary>
 		/// <returns>The audio clip.</returns>
-		Mix_Chunk* getAudio() const { return mp_audio; }
+		Mix_Chunk* audio() const { return mp_audio; }
 	};
 }

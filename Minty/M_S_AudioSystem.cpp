@@ -15,12 +15,12 @@ namespace minty
 		// free all music and sounds
 		for (auto& audio : *mp_musics)
 		{
-			Mix_FreeMusic(audio.second->getAudio());
+			Mix_FreeMusic(audio.second->audio());
 		}
 
 		for (auto& audio : *mp_sounds)
 		{
-			Mix_FreeChunk(audio.second->getAudio());
+			Mix_FreeChunk(audio.second->audio());
 		}
 	}
 
@@ -61,8 +61,8 @@ namespace minty
 			return;
 		}
 
-		Mix_Volume(found->second->getVolume(), channel);
-		Mix_PlayChannel(channel, found->second->getAudio(), loops);
+		Mix_Volume(found->second->volume(), channel);
+		 Mix_PlayChannel(channel, found->second->audio(), loops);
 	}
 
 	void AudioSystem::stopSound(int const channel)
@@ -88,8 +88,8 @@ namespace minty
 			return;
 		}
 
-		Mix_VolumeMusic(found->second->getVolume());
-		Mix_PlayMusic(found->second->getAudio(), loops);
+		Mix_VolumeMusic(found->second->volume());
+		Mix_PlayMusic(found->second->audio(), loops);
 	}
 
 	void AudioSystem::stopMusic()

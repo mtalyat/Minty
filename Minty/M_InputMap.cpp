@@ -76,44 +76,44 @@ namespace minty
 		mp_mouseScrollEvent->invoke(scroll);
 	}
 
-	inline void InputMap::emplace_key_down(SDL_Keycode const key, std::function<void()> const& action)
+	inline void InputMap::emplaceKeyDown(SDL_Keycode const key, std::function<void()> const& action)
 	{
 		(*mp_keyDownEvents)[key].emplace(action);
 	}
 
-	inline void InputMap::emplace_key_up(SDL_Keycode const key, std::function<void()> const& action)
+	inline void InputMap::emplaceKeyUp(SDL_Keycode const key, std::function<void()> const& action)
 	{
 		(*mp_keyUpEvents)[key].emplace(action);
 	}
 
-	inline void InputMap::emplace_key(SDL_Keycode const key, std::function<void()> const& downAction, std::function<void()> const& upAction)
+	inline void InputMap::emplaceKey(SDL_Keycode const key, std::function<void()> const& downAction, std::function<void()> const& upAction)
 	{
-		emplace_key_down(key, downAction);
-		emplace_key_up(key, upAction);
+		emplaceKeyDown(key, downAction);
+		emplaceKeyUp(key, upAction);
 	}
 
-	inline void InputMap::emplace_mouse_down(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action)
+	inline void InputMap::emplaceMouseDown(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action)
 	{
 		(*mp_mouseDownEvents)[button].emplace(action);
 	}
 
-	inline void InputMap::emplace_mouse_up(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action)
+	inline void InputMap::emplaceMouseUp(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action)
 	{
 		(*mp_mouseUpEvents)[button].emplace(action);
 	}
 
-	inline void InputMap::emplace_mouse(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& downAction, std::function<void(SDL_MouseButtonEvent*)> const& upAction)
+	inline void InputMap::emplaceMouse(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& downAction, std::function<void(SDL_MouseButtonEvent*)> const& upAction)
 	{
-		emplace_mouse_down(button, downAction);
-		emplace_mouse_up(button, upAction);
+		emplaceMouseDown(button, downAction);
+		emplaceMouseUp(button, upAction);
 	}
 
-	inline void InputMap::emplace_mouse_move(std::function<void(SDL_MouseMotionEvent*)> const& action)
+	inline void InputMap::emplaceMouseMove(std::function<void(SDL_MouseMotionEvent*)> const& action)
 	{
 		mp_mouseMoveEvent->emplace(action);
 	}
 
-	inline void InputMap::emplace_mouse_scroll(std::function<void(SDL_MouseWheelEvent*)> const& action)
+	inline void InputMap::emplaceMouseScroll(std::function<void(SDL_MouseWheelEvent*)> const& action)
 	{
 		mp_mouseScrollEvent->emplace(action);
 	}

@@ -28,6 +28,6 @@ namespace minty
 		/// Gets the audio.
 		/// </summary>
 		/// <returns>The audio clip.</returns>
-		Mix_Music* getAudio() const { return mp_audio; }
+		Mix_Music* audio() const { return mp_audio; }
 	};
 }

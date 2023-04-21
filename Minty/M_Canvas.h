@@ -203,6 +203,6 @@ namespace minty
 		/// Gets the Sprite that this Canvas is modifying.
 		/// </summary>
 		/// <returns>The Sprite that this Canvas modifies.</returns>
-		Sprite* getSprite() const { return mp_sprite; }
+		Sprite* sprite() const { return mp_sprite; }
 	};
 }

@@ -92,14 +92,14 @@ namespace minty
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="action"></param>
-		inline void emplace_key_down(SDL_Keycode const key, std::function<void()> const& action);
+		inline void emplaceKeyDown(SDL_Keycode const key, std::function<void()> const& action);
 
 		/// <summary>
 		/// Adds a function to the key up Event for the given key.
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="action"></param>
-		inline void emplace_key_up(SDL_Keycode const key, std::function<void()> const& action);
+		inline void emplaceKeyUp(SDL_Keycode const key, std::function<void()> const& action);
 
 		/// <summary>
 		/// Adds a down and an up function to the respective key Events for the given key.
@@ -107,21 +107,21 @@ namespace minty
 		/// <param name="key"></param>
 		/// <param name="downAction"></param>
 		/// <param name="upAction"></param>
-		void emplace_key(SDL_Keycode const key, std::function<void()> const& downAction, std::function<void()> const& upAction);
+		void emplaceKey(SDL_Keycode const key, std::function<void()> const& downAction, std::function<void()> const& upAction);
 
 		/// <summary>
 		/// Adds a function that is invoked when the mouse is pressed down.
 		/// </summary>
 		/// <param name="button"></param>
 		/// <param name="action"></param>
-		inline void emplace_mouse_down(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action);
+		inline void emplaceMouseDown(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action);
 
 		/// <summary>
 		/// Adds a function that is invoked when the mouse is released up.
 		/// </summary>
 		/// <param name="button"></param>
 		/// <param name="action"></param>
-		inline void emplace_mouse_up(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action);
+		inline void emplaceMouseUp(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& action);
 
 		/// <summary>
 		/// Adds a function to when the mouse is pressed down, and another function when the mouse is released up.
@@ -129,19 +129,19 @@ namespace minty
 		/// <param name="button"></param>
 		/// <param name="downAction"></param>
 		/// <param name="upAction"></param>
-		void emplace_mouse(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& downAction, std::function<void(SDL_MouseButtonEvent*)> const& upAction);
+		void emplaceMouse(Uint8 const button, std::function<void(SDL_MouseButtonEvent*)> const& downAction, std::function<void(SDL_MouseButtonEvent*)> const& upAction);
 
 		/// <summary>
 		/// Adds a function that is invoked when the mouse moves.
 		/// </summary>
 		/// <param name="action"></param>
-		inline void emplace_mouse_move(std::function<void(SDL_MouseMotionEvent*)> const& action);
+		inline void emplaceMouseMove(std::function<void(SDL_MouseMotionEvent*)> const& action);
 
 		/// <summary>
 		/// Adds a function that is invoked when the mouse scrolls.
 		/// </summary>
 		/// <param name="action"></param>
-		inline void emplace_mouse_scroll(std::function<void(SDL_MouseWheelEvent*)> const& action);
+		inline void emplaceMouseScroll(std::function<void(SDL_MouseWheelEvent*)> const& action);
 
 #pragma endregion
 	};

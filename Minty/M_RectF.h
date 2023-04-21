@@ -17,19 +17,19 @@ namespace minty
 		/// <summary>
 		/// The column position of the Rectangle.
 		/// </summary>
-		float const x;
+		float x;
 		/// <summary>
 		/// The row position of the Rectangle.
 		/// </summary>
-		float const y;
+		float y;
 		/// <summary>
 		/// The width of the Rectangle.
 		/// </summary>
-		float const width;
+		float width;
 		/// <summary>
 		/// The height of the Rectangle.
 		/// </summary>
-		float const height;
+		float height;
 
 	public:
 		/// <summary>

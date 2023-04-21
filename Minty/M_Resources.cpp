@@ -103,7 +103,7 @@ namespace minty
 		// get sprite, turn it into an animation
 		Sprite* sprite = resources_load_sprite(path, renderer); // pivot does not matter here
 
-		Animation* animation = Animation::fromSprite_single(sprite, renderer, tileWidth, tileHeight, frameTime, looping);
+		Animation* animation = Animation::fromSprite_s(sprite, renderer, tileWidth, tileHeight, frameTime, looping);
 
 		// no longer need original sprite
 		delete sprite;
@@ -116,7 +116,7 @@ namespace minty
 		// get sprite, turn it into an animation
 		Sprite* sprite = resources_load_sprite(path, renderer); // pivot does not matter here
 
-		std::vector<Animation*> animations = Animation::fromSprite_multiple(sprite, renderer, tileWidth, tileHeight, frameTime, looping, framesPerAnimation);
+		std::vector<Animation*> animations = Animation::fromSprite_m(sprite, renderer, tileWidth, tileHeight, frameTime, looping, framesPerAnimation);
 
 		// no longer need original sprite
 		delete sprite;

@@ -74,13 +74,7 @@ namespace minty
 
 	void Engine::run()
 	{
-		// initialize
-		m_quit = false;
-		m_isRunning = true;
-		m_isPaused = false;
-
-		// start game clock
-		m_gameWatch.start();
+		onStart();
 
 		// start game
 		if (mp_game->onStart())
@@ -369,6 +363,19 @@ namespace minty
 		}
 
 		onFinish();
+	}
+
+	void Engine::onStart()
+	{
+		Debug::log("Starting engine.");
+
+		// initialize
+		m_quit = false;
+		m_isRunning = true;
+		m_isPaused = false;
+
+		// start game clock
+		m_gameWatch.start();
 	}
 
 	void Engine::onFinish()

@@ -169,7 +169,7 @@ namespace minty
         }
 
         // add to collider
-        mp_registry->emplace<Collider>(entity, bounds, isTrigger, isStatic, (isDynamic || !renderer.sprite) ? nullptr : renderer.sprite->getMask());
+        mp_registry->emplace<Collider>(entity, bounds, isTrigger, isStatic, (isDynamic || !renderer.sprite) ? nullptr : renderer.sprite->mask());
 
         return entity;
     }

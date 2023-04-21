@@ -59,31 +59,31 @@ namespace minty
 		/// Get the text that is within this Text.
 		/// </summary>
 		/// <returns>The text.</returns>
-		inline std::string const& getText() const { return m_text; }
+		inline std::string const& text() const { return m_text; }
 
 		/// <summary>
 		/// Gets the Font for this Text.
 		/// </summary>
 		/// <returns>The Font.</returns>
-		inline Font* const getFont() const { return mp_font; }
+		inline Font* const font() const { return mp_font; }
 
 		/// <summary>
 		/// Gets the Color for this Text.
 		/// </summary>
 		/// <returns>The Color.</returns>
-		inline Color getColor() const { return m_color; }
+		inline Color color() const { return m_color; }
 
 		/// <summary>
 		/// Gets the Sprite for this Text.
 		/// </summary>
 		/// <returns>The Sprite.</returns>
-		inline Sprite* const getSprite() const { return mp_sprite; }
+		inline Sprite* const sprite() const { return mp_sprite; }
 
 		/// <summary>
 		/// Gets the pivot for this Text.
 		/// </summary>
 		/// <returns>The pivot.</returns>
-		inline PointF const& getPivot() const { return m_pivot; }
+		inline PointF const& pivot() const { return m_pivot; }
 
 		/// <summary>
 		/// Has the Text been edited but not applied?

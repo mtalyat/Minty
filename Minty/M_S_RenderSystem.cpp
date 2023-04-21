@@ -156,7 +156,7 @@ namespace minty
 				}
 
 				// get sprite to render
-				sprite = tr->text->getSprite();
+				sprite = tr->text->sprite();
 
 				// if renderer exists, and text exists, and font exists
 				if (sprite)

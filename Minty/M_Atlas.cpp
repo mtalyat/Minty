@@ -14,7 +14,7 @@ namespace minty
 	Atlas::~Atlas()
 	{
 		// delete each sprite
-		for (size_t i = 0; i < getSize(); i++)
+		for (size_t i = 0; i < size(); i++)
 		{
 			delete mp_tiles[i];
 		}

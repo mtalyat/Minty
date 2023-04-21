@@ -94,7 +94,7 @@ namespace minty
 		/// Gets the mask for this Sprite.
 		/// </summary>
 		/// <returns>The mask.</returns>
-		inline Mask* getMask() const { return mp_mask; }
+		inline Mask* mask() const { return mp_mask; }
 		/// <summary>
 		/// Creates the Mask for this Sprite, if needed.
 		/// </summary>

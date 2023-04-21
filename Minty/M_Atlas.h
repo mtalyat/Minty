@@ -52,13 +52,13 @@ namespace minty
 		/// Gets the 2D array of tiles within this Atlas.
 		/// </summary>
 		/// <returns>The 2D array of tiles.</returns>
-		inline Sprite** getTiles() const { return mp_tiles; }
+		inline Sprite** tiles() const { return mp_tiles; }
 
 		/// <summary>
 		/// Gets the total number of tiles within this Atlas.
 		/// </summary>
 		/// <returns>The number of tiles.</returns>
-		constexpr int getSize() const { return m_widthInTiles * m_heightInTiles; }
+		constexpr int size() const { return m_widthInTiles * m_heightInTiles; }
 
 		/// <summary>
 		/// Generates a 2D array of Sprite tiles from the given Sprite.
