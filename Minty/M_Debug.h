@@ -48,6 +48,12 @@ namespace minty
 		/// Debugs a string to the console, prepended by "ERR: ".
 		/// </summary>
 		/// <param name="str"></param>
+		static void logError(std::string const& str);
+
+		/// <summary>
+		/// Debugs a string to the console, prepended by "ERR: ".
+		/// </summary>
+		/// <param name="str"></param>
 		static void logError(int const code, std::string const& str);
 
 		/// <summary>

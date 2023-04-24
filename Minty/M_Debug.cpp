@@ -40,18 +40,27 @@ namespace minty
 		}
 	}
 
+	void Debug::logError(std::string const& str)
+	{
+		logError(-1, str);
+	}
+
 	void Debug::logError(int const code, std::string const& str)
 	{
 		if (msp_stopwatch)
 		{
 			// stopwatch, so print
-			std::cout << "[" << msp_stopwatch->toString() << "] ERR CODE: " << code << ", ERR: " << str << END_OF_LINE;
+			std::cout << "[" << msp_stopwatch->toString() << "] ";
 		}
-		else
+
+		if (code >= 0)
 		{
-			// no stopwatch, just print
-			std::cout << "ERR CODE: " << code << ", ERR: " << str << END_OF_LINE;
+			// error code, so print
+			std::cout << "ERR CODE: " << code << ", ";
 		}
+
+		// print error message
+		std::cout << "ERR: " << str << END_OF_LINE;
 	}
 
 	void Debug::logError(int const code, std::string const& str, Object const& obj)
