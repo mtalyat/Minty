@@ -9,8 +9,6 @@ namespace minty
     {
         return Point(math_floorToInt(x), math_floorToInt(y));
     }
-
-    inline std::string const PointF::toString() const { return std::format("PointF({0}, {1})", x, y); }
     
     void PointF::serialize(boost::property_tree::ptree& ptree)
     {

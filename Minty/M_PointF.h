@@ -86,7 +86,7 @@ namespace minty
         /// <returns>A Point containing this PointF's values, rounded.</returns>
         Point toPoint() const;
 
-        std::string const toString() const override;
+        std::string const toString() const override { return std::format("PointF({0}, {1})", x, y); }
 
         void serialize(boost::property_tree::ptree& ptree) override;
         void deserialize(boost::property_tree::ptree const& ptree) override;
