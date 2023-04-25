@@ -6,7 +6,23 @@
 #include <string>
 #include <iostream>
 
-constexpr char END_OF_LINE = '\n';
+#define MINTY_DEBUG_MODE_NONE 0b000
+#define MINTY_DEBUG_MODE_LOG 0b001
+#define MINTY_DEBUG_MODE_WARN 0b010
+#define MINTY_DEBUG_MODE_ERROR 0b100
+// error
+#define MINTY_DEBUG_MODE_LOW 0b100
+// error, warn
+#define MINTY_DEBUG_MODE_MEDIUM 0b110
+// error, warn, log
+#define MINTY_DEBUG_MODE_HIGH 0b111
+#define MINTY_DEBUG_MODE_ALL 0b111
+#define MINTY_DEBUG_MODE_ON 0b111
+#define MINTY_DEBUG_MODE_OFF 0b000
+
+// assign this in main project
+//#define MINTY_DEBUG_MODE MINTY_DEBUG_MODE_ALL
+
 
 namespace minty
 {

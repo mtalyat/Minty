@@ -5,6 +5,8 @@
 
 namespace minty
 {
+	constexpr char END_OF_LINE = '\n';
+
 	Stopwatch* Debug::msp_stopwatch = nullptr;
 
 	void Debug::logRaw(std::string const& str)
