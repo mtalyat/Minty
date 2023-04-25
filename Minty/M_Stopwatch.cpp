@@ -94,10 +94,10 @@ namespace minty
 		// print in format: HH:MM:SS:nnnnnn
 
 		std::string temp = std::format("{0}:{1}:{2}.{3}",
-			text_pad_left(std::to_string(hours), 2, '0'),
-			text_pad_left(std::to_string(minutes), 2, '0'),
-			text_pad_left(std::to_string(seconds), 2, '0'),
-			text_pad_left(std::to_string(ns / 100), 7, '0'));
+			string_pad_left(std::to_string(hours), 2, '0'),
+			string_pad_left(std::to_string(minutes), 2, '0'),
+			string_pad_left(std::to_string(seconds), 2, '0'),
+			string_pad_left(std::to_string(ns / 100), 7, '0'));
 
 		return temp;
 	}
