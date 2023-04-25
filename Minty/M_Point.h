@@ -81,6 +81,30 @@ namespace minty
             return Point(x - other.x, y - other.y);
         }
 
+        // multiplication operator
+        Point operator *(Point const& other) const
+        {
+            return Point(x * other.x, y * other.y);
+        }
+
+        // multiplication scaling operator
+        Point operator *(int const scale) const
+        {
+            return Point(x * scale, y * scale);
+        }
+
+        // division operator
+        Point operator /(Point const& other) const
+        {
+            return Point(x / other.x, y / other.y);
+        }
+
+        // division scaling operator
+        Point operator /(int const scale) const
+        {
+            return Point(x / scale, y / scale);
+        }
+
         /// <summary>
         /// Converts this Point to a PointF.
         /// </summary>
