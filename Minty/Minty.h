@@ -89,6 +89,7 @@
 #include "M_C_Position.h"
 #include "M_C_Renderable.h"
 #include "M_C_Scale.h"
+#include "M_C_Selectable.h"
 #include "M_C_Size.h"
 #include "M_C_SpriteRenderer.h"
 #include "M_C_Target.h"
@@ -104,6 +105,7 @@
 #include "M_S_PhysicsSystem.h"
 #include "M_S_RenderSystem.h"
 #include "M_S_TargetSystem.h"
+#include "M_S_UserInterfaceSystem.h"
 
 //			Tags
 #include "M_T_Destroy.h"
