@@ -28,6 +28,7 @@ namespace minty
 	/// Converts the given integer to a binary string.
 	/// </summary>
 	/// <param name="value">The integer to convert.</param>
+	/// <param name="count">The number of bits to show.</param>
 	/// <returns>A string form of the number in binary representation.</returns>
-	MINTY_API std::string string_to_binary(int const value);
+	MINTY_API std::string string_to_binary(int const value, int const count = sizeof(int) * 8);
 }

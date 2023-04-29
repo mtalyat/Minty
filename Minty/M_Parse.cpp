@@ -53,7 +53,7 @@ namespace minty
 
 	MINTY_API ushort parse_ushort(std::string const& str)
 	{
-		return static_cast<unsigned short>(std::stoul(str));
+		return static_cast<unsigned short>(std::stol(str));
 	}
 
 	MINTY_API bool try_parse_ushort(std::string const& str, ushort& out)

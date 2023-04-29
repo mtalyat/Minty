@@ -339,6 +339,12 @@
     <ClInclude Include="M_Types.h">
       <Filter>Header Files\Other</Filter>
     </ClInclude>
+    <ClInclude Include="M_S_UserInterfaceSystem.h">
+      <Filter>Header Files\Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_Selectable.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -504,6 +510,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="M_Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="M_S_UserInterfaceSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

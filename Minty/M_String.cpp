@@ -13,17 +13,18 @@ namespace minty
 		return str.append(math_max(0, width - str.length()), padding);
 	}
 	
-	MINTY_API std::string string_to_binary(int const value)
+	MINTY_API std::string string_to_binary(int const value, int const count)
 	{
-		int const size = sizeof(int) * 8;
-		char binary[size + 1];
+		char *binary = new char[count + 1];
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < count; i++)
 		{
-			binary[size - 1 - i] = ((value >> i) & 1) ? '1' : '0';
+			binary[count - 1 - i] = ((value >> i) & 1) ? '1' : '0';
 		}
 
-		binary[size] = '\0'; // end of string
-		return std::string(binary);
+		binary[count] = '\0'; // end of string
+		std::string str = std::string(binary);
+		delete[] binary;
+		return str;
 	}
 }
