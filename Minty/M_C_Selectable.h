@@ -8,6 +8,14 @@ namespace minty
 {
 	struct MINTY_API Selectable
 	{
+		enum class Type
+		{
+			Generic,
+			Button
+		};
+
+		Type type;
+
 		int index;
 
 		Event<>* onSelect;

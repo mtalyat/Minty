@@ -8,6 +8,7 @@
 #include "M_S_RenderSystem.h"
 #include "M_S_AudioSystem.h"
 #include "M_S_InputSystem.h"
+#include "M_S_UserInterfaceSystem.h"
 #include "M_C_MouseClick.h"
 #include "M_Text.h"
 #include "entt.hpp"
@@ -42,13 +43,15 @@ namespace minty
 
 		// the main camera in this Scene
 		entt::entity m_mainCamera;
-	private:
+
 		// the input system
 		InputSystem* const mp_inputSystem;
 		// the render system
 		RenderSystem* const mp_renderSystem;
 		// the audio system
 		AudioSystem* const mp_audioSystem;
+		// the ui system
+		UserInterfaceSystem* const mp_uiSystem;
 	public:
 		/// <summary>
 		/// Creates a new Scene from the given name and Game.
@@ -141,6 +144,12 @@ namespace minty
 		/// </summary>
 		/// <returns></returns>
 		inline AudioSystem* const audioSystem() const { return mp_audioSystem; }
+
+		/// <summary>
+		/// Gets the UserInterfaceSystem in this Scene.
+		/// </summary>
+		/// <returns></returns>
+		inline UserInterfaceSystem* const userInterfaceSystem() const { return mp_uiSystem; }
 
 		//inline UI_Canvas* mainCanvas() { return mp_mainCanvas; }
 

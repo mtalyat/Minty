@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "M_S_UserInterfaceSystem.h"
-#include "M_C_Selectable.h"
 #include "M_Debug.h"
 
 namespace minty
@@ -19,7 +18,7 @@ namespace minty
 		mp_uiSelectables->clear();
 	}
 	
-	void UserInterfaceSystem::emplace(entt::entity const entity, int const index)
+	void UserInterfaceSystem::emplace(entt::entity const entity, Selectable::Type const type, int const index)
 	{
 		auto found = mp_uiSelectables->find(index);
 
@@ -32,6 +31,7 @@ namespace minty
 
 		// get selectable component
 		Selectable& selectable = mp_registry->get_or_emplace<Selectable>(entity);
+		selectable.type = type;
 		selectable.index = index;
 
 		// add to map
@@ -92,6 +92,46 @@ namespace minty
 		return mp_uiSelectables->at(m_selected);
 	}
 
+	void UserInterfaceSystem::up()
+	{
+		Selectable* selected = getSelected();
+
+		if (!selected)
+		{
+			return;
+		}
+	}
+
+	void UserInterfaceSystem::down()
+	{
+		Selectable* selected = getSelected();
+
+		if (!selected)
+		{
+			return;
+		}
+	}
+
+	void UserInterfaceSystem::left()
+	{
+		Selectable* selected = getSelected();
+
+		if (!selected)
+		{
+			return;
+		}
+	}
+
+	void UserInterfaceSystem::right()
+	{
+		Selectable* selected = getSelected();
+
+		if (!selected)
+		{
+			return;
+		}
+	}
+
 	void UserInterfaceSystem::select(int const index)
 	{
 		// do nothing if index not changing
@@ -116,5 +156,19 @@ namespace minty
 		{
 			selected.onSelect->invoke();
 		}
+	}
+	
+	Selectable* UserInterfaceSystem::getSelected()
+	{
+		auto found = mp_uiSelectables->find(m_selected);
+
+		if (found == mp_uiSelectables->end())
+		{
+			// nothing selected
+			return nullptr;
+		}
+
+		// get Selectable component from selected
+		return mp_registry->try_get<Selectable>(found->second);
 	}
 }

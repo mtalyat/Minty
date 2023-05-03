@@ -44,11 +44,13 @@ namespace minty
         , mp_inputSystem(new InputSystem(mp_registry))
         , mp_renderSystem(new RenderSystem(mp_registry, &m_mainCamera, mp_engine->screen()))
         , mp_audioSystem(new AudioSystem(mp_registry))
+        , mp_uiSystem(new UserInterfaceSystem(mp_registry))
     {
         // emplace input system
         m_systemManager.emplace(mp_inputSystem);
         m_systemManager.emplace(mp_renderSystem);
         m_systemManager.emplace(mp_audioSystem);
+        m_systemManager.emplace(mp_uiSystem);
     }
 
     Scene::~Scene()
@@ -203,6 +205,9 @@ namespace minty
         mp_registry->emplace<Clickable>(entity, sr.sprite->rect().toRectF());
         MouseClick& click = mp_registry->emplace<MouseClick>(entity, new mouseclick_t());
         click.onClick->emplace(func);
+
+        // add it to ui system since it can be selected
+        mp_uiSystem->emplace(entity, Selectable::Type::Button, -1);
 
         // all done
         return entity;
