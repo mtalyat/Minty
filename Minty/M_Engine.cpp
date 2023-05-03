@@ -152,7 +152,7 @@ namespace minty
 				{
 					mp_input->onMouseDown(&event.button);
 
-					Click click
+					MouseClickEvent click
 					{
 						event.button.button,
 						event.button.clicks,
@@ -167,7 +167,7 @@ namespace minty
 				{
 					mp_input->onMouseUp(&event.button);
 
-					Click click
+					MouseClickEvent click
 					{
 						event.button.button,
 						event.button.clicks,

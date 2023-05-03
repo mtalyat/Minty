@@ -156,13 +156,16 @@
     <ClInclude Include="M_Brush.h" />
     <ClInclude Include="M_Canvas.h" />
     <ClInclude Include="M_C_Follow.h" />
+    <ClInclude Include="M_C_MouseEnter.h" />
+    <ClInclude Include="M_C_MouseExit.h" />
+    <ClInclude Include="M_C_MouseHover.h" />
+    <ClInclude Include="M_C_MouseMove.h" />
     <ClInclude Include="M_C_Selectable.h" />
     <ClInclude Include="M_Directory.h" />
     <ClInclude Include="M_Manager.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="M_Animation.h" />
     <ClInclude Include="M_Atlas.h" />
-    <ClInclude Include="M_Click.h" />
     <ClInclude Include="M_Collision.h" />
     <ClInclude Include="M_Color.h" />
     <ClInclude Include="M_Coroutine.h" />
@@ -204,6 +207,8 @@
     <ClInclude Include="M_Math.h" />
     <ClInclude Include="M_Main.h" />
     <ClInclude Include="M_Audio_Music.h" />
+    <ClInclude Include="M_MouseClickEvent.h" />
+    <ClInclude Include="M_MouseMoveEvent.h" />
     <ClInclude Include="M_Object.h" />
     <ClInclude Include="M_Packing.h" />
     <ClInclude Include="M_Pair.h" />

@@ -8,7 +8,7 @@ namespace minty
 	/// <summary>
 	/// Holds data regarding a mouse click on the screen.
 	/// </summary>
-	struct MINTY_API Click
+	struct MINTY_API MouseClickEvent
 	{
 		/// <summary>
 		/// The index of the mouse button that was clicked.

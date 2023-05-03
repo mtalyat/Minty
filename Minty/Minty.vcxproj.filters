@@ -225,9 +225,6 @@
     <ClInclude Include="M_C_Scale.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="M_Click.h">
-      <Filter>Header Files\Data Types</Filter>
-    </ClInclude>
     <ClInclude Include="M_S_RenderSystem.h">
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
@@ -343,6 +340,24 @@
       <Filter>Header Files\Engine\Systems</Filter>
     </ClInclude>
     <ClInclude Include="M_C_Selectable.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_MouseEnter.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_MouseExit.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_MouseMove.h">
+      <Filter>Header Files\Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="M_MouseClickEvent.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_MouseMoveEvent.h">
+      <Filter>Header Files\Data Types</Filter>
+    </ClInclude>
+    <ClInclude Include="M_C_MouseHover.h">
       <Filter>Header Files\Engine\Components</Filter>
     </ClInclude>
   </ItemGroup>

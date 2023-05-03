@@ -2,10 +2,10 @@
 
 #include "M_Main.h"
 
-#include "M_Click.h"
+#include "M_MouseClickEvent.h"
 #include "M_Event.h"
 
-#define mouseclick_event_t Click const* const
+#define mouseclick_event_t MouseClickEvent const* const
 #define mouseclick_t Event<mouseclick_event_t>
 
 namespace minty
