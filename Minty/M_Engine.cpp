@@ -180,6 +180,8 @@ namespace minty
 				}
 				case SDL_MOUSEMOTION:
 					mp_input->onMouseMove(&event.motion);
+
+					activeScene->inputSystem()->onMouseMove(event.motion.x, event.motion.y);
 					break;
 				case SDL_MOUSEWHEEL:
 					mp_input->onMouseScroll(&event.wheel);

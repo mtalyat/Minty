@@ -6,7 +6,8 @@ namespace minty
 {
 	UserInterfaceSystem::UserInterfaceSystem(entt::registry* const registry)
 		: System(registry)
-		, mp_uiSelectables(new std::map<int, entt::entity>())
+		, mp_uiSelectables(new std::map<uint, entt::entity>())
+		, m_next()
 		, m_selected()
 	{}
 
@@ -20,22 +21,26 @@ namespace minty
 	
 	void UserInterfaceSystem::emplace(entt::entity const entity, Selectable::Type const type, int const index)
 	{
-		auto found = mp_uiSelectables->find(index);
+		int i = index < 0 ? m_next : index;
+
+		m_next++;
+
+		auto found = mp_uiSelectables->find(i);
 
 		if (found != mp_uiSelectables->end())
 		{
 			// selectable already exists
-			Debug::logError(std::format("An entity already exists with the index {0}.", index));
+			Debug::logError(std::format("An entity already exists with the index {0}.", i));
 			return;
 		}
 
 		// get selectable component
 		Selectable& selectable = mp_registry->get_or_emplace<Selectable>(entity);
 		selectable.type = type;
-		selectable.index = index;
+		selectable.index = i;
 
 		// add to map
-		mp_uiSelectables->emplace(index, entity);
+		mp_uiSelectables->emplace(i, entity);
 	}
 	
 	entt::entity UserInterfaceSystem::next()

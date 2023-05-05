@@ -31,6 +31,9 @@
 #include "M_C_MouseClick.h"
 #include "M_C_MouseDown.h"
 #include "M_C_MouseUp.h"
+#include "M_C_MouseHover.h"
+#include "M_C_MouseEnter.h"
+#include "M_C_MouseExit.h"
 
 namespace minty
 {
@@ -195,8 +198,13 @@ namespace minty
     
     entt::entity Scene::createEntity_ui_button(std::string const& path, mouseclick_t::func const& func, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
     {
+        return createEntity_ui_button(resources_load_sprite(path, mp_engine->renderer()), func, x, y, layer, order, pivotX, pivotY, anchorX, anchorY);
+    }
+
+    entt::entity Scene::createEntity_ui_button(Sprite* const sprite, mouseclick_t::func const& func, float const x, float const y, int const layer, int const order, float const pivotX, float const pivotY, float const anchorX, float const anchorY)
+    {
         // create UI
-        entt::entity entity = createEntity_ui(path, x, y, layer, order, pivotX, pivotY, anchorX, anchorY);
+        entt::entity entity = createEntity_ui(sprite, x, y, layer, order, pivotX, pivotY, anchorX, anchorY);
 
         // use sprite for bounds
         SpriteRenderer const& sr = mp_registry->get<SpriteRenderer>(entity);
@@ -208,6 +216,23 @@ namespace minty
 
         // add it to ui system since it can be selected
         mp_uiSystem->emplace(entity, Selectable::Type::Button, -1);
+
+        // add mouse hovering darken
+        mp_registry->emplace<MouseHover>(entity);
+        MouseEnter& enter = mp_registry->emplace<MouseEnter>(entity, new Event<MouseMoveEvent const* const>());
+        enter.onEnter->emplace([this, entity](MouseMoveEvent const* const mme)
+            {
+                // mouse enter, darken
+                SpriteRenderer& sr = mp_registry->get<SpriteRenderer>(entity);
+        SDL_SetTextureColorMod(sr.sprite->texture(), 191, 191, 191);
+            });
+        MouseExit& exit = mp_registry->emplace<MouseExit>(entity, new Event<MouseMoveEvent const* const>());
+        exit.onExit->emplace([this, entity](MouseMoveEvent const* const mme)
+            {
+                // mouse exit, back to normal
+                SpriteRenderer& sr = mp_registry->get<SpriteRenderer>(entity);
+        SDL_SetTextureColorMod(sr.sprite->texture(), 255, 255, 255);
+            });
 
         // all done
         return entity;

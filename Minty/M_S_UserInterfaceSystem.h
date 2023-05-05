@@ -1,6 +1,7 @@
 #pragma once
 
 #include "M_System.h"
+#include "M_Types.h"
 #include "M_C_Selectable.h"
 #include <boost/bimap.hpp>
 #include "entt.hpp"
@@ -14,7 +15,8 @@ namespace minty
 		: public System
 	{
 	private:
-		std::map<int, entt::entity>* mp_uiSelectables;
+		std::map<uint, entt::entity>* mp_uiSelectables;
+		uint m_next;
 		int m_selected;
 
 	public:
