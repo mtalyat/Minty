@@ -239,6 +239,7 @@
     <ClInclude Include="M_S_RenderSystem.h" />
     <ClInclude Include="M_S_TargetSystem.h" />
     <ClInclude Include="M_S_UserInterfaceSystem.h" />
+    <ClInclude Include="M_Templates.h" />
     <ClInclude Include="M_Text.h" />
     <ClInclude Include="M_Time.h" />
     <ClInclude Include="M_Types.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="M_C_Camera.cpp" />
     <ClCompile Include="M_C_Collider.cpp" />
     <ClCompile Include="M_C_Name.cpp" />
+    <ClCompile Include="M_C_Renderable.cpp" />
     <ClCompile Include="M_Debug.cpp" />
     <ClCompile Include="M_Direction.cpp" />
     <ClCompile Include="M_Directory.cpp" />
@@ -307,6 +309,7 @@
     <ClCompile Include="M_S_TargetSystem.cpp" />
     <ClCompile Include="M_String.cpp" />
     <ClCompile Include="M_S_UserInterfaceSystem.cpp" />
+    <ClCompile Include="M_Templates.cpp" />
     <ClCompile Include="M_Text.cpp" />
     <ClCompile Include="M_Time.cpp" />
     <ClCompile Include="pch.cpp">

@@ -57,6 +57,7 @@
 #include "M_SaveLoad.h"
 #include "M_Serialization.h"
 #include "M_String.h"
+#include "M_Templates.h"
 
 //		Other
 #include "M_Types.h"
