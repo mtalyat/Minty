@@ -18,6 +18,12 @@ namespace minty
 		// down events
 		for (auto [entity, renderable, clickable, onDown] : mp_registry->view<Renderable const, Clickable const, MouseDown const>().each())
 		{
+			// if not rendering, cannot click
+			if (renderable.invisible)
+			{
+				continue;
+			}
+
 			// if within position, trigger event
 			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
@@ -45,7 +51,7 @@ namespace minty
 		for (auto [entity, renderable, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// mark as clicked
-			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			if (!renderable.invisible && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				if (clickable.pixelPerfect)
 				{
@@ -61,7 +67,7 @@ namespace minty
 				}
 			}
 			else {
-				// not in bounds, not clicked
+				// not visible or not in bounds, so not clicked
 				onClick.clicked = false;
 			}
 		}
@@ -72,6 +78,12 @@ namespace minty
 		// up events
 		for (auto [entity, renderable, clickable, onUp] : mp_registry->view<Renderable const, Clickable const, MouseUp const>().each())
 		{
+			// if not rendering, cannot click
+			if (renderable.invisible)
+			{
+				continue;
+			}
+
 			// if within position, trigger event
 
 			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
@@ -101,7 +113,7 @@ namespace minty
 		for (auto [entity, renderable, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// if marked as clicked, and released here, trigger event
-			if (onClick.clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			if (!renderable.invisible && onClick.clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				// clicked in zone, ensure clicked on sprite, if required
 				if (clickable.pixelPerfect)
@@ -142,10 +154,16 @@ namespace minty
 		PointF newMouse(x, y);
 
 		// mouse enter must contain new x and y
-		for (auto [entity, position, clickable, hover, onEnter] : mp_registry->view<Renderable const, Clickable const, MouseHover, MouseEnter>().each())
+		for (auto [entity, renderable, clickable, hover, onEnter] : mp_registry->view<Renderable const, Clickable const, MouseHover, MouseEnter>().each())
 		{
+			// if invisible, do nothing
+			if (renderable.invisible)
+			{
+				continue;
+			}
+
 			// if does not contain mouse, and now it does
-			if (!hover.hovering && (clickable.hitbox + position.toPointF()).contains(newMouse))
+			if (!hover.hovering && (clickable.hitbox + renderable.toPointF()).contains(newMouse))
 			{
 				hover.hovering = true;
 
@@ -157,10 +175,10 @@ namespace minty
 		}
 
 		// mouse exit must not contain new x and y, but it did before
-		for (auto [entity, position, clickable, hover, onExit] : mp_registry->view<Renderable const, Clickable const, MouseHover, MouseExit>().each())
+		for (auto [entity, renderable, clickable, hover, onExit] : mp_registry->view<Renderable const, Clickable const, MouseHover, MouseExit>().each())
 		{
 			// if does contain mouse, and now it does not
-			if (hover.hovering && !(clickable.hitbox + position.toPointF()).contains(newMouse))
+			if (renderable.invisible || hover.hovering && !(clickable.hitbox + renderable.toPointF()).contains(newMouse))
 			{
 				hover.hovering = false;
 
@@ -172,10 +190,16 @@ namespace minty
 		}
 
 		// mouse move must either contain new x and y, or contain old x and y
-		for (auto [entity, position, clickable, hover, onMove] : mp_registry->view<Renderable const, Clickable const, MouseHover, MouseMove>().each())
+		for (auto [entity, renderable, clickable, hover, onMove] : mp_registry->view<Renderable const, Clickable const, MouseHover, MouseMove>().each())
 		{
+			// if invisible, do nothing
+			if (renderable.invisible)
+			{
+				continue;
+			}
+
 			// if did contain mouse, or now it does
-			bool c = (clickable.hitbox + position.toPointF()).contains(newMouse);
+			bool c = (clickable.hitbox + renderable.toPointF()).contains(newMouse);
 			if (hover.hovering || c)
 			{
 				hover.hovering = c;

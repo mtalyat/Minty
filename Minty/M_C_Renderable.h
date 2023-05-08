@@ -69,12 +69,6 @@ namespace minty
 		inline SDL_RendererFlip getFlip() const { return static_cast<SDL_RendererFlip>(flip); }
 
 		/// <summary>
-		/// Checks if this SpriteRenderer is visible.
-		/// </summary>
-		/// <returns></returns>
-		constexpr bool isVisible() const { return !invisible; }
-
-		/// <summary>
 		/// Gets the rendering position as a Point.
 		/// </summary>
 		/// <returns>The rendering position.</returns>

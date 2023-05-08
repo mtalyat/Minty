@@ -76,7 +76,7 @@ namespace minty
         return entity;
     }
     
-    MINTY_API entt::entity templates_entity_ui_button(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, int const layer, int const order, PointF const& anchor)
+    MINTY_API entt::entity templates_entity_ui_button(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, bool const pixelPerfect, int const layer, int const order, PointF const& anchor)
     {
         // create UI
         entt::entity entity = templates_entity_ui(registry, sprite, position, layer, order, anchor);
@@ -85,7 +85,7 @@ namespace minty
         SpriteRenderer const& sr = registry->get<SpriteRenderer>(entity);
 
         // add click to it
-        registry->emplace<Clickable>(entity, sr.sprite->rect().toRectF());
+        registry->emplace<Clickable>(entity, sr.sprite->rect().toRectF(), pixelPerfect);
         MouseClick& click = registry->emplace<MouseClick>(entity, new mouseclick_t());
         click.onClick->emplace(func);
 
@@ -93,10 +93,10 @@ namespace minty
         return entity;
     }
     
-    MINTY_API entt::entity templates_entity_ui_button_normal(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, Color const& normalColor, Color const& hoverColor, Color const& downColor, Color const& disabledColor, int const layer, int const order, PointF const& anchor)
+    MINTY_API entt::entity templates_entity_ui_button_normal(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, bool const pixelPerfect, Color const& normalColor, Color const& hoverColor, Color const& downColor, Color const& disabledColor, int const layer, int const order, PointF const& anchor)
     {
         // create UI
-        entt::entity entity = templates_entity_ui_button(registry, sprite, position, func, layer, order, anchor);
+        entt::entity entity = templates_entity_ui_button(registry, sprite, position, func, pixelPerfect, layer, order, anchor);
 
         // add mouse hovering color
         registry->emplace<MouseHover>(entity);

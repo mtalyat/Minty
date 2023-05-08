@@ -122,6 +122,12 @@ namespace minty
 		inline entt::entity& mainCamera() { return m_mainCamera; }
 
 		/// <summary>
+		/// Gets the entity registry that this Scene uses.
+		/// </summary>
+		/// <returns></returns>
+		inline entt::registry* const registry() const { return mp_registry; }
+
+		/// <summary>
 		/// Gets the SystemManager in this Scene.
 		/// </summary>
 		/// <returns></returns>

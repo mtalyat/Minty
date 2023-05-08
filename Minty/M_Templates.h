@@ -19,9 +19,9 @@ namespace minty
 
 	MINTY_API entt::entity templates_entity_ui(entt::registry* const registry, Sprite* const sprite, PointF const& position, int const layer = 0, int const order = 0, PointF const& anchor = PointF());
 
-	MINTY_API entt::entity templates_entity_ui_button(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, int const layer = 0, int const order = 0, PointF const& anchor = PointF());
+	MINTY_API entt::entity templates_entity_ui_button(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, bool const pixelPerfect, int const layer = 0, int const order = 0, PointF const& anchor = PointF());
 
-	MINTY_API entt::entity templates_entity_ui_button_normal(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, Color const& normalColor, Color const& hoverColor, Color const& downColor, Color const& disabledColor, int const layer = 0, int const order = 0, PointF const& anchor = PointF());
+	MINTY_API entt::entity templates_entity_ui_button_normal(entt::registry* const registry, Sprite* const sprite, PointF const& position, mouseclick_t::func const& func, bool const pixelPerfect, Color const& normalColor, Color const& hoverColor, Color const& downColor, Color const& disabledColor, int const layer = 0, int const order = 0, PointF const& anchor = PointF());
 
 	MINTY_API entt::entity templates_entity_ui_text(entt::registry* const registry, Text* const text, PointF const& position, int const layer = 0, int const order = 0, PointF const& anchor = PointF());
 }
