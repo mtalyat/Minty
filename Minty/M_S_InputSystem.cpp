@@ -19,10 +19,21 @@ namespace minty
 		for (auto [entity, renderable, clickable, onDown] : mp_registry->view<Renderable const, Clickable const, MouseDown const>().each())
 		{
 			// if within position, trigger event
-
 			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
-				// clicked
+				// clicked in zone, ensure clicked on sprite, if required
+				if (clickable.pixelPerfect)
+				{
+					// must click on sprite, in its bounds
+					Sprite* sprite = Renderable::getSprite(entity, mp_registry);
+					if (sprite == nullptr || !sprite->at(click->x - renderable.x, click->y - renderable.y).a())
+					{
+						// if no sprite, cannot click
+						// if no alpha at color, then invisible, cannot click
+						break;
+					}
+				}
+
 				if (onDown.onDown)
 				{
 					onDown.onDown->invoke(click);
@@ -34,20 +45,50 @@ namespace minty
 		for (auto [entity, renderable, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// mark as clicked
-
-			onClick.clicked = (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF());
+			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			{
+				if (clickable.pixelPerfect)
+				{
+					// must click on sprite, in its bounds
+					Sprite* sprite = Renderable::getSprite(entity, mp_registry);
+					
+					onClick.clicked = sprite != nullptr && sprite->at(click->x - renderable.x, click->y - renderable.y).a();
+				}
+				else
+				{
+					// not pixel perfect, so count as clicked since inside bounds
+					onClick.clicked = true;
+				}
+			}
+			else {
+				// not in bounds, not clicked
+				onClick.clicked = false;
+			}
 		}
 	}
 
 	void InputSystem::onMouseUp(MouseClickEvent const* const click)
 	{
 		// up events
-		for (auto [entity, position, clickable, onUp] : mp_registry->view<Renderable const, Clickable const, MouseUp const>().each())
+		for (auto [entity, renderable, clickable, onUp] : mp_registry->view<Renderable const, Clickable const, MouseUp const>().each())
 		{
 			// if within position, trigger event
 
-			if ((clickable.hitbox + position.toPointF()).contains(click->toPoint().toPointF()))
+			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
+				// clicked in zone, ensure clicked on sprite, if required
+				if (clickable.pixelPerfect)
+				{
+					// must click on sprite, in its bounds
+					Sprite* sprite = Renderable::getSprite(entity, mp_registry);
+					if (sprite == nullptr || !sprite->at(click->x - renderable.x, click->y - renderable.y).a())
+					{
+						// if no sprite, cannot click
+						// if no alpha at color, then invisible, cannot click
+						break;
+					}
+				}
+
 				// clicked
 				if (onUp.onUp)
 				{
@@ -57,11 +98,25 @@ namespace minty
 		}
 
 		// click events
-		for (auto [entity, position, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
+		for (auto [entity, renderable, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// if marked as clicked, and released here, trigger event
-			if (onClick.clicked && (clickable.hitbox + position.toPointF()).contains(click->toPoint().toPointF()))
+			if (onClick.clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
+				// clicked in zone, ensure clicked on sprite, if required
+				if (clickable.pixelPerfect)
+				{
+					// must click on sprite, in its bounds
+					Sprite* sprite = Renderable::getSprite(entity, mp_registry);
+					if (sprite == nullptr || !sprite->at(click->x - renderable.x, click->y - renderable.y).a())
+					{
+						// if no sprite, cannot click
+						// if no alpha at color, then invisible, cannot click
+						onClick.clicked = false;
+						break;
+					}
+				}
+
 				if (onClick.onClick)
 				{
 					onClick.onClick->invoke(click);

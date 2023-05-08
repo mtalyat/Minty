@@ -3,6 +3,8 @@
 #include "M_Main.h"
 #include "M_Point.h"
 #include "M_PointF.h"
+#include "M_Sprite.h"
+#include "entt.hpp"
 #include <SDL.h>
 
 namespace minty
@@ -82,5 +84,13 @@ namespace minty
 		/// </summary>
 		/// <returns>The rendering position.</returns>
 		inline PointF toPointF() const { return PointF(x, y); }
+
+		/// <summary>
+		/// Gets the Sprite belonging to this Renderable.
+		/// </summary>
+		/// <param name="entity">The enitity this Renderable belongs to.</param>
+		/// <param name="registry">The registry that the entity belongs to.</param>
+		/// <returns>The Sprite, or null if not exists.</returns>
+		static Sprite* getSprite(entt::entity const entity, entt::registry* const registry);
 	};
 }

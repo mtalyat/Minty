@@ -12,8 +12,13 @@ namespace minty
 	struct MINTY_API Clickable
 	{
 		/// <summary>
-		/// The hitbox that the cursor must click inside of.
+		/// The hitbox that the mouse must click inside of.
 		/// </summary>
 		RectF hitbox;
+
+		/// <summary>
+		/// The mouse must click on a pixel with an alpha > 0, if true.
+		/// </summary>
+		bool pixelPerfect;
 	};
 }
