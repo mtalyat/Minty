@@ -15,6 +15,28 @@ namespace minty
 {
 	void InputSystem::onMouseDown(MouseClickEvent const* const click)
 	{
+		// sort it
+		mp_registry->sort<Renderable>([](Renderable const& left, Renderable const& right)
+			{
+				if (left.layer != right.layer)
+				{
+					// unequal layers
+					return left.layer > right.layer;
+				}
+				else
+				{
+					// equal layers
+					return left.order > right.order;
+				}
+			});
+
+		mp_registry->sort<Clickable, Renderable>();
+		mp_registry->sort<MouseDown, Renderable>();
+		mp_registry->sort<MouseClick, Renderable>();
+
+		// click only one object
+		bool clicked = false;
+
 		// down events
 		for (auto [entity, renderable, clickable, onDown] : mp_registry->view<Renderable const, Clickable const, MouseDown const>().each())
 		{
@@ -25,7 +47,7 @@ namespace minty
 			}
 
 			// if within position, trigger event
-			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			if (!clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				// clicked in zone, ensure clicked on sprite, if required
 				if (clickable.pixelPerfect)
@@ -36,7 +58,7 @@ namespace minty
 					{
 						// if no sprite, cannot click
 						// if no alpha at color, then invisible, cannot click
-						break;
+						continue;
 					}
 				}
 
@@ -44,14 +66,19 @@ namespace minty
 				{
 					onDown.onDown->invoke(click);
 				}
+
+				// if clicked, do not click anything else
+				clicked = true;
 			}
 		}
+
+		clicked = false;
 
 		// click events
 		for (auto [entity, renderable, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// mark as clicked
-			if (!renderable.invisible && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			if (!clicked && !renderable.invisible && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				if (clickable.pixelPerfect)
 				{
@@ -65,6 +92,8 @@ namespace minty
 					// not pixel perfect, so count as clicked since inside bounds
 					onClick.clicked = true;
 				}
+
+				clicked = onClick.clicked;
 			}
 			else {
 				// not visible or not in bounds, so not clicked
@@ -75,6 +104,28 @@ namespace minty
 
 	void InputSystem::onMouseUp(MouseClickEvent const* const click)
 	{
+		// sort it
+		mp_registry->sort<Renderable>([](Renderable const& left, Renderable const& right)
+			{
+				if (left.layer != right.layer)
+				{
+					// unequal layers
+					return left.layer > right.layer;
+				}
+				else
+				{
+					// equal layers
+					return left.order > right.order;
+				}
+			});
+
+		mp_registry->sort<Clickable, Renderable>();
+		mp_registry->sort<MouseUp, Renderable>();
+		mp_registry->sort<MouseClick, Renderable>();
+
+		// click only one object
+		bool clicked = false;
+
 		// up events
 		for (auto [entity, renderable, clickable, onUp] : mp_registry->view<Renderable const, Clickable const, MouseUp const>().each())
 		{
@@ -86,7 +137,7 @@ namespace minty
 
 			// if within position, trigger event
 
-			if ((clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			if (!clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				// clicked in zone, ensure clicked on sprite, if required
 				if (clickable.pixelPerfect)
@@ -97,7 +148,7 @@ namespace minty
 					{
 						// if no sprite, cannot click
 						// if no alpha at color, then invisible, cannot click
-						break;
+						continue;
 					}
 				}
 
@@ -106,14 +157,19 @@ namespace minty
 				{
 					onUp.onUp->invoke(click);
 				}
+
+				// if clicked, do not click anything else
+				clicked = true;
 			}
 		}
+
+		clicked = false;
 
 		// click events
 		for (auto [entity, renderable, clickable, onClick] : mp_registry->view<Renderable const, Clickable const, MouseClick>().each())
 		{
 			// if marked as clicked, and released here, trigger event
-			if (!renderable.invisible && onClick.clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
+			if (!clicked && !renderable.invisible && onClick.clicked && (clickable.hitbox + renderable.toPointF()).contains(click->toPoint().toPointF()))
 			{
 				// clicked in zone, ensure clicked on sprite, if required
 				if (clickable.pixelPerfect)
@@ -125,7 +181,7 @@ namespace minty
 						// if no sprite, cannot click
 						// if no alpha at color, then invisible, cannot click
 						onClick.clicked = false;
-						break;
+						continue;
 					}
 				}
 
@@ -133,6 +189,9 @@ namespace minty
 				{
 					onClick.onClick->invoke(click);
 				}
+
+				// if clicked, do not click anything else
+				clicked = true;
 			}
 
 			// so it is not clicked again
