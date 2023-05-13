@@ -312,8 +312,18 @@ namespace minty
 						// in other words... it is colliding with another entity
 
 						// trigger events
-						triggerCollisionEnterEvent({ entity, &collider, other, &otherCollider, worldOverlap });
-						triggerCollisionEnterEvent({ other, &otherCollider, entity, &collider, worldOverlap });
+						if (isInRelationship(entity, other))
+						{
+							// stay
+							triggerCollisionStayEvent({ entity, &collider, other, &otherCollider, worldOverlap });
+							triggerCollisionStayEvent({ other, &otherCollider, entity, &collider, worldOverlap });
+						}
+						else
+						{
+							// enter
+							triggerCollisionEnterEvent({ entity, &collider, other, &otherCollider, worldOverlap });
+							triggerCollisionEnterEvent({ other, &otherCollider, entity, &collider, worldOverlap });
+						}
 
 						// if both things colliding are not triggers, return true
 						// if return true, that will tell the collision system that there was a physics collision,
@@ -453,6 +463,12 @@ namespace minty
 
 			collision.collider->triggerOnEnter(collision);
 		}
+	}
+
+	void PhysicsSystem::triggerCollisionStayEvent(Collision const& collision)
+	{
+		// assume in relationship
+		collision.collider->triggerOnStay(collision);
 	}
 
 	void PhysicsSystem::triggerCollisionEndEvent(Collision const& collision)

@@ -13,7 +13,7 @@
 
 namespace minty
 {
-	void InputSystem::onMouseDown(MouseClickEvent const* const click)
+	bool InputSystem::onMouseDown(MouseClickEvent const* const click)
 	{
 		// sort it
 		mp_registry->sort<Renderable>([](Renderable const& left, Renderable const& right)
@@ -72,6 +72,7 @@ namespace minty
 			}
 		}
 
+		bool output = clicked;
 		clicked = false;
 
 		// click events
@@ -100,9 +101,11 @@ namespace minty
 				onClick.clicked = false;
 			}
 		}
+
+		return output || clicked;
 	}
 
-	void InputSystem::onMouseUp(MouseClickEvent const* const click)
+	bool InputSystem::onMouseUp(MouseClickEvent const* const click)
 	{
 		// sort it
 		mp_registry->sort<Renderable>([](Renderable const& left, Renderable const& right)
@@ -163,6 +166,7 @@ namespace minty
 			}
 		}
 
+		bool output = clicked;
 		clicked = false;
 
 		// click events
@@ -197,6 +201,8 @@ namespace minty
 			// so it is not clicked again
 			onClick.clicked = false;
 		}
+
+		return output || clicked;
 	}
 	
 	void InputSystem::onMouseMove(int const x, int const y)

@@ -150,8 +150,6 @@ namespace minty
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 				{
-					mp_input->onMouseDown(&event.button);
-
 					MouseClickEvent click
 					{
 						event.button.button,
@@ -160,13 +158,15 @@ namespace minty
 						event.button.y
 					};
 
-					activeScene->inputSystem()->onMouseDown(&click);
+					// if a click did not occur, do normal mouse down
+					if (!activeScene->inputSystem()->onMouseDown(&click))
+					{
+						mp_input->onMouseDown(&event.button);
+					}
 					break;
 				}
 				case SDL_MOUSEBUTTONUP:
 				{
-					mp_input->onMouseUp(&event.button);
-
 					MouseClickEvent click
 					{
 						event.button.button,
@@ -175,7 +175,11 @@ namespace minty
 						event.button.y
 					};
 
-					activeScene->inputSystem()->onMouseUp(&click);
+					// if a click did not occur, do normal mouse up
+					if (!activeScene->inputSystem()->onMouseUp(&click))
+					{
+						mp_input->onMouseUp(&event.button);
+					}
 					break;
 				}
 				case SDL_MOUSEMOTION:
@@ -192,7 +196,7 @@ namespace minty
 			// get the active scene
 			activeScene = sceneManager->active();
 
-			// if no scene
+			// if no scene, abort
 			if (!activeScene)
 			{
 				abort(10, "No active scene.");

@@ -100,6 +100,9 @@ namespace minty
 		// trigger onEnter event for the collision
 		void triggerCollisionEnterEvent(Collision const& collision);
 
+		// trigger onStay event for the collision
+		void triggerCollisionStayEvent(Collision const& collision);
+
 		// trigger onExit event for the collision
 		void triggerCollisionEndEvent(Collision const& collision);
 

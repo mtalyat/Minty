@@ -30,13 +30,13 @@ namespace minty
 		/// Called when the mouse is pressed down.
 		/// </summary>
 		/// <param name="click">The click event data.</param>
-		void onMouseDown(MouseClickEvent const* const click);
+		bool onMouseDown(MouseClickEvent const* const click);
 
 		/// <summary>
 		/// Called when the mouse is released.
 		/// </summary>
 		/// <param name="click">The click event data.</param>
-		void onMouseUp(MouseClickEvent const* const click);
+		bool onMouseUp(MouseClickEvent const* const click);
 
 		/// <summary>
 		/// Called when the mouse is moved.
