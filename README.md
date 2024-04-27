@@ -2,6 +2,8 @@ Minty Game Engine
 ======
 A basic C++ ECS game engine for pixel-based games, developed by Mitchell Talyat/BigMintyMitch (hence, Minty Game Engine).
 
+NOTE: THIS PROJECT HAS BEEN ARCHIVED. It has been replaced with the more advanced version of the engine, using Vulkan: [https://github.com/mtalyat/Minty-Engine](https://github.com/mtalyat/Minty-Engine).
+
 # Features
 
 * A basic game engine design, all written in C++.
