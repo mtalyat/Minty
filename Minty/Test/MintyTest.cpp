@@ -443,6 +443,19 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 			EXPECT_TRUE(test.get_data()[test.get_size()] == '\0');
 		}
 
+		TEST("Character Constructor")
+		{
+			String test('a', 3);
+
+			EXPECT_TRUE(test.get_capacity() == 3);
+			EXPECT_TRUE(test.get_size() == 3);
+			EXPECT_TRUE(test.get_data() != nullptr);
+			EXPECT_TRUE(test.get_data()[0] == 'a');
+			EXPECT_TRUE(test.get_data()[1] == 'a');
+			EXPECT_TRUE(test.get_data()[2] == 'a');
+			EXPECT_TRUE(test.get_data()[test.get_size()] == '\0');
+		}
+
 		TEST("Copy Constructor")
 		{
 			String test("Hello world!\n");

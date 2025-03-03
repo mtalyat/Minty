@@ -44,6 +44,24 @@ Minty::String::String(Char const* data)
 	memcpy(mp_data, data, m_size * sizeof(Char));
 }
 
+Minty::String::String(Char const character, Size const count)
+{
+	// do nothing if count is zero
+	if (count == 0)
+	{
+		return;
+	}
+
+	// allocate memory
+	m_capacity = count;
+	m_size = count;
+	mp_data = new Char[m_capacity + 1];
+	mp_data[m_capacity] = '\0';
+
+	// fill memory with character
+	memset(mp_data, character, m_size * sizeof(Char));
+}
+
 void Minty::String::reserve(Size const capacity)
 {
 	// update capacity

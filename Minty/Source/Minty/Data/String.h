@@ -162,6 +162,13 @@ namespace Minty
 		String(Char const* data);
 
 		/// <summary>
+		/// Creates a string with the given character repeated the given amount of times.
+		/// </summary>
+		/// <param name="character">The character to repeat.</param>
+		/// <param name="count">The number of characters to repeat.</param>
+		String(Char const character, Size const count);
+
+		/// <summary>
 		/// Copies the given String.
 		/// </summary>
 		/// <param name="other">The String to copy.</param>

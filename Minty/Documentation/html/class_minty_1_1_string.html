@@ -145,6 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a03af1bd345eab4939e0a5259349c7de1" id="r_a03af1bd345eab4939e0a5259349c7de1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03af1bd345eab4939e0a5259349c7de1">String</a> (<a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> const *data)</td></tr>
 <tr class="memdesc:a03af1bd345eab4939e0a5259349c7de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_string.html" title="A collection of text.">String</a> and copies the given data.  <br /></td></tr>
 <tr class="separator:a03af1bd345eab4939e0a5259349c7de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241a08b159051a0597980017b251237e" id="r_a241a08b159051a0597980017b251237e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a241a08b159051a0597980017b251237e">String</a> (<a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> const character, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const count)</td></tr>
+<tr class="memdesc:a241a08b159051a0597980017b251237e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a string with the given character repeated the given amount of times.  <br /></td></tr>
+<tr class="separator:a241a08b159051a0597980017b251237e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6269933c245c56dd70d50ae9dbf43328" id="r_a6269933c245c56dd70d50ae9dbf43328"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6269933c245c56dd70d50ae9dbf43328">String</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;other)</td></tr>
 <tr class="memdesc:a6269933c245c56dd70d50ae9dbf43328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the given <a class="el" href="class_minty_1_1_string.html" title="A collection of text.">String</a>.  <br /></td></tr>
 <tr class="separator:a6269933c245c56dd70d50ae9dbf43328"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,7 +209,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>A collection of text. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a88f7e18e5f4571b21c157ba135218fdc" name="a88f7e18e5f4571b21c157ba135218fdc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88f7e18e5f4571b21c157ba135218fdc">&#9670;&#160;</a></span>String() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a88f7e18e5f4571b21c157ba135218fdc">&#9670;&#160;</a></span>String() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,7 +236,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a1761eeba44a66b3c41a2fc74b9b368d2" name="a1761eeba44a66b3c41a2fc74b9b368d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1761eeba44a66b3c41a2fc74b9b368d2">&#9670;&#160;</a></span>String() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1761eeba44a66b3c41a2fc74b9b368d2">&#9670;&#160;</a></span>String() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +261,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a03af1bd345eab4939e0a5259349c7de1" name="a03af1bd345eab4939e0a5259349c7de1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03af1bd345eab4939e0a5259349c7de1">&#9670;&#160;</a></span>String() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a03af1bd345eab4939e0a5259349c7de1">&#9670;&#160;</a></span>String() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,8 +285,38 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a241a08b159051a0597980017b251237e" name="a241a08b159051a0597980017b251237e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a241a08b159051a0597980017b251237e">&#9670;&#160;</a></span>String() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::String::String </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> const</td>          <td class="paramname"><span class="paramname"><em>character</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a string with the given character repeated the given amount of times. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">character</td><td>The character to repeat.</td></tr>
+    <tr><td class="paramname">count</td><td>The number of characters to repeat.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a6269933c245c56dd70d50ae9dbf43328" name="a6269933c245c56dd70d50ae9dbf43328"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6269933c245c56dd70d50ae9dbf43328">&#9670;&#160;</a></span>String() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6269933c245c56dd70d50ae9dbf43328">&#9670;&#160;</a></span>String() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -316,7 +349,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a6af06e4400c9cee00d01614459280d6e" name="a6af06e4400c9cee00d01614459280d6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6af06e4400c9cee00d01614459280d6e">&#9670;&#160;</a></span>String() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6af06e4400c9cee00d01614459280d6e">&#9670;&#160;</a></span>String() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
