@@ -181,6 +181,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Array.h" />
     <ClInclude Include="Minty\Data\Data.h" />
     <ClInclude Include="Minty\Data\String.h" />
+    <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\Memory.h" />
     <ClInclude Include="Minty\Memory\StackAllocator.h" />
     <ClInclude Include="pch.h" />
