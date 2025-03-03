@@ -1,5 +1,7 @@
 var class_minty_1_1_string =
 [
+    [ "ConstIterator", "class_minty_1_1_string_1_1_const_iterator.html", "class_minty_1_1_string_1_1_const_iterator" ],
+    [ "Iterator", "class_minty_1_1_string_1_1_iterator.html", "class_minty_1_1_string_1_1_iterator" ],
     [ "String", "class_minty_1_1_string.html#a88f7e18e5f4571b21c157ba135218fdc", null ],
     [ "String", "class_minty_1_1_string.html#a1761eeba44a66b3c41a2fc74b9b368d2", null ],
     [ "String", "class_minty_1_1_string.html#a03af1bd345eab4939e0a5259349c7de1", null ],
@@ -7,7 +9,11 @@ var class_minty_1_1_string =
     [ "String", "class_minty_1_1_string.html#a6af06e4400c9cee00d01614459280d6e", null ],
     [ "~String", "class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891", null ],
     [ "at", "class_minty_1_1_string.html#ac072e883e006690128f300baf9cf65d9", null ],
+    [ "begin", "class_minty_1_1_string.html#acb9a6623a67d5ba6a488da0edf4171af", null ],
+    [ "cbegin", "class_minty_1_1_string.html#ac3743f6c20c93a6ad27b2ef448bd48b0", null ],
+    [ "cend", "class_minty_1_1_string.html#a8e3b57258d580d81ea823f3f637540f3", null ],
     [ "contains", "class_minty_1_1_string.html#abfdbda9e49529ef8931f1e2004b68fa4", null ],
+    [ "end", "class_minty_1_1_string.html#ae45cd0a4b9d13b93b9b2e2de3240229d", null ],
     [ "find", "class_minty_1_1_string.html#a92cc554efea1728850a7b953e6394eb7", null ],
     [ "get_capacity", "class_minty_1_1_string.html#acba6360a243805a5d1ce2fe1c7fc0b58", null ],
     [ "get_data", "class_minty_1_1_string.html#a7d8b3a6cba09e0c0afef7926160d7f56", null ],

@@ -240,5 +240,122 @@ namespace Minty
 		}
 
 #pragma endregion
+
+#pragma region Iterators
+
+	public:
+		class Iterator
+		{
+		public:
+			using iterator_category = std::forward_iterator_tag;
+			using value_type = Char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type*;
+			using reference = value_type&;
+
+		private:
+			pointer mp_ptr;
+
+		public:
+			explicit Iterator(pointer const ptr)
+				: mp_ptr(ptr)
+			{}
+
+			reference operator*() const
+			{
+				return *mp_ptr;
+			}
+
+			Iterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			Iterator operator++(int)
+			{
+				Iterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			Iterator operator+(Size const value)
+			{
+				return Iterator(mp_ptr + value);
+			}
+
+			Bool operator==(Iterator const& other) const { return mp_ptr == other.mp_ptr; }
+			Bool operator!=(Iterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		class ConstIterator
+		{
+		public:
+			using iterator_category = std::forward_iterator_tag;
+			using value_type = Char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type const*;
+			using reference = value_type const&;
+
+		private:
+			pointer mp_ptr;
+
+		public:
+			explicit ConstIterator(pointer const data)
+				: mp_ptr(data)
+			{}
+
+			reference operator*()
+			{
+				return *mp_ptr;
+			}
+
+			ConstIterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			ConstIterator operator++(int)
+			{
+				ConstIterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			ConstIterator operator+(Size const value)
+			{
+				return ConstIterator(mp_ptr + value);
+			}
+
+			Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
+			Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		/// <summary>
+		/// Gets an Iterator to the beginning of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the first character.</returns>
+		Iterator begin() { return Iterator(mp_data); }
+
+		/// <summary>
+		/// Gets an Iterator to the end of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the null terminating character.</returns>
+		Iterator end() { return Iterator(mp_data + m_size); }
+
+		/// <summary>
+		/// Gets an Iterator to the beginning of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the first character.</returns>
+		ConstIterator cbegin() const { return ConstIterator(mp_data); }
+
+		/// <summary>
+		/// Gets an Iterator to the end of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the null terminating character.</returns>
+		ConstIterator cend() const { return ConstIterator(mp_data + m_size); }
+
+#pragma endregion
 	};
 }
