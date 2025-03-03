@@ -44,14 +44,6 @@ Minty::String::String(Char const* data)
 	memcpy(mp_data, data, m_size * sizeof(Char));
 }
 
-Minty::String::~String()
-{
-	if (mp_data)
-	{
-		delete[] mp_data;
-	}
-}
-
 void Minty::String::reserve(Size const capacity)
 {
 	// update capacity

@@ -71,7 +71,13 @@ namespace Minty
 			other.mp_data = nullptr;
 		}
 
-		~String();
+		~String()
+		{
+			if (mp_data)
+			{
+				delete[] mp_data;
+			}
+		}
 
 #pragma endregion
 
