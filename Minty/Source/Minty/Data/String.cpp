@@ -120,23 +120,10 @@ String Minty::String::sub(Size const start, Size const length) const
 	MINTY_ASSERT(start < m_size, "Start index is out of bounds.");
 	MINTY_ASSERT(start + length <= m_size, "Start + length index is out of bounds.");
 
-	// if start is out of bounds, return empty string
-	if (start >= m_size)
-	{
-		return String();
-	}
-
-	// calculate length
-	Size len = length;
-	if (start + len > m_size)
-	{
-		len = m_size - start;
-	}
-
 	// create new string
 	String result;
-	result.resize(len);
-	memcpy(result.mp_data, mp_data + start, len * sizeof(Char));
+	result.resize(length);
+	memcpy(result.mp_data, mp_data + start, length * sizeof(Char));
 
 	return result;
 }
