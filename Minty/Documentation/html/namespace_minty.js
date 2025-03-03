@@ -18,7 +18,11 @@ var namespace_minty =
     [ "UInt", "namespace_minty.html#a4ff1cd6dfc7685bebfe9bdad92687660", null ],
     [ "ULong", "namespace_minty.html#a48d5425070009ea737ea94d5ca6b3c19", null ],
     [ "UShort", "namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8", null ],
-    [ "Cast", "namespace_minty.html#a7e11920b879edb027c1ee877c3b8b250", null ],
+    [ "Allocator", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803", [
+      [ "Invalid", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a4bbb8f967da6d1a610596d7257179c2b", null ],
+      [ "Temporary", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a", null ],
+      [ "Persistent", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4", null ]
+    ] ],
     [ "to_string", "namespace_minty.html#ab893e761714eabdf0ea31a3be860bf8a", null ],
     [ "to_string", "namespace_minty.html#aee9b46aa9efe254e134ae97e302fa48d", null ],
     [ "to_string", "namespace_minty.html#a9375575ffcd15daf086e2837fc991b80", null ],

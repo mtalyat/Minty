@@ -1214,6 +1214,100 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 		}
 	}
 
+	CATEGORY(StackAllocator)
+	{
+		TEST("Size Constructor")
+		{
+			StackAllocator allocator(1024);
+			EXPECT_TRUE(allocator.get_capacity() == 1024);
+			EXPECT_TRUE(allocator.get_size() == 0);
+			EXPECT_TRUE(allocator.get_data() != nullptr);
+		}
+
+		TEST("Move Constructor")
+		{
+			StackAllocator allocator(1024);
+			allocator.allocate(512);
+			StackAllocator copy(std::move(allocator));
+			EXPECT_TRUE(allocator.get_capacity() == 0);
+			EXPECT_TRUE(allocator.get_size() == 0);
+			EXPECT_TRUE(allocator.get_data() == nullptr);
+			EXPECT_TRUE(copy.get_capacity() == 1024);
+			EXPECT_TRUE(copy.get_size() == 512);
+			EXPECT_TRUE(copy.get_data() != nullptr);
+		}
+
+		TEST("Move Operator")
+		{
+			StackAllocator allocator(1024);
+			allocator.allocate(512);
+			StackAllocator copy = std::move(allocator);
+			EXPECT_TRUE(allocator.get_capacity() == 0);
+			EXPECT_TRUE(allocator.get_size() == 0);
+			EXPECT_TRUE(allocator.get_data() == nullptr);
+			EXPECT_TRUE(copy.get_capacity() == 1024);
+			EXPECT_TRUE(copy.get_size() == 512);
+			EXPECT_TRUE(copy.get_data() != nullptr);
+		}
+
+		TEST("Get Capacity")
+		{
+			StackAllocator allocator(1024);
+			EXPECT_TRUE(allocator.get_capacity() == 1024);
+		}
+
+		TEST("Get Size")
+		{
+			StackAllocator allocator(1024);
+			EXPECT_TRUE(allocator.get_size() == 0);
+			allocator.allocate(512);
+			EXPECT_TRUE(allocator.get_size() == 512);
+			allocator.allocate(512);
+			EXPECT_TRUE(allocator.get_size() == 1024);
+		}
+
+		TEST("Get Data")
+		{
+			StackAllocator allocator(1024);
+			EXPECT_TRUE(allocator.get_data() != nullptr);
+		}
+
+		TEST("Allocate")
+		{
+			StackAllocator allocator(1024);
+			void* ptr = allocator.allocate(512);
+			EXPECT_TRUE(ptr != nullptr);
+			EXPECT_TRUE(allocator.get_size() == 512);
+			ptr = allocator.allocate(512);
+			EXPECT_TRUE(ptr != nullptr);
+			EXPECT_TRUE(allocator.get_size() == 1024);
+			ptr = allocator.allocate(1);
+			EXPECT_TRUE(ptr == nullptr);
+			EXPECT_TRUE(allocator.get_size() == 1024);
+		}
+
+		TEST("Construct")
+		{
+			StackAllocator allocator(1024);
+			int* ptr = allocator.construct<int>(5);
+			EXPECT_TRUE(ptr != nullptr);
+			EXPECT_TRUE(*ptr == 5);
+			EXPECT_TRUE(allocator.get_size() == sizeof(int));
+			ptr = allocator.construct<int>(10);
+			EXPECT_TRUE(ptr != nullptr);
+			EXPECT_TRUE(*ptr == 10);
+			EXPECT_TRUE(allocator.get_size() == sizeof(int) * 2);
+		}
+
+		TEST("Clear")
+		{
+			StackAllocator allocator(1024);
+			allocator.allocate(512);
+			allocator.clear();
+			EXPECT_TRUE(allocator.get_size() == 0);
+		}
+	}
+
 #pragma endregion
 
 #pragma region Test Teardown

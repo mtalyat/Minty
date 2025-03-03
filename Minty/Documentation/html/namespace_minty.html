@@ -105,6 +105,7 @@ $(function(){initNavTree('namespace_minty.html',''); initResizable(true); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">Minty Namespace Reference</div></div>
@@ -123,6 +124,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_context_builder.html">ContextBuilder</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_stack_allocator.html">StackAllocator</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows for allocation of memory in a stack.  <a href="class_minty_1_1_stack_allocator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_string.html">String</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of text.  <a href="class_minty_1_1_string.html#details">More...</a><br /></td></tr>
@@ -155,11 +157,17 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a255c27cd8d5eacbbcbb02c4962ef3079" id="r_a255c27cd8d5eacbbcbb02c4962ef3079"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> = size_t</td></tr>
 <tr class="separator:a255c27cd8d5eacbbcbb02c4962ef3079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a7c125bea6ecb565e1e79dab1f8526803" id="r_a7c125bea6ecb565e1e79dab1f8526803"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> { <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803a4bbb8f967da6d1a610596d7257179c2b">Invalid</a>
+, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a">Temporary</a>
+, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4">Persistent</a>
+ }</td></tr>
+<tr class="memdesc:a7c125bea6ecb565e1e79dab1f8526803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines how a given resource is allocated in memory.  <a href="#a7c125bea6ecb565e1e79dab1f8526803">More...</a><br /></td></tr>
+<tr class="separator:a7c125bea6ecb565e1e79dab1f8526803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7e11920b879edb027c1ee877c3b8b250" id="r_a7e11920b879edb027c1ee877c3b8b250"><td class="memTemplParams" colspan="2">template&lt;typename From, typename To&gt; </td></tr>
-<tr class="memitem:a7e11920b879edb027c1ee877c3b8b250"><td class="memTemplItemLeft" align="right" valign="top">constexpr To&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7e11920b879edb027c1ee877c3b8b250">Cast</a> (From const from)</td></tr>
-<tr class="separator:a7e11920b879edb027c1ee877c3b8b250"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d42ea2fc8449aeb19e9de3cbde8bc2" id="r_a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a> (T const value)</td></tr>
 <tr class="separator:a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,34 +368,40 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a7e11920b879edb027c1ee877c3b8b250" name="a7e11920b879edb027c1ee877c3b8b250"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e11920b879edb027c1ee877c3b8b250">&#9670;&#160;</a></span>Cast()</h2>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a7c125bea6ecb565e1e79dab1f8526803" name="a7c125bea6ecb565e1e79dab1f8526803"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c125bea6ecb565e1e79dab1f8526803">&#9670;&#160;</a></span>Allocator</h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename From, typename To&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">To Minty::Cast </td>
-          <td>(</td>
-          <td class="paramtype">From const</td>          <td class="paramname"><span class="paramname"><em>from</em></span></td><td>)</td>
-          <td></td>
+          <td class="memname">enum class <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Minty::Allocator</a></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p>Defines how a given resource is allocated in memory. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7c125bea6ecb565e1e79dab1f8526803a4bbb8f967da6d1a610596d7257179c2b" name="a7c125bea6ecb565e1e79dab1f8526803a4bbb8f967da6d1a610596d7257179c2b"></a>Invalid&#160;</td><td class="fielddoc"><p>An invalid value. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a" name="a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a"></a>Temporary&#160;</td><td class="fielddoc"><p>This resource will be allocated for the current frame, then deallocated. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4" name="a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4"></a>Persistent&#160;</td><td class="fielddoc"><p>This resource will be allocated, and must be manually de-allocated. </p>
+</td></tr>
+</table>
+
 </div>
 </div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="ab893e761714eabdf0ea31a3be860bf8a" name="ab893e761714eabdf0ea31a3be860bf8a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab893e761714eabdf0ea31a3be860bf8a">&#9670;&#160;</a></span>to_string() <span class="overload">[1/12]</span></h2>
 

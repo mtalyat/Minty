@@ -190,6 +190,7 @@ doxygen</Command>
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
+    <ClCompile Include="Minty\Memory\StackAllocator.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
