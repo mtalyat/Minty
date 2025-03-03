@@ -40,6 +40,7 @@ static void run_tests()
 
 	// keep track of results
 	std::unordered_map<std::string, int> categories;
+	std::vector<std::string> categoryNames;
 	std::unordered_map<int, Results> results;
 
 	// variables used for tests
@@ -68,7 +69,7 @@ static void run_tests()
 #define CATEGORY(categoryName) { \
 currentCategoryName = #categoryName; \
 auto found = categories.find(currentCategoryName); \
-RESTORE_OUTPUT(); if(found == categories.end()) { currentCategoryIndex = static_cast<int>(categories.size()); categories.emplace(currentCategoryName, currentCategoryIndex); std::cout << "\n\t" << currentCategoryName << std::endl; } else { currentCategoryIndex = found->second; } CAPTURE_OUTPUT(); \
+RESTORE_OUTPUT(); if(found == categories.end()) { currentCategoryIndex = static_cast<int>(categories.size()); categories.emplace(currentCategoryName, currentCategoryIndex); categoryNames.push_back(currentCategoryName); std::cout << "\n\t" << currentCategoryName << std::endl; } else { currentCategoryIndex = found->second; } CAPTURE_OUTPUT(); \
 }
 
 	// test start macro
@@ -771,6 +772,435 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 		}
 	}
 
+	CATEGORY(Array::Iterator)
+	{
+		TEST("Copy Constructor")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			Array<int, 3>::Iterator copy(it);
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.end());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.end());
+			copy = it;
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.end());
+		}
+
+		TEST("Move Constructor")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			Array<int, 3>::Iterator copy(std::move(it));
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.end());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.end());
+			it = test.begin();
+			copy = std::move(it);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.end());
+		}
+
+		TEST("Copy Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			Array<int, 3>::Iterator copy = it;
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.end());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.end());
+			copy = it;
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.end());
+		}
+
+		TEST("Move Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			Array<int, 3>::Iterator copy = std::move(it);
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.end());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.end());
+			it = test.begin();
+			copy = std::move(it);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.end());
+		}
+
+		TEST("Dereference Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			EXPECT_TRUE(*it == 5);
+			EXPECT_TRUE(*(it + 1) == 5);
+			EXPECT_TRUE(*(it + 2) == 5);
+		}
+
+		TEST("Increment Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			EXPECT_TRUE(*it == 5);
+			EXPECT_TRUE(*(it + 1) == 5);
+			EXPECT_TRUE(*(it + 2) == 5);
+			EXPECT_TRUE(it + 3 == test.end());
+			EXPECT_TRUE(*++it == 5);
+			EXPECT_TRUE(*++it == 5);
+			EXPECT_TRUE(++it == test.end());
+			it = test.begin();
+			EXPECT_TRUE(*it++ == 5);
+			EXPECT_TRUE(*it++ == 5);
+			EXPECT_TRUE(*it++ == 5);
+			EXPECT_TRUE(it == test.end());
+		}
+
+		TEST("Addition Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			EXPECT_TRUE(*it == 5);
+			EXPECT_TRUE(*(it + 1) == 5);
+			EXPECT_TRUE(*(it + 2) == 5);
+		}
+
+		TEST("Equal Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			Array<int, 3>::Iterator copy = it;
+			EXPECT_TRUE(it == copy);
+			EXPECT_TRUE(copy == it);
+			EXPECT_TRUE(it == test.begin());
+			EXPECT_TRUE(test.begin() == it);
+			EXPECT_TRUE(copy == test.begin());
+			EXPECT_TRUE(test.begin() == copy);
+		}
+
+		TEST("Not Equal Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::Iterator it = test.begin();
+			Array<int, 3>::Iterator copy = it;
+			EXPECT_TRUE(!(it != copy));
+			EXPECT_TRUE(!(copy != it));
+			EXPECT_TRUE(!(it != test.begin()));
+			EXPECT_TRUE(!(test.begin() != it));
+			EXPECT_TRUE(!(copy != test.begin()));
+			EXPECT_TRUE(!(test.begin() != copy));
+		}
+	}
+
+	CATEGORY(Array::ConstIterator)
+	{
+		TEST("Copy Constructor")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			Array<int, 3>::ConstIterator copy(it);
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.cend());
+			copy = it;
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.cend());
+		}
+
+		TEST("Move Constructor")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			Array<int, 3>::ConstIterator copy(std::move(it));
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.cend());
+			it = test.cbegin();
+			copy = std::move(it);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.cend());
+		}
+
+		TEST("Copy Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			Array<int, 3>::ConstIterator copy = it;
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.cend());
+			copy = it;
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.cend());
+		}
+
+		TEST("Move Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			Array<int, 3>::ConstIterator copy = std::move(it);
+			EXPECT_TRUE(*copy == 5);
+			EXPECT_TRUE(*(copy + 1) == 5);
+			EXPECT_TRUE(*(copy + 2) == 5);
+			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(*++copy == 5);
+			EXPECT_TRUE(++copy == test.cend());
+			it = test.cbegin();
+			copy = std::move(it);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(*copy++ == 5);
+			EXPECT_TRUE(copy == test.cend());
+		}
+
+		TEST("Dereference Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			EXPECT_TRUE(*it == 5);
+			EXPECT_TRUE(*(it + 1) == 5);
+			EXPECT_TRUE(*(it + 2) == 5);
+		}
+
+		TEST("Increment Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			EXPECT_TRUE(*it == 5);
+			EXPECT_TRUE(*(it + 1) == 5);
+			EXPECT_TRUE(*(it + 2) == 5);
+			EXPECT_TRUE(it + 3 == test.cend());
+			EXPECT_TRUE(*++it == 5);
+			EXPECT_TRUE(*++it == 5);
+			EXPECT_TRUE(++it == test.cend());
+			it = test.cbegin();
+			EXPECT_TRUE(*it++ == 5);
+			EXPECT_TRUE(*it++ == 5);
+			EXPECT_TRUE(*it++ == 5);
+			EXPECT_TRUE(it == test.cend());
+		}
+
+		TEST("Addition Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			EXPECT_TRUE(*it == 5);
+			EXPECT_TRUE(*(it + 1) == 5);
+			EXPECT_TRUE(*(it + 2) == 5);
+		}
+
+		TEST("Equal Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			Array<int, 3>::ConstIterator copy = it;
+			EXPECT_TRUE(it == copy);
+			EXPECT_TRUE(copy == it);
+			EXPECT_TRUE(it == test.cbegin());
+			EXPECT_TRUE(test.cbegin() == it);
+			EXPECT_TRUE(copy == test.cbegin());
+			EXPECT_TRUE(test.cbegin() == copy);
+		}
+
+		TEST("Not Equal Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3>::ConstIterator it = test.cbegin();
+			Array<int, 3>::ConstIterator copy = it;
+			EXPECT_TRUE(!(it != copy));
+			EXPECT_TRUE(!(copy != it));
+			EXPECT_TRUE(!(it != test.cbegin()));
+			EXPECT_TRUE(!(test.cbegin() != it));
+			EXPECT_TRUE(!(copy != test.cbegin()));
+			EXPECT_TRUE(!(test.cbegin() != copy));
+		}
+	}
+
+	CATEGORY(Array)
+	{
+		TEST("Default Constructor")
+		{
+			Array<int, 3> test;
+			EXPECT_TRUE(test.get_size() == 3);
+		}
+
+		TEST("Value Constructor")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test.get_size() == 3);
+			EXPECT_TRUE(test.at(0) == 5);
+			EXPECT_TRUE(test.at(1) == 5);
+			EXPECT_TRUE(test.at(2) == 5);
+		}
+
+		TEST("Initializer List Constructor")
+		{
+			Array<int, 3> test({ 0, 1, 2 });
+			EXPECT_TRUE(test.get_size() == 3);
+			EXPECT_TRUE(test.at(0) == 0);
+			EXPECT_TRUE(test.at(1) == 1);
+			EXPECT_TRUE(test.at(2) == 2);
+		}
+
+		TEST("Copy Constructor")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3> copy(test);
+			EXPECT_TRUE(copy.get_size() == 3);
+			EXPECT_TRUE(copy.at(0) == 5);
+			EXPECT_TRUE(copy.at(1) == 5);
+			EXPECT_TRUE(copy.at(2) == 5);
+		}
+
+		TEST("Move Constructor")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3> copy(std::move(test));
+			EXPECT_TRUE(copy.get_size() == 3);
+			EXPECT_TRUE(copy.at(0) == 5);
+			EXPECT_TRUE(copy.at(1) == 5);
+			EXPECT_TRUE(copy.at(2) == 5);
+		}
+
+		TEST("Copy Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3> copy = test;
+			EXPECT_TRUE(copy.get_size() == 3);
+			EXPECT_TRUE(copy.at(0) == 5);
+			EXPECT_TRUE(copy.at(1) == 5);
+			EXPECT_TRUE(copy.at(2) == 5);
+		}
+
+		TEST("Move Operator")
+		{
+			Array<int, 3> test(5);
+			Array<int, 3> copy = std::move(test);
+			EXPECT_TRUE(copy.get_size() == 3);
+			EXPECT_TRUE(copy.at(0) == 5);
+			EXPECT_TRUE(copy.at(1) == 5);
+			EXPECT_TRUE(copy.at(2) == 5);
+		}
+
+		TEST("Index Operator")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test[0] == 5);
+			EXPECT_TRUE(test[1] == 5);
+			EXPECT_TRUE(test[2] == 5);
+			EXPECT_FAIL(test[3]);
+		}
+
+		TEST("Const Index Operator")
+		{
+			Array<int, 3> const test(5);
+			EXPECT_TRUE(test[0] == 5);
+			EXPECT_TRUE(test[1] == 5);
+			EXPECT_TRUE(test[2] == 5);
+			EXPECT_FAIL(test[3]);
+		}
+
+		TEST("Get Size")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test.get_size() == 3);
+		}
+
+		TEST("Get Data")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test.get_data() != nullptr);
+		}
+
+		TEST("At")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test.at(0) == 5);
+			EXPECT_TRUE(test.at(1) == 5);
+			EXPECT_TRUE(test.at(2) == 5);
+			EXPECT_FAIL(test.at(3));
+		}
+
+		TEST("Const At")
+		{
+			Array<int, 3> const test(5);
+			EXPECT_TRUE(test.at(0) == 5);
+			EXPECT_TRUE(test.at(1) == 5);
+			EXPECT_TRUE(test.at(2) == 5);
+			EXPECT_FAIL(test.at(3));
+		}
+
+		TEST("Sub")
+		{
+			Array<int, 3> test(5);
+			Array<int, 2> sub = test.sub<2>(0);
+			EXPECT_TRUE(sub.get_size() == 2);
+			EXPECT_TRUE(sub.at(0) == 5);
+			EXPECT_TRUE(sub.at(1) == 5);
+			EXPECT_FAIL(sub.at(2) == 5);
+		}
+
+		TEST("Find")
+		{
+			Array<int, 3> test({0, 1, 2});
+			EXPECT_TRUE(test.find(0) == test.begin());
+			EXPECT_TRUE(test.find(1) == test.begin() + 1);
+			EXPECT_TRUE(test.find(2) == test.begin() + 2);
+			EXPECT_TRUE(test.find(3) == test.end());
+		}
+
+		TEST("Const Find")
+		{
+			Array<int, 3> const test({ 0, 1, 2 });
+			EXPECT_TRUE(test.find(0) == test.cbegin());
+			EXPECT_TRUE(test.find(1) == test.cbegin() + 1);
+			EXPECT_TRUE(test.find(2) == test.cbegin() + 2);
+			EXPECT_TRUE(test.find(3) == test.cend());
+		}
+	}
+
 #pragma endregion
 
 #pragma region Test Teardown
@@ -780,8 +1210,9 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 	// print results
 	std::cout << "\nFinal Results:\n";
-	for (auto const& [categoryName, categoryIndex] : categories)
+	for (auto const& categoryName : categoryNames)
 	{
+		int categoryIndex = categories[categoryName];
 		Results const& result = results[categoryIndex];
 
 		std::cout << categoryName << ": ";

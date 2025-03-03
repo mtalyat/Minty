@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"class_minty_1_1_string_1_1_iterator.html#a0fbe6406c960ff14898da10cecc5e776":[1,0,0,5,1,11],
+"class_minty_1_1_string_1_1_iterator.html#a143d3b193933fae943be749fa395c74d":[0,0,0,5,1,9],
 "class_minty_1_1_string_1_1_iterator.html#a143d3b193933fae943be749fa395c74d":[1,0,0,5,1,9],
 "class_minty_1_1_string_1_1_iterator.html#a16b26c09dbed45d95ddd4acc691cafd1":[0,0,0,5,1,1],
 "class_minty_1_1_string_1_1_iterator.html#a16b26c09dbed45d95ddd4acc691cafd1":[1,0,0,5,1,1],
