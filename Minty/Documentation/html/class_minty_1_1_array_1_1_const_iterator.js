@@ -5,12 +5,11 @@ var class_minty_1_1_array_1_1_const_iterator =
     [ "pointer", "class_minty_1_1_array_1_1_const_iterator.html#a11bbe0aa5ebe9794b49813de61aa6571", null ],
     [ "reference", "class_minty_1_1_array_1_1_const_iterator.html#ab697d5cc0a2d4a0c8d498148e2cf7e6b", null ],
     [ "value_type", "class_minty_1_1_array_1_1_const_iterator.html#ab97d1032b4cc3b41fab3275e96cce316", null ],
-    [ "ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html#ab70b1672cb2b7c342ad6c30cc780373d", null ],
-    [ "operator!=", "class_minty_1_1_array_1_1_const_iterator.html#add3d53782ff5f8bb92ef1f06b643589f", null ],
-    [ "operator*", "class_minty_1_1_array_1_1_const_iterator.html#a808a5a4f52622ff91a358ef497f95857", null ],
-    [ "operator+", "class_minty_1_1_array_1_1_const_iterator.html#a92a0c2e44add3a9c43bac002396b2fec", null ],
+    [ "ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html#aba640e109882ae407c62fc3567fa05c3", null ],
+    [ "operator!=", "class_minty_1_1_array_1_1_const_iterator.html#afaa3320738fb29ded3f2809a836ce65b", null ],
+    [ "operator*", "class_minty_1_1_array_1_1_const_iterator.html#ab630553f65b179fb855cc1eb309d061f", null ],
+    [ "operator+", "class_minty_1_1_array_1_1_const_iterator.html#a126aeb31c8ba1d3038361dcf50f362c3", null ],
     [ "operator++", "class_minty_1_1_array_1_1_const_iterator.html#aee32fd7db00f471eba564fd47eed401c", null ],
     [ "operator++", "class_minty_1_1_array_1_1_const_iterator.html#a9ea171caf6f344a4d93b4842000e2924", null ],
-    [ "operator-", "class_minty_1_1_array_1_1_const_iterator.html#a443a90d639f43d8998421e47ff3e19ff", null ],
-    [ "operator==", "class_minty_1_1_array_1_1_const_iterator.html#af1827fbc84edb1bec75e9d4d2aed758a", null ]
+    [ "operator==", "class_minty_1_1_array_1_1_const_iterator.html#a077d66150fbded0304a2005e505e8726", null ]
 ];
