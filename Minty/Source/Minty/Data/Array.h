@@ -192,7 +192,7 @@ namespace Minty
 		/// Moves the given Array.
 		/// </summary>
 		/// <param name="other">The Array to move.</param>
-		constexpr Array(Array&& other)
+		constexpr Array(Array&& other) noexcept
 			: m_data()
 		{
 			for (Size i = 0; i < S; ++i)
@@ -221,7 +221,7 @@ namespace Minty
 			return *this;
 		}
 
-		constexpr Array& operator=(Array&& other)
+		constexpr Array& operator=(Array&& other) noexcept
 		{
 			if (this != &other)
 			{
