@@ -1213,98 +1213,175 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 			EXPECT_TRUE(test.find(3) == test.cend());
 		}
 	}
-
-	CATEGORY(StackAllocator)
+	
+	CATEGORY(MemoryPool)
 	{
-		TEST("Size Constructor")
+		TEST("Constructor")
 		{
-			StackAllocator allocator(1024);
-			EXPECT_TRUE(allocator.get_capacity() == 1024);
-			EXPECT_TRUE(allocator.get_size() == 0);
-			EXPECT_TRUE(allocator.get_data() != nullptr);
+			MemoryPool pool(1024, 10);
+			EXPECT_TRUE(pool.get_block_size() == 1024);
+			EXPECT_TRUE(pool.get_capacity() == 10);
+			EXPECT_TRUE(pool.get_count() == 0);
 		}
 
 		TEST("Move Constructor")
 		{
-			StackAllocator allocator(1024);
-			allocator.allocate(512);
-			StackAllocator copy(std::move(allocator));
-			EXPECT_TRUE(allocator.get_capacity() == 0);
-			EXPECT_TRUE(allocator.get_size() == 0);
-			EXPECT_TRUE(allocator.get_data() == nullptr);
-			EXPECT_TRUE(copy.get_capacity() == 1024);
-			EXPECT_TRUE(copy.get_size() == 512);
-			EXPECT_TRUE(copy.get_data() != nullptr);
+			MemoryPool pool(1024, 10);
+			pool.allocate();
+			MemoryPool copy(std::move(pool));
+			EXPECT_TRUE(pool.get_block_size() == 0);
+			EXPECT_TRUE(pool.get_capacity() == 0);
+			EXPECT_TRUE(pool.get_count() == 0);
+			EXPECT_TRUE(copy.get_block_size() == 1024);
+			EXPECT_TRUE(copy.get_capacity() == 10);
+			EXPECT_TRUE(copy.get_count() == 1);
 		}
 
 		TEST("Move Operator")
 		{
-			StackAllocator allocator(1024);
-			allocator.allocate(512);
-			StackAllocator copy = std::move(allocator);
-			EXPECT_TRUE(allocator.get_capacity() == 0);
-			EXPECT_TRUE(allocator.get_size() == 0);
-			EXPECT_TRUE(allocator.get_data() == nullptr);
-			EXPECT_TRUE(copy.get_capacity() == 1024);
-			EXPECT_TRUE(copy.get_size() == 512);
-			EXPECT_TRUE(copy.get_data() != nullptr);
+			MemoryPool pool(1024, 10);
+			pool.allocate();
+			MemoryPool copy = std::move(pool);
+			EXPECT_TRUE(pool.get_block_size() == 0);
+			EXPECT_TRUE(pool.get_capacity() == 0);
+			EXPECT_TRUE(pool.get_count() == 0);
+			EXPECT_TRUE(copy.get_block_size() == 1024);
+			EXPECT_TRUE(copy.get_capacity() == 10);
+			EXPECT_TRUE(copy.get_count() == 1);
+		}
+
+		TEST("Get Block Size")
+		{
+			MemoryPool pool(1024, 10);
+			EXPECT_TRUE(pool.get_block_size() == 1024);
 		}
 
 		TEST("Get Capacity")
 		{
-			StackAllocator allocator(1024);
-			EXPECT_TRUE(allocator.get_capacity() == 1024);
+			MemoryPool pool(1024, 10);
+			EXPECT_TRUE(pool.get_capacity() == 10);
 		}
 
-		TEST("Get Size")
+		TEST("Get Count")
 		{
-			StackAllocator allocator(1024);
-			EXPECT_TRUE(allocator.get_size() == 0);
-			allocator.allocate(512);
-			EXPECT_TRUE(allocator.get_size() == 512);
-			allocator.allocate(512);
-			EXPECT_TRUE(allocator.get_size() == 1024);
+			MemoryPool pool(1024, 10);
+			EXPECT_TRUE(pool.get_count() == 0);
+			pool.allocate();
+			EXPECT_TRUE(pool.get_count() == 1);
 		}
 
-		TEST("Get Data")
+		TEST("Is Full")
 		{
-			StackAllocator allocator(1024);
-			EXPECT_TRUE(allocator.get_data() != nullptr);
+			MemoryPool pool(1024, 1);
+			EXPECT_TRUE(!pool.is_full());
+			pool.allocate();
+			EXPECT_TRUE(pool.is_full());
 		}
 
 		TEST("Allocate")
 		{
-			StackAllocator allocator(1024);
-			void* ptr = allocator.allocate(512);
+			MemoryPool pool(1024, 10);
+			void* ptr = pool.allocate();
 			EXPECT_TRUE(ptr != nullptr);
-			EXPECT_TRUE(allocator.get_size() == 512);
-			ptr = allocator.allocate(512);
+			EXPECT_TRUE(pool.get_count() == 1);
+			ptr = pool.allocate();
 			EXPECT_TRUE(ptr != nullptr);
-			EXPECT_TRUE(allocator.get_size() == 1024);
-			ptr = allocator.allocate(1);
-			EXPECT_TRUE(ptr == nullptr);
-			EXPECT_TRUE(allocator.get_size() == 1024);
+			EXPECT_TRUE(pool.get_count() == 2);
 		}
 
-		TEST("Construct")
+		TEST("Deallocate")
 		{
-			StackAllocator allocator(1024);
-			int* ptr = allocator.construct<int>(5);
-			EXPECT_TRUE(ptr != nullptr);
-			EXPECT_TRUE(*ptr == 5);
-			EXPECT_TRUE(allocator.get_size() == sizeof(int));
-			ptr = allocator.construct<int>(10);
-			EXPECT_TRUE(ptr != nullptr);
-			EXPECT_TRUE(*ptr == 10);
-			EXPECT_TRUE(allocator.get_size() == sizeof(int) * 2);
+			MemoryPool pool(1024, 10);
+			void* ptr = pool.allocate();
+			pool.deallocate(ptr);
+			EXPECT_TRUE(pool.get_count() == 0);
 		}
 
 		TEST("Clear")
 		{
-			StackAllocator allocator(1024);
-			allocator.allocate(512);
-			allocator.clear();
-			EXPECT_TRUE(allocator.get_size() == 0);
+			MemoryPool pool(1024, 10);
+			pool.allocate();
+			pool.clear();
+			EXPECT_TRUE(pool.get_count() == 0);
+		}
+	}
+
+	CATEGORY(MemoryStack)
+	{
+		TEST("Constructor")
+		{
+			MemoryStack stack(1024);
+			EXPECT_TRUE(stack.get_capacity() == 1024);
+			EXPECT_TRUE(stack.get_size() == 0);
+		}
+
+		TEST("Move Constructor")
+		{
+			MemoryStack stack(1024);
+			stack.allocate(512);
+			MemoryStack copy(std::move(stack));
+			EXPECT_TRUE(stack.get_capacity() == 0);
+			EXPECT_TRUE(stack.get_size() == 0);
+			EXPECT_TRUE(copy.get_capacity() == 1024);
+			EXPECT_TRUE(copy.get_size() == 512);
+		}
+		
+		TEST("Move Operator")
+		{
+			MemoryStack stack(1024);
+			stack.allocate(512);
+			MemoryStack copy = std::move(stack);
+			EXPECT_TRUE(stack.get_capacity() == 0);
+			EXPECT_TRUE(stack.get_size() == 0);
+			EXPECT_TRUE(copy.get_capacity() == 1024);
+			EXPECT_TRUE(copy.get_size() == 512);
+		}
+
+		TEST("Get Capacity")
+		{
+			MemoryStack stack(1024);
+			EXPECT_TRUE(stack.get_capacity() == 1024);
+		}
+
+		TEST("Get Size")
+		{
+			MemoryStack stack(1024);
+			EXPECT_TRUE(stack.get_size() == 0);
+			stack.allocate(512);
+			EXPECT_TRUE(stack.get_size() == 512);
+			stack.allocate(512);
+			EXPECT_TRUE(stack.get_size() == 1024);
+		}
+
+		TEST("Allocate")
+		{
+			MemoryStack stack(1024);
+			void* ptr = stack.allocate(512);
+			EXPECT_FAIL(stack.allocate(0));
+			EXPECT_TRUE(ptr != nullptr);
+			EXPECT_TRUE(stack.get_size() == 512);
+			ptr = stack.allocate(512);
+			EXPECT_TRUE(ptr != nullptr);
+			EXPECT_TRUE(stack.get_size() == 1024);
+			EXPECT_FAIL(stack.allocate(1));
+		}
+
+		TEST("Deallocate")
+		{
+			MemoryStack stack(1024);
+			EXPECT_FAIL(stack.deallocate(0));
+			EXPECT_FAIL(stack.deallocate(512));
+			void* ptr = stack.allocate(512);
+			stack.deallocate(512);
+			EXPECT_TRUE(stack.get_size() == 0);
+		}
+
+		TEST("Clear")
+		{
+			MemoryStack stack(1024);
+			stack.allocate(512);
+			stack.clear();
+			EXPECT_TRUE(stack.get_size() == 0);
 		}
 	}
 

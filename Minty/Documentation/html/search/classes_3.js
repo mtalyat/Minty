@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['stackallocator_0',['StackAllocator',['../class_minty_1_1_stack_allocator.html',1,'Minty']]],
-  ['string_1',['String',['../class_minty_1_1_string.html',1,'Minty']]]
+  ['memorypool_0',['MemoryPool',['../class_minty_1_1_memory_pool.html',1,'Minty']]],
+  ['memorystack_1',['MemoryStack',['../class_minty_1_1_memory_stack.html',1,'Minty']]]
 ];
