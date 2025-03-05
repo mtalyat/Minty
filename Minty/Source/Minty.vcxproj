@@ -169,20 +169,23 @@ doxygen</Command>
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Minty.h" />
+    <ClInclude Include="Minty\Application\Application.h" />
+    <ClInclude Include="Minty\Application\_Application.h" />
     <ClInclude Include="Minty\Console\Console.h" />
-    <ClInclude Include="Minty\Context\Context.h" />
+    <ClInclude Include="Minty\Console\_Console.h" />
     <ClInclude Include="Minty\Core\Base.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
-    <ClInclude Include="Minty\Core\Core.h" />
+    <ClInclude Include="Minty\Core\_Core.h" />
     <ClInclude Include="Minty\Core\Format.h" />
     <ClInclude Include="Minty\Core\Macro.h" />
     <ClInclude Include="Minty\Core\ToString.h" />
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
-    <ClInclude Include="Minty\Data\Data.h" />
+    <ClInclude Include="Minty\Data\_Data.h" />
     <ClInclude Include="Minty\Data\String.h" />
+    <ClInclude Include="Minty\Data\Vector.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
-    <ClInclude Include="Minty\Memory\Memory.h" />
+    <ClInclude Include="Minty\Memory\_Memory.h" />
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
@@ -190,6 +193,8 @@ doxygen</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp" />
+    <ClCompile Include="Minty\Application\Application.cpp" />
+    <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />

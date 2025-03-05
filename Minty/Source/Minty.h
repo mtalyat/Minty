@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Minty/Core/Core.h"
-#include "Minty/Console/Console.h"
-#include "Minty/Context/Context.h"
-#include "Minty/Data/Data.h"
-#include "Minty/Memory/Memory.h"
+#include "Minty/Application/_Application.h"
+#include "Minty/Core/_Core.h"
+#include "Minty/Console/_Console.h"
+#include "Minty/Data/_Data.h"
+#include "Minty/Memory/_Memory.h"

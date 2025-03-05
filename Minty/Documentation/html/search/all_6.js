@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['gb_0',['GB',['../namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8',1,'Minty']]],
-  ['get_5fblock_5fsize_1',['get_block_size',['../class_minty_1_1_memory_pool.html#abe38c2b345bfe83e57ffa1b4f68dbe0e',1,'Minty::MemoryPool']]],
-  ['get_5fcapacity_2',['get_capacity',['../class_minty_1_1_string.html#acba6360a243805a5d1ce2fe1c7fc0b58',1,'Minty::String::get_capacity()'],['../class_minty_1_1_memory_pool.html#a1195731316b85a2ed6c093da29ad0aa0',1,'Minty::MemoryPool::get_capacity()'],['../class_minty_1_1_memory_stack.html#ac47594c159d13b742c3de6c69426832b',1,'Minty::MemoryStack::get_capacity()']]],
-  ['get_5fcount_3',['get_count',['../class_minty_1_1_memory_pool.html#a0100c74bc061e0e67467aacf0addb587',1,'Minty::MemoryPool']]],
-  ['get_5fdata_4',['get_data',['../class_minty_1_1_array.html#a1f5c702ad3d07b7c6c52d7f0a53332a6',1,'Minty::Array::get_data()'],['../class_minty_1_1_array.html#a9e34ff6c631bca5db1bb3bb4bffb20c0',1,'Minty::Array::get_data() const'],['../class_minty_1_1_string.html#a7d8b3a6cba09e0c0afef7926160d7f56',1,'Minty::String::get_data()'],['../class_minty_1_1_memory_pool.html#a533c3ba4400cf335cc1c9eb1b3cb91d3',1,'Minty::MemoryPool::get_data()'],['../class_minty_1_1_memory_stack.html#ad807e4df5187a88e2a3317a0c8eb1d40',1,'Minty::MemoryStack::get_data()']]],
-  ['get_5fdynamic_5fsize_5',['get_dynamic_size',['../class_minty_1_1_memory_manager.html#a47d1fc57644c8254c8c58645b589731b',1,'Minty::MemoryManager']]],
-  ['get_5fsize_6',['get_size',['../class_minty_1_1_array.html#a5633ecaa6517beb09cca31ac7fb9c7e8',1,'Minty::Array::get_size()'],['../class_minty_1_1_string.html#ac3c3f325b6e9d10af2dad44114dd3d08',1,'Minty::String::get_size()'],['../class_minty_1_1_memory_manager.html#ad35532b1f52570410e9509d3ca3cc6b9',1,'Minty::MemoryManager::get_size()'],['../class_minty_1_1_memory_stack.html#abe2e9799e2f983a4dd798aedac050b6d',1,'Minty::MemoryStack::get_size()']]],
-  ['get_5fstatic_5fsize_7',['get_static_size',['../class_minty_1_1_memory_manager.html#a566044e5a23fb43049d379c4f6d3d2e7',1,'Minty::MemoryManager']]]
+  ['f_0',['F',['../_format_8h.html#ac11a10720f04025c84e9e76691ad0e6b',1,'Format.h']]],
+  ['find_1',['find',['../class_minty_1_1_array.html#aec0eee01eeb09579fcbce1cfe9a863f9',1,'Minty::Array::find(T const &amp;value)'],['../class_minty_1_1_array.html#a491a34526c642a273359b740df35887c',1,'Minty::Array::find(T const &amp;value) const'],['../class_minty_1_1_string.html#a92cc554efea1728850a7b953e6394eb7',1,'Minty::String::find()'],['../class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e',1,'Minty::Vector::find(T const &amp;value)'],['../class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d',1,'Minty::Vector::find(T const &amp;value) const']]],
+  ['float_2',['Float',['../namespace_minty.html#a372f2ac40c647017164622bb85bfb865',1,'Minty']]],
+  ['format_2eh_3',['Format.h',['../_format_8h.html',1,'']]],
+  ['framework_2eh_4',['framework.h',['../framework_8h.html',1,'']]]
 ];

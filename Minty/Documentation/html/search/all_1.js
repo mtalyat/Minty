@@ -1,10 +1,14 @@
 var searchData=
 [
-  ['b_0',['B',['../namespace_minty.html#ac7896eced57a2f85d050b16628f5291e',1,'Minty']]],
-  ['base_2eh_1',['Base.h',['../_base_8h.html',1,'']]],
-  ['begin_2',['begin',['../class_minty_1_1_array.html#a218b74f9132a9d8d74ccf5f5662fe738',1,'Minty::Array::begin()'],['../class_minty_1_1_string.html#acb9a6623a67d5ba6a488da0edf4171af',1,'Minty::String::begin()']]],
-  ['blockcountcapacity_3',['blockCountCapacity',['../struct_minty_1_1_memory_pool_builder.html#aecc1a63a6da938a53565175d4a427df2',1,'Minty::MemoryPoolBuilder']]],
-  ['blocksize_4',['blockSize',['../struct_minty_1_1_memory_pool_builder.html#acb806c83cc83d56a1a8e63f2847da8b4',1,'Minty::MemoryPoolBuilder']]],
-  ['bool_5',['Bool',['../namespace_minty.html#ae50ca127ff317b788faaab0563a8df56',1,'Minty']]],
-  ['byte_6',['Byte',['../namespace_minty.html#abef3357ce7a39ebc4d787a38199de199',1,'Minty']]]
+  ['add_0',['add',['../class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16',1,'Minty::Vector::add(T const &amp;value)'],['../class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3',1,'Minty::Vector::add(T &amp;&amp;value)'],['../class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0',1,'Minty::Vector::add(IteratorType const &amp;begin, IteratorType const &amp;end)']]],
+  ['allocate_1',['allocate',['../class_minty_1_1_memory_manager.html#ab322be120511ca704867f6924fe6a5f8',1,'Minty::MemoryManager::allocate()'],['../class_minty_1_1_memory_pool.html#a6cb46bc2f931302d6ae7f4eb1b7ddeaa',1,'Minty::MemoryPool::allocate()'],['../class_minty_1_1_memory_stack.html#a29ed24072bbdf6102f33a0d749dae094',1,'Minty::MemoryStack::allocate()'],['../namespace_minty.html#a82e54782d22b7f76adf500b256213be2',1,'Minty::allocate(Size const size, Allocator const allocator)']]],
+  ['allocator_2',['Allocator',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803',1,'Minty']]],
+  ['allocator_2eh_3',['Allocator.h',['../_allocator_8h.html',1,'']]],
+  ['application_4',['Application',['../class_minty_1_1_application.html',1,'Minty::Application'],['../class_minty_1_1_application.html#a35592e1781f833cfd10257497e4fbfe1',1,'Minty::Application::Application()']]],
+  ['application_2ecpp_5',['Application.cpp',['../_application_8cpp.html',1,'']]],
+  ['application_2eh_6',['Application.h',['../_application_8h.html',1,'']]],
+  ['applicationbuilder_7',['ApplicationBuilder',['../struct_minty_1_1_application_builder.html',1,'Minty']]],
+  ['array_8',['Array',['../class_minty_1_1_array.html',1,'Minty::Array&lt; T, S &gt;'],['../class_minty_1_1_array.html#a4f1cc43dfa0e6a2204c6772121ebe96c',1,'Minty::Array::Array()'],['../class_minty_1_1_array.html#a6dac3145d711a7646e1040498ecd599c',1,'Minty::Array::Array(T const &amp;value)'],['../class_minty_1_1_array.html#a0fade2ede5f27641b3466b1396d81333',1,'Minty::Array::Array(std::initializer_list&lt; T &gt; const &amp;list)'],['../class_minty_1_1_array.html#a3f139cd7f981a8b6c4bc62ece3ca1276',1,'Minty::Array::Array(Array const &amp;other)'],['../class_minty_1_1_array.html#a72590bd7376ef772409670c9e1495362',1,'Minty::Array::Array(Array &amp;&amp;other) noexcept']]],
+  ['array_2eh_9',['Array.h',['../_array_8h.html',1,'']]],
+  ['at_10',['at',['../class_minty_1_1_array.html#a010035f946e4bbdbc2ae906ae2650ec4',1,'Minty::Array::at(Size const index)'],['../class_minty_1_1_array.html#aa182b831036aee2599bd505bda486289',1,'Minty::Array::at(Size const index) const'],['../class_minty_1_1_string.html#ac072e883e006690128f300baf9cf65d9',1,'Minty::String::at()'],['../class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df',1,'Minty::Vector::at(Size const index)'],['../class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218',1,'Minty::Vector::at(Size const index) const']]]
 ];

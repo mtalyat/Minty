@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['long_0',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty']]]
+  ['kb_0',['KB',['../namespace_minty.html#a9ab5af8c7da6046af1b18e653f2faed0',1,'Minty']]]
 ];

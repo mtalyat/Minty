@@ -29,7 +29,7 @@ namespace Minty
 			s_instance = this;
 		}
 
-		constexpr ~Application()
+		~Application()
 		{
 			s_instance = nullptr;
 		}
@@ -45,6 +45,8 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		MemoryManager& get_memory_manager() { return m_memoryManager; }
+
 		static Application& get_instance()
 		{
 			MINTY_ASSERT(s_instance, "Application instance is null.");

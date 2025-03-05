@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['_7earray_0',['~Array',['../class_minty_1_1_array.html#a674089ee4584383ff0761af6abf0a2b6',1,'Minty::Array']]],
-  ['_7ememorymanager_1',['~MemoryManager',['../class_minty_1_1_memory_manager.html#adde8344d34feb20114c50293233d0567',1,'Minty::MemoryManager']]],
-  ['_7ememorypool_2',['~MemoryPool',['../class_minty_1_1_memory_pool.html#a7af404b594b69a4173cb7921d0513808',1,'Minty::MemoryPool']]],
-  ['_7estring_3',['~String',['../class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891',1,'Minty::String']]]
+  ['vector_0',['Vector',['../class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f',1,'Minty::Vector::Vector(Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_vector.html#afb43f43389ce1afaed2f9fbbb1558001',1,'Minty::Vector::Vector(Size const capacity, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_vector.html#a6c8217ba7f440db99ee43406d68b10d3',1,'Minty::Vector::Vector(T const &amp;value, Size const size, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_vector.html#a34401de581e790082b283a039f721bb1',1,'Minty::Vector::Vector(std::initializer_list&lt; T &gt; const &amp;list, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_vector.html#a97f51ac65c95f89ff2f2a79fc7c2eb8f',1,'Minty::Vector::Vector(Vector const &amp;other)'],['../class_minty_1_1_vector.html#a33f7e3748400fe22a589eee5abdad52d',1,'Minty::Vector::Vector(Vector &amp;&amp;other)']]]
 ];

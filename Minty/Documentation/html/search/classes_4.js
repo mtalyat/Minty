@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['string_0',['String',['../class_minty_1_1_string.html',1,'Minty']]]
+  ['reverseiterator_0',['ReverseIterator',['../class_minty_1_1_vector_1_1_reverse_iterator.html',1,'Minty::Vector']]]
 ];
