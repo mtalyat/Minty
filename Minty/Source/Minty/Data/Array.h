@@ -154,8 +154,7 @@ namespace Minty
 		public:
 			constexpr explicit ReverseIterator(pointer const ptr)
 				: mp_ptr(ptr)
-			{
-			}
+			{}
 
 			constexpr reference operator*() const
 			{
