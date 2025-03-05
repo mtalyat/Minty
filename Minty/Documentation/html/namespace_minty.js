@@ -10,6 +10,7 @@ var namespace_minty =
     [ "MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", "struct_minty_1_1_memory_pool_builder" ],
     [ "MemoryStack", "class_minty_1_1_memory_stack.html", "class_minty_1_1_memory_stack" ],
     [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
+    [ "Pair", "class_minty_1_1_pair.html", "class_minty_1_1_pair" ],
     [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
     [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ],
     [ "Bool", "namespace_minty.html#ae50ca127ff317b788faaab0563a8df56", null ],
