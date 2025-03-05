@@ -51,9 +51,6 @@
     <ClInclude Include="Minty\Core\Core.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Memory\StackAllocator.h">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Core\Macro.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -81,6 +78,18 @@
     <ClInclude Include="Minty\Core\Format.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Memory\Allocator.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Memory\MemoryStack.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Memory\MemoryPool.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Memory\MemoryManager.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -93,6 +102,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Core\ToString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Memory\MemoryPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Memory\MemoryStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Memory\MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -105,6 +105,7 @@ $(function(){initNavTree('class_minty_1_1_string.html',''); initResizable(true);
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_minty_1_1_string-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Minty::String Class Reference</div></div>
 </div><!--header-->
@@ -174,6 +175,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2044e718dc885b68ed54143db52aa245"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cb6f8e1ab7a69e50704512b88fff6f9" id="r_a8cb6f8e1ab7a69e50704512b88fff6f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cb6f8e1ab7a69e50704512b88fff6f9">operator&gt;=</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;other) const</td></tr>
 <tr class="separator:a8cb6f8e1ab7a69e50704512b88fff6f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b62fd68a99599de3c822b25ff102a1f" id="r_a0b62fd68a99599de3c822b25ff102a1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b62fd68a99599de3c822b25ff102a1f">operator+</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;other) const</td></tr>
+<tr class="separator:a0b62fd68a99599de3c822b25ff102a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acba6360a243805a5d1ce2fe1c7fc0b58" id="r_acba6360a243805a5d1ce2fe1c7fc0b58"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acba6360a243805a5d1ce2fe1c7fc0b58">get_capacity</a> () const</td></tr>
 <tr class="memdesc:acba6360a243805a5d1ce2fe1c7fc0b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the capacity of the <a class="el" href="class_minty_1_1_string.html" title="A collection of text.">String</a>.  <br /></td></tr>
 <tr class="separator:acba6360a243805a5d1ce2fe1c7fc0b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,6 +207,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abfdbda9e49529ef8931f1e2004b68fa4" id="r_abfdbda9e49529ef8931f1e2004b68fa4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfdbda9e49529ef8931f1e2004b68fa4">contains</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;<a class="el" href="#a3e087fbc95bc1dca9431e6f46fffe244">sub</a>) const</td></tr>
 <tr class="memdesc:abfdbda9e49529ef8931f1e2004b68fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_string.html" title="A collection of text.">String</a> contains the given sub string.  <br /></td></tr>
 <tr class="separator:abfdbda9e49529ef8931f1e2004b68fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:aa024b26e07225a82c47643343b5ac5b6" id="r_aa024b26e07225a82c47643343b5ac5b6"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa024b26e07225a82c47643343b5ac5b6">operator&lt;&lt;</a> (std::ostream &amp;stream, <a class="el" href="class_minty_1_1_string.html">String</a> const &amp;str)</td></tr>
+<tr class="separator:aa024b26e07225a82c47643343b5ac5b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A collection of text. </p>
@@ -750,6 +758,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a0b62fd68a99599de3c822b25ff102a1f" name="a0b62fd68a99599de3c822b25ff102a1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b62fd68a99599de3c822b25ff102a1f">&#9670;&#160;</a></span>operator+()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_string.html">String</a> Minty::String::operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a342fb13a4dfd3e75f6361aba45158e59" name="a342fb13a4dfd3e75f6361aba45158e59"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a342fb13a4dfd3e75f6361aba45158e59">&#9670;&#160;</a></span>operator&lt;()</h2>
 
@@ -1028,6 +1053,36 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="class_minty_1_1_string.html" title="A collection of text.">String</a> with the text within the given range.</dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Symbol Documentation</h2>
+<a id="aa024b26e07225a82c47643343b5ac5b6" name="aa024b26e07225a82c47643343b5ac5b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa024b26e07225a82c47643343b5ac5b6">&#9670;&#160;</a></span>operator&lt;&lt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ostream &amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel friend">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

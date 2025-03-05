@@ -4,7 +4,7 @@
 
 namespace Minty
 {
-#define F(format, ...) format(format, __VA_ARGS__);
+#define F(formatString, ...) format(formatString, __VA_ARGS__)
 
 	template<typename... Args>
 	static String format(String const& format, Args&&... args)
@@ -24,8 +24,8 @@ namespace Minty
 		if (index != INVALID_INDEX)
 		{
 			String firstString = to_string(std::forward<T>(first));
-			String formatted = format.sub(0, index) + firstString + format.sub(index + 2, format.() - index - 2);
+			String formatted = format.sub(0, index) + firstString + format.sub(index + 2, format.get_size() - index - 2);
 		}
-		return formatImpl(format);
+		return _format(format);
 	}
 }

@@ -181,14 +181,20 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Array.h" />
     <ClInclude Include="Minty\Data\Data.h" />
     <ClInclude Include="Minty\Data\String.h" />
+    <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\Memory.h" />
-    <ClInclude Include="Minty\Memory\StackAllocator.h" />
+    <ClInclude Include="Minty\Memory\MemoryManager.h" />
+    <ClInclude Include="Minty\Memory\MemoryPool.h" />
+    <ClInclude Include="Minty\Memory\MemoryStack.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
+    <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
+    <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

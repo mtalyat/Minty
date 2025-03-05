@@ -287,6 +287,10 @@ namespace Minty
 			return !(*this < other);
 		}
 
+		String operator+(String const& other) const;
+
+		friend std::ostream& operator<<(std::ostream& stream, String const& str);
+
 #pragma endregion
 
 #pragma region Get Set

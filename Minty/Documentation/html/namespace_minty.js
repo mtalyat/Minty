@@ -4,7 +4,12 @@ var namespace_minty =
     [ "Console", "class_minty_1_1_console.html", null ],
     [ "Context", "class_minty_1_1_context.html", null ],
     [ "ContextBuilder", "class_minty_1_1_context_builder.html", null ],
-    [ "StackAllocator", "class_minty_1_1_stack_allocator.html", "class_minty_1_1_stack_allocator" ],
+    [ "MemoryManager", "class_minty_1_1_memory_manager.html", "class_minty_1_1_memory_manager" ],
+    [ "MemoryManagerBuilder", "struct_minty_1_1_memory_manager_builder.html", "struct_minty_1_1_memory_manager_builder" ],
+    [ "MemoryPool", "class_minty_1_1_memory_pool.html", "class_minty_1_1_memory_pool" ],
+    [ "MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", "struct_minty_1_1_memory_pool_builder" ],
+    [ "MemoryStack", "class_minty_1_1_memory_stack.html", "class_minty_1_1_memory_stack" ],
+    [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
     [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
     [ "Bool", "namespace_minty.html#ae50ca127ff317b788faaab0563a8df56", null ],
     [ "Byte", "namespace_minty.html#abef3357ce7a39ebc4d787a38199de199", null ],
@@ -18,7 +23,12 @@ var namespace_minty =
     [ "UInt", "namespace_minty.html#a4ff1cd6dfc7685bebfe9bdad92687660", null ],
     [ "ULong", "namespace_minty.html#a48d5425070009ea737ea94d5ca6b3c19", null ],
     [ "UShort", "namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8", null ],
-    [ "Cast", "namespace_minty.html#a7e11920b879edb027c1ee877c3b8b250", null ],
+    [ "Allocator", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803", [
+      [ "Default", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67", null ],
+      [ "Temporary", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a", null ],
+      [ "Task", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803aeaeb30f9f18e0c50b178676f3eaef45f", null ],
+      [ "Persistent", "namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4", null ]
+    ] ],
     [ "to_string", "namespace_minty.html#ab893e761714eabdf0ea31a3be860bf8a", null ],
     [ "to_string", "namespace_minty.html#aee9b46aa9efe254e134ae97e302fa48d", null ],
     [ "to_string", "namespace_minty.html#a9375575ffcd15daf086e2837fc991b80", null ],
@@ -31,5 +41,9 @@ var namespace_minty =
     [ "to_string", "namespace_minty.html#ad5613ddceeb85a319f029f728796955f", null ],
     [ "to_string", "namespace_minty.html#ace42dad79c3a4f8c8a993cc18ec985b3", null ],
     [ "to_string", "namespace_minty.html#ae2021eecefb256df5372214a8c5964aa", null ],
-    [ "INVALID_INDEX", "namespace_minty.html#ab5100671687290415529d62bd9dad4a5", null ]
+    [ "B", "namespace_minty.html#ac7896eced57a2f85d050b16628f5291e", null ],
+    [ "GB", "namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8", null ],
+    [ "INVALID_INDEX", "namespace_minty.html#ab5100671687290415529d62bd9dad4a5", null ],
+    [ "KB", "namespace_minty.html#a9ab5af8c7da6046af1b18e653f2faed0", null ],
+    [ "MB", "namespace_minty.html#a50502c180fadbebbbe55753ae7ae37a7", null ]
 ];
