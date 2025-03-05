@@ -9,9 +9,11 @@ var searchData=
   ['console_2eh_6',['Console.h',['../_console_8h.html',1,'']]],
   ['constant_2eh_7',['Constant.h',['../_constant_8h.html',1,'']]],
   ['constiterator_8',['ConstIterator',['../class_minty_1_1_array_1_1_const_iterator.html',1,'Minty::Array&lt; T, S &gt;::ConstIterator'],['../class_minty_1_1_string_1_1_const_iterator.html',1,'Minty::String::ConstIterator'],['../class_minty_1_1_array_1_1_const_iterator.html#aba640e109882ae407c62fc3567fa05c3',1,'Minty::Array::ConstIterator::ConstIterator()'],['../class_minty_1_1_string_1_1_const_iterator.html#a40ee28f40d900928953072df7620aec7',1,'Minty::String::ConstIterator::ConstIterator()']]],
-  ['contains_9',['contains',['../class_minty_1_1_array.html#a34e7e5c790df74dcff48822671ed0baa',1,'Minty::Array::contains()'],['../class_minty_1_1_string.html#abfdbda9e49529ef8931f1e2004b68fa4',1,'Minty::String::contains()']]],
-  ['context_10',['Context',['../class_minty_1_1_context.html',1,'Minty']]],
-  ['context_2eh_11',['Context.h',['../_context_8h.html',1,'']]],
-  ['contextbuilder_12',['ContextBuilder',['../class_minty_1_1_context_builder.html',1,'Minty']]],
-  ['core_2eh_13',['Core.h',['../_core_8h.html',1,'']]]
+  ['construct_9',['construct',['../class_minty_1_1_memory_manager.html#a49369702ff802e57cd31666e47b1ada3',1,'Minty::MemoryManager']]],
+  ['construct_5farray_10',['construct_array',['../class_minty_1_1_memory_manager.html#aadfb7d5c596fc0997b7581aa13b9497e',1,'Minty::MemoryManager']]],
+  ['contains_11',['contains',['../class_minty_1_1_array.html#a34e7e5c790df74dcff48822671ed0baa',1,'Minty::Array::contains()'],['../class_minty_1_1_string.html#abfdbda9e49529ef8931f1e2004b68fa4',1,'Minty::String::contains()']]],
+  ['context_12',['Context',['../class_minty_1_1_context.html',1,'Minty']]],
+  ['context_2eh_13',['Context.h',['../_context_8h.html',1,'']]],
+  ['contextbuilder_14',['ContextBuilder',['../class_minty_1_1_context_builder.html',1,'Minty']]],
+  ['core_2eh_15',['Core.h',['../_core_8h.html',1,'']]]
 ];

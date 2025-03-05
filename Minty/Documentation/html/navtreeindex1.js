@@ -1,5 +1,13 @@
 var NAVTREEINDEX1 =
 {
+"class_minty_1_1_string.html#a0b62fd68a99599de3c822b25ff102a1f":[1,0,0,10,21],
+"class_minty_1_1_string.html#a1761eeba44a66b3c41a2fc74b9b368d2":[0,0,0,10,3],
+"class_minty_1_1_string.html#a1761eeba44a66b3c41a2fc74b9b368d2":[1,0,0,10,3],
+"class_minty_1_1_string.html#a1b951b7b8e9210ac3644b02997b12ba6":[0,0,0,10,31],
+"class_minty_1_1_string.html#a1b951b7b8e9210ac3644b02997b12ba6":[1,0,0,10,31],
+"class_minty_1_1_string.html#a2044e718dc885b68ed54143db52aa245":[0,0,0,10,23],
+"class_minty_1_1_string.html#a2044e718dc885b68ed54143db52aa245":[1,0,0,10,23],
+"class_minty_1_1_string.html#a241a08b159051a0597980017b251237e":[0,0,0,10,5],
 "class_minty_1_1_string.html#a241a08b159051a0597980017b251237e":[1,0,0,10,5],
 "class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891":[0,0,0,10,8],
 "class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891":[1,0,0,10,8],

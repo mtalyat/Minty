@@ -13,8 +13,19 @@ namespace Minty
 	/// </summary>
 	struct MemoryManagerBuilder
 	{
+		/// <summary>
+		/// The MemoryStack for temporary (one frame) memory.
+		/// </summary>
 		MemoryStackBuilder temporary = { MB * 4 };
+
+		/// <summary>
+		/// The MemoryStacks for tasks (multiple frames) memory.
+		/// </summary>
 		MemoryStackBuilder task = { MB * 4 };
+		
+		/// <summary>
+		/// The MemoryPools for persistent memory.
+		/// </summary>
 		MemoryPoolBuilder persistent[8] = 
 		{
 			{64, MB / 64}, {256, MB / 256}, {KB, MB / KB}, {4 * KB, MB / (4 * KB)}, {16 * KB, MB / (16 * KB)}, {64 * KB, MB / (64 * KB)}, {256 * KB, MB / (256 * KB)}, {MB, 16}
@@ -147,16 +158,33 @@ namespace Minty
 		/// Allocates the given number of bytes using the appropriate allocation method.
 		/// </summary>
 		/// <param name="size">The number of bytes to allocate.</param>
-		/// <param name="allocator">The </param>
+		/// <param name="allocator">The allocation method to use.</param>
 		/// <returns>The pointer to the newly allocated data.</returns>
 		void* allocate(Size const size, Allocator const allocator);
 
+		/// <summary>
+		/// Creates a new object of type T using the appropriate allocation method.
+		/// </summary>
+		/// <typeparam name="T">The type of object to create.</typeparam>
+		/// <typeparam name="...Args">The constructor types for the object.</typeparam>
+		/// <param name="allocator">The allocation method to use.</param>
+		/// <param name="...args">The arguments for the object constructor.</param>
+		/// <returns>A pointer to the newly created object.</returns>
 		template<typename T, typename... Args>
 		T* construct(Allocator const allocator, Args&&... args)
 		{
 			return new(allocate(sizeof(T), allocator)) T(std::forward<Args>(args)...);
 		}
 
+		/// <summary>
+		/// Creates a new array of objects of type T using the appropriate allocation method.
+		/// </summary>
+		/// <typeparam name="T">The type of object array to create.</typeparam>
+		/// <typeparam name="...Args">The constructor types for the object.</typeparam>
+		/// <param name="size">The number of elements in the array.</param>
+		/// <param name="allocator">The allocation method to use.</param>
+		/// <param name="...args">The arguments for each object's constructor.</param>
+		/// <returns>A pointer to the newly created array.</returns>
 		template<typename T, typename... Args>
 		T* construct_array(Size const size, Allocator const allocator, Args&&... args)
 		{
@@ -177,6 +205,12 @@ namespace Minty
 		/// <param name="allocator">The allocation method used.</param>
 		void deallocate(void* const ptr, Size const size, Allocator const allocator);
 
+		/// <summary>
+		/// Destroys the given object.
+		/// </summary>
+		/// <typeparam name="T">The type of object.</typeparam>
+		/// <param name="ptr">The pointer to the object.</param>
+		/// <param name="allocator">The allocation method used when creating the object.</param>
 		template<typename T>
 		void destruct(T* const ptr, Allocator const allocator)
 		{
@@ -184,6 +218,13 @@ namespace Minty
 			deallocate(ptr, sizeof(T), allocator);
 		}
 
+		/// <summary>
+		/// Destroys the given array of objects.
+		/// </summary>
+		/// <typeparam name="T">The type of objects.</typeparam>
+		/// <param name="ptr">A pointer to the array.</param>
+		/// <param name="size">The number of objects within the array.</param>
+		/// <param name="allocator">The allocation method used when creating the object.</param>
 		template<typename T>
 		void destruct_array(T* const ptr, Size const size, Allocator const allocator)
 		{
