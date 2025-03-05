@@ -26,7 +26,7 @@ void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
 	{
 	case Allocator::Default:
 		m_dynamicSize += size;
-		return new Byte[size];
+		return malloc(size);
 	case Allocator::Temporary:
 		m_staticSize += size;
 		return m_temporary.allocate(size);
@@ -96,7 +96,7 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 	switch (allocator)
 	{
 	case Allocator::Default:
-		delete[] ptr;
+		free(ptr);
 		m_dynamicSize -= size;
 		break;
 	case Allocator::Temporary:

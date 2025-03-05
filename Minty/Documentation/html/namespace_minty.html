@@ -114,14 +114,14 @@ $(function(){initNavTree('namespace_minty.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_application.html">Application</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_application_builder.html">ApplicationBuilder</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_array.html">Array</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a collection of elements with a constant size.  <a href="class_minty_1_1_array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_console.html">Console</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_context.html">Context</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_context_builder.html">ContextBuilder</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles allocation and deallocation of memory.  <a href="class_minty_1_1_memory_manager.html#details">More...</a><br /></td></tr>
@@ -143,6 +143,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_string.html">String</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of text.  <a href="class_minty_1_1_string.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vector.html">Vector</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -184,6 +186,23 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a82e54782d22b7f76adf500b256213be2" id="r_a82e54782d22b7f76adf500b256213be2"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82e54782d22b7f76adf500b256213be2">allocate</a> (<a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="separator:a82e54782d22b7f76adf500b256213be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ee42294ddb97d9cbf2249545df6c218" id="r_a3ee42294ddb97d9cbf2249545df6c218"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a3ee42294ddb97d9cbf2249545df6c218"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ee42294ddb97d9cbf2249545df6c218">construct</a> (<a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a3ee42294ddb97d9cbf2249545df6c218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cbd3183c35c43b4139f84280c85d033" id="r_a4cbd3183c35c43b4139f84280c85d033"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a4cbd3183c35c43b4139f84280c85d033"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4cbd3183c35c43b4139f84280c85d033">construct_array</a> (<a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a4cbd3183c35c43b4139f84280c85d033"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1d82ce9c3f5f664d8e1b97c305645e5" id="r_aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1d82ce9c3f5f664d8e1b97c305645e5">deallocate</a> (void *const ptr, <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="separator:aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad904f681bc05c05b4167dc715fe840bf" id="r_ad904f681bc05c05b4167dc715fe840bf"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad904f681bc05c05b4167dc715fe840bf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad904f681bc05c05b4167dc715fe840bf">destruct</a> (T *const ptr, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="separator:ad904f681bc05c05b4167dc715fe840bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a910b025ccb027a56bcf5a973446e9ab0" id="r_a910b025ccb027a56bcf5a973446e9ab0"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a910b025ccb027a56bcf5a973446e9ab0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a910b025ccb027a56bcf5a973446e9ab0">destruct_array</a> (T *const ptr, <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="memdesc:a910b025ccb027a56bcf5a973446e9ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the given array of objects.  <br /></td></tr>
+<tr class="separator:a910b025ccb027a56bcf5a973446e9ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d42ea2fc8449aeb19e9de3cbde8bc2" id="r_a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a> (T const value)</td></tr>
 <tr class="separator:a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,6 +233,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:ab5100671687290415529d62bd9dad4a5" id="r_ab5100671687290415529d62bd9dad4a5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5100671687290415529d62bd9dad4a5">INVALID_INDEX</a> = -1</td></tr>
 <tr class="separator:ab5100671687290415529d62bd9dad4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa2d215866b48fd509ab3848c9bd33d0" id="r_afa2d215866b48fd509ab3848c9bd33d0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a> = 16</td></tr>
+<tr class="separator:afa2d215866b48fd509ab3848c9bd33d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7896eced57a2f85d050b16628f5291e" id="r_ac7896eced57a2f85d050b16628f5291e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7896eced57a2f85d050b16628f5291e">B</a> = sizeof(<a class="el" href="#abef3357ce7a39ebc4d787a38199de199">Byte</a>)</td></tr>
 <tr class="separator:ac7896eced57a2f85d050b16628f5291e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ab5af8c7da6046af1b18e653f2faed0" id="r_a9ab5af8c7da6046af1b18e653f2faed0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ab5af8c7da6046af1b18e653f2faed0">KB</a> = 1024 * <a class="el" href="#ac7896eced57a2f85d050b16628f5291e">B</a></td></tr>
@@ -428,6 +449,171 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a82e54782d22b7f76adf500b256213be2" name="a82e54782d22b7f76adf500b256213be2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82e54782d22b7f76adf500b256213be2">&#9670;&#160;</a></span>allocate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * Minty::allocate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3ee42294ddb97d9cbf2249545df6c218" name="a3ee42294ddb97d9cbf2249545df6c218"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ee42294ddb97d9cbf2249545df6c218">&#9670;&#160;</a></span>construct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T * Minty::construct </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4cbd3183c35c43b4139f84280c85d033" name="a4cbd3183c35c43b4139f84280c85d033"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cbd3183c35c43b4139f84280c85d033">&#9670;&#160;</a></span>construct_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T * Minty::construct_array </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa1d82ce9c3f5f664d8e1b97c305645e5" name="aa1d82ce9c3f5f664d8e1b97c305645e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1d82ce9c3f5f664d8e1b97c305645e5">&#9670;&#160;</a></span>deallocate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::deallocate </td>
+          <td>(</td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad904f681bc05c05b4167dc715fe840bf" name="ad904f681bc05c05b4167dc715fe840bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad904f681bc05c05b4167dc715fe840bf">&#9670;&#160;</a></span>destruct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::destruct </td>
+          <td>(</td>
+          <td class="paramtype">T *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a910b025ccb027a56bcf5a973446e9ab0" name="a910b025ccb027a56bcf5a973446e9ab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a910b025ccb027a56bcf5a973446e9ab0">&#9670;&#160;</a></span>destruct_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::destruct_array </td>
+          <td>(</td>
+          <td class="paramtype">T *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys the given array of objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of objects.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>A pointer to the array.</td></tr>
+    <tr><td class="paramname">size</td><td>The number of objects within the array.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The allocation method used when creating the object.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ab893e761714eabdf0ea31a3be860bf8a" name="ab893e761714eabdf0ea31a3be860bf8a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab893e761714eabdf0ea31a3be860bf8a">&#9670;&#160;</a></span>to_string() <span class="overload">[1/12]</span></h2>
 
@@ -646,6 +832,28 @@ template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::B = sizeof(<a class="el" href="#abef3357ce7a39ebc4d787a38199de199">Byte</a>)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afa2d215866b48fd509ab3848c9bd33d0" name="afa2d215866b48fd509ab3848c9bd33d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa2d215866b48fd509ab3848c9bd33d0">&#9670;&#160;</a></span>DEFAULT_COLLECTION_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::DEFAULT_COLLECTION_SIZE = 16</td>
         </tr>
       </table>
   </td>

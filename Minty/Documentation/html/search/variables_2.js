@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gb_0',['GB',['../namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8',1,'Minty']]]
+  ['default_5fcollection_5fsize_0',['DEFAULT_COLLECTION_SIZE',['../namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0',1,'Minty']]]
 ];

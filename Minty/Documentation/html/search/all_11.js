@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['value_5ftype_0',['value_type',['../class_minty_1_1_array_1_1_iterator.html#a6ceeb0dcf970d93127737ba2d7246ba2',1,'Minty::Array::Iterator::value_type'],['../class_minty_1_1_array_1_1_const_iterator.html#ab97d1032b4cc3b41fab3275e96cce316',1,'Minty::Array::ConstIterator::value_type'],['../class_minty_1_1_string_1_1_iterator.html#add82b461bea8f34916e1ee6ad3c01d1c',1,'Minty::String::Iterator::value_type'],['../class_minty_1_1_string_1_1_const_iterator.html#aa8f4346e4f3c71ab86c34767d9ac731e',1,'Minty::String::ConstIterator::value_type']]]
+  ['uint_0',['UInt',['../namespace_minty.html#a4ff1cd6dfc7685bebfe9bdad92687660',1,'Minty']]],
+  ['ulong_1',['ULong',['../namespace_minty.html#a48d5425070009ea737ea94d5ca6b3c19',1,'Minty']]],
+  ['update_2',['update',['../class_minty_1_1_memory_manager.html#a4ffd4ce1433b7558af60fd2ce5d9a0e2',1,'Minty::MemoryManager']]],
+  ['ushort_3',['UShort',['../namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8',1,'Minty']]]
 ];

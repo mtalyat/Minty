@@ -103,17 +103,41 @@ $(function(){initNavTree('_base_8h.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Base.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &quot;<a class="el" href="_types_8h_source.html">Minty/Core/Types.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_allocator_8h_source.html">Minty/Memory/Allocator.h</a>&quot;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+</div>
 <p><a href="_base_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html">Minty</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a82e54782d22b7f76adf500b256213be2" id="r_a82e54782d22b7f76adf500b256213be2"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a82e54782d22b7f76adf500b256213be2">Minty::allocate</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="separator:a82e54782d22b7f76adf500b256213be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ee42294ddb97d9cbf2249545df6c218" id="r_a3ee42294ddb97d9cbf2249545df6c218"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a3ee42294ddb97d9cbf2249545df6c218"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a3ee42294ddb97d9cbf2249545df6c218">Minty::construct</a> (<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a3ee42294ddb97d9cbf2249545df6c218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cbd3183c35c43b4139f84280c85d033" id="r_a4cbd3183c35c43b4139f84280c85d033"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a4cbd3183c35c43b4139f84280c85d033"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a4cbd3183c35c43b4139f84280c85d033">Minty::construct_array</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a4cbd3183c35c43b4139f84280c85d033"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1d82ce9c3f5f664d8e1b97c305645e5" id="r_aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#aa1d82ce9c3f5f664d8e1b97c305645e5">Minty::deallocate</a> (void *const ptr, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="separator:aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad904f681bc05c05b4167dc715fe840bf" id="r_ad904f681bc05c05b4167dc715fe840bf"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:ad904f681bc05c05b4167dc715fe840bf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf">Minty::destruct</a> (T *const ptr, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="separator:ad904f681bc05c05b4167dc715fe840bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a910b025ccb027a56bcf5a973446e9ab0" id="r_a910b025ccb027a56bcf5a973446e9ab0"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a910b025ccb027a56bcf5a973446e9ab0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a910b025ccb027a56bcf5a973446e9ab0">Minty::destruct_array</a> (T *const ptr, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="memdesc:a910b025ccb027a56bcf5a973446e9ab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the given array of objects.  <br /></td></tr>
+<tr class="separator:a910b025ccb027a56bcf5a973446e9ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

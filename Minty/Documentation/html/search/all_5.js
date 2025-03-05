@@ -1,8 +1,4 @@
 var searchData=
 [
-  ['f_0',['F',['../_format_8h.html#ac11a10720f04025c84e9e76691ad0e6b',1,'Format.h']]],
-  ['find_1',['find',['../class_minty_1_1_array.html#aec0eee01eeb09579fcbce1cfe9a863f9',1,'Minty::Array::find(T const &amp;value)'],['../class_minty_1_1_array.html#a491a34526c642a273359b740df35887c',1,'Minty::Array::find(T const &amp;value) const'],['../class_minty_1_1_string.html#a92cc554efea1728850a7b953e6394eb7',1,'Minty::String::find()']]],
-  ['float_2',['Float',['../namespace_minty.html#a372f2ac40c647017164622bb85bfb865',1,'Minty']]],
-  ['format_2eh_3',['Format.h',['../_format_8h.html',1,'']]],
-  ['framework_2eh_4',['framework.h',['../framework_8h.html',1,'']]]
+  ['end_0',['end',['../class_minty_1_1_array.html#a3d56229b6a32926d59442254a2e3d2f2',1,'Minty::Array::end()'],['../class_minty_1_1_string.html#ae45cd0a4b9d13b93b9b2e2de3240229d',1,'Minty::String::end()'],['../class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6',1,'Minty::Vector::end()']]]
 ];

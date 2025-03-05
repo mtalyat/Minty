@@ -1,7 +1,9 @@
 var class_minty_1_1_array =
 [
     [ "ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html", "class_minty_1_1_array_1_1_const_iterator" ],
+    [ "ConstReverseIterator", "class_minty_1_1_array_1_1_const_reverse_iterator.html", "class_minty_1_1_array_1_1_const_reverse_iterator" ],
     [ "Iterator", "class_minty_1_1_array_1_1_iterator.html", "class_minty_1_1_array_1_1_iterator" ],
+    [ "ReverseIterator", "class_minty_1_1_array_1_1_reverse_iterator.html", "class_minty_1_1_array_1_1_reverse_iterator" ],
     [ "Array", "class_minty_1_1_array.html#a4f1cc43dfa0e6a2204c6772121ebe96c", null ],
     [ "Array", "class_minty_1_1_array.html#a6dac3145d711a7646e1040498ecd599c", null ],
     [ "Array", "class_minty_1_1_array.html#a0fade2ede5f27641b3466b1396d81333", null ],
@@ -14,6 +16,8 @@ var class_minty_1_1_array =
     [ "cbegin", "class_minty_1_1_array.html#a4bb2bee26b4b859af739a60d07d50e4a", null ],
     [ "cend", "class_minty_1_1_array.html#a0c0ff1f20ebc9996a01bd56aec95c164", null ],
     [ "contains", "class_minty_1_1_array.html#a34e7e5c790df74dcff48822671ed0baa", null ],
+    [ "crbegin", "class_minty_1_1_array.html#a013f04b31fe0c409d3dd8b1041a7c690", null ],
+    [ "crend", "class_minty_1_1_array.html#a495cd75f05d01cfa2820d61db9676f11", null ],
     [ "end", "class_minty_1_1_array.html#a3d56229b6a32926d59442254a2e3d2f2", null ],
     [ "find", "class_minty_1_1_array.html#aec0eee01eeb09579fcbce1cfe9a863f9", null ],
     [ "find", "class_minty_1_1_array.html#a491a34526c642a273359b740df35887c", null ],
@@ -24,5 +28,7 @@ var class_minty_1_1_array =
     [ "operator=", "class_minty_1_1_array.html#ad74fa267e14f4414f711c5123addd281", null ],
     [ "operator[]", "class_minty_1_1_array.html#a528c6479a257842f7378170c7cfde0ee", null ],
     [ "operator[]", "class_minty_1_1_array.html#a02202348f650207b1ab4775bf4f78508", null ],
+    [ "rbegin", "class_minty_1_1_array.html#a05196b0e9f79b049842d1e2a93279028", null ],
+    [ "rend", "class_minty_1_1_array.html#a444957dd20b21f53985d72bbf9019465", null ],
     [ "sub", "class_minty_1_1_array.html#af68c59942c62aa1621052f4a2aae341c", null ]
 ];

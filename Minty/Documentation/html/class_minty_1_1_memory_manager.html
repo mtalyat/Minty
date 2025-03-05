@@ -144,25 +144,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab322be120511ca704867f6924fe6a5f8" id="r_ab322be120511ca704867f6924fe6a5f8"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab322be120511ca704867f6924fe6a5f8">allocate</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
 <tr class="memdesc:ab322be120511ca704867f6924fe6a5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates the given number of bytes using the appropriate allocation method.  <br /></td></tr>
 <tr class="separator:ab322be120511ca704867f6924fe6a5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49369702ff802e57cd31666e47b1ada3" id="r_a49369702ff802e57cd31666e47b1ada3"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
-<tr class="memitem:a49369702ff802e57cd31666e47b1ada3"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a49369702ff802e57cd31666e47b1ada3">construct</a> (<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:a49369702ff802e57cd31666e47b1ada3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object of type T using the appropriate allocation method.  <br /></td></tr>
-<tr class="separator:a49369702ff802e57cd31666e47b1ada3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadfb7d5c596fc0997b7581aa13b9497e" id="r_aadfb7d5c596fc0997b7581aa13b9497e"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
-<tr class="memitem:aadfb7d5c596fc0997b7581aa13b9497e"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aadfb7d5c596fc0997b7581aa13b9497e">construct_array</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:aadfb7d5c596fc0997b7581aa13b9497e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new array of objects of type T using the appropriate allocation method.  <br /></td></tr>
-<tr class="separator:aadfb7d5c596fc0997b7581aa13b9497e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab237096b53d8452622f40d33b35f9903" id="r_ab237096b53d8452622f40d33b35f9903"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab237096b53d8452622f40d33b35f9903">deallocate</a> (void *const ptr, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
 <tr class="memdesc:ab237096b53d8452622f40d33b35f9903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the given number of bytes using the appropriate deallocation method.  <br /></td></tr>
 <tr class="separator:ab237096b53d8452622f40d33b35f9903"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a156cc0d51fcf701e40a52802d77c9201" id="r_a156cc0d51fcf701e40a52802d77c9201"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a156cc0d51fcf701e40a52802d77c9201"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a156cc0d51fcf701e40a52802d77c9201">destruct</a> (T *const ptr, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
-<tr class="memdesc:a156cc0d51fcf701e40a52802d77c9201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the given object.  <br /></td></tr>
-<tr class="separator:a156cc0d51fcf701e40a52802d77c9201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f7e04ab46d396bb997e9f9392961c43" id="r_a7f7e04ab46d396bb997e9f9392961c43"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a7f7e04ab46d396bb997e9f9392961c43"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7f7e04ab46d396bb997e9f9392961c43">destruct_array</a> (T *const ptr, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
-<tr class="memdesc:a7f7e04ab46d396bb997e9f9392961c43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the given array of objects.  <br /></td></tr>
-<tr class="separator:a7f7e04ab46d396bb997e9f9392961c43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -306,108 +290,6 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a49369702ff802e57cd31666e47b1ada3" name="a49369702ff802e57cd31666e47b1ada3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49369702ff802e57cd31666e47b1ada3">&#9670;&#160;</a></span>construct()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename... Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T * Minty::MemoryManager::construct </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a new object of type T using the appropriate allocation method. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type of object to create.</td></tr>
-    <tr><td class="paramname">...Args</td><td>The constructor types for the object.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">allocator</td><td>The allocation method to use.</td></tr>
-    <tr><td class="paramname">...args</td><td>The arguments for the object constructor.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly created object.</dd></dl>
-
-</div>
-</div>
-<a id="aadfb7d5c596fc0997b7581aa13b9497e" name="aadfb7d5c596fc0997b7581aa13b9497e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadfb7d5c596fc0997b7581aa13b9497e">&#9670;&#160;</a></span>construct_array()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T, typename... Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T * Minty::MemoryManager::construct_array </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Args &amp;&amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Creates a new array of objects of type T using the appropriate allocation method. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type of object array to create.</td></tr>
-    <tr><td class="paramname">...Args</td><td>The constructor types for the object.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>The number of elements in the array.</td></tr>
-    <tr><td class="paramname">allocator</td><td>The allocation method to use.</td></tr>
-    <tr><td class="paramname">...args</td><td>The arguments for each object's constructor.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly created array.</dd></dl>
-
-</div>
-</div>
 <a id="ab237096b53d8452622f40d33b35f9903" name="ab237096b53d8452622f40d33b35f9903"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab237096b53d8452622f40d33b35f9903">&#9670;&#160;</a></span>deallocate()</h2>
 
@@ -438,104 +320,6 @@ template&lt;typename T, typename... Args&gt; </div>
     <tr><td class="paramname">ptr</td><td>The pointer to the allocated data.</td></tr>
     <tr><td class="paramname">size</td><td>The number of bytes that have been allocated.</td></tr>
     <tr><td class="paramname">allocator</td><td>The allocation method used.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a156cc0d51fcf701e40a52802d77c9201" name="a156cc0d51fcf701e40a52802d77c9201"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a156cc0d51fcf701e40a52802d77c9201">&#9670;&#160;</a></span>destruct()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Minty::MemoryManager::destruct </td>
-          <td>(</td>
-          <td class="paramtype">T *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destroys the given object. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type of object.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ptr</td><td>The pointer to the object.</td></tr>
-    <tr><td class="paramname">allocator</td><td>The allocation method used when creating the object.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a7f7e04ab46d396bb997e9f9392961c43" name="a7f7e04ab46d396bb997e9f9392961c43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f7e04ab46d396bb997e9f9392961c43">&#9670;&#160;</a></span>destruct_array()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Minty::MemoryManager::destruct_array </td>
-          <td>(</td>
-          <td class="paramtype">T *const</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destroys the given array of objects. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>The type of objects.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ptr</td><td>A pointer to the array.</td></tr>
-    <tr><td class="paramname">size</td><td>The number of objects within the array.</td></tr>
-    <tr><td class="paramname">allocator</td><td>The allocation method used when creating the object.</td></tr>
   </table>
   </dd>
 </dl>

@@ -1,7 +1,8 @@
 #pragma once
 #include "Minty/Core/Constant.h"
-#include "Minty/Core/Types.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Macro.h"
+#include "Minty/Core/Types.h"
 #include "Minty/Memory/Allocator.h"
 #include "Minty/Memory/MemoryPool.h"
 #include "Minty/Memory/MemoryStack.h"
@@ -90,7 +91,12 @@ namespace Minty
 		~MemoryManager()
 		{
 			// ensure nothing left
-			MINTY_ASSERT(m_dynamicSize == 0, F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
+#ifdef MINTY_DEBUG
+			if (m_dynamicSize == 0)
+			{
+				MINTY_ERROR(F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
+			}
+#endif // MINTY_DEBUG
 		}
 
 #pragma endregion
@@ -163,77 +169,12 @@ namespace Minty
 		void* allocate(Size const size, Allocator const allocator);
 
 		/// <summary>
-		/// Creates a new object of type T using the appropriate allocation method.
-		/// </summary>
-		/// <typeparam name="T">The type of object to create.</typeparam>
-		/// <typeparam name="...Args">The constructor types for the object.</typeparam>
-		/// <param name="allocator">The allocation method to use.</param>
-		/// <param name="...args">The arguments for the object constructor.</param>
-		/// <returns>A pointer to the newly created object.</returns>
-		template<typename T, typename... Args>
-		T* construct(Allocator const allocator, Args&&... args)
-		{
-			return new(allocate(sizeof(T), allocator)) T(std::forward<Args>(args)...);
-		}
-
-		/// <summary>
-		/// Creates a new array of objects of type T using the appropriate allocation method.
-		/// </summary>
-		/// <typeparam name="T">The type of object array to create.</typeparam>
-		/// <typeparam name="...Args">The constructor types for the object.</typeparam>
-		/// <param name="size">The number of elements in the array.</param>
-		/// <param name="allocator">The allocation method to use.</param>
-		/// <param name="...args">The arguments for each object's constructor.</param>
-		/// <returns>A pointer to the newly created array.</returns>
-		template<typename T, typename... Args>
-		T* construct_array(Size const size, Allocator const allocator, Args&&... args)
-		{
-			void* ptr = allocate(size * sizeof(T), allocator);
-			T* array = static_cast<T*>(ptr);
-			for (Size i = 0; i < size; ++i)
-			{
-				new(array + i) T(std::forward<Args>(args)...);
-			}
-			return array;
-		}
-
-		/// <summary>
 		/// Deallocates the given number of bytes using the appropriate deallocation method.
 		/// </summary>
 		/// <param name="ptr">The pointer to the allocated data.</param>
 		/// <param name="size">The number of bytes that have been allocated.</param>
 		/// <param name="allocator">The allocation method used.</param>
 		void deallocate(void* const ptr, Size const size, Allocator const allocator);
-
-		/// <summary>
-		/// Destroys the given object.
-		/// </summary>
-		/// <typeparam name="T">The type of object.</typeparam>
-		/// <param name="ptr">The pointer to the object.</param>
-		/// <param name="allocator">The allocation method used when creating the object.</param>
-		template<typename T>
-		void destruct(T* const ptr, Allocator const allocator)
-		{
-			ptr->~T();
-			deallocate(ptr, sizeof(T), allocator);
-		}
-
-		/// <summary>
-		/// Destroys the given array of objects.
-		/// </summary>
-		/// <typeparam name="T">The type of objects.</typeparam>
-		/// <param name="ptr">A pointer to the array.</param>
-		/// <param name="size">The number of objects within the array.</param>
-		/// <param name="allocator">The allocation method used when creating the object.</param>
-		template<typename T>
-		void destruct_array(T* const ptr, Size const size, Allocator const allocator)
-		{
-			for (Size i = 0; i < size; ++i)
-			{
-				ptr[i].~T();
-			}
-			deallocate(ptr, size * sizeof(T), allocator);
-		}
 
 	private:
 		// gets the index to the persistent memory pool to use, given the size in bytes
