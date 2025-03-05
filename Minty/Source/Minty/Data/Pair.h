@@ -25,7 +25,7 @@ namespace Minty
 		constexpr Pair(T1 const& first, T2 const& second)
 			: first(first)
 			, second(second)
-		{}
+		{}	
 
 		/// <summary>
 		/// Creates a pair using the given values.
