@@ -1604,6 +1604,44 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 			manager.deallocate(def, 1024, Allocator::Default);
 		}
 
+		TEST("Construct")
+		{
+			MemoryManager manager(builder);
+			{
+				int* test = manager.construct<int>(Allocator::Temporary, 5);
+				EXPECT_TRUE(test != nullptr);
+				EXPECT_TRUE(*test == 5);
+			}
+			{
+				String* test = manager.construct<String>(Allocator::Temporary, "Hello world!\n");
+				EXPECT_TRUE(test != nullptr);
+				EXPECT_TRUE(*test == "Hello world!\n");
+			}
+		}
+
+		TEST("Construct Array")
+		{
+			MemoryManager manager(builder);
+			{
+				int* test = manager.construct_array<int>(5, Allocator::Temporary, 5);
+				EXPECT_TRUE(test != nullptr);
+				EXPECT_TRUE(test[0] == 5);
+				EXPECT_TRUE(test[1] == 5);
+				EXPECT_TRUE(test[2] == 5);
+				EXPECT_TRUE(test[3] == 5);
+				EXPECT_TRUE(test[4] == 5);
+			}
+			{
+				String* test = manager.construct_array<String>(5, Allocator::Temporary, "Hello world!\n");
+				EXPECT_TRUE(test != nullptr);
+				EXPECT_TRUE(test[0] == "Hello world!\n");
+				EXPECT_TRUE(test[1] == "Hello world!\n");
+				EXPECT_TRUE(test[2] == "Hello world!\n");
+				EXPECT_TRUE(test[3] == "Hello world!\n");
+				EXPECT_TRUE(test[4] == "Hello world!\n");
+			}
+		}
+
 		TEST("Deallocate")
 		{
 			MemoryManager manager(builder);
@@ -1641,6 +1679,39 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 			EXPECT_TRUE(manager.get_static_size() == 0);
 			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+		}
+
+		TEST("Destruct")
+		{
+			MemoryManager manager(builder);
+			EXPECT_FAIL(manager.destruct<int>(nullptr, Allocator::Temporary));
+
+			{
+				int* test = manager.construct<int>(Allocator::Temporary, 5);
+				manager.destruct(test, Allocator::Temporary);
+				EXPECT_TRUE(manager.get_size() == 0);
+			}
+			{
+				String* test = manager.construct<String>(Allocator::Temporary, "Hello world!\n");
+				manager.destruct(test, Allocator::Temporary);
+				EXPECT_TRUE(manager.get_size() == 0);
+			}
+		}
+
+		TEST("Destruct Array")
+		{
+			MemoryManager manager(builder);
+			EXPECT_FAIL(manager.destruct_array<int>(nullptr, 5, Allocator::Temporary));
+			{
+				int* test = manager.construct_array<int>(5, Allocator::Temporary, 5);
+				manager.destruct_array(test, 5, Allocator::Temporary);
+				EXPECT_TRUE(manager.get_size() == 0);
+			}
+			{
+				String* test = manager.construct_array<String>(5, Allocator::Temporary, "Hello world!\n");
+				manager.destruct_array(test, 5, Allocator::Temporary);
+				EXPECT_TRUE(manager.get_size() == 0);
+			}
 		}
 	}
 

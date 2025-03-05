@@ -151,6 +151,24 @@ namespace Minty
 		/// <returns>The pointer to the newly allocated data.</returns>
 		void* allocate(Size const size, Allocator const allocator);
 
+		template<typename T, typename... Args>
+		T* construct(Allocator const allocator, Args&&... args)
+		{
+			return new(allocate(sizeof(T), allocator)) T(std::forward<Args>(args)...);
+		}
+
+		template<typename T, typename... Args>
+		T* construct_array(Size const size, Allocator const allocator, Args&&... args)
+		{
+			void* ptr = allocate(size * sizeof(T), allocator);
+			T* array = static_cast<T*>(ptr);
+			for (Size i = 0; i < size; ++i)
+			{
+				new(array + i) T(std::forward<Args>(args)...);
+			}
+			return array;
+		}
+
 		/// <summary>
 		/// Deallocates the given number of bytes using the appropriate deallocation method.
 		/// </summary>
@@ -158,6 +176,23 @@ namespace Minty
 		/// <param name="size">The number of bytes that have been allocated.</param>
 		/// <param name="allocator">The allocation method used.</param>
 		void deallocate(void* const ptr, Size const size, Allocator const allocator);
+
+		template<typename T>
+		void destruct(T* const ptr, Allocator const allocator)
+		{
+			ptr->~T();
+			deallocate(ptr, sizeof(T), allocator);
+		}
+
+		template<typename T>
+		void destruct_array(T* const ptr, Size const size, Allocator const allocator)
+		{
+			for (Size i = 0; i < size; ++i)
+			{
+				ptr[i].~T();
+			}
+			deallocate(ptr, size * sizeof(T), allocator);
+		}
 
 	private:
 		// gets the index to the persistent memory pool to use, given the size in bytes
