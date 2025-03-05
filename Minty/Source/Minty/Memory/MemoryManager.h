@@ -1,7 +1,8 @@
 #pragma once
 #include "Minty/Core/Constant.h"
-#include "Minty/Core/Types.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Macro.h"
+#include "Minty/Core/Types.h"
 #include "Minty/Memory/Allocator.h"
 #include "Minty/Memory/MemoryPool.h"
 #include "Minty/Memory/MemoryStack.h"
@@ -90,7 +91,12 @@ namespace Minty
 		~MemoryManager()
 		{
 			// ensure nothing left
-			MINTY_ASSERT(m_dynamicSize == 0, F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
+#ifdef MINTY_DEBUG
+			if (m_dynamicSize == 0)
+			{
+				MINTY_ERROR(F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
+			}
+#endif // MINTY_DEBUG
 		}
 
 #pragma endregion

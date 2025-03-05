@@ -154,9 +154,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1f34cae17faa739607df6f0f38e8875f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb43f43389ce1afaed2f9fbbb1558001" id="r_afb43f43389ce1afaed2f9fbbb1558001"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb43f43389ce1afaed2f9fbbb1558001">Vector</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
 <tr class="separator:afb43f43389ce1afaed2f9fbbb1558001"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c8217ba7f440db99ee43406d68b10d3" id="r_a6c8217ba7f440db99ee43406d68b10d3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c8217ba7f440db99ee43406d68b10d3">Vector</a> (T const &amp;value, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
-<tr class="memdesc:a6c8217ba7f440db99ee43406d68b10d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="class_minty_1_1_vector.html">Vector</a> and fills it with the given value.  <br /></td></tr>
-<tr class="separator:a6c8217ba7f440db99ee43406d68b10d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24f8dbaeced94da4ef275a797fd853fd" id="r_a24f8dbaeced94da4ef275a797fd853fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24f8dbaeced94da4ef275a797fd853fd">Vector</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, T const &amp;value, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
+<tr class="memdesc:a24f8dbaeced94da4ef275a797fd853fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="class_minty_1_1_vector.html">Vector</a> and fills it with the given value.  <br /></td></tr>
+<tr class="separator:a24f8dbaeced94da4ef275a797fd853fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34401de581e790082b283a039f721bb1" id="r_a34401de581e790082b283a039f721bb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34401de581e790082b283a039f721bb1">Vector</a> (std::initializer_list&lt; T &gt; const &amp;list, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
 <tr class="memdesc:a34401de581e790082b283a039f721bb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <a class="el" href="class_minty_1_1_vector.html">Vector</a> with the given values.  <br /></td></tr>
 <tr class="separator:a34401de581e790082b283a039f721bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -323,8 +323,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a6c8217ba7f440db99ee43406d68b10d3" name="a6c8217ba7f440db99ee43406d68b10d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c8217ba7f440db99ee43406d68b10d3">&#9670;&#160;</a></span>Vector() <span class="overload">[3/6]</span></h2>
+<a id="a24f8dbaeced94da4ef275a797fd853fd" name="a24f8dbaeced94da4ef275a797fd853fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f8dbaeced94da4ef275a797fd853fd">&#9670;&#160;</a></span>Vector() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -337,12 +337,12 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="class_minty_1_1_vector.html">Minty::Vector</a>&lt; T &gt;::Vector </td>
           <td>(</td>
-          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

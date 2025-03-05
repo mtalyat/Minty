@@ -13,6 +13,6 @@ var class_minty_1_1_vector_1_1_reverse_iterator =
     [ "operator++", "class_minty_1_1_vector_1_1_reverse_iterator.html#aa2db2f657ef3b14e54061d018545210f", null ],
     [ "operator-", "class_minty_1_1_vector_1_1_reverse_iterator.html#a3d3a6ad25a6de4f8b78d384037afb59e", null ],
     [ "operator--", "class_minty_1_1_vector_1_1_reverse_iterator.html#a600ff0203072f30fc85037456040afaf", null ],
-    [ "operator--", "class_minty_1_1_vector_1_1_reverse_iterator.html#aca9c9cf9060467e1f929d6d03c032278", null ],
+    [ "operator--", "class_minty_1_1_vector_1_1_reverse_iterator.html#a4476f110a7a047cace083d3bafe898e5", null ],
     [ "operator==", "class_minty_1_1_vector_1_1_reverse_iterator.html#a90f5df4fce2246195ff2ecc91f4d3d7f", null ]
 ];

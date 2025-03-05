@@ -178,9 +178,9 @@ namespace Minty
 				return *this;
 			}
 
-			Iterator operator--(int)
+			ReverseIterator operator--(int)
 			{
-				Iterator temp = *this;
+				ReverseIterator temp = *this;
 				++mp_ptr;
 				return temp;
 			}

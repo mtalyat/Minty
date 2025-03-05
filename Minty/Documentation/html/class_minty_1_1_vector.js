@@ -6,7 +6,7 @@ var class_minty_1_1_vector =
     [ "ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", "class_minty_1_1_vector_1_1_reverse_iterator" ],
     [ "Vector", "class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f", null ],
     [ "Vector", "class_minty_1_1_vector.html#afb43f43389ce1afaed2f9fbbb1558001", null ],
-    [ "Vector", "class_minty_1_1_vector.html#a6c8217ba7f440db99ee43406d68b10d3", null ],
+    [ "Vector", "class_minty_1_1_vector.html#a24f8dbaeced94da4ef275a797fd853fd", null ],
     [ "Vector", "class_minty_1_1_vector.html#a34401de581e790082b283a039f721bb1", null ],
     [ "Vector", "class_minty_1_1_vector.html#a97f51ac65c95f89ff2f2a79fc7c2eb8f", null ],
     [ "Vector", "class_minty_1_1_vector.html#a33f7e3748400fe22a589eee5abdad52d", null ],
