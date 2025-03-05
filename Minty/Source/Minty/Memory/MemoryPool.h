@@ -5,6 +5,22 @@
 namespace Minty
 {
 	/// <summary>
+	/// Arguments for creating a MemoryPool.
+	/// </summary>
+	struct MemoryPoolBuilder
+	{
+		/// <summary>
+		/// The size of each block when allocate() is called.
+		/// </summary>
+		Size blockSize = 0;
+
+		/// <summary>
+		/// The maximum number of blocks that can be allocated at once.
+		/// </summary>
+		Size blockCountCapacity = 0;
+	};
+
+	/// <summary>
 	/// Manages a pool of memory blocks.
 	/// </summary>
 	class MemoryPool
@@ -26,9 +42,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new MemoryPool with enough space for the given block size and count.
 		/// </summary>
-		/// <param name="blockSize">The size of each block when allocate() is called.</param>
-		/// <param name="blockCountCapacity">The maximum number of blocks that can be allocated at once.</param>
-		MemoryPool(Size const blockSize, Size const blockCountCapacity);
+		/// <param name="builder">The arguments.</param>
+		MemoryPool(MemoryPoolBuilder const& builder);
 
 		MemoryPool(MemoryPool const& other) = delete;
 
@@ -97,6 +112,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The number of blocks that have been allocated.</returns>
 		Size get_count() const { return m_blockCount; }
+
+		/// <summary>
+		/// Gets the pointer to the internal data.
+		/// </summary>
+		/// <returns>A pointer to the beginning of the pool data.</returns>
+		Byte* get_data() const { return mp_data; }
 
 #pragma endregion
 

@@ -83,6 +83,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 #define PASS(condition) { RESTORE_OUTPUT(); currentResults->passes++; std::cout << "\r[\033[92mPASS\033[0m] " << currentName << " (" << #condition << ")" << std::endl; CAPTURE_OUTPUT(); }
 #define FAIL(condition) { RESTORE_OUTPUT(); currentResults->fails++; std::cout << "\r[\033[91mFAIL\033[0m] " << currentName << " (" << #condition << ")" << std::endl; CAPTURE_OUTPUT(); }
 #define EXPECT_TRUE(condition) if(condition) { PASS(condition); } else { FAIL(condition); }
+#define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
 #define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
 #define PRINT(message) { RESTORE_OUTPUT(); std::cout << message << std::endl; CAPTURE_OUTPUT(); }
 
@@ -629,6 +630,38 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 			copy = "aaaa";
 			EXPECT_TRUE(!(test >= copy));
+		}
+
+		TEST("Addition Operator")
+		{
+			String test("Hello ");
+			String copy("world!\n");
+			String result = test + copy;
+			EXPECT_TRUE(result == "Hello world!\n");
+
+			copy = "";
+			result = test + copy;
+			EXPECT_TRUE(result == "Hello ");
+
+			test = "";
+			result = test + copy;
+			EXPECT_TRUE(result == "");
+		}
+
+		TEST("Stream Insertion Operator")
+		{
+			String test("Hello world!\n");
+			{
+				std::ostringstream stream;
+				stream << test;
+				EXPECT_TRUE(stream.str() == "Hello world!\n");
+			}
+			test = "";
+			{
+				std::ostringstream stream;
+				stream << test;
+				EXPECT_TRUE(stream.str() == "");
+			}
 		}
 
 		TEST("Get Capacity")
@@ -1216,9 +1249,17 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 	
 	CATEGORY(MemoryPool)
 	{
+		MemoryPoolBuilder builder
+		{
+			.blockSize = 1024,
+			.blockCountCapacity = 10
+		};
+
 		TEST("Constructor")
 		{
-			MemoryPool pool(1024, 10);
+			EXPECT_FAIL(MemoryPool({ 0, 10 }));
+			EXPECT_FAIL(MemoryPool({ 1024, 0 }));
+			MemoryPool pool(builder);
 			EXPECT_TRUE(pool.get_block_size() == 1024);
 			EXPECT_TRUE(pool.get_capacity() == 10);
 			EXPECT_TRUE(pool.get_count() == 0);
@@ -1226,7 +1267,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Move Constructor")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			pool.allocate();
 			MemoryPool copy(std::move(pool));
 			EXPECT_TRUE(pool.get_block_size() == 0);
@@ -1239,7 +1280,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Move Operator")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			pool.allocate();
 			MemoryPool copy = std::move(pool);
 			EXPECT_TRUE(pool.get_block_size() == 0);
@@ -1252,27 +1293,35 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Get Block Size")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			EXPECT_TRUE(pool.get_block_size() == 1024);
 		}
 
 		TEST("Get Capacity")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			EXPECT_TRUE(pool.get_capacity() == 10);
 		}
 
 		TEST("Get Count")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			EXPECT_TRUE(pool.get_count() == 0);
 			pool.allocate();
 			EXPECT_TRUE(pool.get_count() == 1);
 		}
 
+		TEST("Get Data")
+		{
+			MemoryPool pool(builder);
+			EXPECT_TRUE(pool.get_data() != nullptr);
+			void* ptr = pool.allocate();
+			EXPECT_TRUE(ptr == pool.get_data());
+		}
+
 		TEST("Is Full")
 		{
-			MemoryPool pool(1024, 1);
+			MemoryPool pool({ 1024, 1 });
 			EXPECT_TRUE(!pool.is_full());
 			pool.allocate();
 			EXPECT_TRUE(pool.is_full());
@@ -1280,7 +1329,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Allocate")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			void* ptr = pool.allocate();
 			EXPECT_TRUE(ptr != nullptr);
 			EXPECT_TRUE(pool.get_count() == 1);
@@ -1291,7 +1340,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Deallocate")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			void* ptr = pool.allocate();
 			pool.deallocate(ptr);
 			EXPECT_TRUE(pool.get_count() == 0);
@@ -1299,7 +1348,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Clear")
 		{
-			MemoryPool pool(1024, 10);
+			MemoryPool pool(builder);
 			pool.allocate();
 			pool.clear();
 			EXPECT_TRUE(pool.get_count() == 0);
@@ -1308,16 +1357,22 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 	CATEGORY(MemoryStack)
 	{
+		MemoryStackBuilder builder
+		{
+			.capacity = 1024
+		};
+
 		TEST("Constructor")
 		{
-			MemoryStack stack(1024);
+			EXPECT_FAIL(MemoryStack({ 0 }));
+			MemoryStack stack(builder);
 			EXPECT_TRUE(stack.get_capacity() == 1024);
 			EXPECT_TRUE(stack.get_size() == 0);
 		}
 
 		TEST("Move Constructor")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			stack.allocate(512);
 			MemoryStack copy(std::move(stack));
 			EXPECT_TRUE(stack.get_capacity() == 0);
@@ -1328,7 +1383,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 		
 		TEST("Move Operator")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			stack.allocate(512);
 			MemoryStack copy = std::move(stack);
 			EXPECT_TRUE(stack.get_capacity() == 0);
@@ -1339,13 +1394,13 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Get Capacity")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			EXPECT_TRUE(stack.get_capacity() == 1024);
 		}
 
 		TEST("Get Size")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			EXPECT_TRUE(stack.get_size() == 0);
 			stack.allocate(512);
 			EXPECT_TRUE(stack.get_size() == 512);
@@ -1353,9 +1408,17 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 			EXPECT_TRUE(stack.get_size() == 1024);
 		}
 
+		TEST("Get Data")
+		{
+			MemoryStack stack(builder);
+			EXPECT_TRUE(stack.get_data() != nullptr);
+			void* ptr = stack.allocate(512);
+			EXPECT_TRUE(ptr == stack.get_data());
+		}
+
 		TEST("Allocate")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			void* ptr = stack.allocate(512);
 			EXPECT_FAIL(stack.allocate(0));
 			EXPECT_TRUE(ptr != nullptr);
@@ -1368,7 +1431,7 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Deallocate")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			EXPECT_FAIL(stack.deallocate(0));
 			EXPECT_FAIL(stack.deallocate(512));
 			void* ptr = stack.allocate(512);
@@ -1378,10 +1441,206 @@ if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); 
 
 		TEST("Clear")
 		{
-			MemoryStack stack(1024);
+			MemoryStack stack(builder);
 			stack.allocate(512);
 			stack.clear();
 			EXPECT_TRUE(stack.get_size() == 0);
+		}
+	}
+
+	CATEGORY(MemoryManager)
+	{
+		MemoryManagerBuilder builder
+		{
+			.temporary = { 1024 },
+			.task = { 1024 },
+			.persistent = {
+				{ 8, 10 },
+				{ 16, 10 },
+				{ 32, 10 },
+				{ 64, 10 },
+				{ 128, 10 },
+				{ 256, 10 },
+				{ 512, 10 },
+				{ 1024, 10 }
+			}
+		};
+
+		TEST("Constructor")
+		{
+			MemoryManager manager(builder);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			EXPECT_TRUE(manager.get_static_size() == 0);
+		}
+
+		TEST("Move Constructor")
+		{
+			MemoryManager manager(builder);
+			void* temporary = manager.allocate(24, Allocator::Temporary);
+			void* persistent = manager.allocate(24, Allocator::Persistent);
+			void* def = manager.allocate(24, Allocator::Default);
+			MemoryManager copy(std::move(manager));
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			EXPECT_TRUE(manager.get_static_size() == 0);
+			EXPECT_TRUE(copy.get_dynamic_size() == 24);
+			EXPECT_TRUE(copy.get_static_size() == 48);
+			EXPECT_SUCCESS(copy.deallocate(def, 24, Allocator::Default));
+		}
+
+		TEST("Move Operator")
+		{
+			MemoryManager manager(builder);
+			void* temporary = manager.allocate(24, Allocator::Temporary);
+			void* persistent = manager.allocate(24, Allocator::Persistent);
+			void* def = manager.allocate(24, Allocator::Default);
+			MemoryManager copy = std::move(manager);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			EXPECT_TRUE(manager.get_static_size() == 0);
+			EXPECT_TRUE(copy.get_dynamic_size() == 24);
+			EXPECT_TRUE(copy.get_static_size() == 48);
+			EXPECT_SUCCESS(copy.deallocate(def, 24, Allocator::Default));
+		}
+		
+		TEST("Get Size")
+		{
+			MemoryManager manager(builder);
+			EXPECT_TRUE(manager.get_size() == 0);
+			void* temporary = manager.allocate(24, Allocator::Temporary);
+			EXPECT_TRUE(manager.get_size() == 24);
+			void* persistent = manager.allocate(24, Allocator::Persistent);
+			EXPECT_TRUE(manager.get_size() == 48);
+			void* def = manager.allocate(24, Allocator::Default);
+			EXPECT_TRUE(manager.get_size() == 72);
+			manager.deallocate(def, 24, Allocator::Default);
+			EXPECT_TRUE(manager.get_size() == 48);
+			manager.deallocate(persistent, 24, Allocator::Persistent);
+			EXPECT_TRUE(manager.get_size() == 24);
+			manager.deallocate(temporary, 24, Allocator::Temporary);
+			EXPECT_TRUE(manager.get_size() == 0);
+		}
+
+		TEST("Get Static Size")
+		{
+			MemoryManager manager(builder);
+			EXPECT_TRUE(manager.get_static_size() == 0);
+			void* temporary = manager.allocate(24, Allocator::Temporary);
+			EXPECT_TRUE(manager.get_static_size() == 24);
+			void* persistent = manager.allocate(24, Allocator::Persistent);
+			EXPECT_TRUE(manager.get_static_size() == 48);
+			void* def = manager.allocate(24, Allocator::Default);
+			EXPECT_TRUE(manager.get_static_size() == 48);
+			manager.deallocate(def, 24, Allocator::Default);
+			EXPECT_TRUE(manager.get_static_size() == 48);
+			manager.deallocate(persistent, 24, Allocator::Persistent);
+			EXPECT_TRUE(manager.get_static_size() == 24);
+			manager.deallocate(temporary, 24, Allocator::Temporary);
+			EXPECT_TRUE(manager.get_static_size() == 0);
+		}
+
+		TEST("Get Dynamic Size")
+		{
+			MemoryManager manager(builder);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			void* temporary = manager.allocate(24, Allocator::Temporary);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			void* persistent = manager.allocate(24, Allocator::Persistent);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			void* def = manager.allocate(24, Allocator::Default);
+			EXPECT_TRUE(manager.get_dynamic_size() == 24);
+			manager.deallocate(def, 24, Allocator::Default);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			manager.deallocate(persistent, 24, Allocator::Persistent);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+			manager.deallocate(temporary, 24, Allocator::Temporary);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+		}
+
+		TEST("Update")
+		{
+			MemoryManager manager(builder);
+			
+			for (Size i = 0; i < MemoryManager::TASK_MEMORY_COUNT + 1; i++)
+			{
+				EXPECT_SUCCESS(manager.allocate(1024, Allocator::Temporary));
+				EXPECT_FAIL(manager.allocate(1024, Allocator::Temporary));
+
+				EXPECT_SUCCESS(manager.allocate(1024, Allocator::Task));
+				EXPECT_FAIL(manager.allocate(1024, Allocator::Task));
+
+				manager.update();
+			}
+		}
+
+		TEST("Allocate")
+		{
+			void* temporary = nullptr;
+			void* task = nullptr;
+			void* persistent = nullptr;
+			void* def = nullptr;
+
+			MemoryManager manager(builder);
+			EXPECT_FAIL(manager.allocate(0, Allocator::Temporary));
+			EXPECT_FAIL(manager.allocate(0, Allocator::Task));
+			EXPECT_FAIL(manager.allocate(0, Allocator::Persistent));
+			EXPECT_FAIL(manager.allocate(0, Allocator::Default));
+
+			EXPECT_FAIL(manager.allocate(2048, Allocator::Temporary));
+			EXPECT_FAIL(manager.allocate(2048, Allocator::Task));
+			EXPECT_FAIL(manager.allocate(2048, Allocator::Persistent));
+			EXPECT_SUCCESS(def = manager.allocate(2048, Allocator::Default));
+			manager.deallocate(def, 2048, Allocator::Default);
+
+			temporary = manager.allocate(1024, Allocator::Temporary);
+			EXPECT_TRUE(temporary != nullptr);
+
+			task = manager.allocate(1024, Allocator::Task);
+			EXPECT_TRUE(task != nullptr);
+
+			persistent = manager.allocate(1024, Allocator::Persistent);
+			EXPECT_TRUE(persistent != nullptr);
+
+			def = manager.allocate(1024, Allocator::Default);
+			EXPECT_TRUE(def != nullptr);
+			manager.deallocate(def, 1024, Allocator::Default);
+		}
+
+		TEST("Deallocate")
+		{
+			MemoryManager manager(builder);
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Temporary));
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Task));
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Persistent));
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Default));
+
+			void* temporary = manager.allocate(24, Allocator::Temporary);
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Temporary));
+			EXPECT_FAIL(manager.deallocate(temporary, 0, Allocator::Temporary));
+			EXPECT_SUCCESS(manager.deallocate(temporary, 24, Allocator::Temporary));
+
+			manager.allocate(24, Allocator::Temporary);
+			manager.update();
+			EXPECT_FAIL(manager.deallocate(temporary, 24, Allocator::Temporary));
+
+			void* task = manager.allocate(24, Allocator::Task);
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Task));
+			EXPECT_FAIL(manager.deallocate(task, 0, Allocator::Task));
+			EXPECT_FAIL(manager.deallocate(task, 24, Allocator::Default));
+			EXPECT_SUCCESS(manager.deallocate(task, 24, Allocator::Task));
+
+			void* persistent = manager.allocate(24, Allocator::Persistent);
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Persistent));
+			EXPECT_FAIL(manager.deallocate(persistent, 0, Allocator::Persistent));
+			EXPECT_FAIL(manager.deallocate(persistent, 24, Allocator::Default));
+			EXPECT_SUCCESS(manager.deallocate(persistent, 24, Allocator::Persistent));
+
+			void* def = manager.allocate(24, Allocator::Default);
+			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Default));
+			EXPECT_FAIL(manager.deallocate(def, 0, Allocator::Default));
+			EXPECT_FAIL(manager.deallocate(def, 24, Allocator::Temporary));
+			EXPECT_SUCCESS(manager.deallocate(def, 24, Allocator::Default));
+
+			EXPECT_TRUE(manager.get_static_size() == 0);
+			EXPECT_TRUE(manager.get_dynamic_size() == 0);
 		}
 	}
 

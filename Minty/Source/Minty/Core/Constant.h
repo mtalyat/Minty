@@ -4,4 +4,9 @@
 namespace Minty
 {
 	constexpr Size INVALID_INDEX = -1;
+
+	constexpr Size B = sizeof(Byte);
+	constexpr Size KB = 1024 * B;
+	constexpr Size MB = 1024 * KB;
+	constexpr Size GB = 1024 * MB;
 }

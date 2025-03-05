@@ -21,6 +21,7 @@ var class_minty_1_1_string =
     [ "get_size", "class_minty_1_1_string.html#ac3c3f325b6e9d10af2dad44114dd3d08", null ],
     [ "is_empty", "class_minty_1_1_string.html#aff5396893c47d4d394feca02692fa93e", null ],
     [ "operator!=", "class_minty_1_1_string.html#aac15c25ad2d9cc97aab062dfb7407097", null ],
+    [ "operator+", "class_minty_1_1_string.html#a0b62fd68a99599de3c822b25ff102a1f", null ],
     [ "operator<", "class_minty_1_1_string.html#a342fb13a4dfd3e75f6361aba45158e59", null ],
     [ "operator<=", "class_minty_1_1_string.html#a2044e718dc885b68ed54143db52aa245", null ],
     [ "operator=", "class_minty_1_1_string.html#abcd84536b5286a7720e96e4c9695a864", null ],
@@ -31,5 +32,6 @@ var class_minty_1_1_string =
     [ "operator[]", "class_minty_1_1_string.html#a6a1c3f81471c5c67fe5fce37e6a78e4e", null ],
     [ "reserve", "class_minty_1_1_string.html#aa08b3d3690b812e002411f2d19b4a382", null ],
     [ "resize", "class_minty_1_1_string.html#a1b951b7b8e9210ac3644b02997b12ba6", null ],
-    [ "sub", "class_minty_1_1_string.html#a3e087fbc95bc1dca9431e6f46fffe244", null ]
+    [ "sub", "class_minty_1_1_string.html#a3e087fbc95bc1dca9431e6f46fffe244", null ],
+    [ "operator<<", "class_minty_1_1_string.html#aa024b26e07225a82c47643343b5ac5b6", null ]
 ];

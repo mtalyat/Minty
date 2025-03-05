@@ -3,18 +3,17 @@
 
 using namespace Minty;
 
-Minty::MemoryPool::MemoryPool(Size const blockSize, Size const blockCountCapacity)
-	: m_blockSize(blockSize)
-	, m_blockCountCapacity(blockCountCapacity)
+Minty::MemoryPool::MemoryPool(MemoryPoolBuilder const& builder)
+	: m_blockSize(builder.blockSize)
+	, m_blockCountCapacity(builder.blockCountCapacity)
 	, m_blockCount(0)
-	, mp_data(new Byte[blockSize * blockCountCapacity])
-	, mp_freeBlocks(new Size[blockCountCapacity])
+	, mp_data(new Byte[m_blockSize * m_blockCountCapacity])
+	, mp_freeBlocks(new Size[m_blockCountCapacity])
 {
-	for (Size i = 0; i < m_blockCountCapacity; ++i)
-	{
-		// flip the order of the free blocks, so it starts allocating from the beginning
-		mp_freeBlocks[i] = m_blockCountCapacity - 1 - i;
-	}
+	MINTY_ASSERT(m_blockSize > 0, "Cannot create MemoryPool with block size of 0.");
+	MINTY_ASSERT(m_blockCountCapacity > 0, "Cannot create MemoryPool with block count capacity of 0.");
+
+	clear();
 }
 
 Minty::MemoryPool::~MemoryPool()

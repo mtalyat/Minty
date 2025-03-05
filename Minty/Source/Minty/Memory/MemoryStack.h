@@ -1,9 +1,18 @@
 #pragma once
+#include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
 
 namespace Minty
 {
+	/// <summary>
+	/// Arguments for creating a MemoryStack.
+	/// </summary>
+	struct MemoryStackBuilder
+	{
+		Size capacity = 0;
+	};
+
 	/// <summary>
 	/// Manages a stack of memory.
 	/// </summary>
@@ -25,11 +34,7 @@ namespace Minty
 		/// Creates a new MemoryStack with the given capacity in Bytes.
 		/// </summary>
 		/// <param name="capacity">The capacity in Bytes.</param>
-		MemoryStack(Size const capacity)
-			: m_capacity(capacity)
-			, m_size(0)
-			, mp_data(new Byte[capacity])
-		{}
+		MemoryStack(MemoryStackBuilder const& builder);
 
 		MemoryStack(MemoryStack const& other) = delete;
 
@@ -81,6 +86,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The number of bytes that have been allocated.</returns>
 		Size get_size() const { return m_size; }
+
+		/// <summary>
+		/// Gets the internal data of this MemoryStack.
+		/// </summary>
+		/// <returns>A pointer to the beginning of the stack.</returns>
+		Byte* get_data() const { return mp_data; }
 
 #pragma endregion
 

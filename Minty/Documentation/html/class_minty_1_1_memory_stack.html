@@ -116,9 +116,9 @@ $(function(){initNavTree('class_minty_1_1_memory_stack.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2fbe55e24b05a4054669684a2e073f43" id="r_a2fbe55e24b05a4054669684a2e073f43"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fbe55e24b05a4054669684a2e073f43">MemoryStack</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity)</td></tr>
-<tr class="memdesc:a2fbe55e24b05a4054669684a2e073f43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a> with the given capacity in Bytes.  <br /></td></tr>
-<tr class="separator:a2fbe55e24b05a4054669684a2e073f43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa187a92d872a70b52bc4d4d6224df4a2" id="r_aa187a92d872a70b52bc4d4d6224df4a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa187a92d872a70b52bc4d4d6224df4a2">MemoryStack</a> (<a class="el" href="struct_minty_1_1_memory_stack_builder.html">MemoryStackBuilder</a> const &amp;builder)</td></tr>
+<tr class="memdesc:aa187a92d872a70b52bc4d4d6224df4a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a> with the given capacity in Bytes.  <br /></td></tr>
+<tr class="separator:aa187a92d872a70b52bc4d4d6224df4a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94e74c372cf968eebc8aae40b8e5fe60" id="r_a94e74c372cf968eebc8aae40b8e5fe60"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94e74c372cf968eebc8aae40b8e5fe60">MemoryStack</a> (<a class="el" href="class_minty_1_1_memory_stack.html">MemoryStack</a> const &amp;other)=delete</td></tr>
 <tr class="separator:a94e74c372cf968eebc8aae40b8e5fe60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac140827dbf72a07a9fff580b38324598" id="r_ac140827dbf72a07a9fff580b38324598"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac140827dbf72a07a9fff580b38324598">MemoryStack</a> (<a class="el" href="class_minty_1_1_memory_stack.html">MemoryStack</a> &amp;&amp;other) noexcept</td></tr>
@@ -133,6 +133,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abe2e9799e2f983a4dd798aedac050b6d" id="r_abe2e9799e2f983a4dd798aedac050b6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe2e9799e2f983a4dd798aedac050b6d">get_size</a> () const</td></tr>
 <tr class="memdesc:abe2e9799e2f983a4dd798aedac050b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of allocated bytes.  <br /></td></tr>
 <tr class="separator:abe2e9799e2f983a4dd798aedac050b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad807e4df5187a88e2a3317a0c8eb1d40" id="r_ad807e4df5187a88e2a3317a0c8eb1d40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad807e4df5187a88e2a3317a0c8eb1d40">get_data</a> () const</td></tr>
+<tr class="memdesc:ad807e4df5187a88e2a3317a0c8eb1d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the internal data of this <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a>.  <br /></td></tr>
+<tr class="separator:ad807e4df5187a88e2a3317a0c8eb1d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29ed24072bbdf6102f33a0d749dae094" id="r_a29ed24072bbdf6102f33a0d749dae094"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29ed24072bbdf6102f33a0d749dae094">allocate</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)</td></tr>
 <tr class="memdesc:a29ed24072bbdf6102f33a0d749dae094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates the given number of bytes.  <br /></td></tr>
 <tr class="separator:a29ed24072bbdf6102f33a0d749dae094"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,27 +149,19 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Manages a stack of memory. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2fbe55e24b05a4054669684a2e073f43" name="a2fbe55e24b05a4054669684a2e073f43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fbe55e24b05a4054669684a2e073f43">&#9670;&#160;</a></span>MemoryStack() <span class="overload">[1/3]</span></h2>
+<a id="aa187a92d872a70b52bc4d4d6224df4a2" name="aa187a92d872a70b52bc4d4d6224df4a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa187a92d872a70b52bc4d4d6224df4a2">&#9670;&#160;</a></span>MemoryStack() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Minty::MemoryStack::MemoryStack </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>capacity</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_memory_stack_builder.html">MemoryStackBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Creates a new <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a> with the given capacity in Bytes. </p>
@@ -325,6 +320,34 @@ Public Member Functions</h2></td></tr>
 
 <p>Gets the capacity of this <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The maximum number of bytes that can be allocated at once.</dd></dl>
+
+</div>
+</div>
+<a id="ad807e4df5187a88e2a3317a0c8eb1d40" name="ad807e4df5187a88e2a3317a0c8eb1d40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad807e4df5187a88e2a3317a0c8eb1d40">&#9670;&#160;</a></span>get_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> * Minty::MemoryStack::get_data </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the internal data of this <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the beginning of the stack.</dd></dl>
 
 </div>
 </div>

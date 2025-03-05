@@ -3,6 +3,21 @@
 
 using namespace Minty;
 
+
+/// <summary>
+/// Creates a new MemoryStack with the given capacity in Bytes.
+/// </summary>
+/// <param name="capacity">The capacity in Bytes.</param>
+Minty::MemoryStack::MemoryStack(MemoryStackBuilder const& builder)
+	: m_capacity(builder.capacity)
+	, m_size(0)
+	, mp_data(nullptr)
+{
+	MINTY_ASSERT(m_capacity > 0, "Cannot create MemoryStack with capacity of 0.");
+
+	mp_data = new Byte[m_capacity];
+}
+
 void* Minty::MemoryStack::allocate(Size const size)
 {
 	MINTY_ASSERT(size > 0, "Cannot allocate 0 bytes.");

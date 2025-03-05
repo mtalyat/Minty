@@ -183,6 +183,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\String.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\Memory.h" />
+    <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
     <ClInclude Include="pch.h" />
@@ -191,6 +192,7 @@ doxygen</Command>
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
+    <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
     <ClCompile Include="pch.cpp">

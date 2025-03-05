@@ -62,6 +62,26 @@ Minty::String::String(Char const character, Size const count)
 	memset(mp_data, character, m_size * sizeof(Char));
 }
 
+String Minty::String::operator+(String const& other) const
+{
+	// handle empty cases
+	if (m_size == 0)
+	{
+		return other;
+	}
+	else if (other.m_size == 0)
+	{
+		return *this;
+	}
+
+	String result(m_size + other.m_size);
+	memcpy(result.mp_data, mp_data, m_size * sizeof(Char));
+	memcpy(result.mp_data + m_size * sizeof(Char), other.mp_data, other.m_size * sizeof(Char));
+	result.m_size = m_size + other.m_size;
+	result.mp_data[result.m_size] = '\0';
+	return result;
+}
+
 void Minty::String::reserve(Size const capacity)
 {
 	// update capacity
@@ -155,4 +175,13 @@ Size Minty::String::find(String const& sub) const
 	}
 
 	return INVALID_INDEX;
+}
+
+std::ostream& Minty::operator<<(std::ostream& stream, String const& str)
+{
+	if (str.mp_data)
+	{
+		stream << str.mp_data;
+	}
+	return stream;
 }

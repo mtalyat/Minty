@@ -110,15 +110,29 @@ $(function(){initNavTree('_macro_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;format&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;filesystem&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="_macro_8h.html#adb50575c5f867b31cfad57c270eee694">    6</a></span><span class="preprocessor">#define MINTY_DEBUG_INFO(message) &quot;[&quot; &lt;&lt; std::filesystem::path(__FILE__).filename().string() &lt;&lt; &quot;][&quot; &lt;&lt; __func__ &lt;&lt; &quot;()][line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;] -&gt; &quot; &lt;&lt; message</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="_macro_8h.html#a94eafa87963d877703d10a28fd7f9402">    8</a></span><span class="preprocessor">#define MINTY_LOG(message) std::cout &lt;&lt; message &lt;&lt; std::endl;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79">   10</a></span><span class="preprocessor">#define MINTY_ERROR(message) std::cerr &lt;&lt; &quot;ERROR: &quot; &lt;&lt; MINTY_DEBUG_INFO(message) &lt;&lt; std::endl;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifdef NDEBUG</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define MINTY_RELEASE</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="_macro_8h.html#a829c5ffd63d79b1812f0d89961f3009f">    9</a></span><span class="preprocessor">#define MINTY_DEBUG</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#endif </span><span class="comment">// NDEBUG</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="_macro_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">   12</a></span><span class="preprocessor">#define MINTY_ABORT(message) { std::cerr &lt;&lt; &quot;FATAL ERROR: &quot; &lt;&lt; MINTY_DEBUG_INFO(message) &lt;&lt; std::endl; throw std::runtime_error(message); }</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="_macro_8h.html#adb50575c5f867b31cfad57c270eee694">   12</a></span><span class="preprocessor">#define MINTY_DEBUG_INFO(message) &quot;[&quot; &lt;&lt; std::filesystem::path(__FILE__).filename().string() &lt;&lt; &quot;][&quot; &lt;&lt; __func__ &lt;&lt; &quot;()][line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;] -&gt; &quot; &lt;&lt; message</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">   14</a></span><span class="preprocessor">#define MINTY_ASSERT(expression, message) if(!(expression)) MINTY_ABORT(&quot;(&quot; #expression &quot;) failed: &quot; #message)</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="_macro_8h.html#a94eafa87963d877703d10a28fd7f9402">   14</a></span><span class="preprocessor">#define MINTY_LOG(message) std::cout &lt;&lt; message &lt;&lt; std::endl;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79">   16</a></span><span class="preprocessor">#define MINTY_ERROR(message) std::cerr &lt;&lt; &quot;ERROR: &quot; &lt;&lt; MINTY_DEBUG_INFO(message) &lt;&lt; std::endl;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#ifdef MINTY_DEBUG</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="_macro_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">   19</a></span><span class="preprocessor">#define MINTY_ABORT(message) { std::cerr &lt;&lt; &quot;FATAL ERROR: &quot; &lt;&lt; MINTY_DEBUG_INFO(message) &lt;&lt; std::endl; throw std::runtime_error(message); }</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define MINTY_ABORT(message)</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#endif </span><span class="comment">// MINTY_DEBUG</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#ifdef MINTY_DEBUG</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">   25</a></span><span class="preprocessor">#define MINTY_ASSERT(expression, message) if(!(expression)) MINTY_ABORT(&quot;(&quot; #expression &quot;) failed: &quot; #message)</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define MINTY_ASSERT(expression, message)</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif </span><span class="comment">// MINTY_DEBUG</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
