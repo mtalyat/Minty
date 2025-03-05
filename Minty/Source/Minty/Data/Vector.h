@@ -7,6 +7,10 @@
 
 namespace Minty
 {
+	/// <summary>
+	/// Holds a collection of elements with a dynamic size.
+	/// </summary>
+	/// <typeparam name="T">Then type of element.</typeparam>
 	template<typename T>
 	class Vector
 	{
