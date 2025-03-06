@@ -7,6 +7,10 @@
 
 namespace Minty
 {
+	/// <summary>
+	/// Holds a collection of elements with a dynamic size.
+	/// </summary>
+	/// <typeparam name="T">Then type of element.</typeparam>
 	template<typename T>
 	class Vector
 	{
@@ -327,6 +331,7 @@ namespace Minty
 		/// <summary>
 		/// Creates an empty Vector.
 		/// </summary>
+		/// <param name="allocator">The memory allocator to use.</param>
 		constexpr Vector(Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
@@ -334,6 +339,11 @@ namespace Minty
 			, mp_data(nullptr)
 		{}
 
+		/// <summary>
+		/// Creates an empty Vector with the given capacity.
+		/// </summary>
+		/// <param name="capacity">The maximum number of elements.</param>
+		/// <param name="allocator">The memory allocator to use.</param>
 		Vector(Size const capacity, Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
@@ -344,10 +354,11 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Creates an Vector and fills it with the given value.
+		/// Creates a Vector and fills it with the given value.
 		/// </summary>
-		/// <param name="value">The value to use.</param>
 		/// <param name="size">The number of elements to populate.</param>
+		/// <param name="value">The value to use.</param>
+		/// <param name="allocator">The memory allocator to use.</param>
 		Vector(Size const size, T const& value, Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
@@ -363,21 +374,21 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Creates an Vector with the given values.
+		/// Creates a Vector with the given values.
 		/// </summary>
 		/// <param name="list">The values to set the Vector data to.</param>
+		/// <param name="allocator">The memory allocator to use.</param>
 		Vector(std::initializer_list<T> const& list, Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
 		{
-			resize(list.size());
+			reserve(list.size());
 
-			Size i = 0;
 			for (T const& value : list)
 			{
-				mp_data[i++] = value;
+				add(value);
 			}
 		}
 
@@ -993,6 +1004,14 @@ namespace Minty
 		/// <param name="value">The value to check.</param>
 		/// <returns>True, if the value exists.</returns>
 		constexpr Bool contains(T const& value) const { return find(value) != cend(); }
+
+		/// <summary>
+		/// Removes all elements from the Vector.
+		/// </summary>
+		void clear()
+		{
+			resize(0);
+		}
 
 #pragma endregion
 	};
