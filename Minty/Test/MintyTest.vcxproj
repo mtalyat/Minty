@@ -141,6 +141,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp" />
+    <ClCompile Include="Test_Array.cpp" />
+    <ClCompile Include="Test_List.cpp" />
+    <ClCompile Include="Test_MemoryManager.cpp" />
+    <ClCompile Include="Test_MemoryPool.cpp" />
+    <ClCompile Include="Test_MemoryStack.cpp" />
+    <ClCompile Include="Test_Minty.cpp" />
+    <ClCompile Include="Test_Pair.cpp" />
+    <ClCompile Include="Test_String.cpp" />
+    <ClCompile Include="Test_Vector.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MintyTest.h" />
+    <ClInclude Include="Results.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
