@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['string_2ecpp_0',['String.cpp',['../_string_8cpp.html',1,'']]],
-  ['string_2eh_1',['String.h',['../_string_8h.html',1,'']]]
+  ['pair_2eh_0',['Pair.h',['../_pair_8h.html',1,'']]],
+  ['pch_2ecpp_1',['pch.cpp',['../pch_8cpp.html',1,'']]],
+  ['pch_2eh_2',['pch.h',['../pch_8h.html',1,'']]]
 ];

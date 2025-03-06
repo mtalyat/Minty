@@ -25,8 +25,8 @@
     <Filter Include="Header Files\Console">
       <UniqueIdentifier>{956b9262-a798-4860-b19d-2e66f126f91d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Context">
-      <UniqueIdentifier>{79410ca2-9679-4723-af50-f32e86dd817b}</UniqueIdentifier>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{78291bb1-c7bc-4d24-a5ce-7d9113a444b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,26 +48,14 @@
     <ClInclude Include="Minty\Core\Base.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Core\Core.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Core\Macro.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Data\Array.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Data\Data.h">
-      <Filter>Header Files\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Memory\Memory.h">
-      <Filter>Header Files\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Console\Console.h">
       <Filter>Header Files\Console</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Context\Context.h">
-      <Filter>Header Files\Context</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Core\Constant.h">
       <Filter>Header Files\Core</Filter>
@@ -90,6 +78,33 @@
     <ClInclude Include="Minty\Memory\MemoryManager.h">
       <Filter>Header Files\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\List.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\_Data.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Application\Application.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Application\_Application.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Console\_Console.h">
+      <Filter>Header Files\Console</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Memory\_Memory.h">
+      <Filter>Header Files\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Core\_Core.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Pair.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Vector.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -111,6 +126,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Memory\MemoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Application\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Core\Base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
