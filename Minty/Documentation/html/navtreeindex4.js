@@ -1,15 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"class_minty_1_1_vector.html#afb43f43389ce1afaed2f9fbbb1558001":[1,0,0,15,5],
-"class_minty_1_1_vector_1_1_const_iterator.html":[0,0,0,15,0],
-"class_minty_1_1_vector_1_1_const_iterator.html":[1,0,0,15,0],
-"class_minty_1_1_vector_1_1_const_iterator.html#a072478dadbf66a4cf635fc729d1e3a25":[0,0,0,15,0,1],
-"class_minty_1_1_vector_1_1_const_iterator.html#a072478dadbf66a4cf635fc729d1e3a25":[1,0,0,15,0,1],
-"class_minty_1_1_vector_1_1_const_iterator.html#a214837eb95c6e1a0edaa28068c58b208":[0,0,0,15,0,5],
-"class_minty_1_1_vector_1_1_const_iterator.html#a214837eb95c6e1a0edaa28068c58b208":[1,0,0,15,0,5],
-"class_minty_1_1_vector_1_1_const_iterator.html#a40c93b777393b8b385dd774dc29cce28":[0,0,0,15,0,10],
-"class_minty_1_1_vector_1_1_const_iterator.html#a40c93b777393b8b385dd774dc29cce28":[1,0,0,15,0,10],
-"class_minty_1_1_vector_1_1_const_iterator.html#a48073982199b7c744c1e2c618bfca1f7":[0,0,0,15,0,4],
 "class_minty_1_1_vector_1_1_const_iterator.html#a48073982199b7c744c1e2c618bfca1f7":[1,0,0,15,0,4],
 "class_minty_1_1_vector_1_1_const_iterator.html#a4959aac68a357aa3b916f83e0a8e8152":[0,0,0,15,0,7],
 "class_minty_1_1_vector_1_1_const_iterator.html#a4959aac68a357aa3b916f83e0a8e8152":[1,0,0,15,0,7],
@@ -249,5 +239,15 @@ var NAVTREEINDEX4 =
 "struct_minty_1_1_memory_manager_builder.html#a1e57bc225956dfadbc82ae48eb92c2db":[1,0,0,7,2],
 "struct_minty_1_1_memory_manager_builder.html#ac376764de776e1b1e7e1112f3a57874a":[0,0,0,7,0],
 "struct_minty_1_1_memory_manager_builder.html#ac376764de776e1b1e7e1112f3a57874a":[1,0,0,7,0],
-"struct_minty_1_1_memory_manager_builder.html#ae2b315a9bbef77b2b9685a3368cf8dcd":[0,0,0,7,1]
+"struct_minty_1_1_memory_manager_builder.html#ae2b315a9bbef77b2b9685a3368cf8dcd":[0,0,0,7,1],
+"struct_minty_1_1_memory_manager_builder.html#ae2b315a9bbef77b2b9685a3368cf8dcd":[1,0,0,7,1],
+"struct_minty_1_1_memory_pool_builder.html":[0,0,0,9],
+"struct_minty_1_1_memory_pool_builder.html":[1,0,0,9],
+"struct_minty_1_1_memory_pool_builder.html#acb806c83cc83d56a1a8e63f2847da8b4":[0,0,0,9,1],
+"struct_minty_1_1_memory_pool_builder.html#acb806c83cc83d56a1a8e63f2847da8b4":[1,0,0,9,1],
+"struct_minty_1_1_memory_pool_builder.html#aecc1a63a6da938a53565175d4a427df2":[0,0,0,9,0],
+"struct_minty_1_1_memory_pool_builder.html#aecc1a63a6da938a53565175d4a427df2":[1,0,0,9,0],
+"struct_minty_1_1_memory_stack_builder.html":[0,0,0,11],
+"struct_minty_1_1_memory_stack_builder.html":[1,0,0,11],
+"struct_minty_1_1_memory_stack_builder.html#a19519a994c7b1cbd2d480e1e1598cc5b":[0,0,0,11,0]
 };

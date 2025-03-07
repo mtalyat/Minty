@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp" />
     <ClCompile Include="Test_Array.cpp" />
+    <ClCompile Include="Test_Base.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
     <ClCompile Include="Test_MemoryManager.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Results.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Test_Array.h" />
+    <ClInclude Include="Test_Base.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />
     <ClInclude Include="Test_MemoryManager.h" />

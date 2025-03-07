@@ -199,17 +199,22 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a82e54782d22b7f76adf500b256213be2" id="r_a82e54782d22b7f76adf500b256213be2"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82e54782d22b7f76adf500b256213be2">allocate</a> (<a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="memdesc:a82e54782d22b7f76adf500b256213be2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates a block of memory of the given size using the given allocator.  <br /></td></tr>
 <tr class="separator:a82e54782d22b7f76adf500b256213be2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ee42294ddb97d9cbf2249545df6c218" id="r_a3ee42294ddb97d9cbf2249545df6c218"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
 <tr class="memitem:a3ee42294ddb97d9cbf2249545df6c218"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3ee42294ddb97d9cbf2249545df6c218">construct</a> (<a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a3ee42294ddb97d9cbf2249545df6c218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new object of the given type using the given allocator.  <br /></td></tr>
 <tr class="separator:a3ee42294ddb97d9cbf2249545df6c218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cbd3183c35c43b4139f84280c85d033" id="r_a4cbd3183c35c43b4139f84280c85d033"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
 <tr class="memitem:a4cbd3183c35c43b4139f84280c85d033"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4cbd3183c35c43b4139f84280c85d033">construct_array</a> (<a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a4cbd3183c35c43b4139f84280c85d033"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new array of objects of the given type using the given allocator.  <br /></td></tr>
 <tr class="separator:a4cbd3183c35c43b4139f84280c85d033"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1d82ce9c3f5f664d8e1b97c305645e5" id="r_aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1d82ce9c3f5f664d8e1b97c305645e5">deallocate</a> (void *const ptr, <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="memdesc:aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees the memory allocated by the given pointer using the given allocator.  <br /></td></tr>
 <tr class="separator:aa1d82ce9c3f5f664d8e1b97c305645e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad904f681bc05c05b4167dc715fe840bf" id="r_ad904f681bc05c05b4167dc715fe840bf"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:ad904f681bc05c05b4167dc715fe840bf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad904f681bc05c05b4167dc715fe840bf">destruct</a> (T *const ptr, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
+<tr class="memdesc:ad904f681bc05c05b4167dc715fe840bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys the given object.  <br /></td></tr>
 <tr class="separator:ad904f681bc05c05b4167dc715fe840bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a910b025ccb027a56bcf5a973446e9ab0" id="r_a910b025ccb027a56bcf5a973446e9ab0"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a910b025ccb027a56bcf5a973446e9ab0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a910b025ccb027a56bcf5a973446e9ab0">destruct_array</a> (T *const ptr, <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
@@ -482,6 +487,17 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Allocates a block of memory of the given size using the given allocator. </p>
+<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>The number of bytes to allocate.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The allocator to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
 </div>
 </div>
 <a id="a3ee42294ddb97d9cbf2249545df6c218" name="a3ee42294ddb97d9cbf2249545df6c218"></a>
@@ -504,6 +520,24 @@ template&lt;typename T, typename... Args&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Creates a new object of the given type using the given allocator. </p>
+<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of object.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types for the object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">allocator</td><td>The allocator to use.</td></tr>
+    <tr><td class="paramname">...args</td><td>The arguments for the object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly created object.</dd></dl>
 
 </div>
 </div>
@@ -533,6 +567,25 @@ template&lt;typename T, typename... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Creates a new array of objects of the given type using the given allocator. </p>
+<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of elements in the array.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types for each element within the array. Uses the same arguments for all elements.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>The number of elements in the array.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The allocator to use.</td></tr>
+    <tr><td class="paramname">...args</td><td>The arguments for each element within the array. Uses the same arguments for all elements.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly created array.</dd></dl>
+
 </div>
 </div>
 <a id="aa1d82ce9c3f5f664d8e1b97c305645e5" name="aa1d82ce9c3f5f664d8e1b97c305645e5"></a>
@@ -559,6 +612,17 @@ template&lt;typename T, typename... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Frees the memory allocated by the given pointer using the given allocator. </p>
+<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>A pointer to the data.</td></tr>
+    <tr><td class="paramname">size</td><td>The number of bytes that were allocated.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> used when allocating the data.</td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ad904f681bc05c05b4167dc715fe840bf" name="ad904f681bc05c05b4167dc715fe840bf"></a>
@@ -581,6 +645,22 @@ template&lt;typename T&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Destroys the given object. </p>
+<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>A pointer to the object.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> used to create the object.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -611,6 +691,7 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Destroys the given array of objects. </p>
+<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of objects.</td></tr>
@@ -621,7 +702,7 @@ template&lt;typename T&gt; </div>
   <table class="params">
     <tr><td class="paramname">ptr</td><td>A pointer to the array.</td></tr>
     <tr><td class="paramname">size</td><td>The number of objects within the array.</td></tr>
-    <tr><td class="paramname">allocator</td><td>The allocation method used when creating the object.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> used to create the object.</td></tr>
   </table>
   </dd>
 </dl>

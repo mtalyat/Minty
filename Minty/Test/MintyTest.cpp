@@ -1,5 +1,6 @@
 // Minty
 #include "Test_Minty.h"
+#include "Test_Base.h"
 
 // Data
 #include "Test_Array.h"
@@ -32,6 +33,7 @@ static void run_tests()
 
 	// Minty
 	test_Minty(_test);
+	test_Base(_test);
 
 	// Data
 	test_Array(_test);
