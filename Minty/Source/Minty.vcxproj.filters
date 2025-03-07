@@ -111,6 +111,9 @@
     <ClInclude Include="Minty\Data\Set.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\Stack.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
