@@ -4,6 +4,7 @@
 
 // Data
 #include "Test_Array.h"
+#include "Test_Color.h"
 #include "Test_List.h"
 #include "Test_Map.h"
 #include "Test_Pair.h"
@@ -39,6 +40,7 @@ static void run_tests()
 
 	// Data
 	test_Array(_test);
+	test_Color(_test);
 	test_List(_test);
 	test_Map(_test);
 	test_Pair(_test);

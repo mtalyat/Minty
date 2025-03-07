@@ -117,6 +117,9 @@
     <ClInclude Include="Minty\Data\Queue.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\Color.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">

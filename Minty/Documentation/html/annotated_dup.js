@@ -4,6 +4,7 @@ var annotated_dup =
       [ "Application", "class_minty_1_1_application.html", "class_minty_1_1_application" ],
       [ "ApplicationBuilder", "struct_minty_1_1_application_builder.html", "struct_minty_1_1_application_builder" ],
       [ "Array", "class_minty_1_1_array.html", "class_minty_1_1_array" ],
+      [ "Color", "struct_minty_1_1_color.html", "struct_minty_1_1_color" ],
       [ "Console", "class_minty_1_1_console.html", null ],
       [ "List", "class_minty_1_1_list.html", "class_minty_1_1_list" ],
       [ "Map", "class_minty_1_1_map.html", "class_minty_1_1_map" ],
@@ -21,6 +22,7 @@ var annotated_dup =
       [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ]
     ] ],
     [ "std", "namespacestd.html", [
+      [ "hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", "structstd_1_1hash_3_01_minty_1_1_color_01_4" ],
       [ "hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", "structstd_1_1hash_3_01_minty_1_1_string_01_4" ]
     ] ]
 ];

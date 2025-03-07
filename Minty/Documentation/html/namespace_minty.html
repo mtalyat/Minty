@@ -121,6 +121,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_array.html">Array</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a collection of elements with a constant size.  <a href="class_minty_1_1_array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_color.html">Color</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a color value.  <a href="struct_minty_1_1_color.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_console.html">Console</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_list.html">List</a></td></tr>
@@ -256,18 +259,33 @@ Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:ab5100671687290415529d62bd9dad4a5" id="r_ab5100671687290415529d62bd9dad4a5"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5100671687290415529d62bd9dad4a5">INVALID_INDEX</a> = -1</td></tr>
+<tr class="memdesc:ab5100671687290415529d62bd9dad4a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents an invalid index.  <br /></td></tr>
 <tr class="separator:ab5100671687290415529d62bd9dad4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa2d215866b48fd509ab3848c9bd33d0" id="r_afa2d215866b48fd509ab3848c9bd33d0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a> = 16</td></tr>
+<tr class="memdesc:afa2d215866b48fd509ab3848c9bd33d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default capacity that collections used, if not explicitly given one.  <br /></td></tr>
 <tr class="separator:afa2d215866b48fd509ab3848c9bd33d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae765a26fb4ac7429a492333609d3cad7" id="r_ae765a26fb4ac7429a492333609d3cad7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a372f2ac40c647017164622bb85bfb865">Float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae765a26fb4ac7429a492333609d3cad7">DEFAULT_COLLECTION_REHASH_THRESHOLD</a> = 0.75f</td></tr>
+<tr class="memdesc:ae765a26fb4ac7429a492333609d3cad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default threshold for rehashing a hashed collection.  <br /></td></tr>
 <tr class="separator:ae765a26fb4ac7429a492333609d3cad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4528c5fc4f3a4b901b13fc97074fa28c" id="r_a4528c5fc4f3a4b901b13fc97074fa28c"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4528c5fc4f3a4b901b13fc97074fa28c">COLOR_SHAMT_R</a> = 0</td></tr>
+<tr class="separator:a4528c5fc4f3a4b901b13fc97074fa28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14b0ee6d134753145495f52679a8f861" id="r_a14b0ee6d134753145495f52679a8f861"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14b0ee6d134753145495f52679a8f861">COLOR_SHAMT_G</a> = 8</td></tr>
+<tr class="separator:a14b0ee6d134753145495f52679a8f861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67de93b34c505d3dc3297915b23385ca" id="r_a67de93b34c505d3dc3297915b23385ca"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67de93b34c505d3dc3297915b23385ca">COLOR_SHAMT_B</a> = 16</td></tr>
+<tr class="separator:a67de93b34c505d3dc3297915b23385ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac507f6b6aa5aa1d39a5a5324be18c304" id="r_ac507f6b6aa5aa1d39a5a5324be18c304"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac507f6b6aa5aa1d39a5a5324be18c304">COLOR_SHAMT_A</a> = 24</td></tr>
+<tr class="separator:ac507f6b6aa5aa1d39a5a5324be18c304"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7896eced57a2f85d050b16628f5291e" id="r_ac7896eced57a2f85d050b16628f5291e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7896eced57a2f85d050b16628f5291e">B</a> = sizeof(<a class="el" href="#abef3357ce7a39ebc4d787a38199de199">Byte</a>)</td></tr>
+<tr class="memdesc:ac7896eced57a2f85d050b16628f5291e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of bytes in a byte.  <br /></td></tr>
 <tr class="separator:ac7896eced57a2f85d050b16628f5291e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ab5af8c7da6046af1b18e653f2faed0" id="r_a9ab5af8c7da6046af1b18e653f2faed0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ab5af8c7da6046af1b18e653f2faed0">KB</a> = 1024 * <a class="el" href="#ac7896eced57a2f85d050b16628f5291e">B</a></td></tr>
+<tr class="memdesc:a9ab5af8c7da6046af1b18e653f2faed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of bytes in a kilobyte.  <br /></td></tr>
 <tr class="separator:a9ab5af8c7da6046af1b18e653f2faed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50502c180fadbebbbe55753ae7ae37a7" id="r_a50502c180fadbebbbe55753ae7ae37a7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50502c180fadbebbbe55753ae7ae37a7">MB</a> = 1024 * <a class="el" href="#a9ab5af8c7da6046af1b18e653f2faed0">KB</a></td></tr>
+<tr class="memdesc:a50502c180fadbebbbe55753ae7ae37a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of bytes in a megabyte.  <br /></td></tr>
 <tr class="separator:a50502c180fadbebbbe55753ae7ae37a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc2d39b511af08b66d3f9ee0a65fa4f8" id="r_adc2d39b511af08b66d3f9ee0a65fa4f8"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc2d39b511af08b66d3f9ee0a65fa4f8">GB</a> = 1024 * <a class="el" href="#a50502c180fadbebbbe55753ae7ae37a7">MB</a></td></tr>
+<tr class="memdesc:adc2d39b511af08b66d3f9ee0a65fa4f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of bytes in a gigabyte.  <br /></td></tr>
 <tr class="separator:adc2d39b511af08b66d3f9ee0a65fa4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
@@ -943,6 +961,96 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>The number of bytes in a byte. </p>
+
+</div>
+</div>
+<a id="ac507f6b6aa5aa1d39a5a5324be18c304" name="ac507f6b6aa5aa1d39a5a5324be18c304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac507f6b6aa5aa1d39a5a5324be18c304">&#9670;&#160;</a></span>COLOR_SHAMT_A</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::COLOR_SHAMT_A = 24</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67de93b34c505d3dc3297915b23385ca" name="a67de93b34c505d3dc3297915b23385ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67de93b34c505d3dc3297915b23385ca">&#9670;&#160;</a></span>COLOR_SHAMT_B</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::COLOR_SHAMT_B = 16</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14b0ee6d134753145495f52679a8f861" name="a14b0ee6d134753145495f52679a8f861"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14b0ee6d134753145495f52679a8f861">&#9670;&#160;</a></span>COLOR_SHAMT_G</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::COLOR_SHAMT_G = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4528c5fc4f3a4b901b13fc97074fa28c" name="a4528c5fc4f3a4b901b13fc97074fa28c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4528c5fc4f3a4b901b13fc97074fa28c">&#9670;&#160;</a></span>COLOR_SHAMT_R</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::COLOR_SHAMT_R = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <a id="ae765a26fb4ac7429a492333609d3cad7" name="ae765a26fb4ac7429a492333609d3cad7"></a>
@@ -964,6 +1072,8 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>The default threshold for rehashing a hashed collection. </p>
 
 </div>
 </div>
@@ -987,6 +1097,8 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>The default capacity that collections used, if not explicitly given one. </p>
+
 </div>
 </div>
 <a id="adc2d39b511af08b66d3f9ee0a65fa4f8" name="adc2d39b511af08b66d3f9ee0a65fa4f8"></a>
@@ -1008,6 +1120,8 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>The number of bytes in a gigabyte. </p>
 
 </div>
 </div>
@@ -1031,6 +1145,8 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Represents an invalid index. </p>
+
 </div>
 </div>
 <a id="a9ab5af8c7da6046af1b18e653f2faed0" name="a9ab5af8c7da6046af1b18e653f2faed0"></a>
@@ -1053,6 +1169,8 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>The number of bytes in a kilobyte. </p>
+
 </div>
 </div>
 <a id="a50502c180fadbebbbe55753ae7ae37a7" name="a50502c180fadbebbbe55753ae7ae37a7"></a>
@@ -1074,6 +1192,8 @@ template&lt;typename T&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>The number of bytes in a megabyte. </p>
 
 </div>
 </div>
