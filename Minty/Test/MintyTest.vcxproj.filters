@@ -63,6 +63,9 @@
     <ClCompile Include="Test_Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Set.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Map.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Set.h">
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
   </ItemGroup>

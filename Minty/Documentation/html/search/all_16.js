@@ -7,6 +7,7 @@ var searchData=
   ['_7ememorymanager_4',['~MemoryManager',['../class_minty_1_1_memory_manager.html#adde8344d34feb20114c50293233d0567',1,'Minty::MemoryManager']]],
   ['_7ememorypool_5',['~MemoryPool',['../class_minty_1_1_memory_pool.html#a7af404b594b69a4173cb7921d0513808',1,'Minty::MemoryPool']]],
   ['_7epair_6',['~Pair',['../class_minty_1_1_pair.html#a06e8f2a9942f52c8f6a21dbeb304acaf',1,'Minty::Pair']]],
-  ['_7estring_7',['~String',['../class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891',1,'Minty::String']]],
-  ['_7evector_8',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]]
+  ['_7eset_7',['~Set',['../class_minty_1_1_set.html#a3c982fac1772f86a711148cab99b99ba',1,'Minty::Set']]],
+  ['_7estring_8',['~String',['../class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891',1,'Minty::String']]],
+  ['_7evector_9',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]]
 ];

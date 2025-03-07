@@ -6,6 +6,7 @@
 #include "Test_List.h"
 #include "Test_Map.h"
 #include "Test_Pair.h"
+#include "Test_Set.h"
 #include "Test_String.h"
 #include "Test_Vector.h"
 
@@ -37,6 +38,7 @@ static void run_tests()
 	test_List(_test);
 	test_Map(_test);
 	test_Pair(_test);
+	test_Set(_test);
 	test_String(_test);
 	test_Vector(_test);
 
