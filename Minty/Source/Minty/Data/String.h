@@ -16,6 +16,8 @@ namespace Minty
 	public:
 		class Iterator
 		{
+			friend class String;
+
 		public:
 			using iterator_category = std::forward_iterator_tag;
 			using value_type = Char;
@@ -26,11 +28,12 @@ namespace Minty
 		private:
 			pointer mp_ptr;
 
-		public:
+		private:
 			explicit Iterator(pointer const ptr)
 				: mp_ptr(ptr)
 			{}
 
+		public:
 			reference operator*() const
 			{
 				return *mp_ptr;
@@ -60,6 +63,8 @@ namespace Minty
 
 		class ConstIterator
 		{
+			friend class String;
+
 		public:
 			using iterator_category = std::forward_iterator_tag;
 			using value_type = Char;
@@ -70,11 +75,12 @@ namespace Minty
 		private:
 			pointer mp_ptr;
 
-		public:
+		private:
 			explicit ConstIterator(pointer const data)
 				: mp_ptr(data)
 			{}
 
+		public:
 			reference operator*()
 			{
 				return *mp_ptr;
@@ -374,5 +380,17 @@ namespace Minty
 		}
 
 #pragma endregion
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<Minty::String>
+	{
+		std::size_t operator()(Minty::String const& str) const
+		{
+			return std::hash<std::string_view>()(std::string_view(str.get_data(), str.get_size()));
+		}
 	};
 }

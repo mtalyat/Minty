@@ -105,6 +105,9 @@
     <ClInclude Include="Minty\Data\Vector.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\Map.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">

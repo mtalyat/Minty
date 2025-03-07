@@ -1,4 +1,5 @@
-#include "MintyTest.h"
+#include "Test_List.h"
+#include "Minty.h"
 
 void test_List(Test& _test)
 {
@@ -675,16 +676,12 @@ void test_List(Test& _test)
 		{
 			List<int> test;
 			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_head() == nullptr);
-			EXPECT_TRUE(test.get_tail() == nullptr);
 		}
 
 		TEST("Value Constructor")
 		{
 			List<int> test(10, 5);
 			EXPECT_TRUE(test.get_size() == 10);
-			EXPECT_TRUE(test.get_head() != nullptr);
-			EXPECT_TRUE(test.get_tail() != nullptr);
 			for (Size i = 0; i < test.get_size(); i++)
 			{
 				EXPECT_TRUE(test[i] == 5);
@@ -692,16 +689,12 @@ void test_List(Test& _test)
 
 			List<int> test2(0, 0);
 			EXPECT_TRUE(test2.get_size() == 0);
-			EXPECT_TRUE(test2.get_head() == nullptr);
-			EXPECT_TRUE(test2.get_tail() == nullptr);
 		}
 
 		TEST("Initializer List Constructor")
 		{
 			List<int> test({ 0, 1, 2, 3, 4 });
 			EXPECT_TRUE(test.get_size() == 5);
-			EXPECT_TRUE(test.get_head() != nullptr);
-			EXPECT_TRUE(test.get_tail() != nullptr);
 			for (Size i = 0; i < test.get_size(); i++)
 			{
 				EXPECT_TRUE(test[i] == i);
@@ -709,8 +702,6 @@ void test_List(Test& _test)
 
 			List<int> test2({});
 			EXPECT_TRUE(test2.get_size() == 0);
-			EXPECT_TRUE(test2.get_head() == nullptr);
-			EXPECT_TRUE(test2.get_tail() == nullptr);
 		}
 
 		TEST("Copy Constructor")
@@ -718,8 +709,6 @@ void test_List(Test& _test)
 			List<int> test({ 0, 1, 2, 3, 4 });
 			List<int> copy(test);
 			EXPECT_TRUE(copy.get_size() == 5);
-			EXPECT_TRUE(copy.get_head() != nullptr);
-			EXPECT_TRUE(copy.get_tail() != nullptr);
 			for (Size i = 0; i < copy.get_size(); i++)
 			{
 				EXPECT_TRUE(copy[i] == i);
@@ -731,8 +720,6 @@ void test_List(Test& _test)
 			List<int> test({ 0, 1, 2, 3, 4 });
 			List<int> copy(std::move(test));
 			EXPECT_TRUE(copy.get_size() == 5);
-			EXPECT_TRUE(copy.get_head() != nullptr);
-			EXPECT_TRUE(copy.get_tail() != nullptr);
 			for (Size i = 0; i < copy.get_size(); i++)
 			{
 				EXPECT_TRUE(copy[i] == i);
@@ -744,8 +731,6 @@ void test_List(Test& _test)
 			List<int> test({ 0, 1, 2, 3, 4 });
 			List<int> copy = test;
 			EXPECT_TRUE(copy.get_size() == 5);
-			EXPECT_TRUE(copy.get_head() != nullptr);
-			EXPECT_TRUE(copy.get_tail() != nullptr);
 			for (Size i = 0; i < copy.get_size(); i++)
 			{
 				EXPECT_TRUE(copy[i] == i);
@@ -757,8 +742,6 @@ void test_List(Test& _test)
 			List<int> test({ 0, 1, 2, 3, 4 });
 			List<int> copy = std::move(test);
 			EXPECT_TRUE(copy.get_size() == 5);
-			EXPECT_TRUE(copy.get_head() != nullptr);
-			EXPECT_TRUE(copy.get_tail() != nullptr);
 			for (Size i = 0; i < copy.get_size(); i++)
 			{
 				EXPECT_TRUE(copy[i] == i);
@@ -794,42 +777,6 @@ void test_List(Test& _test)
 
 			test.resize(5);
 			EXPECT_TRUE(test.get_size() == 5);
-		}
-
-		TEST("Get Head")
-		{
-			List<int> test;
-			EXPECT_TRUE(test.get_head() == nullptr);
-			test.resize(5);
-			EXPECT_TRUE(test.get_head() != nullptr);
-			EXPECT_TRUE(test.get_tail() != test.get_head());
-		}
-
-		TEST("Const Get Head")
-		{
-			List<int> const test;
-			EXPECT_TRUE(test.get_head() == nullptr);
-			List<int> const test2(5, 5);
-			EXPECT_TRUE(test2.get_head() != nullptr);
-			EXPECT_TRUE(test2.get_tail() != test2.get_head());
-		}
-
-		TEST("Get Tail")
-		{
-			List<int> test;
-			EXPECT_TRUE(test.get_tail() == nullptr);
-			test.resize(5);
-			EXPECT_TRUE(test.get_tail() != nullptr);
-			EXPECT_TRUE(test.get_tail() != test.get_head());
-		}
-
-		TEST("Const Get Tail")
-		{
-			List<int> const test;
-			EXPECT_TRUE(test.get_tail() == nullptr);
-			List<int> const test2(5, 5);
-			EXPECT_TRUE(test2.get_tail() != nullptr);
-			EXPECT_TRUE(test2.get_tail() != test2.get_head());
 		}
 
 		TEST("Resize")
@@ -1184,8 +1131,6 @@ void test_List(Test& _test)
 			List<int> test({ 0, 1, 2, 3, 4 });
 			test.clear();
 			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_head() == nullptr);
-			EXPECT_TRUE(test.get_tail() == nullptr);
 		}
 
 		TEST("Begin")

@@ -182,6 +182,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
     <ClInclude Include="Minty\Data\List.h" />
+    <ClInclude Include="Minty\Data\Map.h" />
     <ClInclude Include="Minty\Data\Pair.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
     <ClInclude Include="Minty\Data\String.h" />

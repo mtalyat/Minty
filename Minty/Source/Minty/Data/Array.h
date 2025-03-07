@@ -17,6 +17,8 @@ namespace Minty
 	public:
 		class Iterator
 		{
+			friend class Array;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
@@ -27,17 +29,18 @@ namespace Minty
 		private:
 			pointer mp_ptr;
 
-		public:
+		private:
 			constexpr explicit Iterator(pointer const ptr)
 				: mp_ptr(ptr)
 			{}
 
+		public:
 			constexpr reference operator*() const
 			{
 				return *mp_ptr;
 			}
 
-			Iterator operator++()
+			Iterator& operator++()
 			{
 				++mp_ptr;
 				return *this;
@@ -50,7 +53,7 @@ namespace Minty
 				return temp;
 			}
 
-			Iterator operator--()
+			Iterator& operator--()
 			{
 				--mp_ptr;
 				return *this;
@@ -79,6 +82,8 @@ namespace Minty
 
 		class ConstIterator
 		{
+			friend class Array;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
@@ -89,17 +94,18 @@ namespace Minty
 		private:
 			pointer mp_ptr;
 
-		public:
+		private:
 			constexpr explicit ConstIterator(pointer const data)
 				: mp_ptr(data)
 			{}
 
+		public:
 			constexpr reference operator*()
 			{
 				return *mp_ptr;
 			}
 
-			ConstIterator operator++()
+			ConstIterator& operator++()
 			{
 				++mp_ptr;
 				return *this;
@@ -112,7 +118,7 @@ namespace Minty
 				return temp;
 			}
 
-			ConstIterator operator--()
+			ConstIterator& operator--()
 			{
 				--mp_ptr;
 				return *this;
@@ -141,6 +147,8 @@ namespace Minty
 
 		class ReverseIterator
 		{
+			friend class Array;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
@@ -151,17 +159,18 @@ namespace Minty
 		private:
 			pointer mp_ptr;
 
-		public:
+		private:
 			constexpr explicit ReverseIterator(pointer const ptr)
 				: mp_ptr(ptr)
 			{}
 
+		public:
 			constexpr reference operator*() const
 			{
 				return *mp_ptr;
 			}
 
-			ReverseIterator operator++()
+			ReverseIterator& operator++()
 			{
 				--mp_ptr;
 				return *this;
@@ -174,7 +183,7 @@ namespace Minty
 				return temp;
 			}
 
-			ReverseIterator operator--()
+			ReverseIterator& operator--()
 			{
 				++mp_ptr;
 				return *this;
@@ -203,6 +212,8 @@ namespace Minty
 
 		class ConstReverseIterator
 		{
+			friend class Array;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
@@ -213,18 +224,19 @@ namespace Minty
 		private:
 			pointer mp_ptr;
 
-		public:
+		private:
 			constexpr explicit ConstReverseIterator(pointer const data)
 				: mp_ptr(data)
 			{
 			}
 
+		public:
 			constexpr reference operator*()
 			{
 				return *mp_ptr;
 			}
 
-			ConstReverseIterator operator++()
+			ConstReverseIterator& operator++()
 			{
 				--mp_ptr;
 				return *this;
@@ -237,7 +249,7 @@ namespace Minty
 				return temp;
 			}
 
-			ConstReverseIterator operator--()
+			ConstReverseIterator& operator--()
 			{
 				++mp_ptr;
 				return *this;

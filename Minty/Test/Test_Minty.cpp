@@ -1,4 +1,5 @@
-#include "MintyTest.h"
+#include "Test_Minty.h"
+#include "Minty.h"
 
 void test_Minty(Test& _test)
 {

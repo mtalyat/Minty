@@ -1,5 +1,30 @@
 var searchData=
 [
-  ['next_0',['next',['../struct_minty_1_1_list_1_1_node.html#a04c639a198925ad92a78e3c04aa3cf19',1,'Minty::List::Node']]],
-  ['node_1',['Node',['../struct_minty_1_1_list_1_1_node.html',1,'Minty::List&lt; T &gt;::Node'],['../struct_minty_1_1_list_1_1_node.html#a8c5a5c60bf653a57d9f0494aef604dca',1,'Minty::List::Node::Node(T const &amp;data)'],['../struct_minty_1_1_list_1_1_node.html#a8f255e4ce284d3233184b6d7bd16ee19',1,'Minty::List::Node::Node(T &amp;&amp;data)']]]
+  ['macro_2eh_0',['Macro.h',['../_macro_8h.html',1,'']]],
+  ['map_1',['Map',['../class_minty_1_1_map.html',1,'Minty::Map&lt; Key, Value &gt;'],['../class_minty_1_1_map_1_1_iterator.html#ad2f32e921244459f7cc6d50355429cc6',1,'Minty::Map::Iterator::Map()'],['../class_minty_1_1_map_1_1_const_iterator.html#ad2f32e921244459f7cc6d50355429cc6',1,'Minty::Map::ConstIterator::Map()'],['../class_minty_1_1_map.html#a599b8020bdea5cfc9854222e2692ee4e',1,'Minty::Map::Map(Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_map.html#ac6efa4fd90ab2fbcf9a8f5c9d7e99b74',1,'Minty::Map::Map(Size const capacity, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_map.html#a7a6a1164a29bd12cadbec326a54bc32c',1,'Minty::Map::Map(std::initializer_list&lt; Pair&lt; Key, Value &gt; &gt; const &amp;list, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_map.html#adb54058f0da4ab6aafc3acff109c8392',1,'Minty::Map::Map(Map const &amp;other)'],['../class_minty_1_1_map.html#aec1ba639fa10661337003b90b378f773',1,'Minty::Map::Map(Map &amp;&amp;other) noexcept']]],
+  ['map_2eh_2',['Map.h',['../_map_8h.html',1,'']]],
+  ['mb_3',['MB',['../namespace_minty.html#a50502c180fadbebbbe55753ae7ae37a7',1,'Minty']]],
+  ['memorymanager_4',['MemoryManager',['../class_minty_1_1_memory_manager.html',1,'Minty::MemoryManager'],['../class_minty_1_1_memory_manager.html#a57aeedd63b1d164bf0a437b26d705126',1,'Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const &amp;builder)'],['../class_minty_1_1_memory_manager.html#a3e8324e78a6e52f14cde5ce20ab78241',1,'Minty::MemoryManager::MemoryManager(MemoryManager const &amp;other)=delete'],['../class_minty_1_1_memory_manager.html#a68449ad4eae95ff71a9713dcff3c14e7',1,'Minty::MemoryManager::MemoryManager(MemoryManager &amp;&amp;other) noexcept']]],
+  ['memorymanager_2ecpp_5',['MemoryManager.cpp',['../_memory_manager_8cpp.html',1,'']]],
+  ['memorymanager_2eh_6',['MemoryManager.h',['../_memory_manager_8h.html',1,'']]],
+  ['memorymanagerbuilder_7',['MemoryManagerBuilder',['../struct_minty_1_1_memory_manager_builder.html',1,'Minty']]],
+  ['memorymanagerbuilder_8',['memoryManagerBuilder',['../struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e',1,'Minty::ApplicationBuilder']]],
+  ['memorypool_9',['MemoryPool',['../class_minty_1_1_memory_pool.html',1,'Minty::MemoryPool'],['../class_minty_1_1_memory_pool.html#afb45c8655f6c5e956cdfa7b10ced0593',1,'Minty::MemoryPool::MemoryPool(MemoryPoolBuilder const &amp;builder)'],['../class_minty_1_1_memory_pool.html#aad2651b5892df31e0cdbdbeaf2515313',1,'Minty::MemoryPool::MemoryPool(MemoryPool const &amp;other)=delete'],['../class_minty_1_1_memory_pool.html#a44f78a70b7624f88174b2efdcaee4eee',1,'Minty::MemoryPool::MemoryPool(MemoryPool &amp;&amp;other) noexcept']]],
+  ['memorypool_2ecpp_10',['MemoryPool.cpp',['../_memory_pool_8cpp.html',1,'']]],
+  ['memorypool_2eh_11',['MemoryPool.h',['../_memory_pool_8h.html',1,'']]],
+  ['memorypoolbuilder_12',['MemoryPoolBuilder',['../struct_minty_1_1_memory_pool_builder.html',1,'Minty']]],
+  ['memorystack_13',['MemoryStack',['../class_minty_1_1_memory_stack.html',1,'Minty::MemoryStack'],['../class_minty_1_1_memory_stack.html#aa187a92d872a70b52bc4d4d6224df4a2',1,'Minty::MemoryStack::MemoryStack(MemoryStackBuilder const &amp;builder)'],['../class_minty_1_1_memory_stack.html#a94e74c372cf968eebc8aae40b8e5fe60',1,'Minty::MemoryStack::MemoryStack(MemoryStack const &amp;other)=delete'],['../class_minty_1_1_memory_stack.html#ac140827dbf72a07a9fff580b38324598',1,'Minty::MemoryStack::MemoryStack(MemoryStack &amp;&amp;other) noexcept']]],
+  ['memorystack_2ecpp_14',['MemoryStack.cpp',['../_memory_stack_8cpp.html',1,'']]],
+  ['memorystack_2eh_15',['MemoryStack.h',['../_memory_stack_8h.html',1,'']]],
+  ['memorystackbuilder_16',['MemoryStackBuilder',['../struct_minty_1_1_memory_stack_builder.html',1,'Minty']]],
+  ['minty_17',['Minty',['../namespace_minty.html',1,'']]],
+  ['minty_2ecpp_18',['Minty.cpp',['../_minty_8cpp.html',1,'']]],
+  ['minty_2eh_19',['Minty.h',['../_minty_8h.html',1,'']]],
+  ['minty_5fabort_20',['MINTY_ABORT',['../_macro_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c',1,'Macro.h']]],
+  ['minty_5fassert_21',['MINTY_ASSERT',['../_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a',1,'Macro.h']]],
+  ['minty_5fdebug_22',['MINTY_DEBUG',['../_macro_8h.html#a829c5ffd63d79b1812f0d89961f3009f',1,'Macro.h']]],
+  ['minty_5fdebug_5finfo_23',['MINTY_DEBUG_INFO',['../_macro_8h.html#adb50575c5f867b31cfad57c270eee694',1,'Macro.h']]],
+  ['minty_5ferror_24',['MINTY_ERROR',['../_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79',1,'Macro.h']]],
+  ['minty_5flog_25',['MINTY_LOG',['../_macro_8h.html#a94eafa87963d877703d10a28fd7f9402',1,'Macro.h']]],
+  ['minty_5fto_5fstring_26',['MINTY_TO_STRING',['../_to_string_8cpp.html#ab89aeed063efba719932d7a316f47723',1,'ToString.cpp']]]
 ];

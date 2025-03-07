@@ -125,6 +125,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_list.html">List</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_map.html">Map</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a hash map of key-value pairs.  <a href="class_minty_1_1_map.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles allocation and deallocation of memory.  <a href="class_minty_1_1_memory_manager.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,6 +147,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arguments for creating a <a class="el" href="class_minty_1_1_memory_stack.html" title="Manages a stack of memory.">MemoryStack</a>.  <a href="struct_minty_1_1_memory_stack_builder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_pair.html">Pair</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds two values in a pair.  <a href="class_minty_1_1_pair.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_string.html">String</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of text.  <a href="class_minty_1_1_string.html#details">More...</a><br /></td></tr>
@@ -240,6 +244,8 @@ Variables</h2></td></tr>
 <tr class="separator:ab5100671687290415529d62bd9dad4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa2d215866b48fd509ab3848c9bd33d0" id="r_afa2d215866b48fd509ab3848c9bd33d0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a> = 16</td></tr>
 <tr class="separator:afa2d215866b48fd509ab3848c9bd33d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae765a26fb4ac7429a492333609d3cad7" id="r_ae765a26fb4ac7429a492333609d3cad7"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a372f2ac40c647017164622bb85bfb865">Float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae765a26fb4ac7429a492333609d3cad7">DEFAULT_COLLECTION_REHASH_THRESHOLD</a> = 0.75f</td></tr>
+<tr class="separator:ae765a26fb4ac7429a492333609d3cad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7896eced57a2f85d050b16628f5291e" id="r_ac7896eced57a2f85d050b16628f5291e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7896eced57a2f85d050b16628f5291e">B</a> = sizeof(<a class="el" href="#abef3357ce7a39ebc4d787a38199de199">Byte</a>)</td></tr>
 <tr class="separator:ac7896eced57a2f85d050b16628f5291e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ab5af8c7da6046af1b18e653f2faed0" id="r_a9ab5af8c7da6046af1b18e653f2faed0"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ab5af8c7da6046af1b18e653f2faed0">KB</a> = 1024 * <a class="el" href="#ac7896eced57a2f85d050b16628f5291e">B</a></td></tr>
@@ -837,6 +843,28 @@ template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::B = sizeof(<a class="el" href="#abef3357ce7a39ebc4d787a38199de199">Byte</a>)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae765a26fb4ac7429a492333609d3cad7" name="ae765a26fb4ac7429a492333609d3cad7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae765a26fb4ac7429a492333609d3cad7">&#9670;&#160;</a></span>DEFAULT_COLLECTION_REHASH_THRESHOLD</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a372f2ac40c647017164622bb85bfb865">Float</a> Minty::DEFAULT_COLLECTION_REHASH_THRESHOLD = 0.75f</td>
         </tr>
       </table>
   </td>
