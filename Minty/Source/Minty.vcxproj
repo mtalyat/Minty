@@ -184,7 +184,6 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Base.h" />
     <ClInclude Include="Minty\Core\Compression.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
-    <ClInclude Include="Minty\Core\Error.h" />
     <ClInclude Include="Minty\Core\_Core.h" />
     <ClInclude Include="Minty\Core\Format.h" />
     <ClInclude Include="Minty\Core\Macro.h" />

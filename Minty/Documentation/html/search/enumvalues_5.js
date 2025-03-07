@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['none_0',['None',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty']]]
+  ['persistent_0',['Persistent',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4',1,'Minty']]]
 ];

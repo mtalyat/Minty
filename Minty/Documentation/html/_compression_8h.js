@@ -18,9 +18,7 @@ var _compression_8h =
       [ "Minty::CompressionLevel::High", "namespace_minty.html#abe96803589e915713959c294c0df12c6a655d20c1ca69519ca647684edbb2db35", null ],
       [ "Minty::CompressionLevel::Default", "namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67", null ]
     ] ],
-    [ "Minty::compress", "namespace_minty.html#a456b3d6dfde1369c18e4a305f73481c9", null ],
+    [ "Minty::compress", "namespace_minty.html#af08f129b778c7cb4256ad76ba12ad324", null ],
     [ "Minty::compress_bound", "namespace_minty.html#ae48bc3318a0be01e876896376bd72579", null ],
-    [ "Minty::operator!=", "namespace_minty.html#afef42ec9fec4151dbc91843fb56585c9", null ],
-    [ "Minty::operator==", "namespace_minty.html#afcd348e153259b8012f87059462a4c97", null ],
-    [ "Minty::uncompress", "namespace_minty.html#a4fc931ea8ed17a1ce9b9675d005c397b", null ]
+    [ "Minty::uncompress", "namespace_minty.html#a6b1e5e45f5df888893cd914213697940", null ]
 ];

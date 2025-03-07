@@ -123,9 +123,6 @@
     <ClInclude Include="Minty\Core\Compression.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Core\Error.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">

@@ -13,7 +13,7 @@ var searchData=
   ['color_5fshamt_5fg_10',['COLOR_SHAMT_G',['../namespace_minty.html#a14b0ee6d134753145495f52679a8f861',1,'Minty']]],
   ['color_5fshamt_5fr_11',['COLOR_SHAMT_R',['../namespace_minty.html#a4528c5fc4f3a4b901b13fc97074fa28c',1,'Minty']]],
   ['color_5ft_12',['Color_t',['../struct_minty_1_1_color.html#a618d394ebd7ca33e65b41ff9caf514a3',1,'Minty::Color']]],
-  ['compress_13',['compress',['../namespace_minty.html#a456b3d6dfde1369c18e4a305f73481c9',1,'Minty']]],
+  ['compress_13',['compress',['../namespace_minty.html#af08f129b778c7cb4256ad76ba12ad324',1,'Minty']]],
   ['compress_5fbound_14',['compress_bound',['../namespace_minty.html#ae48bc3318a0be01e876896376bd72579',1,'Minty']]],
   ['compression_2ecpp_15',['Compression.cpp',['../_compression_8cpp.html',1,'']]],
   ['compression_2eh_16',['Compression.h',['../_compression_8h.html',1,'']]],

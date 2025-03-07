@@ -1,6 +1,5 @@
 #pragma once
 #include "Minty/Core/Types.h"
-#include "Minty/Core/Error.h"
 
 namespace Minty
 {
@@ -49,18 +48,8 @@ namespace Minty
 		Default = Level6,
 	};
 
-	constexpr Bool operator==(CompressionLevel const& lhs, CompressionLevel const& rhs)
-	{
-		return static_cast<Int>(lhs) == static_cast<Int>(rhs);
-	}
-
-	constexpr Bool operator!=(CompressionLevel const& lhs, CompressionLevel const& rhs)
-	{
-		return static_cast<Int>(lhs) != static_cast<Int>(rhs);
-	}
-
 	/// <summary>
-	/// Given the size of the uncompressed data, returns the size of the compressed data array.
+	/// Given the size of the uncompressed data, returns the maximum size of the compressed data array.
 	/// </summary>
 	/// <param name="sourceSize">The size of the uncompressed data.</param>
 	/// <returns>The size of the compressed data array, in bytes.</returns>
@@ -74,8 +63,8 @@ namespace Minty
 	/// <param name="source">The source of the uncompressed data.</param>
 	/// <param name="sourceSize">The size of the uncompressed data.</param>
 	/// <param name="level">The level to compress the data to.</param>
-	/// <returns>An ErrorCode.</returns>
-	ErrorCode compress(void* const destination, ULong& destinationSize, void* const source, ULong const sourceSize, CompressionLevel const level = CompressionLevel::Default);
+	/// <returns>True on successful compression.</returns>
+	Bool compress(void* const destination, ULong& destinationSize, void* const source, ULong const sourceSize, CompressionLevel const level = CompressionLevel::Default);
 
 	/// <summary>
 	/// Uncompresses the given data from source to destination.
@@ -84,6 +73,6 @@ namespace Minty
 	/// <param name="destinationSize">The size of the number of bytes stored in the location.</param>
 	/// <param name="source">The source of the compressed data.</param>
 	/// <param name="sourceSize">The size of the compressed data.</param>
-	/// <returns>An ErrorCode.</returns>
-	ErrorCode uncompress(void* const destination, ULong& destinationSize, void* const source, ULong& sourceSize);
+	/// <returns>True on successful uncompression.</returns>
+	Bool uncompress(void* const destination, ULong& destinationSize, void* const source, ULong& sourceSize);
 }
