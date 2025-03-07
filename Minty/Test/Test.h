@@ -91,12 +91,17 @@ public:
 	{
 		// print results
 		std::cout << "\nResults:\n";
+		size_t passes = 0;
+		size_t fails = 0;
 		for (auto const& categoryName : categoryNames)
 		{
 			int categoryIndex = categories[categoryName];
 			Results const& result = results[categoryIndex];
 
 			std::cout << categoryName << " -> ";
+
+			passes += result.passes;
+			fails += result.fails;
 
 			if (result.fails == 0)
 			{
@@ -111,6 +116,19 @@ public:
 
 			std::cout << "(" << result.passes << "/" << (result.passes + result.fails) << ")\033[0m" << std::endl;
 		}
+
+		std::cout << "\nTotal -> ";
+		if (fails == 0)
+		{
+			// green
+			std::cout << "\033[92m";
+		}
+		else
+		{
+			// red
+			std::cout << "\033[91m";
+		}
+		std::cout << "(" << passes << "/" << (passes + fails) << ")\033[0m" << std::endl;
 	}
 };
 
