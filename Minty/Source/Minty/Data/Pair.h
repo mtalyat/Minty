@@ -3,13 +3,25 @@
 
 namespace Minty
 {
+	/// <summary>
+	/// Holds two values in a pair.
+	/// </summary>
+	/// <typeparam name="T1">The type of the first value.</typeparam>
+	/// <typeparam name="T2">The type of the second value.</typeparam>
 	template<typename T1, typename T2>
 	class Pair
 	{
 #pragma region Variables
 
 	public:
+		/// <summary>
+		/// The first value.
+		/// </summary>
 		T1 first;
+
+		/// <summary>
+		/// The second value.
+		/// </summary>
 		T2 second;
 
 #pragma endregion

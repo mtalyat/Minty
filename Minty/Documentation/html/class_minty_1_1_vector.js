@@ -19,6 +19,7 @@ var class_minty_1_1_vector =
     [ "begin", "class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f", null ],
     [ "cbegin", "class_minty_1_1_vector.html#ab9647290f013f0e008450ac452f34c7c", null ],
     [ "cend", "class_minty_1_1_vector.html#af7f7400d7288a8393d1d330bd538fe08", null ],
+    [ "clear", "class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd", null ],
     [ "contains", "class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0", null ],
     [ "crbegin", "class_minty_1_1_vector.html#a898868b47f6dc98f4d8d3b0edd944042", null ],
     [ "crend", "class_minty_1_1_vector.html#a5e23ca2d487cb997aa81b69a773c4386", null ],

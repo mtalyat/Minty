@@ -1,4 +1,18 @@
-#include "MintyTest.h"
+// Minty
+#include "Test_Minty.h"
+
+// Data
+#include "Test_Array.h"
+#include "Test_List.h"
+#include "Test_Map.h"
+#include "Test_Pair.h"
+#include "Test_String.h"
+#include "Test_Vector.h"
+
+// Memory
+#include "Test_MemoryManager.h"
+#include "Test_MemoryPool.h"
+#include "Test_MemoryStack.h"
 
 // runs all of the tests
 static void run_tests()
@@ -21,6 +35,7 @@ static void run_tests()
 	// Data
 	test_Array(_test);
 	test_List(_test);
+	test_Map(_test);
 	test_Pair(_test);
 	test_String(_test);
 	test_Vector(_test);

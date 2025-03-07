@@ -6,6 +6,7 @@ namespace Minty
 	constexpr Size INVALID_INDEX = -1;
 
 	constexpr Size DEFAULT_COLLECTION_SIZE = 16;
+	constexpr Float DEFAULT_COLLECTION_REHASH_THRESHOLD = 0.75f;
 
 	constexpr Size B = sizeof(Byte);
 	constexpr Size KB = 1024 * B;

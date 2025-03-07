@@ -7,9 +7,9 @@ namespace Minty
 	template<typename T>
 	class List
 	{
-#pragma region Subclasses
+#pragma region Classes
 
-	public:
+	private:
 		struct Node
 		{
 			T data;
@@ -37,6 +37,8 @@ namespace Minty
 	public:
 		class Iterator
 		{
+			friend class List;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
@@ -49,17 +51,19 @@ namespace Minty
 		private:
 			node_pointer mp_node;
 
-		public:
+		private:
 			constexpr explicit Iterator(node_pointer const ptr)
 				: mp_node(ptr)
-			{}
+			{
+			}
 
+		public:
 			constexpr reference operator*() const
 			{
 				return mp_node->data;
 			}
 
-			Iterator operator++()
+			Iterator& operator++()
 			{
 				if (mp_node)
 				{
@@ -78,7 +82,7 @@ namespace Minty
 				return temp;
 			}
 
-			Iterator operator--()
+			Iterator& operator--()
 			{
 				if (mp_node)
 				{
@@ -125,12 +129,12 @@ namespace Minty
 
 			constexpr Bool operator==(Iterator const& other) const { return mp_node == other.mp_node; }
 			constexpr Bool operator!=(Iterator const& other) const { return mp_node != other.mp_node; }
-
-			constexpr node_pointer get_node() const { return mp_node; }
 		};
 
 		class ConstIterator
 		{
+			friend class List;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T const;
@@ -143,18 +147,19 @@ namespace Minty
 		private:
 			node_pointer mp_node;
 
-		public:
+		private:
 			constexpr explicit ConstIterator(node_pointer const ptr)
 				: mp_node(ptr)
 			{
 			}
 
+		public:
 			constexpr reference operator*() const
 			{
 				return mp_node->data;
 			}
 
-			ConstIterator operator++()
+			ConstIterator& operator++()
 			{
 				if (mp_node)
 				{
@@ -173,7 +178,7 @@ namespace Minty
 				return temp;
 			}
 
-			ConstIterator operator--()
+			ConstIterator& operator--()
 			{
 				if (mp_node)
 				{
@@ -220,12 +225,12 @@ namespace Minty
 
 			constexpr Bool operator==(ConstIterator const& other) const { return mp_node == other.mp_node; }
 			constexpr Bool operator!=(ConstIterator const& other) const { return mp_node != other.mp_node; }
-
-			constexpr node_pointer get_node() const { return mp_node; }
 		};
 
 		class ReverseIterator
 		{
+			friend class List;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
@@ -238,18 +243,19 @@ namespace Minty
 		private:
 			node_pointer mp_node;
 
-		public:
+		private:
 			constexpr explicit ReverseIterator(node_pointer const ptr)
 				: mp_node(ptr)
 			{
 			}
 
+		public:
 			constexpr reference operator*() const
 			{
 				return mp_node->data;
 			}
 
-			ReverseIterator operator++()
+			ReverseIterator& operator++()
 			{
 				if (mp_node)
 				{
@@ -268,7 +274,7 @@ namespace Minty
 				return temp;
 			}
 
-			ReverseIterator operator--()
+			ReverseIterator& operator--()
 			{
 				if (mp_node)
 				{
@@ -315,12 +321,12 @@ namespace Minty
 
 			constexpr Bool operator==(ReverseIterator const& other) const { return mp_node == other.mp_node; }
 			constexpr Bool operator!=(ReverseIterator const& other) const { return mp_node != other.mp_node; }
-
-			constexpr node_pointer get_node() const { return mp_node; }
 		};
 
 		class ConstReverseIterator
 		{
+			friend class List;
+
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T const;
@@ -333,18 +339,19 @@ namespace Minty
 		private:
 			node_pointer mp_node;
 
-		public:
+		private:
 			constexpr explicit ConstReverseIterator(node_pointer const ptr)
 				: mp_node(ptr)
 			{
 			}
 
+		public:
 			constexpr reference operator*() const
 			{
 				return mp_node->data;
 			}
 
-			ConstReverseIterator operator++()
+			ConstReverseIterator& operator++()
 			{
 				if (mp_node)
 				{
@@ -363,7 +370,7 @@ namespace Minty
 				return temp;
 			}
 
-			ConstReverseIterator operator--()
+			ConstReverseIterator& operator--()
 			{
 				if (mp_node)
 				{
@@ -410,8 +417,6 @@ namespace Minty
 
 			constexpr Bool operator==(ConstReverseIterator const& other) const { return mp_node == other.mp_node; }
 			constexpr Bool operator!=(ConstReverseIterator const& other) const { return mp_node != other.mp_node; }
-
-			constexpr node_pointer get_node() const { return mp_node; }
 		};
 
 		/// <summary>
@@ -486,7 +491,8 @@ namespace Minty
 			, mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
-		{}
+		{
+		}
 
 		/// <summary>
 		/// Creates a List and fills it with the given value.
@@ -644,30 +650,6 @@ namespace Minty
 		/// </summary>
 		/// <returns>The number of elements.</returns>
 		Size get_size() const { return m_size; }
-
-		/// <summary>
-		/// Gets the head node of this List.
-		/// </summary>
-		/// <returns>A pointer to the head node.</returns>
-		Node* get_head() { return mp_head; }
-
-		/// <summary>
-		/// Gets the head node of this List.
-		/// </summary>
-		/// <returns>A pointer to the head node.</returns>
-		Node const* get_head() const { return mp_head; }
-
-		/// <summary>
-		/// Gets the tail node of this List.
-		/// </summary>
-		/// <returns>A pointer to the tail node.</returns>
-		Node* get_tail() { return mp_tail; }
-
-		/// <summary>
-		/// Gets the tail node of this List.
-		/// </summary>
-		/// <returns>A pointer to the tail node.</returns>
-		Node const* get_tail() const { return mp_tail; }
 
 #pragma endregion
 
@@ -841,12 +823,12 @@ namespace Minty
 			insert(IteratorType const& it, T const& value)
 		{
 			// get adjacent nodes
-			Node* nextNode = it.get_node();
+			Node* nextNode = it.mp_node;
 			Node* prevNode = nextNode ? nextNode->prev : nullptr;
-			
+
 			// make new node
 			Node* newNode = construct<Node>(m_allocator, value);
-			
+
 			// link them together
 			newNode->next = nextNode;
 			newNode->prev = prevNode;
@@ -882,7 +864,7 @@ namespace Minty
 			insert(IteratorType const& it, T&& value)
 		{
 			// get adjacent nodes
-			Node* nextNode = it.get_node();
+			Node* nextNode = it.mp_node;
 			Node* prevNode = nextNode ? nextNode->prev : nullptr;
 
 			// make new node
@@ -951,12 +933,12 @@ namespace Minty
 		typename std::enable_if<!std::is_integral<InsertIteratorType>::value && !std::is_integral<IteratorType>::value, void>::type
 			insert(InsertIteratorType const& it, IteratorType const& begin, IteratorType const& end)
 		{
-			MINTY_ASSERT(it.get_node() != nullptr, "Iterator is out of bounds.");
-			MINTY_ASSERT(begin.get_node() != nullptr, "Begin iterator is out of bounds.");
+			MINTY_ASSERT(it.mp_node != nullptr, "Iterator is out of bounds.");
+			MINTY_ASSERT(begin.mp_node != nullptr, "Begin iterator is out of bounds.");
 			MINTY_ASSERT(begin != end, "Begin and end iterators are the same.");
 
 			// get adjacent nodes
-			Node* nextNode = it.get_node();
+			Node* nextNode = it.mp_node;
 			Node* prevNode = nextNode ? nextNode->prev : nullptr;
 
 			// make new nodes
@@ -1008,7 +990,7 @@ namespace Minty
 		void remove(Size const index)
 		{
 			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
-			
+
 			Iterator it = begin() + index;
 			remove(it);
 		}
@@ -1024,7 +1006,7 @@ namespace Minty
 			remove(IteratorType const& it)
 		{
 			// get the node
-			Node* node = it.get_node();
+			Node* node = it.mp_node;
 
 			// get the adjacent nodes
 			Node* nextNode = node->next;
@@ -1083,12 +1065,12 @@ namespace Minty
 		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
 			remove(IteratorType const& begin, IteratorType const& end)
 		{
-			MINTY_ASSERT(begin.get_node() != nullptr, "Begin iterator is out of bounds.");
+			MINTY_ASSERT(begin.mp_node != nullptr, "Begin iterator is out of bounds.");
 			MINTY_ASSERT(begin != end, "Begin and end iterators are the same.");
 
 			// get the nodes
-			Node* startNode = begin.get_node();
-			Node* stopNode = end.get_node();
+			Node* startNode = begin.mp_node;
+			Node* stopNode = end.mp_node;
 
 			// get count
 			Size count = 0;

@@ -143,6 +143,7 @@
     <ClCompile Include="MintyTest.cpp" />
     <ClCompile Include="Test_Array.cpp" />
     <ClCompile Include="Test_List.cpp" />
+    <ClCompile Include="Test_Map.cpp" />
     <ClCompile Include="Test_MemoryManager.cpp" />
     <ClCompile Include="Test_MemoryPool.cpp" />
     <ClCompile Include="Test_MemoryStack.cpp" />
@@ -152,9 +153,19 @@
     <ClCompile Include="Test_Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MintyTest.h" />
+    <ClInclude Include="Minty.h" />
     <ClInclude Include="Results.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="Test_Array.h" />
+    <ClInclude Include="Test_List.h" />
+    <ClInclude Include="Test_Map.h" />
+    <ClInclude Include="Test_MemoryManager.h" />
+    <ClInclude Include="Test_MemoryPool.h" />
+    <ClInclude Include="Test_MemoryStack.h" />
+    <ClInclude Include="Test_Minty.h" />
+    <ClInclude Include="Test_Pair.h" />
+    <ClInclude Include="Test_String.h" />
+    <ClInclude Include="Test_Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

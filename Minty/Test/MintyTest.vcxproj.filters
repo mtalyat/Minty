@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Tests">
+      <UniqueIdentifier>{e0e19628-83a6-43f4-b8f6-85789ec900d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Minty">
+      <UniqueIdentifier>{15d850e1-3c6f-4513-b382-97e1be9f7d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Data">
+      <UniqueIdentifier>{4a42e44d-03a7-4cdd-8631-4af15eaad390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Memory">
+      <UniqueIdentifier>{06c85f8e-2e02-4183-9dcb-7e5cdad32a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MintyTest">
+      <UniqueIdentifier>{d402cf7f-ebee-47c9-b221-67a91a93af1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -45,16 +60,49 @@
     <ClCompile Include="Test_MemoryStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Results.h">
+    <ClInclude Include="Minty.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Results.h">
+      <Filter>Header Files\MintyTest</Filter>
     </ClInclude>
     <ClInclude Include="Test.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MintyTest</Filter>
     </ClInclude>
-    <ClInclude Include="MintyTest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Test_Array.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_List.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MemoryManager.h">
+      <Filter>Header Files\Tests\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MemoryPool.h">
+      <Filter>Header Files\Tests\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MemoryStack.h">
+      <Filter>Header Files\Tests\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Minty.h">
+      <Filter>Header Files\Tests\Minty</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Pair.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Vector.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_String.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Map.h">
+      <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

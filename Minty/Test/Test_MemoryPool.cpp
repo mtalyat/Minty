@@ -1,4 +1,5 @@
-#include "MintyTest.h"
+#include "Test_MemoryPool.h"
+#include "Minty.h"
 
 void test_MemoryPool(Test& _test)
 {
