@@ -60,6 +60,8 @@ void test_Compression(Test& _test)
 			ULong bufferSize2 = KB * 4;
 
 			EXPECT_TRUE(uncompress(buffer2, bufferSize2, buffer, bufferSize));
+			EXPECT_FAIL(uncompress(nullptr, bufferSize2, buffer, bufferSize));
+			EXPECT_FAIL(uncompress(buffer2, bufferSize2, nullptr, bufferSize));
 
 			String text2 = String(static_cast<Char const*>(buffer2));
 
