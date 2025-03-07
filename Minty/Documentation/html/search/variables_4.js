@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gb_0',['GB',['../namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8',1,'Minty']]]
+  ['first_0',['first',['../class_minty_1_1_pair.html#a12691ceb5d3df8e5dcd0d2ef8dbff207',1,'Minty::Pair']]]
 ];

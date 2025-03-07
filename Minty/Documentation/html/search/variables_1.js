@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['capacity_0',['capacity',['../struct_minty_1_1_memory_stack_builder.html#a19519a994c7b1cbd2d480e1e1598cc5b',1,'Minty::MemoryStackBuilder']]]
+  ['b_0',['B',['../namespace_minty.html#ac7896eced57a2f85d050b16628f5291e',1,'Minty']]],
+  ['b_1',['b',['../struct_minty_1_1_color.html#a4ff3fb1c5555d38ebb2c409f571a26ec',1,'Minty::Color']]],
+  ['blockcountcapacity_2',['blockCountCapacity',['../struct_minty_1_1_memory_pool_builder.html#aecc1a63a6da938a53565175d4a427df2',1,'Minty::MemoryPoolBuilder']]],
+  ['blocksize_3',['blockSize',['../struct_minty_1_1_memory_pool_builder.html#acb806c83cc83d56a1a8e63f2847da8b4',1,'Minty::MemoryPoolBuilder']]]
 ];

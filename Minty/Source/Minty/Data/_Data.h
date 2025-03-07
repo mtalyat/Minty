@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Array.h"
+#include "Color.h"
 #include "List.h"
 #include "Map.h"
 #include "Pair.h"

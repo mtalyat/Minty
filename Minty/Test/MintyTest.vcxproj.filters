@@ -75,6 +75,9 @@
     <ClCompile Include="Test_Queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Queue.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Color.h">
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
   </ItemGroup>
