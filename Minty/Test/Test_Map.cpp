@@ -421,5 +421,49 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(map.get_capacity() >= 3);
 			EXPECT_TRUE(map.get_size() == 0);
 		}
+
+		TEST("Begin")
+		{
+			Map<int, int> map;
+			map[0] = 0;
+			map[1] = 1;
+			Map<int, int>::Iterator it = map.begin();
+			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			++it;
+			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			++it;
+			EXPECT_FAIL(*it);
+		}
+
+		TEST("End")
+		{
+			Map<int, int> map;
+			map[0] = 0;
+			map[1] = 1;
+			Map<int, int>::Iterator it = map.begin() + 2;
+			EXPECT_TRUE(it == map.end());
+		}
+
+		TEST("Const Begin")
+		{
+			Map<int, int> map;
+			map[0] = 0;
+			map[1] = 1;
+			Map<int, int>::ConstIterator it = map.cbegin();
+			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			++it;
+			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			++it;
+			EXPECT_FAIL(*it);
+		}
+
+		TEST("Const End")
+		{
+			Map<int, int> map;
+			map[0] = 0;
+			map[1] = 1;
+			Map<int, int>::ConstIterator it = map.cbegin() + 2;
+			EXPECT_TRUE(it == map.cend());
+		}
 	}
 }
