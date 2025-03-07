@@ -3,12 +3,12 @@ var indexSectionsWithContent =
   0: "_abcdefghiklmnopqrstuvw~",
   1: "achilmpqrsv",
   2: "ms",
-  3: "_abcflmpqstv",
+  3: "_abceflmpqstv",
   4: "abcdefgilmopqrstuv~",
   5: "abcdfgikmprstv",
   6: "bcdfilnprsuv",
-  7: "a",
-  8: "dpt",
+  7: "ace",
+  8: "dfhilnpst",
   9: "almosv",
   10: "fmw"
 };

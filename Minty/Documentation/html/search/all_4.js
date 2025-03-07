@@ -1,7 +1,7 @@
 var searchData=
 [
   ['deallocate_0',['deallocate',['../class_minty_1_1_memory_manager.html#ab237096b53d8452622f40d33b35f9903',1,'Minty::MemoryManager::deallocate()'],['../class_minty_1_1_memory_pool.html#ae08dc6b6a52c31b08c0f74e0ebfe165a',1,'Minty::MemoryPool::deallocate()'],['../class_minty_1_1_memory_stack.html#a295c175648fc55aa3e47e47b360e0b8a',1,'Minty::MemoryStack::deallocate()'],['../namespace_minty.html#aa1d82ce9c3f5f664d8e1b97c305645e5',1,'Minty::deallocate(void *const ptr, Size const size, Allocator const allocator)']]],
-  ['default_1',['Default',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67',1,'Minty']]],
+  ['default_1',['Default',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default'],['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default']]],
   ['default_5fcollection_5frehash_5fthreshold_2',['DEFAULT_COLLECTION_REHASH_THRESHOLD',['../namespace_minty.html#ae765a26fb4ac7429a492333609d3cad7',1,'Minty']]],
   ['default_5fcollection_5fsize_3',['DEFAULT_COLLECTION_SIZE',['../namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0',1,'Minty']]],
   ['destruct_4',['destruct',['../namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf',1,'Minty']]],

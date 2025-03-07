@@ -126,7 +126,7 @@ doxygen</Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -139,6 +139,10 @@ doxygen</Command>
 cd ..
 doxygen</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,7 +154,7 @@ doxygen</Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -165,6 +169,10 @@ doxygen</Command>
 cd ..
 doxygen</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -174,7 +182,9 @@ doxygen</Command>
     <ClInclude Include="Minty\Console\Console.h" />
     <ClInclude Include="Minty\Console\_Console.h" />
     <ClInclude Include="Minty\Core\Base.h" />
+    <ClInclude Include="Minty\Core\Compression.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
+    <ClInclude Include="Minty\Core\Error.h" />
     <ClInclude Include="Minty\Core\_Core.h" />
     <ClInclude Include="Minty\Core\Format.h" />
     <ClInclude Include="Minty\Core\Macro.h" />
@@ -202,6 +212,7 @@ doxygen</Command>
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
+    <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
