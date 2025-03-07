@@ -61,7 +61,7 @@ namespace Minty
 			, mp_data(nullptr)
 		{
 			reserve(other.m_capacity);
-			resize(other.m_size);
+			m_size = other.m_size;
 
 			for (Size i = 0; i < m_size; ++i)
 			{
@@ -298,7 +298,11 @@ namespace Minty
 		/// </summary>
 		void clear()
 		{
-			resize(0);
+			for (Size i = 0; i < m_size; ++i)
+			{
+				mp_data[i].~T();
+			}
+			m_size = 0;
 		}
 
 #pragma endregion

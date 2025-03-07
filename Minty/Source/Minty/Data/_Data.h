@@ -5,5 +5,6 @@
 #include "Map.h"
 #include "Pair.h"
 #include "Set.h"
+#include "Stack.h"
 #include "String.h"
 #include "Vector.h"
