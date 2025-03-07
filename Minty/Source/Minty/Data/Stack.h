@@ -253,9 +253,8 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Removes the element at the given index.
+		/// Removes the next element in the Stack.
 		/// </summary>
-		/// <param name="index">The index to pop the element from.</param>
 		T pop()
 		{
 			MINTY_ASSERT(m_size > 0, "There are no items to pop.");

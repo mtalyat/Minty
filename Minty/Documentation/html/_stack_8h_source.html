@@ -331,52 +331,52 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        }</div>
 </div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span></div>
-<div class="foldopen" id="foldopen00259" data-start="{" data-end="}">
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">  259</a></span>        T <a class="code hl_function" href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">pop</a>()</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        {</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to pop.&quot;</span>);</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            <span class="comment">// decrement size</span></div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>            --m_size;</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="comment">// return last object</span></div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>            <span class="keywordflow">return</span> std::move(mp_data[m_size]);</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        }</div>
+<div class="foldopen" id="foldopen00258" data-start="{" data-end="}">
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">  258</a></span>        T <a class="code hl_function" href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">pop</a>()</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        {</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to pop.&quot;</span>);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>            <span class="comment">// decrement size</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            --m_size;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            <span class="comment">// return last object</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="keywordflow">return</span> std::move(mp_data[m_size]);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        }</div>
 </div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span></div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#ab6a5b5fb3cb553cd59e4cbdd87248027">  274</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_stack.html#ab6a5b5fb3cb553cd59e4cbdd87248027">is_empty</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_size == 0; }</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span></div>
-<div class="foldopen" id="foldopen00280" data-start="{" data-end="}">
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">  280</a></span>        <span class="keyword">constexpr</span> T&amp; <a class="code hl_function" href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">peek</a>()</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        {</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            <span class="keywordflow">return</span> mp_data[m_size - 1];</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#ab6a5b5fb3cb553cd59e4cbdd87248027">  273</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_stack.html#ab6a5b5fb3cb553cd59e4cbdd87248027">is_empty</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_size == 0; }</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span></div>
+<div class="foldopen" id="foldopen00279" data-start="{" data-end="}">
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">  279</a></span>        <span class="keyword">constexpr</span> T&amp; <a class="code hl_function" href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">peek</a>()</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        {</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>            <span class="keywordflow">return</span> mp_data[m_size - 1];</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        }</div>
 </div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span></div>
-<div class="foldopen" id="foldopen00290" data-start="{" data-end="}">
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">  290</a></span>        <span class="keyword">constexpr</span> T <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">peek</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            <span class="keywordflow">return</span> mp_data[m_size - 1];</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        }</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span></div>
+<div class="foldopen" id="foldopen00289" data-start="{" data-end="}">
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">  289</a></span>        <span class="keyword">constexpr</span> T <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">peek</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>            <span class="keywordflow">return</span> mp_data[m_size - 1];</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        }</div>
 </div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span></div>
-<div class="foldopen" id="foldopen00299" data-start="{" data-end="}">
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a98834cbd48924e9c56ed1efab6e2d5cb">  299</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_stack.html#a98834cbd48924e9c56ed1efab6e2d5cb">clear</a>()</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        {</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            {</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>                mp_data[i].~T();</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            }</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            m_size = 0;</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        }</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span></div>
+<div class="foldopen" id="foldopen00298" data-start="{" data-end="}">
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a98834cbd48924e9c56ed1efab6e2d5cb">  298</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_stack.html#a98834cbd48924e9c56ed1efab6e2d5cb">clear</a>()</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        {</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            {</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                mp_data[i].~T();</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            }</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            m_size = 0;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        }</div>
 </div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    };</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    };</div>
 </div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>}</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
 <div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
 <div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:25</div></div>
@@ -387,17 +387,17 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclass_minty_1_1_stack_html_a187a462ef1894478786c0211e6ced9e7"><div class="ttname"><a href="class_minty_1_1_stack.html#a187a462ef1894478786c0211e6ced9e7">Minty::Stack::get_size</a></div><div class="ttdeci">constexpr Size get_size() const</div><div class="ttdoc">Gets the size of this Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:160</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a20200cba751122c9babf97e5bce3d594"><div class="ttname"><a href="class_minty_1_1_stack.html#a20200cba751122c9babf97e5bce3d594">Minty::Stack::~Stack</a></div><div class="ttdeci">constexpr ~Stack()</div><div class="ttdef"><b>Definition</b> Stack.h:86</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a2b496fed55dadd5a0e46a9e712f97d32"><div class="ttname"><a href="class_minty_1_1_stack.html#a2b496fed55dadd5a0e46a9e712f97d32">Minty::Stack::Stack</a></div><div class="ttdeci">Stack(Size const capacity, Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates an empty Stack with the given capacity.</div><div class="ttdef"><b>Definition</b> Stack.h:45</div></div>
-<div class="ttc" id="aclass_minty_1_1_stack_html_a3e1fe5febdae89e038e7b03184b9c188"><div class="ttname"><a href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">Minty::Stack::peek</a></div><div class="ttdeci">constexpr T &amp; peek()</div><div class="ttdoc">Gets the top element of the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:280</div></div>
+<div class="ttc" id="aclass_minty_1_1_stack_html_a3e1fe5febdae89e038e7b03184b9c188"><div class="ttname"><a href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">Minty::Stack::peek</a></div><div class="ttdeci">constexpr T &amp; peek()</div><div class="ttdoc">Gets the top element of the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:279</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a4eed47e96aece977f1a6fc0e6e799559"><div class="ttname"><a href="class_minty_1_1_stack.html#a4eed47e96aece977f1a6fc0e6e799559">Minty::Stack::Stack</a></div><div class="ttdeci">Stack(Stack &amp;&amp;other)</div><div class="ttdoc">Moves the given Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:76</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a59f85db88695cbd59d95c87e392e13c5"><div class="ttname"><a href="class_minty_1_1_stack.html#a59f85db88695cbd59d95c87e392e13c5">Minty::Stack::get_capacity</a></div><div class="ttdeci">constexpr Size get_capacity() const</div><div class="ttdoc">Gets the capacity of this Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:154</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a636a54331921bdaf29da618035312cc4"><div class="ttname"><a href="class_minty_1_1_stack.html#a636a54331921bdaf29da618035312cc4">Minty::Stack::operator=</a></div><div class="ttdeci">constexpr Stack &amp; operator=(Stack &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> Stack.h:124</div></div>
-<div class="ttc" id="aclass_minty_1_1_stack_html_a80d97fdacef1c40d37de107e2469c103"><div class="ttname"><a href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">Minty::Stack::peek</a></div><div class="ttdeci">constexpr T const &amp; peek() const</div><div class="ttdoc">Gets the top element of the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:290</div></div>
+<div class="ttc" id="aclass_minty_1_1_stack_html_a80d97fdacef1c40d37de107e2469c103"><div class="ttname"><a href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">Minty::Stack::peek</a></div><div class="ttdeci">constexpr T const &amp; peek() const</div><div class="ttdoc">Gets the top element of the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:289</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a82c07e5961f2ca4aa9c435aaac16232c"><div class="ttname"><a href="class_minty_1_1_stack.html#a82c07e5961f2ca4aa9c435aaac16232c">Minty::Stack::push</a></div><div class="ttdeci">void push(T &amp;&amp;value)</div><div class="ttdoc">Adds an element to the end of the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:236</div></div>
-<div class="ttc" id="aclass_minty_1_1_stack_html_a98834cbd48924e9c56ed1efab6e2d5cb"><div class="ttname"><a href="class_minty_1_1_stack.html#a98834cbd48924e9c56ed1efab6e2d5cb">Minty::Stack::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Removes all elements from the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:299</div></div>
-<div class="ttc" id="aclass_minty_1_1_stack_html_ab6a5b5fb3cb553cd59e4cbdd87248027"><div class="ttname"><a href="class_minty_1_1_stack.html#ab6a5b5fb3cb553cd59e4cbdd87248027">Minty::Stack::is_empty</a></div><div class="ttdeci">Bool is_empty() const</div><div class="ttdoc">Checks if this Stack is empty.</div><div class="ttdef"><b>Definition</b> Stack.h:274</div></div>
+<div class="ttc" id="aclass_minty_1_1_stack_html_a98834cbd48924e9c56ed1efab6e2d5cb"><div class="ttname"><a href="class_minty_1_1_stack.html#a98834cbd48924e9c56ed1efab6e2d5cb">Minty::Stack::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Removes all elements from the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:298</div></div>
+<div class="ttc" id="aclass_minty_1_1_stack_html_ab6a5b5fb3cb553cd59e4cbdd87248027"><div class="ttname"><a href="class_minty_1_1_stack.html#ab6a5b5fb3cb553cd59e4cbdd87248027">Minty::Stack::is_empty</a></div><div class="ttdeci">Bool is_empty() const</div><div class="ttdoc">Checks if this Stack is empty.</div><div class="ttdef"><b>Definition</b> Stack.h:273</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_ac71b2ac403693d85c9c04bdc63826555"><div class="ttname"><a href="class_minty_1_1_stack.html#ac71b2ac403693d85c9c04bdc63826555">Minty::Stack::push</a></div><div class="ttdeci">void push(T const &amp;value)</div><div class="ttdoc">Adds an element to the end of the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:213</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_ad4762eb56bb87ef04d0367d795ff903d"><div class="ttname"><a href="class_minty_1_1_stack.html#ad4762eb56bb87ef04d0367d795ff903d">Minty::Stack::Stack</a></div><div class="ttdeci">Stack(Stack const &amp;other)</div><div class="ttdoc">Copies the given Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:58</div></div>
-<div class="ttc" id="aclass_minty_1_1_stack_html_ad6b163e2817c07c43c8740dfd2abdf82"><div class="ttname"><a href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">Minty::Stack::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdoc">Removes the element at the given index.</div><div class="ttdef"><b>Definition</b> Stack.h:259</div></div>
+<div class="ttc" id="aclass_minty_1_1_stack_html_ad6b163e2817c07c43c8740dfd2abdf82"><div class="ttname"><a href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">Minty::Stack::pop</a></div><div class="ttdeci">T pop()</div><div class="ttdoc">Removes the next element in the Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:258</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_ae0d764e1ba450d1dcaa2d1a60717c9ae"><div class="ttname"><a href="class_minty_1_1_stack.html#ae0d764e1ba450d1dcaa2d1a60717c9ae">Minty::Stack::reserve</a></div><div class="ttdeci">void reserve(Size const capacity)</div><div class="ttdoc">Resizes the internal array to the given capacity, if it is larger than the current capacity.</div><div class="ttdef"><b>Definition</b> Stack.h:183</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_ae641b3018b21d3b18cb622a64c874e1b"><div class="ttname"><a href="class_minty_1_1_stack.html#ae641b3018b21d3b18cb622a64c874e1b">Minty::Stack::get_data</a></div><div class="ttdeci">constexpr T const * get_data() const</div><div class="ttdoc">Gets the internal pointer to the data.</div><div class="ttdef"><b>Definition</b> Stack.h:172</div></div>
 <div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
