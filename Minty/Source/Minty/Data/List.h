@@ -4,6 +4,10 @@
 
 namespace Minty
 {
+	/// <summary>
+	/// Provides a collection of elements as a doubly linked list.
+	/// </summary>
+	/// <typeparam name="T">The type of elements.</typeparam>
 	template<typename T>
 	class List
 	{
