@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Base.h"
+#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pair.h"
 
@@ -125,7 +126,7 @@ namespace Minty
 
 			Bool operator==(Iterator const& other) const
 			{
-				return mp_table == other.mp_table && m_bucketIndex == other.m_bucketIndex && mp_current == other.mp_current;
+				return mp_table == other.mp_table && m_capacity == other.m_capacity && m_bucketIndex == other.m_bucketIndex && mp_current == other.mp_current;
 			}
 
 			Bool operator!=(Iterator const& other) const
@@ -217,7 +218,7 @@ namespace Minty
 
 			Bool operator==(ConstIterator const& other) const
 			{
-				return mp_table == other.mp_table && m_bucketIndex == other.m_bucketIndex && mp_current == other.mp_current;
+				return mp_table == other.mp_table && m_capacity == other.m_capacity && m_bucketIndex == other.m_bucketIndex && mp_current == other.mp_current;
 			}
 
 			Bool operator!=(ConstIterator const& other) const
