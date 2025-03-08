@@ -12,5 +12,7 @@ var searchData=
   ['tostring_2ecpp_9',['ToString.cpp',['../_to_string_8cpp.html',1,'']]],
   ['tostring_2eh_10',['ToString.h',['../_to_string_8h.html',1,'']]],
   ['truncate_11',['Truncate',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aaa8156810bfee2bd2b44765b9e91db3bd',1,'Minty::File']]],
-  ['types_2eh_12',['Types.h',['../_types_8h.html',1,'']]]
+  ['type_12',['Type',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120e',1,'Minty::Wrap']]],
+  ['type_13',['type',['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header']]],
+  ['types_2eh_14',['Types.h',['../_types_8h.html',1,'']]]
 ];

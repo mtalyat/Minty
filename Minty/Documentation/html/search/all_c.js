@@ -37,5 +37,6 @@ var searchData=
   ['minty_5fdebug_5finfo_34',['MINTY_DEBUG_INFO',['../_macro_8h.html#adb50575c5f867b31cfad57c270eee694',1,'Macro.h']]],
   ['minty_5ferror_35',['MINTY_ERROR',['../_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79',1,'Macro.h']]],
   ['minty_5flog_36',['MINTY_LOG',['../_macro_8h.html#a94eafa87963d877703d10a28fd7f9402',1,'Macro.h']]],
-  ['minty_5fto_5fstring_37',['MINTY_TO_STRING',['../_to_string_8cpp.html#ab89aeed063efba719932d7a316f47723',1,'ToString.cpp']]]
+  ['minty_5fto_5fstring_37',['MINTY_TO_STRING',['../_to_string_8cpp.html#ab89aeed063efba719932d7a316f47723',1,'ToString.cpp']]],
+  ['move_38',['move',['../class_minty_1_1_file.html#ae5457a1bd237c45ed7071fdaa4cb107b',1,'Minty::File']]]
 ];

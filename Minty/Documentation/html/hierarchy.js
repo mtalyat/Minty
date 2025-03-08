@@ -15,6 +15,7 @@ var hierarchy =
     [ "Minty::Array< T, S >::ConstReverseIterator", "class_minty_1_1_array_1_1_const_reverse_iterator.html", null ],
     [ "Minty::List< T >::ConstReverseIterator", "class_minty_1_1_list_1_1_const_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ConstReverseIterator", "class_minty_1_1_vector_1_1_const_reverse_iterator.html", null ],
+    [ "Minty::Wrap::Entry", "struct_minty_1_1_wrap_1_1_entry.html", null ],
     [ "Minty::File", "class_minty_1_1_file.html", [
       [ "Minty::PhysicalFile", "class_minty_1_1_physical_file.html", [
         [ "Minty::VirtualFile", "class_minty_1_1_virtual_file.html", null ]
@@ -23,6 +24,7 @@ var hierarchy =
     [ "std::hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", null ],
     [ "std::hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", null ],
     [ "std::hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", null ],
+    [ "Minty::Wrap::Header", "struct_minty_1_1_wrap_1_1_header.html", null ],
     [ "Minty::Array< T, S >::Iterator", "class_minty_1_1_array_1_1_iterator.html", null ],
     [ "Minty::List< T >::Iterator", "class_minty_1_1_list_1_1_iterator.html", null ],
     [ "Minty::Map< Key, Value >::Iterator", "class_minty_1_1_map_1_1_iterator.html", null ],

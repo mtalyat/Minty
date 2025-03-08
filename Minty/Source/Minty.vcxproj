@@ -224,6 +224,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\Path.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
+    <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />

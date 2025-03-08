@@ -86,6 +86,23 @@ void Minty::Wrap::load(Path const& path)
     file.close();
 }
 
+void Minty::Wrap::flush()
+{
+	// open file, open with truncate to override any existing file
+	PhysicalFile file(m_path, File::Flags::Write | File::Flags::Binary | File::Flags::Truncate);
+
+	// write header
+	write_header(file);
+	
+    // write entries
+	for (uint32_t i = 0; i < m_header.entryCount; i++)
+	{
+		write_entry(file, i);
+	}
+	
+    file.close();
+}
+
 void Minty::Wrap::write_header(PhysicalFile& wrapFile) const
 {
     wrapFile.seek_write(0);
@@ -362,15 +379,23 @@ Vector<Char> Minty::Wrap::read(Path const& path) const
     // uncompress it
     ULong sourceSize = static_cast<ULong>(entry.compressedSize);
     ULong size = static_cast<ULong>(entry.uncompressedSize);
-    Byte* data = new Byte[size];
-    if (!uncompress(data, size, fileData, sourceSize))
-    {
-        MINTY_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
-        return Vector<Char>();
-    }
-
-    // done with file data
-    delete[] fileData;
+    Byte* data = nullptr;
+	// uncompress it, if it is compressed
+	if (entry.compressedSize == entry.uncompressedSize)
+	{
+        data = fileData;
+		fileData = nullptr;
+	}
+	else
+	{
+		data = new Byte[size];
+		if (!uncompress(data, size, fileData, sourceSize))
+		{
+			MINTY_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
+			return Vector<Char>();
+		}
+        delete[] fileData;
+	}
 
     // add to vector
     Vector<Char> result;

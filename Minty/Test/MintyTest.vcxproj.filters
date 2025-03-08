@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Tests\File">
       <UniqueIdentifier>{98750518-5e3a-4395-b83a-a14c1a5f22ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Wrap">
+      <UniqueIdentifier>{4ec241ba-b60f-4223-8cdd-edd7ed73960a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -91,6 +94,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_VirtualFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Wrap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +165,12 @@
       <Filter>Header Files\Tests\File</Filter>
     </ClInclude>
     <ClInclude Include="Test_VirtualFile.h">
+      <Filter>Header Files\Tests\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Wrap.h">
+      <Filter>Header Files\Tests\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_File.h">
       <Filter>Header Files\Tests\File</Filter>
     </ClInclude>
   </ItemGroup>

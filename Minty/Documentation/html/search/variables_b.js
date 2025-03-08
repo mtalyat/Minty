@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['r_0',['r',['../struct_minty_1_1_color.html#a57ea73a75c5714fbe3ec7fa64e27081d',1,'Minty::Color']]]
+  ['offset_0',['offset',['../struct_minty_1_1_wrap_1_1_entry.html#ad8e965d5bda92c012fbe736f08d9bd9e',1,'Minty::Wrap::Entry']]]
 ];

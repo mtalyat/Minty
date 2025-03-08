@@ -256,8 +256,16 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		// loads the Wrap file using the _path
+		/// <summary>
+		/// Loads the Wrap file at the given path.
+		/// </summary>
+		/// <param name="path">The Path of the Wrap file.</param>
 		void load(Path const& path);
+
+		/// <summary>
+		/// Flushes all changes within this Wrap to the disk.
+		/// </summary>
+		void flush();
 
 	private:
 		// writes the header to the file
