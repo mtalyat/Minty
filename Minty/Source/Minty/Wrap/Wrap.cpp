@@ -77,7 +77,7 @@ void Minty::Wrap::load(Path const& path)
         // add path and index
         m_indexed.add(fix_path(entry.path), i);
         // add to empties if empty
-        if (entry.empty())
+        if (entry.is_empty())
         {
             m_empties.add(i);
         }
@@ -425,10 +425,6 @@ Wrap Minty::Wrap::load_or_create(Path const& path, String const& name, uint32_t 
     }
 }
 
-Minty::Wrap::Header::Header()
-{
-}
-
 Minty::Wrap::Header::Header(Header const& other)
     : id("")
     , type(other.type)
@@ -463,10 +459,6 @@ Wrap::Header& Minty::Wrap::Header::operator=(Header const& other)
     return *this;
 }
 
-Minty::Wrap::Entry::Entry()
-{
-}
-
 Minty::Wrap::Entry::Entry(Entry const& other)
     : path("")
     , compressionLevel(other.compressionLevel)
@@ -495,7 +487,3 @@ Wrap::Entry& Minty::Wrap::Entry::operator=(Entry const& other)
     return *this;
 }
 
-Bool Minty::Wrap::Entry::empty() const
-{
-    return uncompressedSize == 0;
-}

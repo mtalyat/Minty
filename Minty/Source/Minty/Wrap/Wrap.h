@@ -75,7 +75,7 @@ namespace Minty
 			/// </summary>
 			uint32_t entryCount = 0;
 
-			Header();
+			Header() = default;
 
 			Header(Header const& other);
 
@@ -117,30 +117,36 @@ namespace Minty
 			/// </summary>
 			uint32_t offset = 0;
 
-			Entry();
+			Entry() = default;
 
 			Entry(Entry const& other);
 
 			Entry& operator=(Entry const& other);
 
-			Bool empty() const;
+			Bool is_empty() const { return uncompressedSize == 0; }
 		};
 
 #pragma endregion
 
-		private:
-			// path to the wrap file on the disk
-			Path m_path;
+#pragma region Variables
 
-			// header in the wrap file
-			Header m_header;
+	private:
+		// path to the wrap file on the disk
+		Path m_path;
 
-			// list of entries in the wrap file
-			Vector<Entry> m_entries;
-			// list of empty gaps in the wrap file, where files used to be
-			Set<uint32_t> m_empties;
-			// virtual paths indexed to entry indices
-			Map<Path, Size> m_indexed;
+		// header in the wrap file
+		Header m_header;
+
+		// list of entries in the wrap file
+		Vector<Entry> m_entries;
+		// list of empty gaps in the wrap file, where files used to be
+		Set<uint32_t> m_empties;
+		// virtual paths indexed to entry indices
+		Map<Path, Size> m_indexed;
+
+#pragma endregion
+
+#pragma region Constructors
 
 	public:
 		/// <summary>
@@ -165,6 +171,75 @@ namespace Minty
 		/// <param name="base">The base path all files within the Wrap file.</param>
 		/// <param name="contentVersion">The version of the content within the Wrap file.</param>
 		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
+
+#pragma endregion
+
+#pragma region Get Set
+
+	public:
+		/// <summary>
+		/// Gets the base path of each file within this Wrap.
+		/// </summary>
+		/// <returns></returns>
+		Char const* get_base_path() const;
+
+		/// <summary>
+		/// Sets the base path of each file within this Wrap.
+		/// </summary>
+		/// <param name="path"></param>
+		void set_base_path(Path const& path);
+
+		/// <summary>
+		/// Gets the Path that this Wrap file is located at.
+		/// </summary>
+		/// <returns></returns>
+		Path const& get_path() const;
+
+		/// <summary>
+		/// Gets the name of this Wrap file.
+		/// </summary>
+		/// <returns></returns>
+		Char const* get_name() const;
+
+		/// <summary>
+		/// Sets the name of this Wrap file.
+		/// </summary>
+		/// <param name="name"></param>
+		void set_name(String const& name);
+
+		/// <summary>
+		/// Gets the Wrap version of this Wrap file.
+		/// </summary>
+		/// <returns></returns>
+		uint16_t get_wrap_version() const;
+
+		/// <summary>
+		/// Gets the content version of this Wrap file.
+		/// </summary>
+		/// <returns></returns>
+		uint32_t get_content_version() const;
+
+		/// <summary>
+		/// Gets the type of this Wrap file.
+		/// </summary>
+		/// <returns></returns>
+		Type get_type() const;
+
+		/// <summary>
+		/// Sets the Type for this Wrap file.
+		/// </summary>
+		/// <param name="type"></param>
+		void set_type(Type const type);
+
+		/// <summary>
+		/// Gets the size of the Wrap file.
+		/// </summary>
+		/// <returns></returns>
+		Size get_size() const;
+
+#pragma endregion
+
+#pragma region Methods
 
 	public:
 		// loads the Wrap file using the _path
@@ -240,82 +315,25 @@ namespace Minty
 		/// <param name="index"></param>
 		/// <returns></returns>
 		Entry const& get_entry(Path const& path) const;
+
 #pragma endregion
 
-#pragma region Get Set
+#pragma endregion
+
+#pragma region Statics
 
 	public:
 		/// <summary>
-		/// Gets the base path of each file within this Wrap.
-		/// </summary>
-		/// <returns></returns>
-		Char const* get_base_path() const;
-
-		/// <summary>
-		/// Sets the base path of each file within this Wrap.
-		/// </summary>
-		/// <param name="path"></param>
-		void set_base_path(Path const& path);
-
-		/// <summary>
-		/// Gets the Path that this Wrap file is located at.
-		/// </summary>
-		/// <returns></returns>
-		Path const& get_path() const;
-
-		/// <summary>
-		/// Gets the name of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		Char const* get_name() const;
-
-		/// <summary>
-		/// Sets the name of this Wrap file.
-		/// </summary>
-		/// <param name="name"></param>
-		void set_name(String const& name);
-
-		/// <summary>
-		/// Gets the Wrap version of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		uint16_t get_wrap_version() const;
-
-		/// <summary>
-		/// Gets the content version of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		uint32_t get_content_version() const;
-
-		/// <summary>
-		/// Gets the type of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		Type get_type() const;
-
-		/// <summary>
-		/// Sets the Type for this Wrap file.
-		/// </summary>
-		/// <param name="type"></param>
-		void set_type(Type const type);
-
-		/// <summary>
-		/// Gets the size of the Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		Size get_size() const;
+/// Loads or creates a new Wrap if none exists.
+/// </summary>
+/// <param name="path"></param>
+/// <param name="name"></param>
+/// <param name="entryCount"></param>
+/// <param name="base"></param>
+/// <param name="contentVersion"></param>
+/// <returns></returns>
+		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
 
 #pragma endregion
-
-		/// <summary>
-		/// Loads or creates a new Wrap if none exists.
-		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="name"></param>
-		/// <param name="entryCount"></param>
-		/// <param name="base"></param>
-		/// <param name="contentVersion"></param>
-		/// <returns></returns>
-		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
 	};
 }
