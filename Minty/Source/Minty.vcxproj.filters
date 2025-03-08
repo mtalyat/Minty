@@ -31,6 +31,9 @@
     <Filter Include="Header Files\File">
       <UniqueIdentifier>{1d11488f-5f0e-4c6c-ba42-88dbcfa39456}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Wrap">
+      <UniqueIdentifier>{39797de9-32cc-41f7-857e-203b1d8071f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -141,6 +144,18 @@
     <ClInclude Include="Minty\File\VirtualFile.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Wrap\_Wrap.h">
+      <Filter>Header Files\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Wrap\Wrap.h">
+      <Filter>Header Files\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Wrap\Wrapper.h">
+      <Filter>Header Files\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Core\Math.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -180,6 +195,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\File\VirtualFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Wrap\Wrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

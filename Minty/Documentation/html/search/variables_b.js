@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['second_0',['second',['../class_minty_1_1_pair.html#a50ca1d86095457e28abdd9fb48a0fcab',1,'Minty::Pair']]]
+  ['r_0',['r',['../struct_minty_1_1_color.html#a57ea73a75c5714fbe3ec7fa64e27081d',1,'Minty::Color']]]
 ];

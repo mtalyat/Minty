@@ -21,6 +21,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "std::hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", null ],
+    [ "std::hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", null ],
     [ "std::hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", null ],
     [ "Minty::Array< T, S >::Iterator", "class_minty_1_1_array_1_1_iterator.html", null ],
     [ "Minty::List< T >::Iterator", "class_minty_1_1_list_1_1_iterator.html", null ],
@@ -46,5 +47,7 @@ var hierarchy =
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],
     [ "Minty::Stack< T >", "class_minty_1_1_stack.html", null ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
-    [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ]
+    [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
+    [ "Minty::Wrap", "class_minty_1_1_wrap.html", null ],
+    [ "Minty::Wrapper", "class_minty_1_1_wrapper.html", null ]
 ];
