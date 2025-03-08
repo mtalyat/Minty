@@ -38,6 +38,7 @@ var NAVTREE =
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
+      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
@@ -60,12 +61,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"class_minty_1_1_array_1_1_reverse_iterator.html#a06f7db053dc95ad8e7213d9da3db8eb4",
-"class_minty_1_1_list_1_1_iterator.html#af1c2fd4f9eec40d8aa3b7c2c23bfd82d",
-"class_minty_1_1_path.html",
-"class_minty_1_1_stack.html#ae0d764e1ba450d1dcaa2d1a60717c9ae",
-"class_minty_1_1_vector_1_1_const_iterator.html#afcb7cf5bc75a35b379cdb198959284ea",
-"struct_minty_1_1_color.html#a4ff3fb1c5555d38ebb2c409f571a26ec"
+"class_minty_1_1_array_1_1_reverse_iterator.html#a05289b10e19b63c454574c45f07d7f1e",
+"class_minty_1_1_list_1_1_const_reverse_iterator.html#a9270a88fefe429d2c91f4b5cd9bb0459",
+"class_minty_1_1_memory_stack.html#aa32fe829f476a20a5dabf280c05ce982",
+"class_minty_1_1_set.html#a798d3cc44b59f2da35dcf651074b64b9",
+"class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728",
+"functions_w.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

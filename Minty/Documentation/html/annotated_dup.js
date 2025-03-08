@@ -17,6 +17,7 @@ var annotated_dup =
       [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
       [ "Pair", "class_minty_1_1_pair.html", "class_minty_1_1_pair" ],
       [ "Path", "class_minty_1_1_path.html", "class_minty_1_1_path" ],
+      [ "PhysicalFile", "class_minty_1_1_physical_file.html", "class_minty_1_1_physical_file" ],
       [ "Queue", "class_minty_1_1_queue.html", "class_minty_1_1_queue" ],
       [ "Set", "class_minty_1_1_set.html", "class_minty_1_1_set" ],
       [ "Stack", "class_minty_1_1_stack.html", "class_minty_1_1_stack" ],

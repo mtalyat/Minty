@@ -103,7 +103,7 @@ namespace Minty
 
 #pragma region Variables
 
-	private:
+	protected:
 		Path m_path;
 		Flags m_flags;
 
@@ -132,9 +132,7 @@ namespace Minty
 		{
 		}
 
-		virtual ~File()
-		{
-		}
+		virtual ~File() = default;
 
 #pragma endregion
 
@@ -152,6 +150,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The accessor flags.</returns>
 		Flags get_flags() const { return m_flags; }
+
+		/// <summary>
+		/// Gets the size of the file.
+		/// </summary>
+		/// <returns></returns>
+		virtual Size_t get_size() const = 0;
 
 #pragma endregion
 
@@ -225,12 +229,6 @@ namespace Minty
 		/// </summary>
 		/// <returns></returns>
 		virtual Position_t tell_write() = 0;
-
-		/// <summary>
-		/// Gets the size of the file.
-		/// </summary>
-		/// <returns></returns>
-		virtual Size_t size() const = 0;
 
 		/// <summary>
 		/// Checks the next character after the cursor.
