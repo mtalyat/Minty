@@ -16,6 +16,7 @@ namespace Minty
 	{
 #pragma region Classes
 
+	public:
 		/// <summary>
 		/// The type of the Wrap file.
 		/// </summary>
@@ -75,7 +76,11 @@ namespace Minty
 			/// </summary>
 			uint32_t entryCount = 0;
 
-			Header() = default;
+			Header()
+			{
+				memset(basePath, 0, WRAP_HEADER_PATH_SIZE * sizeof(Char));
+				memset(name, 0, WRAP_HEADER_NAME_SIZE * sizeof(Char));
+			}
 
 			Header(Header const& other);
 
@@ -117,7 +122,10 @@ namespace Minty
 			/// </summary>
 			uint32_t offset = 0;
 
-			Entry() = default;
+			Entry()
+			{
+				memset(path, 0, WRAP_ENTRY_PATH_SIZE * sizeof(Char));
+			}
 
 			Entry(Entry const& other);
 
@@ -237,6 +245,12 @@ namespace Minty
 		/// <returns></returns>
 		Size get_size() const;
 
+		/// <summary>
+		/// Gets the number of entries in this Wrap.
+		/// </summary>
+		/// <returns></returns>
+		Size get_entry_count() const;
+
 #pragma endregion
 
 #pragma region Methods
@@ -304,12 +318,6 @@ namespace Minty
 		Entry const& get_entry(Size const index) const;
 
 		/// <summary>
-		/// Gets the number of entries in this Wrap.
-		/// </summary>
-		/// <returns></returns>
-		Size get_entry_count() const;
-
-		/// <summary>
 		/// Gets the Entry at the given path.
 		/// </summary>
 		/// <param name="index"></param>
@@ -324,14 +332,14 @@ namespace Minty
 
 	public:
 		/// <summary>
-/// Loads or creates a new Wrap if none exists.
-/// </summary>
-/// <param name="path"></param>
-/// <param name="name"></param>
-/// <param name="entryCount"></param>
-/// <param name="base"></param>
-/// <param name="contentVersion"></param>
-/// <returns></returns>
+		/// Loads or creates a new Wrap if none exists.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="name"></param>
+		/// <param name="entryCount"></param>
+		/// <param name="base"></param>
+		/// <param name="contentVersion"></param>
+		/// <returns></returns>
 		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
 
 #pragma endregion

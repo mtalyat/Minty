@@ -6,7 +6,7 @@
 using namespace Minty;
 
 Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion)
-    : m_path(path)
+    : m_path(path.get_absolute())
     , m_header()
     , m_entries()
     , m_indexed()
@@ -26,7 +26,7 @@ Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCoun
     }
 
     // open file, open with truncate to override any existing file
-    PhysicalFile file(path, File::Flags::Write | File::Flags::Binary | File::Flags::Truncate);
+    PhysicalFile file(m_path, File::Flags::Write | File::Flags::Binary | File::Flags::Truncate);
 
     // write header
     write_header(file);
@@ -170,7 +170,7 @@ uint32_t Minty::Wrap::emplace_entry(Entry& newEntry)
 
 Path Minty::Wrap::fix_path(Path const& path) const
 {
-    if (path.is_empty() || m_header.basePath[0] == '\0' || *path.begin() == m_header.basePath)
+    if (path.is_empty() || m_header.basePath[0] == '\0' || path.begin()->get_string() == m_header.basePath)
     {
         // all good
         return path;
@@ -184,7 +184,7 @@ Path Minty::Wrap::fix_path(Path const& path) const
 
 Path Minty::Wrap::relative_path(Path const& path) const
 {
-    if (path.is_empty() || m_header.basePath[0] == '\0' || *path.begin() != m_header.basePath)
+    if (path.is_empty() || m_header.basePath[0] == '\0' || path.begin()->get_string() != m_header.basePath)
     {
         // all good
         return path;
@@ -196,7 +196,7 @@ Path Minty::Wrap::relative_path(Path const& path) const
     }
 }
 
-char const* Minty::Wrap::get_base_path() const
+Char const* Minty::Wrap::get_base_path() const
 {
     return m_header.basePath;
 }
@@ -222,7 +222,7 @@ Path const& Minty::Wrap::get_path() const
     return m_path;
 }
 
-char const* Minty::Wrap::get_name() const
+Char const* Minty::Wrap::get_name() const
 {
     return m_header.name;
 }
@@ -343,14 +343,14 @@ Bool Minty::Wrap::open(Path const& path, VirtualFile& file) const
     return true;
 }
 
-Vector<char> Minty::Wrap::read(Path const& path) const
+Vector<Char> Minty::Wrap::read(Path const& path) const
 {
     VirtualFile file;
 
     if (!open(path, file))
     {
         // could not open
-        return Vector<char>();
+        return Vector<Char>();
     }
 
     // read all data from file
@@ -363,17 +363,17 @@ Vector<char> Minty::Wrap::read(Path const& path) const
     ULong sourceSize = static_cast<ULong>(entry.compressedSize);
     ULong size = static_cast<ULong>(entry.uncompressedSize);
     Byte* data = new Byte[size];
-    if (uncompress(data, size, fileData, sourceSize))
+    if (!uncompress(data, size, fileData, sourceSize))
     {
         MINTY_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
-        return Vector<char>();
+        return Vector<Char>();
     }
 
     // done with file data
     delete[] fileData;
 
     // add to vector
-    Vector<char> result;
+    Vector<Char> result;
     result.resize(size);
     memcpy(result.get_data(), data, size);
 
