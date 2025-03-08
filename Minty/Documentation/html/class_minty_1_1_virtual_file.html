@@ -110,7 +110,7 @@ $(function(){initNavTree('class_minty_1_1_virtual_file.html',''); initResizable(
 </div><!--header-->
 <div class="contents">
 
-<p>Handles reading/writing to a virtual file.  
+<p>Treats a part of a <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a> as if it were an entire file.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_virtual_file_8h_source.html">VirtualFile.h</a>&gt;</code></p>
@@ -128,8 +128,10 @@ Inheritance diagram for Minty::VirtualFile:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac6f1ebe4c007f6d9ca268b8dae7e03ca" id="r_ac6f1ebe4c007f6d9ca268b8dae7e03ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6f1ebe4c007f6d9ca268b8dae7e03ca">VirtualFile</a> ()</td></tr>
+<tr class="memdesc:ac6f1ebe4c007f6d9ca268b8dae7e03ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <a class="el" href="class_minty_1_1_virtual_file.html" title="Treats a part of a PhysicalFile as if it were an entire file.">VirtualFile</a>.  <br /></td></tr>
 <tr class="separator:ac6f1ebe4c007f6d9ca268b8dae7e03ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b162283f55ba13683fe3fa8058fcdf2" id="r_a8b162283f55ba13683fe3fa8058fcdf2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b162283f55ba13683fe3fa8058fcdf2">VirtualFile</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a">Flags</a> const flags, <a class="el" href="class_minty_1_1_file.html#adc57d381c9a1fae933a5ed8e51558e07">Position_t</a> const offset, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)</td></tr>
+<tr class="memdesc:a8b162283f55ba13683fe3fa8058fcdf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_virtual_file.html" title="Treats a part of a PhysicalFile as if it were an entire file.">VirtualFile</a> with the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> and <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a>, as well as the given virtual offset and size within the PhyiscalFile.  <br /></td></tr>
 <tr class="separator:a8b162283f55ba13683fe3fa8058fcdf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62ffe5dc0c7b6eabc930b73bed3d834f" id="r_a62ffe5dc0c7b6eabc930b73bed3d834f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62ffe5dc0c7b6eabc930b73bed3d834f">~VirtualFile</a> ()=default</td></tr>
 <tr class="separator:a62ffe5dc0c7b6eabc930b73bed3d834f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +139,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:adc380aa78cc0028069483a94c873a186"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of the file.  <br /></td></tr>
 <tr class="separator:adc380aa78cc0028069483a94c873a186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a074fcc68cd108189dfbea01e02c891b2" id="r_a074fcc68cd108189dfbea01e02c891b2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a074fcc68cd108189dfbea01e02c891b2">open</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a">Flags</a> const flags, <a class="el" href="class_minty_1_1_file.html#adc57d381c9a1fae933a5ed8e51558e07">Position_t</a> const offset, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)</td></tr>
+<tr class="memdesc:a074fcc68cd108189dfbea01e02c891b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens this <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> with the given <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a>.  <br /></td></tr>
 <tr class="separator:a074fcc68cd108189dfbea01e02c891b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26ee15ccda8b5353e303c886e37085f7" id="r_a26ee15ccda8b5353e303c886e37085f7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26ee15ccda8b5353e303c886e37085f7">seek_read</a> (<a class="el" href="class_minty_1_1_file.html#adc57d381c9a1fae933a5ed8e51558e07">Position_t</a> const offset, <a class="el" href="class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471e">Direction</a> dir=<a class="el" href="class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471ea1a06729125544cab7cee73195fc044f0">Direction::Begin</a>) override</td></tr>
 <tr class="memdesc:a26ee15ccda8b5353e303c886e37085f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the read cursor to a new location within the file.  <br /></td></tr>
@@ -255,7 +258,7 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a253ea22824d3715569a5d241bb6a205a inherit pub_types_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Handles reading/writing to a virtual file. </p>
+<div class="textblock"><p>Treats a part of a <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a> as if it were an entire file. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac6f1ebe4c007f6d9ca268b8dae7e03ca" name="ac6f1ebe4c007f6d9ca268b8dae7e03ca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac6f1ebe4c007f6d9ca268b8dae7e03ca">&#9670;&#160;</a></span>VirtualFile() <span class="overload">[1/2]</span></h2>
@@ -279,6 +282,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Creates an empty <a class="el" href="class_minty_1_1_virtual_file.html" title="Treats a part of a PhysicalFile as if it were an entire file.">VirtualFile</a>. </p>
 
 </div>
 </div>
@@ -318,6 +323,17 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Creates a <a class="el" href="class_minty_1_1_virtual_file.html" title="Treats a part of a PhysicalFile as if it were an entire file.">VirtualFile</a> with the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> and <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a>, as well as the given virtual offset and size within the PhyiscalFile. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.</td></tr>
+    <tr><td class="paramname">flags</td><td>The <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a> for accessing the file.</td></tr>
+    <tr><td class="paramname">offset</td><td>The offset within the <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a>.</td></tr>
+    <tr><td class="paramname">size</td><td>The size within the <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -443,6 +459,15 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Opens this <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> with the given <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The location of the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a> to open.</td></tr>
+    <tr><td class="paramname">flags</td><td>The accessor <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a> for this <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
