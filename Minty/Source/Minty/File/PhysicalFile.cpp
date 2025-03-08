@@ -70,8 +70,8 @@ Bool Minty::PhysicalFile::end_of_file()
 
 File::Position_t Minty::PhysicalFile::tell()
 {
-    MINTY_ABORT("PhysicalFile::tell() not supported. Use tell_read() or tell_write().");
-    return Position_t();
+	MINTY_ASSERT(tell_read() == tell_write(), "Read and Write cursors are not in sync.");
+	return tell_read();
 }
 
 File::Position_t Minty::PhysicalFile::tell_read()
@@ -94,7 +94,7 @@ Char Minty::PhysicalFile::peek()
     return m_stream.peek();
 }
 
-Char Minty::PhysicalFile::get()
+Char Minty::PhysicalFile::read()
 {
     return m_stream.get();
 }

@@ -174,9 +174,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa3caf650d33f34f6b245bf2d67c90a0f" id="r_aa3caf650d33f34f6b245bf2d67c90a0f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3caf650d33f34f6b245bf2d67c90a0f">peek</a> () override</td></tr>
 <tr class="memdesc:aa3caf650d33f34f6b245bf2d67c90a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the next character after the cursor.  <br /></td></tr>
 <tr class="separator:aa3caf650d33f34f6b245bf2d67c90a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a113698949d5dd526a8d16e84cace30fa" id="r_a113698949d5dd526a8d16e84cace30fa"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a113698949d5dd526a8d16e84cace30fa">get</a> () override</td></tr>
-<tr class="memdesc:a113698949d5dd526a8d16e84cace30fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the next character after the cursor, and moves the cursor to that position.  <br /></td></tr>
-<tr class="separator:a113698949d5dd526a8d16e84cace30fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefdb9534f4d6ea593c95153f73fbf1c7" id="r_aefdb9534f4d6ea593c95153f73fbf1c7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefdb9534f4d6ea593c95153f73fbf1c7">read</a> () override</td></tr>
+<tr class="memdesc:aefdb9534f4d6ea593c95153f73fbf1c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the next character after the cursor, and moves the cursor to that position.  <br /></td></tr>
+<tr class="separator:aefdb9534f4d6ea593c95153f73fbf1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79e8427e9dfc6b35d97a9b4155d6e22c" id="r_a79e8427e9dfc6b35d97a9b4155d6e22c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79e8427e9dfc6b35d97a9b4155d6e22c">read</a> (void *const buffer, <a class="el" href="class_minty_1_1_file.html#a253ea22824d3715569a5d241bb6a205a">Size_t</a> const size) override</td></tr>
 <tr class="memdesc:a79e8427e9dfc6b35d97a9b4155d6e22c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the given size of data into the given buffer, and moves the cursor size bytes.  <br /></td></tr>
 <tr class="separator:a79e8427e9dfc6b35d97a9b4155d6e22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -424,36 +424,6 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a113698949d5dd526a8d16e84cace30fa" name="a113698949d5dd526a8d16e84cace30fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a113698949d5dd526a8d16e84cace30fa">&#9670;&#160;</a></span>get()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> Minty::PhysicalFile::get </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the next character after the cursor, and moves the cursor to that position. </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-<p>Implements <a class="el" href="class_minty_1_1_file.html#a76b357c6cf601b0d9dce83c15ecaf69f">Minty::File</a>.</p>
-
-</div>
-</div>
 <a id="a08dc54f6f356ec660dc7dac6a54372ef" name="a08dc54f6f356ec660dc7dac6a54372ef"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a08dc54f6f356ec660dc7dac6a54372ef">&#9670;&#160;</a></span>get_size()</h2>
 
@@ -586,8 +556,38 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="aefdb9534f4d6ea593c95153f73fbf1c7" name="aefdb9534f4d6ea593c95153f73fbf1c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefdb9534f4d6ea593c95153f73fbf1c7">&#9670;&#160;</a></span>read() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> Minty::PhysicalFile::read </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the next character after the cursor, and moves the cursor to that position. </p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_file.html#a820dad2b49d1b16dcbd7b850bf2e7a06">Minty::File</a>.</p>
+
+</div>
+</div>
 <a id="a79e8427e9dfc6b35d97a9b4155d6e22c" name="a79e8427e9dfc6b35d97a9b4155d6e22c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79e8427e9dfc6b35d97a9b4155d6e22c">&#9670;&#160;</a></span>read()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a79e8427e9dfc6b35d97a9b4155d6e22c">&#9670;&#160;</a></span>read() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

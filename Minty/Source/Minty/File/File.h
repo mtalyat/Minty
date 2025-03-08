@@ -240,7 +240,7 @@ namespace Minty
 		/// Gets the next character after the cursor, and moves the cursor to that position.
 		/// </summary>
 		/// <returns></returns>
-		virtual Char get() = 0;
+		virtual Char read() = 0;
 
 		/// <summary>
 		/// Reads the given size of data into the given buffer, and moves the cursor size bytes.

@@ -17,6 +17,9 @@
 #include "Test_String.h"
 #include "Test_Vector.h"
 
+// File
+#include "Test_PhysicalFile.h"
+
 // Memory
 #include "Test_MemoryManager.h"
 #include "Test_MemoryPool.h"
@@ -55,6 +58,9 @@ static void run_tests()
 	test_Stack(_test);
 	test_String(_test);
 	test_Vector(_test);
+
+	// File
+	test_PhysicalFile(_test);
 
 	// Memory
 	test_MemoryManager(_test);

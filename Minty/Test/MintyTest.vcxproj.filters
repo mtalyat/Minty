@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Tests\Core">
       <UniqueIdentifier>{da1285e4-a878-40dd-800e-dd46d2ed096f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\File">
+      <UniqueIdentifier>{98750518-5e3a-4395-b83a-a14c1a5f22ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -82,6 +85,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Compression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_PhysicalFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Test_Compression.h">
       <Filter>Header Files\Tests\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_PhysicalFile.h">
+      <Filter>Header Files\Tests\File</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

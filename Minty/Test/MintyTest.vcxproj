@@ -152,6 +152,7 @@
     <ClCompile Include="Test_MemoryStack.cpp" />
     <ClCompile Include="Test_Minty.cpp" />
     <ClCompile Include="Test_Pair.cpp" />
+    <ClCompile Include="Test_PhysicalFile.cpp" />
     <ClCompile Include="Test_Queue.cpp" />
     <ClCompile Include="Test_Set.cpp" />
     <ClCompile Include="Test_Stack.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Test_MemoryStack.h" />
     <ClInclude Include="Test_Minty.h" />
     <ClInclude Include="Test_Pair.h" />
+    <ClInclude Include="Test_PhysicalFile.h" />
     <ClInclude Include="Test_Queue.h" />
     <ClInclude Include="Test_Set.h" />
     <ClInclude Include="Test_Stack.h" />
