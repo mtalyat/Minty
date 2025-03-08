@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['default_0',['Default',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default'],['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default']]]
+  ['append_0',['Append',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa3ac4692f3935a49a0b243eecf529faa9',1,'Minty::File']]]
 ];
