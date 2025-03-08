@@ -36,10 +36,7 @@ namespace Minty
 				: m_it(it)
 				, mp_current(nullptr)
 			{
-				if (m_it != std::filesystem::path::iterator())
-				{
-					mp_current = new Path(m_it->string().c_str());
-				}
+				mp_current = new Path(m_it->string().c_str());
 			}
 
 			Iterator(Iterator const& other)
@@ -109,10 +106,7 @@ namespace Minty
 				: m_it(it)
 				, mp_current(nullptr)
 			{
-				if (m_it != std::filesystem::path::const_iterator())
-				{
-					mp_current = new Path(m_it->string().c_str());
-				}
+				mp_current = new Path(m_it->string().c_str());
 			}
 
 		public:

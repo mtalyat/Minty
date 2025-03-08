@@ -66,6 +66,11 @@ Bool Minty::Path::is_directory(Path const& path)
 
 Size Minty::Path::get_file_size(Path const& path)
 {
+	if (!exists(path))
+	{
+		return 0;
+	}
+
 	return std::filesystem::file_size(path.m_path);
 }
 
