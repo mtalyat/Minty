@@ -35,7 +35,37 @@ namespace Minty
 			open(path, flags);
 		}
 
-		virtual ~PhysicalFile() = default;
+		/// <summary>
+		/// Moves the given PhysicalFile.
+		/// </summary>
+		/// <param name="other">The PhysicalFile to move.</param>
+		PhysicalFile(PhysicalFile&& other) noexcept
+			: File(std::move(other))
+			, m_stream(std::move(other.m_stream))
+		{
+		}
+
+		virtual ~PhysicalFile()
+		{
+			close();
+		}
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		PhysicalFile& operator=(PhysicalFile const& other) = delete;
+
+		PhysicalFile& operator=(PhysicalFile&& other) noexcept
+		{
+			if (this != &other)
+			{
+				File::operator=(std::move(other));
+				m_stream = std::move(other.m_stream);
+			}
+			return *this;
+		}
 
 #pragma endregion
 

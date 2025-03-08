@@ -31,12 +31,12 @@ namespace Minty
 			/// Refer to the beginning of the File.
 			/// </summary>
 			Begin = std::ios_base::beg,
-			
+
 			/// <summary>
 			/// Refer to the current cursor position.
 			/// </summary>
 			Current = std::ios_base::cur,
-			
+
 			/// <summary>
 			/// Refer to the end of the File.
 			/// </summary>
@@ -82,7 +82,7 @@ namespace Minty
 			/// Cut off all extra existing data in the File.
 			/// </summary>
 			Truncate = std::ios_base::trunc,
-			
+
 			/// <summary>
 			/// Open the File in binary mode.
 			/// </summary>
@@ -132,7 +132,39 @@ namespace Minty
 		{
 		}
 
-		virtual ~File() = default;
+		File(File const& other) = delete;
+
+		/// <summary>
+		/// Moves the given File.
+		/// </summary>
+		/// <param name="other">The File to move.</param>
+		File(File&& other) noexcept
+			: m_path(std::move(other.m_path))
+			, m_flags(std::move(other.m_flags))
+		{
+		}
+
+		virtual ~File()
+		{
+		}
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		File& operator=(File const& other) = delete;
+
+		File& operator=(File&& other) noexcept
+		{
+			if (this != &other)
+			{
+				close();
+				m_path = std::move(other.m_path);
+				m_flags = std::move(other.m_flags);
+			}
+			return *this;
+		}
 
 #pragma endregion
 

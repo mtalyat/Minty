@@ -90,6 +90,9 @@
     <ClCompile Include="Test_PhysicalFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_VirtualFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files\Tests\Core</Filter>
     </ClInclude>
     <ClInclude Include="Test_PhysicalFile.h">
+      <Filter>Header Files\Tests\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_VirtualFile.h">
       <Filter>Header Files\Tests\File</Filter>
     </ClInclude>
   </ItemGroup>

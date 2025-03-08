@@ -76,6 +76,10 @@ void test_PhysicalFile(Test& _test)
 			EXPECT_TRUE(file.get_path() == TEST_FILE_PATH);
 			EXPECT_TRUE(file.get_flags() == File::Flags::Read);
 			EXPECT_TRUE(file.is_open() == true);
+			file.open(TEST_FILE_PATH, File::Flags::Read);
+			EXPECT_TRUE(file.get_path() == TEST_FILE_PATH);
+			EXPECT_TRUE(file.get_flags() == File::Flags::Read);
+			EXPECT_TRUE(file.is_open() == true);
 			file.close();
 			EXPECT_TRUE(file.is_open() == false);
 		}
@@ -225,6 +229,8 @@ void test_PhysicalFile(Test& _test)
 			file.close();
 			PhysicalFile file2(TEST_FILE_PATH, File::Flags::Read);
 			EXPECT_TRUE(file2.peek() == 'H');
+			file2.seek(0, File::Direction::End);
+			EXPECT_TRUE(file2.peek() == '\0');
 			file2.close();
 		}
 

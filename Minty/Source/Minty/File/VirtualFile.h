@@ -41,7 +41,40 @@ namespace Minty
 			open(path, flags, offset, size);
 		}
 
-		virtual ~VirtualFile() = default;
+		VirtualFile(VirtualFile const& other) = delete;
+
+		/// <summary>
+		/// Moves the given VirtualFile.
+		/// </summary>
+		/// <param name="other">The VirtualFile to move.</param>
+		VirtualFile(VirtualFile&& other) noexcept
+			: PhysicalFile(std::move(other))
+			, m_virtualOffset(std::move(other.m_virtualOffset))
+			, m_virtualSize(std::move(other.m_virtualSize))
+		{
+		}
+
+		virtual ~VirtualFile()
+		{
+		}
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		VirtualFile& operator=(VirtualFile const& other) = delete;
+
+		VirtualFile& operator=(VirtualFile&& other) noexcept
+		{
+			if (this != &other)
+			{
+				PhysicalFile::operator=(std::move(other));
+				m_virtualOffset = std::move(other.m_virtualOffset);
+				m_virtualSize = std::move(other.m_virtualSize);
+			}
+			return *this;
+		}
 
 #pragma endregion
 
@@ -53,6 +86,18 @@ namespace Minty
 		/// </summary>
 		/// <returns></returns>
 		virtual Size_t get_size() const override;
+
+		/// <summary>
+		/// Gets the position of this VirtualFile within the PhysicalFile.
+		/// </summary>
+		/// <returns>The position of this VirtualFile.</returns>
+		virtual Position_t get_virtual_offset() const { return m_virtualOffset; }
+
+		/// <summary>
+		/// Gets the size of this VirtualFile within the PhysicalFile.
+		/// </summary>
+		/// <returns>The size of this VirtualFile.</returns>
+		virtual Size_t get_virtual_size() const { return m_virtualSize; }
 
 #pragma endregion
 
@@ -99,11 +144,30 @@ namespace Minty
 		virtual Position_t tell_write() override;
 
 		/// <summary>
+		/// Checks the next character after the cursor.
+		/// </summary>
+		/// <returns></returns>
+		virtual Char peek() override;
+
+		/// <summary>
+		/// Gets the next character after the cursor, and moves the cursor to that position.
+		/// </summary>
+		/// <returns></returns>
+		virtual Char read() override;
+
+		/// <summary>
 		/// Reads the given size of data into the given buffer, and moves the cursor size bytes.
 		/// </summary>
 		/// <param name="buffer">The location to read the data to.</param>
 		/// <param name="size">The number of bytes to read.</param>
 		virtual void read(void* const buffer, Size_t const size) override;
+
+		/// <summary>
+		/// Reads the next line of text, and moves the cursor the appropriate amount of bytes.
+		/// </summary>
+		/// <param name="delimiter">The separating character.</param>
+		/// <returns></returns>
+		virtual Bool read_line(String& line) override;
 
 		/// <summary>
 		/// Writes the given size of data to the file, and moves the cursor size number of bytes.

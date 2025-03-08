@@ -158,6 +158,7 @@
     <ClCompile Include="Test_Stack.cpp" />
     <ClCompile Include="Test_String.cpp" />
     <ClCompile Include="Test_Vector.cpp" />
+    <ClCompile Include="Test_VirtualFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Test_Stack.h" />
     <ClInclude Include="Test_String.h" />
     <ClInclude Include="Test_Vector.h" />
+    <ClInclude Include="Test_VirtualFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -133,8 +133,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a535a389a46452081b0ea4ea3ff6ae335" id="r_a535a389a46452081b0ea4ea3ff6ae335"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a535a389a46452081b0ea4ea3ff6ae335">PhysicalFile</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a">Flags</a> const flags)</td></tr>
 <tr class="memdesc:a535a389a46452081b0ea4ea3ff6ae335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a> with the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> and <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a>.  <br /></td></tr>
 <tr class="separator:a535a389a46452081b0ea4ea3ff6ae335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefb63bf600f6df7034a9e03eaf503316" id="r_aefb63bf600f6df7034a9e03eaf503316"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefb63bf600f6df7034a9e03eaf503316">~PhysicalFile</a> ()=default</td></tr>
-<tr class="separator:aefb63bf600f6df7034a9e03eaf503316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4fd7a88ea5eaa70be8b2b176ca5ad83" id="r_af4fd7a88ea5eaa70be8b2b176ca5ad83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4fd7a88ea5eaa70be8b2b176ca5ad83">PhysicalFile</a> (<a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:af4fd7a88ea5eaa70be8b2b176ca5ad83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the given <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a>.  <br /></td></tr>
+<tr class="separator:af4fd7a88ea5eaa70be8b2b176ca5ad83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20256562b8647e8d0014dc43e854d776" id="r_a20256562b8647e8d0014dc43e854d776"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20256562b8647e8d0014dc43e854d776">~PhysicalFile</a> ()</td></tr>
+<tr class="separator:a20256562b8647e8d0014dc43e854d776"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ab46e51385a19c993e4bcc0d7f8083a" id="r_a6ab46e51385a19c993e4bcc0d7f8083a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ab46e51385a19c993e4bcc0d7f8083a">operator=</a> (<a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> const &amp;other)=delete</td></tr>
+<tr class="separator:a6ab46e51385a19c993e4bcc0d7f8083a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a7b73fc80f7dc250b917ed610a4330a" id="r_a5a7b73fc80f7dc250b917ed610a4330a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a7b73fc80f7dc250b917ed610a4330a">operator=</a> (<a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a5a7b73fc80f7dc250b917ed610a4330a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08dc54f6f356ec660dc7dac6a54372ef" id="r_a08dc54f6f356ec660dc7dac6a54372ef"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_minty_1_1_file.html#a253ea22824d3715569a5d241bb6a205a">Size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08dc54f6f356ec660dc7dac6a54372ef">get_size</a> () const override</td></tr>
 <tr class="memdesc:a08dc54f6f356ec660dc7dac6a54372ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of the file.  <br /></td></tr>
 <tr class="separator:a08dc54f6f356ec660dc7dac6a54372ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,8 +200,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3225a4bab5ea123452810ae73119a20c inherit pub_methods_class_minty_1_1_file" id="r_a3225a4bab5ea123452810ae73119a20c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#a3225a4bab5ea123452810ae73119a20c">File</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a">Flags</a> const flags)</td></tr>
 <tr class="memdesc:a3225a4bab5ea123452810ae73119a20c inherit pub_methods_class_minty_1_1_file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a> with the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> and <a class="el" href="class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a" title="The accessor Flags for a File.">Flags</a>.  <br /></td></tr>
 <tr class="separator:a3225a4bab5ea123452810ae73119a20c inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a133b9d9719603aeccb0461561c58cb02 inherit pub_methods_class_minty_1_1_file" id="r_a133b9d9719603aeccb0461561c58cb02"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#a133b9d9719603aeccb0461561c58cb02">~File</a> ()=default</td></tr>
-<tr class="separator:a133b9d9719603aeccb0461561c58cb02 inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06c7b575c7d967d029c382843492619c inherit pub_methods_class_minty_1_1_file" id="r_a06c7b575c7d967d029c382843492619c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#a06c7b575c7d967d029c382843492619c">File</a> (<a class="el" href="class_minty_1_1_file.html">File</a> const &amp;other)=delete</td></tr>
+<tr class="separator:a06c7b575c7d967d029c382843492619c inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad145e10ea51ccd9e21e741f1fc9f4565 inherit pub_methods_class_minty_1_1_file" id="r_ad145e10ea51ccd9e21e741f1fc9f4565"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#ad145e10ea51ccd9e21e741f1fc9f4565">File</a> (<a class="el" href="class_minty_1_1_file.html">File</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:ad145e10ea51ccd9e21e741f1fc9f4565 inherit pub_methods_class_minty_1_1_file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the given <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
+<tr class="separator:ad145e10ea51ccd9e21e741f1fc9f4565 inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6adb722095d2e5881ba055a664e90fdc inherit pub_methods_class_minty_1_1_file" id="r_a6adb722095d2e5881ba055a664e90fdc"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#a6adb722095d2e5881ba055a664e90fdc">~File</a> ()</td></tr>
+<tr class="separator:a6adb722095d2e5881ba055a664e90fdc inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a560723f7cade4b786da5904bef017074 inherit pub_methods_class_minty_1_1_file" id="r_a560723f7cade4b786da5904bef017074"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_file.html">File</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#a560723f7cade4b786da5904bef017074">operator=</a> (<a class="el" href="class_minty_1_1_file.html">File</a> const &amp;other)=delete</td></tr>
+<tr class="separator:a560723f7cade4b786da5904bef017074 inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad53a105673d4cc9dbf005fed96e0a32c inherit pub_methods_class_minty_1_1_file" id="r_ad53a105673d4cc9dbf005fed96e0a32c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_file.html">File</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#ad53a105673d4cc9dbf005fed96e0a32c">operator=</a> (<a class="el" href="class_minty_1_1_file.html">File</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:ad53a105673d4cc9dbf005fed96e0a32c inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affbb1ea84d51f3409d5d0f51cfa9c297 inherit pub_methods_class_minty_1_1_file" id="r_affbb1ea84d51f3409d5d0f51cfa9c297"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file.html#affbb1ea84d51f3409d5d0f51cfa9c297">get_path</a> () const</td></tr>
 <tr class="memdesc:affbb1ea84d51f3409d5d0f51cfa9c297 inherit pub_methods_class_minty_1_1_file"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to this <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
 <tr class="separator:affbb1ea84d51f3409d5d0f51cfa9c297 inherit pub_methods_class_minty_1_1_file"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,7 +260,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>Handles reading/writing to a physical file on the disk. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9d5a9d0df73d223bd325474e84e1bc4a" name="a9d5a9d0df73d223bd325474e84e1bc4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d5a9d0df73d223bd325474e84e1bc4a">&#9670;&#160;</a></span>PhysicalFile() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d5a9d0df73d223bd325474e84e1bc4a">&#9670;&#160;</a></span>PhysicalFile() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,7 +287,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a535a389a46452081b0ea4ea3ff6ae335" name="a535a389a46452081b0ea4ea3ff6ae335"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a535a389a46452081b0ea4ea3ff6ae335">&#9670;&#160;</a></span>PhysicalFile() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a535a389a46452081b0ea4ea3ff6ae335">&#9670;&#160;</a></span>PhysicalFile() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,8 +324,41 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="aefb63bf600f6df7034a9e03eaf503316" name="aefb63bf600f6df7034a9e03eaf503316"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefb63bf600f6df7034a9e03eaf503316">&#9670;&#160;</a></span>~PhysicalFile()</h2>
+<a id="af4fd7a88ea5eaa70be8b2b176ca5ad83" name="af4fd7a88ea5eaa70be8b2b176ca5ad83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4fd7a88ea5eaa70be8b2b176ca5ad83">&#9670;&#160;</a></span>PhysicalFile() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::PhysicalFile::PhysicalFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Moves the given <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a> to move.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a20256562b8647e8d0014dc43e854d776" name="a20256562b8647e8d0014dc43e854d776"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20256562b8647e8d0014dc43e854d776">&#9670;&#160;</a></span>~PhysicalFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -326,7 +375,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel virtual">virtual</span><span class="mlabel default">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -526,6 +575,56 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a5a7b73fc80f7dc250b917ed610a4330a" name="a5a7b73fc80f7dc250b917ed610a4330a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a7b73fc80f7dc250b917ed610a4330a">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp; Minty::PhysicalFile::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ab46e51385a19c993e4bcc0d7f8083a" name="a6ab46e51385a19c993e4bcc0d7f8083a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab46e51385a19c993e4bcc0d7f8083a">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> &amp; Minty::PhysicalFile::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_physical_file.html">PhysicalFile</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa3caf650d33f34f6b245bf2d67c90a0f" name="aa3caf650d33f34f6b245bf2d67c90a0f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3caf650d33f34f6b245bf2d67c90a0f">&#9670;&#160;</a></span>peek()</h2>
 
@@ -553,6 +652,8 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 <p>Implements <a class="el" href="class_minty_1_1_file.html#aceaa89d1830ab69d023e3d81aa8b7939">Minty::File</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_minty_1_1_virtual_file.html#a0c2312f4756e56707acdb5105a26bf63">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -583,6 +684,8 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 <p>Implements <a class="el" href="class_minty_1_1_file.html#a820dad2b49d1b16dcbd7b850bf2e7a06">Minty::File</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_minty_1_1_virtual_file.html#a9e28b2adddcb5a89edc9464dfe8eb67f">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -661,6 +764,8 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 <p>Implements <a class="el" href="class_minty_1_1_file.html#a8d12b3608ff46eafdbb20c33ad7cc25c">Minty::File</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_minty_1_1_virtual_file.html#a804da9e0e02e1f4353118b68650629e5">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>

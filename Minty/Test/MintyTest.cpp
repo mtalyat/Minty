@@ -19,6 +19,7 @@
 
 // File
 #include "Test_PhysicalFile.h"
+#include "Test_VirtualFile.h"
 
 // Memory
 #include "Test_MemoryManager.h"
@@ -61,6 +62,7 @@ static void run_tests()
 
 	// File
 	test_PhysicalFile(_test);
+	test_VirtualFile(_test);
 
 	// Memory
 	test_MemoryManager(_test);

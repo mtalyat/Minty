@@ -91,7 +91,15 @@ File::Size_t Minty::PhysicalFile::get_size() const
 
 Char Minty::PhysicalFile::peek()
 {
-    return m_stream.peek();
+	int result = m_stream.peek();
+    if (result == -1)
+    {
+		return '\0';
+    }
+    else
+    {
+		return static_cast<Char>(result);
+    }
 }
 
 Char Minty::PhysicalFile::read()
