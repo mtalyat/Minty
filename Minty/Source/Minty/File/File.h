@@ -251,6 +251,20 @@ namespace Minty
 		/// <param name="size">The number of bytes to read.</param>
 		virtual void read(void* const buffer, Size const size) = 0;
 
+		/// <summary>
+		/// Reads the next line of text, and moves the cursor the appropriate amount of bytes.
+		/// </summary>
+		/// <param name="delimiter">The separating character.</param>
+		/// <returns></returns>
+		virtual Bool read_line(String& line) = 0;
+
+		/// <summary>
+		/// Writes the given size of data to the file, and moves the cursor size number of bytes.
+		/// </summary>
+		/// <param name="buffer">The location to write the data from.</param>
+		/// <param name="size">The number of bytes to write.</param>
+		virtual void write(void const* const buffer, Size const size) = 0;
+
 #pragma endregion
 
 	};
