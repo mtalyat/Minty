@@ -297,5 +297,35 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Copies a File from one location to another.
+		/// </summary>
+		/// <param name="from">The from location.</param>
+		/// <param name="to">The to location.</param>
+		static void copy(Path const& from, Path const& to);
+
+		/// <summary>
+		/// Moves a File from one location to another.
+		/// </summary>
+		/// <param name="from">The from location.</param>
+		/// <param name="to">The to location.</param>
+		static void move(Path const& from, Path const& to);
+
+		/// <summary>
+		/// Creates an empty File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		static void create(Path const& path);
+
+		/// <summary>
+		/// Destroys a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		static void destroy(Path const& path);
+
+#pragma endregion
 	};
 }
