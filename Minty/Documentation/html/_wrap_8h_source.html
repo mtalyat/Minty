@@ -147,7 +147,7 @@ $(function(){initNavTree('_wrap_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            uint32_t entryCount = 0;</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            Header();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            Header() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            Header(Header <span class="keyword">const</span>&amp; other);</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
@@ -168,111 +168,129 @@ $(function(){initNavTree('_wrap_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span></div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            uint32_t offset = 0;</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            Entry();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            Entry() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            Entry(Entry <span class="keyword">const</span>&amp; other);</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            Entry&amp; operator=(Entry <span class="keyword">const</span>&amp; other);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> empty() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> is_empty()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> uncompressedSize == 0; }</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        };</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#pragma endregion</span></div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            <span class="comment">// path to the wrap file on the disk</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> m_path;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="comment">// header in the wrap file</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            Header m_header;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            <span class="comment">// list of entries in the wrap file</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            <a class="code hl_class" href="class_minty_1_1_vector.html">Vector&lt;Entry&gt;</a> m_entries;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            <span class="comment">// list of empty gaps in the wrap file, where files used to be</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            <a class="code hl_class" href="class_minty_1_1_set.html">Set&lt;uint32_t&gt;</a> m_empties;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="comment">// virtual paths indexed to entry indices</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            <a class="code hl_class" href="class_minty_1_1_map.html">Map&lt;Path, Size&gt;</a> m_indexed;</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912">  149</a></span>        <a class="code hl_function" href="class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912">Wrap</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span></div>
-<div class="foldopen" id="foldopen00155" data-start="{" data-end="}">
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85">  155</a></span>        <a class="code hl_function" href="class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85">Wrap</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path)</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            : m_path(), m_header(), m_entries(), m_indexed() {</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <a class="code hl_function" href="class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98">load</a>(path);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#pragma region Variables</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="comment">// path to the wrap file on the disk</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> m_path;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="comment">// header in the wrap file</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        Header m_header;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="comment">// list of entries in the wrap file</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <a class="code hl_class" href="class_minty_1_1_vector.html">Vector&lt;Entry&gt;</a> m_entries;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="comment">// list of empty gaps in the wrap file, where files used to be</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <a class="code hl_class" href="class_minty_1_1_set.html">Set&lt;uint32_t&gt;</a> m_empties;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="comment">// virtual paths indexed to entry indices</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <a class="code hl_class" href="class_minty_1_1_map.html">Map&lt;Path, Size&gt;</a> m_indexed;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#pragma region Constructors</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912">  155</a></span>        <a class="code hl_function" href="class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912">Wrap</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span></div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="}">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85">  161</a></span>        <a class="code hl_function" href="class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85">Wrap</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path)</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            : m_path(), m_header(), m_entries(), m_indexed() {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            <a class="code hl_function" href="class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98">load</a>(path);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        }</div>
 </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <a class="code hl_function" href="class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912">Wrap</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path, <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name, uint32_t <span class="keyword">const</span> entryCount, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; base = <span class="stringliteral">&quot;&quot;</span>, uint32_t <span class="keyword">const</span> contentVersion = 0);</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="comment">// loads the Wrap file using the _path</span></div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98">load</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path);</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="comment">// writes the header to the file</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keywordtype">void</span> write_header(<a class="code hl_class" href="class_minty_1_1_physical_file.html">PhysicalFile</a>&amp; wrapFile) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <a class="code hl_function" href="class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912">Wrap</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path, <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name, uint32_t <span class="keyword">const</span> entryCount, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; base = <span class="stringliteral">&quot;&quot;</span>, uint32_t <span class="keyword">const</span> contentVersion = 0);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#pragma endregion</span></div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="comment">// writes the entry at the given index to the file</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        <span class="keywordtype">void</span> write_entry(<a class="code hl_class" href="class_minty_1_1_physical_file.html">PhysicalFile</a>&amp; wrapFile, <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="comment">// adds the given entry to m_wraps, then returns the index of it</span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        uint32_t emplace_entry(Entry&amp; entry);</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="preprocessor">#pragma region Files</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <span class="comment">// forces the given path to include the base path if it doesn&#39;t already</span></div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> fix_path(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="comment">// forces the given path to be relative to the base path</span></div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> relative_path(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#abc3303e8162f617c6d73c542a7116120">emplace</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; physicalPath, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; virtualPath, <a class="code hl_enumeration" href="namespace_minty.html#abe96803589e915713959c294c0df12c6">CompressionLevel</a> <span class="keyword">const</span> compression = <a class="code hl_enumvalue" href="namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67">CompressionLevel::Default</a>, uint32_t <span class="keyword">const</span> reservedSize = 0);</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#ac23e58d886ec582ce672056dd6b7b23c">contains</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a7c0e8eb6e9ea3c93c3edec90184a96e8">open</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path, <a class="code hl_class" href="class_minty_1_1_virtual_file.html">VirtualFile</a>&amp; file) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span></div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <a class="code hl_class" href="class_minty_1_1_vector.html">Vector&lt;Char&gt;</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#ab65381f00eb047125f9d9a68e3b9ca7f">read</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span></div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        Entry <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_wrap.html#aeced06282d13d1f1744f1e50f8db6285">get_entry</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a5b901ecd1920bde5e3ae2afa5405505b">get_entry_count</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        Entry <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_wrap.html#aeced06282d13d1f1744f1e50f8db6285">get_entry</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="preprocessor">#pragma region Get Set</span></div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        <a class="code hl_typedef" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> <span class="keyword">const</span>* <a class="code hl_function" href="class_minty_1_1_wrap.html#a2ffb53d0e369d939a9b969f799bc3662">get_base_path</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span></div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#a2aebdb757d3ac8e7c358f1c3fb196e07">set_base_path</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path);</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span></div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_wrap.html#a605c65dbef3dcd8b6cb159ba596caa37">get_path</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <a class="code hl_typedef" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> <span class="keyword">const</span>* <a class="code hl_function" href="class_minty_1_1_wrap.html#a94cd7362e424ba36d01de4a7a8a55ea2">get_name</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span></div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#a80783b3a0254ff9aa944e954dc26ea6c">set_name</a>(<a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name);</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span></div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        uint16_t <a class="code hl_function" href="class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf">get_wrap_version</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#pragma region Get Set</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <a class="code hl_typedef" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> <span class="keyword">const</span>* <a class="code hl_function" href="class_minty_1_1_wrap.html#a2ffb53d0e369d939a9b969f799bc3662">get_base_path</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#a2aebdb757d3ac8e7c358f1c3fb196e07">set_base_path</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_wrap.html#a605c65dbef3dcd8b6cb159ba596caa37">get_path</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <a class="code hl_typedef" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a> <span class="keyword">const</span>* <a class="code hl_function" href="class_minty_1_1_wrap.html#a94cd7362e424ba36d01de4a7a8a55ea2">get_name</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#a80783b3a0254ff9aa944e954dc26ea6c">set_name</a>(<a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        uint16_t <a class="code hl_function" href="class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf">get_wrap_version</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        uint32_t <a class="code hl_function" href="class_minty_1_1_wrap.html#a3251a5aafa777c0c91d2da0b9c94348e">get_content_version</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        Type <a class="code hl_function" href="class_minty_1_1_wrap.html#a377de7a72c3cfc6d68cf677ffc017adc">get_type</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#a364d397783f802a4f159445226bf26d0">set_type</a>(Type <span class="keyword">const</span> type);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a51d1a8804c37ae26872d4b227d163cfc">get_size</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">#pragma region Methods</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        <span class="comment">// loads the Wrap file using the _path</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98">load</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="comment">// writes the header to the file</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        <span class="keywordtype">void</span> write_header(<a class="code hl_class" href="class_minty_1_1_physical_file.html">PhysicalFile</a>&amp; wrapFile) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        <span class="comment">// writes the entry at the given index to the file</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <span class="keywordtype">void</span> write_entry(<a class="code hl_class" href="class_minty_1_1_physical_file.html">PhysicalFile</a>&amp; wrapFile, <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        <span class="comment">// adds the given entry to m_wraps, then returns the index of it</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        uint32_t emplace_entry(Entry&amp; entry);</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#pragma region Files</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        <span class="comment">// forces the given path to include the base path if it doesn&#39;t already</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> fix_path(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        <span class="comment">// forces the given path to be relative to the base path</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> relative_path(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#abc3303e8162f617c6d73c542a7116120">emplace</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; physicalPath, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; virtualPath, <a class="code hl_enumeration" href="namespace_minty.html#abe96803589e915713959c294c0df12c6">CompressionLevel</a> <span class="keyword">const</span> compression = <a class="code hl_enumvalue" href="namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67">CompressionLevel::Default</a>, uint32_t <span class="keyword">const</span> reservedSize = 0);</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#ac23e58d886ec582ce672056dd6b7b23c">contains</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        uint32_t <a class="code hl_function" href="class_minty_1_1_wrap.html#a3251a5aafa777c0c91d2da0b9c94348e">get_content_version</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span></div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        Type <a class="code hl_function" href="class_minty_1_1_wrap.html#a377de7a72c3cfc6d68cf677ffc017adc">get_type</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span></div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_wrap.html#a364d397783f802a4f159445226bf26d0">set_type</a>(Type <span class="keyword">const</span> type);</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a51d1a8804c37ae26872d4b227d163cfc">get_size</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span></div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        <span class="keyword">static</span> <a class="code hl_class" href="class_minty_1_1_wrap.html">Wrap</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a5d909396abb02f2ee602ab76b37c64d8">load_or_create</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path, <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name, uint32_t <span class="keyword">const</span> entryCount, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; base = <span class="stringliteral">&quot;&quot;</span>, uint32_t <span class="keyword">const</span> contentVersion = 0);</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    };</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a7c0e8eb6e9ea3c93c3edec90184a96e8">open</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path, <a class="code hl_class" href="class_minty_1_1_virtual_file.html">VirtualFile</a>&amp; file) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        <a class="code hl_class" href="class_minty_1_1_vector.html">Vector&lt;Char&gt;</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#ab65381f00eb047125f9d9a68e3b9ca7f">read</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span></div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>        Entry <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_wrap.html#aeced06282d13d1f1744f1e50f8db6285">get_entry</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a5b901ecd1920bde5e3ae2afa5405505b">get_entry_count</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        Entry <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_wrap.html#aeced06282d13d1f1744f1e50f8db6285">get_entry</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><span class="preprocessor">#pragma region Statics</span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span> </div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="keyword">static</span> <a class="code hl_class" href="class_minty_1_1_wrap.html">Wrap</a> <a class="code hl_function" href="class_minty_1_1_wrap.html#a5d909396abb02f2ee602ab76b37c64d8">load_or_create</a>(<a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; path, <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name, uint32_t <span class="keyword">const</span> entryCount, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; base = <span class="stringliteral">&quot;&quot;</span>, uint32_t <span class="keyword">const</span> contentVersion = 0);</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    };</div>
 </div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>}</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
 <div class="ttc" id="a_compression_8h_html"><div class="ttname"><a href="_compression_8h.html">Compression.h</a></div></div>
 <div class="ttc" id="a_constant_8h_html"><div class="ttname"><a href="_constant_8h.html">Constant.h</a></div></div>
@@ -291,7 +309,7 @@ $(function(){initNavTree('_wrap_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclass_minty_1_1_vector_html"><div class="ttname"><a href="class_minty_1_1_vector.html">Minty::Vector</a></div><div class="ttdoc">Holds a collection of elements with a dynamic size.</div><div class="ttdef"><b>Definition</b> Vector.h:16</div></div>
 <div class="ttc" id="aclass_minty_1_1_virtual_file_html"><div class="ttname"><a href="class_minty_1_1_virtual_file.html">Minty::VirtualFile</a></div><div class="ttdoc">Treats a part of a PhysicalFile as if it were an entire file.</div><div class="ttdef"><b>Definition</b> VirtualFile.h:10</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html"><div class="ttname"><a href="class_minty_1_1_wrap.html">Minty::Wrap</a></div><div class="ttdef"><b>Definition</b> Wrap.h:16</div></div>
-<div class="ttc" id="aclass_minty_1_1_wrap_html_a01484f3b41bf6037cc50f6f02f391f85"><div class="ttname"><a href="class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85">Minty::Wrap::Wrap</a></div><div class="ttdeci">Wrap(Path const &amp;path)</div><div class="ttdoc">Creates and loads a Wrap file at the given path.</div><div class="ttdef"><b>Definition</b> Wrap.h:155</div></div>
+<div class="ttc" id="aclass_minty_1_1_wrap_html_a01484f3b41bf6037cc50f6f02f391f85"><div class="ttname"><a href="class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85">Minty::Wrap::Wrap</a></div><div class="ttdeci">Wrap(Path const &amp;path)</div><div class="ttdoc">Creates and loads a Wrap file at the given path.</div><div class="ttdef"><b>Definition</b> Wrap.h:161</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a2aebdb757d3ac8e7c358f1c3fb196e07"><div class="ttname"><a href="class_minty_1_1_wrap.html#a2aebdb757d3ac8e7c358f1c3fb196e07">Minty::Wrap::set_base_path</a></div><div class="ttdeci">void set_base_path(Path const &amp;path)</div><div class="ttdoc">Sets the base path of each file within this Wrap.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:204</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a2ffb53d0e369d939a9b969f799bc3662"><div class="ttname"><a href="class_minty_1_1_wrap.html#a2ffb53d0e369d939a9b969f799bc3662">Minty::Wrap::get_base_path</a></div><div class="ttdeci">Char const * get_base_path() const</div><div class="ttdoc">Gets the base path of each file within this Wrap.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:199</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a3251a5aafa777c0c91d2da0b9c94348e"><div class="ttname"><a href="class_minty_1_1_wrap.html#a3251a5aafa777c0c91d2da0b9c94348e">Minty::Wrap::get_content_version</a></div><div class="ttdeci">uint32_t get_content_version() const</div><div class="ttdoc">Gets the content version of this Wrap file.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:242</div></div>
@@ -299,7 +317,7 @@ $(function(){initNavTree('_wrap_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a377de7a72c3cfc6d68cf677ffc017adc"><div class="ttname"><a href="class_minty_1_1_wrap.html#a377de7a72c3cfc6d68cf677ffc017adc">Minty::Wrap::get_type</a></div><div class="ttdeci">Type get_type() const</div><div class="ttdoc">Gets the type of this Wrap file.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:401</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a51d1a8804c37ae26872d4b227d163cfc"><div class="ttname"><a href="class_minty_1_1_wrap.html#a51d1a8804c37ae26872d4b227d163cfc">Minty::Wrap::get_size</a></div><div class="ttdeci">Size get_size() const</div><div class="ttdoc">Gets the size of the Wrap file.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:411</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a5b901ecd1920bde5e3ae2afa5405505b"><div class="ttname"><a href="class_minty_1_1_wrap.html#a5b901ecd1920bde5e3ae2afa5405505b">Minty::Wrap::get_entry_count</a></div><div class="ttdeci">Size get_entry_count() const</div><div class="ttdoc">Gets the number of entries in this Wrap.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:391</div></div>
-<div class="ttc" id="aclass_minty_1_1_wrap_html_a5d909396abb02f2ee602ab76b37c64d8"><div class="ttname"><a href="class_minty_1_1_wrap.html#a5d909396abb02f2ee602ab76b37c64d8">Minty::Wrap::load_or_create</a></div><div class="ttdeci">static Wrap load_or_create(Path const &amp;path, String const &amp;name, uint32_t const entryCount, Path const &amp;base=&quot;&quot;, uint32_t const contentVersion=0)</div><div class="ttdoc">Loads or creates a new Wrap if none exists.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:416</div></div>
+<div class="ttc" id="aclass_minty_1_1_wrap_html_a5d909396abb02f2ee602ab76b37c64d8"><div class="ttname"><a href="class_minty_1_1_wrap.html#a5d909396abb02f2ee602ab76b37c64d8">Minty::Wrap::load_or_create</a></div><div class="ttdeci">static Wrap load_or_create(Path const &amp;path, String const &amp;name, uint32_t const entryCount, Path const &amp;base=&quot;&quot;, uint32_t const contentVersion=0)</div><div class="ttdef"><b>Definition</b> Wrap.cpp:416</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a605c65dbef3dcd8b6cb159ba596caa37"><div class="ttname"><a href="class_minty_1_1_wrap.html#a605c65dbef3dcd8b6cb159ba596caa37">Minty::Wrap::get_path</a></div><div class="ttdeci">Path const &amp; get_path() const</div><div class="ttdoc">Gets the Path that this Wrap file is located at.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:220</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a7c0e8eb6e9ea3c93c3edec90184a96e8"><div class="ttname"><a href="class_minty_1_1_wrap.html#a7c0e8eb6e9ea3c93c3edec90184a96e8">Minty::Wrap::open</a></div><div class="ttdeci">Bool open(Path const &amp;path, VirtualFile &amp;file) const</div><div class="ttdoc">Opens a file at the given path using the given VirtualFile.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:330</div></div>
 <div class="ttc" id="aclass_minty_1_1_wrap_html_a80783b3a0254ff9aa944e954dc26ea6c"><div class="ttname"><a href="class_minty_1_1_wrap.html#a80783b3a0254ff9aa944e954dc26ea6c">Minty::Wrap::set_name</a></div><div class="ttdeci">void set_name(String const &amp;name)</div><div class="ttdoc">Sets the name of this Wrap file.</div><div class="ttdef"><b>Definition</b> Wrap.cpp:230</div></div>
