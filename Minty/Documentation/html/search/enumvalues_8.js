@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['task_0',['Task',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803aeaeb30f9f18e0c50b178676f3eaef45f',1,'Minty']]],
-  ['temporary_1',['Temporary',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a',1,'Minty']]]
+  ['none_0',['None',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::File::None'],['../namespace_minty.html#abe96803589e915713959c294c0df12c6a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None']]]
 ];

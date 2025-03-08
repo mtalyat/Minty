@@ -50,7 +50,7 @@ public:
 			currentCategoryIndex = static_cast<int>(categories.size());
 			categories.emplace(currentCategoryName, currentCategoryIndex);
 			categoryNames.push_back(currentCategoryName);
-			std::cout << "\n\t" << currentCategoryName << std::endl;
+			std::cout << "\t" << currentCategoryName << std::endl;
 		}
 		else
 		{

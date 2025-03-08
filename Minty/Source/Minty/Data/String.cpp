@@ -4,8 +4,9 @@
 
 using namespace Minty;
 
-Minty::String::String(Size const capacity)
-	: m_capacity(0)
+Minty::String::String(Size const capacity, Allocator const allocator)
+	: m_allocator(allocator)
+	, m_capacity(0)
 	, m_size(0)
 	, mp_data(nullptr)
 {
@@ -18,8 +19,9 @@ Minty::String::String(Size const capacity)
 	reserve(capacity);
 }
 
-Minty::String::String(Char const* data)
-	: m_capacity(0)
+Minty::String::String(Char const* data, Allocator const allocator)
+	: m_allocator(allocator)
+	, m_capacity(0)
 	, m_size(0)
 	, mp_data(nullptr)
 {
@@ -39,12 +41,16 @@ Minty::String::String(Char const* data)
 	m_capacity = m_size;
 
 	// allocate memory
-	mp_data = new Char[m_capacity + 1];
+	mp_data = static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator));
 	mp_data[m_capacity] = '\0';
 	memcpy(mp_data, data, m_size * sizeof(Char));
 }
 
-Minty::String::String(Char const character, Size const count)
+Minty::String::String(Char const character, Size const count, Allocator const allocator)
+	: m_allocator(allocator)
+	, m_capacity(0)
+	, m_size(0)
+	, mp_data(nullptr)
 {
 	// do nothing if count is zero
 	if (count == 0)
@@ -55,7 +61,7 @@ Minty::String::String(Char const character, Size const count)
 	// allocate memory
 	m_capacity = count;
 	m_size = count;
-	mp_data = new Char[m_capacity + 1];
+	mp_data = static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator));
 	mp_data[m_capacity] = '\0';
 
 	// fill memory with character
@@ -105,7 +111,7 @@ void Minty::String::reserve(Size const capacity)
 	}
 
 	// allocate new memory
-	Char* newData = new Char[m_capacity + 1];
+	Char* newData = static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator));
 	newData[m_size] = '\0';
 
 	// copy over data, if any
@@ -114,7 +120,7 @@ void Minty::String::reserve(Size const capacity)
 		memcpy(newData, mp_data, m_size * sizeof(Char));
 
 		// deallocate old memory
-		delete[] mp_data;
+		deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
 	}
 
 	// replace memory
@@ -143,6 +149,41 @@ void Minty::String::resize(Size const size)
 	{
 		mp_data[m_size] = '\0';
 	}
+}
+
+String& Minty::String::append(String const& other)
+{
+	// handle empty cases
+	if (other.m_size == 0)
+	{
+		return *this;
+	}
+	else if (m_size == 0)
+	{
+		*this = other;
+		return *this;
+	}
+
+	// reserve space
+	Size const newSize = m_size + other.m_size;
+	if (newSize > m_capacity)
+	{
+		if (m_capacity * 2 >= newSize)
+		{
+			reserve(m_capacity * 2);
+		}
+		else
+		{
+			reserve(newSize);
+		}
+	}
+
+	// copy over data
+	memcpy(mp_data + m_size, other.mp_data, other.m_size * sizeof(Char));
+	m_size = newSize;
+	mp_data[m_size] = '\0';
+
+	return *this;
 }
 
 String Minty::String::sub(Size const start, Size const length) const

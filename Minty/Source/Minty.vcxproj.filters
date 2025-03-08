@@ -28,6 +28,9 @@
     <Filter Include="Header Files\Application">
       <UniqueIdentifier>{78291bb1-c7bc-4d24-a5ce-7d9113a444b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\File">
+      <UniqueIdentifier>{1d11488f-5f0e-4c6c-ba42-88dbcfa39456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -123,6 +126,21 @@
     <ClInclude Include="Minty\Core\Compression.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\File\File.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\File\_File.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Path.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\File\PhysicalFile.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\File\VirtualFile.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -153,6 +171,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Core\Compression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\Path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\File\PhysicalFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\File\VirtualFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

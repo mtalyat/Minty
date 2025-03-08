@@ -6,6 +6,7 @@ var annotated_dup =
       [ "Array", "class_minty_1_1_array.html", "class_minty_1_1_array" ],
       [ "Color", "struct_minty_1_1_color.html", "struct_minty_1_1_color" ],
       [ "Console", "class_minty_1_1_console.html", null ],
+      [ "File", "class_minty_1_1_file.html", "class_minty_1_1_file" ],
       [ "List", "class_minty_1_1_list.html", "class_minty_1_1_list" ],
       [ "Map", "class_minty_1_1_map.html", "class_minty_1_1_map" ],
       [ "MemoryManager", "class_minty_1_1_memory_manager.html", "class_minty_1_1_memory_manager" ],
@@ -15,11 +16,14 @@ var annotated_dup =
       [ "MemoryStack", "class_minty_1_1_memory_stack.html", "class_minty_1_1_memory_stack" ],
       [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
       [ "Pair", "class_minty_1_1_pair.html", "class_minty_1_1_pair" ],
+      [ "Path", "class_minty_1_1_path.html", "class_minty_1_1_path" ],
+      [ "PhysicalFile", "class_minty_1_1_physical_file.html", "class_minty_1_1_physical_file" ],
       [ "Queue", "class_minty_1_1_queue.html", "class_minty_1_1_queue" ],
       [ "Set", "class_minty_1_1_set.html", "class_minty_1_1_set" ],
       [ "Stack", "class_minty_1_1_stack.html", "class_minty_1_1_stack" ],
       [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
-      [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ]
+      [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ],
+      [ "VirtualFile", "class_minty_1_1_virtual_file.html", "class_minty_1_1_virtual_file" ]
     ] ],
     [ "std", "namespacestd.html", [
       [ "hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", "structstd_1_1hash_3_01_minty_1_1_color_01_4" ],

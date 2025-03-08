@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
@@ -137,6 +138,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		Allocator m_allocator;
 		Size m_capacity;
 		Size m_size;
 		Char* mp_data;
@@ -149,8 +151,10 @@ namespace Minty
 		/// <summary>
 		/// Creates an empty String.
 		/// </summary>
-		constexpr String()
-			: m_capacity(0)
+		/// <param name="allocator">The Allocator to use.</param>
+		constexpr String(Allocator const allocator = Allocator::Default)
+			: m_allocator(allocator)
+			, m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
 		{}
@@ -159,29 +163,33 @@ namespace Minty
 		/// Creates a String and reserves the given capacity.
 		/// </summary>
 		/// <param name="capacity">The amount of characters to allocate.</param>
-		String(Size const capacity);
+		/// <param name="allocator">The Allocator to use.</param>
+		String(Size const capacity, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Creates a String and copies the given data.
 		/// </summary>
 		/// <param name="data">The text to copy.</param>
-		String(Char const* data);
+		/// <param name="allocator">The Allocator to use.</param>
+		String(Char const* data, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Creates a string with the given character repeated the given amount of times.
 		/// </summary>
 		/// <param name="character">The character to repeat.</param>
 		/// <param name="count">The number of characters to repeat.</param>
-		String(Char const character, Size const count);
+		/// <param name="allocator">The Allocator to use.</param>
+		String(Char const character, Size const count, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Copies the given String.
 		/// </summary>
 		/// <param name="other">The String to copy.</param>
 		String(String const& other)
-			: m_capacity(other.m_capacity)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)
-			, mp_data(new Char[m_capacity + 1])
+			, mp_data(static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator)))
 		{
 			memcpy(mp_data, other.mp_data, m_size * sizeof(Char));
 			mp_data[m_size] = '\0';
@@ -192,10 +200,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="other">The String to move.</param>
 		String(String&& other) noexcept
-			: m_capacity(other.m_capacity)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
+			other.m_allocator = Allocator::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -205,7 +215,7 @@ namespace Minty
 		{
 			if (mp_data)
 			{
-				delete[] mp_data;
+				deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
 			}
 		}
 
@@ -295,6 +305,11 @@ namespace Minty
 
 		String operator+(String const& other) const;
 
+		String& operator+=(String const& other)
+		{
+			return append(other);
+		}
+
 		friend std::ostream& operator<<(std::ostream& stream, String const& str);
 
 #pragma endregion
@@ -336,6 +351,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="size">The new size.</param>
 		void resize(Size const size);
+
+		/// <summary>
+		/// Adds the given String to the end of this String.
+		/// </summary>
+		/// <param name="other">The other String to add.</param>
+		String& append(String const& other);
 
 		/// <summary>
 		/// Checks if this String is empty.
