@@ -13,5 +13,6 @@ var searchData=
   ['_7eset_10',['~Set',['../class_minty_1_1_set.html#a3c982fac1772f86a711148cab99b99ba',1,'Minty::Set']]],
   ['_7estack_11',['~Stack',['../class_minty_1_1_stack.html#a20200cba751122c9babf97e5bce3d594',1,'Minty::Stack']]],
   ['_7estring_12',['~String',['../class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891',1,'Minty::String']]],
-  ['_7evector_13',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]]
+  ['_7evector_13',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]],
+  ['_7evirtualfile_14',['~VirtualFile',['../class_minty_1_1_virtual_file.html#a62ffe5dc0c7b6eabc930b73bed3d834f',1,'Minty::VirtualFile']]]
 ];

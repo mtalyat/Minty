@@ -139,7 +139,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="buffer">The location to read the data to.</param>
 		/// <param name="size">The number of bytes to read.</param>
-		virtual void read(void* const buffer, Size const size) override;
+		virtual void read(void* const buffer, Size_t const size) override;
 
 		/// <summary>
 		/// Reads the next line of text, and moves the cursor the appropriate amount of bytes.
@@ -153,7 +153,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="buffer">The location to write the data from.</param>
 		/// <param name="size">The number of bytes to write.</param>
-		virtual void write(void const* const buffer, Size const size) override;
+		virtual void write(void const* const buffer, Size_t const size) override;
 
 #pragma endregion	
 	};

@@ -123,6 +123,7 @@ Inheritance diagram for Minty::File:</div>
   <img src="class_minty_1_1_file.png" usemap="#Minty::File_map" alt=""/>
   <map id="Minty::File_map" name="Minty::File_map">
 <area href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk." alt="Minty::PhysicalFile" shape="rect" coords="0,56,118,80"/>
+<area href="class_minty_1_1_virtual_file.html" title="Handles reading/writing to a virtual file." alt="Minty::VirtualFile" shape="rect" coords="0,112,118,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -211,15 +212,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a76b357c6cf601b0d9dce83c15ecaf69f" id="r_a76b357c6cf601b0d9dce83c15ecaf69f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Char</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76b357c6cf601b0d9dce83c15ecaf69f">get</a> ()=0</td></tr>
 <tr class="memdesc:a76b357c6cf601b0d9dce83c15ecaf69f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the next character after the cursor, and moves the cursor to that position.  <br /></td></tr>
 <tr class="separator:a76b357c6cf601b0d9dce83c15ecaf69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d4ca8034f496a518a011c1db63ffd1e" id="r_a9d4ca8034f496a518a011c1db63ffd1e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d4ca8034f496a518a011c1db63ffd1e">read</a> (void *const buffer, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)=0</td></tr>
-<tr class="memdesc:a9d4ca8034f496a518a011c1db63ffd1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the given size of data into the given buffer, and moves the cursor size bytes.  <br /></td></tr>
-<tr class="separator:a9d4ca8034f496a518a011c1db63ffd1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5915e2519100d0825fd10db521f28bf5" id="r_a5915e2519100d0825fd10db521f28bf5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5915e2519100d0825fd10db521f28bf5">read</a> (void *const buffer, <a class="el" href="#a253ea22824d3715569a5d241bb6a205a">Size_t</a> const size)=0</td></tr>
+<tr class="memdesc:a5915e2519100d0825fd10db521f28bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the given size of data into the given buffer, and moves the cursor size bytes.  <br /></td></tr>
+<tr class="separator:a5915e2519100d0825fd10db521f28bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d12b3608ff46eafdbb20c33ad7cc25c" id="r_a8d12b3608ff46eafdbb20c33ad7cc25c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d12b3608ff46eafdbb20c33ad7cc25c">read_line</a> (<a class="el" href="class_minty_1_1_string.html">String</a> &amp;line)=0</td></tr>
 <tr class="memdesc:a8d12b3608ff46eafdbb20c33ad7cc25c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the next line of text, and moves the cursor the appropriate amount of bytes.  <br /></td></tr>
 <tr class="separator:a8d12b3608ff46eafdbb20c33ad7cc25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5b0036d197dc7afb99e8a103c362f64" id="r_ae5b0036d197dc7afb99e8a103c362f64"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5b0036d197dc7afb99e8a103c362f64">write</a> (void const *const buffer, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)=0</td></tr>
-<tr class="memdesc:ae5b0036d197dc7afb99e8a103c362f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the given size of data to the file, and moves the cursor size number of bytes.  <br /></td></tr>
-<tr class="separator:ae5b0036d197dc7afb99e8a103c362f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a127b9606ecefff96f66fcf63cef211ea" id="r_a127b9606ecefff96f66fcf63cef211ea"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a127b9606ecefff96f66fcf63cef211ea">write</a> (void const *const buffer, <a class="el" href="#a253ea22824d3715569a5d241bb6a205a">Size_t</a> const size)=0</td></tr>
+<tr class="memdesc:a127b9606ecefff96f66fcf63cef211ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the given size of data to the file, and moves the cursor size number of bytes.  <br /></td></tr>
+<tr class="separator:a127b9606ecefff96f66fcf63cef211ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -488,7 +489,7 @@ Friends</h2></td></tr>
 <p>Checks if the cursor is at or past the end of the file. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a76bb21174e0f43348ca1defc7dcf8768">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a76bb21174e0f43348ca1defc7dcf8768">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#ab7b8b95a183deb08adb3f2b883b8f06a">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -633,7 +634,7 @@ Friends</h2></td></tr>
 <p>Gets the size of the file. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a08dc54f6f356ec660dc7dac6a54372ef">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a08dc54f6f356ec660dc7dac6a54372ef">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#adc380aa78cc0028069483a94c873a186">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -737,8 +738,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d4ca8034f496a518a011c1db63ffd1e" name="a9d4ca8034f496a518a011c1db63ffd1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d4ca8034f496a518a011c1db63ffd1e">&#9670;&#160;</a></span>read()</h2>
+<a id="a5915e2519100d0825fd10db521f28bf5" name="a5915e2519100d0825fd10db521f28bf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5915e2519100d0825fd10db521f28bf5">&#9670;&#160;</a></span>read()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -754,7 +755,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="#a253ea22824d3715569a5d241bb6a205a">Size_t</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -773,7 +774,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#aa6c9bba50354e74286072fd019f785f5">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a79e8427e9dfc6b35d97a9b4155d6e22c">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#adfec425f0e3dac08d78a08aeee919664">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -889,7 +890,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a03319484232ba10e709e966213ae6746">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a03319484232ba10e709e966213ae6746">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#a26ee15ccda8b5353e303c886e37085f7">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -929,7 +930,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#aa00d41adb2cb86ba541ceb0956bbb0e9">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#aa00d41adb2cb86ba541ceb0956bbb0e9">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#a938590eeec786e7b34da6d19589c8bba">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -989,7 +990,7 @@ Friends</h2></td></tr>
 <p>Gets the current position of the read cursor. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a82a99941a56aef217248500e1b702157">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a82a99941a56aef217248500e1b702157">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#af1003434de80d4ff95d67592ac2be93e">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
@@ -1019,12 +1020,12 @@ Friends</h2></td></tr>
 <p>Gets the current position of the write cursor. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a014a0dff66cd95e2e2cdccf1b9053f09">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a014a0dff66cd95e2e2cdccf1b9053f09">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#a6688afa2405d098cbbfe397337ace34c">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>
-<a id="ae5b0036d197dc7afb99e8a103c362f64" name="ae5b0036d197dc7afb99e8a103c362f64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5b0036d197dc7afb99e8a103c362f64">&#9670;&#160;</a></span>write()</h2>
+<a id="a127b9606ecefff96f66fcf63cef211ea" name="a127b9606ecefff96f66fcf63cef211ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a127b9606ecefff96f66fcf63cef211ea">&#9670;&#160;</a></span>write()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1040,7 +1041,7 @@ Friends</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="#a253ea22824d3715569a5d241bb6a205a">Size_t</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1059,7 +1060,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#aad629cc2a2ae97984096ef7315ef6217">Minty::PhysicalFile</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a41cf6d04201573f2cdee90935ab21e57">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#a16c74c03f80b9f18440cbe112a97b83f">Minty::VirtualFile</a>.</p>
 
 </div>
 </div>

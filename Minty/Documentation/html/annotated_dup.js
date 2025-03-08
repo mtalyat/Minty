@@ -22,7 +22,8 @@ var annotated_dup =
       [ "Set", "class_minty_1_1_set.html", "class_minty_1_1_set" ],
       [ "Stack", "class_minty_1_1_stack.html", "class_minty_1_1_stack" ],
       [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
-      [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ]
+      [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ],
+      [ "VirtualFile", "class_minty_1_1_virtual_file.html", "class_minty_1_1_virtual_file" ]
     ] ],
     [ "std", "namespacestd.html", [
       [ "hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", "structstd_1_1hash_3_01_minty_1_1_color_01_4" ],

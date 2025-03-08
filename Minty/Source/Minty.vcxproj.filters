@@ -138,6 +138,9 @@
     <ClInclude Include="Minty\File\PhysicalFile.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\File\VirtualFile.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -174,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\File\PhysicalFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\File\VirtualFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

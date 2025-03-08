@@ -99,7 +99,7 @@ Char Minty::PhysicalFile::get()
     return m_stream.get();
 }
 
-void Minty::PhysicalFile::read(void* const buffer, Size const size)
+void Minty::PhysicalFile::read(void* const buffer, Size_t const size)
 {
     m_stream.read(static_cast<Char*>(buffer), size);
 }
@@ -120,7 +120,7 @@ Bool Minty::PhysicalFile::read_line(String& line)
     return false;
 }
 
-void Minty::PhysicalFile::write(void const* const buffer, Size const size)
+void Minty::PhysicalFile::write(void const* const buffer, Size_t const size)
 {
     m_stream.write(static_cast<Char const* const>(buffer), size);
 }
