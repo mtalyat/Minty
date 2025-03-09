@@ -28,5 +28,7 @@ var searchData=
   ['get_5fvirtual_5fsize_25',['get_virtual_size',['../class_minty_1_1_virtual_file.html#a1e8275cc61663ff523fecc932682e02b',1,'Minty::VirtualFile']]],
   ['get_5fwrap_26',['get_wrap',['../class_minty_1_1_wrapper.html#a3d099976d7751f18808961f3ecd914f5',1,'Minty::Wrapper::get_wrap(Size const index)'],['../class_minty_1_1_wrapper.html#a24ce8e580e6d384e7206774e09834d2f',1,'Minty::Wrapper::get_wrap(Size const index) const']]],
   ['get_5fwrap_5fcount_27',['get_wrap_count',['../class_minty_1_1_wrapper.html#aaf26ef73ae70a27b7e995ec2f56b8074',1,'Minty::Wrapper']]],
-  ['get_5fwrap_5fversion_28',['get_wrap_version',['../class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf',1,'Minty::Wrap']]]
+  ['get_5fwrap_5fversion_28',['get_wrap_version',['../class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf',1,'Minty::Wrap']]],
+  ['gray_29',['Gray',['../class_minty_1_1_console.html#af7b87a92468dc7c69098bae85fc8a026a994ae1d9731cebe455aff211bcb25b93',1,'Minty::Console']]],
+  ['green_30',['Green',['../class_minty_1_1_console.html#af7b87a92468dc7c69098bae85fc8a026ad382816a3cbeed082c9e216e7392eed1',1,'Minty::Console']]]
 ];

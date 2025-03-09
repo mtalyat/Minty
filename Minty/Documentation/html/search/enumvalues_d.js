@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update_0',['Update',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6',1,'Minty::Wrap']]]
+  ['slow_0',['Slow',['../namespace_minty.html#abe96803589e915713959c294c0df12c6aefa5397985b8609a5dbeb430a4bcadd3',1,'Minty']]]
 ];

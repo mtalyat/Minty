@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['task_0',['Task',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803aeaeb30f9f18e0c50b178676f3eaef45f',1,'Minty']]],
-  ['temporary_1',['Temporary',['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a10d85d7664a911bcaec89732098c269a',1,'Minty']]],
-  ['truncate_2',['Truncate',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aaa8156810bfee2bd2b44765b9e91db3bd',1,'Minty::File']]]
+  ['read_0',['Read',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa7a1a5f3e79fdc91edf2f5ead9d66abb4',1,'Minty::File']]],
+  ['readwrite_1',['ReadWrite',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa70a2a84088d405a2e3f1e3accaa16723',1,'Minty::File']]],
+  ['red_2',['Red',['../class_minty_1_1_console.html#af7b87a92468dc7c69098bae85fc8a026aee38e4d5dd68c4e440825018d549cb47',1,'Minty::Console']]]
 ];
