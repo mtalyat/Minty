@@ -439,13 +439,13 @@ namespace Minty
 		/// Gets an ConstIterator to the beginning of the List.
 		/// </summary>
 		/// <returns>A ConstIterator pointing to the first element.</returns>
-		constexpr ConstIterator cbegin() const { return ConstIterator(mp_head); }
+		constexpr ConstIterator begin() const { return ConstIterator(mp_head); }
 
 		/// <summary>
 		/// Gets an ConstIterator to the end of the List.
 		/// </summary>
 		/// <returns>A ConstIterator pointing to the last element + 1.</returns>
-		constexpr ConstIterator cend() const { return ConstIterator(nullptr); }
+		constexpr ConstIterator end() const { return ConstIterator(nullptr); }
 
 		/// <summary>
 		/// Gets a ReverseIterator to the beginning of the List.
@@ -463,13 +463,13 @@ namespace Minty
 		/// Gets an ConstReverseIterator to the beginning of the List.
 		/// </summary>
 		/// <returns>A ConstReverseIterator pointing to the first element.</returns>
-		constexpr ConstReverseIterator crbegin() const { return ConstReverseIterator(mp_tail); }
+		constexpr ConstReverseIterator rbegin() const { return ConstReverseIterator(mp_tail); }
 
 		/// <summary>
 		/// Gets an ConstReverseIterator to the end of the List.
 		/// </summary>
 		/// <returns>A ConstReverseIterator pointing to the last element + 1.</returns>
-		constexpr ConstReverseIterator crend() const { return ConstReverseIterator(nullptr); }
+		constexpr ConstReverseIterator rend() const { return ConstReverseIterator(nullptr); }
 
 #pragma endregion
 
@@ -1148,7 +1148,7 @@ namespace Minty
 		T const& at(Size const index) const
 		{
 			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
-			ConstIterator it = cbegin() + index;
+			ConstIterator it = begin() + index;
 			return *it;
 		}
 
@@ -1164,7 +1164,7 @@ namespace Minty
 			MINTY_ASSERT(index + length <= m_size, "Index + length is out of bounds.");
 			MINTY_ASSERT(length > 0, "Length must be greater than zero.");
 			List<T> result;
-			ConstIterator it = cbegin() + index;
+			ConstIterator it = begin() + index;
 			for (Size i = 0; i < length; ++i)
 			{
 				result.add(*it);
@@ -1199,8 +1199,8 @@ namespace Minty
 		/// <returns>An iterator to the found value, or end() if not found.</returns>
 		ConstIterator find(T const& value) const
 		{
-			ConstIterator it = cbegin();
-			while (it != cend())
+			ConstIterator it = begin();
+			while (it != end())
 			{
 				if (*it == value)
 				{
@@ -1208,7 +1208,7 @@ namespace Minty
 				}
 				++it;
 			}
-			return cend();
+			return end();
 		}
 
 		/// <summary>
@@ -1216,7 +1216,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="value">The value to check.</param>
 		/// <returns>True if the value was found.</returns>
-		Bool contains(T const& value) const { return find(value) != cend(); }
+		Bool contains(T const& value) const { return find(value) != end(); }
 
 		/// <summary>
 		/// Removes all elements from this List.

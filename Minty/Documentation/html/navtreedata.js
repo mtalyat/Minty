@@ -67,7 +67,7 @@ var NAVTREEINDEX =
 "class_minty_1_1_queue.html#a96f39c8c16b0b1ea570d24e23ab03ff5",
 "class_minty_1_1_string_1_1_iterator.html#a7fb804f7dc96dd9f705c84095f37f1ca",
 "class_minty_1_1_virtual_file.html#a443abf083fb44c9075e768e7433bd874",
-"struct_minty_1_1_color.html#a18764fd3cb5655eb5ae9f8460b6f75f1"
+"namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

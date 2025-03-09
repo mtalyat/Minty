@@ -29,6 +29,7 @@
 
 // Wrap
 #include "Test_Wrap.h"
+#include "Test_Wrapper.h"
 
 // runs all of the tests
 static void run_tests()
@@ -76,6 +77,7 @@ static void run_tests()
 
 	// Wrap
 	test_Wrap(_test);
+	test_Wrapper(_test);
 
 #pragma endregion
 

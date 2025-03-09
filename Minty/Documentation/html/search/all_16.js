@@ -10,9 +10,10 @@ var searchData=
   ['wrap_5fmagic_7',['WRAP_MAGIC',['../namespace_minty.html#a4b3c3b6cb76c0ae3e222b0d412709f1c',1,'Minty']]],
   ['wrap_5fmagic_5fsize_8',['WRAP_MAGIC_SIZE',['../namespace_minty.html#adc3877dcb07572ade8c29f4dcf3d03c0',1,'Minty']]],
   ['wrap_5fversion_9',['WRAP_VERSION',['../namespace_minty.html#a8438b31a69c14c132c2316cf0abee2e9',1,'Minty']]],
-  ['wrapper_10',['Wrapper',['../class_minty_1_1_wrapper.html',1,'Minty']]],
-  ['wrapper_2eh_11',['Wrapper.h',['../_wrapper_8h.html',1,'']]],
-  ['wrapversion_12',['wrapVersion',['../struct_minty_1_1_wrap_1_1_header.html#a8ed9264b1e2af5b208fd1d0418463164',1,'Minty::Wrap::Header']]],
-  ['write_13',['Write',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa1129c0e4d43f2d121652a7302712cff6',1,'Minty::File']]],
-  ['write_14',['write',['../class_minty_1_1_file.html#a127b9606ecefff96f66fcf63cef211ea',1,'Minty::File::write()'],['../class_minty_1_1_physical_file.html#a41cf6d04201573f2cdee90935ab21e57',1,'Minty::PhysicalFile::write()'],['../class_minty_1_1_virtual_file.html#a16c74c03f80b9f18440cbe112a97b83f',1,'Minty::VirtualFile::write()']]]
+  ['wrapper_10',['Wrapper',['../class_minty_1_1_wrapper.html',1,'Minty::Wrapper'],['../class_minty_1_1_wrapper.html#aa45668cbdcf668a570824a53792f64f1',1,'Minty::Wrapper::Wrapper()']]],
+  ['wrapper_2ecpp_11',['Wrapper.cpp',['../_wrapper_8cpp.html',1,'']]],
+  ['wrapper_2eh_12',['Wrapper.h',['../_wrapper_8h.html',1,'']]],
+  ['wrapversion_13',['wrapVersion',['../struct_minty_1_1_wrap_1_1_header.html#a8ed9264b1e2af5b208fd1d0418463164',1,'Minty::Wrap::Header']]],
+  ['write_14',['Write',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa1129c0e4d43f2d121652a7302712cff6',1,'Minty::File']]],
+  ['write_15',['write',['../class_minty_1_1_file.html#a127b9606ecefff96f66fcf63cef211ea',1,'Minty::File::write()'],['../class_minty_1_1_physical_file.html#a41cf6d04201573f2cdee90935ab21e57',1,'Minty::PhysicalFile::write()'],['../class_minty_1_1_virtual_file.html#a16c74c03f80b9f18440cbe112a97b83f',1,'Minty::VirtualFile::write()']]]
 ];

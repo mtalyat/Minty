@@ -282,7 +282,7 @@ void Minty::Wrap::emplace(Path const& physicalPath, Path const& virtualPath, Com
 
     // create an entry for the new file
     String source = relative_path(virtualPath).get_string();
-    MINTY_ASSERT(source.get_size() < WRAP_ENTRY_PATH_SIZE);
+    MINTY_ASSERT(source.get_size() < WRAP_ENTRY_PATH_SIZE, "The given virtual Path is too long.");
     Entry entry;
     memcpy(entry.path, source.get_data(), min(static_cast<Size>(WRAP_ENTRY_PATH_SIZE - 1), source.get_size()));
     entry.path[WRAP_ENTRY_PATH_SIZE - 1] = '\0';

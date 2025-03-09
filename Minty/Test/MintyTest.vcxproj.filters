@@ -102,6 +102,9 @@
     <ClCompile Include="Test_File.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Test_File.h">
       <Filter>Header Files\Tests\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Wrapper.h">
+      <Filter>Header Files\Tests\Wrap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

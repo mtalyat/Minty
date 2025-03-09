@@ -170,6 +170,11 @@ void test_Wrap(Test& _test)
 			EXPECT_TRUE(wrap.contains("Text.txt"));
 			EXPECT_TRUE(wrap.contains("Text2.txt") == false);
 			File::destroy(TEST_NEW_PATH);
+
+			Wrap wrap2(TEST_NEW_PATH, "Test", 1, "Base/Path");
+			wrap2.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
+			EXPECT_TRUE(wrap2.contains("Base/Path/Text.txt"));
+			File::destroy(TEST_NEW_PATH);
 		}
 
 		TEST("Open")

@@ -26,5 +26,7 @@ var searchData=
   ['get_5ftype_23',['get_type',['../class_minty_1_1_wrap.html#a377de7a72c3cfc6d68cf677ffc017adc',1,'Minty::Wrap']]],
   ['get_5fvirtual_5foffset_24',['get_virtual_offset',['../class_minty_1_1_virtual_file.html#a148db7737c85ed2603e33fd91c818c1a',1,'Minty::VirtualFile']]],
   ['get_5fvirtual_5fsize_25',['get_virtual_size',['../class_minty_1_1_virtual_file.html#a1e8275cc61663ff523fecc932682e02b',1,'Minty::VirtualFile']]],
-  ['get_5fwrap_5fversion_26',['get_wrap_version',['../class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf',1,'Minty::Wrap']]]
+  ['get_5fwrap_26',['get_wrap',['../class_minty_1_1_wrapper.html#a3d099976d7751f18808961f3ecd914f5',1,'Minty::Wrapper::get_wrap(Size const index)'],['../class_minty_1_1_wrapper.html#a24ce8e580e6d384e7206774e09834d2f',1,'Minty::Wrapper::get_wrap(Size const index) const']]],
+  ['get_5fwrap_5fcount_27',['get_wrap_count',['../class_minty_1_1_wrapper.html#aaf26ef73ae70a27b7e995ec2f56b8074',1,'Minty::Wrapper']]],
+  ['get_5fwrap_5fversion_28',['get_wrap_version',['../class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf',1,'Minty::Wrap']]]
 ];

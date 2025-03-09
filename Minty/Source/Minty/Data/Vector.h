@@ -14,319 +14,6 @@ namespace Minty
 	template<typename T>
 	class Vector
 	{
-#pragma region Iterators
-
-	public:
-		class Iterator
-		{
-			friend class Vector;
-
-		public:
-			using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = T;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-		private:
-			pointer mp_ptr;
-
-		private:
-			constexpr explicit Iterator(pointer const ptr)
-				: mp_ptr(ptr)
-			{}
-
-		public:
-			constexpr reference operator*() const
-			{
-				return *mp_ptr;
-			}
-
-			Iterator& operator++()
-			{
-				++mp_ptr;
-				return *this;
-			}
-
-			Iterator operator++(int)
-			{
-				Iterator temp = *this;
-				++mp_ptr;
-				return temp;
-			}
-
-			Iterator& operator--()
-			{
-				--mp_ptr;
-				return *this;
-			}
-
-			Iterator operator--(int)
-			{
-				Iterator temp = *this;
-				--mp_ptr;
-				return temp;
-			}
-
-			constexpr Iterator operator+(Size const value)
-			{
-				return Iterator(mp_ptr + value);
-			}
-
-			constexpr Iterator operator-(Size const value)
-			{
-				return Iterator(mp_ptr - value);
-			}
-
-			constexpr Bool operator==(Iterator const& other) const { return mp_ptr == other.mp_ptr; }
-			constexpr Bool operator!=(Iterator const& other) const { return mp_ptr != other.mp_ptr; }
-		};
-
-		class ConstIterator
-		{
-			friend class Vector;
-
-		public:
-			using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = T;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type const*;
-			using reference = value_type const&;
-
-		private:
-			pointer mp_ptr;
-
-		private:
-			constexpr explicit ConstIterator(pointer const data)
-				: mp_ptr(data)
-			{}
-
-		public:
-			constexpr reference operator*()
-			{
-				return *mp_ptr;
-			}
-
-			ConstIterator& operator++()
-			{
-				++mp_ptr;
-				return *this;
-			}
-
-			ConstIterator operator++(int)
-			{
-				ConstIterator temp = *this;
-				++mp_ptr;
-				return temp;
-			}
-
-			ConstIterator& operator--()
-			{
-				--mp_ptr;
-				return *this;
-			}
-
-			ConstIterator operator--(int)
-			{
-				ConstIterator temp = *this;
-				--mp_ptr;
-				return temp;
-			}
-
-			constexpr ConstIterator operator+(Size const value)
-			{
-				return ConstIterator(mp_ptr + value);
-			}
-
-			constexpr ConstIterator operator-(Size const value)
-			{
-				return ConstIterator(mp_ptr - value);
-			}
-
-			constexpr Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			constexpr Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
-		};
-
-		class ReverseIterator
-		{
-			friend class Vector;
-
-		public:
-			using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = T;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-		private:
-			pointer mp_ptr;
-
-		private:
-			constexpr explicit ReverseIterator(pointer const ptr)
-				: mp_ptr(ptr)
-			{}
-
-		public:
-			constexpr reference operator*() const
-			{
-				return *mp_ptr;
-			}
-
-			ReverseIterator& operator++()
-			{
-				--mp_ptr;
-				return *this;
-			}
-
-			ReverseIterator operator++(int)
-			{
-				ReverseIterator temp = *this;
-				--mp_ptr;
-				return temp;
-			}
-
-			ReverseIterator& operator--()
-			{
-				++mp_ptr;
-				return *this;
-			}
-
-			ReverseIterator operator--(int)
-			{
-				ReverseIterator temp = *this;
-				++mp_ptr;
-				return temp;
-			}
-
-			constexpr ReverseIterator operator+(Size const value)
-			{
-				return ReverseIterator(mp_ptr - value);
-			}
-
-			constexpr ReverseIterator operator-(Size const value)
-			{
-				return ReverseIterator(mp_ptr + value);
-			}
-
-			constexpr Bool operator==(ReverseIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			constexpr Bool operator!=(ReverseIterator const& other) const { return mp_ptr != other.mp_ptr; }
-		};
-
-		class ConstReverseIterator
-		{
-			friend class Vector;
-
-		public:
-			using iterator_category = std::bidirectional_iterator_tag;
-			using value_type = T;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type const*;
-			using reference = value_type const&;
-
-		private:
-			pointer mp_ptr;
-
-		private:
-			constexpr explicit ConstReverseIterator(pointer const data)
-				: mp_ptr(data)
-			{}
-
-		public:
-			constexpr reference operator*()
-			{
-				return *mp_ptr;
-			}
-
-			ConstReverseIterator& operator++()
-			{
-				--mp_ptr;
-				return *this;
-			}
-
-			ConstReverseIterator operator++(int)
-			{
-				ConstReverseIterator temp = *this;
-				--mp_ptr;
-				return temp;
-			}
-
-			ConstReverseIterator& operator--()
-			{
-				++mp_ptr;
-				return *this;
-			}
-
-			ConstReverseIterator operator--(int)
-			{
-				ConstReverseIterator temp = *this;
-				++mp_ptr;
-				return temp;
-			}
-
-			constexpr ConstReverseIterator operator+(Size const value)
-			{
-				return ConstReverseIterator(mp_ptr - value);
-			}
-
-			constexpr ConstReverseIterator operator-(Size const value)
-			{
-				return ConstReverseIterator(mp_ptr + value);
-			}
-
-			constexpr Bool operator==(ConstReverseIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			constexpr Bool operator!=(ConstReverseIterator const& other) const { return mp_ptr != other.mp_ptr; }
-		};
-
-		/// <summary>
-		/// Gets an Iterator to the beginning of the Vector.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first element.</returns>
-		constexpr Iterator begin() { return Iterator(mp_data); }
-
-		/// <summary>
-		/// Gets an Iterator to the end of the Vector.
-		/// </summary>
-		/// <returns>An Iterator pointing to the last element + 1.</returns>
-		constexpr Iterator end() { return Iterator(mp_data + m_size); }
-
-		/// <summary>
-		/// Gets an ConstIterator to the beginning of the Vector.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the first element.</returns>
-		constexpr ConstIterator cbegin() const { return ConstIterator(mp_data); }
-
-		/// <summary>
-		/// Gets an ConstIterator to the end of the Vector.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the last element + 1.</returns>
-		constexpr ConstIterator cend() const { return ConstIterator(mp_data + m_size); }
-
-		/// <summary>
-		/// Gets a ReverseIterator to the beginning of the Vector.
-		/// </summary>
-		/// <returns>A ReverseIterator pointing to the first element.</returns>
-		constexpr ReverseIterator rbegin() { return ReverseIterator(mp_data + m_size - 1); }
-
-		/// <summary>
-		/// Gets an ReverseIterator to the end of the Vector.
-		/// </summary>
-		/// <returns>An ReverseIterator pointing to the last element + 1.</returns>
-		constexpr ReverseIterator rend() { return ReverseIterator(mp_data - 1); }
-
-		/// <summary>
-		/// Gets an ConstReverseIterator to the beginning of the Vector.
-		/// </summary>
-		/// <returns>A ConstReverseIterator pointing to the first element.</returns>
-		constexpr ConstReverseIterator crbegin() const { return ConstReverseIterator(mp_data + m_size - 1); }
-
-		/// <summary>
-		/// Gets an ConstReverseIterator to the end of the Vector.
-		/// </summary>
-		/// <returns>A ConstReverseIterator pointing to the last element + 1.</returns>
-		constexpr ConstReverseIterator crend() const { return ConstReverseIterator(mp_data - 1); }
-
-#pragma endregion
-
 #pragma region Variables
 
 	private:
@@ -443,6 +130,323 @@ namespace Minty
 				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 			}
 		}
+
+#pragma endregion
+
+#pragma region Iterators
+
+	public:
+		class Iterator
+		{
+			friend class Vector;
+
+		public:
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = T;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type*;
+			using reference = value_type&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			constexpr explicit Iterator(pointer const ptr)
+				: mp_ptr(ptr)
+			{
+			}
+
+		public:
+			constexpr reference operator*() const
+			{
+				return *mp_ptr;
+			}
+
+			Iterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			Iterator operator++(int)
+			{
+				Iterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			Iterator& operator--()
+			{
+				--mp_ptr;
+				return *this;
+			}
+
+			Iterator operator--(int)
+			{
+				Iterator temp = *this;
+				--mp_ptr;
+				return temp;
+			}
+
+			constexpr Iterator operator+(Size const value)
+			{
+				return Iterator(mp_ptr + value);
+			}
+
+			constexpr Iterator operator-(Size const value)
+			{
+				return Iterator(mp_ptr - value);
+			}
+
+			constexpr Bool operator==(Iterator const& other) const { return mp_ptr == other.mp_ptr; }
+			constexpr Bool operator!=(Iterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		class ConstIterator
+		{
+			friend class Vector;
+
+		public:
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = T;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type const*;
+			using reference = value_type const&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			constexpr explicit ConstIterator(pointer const data)
+				: mp_ptr(data)
+			{
+			}
+
+		public:
+			constexpr reference operator*()
+			{
+				return *mp_ptr;
+			}
+
+			ConstIterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			ConstIterator operator++(int)
+			{
+				ConstIterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			ConstIterator& operator--()
+			{
+				--mp_ptr;
+				return *this;
+			}
+
+			ConstIterator operator--(int)
+			{
+				ConstIterator temp = *this;
+				--mp_ptr;
+				return temp;
+			}
+
+			constexpr ConstIterator operator+(Size const value)
+			{
+				return ConstIterator(mp_ptr + value);
+			}
+
+			constexpr ConstIterator operator-(Size const value)
+			{
+				return ConstIterator(mp_ptr - value);
+			}
+
+			constexpr Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
+			constexpr Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		class ReverseIterator
+		{
+			friend class Vector;
+
+		public:
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = T;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type*;
+			using reference = value_type&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			constexpr explicit ReverseIterator(pointer const ptr)
+				: mp_ptr(ptr)
+			{
+			}
+
+		public:
+			constexpr reference operator*() const
+			{
+				return *mp_ptr;
+			}
+
+			ReverseIterator& operator++()
+			{
+				--mp_ptr;
+				return *this;
+			}
+
+			ReverseIterator operator++(int)
+			{
+				ReverseIterator temp = *this;
+				--mp_ptr;
+				return temp;
+			}
+
+			ReverseIterator& operator--()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			ReverseIterator operator--(int)
+			{
+				ReverseIterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			constexpr ReverseIterator operator+(Size const value)
+			{
+				return ReverseIterator(mp_ptr - value);
+			}
+
+			constexpr ReverseIterator operator-(Size const value)
+			{
+				return ReverseIterator(mp_ptr + value);
+			}
+
+			constexpr Bool operator==(ReverseIterator const& other) const { return mp_ptr == other.mp_ptr; }
+			constexpr Bool operator!=(ReverseIterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		class ConstReverseIterator
+		{
+			friend class Vector;
+
+		public:
+			using iterator_category = std::bidirectional_iterator_tag;
+			using value_type = T;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type const*;
+			using reference = value_type const&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			constexpr explicit ConstReverseIterator(pointer const data)
+				: mp_ptr(data)
+			{
+			}
+
+		public:
+			constexpr reference operator*()
+			{
+				return *mp_ptr;
+			}
+
+			ConstReverseIterator& operator++()
+			{
+				--mp_ptr;
+				return *this;
+			}
+
+			ConstReverseIterator operator++(int)
+			{
+				ConstReverseIterator temp = *this;
+				--mp_ptr;
+				return temp;
+			}
+
+			ConstReverseIterator& operator--()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			ConstReverseIterator operator--(int)
+			{
+				ConstReverseIterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			constexpr ConstReverseIterator operator+(Size const value)
+			{
+				return ConstReverseIterator(mp_ptr - value);
+			}
+
+			constexpr ConstReverseIterator operator-(Size const value)
+			{
+				return ConstReverseIterator(mp_ptr + value);
+			}
+
+			constexpr Bool operator==(ConstReverseIterator const& other) const { return mp_ptr == other.mp_ptr; }
+			constexpr Bool operator!=(ConstReverseIterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		/// <summary>
+		/// Gets an Iterator to the beginning of the Vector.
+		/// </summary>
+		/// <returns>An Iterator pointing to the first element.</returns>
+		constexpr Iterator begin() { return Iterator(mp_data); }
+
+		/// <summary>
+		/// Gets an Iterator to the end of the Vector.
+		/// </summary>
+		/// <returns>An Iterator pointing to the last element + 1.</returns>
+		constexpr Iterator end() { return Iterator(mp_data + m_size); }
+
+		/// <summary>
+		/// Gets an ConstIterator to the beginning of the Vector.
+		/// </summary>
+		/// <returns>A ConstIterator pointing to the first element.</returns>
+		constexpr ConstIterator begin() const { return ConstIterator(mp_data); }
+
+		/// <summary>
+		/// Gets an ConstIterator to the end of the Vector.
+		/// </summary>
+		/// <returns>A ConstIterator pointing to the last element + 1.</returns>
+		constexpr ConstIterator end() const { return ConstIterator(mp_data + m_size); }
+
+		/// <summary>
+		/// Gets a ReverseIterator to the beginning of the Vector.
+		/// </summary>
+		/// <returns>A ReverseIterator pointing to the first element.</returns>
+		constexpr ReverseIterator rbegin() { return ReverseIterator(mp_data + m_size - 1); }
+
+		/// <summary>
+		/// Gets an ReverseIterator to the end of the Vector.
+		/// </summary>
+		/// <returns>An ReverseIterator pointing to the last element + 1.</returns>
+		constexpr ReverseIterator rend() { return ReverseIterator(mp_data - 1); }
+
+		/// <summary>
+		/// Gets an ConstReverseIterator to the beginning of the Vector.
+		/// </summary>
+		/// <returns>A ConstReverseIterator pointing to the first element.</returns>
+		constexpr ConstReverseIterator rbegin() const { return ConstReverseIterator(mp_data + m_size - 1); }
+
+		/// <summary>
+		/// Gets an ConstReverseIterator to the end of the Vector.
+		/// </summary>
+		/// <returns>A ConstReverseIterator pointing to the last element + 1.</returns>
+		constexpr ConstReverseIterator rend() const { return ConstReverseIterator(mp_data - 1); }
 
 #pragma endregion
 
@@ -1007,7 +1011,7 @@ namespace Minty
 				}
 			}
 
-			return cend();
+			return end();
 		}
 
 		/// <summary>
@@ -1015,7 +1019,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="value">The value to check.</param>
 		/// <returns>True, if the value exists.</returns>
-		constexpr Bool contains(T const& value) const { return find(value) != cend(); }
+		constexpr Bool contains(T const& value) const { return find(value) != end(); }
 
 		/// <summary>
 		/// Removes all elements from the Vector.

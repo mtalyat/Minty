@@ -125,13 +125,13 @@ namespace Minty
 		/// Gets an Iterator to the beginning of the String.
 		/// </summary>
 		/// <returns>An Iterator pointing to the first character.</returns>
-		ConstIterator cbegin() const { return ConstIterator(mp_data); }
+		ConstIterator begin() const { return ConstIterator(mp_data); }
 
 		/// <summary>
 		/// Gets an Iterator to the end of the String.
 		/// </summary>
 		/// <returns>An Iterator pointing to the null terminating character.</returns>
-		ConstIterator cend() const { return ConstIterator(mp_data + m_size); }
+		ConstIterator end() const { return ConstIterator(mp_data + m_size); }
 
 #pragma endregion
 

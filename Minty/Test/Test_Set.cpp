@@ -79,9 +79,8 @@ void test_Set(Test& _test)
 	{
 		TEST("Dereference Operator")
 		{
-			Set<int> set;
-			set.add(0);
-			Set<int>::ConstIterator it = set.cbegin();
+			Set<int> const set{ 0 };
+			Set<int>::ConstIterator it = set.begin();
 			EXPECT_TRUE((*it == 0));
 			++it;
 			EXPECT_FAIL(*it);
@@ -89,9 +88,8 @@ void test_Set(Test& _test)
 
 		TEST("Member Access Operator")
 		{
-			Set<String> set;
-			set.add("0");
-			Set<String>::ConstIterator it = set.cbegin();
+			Set<String> const set{ "0" };
+			Set<String>::ConstIterator it = set.begin();
 			EXPECT_TRUE(it->get_size() == 1);
 			++it;
 			EXPECT_FAIL(it->get_size());
@@ -99,10 +97,8 @@ void test_Set(Test& _test)
 
 		TEST("Increment Operator")
 		{
-			Set<int> set;
-			set.add(0);
-			set.add(1);
-			Set<int>::ConstIterator it = set.cbegin();
+			Set<int> const set{ 0, 1 };
+			Set<int>::ConstIterator it = set.begin();
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
 			EXPECT_TRUE((*it == 0) || (*it == 1));
@@ -112,23 +108,19 @@ void test_Set(Test& _test)
 
 		TEST("Addition Operator")
 		{
-			Set<int> set;
-			set.add(0);
-			set.add(1);
-			Set<int>::ConstIterator it = set.cbegin();
+			Set<int> const set{ 0, 1 };
+			Set<int>::ConstIterator it = set.begin();
 			EXPECT_TRUE((*(it + 0) == 0) || (*(it + 0) == 1));
 			EXPECT_TRUE((*(it + 1) == 0) || (*(it + 1) == 1));
 			EXPECT_FAIL(*(it + 2));
-			EXPECT_TRUE(it + 2 == set.cend());
+			EXPECT_TRUE(it + 2 == set.end());
 		}
 
 		TEST("Equal Operator")
 		{
-			Set<int> set;
-			set.add(0);
-			set.add(1);
-			Set<int>::ConstIterator it = set.cbegin();
-			Set<int>::ConstIterator it2 = set.cbegin();
+			Set<int> const set{ 0, 1 };
+			Set<int>::ConstIterator it = set.begin();
+			Set<int>::ConstIterator it2 = set.begin();
 			EXPECT_TRUE(it == it2);
 			++it;
 			EXPECT_TRUE(!(it == it2));
@@ -136,11 +128,9 @@ void test_Set(Test& _test)
 
 		TEST("Not Equal Operator")
 		{
-			Set<int> set;
-			set.add(0);
-			set.add(1);
-			Set<int>::ConstIterator it = set.cbegin();
-			Set<int>::ConstIterator it2 = set.cbegin();
+			Set<int> const set{ 0, 1 };
+			Set<int>::ConstIterator it = set.begin();
+			Set<int>::ConstIterator it2 = set.begin();
 			EXPECT_TRUE(!(it != it2));
 			++it;
 			EXPECT_TRUE(it != it2);
@@ -349,10 +339,10 @@ void test_Set(Test& _test)
 			set.add(1);
 			set.add(2);
 			const Set<int>& set2 = set;
-			EXPECT_TRUE(set2.find(0) != set2.cend());
-			EXPECT_TRUE(set2.find(1) != set2.cend());
-			EXPECT_TRUE(set2.find(2) != set2.cend());
-			EXPECT_TRUE(set2.find(3) == set2.cend());
+			EXPECT_TRUE(set2.find(0) != set2.end());
+			EXPECT_TRUE(set2.find(1) != set2.end());
+			EXPECT_TRUE(set2.find(2) != set2.end());
+			EXPECT_TRUE(set2.find(3) == set2.end());
 		}
 
 		TEST("Contains")
@@ -389,6 +379,8 @@ void test_Set(Test& _test)
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
 			EXPECT_FAIL(*it);
+			Set<int> set2;
+			EXPECT_TRUE(set2.begin() == set2.end());
 		}
 
 		TEST("End")
@@ -398,28 +390,30 @@ void test_Set(Test& _test)
 			set.add(1);
 			Set<int>::Iterator it = set.begin() + 2;
 			EXPECT_TRUE(it == set.end());
+			Set<int> set2;
+			EXPECT_TRUE(set2.begin() == set2.end());
 		}
 
 		TEST("Const Begin")
 		{
-			Set<int> set;
-			set.add(0);
-			set.add(1);
-			Set<int>::ConstIterator it = set.cbegin();
+			Set<int> const set{ 0, 1 };
+			Set<int>::ConstIterator it = set.begin();
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
 			EXPECT_FAIL(*it);
+			Set<int> const set2;
+			EXPECT_TRUE(set2.begin() == set2.end());
 		}
 
 		TEST("Const End")
 		{
-			Set<int> set;
-			set.add(0);
-			set.add(1);
-			Set<int>::ConstIterator it = set.cbegin() + 2;
-			EXPECT_TRUE(it == set.cend());
+			Set<int> const set{ 0, 1 };
+			Set<int>::ConstIterator it = set.begin() + 2;
+			EXPECT_TRUE(it == set.end());
+			Set<int> const set2;
+			EXPECT_TRUE(set2.begin() == set2.end());
 		}
 	}
 }

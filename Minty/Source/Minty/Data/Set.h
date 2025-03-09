@@ -227,7 +227,17 @@ namespace Minty
 		/// Gets an Iterator to the beginning of the Set.
 		/// </summary>
 		/// <returns>An Iterator pointing to the first key-value pair.</returns>
-		Iterator begin() { return Iterator(mp_table, m_capacity, 0, mp_table[0]); }
+		Iterator begin()
+		{
+			if (mp_table)
+			{
+				return Iterator(mp_table, m_capacity, 0, mp_table[0]);
+			}
+			else
+			{
+				return end();
+			}
+		}
 
 		/// <summary>
 		/// Gets an Iterator to the end of the Set.
@@ -239,13 +249,23 @@ namespace Minty
 		/// Gets a ConstIterator to the beginning of the Set.
 		/// </summary>
 		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
-		ConstIterator cbegin() const { return ConstIterator(mp_table, m_capacity, 0, mp_table[0]); }
+		ConstIterator begin() const
+		{
+			if (mp_table)
+			{
+				return ConstIterator(mp_table, m_capacity, 0, mp_table[0]);
+			}
+			else
+			{
+				return end();
+			}
+		}
 
 		/// <summary>
 		/// Gets a ConstIterator to the end of the Set.
 		/// </summary>
 		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
-		ConstIterator cend() const { return ConstIterator(mp_table, m_capacity, m_capacity, nullptr); }
+		ConstIterator end() const { return ConstIterator(mp_table, m_capacity, m_capacity, nullptr); }
 
 #pragma endregion
 
@@ -574,7 +594,7 @@ namespace Minty
 		{
 			if (m_capacity == 0)
 			{
-				return cend();
+				return end();
 			}
 
 			Size index = hash(key);
@@ -587,7 +607,7 @@ namespace Minty
 				}
 				node = node->next;
 			}
-			return cend();
+			return end();
 		}
 
 		/// <summary>
@@ -595,7 +615,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="key">The T to check.</param>
 		/// <returns>True, if the T is found.</returns>
-		Bool contains(T const& key) const { return find(key) != cend(); }
+		Bool contains(T const& key) const { return find(key) != end(); }
 
 		/// <summary>
 		/// Removes all key-value pairs from this Set.
