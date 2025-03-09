@@ -75,7 +75,6 @@ namespace Minty
 
 #pragma endregion
 
-
 #pragma region Methods
 
 	protected:
