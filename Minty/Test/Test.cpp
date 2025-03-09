@@ -10,7 +10,7 @@ std::string Test::generate_message(char const* const condition, size_t const lin
 void Test::capture_output()
 {
 #ifndef PRINT_OUTPUT
-	std::cout.rdbuf(coutStream.rdbuf()); std::cerr.rdbuf(cerrStream.rdbuf());
+	std::cout.rdbuf(outputStream.rdbuf()); std::cerr.rdbuf(outputStream.rdbuf());
 #endif // PRINT_OUTPUT
 }
 
@@ -69,6 +69,11 @@ void Test::fail(char const* const condition, size_t const line)
 	failCount++;
 }
 
+void Test::write_message(std::string const& message)
+{
+	currentResults->add_message(std::string("[    ] ").append(message), Results::MessageType::Generic);
+}
+
 void Test::save_results(std::filesystem::path const& path) const
 {
 	// generate the results table string
@@ -83,7 +88,7 @@ void Test::save_results(std::filesystem::path const& path) const
 	int const CATEGORY_NAME_WIDTH = 30;
 	int const PASS_COUNT_WIDTH = 8;
 	int const FAIL_COUNT_WIDTH = 8;
-	int const MESSAGE_WIDTH = 256;
+	int const MESSAGE_WIDTH = 128;
 	int const RESULT_WIDTH = 6;
 
 	file << std::left;
@@ -108,8 +113,10 @@ void Test::save_results(std::filesystem::path const& path) const
 		int categoryIndex = categories.at(categoryName);
 		Results const& categoryResults = results.at(categoryIndex);
 
-		file << "| " << std::setw(CATEGORY_NAME_WIDTH) << categoryName << " | " << std::setw(PASS_COUNT_WIDTH) << categoryResults.get_pass_count() << " | " << std::setw(FAIL_COUNT_WIDTH) << categoryResults.get_fail_count() << " |\n";
+		file << "| " << std::left << std::setw(CATEGORY_NAME_WIDTH) << categoryName << " | " << std::right << std::setw(PASS_COUNT_WIDTH) << categoryResults.get_pass_count() << " | " << std::setw(FAIL_COUNT_WIDTH) << categoryResults.get_fail_count() << " |\n";
 	}
+
+	file << std::left;
 
 	// create fails
 	file << "\n## Failures\n";
@@ -151,7 +158,7 @@ void Test::save_results(std::filesystem::path const& path) const
 
 		for (auto const& message : categoryResults.get_messages())
 		{
-			file << "| " << std::setw(RESULT_WIDTH) << message.substr(1, 4) << " | " << std::setw(MESSAGE_WIDTH) << message.substr(7) << " |\n";
+			file << "|  " << message.substr(1, 4) << "  | " << std::setw(MESSAGE_WIDTH) << message.substr(7) << " |\n";
 		}
 	}
 

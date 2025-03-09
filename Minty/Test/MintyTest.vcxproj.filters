@@ -37,6 +37,9 @@
     <Filter Include="Header Files\Tests\Wrap">
       <UniqueIdentifier>{4ec241ba-b60f-4223-8cdd-edd7ed73960a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Console">
+      <UniqueIdentifier>{e951fa1f-a8b2-4919-ac0a-cb767902e055}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -103,6 +106,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -178,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Test_Wrapper.h">
       <Filter>Header Files\Tests\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Console.h">
+      <Filter>Header Files\Tests\Console</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

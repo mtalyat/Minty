@@ -1,6 +1,9 @@
 // Minty
 #include "Test_Minty.h"
 
+// Console
+#include "Test_Console.h"
+
 // Core
 #include "Test_Base.h"
 #include "Test_Compression.h"
@@ -50,6 +53,9 @@ static void run_tests()
 
 	// Minty
 	test_Minty(_test);
+
+	// Console
+	test_Console(_test);
 
 	// Core
 	test_Base(_test);

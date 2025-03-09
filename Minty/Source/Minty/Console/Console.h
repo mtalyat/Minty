@@ -24,15 +24,16 @@ namespace Minty
 			Blue = 34,
 			Magenta = 35,
 			Cyan = 36,
-			BrightGray = 37,
-			Gray = 90,
+			White = 37,
+			BrightBlack = 90,
+			Gray = BrightBlack,
 			BrightRed = 91,
 			BrightGreen = 92,
 			BrightYellow = 93,
 			BrightBlue = 94,
 			BrightMagenta = 95,
 			BrightCyan = 96,
-			White = 97
+			BrightWhite = 97
 		};
 
 #pragma endregion
@@ -67,7 +68,7 @@ namespace Minty
 		/// <summary>
 		/// Writes nothing.
 		/// </summary>
-		constexpr void write()
+		constexpr static void write()
 		{
 			// base case, do nothing
 		}
@@ -75,7 +76,7 @@ namespace Minty
 		/// <summary>
 		/// Writes a newline to the terminal.
 		/// </summary>
-		inline void write_line()
+		inline static void write_line()
 		{
 			std::cout << "\n";
 		}
