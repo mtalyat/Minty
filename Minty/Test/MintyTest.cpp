@@ -39,6 +39,8 @@ static void run_tests()
 	// create the test object
 	Test _test;
 
+	std::cout << "Running Minty tests..." << std::endl;
+
 	// start capturing the output
 	_test.capture_output();
 
