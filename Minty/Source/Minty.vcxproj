@@ -204,7 +204,6 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Vector.h" />
     <ClInclude Include="Minty\Debug\Debug.h" />
     <ClInclude Include="Minty\Debug\DualBuffer.h" />
-    <ClInclude Include="Minty\Debug\Logger.h" />
     <ClInclude Include="Minty\Debug\_Debug.h" />
     <ClInclude Include="Minty\File\File.h" />
     <ClInclude Include="Minty\File\PhysicalFile.h" />

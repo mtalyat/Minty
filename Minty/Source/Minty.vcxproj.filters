@@ -156,9 +156,6 @@
     <ClInclude Include="Minty\Debug\_Debug.h">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Debug\Logger.h">
-      <Filter>Header Files\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Debug\Debug.h">
       <Filter>Header Files\Debug</Filter>
     </ClInclude>

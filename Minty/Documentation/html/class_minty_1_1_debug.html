@@ -102,18 +102,395 @@ $(function(){initNavTree('class_minty_1_1_debug.html',''); initResizable(true); 
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="class_minty_1_1_debug-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Minty::Debug Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Static class for debugging operations.  
+<p>A static class for writing output.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_debug_8h_source.html">Debug.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aa46102a529c4e0d1014d2d99fd86d625" id="r_aa46102a529c4e0d1014d2d99fd86d625"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625">Color</a> { <br />
+&#160;&#160;<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625ae90dfb84e30edf611e326eeb04d680de">Black</a> = 30
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625aee38e4d5dd68c4e440825018d549cb47">Red</a> = 31
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625ad382816a3cbeed082c9e216e7392eed1">Green</a> = 32
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a51e6cd92b6c45f9affdc158ecca2b8b8">Yellow</a> = 33
+, <br />
+&#160;&#160;<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a9594eec95be70e7b1710f730fdda33d9">Blue</a> = 34
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625ab91cc2c1416fcca942b61c7ac5b1a9ac">Magenta</a> = 35
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20">Cyan</a> = 36
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a25a81701fbfa4a1efdf660a950c1d006">White</a> = 37
+, <br />
+&#160;&#160;<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a8fbf7e1405c12b2e7b085d51f018a253">BrightBlack</a> = 90
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a994ae1d9731cebe455aff211bcb25b93">Gray</a> = BrightBlack
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a37ac9be0fdc65c5558356e3c8438d851">BrightRed</a> = 91
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625ab249e671af05e6d993727a3d4e65a431">BrightGreen</a> = 92
+, <br />
+&#160;&#160;<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a7eef58f3be127af697d00af08dd709ac">BrightYellow</a> = 93
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a374480f5115466da840c6da08bd6a071">BrightBlue</a> = 94
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a4efcacb8a7d723efe6dfdf83f827fe95">BrightMagenta</a> = 95
+, <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625ad0ab251cbfd49b7cc62ea1d25da3bac2">BrightCyan</a> = 96
+, <br />
+&#160;&#160;<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625a44a07eabeb77868ee704ec159a59e8e4">BrightWhite</a> = 97
+<br />
+ }</td></tr>
+<tr class="memdesc:aa46102a529c4e0d1014d2d99fd86d625"><td class="mdescLeft">&#160;</td><td class="mdescRight">A color that can be used to write in the terminal.  <a href="#aa46102a529c4e0d1014d2d99fd86d625">More...</a><br /></td></tr>
+<tr class="separator:aa46102a529c4e0d1014d2d99fd86d625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a14ef30058c39e5b45c9be0da73792ce4" id="r_a14ef30058c39e5b45c9be0da73792ce4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14ef30058c39e5b45c9be0da73792ce4">set_foreground_color</a> (<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625">Color</a> const color)</td></tr>
+<tr class="memdesc:a14ef30058c39e5b45c9be0da73792ce4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the foreground color attribute of the terminal.  <br /></td></tr>
+<tr class="separator:a14ef30058c39e5b45c9be0da73792ce4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc5c8f41d58395a5ca9855d2ad22d4e1" id="r_adc5c8f41d58395a5ca9855d2ad22d4e1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc5c8f41d58395a5ca9855d2ad22d4e1">set_background_color</a> (<a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625">Color</a> const color)</td></tr>
+<tr class="memdesc:adc5c8f41d58395a5ca9855d2ad22d4e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the background color attribute of the terminal.  <br /></td></tr>
+<tr class="separator:adc5c8f41d58395a5ca9855d2ad22d4e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8fbefbf913a7e473480928464062928" id="r_ac8fbefbf913a7e473480928464062928"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8fbefbf913a7e473480928464062928">reset</a> ()</td></tr>
+<tr class="memdesc:ac8fbefbf913a7e473480928464062928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets all attributes in the terminal.  <br /></td></tr>
+<tr class="separator:ac8fbefbf913a7e473480928464062928"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0dbe37371987e85df5e2751e6ffd6fc" id="r_aa0dbe37371987e85df5e2751e6ffd6fc"><td class="memItemLeft" align="right" valign="top">static constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0dbe37371987e85df5e2751e6ffd6fc">write</a> ()</td></tr>
+<tr class="memdesc:aa0dbe37371987e85df5e2751e6ffd6fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes nothing.  <br /></td></tr>
+<tr class="separator:aa0dbe37371987e85df5e2751e6ffd6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41fb788979d739651b199c6fbe3e700" id="r_ae41fb788979d739651b199c6fbe3e700"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae41fb788979d739651b199c6fbe3e700">write_line</a> ()</td></tr>
+<tr class="memdesc:ae41fb788979d739651b199c6fbe3e700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a newline to the terminal.  <br /></td></tr>
+<tr class="separator:ae41fb788979d739651b199c6fbe3e700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ba165dd18b23a958c29c1644b33420" id="r_ab0ba165dd18b23a958c29c1644b33420"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:ab0ba165dd18b23a958c29c1644b33420"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab0ba165dd18b23a958c29c1644b33420">write</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:ab0ba165dd18b23a958c29c1644b33420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the given value(s) to the terminal.  <br /></td></tr>
+<tr class="separator:ab0ba165dd18b23a958c29c1644b33420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc261443873ac77bda9df47e89c6072c" id="r_adc261443873ac77bda9df47e89c6072c"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:adc261443873ac77bda9df47e89c6072c"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#adc261443873ac77bda9df47e89c6072c">write_line</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:adc261443873ac77bda9df47e89c6072c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the given value(s) to the terminal and adds a newline.  <br /></td></tr>
+<tr class="separator:adc261443873ac77bda9df47e89c6072c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc2e326aac12bc1b7dc99b8e425f1d91" id="r_acc2e326aac12bc1b7dc99b8e425f1d91"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc2e326aac12bc1b7dc99b8e425f1d91">flush</a> ()</td></tr>
+<tr class="memdesc:acc2e326aac12bc1b7dc99b8e425f1d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes the output buffer.  <br /></td></tr>
+<tr class="separator:acc2e326aac12bc1b7dc99b8e425f1d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Static class for debugging operations. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+<div class="textblock"><p>A static class for writing output. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="aa46102a529c4e0d1014d2d99fd86d625" name="aa46102a529c4e0d1014d2d99fd86d625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa46102a529c4e0d1014d2d99fd86d625">&#9670;&#160;</a></span>Color</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625">Minty::Debug::Color</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A color that can be used to write in the terminal. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625ae90dfb84e30edf611e326eeb04d680de" name="aa46102a529c4e0d1014d2d99fd86d625ae90dfb84e30edf611e326eeb04d680de"></a>Black&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625aee38e4d5dd68c4e440825018d549cb47" name="aa46102a529c4e0d1014d2d99fd86d625aee38e4d5dd68c4e440825018d549cb47"></a>Red&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625ad382816a3cbeed082c9e216e7392eed1" name="aa46102a529c4e0d1014d2d99fd86d625ad382816a3cbeed082c9e216e7392eed1"></a>Green&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a51e6cd92b6c45f9affdc158ecca2b8b8" name="aa46102a529c4e0d1014d2d99fd86d625a51e6cd92b6c45f9affdc158ecca2b8b8"></a>Yellow&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a9594eec95be70e7b1710f730fdda33d9" name="aa46102a529c4e0d1014d2d99fd86d625a9594eec95be70e7b1710f730fdda33d9"></a>Blue&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625ab91cc2c1416fcca942b61c7ac5b1a9ac" name="aa46102a529c4e0d1014d2d99fd86d625ab91cc2c1416fcca942b61c7ac5b1a9ac"></a>Magenta&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20" name="aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20"></a>Cyan&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a25a81701fbfa4a1efdf660a950c1d006" name="aa46102a529c4e0d1014d2d99fd86d625a25a81701fbfa4a1efdf660a950c1d006"></a>White&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a8fbf7e1405c12b2e7b085d51f018a253" name="aa46102a529c4e0d1014d2d99fd86d625a8fbf7e1405c12b2e7b085d51f018a253"></a>BrightBlack&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a994ae1d9731cebe455aff211bcb25b93" name="aa46102a529c4e0d1014d2d99fd86d625a994ae1d9731cebe455aff211bcb25b93"></a>Gray&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a37ac9be0fdc65c5558356e3c8438d851" name="aa46102a529c4e0d1014d2d99fd86d625a37ac9be0fdc65c5558356e3c8438d851"></a>BrightRed&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625ab249e671af05e6d993727a3d4e65a431" name="aa46102a529c4e0d1014d2d99fd86d625ab249e671af05e6d993727a3d4e65a431"></a>BrightGreen&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a7eef58f3be127af697d00af08dd709ac" name="aa46102a529c4e0d1014d2d99fd86d625a7eef58f3be127af697d00af08dd709ac"></a>BrightYellow&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a374480f5115466da840c6da08bd6a071" name="aa46102a529c4e0d1014d2d99fd86d625a374480f5115466da840c6da08bd6a071"></a>BrightBlue&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a4efcacb8a7d723efe6dfdf83f827fe95" name="aa46102a529c4e0d1014d2d99fd86d625a4efcacb8a7d723efe6dfdf83f827fe95"></a>BrightMagenta&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625ad0ab251cbfd49b7cc62ea1d25da3bac2" name="aa46102a529c4e0d1014d2d99fd86d625ad0ab251cbfd49b7cc62ea1d25da3bac2"></a>BrightCyan&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa46102a529c4e0d1014d2d99fd86d625a44a07eabeb77868ee704ec159a59e8e4" name="aa46102a529c4e0d1014d2d99fd86d625a44a07eabeb77868ee704ec159a59e8e4"></a>BrightWhite&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="acc2e326aac12bc1b7dc99b8e425f1d91" name="acc2e326aac12bc1b7dc99b8e425f1d91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc2e326aac12bc1b7dc99b8e425f1d91">&#9670;&#160;</a></span>flush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::flush </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flushes the output buffer. </p>
+
+</div>
+</div>
+<a id="ac8fbefbf913a7e473480928464062928" name="ac8fbefbf913a7e473480928464062928"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8fbefbf913a7e473480928464062928">&#9670;&#160;</a></span>reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Debug::reset </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Resets all attributes in the terminal. </p>
+
+</div>
+</div>
+<a id="adc5c8f41d58395a5ca9855d2ad22d4e1" name="adc5c8f41d58395a5ca9855d2ad22d4e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5c8f41d58395a5ca9855d2ad22d4e1">&#9670;&#160;</a></span>set_background_color()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Debug::set_background_color </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625">Color</a> const</td>          <td class="paramname"><span class="paramname"><em>color</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the background color attribute of the terminal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">color</td><td>The color to use for the background.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a14ef30058c39e5b45c9be0da73792ce4" name="a14ef30058c39e5b45c9be0da73792ce4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14ef30058c39e5b45c9be0da73792ce4">&#9670;&#160;</a></span>set_foreground_color()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Debug::set_foreground_color </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#aa46102a529c4e0d1014d2d99fd86d625">Color</a> const</td>          <td class="paramname"><span class="paramname"><em>color</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the foreground color attribute of the terminal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">color</td><td>The color to use for text.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa0dbe37371987e85df5e2751e6ffd6fc" name="aa0dbe37371987e85df5e2751e6ffd6fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0dbe37371987e85df5e2751e6ffd6fc">&#9670;&#160;</a></span>write() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr void Minty::Debug::write </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes nothing. </p>
+
+</div>
+</div>
+<a id="ab0ba165dd18b23a958c29c1644b33420" name="ab0ba165dd18b23a958c29c1644b33420"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0ba165dd18b23a958c29c1644b33420">&#9670;&#160;</a></span>write() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes the given value(s) to the terminal. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae41fb788979d739651b199c6fbe3e700" name="ae41fb788979d739651b199c6fbe3e700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae41fb788979d739651b199c6fbe3e700">&#9670;&#160;</a></span>write_line() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_line </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes a newline to the terminal. </p>
+
+</div>
+</div>
+<a id="adc261443873ac77bda9df47e89c6072c" name="adc261443873ac77bda9df47e89c6072c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc261443873ac77bda9df47e89c6072c">&#9670;&#160;</a></span>write_line() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_line </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes the given value(s) to the terminal and adds a newline. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>Source/Minty/Debug/<a class="el" href="_debug_8h_source.html">Debug.h</a></li>
+<li>Source/Minty/Debug/<a class="el" href="_debug_8cpp.html">Debug.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -14,8 +14,6 @@ var searchData=
   ['list_2eh_11',['List.h',['../_list_8h.html',1,'']]],
   ['load_12',['load',['../class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98',1,'Minty::Wrap']]],
   ['load_5for_5fcreate_13',['load_or_create',['../class_minty_1_1_wrap.html#a5d909396abb02f2ee602ab76b37c64d8',1,'Minty::Wrap']]],
-  ['logger_14',['Logger',['../class_minty_1_1_logger.html',1,'Minty::Logger'],['../class_minty_1_1_logger.html#a9af88f32baace03c272ff493d68c8d66',1,'Minty::Logger::Logger(Path const &amp;path)'],['../class_minty_1_1_logger.html#ab58ebf69e26b9afbc9f8bfd080340bf2',1,'Minty::Logger::Logger(Logger const &amp;other)=delete'],['../class_minty_1_1_logger.html#a9b6a7bbd44801b02b5c31cadbe3b30bd',1,'Minty::Logger::Logger(Logger &amp;&amp;other) noexcept']]],
-  ['logger_2eh_15',['Logger.h',['../_logger_8h.html',1,'']]],
-  ['long_16',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty']]],
-  ['low_17',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
+  ['long_14',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty']]],
+  ['low_15',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
 ];
