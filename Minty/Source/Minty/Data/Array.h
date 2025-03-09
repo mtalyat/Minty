@@ -292,13 +292,13 @@ namespace Minty
 		/// Gets an ConstIterator to the beginning of the Array.
 		/// </summary>
 		/// <returns>A ConstIterator pointing to the first element.</returns>
-		constexpr ConstIterator cbegin() const { return ConstIterator(m_data); }
+		constexpr ConstIterator begin() const { return ConstIterator(m_data); }
 
 		/// <summary>
 		/// Gets an ConstIterator to the end of the Array.
 		/// </summary>
 		/// <returns>A ConstIterator pointing to the last element + 1.</returns>
-		constexpr ConstIterator cend() const { return ConstIterator(m_data + S); }
+		constexpr ConstIterator end() const { return ConstIterator(m_data + S); }
 
 		/// <summary>
 		/// Gets a ReverseIterator to the beginning of the Array.
@@ -316,13 +316,13 @@ namespace Minty
 		/// Gets an ConstReverseIterator to the beginning of the Array.
 		/// </summary>
 		/// <returns>A ConstReverseIterator pointing to the first element.</returns>
-		constexpr ConstReverseIterator crbegin() const { return ConstReverseIterator(m_data + S - 1); }
+		constexpr ConstReverseIterator rbegin() const { return ConstReverseIterator(m_data + S - 1); }
 
 		/// <summary>
 		/// Gets an ConstReverseIterator to the end of the Array.
 		/// </summary>
 		/// <returns>A ConstReverseIterator pointing to the last element + 1.</returns>
-		constexpr ConstReverseIterator crend() const { return ConstReverseIterator(m_data - 1); }
+		constexpr ConstReverseIterator rend() const { return ConstReverseIterator(m_data - 1); }
 
 #pragma endregion
 
@@ -545,7 +545,7 @@ namespace Minty
 				}
 			}
 
-			return cend();
+			return end();
 		}
 
 		/// <summary>

@@ -81,9 +81,8 @@ void test_Map(Test& _test)
 	{
 		TEST("Dereference Operator")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			Map<int, int>::ConstIterator it = map.cbegin();
+			Map<int, int> const map = { {0, 0} };
+			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)));
 			++it;
 			EXPECT_FAIL(*it);
@@ -91,9 +90,8 @@ void test_Map(Test& _test)
 
 		TEST("Member Access Operator")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			Map<int, int>::ConstIterator it = map.cbegin();
+			Map<int, int> const map = { {0, 0} };
+			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE(it->first == 0);
 			EXPECT_TRUE(it->second == 0);
 			++it;
@@ -103,10 +101,8 @@ void test_Map(Test& _test)
 
 		TEST("Increment Operator")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			map[1] = 1;
-			Map<int, int>::ConstIterator it = map.cbegin();
+			Map<int, int> const map = { {0, 0}, {1, 1} };
+			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
@@ -116,23 +112,19 @@ void test_Map(Test& _test)
 
 		TEST("Addition Operator")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			map[1] = 1;
-			Map<int, int>::ConstIterator it = map.cbegin();
+			Map<int, int> const map = { {0, 0}, {1, 1} };
+			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1)));
 			EXPECT_TRUE((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1)));
 			EXPECT_FAIL(*(it + 2));
-			EXPECT_TRUE(it + 2 == map.cend());
+			EXPECT_TRUE(it + 2 == map.end());
 		}
 
 		TEST("Equal Operator")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			map[1] = 1;
-			Map<int, int>::ConstIterator it = map.cbegin();
-			Map<int, int>::ConstIterator it2 = map.cbegin();
+			Map<int, int> const map = { {0, 0}, {1, 1} };
+			Map<int, int>::ConstIterator it = map.begin();
+			Map<int, int>::ConstIterator it2 = map.begin();
 			EXPECT_TRUE(it == it2);
 			++it;
 			EXPECT_TRUE(!(it == it2));
@@ -140,11 +132,9 @@ void test_Map(Test& _test)
 
 		TEST("Not Equal Operator")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			map[1] = 1;
-			Map<int, int>::ConstIterator it = map.cbegin();
-			Map<int, int>::ConstIterator it2 = map.cbegin();
+			Map<int, int> const map = { {0, 0}, {1, 1} };
+			Map<int, int>::ConstIterator it = map.begin();
+			Map<int, int>::ConstIterator it2 = map.begin();
 			EXPECT_TRUE(!(it != it2));
 			++it;
 			EXPECT_TRUE(it != it2);
@@ -393,10 +383,10 @@ void test_Map(Test& _test)
 			map[1] = 1;
 			map[2] = 2;
 			const Map<int, int>& map2 = map;
-			EXPECT_TRUE(map2.find(0) != map2.cend());
-			EXPECT_TRUE(map2.find(1) != map2.cend());
-			EXPECT_TRUE(map2.find(2) != map2.cend());
-			EXPECT_TRUE(map2.find(3) == map2.cend());
+			EXPECT_TRUE(map2.find(0) != map2.end());
+			EXPECT_TRUE(map2.find(1) != map2.end());
+			EXPECT_TRUE(map2.find(2) != map2.end());
+			EXPECT_TRUE(map2.find(3) == map2.end());
 		}
 
 		TEST("Contains")
@@ -433,6 +423,8 @@ void test_Map(Test& _test)
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
 			EXPECT_FAIL(*it);
+			Map<int, int> map2;
+			EXPECT_TRUE(map2.begin() == map2.end());
 		}
 
 		TEST("End")
@@ -442,28 +434,30 @@ void test_Map(Test& _test)
 			map[1] = 1;
 			Map<int, int>::Iterator it = map.begin() + 2;
 			EXPECT_TRUE(it == map.end());
+			Map<int, int> map2;
+			EXPECT_TRUE(map2.begin() == map2.end());
 		}
 
 		TEST("Const Begin")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			map[1] = 1;
-			Map<int, int>::ConstIterator it = map.cbegin();
+			Map<int, int> const map = { {0, 0}, {1, 1} };
+			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
 			EXPECT_FAIL(*it);
+			Map<int, int> const map2;
+			EXPECT_TRUE(map2.begin() == map2.end());
 		}
 
 		TEST("Const End")
 		{
-			Map<int, int> map;
-			map[0] = 0;
-			map[1] = 1;
-			Map<int, int>::ConstIterator it = map.cbegin() + 2;
-			EXPECT_TRUE(it == map.cend());
+			Map<int, int> const map = { {0, 0}, {1, 1} };
+			Map<int, int>::ConstIterator it = map.begin() + 2;
+			EXPECT_TRUE(it == map.end());
+			Map<int, int> const map2;
+			EXPECT_TRUE(map2.begin() == map2.end());
 		}
 	}
 }

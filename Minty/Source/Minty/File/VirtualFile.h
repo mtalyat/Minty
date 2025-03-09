@@ -1,3 +1,4 @@
+#pragma once
 #include "Minty/File/PhysicalFile.h"
 
 namespace Minty

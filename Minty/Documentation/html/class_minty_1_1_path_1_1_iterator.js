@@ -5,6 +5,7 @@ var class_minty_1_1_path_1_1_iterator =
     [ "pointer", "class_minty_1_1_path_1_1_iterator.html#a77fb0e1e2f591d6ff0fcfc05fcd207ff", null ],
     [ "reference", "class_minty_1_1_path_1_1_iterator.html#a48046bb24e4da59e4bab0a3c604185e3", null ],
     [ "value_type", "class_minty_1_1_path_1_1_iterator.html#a6273ad7fff49226f9e807c323a5a008d", null ],
+    [ "~Iterator", "class_minty_1_1_path_1_1_iterator.html#a141079d0ac1a95d9073fd3c5298d6020", null ],
     [ "operator!=", "class_minty_1_1_path_1_1_iterator.html#a7be2122b94c8ea598559c16b6ab9e8f3", null ],
     [ "operator*", "class_minty_1_1_path_1_1_iterator.html#a9c6e8031232d72ce33f713de7c301cb1", null ],
     [ "operator++", "class_minty_1_1_path_1_1_iterator.html#aba58e05a8d029e9fd20b406ba734816b", null ],

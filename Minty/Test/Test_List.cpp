@@ -176,86 +176,86 @@ void test_List(Test& _test)
 	{
 		TEST("Copy Constructor")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			List<int>::ConstIterator copy(it);
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.cend());
+			EXPECT_TRUE(++copy == test.end());
 			copy = it;
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Move Constructor")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			List<int>::ConstIterator copy(std::move(it));
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++copy == test.end());
+			it = test.begin();
 			copy = std::move(it);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Copy Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			List<int>::ConstIterator copy = it;
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.cend());
+			EXPECT_TRUE(++copy == test.end());
 			copy = it;
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Move Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			List<int>::ConstIterator copy = std::move(it);
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++copy == test.end());
+			it = test.begin();
 			copy = std::move(it);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Dereference Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 5);
 			EXPECT_TRUE(*(it + 1) == 5);
 			EXPECT_TRUE(*(it + 2) == 5);
@@ -263,40 +263,40 @@ void test_List(Test& _test)
 
 		TEST("Increment Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 5);
 			EXPECT_TRUE(*(it + 1) == 5);
 			EXPECT_TRUE(*(it + 2) == 5);
-			EXPECT_TRUE(it + 3 == test.cend());
+			EXPECT_TRUE(it + 3 == test.end());
 			EXPECT_TRUE(*++it == 5);
 			EXPECT_TRUE(*++it == 5);
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++it == test.end());
+			it = test.begin();
 			EXPECT_TRUE(*it++ == 5);
 			EXPECT_TRUE(*it++ == 5);
 			EXPECT_TRUE(*it++ == 5);
-			EXPECT_TRUE(it == test.cend());
+			EXPECT_TRUE(it == test.end());
 		}
 
 		TEST("Decrement Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin() + 2;
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin() + 2;
 			EXPECT_TRUE(*--it == 5);
 			EXPECT_TRUE(*--it == 5);
-			EXPECT_TRUE(it == test.cbegin());
-			it = test.cbegin() + 2;
+			EXPECT_TRUE(it == test.begin());
+			it = test.begin() + 2;
 			it--;
 			EXPECT_TRUE(*it-- == 5);
 			EXPECT_TRUE(*it == 5);
-			EXPECT_TRUE(it == test.cbegin());
+			EXPECT_TRUE(it == test.begin());
 		}
 
 		TEST("Addition Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 5);
 			EXPECT_TRUE(*(it + 1) == 5);
 			EXPECT_TRUE(*(it + 2) == 5);
@@ -304,37 +304,37 @@ void test_List(Test& _test)
 
 		TEST("Subtraction Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin() + 2;
-			EXPECT_TRUE(it - 2 == test.cbegin());
-			EXPECT_TRUE(it - 1 == test.cbegin() + 1);
-			EXPECT_TRUE(it - 0 == test.cbegin() + 2);
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin() + 2;
+			EXPECT_TRUE(it - 2 == test.begin());
+			EXPECT_TRUE(it - 1 == test.begin() + 1);
+			EXPECT_TRUE(it - 0 == test.begin() + 2);
 		}
 
 		TEST("Equal Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			List<int>::ConstIterator copy = it;
 			EXPECT_TRUE(it == copy);
 			EXPECT_TRUE(copy == it);
-			EXPECT_TRUE(it == test.cbegin());
-			EXPECT_TRUE(test.cbegin() == it);
-			EXPECT_TRUE(copy == test.cbegin());
-			EXPECT_TRUE(test.cbegin() == copy);
+			EXPECT_TRUE(it == test.begin());
+			EXPECT_TRUE(test.begin() == it);
+			EXPECT_TRUE(copy == test.begin());
+			EXPECT_TRUE(test.begin() == copy);
 		}
 
 		TEST("Not Equal Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstIterator it = test.cbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstIterator it = test.begin();
 			List<int>::ConstIterator copy = it;
 			EXPECT_TRUE(!(it != copy));
 			EXPECT_TRUE(!(copy != it));
-			EXPECT_TRUE(!(it != test.cbegin()));
-			EXPECT_TRUE(!(test.cbegin() != it));
-			EXPECT_TRUE(!(copy != test.cbegin()));
-			EXPECT_TRUE(!(test.cbegin() != copy));
+			EXPECT_TRUE(!(it != test.begin()));
+			EXPECT_TRUE(!(test.begin() != it));
+			EXPECT_TRUE(!(copy != test.begin()));
+			EXPECT_TRUE(!(test.begin() != copy));
 		}
 	}
 
@@ -508,86 +508,86 @@ void test_List(Test& _test)
 	{
 		TEST("Copy Constructor")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			List<int>::ConstReverseIterator copy(it);
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.crend());
+			EXPECT_TRUE(copy + 3 == test.rend());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.crend());
+			EXPECT_TRUE(++copy == test.rend());
 			copy = it;
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.crend());
+			EXPECT_TRUE(copy == test.rend());
 		}
 
 		TEST("Move Constructor")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			List<int>::ConstReverseIterator copy(std::move(it));
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.crend());
+			EXPECT_TRUE(copy + 3 == test.rend());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.crend());
-			it = test.crbegin();
+			EXPECT_TRUE(++copy == test.rend());
+			it = test.rbegin();
 			copy = std::move(it);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.crend());
+			EXPECT_TRUE(copy == test.rend());
 		}
 
 		TEST("Copy Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			List<int>::ConstReverseIterator copy = it;
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.crend());
+			EXPECT_TRUE(copy + 3 == test.rend());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.crend());
+			EXPECT_TRUE(++copy == test.rend());
 			copy = it;
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.crend());
+			EXPECT_TRUE(copy == test.rend());
 		}
 
 		TEST("Move Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			List<int>::ConstReverseIterator copy = std::move(it);
 			EXPECT_TRUE(*copy == 5);
 			EXPECT_TRUE(*(copy + 1) == 5);
 			EXPECT_TRUE(*(copy + 2) == 5);
-			EXPECT_TRUE(copy + 3 == test.crend());
+			EXPECT_TRUE(copy + 3 == test.rend());
 			EXPECT_TRUE(*++copy == 5);
 			EXPECT_TRUE(*++copy == 5);
-			EXPECT_TRUE(++copy == test.crend());
-			it = test.crbegin();
+			EXPECT_TRUE(++copy == test.rend());
+			it = test.rbegin();
 			copy = std::move(it);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
 			EXPECT_TRUE(*copy++ == 5);
-			EXPECT_TRUE(copy == test.crend());
+			EXPECT_TRUE(copy == test.rend());
 		}
 
 		TEST("Dereference Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			EXPECT_TRUE(*it == 5);
 			EXPECT_TRUE(*(it + 1) == 5);
 			EXPECT_TRUE(*(it + 2) == 5);
@@ -595,40 +595,40 @@ void test_List(Test& _test)
 
 		TEST("Increment Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			EXPECT_TRUE(*it == 5);
 			EXPECT_TRUE(*(it + 1) == 5);
 			EXPECT_TRUE(*(it + 2) == 5);
-			EXPECT_TRUE(it + 3 == test.crend());
+			EXPECT_TRUE(it + 3 == test.rend());
 			EXPECT_TRUE(*++it == 5);
 			EXPECT_TRUE(*++it == 5);
-			EXPECT_TRUE(++it == test.crend());
-			it = test.crbegin();
+			EXPECT_TRUE(++it == test.rend());
+			it = test.rbegin();
 			EXPECT_TRUE(*it++ == 5);
 			EXPECT_TRUE(*it++ == 5);
 			EXPECT_TRUE(*it++ == 5);
-			EXPECT_TRUE(it == test.crend());
+			EXPECT_TRUE(it == test.rend());
 		}
 
 		TEST("Decrement Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin() + 2;
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin() + 2;
 			EXPECT_TRUE(*--it == 5);
 			EXPECT_TRUE(*--it == 5);
-			EXPECT_TRUE(it == test.crbegin());
-			it = test.crbegin() + 2;
+			EXPECT_TRUE(it == test.rbegin());
+			it = test.rbegin() + 2;
 			it--;
 			EXPECT_TRUE(*it-- == 5);
 			EXPECT_TRUE(*it == 5);
-			EXPECT_TRUE(it == test.crbegin());
+			EXPECT_TRUE(it == test.rbegin());
 		}
 
 		TEST("Addition Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			EXPECT_TRUE(*it == 5);
 			EXPECT_TRUE(*(it + 1) == 5);
 			EXPECT_TRUE(*(it + 2) == 5);
@@ -636,37 +636,37 @@ void test_List(Test& _test)
 
 		TEST("Subtraction Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin() + 2;
-			EXPECT_TRUE(it - 2 == test.crbegin());
-			EXPECT_TRUE(it - 1 == test.crbegin() + 1);
-			EXPECT_TRUE(it - 0 == test.crbegin() + 2);
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin() + 2;
+			EXPECT_TRUE(it - 2 == test.rbegin());
+			EXPECT_TRUE(it - 1 == test.rbegin() + 1);
+			EXPECT_TRUE(it - 0 == test.rbegin() + 2);
 		}
 
 		TEST("Equal Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			List<int>::ConstReverseIterator copy = it;
 			EXPECT_TRUE(it == copy);
 			EXPECT_TRUE(copy == it);
-			EXPECT_TRUE(it == test.crbegin());
-			EXPECT_TRUE(test.crbegin() == it);
-			EXPECT_TRUE(copy == test.crbegin());
-			EXPECT_TRUE(test.crbegin() == copy);
+			EXPECT_TRUE(it == test.rbegin());
+			EXPECT_TRUE(test.rbegin() == it);
+			EXPECT_TRUE(copy == test.rbegin());
+			EXPECT_TRUE(test.rbegin() == copy);
 		}
 
 		TEST("Not Equal Operator")
 		{
-			List<int> test(3, 5);
-			List<int>::ConstReverseIterator it = test.crbegin();
+			List<int> const test(3, 5);
+			List<int>::ConstReverseIterator it = test.rbegin();
 			List<int>::ConstReverseIterator copy = it;
 			EXPECT_TRUE(!(it != copy));
 			EXPECT_TRUE(!(copy != it));
-			EXPECT_TRUE(!(it != test.crbegin()));
-			EXPECT_TRUE(!(test.crbegin() != it));
-			EXPECT_TRUE(!(copy != test.crbegin()));
-			EXPECT_TRUE(!(test.crbegin() != copy));
+			EXPECT_TRUE(!(it != test.rbegin()));
+			EXPECT_TRUE(!(test.rbegin() != it));
+			EXPECT_TRUE(!(copy != test.rbegin()));
+			EXPECT_TRUE(!(test.rbegin() != copy));
 		}
 	}
 
@@ -1107,12 +1107,12 @@ void test_List(Test& _test)
 		TEST("Const Find")
 		{
 			List<int> const test({ 0, 1, 2, 3, 4 });
-			EXPECT_TRUE(test.find(0) == test.cbegin());
-			EXPECT_TRUE(test.find(1) == test.cbegin() + 1);
-			EXPECT_TRUE(test.find(2) == test.cbegin() + 2);
-			EXPECT_TRUE(test.find(3) == test.cbegin() + 3);
-			EXPECT_TRUE(test.find(4) == test.cbegin() + 4);
-			EXPECT_TRUE(test.find(5) == test.cend());
+			EXPECT_TRUE(test.find(0) == test.begin());
+			EXPECT_TRUE(test.find(1) == test.begin() + 1);
+			EXPECT_TRUE(test.find(2) == test.begin() + 2);
+			EXPECT_TRUE(test.find(3) == test.begin() + 3);
+			EXPECT_TRUE(test.find(4) == test.begin() + 4);
+			EXPECT_TRUE(test.find(5) == test.end());
 		}
 
 		TEST("Contains")
@@ -1142,7 +1142,7 @@ void test_List(Test& _test)
 		TEST("Const Begin")
 		{
 			List<int> const test({ 0, 1, 2, 3, 4 });
-			EXPECT_TRUE(*test.cbegin() == 0);
+			EXPECT_TRUE(*test.begin() == 0);
 		}
 
 		TEST("End")
@@ -1154,7 +1154,7 @@ void test_List(Test& _test)
 		TEST("Const End")
 		{
 			List<int> const test({ 0, 1, 2, 3, 4 });
-			EXPECT_TRUE(test.cend() == test.cbegin() + 5);
+			EXPECT_TRUE(test.end() == test.begin() + 5);
 		}
 
 		TEST("Reverse Begin")
@@ -1172,13 +1172,13 @@ void test_List(Test& _test)
 		TEST("Const Reverse Begin")
 		{
 			List<int> const test({ 0, 1, 2, 3, 4 });
-			EXPECT_TRUE(*test.crbegin() == 4);
+			EXPECT_TRUE(*test.rbegin() == 4);
 		}
 
 		TEST("Const Reverse End")
 		{
 			List<int> const test({ 0, 1, 2, 3, 4 });
-			EXPECT_TRUE(test.crend() == test.crbegin() + 5);
+			EXPECT_TRUE(test.rend() == test.rbegin() + 5);
 		}
 	}
 }

@@ -168,160 +168,160 @@ void test_String(Test& _test)
 	{
 		TEST("Copy Constructor")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			String::ConstIterator copy(it);
 			EXPECT_TRUE(*copy == 'a');
 			EXPECT_TRUE(*(copy + 1) == 'b');
 			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 'b');
 			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
+			EXPECT_TRUE(++copy == test.end());
 			copy = it;
 			EXPECT_TRUE(*copy++ == 'a');
 			EXPECT_TRUE(*copy++ == 'b');
 			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Move Constructor")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			String::ConstIterator copy(std::move(it));
 			EXPECT_TRUE(*copy == 'a');
 			EXPECT_TRUE(*(copy + 1) == 'b');
 			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 'b');
 			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++copy == test.end());
+			it = test.begin();
 			copy = std::move(it);
 			EXPECT_TRUE(*copy++ == 'a');
 			EXPECT_TRUE(*copy++ == 'b');
 			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Copy Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			String::ConstIterator copy = it;
 			EXPECT_TRUE(*copy == 'a');
 			EXPECT_TRUE(*(copy + 1) == 'b');
 			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 'b');
 			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
+			EXPECT_TRUE(++copy == test.end());
 			copy = it;
 			EXPECT_TRUE(*copy++ == 'a');
 			EXPECT_TRUE(*copy++ == 'b');
 			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Move Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			String::ConstIterator copy = std::move(it);
 			EXPECT_TRUE(*copy == 'a');
 			EXPECT_TRUE(*(copy + 1) == 'b');
 			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
+			EXPECT_TRUE(copy + 3 == test.end());
 			EXPECT_TRUE(*++copy == 'b');
 			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++copy == test.end());
+			it = test.begin();
 			copy = std::move(it);
 			EXPECT_TRUE(*copy++ == 'a');
 			EXPECT_TRUE(*copy++ == 'b');
 			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
+			EXPECT_TRUE(copy == test.end());
 		}
 
 		TEST("Dereference Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 'a');
 			EXPECT_TRUE(*(it + 1) == 'b');
 			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
+			EXPECT_TRUE(it + 3 == test.end());
 			EXPECT_TRUE(*++it == 'b');
 			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++it == test.end());
+			it = test.begin();
 			EXPECT_TRUE(*it++ == 'a');
 			EXPECT_TRUE(*it++ == 'b');
 			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
+			EXPECT_TRUE(it == test.end());
 		}
 
 		TEST("Increment Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 'a');
 			EXPECT_TRUE(*(it + 1) == 'b');
 			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
+			EXPECT_TRUE(it + 3 == test.end());
 			EXPECT_TRUE(*++it == 'b');
 			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++it == test.end());
+			it = test.begin();
 			EXPECT_TRUE(*it++ == 'a');
 			EXPECT_TRUE(*it++ == 'b');
 			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
+			EXPECT_TRUE(it == test.end());
 		}
 
 		TEST("Addition Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 'a');
 			EXPECT_TRUE(*(it + 1) == 'b');
 			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
+			EXPECT_TRUE(it + 3 == test.end());
 			EXPECT_TRUE(*++it == 'b');
 			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++it == test.end());
+			it = test.begin();
 			EXPECT_TRUE(*it++ == 'a');
 			EXPECT_TRUE(*it++ == 'b');
 			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
+			EXPECT_TRUE(it == test.end());
 		}
 
 		TEST("Equal Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			String::ConstIterator copy = it;
 			EXPECT_TRUE(it == copy);
 			EXPECT_TRUE(copy == it);
-			EXPECT_TRUE(it == test.cbegin());
-			EXPECT_TRUE(test.cbegin() == it);
-			EXPECT_TRUE(copy == test.cbegin());
-			EXPECT_TRUE(test.cbegin() == copy);
+			EXPECT_TRUE(it == test.begin());
+			EXPECT_TRUE(test.begin() == it);
+			EXPECT_TRUE(copy == test.begin());
+			EXPECT_TRUE(test.begin() == copy);
 		}
 
 		TEST("Not Equal Operator")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			String::ConstIterator copy = it;
 			EXPECT_TRUE(!(it != copy));
 			EXPECT_TRUE(!(copy != it));
-			EXPECT_TRUE(!(it != test.cbegin()));
-			EXPECT_TRUE(!(test.cbegin() != it));
-			EXPECT_TRUE(!(copy != test.cbegin()));
-			EXPECT_TRUE(!(test.cbegin() != copy));
+			EXPECT_TRUE(!(it != test.begin()));
+			EXPECT_TRUE(!(test.begin() != it));
+			EXPECT_TRUE(!(copy != test.begin()));
+			EXPECT_TRUE(!(test.begin() != copy));
 		}
 	}
 
@@ -690,7 +690,7 @@ void test_String(Test& _test)
 			EXPECT_TRUE(!test.contains("aaa"));
 		}
 
-		TEST("Iterator")
+		TEST("Begin/End")
 		{
 			String test("abc");
 			String::Iterator it = test.begin();
@@ -708,22 +708,22 @@ void test_String(Test& _test)
 			EXPECT_TRUE(it == test.end());
 		}
 
-		TEST("ConstIterator")
+		TEST("Const Begin/End")
 		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
+			String const test("abc");
+			String::ConstIterator it = test.begin();
 			EXPECT_TRUE(*it == 'a');
 			EXPECT_TRUE(*(it + 1) == 'b');
 			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
+			EXPECT_TRUE(it + 3 == test.end());
 			EXPECT_TRUE(*++it == 'b');
 			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
+			EXPECT_TRUE(++it == test.end());
+			it = test.begin();
 			EXPECT_TRUE(*it++ == 'a');
 			EXPECT_TRUE(*it++ == 'b');
 			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
+			EXPECT_TRUE(it == test.end());
 		}
 	}
 

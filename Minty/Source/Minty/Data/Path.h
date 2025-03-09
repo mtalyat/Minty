@@ -36,10 +36,7 @@ namespace Minty
 				: m_it(it)
 				, mp_current(nullptr)
 			{
-				if (m_it != std::filesystem::path::iterator())
-				{
-					mp_current = new Path(m_it->string().c_str());
-				}
+				mp_current = new Path(m_it->string().c_str());
 			}
 
 			Iterator(Iterator const& other)
@@ -48,6 +45,7 @@ namespace Minty
 			{
 			}
 
+		public:
 			~Iterator()
 			{
 				if (mp_current)
@@ -108,12 +106,10 @@ namespace Minty
 				: m_it(it)
 				, mp_current(nullptr)
 			{
-				if (m_it != std::filesystem::path::const_iterator())
-				{
-					mp_current = new Path(m_it->string().c_str());
-				}
+				mp_current = new Path(m_it->string().c_str());
 			}
 
+		public:
 			ConstIterator(ConstIterator const& other)
 				: m_it(other.m_it)
 				, mp_current(new Path(*other.mp_current))
@@ -176,13 +172,13 @@ namespace Minty
 		/// Gets an Iterator to the beginning of the Path.
 		/// </summary>
 		/// <returns>An Iterator pointing to the first character.</returns>
-		ConstIterator cbegin() const { return ConstIterator(m_path.begin()); }
+		ConstIterator begin() const { return ConstIterator(m_path.begin()); }
 
 		/// <summary>
 		/// Gets an Iterator to the end of the Path.
 		/// </summary>
 		/// <returns>An Iterator pointing to the null terminating character.</returns>
-		ConstIterator cend() const { return ConstIterator(m_path.end()); }
+		ConstIterator end() const { return ConstIterator(m_path.end()); }
 
 #pragma endregion
 
@@ -290,8 +286,27 @@ namespace Minty
 		/// <summary>
 		/// Gets the internal String of this Path.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The String form of this Path.</returns>
 		String get_string() const { return String(m_path.generic_string().c_str()); }
+
+		/// <summary>
+		/// Gets the absolute path of this Path.
+		/// </summary>
+		/// <returns>The full path.</returns>
+		Path get_absolute() const;
+
+		/// <summary>
+		/// Gets the extension of this Path.
+		/// </summary>
+		/// <returns>A path with just the extension.</returns>
+		Path get_extension() const;
+
+		/// <summary>
+		/// Gets the lexically relative path to the given Path.
+		/// </summary>
+		/// <param name="other">The destination Path.</param>
+		/// <returns>A new Path, relative from this Path to the given Path.</returns>
+		Path get_relative_to(Path const& other) const;
 
 #pragma endregion
 
@@ -318,5 +333,51 @@ namespace Minty
 		constexpr Bool is_empty() const { return get_size() == 0; }
 
 #pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Checks if the given Path exists.
+		/// </summary>
+		/// <param name="path">The Path to check.</param>
+		/// <returns>True, if the path is valid and exists on the disk.</returns>
+		static Bool exists(Path const& path);
+
+		/// <summary>
+		/// Checks if the given Path exists and is a file.
+		/// </summary>
+		/// <param name="path">The Path to check.</param>
+		/// <returns>True, if the path is a file and exists on the disk.</returns>
+		static Bool is_file(Path const& path);
+
+		/// <summary>
+		/// Checks if the given Path exists and is a directory.
+		/// </summary>
+		/// <param name="path">The Path to check.</param>
+		/// <returns>True, if the path is a directory and exists on the disk.</returns>
+		static Bool is_directory(Path const& path);
+
+		/// <summary>
+		/// Gets the size of the File at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <returns>The size of the File in Bytes.</returns>
+		static Size get_file_size(Path const& path);
+
+#pragma endregion
+
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<Minty::Path>
+	{
+		std::size_t operator()(Minty::Path const& path) const noexcept
+		{
+			return std::hash<std::string>{}(path.get_string().get_data());
+		}
 	};
 }

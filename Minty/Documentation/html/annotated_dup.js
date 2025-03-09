@@ -23,10 +23,13 @@ var annotated_dup =
       [ "Stack", "class_minty_1_1_stack.html", "class_minty_1_1_stack" ],
       [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
       [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ],
-      [ "VirtualFile", "class_minty_1_1_virtual_file.html", "class_minty_1_1_virtual_file" ]
+      [ "VirtualFile", "class_minty_1_1_virtual_file.html", "class_minty_1_1_virtual_file" ],
+      [ "Wrap", "class_minty_1_1_wrap.html", "class_minty_1_1_wrap" ],
+      [ "Wrapper", "class_minty_1_1_wrapper.html", "class_minty_1_1_wrapper" ]
     ] ],
     [ "std", "namespacestd.html", [
       [ "hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", "structstd_1_1hash_3_01_minty_1_1_color_01_4" ],
+      [ "hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", "structstd_1_1hash_3_01_minty_1_1_path_01_4" ],
       [ "hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", "structstd_1_1hash_3_01_minty_1_1_string_01_4" ]
     ] ]
 ];

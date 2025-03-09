@@ -18,6 +18,7 @@
 #include "Test_Vector.h"
 
 // File
+#include "Test_File.h"
 #include "Test_PhysicalFile.h"
 #include "Test_VirtualFile.h"
 
@@ -25,6 +26,10 @@
 #include "Test_MemoryManager.h"
 #include "Test_MemoryPool.h"
 #include "Test_MemoryStack.h"
+
+// Wrap
+#include "Test_Wrap.h"
+#include "Test_Wrapper.h"
 
 // runs all of the tests
 static void run_tests()
@@ -61,6 +66,7 @@ static void run_tests()
 	test_Vector(_test);
 
 	// File
+	test_File(_test);
 	test_PhysicalFile(_test);
 	test_VirtualFile(_test);
 
@@ -68,6 +74,10 @@ static void run_tests()
 	test_MemoryManager(_test);
 	test_MemoryPool(_test);
 	test_MemoryStack(_test);
+
+	// Wrap
+	test_Wrap(_test);
+	test_Wrapper(_test);
 
 #pragma endregion
 
