@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['white_0',['White',['../class_minty_1_1_console.html#af7b87a92468dc7c69098bae85fc8a026a25a81701fbfa4a1efdf660a950c1d006',1,'Minty::Console']]],
+  ['white_0',['White',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a25a81701fbfa4a1efdf660a950c1d006',1,'Minty::Debug']]],
   ['win32_5flean_5fand_5fmean_1',['WIN32_LEAN_AND_MEAN',['../framework_8h.html#ac7bef5d85e3dcd73eef56ad39ffc84a9',1,'framework.h']]],
   ['wrap_2',['Wrap',['../class_minty_1_1_wrap.html',1,'Minty::Wrap'],['../class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912',1,'Minty::Wrap::Wrap()=default'],['../class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85',1,'Minty::Wrap::Wrap(Path const &amp;path)'],['../class_minty_1_1_wrap.html#a08c7aa107fc6cc0ebd38822266f1bfa5',1,'Minty::Wrap::Wrap(Path const &amp;path, String const &amp;name, uint32_t const entryCount, Path const &amp;base=&quot;&quot;, uint32_t const contentVersion=0)']]],
   ['wrap_2ecpp_3',['Wrap.cpp',['../_wrap_8cpp.html',1,'']]],
@@ -16,6 +16,6 @@ var searchData=
   ['wrapper_2eh_13',['Wrapper.h',['../_wrapper_8h.html',1,'']]],
   ['wrapversion_14',['wrapVersion',['../struct_minty_1_1_wrap_1_1_header.html#a8ed9264b1e2af5b208fd1d0418463164',1,'Minty::Wrap::Header']]],
   ['write_15',['Write',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa1129c0e4d43f2d121652a7302712cff6',1,'Minty::File']]],
-  ['write_16',['write',['../class_minty_1_1_console.html#a4a1bb8ac32de0ff108a03b4751385bf5',1,'Minty::Console::write()'],['../class_minty_1_1_console.html#a5104feaa2beffbe0d78b84d3b6117d1e',1,'Minty::Console::write(T const &amp;first, Args const &amp;... args)'],['../class_minty_1_1_file.html#a127b9606ecefff96f66fcf63cef211ea',1,'Minty::File::write()'],['../class_minty_1_1_physical_file.html#a41cf6d04201573f2cdee90935ab21e57',1,'Minty::PhysicalFile::write()'],['../class_minty_1_1_virtual_file.html#a16c74c03f80b9f18440cbe112a97b83f',1,'Minty::VirtualFile::write()']]],
-  ['write_5fline_17',['write_line',['../class_minty_1_1_console.html#a9b7add26cb7105cc45d62e6c7a443acc',1,'Minty::Console::write_line()'],['../class_minty_1_1_console.html#a44a2abdfd010fdc0b2ca1816abd839e5',1,'Minty::Console::write_line(T const &amp;first, Args const &amp;... args)']]]
+  ['write_16',['write',['../class_minty_1_1_debug.html#aa0dbe37371987e85df5e2751e6ffd6fc',1,'Minty::Debug::write()'],['../class_minty_1_1_debug.html#ab0ba165dd18b23a958c29c1644b33420',1,'Minty::Debug::write(T const &amp;first, Args const &amp;... args)'],['../class_minty_1_1_file.html#a127b9606ecefff96f66fcf63cef211ea',1,'Minty::File::write()'],['../class_minty_1_1_physical_file.html#a41cf6d04201573f2cdee90935ab21e57',1,'Minty::PhysicalFile::write()'],['../class_minty_1_1_virtual_file.html#a16c74c03f80b9f18440cbe112a97b83f',1,'Minty::VirtualFile::write()']]],
+  ['write_5fline_17',['write_line',['../class_minty_1_1_debug.html#ae41fb788979d739651b199c6fbe3e700',1,'Minty::Debug::write_line()'],['../class_minty_1_1_debug.html#adc261443873ac77bda9df47e89c6072c',1,'Minty::Debug::write_line(T const &amp;first, Args const &amp;... args)']]]
 ];

@@ -102,13 +102,266 @@ $(function(){initNavTree('class_minty_1_1_context.html',''); initResizable(true)
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="class_minty_1_1_context-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Minty::Context Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
+<p>A context for the <a class="el" href="namespace_minty.html">Minty</a> Engine. Required to use certain features of the library.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_context_8h_source.html">Context.h</a>&gt;</code></p>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a745eb6846b5edeff6c5d044645b0427d" id="r_a745eb6846b5edeff6c5d044645b0427d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a745eb6846b5edeff6c5d044645b0427d">Context</a> (<a class="el" href="struct_minty_1_1_context_builder.html">ContextBuilder</a> const &amp;builder)</td></tr>
+<tr class="memdesc:a745eb6846b5edeff6c5d044645b0427d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> using the given <a class="el" href="struct_minty_1_1_context_builder.html" title="Holds data to initialize a Context.">ContextBuilder</a>.  <br /></td></tr>
+<tr class="separator:a745eb6846b5edeff6c5d044645b0427d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a393ac4391721754d1d3b27b10fabaf38" id="r_a393ac4391721754d1d3b27b10fabaf38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a393ac4391721754d1d3b27b10fabaf38">Context</a> (<a class="el" href="class_minty_1_1_context.html">Context</a> const &amp;other)=delete</td></tr>
+<tr class="separator:a393ac4391721754d1d3b27b10fabaf38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85f54893ebe021367a7406aeb2c8b76c" id="r_a85f54893ebe021367a7406aeb2c8b76c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85f54893ebe021367a7406aeb2c8b76c">Context</a> (<a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="memdesc:a85f54893ebe021367a7406aeb2c8b76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the given <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:a85f54893ebe021367a7406aeb2c8b76c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4083d1edfa338efd1a9d053abe6d3493" id="r_a4083d1edfa338efd1a9d053abe6d3493"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4083d1edfa338efd1a9d053abe6d3493">~Context</a> ()</td></tr>
+<tr class="separator:a4083d1edfa338efd1a9d053abe6d3493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad71c917ad9653320269772710c02f4" id="r_a1ad71c917ad9653320269772710c02f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ad71c917ad9653320269772710c02f4">operator=</a> (<a class="el" href="class_minty_1_1_context.html">Context</a> const &amp;other)=delete</td></tr>
+<tr class="separator:a1ad71c917ad9653320269772710c02f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd54bb890e6883181d32c595d582012d" id="r_abd54bb890e6883181d32c595d582012d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd54bb890e6883181d32c595d582012d">operator=</a> (<a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:abd54bb890e6883181d32c595d582012d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af242098c9ce9b62fa566bc04d8c388f0" id="r_af242098c9ce9b62fa566bc04d8c388f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af242098c9ce9b62fa566bc04d8c388f0">get_memory_manager</a> ()</td></tr>
+<tr class="memdesc:af242098c9ce9b62fa566bc04d8c388f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a> for this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:af242098c9ce9b62fa566bc04d8c388f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ab680ddb8a5160b15b82000a316c1d704" id="r_ab680ddb8a5160b15b82000a316c1d704"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab680ddb8a5160b15b82000a316c1d704">get_instance</a> ()</td></tr>
+<tr class="memdesc:ab680ddb8a5160b15b82000a316c1d704"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current instance of the <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:ab680ddb8a5160b15b82000a316c1d704"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A context for the <a class="el" href="namespace_minty.html">Minty</a> Engine. Required to use certain features of the library. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a745eb6846b5edeff6c5d044645b0427d" name="a745eb6846b5edeff6c5d044645b0427d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a745eb6846b5edeff6c5d044645b0427d">&#9670;&#160;</a></span>Context() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::Context::Context </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_context_builder.html">ContextBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> using the given <a class="el" href="struct_minty_1_1_context_builder.html" title="Holds data to initialize a Context.">ContextBuilder</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>The input arguments.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a393ac4391721754d1d3b27b10fabaf38" name="a393ac4391721754d1d3b27b10fabaf38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a393ac4391721754d1d3b27b10fabaf38">&#9670;&#160;</a></span>Context() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::Context::Context </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_context.html">Context</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a85f54893ebe021367a7406aeb2c8b76c" name="a85f54893ebe021367a7406aeb2c8b76c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85f54893ebe021367a7406aeb2c8b76c">&#9670;&#160;</a></span>Context() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::Context::Context </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Moves the given <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> to move.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4083d1edfa338efd1a9d053abe6d3493" name="a4083d1edfa338efd1a9d053abe6d3493"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4083d1edfa338efd1a9d053abe6d3493">&#9670;&#160;</a></span>~Context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::Context::~Context </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab680ddb8a5160b15b82000a316c1d704" name="ab680ddb8a5160b15b82000a316c1d704"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab680ddb8a5160b15b82000a316c1d704">&#9670;&#160;</a></span>get_instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_minty_1_1_context.html">Context</a> &amp; Minty::Context::get_instance </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the current instance of the <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The current instance of the <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.</dd></dl>
+
+</div>
+</div>
+<a id="af242098c9ce9b62fa566bc04d8c388f0" name="af242098c9ce9b62fa566bc04d8c388f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af242098c9ce9b62fa566bc04d8c388f0">&#9670;&#160;</a></span>get_memory_manager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp; Minty::Context::get_memory_manager </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a> for this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a> for this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.</dd></dl>
+
+</div>
+</div>
+<a id="abd54bb890e6883181d32c595d582012d" name="abd54bb890e6883181d32c595d582012d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd54bb890e6883181d32c595d582012d">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_context.html">Context</a> &amp; Minty::Context::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_context.html">Context</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ad71c917ad9653320269772710c02f4" name="a1ad71c917ad9653320269772710c02f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ad71c917ad9653320269772710c02f4">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_context.html">Context</a> &amp; Minty::Context::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_context.html">Context</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>Source/Minty/Context/<a class="el" href="_context_8h_source.html">Context.h</a></li>
+<li>Source/Minty/Context/<a class="el" href="_context_8cpp.html">Context.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

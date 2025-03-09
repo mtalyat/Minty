@@ -7,7 +7,7 @@ using namespace Minty;
 
 ULong Minty::compress_bound(ULong const sourceSize)
 {
-	return compressBound(sourceSize);
+	return compressBound(static_cast<uLong>(sourceSize));
 }
 
 Bool Minty::compress(void* const destination, ULong& destinationSize, void* const source, ULong const sourceSize, CompressionLevel const level)
@@ -15,7 +15,7 @@ Bool Minty::compress(void* const destination, ULong& destinationSize, void* cons
 	MINTY_ASSERT(destination, "Destination buffer is null.");
 	MINTY_ASSERT(source, "Source buffer is null.");
 
-	int result = compress2(static_cast<Bytef*>(destination), reinterpret_cast<uLongf*>(&destinationSize), static_cast<Bytef*>(source), sourceSize, static_cast<int>(level));
+	int result = compress2(static_cast<Bytef*>(destination), reinterpret_cast<uLongf*>(&destinationSize), static_cast<Bytef*>(source), static_cast<uLong>(sourceSize), static_cast<int>(level));
 
 	return result == Z_OK;
 }

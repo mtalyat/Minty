@@ -15,8 +15,8 @@ var searchData=
   ['get_5fextension_12',['get_extension',['../class_minty_1_1_path.html#aeea87d0755f633019963b4842be16553',1,'Minty::Path']]],
   ['get_5ffile_5fsize_13',['get_file_size',['../class_minty_1_1_path.html#a0fe2d017c584d5de728cafc7b5690b0a',1,'Minty::Path']]],
   ['get_5fflags_14',['get_flags',['../class_minty_1_1_file.html#a3e631962334581492ecdcd48838c2524',1,'Minty::File']]],
-  ['get_5finstance_15',['get_instance',['../class_minty_1_1_application.html#a5501dab5ddcef40c8ebae4b1408f9595',1,'Minty::Application']]],
-  ['get_5fmemory_5fmanager_16',['get_memory_manager',['../class_minty_1_1_application.html#a0ec177aee9ce8dea61228db89fc23f4d',1,'Minty::Application']]],
+  ['get_5finstance_15',['get_instance',['../class_minty_1_1_application.html#a5501dab5ddcef40c8ebae4b1408f9595',1,'Minty::Application::get_instance()'],['../class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704',1,'Minty::Context::get_instance()']]],
+  ['get_5fmemory_5fmanager_16',['get_memory_manager',['../class_minty_1_1_application.html#a0ec177aee9ce8dea61228db89fc23f4d',1,'Minty::Application::get_memory_manager()'],['../class_minty_1_1_context.html#af242098c9ce9b62fa566bc04d8c388f0',1,'Minty::Context::get_memory_manager()']]],
   ['get_5fname_17',['get_name',['../class_minty_1_1_wrap.html#a7cd388d12d7caecfa1a014edf709f6e3',1,'Minty::Wrap']]],
   ['get_5fpath_18',['get_path',['../class_minty_1_1_file.html#affbb1ea84d51f3409d5d0f51cfa9c297',1,'Minty::File::get_path()'],['../class_minty_1_1_wrap.html#a605c65dbef3dcd8b6cb159ba596caa37',1,'Minty::Wrap::get_path()']]],
   ['get_5frelative_5fto_19',['get_relative_to',['../class_minty_1_1_path.html#a0e9248b9b62915defeec168fc376240a',1,'Minty::Path']]],
@@ -29,6 +29,6 @@ var searchData=
   ['get_5fwrap_26',['get_wrap',['../class_minty_1_1_wrapper.html#a3d099976d7751f18808961f3ecd914f5',1,'Minty::Wrapper::get_wrap(Size const index)'],['../class_minty_1_1_wrapper.html#a24ce8e580e6d384e7206774e09834d2f',1,'Minty::Wrapper::get_wrap(Size const index) const']]],
   ['get_5fwrap_5fcount_27',['get_wrap_count',['../class_minty_1_1_wrapper.html#aaf26ef73ae70a27b7e995ec2f56b8074',1,'Minty::Wrapper']]],
   ['get_5fwrap_5fversion_28',['get_wrap_version',['../class_minty_1_1_wrap.html#aba5d71fa9733a8d18280fda573c002cf',1,'Minty::Wrap']]],
-  ['gray_29',['Gray',['../class_minty_1_1_console.html#af7b87a92468dc7c69098bae85fc8a026a994ae1d9731cebe455aff211bcb25b93',1,'Minty::Console']]],
-  ['green_30',['Green',['../class_minty_1_1_console.html#af7b87a92468dc7c69098bae85fc8a026ad382816a3cbeed082c9e216e7392eed1',1,'Minty::Console']]]
+  ['gray_29',['Gray',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a994ae1d9731cebe455aff211bcb25b93',1,'Minty::Debug']]],
+  ['green_30',['Green',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625ad382816a3cbeed082c9e216e7392eed1',1,'Minty::Debug']]]
 ];

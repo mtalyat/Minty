@@ -100,7 +100,14 @@ void Test::save_results(std::filesystem::path const& path) const
 
 	if (failCount > 0)
 	{
-		file << failCount << " failures.\n";
+		if (failCount == 1)
+		{
+			file << "1 failure.\n";
+		}
+		else
+		{
+			file << failCount << " failures.\n";
+		}
 	}
 
 	// create summary

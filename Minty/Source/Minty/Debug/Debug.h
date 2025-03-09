@@ -1,13 +1,13 @@
 #pragma once
 #include "Minty/Core/Types.h"
-#include "Minty/Data/String.h"
+#include <iostream>
 
 namespace Minty
 {
 	/// <summary>
-	/// A static class for writing to the terminal.
+	/// A static class for writing output.
 	/// </summary>
-	class Console
+	class Debug
 	{
 #pragma region Classes
 
@@ -41,7 +41,7 @@ namespace Minty
 #pragma region Constructors
 
 	private:
-		Console() = delete;
+		Debug() = delete;
 
 #pragma endregion
 
@@ -70,7 +70,7 @@ namespace Minty
 		/// </summary>
 		constexpr static void write()
 		{
-			// base case, do nothing
+			// base case
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace Minty
 		/// </summary>
 		inline static void write_line()
 		{
-			std::cout << "\n";
+			std::cout << std::endl;
 		}
 
 		/// <summary>
@@ -107,7 +107,7 @@ namespace Minty
 		{
 			std::cout << first;
 			write(args...);
-			std::cout << "\n";
+			std::cout << std::endl;
 		}
 
 		/// <summary>
@@ -117,9 +117,6 @@ namespace Minty
 		{
 			std::cout << std::flush;
 		}
-
 #pragma endregion
-
-
 	};
 }

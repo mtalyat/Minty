@@ -1,11 +1,11 @@
 # Results
-2945/2945 (100.00%)
+2947/2947 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
 | ------------------------------ | -------- | -------- |
 | Minty                          |        0 |        0 |
-| Console                        |       41 |        0 |
+| Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
 | Array::Iterator                |       85 |        0 |
@@ -54,7 +54,7 @@ No failures! :)
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
 
-## Console
+## Debug
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
 |  PASS  | 10: Set Foreground Color (OUTPUT == "\033[30m")                                                                                  |
@@ -90,7 +90,7 @@ No failures! :)
 |  PASS  | 44: Set Background Color (OUTPUT == "\033[106m")                                                                                 |
 |  PASS  | 45: Set Background Color (OUTPUT == "\033[107m")                                                                                 |
 |  PASS  | 50: Reset (OUTPUT == "\033[0m")                                                                                                  |
-|  PASS  | 55: Reset (OUTPUT == "\033[31m\033[0m")                                                                                          |
+|  PASS  | 55: Reset (_test.get_output() == "\033[31m\033[0m")                                                                              |
 |  PASS  | 60: Write (OUTPUT == "")                                                                                                         |
 |  PASS  | 62: Write (OUTPUT == "Hello, World!")                                                                                            |
 |  PASS  | 63: Write (OUTPUT == "Hello, World! 13")                                                                                         |
@@ -98,6 +98,8 @@ No failures! :)
 |  PASS  | 70: Write Line (OUTPUT == "Hello, World!\n")                                                                                     |
 |  PASS  | 71: Write Line (OUTPUT == "Hello, World! 13\n")                                                                                  |
 |  PASS  | 76: Flush (OUTPUT == "")                                                                                                         |
+|  PASS  | 83: Flush (file.get_size() == 0)                                                                                                 |
+|  PASS  | 88: Flush (file.get_size() > 0)                                                                                                  |
 
 ## Base
 | Result | Message                                                                                                                          |
