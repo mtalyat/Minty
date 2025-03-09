@@ -1,17 +1,17 @@
 #include "pch.h"
-#include "Console.h"
+#include "Debug.h"
 
-void Minty::Console::set_foreground_color(Color const color)
+void Minty::Debug::set_foreground_color(Color const color)
 {
 	std::cout << "\033[" << static_cast<int>(color) << "m";
 }
 
-void Minty::Console::set_background_color(Color const color)
+void Minty::Debug::set_background_color(Color const color)
 {
 	std::cout << "\033[" << static_cast<int>(color) + 10  << "m";
 }
 
-void Minty::Console::reset()
+void Minty::Debug::reset()
 {
 	std::cout << "\033[0m";
 }
