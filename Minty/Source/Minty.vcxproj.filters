@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Wrap">
       <UniqueIdentifier>{39797de9-32cc-41f7-857e-203b1d8071f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Debug">
+      <UniqueIdentifier>{b6a3b78b-ca2a-4a37-b2d0-ea110ebe1388}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -156,6 +159,15 @@
     <ClInclude Include="Minty\Core\Math.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Debug\_Debug.h">
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Debug\Debug.h">
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Debug\Logger.h">
+      <Filter>Header Files\Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -207,6 +219,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Console\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Debug\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
