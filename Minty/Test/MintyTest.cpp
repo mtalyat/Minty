@@ -86,7 +86,24 @@ static void run_tests()
 	// restore stdout and stderr
 	_test.restore_output();
 
-	_test.print_results();
+	// print high level results
+	size_t passCount = _test.get_pass_count();
+	size_t failCount = _test.get_fail_count();
+	double passRate = _test.get_pass_rate();
+	std::cout << "Results: ";
+	if (failCount == 0)
+	{
+		// bright green
+		std::cout << "\033[92m";
+	}
+	else
+	{
+		// bright red
+		std::cout << "\033[91m";
+	}
+	std::cout << passCount << " / " << passCount + failCount << " (" << std::fixed << std::setprecision(2) << passRate << "%)\033[0m\n" << std::endl;
+
+	_test.save_results("MintyTestResults.md");
 
 #pragma endregion
 }

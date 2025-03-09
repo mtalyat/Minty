@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
+#include <filesystem>
+#include <fstream>
 
 class Test
 {
@@ -25,111 +27,32 @@ private:
 	std::ostringstream coutStream;
 	std::ostringstream cerrStream;
 
+	size_t passCount = 0;
+	size_t failCount = 0;
+
+private:
+	std::string generate_message(char const* const condition, size_t const line, bool const pass) const;
+
 public:
-	void capture_output()
-	{
-#ifndef PRINT_OUTPUT
-		std::cout.rdbuf(coutStream.rdbuf()); std::cerr.rdbuf(cerrStream.rdbuf());
-#endif // PRINT_OUTPUT
-	}
+	size_t get_pass_count() const { return passCount; }
 
-	void restore_output()
-	{
-#ifndef PRINT_OUTPUT
-		std::cout.rdbuf(coutBuf); std::cerr.rdbuf(cerrBuf);
-#endif // PRINT_OUTPUT
-	}
+	size_t get_fail_count() const { return failCount; }
 
-	void set_category(char const* const categoryName)
-	{
-		currentCategoryName = categoryName;
-		restore_output();
-		auto found = categories.find(currentCategoryName);
-		if (found == categories.end())
-		{
-			currentCategoryIndex = static_cast<int>(categories.size());
-			categories.emplace(currentCategoryName, currentCategoryIndex);
-			categoryNames.push_back(currentCategoryName);
-			std::cout << "\t" << currentCategoryName << std::endl;
-		}
-		else
-		{
-			currentCategoryIndex = found->second;
-		}
-		capture_output();
-	}
+	double get_pass_rate() const { return failCount == 0 ? 100.0 : static_cast<double>(passCount) / static_cast<double>(passCount + failCount) * 100.0; }
 
-	void set_test(char const* const testName)
-	{
-		currentName = testName;
-		auto found2 = results.find(currentCategoryIndex);
-		if (found2 == results.end())
-		{
-			results.emplace(currentCategoryIndex, Results());
-			currentResults = &results[currentCategoryIndex];
-		}
-		else
-		{
-			currentResults = &found2->second;
-		}
-	}
+	void capture_output();
 
-	void pass()
-	{
-		currentResults->passes++;
-	}
+	void restore_output();
 
-	void fail(char const* const condition, size_t const line)
-	{
-		currentResults->fails++;
-		restore_output();
-		std::cout << "\r[\033[91mFAIL\033[0m] " << currentName << " (" << condition << ") [Line " << line << "]" << std::endl;
-		capture_output();
-	}
+	void set_category(char const* const categoryName);
 
-	void print_results()
-	{
-		// print results
-		std::cout << "\nResults:\n";
-		size_t passes = 0;
-		size_t fails = 0;
-		for (auto const& categoryName : categoryNames)
-		{
-			int categoryIndex = categories[categoryName];
-			Results const& result = results[categoryIndex];
+	void set_test(char const* const testName);
 
-			std::cout << categoryName << " -> ";
+	void pass(char const* const condition, size_t const line);
 
-			passes += result.passes;
-			fails += result.fails;
+	void fail(char const* const condition, size_t const line);
 
-			if (result.fails == 0)
-			{
-				// green
-				std::cout << "\033[92m";
-			}
-			else
-			{
-				// red
-				std::cout << "\033[91m";
-			}
-
-			std::cout << "(" << result.passes << "/" << (result.passes + result.fails) << ")\033[0m" << std::endl;
-		}
-
-		std::cout << "\nTotal -> ";
-		if (fails == 0)
-		{
-			// green
-			std::cout << "\033[92m";
-		}
-		else
-		{
-			// red
-			std::cout << "\033[91m";
-		}
-		std::cout << "(" << passes << "/" << (passes + fails) << ")\033[0m" << std::endl;
-	}
+	void save_results(std::filesystem::path const& path) const;
 };
 
 	// category start macro
@@ -139,7 +62,7 @@ public:
 #define TEST(testName) _test.set_test(testName);
 
 	// evaluation macros
-#define PASS(condition) _test.pass();
+#define PASS(condition) _test.pass(#condition, __LINE__);
 #define FAIL(condition) _test.fail(#condition, __LINE__);
 #define EXPECT_TRUE(condition) try { if(condition) { PASS(condition); } else { FAIL(condition); } } catch(...) { FAIL(condition); }
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }

@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="Test_Array.cpp" />
     <ClCompile Include="Test_Base.cpp" />
     <ClCompile Include="Test_Color.cpp" />
