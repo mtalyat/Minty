@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Console.h"
 #include "Debug.h"
+#include "DualBuffer.h"
 #include "Logger.h"
