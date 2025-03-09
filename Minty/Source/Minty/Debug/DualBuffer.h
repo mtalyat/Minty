@@ -73,6 +73,13 @@ namespace Minty
 			return c;
 		}
 
+		virtual int sync() override
+		{
+			mp_originalBuffer->pubsync();
+			m_fileStream.flush();
+			return 0;
+		}
+
 #pragma endregion
 
 	};

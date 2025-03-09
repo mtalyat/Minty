@@ -187,14 +187,24 @@ $(function(){initNavTree('_dual_buffer_8h_source.html',''); initResizable(true);
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        }</div>
 </div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    };</div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a">   76</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code hl_function" href="class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a">sync</a>()<span class="keyword"> override</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            mp_originalBuffer-&gt;pubsync();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            m_fileStream.flush();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        }</div>
 </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    };</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
 <div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:41</div></div>
 <div class="ttc" id="a_path_8h_html"><div class="ttname"><a href="_path_8h.html">Path.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
+<div class="ttc" id="aclass_minty_1_1_dual_buffer_html_a07ef03a421af4d5566db28c49c8a133a"><div class="ttname"><a href="class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a">Minty::DualBuffer::sync</a></div><div class="ttdeci">virtual int sync() override</div><div class="ttdef"><b>Definition</b> DualBuffer.h:76</div></div>
 <div class="ttc" id="aclass_minty_1_1_dual_buffer_html_a17ad3ea7afe1016c3107e95b626dba31"><div class="ttname"><a href="class_minty_1_1_dual_buffer.html#a17ad3ea7afe1016c3107e95b626dba31">Minty::DualBuffer::~DualBuffer</a></div><div class="ttdeci">~DualBuffer()</div><div class="ttdef"><b>Definition</b> DualBuffer.h:37</div></div>
 <div class="ttc" id="aclass_minty_1_1_dual_buffer_html_a90b2ac0f54ec2a5e0ec73d8a407d304b"><div class="ttname"><a href="class_minty_1_1_dual_buffer.html#a90b2ac0f54ec2a5e0ec73d8a407d304b">Minty::DualBuffer::overflow</a></div><div class="ttdeci">virtual int overflow(int c) override</div><div class="ttdef"><b>Definition</b> DualBuffer.h:48</div></div>
 <div class="ttc" id="aclass_minty_1_1_dual_buffer_html_ae741f191032214ca8f394e5f4eb0fe3a"><div class="ttname"><a href="class_minty_1_1_dual_buffer.html#ae741f191032214ca8f394e5f4eb0fe3a">Minty::DualBuffer::DualBuffer</a></div><div class="ttdeci">DualBuffer(std::ostream &amp;stream, Path const &amp;filePath)</div><div class="ttdef"><b>Definition</b> DualBuffer.h:26</div></div>

@@ -2,4 +2,4 @@
 
 #include "Test.h"
 
-void test_Console(Test& _test);
+void test_Debug(Test& _test);

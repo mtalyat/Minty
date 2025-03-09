@@ -37,7 +37,7 @@
     <Filter Include="Header Files\Tests\Wrap">
       <UniqueIdentifier>{4ec241ba-b60f-4223-8cdd-edd7ed73960a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Console">
+    <Filter Include="Header Files\Tests\Debug">
       <UniqueIdentifier>{e951fa1f-a8b2-4919-ac0a-cb767902e055}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -111,7 +111,7 @@
     <ClCompile Include="Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test_Console.cpp">
+    <ClCompile Include="Test_Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,8 +188,8 @@
     <ClInclude Include="Test_Wrapper.h">
       <Filter>Header Files\Tests\Wrap</Filter>
     </ClInclude>
-    <ClInclude Include="Test_Console.h">
-      <Filter>Header Files\Tests\Console</Filter>
+    <ClInclude Include="Test_Debug.h">
+      <Filter>Header Files\Tests\Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

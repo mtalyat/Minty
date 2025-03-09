@@ -146,7 +146,7 @@
     <ClCompile Include="Test_Base.cpp" />
     <ClCompile Include="Test_Color.cpp" />
     <ClCompile Include="Test_Compression.cpp" />
-    <ClCompile Include="Test_Console.cpp" />
+    <ClCompile Include="Test_Debug.cpp" />
     <ClCompile Include="Test_File.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
@@ -173,7 +173,7 @@
     <ClInclude Include="Test_Base.h" />
     <ClInclude Include="Test_Color.h" />
     <ClInclude Include="Test_Compression.h" />
-    <ClInclude Include="Test_Console.h" />
+    <ClInclude Include="Test_Debug.h" />
     <ClInclude Include="Test_File.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />
