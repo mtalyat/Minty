@@ -117,7 +117,6 @@ namespace Minty
 		{
 			std::cout << std::flush;
 		}
-
 #pragma endregion
 
 
