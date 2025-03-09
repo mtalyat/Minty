@@ -18,7 +18,7 @@ var searchData=
   ['memorymanager_2ecpp_15',['MemoryManager.cpp',['../_memory_manager_8cpp.html',1,'']]],
   ['memorymanager_2eh_16',['MemoryManager.h',['../_memory_manager_8h.html',1,'']]],
   ['memorymanagerbuilder_17',['MemoryManagerBuilder',['../struct_minty_1_1_memory_manager_builder.html',1,'Minty']]],
-  ['memorymanagerbuilder_18',['memoryManagerBuilder',['../struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e',1,'Minty::ApplicationBuilder']]],
+  ['memorymanagerbuilder_18',['memoryManagerBuilder',['../struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e',1,'Minty::ApplicationBuilder::memoryManagerBuilder'],['../struct_minty_1_1_context_builder.html#abc08bd279bb39d98da6133b16e1baae7',1,'Minty::ContextBuilder::memoryManagerBuilder']]],
   ['memorypool_19',['MemoryPool',['../class_minty_1_1_memory_pool.html',1,'Minty::MemoryPool'],['../class_minty_1_1_memory_pool.html#afb45c8655f6c5e956cdfa7b10ced0593',1,'Minty::MemoryPool::MemoryPool(MemoryPoolBuilder const &amp;builder)'],['../class_minty_1_1_memory_pool.html#aad2651b5892df31e0cdbdbeaf2515313',1,'Minty::MemoryPool::MemoryPool(MemoryPool const &amp;other)=delete'],['../class_minty_1_1_memory_pool.html#a44f78a70b7624f88174b2efdcaee4eee',1,'Minty::MemoryPool::MemoryPool(MemoryPool &amp;&amp;other) noexcept']]],
   ['memorypool_2ecpp_20',['MemoryPool.cpp',['../_memory_pool_8cpp.html',1,'']]],
   ['memorypool_2eh_21',['MemoryPool.h',['../_memory_pool_8h.html',1,'']]],
@@ -34,10 +34,11 @@ var searchData=
   ['minty_2eh_31',['Minty.h',['../_minty_8h.html',1,'']]],
   ['minty_5fabort_32',['MINTY_ABORT',['../_macro_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c',1,'Macro.h']]],
   ['minty_5fassert_33',['MINTY_ASSERT',['../_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a',1,'Macro.h']]],
-  ['minty_5fdebug_34',['MINTY_DEBUG',['../_macro_8h.html#a829c5ffd63d79b1812f0d89961f3009f',1,'Macro.h']]],
-  ['minty_5fdebug_5finfo_35',['MINTY_DEBUG_INFO',['../_macro_8h.html#adb50575c5f867b31cfad57c270eee694',1,'Macro.h']]],
-  ['minty_5ferror_36',['MINTY_ERROR',['../_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79',1,'Macro.h']]],
-  ['minty_5flog_37',['MINTY_LOG',['../_macro_8h.html#a94eafa87963d877703d10a28fd7f9402',1,'Macro.h']]],
-  ['minty_5fto_5fstring_38',['MINTY_TO_STRING',['../_to_string_8cpp.html#ab89aeed063efba719932d7a316f47723',1,'ToString.cpp']]],
-  ['move_39',['move',['../class_minty_1_1_file.html#ae5457a1bd237c45ed7071fdaa4cb107b',1,'Minty::File']]]
+  ['minty_5fbreak_34',['MINTY_BREAK',['../_macro_8h.html#a5840665eff380d63dd931d12890f0400',1,'Macro.h']]],
+  ['minty_5fdebug_35',['MINTY_DEBUG',['../_macro_8h.html#a829c5ffd63d79b1812f0d89961f3009f',1,'Macro.h']]],
+  ['minty_5fdebug_5finfo_36',['MINTY_DEBUG_INFO',['../_macro_8h.html#adb50575c5f867b31cfad57c270eee694',1,'Macro.h']]],
+  ['minty_5ferror_37',['MINTY_ERROR',['../_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79',1,'Macro.h']]],
+  ['minty_5flog_38',['MINTY_LOG',['../_macro_8h.html#a94eafa87963d877703d10a28fd7f9402',1,'Macro.h']]],
+  ['minty_5fto_5fstring_39',['MINTY_TO_STRING',['../_to_string_8cpp.html#ab89aeed063efba719932d7a316f47723',1,'ToString.cpp']]],
+  ['move_40',['move',['../class_minty_1_1_file.html#ae5457a1bd237c45ed7071fdaa4cb107b',1,'Minty::File']]]
 ];

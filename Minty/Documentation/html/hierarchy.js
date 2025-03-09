@@ -15,6 +15,8 @@ var hierarchy =
     [ "Minty::Array< T, S >::ConstReverseIterator", "class_minty_1_1_array_1_1_const_reverse_iterator.html", null ],
     [ "Minty::List< T >::ConstReverseIterator", "class_minty_1_1_list_1_1_const_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ConstReverseIterator", "class_minty_1_1_vector_1_1_const_reverse_iterator.html", null ],
+    [ "Minty::Context", "class_minty_1_1_context.html", null ],
+    [ "Minty::ContextBuilder", "struct_minty_1_1_context_builder.html", null ],
     [ "Minty::Wrap::Entry", "struct_minty_1_1_wrap_1_1_entry.html", null ],
     [ "Minty::File", "class_minty_1_1_file.html", [
       [ "Minty::PhysicalFile", "class_minty_1_1_physical_file.html", [
@@ -33,6 +35,7 @@ var hierarchy =
     [ "Minty::String::Iterator", "class_minty_1_1_string_1_1_iterator.html", null ],
     [ "Minty::Vector< T >::Iterator", "class_minty_1_1_vector_1_1_iterator.html", null ],
     [ "Minty::List< T >", "class_minty_1_1_list.html", null ],
+    [ "Minty::Logger", "class_minty_1_1_logger.html", null ],
     [ "Minty::Map< Key, Value >", "class_minty_1_1_map.html", null ],
     [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
     [ "Minty::MemoryManagerBuilder", "struct_minty_1_1_memory_manager_builder.html", null ],
@@ -48,6 +51,9 @@ var hierarchy =
     [ "Minty::Vector< T >::ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", null ],
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],
     [ "Minty::Stack< T >", "class_minty_1_1_stack.html", null ],
+    [ "std::streambuf", null, [
+      [ "Minty::DualBuffer", "class_minty_1_1_dual_buffer.html", null ]
+    ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
     [ "Minty::Wrap", "class_minty_1_1_wrap.html", null ],

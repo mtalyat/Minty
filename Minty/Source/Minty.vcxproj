@@ -179,8 +179,8 @@ doxygen</Command>
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Minty\Application\Application.h" />
     <ClInclude Include="Minty\Application\_Application.h" />
-    <ClInclude Include="Minty\Console\Console.h" />
-    <ClInclude Include="Minty\Console\_Console.h" />
+    <ClInclude Include="Minty\Context\Context.h" />
+    <ClInclude Include="Minty\Context\_Context.h" />
     <ClInclude Include="Minty\Core\Base.h" />
     <ClInclude Include="Minty\Core\Compression.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
@@ -203,6 +203,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\String.h" />
     <ClInclude Include="Minty\Data\Vector.h" />
     <ClInclude Include="Minty\Debug\Debug.h" />
+    <ClInclude Include="Minty\Debug\DualBuffer.h" />
     <ClInclude Include="Minty\Debug\Logger.h" />
     <ClInclude Include="Minty\Debug\_Debug.h" />
     <ClInclude Include="Minty\File\File.h" />
@@ -222,13 +223,12 @@ doxygen</Command>
   <ItemGroup>
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
-    <ClCompile Include="Minty\Console\Console.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\Path.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
-    <ClCompile Include="Minty\Debug\Logger.cpp" />
+    <ClCompile Include="Minty\Debug\Debug.cpp" />
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
