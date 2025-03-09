@@ -219,6 +219,7 @@ doxygen</Command>
   <ItemGroup>
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
+    <ClCompile Include="Minty\Console\Console.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />

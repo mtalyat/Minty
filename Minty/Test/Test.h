@@ -24,8 +24,7 @@ private:
 	// catch stdout and stderr
 	std::streambuf* coutBuf = std::cout.rdbuf();
 	std::streambuf* cerrBuf = std::cerr.rdbuf();
-	std::ostringstream coutStream;
-	std::ostringstream cerrStream;
+	std::ostringstream outputStream;
 
 	size_t passCount = 0;
 	size_t failCount = 0;
@@ -44,6 +43,10 @@ public:
 
 	void restore_output();
 
+	std::string get_output() const { return outputStream.str(); }
+
+	void clear_output() { outputStream.str(""); outputStream.clear(); }
+
 	void set_category(char const* const categoryName);
 
 	void set_test(char const* const testName);
@@ -51,6 +54,8 @@ public:
 	void pass(char const* const condition, size_t const line);
 
 	void fail(char const* const condition, size_t const line);
+
+	void write_message(std::string const& message);
 
 	void save_results(std::filesystem::path const& path) const;
 };
@@ -61,10 +66,17 @@ public:
 	// test start macro
 #define TEST(testName) _test.set_test(testName);
 
+	// helper macros
+#define PRINT(message) { _test.restore_output(); std::cout << message << std::endl; _test.capture_output(); }
+#define WRITE(message) { _test.write_message(message); }
+#define CLEAR_OUTPUT() _test.clear_output()
+#define GET_OUTPUT() _test.get_output()
+
 	// evaluation macros
-#define PASS(condition) _test.pass(#condition, __LINE__);
-#define FAIL(condition) _test.fail(#condition, __LINE__);
+#define PASS(condition) _test.pass(#condition, __LINE__)
+#define FAIL(condition) _test.fail(#condition, __LINE__)
 #define EXPECT_TRUE(condition) try { if(condition) { PASS(condition); } else { FAIL(condition); } } catch(...) { FAIL(condition); }
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
 #define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
-#define PRINT(message) { _test.restore_output(); std::cout << message << std::endl; _test.capture_output(); }
+#define EXPECT_OUTPUT(expected) try { if(GET_OUTPUT() == expected) { PASS(OUTPUT == expected); } else { FAIL(OUTPUT == expected); } } catch(...) { FAIL(OUTPUT == expected); }
+#define EXPECT_OUTPUT_SINGLE(operation, expected) try { CLEAR_OUTPUT(); operation; if(GET_OUTPUT() == expected) { PASS(OUTPUT == expected); } else { FAIL(OUTPUT == expected); } } catch(...) { FAIL(OUTPUT == expected); }

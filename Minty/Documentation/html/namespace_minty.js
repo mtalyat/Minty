@@ -4,7 +4,7 @@ var namespace_minty =
     [ "ApplicationBuilder", "struct_minty_1_1_application_builder.html", "struct_minty_1_1_application_builder" ],
     [ "Array", "class_minty_1_1_array.html", "class_minty_1_1_array" ],
     [ "Color", "struct_minty_1_1_color.html", "struct_minty_1_1_color" ],
-    [ "Console", "class_minty_1_1_console.html", null ],
+    [ "Console", "class_minty_1_1_console.html", "class_minty_1_1_console" ],
     [ "File", "class_minty_1_1_file.html", "class_minty_1_1_file" ],
     [ "List", "class_minty_1_1_list.html", "class_minty_1_1_list" ],
     [ "Map", "class_minty_1_1_map.html", "class_minty_1_1_map" ],
