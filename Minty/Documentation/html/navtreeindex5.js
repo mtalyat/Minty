@@ -1,5 +1,13 @@
 var NAVTREEINDEX5 =
 {
+"class_minty_1_1_string.html#a6af06e4400c9cee00d01614459280d6e":[0,0,0,23,7],
+"class_minty_1_1_string.html#a6af06e4400c9cee00d01614459280d6e":[1,0,0,23,7],
+"class_minty_1_1_string.html#a6f0555ddc77bed07581203a6cbcae1fe":[0,0,0,23,3],
+"class_minty_1_1_string.html#a6f0555ddc77bed07581203a6cbcae1fe":[1,0,0,23,3],
+"class_minty_1_1_string.html#a7d8b3a6cba09e0c0afef7926160d7f56":[0,0,0,23,18],
+"class_minty_1_1_string.html#a7d8b3a6cba09e0c0afef7926160d7f56":[1,0,0,23,18],
+"class_minty_1_1_string.html#a8cb6f8e1ab7a69e50704512b88fff6f9":[0,0,0,23,30],
+"class_minty_1_1_string.html#a8cb6f8e1ab7a69e50704512b88fff6f9":[1,0,0,23,30],
 "class_minty_1_1_string.html#a92cc554efea1728850a7b953e6394eb7":[0,0,0,23,16],
 "class_minty_1_1_string.html#a92cc554efea1728850a7b953e6394eb7":[1,0,0,23,16],
 "class_minty_1_1_string.html#aa024b26e07225a82c47643343b5ac5b6":[0,0,0,23,35],
@@ -241,13 +249,5 @@ var NAVTREEINDEX5 =
 "class_minty_1_1_vector_1_1_const_reverse_iterator.html#ad4b908292c9779f6e1866def598f11df":[0,0,0,24,1,6],
 "class_minty_1_1_vector_1_1_const_reverse_iterator.html#ad4b908292c9779f6e1866def598f11df":[1,0,0,24,1,6],
 "class_minty_1_1_vector_1_1_const_reverse_iterator.html#adf9dec434a075f78ef2fa2e359f35f57":[0,0,0,24,1,3],
-"class_minty_1_1_vector_1_1_const_reverse_iterator.html#adf9dec434a075f78ef2fa2e359f35f57":[1,0,0,24,1,3],
-"class_minty_1_1_vector_1_1_iterator.html":[0,0,0,24,2],
-"class_minty_1_1_vector_1_1_iterator.html":[1,0,0,24,2],
-"class_minty_1_1_vector_1_1_iterator.html#a0ffb443bdfbe22c210f160ca5224e61e":[0,0,0,24,2,10],
-"class_minty_1_1_vector_1_1_iterator.html#a0ffb443bdfbe22c210f160ca5224e61e":[1,0,0,24,2,10],
-"class_minty_1_1_vector_1_1_iterator.html#a2b193a9fb156c714c1eb7af99309b06a":[0,0,0,24,2,3],
-"class_minty_1_1_vector_1_1_iterator.html#a2b193a9fb156c714c1eb7af99309b06a":[1,0,0,24,2,3],
-"class_minty_1_1_vector_1_1_iterator.html#a2ca8fff9994823d8fe548d7344c9ee06":[0,0,0,24,2,6],
-"class_minty_1_1_vector_1_1_iterator.html#a2ca8fff9994823d8fe548d7344c9ee06":[1,0,0,24,2,6]
+"class_minty_1_1_vector_1_1_const_reverse_iterator.html#adf9dec434a075f78ef2fa2e359f35f57":[1,0,0,24,1,3]
 };

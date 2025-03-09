@@ -114,6 +114,9 @@
     <ClCompile Include="Test_Debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_DualBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files\Tests\Wrap</Filter>
     </ClInclude>
     <ClInclude Include="Test_Debug.h">
+      <Filter>Header Files\Tests\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_DualBuffer.h">
       <Filter>Header Files\Tests\Debug</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,7 +90,7 @@ No failures! :)
 |  PASS  | 44: Set Background Color (OUTPUT == "\033[106m")                                                                                 |
 |  PASS  | 45: Set Background Color (OUTPUT == "\033[107m")                                                                                 |
 |  PASS  | 50: Reset (OUTPUT == "\033[0m")                                                                                                  |
-|  PASS  | 55: Reset (OUTPUT == "\033[31m\033[0m")                                                                                          |
+|  PASS  | 55: Reset (_test.get_output() == "\033[31m\033[0m")                                                                              |
 |  PASS  | 60: Write (OUTPUT == "")                                                                                                         |
 |  PASS  | 62: Write (OUTPUT == "Hello, World!")                                                                                            |
 |  PASS  | 63: Write (OUTPUT == "Hello, World! 13")                                                                                         |

@@ -76,7 +76,9 @@ public:
 #define PASS(condition) _test.pass(#condition, __LINE__)
 #define FAIL(condition) _test.fail(#condition, __LINE__)
 #define EXPECT_TRUE(condition) try { if(condition) { PASS(condition); } else { FAIL(condition); } } catch(...) { FAIL(condition); }
+#define EXPECT_FALSE(condition) EXPECT_TRUE(!(condition))
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
 #define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
-#define EXPECT_OUTPUT(expected) try { if(GET_OUTPUT() == expected) { PASS(OUTPUT == expected); } else { FAIL(OUTPUT == expected); } } catch(...) { FAIL(OUTPUT == expected); }
+#define EXPECT_EQUAL(expected, actual) EXPECT_TRUE(expected == actual)
+#define EXPECT_OUTPUT(expected) EXPECT_TRUE(GET_OUTPUT() == expected)
 #define EXPECT_OUTPUT_SINGLE(operation, expected) try { CLEAR_OUTPUT(); operation; if(GET_OUTPUT() == expected) { PASS(OUTPUT == expected); } else { FAIL(OUTPUT == expected); } } catch(...) { FAIL(OUTPUT == expected); }

@@ -4,5 +4,5 @@ var searchData=
   ['destroy_1',['destroy',['../class_minty_1_1_file.html#a71297205f7f72a5767d1169ffbbacbe6',1,'Minty::File']]],
   ['destruct_2',['destruct',['../namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf',1,'Minty']]],
   ['destruct_5farray_3',['destruct_array',['../namespace_minty.html#a910b025ccb027a56bcf5a973446e9ab0',1,'Minty']]],
-  ['dualbuffer_4',['DualBuffer',['../class_minty_1_1_dual_buffer.html#ae741f191032214ca8f394e5f4eb0fe3a',1,'Minty::DualBuffer']]]
+  ['dualbuffer_4',['DualBuffer',['../class_minty_1_1_dual_buffer.html#a72f569e96b90fb93870f42a24fd32ea8',1,'Minty::DualBuffer::DualBuffer()'],['../class_minty_1_1_dual_buffer.html#ae741f191032214ca8f394e5f4eb0fe3a',1,'Minty::DualBuffer::DualBuffer(std::ostream &amp;stream, Path const &amp;filePath)']]]
 ];

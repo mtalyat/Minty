@@ -87,6 +87,9 @@ void test_Debug(Test& _test)
 			file.open(TEST_PATH, File::Flags::Read);
 			EXPECT_TRUE(file.get_size() > 0);
 			file.close();
+
+			buffer.close();
+			File::destroy(TEST_PATH);
 		}
 	}
 }

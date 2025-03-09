@@ -110,6 +110,9 @@ $(function(){initNavTree('class_minty_1_1_dual_buffer.html',''); initResizable(t
 </div><!--header-->
 <div class="contents">
 
+<p>Doubles as a buffer for a stream, and a file writer.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_dual_buffer_8h_source.html">DualBuffer.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Minty::DualBuffer:</div>
@@ -120,10 +123,23 @@ Inheritance diagram for Minty::DualBuffer:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a72f569e96b90fb93870f42a24fd32ea8" id="r_a72f569e96b90fb93870f42a24fd32ea8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72f569e96b90fb93870f42a24fd32ea8">DualBuffer</a> ()</td></tr>
+<tr class="memdesc:a72f569e96b90fb93870f42a24fd32ea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an empty <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a>.  <br /></td></tr>
+<tr class="separator:a72f569e96b90fb93870f42a24fd32ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae741f191032214ca8f394e5f4eb0fe3a" id="r_ae741f191032214ca8f394e5f4eb0fe3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae741f191032214ca8f394e5f4eb0fe3a">DualBuffer</a> (std::ostream &amp;stream, <a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;filePath)</td></tr>
+<tr class="memdesc:ae741f191032214ca8f394e5f4eb0fe3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a> using the given stream and file path.  <br /></td></tr>
 <tr class="separator:ae741f191032214ca8f394e5f4eb0fe3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17ad3ea7afe1016c3107e95b626dba31" id="r_a17ad3ea7afe1016c3107e95b626dba31"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17ad3ea7afe1016c3107e95b626dba31">~DualBuffer</a> ()</td></tr>
 <tr class="separator:a17ad3ea7afe1016c3107e95b626dba31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3e9fa99b6c2b25639c6cd45847312f0" id="r_ac3e9fa99b6c2b25639c6cd45847312f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3e9fa99b6c2b25639c6cd45847312f0">is_open</a> () const</td></tr>
+<tr class="memdesc:ac3e9fa99b6c2b25639c6cd45847312f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a> is open.  <br /></td></tr>
+<tr class="separator:ac3e9fa99b6c2b25639c6cd45847312f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec1a2b56577b28dd907f8af19b15c95c" id="r_aec1a2b56577b28dd907f8af19b15c95c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec1a2b56577b28dd907f8af19b15c95c">open</a> (std::ostream &amp;stream, <a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;filePath)</td></tr>
+<tr class="memdesc:aec1a2b56577b28dd907f8af19b15c95c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Uses the given stream and file path to open a <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a>.  <br /></td></tr>
+<tr class="separator:aec1a2b56577b28dd907f8af19b15c95c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d3ffc45c66cd5f0d5bcced6e9a6c6da" id="r_a0d3ffc45c66cd5f0d5bcced6e9a6c6da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d3ffc45c66cd5f0d5bcced6e9a6c6da">close</a> ()</td></tr>
+<tr class="memdesc:a0d3ffc45c66cd5f0d5bcced6e9a6c6da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Stream to its original buffer, and closes the file.  <br /></td></tr>
+<tr class="separator:a0d3ffc45c66cd5f0d5bcced6e9a6c6da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -132,9 +148,38 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a07ef03a421af4d5566db28c49c8a133a" id="r_a07ef03a421af4d5566db28c49c8a133a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07ef03a421af4d5566db28c49c8a133a">sync</a> () override</td></tr>
 <tr class="separator:a07ef03a421af4d5566db28c49c8a133a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Doubles as a buffer for a stream, and a file writer. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a72f569e96b90fb93870f42a24fd32ea8" name="a72f569e96b90fb93870f42a24fd32ea8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72f569e96b90fb93870f42a24fd32ea8">&#9670;&#160;</a></span>DualBuffer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::DualBuffer::DualBuffer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an empty <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a>. </p>
+
+</div>
+</div>
 <a id="ae741f191032214ca8f394e5f4eb0fe3a" name="ae741f191032214ca8f394e5f4eb0fe3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae741f191032214ca8f394e5f4eb0fe3a">&#9670;&#160;</a></span>DualBuffer()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae741f191032214ca8f394e5f4eb0fe3a">&#9670;&#160;</a></span>DualBuffer() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -159,6 +204,15 @@ Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Creates a <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a> using the given stream and file path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The stream to use.</td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the file to use.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -188,6 +242,99 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a0d3ffc45c66cd5f0d5bcced6e9a6c6da" name="a0d3ffc45c66cd5f0d5bcced6e9a6c6da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d3ffc45c66cd5f0d5bcced6e9a6c6da">&#9670;&#160;</a></span>close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::DualBuffer::close </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the Stream to its original buffer, and closes the file. </p>
+
+</div>
+</div>
+<a id="ac3e9fa99b6c2b25639c6cd45847312f0" name="ac3e9fa99b6c2b25639c6cd45847312f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3e9fa99b6c2b25639c6cd45847312f0">&#9670;&#160;</a></span>is_open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::DualBuffer::is_open </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a> is open. </p>
+<dl class="section return"><dt>Returns</dt><dd>True, if open.</dd></dl>
+
+</div>
+</div>
+<a id="aec1a2b56577b28dd907f8af19b15c95c" name="aec1a2b56577b28dd907f8af19b15c95c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec1a2b56577b28dd907f8af19b15c95c">&#9670;&#160;</a></span>open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::DualBuffer::open </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;</td>          <td class="paramname"><span class="paramname"><em>stream</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>filePath</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Uses the given stream and file path to open a <a class="el" href="class_minty_1_1_dual_buffer.html" title="Doubles as a buffer for a stream, and a file writer.">DualBuffer</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The stream to write to.</td></tr>
+    <tr><td class="paramname">filePath</td><td>The file to write to.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a90b2ac0f54ec2a5e0ec73d8a407d304b" name="a90b2ac0f54ec2a5e0ec73d8a407d304b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a90b2ac0f54ec2a5e0ec73d8a407d304b">&#9670;&#160;</a></span>overflow()</h2>
 
