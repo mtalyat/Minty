@@ -12,6 +12,9 @@
 
 namespace Minty
 {
+	/// <summary>
+	/// Simulates a file system within a single file. This is useful for packaging multiple files into a single file.
+	/// </summary>
 	class Wrap
 	{
 #pragma region Classes

@@ -7,7 +7,7 @@
 namespace Minty
 {
 	/// <summary>
-	/// Handles multiple Wrap objects.
+	/// Handles a collection of Wrap files.
 	/// </summary>
 	class Wrapper
 	{
