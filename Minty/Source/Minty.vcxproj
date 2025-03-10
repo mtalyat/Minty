@@ -209,6 +209,7 @@ doxygen</Command>
     <ClInclude Include="Minty\File\PhysicalFile.h" />
     <ClInclude Include="Minty\File\VirtualFile.h" />
     <ClInclude Include="Minty\File\_File.h" />
+    <ClInclude Include="Minty\Library\GLM.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\_Memory.h" />
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
@@ -225,6 +226,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Context\Context.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
+    <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Data\Path.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
