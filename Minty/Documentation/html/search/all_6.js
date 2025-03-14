@@ -16,8 +16,10 @@ var searchData=
   ['float4_13',['Float4',['../namespace_minty.html#a3566e3830f5be418523563c3b2f86627',1,'Minty']]],
   ['floor_14',['floor',['../namespace_minty_1_1_math.html#a3cf639af79c5ace8bb6c721694df7b64',1,'Minty::Math::floor(T_In const value)'],['../namespace_minty_1_1_math.html#a07a12530b2b38a4ebb6f4cfc574de84d',1,'Minty::Math::floor(T const value, Int const precision)']]],
   ['flush_15',['flush',['../class_minty_1_1_debug.html#acc2e326aac12bc1b7dc99b8e425f1d91',1,'Minty::Debug::flush()'],['../class_minty_1_1_file.html#ac86264da076211dd15b81bfb4aea0c7a',1,'Minty::File::flush()'],['../class_minty_1_1_physical_file.html#a3b124c2ef8646007b2344aebea0be9ef',1,'Minty::PhysicalFile::flush()'],['../class_minty_1_1_wrap.html#ac6f4b689e6ddd35ba85d4bb337bf88ca',1,'Minty::Wrap::flush()']]],
-  ['format_2eh_16',['Format.h',['../_format_8h.html',1,'']]],
-  ['forward_17',['forward',['../namespace_minty_1_1_math.html#a7cafebde48a9eeacc26faa690b8d6e06',1,'Minty::Math']]],
-  ['framework_2eh_18',['framework.h',['../framework_8h.html',1,'']]],
-  ['from_5feuler_19',['from_euler',['../namespace_minty_1_1_math.html#ae4d716b033044e1ca5b4a0796f44d912',1,'Minty::Math::from_euler(Float3 const &amp;value)'],['../namespace_minty_1_1_math.html#a56fb321dac387a570a6a562fa9a93f1d',1,'Minty::Math::from_euler(Float const x, Float const y, Float const z)']]]
+  ['font_16',['Font',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d',1,'Minty']]],
+  ['fontvariant_17',['FontVariant',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a942fbf5aede93f3ba503193e480477c5',1,'Minty']]],
+  ['format_2eh_18',['Format.h',['../_format_8h.html',1,'']]],
+  ['forward_19',['forward',['../namespace_minty_1_1_math.html#a7cafebde48a9eeacc26faa690b8d6e06',1,'Minty::Math']]],
+  ['framework_2eh_20',['framework.h',['../framework_8h.html',1,'']]],
+  ['from_5feuler_21',['from_euler',['../namespace_minty_1_1_math.html#ae4d716b033044e1ca5b4a0796f44d912',1,'Minty::Math::from_euler(Float3 const &amp;value)'],['../namespace_minty_1_1_math.html#a56fb321dac387a570a6a562fa9a93f1d',1,'Minty::Math::from_euler(Float const x, Float const y, Float const z)']]]
 ];

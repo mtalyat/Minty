@@ -11,5 +11,6 @@ var _to_string_8h =
     [ "Minty::to_string", "namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2", null ],
     [ "Minty::to_string", "namespace_minty.html#ad5613ddceeb85a319f029f728796955f", null ],
     [ "Minty::to_string", "namespace_minty.html#ace42dad79c3a4f8c8a993cc18ec985b3", null ],
-    [ "Minty::to_string", "namespace_minty.html#ae2021eecefb256df5372214a8c5964aa", null ]
+    [ "Minty::to_string", "namespace_minty.html#ae2021eecefb256df5372214a8c5964aa", null ],
+    [ "Minty::to_string", "namespace_minty.html#a96b083baaa1412caffb459e0bbc0230b", null ]
 ];

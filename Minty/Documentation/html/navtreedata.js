@@ -61,14 +61,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"class_minty_1_1_array_1_1_iterator.html#a1ba9e584356558b8ada40ab17e273253",
-"class_minty_1_1_list.html#a473959a003c73a1b78b61d747bcb66f3",
-"class_minty_1_1_map.html#adf143e33ff6dcf267fa8c9f97e1fdfa6",
-"class_minty_1_1_path_1_1_iterator.html#a141079d0ac1a95d9073fd3c5298d6020",
-"class_minty_1_1_string.html#a6269933c245c56dd70d50ae9dbf43328",
-"class_minty_1_1_vector_1_1_const_reverse_iterator.html#ac6c92728ae5bb4c541192a3ab968e84e",
-"functions_func_u.html",
-"struct_minty_1_1_wrap_1_1_entry.html#a11506e310e94e0cead7be6f535806faf"
+"class_minty_1_1_array_1_1_const_iterator.html#aee32fd7db00f471eba564fd47eed401c",
+"class_minty_1_1_dynamic_container.html#a0877fe7017a3e2bb68a068aa651f12f9",
+"class_minty_1_1_list_1_1_const_reverse_iterator.html#ac1ded9f0284004ce9822efa33712cce8",
+"class_minty_1_1_memory_pool.html#a7af404b594b69a4173cb7921d0513808",
+"class_minty_1_1_path_1_1_iterator.html#abfa1610043d8d65396e1ea83fc8c539a",
+"class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103",
+"class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988",
+"class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98",
+"namespace_minty.html#af08f129b778c7cb4256ad76ba12ad324"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

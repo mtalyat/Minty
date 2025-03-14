@@ -3,6 +3,9 @@ var hierarchy =
     [ "Minty::Application", "class_minty_1_1_application.html", null ],
     [ "Minty::ApplicationBuilder", "struct_minty_1_1_application_builder.html", null ],
     [ "Minty::Array< T, S >", "class_minty_1_1_array.html", null ],
+    [ "Minty::Asset", "class_minty_1_1_asset.html", null ],
+    [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
+    [ "Minty::AssetManagerBuilder", "struct_minty_1_1_asset_manager_builder.html", null ],
     [ "Minty::Color", "struct_minty_1_1_color.html", null ],
     [ "Minty::Array< T, S >::ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html", null ],
     [ "Minty::List< T >::ConstIterator", "class_minty_1_1_list_1_1_const_iterator.html", null ],
@@ -14,8 +17,16 @@ var hierarchy =
     [ "Minty::Array< T, S >::ConstReverseIterator", "class_minty_1_1_array_1_1_const_reverse_iterator.html", null ],
     [ "Minty::List< T >::ConstReverseIterator", "class_minty_1_1_list_1_1_const_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ConstReverseIterator", "class_minty_1_1_vector_1_1_const_reverse_iterator.html", null ],
+    [ "Minty::Container", "class_minty_1_1_container.html", [
+      [ "Minty::MemoryContainer", "class_minty_1_1_memory_container.html", [
+        [ "Minty::ConstantContainer", "class_minty_1_1_constant_container.html", null ],
+        [ "Minty::DynamicContainer", "class_minty_1_1_dynamic_container.html", null ],
+        [ "Minty::StaticContainer", "class_minty_1_1_static_container.html", null ]
+      ] ]
+    ] ],
     [ "Minty::Context", "class_minty_1_1_context.html", null ],
     [ "Minty::ContextBuilder", "struct_minty_1_1_context_builder.html", null ],
+    [ "Minty::Counter", "class_minty_1_1_counter.html", null ],
     [ "Minty::Debug", "class_minty_1_1_debug.html", null ],
     [ "Minty::Wrap::Entry", "struct_minty_1_1_wrap_1_1_entry.html", null ],
     [ "Minty::File", "class_minty_1_1_file.html", [
@@ -24,7 +35,9 @@ var hierarchy =
       ] ]
     ] ],
     [ "std::hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", null ],
+    [ "std::hash< Minty::Owner< T > >", "structstd_1_1hash_3_01_minty_1_1_owner_3_01_t_01_4_01_4.html", null ],
     [ "std::hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", null ],
+    [ "std::hash< Minty::Ref< T > >", "structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4.html", null ],
     [ "std::hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", null ],
     [ "Minty::Wrap::Header", "struct_minty_1_1_wrap_1_1_header.html", null ],
     [ "Minty::Array< T, S >::Iterator", "class_minty_1_1_array_1_1_iterator.html", null ],
@@ -42,9 +55,11 @@ var hierarchy =
     [ "Minty::MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", null ],
     [ "Minty::MemoryStack", "class_minty_1_1_memory_stack.html", null ],
     [ "Minty::MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", null ],
+    [ "Minty::Owner< T >", "class_minty_1_1_owner.html", null ],
     [ "Minty::Pair< T1, T2 >", "class_minty_1_1_pair.html", null ],
     [ "Minty::Path", "class_minty_1_1_path.html", null ],
     [ "Minty::Queue< T >", "class_minty_1_1_queue.html", null ],
+    [ "Minty::Ref< T >", "class_minty_1_1_ref.html", null ],
     [ "Minty::Array< T, S >::ReverseIterator", "class_minty_1_1_array_1_1_reverse_iterator.html", null ],
     [ "Minty::List< T >::ReverseIterator", "class_minty_1_1_list_1_1_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", null ],
@@ -54,6 +69,7 @@ var hierarchy =
       [ "Minty::DualBuffer", "class_minty_1_1_dual_buffer.html", null ]
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
+    [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
     [ "Minty::Wrap", "class_minty_1_1_wrap.html", null ],
     [ "Minty::Wrapper", "class_minty_1_1_wrapper.html", null ]

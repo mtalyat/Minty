@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yellow_0',['Yellow',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a51e6cd92b6c45f9affdc158ecca2b8b8',1,'Minty::Debug']]]
+  ['viewport_0',['Viewport',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2',1,'Minty']]]
 ];

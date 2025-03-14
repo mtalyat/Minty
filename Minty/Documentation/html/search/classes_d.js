@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['vector_0',['Vector',['../class_minty_1_1_vector.html',1,'Minty']]],
-  ['vector_3c_20minty_3a_3awrap_20_3e_1',['Vector&lt; Minty::Wrap &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
-  ['vector_3c_20minty_3a_3awrap_3a_3aentry_20_3e_2',['Vector&lt; Minty::Wrap::Entry &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
-  ['virtualfile_3',['VirtualFile',['../class_minty_1_1_virtual_file.html',1,'Minty']]]
+  ['set_0',['Set',['../class_minty_1_1_set.html',1,'Minty']]],
+  ['set_3c_20uint32_5ft_20_3e_1',['Set&lt; uint32_t &gt;',['../class_minty_1_1_set.html',1,'Minty']]],
+  ['stack_2',['Stack',['../class_minty_1_1_stack.html',1,'Minty']]],
+  ['staticcontainer_3',['StaticContainer',['../class_minty_1_1_static_container.html',1,'Minty']]],
+  ['string_4',['String',['../class_minty_1_1_string.html',1,'Minty']]]
 ];

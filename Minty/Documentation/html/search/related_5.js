@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['set_0',['Set',['../class_minty_1_1_set_1_1_iterator.html#a85f04e9516b9eac3a6bee506abd0d30a',1,'Minty::Set::Iterator::Set()'],['../class_minty_1_1_set_1_1_const_iterator.html#a85f04e9516b9eac3a6bee506abd0d30a',1,'Minty::Set::ConstIterator::Set()']]],
-  ['string_1',['String',['../class_minty_1_1_string_1_1_iterator.html#a7fb804f7dc96dd9f705c84095f37f1ca',1,'Minty::String::Iterator::String()'],['../class_minty_1_1_string_1_1_const_iterator.html#a7fb804f7dc96dd9f705c84095f37f1ca',1,'Minty::String::ConstIterator::String()']]]
+  ['ref_0',['Ref',['../class_minty_1_1_ref.html#aed701787ab4897bc9a5cdc70f97c3292',1,'Minty::Ref']]],
+  ['ref_3c_20t_20_3e_1',['Ref&lt; T &gt;',['../class_minty_1_1_owner.html#a99229309340c6e682164e71612dca917',1,'Minty::Owner']]]
 ];

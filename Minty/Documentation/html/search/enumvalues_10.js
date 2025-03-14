@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['white_0',['White',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a25a81701fbfa4a1efdf660a950c1d006',1,'Minty::Debug']]],
-  ['write_1',['Write',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa1129c0e4d43f2d121652a7302712cff6',1,'Minty::File']]]
+  ['update_0',['Update',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6',1,'Minty::Wrap']]]
 ];
