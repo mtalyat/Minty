@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <typeindex>
 
 namespace Minty
 {
@@ -15,4 +16,9 @@ namespace Minty
 	using Float = float;
 	using Double = double;
 	using Size = size_t;
+	using ID = uint64_t;
+
+	using TypeID = std::type_index;
+	using TypeInfo = std::type_info;
+	using TypeIndex = Size;
 }
