@@ -117,6 +117,9 @@
     <ClCompile Include="Test_DualBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="Test_DualBuffer.h">
       <Filter>Header Files\Tests\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Math.h">
+      <Filter>Header Files\Tests\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

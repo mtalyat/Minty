@@ -1,5 +1,5 @@
 # Results
-2947/2947 (100.00%)
+3143/3143 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -8,6 +8,7 @@
 | Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
+| Math                           |      196 |        0 |
 | Array::Iterator                |       85 |        0 |
 | Array::ConstIterator           |       85 |        0 |
 | Array::ReverseIterator         |       85 |        0 |
@@ -125,6 +126,206 @@ No failures! :)
 |  PASS  | 63: Uncompress (uncompress(nullptr, bufferSize2, buffer, bufferSize))                                                            |
 |  PASS  | 64: Uncompress (uncompress(buffer2, bufferSize2, nullptr, bufferSize))                                                           |
 |  PASS  | 69: Uncompress (text == text2)                                                                                                   |
+
+## Math
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 10: Min (Math::min(1, 2) == 1)                                                                                                   |
+|  PASS  | 11: Min (Math::min(2, 1) == 1)                                                                                                   |
+|  PASS  | 12: Min (Math::min(1, 1) == 1)                                                                                                   |
+|  PASS  | 13: Min (Math::min(1, 2, 3) == 1)                                                                                                |
+|  PASS  | 14: Min (Math::min(2, 1, 3) == 1)                                                                                                |
+|  PASS  | 15: Min (Math::min(3, 2, 1) == 1)                                                                                                |
+|  PASS  | 20: Max (Math::max(1, 2) == 2)                                                                                                   |
+|  PASS  | 21: Max (Math::max(2, 1) == 2)                                                                                                   |
+|  PASS  | 22: Max (Math::max(1, 1) == 1)                                                                                                   |
+|  PASS  | 23: Max (Math::max(1, 2, 3) == 3)                                                                                                |
+|  PASS  | 24: Max (Math::max(2, 1, 3) == 3)                                                                                                |
+|  PASS  | 25: Max (Math::max(3, 2, 1) == 3)                                                                                                |
+|  PASS  | 30: Clamp (Math::clamp(1, 2, 3) == 2)                                                                                            |
+|  PASS  | 31: Clamp (Math::clamp(2, 2, 3) == 2)                                                                                            |
+|  PASS  | 32: Clamp (Math::clamp(3, 2, 3) == 3)                                                                                            |
+|  PASS  | 33: Clamp (Math::clamp(4, 2, 3) == 3)                                                                                            |
+|  PASS  | 38: Lerp (Math::lerp(2.0f, 6.0f, 0.0f) == 2.0f)                                                                                  |
+|  PASS  | 39: Lerp (Math::lerp(2.0f, 6.0f, 0.5f) == 4.0f)                                                                                  |
+|  PASS  | 40: Lerp (Math::lerp(2.0f, 6.0f, 1.0f) == 6.0f)                                                                                  |
+|  PASS  | 41: Lerp (Math::lerp(2.0f, 6.0f, 2.0f) == 10.0f)                                                                                 |
+|  PASS  | 46: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 0.0f) == 2.0f)                                                                  |
+|  PASS  | 47: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 0.5f) == 4.0f)                                                                  |
+|  PASS  | 48: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 1.0f) == 6.0f)                                                                  |
+|  PASS  | 49: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 2.0f) == 6.0f)                                                                  |
+|  PASS  | 54: Round (std::abs(Math::round(1.0) - 1) < 0.01f)                                                                               |
+|  PASS  | 55: Round (std::abs(Math::round(1.4) - 1) < 0.01f)                                                                               |
+|  PASS  | 56: Round (std::abs(Math::round(1.5) - 2) < 0.01f)                                                                               |
+|  PASS  | 57: Round (std::abs(Math::round(1.6) - 2) < 0.01f)                                                                               |
+|  PASS  | 58: Round (std::abs(Math::round(112.567, -2) - 112.57) < 0.01f)                                                                  |
+|  PASS  | 59: Round (std::abs(Math::round(112.567, -1) - 112.6) < 0.01f)                                                                   |
+|  PASS  | 60: Round (std::abs(Math::round(112.567, 0) - 113.0) < 0.01f)                                                                    |
+|  PASS  | 61: Round (std::abs(Math::round(112.567, 1) - 110.0) < 0.01f)                                                                    |
+|  PASS  | 62: Round (std::abs(Math::round(112.567, 2) - 100.0) < 0.01f)                                                                    |
+|  PASS  | 67: Floor (std::abs(Math::floor(1.0) - 1) < 0.01f)                                                                               |
+|  PASS  | 68: Floor (std::abs(Math::floor(1.4) - 1) < 0.01f)                                                                               |
+|  PASS  | 69: Floor (std::abs(Math::floor(1.5) - 1) < 0.01f)                                                                               |
+|  PASS  | 70: Floor (std::abs(Math::floor(1.6) - 1) < 0.01f)                                                                               |
+|  PASS  | 71: Floor (std::abs(Math::floor(112.567, -2) - 112.56) < 0.01f)                                                                  |
+|  PASS  | 72: Floor (std::abs(Math::floor(112.567, -1) - 112.5) < 0.01f)                                                                   |
+|  PASS  | 73: Floor (std::abs(Math::floor(112.567, 0) - 112.0) < 0.01f)                                                                    |
+|  PASS  | 74: Floor (std::abs(Math::floor(112.567, 1) - 110.0) < 0.01f)                                                                    |
+|  PASS  | 75: Floor (std::abs(Math::floor(112.567, 2) - 100.0) < 0.01f)                                                                    |
+|  PASS  | 80: Ceiling (std::abs(Math::ceiling(1.0) - 1) < 0.01f)                                                                           |
+|  PASS  | 81: Ceiling (std::abs(Math::ceiling(1.4) - 2) < 0.01f)                                                                           |
+|  PASS  | 82: Ceiling (std::abs(Math::ceiling(1.5) - 2) < 0.01f)                                                                           |
+|  PASS  | 83: Ceiling (std::abs(Math::ceiling(1.6) - 2) < 0.01f)                                                                           |
+|  PASS  | 84: Ceiling (std::abs(Math::ceiling(112.567, -2) - 112.57) < 0.01f)                                                              |
+|  PASS  | 85: Ceiling (std::abs(Math::ceiling(112.567, -1) - 112.6) < 0.01f)                                                               |
+|  PASS  | 86: Ceiling (std::abs(Math::ceiling(112.567, 0) - 113.0) < 0.01f)                                                                |
+|  PASS  | 87: Ceiling (std::abs(Math::ceiling(112.567, 1) - 120.0) < 0.01f)                                                                |
+|  PASS  | 88: Ceiling (std::abs(Math::ceiling(112.567, 2) - 200.0) < 0.01f)                                                                |
+|  PASS  | 93: Abs (Math::abs(1) == 1)                                                                                                      |
+|  PASS  | 94: Abs (Math::abs(-1) == 1)                                                                                                     |
+|  PASS  | 95: Abs (Math::abs(1.0f) == 1.0f)                                                                                                |
+|  PASS  | 96: Abs (Math::abs(-1.0f) == 1.0f)                                                                                               |
+|  PASS  | 101: Sin (std::abs(Math::sin(0.0f) - 0.0f) < 0.01f)                                                                              |
+|  PASS  | 102: Sin (std::abs(Math::sin(Math::PI / 2.0f) - 1.0f) < 0.01f)                                                                   |
+|  PASS  | 103: Sin (std::abs(Math::sin(Math::PI) - 0.0f) < 0.01f)                                                                          |
+|  PASS  | 104: Sin (std::abs(Math::sin(3.0f * Math::PI / 2.0f) - -1.0f) < 0.01f)                                                           |
+|  PASS  | 105: Sin (std::abs(Math::sin(2.0f * Math::PI) - 0.0f) < 0.01f)                                                                   |
+|  PASS  | 110: Cos (std::abs(Math::cos(0.0f) - 1.0f) < 0.01f)                                                                              |
+|  PASS  | 111: Cos (std::abs(Math::cos(Math::PI / 2.0f) - 0.0f) < 0.01f)                                                                   |
+|  PASS  | 112: Cos (std::abs(Math::cos(Math::PI) - -1.0f) < 0.01f)                                                                         |
+|  PASS  | 113: Cos (std::abs(Math::cos(3.0f * Math::PI / 2.0f) - 0.0f) < 0.01f)                                                            |
+|  PASS  | 114: Cos (std::abs(Math::cos(2.0f * Math::PI) - 1.0f) < 0.01f)                                                                   |
+|  PASS  | 119: Tan (std::abs(Math::tan(0.0f) - 0.0f) < 0.01f)                                                                              |
+|  PASS  | 120: Tan (std::abs(Math::tan(Math::PI / 4.0f) - 1.0f) < 0.01f)                                                                   |
+|  PASS  | 121: Tan (std::abs(Math::tan(3.0f * Math::PI / 4.0f) - -1.0f) < 0.01f)                                                           |
+|  PASS  | 122: Tan (std::abs(Math::tan(Math::PI) - 0.0f) < 0.01f)                                                                          |
+|  PASS  | 127: Acos (std::abs(Math::acos(1.0f) - 0.0f) < 0.01f)                                                                            |
+|  PASS  | 128: Acos (std::abs(Math::acos(0.0f) - Math::PI / 2.0f) < 0.01f)                                                                 |
+|  PASS  | 129: Acos (std::abs(Math::acos(-1.0f) - Math::PI) < 0.01f)                                                                       |
+|  PASS  | 134: Asin (std::abs(Math::asin(0.0f) - 0.0f) < 0.01f)                                                                            |
+|  PASS  | 135: Asin (std::abs(Math::asin(1.0f) - Math::PI / 2.0f) < 0.01f)                                                                 |
+|  PASS  | 136: Asin (std::abs(Math::asin(-1.0f) - -Math::PI / 2.0f) < 0.01f)                                                               |
+|  PASS  | 141: Atan (std::abs(Math::atan(0.0f) - 0.0f) < 0.01f)                                                                            |
+|  PASS  | 142: Atan (std::abs(Math::atan(1.0f) - Math::PI / 4.0f) < 0.01f)                                                                 |
+|  PASS  | 143: Atan (std::abs(Math::atan(-1.0f) - -Math::PI / 4.0f) < 0.01f)                                                               |
+|  PASS  | 148: Atan2 (std::abs(Math::atan2(0.0f, 1.0f) - 0.0f) < 0.01f)                                                                    |
+|  PASS  | 149: Atan2 (std::abs(Math::atan2(1.0f, 0.0f) - Math::PI / 2.0f) < 0.01f)                                                         |
+|  PASS  | 150: Atan2 (std::abs(Math::atan2(0.0f, -1.0f) - Math::PI) < 0.01f)                                                               |
+|  PASS  | 151: Atan2 (std::abs(Math::atan2(-1.0f, 0.0f) - -Math::PI / 2.0f) < 0.01f)                                                       |
+|  PASS  | 156: Angle (std::abs(Math::angle(1.0f, 0.0f) - 0.0f) < 0.01f)                                                                    |
+|  PASS  | 157: Angle (std::abs(Math::angle(0.0f, 1.0f) - Math::PI / 2.0f) < 0.01f)                                                         |
+|  PASS  | 158: Angle (std::abs(Math::angle(-1.0f, 0.0f) - Math::PI) < 0.01f)                                                               |
+|  PASS  | 159: Angle (std::abs(Math::angle(0.0f, -1.0f) - -Math::PI / 2.0f) < 0.01f)                                                       |
+|  PASS  | 164: Sqrt (std::abs(Math::sqrt(0.0f) - 0.0f) < 0.01f)                                                                            |
+|  PASS  | 165: Sqrt (std::abs(Math::sqrt(1.0f) - 1.0f) < 0.01f)                                                                            |
+|  PASS  | 166: Sqrt (std::abs(Math::sqrt(4.0f) - 2.0f) < 0.01f)                                                                            |
+|  PASS  | 167: Sqrt (std::abs(Math::sqrt(9.0f) - 3.0f) < 0.01f)                                                                            |
+|  PASS  | 168: Sqrt (std::abs(Math::sqrt(16.0f) - 4.0f) < 0.01f)                                                                           |
+|  PASS  | 173: Pow (std::abs(Math::pow(0.0f, 0.0f) - 1.0f) < 0.01f)                                                                        |
+|  PASS  | 174: Pow (std::abs(Math::pow(0.0f, 1.0f) - 0.0f) < 0.01f)                                                                        |
+|  PASS  | 175: Pow (std::abs(Math::pow(1.0f, 0.0f) - 1.0f) < 0.01f)                                                                        |
+|  PASS  | 176: Pow (std::abs(Math::pow(1.0f, 1.0f) - 1.0f) < 0.01f)                                                                        |
+|  PASS  | 177: Pow (std::abs(Math::pow(2.0f, 0.0f) - 1.0f) < 0.01f)                                                                        |
+|  PASS  | 178: Pow (std::abs(Math::pow(2.0f, 1.0f) - 2.0f) < 0.01f)                                                                        |
+|  PASS  | 179: Pow (std::abs(Math::pow(2.0f, 2.0f) - 4.0f) < 0.01f)                                                                        |
+|  PASS  | 180: Pow (std::abs(Math::pow(2.0f, 3.0f) - 8.0f) < 0.01f)                                                                        |
+|  PASS  | 185: Magnitude (std::abs(Math::magnitude(0.0f, 0.0f) - 0.0f) < 0.01f)                                                            |
+|  PASS  | 186: Magnitude (std::abs(Math::magnitude(1.0f, 0.0f) - 1.0f) < 0.01f)                                                            |
+|  PASS  | 187: Magnitude (std::abs(Math::magnitude(0.0f, 1.0f) - 1.0f) < 0.01f)                                                            |
+|  PASS  | 188: Magnitude (std::abs(Math::magnitude(1.0f, 1.0f) - Math::sqrt(2.0f)) < 0.01f)                                                |
+|  PASS  | 189: Magnitude (std::abs(Math::magnitude(3.0f, 4.0f) - 5.0f) < 0.01f)                                                            |
+|  PASS  | 194: Sign (std::abs(Math::sign(0) - 0) < 0.01f)                                                                                  |
+|  PASS  | 195: Sign (std::abs(Math::sign(1) - 1) < 0.01f)                                                                                  |
+|  PASS  | 196: Sign (std::abs(Math::sign(-1) - -1) < 0.01f)                                                                                |
+|  PASS  | 197: Sign (std::abs(Math::sign(0.0f) - 0) < 0.01f)                                                                               |
+|  PASS  | 198: Sign (std::abs(Math::sign(1.0f) - 1) < 0.01f)                                                                               |
+|  PASS  | 199: Sign (std::abs(Math::sign(-1.0f) - -1) < 0.01f)                                                                             |
+|  PASS  | 204: Normalize (Math::normalize(Float3(0.0f, 0.0f, 0.0f)) == Float3(0.0f, 0.0f, 0.0f))                                           |
+|  PASS  | 205: Normalize (Math::normalize(Float3(24.0f, 0.0f, 0.0f)) == Float3(1.0f, 0.0f, 0.0f))                                          |
+|  PASS  | 206: Normalize (Math::normalize(Float3(0.0f, 24.0f, 0.0f)) == Float3(0.0f, 1.0f, 0.0f))                                          |
+|  PASS  | 207: Normalize (Math::normalize(Float3(0.0f, 0.0f, 24.0f)) == Float3(0.0f, 0.0f, 1.0f))                                          |
+|  PASS  | 208: Normalize (Math::normalize(Float3(24.0f, 24.0f, 24.0f)) == Float3(1.0f / Math::sqrt(3.0f)))                                 |
+|  PASS  | 209: Normalize (Math::normalize(Float3(3.0f, 4.0f, 0.0f)) == Float3(3.0f / 5.0f, 4.0f / 5.0f, 0.0f))                             |
+|  PASS  | 210: Normalize (Math::normalize(Float3(-24.0f, 0.0f, 0.0f)) == Float3(-1.0f, 0.0f, 0.0f))                                        |
+|  PASS  | 211: Normalize (Math::normalize(Float3(0.0f, -24.0f, 0.0f)) == Float3(0.0f, -1.0f, 0.0f))                                        |
+|  PASS  | 212: Normalize (Math::normalize(Float3(0.0f, 0.0f, -24.0f)) == Float3(0.0f, 0.0f, -1.0f))                                        |
+|  PASS  | 213: Normalize (Math::normalize(Float3(-24.0f, -24.0f, -24.0f)) == Float3(-1.0f / Math::sqrt(3.0f)))                             |
+|  PASS  | 214: Normalize (Math::normalize(Float3(-3.0f, -4.0f, 0.0f)) == Float3(-3.0f / 5.0f, -4.0f / 5.0f, 0.0f))                         |
+|  PASS  | 219: Magnitude (Math::magnitude(Float3(0.0f, 0.0f, 0.0f)) == 0.0f)                                                               |
+|  PASS  | 220: Magnitude (Math::magnitude(Float3(1.0f, 0.0f, 0.0f)) == 1.0f)                                                               |
+|  PASS  | 221: Magnitude (Math::magnitude(Float3(0.0f, 1.0f, 0.0f)) == 1.0f)                                                               |
+|  PASS  | 222: Magnitude (Math::magnitude(Float3(0.0f, 0.0f, 1.0f)) == 1.0f)                                                               |
+|  PASS  | 223: Magnitude (Math::magnitude(Float3(1.0f, 1.0f, 1.0f)) == Math::sqrt(3.0f))                                                   |
+|  PASS  | 232: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 238: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 244: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 250: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 256: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 262: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 271: Backward (std::abs(backward.x - expected.x) < 0.01f && std::abs(backward.y - expected.y) < 0.01f && std::abs(backward.z - expected.z) < 0.01f) |
+|  PASS  | 277: Backward (std::abs(backward.x - expected.x) < 0.01f && std::abs(backward.y - expected.y) < 0.01f && std::abs(backward.z - expected.z) < 0.01f) |
+|  PASS  | 283: Backward (std::abs(backward.x - expected.x) < 0.01f && std::abs(backward.y - expected.y) < 0.01f && std::abs(backward.z - expected.z) < 0.01f) |
+|  PASS  | 289: Backward (std::abs(backward.x - expected.x) < 0.01f && std::abs(backward.y - expected.y) < 0.01f && std::abs(backward.z - expected.z) < 0.01f) |
+|  PASS  | 295: Backward (std::abs(backward.x - expected.x) < 0.01f && std::abs(backward.y - expected.y) < 0.01f && std::abs(backward.z - expected.z) < 0.01f) |
+|  PASS  | 301: Backward (std::abs(backward.x - expected.x) < 0.01f && std::abs(backward.y - expected.y) < 0.01f && std::abs(backward.z - expected.z) < 0.01f) |
+|  PASS  | 310: Right (std::abs(right.x - expected.x) < 0.01f && std::abs(right.y - expected.y) < 0.01f && std::abs(right.z - expected.z) < 0.01f) |
+|  PASS  | 316: Right (std::abs(right.x - expected.x) < 0.01f && std::abs(right.y - expected.y) < 0.01f && std::abs(right.z - expected.z) < 0.01f) |
+|  PASS  | 322: Right (std::abs(right.x - expected.x) < 0.01f && std::abs(right.y - expected.y) < 0.01f && std::abs(right.z - expected.z) < 0.01f) |
+|  PASS  | 328: Right (std::abs(right.x - expected.x) < 0.01f && std::abs(right.y - expected.y) < 0.01f && std::abs(right.z - expected.z) < 0.01f) |
+|  PASS  | 334: Right (std::abs(right.x - expected.x) < 0.01f && std::abs(right.y - expected.y) < 0.01f && std::abs(right.z - expected.z) < 0.01f) |
+|  PASS  | 340: Right (std::abs(right.x - expected.x) < 0.01f && std::abs(right.y - expected.y) < 0.01f && std::abs(right.z - expected.z) < 0.01f) |
+|  PASS  | 349: Left (std::abs(left.x - expected.x) < 0.01f && std::abs(left.y - expected.y) < 0.01f && std::abs(left.z - expected.z) < 0.01f) |
+|  PASS  | 355: Left (std::abs(left.x - expected.x) < 0.01f && std::abs(left.y - expected.y) < 0.01f && std::abs(left.z - expected.z) < 0.01f) |
+|  PASS  | 361: Left (std::abs(left.x - expected.x) < 0.01f && std::abs(left.y - expected.y) < 0.01f && std::abs(left.z - expected.z) < 0.01f) |
+|  PASS  | 367: Left (std::abs(left.x - expected.x) < 0.01f && std::abs(left.y - expected.y) < 0.01f && std::abs(left.z - expected.z) < 0.01f) |
+|  PASS  | 373: Left (std::abs(left.x - expected.x) < 0.01f && std::abs(left.y - expected.y) < 0.01f && std::abs(left.z - expected.z) < 0.01f) |
+|  PASS  | 379: Left (std::abs(left.x - expected.x) < 0.01f && std::abs(left.y - expected.y) < 0.01f && std::abs(left.z - expected.z) < 0.01f) |
+|  PASS  | 388: Up (std::abs(up.x - expected.x) < 0.01f && std::abs(up.y - expected.y) < 0.01f && std::abs(up.z - expected.z) < 0.01f)      |
+|  PASS  | 394: Up (std::abs(up.x - expected.x) < 0.01f && std::abs(up.y - expected.y) < 0.01f && std::abs(up.z - expected.z) < 0.01f)      |
+|  PASS  | 400: Up (std::abs(up.x - expected.x) < 0.01f && std::abs(up.y - expected.y) < 0.01f && std::abs(up.z - expected.z) < 0.01f)      |
+|  PASS  | 406: Up (std::abs(up.x - expected.x) < 0.01f && std::abs(up.y - expected.y) < 0.01f && std::abs(up.z - expected.z) < 0.01f)      |
+|  PASS  | 412: Up (std::abs(up.x - expected.x) < 0.01f && std::abs(up.y - expected.y) < 0.01f && std::abs(up.z - expected.z) < 0.01f)      |
+|  PASS  | 418: Up (std::abs(up.x - expected.x) < 0.01f && std::abs(up.y - expected.y) < 0.01f && std::abs(up.z - expected.z) < 0.01f)      |
+|  PASS  | 427: Down (std::abs(down.x - expected.x) < 0.01f && std::abs(down.y - expected.y) < 0.01f && std::abs(down.z - expected.z) < 0.01f) |
+|  PASS  | 433: Down (std::abs(down.x - expected.x) < 0.01f && std::abs(down.y - expected.y) < 0.01f && std::abs(down.z - expected.z) < 0.01f) |
+|  PASS  | 439: Down (std::abs(down.x - expected.x) < 0.01f && std::abs(down.y - expected.y) < 0.01f && std::abs(down.z - expected.z) < 0.01f) |
+|  PASS  | 445: Down (std::abs(down.x - expected.x) < 0.01f && std::abs(down.y - expected.y) < 0.01f && std::abs(down.z - expected.z) < 0.01f) |
+|  PASS  | 451: Down (std::abs(down.x - expected.x) < 0.01f && std::abs(down.y - expected.y) < 0.01f && std::abs(down.z - expected.z) < 0.01f) |
+|  PASS  | 457: Down (std::abs(down.x - expected.x) < 0.01f && std::abs(down.y - expected.y) < 0.01f && std::abs(down.z - expected.z) < 0.01f) |
+|  PASS  | 466: Angle Axis (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 472: Angle Axis (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 478: Angle Axis (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 484: Angle Axis (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 490: Angle Axis (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 496: Angle Axis (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
+|  PASS  | 505: From/To Euler (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 511: From/To Euler (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 517: From/To Euler (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 523: From/To Euler (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 529: From/To Euler (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 535: From/To Euler (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 543: Identity (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 548: Identity (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 551: Identity (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 554: Identity (std::abs(q.x - expected_q.x) < 0.01f && std::abs(q.y - expected_q.y) < 0.01f && std::abs(q.z - expected_q.z) < 0.01f && std::abs(q.w - expected_q.w) < 0.01f) |
+|  PASS  | 563: To Matrix (std::abs(actual_q.x - q.x) < 0.01f && std::abs(actual_q.y - q.y) < 0.01f && std::abs(actual_q.z - q.z) < 0.01f && std::abs(actual_q.w - q.w) < 0.01f) |
+|  PASS  | 571: To Matrix (std::abs(actual_q.x - q.x) < 0.01f && std::abs(actual_q.y - q.y) < 0.01f && std::abs(actual_q.z - q.z) < 0.01f && std::abs(actual_q.w - q.w) < 0.01f) |
+|  PASS  | 574: To Matrix (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 577: To Matrix (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 585: Translate (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 589: Translate (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 597: Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 601: Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 609: Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 613: Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 622: Rotate (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 626: Rotate (std::abs(actual.x - q.x) < 0.01f && std::abs(actual.y - q.y) < 0.01f && std::abs(actual.z - q.z) < 0.01f && std::abs(actual.w - q.w) < 0.01f) |
+|  PASS  | 634: Extract Position (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 638: Extract Position (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 646: Extract Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 650: Extract Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f) |
+|  PASS  | 659: Extract Rotation (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f) |
+|  PASS  | 663: Extract Rotation (std::abs(actual.x - q.x) < 0.01f && std::abs(actual.y - q.y) < 0.01f && std::abs(actual.z - q.z) < 0.01f && std::abs(actual.w - q.w) < 0.01f) |
 
 ## Array::Iterator
 | Result | Message                                                                                                                          |

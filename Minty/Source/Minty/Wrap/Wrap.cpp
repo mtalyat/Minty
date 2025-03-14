@@ -284,7 +284,7 @@ void Minty::Wrap::emplace(Path const& physicalPath, Path const& virtualPath, Com
     String source = relative_path(virtualPath).get_string();
     MINTY_ASSERT(source.get_size() < WRAP_ENTRY_PATH_SIZE, "The given virtual Path is too long.");
     Entry entry;
-    memcpy(entry.path, source.get_data(), min(static_cast<Size>(WRAP_ENTRY_PATH_SIZE - 1), source.get_size()));
+    memcpy(entry.path, source.get_data(), Math::min(static_cast<Size>(WRAP_ENTRY_PATH_SIZE - 1), source.get_size()));
     entry.path[WRAP_ENTRY_PATH_SIZE - 1] = '\0';
     entry.compressionLevel = static_cast<Byte>(compressionLevel);
     entry.uncompressedSize = static_cast<uint32_t>(fileSize);

@@ -1,38 +1,10 @@
 #pragma once
 #include "Minty/Core/Types.h"
 #include "Minty/Library/GLM.h"
+#include <limits>
 
 namespace Minty
 {
-#pragma region Constants
-
-	/// <summary>
-	/// PI.
-	/// </summary>
-	constexpr Float PI = 3.14159265358979323846f;
-
-	/// <summary>
-	/// PI * 2.
-	/// </summary>
-	constexpr Float TAU = 6.28318530717958647692f;
-
-	/// <summary>
-	/// Euler's number.
-	/// </summary>
-	constexpr Float E = 2.71828182845904523536f;
-
-	/// <summary>
-	/// 180 / PI.
-	/// </summary>
-	constexpr Float RAD2DEG = 57.2957795130823208768f;
-	
-	/// <summary>
-	/// PI / 180.
-	/// </summary>
-	constexpr Float DEG2RAD = 0.01745329251994329577f;
-
-#pragma endregion
-
 #pragma region Types
 
 	using Bool2 = glm::bvec2;
@@ -63,6 +35,40 @@ namespace Minty
 
 	namespace Math
 	{
+#pragma region Constants
+
+		/// <summary>
+		/// PI.
+		/// </summary>
+		constexpr Float PI = 3.14159265358979323846f;
+
+		/// <summary>
+		/// PI * 2.
+		/// </summary>
+		constexpr Float TAU = 6.28318530717958647692f;
+
+		/// <summary>
+		/// Euler's number.
+		/// </summary>
+		constexpr Float E = 2.71828182845904523536f;
+
+		/// <summary>
+		/// 180 / PI.
+		/// </summary>
+		constexpr Float RAD2DEG = 57.2957795130823208768f;
+
+		/// <summary>
+		/// PI / 180.
+		/// </summary>
+		constexpr Float DEG2RAD = 0.01745329251994329577f;
+
+		/// <summary>
+		/// Infinity.
+		/// </summary>
+		constexpr Float INF = std::numeric_limits<Float>::infinity();
+
+#pragma endregion
+
 #pragma region Functions
 
 		/// <summary>
@@ -73,7 +79,7 @@ namespace Minty
 		/// <param name="b">The second value.</param>
 		/// <returns>The lower of the two values.</returns>
 		template<typename T>
-		constexpr T min(T const& a, T const& b)
+		constexpr T min(T const a, T const b)
 		{
 			return a < b ? a : b;
 		}
@@ -87,7 +93,7 @@ namespace Minty
 		/// <param name="...args">The other values.</param>
 		/// <returns>The lowest of the values.</returns>
 		template<typename T, typename... Args>
-		constexpr T min(T const& a, Args const&... args)
+		constexpr T min(T const a, Args const... args)
 		{
 			return min(a, min(args...));
 		}
@@ -100,7 +106,7 @@ namespace Minty
 		/// <param name="b">The second value.</param>
 		/// <returns>The higher of the two values.</returns>
 		template<typename T>
-		constexpr T max(T const& a, T const& b)
+		constexpr T max(T const a, T const b)
 		{
 			return a > b ? a : b;
 		}
@@ -114,7 +120,7 @@ namespace Minty
 		/// <param name="...args">The other values.</param>
 		/// <returns>The highest of the values.</returns>
 		template<typename T, typename... Args>
-		constexpr T max(T const& a, Args const&... args)
+		constexpr T max(T const a, Args const... args)
 		{
 			return max(a, max(args...));
 		}
@@ -128,7 +134,7 @@ namespace Minty
 		/// <param name="max">The maximum value.</param>
 		/// <returns>The value, clamped between min and max.</returns>
 		template<typename T>
-		constexpr T clamp(T const& value, T const& min, T const& max)
+		constexpr T clamp(T const value, T const min, T const max)
 		{
 			return value < min ? min : (value > max ? max : value);
 		}
@@ -184,7 +190,7 @@ namespace Minty
 		template<typename T>
 		constexpr T round(T const value, Int const precision)
 		{
-			return static_cast<T>(std::round(value * std::pow(10, precision)) / std::pow(10, precision));
+			return static_cast<T>(std::round(value / std::pow(10, precision)) * std::pow(10, precision));
 		}
 
 		/// <summary>
@@ -210,7 +216,7 @@ namespace Minty
 		template<typename T>
 		constexpr T floor(T const value, Int const precision)
 		{
-			return static_cast<T>(std::floor(value * std::pow(10, precision)) / std::pow(10, precision));
+			return static_cast<T>(std::floor(value / std::pow(10, precision)) * std::pow(10, precision));
 		}
 
 		/// <summary>
@@ -236,7 +242,7 @@ namespace Minty
 		template<typename T>
 		constexpr T ceiling(T const value, Int const precision)
 		{
-			return static_cast<T>(std::ceil(value * std::pow(10, precision)) / std::pow(10, precision));
+			return static_cast<T>(std::ceil(value / std::pow(10, precision)) * std::pow(10, precision));
 		}
 
 		/// <summary>
@@ -407,20 +413,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <returns>The result.</returns>
-		constexpr Float3 normalize(Float3 const& value)
-		{
-			return glm::normalize(value);
-		}
+		Float3 normalize(Float3 const& value);
 
 		/// <summary>
 		/// Gets the magnitude of the given Float3.
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <returns>The result.</returns>
-		constexpr Float magnitude(Float3 const& value)
-		{
-			return glm::length(value);
-		}
+		Float magnitude(Float3 const& value);
 
 		/// <summary>
 		/// Gets the forward vector of the given Quaternion.
@@ -465,6 +465,14 @@ namespace Minty
 		Float3 left(Quaternion const& value);
 
 		/// <summary>
+		/// Creates a Quaternion from the given angle and axis.
+		/// </summary>
+		/// <param name="angle">The angle to use.</param>
+		/// <param name="axis">The axis the given angle is on.</param>
+		/// <returns>The rotation, as a Quaternion.</returns>
+		Quaternion angle_axis(Float const angle, Float3 const& axis);
+
+		/// <summary>
 		/// Converts the given Quaternion to Euler angles.
 		/// </summary>
 		/// <param name="value">The rotation, as a Quaternion.</param>
@@ -477,6 +485,69 @@ namespace Minty
 		/// <param name="value">The rotation, as Euler angles.</param>
 		/// <returns>The rotation, as a Quaternion.</returns>
 		Quaternion from_euler(Float3 const& value);
+
+		/// <summary>
+		/// Converts the given Euler angles to a Quaternion.
+		/// </summary>
+		/// <param name="x">The rotation on the X axis.</param>
+		/// <param name="y">The rotation on the Y axis.</param>
+		/// <param name="z">The rotation on the Z axis.</param>
+		/// <returns>The rotation, as a Quaternion.</returns>
+		inline Quaternion from_euler(Float const x, Float const y, Float const z)
+		{
+			return from_euler(Float3(x, y, z));
+		}
+
+		/// <summary>
+		/// Creates an identity of the given type.
+		/// </summary>
+		/// <typeparam name="T">The type to make an identity of.</typeparam>
+		/// <returns>A new instance of the type as an identity.</returns>
+		template<typename T>
+		constexpr T identity()
+		{
+			return glm::identity<T>();
+		}
+
+		/// <summary>
+		/// Converts the given Quaternion to a 3D matrix.
+		/// </summary>
+		/// <param name="value">The Quaternion.</param>
+		/// <returns>The matrix.</returns>
+		Matrix4 to_matrix(Quaternion const& value);
+
+		/// <summary>
+		/// Translates the given matrix by the given value.
+		/// </summary>
+		/// <param name="matrix">The matrix to translate.</param>
+		/// <param name="value">The amount to translate by.</param>
+		/// <returns>A copy of the given Matrix, tranlated.</returns>
+		Matrix4 translate(Matrix4 const& matrix, Float3 const value);
+
+		/// <summary>
+		/// Scales the given matrix by the given value.
+		/// </summary>
+		/// <param name="matrix">The matrix to scale.</param>
+		/// <param name="value">The amount to scale by.</param>
+		/// <returns>A copy of the given Matrix, scaled.</returns>
+		Matrix4 scale(Matrix4 const& matrix, Float3 const value);
+
+		/// <summary>
+		/// Rotates the given matrix by the given angle around the given axis.
+		/// </summary>
+		/// <param name="matrix">The Matrix to rotate.</param>
+		/// <param name="angle">The angle to rotate by.</param>
+		/// <param name="axis">The axis to rotate on.</param>
+		/// <returns>A copy of the given Matrix, rotated.</returns>
+		Matrix4 rotate(Matrix4 const& matrix, Float const angle, Float3 const& axis);
+
+		/// <summary>
+		/// Rotates the given matrix by the given Quaternion.
+		/// </summary>
+		/// <param name="matrix">The Matrix to rotate.</param>
+		/// <param name="value">The Quaternion to rotate by.</param>
+		/// <returns>A copy of the given Matrix, rotated.</returns>
+		Matrix4 rotate(Matrix4 const& matrix, Quaternion const& value);
 
 		/// <summary>
 		/// Gets the position from this 3D matrix.
