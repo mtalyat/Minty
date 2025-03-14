@@ -332,6 +332,18 @@ namespace Minty
 		/// <returns>True if the Path is empty.</returns>
 		constexpr Bool is_empty() const { return get_size() == 0; }
 
+		/// <summary>
+		/// Checks if this Path has an extension.
+		/// </summary>
+		/// <returns>True, if there is an extension.</returns>
+		Bool has_extension() const { return m_path.has_extension(); }
+
+		/// <summary>
+		/// Gets the extension of this Path.
+		/// </summary>
+		/// <returns>The extension as a Path.</returns>
+		Path get_extension() { return Path(m_path.extension().string().c_str()); }
+
 #pragma endregion
 
 #pragma region Statics
@@ -366,7 +378,6 @@ namespace Minty
 		static Size get_file_size(Path const& path);
 
 #pragma endregion
-
 	};
 }
 
