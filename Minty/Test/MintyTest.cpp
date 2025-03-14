@@ -4,6 +4,7 @@
 // Core
 #include "Test_Base.h"
 #include "Test_Compression.h"
+#include "Test_Math.h"
 
 // Data
 #include "Test_Array.h"
@@ -60,6 +61,7 @@ static void run_tests()
 	// Core
 	test_Base(_test);
 	test_Compression(_test);
+	test_Math(_test);
 
 	// Data
 	test_Array(_test);

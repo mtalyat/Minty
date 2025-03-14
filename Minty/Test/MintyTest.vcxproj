@@ -111,13 +111,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,15 +128,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -151,6 +151,7 @@
     <ClCompile Include="Test_File.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
+    <ClCompile Include="Test_Math.cpp" />
     <ClCompile Include="Test_MemoryManager.cpp" />
     <ClCompile Include="Test_MemoryPool.cpp" />
     <ClCompile Include="Test_MemoryStack.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Test_File.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />
+    <ClInclude Include="Test_Math.h" />
     <ClInclude Include="Test_MemoryManager.h" />
     <ClInclude Include="Test_MemoryPool.h" />
     <ClInclude Include="Test_MemoryStack.h" />
