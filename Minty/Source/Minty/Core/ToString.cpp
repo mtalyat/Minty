@@ -62,4 +62,11 @@ String Minty::to_string(Double const value)
 	MINTY_TO_STRING(value);
 }
 
+String Minty::to_string(UUID const value)
+{
+	std::stringstream ss;
+	ss << std::hex << value.get_data();
+	return String(ss.str().data());
+}
+
 #undef MINTY_TO_STRING

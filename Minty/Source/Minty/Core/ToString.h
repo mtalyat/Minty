@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/UUID.h"
 
 namespace Minty
 {
@@ -21,4 +22,5 @@ namespace Minty
 	String to_string(ULong const value);
 	String to_string(Float const value);
 	String to_string(Double const value);
+	String to_string(UUID const value);
 }
