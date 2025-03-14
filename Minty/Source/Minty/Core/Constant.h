@@ -28,6 +28,30 @@ namespace Minty
 
 #pragma region Extensions
 
+	constexpr Char const* EXTENSION_ANIMATION = ".mani";
+	constexpr Char const* EXTENSION_ANIMATOR = ".manr";
+	constexpr Char const* EXTENSION_AUDIO_CLIP_WAV = ".wav";
+	constexpr Char const* EXTENSION_AUDIO_CLIP_MP3 = ".mp3";
+	constexpr Char const* EXTENSION_BITMAP = ".bmp";
+	constexpr Char const* EXTENSION_CSV = ".csv";
+	constexpr Char const* EXTENSION_FONT = ".mfnt";
+	constexpr Char const* EXTENSION_FONT_VARIANT = ".fnt";
+	constexpr Char const* EXTENSION_JPEG = ".jpeg";
+	constexpr Char const* EXTENSION_JPG = ".jpg";
+	constexpr Char const* EXTENSION_MATERIAL = ".mmat";
+	constexpr Char const* EXTENSION_MATERIAL_TEMPLATE = ".mmtp";
+	constexpr Char const* EXTENSION_MESH_OBJECT = ".obj";
+	constexpr Char const* EXTENSION_META = ".meta";
+	constexpr Char const* EXTENSION_PNG = ".png";
+	constexpr Char const* EXTENSION_SCENE = ".msce";
+	constexpr Char const* EXTENSION_SCRIPT = ".cs";
+	constexpr Char const* EXTENSION_SHADER = ".msha";
+	constexpr Char const* EXTENSION_SHADER_CODE = ".glsl";
+	constexpr Char const* EXTENSION_SHADER_CODE_FRAGMENT = ".frag";
+	constexpr Char const* EXTENSION_SHADER_CODE_VERTEX = ".vert";
+	constexpr Char const* EXTENSION_SHADER_MODULE = ".spv";
+	constexpr Char const* EXTENSION_SPRITE = ".mspr";
+	constexpr Char const* EXTENSION_TEXT = ".txt";
 	constexpr Char const* EXTENSION_WRAP = ".wrap";
 
 #pragma endregion
