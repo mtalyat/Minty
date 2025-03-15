@@ -132,6 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a54b5230c6f960d4a6c78dbcf1700f72a" id="r_a54b5230c6f960d4a6c78dbcf1700f72a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54b5230c6f960d4a6c78dbcf1700f72a">DynamicContainer</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
 <tr class="memdesc:a54b5230c6f960d4a6c78dbcf1700f72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_dynamic_container.html" title="A Container of Bytes with a dynamic capacity and size.">DynamicContainer</a> with the given capacity.  <br /></td></tr>
 <tr class="separator:a54b5230c6f960d4a6c78dbcf1700f72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97ae745d085bb1eb6d91bc9f380d5584" id="r_a97ae745d085bb1eb6d91bc9f380d5584"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97ae745d085bb1eb6d91bc9f380d5584">DynamicContainer</a> (void const *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
+<tr class="memdesc:a97ae745d085bb1eb6d91bc9f380d5584"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_dynamic_container.html" title="A Container of Bytes with a dynamic capacity and size.">DynamicContainer</a> with the given data and size.  <br /></td></tr>
+<tr class="separator:a97ae745d085bb1eb6d91bc9f380d5584"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add80132dbf7699261f7fb7118483ffee" id="r_add80132dbf7699261f7fb7118483ffee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add80132dbf7699261f7fb7118483ffee">DynamicContainer</a> (<a class="el" href="class_minty_1_1_dynamic_container.html">DynamicContainer</a> const &amp;other)</td></tr>
 <tr class="memdesc:add80132dbf7699261f7fb7118483ffee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies the given DynamicAllocator.  <br /></td></tr>
 <tr class="separator:add80132dbf7699261f7fb7118483ffee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,7 +211,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>A <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a> of Bytes with a dynamic capacity and size. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aad4af49b1ebef612c886aaf8e0f9cace" name="aad4af49b1ebef612c886aaf8e0f9cace"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad4af49b1ebef612c886aaf8e0f9cace">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aad4af49b1ebef612c886aaf8e0f9cace">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,7 +244,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="a54b5230c6f960d4a6c78dbcf1700f72a" name="a54b5230c6f960d4a6c78dbcf1700f72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54b5230c6f960d4a6c78dbcf1700f72a">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[2/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b5230c6f960d4a6c78dbcf1700f72a">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,8 +281,52 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a97ae745d085bb1eb6d91bc9f380d5584" name="a97ae745d085bb1eb6d91bc9f380d5584"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97ae745d085bb1eb6d91bc9f380d5584">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::DynamicContainer::DynamicContainer </td>
+          <td>(</td>
+          <td class="paramtype">void const *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a <a class="el" href="class_minty_1_1_dynamic_container.html" title="A Container of Bytes with a dynamic capacity and size.">DynamicContainer</a> with the given data and size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The byte data.</td></tr>
+    <tr><td class="paramname">size</td><td>The size of the data in bytes.</td></tr>
+    <tr><td class="paramname">allocator</td><td>The allocator to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="add80132dbf7699261f7fb7118483ffee" name="add80132dbf7699261f7fb7118483ffee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add80132dbf7699261f7fb7118483ffee">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#add80132dbf7699261f7fb7118483ffee">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -312,7 +359,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="ad385e2abf457ec83c650331811d9247b" name="ad385e2abf457ec83c650331811d9247b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad385e2abf457ec83c650331811d9247b">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[4/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad385e2abf457ec83c650331811d9247b">&#9670;&#160;</a></span>DynamicContainer() <span class="overload">[5/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"namespace_minty.html#ada6729f65a0f551ef39be4fe0bfffa5c":[0,0,0,56],
+"namespace_minty.html#adc08b73350b5085b5a73daff2f95e53f":[0,0,0,132],
 "namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8":[0,0,0,131],
 "namespace_minty.html#adc3877dcb07572ade8c29f4dcf3d03c0":[0,0,0,140],
 "namespace_minty.html#ae1b2585100ce4f36087baa95c74b6b46":[0,0,0,137],

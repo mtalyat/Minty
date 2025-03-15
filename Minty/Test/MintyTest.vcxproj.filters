@@ -129,6 +129,9 @@
     <ClCompile Include="Test_StaticContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_DynamicContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_StaticContainer.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_DynamicContainer.h">
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
   </ItemGroup>

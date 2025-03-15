@@ -33,6 +33,21 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Creates a DynamicContainer with the given data and size.
+		/// </summary>
+		/// <param name="data">The byte data.</param>
+		/// <param name="size">The size of the data in bytes.</param>
+		/// <param name="allocator">The allocator to use.</param>
+		DynamicContainer(void const* const data, Size const size, Allocator const allocator = Allocator::Default)
+			: MemoryContainer(allocator)
+		{
+			if (data && size)
+			{
+				set(data, size);
+			}
+		}
+
+		/// <summary>
 		/// Copies the given DynamicAllocator.
 		/// </summary>
 		/// <param name="other">The DynamicAllocator to copy.</param>

@@ -10,6 +10,7 @@
 #include "Test_Array.h"
 #include "Test_Color.h"
 #include "Test_ConstantContainer.h"
+#include "Test_DynamicContainer.h"
 #include "Test_List.h"
 #include "Test_Map.h"
 #include "Test_Pair.h"
@@ -70,6 +71,7 @@ static void run_tests()
 	test_Array(_test);
 	test_Color(_test);
 	test_ConstantContainer(_test);
+	test_DynamicContainer(_test);
 	test_List(_test);
 	test_Map(_test);
 	test_Pair(_test);
