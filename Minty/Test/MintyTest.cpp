@@ -9,6 +9,7 @@
 // Data
 #include "Test_Array.h"
 #include "Test_Color.h"
+#include "Test_ConstantContainer.h"
 #include "Test_List.h"
 #include "Test_Map.h"
 #include "Test_Pair.h"
@@ -16,6 +17,7 @@
 #include "Test_Set.h"
 #include "Test_Stack.h"
 #include "Test_String.h"
+#include "Test_UUID.h"
 #include "Test_Vector.h"
 
 // Debug
@@ -66,6 +68,7 @@ static void run_tests()
 	// Data
 	test_Array(_test);
 	test_Color(_test);
+	test_ConstantContainer(_test);
 	test_List(_test);
 	test_Map(_test);
 	test_Pair(_test);
@@ -73,6 +76,7 @@ static void run_tests()
 	test_Set(_test);
 	test_Stack(_test);
 	test_String(_test);
+	test_UUID(_test);
 	test_Vector(_test);
 
 	// File

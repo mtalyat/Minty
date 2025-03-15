@@ -8,5 +8,5 @@ var class_minty_1_1_static_container =
     [ "operator=", "class_minty_1_1_static_container.html#aa0747b003f69a744fa72c38bb6fd2171", null ],
     [ "operator=", "class_minty_1_1_static_container.html#a318c065fd414faf4e54f6bc757bc0086", null ],
     [ "reserve", "class_minty_1_1_static_container.html#a9e1bbb5b90424f6c69e2e0b0b2a29e3c", null ],
-    [ "resize", "class_minty_1_1_static_container.html#ade067a90c30c84c003537bd6bc2a0a44", null ]
+    [ "resize", "class_minty_1_1_static_container.html#a6386096085f3a05745e182a1bc15c608", null ]
 ];

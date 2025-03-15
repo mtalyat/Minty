@@ -141,10 +141,19 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aad440fac94831dbab0783be2972ef436"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae297209c3b70046c04fdbfcd0d277021" id="r_ae297209c3b70046c04fdbfcd0d277021"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_memory_container.html">MemoryContainer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae297209c3b70046c04fdbfcd0d277021">operator=</a> (<a class="el" href="class_minty_1_1_memory_container.html">MemoryContainer</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="separator:ae297209c3b70046c04fdbfcd0d277021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa896fc3be9fd9b6c5a52ca55e11035d6" id="r_aa896fc3be9fd9b6c5a52ca55e11035d6"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa896fc3be9fd9b6c5a52ca55e11035d6">get_data</a> () const override</td></tr>
+<tr class="memdesc:aa896fc3be9fd9b6c5a52ca55e11035d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the internal data pointer.  <br /></td></tr>
+<tr class="separator:aa896fc3be9fd9b6c5a52ca55e11035d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67704a9c3113ae1efa52677c892223f7" id="r_a67704a9c3113ae1efa52677c892223f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67704a9c3113ae1efa52677c892223f7">get_size</a> () const override</td></tr>
+<tr class="memdesc:a67704a9c3113ae1efa52677c892223f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of bytes in this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>.  <br /></td></tr>
+<tr class="separator:a67704a9c3113ae1efa52677c892223f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9afc1ceb4cf840014f116c29382bd437" id="r_a9afc1ceb4cf840014f116c29382bd437"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9afc1ceb4cf840014f116c29382bd437">get_capacity</a> () const override</td></tr>
+<tr class="memdesc:a9afc1ceb4cf840014f116c29382bd437"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum number of bytes in this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>.  <br /></td></tr>
+<tr class="separator:a9afc1ceb4cf840014f116c29382bd437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0cd7891036fb9098b661389381fce84" id="r_af0cd7891036fb9098b661389381fce84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0cd7891036fb9098b661389381fce84">set_at</a> (void const *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const index) override</td></tr>
 <tr class="memdesc:af0cd7891036fb9098b661389381fce84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the bytes at the given index and size.  <br /></td></tr>
 <tr class="separator:af0cd7891036fb9098b661389381fce84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a502a6f012b6469e27b93214477c89a36" id="r_a502a6f012b6469e27b93214477c89a36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a502a6f012b6469e27b93214477c89a36">clear</a> () override</td></tr>
+<tr class="memitem:a502a6f012b6469e27b93214477c89a36" id="r_a502a6f012b6469e27b93214477c89a36"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a502a6f012b6469e27b93214477c89a36">clear</a> () override</td></tr>
 <tr class="memdesc:a502a6f012b6469e27b93214477c89a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all data out of this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>.  <br /></td></tr>
 <tr class="separator:a502a6f012b6469e27b93214477c89a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a335b2c58eee108e6b8163af538a58c92" id="r_a335b2c58eee108e6b8163af538a58c92"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a335b2c58eee108e6b8163af538a58c92">resize</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size) override</td></tr>
@@ -155,15 +164,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aab04a22f38bd31295255d47c48398308 inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3fcff8e7bfa5bd002b6d099f05c8bd7 inherit pub_methods_class_minty_1_1_container" id="r_ae3fcff8e7bfa5bd002b6d099f05c8bd7"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#ae3fcff8e7bfa5bd002b6d099f05c8bd7">~Container</a> ()=default</td></tr>
 <tr class="separator:ae3fcff8e7bfa5bd002b6d099f05c8bd7 inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3857b6ff76e837b13b64516b70309ad inherit pub_methods_class_minty_1_1_container" id="r_ac3857b6ff76e837b13b64516b70309ad"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#ac3857b6ff76e837b13b64516b70309ad">get_data</a> () const =0</td></tr>
-<tr class="memdesc:ac3857b6ff76e837b13b64516b70309ad inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the internal data pointer.  <br /></td></tr>
-<tr class="separator:ac3857b6ff76e837b13b64516b70309ad inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebb21052c2d909779ae8795d89fa4ebd inherit pub_methods_class_minty_1_1_container" id="r_aebb21052c2d909779ae8795d89fa4ebd"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#aebb21052c2d909779ae8795d89fa4ebd">get_size</a> () const =0</td></tr>
-<tr class="memdesc:aebb21052c2d909779ae8795d89fa4ebd inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of bytes in this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>.  <br /></td></tr>
-<tr class="separator:aebb21052c2d909779ae8795d89fa4ebd inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f1ab1c81cac25bdc6be2a0e7159c01b inherit pub_methods_class_minty_1_1_container" id="r_a6f1ab1c81cac25bdc6be2a0e7159c01b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#a6f1ab1c81cac25bdc6be2a0e7159c01b">get_capacity</a> () const =0</td></tr>
-<tr class="memdesc:a6f1ab1c81cac25bdc6be2a0e7159c01b inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the maximum number of bytes in this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>.  <br /></td></tr>
-<tr class="separator:a6f1ab1c81cac25bdc6be2a0e7159c01b inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c6ab2da7bec62ecfa6d3d213269c13 inherit pub_methods_class_minty_1_1_container" id="r_a58c6ab2da7bec62ecfa6d3d213269c13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#a58c6ab2da7bec62ecfa6d3d213269c13">set</a> (void const *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)</td></tr>
 <tr class="memdesc:a58c6ab2da7bec62ecfa6d3d213269c13 inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes and sets the data to the given bytes.  <br /></td></tr>
 <tr class="separator:a58c6ab2da7bec62ecfa6d3d213269c13 inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,6 +320,98 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_minty_1_1_container.html#a1c2b47a4c79acd6ca370789bc842a14b">Minty::Container</a>.</p>
 
+<p>Reimplemented in <a class="el" href="class_minty_1_1_constant_container.html#a79df24e2e7f059692a5957e61b6742d1">Minty::ConstantContainer</a>.</p>
+
+</div>
+</div>
+<a id="a9afc1ceb4cf840014f116c29382bd437" name="a9afc1ceb4cf840014f116c29382bd437"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9afc1ceb4cf840014f116c29382bd437">&#9670;&#160;</a></span>get_capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::MemoryContainer::get_capacity </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the maximum number of bytes in this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The capacity in bytes.</dd></dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_container.html#a6f1ab1c81cac25bdc6be2a0e7159c01b">Minty::Container</a>.</p>
+
+</div>
+</div>
+<a id="aa896fc3be9fd9b6c5a52ca55e11035d6" name="aa896fc3be9fd9b6c5a52ca55e11035d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa896fc3be9fd9b6c5a52ca55e11035d6">&#9670;&#160;</a></span>get_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void * Minty::MemoryContainer::get_data </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the internal data pointer. </p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the internal data.</dd></dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_container.html#ac3857b6ff76e837b13b64516b70309ad">Minty::Container</a>.</p>
+
+</div>
+</div>
+<a id="a67704a9c3113ae1efa52677c892223f7" name="a67704a9c3113ae1efa52677c892223f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67704a9c3113ae1efa52677c892223f7">&#9670;&#160;</a></span>get_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::MemoryContainer::get_size </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the number of bytes in this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The size in bytes.</dd></dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_container.html#aebb21052c2d909779ae8795d89fa4ebd">Minty::Container</a>.</p>
+
 </div>
 </div>
 <a id="ae297209c3b70046c04fdbfcd0d277021" name="ae297209c3b70046c04fdbfcd0d277021"></a>
@@ -406,7 +498,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_minty_1_1_container.html#abaaa316b5e2711174213650f989a4a26">Minty::Container</a>.</p>
 
-<p>Reimplemented in <a class="el" href="class_minty_1_1_constant_container.html#a5cbf288842ee0ac8e7f2382a2926d28d">Minty::ConstantContainer</a>, and <a class="el" href="class_minty_1_1_static_container.html#ade067a90c30c84c003537bd6bc2a0a44">Minty::StaticContainer</a>.</p>
+<p>Reimplemented in <a class="el" href="class_minty_1_1_constant_container.html#a5cbf288842ee0ac8e7f2382a2926d28d">Minty::ConstantContainer</a>, and <a class="el" href="class_minty_1_1_static_container.html#a6386096085f3a05745e182a1bc15c608">Minty::StaticContainer</a>.</p>
 
 </div>
 </div>

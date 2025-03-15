@@ -146,6 +146,7 @@
     <ClCompile Include="Test_Base.cpp" />
     <ClCompile Include="Test_Color.cpp" />
     <ClCompile Include="Test_Compression.cpp" />
+    <ClCompile Include="Test_ConstantContainer.cpp" />
     <ClCompile Include="Test_Debug.cpp" />
     <ClCompile Include="Test_DualBuffer.cpp" />
     <ClCompile Include="Test_File.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Test_Base.h" />
     <ClInclude Include="Test_Color.h" />
     <ClInclude Include="Test_Compression.h" />
+    <ClInclude Include="Test_ConstantContainer.h" />
     <ClInclude Include="Test_Debug.h" />
     <ClInclude Include="Test_DualBuffer.h" />
     <ClInclude Include="Test_File.h" />

@@ -247,6 +247,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
+    <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
     <ClCompile Include="Minty\Data\Container.cpp" />
     <ClCompile Include="Minty\Data\DynamicContainer.cpp" />
     <ClCompile Include="Minty\Data\MemoryContainer.cpp" />

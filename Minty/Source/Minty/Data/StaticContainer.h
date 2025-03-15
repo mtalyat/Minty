@@ -90,14 +90,14 @@ namespace Minty
 		/// Does nothing. Static containers cannot change capacity.
 		/// </summary>
 		/// <param name="capacity">The capacity in bytes.</param>
-		/// <returns>False.</returns>
-		Bool reserve(Size const capacity) override { return false; }
+		/// <returns>True if capacity is equal to the current capacity, otherwise false.</returns>
+		Bool reserve(Size const capacity) override { return capacity == m_capacity; }
 
 		/// <summary>
 		/// Sets the new size for this Container.
 		/// </summary>
 		/// <param name="size">The number of bytes.</param>
 		/// <returns>True on success.</returns>
-		Bool resize(Size const newSize) override;
+		Bool resize(Size const size) override;
 	};
 }

@@ -27,13 +27,13 @@ namespace Minty
 		/// <param name="size">The size of the ConstantContainer in bytes.</param>
 		/// <param name="allocator">The Allocator to use.</param>
 		ConstantContainer(Size const size, Allocator const allocator = Allocator::Default)
-			: MemoryContainer()
+			: MemoryContainer(allocator)
 		{
 			if (size)
 			{
-				mp_data = new Byte[size];
 				m_capacity = size;
 				m_size = size;
+				mp_data = static_cast<Byte*>(allocate(size, m_allocator));
 			}
 		}
 
@@ -42,14 +42,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="data">The byte data.</param>
 		/// <param name="size">The size of the data in bytes.</param>
-		ConstantContainer(void const* const data, Size const size)
-			: MemoryContainer()
+		ConstantContainer(void const* const data, Size const size, Allocator const allocator = Allocator::Default)
+			: MemoryContainer(allocator)
 		{
 			if (data && size)
 			{
-				mp_data = new Byte[size];
 				m_capacity = size;
 				m_size = size;
+				mp_data = static_cast<Byte*>(allocate(size, m_allocator));
 				memcpy(mp_data, data, size);
 			}
 		}
@@ -111,18 +111,23 @@ namespace Minty
 		Bool append(void const* const data, Size const size) override { return false; }
 
 		/// <summary>
+		/// Clears all data out of this Container.
+		/// </summary>
+		void clear() override;
+
+		/// <summary>
 		/// Does nothing.
 		/// </summary>
 		/// <param name="size">The size in bytes.</param>
-		/// <returns>False.</returns>
-		Bool resize(Size const size) override { return false; }
+		/// <returns>True if size is equal to the current size, otherwise false.</returns>
+		Bool resize(Size const size) override { return size == m_size; }
 
 		/// <summary>
 		/// Does nothing.
 		/// </summary>
 		/// <param name="capacity">The capacity in bytes.</param>
-		/// <returns>False.</returns>
-		Bool reserve(Size const capacity) override { return false; }
+		/// <returns>True if capacity is equal to the current capacity, otherwise false.</returns>
+		Bool reserve(Size const capacity) override { return capacity == m_capacity; }
 
 #pragma endregion
 	};

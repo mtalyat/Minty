@@ -1,5 +1,5 @@
 # Results
-3143/3143 (100.00%)
+3266/3266 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -15,6 +15,7 @@
 | Array::ConstReverseIterator    |       85 |        0 |
 | Array                          |       55 |        0 |
 | Color                          |       72 |        0 |
+| ConstantContainer              |       71 |        0 |
 | List::Iterator                 |       85 |        0 |
 | List::ConstIterator            |       82 |        0 |
 | List::ReverseIterator          |       82 |        0 |
@@ -32,6 +33,7 @@
 | String::Iterator               |       89 |        0 |
 | String::ConstIterator          |       89 |        0 |
 | String                         |      152 |        0 |
+| UUID                           |       52 |        0 |
 | Vector::Iterator               |       85 |        0 |
 | Vector::ConstIterator          |       85 |        0 |
 | Vector::ReverseIterator        |       85 |        0 |
@@ -91,7 +93,7 @@ No failures! :)
 |  PASS  | 44: Set Background Color (OUTPUT == "\033[106m")                                                                                 |
 |  PASS  | 45: Set Background Color (OUTPUT == "\033[107m")                                                                                 |
 |  PASS  | 50: Reset (OUTPUT == "\033[0m")                                                                                                  |
-|  PASS  | 55: Reset (_test.get_output() == "\033[31m\033[0m")                                                                              |
+|  PASS  | 55: Reset ("\033[31m\033[0m")                                                                                                    |
 |  PASS  | 60: Write (OUTPUT == "")                                                                                                         |
 |  PASS  | 62: Write (OUTPUT == "Hello, World!")                                                                                            |
 |  PASS  | 63: Write (OUTPUT == "Hello, World! 13")                                                                                         |
@@ -130,132 +132,132 @@ No failures! :)
 ## Math
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 10: Min (Math::min(1, 2) == 1)                                                                                                   |
-|  PASS  | 11: Min (Math::min(2, 1) == 1)                                                                                                   |
-|  PASS  | 12: Min (Math::min(1, 1) == 1)                                                                                                   |
-|  PASS  | 13: Min (Math::min(1, 2, 3) == 1)                                                                                                |
-|  PASS  | 14: Min (Math::min(2, 1, 3) == 1)                                                                                                |
-|  PASS  | 15: Min (Math::min(3, 2, 1) == 1)                                                                                                |
-|  PASS  | 20: Max (Math::max(1, 2) == 2)                                                                                                   |
-|  PASS  | 21: Max (Math::max(2, 1) == 2)                                                                                                   |
-|  PASS  | 22: Max (Math::max(1, 1) == 1)                                                                                                   |
-|  PASS  | 23: Max (Math::max(1, 2, 3) == 3)                                                                                                |
-|  PASS  | 24: Max (Math::max(2, 1, 3) == 3)                                                                                                |
-|  PASS  | 25: Max (Math::max(3, 2, 1) == 3)                                                                                                |
-|  PASS  | 30: Clamp (Math::clamp(1, 2, 3) == 2)                                                                                            |
-|  PASS  | 31: Clamp (Math::clamp(2, 2, 3) == 2)                                                                                            |
-|  PASS  | 32: Clamp (Math::clamp(3, 2, 3) == 3)                                                                                            |
-|  PASS  | 33: Clamp (Math::clamp(4, 2, 3) == 3)                                                                                            |
-|  PASS  | 38: Lerp (Math::lerp(2.0f, 6.0f, 0.0f) == 2.0f)                                                                                  |
-|  PASS  | 39: Lerp (Math::lerp(2.0f, 6.0f, 0.5f) == 4.0f)                                                                                  |
-|  PASS  | 40: Lerp (Math::lerp(2.0f, 6.0f, 1.0f) == 6.0f)                                                                                  |
-|  PASS  | 41: Lerp (Math::lerp(2.0f, 6.0f, 2.0f) == 10.0f)                                                                                 |
-|  PASS  | 46: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 0.0f) == 2.0f)                                                                  |
-|  PASS  | 47: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 0.5f) == 4.0f)                                                                  |
-|  PASS  | 48: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 1.0f) == 6.0f)                                                                  |
-|  PASS  | 49: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 2.0f) == 6.0f)                                                                  |
-|  PASS  | 54: Round (std::abs(Math::round(1.0) - 1) < 0.01f)                                                                               |
-|  PASS  | 55: Round (std::abs(Math::round(1.4) - 1) < 0.01f)                                                                               |
-|  PASS  | 56: Round (std::abs(Math::round(1.5) - 2) < 0.01f)                                                                               |
-|  PASS  | 57: Round (std::abs(Math::round(1.6) - 2) < 0.01f)                                                                               |
-|  PASS  | 58: Round (std::abs(Math::round(112.567, -2) - 112.57) < 0.01f)                                                                  |
-|  PASS  | 59: Round (std::abs(Math::round(112.567, -1) - 112.6) < 0.01f)                                                                   |
-|  PASS  | 60: Round (std::abs(Math::round(112.567, 0) - 113.0) < 0.01f)                                                                    |
-|  PASS  | 61: Round (std::abs(Math::round(112.567, 1) - 110.0) < 0.01f)                                                                    |
-|  PASS  | 62: Round (std::abs(Math::round(112.567, 2) - 100.0) < 0.01f)                                                                    |
-|  PASS  | 67: Floor (std::abs(Math::floor(1.0) - 1) < 0.01f)                                                                               |
-|  PASS  | 68: Floor (std::abs(Math::floor(1.4) - 1) < 0.01f)                                                                               |
-|  PASS  | 69: Floor (std::abs(Math::floor(1.5) - 1) < 0.01f)                                                                               |
-|  PASS  | 70: Floor (std::abs(Math::floor(1.6) - 1) < 0.01f)                                                                               |
-|  PASS  | 71: Floor (std::abs(Math::floor(112.567, -2) - 112.56) < 0.01f)                                                                  |
-|  PASS  | 72: Floor (std::abs(Math::floor(112.567, -1) - 112.5) < 0.01f)                                                                   |
-|  PASS  | 73: Floor (std::abs(Math::floor(112.567, 0) - 112.0) < 0.01f)                                                                    |
-|  PASS  | 74: Floor (std::abs(Math::floor(112.567, 1) - 110.0) < 0.01f)                                                                    |
-|  PASS  | 75: Floor (std::abs(Math::floor(112.567, 2) - 100.0) < 0.01f)                                                                    |
-|  PASS  | 80: Ceiling (std::abs(Math::ceiling(1.0) - 1) < 0.01f)                                                                           |
-|  PASS  | 81: Ceiling (std::abs(Math::ceiling(1.4) - 2) < 0.01f)                                                                           |
-|  PASS  | 82: Ceiling (std::abs(Math::ceiling(1.5) - 2) < 0.01f)                                                                           |
-|  PASS  | 83: Ceiling (std::abs(Math::ceiling(1.6) - 2) < 0.01f)                                                                           |
-|  PASS  | 84: Ceiling (std::abs(Math::ceiling(112.567, -2) - 112.57) < 0.01f)                                                              |
-|  PASS  | 85: Ceiling (std::abs(Math::ceiling(112.567, -1) - 112.6) < 0.01f)                                                               |
-|  PASS  | 86: Ceiling (std::abs(Math::ceiling(112.567, 0) - 113.0) < 0.01f)                                                                |
-|  PASS  | 87: Ceiling (std::abs(Math::ceiling(112.567, 1) - 120.0) < 0.01f)                                                                |
-|  PASS  | 88: Ceiling (std::abs(Math::ceiling(112.567, 2) - 200.0) < 0.01f)                                                                |
-|  PASS  | 93: Abs (Math::abs(1) == 1)                                                                                                      |
-|  PASS  | 94: Abs (Math::abs(-1) == 1)                                                                                                     |
-|  PASS  | 95: Abs (Math::abs(1.0f) == 1.0f)                                                                                                |
-|  PASS  | 96: Abs (Math::abs(-1.0f) == 1.0f)                                                                                               |
-|  PASS  | 101: Sin (std::abs(Math::sin(0.0f) - 0.0f) < 0.01f)                                                                              |
-|  PASS  | 102: Sin (std::abs(Math::sin(Math::PI / 2.0f) - 1.0f) < 0.01f)                                                                   |
-|  PASS  | 103: Sin (std::abs(Math::sin(Math::PI) - 0.0f) < 0.01f)                                                                          |
-|  PASS  | 104: Sin (std::abs(Math::sin(3.0f * Math::PI / 2.0f) - -1.0f) < 0.01f)                                                           |
-|  PASS  | 105: Sin (std::abs(Math::sin(2.0f * Math::PI) - 0.0f) < 0.01f)                                                                   |
-|  PASS  | 110: Cos (std::abs(Math::cos(0.0f) - 1.0f) < 0.01f)                                                                              |
-|  PASS  | 111: Cos (std::abs(Math::cos(Math::PI / 2.0f) - 0.0f) < 0.01f)                                                                   |
-|  PASS  | 112: Cos (std::abs(Math::cos(Math::PI) - -1.0f) < 0.01f)                                                                         |
-|  PASS  | 113: Cos (std::abs(Math::cos(3.0f * Math::PI / 2.0f) - 0.0f) < 0.01f)                                                            |
-|  PASS  | 114: Cos (std::abs(Math::cos(2.0f * Math::PI) - 1.0f) < 0.01f)                                                                   |
-|  PASS  | 119: Tan (std::abs(Math::tan(0.0f) - 0.0f) < 0.01f)                                                                              |
-|  PASS  | 120: Tan (std::abs(Math::tan(Math::PI / 4.0f) - 1.0f) < 0.01f)                                                                   |
-|  PASS  | 121: Tan (std::abs(Math::tan(3.0f * Math::PI / 4.0f) - -1.0f) < 0.01f)                                                           |
-|  PASS  | 122: Tan (std::abs(Math::tan(Math::PI) - 0.0f) < 0.01f)                                                                          |
-|  PASS  | 127: Acos (std::abs(Math::acos(1.0f) - 0.0f) < 0.01f)                                                                            |
-|  PASS  | 128: Acos (std::abs(Math::acos(0.0f) - Math::PI / 2.0f) < 0.01f)                                                                 |
-|  PASS  | 129: Acos (std::abs(Math::acos(-1.0f) - Math::PI) < 0.01f)                                                                       |
-|  PASS  | 134: Asin (std::abs(Math::asin(0.0f) - 0.0f) < 0.01f)                                                                            |
-|  PASS  | 135: Asin (std::abs(Math::asin(1.0f) - Math::PI / 2.0f) < 0.01f)                                                                 |
-|  PASS  | 136: Asin (std::abs(Math::asin(-1.0f) - -Math::PI / 2.0f) < 0.01f)                                                               |
-|  PASS  | 141: Atan (std::abs(Math::atan(0.0f) - 0.0f) < 0.01f)                                                                            |
-|  PASS  | 142: Atan (std::abs(Math::atan(1.0f) - Math::PI / 4.0f) < 0.01f)                                                                 |
-|  PASS  | 143: Atan (std::abs(Math::atan(-1.0f) - -Math::PI / 4.0f) < 0.01f)                                                               |
-|  PASS  | 148: Atan2 (std::abs(Math::atan2(0.0f, 1.0f) - 0.0f) < 0.01f)                                                                    |
-|  PASS  | 149: Atan2 (std::abs(Math::atan2(1.0f, 0.0f) - Math::PI / 2.0f) < 0.01f)                                                         |
-|  PASS  | 150: Atan2 (std::abs(Math::atan2(0.0f, -1.0f) - Math::PI) < 0.01f)                                                               |
-|  PASS  | 151: Atan2 (std::abs(Math::atan2(-1.0f, 0.0f) - -Math::PI / 2.0f) < 0.01f)                                                       |
-|  PASS  | 156: Angle (std::abs(Math::angle(1.0f, 0.0f) - 0.0f) < 0.01f)                                                                    |
-|  PASS  | 157: Angle (std::abs(Math::angle(0.0f, 1.0f) - Math::PI / 2.0f) < 0.01f)                                                         |
-|  PASS  | 158: Angle (std::abs(Math::angle(-1.0f, 0.0f) - Math::PI) < 0.01f)                                                               |
-|  PASS  | 159: Angle (std::abs(Math::angle(0.0f, -1.0f) - -Math::PI / 2.0f) < 0.01f)                                                       |
-|  PASS  | 164: Sqrt (std::abs(Math::sqrt(0.0f) - 0.0f) < 0.01f)                                                                            |
-|  PASS  | 165: Sqrt (std::abs(Math::sqrt(1.0f) - 1.0f) < 0.01f)                                                                            |
-|  PASS  | 166: Sqrt (std::abs(Math::sqrt(4.0f) - 2.0f) < 0.01f)                                                                            |
-|  PASS  | 167: Sqrt (std::abs(Math::sqrt(9.0f) - 3.0f) < 0.01f)                                                                            |
-|  PASS  | 168: Sqrt (std::abs(Math::sqrt(16.0f) - 4.0f) < 0.01f)                                                                           |
-|  PASS  | 173: Pow (std::abs(Math::pow(0.0f, 0.0f) - 1.0f) < 0.01f)                                                                        |
-|  PASS  | 174: Pow (std::abs(Math::pow(0.0f, 1.0f) - 0.0f) < 0.01f)                                                                        |
-|  PASS  | 175: Pow (std::abs(Math::pow(1.0f, 0.0f) - 1.0f) < 0.01f)                                                                        |
-|  PASS  | 176: Pow (std::abs(Math::pow(1.0f, 1.0f) - 1.0f) < 0.01f)                                                                        |
-|  PASS  | 177: Pow (std::abs(Math::pow(2.0f, 0.0f) - 1.0f) < 0.01f)                                                                        |
-|  PASS  | 178: Pow (std::abs(Math::pow(2.0f, 1.0f) - 2.0f) < 0.01f)                                                                        |
-|  PASS  | 179: Pow (std::abs(Math::pow(2.0f, 2.0f) - 4.0f) < 0.01f)                                                                        |
-|  PASS  | 180: Pow (std::abs(Math::pow(2.0f, 3.0f) - 8.0f) < 0.01f)                                                                        |
-|  PASS  | 185: Magnitude (std::abs(Math::magnitude(0.0f, 0.0f) - 0.0f) < 0.01f)                                                            |
-|  PASS  | 186: Magnitude (std::abs(Math::magnitude(1.0f, 0.0f) - 1.0f) < 0.01f)                                                            |
-|  PASS  | 187: Magnitude (std::abs(Math::magnitude(0.0f, 1.0f) - 1.0f) < 0.01f)                                                            |
-|  PASS  | 188: Magnitude (std::abs(Math::magnitude(1.0f, 1.0f) - Math::sqrt(2.0f)) < 0.01f)                                                |
-|  PASS  | 189: Magnitude (std::abs(Math::magnitude(3.0f, 4.0f) - 5.0f) < 0.01f)                                                            |
-|  PASS  | 194: Sign (std::abs(Math::sign(0) - 0) < 0.01f)                                                                                  |
-|  PASS  | 195: Sign (std::abs(Math::sign(1) - 1) < 0.01f)                                                                                  |
-|  PASS  | 196: Sign (std::abs(Math::sign(-1) - -1) < 0.01f)                                                                                |
-|  PASS  | 197: Sign (std::abs(Math::sign(0.0f) - 0) < 0.01f)                                                                               |
-|  PASS  | 198: Sign (std::abs(Math::sign(1.0f) - 1) < 0.01f)                                                                               |
-|  PASS  | 199: Sign (std::abs(Math::sign(-1.0f) - -1) < 0.01f)                                                                             |
-|  PASS  | 204: Normalize (Math::normalize(Float3(0.0f, 0.0f, 0.0f)) == Float3(0.0f, 0.0f, 0.0f))                                           |
-|  PASS  | 205: Normalize (Math::normalize(Float3(24.0f, 0.0f, 0.0f)) == Float3(1.0f, 0.0f, 0.0f))                                          |
-|  PASS  | 206: Normalize (Math::normalize(Float3(0.0f, 24.0f, 0.0f)) == Float3(0.0f, 1.0f, 0.0f))                                          |
-|  PASS  | 207: Normalize (Math::normalize(Float3(0.0f, 0.0f, 24.0f)) == Float3(0.0f, 0.0f, 1.0f))                                          |
-|  PASS  | 208: Normalize (Math::normalize(Float3(24.0f, 24.0f, 24.0f)) == Float3(1.0f / Math::sqrt(3.0f)))                                 |
-|  PASS  | 209: Normalize (Math::normalize(Float3(3.0f, 4.0f, 0.0f)) == Float3(3.0f / 5.0f, 4.0f / 5.0f, 0.0f))                             |
-|  PASS  | 210: Normalize (Math::normalize(Float3(-24.0f, 0.0f, 0.0f)) == Float3(-1.0f, 0.0f, 0.0f))                                        |
-|  PASS  | 211: Normalize (Math::normalize(Float3(0.0f, -24.0f, 0.0f)) == Float3(0.0f, -1.0f, 0.0f))                                        |
-|  PASS  | 212: Normalize (Math::normalize(Float3(0.0f, 0.0f, -24.0f)) == Float3(0.0f, 0.0f, -1.0f))                                        |
-|  PASS  | 213: Normalize (Math::normalize(Float3(-24.0f, -24.0f, -24.0f)) == Float3(-1.0f / Math::sqrt(3.0f)))                             |
-|  PASS  | 214: Normalize (Math::normalize(Float3(-3.0f, -4.0f, 0.0f)) == Float3(-3.0f / 5.0f, -4.0f / 5.0f, 0.0f))                         |
-|  PASS  | 219: Magnitude (Math::magnitude(Float3(0.0f, 0.0f, 0.0f)) == 0.0f)                                                               |
-|  PASS  | 220: Magnitude (Math::magnitude(Float3(1.0f, 0.0f, 0.0f)) == 1.0f)                                                               |
-|  PASS  | 221: Magnitude (Math::magnitude(Float3(0.0f, 1.0f, 0.0f)) == 1.0f)                                                               |
-|  PASS  | 222: Magnitude (Math::magnitude(Float3(0.0f, 0.0f, 1.0f)) == 1.0f)                                                               |
-|  PASS  | 223: Magnitude (Math::magnitude(Float3(1.0f, 1.0f, 1.0f)) == Math::sqrt(3.0f))                                                   |
+|  PASS  | 10: Min (1)                                                                                                                      |
+|  PASS  | 11: Min (1)                                                                                                                      |
+|  PASS  | 12: Min (1)                                                                                                                      |
+|  PASS  | 13: Min (1)                                                                                                                      |
+|  PASS  | 14: Min (1)                                                                                                                      |
+|  PASS  | 15: Min (1)                                                                                                                      |
+|  PASS  | 20: Max (2)                                                                                                                      |
+|  PASS  | 21: Max (2)                                                                                                                      |
+|  PASS  | 22: Max (1)                                                                                                                      |
+|  PASS  | 23: Max (3)                                                                                                                      |
+|  PASS  | 24: Max (3)                                                                                                                      |
+|  PASS  | 25: Max (3)                                                                                                                      |
+|  PASS  | 30: Clamp (2)                                                                                                                    |
+|  PASS  | 31: Clamp (2)                                                                                                                    |
+|  PASS  | 32: Clamp (3)                                                                                                                    |
+|  PASS  | 33: Clamp (3)                                                                                                                    |
+|  PASS  | 38: Lerp (2.0f)                                                                                                                  |
+|  PASS  | 39: Lerp (4.0f)                                                                                                                  |
+|  PASS  | 40: Lerp (6.0f)                                                                                                                  |
+|  PASS  | 41: Lerp (10.0f)                                                                                                                 |
+|  PASS  | 46: Lerp Clamped (2.0f)                                                                                                          |
+|  PASS  | 47: Lerp Clamped (4.0f)                                                                                                          |
+|  PASS  | 48: Lerp Clamped (6.0f)                                                                                                          |
+|  PASS  | 49: Lerp Clamped (6.0f)                                                                                                          |
+|  PASS  | 54: Round (std::abs(Math::round(1.0) - 1))                                                                                       |
+|  PASS  | 55: Round (std::abs(Math::round(1.4) - 1))                                                                                       |
+|  PASS  | 56: Round (std::abs(Math::round(1.5) - 2))                                                                                       |
+|  PASS  | 57: Round (std::abs(Math::round(1.6) - 2))                                                                                       |
+|  PASS  | 58: Round (std::abs(Math::round(112.567, -2) - 112.57))                                                                          |
+|  PASS  | 59: Round (std::abs(Math::round(112.567, -1) - 112.6))                                                                           |
+|  PASS  | 60: Round (std::abs(Math::round(112.567, 0) - 113.0))                                                                            |
+|  PASS  | 61: Round (std::abs(Math::round(112.567, 1) - 110.0))                                                                            |
+|  PASS  | 62: Round (std::abs(Math::round(112.567, 2) - 100.0))                                                                            |
+|  PASS  | 67: Floor (std::abs(Math::floor(1.0) - 1))                                                                                       |
+|  PASS  | 68: Floor (std::abs(Math::floor(1.4) - 1))                                                                                       |
+|  PASS  | 69: Floor (std::abs(Math::floor(1.5) - 1))                                                                                       |
+|  PASS  | 70: Floor (std::abs(Math::floor(1.6) - 1))                                                                                       |
+|  PASS  | 71: Floor (std::abs(Math::floor(112.567, -2) - 112.56))                                                                          |
+|  PASS  | 72: Floor (std::abs(Math::floor(112.567, -1) - 112.5))                                                                           |
+|  PASS  | 73: Floor (std::abs(Math::floor(112.567, 0) - 112.0))                                                                            |
+|  PASS  | 74: Floor (std::abs(Math::floor(112.567, 1) - 110.0))                                                                            |
+|  PASS  | 75: Floor (std::abs(Math::floor(112.567, 2) - 100.0))                                                                            |
+|  PASS  | 80: Ceiling (std::abs(Math::ceiling(1.0) - 1))                                                                                   |
+|  PASS  | 81: Ceiling (std::abs(Math::ceiling(1.4) - 2))                                                                                   |
+|  PASS  | 82: Ceiling (std::abs(Math::ceiling(1.5) - 2))                                                                                   |
+|  PASS  | 83: Ceiling (std::abs(Math::ceiling(1.6) - 2))                                                                                   |
+|  PASS  | 84: Ceiling (std::abs(Math::ceiling(112.567, -2) - 112.57))                                                                      |
+|  PASS  | 85: Ceiling (std::abs(Math::ceiling(112.567, -1) - 112.6))                                                                       |
+|  PASS  | 86: Ceiling (std::abs(Math::ceiling(112.567, 0) - 113.0))                                                                        |
+|  PASS  | 87: Ceiling (std::abs(Math::ceiling(112.567, 1) - 120.0))                                                                        |
+|  PASS  | 88: Ceiling (std::abs(Math::ceiling(112.567, 2) - 200.0))                                                                        |
+|  PASS  | 93: Abs (1)                                                                                                                      |
+|  PASS  | 94: Abs (1)                                                                                                                      |
+|  PASS  | 95: Abs (1.0f)                                                                                                                   |
+|  PASS  | 96: Abs (1.0f)                                                                                                                   |
+|  PASS  | 101: Sin (std::abs(Math::sin(0.0f) - 0.0f))                                                                                      |
+|  PASS  | 102: Sin (std::abs(Math::sin(Math::PI / 2.0f) - 1.0f))                                                                           |
+|  PASS  | 103: Sin (std::abs(Math::sin(Math::PI) - 0.0f))                                                                                  |
+|  PASS  | 104: Sin (std::abs(Math::sin(3.0f * Math::PI / 2.0f) - -1.0f))                                                                   |
+|  PASS  | 105: Sin (std::abs(Math::sin(2.0f * Math::PI) - 0.0f))                                                                           |
+|  PASS  | 110: Cos (std::abs(Math::cos(0.0f) - 1.0f))                                                                                      |
+|  PASS  | 111: Cos (std::abs(Math::cos(Math::PI / 2.0f) - 0.0f))                                                                           |
+|  PASS  | 112: Cos (std::abs(Math::cos(Math::PI) - -1.0f))                                                                                 |
+|  PASS  | 113: Cos (std::abs(Math::cos(3.0f * Math::PI / 2.0f) - 0.0f))                                                                    |
+|  PASS  | 114: Cos (std::abs(Math::cos(2.0f * Math::PI) - 1.0f))                                                                           |
+|  PASS  | 119: Tan (std::abs(Math::tan(0.0f) - 0.0f))                                                                                      |
+|  PASS  | 120: Tan (std::abs(Math::tan(Math::PI / 4.0f) - 1.0f))                                                                           |
+|  PASS  | 121: Tan (std::abs(Math::tan(3.0f * Math::PI / 4.0f) - -1.0f))                                                                   |
+|  PASS  | 122: Tan (std::abs(Math::tan(Math::PI) - 0.0f))                                                                                  |
+|  PASS  | 127: Acos (std::abs(Math::acos(1.0f) - 0.0f))                                                                                    |
+|  PASS  | 128: Acos (std::abs(Math::acos(0.0f) - Math::PI / 2.0f))                                                                         |
+|  PASS  | 129: Acos (std::abs(Math::acos(-1.0f) - Math::PI))                                                                               |
+|  PASS  | 134: Asin (std::abs(Math::asin(0.0f) - 0.0f))                                                                                    |
+|  PASS  | 135: Asin (std::abs(Math::asin(1.0f) - Math::PI / 2.0f))                                                                         |
+|  PASS  | 136: Asin (std::abs(Math::asin(-1.0f) - -Math::PI / 2.0f))                                                                       |
+|  PASS  | 141: Atan (std::abs(Math::atan(0.0f) - 0.0f))                                                                                    |
+|  PASS  | 142: Atan (std::abs(Math::atan(1.0f) - Math::PI / 4.0f))                                                                         |
+|  PASS  | 143: Atan (std::abs(Math::atan(-1.0f) - -Math::PI / 4.0f))                                                                       |
+|  PASS  | 148: Atan2 (std::abs(Math::atan2(0.0f, 1.0f) - 0.0f))                                                                            |
+|  PASS  | 149: Atan2 (std::abs(Math::atan2(1.0f, 0.0f) - Math::PI / 2.0f))                                                                 |
+|  PASS  | 150: Atan2 (std::abs(Math::atan2(0.0f, -1.0f) - Math::PI))                                                                       |
+|  PASS  | 151: Atan2 (std::abs(Math::atan2(-1.0f, 0.0f) - -Math::PI / 2.0f))                                                               |
+|  PASS  | 156: Angle (std::abs(Math::angle(1.0f, 0.0f) - 0.0f))                                                                            |
+|  PASS  | 157: Angle (std::abs(Math::angle(0.0f, 1.0f) - Math::PI / 2.0f))                                                                 |
+|  PASS  | 158: Angle (std::abs(Math::angle(-1.0f, 0.0f) - Math::PI))                                                                       |
+|  PASS  | 159: Angle (std::abs(Math::angle(0.0f, -1.0f) - -Math::PI / 2.0f))                                                               |
+|  PASS  | 164: Sqrt (std::abs(Math::sqrt(0.0f) - 0.0f))                                                                                    |
+|  PASS  | 165: Sqrt (std::abs(Math::sqrt(1.0f) - 1.0f))                                                                                    |
+|  PASS  | 166: Sqrt (std::abs(Math::sqrt(4.0f) - 2.0f))                                                                                    |
+|  PASS  | 167: Sqrt (std::abs(Math::sqrt(9.0f) - 3.0f))                                                                                    |
+|  PASS  | 168: Sqrt (std::abs(Math::sqrt(16.0f) - 4.0f))                                                                                   |
+|  PASS  | 173: Pow (std::abs(Math::pow(0.0f, 0.0f) - 1.0f))                                                                                |
+|  PASS  | 174: Pow (std::abs(Math::pow(0.0f, 1.0f) - 0.0f))                                                                                |
+|  PASS  | 175: Pow (std::abs(Math::pow(1.0f, 0.0f) - 1.0f))                                                                                |
+|  PASS  | 176: Pow (std::abs(Math::pow(1.0f, 1.0f) - 1.0f))                                                                                |
+|  PASS  | 177: Pow (std::abs(Math::pow(2.0f, 0.0f) - 1.0f))                                                                                |
+|  PASS  | 178: Pow (std::abs(Math::pow(2.0f, 1.0f) - 2.0f))                                                                                |
+|  PASS  | 179: Pow (std::abs(Math::pow(2.0f, 2.0f) - 4.0f))                                                                                |
+|  PASS  | 180: Pow (std::abs(Math::pow(2.0f, 3.0f) - 8.0f))                                                                                |
+|  PASS  | 185: Magnitude (std::abs(Math::magnitude(0.0f, 0.0f) - 0.0f))                                                                    |
+|  PASS  | 186: Magnitude (std::abs(Math::magnitude(1.0f, 0.0f) - 1.0f))                                                                    |
+|  PASS  | 187: Magnitude (std::abs(Math::magnitude(0.0f, 1.0f) - 1.0f))                                                                    |
+|  PASS  | 188: Magnitude (std::abs(Math::magnitude(1.0f, 1.0f) - Math::sqrt(2.0f)))                                                        |
+|  PASS  | 189: Magnitude (std::abs(Math::magnitude(3.0f, 4.0f) - 5.0f))                                                                    |
+|  PASS  | 194: Sign (std::abs(Math::sign(0) - 0))                                                                                          |
+|  PASS  | 195: Sign (std::abs(Math::sign(1) - 1))                                                                                          |
+|  PASS  | 196: Sign (std::abs(Math::sign(-1) - -1))                                                                                        |
+|  PASS  | 197: Sign (std::abs(Math::sign(0.0f) - 0))                                                                                       |
+|  PASS  | 198: Sign (std::abs(Math::sign(1.0f) - 1))                                                                                       |
+|  PASS  | 199: Sign (std::abs(Math::sign(-1.0f) - -1))                                                                                     |
+|  PASS  | 204: Normalize (Float3(0.0f, 0.0f, 0.0f))                                                                                        |
+|  PASS  | 205: Normalize (Float3(1.0f, 0.0f, 0.0f))                                                                                        |
+|  PASS  | 206: Normalize (Float3(0.0f, 1.0f, 0.0f))                                                                                        |
+|  PASS  | 207: Normalize (Float3(0.0f, 0.0f, 1.0f))                                                                                        |
+|  PASS  | 208: Normalize (Float3(1.0f / Math::sqrt(3.0f)))                                                                                 |
+|  PASS  | 209: Normalize (Float3(3.0f / 5.0f, 4.0f / 5.0f, 0.0f))                                                                          |
+|  PASS  | 210: Normalize (Float3(-1.0f, 0.0f, 0.0f))                                                                                       |
+|  PASS  | 211: Normalize (Float3(0.0f, -1.0f, 0.0f))                                                                                       |
+|  PASS  | 212: Normalize (Float3(0.0f, 0.0f, -1.0f))                                                                                       |
+|  PASS  | 213: Normalize (Float3(-1.0f / Math::sqrt(3.0f)))                                                                                |
+|  PASS  | 214: Normalize (Float3(-3.0f / 5.0f, -4.0f / 5.0f, 0.0f))                                                                        |
+|  PASS  | 219: Magnitude (0.0f)                                                                                                            |
+|  PASS  | 220: Magnitude (1.0f)                                                                                                            |
+|  PASS  | 221: Magnitude (1.0f)                                                                                                            |
+|  PASS  | 222: Magnitude (1.0f)                                                                                                            |
+|  PASS  | 223: Magnitude (Math::sqrt(3.0f))                                                                                                |
 |  PASS  | 232: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
 |  PASS  | 238: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
 |  PASS  | 244: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
@@ -817,6 +819,81 @@ No failures! :)
 |  PASS  | 142: Greater Than Or Equal Operator (color2 >= color)                                                                            |
 |  PASS  | 144: Greater Than Or Equal Operator (color >= color3)                                                                            |
 |  PASS  | 145: Greater Than Or Equal Operator (!(color3 >= color))                                                                         |
+
+## ConstantContainer
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 11: Default Constructor (0)                                                                                                      |
+|  PASS  | 12: Default Constructor (0)                                                                                                      |
+|  PASS  | 13: Default Constructor (nullptr)                                                                                                |
+|  PASS  | 19: Size Constructor (5)                                                                                                         |
+|  PASS  | 20: Size Constructor (5)                                                                                                         |
+|  PASS  | 21: Size Constructor (nullptr)                                                                                                   |
+|  PASS  | 24: Size Constructor (0)                                                                                                         |
+|  PASS  | 25: Size Constructor (0)                                                                                                         |
+|  PASS  | 26: Size Constructor (nullptr)                                                                                                   |
+|  PASS  | 33: Data Constructor (sizeof(ID))                                                                                                |
+|  PASS  | 34: Data Constructor (sizeof(ID))                                                                                                |
+|  PASS  | 35: Data Constructor (nullptr)                                                                                                   |
+|  PASS  | 38: Data Constructor (0)                                                                                                         |
+|  PASS  | 39: Data Constructor (0)                                                                                                         |
+|  PASS  | 40: Data Constructor (nullptr)                                                                                                   |
+|  PASS  | 43: Data Constructor (0)                                                                                                         |
+|  PASS  | 44: Data Constructor (0)                                                                                                         |
+|  PASS  | 45: Data Constructor (nullptr)                                                                                                   |
+|  PASS  | 52: Copy Constructor (5)                                                                                                         |
+|  PASS  | 53: Copy Constructor (5)                                                                                                         |
+|  PASS  | 54: Copy Constructor (nullptr)                                                                                                   |
+|  PASS  | 61: Move Constructor (5)                                                                                                         |
+|  PASS  | 62: Move Constructor (5)                                                                                                         |
+|  PASS  | 63: Move Constructor (nullptr)                                                                                                   |
+|  PASS  | 71: Copy Assignment Operator (5)                                                                                                 |
+|  PASS  | 72: Copy Assignment Operator (5)                                                                                                 |
+|  PASS  | 73: Copy Assignment Operator (nullptr)                                                                                           |
+|  PASS  | 81: Move Assignment Operator (5)                                                                                                 |
+|  PASS  | 82: Move Assignment Operator (5)                                                                                                 |
+|  PASS  | 83: Move Assignment Operator (nullptr)                                                                                           |
+|  PASS  | 89: Get Capacity (5)                                                                                                             |
+|  PASS  | 95: Get Size (5)                                                                                                                 |
+|  PASS  | 102: Get Data (nullptr)                                                                                                          |
+|  PASS  | 105: Get Data (nullptr)                                                                                                          |
+|  PASS  | 117: Set At (value)                                                                                                              |
+|  PASS  | 117: Set At (value)                                                                                                              |
+|  PASS  | 117: Set At (value)                                                                                                              |
+|  PASS  | 117: Set At (value)                                                                                                              |
+|  PASS  | 120: Set At (test.set_at(nullptr, sizeof(ID), 0))                                                                                |
+|  PASS  | 121: Set At (test.set_at(&value, 0, 0))                                                                                          |
+|  PASS  | 122: Set At (test.set_at(&value, sizeof(ID), size * sizeof(ID) + 1))                                                             |
+|  PASS  | 130: Set (value)                                                                                                                 |
+|  PASS  | 132: Set (test.set(nullptr, sizeof(ID)))                                                                                         |
+|  PASS  | 133: Set (test.set(&value, 0))                                                                                                   |
+|  PASS  | 134: Set (test.set(&value, sizeof(ID) + 1))                                                                                      |
+|  PASS  | 141: Append (test.append(&value, sizeof(ID)))                                                                                    |
+|  PASS  | 142: Append (0)                                                                                                                  |
+|  PASS  | 143: Append (0)                                                                                                                  |
+|  PASS  | 144: Append (nullptr)                                                                                                            |
+|  PASS  | 151: Append Object (test.append_object(value))                                                                                   |
+|  PASS  | 152: Append Object (0)                                                                                                           |
+|  PASS  | 153: Append Object (0)                                                                                                           |
+|  PASS  | 154: Append Object (nullptr)                                                                                                     |
+|  PASS  | 161: Clear (sizeof(ID))                                                                                                          |
+|  PASS  | 162: Clear (sizeof(ID))                                                                                                          |
+|  PASS  | 163: Clear (nullptr)                                                                                                             |
+|  PASS  | 164: Clear (value)                                                                                                               |
+|  PASS  | 166: Clear (sizeof(ID))                                                                                                          |
+|  PASS  | 167: Clear (sizeof(ID))                                                                                                          |
+|  PASS  | 168: Clear (nullptr)                                                                                                             |
+|  PASS  | 169: Clear (0)                                                                                                                   |
+|  PASS  | 175: Reserve (test.reserve(0))                                                                                                   |
+|  PASS  | 176: Reserve (test.reserve(5))                                                                                                   |
+|  PASS  | 177: Reserve (0)                                                                                                                 |
+|  PASS  | 178: Reserve (0)                                                                                                                 |
+|  PASS  | 179: Reserve (nullptr)                                                                                                           |
+|  PASS  | 185: Resize (test.resize(0))                                                                                                     |
+|  PASS  | 186: Resize (test.resize(5))                                                                                                     |
+|  PASS  | 187: Resize (0)                                                                                                                  |
+|  PASS  | 188: Resize (0)                                                                                                                  |
+|  PASS  | 189: Resize (nullptr)                                                                                                            |
 
 ## List::Iterator
 | Result | Message                                                                                                                          |
@@ -2257,6 +2334,62 @@ No failures! :)
 |  PASS  | 724: Const Begin/End (*it++ == 'b')                                                                                              |
 |  PASS  | 725: Const Begin/End (*it++ == 'c')                                                                                              |
 |  PASS  | 726: Const Begin/End (it == test.end())                                                                                          |
+
+## UUID
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 11: Default Constructor (0)                                                                                                      |
+|  PASS  | 17: ID Constructor (0)                                                                                                           |
+|  PASS  | 20: ID Constructor (1)                                                                                                           |
+|  PASS  | 23: ID Constructor (0xFFFFFFFFFFFFFFFF)                                                                                          |
+|  PASS  | 30: ID Operator (0)                                                                                                              |
+|  PASS  | 33: ID Operator (1)                                                                                                              |
+|  PASS  | 36: ID Operator (0xFFFFFFFFFFFFFFFF)                                                                                             |
+|  PASS  | 43: Equal Operator (uuid1 == uuid2)                                                                                              |
+|  PASS  | 45: Equal Operator (!(uuid1 == uuid2))                                                                                           |
+|  PASS  | 47: Equal Operator (uuid1 == uuid2)                                                                                              |
+|  PASS  | 50: Equal Operator (uuid1 == uuid2)                                                                                              |
+|  PASS  | 57: Not Equal Operator (!(uuid1 != uuid2))                                                                                       |
+|  PASS  | 59: Not Equal Operator (uuid1 != uuid2)                                                                                          |
+|  PASS  | 61: Not Equal Operator (!(uuid1 != uuid2))                                                                                       |
+|  PASS  | 64: Not Equal Operator (!(uuid1 != uuid2))                                                                                       |
+|  PASS  | 71: ID Equal Operator (uuid == id)                                                                                               |
+|  PASS  | 73: ID Equal Operator (!(uuid == id))                                                                                            |
+|  PASS  | 75: ID Equal Operator (uuid == id)                                                                                               |
+|  PASS  | 77: ID Equal Operator (!(uuid == id))                                                                                            |
+|  PASS  | 78: ID Equal Operator (uuid == 0xFFFFFFFFFFFFFFFF)                                                                               |
+|  PASS  | 85: ID Not Equal Operator (!(uuid != id))                                                                                        |
+|  PASS  | 87: ID Not Equal Operator (uuid != id)                                                                                           |
+|  PASS  | 89: ID Not Equal Operator (!(uuid != id))                                                                                        |
+|  PASS  | 91: ID Not Equal Operator (uuid != id)                                                                                           |
+|  PASS  | 92: ID Not Equal Operator (!(uuid != 0xFFFFFFFFFFFFFFFF))                                                                        |
+|  PASS  | 99: Get Data (id)                                                                                                                |
+|  PASS  | 102: Get Data (id)                                                                                                               |
+|  PASS  | 105: Get Data (id)                                                                                                               |
+|  PASS  | 111: Is Valid (!uuid.is_valid())                                                                                                 |
+|  PASS  | 113: Is Valid (uuid.is_valid())                                                                                                  |
+|  PASS  | 115: Is Valid (uuid.is_valid())                                                                                                  |
+|  PASS  | 117: Is Valid (!uuid.is_valid())                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
+|  PASS  | 125: Create (uuid.is_valid())                                                                                                    |
+|  PASS  | 126: Create (uuid != INVALID_ID)                                                                                                 |
 
 ## Vector::Iterator
 | Result | Message                                                                                                                          |

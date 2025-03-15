@@ -23,22 +23,22 @@ Bool Minty::StaticContainer::append(void const* const data, Size const size)
 	return true;
 }
 
-Bool Minty::StaticContainer::resize(Size const newSize)
+Bool Minty::StaticContainer::resize(Size const size)
 {
 	// do nothing if already that size
-	if (newSize == m_size)
+	if (size == m_size)
 	{
-		return false;
+		return true;
 	}
 
 	// do nothing if goes over capacity
-	if (newSize > m_capacity)
+	if (size > m_capacity)
 	{
 		return false;
 	}
 
 	// set size
-	m_size = newSize;
+	m_size = size;
 
 	return true;
 }

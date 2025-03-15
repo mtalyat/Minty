@@ -100,6 +100,29 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Get Set
+
+	public:
+		/// <summary>
+		/// Gets the internal data pointer.
+		/// </summary>
+		/// <returns>A pointer to the internal data.</returns>
+		void* get_data() const override { return mp_data; }
+
+		/// <summary>
+		/// Gets the number of bytes in this Container.
+		/// </summary>
+		/// <returns>The size in bytes.</returns>
+		Size get_size() const override { return m_size; }
+
+		/// <summary>
+		/// Gets the maximum number of bytes in this Container.
+		/// </summary>
+		/// <returns>The capacity in bytes.</returns>
+		Size get_capacity() const override { return m_capacity; }
+
+#pragma endregion
+
 #pragma region Methods
 
 	public:
@@ -114,7 +137,7 @@ namespace Minty
 		/// <summary>
 		/// Clears all data out of this Container.
 		/// </summary>
-		void clear() override;
+		virtual void clear() override;
 
 		/// <summary>
 		/// Sets the new size for this Container.
