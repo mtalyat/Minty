@@ -80,6 +80,7 @@ public:
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
 #define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
 #define EXPECT_EQUAL(expected, actual) EXPECT_TRUE(expected == actual)
+#define EXPECT_NOT_EQUAL(expected, actual) EXPECT_TRUE(expected != actual)
 #define CLOSE_DELTA 0.01f
 #define EXPECT_CLOSE_DELTA(expected, actual, delta) EXPECT_TRUE(std::abs(expected - actual) < delta)
 #define EXPECT_CLOSE(expected, actual) EXPECT_TRUE(std::abs(expected - actual) < CLOSE_DELTA)

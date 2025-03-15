@@ -89,6 +89,12 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region UUID
+
+	constexpr ID INVALID_ID = 0;
+
+#pragma endregion
+
 #pragma region Wrap
 
 	/// <summary>

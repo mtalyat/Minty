@@ -33,6 +33,7 @@ var _constant_8h =
     [ "Minty::EXTENSION_TEXT", "namespace_minty.html#a354748bd5ef350ed583d237b272da3ff", null ],
     [ "Minty::EXTENSION_WRAP", "namespace_minty.html#a84cd59c3bcc25133d808a20379e2beb2", null ],
     [ "Minty::GB", "namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8", null ],
+    [ "Minty::INVALID_ID", "namespace_minty.html#adc08b73350b5085b5a73daff2f95e53f", null ],
     [ "Minty::INVALID_INDEX", "namespace_minty.html#ab5100671687290415529d62bd9dad4a5", null ],
     [ "Minty::KB", "namespace_minty.html#a9ab5af8c7da6046af1b18e653f2faed0", null ],
     [ "Minty::MB", "namespace_minty.html#a50502c180fadbebbbe55753ae7ae37a7", null ],
