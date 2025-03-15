@@ -42,6 +42,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="data">The byte data.</param>
 		/// <param name="size">The size of the data in bytes.</param>
+		/// <param name="allocator">The allocator to use.</param>
 		ConstantContainer(void const* const data, Size const size, Allocator const allocator = Allocator::Default)
 			: MemoryContainer(allocator)
 		{

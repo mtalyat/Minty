@@ -29,7 +29,29 @@ namespace Minty
 		StaticContainer(Size const capacity, Allocator const allocator = Allocator::Default)
 			: MemoryContainer(allocator)
 		{
-			mp_data = static_cast<Byte*>(allocate(capacity, allocator));
+			if (capacity)
+			{
+				m_capacity = capacity;
+				mp_data = static_cast<Byte*>(allocate(capacity, allocator));
+			}
+		}
+
+		/// <summary>
+		/// Creates a ConstantContainer with the given data and size.
+		/// </summary>
+		/// <param name="data">The byte data.</param>
+		/// <param name="size">The size of the data in bytes.</param>
+		/// <param name="allocator">The allocator to use.</param>
+		StaticContainer(void const* const data, Size const size, Allocator const allocator = Allocator::Default)
+			: MemoryContainer(allocator)
+		{
+			if (data && size)
+			{
+				m_capacity = size;
+				m_size = size;
+				mp_data = static_cast<Byte*>(allocate(size, allocator));
+				memcpy(mp_data, data, size);
+			}
 		}
 
 		/// <summary>

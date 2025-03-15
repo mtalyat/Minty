@@ -16,6 +16,7 @@
 #include "Test_Queue.h"
 #include "Test_Set.h"
 #include "Test_Stack.h"
+#include "Test_StaticContainer.h"
 #include "Test_String.h"
 #include "Test_UUID.h"
 #include "Test_Vector.h"
@@ -75,6 +76,7 @@ static void run_tests()
 	test_Queue(_test);
 	test_Set(_test);
 	test_Stack(_test);
+	test_StaticContainer(_test);
 	test_String(_test);
 	test_UUID(_test);
 	test_Vector(_test);

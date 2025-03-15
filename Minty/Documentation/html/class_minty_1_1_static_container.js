@@ -2,6 +2,7 @@ var class_minty_1_1_static_container =
 [
     [ "StaticContainer", "class_minty_1_1_static_container.html#a63a2216d0bf3edbc395982ebb933a57a", null ],
     [ "StaticContainer", "class_minty_1_1_static_container.html#a94f667f80f5bdd062cd15a2ee1e8304e", null ],
+    [ "StaticContainer", "class_minty_1_1_static_container.html#a2c9ce7a31bf6f1c518ecde23840dc5d1", null ],
     [ "StaticContainer", "class_minty_1_1_static_container.html#ae81f2fedf9bcbea41325e98298041366", null ],
     [ "StaticContainer", "class_minty_1_1_static_container.html#a4c1779b3f7f454bb57024e1aabb4fc64", null ],
     [ "append", "class_minty_1_1_static_container.html#a345c3765c78ce48f16ddb76454536e3f", null ],
