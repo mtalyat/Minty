@@ -32,6 +32,7 @@ var annotated_dup =
       [ "Path", "class_minty_1_1_path.html", "class_minty_1_1_path" ],
       [ "PhysicalFile", "class_minty_1_1_physical_file.html", "class_minty_1_1_physical_file" ],
       [ "Queue", "class_minty_1_1_queue.html", "class_minty_1_1_queue" ],
+      [ "Reader", "class_minty_1_1_reader.html", null ],
       [ "Ref", "class_minty_1_1_ref.html", "class_minty_1_1_ref" ],
       [ "Set", "class_minty_1_1_set.html", "class_minty_1_1_set" ],
       [ "Stack", "class_minty_1_1_stack.html", "class_minty_1_1_stack" ],

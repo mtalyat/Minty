@@ -60,6 +60,7 @@ var hierarchy =
     [ "Minty::Pair< T1, T2 >", "class_minty_1_1_pair.html", null ],
     [ "Minty::Path", "class_minty_1_1_path.html", null ],
     [ "Minty::Queue< T >", "class_minty_1_1_queue.html", null ],
+    [ "Minty::Reader", "class_minty_1_1_reader.html", null ],
     [ "Minty::Ref< T >", "class_minty_1_1_ref.html", null ],
     [ "Minty::Array< T, S >::ReverseIterator", "class_minty_1_1_array_1_1_reverse_iterator.html", null ],
     [ "Minty::List< T >::ReverseIterator", "class_minty_1_1_list_1_1_reverse_iterator.html", null ],

@@ -1,6 +1,8 @@
 #pragma once
 #include "Minty/Core/Base.h"
+#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include <iterator>
 
 namespace Minty
 {
@@ -1151,6 +1153,30 @@ namespace Minty
 			ConstIterator it = begin() + index;
 			return *it;
 		}
+
+		/// <summary>
+		/// Gets the first element in the List.
+		/// </summary>
+		/// <returns>The first element.</returns>
+		T& front() { return mp_head->data; }
+
+		/// <summary>
+		/// Gets the first element in the List.
+		/// </summary>
+		/// <returns>The first element.</returns>
+		T const& front() const { return mp_head->data; }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T& back() { return mp_tail->data; }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T const& back() const { return mp_tail->data; }
 
 		/// <summary>
 		/// Creates a sublist of this List.

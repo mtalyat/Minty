@@ -793,6 +793,30 @@ void test_Array(Test& _test)
 			EXPECT_FAIL(test.at(3));
 		}
 
+		TEST("Front")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test.front() == 5);
+		}
+
+		TEST("Const Front")
+		{
+			Array<int, 3> const test(5);
+			EXPECT_TRUE(test.front() == 5);
+		}
+
+		TEST("Back")
+		{
+			Array<int, 3> test(5);
+			EXPECT_TRUE(test.back() == 5);
+		}
+
+		TEST("Const Back")
+		{
+			Array<int, 3> const test(5);
+			EXPECT_TRUE(test.back() == 5);
+		}
+
 		TEST("Sub")
 		{
 			Array<int, 3> test(5);

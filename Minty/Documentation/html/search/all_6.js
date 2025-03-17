@@ -21,5 +21,6 @@ var searchData=
   ['format_2eh_18',['Format.h',['../_format_8h.html',1,'']]],
   ['forward_19',['forward',['../namespace_minty_1_1_math.html#a7cafebde48a9eeacc26faa690b8d6e06',1,'Minty::Math']]],
   ['framework_2eh_20',['framework.h',['../framework_8h.html',1,'']]],
-  ['from_5feuler_21',['from_euler',['../namespace_minty_1_1_math.html#ae4d716b033044e1ca5b4a0796f44d912',1,'Minty::Math::from_euler(Float3 const &amp;value)'],['../namespace_minty_1_1_math.html#a56fb321dac387a570a6a562fa9a93f1d',1,'Minty::Math::from_euler(Float const x, Float const y, Float const z)']]]
+  ['from_5feuler_21',['from_euler',['../namespace_minty_1_1_math.html#ae4d716b033044e1ca5b4a0796f44d912',1,'Minty::Math::from_euler(Float3 const &amp;value)'],['../namespace_minty_1_1_math.html#a56fb321dac387a570a6a562fa9a93f1d',1,'Minty::Math::from_euler(Float const x, Float const y, Float const z)']]],
+  ['front_22',['front',['../class_minty_1_1_array.html#a5d3c0f5c5d1a68c09a8cc5cd0a7445f5',1,'Minty::Array::front()'],['../class_minty_1_1_array.html#a3b31bb9a20494bd250d22cfe167e665b',1,'Minty::Array::front() const'],['../class_minty_1_1_list.html#add57ffedf65c0d3ebede3afa0e05832b',1,'Minty::List::front()'],['../class_minty_1_1_list.html#adda4374412bbdc1005673e07c5f8ec65',1,'Minty::List::front() const'],['../class_minty_1_1_vector.html#a9306e7f1d2638a6cae6687220479a375',1,'Minty::Vector::front()'],['../class_minty_1_1_vector.html#ad04b7613d8ab2e5d95aba84cdf529762',1,'Minty::Vector::front() const']]]
 ];

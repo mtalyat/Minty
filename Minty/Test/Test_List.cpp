@@ -1084,6 +1084,34 @@ void test_List(Test& _test)
 			EXPECT_FAIL(test.at(5));
 		}
 
+		TEST("Front")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.front() == 0);
+			test.front() = 5;
+			EXPECT_TRUE(test.front() == 5);
+		}
+
+		TEST("Const Front")
+		{
+			List<int> const test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.front() == 0);
+		}
+
+		TEST("Back")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.back() == 4);
+			test.back() = 5;
+			EXPECT_TRUE(test.back() == 5);
+		}
+
+		TEST("Const Back")
+		{
+			List<int> const test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.back() == 4);
+		}
+
 		TEST("Sub")
 		{
 			List<int> test({ 0, 1, 2, 3, 4 });

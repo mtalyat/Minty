@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
+#include <iterator>
 
 namespace Minty
 {
@@ -489,6 +490,30 @@ namespace Minty
 			MINTY_ASSERT(index < S, "Index is out of bounds.");
 			return m_data[index];
 		}
+
+		/// <summary>
+		/// Gets the first element in the Array.
+		/// </summary>
+		/// <returns>The first element.</returns>
+		constexpr T& front() { return at(0); }
+
+		/// <summary>
+		/// Gets the first element in the Array.
+		/// </summary>
+		/// <returns>The first element.</returns>
+		constexpr T const& front() const { return at(0); }
+
+		/// <summary>
+		/// Gets the last element in the Array.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		constexpr T& back() { return at(S - 1); }
+
+		/// <summary>
+		/// Gets the last element in the Array.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		constexpr T const& back() const { return at(S - 1); }
 
 		/// <summary>
 		/// Creates a Array with the elements from the given start index to the given length.

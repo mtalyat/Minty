@@ -1158,6 +1158,34 @@ void test_Vector(Test& _test)
 			EXPECT_FAIL(vec.at(5));
 		}
 
+		TEST("Front")
+		{
+			Vector<int> vec({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(vec.front() == 0);
+			vec.front() = 5;
+			EXPECT_TRUE(vec.front() == 5);
+		}
+
+		TEST("Const Front")
+		{
+			Vector<int> const vec({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(vec.front() == 0);
+		}
+
+		TEST("Back")
+		{
+			Vector<int> vec({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(vec.back() == 4);
+			vec.back() = 5;
+			EXPECT_TRUE(vec.back() == 5);
+		}
+
+		TEST("Const Back")
+		{
+			Vector<int> const vec({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(vec.back() == 4);
+		}
+
 		TEST("Sub")
 		{
 			Vector<int> vec({ 0, 1, 2, 3, 4 });
