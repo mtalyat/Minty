@@ -1,5 +1,5 @@
 # Results
-3679/3679 (100.00%)
+3783/3783 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -9,6 +9,7 @@
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
 | Math                           |      196 |        0 |
+| Type                           |      104 |        0 |
 | Array::Iterator                |       85 |        0 |
 | Array::ConstIterator           |       85 |        0 |
 | Array::ReverseIterator         |       85 |        0 |
@@ -332,6 +333,114 @@ No failures! :)
 |  PASS  | 650: Extract Scale (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f == true) |
 |  PASS  | 659: Extract Rotation (std::abs(actual.x - expected.x) < 0.01f && std::abs(actual.y - expected.y) < 0.01f && std::abs(actual.z - expected.z) < 0.01f && std::abs(actual.w - expected.w) < 0.01f == true) |
 |  PASS  | 663: Extract Rotation (std::abs(actual.x - q.x) < 0.01f && std::abs(actual.y - q.y) < 0.01f && std::abs(actual.z - q.z) < 0.01f && std::abs(actual.w - q.w) < 0.01f == true) |
+
+## Type
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 86: Setup (static_cast<Size>(Type::Count) == TYPE_IDS.get_size())                                                                |
+|  PASS  | 87: Setup (static_cast<Size>(Type::Count) == TYPE_SIZES.get_size())                                                              |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
 
 ## Array::Iterator
 | Result | Message                                                                                                                          |
@@ -3806,18 +3915,18 @@ No failures! :)
 |  PASS  | 223: Get Child Name (node.get_child("Child3"))                                                                                   |
 |  PASS  | 232: Add Child (node.get_children_size() == 2)                                                                                   |
 |  PASS  | 233: Add Child (child0.get_name() == "Child0")                                                                                   |
-|  PASS  | 234: Add Child (*static_cast<Size*>(child0.get_data().get_data()) == data)                                                       |
-|  PASS  | 235: Add Child (child0.get_data().get_size() == sizeof(Size))                                                                    |
-|  PASS  | 236: Add Child (child1.get_name() == "Child1")                                                                                   |
-|  PASS  | 237: Add Child (child1.get_data().get_size() == 0)                                                                               |
-|  PASS  | 238: Add Child (node.get_child(0).get_name() == "Child0")                                                                        |
-|  PASS  | 239: Add Child (node.get_child(1).get_name() == "Child1")                                                                        |
-|  PASS  | 241: Add Child (node.add_child(""))                                                                                              |
-|  PASS  | 242: Add Child (node.add_child("Child0"))                                                                                        |
-|  PASS  | 243: Add Child (node.add_child("Child1"))                                                                                        |
-|  PASS  | 244: Add Child (node.add_child("", nullptr, 0))                                                                                  |
-|  PASS  | 245: Add Child (node.add_child("Child0", nullptr, 0))                                                                            |
-|  PASS  | 246: Add Child (node.add_child("Child1", nullptr, 0))                                                                            |
+|  PASS  | 235: Add Child (container.get_size() == sizeof(Size))                                                                            |
+|  PASS  | 236: Add Child (*static_cast<Size*>(container.get_data()) == data)                                                               |
+|  PASS  | 237: Add Child (child1.get_name() == "Child1")                                                                                   |
+|  PASS  | 238: Add Child (child1.get_data().get_size() == 0)                                                                               |
+|  PASS  | 239: Add Child (node.get_child(0).get_name() == "Child0")                                                                        |
+|  PASS  | 240: Add Child (node.get_child(1).get_name() == "Child1")                                                                        |
+|  PASS  | 242: Add Child (node.add_child(""))                                                                                              |
+|  PASS  | 243: Add Child (node.add_child("Child0"))                                                                                        |
+|  PASS  | 244: Add Child (node.add_child("Child1"))                                                                                        |
+|  PASS  | 245: Add Child (node.add_child("", nullptr, 0))                                                                                  |
+|  PASS  | 246: Add Child (node.add_child("Child0", nullptr, 0))                                                                            |
+|  PASS  | 247: Add Child (node.add_child("Child1", nullptr, 0))                                                                            |
 
 ## Wrap
 | Result | Message                                                                                                                          |

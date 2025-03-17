@@ -5,6 +5,7 @@
 #include "Test_Base.h"
 #include "Test_Compression.h"
 #include "Test_Math.h"
+#include "Test_Type.h"
 
 // Data
 #include "Test_Array.h"
@@ -70,6 +71,7 @@ static void run_tests()
 	test_Base(_test);
 	test_Compression(_test);
 	test_Math(_test);
+	test_Type(_test);
 
 	// Data
 	test_Array(_test);

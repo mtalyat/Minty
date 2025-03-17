@@ -141,6 +141,9 @@
     <ClCompile Include="Test_Variable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Type.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="Test_Variable.h">
       <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Type.h">
+      <Filter>Header Files\Tests\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

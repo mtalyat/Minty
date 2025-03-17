@@ -667,16 +667,16 @@ $(function(){initNavTree('_vector_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>            }</div>
 <div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span> </div>
 <div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>            <span class="comment">// create new array</span></div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>            T* newData = <a class="code hl_function" href="namespace_minty.html#a4cbd3183c35c43b4139f84280c85d033">construct_array&lt;T&gt;</a>(capacity, m_allocator);</div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>            </div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>            <span class="comment">// move data over, if it exists</span></div>
-<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>            <span class="keywordflow">if</span> (mp_data)</div>
-<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            {</div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>                <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>                {</div>
-<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>                    newData[i] = std::move(mp_data[i]);</div>
-<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>                }</div>
-<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>                <a class="code hl_function" href="namespace_minty.html#a910b025ccb027a56bcf5a973446e9ab0">destruct_array</a>(mp_data, m_size, m_allocator);</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>            T* newData = <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span>(<a class="code hl_function" href="namespace_minty.html#a82e54782d22b7f76adf500b256213be2">allocate</a>(capacity * <span class="keyword">sizeof</span>(T), m_allocator));</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span> </div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>            <span class="comment">// clear for good measure</span></div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>            memset(newData, 0, capacity * <span class="keyword">sizeof</span>(T));</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            </div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>            <span class="comment">// move data over, if it exists</span></div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>            <span class="keywordflow">if</span> (mp_data)</div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>            {</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>                memcpy(newData, mp_data, m_size * <span class="keyword">sizeof</span>(T));</div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>                <a class="code hl_function" href="namespace_minty.html#aa1d82ce9c3f5f664d8e1b97c305645e5">deallocate</a>(mp_data, m_capacity * <span class="keyword">sizeof</span>(T), m_allocator);</div>
 <div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>            }</div>
 <div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span> </div>
 <div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>            <span class="comment">// replace data</span></div>
@@ -738,340 +738,342 @@ $(function(){initNavTree('_vector_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>            }</div>
 <div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span> </div>
 <div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>            <span class="comment">// add value</span></div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            mp_data[m_size++] = value;</div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>        }</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <span class="keywordtype">void</span>* ptr = &amp;mp_data[m_size++];</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>            <span class="keyword">new</span> (ptr) T(value);</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>        }</div>
 </div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span></div>
-<div class="foldopen" id="foldopen00641" data-start="{" data-end="}">
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3">  641</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3">add</a>(T&amp;&amp; value)</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>        {</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>            <span class="comment">// if larger than capacity, reserve more</span></div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>            <span class="keywordflow">if</span> (m_size &gt;= m_capacity)</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>            {</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>                <span class="keywordflow">if</span> (m_capacity == 0)</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                {</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(<a class="code hl_variable" href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a>);</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                }</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                {</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>                }</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>            }</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span> </div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>            <span class="comment">// add value</span></div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>            mp_data[m_size++] = std::move(value);</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>        }</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span></div>
+<div class="foldopen" id="foldopen00642" data-start="{" data-end="}">
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3">  642</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3">add</a>(T&amp;&amp; value)</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>        {</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>            <span class="comment">// if larger than capacity, reserve more</span></div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>            <span class="keywordflow">if</span> (m_size &gt;= m_capacity)</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            {</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                <span class="keywordflow">if</span> (m_capacity == 0)</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                {</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(<a class="code hl_variable" href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a>);</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                }</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>                {</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>                }</div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            }</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span> </div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>            <span class="comment">// add value</span></div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            <span class="keywordtype">void</span>* ptr = &amp;mp_data[m_size++];</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            <span class="keyword">new</span> (ptr) T(std::move(value));</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>        }</div>
 </div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span></div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>        std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00668" data-start="{" data-end="}">
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0">  668</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0">add</a>(IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>        {</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>            <span class="keywordflow">for</span> (IteratorType it = <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>; it != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>; ++it)</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>            {</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(*it);</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            }</div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>        }</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span></div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>        std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00670" data-start="{" data-end="}">
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0">  670</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0">add</a>(IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>        {</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>            <span class="keywordflow">for</span> (IteratorType it = <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>; it != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>; ++it)</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            {</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(*it);</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>            }</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>        }</div>
 </div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span></div>
-<div class="foldopen" id="foldopen00681" data-start="{" data-end="}">
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">  681</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, T <span class="keyword">const</span>&amp; value)</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>        {</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt;= m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span> </div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            <span class="comment">// add to end</span></div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            <span class="keywordflow">if</span> (index == m_size)</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            {</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(value);</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>            }</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>            <span class="comment">// if larger than capacity, reserve more</span></div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>            <span class="keywordflow">if</span> (m_size &gt;= m_capacity)</div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>            {</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>                <span class="keywordflow">if</span> (m_capacity == 0)</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>                {</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(<a class="code hl_variable" href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a>);</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                }</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>                {</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                }</div>
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>            }</div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span> </div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            <span class="comment">// move data</span></div>
-<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = m_size; i &gt; index; --i)</div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            {</div>
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>                mp_data[i] = std::move(mp_data[i - 1]);</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            }</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span> </div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            <span class="comment">// add value</span></div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            mp_data[index] = value;</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            ++m_size;</div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>        }</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span></div>
+<div class="foldopen" id="foldopen00683" data-start="{" data-end="}">
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">  683</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, T <span class="keyword">const</span>&amp; value)</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>        {</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt;= m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span> </div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            <span class="comment">// add to end</span></div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>            <span class="keywordflow">if</span> (index == m_size)</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>            {</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(value);</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>            }</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span> </div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>            <span class="comment">// if larger than capacity, reserve more</span></div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            <span class="keywordflow">if</span> (m_size &gt;= m_capacity)</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>            {</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                <span class="keywordflow">if</span> (m_capacity == 0)</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                {</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(<a class="code hl_variable" href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a>);</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>                }</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                {</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>                }</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            }</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span> </div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            <span class="comment">// move data</span></div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = m_size; i &gt; index; --i)</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>            {</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>                mp_data[i] = std::move(mp_data[i - 1]);</div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            }</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span> </div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            <span class="comment">// add value</span></div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>            mp_data[index] = value;</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>            ++m_size;</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>        }</div>
 </div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span></div>
-<div class="foldopen" id="foldopen00721" data-start="{" data-end="}">
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a55140a62530ae0d1da8a23fa7809b57a">  721</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a55140a62530ae0d1da8a23fa7809b57a">insert</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, T&amp;&amp; value)</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>        {</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt;= m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span> </div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            <span class="comment">// add to end</span></div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>            <span class="keywordflow">if</span> (index == m_size)</div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>            {</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(std::move(value));</div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>            }</div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span> </div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>            <span class="comment">// if larger than capacity, reserve more</span></div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>            <span class="keywordflow">if</span> (m_size &gt;= m_capacity)</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>            {</div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>                <span class="keywordflow">if</span> (m_capacity == 0)</div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                {</div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(<a class="code hl_variable" href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a>);</div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                }</div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>                {</div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                }</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>            }</div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span> </div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>            <span class="comment">// move data</span></div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = m_size; i &gt; index; --i)</div>
-<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>            {</div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>                mp_data[i] = std::move(mp_data[i - 1]);</div>
-<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>            }</div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span> </div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>            <span class="comment">// add value</span></div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>            mp_data[index] = std::move(value);</div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>            ++m_size;</div>
-<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>        }</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span></div>
+<div class="foldopen" id="foldopen00723" data-start="{" data-end="}">
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a55140a62530ae0d1da8a23fa7809b57a">  723</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a55140a62530ae0d1da8a23fa7809b57a">insert</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, T&amp;&amp; value)</div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>        {</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt;= m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span> </div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>            <span class="comment">// add to end</span></div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>            <span class="keywordflow">if</span> (index == m_size)</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>            {</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(std::move(value));</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>            }</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span> </div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>            <span class="comment">// if larger than capacity, reserve more</span></div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>            <span class="keywordflow">if</span> (m_size &gt;= m_capacity)</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>            {</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                <span class="keywordflow">if</span> (m_capacity == 0)</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>                {</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(<a class="code hl_variable" href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">DEFAULT_COLLECTION_SIZE</a>);</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>                }</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>                {</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>                }</div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>            }</div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span> </div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>            <span class="comment">// move data</span></div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = m_size; i &gt; index; --i)</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>            {</div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>                mp_data[i] = std::move(mp_data[i - 1]);</div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>            }</div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span> </div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>            <span class="comment">// add value</span></div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>            mp_data[index] = std::move(value);</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>            ++m_size;</div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>        }</div>
 </div>
-<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span></div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00764" data-start="{" data-end="}">
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c">  764</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c">insert</a>(IteratorType <span class="keyword">const</span>&amp; it, T <span class="keyword">const</span>&amp; value)</div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>        {</div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(&amp;(*it) - mp_data, value);</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>        }</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span></div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00766" data-start="{" data-end="}">
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c">  766</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c">insert</a>(IteratorType <span class="keyword">const</span>&amp; it, T <span class="keyword">const</span>&amp; value)</div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>        {</div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(&amp;(*it) - mp_data, value);</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>        }</div>
 </div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span></div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00777" data-start="{" data-end="}">
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988">  777</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988">insert</a>(IteratorType <span class="keyword">const</span>&amp; it, T&amp;&amp; value)</div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>        {</div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(&amp;(*it) - mp_data, std::move(value));</div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>        }</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span></div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00779" data-start="{" data-end="}">
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988">  779</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988">insert</a>(IteratorType <span class="keyword">const</span>&amp; it, T&amp;&amp; value)</div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>        {</div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(&amp;(*it) - mp_data, std::move(value));</div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>        }</div>
 </div>
-<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span></div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00791" data-start="{" data-end="}">
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a9549c6a227c718494ab3012637dfc080">  791</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#a9549c6a227c718494ab3012637dfc080">insert</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>        {</div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt;= m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span> </div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>            <span class="comment">// add to end</span></div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>            <span class="keywordflow">if</span> (index == m_size)</div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>            {</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(<a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>);</div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>            }</div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span> </div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>            <span class="comment">// get count</span></div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> count = 0;</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>            <span class="keywordflow">for</span> (IteratorType it = <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>; it != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>; ++it)</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>            {</div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>                ++count;</div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>            }</div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span> </div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>            <span class="comment">// make space for elements</span></div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>            <span class="keywordflow">if</span> (m_size + count &gt; m_capacity)</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>            {</div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>                <span class="keywordflow">if</span> (m_capacity * 2 &gt;= m_size + count)</div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>                {</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>                }</div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>                {</div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity + count);</div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>                }</div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>            }</div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span> </div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>            <span class="comment">// move data</span></div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = m_size; i &gt; index; --i)</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>            {</div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>                mp_data[i + count - 1] = std::move(mp_data[i - 1]);</div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>            }</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span> </div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>            <span class="comment">// add values</span></div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index;</div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>            <span class="keywordflow">for</span> (IteratorType it = <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>; it != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>; ++it)</div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>            {</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>                mp_data[i++] = *it;</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>            }</div>
-<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span> </div>
-<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>            <span class="comment">// increment size</span></div>
-<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>            m_size += count;</div>
-<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>        }</div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span></div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00793" data-start="{" data-end="}">
+<div class="line"><a id="l00793" name="l00793"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a9549c6a227c718494ab3012637dfc080">  793</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#a9549c6a227c718494ab3012637dfc080">insert</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>        {</div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt;= m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span> </div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>            <span class="comment">// add to end</span></div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>            <span class="keywordflow">if</span> (index == m_size)</div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>            {</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>                <a class="code hl_function" href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">add</a>(<a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>);</div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>            }</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span> </div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>            <span class="comment">// get count</span></div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> count = 0;</div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>            <span class="keywordflow">for</span> (IteratorType it = <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>; it != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>; ++it)</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>            {</div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>                ++count;</div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>            }</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span> </div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>            <span class="comment">// make space for elements</span></div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>            <span class="keywordflow">if</span> (m_size + count &gt; m_capacity)</div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>            {</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>                <span class="keywordflow">if</span> (m_capacity * 2 &gt;= m_size + count)</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>                {</div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity * 2);</div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>                }</div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>                {</div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>                    <a class="code hl_function" href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">reserve</a>(m_capacity + count);</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>                }</div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>            }</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span> </div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>            <span class="comment">// move data</span></div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = m_size; i &gt; index; --i)</div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>            {</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>                mp_data[i + count - 1] = std::move(mp_data[i - 1]);</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>            }</div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span> </div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>            <span class="comment">// add values</span></div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index;</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>            <span class="keywordflow">for</span> (IteratorType it = <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>; it != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>; ++it)</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>            {</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>                mp_data[i++] = *it;</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>            }</div>
+<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span> </div>
+<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>            <span class="comment">// increment size</span></div>
+<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>            m_size += count;</div>
+<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>        }</div>
 </div>
-<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span></div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> InsertIteratorType, <span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;InsertIteratorType&gt;::value &amp;&amp; !std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00849" data-start="{" data-end="}">
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#aa784fac8f4ae257d0c8ffdcff8ab3f69">  849</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#aa784fac8f4ae257d0c8ffdcff8ab3f69">insert</a>(InsertIteratorType <span class="keyword">const</span>&amp; it, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>        {</div>
-<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = &amp;(*it) - mp_data;</div>
-<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(index, <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>);</div>
-<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>        }</div>
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span></div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> InsertIteratorType, <span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;InsertIteratorType&gt;::value &amp;&amp; !std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00851" data-start="{" data-end="}">
+<div class="line"><a id="l00851" name="l00851"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#aa784fac8f4ae257d0c8ffdcff8ab3f69">  851</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#aa784fac8f4ae257d0c8ffdcff8ab3f69">insert</a>(InsertIteratorType <span class="keyword">const</span>&amp; it, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
+<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>        {</div>
+<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = &amp;(*it) - mp_data;</div>
+<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">insert</a>(index, <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>);</div>
+<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>        }</div>
 </div>
-<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span></div>
-<div class="foldopen" id="foldopen00859" data-start="{" data-end="}">
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">  859</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">remove</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)</div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>        {</div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span> </div>
-<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>            <span class="comment">// call destructor</span></div>
-<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span>            mp_data[index].~T();</div>
-<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span> </div>
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>            <span class="comment">// move data</span></div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index; i &lt; m_size - 1; ++i)</div>
-<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>            {</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>                mp_data[i] = std::move(mp_data[i + 1]);</div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>            }</div>
-<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span> </div>
-<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>            <span class="comment">// decrement size</span></div>
-<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>            --m_size;</div>
-<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>        }</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span></div>
+<div class="foldopen" id="foldopen00861" data-start="{" data-end="}">
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">  861</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">remove</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)</div>
+<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>        {</div>
+<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span> </div>
+<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>            <span class="comment">// call destructor</span></div>
+<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>            mp_data[index].~T();</div>
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span> </div>
+<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>            <span class="comment">// move data</span></div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index; i &lt; m_size - 1; ++i)</div>
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>            {</div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>                mp_data[i] = std::move(mp_data[i + 1]);</div>
+<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>            }</div>
+<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span> </div>
+<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>            <span class="comment">// decrement size</span></div>
+<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>            --m_size;</div>
+<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span>        }</div>
 </div>
-<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span></div>
-<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00883" data-start="{" data-end="}">
-<div class="line"><a id="l00883" name="l00883"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#af58e84a974ab1a059a0ac6b97516af0c">  883</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#af58e84a974ab1a059a0ac6b97516af0c">remove</a>(IteratorType <span class="keyword">const</span>&amp; it)</div>
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>        {</div>
-<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">remove</a>(&amp;(*it) - mp_data);</div>
-<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>        }</div>
+<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span></div>
+<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00885" data-start="{" data-end="}">
+<div class="line"><a id="l00885" name="l00885"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#af58e84a974ab1a059a0ac6b97516af0c">  885</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#af58e84a974ab1a059a0ac6b97516af0c">remove</a>(IteratorType <span class="keyword">const</span>&amp; it)</div>
+<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>        {</div>
+<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">remove</a>(&amp;(*it) - mp_data);</div>
+<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>        }</div>
 </div>
-<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span></div>
-<div class="foldopen" id="foldopen00893" data-start="{" data-end="}">
-<div class="line"><a id="l00893" name="l00893"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a0b17f6b8a50da095cecf9b27c560992a">  893</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a0b17f6b8a50da095cecf9b27c560992a">remove</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> count)</div>
-<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>        {</div>
-<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Begin index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index + count &lt;= m_size, <span class="stringliteral">&quot;End index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(count != 0, <span class="stringliteral">&quot;Cannot remove zero elements.&quot;</span>);</div>
-<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span> </div>
-<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>            <span class="comment">// call destructors</span></div>
-<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index; i &lt; index + count; ++i)</div>
-<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>            {</div>
-<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>                mp_data[i].~T();</div>
-<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>            }</div>
-<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span> </div>
-<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>            <span class="comment">// move data</span></div>
-<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index; i &lt; m_size - count; ++i)</div>
-<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>            {</div>
-<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>                mp_data[i] = std::move(mp_data[i + count]);</div>
-<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>            }</div>
-<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span> </div>
-<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>            <span class="comment">// decrement size</span></div>
-<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span>            m_size -= count;</div>
-<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span>        }</div>
+<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span></div>
+<div class="foldopen" id="foldopen00895" data-start="{" data-end="}">
+<div class="line"><a id="l00895" name="l00895"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a0b17f6b8a50da095cecf9b27c560992a">  895</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a0b17f6b8a50da095cecf9b27c560992a">remove</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> count)</div>
+<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>        {</div>
+<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Begin index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index + count &lt;= m_size, <span class="stringliteral">&quot;End index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00899" name="l00899"></a><span class="lineno">  899</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(count != 0, <span class="stringliteral">&quot;Cannot remove zero elements.&quot;</span>);</div>
+<div class="line"><a id="l00900" name="l00900"></a><span class="lineno">  900</span> </div>
+<div class="line"><a id="l00901" name="l00901"></a><span class="lineno">  901</span>            <span class="comment">// call destructors</span></div>
+<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index; i &lt; index + count; ++i)</div>
+<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>            {</div>
+<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>                mp_data[i].~T();</div>
+<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>            }</div>
+<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span> </div>
+<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>            <span class="comment">// move data</span></div>
+<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = index; i &lt; m_size - count; ++i)</div>
+<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>            {</div>
+<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span>                mp_data[i] = std::move(mp_data[i + count]);</div>
+<div class="line"><a id="l00911" name="l00911"></a><span class="lineno">  911</span>            }</div>
+<div class="line"><a id="l00912" name="l00912"></a><span class="lineno">  912</span> </div>
+<div class="line"><a id="l00913" name="l00913"></a><span class="lineno">  913</span>            <span class="comment">// decrement size</span></div>
+<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span>            m_size -= count;</div>
+<div class="line"><a id="l00915" name="l00915"></a><span class="lineno">  915</span>        }</div>
 </div>
-<div class="line"><a id="l00914" name="l00914"></a><span class="lineno">  914</span></div>
-<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
-<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
-<div class="foldopen" id="foldopen00923" data-start="{" data-end="}">
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#aa1bc06630d7d55eba519575f6ea36de0">  923</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#aa1bc06630d7d55eba519575f6ea36de0">remove</a>(IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
-<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>        {</div>
-<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = &amp;(*begin) - mp_data;</div>
-<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> count = &amp;(*end) - mp_data - index;</div>
-<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">remove</a>(index, count);</div>
-<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>        }</div>
+<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span></div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> IteratorType&gt;</div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>        <span class="keyword">typename</span> std::enable_if&lt;!std::is_integral&lt;IteratorType&gt;::value, <span class="keywordtype">void</span>&gt;::type</div>
+<div class="foldopen" id="foldopen00925" data-start="{" data-end="}">
+<div class="line"><a id="l00925" name="l00925"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#aa1bc06630d7d55eba519575f6ea36de0">  925</a></span>        <a class="code hl_function" href="class_minty_1_1_vector.html#aa1bc06630d7d55eba519575f6ea36de0">remove</a>(IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">begin</a>, IteratorType <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>)</div>
+<div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>        {</div>
+<div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = &amp;(*begin) - mp_data;</div>
+<div class="line"><a id="l00928" name="l00928"></a><span class="lineno">  928</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> count = &amp;(*end) - mp_data - index;</div>
+<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">remove</a>(index, count);</div>
+<div class="line"><a id="l00930" name="l00930"></a><span class="lineno">  930</span>        }</div>
 </div>
-<div class="line"><a id="l00929" name="l00929"></a><span class="lineno">  929</span></div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a18a4fd395339fdc163fad7d293b9584b">  934</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a18a4fd395339fdc163fad7d293b9584b">is_empty</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_size == 0; }</div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span></div>
-<div class="foldopen" id="foldopen00941" data-start="{" data-end="}">
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df">  941</a></span>        <span class="keyword">constexpr</span> T&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df">at</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)</div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>        {</div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>            <span class="keywordflow">return</span> mp_data[index];</div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>        }</div>
+<div class="line"><a id="l00931" name="l00931"></a><span class="lineno">  931</span></div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a18a4fd395339fdc163fad7d293b9584b">  936</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a18a4fd395339fdc163fad7d293b9584b">is_empty</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_size == 0; }</div>
+<div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span></div>
+<div class="foldopen" id="foldopen00943" data-start="{" data-end="}">
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df">  943</a></span>        <span class="keyword">constexpr</span> T&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df">at</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)</div>
+<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>        {</div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>            <span class="keywordflow">return</span> mp_data[index];</div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>        }</div>
 </div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span></div>
-<div class="foldopen" id="foldopen00952" data-start="{" data-end="}">
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218">  952</a></span>        <span class="keyword">constexpr</span> T <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218">at</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>            <span class="keywordflow">return</span> mp_data[index];</div>
-<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>        }</div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span></div>
+<div class="foldopen" id="foldopen00954" data-start="{" data-end="}">
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218">  954</a></span>        <span class="keyword">constexpr</span> T <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218">at</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>            <span class="keywordflow">return</span> mp_data[index];</div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>        }</div>
 </div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span></div>
-<div class="foldopen" id="foldopen00964" data-start="{" data-end="}">
-<div class="line"><a id="l00964" name="l00964"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403">  964</a></span>        <span class="keyword">constexpr</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f">Vector&lt;T&gt;</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403">sub</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> length)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Start index is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index + length &lt;= m_size, <span class="stringliteral">&quot;Index + length is out of bounds.&quot;</span>);</div>
-<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(length &gt; 0, <span class="stringliteral">&quot;Length must be greater than zero.&quot;</span>);</div>
-<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span> </div>
-<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>            <span class="comment">// create new array</span></div>
-<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f">Vector</a> result;</div>
-<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>            result.<a class="code hl_function" href="class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728">resize</a>(length);</div>
-<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; length; ++i)</div>
-<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>            {</div>
-<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>                result[i] = mp_data[index + i];</div>
-<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>            }</div>
-<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span> </div>
-<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>        }</div>
+<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span></div>
+<div class="foldopen" id="foldopen00966" data-start="{" data-end="}">
+<div class="line"><a id="l00966" name="l00966"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403">  966</a></span>        <span class="keyword">constexpr</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f">Vector&lt;T&gt;</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403">sub</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index, <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> length)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_size, <span class="stringliteral">&quot;Start index is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index + length &lt;= m_size, <span class="stringliteral">&quot;Index + length is out of bounds.&quot;</span>);</div>
+<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(length &gt; 0, <span class="stringliteral">&quot;Length must be greater than zero.&quot;</span>);</div>
+<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span> </div>
+<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>            <span class="comment">// create new array</span></div>
+<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f">Vector</a> result;</div>
+<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>            result.<a class="code hl_function" href="class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728">resize</a>(length);</div>
+<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; length; ++i)</div>
+<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>            {</div>
+<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>                result[i] = mp_data[index + i];</div>
+<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>            }</div>
+<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span> </div>
+<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span>        }</div>
 </div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span></div>
-<div class="foldopen" id="foldopen00986" data-start="{" data-end="}">
-<div class="line"><a id="l00986" name="l00986"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">  986</a></span>        <span class="keyword">constexpr</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_iterator.html">Iterator</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">find</a>(T <span class="keyword">const</span>&amp; value)</div>
-<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>        {</div>
-<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
-<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>            {</div>
-<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>                <span class="keywordflow">if</span> (mp_data[i] == value)</div>
-<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>                {</div>
-<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_iterator.html">Iterator</a>(mp_data + i);</div>
-<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>                }</div>
-<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>            }</div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span> </div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>();</div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>        }</div>
+<div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span></div>
+<div class="foldopen" id="foldopen00988" data-start="{" data-end="}">
+<div class="line"><a id="l00988" name="l00988"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">  988</a></span>        <span class="keyword">constexpr</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_iterator.html">Iterator</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">find</a>(T <span class="keyword">const</span>&amp; value)</div>
+<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>        {</div>
+<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
+<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>            {</div>
+<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>                <span class="keywordflow">if</span> (mp_data[i] == value)</div>
+<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>                {</div>
+<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_iterator.html">Iterator</a>(mp_data + i);</div>
+<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>                }</div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>            }</div>
+<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span> </div>
+<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>();</div>
+<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>        }</div>
 </div>
-<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span></div>
-<div class="foldopen" id="foldopen01004" data-start="{" data-end="}">
-<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d"> 1004</a></span>        <span class="keyword">constexpr</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_const_iterator.html">ConstIterator</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d">find</a>(T <span class="keyword">const</span>&amp; value)<span class="keyword"> const</span></div>
-<div class="line"><a id="l01005" name="l01005"></a><span class="lineno"> 1005</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"> 1006</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
-<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span>            {</div>
-<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>                <span class="keywordflow">if</span> (mp_data[i] == value)</div>
-<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>                {</div>
-<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_const_iterator.html">ConstIterator</a>(mp_data + i);</div>
-<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>                }</div>
-<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>            }</div>
-<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span> </div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>();</div>
-<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>        }</div>
+<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span></div>
+<div class="foldopen" id="foldopen01006" data-start="{" data-end="}">
+<div class="line"><a id="l01006" name="l01006"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d"> 1006</a></span>        <span class="keyword">constexpr</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_const_iterator.html">ConstIterator</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d">find</a>(T <span class="keyword">const</span>&amp; value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l01007" name="l01007"></a><span class="lineno"> 1007</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l01008" name="l01008"></a><span class="lineno"> 1008</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_size; ++i)</div>
+<div class="line"><a id="l01009" name="l01009"></a><span class="lineno"> 1009</span>            {</div>
+<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"> 1010</span>                <span class="keywordflow">if</span> (mp_data[i] == value)</div>
+<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>                {</div>
+<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_vector_1_1_const_iterator.html">ConstIterator</a>(mp_data + i);</div>
+<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>                }</div>
+<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>            }</div>
+<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span> </div>
+<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>();</div>
+<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>        }</div>
 </div>
-<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span></div>
-<div class="line"><a id="l01022" name="l01022"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0"> 1022</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0">contains</a>(T <span class="keyword">const</span>&amp; value)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">find</a>(value) != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>(); }</div>
-<div class="line"><a id="l01023" name="l01023"></a><span class="lineno"> 1023</span></div>
-<div class="foldopen" id="foldopen01027" data-start="{" data-end="}">
-<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd"> 1027</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd">clear</a>()</div>
-<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>        {</div>
-<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728">resize</a>(0);</div>
-<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>        }</div>
+<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span></div>
+<div class="line"><a id="l01024" name="l01024"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0"> 1024</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0">contains</a>(T <span class="keyword">const</span>&amp; value)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">find</a>(value) != <a class="code hl_function" href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">end</a>(); }</div>
+<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"> 1025</span></div>
+<div class="foldopen" id="foldopen01029" data-start="{" data-end="}">
+<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"><a class="line" href="class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd"> 1029</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd">clear</a>()</div>
+<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>        {</div>
+<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>            <a class="code hl_function" href="class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728">resize</a>(0);</div>
+<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>        }</div>
 </div>
-<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span> </div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>    };</div>
+<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span> </div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>    };</div>
 </div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>}</div>
+<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>}</div>
 <div class="ttc" id="a_allocator_8h_html"><div class="ttname"><a href="_allocator_8h.html">Allocator.h</a></div></div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
 <div class="ttc" id="a_constant_8h_html"><div class="ttname"><a href="_constant_8h.html">Constant.h</a></div></div>
@@ -1143,56 +1145,57 @@ $(function(){initNavTree('_vector_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclass_minty_1_1_vector_1_1_reverse_iterator_html_ab2908f3fccb9fadddf508edfde7b2fbd"><div class="ttname"><a href="class_minty_1_1_vector_1_1_reverse_iterator.html#ab2908f3fccb9fadddf508edfde7b2fbd">Minty::Vector::ReverseIterator::operator+</a></div><div class="ttdeci">constexpr ReverseIterator operator+(Size const value)</div><div class="ttdef"><b>Definition</b> Vector.h:323</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_1_1_reverse_iterator_html_ae6c2d8e74f4945648e3283d22190c93b"><div class="ttname"><a href="class_minty_1_1_vector_1_1_reverse_iterator.html#ae6c2d8e74f4945648e3283d22190c93b">Minty::Vector::ReverseIterator::pointer</a></div><div class="ttdeci">value_type * pointer</div><div class="ttdef"><b>Definition</b> Vector.h:279</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a0231edcc7fa06cb5d9d536735917e6c7"><div class="ttname"><a href="class_minty_1_1_vector.html#a0231edcc7fa06cb5d9d536735917e6c7">Minty::Vector::operator=</a></div><div class="ttdeci">constexpr Vector &amp; operator=(Vector &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> Vector.h:481</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a0b17f6b8a50da095cecf9b27c560992a"><div class="ttname"><a href="class_minty_1_1_vector.html#a0b17f6b8a50da095cecf9b27c560992a">Minty::Vector::remove</a></div><div class="ttdeci">void remove(Size const index, Size const count)</div><div class="ttdoc">Removes a range of elements from the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:893</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a0b17f6b8a50da095cecf9b27c560992a"><div class="ttname"><a href="class_minty_1_1_vector.html#a0b17f6b8a50da095cecf9b27c560992a">Minty::Vector::remove</a></div><div class="ttdeci">void remove(Size const index, Size const count)</div><div class="ttdoc">Removes a range of elements from the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:895</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a0bc61a022c0790e69cac81c642ec3193"><div class="ttname"><a href="class_minty_1_1_vector.html#a0bc61a022c0790e69cac81c642ec3193">Minty::Vector::begin</a></div><div class="ttdeci">constexpr ConstIterator begin() const</div><div class="ttdoc">Gets an ConstIterator to the beginning of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:419</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a0f12b42f8d2884aa4a3dbb0cf71f7403"><div class="ttname"><a href="class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403">Minty::Vector::sub</a></div><div class="ttdeci">constexpr Vector&lt; T &gt; sub(Size const index, Size const length) const</div><div class="ttdoc">Creates a Vector with the elements from the given start index to the given length.</div><div class="ttdef"><b>Definition</b> Vector.h:964</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a14a8a5cf418c6be0c0aac2e2bb62f91d"><div class="ttname"><a href="class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d">Minty::Vector::find</a></div><div class="ttdeci">constexpr ConstIterator find(T const &amp;value) const</div><div class="ttdoc">Finds the first occurrence of the given value.</div><div class="ttdef"><b>Definition</b> Vector.h:1004</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a18a4fd395339fdc163fad7d293b9584b"><div class="ttname"><a href="class_minty_1_1_vector.html#a18a4fd395339fdc163fad7d293b9584b">Minty::Vector::is_empty</a></div><div class="ttdeci">Bool is_empty() const</div><div class="ttdoc">Checks if this Vector is empty.</div><div class="ttdef"><b>Definition</b> Vector.h:934</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a0f12b42f8d2884aa4a3dbb0cf71f7403"><div class="ttname"><a href="class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403">Minty::Vector::sub</a></div><div class="ttdeci">constexpr Vector&lt; T &gt; sub(Size const index, Size const length) const</div><div class="ttdoc">Creates a Vector with the elements from the given start index to the given length.</div><div class="ttdef"><b>Definition</b> Vector.h:966</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a14a8a5cf418c6be0c0aac2e2bb62f91d"><div class="ttname"><a href="class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d">Minty::Vector::find</a></div><div class="ttdeci">constexpr ConstIterator find(T const &amp;value) const</div><div class="ttdoc">Finds the first occurrence of the given value.</div><div class="ttdef"><b>Definition</b> Vector.h:1006</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a18a4fd395339fdc163fad7d293b9584b"><div class="ttname"><a href="class_minty_1_1_vector.html#a18a4fd395339fdc163fad7d293b9584b">Minty::Vector::is_empty</a></div><div class="ttdeci">Bool is_empty() const</div><div class="ttdoc">Checks if this Vector is empty.</div><div class="ttdef"><b>Definition</b> Vector.h:936</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a1f34cae17faa739607df6f0f38e8875f"><div class="ttname"><a href="class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f">Minty::Vector::Vector</a></div><div class="ttdeci">constexpr Vector(Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates an empty Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:34</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a24f8dbaeced94da4ef275a797fd853fd"><div class="ttname"><a href="class_minty_1_1_vector.html#a24f8dbaeced94da4ef275a797fd853fd">Minty::Vector::Vector</a></div><div class="ttdeci">Vector(Size const size, T const &amp;value, Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates a Vector and fills it with the given value.</div><div class="ttdef"><b>Definition</b> Vector.h:61</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a2b5255837549c578ceed7ce1121759a4"><div class="ttname"><a href="class_minty_1_1_vector.html#a2b5255837549c578ceed7ce1121759a4">Minty::Vector::rbegin</a></div><div class="ttdeci">constexpr ConstReverseIterator rbegin() const</div><div class="ttdoc">Gets an ConstReverseIterator to the beginning of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:443</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a33f7e3748400fe22a589eee5abdad52d"><div class="ttname"><a href="class_minty_1_1_vector.html#a33f7e3748400fe22a589eee5abdad52d">Minty::Vector::Vector</a></div><div class="ttdeci">Vector(Vector &amp;&amp;other)</div><div class="ttdoc">Moves the given Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:116</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a34401de581e790082b283a039f721bb1"><div class="ttname"><a href="class_minty_1_1_vector.html#a34401de581e790082b283a039f721bb1">Minty::Vector::Vector</a></div><div class="ttdeci">Vector(std::initializer_list&lt; T &gt; const &amp;list, Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates a Vector with the given values.</div><div class="ttdef"><b>Definition</b> Vector.h:80</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a34b03975f00be33f63c08ea36744120e"><div class="ttname"><a href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">Minty::Vector::find</a></div><div class="ttdeci">constexpr Iterator find(T const &amp;value)</div><div class="ttdoc">Finds the first occurrence of the given value.</div><div class="ttdef"><b>Definition</b> Vector.h:986</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a38ce4462ad4cf5c63084234b0daf8d33"><div class="ttname"><a href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">Minty::Vector::remove</a></div><div class="ttdeci">void remove(Size const index)</div><div class="ttdoc">Removes the element at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:859</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a3fef65099af7399199c751f6b0d153c0"><div class="ttname"><a href="class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0">Minty::Vector::add</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type add(IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Adds the range of elements to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:668</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a34b03975f00be33f63c08ea36744120e"><div class="ttname"><a href="class_minty_1_1_vector.html#a34b03975f00be33f63c08ea36744120e">Minty::Vector::find</a></div><div class="ttdeci">constexpr Iterator find(T const &amp;value)</div><div class="ttdoc">Finds the first occurrence of the given value.</div><div class="ttdef"><b>Definition</b> Vector.h:988</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a38ce4462ad4cf5c63084234b0daf8d33"><div class="ttname"><a href="class_minty_1_1_vector.html#a38ce4462ad4cf5c63084234b0daf8d33">Minty::Vector::remove</a></div><div class="ttdeci">void remove(Size const index)</div><div class="ttdoc">Removes the element at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:861</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a3fef65099af7399199c751f6b0d153c0"><div class="ttname"><a href="class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0">Minty::Vector::add</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type add(IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Adds the range of elements to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:670</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a47fe91daa3a8369cf559e8e29383a98f"><div class="ttname"><a href="class_minty_1_1_vector.html#a47fe91daa3a8369cf559e8e29383a98f">Minty::Vector::operator[]</a></div><div class="ttdeci">constexpr T &amp; operator[](Size const index)</div><div class="ttdef"><b>Definition</b> Vector.h:502</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a4e15d5442b952cfb098616507eb78c1b"><div class="ttname"><a href="class_minty_1_1_vector.html#a4e15d5442b952cfb098616507eb78c1b">Minty::Vector::rend</a></div><div class="ttdeci">constexpr ConstReverseIterator rend() const</div><div class="ttdoc">Gets an ConstReverseIterator to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:449</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a4f3921809c7f5671d5f68c83e3997ea0"><div class="ttname"><a href="class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0">Minty::Vector::contains</a></div><div class="ttdeci">constexpr Bool contains(T const &amp;value) const</div><div class="ttdoc">Checks if the given Value is within this Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:1022</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a4f3921809c7f5671d5f68c83e3997ea0"><div class="ttname"><a href="class_minty_1_1_vector.html#a4f3921809c7f5671d5f68c83e3997ea0">Minty::Vector::contains</a></div><div class="ttdeci">constexpr Bool contains(T const &amp;value) const</div><div class="ttdoc">Checks if the given Value is within this Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:1024</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a52626a9f9805d1457d6c3b5a4f4fc728"><div class="ttname"><a href="class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728">Minty::Vector::resize</a></div><div class="ttdeci">void resize(Size const size)</div><div class="ttdoc">Resizes the Vector to the given size.</div><div class="ttdef"><b>Definition</b> Vector.h:580</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a53c534a8e9f36aa4870fed3404de24a5"><div class="ttname"><a href="class_minty_1_1_vector.html#a53c534a8e9f36aa4870fed3404de24a5">Minty::Vector::operator=</a></div><div class="ttdeci">constexpr Vector &amp; operator=(Vector const &amp;other)</div><div class="ttdef"><b>Definition</b> Vector.h:456</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a55140a62530ae0d1da8a23fa7809b57a"><div class="ttname"><a href="class_minty_1_1_vector.html#a55140a62530ae0d1da8a23fa7809b57a">Minty::Vector::insert</a></div><div class="ttdeci">void insert(Size const index, T &amp;&amp;value)</div><div class="ttdoc">Inserts the given value at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:721</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a57010602a356b0c4ab37fdf6949777df"><div class="ttname"><a href="class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df">Minty::Vector::at</a></div><div class="ttdeci">constexpr T &amp; at(Size const index)</div><div class="ttdoc">Gets the element at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:941</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a55140a62530ae0d1da8a23fa7809b57a"><div class="ttname"><a href="class_minty_1_1_vector.html#a55140a62530ae0d1da8a23fa7809b57a">Minty::Vector::insert</a></div><div class="ttdeci">void insert(Size const index, T &amp;&amp;value)</div><div class="ttdoc">Inserts the given value at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:723</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a57010602a356b0c4ab37fdf6949777df"><div class="ttname"><a href="class_minty_1_1_vector.html#a57010602a356b0c4ab37fdf6949777df">Minty::Vector::at</a></div><div class="ttdeci">constexpr T &amp; at(Size const index)</div><div class="ttdoc">Gets the element at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:943</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a60bd4b47366de7ca535f20bd54b8f5d3"><div class="ttname"><a href="class_minty_1_1_vector.html#a60bd4b47366de7ca535f20bd54b8f5d3">Minty::Vector::end</a></div><div class="ttdeci">constexpr ConstIterator end() const</div><div class="ttdoc">Gets an ConstIterator to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:425</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a660bdb208560a537cf52bd852fdbed16"><div class="ttname"><a href="class_minty_1_1_vector.html#a660bdb208560a537cf52bd852fdbed16">Minty::Vector::add</a></div><div class="ttdeci">void add(T const &amp;value)</div><div class="ttdoc">Adds an element to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:618</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a7477de2a22fea7b463f36c0fcf19d30c"><div class="ttname"><a href="class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(IteratorType const &amp;it, T const &amp;value)</div><div class="ttdoc">Inserts the given value at the given iterator position.</div><div class="ttdef"><b>Definition</b> Vector.h:764</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a7477de2a22fea7b463f36c0fcf19d30c"><div class="ttname"><a href="class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(IteratorType const &amp;it, T const &amp;value)</div><div class="ttdoc">Inserts the given value at the given iterator position.</div><div class="ttdef"><b>Definition</b> Vector.h:766</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a7d159306b38ef0a94d6ec0bbdd17952a"><div class="ttname"><a href="class_minty_1_1_vector.html#a7d159306b38ef0a94d6ec0bbdd17952a">Minty::Vector::rbegin</a></div><div class="ttdeci">constexpr ReverseIterator rbegin()</div><div class="ttdoc">Gets a ReverseIterator to the beginning of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:431</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a9280998db8321b9ab4cd74137fad8c94"><div class="ttname"><a href="class_minty_1_1_vector.html#a9280998db8321b9ab4cd74137fad8c94">Minty::Vector::get_capacity</a></div><div class="ttdeci">constexpr Size get_capacity() const</div><div class="ttdoc">Gets the capacity of this Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:521</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_a9549c6a227c718494ab3012637dfc080"><div class="ttname"><a href="class_minty_1_1_vector.html#a9549c6a227c718494ab3012637dfc080">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(Size const index, IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Inserts the range of elements at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:791</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_a9549c6a227c718494ab3012637dfc080"><div class="ttname"><a href="class_minty_1_1_vector.html#a9549c6a227c718494ab3012637dfc080">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(Size const index, IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Inserts the range of elements at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:793</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a97f51ac65c95f89ff2f2a79fc7c2eb8f"><div class="ttname"><a href="class_minty_1_1_vector.html#a97f51ac65c95f89ff2f2a79fc7c2eb8f">Minty::Vector::Vector</a></div><div class="ttdeci">Vector(Vector const &amp;other)</div><div class="ttdoc">Copies the given Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:98</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_a9906b58289a1e76038ba043fe4f7fe61"><div class="ttname"><a href="class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61">Minty::Vector::reserve</a></div><div class="ttdeci">void reserve(Size const capacity)</div><div class="ttdoc">Resizes the internal array to the given capacity, if it is larger than the current capacity.</div><div class="ttdef"><b>Definition</b> Vector.h:550</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_aa1bc06630d7d55eba519575f6ea36de0"><div class="ttname"><a href="class_minty_1_1_vector.html#aa1bc06630d7d55eba519575f6ea36de0">Minty::Vector::remove</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type remove(IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Removes a range of elements from the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:923</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_aa784fac8f4ae257d0c8ffdcff8ab3f69"><div class="ttname"><a href="class_minty_1_1_vector.html#aa784fac8f4ae257d0c8ffdcff8ab3f69">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; InsertIteratorType &gt;::value &amp;&amp;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(InsertIteratorType const &amp;it, IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Inserts the range of elements at the given iterator.</div><div class="ttdef"><b>Definition</b> Vector.h:849</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_aa1bc06630d7d55eba519575f6ea36de0"><div class="ttname"><a href="class_minty_1_1_vector.html#aa1bc06630d7d55eba519575f6ea36de0">Minty::Vector::remove</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type remove(IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Removes a range of elements from the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:925</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_aa784fac8f4ae257d0c8ffdcff8ab3f69"><div class="ttname"><a href="class_minty_1_1_vector.html#aa784fac8f4ae257d0c8ffdcff8ab3f69">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; InsertIteratorType &gt;::value &amp;&amp;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(InsertIteratorType const &amp;it, IteratorType const &amp;begin, IteratorType const &amp;end)</div><div class="ttdoc">Inserts the range of elements at the given iterator.</div><div class="ttdef"><b>Definition</b> Vector.h:851</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_aaaa3b0542638966f6b4e4e7b50d22f53"><div class="ttname"><a href="class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53">Minty::Vector::~Vector</a></div><div class="ttdeci">constexpr ~Vector()</div><div class="ttdef"><b>Definition</b> Vector.h:126</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_aace5419a23204dfc7965b824f8bd1936"><div class="ttname"><a href="class_minty_1_1_vector.html#aace5419a23204dfc7965b824f8bd1936">Minty::Vector::rend</a></div><div class="ttdeci">constexpr ReverseIterator rend()</div><div class="ttdoc">Gets an ReverseIterator to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:437</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_aaf76fb5a56f5993221cfa60a3edc8218"><div class="ttname"><a href="class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218">Minty::Vector::at</a></div><div class="ttdeci">constexpr T const &amp; at(Size const index) const</div><div class="ttdoc">Gets the element at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:952</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_ab82ce6e41794c07be26d440a8edbd988"><div class="ttname"><a href="class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(IteratorType const &amp;it, T &amp;&amp;value)</div><div class="ttdoc">Inserts the given value at the given iterator position.</div><div class="ttdef"><b>Definition</b> Vector.h:777</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_ac46810a990fc766db98ae27a7a0fe2a3"><div class="ttname"><a href="class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3">Minty::Vector::add</a></div><div class="ttdeci">void add(T &amp;&amp;value)</div><div class="ttdoc">Adds an element to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:641</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_aaf76fb5a56f5993221cfa60a3edc8218"><div class="ttname"><a href="class_minty_1_1_vector.html#aaf76fb5a56f5993221cfa60a3edc8218">Minty::Vector::at</a></div><div class="ttdeci">constexpr T const &amp; at(Size const index) const</div><div class="ttdoc">Gets the element at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:954</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_ab82ce6e41794c07be26d440a8edbd988"><div class="ttname"><a href="class_minty_1_1_vector.html#ab82ce6e41794c07be26d440a8edbd988">Minty::Vector::insert</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type insert(IteratorType const &amp;it, T &amp;&amp;value)</div><div class="ttdoc">Inserts the given value at the given iterator position.</div><div class="ttdef"><b>Definition</b> Vector.h:779</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_ac46810a990fc766db98ae27a7a0fe2a3"><div class="ttname"><a href="class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3">Minty::Vector::add</a></div><div class="ttdeci">void add(T &amp;&amp;value)</div><div class="ttdoc">Adds an element to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:642</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_acc4dfa28bb782d56004ac4941ad9a04b"><div class="ttname"><a href="class_minty_1_1_vector.html#acc4dfa28bb782d56004ac4941ad9a04b">Minty::Vector::get_size</a></div><div class="ttdeci">constexpr Size get_size() const</div><div class="ttdoc">Gets the size of this Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:527</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_ad2d51328e507f1624df66589b37b5577"><div class="ttname"><a href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">Minty::Vector::insert</a></div><div class="ttdeci">void insert(Size const index, T const &amp;value)</div><div class="ttdoc">Inserts the given value at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:681</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_ad2d51328e507f1624df66589b37b5577"><div class="ttname"><a href="class_minty_1_1_vector.html#ad2d51328e507f1624df66589b37b5577">Minty::Vector::insert</a></div><div class="ttdeci">void insert(Size const index, T const &amp;value)</div><div class="ttdoc">Inserts the given value at the given index.</div><div class="ttdef"><b>Definition</b> Vector.h:683</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_ad395b9af6a7fa32f3d19768b3beb367d"><div class="ttname"><a href="class_minty_1_1_vector.html#ad395b9af6a7fa32f3d19768b3beb367d">Minty::Vector::get_data</a></div><div class="ttdeci">constexpr T * get_data()</div><div class="ttdoc">Gets the internal pointer to the data.</div><div class="ttdef"><b>Definition</b> Vector.h:533</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_ad5195c383a79ae36826d4aaf65793132"><div class="ttname"><a href="class_minty_1_1_vector.html#ad5195c383a79ae36826d4aaf65793132">Minty::Vector::operator[]</a></div><div class="ttdeci">constexpr T const &amp; operator[](Size const index) const</div><div class="ttdef"><b>Definition</b> Vector.h:507</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_ad563278a234e8c339710224cf618faa6"><div class="ttname"><a href="class_minty_1_1_vector.html#ad563278a234e8c339710224cf618faa6">Minty::Vector::end</a></div><div class="ttdeci">constexpr Iterator end()</div><div class="ttdoc">Gets an Iterator to the end of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:413</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_ad9c16e0c95364dd450307ca9feba6dfd"><div class="ttname"><a href="class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd">Minty::Vector::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Removes all elements from the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:1027</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_ad9c16e0c95364dd450307ca9feba6dfd"><div class="ttname"><a href="class_minty_1_1_vector.html#ad9c16e0c95364dd450307ca9feba6dfd">Minty::Vector::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Removes all elements from the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:1029</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_af4a6c5915d74ba6f04b8979b7dc73fa7"><div class="ttname"><a href="class_minty_1_1_vector.html#af4a6c5915d74ba6f04b8979b7dc73fa7">Minty::Vector::get_data</a></div><div class="ttdeci">constexpr T const * get_data() const</div><div class="ttdoc">Gets the internal pointer to the data.</div><div class="ttdef"><b>Definition</b> Vector.h:539</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_af4ad2794792bde6da45e3538c185637f"><div class="ttname"><a href="class_minty_1_1_vector.html#af4ad2794792bde6da45e3538c185637f">Minty::Vector::begin</a></div><div class="ttdeci">constexpr Iterator begin()</div><div class="ttdoc">Gets an Iterator to the beginning of the Vector.</div><div class="ttdef"><b>Definition</b> Vector.h:407</div></div>
-<div class="ttc" id="aclass_minty_1_1_vector_html_af58e84a974ab1a059a0ac6b97516af0c"><div class="ttname"><a href="class_minty_1_1_vector.html#af58e84a974ab1a059a0ac6b97516af0c">Minty::Vector::remove</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type remove(IteratorType const &amp;it)</div><div class="ttdoc">Removes the element at the given iterator.</div><div class="ttdef"><b>Definition</b> Vector.h:883</div></div>
+<div class="ttc" id="aclass_minty_1_1_vector_html_af58e84a974ab1a059a0ac6b97516af0c"><div class="ttname"><a href="class_minty_1_1_vector.html#af58e84a974ab1a059a0ac6b97516af0c">Minty::Vector::remove</a></div><div class="ttdeci">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type remove(IteratorType const &amp;it)</div><div class="ttdoc">Removes the element at the given iterator.</div><div class="ttdef"><b>Definition</b> Vector.h:885</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html_afb43f43389ce1afaed2f9fbbb1558001"><div class="ttname"><a href="class_minty_1_1_vector.html#afb43f43389ce1afaed2f9fbbb1558001">Minty::Vector::Vector</a></div><div class="ttdeci">Vector(Size const capacity, Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates an empty Vector with the given capacity.</div><div class="ttdef"><b>Definition</b> Vector.h:46</div></div>
 <div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
 <div class="ttc" id="anamespace_minty_html_a255c27cd8d5eacbbcbb02c4962ef3079"><div class="ttname"><a href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Minty::Size</a></div><div class="ttdeci">size_t Size</div><div class="ttdef"><b>Definition</b> Types.h:18</div></div>
 <div class="ttc" id="anamespace_minty_html_a4cbd3183c35c43b4139f84280c85d033"><div class="ttname"><a href="namespace_minty.html#a4cbd3183c35c43b4139f84280c85d033">Minty::construct_array</a></div><div class="ttdeci">T * construct_array(Size const size, Allocator const allocator, Args &amp;&amp;... args)</div><div class="ttdoc">Creates a new array of objects of the given type using the given allocator.</div><div class="ttdef"><b>Definition</b> Base.h:46</div></div>
 <div class="ttc" id="anamespace_minty_html_a7c125bea6ecb565e1e79dab1f8526803"><div class="ttname"><a href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Minty::Allocator</a></div><div class="ttdeci">Allocator</div><div class="ttdoc">Defines how a given resource is allocated in memory.</div><div class="ttdef"><b>Definition</b> Allocator.h:9</div></div>
 <div class="ttc" id="anamespace_minty_html_a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67"><div class="ttname"><a href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Minty::Allocator::Default</a></div><div class="ttdeci">@ Default</div><div class="ttdoc">This resource will be allocated using the system&#39;s default allocator.</div><div class="ttdef"><b>Definition</b> Allocator.h:13</div></div>
+<div class="ttc" id="anamespace_minty_html_a82e54782d22b7f76adf500b256213be2"><div class="ttname"><a href="namespace_minty.html#a82e54782d22b7f76adf500b256213be2">Minty::allocate</a></div><div class="ttdeci">void * allocate(Size const size, Allocator const allocator)</div><div class="ttdoc">Allocates a block of memory of the given size using the given allocator.</div><div class="ttdef"><b>Definition</b> Base.cpp:7</div></div>
 <div class="ttc" id="anamespace_minty_html_a910b025ccb027a56bcf5a973446e9ab0"><div class="ttname"><a href="namespace_minty.html#a910b025ccb027a56bcf5a973446e9ab0">Minty::destruct_array</a></div><div class="ttdeci">void destruct_array(T *const ptr, Size const size, Allocator const allocator)</div><div class="ttdoc">Destroys the given array of objects.</div><div class="ttdef"><b>Definition</b> Base.h:92</div></div>
 <div class="ttc" id="anamespace_minty_html_aa1d82ce9c3f5f664d8e1b97c305645e5"><div class="ttname"><a href="namespace_minty.html#aa1d82ce9c3f5f664d8e1b97c305645e5">Minty::deallocate</a></div><div class="ttdeci">void deallocate(void *const ptr, Size const size, Allocator const allocator)</div><div class="ttdoc">Frees the memory allocated by the given pointer using the given allocator.</div><div class="ttdef"><b>Definition</b> Base.cpp:20</div></div>
 <div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:7</div></div>

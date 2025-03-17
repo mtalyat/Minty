@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Type.h"
 #include "Minty/Core/Math.h"
+#include "Minty/Data/Color.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/UUID.h"
 
@@ -104,10 +105,6 @@ Type Minty::type_typeid(TypeID const typeId)
 	{
 		return Type::Double;
 	}
-	else if (typeId == typeid(String))
-	{
-		return Type::String;
-	}
 	else if (typeId == typeid(Matrix2))
 	{
 		return Type::Matrix2;
@@ -124,9 +121,21 @@ Type Minty::type_typeid(TypeID const typeId)
 	{
 		return Type::Quaternion;
 	}
+	else if (typeId == typeid(Color))
+	{
+		return Type::Color;
+	}
 	else if (typeId == typeid(UUID))
 	{
 		return Type::UUID;
+	}
+	else if (typeId == typeid(void*))
+	{
+		return Type::Object;
+	}
+	else if (typeId == typeid(String))
+	{
+		return Type::String;
 	}
 	else
 	{
@@ -138,6 +147,8 @@ TypeID Minty::typeid_type(Type const type)
 {
 	switch (type)
 	{
+	case Type::Undefined:
+		return typeid(nullptr);
 	case Type::Bool:
 		return typeid(Bool);
 	case Type::Bool2:
@@ -186,9 +197,6 @@ TypeID Minty::typeid_type(Type const type)
 		return typeid(Float4);
 	case Type::Double:
 		return typeid(Double);
-	case Type::String:
-	case Type::MultilineString:
-		return typeid(String);
 	case Type::Matrix2:
 		return typeid(Matrix2);
 	case Type::Matrix3:
@@ -197,8 +205,15 @@ TypeID Minty::typeid_type(Type const type)
 		return typeid(Matrix4);
 	case Type::Quaternion:
 		return typeid(Quaternion);
+	case Type::Color:
+		return typeid(Color);
 	case Type::UUID:
 		return typeid(UUID);
+	case Type::Object:
+		return typeid(void*);
+	case Type::String:
+	case Type::MultilineString:
+		return typeid(String);
 	default:
 		MINTY_ABORT("typeid_type not implemented for given type.");
 	}
@@ -258,9 +273,6 @@ Size Minty::sizeof_type(Type const type)
 		return sizeof(Float4);
 	case Type::Double:
 		return sizeof(Double);
-	case Type::String:
-	case Type::MultilineString:
-		return sizeof(String);
 	case Type::Matrix2:
 		return sizeof(Matrix2);
 	case Type::Matrix3:
@@ -269,11 +281,16 @@ Size Minty::sizeof_type(Type const type)
 		return sizeof(Matrix4);
 	case Type::Quaternion:
 		return sizeof(Quaternion);
-	case Type::Object:
-		return sizeof(void*);
+	case Type::Color:
+		return sizeof(Color);
 	case Type::UUID:
 		return sizeof(UUID);
+	case Type::Object:
+		return sizeof(void*);
+	case Type::String:
+	case Type::MultilineString:
+		return sizeof(String);
 	default:
-		MINTY_ABORT("typeof_type not implemented for given type.");
+		MINTY_ABORT("sizeof_type not implemented for given type.");
 	}
 }

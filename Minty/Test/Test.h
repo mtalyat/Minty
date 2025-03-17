@@ -65,6 +65,7 @@ public:
 
 	// test start macro
 #define TEST(testName) _test.set_test(testName);
+#define SETUP() TEST("Setup")
 
 	// helper macros
 #define PRINT(message) { _test.restore_output(); std::cout << message << std::endl; _test.capture_output(); }

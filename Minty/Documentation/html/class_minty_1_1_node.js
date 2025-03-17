@@ -12,7 +12,6 @@ var class_minty_1_1_node =
     [ "get_child", "class_minty_1_1_node.html#a92a8284a0d612656168f492dd5f2908f", null ],
     [ "get_children", "class_minty_1_1_node.html#ad516c7f004b1ec8e222fa0e475c183c1", null ],
     [ "get_children_size", "class_minty_1_1_node.html#acee088b56cc96253acdaf7bd69713f50", null ],
-    [ "get_data", "class_minty_1_1_node.html#a530383358bf9d4fe5f681817d8e5deb6", null ],
     [ "get_data", "class_minty_1_1_node.html#a85930c6488524cdb9eee7aa3d5a5eb17", null ],
     [ "get_data_string", "class_minty_1_1_node.html#aef6de43d1b0e44fc455bc5d677da7ec0", null ],
     [ "get_name", "class_minty_1_1_node.html#a05947d9ab2ce4ab07c98ca6f22752362", null ],

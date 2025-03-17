@@ -556,16 +556,16 @@ namespace Minty
 			}
 
 			// create new array
-			T* newData = construct_array<T>(capacity, m_allocator);
+			T* newData = static_cast<T*>(allocate(capacity * sizeof(T), m_allocator));
+
+			// clear for good measure
+			memset(newData, 0, capacity * sizeof(T));
 			
 			// move data over, if it exists
 			if (mp_data)
 			{
-				for (Size i = 0; i < m_size; ++i)
-				{
-					newData[i] = std::move(mp_data[i]);
-				}
-				destruct_array(mp_data, m_size, m_allocator);
+				memcpy(newData, mp_data, m_size * sizeof(T));
+				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 			}
 
 			// replace data
@@ -631,7 +631,8 @@ namespace Minty
 			}
 
 			// add value
-			mp_data[m_size++] = value;
+			void* ptr = &mp_data[m_size++];
+			new (ptr) T(value);
 		}
 
 		/// <summary>
@@ -654,7 +655,8 @@ namespace Minty
 			}
 
 			// add value
-			mp_data[m_size++] = std::move(value);
+			void* ptr = &mp_data[m_size++];
+			new (ptr) T(std::move(value));
 		}
 
 		/// <summary>

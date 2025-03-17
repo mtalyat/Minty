@@ -211,10 +211,12 @@ var namespace_minty =
       [ "Matrix3", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda68f96af9f098301f98ee01187c9e8700", null ],
       [ "Matrix4", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda218021da9a8517e946ebfd95e097e1d3", null ],
       [ "Quaternion", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda3743af167c53361d795405561faac2b2", null ],
+      [ "Color", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdacb5feb1b7314637725a2e73bdc9f7295", null ],
       [ "UUID", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a", null ],
       [ "Object", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda497031794414a552435f90151ac3b54b", null ],
       [ "String", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98", null ],
-      [ "MultilineString", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c", null ]
+      [ "MultilineString", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c", null ],
+      [ "Count", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdae93f994f01c537c4e2f7d8528c3eb5e9", null ]
     ] ],
     [ "allocate", "namespace_minty.html#a82e54782d22b7f76adf500b256213be2", null ],
     [ "asset_type_typeid", "namespace_minty.html#a3997ca3434158029579d5b5293c6a491", null ],

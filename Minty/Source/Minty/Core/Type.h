@@ -37,10 +37,13 @@ namespace Minty
 		Matrix3,
 		Matrix4,
 		Quaternion,
+		Color,
 		UUID,
 		Object,
 		String,
 		MultilineString,
+
+		Count,
 	};
 
 	/// <summary>

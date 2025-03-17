@@ -22,7 +22,7 @@ Node& Minty::Node::add_child(String const& name, void const* const data, Size co
 
 	Node child(name, data, size, m_allocator);
 	Int const index = static_cast<Int>(m_children.get_size());
-	m_children.add(child);
+	m_children.add(std::move(child));
 	m_lookup[name] = index;
 	return m_children.at(index);
 }

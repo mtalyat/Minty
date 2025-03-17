@@ -231,8 +231,9 @@ void test_Node(Test& _test)
 			Node& child1 = node.add_child("Child1");
 			EXPECT_EQUAL(node.get_children_size(), 2);
 			EXPECT_EQUAL(child0.get_name(), "Child0");
-			EXPECT_EQUAL(*static_cast<Size*>(child0.get_data().get_data()), data);
-			EXPECT_EQUAL(child0.get_data().get_size(), sizeof(Size));
+			DynamicContainer const& container = child0.get_data();
+			EXPECT_EQUAL(container.get_size(), sizeof(Size));
+			EXPECT_EQUAL(*static_cast<Size*>(container.get_data()), data);
 			EXPECT_EQUAL(child1.get_name(), "Child1");
 			EXPECT_EQUAL(child1.get_data().get_size(), 0);
 			EXPECT_EQUAL(node.get_child(0).get_name(), "Child0");

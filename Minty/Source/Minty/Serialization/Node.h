@@ -151,12 +151,6 @@ namespace Minty
 		/// Gets the data of this Node.
 		/// </summary>
 		/// <returns>The data container.</returns>
-		DynamicContainer& get_data() { return m_data; }
-
-		/// <summary>
-		/// Gets the data of this Node.
-		/// </summary>
-		/// <returns>The data container.</returns>
 		DynamicContainer const& get_data() const { return m_data; }
 
 		/// <summary>
