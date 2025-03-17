@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['default_0',['Default',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default'],['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default']]]
+  ['default_0',['Default',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default'],['../namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67',1,'Minty::Default']]],
+  ['double_1',['Double',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdad909d38d705ce75386dd86e611a82f5b',1,'Minty']]]
 ];

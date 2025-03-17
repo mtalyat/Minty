@@ -13,10 +13,10 @@ var searchData=
   ['blockcountcapacity_10',['blockCountCapacity',['../struct_minty_1_1_memory_pool_builder.html#aecc1a63a6da938a53565175d4a427df2',1,'Minty::MemoryPoolBuilder']]],
   ['blocksize_11',['blockSize',['../struct_minty_1_1_memory_pool_builder.html#acb806c83cc83d56a1a8e63f2847da8b4',1,'Minty::MemoryPoolBuilder']]],
   ['blue_12',['Blue',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a9594eec95be70e7b1710f730fdda33d9',1,'Minty::Debug']]],
-  ['bool_13',['Bool',['../namespace_minty.html#ae50ca127ff317b788faaab0563a8df56',1,'Minty']]],
-  ['bool2_14',['Bool2',['../namespace_minty.html#a56bd316ece342dc86b2d65f6ab626d6a',1,'Minty']]],
-  ['bool3_15',['Bool3',['../namespace_minty.html#a227bf55c5aa3d30f13cb353dc6b4aa64',1,'Minty']]],
-  ['bool4_16',['Bool4',['../namespace_minty.html#a1a3c84f6247b42ad027c8f2f5e89e8c0',1,'Minty']]],
+  ['bool_13',['Bool',['../namespace_minty.html#ae50ca127ff317b788faaab0563a8df56',1,'Minty::Bool'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac26f15e86e3de4c398a8273272aba034',1,'Minty::Bool']]],
+  ['bool2_14',['Bool2',['../namespace_minty.html#a56bd316ece342dc86b2d65f6ab626d6a',1,'Minty::Bool2'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda73af8bcb07425ae162fc7f05a5cbcb22',1,'Minty::Bool2']]],
+  ['bool3_15',['Bool3',['../namespace_minty.html#a227bf55c5aa3d30f13cb353dc6b4aa64',1,'Minty::Bool3'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda4d978bf59f2fedefae73f9276f3ccd51',1,'Minty::Bool3']]],
+  ['bool4_16',['Bool4',['../namespace_minty.html#a1a3c84f6247b42ad027c8f2f5e89e8c0',1,'Minty::Bool4'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdaf2f2c4f40d1e45e4f9422940fcdb9017',1,'Minty::Bool4']]],
   ['brightblack_17',['BrightBlack',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a8fbf7e1405c12b2e7b085d51f018a253',1,'Minty::Debug']]],
   ['brightblue_18',['BrightBlue',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a374480f5115466da840c6da08bd6a071',1,'Minty::Debug']]],
   ['brightcyan_19',['BrightCyan',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625ad0ab251cbfd49b7cc62ea1d25da3bac2',1,'Minty::Debug']]],
@@ -25,5 +25,5 @@ var searchData=
   ['brightred_22',['BrightRed',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a37ac9be0fdc65c5558356e3c8438d851',1,'Minty::Debug']]],
   ['brightwhite_23',['BrightWhite',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a44a07eabeb77868ee704ec159a59e8e4',1,'Minty::Debug']]],
   ['brightyellow_24',['BrightYellow',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a7eef58f3be127af697d00af08dd709ac',1,'Minty::Debug']]],
-  ['byte_25',['Byte',['../namespace_minty.html#abef3357ce7a39ebc4d787a38199de199',1,'Minty']]]
+  ['byte_25',['Byte',['../namespace_minty.html#abef3357ce7a39ebc4d787a38199de199',1,'Minty::Byte'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdaa245c3230debe5c956484ecc6fa93877',1,'Minty::Byte']]]
 ];

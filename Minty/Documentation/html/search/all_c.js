@@ -21,9 +21,9 @@ var searchData=
   ['materialtemplate_18',['MaterialTemplate',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a3adccb7d2ead14f9a8ede91f9f5d2249',1,'Minty']]],
   ['math_2ecpp_19',['Math.cpp',['../_math_8cpp.html',1,'']]],
   ['math_2eh_20',['Math.h',['../_math_8h.html',1,'']]],
-  ['matrix2_21',['Matrix2',['../namespace_minty.html#aedb3f5fffa9dff3c7fc7948bdf165b59',1,'Minty']]],
-  ['matrix3_22',['Matrix3',['../namespace_minty.html#a3a52fd206868c3f845e19fd8f7d82e33',1,'Minty']]],
-  ['matrix4_23',['Matrix4',['../namespace_minty.html#a27a81c458cf9938299dbbd83970f4fab',1,'Minty']]],
+  ['matrix2_21',['Matrix2',['../namespace_minty.html#aedb3f5fffa9dff3c7fc7948bdf165b59',1,'Minty::Matrix2'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdabb0157417bfa7edf8606c39ca7a0a503',1,'Minty::Matrix2']]],
+  ['matrix3_22',['Matrix3',['../namespace_minty.html#a3a52fd206868c3f845e19fd8f7d82e33',1,'Minty::Matrix3'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda68f96af9f098301f98ee01187c9e8700',1,'Minty::Matrix3']]],
+  ['matrix4_23',['Matrix4',['../namespace_minty.html#a27a81c458cf9938299dbbd83970f4fab',1,'Minty::Matrix4'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda218021da9a8517e946ebfd95e097e1d3',1,'Minty::Matrix4']]],
   ['max_24',['max',['../namespace_minty_1_1_math.html#ad04a8562bab56f40196fc94b09099b72',1,'Minty::Math::max(T const a, T const b)'],['../namespace_minty_1_1_math.html#a09be849c9e5df2e68d6ae9860313c100',1,'Minty::Math::max(T const a, Args const ... args)']]],
   ['max_5fchannel_25',['MAX_CHANNEL',['../struct_minty_1_1_color.html#aba2b1e37d2fc82d0e5c85da165b4eee4',1,'Minty::Color']]],
   ['mb_26',['MB',['../namespace_minty.html#a50502c180fadbebbbe55753ae7ae37a7',1,'Minty']]],
@@ -63,5 +63,6 @@ var searchData=
   ['minty_5fwarning_60',['MINTY_WARNING',['../_macro_8h.html#a2f9a744986e882411a6c41b462c5618a',1,'Macro.h']]],
   ['minty_5fwrite_61',['MINTY_WRITE',['../_macro_8h.html#a1eb758a12d335eb292e655a56e8fb9cf',1,'Macro.h']]],
   ['move_62',['move',['../class_minty_1_1_file.html#ae5457a1bd237c45ed7071fdaa4cb107b',1,'Minty::File']]],
-  ['mp_5fdata_63',['mp_data',['../class_minty_1_1_memory_container.html#a36d063e60ed5816b7edeb0648333d0ee',1,'Minty::MemoryContainer']]]
+  ['mp_5fdata_63',['mp_data',['../class_minty_1_1_memory_container.html#a36d063e60ed5816b7edeb0648333d0ee',1,'Minty::MemoryContainer']]],
+  ['multilinestring_64',['MultilineString',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c',1,'Minty']]]
 ];

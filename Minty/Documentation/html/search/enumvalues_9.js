@@ -10,5 +10,6 @@ var searchData=
   ['level7_7',['Level7',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a1ac532f8ad594ca1b5beff35b0c178fc',1,'Minty']]],
   ['level8_8',['Level8',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a504f1878f14d62fc9d8c4f4ffc61fe91',1,'Minty']]],
   ['level9_9',['Level9',['../namespace_minty.html#abe96803589e915713959c294c0df12c6ad3ab3469c7484c78b3b0aac45a2f5a3d',1,'Minty']]],
-  ['low_10',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
+  ['long_10',['Long',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda8394f0347c184cf156ac5924dccb773b',1,'Minty']]],
+  ['low_11',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
 ];

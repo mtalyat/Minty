@@ -19,6 +19,6 @@ var searchData=
   ['load_16',['load',['../class_minty_1_1_wrap.html#ac82437b93c3afeb2ec93e54319986c98',1,'Minty::Wrap']]],
   ['load_5for_5fcreate_17',['load_or_create',['../class_minty_1_1_wrap.html#a5d909396abb02f2ee602ab76b37c64d8',1,'Minty::Wrap']]],
   ['load_5fwrap_18',['load_wrap',['../class_minty_1_1_asset_manager.html#ade3f4004c0e5e852d3a70bdb9c76454b',1,'Minty::AssetManager']]],
-  ['long_19',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty']]],
+  ['long_19',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty::Long'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda8394f0347c184cf156ac5924dccb773b',1,'Minty::Long']]],
   ['low_20',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
 ];

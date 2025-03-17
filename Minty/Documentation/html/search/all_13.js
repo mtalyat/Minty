@@ -19,10 +19,14 @@ var searchData=
   ['tostring_2eh_16',['ToString.h',['../_to_string_8h.html',1,'']]],
   ['translate_17',['translate',['../namespace_minty_1_1_math.html#ab47164c6771ad11c1fb4f6b74e815ca2',1,'Minty::Math']]],
   ['truncate_18',['Truncate',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aaa8156810bfee2bd2b44765b9e91db3bd',1,'Minty::File']]],
-  ['type_19',['Type',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120e',1,'Minty::Wrap']]],
+  ['type_19',['Type',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120e',1,'Minty::Wrap::Type'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd',1,'Minty::Type']]],
   ['type_20',['type',['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header']]],
-  ['typeid_21',['TypeID',['../namespace_minty.html#af16bfe766105040a120169c9f6608402',1,'Minty']]],
-  ['typeindex_22',['TypeIndex',['../namespace_minty.html#afa566622bbe524f9e3d36f6bb12402b7',1,'Minty']]],
-  ['typeinfo_23',['TypeInfo',['../namespace_minty.html#ac20217fb7376b507278dedce18fd8e91',1,'Minty']]],
-  ['types_2eh_24',['Types.h',['../_types_8h.html',1,'']]]
+  ['type_2ecpp_21',['Type.cpp',['../_type_8cpp.html',1,'']]],
+  ['type_2eh_22',['Type.h',['../_type_8h.html',1,'']]],
+  ['type_5ftypeid_23',['type_typeid',['../namespace_minty.html#a81812a6bb65a38856d2045920a26e685',1,'Minty']]],
+  ['typeid_24',['TypeID',['../namespace_minty.html#af16bfe766105040a120169c9f6608402',1,'Minty']]],
+  ['typeid_5ftype_25',['typeid_type',['../namespace_minty.html#a54191006d794604e76cebcf24101ee9e',1,'Minty']]],
+  ['typeindex_26',['TypeIndex',['../namespace_minty.html#afa566622bbe524f9e3d36f6bb12402b7',1,'Minty']]],
+  ['typeinfo_27',['TypeInfo',['../namespace_minty.html#ac20217fb7376b507278dedce18fd8e91',1,'Minty']]],
+  ['types_2eh_28',['Types.h',['../_types_8h.html',1,'']]]
 ];
