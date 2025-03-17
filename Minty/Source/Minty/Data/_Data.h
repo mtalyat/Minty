@@ -17,4 +17,5 @@
 #include "StaticContainer.h"
 #include "String.h"
 #include "UUID.h"
+#include "Variable.h"
 #include "Vector.h"

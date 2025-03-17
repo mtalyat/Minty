@@ -33,14 +33,14 @@ namespace Minty
 		Float3,
 		Float4,
 		Double,
-		String,
-		MultilineString,
 		Matrix2,
 		Matrix3,
 		Matrix4,
 		Quaternion,
-		Object,
 		UUID,
+		Object,
+		String,
+		MultilineString,
 	};
 
 	/// <summary>

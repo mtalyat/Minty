@@ -20,6 +20,7 @@
 #include "Test_StaticContainer.h"
 #include "Test_String.h"
 #include "Test_UUID.h"
+#include "Test_Variable.h"
 #include "Test_Vector.h"
 
 // Debug
@@ -84,6 +85,7 @@ static void run_tests()
 	test_StaticContainer(_test);
 	test_String(_test);
 	test_UUID(_test);
+	test_Variable(_test);
 	test_Vector(_test);
 
 	// File

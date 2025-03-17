@@ -24,6 +24,7 @@ var searchData=
   ['_7eset_21',['~Set',['../class_minty_1_1_set.html#a3c982fac1772f86a711148cab99b99ba',1,'Minty::Set']]],
   ['_7estack_22',['~Stack',['../class_minty_1_1_stack.html#a20200cba751122c9babf97e5bce3d594',1,'Minty::Stack']]],
   ['_7estring_23',['~String',['../class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891',1,'Minty::String']]],
-  ['_7evector_24',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]],
-  ['_7evirtualfile_25',['~VirtualFile',['../class_minty_1_1_virtual_file.html#ae74a7316f82a3faa88b74f750731e5b1',1,'Minty::VirtualFile']]]
+  ['_7evariable_24',['~Variable',['../class_minty_1_1_variable.html#a8fb4d4421fdbb39d2ab463909de171dc',1,'Minty::Variable']]],
+  ['_7evector_25',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]],
+  ['_7evirtualfile_26',['~VirtualFile',['../class_minty_1_1_virtual_file.html#ae74a7316f82a3faa88b74f750731e5b1',1,'Minty::VirtualFile']]]
 ];

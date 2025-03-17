@@ -61,16 +61,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"class_minty_1_1_array_1_1_const_iterator.html#ac9db7cae6c7496e2167a4a7f52bb8fed",
-"class_minty_1_1_dual_buffer.html#ac3e9fa99b6c2b25639c6cd45847312f0",
-"class_minty_1_1_list_1_1_const_reverse_iterator.html#a5dc54eebe57a55746ecdac9918240988",
-"class_minty_1_1_memory_pool.html#a007d7638b0364c4bc3936b800a7ec2af",
-"class_minty_1_1_path.html#ae6329f2622e09795470c66ec31d706dc",
-"class_minty_1_1_set.html#ae74a86d8b5bdf8189938c530a2d7b504",
-"class_minty_1_1_vector.html#a0bc61a022c0790e69cac81c642ec3193",
-"class_minty_1_1_virtual_file.html#aa6e69f5c2f68bce45db87555117073fc",
-"namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda4c6bc90f2bbdf35523e29c414a57bad3",
-"struct_minty_1_1_wrap_1_1_entry.html#a1b0492d8d3b5f85ff406bb270473970f"
+"class_minty_1_1_array_1_1_const_iterator.html#abc8a8d1820a3b8ba710499d074fced69",
+"class_minty_1_1_dual_buffer.html#a90b2ac0f54ec2a5e0ec73d8a407d304b",
+"class_minty_1_1_list_1_1_const_reverse_iterator.html#a29aceb8829cab9cd7381effd5f2f99ac",
+"class_minty_1_1_memory_pool.html",
+"class_minty_1_1_path.html#ad7ce5677f5e67ab1241c8478611d62dc",
+"class_minty_1_1_set.html#adacdcb5ccbda32090ad987fe408b467c",
+"class_minty_1_1_variable.html#a06a44622a9af62516875032eccbed5b3",
+"class_minty_1_1_vector_1_1_reverse_iterator.html#a90f5df4fce2246195ff2ecc91f4d3d7f",
+"namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a942fbf5aede93f3ba503193e480477c5",
+"struct_minty_1_1_color.html#a85074c97d4bfdd328ecb7db290b7041a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

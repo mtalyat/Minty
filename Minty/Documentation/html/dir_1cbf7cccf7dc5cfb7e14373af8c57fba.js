@@ -26,5 +26,7 @@ var dir_1cbf7cccf7dc5cfb7e14373af8c57fba =
     [ "String.h", "_string_8h.html", "_string_8h" ],
     [ "UUID.cpp", "_u_u_i_d_8cpp.html", null ],
     [ "UUID.h", "_u_u_i_d_8h.html", "_u_u_i_d_8h" ],
+    [ "Variable.cpp", "_variable_8cpp.html", null ],
+    [ "Variable.h", "_variable_8h.html", "_variable_8h" ],
     [ "Vector.h", "_vector_8h.html", "_vector_8h" ]
 ];

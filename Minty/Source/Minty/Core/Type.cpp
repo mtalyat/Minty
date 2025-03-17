@@ -186,6 +186,9 @@ TypeID Minty::typeid_type(Type const type)
 		return typeid(Float4);
 	case Type::Double:
 		return typeid(Double);
+	case Type::String:
+	case Type::MultilineString:
+		return typeid(String);
 	case Type::Matrix2:
 		return typeid(Matrix2);
 	case Type::Matrix3:
@@ -255,6 +258,9 @@ Size Minty::sizeof_type(Type const type)
 		return sizeof(Float4);
 	case Type::Double:
 		return sizeof(Double);
+	case Type::String:
+	case Type::MultilineString:
+		return sizeof(String);
 	case Type::Matrix2:
 		return sizeof(Matrix2);
 	case Type::Matrix3:

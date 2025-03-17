@@ -38,6 +38,7 @@ var annotated_dup =
       [ "StaticContainer", "class_minty_1_1_static_container.html", "class_minty_1_1_static_container" ],
       [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
       [ "UUID", "class_minty_1_1_u_u_i_d.html", "class_minty_1_1_u_u_i_d" ],
+      [ "Variable", "class_minty_1_1_variable.html", "class_minty_1_1_variable" ],
       [ "Vector", "class_minty_1_1_vector.html", "class_minty_1_1_vector" ],
       [ "VirtualFile", "class_minty_1_1_virtual_file.html", "class_minty_1_1_virtual_file" ],
       [ "Wrap", "class_minty_1_1_wrap.html", "class_minty_1_1_wrap" ],

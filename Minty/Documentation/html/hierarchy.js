@@ -71,6 +71,7 @@ var hierarchy =
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
     [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ],
+    [ "Minty::Variable", "class_minty_1_1_variable.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
     [ "Minty::Wrap", "class_minty_1_1_wrap.html", null ],
     [ "Minty::Wrapper", "class_minty_1_1_wrapper.html", null ]

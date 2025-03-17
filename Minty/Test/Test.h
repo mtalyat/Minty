@@ -75,7 +75,7 @@ public:
 	// evaluation macros
 #define PASS(condition) _test.pass(#condition, __LINE__)
 #define FAIL(condition) _test.fail(#condition, __LINE__)
-#define EXPECT(actual, op, expected) try { if((actual) op (expected)) { PASS(actual); } else { FAIL(actual); } } catch(...) { FAIL(actual); }
+#define EXPECT(actual, op, expected) try { if((actual) op (expected)) { PASS(actual op expected); } else { FAIL(actual op expected); } } catch(...) { FAIL(actual op expected); }
 #define EXPECT_EQUAL(actual, expected) EXPECT(actual, ==, expected)
 #define EXPECT_NOT_EQUAL(actual, expected) EXPECT(actual, !=, expected)
 #define EXPECT_TRUE(condition) EXPECT(condition, ==, true)

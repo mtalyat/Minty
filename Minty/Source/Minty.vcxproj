@@ -211,6 +211,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
+    <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
     <ClInclude Include="Minty\Data\String.h" />
     <ClInclude Include="Minty\Data\Vector.h" />
@@ -257,6 +258,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Data\UUID.cpp" />
+    <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
