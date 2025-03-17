@@ -262,6 +262,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
+    <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />
     <ClCompile Include="pch.cpp">

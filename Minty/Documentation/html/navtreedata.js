@@ -65,11 +65,12 @@ var NAVTREEINDEX =
 "class_minty_1_1_dual_buffer.html#aec1a2b56577b28dd907f8af19b15c95c",
 "class_minty_1_1_list_1_1_const_reverse_iterator.html#a9270a88fefe429d2c91f4b5cd9bb0459",
 "class_minty_1_1_memory_pool.html#a1195731316b85a2ed6c093da29ad0aa0",
-"class_minty_1_1_path_1_1_iterator.html#a4877239a6b7f09fbf5a61ca68a49d74c",
-"class_minty_1_1_stack.html#a20200cba751122c9babf97e5bce3d594",
-"class_minty_1_1_vector.html#a97f51ac65c95f89ff2f2a79fc7c2eb8f",
-"class_minty_1_1_wrap.html#a8baa24f233d4045e51f726b42fb89701",
-"namespace_minty.html#ada6729f65a0f551ef39be4fe0bfffa5c"
+"class_minty_1_1_path.html#aeea87d0755f633019963b4842be16553",
+"class_minty_1_1_set_1_1_const_iterator.html",
+"class_minty_1_1_vector.html#a14a8a5cf418c6be0c0aac2e2bb62f91d",
+"class_minty_1_1_virtual_file.html#ac6f1ebe4c007f6d9ca268b8dae7e03ca",
+"namespace_minty.html#a87f9ed056962e9b93566627d0864045a",
+"structstd_1_1hash_3_01_minty_1_1_color_01_4.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

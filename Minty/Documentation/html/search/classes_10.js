@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['wrap_0',['Wrap',['../class_minty_1_1_wrap.html',1,'Minty']]],
-  ['wrapper_1',['Wrapper',['../class_minty_1_1_wrapper.html',1,'Minty']]]
+  ['vector_0',['Vector',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3anode_20_3e_1',['Vector&lt; Minty::Node &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3auuid_20_3e_2',['Vector&lt; Minty::UUID &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3awrap_20_3e_3',['Vector&lt; Minty::Wrap &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3awrap_3a_3aentry_20_3e_4',['Vector&lt; Minty::Wrap::Entry &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['virtualfile_5',['VirtualFile',['../class_minty_1_1_virtual_file.html',1,'Minty']]]
 ];

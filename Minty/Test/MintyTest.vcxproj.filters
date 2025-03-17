@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Tests\Debug">
       <UniqueIdentifier>{e951fa1f-a8b2-4919-ac0a-cb767902e055}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Serialization">
+      <UniqueIdentifier>{2ad639a7-df6f-4ffe-95b7-aac8a979e238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -130,6 +133,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_DynamicContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Test_DynamicContainer.h">
       <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Node.h">
+      <Filter>Header Files\Tests\Serialization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -81,6 +81,7 @@ var namespace_minty =
     [ "MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", "struct_minty_1_1_memory_pool_builder" ],
     [ "MemoryStack", "class_minty_1_1_memory_stack.html", "class_minty_1_1_memory_stack" ],
     [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
+    [ "Node", "class_minty_1_1_node.html", "class_minty_1_1_node" ],
     [ "Owner", "class_minty_1_1_owner.html", "class_minty_1_1_owner" ],
     [ "Pair", "class_minty_1_1_pair.html", "class_minty_1_1_pair" ],
     [ "Path", "class_minty_1_1_path.html", "class_minty_1_1_path" ],

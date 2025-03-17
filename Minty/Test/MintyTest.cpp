@@ -35,6 +35,9 @@
 #include "Test_MemoryPool.h"
 #include "Test_MemoryStack.h"
 
+// Serialization
+#include "Test_Node.h"
+
 // Wrap
 #include "Test_Wrap.h"
 #include "Test_Wrapper.h"
@@ -92,6 +95,9 @@ static void run_tests()
 	test_MemoryManager(_test);
 	test_MemoryPool(_test);
 	test_MemoryStack(_test);
+
+	// Serialization
+	test_Node(_test);
 
 	// Wrap
 	test_Wrap(_test);

@@ -76,8 +76,8 @@ public:
 #define PASS(condition) _test.pass(#condition, __LINE__)
 #define FAIL(condition) _test.fail(#condition, __LINE__)
 #define EXPECT(actual, op, expected) try { if((actual) op (expected)) { PASS(actual); } else { FAIL(actual); } } catch(...) { FAIL(actual); }
-#define EXPECT_EQUAL(actual, expected) EXPECT(expected, ==, actual)
-#define EXPECT_NOT_EQUAL(actual, expected) EXPECT(expected, !=, actual)
+#define EXPECT_EQUAL(actual, expected) EXPECT(actual, ==, expected)
+#define EXPECT_NOT_EQUAL(actual, expected) EXPECT(actual, !=, expected)
 #define EXPECT_TRUE(condition) EXPECT(condition, ==, true)
 #define EXPECT_FALSE(condition) EXPECT(condition, ==, false)
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }

@@ -1,5 +1,5 @@
 # Results
-3493/3493 (100.00%)
+3580/3580 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -47,6 +47,7 @@
 | MemoryManager                  |       87 |        0 |
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
+| Node                           |       87 |        0 |
 | Wrap                           |       74 |        0 |
 | Wrapper                        |       23 |        0 |
 
@@ -95,7 +96,7 @@ No failures! :)
 |  PASS  | 44: Set Background Color (OUTPUT == "\033[106m")                                                                                 |
 |  PASS  | 45: Set Background Color (OUTPUT == "\033[107m")                                                                                 |
 |  PASS  | 50: Reset (OUTPUT == "\033[0m")                                                                                                  |
-|  PASS  | 55: Reset ("\033[31m\033[0m")                                                                                                    |
+|  PASS  | 55: Reset (_test.get_output())                                                                                                   |
 |  PASS  | 60: Write (OUTPUT == "")                                                                                                         |
 |  PASS  | 62: Write (OUTPUT == "Hello, World!")                                                                                            |
 |  PASS  | 63: Write (OUTPUT == "Hello, World! 13")                                                                                         |
@@ -134,30 +135,30 @@ No failures! :)
 ## Math
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 10: Min (1)                                                                                                                      |
-|  PASS  | 11: Min (1)                                                                                                                      |
-|  PASS  | 12: Min (1)                                                                                                                      |
-|  PASS  | 13: Min (1)                                                                                                                      |
-|  PASS  | 14: Min (1)                                                                                                                      |
-|  PASS  | 15: Min (1)                                                                                                                      |
-|  PASS  | 20: Max (2)                                                                                                                      |
-|  PASS  | 21: Max (2)                                                                                                                      |
-|  PASS  | 22: Max (1)                                                                                                                      |
-|  PASS  | 23: Max (3)                                                                                                                      |
-|  PASS  | 24: Max (3)                                                                                                                      |
-|  PASS  | 25: Max (3)                                                                                                                      |
-|  PASS  | 30: Clamp (2)                                                                                                                    |
-|  PASS  | 31: Clamp (2)                                                                                                                    |
-|  PASS  | 32: Clamp (3)                                                                                                                    |
-|  PASS  | 33: Clamp (3)                                                                                                                    |
-|  PASS  | 38: Lerp (2.0f)                                                                                                                  |
-|  PASS  | 39: Lerp (4.0f)                                                                                                                  |
-|  PASS  | 40: Lerp (6.0f)                                                                                                                  |
-|  PASS  | 41: Lerp (10.0f)                                                                                                                 |
-|  PASS  | 46: Lerp Clamped (2.0f)                                                                                                          |
-|  PASS  | 47: Lerp Clamped (4.0f)                                                                                                          |
-|  PASS  | 48: Lerp Clamped (6.0f)                                                                                                          |
-|  PASS  | 49: Lerp Clamped (6.0f)                                                                                                          |
+|  PASS  | 10: Min (Math::min(1, 2))                                                                                                        |
+|  PASS  | 11: Min (Math::min(2, 1))                                                                                                        |
+|  PASS  | 12: Min (Math::min(1, 1))                                                                                                        |
+|  PASS  | 13: Min (Math::min(1, 2, 3))                                                                                                     |
+|  PASS  | 14: Min (Math::min(2, 1, 3))                                                                                                     |
+|  PASS  | 15: Min (Math::min(3, 2, 1))                                                                                                     |
+|  PASS  | 20: Max (Math::max(1, 2))                                                                                                        |
+|  PASS  | 21: Max (Math::max(2, 1))                                                                                                        |
+|  PASS  | 22: Max (Math::max(1, 1))                                                                                                        |
+|  PASS  | 23: Max (Math::max(1, 2, 3))                                                                                                     |
+|  PASS  | 24: Max (Math::max(2, 1, 3))                                                                                                     |
+|  PASS  | 25: Max (Math::max(3, 2, 1))                                                                                                     |
+|  PASS  | 30: Clamp (Math::clamp(1, 2, 3))                                                                                                 |
+|  PASS  | 31: Clamp (Math::clamp(2, 2, 3))                                                                                                 |
+|  PASS  | 32: Clamp (Math::clamp(3, 2, 3))                                                                                                 |
+|  PASS  | 33: Clamp (Math::clamp(4, 2, 3))                                                                                                 |
+|  PASS  | 38: Lerp (Math::lerp(2.0f, 6.0f, 0.0f))                                                                                          |
+|  PASS  | 39: Lerp (Math::lerp(2.0f, 6.0f, 0.5f))                                                                                          |
+|  PASS  | 40: Lerp (Math::lerp(2.0f, 6.0f, 1.0f))                                                                                          |
+|  PASS  | 41: Lerp (Math::lerp(2.0f, 6.0f, 2.0f))                                                                                          |
+|  PASS  | 46: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 0.0f))                                                                          |
+|  PASS  | 47: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 0.5f))                                                                          |
+|  PASS  | 48: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 1.0f))                                                                          |
+|  PASS  | 49: Lerp Clamped (Math::lerp_clamped(2.0f, 6.0f, 2.0f))                                                                          |
 |  PASS  | 54: Round (std::abs(Math::round(1.0) - 1))                                                                                       |
 |  PASS  | 55: Round (std::abs(Math::round(1.4) - 1))                                                                                       |
 |  PASS  | 56: Round (std::abs(Math::round(1.5) - 2))                                                                                       |
@@ -185,10 +186,10 @@ No failures! :)
 |  PASS  | 86: Ceiling (std::abs(Math::ceiling(112.567, 0) - 113.0))                                                                        |
 |  PASS  | 87: Ceiling (std::abs(Math::ceiling(112.567, 1) - 120.0))                                                                        |
 |  PASS  | 88: Ceiling (std::abs(Math::ceiling(112.567, 2) - 200.0))                                                                        |
-|  PASS  | 93: Abs (1)                                                                                                                      |
-|  PASS  | 94: Abs (1)                                                                                                                      |
-|  PASS  | 95: Abs (1.0f)                                                                                                                   |
-|  PASS  | 96: Abs (1.0f)                                                                                                                   |
+|  PASS  | 93: Abs (Math::abs(1))                                                                                                           |
+|  PASS  | 94: Abs (Math::abs(-1))                                                                                                          |
+|  PASS  | 95: Abs (Math::abs(1.0f))                                                                                                        |
+|  PASS  | 96: Abs (Math::abs(-1.0f))                                                                                                       |
 |  PASS  | 101: Sin (std::abs(Math::sin(0.0f) - 0.0f))                                                                                      |
 |  PASS  | 102: Sin (std::abs(Math::sin(Math::PI / 2.0f) - 1.0f))                                                                           |
 |  PASS  | 103: Sin (std::abs(Math::sin(Math::PI) - 0.0f))                                                                                  |
@@ -244,22 +245,22 @@ No failures! :)
 |  PASS  | 197: Sign (std::abs(Math::sign(0.0f) - 0))                                                                                       |
 |  PASS  | 198: Sign (std::abs(Math::sign(1.0f) - 1))                                                                                       |
 |  PASS  | 199: Sign (std::abs(Math::sign(-1.0f) - -1))                                                                                     |
-|  PASS  | 204: Normalize (Float3(0.0f, 0.0f, 0.0f))                                                                                        |
-|  PASS  | 205: Normalize (Float3(1.0f, 0.0f, 0.0f))                                                                                        |
-|  PASS  | 206: Normalize (Float3(0.0f, 1.0f, 0.0f))                                                                                        |
-|  PASS  | 207: Normalize (Float3(0.0f, 0.0f, 1.0f))                                                                                        |
-|  PASS  | 208: Normalize (Float3(1.0f / Math::sqrt(3.0f)))                                                                                 |
-|  PASS  | 209: Normalize (Float3(3.0f / 5.0f, 4.0f / 5.0f, 0.0f))                                                                          |
-|  PASS  | 210: Normalize (Float3(-1.0f, 0.0f, 0.0f))                                                                                       |
-|  PASS  | 211: Normalize (Float3(0.0f, -1.0f, 0.0f))                                                                                       |
-|  PASS  | 212: Normalize (Float3(0.0f, 0.0f, -1.0f))                                                                                       |
-|  PASS  | 213: Normalize (Float3(-1.0f / Math::sqrt(3.0f)))                                                                                |
-|  PASS  | 214: Normalize (Float3(-3.0f / 5.0f, -4.0f / 5.0f, 0.0f))                                                                        |
-|  PASS  | 219: Magnitude (0.0f)                                                                                                            |
-|  PASS  | 220: Magnitude (1.0f)                                                                                                            |
-|  PASS  | 221: Magnitude (1.0f)                                                                                                            |
-|  PASS  | 222: Magnitude (1.0f)                                                                                                            |
-|  PASS  | 223: Magnitude (Math::sqrt(3.0f))                                                                                                |
+|  PASS  | 204: Normalize (Math::normalize(Float3(0.0f, 0.0f, 0.0f)))                                                                       |
+|  PASS  | 205: Normalize (Math::normalize(Float3(24.0f, 0.0f, 0.0f)))                                                                      |
+|  PASS  | 206: Normalize (Math::normalize(Float3(0.0f, 24.0f, 0.0f)))                                                                      |
+|  PASS  | 207: Normalize (Math::normalize(Float3(0.0f, 0.0f, 24.0f)))                                                                      |
+|  PASS  | 208: Normalize (Math::normalize(Float3(24.0f, 24.0f, 24.0f)))                                                                    |
+|  PASS  | 209: Normalize (Math::normalize(Float3(3.0f, 4.0f, 0.0f)))                                                                       |
+|  PASS  | 210: Normalize (Math::normalize(Float3(-24.0f, 0.0f, 0.0f)))                                                                     |
+|  PASS  | 211: Normalize (Math::normalize(Float3(0.0f, -24.0f, 0.0f)))                                                                     |
+|  PASS  | 212: Normalize (Math::normalize(Float3(0.0f, 0.0f, -24.0f)))                                                                     |
+|  PASS  | 213: Normalize (Math::normalize(Float3(-24.0f, -24.0f, -24.0f)))                                                                 |
+|  PASS  | 214: Normalize (Math::normalize(Float3(-3.0f, -4.0f, 0.0f)))                                                                     |
+|  PASS  | 219: Magnitude (Math::magnitude(Float3(0.0f, 0.0f, 0.0f)))                                                                       |
+|  PASS  | 220: Magnitude (Math::magnitude(Float3(1.0f, 0.0f, 0.0f)))                                                                       |
+|  PASS  | 221: Magnitude (Math::magnitude(Float3(0.0f, 1.0f, 0.0f)))                                                                       |
+|  PASS  | 222: Magnitude (Math::magnitude(Float3(0.0f, 0.0f, 1.0f)))                                                                       |
+|  PASS  | 223: Magnitude (Math::magnitude(Float3(1.0f, 1.0f, 1.0f)))                                                                       |
 |  PASS  | 232: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
 |  PASS  | 238: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
 |  PASS  | 244: Forward (std::abs(forward.x - expected.x) < 0.01f && std::abs(forward.y - expected.y) < 0.01f && std::abs(forward.z - expected.z) < 0.01f) |
@@ -825,213 +826,213 @@ No failures! :)
 ## ConstantContainer
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 11: Default Constructor (0)                                                                                                      |
-|  PASS  | 12: Default Constructor (0)                                                                                                      |
-|  PASS  | 13: Default Constructor (nullptr)                                                                                                |
-|  PASS  | 19: Size Constructor (5)                                                                                                         |
-|  PASS  | 20: Size Constructor (5)                                                                                                         |
-|  PASS  | 21: Size Constructor (nullptr)                                                                                                   |
-|  PASS  | 24: Size Constructor (0)                                                                                                         |
-|  PASS  | 25: Size Constructor (0)                                                                                                         |
-|  PASS  | 26: Size Constructor (nullptr)                                                                                                   |
-|  PASS  | 33: Data Constructor (sizeof(ID))                                                                                                |
-|  PASS  | 34: Data Constructor (sizeof(ID))                                                                                                |
-|  PASS  | 35: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 38: Data Constructor (0)                                                                                                         |
-|  PASS  | 39: Data Constructor (0)                                                                                                         |
-|  PASS  | 40: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 43: Data Constructor (0)                                                                                                         |
-|  PASS  | 44: Data Constructor (0)                                                                                                         |
-|  PASS  | 45: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 52: Copy Constructor (5)                                                                                                         |
-|  PASS  | 53: Copy Constructor (5)                                                                                                         |
-|  PASS  | 54: Copy Constructor (nullptr)                                                                                                   |
-|  PASS  | 61: Move Constructor (5)                                                                                                         |
-|  PASS  | 62: Move Constructor (5)                                                                                                         |
-|  PASS  | 63: Move Constructor (nullptr)                                                                                                   |
-|  PASS  | 71: Copy Assignment Operator (5)                                                                                                 |
-|  PASS  | 72: Copy Assignment Operator (5)                                                                                                 |
-|  PASS  | 73: Copy Assignment Operator (nullptr)                                                                                           |
-|  PASS  | 81: Move Assignment Operator (5)                                                                                                 |
-|  PASS  | 82: Move Assignment Operator (5)                                                                                                 |
-|  PASS  | 83: Move Assignment Operator (nullptr)                                                                                           |
-|  PASS  | 89: Get Capacity (5)                                                                                                             |
-|  PASS  | 95: Get Size (5)                                                                                                                 |
-|  PASS  | 102: Get Data (nullptr)                                                                                                          |
-|  PASS  | 105: Get Data (nullptr)                                                                                                          |
-|  PASS  | 117: Set At (value)                                                                                                              |
-|  PASS  | 117: Set At (value)                                                                                                              |
-|  PASS  | 117: Set At (value)                                                                                                              |
-|  PASS  | 117: Set At (value)                                                                                                              |
+|  PASS  | 11: Default Constructor (test.get_capacity())                                                                                    |
+|  PASS  | 12: Default Constructor (test.get_size())                                                                                        |
+|  PASS  | 13: Default Constructor (test.get_data())                                                                                        |
+|  PASS  | 19: Size Constructor (test.get_capacity())                                                                                       |
+|  PASS  | 20: Size Constructor (test.get_size())                                                                                           |
+|  PASS  | 21: Size Constructor (test.get_data())                                                                                           |
+|  PASS  | 24: Size Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 25: Size Constructor (test2.get_size())                                                                                          |
+|  PASS  | 26: Size Constructor (test2.get_data())                                                                                          |
+|  PASS  | 33: Data Constructor (test.get_capacity())                                                                                       |
+|  PASS  | 34: Data Constructor (test.get_size())                                                                                           |
+|  PASS  | 35: Data Constructor (test.get_data())                                                                                           |
+|  PASS  | 38: Data Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 39: Data Constructor (test2.get_size())                                                                                          |
+|  PASS  | 40: Data Constructor (test2.get_data())                                                                                          |
+|  PASS  | 43: Data Constructor (test3.get_capacity())                                                                                      |
+|  PASS  | 44: Data Constructor (test3.get_size())                                                                                          |
+|  PASS  | 45: Data Constructor (test3.get_data())                                                                                          |
+|  PASS  | 52: Copy Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 53: Copy Constructor (test2.get_size())                                                                                          |
+|  PASS  | 54: Copy Constructor (test2.get_data())                                                                                          |
+|  PASS  | 61: Move Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 62: Move Constructor (test2.get_size())                                                                                          |
+|  PASS  | 63: Move Constructor (test2.get_data())                                                                                          |
+|  PASS  | 71: Copy Assignment Operator (test2.get_capacity())                                                                              |
+|  PASS  | 72: Copy Assignment Operator (test2.get_size())                                                                                  |
+|  PASS  | 73: Copy Assignment Operator (test2.get_data())                                                                                  |
+|  PASS  | 81: Move Assignment Operator (test2.get_capacity())                                                                              |
+|  PASS  | 82: Move Assignment Operator (test2.get_size())                                                                                  |
+|  PASS  | 83: Move Assignment Operator (test2.get_data())                                                                                  |
+|  PASS  | 89: Get Capacity (test.get_capacity())                                                                                           |
+|  PASS  | 95: Get Size (test.get_size())                                                                                                   |
+|  PASS  | 102: Get Data (test.get_data())                                                                                                  |
+|  PASS  | 105: Get Data (test2.get_data())                                                                                                 |
+|  PASS  | 117: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 117: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 117: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 117: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
 |  PASS  | 120: Set At (test.set_at(nullptr, sizeof(ID), 0))                                                                                |
 |  PASS  | 121: Set At (test.set_at(&value, 0, 0))                                                                                          |
 |  PASS  | 122: Set At (test.set_at(&value, sizeof(ID), size * sizeof(ID) + 1))                                                             |
 |  PASS  | 129: Set (test.set(&value, sizeof(ID)))                                                                                          |
-|  PASS  | 130: Set (value)                                                                                                                 |
+|  PASS  | 130: Set (*(static_cast<ID*>(test.get_data())))                                                                                  |
 |  PASS  | 132: Set (test.set(nullptr, sizeof(ID)))                                                                                         |
 |  PASS  | 133: Set (test.set(&value, 0))                                                                                                   |
 |  PASS  | 134: Set (test.set(&value, sizeof(ID) + 1))                                                                                      |
 |  PASS  | 141: Append (test.append(&value, sizeof(ID)))                                                                                    |
-|  PASS  | 142: Append (0)                                                                                                                  |
-|  PASS  | 143: Append (0)                                                                                                                  |
-|  PASS  | 144: Append (nullptr)                                                                                                            |
+|  PASS  | 142: Append (test.get_capacity())                                                                                                |
+|  PASS  | 143: Append (test.get_size())                                                                                                    |
+|  PASS  | 144: Append (test.get_data())                                                                                                    |
 |  PASS  | 151: Append Object (test.append_object(value))                                                                                   |
-|  PASS  | 152: Append Object (0)                                                                                                           |
-|  PASS  | 153: Append Object (0)                                                                                                           |
-|  PASS  | 154: Append Object (nullptr)                                                                                                     |
-|  PASS  | 161: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 162: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 163: Clear (nullptr)                                                                                                             |
-|  PASS  | 164: Clear (value)                                                                                                               |
-|  PASS  | 166: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 167: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 168: Clear (nullptr)                                                                                                             |
-|  PASS  | 169: Clear (0)                                                                                                                   |
+|  PASS  | 152: Append Object (test.get_capacity())                                                                                         |
+|  PASS  | 153: Append Object (test.get_size())                                                                                             |
+|  PASS  | 154: Append Object (test.get_data())                                                                                             |
+|  PASS  | 161: Clear (test.get_capacity())                                                                                                 |
+|  PASS  | 162: Clear (test.get_size())                                                                                                     |
+|  PASS  | 163: Clear (test.get_data())                                                                                                     |
+|  PASS  | 164: Clear (*(static_cast<ID*>(test.get_data())))                                                                                |
+|  PASS  | 166: Clear (test.get_capacity())                                                                                                 |
+|  PASS  | 167: Clear (test.get_size())                                                                                                     |
+|  PASS  | 168: Clear (test.get_data())                                                                                                     |
+|  PASS  | 169: Clear (*(static_cast<ID*>(test.get_data())))                                                                                |
 |  PASS  | 175: Reserve (test.reserve(0))                                                                                                   |
 |  PASS  | 176: Reserve (test.reserve(5))                                                                                                   |
-|  PASS  | 177: Reserve (0)                                                                                                                 |
-|  PASS  | 178: Reserve (0)                                                                                                                 |
-|  PASS  | 179: Reserve (nullptr)                                                                                                           |
+|  PASS  | 177: Reserve (test.get_capacity())                                                                                               |
+|  PASS  | 178: Reserve (test.get_size())                                                                                                   |
+|  PASS  | 179: Reserve (test.get_data())                                                                                                   |
 |  PASS  | 185: Resize (test.resize(0))                                                                                                     |
 |  PASS  | 186: Resize (test.resize(5))                                                                                                     |
-|  PASS  | 187: Resize (0)                                                                                                                  |
-|  PASS  | 188: Resize (0)                                                                                                                  |
-|  PASS  | 189: Resize (nullptr)                                                                                                            |
+|  PASS  | 187: Resize (test.get_capacity())                                                                                                |
+|  PASS  | 188: Resize (test.get_size())                                                                                                    |
+|  PASS  | 189: Resize (test.get_data())                                                                                                    |
 
 ## DynamicContainer
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 11: Default Constructor (0)                                                                                                      |
-|  PASS  | 12: Default Constructor (0)                                                                                                      |
-|  PASS  | 13: Default Constructor (nullptr)                                                                                                |
-|  PASS  | 19: Capacity Constructor (5)                                                                                                     |
-|  PASS  | 20: Capacity Constructor (0)                                                                                                     |
-|  PASS  | 21: Capacity Constructor (nullptr)                                                                                               |
-|  PASS  | 24: Capacity Constructor (0)                                                                                                     |
-|  PASS  | 25: Capacity Constructor (0)                                                                                                     |
-|  PASS  | 26: Capacity Constructor (nullptr)                                                                                               |
-|  PASS  | 33: Data Constructor (sizeof(ID))                                                                                                |
-|  PASS  | 34: Data Constructor (sizeof(ID))                                                                                                |
-|  PASS  | 35: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 38: Data Constructor (0)                                                                                                         |
-|  PASS  | 39: Data Constructor (0)                                                                                                         |
-|  PASS  | 40: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 43: Data Constructor (0)                                                                                                         |
-|  PASS  | 44: Data Constructor (0)                                                                                                         |
-|  PASS  | 45: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 54: Copy Constructor (5)                                                                                                         |
-|  PASS  | 55: Copy Constructor (sizeof(Byte))                                                                                              |
-|  PASS  | 56: Copy Constructor (nullptr)                                                                                                   |
-|  PASS  | 65: Move Constructor (5)                                                                                                         |
-|  PASS  | 66: Move Constructor (sizeof(Byte))                                                                                              |
-|  PASS  | 67: Move Constructor (nullptr)                                                                                                   |
-|  PASS  | 77: Copy Assignment Operator (5)                                                                                                 |
-|  PASS  | 78: Copy Assignment Operator (sizeof(Byte))                                                                                      |
-|  PASS  | 79: Copy Assignment Operator (nullptr)                                                                                           |
-|  PASS  | 89: Move Assignment Operator (5)                                                                                                 |
-|  PASS  | 90: Move Assignment Operator (sizeof(Byte))                                                                                      |
-|  PASS  | 91: Move Assignment Operator (nullptr)                                                                                           |
-|  PASS  | 97: Get Capacity (5)                                                                                                             |
-|  PASS  | 99: Get Capacity (10)                                                                                                            |
-|  PASS  | 105: Get Size (0)                                                                                                                |
-|  PASS  | 107: Get Size (5)                                                                                                                |
-|  PASS  | 109: Get Size (10)                                                                                                               |
-|  PASS  | 116: Get Data (nullptr)                                                                                                          |
-|  PASS  | 119: Get Data (nullptr)                                                                                                          |
-|  PASS  | 121: Get Data (nullptr)                                                                                                          |
-|  PASS  | 134: Set At (value)                                                                                                              |
-|  PASS  | 134: Set At (value)                                                                                                              |
-|  PASS  | 134: Set At (value)                                                                                                              |
-|  PASS  | 134: Set At (value)                                                                                                              |
+|  PASS  | 11: Default Constructor (test.get_capacity())                                                                                    |
+|  PASS  | 12: Default Constructor (test.get_size())                                                                                        |
+|  PASS  | 13: Default Constructor (test.get_data())                                                                                        |
+|  PASS  | 19: Capacity Constructor (test.get_capacity())                                                                                   |
+|  PASS  | 20: Capacity Constructor (test.get_size())                                                                                       |
+|  PASS  | 21: Capacity Constructor (test.get_data())                                                                                       |
+|  PASS  | 24: Capacity Constructor (test2.get_capacity())                                                                                  |
+|  PASS  | 25: Capacity Constructor (test2.get_size())                                                                                      |
+|  PASS  | 26: Capacity Constructor (test2.get_data())                                                                                      |
+|  PASS  | 33: Data Constructor (test.get_capacity())                                                                                       |
+|  PASS  | 34: Data Constructor (test.get_size())                                                                                           |
+|  PASS  | 35: Data Constructor (test.get_data())                                                                                           |
+|  PASS  | 38: Data Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 39: Data Constructor (test2.get_size())                                                                                          |
+|  PASS  | 40: Data Constructor (test2.get_data())                                                                                          |
+|  PASS  | 43: Data Constructor (test3.get_capacity())                                                                                      |
+|  PASS  | 44: Data Constructor (test3.get_size())                                                                                          |
+|  PASS  | 45: Data Constructor (test3.get_data())                                                                                          |
+|  PASS  | 54: Copy Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 55: Copy Constructor (test2.get_size())                                                                                          |
+|  PASS  | 56: Copy Constructor (test2.get_data())                                                                                          |
+|  PASS  | 65: Move Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 66: Move Constructor (test2.get_size())                                                                                          |
+|  PASS  | 67: Move Constructor (test2.get_data())                                                                                          |
+|  PASS  | 77: Copy Assignment Operator (test2.get_capacity())                                                                              |
+|  PASS  | 78: Copy Assignment Operator (test2.get_size())                                                                                  |
+|  PASS  | 79: Copy Assignment Operator (test2.get_data())                                                                                  |
+|  PASS  | 89: Move Assignment Operator (test2.get_capacity())                                                                              |
+|  PASS  | 90: Move Assignment Operator (test2.get_size())                                                                                  |
+|  PASS  | 91: Move Assignment Operator (test2.get_data())                                                                                  |
+|  PASS  | 97: Get Capacity (test.get_capacity())                                                                                           |
+|  PASS  | 99: Get Capacity (test.get_capacity())                                                                                           |
+|  PASS  | 105: Get Size (test.get_size())                                                                                                  |
+|  PASS  | 107: Get Size (test.get_size())                                                                                                  |
+|  PASS  | 109: Get Size (test.get_size())                                                                                                  |
+|  PASS  | 116: Get Data (test.get_data())                                                                                                  |
+|  PASS  | 119: Get Data (test2.get_data())                                                                                                 |
+|  PASS  | 121: Get Data (test2.get_data())                                                                                                 |
+|  PASS  | 134: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 134: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 134: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 134: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
 |  PASS  | 137: Set At (test.set_at(nullptr, sizeof(ID), 0))                                                                                |
 |  PASS  | 138: Set At (test.set_at(&value, 0, 0))                                                                                          |
 |  PASS  | 139: Set At (test.set_at(&value, sizeof(ID), size * sizeof(ID) + 1))                                                             |
 |  PASS  | 146: Set (test.set(&value, sizeof(ID)))                                                                                          |
-|  PASS  | 147: Set (value)                                                                                                                 |
+|  PASS  | 147: Set (*(static_cast<ID*>(test.get_data())))                                                                                  |
 |  PASS  | 149: Set (test.set(nullptr, sizeof(ID)))                                                                                         |
 |  PASS  | 150: Set (test.set(&value, 0))                                                                                                   |
 |  PASS  | 151: Set (test.set(&value, sizeof(ID) + 1))                                                                                      |
 |  PASS  | 156: Set (test.set(&value2, sizeof(Byte)))                                                                                       |
-|  PASS  | 157: Set (value2)                                                                                                                |
-|  PASS  | 158: Set (sizeof(Byte))                                                                                                          |
-|  PASS  | 159: Set (sizeof(ID))                                                                                                            |
+|  PASS  | 157: Set (*(static_cast<Byte*>(test.get_data())))                                                                                |
+|  PASS  | 158: Set (test.get_size())                                                                                                       |
+|  PASS  | 159: Set (test.get_capacity())                                                                                                   |
 |  PASS  | 162: Set (test.set(values, sizeof(ID) * 2))                                                                                      |
-|  PASS  | 163: Set (values[0])                                                                                                             |
-|  PASS  | 164: Set (values[1])                                                                                                             |
-|  PASS  | 165: Set (sizeof(ID) * 2)                                                                                                        |
-|  PASS  | 166: Set (sizeof(ID) * 2)                                                                                                        |
+|  PASS  | 163: Set (*(static_cast<ID*>(test.get_data())))                                                                                  |
+|  PASS  | 164: Set (*(static_cast<ID*>(test.get_data()) + 1))                                                                              |
+|  PASS  | 165: Set (test.get_size())                                                                                                       |
+|  PASS  | 166: Set (test.get_capacity())                                                                                                   |
 |  PASS  | 173: Append (test.append(&value, sizeof(ID)))                                                                                    |
-|  PASS  | 174: Append (sizeof(ID))                                                                                                         |
-|  PASS  | 175: Append (sizeof(ID))                                                                                                         |
-|  PASS  | 176: Append (nullptr)                                                                                                            |
+|  PASS  | 174: Append (test.get_capacity())                                                                                                |
+|  PASS  | 175: Append (test.get_size())                                                                                                    |
+|  PASS  | 176: Append (test.get_data())                                                                                                    |
 |  PASS  | 179: Append (test2.append(&value, sizeof(ID)))                                                                                   |
-|  PASS  | 180: Append (sizeof(ID))                                                                                                         |
-|  PASS  | 181: Append (sizeof(ID))                                                                                                         |
-|  PASS  | 182: Append (nullptr)                                                                                                            |
+|  PASS  | 180: Append (test2.get_capacity())                                                                                               |
+|  PASS  | 181: Append (test2.get_size())                                                                                                   |
+|  PASS  | 182: Append (test2.get_data())                                                                                                   |
 |  PASS  | 188: Append (test2.append(&value, sizeof(ID)))                                                                                   |
 |  PASS  | 189: Append (test2.get_capacity())                                                                                               |
-|  PASS  | 190: Append (sizeof(ID) * (i + 1))                                                                                               |
-|  PASS  | 191: Append (nullptr)                                                                                                            |
+|  PASS  | 190: Append (test2.get_size())                                                                                                   |
+|  PASS  | 191: Append (test2.get_data())                                                                                                   |
 |  PASS  | 188: Append (test2.append(&value, sizeof(ID)))                                                                                   |
 |  PASS  | 189: Append (test2.get_capacity())                                                                                               |
-|  PASS  | 190: Append (sizeof(ID) * (i + 1))                                                                                               |
-|  PASS  | 191: Append (nullptr)                                                                                                            |
+|  PASS  | 190: Append (test2.get_size())                                                                                                   |
+|  PASS  | 191: Append (test2.get_data())                                                                                                   |
 |  PASS  | 188: Append (test2.append(&value, sizeof(ID)))                                                                                   |
 |  PASS  | 189: Append (test2.get_capacity())                                                                                               |
-|  PASS  | 190: Append (sizeof(ID) * (i + 1))                                                                                               |
-|  PASS  | 191: Append (nullptr)                                                                                                            |
+|  PASS  | 190: Append (test2.get_size())                                                                                                   |
+|  PASS  | 191: Append (test2.get_data())                                                                                                   |
 |  PASS  | 188: Append (test2.append(&value, sizeof(ID)))                                                                                   |
 |  PASS  | 189: Append (test2.get_capacity())                                                                                               |
-|  PASS  | 190: Append (sizeof(ID) * (i + 1))                                                                                               |
-|  PASS  | 191: Append (nullptr)                                                                                                            |
+|  PASS  | 190: Append (test2.get_size())                                                                                                   |
+|  PASS  | 191: Append (test2.get_data())                                                                                                   |
 |  PASS  | 188: Append (test2.append(&value, sizeof(ID)))                                                                                   |
 |  PASS  | 189: Append (test2.get_capacity())                                                                                               |
-|  PASS  | 190: Append (sizeof(ID) * (i + 1))                                                                                               |
-|  PASS  | 191: Append (nullptr)                                                                                                            |
+|  PASS  | 190: Append (test2.get_size())                                                                                                   |
+|  PASS  | 191: Append (test2.get_data())                                                                                                   |
 |  PASS  | 199: Append Object (test.append_object(value))                                                                                   |
-|  PASS  | 200: Append Object (sizeof(ID))                                                                                                  |
-|  PASS  | 201: Append Object (sizeof(ID))                                                                                                  |
-|  PASS  | 202: Append Object (nullptr)                                                                                                     |
+|  PASS  | 200: Append Object (test.get_capacity())                                                                                         |
+|  PASS  | 201: Append Object (test.get_size())                                                                                             |
+|  PASS  | 202: Append Object (test.get_data())                                                                                             |
 |  PASS  | 205: Append Object (test2.append_object(value))                                                                                  |
-|  PASS  | 206: Append Object (sizeof(ID))                                                                                                  |
-|  PASS  | 207: Append Object (sizeof(ID))                                                                                                  |
-|  PASS  | 208: Append Object (nullptr)                                                                                                     |
-|  PASS  | 215: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 216: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 217: Clear (nullptr)                                                                                                             |
-|  PASS  | 218: Clear (value)                                                                                                               |
-|  PASS  | 220: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 221: Clear (0)                                                                                                                   |
-|  PASS  | 222: Clear (nullptr)                                                                                                             |
+|  PASS  | 206: Append Object (test2.get_capacity())                                                                                        |
+|  PASS  | 207: Append Object (test2.get_size())                                                                                            |
+|  PASS  | 208: Append Object (test2.get_data())                                                                                            |
+|  PASS  | 215: Clear (test.get_capacity())                                                                                                 |
+|  PASS  | 216: Clear (test.get_size())                                                                                                     |
+|  PASS  | 217: Clear (test.get_data())                                                                                                     |
+|  PASS  | 218: Clear (*(static_cast<ID*>(test.get_data())))                                                                                |
+|  PASS  | 220: Clear (test.get_capacity())                                                                                                 |
+|  PASS  | 221: Clear (test.get_size())                                                                                                     |
+|  PASS  | 222: Clear (test.get_data())                                                                                                     |
 |  PASS  | 228: Reserve (test.reserve(0))                                                                                                   |
 |  PASS  | 229: Reserve (test.reserve(5))                                                                                                   |
-|  PASS  | 230: Reserve (5)                                                                                                                 |
-|  PASS  | 231: Reserve (0)                                                                                                                 |
-|  PASS  | 232: Reserve (nullptr)                                                                                                           |
-|  PASS  | 234: Reserve (10)                                                                                                                |
-|  PASS  | 235: Reserve (0)                                                                                                                 |
-|  PASS  | 236: Reserve (nullptr)                                                                                                           |
-|  PASS  | 238: Reserve (10)                                                                                                                |
-|  PASS  | 239: Reserve (0)                                                                                                                 |
-|  PASS  | 240: Reserve (nullptr)                                                                                                           |
+|  PASS  | 230: Reserve (test.get_capacity())                                                                                               |
+|  PASS  | 231: Reserve (test.get_size())                                                                                                   |
+|  PASS  | 232: Reserve (test.get_data())                                                                                                   |
+|  PASS  | 234: Reserve (test.get_capacity())                                                                                               |
+|  PASS  | 235: Reserve (test.get_size())                                                                                                   |
+|  PASS  | 236: Reserve (test.get_data())                                                                                                   |
+|  PASS  | 238: Reserve (test.get_capacity())                                                                                               |
+|  PASS  | 239: Reserve (test.get_size())                                                                                                   |
+|  PASS  | 240: Reserve (test.get_data())                                                                                                   |
 |  PASS  | 246: Resize (test.resize(0))                                                                                                     |
 |  PASS  | 247: Resize (test.resize(5))                                                                                                     |
-|  PASS  | 248: Resize (5)                                                                                                                  |
-|  PASS  | 249: Resize (5)                                                                                                                  |
-|  PASS  | 250: Resize (nullptr)                                                                                                            |
+|  PASS  | 248: Resize (test.get_capacity())                                                                                                |
+|  PASS  | 249: Resize (test.get_size())                                                                                                    |
+|  PASS  | 250: Resize (test.get_data())                                                                                                    |
 |  PASS  | 253: Resize (test2.resize(0))                                                                                                    |
-|  PASS  | 254: Resize (5)                                                                                                                  |
-|  PASS  | 255: Resize (0)                                                                                                                  |
-|  PASS  | 256: Resize (nullptr)                                                                                                            |
+|  PASS  | 254: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 255: Resize (test2.get_size())                                                                                                   |
+|  PASS  | 256: Resize (test2.get_data())                                                                                                   |
 |  PASS  | 257: Resize (test2.resize(5))                                                                                                    |
-|  PASS  | 258: Resize (5)                                                                                                                  |
-|  PASS  | 259: Resize (5)                                                                                                                  |
+|  PASS  | 258: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 259: Resize (test2.get_size())                                                                                                   |
 |  PASS  | 260: Resize (test2.resize(10))                                                                                                   |
-|  PASS  | 261: Resize (10)                                                                                                                 |
-|  PASS  | 262: Resize (10)                                                                                                                 |
+|  PASS  | 261: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 262: Resize (test2.get_size())                                                                                                   |
 |  PASS  | 263: Resize (test2.resize(5))                                                                                                    |
-|  PASS  | 264: Resize (10)                                                                                                                 |
-|  PASS  | 265: Resize (5)                                                                                                                  |
+|  PASS  | 264: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 265: Resize (test2.get_size())                                                                                                   |
 
 ## List::Iterator
 | Result | Message                                                                                                                          |
@@ -2134,101 +2135,101 @@ No failures! :)
 ## StaticContainer
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 11: Default Constructor (0)                                                                                                      |
-|  PASS  | 12: Default Constructor (0)                                                                                                      |
-|  PASS  | 13: Default Constructor (nullptr)                                                                                                |
-|  PASS  | 19: Capacity Constructor (5)                                                                                                     |
-|  PASS  | 20: Capacity Constructor (0)                                                                                                     |
-|  PASS  | 21: Capacity Constructor (nullptr)                                                                                               |
-|  PASS  | 24: Capacity Constructor (0)                                                                                                     |
-|  PASS  | 25: Capacity Constructor (0)                                                                                                     |
-|  PASS  | 26: Capacity Constructor (nullptr)                                                                                               |
-|  PASS  | 33: Data Constructor (sizeof(ID))                                                                                                |
-|  PASS  | 34: Data Constructor (sizeof(ID))                                                                                                |
-|  PASS  | 35: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 38: Data Constructor (0)                                                                                                         |
-|  PASS  | 39: Data Constructor (0)                                                                                                         |
-|  PASS  | 40: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 43: Data Constructor (0)                                                                                                         |
-|  PASS  | 44: Data Constructor (0)                                                                                                         |
-|  PASS  | 45: Data Constructor (nullptr)                                                                                                   |
-|  PASS  | 54: Copy Constructor (5)                                                                                                         |
-|  PASS  | 55: Copy Constructor (sizeof(Byte))                                                                                              |
-|  PASS  | 56: Copy Constructor (nullptr)                                                                                                   |
-|  PASS  | 65: Move Constructor (5)                                                                                                         |
-|  PASS  | 66: Move Constructor (sizeof(Byte))                                                                                              |
-|  PASS  | 67: Move Constructor (nullptr)                                                                                                   |
-|  PASS  | 77: Copy Assignment Operator (5)                                                                                                 |
-|  PASS  | 78: Copy Assignment Operator (sizeof(Byte))                                                                                      |
-|  PASS  | 79: Copy Assignment Operator (nullptr)                                                                                           |
-|  PASS  | 89: Move Assignment Operator (5)                                                                                                 |
-|  PASS  | 90: Move Assignment Operator (sizeof(Byte))                                                                                      |
-|  PASS  | 91: Move Assignment Operator (nullptr)                                                                                           |
-|  PASS  | 97: Get Capacity (5)                                                                                                             |
-|  PASS  | 103: Get Size (0)                                                                                                                |
-|  PASS  | 105: Get Size (5)                                                                                                                |
-|  PASS  | 107: Get Size (3)                                                                                                                |
-|  PASS  | 114: Get Data (nullptr)                                                                                                          |
-|  PASS  | 117: Get Data (nullptr)                                                                                                          |
-|  PASS  | 130: Set At (value)                                                                                                              |
-|  PASS  | 130: Set At (value)                                                                                                              |
-|  PASS  | 130: Set At (value)                                                                                                              |
-|  PASS  | 130: Set At (value)                                                                                                              |
+|  PASS  | 11: Default Constructor (test.get_capacity())                                                                                    |
+|  PASS  | 12: Default Constructor (test.get_size())                                                                                        |
+|  PASS  | 13: Default Constructor (test.get_data())                                                                                        |
+|  PASS  | 19: Capacity Constructor (test.get_capacity())                                                                                   |
+|  PASS  | 20: Capacity Constructor (test.get_size())                                                                                       |
+|  PASS  | 21: Capacity Constructor (test.get_data())                                                                                       |
+|  PASS  | 24: Capacity Constructor (test2.get_capacity())                                                                                  |
+|  PASS  | 25: Capacity Constructor (test2.get_size())                                                                                      |
+|  PASS  | 26: Capacity Constructor (test2.get_data())                                                                                      |
+|  PASS  | 33: Data Constructor (test.get_capacity())                                                                                       |
+|  PASS  | 34: Data Constructor (test.get_size())                                                                                           |
+|  PASS  | 35: Data Constructor (test.get_data())                                                                                           |
+|  PASS  | 38: Data Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 39: Data Constructor (test2.get_size())                                                                                          |
+|  PASS  | 40: Data Constructor (test2.get_data())                                                                                          |
+|  PASS  | 43: Data Constructor (test3.get_capacity())                                                                                      |
+|  PASS  | 44: Data Constructor (test3.get_size())                                                                                          |
+|  PASS  | 45: Data Constructor (test3.get_data())                                                                                          |
+|  PASS  | 54: Copy Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 55: Copy Constructor (test2.get_size())                                                                                          |
+|  PASS  | 56: Copy Constructor (test2.get_data())                                                                                          |
+|  PASS  | 65: Move Constructor (test2.get_capacity())                                                                                      |
+|  PASS  | 66: Move Constructor (test2.get_size())                                                                                          |
+|  PASS  | 67: Move Constructor (test2.get_data())                                                                                          |
+|  PASS  | 77: Copy Assignment Operator (test2.get_capacity())                                                                              |
+|  PASS  | 78: Copy Assignment Operator (test2.get_size())                                                                                  |
+|  PASS  | 79: Copy Assignment Operator (test2.get_data())                                                                                  |
+|  PASS  | 89: Move Assignment Operator (test2.get_capacity())                                                                              |
+|  PASS  | 90: Move Assignment Operator (test2.get_size())                                                                                  |
+|  PASS  | 91: Move Assignment Operator (test2.get_data())                                                                                  |
+|  PASS  | 97: Get Capacity (test.get_capacity())                                                                                           |
+|  PASS  | 103: Get Size (test.get_size())                                                                                                  |
+|  PASS  | 105: Get Size (test.get_size())                                                                                                  |
+|  PASS  | 107: Get Size (test.get_size())                                                                                                  |
+|  PASS  | 114: Get Data (test.get_data())                                                                                                  |
+|  PASS  | 117: Get Data (test2.get_data())                                                                                                 |
+|  PASS  | 130: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 130: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 130: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
+|  PASS  | 130: Set At (*(static_cast<ID*>(test.get_data()) + i))                                                                           |
 |  PASS  | 133: Set At (test.set_at(nullptr, sizeof(ID), 0))                                                                                |
 |  PASS  | 134: Set At (test.set_at(&value, 0, 0))                                                                                          |
 |  PASS  | 135: Set At (test.set_at(&value, sizeof(ID), size * sizeof(ID) + 1))                                                             |
 |  PASS  | 142: Set (test.set(&value, sizeof(ID)))                                                                                          |
-|  PASS  | 143: Set (value)                                                                                                                 |
+|  PASS  | 143: Set (*(static_cast<ID*>(test.get_data())))                                                                                  |
 |  PASS  | 145: Set (test.set(nullptr, sizeof(ID)))                                                                                         |
 |  PASS  | 146: Set (test.set(&value, 0))                                                                                                   |
 |  PASS  | 147: Set (test.set(&value, sizeof(ID) + 1))                                                                                      |
 |  PASS  | 150: Set (test.set(&value2, sizeof(Byte)))                                                                                       |
-|  PASS  | 151: Set (value2)                                                                                                                |
-|  PASS  | 152: Set (sizeof(Byte))                                                                                                          |
-|  PASS  | 153: Set (sizeof(ID))                                                                                                            |
+|  PASS  | 151: Set (*(static_cast<Byte*>(test.get_data())))                                                                                |
+|  PASS  | 152: Set (test.get_size())                                                                                                       |
+|  PASS  | 153: Set (test.get_capacity())                                                                                                   |
 |  PASS  | 160: Append (test.append(&value, sizeof(ID)))                                                                                    |
-|  PASS  | 161: Append (0)                                                                                                                  |
-|  PASS  | 162: Append (0)                                                                                                                  |
-|  PASS  | 163: Append (nullptr)                                                                                                            |
+|  PASS  | 161: Append (test.get_capacity())                                                                                                |
+|  PASS  | 162: Append (test.get_size())                                                                                                    |
+|  PASS  | 163: Append (test.get_data())                                                                                                    |
 |  PASS  | 166: Append (test2.append(&value, sizeof(ID)))                                                                                   |
-|  PASS  | 167: Append (sizeof(ID))                                                                                                         |
-|  PASS  | 168: Append (sizeof(ID))                                                                                                         |
-|  PASS  | 169: Append (nullptr)                                                                                                            |
+|  PASS  | 167: Append (test2.get_capacity())                                                                                               |
+|  PASS  | 168: Append (test2.get_size())                                                                                                   |
+|  PASS  | 169: Append (test2.get_data())                                                                                                   |
 |  PASS  | 176: Append Object (test.append_object(value))                                                                                   |
-|  PASS  | 177: Append Object (0)                                                                                                           |
-|  PASS  | 178: Append Object (0)                                                                                                           |
-|  PASS  | 179: Append Object (nullptr)                                                                                                     |
+|  PASS  | 177: Append Object (test.get_capacity())                                                                                         |
+|  PASS  | 178: Append Object (test.get_size())                                                                                             |
+|  PASS  | 179: Append Object (test.get_data())                                                                                             |
 |  PASS  | 182: Append Object (test2.append_object(value))                                                                                  |
-|  PASS  | 183: Append Object (sizeof(ID))                                                                                                  |
-|  PASS  | 184: Append Object (sizeof(ID))                                                                                                  |
-|  PASS  | 185: Append Object (nullptr)                                                                                                     |
-|  PASS  | 192: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 193: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 194: Clear (nullptr)                                                                                                             |
-|  PASS  | 195: Clear (value)                                                                                                               |
-|  PASS  | 197: Clear (sizeof(ID))                                                                                                          |
-|  PASS  | 198: Clear (0)                                                                                                                   |
-|  PASS  | 199: Clear (nullptr)                                                                                                             |
+|  PASS  | 183: Append Object (test2.get_capacity())                                                                                        |
+|  PASS  | 184: Append Object (test2.get_size())                                                                                            |
+|  PASS  | 185: Append Object (test2.get_data())                                                                                            |
+|  PASS  | 192: Clear (test.get_capacity())                                                                                                 |
+|  PASS  | 193: Clear (test.get_size())                                                                                                     |
+|  PASS  | 194: Clear (test.get_data())                                                                                                     |
+|  PASS  | 195: Clear (*(static_cast<ID*>(test.get_data())))                                                                                |
+|  PASS  | 197: Clear (test.get_capacity())                                                                                                 |
+|  PASS  | 198: Clear (test.get_size())                                                                                                     |
+|  PASS  | 199: Clear (test.get_data())                                                                                                     |
 |  PASS  | 205: Reserve (test.reserve(0))                                                                                                   |
 |  PASS  | 206: Reserve (test.reserve(5))                                                                                                   |
-|  PASS  | 207: Reserve (0)                                                                                                                 |
-|  PASS  | 208: Reserve (0)                                                                                                                 |
-|  PASS  | 209: Reserve (nullptr)                                                                                                           |
+|  PASS  | 207: Reserve (test.get_capacity())                                                                                               |
+|  PASS  | 208: Reserve (test.get_size())                                                                                                   |
+|  PASS  | 209: Reserve (test.get_data())                                                                                                   |
 |  PASS  | 215: Resize (test.resize(0))                                                                                                     |
 |  PASS  | 216: Resize (test.resize(5))                                                                                                     |
-|  PASS  | 217: Resize (0)                                                                                                                  |
-|  PASS  | 218: Resize (0)                                                                                                                  |
-|  PASS  | 219: Resize (nullptr)                                                                                                            |
+|  PASS  | 217: Resize (test.get_capacity())                                                                                                |
+|  PASS  | 218: Resize (test.get_size())                                                                                                    |
+|  PASS  | 219: Resize (test.get_data())                                                                                                    |
 |  PASS  | 222: Resize (test2.resize(0))                                                                                                    |
-|  PASS  | 223: Resize (5)                                                                                                                  |
-|  PASS  | 224: Resize (0)                                                                                                                  |
-|  PASS  | 225: Resize (nullptr)                                                                                                            |
+|  PASS  | 223: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 224: Resize (test2.get_size())                                                                                                   |
+|  PASS  | 225: Resize (test2.get_data())                                                                                                   |
 |  PASS  | 226: Resize (test2.resize(5))                                                                                                    |
-|  PASS  | 227: Resize (5)                                                                                                                  |
-|  PASS  | 228: Resize (5)                                                                                                                  |
+|  PASS  | 227: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 228: Resize (test2.get_size())                                                                                                   |
 |  PASS  | 229: Resize (test2.resize(10))                                                                                                   |
-|  PASS  | 230: Resize (5)                                                                                                                  |
-|  PASS  | 231: Resize (5)                                                                                                                  |
+|  PASS  | 230: Resize (test2.get_capacity())                                                                                               |
+|  PASS  | 231: Resize (test2.get_size())                                                                                                   |
 
 ## String::Iterator
 | Result | Message                                                                                                                          |
@@ -2575,13 +2576,13 @@ No failures! :)
 ## UUID
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 11: Default Constructor (0)                                                                                                      |
-|  PASS  | 17: ID Constructor (0)                                                                                                           |
-|  PASS  | 20: ID Constructor (1)                                                                                                           |
-|  PASS  | 23: ID Constructor (0xFFFFFFFFFFFFFFFF)                                                                                          |
-|  PASS  | 30: ID Operator (0)                                                                                                              |
-|  PASS  | 33: ID Operator (1)                                                                                                              |
-|  PASS  | 36: ID Operator (0xFFFFFFFFFFFFFFFF)                                                                                             |
+|  PASS  | 11: Default Constructor (uuid.get_data())                                                                                        |
+|  PASS  | 17: ID Constructor (uuid.get_data())                                                                                             |
+|  PASS  | 20: ID Constructor (uuid.get_data())                                                                                             |
+|  PASS  | 23: ID Constructor (uuid.get_data())                                                                                             |
+|  PASS  | 30: ID Operator (id)                                                                                                             |
+|  PASS  | 33: ID Operator (id)                                                                                                             |
+|  PASS  | 36: ID Operator (id)                                                                                                             |
 |  PASS  | 43: Equal Operator (uuid1 == uuid2)                                                                                              |
 |  PASS  | 45: Equal Operator (!(uuid1 == uuid2))                                                                                           |
 |  PASS  | 47: Equal Operator (uuid1 == uuid2)                                                                                              |
@@ -2600,9 +2601,9 @@ No failures! :)
 |  PASS  | 89: ID Not Equal Operator (!(uuid != id))                                                                                        |
 |  PASS  | 91: ID Not Equal Operator (uuid != id)                                                                                           |
 |  PASS  | 92: ID Not Equal Operator (!(uuid != 0xFFFFFFFFFFFFFFFF))                                                                        |
-|  PASS  | 99: Get Data (id)                                                                                                                |
-|  PASS  | 102: Get Data (id)                                                                                                               |
-|  PASS  | 105: Get Data (id)                                                                                                               |
+|  PASS  | 99: Get Data (uuid.get_data())                                                                                                   |
+|  PASS  | 102: Get Data (uuid.get_data())                                                                                                  |
+|  PASS  | 105: Get Data (uuid.get_data())                                                                                                  |
 |  PASS  | 111: Is Valid (!uuid.is_valid())                                                                                                 |
 |  PASS  | 113: Is Valid (uuid.is_valid())                                                                                                  |
 |  PASS  | 115: Is Valid (uuid.is_valid())                                                                                                  |
@@ -3622,6 +3623,97 @@ No failures! :)
 |  PASS  | 84: Deallocate (stack.deallocate(512))                                                                                           |
 |  PASS  | 87: Deallocate (stack.get_size() == 0)                                                                                           |
 |  PASS  | 95: Clear (stack.get_size() == 0)                                                                                                |
+
+## Node
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 11: Default Constructor (node.get_name().is_empty())                                                                             |
+|  PASS  | 12: Default Constructor (node.get_data().get_size())                                                                             |
+|  PASS  | 13: Default Constructor (node.get_children_size())                                                                               |
+|  PASS  | 19: Values Constructor (node.get_name())                                                                                         |
+|  PASS  | 20: Values Constructor (node.get_data().get_size())                                                                              |
+|  PASS  | 21: Values Constructor (node.get_children_size())                                                                                |
+|  PASS  | 25: Values Constructor (node2.get_name())                                                                                        |
+|  PASS  | 26: Values Constructor (*static_cast<Size*>(node2.get_data().get_data()))                                                        |
+|  PASS  | 27: Values Constructor (node2.get_data().get_size())                                                                             |
+|  PASS  | 28: Values Constructor (node2.get_children_size())                                                                               |
+|  PASS  | 34: Name Constructor (node.get_name())                                                                                           |
+|  PASS  | 35: Name Constructor (node.get_data().get_size())                                                                                |
+|  PASS  | 36: Name Constructor (node.get_children_size())                                                                                  |
+|  PASS  | 47: Copy Constructor (node2.get_name())                                                                                          |
+|  PASS  | 48: Copy Constructor (*static_cast<Size*>(node2.get_data().get_data()))                                                          |
+|  PASS  | 49: Copy Constructor (node2.get_data().get_size())                                                                               |
+|  PASS  | 50: Copy Constructor (node2.get_children_size())                                                                                 |
+|  PASS  | 51: Copy Constructor (node2.get_child(0).get_name())                                                                             |
+|  PASS  | 52: Copy Constructor (node2.get_child(1).get_name())                                                                             |
+|  PASS  | 53: Copy Constructor (node2.get_child(2).get_name())                                                                             |
+|  PASS  | 64: Move Constructor (node2.get_name())                                                                                          |
+|  PASS  | 65: Move Constructor (*static_cast<Size*>(node2.get_data().get_data()))                                                          |
+|  PASS  | 66: Move Constructor (node2.get_data().get_size())                                                                               |
+|  PASS  | 67: Move Constructor (node2.get_children_size())                                                                                 |
+|  PASS  | 68: Move Constructor (node2.get_child(0).get_name())                                                                             |
+|  PASS  | 69: Move Constructor (node2.get_child(1).get_name())                                                                             |
+|  PASS  | 70: Move Constructor (node2.get_child(2).get_name())                                                                             |
+|  PASS  | 82: Copy Assignment Operator (node2.get_name())                                                                                  |
+|  PASS  | 83: Copy Assignment Operator (*static_cast<Size*>(node2.get_data().get_data()))                                                  |
+|  PASS  | 84: Copy Assignment Operator (node2.get_data().get_size())                                                                       |
+|  PASS  | 85: Copy Assignment Operator (node2.get_children_size())                                                                         |
+|  PASS  | 86: Copy Assignment Operator (node2.get_child(0).get_name())                                                                     |
+|  PASS  | 87: Copy Assignment Operator (node2.get_child(1).get_name())                                                                     |
+|  PASS  | 88: Copy Assignment Operator (node2.get_child(2).get_name())                                                                     |
+|  PASS  | 100: Move Assignment Operator (node2.get_name())                                                                                 |
+|  PASS  | 101: Move Assignment Operator (*static_cast<Size*>(node2.get_data().get_data()))                                                 |
+|  PASS  | 102: Move Assignment Operator (node2.get_data().get_size())                                                                      |
+|  PASS  | 103: Move Assignment Operator (node2.get_children_size())                                                                        |
+|  PASS  | 104: Move Assignment Operator (node2.get_child(0).get_name())                                                                    |
+|  PASS  | 105: Move Assignment Operator (node2.get_child(1).get_name())                                                                    |
+|  PASS  | 106: Move Assignment Operator (node2.get_child(2).get_name())                                                                    |
+|  PASS  | 112: Get Name (node.get_name())                                                                                                  |
+|  PASS  | 119: Get Data (*static_cast<Size*>(node.get_data().get_data()))                                                                  |
+|  PASS  | 120: Get Data (node.get_data().get_size())                                                                                       |
+|  PASS  | 127: Get Data Const (*static_cast<Size const*>(node.get_data().get_data()))                                                      |
+|  PASS  | 128: Get Data Const (node.get_data().get_size())                                                                                 |
+|  PASS  | 135: Get Data String (node.get_data_string())                                                                                    |
+|  PASS  | 143: Set Data (*static_cast<Size*>(node.get_data().get_data()))                                                                  |
+|  PASS  | 144: Set Data (node.get_data().get_size())                                                                                       |
+|  PASS  | 152: Set Data String (node.get_data_string())                                                                                    |
+|  PASS  | 158: Get Children Size (node.get_children_size())                                                                                |
+|  PASS  | 160: Get Children Size (node.get_children_size())                                                                                |
+|  PASS  | 162: Get Children Size (node.get_children_size())                                                                                |
+|  PASS  | 164: Get Children Size (node.get_children_size())                                                                                |
+|  PASS  | 173: Get Children (node.get_children().at(0).get_name())                                                                         |
+|  PASS  | 174: Get Children (node.get_children().at(1).get_name())                                                                         |
+|  PASS  | 175: Get Children (node.get_children().at(2).get_name())                                                                         |
+|  PASS  | 184: Has Child Index (node.has_child(0))                                                                                         |
+|  PASS  | 185: Has Child Index (node.has_child(1))                                                                                         |
+|  PASS  | 186: Has Child Index (node.has_child(2))                                                                                         |
+|  PASS  | 187: Has Child Index (node.has_child(3))                                                                                         |
+|  PASS  | 196: Has Child Name (node.has_child("Child0"))                                                                                   |
+|  PASS  | 197: Has Child Name (node.has_child("Child1"))                                                                                   |
+|  PASS  | 198: Has Child Name (node.has_child("Child2"))                                                                                   |
+|  PASS  | 199: Has Child Name (node.has_child("Child3"))                                                                                   |
+|  PASS  | 208: Get Child Index (node.get_child(0).get_name())                                                                              |
+|  PASS  | 209: Get Child Index (node.get_child(1).get_name())                                                                              |
+|  PASS  | 210: Get Child Index (node.get_child(2).get_name())                                                                              |
+|  PASS  | 211: Get Child Index (node.get_child(3))                                                                                         |
+|  PASS  | 220: Get Child Name (node.get_child("Child0").get_name())                                                                        |
+|  PASS  | 221: Get Child Name (node.get_child("Child1").get_name())                                                                        |
+|  PASS  | 222: Get Child Name (node.get_child("Child2").get_name())                                                                        |
+|  PASS  | 223: Get Child Name (node.get_child("Child3"))                                                                                   |
+|  PASS  | 232: Add Child (node.get_children_size())                                                                                        |
+|  PASS  | 233: Add Child (child0.get_name())                                                                                               |
+|  PASS  | 234: Add Child (*static_cast<Size*>(child0.get_data().get_data()))                                                               |
+|  PASS  | 235: Add Child (child0.get_data().get_size())                                                                                    |
+|  PASS  | 236: Add Child (child1.get_name())                                                                                               |
+|  PASS  | 237: Add Child (child1.get_data().get_size())                                                                                    |
+|  PASS  | 238: Add Child (node.get_child(0).get_name())                                                                                    |
+|  PASS  | 239: Add Child (node.get_child(1).get_name())                                                                                    |
+|  PASS  | 241: Add Child (node.add_child(""))                                                                                              |
+|  PASS  | 242: Add Child (node.add_child("Child0"))                                                                                        |
+|  PASS  | 243: Add Child (node.add_child("Child1"))                                                                                        |
+|  PASS  | 244: Add Child (node.add_child("", nullptr, 0))                                                                                  |
+|  PASS  | 245: Add Child (node.add_child("Child0", nullptr, 0))                                                                            |
+|  PASS  | 246: Add Child (node.add_child("Child1", nullptr, 0))                                                                            |
 
 ## Wrap
 | Result | Message                                                                                                                          |

@@ -55,6 +55,7 @@ var hierarchy =
     [ "Minty::MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", null ],
     [ "Minty::MemoryStack", "class_minty_1_1_memory_stack.html", null ],
     [ "Minty::MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", null ],
+    [ "Minty::Node", "class_minty_1_1_node.html", null ],
     [ "Minty::Owner< T >", "class_minty_1_1_owner.html", null ],
     [ "Minty::Pair< T1, T2 >", "class_minty_1_1_pair.html", null ],
     [ "Minty::Path", "class_minty_1_1_path.html", null ],
