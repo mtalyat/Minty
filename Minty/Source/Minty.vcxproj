@@ -189,6 +189,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Compression.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
     <ClInclude Include="Minty\Core\Math.h" />
+    <ClInclude Include="Minty\Core\Type.h" />
     <ClInclude Include="Minty\Core\_Core.h" />
     <ClInclude Include="Minty\Core\Format.h" />
     <ClInclude Include="Minty\Core\Macro.h" />
@@ -247,6 +248,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\ToString.cpp" />
+    <ClCompile Include="Minty\Core\Type.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
     <ClCompile Include="Minty\Data\Container.cpp" />
     <ClCompile Include="Minty\Data\DynamicContainer.cpp" />
