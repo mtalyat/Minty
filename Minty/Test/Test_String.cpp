@@ -653,6 +653,24 @@ void test_String(Test& _test)
 			EXPECT_FAIL(test.at(13));
 		}
 
+		TEST("Front")
+		{
+			String test("Hello world!\n");
+			EXPECT_EQUAL(test.front(), 'H');
+
+			test = "";
+			EXPECT_FAIL(test.front());
+		}
+
+		TEST("Back")
+		{
+			String test("Hello world!\n");
+			EXPECT_EQUAL(test.back(), '\n');
+
+			test = "";
+			EXPECT_FAIL(test.back());
+		}
+
 		TEST("Sub")
 		{
 			String test("Hello world!\n");

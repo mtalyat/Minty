@@ -68,6 +68,17 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Creates a Node with the given name and data.
+		/// </summary>
+		/// <param name="name">The name of this Node.</param>
+		/// <param name="value">The string data of this Node.</param>
+		/// <param name="allocator">The Allocator to use.</param>
+		Node(String const& name, String const& value, Allocator const allocator = Allocator::Default)
+			: Node(name, value.get_data(), value.get_size(), allocator)
+		{
+		}
+
+		/// <summary>
 		/// Creates a Node with the given name.
 		/// </summary>
 		/// <param name="name">The name of this Node.</param>
@@ -202,6 +213,12 @@ namespace Minty
 		/// Gets the Vector of children Nodes.
 		/// </summary>
 		/// <returns>The child Nodes.</returns>
+		Vector<Node>& get_children() { return m_children; }
+
+		/// <summary>
+		/// Gets the Vector of children Nodes.
+		/// </summary>
+		/// <returns>The child Nodes.</returns>
 		Vector<Node> const& get_children() const { return m_children; }
 
 #pragma endregion
@@ -252,6 +269,17 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Gets the index of the child Node with the given name.
+		/// </summary>
+		/// <param name="name">The name of the child.</param>
+		/// <returns>The index to the child, or -1 if the child does not exist.</returns>
+		Int get_child_index(String const& name) const
+		{
+			auto found = m_lookup.find(name);
+			return found != m_lookup.end() ? found->second : -1;
+		}
+
+		/// <summary>
 		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
 		/// </summary>
 		/// <param name="name">The name of the Node.</param>
@@ -259,6 +287,17 @@ namespace Minty
 		/// <param name="size">The size of the data in bytes.</param>
 		/// <returns>The added Node.</returns>
 		Node& add_child(String const& name, void const* const data, Size const size);
+
+		/// <summary>
+		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		/// </summary>
+		/// <param name="name">The name of the Node.</param>
+		/// <param name="value">The String data of the Node.</param>
+		/// <returns>The added Node.</returns>
+		Node& add_child(String const& name, String const& value)
+		{
+			return add_child(name, value.get_data(), value.get_size());
+		}
 
 		/// <summary>
 		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.

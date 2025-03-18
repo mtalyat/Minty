@@ -150,6 +150,7 @@
     <ClCompile Include="Test_Debug.cpp" />
     <ClCompile Include="Test_DualBuffer.cpp" />
     <ClCompile Include="Test_DynamicContainer.cpp" />
+    <ClCompile Include="Test_Encoding.cpp" />
     <ClCompile Include="Test_File.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Test_Pair.cpp" />
     <ClCompile Include="Test_PhysicalFile.cpp" />
     <ClCompile Include="Test_Queue.cpp" />
+    <ClCompile Include="Test_Reader.cpp" />
     <ClCompile Include="Test_Set.cpp" />
     <ClCompile Include="Test_Stack.cpp" />
     <ClCompile Include="Test_StaticContainer.cpp" />
@@ -173,6 +175,7 @@
     <ClCompile Include="Test_VirtualFile.cpp" />
     <ClCompile Include="Test_Wrap.cpp" />
     <ClCompile Include="Test_Wrapper.cpp" />
+    <ClCompile Include="Test_Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="Test_Debug.h" />
     <ClInclude Include="Test_DualBuffer.h" />
     <ClInclude Include="Test_DynamicContainer.h" />
+    <ClInclude Include="Test_Encoding.h" />
     <ClInclude Include="Test_File.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />
@@ -198,6 +202,7 @@
     <ClInclude Include="Test_Pair.h" />
     <ClInclude Include="Test_PhysicalFile.h" />
     <ClInclude Include="Test_Queue.h" />
+    <ClInclude Include="Test_Reader.h" />
     <ClInclude Include="Test_Set.h" />
     <ClInclude Include="Test_Stack.h" />
     <ClInclude Include="Test_StaticContainer.h" />
@@ -209,6 +214,7 @@
     <ClInclude Include="Test_VirtualFile.h" />
     <ClInclude Include="Test_Wrap.h" />
     <ClInclude Include="Test_Wrapper.h" />
+    <ClInclude Include="Test_Writer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

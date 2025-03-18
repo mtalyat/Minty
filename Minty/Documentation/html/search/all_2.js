@@ -2,7 +2,7 @@ var searchData=
 [
   ['b_0',['B',['../namespace_minty.html#ac7896eced57a2f85d050b16628f5291e',1,'Minty']]],
   ['b_1',['b',['../struct_minty_1_1_color.html#a4ff3fb1c5555d38ebb2c409f571a26ec',1,'Minty::Color']]],
-  ['back_2',['back',['../class_minty_1_1_array.html#a0e44850c0069881ffd5ae266d5a8ab63',1,'Minty::Array::back()'],['../class_minty_1_1_array.html#ae96ce3bb29ee769ab097edcc662f5b29',1,'Minty::Array::back() const'],['../class_minty_1_1_list.html#a841266f45fb279081dd4fa2cec5f4d56',1,'Minty::List::back()'],['../class_minty_1_1_list.html#acd9bb3a7448faaae88f492f6a84e968c',1,'Minty::List::back() const'],['../class_minty_1_1_vector.html#a19de4a332d875e6f57b9cf2b9161d070',1,'Minty::Vector::back()'],['../class_minty_1_1_vector.html#af18f623b5a2eddb0e3eaf0c098036eaf',1,'Minty::Vector::back() const']]],
+  ['back_2',['back',['../class_minty_1_1_array.html#a0e44850c0069881ffd5ae266d5a8ab63',1,'Minty::Array::back()'],['../class_minty_1_1_array.html#ae96ce3bb29ee769ab097edcc662f5b29',1,'Minty::Array::back() const'],['../class_minty_1_1_list.html#a841266f45fb279081dd4fa2cec5f4d56',1,'Minty::List::back()'],['../class_minty_1_1_list.html#acd9bb3a7448faaae88f492f6a84e968c',1,'Minty::List::back() const'],['../class_minty_1_1_string.html#a8b1e76d3ea6fd5b0e89eb122e095eb2b',1,'Minty::String::back()'],['../class_minty_1_1_vector.html#a19de4a332d875e6f57b9cf2b9161d070',1,'Minty::Vector::back()'],['../class_minty_1_1_vector.html#af18f623b5a2eddb0e3eaf0c098036eaf',1,'Minty::Vector::back() const']]],
   ['backward_3',['backward',['../namespace_minty_1_1_math.html#a40b5cd7dce9ab9a34ae336388ce422d3',1,'Minty::Math']]],
   ['base_2ecpp_4',['Base.cpp',['../_base_8cpp.html',1,'']]],
   ['base_2eh_5',['Base.h',['../_base_8h.html',1,'']]],

@@ -198,7 +198,7 @@
     <ClInclude Include="Minty\Serialization\Writer.h">
       <Filter>Header Files\Serialization</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Serialization\Serializable.h">
+    <ClInclude Include="Minty\Serialization\SerializableObject.h">
       <Filter>Header Files\Serialization</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Data\MemoryContainer.h">
@@ -233,6 +233,18 @@
     </ClInclude>
     <ClInclude Include="Minty\Data\Variable.h">
       <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Core\Parse.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Serialization\Serializable.h">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Serialization\IsSerializable.h">
+      <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Core\Encoding.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +342,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Serialization\Reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Core\Parse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Serialization\Writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Core\Encoding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

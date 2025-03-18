@@ -28,7 +28,7 @@ var NAVTREE =
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
+        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
         [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
@@ -61,16 +61,20 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"class_minty_1_1_array_1_1_const_iterator.html#a5f0c5a6d142e1b8420cbe4db052c6406",
-"class_minty_1_1_dual_buffer.html",
-"class_minty_1_1_list_1_1_const_iterator.html#abd5c4128d317af0a3b2baa32fa97d177",
-"class_minty_1_1_memory_manager.html#a4ffd4ce1433b7558af60fd2ce5d9a0e2",
-"class_minty_1_1_path.html#a9f8086ec7adb1d54cb2d8a0a30352238",
-"class_minty_1_1_set.html#a798d3cc44b59f2da35dcf651074b64b9",
-"class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d",
-"class_minty_1_1_vector_1_1_iterator.html#ade4dcb3f39cdb4a7dffae500fd8715d6",
-"namespace_minty.html#a14b0ee6d134753145495f52679a8f861",
-"struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e"
+"class_minty_1_1_array.html#ad74fa267e14f4414f711c5123addd281",
+"class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a7eef58f3be127af697d00af08dd709ac",
+"class_minty_1_1_list.html#abf0dd1fa23b217b3479b199e50fa3c38",
+"class_minty_1_1_map_1_1_iterator.html#ab025125cdc7430be0ebaf820f175fd51",
+"class_minty_1_1_owner.html#a9aa1de514312540bd196f0dafec02304",
+"class_minty_1_1_queue.html#ac3f4ccf651e73729cc62e7e191d54386",
+"class_minty_1_1_reader_implementation.html#aa5fba5f9f8387374b6644482f011fb1c",
+"class_minty_1_1_static_container.html#aa0747b003f69a744fa72c38bb6fd2171",
+"class_minty_1_1_text_writer_behavior.html#aa3ba9f2bcd3369816ce8bff06c1b562a",
+"class_minty_1_1_vector_1_1_iterator.html#a0ffb443bdfbe22c210f160ca5224e61e",
+"class_minty_1_1_writer.html#a5b1aca20d6092da6dd85f95e94488586",
+"functions_f.html",
+"namespace_minty.html#af6ffb8348af066d5ea40ea78dc4309fe",
+"struct_minty_1_1_memory_manager_builder.html#ac376764de776e1b1e7e1112f3a57874a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

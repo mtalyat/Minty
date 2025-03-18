@@ -831,6 +831,32 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test[4] == 4);
 		}
 
+		TEST("Push Copy")
+		{
+			List<String> test;
+			String str = "5";
+			test.push(str);
+			EXPECT_TRUE(test.get_size() == 1);
+			EXPECT_TRUE(test[0] == "5");
+			str = "10";
+			test.push(str);
+			EXPECT_TRUE(test.get_size() == 2);
+			EXPECT_TRUE(test[1] == "10");
+		}
+
+		TEST("Push Move")
+		{
+			List<String> test;
+			String str = "5";
+			test.push(std::move(str));
+			EXPECT_TRUE(test.get_size() == 1);
+			EXPECT_TRUE(test[0] == "5");
+			str = "10";
+			test.push(std::move(str));
+			EXPECT_TRUE(test.get_size() == 2);
+			EXPECT_TRUE(test[1] == "10");
+		}
+
 		TEST("Insert Index Copy")
 		{
 			List<int> test({ 0, 1, 2, 3, 4 });
@@ -1050,6 +1076,31 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test.get_size() == 0);
 		}
 
+		TEST("Pop")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 4);
+			EXPECT_TRUE(test[0] == 0);
+			EXPECT_TRUE(test[1] == 1);
+			EXPECT_TRUE(test[2] == 2);
+			EXPECT_TRUE(test[3] == 3);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 3);
+			EXPECT_TRUE(test[0] == 0);
+			EXPECT_TRUE(test[1] == 1);
+			EXPECT_TRUE(test[2] == 2);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 2);
+			EXPECT_TRUE(test[0] == 0);
+			EXPECT_TRUE(test[1] == 1);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 1);
+			EXPECT_TRUE(test[0] == 0);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 0);
+		}
+
 		TEST("Is Empty")
 		{
 			List<int> test;
@@ -1110,6 +1161,20 @@ void test_List(Test& _test)
 		{
 			List<int> const test({ 0, 1, 2, 3, 4 });
 			EXPECT_TRUE(test.back() == 4);
+		}
+
+		TEST("Peek")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.peek() == 4);
+			test.peek() = 5;
+			EXPECT_TRUE(test.peek() == 5);
+		}
+
+		TEST("Const Peek")
+		{
+			List<int> const test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.peek() == 4);
 		}
 
 		TEST("Sub")

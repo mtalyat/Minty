@@ -5,6 +5,8 @@ void test_UUID(Test& _test)
 {
 	CATEGORY(UUID)
 	{
+		constexpr Char const* TEST_PATH = "test.txt";
+
 		TEST("Default Constructor")
 		{
 			UUID uuid;
@@ -115,6 +117,36 @@ void test_UUID(Test& _test)
 			EXPECT_TRUE(uuid.is_valid());
 			uuid = UUID(INVALID_ID);
 			EXPECT_TRUE(!uuid.is_valid());
+		}
+
+		TEST("Serialize")
+		{
+			PhysicalFile file(TEST_PATH, File::Flags::Write);
+			TextFileWriter writer(&file);
+			UUID one = UUID::create();
+			writer.write("One", one);
+			file.close();
+			String text = File::read_text(TEST_PATH);
+			String expected = String("One: ").append(to_string(one)).append("\n");
+			EXPECT_EQUAL(text, expected);
+			File::destroy(TEST_PATH);
+		}
+
+		TEST("Deserialize")
+		{
+			PhysicalFile file(TEST_PATH, File::Flags::Write);
+			TextFileWriter writer(&file);
+			UUID one = UUID::create();
+			writer.write("One", one);
+			file.close();
+			
+			file.open(TEST_PATH, File::Flags::Read);
+			TextFileReader reader(&file);
+			UUID two;
+			EXPECT_TRUE(reader.read(0, two));
+			EXPECT_EQUAL(one, two);
+			file.close();
+			File::destroy(TEST_PATH);
 		}
 
 		TEST("Create")

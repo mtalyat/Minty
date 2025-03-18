@@ -28,6 +28,17 @@ void test_Node(Test& _test)
 			EXPECT_EQUAL(node2.get_children_size(), 0);
 		}
 
+		TEST("String Constructor")
+		{
+			String const name = "Node";
+			String const value = "Value";
+			Node node(name, value);
+			EXPECT_EQUAL(node.get_name(), name);
+			EXPECT_EQUAL(node.get_data_string(), value);
+			EXPECT_EQUAL(node.get_data().get_size(), value.get_size());
+			EXPECT_EQUAL(node.get_children_size(), 0);
+		}
+
 		TEST("Name Constructor")
 		{
 			Node node("Node");
@@ -238,6 +249,9 @@ void test_Node(Test& _test)
 			EXPECT_EQUAL(child1.get_data().get_size(), 0);
 			EXPECT_EQUAL(node.get_child(0).get_name(), "Child0");
 			EXPECT_EQUAL(node.get_child(1).get_name(), "Child1");
+			EXPECT_EQUAL(node.add_child("Child2", "Data").get_name(), "Child2");
+			EXPECT_EQUAL(node.add_child("Child3", "Data").get_data_string(), "Data");
+
 
 			EXPECT_FAIL(node.add_child(""));
 			EXPECT_FAIL(node.add_child("Child0"));

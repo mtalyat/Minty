@@ -782,6 +782,18 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Adds the given value to the List.
+		/// </summary>
+		/// <param name="value">The value to add.</param>
+		void push(T const& value) { add(value); }
+
+		/// <summary>
+		/// Adds the given value to the List.
+		/// </summary>
+		/// <param name="value">The value to add.</param>
+		void push(T&& value) { add(std::move(value)); }
+
+		/// <summary>
 		/// Inserts a copy of the given value at the given index.
 		/// </summary>
 		/// <param name="index">The index to insert at.</param>
@@ -1125,6 +1137,30 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Removes the last element in the List.
+		/// </summary>
+		void pop()
+		{
+			Node* node = mp_tail;
+			if (node)
+			{
+				Node* prevNode = node->prev;
+				if (prevNode)
+				{
+					prevNode->next = nullptr;
+				}
+				else
+				{
+					// if no previous node, then this is the only node
+					mp_head = nullptr;
+				}
+				mp_tail = prevNode;
+				destruct<Node>(node, m_allocator);
+				--m_size;
+			}
+		}
+
+		/// <summary>
 		/// Checks if this List is empty.
 		/// </summary>
 		/// <returns>True, if size is zero.</returns>
@@ -1177,6 +1213,18 @@ namespace Minty
 		/// </summary>
 		/// <returns>The last element.</returns>
 		T const& back() const { return mp_tail->data; }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T& peek() { return back(); }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T const& peek() const { return back(); }
 
 		/// <summary>
 		/// Creates a sublist of this List.

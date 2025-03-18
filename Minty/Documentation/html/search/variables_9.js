@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['m_5fallocator_0',['m_allocator',['../class_minty_1_1_memory_container.html#aed68970301710178d3ba9ba77d9ab8ae',1,'Minty::MemoryContainer']]],
+  ['m_5fallocator_0',['m_allocator',['../class_minty_1_1_memory_container.html#aed68970301710178d3ba9ba77d9ab8ae',1,'Minty::MemoryContainer::m_allocator'],['../class_minty_1_1_reader.html#ade3672409a9860ec3152a68f934fb28f',1,'Minty::Reader::m_allocator']]],
   ['m_5fcapacity_1',['m_capacity',['../class_minty_1_1_memory_container.html#a8d8aca8170d211d52d4724270374ac8c',1,'Minty::MemoryContainer']]],
   ['m_5fflags_2',['m_flags',['../class_minty_1_1_file.html#a65c0610289912559f663d1ec4c3627e2',1,'Minty::File']]],
   ['m_5fpath_3',['m_path',['../class_minty_1_1_file.html#aeb4ebf6f053479f69b595a2efccbc9dc',1,'Minty::File']]],

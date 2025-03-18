@@ -824,7 +824,7 @@ void test_Array(Test& _test)
 			EXPECT_TRUE(sub.get_size() == 2);
 			EXPECT_TRUE(sub.at(0) == 5);
 			EXPECT_TRUE(sub.at(1) == 5);
-			EXPECT_FAIL(sub.at(2) == 5);
+			EXPECT_FAIL(Bool x = sub.at(2) == 5);
 		}
 
 		TEST("Find")

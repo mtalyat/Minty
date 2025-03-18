@@ -4,6 +4,7 @@
 // Core
 #include "Test_Base.h"
 #include "Test_Compression.h"
+#include "Test_Encoding.h"
 #include "Test_Math.h"
 #include "Test_Type.h"
 
@@ -39,6 +40,8 @@
 
 // Serialization
 #include "Test_Node.h"
+#include "Test_Reader.h"
+#include "Test_Writer.h"
 
 // Wrap
 #include "Test_Wrap.h"
@@ -70,6 +73,7 @@ static void run_tests()
 	// Core
 	test_Base(_test);
 	test_Compression(_test);
+	test_Encoding(_test);
 	test_Math(_test);
 	test_Type(_test);
 
@@ -102,6 +106,8 @@ static void run_tests()
 
 	// Serialization
 	test_Node(_test);
+	test_Reader(_test);
+	test_Writer(_test);
 
 	// Wrap
 	test_Wrap(_test);

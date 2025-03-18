@@ -10,6 +10,8 @@ var searchData=
   ['memorymanagerbuilder_7',['MemoryManagerBuilder',['../struct_minty_1_1_memory_manager_builder.html',1,'Minty']]],
   ['memorypool_8',['MemoryPool',['../class_minty_1_1_memory_pool.html',1,'Minty']]],
   ['memorypoolbuilder_9',['MemoryPoolBuilder',['../struct_minty_1_1_memory_pool_builder.html',1,'Minty']]],
-  ['memorystack_10',['MemoryStack',['../class_minty_1_1_memory_stack.html',1,'Minty']]],
-  ['memorystackbuilder_11',['MemoryStackBuilder',['../struct_minty_1_1_memory_stack_builder.html',1,'Minty']]]
+  ['memoryreaderbehavior_10',['MemoryReaderBehavior',['../class_minty_1_1_memory_reader_behavior.html',1,'Minty']]],
+  ['memorystack_11',['MemoryStack',['../class_minty_1_1_memory_stack.html',1,'Minty']]],
+  ['memorystackbuilder_12',['MemoryStackBuilder',['../struct_minty_1_1_memory_stack_builder.html',1,'Minty']]],
+  ['memorywriterbehavior_13',['MemoryWriterBehavior',['../class_minty_1_1_memory_writer_behavior.html',1,'Minty']]]
 ];

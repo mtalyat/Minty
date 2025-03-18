@@ -144,6 +144,15 @@
     <ClCompile Include="Test_Type.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -246,6 +255,15 @@
       <Filter>Header Files\Tests\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Type.h">
+      <Filter>Header Files\Tests\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Reader.h">
+      <Filter>Header Files\Tests\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Writer.h">
+      <Filter>Header Files\Tests\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Encoding.h">
       <Filter>Header Files\Tests\Core</Filter>
     </ClInclude>
   </ItemGroup>

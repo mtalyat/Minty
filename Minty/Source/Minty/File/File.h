@@ -326,6 +326,34 @@ namespace Minty
 		/// <param name="path">The Path to the File.</param>
 		static void destroy(Path const& path);
 
+		/// <summary>
+		/// Reads all of the lines of text from a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <returns>A Vector containing all the lines.</returns>
+		static Vector<String> read_lines(Path const& path);
+
+		/// <summary>
+		/// Reads all of the text from a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <returns>A String containing all the text.</returns>
+		static String read_text(Path const& path);
+
+		/// <summary>
+		/// Writes all of the lines of text to a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <param name="lines">The lines to write.</param>
+		static void write_lines(Path const& path, Vector<String> const& lines);
+
+		/// <summary>
+		/// Writes all of the text to a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <param name="text">The text to write.</param>
+		static void write_text(Path const& path, String const& text);
+
 #pragma endregion
 	};
 }

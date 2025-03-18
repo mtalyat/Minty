@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Data/String.h"
 
 namespace Minty
 {
@@ -66,4 +67,11 @@ namespace Minty
 	/// <param name="type">The Type.</param>
 	/// <returns>The size of the type that the Type represents, in bytes.</returns>
 	Size sizeof_type(Type const type);
+
+	/// <summary>
+	/// Converts the given Type to a string.
+	/// </summary>
+	/// <param name="type">The Type.</param>
+	/// <returns>The name of the Type.</returns>
+	String to_string(Type const type);
 }

@@ -111,6 +111,15 @@ $(function(){initNavTree('class_minty_1_1_u_u_i_d.html',''); initResizable(true)
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_u_u_i_d_8h_source.html">UUID.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Minty::UUID:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_minty_1_1_u_u_i_d.png" usemap="#Minty::UUID_map" alt=""/>
+  <map id="Minty::UUID_map" name="Minty::UUID_map">
+<area href="class_minty_1_1_serializable.html" title="An interface for single-attribute objects to be written and read from." alt="Minty::Serializable" shape="rect" coords="0,0,115,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -131,13 +140,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab26683f01c5464724de7638098c7cda4" id="r_ab26683f01c5464724de7638098c7cda4"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab26683f01c5464724de7638098c7cda4">operator!=</a> (<a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> const other) const</td></tr>
 <tr class="separator:ab26683f01c5464724de7638098c7cda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad16c8b04a005059a8dd92458cb22a1fe" id="r_ad16c8b04a005059a8dd92458cb22a1fe"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad16c8b04a005059a8dd92458cb22a1fe">get_data</a> () const</td></tr>
+<tr class="memdesc:ad16c8b04a005059a8dd92458cb22a1fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> value of this <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>.  <br /></td></tr>
 <tr class="separator:ad16c8b04a005059a8dd92458cb22a1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ae59b9757f15c800803dce697d1e13f" id="r_a6ae59b9757f15c800803dce697d1e13f"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ae59b9757f15c800803dce697d1e13f">is_valid</a> () const</td></tr>
+<tr class="memdesc:a6ae59b9757f15c800803dce697d1e13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> is valid.  <br /></td></tr>
 <tr class="separator:a6ae59b9757f15c800803dce697d1e13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f1cc29f2ae4f40423ff8a5cb9c9bae1" id="r_a3f1cc29f2ae4f40423ff8a5cb9c9bae1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f1cc29f2ae4f40423ff8a5cb9c9bae1">serialize</a> (<a class="el" href="class_minty_1_1_writer.html">Writer</a> &amp;writer, <a class="el" href="class_minty_1_1_string.html">String</a> const &amp;name) const override</td></tr>
+<tr class="memdesc:a3f1cc29f2ae4f40423ff8a5cb9c9bae1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write this object's data to the writer.  <br /></td></tr>
+<tr class="separator:a3f1cc29f2ae4f40423ff8a5cb9c9bae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae43805aed85ddfbb1090df2279cefd1e" id="r_ae43805aed85ddfbb1090df2279cefd1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae43805aed85ddfbb1090df2279cefd1e">deserialize</a> (<a class="el" href="class_minty_1_1_reader.html">Reader</a> &amp;reader, <a class="el" href="namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee">Int</a> const index) override</td></tr>
+<tr class="memdesc:ae43805aed85ddfbb1090df2279cefd1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read this object's data from the reader.  <br /></td></tr>
+<tr class="separator:ae43805aed85ddfbb1090df2279cefd1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a26a453c78d08fa30fd40b6fe6eafc0d9" id="r_a26a453c78d08fa30fd40b6fe6eafc0d9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26a453c78d08fa30fd40b6fe6eafc0d9">create</a> ()</td></tr>
+<tr class="memdesc:a26a453c78d08fa30fd40b6fe6eafc0d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new, random <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> using a uniform distribution.  <br /></td></tr>
 <tr class="separator:a26a453c78d08fa30fd40b6fe6eafc0d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -225,6 +243,50 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Creates a new, random <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> using a uniform distribution. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> with a randomly generated <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> value.</dd></dl>
+
+</div>
+</div>
+<a id="ae43805aed85ddfbb1090df2279cefd1e" name="ae43805aed85ddfbb1090df2279cefd1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae43805aed85ddfbb1090df2279cefd1e">&#9670;&#160;</a></span>deserialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::UUID::deserialize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_reader.html">Reader</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>reader</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee">Int</a> const</td>          <td class="paramname"><span class="paramname"><em>index</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read this object's data from the reader. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reader</td><td>The <a class="el" href="class_minty_1_1_reader.html" title="Handles reading data from a source, formatted in a Minty Node structure.">Reader</a> to read from.</td></tr>
+    <tr><td class="paramname">index</td><td>The index of this object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True on success.</dd></dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_serializable.html#aa98a4de34f9e59a9b8e5b3bf411027e9">Minty::Serializable</a>.</p>
+
 </div>
 </div>
 <a id="ad16c8b04a005059a8dd92458cb22a1fe" name="ad16c8b04a005059a8dd92458cb22a1fe"></a>
@@ -250,6 +312,9 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> value of this <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> value.</dd></dl>
+
 </div>
 </div>
 <a id="a6ae59b9757f15c800803dce697d1e13f" name="a6ae59b9757f15c800803dce697d1e13f"></a>
@@ -274,6 +339,9 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Checks if this <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> is valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> value is not zero.</dd></dl>
 
 </div>
 </div>
@@ -399,6 +467,46 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3f1cc29f2ae4f40423ff8a5cb9c9bae1" name="a3f1cc29f2ae4f40423ff8a5cb9c9bae1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f1cc29f2ae4f40423ff8a5cb9c9bae1">&#9670;&#160;</a></span>serialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::UUID::serialize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_writer.html">Writer</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>writer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write this object's data to the writer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>The <a class="el" href="class_minty_1_1_writer.html">Writer</a> to write to.</td></tr>
+    <tr><td class="paramname">name</td><td>The name of this object.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_serializable.html#aea8ebd1061cea5ddbfa61335960ed052">Minty::Serializable</a>.</p>
 
 </div>
 </div>

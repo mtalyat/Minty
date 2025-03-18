@@ -246,6 +246,18 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a71297205f7f72a5767d1169ffbbacbe6" id="r_a71297205f7f72a5767d1169ffbbacbe6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71297205f7f72a5767d1169ffbbacbe6">destroy</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
 <tr class="memdesc:a71297205f7f72a5767d1169ffbbacbe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
 <tr class="separator:a71297205f7f72a5767d1169ffbbacbe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a411b2d371adf70bb7f425a3fb056d20d" id="r_a411b2d371adf70bb7f425a3fb056d20d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="class_minty_1_1_string.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a411b2d371adf70bb7f425a3fb056d20d">read_lines</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
+<tr class="memdesc:a411b2d371adf70bb7f425a3fb056d20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all of the lines of text from a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
+<tr class="separator:a411b2d371adf70bb7f425a3fb056d20d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab99b1da03a8dad1eb6798ada0786bae0" id="r_ab99b1da03a8dad1eb6798ada0786bae0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab99b1da03a8dad1eb6798ada0786bae0">read_text</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
+<tr class="memdesc:ab99b1da03a8dad1eb6798ada0786bae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all of the text from a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
+<tr class="separator:ab99b1da03a8dad1eb6798ada0786bae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7836c1f0904cd97bb38eb45bdd523042" id="r_a7836c1f0904cd97bb38eb45bdd523042"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7836c1f0904cd97bb38eb45bdd523042">write_lines</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="class_minty_1_1_string.html">String</a> &gt; const &amp;lines)</td></tr>
+<tr class="memdesc:a7836c1f0904cd97bb38eb45bdd523042"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes all of the lines of text to a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
+<tr class="separator:a7836c1f0904cd97bb38eb45bdd523042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d9f7467a643e70859ab437b4e50f673" id="r_a9d9f7467a643e70859ab437b4e50f673"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d9f7467a643e70859ab437b4e50f673">write_text</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="class_minty_1_1_string.html">String</a> const &amp;text)</td></tr>
+<tr class="memdesc:a9d9f7467a643e70859ab437b4e50f673"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes all of the text to a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <br /></td></tr>
+<tr class="separator:a9d9f7467a643e70859ab437b4e50f673"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -1089,6 +1101,74 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a411b2d371adf70bb7f425a3fb056d20d" name="a411b2d371adf70bb7f425a3fb056d20d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a411b2d371adf70bb7f425a3fb056d20d">&#9670;&#160;</a></span>read_lines()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="class_minty_1_1_string.html">String</a> &gt; Minty::File::read_lines </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads all of the lines of text from a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_vector.html" title="Holds a collection of elements with a dynamic size.">Vector</a> containing all the lines.</dd></dl>
+
+</div>
+</div>
+<a id="ab99b1da03a8dad1eb6798ada0786bae0" name="ab99b1da03a8dad1eb6798ada0786bae0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab99b1da03a8dad1eb6798ada0786bae0">&#9670;&#160;</a></span>read_text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_string.html">String</a> Minty::File::read_text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads all of the text from a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_string.html" title="A collection of text.">String</a> containing all the text.</dd></dl>
+
+</div>
+</div>
 <a id="ae17d05c7d52ce6258080c31dd9d607e7" name="ae17d05c7d52ce6258080c31dd9d607e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae17d05c7d52ce6258080c31dd9d607e7">&#9670;&#160;</a></span>seek()</h2>
 
@@ -1336,6 +1416,82 @@ Friends</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="class_minty_1_1_physical_file.html#a41cf6d04201573f2cdee90935ab21e57">Minty::PhysicalFile</a>, and <a class="el" href="class_minty_1_1_virtual_file.html#a16c74c03f80b9f18440cbe112a97b83f">Minty::VirtualFile</a>.</p>
+
+</div>
+</div>
+<a id="a7836c1f0904cd97bb38eb45bdd523042" name="a7836c1f0904cd97bb38eb45bdd523042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7836c1f0904cd97bb38eb45bdd523042">&#9670;&#160;</a></span>write_lines()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::File::write_lines </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="class_minty_1_1_string.html">String</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>lines</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes all of the lines of text to a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.</td></tr>
+    <tr><td class="paramname">lines</td><td>The lines to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9d9f7467a643e70859ab437b4e50f673" name="a9d9f7467a643e70859ab437b4e50f673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d9f7467a643e70859ab437b4e50f673">&#9670;&#160;</a></span>write_text()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::File::write_text </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes all of the text to a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.</td></tr>
+    <tr><td class="paramname">text</td><td>The text to write.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

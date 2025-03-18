@@ -1,5 +1,5 @@
 # Results
-3799/3799 (100.00%)
+4053/4053 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -8,6 +8,7 @@
 | Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
+| Encoding                       |        2 |        0 |
 | Math                           |      196 |        0 |
 | Type                           |      104 |        0 |
 | Array::Iterator                |       85 |        0 |
@@ -22,7 +23,7 @@
 | List::ConstIterator            |       82 |        0 |
 | List::ReverseIterator          |       82 |        0 |
 | List::ConstReverseIterator     |       82 |        0 |
-| List                           |      264 |        0 |
+| List                           |      290 |        0 |
 | Map::Iterator                  |       17 |        0 |
 | Map::ConstIterator             |       17 |        0 |
 | Map                            |      113 |        0 |
@@ -35,21 +36,23 @@
 | StaticContainer                |       95 |        0 |
 | String::Iterator               |       89 |        0 |
 | String::ConstIterator          |       89 |        0 |
-| String                         |      152 |        0 |
-| UUID                           |       52 |        0 |
+| String                         |      156 |        0 |
+| UUID                           |       55 |        0 |
 | Variable                       |       99 |        0 |
 | Vector::Iterator               |       85 |        0 |
 | Vector::ConstIterator          |       85 |        0 |
 | Vector::ReverseIterator        |       85 |        0 |
 | Vector::ConstReverseIterator   |       85 |        0 |
 | Vector                         |      298 |        0 |
-| File                           |       11 |        0 |
+| File                           |       16 |        0 |
 | PhysicalFile                   |       86 |        0 |
 | VirtualFile                    |       77 |        0 |
 | MemoryManager                  |       87 |        0 |
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
-| Node                           |       87 |        0 |
+| Node                           |       93 |        0 |
+| TextFileReader                 |      163 |        0 |
+| TextFileWriter                 |       45 |        0 |
 | Wrap                           |       74 |        0 |
 | Wrapper                        |       23 |        0 |
 
@@ -133,6 +136,12 @@ No failures! :)
 |  PASS  | 63: Uncompress (uncompress(nullptr, bufferSize2, buffer, bufferSize))                                                            |
 |  PASS  | 64: Uncompress (uncompress(buffer2, bufferSize2, nullptr, bufferSize))                                                           |
 |  PASS  | 69: Uncompress (text == text2 == true)                                                                                           |
+
+## Encoding
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 13: Encode Base 16 (actual == expected)                                                                                          |
+|  PASS  | 22: Decode Base 16 (actual == expected)                                                                                          |
 
 ## Math
 | Result | Message                                                                                                                          |
@@ -851,7 +860,7 @@ No failures! :)
 |  PASS  | 824: Sub (sub.get_size() == 2 == true)                                                                                           |
 |  PASS  | 825: Sub (sub.at(0) == 5 == true)                                                                                                |
 |  PASS  | 826: Sub (sub.at(1) == 5 == true)                                                                                                |
-|  PASS  | 827: Sub (sub.at(2) == 5)                                                                                                        |
+|  PASS  | 827: Sub (Bool x = sub.at(2) == 5)                                                                                               |
 |  PASS  | 833: Find (test.find(0) == test.begin() == true)                                                                                 |
 |  PASS  | 834: Find (test.find(1) == test.begin() + 1 == true)                                                                             |
 |  PASS  | 835: Find (test.find(2) == test.begin() + 2 == true)                                                                             |
@@ -1574,194 +1583,220 @@ No failures! :)
 |  PASS  | 829: Add Range (test[2] == 2 == true)                                                                                            |
 |  PASS  | 830: Add Range (test[3] == 3 == true)                                                                                            |
 |  PASS  | 831: Add Range (test[4] == 4 == true)                                                                                            |
-|  PASS  | 838: Insert Index Copy (test.get_size() == 6 == true)                                                                            |
-|  PASS  | 839: Insert Index Copy (test[0] == 0 == true)                                                                                    |
-|  PASS  | 840: Insert Index Copy (test[1] == 1 == true)                                                                                    |
-|  PASS  | 841: Insert Index Copy (test[2] == 5 == true)                                                                                    |
-|  PASS  | 842: Insert Index Copy (test[3] == 2 == true)                                                                                    |
-|  PASS  | 843: Insert Index Copy (test[4] == 3 == true)                                                                                    |
-|  PASS  | 844: Insert Index Copy (test[5] == 4 == true)                                                                                    |
-|  PASS  | 846: Insert Index Copy (test.get_size() == 7 == true)                                                                            |
-|  PASS  | 847: Insert Index Copy (test[0] == 6 == true)                                                                                    |
-|  PASS  | 848: Insert Index Copy (test[1] == 0 == true)                                                                                    |
-|  PASS  | 849: Insert Index Copy (test[2] == 1 == true)                                                                                    |
-|  PASS  | 850: Insert Index Copy (test[3] == 5 == true)                                                                                    |
-|  PASS  | 851: Insert Index Copy (test[4] == 2 == true)                                                                                    |
-|  PASS  | 852: Insert Index Copy (test[5] == 3 == true)                                                                                    |
-|  PASS  | 853: Insert Index Copy (test[6] == 4 == true)                                                                                    |
-|  PASS  | 855: Insert Index Copy (test.get_size() == 8 == true)                                                                            |
-|  PASS  | 856: Insert Index Copy (test[0] == 6 == true)                                                                                    |
-|  PASS  | 857: Insert Index Copy (test[1] == 0 == true)                                                                                    |
-|  PASS  | 858: Insert Index Copy (test[2] == 1 == true)                                                                                    |
-|  PASS  | 859: Insert Index Copy (test[3] == 5 == true)                                                                                    |
-|  PASS  | 860: Insert Index Copy (test[4] == 2 == true)                                                                                    |
-|  PASS  | 861: Insert Index Copy (test[5] == 3 == true)                                                                                    |
-|  PASS  | 862: Insert Index Copy (test[6] == 4 == true)                                                                                    |
-|  PASS  | 863: Insert Index Copy (test[7] == 7 == true)                                                                                    |
-|  PASS  | 871: Insert Index Move (test.get_size() == 6 == true)                                                                            |
-|  PASS  | 872: Insert Index Move (test[0] == "0" == true)                                                                                  |
-|  PASS  | 873: Insert Index Move (test[1] == "1" == true)                                                                                  |
-|  PASS  | 874: Insert Index Move (test[2] == "5" == true)                                                                                  |
-|  PASS  | 875: Insert Index Move (test[3] == "2" == true)                                                                                  |
-|  PASS  | 876: Insert Index Move (test[4] == "3" == true)                                                                                  |
-|  PASS  | 877: Insert Index Move (test[5] == "4" == true)                                                                                  |
-|  PASS  | 880: Insert Index Move (test.get_size() == 7 == true)                                                                            |
-|  PASS  | 881: Insert Index Move (test[0] == "6" == true)                                                                                  |
-|  PASS  | 882: Insert Index Move (test[1] == "0" == true)                                                                                  |
-|  PASS  | 883: Insert Index Move (test[2] == "1" == true)                                                                                  |
-|  PASS  | 884: Insert Index Move (test[3] == "5" == true)                                                                                  |
-|  PASS  | 885: Insert Index Move (test[4] == "2" == true)                                                                                  |
-|  PASS  | 886: Insert Index Move (test[5] == "3" == true)                                                                                  |
-|  PASS  | 887: Insert Index Move (test[6] == "4" == true)                                                                                  |
-|  PASS  | 890: Insert Index Move (test.get_size() == 8 == true)                                                                            |
-|  PASS  | 891: Insert Index Move (test[0] == "6" == true)                                                                                  |
-|  PASS  | 892: Insert Index Move (test[1] == "0" == true)                                                                                  |
-|  PASS  | 893: Insert Index Move (test[2] == "1" == true)                                                                                  |
-|  PASS  | 894: Insert Index Move (test[3] == "5" == true)                                                                                  |
-|  PASS  | 895: Insert Index Move (test[4] == "2" == true)                                                                                  |
-|  PASS  | 896: Insert Index Move (test[5] == "3" == true)                                                                                  |
-|  PASS  | 897: Insert Index Move (test[6] == "4" == true)                                                                                  |
-|  PASS  | 898: Insert Index Move (test[7] == "7" == true)                                                                                  |
-|  PASS  | 906: Insert Iterator Copy (test.get_size() == 8 == true)                                                                         |
-|  PASS  | 907: Insert Iterator Copy (test[0] == 0 == true)                                                                                 |
-|  PASS  | 908: Insert Iterator Copy (test[1] == 1 == true)                                                                                 |
-|  PASS  | 909: Insert Iterator Copy (test[2] == 5 == true)                                                                                 |
-|  PASS  | 910: Insert Iterator Copy (test[3] == 6 == true)                                                                                 |
-|  PASS  | 911: Insert Iterator Copy (test[4] == 7 == true)                                                                                 |
-|  PASS  | 912: Insert Iterator Copy (test[5] == 2 == true)                                                                                 |
-|  PASS  | 913: Insert Iterator Copy (test[6] == 3 == true)                                                                                 |
-|  PASS  | 914: Insert Iterator Copy (test[7] == 4 == true)                                                                                 |
-|  PASS  | 922: Insert Iterator Move (test.get_size() == 8 == true)                                                                         |
-|  PASS  | 923: Insert Iterator Move (test[0] == "0" == true)                                                                               |
-|  PASS  | 924: Insert Iterator Move (test[1] == "1" == true)                                                                               |
-|  PASS  | 925: Insert Iterator Move (test[2] == "5" == true)                                                                               |
-|  PASS  | 926: Insert Iterator Move (test[3] == "6" == true)                                                                               |
-|  PASS  | 927: Insert Iterator Move (test[4] == "7" == true)                                                                               |
-|  PASS  | 928: Insert Iterator Move (test[5] == "2" == true)                                                                               |
-|  PASS  | 929: Insert Iterator Move (test[6] == "3" == true)                                                                               |
-|  PASS  | 930: Insert Iterator Move (test[7] == "4" == true)                                                                               |
-|  PASS  | 938: Insert Index Range (test.get_size() == 8 == true)                                                                           |
-|  PASS  | 939: Insert Index Range (test[0] == 0 == true)                                                                                   |
-|  PASS  | 940: Insert Index Range (test[1] == 1 == true)                                                                                   |
-|  PASS  | 941: Insert Index Range (test[2] == 5 == true)                                                                                   |
-|  PASS  | 942: Insert Index Range (test[3] == 6 == true)                                                                                   |
-|  PASS  | 943: Insert Index Range (test[4] == 7 == true)                                                                                   |
-|  PASS  | 944: Insert Index Range (test[5] == 2 == true)                                                                                   |
-|  PASS  | 945: Insert Index Range (test[6] == 3 == true)                                                                                   |
-|  PASS  | 946: Insert Index Range (test[7] == 4 == true)                                                                                   |
-|  PASS  | 954: Insert Iterator Range (test.get_size() == 8 == true)                                                                        |
-|  PASS  | 955: Insert Iterator Range (test[0] == 0 == true)                                                                                |
-|  PASS  | 956: Insert Iterator Range (test[1] == 1 == true)                                                                                |
-|  PASS  | 957: Insert Iterator Range (test[2] == 5 == true)                                                                                |
-|  PASS  | 958: Insert Iterator Range (test[3] == 6 == true)                                                                                |
-|  PASS  | 959: Insert Iterator Range (test[4] == 7 == true)                                                                                |
-|  PASS  | 960: Insert Iterator Range (test[5] == 2 == true)                                                                                |
-|  PASS  | 961: Insert Iterator Range (test[6] == 3 == true)                                                                                |
-|  PASS  | 962: Insert Iterator Range (test[7] == 4 == true)                                                                                |
-|  PASS  | 969: Remove Index (test.get_size() == 4 == true)                                                                                 |
-|  PASS  | 970: Remove Index (test[0] == 0 == true)                                                                                         |
-|  PASS  | 971: Remove Index (test[1] == 1 == true)                                                                                         |
-|  PASS  | 972: Remove Index (test[2] == 3 == true)                                                                                         |
-|  PASS  | 973: Remove Index (test[3] == 4 == true)                                                                                         |
-|  PASS  | 975: Remove Index (test.get_size() == 3 == true)                                                                                 |
-|  PASS  | 976: Remove Index (test[0] == 1 == true)                                                                                         |
-|  PASS  | 977: Remove Index (test[1] == 3 == true)                                                                                         |
-|  PASS  | 978: Remove Index (test[2] == 4 == true)                                                                                         |
-|  PASS  | 980: Remove Index (test.get_size() == 2 == true)                                                                                 |
-|  PASS  | 981: Remove Index (test[0] == 1 == true)                                                                                         |
-|  PASS  | 982: Remove Index (test[1] == 3 == true)                                                                                         |
-|  PASS  | 984: Remove Index (test.get_size() == 1 == true)                                                                                 |
-|  PASS  | 985: Remove Index (test[0] == 1 == true)                                                                                         |
-|  PASS  | 987: Remove Index (test.get_size() == 0 == true)                                                                                 |
-|  PASS  | 994: Remove Iterator (test.get_size() == 4 == true)                                                                              |
-|  PASS  | 995: Remove Iterator (test[0] == 0 == true)                                                                                      |
-|  PASS  | 996: Remove Iterator (test[1] == 1 == true)                                                                                      |
-|  PASS  | 997: Remove Iterator (test[2] == 3 == true)                                                                                      |
-|  PASS  | 998: Remove Iterator (test[3] == 4 == true)                                                                                      |
-|  PASS  | 1000: Remove Iterator (test.get_size() == 3 == true)                                                                             |
-|  PASS  | 1001: Remove Iterator (test[0] == 1 == true)                                                                                     |
-|  PASS  | 1002: Remove Iterator (test[1] == 3 == true)                                                                                     |
-|  PASS  | 1003: Remove Iterator (test[2] == 4 == true)                                                                                     |
-|  PASS  | 1005: Remove Iterator (test.get_size() == 2 == true)                                                                             |
-|  PASS  | 1006: Remove Iterator (test[0] == 1 == true)                                                                                     |
-|  PASS  | 1007: Remove Iterator (test[1] == 3 == true)                                                                                     |
-|  PASS  | 1009: Remove Iterator (test.get_size() == 1 == true)                                                                             |
-|  PASS  | 1010: Remove Iterator (test[0] == 1 == true)                                                                                     |
-|  PASS  | 1012: Remove Iterator (test.get_size() == 0 == true)                                                                             |
-|  PASS  | 1018: Remove Index Range (test.remove(0, 0))                                                                                     |
-|  PASS  | 1019: Remove Index Range (test.remove(5, 1))                                                                                     |
-|  PASS  | 1020: Remove Index Range (test.remove(0, 6))                                                                                     |
-|  PASS  | 1022: Remove Index Range (test.get_size() == 2 == true)                                                                          |
-|  PASS  | 1023: Remove Index Range (test[0] == 0 == true)                                                                                  |
-|  PASS  | 1024: Remove Index Range (test[1] == 4 == true)                                                                                  |
-|  PASS  | 1026: Remove Index Range (test.get_size() == 1 == true)                                                                          |
-|  PASS  | 1027: Remove Index Range (test[0] == 4 == true)                                                                                  |
-|  PASS  | 1028: Remove Index Range (test.get_size() == 1 == true)                                                                          |
-|  PASS  | 1029: Remove Index Range (test[0] == 4 == true)                                                                                  |
-|  PASS  | 1031: Remove Index Range (test.get_size() == 0 == true)                                                                          |
-|  PASS  | 1037: Remove Iterator Range (test.remove(test.begin(), test.begin()))                                                            |
-|  PASS  | 1038: Remove Iterator Range (test.remove(test.end(), test.end()))                                                                |
-|  PASS  | 1039: Remove Iterator Range (test.remove(test.end(), test.begin()))                                                              |
-|  PASS  | 1041: Remove Iterator Range (test.get_size() == 2 == true)                                                                       |
-|  PASS  | 1042: Remove Iterator Range (test[0] == 0 == true)                                                                               |
-|  PASS  | 1043: Remove Iterator Range (test[1] == 4 == true)                                                                               |
-|  PASS  | 1045: Remove Iterator Range (test.get_size() == 1 == true)                                                                       |
-|  PASS  | 1046: Remove Iterator Range (test[0] == 4 == true)                                                                               |
-|  PASS  | 1047: Remove Iterator Range (test.get_size() == 1 == true)                                                                       |
-|  PASS  | 1048: Remove Iterator Range (test[0] == 4 == true)                                                                               |
-|  PASS  | 1050: Remove Iterator Range (test.get_size() == 0 == true)                                                                       |
-|  PASS  | 1056: Is Empty (test.is_empty() == true)                                                                                         |
-|  PASS  | 1058: Is Empty (!test.is_empty() == true)                                                                                        |
-|  PASS  | 1060: Is Empty (test.is_empty() == true)                                                                                         |
-|  PASS  | 1066: At (test.at(0) == 0 == true)                                                                                               |
-|  PASS  | 1067: At (test.at(1) == 1 == true)                                                                                               |
-|  PASS  | 1068: At (test.at(2) == 2 == true)                                                                                               |
-|  PASS  | 1069: At (test.at(3) == 3 == true)                                                                                               |
-|  PASS  | 1070: At (test.at(4) == 4 == true)                                                                                               |
-|  PASS  | 1071: At (test.at(5))                                                                                                            |
-|  PASS  | 1073: At (test.at(0) == 5 == true)                                                                                               |
-|  PASS  | 1079: Const At (test.at(0) == 0 == true)                                                                                         |
-|  PASS  | 1080: Const At (test.at(1) == 1 == true)                                                                                         |
-|  PASS  | 1081: Const At (test.at(2) == 2 == true)                                                                                         |
-|  PASS  | 1082: Const At (test.at(3) == 3 == true)                                                                                         |
-|  PASS  | 1083: Const At (test.at(4) == 4 == true)                                                                                         |
-|  PASS  | 1084: Const At (test.at(5))                                                                                                      |
-|  PASS  | 1090: Front (test.front() == 0 == true)                                                                                          |
-|  PASS  | 1092: Front (test.front() == 5 == true)                                                                                          |
-|  PASS  | 1098: Const Front (test.front() == 0 == true)                                                                                    |
-|  PASS  | 1104: Back (test.back() == 4 == true)                                                                                            |
-|  PASS  | 1106: Back (test.back() == 5 == true)                                                                                            |
-|  PASS  | 1112: Const Back (test.back() == 4 == true)                                                                                      |
-|  PASS  | 1119: Sub (sub.get_size() == 2 == true)                                                                                          |
-|  PASS  | 1120: Sub (sub[0] == 2 == true)                                                                                                  |
-|  PASS  | 1121: Sub (sub[1] == 3 == true)                                                                                                  |
-|  PASS  | 1127: Find (test.find(0) == test.begin() == true)                                                                                |
-|  PASS  | 1128: Find (test.find(1) == test.begin() + 1 == true)                                                                            |
-|  PASS  | 1129: Find (test.find(2) == test.begin() + 2 == true)                                                                            |
-|  PASS  | 1130: Find (test.find(3) == test.begin() + 3 == true)                                                                            |
-|  PASS  | 1131: Find (test.find(4) == test.begin() + 4 == true)                                                                            |
-|  PASS  | 1132: Find (test.find(5) == test.end() == true)                                                                                  |
-|  PASS  | 1138: Const Find (test.find(0) == test.begin() == true)                                                                          |
-|  PASS  | 1139: Const Find (test.find(1) == test.begin() + 1 == true)                                                                      |
-|  PASS  | 1140: Const Find (test.find(2) == test.begin() + 2 == true)                                                                      |
-|  PASS  | 1141: Const Find (test.find(3) == test.begin() + 3 == true)                                                                      |
-|  PASS  | 1142: Const Find (test.find(4) == test.begin() + 4 == true)                                                                      |
-|  PASS  | 1143: Const Find (test.find(5) == test.end() == true)                                                                            |
-|  PASS  | 1149: Contains (test.contains(0) == true)                                                                                        |
-|  PASS  | 1150: Contains (test.contains(1) == true)                                                                                        |
-|  PASS  | 1151: Contains (test.contains(2) == true)                                                                                        |
-|  PASS  | 1152: Contains (test.contains(3) == true)                                                                                        |
-|  PASS  | 1153: Contains (test.contains(4) == true)                                                                                        |
-|  PASS  | 1154: Contains (!test.contains(5) == true)                                                                                       |
-|  PASS  | 1161: Clear (test.get_size() == 0 == true)                                                                                       |
-|  PASS  | 1167: Begin (*test.begin() == 0 == true)                                                                                         |
-|  PASS  | 1173: Const Begin (*test.begin() == 0 == true)                                                                                   |
-|  PASS  | 1179: End (test.end() == test.begin() + 5 == true)                                                                               |
-|  PASS  | 1185: Const End (test.end() == test.begin() + 5 == true)                                                                         |
-|  PASS  | 1191: Reverse Begin (*test.rbegin() == 4 == true)                                                                                |
-|  PASS  | 1197: Reverse End (test.rend() == test.rbegin() + 5 == true)                                                                     |
-|  PASS  | 1203: Const Reverse Begin (*test.rbegin() == 4 == true)                                                                          |
-|  PASS  | 1209: Const Reverse End (test.rend() == test.rbegin() + 5 == true)                                                               |
+|  PASS  | 839: Push Copy (test.get_size() == 1 == true)                                                                                    |
+|  PASS  | 840: Push Copy (test[0] == "5" == true)                                                                                          |
+|  PASS  | 843: Push Copy (test.get_size() == 2 == true)                                                                                    |
+|  PASS  | 844: Push Copy (test[1] == "10" == true)                                                                                         |
+|  PASS  | 852: Push Move (test.get_size() == 1 == true)                                                                                    |
+|  PASS  | 853: Push Move (test[0] == "5" == true)                                                                                          |
+|  PASS  | 856: Push Move (test.get_size() == 2 == true)                                                                                    |
+|  PASS  | 857: Push Move (test[1] == "10" == true)                                                                                         |
+|  PASS  | 864: Insert Index Copy (test.get_size() == 6 == true)                                                                            |
+|  PASS  | 865: Insert Index Copy (test[0] == 0 == true)                                                                                    |
+|  PASS  | 866: Insert Index Copy (test[1] == 1 == true)                                                                                    |
+|  PASS  | 867: Insert Index Copy (test[2] == 5 == true)                                                                                    |
+|  PASS  | 868: Insert Index Copy (test[3] == 2 == true)                                                                                    |
+|  PASS  | 869: Insert Index Copy (test[4] == 3 == true)                                                                                    |
+|  PASS  | 870: Insert Index Copy (test[5] == 4 == true)                                                                                    |
+|  PASS  | 872: Insert Index Copy (test.get_size() == 7 == true)                                                                            |
+|  PASS  | 873: Insert Index Copy (test[0] == 6 == true)                                                                                    |
+|  PASS  | 874: Insert Index Copy (test[1] == 0 == true)                                                                                    |
+|  PASS  | 875: Insert Index Copy (test[2] == 1 == true)                                                                                    |
+|  PASS  | 876: Insert Index Copy (test[3] == 5 == true)                                                                                    |
+|  PASS  | 877: Insert Index Copy (test[4] == 2 == true)                                                                                    |
+|  PASS  | 878: Insert Index Copy (test[5] == 3 == true)                                                                                    |
+|  PASS  | 879: Insert Index Copy (test[6] == 4 == true)                                                                                    |
+|  PASS  | 881: Insert Index Copy (test.get_size() == 8 == true)                                                                            |
+|  PASS  | 882: Insert Index Copy (test[0] == 6 == true)                                                                                    |
+|  PASS  | 883: Insert Index Copy (test[1] == 0 == true)                                                                                    |
+|  PASS  | 884: Insert Index Copy (test[2] == 1 == true)                                                                                    |
+|  PASS  | 885: Insert Index Copy (test[3] == 5 == true)                                                                                    |
+|  PASS  | 886: Insert Index Copy (test[4] == 2 == true)                                                                                    |
+|  PASS  | 887: Insert Index Copy (test[5] == 3 == true)                                                                                    |
+|  PASS  | 888: Insert Index Copy (test[6] == 4 == true)                                                                                    |
+|  PASS  | 889: Insert Index Copy (test[7] == 7 == true)                                                                                    |
+|  PASS  | 897: Insert Index Move (test.get_size() == 6 == true)                                                                            |
+|  PASS  | 898: Insert Index Move (test[0] == "0" == true)                                                                                  |
+|  PASS  | 899: Insert Index Move (test[1] == "1" == true)                                                                                  |
+|  PASS  | 900: Insert Index Move (test[2] == "5" == true)                                                                                  |
+|  PASS  | 901: Insert Index Move (test[3] == "2" == true)                                                                                  |
+|  PASS  | 902: Insert Index Move (test[4] == "3" == true)                                                                                  |
+|  PASS  | 903: Insert Index Move (test[5] == "4" == true)                                                                                  |
+|  PASS  | 906: Insert Index Move (test.get_size() == 7 == true)                                                                            |
+|  PASS  | 907: Insert Index Move (test[0] == "6" == true)                                                                                  |
+|  PASS  | 908: Insert Index Move (test[1] == "0" == true)                                                                                  |
+|  PASS  | 909: Insert Index Move (test[2] == "1" == true)                                                                                  |
+|  PASS  | 910: Insert Index Move (test[3] == "5" == true)                                                                                  |
+|  PASS  | 911: Insert Index Move (test[4] == "2" == true)                                                                                  |
+|  PASS  | 912: Insert Index Move (test[5] == "3" == true)                                                                                  |
+|  PASS  | 913: Insert Index Move (test[6] == "4" == true)                                                                                  |
+|  PASS  | 916: Insert Index Move (test.get_size() == 8 == true)                                                                            |
+|  PASS  | 917: Insert Index Move (test[0] == "6" == true)                                                                                  |
+|  PASS  | 918: Insert Index Move (test[1] == "0" == true)                                                                                  |
+|  PASS  | 919: Insert Index Move (test[2] == "1" == true)                                                                                  |
+|  PASS  | 920: Insert Index Move (test[3] == "5" == true)                                                                                  |
+|  PASS  | 921: Insert Index Move (test[4] == "2" == true)                                                                                  |
+|  PASS  | 922: Insert Index Move (test[5] == "3" == true)                                                                                  |
+|  PASS  | 923: Insert Index Move (test[6] == "4" == true)                                                                                  |
+|  PASS  | 924: Insert Index Move (test[7] == "7" == true)                                                                                  |
+|  PASS  | 932: Insert Iterator Copy (test.get_size() == 8 == true)                                                                         |
+|  PASS  | 933: Insert Iterator Copy (test[0] == 0 == true)                                                                                 |
+|  PASS  | 934: Insert Iterator Copy (test[1] == 1 == true)                                                                                 |
+|  PASS  | 935: Insert Iterator Copy (test[2] == 5 == true)                                                                                 |
+|  PASS  | 936: Insert Iterator Copy (test[3] == 6 == true)                                                                                 |
+|  PASS  | 937: Insert Iterator Copy (test[4] == 7 == true)                                                                                 |
+|  PASS  | 938: Insert Iterator Copy (test[5] == 2 == true)                                                                                 |
+|  PASS  | 939: Insert Iterator Copy (test[6] == 3 == true)                                                                                 |
+|  PASS  | 940: Insert Iterator Copy (test[7] == 4 == true)                                                                                 |
+|  PASS  | 948: Insert Iterator Move (test.get_size() == 8 == true)                                                                         |
+|  PASS  | 949: Insert Iterator Move (test[0] == "0" == true)                                                                               |
+|  PASS  | 950: Insert Iterator Move (test[1] == "1" == true)                                                                               |
+|  PASS  | 951: Insert Iterator Move (test[2] == "5" == true)                                                                               |
+|  PASS  | 952: Insert Iterator Move (test[3] == "6" == true)                                                                               |
+|  PASS  | 953: Insert Iterator Move (test[4] == "7" == true)                                                                               |
+|  PASS  | 954: Insert Iterator Move (test[5] == "2" == true)                                                                               |
+|  PASS  | 955: Insert Iterator Move (test[6] == "3" == true)                                                                               |
+|  PASS  | 956: Insert Iterator Move (test[7] == "4" == true)                                                                               |
+|  PASS  | 964: Insert Index Range (test.get_size() == 8 == true)                                                                           |
+|  PASS  | 965: Insert Index Range (test[0] == 0 == true)                                                                                   |
+|  PASS  | 966: Insert Index Range (test[1] == 1 == true)                                                                                   |
+|  PASS  | 967: Insert Index Range (test[2] == 5 == true)                                                                                   |
+|  PASS  | 968: Insert Index Range (test[3] == 6 == true)                                                                                   |
+|  PASS  | 969: Insert Index Range (test[4] == 7 == true)                                                                                   |
+|  PASS  | 970: Insert Index Range (test[5] == 2 == true)                                                                                   |
+|  PASS  | 971: Insert Index Range (test[6] == 3 == true)                                                                                   |
+|  PASS  | 972: Insert Index Range (test[7] == 4 == true)                                                                                   |
+|  PASS  | 980: Insert Iterator Range (test.get_size() == 8 == true)                                                                        |
+|  PASS  | 981: Insert Iterator Range (test[0] == 0 == true)                                                                                |
+|  PASS  | 982: Insert Iterator Range (test[1] == 1 == true)                                                                                |
+|  PASS  | 983: Insert Iterator Range (test[2] == 5 == true)                                                                                |
+|  PASS  | 984: Insert Iterator Range (test[3] == 6 == true)                                                                                |
+|  PASS  | 985: Insert Iterator Range (test[4] == 7 == true)                                                                                |
+|  PASS  | 986: Insert Iterator Range (test[5] == 2 == true)                                                                                |
+|  PASS  | 987: Insert Iterator Range (test[6] == 3 == true)                                                                                |
+|  PASS  | 988: Insert Iterator Range (test[7] == 4 == true)                                                                                |
+|  PASS  | 995: Remove Index (test.get_size() == 4 == true)                                                                                 |
+|  PASS  | 996: Remove Index (test[0] == 0 == true)                                                                                         |
+|  PASS  | 997: Remove Index (test[1] == 1 == true)                                                                                         |
+|  PASS  | 998: Remove Index (test[2] == 3 == true)                                                                                         |
+|  PASS  | 999: Remove Index (test[3] == 4 == true)                                                                                         |
+|  PASS  | 1001: Remove Index (test.get_size() == 3 == true)                                                                                |
+|  PASS  | 1002: Remove Index (test[0] == 1 == true)                                                                                        |
+|  PASS  | 1003: Remove Index (test[1] == 3 == true)                                                                                        |
+|  PASS  | 1004: Remove Index (test[2] == 4 == true)                                                                                        |
+|  PASS  | 1006: Remove Index (test.get_size() == 2 == true)                                                                                |
+|  PASS  | 1007: Remove Index (test[0] == 1 == true)                                                                                        |
+|  PASS  | 1008: Remove Index (test[1] == 3 == true)                                                                                        |
+|  PASS  | 1010: Remove Index (test.get_size() == 1 == true)                                                                                |
+|  PASS  | 1011: Remove Index (test[0] == 1 == true)                                                                                        |
+|  PASS  | 1013: Remove Index (test.get_size() == 0 == true)                                                                                |
+|  PASS  | 1020: Remove Iterator (test.get_size() == 4 == true)                                                                             |
+|  PASS  | 1021: Remove Iterator (test[0] == 0 == true)                                                                                     |
+|  PASS  | 1022: Remove Iterator (test[1] == 1 == true)                                                                                     |
+|  PASS  | 1023: Remove Iterator (test[2] == 3 == true)                                                                                     |
+|  PASS  | 1024: Remove Iterator (test[3] == 4 == true)                                                                                     |
+|  PASS  | 1026: Remove Iterator (test.get_size() == 3 == true)                                                                             |
+|  PASS  | 1027: Remove Iterator (test[0] == 1 == true)                                                                                     |
+|  PASS  | 1028: Remove Iterator (test[1] == 3 == true)                                                                                     |
+|  PASS  | 1029: Remove Iterator (test[2] == 4 == true)                                                                                     |
+|  PASS  | 1031: Remove Iterator (test.get_size() == 2 == true)                                                                             |
+|  PASS  | 1032: Remove Iterator (test[0] == 1 == true)                                                                                     |
+|  PASS  | 1033: Remove Iterator (test[1] == 3 == true)                                                                                     |
+|  PASS  | 1035: Remove Iterator (test.get_size() == 1 == true)                                                                             |
+|  PASS  | 1036: Remove Iterator (test[0] == 1 == true)                                                                                     |
+|  PASS  | 1038: Remove Iterator (test.get_size() == 0 == true)                                                                             |
+|  PASS  | 1044: Remove Index Range (test.remove(0, 0))                                                                                     |
+|  PASS  | 1045: Remove Index Range (test.remove(5, 1))                                                                                     |
+|  PASS  | 1046: Remove Index Range (test.remove(0, 6))                                                                                     |
+|  PASS  | 1048: Remove Index Range (test.get_size() == 2 == true)                                                                          |
+|  PASS  | 1049: Remove Index Range (test[0] == 0 == true)                                                                                  |
+|  PASS  | 1050: Remove Index Range (test[1] == 4 == true)                                                                                  |
+|  PASS  | 1052: Remove Index Range (test.get_size() == 1 == true)                                                                          |
+|  PASS  | 1053: Remove Index Range (test[0] == 4 == true)                                                                                  |
+|  PASS  | 1054: Remove Index Range (test.get_size() == 1 == true)                                                                          |
+|  PASS  | 1055: Remove Index Range (test[0] == 4 == true)                                                                                  |
+|  PASS  | 1057: Remove Index Range (test.get_size() == 0 == true)                                                                          |
+|  PASS  | 1063: Remove Iterator Range (test.remove(test.begin(), test.begin()))                                                            |
+|  PASS  | 1064: Remove Iterator Range (test.remove(test.end(), test.end()))                                                                |
+|  PASS  | 1065: Remove Iterator Range (test.remove(test.end(), test.begin()))                                                              |
+|  PASS  | 1067: Remove Iterator Range (test.get_size() == 2 == true)                                                                       |
+|  PASS  | 1068: Remove Iterator Range (test[0] == 0 == true)                                                                               |
+|  PASS  | 1069: Remove Iterator Range (test[1] == 4 == true)                                                                               |
+|  PASS  | 1071: Remove Iterator Range (test.get_size() == 1 == true)                                                                       |
+|  PASS  | 1072: Remove Iterator Range (test[0] == 4 == true)                                                                               |
+|  PASS  | 1073: Remove Iterator Range (test.get_size() == 1 == true)                                                                       |
+|  PASS  | 1074: Remove Iterator Range (test[0] == 4 == true)                                                                               |
+|  PASS  | 1076: Remove Iterator Range (test.get_size() == 0 == true)                                                                       |
+|  PASS  | 1083: Pop (test.get_size() == 4 == true)                                                                                         |
+|  PASS  | 1084: Pop (test[0] == 0 == true)                                                                                                 |
+|  PASS  | 1085: Pop (test[1] == 1 == true)                                                                                                 |
+|  PASS  | 1086: Pop (test[2] == 2 == true)                                                                                                 |
+|  PASS  | 1087: Pop (test[3] == 3 == true)                                                                                                 |
+|  PASS  | 1089: Pop (test.get_size() == 3 == true)                                                                                         |
+|  PASS  | 1090: Pop (test[0] == 0 == true)                                                                                                 |
+|  PASS  | 1091: Pop (test[1] == 1 == true)                                                                                                 |
+|  PASS  | 1092: Pop (test[2] == 2 == true)                                                                                                 |
+|  PASS  | 1094: Pop (test.get_size() == 2 == true)                                                                                         |
+|  PASS  | 1095: Pop (test[0] == 0 == true)                                                                                                 |
+|  PASS  | 1096: Pop (test[1] == 1 == true)                                                                                                 |
+|  PASS  | 1098: Pop (test.get_size() == 1 == true)                                                                                         |
+|  PASS  | 1099: Pop (test[0] == 0 == true)                                                                                                 |
+|  PASS  | 1101: Pop (test.get_size() == 0 == true)                                                                                         |
+|  PASS  | 1107: Is Empty (test.is_empty() == true)                                                                                         |
+|  PASS  | 1109: Is Empty (!test.is_empty() == true)                                                                                        |
+|  PASS  | 1111: Is Empty (test.is_empty() == true)                                                                                         |
+|  PASS  | 1117: At (test.at(0) == 0 == true)                                                                                               |
+|  PASS  | 1118: At (test.at(1) == 1 == true)                                                                                               |
+|  PASS  | 1119: At (test.at(2) == 2 == true)                                                                                               |
+|  PASS  | 1120: At (test.at(3) == 3 == true)                                                                                               |
+|  PASS  | 1121: At (test.at(4) == 4 == true)                                                                                               |
+|  PASS  | 1122: At (test.at(5))                                                                                                            |
+|  PASS  | 1124: At (test.at(0) == 5 == true)                                                                                               |
+|  PASS  | 1130: Const At (test.at(0) == 0 == true)                                                                                         |
+|  PASS  | 1131: Const At (test.at(1) == 1 == true)                                                                                         |
+|  PASS  | 1132: Const At (test.at(2) == 2 == true)                                                                                         |
+|  PASS  | 1133: Const At (test.at(3) == 3 == true)                                                                                         |
+|  PASS  | 1134: Const At (test.at(4) == 4 == true)                                                                                         |
+|  PASS  | 1135: Const At (test.at(5))                                                                                                      |
+|  PASS  | 1141: Front (test.front() == 0 == true)                                                                                          |
+|  PASS  | 1143: Front (test.front() == 5 == true)                                                                                          |
+|  PASS  | 1149: Const Front (test.front() == 0 == true)                                                                                    |
+|  PASS  | 1155: Back (test.back() == 4 == true)                                                                                            |
+|  PASS  | 1157: Back (test.back() == 5 == true)                                                                                            |
+|  PASS  | 1163: Const Back (test.back() == 4 == true)                                                                                      |
+|  PASS  | 1169: Peek (test.peek() == 4 == true)                                                                                            |
+|  PASS  | 1171: Peek (test.peek() == 5 == true)                                                                                            |
+|  PASS  | 1177: Const Peek (test.peek() == 4 == true)                                                                                      |
+|  PASS  | 1184: Sub (sub.get_size() == 2 == true)                                                                                          |
+|  PASS  | 1185: Sub (sub[0] == 2 == true)                                                                                                  |
+|  PASS  | 1186: Sub (sub[1] == 3 == true)                                                                                                  |
+|  PASS  | 1192: Find (test.find(0) == test.begin() == true)                                                                                |
+|  PASS  | 1193: Find (test.find(1) == test.begin() + 1 == true)                                                                            |
+|  PASS  | 1194: Find (test.find(2) == test.begin() + 2 == true)                                                                            |
+|  PASS  | 1195: Find (test.find(3) == test.begin() + 3 == true)                                                                            |
+|  PASS  | 1196: Find (test.find(4) == test.begin() + 4 == true)                                                                            |
+|  PASS  | 1197: Find (test.find(5) == test.end() == true)                                                                                  |
+|  PASS  | 1203: Const Find (test.find(0) == test.begin() == true)                                                                          |
+|  PASS  | 1204: Const Find (test.find(1) == test.begin() + 1 == true)                                                                      |
+|  PASS  | 1205: Const Find (test.find(2) == test.begin() + 2 == true)                                                                      |
+|  PASS  | 1206: Const Find (test.find(3) == test.begin() + 3 == true)                                                                      |
+|  PASS  | 1207: Const Find (test.find(4) == test.begin() + 4 == true)                                                                      |
+|  PASS  | 1208: Const Find (test.find(5) == test.end() == true)                                                                            |
+|  PASS  | 1214: Contains (test.contains(0) == true)                                                                                        |
+|  PASS  | 1215: Contains (test.contains(1) == true)                                                                                        |
+|  PASS  | 1216: Contains (test.contains(2) == true)                                                                                        |
+|  PASS  | 1217: Contains (test.contains(3) == true)                                                                                        |
+|  PASS  | 1218: Contains (test.contains(4) == true)                                                                                        |
+|  PASS  | 1219: Contains (!test.contains(5) == true)                                                                                       |
+|  PASS  | 1226: Clear (test.get_size() == 0 == true)                                                                                       |
+|  PASS  | 1232: Begin (*test.begin() == 0 == true)                                                                                         |
+|  PASS  | 1238: Const Begin (*test.begin() == 0 == true)                                                                                   |
+|  PASS  | 1244: End (test.end() == test.begin() + 5 == true)                                                                               |
+|  PASS  | 1250: Const End (test.end() == test.begin() + 5 == true)                                                                         |
+|  PASS  | 1256: Reverse Begin (*test.rbegin() == 4 == true)                                                                                |
+|  PASS  | 1262: Reverse End (test.rend() == test.rbegin() + 5 == true)                                                                     |
+|  PASS  | 1268: Const Reverse Begin (*test.rbegin() == 4 == true)                                                                          |
+|  PASS  | 1274: Const Reverse End (test.rend() == test.rbegin() + 5 == true)                                                               |
 
 ## Map::Iterator
 | Result | Message                                                                                                                          |
@@ -2652,102 +2687,109 @@ No failures! :)
 |  PASS  | 651: At (test.at(11) == '!' == true)                                                                                             |
 |  PASS  | 652: At (test.at(12) == '\n' == true)                                                                                            |
 |  PASS  | 653: At (test.at(13))                                                                                                            |
-|  PASS  | 659: Sub (test.sub(0, 5) == "Hello" == true)                                                                                     |
-|  PASS  | 660: Sub (test.sub(6, 5) == "world" == true)                                                                                     |
-|  PASS  | 661: Sub (test.sub(12, 1) == "\n" == true)                                                                                       |
-|  PASS  | 662: Sub (test.sub(13, 1))                                                                                                       |
-|  PASS  | 668: Find (test.find("Hello") == 0 == true)                                                                                      |
-|  PASS  | 669: Find (test.find("world") == 6 == true)                                                                                      |
-|  PASS  | 670: Find (test.find("\n") == 12 == true)                                                                                        |
-|  PASS  | 671: Find (test.find("Hello world!\n") == 0 == true)                                                                             |
-|  PASS  | 672: Find (test.find("aaa") == INVALID_INDEX == true)                                                                            |
-|  PASS  | 673: Find (test.find("") == INVALID_INDEX == true)                                                                               |
-|  PASS  | 676: Find (test.find("aaa") == INVALID_INDEX == true)                                                                            |
-|  PASS  | 682: Contains (test.contains("Hello") == true)                                                                                   |
-|  PASS  | 683: Contains (test.contains("world") == true)                                                                                   |
-|  PASS  | 684: Contains (test.contains("\n") == true)                                                                                      |
-|  PASS  | 685: Contains (test.contains("Hello world!\n") == true)                                                                          |
-|  PASS  | 686: Contains (!test.contains("aaa") == true)                                                                                    |
-|  PASS  | 687: Contains (!test.contains("") == true)                                                                                       |
-|  PASS  | 690: Contains (!test.contains("aaa") == true)                                                                                    |
-|  PASS  | 697: Begin/End (*it == 'a' == true)                                                                                              |
-|  PASS  | 698: Begin/End (*(it + 1) == 'b' == true)                                                                                        |
-|  PASS  | 699: Begin/End (*(it + 2) == 'c' == true)                                                                                        |
-|  PASS  | 700: Begin/End (it + 3 == test.end() == true)                                                                                    |
-|  PASS  | 701: Begin/End (*++it == 'b' == true)                                                                                            |
-|  PASS  | 702: Begin/End (*++it == 'c' == true)                                                                                            |
-|  PASS  | 703: Begin/End (++it == test.end() == true)                                                                                      |
-|  PASS  | 705: Begin/End (*it++ == 'a' == true)                                                                                            |
-|  PASS  | 706: Begin/End (*it++ == 'b' == true)                                                                                            |
-|  PASS  | 707: Begin/End (*it++ == 'c' == true)                                                                                            |
-|  PASS  | 708: Begin/End (it == test.end() == true)                                                                                        |
-|  PASS  | 715: Const Begin/End (*it == 'a' == true)                                                                                        |
-|  PASS  | 716: Const Begin/End (*(it + 1) == 'b' == true)                                                                                  |
-|  PASS  | 717: Const Begin/End (*(it + 2) == 'c' == true)                                                                                  |
-|  PASS  | 718: Const Begin/End (it + 3 == test.end() == true)                                                                              |
-|  PASS  | 719: Const Begin/End (*++it == 'b' == true)                                                                                      |
-|  PASS  | 720: Const Begin/End (*++it == 'c' == true)                                                                                      |
-|  PASS  | 721: Const Begin/End (++it == test.end() == true)                                                                                |
-|  PASS  | 723: Const Begin/End (*it++ == 'a' == true)                                                                                      |
-|  PASS  | 724: Const Begin/End (*it++ == 'b' == true)                                                                                      |
-|  PASS  | 725: Const Begin/End (*it++ == 'c' == true)                                                                                      |
-|  PASS  | 726: Const Begin/End (it == test.end() == true)                                                                                  |
+|  PASS  | 659: Front (test.front() == 'H')                                                                                                 |
+|  PASS  | 662: Front (test.front())                                                                                                        |
+|  PASS  | 668: Back (test.back() == '\n')                                                                                                  |
+|  PASS  | 671: Back (test.back())                                                                                                          |
+|  PASS  | 677: Sub (test.sub(0, 5) == "Hello" == true)                                                                                     |
+|  PASS  | 678: Sub (test.sub(6, 5) == "world" == true)                                                                                     |
+|  PASS  | 679: Sub (test.sub(12, 1) == "\n" == true)                                                                                       |
+|  PASS  | 680: Sub (test.sub(13, 1))                                                                                                       |
+|  PASS  | 686: Find (test.find("Hello") == 0 == true)                                                                                      |
+|  PASS  | 687: Find (test.find("world") == 6 == true)                                                                                      |
+|  PASS  | 688: Find (test.find("\n") == 12 == true)                                                                                        |
+|  PASS  | 689: Find (test.find("Hello world!\n") == 0 == true)                                                                             |
+|  PASS  | 690: Find (test.find("aaa") == INVALID_INDEX == true)                                                                            |
+|  PASS  | 691: Find (test.find("") == INVALID_INDEX == true)                                                                               |
+|  PASS  | 694: Find (test.find("aaa") == INVALID_INDEX == true)                                                                            |
+|  PASS  | 700: Contains (test.contains("Hello") == true)                                                                                   |
+|  PASS  | 701: Contains (test.contains("world") == true)                                                                                   |
+|  PASS  | 702: Contains (test.contains("\n") == true)                                                                                      |
+|  PASS  | 703: Contains (test.contains("Hello world!\n") == true)                                                                          |
+|  PASS  | 704: Contains (!test.contains("aaa") == true)                                                                                    |
+|  PASS  | 705: Contains (!test.contains("") == true)                                                                                       |
+|  PASS  | 708: Contains (!test.contains("aaa") == true)                                                                                    |
+|  PASS  | 715: Begin/End (*it == 'a' == true)                                                                                              |
+|  PASS  | 716: Begin/End (*(it + 1) == 'b' == true)                                                                                        |
+|  PASS  | 717: Begin/End (*(it + 2) == 'c' == true)                                                                                        |
+|  PASS  | 718: Begin/End (it + 3 == test.end() == true)                                                                                    |
+|  PASS  | 719: Begin/End (*++it == 'b' == true)                                                                                            |
+|  PASS  | 720: Begin/End (*++it == 'c' == true)                                                                                            |
+|  PASS  | 721: Begin/End (++it == test.end() == true)                                                                                      |
+|  PASS  | 723: Begin/End (*it++ == 'a' == true)                                                                                            |
+|  PASS  | 724: Begin/End (*it++ == 'b' == true)                                                                                            |
+|  PASS  | 725: Begin/End (*it++ == 'c' == true)                                                                                            |
+|  PASS  | 726: Begin/End (it == test.end() == true)                                                                                        |
+|  PASS  | 733: Const Begin/End (*it == 'a' == true)                                                                                        |
+|  PASS  | 734: Const Begin/End (*(it + 1) == 'b' == true)                                                                                  |
+|  PASS  | 735: Const Begin/End (*(it + 2) == 'c' == true)                                                                                  |
+|  PASS  | 736: Const Begin/End (it + 3 == test.end() == true)                                                                              |
+|  PASS  | 737: Const Begin/End (*++it == 'b' == true)                                                                                      |
+|  PASS  | 738: Const Begin/End (*++it == 'c' == true)                                                                                      |
+|  PASS  | 739: Const Begin/End (++it == test.end() == true)                                                                                |
+|  PASS  | 741: Const Begin/End (*it++ == 'a' == true)                                                                                      |
+|  PASS  | 742: Const Begin/End (*it++ == 'b' == true)                                                                                      |
+|  PASS  | 743: Const Begin/End (*it++ == 'c' == true)                                                                                      |
+|  PASS  | 744: Const Begin/End (it == test.end() == true)                                                                                  |
 
 ## UUID
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 11: Default Constructor (uuid.get_data() == 0)                                                                                   |
-|  PASS  | 17: ID Constructor (uuid.get_data() == 0)                                                                                        |
-|  PASS  | 20: ID Constructor (uuid.get_data() == 1)                                                                                        |
-|  PASS  | 23: ID Constructor (uuid.get_data() == 0xFFFFFFFFFFFFFFFF)                                                                       |
-|  PASS  | 30: ID Operator (id == 0)                                                                                                        |
-|  PASS  | 33: ID Operator (id == 1)                                                                                                        |
-|  PASS  | 36: ID Operator (id == 0xFFFFFFFFFFFFFFFF)                                                                                       |
-|  PASS  | 43: Equal Operator (uuid1 == uuid2 == true)                                                                                      |
-|  PASS  | 45: Equal Operator (!(uuid1 == uuid2) == true)                                                                                   |
-|  PASS  | 47: Equal Operator (uuid1 == uuid2 == true)                                                                                      |
-|  PASS  | 50: Equal Operator (uuid1 == uuid2 == true)                                                                                      |
-|  PASS  | 57: Not Equal Operator (!(uuid1 != uuid2) == true)                                                                               |
-|  PASS  | 59: Not Equal Operator (uuid1 != uuid2 == true)                                                                                  |
-|  PASS  | 61: Not Equal Operator (!(uuid1 != uuid2) == true)                                                                               |
-|  PASS  | 64: Not Equal Operator (!(uuid1 != uuid2) == true)                                                                               |
-|  PASS  | 71: ID Equal Operator (uuid == id == true)                                                                                       |
-|  PASS  | 73: ID Equal Operator (!(uuid == id) == true)                                                                                    |
-|  PASS  | 75: ID Equal Operator (uuid == id == true)                                                                                       |
-|  PASS  | 77: ID Equal Operator (!(uuid == id) == true)                                                                                    |
-|  PASS  | 78: ID Equal Operator (uuid == 0xFFFFFFFFFFFFFFFF == true)                                                                       |
-|  PASS  | 85: ID Not Equal Operator (!(uuid != id) == true)                                                                                |
-|  PASS  | 87: ID Not Equal Operator (uuid != id == true)                                                                                   |
-|  PASS  | 89: ID Not Equal Operator (!(uuid != id) == true)                                                                                |
-|  PASS  | 91: ID Not Equal Operator (uuid != id == true)                                                                                   |
-|  PASS  | 92: ID Not Equal Operator (!(uuid != 0xFFFFFFFFFFFFFFFF) == true)                                                                |
-|  PASS  | 99: Get Data (uuid.get_data() == id)                                                                                             |
-|  PASS  | 102: Get Data (uuid.get_data() == id)                                                                                            |
-|  PASS  | 105: Get Data (uuid.get_data() == id)                                                                                            |
-|  PASS  | 111: Is Valid (!uuid.is_valid() == true)                                                                                         |
-|  PASS  | 113: Is Valid (uuid.is_valid() == true)                                                                                          |
+|  PASS  | 13: Default Constructor (uuid.get_data() == 0)                                                                                   |
+|  PASS  | 19: ID Constructor (uuid.get_data() == 0)                                                                                        |
+|  PASS  | 22: ID Constructor (uuid.get_data() == 1)                                                                                        |
+|  PASS  | 25: ID Constructor (uuid.get_data() == 0xFFFFFFFFFFFFFFFF)                                                                       |
+|  PASS  | 32: ID Operator (id == 0)                                                                                                        |
+|  PASS  | 35: ID Operator (id == 1)                                                                                                        |
+|  PASS  | 38: ID Operator (id == 0xFFFFFFFFFFFFFFFF)                                                                                       |
+|  PASS  | 45: Equal Operator (uuid1 == uuid2 == true)                                                                                      |
+|  PASS  | 47: Equal Operator (!(uuid1 == uuid2) == true)                                                                                   |
+|  PASS  | 49: Equal Operator (uuid1 == uuid2 == true)                                                                                      |
+|  PASS  | 52: Equal Operator (uuid1 == uuid2 == true)                                                                                      |
+|  PASS  | 59: Not Equal Operator (!(uuid1 != uuid2) == true)                                                                               |
+|  PASS  | 61: Not Equal Operator (uuid1 != uuid2 == true)                                                                                  |
+|  PASS  | 63: Not Equal Operator (!(uuid1 != uuid2) == true)                                                                               |
+|  PASS  | 66: Not Equal Operator (!(uuid1 != uuid2) == true)                                                                               |
+|  PASS  | 73: ID Equal Operator (uuid == id == true)                                                                                       |
+|  PASS  | 75: ID Equal Operator (!(uuid == id) == true)                                                                                    |
+|  PASS  | 77: ID Equal Operator (uuid == id == true)                                                                                       |
+|  PASS  | 79: ID Equal Operator (!(uuid == id) == true)                                                                                    |
+|  PASS  | 80: ID Equal Operator (uuid == 0xFFFFFFFFFFFFFFFF == true)                                                                       |
+|  PASS  | 87: ID Not Equal Operator (!(uuid != id) == true)                                                                                |
+|  PASS  | 89: ID Not Equal Operator (uuid != id == true)                                                                                   |
+|  PASS  | 91: ID Not Equal Operator (!(uuid != id) == true)                                                                                |
+|  PASS  | 93: ID Not Equal Operator (uuid != id == true)                                                                                   |
+|  PASS  | 94: ID Not Equal Operator (!(uuid != 0xFFFFFFFFFFFFFFFF) == true)                                                                |
+|  PASS  | 101: Get Data (uuid.get_data() == id)                                                                                            |
+|  PASS  | 104: Get Data (uuid.get_data() == id)                                                                                            |
+|  PASS  | 107: Get Data (uuid.get_data() == id)                                                                                            |
+|  PASS  | 113: Is Valid (!uuid.is_valid() == true)                                                                                         |
 |  PASS  | 115: Is Valid (uuid.is_valid() == true)                                                                                          |
-|  PASS  | 117: Is Valid (!uuid.is_valid() == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
-|  PASS  | 125: Create (uuid.is_valid() == true)                                                                                            |
-|  PASS  | 126: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 117: Is Valid (uuid.is_valid() == true)                                                                                          |
+|  PASS  | 119: Is Valid (!uuid.is_valid() == true)                                                                                         |
+|  PASS  | 131: Serialize (text == expected)                                                                                                |
+|  PASS  | 146: Deserialize (reader.read(0, two) == true)                                                                                   |
+|  PASS  | 147: Deserialize (one == two)                                                                                                    |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
+|  PASS  | 157: Create (uuid.is_valid() == true)                                                                                            |
+|  PASS  | 158: Create (uuid != INVALID_ID == true)                                                                                         |
 
 ## Variable
 | Result | Message                                                                                                                          |
@@ -3524,6 +3566,11 @@ No failures! :)
 |  PASS  | 35: Create (Path::exists(TEST_PATH_2) == false == true)                                                                          |
 |  PASS  | 41: Destroy (Path::exists(TEST_PATH_2) == true == true)                                                                          |
 |  PASS  | 43: Destroy (Path::exists(TEST_PATH_2) == false == true)                                                                         |
+|  PASS  | 51: Read/Write Lines (actual.get_size() == expected.get_size())                                                                  |
+|  PASS  | 54: Read/Write Lines (actual[i] == expected[i])                                                                                  |
+|  PASS  | 54: Read/Write Lines (actual[i] == expected[i])                                                                                  |
+|  PASS  | 54: Read/Write Lines (actual[i] == expected[i])                                                                                  |
+|  PASS  | 64: Read/Write Text (actual == expected)                                                                                         |
 
 ## PhysicalFile
 | Result | Message                                                                                                                          |
@@ -3866,83 +3913,305 @@ No failures! :)
 |  PASS  | 26: Values Constructor (*static_cast<Size*>(node2.get_data().get_data()) == data)                                                |
 |  PASS  | 27: Values Constructor (node2.get_data().get_size() == sizeof(Size))                                                             |
 |  PASS  | 28: Values Constructor (node2.get_children_size() == 0)                                                                          |
-|  PASS  | 34: Name Constructor (node.get_name() == "Node")                                                                                 |
-|  PASS  | 35: Name Constructor (node.get_data().get_size() == 0)                                                                           |
-|  PASS  | 36: Name Constructor (node.get_children_size() == 0)                                                                             |
-|  PASS  | 47: Copy Constructor (node2.get_name() == "Node")                                                                                |
-|  PASS  | 48: Copy Constructor (*static_cast<Size*>(node2.get_data().get_data()) == data)                                                  |
-|  PASS  | 49: Copy Constructor (node2.get_data().get_size() == sizeof(Size))                                                               |
-|  PASS  | 50: Copy Constructor (node2.get_children_size() == 3)                                                                            |
-|  PASS  | 51: Copy Constructor (node2.get_child(0).get_name() == "Child0")                                                                 |
-|  PASS  | 52: Copy Constructor (node2.get_child(1).get_name() == "Child1")                                                                 |
-|  PASS  | 53: Copy Constructor (node2.get_child(2).get_name() == "Child2")                                                                 |
-|  PASS  | 64: Move Constructor (node2.get_name() == "Node")                                                                                |
-|  PASS  | 65: Move Constructor (*static_cast<Size*>(node2.get_data().get_data()) == data)                                                  |
-|  PASS  | 66: Move Constructor (node2.get_data().get_size() == sizeof(Size))                                                               |
-|  PASS  | 67: Move Constructor (node2.get_children_size() == 3)                                                                            |
-|  PASS  | 68: Move Constructor (node2.get_child(0).get_name() == "Child0")                                                                 |
-|  PASS  | 69: Move Constructor (node2.get_child(1).get_name() == "Child1")                                                                 |
-|  PASS  | 70: Move Constructor (node2.get_child(2).get_name() == "Child2")                                                                 |
-|  PASS  | 82: Copy Assignment Operator (node2.get_name() == "Node")                                                                        |
-|  PASS  | 83: Copy Assignment Operator (*static_cast<Size*>(node2.get_data().get_data()) == data)                                          |
-|  PASS  | 84: Copy Assignment Operator (node2.get_data().get_size() == sizeof(Size))                                                       |
-|  PASS  | 85: Copy Assignment Operator (node2.get_children_size() == 3)                                                                    |
-|  PASS  | 86: Copy Assignment Operator (node2.get_child(0).get_name() == "Child0")                                                         |
-|  PASS  | 87: Copy Assignment Operator (node2.get_child(1).get_name() == "Child1")                                                         |
-|  PASS  | 88: Copy Assignment Operator (node2.get_child(2).get_name() == "Child2")                                                         |
-|  PASS  | 100: Move Assignment Operator (node2.get_name() == "Node")                                                                       |
-|  PASS  | 101: Move Assignment Operator (*static_cast<Size*>(node2.get_data().get_data()) == data)                                         |
-|  PASS  | 102: Move Assignment Operator (node2.get_data().get_size() == sizeof(Size))                                                      |
-|  PASS  | 103: Move Assignment Operator (node2.get_children_size() == 3)                                                                   |
-|  PASS  | 104: Move Assignment Operator (node2.get_child(0).get_name() == "Child0")                                                        |
-|  PASS  | 105: Move Assignment Operator (node2.get_child(1).get_name() == "Child1")                                                        |
-|  PASS  | 106: Move Assignment Operator (node2.get_child(2).get_name() == "Child2")                                                        |
-|  PASS  | 112: Get Name (node.get_name() == "Node")                                                                                        |
-|  PASS  | 119: Get Data (*static_cast<Size*>(node.get_data().get_data()) == data)                                                          |
-|  PASS  | 120: Get Data (node.get_data().get_size() == sizeof(Size))                                                                       |
-|  PASS  | 127: Get Data Const (*static_cast<Size const*>(node.get_data().get_data()) == data)                                              |
-|  PASS  | 128: Get Data Const (node.get_data().get_size() == sizeof(Size))                                                                 |
-|  PASS  | 135: Get Data String (node.get_data_string() == data)                                                                            |
-|  PASS  | 143: Set Data (*static_cast<Size*>(node.get_data().get_data()) == data)                                                          |
-|  PASS  | 144: Set Data (node.get_data().get_size() == sizeof(Size))                                                                       |
-|  PASS  | 152: Set Data String (node.get_data_string() == data)                                                                            |
-|  PASS  | 158: Get Children Size (node.get_children_size() == 0)                                                                           |
-|  PASS  | 160: Get Children Size (node.get_children_size() == 1)                                                                           |
-|  PASS  | 162: Get Children Size (node.get_children_size() == 2)                                                                           |
-|  PASS  | 164: Get Children Size (node.get_children_size() == 3)                                                                           |
-|  PASS  | 173: Get Children (node.get_children().at(0).get_name() == "Child0")                                                             |
-|  PASS  | 174: Get Children (node.get_children().at(1).get_name() == "Child1")                                                             |
-|  PASS  | 175: Get Children (node.get_children().at(2).get_name() == "Child2")                                                             |
-|  PASS  | 184: Has Child Index (node.has_child(0) == true)                                                                                 |
-|  PASS  | 185: Has Child Index (node.has_child(1) == true)                                                                                 |
-|  PASS  | 186: Has Child Index (node.has_child(2) == true)                                                                                 |
-|  PASS  | 187: Has Child Index (node.has_child(3) == false)                                                                                |
-|  PASS  | 196: Has Child Name (node.has_child("Child0") == true)                                                                           |
-|  PASS  | 197: Has Child Name (node.has_child("Child1") == true)                                                                           |
-|  PASS  | 198: Has Child Name (node.has_child("Child2") == true)                                                                           |
-|  PASS  | 199: Has Child Name (node.has_child("Child3") == false)                                                                          |
-|  PASS  | 208: Get Child Index (node.get_child(0).get_name() == "Child0")                                                                  |
-|  PASS  | 209: Get Child Index (node.get_child(1).get_name() == "Child1")                                                                  |
-|  PASS  | 210: Get Child Index (node.get_child(2).get_name() == "Child2")                                                                  |
-|  PASS  | 211: Get Child Index (node.get_child(3))                                                                                         |
-|  PASS  | 220: Get Child Name (node.get_child("Child0").get_name() == "Child0")                                                            |
-|  PASS  | 221: Get Child Name (node.get_child("Child1").get_name() == "Child1")                                                            |
-|  PASS  | 222: Get Child Name (node.get_child("Child2").get_name() == "Child2")                                                            |
-|  PASS  | 223: Get Child Name (node.get_child("Child3"))                                                                                   |
-|  PASS  | 232: Add Child (node.get_children_size() == 2)                                                                                   |
-|  PASS  | 233: Add Child (child0.get_name() == "Child0")                                                                                   |
-|  PASS  | 235: Add Child (container.get_size() == sizeof(Size))                                                                            |
-|  PASS  | 236: Add Child (*static_cast<Size*>(container.get_data()) == data)                                                               |
-|  PASS  | 237: Add Child (child1.get_name() == "Child1")                                                                                   |
-|  PASS  | 238: Add Child (child1.get_data().get_size() == 0)                                                                               |
-|  PASS  | 239: Add Child (node.get_child(0).get_name() == "Child0")                                                                        |
-|  PASS  | 240: Add Child (node.get_child(1).get_name() == "Child1")                                                                        |
-|  PASS  | 242: Add Child (node.add_child(""))                                                                                              |
-|  PASS  | 243: Add Child (node.add_child("Child0"))                                                                                        |
-|  PASS  | 244: Add Child (node.add_child("Child1"))                                                                                        |
-|  PASS  | 245: Add Child (node.add_child("", nullptr, 0))                                                                                  |
-|  PASS  | 246: Add Child (node.add_child("Child0", nullptr, 0))                                                                            |
-|  PASS  | 247: Add Child (node.add_child("Child1", nullptr, 0))                                                                            |
+|  PASS  | 36: String Constructor (node.get_name() == name)                                                                                 |
+|  PASS  | 37: String Constructor (node.get_data_string() == value)                                                                         |
+|  PASS  | 38: String Constructor (node.get_data().get_size() == value.get_size())                                                          |
+|  PASS  | 39: String Constructor (node.get_children_size() == 0)                                                                           |
+|  PASS  | 45: Name Constructor (node.get_name() == "Node")                                                                                 |
+|  PASS  | 46: Name Constructor (node.get_data().get_size() == 0)                                                                           |
+|  PASS  | 47: Name Constructor (node.get_children_size() == 0)                                                                             |
+|  PASS  | 58: Copy Constructor (node2.get_name() == "Node")                                                                                |
+|  PASS  | 59: Copy Constructor (*static_cast<Size*>(node2.get_data().get_data()) == data)                                                  |
+|  PASS  | 60: Copy Constructor (node2.get_data().get_size() == sizeof(Size))                                                               |
+|  PASS  | 61: Copy Constructor (node2.get_children_size() == 3)                                                                            |
+|  PASS  | 62: Copy Constructor (node2.get_child(0).get_name() == "Child0")                                                                 |
+|  PASS  | 63: Copy Constructor (node2.get_child(1).get_name() == "Child1")                                                                 |
+|  PASS  | 64: Copy Constructor (node2.get_child(2).get_name() == "Child2")                                                                 |
+|  PASS  | 75: Move Constructor (node2.get_name() == "Node")                                                                                |
+|  PASS  | 76: Move Constructor (*static_cast<Size*>(node2.get_data().get_data()) == data)                                                  |
+|  PASS  | 77: Move Constructor (node2.get_data().get_size() == sizeof(Size))                                                               |
+|  PASS  | 78: Move Constructor (node2.get_children_size() == 3)                                                                            |
+|  PASS  | 79: Move Constructor (node2.get_child(0).get_name() == "Child0")                                                                 |
+|  PASS  | 80: Move Constructor (node2.get_child(1).get_name() == "Child1")                                                                 |
+|  PASS  | 81: Move Constructor (node2.get_child(2).get_name() == "Child2")                                                                 |
+|  PASS  | 93: Copy Assignment Operator (node2.get_name() == "Node")                                                                        |
+|  PASS  | 94: Copy Assignment Operator (*static_cast<Size*>(node2.get_data().get_data()) == data)                                          |
+|  PASS  | 95: Copy Assignment Operator (node2.get_data().get_size() == sizeof(Size))                                                       |
+|  PASS  | 96: Copy Assignment Operator (node2.get_children_size() == 3)                                                                    |
+|  PASS  | 97: Copy Assignment Operator (node2.get_child(0).get_name() == "Child0")                                                         |
+|  PASS  | 98: Copy Assignment Operator (node2.get_child(1).get_name() == "Child1")                                                         |
+|  PASS  | 99: Copy Assignment Operator (node2.get_child(2).get_name() == "Child2")                                                         |
+|  PASS  | 111: Move Assignment Operator (node2.get_name() == "Node")                                                                       |
+|  PASS  | 112: Move Assignment Operator (*static_cast<Size*>(node2.get_data().get_data()) == data)                                         |
+|  PASS  | 113: Move Assignment Operator (node2.get_data().get_size() == sizeof(Size))                                                      |
+|  PASS  | 114: Move Assignment Operator (node2.get_children_size() == 3)                                                                   |
+|  PASS  | 115: Move Assignment Operator (node2.get_child(0).get_name() == "Child0")                                                        |
+|  PASS  | 116: Move Assignment Operator (node2.get_child(1).get_name() == "Child1")                                                        |
+|  PASS  | 117: Move Assignment Operator (node2.get_child(2).get_name() == "Child2")                                                        |
+|  PASS  | 123: Get Name (node.get_name() == "Node")                                                                                        |
+|  PASS  | 130: Get Data (*static_cast<Size*>(node.get_data().get_data()) == data)                                                          |
+|  PASS  | 131: Get Data (node.get_data().get_size() == sizeof(Size))                                                                       |
+|  PASS  | 138: Get Data Const (*static_cast<Size const*>(node.get_data().get_data()) == data)                                              |
+|  PASS  | 139: Get Data Const (node.get_data().get_size() == sizeof(Size))                                                                 |
+|  PASS  | 146: Get Data String (node.get_data_string() == data)                                                                            |
+|  PASS  | 154: Set Data (*static_cast<Size*>(node.get_data().get_data()) == data)                                                          |
+|  PASS  | 155: Set Data (node.get_data().get_size() == sizeof(Size))                                                                       |
+|  PASS  | 163: Set Data String (node.get_data_string() == data)                                                                            |
+|  PASS  | 169: Get Children Size (node.get_children_size() == 0)                                                                           |
+|  PASS  | 171: Get Children Size (node.get_children_size() == 1)                                                                           |
+|  PASS  | 173: Get Children Size (node.get_children_size() == 2)                                                                           |
+|  PASS  | 175: Get Children Size (node.get_children_size() == 3)                                                                           |
+|  PASS  | 184: Get Children (node.get_children().at(0).get_name() == "Child0")                                                             |
+|  PASS  | 185: Get Children (node.get_children().at(1).get_name() == "Child1")                                                             |
+|  PASS  | 186: Get Children (node.get_children().at(2).get_name() == "Child2")                                                             |
+|  PASS  | 195: Has Child Index (node.has_child(0) == true)                                                                                 |
+|  PASS  | 196: Has Child Index (node.has_child(1) == true)                                                                                 |
+|  PASS  | 197: Has Child Index (node.has_child(2) == true)                                                                                 |
+|  PASS  | 198: Has Child Index (node.has_child(3) == false)                                                                                |
+|  PASS  | 207: Has Child Name (node.has_child("Child0") == true)                                                                           |
+|  PASS  | 208: Has Child Name (node.has_child("Child1") == true)                                                                           |
+|  PASS  | 209: Has Child Name (node.has_child("Child2") == true)                                                                           |
+|  PASS  | 210: Has Child Name (node.has_child("Child3") == false)                                                                          |
+|  PASS  | 219: Get Child Index (node.get_child(0).get_name() == "Child0")                                                                  |
+|  PASS  | 220: Get Child Index (node.get_child(1).get_name() == "Child1")                                                                  |
+|  PASS  | 221: Get Child Index (node.get_child(2).get_name() == "Child2")                                                                  |
+|  PASS  | 222: Get Child Index (node.get_child(3))                                                                                         |
+|  PASS  | 231: Get Child Name (node.get_child("Child0").get_name() == "Child0")                                                            |
+|  PASS  | 232: Get Child Name (node.get_child("Child1").get_name() == "Child1")                                                            |
+|  PASS  | 233: Get Child Name (node.get_child("Child2").get_name() == "Child2")                                                            |
+|  PASS  | 234: Get Child Name (node.get_child("Child3"))                                                                                   |
+|  PASS  | 243: Add Child (node.get_children_size() == 2)                                                                                   |
+|  PASS  | 244: Add Child (child0.get_name() == "Child0")                                                                                   |
+|  PASS  | 246: Add Child (container.get_size() == sizeof(Size))                                                                            |
+|  PASS  | 247: Add Child (*static_cast<Size*>(container.get_data()) == data)                                                               |
+|  PASS  | 248: Add Child (child1.get_name() == "Child1")                                                                                   |
+|  PASS  | 249: Add Child (child1.get_data().get_size() == 0)                                                                               |
+|  PASS  | 250: Add Child (node.get_child(0).get_name() == "Child0")                                                                        |
+|  PASS  | 251: Add Child (node.get_child(1).get_name() == "Child1")                                                                        |
+|  PASS  | 252: Add Child (node.add_child("Child2", "Data").get_name() == "Child2")                                                         |
+|  PASS  | 253: Add Child (node.add_child("Child3", "Data").get_data_string() == "Data")                                                    |
+|  PASS  | 256: Add Child (node.add_child(""))                                                                                              |
+|  PASS  | 257: Add Child (node.add_child("Child0"))                                                                                        |
+|  PASS  | 258: Add Child (node.add_child("Child1"))                                                                                        |
+|  PASS  | 259: Add Child (node.add_child("", nullptr, 0))                                                                                  |
+|  PASS  | 260: Add Child (node.add_child("Child0", nullptr, 0))                                                                            |
+|  PASS  | 261: Add Child (node.add_child("Child1", nullptr, 0))                                                                            |
+
+## TextFileReader
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 16: Constructor (reader.get_source() == &file)                                                                                   |
+|  PASS  | 17: Constructor (reader.get_depth() == 0)                                                                                        |
+|  PASS  | 28: Get User Data (reader.get_user_data() == nullptr)                                                                            |
+|  PASS  | 31: Get User Data (*static_cast<Size*>(reader.get_user_data()) == data)                                                          |
+|  PASS  | 41: Get Source (reader.get_source() == &file)                                                                                    |
+|  PASS  | 57: Get Depth (reader.get_depth() == 0)                                                                                          |
+|  PASS  | 59: Get Depth (reader.get_depth() == 1)                                                                                          |
+|  PASS  | 61: Get Depth (reader.get_depth() == 2)                                                                                          |
+|  PASS  | 63: Get Depth (reader.get_depth() == 1)                                                                                          |
+|  PASS  | 65: Get Depth (reader.get_depth() == 0)                                                                                          |
+|  PASS  | 76: Get Node (node.get_name() == "")                                                                                             |
+|  PASS  | 77: Get Node (node.get_data_string() == "")                                                                                      |
+|  PASS  | 78: Get Node (node.get_children_size() == 0)                                                                                     |
+|  PASS  | 88: Get Size (reader.get_size() == 0)                                                                                            |
+|  PASS  | 100: Push User Data (*static_cast<Size*>(reader.get_user_data()) == data)                                                        |
+|  PASS  | 112: Pop User Data (*static_cast<Size*>(reader.get_user_data()) == data)                                                         |
+|  PASS  | 114: Pop User Data (reader.get_user_data() == nullptr)                                                                           |
+|  PASS  | 115: Pop User Data (reader.pop_user_data())                                                                                      |
+|  PASS  | 131: Indent (reader.indent(0) == true)                                                                                           |
+|  PASS  | 132: Indent (reader.indent(0) == true)                                                                                           |
+|  PASS  | 133: Indent (reader.indent(0) == false)                                                                                          |
+|  PASS  | 152: Indent Name (reader.indent("Three") == true)                                                                                |
+|  PASS  | 153: Indent Name (reader.indent("Four") == true)                                                                                 |
+|  PASS  | 154: Indent Name (reader.indent("Five") == false)                                                                                |
+|  PASS  | 155: Indent Name (reader.outdent())                                                                                              |
+|  PASS  | 156: Indent Name (reader.outdent())                                                                                              |
+|  PASS  | 174: Outdent (reader.outdent())                                                                                                  |
+|  PASS  | 176: Outdent (reader.outdent())                                                                                                  |
+|  PASS  | 177: Outdent (reader.outdent())                                                                                                  |
+|  PASS  | 193: Read Name (reader.read_name(0, name) == true)                                                                               |
+|  PASS  | 194: Read Name (name == "One")                                                                                                   |
+|  PASS  | 195: Read Name (reader.read_name(1, name) == true)                                                                               |
+|  PASS  | 196: Read Name (name == "Two")                                                                                                   |
+|  PASS  | 197: Read Name (reader.read_name(2, name) == false)                                                                              |
+|  PASS  | 213: Read Bool (reader.read(0, value) == true)                                                                                   |
+|  PASS  | 214: Read Bool (value == true)                                                                                                   |
+|  PASS  | 215: Read Bool (reader.read(1, value) == true)                                                                                   |
+|  PASS  | 216: Read Bool (value == false)                                                                                                  |
+|  PASS  | 217: Read Bool (reader.read(2, value) == false)                                                                                  |
+|  PASS  | 234: Read Bool2 (reader.read(0, result) == true)                                                                                 |
+|  PASS  | 235: Read Bool2 (result == value)                                                                                                |
+|  PASS  | 236: Read Bool2 (reader.read(1, result) == true)                                                                                 |
+|  PASS  | 237: Read Bool2 (result == Bool2(false, true))                                                                                   |
+|  PASS  | 238: Read Bool2 (reader.read(2, result) == false)                                                                                |
+|  PASS  | 255: Read Bool3 (reader.read(0, result) == true)                                                                                 |
+|  PASS  | 256: Read Bool3 (result == value)                                                                                                |
+|  PASS  | 257: Read Bool3 (reader.read(1, result) == true)                                                                                 |
+|  PASS  | 258: Read Bool3 (result == Bool3(false, true, false))                                                                            |
+|  PASS  | 259: Read Bool3 (reader.read(2, result) == false)                                                                                |
+|  PASS  | 276: Read Bool4 (reader.read(0, result) == true)                                                                                 |
+|  PASS  | 277: Read Bool4 (result == value)                                                                                                |
+|  PASS  | 278: Read Bool4 (reader.read(1, result) == true)                                                                                 |
+|  PASS  | 279: Read Bool4 (result == Bool4(false, true, false, true))                                                                      |
+|  PASS  | 280: Read Bool4 (reader.read(2, result) == false)                                                                                |
+|  PASS  | 296: Read Char (reader.read(0, value) == true)                                                                                   |
+|  PASS  | 297: Read Char (value == 'A')                                                                                                    |
+|  PASS  | 298: Read Char (reader.read(1, value) == true)                                                                                   |
+|  PASS  | 299: Read Char (value == 'B')                                                                                                    |
+|  PASS  | 300: Read Char (reader.read(2, value) == false)                                                                                  |
+|  PASS  | 316: Read Byte (reader.read(0, value) == true)                                                                                   |
+|  PASS  | 317: Read Byte (value == Byte(1))                                                                                                |
+|  PASS  | 318: Read Byte (reader.read(1, value) == true)                                                                                   |
+|  PASS  | 319: Read Byte (value == Byte(2))                                                                                                |
+|  PASS  | 320: Read Byte (reader.read(2, value) == false)                                                                                  |
+|  PASS  | 336: Read Short (reader.read(0, value) == true)                                                                                  |
+|  PASS  | 337: Read Short (value == Short(1))                                                                                              |
+|  PASS  | 338: Read Short (reader.read(1, value) == true)                                                                                  |
+|  PASS  | 339: Read Short (value == Short(2))                                                                                              |
+|  PASS  | 340: Read Short (reader.read(2, value) == false)                                                                                 |
+|  PASS  | 356: Read UShort (reader.read(0, value) == true)                                                                                 |
+|  PASS  | 357: Read UShort (value == UShort(1))                                                                                            |
+|  PASS  | 358: Read UShort (reader.read(1, value) == true)                                                                                 |
+|  PASS  | 359: Read UShort (value == UShort(2))                                                                                            |
+|  PASS  | 360: Read UShort (reader.read(2, value) == false)                                                                                |
+|  PASS  | 376: Read Int (reader.read(0, value) == true)                                                                                    |
+|  PASS  | 377: Read Int (value == 1)                                                                                                       |
+|  PASS  | 378: Read Int (reader.read(1, value) == true)                                                                                    |
+|  PASS  | 379: Read Int (value == 2)                                                                                                       |
+|  PASS  | 380: Read Int (reader.read(2, value) == false)                                                                                   |
+|  PASS  | 397: Read Int2 (reader.read(0, result) == true)                                                                                  |
+|  PASS  | 398: Read Int2 (result == value)                                                                                                 |
+|  PASS  | 399: Read Int2 (reader.read(1, result) == true)                                                                                  |
+|  PASS  | 400: Read Int2 (result == Int2(3, 4))                                                                                            |
+|  PASS  | 401: Read Int2 (reader.read(2, result) == false)                                                                                 |
+|  PASS  | 418: Read Int3 (reader.read(0, result) == true)                                                                                  |
+|  PASS  | 419: Read Int3 (result == value)                                                                                                 |
+|  PASS  | 420: Read Int3 (reader.read(1, result) == true)                                                                                  |
+|  PASS  | 421: Read Int3 (result == Int3(4, 5, 6))                                                                                         |
+|  PASS  | 422: Read Int3 (reader.read(2, result) == false)                                                                                 |
+|  PASS  | 439: Read Int4 (reader.read(0, result) == true)                                                                                  |
+|  PASS  | 440: Read Int4 (result == value)                                                                                                 |
+|  PASS  | 441: Read Int4 (reader.read(1, result) == true)                                                                                  |
+|  PASS  | 442: Read Int4 (result == Int4(5, 6, 7, 8))                                                                                      |
+|  PASS  | 443: Read Int4 (reader.read(2, result) == false)                                                                                 |
+|  PASS  | 459: Read UInt (reader.read(0, value) == true)                                                                                   |
+|  PASS  | 460: Read UInt (value == UInt(1))                                                                                                |
+|  PASS  | 461: Read UInt (reader.read(1, value) == true)                                                                                   |
+|  PASS  | 462: Read UInt (value == UInt(2))                                                                                                |
+|  PASS  | 463: Read UInt (reader.read(2, value) == false)                                                                                  |
+|  PASS  | 480: Read UInt2 (reader.read(0, result) == true)                                                                                 |
+|  PASS  | 481: Read UInt2 (result == value)                                                                                                |
+|  PASS  | 482: Read UInt2 (reader.read(1, result) == true)                                                                                 |
+|  PASS  | 483: Read UInt2 (result == UInt2(3, 4))                                                                                          |
+|  PASS  | 484: Read UInt2 (reader.read(2, result) == false)                                                                                |
+|  PASS  | 501: Read UInt3 (reader.read(0, result) == true)                                                                                 |
+|  PASS  | 502: Read UInt3 (result == value)                                                                                                |
+|  PASS  | 503: Read UInt3 (reader.read(1, result) == true)                                                                                 |
+|  PASS  | 504: Read UInt3 (result == UInt3(4, 5, 6))                                                                                       |
+|  PASS  | 505: Read UInt3 (reader.read(2, result) == false)                                                                                |
+|  PASS  | 522: Read UInt4 (reader.read(0, result) == true)                                                                                 |
+|  PASS  | 523: Read UInt4 (result == value)                                                                                                |
+|  PASS  | 524: Read UInt4 (reader.read(1, result) == true)                                                                                 |
+|  PASS  | 525: Read UInt4 (result == UInt4(5, 6, 7, 8))                                                                                    |
+|  PASS  | 526: Read UInt4 (reader.read(2, result) == false)                                                                                |
+|  PASS  | 542: Read Long (reader.read(0, value) == true)                                                                                   |
+|  PASS  | 543: Read Long (value == Long(1))                                                                                                |
+|  PASS  | 544: Read Long (reader.read(1, value) == true)                                                                                   |
+|  PASS  | 545: Read Long (value == Long(2))                                                                                                |
+|  PASS  | 546: Read Long (reader.read(2, value) == false)                                                                                  |
+|  PASS  | 562: Read ULong (reader.read(0, value) == true)                                                                                  |
+|  PASS  | 563: Read ULong (value == ULong(1))                                                                                              |
+|  PASS  | 564: Read ULong (reader.read(1, value) == true)                                                                                  |
+|  PASS  | 565: Read ULong (value == ULong(2))                                                                                              |
+|  PASS  | 566: Read ULong (reader.read(2, value) == false)                                                                                 |
+|  PASS  | 582: Read Float (reader.read(0, value) == true)                                                                                  |
+|  PASS  | 583: Read Float (value == 1.0f)                                                                                                  |
+|  PASS  | 584: Read Float (reader.read(1, value) == true)                                                                                  |
+|  PASS  | 585: Read Float (value == 2.0f)                                                                                                  |
+|  PASS  | 586: Read Float (reader.read(2, value) == false)                                                                                 |
+|  PASS  | 603: Read Float2 (reader.read(0, result) == true)                                                                                |
+|  PASS  | 604: Read Float2 (result == value)                                                                                               |
+|  PASS  | 605: Read Float2 (reader.read(1, result) == true)                                                                                |
+|  PASS  | 606: Read Float2 (result == Float2(3.0f, 4.0f))                                                                                  |
+|  PASS  | 607: Read Float2 (reader.read(2, result) == false)                                                                               |
+|  PASS  | 624: Read Float3 (reader.read(0, result) == true)                                                                                |
+|  PASS  | 625: Read Float3 (result == value)                                                                                               |
+|  PASS  | 626: Read Float3 (reader.read(1, result) == true)                                                                                |
+|  PASS  | 627: Read Float3 (result == Float3(4.0f, 5.0f, 6.0f))                                                                            |
+|  PASS  | 628: Read Float3 (reader.read(2, result) == false)                                                                               |
+|  PASS  | 645: Read Float4 (reader.read(0, result) == true)                                                                                |
+|  PASS  | 646: Read Float4 (result == value)                                                                                               |
+|  PASS  | 647: Read Float4 (reader.read(1, result) == true)                                                                                |
+|  PASS  | 648: Read Float4 (result == Float4(5.0f, 6.0f, 7.0f, 8.0f))                                                                      |
+|  PASS  | 649: Read Float4 (reader.read(2, result) == false)                                                                               |
+|  PASS  | 665: Read Double (reader.read(0, value) == true)                                                                                 |
+|  PASS  | 666: Read Double (value == 1.0)                                                                                                  |
+|  PASS  | 667: Read Double (reader.read(1, value) == true)                                                                                 |
+|  PASS  | 668: Read Double (value == 2.0)                                                                                                  |
+|  PASS  | 669: Read Double (reader.read(2, value) == false)                                                                                |
+|  PASS  | 685: Read String (reader.read(0, value) == true)                                                                                 |
+|  PASS  | 686: Read String (value == "Two")                                                                                                |
+|  PASS  | 687: Read String (reader.read(1, value) == true)                                                                                 |
+|  PASS  | 688: Read String (value == "Four")                                                                                               |
+|  PASS  | 689: Read String (reader.read(2, value) == false)                                                                                |
+|  PASS  | 705: Read Type (reader.read(0, value) == true)                                                                                   |
+|  PASS  | 706: Read Type (value == Type::Bool)                                                                                             |
+|  PASS  | 707: Read Type (reader.read(1, value) == true)                                                                                   |
+|  PASS  | 708: Read Type (value == Type::Char)                                                                                             |
+|  PASS  | 709: Read Type (reader.read(2, value) == false)                                                                                  |
+|  PASS  | 726: Read Serializable (reader.read(0, value) == true)                                                                           |
+|  PASS  | 727: Read Serializable (value == one)                                                                                            |
+|  PASS  | 728: Read Serializable (reader.read(1, value) == true)                                                                           |
+|  PASS  | 729: Read Serializable (value == two)                                                                                            |
+
+## TextFileWriter
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 15: Constructor (writer.get_source() == &file)                                                                                   |
+|  PASS  | 16: Constructor (writer.get_depth() == 0)                                                                                        |
+|  PASS  | 26: Get User Data (writer.get_user_data() == nullptr)                                                                            |
+|  PASS  | 29: Get User Data (*static_cast<Size*>(writer.get_user_data()) == data)                                                          |
+|  PASS  | 39: Get Source (writer.get_source() == &file)                                                                                    |
+|  PASS  | 49: Get Depth (writer.get_depth() == 0)                                                                                          |
+|  PASS  | 51: Get Depth (writer.get_depth() == 1)                                                                                          |
+|  PASS  | 53: Get Depth (writer.get_depth() == 2)                                                                                          |
+|  PASS  | 55: Get Depth (writer.get_depth() == 1)                                                                                          |
+|  PASS  | 57: Get Depth (writer.get_depth() == 0)                                                                                          |
+|  PASS  | 69: Push User Data (*static_cast<Size*>(writer.get_user_data()) == data)                                                         |
+|  PASS  | 80: Pop User Data (*static_cast<Size*>(writer.get_user_data()) == data)                                                          |
+|  PASS  | 82: Pop User Data (writer.get_user_data() == nullptr)                                                                            |
+|  PASS  | 83: Pop User Data (writer.pop_user_data())                                                                                       |
+|  PASS  | 99: Indent (text == "One: Two\n\tThree: Four\n")                                                                                 |
+|  PASS  | 114: Indent Name (text == "One: Two\nThree\n\tFour: Five\n")                                                                     |
+|  PASS  | 127: Outdent (writer.outdent())                                                                                                  |
+|  PASS  | 131: Outdent (text == "One: Two\n\tThree: Four\nFive: Six\n")                                                                    |
+|  PASS  | 144: Write Name (text == "One\nTwo\n")                                                                                           |
+|  PASS  | 156: Write Bool (text == "One: T\nTwo: F\n")                                                                                     |
+|  PASS  | 168: Write Bool2 (text == "One: (T, F)\nTwo: (F, T)\n")                                                                          |
+|  PASS  | 180: Write Bool3 (text == "One: (T, F, T)\nTwo: (F, T, F)\n")                                                                    |
+|  PASS  | 192: Write Bool4 (text == "One: (T, F, T, F)\nTwo: (F, T, F, T)\n")                                                              |
+|  PASS  | 204: Write Char (text == "One: A\nTwo: B\n")                                                                                     |
+|  PASS  | 216: Write Byte (text == "One: 1\nTwo: 2\n")                                                                                     |
+|  PASS  | 228: Write Short (text == "One: 1\nTwo: 2\n")                                                                                    |
+|  PASS  | 240: Write UShort (text == "One: 1\nTwo: 2\n")                                                                                   |
+|  PASS  | 252: Write Int (text == "One: 1\nTwo: 2\n")                                                                                      |
+|  PASS  | 264: Write Int2 (text == "One: (1, 2)\nTwo: (3, 4)\n")                                                                           |
+|  PASS  | 276: Write Int3 (text == "One: (1, 2, 3)\nTwo: (4, 5, 6)\n")                                                                     |
+|  PASS  | 288: Write Int4 (text == "One: (1, 2, 3, 4)\nTwo: (5, 6, 7, 8)\n")                                                               |
+|  PASS  | 300: Write UInt (text == "One: 1\nTwo: 2\n")                                                                                     |
+|  PASS  | 312: Write UInt2 (text == "One: (1, 2)\nTwo: (3, 4)\n")                                                                          |
+|  PASS  | 324: Write UInt3 (text == "One: (1, 2, 3)\nTwo: (4, 5, 6)\n")                                                                    |
+|  PASS  | 336: Write UInt4 (text == "One: (1, 2, 3, 4)\nTwo: (5, 6, 7, 8)\n")                                                              |
+|  PASS  | 348: Write Long (text == "One: 1\nTwo: 2\n")                                                                                     |
+|  PASS  | 360: Write ULong (text == "One: 1\nTwo: 2\n")                                                                                    |
+|  PASS  | 372: Write Float (text == "One: 1\nTwo: 2\n")                                                                                    |
+|  PASS  | 384: Write Float2 (text == "One: (1, 2)\nTwo: (3, 4)\n")                                                                         |
+|  PASS  | 396: Write Float3 (text == "One: (1, 2, 3)\nTwo: (4, 5, 6)\n")                                                                   |
+|  PASS  | 408: Write Float4 (text == "One: (1, 2, 3, 4)\nTwo: (5, 6, 7, 8)\n")                                                             |
+|  PASS  | 420: Write Double (text == "One: 1\nTwo: 2\n")                                                                                   |
+|  PASS  | 432: Write String (text == "One: Two\nThree: Four\n")                                                                            |
+|  PASS  | 444: Write Type (text == "One: Bool\nTwo: Char\n")                                                                               |
+|  PASS  | 459: Write Serializable (text == expected)                                                                                       |
 
 ## Wrap
 | Result | Message                                                                                                                          |

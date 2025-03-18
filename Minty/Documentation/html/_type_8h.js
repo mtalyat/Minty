@@ -38,6 +38,7 @@ var _type_8h =
       [ "Minty::Type::Count", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdae93f994f01c537c4e2f7d8528c3eb5e9", null ]
     ] ],
     [ "Minty::sizeof_type", "namespace_minty.html#a2de9e7ffe6b6aecf8d112c194371b668", null ],
+    [ "Minty::to_string", "namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644", null ],
     [ "Minty::type_typeid", "namespace_minty.html#a81812a6bb65a38856d2045920a26e685", null ],
     [ "Minty::typeid_type", "namespace_minty.html#a54191006d794604e76cebcf24101ee9e", null ]
 ];

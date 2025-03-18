@@ -4,6 +4,7 @@
 #include "Minty/Data/Color.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Data/Map.h"
 
 using namespace Minty;
 
@@ -292,5 +293,56 @@ Size Minty::sizeof_type(Type const type)
 		return sizeof(String);
 	default:
 		MINTY_ABORT("sizeof_type not implemented for given type.");
+	}
+}
+
+String Minty::to_string(Type const type)
+{
+	static Map<Type, String> const NAMES =
+	{
+		{ Type::Undefined, "Undefined" },
+		{ Type::Bool, "Bool" },
+		{ Type::Bool2, "Bool2" },
+		{ Type::Bool3, "Bool3" },
+		{ Type::Bool4, "Bool4" },
+		{ Type::Char, "Char" },
+		{ Type::Byte, "Byte" },
+		{ Type::Short, "Short" },
+		{ Type::UShort, "UShort" },
+		{ Type::Int, "Int" },
+		{ Type::Int2, "Int2" },
+		{ Type::Int3, "Int3" },
+		{ Type::Int4, "Int4" },
+		{ Type::UInt, "UInt" },
+		{ Type::UInt2, "UInt2" },
+		{ Type::UInt3, "UInt3" },
+		{ Type::UInt4, "UInt4" },
+		{ Type::Long, "Long" },
+		{ Type::ULong, "ULong" },
+		{ Type::Size, "Size" },
+		{ Type::Float, "Float" },
+		{ Type::Float2, "Float2" },
+		{ Type::Float3, "Float3" },
+		{ Type::Float4, "Float4" },
+		{ Type::Double, "Double" },
+		{ Type::Matrix2, "Matrix2" },
+		{ Type::Matrix3, "Matrix3" },
+		{ Type::Matrix4, "Matrix4" },
+		{ Type::Quaternion, "Quaternion" },
+		{ Type::Color, "Color" },
+		{ Type::UUID, "UUID" },
+		{ Type::Object, "Object" },
+		{ Type::String, "String" },
+		{ Type::MultilineString, "MultilineString" }
+	};
+
+	auto const it = NAMES.find(type);
+	if (it != NAMES.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		return "";
 	}
 }
