@@ -8,6 +8,5 @@ var searchData=
   ['asset_2eh_5',['Asset.h',['../_asset_8h.html',1,'']]],
   ['assetmanager_2ecpp_6',['AssetManager.cpp',['../_asset_manager_8cpp.html',1,'']]],
   ['assetmanager_2eh_7',['AssetManager.h',['../_asset_manager_8h.html',1,'']]],
-  ['assettype_2ecpp_8',['AssetType.cpp',['../_asset_type_8cpp.html',1,'']]],
-  ['assettype_2eh_9',['AssetType.h',['../_asset_type_8h.html',1,'']]]
+  ['assettype_2eh_8',['AssetType.h',['../_asset_type_8h.html',1,'']]]
 ];

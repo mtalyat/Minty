@@ -3,7 +3,9 @@ var hierarchy =
     [ "Minty::Application", "class_minty_1_1_application.html", null ],
     [ "Minty::ApplicationBuilder", "struct_minty_1_1_application_builder.html", null ],
     [ "Minty::Array< T, S >", "class_minty_1_1_array.html", null ],
-    [ "Minty::Asset", "class_minty_1_1_asset.html", null ],
+    [ "Minty::Asset", "class_minty_1_1_asset.html", [
+      [ "Minty::Text", "class_minty_1_1_text.html", null ]
+    ] ],
     [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
     [ "Minty::AssetManagerBuilder", "struct_minty_1_1_asset_manager_builder.html", null ],
     [ "Minty::Color", "struct_minty_1_1_color.html", null ],
@@ -49,6 +51,7 @@ var hierarchy =
     [ "std::hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", null ],
     [ "std::hash< Minty::Ref< T > >", "structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4.html", null ],
     [ "std::hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", null ],
+    [ "std::hash< Minty::UUID >", "structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html", null ],
     [ "Minty::Wrap::Header", "struct_minty_1_1_wrap_1_1_header.html", null ],
     [ "Minty::Array< T, S >::Iterator", "class_minty_1_1_array_1_1_iterator.html", null ],
     [ "Minty::List< T >::Iterator", "class_minty_1_1_list_1_1_iterator.html", null ],
@@ -112,6 +115,7 @@ var hierarchy =
       [ "Minty::DualBuffer", "class_minty_1_1_dual_buffer.html", null ]
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
+    [ "Minty::TextBuilder", "struct_minty_1_1_text_builder.html", null ],
     [ "std::true_type", null, [
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
       [ "Minty::is_serializable_object< T, std::enable_if_t< std::is_base_of_v< SerializableObject, T > > >", "struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html", null ]

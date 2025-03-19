@@ -37,6 +37,11 @@ Path Minty::Path::get_relative_to(Path const& other) const
 	return Path(m_path.lexically_relative(other.m_path).string().data());
 }
 
+Path Minty::Path::get_parent() const
+{
+	return Path(m_path.parent_path().string().data());
+}
+
 void Minty::Path::reserve(Size const capacity)
 {
 	MINTY_ASSERT(false, "Not implemented.");

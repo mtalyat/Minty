@@ -14,7 +14,7 @@ namespace Minty::Parse
 	/// <param name="string">The String to parse from.</param>
 	/// <param name="value">The value to parse into.</param>
 	template<typename T>
-	void parse_to(String const& string, T& value)
+	T parse_to(String const& string)
 	{
 		MINTY_ABORT("The given type is not parseable.");
 	}
@@ -35,9 +35,9 @@ namespace Minty::Parse
 	Bool to_bool(String const& string);
 	Bool try_bool(String const& string, Bool& value);
 	template<>
-	inline void parse_to(String const& string, Bool& value)
+	inline Bool parse_to(String const& string)
 	{
-		value = to_bool(string);
+		return to_bool(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Bool& value)
@@ -48,9 +48,9 @@ namespace Minty::Parse
 	Bool2 to_bool2(String const& string);
 	Bool try_bool2(String const& string, Bool2& value);
 	template<>
-	inline void parse_to(String const& string, Bool2& value)
+	inline Bool2 parse_to(String const& string)
 	{
-		value = to_bool2(string);
+		return to_bool2(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Bool2& value)
@@ -61,9 +61,9 @@ namespace Minty::Parse
 	Bool3 to_bool3(String const& string);
 	Bool try_bool3(String const& string, Bool3& value);
 	template<>
-	inline void parse_to(String const& string, Bool3& value)
+	inline Bool3 parse_to(String const& string)
 	{
-		value = to_bool3(string);
+		return to_bool3(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Bool3& value)
@@ -74,9 +74,9 @@ namespace Minty::Parse
 	Bool4 to_bool4(String const& string);
 	Bool try_bool4(String const& string, Bool4& value);
 	template<>
-	inline void parse_to(String const& string, Bool4& value)
+	inline Bool4 parse_to(String const& string)
 	{
-		value = to_bool4(string);
+		return to_bool4(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Bool4& value)
@@ -87,9 +87,9 @@ namespace Minty::Parse
 	Char to_char(String const& string);
 	Bool try_char(String const& string, Char& value);
 	template<>
-	inline void parse_to(String const& string, Char& value)
+	inline Char parse_to(String const& string)
 	{
-		value = to_char(string);
+		return to_char(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Char& value)
@@ -100,9 +100,9 @@ namespace Minty::Parse
 	Byte to_byte(String const& string);
 	Bool try_byte(String const& string, Byte& value);
 	template<>
-	inline void parse_to(String const& string, Byte& value)
+	inline Byte parse_to(String const& string)
 	{
-		value = to_byte(string);
+		return to_byte(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Byte& value)
@@ -113,9 +113,9 @@ namespace Minty::Parse
 	Short to_short(String const& string);
 	Bool try_short(String const& string, Short& value);
 	template<>
-	inline void parse_to(String const& string, Short& value)
+	inline Short parse_to(String const& string)
 	{
-		value = to_short(string);
+		return to_short(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Short& value)
@@ -126,9 +126,9 @@ namespace Minty::Parse
 	UShort to_ushort(String const& string);
 	Bool try_ushort(String const& string, UShort& value);
 	template<>
-	inline void parse_to(String const& string, UShort& value)
+	inline UShort parse_to(String const& string)
 	{
-		value = to_ushort(string);
+		return to_ushort(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, UShort& value)
@@ -139,9 +139,9 @@ namespace Minty::Parse
 	Int to_int(String const& string);
 	Bool try_int(String const& string, Int& value);
 	template<>
-	inline void parse_to(String const& string, Int& value)
+	inline Int parse_to(String const& string)
 	{
-		value = to_int(string);
+		return to_int(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Int& value)
@@ -152,9 +152,9 @@ namespace Minty::Parse
 	Int2 to_int2(String const& string);
 	Bool try_int2(String const& string, Int2& value);
 	template<>
-	inline void parse_to(String const& string, Int2& value)
+	inline Int2 parse_to(String const& string)
 	{
-		value = to_int2(string);
+		return to_int2(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Int2& value)
@@ -165,9 +165,9 @@ namespace Minty::Parse
 	Int3 to_int3(String const& string);
 	Bool try_int3(String const& string, Int3& value);
 	template<>
-	inline void parse_to(String const& string, Int3& value)
+	inline Int3 parse_to(String const& string)
 	{
-		value = to_int3(string);
+		return to_int3(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Int3& value)
@@ -178,9 +178,9 @@ namespace Minty::Parse
 	Int4 to_int4(String const& string);
 	Bool try_int4(String const& string, Int4& value);
 	template<>
-	inline void parse_to(String const& string, Int4& value)
+	inline Int4 parse_to(String const& string)
 	{
-		value = to_int4(string);
+		return to_int4(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Int4& value)
@@ -191,9 +191,9 @@ namespace Minty::Parse
 	UInt to_uint(String const& string);
 	Bool try_uint(String const& string, UInt& value);
 	template<>
-	inline void parse_to(String const& string, UInt& value)
+	inline UInt parse_to(String const& string)
 	{
-		value = to_uint(string);
+		return to_uint(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, UInt& value)
@@ -204,9 +204,9 @@ namespace Minty::Parse
 	UInt2 to_uint2(String const& string);
 	Bool try_uint2(String const& string, UInt2& value);
 	template<>
-	inline void parse_to(String const& string, UInt2& value)
+	inline UInt2 parse_to(String const& string)
 	{
-		value = to_uint2(string);
+		return to_uint2(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, UInt2& value)
@@ -217,9 +217,9 @@ namespace Minty::Parse
 	UInt3 to_uint3(String const& string);
 	Bool try_uint3(String const& string, UInt3& value);
 	template<>
-	inline void parse_to(String const& string, UInt3& value)
+	inline UInt3 parse_to(String const& string)
 	{
-		value = to_uint3(string);
+		return to_uint3(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, UInt3& value)
@@ -230,9 +230,9 @@ namespace Minty::Parse
 	UInt4 to_uint4(String const& string);
 	Bool try_uint4(String const& string, UInt4& value);
 	template<>
-	inline void parse_to(String const& string, UInt4& value)
+	inline UInt4 parse_to(String const& string)
 	{
-		value = to_uint4(string);
+		return to_uint4(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, UInt4& value)
@@ -243,9 +243,9 @@ namespace Minty::Parse
 	Long to_long(String const& string);
 	Bool try_long(String const& string, Long& value);
 	template<>
-	inline void parse_to(String const& string, Long& value)
+	inline Long parse_to(String const& string)
 	{
-		value = to_long(string);
+		return to_long(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Long& value)
@@ -256,9 +256,9 @@ namespace Minty::Parse
 	ULong to_ulong(String const& string);
 	Bool try_ulong(String const& string, ULong& value);
 	template<>
-	inline void parse_to(String const& string, ULong& value)
+	inline ULong parse_to(String const& string)
 	{
-		value = to_ulong(string);
+		return to_ulong(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, ULong& value)
@@ -272,9 +272,9 @@ namespace Minty::Parse
 	Float to_float(String const& string);
 	Bool try_float(String const& string, Float& value);
 	template<>
-	inline void parse_to(String const& string, Float& value)
+	inline Float parse_to(String const& string)
 	{
-		value = to_float(string);
+		return to_float(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Float& value)
@@ -285,9 +285,9 @@ namespace Minty::Parse
 	Float2 to_float2(String const& string);
 	Bool try_float2(String const& string, Float2& value);
 	template<>
-	inline void parse_to(String const& string, Float2& value)
+	inline Float2 parse_to(String const& string)
 	{
-		value = to_float2(string);
+		return to_float2(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Float2& value)
@@ -298,9 +298,9 @@ namespace Minty::Parse
 	Float3 to_float3(String const& string);
 	Bool try_float3(String const& string, Float3& value);
 	template<>
-	inline void parse_to(String const& string, Float3& value)
+	inline Float3 parse_to(String const& string)
 	{
-		value = to_float3(string);
+		return to_float3(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Float3& value)
@@ -311,9 +311,9 @@ namespace Minty::Parse
 	Float4 to_float4(String const& string);
 	Bool try_float4(String const& string, Float4& value);
 	template<>
-	inline void parse_to(String const& string, Float4& value)
+	inline Float4 parse_to(String const& string)
 	{
-		value = to_float4(string);
+		return to_float4(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Float4& value)
@@ -324,9 +324,9 @@ namespace Minty::Parse
 	Double to_double(String const& string);
 	Bool try_double(String const& string, Double& value);
 	template<>
-	inline void parse_to(String const& string, Double& value)
+	inline Double parse_to(String const& string)
 	{
-		value = to_double(string);
+		return to_double(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Double& value)
@@ -335,9 +335,9 @@ namespace Minty::Parse
 	}
 
 	template<>
-	inline void parse_to(String const& string, String& value)
+	inline String parse_to(String const& string)
 	{
-		value = string;
+		return string;
 	}
 	template<>
 	inline Bool parse_try(String const& string, String& value)
@@ -349,9 +349,9 @@ namespace Minty::Parse
 	Type to_type(String const& string);
 	Bool try_type(String const& string, Type& value);
 	template<>
-	inline void parse_to(String const& string, Type& value)
+	inline Type parse_to(String const& string)
 	{
-		value = to_type(string);
+		return to_type(string);
 	}
 	template<>
 	inline Bool parse_try(String const& string, Type& value)

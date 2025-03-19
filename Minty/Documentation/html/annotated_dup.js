@@ -52,6 +52,8 @@ var annotated_dup =
       [ "Stack", "class_minty_1_1_stack.html", "class_minty_1_1_stack" ],
       [ "StaticContainer", "class_minty_1_1_static_container.html", "class_minty_1_1_static_container" ],
       [ "String", "class_minty_1_1_string.html", "class_minty_1_1_string" ],
+      [ "Text", "class_minty_1_1_text.html", "class_minty_1_1_text" ],
+      [ "TextBuilder", "struct_minty_1_1_text_builder.html", "struct_minty_1_1_text_builder" ],
       [ "TextReaderBehavior", "class_minty_1_1_text_reader_behavior.html", "class_minty_1_1_text_reader_behavior" ],
       [ "TextWriterBehavior", "class_minty_1_1_text_writer_behavior.html", "class_minty_1_1_text_writer_behavior" ],
       [ "UUID", "class_minty_1_1_u_u_i_d.html", "class_minty_1_1_u_u_i_d" ],
@@ -70,6 +72,7 @@ var annotated_dup =
       [ "hash< Minty::Owner< T > >", "structstd_1_1hash_3_01_minty_1_1_owner_3_01_t_01_4_01_4.html", "structstd_1_1hash_3_01_minty_1_1_owner_3_01_t_01_4_01_4" ],
       [ "hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", "structstd_1_1hash_3_01_minty_1_1_path_01_4" ],
       [ "hash< Minty::Ref< T > >", "structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4.html", "structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4" ],
-      [ "hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", "structstd_1_1hash_3_01_minty_1_1_string_01_4" ]
+      [ "hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", "structstd_1_1hash_3_01_minty_1_1_string_01_4" ],
+      [ "hash< Minty::UUID >", "structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html", "structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4" ]
     ] ]
 ];

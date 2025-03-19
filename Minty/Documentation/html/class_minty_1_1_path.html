@@ -185,6 +185,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0e9248b9b62915defeec168fc376240a" id="r_a0e9248b9b62915defeec168fc376240a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e9248b9b62915defeec168fc376240a">get_relative_to</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;other) const</td></tr>
 <tr class="memdesc:a0e9248b9b62915defeec168fc376240a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the lexically relative path to the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.  <br /></td></tr>
 <tr class="separator:a0e9248b9b62915defeec168fc376240a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af28fa80beedd461188e18dffa7a9d3a9" id="r_af28fa80beedd461188e18dffa7a9d3a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af28fa80beedd461188e18dffa7a9d3a9">get_parent</a> () const</td></tr>
+<tr class="memdesc:af28fa80beedd461188e18dffa7a9d3a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the parent directory's <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.  <br /></td></tr>
+<tr class="separator:af28fa80beedd461188e18dffa7a9d3a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c19e45599aa4f7487277021d0c80683" id="r_a1c19e45599aa4f7487277021d0c80683"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c19e45599aa4f7487277021d0c80683">reserve</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity)</td></tr>
 <tr class="memdesc:a1c19e45599aa4f7487277021d0c80683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates characters using the given capacity.  <br /></td></tr>
 <tr class="separator:a1c19e45599aa4f7487277021d0c80683"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,6 +203,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a053cc54f2f3da4ad5c81b177bfde562e" id="r_a053cc54f2f3da4ad5c81b177bfde562e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a053cc54f2f3da4ad5c81b177bfde562e">get_extension</a> ()</td></tr>
 <tr class="memdesc:a053cc54f2f3da4ad5c81b177bfde562e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the extension of this <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.  <br /></td></tr>
 <tr class="separator:a053cc54f2f3da4ad5c81b177bfde562e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86301533be338604894b8791f723158" id="r_ac86301533be338604894b8791f723158"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac86301533be338604894b8791f723158">get_file_name</a> () const</td></tr>
+<tr class="memdesc:ac86301533be338604894b8791f723158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the name of the file.  <br /></td></tr>
+<tr class="separator:ac86301533be338604894b8791f723158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5768f05bc17e0c14430ae24b84105297" id="r_a5768f05bc17e0c14430ae24b84105297"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5768f05bc17e0c14430ae24b84105297">get_name</a> () const</td></tr>
+<tr class="memdesc:a5768f05bc17e0c14430ae24b84105297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the name of the file without the extension.  <br /></td></tr>
+<tr class="separator:a5768f05bc17e0c14430ae24b84105297"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -562,7 +571,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Gets the extension of this <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The extension as a <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> with the extension.</dd></dl>
 
 </div>
 </div>
@@ -583,6 +592,34 @@ Friends</h2></td></tr>
 
 <p>Gets the extension of this <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>A path with just the extension.</dd></dl>
+
+</div>
+</div>
+<a id="ac86301533be338604894b8791f723158" name="ac86301533be338604894b8791f723158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86301533be338604894b8791f723158">&#9670;&#160;</a></span>get_file_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_path.html">Path</a> Minty::Path::get_file_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the name of the file. </p>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> with the file name and extension.</dd></dl>
 
 </div>
 </div>
@@ -617,6 +654,54 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The size of the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a> in Bytes.</dd></dl>
+
+</div>
+</div>
+<a id="a5768f05bc17e0c14430ae24b84105297" name="a5768f05bc17e0c14430ae24b84105297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5768f05bc17e0c14430ae24b84105297">&#9670;&#160;</a></span>get_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_path.html">Path</a> Minty::Path::get_name </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the name of the file without the extension. </p>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> with the file name.</dd></dl>
+
+</div>
+</div>
+<a id="af28fa80beedd461188e18dffa7a9d3a9" name="af28fa80beedd461188e18dffa7a9d3a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af28fa80beedd461188e18dffa7a9d3a9">&#9670;&#160;</a></span>get_parent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_path.html">Path</a> Minty::Path::get_parent </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the parent directory's <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the parent.</dd></dl>
 
 </div>
 </div>

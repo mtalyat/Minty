@@ -26,6 +26,5 @@ var _asset_type_8h =
       [ "Minty::AssetType::Font", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d", null ],
       [ "Minty::AssetType::Mesh", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a710fdb6adb881b408116ef95335e1961", null ],
       [ "Minty::AssetType::Scene", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a9ead0d38e06ec253ca0ecbf6ea56e59b", null ]
-    ] ],
-    [ "Minty::asset_type_typeid", "namespace_minty.html#a3997ca3434158029579d5b5293c6a491", null ]
+    ] ]
 ];

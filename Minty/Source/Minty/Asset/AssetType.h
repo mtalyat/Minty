@@ -36,6 +36,4 @@ namespace Minty
 		Mesh,
 		Scene,
 	};
-
-	AssetType asset_type_typeid(TypeID const& typeId);
 }

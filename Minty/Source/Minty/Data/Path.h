@@ -308,6 +308,12 @@ namespace Minty
 		/// <returns>A new Path, relative from this Path to the given Path.</returns>
 		Path get_relative_to(Path const& other) const;
 
+		/// <summary>
+		/// Gets the parent directory's Path.
+		/// </summary>
+		/// <returns>The Path to the parent.</returns>
+		Path get_parent() const;
+
 #pragma endregion
 
 #pragma region Methods
@@ -341,8 +347,20 @@ namespace Minty
 		/// <summary>
 		/// Gets the extension of this Path.
 		/// </summary>
-		/// <returns>The extension as a Path.</returns>
+		/// <returns>A Path with the extension.</returns>
 		Path get_extension() { return Path(m_path.extension().string().c_str()); }
+
+		/// <summary>
+		/// Gets the name of the file.
+		/// </summary>
+		/// <returns>A Path with the file name and extension.</returns>
+		Path get_file_name() const { return Path(m_path.filename().string().c_str()); }
+
+		/// <summary>
+		/// Gets the name of the file without the extension.
+		/// </summary>
+		/// <returns>A Path with the file name.</returns>
+		Path get_name() const { return Path(m_path.stem().string().c_str()); }
 
 #pragma endregion
 

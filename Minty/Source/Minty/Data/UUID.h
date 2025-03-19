@@ -123,3 +123,15 @@ namespace Minty
 
 	String to_string(UUID const value);
 }
+
+namespace std
+{
+	template<>
+	struct hash<Minty::UUID>
+	{
+		std::size_t operator()(Minty::UUID const& value) const
+		{
+			return std::hash<Minty::ID>{}(value.get_data());
+		}
+	};
+}

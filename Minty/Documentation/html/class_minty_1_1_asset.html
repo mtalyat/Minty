@@ -114,6 +114,15 @@ $(function(){initNavTree('class_minty_1_1_asset.html',''); initResizable(true); 
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_asset_8h_source.html">Asset.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Minty::Asset:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_minty_1_1_asset.png" usemap="#Minty::Asset_map" alt=""/>
+  <map id="Minty::Asset_map" name="Minty::Asset_map">
+<area href="class_minty_1_1_text.html" title="A text file Asset." alt="Minty::Text" shape="rect" coords="0,56,80,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -122,9 +131,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a277e17cce520f6d4938fdf3d75d953a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4aac209dd02300b64deda588a5621219" id="r_a4aac209dd02300b64deda588a5621219"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aac209dd02300b64deda588a5621219">~Asset</a> ()=default</td></tr>
 <tr class="separator:a4aac209dd02300b64deda588a5621219"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa58743982fb7e73bbdc8ff34878ac261" id="r_aa58743982fb7e73bbdc8ff34878ac261"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa58743982fb7e73bbdc8ff34878ac261">get_uuid</a> () const</td></tr>
-<tr class="memdesc:aa58743982fb7e73bbdc8ff34878ac261"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.  <br /></td></tr>
-<tr class="separator:aa58743982fb7e73bbdc8ff34878ac261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d407c6b3dd666fdea52acd109801eb9" id="r_a1d407c6b3dd666fdea52acd109801eb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d407c6b3dd666fdea52acd109801eb9">get_id</a> () const</td></tr>
+<tr class="memdesc:a1d407c6b3dd666fdea52acd109801eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.  <br /></td></tr>
+<tr class="separator:a1d407c6b3dd666fdea52acd109801eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a007066889b72226eb86634cc6d4752e7" id="r_a007066889b72226eb86634cc6d4752e7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a007066889b72226eb86634cc6d4752e7">on_load</a> ()</td></tr>
 <tr class="memdesc:a007066889b72226eb86634cc6d4752e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> is loaded into the <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>.  <br /></td></tr>
 <tr class="separator:a007066889b72226eb86634cc6d4752e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,9 +146,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:abdc7ad9166282b64bfb26ac2ace9e9ce" id="r_abdc7ad9166282b64bfb26ac2ace9e9ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdc7ad9166282b64bfb26ac2ace9e9ce">get_type_from_path</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
-<tr class="memdesc:abdc7ad9166282b64bfb26ac2ace9e9ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>, uses the extension to determine the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>.  <br /></td></tr>
-<tr class="separator:abdc7ad9166282b64bfb26ac2ace9e9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e78b0b71acc8855dc89c7ea1b645ae8" id="r_a7e78b0b71acc8855dc89c7ea1b645ae8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e78b0b71acc8855dc89c7ea1b645ae8">get_asset_type</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
+<tr class="memdesc:a7e78b0b71acc8855dc89c7ea1b645ae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>, uses the extension to determine the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>.  <br /></td></tr>
+<tr class="separator:a7e78b0b71acc8855dc89c7ea1b645ae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ef4fbc976c73ef5057d1e56715b6a83" id="r_a9ef4fbc976c73ef5057d1e56715b6a83"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ef4fbc976c73ef5057d1e56715b6a83">get_asset_type</a> (<a class="el" href="namespace_minty.html#af16bfe766105040a120169c9f6608402">TypeID</a> const &amp;typeId)</td></tr>
+<tr class="memdesc:a9ef4fbc976c73ef5057d1e56715b6a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given the <a class="el" href="namespace_minty.html#af16bfe766105040a120169c9f6608402">TypeID</a>, gets the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>.  <br /></td></tr>
+<tr class="separator:a9ef4fbc976c73ef5057d1e56715b6a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee9dae897495ebc65c082295d63bc6e9" id="r_aee9dae897495ebc65c082295d63bc6e9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee9dae897495ebc65c082295d63bc6e9">get_meta_path</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
 <tr class="memdesc:aee9dae897495ebc65c082295d63bc6e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>, gets the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the meta file.  <br /></td></tr>
 <tr class="separator:aee9dae897495ebc65c082295d63bc6e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,7 +219,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a83c90c1e219483caaf10e08520edef42" name="a83c90c1e219483caaf10e08520edef42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83c90c1e219483caaf10e08520edef42">&#9670;&#160;</a></span>get_asset_type()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a83c90c1e219483caaf10e08520edef42">&#9670;&#160;</a></span>get_asset_type() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,6 +243,104 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Gets the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_text.html#ad8a636193037717f007696923ae02e57">Minty::Text</a>.</p>
+
+</div>
+</div>
+<a id="a7e78b0b71acc8855dc89c7ea1b645ae8" name="a7e78b0b71acc8855dc89c7ea1b645ae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e78b0b71acc8855dc89c7ea1b645ae8">&#9670;&#160;</a></span>get_asset_type() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a> Minty::Asset::get_asset_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Given the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>, uses the extension to determine the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> file.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The type of <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.</dd></dl>
+
+</div>
+</div>
+<a id="a9ef4fbc976c73ef5057d1e56715b6a83" name="a9ef4fbc976c73ef5057d1e56715b6a83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ef4fbc976c73ef5057d1e56715b6a83">&#9670;&#160;</a></span>get_asset_type() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a> Minty::Asset::get_asset_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#af16bfe766105040a120169c9f6608402">TypeID</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>typeId</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Given the <a class="el" href="namespace_minty.html#af16bfe766105040a120169c9f6608402">TypeID</a>, gets the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">typeId</td><td>The <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The corresponding <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>.</dd></dl>
+
+</div>
+</div>
+<a id="a1d407c6b3dd666fdea52acd109801eb9" name="a1d407c6b3dd666fdea52acd109801eb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d407c6b3dd666fdea52acd109801eb9">&#9670;&#160;</a></span>get_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> Minty::Asset::get_id </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>.</dd></dl>
 
 </div>
 </div>
@@ -265,68 +375,6 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the corresponding meta file.</dd></dl>
-
-</div>
-</div>
-<a id="abdc7ad9166282b64bfb26ac2ace9e9ce" name="abdc7ad9166282b64bfb26ac2ace9e9ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abdc7ad9166282b64bfb26ac2ace9e9ce">&#9670;&#160;</a></span>get_type_from_path()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a> Minty::Asset::get_type_from_path </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Given the <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>, uses the extension to determine the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> file.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The type of <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.</dd></dl>
-
-</div>
-</div>
-<a id="aa58743982fb7e73bbdc8ff34878ac261" name="aa58743982fb7e73bbdc8ff34878ac261"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa58743982fb7e73bbdc8ff34878ac261">&#9670;&#160;</a></span>get_uuid()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> Minty::Asset::get_uuid </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>.</dd></dl>
 
 </div>
 </div>

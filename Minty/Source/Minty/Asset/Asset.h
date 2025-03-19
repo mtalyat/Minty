@@ -42,7 +42,7 @@ namespace Minty
 		/// Gets the UUID of this Asset.
 		/// </summary>
 		/// <returns>The UUID.</returns>
-		UUID get_uuid() const { return m_uuid; }
+		UUID get_id() const { return m_uuid; }
 
 #pragma endregion
 
@@ -75,7 +75,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The Path to the Asset file.</param>
 		/// <returns>The type of Asset.</returns>
-		static AssetType get_type_from_path(Path const& path);
+		static AssetType get_asset_type(Path const& path);
+
+		/// <summary>
+		/// Given the TypeID, gets the AssetType.
+		/// </summary>
+		/// <param name="typeId">The Type.</param>
+		/// <returns>The corresponding AssetType.</returns>
+		static AssetType get_asset_type(TypeID const& typeId);
 
 		/// <summary>
 		/// Given the Path, gets the Path to the meta file.

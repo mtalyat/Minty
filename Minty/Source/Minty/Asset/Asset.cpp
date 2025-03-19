@@ -5,7 +5,7 @@
 
 using namespace Minty;
 
-AssetType Minty::Asset::get_type_from_path(Path const& path)
+AssetType Minty::Asset::get_asset_type(Path const& path)
 {
 	if (!path.has_extension())
 	{
@@ -63,6 +63,13 @@ AssetType Minty::Asset::get_type_from_path(Path const& path)
 	if (found == types.end()) return AssetType::None;
 
 	return found->second;
+}
+
+AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
+{
+	MINTY_ABORT("Not implemented.");
+
+	return AssetType();
 }
 
 Path Minty::Asset::get_meta_path(Path const& path)
