@@ -21,10 +21,10 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 
 		{ EXTENSION_SCRIPT, AssetType::Script},
 
-		{ EXTENSION_BITMAP, AssetType::Texture },
-		{ EXTENSION_JPG, AssetType::Texture },
-		{ EXTENSION_JPEG, AssetType::Texture },
-		{ EXTENSION_PNG, AssetType::Texture },
+		{ EXTENSION_BITMAP, AssetType::Image },
+		{ EXTENSION_JPG, AssetType::Image },
+		{ EXTENSION_JPEG, AssetType::Image },
+		{ EXTENSION_PNG, AssetType::Image },
 
 		{ EXTENSION_SPRITE, AssetType::Sprite },
 
@@ -74,5 +74,7 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 
 Path Minty::Asset::get_meta_path(Path const& path)
 {
+	MINTY_ASSERT(!path.is_empty(), "Cannot get meta path from empty path.");
+
 	return Path(path.get_string() + EXTENSION_META);
 }

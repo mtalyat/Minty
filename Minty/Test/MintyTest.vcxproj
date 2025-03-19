@@ -143,6 +143,8 @@
     <ClCompile Include="MintyTest.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Test_Array.cpp" />
+    <ClCompile Include="Test_Asset.cpp" />
+    <ClCompile Include="Test_AssetManager.cpp" />
     <ClCompile Include="Test_Base.cpp" />
     <ClCompile Include="Test_Color.cpp" />
     <ClCompile Include="Test_Compression.cpp" />
@@ -182,6 +184,8 @@
     <ClInclude Include="Results.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="Test_Array.h" />
+    <ClInclude Include="Test_Asset.h" />
+    <ClInclude Include="Test_AssetManager.h" />
     <ClInclude Include="Test_Base.h" />
     <ClInclude Include="Test_Color.h" />
     <ClInclude Include="Test_Compression.h" />

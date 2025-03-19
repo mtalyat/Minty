@@ -197,25 +197,27 @@ $(function(){initNavTree('_context_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="class_minty_1_1_context.html#af242098c9ce9b62fa566bc04d8c388f0">  101</a></span>        <a class="code hl_class" href="class_minty_1_1_memory_manager.html">MemoryManager</a>&amp; <a class="code hl_function" href="class_minty_1_1_context.html#af242098c9ce9b62fa566bc04d8c388f0">get_memory_manager</a>() { <span class="keywordflow">return</span> *mp_memoryManager; }</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#pragma region Statics</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00112" data-start="{" data-end="}">
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704">  112</a></span>        <span class="keyword">static</span> <a class="code hl_function" href="class_minty_1_1_context.html#a745eb6846b5edeff6c5d044645b0427d">Context</a>&amp; <a class="code hl_function" href="class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704">get_instance</a>()</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        {</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(s_instance, <span class="stringliteral">&quot;Context instance is null.&quot;</span>);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="keywordflow">return</span> *s_instance;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="class_minty_1_1_context.html#a510cbe5e9bdb30d14711c6bbfdc6ef2d">  107</a></span>        <a class="code hl_class" href="class_minty_1_1_asset_manager.html">AssetManager</a>&amp; <a class="code hl_function" href="class_minty_1_1_context.html#a510cbe5e9bdb30d14711c6bbfdc6ef2d">get_asset_manager</a>() { <span class="keywordflow">return</span> *mp_assetManager; }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">#pragma region Statics</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704">  118</a></span>        <span class="keyword">static</span> <a class="code hl_function" href="class_minty_1_1_context.html#a745eb6846b5edeff6c5d044645b0427d">Context</a>&amp; <a class="code hl_function" href="class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704">get_instance</a>()</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(s_instance, <span class="stringliteral">&quot;Context instance is null.&quot;</span>);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <span class="keywordflow">return</span> *s_instance;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        }</div>
 </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    };</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    };</div>
 </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>}</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>}</div>
 <div class="ttc" id="a_asset_manager_8h_html"><div class="ttname"><a href="_asset_manager_8h.html">AssetManager.h</a></div></div>
 <div class="ttc" id="a_dual_buffer_8h_html"><div class="ttname"><a href="_dual_buffer_8h.html">DualBuffer.h</a></div></div>
 <div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
@@ -226,11 +228,12 @@ $(function(){initNavTree('_context_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclass_minty_1_1_context_html_a1ad71c917ad9653320269772710c02f4"><div class="ttname"><a href="class_minty_1_1_context.html#a1ad71c917ad9653320269772710c02f4">Minty::Context::operator=</a></div><div class="ttdeci">Context &amp; operator=(Context const &amp;other)=delete</div></div>
 <div class="ttc" id="aclass_minty_1_1_context_html_a393ac4391721754d1d3b27b10fabaf38"><div class="ttname"><a href="class_minty_1_1_context.html#a393ac4391721754d1d3b27b10fabaf38">Minty::Context::Context</a></div><div class="ttdeci">Context(Context const &amp;other)=delete</div></div>
 <div class="ttc" id="aclass_minty_1_1_context_html_a4083d1edfa338efd1a9d053abe6d3493"><div class="ttname"><a href="class_minty_1_1_context.html#a4083d1edfa338efd1a9d053abe6d3493">Minty::Context::~Context</a></div><div class="ttdeci">~Context()</div><div class="ttdef"><b>Definition</b> Context.h:62</div></div>
+<div class="ttc" id="aclass_minty_1_1_context_html_a510cbe5e9bdb30d14711c6bbfdc6ef2d"><div class="ttname"><a href="class_minty_1_1_context.html#a510cbe5e9bdb30d14711c6bbfdc6ef2d">Minty::Context::get_asset_manager</a></div><div class="ttdeci">AssetManager &amp; get_asset_manager()</div><div class="ttdoc">Gets the AssetManager in this Context.</div><div class="ttdef"><b>Definition</b> Context.h:107</div></div>
 <div class="ttc" id="aclass_minty_1_1_context_html_a745eb6846b5edeff6c5d044645b0427d"><div class="ttname"><a href="class_minty_1_1_context.html#a745eb6846b5edeff6c5d044645b0427d">Minty::Context::Context</a></div><div class="ttdeci">Context(ContextBuilder const &amp;builder)</div><div class="ttdoc">Creates a new Context using the given ContextBuilder.</div><div class="ttdef"><b>Definition</b> Context.cpp:12</div></div>
 <div class="ttc" id="aclass_minty_1_1_context_html_a85f54893ebe021367a7406aeb2c8b76c"><div class="ttname"><a href="class_minty_1_1_context.html#a85f54893ebe021367a7406aeb2c8b76c">Minty::Context::Context</a></div><div class="ttdeci">Context(Context &amp;&amp;other) noexcept</div><div class="ttdoc">Moves the given Context.</div><div class="ttdef"><b>Definition</b> Context.h:52</div></div>
-<div class="ttc" id="aclass_minty_1_1_context_html_ab680ddb8a5160b15b82000a316c1d704"><div class="ttname"><a href="class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704">Minty::Context::get_instance</a></div><div class="ttdeci">static Context &amp; get_instance()</div><div class="ttdoc">Gets the current instance of the Context.</div><div class="ttdef"><b>Definition</b> Context.h:112</div></div>
+<div class="ttc" id="aclass_minty_1_1_context_html_ab680ddb8a5160b15b82000a316c1d704"><div class="ttname"><a href="class_minty_1_1_context.html#ab680ddb8a5160b15b82000a316c1d704">Minty::Context::get_instance</a></div><div class="ttdeci">static Context &amp; get_instance()</div><div class="ttdoc">Gets the current instance of the Context.</div><div class="ttdef"><b>Definition</b> Context.h:118</div></div>
 <div class="ttc" id="aclass_minty_1_1_context_html_abd54bb890e6883181d32c595d582012d"><div class="ttname"><a href="class_minty_1_1_context.html#abd54bb890e6883181d32c595d582012d">Minty::Context::operator=</a></div><div class="ttdeci">Context &amp; operator=(Context &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> Context.h:78</div></div>
-<div class="ttc" id="aclass_minty_1_1_context_html_af242098c9ce9b62fa566bc04d8c388f0"><div class="ttname"><a href="class_minty_1_1_context.html#af242098c9ce9b62fa566bc04d8c388f0">Minty::Context::get_memory_manager</a></div><div class="ttdeci">MemoryManager &amp; get_memory_manager()</div><div class="ttdoc">Gets the MemoryManager for this Context.</div><div class="ttdef"><b>Definition</b> Context.h:101</div></div>
+<div class="ttc" id="aclass_minty_1_1_context_html_af242098c9ce9b62fa566bc04d8c388f0"><div class="ttname"><a href="class_minty_1_1_context.html#af242098c9ce9b62fa566bc04d8c388f0">Minty::Context::get_memory_manager</a></div><div class="ttdeci">MemoryManager &amp; get_memory_manager()</div><div class="ttdoc">Gets the MemoryManager in this Context.</div><div class="ttdef"><b>Definition</b> Context.h:101</div></div>
 <div class="ttc" id="aclass_minty_1_1_dual_buffer_html"><div class="ttname"><a href="class_minty_1_1_dual_buffer.html">Minty::DualBuffer</a></div><div class="ttdoc">Doubles as a buffer for a stream, and a file writer.</div><div class="ttdef"><b>Definition</b> DualBuffer.h:15</div></div>
 <div class="ttc" id="aclass_minty_1_1_memory_manager_html"><div class="ttname"><a href="class_minty_1_1_memory_manager.html">Minty::MemoryManager</a></div><div class="ttdoc">Handles allocation and deallocation of memory.</div><div class="ttdef"><b>Definition</b> MemoryManager.h:40</div></div>
 <div class="ttc" id="aclass_minty_1_1_path_html"><div class="ttname"><a href="class_minty_1_1_path.html">Minty::Path</a></div><div class="ttdoc">A collection of text representing a file path.</div><div class="ttdef"><b>Definition</b> Path.h:15</div></div>

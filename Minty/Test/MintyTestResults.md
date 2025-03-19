@@ -1,10 +1,11 @@
 # Results
-4053/4053 (100.00%)
+4086/4086 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
 | ------------------------------ | -------- | -------- |
 | Minty                          |        0 |        0 |
+| Asset                          |       33 |        0 |
 | Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
@@ -64,6 +65,43 @@ No failures! :)
 ## Minty
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+
+## Asset
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: ID Constructor (asset.get_id().get_data() == 0)                                                                              |
+|  PASS  | 20: ID Constructor (asset.get_id().get_data() == 1)                                                                              |
+|  PASS  | 23: ID Constructor (asset.get_id().get_data() == 0xFFFFFFFFFFFFFFFF)                                                             |
+|  PASS  | 34: Get ID (asset.get_id().get_data() == 0)                                                                                      |
+|  PASS  | 37: Get ID (asset.get_id().get_data() == 1)                                                                                      |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 83: Get Asset Type TypeID (true == true)                                                                                         |
+|  PASS  | 89: Get Meta Path (Asset::get_meta_path(path) == "test.png.meta")                                                                |
+|  PASS  | 91: Get Meta Path (Asset::get_meta_path(path))                                                                                   |
 
 ## Debug
 | Result | Message                                                                                                                          |

@@ -1,6 +1,10 @@
 // Minty
 #include "Test_Minty.h"
 
+// Asset
+#include "Test_Asset.h"
+#include "Test_AssetManager.h"
+
 // Core
 #include "Test_Base.h"
 #include "Test_Compression.h"
@@ -66,6 +70,10 @@ static void run_tests()
 
 	// Minty
 	test_Minty(_test);
+
+	// Asset
+	test_Asset(_test);
+	test_AssetManager(_test);
 
 	// Console
 	test_Debug(_test);

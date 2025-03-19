@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Tests\Serialization">
       <UniqueIdentifier>{2ad639a7-df6f-4ffe-95b7-aac8a979e238}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Asset">
+      <UniqueIdentifier>{8acdb392-49f6-4df1-9a99-d734d8b5df11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -151,6 +154,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Asset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -265,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="Test_Encoding.h">
       <Filter>Header Files\Tests\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_AssetManager.h">
+      <Filter>Header Files\Tests\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Asset.h">
+      <Filter>Header Files\Tests\Asset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
