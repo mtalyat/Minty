@@ -65,7 +65,6 @@ namespace Minty
 		Bool m_savePaths;
 		Map<UUID, AssetData> m_assets;
 		Map<AssetType, Set<UUID>> m_assetTypes;
-		Vector<UUID> m_unloadQueue;
 		std::mutex m_assetMutex;
 
 		Wrapper m_wrapper;
@@ -106,10 +105,6 @@ namespace Minty
 
 		// closes an opened file
 		void close(File* file) const;
-
-		UUID load_asset(Path const& path, AssetType const type);
-
-		Ref<Asset> load_asset_now(Path const& path, AssetType const type);
 
 	public:
 		/// <summary>
@@ -193,14 +188,14 @@ namespace Minty
 		void unload_now(UUID const id);
 
 		/// <summary>
-		/// Unloads all of the Assets marked for unloading.
-		/// </summary>
-		void collect();
-
-		/// <summary>
 		/// Unloads all Assets stored within this AssetManager.
 		/// </summary>
 		void unload_all();
+
+		/// <summary>
+		/// If any Assets are being loaded or unloaded, wait until they are finished.
+		/// </summary>
+		void sync();
 
 		/// <summary>
 		/// Creates a new Asset of the given type.

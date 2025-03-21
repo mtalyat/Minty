@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AssetManager.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Context/Context.h"
 
 using namespace Minty;
 
@@ -118,14 +119,39 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 	writer = nullptr;
 }
 
+UUID Minty::AssetManager::load(Path const& path)
+{
+	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
+	Path metaPath = Asset::get_meta_path(path);
+	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
+
+	Context& context = Context::get_instance();
+	JobManager& jobManager = context.get_job_manager();
+
+	// get UUID for reference
+	UUID id = read_id(path);
+
+	// use a job to load the asset in the background
+	jobManager.schedule([this, path]()
+		{
+			load_asset_now(path);
+		});
+
+	// return the ID
+	return id;
+}
+
 Ref<Asset> Minty::AssetManager::load_asset_now(Path const& path)
 {
+#ifdef MINTY_DEBUG
+	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
+	Path metaPath = Asset::get_meta_path(path);
+	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
+#endif // MINTY_DEBUG
+
 	AssetType type = Asset::get_asset_type(path.get_extension());
 
-	if (type == AssetType::None)
-	{
-		return Ref<Asset>();
-	}
+	MINTY_ASSERT(type != AssetType::None, "Cannot load Asset. The file does not have a valid extension.");
 
 	switch (type)
 	{
@@ -141,7 +167,16 @@ void Minty::AssetManager::unload(UUID const id)
 {
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 
-	m_unloadQueue.add(id);
+	Context& context = Context::get_instance();
+	JobManager& jobManager = context.get_job_manager();
+
+	// use a job to unload the asset in the background
+	jobManager.schedule([this, id]()
+		{
+			unload_now(id);
+		});
+
+	// TODO: save handle while unloading, for syncing purposes
 }
 
 void Minty::AssetManager::unload_now(UUID const id)
@@ -181,6 +216,11 @@ void Minty::AssetManager::unload_all()
 	// clear the lists
 	m_assets.clear();
 	m_assetTypes.clear();
+}
+
+void Minty::AssetManager::sync()
+{
+
 }
 
 void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
