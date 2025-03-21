@@ -52,6 +52,6 @@ var class_minty_1_1_vector =
     [ "rend", "class_minty_1_1_vector.html#aace5419a23204dfc7965b824f8bd1936", null ],
     [ "rend", "class_minty_1_1_vector.html#a4e15d5442b952cfb098616507eb78c1b", null ],
     [ "reserve", "class_minty_1_1_vector.html#a9906b58289a1e76038ba043fe4f7fe61", null ],
-    [ "resize", "class_minty_1_1_vector.html#a52626a9f9805d1457d6c3b5a4f4fc728", null ],
+    [ "resize", "class_minty_1_1_vector.html#a057df806f2e791e3b19e38c1ec168932", null ],
     [ "sub", "class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403", null ]
 ];

@@ -41,7 +41,7 @@ var class_minty_1_1_string =
     [ "operator>=", "class_minty_1_1_string.html#a8cb6f8e1ab7a69e50704512b88fff6f9", null ],
     [ "operator[]", "class_minty_1_1_string.html#a6a1c3f81471c5c67fe5fce37e6a78e4e", null ],
     [ "reserve", "class_minty_1_1_string.html#aa08b3d3690b812e002411f2d19b4a382", null ],
-    [ "resize", "class_minty_1_1_string.html#a1b951b7b8e9210ac3644b02997b12ba6", null ],
+    [ "resize", "class_minty_1_1_string.html#abd3daa73b2afd0a4fcf332b09d0104f5", null ],
     [ "starts_with", "class_minty_1_1_string.html#a28de56edefef2af94b77e7ce2da37160", null ],
     [ "sub", "class_minty_1_1_string.html#a3e087fbc95bc1dca9431e6f46fffe244", null ],
     [ "operator<<", "class_minty_1_1_string.html#aa024b26e07225a82c47643343b5ac5b6", null ]

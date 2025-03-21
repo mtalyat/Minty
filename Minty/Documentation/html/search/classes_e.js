@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['serializable_0',['Serializable',['../class_minty_1_1_serializable.html',1,'Minty']]],
-  ['serializableobject_1',['SerializableObject',['../class_minty_1_1_serializable_object.html',1,'Minty']]],
-  ['set_2',['Set',['../class_minty_1_1_set.html',1,'Minty']]],
-  ['set_3c_20uint32_5ft_20_3e_3',['Set&lt; uint32_t &gt;',['../class_minty_1_1_set.html',1,'Minty']]],
-  ['stack_4',['Stack',['../class_minty_1_1_stack.html',1,'Minty']]],
-  ['stack_3c_20minty_3a_3anode_20const_20_2a_20_3e_5',['Stack&lt; Minty::Node const * &gt;',['../class_minty_1_1_stack.html',1,'Minty']]],
-  ['staticcontainer_6',['StaticContainer',['../class_minty_1_1_static_container.html',1,'Minty']]],
-  ['string_7',['String',['../class_minty_1_1_string.html',1,'Minty']]]
+  ['reader_0',['Reader',['../class_minty_1_1_reader.html',1,'Minty']]],
+  ['readerformatbehavior_1',['ReaderFormatBehavior',['../class_minty_1_1_reader_format_behavior.html',1,'Minty']]],
+  ['readerimplementation_2',['ReaderImplementation',['../class_minty_1_1_reader_implementation.html',1,'Minty']]],
+  ['readerimplementation_3c_20textreaderbehavior_2c_20filereaderbehavior_20_3e_3',['ReaderImplementation&lt; TextReaderBehavior, FileReaderBehavior &gt;',['../class_minty_1_1_reader_implementation.html',1,'Minty']]],
+  ['readerimplementation_3c_20textreaderbehavior_2c_20memoryreaderbehavior_20_3e_4',['ReaderImplementation&lt; TextReaderBehavior, MemoryReaderBehavior &gt;',['../class_minty_1_1_reader_implementation.html',1,'Minty']]],
+  ['readerimplementation_3c_20textreaderbehavior_2c_20nodereaderbehavior_20_3e_5',['ReaderImplementation&lt; TextReaderBehavior, NodeReaderBehavior &gt;',['../class_minty_1_1_reader_implementation.html',1,'Minty']]],
+  ['readerstoragebehavior_6',['ReaderStorageBehavior',['../class_minty_1_1_reader_storage_behavior.html',1,'Minty']]],
+  ['ref_7',['Ref',['../class_minty_1_1_ref.html',1,'Minty']]],
+  ['reverseiterator_8',['ReverseIterator',['../class_minty_1_1_array_1_1_reverse_iterator.html',1,'Minty::Array&lt; T, S &gt;::ReverseIterator'],['../class_minty_1_1_list_1_1_reverse_iterator.html',1,'Minty::List&lt; T &gt;::ReverseIterator'],['../class_minty_1_1_vector_1_1_reverse_iterator.html',1,'Minty::Vector&lt; T &gt;::ReverseIterator']]]
 ];

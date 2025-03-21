@@ -1,5 +1,5 @@
 # Results
-4086/4086 (100.00%)
+4401/4401 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -48,6 +48,7 @@
 | File                           |       16 |        0 |
 | PhysicalFile                   |       86 |        0 |
 | VirtualFile                    |       77 |        0 |
+| JobManager                     |      315 |        0 |
 | MemoryManager                  |       87 |        0 |
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
@@ -3780,6 +3781,325 @@ No failures! :)
 |  PASS  | 252: Read Buffer (memcmp(buffer, TEST_TEXT_1, TEST_TEXT_1_SIZE) == 0 == true)                                                    |
 |  PASS  | 260: Read Line (line == TEST_TEXT_1 == true)                                                                                     |
 |  PASS  | 271: Write (memcmp(buffer, TEST_TEXT_1, TEST_TEXT_1_SIZE) == 0 == true)                                                          |
+
+## JobManager
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 12: Constructor (JobManager manager(builder))                                                                                    |
+|  PASS  | 15: Constructor (JobManager manager(builder))                                                                                    |
+|  PASS  | 27: Schedule Job (manager.is_complete(handle) == true)                                                                           |
+|  PASS  | 28: Schedule Job (_test.get_output() == "Hello World!")                                                                          |
+|  PASS  | 47: Schedule Job with Dependency (manager.is_complete(handle0) && manager.is_complete(handle1) == true)                          |
+|  PASS  | 48: Schedule Job with Dependency (_test.get_output() == "1")                                                                     |
+|  PASS  | 72: Schedule Job with Dependencies (manager.is_complete(handle0) && manager.is_complete(handle1) && manager.is_complete(handle2) == true) |
+|  PASS  | 73: Schedule Job with Dependencies (_test.get_output() == "3")                                                                   |
+|  PASS  | 88: Schedule Parallel Job (manager.is_complete(handle) == true)                                                                  |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 91: Schedule Parallel Job (values[i] == i)                                                                                       |
+|  PASS  | 110: Schedule Parallel Job with Dependency (manager.is_complete(handle0) && manager.is_complete(handle1) == true)                |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 113: Schedule Parallel Job with Dependency (values[i] == i + 1)                                                                  |
+|  PASS  | 143: Schedule Parallel Job with Dependencies (manager.is_complete(handle0) && manager.is_complete(handle1) && manager.is_complete(handle2) == true) |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 146: Schedule Parallel Job with Dependencies (results[i] == i * i)                                                               |
+|  PASS  | 155: Is Complete (manager.is_complete(handle) == false)                                                                          |
+|  PASS  | 157: Is Complete (manager.is_complete(handle) == true)                                                                           |
+|  PASS  | 166: Wait (manager.is_complete(handle) == true)                                                                                  |
+|  PASS  | 176: Wait Multiple (manager.is_complete(handle0) && manager.is_complete(handle1) == true)                                        |
 
 ## MemoryManager
 | Result | Message                                                                                                                          |

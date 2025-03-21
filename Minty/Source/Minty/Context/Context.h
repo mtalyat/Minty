@@ -3,6 +3,7 @@
 #include "Minty/Core/Macro.h"
 #include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
 
 namespace Minty
@@ -15,6 +16,7 @@ namespace Minty
 		Path debugLogPath = "";
 
 		MemoryManagerBuilder memoryManagerBuilder = {};
+		JobManagerBuilder jobManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
 	};
 
@@ -30,6 +32,7 @@ namespace Minty
 
 		DualBuffer* mp_dualBuffer;
 		MemoryManager* mp_memoryManager;
+		JobManager* mp_jobManager;
 		AssetManager* mp_assetManager;
 
 #pragma endregion
@@ -52,17 +55,20 @@ namespace Minty
 		Context(Context&& other) noexcept
 			: mp_dualBuffer(other.mp_dualBuffer)
 			, mp_memoryManager(other.mp_memoryManager)
+			, mp_jobManager(other.mp_jobManager)
 			, mp_assetManager(other.mp_assetManager)
 		{
 			other.mp_dualBuffer = nullptr;
-			mp_memoryManager = nullptr;
-			mp_assetManager = nullptr;
+			other.mp_memoryManager = nullptr;
+			other.mp_jobManager = nullptr;
+			other.mp_assetManager = nullptr;
 		}
 
 		~Context()
 		{
 			delete mp_dualBuffer;
 			delete mp_memoryManager;
+			delete mp_jobManager;
 			delete mp_assetManager;
 
 			s_instance = nullptr;
@@ -81,9 +87,11 @@ namespace Minty
 			{
 				mp_dualBuffer = other.mp_dualBuffer;
 				mp_memoryManager = other.mp_memoryManager;
+				mp_jobManager = other.mp_jobManager;
 				mp_assetManager = other.mp_assetManager;
 				other.mp_dualBuffer = nullptr;
 				other.mp_memoryManager = nullptr;
+				other.mp_jobManager = nullptr;
 				other.mp_assetManager = nullptr;
 			}
 			return *this;
@@ -99,6 +107,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The MemoryManager.</returns>
 		MemoryManager& get_memory_manager() { return *mp_memoryManager; }
+
+		/// <summary>
+		/// Gets the JobManager in this Context.
+		/// </summary>
+		/// <returns>The JobManager.</returns>
+		JobManager& get_job_manager() { return *mp_jobManager; }
 
 		/// <summary>
 		/// Gets the AssetManager in this Context.

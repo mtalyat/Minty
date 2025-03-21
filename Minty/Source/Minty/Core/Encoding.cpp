@@ -28,7 +28,7 @@ void Minty::decode_base16(String const& string, void* const data, Size const siz
 	
 	// get the string data
 	Char buffer[3] = { 0, 0, 0 };
-	for (Long i = 0; i < size; ++i)
+	for (Size i = 0; i < size; ++i)
 	{
 		// copy characters to buffer
 		memcpy(buffer, string.get_data() + ((size - 1 - i) * 2), sizeof(Char) * 2);

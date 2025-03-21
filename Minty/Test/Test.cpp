@@ -31,7 +31,7 @@ void Test::set_category(char const* const categoryName)
 		currentCategoryIndex = static_cast<int>(categories.size());
 		categories.emplace(currentCategoryName, currentCategoryIndex);
 		categoryNames.push_back(currentCategoryName);
-		std::cout << currentCategoryName << "\r";
+		std::cout << currentCategoryName << std::string(30, ' ') << "\r";
 	}
 	else
 	{

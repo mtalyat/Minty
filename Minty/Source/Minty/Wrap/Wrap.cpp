@@ -19,7 +19,7 @@ Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCoun
     set_base_path(base);
     m_header.entryCount = entryCount;
 
-    m_entries.resize(entryCount);
+    m_entries.resize(entryCount, Entry());
     for (uint32_t i = 0; i < entryCount; i++)
     {
         m_empties.add(i);
@@ -67,7 +67,7 @@ void Minty::Wrap::load(Path const& path)
 
     // read entries
     Path basePath(m_header.basePath);
-    m_entries.resize(m_header.entryCount);
+    m_entries.resize(m_header.entryCount, Entry());
     m_indexed.reserve(m_header.entryCount);
     for (uint32_t i = 0; i < m_header.entryCount; i++)
     {
@@ -399,7 +399,7 @@ Vector<Char> Minty::Wrap::read(Path const& path) const
 
     // add to vector
     Vector<Char> result;
-    result.resize(size);
+    result.resize(size, ' ');
     memcpy(result.get_data(), data, size);
 
     // done with data

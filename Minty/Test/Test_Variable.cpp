@@ -23,7 +23,7 @@ void test_Variable(Test& _test)
 			EXPECT_EQUAL(v2.get_type(), Type::Undefined);
 			EXPECT_EQUAL(v2.get_data().get_size(), 0);
 
-			EXPECT_FAIL(Variable v3(Type::Object));
+			EXPECT_FAILURE(Variable v3(Type::Object));
 		}
 
 		TEST("Type Data Constructor")
@@ -46,7 +46,7 @@ void test_Variable(Test& _test)
 			EXPECT_EQUAL(v, value);
 
 			String const string = "42";
-			EXPECT_FAIL(Variable v2(string));
+			EXPECT_FAILURE(Variable v2(string));
 		}
 
 		TEST("T Operator")

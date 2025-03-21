@@ -46,6 +46,9 @@
     <Filter Include="Header Files\Asset">
       <UniqueIdentifier>{58bd769d-a3ce-4306-b861-923b6bc668a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Job">
+      <UniqueIdentifier>{74a9a029-6db6-4352-b641-7c8f08dd38e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -249,6 +252,12 @@
     <ClInclude Include="Minty\Asset\Text.h">
       <Filter>Header Files\Asset</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Job\_Job.h">
+      <Filter>Header Files\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Job\JobManager.h">
+      <Filter>Header Files\Job</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -354,6 +363,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Asset\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Job\JobManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

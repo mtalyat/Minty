@@ -13,8 +13,8 @@ void test_MemoryPool(Test& _test)
 
 		TEST("Constructor")
 		{
-			EXPECT_FAIL(MemoryPool({ 0, 10 }));
-			EXPECT_FAIL(MemoryPool({ 1024, 0 }));
+			EXPECT_FAILURE(MemoryPool({ 0, 10 }));
+			EXPECT_FAILURE(MemoryPool({ 1024, 0 }));
 			MemoryPool pool(builder);
 			EXPECT_TRUE(pool.get_block_size() == 1024);
 			EXPECT_TRUE(pool.get_capacity() == 10);

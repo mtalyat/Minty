@@ -512,7 +512,7 @@ namespace Minty
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
-			resize(size);
+			resize(size, value);
 
 			Node* node = mp_head;
 			while (node)
@@ -575,13 +575,7 @@ namespace Minty
 
 		~List()
 		{
-			Node* node = mp_head;
-			while (node)
-			{
-				Node* temp = node;
-				node = node->next;
-				destruct<Node>(temp, m_allocator);
-			}
+			clear();
 		}
 
 #pragma endregion
@@ -666,7 +660,8 @@ namespace Minty
 		/// Resizes the List to the given size.
 		/// </summary>
 		/// <param name="size">The number of elements to exist within the list.</param>
-		void resize(Size const size)
+		/// <param name="value">The value to use for new elements.</param>
+		void resize(Size const size, T const& value)
 		{
 			if (size < m_size)
 			{
@@ -705,7 +700,7 @@ namespace Minty
 				Node* node = mp_tail;
 				for (Size i = 0; i < size - m_size; ++i)
 				{
-					node = construct<Node>(m_allocator, T());
+					node = construct<Node>(m_allocator, value);
 					node->prev = mp_tail;
 					if (mp_tail)
 					{
@@ -1297,7 +1292,22 @@ namespace Minty
 		/// </summary>
 		void clear()
 		{
-			resize(0);
+			// remove nodes
+			Node* node = mp_head;
+
+			// update head and tail
+			mp_head = nullptr;
+			mp_tail = nullptr;
+
+			// delete nodes
+			while (node)
+			{
+				Node* temp = node;
+				node = node->next;
+				destruct<Node>(temp, m_allocator);
+			}
+
+			m_size = 0;
 		}
 
 #pragma endregion

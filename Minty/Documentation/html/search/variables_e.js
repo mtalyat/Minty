@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['savepaths_0',['savePaths',['../struct_minty_1_1_asset_manager_builder.html#abbbc3baf329630ecf5ca823a9e3e6b37',1,'Minty::AssetManagerBuilder']]],
-  ['second_1',['second',['../class_minty_1_1_pair.html#a50ca1d86095457e28abdd9fb48a0fcab',1,'Minty::Pair']]],
-  ['strongcount_2',['strongCount',['../class_minty_1_1_counter.html#ab4fbd1099a0a04f29ad1dbed2daedc8c',1,'Minty::Counter']]]
+  ['r_0',['r',['../struct_minty_1_1_color.html#a57ea73a75c5714fbe3ec7fa64e27081d',1,'Minty::Color']]],
+  ['rad2deg_1',['RAD2DEG',['../namespace_minty_1_1_math.html#a7316c5e6fdfb1c5c5a29bc6f4f1bb7cb',1,'Minty::Math']]],
+  ['reservedsize_2',['reservedSize',['../struct_minty_1_1_wrap_1_1_entry.html#aa9b9a3d74319612a08edd36dea0a7fca',1,'Minty::Wrap::Entry']]]
 ];

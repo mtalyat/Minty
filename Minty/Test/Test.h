@@ -82,7 +82,7 @@ public:
 #define EXPECT_TRUE(condition) EXPECT(condition, ==, true)
 #define EXPECT_FALSE(condition) EXPECT(condition, ==, false)
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
-#define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
+#define EXPECT_FAILURE(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
 #define CLOSE_DELTA 0.01f
 #define EXPECT_CLOSE_DELTA(actual, expected, delta) EXPECT(std::abs(actual - expected), <, delta)
 #define EXPECT_CLOSE(actual, expected) EXPECT_CLOSE_DELTA(actual, expected, CLOSE_DELTA)

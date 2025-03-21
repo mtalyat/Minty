@@ -424,7 +424,7 @@ void test_String(Test& _test)
 			EXPECT_TRUE(test[10] == 'd');
 			EXPECT_TRUE(test[11] == '!');
 			EXPECT_TRUE(test[12] == '\n');
-			EXPECT_FAIL(test[13]);
+			EXPECT_FAILURE(test[13]);
 		}
 
 		TEST("Equal Operator")
@@ -650,7 +650,7 @@ void test_String(Test& _test)
 			EXPECT_TRUE(test.at(10) == 'd');
 			EXPECT_TRUE(test.at(11) == '!');
 			EXPECT_TRUE(test.at(12) == '\n');
-			EXPECT_FAIL(test.at(13));
+			EXPECT_FAILURE(test.at(13));
 		}
 
 		TEST("Front")
@@ -659,7 +659,7 @@ void test_String(Test& _test)
 			EXPECT_EQUAL(test.front(), 'H');
 
 			test = "";
-			EXPECT_FAIL(test.front());
+			EXPECT_FAILURE(test.front());
 		}
 
 		TEST("Back")
@@ -668,7 +668,7 @@ void test_String(Test& _test)
 			EXPECT_EQUAL(test.back(), '\n');
 
 			test = "";
-			EXPECT_FAIL(test.back());
+			EXPECT_FAILURE(test.back());
 		}
 
 		TEST("Sub")
@@ -677,7 +677,7 @@ void test_String(Test& _test)
 			EXPECT_TRUE(test.sub(0, 5) == "Hello");
 			EXPECT_TRUE(test.sub(6, 5) == "world");
 			EXPECT_TRUE(test.sub(12, 1) == "\n");
-			EXPECT_FAIL(test.sub(13, 1));
+			EXPECT_FAILURE(test.sub(13, 1));
 		}
 
 		TEST("Find")

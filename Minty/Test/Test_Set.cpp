@@ -12,7 +12,7 @@ void test_Set(Test& _test)
 			Set<int>::Iterator it = set.begin();
 			EXPECT_TRUE((*it == 0));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Member Access Operator")
@@ -22,7 +22,7 @@ void test_Set(Test& _test)
 			Set<String>::Iterator it = set.begin();
 			EXPECT_TRUE(it->get_size() == 1);
 			++it;
-			EXPECT_FAIL(it->get_size());
+			EXPECT_FAILURE(it->get_size());
 		}
 
 		TEST("Increment Operator")
@@ -35,7 +35,7 @@ void test_Set(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Addition Operator")
@@ -46,7 +46,7 @@ void test_Set(Test& _test)
 			Set<int>::Iterator it = set.begin();
 			EXPECT_TRUE((*(it + 0) == 0) || (*(it + 0) == 1));
 			EXPECT_TRUE((*(it + 1) == 0) || (*(it + 1) == 1));
-			EXPECT_FAIL(*(it + 2));
+			EXPECT_FAILURE(*(it + 2));
 			EXPECT_TRUE(it + 2 == set.end());
 		}
 
@@ -83,7 +83,7 @@ void test_Set(Test& _test)
 			Set<int>::ConstIterator it = set.begin();
 			EXPECT_TRUE((*it == 0));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Member Access Operator")
@@ -92,7 +92,7 @@ void test_Set(Test& _test)
 			Set<String>::ConstIterator it = set.begin();
 			EXPECT_TRUE(it->get_size() == 1);
 			++it;
-			EXPECT_FAIL(it->get_size());
+			EXPECT_FAILURE(it->get_size());
 		}
 
 		TEST("Increment Operator")
@@ -103,7 +103,7 @@ void test_Set(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Addition Operator")
@@ -112,7 +112,7 @@ void test_Set(Test& _test)
 			Set<int>::ConstIterator it = set.begin();
 			EXPECT_TRUE((*(it + 0) == 0) || (*(it + 0) == 1));
 			EXPECT_TRUE((*(it + 1) == 0) || (*(it + 1) == 1));
-			EXPECT_FAIL(*(it + 2));
+			EXPECT_FAILURE(*(it + 2));
 			EXPECT_TRUE(it + 2 == set.end());
 		}
 
@@ -378,7 +378,7 @@ void test_Set(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 			Set<int> set2;
 			EXPECT_TRUE(set2.begin() == set2.end());
 		}
@@ -402,7 +402,7 @@ void test_Set(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == 0) || (*it == 1));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 			Set<int> const set2;
 			EXPECT_TRUE(set2.begin() == set2.end());
 		}

@@ -195,9 +195,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9906b58289a1e76038ba043fe4f7fe61" id="r_a9906b58289a1e76038ba043fe4f7fe61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9906b58289a1e76038ba043fe4f7fe61">reserve</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity)</td></tr>
 <tr class="memdesc:a9906b58289a1e76038ba043fe4f7fe61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the internal array to the given capacity, if it is larger than the current capacity.  <br /></td></tr>
 <tr class="separator:a9906b58289a1e76038ba043fe4f7fe61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52626a9f9805d1457d6c3b5a4f4fc728" id="r_a52626a9f9805d1457d6c3b5a4f4fc728"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52626a9f9805d1457d6c3b5a4f4fc728">resize</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)</td></tr>
-<tr class="memdesc:a52626a9f9805d1457d6c3b5a4f4fc728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the <a class="el" href="class_minty_1_1_vector.html" title="Holds a collection of elements with a dynamic size.">Vector</a> to the given size.  <br /></td></tr>
-<tr class="separator:a52626a9f9805d1457d6c3b5a4f4fc728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a057df806f2e791e3b19e38c1ec168932" id="r_a057df806f2e791e3b19e38c1ec168932"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a057df806f2e791e3b19e38c1ec168932">resize</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, T const &amp;value)</td></tr>
+<tr class="memdesc:a057df806f2e791e3b19e38c1ec168932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the <a class="el" href="class_minty_1_1_vector.html" title="Holds a collection of elements with a dynamic size.">Vector</a> to the given size.  <br /></td></tr>
+<tr class="separator:a057df806f2e791e3b19e38c1ec168932"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a660bdb208560a537cf52bd852fdbed16" id="r_a660bdb208560a537cf52bd852fdbed16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a660bdb208560a537cf52bd852fdbed16">add</a> (T const &amp;value)</td></tr>
 <tr class="memdesc:a660bdb208560a537cf52bd852fdbed16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an element to the end of the <a class="el" href="class_minty_1_1_vector.html" title="Holds a collection of elements with a dynamic size.">Vector</a>.  <br /></td></tr>
 <tr class="separator:a660bdb208560a537cf52bd852fdbed16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1981,8 +1981,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a52626a9f9805d1457d6c3b5a4f4fc728" name="a52626a9f9805d1457d6c3b5a4f4fc728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52626a9f9805d1457d6c3b5a4f4fc728">&#9670;&#160;</a></span>resize()</h2>
+<a id="a057df806f2e791e3b19e38c1ec168932" name="a057df806f2e791e3b19e38c1ec168932"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a057df806f2e791e3b19e38c1ec168932">&#9670;&#160;</a></span>resize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1995,8 +1995,12 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="class_minty_1_1_vector.html">Minty::Vector</a>&lt; T &gt;::resize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -2010,6 +2014,7 @@ template&lt;typename T&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">size</td><td>The new size of the <a class="el" href="class_minty_1_1_vector.html" title="Holds a collection of elements with a dynamic size.">Vector</a>.</td></tr>
+    <tr><td class="paramname">value</td><td>The value to fill the new elements with.</td></tr>
   </table>
   </dd>
 </dl>

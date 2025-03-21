@@ -80,7 +80,7 @@ void test_Writer(Test& _test)
 			EXPECT_EQUAL(*static_cast<Size*>(writer.get_user_data()), data);
 			writer.pop_user_data();
 			EXPECT_EQUAL(writer.get_user_data(), nullptr);
-			EXPECT_FAIL(writer.pop_user_data());
+			EXPECT_FAILURE(writer.pop_user_data());
 			file.close();
 			File::destroy(TEST_PATH);
 		}
@@ -124,7 +124,7 @@ void test_Writer(Test& _test)
 			writer.write("Three", "Four");
 			writer.outdent();
 			writer.write("Five", "Six");
-			EXPECT_FAIL(writer.outdent());
+			EXPECT_FAILURE(writer.outdent());
 			file.close();
 
 			String text = File::read_text(TEST_PATH);

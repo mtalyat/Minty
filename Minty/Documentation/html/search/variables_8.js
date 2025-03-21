@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kb_0',['KB',['../namespace_minty.html#a9ab5af8c7da6046af1b18e653f2faed0',1,'Minty']]]
+  ['jobmanagerbuilder_0',['jobManagerBuilder',['../struct_minty_1_1_context_builder.html#ab38baa641281b60ea5ab72c5137c04fe',1,'Minty::ContextBuilder']]]
 ];

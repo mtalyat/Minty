@@ -97,7 +97,7 @@ Vector<Byte> Minty::File::read_bytes()
 
 	// make space in vector
 	Vector<Byte> bytes;
-	bytes.resize(size);
+	bytes.resize(size, 0);
 
 	// read bytes
 	seek_read(0, Direction::Begin);

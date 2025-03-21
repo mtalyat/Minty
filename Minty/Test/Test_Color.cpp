@@ -32,14 +32,14 @@ void test_Color(Test& _test)
 			EXPECT_TRUE(color2.b == 0);
 			EXPECT_TRUE(color2.a == 255);
 			
-			EXPECT_FAIL(Color color3(Color::MAX_CHANNEL + 1, 0, 0));
-			EXPECT_FAIL(Color color4(0, Color::MAX_CHANNEL + 1, 0));
-			EXPECT_FAIL(Color color5(0, 0, Color::MAX_CHANNEL + 1));
-			EXPECT_FAIL(Color color6(0, 0, 0, Color::MAX_CHANNEL + 1));
-			EXPECT_FAIL(Color color7(Color::MIN_CHANNEL - 1, 0, 0));
-			EXPECT_FAIL(Color color8(0, Color::MIN_CHANNEL - 1, 0));
-			EXPECT_FAIL(Color color9(0, 0, Color::MIN_CHANNEL - 1));
-			EXPECT_FAIL(Color color10(0, 0, 0, Color::MIN_CHANNEL - 1));
+			EXPECT_FAILURE(Color color3(Color::MAX_CHANNEL + 1, 0, 0));
+			EXPECT_FAILURE(Color color4(0, Color::MAX_CHANNEL + 1, 0));
+			EXPECT_FAILURE(Color color5(0, 0, Color::MAX_CHANNEL + 1));
+			EXPECT_FAILURE(Color color6(0, 0, 0, Color::MAX_CHANNEL + 1));
+			EXPECT_FAILURE(Color color7(Color::MIN_CHANNEL - 1, 0, 0));
+			EXPECT_FAILURE(Color color8(0, Color::MIN_CHANNEL - 1, 0));
+			EXPECT_FAILURE(Color color9(0, 0, Color::MIN_CHANNEL - 1));
+			EXPECT_FAILURE(Color color10(0, 0, 0, Color::MIN_CHANNEL - 1));
 		}
 
 		TEST("RGBA Float Constructor")
@@ -55,14 +55,14 @@ void test_Color(Test& _test)
 			EXPECT_TRUE(color2.b == 0);
 			EXPECT_TRUE(color2.a == 255);
 
-			EXPECT_FAIL(Color color3(1.1f, 0.0f, 0.0f));
-			EXPECT_FAIL(Color color4(0.0f, 1.1f, 0.0f));
-			EXPECT_FAIL(Color color5(0.0f, 0.0f, 1.1f));
-			EXPECT_FAIL(Color color6(0.0f, 0.0f, 0.0f, 1.1f));
-			EXPECT_FAIL(Color color7(-0.1f, 0.0f, 0.0f));
-			EXPECT_FAIL(Color color8(0.0f, -0.1f, 0.0f));
-			EXPECT_FAIL(Color color9(0.0f, 0.0f, -0.1f));
-			EXPECT_FAIL(Color color10(0.0f, 0.0f, 0.0f, -0.1f));
+			EXPECT_FAILURE(Color color3(1.1f, 0.0f, 0.0f));
+			EXPECT_FAILURE(Color color4(0.0f, 1.1f, 0.0f));
+			EXPECT_FAILURE(Color color5(0.0f, 0.0f, 1.1f));
+			EXPECT_FAILURE(Color color6(0.0f, 0.0f, 0.0f, 1.1f));
+			EXPECT_FAILURE(Color color7(-0.1f, 0.0f, 0.0f));
+			EXPECT_FAILURE(Color color8(0.0f, -0.1f, 0.0f));
+			EXPECT_FAILURE(Color color9(0.0f, 0.0f, -0.1f));
+			EXPECT_FAILURE(Color color10(0.0f, 0.0f, 0.0f, -0.1f));
 		}
 
 		TEST("Value Constructor")

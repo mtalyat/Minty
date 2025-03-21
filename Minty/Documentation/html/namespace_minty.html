@@ -181,6 +181,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html">is_serializable_object&lt; T, std::enable_if_t&lt; std::is_base_of_v&lt; SerializableObject, T &gt; &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_job_manager.html">JobManager</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles batching and executing Jobs.  <a href="class_minty_1_1_job_manager.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_job_manager_builder.html">JobManagerBuilder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arguments for creating a <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a>.  <a href="struct_minty_1_1_job_manager_builder.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_list.html">List</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a collection of elements as a doubly linked list.  <a href="class_minty_1_1_list.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -367,12 +373,18 @@ Typedefs</h2></td></tr>
 <tr class="separator:a255c27cd8d5eacbbcbb02c4962ef3079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4d9c260f527c26c4c2e0176bfab2a1d" id="r_ad4d9c260f527c26c4c2e0176bfab2a1d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> = uint64_t</td></tr>
 <tr class="separator:ad4d9c260f527c26c4c2e0176bfab2a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40eb5e824cc6150ead0892d3dde0aaaa" id="r_a40eb5e824cc6150ead0892d3dde0aaaa"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40eb5e824cc6150ead0892d3dde0aaaa">Handle</a> = uint32_t</td></tr>
+<tr class="separator:a40eb5e824cc6150ead0892d3dde0aaaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af16bfe766105040a120169c9f6608402" id="r_af16bfe766105040a120169c9f6608402"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af16bfe766105040a120169c9f6608402">TypeID</a> = std::type_index</td></tr>
 <tr class="separator:af16bfe766105040a120169c9f6608402"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac20217fb7376b507278dedce18fd8e91" id="r_ac20217fb7376b507278dedce18fd8e91"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac20217fb7376b507278dedce18fd8e91">TypeInfo</a> = std::type_info</td></tr>
 <tr class="separator:ac20217fb7376b507278dedce18fd8e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa566622bbe524f9e3d36f6bb12402b7" id="r_afa566622bbe524f9e3d36f6bb12402b7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa566622bbe524f9e3d36f6bb12402b7">TypeIndex</a> = <a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a></td></tr>
 <tr class="separator:afa566622bbe524f9e3d36f6bb12402b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19e4004fea4737d49bc8c7f83ea70411" id="r_a19e4004fea4737d49bc8c7f83ea70411"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19e4004fea4737d49bc8c7f83ea70411">Job</a> = std::function&lt;void()&gt;</td></tr>
+<tr class="separator:a19e4004fea4737d49bc8c7f83ea70411"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7737987ccc504d7a157db8378bdc8a60" id="r_a7737987ccc504d7a157db8378bdc8a60"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7737987ccc504d7a157db8378bdc8a60">ParallelJob</a> = std::function&lt;void(<a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>)&gt;</td></tr>
+<tr class="separator:a7737987ccc504d7a157db8378bdc8a60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54c7c5a550a496bd108a572478f56ff5" id="r_a54c7c5a550a496bd108a572478f56ff5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54c7c5a550a496bd108a572478f56ff5">TextFileReader</a> = <a class="el" href="class_minty_1_1_reader_implementation.html">ReaderImplementation</a>&lt;<a class="el" href="class_minty_1_1_text_reader_behavior.html">TextReaderBehavior</a>, <a class="el" href="class_minty_1_1_file_reader_behavior.html">FileReaderBehavior</a>&gt;</td></tr>
 <tr class="separator:a54c7c5a550a496bd108a572478f56ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a078e4da4e4a1c19e281e6a74ddd29729" id="r_a078e4da4e4a1c19e281e6a74ddd29729"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a078e4da4e4a1c19e281e6a74ddd29729">TextNodeReader</a> = <a class="el" href="class_minty_1_1_reader_implementation.html">ReaderImplementation</a>&lt;<a class="el" href="class_minty_1_1_text_reader_behavior.html">TextReaderBehavior</a>, <a class="el" href="class_minty_1_1_node_reader_behavior.html">NodeReaderBehavior</a>&gt;</td></tr>
@@ -866,6 +878,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a40eb5e824cc6150ead0892d3dde0aaaa" name="a40eb5e824cc6150ead0892d3dde0aaaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40eb5e824cc6150ead0892d3dde0aaaa">&#9670;&#160;</a></span>Handle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a40eb5e824cc6150ead0892d3dde0aaaa">Minty::Handle</a> = uint32_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad4d9c260f527c26c4c2e0176bfab2a1d" name="ad4d9c260f527c26c4c2e0176bfab2a1d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad4d9c260f527c26c4c2e0176bfab2a1d">&#9670;&#160;</a></span>ID</h2>
 
@@ -936,6 +962,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a19e4004fea4737d49bc8c7f83ea70411" name="a19e4004fea4737d49bc8c7f83ea70411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19e4004fea4737d49bc8c7f83ea70411">&#9670;&#160;</a></span>Job</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a19e4004fea4737d49bc8c7f83ea70411">Minty::Job</a> = std::function&lt;void()&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab5fff22b4756f66a6837a0dd3381fa07" name="ab5fff22b4756f66a6837a0dd3381fa07"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab5fff22b4756f66a6837a0dd3381fa07">&#9670;&#160;</a></span>Long</h2>
 
@@ -986,6 +1026,20 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="#a27a81c458cf9938299dbbd83970f4fab">Minty::Matrix4</a> = glm::mat4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7737987ccc504d7a157db8378bdc8a60" name="a7737987ccc504d7a157db8378bdc8a60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7737987ccc504d7a157db8378bdc8a60">&#9670;&#160;</a></span>ParallelJob</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a7737987ccc504d7a157db8378bdc8a60">Minty::ParallelJob</a> = std::function&lt;void(<a class="el" href="#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>)&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1447,7 +1501,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Allocates a block of memory of the given size using the given allocator. </p>
-<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<p>Requires a <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">size</td><td>The number of bytes to allocate.</td></tr>
@@ -1556,7 +1610,7 @@ template&lt;typename T, typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Creates a new object of the given type using the given allocator. </p>
-<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<p>Requires a <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of object.</td></tr>
@@ -1602,7 +1656,7 @@ template&lt;typename T, typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Creates a new array of objects of the given type using the given allocator. </p>
-<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<p>Requires a <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of elements in the array.</td></tr>
@@ -1647,7 +1701,7 @@ template&lt;typename T, typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Frees the memory allocated by the given pointer using the given allocator. </p>
-<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<p>Requires a <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ptr</td><td>A pointer to the data.</td></tr>
@@ -1717,7 +1771,7 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Destroys the given object. </p>
-<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<p>Requires a <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of object.</td></tr>
@@ -1761,7 +1815,7 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Destroys the given array of objects. </p>
-<p>Requires an <a class="el" href="class_minty_1_1_application.html">Application</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
+<p>Requires a <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a> instance to be created before calling this function, if any <a class="el" href="#a7c125bea6ecb565e1e79dab1f8526803" title="Defines how a given resource is allocated in memory.">Allocator</a> other than Default is used.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of objects.</td></tr>

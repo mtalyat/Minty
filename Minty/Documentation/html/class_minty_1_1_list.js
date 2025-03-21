@@ -52,6 +52,6 @@ var class_minty_1_1_list =
     [ "remove", "class_minty_1_1_list.html#a131ea6ea89886d28e47490967bbf024f", null ],
     [ "rend", "class_minty_1_1_list.html#af5b439b325a3565c513fd897ab77d3be", null ],
     [ "rend", "class_minty_1_1_list.html#ae27432ec118dcaf8d7f1f9f89ced70d4", null ],
-    [ "resize", "class_minty_1_1_list.html#a7ddd9ca1f00adaa0dfce758db4589eae", null ],
+    [ "resize", "class_minty_1_1_list.html#a64dceb84ee4457180f6604f820984a44", null ],
     [ "sub", "class_minty_1_1_list.html#ac32370bc9472be43332125bf994e3699", null ]
 ];

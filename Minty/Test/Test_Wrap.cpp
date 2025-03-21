@@ -158,7 +158,7 @@ void test_Wrap(Test& _test)
 			EXPECT_TRUE(text.contains("Lorem ipsum"));
 
 			// cannot add more than max entry count
-			EXPECT_FAIL(wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None));
+			EXPECT_FAILURE(wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None));
 
 			File::destroy(TEST_NEW_PATH);
 		}

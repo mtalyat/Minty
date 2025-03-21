@@ -219,7 +219,7 @@ void test_Node(Test& _test)
 			EXPECT_EQUAL(node.get_child(0).get_name(), "Child0");
 			EXPECT_EQUAL(node.get_child(1).get_name(), "Child1");
 			EXPECT_EQUAL(node.get_child(2).get_name(), "Child2");
-			EXPECT_FAIL(node.get_child(3));
+			EXPECT_FAILURE(node.get_child(3));
 		}
 
 		TEST("Get Child Name")
@@ -231,7 +231,7 @@ void test_Node(Test& _test)
 			EXPECT_EQUAL(node.get_child("Child0").get_name(), "Child0");
 			EXPECT_EQUAL(node.get_child("Child1").get_name(), "Child1");
 			EXPECT_EQUAL(node.get_child("Child2").get_name(), "Child2");
-			EXPECT_FAIL(node.get_child("Child3"));
+			EXPECT_FAILURE(node.get_child("Child3"));
 		}
 
 		TEST("Add Child")
@@ -253,12 +253,12 @@ void test_Node(Test& _test)
 			EXPECT_EQUAL(node.add_child("Child3", "Data").get_data_string(), "Data");
 
 
-			EXPECT_FAIL(node.add_child(""));
-			EXPECT_FAIL(node.add_child("Child0"));
-			EXPECT_FAIL(node.add_child("Child1"));
-			EXPECT_FAIL(node.add_child("", nullptr, 0));
-			EXPECT_FAIL(node.add_child("Child0", nullptr, 0));
-			EXPECT_FAIL(node.add_child("Child1", nullptr, 0));
+			EXPECT_FAILURE(node.add_child(""));
+			EXPECT_FAILURE(node.add_child("Child0"));
+			EXPECT_FAILURE(node.add_child("Child1"));
+			EXPECT_FAILURE(node.add_child("", nullptr, 0));
+			EXPECT_FAILURE(node.add_child("Child0", nullptr, 0));
+			EXPECT_FAILURE(node.add_child("Child1", nullptr, 0));
 		}
 	}
 }

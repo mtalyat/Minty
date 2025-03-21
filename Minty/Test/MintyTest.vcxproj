@@ -154,6 +154,7 @@
     <ClCompile Include="Test_DynamicContainer.cpp" />
     <ClCompile Include="Test_Encoding.cpp" />
     <ClCompile Include="Test_File.cpp" />
+    <ClCompile Include="Test_JobManager.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
     <ClCompile Include="Test_Math.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Test_DynamicContainer.h" />
     <ClInclude Include="Test_Encoding.h" />
     <ClInclude Include="Test_File.h" />
+    <ClInclude Include="Test_JobManager.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />
     <ClInclude Include="Test_Math.h" />

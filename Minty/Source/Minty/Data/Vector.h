@@ -65,7 +65,7 @@ namespace Minty
 			, m_size(0)
 			, mp_data(nullptr)
 		{
-			resize(size);
+			resize(size, value);
 
 			for (Size i = 0; i < m_size; ++i)
 			{
@@ -97,16 +97,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="other">The Vector to copy.</param>
 		Vector(Vector const& other)
-			: m_capacity(0)
-			, m_size(0)
-			, mp_data(nullptr)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
+			, m_size(other.m_size)
+			, mp_data(static_cast<T*>(allocate(m_capacity * sizeof(T), m_allocator)))
 		{
-			reserve(other.m_capacity);
-			resize(other.m_size);
-
 			for (Size i = 0; i < m_size; ++i)
 			{
-				mp_data[i] = other.mp_data[i];
+				new (&mp_data[i]) T(other.mp_data[i]);
 			}
 		}
 
@@ -115,10 +113,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="other">The Vector to move.</param>
 		Vector(Vector&& other)
-			: m_capacity(other.m_capacity)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
+			other.m_allocator = Allocator::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -126,6 +126,7 @@ namespace Minty
 
 		constexpr ~Vector()
 		{
+			clear();
 			if (mp_data)
 			{
 				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
@@ -460,7 +461,7 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					destruct_array(mp_data, m_size, m_allocator);
+					deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 					mp_data = nullptr;
 				}
 				m_allocator = other.m_allocator;
@@ -468,10 +469,10 @@ namespace Minty
 				m_size = other.m_size;
 				if (other.mp_data)
 				{
-					mp_data = construct_array<T>(m_size, m_allocator);
+					mp_data = static_cast<T*>(allocate(m_capacity * sizeof(T), m_allocator));
 					for (Size i = 0; i < m_size; ++i)
 					{
-						mp_data[i] = other.mp_data[i];
+						new (&mp_data[i]) T(other.mp_data[i]);
 					}
 				}
 				
@@ -485,7 +486,7 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					destruct_array(mp_data, m_size, m_allocator);
+					deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 					mp_data = nullptr;
 				}
 				m_allocator = other.m_allocator;
@@ -578,7 +579,8 @@ namespace Minty
 		/// Resizes the Vector to the given size.
 		/// </summary>
 		/// <param name="size">The new size of the Vector.</param>
-		void resize(Size const size)
+		/// <param name="value">The value to fill the new elements with.</param>
+		void resize(Size const size, T const& value)
 		{
 			// if same size, do nothing
 			if (size == m_size)
@@ -597,7 +599,7 @@ namespace Minty
 			{
 				for (Size i = m_size; i < size; ++i)
 				{
-					new (&mp_data[i]) T();
+					new (&mp_data[i]) T(value);
 				}
 			}
 			else if (size < m_size)
@@ -823,9 +825,9 @@ namespace Minty
 			}
 
 			// move data
-			for (Size i = m_size; i > index; --i)
+			for (Size i = m_size - 1; i >= index; --i)
 			{
-				mp_data[i + count - 1] = std::move(mp_data[i - 1]);
+				mp_data[i + count] = std::move(mp_data[i]);
 			}
 
 			// add values
@@ -995,11 +997,10 @@ namespace Minty
 			MINTY_ASSERT(length > 0, "Length must be greater than zero.");
 
 			// create new array
-			Vector result;
-			result.resize(length);
+			Vector result(length);
 			for (Size i = 0; i < length; ++i)
 			{
-				result[i] = mp_data[index + i];
+				result.add(mp_data[index + i]);
 			}
 
 			return result;
@@ -1053,7 +1054,11 @@ namespace Minty
 		/// </summary>
 		void clear()
 		{
-			resize(0);
+			for (Size i = 0; i < m_size; ++i)
+			{
+				mp_data[i].~T();
+			}
+			m_size = 0;
 		}
 
 #pragma endregion

@@ -130,9 +130,9 @@ void test_StaticContainer(Test& _test)
 				EXPECT_EQUAL(*(static_cast<ID*>(test.get_data()) + i), value);
 			}
 
-			EXPECT_FAIL(test.set_at(nullptr, sizeof(ID), 0));
-			EXPECT_FAIL(test.set_at(&value, 0, 0));
-			EXPECT_FAIL(test.set_at(&value, sizeof(ID), size * sizeof(ID) + 1));
+			EXPECT_FAILURE(test.set_at(nullptr, sizeof(ID), 0));
+			EXPECT_FAILURE(test.set_at(&value, 0, 0));
+			EXPECT_FAILURE(test.set_at(&value, sizeof(ID), size * sizeof(ID) + 1));
 		}
 
 		TEST("Set")
@@ -142,8 +142,8 @@ void test_StaticContainer(Test& _test)
 			EXPECT_TRUE(test.set(&value, sizeof(ID)));
 			EXPECT_EQUAL(*(static_cast<ID*>(test.get_data())), value);
 
-			EXPECT_FAIL(test.set(nullptr, sizeof(ID)));
-			EXPECT_FAIL(test.set(&value, 0));
+			EXPECT_FAILURE(test.set(nullptr, sizeof(ID)));
+			EXPECT_FAILURE(test.set(&value, 0));
 			EXPECT_FALSE(test.set(&value, sizeof(ID) + 1));
 
 			Byte value2 = 1;

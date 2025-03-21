@@ -8,7 +8,7 @@ namespace Minty
 	/// <summary>
 	/// Allocates a block of memory of the given size using the given allocator.
 	/// 
-	/// Requires an Application instance to be created before calling this function, if any Allocator other than Default is used.
+	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.
 	/// </summary>
 	/// <param name="size">The number of bytes to allocate.</param>
 	/// <param name="allocator">The allocator to use.</param>
@@ -18,7 +18,7 @@ namespace Minty
 	/// <summary>
 	/// Creates a new object of the given type using the given allocator.
 	/// 
-	/// Requires an Application instance to be created before calling this function, if any Allocator other than Default is used.
+	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.
 	/// </summary>
 	/// <typeparam name="T">The type of object.</typeparam>
 	/// <typeparam name="...Args">The argument types for the object.</typeparam>
@@ -34,7 +34,7 @@ namespace Minty
 	/// <summary>
 	/// Creates a new array of objects of the given type using the given allocator.
 	/// 
-	/// Requires an Application instance to be created before calling this function, if any Allocator other than Default is used.
+	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.
 	/// </summary>
 	/// <typeparam name="T">The type of elements in the array.</typeparam>
 	/// <typeparam name="...Args">The argument types for each element within the array. Uses the same arguments for all elements.</typeparam>
@@ -57,7 +57,7 @@ namespace Minty
 	/// <summary>
 	/// Frees the memory allocated by the given pointer using the given allocator.
 	/// 
-	/// Requires an Application instance to be created before calling this function, if any Allocator other than Default is used.
+	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.
 	/// </summary>
 	/// <param name="ptr">A pointer to the data.</param>
 	/// <param name="size">The number of bytes that were allocated.</param>
@@ -67,7 +67,7 @@ namespace Minty
 	/// <summary>
 	/// Destroys the given object.
 	/// 
-	/// Requires an Application instance to be created before calling this function, if any Allocator other than Default is used.
+	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.
 	/// </summary>
 	/// <typeparam name="T">The type of object.</typeparam>
 	/// <param name="ptr">A pointer to the object.</param>
@@ -82,7 +82,7 @@ namespace Minty
 	/// <summary>
 	/// Destroys the given array of objects.
 	/// 
-	/// Requires an Application instance to be created before calling this function, if any Allocator other than Default is used.
+	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.
 	/// </summary>
 	/// <typeparam name="T">The type of objects.</typeparam>
 	/// <param name="ptr">A pointer to the array.</param>

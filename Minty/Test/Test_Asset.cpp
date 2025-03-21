@@ -88,7 +88,7 @@ void test_Asset(Test& _test)
 			Path path = "test.png";
 			EXPECT_EQUAL(Asset::get_meta_path(path), "test.png.meta");
 			path = "";
-			EXPECT_FAIL(Asset::get_meta_path(path));
+			EXPECT_FAILURE(Asset::get_meta_path(path));
 		}
 	}
 }

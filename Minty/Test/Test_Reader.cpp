@@ -112,7 +112,7 @@ void test_Reader(Test& _test)
 			EXPECT_EQUAL(*static_cast<Size*>(reader.get_user_data()), data);
 			reader.pop_user_data();
 			EXPECT_EQUAL(reader.get_user_data(), nullptr);
-			EXPECT_FAIL(reader.pop_user_data());
+			EXPECT_FAILURE(reader.pop_user_data());
 			file.close();
 			File::destroy(TEST_PATH);
 		}
@@ -171,10 +171,10 @@ void test_Reader(Test& _test)
 			file.close();
 			file.open(TEST_PATH, File::Flags::Read);
 			TextFileReader reader(&file);
-			EXPECT_FAIL(reader.outdent());
+			EXPECT_FAILURE(reader.outdent());
 			reader.indent(0);
 			EXPECT_SUCCESS(reader.outdent());
-			EXPECT_FAIL(reader.outdent());
+			EXPECT_FAILURE(reader.outdent());
 			file.close();
 			File::destroy(TEST_PATH);
 		}

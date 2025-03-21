@@ -232,11 +232,12 @@ namespace Minty
 		{
 			if (this != &other)
 			{
-				if (m_capacity < other.m_size)
+				if (m_capacity < other.m_size || m_allocator != other.m_allocator)
 				{
-					delete[] mp_data;
-					mp_data = new Char[other.m_capacity + 1];
+					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
+					m_allocator = other.m_allocator;
 					m_capacity = other.m_capacity;
+					mp_data = static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator));
 				}
 				m_size = other.m_size;
 				memcpy(mp_data, other.mp_data, m_size * sizeof(Char));
@@ -251,8 +252,9 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					delete[] mp_data;
+					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
 				}
+				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_data = other.mp_data;
@@ -354,7 +356,8 @@ namespace Minty
 		/// Resizes the String to the given size. Reallocates if necessary.
 		/// </summary>
 		/// <param name="size">The new size.</param>
-		void resize(Size const size);
+		/// <param name="value">The character to fill the new space with.</param>
+		void resize(Size const size, Char const value = ' ');
 
 		/// <summary>
 		/// Adds the given String to the end of this String.

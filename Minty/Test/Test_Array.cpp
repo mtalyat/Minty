@@ -751,7 +751,7 @@ void test_Array(Test& _test)
 			EXPECT_TRUE(test[0] == 5);
 			EXPECT_TRUE(test[1] == 5);
 			EXPECT_TRUE(test[2] == 5);
-			EXPECT_FAIL(test[3]);
+			EXPECT_FAILURE(test[3]);
 		}
 
 		TEST("Const Index Operator")
@@ -760,7 +760,7 @@ void test_Array(Test& _test)
 			EXPECT_TRUE(test[0] == 5);
 			EXPECT_TRUE(test[1] == 5);
 			EXPECT_TRUE(test[2] == 5);
-			EXPECT_FAIL(test[3]);
+			EXPECT_FAILURE(test[3]);
 		}
 
 		TEST("Get Size")
@@ -781,7 +781,7 @@ void test_Array(Test& _test)
 			EXPECT_TRUE(test.at(0) == 5);
 			EXPECT_TRUE(test.at(1) == 5);
 			EXPECT_TRUE(test.at(2) == 5);
-			EXPECT_FAIL(test.at(3));
+			EXPECT_FAILURE(test.at(3));
 		}
 
 		TEST("Const At")
@@ -790,7 +790,7 @@ void test_Array(Test& _test)
 			EXPECT_TRUE(test.at(0) == 5);
 			EXPECT_TRUE(test.at(1) == 5);
 			EXPECT_TRUE(test.at(2) == 5);
-			EXPECT_FAIL(test.at(3));
+			EXPECT_FAILURE(test.at(3));
 		}
 
 		TEST("Front")
@@ -824,7 +824,7 @@ void test_Array(Test& _test)
 			EXPECT_TRUE(sub.get_size() == 2);
 			EXPECT_TRUE(sub.at(0) == 5);
 			EXPECT_TRUE(sub.at(1) == 5);
-			EXPECT_FAIL(Bool x = sub.at(2) == 5);
+			EXPECT_FAILURE(Bool x = sub.at(2) == 5);
 		}
 
 		TEST("Find")

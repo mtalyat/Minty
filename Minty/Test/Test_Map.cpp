@@ -12,7 +12,7 @@ void test_Map(Test& _test)
 			Map<int, int>::Iterator it = map.begin();
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Member Access Operator")
@@ -23,8 +23,8 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(it->first == 0);
 			EXPECT_TRUE(it->second == 0);
 			++it;
-			EXPECT_FAIL(it->first);
-			EXPECT_FAIL(it->second);
+			EXPECT_FAILURE(it->first);
+			EXPECT_FAILURE(it->second);
 		}
 
 		TEST("Increment Operator")
@@ -37,7 +37,7 @@ void test_Map(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Addition Operator")
@@ -48,7 +48,7 @@ void test_Map(Test& _test)
 			Map<int, int>::Iterator it = map.begin();
 			EXPECT_TRUE((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1)));
 			EXPECT_TRUE((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1)));
-			EXPECT_FAIL(*(it + 2));
+			EXPECT_FAILURE(*(it + 2));
 			EXPECT_TRUE(it + 2 == map.end());
 		}
 
@@ -85,7 +85,7 @@ void test_Map(Test& _test)
 			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Member Access Operator")
@@ -95,8 +95,8 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(it->first == 0);
 			EXPECT_TRUE(it->second == 0);
 			++it;
-			EXPECT_FAIL(it->first);
-			EXPECT_FAIL(it->second);
+			EXPECT_FAILURE(it->first);
+			EXPECT_FAILURE(it->second);
 		}
 
 		TEST("Increment Operator")
@@ -107,7 +107,7 @@ void test_Map(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 		}
 
 		TEST("Addition Operator")
@@ -116,7 +116,7 @@ void test_Map(Test& _test)
 			Map<int, int>::ConstIterator it = map.begin();
 			EXPECT_TRUE((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1)));
 			EXPECT_TRUE((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1)));
-			EXPECT_FAIL(*(it + 2));
+			EXPECT_FAILURE(*(it + 2));
 			EXPECT_TRUE(it + 2 == map.end());
 		}
 
@@ -289,7 +289,7 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(map.get_size() == 2);
 			EXPECT_TRUE(map["0"] == "0");
 			EXPECT_TRUE(map["1"] == "1");
-			EXPECT_FAIL(map.add("0", "2"));
+			EXPECT_FAILURE(map.add("0", "2"));
 		}
 
 		TEST("Add Move")
@@ -304,7 +304,7 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(map["0"] == "0");
 			EXPECT_TRUE(map["1"] == "1");
 			str = "2";
-			EXPECT_FAIL(map.add("0", std::move(str)));
+			EXPECT_FAILURE(map.add("0", std::move(str)));
 		}
 
 		TEST("Remove")
@@ -348,7 +348,7 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(map.at(0) == 0);
 			EXPECT_TRUE(map.at(1) == 1);
 			EXPECT_TRUE(map.at(2) == 2);
-			EXPECT_FAIL(map.at(3));
+			EXPECT_FAILURE(map.at(3));
 		}
 
 		TEST("Const At")
@@ -361,7 +361,7 @@ void test_Map(Test& _test)
 			EXPECT_TRUE(map2.at(0) == 0);
 			EXPECT_TRUE(map2.at(1) == 1);
 			EXPECT_TRUE(map2.at(2) == 2);
-			EXPECT_FAIL(map2.at(3));
+			EXPECT_FAILURE(map2.at(3));
 		}
 
 		TEST("Find")
@@ -422,7 +422,7 @@ void test_Map(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 			Map<int, int> map2;
 			EXPECT_TRUE(map2.begin() == map2.end());
 		}
@@ -446,7 +446,7 @@ void test_Map(Test& _test)
 			++it;
 			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
 			++it;
-			EXPECT_FAIL(*it);
+			EXPECT_FAILURE(*it);
 			Map<int, int> const map2;
 			EXPECT_TRUE(map2.begin() == map2.end());
 		}

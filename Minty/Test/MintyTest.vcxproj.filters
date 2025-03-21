@@ -46,6 +46,9 @@
     <Filter Include="Header Files\Tests\Asset">
       <UniqueIdentifier>{8acdb392-49f6-4df1-9a99-d734d8b5df11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Job">
+      <UniqueIdentifier>{0d58f503-a72d-456f-97a3-a174affd0684}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -160,6 +163,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_JobManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -280,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="Test_Asset.h">
       <Filter>Header Files\Tests\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_JobManager.h">
+      <Filter>Header Files\Tests\Job</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

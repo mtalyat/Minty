@@ -118,7 +118,7 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 	writer = nullptr;
 }
 
-Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
+Ref<Asset> Minty::AssetManager::load_asset_now(Path const& path)
 {
 	AssetType type = Asset::get_asset_type(path.get_extension());
 

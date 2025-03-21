@@ -127,7 +127,7 @@ void Minty::String::reserve(Size const capacity)
 	mp_data = newData;
 }
 
-void Minty::String::resize(Size const size)
+void Minty::String::resize(Size const size, Char const value)
 {
 	// if new size is above capacity, reserve more memory
 	if (size > m_capacity)
@@ -138,7 +138,7 @@ void Minty::String::resize(Size const size)
 	// in the new space, fill with spaces
 	if (size > m_size)
 	{
-		memset(mp_data + m_size, ' ', (size - m_size) * sizeof(Char));
+		memset(mp_data + m_size, value , (size - m_size) * sizeof(Char));
 	}
 
 	// update size

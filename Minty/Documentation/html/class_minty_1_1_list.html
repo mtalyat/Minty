@@ -180,9 +180,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab906c24a5e85ab55950a4e248a30f1c2" id="r_ab906c24a5e85ab55950a4e248a30f1c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab906c24a5e85ab55950a4e248a30f1c2">get_size</a> () const</td></tr>
 <tr class="memdesc:ab906c24a5e85ab55950a4e248a30f1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of this <a class="el" href="class_minty_1_1_list.html" title="Provides a collection of elements as a doubly linked list.">List</a>.  <br /></td></tr>
 <tr class="separator:ab906c24a5e85ab55950a4e248a30f1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ddd9ca1f00adaa0dfce758db4589eae" id="r_a7ddd9ca1f00adaa0dfce758db4589eae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ddd9ca1f00adaa0dfce758db4589eae">resize</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)</td></tr>
-<tr class="memdesc:a7ddd9ca1f00adaa0dfce758db4589eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the <a class="el" href="class_minty_1_1_list.html" title="Provides a collection of elements as a doubly linked list.">List</a> to the given size.  <br /></td></tr>
-<tr class="separator:a7ddd9ca1f00adaa0dfce758db4589eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64dceb84ee4457180f6604f820984a44" id="r_a64dceb84ee4457180f6604f820984a44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64dceb84ee4457180f6604f820984a44">resize</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, T const &amp;value)</td></tr>
+<tr class="memdesc:a64dceb84ee4457180f6604f820984a44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resizes the <a class="el" href="class_minty_1_1_list.html" title="Provides a collection of elements as a doubly linked list.">List</a> to the given size.  <br /></td></tr>
+<tr class="separator:a64dceb84ee4457180f6604f820984a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a285936e50e48bb7d1f66fddd64701733" id="r_a285936e50e48bb7d1f66fddd64701733"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a285936e50e48bb7d1f66fddd64701733">add</a> (T const &amp;value)</td></tr>
 <tr class="memdesc:a285936e50e48bb7d1f66fddd64701733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of the given value to the <a class="el" href="class_minty_1_1_list.html" title="Provides a collection of elements as a doubly linked list.">List</a>.  <br /></td></tr>
 <tr class="separator:a285936e50e48bb7d1f66fddd64701733"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1968,8 +1968,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a7ddd9ca1f00adaa0dfce758db4589eae" name="a7ddd9ca1f00adaa0dfce758db4589eae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ddd9ca1f00adaa0dfce758db4589eae">&#9670;&#160;</a></span>resize()</h2>
+<a id="a64dceb84ee4457180f6604f820984a44" name="a64dceb84ee4457180f6604f820984a44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64dceb84ee4457180f6604f820984a44">&#9670;&#160;</a></span>resize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1982,8 +1982,12 @@ template&lt;typename T&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="class_minty_1_1_list.html">Minty::List</a>&lt; T &gt;::resize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1997,6 +2001,7 @@ template&lt;typename T&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">size</td><td>The number of elements to exist within the list.</td></tr>
+    <tr><td class="paramname">value</td><td>The value to use for new elements.</td></tr>
   </table>
   </dd>
 </dl>

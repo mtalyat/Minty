@@ -52,7 +52,7 @@ void Minty::FileReaderBehavior::read_data(void* const data, Size const size)
 Vector<Byte> Minty::FileReaderBehavior::read_all()
 {
 	Vector<Byte> fileData;
-	fileData.resize(mp_file->get_size());
+	fileData.resize(mp_file->get_size(), 0);
 	read_data(fileData.get_data(), fileData.get_size());
 	return fileData;
 }
@@ -75,7 +75,7 @@ Vector<Byte> Minty::MemoryReaderBehavior::read_all()
 
 	// read all data
 	Vector<Byte> memoryData;
-	memoryData.resize(mp_data->get_size());
+	memoryData.resize(mp_data->get_size(), 0);
 	read_data(memoryData.get_data(), memoryData.get_size());
 
 	// set position back
@@ -88,7 +88,7 @@ Node Minty::TextReaderBehavior::read_node(const void* const data, Size const siz
 {
 	// get contents of file as text for parsing
 	Vector<Char> contents;
-	contents.resize(size + 1);
+	contents.resize(size + 1, 0);
 	contents[size] = 0; // set 0 at the end for good measure
 	memcpy(contents.get_data(), data, size);
 
@@ -411,7 +411,7 @@ String Minty::TextReaderBehavior::read_string_from_buffer(const void* const data
 	if (!size) return "";
 
 	Vector<Char> text;
-	text.resize(size + 1);
+	text.resize(size + 1, 0);
 	memcpy(text.get_data(), data, sizeof(Char) * size);
 	text.at(size) = '\0';
 	return String(text.get_data());

@@ -796,7 +796,7 @@ void test_Vector(Test& _test)
 			EXPECT_TRUE(vec[2] == 2);
 			EXPECT_TRUE(vec[3] == 3);
 			EXPECT_TRUE(vec[4] == 4);
-			EXPECT_FAIL(vec[5]);
+			EXPECT_FAILURE(vec[5]);
 		}
 
 		TEST("Const Index Operator")
@@ -807,7 +807,7 @@ void test_Vector(Test& _test)
 			EXPECT_TRUE(vec[2] == 2);
 			EXPECT_TRUE(vec[3] == 3);
 			EXPECT_TRUE(vec[4] == 4);
-			EXPECT_FAIL(vec[5]);
+			EXPECT_FAILURE(vec[5]);
 		}
 
 		TEST("Get Capacity")
@@ -824,7 +824,7 @@ void test_Vector(Test& _test)
 			Vector<int> vec(10);
 			EXPECT_TRUE(vec.get_size() == 0);
 
-			vec.resize(5);
+			vec.resize(5, 0);
 			EXPECT_TRUE(vec.get_size() == 5);
 		}
 
@@ -856,14 +856,14 @@ void test_Vector(Test& _test)
 		TEST("Resize")
 		{
 			Vector<int> vec(10);
-			vec.resize(5);
+			vec.resize(5, 0);
 			EXPECT_TRUE(vec.get_size() == 5);
-			vec.resize(10);
+			vec.resize(10, 0);
 			EXPECT_TRUE(vec.get_size() == 10);
-			vec.resize(0);
+			vec.resize(0, 0);
 			EXPECT_TRUE(vec.get_size() == 0);
 			EXPECT_TRUE(vec.get_capacity() == 10);
-			vec.resize(20);
+			vec.resize(20, 0);
 			EXPECT_TRUE(vec.get_size() == 20);
 			EXPECT_TRUE(vec.get_capacity() == 20);
 		}
@@ -1091,9 +1091,9 @@ void test_Vector(Test& _test)
 		TEST("Remove Index Range")
 		{
 			Vector<int> vec({ 0, 1, 2, 3, 4 });
-			EXPECT_FAIL(vec.remove(0, 0));
-			EXPECT_FAIL(vec.remove(5, 1));
-			EXPECT_FAIL(vec.remove(0, 6));
+			EXPECT_FAILURE(vec.remove(0, 0));
+			EXPECT_FAILURE(vec.remove(5, 1));
+			EXPECT_FAILURE(vec.remove(0, 6));
 			vec.remove(1, 3);
 			EXPECT_TRUE(vec.get_size() == 2);
 			EXPECT_TRUE(vec[0] == 0);
@@ -1117,7 +1117,7 @@ void test_Vector(Test& _test)
 			vec.remove(vec.begin(), vec.begin() + 1);
 			EXPECT_TRUE(vec.get_size() == 1);
 			EXPECT_TRUE(vec[0] == 4);
-			EXPECT_FAIL(vec.remove(vec.begin(), vec.begin()));
+			EXPECT_FAILURE(vec.remove(vec.begin(), vec.begin()));
 			EXPECT_TRUE(vec.get_size() == 1);
 			EXPECT_TRUE(vec[0] == 4);
 			vec.remove(vec.begin(), vec.begin() + 1);
@@ -1142,7 +1142,7 @@ void test_Vector(Test& _test)
 			EXPECT_TRUE(vec.at(2) == 2);
 			EXPECT_TRUE(vec.at(3) == 3);
 			EXPECT_TRUE(vec.at(4) == 4);
-			EXPECT_FAIL(vec.at(5));
+			EXPECT_FAILURE(vec.at(5));
 			vec.at(0) = 5;
 			EXPECT_TRUE(vec.at(0) == 5);
 		}
@@ -1155,7 +1155,7 @@ void test_Vector(Test& _test)
 			EXPECT_TRUE(vec.at(2) == 2);
 			EXPECT_TRUE(vec.at(3) == 3);
 			EXPECT_TRUE(vec.at(4) == 4);
-			EXPECT_FAIL(vec.at(5));
+			EXPECT_FAILURE(vec.at(5));
 		}
 
 		TEST("Front")

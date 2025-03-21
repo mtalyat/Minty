@@ -7,6 +7,7 @@
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Wrap/Wrapper.h"
+#include <mutex>
 
 #include "Minty/Asset/Text.h"
 
@@ -65,6 +66,7 @@ namespace Minty
 		Map<UUID, AssetData> m_assets;
 		Map<AssetType, Set<UUID>> m_assetTypes;
 		Vector<UUID> m_unloadQueue;
+		std::mutex m_assetMutex;
 
 		Wrapper m_wrapper;
 
@@ -78,6 +80,7 @@ namespace Minty
 			, m_assets()
 			, m_assetTypes()
 			, m_unloadQueue()
+			, m_assetMutex()
 			, m_wrapper()
 		{
 			for (Path const& path : builder.wraps)
@@ -103,6 +106,10 @@ namespace Minty
 
 		// closes an opened file
 		void close(File* file) const;
+
+		UUID load_asset(Path const& path, AssetType const type);
+
+		Ref<Asset> load_asset_now(Path const& path, AssetType const type);
 
 	public:
 		/// <summary>
@@ -148,11 +155,18 @@ namespace Minty
 		void close_writer(Writer*& writer) const;
 
 		/// <summary>
+		/// Queues the Asset at the given Path to be loaded.
+		/// </summary>
+		/// <param name="path">The Path to the Asset.</param>
+		/// <returns>The UUID of the Asset to be loaded.</returns>
+		UUID load(Path const& path);
+
+		/// <summary>
 		/// Loads the Asset at the given Path.
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
 		/// <returns>A reference to the loaded Asset.</returns>
-		Ref<Asset> load_asset(Path const& path);
+		Ref<Asset> load_asset_now(Path const& path);
 
 		/// <summary>
 		/// Loads the Asset of the given type at the given Path.
@@ -161,9 +175,9 @@ namespace Minty
 		/// <param name="path">The Path to the Asset.</param>
 		/// <returns>A reference to the loaded Asset.</returns>
 		template<typename T>
-		Ref<T> load(Path const& path)
+		Ref<T> load_now(Path const& path)
 		{
-			return static_cast<Ref<T>>(load_asset(path));
+			return static_cast<Ref<T>>(load_asset_now(path));
 		}
 
 		/// <summary>

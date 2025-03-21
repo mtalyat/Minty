@@ -23,6 +23,8 @@ var annotated_dup =
       [ "is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
       [ "is_serializable_object", "struct_minty_1_1is__serializable__object.html", null ],
       [ "is_serializable_object< T, std::enable_if_t< std::is_base_of_v< SerializableObject, T > > >", "struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html", null ],
+      [ "JobManager", "class_minty_1_1_job_manager.html", "class_minty_1_1_job_manager" ],
+      [ "JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", "struct_minty_1_1_job_manager_builder" ],
       [ "List", "class_minty_1_1_list.html", "class_minty_1_1_list" ],
       [ "Map", "class_minty_1_1_map.html", "class_minty_1_1_map" ],
       [ "MemoryContainer", "class_minty_1_1_memory_container.html", "class_minty_1_1_memory_container" ],

@@ -37,6 +37,9 @@
 #include "Test_PhysicalFile.h"
 #include "Test_VirtualFile.h"
 
+// Job
+#include "Test_JobManager.h"
+
 // Memory
 #include "Test_MemoryManager.h"
 #include "Test_MemoryPool.h"
@@ -106,6 +109,9 @@ static void run_tests()
 	test_File(_test);
 	test_PhysicalFile(_test);
 	test_VirtualFile(_test);
+
+	// Job
+	test_JobManager(_test);
 
 	// Memory
 	test_MemoryManager(_test);

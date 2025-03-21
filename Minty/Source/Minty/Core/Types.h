@@ -17,6 +17,7 @@ namespace Minty
 	using Double = double;
 	using Size = size_t;
 	using ID = uint64_t;
+	using Handle = uint32_t;
 
 	using TypeID = std::type_index;
 	using TypeInfo = std::type_info;

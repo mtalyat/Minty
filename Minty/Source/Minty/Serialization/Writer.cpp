@@ -139,7 +139,7 @@ void Minty::TextWriterBehavior::write_string_to_buffer(String const& data, Vecto
 {
 	// add string to buffer
 	Size offset = buffer.get_size();
-	buffer.resize(offset + data.get_size());
+	buffer.resize(offset + data.get_size(), 0);
 	memcpy(buffer.get_data() + offset, data.get_data(), data.get_size());
 }
 

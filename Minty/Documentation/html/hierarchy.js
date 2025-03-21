@@ -60,6 +60,8 @@ var hierarchy =
     [ "Minty::Set< T >::Iterator", "class_minty_1_1_set_1_1_iterator.html", null ],
     [ "Minty::String::Iterator", "class_minty_1_1_string_1_1_iterator.html", null ],
     [ "Minty::Vector< T >::Iterator", "class_minty_1_1_vector_1_1_iterator.html", null ],
+    [ "Minty::JobManager", "class_minty_1_1_job_manager.html", null ],
+    [ "Minty::JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", null ],
     [ "Minty::List< T >", "class_minty_1_1_list.html", null ],
     [ "Minty::Map< Key, Value >", "class_minty_1_1_map.html", null ],
     [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
