@@ -108,162 +108,166 @@ $(function(){initNavTree('_u_u_i_d_8h_source.html',''); initResizable(true); });
 <a href="_u_u_i_d_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_constant_8h.html">Minty/Core/Constant.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_types_8h.html">Minty/Core/Types.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_serializable_8h.html">Minty/Serialization/Serializable.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_parseable_8h.html">Minty/Serialization/Parseable.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_reader_8h.html">Minty/Serialization/Reader.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_writer_8h.html">Minty/Serialization/Writer.h</a>&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
-<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        : <span class="keyword">public</span> <a class="code hl_class" href="class_minty_1_1_serializable.html">Serializable</a></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#pragma region Variables</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> m_id;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#pragma region Constructors</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">   26</a></span>        <span class="keyword">constexpr</span> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a>()</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            : m_id(0)</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        }</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_serializable_8h.html">Minty/Serialization/Serializable.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="_writer_8h.html">Minty/Serialization/Writer.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html">   11</a></span>    <span class="keyword">class </span><a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        : <span class="keyword">public</span> <a class="code hl_class" href="class_minty_1_1_serializable.html">Serializable</a>, <a class="code hl_class" href="class_minty_1_1_parseable.html">Parseable</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#pragma region Variables</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> m_id;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#pragma region Constructors</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">   27</a></span>        <span class="keyword">constexpr</span> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a>()</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            : m_id(0)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
 </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span></div>
-<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1">   35</a></span>        <span class="keyword">constexpr</span> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1">UUID</a>(<a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <span class="keyword">const</span> <span class="keywordtype">id</span>)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            : m_id(id)</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }       </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span></div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1">   36</a></span>        <span class="keyword">constexpr</span> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1">UUID</a>(<a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <span class="keyword">const</span> <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            : m_id(id)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }       </div>
 </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#pragma region Operators</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a37687f626d322ceaf7d98e62f4c34b00">   45</a></span>        <span class="keyword">operator</span> <a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_id; }</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d">   47</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d">operator==</a>(<a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            <span class="keywordflow">return</span> m_id == other.m_id;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#pragma region Operators</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a37687f626d322ceaf7d98e62f4c34b00">   46</a></span>        <span class="keyword">operator</span> <a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_id; }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d">   48</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d">operator==</a>(<a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">return</span> m_id == other.m_id;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        }</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667">   52</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667">operator!=</a>(<a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">return</span> m_id != other.m_id;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667">   53</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667">operator!=</a>(<a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">UUID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <span class="keywordflow">return</span> m_id != other.m_id;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        }</div>
 </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98">   57</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98">operator==</a>(<a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordflow">return</span> m_id == other;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="foldopen" id="foldopen00058" data-start="{" data-end="}">
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98">   58</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98">operator==</a>(<a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <span class="keywordflow">return</span> m_id == other;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        }</div>
 </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#ab26683f01c5464724de7638098c7cda4">   62</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ab26683f01c5464724de7638098c7cda4">operator!=</a>(<a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordflow">return</span> m_id != other;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#ab26683f01c5464724de7638098c7cda4">   63</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ab26683f01c5464724de7638098c7cda4">operator!=</a>(<a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <span class="keyword">const</span> other)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            <span class="keywordflow">return</span> m_id != other;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        }</div>
 </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma region Get Set</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">   76</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">get_data</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <span class="keywordflow">return</span> m_id;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#pragma region Get Set</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">   77</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">get_data</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> m_id;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        }</div>
 </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#pragma region Methods</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f">   90</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f">is_valid</a>()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <span class="keywordflow">return</span> m_id != 0;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#pragma region Methods</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f">   91</a></span>        <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f">is_valid</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="keywordflow">return</span> m_id != 0;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        }</div>
 </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a3f1cc29f2ae4f40423ff8a5cb9c9bae1">serialize</a>(<a class="code hl_class" href="class_minty_1_1_writer.html">Writer</a>&amp; writer, <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name) <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ae43805aed85ddfbb1090df2279cefd1e">deserialize</a>(<a class="code hl_class" href="class_minty_1_1_reader.html">Reader</a>&amp; reader, <a class="code hl_typedef" href="namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee">Int</a> <span class="keyword">const</span> index) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#pragma region Statics</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keyword">static</span> <a class="code hl_class" href="class_minty_1_1_u_u_i_d.html">UUID</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a26a453c78d08fa30fd40b6fe6eafc0d9">create</a>();</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    };</div>
-</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a3f1cc29f2ae4f40423ff8a5cb9c9bae1">serialize</a>(<a class="code hl_class" href="class_minty_1_1_writer.html">Writer</a>&amp; writer, <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name) <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ae43805aed85ddfbb1090df2279cefd1e">deserialize</a>(<a class="code hl_class" href="class_minty_1_1_reader.html">Reader</a>&amp; reader, <a class="code hl_typedef" href="namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee">Int</a> <span class="keyword">const</span> index) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#acbcf2bd36f177f39c6a3dfbfe4ffb88b">parse</a>(<a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; text) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <a class="code hl_class" href="class_minty_1_1_string.html">String</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a94a70ab09eb60e6528e9be0a86e29432">to_string</a>() <span class="keyword">const override</span>;</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a> <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(<a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a">UUID</a> <span class="keyword">const</span> value);</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacestd.html">std</a></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>{</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keyword">template</span>&lt;&gt;</div>
-<div class="foldopen" id="foldopen00130" data-start="{" data-end="};">
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html">  130</a></span>    <span class="keyword">struct </span>hash&lt;<a class="code hl_namespace" href="namespace_minty.html">Minty</a>::UUID&gt;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    {</div>
-<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html#a42f7ae4d924eef1d795f98a91adfa8c4">  132</a></span>        std::size_t <a class="code hl_function" href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html#a42f7ae4d924eef1d795f98a91adfa8c4">operator()</a>(<a class="code hl_class" href="class_minty_1_1_u_u_i_d.html">Minty::UUID</a> <span class="keyword">const</span>&amp; value)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            <span class="keywordflow">return</span> std::hash&lt;Minty::ID&gt;{}(value.<a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">get_data</a>());</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        }</div>
-</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#pragma region Statics</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keyword">static</span> <a class="code hl_class" href="class_minty_1_1_u_u_i_d.html">UUID</a> <a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#a26a453c78d08fa30fd40b6fe6eafc0d9">create</a>();</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="preprocessor">#pragma endregion</span></div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    };</div>
 </div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>}</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacestd.html">std</a></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>{</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keyword">template</span>&lt;&gt;</div>
+<div class="foldopen" id="foldopen00142" data-start="{" data-end="};">
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html">  142</a></span>    <span class="keyword">struct </span>hash&lt;<a class="code hl_namespace" href="namespace_minty.html">Minty</a>::UUID&gt;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    {</div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html#a42f7ae4d924eef1d795f98a91adfa8c4">  144</a></span>        std::size_t <a class="code hl_function" href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html#a42f7ae4d924eef1d795f98a91adfa8c4">operator()</a>(<a class="code hl_class" href="class_minty_1_1_u_u_i_d.html">Minty::UUID</a> <span class="keyword">const</span>&amp; value)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            <span class="keywordflow">return</span> std::hash&lt;Minty::ID&gt;{}(value.<a class="code hl_function" href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">get_data</a>());</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        }</div>
+</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    };</div>
+</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>}</div>
 <div class="ttc" id="a_constant_8h_html"><div class="ttname"><a href="_constant_8h.html">Constant.h</a></div></div>
+<div class="ttc" id="a_parseable_8h_html"><div class="ttname"><a href="_parseable_8h.html">Parseable.h</a></div></div>
 <div class="ttc" id="a_reader_8h_html"><div class="ttname"><a href="_reader_8h.html">Reader.h</a></div></div>
 <div class="ttc" id="a_serializable_8h_html"><div class="ttname"><a href="_serializable_8h.html">Serializable.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
 <div class="ttc" id="a_writer_8h_html"><div class="ttname"><a href="_writer_8h.html">Writer.h</a></div></div>
+<div class="ttc" id="aclass_minty_1_1_parseable_html"><div class="ttname"><a href="class_minty_1_1_parseable.html">Minty::Parseable</a></div><div class="ttdef"><b>Definition</b> Parseable.h:8</div></div>
 <div class="ttc" id="aclass_minty_1_1_reader_html"><div class="ttname"><a href="class_minty_1_1_reader.html">Minty::Reader</a></div><div class="ttdoc">Handles reading data from a source, formatted in a Minty Node structure.</div><div class="ttdef"><b>Definition</b> Reader.h:22</div></div>
 <div class="ttc" id="aclass_minty_1_1_serializable_html"><div class="ttname"><a href="class_minty_1_1_serializable.html">Minty::Serializable</a></div><div class="ttdoc">An interface for single-attribute objects to be written and read from.</div><div class="ttdef"><b>Definition</b> Serializable.h:14</div></div>
 <div class="ttc" id="aclass_minty_1_1_string_html"><div class="ttname"><a href="class_minty_1_1_string.html">Minty::String</a></div><div class="ttdoc">A collection of text.</div><div class="ttdef"><b>Definition</b> String.h:15</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html">Minty::UUID</a></div><div class="ttdef"><b>Definition</b> UUID.h:12</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a26a453c78d08fa30fd40b6fe6eafc0d9"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a26a453c78d08fa30fd40b6fe6eafc0d9">Minty::UUID::create</a></div><div class="ttdeci">static UUID create()</div><div class="ttdoc">Creates a new, random UUID using a uniform distribution.</div><div class="ttdef"><b>Definition</b> UUID.cpp:28</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html">Minty::UUID</a></div><div class="ttdef"><b>Definition</b> UUID.h:13</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a26a453c78d08fa30fd40b6fe6eafc0d9"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a26a453c78d08fa30fd40b6fe6eafc0d9">Minty::UUID::create</a></div><div class="ttdeci">static UUID create()</div><div class="ttdoc">Creates a new, random UUID using a uniform distribution.</div><div class="ttdef"><b>Definition</b> UUID.cpp:47</div></div>
 <div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a3f1cc29f2ae4f40423ff8a5cb9c9bae1"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a3f1cc29f2ae4f40423ff8a5cb9c9bae1">Minty::UUID::serialize</a></div><div class="ttdeci">void serialize(Writer &amp;writer, String const &amp;name) const override</div><div class="ttdoc">Write this object&#39;s data to the writer.</div><div class="ttdef"><b>Definition</b> UUID.cpp:12</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a4a4c98e766caac8686dfb0fdae356f98"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98">Minty::UUID::operator==</a></div><div class="ttdeci">constexpr Bool operator==(ID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:57</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a57cdb69c130682e4b801cc4c8266a44d"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d">Minty::UUID::operator==</a></div><div class="ttdeci">constexpr Bool operator==(UUID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:47</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a5ced6930d3f2a469afe0279e07d20667"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667">Minty::UUID::operator!=</a></div><div class="ttdeci">constexpr Bool operator!=(UUID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:52</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a66a7659890b59d8616bfb53747cdb3b1"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1">Minty::UUID::UUID</a></div><div class="ttdeci">constexpr UUID(ID const id)</div><div class="ttdoc">Create an UUID with the given ID.</div><div class="ttdef"><b>Definition</b> UUID.h:35</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a6ae59b9757f15c800803dce697d1e13f"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f">Minty::UUID::is_valid</a></div><div class="ttdeci">constexpr Bool is_valid() const</div><div class="ttdoc">Checks if this UUID is valid.</div><div class="ttdef"><b>Definition</b> UUID.h:90</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a90b6cedf602bde9f966afc2cf87d1665"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">Minty::UUID::UUID</a></div><div class="ttdeci">constexpr UUID()</div><div class="ttdoc">Create an empty UUID.</div><div class="ttdef"><b>Definition</b> UUID.h:26</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_ab26683f01c5464724de7638098c7cda4"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#ab26683f01c5464724de7638098c7cda4">Minty::UUID::operator!=</a></div><div class="ttdeci">constexpr Bool operator!=(ID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:62</div></div>
-<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_ad16c8b04a005059a8dd92458cb22a1fe"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">Minty::UUID::get_data</a></div><div class="ttdeci">constexpr ID get_data() const</div><div class="ttdoc">Gets the ID value of this UUID.</div><div class="ttdef"><b>Definition</b> UUID.h:76</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a4a4c98e766caac8686dfb0fdae356f98"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98">Minty::UUID::operator==</a></div><div class="ttdeci">constexpr Bool operator==(ID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:58</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a57cdb69c130682e4b801cc4c8266a44d"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d">Minty::UUID::operator==</a></div><div class="ttdeci">constexpr Bool operator==(UUID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:48</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a5ced6930d3f2a469afe0279e07d20667"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667">Minty::UUID::operator!=</a></div><div class="ttdeci">constexpr Bool operator!=(UUID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:53</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a66a7659890b59d8616bfb53747cdb3b1"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1">Minty::UUID::UUID</a></div><div class="ttdeci">constexpr UUID(ID const id)</div><div class="ttdoc">Create an UUID with the given ID.</div><div class="ttdef"><b>Definition</b> UUID.h:36</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a6ae59b9757f15c800803dce697d1e13f"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f">Minty::UUID::is_valid</a></div><div class="ttdeci">constexpr Bool is_valid() const</div><div class="ttdoc">Checks if this UUID is valid.</div><div class="ttdef"><b>Definition</b> UUID.h:91</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a90b6cedf602bde9f966afc2cf87d1665"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665">Minty::UUID::UUID</a></div><div class="ttdeci">constexpr UUID()</div><div class="ttdoc">Create an empty UUID.</div><div class="ttdef"><b>Definition</b> UUID.h:27</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_a94a70ab09eb60e6528e9be0a86e29432"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#a94a70ab09eb60e6528e9be0a86e29432">Minty::UUID::to_string</a></div><div class="ttdeci">String to_string() const override</div><div class="ttdoc">Converts the data in this object to a String.</div><div class="ttdef"><b>Definition</b> UUID.cpp:42</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_ab26683f01c5464724de7638098c7cda4"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#ab26683f01c5464724de7638098c7cda4">Minty::UUID::operator!=</a></div><div class="ttdeci">constexpr Bool operator!=(ID const other) const</div><div class="ttdef"><b>Definition</b> UUID.h:63</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_acbcf2bd36f177f39c6a3dfbfe4ffb88b"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#acbcf2bd36f177f39c6a3dfbfe4ffb88b">Minty::UUID::parse</a></div><div class="ttdeci">Bool parse(String const &amp;text) override</div><div class="ttdoc">Reads the data for this object from a String.</div><div class="ttdef"><b>Definition</b> UUID.cpp:27</div></div>
+<div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_ad16c8b04a005059a8dd92458cb22a1fe"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#ad16c8b04a005059a8dd92458cb22a1fe">Minty::UUID::get_data</a></div><div class="ttdeci">constexpr ID get_data() const</div><div class="ttdoc">Gets the ID value of this UUID.</div><div class="ttdef"><b>Definition</b> UUID.h:77</div></div>
 <div class="ttc" id="aclass_minty_1_1_u_u_i_d_html_ae43805aed85ddfbb1090df2279cefd1e"><div class="ttname"><a href="class_minty_1_1_u_u_i_d.html#ae43805aed85ddfbb1090df2279cefd1e">Minty::UUID::deserialize</a></div><div class="ttdeci">Bool deserialize(Reader &amp;reader, Int const index) override</div><div class="ttdoc">Read this object&#39;s data from the reader.</div><div class="ttdef"><b>Definition</b> UUID.cpp:17</div></div>
 <div class="ttc" id="aclass_minty_1_1_writer_html"><div class="ttname"><a href="class_minty_1_1_writer.html">Minty::Writer</a></div><div class="ttdef"><b>Definition</b> Writer.h:20</div></div>
 <div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
 <div class="ttc" id="anamespace_minty_html_a40828e4d159d2056b9752d56e6b5f9ee"><div class="ttname"><a href="namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee">Minty::Int</a></div><div class="ttdeci">int32_t Int</div><div class="ttdef"><b>Definition</b> Types.h:12</div></div>
-<div class="ttc" id="anamespace_minty_html_a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98"><div class="ttname"><a href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">Minty::Type::String</a></div><div class="ttdeci">@ String</div><div class="ttdef"><b>Definition</b> Type.h:44</div></div>
-<div class="ttc" id="anamespace_minty_html_a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a"><div class="ttname"><a href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a">Minty::Type::UUID</a></div><div class="ttdeci">@ UUID</div><div class="ttdef"><b>Definition</b> Type.h:42</div></div>
-<div class="ttc" id="anamespace_minty_html_a96d42ea2fc8449aeb19e9de3cbde8bc2"><div class="ttname"><a href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">Minty::to_string</a></div><div class="ttdeci">String to_string(T const value)</div><div class="ttdef"><b>Definition</b> ToString.h:10</div></div>
 <div class="ttc" id="anamespace_minty_html_ad4d9c260f527c26c4c2e0176bfab2a1d"><div class="ttname"><a href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">Minty::ID</a></div><div class="ttdeci">uint64_t ID</div><div class="ttdef"><b>Definition</b> Types.h:19</div></div>
 <div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:7</div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> Color.h:184</div></div>
-<div class="ttc" id="astructstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4_html_a42f7ae4d924eef1d795f98a91adfa8c4"><div class="ttname"><a href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html#a42f7ae4d924eef1d795f98a91adfa8c4">std::hash&lt; Minty::UUID &gt;::operator()</a></div><div class="ttdeci">std::size_t operator()(Minty::UUID const &amp;value) const</div><div class="ttdef"><b>Definition</b> UUID.h:132</div></div>
+<div class="ttc" id="astructstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4_html_a42f7ae4d924eef1d795f98a91adfa8c4"><div class="ttname"><a href="structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html#a42f7ae4d924eef1d795f98a91adfa8c4">std::hash&lt; Minty::UUID &gt;::operator()</a></div><div class="ttdeci">std::size_t operator()(Minty::UUID const &amp;value) const</div><div class="ttdef"><b>Definition</b> UUID.h:144</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

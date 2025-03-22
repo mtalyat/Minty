@@ -32,6 +32,8 @@ var class_minty_1_1_path =
     [ "operator==", "class_minty_1_1_path.html#abdbd710cd3e05c3d69115e27fa96aa86", null ],
     [ "operator>", "class_minty_1_1_path.html#a537b2de7d468959bb5d553caf6c36486", null ],
     [ "operator>=", "class_minty_1_1_path.html#aac067ddceb143d8b97287063179ed3e9", null ],
+    [ "parse", "class_minty_1_1_path.html#a3b28ed072a1f6b26f81649fa4bac89e5", null ],
     [ "reserve", "class_minty_1_1_path.html#a1c19e45599aa4f7487277021d0c80683", null ],
+    [ "to_string", "class_minty_1_1_path.html#a8d3126e2a824ea17152ac4b1bdedd8f4", null ],
     [ "operator<<", "class_minty_1_1_path.html#af464997cca1905ce03d089145f8b017a", null ]
 ];

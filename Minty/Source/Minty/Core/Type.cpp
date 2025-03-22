@@ -346,3 +346,50 @@ String Minty::to_string(Type const type)
 		return "";
 	}
 }
+
+
+Type Minty::to_type(String const& string)
+{
+	if (string == "Bool") return Type::Bool;
+	if (string == "Bool2") return Type::Bool2;
+	if (string == "Bool3") return Type::Bool3;
+	if (string == "Bool4") return Type::Bool4;
+	if (string == "Char") return Type::Char;
+	if (string == "Byte") return Type::Byte;
+	if (string == "Short") return Type::Short;
+	if (string == "UShort") return Type::UShort;
+	if (string == "Int") return Type::Int;
+	if (string == "Int2") return Type::Int2;
+	if (string == "Int3") return Type::Int3;
+	if (string == "Int4") return Type::Int4;
+	if (string == "UInt") return Type::UInt;
+	if (string == "UInt2") return Type::UInt2;
+	if (string == "UInt3") return Type::UInt3;
+	if (string == "UInt4") return Type::UInt4;
+	if (string == "Long") return Type::Long;
+	if (string == "ULong") return Type::ULong;
+	if (string == "Size") return Type::Size;
+	if (string == "Float") return Type::Float;
+	if (string == "Float2") return Type::Float2;
+	if (string == "Float3") return Type::Float3;
+	if (string == "Float4") return Type::Float4;
+	if (string == "Double") return Type::Double;
+	if (string == "String") return Type::String;
+	if (string == "Matrix2") return Type::Matrix2;
+	if (string == "Matrix3") return Type::Matrix3;
+	if (string == "Matrix4") return Type::Matrix4;
+	if (string == "Quaternion") return Type::Quaternion;
+	if (string == "Color") return Type::Color;
+	if (string == "UUID") return Type::UUID;
+	if (string == "Object") return Type::Object;
+	if (string == "String") return Type::String;
+	if (string == "MultilineString") return Type::MultilineString;
+
+	return Type();
+}
+
+Bool Minty::try_type(String const& string, Type& value)
+{
+	value = to_type(string);
+	return value != Type();
+}

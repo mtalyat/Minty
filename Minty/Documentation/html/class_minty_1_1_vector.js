@@ -9,7 +9,7 @@ var class_minty_1_1_vector =
     [ "Vector", "class_minty_1_1_vector.html#a24f8dbaeced94da4ef275a797fd853fd", null ],
     [ "Vector", "class_minty_1_1_vector.html#a34401de581e790082b283a039f721bb1", null ],
     [ "Vector", "class_minty_1_1_vector.html#a97f51ac65c95f89ff2f2a79fc7c2eb8f", null ],
-    [ "Vector", "class_minty_1_1_vector.html#a33f7e3748400fe22a589eee5abdad52d", null ],
+    [ "Vector", "class_minty_1_1_vector.html#aab6ffe6cd4c1cfdb4de963aa71c885c2", null ],
     [ "~Vector", "class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53", null ],
     [ "add", "class_minty_1_1_vector.html#a3fef65099af7399199c751f6b0d153c0", null ],
     [ "add", "class_minty_1_1_vector.html#ac46810a990fc766db98ae27a7a0fe2a3", null ],

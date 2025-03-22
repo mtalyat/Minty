@@ -111,6 +111,8 @@ $(function(){initNavTree('_type_8h.html',''); initResizable(true); });
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_types_8h_source.html">Minty/Core/Types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_string_8h_source.html">Minty/Data/String.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_to_string_8h_source.html">Minty/Serialization/ToString.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_parse_8h_source.html">Minty/Serialization/Parse.h</a>&quot;</code><br />
 </div>
 <p><a href="_type_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -182,8 +184,17 @@ Functions</h2></td></tr>
 <tr class="memdesc:a2de9e7ffe6b6aecf8d112c194371b668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a> in bytes.  <br /></td></tr>
 <tr class="separator:a2de9e7ffe6b6aecf8d112c194371b668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9f915007a1fd383a7f734cdeb7b1644" id="r_aa9f915007a1fd383a7f734cdeb7b1644"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">Minty::to_string</a> (<a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const type)</td></tr>
-<tr class="memdesc:aa9f915007a1fd383a7f734cdeb7b1644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a> to a string.  <br /></td></tr>
 <tr class="separator:aa9f915007a1fd383a7f734cdeb7b1644"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad04abcca60a9576cb18493e2baab8c42" id="r_ad04abcca60a9576cb18493e2baab8c42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#ad04abcca60a9576cb18493e2baab8c42">Minty::to_type</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
+<tr class="separator:ad04abcca60a9576cb18493e2baab8c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b0aef59d3f3d830789b413d6b621dc9" id="r_a5b0aef59d3f3d830789b413d6b621dc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a5b0aef59d3f3d830789b413d6b621dc9">Minty::try_type</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;value)</td></tr>
+<tr class="separator:a5b0aef59d3f3d830789b413d6b621dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a491bd85d267ed5e5800467d943975ca6" id="r_a491bd85d267ed5e5800467d943975ca6"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:a491bd85d267ed5e5800467d943975ca6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a491bd85d267ed5e5800467d943975ca6">Minty::parse_to&lt; Type &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
+<tr class="separator:a491bd85d267ed5e5800467d943975ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a648c3b27130efb2b885c158e3584e746" id="r_a648c3b27130efb2b885c158e3584e746"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:a648c3b27130efb2b885c158e3584e746"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a648c3b27130efb2b885c158e3584e746">Minty::parse_try&lt; Type &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;value)</td></tr>
+<tr class="separator:a648c3b27130efb2b885c158e3584e746"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

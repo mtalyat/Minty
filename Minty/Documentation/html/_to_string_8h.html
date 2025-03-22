@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Minty: Source/Minty/Core/ToString.h File Reference</title>
+<title>Minty: Source/Minty/Serialization/ToString.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,6 +112,7 @@ $(function(){initNavTree('_to_string_8h.html',''); initResizable(true); });
 <code>#include &quot;<a class="el" href="_types_8h_source.html">Minty/Core/Types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_macro_8h_source.html">Minty/Core/Macro.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_string_8h_source.html">Minty/Data/String.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_is_parseable_8h_source.html">Minty/Serialization/IsParseable.h</a>&quot;</code><br />
 </div>
 <p><a href="_to_string_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -122,9 +123,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a96d42ea2fc8449aeb19e9de3cbde8bc2" id="r_a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">Minty::to_string</a> (T const value)</td></tr>
-<tr class="separator:a96d42ea2fc8449aeb19e9de3cbde8bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f4982b55028d33aa77dc401c010cb3" id="r_a92f4982b55028d33aa77dc401c010cb3"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a92f4982b55028d33aa77dc401c010cb3"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt; <a class="el" href="struct_minty_1_1is__parseable.html">is_parseable</a>&lt; T &gt;::value, <a class="el" href="class_minty_1_1_string.html">String</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a92f4982b55028d33aa77dc401c010cb3">Minty::to_string</a> (T const &amp;value)</td></tr>
+<tr class="separator:a92f4982b55028d33aa77dc401c010cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5faad5f8c07f3faa8b3187e5abc641e4" id="r_a5faad5f8c07f3faa8b3187e5abc641e4"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a5faad5f8c07f3faa8b3187e5abc641e4"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t&lt;!<a class="el" href="struct_minty_1_1is__parseable.html">is_parseable</a>&lt; T &gt;::value, <a class="el" href="class_minty_1_1_string.html">String</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a5faad5f8c07f3faa8b3187e5abc641e4">Minty::to_string</a> (T const value)</td></tr>
+<tr class="separator:a5faad5f8c07f3faa8b3187e5abc641e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab893e761714eabdf0ea31a3be860bf8a" id="r_ab893e761714eabdf0ea31a3be860bf8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#ab893e761714eabdf0ea31a3be860bf8a">Minty::to_string</a> (<a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> const value)</td></tr>
 <tr class="separator:ab893e761714eabdf0ea31a3be860bf8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51456ae1ba22b1b6dd9140aefe93e36c" id="r_a51456ae1ba22b1b6dd9140aefe93e36c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_minty.html#a51456ae1ba22b1b6dd9140aefe93e36c">Minty::to_string</a> (<a class="el" href="namespace_minty.html#a56bd316ece342dc86b2d65f6ab626d6a">Bool2</a> const &amp;value)</td></tr>
@@ -181,7 +185,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_91074b34c76da4e5c53275030804a7e8.html">Minty</a></li><li class="navelem"><a class="el" href="dir_4bf085beea6475a473fcf46c6a0a97c7.html">Core</a></li><li class="navelem"><a class="el" href="_to_string_8h.html">ToString.h</a></li>
+    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_91074b34c76da4e5c53275030804a7e8.html">Minty</a></li><li class="navelem"><a class="el" href="dir_2becdfffe6319818de6dc63f90fd80ad.html">Serialization</a></li><li class="navelem"><a class="el" href="_to_string_8h.html">ToString.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

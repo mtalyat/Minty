@@ -12,6 +12,8 @@ namespace Minty
 	class SerializableObject
 	{
 	public:
+		virtual ~SerializableObject() = default;
+
 		/// <summary>
 		/// Write this object's data to the writer.
 		/// </summary>

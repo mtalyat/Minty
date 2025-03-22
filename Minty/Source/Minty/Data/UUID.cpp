@@ -11,7 +11,7 @@ static std::uniform_int_distribution<Size> uniformDistribution;
 
 void Minty::UUID::serialize(Writer& writer, String const& name) const
 {
-	writer.write(name, to_string(*this));
+	writer.write(name, to_string());
 }
 
 Bool Minty::UUID::deserialize(Reader& reader, Int const index)
@@ -21,17 +21,30 @@ Bool Minty::UUID::deserialize(Reader& reader, Int const index)
 	{
 		return false;
 	}
+	return parse(text);
+}
+
+Bool Minty::UUID::parse(String const& text)
+{
+	if (text.get_size() / 4 != sizeof(ID))
+	{
+		return false;
+	}
+	if (text.get_size() % 2 != 0)
+	{
+		return false;
+	}
+
 	decode_base16(text, &m_id, sizeof(ID));
 	return true;
+}
+
+String Minty::UUID::to_string() const
+{
+	return encode_base16(&m_id, sizeof(ID));
 }
 
 UUID Minty::UUID::create()
 {
     return UUID(uniformDistribution(randomEngine));
-}
-
-String Minty::to_string(UUID const value)
-{
-	ID id = value.get_data();
-	return encode_base16(&id, sizeof(ID));
 }

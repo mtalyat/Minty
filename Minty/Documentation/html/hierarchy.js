@@ -32,8 +32,10 @@ var hierarchy =
     [ "Minty::Debug", "class_minty_1_1_debug.html", null ],
     [ "Minty::Wrap::Entry", "struct_minty_1_1_wrap_1_1_entry.html", null ],
     [ "std::false_type", null, [
+      [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
       [ "Minty::is_serializable_object< T, std::enable_if_t< std::is_base_of_v< SerializableObject, T > > >", "struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html", null ],
+      [ "Minty::is_parseable< T, typename >", "struct_minty_1_1is__parseable.html", null ],
       [ "Minty::is_serializable< T, typename >", "struct_minty_1_1is__serializable.html", null ],
       [ "Minty::is_serializable_object< T, typename >", "struct_minty_1_1is__serializable__object.html", null ]
     ] ],
@@ -73,7 +75,10 @@ var hierarchy =
     [ "Minty::Node", "class_minty_1_1_node.html", null ],
     [ "Minty::Owner< T >", "class_minty_1_1_owner.html", null ],
     [ "Minty::Pair< T1, T2 >", "class_minty_1_1_pair.html", null ],
-    [ "Minty::Path", "class_minty_1_1_path.html", null ],
+    [ "Minty::Parseable", "class_minty_1_1_parseable.html", [
+      [ "Minty::Path", "class_minty_1_1_path.html", null ],
+      [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ]
+    ] ],
     [ "Minty::Queue< T >", "class_minty_1_1_queue.html", null ],
     [ "Minty::Reader", "class_minty_1_1_reader.html", [
       [ "Minty::ReaderImplementation< TextReaderBehavior, FileReaderBehavior >", "class_minty_1_1_reader_implementation.html", null ],
@@ -119,6 +124,7 @@ var hierarchy =
     [ "Minty::String", "class_minty_1_1_string.html", null ],
     [ "Minty::TextBuilder", "struct_minty_1_1_text_builder.html", null ],
     [ "std::true_type", null, [
+      [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
       [ "Minty::is_serializable_object< T, std::enable_if_t< std::is_base_of_v< SerializableObject, T > > >", "struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html", null ]
     ] ],

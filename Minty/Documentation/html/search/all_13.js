@@ -54,5 +54,5 @@ var searchData=
   ['string_2eh_51',['String.h',['../_string_8h.html',1,'']]],
   ['strongcount_52',['strongCount',['../class_minty_1_1_counter.html#ab4fbd1099a0a04f29ad1dbed2daedc8c',1,'Minty::Counter']]],
   ['sub_53',['sub',['../class_minty_1_1_array.html#af68c59942c62aa1621052f4a2aae341c',1,'Minty::Array::sub()'],['../class_minty_1_1_list.html#ac32370bc9472be43332125bf994e3699',1,'Minty::List::sub()'],['../class_minty_1_1_string.html#a3e087fbc95bc1dca9431e6f46fffe244',1,'Minty::String::sub()'],['../class_minty_1_1_vector.html#a0f12b42f8d2884aa4a3dbb0cf71f7403',1,'Minty::Vector::sub()']]],
-  ['sync_54',['sync',['../class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a',1,'Minty::DualBuffer']]]
+  ['sync_54',['sync',['../class_minty_1_1_asset_manager.html#a337a912005fa54b658a63fae1922678e',1,'Minty::AssetManager::sync()'],['../class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a',1,'Minty::DualBuffer::sync()']]]
 ];

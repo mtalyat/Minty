@@ -1,6 +1,8 @@
 #pragma once
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
@@ -68,10 +70,17 @@ namespace Minty
 	/// <returns>The size of the type that the Type represents, in bytes.</returns>
 	Size sizeof_type(Type const type);
 
-	/// <summary>
-	/// Converts the given Type to a string.
-	/// </summary>
-	/// <param name="type">The Type.</param>
-	/// <returns>The name of the Type.</returns>
 	String to_string(Type const type);
+	Type to_type(String const& string);
+	Bool try_type(String const& string, Type& value);
+	template<>
+	inline Type parse_to<Type>(String const& string)
+	{
+		return to_type(string);
+	}
+	template<>
+	inline Bool parse_try<Type>(String const& string, Type& value)
+	{
+		return try_type(string, value);
+	}
 }

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Minty: Source/Minty/Core/ToString.cpp File Reference</title>
+<title>Minty: Source/Minty/Serialization/ToString.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -138,7 +138,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; value; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
-<div class="ttc" id="anamespace_minty_html_a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98"><div class="ttname"><a href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">Minty::Type::String</a></div><div class="ttdeci">@ String</div><div class="ttdef"><b>Definition</b> Type.h:44</div></div>
+<div class="ttc" id="anamespace_minty_html_a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98"><div class="ttname"><a href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">Minty::Type::String</a></div><div class="ttdeci">@ String</div><div class="ttdef"><b>Definition</b> Type.h:46</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -160,8 +160,8 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
-<div class="ttc" id="anamespace_minty_html_a96d42ea2fc8449aeb19e9de3cbde8bc2"><div class="ttname"><a href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">Minty::to_string</a></div><div class="ttdeci">String to_string(T const value)</div><div class="ttdef"><b>Definition</b> ToString.h:10</div></div>
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
+<div class="ttc" id="anamespace_minty_html_aa9f915007a1fd383a7f734cdeb7b1644"><div class="ttname"><a href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">Minty::to_string</a></div><div class="ttdeci">String to_string(Type const type)</div><div class="ttdef"><b>Definition</b> Type.cpp:299</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -188,7 +188,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value2) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value2) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -220,7 +220,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value2) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#a96d42ea2fc8449aeb19e9de3cbde8bc2">to_string</a>(value3) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value2) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value3) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -229,7 +229,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_91074b34c76da4e5c53275030804a7e8.html">Minty</a></li><li class="navelem"><a class="el" href="dir_4bf085beea6475a473fcf46c6a0a97c7.html">Core</a></li><li class="navelem"><a class="el" href="_to_string_8cpp.html">ToString.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_91074b34c76da4e5c53275030804a7e8.html">Minty</a></li><li class="navelem"><a class="el" href="dir_2becdfffe6319818de6dc63f90fd80ad.html">Serialization</a></li><li class="navelem"><a class="el" href="_to_string_8cpp.html">ToString.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

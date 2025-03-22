@@ -1,7 +1,7 @@
 #pragma once
 #include "Minty/Core/Math.h"
-#include "Minty/Core/Parse.h"
-#include "Minty/Core/ToString.h"
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/List.h"

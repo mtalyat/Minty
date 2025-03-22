@@ -54,6 +54,17 @@ Path& Minty::Path::append(Path const& other)
 	return *this;
 }
 
+Bool Minty::Path::parse(String const& text)
+{
+	m_path = text.get_data();
+	return true;
+}
+
+String Minty::Path::to_string() const
+{
+	return get_string();
+}
+
 Bool Minty::Path::exists(Path const& path)
 {
 	return std::filesystem::exists(path.m_path);

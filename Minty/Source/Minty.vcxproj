@@ -191,12 +191,10 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Constant.h" />
     <ClInclude Include="Minty\Core\Encoding.h" />
     <ClInclude Include="Minty\Core\Math.h" />
-    <ClInclude Include="Minty\Core\Parse.h" />
     <ClInclude Include="Minty\Core\Type.h" />
     <ClInclude Include="Minty\Core\_Core.h" />
     <ClInclude Include="Minty\Core\Format.h" />
     <ClInclude Include="Minty\Core\Macro.h" />
-    <ClInclude Include="Minty\Core\ToString.h" />
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
     <ClInclude Include="Minty\Data\Color.h" />
@@ -233,11 +231,15 @@ doxygen</Command>
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
+    <ClInclude Include="Minty\Serialization\IsParseable.h" />
     <ClInclude Include="Minty\Serialization\IsSerializable.h" />
     <ClInclude Include="Minty\Serialization\Node.h" />
+    <ClInclude Include="Minty\Serialization\Parse.h" />
+    <ClInclude Include="Minty\Serialization\Parseable.h" />
     <ClInclude Include="Minty\Serialization\Serializable.h" />
     <ClInclude Include="Minty\Serialization\Reader.h" />
     <ClInclude Include="Minty\Serialization\SerializableObject.h" />
+    <ClInclude Include="Minty\Serialization\ToString.h" />
     <ClInclude Include="Minty\Serialization\Writer.h" />
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
@@ -256,8 +258,6 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Encoding.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
-    <ClCompile Include="Minty\Core\Parse.cpp" />
-    <ClCompile Include="Minty\Core\ToString.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
     <ClCompile Include="Minty\Data\Container.cpp" />
@@ -277,7 +277,9 @@ doxygen</Command>
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
+    <ClCompile Include="Minty\Serialization\Parse.cpp" />
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
+    <ClCompile Include="Minty\Serialization\ToString.cpp" />
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />

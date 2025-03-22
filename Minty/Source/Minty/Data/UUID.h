@@ -1,14 +1,15 @@
 #pragma once
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Serializable.h"
+#include "Minty/Serialization/Parseable.h"
 #include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Serializable.h"
 #include "Minty/Serialization/Writer.h"
 
 namespace Minty
 {
 	class UUID
-		: public Serializable
+		: public Serializable, Parseable
 	{
 #pragma region Variables
 
@@ -107,6 +108,19 @@ namespace Minty
 		/// <returns>True on success.</returns>
 		Bool deserialize(Reader& reader, Int const index) override;
 
+		/// <summary>
+		/// Reads the data for this object from a String.
+		/// </summary>
+		/// <param name="text">A String of this object.</param>
+		/// <returns>True on success.</returns>
+		Bool parse(String const& text) override;
+
+		/// <summary>
+		/// Converts the data in this object to a String.
+		/// </summary>
+		/// <returns>A String of this object.</returns>
+		String to_string() const override;
+
 #pragma endregion
 
 #pragma region Statics
@@ -120,8 +134,6 @@ namespace Minty
 
 #pragma endregion
 	};
-
-	String to_string(UUID const value);
 }
 
 namespace std

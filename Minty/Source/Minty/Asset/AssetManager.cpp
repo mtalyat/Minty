@@ -131,11 +131,22 @@ UUID Minty::AssetManager::load(Path const& path)
 	// get UUID for reference
 	UUID id = read_id(path);
 
+	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
+
 	// use a job to load the asset in the background
-	jobManager.schedule([this, path]()
+	Handle handle = jobManager.schedule([this, path, id]()
 		{
 			load_asset_now(path);
+			{
+				std::unique_lock lock(m_assetsMutex);
+				m_handles.remove(id);
+			}
 		});
+
+	{
+		std::unique_lock lock(m_assetsMutex);
+		m_handles.add(id, handle);
+	}
 
 	// return the ID
 	return id;
@@ -149,7 +160,7 @@ Ref<Asset> Minty::AssetManager::load_asset_now(Path const& path)
 	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
 #endif // MINTY_DEBUG
 
-	AssetType type = Asset::get_asset_type(path.get_extension());
+	AssetType type = Asset::get_asset_type(path);
 
 	MINTY_ASSERT(type != AssetType::None, "Cannot load Asset. The file does not have a valid extension.");
 
@@ -166,17 +177,25 @@ Ref<Asset> Minty::AssetManager::load_asset_now(Path const& path)
 void Minty::AssetManager::unload(UUID const id)
 {
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
 
 	Context& context = Context::get_instance();
 	JobManager& jobManager = context.get_job_manager();
 
 	// use a job to unload the asset in the background
-	jobManager.schedule([this, id]()
+	Handle handle = jobManager.schedule([this, id]()
 		{
 			unload_now(id);
+			{
+				std::unique_lock lock(m_assetsMutex);
+				m_handles.remove(id);
+			}
 		});
 
-	// TODO: save handle while unloading, for syncing purposes
+	{
+		std::unique_lock lock(m_assetsMutex);
+		m_handles.add(id, handle);
+	}
 }
 
 void Minty::AssetManager::unload_now(UUID const id)
@@ -191,18 +210,6 @@ void Minty::AssetManager::unload_now(UUID const id)
 
 	// remove from the lists
 	remove(id);
-}
-
-void Minty::AssetManager::collect()
-{
-	// unload all queued assets
-	for (UUID id : m_unloadQueue)
-	{
-		unload_now(id);
-	}
-
-	// clear the queue
-	m_unloadQueue.clear();
 }
 
 void Minty::AssetManager::unload_all()
@@ -239,8 +246,11 @@ void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
 
 	// add to lists
 	UUID id = asset->get_id();
-	m_assets.add(id, data);
-	m_assetTypes.at(asset->get_asset_type()).add(id);
+	{
+		std::unique_lock lock(m_assetsMutex);
+		m_assets.add(id, data);
+		m_assetTypes.at(asset->get_asset_type()).add(id);
+	}
 }
 
 Bool Minty::AssetManager::contains(UUID const id) const
@@ -250,6 +260,8 @@ Bool Minty::AssetManager::contains(UUID const id) const
 
 Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 {
+	std::unique_lock lock(m_assetsMutex);
+
 	// find the asset
 	auto it = m_assets.find(id);
 
@@ -265,6 +277,7 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 
 Ref<Asset> Minty::AssetManager::at_asset(UUID const id) const
 {
+	std::unique_lock lock(m_assetsMutex);
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 	return m_assets.at(id).asset.create_ref();
 }
@@ -276,6 +289,8 @@ Path Minty::AssetManager::get_asset_path(UUID const id) const
 	{
 		return Path();
 	}
+
+	std::unique_lock lock(m_assetsMutex);
 
 	// find asset
 	auto it = m_assets.find(id);
@@ -301,6 +316,7 @@ String Minty::AssetManager::get_asset_name(UUID const id) const
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 
 	// get path
+	std::unique_lock lock(m_assetsMutex);
 	Path const& path = m_assets.at(id).path;
 
 	// get name
@@ -312,12 +328,17 @@ Owner<Asset> Minty::AssetManager::remove(UUID const id)
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 
 	// get asset
-	Owner<Asset> asset = m_assets.at(id).asset;
-	
-	// remove from lists
-	AssetType type = asset->get_asset_type();
-	m_assets.remove(id);
-	m_assetTypes.at(type).remove(id);
+	Owner<Asset> asset;
+	{
+		std::unique_lock lock(m_assetsMutex);
+		asset = m_assets.at(id).asset;
+
+		// remove from lists
+		AssetType type = asset->get_asset_type();
+
+		m_assets.remove(id);
+		m_assetTypes.at(type).remove(id);
+	}
 
 	// return asset
 	return asset;
@@ -465,7 +486,7 @@ ID Minty::AssetManager::read_id(Path const& path) const
 
 	// get the ID
 	String idString = line.sub(2, 16);
-	UUID id = Parse::parse_to<UUID>(idString);
+	UUID id = parse_to<UUID>(idString);
 
 	close(file);
 

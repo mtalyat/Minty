@@ -13,6 +13,8 @@ namespace Minty
 	class Serializable
 	{
 	public:
+		virtual ~Serializable() = default;
+
 		/// <summary>
 		/// Write this object's data to the writer.
 		/// </summary>

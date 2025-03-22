@@ -27,7 +27,7 @@ namespace Minty
 		/// Creates an Asset with the given UUID.
 		/// </summary>
 		/// <param name="id">The Asset UUID.</param>
-		constexpr Asset(UUID const id)
+		Asset(UUID const id)
 			: m_uuid(id)
 		{
 		}

@@ -61,20 +61,21 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"class_minty_1_1_array.html#a9e34ff6c631bca5db1bb3bb4bffb20c0",
-"class_minty_1_1_container.html#a1c2b47a4c79acd6ca370789bc842a14b",
-"class_minty_1_1_file_writer_behavior.html#accf4d6ca08e13547e63066b1be84bc89",
-"class_minty_1_1_list_1_1_reverse_iterator.html#a551fa94ffbaa19aa4e98c930969e2eec",
-"class_minty_1_1_node.html",
-"class_minty_1_1_path_1_1_const_iterator.html#a67f6a7b506195b87b5450a70eb2fa88a",
-"class_minty_1_1_reader.html#af259a7359b7a2c1d6f5af1b23007c219",
-"class_minty_1_1_set.html#a9be8632215a35cad7b6e869539434dfb",
-"class_minty_1_1_string_1_1_iterator.html#add82b461bea8f34916e1ee6ad3c01d1c",
-"class_minty_1_1_vector.html#a7477de2a22fea7b463f36c0fcf19d30c",
-"class_minty_1_1_wrap.html#a377de7a72c3cfc6d68cf677ffc017adc",
-"class_minty_1_1_writer_format_behavior.html#ad12c0298bba8b72137062c65dc6b45de",
-"namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda30bb747c98bccdd11b3f89e644c4d0ad",
-"namespace_minty_1_1_parse.html#a98571dc40de11e1a4d315cbf1c9afc91"
+"class_minty_1_1_array.html#a72590bd7376ef772409670c9e1495362",
+"class_minty_1_1_constant_container.html#ae67df3a9395ded4c3dfb6d988811587b",
+"class_minty_1_1_file_writer_behavior.html#a6737344b94b2e0f67f560db5043dd192",
+"class_minty_1_1_list_1_1_reverse_iterator.html#a36a8098a76a0b445b01435c0ace16e92",
+"class_minty_1_1_memory_writer_behavior.html#a5e1aa65bd060682a1007bcf694bbe40c",
+"class_minty_1_1_path_1_1_const_iterator.html#a06e2d981ad039bcd04d3410d0df16341",
+"class_minty_1_1_reader.html#ade3672409a9860ec3152a68f934fb28f",
+"class_minty_1_1_set.html#a2824ae4b675c58a0c4c188767458b4a2",
+"class_minty_1_1_string_1_1_iterator.html",
+"class_minty_1_1_vector.html#a34401de581e790082b283a039f721bb1",
+"class_minty_1_1_virtual_file.html#ae74a7316f82a3faa88b74f750731e5b1",
+"class_minty_1_1_writer_format_behavior.html#a805034c72e87cfb4ac44b030583cfa24",
+"namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387",
+"namespace_minty.html#af268ed49db2043425156107b2063ef82",
+"structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4.html#a51c581e7683fbc4b7e43202ac950767d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

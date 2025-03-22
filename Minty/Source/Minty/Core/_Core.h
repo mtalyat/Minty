@@ -7,7 +7,5 @@
 #include "Format.h"
 #include "Macro.h"
 #include "Math.h"
-#include "Parse.h"
-#include "ToString.h"
 #include "Type.h"
 #include "Types.h"

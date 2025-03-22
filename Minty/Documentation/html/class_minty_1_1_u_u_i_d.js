@@ -10,5 +10,7 @@ var class_minty_1_1_u_u_i_d =
     [ "operator!=", "class_minty_1_1_u_u_i_d.html#a5ced6930d3f2a469afe0279e07d20667", null ],
     [ "operator==", "class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98", null ],
     [ "operator==", "class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d", null ],
-    [ "serialize", "class_minty_1_1_u_u_i_d.html#a3f1cc29f2ae4f40423ff8a5cb9c9bae1", null ]
+    [ "parse", "class_minty_1_1_u_u_i_d.html#acbcf2bd36f177f39c6a3dfbfe4ffb88b", null ],
+    [ "serialize", "class_minty_1_1_u_u_i_d.html#a3f1cc29f2ae4f40423ff8a5cb9c9bae1", null ],
+    [ "to_string", "class_minty_1_1_u_u_i_d.html#a94a70ab09eb60e6528e9be0a86e29432", null ]
 ];

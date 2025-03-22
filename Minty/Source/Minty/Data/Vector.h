@@ -112,7 +112,7 @@ namespace Minty
 		/// Moves the given Vector.
 		/// </summary>
 		/// <param name="other">The Vector to move.</param>
-		Vector(Vector&& other)
+		Vector(Vector&& other) noexcept
 			: m_allocator(other.m_allocator)
 			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)

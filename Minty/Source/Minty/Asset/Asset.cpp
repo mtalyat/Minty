@@ -7,11 +7,6 @@ using namespace Minty;
 
 AssetType Minty::Asset::get_asset_type(Path const& path)
 {
-	if (!path.has_extension())
-	{
-		return AssetType::None;
-	}
-
 	static Map<Path, AssetType> types
 	{
 		{ EXTENSION_TEXT, AssetType::Text },

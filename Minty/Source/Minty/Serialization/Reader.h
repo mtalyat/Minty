@@ -1,6 +1,6 @@
 #pragma once
 #include "Minty/Core/Math.h"
-#include "Minty/Core/Parse.h"
+#include "Minty/Serialization/Parse.h"
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/List.h"
@@ -180,7 +180,7 @@ namespace Minty
 			String stringData;
 			if (read_string(index, stringData))
 			{
-				Parse::parse_to(stringData, obj);
+				parse_to(stringData, obj);
 				return true;
 			}
 			return false;

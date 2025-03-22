@@ -65,7 +65,8 @@ namespace Minty
 		Bool m_savePaths;
 		Map<UUID, AssetData> m_assets;
 		Map<AssetType, Set<UUID>> m_assetTypes;
-		std::mutex m_assetMutex;
+		Map<UUID, Handle> m_handles;
+		mutable std::mutex m_assetsMutex;
 
 		Wrapper m_wrapper;
 
@@ -78,8 +79,8 @@ namespace Minty
 			: m_savePaths(false)
 			, m_assets()
 			, m_assetTypes()
-			, m_unloadQueue()
-			, m_assetMutex()
+			, m_handles()
+			, m_assetsMutex()
 			, m_wrapper()
 		{
 			for (Path const& path : builder.wraps)
@@ -210,8 +211,10 @@ namespace Minty
 		{
 			// create new asset
 			Owner<T> asset = T::create(std::forward<Args>(args)...);
+
 			// add to asset manager
 			add(path, asset);
+
 			return asset.create_ref();
 		}
 

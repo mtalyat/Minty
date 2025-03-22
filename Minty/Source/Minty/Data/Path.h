@@ -4,6 +4,7 @@
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Serialization/Parseable.h"
 #include <filesystem>
 
 namespace Minty
@@ -12,6 +13,7 @@ namespace Minty
 	/// A collection of text representing a file path.
 	/// </summary>
 	class Path
+		: public Parseable
 	{
 #pragma region Iterators
 
@@ -361,6 +363,19 @@ namespace Minty
 		/// </summary>
 		/// <returns>A Path with the file name.</returns>
 		Path get_name() const { return Path(m_path.stem().string().c_str()); }
+
+		/// <summary>
+		/// Reads the data for this object from a String.
+		/// </summary>
+		/// <param name="text">A String of this object.</param>
+		/// <returns>True on success.</returns>
+		Bool parse(String const& text) override;
+
+		/// <summary>
+		/// Converts the data in this object to a String.
+		/// </summary>
+		/// <returns>A String of this object.</returns>
+		String to_string() const override;
 
 #pragma endregion
 
