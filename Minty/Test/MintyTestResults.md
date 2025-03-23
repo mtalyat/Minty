@@ -1,5 +1,5 @@
 # Results
-4517/4517 (100.00%)
+4569/4569 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -57,6 +57,8 @@
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
+| Stopwatch                      |       31 |        0 |
+| Time                           |       21 |        0 |
 | Wrap                           |       74 |        0 |
 | Wrapper                        |       23 |        0 |
 
@@ -4696,6 +4698,66 @@ No failures! :)
 |  PASS  | 432: Write String (text == "One: Two\nThree: Four\n")                                                                            |
 |  PASS  | 444: Write Type (text == "One: Bool\nTwo: Char\n")                                                                               |
 |  PASS  | 459: Write Serializable (text == expected)                                                                                       |
+
+## Stopwatch
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 11: Constructor (stopwatch.get_elapsed() == 0)                                                                                   |
+|  PASS  | 12: Constructor (stopwatch.is_running() == false)                                                                                |
+|  PASS  | 18: Get Elapsed (stopwatch.get_elapsed() == 0)                                                                                   |
+|  PASS  | 22: Get Elapsed (stopwatch.get_elapsed() >= ONE_MILLISECOND * 100)                                                               |
+|  PASS  | 23: Get Elapsed (stopwatch.get_elapsed() < ONE_MILLISECOND * 200)                                                                |
+|  PASS  | 29: Get Elapsed Seconds (stopwatch.get_elapsed_s() == 0.0f)                                                                      |
+|  PASS  | 33: Get Elapsed Seconds (stopwatch.get_elapsed_s() >= 0.1f)                                                                      |
+|  PASS  | 34: Get Elapsed Seconds (stopwatch.get_elapsed_s() < 0.2f)                                                                       |
+|  PASS  | 40: Get Elapsed String (stopwatch.get_elapsed_string() == "0:0:0.0")                                                             |
+|  PASS  | 44: Get Elapsed String (stopwatch.get_elapsed_string().get_size() > 7)                                                           |
+|  PASS  | 50: Start (stopwatch.is_running() == false)                                                                                      |
+|  PASS  | 52: Start (stopwatch.is_running() == true)                                                                                       |
+|  PASS  | 53: Start (stopwatch.get_elapsed() > 0)                                                                                          |
+|  PASS  | 59: Stop (stopwatch.is_running() == false)                                                                                       |
+|  PASS  | 61: Stop (stopwatch.is_running() == true)                                                                                        |
+|  PASS  | 63: Stop (stopwatch.is_running() == false)                                                                                       |
+|  PASS  | 64: Stop (stopwatch.get_elapsed() > 0)                                                                                           |
+|  PASS  | 73: Reset (stopwatch.get_elapsed() > 0)                                                                                          |
+|  PASS  | 75: Reset (stopwatch.get_elapsed() == 0)                                                                                         |
+|  PASS  | 81: Is Running (stopwatch.is_running() == false)                                                                                 |
+|  PASS  | 83: Is Running (stopwatch.is_running() == true)                                                                                  |
+|  PASS  | 85: Is Running (stopwatch.is_running() == false)                                                                                 |
+|  PASS  | 95: Lap (lapCount == 3)                                                                                                          |
+|  PASS  | 96: Lap (stopwatch.get_elapsed() > 0)                                                                                            |
+|  PASS  | 97: Lap (stopwatch.get_elapsed() < ONE_MILLISECOND * 100)                                                                        |
+|  PASS  | 98: Lap (stopwatch.lap(0))                                                                                                       |
+|  PASS  | 105: Restart (stopwatch.is_running() == true)                                                                                    |
+|  PASS  | 106: Restart (stopwatch.get_elapsed() > 0)                                                                                       |
+|  PASS  | 108: Restart (stopwatch.is_running() == true)                                                                                    |
+|  PASS  | 109: Restart (stopwatch.get_elapsed() > 0)                                                                                       |
+|  PASS  | 115: Start New (stopwatch.is_running() == true)                                                                                  |
+
+## Time
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 11: Constructor (time.get_total() == 0.0f)                                                                                       |
+|  PASS  | 12: Constructor (time.get_elapsed() == 0.0f)                                                                                     |
+|  PASS  | 18: Get/Set Total (time.get_total() == 0.0f)                                                                                     |
+|  PASS  | 20: Get/Set Total (time.get_total() == 1.0f)                                                                                     |
+|  PASS  | 26: Get/Set Elapsed (time.get_elapsed() == 0.0f)                                                                                 |
+|  PASS  | 28: Get/Set Elapsed (time.get_elapsed() == 1.0f)                                                                                 |
+|  PASS  | 35: Update (time.get_total() == 1.0f)                                                                                            |
+|  PASS  | 36: Update (time.get_elapsed() == 2.0f)                                                                                          |
+|  PASS  | 43: Now (now1 >= now0)                                                                                                           |
+|  PASS  | 45: Now (now2 >= now1)                                                                                                           |
+|  PASS  | 54: Calculate Duration in Seconds (duration >= 0.1f)                                                                             |
+|  PASS  | 55: Calculate Duration in Seconds (duration < 0.2f)                                                                              |
+|  PASS  | 61: Timestamp (timestamp.get_size() == 27)                                                                                       |
+|  PASS  | 62: Timestamp (timestamp[4] == '-')                                                                                              |
+|  PASS  | 63: Timestamp (timestamp[7] == '-')                                                                                              |
+|  PASS  | 64: Timestamp (timestamp[10] == ' ')                                                                                             |
+|  PASS  | 65: Timestamp (timestamp[13] == ':')                                                                                             |
+|  PASS  | 66: Timestamp (timestamp[16] == ':')                                                                                             |
+|  PASS  | 67: Timestamp (timestamp[19] == '.')                                                                                             |
+|  PASS  | 76: Sleep (duration >= 0.1f)                                                                                                     |
+|  PASS  | 77: Sleep (duration < 0.2f)                                                                                                      |
 
 ## Wrap
 | Result | Message                                                                                                                          |

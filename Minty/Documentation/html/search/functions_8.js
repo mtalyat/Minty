@@ -9,6 +9,7 @@ var searchData=
   ['is_5ffile_6',['is_file',['../class_minty_1_1_path.html#a287955929f054f81fdc145d00e4b993c',1,'Minty::Path']]],
   ['is_5ffull_7',['is_full',['../class_minty_1_1_memory_pool.html#a4beb479f3782ceefd58ca3ebb9748539',1,'Minty::MemoryPool']]],
   ['is_5fopen_8',['is_open',['../class_minty_1_1_dual_buffer.html#ac3e9fa99b6c2b25639c6cd45847312f0',1,'Minty::DualBuffer::is_open()'],['../class_minty_1_1_file.html#a8ed470fd685fa238a2988d2e8554da86',1,'Minty::File::is_open()'],['../class_minty_1_1_physical_file.html#a641198939907e8a58ef22040dfbe458a',1,'Minty::PhysicalFile::is_open()']]],
-  ['is_5fsyncing_9',['is_syncing',['../class_minty_1_1_asset_manager.html#a91a6cb1e8c3b8eb57f40dc83a354d229',1,'Minty::AssetManager']]],
-  ['is_5fvalid_10',['is_valid',['../class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f',1,'Minty::UUID::is_valid()'],['../class_minty_1_1_reader.html#a1789d8de45bf5a26f752c410f8b7a5c6',1,'Minty::Reader::is_valid()'],['../class_minty_1_1_reader_implementation.html#a1fbc698d466aa6899480743203c6dbbd',1,'Minty::ReaderImplementation::is_valid()']]]
+  ['is_5frunning_9',['is_running',['../class_minty_1_1_stopwatch.html#a1534175f404262a7ccb41a3e495c795b',1,'Minty::Stopwatch']]],
+  ['is_5fsyncing_10',['is_syncing',['../class_minty_1_1_asset_manager.html#a91a6cb1e8c3b8eb57f40dc83a354d229',1,'Minty::AssetManager']]],
+  ['is_5fvalid_11',['is_valid',['../class_minty_1_1_u_u_i_d.html#a6ae59b9757f15c800803dce697d1e13f',1,'Minty::UUID::is_valid()'],['../class_minty_1_1_reader.html#a1789d8de45bf5a26f752c410f8b7a5c6',1,'Minty::Reader::is_valid()'],['../class_minty_1_1_reader_implementation.html#a1fbc698d466aa6899480743203c6dbbd',1,'Minty::ReaderImplementation::is_valid()']]]
 ];
