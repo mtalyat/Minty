@@ -4,6 +4,7 @@
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Serialization/Parseable.h"
 #include <filesystem>
 
 namespace Minty
@@ -12,6 +13,7 @@ namespace Minty
 	/// A collection of text representing a file path.
 	/// </summary>
 	class Path
+		: public Parseable
 	{
 #pragma region Iterators
 
@@ -308,6 +310,12 @@ namespace Minty
 		/// <returns>A new Path, relative from this Path to the given Path.</returns>
 		Path get_relative_to(Path const& other) const;
 
+		/// <summary>
+		/// Gets the parent directory's Path.
+		/// </summary>
+		/// <returns>The Path to the parent.</returns>
+		Path get_parent() const;
+
 #pragma endregion
 
 #pragma region Methods
@@ -331,6 +339,43 @@ namespace Minty
 		/// </summary>
 		/// <returns>True if the Path is empty.</returns>
 		constexpr Bool is_empty() const { return get_size() == 0; }
+
+		/// <summary>
+		/// Checks if this Path has an extension.
+		/// </summary>
+		/// <returns>True, if there is an extension.</returns>
+		Bool has_extension() const { return m_path.has_extension(); }
+
+		/// <summary>
+		/// Gets the extension of this Path.
+		/// </summary>
+		/// <returns>A Path with the extension.</returns>
+		Path get_extension() { return Path(m_path.extension().string().c_str()); }
+
+		/// <summary>
+		/// Gets the name of the file.
+		/// </summary>
+		/// <returns>A Path with the file name and extension.</returns>
+		Path get_file_name() const { return Path(m_path.filename().string().c_str()); }
+
+		/// <summary>
+		/// Gets the name of the file without the extension.
+		/// </summary>
+		/// <returns>A Path with the file name.</returns>
+		Path get_name() const { return Path(m_path.stem().string().c_str()); }
+
+		/// <summary>
+		/// Reads the data for this object from a String.
+		/// </summary>
+		/// <param name="text">A String of this object.</param>
+		/// <returns>True on success.</returns>
+		Bool parse(String const& text) override;
+
+		/// <summary>
+		/// Converts the data in this object to a String.
+		/// </summary>
+		/// <returns>A String of this object.</returns>
+		String to_string() const override;
 
 #pragma endregion
 
@@ -366,7 +411,6 @@ namespace Minty
 		static Size get_file_size(Path const& path);
 
 #pragma endregion
-
 	};
 }
 

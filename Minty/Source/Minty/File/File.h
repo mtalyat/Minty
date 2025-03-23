@@ -288,12 +288,24 @@ namespace Minty
 		/// <returns></returns>
 		virtual Bool read_line(String& line) = 0;
 
+		String read_text();
+
+		Vector<String> read_lines();
+
+		Vector<Byte> read_bytes();
+
 		/// <summary>
 		/// Writes the given size of data to the file, and moves the cursor size number of bytes.
 		/// </summary>
 		/// <param name="buffer">The location to write the data from.</param>
 		/// <param name="size">The number of bytes to write.</param>
 		virtual void write(void const* const buffer, Size_t const size) = 0;
+
+		void write_text(String const& text);
+
+		void write_lines(Vector<String> const& lines);
+
+		void write_bytes(Vector<Byte> const& bytes);
 
 #pragma endregion
 
@@ -325,6 +337,48 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The Path to the File.</param>
 		static void destroy(Path const& path);
+
+		/// <summary>
+		/// Reads all of the text from a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <returns>A String containing all the text.</returns>
+		static String read_text(Path const& path);
+
+		/// <summary>
+		/// Reads all of the lines of text from a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <returns>A Vector containing all the lines.</returns>
+		static Vector<String> read_lines(Path const& path);
+
+		/// <summary>
+		/// Reads all of the bytes from a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <returns>A Vector containing all of the bytes of data.</returns>
+		static Vector<Byte> read_bytes(Path const& path);
+
+		/// <summary>
+		/// Writes all of the text to a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <param name="text">The text to write.</param>
+		static void write_text(Path const& path, String const& text);
+
+		/// <summary>
+		/// Writes all of the lines of text to a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <param name="lines">The lines to write.</param>
+		static void write_lines(Path const& path, Vector<String> const& lines);
+
+		/// <summary>
+		/// Writes all of the bytes to a File.
+		/// </summary>
+		/// <param name="path">The Path to the File.</param>
+		/// <param name="bytes">The bytes to write.</param>
+		static void write_bytes(Path const& path, Vector<Byte> const& bytes);
 
 #pragma endregion
 	};

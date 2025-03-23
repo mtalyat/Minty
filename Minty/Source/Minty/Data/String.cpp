@@ -19,7 +19,7 @@ Minty::String::String(Size const capacity, Allocator const allocator)
 	reserve(capacity);
 }
 
-Minty::String::String(Char const* data, Allocator const allocator)
+Minty::String::String(Char const* const data, Allocator const allocator)
 	: m_allocator(allocator)
 	, m_capacity(0)
 	, m_size(0)
@@ -127,7 +127,7 @@ void Minty::String::reserve(Size const capacity)
 	mp_data = newData;
 }
 
-void Minty::String::resize(Size const size)
+void Minty::String::resize(Size const size, Char const value)
 {
 	// if new size is above capacity, reserve more memory
 	if (size > m_capacity)
@@ -138,7 +138,7 @@ void Minty::String::resize(Size const size)
 	// in the new space, fill with spaces
 	if (size > m_size)
 	{
-		memset(mp_data + m_size, ' ', (size - m_size) * sizeof(Char));
+		memset(mp_data + m_size, value , (size - m_size) * sizeof(Char));
 	}
 
 	// update size
@@ -186,6 +186,29 @@ String& Minty::String::append(String const& other)
 	return *this;
 }
 
+String& Minty::String::append(Char const character)
+{
+	Size const newSize = m_size + 1;
+	if (newSize > m_capacity)
+	{
+		if (m_capacity * 2 >= newSize)
+		{
+			reserve(m_capacity * 2);
+		}
+		else
+		{
+			reserve(newSize);
+		}
+	}
+
+	// copy over data
+	mp_data[m_size] = character;
+	m_size = newSize;
+	mp_data[m_size] = '\0';
+
+	return *this;
+}
+
 String Minty::String::sub(Size const start, Size const length) const
 {
 	MINTY_ASSERT(start < m_size, "Start index is out of bounds.");
@@ -199,7 +222,7 @@ String Minty::String::sub(Size const start, Size const length) const
 	return result;
 }
 
-Size Minty::String::find(String const& sub) const
+Size Minty::String::find(String const& sub, Size const index) const
 {
 	if (is_empty() || sub.is_empty())
 	{
@@ -207,7 +230,7 @@ Size Minty::String::find(String const& sub) const
 	}
 
 	Size length = m_size - sub.m_size + 1;
-	for (Size i = 0; i < length; ++i)
+	for (Size i = index; i < length; ++i)
 	{
 		if (memcmp(mp_data + i, sub.mp_data, sub.m_size * sizeof(Char)) == 0)
 		{
@@ -216,6 +239,262 @@ Size Minty::String::find(String const& sub) const
 	}
 
 	return INVALID_INDEX;
+}
+
+Size Minty::String::find(Char const character, Size const index) const
+{
+	if (is_empty() || character == '\0')
+	{
+		return INVALID_INDEX;
+	}
+
+	for (Size i = index; i < m_size; ++i)
+	{
+		if (mp_data[i] == character)
+		{
+			return i;
+		}
+	}
+
+	return INVALID_INDEX;
+}
+
+Size Minty::String::find_first_of(String const& sub, Size const index) const
+{
+	if (is_empty() || sub.is_empty())
+	{
+		return INVALID_INDEX;
+	}
+	Size length = m_size;
+	for (Size i = index; i < length; ++i)
+	{
+		for (Size j = 0; j < sub.m_size; ++j)
+		{
+			if (mp_data[i] == sub.mp_data[j])
+			{
+				return i;
+			}
+		}
+	}
+	return INVALID_INDEX;
+}
+
+Size Minty::String::find_first_not_of(String const& sub, Size const index) const
+{
+	if (is_empty() || sub.is_empty())
+	{
+		return INVALID_INDEX;
+	}
+	Size length = m_size;
+	for (Size i = index; i < length; ++i)
+	{
+		Bool found = false;
+		for (Size j = 0; j < sub.m_size; ++j)
+		{
+			if (mp_data[i] == sub.mp_data[j])
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+		{
+			return i;
+		}
+	}
+	return INVALID_INDEX;
+}
+
+Bool Minty::String::starts_with(String const& sub) const
+{
+	if (is_empty() || sub.is_empty())
+	{
+		return false;
+	}
+	if (sub.m_size > m_size)
+	{
+		return false;
+	}
+	return memcmp(mp_data, sub.mp_data, sub.m_size * sizeof(Char)) == 0;
+}
+
+Bool Minty::String::ends_with(String const& sub) const
+{
+	if (is_empty() || sub.is_empty())
+	{
+		return false;
+	}
+	if (sub.m_size > m_size)
+	{
+		return false;
+	}
+	return memcmp(mp_data + m_size - sub.m_size, sub.mp_data, sub.m_size * sizeof(Char)) == 0;
+}
+
+String Minty::String::to_upper(String const& str)
+{
+	String copy(str);
+	for (Size i = 0; i < str.get_size(); i++)
+	{
+		Char c = copy.at(i);
+		if (c >= 'a' && c <= 'z')
+		{
+			copy.mp_data[i] = c - 'a' + 'A';
+		}
+	}
+	return copy;
+}
+
+String Minty::String::to_lower(String const& str)
+{
+	String copy(str);
+	for (Size i = 0; i < str.get_size(); i++)
+	{
+		Char c = copy.at(i);
+		if (c >= 'A' && c <= 'Z')
+		{
+			copy.mp_data[i] = c - 'A' + 'a';
+		}
+	}
+	return copy;
+}
+
+String Minty::String::replace(String const& str, String const& find, String const& replace)
+{
+	// find all occurances of the string
+	Vector<Size> indices;
+	Size index = 0;
+	while (true)
+	{
+		index = str.find(find, index);
+		if (index == INVALID_INDEX)
+		{
+			break;
+		}
+		indices.add(index);
+		index += find.get_size();
+	}
+
+	// if no occurances, return the original string
+	if (indices.is_empty())
+	{
+		return str;
+	}
+
+	// calculate new size
+	Size newSize = str.get_size() + indices.get_size() * (replace.get_size() - find.get_size());
+	String result(0, newSize);
+
+	// copy over data
+	Size offset = 0;
+	Size last = 0;
+	for (Size i = 0; i < indices.get_size(); i++)
+	{
+		Size current = indices[i];
+		Size length = current - last;
+		memcpy(result.mp_data + offset, str.mp_data + last, length * sizeof(Char));
+		offset += length;
+		memcpy(result.mp_data + offset, replace.mp_data, replace.get_size() * sizeof(Char));
+		offset += replace.get_size();
+		last = current + find.get_size();
+	}
+
+	// copy over the rest of the data
+	Size length = str.get_size() - last;
+	memcpy(result.mp_data + offset, str.mp_data + last, length * sizeof(Char));
+
+	return result;
+}
+
+Vector<String> Minty::String::split(String const& str, Char const delimiter)
+{
+	Vector<String> result;
+
+	// find all occurances of the delimiter
+	Vector<Size> indices;
+	Size index = 0;
+	while (true)
+	{
+		index = str.find(delimiter, index);
+		if (index == INVALID_INDEX)
+		{
+			break;
+		}
+		indices.add(index);
+		index += 1;
+	}
+
+	// if no occurances, return the original string
+	if (indices.is_empty())
+	{
+		result.add(str);
+		return result;
+	}
+
+	// calculate new size
+	result.reserve(indices.get_size() + 1);
+
+	// copy over data
+	Size last = 0;
+	for (Size i = 0; i < indices.get_size(); i++)
+	{
+		Size current = indices[i];
+		Size length = current - last;
+		result.add(str.sub(last, length));
+		last = current + 1;
+	}
+
+	// copy over the rest of the data
+	Size length = str.get_size() - last;
+	result.add(str.sub(last, length));
+	return result;
+}
+
+Vector<String> Minty::String::split(String const& str, String const& delimiter)
+{
+	Vector<String> result;
+
+	// find all occurances of the delimiter
+	Vector<Size> indices;
+	Size index = 0;
+	while (true)
+	{
+		index = str.find(delimiter, index);
+		if (index == INVALID_INDEX)
+		{
+			break;
+		}
+		indices.add(index);
+		index += delimiter.get_size();
+	}
+
+	// if no occurances, return the original string
+	if (indices.is_empty())
+	{
+		result.add(str);
+		return result;
+	}
+
+	// calculate new size
+	result.reserve(indices.get_size() + 1);
+
+	// copy over data
+	Size last = 0;
+	for (Size i = 0; i < indices.get_size(); i++)
+	{
+		Size current = indices[i];
+		Size length = current - last;
+		result.add(str.sub(last, length));
+		last = current + delimiter.get_size();
+	}
+
+	// copy over the rest of the data
+	Size length = str.get_size() - last;
+	if (length > 0)
+	{
+		result.add(str.sub(last, length));
+	}
+	return result;
 }
 
 std::ostream& Minty::operator<<(std::ostream& stream, String const& str)

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Minty: Source/Minty/Core/ToString.cpp File Reference</title>
+<title>Minty: Source/Minty/Serialization/ToString.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -115,6 +115,12 @@ $(function(){initNavTree('_to_string_8cpp.html',''); initResizable(true); });
 Macros</h2></td></tr>
 <tr class="memitem:ab89aeed063efba719932d7a316f47723" id="r_ab89aeed063efba719932d7a316f47723"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab89aeed063efba719932d7a316f47723">MINTY_TO_STRING</a>(value)</td></tr>
 <tr class="separator:ab89aeed063efba719932d7a316f47723"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8744debd822599fd35b676ec1f499f5" id="r_af8744debd822599fd35b676ec1f499f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8744debd822599fd35b676ec1f499f5">MINTY_TO_STRING_2</a>(value0,  value1)</td></tr>
+<tr class="separator:af8744debd822599fd35b676ec1f499f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f03ef8b6031a1fb11e5882f715a23d5" id="r_a2f03ef8b6031a1fb11e5882f715a23d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f03ef8b6031a1fb11e5882f715a23d5">MINTY_TO_STRING_3</a>(value0,  value1,  value2)</td></tr>
+<tr class="separator:a2f03ef8b6031a1fb11e5882f715a23d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec81545366b7bae9bfb63c1d7cabfa89" id="r_aec81545366b7bae9bfb63c1d7cabfa89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec81545366b7bae9bfb63c1d7cabfa89">MINTY_TO_STRING_4</a>(value0,  value1,  value2,  value3)</td></tr>
+<tr class="separator:aec81545366b7bae9bfb63c1d7cabfa89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ab89aeed063efba719932d7a316f47723" name="ab89aeed063efba719932d7a316f47723"></a>
@@ -131,8 +137,90 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; value; <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_string.html">String</a>(ss.str().c_str())</div>
-<div class="ttc" id="aclass_minty_1_1_string_html"><div class="ttname"><a href="class_minty_1_1_string.html">Minty::String</a></div><div class="ttdoc">A collection of text.</div><div class="ttdef"><b>Definition</b> String.h:14</div></div>
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; value; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
+<div class="ttc" id="anamespace_minty_html_a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98"><div class="ttname"><a href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">Minty::Type::String</a></div><div class="ttdeci">@ String</div><div class="ttdef"><b>Definition</b> Type.h:46</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af8744debd822599fd35b676ec1f499f5" name="af8744debd822599fd35b676ec1f499f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8744debd822599fd35b676ec1f499f5">&#9670;&#160;</a></span>MINTY_TO_STRING_2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_TO_STRING_2</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value1</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
+<div class="ttc" id="anamespace_minty_html_aa9f915007a1fd383a7f734cdeb7b1644"><div class="ttname"><a href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">Minty::to_string</a></div><div class="ttdeci">String to_string(Type const type)</div><div class="ttdef"><b>Definition</b> Type.cpp:299</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a2f03ef8b6031a1fb11e5882f715a23d5" name="a2f03ef8b6031a1fb11e5882f715a23d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f03ef8b6031a1fb11e5882f715a23d5">&#9670;&#160;</a></span>MINTY_TO_STRING_3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_TO_STRING_3</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value2</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value2) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aec81545366b7bae9bfb63c1d7cabfa89" name="aec81545366b7bae9bfb63c1d7cabfa89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec81545366b7bae9bfb63c1d7cabfa89">&#9670;&#160;</a></span>MINTY_TO_STRING_4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_TO_STRING_4</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value0</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value1</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value2</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>value3</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">std::stringstream ss; ss &lt;&lt; <span class="stringliteral">&quot;(&quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value0) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value1) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value2) &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; <a class="code hl_function" href="namespace_minty.html#aa9f915007a1fd383a7f734cdeb7b1644">to_string</a>(value3) &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>; <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a>(ss.str().c_str())</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -141,7 +229,7 @@ Macros</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_91074b34c76da4e5c53275030804a7e8.html">Minty</a></li><li class="navelem"><a class="el" href="dir_4bf085beea6475a473fcf46c6a0a97c7.html">Core</a></li><li class="navelem"><a class="el" href="_to_string_8cpp.html">ToString.cpp</a></li>
+    <li class="navelem"><a class="el" href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a class="el" href="dir_91074b34c76da4e5c53275030804a7e8.html">Minty</a></li><li class="navelem"><a class="el" href="dir_2becdfffe6319818de6dc63f90fd80ad.html">Serialization</a></li><li class="navelem"><a class="el" href="_to_string_8cpp.html">ToString.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

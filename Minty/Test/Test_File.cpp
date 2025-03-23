@@ -42,5 +42,27 @@ void test_File(Test& _test)
 			File::destroy(TEST_PATH_2);
 			EXPECT_TRUE(Path::exists(TEST_PATH_2) == false);
 		}
+
+		TEST("Read/Write Lines")
+		{
+			Vector<String> expected = { "Hello, World!", "Hello again!", "And again!" };
+			File::write_lines(TEST_PATH_2, expected);
+			Vector<String> actual = File::read_lines(TEST_PATH_2);
+			EXPECT_EQUAL(actual.get_size(), expected.get_size());
+			for (Size i = 0; i < Math::min(expected.get_size(), actual.get_size()); i++)
+			{
+				EXPECT_EQUAL(actual[i], expected[i]);
+			}
+			File::destroy(TEST_PATH_2);
+		}
+
+		TEST("Read/Write GenericAsset")
+		{
+			String expected = "Hello, World!\nHello again!\nAnd again!";
+			File::write_text(TEST_PATH_2, expected);
+			String actual = File::read_text(TEST_PATH_2);
+			EXPECT_EQUAL(actual, expected);
+			File::destroy(TEST_PATH_2);
+		}
 	}
 }

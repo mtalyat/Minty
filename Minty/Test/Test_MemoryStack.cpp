@@ -12,7 +12,7 @@ void test_MemoryStack(Test& _test)
 
 		TEST("Constructor")
 		{
-			EXPECT_FAIL(MemoryStack({ 0 }));
+			EXPECT_FAILURE(MemoryStack({ 0 }));
 			MemoryStack stack(builder);
 			EXPECT_TRUE(stack.get_capacity() == 1024);
 			EXPECT_TRUE(stack.get_size() == 0);
@@ -68,20 +68,20 @@ void test_MemoryStack(Test& _test)
 		{
 			MemoryStack stack(builder);
 			void* ptr = stack.allocate(512);
-			EXPECT_FAIL(stack.allocate(0));
+			EXPECT_FAILURE(stack.allocate(0));
 			EXPECT_TRUE(ptr != nullptr);
 			EXPECT_TRUE(stack.get_size() == 512);
 			ptr = stack.allocate(512);
 			EXPECT_TRUE(ptr != nullptr);
 			EXPECT_TRUE(stack.get_size() == 1024);
-			EXPECT_FAIL(stack.allocate(1));
+			EXPECT_FAILURE(stack.allocate(1));
 		}
 
 		TEST("Deallocate")
 		{
 			MemoryStack stack(builder);
-			EXPECT_FAIL(stack.deallocate(0));
-			EXPECT_FAIL(stack.deallocate(512));
+			EXPECT_FAILURE(stack.deallocate(0));
+			EXPECT_FAILURE(stack.deallocate(512));
 			void* ptr = stack.allocate(512);
 			stack.deallocate(512);
 			EXPECT_TRUE(stack.get_size() == 0);

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['vector_0',['Vector',['../class_minty_1_1_vector_1_1_iterator.html#a8d31999cf2d1c149956d35c1c01b3186',1,'Minty::Vector::Iterator::Vector()'],['../class_minty_1_1_vector_1_1_const_iterator.html#a8d31999cf2d1c149956d35c1c01b3186',1,'Minty::Vector::ConstIterator::Vector()'],['../class_minty_1_1_vector_1_1_reverse_iterator.html#a8d31999cf2d1c149956d35c1c01b3186',1,'Minty::Vector::ReverseIterator::Vector()'],['../class_minty_1_1_vector_1_1_const_reverse_iterator.html#a8d31999cf2d1c149956d35c1c01b3186',1,'Minty::Vector::ConstReverseIterator::Vector()']]]
+  ['set_0',['Set',['../class_minty_1_1_set_1_1_iterator.html#a85f04e9516b9eac3a6bee506abd0d30a',1,'Minty::Set::Iterator::Set()'],['../class_minty_1_1_set_1_1_const_iterator.html#a85f04e9516b9eac3a6bee506abd0d30a',1,'Minty::Set::ConstIterator::Set()']]],
+  ['string_1',['String',['../class_minty_1_1_string_1_1_iterator.html#a7fb804f7dc96dd9f705c84095f37f1ca',1,'Minty::String::Iterator::String()'],['../class_minty_1_1_string_1_1_const_iterator.html#a7fb804f7dc96dd9f705c84095f37f1ca',1,'Minty::String::ConstIterator::String()']]]
 ];

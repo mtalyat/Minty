@@ -40,6 +40,15 @@
     <Filter Include="Header Files\Tests\Debug">
       <UniqueIdentifier>{e951fa1f-a8b2-4919-ac0a-cb767902e055}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Serialization">
+      <UniqueIdentifier>{2ad639a7-df6f-4ffe-95b7-aac8a979e238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Asset">
+      <UniqueIdentifier>{8acdb392-49f6-4df1-9a99-d734d8b5df11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tests\Job">
+      <UniqueIdentifier>{0d58f503-a72d-456f-97a3-a174affd0684}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -118,6 +127,48 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ConstantContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_StaticContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_DynamicContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Variable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Type.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_JobManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_GenericAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -202,6 +253,48 @@
     </ClInclude>
     <ClInclude Include="Test_Math.h">
       <Filter>Header Files\Tests\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ConstantContainer.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_UUID.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_StaticContainer.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_DynamicContainer.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Node.h">
+      <Filter>Header Files\Tests\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Variable.h">
+      <Filter>Header Files\Tests\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Type.h">
+      <Filter>Header Files\Tests\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Reader.h">
+      <Filter>Header Files\Tests\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Writer.h">
+      <Filter>Header Files\Tests\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Encoding.h">
+      <Filter>Header Files\Tests\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_AssetManager.h">
+      <Filter>Header Files\Tests\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Asset.h">
+      <Filter>Header Files\Tests\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_JobManager.h">
+      <Filter>Header Files\Tests\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GenericAsset.h">
+      <Filter>Header Files\Tests\Asset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 #pragma once
 #include "Minty/Core/Base.h"
+#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include <iterator>
 
 namespace Minty
 {
@@ -510,7 +512,7 @@ namespace Minty
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
-			resize(size);
+			resize(size, value);
 
 			Node* node = mp_head;
 			while (node)
@@ -573,13 +575,7 @@ namespace Minty
 
 		~List()
 		{
-			Node* node = mp_head;
-			while (node)
-			{
-				Node* temp = node;
-				node = node->next;
-				destruct<Node>(temp, m_allocator);
-			}
+			clear();
 		}
 
 #pragma endregion
@@ -664,7 +660,8 @@ namespace Minty
 		/// Resizes the List to the given size.
 		/// </summary>
 		/// <param name="size">The number of elements to exist within the list.</param>
-		void resize(Size const size)
+		/// <param name="value">The value to use for new elements.</param>
+		void resize(Size const size, T const& value)
 		{
 			if (size < m_size)
 			{
@@ -703,7 +700,7 @@ namespace Minty
 				Node* node = mp_tail;
 				for (Size i = 0; i < size - m_size; ++i)
 				{
-					node = construct<Node>(m_allocator, T());
+					node = construct<Node>(m_allocator, value);
 					node->prev = mp_tail;
 					if (mp_tail)
 					{
@@ -778,6 +775,18 @@ namespace Minty
 				add(*it);
 			}
 		}
+
+		/// <summary>
+		/// Adds the given value to the List.
+		/// </summary>
+		/// <param name="value">The value to add.</param>
+		void push(T const& value) { add(value); }
+
+		/// <summary>
+		/// Adds the given value to the List.
+		/// </summary>
+		/// <param name="value">The value to add.</param>
+		void push(T&& value) { add(std::move(value)); }
 
 		/// <summary>
 		/// Inserts a copy of the given value at the given index.
@@ -1123,6 +1132,30 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Removes the last element in the List.
+		/// </summary>
+		void pop()
+		{
+			Node* node = mp_tail;
+			if (node)
+			{
+				Node* prevNode = node->prev;
+				if (prevNode)
+				{
+					prevNode->next = nullptr;
+				}
+				else
+				{
+					// if no previous node, then this is the only node
+					mp_head = nullptr;
+				}
+				mp_tail = prevNode;
+				destruct<Node>(node, m_allocator);
+				--m_size;
+			}
+		}
+
+		/// <summary>
 		/// Checks if this List is empty.
 		/// </summary>
 		/// <returns>True, if size is zero.</returns>
@@ -1151,6 +1184,42 @@ namespace Minty
 			ConstIterator it = begin() + index;
 			return *it;
 		}
+
+		/// <summary>
+		/// Gets the first element in the List.
+		/// </summary>
+		/// <returns>The first element.</returns>
+		T& front() { return mp_head->data; }
+
+		/// <summary>
+		/// Gets the first element in the List.
+		/// </summary>
+		/// <returns>The first element.</returns>
+		T const& front() const { return mp_head->data; }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T& back() { return mp_tail->data; }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T const& back() const { return mp_tail->data; }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T& peek() { return back(); }
+
+		/// <summary>
+		/// Gets the last element in the List.
+		/// </summary>
+		/// <returns>The last element.</returns>
+		T const& peek() const { return back(); }
 
 		/// <summary>
 		/// Creates a sublist of this List.
@@ -1223,7 +1292,22 @@ namespace Minty
 		/// </summary>
 		void clear()
 		{
-			resize(0);
+			// remove nodes
+			Node* node = mp_head;
+
+			// update head and tail
+			mp_head = nullptr;
+			mp_tail = nullptr;
+
+			// delete nodes
+			while (node)
+			{
+				Node* temp = node;
+				node = node->next;
+				destruct<Node>(temp, m_allocator);
+			}
+
+			m_size = 0;
 		}
 
 #pragma endregion

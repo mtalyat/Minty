@@ -117,10 +117,10 @@ void test_MemoryManager(Test& _test)
 			for (Size i = 0; i < MemoryManager::TASK_MEMORY_COUNT + 1; i++)
 			{
 				EXPECT_SUCCESS(manager.allocate(1024, Allocator::Temporary));
-				EXPECT_FAIL(manager.allocate(1024, Allocator::Temporary));
+				EXPECT_FAILURE(manager.allocate(1024, Allocator::Temporary));
 
 				EXPECT_SUCCESS(manager.allocate(1024, Allocator::Task));
-				EXPECT_FAIL(manager.allocate(1024, Allocator::Task));
+				EXPECT_FAILURE(manager.allocate(1024, Allocator::Task));
 
 				manager.update();
 			}
@@ -134,14 +134,14 @@ void test_MemoryManager(Test& _test)
 			void* def = nullptr;
 
 			MemoryManager manager(builder);
-			EXPECT_FAIL(manager.allocate(0, Allocator::Temporary));
-			EXPECT_FAIL(manager.allocate(0, Allocator::Task));
-			EXPECT_FAIL(manager.allocate(0, Allocator::Persistent));
-			EXPECT_FAIL(manager.allocate(0, Allocator::Default));
+			EXPECT_FAILURE(manager.allocate(0, Allocator::Temporary));
+			EXPECT_FAILURE(manager.allocate(0, Allocator::Task));
+			EXPECT_FAILURE(manager.allocate(0, Allocator::Persistent));
+			EXPECT_FAILURE(manager.allocate(0, Allocator::Default));
 
-			EXPECT_FAIL(manager.allocate(2048, Allocator::Temporary));
-			EXPECT_FAIL(manager.allocate(2048, Allocator::Task));
-			EXPECT_FAIL(manager.allocate(2048, Allocator::Persistent));
+			EXPECT_FAILURE(manager.allocate(2048, Allocator::Temporary));
+			EXPECT_FAILURE(manager.allocate(2048, Allocator::Task));
+			EXPECT_FAILURE(manager.allocate(2048, Allocator::Persistent));
 			EXPECT_SUCCESS(def = manager.allocate(2048, Allocator::Default));
 			manager.deallocate(def, 2048, Allocator::Default);
 
@@ -162,36 +162,36 @@ void test_MemoryManager(Test& _test)
 		TEST("Deallocate")
 		{
 			MemoryManager manager(builder);
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Temporary));
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Task));
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Persistent));
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Default));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Temporary));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Task));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Persistent));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Default));
 
 			void* temporary = manager.allocate(24, Allocator::Temporary);
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Temporary));
-			EXPECT_FAIL(manager.deallocate(temporary, 0, Allocator::Temporary));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Temporary));
+			EXPECT_FAILURE(manager.deallocate(temporary, 0, Allocator::Temporary));
 			EXPECT_SUCCESS(manager.deallocate(temporary, 24, Allocator::Temporary));
 
 			manager.allocate(24, Allocator::Temporary);
 			manager.update();
-			EXPECT_FAIL(manager.deallocate(temporary, 24, Allocator::Temporary));
+			EXPECT_FAILURE(manager.deallocate(temporary, 24, Allocator::Temporary));
 
 			void* task = manager.allocate(24, Allocator::Task);
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Task));
-			EXPECT_FAIL(manager.deallocate(task, 0, Allocator::Task));
-			EXPECT_FAIL(manager.deallocate(task, 24, Allocator::Default));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Task));
+			EXPECT_FAILURE(manager.deallocate(task, 0, Allocator::Task));
+			EXPECT_FAILURE(manager.deallocate(task, 24, Allocator::Default));
 			EXPECT_SUCCESS(manager.deallocate(task, 24, Allocator::Task));
 
 			void* persistent = manager.allocate(24, Allocator::Persistent);
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Persistent));
-			EXPECT_FAIL(manager.deallocate(persistent, 0, Allocator::Persistent));
-			EXPECT_FAIL(manager.deallocate(persistent, 24, Allocator::Default));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Persistent));
+			EXPECT_FAILURE(manager.deallocate(persistent, 0, Allocator::Persistent));
+			EXPECT_FAILURE(manager.deallocate(persistent, 24, Allocator::Default));
 			EXPECT_SUCCESS(manager.deallocate(persistent, 24, Allocator::Persistent));
 
 			void* def = manager.allocate(24, Allocator::Default);
-			EXPECT_FAIL(manager.deallocate(nullptr, 24, Allocator::Default));
-			EXPECT_FAIL(manager.deallocate(def, 0, Allocator::Default));
-			EXPECT_FAIL(manager.deallocate(def, 24, Allocator::Temporary));
+			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Default));
+			EXPECT_FAILURE(manager.deallocate(def, 0, Allocator::Default));
+			EXPECT_FAILURE(manager.deallocate(def, 24, Allocator::Temporary));
 			EXPECT_SUCCESS(manager.deallocate(def, 24, Allocator::Default));
 
 			EXPECT_TRUE(manager.get_static_size() == 0);

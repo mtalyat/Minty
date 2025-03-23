@@ -65,6 +65,7 @@ public:
 
 	// test start macro
 #define TEST(testName) _test.set_test(testName);
+#define SETUP() TEST("Setup")
 
 	// helper macros
 #define PRINT(message) { _test.restore_output(); std::cout << message << std::endl; _test.capture_output(); }
@@ -75,15 +76,17 @@ public:
 	// evaluation macros
 #define PASS(condition) _test.pass(#condition, __LINE__)
 #define FAIL(condition) _test.fail(#condition, __LINE__)
-#define EXPECT_TRUE(condition) try { if(condition) { PASS(condition); } else { FAIL(condition); } } catch(...) { FAIL(condition); }
-#define EXPECT_FALSE(condition) EXPECT_TRUE(!(condition))
+#define EXPECT(actual, op, expected) try { if((actual) op (expected)) { PASS(actual op expected); } else { FAIL(actual op expected); } } catch(...) { FAIL(actual op expected); }
+#define EXPECT_EQUAL(actual, expected) EXPECT(actual, ==, expected)
+#define EXPECT_NOT_EQUAL(actual, expected) EXPECT(actual, !=, expected)
+#define EXPECT_TRUE(condition) EXPECT(condition, ==, true)
+#define EXPECT_FALSE(condition) EXPECT(condition, ==, false)
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
-#define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
-#define EXPECT_EQUAL(expected, actual) EXPECT_TRUE(expected == actual)
+#define EXPECT_FAILURE(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
 #define CLOSE_DELTA 0.01f
-#define EXPECT_CLOSE_DELTA(expected, actual, delta) EXPECT_TRUE(std::abs(expected - actual) < delta)
-#define EXPECT_CLOSE(expected, actual) EXPECT_TRUE(std::abs(expected - actual) < CLOSE_DELTA)
-#define EXPECT_CLOSE_3(expected, actual) EXPECT_TRUE(std::abs(expected.x - actual.x) < CLOSE_DELTA && std::abs(expected.y - actual.y) < CLOSE_DELTA && std::abs(expected.z - actual.z) < CLOSE_DELTA)
-#define EXPECT_CLOSE_4(expected, actual) EXPECT_TRUE(std::abs(expected.x - actual.x) < CLOSE_DELTA && std::abs(expected.y - actual.y) < CLOSE_DELTA && std::abs(expected.z - actual.z) < CLOSE_DELTA && std::abs(expected.w - actual.w) < CLOSE_DELTA)
-#define EXPECT_OUTPUT(expected) EXPECT_TRUE(GET_OUTPUT() == expected)
+#define EXPECT_CLOSE_DELTA(actual, expected, delta) EXPECT(std::abs(actual - expected), <, delta)
+#define EXPECT_CLOSE(actual, expected) EXPECT_CLOSE_DELTA(actual, expected, CLOSE_DELTA)
+#define EXPECT_CLOSE_3(actual, expected) EXPECT_TRUE(std::abs(actual.x - expected.x) < CLOSE_DELTA && std::abs(actual.y - expected.y) < CLOSE_DELTA && std::abs(actual.z - expected.z) < CLOSE_DELTA)
+#define EXPECT_CLOSE_4(actual, expected) EXPECT_TRUE(std::abs(actual.x - expected.x) < CLOSE_DELTA && std::abs(actual.y - expected.y) < CLOSE_DELTA && std::abs(actual.z - expected.z) < CLOSE_DELTA && std::abs(actual.w - expected.w) < CLOSE_DELTA)
+#define EXPECT_OUTPUT(expected) EXPECT_EQUAL(GET_OUTPUT(), expected)
 #define EXPECT_OUTPUT_SINGLE(operation, expected) try { CLEAR_OUTPUT(); operation; if(GET_OUTPUT() == expected) { PASS(OUTPUT == expected); } else { FAIL(OUTPUT == expected); } } catch(...) { FAIL(OUTPUT == expected); }

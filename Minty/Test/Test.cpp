@@ -31,7 +31,7 @@ void Test::set_category(char const* const categoryName)
 		currentCategoryIndex = static_cast<int>(categories.size());
 		categories.emplace(currentCategoryName, currentCategoryIndex);
 		categoryNames.push_back(currentCategoryName);
-		std::cout << currentCategoryName << "\r";
+		std::cout << currentCategoryName << std::string(30, ' ') << "\r";
 	}
 	else
 	{
@@ -118,7 +118,12 @@ void Test::save_results(std::filesystem::path const& path) const
 	for (auto const& categoryName : categoryNames)
 	{
 		int categoryIndex = categories.at(categoryName);
-		Results const& categoryResults = results.at(categoryIndex);
+		auto found = results.find(categoryIndex);
+		if (found == results.end())
+		{
+			continue;
+		}
+		Results const& categoryResults = found->second;
 
 		file << "| " << std::left << std::setw(CATEGORY_NAME_WIDTH) << categoryName << " | " << std::right << std::setw(PASS_COUNT_WIDTH) << categoryResults.get_pass_count() << " | " << std::setw(FAIL_COUNT_WIDTH) << categoryResults.get_fail_count() << " |\n";
 	}
@@ -142,7 +147,12 @@ void Test::save_results(std::filesystem::path const& path) const
 		for (auto const& categoryName : categoryNames)
 		{
 			int categoryIndex = categories.at(categoryName);
-			Results const& categoryResults = results.at(categoryIndex);
+			auto found = results.find(categoryIndex);
+			if (found == results.end())
+			{
+				continue;
+			}
+			Results const& categoryResults = found->second;
 
 			for (size_t const failIndex : categoryResults.get_fails())
 			{
@@ -158,7 +168,12 @@ void Test::save_results(std::filesystem::path const& path) const
 	for (auto const& categoryName : categoryNames)
 	{
 		int categoryIndex = categories.at(categoryName);
-		Results const& categoryResults = results.at(categoryIndex);
+		auto found = results.find(categoryIndex);
+		if (found == results.end())
+		{
+			continue;
+		}
+		Results const& categoryResults = found->second;
 		file << "\n## " << categoryName << "\n"
 			<< "| " << std::setw(RESULT_WIDTH) << "Result" << " | " << std::setw(MESSAGE_WIDTH) << "Message" << " |\n"
 			<< "| " << std::string(RESULT_WIDTH, '-') << " | " << std::string(MESSAGE_WIDTH, '-') << " |\n";

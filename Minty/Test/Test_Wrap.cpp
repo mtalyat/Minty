@@ -142,7 +142,7 @@ void test_Wrap(Test& _test)
 		TEST("Emplace")
 		{
 			Wrap wrap(TEST_NEW_PATH, "Test", 1);
-			wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
+			wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
 			EXPECT_TRUE(wrap.get_entry_count() == 1);
 			EXPECT_TRUE(wrap.get_size() != 0);
 
@@ -158,7 +158,7 @@ void test_Wrap(Test& _test)
 			EXPECT_TRUE(text.contains("Lorem ipsum"));
 
 			// cannot add more than max entry count
-			EXPECT_FAIL(wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None));
+			EXPECT_FAILURE(wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None));
 
 			File::destroy(TEST_NEW_PATH);
 		}
@@ -166,23 +166,23 @@ void test_Wrap(Test& _test)
 		TEST("Contains")
 		{
 			Wrap wrap(TEST_NEW_PATH, "Test", 1);
-			wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
-			EXPECT_TRUE(wrap.contains("Text.txt"));
+			wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
+			EXPECT_TRUE(wrap.contains("GenericAsset.txt"));
 			EXPECT_TRUE(wrap.contains("Text2.txt") == false);
 			File::destroy(TEST_NEW_PATH);
 
 			Wrap wrap2(TEST_NEW_PATH, "Test", 1, "Base/Path");
-			wrap2.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
-			EXPECT_TRUE(wrap2.contains("Base/Path/Text.txt"));
+			wrap2.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
+			EXPECT_TRUE(wrap2.contains("Base/Path/GenericAsset.txt"));
 			File::destroy(TEST_NEW_PATH);
 		}
 
 		TEST("Open")
 		{
 			Wrap wrap(TEST_NEW_PATH, "Test", 1);
-			wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
+			wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
 			VirtualFile file;
-			EXPECT_TRUE(wrap.open("Text.txt", file));
+			EXPECT_TRUE(wrap.open("GenericAsset.txt", file));
 
 			Char buffer[KB];
 			memset(buffer, 0, KB);
@@ -199,8 +199,8 @@ void test_Wrap(Test& _test)
 		TEST("Read")
 		{
 			Wrap wrap(TEST_NEW_PATH, "Test", 1);
-			wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
-			Vector<Char> data = wrap.read("Text.txt");
+			wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
+			Vector<Char> data = wrap.read("GenericAsset.txt");
 			// assume lorem text is all there
 			String text = data.get_data();
 			EXPECT_TRUE(text.contains("Lorem ipsum"));
@@ -210,16 +210,16 @@ void test_Wrap(Test& _test)
 		TEST("Get Entry Index")
 		{
 			Wrap wrap(TEST_NEW_PATH, "Test", 1);
-			wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
-			EXPECT_TRUE(Path(wrap.get_entry(0).path) == "Text.txt");
+			wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
+			EXPECT_TRUE(Path(wrap.get_entry(0).path) == "GenericAsset.txt");
 			File::destroy(TEST_NEW_PATH);
 		}
 
 		TEST("Get Entry Path")
 		{
 			Wrap wrap(TEST_NEW_PATH, "Test", 1);
-			wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None);
-			EXPECT_TRUE(Path(wrap.get_entry("Text.txt").path) == "Text.txt");
+			wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None);
+			EXPECT_TRUE(Path(wrap.get_entry("GenericAsset.txt").path) == "GenericAsset.txt");
 			File::destroy(TEST_NEW_PATH);
 		}
 

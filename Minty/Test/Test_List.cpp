@@ -756,7 +756,7 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test[2] == 2);
 			EXPECT_TRUE(test[3] == 3);
 			EXPECT_TRUE(test[4] == 4);
-			EXPECT_FAIL(test[5]);
+			EXPECT_FAILURE(test[5]);
 		}
 
 		TEST("Const Index Operator")
@@ -767,7 +767,7 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test[2] == 2);
 			EXPECT_TRUE(test[3] == 3);
 			EXPECT_TRUE(test[4] == 4);
-			EXPECT_FAIL(test[5]);
+			EXPECT_FAILURE(test[5]);
 		}
 
 		TEST("Get Size")
@@ -775,20 +775,20 @@ void test_List(Test& _test)
 			List<int> test;
 			EXPECT_TRUE(test.get_size() == 0);
 
-			test.resize(5);
+			test.resize(5, 0);
 			EXPECT_TRUE(test.get_size() == 5);
 		}
 
 		TEST("Resize")
 		{
 			List<int> test;
-			test.resize(5);
+			test.resize(5, 0);
 			EXPECT_TRUE(test.get_size() == 5);
-			test.resize(10);
+			test.resize(10, 0);
 			EXPECT_TRUE(test.get_size() == 10);
-			test.resize(0);
+			test.resize(0, 0);
 			EXPECT_TRUE(test.get_size() == 0);
-			test.resize(20);
+			test.resize(20, 0);
 			EXPECT_TRUE(test.get_size() == 20);
 		}
 
@@ -829,6 +829,32 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test[2] == 2);
 			EXPECT_TRUE(test[3] == 3);
 			EXPECT_TRUE(test[4] == 4);
+		}
+
+		TEST("Push Copy")
+		{
+			List<String> test;
+			String str = "5";
+			test.push(str);
+			EXPECT_TRUE(test.get_size() == 1);
+			EXPECT_TRUE(test[0] == "5");
+			str = "10";
+			test.push(str);
+			EXPECT_TRUE(test.get_size() == 2);
+			EXPECT_TRUE(test[1] == "10");
+		}
+
+		TEST("Push Move")
+		{
+			List<String> test;
+			String str = "5";
+			test.push(std::move(str));
+			EXPECT_TRUE(test.get_size() == 1);
+			EXPECT_TRUE(test[0] == "5");
+			str = "10";
+			test.push(std::move(str));
+			EXPECT_TRUE(test.get_size() == 2);
+			EXPECT_TRUE(test[1] == "10");
 		}
 
 		TEST("Insert Index Copy")
@@ -1015,9 +1041,9 @@ void test_List(Test& _test)
 		TEST("Remove Index Range")
 		{
 			List<int> test({ 0, 1, 2, 3, 4 });
-			EXPECT_FAIL(test.remove(0, 0));
-			EXPECT_FAIL(test.remove(5, 1));
-			EXPECT_FAIL(test.remove(0, 6));
+			EXPECT_FAILURE(test.remove(0, 0));
+			EXPECT_FAILURE(test.remove(5, 1));
+			EXPECT_FAILURE(test.remove(0, 6));
 			test.remove(1, 3);
 			EXPECT_TRUE(test.get_size() == 2);
 			EXPECT_TRUE(test[0] == 0);
@@ -1034,9 +1060,9 @@ void test_List(Test& _test)
 		TEST("Remove Iterator Range")
 		{
 			List<int> test({ 0, 1, 2, 3, 4 });
-			EXPECT_FAIL(test.remove(test.begin(), test.begin()));
-			EXPECT_FAIL(test.remove(test.end(), test.end()));
-			EXPECT_FAIL(test.remove(test.end(), test.begin()));
+			EXPECT_FAILURE(test.remove(test.begin(), test.begin()));
+			EXPECT_FAILURE(test.remove(test.end(), test.end()));
+			EXPECT_FAILURE(test.remove(test.end(), test.begin()));
 			test.remove(test.begin() + 1, test.begin() + 4);
 			EXPECT_TRUE(test.get_size() == 2);
 			EXPECT_TRUE(test[0] == 0);
@@ -1047,6 +1073,31 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test.get_size() == 1);
 			EXPECT_TRUE(test[0] == 4);
 			test.remove(test.begin(), test.begin() + 1);
+			EXPECT_TRUE(test.get_size() == 0);
+		}
+
+		TEST("Pop")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 4);
+			EXPECT_TRUE(test[0] == 0);
+			EXPECT_TRUE(test[1] == 1);
+			EXPECT_TRUE(test[2] == 2);
+			EXPECT_TRUE(test[3] == 3);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 3);
+			EXPECT_TRUE(test[0] == 0);
+			EXPECT_TRUE(test[1] == 1);
+			EXPECT_TRUE(test[2] == 2);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 2);
+			EXPECT_TRUE(test[0] == 0);
+			EXPECT_TRUE(test[1] == 1);
+			test.pop();
+			EXPECT_TRUE(test.get_size() == 1);
+			EXPECT_TRUE(test[0] == 0);
+			test.pop();
 			EXPECT_TRUE(test.get_size() == 0);
 		}
 
@@ -1068,7 +1119,7 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test.at(2) == 2);
 			EXPECT_TRUE(test.at(3) == 3);
 			EXPECT_TRUE(test.at(4) == 4);
-			EXPECT_FAIL(test.at(5));
+			EXPECT_FAILURE(test.at(5));
 			test.at(0) = 5;
 			EXPECT_TRUE(test.at(0) == 5);
 		}
@@ -1081,7 +1132,49 @@ void test_List(Test& _test)
 			EXPECT_TRUE(test.at(2) == 2);
 			EXPECT_TRUE(test.at(3) == 3);
 			EXPECT_TRUE(test.at(4) == 4);
-			EXPECT_FAIL(test.at(5));
+			EXPECT_FAILURE(test.at(5));
+		}
+
+		TEST("Front")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.front() == 0);
+			test.front() = 5;
+			EXPECT_TRUE(test.front() == 5);
+		}
+
+		TEST("Const Front")
+		{
+			List<int> const test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.front() == 0);
+		}
+
+		TEST("Back")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.back() == 4);
+			test.back() = 5;
+			EXPECT_TRUE(test.back() == 5);
+		}
+
+		TEST("Const Back")
+		{
+			List<int> const test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.back() == 4);
+		}
+
+		TEST("Peek")
+		{
+			List<int> test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.peek() == 4);
+			test.peek() = 5;
+			EXPECT_TRUE(test.peek() == 5);
+		}
+
+		TEST("Const Peek")
+		{
+			List<int> const test({ 0, 1, 2, 3, 4 });
+			EXPECT_TRUE(test.peek() == 4);
 		}
 
 		TEST("Sub")

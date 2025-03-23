@@ -1,21 +1,33 @@
 // Minty
 #include "Test_Minty.h"
 
+// Asset
+#include "Test_Asset.h"
+#include "Test_AssetManager.h"
+#include "Test_GenericAsset.h"
+
 // Core
 #include "Test_Base.h"
 #include "Test_Compression.h"
+#include "Test_Encoding.h"
 #include "Test_Math.h"
+#include "Test_Type.h"
 
 // Data
 #include "Test_Array.h"
 #include "Test_Color.h"
+#include "Test_ConstantContainer.h"
+#include "Test_DynamicContainer.h"
 #include "Test_List.h"
 #include "Test_Map.h"
 #include "Test_Pair.h"
 #include "Test_Queue.h"
 #include "Test_Set.h"
 #include "Test_Stack.h"
+#include "Test_StaticContainer.h"
 #include "Test_String.h"
+#include "Test_UUID.h"
+#include "Test_Variable.h"
 #include "Test_Vector.h"
 
 // Debug
@@ -26,10 +38,18 @@
 #include "Test_PhysicalFile.h"
 #include "Test_VirtualFile.h"
 
+// Job
+#include "Test_JobManager.h"
+
 // Memory
 #include "Test_MemoryManager.h"
 #include "Test_MemoryPool.h"
 #include "Test_MemoryStack.h"
+
+// Serialization
+#include "Test_Node.h"
+#include "Test_Reader.h"
+#include "Test_Writer.h"
 
 // Wrap
 #include "Test_Wrap.h"
@@ -55,24 +75,36 @@ static void run_tests()
 	// Minty
 	test_Minty(_test);
 
+	// Asset
+	test_Asset(_test);
+	test_AssetManager(_test);
+	test_GenericAsset(_test);
+
 	// Console
 	test_Debug(_test);
 
 	// Core
 	test_Base(_test);
 	test_Compression(_test);
+	test_Encoding(_test);
 	test_Math(_test);
+	test_Type(_test);
 
 	// Data
 	test_Array(_test);
 	test_Color(_test);
+	test_ConstantContainer(_test);
+	test_DynamicContainer(_test);
 	test_List(_test);
 	test_Map(_test);
 	test_Pair(_test);
 	test_Queue(_test);
 	test_Set(_test);
 	test_Stack(_test);
+	test_StaticContainer(_test);
 	test_String(_test);
+	test_UUID(_test);
+	test_Variable(_test);
 	test_Vector(_test);
 
 	// File
@@ -80,10 +112,18 @@ static void run_tests()
 	test_PhysicalFile(_test);
 	test_VirtualFile(_test);
 
+	// Job
+	test_JobManager(_test);
+
 	// Memory
 	test_MemoryManager(_test);
 	test_MemoryPool(_test);
 	test_MemoryStack(_test);
+
+	// Serialization
+	test_Node(_test);
+	test_Reader(_test);
+	test_Writer(_test);
 
 	// Wrap
 	test_Wrap(_test);

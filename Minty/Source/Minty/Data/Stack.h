@@ -56,7 +56,8 @@ namespace Minty
 		/// </summary>
 		/// <param name="other">The Stack to copy.</param>
 		Stack(Stack const& other)
-			: m_capacity(0)
+			: m_allocator(other.m_allocator)
+			, m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
 		{
@@ -74,10 +75,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="other">The Stack to move.</param>
 		Stack(Stack&& other)
-			: m_capacity(other.m_capacity)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
+			other.m_allocator = Allocator::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -85,6 +88,7 @@ namespace Minty
 
 		constexpr ~Stack()
 		{
+			clear();
 			if (mp_data)
 			{
 				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
@@ -102,7 +106,7 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					destruct_array(mp_data, m_size, m_allocator);
+					deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 					mp_data = nullptr;
 				}
 				m_allocator = other.m_allocator;
@@ -110,24 +114,24 @@ namespace Minty
 				m_size = other.m_size;
 				if (other.mp_data)
 				{
-					mp_data = construct_array<T>(m_size, m_allocator);
+					mp_data = static_cast<T*>(allocate(m_capacity * sizeof(T), m_allocator));
 					for (Size i = 0; i < m_size; ++i)
 					{
-						mp_data[i] = other.mp_data[i];
+						new (&mp_data[i]) T(other.mp_data[i]);
 					}
 				}
 
 			}
 			return *this;
 		}
-
+		
 		constexpr Stack& operator=(Stack&& other) noexcept
 		{
 			if (this != &other)
 			{
 				if (mp_data)
 				{
-					destruct_array(mp_data, m_size, m_allocator);
+					deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 					mp_data = nullptr;
 				}
 				m_allocator = other.m_allocator;
@@ -189,16 +193,13 @@ namespace Minty
 			}
 
 			// create new array
-			T* newData = construct_array<T>(capacity, m_allocator);
+			T* newData = static_cast<T*>(allocate(capacity * sizeof(T), m_allocator));
 
 			// move data over, if it exists
 			if (mp_data)
 			{
-				for (Size i = 0; i < m_size; ++i)
-				{
-					newData[i] = std::move(mp_data[i]);
-				}
-				destruct_array(mp_data, m_size, m_allocator);
+				memcpy(newData, mp_data, m_size * sizeof(T));
+				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 			}
 
 			// replace data
@@ -226,7 +227,8 @@ namespace Minty
 			}
 
 			// push value
-			mp_data[m_size++] = value;
+			void* ptr = &mp_data[m_size++];
+			new (ptr) T(value);
 		}
 
 		/// <summary>
@@ -249,7 +251,8 @@ namespace Minty
 			}
 
 			// push value
-			mp_data[m_size++] = std::move(value);
+			void* ptr = &mp_data[m_size++];
+			new (ptr) T(std::move(value));
 		}
 
 		/// <summary>

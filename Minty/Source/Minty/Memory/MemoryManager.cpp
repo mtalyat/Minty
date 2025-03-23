@@ -24,9 +24,6 @@ void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
 
 	switch (allocator)
 	{
-	case Allocator::Default:
-		m_dynamicSize += size;
-		return malloc(size);
 	case Allocator::Temporary:
 		m_staticSize += size;
 		return m_temporary.allocate(size);
@@ -51,6 +48,9 @@ void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
 		m_staticSize += size;
 		return m_persistent[index].allocate();
 	}
+	default:
+		m_dynamicSize += size;
+		return malloc(size);
 	}
 }
 
@@ -95,10 +95,6 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 
 	switch (allocator)
 	{
-	case Allocator::Default:
-		free(ptr);
-		m_dynamicSize -= size;
-		break;
 	case Allocator::Temporary:
 		// verify that this pointer is the last element of the stack
 		MINTY_ASSERT(size <= m_temporary.get_size() && m_temporary.get_data() + m_temporary.get_size() - size == ptr, "The given pointer is not the last element of the stack.");
@@ -119,7 +115,12 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 		// deallocate memory
 		m_persistent[index].deallocate(ptr);
 		m_staticSize -= size;
+		break;
 	}
+	default:
+		free(ptr);
+		m_dynamicSize -= size;
+		break;
 	}
 }
 

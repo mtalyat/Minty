@@ -104,9 +104,9 @@ void test_VirtualFile(Test& _test)
 			EXPECT_TRUE(file.get_virtual_offset() == TEST_TEXT_1_LENGTH);
 			EXPECT_TRUE(file.get_virtual_size() == TEST_TEXT_2_LENGTH);
 
-			EXPECT_FAIL(file.open(TEST_FILE_PATH, File::Flags::Write | File::Flags::Truncate, 0, TEST_TEXT_1_LENGTH));
-			EXPECT_FAIL(file.open(TEST_FILE_PATH, File::Flags::Append, 0, TEST_TEXT_1_LENGTH));
-			EXPECT_FAIL(file.open(TEST_FILE_PATH, File::Flags::Write, 0, TEST_TEXT_1_LENGTH));
+			EXPECT_FAILURE(file.open(TEST_FILE_PATH, File::Flags::Write | File::Flags::Truncate, 0, TEST_TEXT_1_LENGTH));
+			EXPECT_FAILURE(file.open(TEST_FILE_PATH, File::Flags::Append, 0, TEST_TEXT_1_LENGTH));
+			EXPECT_FAILURE(file.open(TEST_FILE_PATH, File::Flags::Write, 0, TEST_TEXT_1_LENGTH));
 		}
 
 		TEST("Flush")

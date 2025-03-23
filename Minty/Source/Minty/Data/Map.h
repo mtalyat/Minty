@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Base.h"
+#include "Minty/Core/Constant.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pair.h"
@@ -561,7 +562,7 @@ namespace Minty
 		/// <returns>True, if the key was found and the pair was removed.</returns>
 		Bool remove(Key const& key)
 		{
-			if (m_capacity == 0)
+			if (m_size == 0)
 			{
 				return false;
 			}
@@ -604,6 +605,8 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value& at(Key const& key)
 		{
+			MINTY_ASSERT(m_size > 0, "Map is empty.");
+
 			Size index = hash(key);
 			Node* node = mp_table[index];
 
@@ -628,6 +631,8 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value const& at(Key const& key) const
 		{
+			MINTY_ASSERT(m_size > 0, "Map is empty.");
+
 			Size index = hash(key);
 			Node const* node = mp_table[index];
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Minty/Data/String.h"
-#include "Minty/Core/ToString.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -24,7 +24,13 @@ namespace Minty
 		if (index != INVALID_INDEX)
 		{
 			String firstString = to_string(std::forward<T>(first));
-			String formatted = format.sub(0, index) + firstString + format.sub(index + 2, format.get_size() - index - 2);
+			Size size = format.get_size() - (index + 2);
+			String formatted = format.sub(0, index) + firstString;
+			if (size > 0)
+			{
+				formatted += format.sub(index + 2, size);
+			}
+			return _format(formatted, std::forward<Args>(args)...);
 		}
 		return _format(format);
 	}

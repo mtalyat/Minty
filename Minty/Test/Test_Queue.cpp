@@ -108,14 +108,14 @@ void test_Queue(Test& _test)
 		TEST("Pop")
 		{
 			Queue<int> test;
-			EXPECT_FAIL(test.pop());
+			EXPECT_FAILURE(test.pop());
 			test.push(0);
 			test.push(1);
 			test.push(2);
 			EXPECT_TRUE(test.pop() == 0);
 			EXPECT_TRUE(test.pop() == 1);
 			EXPECT_TRUE(test.pop() == 2);
-			EXPECT_FAIL(test.pop());
+			EXPECT_FAILURE(test.pop());
 		}
 
 		TEST("Is Empty")

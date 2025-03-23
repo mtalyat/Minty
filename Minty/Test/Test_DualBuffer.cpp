@@ -37,7 +37,7 @@ void test_DualBuffer(Test& _test)
 			DualBuffer buffer;
 			buffer.open(std::cout, TEST_PATH);
 			EXPECT_TRUE(buffer.is_open());
-			EXPECT_FAIL(buffer.open(std::cout, TEST_PATH));
+			EXPECT_FAILURE(buffer.open(std::cout, TEST_PATH));
 			buffer.close();
 			buffer.open(std::cout, TEST_PATH);
 			EXPECT_TRUE(buffer.is_open());
@@ -48,7 +48,7 @@ void test_DualBuffer(Test& _test)
 		TEST("Close")
 		{
 			DualBuffer buffer;
-			EXPECT_FAIL(buffer.close());
+			EXPECT_FAILURE(buffer.close());
 			buffer.open(std::cout, TEST_PATH);
 			buffer.close();
 			EXPECT_FALSE(buffer.is_open());
