@@ -115,6 +115,7 @@ var hierarchy =
     [ "Minty::SerializableObject", "class_minty_1_1_serializable_object.html", null ],
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],
     [ "Minty::Stack< T >", "class_minty_1_1_stack.html", null ],
+    [ "Minty::Stopwatch", "class_minty_1_1_stopwatch.html", null ],
     [ "StorageBehavior", null, [
       [ "Minty::ReaderImplementation< FormatBehavior, StorageBehavior >", "class_minty_1_1_reader_implementation.html", null ],
       [ "Minty::WriterImplementation< FormatBehavior, StorageBehavior >", "class_minty_1_1_writer_implementation.html", null ]
@@ -123,6 +124,7 @@ var hierarchy =
       [ "Minty::DualBuffer", "class_minty_1_1_dual_buffer.html", null ]
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
+    [ "Minty::Time", "class_minty_1_1_time.html", null ],
     [ "std::true_type", null, [
       [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],

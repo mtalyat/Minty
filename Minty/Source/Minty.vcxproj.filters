@@ -49,6 +49,9 @@
     <Filter Include="Header Files\Job">
       <UniqueIdentifier>{74a9a029-6db6-4352-b641-7c8f08dd38e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Time">
+      <UniqueIdentifier>{74385c56-4d39-426d-b53f-e7d8e7a54d2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -261,11 +264,17 @@
     <ClInclude Include="Minty\Serialization\Parse.h">
       <Filter>Header Files\Serialization</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Asset\AssetFile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Asset\GenericAsset.h">
       <Filter>Header Files\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Time\_Time.h">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Time\Stopwatch.h">
+      <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Time\Time.h">
+      <Filter>Header Files\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +384,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Asset\GenericAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Time\Stopwatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Time\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

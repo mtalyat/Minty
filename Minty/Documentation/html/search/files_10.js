@@ -6,6 +6,8 @@ var searchData=
   ['stack_2eh_3',['Stack.h',['../_stack_8h.html',1,'']]],
   ['staticcontainer_2ecpp_4',['StaticContainer.cpp',['../_static_container_8cpp.html',1,'']]],
   ['staticcontainer_2eh_5',['StaticContainer.h',['../_static_container_8h.html',1,'']]],
-  ['string_2ecpp_6',['String.cpp',['../_string_8cpp.html',1,'']]],
-  ['string_2eh_7',['String.h',['../_string_8h.html',1,'']]]
+  ['stopwatch_2ecpp_6',['Stopwatch.cpp',['../_stopwatch_8cpp.html',1,'']]],
+  ['stopwatch_2eh_7',['Stopwatch.h',['../_stopwatch_8h.html',1,'']]],
+  ['string_2ecpp_8',['String.cpp',['../_string_8cpp.html',1,'']]],
+  ['string_2eh_9',['String.h',['../_string_8h.html',1,'']]]
 ];

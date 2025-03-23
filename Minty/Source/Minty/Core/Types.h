@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <typeindex>
+#include <chrono>
 
 namespace Minty
 {
@@ -18,6 +19,9 @@ namespace Minty
 	using Size = size_t;
 	using ID = uint64_t;
 	using Handle = uint32_t;
+
+	using TimePoint = std::chrono::steady_clock::time_point;
+	using TimeElapsed = long long;
 
 	using TypeID = std::type_index;
 	using TypeInfo = std::type_info;

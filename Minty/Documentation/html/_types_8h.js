@@ -11,6 +11,8 @@ var _types_8h =
     [ "Minty::Long", "namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07", null ],
     [ "Minty::Short", "namespace_minty.html#af6ffb8348af066d5ea40ea78dc4309fe", null ],
     [ "Minty::Size", "namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079", null ],
+    [ "Minty::TimeElapsed", "namespace_minty.html#a60b1e1da0cafeafd14072be10686875a", null ],
+    [ "Minty::TimePoint", "namespace_minty.html#a6862d373cd355608763fdda528994be1", null ],
     [ "Minty::TypeID", "namespace_minty.html#af16bfe766105040a120169c9f6608402", null ],
     [ "Minty::TypeIndex", "namespace_minty.html#afa566622bbe524f9e3d36f6bb12402b7", null ],
     [ "Minty::TypeInfo", "namespace_minty.html#ac20217fb7376b507278dedce18fd8e91", null ],
