@@ -51,6 +51,9 @@
 #include "Test_Reader.h"
 #include "Test_Writer.h"
 
+// Time
+#include "Test_Time.h"
+
 // Wrap
 #include "Test_Wrap.h"
 #include "Test_Wrapper.h"
@@ -124,6 +127,9 @@ static void run_tests()
 	test_Node(_test);
 	test_Reader(_test);
 	test_Writer(_test);
+
+	// Time
+	test_Time(_test);
 
 	// Wrap
 	test_Wrap(_test);

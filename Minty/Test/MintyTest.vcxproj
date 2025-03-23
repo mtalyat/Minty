@@ -172,6 +172,7 @@
     <ClCompile Include="Test_Stack.cpp" />
     <ClCompile Include="Test_StaticContainer.cpp" />
     <ClCompile Include="Test_String.cpp" />
+    <ClCompile Include="Test_Time.cpp" />
     <ClCompile Include="Test_Type.cpp" />
     <ClCompile Include="Test_UUID.cpp" />
     <ClCompile Include="Test_Variable.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Test_Stack.h" />
     <ClInclude Include="Test_StaticContainer.h" />
     <ClInclude Include="Test_String.h" />
+    <ClInclude Include="Test_Time.h" />
     <ClInclude Include="Test_Type.h" />
     <ClInclude Include="Test_UUID.h" />
     <ClInclude Include="Test_Variable.h" />

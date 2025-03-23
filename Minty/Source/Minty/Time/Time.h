@@ -58,6 +58,17 @@ namespace Minty
 		/// <param name="elapsed">The new time in seconds.</param>
 		inline void set_elapsed(Float const elapsed) { m_elapsed = elapsed; }
 
+		/// <summary>
+		/// Sets the total and elapsed time values.
+		/// </summary>
+		/// <param name="total">The total time.</param>
+		/// <param name="elapsed">The elapsed time.</param>
+		inline void update(Float const total, Float const elapsed)
+		{
+			m_total = total;
+			m_elapsed = elapsed;
+		}
+
 #pragma endregion
 
 #pragma region Statics
@@ -66,30 +77,28 @@ namespace Minty
 		/// <summary>
 		/// Gets the TimePoint for now.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The current time.</returns>
 		static TimePoint now();
 
 		/// <summary>
 		/// Gets the duration between start and end in seconds.
 		/// </summary>
-		/// <param name="start"></param>
-		/// <param name="end"></param>
-		/// <returns></returns>
+		/// <param name="start">The starting TimePoint.</param>
+		/// <param name="end">The ending TimePoint.</param>
+		/// <returns>The duration in seconds.</returns>
 		static Float calculate_duration_seconds(TimePoint const start, TimePoint const end);
-
-		/// <summary>
-		/// Gets the duration between start and end in milliseconds.
-		/// </summary>
-		/// <param name="start"></param>
-		/// <param name="end"></param>
-		/// <returns></returns>
-		static Float calculate_duration_milliseconds(TimePoint const start, TimePoint const end);
 
 		/// <summary>
 		/// Gets the current time as a time stamp string.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The timestamp.</returns>
 		static String timestamp();
+
+		/// <summary>
+		/// Sleeps for the given number of nanoseconds.
+		/// </summary>
+		/// <param name="time">The number of nanoseconds.</param>
+		static void sleep(TimeElapsed const time);
 
 #pragma endregion
 	};

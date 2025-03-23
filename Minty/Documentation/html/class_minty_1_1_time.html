@@ -132,6 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a983311e010c679483a51f0de56e493d8" id="r_a983311e010c679483a51f0de56e493d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a983311e010c679483a51f0de56e493d8">set_elapsed</a> (<a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a> const elapsed)</td></tr>
 <tr class="memdesc:a983311e010c679483a51f0de56e493d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the time elapsed since the last frame in seconds.  <br /></td></tr>
 <tr class="separator:a983311e010c679483a51f0de56e493d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e6b7079c76a841a900a6a8d58845cf" id="r_a05e6b7079c76a841a900a6a8d58845cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05e6b7079c76a841a900a6a8d58845cf">update</a> (<a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a> const total, <a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a> const elapsed)</td></tr>
+<tr class="memdesc:a05e6b7079c76a841a900a6a8d58845cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the total and elapsed time values.  <br /></td></tr>
+<tr class="separator:a05e6b7079c76a841a900a6a8d58845cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -141,12 +144,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a46249ef35962defb6a2c5ddb8782e558" id="r_a46249ef35962defb6a2c5ddb8782e558"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46249ef35962defb6a2c5ddb8782e558">calculate_duration_seconds</a> (<a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> const start, <a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> const end)</td></tr>
 <tr class="memdesc:a46249ef35962defb6a2c5ddb8782e558"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the duration between start and end in seconds.  <br /></td></tr>
 <tr class="separator:a46249ef35962defb6a2c5ddb8782e558"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fde344c99487a10e44ba07be5513d76" id="r_a9fde344c99487a10e44ba07be5513d76"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fde344c99487a10e44ba07be5513d76">calculate_duration_milliseconds</a> (<a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> const start, <a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> const end)</td></tr>
-<tr class="memdesc:a9fde344c99487a10e44ba07be5513d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the duration between start and end in milliseconds.  <br /></td></tr>
-<tr class="separator:a9fde344c99487a10e44ba07be5513d76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11c431307a33a41d6aa20fa8bcb8d2de" id="r_a11c431307a33a41d6aa20fa8bcb8d2de"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11c431307a33a41d6aa20fa8bcb8d2de">timestamp</a> ()</td></tr>
 <tr class="memdesc:a11c431307a33a41d6aa20fa8bcb8d2de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the current time as a time stamp string.  <br /></td></tr>
 <tr class="separator:a11c431307a33a41d6aa20fa8bcb8d2de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1b4ea9709d94ef761b3dd321a212958" id="r_af1b4ea9709d94ef761b3dd321a212958"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1b4ea9709d94ef761b3dd321a212958">sleep</a> (<a class="el" href="namespace_minty.html#a60b1e1da0cafeafd14072be10686875a">TimeElapsed</a> const time)</td></tr>
+<tr class="memdesc:af1b4ea9709d94ef761b3dd321a212958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleeps for the given number of nanoseconds.  <br /></td></tr>
+<tr class="separator:af1b4ea9709d94ef761b3dd321a212958"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Holds total and elapsed time values. </p>
@@ -179,45 +182,6 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9fde344c99487a10e44ba07be5513d76" name="a9fde344c99487a10e44ba07be5513d76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fde344c99487a10e44ba07be5513d76">&#9670;&#160;</a></span>calculate_duration_milliseconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a> Minty::Time::calculate_duration_milliseconds </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> const</td>          <td class="paramname"><span class="paramname"><em>start</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> const</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the duration between start and end in milliseconds. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">start</td><td></td></tr>
-    <tr><td class="paramname">end</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
 <a id="a46249ef35962defb6a2c5ddb8782e558" name="a46249ef35962defb6a2c5ddb8782e558"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46249ef35962defb6a2c5ddb8782e558">&#9670;&#160;</a></span>calculate_duration_seconds()</h2>
 
@@ -248,12 +212,12 @@ Static Public Member Functions</h2></td></tr>
 <p>Gets the duration between start and end in seconds. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">start</td><td></td></tr>
-    <tr><td class="paramname">end</td><td></td></tr>
+    <tr><td class="paramname">start</td><td>The starting <a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a>.</td></tr>
+    <tr><td class="paramname">end</td><td>The ending <a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a>.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The duration in seconds.</dd></dl>
 
 </div>
 </div>
@@ -337,7 +301,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Gets the <a class="el" href="namespace_minty.html#a6862d373cd355608763fdda528994be1">TimePoint</a> for now. </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The current time.</dd></dl>
 
 </div>
 </div>
@@ -407,6 +371,39 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af1b4ea9709d94ef761b3dd321a212958" name="af1b4ea9709d94ef761b3dd321a212958"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1b4ea9709d94ef761b3dd321a212958">&#9670;&#160;</a></span>sleep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Time::sleep </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a60b1e1da0cafeafd14072be10686875a">TimeElapsed</a> const</td>          <td class="paramname"><span class="paramname"><em>time</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sleeps for the given number of nanoseconds. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">time</td><td>The number of nanoseconds.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a11c431307a33a41d6aa20fa8bcb8d2de" name="a11c431307a33a41d6aa20fa8bcb8d2de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11c431307a33a41d6aa20fa8bcb8d2de">&#9670;&#160;</a></span>timestamp()</h2>
 
@@ -431,7 +428,45 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Gets the current time as a time stamp string. </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The timestamp.</dd></dl>
+
+</div>
+</div>
+<a id="a05e6b7079c76a841a900a6a8d58845cf" name="a05e6b7079c76a841a900a6a8d58845cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05e6b7079c76a841a900a6a8d58845cf">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Time::update </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a> const</td>          <td class="paramname"><span class="paramname"><em>total</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a372f2ac40c647017164622bb85bfb865">Float</a> const</td>          <td class="paramname"><span class="paramname"><em>elapsed</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the total and elapsed time values. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">total</td><td>The total time.</td></tr>
+    <tr><td class="paramname">elapsed</td><td>The elapsed time.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

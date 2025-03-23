@@ -67,7 +67,9 @@ namespace Minty
 
 #pragma region Time
 
-	constexpr TimeElapsed ONE_MILLISECOND = 1000000ll;
+	constexpr TimeElapsed ONE_NANOSECOND = 1ll;
+	constexpr TimeElapsed ONE_MICROSECOND = ONE_NANOSECOND * 1000ll;
+	constexpr TimeElapsed ONE_MILLISECOND = ONE_MICROSECOND * 1000ll;
 	constexpr TimeElapsed ONE_SECOND = ONE_MILLISECOND * 1000ll;
 	constexpr TimeElapsed ONE_MINUTE = ONE_SECOND * 60ll;
 	constexpr TimeElapsed ONE_HOUR = ONE_MINUTE * 60ll;

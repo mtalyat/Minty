@@ -1,5 +1,7 @@
 var NAVTREEINDEX12 =
 {
+"class_minty_1_1_writer.html#aa8b74c3509779725e8278bea501d63ae":[0,0,0,69,40],
+"class_minty_1_1_writer.html#aa8b74c3509779725e8278bea501d63ae":[1,0,0,68,40],
 "class_minty_1_1_writer.html#ab9e38ce764086e8754b4d3aadc85c1c8":[0,0,0,69,25],
 "class_minty_1_1_writer.html#ab9e38ce764086e8754b4d3aadc85c1c8":[1,0,0,68,25],
 "class_minty_1_1_writer.html#abeb8f64972dc09db1f7753200a95fbb8":[0,0,0,69,18],
@@ -247,7 +249,5 @@ var NAVTREEINDEX12 =
 "hierarchy.html":[1,2],
 "index.html":[],
 "namespace_minty.html":[0,0,0],
-"namespace_minty.html#a00135ebe2172acb369f9368a473b2deb":[0,0,0,272],
-"namespace_minty.html#a078e4da4e4a1c19e281e6a74ddd29729":[0,0,0,103],
-"namespace_minty.html#a08f78e82e4c6902a4717e68113131153":[0,0,0,156]
+"namespace_minty.html#a00135ebe2172acb369f9368a473b2deb":[0,0,0,272]
 };
