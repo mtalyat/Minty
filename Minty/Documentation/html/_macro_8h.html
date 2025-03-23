@@ -136,6 +136,8 @@ Macros</h2></td></tr>
 <tr class="separator:a978c1461a39cb8799b3a09f3587f4d6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5840665eff380d63dd931d12890f0400" id="r_a5840665eff380d63dd931d12890f0400"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5840665eff380d63dd931d12890f0400">MINTY_BREAK</a>()</td></tr>
 <tr class="separator:a5840665eff380d63dd931d12890f0400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50e1e3c2bbbbb7dca6715bb39daecabd" id="r_a50e1e3c2bbbbb7dca6715bb39daecabd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50e1e3c2bbbbb7dca6715bb39daecabd">MINTY_ENUM_FLAGS_OPERATORS</a>(type)</td></tr>
+<tr class="separator:a50e1e3c2bbbbb7dca6715bb39daecabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a361da9ef9b75bbbfefe1700e866ecc2c" name="a361da9ef9b75bbbfefe1700e866ecc2c"></a>
@@ -226,6 +228,35 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="stringliteral">&quot;[&quot;</span>, std::filesystem::path(__FILE__).filename().string(), <span class="stringliteral">&quot;][&quot;</span>, __func__, <span class="stringliteral">&quot;()][line &quot;</span>, __LINE__, <span class="stringliteral">&quot;] -&gt; &quot;</span>, message</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a50e1e3c2bbbbb7dca6715bb39daecabd" name="a50e1e3c2bbbbb7dca6715bb39daecabd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50e1e3c2bbbbb7dca6715bb39daecabd">&#9670;&#160;</a></span>MINTY_ENUM_FLAGS_OPERATORS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_ENUM_FLAGS_OPERATORS</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">inline</span> type operator|(type <span class="keyword">const</span> left, type <span class="keyword">const</span> right) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>type<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span>Size<span class="keyword">&gt;</span>(left) | <span class="keyword">static_cast&lt;</span>Size<span class="keyword">&gt;</span>(right)); } \</div>
+<div class="line"><span class="keyword">inline</span> type operator|=(type&amp; left, type <span class="keyword">const</span> right) { left = left | right; <span class="keywordflow">return</span> left; } \</div>
+<div class="line"><span class="keyword">inline</span> type operator&amp;(type <span class="keyword">const</span> left, type <span class="keyword">const</span> right) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>type<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(<a class="code hl_function" href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">left</a>) &amp; <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(<a class="code hl_function" href="namespace_minty_1_1_math.html#af07c4169b9b8899da8259160e6be5be5">right</a>)); } \</div>
+<div class="line"><span class="keyword">inline</span> type operator&amp;=(type&amp; left, type <span class="keyword">const</span> right) { <a class="code hl_function" href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">left</a> = <a class="code hl_function" href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">left</a> &amp; <a class="code hl_function" href="namespace_minty_1_1_math.html#af07c4169b9b8899da8259160e6be5be5">right</a>; <span class="keywordflow">return</span> <a class="code hl_function" href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">left</a>; } \</div>
+<div class="line"><span class="keyword">inline</span> type operator~(type <span class="keyword">const</span> value) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>type<span class="keyword">&gt;</span>(~static_cast&lt;Size&gt;(value)); } \</div>
+<div class="line"><span class="keyword">inline</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> operator!(type <span class="keyword">const</span> value) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(value) == 0; } \</div>
+<div class="line"><span class="keyword">inline</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> operator&lt;(type <span class="keyword">const</span> left, type <span class="keyword">const</span> right) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(<a class="code hl_function" href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">left</a>) &lt; <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(right); } \</div>
+<div class="line"><span class="keyword">inline</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> operator&gt;(type <span class="keyword">const</span> left, type <span class="keyword">const</span> right) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(<a class="code hl_function" href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">left</a>) &gt; <span class="keyword">static_cast&lt;</span><a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a><span class="keyword">&gt;</span>(right); }</div>
+<div class="ttc" id="anamespace_minty_1_1_math_html_ad31700cab66d973f99f5bfde519e5795"><div class="ttname"><a href="namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795">Minty::Math::left</a></div><div class="ttdeci">Float3 left(Quaternion const &amp;value)</div><div class="ttdoc">Gets the left vector of the given Quaternion.</div><div class="ttdef"><b>Definition</b> Math.cpp:48</div></div>
+<div class="ttc" id="anamespace_minty_1_1_math_html_af07c4169b9b8899da8259160e6be5be5"><div class="ttname"><a href="namespace_minty_1_1_math.html#af07c4169b9b8899da8259160e6be5be5">Minty::Math::right</a></div><div class="ttdeci">Float3 right(Quaternion const &amp;value)</div><div class="ttdoc">Gets the right vector of the given Quaternion.</div><div class="ttdef"><b>Definition</b> Math.cpp:43</div></div>
+<div class="ttc" id="anamespace_minty_html_a255c27cd8d5eacbbcbb02c4962ef3079"><div class="ttname"><a href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Minty::Size</a></div><div class="ttdeci">size_t Size</div><div class="ttdef"><b>Definition</b> Types.h:19</div></div>
+<div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:8</div></div>
 </div><!-- fragment -->
 </div>
 </div>

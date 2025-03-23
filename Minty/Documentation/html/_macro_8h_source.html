@@ -166,6 +166,21 @@ $(function(){initNavTree('_macro_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#pragma region Function</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="foldopen" id="foldopen00065" data-start="" data-end="">
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="_macro_8h.html#a50e1e3c2bbbbb7dca6715bb39daecabd">   65</a></span><span class="preprocessor">#define MINTY_ENUM_FLAGS_OPERATORS(type) inline type operator|(type const left, type const right) { return static_cast&lt;type&gt;(static_cast&lt;Size&gt;(left) | static_cast&lt;Size&gt;(right)); } \</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">inline type operator|=(type&amp; left, type const right) { left = left | right; return left; } \</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">inline type operator&amp;(type const left, type const right) { return static_cast&lt;type&gt;(static_cast&lt;Size&gt;(left) &amp; static_cast&lt;Size&gt;(right)); } \</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">inline type operator&amp;=(type&amp; left, type const right) { left = left &amp; right; return left; } \</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">inline type operator~(type const value) { return static_cast&lt;type&gt;(~static_cast&lt;Size&gt;(value)); } \</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">inline Bool operator!(type const value) { return static_cast&lt;Size&gt;(value) == 0; } \</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">inline Bool operator&lt;(type const left, type const right) { return static_cast&lt;Size&gt;(left) &lt; static_cast&lt;Size&gt;(right); } \</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">inline Bool operator&gt;(type const left, type const right) { return static_cast&lt;Size&gt;(left) &gt; static_cast&lt;Size&gt;(right); }</span></div>
+</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#pragma endregion</span></div>
 <div class="ttc" id="a_debug_8h_html"><div class="ttname"><a href="_debug_8h.html">Debug.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

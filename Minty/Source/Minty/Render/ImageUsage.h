@@ -35,6 +35,8 @@ namespace Minty
 		DepthStencil = 8
 	};
 
+	MINTY_ENUM_FLAGS_OPERATORS(ImageUsage)
+
 	String to_string(ImageUsage const obj);
 	ImageUsage parse_to_image_usage(String const& string);
 	Bool parse_try_image_usage(String const& string, ImageUsage& value);
