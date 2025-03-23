@@ -1,5 +1,5 @@
 # Results
-4588/4588 (100.00%)
+4622/4622 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -55,6 +55,8 @@
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
 | BufferUsage                    |       19 |        0 |
+| ImagePixelFormat               |       19 |        0 |
+| ImageType                      |       15 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
@@ -4409,6 +4411,48 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
 |  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
+
+## ImagePixelFormat
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 27: Parse To (parse_to_image_pixel_format(name) == value)                                                                        |
+|  PASS  | 27: Parse To (parse_to_image_pixel_format(name) == value)                                                                        |
+|  PASS  | 27: Parse To (parse_to_image_pixel_format(name) == value)                                                                        |
+|  PASS  | 27: Parse To (parse_to_image_pixel_format(name) == value)                                                                        |
+|  PASS  | 30: Parse To (parse_to_image_pixel_format("") == ImagePixelFormat())                                                             |
+|  PASS  | 38: Parse Try (parse_try_image_pixel_format(name, result) == true)                                                               |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_image_pixel_format(name, result) == true)                                                               |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_image_pixel_format(name, result) == true)                                                               |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_image_pixel_format(name, result) == true)                                                               |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_pixel_format("", result) == false)                                                                |
+|  PASS  | 43: Parse Try (result == ImagePixelFormat())                                                                                     |
+
+## ImageType
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 26: Parse To (parse_to_image_type(name) == value)                                                                                |
+|  PASS  | 26: Parse To (parse_to_image_type(name) == value)                                                                                |
+|  PASS  | 26: Parse To (parse_to_image_type(name) == value)                                                                                |
+|  PASS  | 29: Parse To (parse_to_image_type("") == ImageType())                                                                            |
+|  PASS  | 37: Parse Try (parse_try_image_type(name, result) == true)                                                                       |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 37: Parse Try (parse_try_image_type(name, result) == true)                                                                       |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 37: Parse Try (parse_try_image_type(name, result) == true)                                                                       |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 41: Parse Try (parse_try_image_type("", result) == false)                                                                        |
+|  PASS  | 42: Parse Try (result == ImageType())                                                                                            |
 
 ## Node
 | Result | Message                                                                                                                          |

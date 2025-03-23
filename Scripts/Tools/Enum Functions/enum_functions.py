@@ -5,12 +5,12 @@ DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 FILE_INPUT = os.path.join(DIRECTORY, 'input.txt')
 FILE_OUTPUT = os.path.join(DIRECTORY, 'output.txt')
 
-PATTERN_EMPTY = re.compile(r'^\s*$')
+PATTERN_EMPTY = re.compile(r'^\s*($|//)')
 PATTERN_ENUM_NAME = re.compile(r'^\s*enum (class )?([a-zA-Z]\w*)\s*{?\s*$')
 PATTERN_VALUE_NAME = re.compile(r'^\s*(\w+)\s*(=\s*[\dbBxX]+\s*)?,?\s*$')
 PATTERN_PASCAL_TO_SNAKE = re.compile(r'(?<!^)(?=[A-Z])')
 
-def add_enum(lines):
+def generate(lines):
     # parse out name
     nameText = lines[0]
     nameMatch = re.search(PATTERN_ENUM_NAME, nameText)
@@ -58,7 +58,9 @@ def add_enum(lines):
     
     output += header('Source:')
     temp = loop_with_values(f'\t\tcase {name}::{{0}}: return "{{0}}";\n')
-    output += f'''String Minty::to_string({name} const obj)
+    output += f'''using namespace Minty;
+
+String Minty::to_string({name} const obj)
 {{
     switch (obj)
 	{{
@@ -83,9 +85,24 @@ Bool Minty::parse_try_{name2}(String const& string, {name}& value)
 
 '''
     
-    output += header('Tests:')
+    output += header('Test Header:')
+    output += f'''#pragma once
+
+#include "Test.h"
+
+void test_{name}(Test& _test);
+
+'''
+    
+    output += header('Test Source:')
     temp = loop_with_values(f'\t\t\t{{{{{name}::{{0}}, "{{0}}"}}}},\n')
-    output += f'''
+    output += f'''#include "Test_{name}.h"
+#include "Minty.h"
+
+void test_{name}(Test& _test)
+{{
+	CATEGORY({name})
+	{{
         std::vector<std::pair<{name}, String>> VALUES = {{
 {temp}        }};
     
@@ -119,6 +136,8 @@ Bool Minty::parse_try_{name2}(String const& string, {name}& value)
             EXPECT_FALSE(parse_try_{name2}("", result));
             EXPECT_EQUAL(result, {name}());
         }}
+	}}
+}}
 '''
     
     # output
@@ -130,22 +149,11 @@ def main():
     with open(FILE_INPUT, 'r') as file:
         lines = file.readlines()
 
-    # split up by empty lines
-    groups = []
-    current = []
-    for line in lines:
-        if re.search(PATTERN_EMPTY, line):
-            if len(current) > 0:
-                groups.append(current)
-                current = []
-        else:
-            current.append(line)
-    if len(current) > 0:
-        groups.append(current)
+    # remove empty lines
+    lines = [line for line in lines if not re.match(PATTERN_EMPTY, line)]
 
-    # do each group separately
-    for group in groups:
-        add_enum(group)
+    # do the work
+    generate(lines)
 
     # notify
     print('Done.')

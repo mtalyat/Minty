@@ -291,6 +291,12 @@
     <ClInclude Include="Minty\Render\BufferUsage.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\ImageType.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImagePixelFormat.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -408,6 +414,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\BufferUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\ImageType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\ImagePixelFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

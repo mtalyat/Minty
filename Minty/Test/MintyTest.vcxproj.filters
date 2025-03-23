@@ -52,6 +52,9 @@
     <Filter Include="Header Files\Tests\Time">
       <UniqueIdentifier>{60d2160e-c2dd-4ce3-8cdd-26c0355b8c37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tests\Render">
+      <UniqueIdentifier>{e4b80fb9-4cab-43cb-8f17-673b59e61cc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -181,6 +184,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_BufferUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImagePixelFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -315,7 +324,13 @@
       <Filter>Header Files\Tests\Time</Filter>
     </ClInclude>
     <ClInclude Include="Test_BufferUsage.h">
-      <Filter>Header Files\Tests</Filter>
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageType.h">
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImagePixelFormat.h">
+      <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

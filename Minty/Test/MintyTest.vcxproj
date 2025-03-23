@@ -156,6 +156,8 @@
     <ClCompile Include="Test_Encoding.cpp" />
     <ClCompile Include="Test_File.cpp" />
     <ClCompile Include="Test_GenericAsset.cpp" />
+    <ClCompile Include="Test_ImagePixelFormat.cpp" />
+    <ClCompile Include="Test_ImageType.cpp" />
     <ClCompile Include="Test_JobManager.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
@@ -202,6 +204,8 @@
     <ClInclude Include="Test_Encoding.h" />
     <ClInclude Include="Test_File.h" />
     <ClInclude Include="Test_GenericAsset.h" />
+    <ClInclude Include="Test_ImagePixelFormat.h" />
+    <ClInclude Include="Test_ImageType.h" />
     <ClInclude Include="Test_JobManager.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />

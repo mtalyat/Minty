@@ -68,6 +68,7 @@ var searchData=
   ['glm_5fforce_5fdepth_5fzero_5fto_5fone_65',['GLM_FORCE_DEPTH_ZERO_TO_ONE',['../_g_l_m_8h.html#aa53e0967978ad7a8792f6961156ec968',1,'GLM.h']]],
   ['glm_5fforce_5fradians_66',['GLM_FORCE_RADIANS',['../_g_l_m_8h.html#a816ab7d5c2ce1f0a01216042837beb93',1,'GLM.h']]],
   ['glm_5fforce_5fsingle_5fonly_67',['GLM_FORCE_SINGLE_ONLY',['../_g_l_m_8h.html#a0edee94251e39db7f81bb402f3e2c597',1,'GLM.h']]],
-  ['gray_68',['Gray',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a994ae1d9731cebe455aff211bcb25b93',1,'Minty::Debug']]],
-  ['green_69',['Green',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625ad382816a3cbeed082c9e216e7392eed1',1,'Minty::Debug']]]
+  ['gray_68',['Gray',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a994ae1d9731cebe455aff211bcb25b93',1,'Minty::Debug::Gray'],['../namespace_minty.html#a849a9e9afca51327a3f16e2879ccb673a994ae1d9731cebe455aff211bcb25b93',1,'Minty::Gray']]],
+  ['grayalpha_69',['GrayAlpha',['../namespace_minty.html#a849a9e9afca51327a3f16e2879ccb673a2ac5c6887598139ed721c8de7b33452f',1,'Minty']]],
+  ['green_70',['Green',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625ad382816a3cbeed082c9e216e7392eed1',1,'Minty::Debug']]]
 ];

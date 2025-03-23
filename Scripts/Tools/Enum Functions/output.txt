@@ -2,57 +2,75 @@
 	Header:
 ====================
 
-String to_string(BufferUsage const obj);
-    BufferUsage parse_to_buffer_usage(String const& string);
-    Bool parse_try_buffer_usage(String const& string, BufferUsage& value);
+String to_string(ImagePixelFormat const obj);
+    ImagePixelFormat parse_to_image_pixel_format(String const& string);
+    Bool parse_try_image_pixel_format(String const& string, ImagePixelFormat& value);
     template<>
-    inline BufferUsage parse_to<BufferUsage>(String const& string) { return parse_to_buffer_usage(string); }
+    inline ImagePixelFormat parse_to<ImagePixelFormat>(String const& string) { return parse_to_image_pixel_format(string); }
     template<>
-    inline Bool parse_try<BufferUsage>(String const& string, BufferUsage& value) { return parse_try_buffer_usage(string, value); }
+    inline Bool parse_try<ImagePixelFormat>(String const& string, ImagePixelFormat& value) { return parse_try_image_pixel_format(string, value); }
 
 ====================
 	Source:
 ====================
 
-String Minty::to_string(BufferUsage const obj)
+using namespace Minty;
+
+String Minty::to_string(ImagePixelFormat const obj)
 {
     switch (obj)
 	{
-		case BufferUsage::Transfer: return "Transfer";
-		case BufferUsage::Vertex: return "Vertex";
-		case BufferUsage::Index: return "Index";
-		case BufferUsage::Uniform: return "Uniform";
+		case ImagePixelFormat::Gray: return "Gray";
+		case ImagePixelFormat::GrayAlpha: return "GrayAlpha";
+		case ImagePixelFormat::RedGreenBlue: return "RedGreenBlue";
+		case ImagePixelFormat::RedGreenBlueAlpha: return "RedGreenBlueAlpha";
 
 		default: return "";
 	}
 }
 
-BufferUsage Minty::parse_to_buffer_usage(String const& string)
+ImagePixelFormat Minty::parse_to_image_pixel_format(String const& string)
 {
-	if (string == "Transfer") return BufferUsage::Transfer;
-	if (string == "Vertex") return BufferUsage::Vertex;
-	if (string == "Index") return BufferUsage::Index;
-	if (string == "Uniform") return BufferUsage::Uniform;
+	if (string == "Gray") return ImagePixelFormat::Gray;
+	if (string == "GrayAlpha") return ImagePixelFormat::GrayAlpha;
+	if (string == "RedGreenBlue") return ImagePixelFormat::RedGreenBlue;
+	if (string == "RedGreenBlueAlpha") return ImagePixelFormat::RedGreenBlueAlpha;
 
-	return BufferUsage();
+	return ImagePixelFormat();
 }
 
-Bool Minty::parse_try_buffer_usage(String const& string, BufferUsage& value)
+Bool Minty::parse_try_image_pixel_format(String const& string, ImagePixelFormat& value)
 {
-	value = parse_to_buffer_usage(string);
-	return value != BufferUsage();
+	value = parse_to_image_pixel_format(string);
+	return value != ImagePixelFormat();
 }
 
 ====================
-	Tests:
+	Test Header:
 ====================
 
+#pragma once
 
-        std::vector<std::pair<BufferUsage, String>> VALUES = {
-			{BufferUsage::Transfer, "Transfer"},
-			{BufferUsage::Vertex, "Vertex"},
-			{BufferUsage::Index, "Index"},
-			{BufferUsage::Uniform, "Uniform"},
+#include "Test.h"
+
+void test_ImagePixelFormat(Test& _test);
+
+====================
+	Test Source:
+====================
+
+#include "Test_ImagePixelFormat.h"
+#include "Minty.h"
+
+void test_ImagePixelFormat(Test& _test)
+{
+	CATEGORY(ImagePixelFormat)
+	{
+        std::vector<std::pair<ImagePixelFormat, String>> VALUES = {
+			{ImagePixelFormat::Gray, "Gray"},
+			{ImagePixelFormat::GrayAlpha, "GrayAlpha"},
+			{ImagePixelFormat::RedGreenBlue, "RedGreenBlue"},
+			{ImagePixelFormat::RedGreenBlueAlpha, "RedGreenBlueAlpha"},
         };
     
         TEST("To String")
@@ -67,21 +85,23 @@ Bool Minty::parse_try_buffer_usage(String const& string, BufferUsage& value)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_buffer_usage(name), value);
+                EXPECT_EQUAL(parse_to_image_pixel_format(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_buffer_usage(""), BufferUsage());
+            EXPECT_EQUAL(parse_to_image_pixel_format(""), ImagePixelFormat());
         }
 
         TEST("Parse Try")
         {
-            BufferUsage result;
+            ImagePixelFormat result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_buffer_usage(name, result));
+                EXPECT_TRUE(parse_try_image_pixel_format(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_buffer_usage("", result));
-            EXPECT_EQUAL(result, BufferUsage());
+            EXPECT_FALSE(parse_try_image_pixel_format("", result));
+            EXPECT_EQUAL(result, ImagePixelFormat());
         }
+	}
+}

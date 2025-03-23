@@ -1,8 +1,26 @@
-enum class BufferUsage
+/// <summary>
+/// The format for how pixels are read.
+/// </summary>
+enum class ImagePixelFormat
 {
-    Undefined = 0,
-    Transfer = 1,
-    Vertex = 2,
-    Index = 3,
-    Uniform = 4
+	/// <summary>
+	/// No format.
+	/// </summary>
+	Undefined = 0,
+	/// <summary>
+	/// Gray channel only.
+	/// </summary>
+	Gray = 1,
+	/// <summary>
+	/// Gray and alpha channels.
+	/// </summary>
+	GrayAlpha = 2,
+	/// <summary>
+	/// Red, green and blue channels.
+	/// </summary>
+	RedGreenBlue = 3,
+	/// <summary>
+	/// Red, green, blue and alpha channels.
+	/// </summary>
+	RedGreenBlueAlpha = 4,
 };
