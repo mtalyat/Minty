@@ -168,6 +168,9 @@
     <ClCompile Include="Test_JobManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_GenericAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -289,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="Test_JobManager.h">
       <Filter>Header Files\Tests\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GenericAsset.h">
+      <Filter>Header Files\Tests\Asset</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

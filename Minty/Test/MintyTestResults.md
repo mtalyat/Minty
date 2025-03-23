@@ -1,5 +1,5 @@
 # Results
-4501/4501 (100.00%)
+4517/4517 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -7,6 +7,7 @@
 | Minty                          |        0 |        0 |
 | Asset                          |       31 |        0 |
 | AssetManager                   |      102 |        0 |
+| GenericAsset                   |       16 |        0 |
 | Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
@@ -208,6 +209,26 @@ No failures! :)
 |  PASS  | 405: Read Lines (lines[3].starts_with("Quisque id") == true)                                                                     |
 |  PASS  | 406: Read Lines (lines[4].starts_with("Quisque lacinia") == true)                                                                |
 |  PASS  | 414: Read Bytes (bytes.get_size() == 2948)                                                                                       |
+
+## GenericAsset
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 13: Constructor (asset.get_id().get_data() == 0)                                                                                 |
+|  PASS  | 14: Constructor (asset.get_data().get_size() == 0)                                                                               |
+|  PASS  | 15: Constructor (asset.get_asset_type() == AssetType::Generic)                                                                   |
+|  PASS  | 24: Constructor (asset.get_id().get_data() == 1)                                                                                 |
+|  PASS  | 25: Constructor (asset.get_data().get_size() == 13)                                                                              |
+|  PASS  | 26: Constructor (asset.get_asset_type() == AssetType::Generic)                                                                   |
+|  PASS  | 37: Get Data (asset.get_data().get_size() == 13)                                                                                 |
+|  PASS  | 47: Get Data Const (asset.get_data().get_size() == 13)                                                                           |
+|  PASS  | 57: Get Text (asset.get_text() == "Hello, World!")                                                                               |
+|  PASS  | 64: Get Asset Type (asset.get_asset_type() == AssetType::Generic)                                                                |
+|  PASS  | 72: Create (asset->get_id().get_data() == 0)                                                                                     |
+|  PASS  | 73: Create (asset->get_data().get_size() == 0)                                                                                   |
+|  PASS  | 74: Create (asset->get_asset_type() == AssetType::Generic)                                                                       |
+|  PASS  | 83: Create (asset->get_id().get_data() == 1)                                                                                     |
+|  PASS  | 84: Create (asset->get_data().get_size() == 13)                                                                                  |
+|  PASS  | 85: Create (asset->get_asset_type() == AssetType::Generic)                                                                       |
 
 ## Debug
 | Result | Message                                                                                                                          |

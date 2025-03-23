@@ -4,6 +4,7 @@
 // Asset
 #include "Test_Asset.h"
 #include "Test_AssetManager.h"
+#include "Test_GenericAsset.h"
 
 // Core
 #include "Test_Base.h"
@@ -77,6 +78,7 @@ static void run_tests()
 	// Asset
 	test_Asset(_test);
 	test_AssetManager(_test);
+	test_GenericAsset(_test);
 
 	// Console
 	test_Debug(_test);
