@@ -257,6 +257,13 @@ var namespace_minty =
       [ "D2", "namespace_minty.html#a1b149805d70cb24948f5ded05827c57aac4d62b6dcca08e5caf06c01889282859", null ],
       [ "D3", "namespace_minty.html#a1b149805d70cb24948f5ded05827c57aaa3deb6e481689f1d3303caecb8a6c401", null ]
     ] ],
+    [ "ImageUsage", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24", [
+      [ "Undefined", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24aec0fc0100c4fc1ce4eea230c3dc10360", null ],
+      [ "Sampled", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a4c1d10948179163c80a7b8d23542074b", null ],
+      [ "Storage", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a8c4aa541ee911e8d80451ef8cc304806", null ],
+      [ "Color", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24acb5feb1b7314637725a2e73bdc9f7295", null ],
+      [ "DepthStencil", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a2fa8076285272883c91e14402975a441", null ]
+    ] ],
     [ "Type", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd", [
       [ "Undefined", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdaec0fc0100c4fc1ce4eea230c3dc10360", null ],
       [ "Bool", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac26f15e86e3de4c398a8273272aba034", null ],
@@ -323,6 +330,7 @@ var namespace_minty =
     [ "parse_to< ImagePixelFormat >", "namespace_minty.html#ae5fd46f64fe296ed279efa6b82600e63", null ],
     [ "parse_to< ImageTiling >", "namespace_minty.html#a7996bc17c2d29d9520f91601538c471e", null ],
     [ "parse_to< ImageType >", "namespace_minty.html#ada5def3171c720527514621eeffa59ec", null ],
+    [ "parse_to< ImageUsage >", "namespace_minty.html#a8018fb705122c1730f71558e17db66ea", null ],
     [ "parse_to< Int >", "namespace_minty.html#a095f79c21054c8ef8fc3a9d70c02bc74", null ],
     [ "parse_to< Int2 >", "namespace_minty.html#a2fb655f987501a03b8d0606c0a1fa89c", null ],
     [ "parse_to< Int3 >", "namespace_minty.html#a39235aa49a89d443c24640eb892c8ce6", null ],
@@ -343,6 +351,7 @@ var namespace_minty =
     [ "parse_to_image_pixel_format", "namespace_minty.html#a77b0d1c985515a59db0b9952c42a7457", null ],
     [ "parse_to_image_tiling", "namespace_minty.html#a70a8449c85d7c20e6a88dcb048ed7f11", null ],
     [ "parse_to_image_type", "namespace_minty.html#a6e49e49c5ee41e2916e7f8788fbced08", null ],
+    [ "parse_to_image_usage", "namespace_minty.html#a52f59c399adae5c473712b6f717793fc", null ],
     [ "parse_to_type", "namespace_minty.html#a0db99e8d7f31bad2832ad1c2d5a7a163", null ],
     [ "parse_try", "namespace_minty.html#a08f78e82e4c6902a4717e68113131153", null ],
     [ "parse_try", "namespace_minty.html#a43a25c0f5553b16b6de55e456fc5a378", null ],
@@ -363,6 +372,7 @@ var namespace_minty =
     [ "parse_try< ImagePixelFormat >", "namespace_minty.html#aae331c0fd96f08dfce1c747088c41637", null ],
     [ "parse_try< ImageTiling >", "namespace_minty.html#af3bc78abef3d73335d89c3d0989cd106", null ],
     [ "parse_try< ImageType >", "namespace_minty.html#a57ec827d49ccc53e3544e6e7257f2617", null ],
+    [ "parse_try< ImageUsage >", "namespace_minty.html#aa502f5859c89d64c820afd446c9c8551", null ],
     [ "parse_try< Int >", "namespace_minty.html#a0c69b1d247b105eee388c3e54baa991c", null ],
     [ "parse_try< Int2 >", "namespace_minty.html#ab4bef6006d9a88420f7890a7ac01707b", null ],
     [ "parse_try< Int3 >", "namespace_minty.html#abcec366c620d3094a727107f779dffbd", null ],
@@ -383,6 +393,7 @@ var namespace_minty =
     [ "parse_try_image_pixel_format", "namespace_minty.html#af2882cc7867644aa6194b9fe0251a241", null ],
     [ "parse_try_image_tiling", "namespace_minty.html#ae6548f991646e94249d77794059b6e14", null ],
     [ "parse_try_image_type", "namespace_minty.html#a0d4cc02707a7e4cc2ec8f985a9165277", null ],
+    [ "parse_try_image_usage", "namespace_minty.html#a47941396bfcc82428e1c0a92f97b5f24", null ],
     [ "parse_try_type", "namespace_minty.html#afc3452b40b2d0374d1896b1aef489b6b", null ],
     [ "sizeof_type", "namespace_minty.html#a2de9e7ffe6b6aecf8d112c194371b668", null ],
     [ "to_bool", "namespace_minty.html#af19367246fd5a10284d7be9764b31252", null ],
@@ -421,6 +432,7 @@ var namespace_minty =
     [ "to_string", "namespace_minty.html#a8675b5b7d2e25d2c538d6b3850ab39a8", null ],
     [ "to_string", "namespace_minty.html#af0bc6363059b2bdb7349044c7eec0ee4", null ],
     [ "to_string", "namespace_minty.html#a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60", null ],
+    [ "to_string", "namespace_minty.html#a0a532d3ef0a252db318424a0fe2b4dd6", null ],
     [ "to_string", "namespace_minty.html#a65394bbc9f086b210f075ce3b1771e17", null ],
     [ "to_string", "namespace_minty.html#aba151d57feef32a12b75b63d739c3f80", null ],
     [ "to_string", "namespace_minty.html#a8ef2aaa111ae230e643702735b4914bb", null ],

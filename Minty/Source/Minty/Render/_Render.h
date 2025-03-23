@@ -6,3 +6,4 @@
 #include "ImagePixelFormat.h"
 #include "ImageTiling.h"
 #include "ImageType.h"
+#include "ImageUsage.h"

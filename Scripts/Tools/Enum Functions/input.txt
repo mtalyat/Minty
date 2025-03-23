@@ -1,7 +1,7 @@
 /// <summary>
-/// Determines how the image data is accessed in the pipeline.
+/// Determines how the image is used.
 /// </summary>
-enum class ImageAddressMode
+enum class ImageUsage
 {
 	/// <summary>
 	/// Invalid.
@@ -9,27 +9,22 @@ enum class ImageAddressMode
 	Undefined = 0,
 
 	/// <summary>
-	/// The texture coordinates are repeated.
+	/// The image is sampled.
 	/// </summary>
-	Repeat = 1,
+	Sampled = 1,
 
 	/// <summary>
-	/// The texture coordinates are mirrored and repeated.
+	/// The image is used for storage.
 	/// </summary>
-	MirroredRepeat = 2,
+	Storage = 2,
 
 	/// <summary>
-	/// The texture coordinates are clamped to the edge.
+	/// The image is used for input attachment.
 	/// </summary>
-	ClampToEdge = 3,
+	Color = 4,
 
 	/// <summary>
-	/// The texture coordinates are clamped to the border.
+	/// The image is used for depth/stencil.
 	/// </summary>
-	ClampToBorder = 4,
-
-	/// <summary>
-	/// The texture coordinates are mirrored and clamped to the edge.
-	/// </summary>
-	MirroredClampToEdge = 5,
+	DepthStencil = 8
 };

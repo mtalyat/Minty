@@ -1,5 +1,5 @@
 # Results
-4667/4667 (100.00%)
+4686/4686 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -60,6 +60,7 @@
 | ImagePixelFormat               |       19 |        0 |
 | ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
+| ImageUsage                     |       19 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
@@ -4513,6 +4514,29 @@ No failures! :)
 |  PASS  | 38: Parse Try (result == value)                                                                                                  |
 |  PASS  | 41: Parse Try (parse_try_image_type("", result) == false)                                                                        |
 |  PASS  | 42: Parse Try (result == ImageType())                                                                                            |
+
+## ImageUsage
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 27: Parse To (parse_to_image_usage(name) == value)                                                                               |
+|  PASS  | 27: Parse To (parse_to_image_usage(name) == value)                                                                               |
+|  PASS  | 27: Parse To (parse_to_image_usage(name) == value)                                                                               |
+|  PASS  | 27: Parse To (parse_to_image_usage(name) == value)                                                                               |
+|  PASS  | 30: Parse To (parse_to_image_usage("") == ImageUsage())                                                                          |
+|  PASS  | 38: Parse Try (parse_try_image_usage(name, result) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_image_usage(name, result) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_image_usage(name, result) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_image_usage(name, result) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_usage("", result) == false)                                                                       |
+|  PASS  | 43: Parse Try (result == ImageUsage())                                                                                           |
 
 ## Node
 | Result | Message                                                                                                                          |

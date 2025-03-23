@@ -306,6 +306,9 @@
     <ClInclude Include="Minty\Render\ImageAddressMode.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\ImageUsage.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -438,6 +441,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\ImageAddressMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\ImageUsage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -161,6 +161,7 @@
     <ClCompile Include="Test_ImagePixelFormat.cpp" />
     <ClCompile Include="Test_ImageTiling.cpp" />
     <ClCompile Include="Test_ImageType.cpp" />
+    <ClCompile Include="Test_ImageUsage.cpp" />
     <ClCompile Include="Test_JobManager.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_Map.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Test_ImagePixelFormat.h" />
     <ClInclude Include="Test_ImageTiling.h" />
     <ClInclude Include="Test_ImageType.h" />
+    <ClInclude Include="Test_ImageUsage.h" />
     <ClInclude Include="Test_JobManager.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_Map.h" />

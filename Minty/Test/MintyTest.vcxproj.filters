@@ -201,6 +201,9 @@
     <ClCompile Include="Test_ImageAddressMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_ImageUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -348,6 +351,9 @@
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageAddressMode.h">
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageUsage.h">
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
   </ItemGroup>

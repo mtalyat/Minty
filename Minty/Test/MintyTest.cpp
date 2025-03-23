@@ -53,6 +53,7 @@
 #include "Test_ImagePixelFormat.h"
 #include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
+#include "Test_ImageUsage.h"
 
 // Serialization
 #include "Test_Node.h"
@@ -139,6 +140,7 @@ static void run_tests()
 	test_ImagePixelFormat(_test);
 	test_ImageTiling(_test);
 	test_ImageType(_test);
+	test_ImageUsage(_test);
 
 	// Serialization
 	test_Node(_test);

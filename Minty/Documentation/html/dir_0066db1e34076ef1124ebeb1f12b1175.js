@@ -12,5 +12,7 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "ImageTiling.cpp", "_image_tiling_8cpp.html", null ],
     [ "ImageTiling.h", "_image_tiling_8h.html", "_image_tiling_8h" ],
     [ "ImageType.cpp", "_image_type_8cpp.html", null ],
-    [ "ImageType.h", "_image_type_8h.html", "_image_type_8h" ]
+    [ "ImageType.h", "_image_type_8h.html", "_image_type_8h" ],
+    [ "ImageUsage.cpp", "_image_usage_8cpp.html", null ],
+    [ "ImageUsage.h", "_image_usage_8h.html", "_image_usage_8h" ]
 ];

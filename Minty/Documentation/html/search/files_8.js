@@ -10,6 +10,8 @@ var searchData=
   ['imagetiling_2eh_7',['ImageTiling.h',['../_image_tiling_8h.html',1,'']]],
   ['imagetype_2ecpp_8',['ImageType.cpp',['../_image_type_8cpp.html',1,'']]],
   ['imagetype_2eh_9',['ImageType.h',['../_image_type_8h.html',1,'']]],
-  ['isparseable_2eh_10',['IsParseable.h',['../_is_parseable_8h.html',1,'']]],
-  ['isserializable_2eh_11',['IsSerializable.h',['../_is_serializable_8h.html',1,'']]]
+  ['imageusage_2ecpp_10',['ImageUsage.cpp',['../_image_usage_8cpp.html',1,'']]],
+  ['imageusage_2eh_11',['ImageUsage.h',['../_image_usage_8h.html',1,'']]],
+  ['isparseable_2eh_12',['IsParseable.h',['../_is_parseable_8h.html',1,'']]],
+  ['isserializable_2eh_13',['IsSerializable.h',['../_is_serializable_8h.html',1,'']]]
 ];

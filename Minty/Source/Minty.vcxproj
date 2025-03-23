@@ -239,6 +239,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ImagePixelFormat.h" />
     <ClInclude Include="Minty\Render\ImageTiling.h" />
     <ClInclude Include="Minty\Render\ImageType.h" />
+    <ClInclude Include="Minty\Render\ImageUsage.h" />
     <ClInclude Include="Minty\Render\_Render.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
     <ClInclude Include="Minty\Serialization\IsSerializable.h" />
@@ -294,6 +295,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ImagePixelFormat.cpp" />
     <ClCompile Include="Minty\Render\ImageTiling.cpp" />
     <ClCompile Include="Minty\Render\ImageType.cpp" />
+    <ClCompile Include="Minty\Render\ImageUsage.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />
     <ClCompile Include="Minty\Serialization\Reader.cpp" />

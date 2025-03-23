@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ImageAddressMode const obj);
-    ImageAddressMode parse_to_image_address_mode(String const& string);
-    Bool parse_try_image_address_mode(String const& string, ImageAddressMode& value);
+String to_string(ImageUsage const obj);
+    ImageUsage parse_to_image_usage(String const& string);
+    Bool parse_try_image_usage(String const& string, ImageUsage& value);
     template<>
-    inline ImageAddressMode parse_to<ImageAddressMode>(String const& string) { return parse_to_image_address_mode(string); }
+    inline ImageUsage parse_to<ImageUsage>(String const& string) { return parse_to_image_usage(string); }
     template<>
-    inline Bool parse_try<ImageAddressMode>(String const& string, ImageAddressMode& value) { return parse_try_image_address_mode(string, value); }
+    inline Bool parse_try<ImageUsage>(String const& string, ImageUsage& value) { return parse_try_image_usage(string, value); }
 
 ====================
 	Source:
@@ -16,35 +16,33 @@ String to_string(ImageAddressMode const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ImageAddressMode const obj)
+String Minty::to_string(ImageUsage const obj)
 {
     switch (obj)
 	{
-		case ImageAddressMode::Repeat: return "Repeat";
-		case ImageAddressMode::MirroredRepeat: return "MirroredRepeat";
-		case ImageAddressMode::ClampToEdge: return "ClampToEdge";
-		case ImageAddressMode::ClampToBorder: return "ClampToBorder";
-		case ImageAddressMode::MirroredClampToEdge: return "MirroredClampToEdge";
+		case ImageUsage::Sampled: return "Sampled";
+		case ImageUsage::Storage: return "Storage";
+		case ImageUsage::Color: return "Color";
+		case ImageUsage::DepthStencil: return "DepthStencil";
 
 		default: return "";
 	}
 }
 
-ImageAddressMode Minty::parse_to_image_address_mode(String const& string)
+ImageUsage Minty::parse_to_image_usage(String const& string)
 {
-	if (string == "Repeat") return ImageAddressMode::Repeat;
-	if (string == "MirroredRepeat") return ImageAddressMode::MirroredRepeat;
-	if (string == "ClampToEdge") return ImageAddressMode::ClampToEdge;
-	if (string == "ClampToBorder") return ImageAddressMode::ClampToBorder;
-	if (string == "MirroredClampToEdge") return ImageAddressMode::MirroredClampToEdge;
+	if (string == "Sampled") return ImageUsage::Sampled;
+	if (string == "Storage") return ImageUsage::Storage;
+	if (string == "Color") return ImageUsage::Color;
+	if (string == "DepthStencil") return ImageUsage::DepthStencil;
 
-	return ImageAddressMode();
+	return ImageUsage();
 }
 
-Bool Minty::parse_try_image_address_mode(String const& string, ImageAddressMode& value)
+Bool Minty::parse_try_image_usage(String const& string, ImageUsage& value)
 {
-	value = parse_to_image_address_mode(string);
-	return value != ImageAddressMode();
+	value = parse_to_image_usage(string);
+	return value != ImageUsage();
 }
 
 ====================
@@ -55,25 +53,24 @@ Bool Minty::parse_try_image_address_mode(String const& string, ImageAddressMode&
 
 #include "Test.h"
 
-void test_ImageAddressMode(Test& _test);
+void test_ImageUsage(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ImageAddressMode.h"
+#include "Test_ImageUsage.h"
 #include "Minty.h"
 
-void test_ImageAddressMode(Test& _test)
+void test_ImageUsage(Test& _test)
 {
-	CATEGORY(ImageAddressMode)
+	CATEGORY(ImageUsage)
 	{
-        std::vector<std::pair<ImageAddressMode, String>> VALUES = {
-			{ImageAddressMode::Repeat, "Repeat"},
-			{ImageAddressMode::MirroredRepeat, "MirroredRepeat"},
-			{ImageAddressMode::ClampToEdge, "ClampToEdge"},
-			{ImageAddressMode::ClampToBorder, "ClampToBorder"},
-			{ImageAddressMode::MirroredClampToEdge, "MirroredClampToEdge"},
+        std::vector<std::pair<ImageUsage, String>> VALUES = {
+			{ImageUsage::Sampled, "Sampled"},
+			{ImageUsage::Storage, "Storage"},
+			{ImageUsage::Color, "Color"},
+			{ImageUsage::DepthStencil, "DepthStencil"},
         };
     
         TEST("To String")
@@ -88,23 +85,23 @@ void test_ImageAddressMode(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_address_mode(name), value);
+                EXPECT_EQUAL(parse_to_image_usage(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_address_mode(""), ImageAddressMode());
+            EXPECT_EQUAL(parse_to_image_usage(""), ImageUsage());
         }
 
         TEST("Parse Try")
         {
-            ImageAddressMode result;
+            ImageUsage result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_address_mode(name, result));
+                EXPECT_TRUE(parse_try_image_usage(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_address_mode("", result));
-            EXPECT_EQUAL(result, ImageAddressMode());
+            EXPECT_FALSE(parse_try_image_usage("", result));
+            EXPECT_EQUAL(result, ImageUsage());
         }
 	}
 }
