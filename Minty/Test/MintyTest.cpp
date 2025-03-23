@@ -49,6 +49,7 @@
 // Render
 #include "Test_BufferUsage.h"
 #include "Test_ImagePixelFormat.h"
+#include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
 
 // Serialization
@@ -132,6 +133,7 @@ static void run_tests()
 	// Render
 	test_BufferUsage(_test);
 	test_ImagePixelFormat(_test);
+	test_ImageTiling(_test);
 	test_ImageType(_test);
 
 	// Serialization

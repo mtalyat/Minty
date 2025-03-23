@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ImagePixelFormat const obj);
-    ImagePixelFormat parse_to_image_pixel_format(String const& string);
-    Bool parse_try_image_pixel_format(String const& string, ImagePixelFormat& value);
+String to_string(ImageTiling const obj);
+    ImageTiling parse_to_image_tiling(String const& string);
+    Bool parse_try_image_tiling(String const& string, ImageTiling& value);
     template<>
-    inline ImagePixelFormat parse_to<ImagePixelFormat>(String const& string) { return parse_to_image_pixel_format(string); }
+    inline ImageTiling parse_to<ImageTiling>(String const& string) { return parse_to_image_tiling(string); }
     template<>
-    inline Bool parse_try<ImagePixelFormat>(String const& string, ImagePixelFormat& value) { return parse_try_image_pixel_format(string, value); }
+    inline Bool parse_try<ImageTiling>(String const& string, ImageTiling& value) { return parse_try_image_tiling(string, value); }
 
 ====================
 	Source:
@@ -16,33 +16,29 @@ String to_string(ImagePixelFormat const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ImagePixelFormat const obj)
+String Minty::to_string(ImageTiling const obj)
 {
     switch (obj)
 	{
-		case ImagePixelFormat::Gray: return "Gray";
-		case ImagePixelFormat::GrayAlpha: return "GrayAlpha";
-		case ImagePixelFormat::RedGreenBlue: return "RedGreenBlue";
-		case ImagePixelFormat::RedGreenBlueAlpha: return "RedGreenBlueAlpha";
+		case ImageTiling::Optimal: return "Optimal";
+		case ImageTiling::Linear: return "Linear";
 
 		default: return "";
 	}
 }
 
-ImagePixelFormat Minty::parse_to_image_pixel_format(String const& string)
+ImageTiling Minty::parse_to_image_tiling(String const& string)
 {
-	if (string == "Gray") return ImagePixelFormat::Gray;
-	if (string == "GrayAlpha") return ImagePixelFormat::GrayAlpha;
-	if (string == "RedGreenBlue") return ImagePixelFormat::RedGreenBlue;
-	if (string == "RedGreenBlueAlpha") return ImagePixelFormat::RedGreenBlueAlpha;
+	if (string == "Optimal") return ImageTiling::Optimal;
+	if (string == "Linear") return ImageTiling::Linear;
 
-	return ImagePixelFormat();
+	return ImageTiling();
 }
 
-Bool Minty::parse_try_image_pixel_format(String const& string, ImagePixelFormat& value)
+Bool Minty::parse_try_image_tiling(String const& string, ImageTiling& value)
 {
-	value = parse_to_image_pixel_format(string);
-	return value != ImagePixelFormat();
+	value = parse_to_image_tiling(string);
+	return value != ImageTiling();
 }
 
 ====================
@@ -53,24 +49,22 @@ Bool Minty::parse_try_image_pixel_format(String const& string, ImagePixelFormat&
 
 #include "Test.h"
 
-void test_ImagePixelFormat(Test& _test);
+void test_ImageTiling(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ImagePixelFormat.h"
+#include "Test_ImageTiling.h"
 #include "Minty.h"
 
-void test_ImagePixelFormat(Test& _test)
+void test_ImageTiling(Test& _test)
 {
-	CATEGORY(ImagePixelFormat)
+	CATEGORY(ImageTiling)
 	{
-        std::vector<std::pair<ImagePixelFormat, String>> VALUES = {
-			{ImagePixelFormat::Gray, "Gray"},
-			{ImagePixelFormat::GrayAlpha, "GrayAlpha"},
-			{ImagePixelFormat::RedGreenBlue, "RedGreenBlue"},
-			{ImagePixelFormat::RedGreenBlueAlpha, "RedGreenBlueAlpha"},
+        std::vector<std::pair<ImageTiling, String>> VALUES = {
+			{ImageTiling::Optimal, "Optimal"},
+			{ImageTiling::Linear, "Linear"},
         };
     
         TEST("To String")
@@ -85,23 +79,23 @@ void test_ImagePixelFormat(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_pixel_format(name), value);
+                EXPECT_EQUAL(parse_to_image_tiling(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_pixel_format(""), ImagePixelFormat());
+            EXPECT_EQUAL(parse_to_image_tiling(""), ImageTiling());
         }
 
         TEST("Parse Try")
         {
-            ImagePixelFormat result;
+            ImageTiling result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_pixel_format(name, result));
+                EXPECT_TRUE(parse_try_image_tiling(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_pixel_format("", result));
-            EXPECT_EQUAL(result, ImagePixelFormat());
+            EXPECT_FALSE(parse_try_image_tiling("", result));
+            EXPECT_EQUAL(result, ImageTiling());
         }
 	}
 }

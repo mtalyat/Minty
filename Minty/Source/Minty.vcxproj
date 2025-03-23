@@ -235,6 +235,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
     <ClInclude Include="Minty\Render\BufferUsage.h" />
     <ClInclude Include="Minty\Render\ImagePixelFormat.h" />
+    <ClInclude Include="Minty\Render\ImageTiling.h" />
     <ClInclude Include="Minty\Render\ImageType.h" />
     <ClInclude Include="Minty\Render\_Render.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
@@ -287,6 +288,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
     <ClCompile Include="Minty\Render\BufferUsage.cpp" />
     <ClCompile Include="Minty\Render\ImagePixelFormat.cpp" />
+    <ClCompile Include="Minty\Render\ImageTiling.cpp" />
     <ClCompile Include="Minty\Render\ImageType.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />

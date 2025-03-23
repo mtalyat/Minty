@@ -548,6 +548,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a849a9e9afca51327a3f16e2879ccb673"><td class="mdescLeft">&#160;</td><td class="mdescRight">The format for how pixels are read.  <a href="#a849a9e9afca51327a3f16e2879ccb673">More...</a><br /></td></tr>
 <tr class="separator:a849a9e9afca51327a3f16e2879ccb673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd87ae84a36b61cf04cc9022b33ec225" id="r_afd87ae84a36b61cf04cc9022b33ec225"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> { <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225aec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a> = 0
+, <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225acb61fef1e5e79e07a80421cb9a073a80">Optimal</a>
+, <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225a32a843da6ea40ab3b17a3421ccdf671b">Linear</a>
+ }</td></tr>
+<tr class="memdesc:afd87ae84a36b61cf04cc9022b33ec225"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines how the image is tiled.  <a href="#afd87ae84a36b61cf04cc9022b33ec225">More...</a><br /></td></tr>
+<tr class="separator:afd87ae84a36b61cf04cc9022b33ec225"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b149805d70cb24948f5ded05827c57a" id="r_a1b149805d70cb24948f5ded05827c57a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b149805d70cb24948f5ded05827c57a">ImageType</a> { <a class="el" href="#a1b149805d70cb24948f5ded05827c57aaec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a> = 0
 , <a class="el" href="#a1b149805d70cb24948f5ded05827c57aa4a4079e06eb2f7ba7a12821c7c58a3f6">D1</a> = 1
 , <a class="el" href="#a1b149805d70cb24948f5ded05827c57aac4d62b6dcca08e5caf06c01889282859">D2</a> = 2
@@ -640,6 +646,18 @@ Functions</h2></td></tr>
 <tr class="memitem:aae331c0fd96f08dfce1c747088c41637" id="r_aae331c0fd96f08dfce1c747088c41637"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:aae331c0fd96f08dfce1c747088c41637"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aae331c0fd96f08dfce1c747088c41637">parse_try&lt; ImagePixelFormat &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a849a9e9afca51327a3f16e2879ccb673">ImagePixelFormat</a> &amp;value)</td></tr>
 <tr class="separator:aae331c0fd96f08dfce1c747088c41637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0bc6363059b2bdb7349044c7eec0ee4" id="r_af0bc6363059b2bdb7349044c7eec0ee4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0bc6363059b2bdb7349044c7eec0ee4">to_string</a> (<a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> const obj)</td></tr>
+<tr class="separator:af0bc6363059b2bdb7349044c7eec0ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70a8449c85d7c20e6a88dcb048ed7f11" id="r_a70a8449c85d7c20e6a88dcb048ed7f11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70a8449c85d7c20e6a88dcb048ed7f11">parse_to_image_tiling</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
+<tr class="separator:a70a8449c85d7c20e6a88dcb048ed7f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6548f991646e94249d77794059b6e14" id="r_ae6548f991646e94249d77794059b6e14"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6548f991646e94249d77794059b6e14">parse_try_image_tiling</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> &amp;value)</td></tr>
+<tr class="separator:ae6548f991646e94249d77794059b6e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7996bc17c2d29d9520f91601538c471e" id="r_a7996bc17c2d29d9520f91601538c471e"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:a7996bc17c2d29d9520f91601538c471e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a7996bc17c2d29d9520f91601538c471e">parse_to&lt; ImageTiling &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
+<tr class="separator:a7996bc17c2d29d9520f91601538c471e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3bc78abef3d73335d89c3d0989cd106" id="r_af3bc78abef3d73335d89c3d0989cd106"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:af3bc78abef3d73335d89c3d0989cd106"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af3bc78abef3d73335d89c3d0989cd106">parse_try&lt; ImageTiling &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> &amp;value)</td></tr>
+<tr class="separator:af3bc78abef3d73335d89c3d0989cd106"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60" id="r_a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60">to_string</a> (<a class="el" href="#a1b149805d70cb24948f5ded05827c57a">ImageType</a> const obj)</td></tr>
 <tr class="separator:a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e49e49c5ee41e2916e7f8788fbced08" id="r_a6e49e49c5ee41e2916e7f8788fbced08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a1b149805d70cb24948f5ded05827c57a">ImageType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e49e49c5ee41e2916e7f8788fbced08">parse_to_image_type</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
@@ -1877,6 +1895,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="afd87ae84a36b61cf04cc9022b33ec225" name="afd87ae84a36b61cf04cc9022b33ec225"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd87ae84a36b61cf04cc9022b33ec225">&#9670;&#160;</a></span>ImageTiling</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">Minty::ImageTiling</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines how the image is tiled. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afd87ae84a36b61cf04cc9022b33ec225aec0fc0100c4fc1ce4eea230c3dc10360" name="afd87ae84a36b61cf04cc9022b33ec225aec0fc0100c4fc1ce4eea230c3dc10360"></a>Undefined&#160;</td><td class="fielddoc"><p>Invalid. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="afd87ae84a36b61cf04cc9022b33ec225acb61fef1e5e79e07a80421cb9a073a80" name="afd87ae84a36b61cf04cc9022b33ec225acb61fef1e5e79e07a80421cb9a073a80"></a>Optimal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afd87ae84a36b61cf04cc9022b33ec225a32a843da6ea40ab3b17a3421ccdf671b" name="afd87ae84a36b61cf04cc9022b33ec225a32a843da6ea40ab3b17a3421ccdf671b"></a>Linear&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="a1b149805d70cb24948f5ded05827c57a" name="a1b149805d70cb24948f5ded05827c57a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1b149805d70cb24948f5ded05827c57a">&#9670;&#160;</a></span>ImageType</h2>
 
@@ -2774,6 +2822,33 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="a7996bc17c2d29d9520f91601538c471e" name="a7996bc17c2d29d9520f91601538c471e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7996bc17c2d29d9520f91601538c471e">&#9670;&#160;</a></span>parse_to&lt; ImageTiling &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> <a class="el" href="#a411ed6a538dafce7fdf05c6e2657860b">Minty::parse_to</a>&lt; <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ada5def3171c720527514621eeffa59ec" name="ada5def3171c720527514621eeffa59ec"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ada5def3171c720527514621eeffa59ec">&#9670;&#160;</a></span>parse_to&lt; ImageType &gt;()</h2>
 
@@ -3204,6 +3279,23 @@ template&lt;&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="#a849a9e9afca51327a3f16e2879ccb673">ImagePixelFormat</a> Minty::parse_to_image_pixel_format </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70a8449c85d7c20e6a88dcb048ed7f11" name="a70a8449c85d7c20e6a88dcb048ed7f11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70a8449c85d7c20e6a88dcb048ed7f11">&#9670;&#160;</a></span>parse_to_image_tiling()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> Minty::parse_to_image_tiling </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
           <td></td>
@@ -3728,6 +3820,37 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="af3bc78abef3d73335d89c3d0989cd106" name="af3bc78abef3d73335d89c3d0989cd106"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3bc78abef3d73335d89c3d0989cd106">&#9670;&#160;</a></span>parse_try&lt; ImageTiling &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="#a08f78e82e4c6902a4717e68113131153">Minty::parse_try</a>&lt; <a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a57ec827d49ccc53e3544e6e7257f2617" name="a57ec827d49ccc53e3544e6e7257f2617"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a57ec827d49ccc53e3544e6e7257f2617">&#9670;&#160;</a></span>parse_try&lt; ImageType &gt;()</h2>
 
@@ -4235,6 +4358,27 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="ae6548f991646e94249d77794059b6e14" name="ae6548f991646e94249d77794059b6e14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6548f991646e94249d77794059b6e14">&#9670;&#160;</a></span>parse_try_image_tiling()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::parse_try_image_tiling </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0d4cc02707a7e4cc2ec8f985a9165277" name="a0d4cc02707a7e4cc2ec8f985a9165277"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d4cc02707a7e4cc2ec8f985a9165277">&#9670;&#160;</a></span>parse_try_image_type()</h2>
 
@@ -4610,7 +4754,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ab893e761714eabdf0ea31a3be860bf8a" name="ab893e761714eabdf0ea31a3be860bf8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab893e761714eabdf0ea31a3be860bf8a">&#9670;&#160;</a></span>to_string() <span class="overload">[1/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab893e761714eabdf0ea31a3be860bf8a">&#9670;&#160;</a></span>to_string() <span class="overload">[1/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4627,7 +4771,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a51456ae1ba22b1b6dd9140aefe93e36c" name="a51456ae1ba22b1b6dd9140aefe93e36c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51456ae1ba22b1b6dd9140aefe93e36c">&#9670;&#160;</a></span>to_string() <span class="overload">[2/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a51456ae1ba22b1b6dd9140aefe93e36c">&#9670;&#160;</a></span>to_string() <span class="overload">[2/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4644,7 +4788,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a20f8938f09147239bc63d7c67c0696fe" name="a20f8938f09147239bc63d7c67c0696fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20f8938f09147239bc63d7c67c0696fe">&#9670;&#160;</a></span>to_string() <span class="overload">[3/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a20f8938f09147239bc63d7c67c0696fe">&#9670;&#160;</a></span>to_string() <span class="overload">[3/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4661,7 +4805,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aa567f4f4dcba40eb7673a6e2beaa7aa4" name="aa567f4f4dcba40eb7673a6e2beaa7aa4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa567f4f4dcba40eb7673a6e2beaa7aa4">&#9670;&#160;</a></span>to_string() <span class="overload">[4/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa567f4f4dcba40eb7673a6e2beaa7aa4">&#9670;&#160;</a></span>to_string() <span class="overload">[4/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4678,7 +4822,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ac8addfb23cbecd33d52e6bbdd0680161" name="ac8addfb23cbecd33d52e6bbdd0680161"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8addfb23cbecd33d52e6bbdd0680161">&#9670;&#160;</a></span>to_string() <span class="overload">[5/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8addfb23cbecd33d52e6bbdd0680161">&#9670;&#160;</a></span>to_string() <span class="overload">[5/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4695,7 +4839,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aee9b46aa9efe254e134ae97e302fa48d" name="aee9b46aa9efe254e134ae97e302fa48d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee9b46aa9efe254e134ae97e302fa48d">&#9670;&#160;</a></span>to_string() <span class="overload">[6/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee9b46aa9efe254e134ae97e302fa48d">&#9670;&#160;</a></span>to_string() <span class="overload">[6/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4712,7 +4856,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a9abc1a79ff8d79b0518914d0330795ce" name="a9abc1a79ff8d79b0518914d0330795ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9abc1a79ff8d79b0518914d0330795ce">&#9670;&#160;</a></span>to_string() <span class="overload">[7/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9abc1a79ff8d79b0518914d0330795ce">&#9670;&#160;</a></span>to_string() <span class="overload">[7/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4729,7 +4873,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a9375575ffcd15daf086e2837fc991b80" name="a9375575ffcd15daf086e2837fc991b80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9375575ffcd15daf086e2837fc991b80">&#9670;&#160;</a></span>to_string() <span class="overload">[8/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9375575ffcd15daf086e2837fc991b80">&#9670;&#160;</a></span>to_string() <span class="overload">[8/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4746,7 +4890,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ae6d416153459b066aaca8a97fdc001ff" name="ae6d416153459b066aaca8a97fdc001ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6d416153459b066aaca8a97fdc001ff">&#9670;&#160;</a></span>to_string() <span class="overload">[9/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6d416153459b066aaca8a97fdc001ff">&#9670;&#160;</a></span>to_string() <span class="overload">[9/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4763,7 +4907,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ac5bf8839b2e282cc4532b138ba2e7cce" name="ac5bf8839b2e282cc4532b138ba2e7cce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5bf8839b2e282cc4532b138ba2e7cce">&#9670;&#160;</a></span>to_string() <span class="overload">[10/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5bf8839b2e282cc4532b138ba2e7cce">&#9670;&#160;</a></span>to_string() <span class="overload">[10/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4780,7 +4924,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aaf857b97743eeaa983b66d64b8dfe9d2" name="aaf857b97743eeaa983b66d64b8dfe9d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf857b97743eeaa983b66d64b8dfe9d2">&#9670;&#160;</a></span>to_string() <span class="overload">[11/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf857b97743eeaa983b66d64b8dfe9d2">&#9670;&#160;</a></span>to_string() <span class="overload">[11/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4797,7 +4941,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aad6728986ac03083ce53b9b16598e98f" name="aad6728986ac03083ce53b9b16598e98f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad6728986ac03083ce53b9b16598e98f">&#9670;&#160;</a></span>to_string() <span class="overload">[12/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aad6728986ac03083ce53b9b16598e98f">&#9670;&#160;</a></span>to_string() <span class="overload">[12/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4814,7 +4958,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a0b6447705aa61a63deac2889bddc47c1" name="a0b6447705aa61a63deac2889bddc47c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b6447705aa61a63deac2889bddc47c1">&#9670;&#160;</a></span>to_string() <span class="overload">[13/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b6447705aa61a63deac2889bddc47c1">&#9670;&#160;</a></span>to_string() <span class="overload">[13/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4831,7 +4975,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a8675b5b7d2e25d2c538d6b3850ab39a8" name="a8675b5b7d2e25d2c538d6b3850ab39a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8675b5b7d2e25d2c538d6b3850ab39a8">&#9670;&#160;</a></span>to_string() <span class="overload">[14/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8675b5b7d2e25d2c538d6b3850ab39a8">&#9670;&#160;</a></span>to_string() <span class="overload">[14/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4847,8 +4991,25 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="af0bc6363059b2bdb7349044c7eec0ee4" name="af0bc6363059b2bdb7349044c7eec0ee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0bc6363059b2bdb7349044c7eec0ee4">&#9670;&#160;</a></span>to_string() <span class="overload">[15/32]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_string.html">String</a> Minty::to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#afd87ae84a36b61cf04cc9022b33ec225">ImageTiling</a> const</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60" name="a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60">&#9670;&#160;</a></span>to_string() <span class="overload">[15/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e51f7ed76c6ca4bd1e8d9ec5ffdbf60">&#9670;&#160;</a></span>to_string() <span class="overload">[16/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4865,7 +5026,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a65394bbc9f086b210f075ce3b1771e17" name="a65394bbc9f086b210f075ce3b1771e17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65394bbc9f086b210f075ce3b1771e17">&#9670;&#160;</a></span>to_string() <span class="overload">[16/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a65394bbc9f086b210f075ce3b1771e17">&#9670;&#160;</a></span>to_string() <span class="overload">[17/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4882,7 +5043,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aba151d57feef32a12b75b63d739c3f80" name="aba151d57feef32a12b75b63d739c3f80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba151d57feef32a12b75b63d739c3f80">&#9670;&#160;</a></span>to_string() <span class="overload">[17/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aba151d57feef32a12b75b63d739c3f80">&#9670;&#160;</a></span>to_string() <span class="overload">[18/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4899,7 +5060,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a8ef2aaa111ae230e643702735b4914bb" name="a8ef2aaa111ae230e643702735b4914bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ef2aaa111ae230e643702735b4914bb">&#9670;&#160;</a></span>to_string() <span class="overload">[18/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ef2aaa111ae230e643702735b4914bb">&#9670;&#160;</a></span>to_string() <span class="overload">[19/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4916,7 +5077,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a3c6d2ad6f69ab7441bf01c0b53d68a8a" name="a3c6d2ad6f69ab7441bf01c0b53d68a8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c6d2ad6f69ab7441bf01c0b53d68a8a">&#9670;&#160;</a></span>to_string() <span class="overload">[19/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c6d2ad6f69ab7441bf01c0b53d68a8a">&#9670;&#160;</a></span>to_string() <span class="overload">[20/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4933,7 +5094,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a6aa1a39d268cb49b4aeb8a50366399c4" name="a6aa1a39d268cb49b4aeb8a50366399c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6aa1a39d268cb49b4aeb8a50366399c4">&#9670;&#160;</a></span>to_string() <span class="overload">[20/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6aa1a39d268cb49b4aeb8a50366399c4">&#9670;&#160;</a></span>to_string() <span class="overload">[21/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4950,7 +5111,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a641469e1394f81ff3f522d18b8dab3c8" name="a641469e1394f81ff3f522d18b8dab3c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a641469e1394f81ff3f522d18b8dab3c8">&#9670;&#160;</a></span>to_string() <span class="overload">[21/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a641469e1394f81ff3f522d18b8dab3c8">&#9670;&#160;</a></span>to_string() <span class="overload">[22/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4967,7 +5128,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a930b689804887608195a8b20432d075f" name="a930b689804887608195a8b20432d075f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a930b689804887608195a8b20432d075f">&#9670;&#160;</a></span>to_string() <span class="overload">[22/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a930b689804887608195a8b20432d075f">&#9670;&#160;</a></span>to_string() <span class="overload">[23/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4984,7 +5145,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a92f4982b55028d33aa77dc401c010cb3" name="a92f4982b55028d33aa77dc401c010cb3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92f4982b55028d33aa77dc401c010cb3">&#9670;&#160;</a></span>to_string() <span class="overload">[23/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a92f4982b55028d33aa77dc401c010cb3">&#9670;&#160;</a></span>to_string() <span class="overload">[24/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5003,7 +5164,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a5faad5f8c07f3faa8b3187e5abc641e4" name="a5faad5f8c07f3faa8b3187e5abc641e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5faad5f8c07f3faa8b3187e5abc641e4">&#9670;&#160;</a></span>to_string() <span class="overload">[24/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5faad5f8c07f3faa8b3187e5abc641e4">&#9670;&#160;</a></span>to_string() <span class="overload">[25/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5022,7 +5183,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a545ea6cc8d14edcef4974706bd3c7f6b" name="a545ea6cc8d14edcef4974706bd3c7f6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a545ea6cc8d14edcef4974706bd3c7f6b">&#9670;&#160;</a></span>to_string() <span class="overload">[25/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a545ea6cc8d14edcef4974706bd3c7f6b">&#9670;&#160;</a></span>to_string() <span class="overload">[26/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5039,7 +5200,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="ad5613ddceeb85a319f029f728796955f" name="ad5613ddceeb85a319f029f728796955f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5613ddceeb85a319f029f728796955f">&#9670;&#160;</a></span>to_string() <span class="overload">[26/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5613ddceeb85a319f029f728796955f">&#9670;&#160;</a></span>to_string() <span class="overload">[27/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5056,7 +5217,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a513d374a7583760731a5308f187f13e2" name="a513d374a7583760731a5308f187f13e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a513d374a7583760731a5308f187f13e2">&#9670;&#160;</a></span>to_string() <span class="overload">[27/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a513d374a7583760731a5308f187f13e2">&#9670;&#160;</a></span>to_string() <span class="overload">[28/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5073,7 +5234,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a322df4a162d8f6e517970b84648fba04" name="a322df4a162d8f6e517970b84648fba04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a322df4a162d8f6e517970b84648fba04">&#9670;&#160;</a></span>to_string() <span class="overload">[28/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a322df4a162d8f6e517970b84648fba04">&#9670;&#160;</a></span>to_string() <span class="overload">[29/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5090,7 +5251,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="a42b3f7f4a7ecb77b1a67a1da961fd699" name="a42b3f7f4a7ecb77b1a67a1da961fd699"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42b3f7f4a7ecb77b1a67a1da961fd699">&#9670;&#160;</a></span>to_string() <span class="overload">[29/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a42b3f7f4a7ecb77b1a67a1da961fd699">&#9670;&#160;</a></span>to_string() <span class="overload">[30/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5107,7 +5268,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="ace42dad79c3a4f8c8a993cc18ec985b3" name="ace42dad79c3a4f8c8a993cc18ec985b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace42dad79c3a4f8c8a993cc18ec985b3">&#9670;&#160;</a></span>to_string() <span class="overload">[30/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ace42dad79c3a4f8c8a993cc18ec985b3">&#9670;&#160;</a></span>to_string() <span class="overload">[31/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5124,7 +5285,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="ae2021eecefb256df5372214a8c5964aa" name="ae2021eecefb256df5372214a8c5964aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2021eecefb256df5372214a8c5964aa">&#9670;&#160;</a></span>to_string() <span class="overload">[31/31]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2021eecefb256df5372214a8c5964aa">&#9670;&#160;</a></span>to_string() <span class="overload">[32/32]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -192,6 +192,9 @@
     <ClCompile Include="Test_ImagePixelFormat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_ImageTiling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -330,6 +333,9 @@
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImagePixelFormat.h">
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageTiling.h">
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,26 +1,20 @@
 /// <summary>
-/// The format for how pixels are read.
+/// Determines how the image is tiled.
 /// </summary>
-enum class ImagePixelFormat
+enum class ImageTiling
 {
 	/// <summary>
-	/// No format.
+	/// Invalid.
 	/// </summary>
 	Undefined = 0,
+
 	/// <summary>
-	/// Gray channel only.
+	/// 
 	/// </summary>
-	Gray = 1,
+	Optimal,
+
 	/// <summary>
-	/// Gray and alpha channels.
+	/// 
 	/// </summary>
-	GrayAlpha = 2,
-	/// <summary>
-	/// Red, green and blue channels.
-	/// </summary>
-	RedGreenBlue = 3,
-	/// <summary>
-	/// Red, green, blue and alpha channels.
-	/// </summary>
-	RedGreenBlueAlpha = 4,
+	Linear,
 };
