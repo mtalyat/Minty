@@ -11,7 +11,7 @@ namespace Minty
 	/// </summary>
 	class Asset
 	{
-		//friend class AssetManager;
+		friend class AssetManager;
 
 #pragma region Variables
 

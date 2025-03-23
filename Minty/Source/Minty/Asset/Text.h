@@ -62,7 +62,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="builder">The builder.</param>
 		/// <returns>A Text Owner.</returns>
-		static Owner<Text> create(TextBuilder const& builder);
+		static Owner<Text> create(TextBuilder const& builder = {});
 
 #pragma endregion
 

@@ -5,6 +5,29 @@
 
 using namespace Minty;
 
+Minty::AssetManager::AssetManager(AssetManagerBuilder const& builder)
+	: m_savePaths(builder.savePaths)
+	, m_assets()
+	, m_assetTypes()
+	, m_handles()
+	, m_assetsMutex()
+	, m_wrapper()
+{
+	for (Path const& path : builder.wraps)
+	{
+		load_wrap(path);
+	}
+}
+
+Minty::AssetManager::~AssetManager()
+{
+	// sync to finish loading/unloading
+	sync();
+
+	// unload the rest
+	unload_all();
+}
+
 AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 {
 	if (m_wrapper.contains(path))
@@ -119,7 +142,7 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 	writer = nullptr;
 }
 
-UUID Minty::AssetManager::load(Path const& path)
+UUID Minty::AssetManager::schedule_load(Path const& path)
 {
 	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
 	Path metaPath = Asset::get_meta_path(path);
@@ -136,7 +159,7 @@ UUID Minty::AssetManager::load(Path const& path)
 	// use a job to load the asset in the background
 	Handle handle = jobManager.schedule([this, path, id]()
 		{
-			load_asset_now(path);
+			load_asset(path);
 			{
 				std::unique_lock lock(m_assetsMutex);
 				m_handles.remove(id);
@@ -152,7 +175,7 @@ UUID Minty::AssetManager::load(Path const& path)
 	return id;
 }
 
-Ref<Asset> Minty::AssetManager::load_asset_now(Path const& path)
+Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 {
 #ifdef MINTY_DEBUG
 	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
@@ -174,7 +197,7 @@ Ref<Asset> Minty::AssetManager::load_asset_now(Path const& path)
 	}
 }
 
-void Minty::AssetManager::unload(UUID const id)
+void Minty::AssetManager::schedule_unload(UUID const id)
 {
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
@@ -185,7 +208,7 @@ void Minty::AssetManager::unload(UUID const id)
 	// use a job to unload the asset in the background
 	Handle handle = jobManager.schedule([this, id]()
 		{
-			unload_now(id);
+			unload(id);
 			{
 				std::unique_lock lock(m_assetsMutex);
 				m_handles.remove(id);
@@ -198,7 +221,7 @@ void Minty::AssetManager::unload(UUID const id)
 	}
 }
 
-void Minty::AssetManager::unload_now(UUID const id)
+void Minty::AssetManager::unload(UUID const id)
 {
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 
@@ -227,7 +250,32 @@ void Minty::AssetManager::unload_all()
 
 void Minty::AssetManager::sync()
 {
+	// get list of handles
+	Vector<Handle> handles(m_handles.get_size());
+	{
+		std::unique_lock lock(m_assetsMutex);
+		for (auto const& pair : m_handles)
+		{
+			handles.add(pair.second);
+		}
+	}
 
+	// wait for them all
+	Context& context = Context::get_instance();
+	JobManager& jobManager = context.get_job_manager();
+	jobManager.wait(handles);
+
+	// clear the handles
+	{
+		std::unique_lock lock(m_assetsMutex);
+		m_handles.clear();
+	}
+}
+
+Bool Minty::AssetManager::is_syncing() const
+{
+	// if any handles saved, the manager is syncing asset files
+	return m_handles.get_size() > 0;
 }
 
 void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
@@ -246,10 +294,23 @@ void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
 
 	// add to lists
 	UUID id = asset->get_id();
+	MINTY_ASSERT(id.is_valid(), "Asset ID is invalid.");
+	MINTY_ASSERT(!m_assets.contains(id), "Asset with the given ID already exists.");
+	AssetType assetType = asset->get_asset_type();
 	{
 		std::unique_lock lock(m_assetsMutex);
 		m_assets.add(id, data);
-		m_assetTypes.at(asset->get_asset_type()).add(id);
+		auto it = m_assetTypes.find(assetType);
+		if (it == m_assetTypes.end())
+		{
+			Set<UUID> set;
+			set.add(id);
+			m_assetTypes.add(assetType, std::move(set));
+		}
+		else
+		{
+			it->second.add(id);
+		}
 	}
 }
 
@@ -501,5 +562,5 @@ Ref<Text> Minty::AssetManager::load_text(Path const& path)
 		.text = read_text(path)
 	};
 
-	return create<Text>(path, builder);
+	return create_from_loaded<Text>(path, builder);
 }

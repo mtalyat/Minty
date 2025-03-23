@@ -25,7 +25,7 @@ var searchData=
   ['asset_22',['Asset',['../class_minty_1_1_asset.html',1,'Minty::Asset'],['../class_minty_1_1_asset.html#a89e2ec6c9e2d1afc176b8c2191e9bf76',1,'Minty::Asset::Asset()']]],
   ['asset_2ecpp_23',['Asset.cpp',['../_asset_8cpp.html',1,'']]],
   ['asset_2eh_24',['Asset.h',['../_asset_8h.html',1,'']]],
-  ['assetmanager_25',['AssetManager',['../class_minty_1_1_asset_manager.html',1,'Minty::AssetManager'],['../class_minty_1_1_asset_manager.html#a64f32cdfb26fd1db1c011c790c35bd90',1,'Minty::AssetManager::AssetManager()']]],
+  ['assetmanager_25',['AssetManager',['../class_minty_1_1_asset_manager.html',1,'Minty::AssetManager'],['../class_minty_1_1_asset.html#aafe72876a584aedb5a5546d4fe7746fb',1,'Minty::Asset::AssetManager()'],['../class_minty_1_1_asset_manager.html#a64f32cdfb26fd1db1c011c790c35bd90',1,'Minty::AssetManager::AssetManager()']]],
   ['assetmanager_2ecpp_26',['AssetManager.cpp',['../_asset_manager_8cpp.html',1,'']]],
   ['assetmanager_2eh_27',['AssetManager.h',['../_asset_manager_8h.html',1,'']]],
   ['assetmanagerbuilder_28',['AssetManagerBuilder',['../struct_minty_1_1_asset_manager_builder.html',1,'Minty']]],

@@ -679,7 +679,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00563" data-start="{" data-end="}">
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#ad57f0b3e33b51eb7a30eb00b3d937683">  563</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_map.html#ad57f0b3e33b51eb7a30eb00b3d937683">remove</a>(Key <span class="keyword">const</span>&amp; key)</div>
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>        {</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>            <span class="keywordflow">if</span> (m_capacity == 0)</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>            <span class="keywordflow">if</span> (m_size == 0)</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>            {</div>
 <div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>            }</div>
@@ -715,116 +715,120 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00606" data-start="{" data-end="}">
 <div class="line"><a id="l00606" name="l00606"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#afdc753e017cba1fa0dab3d3dab95884f">  606</a></span>        Value&amp; <a class="code hl_function" href="class_minty_1_1_map.html#afdc753e017cba1fa0dab3d3dab95884f">at</a>(Key <span class="keyword">const</span>&amp; key)</div>
 <div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        {</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>            Node* node = mp_table[index];</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span> </div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>            <span class="keywordflow">while</span> (node)</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>            {</div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>                {</div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>                    <span class="keywordflow">return</span> node-&gt;value;</div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>                }</div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>                node = node-&gt;next;</div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>            }</div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span> </div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;Map is empty.&quot;</span>);</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span> </div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>            Node* node = mp_table[index];</div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span> </div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>            <span class="keywordflow">while</span> (node)</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>            {</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>                {</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>                    <span class="keywordflow">return</span> node-&gt;value;</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>                }</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>                node = node-&gt;next;</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>            }</div>
 <div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span> </div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>            <span class="keywordflow">return</span> node-&gt;value;</div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>        }</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span> </div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            <span class="keywordflow">return</span> node-&gt;value;</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        }</div>
 </div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span></div>
-<div class="foldopen" id="foldopen00630" data-start="{" data-end="}">
-<div class="line"><a id="l00630" name="l00630"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">  630</a></span>        Value <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">at</a>(Key <span class="keyword">const</span>&amp; key)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>            Node <span class="keyword">const</span>* node = mp_table[index];</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span> </div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>            <span class="keywordflow">while</span> (node)</div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>            {</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>                {</div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>                    <span class="keywordflow">return</span> node-&gt;value;</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>                }</div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>                node = node-&gt;next;</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>            }</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span> </div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span> </div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            <span class="keywordflow">return</span> node-&gt;value;</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>        }</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span></div>
+<div class="foldopen" id="foldopen00632" data-start="{" data-end="}">
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">  632</a></span>        Value <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">at</a>(Key <span class="keyword">const</span>&amp; key)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;Map is empty.&quot;</span>);</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span> </div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>            Node <span class="keyword">const</span>* node = mp_table[index];</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span> </div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>            <span class="keywordflow">while</span> (node)</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>            {</div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>                {</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                    <span class="keywordflow">return</span> node-&gt;value;</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                }</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                node = node-&gt;next;</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            }</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span> </div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>            <span class="keywordflow">return</span> node-&gt;value;</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        }</div>
 </div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span></div>
-<div class="foldopen" id="foldopen00654" data-start="{" data-end="}">
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">  654</a></span>        <a class="code hl_class" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="code hl_function" href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">find</a>(Key <span class="keyword">const</span>&amp; key)</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>        {</div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>            <span class="keywordflow">if</span> (m_capacity == 0)</div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>            {</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            }</div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span> </div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            Node* node = mp_table[index];</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            <span class="keywordflow">while</span> (node)</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>            {</div>
-<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                {</div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a>(mp_table, m_capacity, index, node);</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                }</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                node = node-&gt;next;</div>
-<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>            }</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>        }</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span></div>
+<div class="foldopen" id="foldopen00658" data-start="{" data-end="}">
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">  658</a></span>        <a class="code hl_class" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="code hl_function" href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">find</a>(Key <span class="keyword">const</span>&amp; key)</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>        {</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>            <span class="keywordflow">if</span> (m_capacity == 0)</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>            {</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            }</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span> </div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>            Node* node = mp_table[index];</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            <span class="keywordflow">while</span> (node)</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>            {</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                {</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a>(mp_table, m_capacity, index, node);</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                }</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                node = node-&gt;next;</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>            }</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>        }</div>
 </div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span></div>
-<div class="foldopen" id="foldopen00679" data-start="{" data-end="}">
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#aae9cb4369fff48fd58eb8bf0173e7f6a">  679</a></span>        <a class="code hl_class" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="code hl_function" href="class_minty_1_1_map.html#aae9cb4369fff48fd58eb8bf0173e7f6a">find</a>(Key <span class="keyword">const</span>&amp; key)<span class="keyword"> const</span></div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            <span class="keywordflow">if</span> (m_capacity == 0)</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>            {</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>            }</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span> </div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            Node <span class="keyword">const</span>* node = mp_table[index];</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>            <span class="keywordflow">while</span> (node)</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>            {</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>                {</div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a>(mp_table, m_capacity, index, node);</div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>                }</div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>                node = node-&gt;next;</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            }</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>        }</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span></div>
+<div class="foldopen" id="foldopen00683" data-start="{" data-end="}">
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#aae9cb4369fff48fd58eb8bf0173e7f6a">  683</a></span>        <a class="code hl_class" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="code hl_function" href="class_minty_1_1_map.html#aae9cb4369fff48fd58eb8bf0173e7f6a">find</a>(Key <span class="keyword">const</span>&amp; key)<span class="keyword"> const</span></div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            <span class="keywordflow">if</span> (m_capacity == 0)</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            {</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>            }</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>            Node <span class="keyword">const</span>* node = mp_table[index];</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>            <span class="keywordflow">while</span> (node)</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>            {</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>                <span class="keywordflow">if</span> (node-&gt;key == key)</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>                {</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>                    <span class="keywordflow">return</span> <a class="code hl_class" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a>(mp_table, m_capacity, index, node);</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                }</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                node = node-&gt;next;</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>            }</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>();</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>        }</div>
 </div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span></div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">  704</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a>(Key <span class="keyword">const</span>&amp; key)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">find</a>(key) != <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>(); }</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span></div>
-<div class="foldopen" id="foldopen00709" data-start="{" data-end="}">
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#a2383401266effc791b4b03b7258e5d41">  709</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_map.html#a2383401266effc791b4b03b7258e5d41">clear</a>()</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>        {</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            <span class="keywordflow">if</span> (mp_table)</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            {</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>                <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_capacity; ++i)</div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>                {</div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>                    Node* node = mp_table[i];</div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>                    <span class="keywordflow">while</span> (node)</div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>                    {</div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>                        Node* temp = node;</div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>                        node = node-&gt;next;</div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>                        <a class="code hl_function" href="namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf">destruct&lt;Node&gt;</a>(temp, m_allocator);</div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>                    }</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>                    mp_table[i] = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                }</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>            }</div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>            m_size = 0;</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>        }</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span></div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">  708</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a>(Key <span class="keyword">const</span>&amp; key)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> <a class="code hl_function" href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">find</a>(key) != <a class="code hl_function" href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">end</a>(); }</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span></div>
+<div class="foldopen" id="foldopen00713" data-start="{" data-end="}">
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#a2383401266effc791b4b03b7258e5d41">  713</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_map.html#a2383401266effc791b4b03b7258e5d41">clear</a>()</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>        {</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>            <span class="keywordflow">if</span> (mp_table)</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>            {</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>                <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> i = 0; i &lt; m_capacity; ++i)</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>                {</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>                    Node* node = mp_table[i];</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>                    <span class="keywordflow">while</span> (node)</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>                    {</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>                        Node* temp = node;</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                        node = node-&gt;next;</div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                        <a class="code hl_function" href="namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf">destruct&lt;Node&gt;</a>(temp, m_allocator);</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>                    }</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>                    mp_table[i] = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>                }</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>            }</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>            m_size = 0;</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>        }</div>
 </div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span> </div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>    };</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span> </div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    };</div>
 </div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>}</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
 <div class="ttc" id="a_constant_8h_html"><div class="ttname"><a href="_constant_8h.html">Constant.h</a></div></div>
 <div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
@@ -854,21 +858,21 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="aclass_minty_1_1_map_html_a0e39cd83b801229baedca5e5c665fde4"><div class="ttname"><a href="class_minty_1_1_map.html#a0e39cd83b801229baedca5e5c665fde4">Minty::Map::begin</a></div><div class="ttdeci">ConstIterator begin() const</div><div class="ttdoc">Gets a ConstIterator to the beginning of the Map.</div><div class="ttdef"><b>Definition</b> Map.h:257</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a1ff6c6cf9fe2f3012f0bd986cb797ade"><div class="ttname"><a href="class_minty_1_1_map.html#a1ff6c6cf9fe2f3012f0bd986cb797ade">Minty::Map::reserve</a></div><div class="ttdeci">void reserve(Size const capacity)</div><div class="ttdoc">Reserves more space in this Map.</div><div class="ttdef"><b>Definition</b> Map.h:482</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a222506a5c8a543ee22b8f2810c59e38c"><div class="ttname"><a href="class_minty_1_1_map.html#a222506a5c8a543ee22b8f2810c59e38c">Minty::Map::get_size</a></div><div class="ttdeci">Size get_size() const</div><div class="ttdef"><b>Definition</b> Map.h:453</div></div>
-<div class="ttc" id="aclass_minty_1_1_map_html_a2383401266effc791b4b03b7258e5d41"><div class="ttname"><a href="class_minty_1_1_map.html#a2383401266effc791b4b03b7258e5d41">Minty::Map::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Removes all key-value pairs from this Map.</div><div class="ttdef"><b>Definition</b> Map.h:709</div></div>
+<div class="ttc" id="aclass_minty_1_1_map_html_a2383401266effc791b4b03b7258e5d41"><div class="ttname"><a href="class_minty_1_1_map.html#a2383401266effc791b4b03b7258e5d41">Minty::Map::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">Removes all key-value pairs from this Map.</div><div class="ttdef"><b>Definition</b> Map.h:713</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a49ef47fb8f6a566c1dbb274afbed88d8"><div class="ttname"><a href="class_minty_1_1_map.html#a49ef47fb8f6a566c1dbb274afbed88d8">Minty::Map::operator[]</a></div><div class="ttdeci">constexpr Value const &amp; operator[](Key const &amp;key) const</div><div class="ttdef"><b>Definition</b> Map.h:441</div></div>
-<div class="ttc" id="aclass_minty_1_1_map_html_a5027dbf99bfb5ff0780736e6c2dfd248"><div class="ttname"><a href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">Minty::Map::contains</a></div><div class="ttdeci">Bool contains(Key const &amp;key) const</div><div class="ttdoc">Checks if this Map contains the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:704</div></div>
+<div class="ttc" id="aclass_minty_1_1_map_html_a5027dbf99bfb5ff0780736e6c2dfd248"><div class="ttname"><a href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">Minty::Map::contains</a></div><div class="ttdeci">Bool contains(Key const &amp;key) const</div><div class="ttdoc">Checks if this Map contains the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:708</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a599b8020bdea5cfc9854222e2692ee4e"><div class="ttname"><a href="class_minty_1_1_map.html#a599b8020bdea5cfc9854222e2692ee4e">Minty::Map::Map</a></div><div class="ttdeci">Map(Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates an empty Map.</div><div class="ttdef"><b>Definition</b> Map.h:294</div></div>
-<div class="ttc" id="aclass_minty_1_1_map_html_a59a0b136ccc4e81d9e6cc93df9ba3497"><div class="ttname"><a href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">Minty::Map::find</a></div><div class="ttdeci">Iterator find(Key const &amp;key)</div><div class="ttdoc">Finds the first occurrence of the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:654</div></div>
+<div class="ttc" id="aclass_minty_1_1_map_html_a59a0b136ccc4e81d9e6cc93df9ba3497"><div class="ttname"><a href="class_minty_1_1_map.html#a59a0b136ccc4e81d9e6cc93df9ba3497">Minty::Map::find</a></div><div class="ttdeci">Iterator find(Key const &amp;key)</div><div class="ttdoc">Finds the first occurrence of the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:658</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a7a6a1164a29bd12cadbec326a54bc32c"><div class="ttname"><a href="class_minty_1_1_map.html#a7a6a1164a29bd12cadbec326a54bc32c">Minty::Map::Map</a></div><div class="ttdeci">Map(std::initializer_list&lt; Pair&lt; Key, Value &gt; &gt; const &amp;list, Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates a Map with the given list of key-value pairs.</div><div class="ttdef"><b>Definition</b> Map.h:321</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a7d8675df55a2bd01b1fbba92d00d2ef0"><div class="ttname"><a href="class_minty_1_1_map.html#a7d8675df55a2bd01b1fbba92d00d2ef0">Minty::Map::get_capacity</a></div><div class="ttdeci">Size get_capacity() const</div><div class="ttdef"><b>Definition</b> Map.h:451</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_a8f255904c2aa5011150feb90fb51ad39"><div class="ttname"><a href="class_minty_1_1_map.html#a8f255904c2aa5011150feb90fb51ad39">Minty::Map::operator=</a></div><div class="ttdeci">Map &amp; operator=(Map &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition</b> Map.h:415</div></div>
-<div class="ttc" id="aclass_minty_1_1_map_html_aae9cb4369fff48fd58eb8bf0173e7f6a"><div class="ttname"><a href="class_minty_1_1_map.html#aae9cb4369fff48fd58eb8bf0173e7f6a">Minty::Map::find</a></div><div class="ttdeci">ConstIterator find(Key const &amp;key) const</div><div class="ttdoc">Finds the first occurrence of the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:679</div></div>
+<div class="ttc" id="aclass_minty_1_1_map_html_aae9cb4369fff48fd58eb8bf0173e7f6a"><div class="ttname"><a href="class_minty_1_1_map.html#aae9cb4369fff48fd58eb8bf0173e7f6a">Minty::Map::find</a></div><div class="ttdeci">ConstIterator find(Key const &amp;key) const</div><div class="ttdoc">Finds the first occurrence of the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:683</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_ab8e5a2586f385485bc74d9264ca4ba49"><div class="ttname"><a href="class_minty_1_1_map.html#ab8e5a2586f385485bc74d9264ca4ba49">Minty::Map::add</a></div><div class="ttdeci">void add(Key const &amp;key, Value const &amp;value)</div><div class="ttdoc">Adds a key-value pair to this Map.</div><div class="ttdef"><b>Definition</b> Map.h:513</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_abcabed6d7ca29668e0811856d3ca45d7"><div class="ttname"><a href="class_minty_1_1_map.html#abcabed6d7ca29668e0811856d3ca45d7">Minty::Map::end</a></div><div class="ttdeci">Iterator end()</div><div class="ttdoc">Gets an Iterator to the end of the Map.</div><div class="ttdef"><b>Definition</b> Map.h:251</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_ac6efa4fd90ab2fbcf9a8f5c9d7e99b74"><div class="ttname"><a href="class_minty_1_1_map.html#ac6efa4fd90ab2fbcf9a8f5c9d7e99b74">Minty::Map::Map</a></div><div class="ttdeci">Map(Size const capacity, Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates a Map with the given capacity.</div><div class="ttdef"><b>Definition</b> Map.h:307</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_ac8ae0688f653633ea2de27e3805c2b58"><div class="ttname"><a href="class_minty_1_1_map.html#ac8ae0688f653633ea2de27e3805c2b58">Minty::Map::is_empty</a></div><div class="ttdeci">Bool is_empty() const</div><div class="ttdoc">Checks if this Map is empty.</div><div class="ttdef"><b>Definition</b> Map.h:599</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_ace35bc602f6ec7939aa44c1929a03f48"><div class="ttname"><a href="class_minty_1_1_map.html#ace35bc602f6ec7939aa44c1929a03f48">Minty::Map::operator=</a></div><div class="ttdeci">Map &amp; operator=(Map const &amp;other)</div><div class="ttdef"><b>Definition</b> Map.h:383</div></div>
-<div class="ttc" id="aclass_minty_1_1_map_html_acf2b4f246049deb68e96a7271bab2033"><div class="ttname"><a href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">Minty::Map::at</a></div><div class="ttdeci">Value const &amp; at(Key const &amp;key) const</div><div class="ttdoc">Gets the Value with the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:630</div></div>
+<div class="ttc" id="aclass_minty_1_1_map_html_acf2b4f246049deb68e96a7271bab2033"><div class="ttname"><a href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">Minty::Map::at</a></div><div class="ttdeci">Value const &amp; at(Key const &amp;key) const</div><div class="ttdoc">Gets the Value with the given Key.</div><div class="ttdef"><b>Definition</b> Map.h:632</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_ad57f0b3e33b51eb7a30eb00b3d937683"><div class="ttname"><a href="class_minty_1_1_map.html#ad57f0b3e33b51eb7a30eb00b3d937683">Minty::Map::remove</a></div><div class="ttdeci">Bool remove(Key const &amp;key)</div><div class="ttdoc">Removes the key-value pair with the given key.</div><div class="ttdef"><b>Definition</b> Map.h:563</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_ada2021c914e425a7023978fc8ff5c0cb"><div class="ttname"><a href="class_minty_1_1_map.html#ada2021c914e425a7023978fc8ff5c0cb">Minty::Map::end</a></div><div class="ttdeci">ConstIterator end() const</div><div class="ttdoc">Gets a ConstIterator to the end of the Map.</div><div class="ttdef"><b>Definition</b> Map.h:273</div></div>
 <div class="ttc" id="aclass_minty_1_1_map_html_adb54058f0da4ab6aafc3acff109c8392"><div class="ttname"><a href="class_minty_1_1_map.html#adb54058f0da4ab6aafc3acff109c8392">Minty::Map::Map</a></div><div class="ttdeci">Map(Map const &amp;other)</div><div class="ttdef"><b>Definition</b> Map.h:334</div></div>

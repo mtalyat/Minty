@@ -3,6 +3,8 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Data/Map.h"
 
+#include "Minty/Asset/Text.h"
+
 using namespace Minty;
 
 AssetType Minty::Asset::get_asset_type(Path const& path)
@@ -62,7 +64,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 
 AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 {
-	MINTY_ABORT("Not implemented.");
+	if (typeId == typeid(Text)) return AssetType::Text;
 
 	return AssetType();
 }

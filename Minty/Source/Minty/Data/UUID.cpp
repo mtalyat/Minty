@@ -26,11 +26,7 @@ Bool Minty::UUID::deserialize(Reader& reader, Int const index)
 
 Bool Minty::UUID::parse(String const& text)
 {
-	if (text.get_size() / 4 != sizeof(ID))
-	{
-		return false;
-	}
-	if (text.get_size() % 2 != 0)
+	if (text.get_size() != sizeof(ID) * 2)
 	{
 		return false;
 	}

@@ -1,11 +1,12 @@
 # Results
-4401/4401 (100.00%)
+4503/4503 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
 | ------------------------------ | -------- | -------- |
 | Minty                          |        0 |        0 |
 | Asset                          |       33 |        0 |
+| AssetManager                   |      102 |        0 |
 | Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
 | Compression                    |       10 |        0 |
@@ -103,6 +104,112 @@ No failures! :)
 |  PASS  | 83: Get Asset Type TypeID (true == true)                                                                                         |
 |  PASS  | 89: Get Meta Path (Asset::get_meta_path(path) == "test.png.meta")                                                                |
 |  PASS  | 91: Get Meta Path (Asset::get_meta_path(path))                                                                                   |
+
+## AssetManager
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 21: Constructor (AssetManager manager(builder))                                                                                  |
+|  PASS  | 28: Load Wrap (manager.load_wrap(WRAP_PATH) == true)                                                                             |
+|  PASS  | 29: Load Wrap (manager.load_wrap("Assets/DNE.wrap") == false)                                                                    |
+|  PASS  | 30: Load Wrap (manager.load_wrap("Assets/Game") == false)                                                                        |
+|  PASS  | 31: Load Wrap (manager.load_wrap("") == false)                                                                                   |
+|  PASS  | 39: Exists (manager.exists(ASSET_PATH) == true)                                                                                  |
+|  PASS  | 40: Exists (manager.exists(WRAP_ASSET_PATH) == false)                                                                            |
+|  PASS  | 43: Exists (manager.exists(ASSET_PATH) == true)                                                                                  |
+|  PASS  | 44: Exists (manager.exists(WRAP_ASSET_PATH) == true)                                                                             |
+|  PASS  | 52: Open Reader (manager.open_reader(ASSET_PATH_MINTY, reader) == true)                                                          |
+|  PASS  | 53: Open Reader (reader != nullptr)                                                                                              |
+|  PASS  | 54: Open Reader (reader->indent("Object0") == true)                                                                              |
+|  PASS  | 56: Open Reader (manager.open_reader(DNE_PATH, reader) == false)                                                                 |
+|  PASS  | 57: Open Reader (reader == nullptr)                                                                                              |
+|  PASS  | 66: Close Reader (reader != nullptr)                                                                                             |
+|  PASS  | 68: Close Reader (reader == nullptr)                                                                                             |
+|  PASS  | 69: Close Reader (manager.close_reader(reader))                                                                                  |
+|  PASS  | 77: Open Writer (manager.open_writer(TEST_PATH, writer) == true)                                                                 |
+|  PASS  | 78: Open Writer (writer != nullptr)                                                                                              |
+|  PASS  | 81: Open Writer (writer == nullptr)                                                                                              |
+|  PASS  | 82: Open Writer (manager.close_writer(writer))                                                                                   |
+|  PASS  | 83: Open Writer (manager.open_writer("", writer) == false)                                                                       |
+|  PASS  | 84: Open Writer (writer == nullptr)                                                                                              |
+|  PASS  | 87: Open Writer (text == "Hello: World\n")                                                                                       |
+|  PASS  | 96: Close Writer (writer != nullptr)                                                                                             |
+|  PASS  | 98: Close Writer (writer == nullptr)                                                                                             |
+|  PASS  | 99: Close Writer (manager.close_writer(writer))                                                                                  |
+|  PASS  | 107: Schedule Load (manager.sync())                                                                                              |
+|  PASS  | 108: Schedule Load (manager.contains(id) == true)                                                                                |
+|  PASS  | 109: Schedule Load (manager.sync())                                                                                              |
+|  PASS  | 117: Load Asset (asset != nullptr)                                                                                               |
+|  PASS  | 118: Load Asset (manager.contains(asset->get_id()) == true)                                                                      |
+|  PASS  | 119: Load Asset (asset->get_id() == parse_to<UUID>("0123456789abcdef"))                                                          |
+|  PASS  | 120: Load Asset (manager.load_asset(DNE_PATH))                                                                                   |
+|  PASS  | 121: Load Asset (manager.load_asset(TEST_PATH))                                                                                  |
+|  PASS  | 122: Load Asset (manager.load_asset(ASSET_PATH))                                                                                 |
+|  PASS  | 130: Load (textAsset != nullptr)                                                                                                 |
+|  PASS  | 131: Load (manager.contains(textAsset->get_id()) == true)                                                                        |
+|  PASS  | 132: Load (textAsset->get_id() == parse_to<UUID>("0123456789abcdef"))                                                            |
+|  PASS  | 133: Load (manager.load<Text>(DNE_PATH))                                                                                         |
+|  PASS  | 134: Load (manager.load<Text>(TEST_PATH))                                                                                        |
+|  PASS  | 135: Load (manager.load<Text>(ASSET_PATH))                                                                                       |
+|  PASS  | 146: Schedule Unload (manager.contains(id) == false)                                                                             |
+|  PASS  | 147: Schedule Unload (textAsset == nullptr)                                                                                      |
+|  PASS  | 157: Unload (manager.contains(id) == false)                                                                                      |
+|  PASS  | 158: Unload (textAsset == nullptr)                                                                                               |
+|  PASS  | 170: Unload All (manager.contains(textAssetId) == false)                                                                         |
+|  PASS  | 171: Unload All (manager.contains(mintyAssetId) == false)                                                                        |
+|  PASS  | 172: Unload All (textAsset == nullptr)                                                                                           |
+|  PASS  | 173: Unload All (mintyAsset == nullptr)                                                                                          |
+|  PASS  | 181: Sync (manager.contains(id) == false)                                                                                        |
+|  PASS  | 183: Sync (manager.contains(id) == true)                                                                                         |
+|  PASS  | 185: Sync (manager.contains(id) == true)                                                                                         |
+|  PASS  | 187: Sync (manager.contains(id) == false)                                                                                        |
+|  PASS  | 194: Is Syncing (manager.is_syncing() == false)                                                                                  |
+|  PASS  | 196: Is Syncing (manager.is_syncing() == true)                                                                                   |
+|  PASS  | 198: Is Syncing (manager.is_syncing() == false)                                                                                  |
+|  PASS  | 209: Create (textAsset != nullptr)                                                                                               |
+|  PASS  | 210: Create (manager.contains(textAsset->get_id()) == true)                                                                      |
+|  PASS  | 222: Add (manager.contains(textAsset->get_id()) == false)                                                                        |
+|  PASS  | 224: Add (manager.contains(textAsset->get_id()) == true)                                                                         |
+|  PASS  | 225: Add (manager.get_asset_path(textAsset->get_id()) == "")                                                                     |
+|  PASS  | 237: Add Path (manager.contains(textAsset->get_id()) == false)                                                                   |
+|  PASS  | 239: Add Path (manager.contains(textAsset->get_id()) == true)                                                                    |
+|  PASS  | 240: Add Path (manager.get_asset_path(textAsset->get_id()) == ASSET_PATH)                                                        |
+|  PASS  | 250: Contains (manager.contains(id) == true)                                                                                     |
+|  PASS  | 251: Contains (manager.contains(0) == false)                                                                                     |
+|  PASS  | 253: Contains (manager.contains(badId) == false)                                                                                 |
+|  PASS  | 263: Get Asset (manager.get_asset(id) == textAsset)                                                                              |
+|  PASS  | 264: Get Asset (manager.get_asset(0) == nullptr)                                                                                 |
+|  PASS  | 266: Get Asset (manager.get_asset(badId) == nullptr)                                                                             |
+|  PASS  | 276: Get (manager.get<Text>(id) == textAsset)                                                                                    |
+|  PASS  | 277: Get (manager.get<Text>(0) == nullptr)                                                                                       |
+|  PASS  | 279: Get (manager.get<Text>(badId) == nullptr)                                                                                   |
+|  PASS  | 289: At Asset (manager.at_asset(id) == textAsset)                                                                                |
+|  PASS  | 290: At Asset (manager.at_asset(0))                                                                                              |
+|  PASS  | 292: At Asset (manager.at_asset(badId))                                                                                          |
+|  PASS  | 302: At (manager.at<Text>(id) == textAsset)                                                                                      |
+|  PASS  | 303: At (manager.at<Text>(0))                                                                                                    |
+|  PASS  | 305: At (manager.at<Text>(badId))                                                                                                |
+|  PASS  | 315: Get By Type (texts.get_size() == 2)                                                                                         |
+|  PASS  | 325: Get Asset Path (manager.get_asset_path(textAsset->get_id()) == ASSET_PATH)                                                  |
+|  PASS  | 333: Get Asset Path (manager.get_asset_path(textAsset->get_id()) == "")                                                          |
+|  PASS  | 344: Get Asset Name (manager.get_asset_name(textAsset->get_id()) == "text")                                                      |
+|  PASS  | 351: Get Asset Name (manager.get_asset_name(textAsset->get_id()) == "")                                                          |
+|  PASS  | 361: Remove (manager.contains(id) == true)                                                                                       |
+|  PASS  | 363: Remove (removedAsset == textAsset)                                                                                          |
+|  PASS  | 364: Remove (manager.contains(id) == false)                                                                                      |
+|  PASS  | 366: Remove (textAsset == nullptr)                                                                                               |
+|  PASS  | 378: Clone (clonedAsset != nullptr)                                                                                              |
+|  PASS  | 379: Clone (clonedAsset != textAsset)                                                                                            |
+|  PASS  | 380: Clone (clonedAsset->get_id() != textAsset->get_id())                                                                        |
+|  PASS  | 381: Clone (clonedAsset->get_text() == textAsset->get_text())                                                                    |
+|  PASS  | 387: Get Dependents (true == true)                                                                                               |
+|  PASS  | 395: Read Text (text.starts_with("Lorem") == true)                                                                               |
+|  PASS  | 403: Read Lines (lines.get_size() == 5)                                                                                          |
+|  PASS  | 404: Read Lines (lines[0].starts_with("Lorem") == true)                                                                          |
+|  PASS  | 405: Read Lines (lines[1].starts_with("Aliquam") == true)                                                                        |
+|  PASS  | 406: Read Lines (lines[2].starts_with("Aenean") == true)                                                                         |
+|  PASS  | 407: Read Lines (lines[3].starts_with("Quisque id") == true)                                                                     |
+|  PASS  | 408: Read Lines (lines[4].starts_with("Quisque lacinia") == true)                                                                |
+|  PASS  | 416: Read Bytes (bytes.get_size() == 2948)                                                                                       |
 
 ## Debug
 | Result | Message                                                                                                                          |

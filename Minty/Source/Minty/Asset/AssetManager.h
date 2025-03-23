@@ -75,23 +75,9 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		AssetManager(AssetManagerBuilder const& builder)
-			: m_savePaths(false)
-			, m_assets()
-			, m_assetTypes()
-			, m_handles()
-			, m_assetsMutex()
-			, m_wrapper()
-		{
-			for (Path const& path : builder.wraps)
-			{
-				load_wrap(path);
-			}
-		}
+		AssetManager(AssetManagerBuilder const& builder);
 
-		~AssetManager()
-		{
-		}
+		~AssetManager();
 
 #pragma endregion
 
@@ -101,11 +87,27 @@ namespace Minty
 		// determines where the file is located at the given path
 		Location get_location(Path const& path) const;
 
+		// read the ID from the corresponding meta file for the given path to an Asset
+		ID read_id(Path const& path) const;
+
 		// opens a file at the given path
 		File* open(Path const& path) const;
 
 		// closes an opened file
 		void close(File* file) const;
+
+		// creates a new asset with the given path and args (from a load_xxx function)
+		template<typename T, typename... Args>
+		Ref<T> create_from_loaded(Path const& path, Args&& ...args)
+		{
+			// create new asset
+			Owner<T> asset = T::create(std::forward<Args>(args)...);
+
+			// add to asset manager
+			add(path, asset);
+			
+			return asset.create_ref();
+		}
 
 	public:
 		/// <summary>
@@ -155,14 +157,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
 		/// <returns>The UUID of the Asset to be loaded.</returns>
-		UUID load(Path const& path);
+		UUID schedule_load(Path const& path);
 
 		/// <summary>
 		/// Loads the Asset at the given Path.
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
 		/// <returns>A reference to the loaded Asset.</returns>
-		Ref<Asset> load_asset_now(Path const& path);
+		Ref<Asset> load_asset(Path const& path);
 
 		/// <summary>
 		/// Loads the Asset of the given type at the given Path.
@@ -171,22 +173,22 @@ namespace Minty
 		/// <param name="path">The Path to the Asset.</param>
 		/// <returns>A reference to the loaded Asset.</returns>
 		template<typename T>
-		Ref<T> load_now(Path const& path)
+		Ref<T> load(Path const& path)
 		{
-			return static_cast<Ref<T>>(load_asset_now(path));
+			return static_cast<Ref<T>>(load_asset(path));
 		}
 
 		/// <summary>
 		/// Marks the Asset with the given ID for unloading.
 		/// </summary>
 		/// <param name="id">The ID of the Asset to unload.</param>
-		void unload(UUID const id);
+		void schedule_unload(UUID const id);
 
 		/// <summary>
 		/// Unloads the Asset with the given ID immediately.
 		/// </summary>
 		/// <param name="id">The ID of the Asset to unload.</param>
-		void unload_now(UUID const id);
+		void unload(UUID const id);
 
 		/// <summary>
 		/// Unloads all Assets stored within this AssetManager.
@@ -199,24 +201,9 @@ namespace Minty
 		void sync();
 
 		/// <summary>
-		/// Creates a new Asset of the given type.
+		/// Checks if any Assets are being loaded or unloaded.
 		/// </summary>
-		/// <typeparam name="T">The type of Asset to create.</typeparam>
-		/// <typeparam name="...Args">The argument types to create the Asset.</typeparam>
-		/// <param name="path">The Path to the Asset.</param>
-		/// <param name="...args">The arguments to create the Asset.</param>
-		/// <returns>A reference to the newly created Asset.</returns>
-		template<typename T, typename... Args>
-		Ref<T> create(Path const& path, Args&&... args)
-		{
-			// create new asset
-			Owner<T> asset = T::create(std::forward<Args>(args)...);
-
-			// add to asset manager
-			add(path, asset);
-
-			return asset.create_ref();
-		}
+		Bool is_syncing() const;
 
 		/// <summary>
 		/// Creates a new Asset of the given type.
@@ -316,9 +303,9 @@ namespace Minty
 			}
 
 			Vector<Ref<T>> assets(found->second.get_size());
-			for (Ref<Asset> const& asset : found->second)
+			for (UUID const id : found->second)
 			{
-				assets.push_back(static_cast<Ref<T>>(asset));
+				assets.add(at<T>(id));
 			}
 
 			return assets;
@@ -354,7 +341,7 @@ namespace Minty
 		template<typename T>
 		Ref<T> clone(UUID const id)
 		{
-			// get asset
+			// get asset to clone
 			Ref<T> asset = get<T>(id);
 
 			// do nothing if null
@@ -364,13 +351,18 @@ namespace Minty
 			}
 
 			// create new asset of same type
-			Ref<T> newAsset = create<T>();
+			UUID newId = UUID::create();
+			Owner<T> newAsset = T::create();
 
 			// copy data
 			*newAsset.get() = *asset.get();
+			newAsset.get()->m_uuid = newId;
+
+			// add to asset manager
+			add(newAsset);
 
 			// return cloned asset
-			return newAsset;
+			return newAsset.create_ref();
 		}
 
 		/// <summary>
@@ -404,9 +396,6 @@ namespace Minty
 #pragma region Load
 
 	private:
-		// read the ID from the corresponding meta file for the given path to an Asset
-		ID read_id(Path const& path) const;
-
 		Ref<Text> load_text(Path const& path);
 
 #pragma endregion
