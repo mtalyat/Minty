@@ -1,7 +1,7 @@
 /// <summary>
-/// Determines how the image is used.
+/// Determines how the image data is laid out in memory.
 /// </summary>
-enum class ImageUsage
+enum class ImageLayout
 {
 	/// <summary>
 	/// Invalid.
@@ -9,22 +9,42 @@ enum class ImageUsage
 	Undefined = 0,
 
 	/// <summary>
-	/// The image is sampled.
+	/// Generic layout.
 	/// </summary>
-	Sampled = 1,
+	General = 1,
 
 	/// <summary>
-	/// The image is used for storage.
+	/// Color attachment.
 	/// </summary>
-	Storage = 2,
+	ColorAttachmentOptimal = 2,
 
 	/// <summary>
-	/// The image is used for input attachment.
+	/// Depth stencil attachment.
 	/// </summary>
-	Color = 4,
+	DepthStencilAttachmentOptimal = 3,
 
 	/// <summary>
-	/// The image is used for depth/stencil.
+	/// Depth stencil read only.
 	/// </summary>
-	DepthStencil = 8
+	DepthStencilReadOnlyOptimal = 4,
+
+	/// <summary>
+	/// Shader read only.
+	/// </summary>
+	ShaderReadOnlyOptimal = 5,
+
+	/// <summary>
+	/// Transfer source location.
+	/// </summary>
+	TransferSourceOptimal = 6,
+
+	/// <summary>
+	/// Transfer destination location.
+	/// </summary>
+	TransferDestinationOptimal = 7,
+
+	/// <summary>
+	/// Pre-initialized.
+	/// </summary>
+	Preinitialized = 8,
 };

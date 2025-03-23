@@ -1,5 +1,5 @@
 # Results
-4686/4686 (100.00%)
+4721/4721 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -57,6 +57,7 @@
 | BufferUsage                    |       19 |        0 |
 | ImageAddressMode               |       23 |        0 |
 | ImageAspect                    |       11 |        0 |
+| ImageLayout                    |       35 |        0 |
 | ImagePixelFormat               |       19 |        0 |
 | ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
@@ -4457,6 +4458,45 @@ No failures! :)
 |  PASS  | 37: Parse Try (result == value)                                                                                                  |
 |  PASS  | 40: Parse Try (parse_try_image_aspect("", result) == false)                                                                      |
 |  PASS  | 41: Parse Try (result == ImageAspect())                                                                                          |
+
+## ImageLayout
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 23: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_image_layout(name) == value)                                                                              |
+|  PASS  | 34: Parse To (parse_to_image_layout("") == ImageLayout())                                                                        |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_image_layout(name, result) == true)                                                                     |
+|  PASS  | 43: Parse Try (result == value)                                                                                                  |
+|  PASS  | 46: Parse Try (parse_try_image_layout("", result) == false)                                                                      |
+|  PASS  | 47: Parse Try (result == ImageLayout())                                                                                          |
 
 ## ImagePixelFormat
 | Result | Message                                                                                                                          |

@@ -158,6 +158,7 @@
     <ClCompile Include="Test_File.cpp" />
     <ClCompile Include="Test_GenericAsset.cpp" />
     <ClCompile Include="Test_ImageAspect.cpp" />
+    <ClCompile Include="Test_ImageLayout.cpp" />
     <ClCompile Include="Test_ImagePixelFormat.cpp" />
     <ClCompile Include="Test_ImageTiling.cpp" />
     <ClCompile Include="Test_ImageType.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Test_File.h" />
     <ClInclude Include="Test_GenericAsset.h" />
     <ClInclude Include="Test_ImageAspect.h" />
+    <ClInclude Include="Test_ImageLayout.h" />
     <ClInclude Include="Test_ImagePixelFormat.h" />
     <ClInclude Include="Test_ImageTiling.h" />
     <ClInclude Include="Test_ImageType.h" />

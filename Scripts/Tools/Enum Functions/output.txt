@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ImageUsage const obj);
-    ImageUsage parse_to_image_usage(String const& string);
-    Bool parse_try_image_usage(String const& string, ImageUsage& value);
+String to_string(ImageLayout const obj);
+    ImageLayout parse_to_image_layout(String const& string);
+    Bool parse_try_image_layout(String const& string, ImageLayout& value);
     template<>
-    inline ImageUsage parse_to<ImageUsage>(String const& string) { return parse_to_image_usage(string); }
+    inline ImageLayout parse_to<ImageLayout>(String const& string) { return parse_to_image_layout(string); }
     template<>
-    inline Bool parse_try<ImageUsage>(String const& string, ImageUsage& value) { return parse_try_image_usage(string, value); }
+    inline Bool parse_try<ImageLayout>(String const& string, ImageLayout& value) { return parse_try_image_layout(string, value); }
 
 ====================
 	Source:
@@ -16,33 +16,41 @@ String to_string(ImageUsage const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ImageUsage const obj)
+String Minty::to_string(ImageLayout const obj)
 {
     switch (obj)
 	{
-		case ImageUsage::Sampled: return "Sampled";
-		case ImageUsage::Storage: return "Storage";
-		case ImageUsage::Color: return "Color";
-		case ImageUsage::DepthStencil: return "DepthStencil";
+		case ImageLayout::General: return "General";
+		case ImageLayout::ColorAttachmentOptimal: return "ColorAttachmentOptimal";
+		case ImageLayout::DepthStencilAttachmentOptimal: return "DepthStencilAttachmentOptimal";
+		case ImageLayout::DepthStencilReadOnlyOptimal: return "DepthStencilReadOnlyOptimal";
+		case ImageLayout::ShaderReadOnlyOptimal: return "ShaderReadOnlyOptimal";
+		case ImageLayout::TransferSourceOptimal: return "TransferSourceOptimal";
+		case ImageLayout::TransferDestinationOptimal: return "TransferDestinationOptimal";
+		case ImageLayout::Preinitialized: return "Preinitialized";
 
 		default: return "";
 	}
 }
 
-ImageUsage Minty::parse_to_image_usage(String const& string)
+ImageLayout Minty::parse_to_image_layout(String const& string)
 {
-	if (string == "Sampled") return ImageUsage::Sampled;
-	if (string == "Storage") return ImageUsage::Storage;
-	if (string == "Color") return ImageUsage::Color;
-	if (string == "DepthStencil") return ImageUsage::DepthStencil;
+	if (string == "General") return ImageLayout::General;
+	if (string == "ColorAttachmentOptimal") return ImageLayout::ColorAttachmentOptimal;
+	if (string == "DepthStencilAttachmentOptimal") return ImageLayout::DepthStencilAttachmentOptimal;
+	if (string == "DepthStencilReadOnlyOptimal") return ImageLayout::DepthStencilReadOnlyOptimal;
+	if (string == "ShaderReadOnlyOptimal") return ImageLayout::ShaderReadOnlyOptimal;
+	if (string == "TransferSourceOptimal") return ImageLayout::TransferSourceOptimal;
+	if (string == "TransferDestinationOptimal") return ImageLayout::TransferDestinationOptimal;
+	if (string == "Preinitialized") return ImageLayout::Preinitialized;
 
-	return ImageUsage();
+	return ImageLayout();
 }
 
-Bool Minty::parse_try_image_usage(String const& string, ImageUsage& value)
+Bool Minty::parse_try_image_layout(String const& string, ImageLayout& value)
 {
-	value = parse_to_image_usage(string);
-	return value != ImageUsage();
+	value = parse_to_image_layout(string);
+	return value != ImageLayout();
 }
 
 ====================
@@ -53,24 +61,28 @@ Bool Minty::parse_try_image_usage(String const& string, ImageUsage& value)
 
 #include "Test.h"
 
-void test_ImageUsage(Test& _test);
+void test_ImageLayout(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ImageUsage.h"
+#include "Test_ImageLayout.h"
 #include "Minty.h"
 
-void test_ImageUsage(Test& _test)
+void test_ImageLayout(Test& _test)
 {
-	CATEGORY(ImageUsage)
+	CATEGORY(ImageLayout)
 	{
-        std::vector<std::pair<ImageUsage, String>> VALUES = {
-			{ImageUsage::Sampled, "Sampled"},
-			{ImageUsage::Storage, "Storage"},
-			{ImageUsage::Color, "Color"},
-			{ImageUsage::DepthStencil, "DepthStencil"},
+        std::vector<std::pair<ImageLayout, String>> VALUES = {
+			{ImageLayout::General, "General"},
+			{ImageLayout::ColorAttachmentOptimal, "ColorAttachmentOptimal"},
+			{ImageLayout::DepthStencilAttachmentOptimal, "DepthStencilAttachmentOptimal"},
+			{ImageLayout::DepthStencilReadOnlyOptimal, "DepthStencilReadOnlyOptimal"},
+			{ImageLayout::ShaderReadOnlyOptimal, "ShaderReadOnlyOptimal"},
+			{ImageLayout::TransferSourceOptimal, "TransferSourceOptimal"},
+			{ImageLayout::TransferDestinationOptimal, "TransferDestinationOptimal"},
+			{ImageLayout::Preinitialized, "Preinitialized"},
         };
     
         TEST("To String")
@@ -85,23 +97,23 @@ void test_ImageUsage(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_usage(name), value);
+                EXPECT_EQUAL(parse_to_image_layout(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_usage(""), ImageUsage());
+            EXPECT_EQUAL(parse_to_image_layout(""), ImageLayout());
         }
 
         TEST("Parse Try")
         {
-            ImageUsage result;
+            ImageLayout result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_usage(name, result));
+                EXPECT_TRUE(parse_try_image_layout(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_usage("", result));
-            EXPECT_EQUAL(result, ImageUsage());
+            EXPECT_FALSE(parse_try_image_layout("", result));
+            EXPECT_EQUAL(result, ImageLayout());
         }
 	}
 }

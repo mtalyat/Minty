@@ -7,6 +7,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "ImageAddressMode.h", "_image_address_mode_8h.html", "_image_address_mode_8h" ],
     [ "ImageAspect.cpp", "_image_aspect_8cpp.html", null ],
     [ "ImageAspect.h", "_image_aspect_8h.html", "_image_aspect_8h" ],
+    [ "ImageLayout.cpp", "_image_layout_8cpp.html", null ],
+    [ "ImageLayout.h", "_image_layout_8h.html", "_image_layout_8h" ],
     [ "ImagePixelFormat.cpp", "_image_pixel_format_8cpp.html", null ],
     [ "ImagePixelFormat.h", "_image_pixel_format_8h.html", "_image_pixel_format_8h" ],
     [ "ImageTiling.cpp", "_image_tiling_8cpp.html", null ],

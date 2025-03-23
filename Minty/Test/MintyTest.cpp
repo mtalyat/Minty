@@ -50,6 +50,7 @@
 #include "Test_BufferUsage.h"
 #include "Test_ImageAddressMode.h"
 #include "Test_ImageAspect.h"
+#include "Test_ImageLayout.h"
 #include "Test_ImagePixelFormat.h"
 #include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
@@ -137,6 +138,7 @@ static void run_tests()
 	test_BufferUsage(_test);
 	test_ImageAddressMode(_test);
 	test_ImageAspect(_test);
+	test_ImageLayout(_test);
 	test_ImagePixelFormat(_test);
 	test_ImageTiling(_test);
 	test_ImageType(_test);
