@@ -1,7 +1,7 @@
 /// <summary>
-/// Determines how the image is tiled.
+/// Determines how the image is used in the pipeline.
 /// </summary>
-enum class ImageTiling
+enum class ImageAspect
 {
 	/// <summary>
 	/// Invalid.
@@ -9,12 +9,12 @@ enum class ImageTiling
 	Undefined = 0,
 
 	/// <summary>
-	/// 
+	/// Used for color.
 	/// </summary>
-	Optimal,
+	Color = 1,
 
 	/// <summary>
-	/// 
+	/// Used for depth.
 	/// </summary>
-	Linear,
+	Depth = 2,
 };

@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ImageTiling const obj);
-    ImageTiling parse_to_image_tiling(String const& string);
-    Bool parse_try_image_tiling(String const& string, ImageTiling& value);
+String to_string(ImageAspect const obj);
+    ImageAspect parse_to_image_aspect(String const& string);
+    Bool parse_try_image_aspect(String const& string, ImageAspect& value);
     template<>
-    inline ImageTiling parse_to<ImageTiling>(String const& string) { return parse_to_image_tiling(string); }
+    inline ImageAspect parse_to<ImageAspect>(String const& string) { return parse_to_image_aspect(string); }
     template<>
-    inline Bool parse_try<ImageTiling>(String const& string, ImageTiling& value) { return parse_try_image_tiling(string, value); }
+    inline Bool parse_try<ImageAspect>(String const& string, ImageAspect& value) { return parse_try_image_aspect(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,29 @@ String to_string(ImageTiling const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ImageTiling const obj)
+String Minty::to_string(ImageAspect const obj)
 {
     switch (obj)
 	{
-		case ImageTiling::Optimal: return "Optimal";
-		case ImageTiling::Linear: return "Linear";
+		case ImageAspect::Color: return "Color";
+		case ImageAspect::Depth: return "Depth";
 
 		default: return "";
 	}
 }
 
-ImageTiling Minty::parse_to_image_tiling(String const& string)
+ImageAspect Minty::parse_to_image_aspect(String const& string)
 {
-	if (string == "Optimal") return ImageTiling::Optimal;
-	if (string == "Linear") return ImageTiling::Linear;
+	if (string == "Color") return ImageAspect::Color;
+	if (string == "Depth") return ImageAspect::Depth;
 
-	return ImageTiling();
+	return ImageAspect();
 }
 
-Bool Minty::parse_try_image_tiling(String const& string, ImageTiling& value)
+Bool Minty::parse_try_image_aspect(String const& string, ImageAspect& value)
 {
-	value = parse_to_image_tiling(string);
-	return value != ImageTiling();
+	value = parse_to_image_aspect(string);
+	return value != ImageAspect();
 }
 
 ====================
@@ -49,22 +49,22 @@ Bool Minty::parse_try_image_tiling(String const& string, ImageTiling& value)
 
 #include "Test.h"
 
-void test_ImageTiling(Test& _test);
+void test_ImageAspect(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ImageTiling.h"
+#include "Test_ImageAspect.h"
 #include "Minty.h"
 
-void test_ImageTiling(Test& _test)
+void test_ImageAspect(Test& _test)
 {
-	CATEGORY(ImageTiling)
+	CATEGORY(ImageAspect)
 	{
-        std::vector<std::pair<ImageTiling, String>> VALUES = {
-			{ImageTiling::Optimal, "Optimal"},
-			{ImageTiling::Linear, "Linear"},
+        std::vector<std::pair<ImageAspect, String>> VALUES = {
+			{ImageAspect::Color, "Color"},
+			{ImageAspect::Depth, "Depth"},
         };
     
         TEST("To String")
@@ -79,23 +79,23 @@ void test_ImageTiling(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_tiling(name), value);
+                EXPECT_EQUAL(parse_to_image_aspect(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_tiling(""), ImageTiling());
+            EXPECT_EQUAL(parse_to_image_aspect(""), ImageAspect());
         }
 
         TEST("Parse Try")
         {
-            ImageTiling result;
+            ImageAspect result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_tiling(name, result));
+                EXPECT_TRUE(parse_try_image_aspect(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_tiling("", result));
-            EXPECT_EQUAL(result, ImageTiling());
+            EXPECT_FALSE(parse_try_image_aspect("", result));
+            EXPECT_EQUAL(result, ImageAspect());
         }
 	}
 }

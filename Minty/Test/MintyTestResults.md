@@ -1,5 +1,5 @@
 # Results
-4622/4622 (100.00%)
+4644/4644 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -55,7 +55,9 @@
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
 | BufferUsage                    |       19 |        0 |
+| ImageAspect                    |       11 |        0 |
 | ImagePixelFormat               |       19 |        0 |
+| ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
@@ -4412,6 +4414,21 @@ No failures! :)
 |  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
 |  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
 
+## ImageAspect
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_image_aspect(name) == value)                                                                              |
+|  PASS  | 25: Parse To (parse_to_image_aspect(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_image_aspect("") == ImageAspect())                                                                        |
+|  PASS  | 36: Parse Try (parse_try_image_aspect(name, result) == true)                                                                     |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_image_aspect(name, result) == true)                                                                     |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_image_aspect("", result) == false)                                                                      |
+|  PASS  | 41: Parse Try (result == ImageAspect())                                                                                          |
+
 ## ImagePixelFormat
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -4434,6 +4451,21 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_image_pixel_format("", result) == false)                                                                |
 |  PASS  | 43: Parse Try (result == ImagePixelFormat())                                                                                     |
+
+## ImageTiling
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_image_tiling(name) == value)                                                                              |
+|  PASS  | 25: Parse To (parse_to_image_tiling(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_image_tiling("") == ImageTiling())                                                                        |
+|  PASS  | 36: Parse Try (parse_try_image_tiling(name, result) == true)                                                                     |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_image_tiling(name, result) == true)                                                                     |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_image_tiling("", result) == false)                                                                      |
+|  PASS  | 41: Parse Try (result == ImageTiling())                                                                                          |
 
 ## ImageType
 | Result | Message                                                                                                                          |

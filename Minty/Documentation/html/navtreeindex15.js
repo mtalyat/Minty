@@ -1,5 +1,17 @@
 var NAVTREEINDEX15 =
 {
+"struct_minty_1_1_asset_manager_builder.html#abbbc3baf329630ecf5ca823a9e3e6b37":[0,0,0,6,0],
+"struct_minty_1_1_asset_manager_builder.html#abbbc3baf329630ecf5ca823a9e3e6b37":[1,0,0,5,0],
+"struct_minty_1_1_color.html":[0,0,0,7],
+"struct_minty_1_1_color.html":[1,0,0,6],
+"struct_minty_1_1_color.html#a0407ff4d6a18837587b17b51ccc69e88":[0,0,0,7,12],
+"struct_minty_1_1_color.html#a0407ff4d6a18837587b17b51ccc69e88":[1,0,0,6,12],
+"struct_minty_1_1_color.html#a18764fd3cb5655eb5ae9f8460b6f75f1":[0,0,0,7,4],
+"struct_minty_1_1_color.html#a18764fd3cb5655eb5ae9f8460b6f75f1":[1,0,0,6,4],
+"struct_minty_1_1_color.html#a23b456cad7922194dde053986daf1462":[0,0,0,7,11],
+"struct_minty_1_1_color.html#a23b456cad7922194dde053986daf1462":[1,0,0,6,11],
+"struct_minty_1_1_color.html#a413718d689fc9cb949d63b98077e63e4":[0,0,0,7,7],
+"struct_minty_1_1_color.html#a413718d689fc9cb949d63b98077e63e4":[1,0,0,6,7],
 "struct_minty_1_1_color.html#a4ff3fb1c5555d38ebb2c409f571a26ec":[0,0,0,7,13],
 "struct_minty_1_1_color.html#a4ff3fb1c5555d38ebb2c409f571a26ec":[1,0,0,6,13],
 "struct_minty_1_1_color.html#a57ea73a75c5714fbe3ec7fa64e27081d":[0,0,0,7,15],
