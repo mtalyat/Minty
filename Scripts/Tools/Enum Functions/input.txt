@@ -1,7 +1,7 @@
 /// <summary>
-/// Determines how the image is used in the pipeline.
+/// Determines how the image data is accessed in the pipeline.
 /// </summary>
-enum class ImageAspect
+enum class ImageAddressMode
 {
 	/// <summary>
 	/// Invalid.
@@ -9,12 +9,27 @@ enum class ImageAspect
 	Undefined = 0,
 
 	/// <summary>
-	/// Used for color.
+	/// The texture coordinates are repeated.
 	/// </summary>
-	Color = 1,
+	Repeat = 1,
 
 	/// <summary>
-	/// Used for depth.
+	/// The texture coordinates are mirrored and repeated.
 	/// </summary>
-	Depth = 2,
+	MirroredRepeat = 2,
+
+	/// <summary>
+	/// The texture coordinates are clamped to the edge.
+	/// </summary>
+	ClampToEdge = 3,
+
+	/// <summary>
+	/// The texture coordinates are clamped to the border.
+	/// </summary>
+	ClampToBorder = 4,
+
+	/// <summary>
+	/// The texture coordinates are mirrored and clamped to the edge.
+	/// </summary>
+	MirroredClampToEdge = 5,
 };

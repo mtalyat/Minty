@@ -75,7 +75,9 @@ var searchData=
   ['minty_5ftry_5fparse_5fto_5f4_72',['MINTY_TRY_PARSE_TO_4',['../_parse_8cpp.html#ada33cb1fc3717a1819c9bd7ff5df87f6',1,'Parse.cpp']]],
   ['minty_5fwarning_73',['MINTY_WARNING',['../_macro_8h.html#a2f9a744986e882411a6c41b462c5618a',1,'Macro.h']]],
   ['minty_5fwrite_74',['MINTY_WRITE',['../_macro_8h.html#a1eb758a12d335eb292e655a56e8fb9cf',1,'Macro.h']]],
-  ['move_75',['move',['../class_minty_1_1_file.html#ae5457a1bd237c45ed7071fdaa4cb107b',1,'Minty::File']]],
-  ['mp_5fdata_76',['mp_data',['../class_minty_1_1_memory_container.html#a36d063e60ed5816b7edeb0648333d0ee',1,'Minty::MemoryContainer']]],
-  ['multilinestring_77',['MultilineString',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c',1,'Minty']]]
+  ['mirroredclamptoedge_75',['MirroredClampToEdge',['../namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9fa3ca5ec8b8b49cf4219bfb3061bac1643',1,'Minty']]],
+  ['mirroredrepeat_76',['MirroredRepeat',['../namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9fa12ce4a5977988214a6b098b8cb0bf695',1,'Minty']]],
+  ['move_77',['move',['../class_minty_1_1_file.html#ae5457a1bd237c45ed7071fdaa4cb107b',1,'Minty::File']]],
+  ['mp_5fdata_78',['mp_data',['../class_minty_1_1_memory_container.html#a36d063e60ed5816b7edeb0648333d0ee',1,'Minty::MemoryContainer']]],
+  ['multilinestring_79',['MultilineString',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c',1,'Minty']]]
 ];

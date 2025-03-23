@@ -1,5 +1,5 @@
 # Results
-4644/4644 (100.00%)
+4667/4667 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -55,6 +55,7 @@
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
 | BufferUsage                    |       19 |        0 |
+| ImageAddressMode               |       23 |        0 |
 | ImageAspect                    |       11 |        0 |
 | ImagePixelFormat               |       19 |        0 |
 | ImageTiling                    |       11 |        0 |
@@ -4413,6 +4414,33 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
 |  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
+
+## ImageAddressMode
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 20: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 20: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 20: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 20: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 20: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
+|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
+|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
+|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
+|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
+|  PASS  | 31: Parse To (parse_to_image_address_mode("") == ImageAddressMode())                                                             |
+|  PASS  | 39: Parse Try (parse_try_image_address_mode(name, result) == true)                                                               |
+|  PASS  | 40: Parse Try (result == value)                                                                                                  |
+|  PASS  | 39: Parse Try (parse_try_image_address_mode(name, result) == true)                                                               |
+|  PASS  | 40: Parse Try (result == value)                                                                                                  |
+|  PASS  | 39: Parse Try (parse_try_image_address_mode(name, result) == true)                                                               |
+|  PASS  | 40: Parse Try (result == value)                                                                                                  |
+|  PASS  | 39: Parse Try (parse_try_image_address_mode(name, result) == true)                                                               |
+|  PASS  | 40: Parse Try (result == value)                                                                                                  |
+|  PASS  | 39: Parse Try (parse_try_image_address_mode(name, result) == true)                                                               |
+|  PASS  | 40: Parse Try (result == value)                                                                                                  |
+|  PASS  | 43: Parse Try (parse_try_image_address_mode("", result) == false)                                                                |
+|  PASS  | 44: Parse Try (result == ImageAddressMode())                                                                                     |
 
 ## ImageAspect
 | Result | Message                                                                                                                          |

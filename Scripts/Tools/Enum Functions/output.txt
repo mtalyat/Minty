@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ImageAspect const obj);
-    ImageAspect parse_to_image_aspect(String const& string);
-    Bool parse_try_image_aspect(String const& string, ImageAspect& value);
+String to_string(ImageAddressMode const obj);
+    ImageAddressMode parse_to_image_address_mode(String const& string);
+    Bool parse_try_image_address_mode(String const& string, ImageAddressMode& value);
     template<>
-    inline ImageAspect parse_to<ImageAspect>(String const& string) { return parse_to_image_aspect(string); }
+    inline ImageAddressMode parse_to<ImageAddressMode>(String const& string) { return parse_to_image_address_mode(string); }
     template<>
-    inline Bool parse_try<ImageAspect>(String const& string, ImageAspect& value) { return parse_try_image_aspect(string, value); }
+    inline Bool parse_try<ImageAddressMode>(String const& string, ImageAddressMode& value) { return parse_try_image_address_mode(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,35 @@ String to_string(ImageAspect const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ImageAspect const obj)
+String Minty::to_string(ImageAddressMode const obj)
 {
     switch (obj)
 	{
-		case ImageAspect::Color: return "Color";
-		case ImageAspect::Depth: return "Depth";
+		case ImageAddressMode::Repeat: return "Repeat";
+		case ImageAddressMode::MirroredRepeat: return "MirroredRepeat";
+		case ImageAddressMode::ClampToEdge: return "ClampToEdge";
+		case ImageAddressMode::ClampToBorder: return "ClampToBorder";
+		case ImageAddressMode::MirroredClampToEdge: return "MirroredClampToEdge";
 
 		default: return "";
 	}
 }
 
-ImageAspect Minty::parse_to_image_aspect(String const& string)
+ImageAddressMode Minty::parse_to_image_address_mode(String const& string)
 {
-	if (string == "Color") return ImageAspect::Color;
-	if (string == "Depth") return ImageAspect::Depth;
+	if (string == "Repeat") return ImageAddressMode::Repeat;
+	if (string == "MirroredRepeat") return ImageAddressMode::MirroredRepeat;
+	if (string == "ClampToEdge") return ImageAddressMode::ClampToEdge;
+	if (string == "ClampToBorder") return ImageAddressMode::ClampToBorder;
+	if (string == "MirroredClampToEdge") return ImageAddressMode::MirroredClampToEdge;
 
-	return ImageAspect();
+	return ImageAddressMode();
 }
 
-Bool Minty::parse_try_image_aspect(String const& string, ImageAspect& value)
+Bool Minty::parse_try_image_address_mode(String const& string, ImageAddressMode& value)
 {
-	value = parse_to_image_aspect(string);
-	return value != ImageAspect();
+	value = parse_to_image_address_mode(string);
+	return value != ImageAddressMode();
 }
 
 ====================
@@ -49,22 +55,25 @@ Bool Minty::parse_try_image_aspect(String const& string, ImageAspect& value)
 
 #include "Test.h"
 
-void test_ImageAspect(Test& _test);
+void test_ImageAddressMode(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ImageAspect.h"
+#include "Test_ImageAddressMode.h"
 #include "Minty.h"
 
-void test_ImageAspect(Test& _test)
+void test_ImageAddressMode(Test& _test)
 {
-	CATEGORY(ImageAspect)
+	CATEGORY(ImageAddressMode)
 	{
-        std::vector<std::pair<ImageAspect, String>> VALUES = {
-			{ImageAspect::Color, "Color"},
-			{ImageAspect::Depth, "Depth"},
+        std::vector<std::pair<ImageAddressMode, String>> VALUES = {
+			{ImageAddressMode::Repeat, "Repeat"},
+			{ImageAddressMode::MirroredRepeat, "MirroredRepeat"},
+			{ImageAddressMode::ClampToEdge, "ClampToEdge"},
+			{ImageAddressMode::ClampToBorder, "ClampToBorder"},
+			{ImageAddressMode::MirroredClampToEdge, "MirroredClampToEdge"},
         };
     
         TEST("To String")
@@ -79,23 +88,23 @@ void test_ImageAspect(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_aspect(name), value);
+                EXPECT_EQUAL(parse_to_image_address_mode(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_aspect(""), ImageAspect());
+            EXPECT_EQUAL(parse_to_image_address_mode(""), ImageAddressMode());
         }
 
         TEST("Parse Try")
         {
-            ImageAspect result;
+            ImageAddressMode result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_aspect(name, result));
+                EXPECT_TRUE(parse_try_image_address_mode(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_aspect("", result));
-            EXPECT_EQUAL(result, ImageAspect());
+            EXPECT_FALSE(parse_try_image_address_mode("", result));
+            EXPECT_EQUAL(result, ImageAddressMode());
         }
 	}
 }
