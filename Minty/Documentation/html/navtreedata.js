@@ -64,18 +64,18 @@ var NAVTREEINDEX =
 "class_minty_1_1_array.html#a72590bd7376ef772409670c9e1495362",
 "class_minty_1_1_constant_container.html#ac546abdcbc385cf9c273e885411d51a5",
 "class_minty_1_1_file_writer_behavior.html",
-"class_minty_1_1_list_1_1_reverse_iterator.html#a31eb54d08880003c5643c7feab505d62",
-"class_minty_1_1_memory_writer_behavior.html#a0dc9fc59e6dc4debea838fa12fe01421",
-"class_minty_1_1_path_1_1_const_iterator.html",
-"class_minty_1_1_reader.html#ad4c9f7ab9f4b7825ba4e92c0adb50a11",
-"class_minty_1_1_set.html#a10d5a53c2c1425f559c5833dc8b0afb2",
-"class_minty_1_1_string_1_1_const_iterator.html#afa3d836d1647d2e6c31b459e1a62b5d5",
-"class_minty_1_1_vector.html#a2b5255837549c578ceed7ce1121759a4",
-"class_minty_1_1_virtual_file.html#adfec425f0e3dac08d78a08aeee919664",
-"class_minty_1_1_writer_format_behavior.html#a52710714e87d87b50ae0e55bed3bc831",
-"namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a4059b0251f66a18cb56f544728796875",
-"namespace_minty.html#af16bfe766105040a120169c9f6608402",
-"structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4.html"
+"class_minty_1_1_list_1_1_iterator.html#af1c2fd4f9eec40d8aa3b7c2c23bfd82d",
+"class_minty_1_1_memory_stack.html#ac140827dbf72a07a9fff580b38324598",
+"class_minty_1_1_path.html#ad7ce5677f5e67ab1241c8478611d62dc",
+"class_minty_1_1_reader.html#abfa19910f01952a9c4511c8a5c40e006",
+"class_minty_1_1_serializable_object.html#a4fc336b1db08cd5326d2b664e6a409b9",
+"class_minty_1_1_string_1_1_const_iterator.html#a8917158817dce61cacab935564b1d4c0",
+"class_minty_1_1_vector.html#a1f34cae17faa739607df6f0f38e8875f",
+"class_minty_1_1_virtual_file.html#ac6f1ebe4c007f6d9ca268b8dae7e03ca",
+"class_minty_1_1_writer_format_behavior.html#a402ac4aea61f55547080260ed6c00fdd",
+"namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d",
+"namespace_minty.html#af0c9f226c1fbfb2b3daeb40e34347336",
+"structstd_1_1hash_3_01_minty_1_1_path_01_4.html#acc72f4ede6803967e1c26795a9033ce0"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

@@ -10,11 +10,9 @@ namespace Minty
 	/// </summary>
 	enum class AssetType
 	{
-		None,
-		Meta,
+		Generic,
 		Wrap,
 		Info, // application info
-		Text,
 		Script,
 		AudioClip,
 		Animation,

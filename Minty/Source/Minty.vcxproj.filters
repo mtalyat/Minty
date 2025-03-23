@@ -243,9 +243,6 @@
     <ClInclude Include="Minty\Core\Encoding.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Asset\Text.h">
-      <Filter>Header Files\Asset</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Job\_Job.h">
       <Filter>Header Files\Job</Filter>
     </ClInclude>
@@ -263,6 +260,12 @@
     </ClInclude>
     <ClInclude Include="Minty\Serialization\Parse.h">
       <Filter>Header Files\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Asset\AssetFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Asset\GenericAsset.h">
+      <Filter>Header Files\Asset</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -362,9 +365,6 @@
     <ClCompile Include="Minty\Core\Encoding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minty\Asset\Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minty\Job\JobManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -372,6 +372,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Serialization\ToString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Asset\GenericAsset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

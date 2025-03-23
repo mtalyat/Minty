@@ -1,11 +1,11 @@
 # Results
-4503/4503 (100.00%)
+4501/4501 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
 | ------------------------------ | -------- | -------- |
 | Minty                          |        0 |        0 |
-| Asset                          |       33 |        0 |
+| Asset                          |       31 |        0 |
 | AssetManager                   |      102 |        0 |
 | Debug                          |       43 |        0 |
 | Base                           |        7 |        0 |
@@ -71,39 +71,37 @@ No failures! :)
 ## Asset
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 17: ID Constructor (asset.get_id().get_data() == 0)                                                                              |
-|  PASS  | 20: ID Constructor (asset.get_id().get_data() == 1)                                                                              |
-|  PASS  | 23: ID Constructor (asset.get_id().get_data() == 0xFFFFFFFFFFFFFFFF)                                                             |
-|  PASS  | 34: Get ID (asset.get_id().get_data() == 0)                                                                                      |
-|  PASS  | 37: Get ID (asset.get_id().get_data() == 1)                                                                                      |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 76: Get Asset Type Path (actual == expected)                                                                                     |
-|  PASS  | 83: Get Asset Type TypeID (true == true)                                                                                         |
-|  PASS  | 89: Get Meta Path (Asset::get_meta_path(path) == "test.png.meta")                                                                |
-|  PASS  | 91: Get Meta Path (Asset::get_meta_path(path))                                                                                   |
+|  PASS  | 15: ID Constructor (asset.get_id().get_data() == 0)                                                                              |
+|  PASS  | 18: ID Constructor (asset.get_id().get_data() == 1)                                                                              |
+|  PASS  | 21: ID Constructor (asset.get_id().get_data() == 0xFFFFFFFFFFFFFFFF)                                                             |
+|  PASS  | 31: Get ID (asset.get_id().get_data() == 0)                                                                                      |
+|  PASS  | 34: Get ID (asset.get_id().get_data() == 1)                                                                                      |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 70: Get Asset Type Path (actual == expected)                                                                                     |
+|  PASS  | 77: Get Asset Type TypeID (Asset::get_asset_type(path) == AssetType::Generic)                                                    |
+|  PASS  | 79: Get Asset Type TypeID (Asset::get_asset_type(path))                                                                          |
+|  PASS  | 85: Get Meta Path (Asset::get_meta_path(path) == "test.png.meta")                                                                |
+|  PASS  | 87: Get Meta Path (Asset::get_meta_path(path))                                                                                   |
 
 ## AssetManager
 | Result | Message                                                                                                                          |
@@ -147,9 +145,9 @@ No failures! :)
 |  PASS  | 130: Load (textAsset != nullptr)                                                                                                 |
 |  PASS  | 131: Load (manager.contains(textAsset->get_id()) == true)                                                                        |
 |  PASS  | 132: Load (textAsset->get_id() == parse_to<UUID>("0123456789abcdef"))                                                            |
-|  PASS  | 133: Load (manager.load<Text>(DNE_PATH))                                                                                         |
-|  PASS  | 134: Load (manager.load<Text>(TEST_PATH))                                                                                        |
-|  PASS  | 135: Load (manager.load<Text>(ASSET_PATH))                                                                                       |
+|  PASS  | 133: Load (manager.load<GenericAsset>(DNE_PATH))                                                                                 |
+|  PASS  | 134: Load (manager.load<GenericAsset>(TEST_PATH))                                                                                |
+|  PASS  | 135: Load (manager.load<GenericAsset>(ASSET_PATH))                                                                               |
 |  PASS  | 146: Schedule Unload (manager.contains(id) == false)                                                                             |
 |  PASS  | 147: Schedule Unload (textAsset == nullptr)                                                                                      |
 |  PASS  | 157: Unload (manager.contains(id) == false)                                                                                      |
@@ -165,51 +163,51 @@ No failures! :)
 |  PASS  | 194: Is Syncing (manager.is_syncing() == false)                                                                                  |
 |  PASS  | 196: Is Syncing (manager.is_syncing() == true)                                                                                   |
 |  PASS  | 198: Is Syncing (manager.is_syncing() == false)                                                                                  |
-|  PASS  | 209: Create (textAsset != nullptr)                                                                                               |
-|  PASS  | 210: Create (manager.contains(textAsset->get_id()) == true)                                                                      |
-|  PASS  | 222: Add (manager.contains(textAsset->get_id()) == false)                                                                        |
-|  PASS  | 224: Add (manager.contains(textAsset->get_id()) == true)                                                                         |
-|  PASS  | 225: Add (manager.get_asset_path(textAsset->get_id()) == "")                                                                     |
-|  PASS  | 237: Add Path (manager.contains(textAsset->get_id()) == false)                                                                   |
-|  PASS  | 239: Add Path (manager.contains(textAsset->get_id()) == true)                                                                    |
-|  PASS  | 240: Add Path (manager.get_asset_path(textAsset->get_id()) == ASSET_PATH)                                                        |
-|  PASS  | 250: Contains (manager.contains(id) == true)                                                                                     |
-|  PASS  | 251: Contains (manager.contains(0) == false)                                                                                     |
-|  PASS  | 253: Contains (manager.contains(badId) == false)                                                                                 |
-|  PASS  | 263: Get Asset (manager.get_asset(id) == textAsset)                                                                              |
-|  PASS  | 264: Get Asset (manager.get_asset(0) == nullptr)                                                                                 |
-|  PASS  | 266: Get Asset (manager.get_asset(badId) == nullptr)                                                                             |
-|  PASS  | 276: Get (manager.get<Text>(id) == textAsset)                                                                                    |
-|  PASS  | 277: Get (manager.get<Text>(0) == nullptr)                                                                                       |
-|  PASS  | 279: Get (manager.get<Text>(badId) == nullptr)                                                                                   |
-|  PASS  | 289: At Asset (manager.at_asset(id) == textAsset)                                                                                |
-|  PASS  | 290: At Asset (manager.at_asset(0))                                                                                              |
-|  PASS  | 292: At Asset (manager.at_asset(badId))                                                                                          |
-|  PASS  | 302: At (manager.at<Text>(id) == textAsset)                                                                                      |
-|  PASS  | 303: At (manager.at<Text>(0))                                                                                                    |
-|  PASS  | 305: At (manager.at<Text>(badId))                                                                                                |
-|  PASS  | 315: Get By Type (texts.get_size() == 2)                                                                                         |
-|  PASS  | 325: Get Asset Path (manager.get_asset_path(textAsset->get_id()) == ASSET_PATH)                                                  |
-|  PASS  | 333: Get Asset Path (manager.get_asset_path(textAsset->get_id()) == "")                                                          |
-|  PASS  | 344: Get Asset Name (manager.get_asset_name(textAsset->get_id()) == "text")                                                      |
-|  PASS  | 351: Get Asset Name (manager.get_asset_name(textAsset->get_id()) == "")                                                          |
-|  PASS  | 361: Remove (manager.contains(id) == true)                                                                                       |
-|  PASS  | 363: Remove (removedAsset == textAsset)                                                                                          |
-|  PASS  | 364: Remove (manager.contains(id) == false)                                                                                      |
-|  PASS  | 366: Remove (textAsset == nullptr)                                                                                               |
-|  PASS  | 378: Clone (clonedAsset != nullptr)                                                                                              |
-|  PASS  | 379: Clone (clonedAsset != textAsset)                                                                                            |
-|  PASS  | 380: Clone (clonedAsset->get_id() != textAsset->get_id())                                                                        |
-|  PASS  | 381: Clone (clonedAsset->get_text() == textAsset->get_text())                                                                    |
-|  PASS  | 387: Get Dependents (true == true)                                                                                               |
-|  PASS  | 395: Read Text (text.starts_with("Lorem") == true)                                                                               |
-|  PASS  | 403: Read Lines (lines.get_size() == 5)                                                                                          |
-|  PASS  | 404: Read Lines (lines[0].starts_with("Lorem") == true)                                                                          |
-|  PASS  | 405: Read Lines (lines[1].starts_with("Aliquam") == true)                                                                        |
-|  PASS  | 406: Read Lines (lines[2].starts_with("Aenean") == true)                                                                         |
-|  PASS  | 407: Read Lines (lines[3].starts_with("Quisque id") == true)                                                                     |
-|  PASS  | 408: Read Lines (lines[4].starts_with("Quisque lacinia") == true)                                                                |
-|  PASS  | 416: Read Bytes (bytes.get_size() == 2948)                                                                                       |
+|  PASS  | 208: Create (textAsset != nullptr)                                                                                               |
+|  PASS  | 209: Create (manager.contains(textAsset->get_id()) == true)                                                                      |
+|  PASS  | 220: Add (manager.contains(textAsset->get_id()) == false)                                                                        |
+|  PASS  | 222: Add (manager.contains(textAsset->get_id()) == true)                                                                         |
+|  PASS  | 223: Add (manager.get_asset_path(textAsset->get_id()) == "")                                                                     |
+|  PASS  | 234: Add Path (manager.contains(textAsset->get_id()) == false)                                                                   |
+|  PASS  | 236: Add Path (manager.contains(textAsset->get_id()) == true)                                                                    |
+|  PASS  | 237: Add Path (manager.get_asset_path(textAsset->get_id()) == ASSET_PATH)                                                        |
+|  PASS  | 247: Contains (manager.contains(id) == true)                                                                                     |
+|  PASS  | 248: Contains (manager.contains(0) == false)                                                                                     |
+|  PASS  | 250: Contains (manager.contains(badId) == false)                                                                                 |
+|  PASS  | 260: Get Asset (manager.get_asset(id) == textAsset)                                                                              |
+|  PASS  | 261: Get Asset (manager.get_asset(0) == nullptr)                                                                                 |
+|  PASS  | 263: Get Asset (manager.get_asset(badId) == nullptr)                                                                             |
+|  PASS  | 273: Get (manager.get<GenericAsset>(id) == textAsset)                                                                            |
+|  PASS  | 274: Get (manager.get<GenericAsset>(0) == nullptr)                                                                               |
+|  PASS  | 276: Get (manager.get<GenericAsset>(badId) == nullptr)                                                                           |
+|  PASS  | 286: At Asset (manager.at_asset(id) == textAsset)                                                                                |
+|  PASS  | 287: At Asset (manager.at_asset(0))                                                                                              |
+|  PASS  | 289: At Asset (manager.at_asset(badId))                                                                                          |
+|  PASS  | 299: At (manager.at<GenericAsset>(id) == textAsset)                                                                              |
+|  PASS  | 300: At (manager.at<GenericAsset>(0))                                                                                            |
+|  PASS  | 302: At (manager.at<GenericAsset>(badId))                                                                                        |
+|  PASS  | 312: Get By Type (texts.get_size() == 2)                                                                                         |
+|  PASS  | 322: Get Asset Path (manager.get_asset_path(textAsset->get_id()) == ASSET_PATH)                                                  |
+|  PASS  | 330: Get Asset Path (manager.get_asset_path(textAsset->get_id()) == "")                                                          |
+|  PASS  | 341: Get Asset Name (manager.get_asset_name(textAsset->get_id()) == "text")                                                      |
+|  PASS  | 348: Get Asset Name (manager.get_asset_name(textAsset->get_id()) == "")                                                          |
+|  PASS  | 358: Remove (manager.contains(id) == true)                                                                                       |
+|  PASS  | 360: Remove (removedAsset == textAsset)                                                                                          |
+|  PASS  | 361: Remove (manager.contains(id) == false)                                                                                      |
+|  PASS  | 363: Remove (textAsset == nullptr)                                                                                               |
+|  PASS  | 376: Clone (clonedAsset != nullptr)                                                                                              |
+|  PASS  | 377: Clone (clonedAsset != textAsset)                                                                                            |
+|  PASS  | 378: Clone (clonedAsset->get_id() != textAsset->get_id())                                                                        |
+|  PASS  | 379: Clone (clonedAsset->get_text() == textAsset->get_text())                                                                    |
+|  PASS  | 385: Get Dependents (true == true)                                                                                               |
+|  PASS  | 393: Read GenericAsset (text.starts_with("Lorem") == true)                                                                       |
+|  PASS  | 401: Read Lines (lines.get_size() == 5)                                                                                          |
+|  PASS  | 402: Read Lines (lines[0].starts_with("Lorem") == true)                                                                          |
+|  PASS  | 403: Read Lines (lines[1].starts_with("Aliquam") == true)                                                                        |
+|  PASS  | 404: Read Lines (lines[2].starts_with("Aenean") == true)                                                                         |
+|  PASS  | 405: Read Lines (lines[3].starts_with("Quisque id") == true)                                                                     |
+|  PASS  | 406: Read Lines (lines[4].starts_with("Quisque lacinia") == true)                                                                |
+|  PASS  | 414: Read Bytes (bytes.get_size() == 2948)                                                                                       |
 
 ## Debug
 | Result | Message                                                                                                                          |
@@ -3716,7 +3714,7 @@ No failures! :)
 |  PASS  | 54: Read/Write Lines (actual[i] == expected[i])                                                                                  |
 |  PASS  | 54: Read/Write Lines (actual[i] == expected[i])                                                                                  |
 |  PASS  | 54: Read/Write Lines (actual[i] == expected[i])                                                                                  |
-|  PASS  | 64: Read/Write Text (actual == expected)                                                                                         |
+|  PASS  | 64: Read/Write GenericAsset (actual == expected)                                                                                 |
 
 ## PhysicalFile
 | Result | Message                                                                                                                          |
@@ -4732,15 +4730,15 @@ No failures! :)
 |  PASS  | 146: Emplace (wrap.get_entry_count() == 1 == true)                                                                               |
 |  PASS  | 147: Emplace (wrap.get_size() != 0 == true)                                                                                      |
 |  PASS  | 158: Emplace (text.contains("Lorem ipsum") == true)                                                                              |
-|  PASS  | 161: Emplace (wrap.emplace(TEST_TEXT_PATH, "Text.txt", CompressionLevel::None))                                                  |
-|  PASS  | 170: Contains (wrap.contains("Text.txt") == true)                                                                                |
+|  PASS  | 161: Emplace (wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None))                                          |
+|  PASS  | 170: Contains (wrap.contains("GenericAsset.txt") == true)                                                                        |
 |  PASS  | 171: Contains (wrap.contains("Text2.txt") == false == true)                                                                      |
-|  PASS  | 176: Contains (wrap2.contains("Base/Path/Text.txt") == true)                                                                     |
-|  PASS  | 185: Open (wrap.open("Text.txt", file) == true)                                                                                  |
+|  PASS  | 176: Contains (wrap2.contains("Base/Path/GenericAsset.txt") == true)                                                             |
+|  PASS  | 185: Open (wrap.open("GenericAsset.txt", file) == true)                                                                          |
 |  PASS  | 194: Open (text.contains("Lorem ipsum") == true)                                                                                 |
 |  PASS  | 206: Read (text.contains("Lorem ipsum") == true)                                                                                 |
-|  PASS  | 214: Get Entry Index (Path(wrap.get_entry(0).path) == "Text.txt" == true)                                                        |
-|  PASS  | 222: Get Entry Path (Path(wrap.get_entry("Text.txt").path) == "Text.txt" == true)                                                |
+|  PASS  | 214: Get Entry Index (Path(wrap.get_entry(0).path) == "GenericAsset.txt" == true)                                                |
+|  PASS  | 222: Get Entry Path (Path(wrap.get_entry("GenericAsset.txt").path) == "GenericAsset.txt" == true)                                |
 |  PASS  | 230: Load Or Create (Path(wrap.get_base_path()) == "Test/Path" == true)                                                          |
 |  PASS  | 231: Load Or Create (wrap.get_content_version() == 34 == true)                                                                   |
 |  PASS  | 232: Load Or Create (wrap.get_entry_count() == 1 == true)                                                                        |

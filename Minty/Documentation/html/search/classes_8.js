@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['list_0',['List',['../class_minty_1_1_list.html',1,'Minty']]],
-  ['list_3c_20minty_3a_3apath_20_3e_1',['List&lt; Minty::Path &gt;',['../class_minty_1_1_list.html',1,'Minty']]],
-  ['list_3c_20void_20_2a_20_3e_2',['List&lt; void * &gt;',['../class_minty_1_1_list.html',1,'Minty']]]
+  ['jobmanager_0',['JobManager',['../class_minty_1_1_job_manager.html',1,'Minty']]],
+  ['jobmanagerbuilder_1',['JobManagerBuilder',['../struct_minty_1_1_job_manager_builder.html',1,'Minty']]]
 ];

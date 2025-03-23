@@ -4,7 +4,7 @@ var hierarchy =
     [ "Minty::ApplicationBuilder", "struct_minty_1_1_application_builder.html", null ],
     [ "Minty::Array< T, S >", "class_minty_1_1_array.html", null ],
     [ "Minty::Asset", "class_minty_1_1_asset.html", [
-      [ "Minty::Text", "class_minty_1_1_text.html", null ]
+      [ "Minty::GenericAsset", "class_minty_1_1_generic_asset.html", null ]
     ] ],
     [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
     [ "Minty::AssetManagerBuilder", "struct_minty_1_1_asset_manager_builder.html", null ],
@@ -48,6 +48,7 @@ var hierarchy =
       [ "Minty::ReaderImplementation< FormatBehavior, StorageBehavior >", "class_minty_1_1_reader_implementation.html", null ],
       [ "Minty::WriterImplementation< FormatBehavior, StorageBehavior >", "class_minty_1_1_writer_implementation.html", null ]
     ] ],
+    [ "Minty::GenericAssetBuilder", "struct_minty_1_1_generic_asset_builder.html", null ],
     [ "std::hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", null ],
     [ "std::hash< Minty::Owner< T > >", "structstd_1_1hash_3_01_minty_1_1_owner_3_01_t_01_4_01_4.html", null ],
     [ "std::hash< Minty::Path >", "structstd_1_1hash_3_01_minty_1_1_path_01_4.html", null ],
@@ -122,7 +123,6 @@ var hierarchy =
       [ "Minty::DualBuffer", "class_minty_1_1_dual_buffer.html", null ]
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
-    [ "Minty::TextBuilder", "struct_minty_1_1_text_builder.html", null ],
     [ "std::true_type", null, [
       [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],

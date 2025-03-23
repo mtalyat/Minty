@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['none_0',['None',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::File::None'],['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::Wrap::None'],['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None'],['../namespace_minty.html#abe96803589e915713959c294c0df12c6a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None']]]
+  ['none_0',['None',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::File::None'],['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::Wrap::None'],['../namespace_minty.html#abe96803589e915713959c294c0df12c6a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None']]]
 ];

@@ -7,33 +7,30 @@ void test_Asset(Test& _test)
 	{
 		TEST("ID Constructor")
 		{
-			TextBuilder builder
+			GenericAssetBuilder builder
 			{
-				.id = 0,
-				.text = "Hello, World!"
+				.id = 0
 			};
-
-			Text asset(builder);
+			GenericAsset asset(builder);
 			EXPECT_EQUAL(asset.get_id().get_data(), 0);
 			builder.id = 1;
-			asset = Text(builder);
+			asset = GenericAsset(builder);
 			EXPECT_EQUAL(asset.get_id().get_data(), 1);
 			builder.id = 0xFFFFFFFFFFFFFFFF;
-			asset = Text(builder);
+			asset = GenericAsset(builder);
 			EXPECT_EQUAL(asset.get_id().get_data(), 0xFFFFFFFFFFFFFFFF);
 		}
 
 		TEST("Get ID")
 		{
-			TextBuilder builder
+			GenericAssetBuilder builder
 			{
-				.id = 0,
-				.text = "Hello, World!"
+				.id = 0
 			};
-			Text asset(builder);
+			GenericAsset asset(builder);
 			EXPECT_EQUAL(asset.get_id().get_data(), 0);
 			builder.id = 1;
-			asset = Text(builder);
+			asset = GenericAsset(builder);
 			EXPECT_EQUAL(asset.get_id().get_data(), 1);
 		}
 
@@ -46,7 +43,6 @@ void test_Asset(Test& _test)
 				{ EXTENSION_AUDIO_CLIP_WAV, AssetType::AudioClip },
 				{ EXTENSION_AUDIO_CLIP_MP3, AssetType::AudioClip },
 				{ EXTENSION_BITMAP, AssetType::Image },
-				{ EXTENSION_CSV, AssetType::Text },
 				{ EXTENSION_FONT, AssetType::Font },
 				{ EXTENSION_FONT_VARIANT, AssetType::FontVariant },
 				{ EXTENSION_JPEG, AssetType::Image },
@@ -54,7 +50,6 @@ void test_Asset(Test& _test)
 				{ EXTENSION_MATERIAL, AssetType::Material},
 				{ EXTENSION_MATERIAL_TEMPLATE, AssetType::MaterialTemplate},
 				{ EXTENSION_MESH_OBJECT, AssetType::Mesh},
-				{ EXTENSION_META, AssetType::Meta },
 				{ EXTENSION_PNG, AssetType::Image },
 				{ EXTENSION_SCENE, AssetType::Scene },
 				{ EXTENSION_SCRIPT, AssetType::Script },
@@ -64,7 +59,6 @@ void test_Asset(Test& _test)
 				{ EXTENSION_SHADER_CODE_VERTEX, AssetType::ShaderCode },
 				{ EXTENSION_SHADER_MODULE, AssetType::ShaderModule },
 				{ EXTENSION_SPRITE, AssetType::Sprite },
-				{ EXTENSION_TEXT, AssetType::Text },
 				{ EXTENSION_WRAP, AssetType::Wrap },
 			};
 
@@ -79,8 +73,10 @@ void test_Asset(Test& _test)
 
 		TEST("Get Asset Type TypeID")
 		{
-			// TODO
-			EXPECT_TRUE(true);
+			Path path = "test.txt";
+			EXPECT_EQUAL(Asset::get_asset_type(path), AssetType::Generic);
+			path = "";
+			EXPECT_FAILURE(Asset::get_asset_type(path));
 		}
 
 		TEST("Get Meta Path")

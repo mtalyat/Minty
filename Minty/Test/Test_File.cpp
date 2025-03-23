@@ -56,7 +56,7 @@ void test_File(Test& _test)
 			File::destroy(TEST_PATH_2);
 		}
 
-		TEST("Read/Write Text")
+		TEST("Read/Write GenericAsset")
 		{
 			String expected = "Hello, World!\nHello again!\nAnd again!";
 			File::write_text(TEST_PATH_2, expected);

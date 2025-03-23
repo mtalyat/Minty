@@ -9,7 +9,7 @@
 #include "Minty/Wrap/Wrapper.h"
 #include <mutex>
 
-#include "Minty/Asset/Text.h"
+#include "Minty/Asset/GenericAsset.h"
 
 namespace Minty
 {
@@ -396,7 +396,7 @@ namespace Minty
 #pragma region Load
 
 	private:
-		Ref<Text> load_text(Path const& path);
+		Ref<GenericAsset> load_generic(Path const& path);
 
 #pragma endregion
 

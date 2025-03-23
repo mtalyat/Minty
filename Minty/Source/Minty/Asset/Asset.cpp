@@ -3,19 +3,14 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Data/Map.h"
 
-#include "Minty/Asset/Text.h"
-
 using namespace Minty;
 
 AssetType Minty::Asset::get_asset_type(Path const& path)
 {
+	MINTY_ASSERT(!path.is_empty(), "Cannot get asset type from empty path.");
+
 	static Map<Path, AssetType> types
 	{
-		{ EXTENSION_TEXT, AssetType::Text },
-		{ EXTENSION_CSV, AssetType::Text },
-
-		{ EXTENSION_META, AssetType::Meta },
-
 		{ EXTENSION_SCRIPT, AssetType::Script},
 
 		{ EXTENSION_BITMAP, AssetType::Image },
@@ -57,16 +52,14 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	auto found = types.find(path.get_extension());
 
 	// extension not found
-	if (found == types.end()) return AssetType::None;
+	if (found == types.end()) return AssetType::Generic;
 
 	return found->second;
 }
 
 AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 {
-	if (typeId == typeid(Text)) return AssetType::Text;
-
-	return AssetType();
+	return AssetType::Generic;
 }
 
 Path Minty::Asset::get_meta_path(Path const& path)

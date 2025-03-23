@@ -1,11 +1,9 @@
 var _asset_type_8h =
 [
     [ "Minty::AssetType", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841", [
-      [ "Minty::AssetType::None", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a6adf97f83acf6453d4a6a4b1070f3754", null ],
-      [ "Minty::AssetType::Meta", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841ab6755d218d5f4e1cef9cce9cc39aeda9", null ],
+      [ "Minty::AssetType::Generic", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a8045a0a6c688b0635e3caccc408a1446", null ],
       [ "Minty::AssetType::Wrap", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841aa212b19ef5f2fb30acf92e6cbccc1f2d", null ],
       [ "Minty::AssetType::Info", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a4059b0251f66a18cb56f544728796875", null ],
-      [ "Minty::AssetType::Text", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a9dffbf69ffba8bc38bc4e01abf4b1675", null ],
       [ "Minty::AssetType::Script", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841af907e651164789346ae0a1e257c462d8", null ],
       [ "Minty::AssetType::AudioClip", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841aa8a27cf2fdd442d8dcde6fc373d9152a", null ],
       [ "Minty::AssetType::Animation", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3", null ],

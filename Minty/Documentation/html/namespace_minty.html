@@ -171,6 +171,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_file_writer_behavior.html">FileWriterBehavior</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes data to a <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a>.  <a href="class_minty_1_1_file_writer_behavior.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_generic_asset.html">GenericAsset</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.  <a href="class_minty_1_1_generic_asset.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_generic_asset_builder.html">GenericAssetBuilder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arguments for creating a <a class="el" href="class_minty_1_1_generic_asset.html" title="A generic Asset.">GenericAsset</a>.  <a href="struct_minty_1_1_generic_asset_builder.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1is__parseable.html">is_parseable</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html">is_parseable&lt; T, std::enable_if_t&lt; std::is_base_of_v&lt; Parseable, T &gt; &gt; &gt;</a></td></tr>
@@ -276,12 +282,6 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_string.html">String</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A collection of text.  <a href="class_minty_1_1_string.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_text.html">Text</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A text file <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.  <a href="class_minty_1_1_text.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_text_builder.html">TextBuilder</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arguments for creating a <a class="el" href="class_minty_1_1_text.html" title="A text file Asset.">Text</a> <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.  <a href="struct_minty_1_1_text_builder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_text_reader_behavior.html">TextReaderBehavior</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads plain text data.  <a href="class_minty_1_1_text_reader_behavior.html#details">More...</a><br /></td></tr>
@@ -403,37 +403,34 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a37bfed3f50b2fb1c7816a08810b2b841" id="r_a37bfed3f50b2fb1c7816a08810b2b841"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841">AssetType</a> { <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a6adf97f83acf6453d4a6a4b1070f3754">None</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841ab6755d218d5f4e1cef9cce9cc39aeda9">Meta</a>
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a8045a0a6c688b0635e3caccc408a1446">Generic</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa212b19ef5f2fb30acf92e6cbccc1f2d">Wrap</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a4059b0251f66a18cb56f544728796875">Info</a>
-, <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9dffbf69ffba8bc38bc4e01abf4b1675">Text</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841af907e651164789346ae0a1e257c462d8">Script</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa8a27cf2fdd442d8dcde6fc373d9152a">AudioClip</a>
+, <br />
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa8a27cf2fdd442d8dcde6fc373d9152a">AudioClip</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3">Animation</a>
-, <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387">Animator</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387">Animator</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2">Viewport</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a5a173331e5b2368b8e9179cbf32c429b">Scissor</a>
+, <br />
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a5a173331e5b2368b8e9179cbf32c429b">Scissor</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08">Image</a>
-, <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b">Texture</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b">Texture</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a2a116cfe4d27a64fc758793d3fcadc5a">RenderPass</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9b0bffda4bcb312168c0d6537cb04b4d">RenderTarget</a>
+, <br />
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9b0bffda4bcb312168c0d6537cb04b4d">RenderTarget</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a0e4c6d803e71001cb6d2ef095527538b">ShaderCode</a>
-, <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a2a62770f9c2ba943be9e0a146e08b9cb">ShaderModule</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a2a62770f9c2ba943be9e0a146e08b9cb">ShaderModule</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa88a92f4a0e793589f2341851a15c660">Shader</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a3adccb7d2ead14f9a8ede91f9f5d2249">MaterialTemplate</a>
+, <br />
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a3adccb7d2ead14f9a8ede91f9f5d2249">MaterialTemplate</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841ad92a8333dd3ccb895cc65f7455b71206">Material</a>
-, <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a51f2b7b14433aa22c67d1f4fc18943cd">Sprite</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a51f2b7b14433aa22c67d1f4fc18943cd">Sprite</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a942fbf5aede93f3ba503193e480477c5">FontVariant</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d">Font</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a710fdb6adb881b408116ef95335e1961">Mesh</a>
 , <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9ead0d38e06ec253ca0ecbf6ea56e59b">Scene</a>
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d">Font</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a710fdb6adb881b408116ef95335e1961">Mesh</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9ead0d38e06ec253ca0ecbf6ea56e59b">Scene</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a37bfed3f50b2fb1c7816a08810b2b841"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of Assets that can be loaded into the engine.  <a href="#a37bfed3f50b2fb1c7816a08810b2b841">More...</a><br /></td></tr>
@@ -1612,11 +1609,9 @@ Variables</h2></td></tr>
 <p>Types of Assets that can be loaded into the engine. </p>
 <p>This determines the loading order of the Assets when loading the Scene. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a6adf97f83acf6453d4a6a4b1070f3754" name="a37bfed3f50b2fb1c7816a08810b2b841a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841ab6755d218d5f4e1cef9cce9cc39aeda9" name="a37bfed3f50b2fb1c7816a08810b2b841ab6755d218d5f4e1cef9cce9cc39aeda9"></a>Meta&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a8045a0a6c688b0635e3caccc408a1446" name="a37bfed3f50b2fb1c7816a08810b2b841a8045a0a6c688b0635e3caccc408a1446"></a>Generic&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841aa212b19ef5f2fb30acf92e6cbccc1f2d" name="a37bfed3f50b2fb1c7816a08810b2b841aa212b19ef5f2fb30acf92e6cbccc1f2d"></a>Wrap&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a4059b0251f66a18cb56f544728796875" name="a37bfed3f50b2fb1c7816a08810b2b841a4059b0251f66a18cb56f544728796875"></a>Info&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a9dffbf69ffba8bc38bc4e01abf4b1675" name="a37bfed3f50b2fb1c7816a08810b2b841a9dffbf69ffba8bc38bc4e01abf4b1675"></a>Text&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841af907e651164789346ae0a1e257c462d8" name="a37bfed3f50b2fb1c7816a08810b2b841af907e651164789346ae0a1e257c462d8"></a>Script&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841aa8a27cf2fdd442d8dcde6fc373d9152a" name="a37bfed3f50b2fb1c7816a08810b2b841aa8a27cf2fdd442d8dcde6fc373d9152a"></a>AudioClip&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3" name="a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3"></a>Animation&#160;</td><td class="fielddoc"></td></tr>

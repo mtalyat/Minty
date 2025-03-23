@@ -7,6 +7,5 @@ var searchData=
   ['matrix3_4',['Matrix3',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda68f96af9f098301f98ee01187c9e8700',1,'Minty']]],
   ['matrix4_5',['Matrix4',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda218021da9a8517e946ebfd95e097e1d3',1,'Minty']]],
   ['mesh_6',['Mesh',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a710fdb6adb881b408116ef95335e1961',1,'Minty']]],
-  ['meta_7',['Meta',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841ab6755d218d5f4e1cef9cce9cc39aeda9',1,'Minty']]],
-  ['multilinestring_8',['MultilineString',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c',1,'Minty']]]
+  ['multilinestring_7',['MultilineString',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c',1,'Minty']]]
 ];

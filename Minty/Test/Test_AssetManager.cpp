@@ -126,20 +126,20 @@ void test_AssetManager(Test& _test)
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			EXPECT_NOT_EQUAL(textAsset, nullptr);
 			EXPECT_TRUE(manager.contains(textAsset->get_id()));
 			EXPECT_EQUAL(textAsset->get_id(), parse_to<UUID>("0123456789abcdef"));
-			EXPECT_FAILURE(manager.load<Text>(DNE_PATH));
-			EXPECT_FAILURE(manager.load<Text>(TEST_PATH));
-			EXPECT_FAILURE(manager.load<Text>(ASSET_PATH));
+			EXPECT_FAILURE(manager.load<GenericAsset>(DNE_PATH));
+			EXPECT_FAILURE(manager.load<GenericAsset>(TEST_PATH));
+			EXPECT_FAILURE(manager.load<GenericAsset>(ASSET_PATH));
 		}
 
 		TEST("Schedule Unload")
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
 			manager.schedule_unload(id);
 			manager.sync();
@@ -151,7 +151,7 @@ void test_AssetManager(Test& _test)
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
 			manager.unload(id);
 			EXPECT_FALSE(manager.contains(id));
@@ -162,9 +162,9 @@ void test_AssetManager(Test& _test)
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID textAssetId = textAsset->get_id();
-			Ref<Text> mintyAsset = manager.load<Text>(ASSET_PATH_MINTY);
+			Ref<GenericAsset> mintyAsset = manager.load<GenericAsset>(ASSET_PATH_MINTY);
 			UUID mintyAssetId = mintyAsset->get_id();
 			manager.unload_all();
 			EXPECT_FALSE(manager.contains(textAssetId));
@@ -202,10 +202,9 @@ void test_AssetManager(Test& _test)
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			TextBuilder textBuilder;
+			GenericAssetBuilder textBuilder;
 			textBuilder.id = UUID::create();
-			textBuilder.text = "Hello world!";
-			Ref<Text> textAsset = manager.create<Text>(textBuilder);
+			Ref<GenericAsset> textAsset = manager.create<GenericAsset>(textBuilder);
 			EXPECT_NOT_EQUAL(textAsset, nullptr);
 			EXPECT_TRUE(manager.contains(textAsset->get_id()));
 		}
@@ -215,10 +214,9 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			builder.savePaths = true;
 			AssetManager manager(builder);
-			TextBuilder textBuilder;
+			GenericAssetBuilder textBuilder;
 			textBuilder.id = UUID::create();
-			textBuilder.text = "Hello world!";
-			Owner<Text> textAsset = Text::create(textBuilder);
+			Owner<GenericAsset> textAsset = GenericAsset::create(textBuilder);
 			EXPECT_FALSE(manager.contains(textAsset->get_id()));
 			manager.add(textAsset);
 			EXPECT_TRUE(manager.contains(textAsset->get_id()));
@@ -230,10 +228,9 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			builder.savePaths = true;
 			AssetManager manager(builder);
-			TextBuilder textBuilder;
+			GenericAssetBuilder textBuilder;
 			textBuilder.id = UUID::create();
-			textBuilder.text = "Hello world!";
-			Owner<Text> textAsset = Text::create(textBuilder);
+			Owner<GenericAsset> textAsset = GenericAsset::create(textBuilder);
 			EXPECT_FALSE(manager.contains(textAsset->get_id()));
 			manager.add(ASSET_PATH, textAsset);
 			EXPECT_TRUE(manager.contains(textAsset->get_id()));
@@ -245,7 +242,7 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
 			manager.load_wrap(WRAP_PATH);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = parse_to<UUID>("0123456789abcdef");
 			EXPECT_TRUE(manager.contains(id));
 			EXPECT_FALSE(manager.contains(0));
@@ -258,7 +255,7 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
 			manager.load_wrap(WRAP_PATH);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
 			EXPECT_EQUAL(manager.get_asset(id), textAsset);
 			EXPECT_EQUAL(manager.get_asset(0), nullptr);
@@ -271,12 +268,12 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
 			manager.load_wrap(WRAP_PATH);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
-			EXPECT_EQUAL(manager.get<Text>(id), textAsset);
-			EXPECT_EQUAL(manager.get<Text>(0), nullptr);
+			EXPECT_EQUAL(manager.get<GenericAsset>(id), textAsset);
+			EXPECT_EQUAL(manager.get<GenericAsset>(0), nullptr);
 			UUID badId = UUID::create();
-			EXPECT_EQUAL(manager.get<Text>(badId), nullptr);
+			EXPECT_EQUAL(manager.get<GenericAsset>(badId), nullptr);
 		}
 
 		TEST("At Asset")
@@ -284,7 +281,7 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
 			manager.load_wrap(WRAP_PATH);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
 			EXPECT_EQUAL(manager.at_asset(id), textAsset);
 			EXPECT_FAILURE(manager.at_asset(0));
@@ -297,21 +294,21 @@ void test_AssetManager(Test& _test)
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
 			manager.load_wrap(WRAP_PATH);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
-			EXPECT_EQUAL(manager.at<Text>(id), textAsset);
-			EXPECT_FAILURE(manager.at<Text>(0));
+			EXPECT_EQUAL(manager.at<GenericAsset>(id), textAsset);
+			EXPECT_FAILURE(manager.at<GenericAsset>(0));
 			UUID badId = UUID::create();
-			EXPECT_FAILURE(manager.at<Text>(badId));
+			EXPECT_FAILURE(manager.at<GenericAsset>(badId));
 		}
 
 		TEST("Get By Type")
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
-			Ref<Text> mintyAsset = manager.load<Text>(ASSET_PATH_MINTY);
-			Vector<Ref<Text>> texts = manager.get_by_type<Text>();
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
+			Ref<GenericAsset> mintyAsset = manager.load<GenericAsset>(ASSET_PATH_MINTY);
+			Vector<Ref<GenericAsset>> texts = manager.get_by_type<GenericAsset>();
 			EXPECT_EQUAL(texts.get_size(), 2);
 		}
 
@@ -321,7 +318,7 @@ void test_AssetManager(Test& _test)
 				AssetManagerBuilder builder;
 				builder.savePaths = true;
 				AssetManager manager(builder);
-				Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+				Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 				EXPECT_EQUAL(manager.get_asset_path(textAsset->get_id()), ASSET_PATH);
 			}
 			{
@@ -329,7 +326,7 @@ void test_AssetManager(Test& _test)
 				AssetManagerBuilder builder;
 				builder.savePaths = false;
 				AssetManager manager(builder);
-				Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+				Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 				EXPECT_EQUAL(manager.get_asset_path(textAsset->get_id()), "");
 			}
 		}
@@ -340,14 +337,14 @@ void test_AssetManager(Test& _test)
 				AssetManagerBuilder builder;
 				builder.savePaths = true;
 				AssetManager manager(builder);
-				Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+				Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 				EXPECT_EQUAL(manager.get_asset_name(textAsset->get_id()), "text");
 			}
 			{
 				AssetManagerBuilder builder;
 				builder.savePaths = false;
 				AssetManager manager(builder);
-				Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+				Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 				EXPECT_EQUAL(manager.get_asset_name(textAsset->get_id()), "");
 			}
 		}
@@ -356,10 +353,10 @@ void test_AssetManager(Test& _test)
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			Ref<Text> textAsset = manager.load<Text>(ASSET_PATH);
+			Ref<GenericAsset> textAsset = manager.load<GenericAsset>(ASSET_PATH);
 			UUID id = textAsset->get_id();
 			EXPECT_TRUE(manager.contains(id));
-			Owner<Text> removedAsset = manager.remove(id);
+			Owner<GenericAsset> removedAsset = manager.remove(id);
 			EXPECT_EQUAL(removedAsset, textAsset);
 			EXPECT_FALSE(manager.contains(id));
 			removedAsset.release();
@@ -370,11 +367,12 @@ void test_AssetManager(Test& _test)
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);
-			TextBuilder textBuilder;
+			GenericAssetBuilder textBuilder;
 			textBuilder.id = UUID::create();
-			textBuilder.text = "Hello world!";
-			Ref<Text> textAsset = manager.create<Text>(textBuilder);
-			Ref<Text> clonedAsset = manager.clone<Text>(textAsset->get_id());
+			String text = "Hello, World!";
+			textBuilder.data = ConstantContainer(text.get_data(), text.get_size());
+			Ref<GenericAsset> textAsset = manager.create<GenericAsset>(textBuilder);
+			Ref<GenericAsset> clonedAsset = manager.clone<GenericAsset>(textAsset->get_id());
 			EXPECT_NOT_EQUAL(clonedAsset, nullptr);
 			EXPECT_NOT_EQUAL(clonedAsset, textAsset);
 			EXPECT_NOT_EQUAL(clonedAsset->get_id(), textAsset->get_id());
@@ -387,7 +385,7 @@ void test_AssetManager(Test& _test)
 			EXPECT_TRUE(true);
 		}
 
-		TEST("Read Text")
+		TEST("Read GenericAsset")
 		{
 			AssetManagerBuilder builder;
 			AssetManager manager(builder);

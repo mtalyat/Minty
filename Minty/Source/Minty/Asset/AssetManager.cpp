@@ -43,6 +43,32 @@ AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 	return Location::Undefined;
 }
 
+ID Minty::AssetManager::read_id(Path const& path) const
+{
+	MINTY_ASSERT(exists(path), "Cannot read ID from file that does not exist.");
+
+	Path metaPath = Asset::get_meta_path(path);
+
+	MINTY_ASSERT(Path::exists(metaPath), "Cannot read ID from file that does not have a meta file.");
+
+	File* file = open(metaPath);
+
+	MINTY_ASSERT(file != nullptr, "Failed to open meta file for reading.");
+
+	// read the first line
+	String line;
+	Bool result = file->read_line(line);
+	MINTY_ASSERT(result && line.starts_with(": ") && line.get_size() == 18, "Failed to read ID from meta file: meta file not in correct format.");
+
+	// get the ID
+	String idString = line.sub(2, 16);
+	UUID id = parse_to<UUID>(idString);
+
+	close(file);
+
+	return id;
+}
+
 File* Minty::AssetManager::open(Path const& path) const
 {
 	File* file = nullptr;
@@ -185,12 +211,10 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 
 	AssetType type = Asset::get_asset_type(path);
 
-	MINTY_ASSERT(type != AssetType::None, "Cannot load Asset. The file does not have a valid extension.");
-
 	switch (type)
 	{
-	case AssetType::Text:
-		return load_text(path);
+	case AssetType::Generic:
+		return load_generic(path);
 	default:
 		MINTY_ABORT("Not implemented.");
 		return Ref<Asset>();
@@ -528,39 +552,15 @@ Vector<Byte> Minty::AssetManager::read_bytes(Path const& path) const
 	return bytes;
 }
 
-ID Minty::AssetManager::read_id(Path const& path) const
+Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path)
 {
-	MINTY_ASSERT(exists(path), "Cannot read ID from file that does not exist.");
+	Vector<Byte> bytes = read_bytes(path);
 
-	Path metaPath = Asset::get_meta_path(path);
-
-	MINTY_ASSERT(Path::exists(metaPath), "Cannot read ID from file that does not have a meta file.");
-
-	File* file = open(metaPath);
-
-	MINTY_ASSERT(file != nullptr, "Failed to open meta file for reading.");
-
-	// read the first line
-	String line;
-	Bool result = file->read_line(line);
-	MINTY_ASSERT(result && line.starts_with(": ") && line.get_size() == 18, "Failed to read ID from meta file: meta file not in correct format.");
-
-	// get the ID
-	String idString = line.sub(2, 16);
-	UUID id = parse_to<UUID>(idString);
-
-	close(file);
-
-	return id;
-}
-
-Ref<Text> Minty::AssetManager::load_text(Path const& path)
-{
-	TextBuilder builder
+	GenericAssetBuilder builder
 	{
 		.id = read_id(path),
-		.text = read_text(path)
+		.data = ConstantContainer(bytes.get_data(), bytes.get_size())
 	};
 
-	return create_from_loaded<Text>(path, builder);
+	return create_from_loaded<GenericAsset>(path, builder);
 }
