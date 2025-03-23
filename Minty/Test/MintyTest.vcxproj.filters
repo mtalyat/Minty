@@ -180,6 +180,9 @@
     <ClCompile Include="Test_Stopwatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_BufferUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -310,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="Test_Stopwatch.h">
       <Filter>Header Files\Tests\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_BufferUsage.h">
+      <Filter>Header Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

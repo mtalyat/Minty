@@ -9,6 +9,7 @@
 #include "Minty/File/_File.h"
 #include "Minty/Job/_Job.h"
 #include "Minty/Memory/_Memory.h"
+#include "Minty/Render/_Render.h"
 #include "Minty/Serialization/_Serialization.h"
 #include "Minty/Time/_Time.h"
 #include "Minty/Wrap/_Wrap.h"

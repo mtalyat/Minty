@@ -7,10 +7,7 @@ var _macro_8h =
     [ "MINTY_DEBUG_INFO", "_macro_8h.html#adb50575c5f867b31cfad57c270eee694", null ],
     [ "MINTY_ERROR", "_macro_8h.html#ac6e89f951ebc33cdb4304e47a6851c79", null ],
     [ "MINTY_LOG", "_macro_8h.html#a94eafa87963d877703d10a28fd7f9402", null ],
-    [ "MINTY_PARSE", "_macro_8h.html#a294f32d217376e0f6c6d85ed585c2e47", null ],
     [ "MINTY_TAG", "_macro_8h.html#a7c92bfe1566cec798c01202f4bb5b0c8", null ],
-    [ "MINTY_TO_STRING", "_macro_8h.html#a8cb6d1018e7d35f5b84c8feed726dabb", null ],
-    [ "MINTY_TO_STRING_PARSE", "_macro_8h.html#a3d4ef8822a0906403caa43746074156b", null ],
     [ "MINTY_WARNING", "_macro_8h.html#a2f9a744986e882411a6c41b462c5618a", null ],
     [ "MINTY_WRITE", "_macro_8h.html#a1eb758a12d335eb292e655a56e8fb9cf", null ]
 ];

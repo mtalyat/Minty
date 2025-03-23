@@ -233,6 +233,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
+    <ClInclude Include="Minty\Render\BufferUsage.h" />
     <ClInclude Include="Minty\Render\_Render.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
     <ClInclude Include="Minty\Serialization\IsSerializable.h" />
@@ -282,6 +283,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
+    <ClCompile Include="Minty\Render\BufferUsage.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
@@ -297,6 +299,9 @@ doxygen</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

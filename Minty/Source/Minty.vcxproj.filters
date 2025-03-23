@@ -288,6 +288,9 @@
     <ClInclude Include="Minty\Library\Vulkan.h">
       <Filter>Header Files\Library</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\BufferUsage.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -404,5 +407,11 @@
     <ClCompile Include="Minty\Time\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Minty\Render\BufferUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

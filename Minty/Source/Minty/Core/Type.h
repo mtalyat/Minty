@@ -71,5 +71,11 @@ namespace Minty
 	/// <returns>The size of the type that the Type represents, in bytes.</returns>
 	Size sizeof_type(Type const type);
 
-	MINTY_TO_STRING_PARSE(Type, type)
+	String to_string(Type const obj);
+	Type parse_to_type(String const& string);
+	Bool parse_try_type(String const& string, Type& value);
+	template<>
+	inline Type parse_to<Type>(String const& string) { return parse_to_type(string); }
+	template<>
+	inline Bool parse_try<Type>(String const& string, Type& value) { return parse_try_type(string, value); }
 }

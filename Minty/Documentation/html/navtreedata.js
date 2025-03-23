@@ -74,8 +74,8 @@ var NAVTREEINDEX =
 "class_minty_1_1_vector_1_1_reverse_iterator.html#a5a5983b47a34b1c4115158086eac6a03",
 "class_minty_1_1_writer.html#a96c665e798579f7524ca70497f9d4fdc",
 "functions_vars.html",
-"namespace_minty.html#abe96803589e915713959c294c0df12c6a63664aa8bee7544118de87bf48d529ee",
-"struct_minty_1_1_wrap_1_1_entry.html#a4815631f10a769017a2b928fe82b4e43"
+"namespace_minty.html#ab8ab09a751e11d15cf255620fd0727cf",
+"struct_minty_1_1_memory_pool_builder.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

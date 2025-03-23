@@ -1,0 +1,87 @@
+====================
+	Header:
+====================
+
+String to_string(BufferUsage const obj);
+    BufferUsage parse_to_buffer_usage(String const& string);
+    Bool parse_try_buffer_usage(String const& string, BufferUsage& value);
+    template<>
+    inline BufferUsage parse_to<BufferUsage>(String const& string) { return parse_to_buffer_usage(string); }
+    template<>
+    inline Bool parse_try<BufferUsage>(String const& string, BufferUsage& value) { return parse_try_buffer_usage(string, value); }
+
+====================
+	Source:
+====================
+
+String Minty::to_string(BufferUsage const obj)
+{
+    switch (obj)
+	{
+		case BufferUsage::Transfer: return "Transfer";
+		case BufferUsage::Vertex: return "Vertex";
+		case BufferUsage::Index: return "Index";
+		case BufferUsage::Uniform: return "Uniform";
+
+		default: return "";
+	}
+}
+
+BufferUsage Minty::parse_to_buffer_usage(String const& string)
+{
+	if (string == "Transfer") return BufferUsage::Transfer;
+	if (string == "Vertex") return BufferUsage::Vertex;
+	if (string == "Index") return BufferUsage::Index;
+	if (string == "Uniform") return BufferUsage::Uniform;
+
+	return BufferUsage();
+}
+
+Bool Minty::parse_try_buffer_usage(String const& string, BufferUsage& value)
+{
+	value = parse_to_buffer_usage(string);
+	return value != BufferUsage();
+}
+
+====================
+	Tests:
+====================
+
+
+        std::vector<std::pair<BufferUsage, String>> VALUES = {
+			{BufferUsage::Transfer, "Transfer"},
+			{BufferUsage::Vertex, "Vertex"},
+			{BufferUsage::Index, "Index"},
+			{BufferUsage::Uniform, "Uniform"},
+        };
+    
+        TEST("To String")
+        {
+            for (auto const& [value, name] : VALUES)
+            {
+                EXPECT_EQUAL(to_string(value), name);
+            }
+        }
+
+        TEST("Parse To")
+        {
+            for (auto const& [value, name] : VALUES)
+            {
+                EXPECT_EQUAL(parse_to_buffer_usage(name), value);
+            }
+
+            EXPECT_EQUAL(parse_to_buffer_usage(""), BufferUsage());
+        }
+
+        TEST("Parse Try")
+        {
+            BufferUsage result;
+            for (auto const& [value, name] : VALUES)
+            {
+                EXPECT_TRUE(parse_try_buffer_usage(name, result));
+                EXPECT_EQUAL(result, value);
+            }
+
+            EXPECT_FALSE(parse_try_buffer_usage("", result));
+            EXPECT_EQUAL(result, BufferUsage());
+        }

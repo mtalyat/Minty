@@ -1,0 +1,8 @@
+enum class BufferUsage
+{
+    Undefined = 0,
+    Transfer = 1,
+    Vertex = 2,
+    Index = 3,
+    Uniform = 4
+};

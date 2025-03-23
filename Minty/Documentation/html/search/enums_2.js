@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['direction_0',['Direction',['../class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471e',1,'Minty::File']]]
+  ['color_0',['Color',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625',1,'Minty::Debug']]],
+  ['compressionlevel_1',['CompressionLevel',['../namespace_minty.html#abe96803589e915713959c294c0df12c6',1,'Minty']]]
 ];

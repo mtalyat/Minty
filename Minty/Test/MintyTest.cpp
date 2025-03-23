@@ -46,6 +46,9 @@
 #include "Test_MemoryPool.h"
 #include "Test_MemoryStack.h"
 
+// Render
+#include "Test_BufferUsage.h"
+
 // Serialization
 #include "Test_Node.h"
 #include "Test_Reader.h"
@@ -123,6 +126,9 @@ static void run_tests()
 	test_MemoryManager(_test);
 	test_MemoryPool(_test);
 	test_MemoryStack(_test);
+
+	// Render
+	test_BufferUsage(_test);
 
 	// Serialization
 	test_Node(_test);

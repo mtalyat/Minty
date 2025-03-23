@@ -37,7 +37,12 @@ var _type_8h =
       [ "Minty::Type::MultilineString", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c", null ],
       [ "Minty::Type::Count", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdae93f994f01c537c4e2f7d8528c3eb5e9", null ]
     ] ],
+    [ "Minty::parse_to< Type >", "namespace_minty.html#a491bd85d267ed5e5800467d943975ca6", null ],
+    [ "Minty::parse_to_type", "namespace_minty.html#a0db99e8d7f31bad2832ad1c2d5a7a163", null ],
+    [ "Minty::parse_try< Type >", "namespace_minty.html#a648c3b27130efb2b885c158e3584e746", null ],
+    [ "Minty::parse_try_type", "namespace_minty.html#afc3452b40b2d0374d1896b1aef489b6b", null ],
     [ "Minty::sizeof_type", "namespace_minty.html#a2de9e7ffe6b6aecf8d112c194371b668", null ],
+    [ "Minty::to_string", "namespace_minty.html#a545ea6cc8d14edcef4974706bd3c7f6b", null ],
     [ "Minty::type_typeid", "namespace_minty.html#a81812a6bb65a38856d2045920a26e685", null ],
     [ "Minty::typeid_type", "namespace_minty.html#a54191006d794604e76cebcf24101ee9e", null ]
 ];

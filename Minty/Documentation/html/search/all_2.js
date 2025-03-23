@@ -26,5 +26,8 @@ var searchData=
   ['brightred_23',['BrightRed',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a37ac9be0fdc65c5558356e3c8438d851',1,'Minty::Debug']]],
   ['brightwhite_24',['BrightWhite',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a44a07eabeb77868ee704ec159a59e8e4',1,'Minty::Debug']]],
   ['brightyellow_25',['BrightYellow',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a7eef58f3be127af697d00af08dd709ac',1,'Minty::Debug']]],
-  ['byte_26',['Byte',['../namespace_minty.html#abef3357ce7a39ebc4d787a38199de199',1,'Minty::Byte'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdaa245c3230debe5c956484ecc6fa93877',1,'Minty::Byte']]]
+  ['bufferusage_26',['BufferUsage',['../namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee',1,'Minty']]],
+  ['bufferusage_2ecpp_27',['BufferUsage.cpp',['../_buffer_usage_8cpp.html',1,'']]],
+  ['bufferusage_2eh_28',['BufferUsage.h',['../_buffer_usage_8h.html',1,'']]],
+  ['byte_29',['Byte',['../namespace_minty.html#abef3357ce7a39ebc4d787a38199de199',1,'Minty::Byte'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdaa245c3230debe5c956484ecc6fa93877',1,'Minty::Byte']]]
 ];

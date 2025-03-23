@@ -1,5 +1,5 @@
 # Results
-4569/4569 (100.00%)
+4588/4588 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -54,6 +54,7 @@
 | MemoryManager                  |       87 |        0 |
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
+| BufferUsage                    |       19 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
@@ -4385,6 +4386,29 @@ No failures! :)
 |  PASS  | 84: Deallocate (stack.deallocate(512))                                                                                           |
 |  PASS  | 87: Deallocate (stack.get_size() == 0 == true)                                                                                   |
 |  PASS  | 95: Clear (stack.get_size() == 0 == true)                                                                                        |
+
+## BufferUsage
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 27: Parse To (parse_to_buffer_usage(name) == value)                                                                              |
+|  PASS  | 27: Parse To (parse_to_buffer_usage(name) == value)                                                                              |
+|  PASS  | 27: Parse To (parse_to_buffer_usage(name) == value)                                                                              |
+|  PASS  | 27: Parse To (parse_to_buffer_usage(name) == value)                                                                              |
+|  PASS  | 30: Parse To (parse_to_buffer_usage("") == BufferUsage())                                                                        |
+|  PASS  | 38: Parse Try (parse_try_buffer_usage(name, result) == true)                                                                     |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_buffer_usage(name, result) == true)                                                                     |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_buffer_usage(name, result) == true)                                                                     |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_buffer_usage(name, result) == true)                                                                     |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
+|  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
 
 ## Node
 | Result | Message                                                                                                                          |
