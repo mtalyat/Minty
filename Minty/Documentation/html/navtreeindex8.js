@@ -1,5 +1,15 @@
 var NAVTREEINDEX8 =
 {
+"class_minty_1_1_ref.html#adaf4c1509516660b428c837afa87f640":[0,0,0,52,12],
+"class_minty_1_1_ref.html#adaf4c1509516660b428c837afa87f640":[1,0,0,51,12],
+"class_minty_1_1_ref.html#ae308ac3fb07a2a1dd6cd437b3a7616fe":[0,0,0,52,2],
+"class_minty_1_1_ref.html#ae308ac3fb07a2a1dd6cd437b3a7616fe":[1,0,0,51,2],
+"class_minty_1_1_ref.html#aed701787ab4897bc9a5cdc70f97c3292":[0,0,0,52,29],
+"class_minty_1_1_ref.html#aed701787ab4897bc9a5cdc70f97c3292":[1,0,0,51,29],
+"class_minty_1_1_ref.html#aee875468d9b1b300f9f533d43529e376":[0,0,0,52,27],
+"class_minty_1_1_ref.html#aee875468d9b1b300f9f533d43529e376":[1,0,0,51,27],
+"class_minty_1_1_serializable.html":[0,0,0,53],
+"class_minty_1_1_serializable.html":[1,0,0,52],
 "class_minty_1_1_serializable.html#aa98a4de34f9e59a9b8e5b3bf411027e9":[0,0,0,53,1],
 "class_minty_1_1_serializable.html#aa98a4de34f9e59a9b8e5b3bf411027e9":[1,0,0,52,1],
 "class_minty_1_1_serializable.html#ab69c6225accb563532be0dc8474d8b01":[0,0,0,53,0],
@@ -239,15 +249,5 @@ var NAVTREEINDEX8 =
 "class_minty_1_1_string.html#ab56609595d71b52dcbe7bb79d94ec20c":[0,0,0,59,35],
 "class_minty_1_1_string.html#ab56609595d71b52dcbe7bb79d94ec20c":[1,0,0,58,35],
 "class_minty_1_1_string.html#abcd84536b5286a7720e96e4c9695a864":[0,0,0,59,34],
-"class_minty_1_1_string.html#abcd84536b5286a7720e96e4c9695a864":[1,0,0,58,34],
-"class_minty_1_1_string.html#abd3daa73b2afd0a4fcf332b09d0104f5":[0,0,0,59,41],
-"class_minty_1_1_string.html#abd3daa73b2afd0a4fcf332b09d0104f5":[1,0,0,58,41],
-"class_minty_1_1_string.html#abfdbda9e49529ef8931f1e2004b68fa4":[0,0,0,59,16],
-"class_minty_1_1_string.html#abfdbda9e49529ef8931f1e2004b68fa4":[1,0,0,58,16],
-"class_minty_1_1_string.html#ac072e883e006690128f300baf9cf65d9":[0,0,0,59,11],
-"class_minty_1_1_string.html#ac072e883e006690128f300baf9cf65d9":[1,0,0,58,11],
-"class_minty_1_1_string.html#ac3c3f325b6e9d10af2dad44114dd3d08":[0,0,0,59,27],
-"class_minty_1_1_string.html#ac3c3f325b6e9d10af2dad44114dd3d08":[1,0,0,58,27],
-"class_minty_1_1_string.html#acb91ab6aeaf092979ab98a0bde9c6571":[0,0,0,59,20],
-"class_minty_1_1_string.html#acb91ab6aeaf092979ab98a0bde9c6571":[1,0,0,58,20]
+"class_minty_1_1_string.html#abcd84536b5286a7720e96e4c9695a864":[1,0,0,58,34]
 };

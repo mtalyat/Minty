@@ -52,6 +52,9 @@
     <Filter Include="Header Files\Time">
       <UniqueIdentifier>{74385c56-4d39-426d-b53f-e7d8e7a54d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{c673dc96-97a3-4ca7-88d4-155bd7674b96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -275,6 +278,15 @@
     </ClInclude>
     <ClInclude Include="Minty\Time\Time.h">
       <Filter>Header Files\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\_Render.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Library\GLFW.h">
+      <Filter>Header Files\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Library\Vulkan.h">
+      <Filter>Header Files\Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

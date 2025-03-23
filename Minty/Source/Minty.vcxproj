@@ -225,12 +225,15 @@ doxygen</Command>
     <ClInclude Include="Minty\File\_File.h" />
     <ClInclude Include="Minty\Job\JobManager.h" />
     <ClInclude Include="Minty\Job\_Job.h" />
+    <ClInclude Include="Minty\Library\GLFW.h" />
     <ClInclude Include="Minty\Library\GLM.h" />
+    <ClInclude Include="Minty\Library\Vulkan.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\_Memory.h" />
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
+    <ClInclude Include="Minty\Render\_Render.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
     <ClInclude Include="Minty\Serialization\IsSerializable.h" />
     <ClInclude Include="Minty\Serialization\Node.h" />

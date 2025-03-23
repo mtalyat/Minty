@@ -421,7 +421,7 @@ Type Minty::TextReaderBehavior::read_type_from_buffer(const void* const data, Si
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
-	return to_type(text);
+	return parse_to_type(text);
 }
 
 void* Minty::TextReaderBehavior::read_typed_from_buffer(const void* const data, Size const size, Type const type) const

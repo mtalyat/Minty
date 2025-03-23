@@ -348,7 +348,7 @@ String Minty::to_string(Type const type)
 }
 
 
-Type Minty::to_type(String const& string)
+Type Minty::parse_to_type(String const& string)
 {
 	if (string == "Bool") return Type::Bool;
 	if (string == "Bool2") return Type::Bool2;
@@ -388,8 +388,8 @@ Type Minty::to_type(String const& string)
 	return Type();
 }
 
-Bool Minty::try_type(String const& string, Type& value)
+Bool Minty::parse_try_type(String const& string, Type& value)
 {
-	value = to_type(string);
+	value = parse_to_type(string);
 	return value != Type();
 }

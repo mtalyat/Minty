@@ -4,6 +4,8 @@
 #include <format>
 #include <filesystem>
 
+#pragma region Debug
+
 #ifdef NDEBUG
 #define MINTY_RELEASE
 #else
@@ -55,3 +57,19 @@
 #else
 #define MINTY_BREAK()
 #endif
+
+#pragma endregion
+
+#pragma region Functions
+
+#define MINTY_TO_STRING(T) String to_string(T const value)
+
+#define MINTY_PARSE(T, t) T parse_to_##t(String const& string);\
+Bool parse_try_##t(String const& string, T& value);\
+	template<> inline T parse_to<T>(String const& string) { return parse_to_##t(string); }\
+	template<> inline Bool parse_try<T>(String const& string, T& value) { return parse_try_##t(string, value); }
+
+#define MINTY_TO_STRING_PARSE(T, t) MINTY_TO_STRING(T);\
+MINTY_PARSE(T, t);
+
+#pragma endregion
