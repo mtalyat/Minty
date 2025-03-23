@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['lap_0',['lap',['../class_minty_1_1_stopwatch.html#ad0b4782dd38e86614615b1113118e0d6',1,'Minty::Stopwatch']]],
+  ['lap_0',['lap',['../class_minty_1_1_stopwatch.html#a66f92e80c7eee828f001a24f1ac5162b',1,'Minty::Stopwatch']]],
   ['left_1',['left',['../namespace_minty_1_1_math.html#ad31700cab66d973f99f5bfde519e5795',1,'Minty::Math']]],
   ['lerp_2',['lerp',['../namespace_minty_1_1_math.html#ac0bf8598aa18804f0f3e6edf520788e9',1,'Minty::Math']]],
   ['lerp_5fclamped_3',['lerp_clamped',['../namespace_minty_1_1_math.html#a681e7530b54496276c62cd4cdef24e7d',1,'Minty::Math']]],

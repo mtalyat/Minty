@@ -36,16 +36,11 @@ void Stopwatch::reset()
 	m_start = Time::now();
 }
 
-TimeElapsed Stopwatch::lap(TimeElapsed const mod)
+Size Stopwatch::lap(TimeElapsed const mod)
 {
-	// if mod is 0, do nothing
-	if (!mod)
-	{
-		return 0;
-	}
+	MINTY_ASSERT(mod > 0, "Mod must be greater than zero.");
 
 	TimeElapsed time = get_elapsed();
-
 	TimeElapsed laps = time / mod;
 
 	m_elapsed = time - laps * mod;
@@ -67,14 +62,9 @@ TimeElapsed Stopwatch::get_elapsed() const
 	}
 }
 
-TimeElapsed Stopwatch::get_elapsed_ms() const
+Float Stopwatch::get_elapsed_s() const
 {
-	return get_elapsed() / ONE_MILLISECOND;
-}
-
-float Stopwatch::get_elapsed_s() const
-{
-	return get_elapsed() / static_cast<float>(ONE_SECOND);
+	return get_elapsed() / static_cast<Float>(ONE_SECOND);
 }
 
 String Minty::Stopwatch::get_elapsed_string() const

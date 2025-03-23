@@ -52,6 +52,7 @@
 #include "Test_Writer.h"
 
 // Time
+#include "Test_Stopwatch.h"
 #include "Test_Time.h"
 
 // Wrap
@@ -129,6 +130,7 @@ static void run_tests()
 	test_Writer(_test);
 
 	// Time
+	test_Stopwatch(_test);
 	test_Time(_test);
 
 	// Wrap

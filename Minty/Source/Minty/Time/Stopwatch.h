@@ -50,16 +50,10 @@ namespace Minty
         TimeElapsed get_elapsed() const;
 
         /// <summary>
-        /// How much time (in milliseconds) have elapsed since the start?
-        /// </summary>
-        /// <returns></returns>
-        TimeElapsed get_elapsed_ms() const;
-
-        /// <summary>
         /// How much time (in seconds) have elapsed since the start?
         /// </summary>
         /// <returns></returns>
-        float get_elapsed_s() const;
+        Float get_elapsed_s() const;
 
         /// <summary>
         /// How much time has elapsed since the start, as a string.
@@ -95,10 +89,12 @@ namespace Minty
 
         /// <summary>
         /// Attempts to lap. Returns the number of laps that have occured.
+        /// 
+		/// Ex. If the time elapsed is 10 seconds, and the mod is 3 seconds, the result will be 3, while setting the new elapsed time to 1.
         /// </summary>
-        /// <param name="mod"></param>
+        /// <param name="mod">The lap length in TimeElapsed.</param>
         /// <returns>The maximum number of laps.</returns>
-        TimeElapsed lap(TimeElapsed const mod);
+        Size lap(TimeElapsed const mod);
 
         /// <summary>
         /// Stop, reset and start.

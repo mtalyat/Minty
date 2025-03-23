@@ -177,6 +177,9 @@
     <ClCompile Include="Test_Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Stopwatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -303,6 +306,9 @@
       <Filter>Header Files\Tests\Asset</Filter>
     </ClInclude>
     <ClInclude Include="Test_Time.h">
+      <Filter>Header Files\Tests\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Stopwatch.h">
       <Filter>Header Files\Tests\Time</Filter>
     </ClInclude>
   </ItemGroup>
