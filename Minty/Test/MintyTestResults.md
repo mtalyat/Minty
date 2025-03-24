@@ -1,5 +1,5 @@
 # Results
-4721/4721 (100.00%)
+5219/5219 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -55,6 +55,8 @@
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
 | BufferUsage                    |       19 |        0 |
+| Filter                         |       11 |        0 |
+| Format                         |      487 |        0 |
 | ImageAddressMode               |       23 |        0 |
 | ImageAspect                    |       11 |        0 |
 | ImageLayout                    |       35 |        0 |
@@ -4416,6 +4418,512 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
 |  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
+
+## Filter
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_filter(name) == value)                                                                                    |
+|  PASS  | 25: Parse To (parse_to_filter(name) == value)                                                                                    |
+|  PASS  | 28: Parse To (parse_to_filter("") == Filter())                                                                                   |
+|  PASS  | 36: Parse Try (parse_try_filter(name, result) == true)                                                                           |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_filter(name, result) == true)                                                                           |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_filter("", result) == false)                                                                            |
+|  PASS  | 41: Parse Try (result == Filter())                                                                                               |
+
+## Format
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 136: To String (to_string(value) == name)                                                                                        |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 144: Parse To (parse_to_format(name) == value)                                                                                   |
+|  PASS  | 147: Parse To (parse_to_format("") == Format())                                                                                  |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 155: Parse Try (parse_try_format(name, result) == true)                                                                          |
+|  PASS  | 156: Parse Try (result == value)                                                                                                 |
+|  PASS  | 159: Parse Try (parse_try_format("", result) == false)                                                                           |
+|  PASS  | 160: Parse Try (result == Format())                                                                                              |
 
 ## ImageAddressMode
 | Result | Message                                                                                                                          |

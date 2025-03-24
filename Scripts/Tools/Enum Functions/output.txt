@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(Filter const obj);
-    Filter parse_to_filter(String const& string);
-    Bool parse_try_filter(String const& string, Filter& value);
+String to_string(Format const obj);
+    Format parse_to_format(String const& string);
+    Bool parse_try_format(String const& string, Format& value);
     template<>
-    inline Filter parse_to<Filter>(String const& string) { return parse_to_filter(string); }
+    inline Format parse_to<Format>(String const& string) { return parse_to_format(string); }
     template<>
-    inline Bool parse_try<Filter>(String const& string, Filter& value) { return parse_try_filter(string, value); }
+    inline Bool parse_try<Format>(String const& string, Format& value) { return parse_try_format(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,267 @@ String to_string(Filter const obj);
 
 using namespace Minty;
 
-String Minty::to_string(Filter const obj)
+String Minty::to_string(Format const obj)
 {
     switch (obj)
 	{
-		case Filter::Nearest: return "Nearest";
-		case Filter::Linear: return "Linear";
+		case Format::R4G4_UNORM_PACK8: return "R4G4_UNORM_PACK8";
+		case Format::R4G4B4A4_UNORM_PACK16: return "R4G4B4A4_UNORM_PACK16";
+		case Format::B4G4R4A4_UNORM_PACK16: return "B4G4R4A4_UNORM_PACK16";
+		case Format::R5G6B5_UNORM_PACK16: return "R5G6B5_UNORM_PACK16";
+		case Format::B5G6R5_UNORM_PACK16: return "B5G6R5_UNORM_PACK16";
+		case Format::R5G5B5A1_UNORM_PACK16: return "R5G5B5A1_UNORM_PACK16";
+		case Format::B5G5R5A1_UNORM_PACK16: return "B5G5R5A1_UNORM_PACK16";
+		case Format::A1R5G5B5_UNORM_PACK16: return "A1R5G5B5_UNORM_PACK16";
+		case Format::R8_UNORM: return "R8_UNORM";
+		case Format::R8_SNORM: return "R8_SNORM";
+		case Format::R8_USCALED: return "R8_USCALED";
+		case Format::R8_SSCALED: return "R8_SSCALED";
+		case Format::R8_UINT: return "R8_UINT";
+		case Format::R8_SINT: return "R8_SINT";
+		case Format::R8_SRGB: return "R8_SRGB";
+		case Format::R8G8_UNORM: return "R8G8_UNORM";
+		case Format::R8G8_SNORM: return "R8G8_SNORM";
+		case Format::R8G8_USCALED: return "R8G8_USCALED";
+		case Format::R8G8_SSCALED: return "R8G8_SSCALED";
+		case Format::R8G8_UINT: return "R8G8_UINT";
+		case Format::R8G8_SINT: return "R8G8_SINT";
+		case Format::R8G8_SRGB: return "R8G8_SRGB";
+		case Format::R8G8B8_UNORM: return "R8G8B8_UNORM";
+		case Format::R8G8B8_SNORM: return "R8G8B8_SNORM";
+		case Format::R8G8B8_USCALED: return "R8G8B8_USCALED";
+		case Format::R8G8B8_SSCALED: return "R8G8B8_SSCALED";
+		case Format::R8G8B8_UINT: return "R8G8B8_UINT";
+		case Format::R8G8B8_SINT: return "R8G8B8_SINT";
+		case Format::R8G8B8_SRGB: return "R8G8B8_SRGB";
+		case Format::B8G8R8_UNORM: return "B8G8R8_UNORM";
+		case Format::B8G8R8_SNORM: return "B8G8R8_SNORM";
+		case Format::B8G8R8_USCALED: return "B8G8R8_USCALED";
+		case Format::B8G8R8_SSCALED: return "B8G8R8_SSCALED";
+		case Format::B8G8R8_UINT: return "B8G8R8_UINT";
+		case Format::B8G8R8_SINT: return "B8G8R8_SINT";
+		case Format::B8G8R8_SRGB: return "B8G8R8_SRGB";
+		case Format::R8G8B8A8_UNORM: return "R8G8B8A8_UNORM";
+		case Format::R8G8B8A8_SNORM: return "R8G8B8A8_SNORM";
+		case Format::R8G8B8A8_USCALED: return "R8G8B8A8_USCALED";
+		case Format::R8G8B8A8_SSCALED: return "R8G8B8A8_SSCALED";
+		case Format::R8G8B8A8_UINT: return "R8G8B8A8_UINT";
+		case Format::R8G8B8A8_SINT: return "R8G8B8A8_SINT";
+		case Format::R8G8B8A8_SRGB: return "R8G8B8A8_SRGB";
+		case Format::B8G8R8A8_UNORM: return "B8G8R8A8_UNORM";
+		case Format::B8G8R8A8_SNORM: return "B8G8R8A8_SNORM";
+		case Format::B8G8R8A8_USCALED: return "B8G8R8A8_USCALED";
+		case Format::B8G8R8A8_SSCALED: return "B8G8R8A8_SSCALED";
+		case Format::B8G8R8A8_UINT: return "B8G8R8A8_UINT";
+		case Format::B8G8R8A8_SINT: return "B8G8R8A8_SINT";
+		case Format::B8G8R8A8_SRGB: return "B8G8R8A8_SRGB";
+		case Format::A8B8G8R8_UNORM_PACK32: return "A8B8G8R8_UNORM_PACK32";
+		case Format::A8B8G8R8_SNORM_PACK32: return "A8B8G8R8_SNORM_PACK32";
+		case Format::A8B8G8R8_USCALED_PACK32: return "A8B8G8R8_USCALED_PACK32";
+		case Format::A8B8G8R8_SSCALED_PACK32: return "A8B8G8R8_SSCALED_PACK32";
+		case Format::A8B8G8R8_UINT_PACK32: return "A8B8G8R8_UINT_PACK32";
+		case Format::A8B8G8R8_SINT_PACK32: return "A8B8G8R8_SINT_PACK32";
+		case Format::A8B8G8R8_SRGB_PACK32: return "A8B8G8R8_SRGB_PACK32";
+		case Format::A2R10G10B10_UNORM_PACK32: return "A2R10G10B10_UNORM_PACK32";
+		case Format::A2R10G10B10_SNORM_PACK32: return "A2R10G10B10_SNORM_PACK32";
+		case Format::A2R10G10B10_USCALED_PACK32: return "A2R10G10B10_USCALED_PACK32";
+		case Format::A2R10G10B10_SSCALED_PACK32: return "A2R10G10B10_SSCALED_PACK32";
+		case Format::A2R10G10B10_UINT_PACK32: return "A2R10G10B10_UINT_PACK32";
+		case Format::A2R10G10B10_SINT_PACK32: return "A2R10G10B10_SINT_PACK32";
+		case Format::A2B10G10R10_UNORM_PACK32: return "A2B10G10R10_UNORM_PACK32";
+		case Format::A2B10G10R10_SNORM_PACK32: return "A2B10G10R10_SNORM_PACK32";
+		case Format::A2B10G10R10_USCALED_PACK32: return "A2B10G10R10_USCALED_PACK32";
+		case Format::A2B10G10R10_SSCALED_PACK32: return "A2B10G10R10_SSCALED_PACK32";
+		case Format::A2B10G10R10_UINT_PACK32: return "A2B10G10R10_UINT_PACK32";
+		case Format::A2B10G10R10_SINT_PACK32: return "A2B10G10R10_SINT_PACK32";
+		case Format::R16_UNORM: return "R16_UNORM";
+		case Format::R16_SNORM: return "R16_SNORM";
+		case Format::R16_USCALED: return "R16_USCALED";
+		case Format::R16_SSCALED: return "R16_SSCALED";
+		case Format::R16_UINT: return "R16_UINT";
+		case Format::R16_SINT: return "R16_SINT";
+		case Format::R16_SFLOAT: return "R16_SFLOAT";
+		case Format::R16G16_UNORM: return "R16G16_UNORM";
+		case Format::R16G16_SNORM: return "R16G16_SNORM";
+		case Format::R16G16_USCALED: return "R16G16_USCALED";
+		case Format::R16G16_SSCALED: return "R16G16_SSCALED";
+		case Format::R16G16_UINT: return "R16G16_UINT";
+		case Format::R16G16_SINT: return "R16G16_SINT";
+		case Format::R16G16_SFLOAT: return "R16G16_SFLOAT";
+		case Format::R16G16B16_UNORM: return "R16G16B16_UNORM";
+		case Format::R16G16B16_SNORM: return "R16G16B16_SNORM";
+		case Format::R16G16B16_USCALED: return "R16G16B16_USCALED";
+		case Format::R16G16B16_SSCALED: return "R16G16B16_SSCALED";
+		case Format::R16G16B16_UINT: return "R16G16B16_UINT";
+		case Format::R16G16B16_SINT: return "R16G16B16_SINT";
+		case Format::R16G16B16_SFLOAT: return "R16G16B16_SFLOAT";
+		case Format::R16G16B16A16_UNORM: return "R16G16B16A16_UNORM";
+		case Format::R16G16B16A16_SNORM: return "R16G16B16A16_SNORM";
+		case Format::R16G16B16A16_USCALED: return "R16G16B16A16_USCALED";
+		case Format::R16G16B16A16_SSCALED: return "R16G16B16A16_SSCALED";
+		case Format::R16G16B16A16_UINT: return "R16G16B16A16_UINT";
+		case Format::R16G16B16A16_SINT: return "R16G16B16A16_SINT";
+		case Format::R16G16B16A16_SFLOAT: return "R16G16B16A16_SFLOAT";
+		case Format::R32_UINT: return "R32_UINT";
+		case Format::R32_SINT: return "R32_SINT";
+		case Format::R32_SFLOAT: return "R32_SFLOAT";
+		case Format::R32G32_UINT: return "R32G32_UINT";
+		case Format::R32G32_SINT: return "R32G32_SINT";
+		case Format::R32G32_SFLOAT: return "R32G32_SFLOAT";
+		case Format::R32G32B32_UINT: return "R32G32B32_UINT";
+		case Format::R32G32B32_SINT: return "R32G32B32_SINT";
+		case Format::R32G32B32_SFLOAT: return "R32G32B32_SFLOAT";
+		case Format::R32G32B32A32_UINT: return "R32G32B32A32_UINT";
+		case Format::R32G32B32A32_SINT: return "R32G32B32A32_SINT";
+		case Format::R32G32B32A32_SFLOAT: return "R32G32B32A32_SFLOAT";
+		case Format::R64_UINT: return "R64_UINT";
+		case Format::R64_SINT: return "R64_SINT";
+		case Format::R64_SFLOAT: return "R64_SFLOAT";
+		case Format::R64G64_UINT: return "R64G64_UINT";
+		case Format::R64G64_SINT: return "R64G64_SINT";
+		case Format::R64G64_SFLOAT: return "R64G64_SFLOAT";
+		case Format::R64G64B64_UINT: return "R64G64B64_UINT";
+		case Format::R64G64B64_SINT: return "R64G64B64_SINT";
+		case Format::R64G64B64_SFLOAT: return "R64G64B64_SFLOAT";
+		case Format::R64G64B64A64_UINT: return "R64G64B64A64_UINT";
+		case Format::R64G64B64A64_SINT: return "R64G64B64A64_SINT";
+		case Format::R64G64B64A64_SFLOAT: return "R64G64B64A64_SFLOAT";
 
 		default: return "";
 	}
 }
 
-Filter Minty::parse_to_filter(String const& string)
+Format Minty::parse_to_format(String const& string)
 {
-	if (string == "Nearest") return Filter::Nearest;
-	if (string == "Linear") return Filter::Linear;
+	if (string == "R4G4_UNORM_PACK8") return Format::R4G4_UNORM_PACK8;
+	if (string == "R4G4B4A4_UNORM_PACK16") return Format::R4G4B4A4_UNORM_PACK16;
+	if (string == "B4G4R4A4_UNORM_PACK16") return Format::B4G4R4A4_UNORM_PACK16;
+	if (string == "R5G6B5_UNORM_PACK16") return Format::R5G6B5_UNORM_PACK16;
+	if (string == "B5G6R5_UNORM_PACK16") return Format::B5G6R5_UNORM_PACK16;
+	if (string == "R5G5B5A1_UNORM_PACK16") return Format::R5G5B5A1_UNORM_PACK16;
+	if (string == "B5G5R5A1_UNORM_PACK16") return Format::B5G5R5A1_UNORM_PACK16;
+	if (string == "A1R5G5B5_UNORM_PACK16") return Format::A1R5G5B5_UNORM_PACK16;
+	if (string == "R8_UNORM") return Format::R8_UNORM;
+	if (string == "R8_SNORM") return Format::R8_SNORM;
+	if (string == "R8_USCALED") return Format::R8_USCALED;
+	if (string == "R8_SSCALED") return Format::R8_SSCALED;
+	if (string == "R8_UINT") return Format::R8_UINT;
+	if (string == "R8_SINT") return Format::R8_SINT;
+	if (string == "R8_SRGB") return Format::R8_SRGB;
+	if (string == "R8G8_UNORM") return Format::R8G8_UNORM;
+	if (string == "R8G8_SNORM") return Format::R8G8_SNORM;
+	if (string == "R8G8_USCALED") return Format::R8G8_USCALED;
+	if (string == "R8G8_SSCALED") return Format::R8G8_SSCALED;
+	if (string == "R8G8_UINT") return Format::R8G8_UINT;
+	if (string == "R8G8_SINT") return Format::R8G8_SINT;
+	if (string == "R8G8_SRGB") return Format::R8G8_SRGB;
+	if (string == "R8G8B8_UNORM") return Format::R8G8B8_UNORM;
+	if (string == "R8G8B8_SNORM") return Format::R8G8B8_SNORM;
+	if (string == "R8G8B8_USCALED") return Format::R8G8B8_USCALED;
+	if (string == "R8G8B8_SSCALED") return Format::R8G8B8_SSCALED;
+	if (string == "R8G8B8_UINT") return Format::R8G8B8_UINT;
+	if (string == "R8G8B8_SINT") return Format::R8G8B8_SINT;
+	if (string == "R8G8B8_SRGB") return Format::R8G8B8_SRGB;
+	if (string == "B8G8R8_UNORM") return Format::B8G8R8_UNORM;
+	if (string == "B8G8R8_SNORM") return Format::B8G8R8_SNORM;
+	if (string == "B8G8R8_USCALED") return Format::B8G8R8_USCALED;
+	if (string == "B8G8R8_SSCALED") return Format::B8G8R8_SSCALED;
+	if (string == "B8G8R8_UINT") return Format::B8G8R8_UINT;
+	if (string == "B8G8R8_SINT") return Format::B8G8R8_SINT;
+	if (string == "B8G8R8_SRGB") return Format::B8G8R8_SRGB;
+	if (string == "R8G8B8A8_UNORM") return Format::R8G8B8A8_UNORM;
+	if (string == "R8G8B8A8_SNORM") return Format::R8G8B8A8_SNORM;
+	if (string == "R8G8B8A8_USCALED") return Format::R8G8B8A8_USCALED;
+	if (string == "R8G8B8A8_SSCALED") return Format::R8G8B8A8_SSCALED;
+	if (string == "R8G8B8A8_UINT") return Format::R8G8B8A8_UINT;
+	if (string == "R8G8B8A8_SINT") return Format::R8G8B8A8_SINT;
+	if (string == "R8G8B8A8_SRGB") return Format::R8G8B8A8_SRGB;
+	if (string == "B8G8R8A8_UNORM") return Format::B8G8R8A8_UNORM;
+	if (string == "B8G8R8A8_SNORM") return Format::B8G8R8A8_SNORM;
+	if (string == "B8G8R8A8_USCALED") return Format::B8G8R8A8_USCALED;
+	if (string == "B8G8R8A8_SSCALED") return Format::B8G8R8A8_SSCALED;
+	if (string == "B8G8R8A8_UINT") return Format::B8G8R8A8_UINT;
+	if (string == "B8G8R8A8_SINT") return Format::B8G8R8A8_SINT;
+	if (string == "B8G8R8A8_SRGB") return Format::B8G8R8A8_SRGB;
+	if (string == "A8B8G8R8_UNORM_PACK32") return Format::A8B8G8R8_UNORM_PACK32;
+	if (string == "A8B8G8R8_SNORM_PACK32") return Format::A8B8G8R8_SNORM_PACK32;
+	if (string == "A8B8G8R8_USCALED_PACK32") return Format::A8B8G8R8_USCALED_PACK32;
+	if (string == "A8B8G8R8_SSCALED_PACK32") return Format::A8B8G8R8_SSCALED_PACK32;
+	if (string == "A8B8G8R8_UINT_PACK32") return Format::A8B8G8R8_UINT_PACK32;
+	if (string == "A8B8G8R8_SINT_PACK32") return Format::A8B8G8R8_SINT_PACK32;
+	if (string == "A8B8G8R8_SRGB_PACK32") return Format::A8B8G8R8_SRGB_PACK32;
+	if (string == "A2R10G10B10_UNORM_PACK32") return Format::A2R10G10B10_UNORM_PACK32;
+	if (string == "A2R10G10B10_SNORM_PACK32") return Format::A2R10G10B10_SNORM_PACK32;
+	if (string == "A2R10G10B10_USCALED_PACK32") return Format::A2R10G10B10_USCALED_PACK32;
+	if (string == "A2R10G10B10_SSCALED_PACK32") return Format::A2R10G10B10_SSCALED_PACK32;
+	if (string == "A2R10G10B10_UINT_PACK32") return Format::A2R10G10B10_UINT_PACK32;
+	if (string == "A2R10G10B10_SINT_PACK32") return Format::A2R10G10B10_SINT_PACK32;
+	if (string == "A2B10G10R10_UNORM_PACK32") return Format::A2B10G10R10_UNORM_PACK32;
+	if (string == "A2B10G10R10_SNORM_PACK32") return Format::A2B10G10R10_SNORM_PACK32;
+	if (string == "A2B10G10R10_USCALED_PACK32") return Format::A2B10G10R10_USCALED_PACK32;
+	if (string == "A2B10G10R10_SSCALED_PACK32") return Format::A2B10G10R10_SSCALED_PACK32;
+	if (string == "A2B10G10R10_UINT_PACK32") return Format::A2B10G10R10_UINT_PACK32;
+	if (string == "A2B10G10R10_SINT_PACK32") return Format::A2B10G10R10_SINT_PACK32;
+	if (string == "R16_UNORM") return Format::R16_UNORM;
+	if (string == "R16_SNORM") return Format::R16_SNORM;
+	if (string == "R16_USCALED") return Format::R16_USCALED;
+	if (string == "R16_SSCALED") return Format::R16_SSCALED;
+	if (string == "R16_UINT") return Format::R16_UINT;
+	if (string == "R16_SINT") return Format::R16_SINT;
+	if (string == "R16_SFLOAT") return Format::R16_SFLOAT;
+	if (string == "R16G16_UNORM") return Format::R16G16_UNORM;
+	if (string == "R16G16_SNORM") return Format::R16G16_SNORM;
+	if (string == "R16G16_USCALED") return Format::R16G16_USCALED;
+	if (string == "R16G16_SSCALED") return Format::R16G16_SSCALED;
+	if (string == "R16G16_UINT") return Format::R16G16_UINT;
+	if (string == "R16G16_SINT") return Format::R16G16_SINT;
+	if (string == "R16G16_SFLOAT") return Format::R16G16_SFLOAT;
+	if (string == "R16G16B16_UNORM") return Format::R16G16B16_UNORM;
+	if (string == "R16G16B16_SNORM") return Format::R16G16B16_SNORM;
+	if (string == "R16G16B16_USCALED") return Format::R16G16B16_USCALED;
+	if (string == "R16G16B16_SSCALED") return Format::R16G16B16_SSCALED;
+	if (string == "R16G16B16_UINT") return Format::R16G16B16_UINT;
+	if (string == "R16G16B16_SINT") return Format::R16G16B16_SINT;
+	if (string == "R16G16B16_SFLOAT") return Format::R16G16B16_SFLOAT;
+	if (string == "R16G16B16A16_UNORM") return Format::R16G16B16A16_UNORM;
+	if (string == "R16G16B16A16_SNORM") return Format::R16G16B16A16_SNORM;
+	if (string == "R16G16B16A16_USCALED") return Format::R16G16B16A16_USCALED;
+	if (string == "R16G16B16A16_SSCALED") return Format::R16G16B16A16_SSCALED;
+	if (string == "R16G16B16A16_UINT") return Format::R16G16B16A16_UINT;
+	if (string == "R16G16B16A16_SINT") return Format::R16G16B16A16_SINT;
+	if (string == "R16G16B16A16_SFLOAT") return Format::R16G16B16A16_SFLOAT;
+	if (string == "R32_UINT") return Format::R32_UINT;
+	if (string == "R32_SINT") return Format::R32_SINT;
+	if (string == "R32_SFLOAT") return Format::R32_SFLOAT;
+	if (string == "R32G32_UINT") return Format::R32G32_UINT;
+	if (string == "R32G32_SINT") return Format::R32G32_SINT;
+	if (string == "R32G32_SFLOAT") return Format::R32G32_SFLOAT;
+	if (string == "R32G32B32_UINT") return Format::R32G32B32_UINT;
+	if (string == "R32G32B32_SINT") return Format::R32G32B32_SINT;
+	if (string == "R32G32B32_SFLOAT") return Format::R32G32B32_SFLOAT;
+	if (string == "R32G32B32A32_UINT") return Format::R32G32B32A32_UINT;
+	if (string == "R32G32B32A32_SINT") return Format::R32G32B32A32_SINT;
+	if (string == "R32G32B32A32_SFLOAT") return Format::R32G32B32A32_SFLOAT;
+	if (string == "R64_UINT") return Format::R64_UINT;
+	if (string == "R64_SINT") return Format::R64_SINT;
+	if (string == "R64_SFLOAT") return Format::R64_SFLOAT;
+	if (string == "R64G64_UINT") return Format::R64G64_UINT;
+	if (string == "R64G64_SINT") return Format::R64G64_SINT;
+	if (string == "R64G64_SFLOAT") return Format::R64G64_SFLOAT;
+	if (string == "R64G64B64_UINT") return Format::R64G64B64_UINT;
+	if (string == "R64G64B64_SINT") return Format::R64G64B64_SINT;
+	if (string == "R64G64B64_SFLOAT") return Format::R64G64B64_SFLOAT;
+	if (string == "R64G64B64A64_UINT") return Format::R64G64B64A64_UINT;
+	if (string == "R64G64B64A64_SINT") return Format::R64G64B64A64_SINT;
+	if (string == "R64G64B64A64_SFLOAT") return Format::R64G64B64A64_SFLOAT;
 
-	return Filter();
+	return Format();
 }
 
-Bool Minty::parse_try_filter(String const& string, Filter& value)
+Bool Minty::parse_try_format(String const& string, Format& value)
 {
-	value = parse_to_filter(string);
-	return value != Filter();
+	value = parse_to_format(string);
+	return value != Format();
 }
 
 ====================
@@ -49,22 +287,141 @@ Bool Minty::parse_try_filter(String const& string, Filter& value)
 
 #include "Test.h"
 
-void test_Filter(Test& _test);
+void test_Format(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_Filter.h"
+#include "Test_Format.h"
 #include "Minty.h"
 
-void test_Filter(Test& _test)
+void test_Format(Test& _test)
 {
-	CATEGORY(Filter)
+	CATEGORY(Format)
 	{
-        std::vector<std::pair<Filter, String>> VALUES = {
-			{Filter::Nearest, "Nearest"},
-			{Filter::Linear, "Linear"},
+        std::vector<std::pair<Format, String>> VALUES = {
+			{Format::R4G4_UNORM_PACK8, "R4G4_UNORM_PACK8"},
+			{Format::R4G4B4A4_UNORM_PACK16, "R4G4B4A4_UNORM_PACK16"},
+			{Format::B4G4R4A4_UNORM_PACK16, "B4G4R4A4_UNORM_PACK16"},
+			{Format::R5G6B5_UNORM_PACK16, "R5G6B5_UNORM_PACK16"},
+			{Format::B5G6R5_UNORM_PACK16, "B5G6R5_UNORM_PACK16"},
+			{Format::R5G5B5A1_UNORM_PACK16, "R5G5B5A1_UNORM_PACK16"},
+			{Format::B5G5R5A1_UNORM_PACK16, "B5G5R5A1_UNORM_PACK16"},
+			{Format::A1R5G5B5_UNORM_PACK16, "A1R5G5B5_UNORM_PACK16"},
+			{Format::R8_UNORM, "R8_UNORM"},
+			{Format::R8_SNORM, "R8_SNORM"},
+			{Format::R8_USCALED, "R8_USCALED"},
+			{Format::R8_SSCALED, "R8_SSCALED"},
+			{Format::R8_UINT, "R8_UINT"},
+			{Format::R8_SINT, "R8_SINT"},
+			{Format::R8_SRGB, "R8_SRGB"},
+			{Format::R8G8_UNORM, "R8G8_UNORM"},
+			{Format::R8G8_SNORM, "R8G8_SNORM"},
+			{Format::R8G8_USCALED, "R8G8_USCALED"},
+			{Format::R8G8_SSCALED, "R8G8_SSCALED"},
+			{Format::R8G8_UINT, "R8G8_UINT"},
+			{Format::R8G8_SINT, "R8G8_SINT"},
+			{Format::R8G8_SRGB, "R8G8_SRGB"},
+			{Format::R8G8B8_UNORM, "R8G8B8_UNORM"},
+			{Format::R8G8B8_SNORM, "R8G8B8_SNORM"},
+			{Format::R8G8B8_USCALED, "R8G8B8_USCALED"},
+			{Format::R8G8B8_SSCALED, "R8G8B8_SSCALED"},
+			{Format::R8G8B8_UINT, "R8G8B8_UINT"},
+			{Format::R8G8B8_SINT, "R8G8B8_SINT"},
+			{Format::R8G8B8_SRGB, "R8G8B8_SRGB"},
+			{Format::B8G8R8_UNORM, "B8G8R8_UNORM"},
+			{Format::B8G8R8_SNORM, "B8G8R8_SNORM"},
+			{Format::B8G8R8_USCALED, "B8G8R8_USCALED"},
+			{Format::B8G8R8_SSCALED, "B8G8R8_SSCALED"},
+			{Format::B8G8R8_UINT, "B8G8R8_UINT"},
+			{Format::B8G8R8_SINT, "B8G8R8_SINT"},
+			{Format::B8G8R8_SRGB, "B8G8R8_SRGB"},
+			{Format::R8G8B8A8_UNORM, "R8G8B8A8_UNORM"},
+			{Format::R8G8B8A8_SNORM, "R8G8B8A8_SNORM"},
+			{Format::R8G8B8A8_USCALED, "R8G8B8A8_USCALED"},
+			{Format::R8G8B8A8_SSCALED, "R8G8B8A8_SSCALED"},
+			{Format::R8G8B8A8_UINT, "R8G8B8A8_UINT"},
+			{Format::R8G8B8A8_SINT, "R8G8B8A8_SINT"},
+			{Format::R8G8B8A8_SRGB, "R8G8B8A8_SRGB"},
+			{Format::B8G8R8A8_UNORM, "B8G8R8A8_UNORM"},
+			{Format::B8G8R8A8_SNORM, "B8G8R8A8_SNORM"},
+			{Format::B8G8R8A8_USCALED, "B8G8R8A8_USCALED"},
+			{Format::B8G8R8A8_SSCALED, "B8G8R8A8_SSCALED"},
+			{Format::B8G8R8A8_UINT, "B8G8R8A8_UINT"},
+			{Format::B8G8R8A8_SINT, "B8G8R8A8_SINT"},
+			{Format::B8G8R8A8_SRGB, "B8G8R8A8_SRGB"},
+			{Format::A8B8G8R8_UNORM_PACK32, "A8B8G8R8_UNORM_PACK32"},
+			{Format::A8B8G8R8_SNORM_PACK32, "A8B8G8R8_SNORM_PACK32"},
+			{Format::A8B8G8R8_USCALED_PACK32, "A8B8G8R8_USCALED_PACK32"},
+			{Format::A8B8G8R8_SSCALED_PACK32, "A8B8G8R8_SSCALED_PACK32"},
+			{Format::A8B8G8R8_UINT_PACK32, "A8B8G8R8_UINT_PACK32"},
+			{Format::A8B8G8R8_SINT_PACK32, "A8B8G8R8_SINT_PACK32"},
+			{Format::A8B8G8R8_SRGB_PACK32, "A8B8G8R8_SRGB_PACK32"},
+			{Format::A2R10G10B10_UNORM_PACK32, "A2R10G10B10_UNORM_PACK32"},
+			{Format::A2R10G10B10_SNORM_PACK32, "A2R10G10B10_SNORM_PACK32"},
+			{Format::A2R10G10B10_USCALED_PACK32, "A2R10G10B10_USCALED_PACK32"},
+			{Format::A2R10G10B10_SSCALED_PACK32, "A2R10G10B10_SSCALED_PACK32"},
+			{Format::A2R10G10B10_UINT_PACK32, "A2R10G10B10_UINT_PACK32"},
+			{Format::A2R10G10B10_SINT_PACK32, "A2R10G10B10_SINT_PACK32"},
+			{Format::A2B10G10R10_UNORM_PACK32, "A2B10G10R10_UNORM_PACK32"},
+			{Format::A2B10G10R10_SNORM_PACK32, "A2B10G10R10_SNORM_PACK32"},
+			{Format::A2B10G10R10_USCALED_PACK32, "A2B10G10R10_USCALED_PACK32"},
+			{Format::A2B10G10R10_SSCALED_PACK32, "A2B10G10R10_SSCALED_PACK32"},
+			{Format::A2B10G10R10_UINT_PACK32, "A2B10G10R10_UINT_PACK32"},
+			{Format::A2B10G10R10_SINT_PACK32, "A2B10G10R10_SINT_PACK32"},
+			{Format::R16_UNORM, "R16_UNORM"},
+			{Format::R16_SNORM, "R16_SNORM"},
+			{Format::R16_USCALED, "R16_USCALED"},
+			{Format::R16_SSCALED, "R16_SSCALED"},
+			{Format::R16_UINT, "R16_UINT"},
+			{Format::R16_SINT, "R16_SINT"},
+			{Format::R16_SFLOAT, "R16_SFLOAT"},
+			{Format::R16G16_UNORM, "R16G16_UNORM"},
+			{Format::R16G16_SNORM, "R16G16_SNORM"},
+			{Format::R16G16_USCALED, "R16G16_USCALED"},
+			{Format::R16G16_SSCALED, "R16G16_SSCALED"},
+			{Format::R16G16_UINT, "R16G16_UINT"},
+			{Format::R16G16_SINT, "R16G16_SINT"},
+			{Format::R16G16_SFLOAT, "R16G16_SFLOAT"},
+			{Format::R16G16B16_UNORM, "R16G16B16_UNORM"},
+			{Format::R16G16B16_SNORM, "R16G16B16_SNORM"},
+			{Format::R16G16B16_USCALED, "R16G16B16_USCALED"},
+			{Format::R16G16B16_SSCALED, "R16G16B16_SSCALED"},
+			{Format::R16G16B16_UINT, "R16G16B16_UINT"},
+			{Format::R16G16B16_SINT, "R16G16B16_SINT"},
+			{Format::R16G16B16_SFLOAT, "R16G16B16_SFLOAT"},
+			{Format::R16G16B16A16_UNORM, "R16G16B16A16_UNORM"},
+			{Format::R16G16B16A16_SNORM, "R16G16B16A16_SNORM"},
+			{Format::R16G16B16A16_USCALED, "R16G16B16A16_USCALED"},
+			{Format::R16G16B16A16_SSCALED, "R16G16B16A16_SSCALED"},
+			{Format::R16G16B16A16_UINT, "R16G16B16A16_UINT"},
+			{Format::R16G16B16A16_SINT, "R16G16B16A16_SINT"},
+			{Format::R16G16B16A16_SFLOAT, "R16G16B16A16_SFLOAT"},
+			{Format::R32_UINT, "R32_UINT"},
+			{Format::R32_SINT, "R32_SINT"},
+			{Format::R32_SFLOAT, "R32_SFLOAT"},
+			{Format::R32G32_UINT, "R32G32_UINT"},
+			{Format::R32G32_SINT, "R32G32_SINT"},
+			{Format::R32G32_SFLOAT, "R32G32_SFLOAT"},
+			{Format::R32G32B32_UINT, "R32G32B32_UINT"},
+			{Format::R32G32B32_SINT, "R32G32B32_SINT"},
+			{Format::R32G32B32_SFLOAT, "R32G32B32_SFLOAT"},
+			{Format::R32G32B32A32_UINT, "R32G32B32A32_UINT"},
+			{Format::R32G32B32A32_SINT, "R32G32B32A32_SINT"},
+			{Format::R32G32B32A32_SFLOAT, "R32G32B32A32_SFLOAT"},
+			{Format::R64_UINT, "R64_UINT"},
+			{Format::R64_SINT, "R64_SINT"},
+			{Format::R64_SFLOAT, "R64_SFLOAT"},
+			{Format::R64G64_UINT, "R64G64_UINT"},
+			{Format::R64G64_SINT, "R64G64_SINT"},
+			{Format::R64G64_SFLOAT, "R64G64_SFLOAT"},
+			{Format::R64G64B64_UINT, "R64G64B64_UINT"},
+			{Format::R64G64B64_SINT, "R64G64B64_SINT"},
+			{Format::R64G64B64_SFLOAT, "R64G64B64_SFLOAT"},
+			{Format::R64G64B64A64_UINT, "R64G64B64A64_UINT"},
+			{Format::R64G64B64A64_SINT, "R64G64B64A64_SINT"},
+			{Format::R64G64B64A64_SFLOAT, "R64G64B64A64_SFLOAT"},
         };
     
         TEST("To String")
@@ -79,23 +436,23 @@ void test_Filter(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_filter(name), value);
+                EXPECT_EQUAL(parse_to_format(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_filter(""), Filter());
+            EXPECT_EQUAL(parse_to_format(""), Format());
         }
 
         TEST("Parse Try")
         {
-            Filter result;
+            Format result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_filter(name, result));
+                EXPECT_TRUE(parse_try_format(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_filter("", result));
-            EXPECT_EQUAL(result, Filter());
+            EXPECT_FALSE(parse_try_format("", result));
+            EXPECT_EQUAL(result, Format());
         }
 	}
 }

@@ -61,21 +61,22 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"class_minty_1_1_array.html",
-"class_minty_1_1_asset_manager.html#aa11f9523735b9623989c8d080942281c",
-"class_minty_1_1_file.html#ac2dca6d762920d3184dbb37fc9159787",
-"class_minty_1_1_list_1_1_const_reverse_iterator.html#ac1ded9f0284004ce9822efa33712cce8",
-"class_minty_1_1_memory_pool.html#a4beb479f3782ceefd58ca3ebb9748539",
-"class_minty_1_1_path.html#a30ab4f0892aa906c6c5e36ffb2ec6add",
-"class_minty_1_1_reader.html#a6ba81d6d8475c9b7ca5cf75ff7acc5d4",
-"class_minty_1_1_ref.html#a805dcc24078d4e0593c1557c98785c66",
-"class_minty_1_1_string.html#a6a1c3f81471c5c67fe5fce37e6a78e4e",
-"class_minty_1_1_u_u_i_d.html#a57cdb69c130682e4b801cc4c8266a44d",
-"class_minty_1_1_vector_1_1_iterator.html#ab9fa60bef80b449511c4fecd24430c8e",
-"class_minty_1_1_writer.html#a7aec5a1ffdebc7a96a3f2b8968694264",
-"functions_func_q.html",
-"namespace_minty.html#a6ccfb790eb95fa51fff5637955c6debc",
-"namespace_minty_1_1_math.html#af35bc6dd5cb5bd861c7cb1b5585547f3"
+"class_minty_1_1_application.html#a35592e1781f833cfd10257497e4fbfe1",
+"class_minty_1_1_asset_manager.html#a9301d3db9925069b843c7087d010602a",
+"class_minty_1_1_file.html#abec31d4659e5d6e9a22986d0f766e7bc",
+"class_minty_1_1_list_1_1_const_reverse_iterator.html#a995c4c38569c32059679223b321e11a1",
+"class_minty_1_1_memory_pool.html#a44f78a70b7624f88174b2efdcaee4eee",
+"class_minty_1_1_path.html#a2f0391d18b2968ce4a0084dea866e8d9",
+"class_minty_1_1_reader.html#a6894e7d7a06ad2fa01c5ba64602571ce",
+"class_minty_1_1_ref.html#a7cfce7916e86abbf75e2cd4de4a51418",
+"class_minty_1_1_string.html#a6269933c245c56dd70d50ae9dbf43328",
+"class_minty_1_1_u_u_i_d.html#a4a4c98e766caac8686dfb0fdae356f98",
+"class_minty_1_1_vector_1_1_iterator.html#ab85d9776b49777a2f0d75f068a1d4c64",
+"class_minty_1_1_writer.html#a77129dfa2d010d04e4c2f816c4b371f8",
+"functions_func_n.html",
+"namespace_minty.html#a6aa1a39d268cb49b4aeb8a50366399c4",
+"namespace_minty.html#ac20217fb7376b507278dedce18fd8e91",
+"struct_minty_1_1_memory_manager_builder.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

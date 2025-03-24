@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['f_0',['F',['../_format_8h.html#ac11a10720f04025c84e9e76691ad0e6b',1,'Format.h']]],
+  ['f_0',['F',['../_core_2_format_8h.html#ac11a10720f04025c84e9e76691ad0e6b',1,'Format.h']]],
   ['fast_1',['Fast',['../namespace_minty.html#abe96803589e915713959c294c0df12c6ae16b5b7f26f54214445cbe38d72c2828',1,'Minty']]],
   ['file_2',['File',['../class_minty_1_1_file.html',1,'Minty::File'],['../class_minty_1_1_file.html#ac2dca6d762920d3184dbb37fc9159787',1,'Minty::File::File()'],['../class_minty_1_1_file.html#a3225a4bab5ea123452810ae73119a20c',1,'Minty::File::File(Path const &amp;path, Flags const flags)'],['../class_minty_1_1_file.html#a06c7b575c7d967d029c382843492619c',1,'Minty::File::File(File const &amp;other)=delete'],['../class_minty_1_1_file.html#ad145e10ea51ccd9e21e741f1fc9f4565',1,'Minty::File::File(File &amp;&amp;other) noexcept'],['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea0b27918290ff5323bea1e3b78a9cf04e',1,'Minty::Wrap::File']]],
   ['file_2ecpp_3',['File.cpp',['../_file_8cpp.html',1,'']]],
@@ -25,9 +25,11 @@ var searchData=
   ['flush_22',['flush',['../class_minty_1_1_debug.html#acc2e326aac12bc1b7dc99b8e425f1d91',1,'Minty::Debug::flush()'],['../class_minty_1_1_file.html#ac86264da076211dd15b81bfb4aea0c7a',1,'Minty::File::flush()'],['../class_minty_1_1_physical_file.html#a3b124c2ef8646007b2344aebea0be9ef',1,'Minty::PhysicalFile::flush()'],['../class_minty_1_1_wrap.html#ac6f4b689e6ddd35ba85d4bb337bf88ca',1,'Minty::Wrap::flush()']]],
   ['font_23',['Font',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d',1,'Minty']]],
   ['fontvariant_24',['FontVariant',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a942fbf5aede93f3ba503193e480477c5',1,'Minty']]],
-  ['format_2eh_25',['Format.h',['../_format_8h.html',1,'']]],
-  ['forward_26',['forward',['../namespace_minty_1_1_math.html#a7cafebde48a9eeacc26faa690b8d6e06',1,'Minty::Math']]],
-  ['framework_2eh_27',['framework.h',['../framework_8h.html',1,'']]],
-  ['from_5feuler_28',['from_euler',['../namespace_minty_1_1_math.html#ae4d716b033044e1ca5b4a0796f44d912',1,'Minty::Math::from_euler(Float3 const &amp;value)'],['../namespace_minty_1_1_math.html#a56fb321dac387a570a6a562fa9a93f1d',1,'Minty::Math::from_euler(Float const x, Float const y, Float const z)']]],
-  ['front_29',['front',['../class_minty_1_1_array.html#a5d3c0f5c5d1a68c09a8cc5cd0a7445f5',1,'Minty::Array::front()'],['../class_minty_1_1_array.html#a3b31bb9a20494bd250d22cfe167e665b',1,'Minty::Array::front() const'],['../class_minty_1_1_list.html#add57ffedf65c0d3ebede3afa0e05832b',1,'Minty::List::front()'],['../class_minty_1_1_list.html#adda4374412bbdc1005673e07c5f8ec65',1,'Minty::List::front() const'],['../class_minty_1_1_string.html#ae386dcb5ceda657d43f04a38c72a4ed9',1,'Minty::String::front()'],['../class_minty_1_1_vector.html#a9306e7f1d2638a6cae6687220479a375',1,'Minty::Vector::front()'],['../class_minty_1_1_vector.html#ad04b7613d8ab2e5d95aba84cdf529762',1,'Minty::Vector::front() const']]]
+  ['format_25',['Format',['../namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1',1,'Minty']]],
+  ['format_2ecpp_26',['Format.cpp',['../_format_8cpp.html',1,'']]],
+  ['format_2eh_27',['Format.h',['../_core_2_format_8h.html',1,'(Global Namespace)'],['../_render_2_format_8h.html',1,'(Global Namespace)']]],
+  ['forward_28',['forward',['../namespace_minty_1_1_math.html#a7cafebde48a9eeacc26faa690b8d6e06',1,'Minty::Math']]],
+  ['framework_2eh_29',['framework.h',['../framework_8h.html',1,'']]],
+  ['from_5feuler_30',['from_euler',['../namespace_minty_1_1_math.html#ae4d716b033044e1ca5b4a0796f44d912',1,'Minty::Math::from_euler(Float3 const &amp;value)'],['../namespace_minty_1_1_math.html#a56fb321dac387a570a6a562fa9a93f1d',1,'Minty::Math::from_euler(Float const x, Float const y, Float const z)']]],
+  ['front_31',['front',['../class_minty_1_1_array.html#a5d3c0f5c5d1a68c09a8cc5cd0a7445f5',1,'Minty::Array::front()'],['../class_minty_1_1_array.html#a3b31bb9a20494bd250d22cfe167e665b',1,'Minty::Array::front() const'],['../class_minty_1_1_list.html#add57ffedf65c0d3ebede3afa0e05832b',1,'Minty::List::front()'],['../class_minty_1_1_list.html#adda4374412bbdc1005673e07c5f8ec65',1,'Minty::List::front() const'],['../class_minty_1_1_string.html#ae386dcb5ceda657d43f04a38c72a4ed9',1,'Minty::String::front()'],['../class_minty_1_1_vector.html#a9306e7f1d2638a6cae6687220479a375',1,'Minty::Vector::front()'],['../class_minty_1_1_vector.html#ad04b7613d8ab2e5d95aba84cdf529762',1,'Minty::Vector::front() const']]]
 ];

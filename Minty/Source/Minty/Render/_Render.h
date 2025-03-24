@@ -2,6 +2,7 @@
 
 #include "BufferUsage.h"
 #include "Filter.h"
+#include "Format.h"
 #include "ImageAddressMode.h"
 #include "ImageAspect.h"
 #include "ImageLayout.h"

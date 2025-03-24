@@ -5,6 +5,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "BufferUsage.h", "_buffer_usage_8h.html", "_buffer_usage_8h" ],
     [ "Filter.cpp", "_filter_8cpp.html", null ],
     [ "Filter.h", "_filter_8h.html", "_filter_8h" ],
+    [ "Format.cpp", "_format_8cpp.html", null ],
+    [ "Format.h", "_render_2_format_8h.html", "_render_2_format_8h" ],
     [ "ImageAddressMode.cpp", "_image_address_mode_8cpp.html", null ],
     [ "ImageAddressMode.h", "_image_address_mode_8h.html", "_image_address_mode_8h" ],
     [ "ImageAspect.cpp", "_image_aspect_8cpp.html", null ],

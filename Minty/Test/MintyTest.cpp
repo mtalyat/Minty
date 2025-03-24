@@ -49,6 +49,7 @@
 // Render
 #include "Test_BufferUsage.h"
 #include "Test_Filter.h"
+#include "Test_Format.h"
 #include "Test_ImageAddressMode.h"
 #include "Test_ImageAspect.h"
 #include "Test_ImageLayout.h"
@@ -138,6 +139,7 @@ static void run_tests()
 	// Render
 	test_BufferUsage(_test);
 	test_Filter(_test);
+	test_Format(_test);
 	test_ImageAddressMode(_test);
 	test_ImageAspect(_test);
 	test_ImageLayout(_test);
