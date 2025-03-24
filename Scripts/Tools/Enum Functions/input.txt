@@ -1,7 +1,7 @@
 	/// <summary>
-	/// Determines how the polygons are being drawn.
+	/// Determines what data is being inputted to the shader.
 	/// </summary>
-	enum class ShaderPolygonMode
+	enum class ShaderInputRate
 	{
 		/// <summary>
 		/// Invalid.
@@ -9,17 +9,12 @@
 		Undefined = 0,
 
 		/// <summary>
-		/// Fill the polygon.
+		/// The shader is using vertex data.
 		/// </summary>
-		Fill = 1,
+		Vertex = 1,
 
 		/// <summary>
-		/// Draw the outlines of the polygon.
+		/// The shader is using instance data.
 		/// </summary>
-		Line = 2,
-
-		/// <summary>
-		/// Draw the points of the polygon.
-		/// </summary>
-		Point = 3,
+		Instance = 2
 	};

@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"_virtual_file_8cpp.html":[2,0,0,0,6,5],
+"_virtual_file_8h.html":[2,0,0,0,6,6],
+"_virtual_file_8h_source.html":[2,0,0,0,6,6],
 "_vulkan_8h.html":[2,0,0,0,8,2],
 "_vulkan_8h_source.html":[2,0,0,0,8,2],
 "_wrap_8cpp.html":[2,0,0,0,13,1],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "class_minty_1_1_asset_manager.html#a337a912005fa54b658a63fae1922678e":[1,0,0,4,30],
 "class_minty_1_1_asset_manager.html#a382b27a30ff1d48d1325f7304e78e50a":[0,0,0,5,24],
 "class_minty_1_1_asset_manager.html#a382b27a30ff1d48d1325f7304e78e50a":[1,0,0,4,24],
-"class_minty_1_1_asset_manager.html#a3f978db2a013d0c4db10814fd3799aff":[0,0,0,5,7],
-"class_minty_1_1_asset_manager.html#a3f978db2a013d0c4db10814fd3799aff":[1,0,0,4,7],
-"class_minty_1_1_asset_manager.html#a4a48bfbd5023c611ae42468ed859de89":[0,0,0,5,15],
-"class_minty_1_1_asset_manager.html#a4a48bfbd5023c611ae42468ed859de89":[1,0,0,4,15]
+"class_minty_1_1_asset_manager.html#a3f978db2a013d0c4db10814fd3799aff":[0,0,0,5,7]
 };

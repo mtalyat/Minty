@@ -245,6 +245,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ImageUsage.h" />
     <ClInclude Include="Minty\Render\ShaderCullMode.h" />
     <ClInclude Include="Minty\Render\ShaderFrontFace.h" />
+    <ClInclude Include="Minty\Render\ShaderInputRate.h" />
     <ClInclude Include="Minty\Render\ShaderInputType.h" />
     <ClInclude Include="Minty\Render\ShaderPolygonMode.h" />
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
@@ -310,6 +311,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ImageUsage.cpp" />
     <ClCompile Include="Minty\Render\ShaderCullMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderFrontFace.cpp" />
+    <ClCompile Include="Minty\Render\ShaderInputRate.cpp" />
     <ClCompile Include="Minty\Render\ShaderInputType.cpp" />
     <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />

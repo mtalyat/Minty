@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ShaderPolygonMode const obj);
-    ShaderPolygonMode parse_to_shader_polygon_mode(String const& string);
-    Bool parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value);
+String to_string(ShaderInputRate const obj);
+    ShaderInputRate parse_to_shader_input_rate(String const& string);
+    Bool parse_try_shader_input_rate(String const& string, ShaderInputRate& value);
     template<>
-    inline ShaderPolygonMode parse_to<ShaderPolygonMode>(String const& string) { return parse_to_shader_polygon_mode(string); }
+    inline ShaderInputRate parse_to<ShaderInputRate>(String const& string) { return parse_to_shader_input_rate(string); }
     template<>
-    inline Bool parse_try<ShaderPolygonMode>(String const& string, ShaderPolygonMode& value) { return parse_try_shader_polygon_mode(string, value); }
+    inline Bool parse_try<ShaderInputRate>(String const& string, ShaderInputRate& value) { return parse_try_shader_input_rate(string, value); }
 
 ====================
 	Source:
@@ -16,31 +16,29 @@ String to_string(ShaderPolygonMode const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ShaderPolygonMode const obj)
+String Minty::to_string(ShaderInputRate const obj)
 {
     switch (obj)
 	{
-		case ShaderPolygonMode::Fill: return "Fill";
-		case ShaderPolygonMode::Line: return "Line";
-		case ShaderPolygonMode::Point: return "Point";
+		case ShaderInputRate::Vertex: return "Vertex";
+		case ShaderInputRate::Instance: return "Instance";
 
 		default: return "";
 	}
 }
 
-ShaderPolygonMode Minty::parse_to_shader_polygon_mode(String const& string)
+ShaderInputRate Minty::parse_to_shader_input_rate(String const& string)
 {
-	if (string == "Fill") return ShaderPolygonMode::Fill;
-	if (string == "Line") return ShaderPolygonMode::Line;
-	if (string == "Point") return ShaderPolygonMode::Point;
+	if (string == "Vertex") return ShaderInputRate::Vertex;
+	if (string == "Instance") return ShaderInputRate::Instance;
 
-	return ShaderPolygonMode();
+	return ShaderInputRate();
 }
 
-Bool Minty::parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value)
+Bool Minty::parse_try_shader_input_rate(String const& string, ShaderInputRate& value)
 {
-	value = parse_to_shader_polygon_mode(string);
-	return value != ShaderPolygonMode();
+	value = parse_to_shader_input_rate(string);
+	return value != ShaderInputRate();
 }
 
 ====================
@@ -51,23 +49,22 @@ Bool Minty::parse_try_shader_polygon_mode(String const& string, ShaderPolygonMod
 
 #include "Test.h"
 
-void test_ShaderPolygonMode(Test& _test);
+void test_ShaderInputRate(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ShaderPolygonMode.h"
+#include "Test_ShaderInputRate.h"
 #include "Minty.h"
 
-void test_ShaderPolygonMode(Test& _test)
+void test_ShaderInputRate(Test& _test)
 {
-	CATEGORY(ShaderPolygonMode)
+	CATEGORY(ShaderInputRate)
 	{
-        std::vector<std::pair<ShaderPolygonMode, String>> VALUES = {
-			{ShaderPolygonMode::Fill, "Fill"},
-			{ShaderPolygonMode::Line, "Line"},
-			{ShaderPolygonMode::Point, "Point"},
+        std::vector<std::pair<ShaderInputRate, String>> VALUES = {
+			{ShaderInputRate::Vertex, "Vertex"},
+			{ShaderInputRate::Instance, "Instance"},
         };
     
         TEST("To String")
@@ -82,23 +79,23 @@ void test_ShaderPolygonMode(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_shader_polygon_mode(name), value);
+                EXPECT_EQUAL(parse_to_shader_input_rate(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_shader_polygon_mode(""), ShaderPolygonMode());
+            EXPECT_EQUAL(parse_to_shader_input_rate(""), ShaderInputRate());
         }
 
         TEST("Parse Try")
         {
-            ShaderPolygonMode result;
+            ShaderInputRate result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_shader_polygon_mode(name, result));
+                EXPECT_TRUE(parse_try_shader_input_rate(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_shader_polygon_mode("", result));
-            EXPECT_EQUAL(result, ShaderPolygonMode());
+            EXPECT_FALSE(parse_try_shader_input_rate("", result));
+            EXPECT_EQUAL(result, ShaderInputRate());
         }
 	}
 }
