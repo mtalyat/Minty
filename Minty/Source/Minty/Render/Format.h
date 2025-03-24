@@ -133,7 +133,9 @@ namespace Minty
         R64G64B64_SFLOAT = 118,
         R64G64B64A64_UINT = 119,
         R64G64B64A64_SINT = 120,
-        R64G64B64A64_SFLOAT = 121
+        R64G64B64A64_SFLOAT = 121,
+
+        Default = R8G8B8A8_SRGB
     };
 
     String to_string(Format const obj);
