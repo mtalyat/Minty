@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ShaderPrimitiveTopology const obj);
-    ShaderPrimitiveTopology parse_to_shader_primitive_topology(String const& string);
-    Bool parse_try_shader_primitive_topology(String const& string, ShaderPrimitiveTopology& value);
+String to_string(ShaderCullMode const obj);
+    ShaderCullMode parse_to_shader_cull_mode(String const& string);
+    Bool parse_try_shader_cull_mode(String const& string, ShaderCullMode& value);
     template<>
-    inline ShaderPrimitiveTopology parse_to<ShaderPrimitiveTopology>(String const& string) { return parse_to_shader_primitive_topology(string); }
+    inline ShaderCullMode parse_to<ShaderCullMode>(String const& string) { return parse_to_shader_cull_mode(string); }
     template<>
-    inline Bool parse_try<ShaderPrimitiveTopology>(String const& string, ShaderPrimitiveTopology& value) { return parse_try_shader_primitive_topology(string, value); }
+    inline Bool parse_try<ShaderCullMode>(String const& string, ShaderCullMode& value) { return parse_try_shader_cull_mode(string, value); }
 
 ====================
 	Source:
@@ -16,37 +16,33 @@ String to_string(ShaderPrimitiveTopology const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ShaderPrimitiveTopology const obj)
+String Minty::to_string(ShaderCullMode const obj)
 {
     switch (obj)
 	{
-		case ShaderPrimitiveTopology::PointList: return "PointList";
-		case ShaderPrimitiveTopology::LineList: return "LineList";
-		case ShaderPrimitiveTopology::LineStrip: return "LineStrip";
-		case ShaderPrimitiveTopology::TriangleList: return "TriangleList";
-		case ShaderPrimitiveTopology::TriangleStrip: return "TriangleStrip";
-		case ShaderPrimitiveTopology::TriangleFan: return "TriangleFan";
+		case ShaderCullMode::None: return "None";
+		case ShaderCullMode::Front: return "Front";
+		case ShaderCullMode::Back: return "Back";
+		case ShaderCullMode::Both: return "Both";
 
 		default: return "";
 	}
 }
 
-ShaderPrimitiveTopology Minty::parse_to_shader_primitive_topology(String const& string)
+ShaderCullMode Minty::parse_to_shader_cull_mode(String const& string)
 {
-	if (string == "PointList") return ShaderPrimitiveTopology::PointList;
-	if (string == "LineList") return ShaderPrimitiveTopology::LineList;
-	if (string == "LineStrip") return ShaderPrimitiveTopology::LineStrip;
-	if (string == "TriangleList") return ShaderPrimitiveTopology::TriangleList;
-	if (string == "TriangleStrip") return ShaderPrimitiveTopology::TriangleStrip;
-	if (string == "TriangleFan") return ShaderPrimitiveTopology::TriangleFan;
+	if (string == "None") return ShaderCullMode::None;
+	if (string == "Front") return ShaderCullMode::Front;
+	if (string == "Back") return ShaderCullMode::Back;
+	if (string == "Both") return ShaderCullMode::Both;
 
-	return ShaderPrimitiveTopology();
+	return ShaderCullMode();
 }
 
-Bool Minty::parse_try_shader_primitive_topology(String const& string, ShaderPrimitiveTopology& value)
+Bool Minty::parse_try_shader_cull_mode(String const& string, ShaderCullMode& value)
 {
-	value = parse_to_shader_primitive_topology(string);
-	return value != ShaderPrimitiveTopology();
+	value = parse_to_shader_cull_mode(string);
+	return value != ShaderCullMode();
 }
 
 ====================
@@ -57,26 +53,24 @@ Bool Minty::parse_try_shader_primitive_topology(String const& string, ShaderPrim
 
 #include "Test.h"
 
-void test_ShaderPrimitiveTopology(Test& _test);
+void test_ShaderCullMode(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ShaderPrimitiveTopology.h"
+#include "Test_ShaderCullMode.h"
 #include "Minty.h"
 
-void test_ShaderPrimitiveTopology(Test& _test)
+void test_ShaderCullMode(Test& _test)
 {
-	CATEGORY(ShaderPrimitiveTopology)
+	CATEGORY(ShaderCullMode)
 	{
-        std::vector<std::pair<ShaderPrimitiveTopology, String>> VALUES = {
-			{ShaderPrimitiveTopology::PointList, "PointList"},
-			{ShaderPrimitiveTopology::LineList, "LineList"},
-			{ShaderPrimitiveTopology::LineStrip, "LineStrip"},
-			{ShaderPrimitiveTopology::TriangleList, "TriangleList"},
-			{ShaderPrimitiveTopology::TriangleStrip, "TriangleStrip"},
-			{ShaderPrimitiveTopology::TriangleFan, "TriangleFan"},
+        std::vector<std::pair<ShaderCullMode, String>> VALUES = {
+			{ShaderCullMode::None, "None"},
+			{ShaderCullMode::Front, "Front"},
+			{ShaderCullMode::Back, "Back"},
+			{ShaderCullMode::Both, "Both"},
         };
     
         TEST("To String")
@@ -91,23 +85,23 @@ void test_ShaderPrimitiveTopology(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_shader_primitive_topology(name), value);
+                EXPECT_EQUAL(parse_to_shader_cull_mode(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_shader_primitive_topology(""), ShaderPrimitiveTopology());
+            EXPECT_EQUAL(parse_to_shader_cull_mode(""), ShaderCullMode());
         }
 
         TEST("Parse Try")
         {
-            ShaderPrimitiveTopology result;
+            ShaderCullMode result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_shader_primitive_topology(name, result));
+                EXPECT_TRUE(parse_try_shader_cull_mode(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_shader_primitive_topology("", result));
-            EXPECT_EQUAL(result, ShaderPrimitiveTopology());
+            EXPECT_FALSE(parse_try_shader_cull_mode("", result));
+            EXPECT_EQUAL(result, ShaderCullMode());
         }
 	}
 }

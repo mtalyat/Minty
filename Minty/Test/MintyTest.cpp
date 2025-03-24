@@ -57,6 +57,7 @@
 #include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
 #include "Test_ImageUsage.h"
+#include "Test_ShaderCullMode.h"
 #include "Test_ShaderInputType.h"
 #include "Test_ShaderPrimitiveTopology.h"
 #include "Test_ShaderStage.h"
@@ -150,6 +151,7 @@ static void run_tests()
 	test_ImageTiling(_test);
 	test_ImageType(_test);
 	test_ImageUsage(_test);
+	test_ShaderCullMode(_test);
 	test_ShaderInputType(_test);
 	test_ShaderPrimitiveTopology(_test);
 	test_ShaderStage(_test);

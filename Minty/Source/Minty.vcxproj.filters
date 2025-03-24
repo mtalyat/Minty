@@ -327,6 +327,9 @@
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderCullMode.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -480,6 +483,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\ShaderCullMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

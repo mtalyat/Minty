@@ -405,6 +405,13 @@ var namespace_minty =
       [ "Color", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24acb5feb1b7314637725a2e73bdc9f7295", null ],
       [ "DepthStencil", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a2fa8076285272883c91e14402975a441", null ]
     ] ],
+    [ "ShaderCullMode", "namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064", [
+      [ "Undefined", "namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064aec0fc0100c4fc1ce4eea230c3dc10360", null ],
+      [ "None", "namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a6adf97f83acf6453d4a6a4b1070f3754", null ],
+      [ "Front", "namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a5835bab1ade0060909e31a06af2e2cde", null ],
+      [ "Back", "namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a0557fa923dcee4d0f86b1409f5c2167f", null ],
+      [ "Both", "namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a130c5b3473c57faa76e2a1c54e26f88e", null ]
+    ] ],
     [ "ShaderInputType", "namespace_minty.html#ac04533e8be7dc7cbb8d8a4f17a0440f4", [
       [ "Undefined", "namespace_minty.html#ac04533e8be7dc7cbb8d8a4f17a0440f4aec0fc0100c4fc1ce4eea230c3dc10360", null ],
       [ "Sample", "namespace_minty.html#ac04533e8be7dc7cbb8d8a4f17a0440f4ac5dd1b2697720fe692c529688d3f4f8d", null ],
@@ -508,6 +515,7 @@ var namespace_minty =
     [ "parse_to< Int3 >", "namespace_minty.html#a39235aa49a89d443c24640eb892c8ce6", null ],
     [ "parse_to< Int4 >", "namespace_minty.html#af0c9f226c1fbfb2b3daeb40e34347336", null ],
     [ "parse_to< Long >", "namespace_minty.html#aabf8ad2be61ccae6986e67e9e06a0d55", null ],
+    [ "parse_to< ShaderCullMode >", "namespace_minty.html#a74bef8dff6c783f8f67bd02fcbb4fa96", null ],
     [ "parse_to< ShaderInputType >", "namespace_minty.html#ac5af6061d0077846078446e144cb4e10", null ],
     [ "parse_to< ShaderPrimitiveTopology >", "namespace_minty.html#ac84a76aa779679faad2a3df6994574ed", null ],
     [ "parse_to< ShaderStage >", "namespace_minty.html#a4248d6d68f16df6159531a549cda9453", null ],
@@ -530,6 +538,7 @@ var namespace_minty =
     [ "parse_to_image_tiling", "namespace_minty.html#a70a8449c85d7c20e6a88dcb048ed7f11", null ],
     [ "parse_to_image_type", "namespace_minty.html#a6e49e49c5ee41e2916e7f8788fbced08", null ],
     [ "parse_to_image_usage", "namespace_minty.html#a52f59c399adae5c473712b6f717793fc", null ],
+    [ "parse_to_shader_cull_mode", "namespace_minty.html#a34e296dbb57a988d011a4c2dc88f8224", null ],
     [ "parse_to_shader_input_type", "namespace_minty.html#a419b071f9fd18bfb243b044f3bab3a4e", null ],
     [ "parse_to_shader_primitive_topology", "namespace_minty.html#a726ee0b0e73d174e57ea50041a3735c5", null ],
     [ "parse_to_shader_stage", "namespace_minty.html#a5f8a0763485a5837a83de348fe895b86", null ],
@@ -562,6 +571,7 @@ var namespace_minty =
     [ "parse_try< Int3 >", "namespace_minty.html#abcec366c620d3094a727107f779dffbd", null ],
     [ "parse_try< Int4 >", "namespace_minty.html#afd3acc3b5e4a341d82ae48d449a325da", null ],
     [ "parse_try< Long >", "namespace_minty.html#a2d9bc218ba2e3c08ad542005aa6010ee", null ],
+    [ "parse_try< ShaderCullMode >", "namespace_minty.html#a8908aa330d30a5f2588f51e6a6993d7b", null ],
     [ "parse_try< ShaderInputType >", "namespace_minty.html#a828400ff1d6cef857383603ac0413f48", null ],
     [ "parse_try< ShaderPrimitiveTopology >", "namespace_minty.html#a809e19e3ec49fcad5afe8dd7721e79a3", null ],
     [ "parse_try< ShaderStage >", "namespace_minty.html#a8b7d376ad81d25b3200de7ddec80c575", null ],
@@ -584,6 +594,7 @@ var namespace_minty =
     [ "parse_try_image_tiling", "namespace_minty.html#ae6548f991646e94249d77794059b6e14", null ],
     [ "parse_try_image_type", "namespace_minty.html#a0d4cc02707a7e4cc2ec8f985a9165277", null ],
     [ "parse_try_image_usage", "namespace_minty.html#a47941396bfcc82428e1c0a92f97b5f24", null ],
+    [ "parse_try_shader_cull_mode", "namespace_minty.html#af2ecb97bc62361c19fbd10fed1d33707", null ],
     [ "parse_try_shader_input_type", "namespace_minty.html#a29426296988bf9567889b306ddf18285", null ],
     [ "parse_try_shader_primitive_topology", "namespace_minty.html#a435a9e88e071840a8f8b2dbc1a740182", null ],
     [ "parse_try_shader_stage", "namespace_minty.html#a983037cac6250b06a5b31e62e326c009", null ],
@@ -634,6 +645,7 @@ var namespace_minty =
     [ "to_string", "namespace_minty.html#a8ef2aaa111ae230e643702735b4914bb", null ],
     [ "to_string", "namespace_minty.html#a3c6d2ad6f69ab7441bf01c0b53d68a8a", null ],
     [ "to_string", "namespace_minty.html#a6aa1a39d268cb49b4aeb8a50366399c4", null ],
+    [ "to_string", "namespace_minty.html#aa96d6f9ae0d37b6884db4934b99ef753", null ],
     [ "to_string", "namespace_minty.html#a1a6e594af1f248ce1b99ee5e4f88f371", null ],
     [ "to_string", "namespace_minty.html#ad2399d0c96f5035b38c7b85140c7845e", null ],
     [ "to_string", "namespace_minty.html#a27ade396952aa27eebd8bde7bd980e8c", null ],

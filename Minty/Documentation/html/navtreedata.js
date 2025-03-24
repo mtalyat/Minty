@@ -61,22 +61,22 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"_writer_8h.html",
-"class_minty_1_1_asset_manager.html#a64f32cdfb26fd1db1c011c790c35bd90",
-"class_minty_1_1_file.html#a8ab7a917f24652edbc70655d23e0753f",
-"class_minty_1_1_list_1_1_const_reverse_iterator.html#a29aceb8829cab9cd7381effd5f2f99ac",
-"class_minty_1_1_memory_pool.html",
-"class_minty_1_1_path.html#a053cc54f2f3da4ad5c81b177bfde562e",
-"class_minty_1_1_reader.html#a603b0da9e657f0b428ae8e4106092fa2",
-"class_minty_1_1_ref.html#a46ea93272f951cfde83a661836fd03c2",
-"class_minty_1_1_string.html#a3e087fbc95bc1dca9431e6f46fffe244",
-"class_minty_1_1_time.html#a983311e010c679483a51f0de56e493d8",
-"class_minty_1_1_vector_1_1_iterator.html#a5ccf3efd5714069b33903be4929b3000",
-"class_minty_1_1_writer.html#a663bda813589416d545fd11b03740c49",
-"functions_func_d.html",
-"namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdabb0157417bfa7edf8606c39ca7a0a503",
-"namespace_minty.html#ab3a9e26030637f0087c09767ee6fed34",
-"struct_minty_1_1_color.html#a23b456cad7922194dde053986daf1462"
+"_wrapper_8h.html",
+"class_minty_1_1_asset_manager.html#a5f96484f2402b5ebec31969c4583520f",
+"class_minty_1_1_file.html#a8a480358d2a4d2254908ef88d19d38a3",
+"class_minty_1_1_list_1_1_const_reverse_iterator.html#a29accdc6d3180990fc8149ee8bf1efdc",
+"class_minty_1_1_memory_manager.html#adde8344d34feb20114c50293233d0567",
+"class_minty_1_1_path.html",
+"class_minty_1_1_reader.html#a5c36ed2dd3a0bba090732671a91c4c35",
+"class_minty_1_1_ref.html#a43204ab54ac191661a4eee0c82c931fa",
+"class_minty_1_1_string.html#a3c03127cc4c4d8c21e14bcd202ca3cfd",
+"class_minty_1_1_time.html#a7fa6422b452bc6266471fa293ffd9ec8",
+"class_minty_1_1_vector_1_1_iterator.html#a420ce5de1e7d140fb889d76001a71b45",
+"class_minty_1_1_writer.html#a62ad9a73d016f1d5382162ed68debc82",
+"functions_func.html",
+"namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda8394f0347c184cf156ac5924dccb773b",
+"namespace_minty.html#aa8f6c45c3b6d7406358a0352ab4a0e8e",
+"struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
