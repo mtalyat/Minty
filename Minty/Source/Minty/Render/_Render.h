@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BufferUsage.h"
+#include "CoordinateMode.h"
 #include "Filter.h"
 #include "Format.h"
 #include "ImageAddressMode.h"

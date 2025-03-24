@@ -234,6 +234,9 @@
     <ClCompile Include="Test_ShaderInputRate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_CoordinateMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -414,6 +417,9 @@
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderInputRate.h">
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CoordinateMode.h">
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 # Results
-5319/5319 (100.00%)
+5367/5367 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -55,6 +55,7 @@
 | MemoryPool                     |       31 |        0 |
 | MemoryStack                    |       27 |        0 |
 | BufferUsage                    |       19 |        0 |
+| CoordinateMode                 |       11 |        0 |
 | Filter                         |       11 |        0 |
 | Format                         |      487 |        0 |
 | ImageAddressMode               |       23 |        0 |
@@ -65,7 +66,10 @@
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
 | ShaderCullMode                 |       19 |        0 |
+| ShaderFrontFace                |       11 |        0 |
+| ShaderInputRate                |       11 |        0 |
 | ShaderInputType                |       43 |        0 |
+| ShaderPolygonMode              |       15 |        0 |
 | ShaderPrimitiveTopology        |       27 |        0 |
 | ShaderStage                    |       11 |        0 |
 | Node                           |       93 |        0 |
@@ -4423,6 +4427,21 @@ No failures! :)
 |  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
 |  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
 
+## CoordinateMode
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 27: Parse To (parse_to_coordinate_mode(name) == value)                                                                           |
+|  PASS  | 27: Parse To (parse_to_coordinate_mode(name) == value)                                                                           |
+|  PASS  | 30: Parse To (parse_to_coordinate_mode("") == CoordinateMode())                                                                  |
+|  PASS  | 38: Parse Try (parse_try_coordinate_mode(name, result) == true)                                                                  |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_coordinate_mode(name, result) == true)                                                                  |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_coordinate_mode("", result) == false)                                                                   |
+|  PASS  | 43: Parse Try (result == CoordinateMode())                                                                                       |
+
 ## Filter
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -5113,6 +5132,36 @@ No failures! :)
 |  PASS  | 42: Parse Try (parse_try_shader_cull_mode("", result) == false)                                                                  |
 |  PASS  | 43: Parse Try (result == ShaderCullMode())                                                                                       |
 
+## ShaderFrontFace
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_shader_front_face(name) == value)                                                                         |
+|  PASS  | 25: Parse To (parse_to_shader_front_face(name) == value)                                                                         |
+|  PASS  | 28: Parse To (parse_to_shader_front_face("") == ShaderFrontFace())                                                               |
+|  PASS  | 36: Parse Try (parse_try_shader_front_face(name, result) == true)                                                                |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_shader_front_face(name, result) == true)                                                                |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_front_face("", result) == false)                                                                 |
+|  PASS  | 41: Parse Try (result == ShaderFrontFace())                                                                                      |
+
+## ShaderInputRate
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_shader_input_rate(name) == value)                                                                         |
+|  PASS  | 25: Parse To (parse_to_shader_input_rate(name) == value)                                                                         |
+|  PASS  | 28: Parse To (parse_to_shader_input_rate("") == ShaderInputRate())                                                               |
+|  PASS  | 36: Parse Try (parse_try_shader_input_rate(name, result) == true)                                                                |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_shader_input_rate(name, result) == true)                                                                |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_input_rate("", result) == false)                                                                 |
+|  PASS  | 41: Parse Try (result == ShaderInputRate())                                                                                      |
+
 ## ShaderInputType
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -5159,6 +5208,25 @@ No failures! :)
 |  PASS  | 45: Parse Try (result == value)                                                                                                  |
 |  PASS  | 48: Parse Try (parse_try_shader_input_type("", result) == false)                                                                 |
 |  PASS  | 49: Parse Try (result == ShaderInputType())                                                                                      |
+
+## ShaderPolygonMode
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 26: Parse To (parse_to_shader_polygon_mode(name) == value)                                                                       |
+|  PASS  | 26: Parse To (parse_to_shader_polygon_mode(name) == value)                                                                       |
+|  PASS  | 26: Parse To (parse_to_shader_polygon_mode(name) == value)                                                                       |
+|  PASS  | 29: Parse To (parse_to_shader_polygon_mode("") == ShaderPolygonMode())                                                           |
+|  PASS  | 37: Parse Try (parse_try_shader_polygon_mode(name, result) == true)                                                              |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 37: Parse Try (parse_try_shader_polygon_mode(name, result) == true)                                                              |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 37: Parse Try (parse_try_shader_polygon_mode(name, result) == true)                                                              |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 41: Parse Try (parse_try_shader_polygon_mode("", result) == false)                                                               |
+|  PASS  | 42: Parse Try (result == ShaderPolygonMode())                                                                                    |
 
 ## ShaderPrimitiveTopology
 | Result | Message                                                                                                                          |

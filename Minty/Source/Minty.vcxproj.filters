@@ -339,6 +339,9 @@
     <ClInclude Include="Minty\Render\ShaderInputRate.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\CoordinateMode.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -504,6 +507,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\ShaderInputRate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\CoordinateMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test_CoordinateMode.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
     <ClCompile Include="Test_ImageAddressMode.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="Test_Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Test_CoordinateMode.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
     <ClInclude Include="Test_ImageAddressMode.h" />

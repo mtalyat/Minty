@@ -3,6 +3,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "_Render.h", "___render_8h.html", null ],
     [ "BufferUsage.cpp", "_buffer_usage_8cpp.html", null ],
     [ "BufferUsage.h", "_buffer_usage_8h.html", "_buffer_usage_8h" ],
+    [ "CoordinateMode.cpp", "_coordinate_mode_8cpp.html", null ],
+    [ "CoordinateMode.h", "_coordinate_mode_8h.html", "_coordinate_mode_8h" ],
     [ "Filter.cpp", "_filter_8cpp.html", null ],
     [ "Filter.h", "_filter_8h.html", "_filter_8h" ],
     [ "Format.cpp", "_format_8cpp.html", null ],

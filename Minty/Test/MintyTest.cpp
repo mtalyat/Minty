@@ -48,6 +48,7 @@
 
 // Render
 #include "Test_BufferUsage.h"
+#include "Test_CoordinateMode.h"
 #include "Test_Filter.h"
 #include "Test_Format.h"
 #include "Test_ImageAddressMode.h"
@@ -145,6 +146,7 @@ static void run_tests()
 
 	// Render
 	test_BufferUsage(_test);
+	test_CoordinateMode(_test);
 	test_Filter(_test);
 	test_Format(_test);
 	test_ImageAddressMode(_test);

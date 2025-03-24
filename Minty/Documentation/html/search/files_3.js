@@ -9,5 +9,7 @@ var searchData=
   ['container_2ecpp_6',['Container.cpp',['../_container_8cpp.html',1,'']]],
   ['container_2eh_7',['Container.h',['../_container_8h.html',1,'']]],
   ['context_2ecpp_8',['Context.cpp',['../_context_8cpp.html',1,'']]],
-  ['context_2eh_9',['Context.h',['../_context_8h.html',1,'']]]
+  ['context_2eh_9',['Context.h',['../_context_8h.html',1,'']]],
+  ['coordinatemode_2ecpp_10',['CoordinateMode.cpp',['../_coordinate_mode_8cpp.html',1,'']]],
+  ['coordinatemode_2eh_11',['CoordinateMode.h',['../_coordinate_mode_8h.html',1,'']]]
 ];
