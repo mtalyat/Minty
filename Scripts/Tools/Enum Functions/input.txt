@@ -1,7 +1,7 @@
 /// <summary>
-/// Determines how the image data is laid out in memory.
+/// Determines how the image data is filtered.
 /// </summary>
-enum class ImageLayout
+enum class Filter
 {
 	/// <summary>
 	/// Invalid.
@@ -9,42 +9,12 @@ enum class ImageLayout
 	Undefined = 0,
 
 	/// <summary>
-	/// Generic layout.
+	/// Use the nearest pixel.
 	/// </summary>
-	General = 1,
+	Nearest = 1,
 
 	/// <summary>
-	/// Color attachment.
+	/// Linearly interpolate between pixels.
 	/// </summary>
-	ColorAttachmentOptimal = 2,
-
-	/// <summary>
-	/// Depth stencil attachment.
-	/// </summary>
-	DepthStencilAttachmentOptimal = 3,
-
-	/// <summary>
-	/// Depth stencil read only.
-	/// </summary>
-	DepthStencilReadOnlyOptimal = 4,
-
-	/// <summary>
-	/// Shader read only.
-	/// </summary>
-	ShaderReadOnlyOptimal = 5,
-
-	/// <summary>
-	/// Transfer source location.
-	/// </summary>
-	TransferSourceOptimal = 6,
-
-	/// <summary>
-	/// Transfer destination location.
-	/// </summary>
-	TransferDestinationOptimal = 7,
-
-	/// <summary>
-	/// Pre-initialized.
-	/// </summary>
-	Preinitialized = 8,
+	Linear = 2,
 };

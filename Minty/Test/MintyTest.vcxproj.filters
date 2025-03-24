@@ -207,6 +207,9 @@
     <ClCompile Include="Test_ImageLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Filter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -360,6 +363,9 @@
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageLayout.h">
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Filter.h">
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
   </ItemGroup>

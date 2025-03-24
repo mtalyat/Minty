@@ -1,5 +1,17 @@
 var NAVTREEINDEX15 =
 {
+"namespace_minty_1_1_math.html#af35bc6dd5cb5bd861c7cb1b5585547f3":[0,0,0,0,49],
+"namespace_minty_1_1_math.html#af9d0bf08ffa09d02099ebe3424c7197c":[0,0,0,0,15],
+"namespace_minty_1_1_math.html#af9d591825023753bf15e9d2eb350e21c":[0,0,0,0,42],
+"namespace_minty_1_1_math.html#afc424f547c87ecd2164a8907c325e5ba":[0,0,0,0,32],
+"namespacemembers.html":[0,1,0],
+"namespacemembers.html":[0,1,0,0],
+"namespacemembers_b.html":[0,1,0,1],
+"namespacemembers_c.html":[0,1,0,2],
+"namespacemembers_d.html":[0,1,0,3],
+"namespacemembers_e.html":[0,1,0,4],
+"namespacemembers_enum.html":[0,1,4],
+"namespacemembers_f.html":[0,1,0,5],
 "namespacemembers_func.html":[0,1,1],
 "namespacemembers_func.html":[0,1,1,0],
 "namespacemembers_func_b.html":[0,1,1,1],

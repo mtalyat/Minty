@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ImageLayout const obj);
-    ImageLayout parse_to_image_layout(String const& string);
-    Bool parse_try_image_layout(String const& string, ImageLayout& value);
+String to_string(Filter const obj);
+    Filter parse_to_filter(String const& string);
+    Bool parse_try_filter(String const& string, Filter& value);
     template<>
-    inline ImageLayout parse_to<ImageLayout>(String const& string) { return parse_to_image_layout(string); }
+    inline Filter parse_to<Filter>(String const& string) { return parse_to_filter(string); }
     template<>
-    inline Bool parse_try<ImageLayout>(String const& string, ImageLayout& value) { return parse_try_image_layout(string, value); }
+    inline Bool parse_try<Filter>(String const& string, Filter& value) { return parse_try_filter(string, value); }
 
 ====================
 	Source:
@@ -16,41 +16,29 @@ String to_string(ImageLayout const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ImageLayout const obj)
+String Minty::to_string(Filter const obj)
 {
     switch (obj)
 	{
-		case ImageLayout::General: return "General";
-		case ImageLayout::ColorAttachmentOptimal: return "ColorAttachmentOptimal";
-		case ImageLayout::DepthStencilAttachmentOptimal: return "DepthStencilAttachmentOptimal";
-		case ImageLayout::DepthStencilReadOnlyOptimal: return "DepthStencilReadOnlyOptimal";
-		case ImageLayout::ShaderReadOnlyOptimal: return "ShaderReadOnlyOptimal";
-		case ImageLayout::TransferSourceOptimal: return "TransferSourceOptimal";
-		case ImageLayout::TransferDestinationOptimal: return "TransferDestinationOptimal";
-		case ImageLayout::Preinitialized: return "Preinitialized";
+		case Filter::Nearest: return "Nearest";
+		case Filter::Linear: return "Linear";
 
 		default: return "";
 	}
 }
 
-ImageLayout Minty::parse_to_image_layout(String const& string)
+Filter Minty::parse_to_filter(String const& string)
 {
-	if (string == "General") return ImageLayout::General;
-	if (string == "ColorAttachmentOptimal") return ImageLayout::ColorAttachmentOptimal;
-	if (string == "DepthStencilAttachmentOptimal") return ImageLayout::DepthStencilAttachmentOptimal;
-	if (string == "DepthStencilReadOnlyOptimal") return ImageLayout::DepthStencilReadOnlyOptimal;
-	if (string == "ShaderReadOnlyOptimal") return ImageLayout::ShaderReadOnlyOptimal;
-	if (string == "TransferSourceOptimal") return ImageLayout::TransferSourceOptimal;
-	if (string == "TransferDestinationOptimal") return ImageLayout::TransferDestinationOptimal;
-	if (string == "Preinitialized") return ImageLayout::Preinitialized;
+	if (string == "Nearest") return Filter::Nearest;
+	if (string == "Linear") return Filter::Linear;
 
-	return ImageLayout();
+	return Filter();
 }
 
-Bool Minty::parse_try_image_layout(String const& string, ImageLayout& value)
+Bool Minty::parse_try_filter(String const& string, Filter& value)
 {
-	value = parse_to_image_layout(string);
-	return value != ImageLayout();
+	value = parse_to_filter(string);
+	return value != Filter();
 }
 
 ====================
@@ -61,28 +49,22 @@ Bool Minty::parse_try_image_layout(String const& string, ImageLayout& value)
 
 #include "Test.h"
 
-void test_ImageLayout(Test& _test);
+void test_Filter(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ImageLayout.h"
+#include "Test_Filter.h"
 #include "Minty.h"
 
-void test_ImageLayout(Test& _test)
+void test_Filter(Test& _test)
 {
-	CATEGORY(ImageLayout)
+	CATEGORY(Filter)
 	{
-        std::vector<std::pair<ImageLayout, String>> VALUES = {
-			{ImageLayout::General, "General"},
-			{ImageLayout::ColorAttachmentOptimal, "ColorAttachmentOptimal"},
-			{ImageLayout::DepthStencilAttachmentOptimal, "DepthStencilAttachmentOptimal"},
-			{ImageLayout::DepthStencilReadOnlyOptimal, "DepthStencilReadOnlyOptimal"},
-			{ImageLayout::ShaderReadOnlyOptimal, "ShaderReadOnlyOptimal"},
-			{ImageLayout::TransferSourceOptimal, "TransferSourceOptimal"},
-			{ImageLayout::TransferDestinationOptimal, "TransferDestinationOptimal"},
-			{ImageLayout::Preinitialized, "Preinitialized"},
+        std::vector<std::pair<Filter, String>> VALUES = {
+			{Filter::Nearest, "Nearest"},
+			{Filter::Linear, "Linear"},
         };
     
         TEST("To String")
@@ -97,23 +79,23 @@ void test_ImageLayout(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_layout(name), value);
+                EXPECT_EQUAL(parse_to_filter(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_layout(""), ImageLayout());
+            EXPECT_EQUAL(parse_to_filter(""), Filter());
         }
 
         TEST("Parse Try")
         {
-            ImageLayout result;
+            Filter result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_layout(name, result));
+                EXPECT_TRUE(parse_try_filter(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_layout("", result));
-            EXPECT_EQUAL(result, ImageLayout());
+            EXPECT_FALSE(parse_try_filter("", result));
+            EXPECT_EQUAL(result, Filter());
         }
 	}
 }
