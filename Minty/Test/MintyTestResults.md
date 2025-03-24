@@ -1,5 +1,5 @@
 # Results
-5219/5219 (100.00%)
+5230/5230 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -64,6 +64,7 @@
 | ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
+| ShaderStage                    |       11 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
@@ -5085,6 +5086,21 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_image_usage("", result) == false)                                                                       |
 |  PASS  | 43: Parse Try (result == ImageUsage())                                                                                           |
+
+## ShaderStage
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_shader_stage(name) == value)                                                                              |
+|  PASS  | 25: Parse To (parse_to_shader_stage(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_shader_stage("") == ShaderStage())                                                                        |
+|  PASS  | 36: Parse Try (parse_try_shader_stage(name, result) == true)                                                                     |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_shader_stage(name, result) == true)                                                                     |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_stage("", result) == false)                                                                      |
+|  PASS  | 41: Parse Try (result == ShaderStage())                                                                                          |
 
 ## Node
 | Result | Message                                                                                                                          |
