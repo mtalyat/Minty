@@ -1,15 +1,40 @@
-enum class ShaderInputType
+/// <summary>
+/// Determines the type of primitive topology to use when rendering the vertex data.
+/// </summary>
+enum class ShaderPrimitiveTopology
 {
-	Undefined,
-	Sample,
-	CombinedImageSampler,
-	SampledImage,
-	StorageImage,
-	UniformTexelBuffer,
-	StorageTexelBuffer,
-	UniformBuffer,
-	StorageBuffer,
-	UniformBufferDynamic,
-	StorageBufferDynamic,
-	PushConstant, // push constant
+	/// <summary>
+	/// Invalid.
+	/// </summary>
+	Undefined = 0,
+
+	/// <summary>
+	/// The vertex data is a list of points.
+	/// </summary>
+	PointList = 1,
+
+	/// <summary>
+	/// The vertex data is a list of lines. Every 2 vertices is a line.
+	/// </summary>
+	LineList = 2,
+
+	/// <summary>
+	/// The vertex data is a line strip.
+	/// </summary>
+	LineStrip = 3,
+
+	/// <summary>
+	/// The vertex data is a list of triangles. Every 3 vertices is a triangle.
+	/// </summary>
+	TriangleList = 4,
+
+	/// <summary>
+	/// The vertex data is a triangle strip.
+	/// </summary>
+	TriangleStrip = 5,
+
+	/// <summary>
+	/// The vertex data is a triangle fan. The first vertex is the center and every 2 vertices is a triangle.
+	/// </summary>
+	TriangleFan = 6,
 };

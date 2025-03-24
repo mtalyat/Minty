@@ -1,5 +1,5 @@
 # Results
-5230/5230 (100.00%)
+5300/5300 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -64,6 +64,8 @@
 | ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
+| ShaderInputType                |       43 |        0 |
+| ShaderPrimitiveTopology        |       27 |        0 |
 | ShaderStage                    |       11 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
@@ -5086,6 +5088,84 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_image_usage("", result) == false)                                                                       |
 |  PASS  | 43: Parse Try (result == ImageUsage())                                                                                           |
+
+## ShaderInputType
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 33: Parse To (parse_to_shader_input_type(name) == value)                                                                         |
+|  PASS  | 36: Parse To (parse_to_shader_input_type("") == ShaderInputType())                                                               |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_input_type(name, result) == true)                                                                |
+|  PASS  | 45: Parse Try (result == value)                                                                                                  |
+|  PASS  | 48: Parse Try (parse_try_shader_input_type("", result) == false)                                                                 |
+|  PASS  | 49: Parse Try (result == ShaderInputType())                                                                                      |
+
+## ShaderPrimitiveTopology
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 21: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 21: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 21: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 21: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 21: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 21: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 29: Parse To (parse_to_shader_primitive_topology(name) == value)                                                                 |
+|  PASS  | 29: Parse To (parse_to_shader_primitive_topology(name) == value)                                                                 |
+|  PASS  | 29: Parse To (parse_to_shader_primitive_topology(name) == value)                                                                 |
+|  PASS  | 29: Parse To (parse_to_shader_primitive_topology(name) == value)                                                                 |
+|  PASS  | 29: Parse To (parse_to_shader_primitive_topology(name) == value)                                                                 |
+|  PASS  | 29: Parse To (parse_to_shader_primitive_topology(name) == value)                                                                 |
+|  PASS  | 32: Parse To (parse_to_shader_primitive_topology("") == ShaderPrimitiveTopology())                                               |
+|  PASS  | 40: Parse Try (parse_try_shader_primitive_topology(name, result) == true)                                                        |
+|  PASS  | 41: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_primitive_topology(name, result) == true)                                                        |
+|  PASS  | 41: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_primitive_topology(name, result) == true)                                                        |
+|  PASS  | 41: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_primitive_topology(name, result) == true)                                                        |
+|  PASS  | 41: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_primitive_topology(name, result) == true)                                                        |
+|  PASS  | 41: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_shader_primitive_topology(name, result) == true)                                                        |
+|  PASS  | 41: Parse Try (result == value)                                                                                                  |
+|  PASS  | 44: Parse Try (parse_try_shader_primitive_topology("", result) == false)                                                         |
+|  PASS  | 45: Parse Try (result == ShaderPrimitiveTopology())                                                                              |
 
 ## ShaderStage
 | Result | Message                                                                                                                          |

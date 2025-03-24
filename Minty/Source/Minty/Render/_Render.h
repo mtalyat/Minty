@@ -11,4 +11,5 @@
 #include "ImageType.h"
 #include "ImageUsage.h"
 #include "ShaderInputType.h"
+#include "ShaderPrimitiveTopology.h"
 #include "ShaderStage.h"

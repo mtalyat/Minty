@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ShaderInputType const obj);
-    ShaderInputType parse_to_shader_input_type(String const& string);
-    Bool parse_try_shader_input_type(String const& string, ShaderInputType& value);
+String to_string(ShaderPrimitiveTopology const obj);
+    ShaderPrimitiveTopology parse_to_shader_primitive_topology(String const& string);
+    Bool parse_try_shader_primitive_topology(String const& string, ShaderPrimitiveTopology& value);
     template<>
-    inline ShaderInputType parse_to<ShaderInputType>(String const& string) { return parse_to_shader_input_type(string); }
+    inline ShaderPrimitiveTopology parse_to<ShaderPrimitiveTopology>(String const& string) { return parse_to_shader_primitive_topology(string); }
     template<>
-    inline Bool parse_try<ShaderInputType>(String const& string, ShaderInputType& value) { return parse_try_shader_input_type(string, value); }
+    inline Bool parse_try<ShaderPrimitiveTopology>(String const& string, ShaderPrimitiveTopology& value) { return parse_try_shader_primitive_topology(string, value); }
 
 ====================
 	Source:
@@ -16,45 +16,37 @@ String to_string(ShaderInputType const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ShaderInputType const obj)
+String Minty::to_string(ShaderPrimitiveTopology const obj)
 {
     switch (obj)
 	{
-		case ShaderInputType::Sample: return "Sample";
-		case ShaderInputType::CombinedImageSampler: return "CombinedImageSampler";
-		case ShaderInputType::SampledImage: return "SampledImage";
-		case ShaderInputType::StorageImage: return "StorageImage";
-		case ShaderInputType::UniformTexelBuffer: return "UniformTexelBuffer";
-		case ShaderInputType::StorageTexelBuffer: return "StorageTexelBuffer";
-		case ShaderInputType::UniformBuffer: return "UniformBuffer";
-		case ShaderInputType::StorageBuffer: return "StorageBuffer";
-		case ShaderInputType::UniformBufferDynamic: return "UniformBufferDynamic";
-		case ShaderInputType::StorageBufferDynamic: return "StorageBufferDynamic";
+		case ShaderPrimitiveTopology::PointList: return "PointList";
+		case ShaderPrimitiveTopology::LineList: return "LineList";
+		case ShaderPrimitiveTopology::LineStrip: return "LineStrip";
+		case ShaderPrimitiveTopology::TriangleList: return "TriangleList";
+		case ShaderPrimitiveTopology::TriangleStrip: return "TriangleStrip";
+		case ShaderPrimitiveTopology::TriangleFan: return "TriangleFan";
 
 		default: return "";
 	}
 }
 
-ShaderInputType Minty::parse_to_shader_input_type(String const& string)
+ShaderPrimitiveTopology Minty::parse_to_shader_primitive_topology(String const& string)
 {
-	if (string == "Sample") return ShaderInputType::Sample;
-	if (string == "CombinedImageSampler") return ShaderInputType::CombinedImageSampler;
-	if (string == "SampledImage") return ShaderInputType::SampledImage;
-	if (string == "StorageImage") return ShaderInputType::StorageImage;
-	if (string == "UniformTexelBuffer") return ShaderInputType::UniformTexelBuffer;
-	if (string == "StorageTexelBuffer") return ShaderInputType::StorageTexelBuffer;
-	if (string == "UniformBuffer") return ShaderInputType::UniformBuffer;
-	if (string == "StorageBuffer") return ShaderInputType::StorageBuffer;
-	if (string == "UniformBufferDynamic") return ShaderInputType::UniformBufferDynamic;
-	if (string == "StorageBufferDynamic") return ShaderInputType::StorageBufferDynamic;
+	if (string == "PointList") return ShaderPrimitiveTopology::PointList;
+	if (string == "LineList") return ShaderPrimitiveTopology::LineList;
+	if (string == "LineStrip") return ShaderPrimitiveTopology::LineStrip;
+	if (string == "TriangleList") return ShaderPrimitiveTopology::TriangleList;
+	if (string == "TriangleStrip") return ShaderPrimitiveTopology::TriangleStrip;
+	if (string == "TriangleFan") return ShaderPrimitiveTopology::TriangleFan;
 
-	return ShaderInputType();
+	return ShaderPrimitiveTopology();
 }
 
-Bool Minty::parse_try_shader_input_type(String const& string, ShaderInputType& value)
+Bool Minty::parse_try_shader_primitive_topology(String const& string, ShaderPrimitiveTopology& value)
 {
-	value = parse_to_shader_input_type(string);
-	return value != ShaderInputType();
+	value = parse_to_shader_primitive_topology(string);
+	return value != ShaderPrimitiveTopology();
 }
 
 ====================
@@ -65,30 +57,26 @@ Bool Minty::parse_try_shader_input_type(String const& string, ShaderInputType& v
 
 #include "Test.h"
 
-void test_ShaderInputType(Test& _test);
+void test_ShaderPrimitiveTopology(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ShaderInputType.h"
+#include "Test_ShaderPrimitiveTopology.h"
 #include "Minty.h"
 
-void test_ShaderInputType(Test& _test)
+void test_ShaderPrimitiveTopology(Test& _test)
 {
-	CATEGORY(ShaderInputType)
+	CATEGORY(ShaderPrimitiveTopology)
 	{
-        std::vector<std::pair<ShaderInputType, String>> VALUES = {
-			{ShaderInputType::Sample, "Sample"},
-			{ShaderInputType::CombinedImageSampler, "CombinedImageSampler"},
-			{ShaderInputType::SampledImage, "SampledImage"},
-			{ShaderInputType::StorageImage, "StorageImage"},
-			{ShaderInputType::UniformTexelBuffer, "UniformTexelBuffer"},
-			{ShaderInputType::StorageTexelBuffer, "StorageTexelBuffer"},
-			{ShaderInputType::UniformBuffer, "UniformBuffer"},
-			{ShaderInputType::StorageBuffer, "StorageBuffer"},
-			{ShaderInputType::UniformBufferDynamic, "UniformBufferDynamic"},
-			{ShaderInputType::StorageBufferDynamic, "StorageBufferDynamic"},
+        std::vector<std::pair<ShaderPrimitiveTopology, String>> VALUES = {
+			{ShaderPrimitiveTopology::PointList, "PointList"},
+			{ShaderPrimitiveTopology::LineList, "LineList"},
+			{ShaderPrimitiveTopology::LineStrip, "LineStrip"},
+			{ShaderPrimitiveTopology::TriangleList, "TriangleList"},
+			{ShaderPrimitiveTopology::TriangleStrip, "TriangleStrip"},
+			{ShaderPrimitiveTopology::TriangleFan, "TriangleFan"},
         };
     
         TEST("To String")
@@ -103,23 +91,23 @@ void test_ShaderInputType(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_shader_input_type(name), value);
+                EXPECT_EQUAL(parse_to_shader_primitive_topology(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_shader_input_type(""), ShaderInputType());
+            EXPECT_EQUAL(parse_to_shader_primitive_topology(""), ShaderPrimitiveTopology());
         }
 
         TEST("Parse Try")
         {
-            ShaderInputType result;
+            ShaderPrimitiveTopology result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_shader_input_type(name, result));
+                EXPECT_TRUE(parse_try_shader_primitive_topology(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_shader_input_type("", result));
-            EXPECT_EQUAL(result, ShaderInputType());
+            EXPECT_FALSE(parse_try_shader_primitive_topology("", result));
+            EXPECT_EQUAL(result, ShaderPrimitiveTopology());
         }
 	}
 }
