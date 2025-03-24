@@ -1,27 +1,20 @@
-/// <summary>
-/// Determines how the Shader culls faces.
-/// </summary>
-enum class ShaderCullMode
-{
-	Undefined = 0,
+	/// <summary>
+	/// Determines which side of the polygon is the front.
+	/// </summary>
+	enum class ShaderFrontFace
+	{
+		/// <summary>
+		/// Invalid.
+		/// </summary>
+		Undefined = 0,
 
-	/// <summary>
-	/// There is no culling.
-	/// </summary>
-	None = 1,
+		/// <summary>
+		/// The front face is determined by the counter-clockwise winding order.
+		/// </summary>
+		CounterClockwise = 1,
 
-	/// <summary>
-	/// The front side of a face is culled.
-	/// </summary>
-	Front = 2,
-
-	/// <summary>
-	/// The back side of a face is culled.
-	/// </summary>
-	Back = 3,
-	
-	/// <summary>
-	/// Both sides of a face are culled.
-	/// </summary>
-	Both = 4,
-};
+		/// <summary>
+		/// The front face is determined by the clockwise winding order.
+		/// </summary>
+		Clockwise = 2,
+	};

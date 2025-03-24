@@ -11,6 +11,7 @@
 #include "ImageType.h"
 #include "ImageUsage.h"
 #include "ShaderCullMode.h"
+#include "ShaderFrontFace.h"
 #include "ShaderInputType.h"
 #include "ShaderPrimitiveTopology.h"
 #include "ShaderStage.h"

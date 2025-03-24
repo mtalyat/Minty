@@ -180,6 +180,7 @@
     <ClCompile Include="Test_Reader.cpp" />
     <ClCompile Include="Test_Set.cpp" />
     <ClCompile Include="Test_ShaderCullMode.cpp" />
+    <ClCompile Include="Test_ShaderFrontFace.cpp" />
     <ClCompile Include="Test_ShaderInputType.cpp" />
     <ClCompile Include="Test_ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Test_ShaderStage.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="Test_Reader.h" />
     <ClInclude Include="Test_Set.h" />
     <ClInclude Include="Test_ShaderCullMode.h" />
+    <ClInclude Include="Test_ShaderFrontFace.h" />
     <ClInclude Include="Test_ShaderInputType.h" />
     <ClInclude Include="Test_ShaderPrimitiveTopology.h" />
     <ClInclude Include="Test_ShaderStage.h" />
