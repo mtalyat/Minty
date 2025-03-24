@@ -122,7 +122,8 @@ var _render_2_format_8h =
       [ "Minty::Format::R64G64B64_SFLOAT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1abff7dac79192d1a5e7e89e659d7421ed", null ],
       [ "Minty::Format::R64G64B64A64_UINT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a22c3d1fb134c9d2083701c0c0188a083", null ],
       [ "Minty::Format::R64G64B64A64_SINT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a5b073ed5a9ab77824722e0661ca71e0c", null ],
-      [ "Minty::Format::R64G64B64A64_SFLOAT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a28ed7ca4ebcd9bbcaad4e39c5b2f8a70", null ]
+      [ "Minty::Format::R64G64B64A64_SFLOAT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a28ed7ca4ebcd9bbcaad4e39c5b2f8a70", null ],
+      [ "Minty::Format::Default", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a7a1920d61156abc05a60135aefe8bc67", null ]
     ] ],
     [ "Minty::parse_to< Format >", "namespace_minty.html#a2cbf4b375fce53eced8a392677edde5b", null ],
     [ "Minty::parse_to_format", "namespace_minty.html#a88ec1a78f5a719a9595a36d66d86daef", null ],

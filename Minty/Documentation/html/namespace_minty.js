@@ -353,7 +353,8 @@ var namespace_minty =
       [ "R64G64B64_SFLOAT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1abff7dac79192d1a5e7e89e659d7421ed", null ],
       [ "R64G64B64A64_UINT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a22c3d1fb134c9d2083701c0c0188a083", null ],
       [ "R64G64B64A64_SINT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a5b073ed5a9ab77824722e0661ca71e0c", null ],
-      [ "R64G64B64A64_SFLOAT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a28ed7ca4ebcd9bbcaad4e39c5b2f8a70", null ]
+      [ "R64G64B64A64_SFLOAT", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a28ed7ca4ebcd9bbcaad4e39c5b2f8a70", null ],
+      [ "Default", "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a7a1920d61156abc05a60135aefe8bc67", null ]
     ] ],
     [ "ImageAddressMode", "namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9f", [
       [ "Undefined", "namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9faec0fc0100c4fc1ce4eea230c3dc10360", null ],
@@ -403,6 +404,11 @@ var namespace_minty =
       [ "Storage", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a8c4aa541ee911e8d80451ef8cc304806", null ],
       [ "Color", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24acb5feb1b7314637725a2e73bdc9f7295", null ],
       [ "DepthStencil", "namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a2fa8076285272883c91e14402975a441", null ]
+    ] ],
+    [ "ShaderStage", "namespace_minty.html#a14fb745cf2420635f17b39ee7d350264", [
+      [ "Undefined", "namespace_minty.html#a14fb745cf2420635f17b39ee7d350264aec0fc0100c4fc1ce4eea230c3dc10360", null ],
+      [ "Vertex", "namespace_minty.html#a14fb745cf2420635f17b39ee7d350264ab22b929ba52471a02d18bb3a4e4472e6", null ],
+      [ "Fragment", "namespace_minty.html#a14fb745cf2420635f17b39ee7d350264a37d01b98065725fe3a1d30acf3a0064a", null ]
     ] ],
     [ "Type", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd", [
       [ "Undefined", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdaec0fc0100c4fc1ce4eea230c3dc10360", null ],
@@ -479,6 +485,7 @@ var namespace_minty =
     [ "parse_to< Int3 >", "namespace_minty.html#a39235aa49a89d443c24640eb892c8ce6", null ],
     [ "parse_to< Int4 >", "namespace_minty.html#af0c9f226c1fbfb2b3daeb40e34347336", null ],
     [ "parse_to< Long >", "namespace_minty.html#aabf8ad2be61ccae6986e67e9e06a0d55", null ],
+    [ "parse_to< ShaderStage >", "namespace_minty.html#a4248d6d68f16df6159531a549cda9453", null ],
     [ "parse_to< Short >", "namespace_minty.html#a2f6a4b489162ac620484940b52965254", null ],
     [ "parse_to< String >", "namespace_minty.html#a5c3e2bdbadc55840c4c00c5c05e33a54", null ],
     [ "parse_to< Type >", "namespace_minty.html#a491bd85d267ed5e5800467d943975ca6", null ],
@@ -498,6 +505,7 @@ var namespace_minty =
     [ "parse_to_image_tiling", "namespace_minty.html#a70a8449c85d7c20e6a88dcb048ed7f11", null ],
     [ "parse_to_image_type", "namespace_minty.html#a6e49e49c5ee41e2916e7f8788fbced08", null ],
     [ "parse_to_image_usage", "namespace_minty.html#a52f59c399adae5c473712b6f717793fc", null ],
+    [ "parse_to_shader_stage", "namespace_minty.html#a5f8a0763485a5837a83de348fe895b86", null ],
     [ "parse_to_type", "namespace_minty.html#a0db99e8d7f31bad2832ad1c2d5a7a163", null ],
     [ "parse_try", "namespace_minty.html#a08f78e82e4c6902a4717e68113131153", null ],
     [ "parse_try", "namespace_minty.html#a43a25c0f5553b16b6de55e456fc5a378", null ],
@@ -527,6 +535,7 @@ var namespace_minty =
     [ "parse_try< Int3 >", "namespace_minty.html#abcec366c620d3094a727107f779dffbd", null ],
     [ "parse_try< Int4 >", "namespace_minty.html#afd3acc3b5e4a341d82ae48d449a325da", null ],
     [ "parse_try< Long >", "namespace_minty.html#a2d9bc218ba2e3c08ad542005aa6010ee", null ],
+    [ "parse_try< ShaderStage >", "namespace_minty.html#a8b7d376ad81d25b3200de7ddec80c575", null ],
     [ "parse_try< Short >", "namespace_minty.html#aa1758721dfbb0abd02b090dfb146c098", null ],
     [ "parse_try< String >", "namespace_minty.html#a81759e2bbeaf6e3808fea5d5f1cf91f0", null ],
     [ "parse_try< Type >", "namespace_minty.html#a648c3b27130efb2b885c158e3584e746", null ],
@@ -546,6 +555,7 @@ var namespace_minty =
     [ "parse_try_image_tiling", "namespace_minty.html#ae6548f991646e94249d77794059b6e14", null ],
     [ "parse_try_image_type", "namespace_minty.html#a0d4cc02707a7e4cc2ec8f985a9165277", null ],
     [ "parse_try_image_usage", "namespace_minty.html#a47941396bfcc82428e1c0a92f97b5f24", null ],
+    [ "parse_try_shader_stage", "namespace_minty.html#a983037cac6250b06a5b31e62e326c009", null ],
     [ "parse_try_type", "namespace_minty.html#afc3452b40b2d0374d1896b1aef489b6b", null ],
     [ "sizeof_type", "namespace_minty.html#a2de9e7ffe6b6aecf8d112c194371b668", null ],
     [ "to_bool", "namespace_minty.html#af19367246fd5a10284d7be9764b31252", null ],
@@ -593,6 +603,7 @@ var namespace_minty =
     [ "to_string", "namespace_minty.html#a8ef2aaa111ae230e643702735b4914bb", null ],
     [ "to_string", "namespace_minty.html#a3c6d2ad6f69ab7441bf01c0b53d68a8a", null ],
     [ "to_string", "namespace_minty.html#a6aa1a39d268cb49b4aeb8a50366399c4", null ],
+    [ "to_string", "namespace_minty.html#a27ade396952aa27eebd8bde7bd980e8c", null ],
     [ "to_string", "namespace_minty.html#a641469e1394f81ff3f522d18b8dab3c8", null ],
     [ "to_string", "namespace_minty.html#a930b689804887608195a8b20432d075f", null ],
     [ "to_string", "namespace_minty.html#a92f4982b55028d33aa77dc401c010cb3", null ],

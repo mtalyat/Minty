@@ -213,6 +213,9 @@
     <ClCompile Include="Test_Format.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_ShaderStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -372,6 +375,9 @@
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_Format.h">
+      <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderStage.h">
       <Filter>Header Files\Tests\Render</Filter>
     </ClInclude>
   </ItemGroup>

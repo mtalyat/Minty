@@ -57,6 +57,7 @@
 #include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
 #include "Test_ImageUsage.h"
+#include "Test_ShaderStage.h"
 
 // Serialization
 #include "Test_Node.h"
@@ -147,6 +148,7 @@ static void run_tests()
 	test_ImageTiling(_test);
 	test_ImageType(_test);
 	test_ImageUsage(_test);
+	test_ShaderStage(_test);
 
 	// Serialization
 	test_Node(_test);
