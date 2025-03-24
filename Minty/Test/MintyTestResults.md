@@ -1,5 +1,5 @@
 # Results
-5300/5300 (100.00%)
+5319/5319 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -64,6 +64,7 @@
 | ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
+| ShaderCullMode                 |       19 |        0 |
 | ShaderInputType                |       43 |        0 |
 | ShaderPrimitiveTopology        |       27 |        0 |
 | ShaderStage                    |       11 |        0 |
@@ -5088,6 +5089,29 @@ No failures! :)
 |  PASS  | 39: Parse Try (result == value)                                                                                                  |
 |  PASS  | 42: Parse Try (parse_try_image_usage("", result) == false)                                                                       |
 |  PASS  | 43: Parse Try (result == ImageUsage())                                                                                           |
+
+## ShaderCullMode
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 27: Parse To (parse_to_shader_cull_mode(name) == value)                                                                          |
+|  PASS  | 27: Parse To (parse_to_shader_cull_mode(name) == value)                                                                          |
+|  PASS  | 27: Parse To (parse_to_shader_cull_mode(name) == value)                                                                          |
+|  PASS  | 27: Parse To (parse_to_shader_cull_mode(name) == value)                                                                          |
+|  PASS  | 30: Parse To (parse_to_shader_cull_mode("") == ShaderCullMode())                                                                 |
+|  PASS  | 38: Parse Try (parse_try_shader_cull_mode(name, result) == true)                                                                 |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_shader_cull_mode(name, result) == true)                                                                 |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_shader_cull_mode(name, result) == true)                                                                 |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try (parse_try_shader_cull_mode(name, result) == true)                                                                 |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try (parse_try_shader_cull_mode("", result) == false)                                                                  |
+|  PASS  | 43: Parse Try (result == ShaderCullMode())                                                                                       |
 
 ## ShaderInputType
 | Result | Message                                                                                                                          |
