@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ShaderStage const obj);
-    ShaderStage parse_to_shader_stage(String const& string);
-    Bool parse_try_shader_stage(String const& string, ShaderStage& value);
+String to_string(ShaderInputType const obj);
+    ShaderInputType parse_to_shader_input_type(String const& string);
+    Bool parse_try_shader_input_type(String const& string, ShaderInputType& value);
     template<>
-    inline ShaderStage parse_to<ShaderStage>(String const& string) { return parse_to_shader_stage(string); }
+    inline ShaderInputType parse_to<ShaderInputType>(String const& string) { return parse_to_shader_input_type(string); }
     template<>
-    inline Bool parse_try<ShaderStage>(String const& string, ShaderStage& value) { return parse_try_shader_stage(string, value); }
+    inline Bool parse_try<ShaderInputType>(String const& string, ShaderInputType& value) { return parse_try_shader_input_type(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,45 @@ String to_string(ShaderStage const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ShaderStage const obj)
+String Minty::to_string(ShaderInputType const obj)
 {
     switch (obj)
 	{
-		case ShaderStage::Vertex: return "Vertex";
-		case ShaderStage::Fragment: return "Fragment";
+		case ShaderInputType::Sample: return "Sample";
+		case ShaderInputType::CombinedImageSampler: return "CombinedImageSampler";
+		case ShaderInputType::SampledImage: return "SampledImage";
+		case ShaderInputType::StorageImage: return "StorageImage";
+		case ShaderInputType::UniformTexelBuffer: return "UniformTexelBuffer";
+		case ShaderInputType::StorageTexelBuffer: return "StorageTexelBuffer";
+		case ShaderInputType::UniformBuffer: return "UniformBuffer";
+		case ShaderInputType::StorageBuffer: return "StorageBuffer";
+		case ShaderInputType::UniformBufferDynamic: return "UniformBufferDynamic";
+		case ShaderInputType::StorageBufferDynamic: return "StorageBufferDynamic";
 
 		default: return "";
 	}
 }
 
-ShaderStage Minty::parse_to_shader_stage(String const& string)
+ShaderInputType Minty::parse_to_shader_input_type(String const& string)
 {
-	if (string == "Vertex") return ShaderStage::Vertex;
-	if (string == "Fragment") return ShaderStage::Fragment;
+	if (string == "Sample") return ShaderInputType::Sample;
+	if (string == "CombinedImageSampler") return ShaderInputType::CombinedImageSampler;
+	if (string == "SampledImage") return ShaderInputType::SampledImage;
+	if (string == "StorageImage") return ShaderInputType::StorageImage;
+	if (string == "UniformTexelBuffer") return ShaderInputType::UniformTexelBuffer;
+	if (string == "StorageTexelBuffer") return ShaderInputType::StorageTexelBuffer;
+	if (string == "UniformBuffer") return ShaderInputType::UniformBuffer;
+	if (string == "StorageBuffer") return ShaderInputType::StorageBuffer;
+	if (string == "UniformBufferDynamic") return ShaderInputType::UniformBufferDynamic;
+	if (string == "StorageBufferDynamic") return ShaderInputType::StorageBufferDynamic;
 
-	return ShaderStage();
+	return ShaderInputType();
 }
 
-Bool Minty::parse_try_shader_stage(String const& string, ShaderStage& value)
+Bool Minty::parse_try_shader_input_type(String const& string, ShaderInputType& value)
 {
-	value = parse_to_shader_stage(string);
-	return value != ShaderStage();
+	value = parse_to_shader_input_type(string);
+	return value != ShaderInputType();
 }
 
 ====================
@@ -49,22 +65,30 @@ Bool Minty::parse_try_shader_stage(String const& string, ShaderStage& value)
 
 #include "Test.h"
 
-void test_ShaderStage(Test& _test);
+void test_ShaderInputType(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ShaderStage.h"
+#include "Test_ShaderInputType.h"
 #include "Minty.h"
 
-void test_ShaderStage(Test& _test)
+void test_ShaderInputType(Test& _test)
 {
-	CATEGORY(ShaderStage)
+	CATEGORY(ShaderInputType)
 	{
-        std::vector<std::pair<ShaderStage, String>> VALUES = {
-			{ShaderStage::Vertex, "Vertex"},
-			{ShaderStage::Fragment, "Fragment"},
+        std::vector<std::pair<ShaderInputType, String>> VALUES = {
+			{ShaderInputType::Sample, "Sample"},
+			{ShaderInputType::CombinedImageSampler, "CombinedImageSampler"},
+			{ShaderInputType::SampledImage, "SampledImage"},
+			{ShaderInputType::StorageImage, "StorageImage"},
+			{ShaderInputType::UniformTexelBuffer, "UniformTexelBuffer"},
+			{ShaderInputType::StorageTexelBuffer, "StorageTexelBuffer"},
+			{ShaderInputType::UniformBuffer, "UniformBuffer"},
+			{ShaderInputType::StorageBuffer, "StorageBuffer"},
+			{ShaderInputType::UniformBufferDynamic, "UniformBufferDynamic"},
+			{ShaderInputType::StorageBufferDynamic, "StorageBufferDynamic"},
         };
     
         TEST("To String")
@@ -79,23 +103,23 @@ void test_ShaderStage(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_shader_stage(name), value);
+                EXPECT_EQUAL(parse_to_shader_input_type(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_shader_stage(""), ShaderStage());
+            EXPECT_EQUAL(parse_to_shader_input_type(""), ShaderInputType());
         }
 
         TEST("Parse Try")
         {
-            ShaderStage result;
+            ShaderInputType result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_shader_stage(name, result));
+                EXPECT_TRUE(parse_try_shader_input_type(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_shader_stage("", result));
-            EXPECT_EQUAL(result, ShaderStage());
+            EXPECT_FALSE(parse_try_shader_input_type("", result));
+            EXPECT_EQUAL(result, ShaderInputType());
         }
 	}
 }

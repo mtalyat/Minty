@@ -179,6 +179,7 @@
     <ClCompile Include="Test_Queue.cpp" />
     <ClCompile Include="Test_Reader.cpp" />
     <ClCompile Include="Test_Set.cpp" />
+    <ClCompile Include="Test_ShaderInputType.cpp" />
     <ClCompile Include="Test_ShaderStage.cpp" />
     <ClCompile Include="Test_Stack.cpp" />
     <ClCompile Include="Test_StaticContainer.cpp" />
@@ -235,6 +236,7 @@
     <ClInclude Include="Test_Queue.h" />
     <ClInclude Include="Test_Reader.h" />
     <ClInclude Include="Test_Set.h" />
+    <ClInclude Include="Test_ShaderInputType.h" />
     <ClInclude Include="Test_ShaderStage.h" />
     <ClInclude Include="Test_Stack.h" />
     <ClInclude Include="Test_StaticContainer.h" />

@@ -5,7 +5,8 @@ var searchData=
   ['clamptoedge_2',['ClampToEdge',['../namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9fa74556551231333c36debc3d373261134',1,'Minty']]],
   ['color_3',['Color',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdacb5feb1b7314637725a2e73bdc9f7295',1,'Minty::Color'],['../namespace_minty.html#a72fe2666f6a3236286eb3b62db478335acb5feb1b7314637725a2e73bdc9f7295',1,'Minty::Color'],['../namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24acb5feb1b7314637725a2e73bdc9f7295',1,'Minty::Color']]],
   ['colorattachmentoptimal_4',['ColorAttachmentOptimal',['../namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa8fd227cd18c5d17fe8b63c3a073c8c50',1,'Minty']]],
-  ['count_5',['Count',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdae93f994f01c537c4e2f7d8528c3eb5e9',1,'Minty']]],
-  ['current_6',['Current',['../class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471ea222a267cc5778206b253be35ee3ddab5',1,'Minty::File']]],
-  ['cyan_7',['Cyan',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20',1,'Minty::Debug']]]
+  ['combinedimagesampler_5',['CombinedImageSampler',['../namespace_minty.html#ac04533e8be7dc7cbb8d8a4f17a0440f4a8cfe077ac9aea5235b0c3fda85914029',1,'Minty']]],
+  ['count_6',['Count',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdae93f994f01c537c4e2f7d8528c3eb5e9',1,'Minty']]],
+  ['current_7',['Current',['../class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471ea222a267cc5778206b253be35ee3ddab5',1,'Minty::File']]],
+  ['cyan_8',['Cyan',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20',1,'Minty::Debug']]]
 ];

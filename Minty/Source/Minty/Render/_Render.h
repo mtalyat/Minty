@@ -10,4 +10,5 @@
 #include "ImageTiling.h"
 #include "ImageType.h"
 #include "ImageUsage.h"
+#include "ShaderInputType.h"
 #include "ShaderStage.h"

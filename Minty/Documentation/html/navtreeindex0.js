@@ -195,9 +195,12 @@ var NAVTREEINDEX0 =
 "_serializable_object_8h_source.html":[2,0,0,0,11,11],
 "_set_8h.html":[2,0,0,0,4,18],
 "_set_8h_source.html":[2,0,0,0,4,18],
-"_shader_stage_8cpp.html":[2,0,0,0,10,21],
-"_shader_stage_8h.html":[2,0,0,0,10,22],
-"_shader_stage_8h_source.html":[2,0,0,0,10,22],
+"_shader_input_type_8cpp.html":[2,0,0,0,10,21],
+"_shader_input_type_8h.html":[2,0,0,0,10,22],
+"_shader_input_type_8h_source.html":[2,0,0,0,10,22],
+"_shader_stage_8cpp.html":[2,0,0,0,10,23],
+"_shader_stage_8h.html":[2,0,0,0,10,24],
+"_shader_stage_8h_source.html":[2,0,0,0,10,24],
 "_stack_8h.html":[2,0,0,0,4,19],
 "_stack_8h_source.html":[2,0,0,0,4,19],
 "_static_container_8cpp.html":[2,0,0,0,4,20],
@@ -246,8 +249,5 @@ var NAVTREEINDEX0 =
 "_writer_8cpp.html":[2,0,0,0,11,14],
 "_writer_8h.html":[2,0,0,0,11,15],
 "_writer_8h_source.html":[2,0,0,0,11,15],
-"annotated.html":[1,0],
-"class_minty_1_1_application.html":[0,0,0,1],
-"class_minty_1_1_application.html":[1,0,0,0],
-"class_minty_1_1_application.html#a0086a9da4924e3b7b993d376ee6144a2":[0,0,0,1,1]
+"annotated.html":[1,0]
 };
