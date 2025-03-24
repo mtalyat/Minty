@@ -1,7 +1,7 @@
 	/// <summary>
-	/// Determines which side of the polygon is the front.
+	/// Determines how the polygons are being drawn.
 	/// </summary>
-	enum class ShaderFrontFace
+	enum class ShaderPolygonMode
 	{
 		/// <summary>
 		/// Invalid.
@@ -9,12 +9,17 @@
 		Undefined = 0,
 
 		/// <summary>
-		/// The front face is determined by the counter-clockwise winding order.
+		/// Fill the polygon.
 		/// </summary>
-		CounterClockwise = 1,
+		Fill = 1,
 
 		/// <summary>
-		/// The front face is determined by the clockwise winding order.
+		/// Draw the outlines of the polygon.
 		/// </summary>
-		Clockwise = 2,
+		Line = 2,
+
+		/// <summary>
+		/// Draw the points of the polygon.
+		/// </summary>
+		Point = 3,
 	};

@@ -333,6 +333,9 @@
     <ClInclude Include="Minty\Render\ShaderFrontFace.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderPolygonMode.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -492,6 +495,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\ShaderFrontFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

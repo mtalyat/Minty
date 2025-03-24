@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(ShaderFrontFace const obj);
-    ShaderFrontFace parse_to_shader_front_face(String const& string);
-    Bool parse_try_shader_front_face(String const& string, ShaderFrontFace& value);
+String to_string(ShaderPolygonMode const obj);
+    ShaderPolygonMode parse_to_shader_polygon_mode(String const& string);
+    Bool parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value);
     template<>
-    inline ShaderFrontFace parse_to<ShaderFrontFace>(String const& string) { return parse_to_shader_front_face(string); }
+    inline ShaderPolygonMode parse_to<ShaderPolygonMode>(String const& string) { return parse_to_shader_polygon_mode(string); }
     template<>
-    inline Bool parse_try<ShaderFrontFace>(String const& string, ShaderFrontFace& value) { return parse_try_shader_front_face(string, value); }
+    inline Bool parse_try<ShaderPolygonMode>(String const& string, ShaderPolygonMode& value) { return parse_try_shader_polygon_mode(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,31 @@ String to_string(ShaderFrontFace const obj);
 
 using namespace Minty;
 
-String Minty::to_string(ShaderFrontFace const obj)
+String Minty::to_string(ShaderPolygonMode const obj)
 {
     switch (obj)
 	{
-		case ShaderFrontFace::CounterClockwise: return "CounterClockwise";
-		case ShaderFrontFace::Clockwise: return "Clockwise";
+		case ShaderPolygonMode::Fill: return "Fill";
+		case ShaderPolygonMode::Line: return "Line";
+		case ShaderPolygonMode::Point: return "Point";
 
 		default: return "";
 	}
 }
 
-ShaderFrontFace Minty::parse_to_shader_front_face(String const& string)
+ShaderPolygonMode Minty::parse_to_shader_polygon_mode(String const& string)
 {
-	if (string == "CounterClockwise") return ShaderFrontFace::CounterClockwise;
-	if (string == "Clockwise") return ShaderFrontFace::Clockwise;
+	if (string == "Fill") return ShaderPolygonMode::Fill;
+	if (string == "Line") return ShaderPolygonMode::Line;
+	if (string == "Point") return ShaderPolygonMode::Point;
 
-	return ShaderFrontFace();
+	return ShaderPolygonMode();
 }
 
-Bool Minty::parse_try_shader_front_face(String const& string, ShaderFrontFace& value)
+Bool Minty::parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value)
 {
-	value = parse_to_shader_front_face(string);
-	return value != ShaderFrontFace();
+	value = parse_to_shader_polygon_mode(string);
+	return value != ShaderPolygonMode();
 }
 
 ====================
@@ -49,22 +51,23 @@ Bool Minty::parse_try_shader_front_face(String const& string, ShaderFrontFace& v
 
 #include "Test.h"
 
-void test_ShaderFrontFace(Test& _test);
+void test_ShaderPolygonMode(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_ShaderFrontFace.h"
+#include "Test_ShaderPolygonMode.h"
 #include "Minty.h"
 
-void test_ShaderFrontFace(Test& _test)
+void test_ShaderPolygonMode(Test& _test)
 {
-	CATEGORY(ShaderFrontFace)
+	CATEGORY(ShaderPolygonMode)
 	{
-        std::vector<std::pair<ShaderFrontFace, String>> VALUES = {
-			{ShaderFrontFace::CounterClockwise, "CounterClockwise"},
-			{ShaderFrontFace::Clockwise, "Clockwise"},
+        std::vector<std::pair<ShaderPolygonMode, String>> VALUES = {
+			{ShaderPolygonMode::Fill, "Fill"},
+			{ShaderPolygonMode::Line, "Line"},
+			{ShaderPolygonMode::Point, "Point"},
         };
     
         TEST("To String")
@@ -79,23 +82,23 @@ void test_ShaderFrontFace(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_shader_front_face(name), value);
+                EXPECT_EQUAL(parse_to_shader_polygon_mode(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_shader_front_face(""), ShaderFrontFace());
+            EXPECT_EQUAL(parse_to_shader_polygon_mode(""), ShaderPolygonMode());
         }
 
         TEST("Parse Try")
         {
-            ShaderFrontFace result;
+            ShaderPolygonMode result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_shader_front_face(name, result));
+                EXPECT_TRUE(parse_try_shader_polygon_mode(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_shader_front_face("", result));
-            EXPECT_EQUAL(result, ShaderFrontFace());
+            EXPECT_FALSE(parse_try_shader_polygon_mode("", result));
+            EXPECT_EQUAL(result, ShaderPolygonMode());
         }
 	}
 }

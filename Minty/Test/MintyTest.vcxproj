@@ -182,6 +182,7 @@
     <ClCompile Include="Test_ShaderCullMode.cpp" />
     <ClCompile Include="Test_ShaderFrontFace.cpp" />
     <ClCompile Include="Test_ShaderInputType.cpp" />
+    <ClCompile Include="Test_ShaderPolygonMode.cpp" />
     <ClCompile Include="Test_ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Test_ShaderStage.cpp" />
     <ClCompile Include="Test_Stack.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Test_ShaderCullMode.h" />
     <ClInclude Include="Test_ShaderFrontFace.h" />
     <ClInclude Include="Test_ShaderInputType.h" />
+    <ClInclude Include="Test_ShaderPolygonMode.h" />
     <ClInclude Include="Test_ShaderPrimitiveTopology.h" />
     <ClInclude Include="Test_ShaderStage.h" />
     <ClInclude Include="Test_Stack.h" />

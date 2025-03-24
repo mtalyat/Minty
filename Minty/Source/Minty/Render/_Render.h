@@ -13,5 +13,6 @@
 #include "ShaderCullMode.h"
 #include "ShaderFrontFace.h"
 #include "ShaderInputType.h"
+#include "ShaderPolygonMode.h"
 #include "ShaderPrimitiveTopology.h"
 #include "ShaderStage.h"

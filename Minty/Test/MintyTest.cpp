@@ -60,6 +60,7 @@
 #include "Test_ShaderCullMode.h"
 #include "Test_ShaderFrontFace.h"
 #include "Test_ShaderInputType.h"
+#include "Test_ShaderPolygonMode.h"
 #include "Test_ShaderPrimitiveTopology.h"
 #include "Test_ShaderStage.h"
 
@@ -155,6 +156,7 @@ static void run_tests()
 	test_ShaderCullMode(_test);
 	test_ShaderFrontFace(_test);
 	test_ShaderInputType(_test);
+	test_ShaderPolygonMode(_test);
 	test_ShaderPrimitiveTopology(_test);
 	test_ShaderStage(_test);
 
