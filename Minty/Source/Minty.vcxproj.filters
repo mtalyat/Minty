@@ -354,9 +354,6 @@
     <ClInclude Include="Minty\Render\CoordinateMode.h">
       <Filter>Minty\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Window\WindowManager.h">
-      <Filter>Minty\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Window\_Window.h">
       <Filter>Minty\Window</Filter>
     </ClInclude>
@@ -555,9 +552,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\CoordinateMode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Minty\Window\WindowManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Window\Window.cpp">

@@ -140,8 +140,6 @@ var hierarchy =
       [ "Minty::Windows_Window", "class_minty_1_1_windows___window.html", null ]
     ] ],
     [ "Minty::WindowBuilder", "struct_minty_1_1_window_builder.html", null ],
-    [ "Minty::WindowManager", "class_minty_1_1_window_manager.html", null ],
-    [ "Minty::WindowManagerBuilder", "struct_minty_1_1_window_manager_builder.html", null ],
     [ "Minty::Wrap", "class_minty_1_1_wrap.html", null ],
     [ "Minty::Wrapper", "class_minty_1_1_wrapper.html", null ],
     [ "Minty::Writer", "class_minty_1_1_writer.html", [

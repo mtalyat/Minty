@@ -21,6 +21,5 @@ var searchData=
   ['copy_18',['copy',['../class_minty_1_1_file.html#a27c1d9b2af09e9b3ece8a4aacbc4ce8b',1,'Minty::File']]],
   ['cos_19',['cos',['../namespace_minty_1_1_math.html#ae989a59e534c4a4abf1aac588b9b37ef',1,'Minty::Math']]],
   ['create_20',['create',['../class_minty_1_1_asset_manager.html#ae75c9e82ebcb57deb4859f7e4c589830',1,'Minty::AssetManager::create()'],['../class_minty_1_1_generic_asset.html#a2c7f343441d445c41cb9e7a4be1a09ef',1,'Minty::GenericAsset::create()'],['../class_minty_1_1_u_u_i_d.html#a26a453c78d08fa30fd40b6fe6eafc0d9',1,'Minty::UUID::create()'],['../class_minty_1_1_file.html#a496e3493125d907f57fd75ea924ae92d',1,'Minty::File::create()'],['../class_minty_1_1_window.html#adc3899d329979e3155e54cefe7bbd9c9',1,'Minty::Window::create()']]],
-  ['create_5fref_21',['create_ref',['../class_minty_1_1_owner.html#a28d4a0d3ea71e870743c0a79602a9699',1,'Minty::Owner::create_ref() const'],['../class_minty_1_1_owner.html#a9aa1de514312540bd196f0dafec02304',1,'Minty::Owner::create_ref() const']]],
-  ['create_5fwindow_22',['create_window',['../class_minty_1_1_window_manager.html#a7b9da33caa338dcc2ceecea9ebea540c',1,'Minty::WindowManager']]]
+  ['create_5fref_21',['create_ref',['../class_minty_1_1_owner.html#a28d4a0d3ea71e870743c0a79602a9699',1,'Minty::Owner::create_ref() const'],['../class_minty_1_1_owner.html#a9aa1de514312540bd196f0dafec02304',1,'Minty::Owner::create_ref() const']]]
 ];

@@ -39,7 +39,6 @@ var searchData=
   ['_7evector_36',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]],
   ['_7evirtualfile_37',['~VirtualFile',['../class_minty_1_1_virtual_file.html#ae74a7316f82a3faa88b74f750731e5b1',1,'Minty::VirtualFile']]],
   ['_7ewindow_38',['~Window',['../class_minty_1_1_window.html#ab51ceedac71e34d766de53b5ccb34bc4',1,'Minty::Window']]],
-  ['_7ewindowmanager_39',['~WindowManager',['../class_minty_1_1_window_manager.html#a01d8defcaa6c47983ad3eab2634569f9',1,'Minty::WindowManager']]],
-  ['_7ewindows_5fwindow_40',['~Windows_Window',['../class_minty_1_1_windows___window.html#a8adc4bd17afd1bef9baa7e53a0b9fc2c',1,'Minty::Windows_Window']]],
-  ['_7ewriterimplementation_41',['~WriterImplementation',['../class_minty_1_1_writer_implementation.html#afd1731c28769748375ae3fdfdb2eb95c',1,'Minty::WriterImplementation']]]
+  ['_7ewindows_5fwindow_39',['~Windows_Window',['../class_minty_1_1_windows___window.html#a8adc4bd17afd1bef9baa7e53a0b9fc2c',1,'Minty::Windows_Window']]],
+  ['_7ewriterimplementation_40',['~WriterImplementation',['../class_minty_1_1_writer_implementation.html#afd1731c28769748375ae3fdfdb2eb95c',1,'Minty::WriterImplementation']]]
 ];

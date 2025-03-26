@@ -273,7 +273,6 @@ doxygen</Command>
     <ClInclude Include="Minty\Window\CursorMode.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\WindowCloseEvent.h" />
-    <ClInclude Include="Minty\Window\WindowManager.h" />
     <ClInclude Include="Minty\Window\WindowResizeEvent.h" />
     <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
@@ -337,7 +336,6 @@ doxygen</Command>
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
     <ClCompile Include="Minty\Window\Window.cpp" />
-    <ClCompile Include="Minty\Window\WindowManager.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />
     <ClCompile Include="pch.cpp">

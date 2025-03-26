@@ -126,8 +126,6 @@ var namespace_minty =
     [ "Window", "class_minty_1_1_window.html", "class_minty_1_1_window" ],
     [ "WindowBuilder", "struct_minty_1_1_window_builder.html", "struct_minty_1_1_window_builder" ],
     [ "WindowCloseEvent", "class_minty_1_1_window_close_event.html", "class_minty_1_1_window_close_event" ],
-    [ "WindowManager", "class_minty_1_1_window_manager.html", "class_minty_1_1_window_manager" ],
-    [ "WindowManagerBuilder", "struct_minty_1_1_window_manager_builder.html", null ],
     [ "WindowResizeEvent", "class_minty_1_1_window_resize_event.html", "class_minty_1_1_window_resize_event" ],
     [ "Windows_Window", "class_minty_1_1_windows___window.html", "class_minty_1_1_windows___window" ],
     [ "Wrap", "class_minty_1_1_wrap.html", "class_minty_1_1_wrap" ],

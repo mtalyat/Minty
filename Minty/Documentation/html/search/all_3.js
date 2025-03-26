@@ -57,9 +57,8 @@ var searchData=
   ['counterclockwise_54',['CounterClockwise',['../namespace_minty.html#adfcedd389c21184bbf9b4b78c6547ebaa8f23635f9ec49db2161fc5cddf033a79',1,'Minty']]],
   ['create_55',['create',['../class_minty_1_1_asset_manager.html#ae75c9e82ebcb57deb4859f7e4c589830',1,'Minty::AssetManager::create()'],['../class_minty_1_1_generic_asset.html#a2c7f343441d445c41cb9e7a4be1a09ef',1,'Minty::GenericAsset::create()'],['../class_minty_1_1_u_u_i_d.html#a26a453c78d08fa30fd40b6fe6eafc0d9',1,'Minty::UUID::create()'],['../class_minty_1_1_file.html#a496e3493125d907f57fd75ea924ae92d',1,'Minty::File::create()'],['../class_minty_1_1_window.html#adc3899d329979e3155e54cefe7bbd9c9',1,'Minty::Window::create()']]],
   ['create_5fref_56',['create_ref',['../class_minty_1_1_owner.html#a28d4a0d3ea71e870743c0a79602a9699',1,'Minty::Owner::create_ref() const'],['../class_minty_1_1_owner.html#a9aa1de514312540bd196f0dafec02304',1,'Minty::Owner::create_ref() const']]],
-  ['create_5fwindow_57',['create_window',['../class_minty_1_1_window_manager.html#a7b9da33caa338dcc2ceecea9ebea540c',1,'Minty::WindowManager']]],
-  ['current_58',['Current',['../class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471ea222a267cc5778206b253be35ee3ddab5',1,'Minty::File']]],
-  ['cursormode_59',['CursorMode',['../namespace_minty.html#a1bf85caac56dd328ba80673821c4a883',1,'Minty']]],
-  ['cursormode_2eh_60',['CursorMode.h',['../_cursor_mode_8h.html',1,'']]],
-  ['cyan_61',['Cyan',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20',1,'Minty::Debug']]]
+  ['current_57',['Current',['../class_minty_1_1_file.html#a76807e6a36c92497cf1acd0e3257471ea222a267cc5778206b253be35ee3ddab5',1,'Minty::File']]],
+  ['cursormode_58',['CursorMode',['../namespace_minty.html#a1bf85caac56dd328ba80673821c4a883',1,'Minty']]],
+  ['cursormode_2eh_59',['CursorMode.h',['../_cursor_mode_8h.html',1,'']]],
+  ['cyan_60',['Cyan',['../class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625a023c239d2f2538f140a20e72c7b73f20',1,'Minty::Debug']]]
 ];
