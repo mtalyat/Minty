@@ -8,5 +8,6 @@ var searchData=
   ['readerimplementation_3c_20textreaderbehavior_2c_20nodereaderbehavior_20_3e_5',['ReaderImplementation&lt; TextReaderBehavior, NodeReaderBehavior &gt;',['../class_minty_1_1_reader_implementation.html',1,'Minty']]],
   ['readerstoragebehavior_6',['ReaderStorageBehavior',['../class_minty_1_1_reader_storage_behavior.html',1,'Minty']]],
   ['ref_7',['Ref',['../class_minty_1_1_ref.html',1,'Minty']]],
-  ['reverseiterator_8',['ReverseIterator',['../class_minty_1_1_array_1_1_reverse_iterator.html',1,'Minty::Array&lt; T, S &gt;::ReverseIterator'],['../class_minty_1_1_list_1_1_reverse_iterator.html',1,'Minty::List&lt; T &gt;::ReverseIterator'],['../class_minty_1_1_vector_1_1_reverse_iterator.html',1,'Minty::Vector&lt; T &gt;::ReverseIterator']]]
+  ['ref_3c_20minty_3a_3awindow_20_3e_8',['Ref&lt; Minty::Window &gt;',['../class_minty_1_1_ref.html',1,'Minty']]],
+  ['reverseiterator_9',['ReverseIterator',['../class_minty_1_1_array_1_1_reverse_iterator.html',1,'Minty::Array&lt; T, S &gt;::ReverseIterator'],['../class_minty_1_1_list_1_1_reverse_iterator.html',1,'Minty::List&lt; T &gt;::ReverseIterator'],['../class_minty_1_1_vector_1_1_reverse_iterator.html',1,'Minty::Vector&lt; T &gt;::ReverseIterator']]]
 ];

@@ -61,22 +61,23 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"_variable_8h_source.html",
-"class_minty_1_1_asset_manager.html#a382b27a30ff1d48d1325f7304e78e50a",
-"class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa6adf97f83acf6453d4a6a4b1070f3754",
-"class_minty_1_1_list_1_1_const_iterator.html#ae29e54b62931ab0f13af573b3b0ceee3",
-"class_minty_1_1_memory_manager.html#a57aeedd63b1d164bf0a437b26d705126",
-"class_minty_1_1_pair.html#ae6a6f1a232a0c126d4b68f9c359397b5",
-"class_minty_1_1_reader.html#a3987ac0614724b5e2240ed0f93f864f9",
-"class_minty_1_1_ref.html#a08c349c64358f657c720040178bbd869",
-"class_minty_1_1_string.html#a18ffa5b3832455bf1a31e1b2131c6b5d",
-"class_minty_1_1_text_writer_behavior.html#ace6074cc3caf787a4b0e986e13653438",
-"class_minty_1_1_vector_1_1_const_reverse_iterator.html#ad4b908292c9779f6e1866def598f11df",
-"class_minty_1_1_writer.html#a56c79cf54aa6ff3b3f1950748f5fad71",
-"framework_8h.html",
-"namespace_minty.html#a57ea120b6b3dabfa15e7cb6e6051b869",
-"namespace_minty.html#a87f9ed056962e9b93566627d0864045a",
-"namespacemembers_b.html"
+"_to_string_8h.html",
+"class_minty_1_1_asset.html#a49cdb53dc63e785abb51bebcd5caf09a",
+"class_minty_1_1_file.html#a3e631962334581492ecdcd48838c2524",
+"class_minty_1_1_list.html#af5b439b325a3565c513fd897ab77d3be",
+"class_minty_1_1_memory_container.html#a5019fb822b50f4aee24c3943acf6f342",
+"class_minty_1_1_owner.html#afe7f713ac64c2bb37f069ba310daa029",
+"class_minty_1_1_queue.html#af06af69047bcd970307975a1da4d045a",
+"class_minty_1_1_reader_implementation.html#aaabab7e8376cb30085909ab55b67631d",
+"class_minty_1_1_static_container.html#aa0747b003f69a744fa72c38bb6fd2171",
+"class_minty_1_1_text_writer_behavior.html#a568e3902373253795e65c2e813050970",
+"class_minty_1_1_vector_1_1_const_iterator.html#af15cad427541951ae646ab1a0d7c342a",
+"class_minty_1_1_windows___window.html#a68892a629010f86d2417956ede128556",
+"class_minty_1_1_writer_format_behavior.html#a2e5227b4b5aa9272fffd8dbb467c3bef",
+"namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee",
+"namespace_minty.html#a72fe2666f6a3236286eb3b62db478335acb5feb1b7314637725a2e73bdc9f7295",
+"namespace_minty.html#abe96803589e915713959c294c0df12c6a8b20804a9b0fbb27f3e2f7dc56d9771e",
+"struct_minty_1_1_color.html#aa45921eebe0aa55b3f3b2e0914afb320"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

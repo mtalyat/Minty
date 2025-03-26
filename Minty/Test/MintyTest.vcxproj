@@ -197,6 +197,7 @@
     <ClCompile Include="Test_Variable.cpp" />
     <ClCompile Include="Test_Vector.cpp" />
     <ClCompile Include="Test_VirtualFile.cpp" />
+    <ClCompile Include="Test_Window.cpp" />
     <ClCompile Include="Test_Wrap.cpp" />
     <ClCompile Include="Test_Wrapper.cpp" />
     <ClCompile Include="Test_Writer.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="Test_Variable.h" />
     <ClInclude Include="Test_Vector.h" />
     <ClInclude Include="Test_VirtualFile.h" />
+    <ClInclude Include="Test_Window.h" />
     <ClInclude Include="Test_Wrap.h" />
     <ClInclude Include="Test_Wrapper.h" />
     <ClInclude Include="Test_Writer.h" />

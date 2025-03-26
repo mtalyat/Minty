@@ -10,5 +10,6 @@ var searchData=
   ['hash_3c_20minty_3a_3astring_20_3e_7',['hash&lt; Minty::String &gt;',['../structstd_1_1hash_3_01_minty_1_1_string_01_4.html',1,'std']]],
   ['hash_3c_20minty_3a_3auuid_20_3e_8',['hash&lt; Minty::UUID &gt;',['../structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html',1,'std']]],
   ['header_9',['Header',['../struct_minty_1_1_wrap_1_1_header.html',1,'Minty::Wrap::Header'],['../struct_minty_1_1_wrap_1_1_header.html#a85aefd6e31106e454df31238e1166f17',1,'Minty::Wrap::Header::Header()'],['../struct_minty_1_1_wrap_1_1_header.html#a306e547d1f5267299c8bd1c429456ccf',1,'Minty::Wrap::Header::Header(Header const &amp;other)']]],
-  ['high_10',['High',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a655d20c1ca69519ca647684edbb2db35',1,'Minty']]]
+  ['hidden_10',['Hidden',['../namespace_minty.html#a1bf85caac56dd328ba80673821c4a883a7acdf85c69cc3c5305456a293524386e',1,'Minty']]],
+  ['high_11',['High',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a655d20c1ca69519ca647684edbb2db35',1,'Minty']]]
 ];

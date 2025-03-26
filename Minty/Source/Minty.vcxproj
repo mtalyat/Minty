@@ -219,6 +219,9 @@ doxygen</Command>
     <ClInclude Include="Minty\Debug\Debug.h" />
     <ClInclude Include="Minty\Debug\DualBuffer.h" />
     <ClInclude Include="Minty\Debug\_Debug.h" />
+    <ClInclude Include="Minty\Event\Event.h" />
+    <ClInclude Include="Minty\Event\EventType.h" />
+    <ClInclude Include="Minty\Event\_Event.h" />
     <ClInclude Include="Minty\File\File.h" />
     <ClInclude Include="Minty\File\PhysicalFile.h" />
     <ClInclude Include="Minty\File\VirtualFile.h" />
@@ -227,6 +230,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Job\_Job.h" />
     <ClInclude Include="Minty\Library\GLFW.h" />
     <ClInclude Include="Minty\Library\GLM.h" />
+    <ClInclude Include="Minty\Library\STB.h" />
     <ClInclude Include="Minty\Library\Vulkan.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\_Memory.h" />
@@ -266,10 +270,17 @@ doxygen</Command>
     <ClInclude Include="Minty\Time\Stopwatch.h" />
     <ClInclude Include="Minty\Time\Time.h" />
     <ClInclude Include="Minty\Time\_Time.h" />
+    <ClInclude Include="Minty\Window\CursorMode.h" />
+    <ClInclude Include="Minty\Window\Window.h" />
+    <ClInclude Include="Minty\Window\WindowCloseEvent.h" />
+    <ClInclude Include="Minty\Window\WindowManager.h" />
+    <ClInclude Include="Minty\Window\WindowResizeEvent.h" />
+    <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
     <ClInclude Include="Minty\Wrap\Wrapper.h" />
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Platform\Windows\Windows_Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp" />
@@ -325,6 +336,8 @@ doxygen</Command>
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
+    <ClCompile Include="Minty\Window\Window.cpp" />
+    <ClCompile Include="Minty\Window\WindowManager.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />
     <ClCompile Include="pch.cpp">
@@ -333,6 +346,7 @@ doxygen</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Platform\Windows\Windows_Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

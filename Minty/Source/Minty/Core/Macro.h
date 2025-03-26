@@ -72,3 +72,17 @@ inline Bool operator<(type const left, type const right) { return static_cast<Si
 inline Bool operator>(type const left, type const right) { return static_cast<Size>(left) > static_cast<Size>(right); }
 
 #pragma endregion
+
+#pragma region OS
+
+#ifdef _WIN32
+#define MINTY_WINDOWS
+#elif defined(__APPLE__)
+#define MINTY_APPLE
+#elif defined(__linux__)
+#define MINTY_LINUX
+#else
+#error "Unsupported operating system."
+#endif
+
+#pragma endregion

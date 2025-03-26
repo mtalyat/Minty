@@ -237,6 +237,9 @@
     <ClCompile Include="Test_CoordinateMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="Test_CoordinateMode.h">
       <Filter>Header Files\Tests\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Window.h">
+      <Filter>Header Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

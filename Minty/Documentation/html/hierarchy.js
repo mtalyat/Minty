@@ -31,6 +31,10 @@ var hierarchy =
     [ "Minty::Counter", "class_minty_1_1_counter.html", null ],
     [ "Minty::Debug", "class_minty_1_1_debug.html", null ],
     [ "Minty::Wrap::Entry", "struct_minty_1_1_wrap_1_1_entry.html", null ],
+    [ "Minty::Event", "class_minty_1_1_event.html", [
+      [ "Minty::WindowCloseEvent", "class_minty_1_1_window_close_event.html", null ],
+      [ "Minty::WindowResizeEvent", "class_minty_1_1_window_resize_event.html", null ]
+    ] ],
     [ "std::false_type", null, [
       [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
@@ -132,6 +136,12 @@ var hierarchy =
     ] ],
     [ "Minty::Variable", "class_minty_1_1_variable.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
+    [ "Minty::Window", "class_minty_1_1_window.html", [
+      [ "Minty::Windows_Window", "class_minty_1_1_windows___window.html", null ]
+    ] ],
+    [ "Minty::WindowBuilder", "struct_minty_1_1_window_builder.html", null ],
+    [ "Minty::WindowManager", "class_minty_1_1_window_manager.html", null ],
+    [ "Minty::WindowManagerBuilder", "struct_minty_1_1_window_manager_builder.html", null ],
     [ "Minty::Wrap", "class_minty_1_1_wrap.html", null ],
     [ "Minty::Wrapper", "class_minty_1_1_wrapper.html", null ],
     [ "Minty::Writer", "class_minty_1_1_writer.html", [

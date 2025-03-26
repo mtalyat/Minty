@@ -75,6 +75,9 @@
 #include "Test_Stopwatch.h"
 #include "Test_Time.h"
 
+// Window
+#include "Test_Window.h"
+
 // Wrap
 #include "Test_Wrap.h"
 #include "Test_Wrapper.h"
@@ -172,6 +175,9 @@ static void run_tests()
 	// Time
 	test_Stopwatch(_test);
 	test_Time(_test);
+
+	// Window
+	test_Window(_test);
 
 	// Wrap
 	test_Wrap(_test);

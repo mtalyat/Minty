@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac6efa4fd90ab2fbcf9a8f5c9d7e99b74" id="r_ac6efa4fd90ab2fbcf9a8f5c9d7e99b74"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6efa4fd90ab2fbcf9a8f5c9d7e99b74">Map</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
 <tr class="memdesc:ac6efa4fd90ab2fbcf9a8f5c9d7e99b74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a> with the given capacity.  <br /></td></tr>
 <tr class="separator:ac6efa4fd90ab2fbcf9a8f5c9d7e99b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a6a1164a29bd12cadbec326a54bc32c" id="r_a7a6a1164a29bd12cadbec326a54bc32c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a6a1164a29bd12cadbec326a54bc32c">Map</a> (std::initializer_list&lt; <a class="el" href="class_minty_1_1_pair.html">Pair</a>&lt; Key, Value &gt; &gt; const &amp;list, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
+<tr class="memitem:a7a6a1164a29bd12cadbec326a54bc32c" id="r_a7a6a1164a29bd12cadbec326a54bc32c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a6a1164a29bd12cadbec326a54bc32c">Map</a> (std::initializer_list&lt; <a class="el" href="class_minty_1_1_pair.html">Pair</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt; &gt; const &amp;list, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator=<a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a>)</td></tr>
 <tr class="memdesc:a7a6a1164a29bd12cadbec326a54bc32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a> with the given list of key-value pairs.  <br /></td></tr>
 <tr class="separator:a7a6a1164a29bd12cadbec326a54bc32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb54058f0da4ab6aafc3acff109c8392" id="r_adb54058f0da4ab6aafc3acff109c8392"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb54058f0da4ab6aafc3acff109c8392">Map</a> (<a class="el" href="class_minty_1_1_map.html">Map</a> const &amp;other)</td></tr>
@@ -155,9 +155,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ace35bc602f6ec7939aa44c1929a03f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f255904c2aa5011150feb90fb51ad39" id="r_a8f255904c2aa5011150feb90fb51ad39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_map.html">Map</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f255904c2aa5011150feb90fb51ad39">operator=</a> (<a class="el" href="class_minty_1_1_map.html">Map</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="separator:a8f255904c2aa5011150feb90fb51ad39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0acd729ac4e2b2ef6a710b403a659b89" id="r_a0acd729ac4e2b2ef6a710b403a659b89"><td class="memItemLeft" align="right" valign="top">constexpr Value &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0acd729ac4e2b2ef6a710b403a659b89">operator[]</a> (Key const &amp;key)</td></tr>
+<tr class="memitem:a0acd729ac4e2b2ef6a710b403a659b89" id="r_a0acd729ac4e2b2ef6a710b403a659b89"><td class="memItemLeft" align="right" valign="top">constexpr Value &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0acd729ac4e2b2ef6a710b403a659b89">operator[]</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key)</td></tr>
 <tr class="separator:a0acd729ac4e2b2ef6a710b403a659b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49ef47fb8f6a566c1dbb274afbed88d8" id="r_a49ef47fb8f6a566c1dbb274afbed88d8"><td class="memItemLeft" align="right" valign="top">constexpr Value const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ef47fb8f6a566c1dbb274afbed88d8">operator[]</a> (Key const &amp;key) const</td></tr>
+<tr class="memitem:a49ef47fb8f6a566c1dbb274afbed88d8" id="r_a49ef47fb8f6a566c1dbb274afbed88d8"><td class="memItemLeft" align="right" valign="top">constexpr Value const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ef47fb8f6a566c1dbb274afbed88d8">operator[]</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key) const</td></tr>
 <tr class="separator:a49ef47fb8f6a566c1dbb274afbed88d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d8675df55a2bd01b1fbba92d00d2ef0" id="r_a7d8675df55a2bd01b1fbba92d00d2ef0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d8675df55a2bd01b1fbba92d00d2ef0">get_capacity</a> () const</td></tr>
 <tr class="separator:a7d8675df55a2bd01b1fbba92d00d2ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,31 +166,31 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1ff6c6cf9fe2f3012f0bd986cb797ade" id="r_a1ff6c6cf9fe2f3012f0bd986cb797ade"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ff6c6cf9fe2f3012f0bd986cb797ade">reserve</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity)</td></tr>
 <tr class="memdesc:a1ff6c6cf9fe2f3012f0bd986cb797ade"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserves more space in this <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a>.  <br /></td></tr>
 <tr class="separator:a1ff6c6cf9fe2f3012f0bd986cb797ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e5a2586f385485bc74d9264ca4ba49" id="r_ab8e5a2586f385485bc74d9264ca4ba49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8e5a2586f385485bc74d9264ca4ba49">add</a> (Key const &amp;key, Value const &amp;value)</td></tr>
+<tr class="memitem:ab8e5a2586f385485bc74d9264ca4ba49" id="r_ab8e5a2586f385485bc74d9264ca4ba49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8e5a2586f385485bc74d9264ca4ba49">add</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key, Value const &amp;value)</td></tr>
 <tr class="memdesc:ab8e5a2586f385485bc74d9264ca4ba49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a key-value pair to this <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a>.  <br /></td></tr>
 <tr class="separator:ab8e5a2586f385485bc74d9264ca4ba49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a036e1d66363a010e18564f784fec07a9" id="r_a036e1d66363a010e18564f784fec07a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a036e1d66363a010e18564f784fec07a9">add</a> (Key const &amp;key, Value &amp;&amp;value)</td></tr>
+<tr class="memitem:a036e1d66363a010e18564f784fec07a9" id="r_a036e1d66363a010e18564f784fec07a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a036e1d66363a010e18564f784fec07a9">add</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key, Value &amp;&amp;value)</td></tr>
 <tr class="memdesc:a036e1d66363a010e18564f784fec07a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a key-value pair to this <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a>.  <br /></td></tr>
 <tr class="separator:a036e1d66363a010e18564f784fec07a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad57f0b3e33b51eb7a30eb00b3d937683" id="r_ad57f0b3e33b51eb7a30eb00b3d937683"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad57f0b3e33b51eb7a30eb00b3d937683">remove</a> (Key const &amp;key)</td></tr>
+<tr class="memitem:ad57f0b3e33b51eb7a30eb00b3d937683" id="r_ad57f0b3e33b51eb7a30eb00b3d937683"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad57f0b3e33b51eb7a30eb00b3d937683">remove</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key)</td></tr>
 <tr class="memdesc:ad57f0b3e33b51eb7a30eb00b3d937683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the key-value pair with the given key.  <br /></td></tr>
 <tr class="separator:ad57f0b3e33b51eb7a30eb00b3d937683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8ae0688f653633ea2de27e3805c2b58" id="r_ac8ae0688f653633ea2de27e3805c2b58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8ae0688f653633ea2de27e3805c2b58">is_empty</a> () const</td></tr>
 <tr class="memdesc:ac8ae0688f653633ea2de27e3805c2b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a> is empty.  <br /></td></tr>
 <tr class="separator:ac8ae0688f653633ea2de27e3805c2b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdc753e017cba1fa0dab3d3dab95884f" id="r_afdc753e017cba1fa0dab3d3dab95884f"><td class="memItemLeft" align="right" valign="top">Value &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdc753e017cba1fa0dab3d3dab95884f">at</a> (Key const &amp;key)</td></tr>
+<tr class="memitem:afdc753e017cba1fa0dab3d3dab95884f" id="r_afdc753e017cba1fa0dab3d3dab95884f"><td class="memItemLeft" align="right" valign="top">Value &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdc753e017cba1fa0dab3d3dab95884f">at</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key)</td></tr>
 <tr class="memdesc:afdc753e017cba1fa0dab3d3dab95884f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Value with the given Key.  <br /></td></tr>
 <tr class="separator:afdc753e017cba1fa0dab3d3dab95884f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf2b4f246049deb68e96a7271bab2033" id="r_acf2b4f246049deb68e96a7271bab2033"><td class="memItemLeft" align="right" valign="top">Value const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf2b4f246049deb68e96a7271bab2033">at</a> (Key const &amp;key) const</td></tr>
+<tr class="memitem:acf2b4f246049deb68e96a7271bab2033" id="r_acf2b4f246049deb68e96a7271bab2033"><td class="memItemLeft" align="right" valign="top">Value const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf2b4f246049deb68e96a7271bab2033">at</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key) const</td></tr>
 <tr class="memdesc:acf2b4f246049deb68e96a7271bab2033"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Value with the given Key.  <br /></td></tr>
 <tr class="separator:acf2b4f246049deb68e96a7271bab2033"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59a0b136ccc4e81d9e6cc93df9ba3497" id="r_a59a0b136ccc4e81d9e6cc93df9ba3497"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59a0b136ccc4e81d9e6cc93df9ba3497">find</a> (Key const &amp;key)</td></tr>
+<tr class="memitem:a59a0b136ccc4e81d9e6cc93df9ba3497" id="r_a59a0b136ccc4e81d9e6cc93df9ba3497"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59a0b136ccc4e81d9e6cc93df9ba3497">find</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key)</td></tr>
 <tr class="memdesc:a59a0b136ccc4e81d9e6cc93df9ba3497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first occurrence of the given Key.  <br /></td></tr>
 <tr class="separator:a59a0b136ccc4e81d9e6cc93df9ba3497"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae9cb4369fff48fd58eb8bf0173e7f6a" id="r_aae9cb4369fff48fd58eb8bf0173e7f6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae9cb4369fff48fd58eb8bf0173e7f6a">find</a> (Key const &amp;key) const</td></tr>
+<tr class="memitem:aae9cb4369fff48fd58eb8bf0173e7f6a" id="r_aae9cb4369fff48fd58eb8bf0173e7f6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae9cb4369fff48fd58eb8bf0173e7f6a">find</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key) const</td></tr>
 <tr class="memdesc:aae9cb4369fff48fd58eb8bf0173e7f6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the first occurrence of the given Key.  <br /></td></tr>
 <tr class="separator:aae9cb4369fff48fd58eb8bf0173e7f6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5027dbf99bfb5ff0780736e6c2dfd248" id="r_a5027dbf99bfb5ff0780736e6c2dfd248"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a> (Key const &amp;key) const</td></tr>
+<tr class="memitem:a5027dbf99bfb5ff0780736e6c2dfd248" id="r_a5027dbf99bfb5ff0780736e6c2dfd248"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a> (<a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;key) const</td></tr>
 <tr class="memdesc:a5027dbf99bfb5ff0780736e6c2dfd248"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_map.html" title="Holds a hash map of key-value pairs.">Map</a> contains the given Key.  <br /></td></tr>
 <tr class="separator:a5027dbf99bfb5ff0780736e6c2dfd248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2383401266effc791b4b03b7258e5d41" id="r_a2383401266effc791b4b03b7258e5d41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2383401266effc791b4b03b7258e5d41">clear</a> ()</td></tr>
@@ -198,7 +198,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2383401266effc791b4b03b7258e5d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Key, typename Value&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt;<br />
 class Minty::Map&lt; Key, Value &gt;</div><p>Holds a hash map of key-value pairs. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -214,13 +214,13 @@ class Minty::Map&lt; Key, Value &gt;</div><p>Holds a hash map of key-value pairs
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::Map </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::Map </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const</td>          <td class="paramname"><span class="paramname"><em>allocator</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Allocator::Default</a></span></td><td>)</td>
           <td></td>
@@ -249,13 +249,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::Map </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::Map </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>capacity</em></span>, </td>
         </tr>
@@ -289,15 +289,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::Map </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::Map </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="class_minty_1_1_pair.html">Pair</a>&lt; Key, Value &gt; &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>list</em></span>, </td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="class_minty_1_1_pair.html">Pair</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt; &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>list</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -329,15 +329,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::Map </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::Map </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; Key, Value &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -356,15 +356,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::Map </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::Map </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; Key, Value &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -383,13 +383,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::~<a class="el" href="class_minty_1_1_map.html">Map</a> </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::~<a class="el" href="class_minty_1_1_map.html">Map</a> </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -411,15 +411,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::add </td>
+          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::add </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -451,15 +451,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::add </td>
+          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::add </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -491,15 +491,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::at </td>
+          <td class="memname">Value &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::at </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -527,15 +527,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value const  &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::at </td>
+          <td class="memname">Value const  &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::at </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -563,13 +563,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::begin </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -593,13 +593,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::begin </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::begin </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -623,13 +623,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::clear </td>
+          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::clear </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -652,15 +652,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::contains </td>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::contains </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -688,13 +688,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::end </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -718,13 +718,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::end </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::end </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -748,15 +748,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::find </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_iterator.html">Iterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::find </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -784,15 +784,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::find </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map_1_1_const_iterator.html">ConstIterator</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::find </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -820,13 +820,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::get_capacity </td>
+          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::get_capacity </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -847,13 +847,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::get_size </td>
+          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::get_size </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -874,13 +874,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::is_empty </td>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::is_empty </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -904,15 +904,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Map</a> &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::operator= </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Map</a> &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; Key, Value &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt; &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -931,15 +931,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Map</a> &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::operator= </td>
+          <td class="memname"><a class="el" href="class_minty_1_1_map.html">Map</a> &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; Key, Value &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_map.html">Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -958,15 +958,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::operator[] </td>
+          <td class="memname">Value &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -985,15 +985,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Value const  &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::operator[] </td>
+          <td class="memname">Value const  &amp; <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::operator[] </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -1012,15 +1012,15 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::remove </td>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::remove </td>
           <td>(</td>
-          <td class="paramtype">Key const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1048,13 +1048,13 @@ template&lt;typename Key, typename Value&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Key, typename Value&gt; </div>
+template&lt;typename <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, typename Value&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; Key, Value &gt;::reserve </td>
+          <td class="memname">void <a class="el" href="class_minty_1_1_map.html">Minty::Map</a>&lt; <a class="el" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a>, Value &gt;::reserve </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>capacity</em></span></td><td>)</td>
           <td></td>

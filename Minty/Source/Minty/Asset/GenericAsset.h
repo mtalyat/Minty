@@ -10,7 +10,14 @@ namespace Minty
 	/// </summary>
 	struct GenericAssetBuilder
 	{
+		/// <summary>
+		/// The ID.
+		/// </summary>
 		UUID id = INVALID_ID;
+
+		/// <summary>
+		/// The byte data.
+		/// </summary>
 		ConstantContainer data = {};
 	};
 

@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['handle_0',['Handle',['../namespace_minty.html#a40eb5e824cc6150ead0892d3dde0aaaa',1,'Minty']]]
+  ['float_0',['Float',['../namespace_minty.html#a372f2ac40c647017164622bb85bfb865',1,'Minty']]],
+  ['float2_1',['Float2',['../namespace_minty.html#a095ed213ce22b37698694dc4a3480154',1,'Minty']]],
+  ['float3_2',['Float3',['../namespace_minty.html#a7f39aa4e23883dc8bf6daed650e0628c',1,'Minty']]],
+  ['float4_3',['Float4',['../namespace_minty.html#a3566e3830f5be418523563c3b2f86627',1,'Minty']]]
 ];

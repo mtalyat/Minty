@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['long_0',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty']]]
+  ['job_0',['Job',['../namespace_minty.html#a19e4004fea4737d49bc8c7f83ea70411',1,'Minty']]]
 ];

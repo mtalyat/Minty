@@ -5,5 +5,6 @@ var searchData=
   ['tau_2',['TAU',['../namespace_minty_1_1_math.html#aea0642a5d44b6d1962273d9a6ae2c75d',1,'Minty::Math']]],
   ['temporary_3',['temporary',['../struct_minty_1_1_memory_manager_builder.html#a1e57bc225956dfadbc82ae48eb92c2db',1,'Minty::MemoryManagerBuilder']]],
   ['threadcount_4',['threadCount',['../struct_minty_1_1_job_manager_builder.html#aa006a9e1e411f9d48e45393c9b71c1ad',1,'Minty::JobManagerBuilder']]],
-  ['type_5',['type',['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header']]]
+  ['title_5',['title',['../struct_minty_1_1_window_builder.html#adf60b68fb9469c240087d59c8698f8c2',1,'Minty::WindowBuilder']]],
+  ['type_6',['type',['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header']]]
 ];

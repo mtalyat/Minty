@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['object_0',['Object',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda497031794414a552435f90151ac3b54b',1,'Minty']]],
-  ['optimal_1',['Optimal',['../namespace_minty.html#afd87ae84a36b61cf04cc9022b33ec225acb61fef1e5e79e07a80421cb9a073a80',1,'Minty']]]
+  ['nearest_0',['Nearest',['../namespace_minty.html#af9f01817540b1a02607fd01fc1bda06da60494f02d440f316319dd0fad40ad007',1,'Minty']]],
+  ['none_1',['None',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3aa6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::File::None'],['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::Wrap::None'],['../namespace_minty.html#abe96803589e915713959c294c0df12c6a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None'],['../namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None'],['../namespace_minty.html#a849a9e9afca51327a3f16e2879ccb673a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None'],['../namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a6adf97f83acf6453d4a6a4b1070f3754',1,'Minty::None']]],
+  ['normal_2',['Normal',['../namespace_minty.html#a1bf85caac56dd328ba80673821c4a883a960b44c579bc2f6818d2daaf9e4c16f0',1,'Minty']]],
+  ['normalized_3',['Normalized',['../namespace_minty.html#a2a88524dc6e059e6478f0a79f37437daa66b28fcf83c9f24cd5b4d7bdc8f8ba0e',1,'Minty']]]
 ];

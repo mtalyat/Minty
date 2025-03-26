@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['node_5fpointer_0',['node_pointer',['../class_minty_1_1_list_1_1_iterator.html#a3b35c706c972bb573d60fec6c245bef2',1,'Minty::List::Iterator::node_pointer'],['../class_minty_1_1_list_1_1_const_iterator.html#a4cbcd6d5c378b6ed97d3f29231638a9a',1,'Minty::List::ConstIterator::node_pointer'],['../class_minty_1_1_list_1_1_reverse_iterator.html#a50c4e3a800889ef9e664e6a4523bc887',1,'Minty::List::ReverseIterator::node_pointer'],['../class_minty_1_1_list_1_1_const_reverse_iterator.html#a23522ed4c986876ec38f67e8085ea7b9',1,'Minty::List::ConstReverseIterator::node_pointer']]],
-  ['node_5ftype_1',['node_type',['../class_minty_1_1_list_1_1_iterator.html#a7def2d9bd225982b2e5677a5dd154ac0',1,'Minty::List::Iterator::node_type'],['../class_minty_1_1_list_1_1_const_iterator.html#a17b5c43480983add9528624910911d47',1,'Minty::List::ConstIterator::node_type'],['../class_minty_1_1_list_1_1_reverse_iterator.html#a123d9276ddc3f5975d183e1603a96843',1,'Minty::List::ReverseIterator::node_type'],['../class_minty_1_1_list_1_1_const_reverse_iterator.html#af583737e9c9f43da7f14831103711d5d',1,'Minty::List::ConstReverseIterator::node_type']]]
+  ['matrix2_0',['Matrix2',['../namespace_minty.html#aedb3f5fffa9dff3c7fc7948bdf165b59',1,'Minty']]],
+  ['matrix3_1',['Matrix3',['../namespace_minty.html#a3a52fd206868c3f845e19fd8f7d82e33',1,'Minty']]],
+  ['matrix4_2',['Matrix4',['../namespace_minty.html#a27a81c458cf9938299dbbd83970f4fab',1,'Minty']]]
 ];

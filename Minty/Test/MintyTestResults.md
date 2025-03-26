@@ -1,5 +1,5 @@
 # Results
-5367/5367 (100.00%)
+5396/5396 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -77,6 +77,7 @@
 | TextFileWriter                 |       45 |        0 |
 | Stopwatch                      |       31 |        0 |
 | Time                           |       21 |        0 |
+| Window                         |       29 |        0 |
 | Wrap                           |       74 |        0 |
 | Wrapper                        |       23 |        0 |
 
@@ -5646,6 +5647,39 @@ No failures! :)
 |  PASS  | 67: Timestamp (timestamp[19] == '.')                                                                                             |
 |  PASS  | 76: Sleep (duration >= 0.1f)                                                                                                     |
 |  PASS  | 77: Sleep (duration < 0.2f)                                                                                                      |
+
+## Window
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 13: Constructor (window->get_id() == builder.id)                                                                                 |
+|  PASS  | 14: Constructor (window->get_position() == builder.position)                                                                     |
+|  PASS  | 15: Constructor (window->get_size() == builder.size)                                                                             |
+|  PASS  | 16: Constructor (window->get_title() == builder.title)                                                                           |
+|  PASS  | 24: Get ID (window->get_id() == builder.id)                                                                                      |
+|  PASS  | 32: Get Title (window->get_title() == builder.title)                                                                             |
+|  PASS  | 41: Set Title (window->get_title() == "New Title")                                                                               |
+|  PASS  | 49: Get Position (window->get_position() == builder.position)                                                                    |
+|  PASS  | 58: Set Position (window->get_position() == Int2(300, 400))                                                                      |
+|  PASS  | 66: Get Size (window->get_size() == builder.size)                                                                                |
+|  PASS  | 75: Set Size (window->get_size() == UInt2(1024, 768))                                                                            |
+|  PASS  | 83: Get Framebuffer Size (window->get_framebuffer_size() == builder.size)                                                        |
+|  PASS  | 91: Get/Set Cursor Mode (window->get_cursor_mode() == CursorMode::Disabled)                                                      |
+|  PASS  | 93: Get/Set Cursor Mode (window->get_cursor_mode() == CursorMode::Hidden)                                                        |
+|  PASS  | 95: Get/Set Cursor Mode (window->get_cursor_mode() == CursorMode::Normal)                                                        |
+|  PASS  | 102: Get Native (window->get_native() != nullptr)                                                                                |
+|  PASS  | 109: Maximize (window->maximize())                                                                                               |
+|  PASS  | 116: Minimize (window->minimize())                                                                                               |
+|  PASS  | 123: Restore (window->restore())                                                                                                 |
+|  PASS  | 125: Restore (window->restore())                                                                                                 |
+|  PASS  | 127: Restore (window->restore())                                                                                                 |
+|  PASS  | 134: Close (window->close())                                                                                                     |
+|  PASS  | 135: Close (window->is_open() == false)                                                                                          |
+|  PASS  | 142: Is Open (window->is_open() == true)                                                                                         |
+|  PASS  | 144: Is Open (window->is_open() == false)                                                                                        |
+|  PASS  | 162: Create (window->get_id() == builder.id)                                                                                     |
+|  PASS  | 163: Create (window->get_position() == builder.position)                                                                         |
+|  PASS  | 164: Create (window->get_size() == builder.size)                                                                                 |
+|  PASS  | 165: Create (window->get_title() == builder.title)                                                                               |
 
 ## Wrap
 | Result | Message                                                                                                                          |

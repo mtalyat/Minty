@@ -11,5 +11,6 @@ var searchData=
   ['context_2ecpp_8',['Context.cpp',['../_context_8cpp.html',1,'']]],
   ['context_2eh_9',['Context.h',['../_context_8h.html',1,'']]],
   ['coordinatemode_2ecpp_10',['CoordinateMode.cpp',['../_coordinate_mode_8cpp.html',1,'']]],
-  ['coordinatemode_2eh_11',['CoordinateMode.h',['../_coordinate_mode_8h.html',1,'']]]
+  ['coordinatemode_2eh_11',['CoordinateMode.h',['../_coordinate_mode_8h.html',1,'']]],
+  ['cursormode_2eh_12',['CursorMode.h',['../_cursor_mode_8h.html',1,'']]]
 ];
