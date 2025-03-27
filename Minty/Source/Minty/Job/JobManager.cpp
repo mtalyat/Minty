@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "JobManager.h"
+#include "Minty/Context/Context.h"
 
 using namespace Minty;
 
@@ -245,4 +246,14 @@ void Minty::JobManager::wait(Vector<Handle> const& handles)
 	{
 		wait(handle);
 	}
+}
+
+Owner<JobManager> Minty::JobManager::create(JobManagerBuilder const& builder)
+{
+	return Owner<JobManager>(builder);
+}
+
+JobManager& Minty::JobManager::instance()
+{
+	return Context::instance().get_job_manager();
 }

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['data_0',['data',['../struct_minty_1_1_generic_asset_builder.html#a3161e0b83a7fb23155e793e9a758509f',1,'Minty::GenericAssetBuilder']]],
+  ['data_0',['data',['../struct_minty_1_1_generic_asset_builder.html#a3161e0b83a7fb23155e793e9a758509f',1,'Minty::GenericAssetBuilder::data'],['../struct_minty_1_1_buffer_builder.html#a44da98604e8c6d63ef1b42c68913968f',1,'Minty::BufferBuilder::data']]],
   ['debuglogpath_1',['debugLogPath',['../struct_minty_1_1_context_builder.html#af2483357e9410a95d8b9c5f22839d32a',1,'Minty::ContextBuilder']]],
   ['default_5fcollection_5frehash_5fthreshold_2',['DEFAULT_COLLECTION_REHASH_THRESHOLD',['../namespace_minty.html#ae765a26fb4ac7429a492333609d3cad7',1,'Minty']]],
   ['default_5fcollection_5fsize_3',['DEFAULT_COLLECTION_SIZE',['../namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0',1,'Minty']]],

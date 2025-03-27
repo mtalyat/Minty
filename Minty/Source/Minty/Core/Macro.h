@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Debug/Debug.h"
 #include <iostream>
 #include <format>
 #include <filesystem>
@@ -12,51 +11,18 @@
 #define MINTY_DEBUG
 #endif // NDEBUG
 
-#define MINTY_DEBUG_INFO(message) "[", std::filesystem::path(__FILE__).filename().string(), "][", __func__, "()][line ", __LINE__, "] -> ", message
-
-#define MINTY_WRITE(message, color) do { Debug::set_foreground_color(color); Debug::write(message); Debug::reset(); } while(false)
-
-#define MINTY_TAG(tag, message, color) do { Debug::write("["); MINTY_WRITE(tag, color); Debug::write("] ", message); } while(false)
-
 #ifdef MINTY_DEBUG
-#define MINTY_LOG(message) Debug::write(message)
-#else
-#define MINTY_LOG(message)
-#endif // MINTY_DEBUG
-
-#define MINTY_ERROR(message) MINTY_TAG("ERRR", message, Debug::Color::BrightRed)
-
-#ifdef MINTY_DEBUG
-#define MINTY_WARNING(message) MINTY_TAG("WARN", message, Debug::Color::BrightYellow)
-#else
-#define MINTY_WARNING(message)
-#endif // MINTY_DEBUG
-
-#ifdef MINTY_DEBUG
-//#define MINTY_ABORT(message) do { std::cerr << "FATAL ERROR: " << MINTY_DEBUG_INFO(message) << std::endl; throw std::runtime_error(message); } while(false)
-#define MINTY_ABORT(message) do { MINTY_TAG("ABRT", message, Debug::Color::Red); throw std::runtime_error(message); } while(false)
-#else
-#define MINTY_ABORT(message) MINTY_ERROR(message)
-#endif // MINTY_DEBUG
-
-#ifdef MINTY_DEBUG
-#define MINTY_ASSERT(expression, message) do { if(!(expression)) { MINTY_ABORT("(" #expression ") failed: " #message); } } while(false)
-#else
-#define MINTY_ASSERT(expression, message)
-#endif // MINTY_DEBUG
-
-#if defined(MINTY_DEBUG)
 
 // if debugging and using Visual Studio, insert debug break
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 #define MINTY_BREAK() __debugbreak()
 #else
 #define MINTY_BREAK()
-#endif
+#endif // _MSC_VER
 
 #else
 #define MINTY_BREAK()
-#endif
+#endif // MINTY_DEBUG
 
 #pragma endregion
 
@@ -84,5 +50,11 @@ inline Bool operator>(type const left, type const right) { return static_cast<Si
 #else
 #error "Unsupported operating system."
 #endif
+
+#pragma endregion
+
+#pragma region Tool
+
+#define MINTY_MAKE_VERSION(major, minor, patch) (((static_cast<uint32_t>(major)) << 22U) | ((static_cast<uint32_t>(minor)) << 12U) | (static_cast<uint32_t>(patch)))
 
 #pragma endregion

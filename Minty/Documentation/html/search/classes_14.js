@@ -1,16 +1,13 @@
 var searchData=
 [
-  ['window_0',['Window',['../class_minty_1_1_window.html',1,'Minty']]],
-  ['windowbuilder_1',['WindowBuilder',['../struct_minty_1_1_window_builder.html',1,'Minty']]],
-  ['windowcloseevent_2',['WindowCloseEvent',['../class_minty_1_1_window_close_event.html',1,'Minty']]],
-  ['windowresizeevent_3',['WindowResizeEvent',['../class_minty_1_1_window_resize_event.html',1,'Minty']]],
-  ['windows_5fwindow_4',['Windows_Window',['../class_minty_1_1_windows___window.html',1,'Minty']]],
-  ['wrap_5',['Wrap',['../class_minty_1_1_wrap.html',1,'Minty']]],
-  ['wrapper_6',['Wrapper',['../class_minty_1_1_wrapper.html',1,'Minty']]],
-  ['writer_7',['Writer',['../class_minty_1_1_writer.html',1,'Minty']]],
-  ['writerformatbehavior_8',['WriterFormatBehavior',['../class_minty_1_1_writer_format_behavior.html',1,'Minty']]],
-  ['writerimplementation_9',['WriterImplementation',['../class_minty_1_1_writer_implementation.html',1,'Minty']]],
-  ['writerimplementation_3c_20textwriterbehavior_2c_20filewriterbehavior_20_3e_10',['WriterImplementation&lt; TextWriterBehavior, FileWriterBehavior &gt;',['../class_minty_1_1_writer_implementation.html',1,'Minty']]],
-  ['writerimplementation_3c_20textwriterbehavior_2c_20memorywriterbehavior_20_3e_11',['WriterImplementation&lt; TextWriterBehavior, MemoryWriterBehavior &gt;',['../class_minty_1_1_writer_implementation.html',1,'Minty']]],
-  ['writerstoragebehavior_12',['WriterStorageBehavior',['../class_minty_1_1_writer_storage_behavior.html',1,'Minty']]]
+  ['variable_0',['Variable',['../class_minty_1_1_variable.html',1,'Minty']]],
+  ['vector_1',['Vector',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20byte_20_3e_2',['Vector&lt; Byte &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20handle_20_3e_3',['Vector&lt; Handle &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3anode_20_3e_4',['Vector&lt; Minty::Node &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3awrap_20_3e_5',['Vector&lt; Minty::Wrap &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20minty_3a_3awrap_3a_3aentry_20_3e_6',['Vector&lt; Minty::Wrap::Entry &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['vector_3c_20std_3a_3athread_20_3e_7',['Vector&lt; std::thread &gt;',['../class_minty_1_1_vector.html',1,'Minty']]],
+  ['virtualfile_8',['VirtualFile',['../class_minty_1_1_virtual_file.html',1,'Minty']]],
+  ['vulkan_5frendermanager_9',['Vulkan_RenderManager',['../class_minty_1_1_vulkan___render_manager.html',1,'Minty']]]
 ];

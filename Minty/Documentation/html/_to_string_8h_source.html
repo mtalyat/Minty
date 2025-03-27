@@ -108,8 +108,8 @@ $(function(){initNavTree('_to_string_8h_source.html',''); initResizable(true); }
 <a href="_to_string_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once  </span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_math_8h.html">Minty/Core/Math.h</a>&quot;</span>  </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_types_8h.html">Minty/Core/Types.h</a>&quot;</span>  </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_macro_8h.html">Minty/Core/Macro.h</a>&quot;</span>  </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_string_8h.html">Minty/Data/String.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_string_8h.html">Minty/Data/String.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_debug_8h.html">Minty/Debug/Debug.h</a>&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_is_parseable_8h.html">Minty/Serialization/IsParseable.h</a>&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a>  </div>
@@ -128,7 +128,7 @@ $(function(){initNavTree('_to_string_8h_source.html',''); initResizable(true); }
 <div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespace_minty.html#a5faad5f8c07f3faa8b3187e5abc641e4">   19</a></span>       <a class="code hl_function" href="namespace_minty.html#a545ea6cc8d14edcef4974706bd3c7f6b">to_string</a>(T <span class="keyword">const</span> value)  </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>   {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>       <a class="code hl_define" href="_macro_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a>(<span class="stringliteral">&quot;Cannot convert type to string.&quot;</span>);  </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>       <a class="code hl_define" href="_debug_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a>(<span class="stringliteral">&quot;Cannot convert type to string.&quot;</span>);  </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>       <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;  </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>   }  </div>
 </div>
@@ -159,9 +159,9 @@ $(function(){initNavTree('_to_string_8h_source.html',''); initResizable(true); }
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>   <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a> <a class="code hl_function" href="namespace_minty.html#a545ea6cc8d14edcef4974706bd3c7f6b">to_string</a>(<a class="code hl_typedef" href="namespace_minty.html#a53da280d5b353ab0ec1be9b47f925392">Double</a> <span class="keyword">const</span> value);</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>   <a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a> <a class="code hl_function" href="namespace_minty.html#a545ea6cc8d14edcef4974706bd3c7f6b">to_string</a>(<a class="code hl_enumvalue" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98">String</a> <span class="keyword">const</span>&amp; value);</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="ttc" id="a_debug_8h_html"><div class="ttname"><a href="_debug_8h.html">Debug.h</a></div></div>
+<div class="ttc" id="a_debug_8h_html_a361da9ef9b75bbbfefe1700e866ecc2c"><div class="ttname"><a href="_debug_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a></div><div class="ttdeci">#define MINTY_ABORT(message)</div><div class="ttdef"><b>Definition</b> Debug.h:32</div></div>
 <div class="ttc" id="a_is_parseable_8h_html"><div class="ttname"><a href="_is_parseable_8h.html">IsParseable.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html_a361da9ef9b75bbbfefe1700e866ecc2c"><div class="ttname"><a href="_macro_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a></div><div class="ttdeci">#define MINTY_ABORT(message)</div><div class="ttdef"><b>Definition</b> Macro.h:37</div></div>
 <div class="ttc" id="a_math_8h_html"><div class="ttname"><a href="_math_8h.html">Math.h</a></div></div>
 <div class="ttc" id="a_string_8h_html"><div class="ttname"><a href="_string_8h.html">String.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>

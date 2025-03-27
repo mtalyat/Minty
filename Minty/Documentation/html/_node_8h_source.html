@@ -307,7 +307,7 @@ $(function(){initNavTree('_node_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00254" data-start="{" data-end="}">
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="class_minty_1_1_node.html#ab9be19a631c619d2721ba7276ba00df9">  254</a></span>        <a class="code hl_function" href="class_minty_1_1_node.html#aa807d0938b23dace2579046932bcf206">Node</a> <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_node.html#ab9be19a631c619d2721ba7276ba00df9">get_child</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_children.get_size(), <span class="stringliteral">&quot;The given index is out of range.&quot;</span>);</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(index &lt; m_children.get_size(), <span class="stringliteral">&quot;The given index is out of range.&quot;</span>);</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>            <span class="keywordflow">return</span> m_children[index];</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        }</div>
 </div>
@@ -315,7 +315,7 @@ $(function(){initNavTree('_node_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00265" data-start="{" data-end="}">
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="class_minty_1_1_node.html#a92a8284a0d612656168f492dd5f2908f">  265</a></span>        <a class="code hl_function" href="class_minty_1_1_node.html#aa807d0938b23dace2579046932bcf206">Node</a> <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_node.html#a92a8284a0d612656168f492dd5f2908f">get_child</a>(<a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_lookup.contains(name), <span class="stringliteral">&quot;The given name does not exist.&quot;</span>);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_lookup.contains(name), <span class="stringliteral">&quot;The given name does not exist.&quot;</span>);</div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>            <span class="keywordflow">return</span> m_children[m_lookup[name]];</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        }</div>
 </div>
@@ -348,8 +348,8 @@ $(function(){initNavTree('_node_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    };</div>
 </div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>}</div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
 <div class="ttc" id="a_dynamic_container_8h_html"><div class="ttname"><a href="_dynamic_container_8h.html">DynamicContainer.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:43</div></div>
 <div class="ttc" id="a_map_8h_html"><div class="ttname"><a href="_map_8h.html">Map.h</a></div></div>
 <div class="ttc" id="a_string_8h_html"><div class="ttname"><a href="_string_8h.html">String.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>

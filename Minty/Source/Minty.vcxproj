@@ -237,10 +237,12 @@ doxygen</Command>
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
+    <ClInclude Include="Minty\Render\Buffer.h" />
     <ClInclude Include="Minty\Render\BufferUsage.h" />
     <ClInclude Include="Minty\Render\CoordinateMode.h" />
     <ClInclude Include="Minty\Render\Filter.h" />
     <ClInclude Include="Minty\Render\Format.h" />
+    <ClInclude Include="Minty\Render\Image.h" />
     <ClInclude Include="Minty\Render\ImageAddressMode.h" />
     <ClInclude Include="Minty\Render\ImageAspect.h" />
     <ClInclude Include="Minty\Render\ImageLayout.h" />
@@ -248,6 +250,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ImageTiling.h" />
     <ClInclude Include="Minty\Render\ImageType.h" />
     <ClInclude Include="Minty\Render\ImageUsage.h" />
+    <ClInclude Include="Minty\Render\RenderManager.h" />
     <ClInclude Include="Minty\Render\ShaderCullMode.h" />
     <ClInclude Include="Minty\Render\ShaderFrontFace.h" />
     <ClInclude Include="Minty\Render\ShaderInputRate.h" />
@@ -279,6 +282,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Wrap\Wrapper.h" />
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Image.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderManager.h" />
     <ClInclude Include="Platform\Windows\Windows_Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -310,10 +315,12 @@ doxygen</Command>
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
+    <ClCompile Include="Minty\Render\Buffer.cpp" />
     <ClCompile Include="Minty\Render\BufferUsage.cpp" />
     <ClCompile Include="Minty\Render\CoordinateMode.cpp" />
     <ClCompile Include="Minty\Render\Filter.cpp" />
     <ClCompile Include="Minty\Render\Format.cpp" />
+    <ClCompile Include="Minty\Render\Image.cpp" />
     <ClCompile Include="Minty\Render\ImageAddressMode.cpp" />
     <ClCompile Include="Minty\Render\ImageAspect.cpp" />
     <ClCompile Include="Minty\Render\ImageLayout.cpp" />
@@ -321,6 +328,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ImageTiling.cpp" />
     <ClCompile Include="Minty\Render\ImageType.cpp" />
     <ClCompile Include="Minty\Render\ImageUsage.cpp" />
+    <ClCompile Include="Minty\Render\RenderManager.cpp" />
     <ClCompile Include="Minty\Render\ShaderCullMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderFrontFace.cpp" />
     <ClCompile Include="Minty\Render\ShaderInputRate.cpp" />
@@ -344,6 +352,7 @@ doxygen</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderManager.cpp" />
     <ClCompile Include="Platform\Windows\Windows_Window.cpp" />
   </ItemGroup>
   <ItemGroup>

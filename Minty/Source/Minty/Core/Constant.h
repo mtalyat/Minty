@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Core/Macro.h"
 
 namespace Minty
 {
@@ -62,6 +63,16 @@ namespace Minty
 	/// Represents an invalid index.
 	/// </summary>
 	constexpr Size INVALID_INDEX = -1;
+
+#pragma endregion
+
+#pragma region Minty
+
+	constexpr Char const* MINTY_NAME = "Minty";
+	constexpr UInt MINTY_VERSION_MAJOR = 0;
+	constexpr UInt MINTY_VERSION_MINOR = 1;
+	constexpr UInt MINTY_VERSION_PATCH = 0;
+	constexpr UInt MINTY_VERSION = MINTY_MAKE_VERSION(MINTY_VERSION_MAJOR, MINTY_VERSION_MINOR, MINTY_VERSION_PATCH);
 
 #pragma endregion
 

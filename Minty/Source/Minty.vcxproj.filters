@@ -67,6 +67,9 @@
     <Filter Include="Minty\Event">
       <UniqueIdentifier>{5acc83b4-ee82-426c-9bc1-b8dfb0618d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform\Vulkan">
+      <UniqueIdentifier>{4732a26c-8e18-4e56-bfcf-eefd613ce871}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -384,6 +387,21 @@
     <ClInclude Include="Minty\Library\STB.h">
       <Filter>Minty\Library</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\Image.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Image.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Buffer.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\RenderManager.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderManager.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -558,6 +576,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Windows\Windows_Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\RenderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

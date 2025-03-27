@@ -4,10 +4,13 @@ var hierarchy =
     [ "Minty::ApplicationBuilder", "struct_minty_1_1_application_builder.html", null ],
     [ "Minty::Array< T, S >", "class_minty_1_1_array.html", null ],
     [ "Minty::Asset", "class_minty_1_1_asset.html", [
-      [ "Minty::GenericAsset", "class_minty_1_1_generic_asset.html", null ]
+      [ "Minty::GenericAsset", "class_minty_1_1_generic_asset.html", null ],
+      [ "Minty::Image", "class_minty_1_1_image.html", null ]
     ] ],
     [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
     [ "Minty::AssetManagerBuilder", "struct_minty_1_1_asset_manager_builder.html", null ],
+    [ "Minty::Buffer", "class_minty_1_1_buffer.html", null ],
+    [ "Minty::BufferBuilder", "struct_minty_1_1_buffer_builder.html", null ],
     [ "Minty::Color", "struct_minty_1_1_color.html", null ],
     [ "Minty::Array< T, S >::ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html", null ],
     [ "Minty::List< T >::ConstIterator", "class_minty_1_1_list_1_1_const_iterator.html", null ],
@@ -60,6 +63,7 @@ var hierarchy =
     [ "std::hash< Minty::String >", "structstd_1_1hash_3_01_minty_1_1_string_01_4.html", null ],
     [ "std::hash< Minty::UUID >", "structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html", null ],
     [ "Minty::Wrap::Header", "struct_minty_1_1_wrap_1_1_header.html", null ],
+    [ "Minty::ImageBuilder", "struct_minty_1_1_image_builder.html", null ],
     [ "Minty::Array< T, S >::Iterator", "class_minty_1_1_array_1_1_iterator.html", null ],
     [ "Minty::List< T >::Iterator", "class_minty_1_1_list_1_1_iterator.html", null ],
     [ "Minty::Map< Key, Value >::Iterator", "class_minty_1_1_map_1_1_iterator.html", null ],
@@ -110,6 +114,10 @@ var hierarchy =
       ] ]
     ] ],
     [ "Minty::Ref< T >", "class_minty_1_1_ref.html", null ],
+    [ "Minty::RenderManager", "class_minty_1_1_render_manager.html", [
+      [ "Minty::Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html", null ]
+    ] ],
+    [ "Minty::RenderManagerBuilder", "struct_minty_1_1_render_manager_builder.html", null ],
     [ "Minty::Array< T, S >::ReverseIterator", "class_minty_1_1_array_1_1_reverse_iterator.html", null ],
     [ "Minty::List< T >::ReverseIterator", "class_minty_1_1_list_1_1_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", null ],

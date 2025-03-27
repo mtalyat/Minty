@@ -108,9 +108,9 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <a href="_map_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_base_8h.html">Minty/Core/Base.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_constant_8h.html">Minty/Core/Constant.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_macro_8h.html">Minty/Core/Macro.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_types_8h.html">Minty/Core/Types.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_pair_8h.html">Minty/Data/Pair.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_types_8h.html">Minty/Core/Types.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_pair_8h.html">Minty/Data/Pair.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_debug_8h.html">Minty/Debug/Debug.h</a>&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
@@ -189,7 +189,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="class_minty_1_1_map_1_1_iterator.html#a0a93888bf536e47834af73e9b96247c5">   85</a></span>            <a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a>&amp; <a class="code hl_function" href="class_minty_1_1_map_1_1_iterator.html#a0a93888bf536e47834af73e9b96247c5">operator*</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Iterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Iterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a>&amp;<span class="keyword">&gt;</span>(*mp_current);</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            }</div>
 </div>
@@ -197,7 +197,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="class_minty_1_1_map_1_1_iterator.html#ab025125cdc7430be0ebaf820f175fd51">   91</a></span>            <a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a>* <a class="code hl_function" href="class_minty_1_1_map_1_1_iterator.html#ab025125cdc7430be0ebaf820f175fd51">operator-&gt;</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Iterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Iterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a>*<span class="keyword">&gt;</span>(mp_current);</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            }</div>
 </div>
@@ -297,7 +297,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="class_minty_1_1_map_1_1_const_iterator.html#aa2e79a264c1df5f46f0f493f54ad7174">  177</a></span>            <a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a> <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_map_1_1_const_iterator.html#aa2e79a264c1df5f46f0f493f54ad7174">operator*</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;ConstIterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;ConstIterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a> const&amp;<span class="keyword">&gt;</span>(*mp_current);</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            }</div>
 </div>
@@ -305,7 +305,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00183" data-start="{" data-end="}">
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="class_minty_1_1_map_1_1_const_iterator.html#a120eef888f4960c24898fc04d8dd9f44">  183</a></span>            <a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a> <span class="keyword">const</span>* <a class="code hl_function" href="class_minty_1_1_map_1_1_const_iterator.html#a120eef888f4960c24898fc04d8dd9f44">operator-&gt;</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;ConstIterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;ConstIterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_minty_1_1_pair.html">Pair&lt;Key, Value&gt;</a> const*<span class="keyword">&gt;</span>(mp_current);</div>
 <div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            }</div>
 </div>
@@ -641,7 +641,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>                rehash();</div>
 <div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>            }</div>
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
-<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!<a class="code hl_function" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a>(key), <span class="stringliteral">&quot;Key already exists in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!<a class="code hl_function" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a>(key), <span class="stringliteral">&quot;Key already exists in this Map.&quot;</span>);</div>
 <div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span> </div>
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>            <span class="comment">// insert into bucket</span></div>
 <div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
@@ -663,7 +663,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>                rehash();</div>
 <div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>            }</div>
 <div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span> </div>
-<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!<a class="code hl_function" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a>(key), <span class="stringliteral">&quot;Key already exists in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!<a class="code hl_function" href="class_minty_1_1_map.html#a5027dbf99bfb5ff0780736e6c2dfd248">contains</a>(key), <span class="stringliteral">&quot;Key already exists in this Map.&quot;</span>);</div>
 <div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span> </div>
 <div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>            <span class="comment">// insert into bucket</span></div>
 <div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
@@ -715,7 +715,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00606" data-start="{" data-end="}">
 <div class="line"><a id="l00606" name="l00606"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#afdc753e017cba1fa0dab3d3dab95884f">  606</a></span>        Value&amp; <a class="code hl_function" href="class_minty_1_1_map.html#afdc753e017cba1fa0dab3d3dab95884f">at</a>(<a class="code hl_enumvalue" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> <span class="keyword">const</span>&amp; key)</div>
 <div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>        {</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;Map is empty.&quot;</span>);</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;Map is empty.&quot;</span>);</div>
 <div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span> </div>
 <div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
 <div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>            Node* node = mp_table[index];</div>
@@ -729,7 +729,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>                node = node-&gt;next;</div>
 <div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>            }</div>
 <div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span> </div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
 <div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span> </div>
 <div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            <span class="keywordflow">return</span> node-&gt;value;</div>
 <div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>        }</div>
@@ -738,7 +738,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00632" data-start="{" data-end="}">
 <div class="line"><a id="l00632" name="l00632"></a><span class="lineno"><a class="line" href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">  632</a></span>        Value <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_map.html#acf2b4f246049deb68e96a7271bab2033">at</a>(<a class="code hl_enumvalue" href="namespace_minty.html#a24cfb6f09ebbff912322c9ee83c1c066a897356954c2cd3d41b221e3f24f99bba">Key</a> <span class="keyword">const</span>&amp; key)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;Map is empty.&quot;</span>);</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;Map is empty.&quot;</span>);</div>
 <div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span> </div>
 <div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>            <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> index = hash(key);</div>
 <div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>            Node <span class="keyword">const</span>* node = mp_table[index];</div>
@@ -752,7 +752,7 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                node = node-&gt;next;</div>
 <div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            }</div>
 <div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span> </div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(<span class="keyword">false</span>, <span class="stringliteral">&quot;Key does not exist in this Map.&quot;</span>);</div>
 <div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span> </div>
 <div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>            <span class="keywordflow">return</span> node-&gt;value;</div>
 <div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        }</div>
@@ -831,8 +831,8 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
 <div class="ttc" id="a_constant_8h_html"><div class="ttname"><a href="_constant_8h.html">Constant.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:43</div></div>
+<div class="ttc" id="a_debug_8h_html"><div class="ttname"><a href="_debug_8h.html">Debug.h</a></div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
 <div class="ttc" id="a_pair_8h_html"><div class="ttname"><a href="_pair_8h.html">Pair.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
 <div class="ttc" id="aclass_minty_1_1_map_1_1_const_iterator_html"><div class="ttname"><a href="class_minty_1_1_map_1_1_const_iterator.html">Minty::Map::ConstIterator</a></div><div class="ttdef"><b>Definition</b> Map.h:140</div></div>
@@ -892,8 +892,8 @@ $(function(){initNavTree('_map_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="anamespace_minty_html_a910b025ccb027a56bcf5a973446e9ab0"><div class="ttname"><a href="namespace_minty.html#a910b025ccb027a56bcf5a973446e9ab0">Minty::destruct_array</a></div><div class="ttdeci">void destruct_array(T *const ptr, Size const size, Allocator const allocator)</div><div class="ttdoc">Destroys the given array of objects.</div><div class="ttdef"><b>Definition</b> Base.h:92</div></div>
 <div class="ttc" id="anamespace_minty_html_ad904f681bc05c05b4167dc715fe840bf"><div class="ttname"><a href="namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf">Minty::destruct</a></div><div class="ttdeci">void destruct(T *const ptr, Allocator const allocator)</div><div class="ttdoc">Destroys the given object.</div><div class="ttdef"><b>Definition</b> Base.h:76</div></div>
 <div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:8</div></div>
-<div class="ttc" id="anamespace_minty_html_ae765a26fb4ac7429a492333609d3cad7"><div class="ttname"><a href="namespace_minty.html#ae765a26fb4ac7429a492333609d3cad7">Minty::DEFAULT_COLLECTION_REHASH_THRESHOLD</a></div><div class="ttdeci">constexpr Float DEFAULT_COLLECTION_REHASH_THRESHOLD</div><div class="ttdoc">The default threshold for rehashing a hashed collection.</div><div class="ttdef"><b>Definition</b> Constant.h:25</div></div>
-<div class="ttc" id="anamespace_minty_html_afa2d215866b48fd509ab3848c9bd33d0"><div class="ttname"><a href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">Minty::DEFAULT_COLLECTION_SIZE</a></div><div class="ttdeci">constexpr Size DEFAULT_COLLECTION_SIZE</div><div class="ttdoc">The default capacity that collections used, if not explicitly given one.</div><div class="ttdef"><b>Definition</b> Constant.h:20</div></div>
+<div class="ttc" id="anamespace_minty_html_ae765a26fb4ac7429a492333609d3cad7"><div class="ttname"><a href="namespace_minty.html#ae765a26fb4ac7429a492333609d3cad7">Minty::DEFAULT_COLLECTION_REHASH_THRESHOLD</a></div><div class="ttdeci">constexpr Float DEFAULT_COLLECTION_REHASH_THRESHOLD</div><div class="ttdoc">The default threshold for rehashing a hashed collection.</div><div class="ttdef"><b>Definition</b> Constant.h:26</div></div>
+<div class="ttc" id="anamespace_minty_html_afa2d215866b48fd509ab3848c9bd33d0"><div class="ttname"><a href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">Minty::DEFAULT_COLLECTION_SIZE</a></div><div class="ttdeci">constexpr Size DEFAULT_COLLECTION_SIZE</div><div class="ttdoc">The default capacity that collections used, if not explicitly given one.</div><div class="ttdef"><b>Definition</b> Constant.h:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -3,6 +3,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Memory/Allocator.h"
 #include "Minty/Memory/MemoryPool.h"
 #include "Minty/Memory/MemoryStack.h"
@@ -23,11 +24,11 @@ namespace Minty
 		/// The MemoryStacks for tasks (multiple frames) memory.
 		/// </summary>
 		MemoryStackBuilder task = { MB * 4 };
-		
+
 		/// <summary>
 		/// The MemoryPools for persistent memory.
 		/// </summary>
-		MemoryPoolBuilder persistent[8] = 
+		MemoryPoolBuilder persistent[8] =
 		{
 			{64, MB / 64}, {256, MB / 256}, {KB, MB / KB}, {4 * KB, MB / (4 * KB)}, {16 * KB, MB / (16 * KB)}, {64 * KB, MB / (64 * KB)}, {256 * KB, MB / (256 * KB)}, {MB, 16}
 		};
@@ -68,10 +69,11 @@ namespace Minty
 			: m_temporary(builder.temporary)
 			, m_task{ MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task) }
 			, m_taskIndex(0)
-			, m_persistent{ MemoryPool(builder.persistent[0]), MemoryPool(builder.persistent[1]), MemoryPool(builder.persistent[2]), MemoryPool(builder.persistent[3]), MemoryPool(builder.persistent[4]), MemoryPool(builder.persistent[5]), MemoryPool(builder.persistent[6]), MemoryPool(builder.persistent[7])}
+			, m_persistent{ MemoryPool(builder.persistent[0]), MemoryPool(builder.persistent[1]), MemoryPool(builder.persistent[2]), MemoryPool(builder.persistent[3]), MemoryPool(builder.persistent[4]), MemoryPool(builder.persistent[5]), MemoryPool(builder.persistent[6]), MemoryPool(builder.persistent[7]) }
 			, m_staticSize(0)
 			, m_dynamicSize(0)
-		{}
+		{
+		}
 
 		MemoryManager(MemoryManager const& other) = delete;
 
@@ -79,7 +81,7 @@ namespace Minty
 			: m_temporary(std::move(other.m_temporary))
 			, m_task{ std::move(other.m_task[0]), std::move(other.m_task[1]), std::move(other.m_task[2]), std::move(other.m_task[3]) }
 			, m_taskIndex(other.m_taskIndex)
-			, m_persistent{ std::move(other.m_persistent[0]), std::move(other.m_persistent[1]), std::move(other.m_persistent[2]), std::move(other.m_persistent[3]), std::move(other.m_persistent[4]), std::move(other.m_persistent[5]), std::move(other.m_persistent[6]), std::move(other.m_persistent[7] )}
+			, m_persistent{ std::move(other.m_persistent[0]), std::move(other.m_persistent[1]), std::move(other.m_persistent[2]), std::move(other.m_persistent[3]), std::move(other.m_persistent[4]), std::move(other.m_persistent[5]), std::move(other.m_persistent[6]), std::move(other.m_persistent[7]) }
 			, m_staticSize(other.m_staticSize)
 			, m_dynamicSize(other.m_dynamicSize)
 		{
@@ -137,7 +139,7 @@ namespace Minty
 		/// </summary>
 		/// <returns></returns>
 		Size get_size() const { return m_staticSize + m_dynamicSize; }
-		
+
 		/// <summary>
 		/// Gets the size in bytes that has been allocated using the pre-allocated data in the MemoryManager.
 		/// </summary>
@@ -153,6 +155,10 @@ namespace Minty
 #pragma endregion
 
 #pragma region Methods
+
+	private:
+		// gets the index to the persistent memory pool to use, given the size in bytes
+		Size get_persistent_index(Size const size) const;
 
 	public:
 		/// <summary>
@@ -176,9 +182,23 @@ namespace Minty
 		/// <param name="allocator">The allocation method used.</param>
 		void deallocate(void* const ptr, Size const size, Allocator const allocator);
 
-	private:
-		// gets the index to the persistent memory pool to use, given the size in bytes
-		Size get_persistent_index(Size const size) const;
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new MemoryManager.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A MemoryManager Owner.</returns>
+		static Owner<MemoryManager> create(MemoryManagerBuilder const& builder = {});
+
+		/// <summary>
+		/// Gets the active Context's MemoryManager.
+		/// </summary>
+		/// <returns>The MemoryManager.</returns>
+		static MemoryManager& instance();
 
 #pragma endregion
 	};

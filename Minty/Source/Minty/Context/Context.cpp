@@ -11,9 +11,10 @@ Context* Context::s_instance = nullptr;
 /// <param name="builder">The input arguments.</param>
 Minty::Context::Context(ContextBuilder const& builder)
 	: mp_dualBuffer(nullptr)
-	, mp_memoryManager(new MemoryManager(builder.memoryManagerBuilder))
-	, mp_jobManager(new JobManager(builder.jobManagerBuilder))
-	, mp_assetManager(new AssetManager(builder.assetManagerBuilder))
+	, m_memoryManager(MemoryManager::create(builder.memoryManagerBuilder))
+	, m_jobManager(JobManager::create(builder.jobManagerBuilder))
+	, m_assetManager(AssetManager::create(builder.assetManagerBuilder))
+	, m_renderManager(RenderManager::create(builder.renderManagerBuilder))
 {
 	MINTY_ASSERT(!s_instance, "Context instance already exists.");
 	s_instance = this;

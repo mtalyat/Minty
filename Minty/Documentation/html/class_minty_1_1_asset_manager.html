@@ -104,6 +104,7 @@ $(function(){initNavTree('class_minty_1_1_asset_manager.html',''); initResizable
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_minty_1_1_asset_manager-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Minty::AssetManager Class Reference</div></div>
 </div><!--header-->
@@ -216,6 +217,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a382b27a30ff1d48d1325f7304e78e50a" id="r_a382b27a30ff1d48d1325f7304e78e50a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a382b27a30ff1d48d1325f7304e78e50a">read_bytes</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path) const</td></tr>
 <tr class="memdesc:a382b27a30ff1d48d1325f7304e78e50a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all of the bytes from the <a class="el" href="class_minty_1_1_file.html" title="Handles reading/writing to a file.">File</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.  <br /></td></tr>
 <tr class="separator:a382b27a30ff1d48d1325f7304e78e50a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4d63818b3abd1765fc6eb19263db71d0" id="r_a4d63818b3abd1765fc6eb19263db71d0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d63818b3abd1765fc6eb19263db71d0">create</a> (<a class="el" href="struct_minty_1_1_asset_manager_builder.html">AssetManagerBuilder</a> const &amp;builder={})</td></tr>
+<tr class="memdesc:a4d63818b3abd1765fc6eb19263db71d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>.  <br /></td></tr>
+<tr class="separator:a4d63818b3abd1765fc6eb19263db71d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe66dfd8be6024e7674ba599e327b645" id="r_abe66dfd8be6024e7674ba599e327b645"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe66dfd8be6024e7674ba599e327b645">instance</a> ()</td></tr>
+<tr class="memdesc:abe66dfd8be6024e7674ba599e327b645"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>.  <br /></td></tr>
+<tr class="separator:abe66dfd8be6024e7674ba599e327b645"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a64f32cdfb26fd1db1c011c790c35bd90" name="a64f32cdfb26fd1db1c011c790c35bd90"></a>
@@ -503,7 +513,7 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <a id="ae75c9e82ebcb57deb4859f7e4c589830" name="ae75c9e82ebcb57deb4859f7e4c589830"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae75c9e82ebcb57deb4859f7e4c589830">&#9670;&#160;</a></span>create()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae75c9e82ebcb57deb4859f7e4c589830">&#9670;&#160;</a></span>create() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -542,6 +552,40 @@ template&lt;typename T, typename... Args&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A reference to the newly created <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.</dd></dl>
+
+</div>
+</div>
+<a id="a4d63818b3abd1765fc6eb19263db71d0" name="a4d63818b3abd1765fc6eb19263db71d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d63818b3abd1765fc6eb19263db71d0">&#9670;&#160;</a></span>create() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a> &gt; Minty::AssetManager::create </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_asset_manager_builder.html">AssetManagerBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>The arguments.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a> <a class="el" href="class_minty_1_1_owner.html" title="A shared pointer.">Owner</a>.</dd></dl>
 
 </div>
 </div>
@@ -750,6 +794,34 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A list of all loaded Assets that rely on the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> with the given <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a>.</dd></dl>
+
+</div>
+</div>
+<a id="abe66dfd8be6024e7674ba599e327b645" name="abe66dfd8be6024e7674ba599e327b645"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe66dfd8be6024e7674ba599e327b645">&#9670;&#160;</a></span>instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a> &amp; Minty::AssetManager::instance </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>.</dd></dl>
 
 </div>
 </div>

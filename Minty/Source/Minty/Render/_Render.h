@@ -11,6 +11,7 @@
 #include "ImageTiling.h"
 #include "ImageType.h"
 #include "ImageUsage.h"
+#include "RenderManager.h"
 #include "ShaderCullMode.h"
 #include "ShaderFrontFace.h"
 #include "ShaderInputRate.h"

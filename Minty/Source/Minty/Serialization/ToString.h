@@ -1,8 +1,8 @@
 #pragma once  
 #include "Minty/Core/Math.h"  
 #include "Minty/Core/Types.h"  
-#include "Minty/Core/Macro.h"  
 #include "Minty/Data/String.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/Serialization/IsParseable.h"
 
 namespace Minty  

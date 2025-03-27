@@ -1,9 +1,9 @@
 #pragma once
 #include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
-#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/Serialization/Parseable.h"
 #include <filesystem>
 

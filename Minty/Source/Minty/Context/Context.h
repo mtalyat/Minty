@@ -5,6 +5,7 @@
 #include "Minty/Data/Path.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
+#include "Minty/Render/RenderManager.h"
 
 namespace Minty
 {
@@ -18,6 +19,7 @@ namespace Minty
 		MemoryManagerBuilder memoryManagerBuilder = {};
 		JobManagerBuilder jobManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
+		RenderManagerBuilder renderManagerBuilder = {};
 	};
 
 	/// <summary>
@@ -31,9 +33,10 @@ namespace Minty
 		static Context* s_instance;
 
 		DualBuffer* mp_dualBuffer;
-		MemoryManager* mp_memoryManager;
-		JobManager* mp_jobManager;
-		AssetManager* mp_assetManager;
+		Owner<MemoryManager> m_memoryManager;
+		Owner<JobManager> m_jobManager;
+		Owner<AssetManager> m_assetManager;
+		Owner<RenderManager> m_renderManager;
 
 #pragma endregion
 
@@ -54,22 +57,21 @@ namespace Minty
 		/// <param name="other">The Context to move.</param>
 		Context(Context&& other) noexcept
 			: mp_dualBuffer(other.mp_dualBuffer)
-			, mp_memoryManager(other.mp_memoryManager)
-			, mp_jobManager(other.mp_jobManager)
-			, mp_assetManager(other.mp_assetManager)
+			, m_memoryManager(std::move(other.m_memoryManager))
+			, m_jobManager(std::move(other.m_jobManager))
+			, m_assetManager(std::move(other.m_assetManager))
+			, m_renderManager(std::move(other.m_renderManager))
 		{
 			other.mp_dualBuffer = nullptr;
-			other.mp_memoryManager = nullptr;
-			other.mp_jobManager = nullptr;
-			other.mp_assetManager = nullptr;
 		}
 
 		~Context()
 		{
 			delete mp_dualBuffer;
-			delete mp_memoryManager;
-			delete mp_jobManager;
-			delete mp_assetManager;
+			m_memoryManager.release();
+			m_jobManager.release();
+			m_assetManager.release();
+			m_renderManager.release();
 
 			s_instance = nullptr;
 		}
@@ -86,13 +88,11 @@ namespace Minty
 			if (this != &other)
 			{
 				mp_dualBuffer = other.mp_dualBuffer;
-				mp_memoryManager = other.mp_memoryManager;
-				mp_jobManager = other.mp_jobManager;
-				mp_assetManager = other.mp_assetManager;
 				other.mp_dualBuffer = nullptr;
-				other.mp_memoryManager = nullptr;
-				other.mp_jobManager = nullptr;
-				other.mp_assetManager = nullptr;
+				m_memoryManager = std::move(other.m_memoryManager);
+				m_jobManager = std::move(other.m_jobManager);
+				m_assetManager = std::move(other.m_assetManager);
+				m_renderManager = std::move(other.m_renderManager);
 			}
 			return *this;
 		}
@@ -106,19 +106,25 @@ namespace Minty
 		/// Gets the MemoryManager in this Context.
 		/// </summary>
 		/// <returns>The MemoryManager.</returns>
-		MemoryManager& get_memory_manager() { return *mp_memoryManager; }
+		MemoryManager& get_memory_manager() { return *m_memoryManager; }
 
 		/// <summary>
 		/// Gets the JobManager in this Context.
 		/// </summary>
 		/// <returns>The JobManager.</returns>
-		JobManager& get_job_manager() { return *mp_jobManager; }
+		JobManager& get_job_manager() { return *m_jobManager; }
 
 		/// <summary>
 		/// Gets the AssetManager in this Context.
 		/// </summary>
 		/// <returns>The AssetManager.</returns>
-		AssetManager& get_asset_manager() { return *mp_assetManager; }
+		AssetManager& get_asset_manager() { return *m_assetManager; }
+
+		/// <summary>
+		/// Gets the RenderManager in this Context.
+		/// </summary>
+		/// <returns>The RenderManager.</returns>
+		RenderManager& get_render_manager() { return *m_renderManager; }
 
 #pragma endregion
 
@@ -129,7 +135,7 @@ namespace Minty
 		/// Gets the current instance of the Context.
 		/// </summary>
 		/// <returns>The current instance of the Context.</returns>
-		static Context& get_instance()
+		static Context& instance()
 		{
 			MINTY_ASSERT(s_instance, "Context instance is null.");
 			return *s_instance;

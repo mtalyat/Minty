@@ -2,6 +2,44 @@
 #include "Minty/Core/Types.h"
 #include <iostream>
 
+#pragma region Macros
+
+#define MINTY_DEBUG_INFO(message) "[", std::filesystem::path(__FILE__).filename().string(), "][", __func__, "()][line ", __LINE__, "] -> ", message
+
+#ifdef MINTY_DEBUG
+#define MINTY_LOG(message) Debug::write_message(message)
+#else
+#define MINTY_LOG(message)
+#endif // MINTY_DEBUG
+
+#ifdef MINTY_DEBUG
+#define MINTY_INFO(message) Debug::write_info(message)
+#else
+#define MINTY_INFO(message)
+#endif // MINTY_DEBUG
+
+#define MINTY_ERROR(message) Debug::write_error(message)
+
+#ifdef MINTY_DEBUG
+#define MINTY_WARNING(message) Debug::write_warning(message)
+#else
+#define MINTY_WARNING(message)
+#endif // MINTY_DEBUG
+
+#ifdef MINTY_DEBUG
+#define MINTY_ABORT(message) do { Debug::write_abort(message); throw std::runtime_error(message); } while(false)
+#else
+#define MINTY_ABORT(message) MINTY_ERROR(message)
+#endif // MINTY_DEBUG
+
+#ifdef MINTY_DEBUG
+#define MINTY_ASSERT(expression, message) do { if(!(expression)) { MINTY_ABORT("(" #expression ") failed: " #message); } } while(false)
+#else
+#define MINTY_ASSERT(expression, message)
+#endif // MINTY_DEBUG
+
+#pragma endregion
+
 namespace Minty
 {
 	/// <summary>
@@ -74,14 +112,6 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Writes a newline to the terminal.
-		/// </summary>
-		inline static void write_line()
-		{
-			std::cout << std::endl;
-		}
-
-		/// <summary>
 		/// Writes the given value(s) to the terminal.
 		/// </summary>
 		/// <typeparam name="T">The first argument type to use.</typeparam>
@@ -93,6 +123,14 @@ namespace Minty
 		{
 			std::cout << first;
 			write(args...);
+		}
+
+		/// <summary>
+		/// Writes a newline to the terminal.
+		/// </summary>
+		inline static void write_line()
+		{
+			std::cout << std::endl;
 		}
 
 		/// <summary>
@@ -117,6 +155,88 @@ namespace Minty
 		{
 			std::cout << std::flush;
 		}
+
+		/// <summary>
+		/// Writes an abort message to the terminal.
+		/// </summary>
+		/// <typeparam name="T">The first argument type to use.</typeparam>
+		/// <typeparam name="...Args">The argument types to use.</typeparam>
+		/// <param name="first">The first argument to write.</param>
+		/// <param name="...args">The rest of the arguments to write.</param>
+		template<typename T, typename... Args>
+		static void write_abort(T const& first, Args const&... args)
+		{
+			set_foreground_color(Color::Black);
+			set_background_color(Color::BrightRed);
+			write("[ABO] ", first, args...);
+			reset();
+			std::cout << std::endl;
+		}
+
+		/// <summary>
+		/// Writes an error message to the terminal.
+		/// </summary>
+		/// <typeparam name="T">The first argument type to use.</typeparam>
+		/// <typeparam name="...Args">The argument types to use.</typeparam>
+		/// <param name="first">The first argument to write.</param>
+		/// <param name="...args">The rest of the arguments to write.</param>
+		template<typename T, typename... Args>
+		static void write_error(T const& first, Args const&... args)
+		{
+			set_foreground_color(Color::BrightRed);
+			write("[ERR] ", first, args...);
+			reset();
+			std::cout << std::endl;
+		}
+
+		/// <summary>
+		/// Writes a warning message to the terminal.
+		/// </summary>
+		/// <typeparam name="T">The first argument type to use.</typeparam>
+		/// <typeparam name="...Args">The argument types to use.</typeparam>
+		/// <param name="first">The first argument to write.</param>
+		/// <param name="...args">The rest of the arguments to write.</param>
+		template<typename T, typename... Args>
+		static void write_warning(T const& first, Args const&... args)
+		{
+			set_foreground_color(Color::BrightYellow);
+			write("[WRN] ", first, args...);
+			reset();
+			std::cout << std::endl;
+		}
+
+		/// <summary>
+		/// Writes a message to the terminal.
+		/// </summary>
+		/// <typeparam name="T">The first argument type to use.</typeparam>
+		/// <typeparam name="...Args">The argument types to use.</typeparam>
+		/// <param name="first">The first argument to write.</param>
+		/// <param name="...args">The rest of the arguments to write.</param>
+		template<typename T, typename... Args>
+		static void write_message(T const& first, Args const&... args)
+		{
+			set_foreground_color(Color::White);
+			write("[MSG] ", first, args...);
+			reset();
+			std::cout << std::endl;
+		}
+
+		/// <summary>
+		/// Writes an info message to the terminal.
+		/// </summary>
+		/// <typeparam name="T">The first argument type to use.</typeparam>
+		/// <typeparam name="...Args">The argument types to use.</typeparam>
+		/// <param name="first">The first argument to write.</param>
+		/// <param name="...args">The rest of the arguments to write.</param>
+		template<typename T, typename... Args>
+		static void write_info(T const& first, Args const&... args)
+		{
+			set_foreground_color(Color::BrightBlack);
+			write("[INF] ", first, args...);
+			reset();
+			std::cout << std::endl;
+		}
+
 #pragma endregion
 	};
 }

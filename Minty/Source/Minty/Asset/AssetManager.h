@@ -402,5 +402,22 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new AssetManager.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A AssetManager Owner.</returns>
+		static Owner<AssetManager> create(AssetManagerBuilder const& builder = {});
+
+		/// <summary>
+		/// Gets the active Context's AssetManager.
+		/// </summary>
+		/// <returns>The AssetManager.</returns>
+		static AssetManager& instance();
+
+#pragma endregion
 	};
 }

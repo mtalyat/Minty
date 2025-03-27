@@ -186,5 +186,23 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new JobManager.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A JobManager Owner.</returns>
+		static Owner<JobManager> create(JobManagerBuilder const& builder = {});
+
+		/// <summary>
+		/// Gets the active Context's JobManager.
+		/// </summary>
+		/// <returns>The JobManager.</returns>
+		static JobManager& instance();
+
+#pragma endregion
+
 	};
 }

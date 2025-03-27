@@ -316,7 +316,7 @@ $(function(){initNavTree('_queue_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00223" data-start="{" data-end="}">
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="class_minty_1_1_queue.html#ae113c9fb0e8f72435c77be9f8354f324">  223</a></span>        T <a class="code hl_function" href="class_minty_1_1_queue.html#ae113c9fb0e8f72435c77be9f8354f324">pop</a>()</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        {</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There is nothing to pop.&quot;</span>);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There is nothing to pop.&quot;</span>);</div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>            <span class="comment">// get the node to remove</span></div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            Node* node = mp_head;</div>
@@ -346,7 +346,7 @@ $(function(){initNavTree('_queue_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00259" data-start="{" data-end="}">
 <div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="class_minty_1_1_queue.html#a8358e1d2f110a48cef72d55838145319">  259</a></span>        T&amp; <a class="code hl_function" href="class_minty_1_1_queue.html#a8358e1d2f110a48cef72d55838145319">peek</a>()</div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        {</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There is nothing to peek at.&quot;</span>);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There is nothing to peek at.&quot;</span>);</div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>            <span class="keywordflow">return</span> mp_head-&gt;data;</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        }</div>
 </div>
@@ -354,7 +354,7 @@ $(function(){initNavTree('_queue_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00269" data-start="{" data-end="}">
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno"><a class="line" href="class_minty_1_1_queue.html#af06af69047bcd970307975a1da4d045a">  269</a></span>        T <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_queue.html#af06af69047bcd970307975a1da4d045a">peek</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There is nothing to peek at.&quot;</span>);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There is nothing to peek at.&quot;</span>);</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            <span class="keywordflow">return</span> mp_head-&gt;data;</div>
 <div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        }</div>
 </div>
@@ -380,8 +380,8 @@ $(function(){initNavTree('_queue_8h_source.html',''); initResizable(true); });
 </div>
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
 <div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:43</div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
 <div class="ttc" id="aclass_minty_1_1_queue_html_a4de6fd891a165b765432d71d3956a4a6"><div class="ttname"><a href="class_minty_1_1_queue.html#a4de6fd891a165b765432d71d3956a4a6">Minty::Queue::operator=</a></div><div class="ttdeci">Queue &amp; operator=(Queue const &amp;other)</div><div class="ttdef"><b>Definition</b> Queue.h:115</div></div>
 <div class="ttc" id="aclass_minty_1_1_queue_html_a62e9ecf7e1604fced5c30479e587f50e"><div class="ttname"><a href="class_minty_1_1_queue.html#a62e9ecf7e1604fced5c30479e587f50e">Minty::Queue::~Queue</a></div><div class="ttdeci">~Queue()</div><div class="ttdef"><b>Definition</b> Queue.h:99</div></div>

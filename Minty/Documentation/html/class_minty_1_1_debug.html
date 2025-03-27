@@ -158,13 +158,13 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0dbe37371987e85df5e2751e6ffd6fc" id="r_aa0dbe37371987e85df5e2751e6ffd6fc"><td class="memItemLeft" align="right" valign="top">static constexpr void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0dbe37371987e85df5e2751e6ffd6fc">write</a> ()</td></tr>
 <tr class="memdesc:aa0dbe37371987e85df5e2751e6ffd6fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes nothing.  <br /></td></tr>
 <tr class="separator:aa0dbe37371987e85df5e2751e6ffd6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae41fb788979d739651b199c6fbe3e700" id="r_ae41fb788979d739651b199c6fbe3e700"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae41fb788979d739651b199c6fbe3e700">write_line</a> ()</td></tr>
-<tr class="memdesc:ae41fb788979d739651b199c6fbe3e700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a newline to the terminal.  <br /></td></tr>
-<tr class="separator:ae41fb788979d739651b199c6fbe3e700"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0ba165dd18b23a958c29c1644b33420" id="r_ab0ba165dd18b23a958c29c1644b33420"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
 <tr class="memitem:ab0ba165dd18b23a958c29c1644b33420"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab0ba165dd18b23a958c29c1644b33420">write</a> (T const &amp;first, Args const &amp;... args)</td></tr>
 <tr class="memdesc:ab0ba165dd18b23a958c29c1644b33420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the given value(s) to the terminal.  <br /></td></tr>
 <tr class="separator:ab0ba165dd18b23a958c29c1644b33420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae41fb788979d739651b199c6fbe3e700" id="r_ae41fb788979d739651b199c6fbe3e700"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae41fb788979d739651b199c6fbe3e700">write_line</a> ()</td></tr>
+<tr class="memdesc:ae41fb788979d739651b199c6fbe3e700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a newline to the terminal.  <br /></td></tr>
+<tr class="separator:ae41fb788979d739651b199c6fbe3e700"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc261443873ac77bda9df47e89c6072c" id="r_adc261443873ac77bda9df47e89c6072c"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
 <tr class="memitem:adc261443873ac77bda9df47e89c6072c"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#adc261443873ac77bda9df47e89c6072c">write_line</a> (T const &amp;first, Args const &amp;... args)</td></tr>
 <tr class="memdesc:adc261443873ac77bda9df47e89c6072c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the given value(s) to the terminal and adds a newline.  <br /></td></tr>
@@ -172,6 +172,26 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:acc2e326aac12bc1b7dc99b8e425f1d91" id="r_acc2e326aac12bc1b7dc99b8e425f1d91"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc2e326aac12bc1b7dc99b8e425f1d91">flush</a> ()</td></tr>
 <tr class="memdesc:acc2e326aac12bc1b7dc99b8e425f1d91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes the output buffer.  <br /></td></tr>
 <tr class="separator:acc2e326aac12bc1b7dc99b8e425f1d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e675c8e52b0718c68ffe9d3ff7892c4" id="r_a0e675c8e52b0718c68ffe9d3ff7892c4"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a0e675c8e52b0718c68ffe9d3ff7892c4"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a0e675c8e52b0718c68ffe9d3ff7892c4">write_abort</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:a0e675c8e52b0718c68ffe9d3ff7892c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an abort message to the terminal.  <br /></td></tr>
+<tr class="separator:a0e675c8e52b0718c68ffe9d3ff7892c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab98831408c43ac75f9f317836556734b" id="r_ab98831408c43ac75f9f317836556734b"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:ab98831408c43ac75f9f317836556734b"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ab98831408c43ac75f9f317836556734b">write_error</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:ab98831408c43ac75f9f317836556734b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an error message to the terminal.  <br /></td></tr>
+<tr class="separator:ab98831408c43ac75f9f317836556734b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93024700c75518c30224116f678a9669" id="r_a93024700c75518c30224116f678a9669"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a93024700c75518c30224116f678a9669"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a93024700c75518c30224116f678a9669">write_warning</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:a93024700c75518c30224116f678a9669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a warning message to the terminal.  <br /></td></tr>
+<tr class="separator:a93024700c75518c30224116f678a9669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1211a06e2c990b339814ecea57b945b" id="r_ad1211a06e2c990b339814ecea57b945b"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:ad1211a06e2c990b339814ecea57b945b"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad1211a06e2c990b339814ecea57b945b">write_message</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:ad1211a06e2c990b339814ecea57b945b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a message to the terminal.  <br /></td></tr>
+<tr class="separator:ad1211a06e2c990b339814ecea57b945b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09501f113b4764c55c8c8f14e90db9c9" id="r_a09501f113b4764c55c8c8f14e90db9c9"><td class="memTemplParams" colspan="2">template&lt;typename T, typename... Args&gt; </td></tr>
+<tr class="memitem:a09501f113b4764c55c8c8f14e90db9c9"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a09501f113b4764c55c8c8f14e90db9c9">write_info</a> (T const &amp;first, Args const &amp;... args)</td></tr>
+<tr class="memdesc:a09501f113b4764c55c8c8f14e90db9c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes an info message to the terminal.  <br /></td></tr>
+<tr class="separator:a09501f113b4764c55c8c8f14e90db9c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A static class for writing output. </p>
@@ -414,6 +434,147 @@ template&lt;typename T, typename... Args&gt; </div>
 
 </div>
 </div>
+<a id="a0e675c8e52b0718c68ffe9d3ff7892c4" name="a0e675c8e52b0718c68ffe9d3ff7892c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e675c8e52b0718c68ffe9d3ff7892c4">&#9670;&#160;</a></span>write_abort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_abort </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes an abort message to the terminal. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab98831408c43ac75f9f317836556734b" name="ab98831408c43ac75f9f317836556734b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab98831408c43ac75f9f317836556734b">&#9670;&#160;</a></span>write_error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_error </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes an error message to the terminal. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a09501f113b4764c55c8c8f14e90db9c9" name="a09501f113b4764c55c8c8f14e90db9c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09501f113b4764c55c8c8f14e90db9c9">&#9670;&#160;</a></span>write_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_info </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes an info message to the terminal. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ae41fb788979d739651b199c6fbe3e700" name="ae41fb788979d739651b199c6fbe3e700"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae41fb788979d739651b199c6fbe3e700">&#9670;&#160;</a></span>write_line() <span class="overload">[1/2]</span></h2>
 
@@ -471,6 +632,100 @@ template&lt;typename T, typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Writes the given value(s) to the terminal and adds a newline. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad1211a06e2c990b339814ecea57b945b" name="ad1211a06e2c990b339814ecea57b945b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1211a06e2c990b339814ecea57b945b">&#9670;&#160;</a></span>write_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_message </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes a message to the terminal. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>
+    <tr><td class="paramname">...Args</td><td>The argument types to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td>The first argument to write.</td></tr>
+    <tr><td class="paramname">...args</td><td>The rest of the arguments to write.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a93024700c75518c30224116f678a9669" name="a93024700c75518c30224116f678a9669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93024700c75518c30224116f678a9669">&#9670;&#160;</a></span>write_warning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Minty::Debug::write_warning </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;</td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args const &amp;...</td>          <td class="paramname"><span class="paramname"><em>args</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes a warning message to the terminal. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The first argument type to use.</td></tr>

@@ -104,6 +104,7 @@ $(function(){initNavTree('class_minty_1_1_job_manager.html',''); initResizable(t
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_minty_1_1_job_manager-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Minty::JobManager Class Reference</div></div>
 </div><!--header-->
@@ -148,6 +149,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaee6fdbb95df2c6c334aad9171c58359" id="r_aaee6fdbb95df2c6c334aad9171c58359"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaee6fdbb95df2c6c334aad9171c58359">wait</a> (<a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#a40eb5e824cc6150ead0892d3dde0aaaa">Handle</a> &gt; const &amp;handles)</td></tr>
 <tr class="memdesc:aaee6fdbb95df2c6c334aad9171c58359"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for all of the given Handles to complete. Assumes the Handles belong to Jobs which were previously scheduled.  <br /></td></tr>
 <tr class="separator:aaee6fdbb95df2c6c334aad9171c58359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a3461f4d3b6ad3256faa343db671919c0" id="r_a3461f4d3b6ad3256faa343db671919c0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_job_manager.html">JobManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3461f4d3b6ad3256faa343db671919c0">create</a> (<a class="el" href="struct_minty_1_1_job_manager_builder.html">JobManagerBuilder</a> const &amp;builder={})</td></tr>
+<tr class="memdesc:a3461f4d3b6ad3256faa343db671919c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a>.  <br /></td></tr>
+<tr class="separator:a3461f4d3b6ad3256faa343db671919c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ce41fdebee2f48e66514e1fde54dcf2" id="r_a7ce41fdebee2f48e66514e1fde54dcf2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_job_manager.html">JobManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ce41fdebee2f48e66514e1fde54dcf2">instance</a> ()</td></tr>
+<tr class="memdesc:a7ce41fdebee2f48e66514e1fde54dcf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a>.  <br /></td></tr>
+<tr class="separator:a7ce41fdebee2f48e66514e1fde54dcf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handles batching and executing Jobs. </p>
@@ -200,6 +210,68 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3461f4d3b6ad3256faa343db671919c0" name="a3461f4d3b6ad3256faa343db671919c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3461f4d3b6ad3256faa343db671919c0">&#9670;&#160;</a></span>create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_job_manager.html">JobManager</a> &gt; Minty::JobManager::create </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_job_manager_builder.html">JobManagerBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>The arguments.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a> <a class="el" href="class_minty_1_1_owner.html" title="A shared pointer.">Owner</a>.</dd></dl>
+
+</div>
+</div>
+<a id="a7ce41fdebee2f48e66514e1fde54dcf2" name="a7ce41fdebee2f48e66514e1fde54dcf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ce41fdebee2f48e66514e1fde54dcf2">&#9670;&#160;</a></span>instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_job_manager.html">JobManager</a> &amp; Minty::JobManager::instance </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_job_manager.html" title="Handles batching and executing Jobs.">JobManager</a>.</dd></dl>
+
+</div>
+</div>
 <a id="a1bc8059e127abf212155d395e8a3acd5" name="a1bc8059e127abf212155d395e8a3acd5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1bc8059e127abf212155d395e8a3acd5">&#9670;&#160;</a></span>is_complete()</h2>
 

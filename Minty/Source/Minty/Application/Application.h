@@ -47,7 +47,7 @@ namespace Minty
 	public:
 		MemoryManager& get_memory_manager() { return m_memoryManager; }
 
-		static Application& get_instance()
+		static Application& instance()
 		{
 			MINTY_ASSERT(s_instance, "Application instance is null.");
 			return *s_instance;

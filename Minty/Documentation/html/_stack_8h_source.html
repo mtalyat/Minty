@@ -337,7 +337,7 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00261" data-start="{" data-end="}">
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">  261</a></span>        T <a class="code hl_function" href="class_minty_1_1_stack.html#ad6b163e2817c07c43c8740dfd2abdf82">pop</a>()</div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        {</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to pop.&quot;</span>);</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to pop.&quot;</span>);</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            <span class="comment">// decrement size</span></div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            --m_size;</div>
@@ -352,7 +352,7 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00282" data-start="{" data-end="}">
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">  282</a></span>        <span class="keyword">constexpr</span> T&amp; <a class="code hl_function" href="class_minty_1_1_stack.html#a3e1fe5febdae89e038e7b03184b9c188">peek</a>()</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        {</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            <span class="keywordflow">return</span> mp_data[m_size - 1];</div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        }</div>
 </div>
@@ -360,7 +360,7 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00292" data-start="{" data-end="}">
 <div class="line"><a id="l00292" name="l00292"></a><span class="lineno"><a class="line" href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">  292</a></span>        <span class="keyword">constexpr</span> T <span class="keyword">const</span>&amp; <a class="code hl_function" href="class_minty_1_1_stack.html#a80d97fdacef1c40d37de107e2469c103">peek</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_size &gt; 0, <span class="stringliteral">&quot;There are no items to peek.&quot;</span>);</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            <span class="keywordflow">return</span> mp_data[m_size - 1];</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        }</div>
 </div>
@@ -381,8 +381,8 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 </div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
 <div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:43</div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a098001dda89daee9420a1ffc1b5c2c4a"><div class="ttname"><a href="class_minty_1_1_stack.html#a098001dda89daee9420a1ffc1b5c2c4a">Minty::Stack::Stack</a></div><div class="ttdeci">constexpr Stack(Allocator const allocator=Allocator::Default)</div><div class="ttdoc">Creates an empty Stack.</div><div class="ttdef"><b>Definition</b> Stack.h:32</div></div>
 <div class="ttc" id="aclass_minty_1_1_stack_html_a1368426d4e5eec62541f300668276719"><div class="ttname"><a href="class_minty_1_1_stack.html#a1368426d4e5eec62541f300668276719">Minty::Stack::operator=</a></div><div class="ttdeci">constexpr Stack &amp; operator=(Stack const &amp;other)</div><div class="ttdef"><b>Definition</b> Stack.h:103</div></div>
@@ -410,7 +410,7 @@ $(function(){initNavTree('_stack_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="anamespace_minty_html_a82e54782d22b7f76adf500b256213be2"><div class="ttname"><a href="namespace_minty.html#a82e54782d22b7f76adf500b256213be2">Minty::allocate</a></div><div class="ttdeci">void * allocate(Size const size, Allocator const allocator)</div><div class="ttdoc">Allocates a block of memory of the given size using the given allocator.</div><div class="ttdef"><b>Definition</b> Base.cpp:7</div></div>
 <div class="ttc" id="anamespace_minty_html_aa1d82ce9c3f5f664d8e1b97c305645e5"><div class="ttname"><a href="namespace_minty.html#aa1d82ce9c3f5f664d8e1b97c305645e5">Minty::deallocate</a></div><div class="ttdeci">void deallocate(void *const ptr, Size const size, Allocator const allocator)</div><div class="ttdoc">Frees the memory allocated by the given pointer using the given allocator.</div><div class="ttdef"><b>Definition</b> Base.cpp:20</div></div>
 <div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:8</div></div>
-<div class="ttc" id="anamespace_minty_html_afa2d215866b48fd509ab3848c9bd33d0"><div class="ttname"><a href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">Minty::DEFAULT_COLLECTION_SIZE</a></div><div class="ttdeci">constexpr Size DEFAULT_COLLECTION_SIZE</div><div class="ttdoc">The default capacity that collections used, if not explicitly given one.</div><div class="ttdef"><b>Definition</b> Constant.h:20</div></div>
+<div class="ttc" id="anamespace_minty_html_afa2d215866b48fd509ab3848c9bd33d0"><div class="ttname"><a href="namespace_minty.html#afa2d215866b48fd509ab3848c9bd33d0">Minty::DEFAULT_COLLECTION_SIZE</a></div><div class="ttdeci">constexpr Size DEFAULT_COLLECTION_SIZE</div><div class="ttdoc">The default capacity that collections used, if not explicitly given one.</div><div class="ttdef"><b>Definition</b> Constant.h:21</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

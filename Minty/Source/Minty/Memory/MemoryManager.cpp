@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MemoryManager.h"
+#include "Minty/Context/Context.h"
 #include "Minty/Core/Format.h"
 
 using namespace Minty;
@@ -16,6 +17,13 @@ void Minty::MemoryManager::update()
 	// free all of its remaining memory
 	m_staticSize -= m_task[m_taskIndex].get_size();
 	m_task[m_taskIndex].clear();
+}
+
+Size Minty::MemoryManager::get_persistent_index(Size const size) const
+{
+	Size index = 0;
+	for (; index < PERSISTENT_MEMORY_COUNT && size > m_persistent[index].get_block_size(); ++index) {}
+	return index;
 }
 
 void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
@@ -124,9 +132,12 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 	}
 }
 
-Size Minty::MemoryManager::get_persistent_index(Size const size) const
+Owner<MemoryManager> Minty::MemoryManager::create(MemoryManagerBuilder const& builder)
 {
-	Size index = 0;
-	for (; index < PERSISTENT_MEMORY_COUNT && size > m_persistent[index].get_block_size(); ++index) {}
-	return index;
+	return Owner<MemoryManager>(builder);
+}
+
+MemoryManager& Minty::MemoryManager::instance()
+{
+	return Context::instance().get_memory_manager();
 }

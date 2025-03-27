@@ -108,9 +108,9 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <a href="_path_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_base_8h.html">Minty/Core/Base.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_constant_8h.html">Minty/Core/Constant.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_macro_8h.html">Minty/Core/Macro.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_types_8h.html">Minty/Core/Types.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_string_8h.html">Minty/Data/String.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_types_8h.html">Minty/Core/Types.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_string_8h.html">Minty/Data/String.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="_debug_8h.html">Minty/Debug/Debug.h</a>&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="_parseable_8h.html">Minty/Serialization/Parseable.h</a>&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;filesystem&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
@@ -168,7 +168,7 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="class_minty_1_1_path_1_1_iterator.html#a9c6e8031232d72ce33f713de7c301cb1">   60</a></span>            <a class="code hl_typedef" href="class_minty_1_1_path_1_1_iterator.html#a48046bb24e4da59e4bab0a3c604185e3">reference</a> <a class="code hl_function" href="class_minty_1_1_path_1_1_iterator.html#a9c6e8031232d72ce33f713de7c301cb1">operator*</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path Iterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path Iterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <span class="keywordflow">return</span> *mp_current;</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            }</div>
 </div>
@@ -176,7 +176,7 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00066" data-start="{" data-end="}">
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="class_minty_1_1_path_1_1_iterator.html#a23e139a7a196dc22e1c766d3a570c653">   66</a></span>            <a class="code hl_typedef" href="class_minty_1_1_path_1_1_iterator.html#a77fb0e1e2f591d6ff0fcfc05fcd207ff">pointer</a> <a class="code hl_function" href="class_minty_1_1_path_1_1_iterator.html#a23e139a7a196dc22e1c766d3a570c653">operator-&gt;</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path Iterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path Iterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                <span class="keywordflow">return</span> mp_current;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            }</div>
 </div>
@@ -252,7 +252,7 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="class_minty_1_1_path_1_1_const_iterator.html#a3e45cf674f81cc55e56c674593308e88">  130</a></span>            <a class="code hl_typedef" href="class_minty_1_1_path_1_1_const_iterator.html#adf2e926fa1e59f851bb2127426391902">reference</a> <a class="code hl_function" href="class_minty_1_1_path_1_1_const_iterator.html#a3e45cf674f81cc55e56c674593308e88">operator*</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path ConstIterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path ConstIterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                <span class="keywordflow">return</span> *mp_current;</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            }</div>
 </div>
@@ -260,7 +260,7 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <div class="foldopen" id="foldopen00136" data-start="{" data-end="}">
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="class_minty_1_1_path_1_1_const_iterator.html#a591d3837bb15502b132f90d850b1fd81">  136</a></span>            <a class="code hl_typedef" href="class_minty_1_1_path_1_1_const_iterator.html#a0bb0d94305ca7a2e19b4b435bf2fabe6">pointer</a> <a class="code hl_function" href="class_minty_1_1_path_1_1_const_iterator.html#a591d3837bb15502b132f90d850b1fd81">operator-&gt;</a>()<span class="keyword"> const</span></div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keyword">            </span>{</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path ConstIterator is invalid.&quot;</span>);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(mp_current, <span class="stringliteral">&quot;Path ConstIterator is invalid.&quot;</span>);</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                <span class="keywordflow">return</span> mp_current;</div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            }</div>
 </div>
@@ -464,8 +464,8 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>}</div>
 <div class="ttc" id="a_base_8h_html"><div class="ttname"><a href="_base_8h.html">Base.h</a></div></div>
 <div class="ttc" id="a_constant_8h_html"><div class="ttname"><a href="_constant_8h.html">Constant.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html"><div class="ttname"><a href="_macro_8h.html">Macro.h</a></div></div>
-<div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:43</div></div>
+<div class="ttc" id="a_debug_8h_html"><div class="ttname"><a href="_debug_8h.html">Debug.h</a></div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
 <div class="ttc" id="a_parseable_8h_html"><div class="ttname"><a href="_parseable_8h.html">Parseable.h</a></div></div>
 <div class="ttc" id="a_string_8h_html"><div class="ttname"><a href="_string_8h.html">String.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
@@ -544,7 +544,7 @@ $(function(){initNavTree('_path_8h_source.html',''); initResizable(true); });
 <div class="ttc" id="anamespace_minty_html_a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67"><div class="ttname"><a href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a7a1920d61156abc05a60135aefe8bc67">Minty::Allocator::Default</a></div><div class="ttdeci">@ Default</div><div class="ttdoc">This resource will be allocated using the system&#39;s default allocator.</div><div class="ttdef"><b>Definition</b> Allocator.h:13</div></div>
 <div class="ttc" id="anamespace_minty_html_ad1072740f5ffcbb69a55315ffc49a0d8"><div class="ttname"><a href="namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8">Minty::Char</a></div><div class="ttdeci">char Char</div><div class="ttdef"><b>Definition</b> Types.h:9</div></div>
 <div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:8</div></div>
-<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> Color.h:184</div></div>
+<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> Color.h:237</div></div>
 <div class="ttc" id="astructstd_1_1hash_3_01_minty_1_1_path_01_4_html_acc72f4ede6803967e1c26795a9033ce0"><div class="ttname"><a href="structstd_1_1hash_3_01_minty_1_1_path_01_4.html#acc72f4ede6803967e1c26795a9033ce0">std::hash&lt; Minty::Path &gt;::operator()</a></div><div class="ttdeci">std::size_t operator()(Minty::Path const &amp;path) const noexcept</div><div class="ttdef"><b>Definition</b> Path.h:422</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

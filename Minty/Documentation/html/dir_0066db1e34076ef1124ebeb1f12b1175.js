@@ -1,6 +1,8 @@
 var dir_0066db1e34076ef1124ebeb1f12b1175 =
 [
     [ "_Render.h", "___render_8h.html", null ],
+    [ "Buffer.cpp", "_buffer_8cpp.html", null ],
+    [ "Buffer.h", "_buffer_8h.html", "_buffer_8h" ],
     [ "BufferUsage.cpp", "_buffer_usage_8cpp.html", null ],
     [ "BufferUsage.h", "_buffer_usage_8h.html", "_buffer_usage_8h" ],
     [ "CoordinateMode.cpp", "_coordinate_mode_8cpp.html", null ],
@@ -9,6 +11,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "Filter.h", "_filter_8h.html", "_filter_8h" ],
     [ "Format.cpp", "_format_8cpp.html", null ],
     [ "Format.h", "_render_2_format_8h.html", "_render_2_format_8h" ],
+    [ "Image.cpp", "_image_8cpp.html", null ],
+    [ "Image.h", "_image_8h.html", "_image_8h" ],
     [ "ImageAddressMode.cpp", "_image_address_mode_8cpp.html", null ],
     [ "ImageAddressMode.h", "_image_address_mode_8h.html", "_image_address_mode_8h" ],
     [ "ImageAspect.cpp", "_image_aspect_8cpp.html", null ],
@@ -23,6 +27,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "ImageType.h", "_image_type_8h.html", "_image_type_8h" ],
     [ "ImageUsage.cpp", "_image_usage_8cpp.html", null ],
     [ "ImageUsage.h", "_image_usage_8h.html", "_image_usage_8h" ],
+    [ "RenderManager.cpp", "_render_manager_8cpp.html", null ],
+    [ "RenderManager.h", "_render_manager_8h.html", "_render_manager_8h" ],
     [ "ShaderCullMode.cpp", "_shader_cull_mode_8cpp.html", null ],
     [ "ShaderCullMode.h", "_shader_cull_mode_8h.html", "_shader_cull_mode_8h" ],
     [ "ShaderFrontFace.cpp", "_shader_front_face_8cpp.html", null ],

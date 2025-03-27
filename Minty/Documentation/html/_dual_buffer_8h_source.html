@@ -220,12 +220,12 @@ $(function(){initNavTree('_dual_buffer_8h_source.html',''); initResizable(true);
 <div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="class_minty_1_1_dual_buffer.html#aec1a2b56577b28dd907f8af19b15c95c">  122</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_dual_buffer.html#aec1a2b56577b28dd907f8af19b15c95c">open</a>(std::ostream&amp; stream, <a class="code hl_class" href="class_minty_1_1_path.html">Path</a> <span class="keyword">const</span>&amp; filePath)</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        {</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!m_isOpen, <span class="stringliteral">&quot;DualBuffer is already open.&quot;</span>);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!m_isOpen, <span class="stringliteral">&quot;DualBuffer is already open.&quot;</span>);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            mp_stream = &amp;stream;</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            mp_originalBuffer = stream.rdbuf();</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            m_fileStream.open(filePath.<a class="code hl_function" href="class_minty_1_1_path.html#acd0f0f47d3610f38bd18de1aa5ffb455">get_string</a>().<a class="code hl_function" href="class_minty_1_1_string.html#a7d8b3a6cba09e0c0afef7926160d7f56">get_data</a>(), std::ios::out);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_fileStream.is_open(), <span class="stringliteral">&quot;Failed to open file.&quot;</span>);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_fileStream.is_open(), <span class="stringliteral">&quot;Failed to open file.&quot;</span>);</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            stream.rdbuf(<span class="keyword">this</span>);</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            m_isOpen = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
@@ -234,7 +234,7 @@ $(function(){initNavTree('_dual_buffer_8h_source.html',''); initResizable(true);
 <div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="class_minty_1_1_dual_buffer.html#a0d3ffc45c66cd5f0d5bcced6e9a6c6da">  137</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_dual_buffer.html#a0d3ffc45c66cd5f0d5bcced6e9a6c6da">close</a>()</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        {</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            <a class="code hl_define" href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_isOpen, <span class="stringliteral">&quot;DualBuffer is not open.&quot;</span>);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(m_isOpen, <span class="stringliteral">&quot;DualBuffer is not open.&quot;</span>);</div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
 <div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            mp_stream-&gt;rdbuf(mp_originalBuffer);</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            mp_stream = <span class="keyword">nullptr</span>;</div>
@@ -250,7 +250,7 @@ $(function(){initNavTree('_dual_buffer_8h_source.html',''); initResizable(true);
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    };</div>
 </div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>}</div>
-<div class="ttc" id="a_macro_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_macro_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Macro.h:43</div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
 <div class="ttc" id="a_path_8h_html"><div class="ttname"><a href="_path_8h.html">Path.h</a></div></div>
 <div class="ttc" id="a_types_8h_html"><div class="ttname"><a href="_types_8h.html">Types.h</a></div></div>
 <div class="ttc" id="aclass_minty_1_1_dual_buffer_html_a07ef03a421af4d5566db28c49c8a133a"><div class="ttname"><a href="class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a">Minty::DualBuffer::sync</a></div><div class="ttdeci">virtual int sync() override</div><div class="ttdef"><b>Definition</b> DualBuffer.h:109</div></div>
