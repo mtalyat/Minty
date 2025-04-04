@@ -52,6 +52,7 @@
 #include "Test_CoordinateMode.h"
 #include "Test_Filter.h"
 #include "Test_Format.h"
+#include "Test_Image.h"
 #include "Test_ImageAddressMode.h"
 #include "Test_ImageAspect.h"
 #include "Test_ImageLayout.h"
@@ -157,6 +158,7 @@ static void run_tests()
 	test_CoordinateMode(_test);
 	test_Filter(_test);
 	test_Format(_test);
+	test_Image(_test);
 	test_ImageAddressMode(_test);
 	test_ImageAspect(_test);
 	test_ImageLayout(_test);

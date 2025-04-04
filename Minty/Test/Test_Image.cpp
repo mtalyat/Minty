@@ -5,6 +5,19 @@ void test_Image(Test& _test)
 {
 	CATEGORY(Image)
 	{
+		ContextBuilder contextBuilder{};
+		contextBuilder.debugLogPath = "log.txt";
+		RenderManagerBuilder renderManagerBuilder{};
+
+		Owner<Window> window = Window::create({});
+		renderManagerBuilder.window = window;
+		contextBuilder.renderManagerBuilder = &renderManagerBuilder;
+
+		JobManagerBuilder jobManagerBuilder{};
+		contextBuilder.jobManagerBuilder = &jobManagerBuilder;
+
+		Context context(contextBuilder);
+
 		TEST("Constructor/Create")
 		{
 			ImageBuilder builder{};
@@ -42,9 +55,9 @@ void test_Image(Test& _test)
 			builder.size = { 128, 128 };
 			auto image = Image::create(builder);
 			EXPECT_EQUAL(image->get_format(), Format::Default);
-			builder.format = Format::B8G8R8_SINT;
+			builder.format = Format::R8G8B8A8_UINT;
 			image = Image::create(builder);
-			EXPECT_EQUAL(image->get_format(), Format::B8G8R8_SINT);
+			EXPECT_EQUAL(image->get_format(), Format::R8G8B8A8_UINT);
 		}
 
 		TEST("Get Type")
