@@ -1,5 +1,12 @@
 var NAVTREEINDEX13 =
 {
+"class_minty_1_1_wrap.html":[1,0,0,90],
+"class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85":[0,0,0,91,4],
+"class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85":[1,0,0,90,4],
+"class_minty_1_1_wrap.html#a08c7aa107fc6cc0ebd38822266f1bfa5":[0,0,0,91,5],
+"class_minty_1_1_wrap.html#a08c7aa107fc6cc0ebd38822266f1bfa5":[1,0,0,90,5],
+"class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120e":[0,0,0,91,2],
+"class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120e":[1,0,0,90,2],
 "class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6":[0,0,0,91,2,2],
 "class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6":[1,0,0,90,2,2],
 "class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea0b27918290ff5323bea1e3b78a9cf04e":[0,0,0,91,2,1],
@@ -242,12 +249,5 @@ var NAVTREEINDEX13 =
 "class_minty_1_1_writer_format_behavior.html#a805034c72e87cfb4ac44b030583cfa24":[1,0,0,93,9],
 "class_minty_1_1_writer_format_behavior.html#a816540ef492d44ec434ea9c3273405e5":[0,0,0,94,4],
 "class_minty_1_1_writer_format_behavior.html#a816540ef492d44ec434ea9c3273405e5":[1,0,0,93,4],
-"class_minty_1_1_writer_format_behavior.html#a828055cab11dfd385a76f51aaed58e7d":[0,0,0,94,27],
-"class_minty_1_1_writer_format_behavior.html#a828055cab11dfd385a76f51aaed58e7d":[1,0,0,93,27],
-"class_minty_1_1_writer_format_behavior.html#a82b78ff3c18d49b5e3ca953998d92359":[0,0,0,94,17],
-"class_minty_1_1_writer_format_behavior.html#a82b78ff3c18d49b5e3ca953998d92359":[1,0,0,93,17],
-"class_minty_1_1_writer_format_behavior.html#a88098fa7d55fad7729d5c6f0a2b77547":[0,0,0,94,16],
-"class_minty_1_1_writer_format_behavior.html#a88098fa7d55fad7729d5c6f0a2b77547":[1,0,0,93,16],
-"class_minty_1_1_writer_format_behavior.html#a8918ab7df7c2fac00724165fb9d3a81e":[0,0,0,94,7],
-"class_minty_1_1_writer_format_behavior.html#a8918ab7df7c2fac00724165fb9d3a81e":[1,0,0,93,7]
+"class_minty_1_1_writer_format_behavior.html#a828055cab11dfd385a76f51aaed58e7d":[0,0,0,94,27]
 };

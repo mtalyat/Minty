@@ -9,6 +9,9 @@ namespace Minty
 	/// </summary>
 	enum class ImageType
 	{
+		/// <summary>
+		/// Invalid.
+		/// </summary>
 		Undefined = 0,
 
 		/// <summary>
@@ -26,6 +29,8 @@ namespace Minty
 		/// </summary>
 		D3 = 3,
 	};
+
+	MINTY_ENUM_OPERATORS(ImageType);
 
 	String to_string(ImageType const obj);
 	ImageType parse_to_image_type(String const& string);

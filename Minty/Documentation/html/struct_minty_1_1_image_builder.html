@@ -134,9 +134,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a582bb9eb7d5487aba64d53705a19e879" id="r_a582bb9eb7d5487aba64d53705a19e879"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24">ImageUsage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a582bb9eb7d5487aba64d53705a19e879">usage</a> = <a class="el" href="namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24a4c1d10948179163c80a7b8d23542074b">ImageUsage::Sampled</a></td></tr>
 <tr class="memdesc:a582bb9eb7d5487aba64d53705a19e879"><td class="mdescLeft">&#160;</td><td class="mdescRight">The usage of the <a class="el" href="class_minty_1_1_image.html" title="Represents an Image.">Image</a>.  <br /></td></tr>
 <tr class="separator:a582bb9eb7d5487aba64d53705a19e879"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a04e33cf137303f1306010855b8e15" id="r_a48a04e33cf137303f1306010855b8e15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48a04e33cf137303f1306010855b8e15">pixels</a></td></tr>
-<tr class="memdesc:a48a04e33cf137303f1306010855b8e15"><td class="mdescLeft">&#160;</td><td class="mdescRight">The pixels of the image.  <br /></td></tr>
-<tr class="separator:a48a04e33cf137303f1306010855b8e15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af09ca71e7453deef8ab09dff653eca0a" id="r_af09ca71e7453deef8ab09dff653eca0a"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af09ca71e7453deef8ab09dff653eca0a">pixelData</a> = nullptr</td></tr>
+<tr class="memdesc:af09ca71e7453deef8ab09dff653eca0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the pixel data.  <br /></td></tr>
+<tr class="separator:af09ca71e7453deef8ab09dff653eca0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7147824edc15c518fb14fb248d56fa3" id="r_af7147824edc15c518fb14fb248d56fa3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7147824edc15c518fb14fb248d56fa3">pixelDataSize</a> = 0</td></tr>
+<tr class="memdesc:af7147824edc15c518fb14fb248d56fa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the pixel data in bytes.  <br /></td></tr>
+<tr class="separator:af7147824edc15c518fb14fb248d56fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06376699538762c20d5bd65199b54c74" id="r_a06376699538762c20d5bd65199b54c74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">UInt2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06376699538762c20d5bd65199b54c74">size</a> = { 0, 0 }</td></tr>
 <tr class="memdesc:a06376699538762c20d5bd65199b54c74"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the <a class="el" href="class_minty_1_1_image.html" title="Represents an Image.">Image</a>.  <br /></td></tr>
 <tr class="separator:a06376699538762c20d5bd65199b54c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -211,19 +214,35 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a48a04e33cf137303f1306010855b8e15" name="a48a04e33cf137303f1306010855b8e15"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48a04e33cf137303f1306010855b8e15">&#9670;&#160;</a></span>pixels</h2>
+<a id="af09ca71e7453deef8ab09dff653eca0a" name="af09ca71e7453deef8ab09dff653eca0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af09ca71e7453deef8ab09dff653eca0a">&#9670;&#160;</a></span>pixelData</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt;<a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a>&gt; Minty::ImageBuilder::pixels</td>
+          <td class="memname">void* Minty::ImageBuilder::pixelData = nullptr</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The pixels of the image. </p>
+<p>A pointer to the pixel data. </p>
+
+</div>
+</div>
+<a id="af7147824edc15c518fb14fb248d56fa3" name="af7147824edc15c518fb14fb248d56fa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7147824edc15c518fb14fb248d56fa3">&#9670;&#160;</a></span>pixelDataSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> Minty::ImageBuilder::pixelDataSize = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The size of the pixel data in bytes. </p>
 
 </div>
 </div>

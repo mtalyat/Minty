@@ -29,29 +29,17 @@ namespace Minty
 #pragma region Get Set
 
 	public:
-		/// <summary>
-		/// Gets the Byte data of this Buffer. Only works if this Buffer is optimized for frequent usage.
-		/// </summary>
-		/// <returns>A pointer to the data.</returns>
-		void* get_data() const;
+		void* get_data() const override;
 
-		/// <summary>
-		/// Sets the Byte data of this Buffer.
-		/// </summary>
-		/// <param name="data">The new Byte data.</param>
-		void set_data(void const* const data);
+		void set_data(void const* const data) override;
 
-		/// <summary>
-		/// Gets the size of this Buffer in bytes.
-		/// </summary>
-		/// <returns>The size.</returns>
-		Size get_size() const { return static_cast<Size>(m_size); }
+		Size get_size() const override { return static_cast<Size>(m_size); }
 
-		/// <summary>
-		/// Gets the native Buffer object.
-		/// </summary>
-		/// <returns>A pointer to the native object.</returns>
-		void* get_native() const { return m_buffer; }
+		void* get_native() const override { return m_buffer; }
+
+		VkBuffer get_buffer() const { return m_buffer; }
+
+		VkDeviceMemory get_memory() const { return m_memory; }
 
 #pragma endregion
 	};

@@ -552,6 +552,7 @@ var namespace_minty =
     [ "destruct", "namespace_minty.html#ad904f681bc05c05b4167dc715fe840bf", null ],
     [ "destruct_array", "namespace_minty.html#a910b025ccb027a56bcf5a973446e9ab0", null ],
     [ "encode_base16", "namespace_minty.html#a57ea120b6b3dabfa15e7cb6e6051b869", null ],
+    [ "MINTY_ENUM_OPERATORS", "namespace_minty.html#a880e022d887b115d6ee2872768af981a", null ],
     [ "parse_to", "namespace_minty.html#a411ed6a538dafce7fdf05c6e2657860b", null ],
     [ "parse_to", "namespace_minty.html#ac8a82da7d2b7865ab016f7ee01303ae7", null ],
     [ "parse_to< Bool >", "namespace_minty.html#a2af1bb5d633f61250a68fcbeae41af49", null ],

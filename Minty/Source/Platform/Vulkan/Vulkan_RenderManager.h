@@ -63,6 +63,19 @@ namespace Minty
 		/// </summary>
 		void end_frame();
 
+		/// <summary>
+		/// Creates and begins a temporary command buffer.
+		/// </summary>
+		/// <returns>The command buffer.</returns>
+		VkCommandBuffer start_command_buffer_single();
+
+		/// <summary>
+		/// Ends, submits and destroys a temporary command buffer.
+		/// </summary>
+		/// <param name="commandBuffer">The command buffer.</param>
+		/// <param name="queue">The queue to submit the commands to.</param>
+		void finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue);
+
 #pragma endregion
 
 

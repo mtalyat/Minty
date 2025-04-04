@@ -144,6 +144,7 @@
     <ClCompile Include="Test_CoordinateMode.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
+    <ClCompile Include="Test_Image.cpp" />
     <ClCompile Include="Test_ImageAddressMode.cpp" />
     <ClCompile Include="MintyTest.cpp" />
     <ClCompile Include="Test.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Test_CoordinateMode.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
+    <ClInclude Include="Test_Image.h" />
     <ClInclude Include="Test_ImageAddressMode.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Results.h" />

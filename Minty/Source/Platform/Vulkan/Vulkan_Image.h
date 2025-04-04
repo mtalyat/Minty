@@ -38,7 +38,7 @@ namespace Minty
 	public:
 		void* get_native() const override { return m_image; }
 
-		void set_pixels(Byte const* const data) override;
+		void set_pixels(void const* const data, Size const size) override;
 
 #pragma endregion
 

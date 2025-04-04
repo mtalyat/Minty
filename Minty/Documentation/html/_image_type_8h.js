@@ -6,6 +6,7 @@ var _image_type_8h =
       [ "Minty::ImageType::D2", "namespace_minty.html#a1b149805d70cb24948f5ded05827c57aac4d62b6dcca08e5caf06c01889282859", null ],
       [ "Minty::ImageType::D3", "namespace_minty.html#a1b149805d70cb24948f5ded05827c57aaa3deb6e481689f1d3303caecb8a6c401", null ]
     ] ],
+    [ "Minty::MINTY_ENUM_OPERATORS", "namespace_minty.html#a880e022d887b115d6ee2872768af981a", null ],
     [ "Minty::parse_to< ImageType >", "namespace_minty.html#ada5def3171c720527514621eeffa59ec", null ],
     [ "Minty::parse_to_image_type", "namespace_minty.html#a6e49e49c5ee41e2916e7f8788fbced08", null ],
     [ "Minty::parse_try< ImageType >", "namespace_minty.html#a57ec827d49ccc53e3544e6e7257f2617", null ],

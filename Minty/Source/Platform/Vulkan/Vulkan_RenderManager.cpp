@@ -65,3 +65,13 @@ void Minty::Vulkan_RenderManager::end_frame()
 {
 	MINTY_ASSERT(false, "Not implemented.");
 }
+
+VkCommandBuffer Minty::Vulkan_RenderManager::start_command_buffer_single()
+{
+	return Vulkan_Renderer::start_command_buffer_single(m_device, m_commandPool);
+}
+
+void Minty::Vulkan_RenderManager::finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue)
+{
+	Vulkan_Renderer::finish_command_buffer_single(m_device, m_commandPool, commandBuffer, queue);
+}

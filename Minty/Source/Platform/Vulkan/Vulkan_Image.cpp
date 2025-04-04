@@ -2,6 +2,7 @@
 #include "Vulkan_Image.h"
 #include "Vulkan_Renderer.h"
 #include "Vulkan_RenderManager.h"
+#include "Vulkan_Buffer.h"
 
 Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder)
 	: Image(builder)
@@ -11,12 +12,14 @@ Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder)
 	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
 	, m_owner(true)
 {
+	MINTY_ASSERT((builder.pixelData != nullptr) == (builder.pixelDataSize > 0), "Invalid pixel data for Image.");
+
 	initialize();
 
 	// set the pixel data, if given any
-	if (!builder.pixels.is_empty())
+	if (builder.pixelData)
 	{
-		set_pixels(builder.pixels.get_data());
+		set_pixels(builder.pixelData, builder.pixelDataSize);
 	}
 }
 
@@ -46,15 +49,33 @@ Minty::Vulkan_Image::~Vulkan_Image()
 	dispose();
 }
 
-void Minty::Vulkan_Image::set_pixels(Byte const* const data)
+void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 {
 	MINTY_ASSERT(!m_immutable, "Image is not mutable.");
 	MINTY_ASSERT(m_owner, "Image is not owned by this object.");
+	MINTY_ASSERT(data != nullptr, "Pixel data must not be null.");
+	MINTY_ASSERT(size > 0, "Pixel data size must be greater than 0.");
 
 	VkFormat format = Vulkan_Renderer::to_vulkan(m_format);
 
 	// create staging buffer, put data into it
-	
+	BufferBuilder bufferBuilder{};
+	bufferBuilder.usage = BufferUsage::Transfer;
+	bufferBuilder.size = size;
+	bufferBuilder.data = data;
+	bufferBuilder.frequent = false;
+	Vulkan_Buffer stagingBuffer(bufferBuilder);
+
+	// transition image so it can be modified
+	VkCommandBuffer commandBuffer = Vulkan_RenderManager::get_singleton().start_command_buffer_single();
+	Vulkan_Renderer::transition_image_layout(commandBuffer, m_image, format, m_layout, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+	// copy buffer to image
+	Vulkan_Renderer::copy_buffer_to_image(commandBuffer, Vulkan_RenderManager::get_singleton().get_graphics_queue(), stagingBuffer.get_buffer(), m_image, m_size.x, m_size.y);
+
+	// transition image back so it can be used to render
+	m_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+	Vulkan_Renderer::transition_image_layout(commandBuffer, m_image, format, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, m_layout);
 }
 
 void Minty::Vulkan_Image::initialize()

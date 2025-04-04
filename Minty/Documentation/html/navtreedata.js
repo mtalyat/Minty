@@ -61,9 +61,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "___application_8h.html",
-"_static_container_8h.html",
-"class_minty_1_1_array_1_1_reverse_iterator.html#a00483031b72494f8ae33979b25a9ba10",
-"class_minty_1_1_dual_buffer.html#a07ef03a421af4d5566db28c49c8a133a",
+"_static_container_8cpp.html",
+"class_minty_1_1_array_1_1_reverse_iterator.html",
+"class_minty_1_1_dual_buffer.html",
 "class_minty_1_1_list.html#a00e31dea68efb44203ccf614a153bbed",
 "class_minty_1_1_map.html#a0e39cd83b801229baedca5e5c665fde4",
 "class_minty_1_1_node.html#aa807d0938b23dace2579046932bcf206",
@@ -73,12 +73,13 @@ var NAVTREEINDEX =
 "class_minty_1_1_string_1_1_const_iterator.html#a7fb804f7dc96dd9f705c84095f37f1ca",
 "class_minty_1_1_vector.html#a0231edcc7fa06cb5d9d536735917e6c7",
 "class_minty_1_1_viewport.html#adf4aa8290058089bc773eb9e0894e9bc",
-"class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6",
-"class_minty_1_1_writer_format_behavior.html#a9bce80ce76bc6e25dcac74e5ab89e0b9",
-"namespace_minty.html#a1beea87476ee7e0f5f3498fd6c76ffb6",
-"namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803a5fe7b9358c9cb1b9eaa8d5aec000def4",
-"namespace_minty.html#ac04533e8be7dc7cbb8d8a4f17a0440f4a8cfe077ac9aea5235b0c3fda85914029",
-"struct_minty_1_1_color.html#ac14bab089053d5b0043ef7cfc17912f1"
+"class_minty_1_1_wrap.html",
+"class_minty_1_1_writer_format_behavior.html#a828055cab11dfd385a76f51aaed58e7d",
+"namespace_minty.html#a1a6e594af1f248ce1b99ee5e4f88f371",
+"namespace_minty.html#a77ffeb5aba7253ad03047edb553bb893",
+"namespace_minty.html#abf4278e67e98d1378c243228fa81cf7f",
+"struct_minty_1_1_color.html#a85074c97d4bfdd328ecb7db290b7041a",
+"structstd_1_1hash_3_01_minty_1_1_ref_3_01_t_01_4_01_4.html#a51c581e7683fbc4b7e43202ac950767d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

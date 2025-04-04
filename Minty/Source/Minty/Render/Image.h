@@ -46,9 +46,14 @@ namespace Minty
 		ImageUsage usage = ImageUsage::Sampled;
 
 		/// <summary>
-		/// The pixels of the image.
+		/// A pointer to the pixel data.
 		/// </summary>
-		Vector<Byte> pixels;
+		void* pixelData = nullptr;
+
+		/// <summary>
+		/// The size of the pixel data in bytes.
+		/// </summary>
+		Size pixelDataSize = 0;
 
 		/// <summary>
 		/// The size of the Image.
@@ -97,6 +102,12 @@ namespace Minty
 			, m_size(builder.size)
 			, m_immutable(builder.immutable)
 		{
+			MINTY_ASSERT(builder.format != Format::Undefined, "ImageBuilder format must not be undefined.");
+			MINTY_ASSERT(builder.type != ImageType::Undefined, "ImageBuilder type must not be undefined.");
+			MINTY_ASSERT(builder.tiling != ImageTiling::Undefined, "ImageBuilder tiling must not be undefined.");
+			MINTY_ASSERT(builder.aspect != ImageAspect::Undefined, "ImageBuilder aspect must not be undefined.");
+			MINTY_ASSERT(builder.usage != ImageUsage::Undefined, "ImageBuilder usage must not be undefined.");
+			MINTY_ASSERT(builder.size.x > 0 && builder.size.y > 0, "ImageBuilder size must be greater than 0.");
 		}
 
 		virtual ~Image()
@@ -111,8 +122,9 @@ namespace Minty
 		/// <summary>
 		/// Sets the pixel data of the Image. Assumes the pointer points to a size of width * height * channels.
 		/// </summary>
-		/// <param name="pixels">A pointer to the byte data.</param>
-		virtual void set_pixels(Byte const* const data) = 0;
+		/// <param name="data">A pointer to the byte data.</param>
+		/// <param name="size">The size of the data in bytes.</param>
+		virtual void set_pixels(void const* const data, Size const size) = 0;
 
 		/// <summary>
 		/// Gets the Format.
@@ -178,7 +190,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="builder">An ImageBuilder.</param>
 		/// <returns>An Image Owner.</returns>
-		Owner<Image> create(ImageBuilder const& builder = {});
+		static Owner<Image> create(ImageBuilder const& builder = {});
 
 #pragma endregion
 

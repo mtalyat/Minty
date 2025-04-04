@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"class_minty_1_1_array_1_1_reverse_iterator.html":[1,0,0,2,3],
 "class_minty_1_1_array_1_1_reverse_iterator.html#a00483031b72494f8ae33979b25a9ba10":[0,0,0,3,3,0],
 "class_minty_1_1_array_1_1_reverse_iterator.html#a00483031b72494f8ae33979b25a9ba10":[1,0,0,2,3,0],
 "class_minty_1_1_array_1_1_reverse_iterator.html#a05289b10e19b63c454574c45f07d7f1e":[0,0,0,3,3,10],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625ae90dfb84e30edf611e326eeb04d680de":[1,0,0,14,0,0],
 "class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625aee38e4d5dd68c4e440825018d549cb47":[0,0,0,15,0,1],
 "class_minty_1_1_debug.html#aa46102a529c4e0d1014d2d99fd86d625aee38e4d5dd68c4e440825018d549cb47":[1,0,0,14,0,1],
-"class_minty_1_1_dual_buffer.html":[0,0,0,16],
-"class_minty_1_1_dual_buffer.html":[1,0,0,15]
+"class_minty_1_1_dual_buffer.html":[0,0,0,16]
 };

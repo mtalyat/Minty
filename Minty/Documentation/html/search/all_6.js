@@ -21,7 +21,7 @@ var searchData=
   ['find_5fqueue_5ffamilies_18',['find_queue_families',['../class_minty_1_1_vulkan___renderer.html#aad6a1e52b0210a2d08ca9c392568514d',1,'Minty::Vulkan_Renderer']]],
   ['find_5fsupported_5fdepth_5fformat_19',['find_supported_depth_format',['../class_minty_1_1_vulkan___renderer.html#aede4c5e1cccd2b7e0d833364137422a8',1,'Minty::Vulkan_Renderer']]],
   ['find_5fsupported_5fformat_20',['find_supported_format',['../class_minty_1_1_vulkan___renderer.html#a75c199e3836794409e3caaa423850dce',1,'Minty::Vulkan_Renderer']]],
-  ['finish_5fcommand_5fbuffer_5fsingle_21',['finish_command_buffer_single',['../class_minty_1_1_vulkan___renderer.html#a6041eb3a53e86ad6fc1237c65e7dc104',1,'Minty::Vulkan_Renderer']]],
+  ['finish_5fcommand_5fbuffer_5fsingle_21',['finish_command_buffer_single',['../class_minty_1_1_vulkan___renderer.html#a6041eb3a53e86ad6fc1237c65e7dc104',1,'Minty::Vulkan_Renderer::finish_command_buffer_single()'],['../class_minty_1_1_vulkan___render_manager.html#af54958d45bdaced9b72e93f483c5728f',1,'Minty::Vulkan_RenderManager::finish_command_buffer_single()']]],
   ['first_22',['first',['../class_minty_1_1_pair.html#a12691ceb5d3df8e5dcd0d2ef8dbff207',1,'Minty::Pair']]],
   ['flags_23',['Flags',['../class_minty_1_1_file.html#a896e661cbb9ddf5e9ce8237ef47c0e3a',1,'Minty::File']]],
   ['float_24',['Float',['../namespace_minty.html#a372f2ac40c647017164622bb85bfb865',1,'Minty::Float'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda22ae0e2b89e5e3d477f988cc36d3272b',1,'Minty::Float']]],
