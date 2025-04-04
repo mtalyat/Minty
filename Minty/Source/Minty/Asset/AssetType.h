@@ -18,7 +18,6 @@ namespace Minty
 		Animation,
 		Animator,
 		Viewport,
-		Scissor,
 		Image,
 		Texture,
 		RenderPass,

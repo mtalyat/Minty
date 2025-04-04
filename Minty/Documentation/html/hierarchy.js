@@ -10,6 +10,9 @@ var hierarchy =
       ] ],
       [ "Minty::ShaderModule", "class_minty_1_1_shader_module.html", [
         [ "Minty::Vulkan_ShaderModule", "class_minty_1_1_vulkan___shader_module.html", null ]
+      ] ],
+      [ "Minty::Viewport", "class_minty_1_1_viewport.html", [
+        [ "Minty::Vulkan_Viewport", "class_minty_1_1_vulkan___viewport.html", null ]
       ] ]
     ] ],
     [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
@@ -157,6 +160,7 @@ var hierarchy =
     ] ],
     [ "Minty::Variable", "class_minty_1_1_variable.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
+    [ "Minty::ViewportBuilder", "struct_minty_1_1_viewport_builder.html", null ],
     [ "Minty::Vulkan_Renderer", "class_minty_1_1_vulkan___renderer.html", null ],
     [ "Minty::Window", "class_minty_1_1_window.html", [
       [ "Minty::Windows_Window", "class_minty_1_1_windows___window.html", null ]

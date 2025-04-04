@@ -334,6 +334,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vector.html">Vector</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a collection of elements with a dynamic size.  <a href="class_minty_1_1_vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_viewport.html">Viewport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a view with a mask that can be used to render to a specific area of the screen.  <a href="class_minty_1_1_viewport.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_viewport_builder.html">ViewportBuilder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arguments for a <a class="el" href="class_minty_1_1_viewport.html" title="Represents a view with a mask that can be used to render to a specific area of the screen.">Viewport</a>.  <a href="struct_minty_1_1_viewport_builder.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_virtual_file.html">VirtualFile</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Treats a part of a <a class="el" href="class_minty_1_1_physical_file.html" title="Handles reading/writing to a physical file on the disk.">PhysicalFile</a> as if it were an entire file.  <a href="class_minty_1_1_virtual_file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -346,6 +352,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vulkan___render_manager.html">Vulkan_RenderManager</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vulkan___shader_module.html">Vulkan_ShaderModule</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vulkan___viewport.html">Vulkan_Viewport</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_window.html">Window</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="class_minty_1_1_window.html" title="A Window object.">Window</a> object.  <a href="class_minty_1_1_window.html#details">More...</a><br /></td></tr>
@@ -485,23 +493,22 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387">Animator</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2">Viewport</a>
 , <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a5a173331e5b2368b8e9179cbf32c429b">Scissor</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08">Image</a>
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08">Image</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b">Texture</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a2a116cfe4d27a64fc758793d3fcadc5a">RenderPass</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9b0bffda4bcb312168c0d6537cb04b4d">RenderTarget</a>
 , <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9b0bffda4bcb312168c0d6537cb04b4d">RenderTarget</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a0e4c6d803e71001cb6d2ef095527538b">ShaderCode</a>
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a0e4c6d803e71001cb6d2ef095527538b">ShaderCode</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a2a62770f9c2ba943be9e0a146e08b9cb">ShaderModule</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841aa88a92f4a0e793589f2341851a15c660">Shader</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a3adccb7d2ead14f9a8ede91f9f5d2249">MaterialTemplate</a>
 , <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a3adccb7d2ead14f9a8ede91f9f5d2249">MaterialTemplate</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841ad92a8333dd3ccb895cc65f7455b71206">Material</a>
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841ad92a8333dd3ccb895cc65f7455b71206">Material</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a51f2b7b14433aa22c67d1f4fc18943cd">Sprite</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a942fbf5aede93f3ba503193e480477c5">FontVariant</a>
+, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d">Font</a>
 , <br />
-&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d">Font</a>
-, <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a710fdb6adb881b408116ef95335e1961">Mesh</a>
+&#160;&#160;<a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a710fdb6adb881b408116ef95335e1961">Mesh</a>
 , <a class="el" href="#a37bfed3f50b2fb1c7816a08810b2b841a9ead0d38e06ec253ca0ecbf6ea56e59b">Scene</a>
 <br />
  }</td></tr>
@@ -2332,7 +2339,6 @@ template&lt;typename T&gt; </div>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3" name="a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3"></a>Animation&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387" name="a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387"></a>Animator&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2" name="a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2"></a>Viewport&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a5a173331e5b2368b8e9179cbf32c429b" name="a37bfed3f50b2fb1c7816a08810b2b841a5a173331e5b2368b8e9179cbf32c429b"></a>Scissor&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08" name="a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08"></a>Image&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b" name="a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b"></a>Texture&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a37bfed3f50b2fb1c7816a08810b2b841a2a116cfe4d27a64fc758793d3fcadc5a" name="a37bfed3f50b2fb1c7816a08810b2b841a2a116cfe4d27a64fc758793d3fcadc5a"></a>RenderPass&#160;</td><td class="fielddoc"></td></tr>

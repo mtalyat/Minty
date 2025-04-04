@@ -68,6 +68,7 @@
 #include "Test_ShaderPolygonMode.h"
 #include "Test_ShaderPrimitiveTopology.h"
 #include "Test_ShaderStage.h"
+#include "Test_Viewport.h"
 
 // Serialization
 #include "Test_Node.h"
@@ -172,6 +173,7 @@ static void run_tests()
 	test_ShaderPolygonMode(_test);
 	test_ShaderPrimitiveTopology(_test);
 	test_ShaderStage(_test);
+	test_Viewport(_test);
 
 	// Serialization
 	test_Node(_test);

@@ -9,7 +9,6 @@ var _asset_type_8h =
       [ "Minty::AssetType::Animation", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841ad6b6b668dbca9d4fe774bb654226ebe3", null ],
       [ "Minty::AssetType::Animator", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a551d8efc86e55335851332e52536a387", null ],
       [ "Minty::AssetType::Viewport", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2", null ],
-      [ "Minty::AssetType::Scissor", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a5a173331e5b2368b8e9179cbf32c429b", null ],
       [ "Minty::AssetType::Image", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08", null ],
       [ "Minty::AssetType::Texture", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b", null ],
       [ "Minty::AssetType::RenderPass", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a2a116cfe4d27a64fc758793d3fcadc5a", null ],

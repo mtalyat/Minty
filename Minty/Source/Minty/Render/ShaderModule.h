@@ -71,7 +71,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<ShaderModule> create(ShaderModuleBuilder const& builder);
+		static Owner<ShaderModule> create(ShaderModuleBuilder const& builder = {});
 
 #pragma endregion
 	};

@@ -41,12 +41,14 @@ var searchData=
   ['_7estring_38',['~String',['../class_minty_1_1_string.html#a2695842bde8d6f5d567ead9f4b362891',1,'Minty::String']]],
   ['_7evariable_39',['~Variable',['../class_minty_1_1_variable.html#a8fb4d4421fdbb39d2ab463909de171dc',1,'Minty::Variable']]],
   ['_7evector_40',['~Vector',['../class_minty_1_1_vector.html#aaaa3b0542638966f6b4e4e7b50d22f53',1,'Minty::Vector']]],
-  ['_7evirtualfile_41',['~VirtualFile',['../class_minty_1_1_virtual_file.html#ae74a7316f82a3faa88b74f750731e5b1',1,'Minty::VirtualFile']]],
-  ['_7evulkan_5fbuffer_42',['~Vulkan_Buffer',['../class_minty_1_1_vulkan___buffer.html#a7f38e85becf328de776292fa879e862b',1,'Minty::Vulkan_Buffer']]],
-  ['_7evulkan_5fimage_43',['~Vulkan_Image',['../class_minty_1_1_vulkan___image.html#a7fba6116e821e583393fe5a5a4a2cf5f',1,'Minty::Vulkan_Image']]],
-  ['_7evulkan_5frendermanager_44',['~Vulkan_RenderManager',['../class_minty_1_1_vulkan___render_manager.html#a92a40585383e34b1cd13b0210b03bb55',1,'Minty::Vulkan_RenderManager']]],
-  ['_7evulkan_5fshadermodule_45',['~Vulkan_ShaderModule',['../class_minty_1_1_vulkan___shader_module.html#abf326c6f98e6d6cc70d57e7bc41066f3',1,'Minty::Vulkan_ShaderModule']]],
-  ['_7ewindow_46',['~Window',['../class_minty_1_1_window.html#ab51ceedac71e34d766de53b5ccb34bc4',1,'Minty::Window']]],
-  ['_7ewindows_5fwindow_47',['~Windows_Window',['../class_minty_1_1_windows___window.html#a8adc4bd17afd1bef9baa7e53a0b9fc2c',1,'Minty::Windows_Window']]],
-  ['_7ewriterimplementation_48',['~WriterImplementation',['../class_minty_1_1_writer_implementation.html#afd1731c28769748375ae3fdfdb2eb95c',1,'Minty::WriterImplementation']]]
+  ['_7eviewport_41',['~Viewport',['../class_minty_1_1_viewport.html#ac145330a87e8eae22c5d459a85bd75f2',1,'Minty::Viewport']]],
+  ['_7evirtualfile_42',['~VirtualFile',['../class_minty_1_1_virtual_file.html#ae74a7316f82a3faa88b74f750731e5b1',1,'Minty::VirtualFile']]],
+  ['_7evulkan_5fbuffer_43',['~Vulkan_Buffer',['../class_minty_1_1_vulkan___buffer.html#a7f38e85becf328de776292fa879e862b',1,'Minty::Vulkan_Buffer']]],
+  ['_7evulkan_5fimage_44',['~Vulkan_Image',['../class_minty_1_1_vulkan___image.html#a7fba6116e821e583393fe5a5a4a2cf5f',1,'Minty::Vulkan_Image']]],
+  ['_7evulkan_5frendermanager_45',['~Vulkan_RenderManager',['../class_minty_1_1_vulkan___render_manager.html#a92a40585383e34b1cd13b0210b03bb55',1,'Minty::Vulkan_RenderManager']]],
+  ['_7evulkan_5fshadermodule_46',['~Vulkan_ShaderModule',['../class_minty_1_1_vulkan___shader_module.html#abf326c6f98e6d6cc70d57e7bc41066f3',1,'Minty::Vulkan_ShaderModule']]],
+  ['_7evulkan_5fviewport_47',['~Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html#a817d01d519ea7f00a099c03ffc22b0a1',1,'Minty::Vulkan_Viewport']]],
+  ['_7ewindow_48',['~Window',['../class_minty_1_1_window.html#ab51ceedac71e34d766de53b5ccb34bc4',1,'Minty::Window']]],
+  ['_7ewindows_5fwindow_49',['~Windows_Window',['../class_minty_1_1_windows___window.html#a8adc4bd17afd1bef9baa7e53a0b9fc2c',1,'Minty::Windows_Window']]],
+  ['_7ewriterimplementation_50',['~WriterImplementation',['../class_minty_1_1_writer_implementation.html#afd1731c28769748375ae3fdfdb2eb95c',1,'Minty::WriterImplementation']]]
 ];

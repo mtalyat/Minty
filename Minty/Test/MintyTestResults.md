@@ -1,5 +1,5 @@
 # Results
-5436/5436 (100.00%)
+5461/5461 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -75,6 +75,7 @@
 | ShaderPolygonMode              |       15 |        0 |
 | ShaderPrimitiveTopology        |       27 |        0 |
 | ShaderStage                    |       11 |        0 |
+| Viewport                       |       25 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
@@ -5329,6 +5330,35 @@ No failures! :)
 |  PASS  | 37: Parse Try (result == value)                                                                                                  |
 |  PASS  | 40: Parse Try (parse_try_shader_stage("", result) == false)                                                                      |
 |  PASS  | 41: Parse Try (result == ShaderStage())                                                                                          |
+
+## Viewport
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 11: Constructor/Create (Viewport::create(builder))                                                                               |
+|  PASS  | 19: Set Position (viewport->set_position(value))                                                                                 |
+|  PASS  | 20: Set Position (viewport->get_view_position() == value)                                                                        |
+|  PASS  | 21: Set Position (viewport->get_mask_position() == value)                                                                        |
+|  PASS  | 23: Set Position (viewport->set_position(value))                                                                                 |
+|  PASS  | 24: Set Position (viewport->get_view_position() == value)                                                                        |
+|  PASS  | 25: Set Position (viewport->get_mask_position() == value)                                                                        |
+|  PASS  | 27: Set Position (viewport->set_position(value))                                                                                 |
+|  PASS  | 28: Set Position (viewport->get_view_position() == value)                                                                        |
+|  PASS  | 29: Set Position (viewport->get_mask_position() == value)                                                                        |
+|  PASS  | 37: Set Size (viewport->set_size(value))                                                                                         |
+|  PASS  | 38: Set Size (viewport->get_view_size() == value)                                                                                |
+|  PASS  | 39: Set Size (viewport->get_mask_size() == value)                                                                                |
+|  PASS  | 41: Set Size (viewport->set_size(value))                                                                                         |
+|  PASS  | 42: Set Size (viewport->get_view_size() == value)                                                                                |
+|  PASS  | 43: Set Size (viewport->get_mask_size() == value)                                                                                |
+|  PASS  | 51: Get/Set View Position (viewport->set_view_position(value))                                                                   |
+|  PASS  | 52: Get/Set View Position (viewport->get_view_position() == value)                                                               |
+|  PASS  | 60: Get/Set View Size (viewport->set_view_size(value))                                                                           |
+|  PASS  | 61: Get/Set View Size (viewport->get_view_size() == value)                                                                       |
+|  PASS  | 69: Get/Set Mask Position (viewport->set_mask_position(value))                                                                   |
+|  PASS  | 70: Get/Set Mask Position (viewport->get_mask_position() == value)                                                               |
+|  PASS  | 78: Get/Set Mask Size (viewport->set_mask_size(value))                                                                           |
+|  PASS  | 79: Get/Set Mask Size (viewport->get_mask_size() == value)                                                                       |
+|  PASS  | 86: Get Asset Type (viewport->get_asset_type() == AssetType::Viewport)                                                           |
 
 ## Node
 | Result | Message                                                                                                                          |
