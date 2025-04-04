@@ -163,10 +163,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:adacdcb5ccbda32090ad987fe408b467c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserves more space in this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>.  <br /></td></tr>
 <tr class="separator:adacdcb5ccbda32090ad987fe408b467c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32555b788d539720781f899ffcbd2b2d" id="r_a32555b788d539720781f899ffcbd2b2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32555b788d539720781f899ffcbd2b2d">add</a> (T const &amp;key)</td></tr>
-<tr class="memdesc:a32555b788d539720781f899ffcbd2b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a key-value pair to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>.  <br /></td></tr>
+<tr class="memdesc:a32555b788d539720781f899ffcbd2b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of the given key to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>.  <br /></td></tr>
 <tr class="separator:a32555b788d539720781f899ffcbd2b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab31397cfeb2c91ab9bc4116d179f8657" id="r_ab31397cfeb2c91ab9bc4116d179f8657"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab31397cfeb2c91ab9bc4116d179f8657">add</a> (T &amp;&amp;key)</td></tr>
+<tr class="memdesc:ab31397cfeb2c91ab9bc4116d179f8657"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of the given key to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>.  <br /></td></tr>
+<tr class="separator:ab31397cfeb2c91ab9bc4116d179f8657"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28aaa192572f4f061385b4c2949a6dd8" id="r_a28aaa192572f4f061385b4c2949a6dd8"><td class="memTemplParams" colspan="2">template&lt;typename IteratorType&gt; </td></tr>
+<tr class="memitem:a28aaa192572f4f061385b4c2949a6dd8"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a28aaa192572f4f061385b4c2949a6dd8">add</a> (IteratorType const &amp;<a class="el" href="#a798d3cc44b59f2da35dcf651074b64b9">begin</a>, IteratorType const &amp;<a class="el" href="#ab912fe505d5cef5e166b77d7693c05d3">end</a>)</td></tr>
+<tr class="memdesc:a28aaa192572f4f061385b4c2949a6dd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the range of elements to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>.  <br /></td></tr>
+<tr class="separator:a28aaa192572f4f061385b4c2949a6dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd0d3bb97aa7b456dca0d1d72d1bf00f" id="r_abd0d3bb97aa7b456dca0d1d72d1bf00f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd0d3bb97aa7b456dca0d1d72d1bf00f">remove</a> (T const &amp;key)</td></tr>
-<tr class="memdesc:abd0d3bb97aa7b456dca0d1d72d1bf00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the key-value pair with the given key.  <br /></td></tr>
+<tr class="memdesc:abd0d3bb97aa7b456dca0d1d72d1bf00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the key.  <br /></td></tr>
 <tr class="separator:abd0d3bb97aa7b456dca0d1d72d1bf00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afac81a0877a4ae03a8d74453ca4c395f" id="r_afac81a0877a4ae03a8d74453ca4c395f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afac81a0877a4ae03a8d74453ca4c395f">is_empty</a> () const</td></tr>
 <tr class="memdesc:afac81a0877a4ae03a8d74453ca4c395f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a> is empty.  <br /></td></tr>
@@ -392,8 +399,93 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a28aaa192572f4f061385b4c2949a6dd8" name="a28aaa192572f4f061385b4c2949a6dd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28aaa192572f4f061385b4c2949a6dd8">&#9670;&#160;</a></span>add() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename IteratorType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;!std::is_integral&lt; IteratorType &gt;::value, void &gt;::type <a class="el" href="class_minty_1_1_set.html">Minty::Set</a>&lt; T &gt;::add </td>
+          <td>(</td>
+          <td class="paramtype">IteratorType const &amp;</td>          <td class="paramname"><span class="paramname"><em>begin</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IteratorType const &amp;</td>          <td class="paramname"><span class="paramname"><em>end</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds the range of elements to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">IteratorType</td><td>The type of iterator.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">begin</td><td>The beginning of the range.</td></tr>
+    <tr><td class="paramname">end</td><td>The end of the range.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="ab31397cfeb2c91ab9bc4116d179f8657" name="ab31397cfeb2c91ab9bc4116d179f8657"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab31397cfeb2c91ab9bc4116d179f8657">&#9670;&#160;</a></span>add() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="class_minty_1_1_set.html">Minty::Set</a>&lt; T &gt;::add </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds a copy of the given key to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True, if the key was added.</dd></dl>
+
+</div>
+</div>
 <a id="a32555b788d539720781f899ffcbd2b2d" name="a32555b788d539720781f899ffcbd2b2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32555b788d539720781f899ffcbd2b2d">&#9670;&#160;</a></span>add()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a32555b788d539720781f899ffcbd2b2d">&#9670;&#160;</a></span>add() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -417,14 +509,14 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Adds a key-value pair to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>. </p>
+<p>Adds a copy of the given key to this <a class="el" href="class_minty_1_1_set.html" title="Holds a hash map of key-value pairs.">Set</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>The key to add.</td></tr>
-    <tr><td class="paramname">value</td><td>The value to add.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>True, if the key was added.</dd></dl>
 
 </div>
 </div>
@@ -848,14 +940,14 @@ template&lt;typename T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Removes the key-value pair with the given key. </p>
+<p>Removes the key. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td>The key of the pair to remove.</td></tr>
+    <tr><td class="paramname">key</td><td>The key to remove.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True, if the key was found and the pair was removed.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True, if the key was found and removed.</dd></dl>
 
 </div>
 </div>

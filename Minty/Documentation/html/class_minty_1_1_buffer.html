@@ -110,43 +110,55 @@ $(function(){initNavTree('class_minty_1_1_buffer.html',''); initResizable(true);
 </div><!--header-->
 <div class="contents">
 
+<p>Holds an array of data on the GPU.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_buffer_8h_source.html">Buffer.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Minty::Buffer:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_minty_1_1_buffer.png" usemap="#Minty::Buffer_map" alt=""/>
+  <map id="Minty::Buffer_map" name="Minty::Buffer_map">
+<area href="class_minty_1_1_vulkan___buffer.html" alt="Minty::Vulkan_Buffer" shape="rect" coords="0,56,130,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3cc4abaf3897970d2917c71ea783283e" id="r_a3cc4abaf3897970d2917c71ea783283e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3cc4abaf3897970d2917c71ea783283e">Buffer</a> (<a class="el" href="struct_minty_1_1_buffer_builder.html">BufferBuilder</a> const &amp;builder)</td></tr>
+<tr class="memdesc:a3cc4abaf3897970d2917c71ea783283e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>.  <br /></td></tr>
 <tr class="separator:a3cc4abaf3897970d2917c71ea783283e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65ac75b973ebd1d4ff2097a4b871036a" id="r_a65ac75b973ebd1d4ff2097a4b871036a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65ac75b973ebd1d4ff2097a4b871036a">~Buffer</a> ()</td></tr>
 <tr class="separator:a65ac75b973ebd1d4ff2097a4b871036a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d2422dde881401dd587c34e0c192c75" id="r_a3d2422dde881401dd587c34e0c192c75"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d2422dde881401dd587c34e0c192c75">get_data</a> (void *&amp;data) const =0</td></tr>
-<tr class="memdesc:a3d2422dde881401dd587c34e0c192c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>.  <br /></td></tr>
-<tr class="separator:a3d2422dde881401dd587c34e0c192c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31e85a404131d8a450bfc02dcabb1bfe" id="r_a31e85a404131d8a450bfc02dcabb1bfe"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31e85a404131d8a450bfc02dcabb1bfe">get_data</a> () const =0</td></tr>
+<tr class="memdesc:a31e85a404131d8a450bfc02dcabb1bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>. Only works if this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> is optimized for frequent usage.  <br /></td></tr>
+<tr class="separator:a31e85a404131d8a450bfc02dcabb1bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6a2068d7d0b2972f50879f9c0675182" id="r_af6a2068d7d0b2972f50879f9c0675182"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6a2068d7d0b2972f50879f9c0675182">set_data</a> (void const *const data)=0</td></tr>
-<tr class="memdesc:af6a2068d7d0b2972f50879f9c0675182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>.  <br /></td></tr>
+<tr class="memdesc:af6a2068d7d0b2972f50879f9c0675182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>.  <br /></td></tr>
 <tr class="separator:af6a2068d7d0b2972f50879f9c0675182"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9333395d31279a01d5c7f37b82376d8d" id="r_a9333395d31279a01d5c7f37b82376d8d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9333395d31279a01d5c7f37b82376d8d">get_size</a> () const =0</td></tr>
-<tr class="memdesc:a9333395d31279a01d5c7f37b82376d8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> in bytes.  <br /></td></tr>
+<tr class="memdesc:a9333395d31279a01d5c7f37b82376d8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> in bytes.  <br /></td></tr>
 <tr class="separator:a9333395d31279a01d5c7f37b82376d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7ded1bea68ae40790a257eb685035f4" id="r_ac7ded1bea68ae40790a257eb685035f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7ded1bea68ae40790a257eb685035f4">get_usage</a> () const</td></tr>
 <tr class="memdesc:ac7ded1bea68ae40790a257eb685035f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee" title="Describes how a buffer is used.">BufferUsage</a>.  <br /></td></tr>
 <tr class="separator:ac7ded1bea68ae40790a257eb685035f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50e79d026705e772a01ccbf5629583d2" id="r_a50e79d026705e772a01ccbf5629583d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50e79d026705e772a01ccbf5629583d2">is_frequent</a> () const</td></tr>
-<tr class="memdesc:a50e79d026705e772a01ccbf5629583d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> is optimized for frequent usage.  <br /></td></tr>
+<tr class="memdesc:a50e79d026705e772a01ccbf5629583d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> is optimized for frequent usage.  <br /></td></tr>
 <tr class="separator:a50e79d026705e772a01ccbf5629583d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5597880f164e014f0101d6c24372007" id="r_ae5597880f164e014f0101d6c24372007"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5597880f164e014f0101d6c24372007">get_native</a> () const =0</td></tr>
-<tr class="memdesc:ae5597880f164e014f0101d6c24372007"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the native <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> object.  <br /></td></tr>
+<tr class="memdesc:ae5597880f164e014f0101d6c24372007"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the native <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> object.  <br /></td></tr>
 <tr class="separator:ae5597880f164e014f0101d6c24372007"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8dce61405c10e073d62c227f0b7b434e" id="r_a8dce61405c10e073d62c227f0b7b434e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dce61405c10e073d62c227f0b7b434e">flush</a> () const =0</td></tr>
-<tr class="memdesc:a8dce61405c10e073d62c227f0b7b434e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>'s data from the cache.  <br /></td></tr>
-<tr class="separator:a8dce61405c10e073d62c227f0b7b434e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a26a431b44ded58a4107cbde66155abfb" id="r_a26a431b44ded58a4107cbde66155abfb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26a431b44ded58a4107cbde66155abfb">create</a> (<a class="el" href="struct_minty_1_1_buffer_builder.html">BufferBuilder</a> const &amp;builder={})</td></tr>
-<tr class="memdesc:a26a431b44ded58a4107cbde66155abfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>.  <br /></td></tr>
+<tr class="memdesc:a26a431b44ded58a4107cbde66155abfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>.  <br /></td></tr>
 <tr class="separator:a26a431b44ded58a4107cbde66155abfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Holds an array of data on the GPU. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3cc4abaf3897970d2917c71ea783283e" name="a3cc4abaf3897970d2917c71ea783283e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3cc4abaf3897970d2917c71ea783283e">&#9670;&#160;</a></span>Buffer()</h2>
 
@@ -169,6 +181,14 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>The arguments.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -221,19 +241,19 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Creates a new <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>. </p>
+<p>Creates a new <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">builder</td><td>The builder to use.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> <a class="el" href="class_minty_1_1_owner.html" title="A shared pointer.">Owner</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> <a class="el" href="class_minty_1_1_owner.html" title="A shared pointer.">Owner</a>.</dd></dl>
 
 </div>
 </div>
-<a id="a8dce61405c10e073d62c227f0b7b434e" name="a8dce61405c10e073d62c227f0b7b434e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8dce61405c10e073d62c227f0b7b434e">&#9670;&#160;</a></span>flush()</h2>
+<a id="a31e85a404131d8a450bfc02dcabb1bfe" name="a31e85a404131d8a450bfc02dcabb1bfe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31e85a404131d8a450bfc02dcabb1bfe">&#9670;&#160;</a></span>get_data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -242,7 +262,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void Minty::Buffer::flush </td>
+          <td class="memname">virtual void * Minty::Buffer::get_data </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -255,40 +275,10 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Flushes this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>'s data from the cache. </p>
+<p>Gets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>. Only works if this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> is optimized for frequent usage. </p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the data.</dd></dl>
 
-</div>
-</div>
-<a id="a3d2422dde881401dd587c34e0c192c75" name="a3d2422dde881401dd587c34e0c192c75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d2422dde881401dd587c34e0c192c75">&#9670;&#160;</a></span>get_data()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void Minty::Buffer::get_data </td>
-          <td>(</td>
-          <td class="paramtype">void *&amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data.</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Implemented in <a class="el" href="class_minty_1_1_vulkan___buffer.html#af4c16306ef7c49cdcd62ecc70fd2449a">Minty::Vulkan_Buffer</a>.</p>
 
 </div>
 </div>
@@ -315,8 +305,10 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the native <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> object. </p>
+<p>Gets the native <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> object. </p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the native object.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_vulkan___buffer.html#af335ffe8e7ea55841435250691e0f88c">Minty::Vulkan_Buffer</a>.</p>
 
 </div>
 </div>
@@ -343,8 +335,10 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the size of this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> in bytes. </p>
+<p>Gets the size of this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> in bytes. </p>
 <dl class="section return"><dt>Returns</dt><dd>The size.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_vulkan___buffer.html#a027eaf77150e36892083565d325e16ba">Minty::Vulkan_Buffer</a>.</p>
 
 </div>
 </div>
@@ -399,7 +393,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Checks if this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a> is optimized for frequent usage. </p>
+<p>Checks if this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a> is optimized for frequent usage. </p>
 <dl class="section return"><dt>Returns</dt><dd>True, if frequent.</dd></dl>
 
 </div>
@@ -427,13 +421,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html">Buffer</a>. </p>
+<p>Sets the <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data of this <a class="el" href="class_minty_1_1_buffer.html" title="Holds an array of data on the GPU.">Buffer</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>The new <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> data.</td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_vulkan___buffer.html#a4facc22d9f30584684509c7c06f08773">Minty::Vulkan_Buffer</a>.</p>
 
 </div>
 </div>

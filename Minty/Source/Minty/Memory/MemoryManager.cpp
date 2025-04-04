@@ -137,7 +137,7 @@ Owner<MemoryManager> Minty::MemoryManager::create(MemoryManagerBuilder const& bu
 	return Owner<MemoryManager>(builder);
 }
 
-MemoryManager& Minty::MemoryManager::instance()
+MemoryManager& Minty::MemoryManager::get_singleton()
 {
-	return Context::instance().get_memory_manager();
+	return Context::get_singleton().get_memory_manager();
 }

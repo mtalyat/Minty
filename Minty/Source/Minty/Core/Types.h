@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <typeindex>
 #include <chrono>
+#include <functional>
 
 namespace Minty
 {
@@ -32,4 +33,7 @@ namespace Minty
 	using TypeID = std::type_index;
 	using TypeInfo = std::type_info;
 	using TypeIndex = Size;
+
+	template<typename T>
+	using Function = std::function<T>;
 }

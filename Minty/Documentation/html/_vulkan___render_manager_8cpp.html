@@ -102,97 +102,16 @@ $(function(){initNavTree('_vulkan___render_manager_8cpp.html',''); initResizable
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#define-members">Macros</a>  </div>
   <div class="headertitle"><div class="title">Vulkan_RenderManager.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pch_8h_source.html">pch.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_vulkan___render_manager_8h_source.html">Vulkan_RenderManager.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_vulkan___renderer_8h_source.html">Vulkan_Renderer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_core_2_format_8h_source.html">Minty/Core/Format.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_vector_8h_source.html">Minty/Data/Vector.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_debug_8h_source.html">Minty/Debug/Debug.h</a>&quot;</code><br />
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a7e3f9f07cc2a5a278f0fffa0e3ec067f" id="r_a7e3f9f07cc2a5a278f0fffa0e3ec067f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e3f9f07cc2a5a278f0fffa0e3ec067f">VK_ASSERT_RESULT</a>(operation,  message)</td></tr>
-<tr class="separator:a7e3f9f07cc2a5a278f0fffa0e3ec067f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59857f91fea286ad706bc665e119b4b8" id="r_a59857f91fea286ad706bc665e119b4b8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59857f91fea286ad706bc665e119b4b8">VK_ASSERT_RESULT_RETURN_OBJECT</a>(objectType,  functionCall,  message)</td></tr>
-<tr class="separator:a59857f91fea286ad706bc665e119b4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97681452fa9bb4b2130a7c53b6a54e66" id="r_a97681452fa9bb4b2130a7c53b6a54e66"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97681452fa9bb4b2130a7c53b6a54e66">VK_ASSERT_FAIL</a>(message)</td></tr>
-<tr class="separator:a97681452fa9bb4b2130a7c53b6a54e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a97681452fa9bb4b2130a7c53b6a54e66" name="a97681452fa9bb4b2130a7c53b6a54e66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97681452fa9bb4b2130a7c53b6a54e66">&#9670;&#160;</a></span>VK_ASSERT_FAIL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VK_ASSERT_FAIL</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>message</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">throw</span> std::runtime_error(message)</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7e3f9f07cc2a5a278f0fffa0e3ec067f" name="a7e3f9f07cc2a5a278f0fffa0e3ec067f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e3f9f07cc2a5a278f0fffa0e3ec067f">&#9670;&#160;</a></span>VK_ASSERT_RESULT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VK_ASSERT_RESULT</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>operation</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { VkResult result = (operation); <span class="keywordflow">if</span> (result != VK_SUCCESS) { <a class="code hl_define" href="_debug_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a>(message); }} <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="a_debug_8h_html_a361da9ef9b75bbbfefe1700e866ecc2c"><div class="ttname"><a href="_debug_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a></div><div class="ttdeci">#define MINTY_ABORT(message)</div><div class="ttdef"><b>Definition</b> Debug.h:32</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a59857f91fea286ad706bc665e119b4b8" name="a59857f91fea286ad706bc665e119b4b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59857f91fea286ad706bc665e119b4b8">&#9670;&#160;</a></span>VK_ASSERT_RESULT_RETURN_OBJECT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VK_ASSERT_RESULT_RETURN_OBJECT</td>
-          <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>objectType</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>functionCall</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { objectType <span class="keywordtype">object</span> = VK_NULL_HANDLE; <a class="code hl_define" href="#a7e3f9f07cc2a5a278f0fffa0e3ec067f">VK_ASSERT_RESULT</a>((functionCall), (message)); <span class="keywordflow">return</span> object; } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="a_vulkan___render_manager_8cpp_html_a7e3f9f07cc2a5a278f0fffa0e3ec067f"><div class="ttname"><a href="#a7e3f9f07cc2a5a278f0fffa0e3ec067f">VK_ASSERT_RESULT</a></div><div class="ttdeci">#define VK_ASSERT_RESULT(operation, message)</div><div class="ttdef"><b>Definition</b> Vulkan_RenderManager.cpp:11</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

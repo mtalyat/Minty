@@ -174,7 +174,7 @@ UUID Minty::AssetManager::schedule_load(Path const& path)
 	Path metaPath = Asset::get_meta_path(path);
 	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
 
-	JobManager& jobManager = JobManager::instance();
+	JobManager& jobManager = JobManager::get_singleton();
 
 	// get UUID for reference
 	UUID id = read_id(path);
@@ -225,7 +225,7 @@ void Minty::AssetManager::schedule_unload(UUID const id)
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
 
-	JobManager& jobManager = JobManager::instance();
+	JobManager& jobManager = JobManager::get_singleton();
 
 	// use a job to unload the asset in the background
 	Handle handle = jobManager.schedule([this, id]()
@@ -283,7 +283,7 @@ void Minty::AssetManager::sync()
 	}
 
 	// wait for them all
-	JobManager& jobManager = JobManager::instance();
+	JobManager& jobManager = JobManager::get_singleton();
 	jobManager.wait(handles);
 
 	// clear the handles
@@ -567,7 +567,7 @@ Owner<AssetManager> Minty::AssetManager::create(AssetManagerBuilder const& build
 	return Owner<AssetManager>(builder);
 }
 
-AssetManager& Minty::AssetManager::instance()
+AssetManager& Minty::AssetManager::get_singleton()
 {
-	return Context::instance().get_asset_manager();
+	return Context::get_singleton().get_asset_manager();
 }

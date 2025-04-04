@@ -2,8 +2,8 @@ var searchData=
 [
   ['minty_5fabort_0',['MINTY_ABORT',['../_debug_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c',1,'Debug.h']]],
   ['minty_5fassert_1',['MINTY_ASSERT',['../_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a',1,'Debug.h']]],
-  ['minty_5fbreak_2',['MINTY_BREAK',['../_macro_8h.html#a5840665eff380d63dd931d12890f0400',1,'Macro.h']]],
-  ['minty_5fdebug_3',['MINTY_DEBUG',['../_macro_8h.html#a829c5ffd63d79b1812f0d89961f3009f',1,'Macro.h']]],
+  ['minty_5fbreak_2',['MINTY_BREAK',['../_debug_8h.html#a5840665eff380d63dd931d12890f0400',1,'Debug.h']]],
+  ['minty_5fdebug_3',['MINTY_DEBUG',['../_debug_8h.html#a829c5ffd63d79b1812f0d89961f3009f',1,'Debug.h']]],
   ['minty_5fdebug_5finfo_4',['MINTY_DEBUG_INFO',['../_debug_8h.html#adb50575c5f867b31cfad57c270eee694',1,'Debug.h']]],
   ['minty_5fenum_5fflags_5foperators_5',['MINTY_ENUM_FLAGS_OPERATORS',['../_macro_8h.html#a50e1e3c2bbbbb7dca6715bb39daecabd',1,'Macro.h']]],
   ['minty_5ferror_6',['MINTY_ERROR',['../_debug_8h.html#ac6e89f951ebc33cdb4304e47a6851c79',1,'Debug.h']]],

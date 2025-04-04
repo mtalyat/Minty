@@ -146,9 +146,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac14258983a833c379917a7c46498ace4" id="r_ac14258983a833c379917a7c46498ace4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_render_manager.html">RenderManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac14258983a833c379917a7c46498ace4">create</a> (<a class="el" href="struct_minty_1_1_render_manager_builder.html">RenderManagerBuilder</a> const &amp;builder={})</td></tr>
 <tr class="memdesc:ac14258983a833c379917a7c46498ace4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>.  <br /></td></tr>
 <tr class="separator:ac14258983a833c379917a7c46498ace4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f9b680a70b80298fde4cf2aa074cb50" id="r_a1f9b680a70b80298fde4cf2aa074cb50"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_render_manager.html">RenderManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f9b680a70b80298fde4cf2aa074cb50">instance</a> ()</td></tr>
-<tr class="memdesc:a1f9b680a70b80298fde4cf2aa074cb50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>.  <br /></td></tr>
-<tr class="separator:a1f9b680a70b80298fde4cf2aa074cb50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeb372c41a72d46f9d4f098387c8f0d1" id="r_abeb372c41a72d46f9d4f098387c8f0d1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_render_manager.html">RenderManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeb372c41a72d46f9d4f098387c8f0d1">get_singleton</a> ()</td></tr>
+<tr class="memdesc:abeb372c41a72d46f9d4f098387c8f0d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>.  <br /></td></tr>
+<tr class="separator:abeb372c41a72d46f9d4f098387c8f0d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handles rendering to a <a class="el" href="class_minty_1_1_window.html" title="A Window object.">Window</a>. </p>
@@ -271,6 +271,36 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Finishes rendering a frame. </p>
 
+<p>Implemented in <a class="el" href="class_minty_1_1_vulkan___render_manager.html#a80c746a80e6edbc212604b7df402b3b1">Minty::Vulkan_RenderManager</a>.</p>
+
+</div>
+</div>
+<a id="abeb372c41a72d46f9d4f098387c8f0d1" name="abeb372c41a72d46f9d4f098387c8f0d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeb372c41a72d46f9d4f098387c8f0d1">&#9670;&#160;</a></span>get_singleton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_render_manager.html">RenderManager</a> &amp; Minty::RenderManager::get_singleton </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>.</dd></dl>
+
 </div>
 </div>
 <a id="aa266266f3e935a3a729ece5f1c97de52" name="aa266266f3e935a3a729ece5f1c97de52"></a>
@@ -301,34 +331,6 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1f9b680a70b80298fde4cf2aa074cb50" name="a1f9b680a70b80298fde4cf2aa074cb50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f9b680a70b80298fde4cf2aa074cb50">&#9670;&#160;</a></span>instance()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_render_manager.html">RenderManager</a> &amp; Minty::RenderManager::instance </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a>.</dd></dl>
-
-</div>
-</div>
 <a id="ac02b5eb61cec5b5c64182e67021bcddc" name="ac02b5eb61cec5b5c64182e67021bcddc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac02b5eb61cec5b5c64182e67021bcddc">&#9670;&#160;</a></span>start_frame()</h2>
 
@@ -354,6 +356,8 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Prepares to render a frame. </p>
 <dl class="section return"><dt>Returns</dt><dd>True, on success. Returns false when the frame should be skipped.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_vulkan___render_manager.html#acf7141aca4acaba8eb2afc4578a3a811">Minty::Vulkan_RenderManager</a>.</p>
 
 </div>
 </div>

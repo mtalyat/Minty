@@ -402,6 +402,24 @@
     <ClInclude Include="Platform\Vulkan\Vulkan_RenderManager.h">
       <Filter>Platform\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\Renderer.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Renderer.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\RenderAttachment.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Buffer.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderModule.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_ShaderModule.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -588,6 +606,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\ShaderModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_ShaderModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

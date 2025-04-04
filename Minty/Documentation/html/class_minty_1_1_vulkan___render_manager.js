@@ -2,9 +2,13 @@ var class_minty_1_1_vulkan___render_manager =
 [
     [ "Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html#a8e49babb315f203e48d7d153c4210bb6", null ],
     [ "~Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html#a92a40585383e34b1cd13b0210b03bb55", null ],
-    [ "create_instance", "class_minty_1_1_vulkan___render_manager.html#aa9b9a4799d96b708e562f5121fd9d78f", null ],
-    [ "destroy_instance", "class_minty_1_1_vulkan___render_manager.html#a545a4c0243e7dc13dac7b578d7959b8a", null ],
+    [ "end_frame", "class_minty_1_1_vulkan___render_manager.html#a80c746a80e6edbc212604b7df402b3b1", null ],
+    [ "get_command_pool", "class_minty_1_1_vulkan___render_manager.html#a0c3cdc42c9434880de25f9be0784c247", null ],
     [ "get_device", "class_minty_1_1_vulkan___render_manager.html#a1c4fa43a42511c82a95b1287d9d6b692", null ],
+    [ "get_graphics_queue", "class_minty_1_1_vulkan___render_manager.html#abfb0ef61a70a01441e69fa469ea1fb14", null ],
     [ "get_instance", "class_minty_1_1_vulkan___render_manager.html#a485cb153e8c8d39d3c3967e7c31dbcbd", null ],
-    [ "get_physical_device", "class_minty_1_1_vulkan___render_manager.html#abdd0b440705c62354f6f2ab92a66d1bf", null ]
+    [ "get_physical_device", "class_minty_1_1_vulkan___render_manager.html#abdd0b440705c62354f6f2ab92a66d1bf", null ],
+    [ "get_present_queue", "class_minty_1_1_vulkan___render_manager.html#a69cae4fe85cf7a2e87118e1e553484c5", null ],
+    [ "get_surface", "class_minty_1_1_vulkan___render_manager.html#a064a8394ca981f90aa838f903aa79d46", null ],
+    [ "start_frame", "class_minty_1_1_vulkan___render_manager.html#acf7141aca4acaba8eb2afc4578a3a811", null ]
 ];

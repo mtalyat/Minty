@@ -47,6 +47,7 @@
 #include "Test_MemoryStack.h"
 
 // Render
+#include "Test_Buffer.h"
 #include "Test_BufferUsage.h"
 #include "Test_CoordinateMode.h"
 #include "Test_Filter.h"
@@ -58,10 +59,12 @@
 #include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
 #include "Test_ImageUsage.h"
+#include "Test_RenderManager.h"
 #include "Test_ShaderCullMode.h"
 #include "Test_ShaderFrontFace.h"
 #include "Test_ShaderInputRate.h"
 #include "Test_ShaderInputType.h"
+#include "Test_ShaderModule.h"
 #include "Test_ShaderPolygonMode.h"
 #include "Test_ShaderPrimitiveTopology.h"
 #include "Test_ShaderStage.h"
@@ -148,6 +151,7 @@ static void run_tests()
 	test_MemoryStack(_test);
 
 	// Render
+	test_Buffer(_test);
 	test_BufferUsage(_test);
 	test_CoordinateMode(_test);
 	test_Filter(_test);
@@ -159,10 +163,12 @@ static void run_tests()
 	test_ImageTiling(_test);
 	test_ImageType(_test);
 	test_ImageUsage(_test);
+	test_RenderManager(_test);
 	test_ShaderCullMode(_test);
 	test_ShaderFrontFace(_test);
 	test_ShaderInputRate(_test);
 	test_ShaderInputType(_test);
+	test_ShaderModule(_test);
 	test_ShaderPolygonMode(_test);
 	test_ShaderPrimitiveTopology(_test);
 	test_ShaderStage(_test);

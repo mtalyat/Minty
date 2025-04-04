@@ -3,29 +3,6 @@
 #include <format>
 #include <filesystem>
 
-#pragma region Debug
-
-#ifdef NDEBUG
-#define MINTY_RELEASE
-#else
-#define MINTY_DEBUG
-#endif // NDEBUG
-
-#ifdef MINTY_DEBUG
-
-// if debugging and using Visual Studio, insert debug break
-#ifdef _MSC_VER
-#define MINTY_BREAK() __debugbreak()
-#else
-#define MINTY_BREAK()
-#endif // _MSC_VER
-
-#else
-#define MINTY_BREAK()
-#endif // MINTY_DEBUG
-
-#pragma endregion
-
 #pragma region Function
 
 #define MINTY_ENUM_FLAGS_OPERATORS(type) inline type operator|(type const left, type const right) { return static_cast<type>(static_cast<Size>(left) | static_cast<Size>(right)); } \

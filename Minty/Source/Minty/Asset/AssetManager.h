@@ -416,7 +416,7 @@ namespace Minty
 		/// Gets the active Context's AssetManager.
 		/// </summary>
 		/// <returns>The AssetManager.</returns>
-		static AssetManager& instance();
+		static AssetManager& get_singleton();
 
 #pragma endregion
 	};

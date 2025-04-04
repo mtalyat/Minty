@@ -198,7 +198,7 @@ namespace Minty
 		/// Gets the active Context's MemoryManager.
 		/// </summary>
 		/// <returns>The MemoryManager.</returns>
-		static MemoryManager& instance();
+		static MemoryManager& get_singleton();
 
 #pragma endregion
 	};

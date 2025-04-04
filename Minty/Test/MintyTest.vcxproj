@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test_Buffer.cpp" />
     <ClCompile Include="Test_CoordinateMode.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
@@ -179,11 +180,13 @@
     <ClCompile Include="Test_PhysicalFile.cpp" />
     <ClCompile Include="Test_Queue.cpp" />
     <ClCompile Include="Test_Reader.cpp" />
+    <ClCompile Include="Test_RenderManager.cpp" />
     <ClCompile Include="Test_Set.cpp" />
     <ClCompile Include="Test_ShaderCullMode.cpp" />
     <ClCompile Include="Test_ShaderFrontFace.cpp" />
     <ClCompile Include="Test_ShaderInputRate.cpp" />
     <ClCompile Include="Test_ShaderInputType.cpp" />
+    <ClCompile Include="Test_ShaderModule.cpp" />
     <ClCompile Include="Test_ShaderPolygonMode.cpp" />
     <ClCompile Include="Test_ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Test_ShaderStage.cpp" />
@@ -203,6 +206,7 @@
     <ClCompile Include="Test_Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Test_Buffer.h" />
     <ClInclude Include="Test_CoordinateMode.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
@@ -243,11 +247,13 @@
     <ClInclude Include="Test_PhysicalFile.h" />
     <ClInclude Include="Test_Queue.h" />
     <ClInclude Include="Test_Reader.h" />
+    <ClInclude Include="Test_RenderManager.h" />
     <ClInclude Include="Test_Set.h" />
     <ClInclude Include="Test_ShaderCullMode.h" />
     <ClInclude Include="Test_ShaderFrontFace.h" />
     <ClInclude Include="Test_ShaderInputRate.h" />
     <ClInclude Include="Test_ShaderInputType.h" />
+    <ClInclude Include="Test_ShaderModule.h" />
     <ClInclude Include="Test_ShaderPolygonMode.h" />
     <ClInclude Include="Test_ShaderPrimitiveTopology.h" />
     <ClInclude Include="Test_ShaderStage.h" />

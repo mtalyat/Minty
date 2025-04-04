@@ -1,4 +1,30 @@
 var searchData=
 [
-  ['name_0',['name',['../struct_minty_1_1_wrap_1_1_header.html#a21290c23f3b2578f4de9eb8162a2c373',1,'Minty::Wrap::Header']]]
+  ['m_5fallocator_0',['m_allocator',['../class_minty_1_1_memory_container.html#aed68970301710178d3ba9ba77d9ab8ae',1,'Minty::MemoryContainer::m_allocator'],['../class_minty_1_1_reader.html#ade3672409a9860ec3152a68f934fb28f',1,'Minty::Reader::m_allocator']]],
+  ['m_5faspect_1',['m_aspect',['../class_minty_1_1_image.html#a9cb82f03970e4054be22887c431ca7c0',1,'Minty::Image']]],
+  ['m_5fcapacity_2',['m_capacity',['../class_minty_1_1_memory_container.html#a8d8aca8170d211d52d4724270374ac8c',1,'Minty::MemoryContainer']]],
+  ['m_5feventcallback_3',['m_eventCallback',['../class_minty_1_1_window.html#a111d28806618f0176a4774dbcb3d048e',1,'Minty::Window']]],
+  ['m_5fflags_4',['m_flags',['../class_minty_1_1_file.html#a65c0610289912559f663d1ec4c3627e2',1,'Minty::File']]],
+  ['m_5fformat_5',['m_format',['../class_minty_1_1_image.html#a99dc8b08ef5c40b4be3bbfc5b9f58800',1,'Minty::Image']]],
+  ['m_5fimmutable_6',['m_immutable',['../class_minty_1_1_image.html#a160bf55ba3886558c0b3b8c289857d1c',1,'Minty::Image']]],
+  ['m_5fpath_7',['m_path',['../class_minty_1_1_file.html#aeb4ebf6f053479f69b595a2efccbc9dc',1,'Minty::File']]],
+  ['m_5fposition_8',['m_position',['../class_minty_1_1_window.html#a5bc8d099ea0edf596c41e8256b72b5be',1,'Minty::Window']]],
+  ['m_5fsize_9',['m_size',['../class_minty_1_1_memory_container.html#a1d77ef895b4d8afc70c6fe329486cfd7',1,'Minty::MemoryContainer::m_size'],['../class_minty_1_1_image.html#a6256794f18e1928e8743379cf18576fc',1,'Minty::Image::m_size'],['../class_minty_1_1_window.html#a773c5bd3c3d46c9007aa528c7bda25e4',1,'Minty::Window::m_size']]],
+  ['m_5fstream_10',['m_stream',['../class_minty_1_1_physical_file.html#a4b9818a778075d10cec7d95bc0fa96d5',1,'Minty::PhysicalFile']]],
+  ['m_5ftiling_11',['m_tiling',['../class_minty_1_1_image.html#adf5cababf4bc3d685e0bdb05d5353f6c',1,'Minty::Image']]],
+  ['m_5ftitle_12',['m_title',['../class_minty_1_1_window.html#a51a46093cdac39ba27e337f18de167d7',1,'Minty::Window']]],
+  ['m_5ftype_13',['m_type',['../class_minty_1_1_image.html#ae3a334d88b3b442d79767c6cd206a250',1,'Minty::Image']]],
+  ['m_5fusage_14',['m_usage',['../class_minty_1_1_image.html#acecfe5455e885093d1d4420eff8e7d8f',1,'Minty::Image']]],
+  ['m_5fvirtualoffset_15',['m_virtualOffset',['../class_minty_1_1_virtual_file.html#a7c7e50399eb5c5a5fd08cd9cf3075291',1,'Minty::VirtualFile']]],
+  ['m_5fvirtualsize_16',['m_virtualSize',['../class_minty_1_1_virtual_file.html#a077a26b10284ca963101a71f905ab511',1,'Minty::VirtualFile']]],
+  ['max_5fchannel_17',['MAX_CHANNEL',['../struct_minty_1_1_color.html#aba2b1e37d2fc82d0e5c85da165b4eee4',1,'Minty::Color']]],
+  ['mb_18',['MB',['../namespace_minty.html#a50502c180fadbebbbe55753ae7ae37a7',1,'Minty']]],
+  ['memorymanagerbuilder_19',['memoryManagerBuilder',['../struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e',1,'Minty::ApplicationBuilder::memoryManagerBuilder'],['../struct_minty_1_1_context_builder.html#a5a2414e0e98f4d0807a7199f6ea0b881',1,'Minty::ContextBuilder::memoryManagerBuilder']]],
+  ['min_5fchannel_20',['MIN_CHANNEL',['../struct_minty_1_1_color.html#a659a91a84cf2fc6604bd876c31e45ff5',1,'Minty::Color']]],
+  ['minty_5fname_21',['MINTY_NAME',['../namespace_minty.html#a5134247bee1b23f2a9d2c041e485c8d1',1,'Minty']]],
+  ['minty_5fversion_22',['MINTY_VERSION',['../namespace_minty.html#a04d73d3925fd698f134ac30533d2fdda',1,'Minty']]],
+  ['minty_5fversion_5fmajor_23',['MINTY_VERSION_MAJOR',['../namespace_minty.html#aa514b85df5ce654781a4d9788bb3fc4a',1,'Minty']]],
+  ['minty_5fversion_5fminor_24',['MINTY_VERSION_MINOR',['../namespace_minty.html#a0b0dbed1e901de74d42e1556eafe8117',1,'Minty']]],
+  ['minty_5fversion_5fpatch_25',['MINTY_VERSION_PATCH',['../namespace_minty.html#a8c3a05108ceaf2cd646b16136cbf1980',1,'Minty']]],
+  ['mp_5fdata_26',['mp_data',['../class_minty_1_1_memory_container.html#a36d063e60ed5816b7edeb0648333d0ee',1,'Minty::MemoryContainer']]]
 ];

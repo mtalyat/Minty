@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['savepaths_0',['savePaths',['../struct_minty_1_1_asset_manager_builder.html#abbbc3baf329630ecf5ca823a9e3e6b37',1,'Minty::AssetManagerBuilder']]],
-  ['second_1',['second',['../class_minty_1_1_pair.html#a50ca1d86095457e28abdd9fb48a0fcab',1,'Minty::Pair']]],
-  ['size_2',['size',['../struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac',1,'Minty::BufferBuilder::size'],['../struct_minty_1_1_image_builder.html#a06376699538762c20d5bd65199b54c74',1,'Minty::ImageBuilder::size'],['../struct_minty_1_1_window_builder.html#ae1a7afa649ab014046202d33fdb0b6e9',1,'Minty::WindowBuilder::size']]],
-  ['strongcount_3',['strongCount',['../class_minty_1_1_counter.html#ab4fbd1099a0a04f29ad1dbed2daedc8c',1,'Minty::Counter']]]
+  ['r_0',['r',['../struct_minty_1_1_color.html#a57ea73a75c5714fbe3ec7fa64e27081d',1,'Minty::Color']]],
+  ['rad2deg_1',['RAD2DEG',['../namespace_minty_1_1_math.html#a7316c5e6fdfb1c5c5a29bc6f4f1bb7cb',1,'Minty::Math']]],
+  ['renderfinishedsemaphore_2',['renderFinishedSemaphore',['../struct_minty_1_1_vulkan___renderer_1_1_frame.html#a3175026b105210ca0995e7b9b65366ce',1,'Minty::Vulkan_Renderer::Frame']]],
+  ['rendermanagerbuilder_3',['renderManagerBuilder',['../struct_minty_1_1_context_builder.html#a89e3742d2da4579228c93700862e6e68',1,'Minty::ContextBuilder']]],
+  ['reservedsize_4',['reservedSize',['../struct_minty_1_1_wrap_1_1_entry.html#aa9b9a3d74319612a08edd36dea0a7fca',1,'Minty::Wrap::Entry']]]
 ];

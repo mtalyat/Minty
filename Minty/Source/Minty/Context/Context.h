@@ -16,10 +16,10 @@ namespace Minty
 	{
 		Path debugLogPath = "";
 
-		MemoryManagerBuilder memoryManagerBuilder = {};
-		JobManagerBuilder jobManagerBuilder = {};
-		AssetManagerBuilder assetManagerBuilder = {};
-		RenderManagerBuilder renderManagerBuilder = {};
+		MemoryManagerBuilder* memoryManagerBuilder = nullptr;
+		JobManagerBuilder* jobManagerBuilder = nullptr;
+		AssetManagerBuilder* assetManagerBuilder = nullptr;
+		RenderManagerBuilder* renderManagerBuilder = nullptr;
 	};
 
 	/// <summary>
@@ -135,9 +135,9 @@ namespace Minty
 		/// Gets the current instance of the Context.
 		/// </summary>
 		/// <returns>The current instance of the Context.</returns>
-		static Context& instance()
+		static Context& get_singleton()
 		{
-			MINTY_ASSERT(s_instance, "Context instance is null.");
+			MINTY_ASSERT(s_instance, "Context get_singleton is null.");
 			return *s_instance;
 		}
 

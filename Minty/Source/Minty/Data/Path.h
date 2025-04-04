@@ -421,7 +421,7 @@ namespace std
 	{
 		std::size_t operator()(Minty::Path const& path) const noexcept
 		{
-			return std::hash<std::string>{}(path.get_string().get_data());
+			return std::hash<std::string>{}(std::string(path.get_string().get_data()));
 		}
 	};
 }

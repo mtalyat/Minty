@@ -154,9 +154,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:afc0f0127c5822416996828cd7055f696" id="r_afc0f0127c5822416996828cd7055f696"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afc0f0127c5822416996828cd7055f696">create</a> (<a class="el" href="struct_minty_1_1_memory_manager_builder.html">MemoryManagerBuilder</a> const &amp;builder={})</td></tr>
 <tr class="memdesc:afc0f0127c5822416996828cd7055f696"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>.  <br /></td></tr>
 <tr class="separator:afc0f0127c5822416996828cd7055f696"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4f6c1a1398b62f6be0b0ac5dc2284eb" id="r_ae4f6c1a1398b62f6be0b0ac5dc2284eb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4f6c1a1398b62f6be0b0ac5dc2284eb">instance</a> ()</td></tr>
-<tr class="memdesc:ae4f6c1a1398b62f6be0b0ac5dc2284eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>.  <br /></td></tr>
-<tr class="separator:ae4f6c1a1398b62f6be0b0ac5dc2284eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d071c15771a07aca068b47ad21d519d" id="r_a1d071c15771a07aca068b47ad21d519d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d071c15771a07aca068b47ad21d519d">get_singleton</a> ()</td></tr>
+<tr class="memdesc:a1d071c15771a07aca068b47ad21d519d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>.  <br /></td></tr>
+<tr class="separator:a1d071c15771a07aca068b47ad21d519d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -398,6 +398,34 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1d071c15771a07aca068b47ad21d519d" name="a1d071c15771a07aca068b47ad21d519d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d071c15771a07aca068b47ad21d519d">&#9670;&#160;</a></span>get_singleton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp; Minty::MemoryManager::get_singleton </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>.</dd></dl>
+
+</div>
+</div>
 <a id="ad35532b1f52570410e9509d3ca3cc6b9" name="ad35532b1f52570410e9509d3ca3cc6b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad35532b1f52570410e9509d3ca3cc6b9">&#9670;&#160;</a></span>get_size()</h2>
 
@@ -451,34 +479,6 @@ Static Public Attributes</h2></td></tr>
 
 <p>Gets the size in bytes that has been allocated using the pre-allocated data in the <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a id="ae4f6c1a1398b62f6be0b0ac5dc2284eb" name="ae4f6c1a1398b62f6be0b0ac5dc2284eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4f6c1a1398b62f6be0b0ac5dc2284eb">&#9670;&#160;</a></span>instance()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp; Minty::MemoryManager::instance </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the active <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>'s <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>.</dd></dl>
 
 </div>
 </div>

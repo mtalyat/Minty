@@ -457,9 +457,14 @@ namespace Minty
 #pragma region Methods
 
 	private:
+		Size hash(Key const& key, Size const capacity) const
+		{
+			return std::hash<Key>{}(key) % capacity;
+		}
+
 		Size hash(Key const& key) const
 		{
-			return std::hash<Key>{}(key) % m_capacity;
+			return hash(key, m_capacity);
 		}
 
 		void rehash()
@@ -488,19 +493,24 @@ namespace Minty
 			}
 
 			Node** newTable = construct_array<Node*>(capacity, m_allocator);
-			for (Size i = 0; i < m_capacity; ++i)
+
+			if (m_capacity > 0)
 			{
-				Node* node = mp_table[i];
-				while (node)
+				for (Size i = 0; i < m_capacity; ++i)
 				{
-					Node* next = node->next;
-					Size index = hash(node->key);
-					node->next = newTable[index];
-					newTable[index] = node;
-					node = next;
+					Node* node = mp_table[i];
+					while (node)
+					{
+						Node* next = node->next;
+						Size index = hash(node->key, capacity);
+						node->next = newTable[index];
+						newTable[index] = node;
+						node = next;
+					}
 				}
+				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
 			}
-			destruct_array<Node*>(mp_table, m_capacity, m_allocator);
+
 			mp_table = newTable;
 			m_capacity = capacity;
 		}
@@ -657,7 +667,7 @@ namespace Minty
 		/// <returns>An Iterator to the key-value pair with the given Key.</returns>
 		Iterator find(Key const& key)
 		{
-			if (m_capacity == 0)
+			if (m_size == 0)
 			{
 				return end();
 			}
@@ -682,7 +692,7 @@ namespace Minty
 		/// <returns>A ConstIterator to the key-value pair with the given Key.</returns>
 		ConstIterator find(Key const& key) const
 		{
-			if (m_capacity == 0)
+			if (m_size == 0)
 			{
 				return end();
 			}

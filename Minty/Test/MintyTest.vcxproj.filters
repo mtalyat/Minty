@@ -13,47 +13,50 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Tests">
-      <UniqueIdentifier>{e0e19628-83a6-43f4-b8f6-85789ec900d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tests\Minty">
-      <UniqueIdentifier>{15d850e1-3c6f-4513-b382-97e1be9f7d9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tests\Data">
-      <UniqueIdentifier>{4a42e44d-03a7-4cdd-8631-4af15eaad390}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Tests\Memory">
-      <UniqueIdentifier>{06c85f8e-2e02-4183-9dcb-7e5cdad32a78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\MintyTest">
       <UniqueIdentifier>{d402cf7f-ebee-47c9-b221-67a91a93af1c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Core">
+    <Filter Include="Header Files\Minty">
+      <UniqueIdentifier>{e0e19628-83a6-43f4-b8f6-85789ec900d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Minty">
+      <UniqueIdentifier>{15d850e1-3c6f-4513-b382-97e1be9f7d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Data">
+      <UniqueIdentifier>{4a42e44d-03a7-4cdd-8631-4af15eaad390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Memory">
+      <UniqueIdentifier>{06c85f8e-2e02-4183-9dcb-7e5cdad32a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Core">
       <UniqueIdentifier>{da1285e4-a878-40dd-800e-dd46d2ed096f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\File">
+    <Filter Include="Header Files\Minty\File">
       <UniqueIdentifier>{98750518-5e3a-4395-b83a-a14c1a5f22ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Wrap">
+    <Filter Include="Header Files\Minty\Wrap">
       <UniqueIdentifier>{4ec241ba-b60f-4223-8cdd-edd7ed73960a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Debug">
+    <Filter Include="Header Files\Minty\Debug">
       <UniqueIdentifier>{e951fa1f-a8b2-4919-ac0a-cb767902e055}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Serialization">
+    <Filter Include="Header Files\Minty\Serialization">
       <UniqueIdentifier>{2ad639a7-df6f-4ffe-95b7-aac8a979e238}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Asset">
+    <Filter Include="Header Files\Minty\Asset">
       <UniqueIdentifier>{8acdb392-49f6-4df1-9a99-d734d8b5df11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Job">
+    <Filter Include="Header Files\Minty\Job">
       <UniqueIdentifier>{0d58f503-a72d-456f-97a3-a174affd0684}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Time">
+    <Filter Include="Header Files\Minty\Time">
       <UniqueIdentifier>{60d2160e-c2dd-4ce3-8cdd-26c0355b8c37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Tests\Render">
+    <Filter Include="Header Files\Minty\Render">
       <UniqueIdentifier>{e4b80fb9-4cab-43cb-8f17-673b59e61cc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Window">
+      <UniqueIdentifier>{5b09807e-9f65-4b49-8a0f-c6fee1fafd3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +243,15 @@
     <ClCompile Include="Test_Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_RenderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -252,181 +264,190 @@
       <Filter>Header Files\MintyTest</Filter>
     </ClInclude>
     <ClInclude Include="Test_Array.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_List.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_MemoryManager.h">
-      <Filter>Header Files\Tests\Memory</Filter>
+      <Filter>Header Files\Minty\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Test_MemoryPool.h">
-      <Filter>Header Files\Tests\Memory</Filter>
+      <Filter>Header Files\Minty\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Test_MemoryStack.h">
-      <Filter>Header Files\Tests\Memory</Filter>
+      <Filter>Header Files\Minty\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Test_Minty.h">
-      <Filter>Header Files\Tests\Minty</Filter>
+      <Filter>Header Files\Minty\Minty</Filter>
     </ClInclude>
     <ClInclude Include="Test_Pair.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Vector.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_String.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Map.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Set.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Stack.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Queue.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Color.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Base.h">
-      <Filter>Header Files\Tests\Core</Filter>
+      <Filter>Header Files\Minty\Core</Filter>
     </ClInclude>
     <ClInclude Include="Test_Compression.h">
-      <Filter>Header Files\Tests\Core</Filter>
+      <Filter>Header Files\Minty\Core</Filter>
     </ClInclude>
     <ClInclude Include="Test_PhysicalFile.h">
-      <Filter>Header Files\Tests\File</Filter>
+      <Filter>Header Files\Minty\File</Filter>
     </ClInclude>
     <ClInclude Include="Test_VirtualFile.h">
-      <Filter>Header Files\Tests\File</Filter>
+      <Filter>Header Files\Minty\File</Filter>
     </ClInclude>
     <ClInclude Include="Test_Wrap.h">
-      <Filter>Header Files\Tests\Wrap</Filter>
+      <Filter>Header Files\Minty\Wrap</Filter>
     </ClInclude>
     <ClInclude Include="Test_File.h">
-      <Filter>Header Files\Tests\File</Filter>
+      <Filter>Header Files\Minty\File</Filter>
     </ClInclude>
     <ClInclude Include="Test_Wrapper.h">
-      <Filter>Header Files\Tests\Wrap</Filter>
+      <Filter>Header Files\Minty\Wrap</Filter>
     </ClInclude>
     <ClInclude Include="Test_Debug.h">
-      <Filter>Header Files\Tests\Debug</Filter>
+      <Filter>Header Files\Minty\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Test_DualBuffer.h">
-      <Filter>Header Files\Tests\Debug</Filter>
+      <Filter>Header Files\Minty\Debug</Filter>
     </ClInclude>
     <ClInclude Include="Test_Math.h">
-      <Filter>Header Files\Tests\Core</Filter>
+      <Filter>Header Files\Minty\Core</Filter>
     </ClInclude>
     <ClInclude Include="Test_ConstantContainer.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_UUID.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_StaticContainer.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_DynamicContainer.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Node.h">
-      <Filter>Header Files\Tests\Serialization</Filter>
+      <Filter>Header Files\Minty\Serialization</Filter>
     </ClInclude>
     <ClInclude Include="Test_Variable.h">
-      <Filter>Header Files\Tests\Data</Filter>
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Type.h">
-      <Filter>Header Files\Tests\Core</Filter>
+      <Filter>Header Files\Minty\Core</Filter>
     </ClInclude>
     <ClInclude Include="Test_Reader.h">
-      <Filter>Header Files\Tests\Serialization</Filter>
+      <Filter>Header Files\Minty\Serialization</Filter>
     </ClInclude>
     <ClInclude Include="Test_Writer.h">
-      <Filter>Header Files\Tests\Serialization</Filter>
+      <Filter>Header Files\Minty\Serialization</Filter>
     </ClInclude>
     <ClInclude Include="Test_Encoding.h">
-      <Filter>Header Files\Tests\Core</Filter>
+      <Filter>Header Files\Minty\Core</Filter>
     </ClInclude>
     <ClInclude Include="Test_AssetManager.h">
-      <Filter>Header Files\Tests\Asset</Filter>
+      <Filter>Header Files\Minty\Asset</Filter>
     </ClInclude>
     <ClInclude Include="Test_Asset.h">
-      <Filter>Header Files\Tests\Asset</Filter>
+      <Filter>Header Files\Minty\Asset</Filter>
     </ClInclude>
     <ClInclude Include="Test_JobManager.h">
-      <Filter>Header Files\Tests\Job</Filter>
+      <Filter>Header Files\Minty\Job</Filter>
     </ClInclude>
     <ClInclude Include="Test_GenericAsset.h">
-      <Filter>Header Files\Tests\Asset</Filter>
+      <Filter>Header Files\Minty\Asset</Filter>
     </ClInclude>
     <ClInclude Include="Test_Time.h">
-      <Filter>Header Files\Tests\Time</Filter>
+      <Filter>Header Files\Minty\Time</Filter>
     </ClInclude>
     <ClInclude Include="Test_Stopwatch.h">
-      <Filter>Header Files\Tests\Time</Filter>
+      <Filter>Header Files\Minty\Time</Filter>
     </ClInclude>
     <ClInclude Include="Test_BufferUsage.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageType.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImagePixelFormat.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageTiling.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageAspect.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageAddressMode.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageUsage.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageLayout.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_Filter.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_Format.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderStage.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderInputType.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderPrimitiveTopology.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderCullMode.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderFrontFace.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderPolygonMode.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ShaderInputRate.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_CoordinateMode.h">
-      <Filter>Header Files\Tests\Render</Filter>
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Buffer.h">
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_Window.h">
-      <Filter>Header Files\Tests</Filter>
+      <Filter>Header Files\Minty\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_RenderManager.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderModule.h">
+      <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

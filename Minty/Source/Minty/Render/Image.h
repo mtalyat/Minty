@@ -69,7 +69,7 @@ namespace Minty
 	{
 #pragma region Variables
 
-	private:
+	protected:
 		Format m_format;
 		ImageType m_type;
 		ImageTiling m_tiling;
@@ -159,31 +159,14 @@ namespace Minty
 		/// <summary>
 		/// Gets the native Image object.
 		/// </summary>
-		virtual void get_native() const = 0;
+		/// <returns>A pointer to the native object.</returns>
+		virtual void* get_native() const = 0;
 
 		/// <summary>
 		/// Returns AssetType::Image.
 		/// </summary>
 		/// <returns>AssetType::Image.</returns>
 		constexpr AssetType get_asset_type() const { return AssetType::Image; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		/// <summary>
-		/// Resizes the Image with the new size and format.
-		/// </summary>
-		/// <param name="newSize">The new size of the Image.</param>
-		/// <param name="newFormat">The new Format of the Image.</param>
-		virtual void resize(UInt2 const newSize, Format const newFormat) = 0;
-
-		/// <summary>
-		/// Resizes the Image with the new size.
-		/// </summary>
-		/// <param name="newSize">The new size of the Image.</param>
-		inline void resize(UInt2 const newSize) { resize(newSize, m_format); }
 
 #pragma endregion
 

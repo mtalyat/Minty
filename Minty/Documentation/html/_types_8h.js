@@ -5,6 +5,7 @@ var _types_8h =
     [ "Minty::Char", "namespace_minty.html#ad1072740f5ffcbb69a55315ffc49a0d8", null ],
     [ "Minty::Double", "namespace_minty.html#a53da280d5b353ab0ec1be9b47f925392", null ],
     [ "Minty::Float", "namespace_minty.html#a372f2ac40c647017164622bb85bfb865", null ],
+    [ "Minty::Function", "namespace_minty.html#a824f7ce2099d0ab1f9a450f9d1a071eb", null ],
     [ "Minty::Handle", "namespace_minty.html#a40eb5e824cc6150ead0892d3dde0aaaa", null ],
     [ "Minty::ID", "namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d", null ],
     [ "Minty::Int", "namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee", null ],

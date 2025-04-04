@@ -127,6 +127,10 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a829c5ffd63d79b1812f0d89961f3009f" id="r_a829c5ffd63d79b1812f0d89961f3009f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a829c5ffd63d79b1812f0d89961f3009f">MINTY_DEBUG</a></td></tr>
+<tr class="separator:a829c5ffd63d79b1812f0d89961f3009f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5840665eff380d63dd931d12890f0400" id="r_a5840665eff380d63dd931d12890f0400"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5840665eff380d63dd931d12890f0400">MINTY_BREAK</a>()</td></tr>
+<tr class="separator:a5840665eff380d63dd931d12890f0400"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb50575c5f867b31cfad57c270eee694" id="r_adb50575c5f867b31cfad57c270eee694"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb50575c5f867b31cfad57c270eee694">MINTY_DEBUG_INFO</a>(message)</td></tr>
 <tr class="separator:adb50575c5f867b31cfad57c270eee694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94eafa87963d877703d10a28fd7f9402" id="r_a94eafa87963d877703d10a28fd7f9402"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94eafa87963d877703d10a28fd7f9402">MINTY_LOG</a>(message)</td></tr>
@@ -157,8 +161,7 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><a class="code hl_define" href="#ac6e89f951ebc33cdb4304e47a6851c79">MINTY_ERROR</a>(message)</div>
-<div class="ttc" id="a_debug_8h_html_ac6e89f951ebc33cdb4304e47a6851c79"><div class="ttname"><a href="#ac6e89f951ebc33cdb4304e47a6851c79">MINTY_ERROR</a></div><div class="ttdeci">#define MINTY_ERROR(message)</div><div class="ttdef"><b>Definition</b> Debug.h:21</div></div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { Debug::write_abort(message); <span class="keywordflow">throw</span> std::runtime_error(message); } <span class="keywordflow">while</span>(<span class="keyword">false</span>)</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -177,6 +180,39 @@ Macros</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(expression)) { <a class="code hl_define" href="#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a>(<span class="stringliteral">&quot;(&quot;</span> #expression <span class="stringliteral">&quot;) failed: &quot;</span> #message); } } <span class="keywordflow">while</span>(<span class="keyword">false</span>)</div>
+<div class="ttc" id="a_debug_8h_html_a361da9ef9b75bbbfefe1700e866ecc2c"><div class="ttname"><a href="#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a></div><div class="ttdeci">#define MINTY_ABORT(message)</div><div class="ttdef"><b>Definition</b> Debug.h:49</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a5840665eff380d63dd931d12890f0400" name="a5840665eff380d63dd931d12890f0400"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5840665eff380d63dd931d12890f0400">&#9670;&#160;</a></span>MINTY_BREAK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_BREAK</td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a829c5ffd63d79b1812f0d89961f3009f" name="a829c5ffd63d79b1812f0d89961f3009f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a829c5ffd63d79b1812f0d89961f3009f">&#9670;&#160;</a></span>MINTY_DEBUG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_DEBUG</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -233,7 +269,8 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Value:</b><div class="fragment"><div class="line">Debug::write_info(message)</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a94eafa87963d877703d10a28fd7f9402" name="a94eafa87963d877703d10a28fd7f9402"></a>
@@ -250,7 +287,8 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Value:</b><div class="fragment"><div class="line">Debug::write_message(message)</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a2f9a744986e882411a6c41b462c5618a" name="a2f9a744986e882411a6c41b462c5618a"></a>
@@ -267,7 +305,8 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Value:</b><div class="fragment"><div class="line">Debug::write_warning(message)</div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

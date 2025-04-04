@@ -22,32 +22,32 @@ namespace Minty
 		/// <summary>
 		/// Color attachment.
 		/// </summary>
-		ColorAttachmentOptimal = 2,
+		ColorAttachment = 2,
 
 		/// <summary>
 		/// Depth stencil attachment.
 		/// </summary>
-		DepthStencilAttachmentOptimal = 3,
+		DepthStencilAttachment = 3,
 
 		/// <summary>
 		/// Depth stencil read only.
 		/// </summary>
-		DepthStencilReadOnlyOptimal = 4,
+		DepthStencilReadOnly = 4,
 
 		/// <summary>
 		/// Shader read only.
 		/// </summary>
-		ShaderReadOnlyOptimal = 5,
+		ShaderReadOnly = 5,
 
 		/// <summary>
 		/// Transfer source location.
 		/// </summary>
-		TransferSourceOptimal = 6,
+		TransferSource = 6,
 
 		/// <summary>
 		/// Transfer destination location.
 		/// </summary>
-		TransferDestinationOptimal = 7,
+		TransferDestination = 7,
 
 		/// <summary>
 		/// Pre-initialized.

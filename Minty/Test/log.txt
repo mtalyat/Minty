@@ -1,0 +1,5 @@
+[30m[101m[ABO] (builder.size > 0) failed: "Attempting to create a buffer with a size of 0."[0m
+[30m[101m[ABO] (builder.usage != BufferUsage::Undefined) failed: "Attempting to create a buffer with an undefined usage."[0m
+[30m[101m[ABO] (builder.size > 0) failed: "Attempting to create a buffer with a size of 0."[0m
+[30m[101m[ABO] (is_frequent()) failed: "Attempting to get data from a non-frequent buffer."[0m
+[30m[101m[ABO] (data) failed: "Attempting to set data to nullptr."[0m

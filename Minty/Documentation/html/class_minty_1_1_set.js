@@ -8,6 +8,8 @@ var class_minty_1_1_set =
     [ "Set", "class_minty_1_1_set.html#a90f69ed43e12678198f176921847cc7c", null ],
     [ "Set", "class_minty_1_1_set.html#a6858ab5fea87d3e1513a96d22b1ad2e5", null ],
     [ "~Set", "class_minty_1_1_set.html#a3c982fac1772f86a711148cab99b99ba", null ],
+    [ "add", "class_minty_1_1_set.html#a28aaa192572f4f061385b4c2949a6dd8", null ],
+    [ "add", "class_minty_1_1_set.html#ab31397cfeb2c91ab9bc4116d179f8657", null ],
     [ "add", "class_minty_1_1_set.html#a32555b788d539720781f899ffcbd2b2d", null ],
     [ "begin", "class_minty_1_1_set.html#a798d3cc44b59f2da35dcf651074b64b9", null ],
     [ "begin", "class_minty_1_1_set.html#ae74a86d8b5bdf8189938c530a2d7b504", null ],

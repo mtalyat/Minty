@@ -30,6 +30,9 @@ namespace Minty
 		Bool frequent = false;
 	};
 
+	/// <summary>
+	/// Holds an array of data on the GPU.
+	/// </summary>
 	class Buffer
 	{
 #pragma region Variables
@@ -43,6 +46,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates a new Buffer.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
 		Buffer(BufferBuilder const& builder)
 			: m_usage(builder.usage)
 			, m_frequent(builder.frequent)
@@ -59,10 +66,10 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Gets the Byte data of this Buffer.
+		/// Gets the Byte data of this Buffer. Only works if this Buffer is optimized for frequent usage.
 		/// </summary>
-		/// <param name="data">The Byte data.</param>
-		virtual void get_data(void*& data) const = 0;
+		/// <returns>A pointer to the data.</returns>
+		virtual void* get_data() const = 0;
 
 		/// <summary>
 		/// Sets the Byte data of this Buffer.
@@ -96,16 +103,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
-
-	public:
-		/// <summary>
-		/// Flushes this Buffer's data from the cache.
-		/// </summary>
-		virtual void flush() const = 0;
-
-#pragma endregion
-
 #pragma region Statics
 
 	public:
@@ -117,6 +114,5 @@ namespace Minty
 		static Owner<Buffer> create(BufferBuilder const& builder = {});
 
 #pragma endregion
-
 	};
 }

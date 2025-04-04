@@ -200,7 +200,7 @@ namespace Minty
 		/// Gets the active Context's JobManager.
 		/// </summary>
 		/// <returns>The JobManager.</returns>
-		static JobManager& instance();
+		static JobManager& get_singleton();
 
 #pragma endregion
 

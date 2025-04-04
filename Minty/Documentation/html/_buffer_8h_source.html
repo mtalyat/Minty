@@ -123,89 +123,80 @@ $(function(){initNavTree('_buffer_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5">   30</a></span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_variable" href="struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5">frequent</a> = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    };</div>
 </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="foldopen" id="foldopen00033" data-start="{" data-end="};">
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html">   33</a></span>    <span class="keyword">class </span><a class="code hl_function" href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">Buffer</a></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    {</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#pragma region Variables</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_enumeration" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a> m_usage;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> m_frequent;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#pragma region Constructors</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">public</span>:</div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">   46</a></span>        <a class="code hl_function" href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">Buffer</a>(<a class="code hl_struct" href="struct_minty_1_1_buffer_builder.html">BufferBuilder</a> <span class="keyword">const</span>&amp; builder)</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            : m_usage(builder.usage)</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            , m_frequent(builder.frequent)</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        {</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span></div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html">   36</a></span>    <span class="keyword">class </span><a class="code hl_function" href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">Buffer</a></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#pragma region Variables</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_enumeration" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a> m_usage;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> m_frequent;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#pragma region Constructors</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">   53</a></span>        <a class="code hl_function" href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">Buffer</a>(<a class="code hl_struct" href="struct_minty_1_1_buffer_builder.html">BufferBuilder</a> <span class="keyword">const</span>&amp; builder)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            : m_usage(builder.usage)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            , m_frequent(builder.frequent)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a65ac75b973ebd1d4ff2097a4b871036a">   52</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="class_minty_1_1_buffer.html#a65ac75b973ebd1d4ff2097a4b871036a">~Buffer</a>()</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a65ac75b973ebd1d4ff2097a4b871036a">   59</a></span>        <span class="keyword">virtual</span> <a class="code hl_function" href="class_minty_1_1_buffer.html#a65ac75b973ebd1d4ff2097a4b871036a">~Buffer</a>()</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        }</div>
 </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#pragma region Get Set</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a3d2422dde881401dd587c34e0c192c75">   65</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_buffer.html#a3d2422dde881401dd587c34e0c192c75">get_data</a>(<span class="keywordtype">void</span>*&amp; data) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#af6a2068d7d0b2972f50879f9c0675182">   71</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_buffer.html#af6a2068d7d0b2972f50879f9c0675182">set_data</a>(<span class="keywordtype">void</span> <span class="keyword">const</span>* <span class="keyword">const</span> data) = 0;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a9333395d31279a01d5c7f37b82376d8d">   77</a></span>        <span class="keyword">virtual</span> <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#a9333395d31279a01d5c7f37b82376d8d">get_size</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#ac7ded1bea68ae40790a257eb685035f4">   83</a></span>        <span class="keyword">inline</span> <a class="code hl_enumeration" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#ac7ded1bea68ae40790a257eb685035f4">get_usage</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_usage; }</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a50e79d026705e772a01ccbf5629583d2">   89</a></span>        <span class="keyword">inline</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#a50e79d026705e772a01ccbf5629583d2">is_frequent</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_frequent; }</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#ae5597880f164e014f0101d6c24372007">   95</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code hl_function" href="class_minty_1_1_buffer.html#ae5597880f164e014f0101d6c24372007">get_native</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#pragma region Methods</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a8dce61405c10e073d62c227f0b7b434e">  105</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_buffer.html#a8dce61405c10e073d62c227f0b7b434e">flush</a>() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#pragma region Statics</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keyword">static</span> <a class="code hl_class" href="class_minty_1_1_owner.html">Owner&lt;Buffer&gt;</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#a26a431b44ded58a4107cbde66155abfb">create</a>(<a class="code hl_struct" href="struct_minty_1_1_buffer_builder.html">BufferBuilder</a> <span class="keyword">const</span>&amp; builder = {});</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    };</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#pragma region Get Set</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a31e85a404131d8a450bfc02dcabb1bfe">   72</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code hl_function" href="class_minty_1_1_buffer.html#a31e85a404131d8a450bfc02dcabb1bfe">get_data</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#af6a2068d7d0b2972f50879f9c0675182">   78</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_buffer.html#af6a2068d7d0b2972f50879f9c0675182">set_data</a>(<span class="keywordtype">void</span> <span class="keyword">const</span>* <span class="keyword">const</span> data) = 0;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a9333395d31279a01d5c7f37b82376d8d">   84</a></span>        <span class="keyword">virtual</span> <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#a9333395d31279a01d5c7f37b82376d8d">get_size</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#ac7ded1bea68ae40790a257eb685035f4">   90</a></span>        <span class="keyword">inline</span> <a class="code hl_enumeration" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#ac7ded1bea68ae40790a257eb685035f4">get_usage</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_usage; }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#a50e79d026705e772a01ccbf5629583d2">   96</a></span>        <span class="keyword">inline</span> <a class="code hl_typedef" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#a50e79d026705e772a01ccbf5629583d2">is_frequent</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_frequent; }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="class_minty_1_1_buffer.html#ae5597880f164e014f0101d6c24372007">  102</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code hl_function" href="class_minty_1_1_buffer.html#ae5597880f164e014f0101d6c24372007">get_native</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#pragma region Statics</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="keyword">static</span> <a class="code hl_class" href="class_minty_1_1_owner.html">Owner&lt;Buffer&gt;</a> <a class="code hl_function" href="class_minty_1_1_buffer.html#a26a431b44ded58a4107cbde66155abfb">create</a>(<a class="code hl_struct" href="struct_minty_1_1_buffer_builder.html">BufferBuilder</a> <span class="keyword">const</span>&amp; builder = {});</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    };</div>
 </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
 <div class="ttc" id="a_buffer_usage_8h_html"><div class="ttname"><a href="_buffer_usage_8h.html">BufferUsage.h</a></div></div>
 <div class="ttc" id="a_pointer_8h_html"><div class="ttname"><a href="_pointer_8h.html">Pointer.h</a></div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_a26a431b44ded58a4107cbde66155abfb"><div class="ttname"><a href="class_minty_1_1_buffer.html#a26a431b44ded58a4107cbde66155abfb">Minty::Buffer::create</a></div><div class="ttdeci">static Owner&lt; Buffer &gt; create(BufferBuilder const &amp;builder={})</div><div class="ttdoc">Creates a new Buffer.</div><div class="ttdef"><b>Definition</b> Buffer.cpp:6</div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_a3cc4abaf3897970d2917c71ea783283e"><div class="ttname"><a href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">Minty::Buffer::Buffer</a></div><div class="ttdeci">Buffer(BufferBuilder const &amp;builder)</div><div class="ttdef"><b>Definition</b> Buffer.h:46</div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_a3d2422dde881401dd587c34e0c192c75"><div class="ttname"><a href="class_minty_1_1_buffer.html#a3d2422dde881401dd587c34e0c192c75">Minty::Buffer::get_data</a></div><div class="ttdeci">virtual void get_data(void *&amp;data) const =0</div><div class="ttdoc">Gets the Byte data of this Buffer.</div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_a50e79d026705e772a01ccbf5629583d2"><div class="ttname"><a href="class_minty_1_1_buffer.html#a50e79d026705e772a01ccbf5629583d2">Minty::Buffer::is_frequent</a></div><div class="ttdeci">Bool is_frequent() const</div><div class="ttdoc">Checks if this Buffer is optimized for frequent usage.</div><div class="ttdef"><b>Definition</b> Buffer.h:89</div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_a65ac75b973ebd1d4ff2097a4b871036a"><div class="ttname"><a href="class_minty_1_1_buffer.html#a65ac75b973ebd1d4ff2097a4b871036a">Minty::Buffer::~Buffer</a></div><div class="ttdeci">virtual ~Buffer()</div><div class="ttdef"><b>Definition</b> Buffer.h:52</div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_a8dce61405c10e073d62c227f0b7b434e"><div class="ttname"><a href="class_minty_1_1_buffer.html#a8dce61405c10e073d62c227f0b7b434e">Minty::Buffer::flush</a></div><div class="ttdeci">virtual void flush() const =0</div><div class="ttdoc">Flushes this Buffer&#39;s data from the cache.</div></div>
+<div class="ttc" id="aclass_minty_1_1_buffer_html_a26a431b44ded58a4107cbde66155abfb"><div class="ttname"><a href="class_minty_1_1_buffer.html#a26a431b44ded58a4107cbde66155abfb">Minty::Buffer::create</a></div><div class="ttdeci">static Owner&lt; Buffer &gt; create(BufferBuilder const &amp;builder={})</div><div class="ttdoc">Creates a new Buffer.</div><div class="ttdef"><b>Definition</b> Buffer.cpp:9</div></div>
+<div class="ttc" id="aclass_minty_1_1_buffer_html_a31e85a404131d8a450bfc02dcabb1bfe"><div class="ttname"><a href="class_minty_1_1_buffer.html#a31e85a404131d8a450bfc02dcabb1bfe">Minty::Buffer::get_data</a></div><div class="ttdeci">virtual void * get_data() const =0</div><div class="ttdoc">Gets the Byte data of this Buffer. Only works if this Buffer is optimized for frequent usage.</div></div>
+<div class="ttc" id="aclass_minty_1_1_buffer_html_a3cc4abaf3897970d2917c71ea783283e"><div class="ttname"><a href="class_minty_1_1_buffer.html#a3cc4abaf3897970d2917c71ea783283e">Minty::Buffer::Buffer</a></div><div class="ttdeci">Buffer(BufferBuilder const &amp;builder)</div><div class="ttdoc">Creates a new Buffer.</div><div class="ttdef"><b>Definition</b> Buffer.h:53</div></div>
+<div class="ttc" id="aclass_minty_1_1_buffer_html_a50e79d026705e772a01ccbf5629583d2"><div class="ttname"><a href="class_minty_1_1_buffer.html#a50e79d026705e772a01ccbf5629583d2">Minty::Buffer::is_frequent</a></div><div class="ttdeci">Bool is_frequent() const</div><div class="ttdoc">Checks if this Buffer is optimized for frequent usage.</div><div class="ttdef"><b>Definition</b> Buffer.h:96</div></div>
+<div class="ttc" id="aclass_minty_1_1_buffer_html_a65ac75b973ebd1d4ff2097a4b871036a"><div class="ttname"><a href="class_minty_1_1_buffer.html#a65ac75b973ebd1d4ff2097a4b871036a">Minty::Buffer::~Buffer</a></div><div class="ttdeci">virtual ~Buffer()</div><div class="ttdef"><b>Definition</b> Buffer.h:59</div></div>
 <div class="ttc" id="aclass_minty_1_1_buffer_html_a9333395d31279a01d5c7f37b82376d8d"><div class="ttname"><a href="class_minty_1_1_buffer.html#a9333395d31279a01d5c7f37b82376d8d">Minty::Buffer::get_size</a></div><div class="ttdeci">virtual Size get_size() const =0</div><div class="ttdoc">Gets the size of this Buffer in bytes.</div></div>
-<div class="ttc" id="aclass_minty_1_1_buffer_html_ac7ded1bea68ae40790a257eb685035f4"><div class="ttname"><a href="class_minty_1_1_buffer.html#ac7ded1bea68ae40790a257eb685035f4">Minty::Buffer::get_usage</a></div><div class="ttdeci">BufferUsage get_usage() const</div><div class="ttdoc">Gets the BufferUsage.</div><div class="ttdef"><b>Definition</b> Buffer.h:83</div></div>
+<div class="ttc" id="aclass_minty_1_1_buffer_html_ac7ded1bea68ae40790a257eb685035f4"><div class="ttname"><a href="class_minty_1_1_buffer.html#ac7ded1bea68ae40790a257eb685035f4">Minty::Buffer::get_usage</a></div><div class="ttdeci">BufferUsage get_usage() const</div><div class="ttdoc">Gets the BufferUsage.</div><div class="ttdef"><b>Definition</b> Buffer.h:90</div></div>
 <div class="ttc" id="aclass_minty_1_1_buffer_html_ae5597880f164e014f0101d6c24372007"><div class="ttname"><a href="class_minty_1_1_buffer.html#ae5597880f164e014f0101d6c24372007">Minty::Buffer::get_native</a></div><div class="ttdeci">virtual void * get_native() const =0</div><div class="ttdoc">Gets the native Buffer object.</div></div>
 <div class="ttc" id="aclass_minty_1_1_buffer_html_af6a2068d7d0b2972f50879f9c0675182"><div class="ttname"><a href="class_minty_1_1_buffer.html#af6a2068d7d0b2972f50879f9c0675182">Minty::Buffer::set_data</a></div><div class="ttdeci">virtual void set_data(void const *const data)=0</div><div class="ttdoc">Sets the Byte data of this Buffer.</div></div>
 <div class="ttc" id="aclass_minty_1_1_owner_html"><div class="ttname"><a href="class_minty_1_1_owner.html">Minty::Owner</a></div><div class="ttdoc">A shared pointer.</div><div class="ttdef"><b>Definition</b> Pointer.h:25</div></div>
 <div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
 <div class="ttc" id="anamespace_minty_html_a182a8afa1eccb5564c6665b53a1789ee"><div class="ttname"><a href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">Minty::BufferUsage</a></div><div class="ttdeci">BufferUsage</div><div class="ttdoc">Describes how a buffer is used.</div><div class="ttdef"><b>Definition</b> BufferUsage.h:12</div></div>
 <div class="ttc" id="anamespace_minty_html_a182a8afa1eccb5564c6665b53a1789eeaec0fc0100c4fc1ce4eea230c3dc10360"><div class="ttname"><a href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789eeaec0fc0100c4fc1ce4eea230c3dc10360">Minty::BufferUsage::Undefined</a></div><div class="ttdeci">@ Undefined</div><div class="ttdoc">Invalid.</div><div class="ttdef"><b>Definition</b> BufferUsage.h:16</div></div>
-<div class="ttc" id="anamespace_minty_html_a255c27cd8d5eacbbcbb02c4962ef3079"><div class="ttname"><a href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Minty::Size</a></div><div class="ttdeci">size_t Size</div><div class="ttdef"><b>Definition</b> Types.h:19</div></div>
-<div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:8</div></div>
+<div class="ttc" id="anamespace_minty_html_a255c27cd8d5eacbbcbb02c4962ef3079"><div class="ttname"><a href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Minty::Size</a></div><div class="ttdeci">size_t Size</div><div class="ttdef"><b>Definition</b> Types.h:20</div></div>
+<div class="ttc" id="anamespace_minty_html_ae50ca127ff317b788faaab0563a8df56"><div class="ttname"><a href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Minty::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition</b> Types.h:9</div></div>
 <div class="ttc" id="astruct_minty_1_1_buffer_builder_html"><div class="ttname"><a href="struct_minty_1_1_buffer_builder.html">Minty::BufferBuilder</a></div><div class="ttdoc">The arguments for a Buffer.</div><div class="ttdef"><b>Definition</b> Buffer.h:11</div></div>
 <div class="ttc" id="astruct_minty_1_1_buffer_builder_html_a43bd194361ec3d9fe00a778366b7a6ac"><div class="ttname"><a href="struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac">Minty::BufferBuilder::size</a></div><div class="ttdeci">Size size</div><div class="ttdoc">The size of the Buffer in bytes.</div><div class="ttdef"><b>Definition</b> Buffer.h:20</div></div>
 <div class="ttc" id="astruct_minty_1_1_buffer_builder_html_a44da98604e8c6d63ef1b42c68913968f"><div class="ttname"><a href="struct_minty_1_1_buffer_builder.html#a44da98604e8c6d63ef1b42c68913968f">Minty::BufferBuilder::data</a></div><div class="ttdeci">void const  * data</div><div class="ttdoc">The data of the Buffer.</div><div class="ttdef"><b>Definition</b> Buffer.h:25</div></div>

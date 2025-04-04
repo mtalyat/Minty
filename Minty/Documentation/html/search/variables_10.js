@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['targetsurfaceformat_0',['targetSurfaceFormat',['../struct_minty_1_1_render_manager_builder.html#a847b06aa44eb5d703b1f439eff6e9355',1,'Minty::RenderManagerBuilder']]],
-  ['task_1',['task',['../struct_minty_1_1_memory_manager_builder.html#ae2b315a9bbef77b2b9685a3368cf8dcd',1,'Minty::MemoryManagerBuilder']]],
-  ['task_5fmemory_5fcount_2',['TASK_MEMORY_COUNT',['../class_minty_1_1_memory_manager.html#a5469c3cf17e4153926d477b594b3b469',1,'Minty::MemoryManager']]],
-  ['tau_3',['TAU',['../namespace_minty_1_1_math.html#aea0642a5d44b6d1962273d9a6ae2c75d',1,'Minty::Math']]],
-  ['temporary_4',['temporary',['../struct_minty_1_1_memory_manager_builder.html#a1e57bc225956dfadbc82ae48eb92c2db',1,'Minty::MemoryManagerBuilder']]],
-  ['threadcount_5',['threadCount',['../struct_minty_1_1_job_manager_builder.html#aa006a9e1e411f9d48e45393c9b71c1ad',1,'Minty::JobManagerBuilder']]],
-  ['tiling_6',['tiling',['../struct_minty_1_1_image_builder.html#ad362866d602616d316f5903c08138aac',1,'Minty::ImageBuilder']]],
-  ['title_7',['title',['../struct_minty_1_1_window_builder.html#adf60b68fb9469c240087d59c8698f8c2',1,'Minty::WindowBuilder']]],
-  ['type_8',['type',['../struct_minty_1_1_image_builder.html#aee82ad7544a84392f976ed05c903228a',1,'Minty::ImageBuilder::type'],['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header::type']]]
+  ['savepaths_0',['savePaths',['../struct_minty_1_1_asset_manager_builder.html#abbbc3baf329630ecf5ca823a9e3e6b37',1,'Minty::AssetManagerBuilder']]],
+  ['second_1',['second',['../class_minty_1_1_pair.html#a50ca1d86095457e28abdd9fb48a0fcab',1,'Minty::Pair']]],
+  ['size_2',['size',['../struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac',1,'Minty::BufferBuilder::size'],['../struct_minty_1_1_image_builder.html#a06376699538762c20d5bd65199b54c74',1,'Minty::ImageBuilder::size'],['../struct_minty_1_1_shader_module_builder.html#ad8abbd47c717d1b48aea3a91184aaaa8',1,'Minty::ShaderModuleBuilder::size'],['../struct_minty_1_1_window_builder.html#ae1a7afa649ab014046202d33fdb0b6e9',1,'Minty::WindowBuilder::size']]],
+  ['storeoperation_3',['storeOperation',['../struct_minty_1_1_render_attachment.html#a9e09f9796e547e00a4594a40283dfbfe',1,'Minty::RenderAttachment']]],
+  ['strongcount_4',['strongCount',['../class_minty_1_1_counter.html#ab4fbd1099a0a04f29ad1dbed2daedc8c',1,'Minty::Counter']]]
 ];

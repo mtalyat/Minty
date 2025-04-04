@@ -253,7 +253,7 @@ Owner<JobManager> Minty::JobManager::create(JobManagerBuilder const& builder)
 	return Owner<JobManager>(builder);
 }
 
-JobManager& Minty::JobManager::instance()
+JobManager& Minty::JobManager::get_singleton()
 {
-	return Context::instance().get_job_manager();
+	return Context::get_singleton().get_job_manager();
 }

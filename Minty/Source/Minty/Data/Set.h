@@ -438,9 +438,14 @@ namespace Minty
 #pragma region Methods
 
 	private:
+		Size hash(T const& key, Size const capacity) const
+		{
+			return std::hash<T>{}(key) % capacity;
+		}
+
 		Size hash(T const& key) const
 		{
-			return std::hash<T>{}(key) % m_capacity;
+			return hash(key, m_capacity);
 		}
 
 		void rehash()
@@ -469,28 +474,31 @@ namespace Minty
 			}
 
 			Node** newTable = construct_array<Node*>(capacity, m_allocator);
-			for (Size i = 0; i < m_capacity; ++i)
+			if (m_capacity > 0)
 			{
-				Node* node = mp_table[i];
-				while (node)
+				for (Size i = 0; i < m_capacity; ++i)
 				{
-					Node* next = node->next;
-					Size index = hash(node->key);
-					node->next = newTable[index];
-					newTable[index] = node;
-					node = next;
+					Node* node = mp_table[i];
+					while (node)
+					{
+						Node* next = node->next;
+						Size index = hash(node->key, capacity);
+						node->next = newTable[index];
+						newTable[index] = node;
+						node = next;
+					}
 				}
+				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
 			}
-			destruct_array<Node*>(mp_table, m_capacity, m_allocator);
 			mp_table = newTable;
 			m_capacity = capacity;
 		}
 
 		/// <summary>
-		/// Adds a key-value pair to this Set.
+		/// Adds a copy of the given key to this Set.
 		/// </summary>
 		/// <param name="key">The key to add.</param>
-		/// <param name="value">The value to add.</param>
+		/// <returns>True, if the key was added.</returns>
 		Bool add(T const& key)
 		{
 			if (contains(key))
@@ -517,13 +525,61 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Removes the key-value pair with the given key.
+		/// Adds a copy of the given key to this Set.
 		/// </summary>
-		/// <param name="key">The key of the pair to remove.</param>
-		/// <returns>True, if the key was found and the pair was removed.</returns>
+		/// <param name="key">The key to add.</param>
+		/// <returns>True, if the key was added.</returns>
+		Bool add(T&& key)
+		{
+			if (contains(key))
+			{
+				return false;
+			}
+
+			// rehash if necessary
+			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
+			{
+				rehash();
+			}
+
+			// insert into bucket
+			Size index = hash(key);
+			Node* node = construct<Node>(m_allocator, std::move(key));
+			node->next = mp_table[index];
+			mp_table[index] = node;
+
+			// add to size
+			++m_size;
+			return true;
+		}
+
+		/// <summary>
+		/// Adds the range of elements to this Set.
+		/// </summary>
+		/// <typeparam name="IteratorType">The type of iterator.</typeparam>
+		/// <param name="begin">The beginning of the range.</param>
+		/// <param name="end">The end of the range.</param>
+		/// <returns></returns>
+		template<typename IteratorType>
+		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
+			add(IteratorType const& begin, IteratorType const& end)
+		{
+			IteratorType it = begin;
+			while (it != end)
+			{
+				add(*it);
+				++it;
+			}
+		}
+
+		/// <summary>
+		/// Removes the key.
+		/// </summary>
+		/// <param name="key">The key to remove.</param>
+		/// <returns>True, if the key was found and removed.</returns>
 		Bool remove(T const& key)
 		{
-			if (m_capacity == 0)
+			if (m_size == 0)
 			{
 				return false;
 			}
@@ -567,7 +623,7 @@ namespace Minty
 		/// <returns>An Iterator to the key-value pair with the given T.</returns>
 		Iterator find(T const& key)
 		{
-			if (m_capacity == 0)
+			if (m_size == 0)
 			{
 				return end();
 			}

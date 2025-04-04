@@ -122,7 +122,7 @@ doxygen</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -150,7 +150,7 @@ doxygen</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -250,11 +250,14 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ImageTiling.h" />
     <ClInclude Include="Minty\Render\ImageType.h" />
     <ClInclude Include="Minty\Render\ImageUsage.h" />
+    <ClInclude Include="Minty\Render\RenderAttachment.h" />
+    <ClInclude Include="Minty\Render\Renderer.h" />
     <ClInclude Include="Minty\Render\RenderManager.h" />
     <ClInclude Include="Minty\Render\ShaderCullMode.h" />
     <ClInclude Include="Minty\Render\ShaderFrontFace.h" />
     <ClInclude Include="Minty\Render\ShaderInputRate.h" />
     <ClInclude Include="Minty\Render\ShaderInputType.h" />
+    <ClInclude Include="Minty\Render\ShaderModule.h" />
     <ClInclude Include="Minty\Render\ShaderPolygonMode.h" />
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
     <ClInclude Include="Minty\Render\ShaderStage.h" />
@@ -282,8 +285,11 @@ doxygen</Command>
     <ClInclude Include="Minty\Wrap\Wrapper.h" />
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Buffer.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Image.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Renderer.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_RenderManager.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_ShaderModule.h" />
     <ClInclude Include="Platform\Windows\Windows_Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -333,6 +339,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ShaderFrontFace.cpp" />
     <ClCompile Include="Minty\Render\ShaderInputRate.cpp" />
     <ClCompile Include="Minty\Render\ShaderInputType.cpp" />
+    <ClCompile Include="Minty\Render\ShaderModule.cpp" />
     <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
@@ -352,7 +359,11 @@ doxygen</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Buffer.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Image.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Renderer.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderManager.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_ShaderModule.cpp" />
     <ClCompile Include="Platform\Windows\Windows_Window.cpp" />
   </ItemGroup>
   <ItemGroup>

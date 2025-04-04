@@ -137,7 +137,7 @@ $(function(){initNavTree('_application_8h_source.html',''); initResizable(true);
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="class_minty_1_1_application.html#a35592e1781f833cfd10257497e4fbfe1">   25</a></span>        <a class="code hl_function" href="class_minty_1_1_application.html#a35592e1781f833cfd10257497e4fbfe1">Application</a>(<a class="code hl_struct" href="struct_minty_1_1_application_builder.html">ApplicationBuilder</a> <span class="keyword">const</span>&amp; builder)</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            : m_memoryManager(builder.memoryManagerBuilder)</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!s_instance, <span class="stringliteral">&quot;Application instance already exists.&quot;</span>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(!s_instance, <span class="stringliteral">&quot;Application get_singleton already exists.&quot;</span>);</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            s_instance = <span class="keyword">this</span>;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
 </div>
@@ -165,7 +165,7 @@ $(function(){initNavTree('_application_8h_source.html',''); initResizable(true);
 <div class="foldopen" id="foldopen00050" data-start="{" data-end="}">
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="class_minty_1_1_application.html#aaaf668bccb6ce57768527473baa781ba">   50</a></span>        <span class="keyword">static</span> <a class="code hl_function" href="class_minty_1_1_application.html#a35592e1781f833cfd10257497e4fbfe1">Application</a>&amp; <a class="code hl_function" href="class_minty_1_1_application.html#aaaf668bccb6ce57768527473baa781ba">instance</a>()</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(s_instance, <span class="stringliteral">&quot;Application instance is null.&quot;</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <a class="code hl_define" href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a>(s_instance, <span class="stringliteral">&quot;Application get_singleton is null.&quot;</span>);</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="keywordflow">return</span> *s_instance;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
 </div>
@@ -182,7 +182,7 @@ $(function(){initNavTree('_application_8h_source.html',''); initResizable(true);
 </div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
 </div>
-<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:38</div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:55</div></div>
 <div class="ttc" id="a_memory_manager_8h_html"><div class="ttname"><a href="_memory_manager_8h.html">MemoryManager.h</a></div></div>
 <div class="ttc" id="aclass_minty_1_1_application_html_a0086a9da4924e3b7b993d376ee6144a2"><div class="ttname"><a href="class_minty_1_1_application.html#a0086a9da4924e3b7b993d376ee6144a2">Minty::Application::~Application</a></div><div class="ttdeci">~Application()</div><div class="ttdef"><b>Definition</b> Application.h:32</div></div>
 <div class="ttc" id="aclass_minty_1_1_application_html_a0ec177aee9ce8dea61228db89fc23f4d"><div class="ttname"><a href="class_minty_1_1_application.html#a0ec177aee9ce8dea61228db89fc23f4d">Minty::Application::get_memory_manager</a></div><div class="ttdeci">MemoryManager &amp; get_memory_manager()</div><div class="ttdef"><b>Definition</b> Application.h:48</div></div>

@@ -3,12 +3,12 @@ var _image_layout_8h =
     [ "Minty::ImageLayout", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceea", [
       [ "Minty::ImageLayout::Undefined", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaaec0fc0100c4fc1ce4eea230c3dc10360", null ],
       [ "Minty::ImageLayout::General", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa0db377921f4ce762c62526131097968f", null ],
-      [ "Minty::ImageLayout::ColorAttachmentOptimal", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa8fd227cd18c5d17fe8b63c3a073c8c50", null ],
-      [ "Minty::ImageLayout::DepthStencilAttachmentOptimal", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa4ac51f56f98fdcd654d6e839e70477b3", null ],
-      [ "Minty::ImageLayout::DepthStencilReadOnlyOptimal", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaab89889abe67d63ad07370cdfe297b31d", null ],
-      [ "Minty::ImageLayout::ShaderReadOnlyOptimal", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaaaa685dcd1d3c34e89e5084bb711b452f", null ],
-      [ "Minty::ImageLayout::TransferSourceOptimal", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa7db277e84c911279d7875e81f496967f", null ],
-      [ "Minty::ImageLayout::TransferDestinationOptimal", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa4ed04c0ed5e420dd5d5df9129f70b6a2", null ],
+      [ "Minty::ImageLayout::ColorAttachment", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaafddd0a8661f380ee89f529eff813b03d", null ],
+      [ "Minty::ImageLayout::DepthStencilAttachment", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa652fd1408b3de263e32147770a48931e", null ],
+      [ "Minty::ImageLayout::DepthStencilReadOnly", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaab4dc3ad21093fbe36e3db22fc0d0be4f", null ],
+      [ "Minty::ImageLayout::ShaderReadOnly", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa9f12527dc507e6f8486d05daf0076e1c", null ],
+      [ "Minty::ImageLayout::TransferSource", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa8c4df84c9e73cf86122034f85efac361", null ],
+      [ "Minty::ImageLayout::TransferDestination", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa9cecc9065ff3b79e09391fcbfb7b9ce9", null ],
       [ "Minty::ImageLayout::Preinitialized", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaaf7948b94454ec8c9421e5dd11426a021", null ]
     ] ],
     [ "Minty::parse_to< ImageLayout >", "namespace_minty.html#ac0a80d4c023e1db337e4269336c2af6c", null ],

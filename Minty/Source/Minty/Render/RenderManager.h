@@ -96,7 +96,7 @@ namespace Minty
 		/// Gets the active Context's RenderManager.
 		/// </summary>
 		/// <returns>The RenderManager.</returns>
-		static RenderManager& instance();
+		static RenderManager& get_singleton();
 
 #pragma endregion
 

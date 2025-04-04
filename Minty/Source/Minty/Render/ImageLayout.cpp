@@ -8,12 +8,12 @@ String Minty::to_string(ImageLayout const obj)
 	switch (obj)
 	{
 	case ImageLayout::General: return "General";
-	case ImageLayout::ColorAttachmentOptimal: return "ColorAttachmentOptimal";
-	case ImageLayout::DepthStencilAttachmentOptimal: return "DepthStencilAttachmentOptimal";
-	case ImageLayout::DepthStencilReadOnlyOptimal: return "DepthStencilReadOnlyOptimal";
-	case ImageLayout::ShaderReadOnlyOptimal: return "ShaderReadOnlyOptimal";
-	case ImageLayout::TransferSourceOptimal: return "TransferSourceOptimal";
-	case ImageLayout::TransferDestinationOptimal: return "TransferDestinationOptimal";
+	case ImageLayout::ColorAttachment: return "ColorAttachment";
+	case ImageLayout::DepthStencilAttachment: return "DepthStencilAttachment";
+	case ImageLayout::DepthStencilReadOnly: return "DepthStencilReadOnly";
+	case ImageLayout::ShaderReadOnly: return "ShaderReadOnly";
+	case ImageLayout::TransferSource: return "TransferSource";
+	case ImageLayout::TransferDestination: return "TransferDestination";
 	case ImageLayout::Preinitialized: return "Preinitialized";
 
 	default: return "";
@@ -23,12 +23,12 @@ String Minty::to_string(ImageLayout const obj)
 ImageLayout Minty::parse_to_image_layout(String const& string)
 {
 	if (string == "General") return ImageLayout::General;
-	if (string == "ColorAttachmentOptimal") return ImageLayout::ColorAttachmentOptimal;
-	if (string == "DepthStencilAttachmentOptimal") return ImageLayout::DepthStencilAttachmentOptimal;
-	if (string == "DepthStencilReadOnlyOptimal") return ImageLayout::DepthStencilReadOnlyOptimal;
-	if (string == "ShaderReadOnlyOptimal") return ImageLayout::ShaderReadOnlyOptimal;
-	if (string == "TransferSourceOptimal") return ImageLayout::TransferSourceOptimal;
-	if (string == "TransferDestinationOptimal") return ImageLayout::TransferDestinationOptimal;
+	if (string == "ColorAttachment") return ImageLayout::ColorAttachment;
+	if (string == "DepthStencilAttachment") return ImageLayout::DepthStencilAttachment;
+	if (string == "DepthStencilReadOnly") return ImageLayout::DepthStencilReadOnly;
+	if (string == "ShaderReadOnly") return ImageLayout::ShaderReadOnly;
+	if (string == "TransferSource") return ImageLayout::TransferSource;
+	if (string == "TransferDestination") return ImageLayout::TransferDestination;
 	if (string == "Preinitialized") return ImageLayout::Preinitialized;
 
 	return ImageLayout();

@@ -7,12 +7,12 @@ void test_ImageLayout(Test& _test)
     {
         std::vector<std::pair<ImageLayout, String>> VALUES = {
             {ImageLayout::General, "General"},
-            {ImageLayout::ColorAttachmentOptimal, "ColorAttachmentOptimal"},
-            {ImageLayout::DepthStencilAttachmentOptimal, "DepthStencilAttachmentOptimal"},
-            {ImageLayout::DepthStencilReadOnlyOptimal, "DepthStencilReadOnlyOptimal"},
-            {ImageLayout::ShaderReadOnlyOptimal, "ShaderReadOnlyOptimal"},
-            {ImageLayout::TransferSourceOptimal, "TransferSourceOptimal"},
-            {ImageLayout::TransferDestinationOptimal, "TransferDestinationOptimal"},
+            {ImageLayout::ColorAttachment, "ColorAttachment"},
+            {ImageLayout::DepthStencilAttachment, "DepthStencilAttachment"},
+            {ImageLayout::DepthStencilReadOnly, "DepthStencilReadOnly"},
+            {ImageLayout::ShaderReadOnly, "ShaderReadOnly"},
+            {ImageLayout::TransferSource, "TransferSource"},
+            {ImageLayout::TransferDestination, "TransferDestination"},
             {ImageLayout::Preinitialized, "Preinitialized"},
         };
 
