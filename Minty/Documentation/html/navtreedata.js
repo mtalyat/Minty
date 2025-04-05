@@ -79,7 +79,7 @@ var NAVTREEINDEX =
 "namespace_minty.html#a20f8938f09147239bc63d7c67c0696fe",
 "namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a12ed1024465f295488707778e8ce74cd",
 "namespace_minty.html#ac8a82da7d2b7865ab016f7ee01303ae7",
-"struct_minty_1_1_context_builder.html#af022c88f62bf81a437ee015a1851f1bc",
+"struct_minty_1_1_context_builder.html#abc08bd279bb39d98da6133b16e1baae7",
 "struct_minty_1_1_window_builder.html#a8d50972418fd44ed365c7f7fef452bc2"
 ];
 
