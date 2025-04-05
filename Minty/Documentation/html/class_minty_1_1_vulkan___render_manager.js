@@ -8,7 +8,7 @@ var class_minty_1_1_vulkan___render_manager =
     [ "get_current_command_buffer", "class_minty_1_1_vulkan___render_manager.html#a47e89a34914d2ced54d03bfe8ac58408", null ],
     [ "get_current_frame", "class_minty_1_1_vulkan___render_manager.html#a97b7f154ca8437c2f015a2db54ce2e89", null ],
     [ "get_current_frame", "class_minty_1_1_vulkan___render_manager.html#a0236d7530f6c9061647a5daf7e569be5", null ],
-    [ "get_default_viewport", "class_minty_1_1_vulkan___render_manager.html#ad4478886ee1aab79350a32cd9eeb4693", null ],
+    [ "get_default_viewport", "class_minty_1_1_vulkan___render_manager.html#a872612ab2f2f8eedd8b98f8f30516f3b", null ],
     [ "get_depth_image", "class_minty_1_1_vulkan___render_manager.html#a238415d3550921e8cd6c0e23f15f5148", null ],
     [ "get_device", "class_minty_1_1_vulkan___render_manager.html#a1c4fa43a42511c82a95b1287d9d6b692", null ],
     [ "get_graphics_queue", "class_minty_1_1_vulkan___render_manager.html#abfb0ef61a70a01441e69fa469ea1fb14", null ],

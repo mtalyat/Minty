@@ -1,5 +1,7 @@
 var NAVTREEINDEX18 =
 {
+"namespace_minty.html#ac5af6061d0077846078446e144cb4e10":[0,0,0,230],
+"namespace_minty.html#ac5bf8839b2e282cc4532b138ba2e7cce":[0,0,0,356],
 "namespace_minty.html#ac66594f00ef3d7bdac5ddbc83ffdbb95":[0,0,0,150],
 "namespace_minty.html#ac681a0ba17d92b3495e26d2a79cb84d4":[0,0,0,160],
 "namespace_minty.html#ac7896eced57a2f85d050b16628f5291e":[0,0,0,424],
@@ -247,7 +249,5 @@ var NAVTREEINDEX18 =
 "struct_minty_1_1_color.html#afafa490ba547c58443b1d3c4c580815f":[0,0,0,9,8],
 "struct_minty_1_1_color.html#afafa490ba547c58443b1d3c4c580815f":[1,0,0,8,8],
 "struct_minty_1_1_context_builder.html":[0,0,0,13],
-"struct_minty_1_1_context_builder.html":[1,0,0,12],
-"struct_minty_1_1_context_builder.html#a02e24833626bb368910702e6f14495a6":[0,0,0,13,0],
-"struct_minty_1_1_context_builder.html#a02e24833626bb368910702e6f14495a6":[1,0,0,12,0]
+"struct_minty_1_1_context_builder.html":[1,0,0,12]
 };

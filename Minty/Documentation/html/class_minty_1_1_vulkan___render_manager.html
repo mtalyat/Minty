@@ -151,10 +151,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aec1914f429661a80740d203746261708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad4a7e57e435e7a121b87adfde24653d" id="r_aad4a7e57e435e7a121b87adfde24653d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_vulkan___swapchain.html">Vulkan_Swapchain</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad4a7e57e435e7a121b87adfde24653d">get_swapchain</a> () const</td></tr>
 <tr class="separator:aad4a7e57e435e7a121b87adfde24653d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4478886ee1aab79350a32cd9eeb4693" id="r_ad4478886ee1aab79350a32cd9eeb4693"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_viewport.html">Viewport</a> &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4478886ee1aab79350a32cd9eeb4693">get_default_viewport</a> () const</td></tr>
-<tr class="separator:ad4478886ee1aab79350a32cd9eeb4693"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a238415d3550921e8cd6c0e23f15f5148" id="r_a238415d3550921e8cd6c0e23f15f5148"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_image.html">Image</a> &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a238415d3550921e8cd6c0e23f15f5148">get_depth_image</a> () const</td></tr>
 <tr class="separator:a238415d3550921e8cd6c0e23f15f5148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a872612ab2f2f8eedd8b98f8f30516f3b" id="r_a872612ab2f2f8eedd8b98f8f30516f3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_viewport.html">Viewport</a> &gt; const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a872612ab2f2f8eedd8b98f8f30516f3b">get_default_viewport</a> () const override</td></tr>
+<tr class="memdesc:a872612ab2f2f8eedd8b98f8f30516f3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the default <a class="el" href="class_minty_1_1_viewport.html" title="Represents a view with a mask that can be used to render to a specific area of the screen.">Viewport</a> that renders to the entire <a class="el" href="class_minty_1_1_window.html" title="A Window object.">Window</a>.  <br /></td></tr>
+<tr class="separator:a872612ab2f2f8eedd8b98f8f30516f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf7141aca4acaba8eb2afc4578a3a811" id="r_acf7141aca4acaba8eb2afc4578a3a811"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf7141aca4acaba8eb2afc4578a3a811">start_frame</a> ()</td></tr>
 <tr class="memdesc:acf7141aca4acaba8eb2afc4578a3a811"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares to render a frame.  <br /></td></tr>
 <tr class="separator:acf7141aca4acaba8eb2afc4578a3a811"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -387,8 +388,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad4478886ee1aab79350a32cd9eeb4693" name="ad4478886ee1aab79350a32cd9eeb4693"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4478886ee1aab79350a32cd9eeb4693">&#9670;&#160;</a></span>get_default_viewport()</h2>
+<a id="a872612ab2f2f8eedd8b98f8f30516f3b" name="a872612ab2f2f8eedd8b98f8f30516f3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a872612ab2f2f8eedd8b98f8f30516f3b">&#9670;&#160;</a></span>get_default_viewport()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -405,10 +406,15 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets the default <a class="el" href="class_minty_1_1_viewport.html" title="Represents a view with a mask that can be used to render to a specific area of the screen.">Viewport</a> that renders to the entire <a class="el" href="class_minty_1_1_window.html" title="A Window object.">Window</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The default <a class="el" href="class_minty_1_1_viewport.html" title="Represents a view with a mask that can be used to render to a specific area of the screen.">Viewport</a>.</dd></dl>
+
+<p>Implements <a class="el" href="class_minty_1_1_render_manager.html#aac1cae674c22b98c45a087374fde29e8">Minty::RenderManager</a>.</p>
 
 </div>
 </div>

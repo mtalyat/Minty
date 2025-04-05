@@ -13,7 +13,12 @@ void test_Shader(Test& _test)
 
 		TEST("Constructor/Create")
 		{
+			// load stuff
+			RenderManager& renderManager = context.get_render_manager();
+			Ref<Viewport> const& viewport = renderManager.get_default_viewport();
 
+			ShaderBuilder builder{};
+			EXPECT_FAILURE(Shader::create(builder));
 		}
 	}
 }

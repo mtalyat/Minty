@@ -7,6 +7,8 @@
 
 namespace Minty
 {
+	class Viewport;
+
 	/// <summary>
 	/// The arguments for creating a RenderManager.
 	/// </summary>
@@ -62,8 +64,13 @@ namespace Minty
 		/// <returns>The Window.</returns>
 		Ref<Window> const& get_window() const { return m_window; }
 
-#pragma endregion
+		/// <summary>
+		/// Gets the default Viewport that renders to the entire Window.
+		/// </summary>
+		/// <returns>The default Viewport.</returns>
+		virtual Ref<Viewport> const& get_default_viewport() const = 0;
 
+#pragma endregion
 
 #pragma region Methods
 

@@ -70,17 +70,17 @@ var NAVTREEINDEX =
 "class_minty_1_1_path.html#a537b2de7d468959bb5d553caf6c36486",
 "class_minty_1_1_reader.html#a74ae54fefe5728647a85564620586a2f",
 "class_minty_1_1_ref.html#a9ec490c2c8568c2c5baab54c265b03bb",
-"class_minty_1_1_stack.html#ae641b3018b21d3b18cb622a64c874e1b",
-"class_minty_1_1_text_writer_behavior.html#a1a47cc8b9e8f3ee414c1af453beaa336",
-"class_minty_1_1_vector_1_1_const_iterator.html#a40c93b777393b8b385dd774dc29cce28",
-"class_minty_1_1_vulkan___render_manager.html#a238415d3550921e8cd6c0e23f15f5148",
-"class_minty_1_1_wrap.html#a377de7a72c3cfc6d68cf677ffc017adc",
-"class_minty_1_1_writer_format_behavior.html#ad12c0298bba8b72137062c65dc6b45de",
-"namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaaec0fc0100c4fc1ce4eea230c3dc10360",
-"namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a0f09a2e0cf764ef602b892fc70b817bf",
-"namespace_minty.html#ac66594f00ef3d7bdac5ddbc83ffdbb95",
-"struct_minty_1_1_context_builder.html#a8d1a3d12b6d581432ff94daa04b44719",
-"struct_minty_1_1_window_builder.html#a3784e82b6ef42bbf7846a3524dd60762"
+"class_minty_1_1_stack.html#ae0d764e1ba450d1dcaa2d1a60717c9ae",
+"class_minty_1_1_text_writer_behavior.html#a0686667a322a02a540958905615c4df7",
+"class_minty_1_1_vector_1_1_const_iterator.html#a214837eb95c6e1a0edaa28068c58b208",
+"class_minty_1_1_vulkan___render_manager.html#a1c4fa43a42511c82a95b1287d9d6b692",
+"class_minty_1_1_wrap.html#a364d397783f802a4f159445226bf26d0",
+"class_minty_1_1_writer_format_behavior.html#accac480e3872514ad6b111e3956059d7",
+"namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa9f12527dc507e6f8486d05daf0076e1c",
+"namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1a0d8f9a70630f275ac78746e6600773a0",
+"namespace_minty.html#ac5af6061d0077846078446e144cb4e10",
+"struct_minty_1_1_context_builder.html#a02e24833626bb368910702e6f14495a6",
+"struct_minty_1_1_window_builder.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

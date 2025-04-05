@@ -73,9 +73,9 @@ namespace Minty
 		inline Vulkan_Swapchain& get_swapchain() { return *m_swapchain; }
 		inline Vulkan_Swapchain const& get_swapchain() const { return *m_swapchain; }
 
-		inline Ref<Viewport> const& get_default_viewport() const { return m_defaultViewport; }
-
 		inline Ref<Image> const& get_depth_image() const { return m_depthImage; }
+
+		inline Ref<Viewport> const& get_default_viewport() const override { return m_defaultViewport; }
 
 #pragma endregion
 

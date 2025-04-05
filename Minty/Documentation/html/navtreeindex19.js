@@ -1,5 +1,7 @@
 var NAVTREEINDEX19 =
 {
+"struct_minty_1_1_context_builder.html#a02e24833626bb368910702e6f14495a6":[0,0,0,13,0],
+"struct_minty_1_1_context_builder.html#a02e24833626bb368910702e6f14495a6":[1,0,0,12,0],
 "struct_minty_1_1_context_builder.html#a8d1a3d12b6d581432ff94daa04b44719":[0,0,0,13,4],
 "struct_minty_1_1_context_builder.html#a8d1a3d12b6d581432ff94daa04b44719":[1,0,0,12,4],
 "struct_minty_1_1_context_builder.html#ab38baa641281b60ea5ab72c5137c04fe":[0,0,0,13,2],
@@ -247,7 +249,5 @@ var NAVTREEINDEX19 =
 "struct_minty_1_1_vulkan___swapchain_support_details.html#abaf81b154274ae8b1ae7500e2e9bf0df":[0,0,0,106,1],
 "struct_minty_1_1_vulkan___swapchain_support_details.html#abaf81b154274ae8b1ae7500e2e9bf0df":[1,0,0,105,1],
 "struct_minty_1_1_vulkan___swapchain_support_details.html#ae7ad4e565b82f717f6d5311fa099455c":[0,0,0,106,0],
-"struct_minty_1_1_vulkan___swapchain_support_details.html#ae7ad4e565b82f717f6d5311fa099455c":[1,0,0,105,0],
-"struct_minty_1_1_window_builder.html":[0,0,0,109],
-"struct_minty_1_1_window_builder.html":[1,0,0,108]
+"struct_minty_1_1_vulkan___swapchain_support_details.html#ae7ad4e565b82f717f6d5311fa099455c":[1,0,0,105,0]
 };
