@@ -48,7 +48,7 @@ var searchData=
   ['array_3c_20minty_3a_3aframe_2c_20frames_5fper_5fflight_20_3e_45',['Array&lt; Minty::Frame, FRAMES_PER_FLIGHT &gt;',['../class_minty_1_1_array.html',1,'Minty']]],
   ['asin_46',['asin',['../namespace_minty_1_1_math.html#accbbda54ae2b284cc5eeb4b3e8915451',1,'Minty::Math']]],
   ['aspect_47',['aspect',['../struct_minty_1_1_image_builder.html#a76ca0fe492e954afa9b1bcf21379cc44',1,'Minty::ImageBuilder']]],
-  ['asset_48',['Asset',['../class_minty_1_1_asset.html',1,'Minty::Asset'],['../class_minty_1_1_asset.html#a89e2ec6c9e2d1afc176b8c2191e9bf76',1,'Minty::Asset::Asset(UUID const id)'],['../class_minty_1_1_asset.html#a71cd3bfb4c127255ae2706faf731bdde',1,'Minty::Asset::Asset(Asset &amp;&amp;)=delete']]],
+  ['asset_48',['Asset',['../class_minty_1_1_asset.html',1,'Minty::Asset'],['../class_minty_1_1_asset.html#a89e2ec6c9e2d1afc176b8c2191e9bf76',1,'Minty::Asset::Asset(UUID const id)'],['../class_minty_1_1_asset.html#a71cd3bfb4c127255ae2706faf731bdde',1,'Minty::Asset::Asset(Asset &amp;&amp;)=delete'],['../class_minty_1_1_asset.html#a1ad92b2a5ee6b51319184295df2bc3d3',1,'Minty::Asset::Asset(Asset const &amp;)=default']]],
   ['asset_2ecpp_49',['Asset.cpp',['../_asset_8cpp.html',1,'']]],
   ['asset_2eh_50',['Asset.h',['../_asset_8h.html',1,'']]],
   ['assetmanager_51',['AssetManager',['../class_minty_1_1_asset_manager.html',1,'Minty::AssetManager'],['../class_minty_1_1_asset.html#aafe72876a584aedb5a5546d4fe7746fb',1,'Minty::Asset::AssetManager()'],['../class_minty_1_1_asset_manager.html#a64f32cdfb26fd1db1c011c790c35bd90',1,'Minty::AssetManager::AssetManager()']]],

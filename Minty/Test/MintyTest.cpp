@@ -61,6 +61,7 @@
 #include "Test_ImageType.h"
 #include "Test_ImageUsage.h"
 #include "Test_RenderManager.h"
+#include "Test_Shader.h"
 #include "Test_ShaderCullMode.h"
 #include "Test_ShaderFrontFace.h"
 #include "Test_ShaderInputRate.h"
@@ -167,6 +168,7 @@ static void run_tests()
 	test_ImageType(_test);
 	test_ImageUsage(_test);
 	test_RenderManager(_test);
+	test_Shader(_test);
 	test_ShaderCullMode(_test);
 	test_ShaderFrontFace(_test);
 	test_ShaderInputRate(_test);

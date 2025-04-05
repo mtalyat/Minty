@@ -16,7 +16,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_assetManager(AssetManager::create(builder.assetManagerBuilder))
 	, m_renderManager(RenderManager::create(builder.renderManagerBuilder))
 {
-	MINTY_ASSERT(!s_instance, "Context get_singleton already exists.");
+	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
 	s_instance = this;
 	
 	// initialize dual buffering if a debug log path was given

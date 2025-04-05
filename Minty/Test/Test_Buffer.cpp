@@ -5,17 +5,9 @@ void test_Buffer(Test& _test)
 {
 	CATEGORY(Buffer)
 	{
+		Owner<Window> window = Window::create({});
 		ContextBuilder contextBuilder{};
-		contextBuilder.debugLogPath = "log.txt";
-		RenderManagerBuilder renderManagerBuilder{};
-
-		Owner<Window> window = Window::create({}); 
-		renderManagerBuilder.window = window;
-		contextBuilder.renderManagerBuilder = &renderManagerBuilder;
-
-		JobManagerBuilder jobManagerBuilder{};
-		contextBuilder.jobManagerBuilder = &jobManagerBuilder;
-
+		contextBuilder.renderManagerBuilder.window = window;
 		Context context(contextBuilder);
 
 		TEST("Constructor/Create")

@@ -1,5 +1,9 @@
 var NAVTREEINDEX20 =
 {
+"struct_minty_1_1_window_builder.html#a3784e82b6ef42bbf7846a3524dd60762":[0,0,0,109,2],
+"struct_minty_1_1_window_builder.html#a3784e82b6ef42bbf7846a3524dd60762":[1,0,0,108,2],
+"struct_minty_1_1_window_builder.html#a6ad2233c3412c99021f24c4853ee29e2":[0,0,0,109,1],
+"struct_minty_1_1_window_builder.html#a6ad2233c3412c99021f24c4853ee29e2":[1,0,0,108,1],
 "struct_minty_1_1_window_builder.html#a8d50972418fd44ed365c7f7fef452bc2":[0,0,0,109,0],
 "struct_minty_1_1_window_builder.html#a8d50972418fd44ed365c7f7fef452bc2":[1,0,0,108,0],
 "struct_minty_1_1_window_builder.html#adf60b68fb9469c240087d59c8698f8c2":[0,0,0,109,4],

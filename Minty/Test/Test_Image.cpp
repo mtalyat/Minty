@@ -5,17 +5,9 @@ void test_Image(Test& _test)
 {
 	CATEGORY(Image)
 	{
-		ContextBuilder contextBuilder{};
-		contextBuilder.debugLogPath = "log.txt";
-		RenderManagerBuilder renderManagerBuilder{};
-
 		Owner<Window> window = Window::create({});
-		renderManagerBuilder.window = window;
-		contextBuilder.renderManagerBuilder = &renderManagerBuilder;
-
-		JobManagerBuilder jobManagerBuilder{};
-		contextBuilder.jobManagerBuilder = &jobManagerBuilder;
-
+		ContextBuilder contextBuilder{};
+		contextBuilder.renderManagerBuilder.window = window;
 		Context context(contextBuilder);
 
 		TEST("Constructor/Create")

@@ -9,13 +9,9 @@ void test_ShaderModule(Test& _test)
 	CATEGORY(ShaderModule)
 	{
 		Owner<Window> window = Window::create({});
-		RenderManagerBuilder renderManagerBuilder{};
-		renderManagerBuilder.window = window;
-		AssetManagerBuilder assetManagerBuilder{};
-		assetManagerBuilder.wraps.add("Assets/test.wrap");
 		ContextBuilder contextBuilder{};
-		contextBuilder.renderManagerBuilder = &renderManagerBuilder;
-		contextBuilder.assetManagerBuilder = &assetManagerBuilder;
+		contextBuilder.renderManagerBuilder.window = window;
+		contextBuilder.assetManagerBuilder.wraps.add("Assets/test.wrap");
 		Context context(contextBuilder);
 
 		TEST("Constructor/Create")

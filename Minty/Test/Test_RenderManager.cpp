@@ -46,10 +46,8 @@ void test_RenderManager(Test& _test)
 
 		TEST("Get Singleton")
 		{
-			RenderManagerBuilder builder{};
-			builder.window = window;
 			ContextBuilder contextBuilder{};
-			contextBuilder.renderManagerBuilder = &builder;
+			contextBuilder.renderManagerBuilder.window = window;
 			Context context(contextBuilder);
 			Owner<RenderManager> renderManager;
 			EXPECT_EQUAL(&RenderManager::get_singleton(), &context.get_render_manager());

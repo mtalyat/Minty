@@ -37,6 +37,9 @@ namespace Minty
 		// no moving
 		Asset(Asset&&) = delete;
 
+		// yes copying
+		Asset(Asset const&) = default;
+
 #pragma endregion
 
 #pragma region Operators
@@ -44,6 +47,9 @@ namespace Minty
 	public:
 		// no moving
 		Asset& operator=(Asset&&) = delete;
+
+		// yes copying
+		Asset& operator=(Asset const&) = default;
 
 #pragma endregion
 

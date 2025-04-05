@@ -13,8 +13,6 @@ void test_AssetManager(Test& _test)
 		constexpr Char const* TEST_PATH = "Assets/test.txt";
 
 		ContextBuilder builder{};
-		JobManagerBuilder jobManagerBuilder{};
-		builder.jobManagerBuilder = &jobManagerBuilder;
 		Context context(builder);
 
 		TEST("Constructor")

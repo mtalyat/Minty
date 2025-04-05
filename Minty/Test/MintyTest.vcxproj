@@ -183,6 +183,7 @@
     <ClCompile Include="Test_Reader.cpp" />
     <ClCompile Include="Test_RenderManager.cpp" />
     <ClCompile Include="Test_Set.cpp" />
+    <ClCompile Include="Test_Shader.cpp" />
     <ClCompile Include="Test_ShaderCullMode.cpp" />
     <ClCompile Include="Test_ShaderFrontFace.cpp" />
     <ClCompile Include="Test_ShaderInputRate.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="Test_Reader.h" />
     <ClInclude Include="Test_RenderManager.h" />
     <ClInclude Include="Test_Set.h" />
+    <ClInclude Include="Test_Shader.h" />
     <ClInclude Include="Test_ShaderCullMode.h" />
     <ClInclude Include="Test_ShaderFrontFace.h" />
     <ClInclude Include="Test_ShaderInputRate.h" />

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Vulkan_Shader.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Render/ShaderModule.h"
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
@@ -87,8 +88,6 @@ void Minty::Vulkan_Shader::initialize_bindings(ShaderBuilder const& builder)
 
 void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderBuilder const& builder)
 {
-	MINTY_ASSERT(builder.vertexShaderModule.get() != nullptr);
-
 	// descriptor set layout
 	Vector<VkDescriptorSetLayoutBinding> descriptorSetBindings;
 	descriptorSetBindings.resize(m_bindings.get_size(), VkDescriptorSetLayoutBinding{});
@@ -100,7 +99,7 @@ void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderBuilder const&
 		uint32_t bindingIndex = static_cast<UInt>(i);
 
 		// find shader binding info
-		MINTY_ASSERT(m_bindings.contains(bindingIndex), "Missing ShaderBinding for binding: {}.", i);
+		MINTY_ASSERT(m_bindings.contains(bindingIndex), F("Missing ShaderBinding for binding: {}.", i));
 
 		BindingData const& bindingInfo = m_bindings.at(bindingIndex);
 
@@ -137,7 +136,7 @@ void Minty::Vulkan_Shader::initialize_pipeline_layout(ShaderBuilder const& build
 
 		// create range for this push constant
 		VkPushConstantRange pushConstantRange{};
-		pushConstantRange.offset = descriptor.offset;
+		pushConstantRange.offset = static_cast<uint32_t>(descriptor.offset);
 		pushConstantRange.size = static_cast<uint32_t>(descriptor.size);
 		pushConstantRange.stageFlags = Vulkan_Renderer::to_vulkan(descriptor.stage);
 		pushConstantRanges.add(pushConstantRange);
@@ -164,8 +163,6 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	vertexShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
 	vertexShaderStageInfo.module = static_cast<VkShaderModule>(builder.vertexShaderModule->get_native());
 	vertexShaderStageInfo.pName = builder.vertexShaderModuleEntryPoint.get_data();
-
-	MINTY_ASSERT(builder.fragmentShaderModule.get() != nullptr);
 
 	// fragment stage
 	VkPipelineShaderStageCreateInfo fragmentShaderStageInfo{};
