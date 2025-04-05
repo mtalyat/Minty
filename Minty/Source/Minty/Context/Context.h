@@ -16,10 +16,10 @@ namespace Minty
 	{
 		Path debugLogPath = "";
 
-		MemoryManagerBuilder* memoryManagerBuilder = nullptr;
-		JobManagerBuilder* jobManagerBuilder = nullptr;
-		AssetManagerBuilder* assetManagerBuilder = nullptr;
-		RenderManagerBuilder* renderManagerBuilder = nullptr;
+		MemoryManagerBuilder memoryManagerBuilder = {};
+		JobManagerBuilder jobManagerBuilder = {};
+		AssetManagerBuilder assetManagerBuilder = {};
+		RenderManagerBuilder renderManagerBuilder = {};
 	};
 
 	/// <summary>
