@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Vulkan_Viewport.h"
+#include "Platform/Vulkan/Vulkan_Renderer.h"
+#include "Platform/Vulkan/Vulkan_RenderManager.h"
 
 using namespace Minty;
 
@@ -74,4 +76,12 @@ void Minty::Vulkan_Viewport::set_mask_size(UInt2 const& size)
 {
 	m_scissor.extent.width = size.x;
 	m_scissor.extent.height = size.y;
+}
+
+void Minty::Vulkan_Viewport::on_bind()
+{
+	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	VkCommandBuffer commandBuffer = renderManager.get_current_command_buffer();
+	Vulkan_Renderer::bind_viewport(commandBuffer, m_viewport);
+	Vulkan_Renderer::bind_scissor(commandBuffer, m_scissor);
 }

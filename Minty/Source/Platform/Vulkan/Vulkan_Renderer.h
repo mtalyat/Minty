@@ -20,54 +20,15 @@
 #include "Minty/Render/ShaderPrimitiveTopology.h"
 #include "Minty/Render/ShaderStage.h"
 #include "Minty/Window/Window.h"
+#include "Platform/Vulkan/Vulkan_Frame.h"
+#include "Platform/Vulkan/Vulkan_Swapchain.h"
+#include "Platform/Vulkan/Vulkan_QueueFamilyIndices.h"
+#include "Platform/Vulkan/Vulkan_SwapchainSupportDetails.h"
 
 namespace Minty
 {
 	class Vulkan_Renderer
 	{
-#pragma region Classes
-
-	public:
-		/// <summary>
-		/// Holds the data for one frame in the flight.
-		/// </summary>
-		struct Frame
-		{
-			VkCommandBuffer commandBuffer;
-
-			VkSemaphore imageAvailableSemaphore;
-			VkSemaphore renderFinishedSemaphore;
-			VkFence inFlightFence;
-		};
-
-		/// <summary>
-		/// Holds the indices to the queue families to be used.
-		/// </summary>
-		struct QueueFamilyIndices
-		{
-			std::optional<uint32_t> graphicsFamily;
-			std::optional<uint32_t> presentFamily;
-
-			/// <summary>
-			/// Checks if this QueueFamilyIndices has a valid index for each family.
-			/// </summary>
-			/// <returns>True when all indices are valid.</returns>
-			Bool is_complete() const
-			{
-				return graphicsFamily.has_value() && presentFamily.has_value();
-			}
-		};
-
-		// information about the swap chain
-		struct SwapChainSupportDetails
-		{
-			VkSurfaceCapabilitiesKHR capabilities = {};
-			Vector<VkSurfaceFormatKHR> formats;
-			Vector<VkPresentModeKHR> presentModes;
-		};
-
-#pragma endregion
-
 #pragma region Constructors
 
 	private:
@@ -90,7 +51,7 @@ namespace Minty
 #pragma endregion
 
 #pragma region Debug
-	
+
 	public:
 		static VkDebugUtilsMessengerEXT create_debug_messenger(VkInstance const instance);
 
@@ -115,11 +76,9 @@ namespace Minty
 	public:
 		static VkPhysicalDevice select_physical_device(VkInstance const instance, VkSurfaceKHR const surface, Function<int(VkPhysicalDevice, VkSurfaceKHR)> const& ratingFunction = rate_device_suitability);
 
-		static SwapChainSupportDetails query_swap_chain_support(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface);
+		static Vulkan_SwapchainSupportDetails query_swapchain_support(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface);
 
 		static VkSurfaceFormatKHR select_swap_surface_format(Vector<VkSurfaceFormatKHR> const& availableFormats, VkFormat const format = VK_FORMAT_B8G8R8A8_SRGB, VkColorSpaceKHR const colorSpace = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR);
-
-		static VkExtent2D select_swap_extent(VkSurfaceCapabilitiesKHR const& capabilities, Ref<Window> const& window);
 
 		static VkPresentModeKHR select_swap_present_mode(Vector<VkPresentModeKHR> const& availablePresentModes, VkPresentModeKHR const presentMode = VK_PRESENT_MODE_MAILBOX_KHR);
 
@@ -132,14 +91,14 @@ namespace Minty
 #pragma region Queue Families
 
 	public:
-		static QueueFamilyIndices find_queue_families(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface);
+		static Vulkan_QueueFamilyIndices find_queue_families(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface);
 
 #pragma endregion
 
 #pragma region Device
 
 	public:
-		static VkDevice create_device(VkPhysicalDevice const physicalDevice, QueueFamilyIndices const& familyIndices);
+		static VkDevice create_device(VkPhysicalDevice const physicalDevice, Vulkan_QueueFamilyIndices const& familyIndices);
 
 		static void destroy_device(VkDevice const device);
 
@@ -152,10 +111,12 @@ namespace Minty
 
 #pragma region Swapchain
 
-	private:
-		static VkSwapchainKHR create_swapchain(VkDevice const device, VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface, SwapChainSupportDetails const& swapchainSupport, QueueFamilyIndices const& queueFamilyIndices, VkSurfaceFormatKHR const surfaceFormat, VkExtent2D const extent, VkPresentModeKHR const presentMode);
+	public:
+		static VkSwapchainKHR create_swapchain(VkDevice const device, VkSurfaceKHR const surface, Vulkan_SwapchainSupportDetails const& swapchainSupport, Vulkan_QueueFamilyIndices const& queueFamilyIndices, VkSurfaceFormatKHR const surfaceFormat, VkExtent2D const extent, VkPresentModeKHR const presentMode);
 
 		static void destroy_swapchain(VkDevice const device, VkSwapchainKHR const swapchain);
+
+		static VkExtent2D get_swapchain_extent(VkSurfaceCapabilitiesKHR const& capabilities, Ref<Window> const& window);
 
 		static Vector<VkImage> get_swapchain_images(VkDevice const device, VkSwapchainKHR const swapchain);
 
@@ -314,7 +275,7 @@ namespace Minty
 
 #pragma region Multithreading
 
-	private:
+	public:
 		static VkSemaphore create_semaphore(VkDevice const device);
 
 		static void destroy_semaphore(VkDevice const device, VkSemaphore const semaphore);
@@ -331,8 +292,13 @@ namespace Minty
 
 #pragma region Presentation
 
-	private:
-		static VkResult present_frame(VkQueue const queue, VkSwapchainKHR const swapchain, uint32_t const imageIndex, VkSemaphore const signalSemaphore);
+	public:
+		static VkResult present(VkQueue const queue, VkSwapchainKHR const swapchain, uint32_t const imageIndex, VkSemaphore const signalSemaphore);
+
+		static VkResult present_frame(VkQueue const queue, Vulkan_Swapchain const& swapchain, Frame const& frame)
+		{
+			return present(queue, swapchain.get_swapchain(), swapchain.get_index(), frame.renderFinishedSemaphore);
+		}
 
 #pragma endregion
 
@@ -346,6 +312,13 @@ namespace Minty
 		static VkDeviceMemory allocate_buffer_memory(VkDevice const device, VkPhysicalDevice const physicalDevice, VkBuffer const buffer, VkMemoryPropertyFlags const memoryProperties);
 
 		static void bind_buffer_memory(VkDevice const device, VkBuffer const buffer, VkDeviceMemory const memory);
+
+#pragma endregion
+
+#pragma region Descriptor Set
+
+	public:
+		static void update_descriptor_sets(VkDevice const device, VkWriteDescriptorSet* const write, uint32_t const count);
 
 #pragma endregion
 

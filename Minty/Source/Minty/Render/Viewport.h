@@ -141,6 +141,11 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Called when this Viewport is binded for rendering.
+		/// </summary>
+		virtual void on_bind() = 0;
+
+		/// <summary>
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>Viewport.</returns>

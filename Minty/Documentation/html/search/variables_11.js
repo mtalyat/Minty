@@ -8,5 +8,5 @@ var searchData=
   ['threadcount_5',['threadCount',['../struct_minty_1_1_job_manager_builder.html#aa006a9e1e411f9d48e45393c9b71c1ad',1,'Minty::JobManagerBuilder']]],
   ['tiling_6',['tiling',['../struct_minty_1_1_image_builder.html#ad362866d602616d316f5903c08138aac',1,'Minty::ImageBuilder']]],
   ['title_7',['title',['../struct_minty_1_1_window_builder.html#adf60b68fb9469c240087d59c8698f8c2',1,'Minty::WindowBuilder']]],
-  ['type_8',['type',['../struct_minty_1_1_image_builder.html#aee82ad7544a84392f976ed05c903228a',1,'Minty::ImageBuilder::type'],['../struct_minty_1_1_render_attachment.html#af2f3b7c187f63680ef96596dd2343267',1,'Minty::RenderAttachment::type'],['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header::type']]]
+  ['type_8',['type',['../struct_minty_1_1_image_builder.html#aee82ad7544a84392f976ed05c903228a',1,'Minty::ImageBuilder::type'],['../struct_minty_1_1_render_attachment.html#af2f3b7c187f63680ef96596dd2343267',1,'Minty::RenderAttachment::type'],['../struct_minty_1_1_shader_attribute.html#ab27305339712580a889f51949fdf6959',1,'Minty::ShaderAttribute::type'],['../struct_minty_1_1_shader_input.html#a01b7dc2f9868c5d11dd11e6e26e83782',1,'Minty::ShaderInput::type'],['../struct_minty_1_1_wrap_1_1_header.html#a146a895b2a639a5ddf367b7a46d81c35',1,'Minty::Wrap::Header::type']]]
 ];

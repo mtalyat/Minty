@@ -60,7 +60,7 @@ namespace Minty
 		/// Gets the Window that this RenderManager is rendering to.
 		/// </summary>
 		/// <returns>The Window.</returns>
-		Ref<Window> get_window() const { return m_window; }
+		Ref<Window> const& get_window() const { return m_window; }
 
 #pragma endregion
 

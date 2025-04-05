@@ -8,6 +8,7 @@ var class_minty_1_1_vulkan___viewport =
     [ "get_view_position", "class_minty_1_1_vulkan___viewport.html#ab79ce18f6dd9096b2e56d030c631978e", null ],
     [ "get_view_size", "class_minty_1_1_vulkan___viewport.html#ab43b6f5f9f9dfe1f51629276c9aabacb", null ],
     [ "get_viewport", "class_minty_1_1_vulkan___viewport.html#a059fd42f78074e970c784b2613209069", null ],
+    [ "on_bind", "class_minty_1_1_vulkan___viewport.html#ae3913f126ac37d3641aa476a92a70b32", null ],
     [ "set_mask_position", "class_minty_1_1_vulkan___viewport.html#a8add5b47223132cddb26165fecbb090e", null ],
     [ "set_mask_size", "class_minty_1_1_vulkan___viewport.html#a6747517f257bd4636091d067379257fd", null ],
     [ "set_position", "class_minty_1_1_vulkan___viewport.html#a088337c6a2c1a261ffa30e0a0c5d3f35", null ],

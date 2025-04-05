@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name_0',['name',['../struct_minty_1_1_wrap_1_1_header.html#a21290c23f3b2578f4de9eb8162a2c373',1,'Minty::Wrap::Header']]],
+  ['name_0',['name',['../struct_minty_1_1_shader_input.html#a50a53ed83340486d18b2f89391633852',1,'Minty::ShaderInput::name'],['../struct_minty_1_1_wrap_1_1_header.html#a21290c23f3b2578f4de9eb8162a2c373',1,'Minty::Wrap::Header::name']]],
   ['nearest_1',['Nearest',['../namespace_minty.html#af9f01817540b1a02607fd01fc1bda06da60494f02d440f316319dd0fad40ad007',1,'Minty']]],
   ['node_2',['Node',['../class_minty_1_1_node.html',1,'Minty::Node'],['../class_minty_1_1_node.html#aa807d0938b23dace2579046932bcf206',1,'Minty::Node::Node(Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_node.html#aa66a2bb40c31a541dc15891a725242ea',1,'Minty::Node::Node(String const &amp;name, void const *const data, Size const size, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_node.html#accf7fe51579f21404d0e36dd17f5e4e7',1,'Minty::Node::Node(String const &amp;name, String const &amp;value, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_node.html#ae4fea9139956b63da4697733031a515d',1,'Minty::Node::Node(String const &amp;name, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_node.html#adb45e38be729c4224cd8220c5922fe09',1,'Minty::Node::Node(Node const &amp;other)'],['../class_minty_1_1_node.html#af8a7d049f9cc8f91551e934b9658bde7',1,'Minty::Node::Node(Node &amp;&amp;other) noexcept']]],
   ['node_2ecpp_3',['Node.cpp',['../_node_8cpp.html',1,'']]],

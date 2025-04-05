@@ -15,12 +15,15 @@ var searchData=
   ['unload_12',['unload',['../class_minty_1_1_asset_manager.html#aa78744392598c4bcfeb4fe813066aad5',1,'Minty::AssetManager']]],
   ['unload_5fall_13',['unload_all',['../class_minty_1_1_asset_manager.html#a66f247cde06b9029c71918836ba7e4e2',1,'Minty::AssetManager']]],
   ['unmap_5fmemory_14',['unmap_memory',['../class_minty_1_1_vulkan___renderer.html#a25320418ccfad6827b82726d066b724f',1,'Minty::Vulkan_Renderer']]],
-  ['up_15',['up',['../namespace_minty_1_1_math.html#a26278c8ca3cb34282abcf5d73fbc4725',1,'Minty::Math']]],
-  ['update_16',['Update',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6',1,'Minty::Wrap']]],
-  ['update_17',['update',['../class_minty_1_1_memory_manager.html#a4ffd4ce1433b7558af60fd2ce5d9a0e2',1,'Minty::MemoryManager::update()'],['../class_minty_1_1_time.html#a05e6b7079c76a841a900a6a8d58845cf',1,'Minty::Time::update()']]],
-  ['usage_18',['usage',['../struct_minty_1_1_buffer_builder.html#af8e956839f3b59528ab80e1d871ac9bd',1,'Minty::BufferBuilder::usage'],['../struct_minty_1_1_image_builder.html#a582bb9eb7d5487aba64d53705a19e879',1,'Minty::ImageBuilder::usage']]],
-  ['ushort_19',['UShort',['../namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8',1,'Minty::UShort'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdadfe785f133347f9b473f99009732b1bc',1,'Minty::UShort']]],
-  ['uuid_20',['UUID',['../class_minty_1_1_u_u_i_d.html',1,'Minty::UUID'],['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a',1,'Minty::UUID']]],
-  ['uuid_2ecpp_21',['UUID.cpp',['../_u_u_i_d_8cpp.html',1,'']]],
-  ['uuid_2eh_22',['UUID.h',['../_u_u_i_d_8h.html',1,'']]]
+  ['unregister_5fmaterial_15',['unregister_material',['../class_minty_1_1_shader.html#a4f04d9b135b0646c83ce49f5e8d7b386',1,'Minty::Shader']]],
+  ['unregister_5frender_5ftarget_16',['unregister_render_target',['../class_minty_1_1_render_pass.html#a7c332dd553c17238ad7ce5d1c1b91006',1,'Minty::RenderPass']]],
+  ['up_17',['up',['../namespace_minty_1_1_math.html#a26278c8ca3cb34282abcf5d73fbc4725',1,'Minty::Math']]],
+  ['update_18',['Update',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6',1,'Minty::Wrap']]],
+  ['update_19',['update',['../class_minty_1_1_memory_manager.html#a4ffd4ce1433b7558af60fd2ce5d9a0e2',1,'Minty::MemoryManager::update()'],['../class_minty_1_1_time.html#a05e6b7079c76a841a900a6a8d58845cf',1,'Minty::Time::update()']]],
+  ['update_5fdescriptor_5fsets_20',['update_descriptor_sets',['../class_minty_1_1_vulkan___renderer.html#af81094fd58141f61ec93a14a5744297e',1,'Minty::Vulkan_Renderer']]],
+  ['usage_21',['usage',['../struct_minty_1_1_buffer_builder.html#af8e956839f3b59528ab80e1d871ac9bd',1,'Minty::BufferBuilder::usage'],['../struct_minty_1_1_image_builder.html#a582bb9eb7d5487aba64d53705a19e879',1,'Minty::ImageBuilder::usage']]],
+  ['ushort_22',['UShort',['../namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8',1,'Minty::UShort'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdadfe785f133347f9b473f99009732b1bc',1,'Minty::UShort']]],
+  ['uuid_23',['UUID',['../class_minty_1_1_u_u_i_d.html',1,'Minty::UUID'],['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a',1,'Minty::UUID']]],
+  ['uuid_2ecpp_24',['UUID.cpp',['../_u_u_i_d_8cpp.html',1,'']]],
+  ['uuid_2eh_25',['UUID.h',['../_u_u_i_d_8h.html',1,'']]]
 ];

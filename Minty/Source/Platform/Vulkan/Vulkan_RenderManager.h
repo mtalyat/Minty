@@ -1,6 +1,11 @@
 #pragma once
+#include "Minty/Data/Array.h"
 #include "Minty/Library/Vulkan.h"
+#include "Minty/Render/Image.h"
 #include "Minty/Render/RenderManager.h"
+#include "Minty/Render/Viewport.h"
+#include "Platform/Vulkan/Vulkan_Frame.h"
+#include "Platform/Vulkan/Vulkan_Swapchain.h"
 
 namespace Minty
 {
@@ -19,6 +24,14 @@ namespace Minty
 		VkQueue m_presentQueue;
 		VkCommandPool m_commandPool;
 
+		Owner<Vulkan_Swapchain> m_swapchain;
+
+		Ref<Viewport> m_defaultViewport;
+		Ref<Image> m_depthImage;
+
+		Array<Frame, FRAMES_PER_FLIGHT> m_frames;
+		Size m_currentFrame = 0;
+
 #pragma endregion
 
 #pragma region Constructors
@@ -31,6 +44,9 @@ namespace Minty
 #pragma endregion
 
 #pragma region Get Set
+
+	private:
+		inline void advance_frame() { m_currentFrame = (m_currentFrame + 1) % FRAMES_PER_FLIGHT; }
 
 	public:
 		inline VkInstance get_instance() const { return m_instance; }
@@ -47,9 +63,34 @@ namespace Minty
 
 		inline VkCommandPool get_command_pool() const { return m_commandPool; }
 
+		inline Frame& get_current_frame() { return m_frames[m_currentFrame]; }
+
+		inline Frame const& get_current_frame() const { return m_frames[m_currentFrame]; }
+
+		// gets the current frame's command buffer
+		inline VkCommandBuffer get_current_command_buffer() const { return m_frames[m_currentFrame].commandBuffer; }
+
+		inline Vulkan_Swapchain& get_swapchain() { return *m_swapchain; }
+		inline Vulkan_Swapchain const& get_swapchain() const { return *m_swapchain; }
+
+		inline Ref<Viewport> const& get_default_viewport() const { return m_defaultViewport; }
+
+		inline Ref<Image> const& get_depth_image() const { return m_depthImage; }
+
 #pragma endregion
 
 #pragma region Methods
+
+	private:
+		void initialize_frame(Frame& frame);
+
+		void dispose_frame(Frame& frame);
+
+		void create_depth_resources();
+
+		void destroy_depth_resources();
+
+		void recreate_depth_resources();
 
 	public:
 		/// <summary>
@@ -76,8 +117,10 @@ namespace Minty
 		/// <param name="queue">The queue to submit the commands to.</param>
 		void finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue);
 
-#pragma endregion
+		// recreates the swapchain (useful for resize events)
+		void recreate_swapchain();
 
+#pragma endregion
 
 #pragma region Statics
 
@@ -91,6 +134,5 @@ namespace Minty
 		}
 
 #pragma endregion
-
 	};
 }

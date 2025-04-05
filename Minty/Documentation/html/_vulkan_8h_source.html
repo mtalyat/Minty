@@ -106,10 +106,30 @@ $(function(){initNavTree('_vulkan_8h_source.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <a href="_vulkan_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// just include GLFW, it has Vulkan in it</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_g_l_f_w_8h.html">GLFW.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_debug_8h.html">Minty/Debug/Debug.h</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// just include GLFW, it has Vulkan in it</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="_g_l_f_w_8h.html">GLFW.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifdef MINTY_DEBUG</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define VK_ASSERT_RESULT(operation, message) do { VkResult result = (operation); if (result != VK_SUCCESS) { MINTY_ABORT(message); }} while (false)</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#define VK_ASSERT_RESULT_RETURN_OBJECT(objectType, functionCall, message) do { objectType object = VK_NULL_HANDLE; VK_ASSERT_RESULT((functionCall), (message)); return object; } while (false)</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define VK_ASSERT_ABORT(message) do { MINTY_ABORT(message); } while (false)</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#else </span><span class="comment">// MINTY_RELEASE</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="_vulkan_8h.html#a7e3f9f07cc2a5a278f0fffa0e3ec067f">   12</a></span><span class="preprocessor">#define VK_ASSERT_RESULT(operation, message) operation</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="_vulkan_8h.html#a59857f91fea286ad706bc665e119b4b8">   13</a></span><span class="preprocessor">#define VK_ASSERT_RESULT_RETURN_OBJECT(objectType, functionCall, message) do { objectType object = VK_NULL_HANDLE; functionCall; return object; } while (false)</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="_vulkan_8h.html#a957f962d9779dbbf7f85f599e61a3667">   14</a></span><span class="preprocessor">#define VK_ASSERT_ABORT(message) MINTY_ABORT(message)</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#endif </span><span class="comment">// MINTY_DEBUG</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespace_minty.html#a2f318052317d07febbea4b949cb48e14">   19</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <a class="code hl_variable" href="namespace_minty.html#a2f318052317d07febbea4b949cb48e14">DESCRIPTOR_POOL_SIZE</a> = 32;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="ttc" id="a_debug_8h_html"><div class="ttname"><a href="_debug_8h.html">Debug.h</a></div></div>
 <div class="ttc" id="a_g_l_f_w_8h_html"><div class="ttname"><a href="_g_l_f_w_8h.html">GLFW.h</a></div></div>
+<div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
+<div class="ttc" id="anamespace_minty_html_a255c27cd8d5eacbbcbb02c4962ef3079"><div class="ttname"><a href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Minty::Size</a></div><div class="ttdeci">size_t Size</div><div class="ttdef"><b>Definition</b> Types.h:20</div></div>
+<div class="ttc" id="anamespace_minty_html_a2f318052317d07febbea4b949cb48e14"><div class="ttname"><a href="namespace_minty.html#a2f318052317d07febbea4b949cb48e14">Minty::DESCRIPTOR_POOL_SIZE</a></div><div class="ttdeci">constexpr Size DESCRIPTOR_POOL_SIZE</div><div class="ttdef"><b>Definition</b> Vulkan.h:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

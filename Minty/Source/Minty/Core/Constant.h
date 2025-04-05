@@ -76,6 +76,12 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Render
+
+	constexpr Size FRAMES_PER_FLIGHT = 2;
+
+#pragma endregion
+
 #pragma region Time
 
 	constexpr TimeElapsed ONE_NANOSECOND = 1ll;

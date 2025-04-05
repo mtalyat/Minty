@@ -20,6 +20,11 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		Event()
+			: m_handled(false)
+		{
+		}
+
 		virtual ~Event() = default;
 
 #pragma endregion

@@ -8,6 +8,19 @@ var hierarchy =
       [ "Minty::Image", "class_minty_1_1_image.html", [
         [ "Minty::Vulkan_Image", "class_minty_1_1_vulkan___image.html", null ]
       ] ],
+      [ "Minty::Material", "class_minty_1_1_material.html", [
+        [ "Minty::Vulkan_Material", "class_minty_1_1_vulkan___material.html", null ]
+      ] ],
+      [ "Minty::MaterialTemplate", "class_minty_1_1_material_template.html", null ],
+      [ "Minty::RenderPass", "class_minty_1_1_render_pass.html", [
+        [ "Minty::Vulkan_RenderPass", "class_minty_1_1_vulkan___render_pass.html", null ]
+      ] ],
+      [ "Minty::RenderTarget", "class_minty_1_1_render_target.html", [
+        [ "Minty::Vulkan_RenderTarget", "class_minty_1_1_vulkan___render_target.html", null ]
+      ] ],
+      [ "Minty::Shader", "class_minty_1_1_shader.html", [
+        [ "Minty::Vulkan_Shader", "class_minty_1_1_vulkan___shader.html", null ]
+      ] ],
       [ "Minty::ShaderModule", "class_minty_1_1_shader_module.html", [
         [ "Minty::Vulkan_ShaderModule", "class_minty_1_1_vulkan___shader_module.html", null ]
       ] ],
@@ -65,7 +78,7 @@ var hierarchy =
       [ "Minty::ReaderImplementation< FormatBehavior, StorageBehavior >", "class_minty_1_1_reader_implementation.html", null ],
       [ "Minty::WriterImplementation< FormatBehavior, StorageBehavior >", "class_minty_1_1_writer_implementation.html", null ]
     ] ],
-    [ "Minty::Vulkan_Renderer::Frame", "struct_minty_1_1_vulkan___renderer_1_1_frame.html", null ],
+    [ "Minty::Frame", "struct_minty_1_1_frame.html", null ],
     [ "Minty::GenericAssetBuilder", "struct_minty_1_1_generic_asset_builder.html", null ],
     [ "std::hash< Minty::Color >", "structstd_1_1hash_3_01_minty_1_1_color_01_4.html", null ],
     [ "std::hash< Minty::Owner< T > >", "structstd_1_1hash_3_01_minty_1_1_owner_3_01_t_01_4_01_4.html", null ],
@@ -86,6 +99,8 @@ var hierarchy =
     [ "Minty::JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", null ],
     [ "Minty::List< T >", "class_minty_1_1_list.html", null ],
     [ "Minty::Map< Key, Value >", "class_minty_1_1_map.html", null ],
+    [ "Minty::MaterialBuilder", "struct_minty_1_1_material_builder.html", null ],
+    [ "Minty::MaterialTemplateBuilder", "struct_minty_1_1_material_template_builder.html", null ],
     [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
     [ "Minty::MemoryManagerBuilder", "struct_minty_1_1_memory_manager_builder.html", null ],
     [ "Minty::MemoryPool", "class_minty_1_1_memory_pool.html", null ],
@@ -100,7 +115,6 @@ var hierarchy =
       [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ]
     ] ],
     [ "Minty::Queue< T >", "class_minty_1_1_queue.html", null ],
-    [ "Minty::Vulkan_Renderer::QueueFamilyIndices", "struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html", null ],
     [ "Minty::Reader", "class_minty_1_1_reader.html", [
       [ "Minty::ReaderImplementation< TextReaderBehavior, FileReaderBehavior >", "class_minty_1_1_reader_implementation.html", null ],
       [ "Minty::ReaderImplementation< TextReaderBehavior, NodeReaderBehavior >", "class_minty_1_1_reader_implementation.html", null ],
@@ -132,6 +146,8 @@ var hierarchy =
       [ "Minty::Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html", null ]
     ] ],
     [ "Minty::RenderManagerBuilder", "struct_minty_1_1_render_manager_builder.html", null ],
+    [ "Minty::RenderPassBuilder", "struct_minty_1_1_render_pass_builder.html", null ],
+    [ "Minty::RenderTargetBuilder", "struct_minty_1_1_render_target_builder.html", null ],
     [ "Minty::Array< T, S >::ReverseIterator", "class_minty_1_1_array_1_1_reverse_iterator.html", null ],
     [ "Minty::List< T >::ReverseIterator", "class_minty_1_1_list_1_1_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", null ],
@@ -140,7 +156,12 @@ var hierarchy =
     ] ],
     [ "Minty::SerializableObject", "class_minty_1_1_serializable_object.html", null ],
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],
+    [ "Minty::ShaderAttribute", "struct_minty_1_1_shader_attribute.html", null ],
+    [ "Minty::ShaderBinding", "struct_minty_1_1_shader_binding.html", null ],
+    [ "Minty::ShaderBuilder", "struct_minty_1_1_shader_builder.html", null ],
+    [ "Minty::ShaderInput", "struct_minty_1_1_shader_input.html", null ],
     [ "Minty::ShaderModuleBuilder", "struct_minty_1_1_shader_module_builder.html", null ],
+    [ "Minty::ShaderVertexInput", "struct_minty_1_1_shader_vertex_input.html", null ],
     [ "Minty::Stack< T >", "class_minty_1_1_stack.html", null ],
     [ "Minty::Stopwatch", "class_minty_1_1_stopwatch.html", null ],
     [ "StorageBehavior", null, [
@@ -151,7 +172,6 @@ var hierarchy =
       [ "Minty::DualBuffer", "class_minty_1_1_dual_buffer.html", null ]
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
-    [ "Minty::Vulkan_Renderer::SwapChainSupportDetails", "struct_minty_1_1_vulkan___renderer_1_1_swap_chain_support_details.html", null ],
     [ "Minty::Time", "class_minty_1_1_time.html", null ],
     [ "std::true_type", null, [
       [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],
@@ -161,7 +181,10 @@ var hierarchy =
     [ "Minty::Variable", "class_minty_1_1_variable.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
     [ "Minty::ViewportBuilder", "struct_minty_1_1_viewport_builder.html", null ],
+    [ "Minty::Vulkan_QueueFamilyIndices", "struct_minty_1_1_vulkan___queue_family_indices.html", null ],
     [ "Minty::Vulkan_Renderer", "class_minty_1_1_vulkan___renderer.html", null ],
+    [ "Minty::Vulkan_Swapchain", "class_minty_1_1_vulkan___swapchain.html", null ],
+    [ "Minty::Vulkan_SwapchainSupportDetails", "struct_minty_1_1_vulkan___swapchain_support_details.html", null ],
     [ "Minty::Window", "class_minty_1_1_window.html", [
       [ "Minty::Windows_Window", "class_minty_1_1_windows___window.html", null ]
     ] ],

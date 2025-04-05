@@ -32,6 +32,7 @@ var _constant_8h =
     [ "Minty::EXTENSION_SPRITE", "namespace_minty.html#a5058675cd5db0044dda09879761e9dbc", null ],
     [ "Minty::EXTENSION_TEXT", "namespace_minty.html#a354748bd5ef350ed583d237b272da3ff", null ],
     [ "Minty::EXTENSION_WRAP", "namespace_minty.html#a84cd59c3bcc25133d808a20379e2beb2", null ],
+    [ "Minty::FRAMES_PER_FLIGHT", "namespace_minty.html#a15ccbe3e733593a03cd1fc302ff88a7c", null ],
     [ "Minty::GB", "namespace_minty.html#adc2d39b511af08b66d3f9ee0a65fa4f8", null ],
     [ "Minty::INVALID_ID", "namespace_minty.html#adc08b73350b5085b5a73daff2f95e53f", null ],
     [ "Minty::INVALID_INDEX", "namespace_minty.html#ab5100671687290415529d62bd9dad4a5", null ],

@@ -44,5 +44,13 @@ namespace Minty
 		VkViewport const& get_viewport() const { return m_viewport; }
 
 		VkRect2D const& get_scissor() const { return m_scissor; }
+
+#pragma region Methods
+
+	public:
+		void on_bind() override;
+
+#pragma endregion
+
 	};
 }

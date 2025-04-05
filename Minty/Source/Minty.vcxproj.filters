@@ -70,6 +70,21 @@
     <Filter Include="Platform\Vulkan">
       <UniqueIdentifier>{4732a26c-8e18-4e56-bfcf-eefd613ce871}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Shader">
+      <UniqueIdentifier>{13fbf6ae-bd16-4e18-a70f-e993415ac64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Render\Image">
+      <UniqueIdentifier>{520b5765-769a-4e9a-8c3f-c8635e54b49c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Render\Buffer">
+      <UniqueIdentifier>{862bc823-de73-4358-9c99-600950c0255a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Render\Material">
+      <UniqueIdentifier>{3a4f8f3c-ae81-4f17-9d24-251fd5253199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Render\RenderPass">
+      <UniqueIdentifier>{314c3de5-72dd-4c60-961e-b572929213dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -303,55 +318,10 @@
     <ClInclude Include="Minty\Library\Vulkan.h">
       <Filter>Minty\Library</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Render\BufferUsage.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImageType.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImagePixelFormat.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImageTiling.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImageAspect.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImageAddressMode.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImageUsage.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ImageLayout.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Render\Filter.h">
       <Filter>Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Render\Format.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderStage.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderInputType.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderCullMode.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderFrontFace.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderPolygonMode.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderInputRate.h">
       <Filter>Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Render\CoordinateMode.h">
@@ -387,14 +357,8 @@
     <ClInclude Include="Minty\Library\STB.h">
       <Filter>Minty\Library</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Render\Image.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_Image.h">
       <Filter>Platform\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\Buffer.h">
-      <Filter>Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Render\RenderManager.h">
       <Filter>Minty\Render</Filter>
@@ -408,14 +372,8 @@
     <ClInclude Include="Platform\Vulkan\Vulkan_Renderer.h">
       <Filter>Platform\Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Render\RenderAttachment.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_Buffer.h">
       <Filter>Platform\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\ShaderModule.h">
-      <Filter>Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_ShaderModule.h">
       <Filter>Platform\Vulkan</Filter>
@@ -425,6 +383,114 @@
     </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_Viewport.h">
       <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderCullMode.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderFrontFace.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderInputRate.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderInputType.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderModule.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderPolygonMode.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderStage.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Image.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImageAddressMode.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImageAspect.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImageLayout.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImagePixelFormat.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImageTiling.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImageType.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ImageUsage.h">
+      <Filter>Minty\Render\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Buffer.h">
+      <Filter>Minty\Render\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\BufferUsage.h">
+      <Filter>Minty\Render\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Shader.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderInput.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderAttribute.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderBinding.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\ShaderVertexInput.h">
+      <Filter>Minty\Render\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Material.h">
+      <Filter>Minty\Render\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\MaterialTemplate.h">
+      <Filter>Minty\Render\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Material.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Shader.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderPass.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\RenderTarget.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderTarget.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Frame.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Swapchain.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_QueueFamilyIndices.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_SwapchainSupportDetails.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\RenderAttachment.h">
+      <Filter>Minty\Render\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\RenderPass.h">
+      <Filter>Minty\Render\RenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -633,6 +699,36 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Vulkan\Vulkan_Viewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\MaterialTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\RenderTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\RenderPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Swapchain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

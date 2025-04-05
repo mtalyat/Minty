@@ -9,16 +9,6 @@ using namespace Minty;
 
 #pragma region Utility
 
-#ifdef MINTY_DEBUG
-#define VK_ASSERT_RESULT(operation, message) do { VkResult result = (operation); if (result != VK_SUCCESS) { MINTY_ABORT(message); }} while (false)
-#define VK_ASSERT_RESULT_RETURN_OBJECT(objectType, functionCall, message) do { objectType object = VK_NULL_HANDLE; VK_ASSERT_RESULT((functionCall), (message)); return object; } while (false)
-#define VK_ASSERT_ABORT(message) do { MINTY_ABORT(message); } while (false)
-#else // MINTY_RELEASE
-#define VK_ASSERT_RESULT(operation, message) operation
-#define VK_ASSERT_RESULT_RETURN_OBJECT(objectType, functionCall, message) do { objectType object = VK_NULL_HANDLE; functionCall; return object; } while (false)
-#define VK_ASSERT_ABORT(message) MINTY_ABORT(message)
-#endif // MINTY_DEBUG
-
 #pragma region Extensions
 
 static const Vector<Char const*> deviceExtensions = {
@@ -245,7 +235,7 @@ static Bool check_device_extension_support(VkPhysicalDevice const physicalDevice
 int Minty::Vulkan_Renderer::rate_device_suitability(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)
 {
 	// check if device queues can handle what we want
-	QueueFamilyIndices queueFamilyIndices = find_queue_families(physicalDevice, surface);
+	Vulkan_QueueFamilyIndices queueFamilyIndices = find_queue_families(physicalDevice, surface);
 	if (!queueFamilyIndices.is_complete())
 	{
 		return 0;
@@ -259,7 +249,7 @@ int Minty::Vulkan_Renderer::rate_device_suitability(VkPhysicalDevice const physi
 	}
 
 	// check if swap chains will work
-	SwapChainSupportDetails swapChainSupport = query_swap_chain_support(physicalDevice, surface);
+	Vulkan_SwapchainSupportDetails swapChainSupport = query_swapchain_support(physicalDevice, surface);
 	if (swapChainSupport.formats.is_empty() || swapChainSupport.presentModes.is_empty())
 	{
 		return 0;
@@ -337,9 +327,9 @@ VkPhysicalDevice Minty::Vulkan_Renderer::select_physical_device(VkInstance const
 	}
 }
 
-Vulkan_Renderer::SwapChainSupportDetails Minty::Vulkan_Renderer::query_swap_chain_support(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)
+Vulkan_SwapchainSupportDetails Minty::Vulkan_Renderer::query_swapchain_support(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)
 {
-	SwapChainSupportDetails details;
+	Vulkan_SwapchainSupportDetails details;
 
 	vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &details.capabilities);
 
@@ -375,30 +365,6 @@ VkSurfaceFormatKHR Minty::Vulkan_Renderer::select_swap_surface_format(Vector<VkS
 	}
 
 	return availableFormats.front();
-}
-
-VkExtent2D Minty::Vulkan_Renderer::select_swap_extent(VkSurfaceCapabilitiesKHR const& capabilities, Ref<Window> const& window)
-{
-	if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
-	{
-		// extent has been initialized, use it
-		return capabilities.currentExtent;
-	}
-
-	// create new extent from window size
-	int width, height;
-	glfwGetFramebufferSize(static_cast<GLFWwindow*>(window->get_native()), &width, &height);
-
-	VkExtent2D actualExtent =
-	{
-		static_cast<uint32_t>(width),
-		static_cast<uint32_t>(height)
-	};
-
-	actualExtent.width = Math::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
-	actualExtent.height = Math::clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
-
-	return actualExtent;
 }
 
 VkPresentModeKHR Minty::Vulkan_Renderer::select_swap_present_mode(Vector<VkPresentModeKHR> const& availablePresentModes, VkPresentModeKHR const presentMode)
@@ -440,9 +406,9 @@ VkFormat Minty::Vulkan_Renderer::find_supported_depth_format(VkPhysicalDevice co
 	);
 }
 
-Vulkan_Renderer::QueueFamilyIndices Minty::Vulkan_Renderer::find_queue_families(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)
+Vulkan_QueueFamilyIndices Minty::Vulkan_Renderer::find_queue_families(VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)
 {
-	QueueFamilyIndices queueFamilyIndices{};
+	Vulkan_QueueFamilyIndices queueFamilyIndices{};
 
 	// get number of queue families
 	uint32_t queueFamilyCount = 0;
@@ -483,7 +449,7 @@ Vulkan_Renderer::QueueFamilyIndices Minty::Vulkan_Renderer::find_queue_families(
 	return queueFamilyIndices;
 }
 
-VkDevice Minty::Vulkan_Renderer::create_device(VkPhysicalDevice const physicalDevice, QueueFamilyIndices const& queueFamilyIndices)
+VkDevice Minty::Vulkan_Renderer::create_device(VkPhysicalDevice const physicalDevice, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
 {
 	// create all the queues needed for operations, based on the families
 	Vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -540,7 +506,7 @@ VkQueue Minty::Vulkan_Renderer::get_device_queue(VkDevice const device, const ui
 	return queue;
 }
 
-VkSwapchainKHR Minty::Vulkan_Renderer::create_swapchain(VkDevice const device, VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface, SwapChainSupportDetails const& swapchainSupport, QueueFamilyIndices const& queueFamilyIndices, VkSurfaceFormatKHR const surfaceFormat, VkExtent2D const extent, VkPresentModeKHR const presentMode)
+VkSwapchainKHR Minty::Vulkan_Renderer::create_swapchain(VkDevice const device, VkSurfaceKHR const surface, Vulkan_SwapchainSupportDetails const& swapchainSupport, Vulkan_QueueFamilyIndices const& queueFamilyIndices, VkSurfaceFormatKHR const surfaceFormat, VkExtent2D const extent, VkPresentModeKHR const presentMode)
 {
 	// images in the swapchain
 	uint32_t imageCount = swapchainSupport.capabilities.minImageCount + 1;
@@ -597,6 +563,30 @@ VkSwapchainKHR Minty::Vulkan_Renderer::create_swapchain(VkDevice const device, V
 void Minty::Vulkan_Renderer::destroy_swapchain(VkDevice const device, VkSwapchainKHR const swapchain)
 {
 	vkDestroySwapchainKHR(device, swapchain, nullptr);
+}
+
+VkExtent2D Minty::Vulkan_Renderer::get_swapchain_extent(VkSurfaceCapabilitiesKHR const& capabilities, Ref<Window> const& window)
+{
+	if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
+	{
+		// extent has been initialized, use it
+		return capabilities.currentExtent;
+	}
+
+	// create new extent from window size
+	int width, height;
+	glfwGetFramebufferSize(static_cast<GLFWwindow*>(window->get_native()), &width, &height);
+
+	VkExtent2D actualExtent =
+	{
+		static_cast<uint32_t>(width),
+		static_cast<uint32_t>(height)
+	};
+
+	actualExtent.width = Math::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);
+	actualExtent.height = Math::clamp(actualExtent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
+
+	return actualExtent;
 }
 
 Vector<VkImage> Minty::Vulkan_Renderer::get_swapchain_images(VkDevice const device, VkSwapchainKHR const swapchain)
@@ -1297,7 +1287,7 @@ void Minty::Vulkan_Renderer::reset_fence(VkDevice const device, VkFence const fe
 	vkResetFences(device, 1, &fence);
 }
 
-VkResult Minty::Vulkan_Renderer::present_frame(VkQueue const queue, VkSwapchainKHR const swapchain, uint32_t const imageIndex, VkSemaphore const signalSemaphore)
+VkResult Minty::Vulkan_Renderer::present(VkQueue const queue, VkSwapchainKHR const swapchain, uint32_t const imageIndex, VkSemaphore const signalSemaphore)
 {
 	VkPresentInfoKHR presentInfo{};
 	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -1372,6 +1362,11 @@ void Minty::Vulkan_Renderer::bind_buffer_memory(VkDevice const device, VkBuffer 
 	MINTY_ASSERT(memory != VK_NULL_HANDLE, "Memory is null.");
 
 	VK_ASSERT_RESULT(vkBindBufferMemory(device, buffer, memory, 0), "Failed to bind buffer memory.");
+}
+
+void Minty::Vulkan_Renderer::update_descriptor_sets(VkDevice const device, VkWriteDescriptorSet* const write, uint32_t const count)
+{
+	vkUpdateDescriptorSets(device, count, write, 0, nullptr);
 }
 
 VkFormat Minty::Vulkan_Renderer::to_vulkan(const Minty::Format format)

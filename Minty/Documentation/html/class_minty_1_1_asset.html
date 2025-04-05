@@ -121,13 +121,15 @@ Inheritance diagram for Minty::Asset:</div>
  <div class="center">
   <img src="class_minty_1_1_asset.png" usemap="#Minty::Asset_map" alt=""/>
   <map id="Minty::Asset_map" name="Minty::Asset_map">
-<area href="class_minty_1_1_generic_asset.html" title="A generic Asset." alt="Minty::GenericAsset" shape="rect" coords="0,56,178,80"/>
-<area href="class_minty_1_1_image.html" title="Represents an Image." alt="Minty::Image" shape="rect" coords="188,56,366,80"/>
-<area href="class_minty_1_1_shader_module.html" title="Represents a Shader program." alt="Minty::ShaderModule" shape="rect" coords="376,56,554,80"/>
-<area href="class_minty_1_1_viewport.html" title="Represents a view with a mask that can be used to render to a specific area of the screen." alt="Minty::Viewport" shape="rect" coords="564,56,742,80"/>
-<area href="class_minty_1_1_vulkan___image.html" alt="Minty::Vulkan_Image" shape="rect" coords="188,112,366,136"/>
-<area href="class_minty_1_1_vulkan___shader_module.html" alt="Minty::Vulkan_ShaderModule" shape="rect" coords="376,112,554,136"/>
-<area href="class_minty_1_1_vulkan___viewport.html" alt="Minty::Vulkan_Viewport" shape="rect" coords="564,112,742,136"/>
+<area href="class_minty_1_1_generic_asset.html" title="A generic Asset." alt="Minty::GenericAsset" shape="rect" coords="155,56,300,80"/>
+<area href="class_minty_1_1_image.html" title="Represents an Image." alt="Minty::Image" shape="rect" coords="155,112,300,136"/>
+<area href="class_minty_1_1_material.html" alt="Minty::Material" shape="rect" coords="155,168,300,192"/>
+<area href="class_minty_1_1_material_template.html" title="Holds a collection of default values for a Material." alt="Minty::MaterialTemplate" shape="rect" coords="155,224,300,248"/>
+<area href="class_minty_1_1_render_pass.html" alt="Minty::RenderPass" shape="rect" coords="155,280,300,304"/>
+<area href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,..." alt="Minty::RenderTarget" shape="rect" coords="155,336,300,360"/>
+<area href="class_minty_1_1_shader.html" title="Represents a Shader program on the GPU." alt="Minty::Shader" shape="rect" coords="155,392,300,416"/>
+<area href="class_minty_1_1_shader_module.html" title="Represents a Shader program." alt="Minty::ShaderModule" shape="rect" coords="155,448,300,472"/>
+<area href="class_minty_1_1_viewport.html" title="Represents a view with a mask that can be used to render to a specific area of the screen." alt="Minty::Viewport" shape="rect" coords="155,504,300,528"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -138,6 +140,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a89e2ec6c9e2d1afc176b8c2191e9bf76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4aac209dd02300b64deda588a5621219" id="r_a4aac209dd02300b64deda588a5621219"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aac209dd02300b64deda588a5621219">~Asset</a> ()=default</td></tr>
 <tr class="separator:a4aac209dd02300b64deda588a5621219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71cd3bfb4c127255ae2706faf731bdde" id="r_a71cd3bfb4c127255ae2706faf731bdde"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71cd3bfb4c127255ae2706faf731bdde">Asset</a> (<a class="el" href="class_minty_1_1_asset.html">Asset</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a71cd3bfb4c127255ae2706faf731bdde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c26a72d4cd8af0f0781c29f8894ccd4" id="r_a7c26a72d4cd8af0f0781c29f8894ccd4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_asset.html">Asset</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c26a72d4cd8af0f0781c29f8894ccd4">operator=</a> (<a class="el" href="class_minty_1_1_asset.html">Asset</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a7c26a72d4cd8af0f0781c29f8894ccd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d407c6b3dd666fdea52acd109801eb9" id="r_a1d407c6b3dd666fdea52acd109801eb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d407c6b3dd666fdea52acd109801eb9">get_id</a> () const</td></tr>
 <tr class="memdesc:a1d407c6b3dd666fdea52acd109801eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.  <br /></td></tr>
 <tr class="separator:a1d407c6b3dd666fdea52acd109801eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,7 +178,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>The base class for all <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> types. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a89e2ec6c9e2d1afc176b8c2191e9bf76" name="a89e2ec6c9e2d1afc176b8c2191e9bf76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89e2ec6c9e2d1afc176b8c2191e9bf76">&#9670;&#160;</a></span>Asset()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a89e2ec6c9e2d1afc176b8c2191e9bf76">&#9670;&#160;</a></span>Asset() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -229,6 +235,31 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a71cd3bfb4c127255ae2706faf731bdde" name="a71cd3bfb4c127255ae2706faf731bdde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71cd3bfb4c127255ae2706faf731bdde">&#9670;&#160;</a></span>Asset() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::Asset::Asset </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_asset.html">Asset</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a83c90c1e219483caaf10e08520edef42" name="a83c90c1e219483caaf10e08520edef42"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a83c90c1e219483caaf10e08520edef42">&#9670;&#160;</a></span>get_asset_type() <span class="overload">[1/3]</span></h2>
@@ -256,7 +287,7 @@ Friends</h2></td></tr>
 <p>Gets the <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a> of this <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841" title="Types of Assets that can be loaded into the engine.">AssetType</a>.</dd></dl>
 
-<p>Implemented in <a class="el" href="class_minty_1_1_generic_asset.html#a7c3aaabe5771d0e0ee05b08f18a90fd1">Minty::GenericAsset</a>, <a class="el" href="class_minty_1_1_image.html#aadf3c9e42a04e8ee683bfe2b4cb80c80">Minty::Image</a>, <a class="el" href="class_minty_1_1_shader_module.html#a9e895e6bf784d8ae17b7417e2cc1e986">Minty::ShaderModule</a>, and <a class="el" href="class_minty_1_1_viewport.html#a7af4c5fc5324fa450dc859de2b02e5f6">Minty::Viewport</a>.</p>
+<p>Implemented in <a class="el" href="class_minty_1_1_generic_asset.html#a7c3aaabe5771d0e0ee05b08f18a90fd1">Minty::GenericAsset</a>, <a class="el" href="class_minty_1_1_image.html#aadf3c9e42a04e8ee683bfe2b4cb80c80">Minty::Image</a>, <a class="el" href="class_minty_1_1_material.html#a8ec00e160a8e9e5fb97c00042df4da9f">Minty::Material</a>, <a class="el" href="class_minty_1_1_material_template.html#a200b7f94ff2dd81635e992250b778926">Minty::MaterialTemplate</a>, <a class="el" href="class_minty_1_1_render_pass.html#ad1bbb04a2ddc3d37b1f7cb7193d2dc08">Minty::RenderPass</a>, <a class="el" href="class_minty_1_1_render_target.html#acabeabb560b7153d69fb2ac47e912cb1">Minty::RenderTarget</a>, <a class="el" href="class_minty_1_1_shader.html#a22db8be2b1e57ca9ab4814a0637b7adc">Minty::Shader</a>, <a class="el" href="class_minty_1_1_shader_module.html#a9e895e6bf784d8ae17b7417e2cc1e986">Minty::ShaderModule</a>, and <a class="el" href="class_minty_1_1_viewport.html#a7af4c5fc5324fa450dc859de2b02e5f6">Minty::Viewport</a>.</p>
 
 </div>
 </div>
@@ -441,6 +472,31 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Called when the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> is unloaded from the <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>. </p>
+
+</div>
+</div>
+<a id="a7c26a72d4cd8af0f0781c29f8894ccd4" name="a7c26a72d4cd8af0f0781c29f8894ccd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c26a72d4cd8af0f0781c29f8894ccd4">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_asset.html">Asset</a> &amp; Minty::Asset::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_asset.html">Asset</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

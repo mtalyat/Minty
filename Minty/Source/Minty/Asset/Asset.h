@@ -34,6 +34,17 @@ namespace Minty
 
 		virtual ~Asset() = default;
 
+		// no moving
+		Asset(Asset&&) = delete;
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		// no moving
+		Asset& operator=(Asset&&) = delete;
+
 #pragma endregion
 
 #pragma region Get Set

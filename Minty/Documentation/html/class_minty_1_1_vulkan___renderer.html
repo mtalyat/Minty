@@ -103,7 +103,6 @@ $(function(){initNavTree('class_minty_1_1_vulkan___renderer.html',''); initResiz
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_minty_1_1_vulkan___renderer-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Minty::Vulkan_Renderer Class Reference</div></div>
@@ -112,17 +111,6 @@ $(function(){initNavTree('class_minty_1_1_vulkan___renderer.html',''); initResiz
 
 <p><code>#include &lt;<a class="el" href="_vulkan___renderer_8h_source.html">Vulkan_Renderer.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_frame.html">Frame</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the data for one frame in the flight.  <a href="struct_minty_1_1_vulkan___renderer_1_1_frame.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html">QueueFamilyIndices</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the indices to the queue families to be used.  <a href="struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_swap_chain_support_details.html">SwapChainSupportDetails</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a28afbd52cbc4a8daeadf09c74a978db1" id="r_a28afbd52cbc4a8daeadf09c74a978db1"><td class="memItemLeft" align="right" valign="top">static VkInstance&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28afbd52cbc4a8daeadf09c74a978db1">create_instance</a> ()</td></tr>
@@ -139,28 +127,36 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a262f76497cd2bd660d59145efaece686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5773b11ccb24418caed7fb4e42ff7e61" id="r_a5773b11ccb24418caed7fb4e42ff7e61"><td class="memItemLeft" align="right" valign="top">static VkPhysicalDevice&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5773b11ccb24418caed7fb4e42ff7e61">select_physical_device</a> (VkInstance const instance, VkSurfaceKHR const surface, <a class="el" href="namespace_minty.html#a824f7ce2099d0ab1f9a450f9d1a071eb">Function</a>&lt; int(VkPhysicalDevice, VkSurfaceKHR)&gt; const &amp;ratingFunction=rate_device_suitability)</td></tr>
 <tr class="separator:a5773b11ccb24418caed7fb4e42ff7e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab46a73f2593476cfb3d05169081425f7" id="r_ab46a73f2593476cfb3d05169081425f7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_swap_chain_support_details.html">SwapChainSupportDetails</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab46a73f2593476cfb3d05169081425f7">query_swap_chain_support</a> (VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)</td></tr>
-<tr class="separator:ab46a73f2593476cfb3d05169081425f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7fe95823aac67cf7df252e8aab98858" id="r_aa7fe95823aac67cf7df252e8aab98858"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_minty_1_1_vulkan___swapchain_support_details.html">Vulkan_SwapchainSupportDetails</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa7fe95823aac67cf7df252e8aab98858">query_swapchain_support</a> (VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)</td></tr>
+<tr class="separator:aa7fe95823aac67cf7df252e8aab98858"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a218b9a5a4a8f3d6e89d6aec797cd4b65" id="r_a218b9a5a4a8f3d6e89d6aec797cd4b65"><td class="memItemLeft" align="right" valign="top">static VkSurfaceFormatKHR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a218b9a5a4a8f3d6e89d6aec797cd4b65">select_swap_surface_format</a> (<a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; VkSurfaceFormatKHR &gt; const &amp;availableFormats, VkFormat const format=VK_FORMAT_B8G8R8A8_SRGB, VkColorSpaceKHR const colorSpace=VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)</td></tr>
 <tr class="separator:a218b9a5a4a8f3d6e89d6aec797cd4b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82876a525362a1d9084ed4976ed4d418" id="r_a82876a525362a1d9084ed4976ed4d418"><td class="memItemLeft" align="right" valign="top">static VkExtent2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82876a525362a1d9084ed4976ed4d418">select_swap_extent</a> (VkSurfaceCapabilitiesKHR const &amp;capabilities, <a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_window.html">Window</a> &gt; const &amp;window)</td></tr>
-<tr class="separator:a82876a525362a1d9084ed4976ed4d418"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a658e718146abdab94fb5394400f7d8c9" id="r_a658e718146abdab94fb5394400f7d8c9"><td class="memItemLeft" align="right" valign="top">static VkPresentModeKHR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a658e718146abdab94fb5394400f7d8c9">select_swap_present_mode</a> (<a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; VkPresentModeKHR &gt; const &amp;availablePresentModes, VkPresentModeKHR const presentMode=VK_PRESENT_MODE_MAILBOX_KHR)</td></tr>
 <tr class="separator:a658e718146abdab94fb5394400f7d8c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75c199e3836794409e3caaa423850dce" id="r_a75c199e3836794409e3caaa423850dce"><td class="memItemLeft" align="right" valign="top">static VkFormat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75c199e3836794409e3caaa423850dce">find_supported_format</a> (VkPhysicalDevice const physicalDevice, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; VkFormat &gt; const &amp;candidates, VkImageTiling const tiling, VkFormatFeatureFlags const features)</td></tr>
 <tr class="separator:a75c199e3836794409e3caaa423850dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aede4c5e1cccd2b7e0d833364137422a8" id="r_aede4c5e1cccd2b7e0d833364137422a8"><td class="memItemLeft" align="right" valign="top">static VkFormat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aede4c5e1cccd2b7e0d833364137422a8">find_supported_depth_format</a> (VkPhysicalDevice const physicalDevice)</td></tr>
 <tr class="separator:aede4c5e1cccd2b7e0d833364137422a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad6a1e52b0210a2d08ca9c392568514d" id="r_aad6a1e52b0210a2d08ca9c392568514d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html">QueueFamilyIndices</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad6a1e52b0210a2d08ca9c392568514d">find_queue_families</a> (VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)</td></tr>
-<tr class="separator:aad6a1e52b0210a2d08ca9c392568514d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca9d189b32c27a97b6009dbe75bfdbb5" id="r_aca9d189b32c27a97b6009dbe75bfdbb5"><td class="memItemLeft" align="right" valign="top">static VkDevice&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca9d189b32c27a97b6009dbe75bfdbb5">create_device</a> (VkPhysicalDevice const physicalDevice, <a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html">QueueFamilyIndices</a> const &amp;familyIndices)</td></tr>
-<tr class="separator:aca9d189b32c27a97b6009dbe75bfdbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7696a5647e64c50e1591f9764f569c8e" id="r_a7696a5647e64c50e1591f9764f569c8e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_minty_1_1_vulkan___queue_family_indices.html">Vulkan_QueueFamilyIndices</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7696a5647e64c50e1591f9764f569c8e">find_queue_families</a> (VkPhysicalDevice const physicalDevice, VkSurfaceKHR const surface)</td></tr>
+<tr class="separator:a7696a5647e64c50e1591f9764f569c8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf4143aaa7bfc8b43c8a569034bebbb2" id="r_abf4143aaa7bfc8b43c8a569034bebbb2"><td class="memItemLeft" align="right" valign="top">static VkDevice&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf4143aaa7bfc8b43c8a569034bebbb2">create_device</a> (VkPhysicalDevice const physicalDevice, <a class="el" href="struct_minty_1_1_vulkan___queue_family_indices.html">Vulkan_QueueFamilyIndices</a> const &amp;familyIndices)</td></tr>
+<tr class="separator:abf4143aaa7bfc8b43c8a569034bebbb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a075e920e0e6d1a324c518b5eb56fc21e" id="r_a075e920e0e6d1a324c518b5eb56fc21e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a075e920e0e6d1a324c518b5eb56fc21e">destroy_device</a> (VkDevice const device)</td></tr>
 <tr class="separator:a075e920e0e6d1a324c518b5eb56fc21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80db19b0da9f463d190dc6c1b629b78d" id="r_a80db19b0da9f463d190dc6c1b629b78d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80db19b0da9f463d190dc6c1b629b78d">sync_device</a> (VkDevice const device)</td></tr>
 <tr class="separator:a80db19b0da9f463d190dc6c1b629b78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cfdaf5d05f8e7aa139b7dec6aa22d80" id="r_a4cfdaf5d05f8e7aa139b7dec6aa22d80"><td class="memItemLeft" align="right" valign="top">static VkQueue&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cfdaf5d05f8e7aa139b7dec6aa22d80">get_device_queue</a> (VkDevice const device, const uint32_t index)</td></tr>
 <tr class="separator:a4cfdaf5d05f8e7aa139b7dec6aa22d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a129a2fb87d616eecbae8ecc462771181" id="r_a129a2fb87d616eecbae8ecc462771181"><td class="memItemLeft" align="right" valign="top">static VkSwapchainKHR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a129a2fb87d616eecbae8ecc462771181">create_swapchain</a> (VkDevice const device, VkSurfaceKHR const surface, <a class="el" href="struct_minty_1_1_vulkan___swapchain_support_details.html">Vulkan_SwapchainSupportDetails</a> const &amp;swapchainSupport, <a class="el" href="struct_minty_1_1_vulkan___queue_family_indices.html">Vulkan_QueueFamilyIndices</a> const &amp;queueFamilyIndices, VkSurfaceFormatKHR const surfaceFormat, VkExtent2D const extent, VkPresentModeKHR const presentMode)</td></tr>
+<tr class="separator:a129a2fb87d616eecbae8ecc462771181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d50862bd411149f9c96f557a4de3583" id="r_a0d50862bd411149f9c96f557a4de3583"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d50862bd411149f9c96f557a4de3583">destroy_swapchain</a> (VkDevice const device, VkSwapchainKHR const swapchain)</td></tr>
+<tr class="separator:a0d50862bd411149f9c96f557a4de3583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add3aa64e216eef966d2e7124ccf57c58" id="r_add3aa64e216eef966d2e7124ccf57c58"><td class="memItemLeft" align="right" valign="top">static VkExtent2D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add3aa64e216eef966d2e7124ccf57c58">get_swapchain_extent</a> (VkSurfaceCapabilitiesKHR const &amp;capabilities, <a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_window.html">Window</a> &gt; const &amp;window)</td></tr>
+<tr class="separator:add3aa64e216eef966d2e7124ccf57c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd06556eb1a6156ec8e088f8471daf64" id="r_acd06556eb1a6156ec8e088f8471daf64"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; VkImage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd06556eb1a6156ec8e088f8471daf64">get_swapchain_images</a> (VkDevice const device, VkSwapchainKHR const swapchain)</td></tr>
+<tr class="separator:acd06556eb1a6156ec8e088f8471daf64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8901600d474319c39f34c284908a5d18" id="r_a8901600d474319c39f34c284908a5d18"><td class="memItemLeft" align="right" valign="top">static VkResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8901600d474319c39f34c284908a5d18">get_next_swapchain_image_index</a> (VkDevice const device, VkSwapchainKHR const swapchain, VkSemaphore const waitSemaphore, uint32_t &amp;index)</td></tr>
+<tr class="separator:a8901600d474319c39f34c284908a5d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3eec1e725b91098ae314bc9733f43901" id="r_a3eec1e725b91098ae314bc9733f43901"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3eec1e725b91098ae314bc9733f43901">find_memory_type</a> (VkPhysicalDevice const physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties)</td></tr>
 <tr class="separator:a3eec1e725b91098ae314bc9733f43901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a682b66d2300424fd2336ca6c2afd9c" id="r_a9a682b66d2300424fd2336ca6c2afd9c"><td class="memItemLeft" align="right" valign="top">static VkDeviceMemory&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a682b66d2300424fd2336ca6c2afd9c">allocate_memory</a> (VkDevice const device, VkDeviceSize const size, const uint32_t memoryTypeIndex)</td></tr>
@@ -223,7 +219,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ad4368e0039e73c02b8a8fd2744a9c065"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5402485d6cdb4afd20fc806692abdf29" id="r_a5402485d6cdb4afd20fc806692abdf29"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5402485d6cdb4afd20fc806692abdf29">submit_command_buffer</a> (VkCommandBuffer const commandBuffer, VkQueue const queue, VkSemaphore const waitSemaphore, VkSemaphore const signalSemaphore, VkFence const inFlightFence)</td></tr>
 <tr class="separator:a5402485d6cdb4afd20fc806692abdf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bbe8394072d2026bb8a337f24593a5f" id="r_a9bbe8394072d2026bb8a337f24593a5f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bbe8394072d2026bb8a337f24593a5f">submit_command_buffer</a> (VkCommandBuffer const commandBuffer, <a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_frame.html">Frame</a> const &amp;frame, VkQueue const queue)</td></tr>
+<tr class="memitem:a9bbe8394072d2026bb8a337f24593a5f" id="r_a9bbe8394072d2026bb8a337f24593a5f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bbe8394072d2026bb8a337f24593a5f">submit_command_buffer</a> (VkCommandBuffer const commandBuffer, <a class="el" href="struct_minty_1_1_frame.html">Frame</a> const &amp;frame, VkQueue const queue)</td></tr>
 <tr class="separator:a9bbe8394072d2026bb8a337f24593a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87d0ac8d277f0ba8619f83c04c54bf1c" id="r_a87d0ac8d277f0ba8619f83c04c54bf1c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87d0ac8d277f0ba8619f83c04c54bf1c">submit_command_buffer</a> (VkCommandBuffer const commandBuffer, VkQueue const queue)</td></tr>
 <tr class="separator:a87d0ac8d277f0ba8619f83c04c54bf1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -253,6 +249,22 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac3fec6d3ba6f555a6b6b3b8b5a12d0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d2ef1ca4c99bd4a0df9926e7d357560" id="r_a8d2ef1ca4c99bd4a0df9926e7d357560"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d2ef1ca4c99bd4a0df9926e7d357560">copy_buffer_to_image</a> (VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkImage const dstImage, const uint32_t width, const uint32_t height)</td></tr>
 <tr class="separator:a8d2ef1ca4c99bd4a0df9926e7d357560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27eebef071a497770ee5681a116f46d2" id="r_a27eebef071a497770ee5681a116f46d2"><td class="memItemLeft" align="right" valign="top">static VkSemaphore&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27eebef071a497770ee5681a116f46d2">create_semaphore</a> (VkDevice const device)</td></tr>
+<tr class="separator:a27eebef071a497770ee5681a116f46d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5db1f8e0f2c4671aff2272b924957d6" id="r_ae5db1f8e0f2c4671aff2272b924957d6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5db1f8e0f2c4671aff2272b924957d6">destroy_semaphore</a> (VkDevice const device, VkSemaphore const semaphore)</td></tr>
+<tr class="separator:ae5db1f8e0f2c4671aff2272b924957d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae13deb58ac9cfd8a58d47bd385dad061" id="r_ae13deb58ac9cfd8a58d47bd385dad061"><td class="memItemLeft" align="right" valign="top">static VkFence&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae13deb58ac9cfd8a58d47bd385dad061">create_fence</a> (VkDevice const device)</td></tr>
+<tr class="separator:ae13deb58ac9cfd8a58d47bd385dad061"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcd61676d0cf360681f0184874e11afa" id="r_afcd61676d0cf360681f0184874e11afa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcd61676d0cf360681f0184874e11afa">destroy_fence</a> (VkDevice const device, VkFence const fence)</td></tr>
+<tr class="separator:afcd61676d0cf360681f0184874e11afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47eb9c406dc4146e56f89da81a59543a" id="r_a47eb9c406dc4146e56f89da81a59543a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47eb9c406dc4146e56f89da81a59543a">wait_for_fence</a> (VkDevice const device, VkFence const fence)</td></tr>
+<tr class="separator:a47eb9c406dc4146e56f89da81a59543a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add5a79b20586c11bd4fcc462621a191c" id="r_add5a79b20586c11bd4fcc462621a191c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add5a79b20586c11bd4fcc462621a191c">reset_fence</a> (VkDevice const device, VkFence const fence)</td></tr>
+<tr class="separator:add5a79b20586c11bd4fcc462621a191c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdedc88a3f0fec76d1f8e71bf14e977e" id="r_abdedc88a3f0fec76d1f8e71bf14e977e"><td class="memItemLeft" align="right" valign="top">static VkResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdedc88a3f0fec76d1f8e71bf14e977e">present</a> (VkQueue const queue, VkSwapchainKHR const swapchain, uint32_t const imageIndex, VkSemaphore const signalSemaphore)</td></tr>
+<tr class="separator:abdedc88a3f0fec76d1f8e71bf14e977e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7857c16348469c81c6b8584d4d1f7246" id="r_a7857c16348469c81c6b8584d4d1f7246"><td class="memItemLeft" align="right" valign="top">static VkResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7857c16348469c81c6b8584d4d1f7246">present_frame</a> (VkQueue const queue, <a class="el" href="class_minty_1_1_vulkan___swapchain.html">Vulkan_Swapchain</a> const &amp;swapchain, <a class="el" href="struct_minty_1_1_frame.html">Frame</a> const &amp;frame)</td></tr>
+<tr class="separator:a7857c16348469c81c6b8584d4d1f7246"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22785a3a59da61d2314a1d68e1ccb1ad" id="r_a22785a3a59da61d2314a1d68e1ccb1ad"><td class="memItemLeft" align="right" valign="top">static VkBuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22785a3a59da61d2314a1d68e1ccb1ad">create_buffer</a> (VkDevice const device, VkDeviceSize const size, VkBufferUsageFlags const usage)</td></tr>
 <tr class="separator:a22785a3a59da61d2314a1d68e1ccb1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae28dd3a70de2525e3335142623874e89" id="r_ae28dd3a70de2525e3335142623874e89"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae28dd3a70de2525e3335142623874e89">destroy_buffer</a> (VkDevice const device, VkBuffer const buffer)</td></tr>
@@ -261,6 +273,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac4fd2798e5e04c52d8cfbfbd5129986f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c7242be23ed5e7c9e3ef3163437cc6a" id="r_a3c7242be23ed5e7c9e3ef3163437cc6a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c7242be23ed5e7c9e3ef3163437cc6a">bind_buffer_memory</a> (VkDevice const device, VkBuffer const buffer, VkDeviceMemory const memory)</td></tr>
 <tr class="separator:a3c7242be23ed5e7c9e3ef3163437cc6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af81094fd58141f61ec93a14a5744297e" id="r_af81094fd58141f61ec93a14a5744297e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af81094fd58141f61ec93a14a5744297e">update_descriptor_sets</a> (VkDevice const device, VkWriteDescriptorSet *const write, uint32_t const count)</td></tr>
+<tr class="separator:af81094fd58141f61ec93a14a5744297e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a881875a9234b91847d24a3a121b6fa" id="r_a4a881875a9234b91847d24a3a121b6fa"><td class="memItemLeft" align="right" valign="top">static VkFormat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a881875a9234b91847d24a3a121b6fa">to_vulkan</a> (const <a class="el" href="namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1">Minty::Format</a> format)</td></tr>
 <tr class="separator:a4a881875a9234b91847d24a3a121b6fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2609978fd4680418cb67359309856f0" id="r_ab2609978fd4680418cb67359309856f0"><td class="memItemLeft" align="right" valign="top">static VkBufferUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2609978fd4680418cb67359309856f0">to_vulkan</a> (const <a class="el" href="namespace_minty.html#a182a8afa1eccb5564c6665b53a1789ee">Minty::BufferUsage</a> bufferUsage)</td></tr>
@@ -986,8 +1000,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aca9d189b32c27a97b6009dbe75bfdbb5" name="aca9d189b32c27a97b6009dbe75bfdbb5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca9d189b32c27a97b6009dbe75bfdbb5">&#9670;&#160;</a></span>create_device()</h2>
+<a id="abf4143aaa7bfc8b43c8a569034bebbb2" name="abf4143aaa7bfc8b43c8a569034bebbb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf4143aaa7bfc8b43c8a569034bebbb2">&#9670;&#160;</a></span>create_device()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1003,7 +1017,32 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html">QueueFamilyIndices</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>familyIndices</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_vulkan___queue_family_indices.html">Vulkan_QueueFamilyIndices</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>familyIndices</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae13deb58ac9cfd8a58d47bd385dad061" name="ae13deb58ac9cfd8a58d47bd385dad061"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae13deb58ac9cfd8a58d47bd385dad061">&#9670;&#160;</a></span>create_fence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkFence Minty::Vulkan_Renderer::create_fence </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -1265,6 +1304,31 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a27eebef071a497770ee5681a116f46d2" name="a27eebef071a497770ee5681a116f46d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27eebef071a497770ee5681a116f46d2">&#9670;&#160;</a></span>create_semaphore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkSemaphore Minty::Vulkan_Renderer::create_semaphore </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae21d0d0a7cabd9d77774b393d95e6cd5" name="ae21d0d0a7cabd9d77774b393d95e6cd5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae21d0d0a7cabd9d77774b393d95e6cd5">&#9670;&#160;</a></span>create_shader_module()</h2>
 
@@ -1317,6 +1381,60 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_window.html">Window</a> &gt; const</td>          <td class="paramname"><span class="paramname"><em>window</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a129a2fb87d616eecbae8ecc462771181" name="a129a2fb87d616eecbae8ecc462771181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a129a2fb87d616eecbae8ecc462771181">&#9670;&#160;</a></span>create_swapchain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkSwapchainKHR Minty::Vulkan_Renderer::create_swapchain </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSurfaceKHR const</td>          <td class="paramname"><span class="paramname"><em>surface</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_vulkan___swapchain_support_details.html">Vulkan_SwapchainSupportDetails</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>swapchainSupport</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_vulkan___queue_family_indices.html">Vulkan_QueueFamilyIndices</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>queueFamilyIndices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSurfaceFormatKHR const</td>          <td class="paramname"><span class="paramname"><em>surfaceFormat</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkExtent2D const</td>          <td class="paramname"><span class="paramname"><em>extent</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkPresentModeKHR const</td>          <td class="paramname"><span class="paramname"><em>presentMode</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1463,6 +1581,35 @@ Static Public Member Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcd61676d0cf360681f0184874e11afa" name="afcd61676d0cf360681f0184874e11afa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcd61676d0cf360681f0184874e11afa">&#9670;&#160;</a></span>destroy_fence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::destroy_fence </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkFence const</td>          <td class="paramname"><span class="paramname"><em>fence</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1644,6 +1791,35 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae5db1f8e0f2c4671aff2272b924957d6" name="ae5db1f8e0f2c4671aff2272b924957d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5db1f8e0f2c4671aff2272b924957d6">&#9670;&#160;</a></span>destroy_semaphore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::destroy_semaphore </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSemaphore const</td>          <td class="paramname"><span class="paramname"><em>semaphore</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afd7771744ee3ca89c8d1917ee699d414" name="afd7771744ee3ca89c8d1917ee699d414"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd7771744ee3ca89c8d1917ee699d414">&#9670;&#160;</a></span>destroy_shader_module()</h2>
 
@@ -1691,6 +1867,35 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">VkSurfaceKHR const</td>          <td class="paramname"><span class="paramname"><em>surface</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d50862bd411149f9c96f557a4de3583" name="a0d50862bd411149f9c96f557a4de3583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d50862bd411149f9c96f557a4de3583">&#9670;&#160;</a></span>destroy_swapchain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::destroy_swapchain </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSwapchainKHR const</td>          <td class="paramname"><span class="paramname"><em>swapchain</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1854,8 +2059,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aad6a1e52b0210a2d08ca9c392568514d" name="aad6a1e52b0210a2d08ca9c392568514d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad6a1e52b0210a2d08ca9c392568514d">&#9670;&#160;</a></span>find_queue_families()</h2>
+<a id="a7696a5647e64c50e1591f9764f569c8e" name="a7696a5647e64c50e1591f9764f569c8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7696a5647e64c50e1591f9764f569c8e">&#9670;&#160;</a></span>find_queue_families()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1864,7 +2069,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_queue_family_indices.html">Vulkan_Renderer::QueueFamilyIndices</a> Minty::Vulkan_Renderer::find_queue_families </td>
+          <td class="memname"><a class="el" href="struct_minty_1_1_vulkan___queue_family_indices.html">Vulkan_QueueFamilyIndices</a> Minty::Vulkan_Renderer::find_queue_families </td>
           <td>(</td>
           <td class="paramtype">VkPhysicalDevice const</td>          <td class="paramname"><span class="paramname"><em>physicalDevice</em></span>, </td>
         </tr>
@@ -2044,6 +2249,103 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a8901600d474319c39f34c284908a5d18" name="a8901600d474319c39f34c284908a5d18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8901600d474319c39f34c284908a5d18">&#9670;&#160;</a></span>get_next_swapchain_image_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkResult Minty::Vulkan_Renderer::get_next_swapchain_image_index </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSwapchainKHR const</td>          <td class="paramname"><span class="paramname"><em>swapchain</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSemaphore const</td>          <td class="paramname"><span class="paramname"><em>waitSemaphore</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t &amp;</td>          <td class="paramname"><span class="paramname"><em>index</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add3aa64e216eef966d2e7124ccf57c58" name="add3aa64e216eef966d2e7124ccf57c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add3aa64e216eef966d2e7124ccf57c58">&#9670;&#160;</a></span>get_swapchain_extent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkExtent2D Minty::Vulkan_Renderer::get_swapchain_extent </td>
+          <td>(</td>
+          <td class="paramtype">VkSurfaceCapabilitiesKHR const &amp;</td>          <td class="paramname"><span class="paramname"><em>capabilities</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_window.html">Window</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>window</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd06556eb1a6156ec8e088f8471daf64" name="acd06556eb1a6156ec8e088f8471daf64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd06556eb1a6156ec8e088f8471daf64">&#9670;&#160;</a></span>get_swapchain_images()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; VkImage &gt; Minty::Vulkan_Renderer::get_swapchain_images </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSwapchainKHR const</td>          <td class="paramname"><span class="paramname"><em>swapchain</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad2ee42df880b0707f0c9a433de936d0d" name="ad2ee42df880b0707f0c9a433de936d0d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2ee42df880b0707f0c9a433de936d0d">&#9670;&#160;</a></span>has_stencil_component()</h2>
 
@@ -2108,8 +2410,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab46a73f2593476cfb3d05169081425f7" name="ab46a73f2593476cfb3d05169081425f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab46a73f2593476cfb3d05169081425f7">&#9670;&#160;</a></span>query_swap_chain_support()</h2>
+<a id="abdedc88a3f0fec76d1f8e71bf14e977e" name="abdedc88a3f0fec76d1f8e71bf14e977e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdedc88a3f0fec76d1f8e71bf14e977e">&#9670;&#160;</a></span>present()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2118,7 +2420,80 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_swap_chain_support_details.html">Vulkan_Renderer::SwapChainSupportDetails</a> Minty::Vulkan_Renderer::query_swap_chain_support </td>
+          <td class="memname">VkResult Minty::Vulkan_Renderer::present </td>
+          <td>(</td>
+          <td class="paramtype">VkQueue const</td>          <td class="paramname"><span class="paramname"><em>queue</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSwapchainKHR const</td>          <td class="paramname"><span class="paramname"><em>swapchain</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t const</td>          <td class="paramname"><span class="paramname"><em>imageIndex</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkSemaphore const</td>          <td class="paramname"><span class="paramname"><em>signalSemaphore</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7857c16348469c81c6b8584d4d1f7246" name="a7857c16348469c81c6b8584d4d1f7246"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7857c16348469c81c6b8584d4d1f7246">&#9670;&#160;</a></span>present_frame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static VkResult Minty::Vulkan_Renderer::present_frame </td>
+          <td>(</td>
+          <td class="paramtype">VkQueue const</td>          <td class="paramname"><span class="paramname"><em>queue</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_vulkan___swapchain.html">Vulkan_Swapchain</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>swapchain</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_frame.html">Frame</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>frame</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7fe95823aac67cf7df252e8aab98858" name="aa7fe95823aac67cf7df252e8aab98858"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7fe95823aac67cf7df252e8aab98858">&#9670;&#160;</a></span>query_swapchain_support()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_minty_1_1_vulkan___swapchain_support_details.html">Vulkan_SwapchainSupportDetails</a> Minty::Vulkan_Renderer::query_swapchain_support </td>
           <td>(</td>
           <td class="paramtype">VkPhysicalDevice const</td>          <td class="paramname"><span class="paramname"><em>physicalDevice</em></span>, </td>
         </tr>
@@ -2162,6 +2537,35 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="add5a79b20586c11bd4fcc462621a191c" name="add5a79b20586c11bd4fcc462621a191c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add5a79b20586c11bd4fcc462621a191c">&#9670;&#160;</a></span>reset_fence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::reset_fence </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkFence const</td>          <td class="paramname"><span class="paramname"><em>fence</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5773b11ccb24418caed7fb4e42ff7e61" name="a5773b11ccb24418caed7fb4e42ff7e61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5773b11ccb24418caed7fb4e42ff7e61">&#9670;&#160;</a></span>select_physical_device()</h2>
 
@@ -2185,35 +2589,6 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespace_minty.html#a824f7ce2099d0ab1f9a450f9d1a071eb">Function</a>&lt; int(VkPhysicalDevice, VkSurfaceKHR)&gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>ratingFunction</em></span><span class="paramdefsep"> = </span><span class="paramdefval">rate_device_suitability</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a82876a525362a1d9084ed4976ed4d418" name="a82876a525362a1d9084ed4976ed4d418"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82876a525362a1d9084ed4976ed4d418">&#9670;&#160;</a></span>select_swap_extent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">VkExtent2D Minty::Vulkan_Renderer::select_swap_extent </td>
-          <td>(</td>
-          <td class="paramtype">VkSurfaceCapabilitiesKHR const &amp;</td>          <td class="paramname"><span class="paramname"><em>capabilities</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_window.html">Window</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>window</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -2334,7 +2709,7 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="struct_minty_1_1_vulkan___renderer_1_1_frame.html">Frame</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>frame</em></span>, </td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_frame.html">Frame</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>frame</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -3011,6 +3386,69 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">VkDeviceMemory const</td>          <td class="paramname"><span class="paramname"><em>memory</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af81094fd58141f61ec93a14a5744297e" name="af81094fd58141f61ec93a14a5744297e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af81094fd58141f61ec93a14a5744297e">&#9670;&#160;</a></span>update_descriptor_sets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::update_descriptor_sets </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkWriteDescriptorSet *const</td>          <td class="paramname"><span class="paramname"><em>write</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t const</td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a47eb9c406dc4146e56f89da81a59543a" name="a47eb9c406dc4146e56f89da81a59543a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47eb9c406dc4146e56f89da81a59543a">&#9670;&#160;</a></span>wait_for_fence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::wait_for_fence </td>
+          <td>(</td>
+          <td class="paramtype">VkDevice const</td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkFence const</td>          <td class="paramname"><span class="paramname"><em>fence</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
