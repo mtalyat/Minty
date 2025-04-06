@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
+#include "Minty/Context/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/List.h"
 #include "Minty/Data/Map.h"
@@ -37,6 +38,7 @@ namespace Minty
 	};
 
 	class AssetManager
+		: public Manager
 	{
 #pragma region Classes
 
@@ -77,7 +79,9 @@ namespace Minty
 	public:
 		AssetManager(AssetManagerBuilder const& builder);
 
-		~AssetManager();
+		~AssetManager()
+		{
+		}
 
 #pragma endregion
 
@@ -110,6 +114,21 @@ namespace Minty
 		}
 
 	public:
+		/// <summary>
+		/// Shuts down the AssetManager.
+		/// </summary>
+		void dispose() override;
+
+		/// <summary>
+		/// If any Assets are being loaded or unloaded, wait until they are finished.
+		/// </summary>
+		void sync() override;
+
+		/// <summary>
+		/// Checks if any Assets are being loaded or unloaded.
+		/// </summary>
+		Bool is_syncing() const;
+
 		/// <summary>
 		/// Loads the Wrap at the given location into this AssetManager.
 		/// </summary>
@@ -194,16 +213,6 @@ namespace Minty
 		/// Unloads all Assets stored within this AssetManager.
 		/// </summary>
 		void unload_all();
-
-		/// <summary>
-		/// If any Assets are being loaded or unloaded, wait until they are finished.
-		/// </summary>
-		void sync();
-
-		/// <summary>
-		/// Checks if any Assets are being loaded or unloaded.
-		/// </summary>
-		Bool is_syncing() const;
 
 		/// <summary>
 		/// Creates a new Asset of the given type.

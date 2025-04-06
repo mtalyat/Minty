@@ -11,6 +11,7 @@ var class_minty_1_1_asset_manager =
     [ "close_writer", "class_minty_1_1_asset_manager.html#a4d2cd7c24e841c4c219ea08f510f3b1a", null ],
     [ "contains", "class_minty_1_1_asset_manager.html#a834b2e3c32207194b006a5f374849744", null ],
     [ "create", "class_minty_1_1_asset_manager.html#ae75c9e82ebcb57deb4859f7e4c589830", null ],
+    [ "dispose", "class_minty_1_1_asset_manager.html#ae679cca6d32e2bf6c8a61da107520c37", null ],
     [ "exists", "class_minty_1_1_asset_manager.html#aa11f9523735b9623989c8d080942281c", null ],
     [ "get", "class_minty_1_1_asset_manager.html#a9301d3db9925069b843c7087d010602a", null ],
     [ "get_asset", "class_minty_1_1_asset_manager.html#ad105be0d95307d280be988b306d6bab5", null ],
@@ -30,7 +31,7 @@ var class_minty_1_1_asset_manager =
     [ "remove", "class_minty_1_1_asset_manager.html#a5b995a469db8f0f5bdca193408c57a41", null ],
     [ "schedule_load", "class_minty_1_1_asset_manager.html#aafc0eaca7fad9f57e0d9874ecc17cfec", null ],
     [ "schedule_unload", "class_minty_1_1_asset_manager.html#a4d37eaca3a815d2118660232e25fa8c8", null ],
-    [ "sync", "class_minty_1_1_asset_manager.html#a337a912005fa54b658a63fae1922678e", null ],
+    [ "sync", "class_minty_1_1_asset_manager.html#af6c8360f6ccc642dddee2d57d6bf7cdc", null ],
     [ "unload", "class_minty_1_1_asset_manager.html#aa78744392598c4bcfeb4fe813066aad5", null ],
     [ "unload_all", "class_minty_1_1_asset_manager.html#a66f247cde06b9029c71918836ba7e4e2", null ]
 ];

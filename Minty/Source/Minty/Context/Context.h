@@ -1,8 +1,10 @@
 #pragma once
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Core/Macro.h"
+#include "Minty/Context/Manager.h"
 #include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Data/Vector.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
 #include "Minty/Render/RenderManager.h"
@@ -37,6 +39,7 @@ namespace Minty
 		Owner<JobManager> m_jobManager;
 		Owner<AssetManager> m_assetManager;
 		Owner<RenderManager> m_renderManager;
+		Vector<Manager*> m_managers;
 
 #pragma endregion
 
@@ -61,20 +64,12 @@ namespace Minty
 			, m_jobManager(std::move(other.m_jobManager))
 			, m_assetManager(std::move(other.m_assetManager))
 			, m_renderManager(std::move(other.m_renderManager))
+			, m_managers(std::move(other.m_managers))
 		{
 			other.mp_dualBuffer = nullptr;
 		}
 
-		~Context()
-		{
-			delete mp_dualBuffer;
-			m_memoryManager.release();
-			m_jobManager.release();
-			m_assetManager.release();
-			m_renderManager.release();
-
-			s_instance = nullptr;
-		}
+		~Context();
 
 #pragma endregion
 
@@ -93,6 +88,7 @@ namespace Minty
 				m_jobManager = std::move(other.m_jobManager);
 				m_assetManager = std::move(other.m_assetManager);
 				m_renderManager = std::move(other.m_renderManager);
+				m_managers = std::move(other.m_managers);
 			}
 			return *this;
 		}
@@ -128,6 +124,36 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Methods
+
+	private:
+		void initialize();
+
+		void dispose();
+
+	public:
+		/// <summary>
+		/// Updates all Managers in this Context.
+		/// </summary>
+		void update();
+
+		/// <summary>
+		/// Finalizes all Managers in this Context.
+		/// </summary>
+		void finalize();
+
+		/// <summary>
+		/// Renders all Managers in this Context.
+		/// </summary>
+		void render();
+
+		/// <summary>
+		/// Syncs all Managers in this Context.
+		/// </summary>
+		void sync();
+
+#pragma endregion
+
 #pragma region Statics
 
 	public:
@@ -137,7 +163,7 @@ namespace Minty
 		/// <returns>The current instance of the Context.</returns>
 		static Context& get_singleton()
 		{
-			MINTY_ASSERT(s_instance, "Context get_singleton is null.");
+			MINTY_ASSERT(s_instance, "Context singleton is null.");
 			return *s_instance;
 		}
 

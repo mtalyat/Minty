@@ -4,6 +4,7 @@
 
 namespace Minty
 {
+	class Vulkan_RenderManager;
 	struct Vulkan_QueueFamilyIndices;
 
 	class Vulkan_Swapchain
@@ -22,7 +23,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Swapchain(Format const targetFormat, Vulkan_QueueFamilyIndices const& queueFamilyIndices);
+		Vulkan_Swapchain(Vulkan_RenderManager& renderManager, Format const targetFormat, Vulkan_QueueFamilyIndices const& queueFamilyIndices);
 
 		~Vulkan_Swapchain();
 

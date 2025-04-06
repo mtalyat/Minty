@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Context/Manager.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pair.h"
 #include "Minty/Data/Pointer.h"
@@ -29,6 +30,7 @@ namespace Minty
 	/// Handles batching and executing Jobs.
 	/// </summary>
 	class JobManager
+		: public Manager
 	{
 #pragma region Classes
 
@@ -81,7 +83,9 @@ namespace Minty
 		/// <param name="allocator">The Allocator to use.</param>
 		JobManager(JobManagerBuilder const& builder, Allocator const allocator = Allocator::Default);
 
-		~JobManager();
+		~JobManager()
+		{
+		}
 
 #pragma endregion
 
@@ -104,6 +108,16 @@ namespace Minty
 		void schedule_batch(Handle const handle);
 
 	public:
+		/// <summary>
+		/// Starts up this JobManager.
+		/// </summary>
+		void initialize() override;
+
+		/// <summary>
+		/// Shuts down this JobManager.
+		/// </summary>
+		void dispose() override;
+
 		/// <summary>
 		/// Schedules the given Job to run.
 		/// </summary>

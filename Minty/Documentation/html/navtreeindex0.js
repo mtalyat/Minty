@@ -158,6 +158,9 @@ var NAVTREEINDEX0 =
 "_macro_8h.html#a67efe91232df42a62e9d7d64c020466a":[2,0,0,0,3,9,1],
 "_macro_8h.html#a9787259e05269c91074e66d3e7bee4b1":[2,0,0,0,3,9,2],
 "_macro_8h_source.html":[2,0,0,0,3,9],
+"_manager_8cpp.html":[2,0,0,0,2,3],
+"_manager_8h.html":[2,0,0,0,2,4],
+"_manager_8h_source.html":[2,0,0,0,2,4],
 "_map_8h.html":[2,0,0,0,4,10],
 "_map_8h_source.html":[2,0,0,0,4,10],
 "_material_8cpp.html":[2,0,0,0,11,27],
@@ -246,8 +249,5 @@ var NAVTREEINDEX0 =
 "_shader_cull_mode_8cpp.html":[2,0,0,0,11,43],
 "_shader_cull_mode_8h.html":[2,0,0,0,11,44],
 "_shader_cull_mode_8h_source.html":[2,0,0,0,11,44],
-"_shader_front_face_8cpp.html":[2,0,0,0,11,45],
-"_shader_front_face_8h.html":[2,0,0,0,11,46],
-"_shader_front_face_8h_source.html":[2,0,0,0,11,46],
-"_shader_input_8h.html":[2,0,0,0,11,47]
+"_shader_front_face_8cpp.html":[2,0,0,0,11,45]
 };

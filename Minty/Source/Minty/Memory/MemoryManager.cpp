@@ -5,6 +5,34 @@
 
 using namespace Minty;
 
+void Minty::MemoryManager::dispose()
+{
+	// clear all memory
+	m_temporary.clear();
+	for (Size i = 0; i < TASK_MEMORY_COUNT; ++i)
+	{
+		m_task[i].clear();
+	}
+	for (Size i = 0; i < PERSISTENT_MEMORY_COUNT; ++i)
+	{
+		m_persistent[i].clear();
+	}
+
+	// ensure nothing left
+#ifdef MINTY_DEBUG
+	if (m_dynamicSize == 0)
+	{
+		MINTY_ERROR(F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
+	}
+#endif // MINTY_DEBUG
+
+	m_taskIndex = 0;
+	m_staticSize = 0;
+	m_dynamicSize = 0;
+
+	Manager::dispose();
+}
+
 void Minty::MemoryManager::update()
 {
 	// free memory of single frame allocator
@@ -17,6 +45,17 @@ void Minty::MemoryManager::update()
 	// free all of its remaining memory
 	m_staticSize -= m_task[m_taskIndex].get_size();
 	m_task[m_taskIndex].clear();
+}
+
+Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
+	: Manager()
+	, m_temporary(builder.temporary)
+	, m_task{ MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task) }
+	, m_taskIndex(0)
+	, m_persistent{ MemoryPool(builder.persistent[0]), MemoryPool(builder.persistent[1]), MemoryPool(builder.persistent[2]), MemoryPool(builder.persistent[3]), MemoryPool(builder.persistent[4]), MemoryPool(builder.persistent[5]), MemoryPool(builder.persistent[6]), MemoryPool(builder.persistent[7]) }
+	, m_staticSize(0)
+	, m_dynamicSize(0)
+{
 }
 
 Size Minty::MemoryManager::get_persistent_index(Size const size) const

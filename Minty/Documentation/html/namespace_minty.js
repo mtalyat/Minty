@@ -91,6 +91,7 @@ var namespace_minty =
     [ "JobManager", "class_minty_1_1_job_manager.html", "class_minty_1_1_job_manager" ],
     [ "JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", "struct_minty_1_1_job_manager_builder" ],
     [ "List", "class_minty_1_1_list.html", "class_minty_1_1_list" ],
+    [ "Manager", "class_minty_1_1_manager.html", "class_minty_1_1_manager" ],
     [ "Map", "class_minty_1_1_map.html", "class_minty_1_1_map" ],
     [ "Material", "class_minty_1_1_material.html", "class_minty_1_1_material" ],
     [ "MaterialBuilder", "struct_minty_1_1_material_builder.html", "struct_minty_1_1_material_builder" ],

@@ -31,6 +31,7 @@ void test_MemoryManager(Test& _test)
 		TEST("Move Constructor")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 			void* temporary = manager.allocate(24, Allocator::Temporary);
 			void* persistent = manager.allocate(24, Allocator::Persistent);
 			void* def = manager.allocate(24, Allocator::Default);
@@ -40,11 +41,14 @@ void test_MemoryManager(Test& _test)
 			EXPECT_TRUE(copy.get_dynamic_size() == 24);
 			EXPECT_TRUE(copy.get_static_size() == 48);
 			EXPECT_SUCCESS(copy.deallocate(def, 24, Allocator::Default));
+
+			manager.dispose();
 		}
 
 		TEST("Move Operator")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 			void* temporary = manager.allocate(24, Allocator::Temporary);
 			void* persistent = manager.allocate(24, Allocator::Persistent);
 			void* def = manager.allocate(24, Allocator::Default);
@@ -54,11 +58,14 @@ void test_MemoryManager(Test& _test)
 			EXPECT_TRUE(copy.get_dynamic_size() == 24);
 			EXPECT_TRUE(copy.get_static_size() == 48);
 			EXPECT_SUCCESS(copy.deallocate(def, 24, Allocator::Default));
+
+			manager.dispose();
 		}
 
 		TEST("Get Size")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 			EXPECT_TRUE(manager.get_size() == 0);
 			void* temporary = manager.allocate(24, Allocator::Temporary);
 			EXPECT_TRUE(manager.get_size() == 24);
@@ -72,11 +79,14 @@ void test_MemoryManager(Test& _test)
 			EXPECT_TRUE(manager.get_size() == 24);
 			manager.deallocate(temporary, 24, Allocator::Temporary);
 			EXPECT_TRUE(manager.get_size() == 0);
+
+			manager.dispose();
 		}
 
 		TEST("Get Static Size")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 			EXPECT_TRUE(manager.get_static_size() == 0);
 			void* temporary = manager.allocate(24, Allocator::Temporary);
 			EXPECT_TRUE(manager.get_static_size() == 24);
@@ -90,11 +100,14 @@ void test_MemoryManager(Test& _test)
 			EXPECT_TRUE(manager.get_static_size() == 24);
 			manager.deallocate(temporary, 24, Allocator::Temporary);
 			EXPECT_TRUE(manager.get_static_size() == 0);
+
+			manager.dispose();
 		}
 
 		TEST("Get Dynamic Size")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 			EXPECT_TRUE(manager.get_dynamic_size() == 0);
 			void* temporary = manager.allocate(24, Allocator::Temporary);
 			EXPECT_TRUE(manager.get_dynamic_size() == 0);
@@ -108,11 +121,14 @@ void test_MemoryManager(Test& _test)
 			EXPECT_TRUE(manager.get_dynamic_size() == 0);
 			manager.deallocate(temporary, 24, Allocator::Temporary);
 			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+
+			manager.dispose();
 		}
 
 		TEST("Update")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 
 			for (Size i = 0; i < MemoryManager::TASK_MEMORY_COUNT + 1; i++)
 			{
@@ -124,6 +140,8 @@ void test_MemoryManager(Test& _test)
 
 				manager.update();
 			}
+
+			manager.dispose();
 		}
 
 		TEST("Allocate")
@@ -134,6 +152,7 @@ void test_MemoryManager(Test& _test)
 			void* def = nullptr;
 
 			MemoryManager manager(builder);
+			manager.initialize();
 			EXPECT_FAILURE(manager.allocate(0, Allocator::Temporary));
 			EXPECT_FAILURE(manager.allocate(0, Allocator::Task));
 			EXPECT_FAILURE(manager.allocate(0, Allocator::Persistent));
@@ -157,11 +176,14 @@ void test_MemoryManager(Test& _test)
 			def = manager.allocate(1024, Allocator::Default);
 			EXPECT_TRUE(def != nullptr);
 			manager.deallocate(def, 1024, Allocator::Default);
+
+			manager.dispose();
 		}
 
 		TEST("Deallocate")
 		{
 			MemoryManager manager(builder);
+			manager.initialize();
 			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Temporary));
 			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Task));
 			EXPECT_FAILURE(manager.deallocate(nullptr, 24, Allocator::Persistent));
@@ -196,6 +218,8 @@ void test_MemoryManager(Test& _test)
 
 			EXPECT_TRUE(manager.get_static_size() == 0);
 			EXPECT_TRUE(manager.get_dynamic_size() == 0);
+
+			manager.dispose();
 		}
 	}
 }

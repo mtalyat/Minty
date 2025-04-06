@@ -11,10 +11,11 @@ Context* Context::s_instance = nullptr;
 /// <param name="builder">The input arguments.</param>
 Minty::Context::Context(ContextBuilder const& builder)
 	: mp_dualBuffer(nullptr)
-	, m_memoryManager(MemoryManager::create(builder.memoryManagerBuilder))
-	, m_jobManager(JobManager::create(builder.jobManagerBuilder))
-	, m_assetManager(AssetManager::create(builder.assetManagerBuilder))
-	, m_renderManager(RenderManager::create(builder.renderManagerBuilder))
+	, m_memoryManager(nullptr)
+	, m_jobManager(nullptr)
+	, m_assetManager(nullptr)
+	, m_renderManager(nullptr)
+	, m_managers()
 {
 	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
 	s_instance = this;
@@ -23,5 +24,90 @@ Minty::Context::Context(ContextBuilder const& builder)
 	if (!builder.debugLogPath.is_empty())
 	{
 		mp_dualBuffer = new DualBuffer(std::cout, builder.debugLogPath);
+	}
+
+	// create managers
+	m_memoryManager = MemoryManager::create(builder.memoryManagerBuilder);
+	m_jobManager = JobManager::create(builder.jobManagerBuilder);
+	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
+	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
+	m_managers.add(m_memoryManager.get());
+	m_managers.add(m_jobManager.get());
+	m_managers.add(m_assetManager.get());
+	m_managers.add(m_renderManager.get());
+
+	// initialize managers
+	initialize();
+}
+
+Minty::Context::~Context()
+{
+	// sync managers
+	sync();
+
+	// dispose managers
+	dispose();
+
+	// clean up
+	delete mp_dualBuffer;
+	m_memoryManager.release();
+	m_jobManager.release();
+	m_assetManager.release();
+	m_renderManager.release();
+	m_managers.clear();
+
+	s_instance = nullptr;
+}
+
+void Minty::Context::initialize()
+{
+	for (Manager* manager : m_managers)
+	{
+		manager->initialize();
+	}
+}
+
+void Minty::Context::dispose()
+{
+	for (Manager* manager : m_managers)
+	{
+		manager->dispose();
+	}
+	m_managers.clear();
+}
+
+void Minty::Context::update()
+{
+	// update managers
+	for (Manager* manager : m_managers)
+	{
+		manager->update();
+	}
+}
+
+void Minty::Context::finalize()
+{
+	// finalize managers
+	for (Manager* manager : m_managers)
+	{
+		manager->finalize();
+	}
+}
+
+void Minty::Context::render()
+{
+	// render managers
+	for (Manager* manager : m_managers)
+	{
+		manager->render();
+	}
+}
+
+void Minty::Context::sync()
+{
+	// sync managers
+	for (Manager* manager : m_managers)
+	{
+		manager->sync();
 	}
 }

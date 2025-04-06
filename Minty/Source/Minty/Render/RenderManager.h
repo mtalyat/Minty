@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Context/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Pointer.h"
@@ -29,6 +30,7 @@ namespace Minty
 	/// Handles rendering to a Window.
 	/// </summary>
 	class RenderManager
+		: public Manager
 	{
 #pragma region Variables
 
@@ -47,6 +49,7 @@ namespace Minty
 		RenderManager(RenderManagerBuilder const& builder)
 			: m_window(builder.window)
 		{
+
 		}
 
 		virtual ~RenderManager()

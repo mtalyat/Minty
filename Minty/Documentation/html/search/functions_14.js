@@ -12,6 +12,6 @@ var searchData=
   ['vulkan_5frendertarget_9',['Vulkan_RenderTarget',['../class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354',1,'Minty::Vulkan_RenderTarget']]],
   ['vulkan_5fshader_10',['Vulkan_Shader',['../class_minty_1_1_vulkan___shader.html#a937ba6bb1d6ca4e06637682836b921ce',1,'Minty::Vulkan_Shader']]],
   ['vulkan_5fshadermodule_11',['Vulkan_ShaderModule',['../class_minty_1_1_vulkan___shader_module.html#ad0b76367f809fe3ae96ed0878d79baa2',1,'Minty::Vulkan_ShaderModule']]],
-  ['vulkan_5fswapchain_12',['Vulkan_Swapchain',['../class_minty_1_1_vulkan___swapchain.html#a56d509aa290585c353264ab286812103',1,'Minty::Vulkan_Swapchain']]],
+  ['vulkan_5fswapchain_12',['Vulkan_Swapchain',['../class_minty_1_1_vulkan___swapchain.html#ae6b4393fee229b3dcdb477f0a4335e0a',1,'Minty::Vulkan_Swapchain']]],
   ['vulkan_5fviewport_13',['Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html#a8b19077710edb667bf03820225575fee',1,'Minty::Vulkan_Viewport']]]
 ];

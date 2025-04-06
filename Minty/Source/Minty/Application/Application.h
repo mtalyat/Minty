@@ -25,7 +25,7 @@ namespace Minty
 		Application(ApplicationBuilder const& builder)
 			: m_memoryManager(builder.memoryManagerBuilder)
 		{
-			MINTY_ASSERT(!s_instance, "Application get_singleton already exists.");
+			MINTY_ASSERT(!s_instance, "Application singleton already exists.");
 			s_instance = this;
 		}
 
@@ -49,7 +49,7 @@ namespace Minty
 
 		static Application& instance()
 		{
-			MINTY_ASSERT(s_instance, "Application get_singleton is null.");
+			MINTY_ASSERT(s_instance, "Application singleton is null.");
 			return *s_instance;
 		}
 

@@ -17,26 +17,6 @@ Minty::JobManager::JobManager(JobManagerBuilder const& builder, Allocator const 
 
 	// create threads
 	m_threads.reserve(builder.threadCount);
-	for (Size i = 0; i < builder.threadCount; ++i)
-	{
-		m_threads.add(std::thread([this]() { worker_thread(); }));
-	}
-}
-
-Minty::JobManager::~JobManager()
-{
-	// mark as stopped
-	{
-		std::unique_lock<std::mutex> lock(m_queueMutex);
-		m_stop = true;
-	}
-	// notify all threads
-	m_condition.notify_all();
-	// wait for threads to finish
-	for (auto& thread : m_threads)
-	{
-		thread.join();
-	}
 }
 
 void Minty::JobManager::worker_thread()
@@ -197,6 +177,39 @@ void Minty::JobManager::schedule_batch(Handle const handle)
 
 	// schedule it
 	schedule_batch(handle, batch);
+}
+
+void Minty::JobManager::initialize()
+{
+	for (Size i = 0; i < m_threads.get_capacity(); ++i)
+	{
+		m_threads.add(std::thread([this]() { worker_thread(); }));
+	}
+
+	Manager::initialize();
+}
+
+void Minty::JobManager::dispose()
+{
+	// mark as stopped
+	{
+		std::unique_lock<std::mutex> lock(m_queueMutex);
+		m_stop = true;
+	}
+
+	// notify all threads
+	m_condition.notify_all();
+
+	// wait for threads to finish
+	for (auto& thread : m_threads)
+	{
+		thread.join();
+	}
+
+	// remove all threads
+	m_threads.clear();
+
+	Manager::dispose();
 }
 
 Handle Minty::JobManager::schedule(Job const action, Vector<Handle> const& dependencies)

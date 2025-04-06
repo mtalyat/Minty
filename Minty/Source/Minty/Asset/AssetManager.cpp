@@ -19,15 +19,6 @@ Minty::AssetManager::AssetManager(AssetManagerBuilder const& builder)
 	}
 }
 
-Minty::AssetManager::~AssetManager()
-{
-	// sync to finish loading/unloading
-	sync();
-
-	// unload the rest
-	unload_all();
-}
-
 AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 {
 	if (m_wrapper.contains(path))
@@ -91,6 +82,46 @@ void Minty::AssetManager::close(File* file) const
 {
 	file->close();
 	delete file;
+}
+
+void Minty::AssetManager::dispose()
+{
+	// sync to finish loading/unloading
+	sync();
+
+	// unload the rest
+	unload_all();
+
+	Manager::dispose();
+}
+
+void Minty::AssetManager::sync()
+{
+	// get list of handles
+	Vector<Handle> handles(m_handles.get_size());
+	{
+		std::unique_lock lock(m_assetsMutex);
+		for (auto const& pair : m_handles)
+		{
+			handles.add(pair.second);
+		}
+	}
+
+	// wait for them all
+	JobManager& jobManager = JobManager::get_singleton();
+	jobManager.wait(handles);
+
+	// clear the handles
+	{
+		std::unique_lock lock(m_assetsMutex);
+		m_handles.clear();
+	}
+}
+
+Bool Minty::AssetManager::is_syncing() const
+{
+	// if any handles saved, the manager is syncing asset files
+	return m_handles.get_size() > 0;
 }
 
 Bool Minty::AssetManager::load_wrap(Path const& path)
@@ -268,35 +299,6 @@ void Minty::AssetManager::unload_all()
 	// clear the lists
 	m_assets.clear();
 	m_assetTypes.clear();
-}
-
-void Minty::AssetManager::sync()
-{
-	// get list of handles
-	Vector<Handle> handles(m_handles.get_size());
-	{
-		std::unique_lock lock(m_assetsMutex);
-		for (auto const& pair : m_handles)
-		{
-			handles.add(pair.second);
-		}
-	}
-
-	// wait for them all
-	JobManager& jobManager = JobManager::get_singleton();
-	jobManager.wait(handles);
-
-	// clear the handles
-	{
-		std::unique_lock lock(m_assetsMutex);
-		m_handles.clear();
-	}
-}
-
-Bool Minty::AssetManager::is_syncing() const
-{
-	// if any handles saved, the manager is syncing asset files
-	return m_handles.get_size() > 0;
 }
 
 void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)

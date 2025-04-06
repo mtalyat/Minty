@@ -492,6 +492,9 @@
     <ClInclude Include="Minty\Render\RenderPass.h">
       <Filter>Minty\Render\RenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Context\Manager.h">
+      <Filter>Minty\Context</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -729,6 +732,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Context\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

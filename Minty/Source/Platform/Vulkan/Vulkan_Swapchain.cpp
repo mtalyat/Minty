@@ -5,15 +5,13 @@
 
 using namespace Minty;
 
-Minty::Vulkan_Swapchain::Vulkan_Swapchain(Format const targetFormat, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
+Minty::Vulkan_Swapchain::Vulkan_Swapchain(Vulkan_RenderManager& renderManager, Format const targetFormat, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
 	: m_swapchain(VK_NULL_HANDLE)
 	, m_extent()
 	, m_targetFormat(targetFormat)
 	, m_index(0)
 	, m_images()
 {
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
-
 	// get swapchain support details
 	Vulkan_SwapchainSupportDetails swapchainSupport = Vulkan_Renderer::query_swapchain_support(renderManager.get_physical_device(), renderManager.get_surface());
 

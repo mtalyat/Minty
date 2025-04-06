@@ -19,7 +19,7 @@ var searchData=
   ['unregister_5frender_5ftarget_16',['unregister_render_target',['../class_minty_1_1_render_pass.html#a7c332dd553c17238ad7ce5d1c1b91006',1,'Minty::RenderPass']]],
   ['up_17',['up',['../namespace_minty_1_1_math.html#a26278c8ca3cb34282abcf5d73fbc4725',1,'Minty::Math']]],
   ['update_18',['Update',['../class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6',1,'Minty::Wrap']]],
-  ['update_19',['update',['../class_minty_1_1_memory_manager.html#a4ffd4ce1433b7558af60fd2ce5d9a0e2',1,'Minty::MemoryManager::update()'],['../class_minty_1_1_time.html#a05e6b7079c76a841a900a6a8d58845cf',1,'Minty::Time::update()']]],
+  ['update_19',['update',['../class_minty_1_1_context.html#a351cf05f0eec759fe7d11d86eedff9f2',1,'Minty::Context::update()'],['../class_minty_1_1_manager.html#abb11246f0d4f2d0419dcc470263c1ca4',1,'Minty::Manager::update()'],['../class_minty_1_1_memory_manager.html#af99cd0c7cf968a1db745043288e3b4dd',1,'Minty::MemoryManager::update()'],['../class_minty_1_1_time.html#a05e6b7079c76a841a900a6a8d58845cf',1,'Minty::Time::update()']]],
   ['update_5fdescriptor_5fsets_20',['update_descriptor_sets',['../class_minty_1_1_vulkan___renderer.html#af81094fd58141f61ec93a14a5744297e',1,'Minty::Vulkan_Renderer']]],
   ['usage_21',['usage',['../struct_minty_1_1_buffer_builder.html#af8e956839f3b59528ab80e1d871ac9bd',1,'Minty::BufferBuilder::usage'],['../struct_minty_1_1_image_builder.html#a582bb9eb7d5487aba64d53705a19e879',1,'Minty::ImageBuilder::usage']]],
   ['ushort_22',['UShort',['../namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8',1,'Minty::UShort'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdadfe785f133347f9b473f99009732b1bc',1,'Minty::UShort']]],

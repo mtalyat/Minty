@@ -175,7 +175,7 @@ VkInstance Minty::Vulkan_Renderer::create_instance()
 	createInfo.ppEnabledLayerNames = nullptr;
 #endif // MINTY_DEBUG
 
-	VK_ASSERT_RESULT_RETURN_OBJECT(VkInstance, vkCreateInstance(&createInfo, nullptr, &object), "Failed to create get_singleton.");
+	VK_ASSERT_RESULT_RETURN_OBJECT(VkInstance, vkCreateInstance(&createInfo, nullptr, &object), "Failed to create instance.");
 }
 
 void Minty::Vulkan_Renderer::destroy_instance(VkInstance const instance)

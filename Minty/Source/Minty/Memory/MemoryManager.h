@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Context/Manager.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Macro.h"
@@ -38,6 +39,7 @@ namespace Minty
 	/// Handles allocation and deallocation of memory.
 	/// </summary>
 	class MemoryManager
+		: public Manager
 	{
 #pragma region Variables
 
@@ -65,20 +67,13 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		MemoryManager(MemoryManagerBuilder const& builder)
-			: m_temporary(builder.temporary)
-			, m_task{ MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task) }
-			, m_taskIndex(0)
-			, m_persistent{ MemoryPool(builder.persistent[0]), MemoryPool(builder.persistent[1]), MemoryPool(builder.persistent[2]), MemoryPool(builder.persistent[3]), MemoryPool(builder.persistent[4]), MemoryPool(builder.persistent[5]), MemoryPool(builder.persistent[6]), MemoryPool(builder.persistent[7]) }
-			, m_staticSize(0)
-			, m_dynamicSize(0)
-		{
-		}
+		MemoryManager(MemoryManagerBuilder const& builder);
 
 		MemoryManager(MemoryManager const& other) = delete;
 
 		MemoryManager(MemoryManager&& other) noexcept
-			: m_temporary(std::move(other.m_temporary))
+			: Manager()
+			, m_temporary(std::move(other.m_temporary))
 			, m_task{ std::move(other.m_task[0]), std::move(other.m_task[1]), std::move(other.m_task[2]), std::move(other.m_task[3]) }
 			, m_taskIndex(other.m_taskIndex)
 			, m_persistent{ std::move(other.m_persistent[0]), std::move(other.m_persistent[1]), std::move(other.m_persistent[2]), std::move(other.m_persistent[3]), std::move(other.m_persistent[4]), std::move(other.m_persistent[5]), std::move(other.m_persistent[6]), std::move(other.m_persistent[7]) }
@@ -92,13 +87,6 @@ namespace Minty
 
 		~MemoryManager()
 		{
-			// ensure nothing left
-#ifdef MINTY_DEBUG
-			if (m_dynamicSize == 0)
-			{
-				MINTY_ERROR(F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
-			}
-#endif // MINTY_DEBUG
 		}
 
 #pragma endregion
@@ -121,8 +109,10 @@ namespace Minty
 				{
 					m_persistent[i] = std::move(other.m_persistent[i]);
 				}
+				m_taskIndex = other.m_taskIndex;
 				m_staticSize = other.m_staticSize;
 				m_dynamicSize = other.m_dynamicSize;
+				other.m_taskIndex = 0;
 				other.m_staticSize = 0;
 				other.m_dynamicSize = 0;
 			}
@@ -162,9 +152,14 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Shuts down this MemoryManager.
+		/// </summary>
+		void dispose() override;
+
+		/// <summary>
 		/// Called once a frame.
 		/// </summary>
-		void update();
+		void update() override;
 
 		/// <summary>
 		/// Allocates the given number of bytes using the appropriate allocation method.

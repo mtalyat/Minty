@@ -185,6 +185,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Asset\GenericAsset.h" />
     <ClInclude Include="Minty\Asset\_Asset.h" />
     <ClInclude Include="Minty\Context\Context.h" />
+    <ClInclude Include="Minty\Context\Manager.h" />
     <ClInclude Include="Minty\Context\_Context.h" />
     <ClInclude Include="Minty\Core\Base.h" />
     <ClInclude Include="Minty\Core\Compression.h" />
@@ -318,6 +319,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
+    <ClCompile Include="Minty\Context\Manager.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Encoding.cpp" />

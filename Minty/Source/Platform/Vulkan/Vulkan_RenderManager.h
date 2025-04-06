@@ -17,6 +17,7 @@ namespace Minty
 	private:
 		VkInstance m_instance;
 		VkDebugUtilsMessengerEXT m_debugMessenger;
+		Format m_targetSurfaceFormat;
 		VkSurfaceKHR m_surface;
 		VkPhysicalDevice m_physicalDevice;
 		VkDevice m_device;
@@ -39,7 +40,9 @@ namespace Minty
 	public:
 		Vulkan_RenderManager(RenderManagerBuilder const& builder);
 
-		~Vulkan_RenderManager();
+		~Vulkan_RenderManager()
+		{
+		}
 
 #pragma endregion
 
@@ -93,6 +96,12 @@ namespace Minty
 		void recreate_depth_resources();
 
 	public:
+		void initialize() override;
+
+		void dispose() override;
+
+		void sync() override;
+
 		/// <summary>
 		/// Prepares to render a frame.
 		/// </summary>

@@ -115,6 +115,15 @@ $(function(){initNavTree('class_minty_1_1_memory_manager.html',''); initResizabl
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_memory_manager_8h_source.html">MemoryManager.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Minty::MemoryManager:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_minty_1_1_memory_manager.png" usemap="#Minty::MemoryManager_map" alt=""/>
+  <map id="Minty::MemoryManager_map" name="Minty::MemoryManager_map">
+<area href="class_minty_1_1_manager.html" title="Base class for all Managers." alt="Minty::Manager" shape="rect" coords="0,0,146,24"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -139,15 +148,33 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a47d1fc57644c8254c8c58645b589731b" id="r_a47d1fc57644c8254c8c58645b589731b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47d1fc57644c8254c8c58645b589731b">get_dynamic_size</a> () const</td></tr>
 <tr class="memdesc:a47d1fc57644c8254c8c58645b589731b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size in bytes that has been allocated dynamically.  <br /></td></tr>
 <tr class="separator:a47d1fc57644c8254c8c58645b589731b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ffd4ce1433b7558af60fd2ce5d9a0e2" id="r_a4ffd4ce1433b7558af60fd2ce5d9a0e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ffd4ce1433b7558af60fd2ce5d9a0e2">update</a> ()</td></tr>
-<tr class="memdesc:a4ffd4ce1433b7558af60fd2ce5d9a0e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once a frame.  <br /></td></tr>
-<tr class="separator:a4ffd4ce1433b7558af60fd2ce5d9a0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef8f8655bf73f408570b5fc2cd32ca60" id="r_aef8f8655bf73f408570b5fc2cd32ca60"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef8f8655bf73f408570b5fc2cd32ca60">dispose</a> () override</td></tr>
+<tr class="memdesc:aef8f8655bf73f408570b5fc2cd32ca60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down this <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>.  <br /></td></tr>
+<tr class="separator:aef8f8655bf73f408570b5fc2cd32ca60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99cd0c7cf968a1db745043288e3b4dd" id="r_af99cd0c7cf968a1db745043288e3b4dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af99cd0c7cf968a1db745043288e3b4dd">update</a> () override</td></tr>
+<tr class="memdesc:af99cd0c7cf968a1db745043288e3b4dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once a frame.  <br /></td></tr>
+<tr class="separator:af99cd0c7cf968a1db745043288e3b4dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab322be120511ca704867f6924fe6a5f8" id="r_ab322be120511ca704867f6924fe6a5f8"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab322be120511ca704867f6924fe6a5f8">allocate</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
 <tr class="memdesc:ab322be120511ca704867f6924fe6a5f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates the given number of bytes using the appropriate allocation method.  <br /></td></tr>
 <tr class="separator:ab322be120511ca704867f6924fe6a5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab237096b53d8452622f40d33b35f9903" id="r_ab237096b53d8452622f40d33b35f9903"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab237096b53d8452622f40d33b35f9903">deallocate</a> (void *const ptr, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a7c125bea6ecb565e1e79dab1f8526803">Allocator</a> const allocator)</td></tr>
 <tr class="memdesc:ab237096b53d8452622f40d33b35f9903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates the given number of bytes using the appropriate deallocation method.  <br /></td></tr>
 <tr class="separator:ab237096b53d8452622f40d33b35f9903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_minty_1_1_manager"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_minty_1_1_manager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_minty_1_1_manager.html">Minty::Manager</a></td></tr>
+<tr class="memitem:a27fe8906cdda109250eee2e940ada344 inherit pub_methods_class_minty_1_1_manager" id="r_a27fe8906cdda109250eee2e940ada344"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#a27fe8906cdda109250eee2e940ada344">~Manager</a> ()</td></tr>
+<tr class="separator:a27fe8906cdda109250eee2e940ada344 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8255400abccd79f3b473f60f3bc758f inherit pub_methods_class_minty_1_1_manager" id="r_ad8255400abccd79f3b473f60f3bc758f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#ad8255400abccd79f3b473f60f3bc758f">initialize</a> ()</td></tr>
+<tr class="memdesc:ad8255400abccd79f3b473f60f3bc758f inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the <a class="el" href="class_minty_1_1_manager.html" title="Base class for all Managers.">Manager</a> is created.  <br /></td></tr>
+<tr class="separator:ad8255400abccd79f3b473f60f3bc758f inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager" id="r_aa33f61f7f39cda8418df635332f0d1f3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#aa33f61f7f39cda8418df635332f0d1f3">finalize</a> ()</td></tr>
+<tr class="memdesc:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after every update operation.  <br /></td></tr>
+<tr class="separator:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a301a78b7a34baeb662889e94e9dce8 inherit pub_methods_class_minty_1_1_manager" id="r_a0a301a78b7a34baeb662889e94e9dce8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#a0a301a78b7a34baeb662889e94e9dce8">render</a> ()</td></tr>
+<tr class="memdesc:a0a301a78b7a34baeb662889e94e9dce8 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every frame to perform rendering.  <br /></td></tr>
+<tr class="separator:a0a301a78b7a34baeb662889e94e9dce8 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8fc39c624c3c06c0b0c0c49a27fc7e8 inherit pub_methods_class_minty_1_1_manager" id="r_af8fc39c624c3c06c0b0c0c49a27fc7e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#af8fc39c624c3c06c0b0c0c49a27fc7e8">sync</a> ()</td></tr>
+<tr class="memdesc:af8fc39c624c3c06c0b0c0c49a27fc7e8 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the <a class="el" href="class_minty_1_1_manager.html" title="Base class for all Managers.">Manager</a> needs to synchronize operations.  <br /></td></tr>
+<tr class="separator:af8fc39c624c3c06c0b0c0c49a27fc7e8 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -173,9 +200,6 @@ Static Public Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Minty::MemoryManager::MemoryManager </td>
@@ -184,11 +208,6 @@ Static Public Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -370,6 +389,35 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aef8f8655bf73f408570b5fc2cd32ca60" name="aef8f8655bf73f408570b5fc2cd32ca60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef8f8655bf73f408570b5fc2cd32ca60">&#9670;&#160;</a></span>dispose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::MemoryManager::dispose </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shuts down this <a class="el" href="class_minty_1_1_memory_manager.html" title="Handles allocation and deallocation of memory.">MemoryManager</a>. </p>
+
+<p>Reimplemented from <a class="el" href="class_minty_1_1_manager.html#a5da9bc76c9787ee2d34f6baa1c4661e7">Minty::Manager</a>.</p>
+
+</div>
+</div>
 <a id="a47d1fc57644c8254c8c58645b589731b" name="a47d1fc57644c8254c8c58645b589731b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a47d1fc57644c8254c8c58645b589731b">&#9670;&#160;</a></span>get_dynamic_size()</h2>
 
@@ -532,11 +580,14 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4ffd4ce1433b7558af60fd2ce5d9a0e2" name="a4ffd4ce1433b7558af60fd2ce5d9a0e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ffd4ce1433b7558af60fd2ce5d9a0e2">&#9670;&#160;</a></span>update()</h2>
+<a id="af99cd0c7cf968a1db745043288e3b4dd" name="af99cd0c7cf968a1db745043288e3b4dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af99cd0c7cf968a1db745043288e3b4dd">&#9670;&#160;</a></span>update()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Minty::MemoryManager::update </td>
@@ -545,9 +596,16 @@ Static Public Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Called once a frame. </p>
+
+<p>Reimplemented from <a class="el" href="class_minty_1_1_manager.html#abb11246f0d4f2d0419dcc470263c1ca4">Minty::Manager</a>.</p>
 
 </div>
 </div>

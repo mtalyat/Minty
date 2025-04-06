@@ -28,7 +28,6 @@ var hierarchy =
         [ "Minty::Vulkan_Viewport", "class_minty_1_1_vulkan___viewport.html", null ]
       ] ]
     ] ],
-    [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
     [ "Minty::AssetManagerBuilder", "struct_minty_1_1_asset_manager_builder.html", null ],
     [ "Minty::Buffer", "class_minty_1_1_buffer.html", [
       [ "Minty::Vulkan_Buffer", "class_minty_1_1_vulkan___buffer.html", null ]
@@ -95,13 +94,19 @@ var hierarchy =
     [ "Minty::Set< T >::Iterator", "class_minty_1_1_set_1_1_iterator.html", null ],
     [ "Minty::String::Iterator", "class_minty_1_1_string_1_1_iterator.html", null ],
     [ "Minty::Vector< T >::Iterator", "class_minty_1_1_vector_1_1_iterator.html", null ],
-    [ "Minty::JobManager", "class_minty_1_1_job_manager.html", null ],
     [ "Minty::JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", null ],
     [ "Minty::List< T >", "class_minty_1_1_list.html", null ],
+    [ "Minty::Manager", "class_minty_1_1_manager.html", [
+      [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
+      [ "Minty::JobManager", "class_minty_1_1_job_manager.html", null ],
+      [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
+      [ "Minty::RenderManager", "class_minty_1_1_render_manager.html", [
+        [ "Minty::Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html", null ]
+      ] ]
+    ] ],
     [ "Minty::Map< Key, Value >", "class_minty_1_1_map.html", null ],
     [ "Minty::MaterialBuilder", "struct_minty_1_1_material_builder.html", null ],
     [ "Minty::MaterialTemplateBuilder", "struct_minty_1_1_material_template_builder.html", null ],
-    [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
     [ "Minty::MemoryManagerBuilder", "struct_minty_1_1_memory_manager_builder.html", null ],
     [ "Minty::MemoryPool", "class_minty_1_1_memory_pool.html", null ],
     [ "Minty::MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", null ],
@@ -142,9 +147,6 @@ var hierarchy =
     [ "Minty::Ref< T >", "class_minty_1_1_ref.html", null ],
     [ "Minty::RenderAttachment", "struct_minty_1_1_render_attachment.html", null ],
     [ "Minty::Renderer", "class_minty_1_1_renderer.html", null ],
-    [ "Minty::RenderManager", "class_minty_1_1_render_manager.html", [
-      [ "Minty::Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html", null ]
-    ] ],
     [ "Minty::RenderManagerBuilder", "struct_minty_1_1_render_manager_builder.html", null ],
     [ "Minty::RenderPassBuilder", "struct_minty_1_1_render_pass_builder.html", null ],
     [ "Minty::RenderTargetBuilder", "struct_minty_1_1_render_target_builder.html", null ],

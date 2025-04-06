@@ -143,6 +143,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad38b5f4087e8d8c7676844b535321fdd" id="r_ad38b5f4087e8d8c7676844b535321fdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_render_manager.html">RenderManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad38b5f4087e8d8c7676844b535321fdd">get_render_manager</a> ()</td></tr>
 <tr class="memdesc:ad38b5f4087e8d8c7676844b535321fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the <a class="el" href="class_minty_1_1_render_manager.html" title="Handles rendering to a Window.">RenderManager</a> in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
 <tr class="separator:ad38b5f4087e8d8c7676844b535321fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a351cf05f0eec759fe7d11d86eedff9f2" id="r_a351cf05f0eec759fe7d11d86eedff9f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a351cf05f0eec759fe7d11d86eedff9f2">update</a> ()</td></tr>
+<tr class="memdesc:a351cf05f0eec759fe7d11d86eedff9f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:a351cf05f0eec759fe7d11d86eedff9f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae23e4fa9a4ad6ec681b279bb38fcdbcf" id="r_ae23e4fa9a4ad6ec681b279bb38fcdbcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae23e4fa9a4ad6ec681b279bb38fcdbcf">finalize</a> ()</td></tr>
+<tr class="memdesc:ae23e4fa9a4ad6ec681b279bb38fcdbcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finalizes all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:ae23e4fa9a4ad6ec681b279bb38fcdbcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf1de271df5ce044e47b9883ffb3e8f3" id="r_abf1de271df5ce044e47b9883ffb3e8f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf1de271df5ce044e47b9883ffb3e8f3">render</a> ()</td></tr>
+<tr class="memdesc:abf1de271df5ce044e47b9883ffb3e8f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renders all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:abf1de271df5ce044e47b9883ffb3e8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe57df222cb273e8adab06ec491e6612" id="r_afe57df222cb273e8adab06ec491e6612"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe57df222cb273e8adab06ec491e6612">sync</a> ()</td></tr>
+<tr class="memdesc:afe57df222cb273e8adab06ec491e6612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Syncs all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>.  <br /></td></tr>
+<tr class="separator:afe57df222cb273e8adab06ec491e6612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -241,9 +253,6 @@ Static Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Minty::Context::~Context </td>
@@ -252,16 +261,30 @@ Static Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae23e4fa9a4ad6ec681b279bb38fcdbcf" name="ae23e4fa9a4ad6ec681b279bb38fcdbcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae23e4fa9a4ad6ec681b279bb38fcdbcf">&#9670;&#160;</a></span>finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Context::finalize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Finalizes all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
+
+</div>
+</div>
 <a id="a510cbe5e9bdb30d14711c6bbfdc6ef2d" name="a510cbe5e9bdb30d14711c6bbfdc6ef2d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a510cbe5e9bdb30d14711c6bbfdc6ef2d">&#9670;&#160;</a></span>get_asset_manager()</h2>
 
@@ -449,6 +472,63 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="abf1de271df5ce044e47b9883ffb3e8f3" name="abf1de271df5ce044e47b9883ffb3e8f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf1de271df5ce044e47b9883ffb3e8f3">&#9670;&#160;</a></span>render()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Context::render </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renders all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
+
+</div>
+</div>
+<a id="afe57df222cb273e8adab06ec491e6612" name="afe57df222cb273e8adab06ec491e6612"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe57df222cb273e8adab06ec491e6612">&#9670;&#160;</a></span>sync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Context::sync </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Syncs all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
+
+</div>
+</div>
+<a id="a351cf05f0eec759fe7d11d86eedff9f2" name="a351cf05f0eec759fe7d11d86eedff9f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a351cf05f0eec759fe7d11d86eedff9f2">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Context::update </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Updates all Managers in this <a class="el" href="class_minty_1_1_context.html" title="A context for the Minty Engine. Required to use certain features of the library.">Context</a>. </p>
 
 </div>
 </div>
