@@ -278,7 +278,7 @@ namespace Minty
 		void write_entry(PhysicalFile& wrapFile, Size const index) const;
 
 		// adds the given entry to m_wraps, then returns the index of it
-		uint32_t emplace_entry(Entry& entry);
+		uint32_t add_entry(Entry& entry);
 
 #pragma region Files
 
@@ -297,7 +297,7 @@ namespace Minty
 		/// <param name="virtualPath">The path of the file within the Wrap file.</param>
 		/// <param name="compression">The level of compression for the given file.</param>
 		/// <param name="reservedSize">The reserved size of the chunk to store the file within. If the reservedSize is 0, it will default to the size of the file at the physicalPath.</param>
-		void emplace(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compression = CompressionLevel::Default, uint32_t const reservedSize = 0);
+		void add(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compression = CompressionLevel::Default, uint32_t const reservedSize = 0);
 
 		/// <summary>
 		/// Checks if the Wrap contains a file with the given path.
@@ -319,7 +319,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The path at which to open a file.</param>
 		/// <returns>The uncompressed data from the file, or an empty vector if no file found.</returns>
-		Vector<Char> read(Path const& path) const;
+		Vector<Byte> read_bytes(Path const& path) const;
 
 		/// <summary>
 		/// Gets the Entry at the given index.

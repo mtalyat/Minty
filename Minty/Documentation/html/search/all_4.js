@@ -20,7 +20,7 @@ var searchData=
   ['depthstencilattachment_17',['DepthStencilAttachment',['../namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa652fd1408b3de263e32147770a48931e',1,'Minty']]],
   ['depthstencilreadonly_18',['DepthStencilReadOnly',['../namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaab4dc3ad21093fbe36e3db22fc0d0be4f',1,'Minty']]],
   ['descriptor_5fpool_5fsize_19',['DESCRIPTOR_POOL_SIZE',['../namespace_minty.html#a2f318052317d07febbea4b949cb48e14',1,'Minty']]],
-  ['deserialize_20',['deserialize',['../class_minty_1_1_u_u_i_d.html#ae43805aed85ddfbb1090df2279cefd1e',1,'Minty::UUID::deserialize()'],['../class_minty_1_1_serializable.html#aa98a4de34f9e59a9b8e5b3bf411027e9',1,'Minty::Serializable::deserialize()'],['../class_minty_1_1_serializable_object.html#a9d89178ca700bf728f7f0cf1bc9575b9',1,'Minty::SerializableObject::deserialize()']]],
+  ['deserialize_20',['deserialize',['../class_minty_1_1_u_u_i_d.html#a32389c786b562bb8e1e9b6e26e036ea5',1,'Minty::UUID::deserialize()'],['../class_minty_1_1_serializable.html#a7886ae24ba59aa62ca227d4c5dcef3df',1,'Minty::Serializable::deserialize()'],['../class_minty_1_1_serializable_object.html#a9d89178ca700bf728f7f0cf1bc9575b9',1,'Minty::SerializableObject::deserialize()']]],
   ['destroy_21',['destroy',['../class_minty_1_1_file.html#a71297205f7f72a5767d1169ffbbacbe6',1,'Minty::File']]],
   ['destroy_5fbuffer_22',['destroy_buffer',['../class_minty_1_1_vulkan___renderer.html#ae28dd3a70de2525e3335142623874e89',1,'Minty::Vulkan_Renderer']]],
   ['destroy_5fcommand_5fbuffer_23',['destroy_command_buffer',['../class_minty_1_1_vulkan___renderer.html#a7e583f9627948c19cec60b6dbf3b628a',1,'Minty::Vulkan_Renderer']]],

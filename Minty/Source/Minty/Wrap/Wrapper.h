@@ -141,6 +141,6 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The virtual Path to the file.</param>
 		/// <returns>The contents of the file.</returns>
-		Vector<Char> read(Path const& path) const;
+		Vector<Byte> read_bytes(Path const& path) const;
 	};
 }

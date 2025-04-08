@@ -361,6 +361,13 @@ String Minty::String::to_lower(String const& str)
 
 String Minty::String::replace(String const& str, String const& find, String const& replace)
 {
+	if (str.is_empty())
+	{
+		return String();
+	}
+
+	MINTY_ASSERT(!find.is_empty(), "Cannot replace empty string.");
+
 	// find all occurances of the string
 	Vector<Size> indices;
 	Size index = 0;
@@ -446,7 +453,10 @@ Vector<String> Minty::String::split(String const& str, Char const delimiter)
 
 	// copy over the rest of the data
 	Size length = str.get_size() - last;
-	result.add(str.sub(last, length));
+	if (length > 0)
+	{
+		result.add(str.sub(last, length));
+	}
 	return result;
 }
 
@@ -494,6 +504,25 @@ Vector<String> Minty::String::split(String const& str, String const& delimiter)
 	{
 		result.add(str.sub(last, length));
 	}
+	return result;
+}
+
+Vector<String> Minty::String::split(String const& str)
+{
+	return split(replace(str, "\r\n", "\n"), "\n");
+}
+
+/// <summary>
+/// Creates a String from the given bytes.
+/// </summary>
+/// <param name="data">A pointer to the array of bytes.</param>
+/// <param name="size">The number of bytes.</param>
+/// <param name="allocator">The allocator.</param>
+/// <returns>A new null terminated String, with a copy of the given data.</returns>
+String Minty::String::from_bytes(void const* const data, Size const size, Allocator const allocator)
+{
+	String result('\0', size, allocator);
+	memcpy(result.mp_data, data, size);
 	return result;
 }
 

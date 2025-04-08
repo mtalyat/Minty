@@ -14,7 +14,7 @@ void Minty::UUID::serialize(Writer& writer, String const& name) const
 	writer.write(name, to_string());
 }
 
-Bool Minty::UUID::deserialize(Reader& reader, Int const index)
+Bool Minty::UUID::deserialize(Reader& reader, Size const index)
 {
 	String text;
 	if (!reader.read(index, text))

@@ -45,12 +45,12 @@ namespace Minty
 	public:
 		operator ID() const { return m_id; }
 
-		constexpr Bool operator==(UUID const other) const
+		inline Bool operator==(UUID const other) const
 		{
 			return m_id == other.m_id;
 		}
 
-		constexpr Bool operator!=(UUID const other) const
+		inline Bool operator!=(UUID const other) const
 		{
 			return m_id != other.m_id;
 		}
@@ -106,7 +106,7 @@ namespace Minty
 		/// <param name="reader">The Reader to read from.</param>
 		/// <param name="index">The index of this object.</param>
 		/// <returns>True on success.</returns>
-		Bool deserialize(Reader& reader, Int const index) override;
+		Bool deserialize(Reader& reader, Size const index) override;
 
 		/// <summary>
 		/// Reads the data for this object from a String.

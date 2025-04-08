@@ -16,5 +16,5 @@ var class_minty_1_1_wrapper =
     [ "get_wrap", "class_minty_1_1_wrapper.html#a24ce8e580e6d384e7206774e09834d2f", null ],
     [ "get_wrap_count", "class_minty_1_1_wrapper.html#aaf26ef73ae70a27b7e995ec2f56b8074", null ],
     [ "open", "class_minty_1_1_wrapper.html#a7823e41f5157608018435457eef42aba", null ],
-    [ "read", "class_minty_1_1_wrapper.html#a8647d7cdff39f9898715e1e755992d59", null ]
+    [ "read_bytes", "class_minty_1_1_wrapper.html#a12eeac2ef3546a8e511b96bbe546b92a", null ]
 ];

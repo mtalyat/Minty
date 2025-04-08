@@ -60,7 +60,7 @@ void Minty::Wrap::load(Path const& path)
     if (memcmp(m_header.id, WRAP_MAGIC, WRAP_MAGIC_SIZE))
     {
         // does not have the correct "WRAP" id magic
-        MINTY_ERROR(F("Cannot emplace \"{}\" into Wrap file: invalid data.", m_path.get_string()));
+        MINTY_ERROR(F("Cannot add \"{}\" into Wrap file: invalid data.", m_path.get_string()));
         m_header = Header();
         return;
     }
@@ -74,8 +74,10 @@ void Minty::Wrap::load(Path const& path)
         // read entry
         Entry& entry = m_entries.at(i);
         file.read(&entry, sizeof(Entry));
+
         // add path and index
         m_indexed.add(fix_path(entry.path), i);
+
         // add to empties if empty
         if (entry.is_empty())
         {
@@ -115,7 +117,7 @@ void Minty::Wrap::write_entry(PhysicalFile& wrapFile, Size const index) const
     wrapFile.write(&m_entries.at(index), sizeof(Entry));
 }
 
-uint32_t Minty::Wrap::emplace_entry(Entry& newEntry)
+uint32_t Minty::Wrap::add_entry(Entry& newEntry)
 {
     int64_t bestIndex = -1;
 
@@ -180,7 +182,7 @@ uint32_t Minty::Wrap::emplace_entry(Entry& newEntry)
     }
 
     // cannot fit
-    MINTY_ERROR(F("Cannot emplace entry to Wrap file. Entry count surpassed ({}).", m_entries.get_size()));
+    MINTY_ERROR(F("Cannot add entry to Wrap file. Entry count surpassed ({}).", m_entries.get_size()));
 
     return -1;
 }
@@ -261,10 +263,10 @@ uint32_t Minty::Wrap::get_content_version() const
     return m_header.contentVersion;
 }
 
-void Minty::Wrap::emplace(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compressionLevel, uint32_t const reservedSize)
+void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compressionLevel, uint32_t const reservedSize)
 {
-	MINTY_ASSERT(Path::exists(physicalPath), "Cannot emplace into Wrap file: file does not exist.");
-	MINTY_ASSERT(Path::is_file(physicalPath), "Cannot emplace into Wrap file: not a regular file.");
+	MINTY_ASSERT(Path::exists(physicalPath), "Cannot add into Wrap file: file does not exist.");
+	MINTY_ASSERT(Path::is_file(physicalPath), "Cannot add into Wrap file: not a regular file.");
 
     // open wrap file
     PhysicalFile wrapFile(m_path, File::Flags::ReadWrite | File::Flags::Binary);
@@ -302,7 +304,7 @@ void Minty::Wrap::emplace(Path const& physicalPath, Path const& virtualPath, Com
         // compress it
         if (!compress(compressedData, destSize, fileData, sourceSize, compressionLevel))
         {
-            MINTY_ERROR(F("Cannot emplace \"{}\" into Wrap file: failed to compress file with compression level {}.", physicalPath.get_string(), static_cast<Int>(compressionLevel)));
+            MINTY_ERROR(F("Cannot add \"{}\" into Wrap file: failed to compress file with compression level {}.", physicalPath.get_string(), static_cast<Int>(compressionLevel)));
             return;
         }
 
@@ -327,7 +329,7 @@ void Minty::Wrap::emplace(Path const& physicalPath, Path const& virtualPath, Com
     }
 
     // add entry
-    Size index = emplace_entry(entry);
+    Size index = add_entry(entry);
 
     // write to file
     write_entry(wrapFile, index);
@@ -360,14 +362,14 @@ Bool Minty::Wrap::open(Path const& path, VirtualFile& file) const
     return true;
 }
 
-Vector<Char> Minty::Wrap::read(Path const& path) const
+Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 {
     VirtualFile file;
 
     if (!open(path, file))
     {
         // could not open
-        return Vector<Char>();
+        return Vector<Byte>();
     }
 
     // read all data from file
@@ -392,14 +394,14 @@ Vector<Char> Minty::Wrap::read(Path const& path) const
 		if (!uncompress(data, size, fileData, sourceSize))
 		{
 			MINTY_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
-			return Vector<Char>();
+			return Vector<Byte>();
 		}
         delete[] fileData;
 	}
 
     // add to vector
-    Vector<Char> result;
-    result.resize(size, ' ');
+    Vector<Byte> result;
+    result.resize(size, 0);
     memcpy(result.get_data(), data, size);
 
     // done with data

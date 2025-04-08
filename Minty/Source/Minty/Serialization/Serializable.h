@@ -28,6 +28,6 @@ namespace Minty
 		/// <param name="reader">The Reader to read from.</param>
 		/// <param name="index">The index of this object.</param>
 		/// <returns>True on success.</returns>
-		virtual Bool deserialize(Reader& reader, Int const index) = 0;
+		virtual Bool deserialize(Reader& reader, Size const index) = 0;
 	};
 }

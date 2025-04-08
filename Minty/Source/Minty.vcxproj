@@ -339,6 +339,7 @@ doxygen</Command>
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
     <ClCompile Include="Minty\Job\JobManager.cpp" />
+    <ClCompile Include="Minty\Library\STB.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />

@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
 #include "Minty/Context/Manager.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/List.h"
 #include "Minty/Data/Map.h"
@@ -14,6 +15,17 @@
 
 namespace Minty
 {
+	class Image;
+	class Material;
+	class MaterialTemplate;
+	class Mesh;
+	class Scene;
+	class Shader;
+	class ShaderModule;
+	class Sprite;
+	class Texture;
+	class Viewport;
+
 	/// <summary>
 	/// Arguments for creates an AssetManager.
 	/// </summary>
@@ -272,7 +284,7 @@ namespace Minty
 		template<typename T>
 		Ref<T> get(UUID const id) const
 		{
-			return static_cast<Ref<T>>(get_asset(id));
+			return get_asset(id).static_cast_to<T>();
 		}
 
 		/// <summary>
@@ -382,6 +394,13 @@ namespace Minty
 		Vector<Ref<Asset>> get_dependents(UUID const id) const;
 
 		/// <summary>
+		/// Reads all of the bytes from the File at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Asset.</param>
+		/// <returns>A list of bytes from the File.</returns>
+		Vector<Byte> read_bytes(Path const& path) const;
+
+		/// <summary>
 		/// Reads the text from the file at the given Path.
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
@@ -395,17 +414,75 @@ namespace Minty
 		/// <returns>A list of lines of text within the File.</returns>
 		Vector<String> read_lines(Path const& path) const;
 
-		/// <summary>
-		/// Reads all of the bytes from the File at the given Path.
-		/// </summary>
-		/// <param name="path">The Path to the Asset.</param>
-		/// <returns>A list of bytes from the File.</returns>
-		Vector<Byte> read_bytes(Path const& path) const;
-
 #pragma region Load
+
+#pragma region Helper
+
+	private:
+		/// <summary>
+		/// Checks for a dependency, and gets a ref to it if able.
+		/// </summary>
+		/// <typeparam name="T">The type of Asset to find.</typeparam>
+		/// <param name="path">The path to the file that is being worked on.</param>
+		/// <param name="reader">The reader to the file that is being worked on.</param>
+		/// <param name="name">The name of the data to load from the Reader.</param>
+		/// <param name="asset">A reference to the Asset to load the data into.</param>
+		/// <param name="required">If true, an error is raised if no valid value with the given name is found.</param>
+		/// <returns>True if found and stored into asset.</returns>
+		template<typename T>
+		Int find_dependency(Path const& path, Reader& reader, String const& name, Ref<T>& asset, bool required) const
+		{
+			UUID id{};
+
+			// if nothing read, set to null
+			if (!reader.read(name, id))
+			{
+				if (required)
+				{
+					Debug::write_error(F("Cannot load \"{}\". Missing \"{}\".", path, name));
+				}
+
+				asset.release();
+				return 1;
+			}
+
+			// something read
+			if (Int result = check_dependency(id, path, name, required))
+			{
+				asset.release();
+				return result;
+			}
+
+			// load asset
+			asset = get<T>(id);
+			return 0;
+		}
+
+		Int check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const;
+
+#pragma endregion
+
 
 	private:
 		Ref<GenericAsset> load_generic(Path const& path);
+
+		Ref<Image> load_image(Path const& path);
+
+		Ref<Material> load_material(Path const& path);
+
+		Ref<MaterialTemplate> load_material_template(Path const& path);
+
+		//Ref<Mesh> load_mesh(Path const& path);
+
+		//Ref<Scene> load_scene(Path const& path);
+
+		Ref<Shader> load_shader(Path const& path);
+
+		Ref<ShaderModule> load_shader_module(Path const& path);
+
+		//Ref<Sprite> load_sprite(Path const& path);
+
+		//Ref<Texture> load_texture(Path const& path);
 
 #pragma endregion
 

@@ -111,14 +111,13 @@ void test_Wrapper(Test& _test)
 			file.close();
 		}
 
-		TEST("Read")
+		TEST("Read Bytes")
 		{
 			Wrapper wrapper;
 			wrapper.add(TEST_PATH);
-			Vector<Char> data = wrapper.read(TEST_ASSET_PATH);
+			Vector<Byte> data = wrapper.read_bytes(TEST_ASSET_PATH);
 			EXPECT_TRUE(data.get_size() != 0);
-			data.add('\0');
-			String text = data.get_data();
+			String text = String::from_bytes(data.get_data(), data.get_size());
 			EXPECT_TRUE(text.contains("Template: "));
 		}
 	}

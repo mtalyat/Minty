@@ -29,7 +29,7 @@ void Minty::Reader::pop_user_data()
 	m_dataStack.pop();
 }
 
-Bool Minty::Reader::read_object(Int const index, SerializableObject& obj)
+Bool Minty::Reader::read_object(Size const index, SerializableObject& obj)
 {
 	if (indent(index))
 	{
@@ -602,7 +602,7 @@ void* Minty::TextReaderBehavior::read_typed_from_buffer(const void* const data, 
 	}
 	break;
 	default:
-		MINTY_ABORT(F("Cannot read type \"{}\".", to_string(type)).get_data());
+		MINTY_ABORT(F("Cannot read_bytes type \"{}\".", to_string(type)).get_data());
 	}
 
 	return output;

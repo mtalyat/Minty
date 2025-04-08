@@ -1,5 +1,5 @@
 # Results
-5486/5486 (100.00%)
+5542/5542 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -39,7 +39,7 @@
 | StaticContainer                |       95 |        0 |
 | String::Iterator               |       89 |        0 |
 | String::ConstIterator          |       89 |        0 |
-| String                         |      156 |        0 |
+| String                         |      213 |        0 |
 | UUID                           |       55 |        0 |
 | Variable                       |       99 |        0 |
 | Vector::Iterator               |       85 |        0 |
@@ -68,7 +68,7 @@
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
 | RenderManager                  |        7 |        0 |
-| Shader                         |        1 |        0 |
+| Shader                         |        0 |        0 |
 | ShaderCullMode                 |       19 |        0 |
 | ShaderFrontFace                |       11 |        0 |
 | ShaderInputRate                |       11 |        0 |
@@ -2591,7 +2591,7 @@ No failures! :)
 |  PASS  | 21: Copy Constructor (*copy++ == 'a' == true)                                                                                    |
 |  PASS  | 22: Copy Constructor (*copy++ == 'b' == true)                                                                                    |
 |  PASS  | 23: Copy Constructor (*copy++ == 'c' == true)                                                                                    |
-|  PASS  | 24: Copy Constructor (copy == test.end() == true)                                                                                |
+|  PASS  | 24: Copy Constructor (copy == test.end())                                                                                        |
 |  PASS  | 32: Move Constructor (*copy == 'a' == true)                                                                                      |
 |  PASS  | 33: Move Constructor (*(copy + 1) == 'b' == true)                                                                                |
 |  PASS  | 34: Move Constructor (*(copy + 2) == 'c' == true)                                                                                |
@@ -2602,7 +2602,7 @@ No failures! :)
 |  PASS  | 41: Move Constructor (*copy++ == 'a' == true)                                                                                    |
 |  PASS  | 42: Move Constructor (*copy++ == 'b' == true)                                                                                    |
 |  PASS  | 43: Move Constructor (*copy++ == 'c' == true)                                                                                    |
-|  PASS  | 44: Move Constructor (copy == test.end() == true)                                                                                |
+|  PASS  | 44: Move Constructor (copy == test.end())                                                                                        |
 |  PASS  | 52: Copy Operator (*copy == 'a' == true)                                                                                         |
 |  PASS  | 53: Copy Operator (*(copy + 1) == 'b' == true)                                                                                   |
 |  PASS  | 54: Copy Operator (*(copy + 2) == 'c' == true)                                                                                   |
@@ -2613,7 +2613,7 @@ No failures! :)
 |  PASS  | 60: Copy Operator (*copy++ == 'a' == true)                                                                                       |
 |  PASS  | 61: Copy Operator (*copy++ == 'b' == true)                                                                                       |
 |  PASS  | 62: Copy Operator (*copy++ == 'c' == true)                                                                                       |
-|  PASS  | 63: Copy Operator (copy == test.end() == true)                                                                                   |
+|  PASS  | 63: Copy Operator (copy == test.end())                                                                                           |
 |  PASS  | 71: Move Operator (*copy == 'a' == true)                                                                                         |
 |  PASS  | 72: Move Operator (*(copy + 1) == 'b' == true)                                                                                   |
 |  PASS  | 73: Move Operator (*(copy + 2) == 'c' == true)                                                                                   |
@@ -2624,7 +2624,7 @@ No failures! :)
 |  PASS  | 80: Move Operator (*copy++ == 'a' == true)                                                                                       |
 |  PASS  | 81: Move Operator (*copy++ == 'b' == true)                                                                                       |
 |  PASS  | 82: Move Operator (*copy++ == 'c' == true)                                                                                       |
-|  PASS  | 83: Move Operator (copy == test.end() == true)                                                                                   |
+|  PASS  | 83: Move Operator (copy == test.end())                                                                                           |
 |  PASS  | 90: Dereference Operator (*it == 'a' == true)                                                                                    |
 |  PASS  | 91: Dereference Operator (*(it + 1) == 'b' == true)                                                                              |
 |  PASS  | 92: Dereference Operator (*(it + 2) == 'c' == true)                                                                              |
@@ -2635,7 +2635,7 @@ No failures! :)
 |  PASS  | 98: Dereference Operator (*it++ == 'a' == true)                                                                                  |
 |  PASS  | 99: Dereference Operator (*it++ == 'b' == true)                                                                                  |
 |  PASS  | 100: Dereference Operator (*it++ == 'c' == true)                                                                                 |
-|  PASS  | 101: Dereference Operator (it == test.end() == true)                                                                             |
+|  PASS  | 101: Dereference Operator (it == test.end())                                                                                     |
 |  PASS  | 108: Increment Operator (*it == 'a' == true)                                                                                     |
 |  PASS  | 109: Increment Operator (*(it + 1) == 'b' == true)                                                                               |
 |  PASS  | 110: Increment Operator (*(it + 2) == 'c' == true)                                                                               |
@@ -2646,7 +2646,7 @@ No failures! :)
 |  PASS  | 116: Increment Operator (*it++ == 'a' == true)                                                                                   |
 |  PASS  | 117: Increment Operator (*it++ == 'b' == true)                                                                                   |
 |  PASS  | 118: Increment Operator (*it++ == 'c' == true)                                                                                   |
-|  PASS  | 119: Increment Operator (it == test.end() == true)                                                                               |
+|  PASS  | 119: Increment Operator (it == test.end())                                                                                       |
 |  PASS  | 126: Addition Operator (*it == 'a' == true)                                                                                      |
 |  PASS  | 127: Addition Operator (*(it + 1) == 'b' == true)                                                                                |
 |  PASS  | 128: Addition Operator (*(it + 2) == 'c' == true)                                                                                |
@@ -2657,13 +2657,13 @@ No failures! :)
 |  PASS  | 134: Addition Operator (*it++ == 'a' == true)                                                                                    |
 |  PASS  | 135: Addition Operator (*it++ == 'b' == true)                                                                                    |
 |  PASS  | 136: Addition Operator (*it++ == 'c' == true)                                                                                    |
-|  PASS  | 137: Addition Operator (it == test.end() == true)                                                                                |
-|  PASS  | 145: Equal Operator (it == copy == true)                                                                                         |
-|  PASS  | 146: Equal Operator (copy == it == true)                                                                                         |
-|  PASS  | 147: Equal Operator (it == test.begin() == true)                                                                                 |
-|  PASS  | 148: Equal Operator (test.begin() == it == true)                                                                                 |
-|  PASS  | 149: Equal Operator (copy == test.begin() == true)                                                                               |
-|  PASS  | 150: Equal Operator (test.begin() == copy == true)                                                                               |
+|  PASS  | 137: Addition Operator (it == test.end())                                                                                        |
+|  PASS  | 145: Equal Operator (it == copy)                                                                                                 |
+|  PASS  | 146: Equal Operator (copy == it)                                                                                                 |
+|  PASS  | 147: Equal Operator (it == test.begin())                                                                                         |
+|  PASS  | 148: Equal Operator (test.begin() == it)                                                                                         |
+|  PASS  | 149: Equal Operator (copy == test.begin())                                                                                       |
+|  PASS  | 150: Equal Operator (test.begin() == copy)                                                                                       |
 |  PASS  | 158: Not Equal Operator (!(it != copy) == true)                                                                                  |
 |  PASS  | 159: Not Equal Operator (!(copy != it) == true)                                                                                  |
 |  PASS  | 160: Not Equal Operator (!(it != test.begin()) == true)                                                                          |
@@ -2684,7 +2684,7 @@ No failures! :)
 |  PASS  | 182: Copy Constructor (*copy++ == 'a' == true)                                                                                   |
 |  PASS  | 183: Copy Constructor (*copy++ == 'b' == true)                                                                                   |
 |  PASS  | 184: Copy Constructor (*copy++ == 'c' == true)                                                                                   |
-|  PASS  | 185: Copy Constructor (copy == test.end() == true)                                                                               |
+|  PASS  | 185: Copy Constructor (copy == test.end())                                                                                       |
 |  PASS  | 193: Move Constructor (*copy == 'a' == true)                                                                                     |
 |  PASS  | 194: Move Constructor (*(copy + 1) == 'b' == true)                                                                               |
 |  PASS  | 195: Move Constructor (*(copy + 2) == 'c' == true)                                                                               |
@@ -2695,7 +2695,7 @@ No failures! :)
 |  PASS  | 202: Move Constructor (*copy++ == 'a' == true)                                                                                   |
 |  PASS  | 203: Move Constructor (*copy++ == 'b' == true)                                                                                   |
 |  PASS  | 204: Move Constructor (*copy++ == 'c' == true)                                                                                   |
-|  PASS  | 205: Move Constructor (copy == test.end() == true)                                                                               |
+|  PASS  | 205: Move Constructor (copy == test.end())                                                                                       |
 |  PASS  | 213: Copy Operator (*copy == 'a' == true)                                                                                        |
 |  PASS  | 214: Copy Operator (*(copy + 1) == 'b' == true)                                                                                  |
 |  PASS  | 215: Copy Operator (*(copy + 2) == 'c' == true)                                                                                  |
@@ -2706,7 +2706,7 @@ No failures! :)
 |  PASS  | 221: Copy Operator (*copy++ == 'a' == true)                                                                                      |
 |  PASS  | 222: Copy Operator (*copy++ == 'b' == true)                                                                                      |
 |  PASS  | 223: Copy Operator (*copy++ == 'c' == true)                                                                                      |
-|  PASS  | 224: Copy Operator (copy == test.end() == true)                                                                                  |
+|  PASS  | 224: Copy Operator (copy == test.end())                                                                                          |
 |  PASS  | 232: Move Operator (*copy == 'a' == true)                                                                                        |
 |  PASS  | 233: Move Operator (*(copy + 1) == 'b' == true)                                                                                  |
 |  PASS  | 234: Move Operator (*(copy + 2) == 'c' == true)                                                                                  |
@@ -2717,7 +2717,7 @@ No failures! :)
 |  PASS  | 241: Move Operator (*copy++ == 'a' == true)                                                                                      |
 |  PASS  | 242: Move Operator (*copy++ == 'b' == true)                                                                                      |
 |  PASS  | 243: Move Operator (*copy++ == 'c' == true)                                                                                      |
-|  PASS  | 244: Move Operator (copy == test.end() == true)                                                                                  |
+|  PASS  | 244: Move Operator (copy == test.end())                                                                                          |
 |  PASS  | 251: Dereference Operator (*it == 'a' == true)                                                                                   |
 |  PASS  | 252: Dereference Operator (*(it + 1) == 'b' == true)                                                                             |
 |  PASS  | 253: Dereference Operator (*(it + 2) == 'c' == true)                                                                             |
@@ -2728,7 +2728,7 @@ No failures! :)
 |  PASS  | 259: Dereference Operator (*it++ == 'a' == true)                                                                                 |
 |  PASS  | 260: Dereference Operator (*it++ == 'b' == true)                                                                                 |
 |  PASS  | 261: Dereference Operator (*it++ == 'c' == true)                                                                                 |
-|  PASS  | 262: Dereference Operator (it == test.end() == true)                                                                             |
+|  PASS  | 262: Dereference Operator (it == test.end())                                                                                     |
 |  PASS  | 269: Increment Operator (*it == 'a' == true)                                                                                     |
 |  PASS  | 270: Increment Operator (*(it + 1) == 'b' == true)                                                                               |
 |  PASS  | 271: Increment Operator (*(it + 2) == 'c' == true)                                                                               |
@@ -2739,7 +2739,7 @@ No failures! :)
 |  PASS  | 277: Increment Operator (*it++ == 'a' == true)                                                                                   |
 |  PASS  | 278: Increment Operator (*it++ == 'b' == true)                                                                                   |
 |  PASS  | 279: Increment Operator (*it++ == 'c' == true)                                                                                   |
-|  PASS  | 280: Increment Operator (it == test.end() == true)                                                                               |
+|  PASS  | 280: Increment Operator (it == test.end())                                                                                       |
 |  PASS  | 287: Addition Operator (*it == 'a' == true)                                                                                      |
 |  PASS  | 288: Addition Operator (*(it + 1) == 'b' == true)                                                                                |
 |  PASS  | 289: Addition Operator (*(it + 2) == 'c' == true)                                                                                |
@@ -2750,13 +2750,13 @@ No failures! :)
 |  PASS  | 295: Addition Operator (*it++ == 'a' == true)                                                                                    |
 |  PASS  | 296: Addition Operator (*it++ == 'b' == true)                                                                                    |
 |  PASS  | 297: Addition Operator (*it++ == 'c' == true)                                                                                    |
-|  PASS  | 298: Addition Operator (it == test.end() == true)                                                                                |
-|  PASS  | 306: Equal Operator (it == copy == true)                                                                                         |
-|  PASS  | 307: Equal Operator (copy == it == true)                                                                                         |
-|  PASS  | 308: Equal Operator (it == test.begin() == true)                                                                                 |
-|  PASS  | 309: Equal Operator (test.begin() == it == true)                                                                                 |
-|  PASS  | 310: Equal Operator (copy == test.begin() == true)                                                                               |
-|  PASS  | 311: Equal Operator (test.begin() == copy == true)                                                                               |
+|  PASS  | 298: Addition Operator (it == test.end())                                                                                        |
+|  PASS  | 306: Equal Operator (it == copy)                                                                                                 |
+|  PASS  | 307: Equal Operator (copy == it)                                                                                                 |
+|  PASS  | 308: Equal Operator (it == test.begin())                                                                                         |
+|  PASS  | 309: Equal Operator (test.begin() == it)                                                                                         |
+|  PASS  | 310: Equal Operator (copy == test.begin())                                                                                       |
+|  PASS  | 311: Equal Operator (test.begin() == copy)                                                                                       |
 |  PASS  | 319: Not Equal Operator (!(it != copy) == true)                                                                                  |
 |  PASS  | 320: Not Equal Operator (!(copy != it) == true)                                                                                  |
 |  PASS  | 321: Not Equal Operator (!(it != test.begin()) == true)                                                                          |
@@ -2767,63 +2767,63 @@ No failures! :)
 ## String
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 333: Default Constructor (test.get_capacity() == 0 == true)                                                                      |
-|  PASS  | 334: Default Constructor (test.get_size() == 0 == true)                                                                          |
-|  PASS  | 335: Default Constructor (test.get_data() == nullptr == true)                                                                    |
-|  PASS  | 341: Capacity Constructor (test.get_capacity() == 10 == true)                                                                    |
-|  PASS  | 342: Capacity Constructor (test.get_size() == 0 == true)                                                                         |
+|  PASS  | 333: Default Constructor (test.get_capacity() == 0)                                                                              |
+|  PASS  | 334: Default Constructor (test.get_size() == 0)                                                                                  |
+|  PASS  | 335: Default Constructor (test.get_data() == nullptr)                                                                            |
+|  PASS  | 341: Capacity Constructor (test.get_capacity() == 10)                                                                            |
+|  PASS  | 342: Capacity Constructor (test.get_size() == 0)                                                                                 |
 |  PASS  | 343: Capacity Constructor (test.get_data() != nullptr == true)                                                                   |
-|  PASS  | 350: C String Constructor (test.get_capacity() == 13 == true)                                                                    |
-|  PASS  | 351: C String Constructor (test.get_size() == 13 == true)                                                                        |
+|  PASS  | 350: C String Constructor (test.get_capacity() == 13)                                                                            |
+|  PASS  | 351: C String Constructor (test.get_size() == 13)                                                                                |
 |  PASS  | 352: C String Constructor (test.get_data() != nullptr == true)                                                                   |
-|  PASS  | 353: C String Constructor (test.get_data()[test.get_size()] == '\0' == true)                                                     |
-|  PASS  | 360: Character Constructor (test.get_capacity() == 3 == true)                                                                    |
-|  PASS  | 361: Character Constructor (test.get_size() == 3 == true)                                                                        |
+|  PASS  | 353: C String Constructor (test.get_data()[test.get_size()] == '\0')                                                             |
+|  PASS  | 360: Character Constructor (test.get_capacity() == 3)                                                                            |
+|  PASS  | 361: Character Constructor (test.get_size() == 3)                                                                                |
 |  PASS  | 362: Character Constructor (test.get_data() != nullptr == true)                                                                  |
-|  PASS  | 363: Character Constructor (test.get_data()[0] == 'a' == true)                                                                   |
-|  PASS  | 364: Character Constructor (test.get_data()[1] == 'a' == true)                                                                   |
-|  PASS  | 365: Character Constructor (test.get_data()[2] == 'a' == true)                                                                   |
-|  PASS  | 366: Character Constructor (test.get_data()[test.get_size()] == '\0' == true)                                                    |
-|  PASS  | 373: Copy Constructor (copy.get_capacity() == test.get_capacity() == true)                                                       |
-|  PASS  | 374: Copy Constructor (copy.get_size() == test.get_size() == true)                                                               |
+|  PASS  | 363: Character Constructor (test.get_data()[0] == 'a')                                                                           |
+|  PASS  | 364: Character Constructor (test.get_data()[1] == 'a')                                                                           |
+|  PASS  | 365: Character Constructor (test.get_data()[2] == 'a')                                                                           |
+|  PASS  | 366: Character Constructor (test.get_data()[test.get_size()] == '\0')                                                            |
+|  PASS  | 373: Copy Constructor (copy.get_capacity() == test.get_capacity())                                                               |
+|  PASS  | 374: Copy Constructor (copy.get_size() == test.get_size())                                                                       |
 |  PASS  | 375: Copy Constructor (copy.get_data() != nullptr == true)                                                                       |
-|  PASS  | 382: Move Constructor (test.get_capacity() == 0 == true)                                                                         |
-|  PASS  | 383: Move Constructor (test.get_size() == 0 == true)                                                                             |
-|  PASS  | 384: Move Constructor (test.get_data() == nullptr == true)                                                                       |
-|  PASS  | 385: Move Constructor (copy.get_capacity() == 13 == true)                                                                        |
-|  PASS  | 386: Move Constructor (copy.get_size() == 13 == true)                                                                            |
+|  PASS  | 382: Move Constructor (test.get_capacity() == 0)                                                                                 |
+|  PASS  | 383: Move Constructor (test.get_size() == 0)                                                                                     |
+|  PASS  | 384: Move Constructor (test.get_data() == nullptr)                                                                               |
+|  PASS  | 385: Move Constructor (copy.get_capacity() == 13)                                                                                |
+|  PASS  | 386: Move Constructor (copy.get_size() == 13)                                                                                    |
 |  PASS  | 387: Move Constructor (copy.get_data() != nullptr == true)                                                                       |
-|  PASS  | 394: Copy Operator (copy.get_capacity() == test.get_capacity() == true)                                                          |
-|  PASS  | 395: Copy Operator (copy.get_size() == test.get_size() == true)                                                                  |
+|  PASS  | 394: Copy Operator (copy.get_capacity() == test.get_capacity())                                                                  |
+|  PASS  | 395: Copy Operator (copy.get_size() == test.get_size())                                                                          |
 |  PASS  | 396: Copy Operator (copy.get_data() != nullptr == true)                                                                          |
-|  PASS  | 403: Move Operator (test.get_capacity() == 0 == true)                                                                            |
-|  PASS  | 404: Move Operator (test.get_size() == 0 == true)                                                                                |
-|  PASS  | 405: Move Operator (test.get_data() == nullptr == true)                                                                          |
-|  PASS  | 406: Move Operator (copy.get_capacity() == 13 == true)                                                                           |
-|  PASS  | 407: Move Operator (copy.get_size() == 13 == true)                                                                               |
+|  PASS  | 403: Move Operator (test.get_capacity() == 0)                                                                                    |
+|  PASS  | 404: Move Operator (test.get_size() == 0)                                                                                        |
+|  PASS  | 405: Move Operator (test.get_data() == nullptr)                                                                                  |
+|  PASS  | 406: Move Operator (copy.get_capacity() == 13)                                                                                   |
+|  PASS  | 407: Move Operator (copy.get_size() == 13)                                                                                       |
 |  PASS  | 408: Move Operator (copy.get_data() != nullptr == true)                                                                          |
-|  PASS  | 414: Index Operator (test[0] == 'H' == true)                                                                                     |
-|  PASS  | 415: Index Operator (test[1] == 'e' == true)                                                                                     |
-|  PASS  | 416: Index Operator (test[2] == 'l' == true)                                                                                     |
-|  PASS  | 417: Index Operator (test[3] == 'l' == true)                                                                                     |
-|  PASS  | 418: Index Operator (test[4] == 'o' == true)                                                                                     |
-|  PASS  | 419: Index Operator (test[5] == ' ' == true)                                                                                     |
-|  PASS  | 420: Index Operator (test[6] == 'w' == true)                                                                                     |
-|  PASS  | 421: Index Operator (test[7] == 'o' == true)                                                                                     |
-|  PASS  | 422: Index Operator (test[8] == 'r' == true)                                                                                     |
-|  PASS  | 423: Index Operator (test[9] == 'l' == true)                                                                                     |
-|  PASS  | 424: Index Operator (test[10] == 'd' == true)                                                                                    |
-|  PASS  | 425: Index Operator (test[11] == '!' == true)                                                                                    |
-|  PASS  | 426: Index Operator (test[12] == '\n' == true)                                                                                   |
+|  PASS  | 414: Index Operator (test[0] == 'H')                                                                                             |
+|  PASS  | 415: Index Operator (test[1] == 'e')                                                                                             |
+|  PASS  | 416: Index Operator (test[2] == 'l')                                                                                             |
+|  PASS  | 417: Index Operator (test[3] == 'l')                                                                                             |
+|  PASS  | 418: Index Operator (test[4] == 'o')                                                                                             |
+|  PASS  | 419: Index Operator (test[5] == ' ')                                                                                             |
+|  PASS  | 420: Index Operator (test[6] == 'w')                                                                                             |
+|  PASS  | 421: Index Operator (test[7] == 'o')                                                                                             |
+|  PASS  | 422: Index Operator (test[8] == 'r')                                                                                             |
+|  PASS  | 423: Index Operator (test[9] == 'l')                                                                                             |
+|  PASS  | 424: Index Operator (test[10] == 'd')                                                                                            |
+|  PASS  | 425: Index Operator (test[11] == '!')                                                                                            |
+|  PASS  | 426: Index Operator (test[12] == '\n')                                                                                           |
 |  PASS  | 427: Index Operator (test[13])                                                                                                   |
-|  PASS  | 434: Equal Operator (test == copy == true)                                                                                       |
+|  PASS  | 434: Equal Operator (test == copy)                                                                                               |
 |  PASS  | 437: Equal Operator (!(test == copy) == true)                                                                                    |
-|  PASS  | 440: Equal Operator (test == copy == true)                                                                                       |
+|  PASS  | 440: Equal Operator (test == copy)                                                                                               |
 |  PASS  | 443: Equal Operator (!(test == copy) == true)                                                                                    |
 |  PASS  | 450: Not Equal Operator (!(test != copy) == true)                                                                                |
-|  PASS  | 453: Not Equal Operator (test != copy == true)                                                                                   |
+|  PASS  | 453: Not Equal Operator (test != copy)                                                                                           |
 |  PASS  | 456: Not Equal Operator (!(test != copy) == true)                                                                                |
-|  PASS  | 459: Not Equal Operator (test != copy == true)                                                                                   |
+|  PASS  | 459: Not Equal Operator (test != copy)                                                                                           |
 |  PASS  | 466: Less Than Operator (!(test < copy) == true)                                                                                 |
 |  PASS  | 469: Less Than Operator (test < copy == true)                                                                                    |
 |  PASS  | 472: Less Than Operator (!(test < copy) == true)                                                                                 |
@@ -2846,38 +2846,38 @@ No failures! :)
 |  PASS  | 535: Greater Than Or Equal Operator (!(test >= copy) == true)                                                                    |
 |  PASS  | 538: Greater Than Or Equal Operator (test >= copy == true)                                                                       |
 |  PASS  | 541: Greater Than Or Equal Operator (!(test >= copy) == true)                                                                    |
-|  PASS  | 549: Addition Operator (result == "Hello world!\n" == true)                                                                      |
-|  PASS  | 553: Addition Operator (result == "Hello " == true)                                                                              |
-|  PASS  | 557: Addition Operator (result == "" == true)                                                                                    |
-|  PASS  | 566: Stream Insertion Operator (stream.str() == "Hello world!\n" == true)                                                        |
-|  PASS  | 572: Stream Insertion Operator (stream.str() == "" == true)                                                                      |
-|  PASS  | 580: Get Capacity (test.get_capacity() == 100 == true)                                                                           |
-|  PASS  | 587: Get Size (test.get_size() == 13 == true)                                                                                    |
+|  PASS  | 549: Addition Operator (result == "Hello world!\n")                                                                              |
+|  PASS  | 553: Addition Operator (result == "Hello ")                                                                                      |
+|  PASS  | 557: Addition Operator (result == "")                                                                                            |
+|  PASS  | 566: Stream Insertion Operator (stream.str() == "Hello world!\n")                                                                |
+|  PASS  | 572: Stream Insertion Operator (stream.str() == "")                                                                              |
+|  PASS  | 580: Get Capacity (test.get_capacity() == 100)                                                                                   |
+|  PASS  | 587: Get Size (test.get_size() == 13)                                                                                            |
 |  PASS  | 594: Get Data (test.get_data() != nullptr == true)                                                                               |
-|  PASS  | 602: Reserve (test.get_capacity() == 0 == true)                                                                                  |
-|  PASS  | 605: Reserve (test.get_capacity() == 100 == true)                                                                                |
-|  PASS  | 608: Reserve (test.get_capacity() == 10 == true)                                                                                 |
-|  PASS  | 616: Resize (test.get_size() == 0 == true)                                                                                       |
-|  PASS  | 617: Resize (test.get_capacity() == 0 == true)                                                                                   |
-|  PASS  | 620: Resize (test.get_size() == 100 == true)                                                                                     |
-|  PASS  | 621: Resize (test.get_capacity() == 100 == true)                                                                                 |
-|  PASS  | 624: Resize (test.get_size() == 10 == true)                                                                                      |
-|  PASS  | 625: Resize (test.get_capacity() == 100 == true)                                                                                 |
+|  PASS  | 602: Reserve (test.get_capacity() == 0)                                                                                          |
+|  PASS  | 605: Reserve (test.get_capacity() == 100)                                                                                        |
+|  PASS  | 608: Reserve (test.get_capacity() == 10)                                                                                         |
+|  PASS  | 616: Resize (test.get_size() == 0)                                                                                               |
+|  PASS  | 617: Resize (test.get_capacity() == 0)                                                                                           |
+|  PASS  | 620: Resize (test.get_size() == 100)                                                                                             |
+|  PASS  | 621: Resize (test.get_capacity() == 100)                                                                                         |
+|  PASS  | 624: Resize (test.get_size() == 10)                                                                                              |
+|  PASS  | 625: Resize (test.get_capacity() == 100)                                                                                         |
 |  PASS  | 631: Is Empty (test.is_empty() == true)                                                                                          |
 |  PASS  | 634: Is Empty (!test.is_empty() == true)                                                                                         |
-|  PASS  | 640: At (test.at(0) == 'H' == true)                                                                                              |
-|  PASS  | 641: At (test.at(1) == 'e' == true)                                                                                              |
-|  PASS  | 642: At (test.at(2) == 'l' == true)                                                                                              |
-|  PASS  | 643: At (test.at(3) == 'l' == true)                                                                                              |
-|  PASS  | 644: At (test.at(4) == 'o' == true)                                                                                              |
-|  PASS  | 645: At (test.at(5) == ' ' == true)                                                                                              |
-|  PASS  | 646: At (test.at(6) == 'w' == true)                                                                                              |
-|  PASS  | 647: At (test.at(7) == 'o' == true)                                                                                              |
-|  PASS  | 648: At (test.at(8) == 'r' == true)                                                                                              |
-|  PASS  | 649: At (test.at(9) == 'l' == true)                                                                                              |
-|  PASS  | 650: At (test.at(10) == 'd' == true)                                                                                             |
-|  PASS  | 651: At (test.at(11) == '!' == true)                                                                                             |
-|  PASS  | 652: At (test.at(12) == '\n' == true)                                                                                            |
+|  PASS  | 640: At (test.at(0) == 'H')                                                                                                      |
+|  PASS  | 641: At (test.at(1) == 'e')                                                                                                      |
+|  PASS  | 642: At (test.at(2) == 'l')                                                                                                      |
+|  PASS  | 643: At (test.at(3) == 'l')                                                                                                      |
+|  PASS  | 644: At (test.at(4) == 'o')                                                                                                      |
+|  PASS  | 645: At (test.at(5) == ' ')                                                                                                      |
+|  PASS  | 646: At (test.at(6) == 'w')                                                                                                      |
+|  PASS  | 647: At (test.at(7) == 'o')                                                                                                      |
+|  PASS  | 648: At (test.at(8) == 'r')                                                                                                      |
+|  PASS  | 649: At (test.at(9) == 'l')                                                                                                      |
+|  PASS  | 650: At (test.at(10) == 'd')                                                                                                     |
+|  PASS  | 651: At (test.at(11) == '!')                                                                                                     |
+|  PASS  | 652: At (test.at(12) == '\n')                                                                                                    |
 |  PASS  | 653: At (test.at(13))                                                                                                            |
 |  PASS  | 659: Front (test.front() == 'H')                                                                                                 |
 |  PASS  | 662: Front (test.front())                                                                                                        |
@@ -2901,28 +2901,85 @@ No failures! :)
 |  PASS  | 704: Contains (!test.contains("aaa") == true)                                                                                    |
 |  PASS  | 705: Contains (!test.contains("") == true)                                                                                       |
 |  PASS  | 708: Contains (!test.contains("aaa") == true)                                                                                    |
-|  PASS  | 715: Begin/End (*it == 'a' == true)                                                                                              |
-|  PASS  | 716: Begin/End (*(it + 1) == 'b' == true)                                                                                        |
-|  PASS  | 717: Begin/End (*(it + 2) == 'c' == true)                                                                                        |
-|  PASS  | 718: Begin/End (it + 3 == test.end() == true)                                                                                    |
-|  PASS  | 719: Begin/End (*++it == 'b' == true)                                                                                            |
-|  PASS  | 720: Begin/End (*++it == 'c' == true)                                                                                            |
-|  PASS  | 721: Begin/End (++it == test.end() == true)                                                                                      |
-|  PASS  | 723: Begin/End (*it++ == 'a' == true)                                                                                            |
-|  PASS  | 724: Begin/End (*it++ == 'b' == true)                                                                                            |
-|  PASS  | 725: Begin/End (*it++ == 'c' == true)                                                                                            |
-|  PASS  | 726: Begin/End (it == test.end() == true)                                                                                        |
-|  PASS  | 733: Const Begin/End (*it == 'a' == true)                                                                                        |
-|  PASS  | 734: Const Begin/End (*(it + 1) == 'b' == true)                                                                                  |
-|  PASS  | 735: Const Begin/End (*(it + 2) == 'c' == true)                                                                                  |
-|  PASS  | 736: Const Begin/End (it + 3 == test.end() == true)                                                                              |
-|  PASS  | 737: Const Begin/End (*++it == 'b' == true)                                                                                      |
-|  PASS  | 738: Const Begin/End (*++it == 'c' == true)                                                                                      |
-|  PASS  | 739: Const Begin/End (++it == test.end() == true)                                                                                |
-|  PASS  | 741: Const Begin/End (*it++ == 'a' == true)                                                                                      |
-|  PASS  | 742: Const Begin/End (*it++ == 'b' == true)                                                                                      |
-|  PASS  | 743: Const Begin/End (*it++ == 'c' == true)                                                                                      |
-|  PASS  | 744: Const Begin/End (it == test.end() == true)                                                                                  |
+|  PASS  | 714: Starts With (test.starts_with("Hello") == true)                                                                             |
+|  PASS  | 715: Starts With (test.starts_with("world") == false)                                                                            |
+|  PASS  | 716: Starts With (test.starts_with("\n") == false)                                                                               |
+|  PASS  | 717: Starts With (test.starts_with("Hello world!\n") == true)                                                                    |
+|  PASS  | 718: Starts With (test.starts_with("aaa") == false)                                                                              |
+|  PASS  | 719: Starts With (test.starts_with("") == false)                                                                                 |
+|  PASS  | 721: Starts With (test.starts_with("aaa") == false)                                                                              |
+|  PASS  | 727: Ends With (test.ends_with("Hello") == false)                                                                                |
+|  PASS  | 728: Ends With (test.ends_with("world") == false)                                                                                |
+|  PASS  | 729: Ends With (test.ends_with("\n") == true)                                                                                    |
+|  PASS  | 730: Ends With (test.ends_with("Hello world!\n") == true)                                                                        |
+|  PASS  | 731: Ends With (test.ends_with("aaa") == false)                                                                                  |
+|  PASS  | 732: Ends With (test.ends_with("") == false)                                                                                     |
+|  PASS  | 734: Ends With (test.ends_with("aaa") == false)                                                                                  |
+|  PASS  | 741: Begin/End (*it == 'a' == true)                                                                                              |
+|  PASS  | 742: Begin/End (*(it + 1) == 'b' == true)                                                                                        |
+|  PASS  | 743: Begin/End (*(it + 2) == 'c' == true)                                                                                        |
+|  PASS  | 744: Begin/End (it + 3 == test.end() == true)                                                                                    |
+|  PASS  | 745: Begin/End (*++it == 'b' == true)                                                                                            |
+|  PASS  | 746: Begin/End (*++it == 'c' == true)                                                                                            |
+|  PASS  | 747: Begin/End (++it == test.end() == true)                                                                                      |
+|  PASS  | 749: Begin/End (*it++ == 'a' == true)                                                                                            |
+|  PASS  | 750: Begin/End (*it++ == 'b' == true)                                                                                            |
+|  PASS  | 751: Begin/End (*it++ == 'c' == true)                                                                                            |
+|  PASS  | 752: Begin/End (it == test.end())                                                                                                |
+|  PASS  | 759: Const Begin/End (*it == 'a' == true)                                                                                        |
+|  PASS  | 760: Const Begin/End (*(it + 1) == 'b' == true)                                                                                  |
+|  PASS  | 761: Const Begin/End (*(it + 2) == 'c' == true)                                                                                  |
+|  PASS  | 762: Const Begin/End (it + 3 == test.end() == true)                                                                              |
+|  PASS  | 763: Const Begin/End (*++it == 'b' == true)                                                                                      |
+|  PASS  | 764: Const Begin/End (*++it == 'c' == true)                                                                                      |
+|  PASS  | 765: Const Begin/End (++it == test.end() == true)                                                                                |
+|  PASS  | 767: Const Begin/End (*it++ == 'a' == true)                                                                                      |
+|  PASS  | 768: Const Begin/End (*it++ == 'b' == true)                                                                                      |
+|  PASS  | 769: Const Begin/End (*it++ == 'c' == true)                                                                                      |
+|  PASS  | 770: Const Begin/End (it == test.end())                                                                                          |
+|  PASS  | 777: To Upper (test == "HELLO WORLD!\n")                                                                                         |
+|  PASS  | 780: To Upper (test == "")                                                                                                       |
+|  PASS  | 787: To Lower (test == "hello world!\n")                                                                                         |
+|  PASS  | 790: To Lower (test == "")                                                                                                       |
+|  PASS  | 797: Replace (test == "Goodbye world!\n")                                                                                        |
+|  PASS  | 799: Replace (test == "Goodbye Earth!\n")                                                                                        |
+|  PASS  | 801: Replace (test == "Goodbye Earth!!")                                                                                         |
+|  PASS  | 803: Replace (test == "Goodbye Earth")                                                                                           |
+|  PASS  | 804: Replace (String::replace(test, "", ""))                                                                                     |
+|  PASS  | 811: Split Char (result.get_size() == 2)                                                                                         |
+|  PASS  | 812: Split Char (result[0] == "Hello")                                                                                           |
+|  PASS  | 813: Split Char (result[1] == "world!\n")                                                                                        |
+|  PASS  | 815: Split Char (result.get_size() == 1)                                                                                         |
+|  PASS  | 816: Split Char (result[0] == "Hello world!")                                                                                    |
+|  PASS  | 818: Split Char (result.get_size() == 1)                                                                                         |
+|  PASS  | 825: Split String (result.get_size() == 2)                                                                                       |
+|  PASS  | 826: Split String (result[0] == "Hello")                                                                                         |
+|  PASS  | 827: Split String (result[1] == "world!\n")                                                                                      |
+|  PASS  | 829: Split String (result.get_size() == 1)                                                                                       |
+|  PASS  | 830: Split String (result[0] == "Hello world!")                                                                                  |
+|  PASS  | 832: Split String (result.get_size() == 1)                                                                                       |
+|  PASS  | 839: Split (result.get_size() == 1)                                                                                              |
+|  PASS  | 840: Split (result[0] == "Hello world!")                                                                                         |
+|  PASS  | 843: Split (result.get_size() == 2)                                                                                              |
+|  PASS  | 844: Split (result[0] == "Hello")                                                                                                |
+|  PASS  | 845: Split (result[1] == "world!")                                                                                               |
+|  PASS  | 852: From Bytes (test.get_capacity() == sizeof(data) - 1)                                                                        |
+|  PASS  | 853: From Bytes (test.get_size() == sizeof(data) - 1)                                                                            |
+|  PASS  | 854: From Bytes (test.get_data() != nullptr == true)                                                                             |
+|  PASS  | 855: From Bytes (test.get_data()[0] == 'H')                                                                                      |
+|  PASS  | 856: From Bytes (test.get_data()[1] == 'e')                                                                                      |
+|  PASS  | 857: From Bytes (test.get_data()[2] == 'l')                                                                                      |
+|  PASS  | 858: From Bytes (test.get_data()[3] == 'l')                                                                                      |
+|  PASS  | 859: From Bytes (test.get_data()[4] == 'o')                                                                                      |
+|  PASS  | 860: From Bytes (test.get_data()[5] == ' ')                                                                                      |
+|  PASS  | 861: From Bytes (test.get_data()[6] == 'w')                                                                                      |
+|  PASS  | 862: From Bytes (test.get_data()[7] == 'o')                                                                                      |
+|  PASS  | 863: From Bytes (test.get_data()[8] == 'r')                                                                                      |
+|  PASS  | 864: From Bytes (test.get_data()[9] == 'l')                                                                                      |
+|  PASS  | 865: From Bytes (test.get_data()[10] == 'd')                                                                                     |
+|  PASS  | 866: From Bytes (test.get_data()[11] == '!')                                                                                     |
+|  PASS  | 867: From Bytes (test.get_data()[12] == '\n')                                                                                    |
+|  PASS  | 868: From Bytes (test.get_data()[test.get_size()] == '\0')                                                                       |
 
 ## UUID
 | Result | Message                                                                                                                          |
@@ -5191,7 +5248,6 @@ No failures! :)
 ## Shader
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 21: Constructor/Create (Shader::create(builder))                                                                                 |
 
 ## ShaderCullMode
 | Result | Message                                                                                                                          |
@@ -5852,32 +5908,32 @@ No failures! :)
 |  PASS  | 137: Load (wrap.get_path() == Path(TEST_PATH).get_absolute() == true)                                                            |
 |  PASS  | 138: Load (wrap.get_size() != 0 == true)                                                                                         |
 |  PASS  | 139: Load (wrap.get_type() != Wrap::Type::None == true)                                                                          |
-|  PASS  | 146: Emplace (wrap.get_entry_count() == 1 == true)                                                                               |
-|  PASS  | 147: Emplace (wrap.get_size() != 0 == true)                                                                                      |
-|  PASS  | 158: Emplace (text.contains("Lorem ipsum") == true)                                                                              |
-|  PASS  | 161: Emplace (wrap.emplace(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None))                                          |
+|  PASS  | 146: Add (wrap.get_entry_count() == 1 == true)                                                                                   |
+|  PASS  | 147: Add (wrap.get_size() != 0 == true)                                                                                          |
+|  PASS  | 158: Add (text.contains("Lorem ipsum") == true)                                                                                  |
+|  PASS  | 161: Add (wrap.add(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None))                                                  |
 |  PASS  | 170: Contains (wrap.contains("GenericAsset.txt") == true)                                                                        |
 |  PASS  | 171: Contains (wrap.contains("Text2.txt") == false == true)                                                                      |
 |  PASS  | 176: Contains (wrap2.contains("Base/Path/GenericAsset.txt") == true)                                                             |
 |  PASS  | 185: Open (wrap.open("GenericAsset.txt", file) == true)                                                                          |
 |  PASS  | 194: Open (text.contains("Lorem ipsum") == true)                                                                                 |
-|  PASS  | 206: Read (text.contains("Lorem ipsum") == true)                                                                                 |
-|  PASS  | 214: Get Entry Index (Path(wrap.get_entry(0).path) == "GenericAsset.txt" == true)                                                |
-|  PASS  | 222: Get Entry Path (Path(wrap.get_entry("GenericAsset.txt").path) == "GenericAsset.txt" == true)                                |
-|  PASS  | 230: Load Or Create (Path(wrap.get_base_path()) == "Test/Path" == true)                                                          |
-|  PASS  | 231: Load Or Create (wrap.get_content_version() == 34 == true)                                                                   |
-|  PASS  | 232: Load Or Create (wrap.get_entry_count() == 1 == true)                                                                        |
-|  PASS  | 233: Load Or Create (String(wrap.get_name()) == "Test" == true)                                                                  |
-|  PASS  | 234: Load Or Create (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                              |
-|  PASS  | 235: Load Or Create (wrap.get_size() != 0 == true)                                                                               |
-|  PASS  | 236: Load Or Create (wrap.get_type() == Wrap::Type::File == true)                                                                |
-|  PASS  | 240: Load Or Create (Path(wrap2.get_base_path()) == "Test/Path" == true)                                                         |
-|  PASS  | 241: Load Or Create (wrap2.get_content_version() == 34 == true)                                                                  |
-|  PASS  | 242: Load Or Create (wrap2.get_entry_count() == 1 == true)                                                                       |
-|  PASS  | 243: Load Or Create (String(wrap2.get_name()) == "Test" == true)                                                                 |
-|  PASS  | 244: Load Or Create (wrap2.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                             |
-|  PASS  | 245: Load Or Create (wrap2.get_size() != 0 == true)                                                                              |
-|  PASS  | 246: Load Or Create (wrap2.get_type() == Wrap::Type::File == true)                                                               |
+|  PASS  | 207: Read Bytes (text.contains("Lorem ipsum") == true)                                                                           |
+|  PASS  | 215: Get Entry Index (Path(wrap.get_entry(0).path) == "GenericAsset.txt" == true)                                                |
+|  PASS  | 223: Get Entry Path (Path(wrap.get_entry("GenericAsset.txt").path) == "GenericAsset.txt" == true)                                |
+|  PASS  | 231: Load Or Create (Path(wrap.get_base_path()) == "Test/Path" == true)                                                          |
+|  PASS  | 232: Load Or Create (wrap.get_content_version() == 34 == true)                                                                   |
+|  PASS  | 233: Load Or Create (wrap.get_entry_count() == 1 == true)                                                                        |
+|  PASS  | 234: Load Or Create (String(wrap.get_name()) == "Test" == true)                                                                  |
+|  PASS  | 235: Load Or Create (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                              |
+|  PASS  | 236: Load Or Create (wrap.get_size() != 0 == true)                                                                               |
+|  PASS  | 237: Load Or Create (wrap.get_type() == Wrap::Type::File == true)                                                                |
+|  PASS  | 241: Load Or Create (Path(wrap2.get_base_path()) == "Test/Path" == true)                                                         |
+|  PASS  | 242: Load Or Create (wrap2.get_content_version() == 34 == true)                                                                  |
+|  PASS  | 243: Load Or Create (wrap2.get_entry_count() == 1 == true)                                                                       |
+|  PASS  | 244: Load Or Create (String(wrap2.get_name()) == "Test" == true)                                                                 |
+|  PASS  | 245: Load Or Create (wrap2.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                             |
+|  PASS  | 246: Load Or Create (wrap2.get_size() != 0 == true)                                                                              |
+|  PASS  | 247: Load Or Create (wrap2.get_type() == Wrap::Type::File == true)                                                               |
 
 ## Wrapper
 | Result | Message                                                                                                                          |
@@ -5903,5 +5959,5 @@ No failures! :)
 |  PASS  | 101: Contains (wrapper.contains(TEST_ASSET_PATH_2) == true)                                                                      |
 |  PASS  | 102: Contains (!wrapper.contains("Not Here") == true)                                                                            |
 |  PASS  | 110: Open (wrapper.open(TEST_ASSET_PATH, file) == true)                                                                          |
-|  PASS  | 119: Read (data.get_size() != 0 == true)                                                                                         |
-|  PASS  | 122: Read (text.contains("Template: ") == true)                                                                                  |
+|  PASS  | 119: Read Bytes (data.get_size() != 0 == true)                                                                                   |
+|  PASS  | 121: Read Bytes (text.contains("Template: ") == true)                                                                            |

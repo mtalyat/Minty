@@ -1,5 +1,9 @@
 var NAVTREEINDEX19 =
 {
+"struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac":[1,0,0,7,2],
+"struct_minty_1_1_buffer_builder.html#a44da98604e8c6d63ef1b42c68913968f":[0,0,0,8,0],
+"struct_minty_1_1_buffer_builder.html#a44da98604e8c6d63ef1b42c68913968f":[1,0,0,7,0],
+"struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5":[0,0,0,8,1],
 "struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5":[1,0,0,7,1],
 "struct_minty_1_1_buffer_builder.html#af8e956839f3b59528ab80e1d871ac9bd":[0,0,0,8,3],
 "struct_minty_1_1_buffer_builder.html#af8e956839f3b59528ab80e1d871ac9bd":[1,0,0,7,3],
@@ -245,9 +249,5 @@ var NAVTREEINDEX19 =
 "struct_minty_1_1_shader_input.html#ada07b90877e4e1abaedce5eeaa69acb3":[1,0,0,78,3],
 "struct_minty_1_1_shader_input.html#afc52e075a1de2c7969decd5b1cb8853b":[0,0,0,79,2],
 "struct_minty_1_1_shader_input.html#afc52e075a1de2c7969decd5b1cb8853b":[1,0,0,78,2],
-"struct_minty_1_1_shader_input.html#afd5777852877dea81ed2d282e7ab46ce":[0,0,0,79,0],
-"struct_minty_1_1_shader_input.html#afd5777852877dea81ed2d282e7ab46ce":[1,0,0,78,0],
-"struct_minty_1_1_shader_module_builder.html":[0,0,0,81],
-"struct_minty_1_1_shader_module_builder.html":[1,0,0,80],
-"struct_minty_1_1_shader_module_builder.html#ad8abbd47c717d1b48aea3a91184aaaa8":[0,0,0,81,2]
+"struct_minty_1_1_shader_input.html#afd5777852877dea81ed2d282e7ab46ce":[0,0,0,79,0]
 };

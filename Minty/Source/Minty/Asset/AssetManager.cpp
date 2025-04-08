@@ -2,6 +2,16 @@
 #include "AssetManager.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Library/STB.h"
+#include "Minty/Render/Image.h"
+#include "Minty/Render/ImagePixelFormat.h"
+#include "Minty/Render/Material.h"
+#include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/Shader.h"
+#include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/Viewport.h"
+//#include "Minty/Render/Sprite.h"
+//#include "Minty/Render/Texture.h"
 
 using namespace Minty;
 
@@ -36,26 +46,27 @@ AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 
 ID Minty::AssetManager::read_id(Path const& path) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read ID from file that does not exist.");
+	MINTY_ASSERT(exists(path), "Cannot read_bytes ID from file that does not exist.");
 
 	Path metaPath = Asset::get_meta_path(path);
 
-	MINTY_ASSERT(Path::exists(metaPath), "Cannot read ID from file that does not have a meta file.");
+	MINTY_ASSERT(exists(metaPath), "Cannot read_bytes ID from file that does not have a meta file.");
 
-	File* file = open(metaPath);
+	Vector<String> lines = read_lines(metaPath);
 
-	MINTY_ASSERT(file != nullptr, "Failed to open meta file for reading.");
+	// ignore if empty
+	if (lines.is_empty())
+	{
+		return INVALID_ID;
+	}
 
-	// read the first line
-	String line;
-	Bool result = file->read_line(line);
-	MINTY_ASSERT(result && line.starts_with(": ") && line.get_size() == 18, "Failed to read ID from meta file: meta file not in correct format.");
+	// get ID from first line
+	String const& line = lines.front();
+	MINTY_ASSERT(line.starts_with(": ") && line.get_size() == 18, "Failed to read_bytes ID from meta file: meta file not in correct format.");
 
 	// get the ID
 	String idString = line.sub(2, 16);
 	UUID id = parse_to<UUID>(idString);
-
-	close(file);
 
 	return id;
 }
@@ -237,7 +248,7 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
 	Path metaPath = Asset::get_meta_path(path);
 	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
-#endif // MINTY_DEBUG
+#endif // MINTY_DEBUG  
 
 	AssetType type = Asset::get_asset_type(path);
 
@@ -245,6 +256,24 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 	{
 	case AssetType::Generic:
 		return load_generic(path);
+	case AssetType::Image:
+		return load_image(path);
+	case AssetType::Material:
+		return load_material(path);
+	case AssetType::MaterialTemplate:
+		return load_material_template(path);
+	//case AssetType::Mesh:
+	//	return load_mesh(path);
+	case AssetType::Shader:
+		return load_shader(path);
+	case AssetType::ShaderModule:
+		return load_shader_module(path);
+	//case AssetType::Scene:
+	//	return load_scene(path);
+	//case AssetType::Sprite:
+	//	return load_sprite(path);
+	//case AssetType::Texture:
+	//	return load_texture(path);
 	default:
 		MINTY_ABORT("Not implemented.");
 		return Ref<Asset>();
@@ -506,49 +535,65 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 	return result;
 }
 
+Vector<Byte> Minty::AssetManager::read_bytes(Path const& path) const
+{
+	Location location = get_location(path);
+
+	MINTY_ASSERT(location != Location::Undefined, "Cannot read bytes from file that does not exist.");
+
+	switch (location)
+	{
+	case Location::FileSystem:
+		return File::read_bytes(path);
+	case Location::Wrapper:
+		return m_wrapper.read_bytes(path);
+	}
+
+	return Vector<Byte>();
+}
+
 String Minty::AssetManager::read_text(Path const& path) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read text from file that does not exist.");
+	Vector<Byte> bytes = read_bytes(path);
 
-	File* file = open(path);
+	if (bytes.is_empty())
+	{
+		return String();
+	}
 
-	MINTY_ASSERT(file != nullptr, "Failed to open file for reading.");
-
-	String text = file->read_text();
-
-	close(file);
-
-	return text;
+	// create string from bytes
+	return String::from_bytes(bytes.get_data(), bytes.get_size());
 }
 
 Vector<String> Minty::AssetManager::read_lines(Path const& path) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read lines from file that does not exist.");
+	String text = read_text(path);
 
-	File* file = open(path);
-
-	MINTY_ASSERT(file != nullptr, "Failed to open file for reading.");
-
-	Vector<String> lines = file->read_lines();
-
-	close(file);
-
-	return lines;
+	// split into lines
+	return String::split(text);
 }
 
-Vector<Byte> Minty::AssetManager::read_bytes(Path const& path) const
+Int Minty::AssetManager::check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read bytes from file that does not exist.");
+	// if invalid id (0), set to null
+	if (!id.is_valid())
+	{
+		if (required)
+		{
+			Debug::write_error(F("Cannot load \"{}\". \"{}\"'s ID was invalid.", path, name));
+		}
 
-	File* file = open(path);
+		return 2;
+	}
 
-	MINTY_ASSERT(file != nullptr, "Failed to open file for reading.");
-	
-	Vector<Byte> bytes = file->read_bytes();
+	// if asset id is valid but asset with id DNE, set to null
+	if (!id.is_valid() || !contains(id))
+	{
+		Debug::write_error(F("Cannot load \"{}\": requires a dependency \"{}\" with ID {} that has not been loaded yet.", path, name, id));
+		return -1;
+	}
 
-	close(file);
-
-	return bytes;
+	return 0;
 }
 
 Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path)
@@ -562,6 +607,340 @@ Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path)
 	};
 
 	return create_from_loaded<GenericAsset>(path, builder);
+}
+
+Ref<Image> Minty::AssetManager::load_image(Path const& path)
+{
+	// get image data
+	Vector<Byte> bytes = read_bytes(path);
+
+	// get pixel data
+	int width, height, channels;
+	stbi_uc* data = stbi_load_from_memory(static_cast<stbi_uc*>(bytes.get_data()), static_cast<int>(bytes.get_size()), &width, &height, &channels, static_cast<int>(ImagePixelFormat::RedGreenBlueAlpha));
+	MINTY_ASSERT(data != nullptr, "Failed to load image pixel data.");
+
+	// create the image
+	ImageBuilder builder{};
+	builder.id = read_id(path);
+	builder.format = Format::Default;
+	builder.type = ImageType::D2;
+	builder.tiling = ImageTiling::Optimal;
+	builder.size = UInt2(width, height);
+	builder.pixelData = data;
+	builder.pixelDataSize = static_cast<Size>(width * height * channels * sizeof(Byte));
+	Ref<Image> image = create_from_loaded<Image>(path, builder);
+
+	// free the pixel data
+	stbi_image_free(data);
+
+	// done
+	return image;
+}
+
+static void read_values(Reader& reader, Map<String, Map<String, Variable>>& values)
+{
+	String objectName;
+	String valueName;
+	Variable valueVariable;
+
+	for (Size i = 0; i < reader.get_size(); i++)
+	{
+		// read the name of the object
+		if (!reader.read_name(i, objectName))
+		{
+			continue;
+		}
+
+		// enter object
+		reader.indent(i);
+
+		// read names and variables for each value
+		Map<String, Variable> objectValues(reader.get_size());
+		for (Size j = 0; j < reader.get_size(); j++)
+		{
+			// read the name of the variable
+			if (!reader.read_name(j, valueName))
+			{
+				continue;
+			}
+
+			// read the variable
+			if (!reader.read(j, valueVariable))
+			{
+				continue;
+			}
+
+			// add to the object values
+			objectValues.add(valueName, valueVariable);
+		}
+
+		// add values to the object
+		values.add(objectName, std::move(objectValues));
+
+		// outdent
+		reader.outdent();
+	}
+}
+
+Ref<Material> Minty::AssetManager::load_material(Path const& path)
+{
+	// create builder
+	MaterialBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// get template
+		if (find_dependency<MaterialTemplate>(path, *reader, "Template", builder.materialTemplate, true))
+		{
+			close_reader(reader);
+			return Ref<Material>();
+		}
+
+		// read values
+		if (reader->indent("Values"))
+		{
+			read_values(*reader, builder.values);
+			reader->outdent();
+		}
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<Material>(path, builder);
+}
+
+Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& path)
+{
+	// create builder
+	MaterialTemplateBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		if (find_dependency<Shader>(path, *reader, "Shader", builder.shader, true))
+		{
+			close_reader(reader);
+			return Ref<MaterialTemplate>();
+		}
+
+		// read values
+		if (reader->indent("Values"))
+		{
+			read_values(*reader, builder.values);
+			reader->outdent();
+		}
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<MaterialTemplate>(path, builder);
+}
+
+Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
+{
+	// create builder
+	ShaderBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// config
+		reader->read("PrimitiveTopology", builder.primitiveTopology);
+		reader->read("PolygonMode", builder.polygonMode);
+		reader->read("CullMode", builder.cullMode);
+		reader->read("FrontFace", builder.frontFace);
+		reader->read("LineWidth", builder.lineWidth);
+
+		// inputs (uniform, push, etc.)
+		if (reader->indent("Inputs"))
+		{
+			// offset for push constants
+			Size offset = 0;
+
+			builder.inputs.resize(reader->get_size(), ShaderInput{});
+			for (Size i = 0; i < reader->get_size(); i++)
+			{
+				// get the input
+				ShaderInput& input = builder.inputs[i];
+
+				// get the name
+				if (!reader->read_name(i, input.name))
+				{
+					continue;
+				}
+
+				// step in to read values
+				if (reader->indent(i))
+				{
+					// get basic data
+					reader->read("Binding", input.binding);
+					reader->read("Stage", input.stage);
+					reader->read("Type", input.type);
+					reader->read("Count", input.count);
+					reader->read("Frequent", input.frequent);
+
+					// set offset if push constant
+					if (input.type == ShaderInputType::PushConstant)
+					{
+						MINTY_ASSERT(input.stage == ShaderStage::Vertex, "Push constants can only be used in the vertex stage.");
+
+						input.offset = offset;
+					}
+
+					reader->outdent();
+				}
+
+				// read structure
+				if (reader->indent("Structure"))
+				{
+					String name = "";
+					Type type = Type::Undefined;
+					for (Size j = 0; j < reader->get_size(); j++)
+					{
+						// get name
+						if (!reader->read_name(j, name))
+						{
+							continue;
+						}
+
+						// get type
+						if (!reader->read(j, type))
+						{
+							continue;
+						}
+
+						// add to the input
+						input.data.add(name, Variable(type));
+
+						// add to total size
+						UInt typeSize = static_cast<UInt>(sizeof_type(type));
+						input.size += typeSize;
+					}
+
+					reader->outdent();
+				}
+
+				// adjust offset if push constant, so next push const is aligned
+				if (input.type == ShaderInputType::PushConstant)
+				{
+					offset += input.size;
+				}
+			}
+
+			reader->outdent();
+		}
+
+		// bindings
+		if (reader->indent("Bindings"))
+		{
+			// allot space for bindings
+			builder.vertexInput.bindings.resize(reader->get_size(), ShaderBinding{});
+
+			String name;
+			UInt binding = UINT_MAX;
+			UInt location;
+			for (Size i = 0; i < reader->get_size(); i++)
+			{
+				ShaderBinding& shaderBinding = builder.vertexInput.bindings[i];
+
+				// read the binding
+				if (!reader->read_name(i, name) || !try_uint(name, binding))
+				{
+					binding += 1;
+				}
+				shaderBinding.binding = binding;
+
+				// read rate
+				if (!reader->read(i, shaderBinding.inputRate))
+				{
+					continue;
+				}
+
+				// read attributes
+				if (reader->indent(i))
+				{
+					// allot space for attributes
+					shaderBinding.attributes.resize(reader->get_size(), ShaderAttribute{});
+					
+					// read each attribute
+					location = UINT_MAX;
+					for (Size j = 0; j < reader->get_size(); j++)
+					{
+						ShaderAttribute& shaderAttribute = shaderBinding.attributes[j];
+
+						// get attribute location
+						if (!reader->read_name(j, name) || !try_uint(name, location))
+						{
+							// set location to last location + 1
+							location += 1;
+						}
+						shaderAttribute.location = location;
+
+						// get attribute type
+						if (!reader->read(j, shaderAttribute.type))
+						{
+							continue;
+						}
+					}
+
+					reader->outdent();
+				}
+			}
+
+			reader->outdent();
+		}
+
+		// modules
+		if (reader->indent("Stages"))
+		{
+			if (find_dependency<ShaderModule>(path, *reader, "Vertex", builder.vertexShaderModule, true))
+			{
+				close_reader(reader);
+				return Ref<Shader>();
+			}
+
+			if (find_dependency<ShaderModule>(path, *reader, "Fragment", builder.fragmentShaderModule, true))
+			{
+				close_reader(reader);
+				return Ref<Shader>();
+			}
+
+			reader->outdent();
+		}
+
+		// viewport
+		if (find_dependency<Viewport>(path, *reader, "Viewport", builder.viewport, true))
+		{
+			// if no viewport given, use default viewport
+			builder.viewport = RenderManager::get_singleton().get_default_viewport();
+		}
+
+		close_reader(reader);
+	}
+
+	// create the shader
+	return create_from_loaded<Shader>(path, builder);
+}
+
+Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path)
+{
+	// create builder
+	ShaderModuleBuilder builder{};
+	builder.id = read_id(path);
+
+	// read data
+	Vector<Byte> bytes = read_bytes(path);
+	builder.data = bytes.get_data();
+	builder.size = bytes.get_size();
+
+	return create_from_loaded<ShaderModule>(path, builder);
 }
 
 Owner<AssetManager> Minty::AssetManager::create(AssetManagerBuilder const& builder)

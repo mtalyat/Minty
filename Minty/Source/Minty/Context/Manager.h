@@ -22,6 +22,17 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Get Set
+
+	public:
+		/// <summary>
+		/// Checks if this Manager is initialized.
+		/// </summary>
+		/// <returns>True, if initialized.</returns>
+		Bool is_initialized() const { return m_initialized; }
+
+#pragma endregion
+
 #pragma region Methods
 
 	public:

@@ -1,5 +1,9 @@
 var NAVTREEINDEX18 =
 {
+"namespace_minty.html#ab8ab09a751e11d15cf255620fd0727cf":[0,0,0,343],
+"namespace_minty.html#aba151d57feef32a12b75b63d739c3f80":[0,0,0,370],
+"namespace_minty.html#aba8efead217577576134904b5c19c5ef":[0,0,0,417],
+"namespace_minty.html#abb7a6b0a5cff0e74b20fbca8d19eab4a":[0,0,0,475],
 "namespace_minty.html#abc31b35baad85a87632d97c69d595e5b":[0,0,0,446],
 "namespace_minty.html#abc51dc9cf0323e4f8a717908942c5244":[0,0,0,329],
 "namespace_minty.html#abc7b1c1bc71d89bb8595fad1023f1b9a":[0,0,0,312],
@@ -245,9 +249,5 @@ var NAVTREEINDEX18 =
 "struct_minty_1_1_asset_manager_builder.html#abbbc3baf329630ecf5ca823a9e3e6b37":[1,0,0,5,0],
 "struct_minty_1_1_buffer_builder.html":[0,0,0,8],
 "struct_minty_1_1_buffer_builder.html":[1,0,0,7],
-"struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac":[0,0,0,8,2],
-"struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac":[1,0,0,7,2],
-"struct_minty_1_1_buffer_builder.html#a44da98604e8c6d63ef1b42c68913968f":[0,0,0,8,0],
-"struct_minty_1_1_buffer_builder.html#a44da98604e8c6d63ef1b42c68913968f":[1,0,0,7,0],
-"struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5":[0,0,0,8,1]
+"struct_minty_1_1_buffer_builder.html#a43bd194361ec3d9fe00a778366b7a6ac":[0,0,0,8,2]
 };
