@@ -140,7 +140,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test_ArgumentParser.cpp" />
     <ClCompile Include="Test_Buffer.cpp" />
+    <ClCompile Include="Test_Camera.cpp" />
     <ClCompile Include="Test_CoordinateMode.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
@@ -170,6 +172,7 @@
     <ClCompile Include="Test_ImageUsage.cpp" />
     <ClCompile Include="Test_JobManager.cpp" />
     <ClCompile Include="Test_List.cpp" />
+    <ClCompile Include="Test_LoadOperation.cpp" />
     <ClCompile Include="Test_Map.cpp" />
     <ClCompile Include="Test_Math.cpp" />
     <ClCompile Include="Test_MemoryManager.cpp" />
@@ -178,10 +181,13 @@
     <ClCompile Include="Test_Minty.cpp" />
     <ClCompile Include="Test_Node.cpp" />
     <ClCompile Include="Test_Pair.cpp" />
+    <ClCompile Include="Test_Perspective.cpp" />
     <ClCompile Include="Test_PhysicalFile.cpp" />
     <ClCompile Include="Test_Queue.cpp" />
     <ClCompile Include="Test_Reader.cpp" />
     <ClCompile Include="Test_RenderManager.cpp" />
+    <ClCompile Include="Test_RenderPass.cpp" />
+    <ClCompile Include="Test_RenderTarget.cpp" />
     <ClCompile Include="Test_Set.cpp" />
     <ClCompile Include="Test_Shader.cpp" />
     <ClCompile Include="Test_ShaderCullMode.cpp" />
@@ -195,6 +201,7 @@
     <ClCompile Include="Test_Stack.cpp" />
     <ClCompile Include="Test_StaticContainer.cpp" />
     <ClCompile Include="Test_Stopwatch.cpp" />
+    <ClCompile Include="Test_StoreOperation.cpp" />
     <ClCompile Include="Test_String.cpp" />
     <ClCompile Include="Test_Time.cpp" />
     <ClCompile Include="Test_Type.cpp" />
@@ -209,7 +216,9 @@
     <ClCompile Include="Test_Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Test_ArgumentParser.h" />
     <ClInclude Include="Test_Buffer.h" />
+    <ClInclude Include="Test_Camera.h" />
     <ClInclude Include="Test_CoordinateMode.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
@@ -240,6 +249,7 @@
     <ClInclude Include="Test_ImageUsage.h" />
     <ClInclude Include="Test_JobManager.h" />
     <ClInclude Include="Test_List.h" />
+    <ClInclude Include="Test_LoadOperation.h" />
     <ClInclude Include="Test_Map.h" />
     <ClInclude Include="Test_Math.h" />
     <ClInclude Include="Test_MemoryManager.h" />
@@ -248,10 +258,13 @@
     <ClInclude Include="Test_Minty.h" />
     <ClInclude Include="Test_Node.h" />
     <ClInclude Include="Test_Pair.h" />
+    <ClInclude Include="Test_Perspective.h" />
     <ClInclude Include="Test_PhysicalFile.h" />
     <ClInclude Include="Test_Queue.h" />
     <ClInclude Include="Test_Reader.h" />
     <ClInclude Include="Test_RenderManager.h" />
+    <ClInclude Include="Test_RenderPass.h" />
+    <ClInclude Include="Test_RenderTarget.h" />
     <ClInclude Include="Test_Set.h" />
     <ClInclude Include="Test_Shader.h" />
     <ClInclude Include="Test_ShaderCullMode.h" />
@@ -265,6 +278,7 @@
     <ClInclude Include="Test_Stack.h" />
     <ClInclude Include="Test_StaticContainer.h" />
     <ClInclude Include="Test_Stopwatch.h" />
+    <ClInclude Include="Test_StoreOperation.h" />
     <ClInclude Include="Test_String.h" />
     <ClInclude Include="Test_Time.h" />
     <ClInclude Include="Test_Type.h" />

@@ -32,6 +32,10 @@ var searchData=
   ['stb_2eh_29',['STB.h',['../_s_t_b_8h.html',1,'']]],
   ['stopwatch_2ecpp_30',['Stopwatch.cpp',['../_stopwatch_8cpp.html',1,'']]],
   ['stopwatch_2eh_31',['Stopwatch.h',['../_stopwatch_8h.html',1,'']]],
-  ['string_2ecpp_32',['String.cpp',['../_string_8cpp.html',1,'']]],
-  ['string_2eh_33',['String.h',['../_string_8h.html',1,'']]]
+  ['storeoperation_2ecpp_32',['StoreOperation.cpp',['../_store_operation_8cpp.html',1,'']]],
+  ['storeoperation_2eh_33',['StoreOperation.h',['../_store_operation_8h.html',1,'']]],
+  ['string_2ecpp_34',['String.cpp',['../_string_8cpp.html',1,'']]],
+  ['string_2eh_35',['String.h',['../_string_8h.html',1,'']]],
+  ['surface_2ecpp_36',['Surface.cpp',['../_surface_8cpp.html',1,'']]],
+  ['surface_2eh_37',['Surface.h',['../_surface_8h.html',1,'']]]
 ];

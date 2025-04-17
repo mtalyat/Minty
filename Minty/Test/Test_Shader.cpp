@@ -25,6 +25,7 @@ void test_Shader(Test& _test)
 			//builder.viewport = viewport;
 			//builder.vertexShaderModule = vertexModule;
 			//builder.fragmentShaderModule = fragmentModule;
+			//builder.renderPass = renderManager.get_default_render_pass();
 			//EXPECT_SUCCESS(Shader::create(builder));
 		}
 

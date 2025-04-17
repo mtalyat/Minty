@@ -29,6 +29,8 @@ namespace Minty
 	public:
 		UInt2 get_size() const override { return m_size; }
 
+		inline VkFramebuffer get_framebuffer(Size const index) const { return m_framebuffers[index]; }
+
 #pragma endregion
 
 #pragma region Methods
@@ -39,7 +41,7 @@ namespace Minty
 		void dispose();
 
 	public:
-		void reinitialize(RenderTargetBuilder const& builder) override;
+		void refresh(RenderTargetBuilder const& builder) override;
 
 #pragma endregion
 	};

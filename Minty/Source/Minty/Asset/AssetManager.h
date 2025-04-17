@@ -19,6 +19,8 @@ namespace Minty
 	class Material;
 	class MaterialTemplate;
 	class Mesh;
+	struct RenderAttachment;
+	class RenderPass;
 	class Scene;
 	class Shader;
 	class ShaderModule;
@@ -284,7 +286,7 @@ namespace Minty
 		template<typename T>
 		Ref<T> get(UUID const id) const
 		{
-			return get_asset(id).static_cast_to<T>();
+			return get_asset(id).cast_to<T>();
 		}
 
 		/// <summary>
@@ -460,6 +462,8 @@ namespace Minty
 
 		Int check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const;
 
+		Int read_attachment(Path const& path, Reader& reader, String const& name, RenderAttachment& attachment, Bool const required) const;
+
 #pragma endregion
 
 
@@ -473,6 +477,8 @@ namespace Minty
 		Ref<MaterialTemplate> load_material_template(Path const& path);
 
 		//Ref<Mesh> load_mesh(Path const& path);
+
+		Ref<RenderPass> load_render_pass(Path const& path);
 
 		//Ref<Scene> load_scene(Path const& path);
 

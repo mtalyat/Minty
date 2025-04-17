@@ -8,6 +8,7 @@ var class_minty_1_1_ref =
     [ "Ref", "class_minty_1_1_ref.html#a22c366620226dfd49c0e672aac730465", null ],
     [ "Ref", "class_minty_1_1_ref.html#a2443dbc990c60880ee7c28e9e1c5eccc", null ],
     [ "~Ref", "class_minty_1_1_ref.html#a9ec490c2c8568c2c5baab54c265b03bb", null ],
+    [ "cast_to", "class_minty_1_1_ref.html#ad8d292a453a28c7f173efb8a773235e9", null ],
     [ "get", "class_minty_1_1_ref.html#a47f64db6bf5d347ad7f07294b1a48b68", null ],
     [ "operator!", "class_minty_1_1_ref.html#a6cf9b8758937c7273ec7a2c597a1053d", null ],
     [ "operator!=", "class_minty_1_1_ref.html#a92d48b0bb66399ad2a5bdeb0794f56c2", null ],
@@ -27,7 +28,6 @@ var class_minty_1_1_ref =
     [ "operator==", "class_minty_1_1_ref.html#a4b5c1e43531b3739013880198c6157e1", null ],
     [ "operator==", "class_minty_1_1_ref.html#a1d4d7bb346151c38a0c80344b8f36612", null ],
     [ "release", "class_minty_1_1_ref.html#a7cfce7916e86abbf75e2cd4de4a51418", null ],
-    [ "static_cast_to", "class_minty_1_1_ref.html#aee875468d9b1b300f9f533d43529e376", null ],
     [ "Owner< T >", "class_minty_1_1_ref.html#a6820e1b2c99192488743980f369c06da", null ],
     [ "Ref", "class_minty_1_1_ref.html#aed701787ab4897bc9a5cdc70f97c3292", null ]
 ];

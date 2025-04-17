@@ -122,4 +122,5 @@ void Minty::File::write_lines(Vector<String> const& lines)
 
 void Minty::File::write_bytes(Vector<Byte> const& bytes)
 {
+	write(bytes.get_data(), bytes.get_size());
 }

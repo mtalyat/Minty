@@ -1,5 +1,5 @@
 # Results
-5542/5542 (100.00%)
+5632/5632 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -56,6 +56,7 @@
 | MemoryStack                    |       27 |        0 |
 | Buffer                         |       29 |        0 |
 | BufferUsage                    |       19 |        0 |
+| Camera                         |        0 |        0 |
 | CoordinateMode                 |       11 |        0 |
 | Filter                         |       11 |        0 |
 | Format                         |      487 |        0 |
@@ -67,6 +68,8 @@
 | ImageTiling                    |       11 |        0 |
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
+| LoadOperation                  |       15 |        0 |
+| Perspective                    |       11 |        0 |
 | RenderManager                  |        7 |        0 |
 | Shader                         |        0 |        0 |
 | ShaderCullMode                 |       19 |        0 |
@@ -77,14 +80,16 @@
 | ShaderPolygonMode              |       15 |        0 |
 | ShaderPrimitiveTopology        |       27 |        0 |
 | ShaderStage                    |       11 |        0 |
+| StoreOperation                 |       11 |        0 |
 | Viewport                       |       25 |        0 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
 | Stopwatch                      |       31 |        0 |
 | Time                           |       21 |        0 |
+| ArgumentParser                 |       47 |        0 |
 | Window                         |       29 |        0 |
-| Wrap                           |       74 |        0 |
+| Wrap                           |       80 |        0 |
 | Wrapper                        |       23 |        0 |
 
 ## Failures
@@ -4524,6 +4529,10 @@ No failures! :)
 |  PASS  | 42: Parse Try (parse_try_buffer_usage("", result) == false)                                                                      |
 |  PASS  | 43: Parse Try (result == BufferUsage())                                                                                          |
 
+## Camera
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+
 ## CoordinateMode
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -5234,6 +5243,40 @@ No failures! :)
 |  PASS  | 42: Parse Try (parse_try_image_usage("", result) == false)                                                                       |
 |  PASS  | 43: Parse Try (result == ImageUsage())                                                                                           |
 
+## LoadOperation
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 18: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 26: Parse To (parse_to_load_operation(name) == value)                                                                            |
+|  PASS  | 26: Parse To (parse_to_load_operation(name) == value)                                                                            |
+|  PASS  | 26: Parse To (parse_to_load_operation(name) == value)                                                                            |
+|  PASS  | 29: Parse To (parse_to_load_operation("") == LoadOperation())                                                                    |
+|  PASS  | 37: Parse Try (parse_try_load_operation(name, result) == true)                                                                   |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 37: Parse Try (parse_try_load_operation(name, result) == true)                                                                   |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 37: Parse Try (parse_try_load_operation(name, result) == true)                                                                   |
+|  PASS  | 38: Parse Try (result == value)                                                                                                  |
+|  PASS  | 41: Parse Try (parse_try_load_operation("", result) == false)                                                                    |
+|  PASS  | 42: Parse Try (result == LoadOperation())                                                                                        |
+
+## Perspective
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_perspective(name) == value)                                                                               |
+|  PASS  | 25: Parse To (parse_to_perspective(name) == value)                                                                               |
+|  PASS  | 28: Parse To (parse_to_perspective("") == Perspective())                                                                         |
+|  PASS  | 36: Parse Try (parse_try_perspective(name, result) == true)                                                                      |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_perspective(name, result) == true)                                                                      |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_perspective("", result) == false)                                                                       |
+|  PASS  | 41: Parse Try (result == Perspective())                                                                                          |
+
 ## RenderManager
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -5421,6 +5464,21 @@ No failures! :)
 |  PASS  | 37: Parse Try (result == value)                                                                                                  |
 |  PASS  | 40: Parse Try (parse_try_shader_stage("", result) == false)                                                                      |
 |  PASS  | 41: Parse Try (result == ShaderStage())                                                                                          |
+
+## StoreOperation
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 17: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 25: Parse To (parse_to_store_operation(name) == value)                                                                           |
+|  PASS  | 25: Parse To (parse_to_store_operation(name) == value)                                                                           |
+|  PASS  | 28: Parse To (parse_to_store_operation("") == StoreOperation())                                                                  |
+|  PASS  | 36: Parse Try (parse_try_store_operation(name, result) == true)                                                                  |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 36: Parse Try (parse_try_store_operation(name, result) == true)                                                                  |
+|  PASS  | 37: Parse Try (result == value)                                                                                                  |
+|  PASS  | 40: Parse Try (parse_try_store_operation("", result) == false)                                                                   |
+|  PASS  | 41: Parse Try (result == StoreOperation())                                                                                       |
 
 ## Viewport
 | Result | Message                                                                                                                          |
@@ -5824,6 +5882,57 @@ No failures! :)
 |  PASS  | 76: Sleep (duration >= 0.1f)                                                                                                     |
 |  PASS  | 77: Sleep (duration < 0.2f)                                                                                                      |
 
+## ArgumentParser
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 10: Constructor (ArgumentParser parser)                                                                                          |
+|  PASS  | 18: Add Parameter (parser.add_parameter(""))                                                                                     |
+|  PASS  | 19: Add Parameter (parser.add_parameter("test0"))                                                                                |
+|  PASS  | 20: Add Parameter (parser.add_parameter("test1", 2))                                                                             |
+|  PASS  | 21: Add Parameter (parser.add_parameter("test2", 0))                                                                             |
+|  PASS  | 22: Add Parameter (parser.add_parameter("test2", -1))                                                                            |
+|  PASS  | 27: Add Parameter (parser.get_argument("test0").get_size() == 1)                                                                 |
+|  PASS  | 28: Add Parameter (parser.get_argument("test1").get_size() == 2)                                                                 |
+|  PASS  | 29: Add Parameter (parser.has_argument("test2") == false)                                                                        |
+|  PASS  | 30: Add Parameter (parser.has_argument("test3") == false)                                                                        |
+|  PASS  | 34: Add Parameter (parser.add_parameter("", "t0"))                                                                               |
+|  PASS  | 35: Add Parameter (parser.add_parameter("test3", "t3"))                                                                          |
+|  PASS  | 36: Add Parameter (parser.add_parameter("test4", "t4", 2))                                                                       |
+|  PASS  | 37: Add Parameter (parser.add_parameter("test5", "t5", 0))                                                                       |
+|  PASS  | 38: Add Parameter (parser.add_parameter("test6", "t6", -1))                                                                      |
+|  PASS  | 42: Add Parameter (parser.get_argument("test3").get_size() == 1)                                                                 |
+|  PASS  | 43: Add Parameter (parser.get_argument("test4").get_size() == 2)                                                                 |
+|  PASS  | 44: Add Parameter (parser.has_argument("test5") == false)                                                                        |
+|  PASS  | 45: Add Parameter (parser.has_argument("test6") == false)                                                                        |
+|  PASS  | 46: Add Parameter (parser.has_argument("test0") == false)                                                                        |
+|  PASS  | 53: Parse (parser.parse(0, nullptr))                                                                                             |
+|  PASS  | 54: Parse (parser.parse(1, nullptr))                                                                                             |
+|  PASS  | 55: Parse (parser.parse(0, argv))                                                                                                |
+|  PASS  | 61: Parse (parser.get_argument("test0").get_size() == 1)                                                                         |
+|  PASS  | 62: Parse (parser.get_argument("test1").get_size() == 2)                                                                         |
+|  PASS  | 63: Parse (parser.has_argument("test2") == false)                                                                                |
+|  PASS  | 64: Parse (parser.has_argument("test3") == false)                                                                                |
+|  PASS  | 65: Parse (parser.get_argument("test0").at(0) == "test0")                                                                        |
+|  PASS  | 66: Parse (parser.get_argument("test1").at(0) == "test1")                                                                        |
+|  PASS  | 67: Parse (parser.get_argument("test1").at(1) == "test2")                                                                        |
+|  PASS  | 76: Parse (parser.get_argument("test3").get_size() == 1)                                                                         |
+|  PASS  | 77: Parse (parser.get_argument("test4").get_size() == 2)                                                                         |
+|  PASS  | 78: Parse (parser.get_argument("test5").get_size() == 0)                                                                         |
+|  PASS  | 79: Parse (parser.get_argument("test3").at(0) == "test3")                                                                        |
+|  PASS  | 80: Parse (parser.get_argument("test4").at(0) == "test4a")                                                                       |
+|  PASS  | 81: Parse (parser.get_argument("test4").at(1) == "test4b")                                                                       |
+|  PASS  | 92: Get Argument (parser.get_argument("test0").get_size() == 1)                                                                  |
+|  PASS  | 93: Get Argument (parser.get_argument("test1").get_size() == 2)                                                                  |
+|  PASS  | 94: Get Argument (parser.get_argument("test0").at(0) == "test0")                                                                 |
+|  PASS  | 95: Get Argument (parser.get_argument("test1").at(0) == "test1")                                                                 |
+|  PASS  | 96: Get Argument (parser.get_argument("test1").at(1) == "test2")                                                                 |
+|  PASS  | 97: Get Argument (parser.get_argument("test2"))                                                                                  |
+|  PASS  | 98: Get Argument (parser.get_argument(""))                                                                                       |
+|  PASS  | 109: Has Argument (parser.has_argument("test0") == true)                                                                         |
+|  PASS  | 110: Has Argument (parser.has_argument("test1") == true)                                                                         |
+|  PASS  | 111: Has Argument (parser.has_argument("test2") == false)                                                                        |
+|  PASS  | 112: Has Argument (parser.has_argument("test3") == false)                                                                        |
+
 ## Window
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -5860,104 +5969,110 @@ No failures! :)
 ## Wrap
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 15: Default Constructor (String(wrap.get_base_path()) == "" == true)                                                             |
-|  PASS  | 16: Default Constructor (wrap.get_content_version() == 0 == true)                                                                |
-|  PASS  | 17: Default Constructor (wrap.get_entry_count() == 0 == true)                                                                    |
-|  PASS  | 18: Default Constructor (String(wrap.get_name()) == "" == true)                                                                  |
-|  PASS  | 19: Default Constructor (wrap.get_path().get_string() == "" == true)                                                             |
-|  PASS  | 20: Default Constructor (wrap.get_size() == 0 == true)                                                                           |
-|  PASS  | 21: Default Constructor (wrap.get_type() == Wrap::Type::None == true)                                                            |
-|  PASS  | 22: Default Constructor (wrap.get_wrap_version() == 0 == true)                                                                   |
-|  PASS  | 28: Path Constructor (String(wrap.get_base_path()) != "" == true)                                                                |
-|  PASS  | 29: Path Constructor (wrap.get_content_version() >= 0 == true)                                                                   |
-|  PASS  | 30: Path Constructor (wrap.get_entry_count() != 0 == true)                                                                       |
-|  PASS  | 31: Path Constructor (String(wrap.get_name()) != "" == true)                                                                     |
-|  PASS  | 32: Path Constructor (wrap.get_path() == Path(TEST_PATH).get_absolute() == true)                                                 |
-|  PASS  | 33: Path Constructor (wrap.get_size() != 0 == true)                                                                              |
-|  PASS  | 34: Path Constructor (wrap.get_type() != Wrap::Type::None == true)                                                               |
-|  PASS  | 40: New Constructor (String(wrap.get_base_path()) == "" == true)                                                                 |
-|  PASS  | 41: New Constructor (wrap.get_content_version() == 0 == true)                                                                    |
-|  PASS  | 42: New Constructor (wrap.get_entry_count() == 0 == true)                                                                        |
-|  PASS  | 43: New Constructor (String(wrap.get_name()) == "Test" == true)                                                                  |
-|  PASS  | 44: New Constructor (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                              |
-|  PASS  | 45: New Constructor (wrap.get_size() != 0 == true)                                                                               |
-|  PASS  | 46: New Constructor (wrap.get_type() == Wrap::Type::File == true)                                                                |
-|  PASS  | 51: New Constructor (String(wrap2.get_base_path()) == "Test/Path" == true)                                                       |
-|  PASS  | 52: New Constructor (wrap2.get_content_version() == 34 == true)                                                                  |
-|  PASS  | 53: New Constructor (wrap2.get_entry_count() == 0 == true)                                                                       |
-|  PASS  | 54: New Constructor (String(wrap2.get_name()) == "Test Again" == true)                                                           |
-|  PASS  | 55: New Constructor (wrap2.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                             |
-|  PASS  | 56: New Constructor (wrap2.get_size() != 0 == true)                                                                              |
-|  PASS  | 57: New Constructor (wrap2.get_type() == Wrap::Type::File == true)                                                               |
-|  PASS  | 65: Get/Set Base Path (String(wrap.get_base_path()) == "" == true)                                                               |
-|  PASS  | 68: Get/Set Base Path (String(wrap.get_base_path()) == "Test/Path" == true)                                                      |
-|  PASS  | 76: Get Path (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                                     |
-|  PASS  | 83: Get/Set Name (String(wrap.get_name()) == "Test" == true)                                                                     |
-|  PASS  | 85: Get/Set Name (String(wrap.get_name()) == "Test Again" == true)                                                               |
-|  PASS  | 92: Get Wrap Version (wrap.get_wrap_version() == WRAP_VERSION == true)                                                           |
-|  PASS  | 99: Get Content Version (wrap.get_content_version() == 0 == true)                                                                |
-|  PASS  | 106: Get/Set Type (wrap.get_type() == Wrap::Type::File == true)                                                                  |
-|  PASS  | 108: Get/Set Type (wrap.get_type() == Wrap::Type::None == true)                                                                  |
-|  PASS  | 115: Get Size (wrap.get_size() != 0 == true)                                                                                     |
-|  PASS  | 122: Get Entry Count (wrap.get_entry_count() == 0 == true)                                                                       |
-|  PASS  | 125: Get Entry Count (wrap2.get_entry_count() == 23 == true)                                                                     |
-|  PASS  | 133: Load (String(wrap.get_base_path()) != "" == true)                                                                           |
-|  PASS  | 134: Load (wrap.get_content_version() >= 0 == true)                                                                              |
-|  PASS  | 135: Load (wrap.get_entry_count() != 0 == true)                                                                                  |
-|  PASS  | 136: Load (String(wrap.get_name()) != "" == true)                                                                                |
-|  PASS  | 137: Load (wrap.get_path() == Path(TEST_PATH).get_absolute() == true)                                                            |
-|  PASS  | 138: Load (wrap.get_size() != 0 == true)                                                                                         |
-|  PASS  | 139: Load (wrap.get_type() != Wrap::Type::None == true)                                                                          |
-|  PASS  | 146: Add (wrap.get_entry_count() == 1 == true)                                                                                   |
-|  PASS  | 147: Add (wrap.get_size() != 0 == true)                                                                                          |
-|  PASS  | 158: Add (text.contains("Lorem ipsum") == true)                                                                                  |
-|  PASS  | 161: Add (wrap.add(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None))                                                  |
-|  PASS  | 170: Contains (wrap.contains("GenericAsset.txt") == true)                                                                        |
-|  PASS  | 171: Contains (wrap.contains("Text2.txt") == false == true)                                                                      |
-|  PASS  | 176: Contains (wrap2.contains("Base/Path/GenericAsset.txt") == true)                                                             |
-|  PASS  | 185: Open (wrap.open("GenericAsset.txt", file) == true)                                                                          |
-|  PASS  | 194: Open (text.contains("Lorem ipsum") == true)                                                                                 |
-|  PASS  | 207: Read Bytes (text.contains("Lorem ipsum") == true)                                                                           |
-|  PASS  | 215: Get Entry Index (Path(wrap.get_entry(0).path) == "GenericAsset.txt" == true)                                                |
-|  PASS  | 223: Get Entry Path (Path(wrap.get_entry("GenericAsset.txt").path) == "GenericAsset.txt" == true)                                |
-|  PASS  | 231: Load Or Create (Path(wrap.get_base_path()) == "Test/Path" == true)                                                          |
-|  PASS  | 232: Load Or Create (wrap.get_content_version() == 34 == true)                                                                   |
-|  PASS  | 233: Load Or Create (wrap.get_entry_count() == 1 == true)                                                                        |
-|  PASS  | 234: Load Or Create (String(wrap.get_name()) == "Test" == true)                                                                  |
-|  PASS  | 235: Load Or Create (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                              |
-|  PASS  | 236: Load Or Create (wrap.get_size() != 0 == true)                                                                               |
-|  PASS  | 237: Load Or Create (wrap.get_type() == Wrap::Type::File == true)                                                                |
-|  PASS  | 241: Load Or Create (Path(wrap2.get_base_path()) == "Test/Path" == true)                                                         |
-|  PASS  | 242: Load Or Create (wrap2.get_content_version() == 34 == true)                                                                  |
-|  PASS  | 243: Load Or Create (wrap2.get_entry_count() == 1 == true)                                                                       |
-|  PASS  | 244: Load Or Create (String(wrap2.get_name()) == "Test" == true)                                                                 |
-|  PASS  | 245: Load Or Create (wrap2.get_path() == Path(TEST_NEW_PATH).get_absolute() == true)                                             |
-|  PASS  | 246: Load Or Create (wrap2.get_size() != 0 == true)                                                                              |
-|  PASS  | 247: Load Or Create (wrap2.get_type() == Wrap::Type::File == true)                                                               |
+|  PASS  | 15: Default Constructor (String(wrap.get_base_path()) == "")                                                                     |
+|  PASS  | 16: Default Constructor (wrap.get_content_version() == 0)                                                                        |
+|  PASS  | 17: Default Constructor (wrap.get_entry_count() == 0)                                                                            |
+|  PASS  | 18: Default Constructor (String(wrap.get_name()) == "")                                                                          |
+|  PASS  | 19: Default Constructor (wrap.get_path().get_string() == "")                                                                     |
+|  PASS  | 20: Default Constructor (wrap.get_size() == 0)                                                                                   |
+|  PASS  | 21: Default Constructor (wrap.get_type() == Wrap::Type::None)                                                                    |
+|  PASS  | 22: Default Constructor (wrap.get_wrap_version() == 0)                                                                           |
+|  PASS  | 28: Path Constructor (String(wrap.get_base_path()) != "")                                                                        |
+|  PASS  | 29: Path Constructor (wrap.get_content_version() >= 0)                                                                           |
+|  PASS  | 30: Path Constructor (wrap.get_entry_count() != 0)                                                                               |
+|  PASS  | 31: Path Constructor (String(wrap.get_name()) != "")                                                                             |
+|  PASS  | 32: Path Constructor (wrap.get_path() == Path(TEST_PATH).get_absolute())                                                         |
+|  PASS  | 33: Path Constructor (wrap.get_size() != 0)                                                                                      |
+|  PASS  | 34: Path Constructor (wrap.get_type() != Wrap::Type::None)                                                                       |
+|  PASS  | 39: New Constructor (Wrap wrap(TEST_NEW_PATH, "Test", 0))                                                                        |
+|  PASS  | 41: New Constructor (wrap = Wrap(TEST_NEW_PATH, "Test", 1))                                                                      |
+|  PASS  | 42: New Constructor (String(wrap.get_base_path()) == "")                                                                         |
+|  PASS  | 43: New Constructor (wrap.get_content_version() == 0)                                                                            |
+|  PASS  | 44: New Constructor (wrap.get_entry_count() == 1)                                                                                |
+|  PASS  | 45: New Constructor (String(wrap.get_name()) == "Test")                                                                          |
+|  PASS  | 46: New Constructor (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute())                                                      |
+|  PASS  | 47: New Constructor (wrap.get_size() != 0)                                                                                       |
+|  PASS  | 48: New Constructor (wrap.get_type() == Wrap::Type::File)                                                                        |
+|  PASS  | 53: New Constructor (String(wrap2.get_base_path()) == "Test/Path")                                                               |
+|  PASS  | 54: New Constructor (wrap2.get_content_version() == 34)                                                                          |
+|  PASS  | 55: New Constructor (wrap2.get_entry_count() == 1)                                                                               |
+|  PASS  | 56: New Constructor (String(wrap2.get_name()) == "Test Again")                                                                   |
+|  PASS  | 57: New Constructor (wrap2.get_path() == Path(TEST_NEW_PATH).get_absolute())                                                     |
+|  PASS  | 58: New Constructor (wrap2.get_size() != 0)                                                                                      |
+|  PASS  | 59: New Constructor (wrap2.get_type() == Wrap::Type::File)                                                                       |
+|  PASS  | 67: Get/Set Base Path (String(wrap.get_base_path()) == "")                                                                       |
+|  PASS  | 70: Get/Set Base Path (String(wrap.get_base_path()) == "Test/Path")                                                              |
+|  PASS  | 78: Get Path (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute())                                                             |
+|  PASS  | 85: Get/Set Name (String(wrap.get_name()) == "Test")                                                                             |
+|  PASS  | 87: Get/Set Name (String(wrap.get_name()) == "Test Again")                                                                       |
+|  PASS  | 94: Get Wrap Version (wrap.get_wrap_version() == WRAP_VERSION)                                                                   |
+|  PASS  | 101: Get Content Version (wrap.get_content_version() == 0)                                                                       |
+|  PASS  | 108: Get/Set Type (wrap.get_type() == Wrap::Type::File)                                                                          |
+|  PASS  | 110: Get/Set Type (wrap.get_type() == Wrap::Type::None)                                                                          |
+|  PASS  | 117: Get Size (wrap.get_size() != 0)                                                                                             |
+|  PASS  | 124: Get Entry Count (wrap.get_entry_count() == 1)                                                                               |
+|  PASS  | 127: Get Entry Count (wrap2.get_entry_count() == 23)                                                                             |
+|  PASS  | 135: Load (String(wrap.get_base_path()) != "")                                                                                   |
+|  PASS  | 136: Load (wrap.get_content_version() >= 0)                                                                                      |
+|  PASS  | 137: Load (wrap.get_entry_count() != 0)                                                                                          |
+|  PASS  | 138: Load (String(wrap.get_name()) != "")                                                                                        |
+|  PASS  | 139: Load (wrap.get_path() == Path(TEST_PATH).get_absolute())                                                                    |
+|  PASS  | 140: Load (wrap.get_size() != 0)                                                                                                 |
+|  PASS  | 141: Load (wrap.get_type() != Wrap::Type::None)                                                                                  |
+|  PASS  | 148: Add (wrap.get_entry_count() == 1)                                                                                           |
+|  PASS  | 149: Add (wrap.get_size() != 0)                                                                                                  |
+|  PASS  | 160: Add (text.contains("Lorem ipsum") == true)                                                                                  |
+|  PASS  | 163: Add (wrap.add(TEST_TEXT_PATH, "GenericAsset.txt", CompressionLevel::None))                                                  |
+|  PASS  | 172: Contains (wrap.contains("GenericAsset.txt") == true)                                                                        |
+|  PASS  | 173: Contains (wrap.contains("Text2.txt") == false)                                                                              |
+|  PASS  | 178: Contains (wrap2.contains("Base/Path/GenericAsset.txt") == true)                                                             |
+|  PASS  | 187: Open (wrap.open("GenericAsset.txt", file) == true)                                                                          |
+|  PASS  | 196: Open (text.contains("Lorem ipsum") == true)                                                                                 |
+|  PASS  | 209: Read Bytes (text.contains("Lorem ipsum") == true)                                                                           |
+|  PASS  | 217: Get Entry Index (Path(wrap.get_entry(0).path) == "GenericAsset.txt")                                                        |
+|  PASS  | 225: Get Entry Path (Path(wrap.get_entry("GenericAsset.txt").path) == "GenericAsset.txt")                                        |
+|  PASS  | 231: Exists (Wrap::exists("") == false)                                                                                          |
+|  PASS  | 232: Exists (Wrap::exists(TEST_TEXT_PATH) == false)                                                                              |
+|  PASS  | 233: Exists (Wrap::exists(TEST_NEW_PATH) == false)                                                                               |
+|  PASS  | 234: Exists (Wrap::exists(TEST_PATH) == true)                                                                                    |
+|  PASS  | 241: Load Or Create (Path(wrap.get_base_path()) == "Test/Path")                                                                  |
+|  PASS  | 242: Load Or Create (wrap.get_content_version() == 34)                                                                           |
+|  PASS  | 243: Load Or Create (wrap.get_entry_count() == 1)                                                                                |
+|  PASS  | 244: Load Or Create (String(wrap.get_name()) == "Test")                                                                          |
+|  PASS  | 245: Load Or Create (wrap.get_path() == Path(TEST_NEW_PATH).get_absolute())                                                      |
+|  PASS  | 246: Load Or Create (wrap.get_size() != 0)                                                                                       |
+|  PASS  | 247: Load Or Create (wrap.get_type() == Wrap::Type::File)                                                                        |
+|  PASS  | 251: Load Or Create (Path(wrap2.get_base_path()) == "Test/Path")                                                                 |
+|  PASS  | 252: Load Or Create (wrap2.get_content_version() == 34)                                                                          |
+|  PASS  | 253: Load Or Create (wrap2.get_entry_count() == 1)                                                                               |
+|  PASS  | 254: Load Or Create (String(wrap2.get_name()) == "Test")                                                                         |
+|  PASS  | 255: Load Or Create (wrap2.get_path() == Path(TEST_NEW_PATH).get_absolute())                                                     |
+|  PASS  | 256: Load Or Create (wrap2.get_size() != 0)                                                                                      |
+|  PASS  | 257: Load Or Create (wrap2.get_type() == Wrap::Type::File)                                                                       |
 
 ## Wrapper
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 19: Default Constructor (wrapper.get_wrap_count() == 0 == true)                                                                  |
-|  PASS  | 25: Get Wrap Count (wrapper.get_wrap_count() == 0 == true)                                                                       |
-|  PASS  | 27: Get Wrap Count (wrapper.get_wrap_count() == 1 == true)                                                                       |
-|  PASS  | 35: Add Wrap (wrapper.get_wrap_count() == 1 == true)                                                                             |
-|  PASS  | 42: Add Path (wrapper.get_wrap_count() == 1 == true)                                                                             |
-|  PASS  | 49: Get Wrap (wrapper.get_wrap(0).get_path() == Path(TEST_PATH).get_absolute() == true)                                          |
-|  PASS  | 57: Const Get Wrap (wrapper2.get_wrap(0).get_path() == Path(TEST_PATH).get_absolute() == true)                                   |
-|  PASS  | 64: Find By Path (wrapper.find_by_path(TEST_ASSET_PATH) != nullptr == true)                                                      |
-|  PASS  | 65: Find By Path (wrapper.find_by_path(TEST_ASSET_PATH_2) != nullptr == true)                                                    |
-|  PASS  | 66: Find By Path (wrapper.find_by_path("Not Here") == nullptr == true)                                                           |
-|  PASS  | 74: Const Find By Path (wrapper2.find_by_path(TEST_ASSET_PATH) != nullptr == true)                                               |
-|  PASS  | 75: Const Find By Path (wrapper2.find_by_path(TEST_ASSET_PATH_2) != nullptr == true)                                             |
-|  PASS  | 76: Const Find By Path (wrapper2.find_by_path("Not Here") == nullptr == true)                                                    |
-|  PASS  | 83: Find By Name (wrapper.find_by_name(TEST_NAME) != nullptr == true)                                                            |
-|  PASS  | 84: Find By Name (wrapper.find_by_name("Not Here") == nullptr == true)                                                           |
-|  PASS  | 92: Const Find By Name (wrapper2.find_by_name(TEST_NAME) != nullptr == true)                                                     |
-|  PASS  | 93: Const Find By Name (wrapper2.find_by_name("Not Here") == nullptr == true)                                                    |
+|  PASS  | 19: Default Constructor (wrapper.get_wrap_count() == 0)                                                                          |
+|  PASS  | 25: Get Wrap Count (wrapper.get_wrap_count() == 0)                                                                               |
+|  PASS  | 27: Get Wrap Count (wrapper.get_wrap_count() == 1)                                                                               |
+|  PASS  | 35: Add Wrap (wrapper.get_wrap_count() == 1)                                                                                     |
+|  PASS  | 42: Add Path (wrapper.get_wrap_count() == 1)                                                                                     |
+|  PASS  | 49: Get Wrap (wrapper.get_wrap(0).get_path() == Path(TEST_PATH).get_absolute())                                                  |
+|  PASS  | 57: Const Get Wrap (wrapper2.get_wrap(0).get_path() == Path(TEST_PATH).get_absolute())                                           |
+|  PASS  | 64: Find By Path (wrapper.find_by_path(TEST_ASSET_PATH) != nullptr)                                                              |
+|  PASS  | 65: Find By Path (wrapper.find_by_path(TEST_ASSET_PATH_2) != nullptr)                                                            |
+|  PASS  | 66: Find By Path (wrapper.find_by_path("Not Here") == nullptr)                                                                   |
+|  PASS  | 74: Const Find By Path (wrapper2.find_by_path(TEST_ASSET_PATH) != nullptr)                                                       |
+|  PASS  | 75: Const Find By Path (wrapper2.find_by_path(TEST_ASSET_PATH_2) != nullptr)                                                     |
+|  PASS  | 76: Const Find By Path (wrapper2.find_by_path("Not Here") == nullptr)                                                            |
+|  PASS  | 83: Find By Name (wrapper.find_by_name(TEST_NAME) != nullptr)                                                                    |
+|  PASS  | 84: Find By Name (wrapper.find_by_name("Not Here") == nullptr)                                                                   |
+|  PASS  | 92: Const Find By Name (wrapper2.find_by_name(TEST_NAME) != nullptr)                                                             |
+|  PASS  | 93: Const Find By Name (wrapper2.find_by_name("Not Here") == nullptr)                                                            |
 |  PASS  | 100: Contains (wrapper.contains(TEST_ASSET_PATH) == true)                                                                        |
 |  PASS  | 101: Contains (wrapper.contains(TEST_ASSET_PATH_2) == true)                                                                      |
 |  PASS  | 102: Contains (!wrapper.contains("Not Here") == true)                                                                            |
 |  PASS  | 110: Open (wrapper.open(TEST_ASSET_PATH, file) == true)                                                                          |
-|  PASS  | 119: Read Bytes (data.get_size() != 0 == true)                                                                                   |
+|  PASS  | 119: Read Bytes (data.get_size() != 0)                                                                                           |
 |  PASS  | 121: Read Bytes (text.contains("Template: ") == true)                                                                            |

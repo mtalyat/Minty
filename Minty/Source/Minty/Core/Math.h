@@ -484,7 +484,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="value">The rotation, as Euler angles.</param>
 		/// <returns>The rotation, as a Quaternion.</returns>
-		Quaternion from_euler(Float3 const& value);
+		Quaternion to_cartesian(Float3 const& value);
 
 		/// <summary>
 		/// Converts the given Euler angles to a Quaternion.
@@ -493,9 +493,9 @@ namespace Minty
 		/// <param name="y">The rotation on the Y axis.</param>
 		/// <param name="z">The rotation on the Z axis.</param>
 		/// <returns>The rotation, as a Quaternion.</returns>
-		inline Quaternion from_euler(Float const x, Float const y, Float const z)
+		inline Quaternion to_cartesian(Float const x, Float const y, Float const z)
 		{
-			return from_euler(Float3(x, y, z));
+			return to_cartesian(Float3(x, y, z));
 		}
 
 		/// <summary>

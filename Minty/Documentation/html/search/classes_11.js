@@ -18,5 +18,7 @@ var searchData=
   ['stack_3c_20minty_3a_3anode_20const_20_2a_20_3e_15',['Stack&lt; Minty::Node const * &gt;',['../class_minty_1_1_stack.html',1,'Minty']]],
   ['staticcontainer_16',['StaticContainer',['../class_minty_1_1_static_container.html',1,'Minty']]],
   ['stopwatch_17',['Stopwatch',['../class_minty_1_1_stopwatch.html',1,'Minty']]],
-  ['string_18',['String',['../class_minty_1_1_string.html',1,'Minty']]]
+  ['string_18',['String',['../class_minty_1_1_string.html',1,'Minty']]],
+  ['surface_19',['Surface',['../class_minty_1_1_surface.html',1,'Minty']]],
+  ['surfacebuilder_20',['SurfaceBuilder',['../struct_minty_1_1_surface_builder.html',1,'Minty']]]
 ];

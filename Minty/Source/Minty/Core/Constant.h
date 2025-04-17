@@ -44,6 +44,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_MESH_OBJECT = ".obj";
 	constexpr Char const* EXTENSION_META = ".meta";
 	constexpr Char const* EXTENSION_PNG = ".png";
+	constexpr Char const* EXTENSION_RENDER_PASS = ".mrpa";
 	constexpr Char const* EXTENSION_SCENE = ".msce";
 	constexpr Char const* EXTENSION_SCRIPT = ".cs";
 	constexpr Char const* EXTENSION_SHADER = ".msha";
@@ -63,6 +64,25 @@ namespace Minty
 	/// Represents an invalid index.
 	/// </summary>
 	constexpr Size INVALID_INDEX = -1;
+
+#pragma endregion
+
+#pragma region Layer
+
+	/// <summary>
+	/// No Layers.
+	/// </summary>
+	constexpr Layer LAYER_NONE = 0;
+
+	/// <summary>
+	/// All Layers.
+	/// </summary>
+	constexpr Layer LAYER_ALL = ~0;
+
+	/// <summary>
+	/// The Default Layer.
+	/// </summary>
+	constexpr Layer LAYER_DEFAULT = 1;
 
 #pragma endregion
 

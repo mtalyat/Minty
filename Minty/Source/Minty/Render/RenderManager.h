@@ -9,6 +9,9 @@
 namespace Minty
 {
 	class Viewport;
+	class Camera;
+	class Transform;
+	class Surface;
 
 	/// <summary>
 	/// The arguments for creating a RenderManager.
@@ -68,10 +71,20 @@ namespace Minty
 		Ref<Window> const& get_window() const { return m_window; }
 
 		/// <summary>
+		/// Gets the Surface that this RenderManager is rendering to.
+		/// </summary>
+		/// <returns>The Surface.</returns>
+		virtual Ref<Surface> get_surface() const = 0;
+
+		/// <summary>
 		/// Gets the default Viewport that renders to the entire Window.
 		/// </summary>
 		/// <returns>The default Viewport.</returns>
-		virtual Ref<Viewport> const& get_default_viewport() const = 0;
+		virtual Ref<Viewport> get_default_viewport() const = 0;
+
+		virtual Format get_color_attachment_format() const = 0;
+
+		virtual Format get_depth_attachment_format() const = 0;
 
 #pragma endregion
 
@@ -89,8 +102,19 @@ namespace Minty
 		/// </summary>
 		virtual void end_frame() = 0;
 
-#pragma endregion
+		/// <summary>
+		/// Starts a render pass using the given Camera.
+		/// </summary>
+		/// <param name="camera">The Camera to render the Scene from.</param>
+		/// <returns>True, on success. Returns false when the frame should be skipped.</returns>
+		virtual Bool start_pass(Camera const& camera, Transform const& transform) = 0;
 
+		/// <summary>
+		/// Finishes the current render pass.
+		/// </summary>
+		virtual void end_pass() = 0;
+
+#pragma endregion
 
 #pragma region Statics
 

@@ -204,7 +204,6 @@ namespace Minty
 
 #pragma endregion
 
-
 #pragma region Methods
 
 	public:
@@ -244,6 +243,14 @@ namespace Minty
 		{
 			return Ref<U>(static_cast<U*>(mp_ptr), mp_counter);
 		}
+
+		/// <summary>
+		/// Casts this Owner<T> to a Owner<U>.
+		/// </summary>
+		/// <typeparam name="U">The type to cast to.</typeparam>
+		/// <returns>A new Owner, casted as the given type.</returns>
+		template<typename U>
+		Owner<U> cast_to() const { return Owner<U>(static_cast<U*>(mp_ptr), mp_counter); }
 
 #pragma endregion
 	};
@@ -436,7 +443,6 @@ namespace Minty
 
 #pragma endregion
 
-
 #pragma region Methods
 
 	public:
@@ -466,7 +472,7 @@ namespace Minty
 		/// <typeparam name="U">The type to cast to.</typeparam>
 		/// <returns>A new Ref, casted as the given type.</returns>
 		template<typename U>
-		Ref<U> static_cast_to() const { return Ref<U>(static_cast<U*>(mp_ptr), mp_counter); }
+		Ref<U> cast_to() const { return Ref<U>(static_cast<U*>(mp_ptr), mp_counter); }
 
 #pragma endregion
 	};

@@ -5,7 +5,7 @@
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Render/Viewport.h"
 #include "Platform/Vulkan/Vulkan_Frame.h"
-#include "Platform/Vulkan/Vulkan_Swapchain.h"
+#include "Platform/Vulkan/Vulkan_Surface.h"
 
 namespace Minty
 {
@@ -18,19 +18,17 @@ namespace Minty
 		VkInstance m_instance;
 		VkDebugUtilsMessengerEXT m_debugMessenger;
 		Format m_targetSurfaceFormat;
-		VkSurfaceKHR m_surface;
+		Owner<Vulkan_Surface> m_surface;
 		VkPhysicalDevice m_physicalDevice;
 		VkDevice m_device;
 		VkQueue m_graphicsQueue;
 		VkQueue m_presentQueue;
 		VkCommandPool m_commandPool;
 
-		Owner<Vulkan_Swapchain> m_swapchain;
+		Owner<Viewport> m_defaultViewport;
+		Owner<Image> m_depthImage;
 
-		Ref<Viewport> m_defaultViewport;
-		Ref<Image> m_depthImage;
-
-		Array<Frame, FRAMES_PER_FLIGHT> m_frames;
+		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
 		Size m_currentFrame = 0;
 
 #pragma endregion
@@ -54,8 +52,6 @@ namespace Minty
 	public:
 		inline VkInstance get_instance() const { return m_instance; }
 
-		inline VkSurfaceKHR get_surface() const { return m_surface; }
-
 		inline VkPhysicalDevice get_physical_device() const { return m_physicalDevice; }
 
 		inline VkDevice get_device() const { return m_device; }
@@ -66,28 +62,27 @@ namespace Minty
 
 		inline VkCommandPool get_command_pool() const { return m_commandPool; }
 
-		inline Frame& get_current_frame() { return m_frames[m_currentFrame]; }
+		inline Vulkan_Frame& get_current_frame() { return m_frames[m_currentFrame]; }
 
-		inline Frame const& get_current_frame() const { return m_frames[m_currentFrame]; }
+		inline Vulkan_Frame const& get_current_frame() const { return m_frames[m_currentFrame]; }
 
 		// gets the current frame's command buffer
 		inline VkCommandBuffer get_current_command_buffer() const { return m_frames[m_currentFrame].commandBuffer; }
 
-		inline Vulkan_Swapchain& get_swapchain() { return *m_swapchain; }
-		inline Vulkan_Swapchain const& get_swapchain() const { return *m_swapchain; }
-
 		inline Ref<Image> const& get_depth_image() const { return m_depthImage; }
 
-		inline Ref<Viewport> const& get_default_viewport() const override { return m_defaultViewport; }
+		inline Ref<Surface> get_surface() const override { return m_surface.create_ref().cast_to<Surface>(); }
+
+		inline Ref<Viewport> get_default_viewport() const override { return m_defaultViewport.create_ref(); }
 
 #pragma endregion
 
 #pragma region Methods
 
 	private:
-		void initialize_frame(Frame& frame);
+		void initialize_frame(Vulkan_Frame& frame);
 
-		void dispose_frame(Frame& frame);
+		void dispose_frame(Vulkan_Frame& frame);
 
 		void create_depth_resources();
 
@@ -102,16 +97,11 @@ namespace Minty
 
 		void sync() override;
 
-		/// <summary>
-		/// Prepares to render a frame.
-		/// </summary>
-		/// <returns>True, on success. Returns false when the frame should be skipped.</returns>
-		Bool start_frame();
+		Bool start_frame() override;
+		void end_frame() override;
 
-		/// <summary>
-		/// Finishes rendering a frame.
-		/// </summary>
-		void end_frame();
+		Bool start_pass(Camera const& camera, Transform const& transform) override;
+		void end_pass() override;
 
 		/// <summary>
 		/// Creates and begins a temporary command buffer.
@@ -126,13 +116,11 @@ namespace Minty
 		/// <param name="queue">The queue to submit the commands to.</param>
 		void finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue);
 
-		// recreates the swapchain (useful for resize events)
-		void recreate_swapchain();
-
 #pragma endregion
 
 #pragma region Statics
 
+	public:
 		/// <summary>
 		/// Gets the active Context's Vulkan RenderManager.
 		/// </summary>
@@ -143,5 +131,9 @@ namespace Minty
 		}
 
 #pragma endregion
-	};
+
+		// Inherited via RenderManager
+		Format get_color_attachment_format() const override;
+		Format get_depth_attachment_format() const override;
+};
 }

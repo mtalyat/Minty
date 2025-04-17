@@ -183,7 +183,7 @@ int main(Int argc, Char const* argv[])
 		case Action::Wrap:
 		case Action::Update:
 			// Default: output to the same directory as the input path
-			output = F("{}/{}{}", path.get_parent(), path.get_name(), EXTENSION_WRAP);
+			output = F("{}{}", path.get_parent() / path.get_name(), EXTENSION_WRAP);
 			break;
 		case Action::Unwrap:
 			// Default: output to the same directory as the input path

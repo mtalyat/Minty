@@ -12,6 +12,6 @@ var searchData=
   ['vulkan_5frendertarget_9',['Vulkan_RenderTarget',['../class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354',1,'Minty::Vulkan_RenderTarget']]],
   ['vulkan_5fshader_10',['Vulkan_Shader',['../class_minty_1_1_vulkan___shader.html#a937ba6bb1d6ca4e06637682836b921ce',1,'Minty::Vulkan_Shader']]],
   ['vulkan_5fshadermodule_11',['Vulkan_ShaderModule',['../class_minty_1_1_vulkan___shader_module.html#ad0b76367f809fe3ae96ed0878d79baa2',1,'Minty::Vulkan_ShaderModule']]],
-  ['vulkan_5fswapchain_12',['Vulkan_Swapchain',['../class_minty_1_1_vulkan___swapchain.html#ae6b4393fee229b3dcdb477f0a4335e0a',1,'Minty::Vulkan_Swapchain']]],
+  ['vulkan_5fsurface_12',['Vulkan_Surface',['../class_minty_1_1_vulkan___surface.html#af28c14b9512cfbbfcd7e739d1077c0e3',1,'Minty::Vulkan_Surface::Vulkan_Surface(SurfaceBuilder const &amp;builder, VkSurfaceKHR const surface, Vulkan_RenderManager &amp;renderManager, Vulkan_QueueFamilyIndices const &amp;queueFamilyIndices)'],['../class_minty_1_1_vulkan___surface.html#ab630f81b4f966a7b96409de40d59d2e4',1,'Minty::Vulkan_Surface::Vulkan_Surface(SurfaceBuilder const &amp;builder)']]],
   ['vulkan_5fviewport_13',['Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html#a8b19077710edb667bf03820225575fee',1,'Minty::Vulkan_Viewport']]]
 ];

@@ -212,6 +212,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Set.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
+    <ClInclude Include="Minty\Data\Transform.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
     <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
@@ -251,8 +252,11 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ImageTiling.h" />
     <ClInclude Include="Minty\Render\ImageType.h" />
     <ClInclude Include="Minty\Render\ImageUsage.h" />
+    <ClInclude Include="Minty\Render\LoadOperation.h" />
     <ClInclude Include="Minty\Render\Material.h" />
     <ClInclude Include="Minty\Render\MaterialTemplate.h" />
+    <ClInclude Include="Minty\Render\Camera.h" />
+    <ClInclude Include="Minty\Render\Perspective.h" />
     <ClInclude Include="Minty\Render\RenderAttachment.h" />
     <ClInclude Include="Minty\Render\Renderer.h" />
     <ClInclude Include="Minty\Render\RenderManager.h" />
@@ -271,6 +275,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
     <ClInclude Include="Minty\Render\ShaderStage.h" />
     <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
+    <ClInclude Include="Minty\Render\StoreOperation.h" />
+    <ClInclude Include="Minty\Render\Surface.h" />
     <ClInclude Include="Minty\Render\Viewport.h" />
     <ClInclude Include="Minty\Render\_Render.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
@@ -287,6 +293,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Time\Stopwatch.h" />
     <ClInclude Include="Minty\Time\Time.h" />
     <ClInclude Include="Minty\Time\_Time.h" />
+    <ClInclude Include="Minty\Tool\ArgumentParser.h" />
+    <ClInclude Include="Minty\Tool\_Tool.h" />
     <ClInclude Include="Minty\Window\CursorMode.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\WindowCloseEvent.h" />
@@ -307,7 +315,7 @@ doxygen</Command>
     <ClInclude Include="Platform\Vulkan\Vulkan_RenderTarget.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Shader.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_ShaderModule.h" />
-    <ClInclude Include="Platform\Vulkan\Vulkan_Swapchain.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Surface.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_SwapchainSupportDetails.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Viewport.h" />
     <ClInclude Include="Platform\Windows\Windows_Window.h" />
@@ -332,6 +340,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Data\Path.cpp" />
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
+    <ClCompile Include="Minty\Data\Transform.cpp" />
     <ClCompile Include="Minty\Data\UUID.cpp" />
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
@@ -345,6 +354,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
     <ClCompile Include="Minty\Render\Buffer.cpp" />
     <ClCompile Include="Minty\Render\BufferUsage.cpp" />
+    <ClCompile Include="Minty\Render\Camera.cpp" />
     <ClCompile Include="Minty\Render\CoordinateMode.cpp" />
     <ClCompile Include="Minty\Render\Filter.cpp" />
     <ClCompile Include="Minty\Render\Format.cpp" />
@@ -356,8 +366,10 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ImageTiling.cpp" />
     <ClCompile Include="Minty\Render\ImageType.cpp" />
     <ClCompile Include="Minty\Render\ImageUsage.cpp" />
+    <ClCompile Include="Minty\Render\LoadOperation.cpp" />
     <ClCompile Include="Minty\Render\Material.cpp" />
     <ClCompile Include="Minty\Render\MaterialTemplate.cpp" />
+    <ClCompile Include="Minty\Render\Perspective.cpp" />
     <ClCompile Include="Minty\Render\RenderManager.cpp" />
     <ClCompile Include="Minty\Render\RenderPass.cpp" />
     <ClCompile Include="Minty\Render\RenderTarget.cpp" />
@@ -370,6 +382,8 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
+    <ClCompile Include="Minty\Render\StoreOperation.cpp" />
+    <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Viewport.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />
@@ -378,6 +392,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
+    <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />
     <ClCompile Include="Minty\Window\Window.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />
@@ -396,7 +411,7 @@ doxygen</Command>
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderTarget.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Shader.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_ShaderModule.cpp" />
-    <ClCompile Include="Platform\Vulkan\Vulkan_Swapchain.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Surface.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Viewport.cpp" />
     <ClCompile Include="Platform\Windows\Windows_Window.cpp" />
   </ItemGroup>

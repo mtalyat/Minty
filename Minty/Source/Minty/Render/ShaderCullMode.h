@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {

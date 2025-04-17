@@ -9,7 +9,7 @@ var class_minty_1_1_wrap =
     ] ],
     [ "Wrap", "class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912", null ],
     [ "Wrap", "class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85", null ],
-    [ "Wrap", "class_minty_1_1_wrap.html#a08c7aa107fc6cc0ebd38822266f1bfa5", null ],
+    [ "Wrap", "class_minty_1_1_wrap.html#a8e771db8207a2ee59ae52d4108beaf90", null ],
     [ "add", "class_minty_1_1_wrap.html#a0fea89e9c6323c6a306b4b36c70e1480", null ],
     [ "contains", "class_minty_1_1_wrap.html#ac23e58d886ec582ce672056dd6b7b23c", null ],
     [ "flush", "class_minty_1_1_wrap.html#ac6f4b689e6ddd35ba85d4bb337bf88ca", null ],

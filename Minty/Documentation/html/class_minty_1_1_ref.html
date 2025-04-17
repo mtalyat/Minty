@@ -190,10 +190,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7cfce7916e86abbf75e2cd4de4a51418" id="r_a7cfce7916e86abbf75e2cd4de4a51418"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7cfce7916e86abbf75e2cd4de4a51418">release</a> ()</td></tr>
 <tr class="memdesc:a7cfce7916e86abbf75e2cd4de4a51418"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a> to null.  <br /></td></tr>
 <tr class="separator:a7cfce7916e86abbf75e2cd4de4a51418"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee875468d9b1b300f9f533d43529e376" id="r_aee875468d9b1b300f9f533d43529e376"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
-<tr class="memitem:aee875468d9b1b300f9f533d43529e376"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; U &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aee875468d9b1b300f9f533d43529e376">static_cast_to</a> () const</td></tr>
-<tr class="memdesc:aee875468d9b1b300f9f533d43529e376"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts this Ref&lt;T&gt; to a <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a><u>. </u> <br /></td></tr>
-<tr class="separator:aee875468d9b1b300f9f533d43529e376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8d292a453a28c7f173efb8a773235e9" id="r_ad8d292a453a28c7f173efb8a773235e9"><td class="memTemplParams" colspan="2">template&lt;typename U&gt; </td></tr>
+<tr class="memitem:ad8d292a453a28c7f173efb8a773235e9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; U &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ad8d292a453a28c7f173efb8a773235e9">cast_to</a> () const</td></tr>
+<tr class="memdesc:ad8d292a453a28c7f173efb8a773235e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Casts this Ref&lt;T&gt; to a <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a><u>. </u> <br /></td></tr>
+<tr class="separator:ad8d292a453a28c7f173efb8a773235e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -482,6 +482,44 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad8d292a453a28c7f173efb8a773235e9" name="ad8d292a453a28c7f173efb8a773235e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8d292a453a28c7f173efb8a773235e9">&#9670;&#160;</a></span>cast_to()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename U&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; U &gt; <a class="el" href="class_minty_1_1_ref.html">Minty::Ref</a>&lt; T &gt;::cast_to </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Casts this Ref&lt;T&gt; to a <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a><u>. </u></p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">U</td><td>The type to cast to.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a>, casted as the given type.</dd></dl>
+
+</div>
+</div>
 <a id="a47f64db6bf5d347ad7f07294b1a48b68" name="a47f64db6bf5d347ad7f07294b1a48b68"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a47f64db6bf5d347ad7f07294b1a48b68">&#9670;&#160;</a></span>get()</h2>
 
@@ -1015,44 +1053,6 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Sets the <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a> to null. </p>
-
-</div>
-</div>
-<a id="aee875468d9b1b300f9f533d43529e376" name="aee875468d9b1b300f9f533d43529e376"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee875468d9b1b300f9f533d43529e376">&#9670;&#160;</a></span>static_cast_to()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T&gt; </div>
-<div class="memtemplate">
-template&lt;typename U&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; U &gt; <a class="el" href="class_minty_1_1_ref.html">Minty::Ref</a>&lt; T &gt;::static_cast_to </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Casts this Ref&lt;T&gt; to a <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a><u>. </u></p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">U</td><td>The type to cast to.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="class_minty_1_1_ref.html" title="A weak pointer.">Ref</a>, casted as the given type.</dd></dl>
 
 </div>
 </div>

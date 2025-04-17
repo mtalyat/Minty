@@ -14,7 +14,7 @@ var searchData=
   ['linear_11',['Linear',['../namespace_minty.html#af9f01817540b1a02607fd01fc1bda06da32a843da6ea40ab3b17a3421ccdf671b',1,'Minty::Linear'],['../namespace_minty.html#afd87ae84a36b61cf04cc9022b33ec225a32a843da6ea40ab3b17a3421ccdf671b',1,'Minty::Linear']]],
   ['linelist_12',['LineList',['../namespace_minty.html#a0e04eab76e6d1a8198701d7230df00eca596e1b7afe8925f3f578c716d5af8fef',1,'Minty']]],
   ['linestrip_13',['LineStrip',['../namespace_minty.html#a0e04eab76e6d1a8198701d7230df00ecae7f9e73b8edd21f420a63b3ace5768a2',1,'Minty']]],
-  ['load_14',['Load',['../struct_minty_1_1_render_attachment.html#a6734410b78a22d8d1dee35bd5e72478baf19dbf2edb3a0bd74b0524d960ff21eb',1,'Minty::RenderAttachment']]],
+  ['load_14',['Load',['../namespace_minty.html#acb6aba09666ad1d293fe6570e7f0eb0eaf19dbf2edb3a0bd74b0524d960ff21eb',1,'Minty']]],
   ['long_15',['Long',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda8394f0347c184cf156ac5924dccb773b',1,'Minty']]],
   ['low_16',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
 ];

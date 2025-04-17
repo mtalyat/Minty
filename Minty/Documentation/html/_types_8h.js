@@ -9,6 +9,7 @@ var _types_8h =
     [ "Minty::Handle", "namespace_minty.html#a40eb5e824cc6150ead0892d3dde0aaaa", null ],
     [ "Minty::ID", "namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d", null ],
     [ "Minty::Int", "namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee", null ],
+    [ "Minty::Layer", "namespace_minty.html#a6f6cda170cee1360792bdd6e0781aa10", null ],
     [ "Minty::Long", "namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07", null ],
     [ "Minty::Short", "namespace_minty.html#af6ffb8348af066d5ea40ea78dc4309fe", null ],
     [ "Minty::Size", "namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079", null ],

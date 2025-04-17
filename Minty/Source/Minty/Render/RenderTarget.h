@@ -46,6 +46,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates a new RenderTarget.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
 		RenderTarget(RenderTargetBuilder const& builder)
 			: Asset(builder.id)
 			, m_renderPass(builder.renderPass)
@@ -97,7 +101,7 @@ namespace Minty
 		/// Reinitializes this RenderTarget with the given arguments.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
-		virtual void reinitialize(RenderTargetBuilder const& builder) = 0;
+		virtual void refresh(RenderTargetBuilder const& builder) = 0;
 
 #pragma endregion
 

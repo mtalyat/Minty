@@ -9,7 +9,8 @@ var _image_layout_8h =
       [ "Minty::ImageLayout::ShaderReadOnly", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa9f12527dc507e6f8486d05daf0076e1c", null ],
       [ "Minty::ImageLayout::TransferSource", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa8c4df84c9e73cf86122034f85efac361", null ],
       [ "Minty::ImageLayout::TransferDestination", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa9cecc9065ff3b79e09391fcbfb7b9ce9", null ],
-      [ "Minty::ImageLayout::Preinitialized", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaaf7948b94454ec8c9421e5dd11426a021", null ]
+      [ "Minty::ImageLayout::Preinitialized", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaaf7948b94454ec8c9421e5dd11426a021", null ],
+      [ "Minty::ImageLayout::Presentation", "namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaac7bc3fddddb62d5b656adc30cea77a55", null ]
     ] ],
     [ "Minty::parse_to< ImageLayout >", "namespace_minty.html#ac0a80d4c023e1db337e4269336c2af6c", null ],
     [ "Minty::parse_to_image_layout", "namespace_minty.html#ae972e4c2e860d0c7d6cf2a99c131ac5c", null ],

@@ -130,11 +130,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a497adad1944643086e10ee87f8d4abf8" id="r_a497adad1944643086e10ee87f8d4abf8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">UInt2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a497adad1944643086e10ee87f8d4abf8">get_size</a> () const override</td></tr>
 <tr class="memdesc:a497adad1944643086e10ee87f8d4abf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the size of this <a class="el" href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,...">RenderTarget</a> in pixels.  <br /></td></tr>
 <tr class="separator:a497adad1944643086e10ee87f8d4abf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1ffbbe80fde77930173890bcb04c937" id="r_ae1ffbbe80fde77930173890bcb04c937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1ffbbe80fde77930173890bcb04c937">reinitialize</a> (<a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;builder) override</td></tr>
-<tr class="memdesc:ae1ffbbe80fde77930173890bcb04c937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reinitializes this <a class="el" href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,...">RenderTarget</a> with the given arguments.  <br /></td></tr>
-<tr class="separator:ae1ffbbe80fde77930173890bcb04c937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8942f6b87b5d496f917ee6f2c6b46ce1" id="r_a8942f6b87b5d496f917ee6f2c6b46ce1"><td class="memItemLeft" align="right" valign="top">VkFramebuffer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8942f6b87b5d496f917ee6f2c6b46ce1">get_framebuffer</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const index) const</td></tr>
+<tr class="separator:a8942f6b87b5d496f917ee6f2c6b46ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2817495ddba92e77f1d167ba35c6b859" id="r_a2817495ddba92e77f1d167ba35c6b859"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2817495ddba92e77f1d167ba35c6b859">refresh</a> (<a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;builder) override</td></tr>
+<tr class="memdesc:a2817495ddba92e77f1d167ba35c6b859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reinitializes this <a class="el" href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,...">RenderTarget</a> with the given arguments.  <br /></td></tr>
+<tr class="separator:a2817495ddba92e77f1d167ba35c6b859"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_minty_1_1_render_target"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_minty_1_1_render_target')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_minty_1_1_render_target.html">Minty::RenderTarget</a></td></tr>
 <tr class="memitem:a00b81aff8491f9653979325f62b1072a inherit pub_methods_class_minty_1_1_render_target" id="r_a00b81aff8491f9653979325f62b1072a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_render_target.html#a00b81aff8491f9653979325f62b1072a">RenderTarget</a> (<a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;builder)</td></tr>
+<tr class="memdesc:a00b81aff8491f9653979325f62b1072a inherit pub_methods_class_minty_1_1_render_target"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,...">RenderTarget</a>.  <br /></td></tr>
 <tr class="separator:a00b81aff8491f9653979325f62b1072a inherit pub_methods_class_minty_1_1_render_target"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c5effa2abe60f80696f5130915ec08a inherit pub_methods_class_minty_1_1_render_target" id="r_a5c5effa2abe60f80696f5130915ec08a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_render_target.html#a5c5effa2abe60f80696f5130915ec08a">~RenderTarget</a> () override</td></tr>
 <tr class="separator:a5c5effa2abe60f80696f5130915ec08a inherit pub_methods_class_minty_1_1_render_target"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,6 +235,31 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8942f6b87b5d496f917ee6f2c6b46ce1" name="a8942f6b87b5d496f917ee6f2c6b46ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8942f6b87b5d496f917ee6f2c6b46ce1">&#9670;&#160;</a></span>get_framebuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkFramebuffer Minty::Vulkan_RenderTarget::get_framebuffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a497adad1944643086e10ee87f8d4abf8" name="a497adad1944643086e10ee87f8d4abf8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a497adad1944643086e10ee87f8d4abf8">&#9670;&#160;</a></span>get_size()</h2>
 
@@ -262,8 +290,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ae1ffbbe80fde77930173890bcb04c937" name="ae1ffbbe80fde77930173890bcb04c937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1ffbbe80fde77930173890bcb04c937">&#9670;&#160;</a></span>reinitialize()</h2>
+<a id="a2817495ddba92e77f1d167ba35c6b859" name="a2817495ddba92e77f1d167ba35c6b859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2817495ddba92e77f1d167ba35c6b859">&#9670;&#160;</a></span>refresh()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +300,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Minty::Vulkan_RenderTarget::reinitialize </td>
+          <td class="memname">void Minty::Vulkan_RenderTarget::refresh </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span></td><td>)</td>
           <td></td>
@@ -293,7 +321,7 @@ Additional Inherited Members</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_minty_1_1_render_target.html#a2595ac6e1c1c2cf43d9b6ba250d34215">Minty::RenderTarget</a>.</p>
+<p>Implements <a class="el" href="class_minty_1_1_render_target.html#a410f1f166bda1728de374be429e3112d">Minty::RenderTarget</a>.</p>
 
 </div>
 </div>

@@ -141,9 +141,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a46fae59a4e5775da03fb798f2e7a8136" id="r_a46fae59a4e5775da03fb798f2e7a8136"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46fae59a4e5775da03fb798f2e7a8136">get_native</a> () const =0</td></tr>
 <tr class="memdesc:a46fae59a4e5775da03fb798f2e7a8136"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the native <a class="el" href="class_minty_1_1_render_pass.html">RenderPass</a> object.  <br /></td></tr>
 <tr class="separator:a46fae59a4e5775da03fb798f2e7a8136"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63f27ee5a72b59a1e25056fc475d0442" id="r_a63f27ee5a72b59a1e25056fc475d0442"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63f27ee5a72b59a1e25056fc475d0442">reinitialize_render_targets</a> (<a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;builder)</td></tr>
-<tr class="memdesc:a63f27ee5a72b59a1e25056fc475d0442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reinitializes all of the RenderTargets that use this <a class="el" href="class_minty_1_1_render_pass.html">RenderPass</a>.  <br /></td></tr>
-<tr class="separator:a63f27ee5a72b59a1e25056fc475d0442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6161b263880e2a394ede9025d88ce78" id="r_ab6161b263880e2a394ede9025d88ce78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6161b263880e2a394ede9025d88ce78">refresh</a> (<a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;builder)</td></tr>
+<tr class="memdesc:ab6161b263880e2a394ede9025d88ce78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reinitializes all of the RenderTargets that use this <a class="el" href="class_minty_1_1_render_pass.html">RenderPass</a>.  <br /></td></tr>
+<tr class="separator:ab6161b263880e2a394ede9025d88ce78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e4df7c4178830c614ddb7c5137adb4" id="r_ac0e4df7c4178830c614ddb7c5137adb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0e4df7c4178830c614ddb7c5137adb4">register_render_target</a> (<a class="el" href="class_minty_1_1_render_target.html">RenderTarget</a> *const renderTarget)</td></tr>
 <tr class="memdesc:ac0e4df7c4178830c614ddb7c5137adb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a <a class="el" href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,...">RenderTarget</a> with this <a class="el" href="class_minty_1_1_render_pass.html">RenderPass</a>.  <br /></td></tr>
 <tr class="separator:ac0e4df7c4178830c614ddb7c5137adb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -390,6 +390,31 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ab6161b263880e2a394ede9025d88ce78" name="ab6161b263880e2a394ede9025d88ce78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6161b263880e2a394ede9025d88ce78">&#9670;&#160;</a></span>refresh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::RenderPass::refresh </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reinitializes all of the RenderTargets that use this <a class="el" href="class_minty_1_1_render_pass.html">RenderPass</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">builder</td><td>The <a class="el" href="struct_minty_1_1_render_target_builder.html" title="The arguments for a RenderTarget.">RenderTargetBuilder</a> to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ac0e4df7c4178830c614ddb7c5137adb4" name="ac0e4df7c4178830c614ddb7c5137adb4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac0e4df7c4178830c614ddb7c5137adb4">&#9670;&#160;</a></span>register_render_target()</h2>
 
@@ -409,31 +434,6 @@ Static Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">renderTarget</td><td>The <a class="el" href="class_minty_1_1_render_target.html" title="Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image,...">RenderTarget</a>.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a63f27ee5a72b59a1e25056fc475d0442" name="a63f27ee5a72b59a1e25056fc475d0442"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63f27ee5a72b59a1e25056fc475d0442">&#9670;&#160;</a></span>reinitialize_render_targets()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Minty::RenderPass::reinitialize_render_targets </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Reinitializes all of the RenderTargets that use this <a class="el" href="class_minty_1_1_render_pass.html">RenderPass</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">builder</td><td>The <a class="el" href="struct_minty_1_1_render_target_builder.html" title="The arguments for a RenderTarget.">RenderTargetBuilder</a> to use.</td></tr>
   </table>
   </dd>
 </dl>

@@ -7,6 +7,8 @@
 #include "Minty/Render/ImagePixelFormat.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/RenderAttachment.h"
+#include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/ShaderModule.h"
 #include "Minty/Render/Viewport.h"
@@ -596,6 +598,25 @@ Int Minty::AssetManager::check_dependency(UUID const id, Path const& path, Strin
 	return 0;
 }
 
+Int Minty::AssetManager::read_attachment(Path const& path, Reader& reader, String const& name, RenderAttachment& attachment, Bool const required) const
+{
+	if (!reader.indent(name))
+	{
+		if (required)
+		{
+			Debug::write_error(F("Cannot load \"{}\". Missing \"{}\".", path, name));
+		}
+		return 1;
+	}
+
+	// read the attachment data
+
+
+	reader.outdent();
+
+	return 0;
+}
+
 Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path)
 {
 	Vector<Byte> bytes = read_bytes(path);
@@ -739,6 +760,39 @@ Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& pa
 	}
 
 	return create_from_loaded<MaterialTemplate>(path, builder);
+}
+
+Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
+{
+	// create builder
+	RenderPassBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	RenderAttachment colorAttachment{};
+	RenderAttachment depthAttachment{};
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read color attachment
+		if (reader->indent("ColorAttachment"))
+		{
+			if(!read_attachment(path, *reader, "Color", colorAttachment, true))
+			{
+				colorAttachment.type = RenderAttachment::Type::Color;
+				builder.colorAttachment = &colorAttachment;
+			}
+			if (!read_attachment(path, *reader, "Depth", depthAttachment, false))
+			{
+				depthAttachment.type = RenderAttachment::Type::Depth;
+				builder.depthAttachment = &depthAttachment;
+			}
+			
+			reader->outdent();
+		}
+	}
+
+	return create_from_loaded<RenderPass>(path, builder);
 }
 
 Ref<Shader> Minty::AssetManager::load_shader(Path const& path)

@@ -6,5 +6,5 @@ var class_minty_1_1_render_target =
     [ "get_images", "class_minty_1_1_render_target.html#a32cc13621c64a4136446298debb2815f", null ],
     [ "get_render_pass", "class_minty_1_1_render_target.html#ac28c9b704dd9fa2d391e67d756b25c72", null ],
     [ "get_size", "class_minty_1_1_render_target.html#a0638ec5d3088210729d9fc28a5dac28d", null ],
-    [ "reinitialize", "class_minty_1_1_render_target.html#a2595ac6e1c1c2cf43d9b6ba250d34215", null ]
+    [ "refresh", "class_minty_1_1_render_target.html#a410f1f166bda1728de374be429e3112d", null ]
 ];

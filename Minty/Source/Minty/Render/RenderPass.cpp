@@ -6,11 +6,11 @@
 
 using namespace Minty;
 
-void Minty::RenderPass::reinitialize_render_targets(RenderTargetBuilder const& builder)
+void Minty::RenderPass::refresh(RenderTargetBuilder const& builder)
 {
 	for (RenderTarget* target : m_renderTargets)
 	{
-		target->reinitialize(builder);
+		target->refresh(builder);
 	}
 }
 

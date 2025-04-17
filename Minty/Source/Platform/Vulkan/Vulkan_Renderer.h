@@ -21,12 +21,13 @@
 #include "Minty/Render/ShaderStage.h"
 #include "Minty/Window/Window.h"
 #include "Platform/Vulkan/Vulkan_Frame.h"
-#include "Platform/Vulkan/Vulkan_Swapchain.h"
 #include "Platform/Vulkan/Vulkan_QueueFamilyIndices.h"
 #include "Platform/Vulkan/Vulkan_SwapchainSupportDetails.h"
 
 namespace Minty
 {
+	class Vulkan_Surface;
+
 	class Vulkan_Renderer
 	{
 #pragma region Constructors
@@ -196,7 +197,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Frame Buffer
+#pragma region Vulkan_Frame Buffer
 
 	public:
 		static VkFramebuffer create_framebuffer(VkDevice const device, VkRenderPass const renderPass, VkExtent2D const extent, VkImageView const colorAttachment = VK_NULL_HANDLE, VkImageView const depthAttachment = VK_NULL_HANDLE);
@@ -236,7 +237,7 @@ namespace Minty
 		// submit and presentation
 		static void submit_command_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkSemaphore const waitSemaphore, VkSemaphore const signalSemaphore, VkFence const inFlightFence);
 
-		static void submit_command_buffer(VkCommandBuffer const commandBuffer, Frame const& frame, VkQueue const queue);
+		static void submit_command_buffer(VkCommandBuffer const commandBuffer, Vulkan_Frame const& frame, VkQueue const queue);
 
 		static void submit_command_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue);
 
@@ -295,10 +296,7 @@ namespace Minty
 	public:
 		static VkResult present(VkQueue const queue, VkSwapchainKHR const swapchain, uint32_t const imageIndex, VkSemaphore const signalSemaphore);
 
-		static VkResult present_frame(VkQueue const queue, Vulkan_Swapchain const& swapchain, Frame const& frame)
-		{
-			return present(queue, swapchain.get_swapchain(), swapchain.get_index(), frame.renderFinishedSemaphore);
-		}
+		static VkResult present_frame(VkQueue const queue, Vulkan_Surface const& surface, Vulkan_Frame const& frame);
 
 #pragma endregion
 
@@ -355,9 +353,9 @@ namespace Minty
 
 		static VkVertexInputRate to_vulkan(const Minty::ShaderInputRate rate);
 
-		static VkAttachmentLoadOp to_vulkan(Minty::RenderAttachment::LoadOperation const operation);
+		static VkAttachmentLoadOp to_vulkan(Minty::LoadOperation const operation);
 
-		static VkAttachmentStoreOp to_vulkan(Minty::RenderAttachment::StoreOperation const operation);
+		static VkAttachmentStoreOp to_vulkan(Minty::StoreOperation const operation);
 
 		static VkAttachmentDescription to_vulkan(Minty::RenderAttachment const& attachment);
 

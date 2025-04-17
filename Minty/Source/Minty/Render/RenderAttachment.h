@@ -2,9 +2,14 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/ImageLayout.h"
+#include "Minty/Render/LoadOperation.h"
+#include "Minty/Render/StoreOperation.h"
 
 namespace Minty
 {
+	/// <summary>
+	/// Holds data for an attachment in a render pass.
+	/// </summary>
 	struct RenderAttachment
 	{
 #pragma region Classes
@@ -16,6 +21,11 @@ namespace Minty
 		enum class Type
 		{
 			/// <summary>
+			/// Invalid.
+			/// </summary>
+			Undefined,
+
+			/// <summary>
 			/// Color attachment.
 			/// </summary>
 			Color,
@@ -24,43 +34,6 @@ namespace Minty
 			/// Depth attachment.
 			/// </summary>
 			Depth
-		};
-		
-		/// <summary>
-		/// The load operation.
-		/// </summary>
-		enum class LoadOperation
-		{
-			/// <summary>
-			/// Do nothing with the previous data.
-			/// </summary>
-			DontCare,
-
-			/// <summary>
-			/// Loads the previous data.
-			/// </summary>
-			Load,
-			
-			/// <summary>
-			/// Clears the previous data.
-			/// </summary>
-			Clear,
-		};
-		
-		/// <summary>
-		/// The store operation.
-		/// </summary>
-		enum class StoreOperation
-		{
-			/// <summary>
-			/// Does nothing with the current data.
-			/// </summary>
-			DontCare,
-
-			/// <summary>
-			/// Stores the current data.
-			/// </summary>
-			Store,
 		};
 
 #pragma endregion
@@ -71,12 +44,12 @@ namespace Minty
 		/// <summary>
 		/// The Type of this attachment.
 		/// </summary>
-		Type type;
+		Type type = Type::Undefined;
 
 		/// <summary>
 		/// The format this attachment uses.
 		/// </summary>
-		Format format;
+		Format format = Format::Default;
 
 		/// <summary>
 		/// The load operation to perform.

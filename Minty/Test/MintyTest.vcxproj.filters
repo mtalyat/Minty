@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Minty\Window">
       <UniqueIdentifier>{5b09807e-9f65-4b49-8a0f-c6fee1fafd3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Minty\Tool">
+      <UniqueIdentifier>{d620be47-c910-4181-9abf-8c1c0dd84d75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -259,6 +262,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Perspective.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_RenderPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_RenderTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ArgumentParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_LoadOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_StoreOperation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -465,6 +489,27 @@
       <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_Shader.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Camera.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Perspective.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_RenderPass.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_RenderTarget.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ArgumentParser.h">
+      <Filter>Header Files\Minty\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_LoadOperation.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_StoreOperation.h">
       <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
   </ItemGroup>

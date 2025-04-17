@@ -49,6 +49,7 @@
 // Render
 #include "Test_Buffer.h"
 #include "Test_BufferUsage.h"
+#include "Test_Camera.h"
 #include "Test_CoordinateMode.h"
 #include "Test_Filter.h"
 #include "Test_Format.h"
@@ -60,6 +61,8 @@
 #include "Test_ImageTiling.h"
 #include "Test_ImageType.h"
 #include "Test_ImageUsage.h"
+#include "Test_LoadOperation.h"
+#include "Test_Perspective.h"
 #include "Test_RenderManager.h"
 #include "Test_Shader.h"
 #include "Test_ShaderCullMode.h"
@@ -70,6 +73,7 @@
 #include "Test_ShaderPolygonMode.h"
 #include "Test_ShaderPrimitiveTopology.h"
 #include "Test_ShaderStage.h"
+#include "Test_StoreOperation.h"
 #include "Test_Viewport.h"
 
 // Serialization
@@ -80,6 +84,9 @@
 // Time
 #include "Test_Stopwatch.h"
 #include "Test_Time.h"
+
+// Tool
+#include "Test_ArgumentParser.h"
 
 // Window
 #include "Test_Window.h"
@@ -156,6 +163,7 @@ static void run_tests()
 	// Render
 	test_Buffer(_test);
 	test_BufferUsage(_test);
+	test_Camera(_test);
 	test_CoordinateMode(_test);
 	test_Filter(_test);
 	test_Format(_test);
@@ -167,6 +175,8 @@ static void run_tests()
 	test_ImageTiling(_test);
 	test_ImageType(_test);
 	test_ImageUsage(_test);
+	test_LoadOperation(_test);
+	test_Perspective(_test);
 	test_RenderManager(_test);
 	test_Shader(_test);
 	test_ShaderCullMode(_test);
@@ -177,6 +187,7 @@ static void run_tests()
 	test_ShaderPolygonMode(_test);
 	test_ShaderPrimitiveTopology(_test);
 	test_ShaderStage(_test);
+	test_StoreOperation(_test);
 	test_Viewport(_test);
 
 	// Serialization
@@ -187,6 +198,9 @@ static void run_tests()
 	// Time
 	test_Stopwatch(_test);
 	test_Time(_test);
+
+	// Tool
+	test_ArgumentParser(_test);
 
 	// Window
 	test_Window(_test);

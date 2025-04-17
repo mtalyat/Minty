@@ -11,6 +11,7 @@ var _asset_type_8h =
       [ "Minty::AssetType::Viewport", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a8d6f3510a5cca2c1281c9c6afe7e0da2", null ],
       [ "Minty::AssetType::Image", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841abe53a0541a6d36f6ecb879fa2c584b08", null ],
       [ "Minty::AssetType::Texture", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841aa3e8ae43188ae76d38f414b2bdb0077b", null ],
+      [ "Minty::AssetType::Surface", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841aaa0d528ba11ea1485d466dfe1ea40819", null ],
       [ "Minty::AssetType::RenderPass", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a2a116cfe4d27a64fc758793d3fcadc5a", null ],
       [ "Minty::AssetType::RenderTarget", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a9b0bffda4bcb312168c0d6537cb04b4d", null ],
       [ "Minty::AssetType::ShaderCode", "namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a0e4c6d803e71001cb6d2ef095527538b", null ],

@@ -1,0 +1,25 @@
+var class_minty_1_1_camera =
+[
+    [ "Camera", "class_minty_1_1_camera.html#a6e5152fa521308498bb6f95ef92440ec", null ],
+    [ "create", "class_minty_1_1_camera.html#adc38639c0d46cc2c6ac5213488114da2", null ],
+    [ "deserialize", "class_minty_1_1_camera.html#aecd3827f764b215ec0dd4d088668e43f", null ],
+    [ "get_aspect_ratio", "class_minty_1_1_camera.html#a74395f90090bb84fd7d9399db20bdd94", null ],
+    [ "get_color", "class_minty_1_1_camera.html#a701be37ed6ca566b7c3e04f4bfb330ad", null ],
+    [ "get_far_plane", "class_minty_1_1_camera.html#a227b4d8ad36173c923de20a78ebbd233", null ],
+    [ "get_fov", "class_minty_1_1_camera.html#ab522374c92565ca0e714d74f5f39d94e", null ],
+    [ "get_layer", "class_minty_1_1_camera.html#af9549e66adfa589bdb819ecb5900a21c", null ],
+    [ "get_near_plane", "class_minty_1_1_camera.html#a98fa876f747e90a7ff3e43914171b90d", null ],
+    [ "get_perspective", "class_minty_1_1_camera.html#a66a5a518a7a92b54eeeabde2f168dd46", null ],
+    [ "get_render_target", "class_minty_1_1_camera.html#a958c7c51ad46eab0cb83869208cf4b9e", null ],
+    [ "get_size", "class_minty_1_1_camera.html#a577cfdef055da25dc93ce2946c0def69", null ],
+    [ "serialize", "class_minty_1_1_camera.html#a1f01d506f32ff541a0ecfa91a265a90d", null ],
+    [ "set_aspect_ratio", "class_minty_1_1_camera.html#abf18f126ff8a5205357e65145391e6c6", null ],
+    [ "set_color", "class_minty_1_1_camera.html#a3ad3f56275a11c930f74414222f2c2df", null ],
+    [ "set_far_plane", "class_minty_1_1_camera.html#a09fc4befee74cdc58533c8e360744b5a", null ],
+    [ "set_fov", "class_minty_1_1_camera.html#a019e239718c4e84e176eeaa06ab2c3af", null ],
+    [ "set_layer", "class_minty_1_1_camera.html#a95fa2f56ad2d37f22a32b15e7041eb2b", null ],
+    [ "set_near_plane", "class_minty_1_1_camera.html#a9bc7bdc3ee27b3523a1b9d0392a9a770", null ],
+    [ "set_perspective", "class_minty_1_1_camera.html#a1024b90d78d521f911224c6e76562ce9", null ],
+    [ "set_render_target", "class_minty_1_1_camera.html#a35ac133aaec06453ff352f4aefdcafa2", null ],
+    [ "set_size", "class_minty_1_1_camera.html#a865a791c2e4ec8b8db4265b12073d5f5", null ]
+];

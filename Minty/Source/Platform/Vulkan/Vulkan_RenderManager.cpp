@@ -2,9 +2,16 @@
 #include "Vulkan_RenderManager.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Data/Transform.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Render/Camera.h"
+#include "Minty/Render/RenderPass.h"
+#include "Minty/Render/RenderTarget.h"
+#include "Platform/Vulkan/Vulkan_Image.h"
 #include "Platform/Vulkan/Vulkan_Renderer.h"
+#include "Platform/Vulkan/Vulkan_RenderPass.h"
+#include "Platform/Vulkan/Vulkan_RenderTarget.h"
 
 using namespace Minty;
 
@@ -23,7 +30,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 	, m_commandPool(VK_NULL_HANDLE)
 {}
 
-void Minty::Vulkan_RenderManager::initialize_frame(Frame& frame)
+void Minty::Vulkan_RenderManager::initialize_frame(Vulkan_Frame& frame)
 {
 	frame.commandBuffer = Vulkan_Renderer::create_command_buffer(m_device, m_commandPool);
 
@@ -32,7 +39,7 @@ void Minty::Vulkan_RenderManager::initialize_frame(Frame& frame)
 	frame.inFlightFence = Vulkan_Renderer::create_fence(m_device);
 }
 
-void Minty::Vulkan_RenderManager::dispose_frame(Frame& frame)
+void Minty::Vulkan_RenderManager::dispose_frame(Vulkan_Frame& frame)
 {
 	Vulkan_Renderer::destroy_fence(m_device, frame.inFlightFence);
 	Vulkan_Renderer::destroy_semaphore(m_device, frame.renderFinishedSemaphore);
@@ -42,13 +49,11 @@ void Minty::Vulkan_RenderManager::dispose_frame(Frame& frame)
 
 void Minty::Vulkan_RenderManager::create_depth_resources()
 {
-	AssetManager& assetManager = AssetManager::get_singleton();
-
 	// get depth format
 	VkFormat depthFormat = Vulkan_Renderer::find_supported_depth_format(m_physicalDevice);
 
 	// create depth image
-	VkExtent2D swapchainExtent = m_swapchain->get_extent();
+	VkExtent2D swapchainExtent = m_surface->get_extent();
 	ImageBuilder depthImageBuilder{};
 	depthImageBuilder.id = UUID::create();
 	depthImageBuilder.size = UInt2(swapchainExtent.width, swapchainExtent.height);
@@ -58,18 +63,11 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	depthImageBuilder.type = ImageType::D2;
 	depthImageBuilder.usage = ImageUsage::DepthStencil;
 	depthImageBuilder.immutable = false;
-	m_depthImage = assetManager.create<Image>(depthImageBuilder);
+	m_depthImage = Owner<Vulkan_Image>(depthImageBuilder);
 }
 
 void Minty::Vulkan_RenderManager::destroy_depth_resources()
 {
-	if (m_depthImage == nullptr)
-	{
-		return;
-	}
-
-	AssetManager& assetManager = AssetManager::get_singleton();
-	assetManager.unload(m_depthImage->get_id());
 	m_depthImage.release();
 }
 
@@ -90,32 +88,28 @@ void Minty::Vulkan_RenderManager::initialize()
 #endif // MINTY_DEBUG
 
 	// create surface
-	m_surface = Vulkan_Renderer::create_surface(m_instance, get_window());
+	Ref<Window> const& window = get_window();
+	VkSurfaceKHR surface = Vulkan_Renderer::create_surface(m_instance, window);
 
 	// get physical device
-	m_physicalDevice = Vulkan_Renderer::select_physical_device(m_instance, m_surface);
+	m_physicalDevice = Vulkan_Renderer::select_physical_device(m_instance, surface);
 
 	// get queue families
-	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, m_surface);
+	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, surface);
 
 	// create device
 	m_device = Vulkan_Renderer::create_device(m_physicalDevice, queueFamilyIndices);
 
+	// create surface/swapchain object
+	SurfaceBuilder surfaceBuilder{};
+	surfaceBuilder.id = UUID::create();
+	surfaceBuilder.targetFormat = m_targetSurfaceFormat;
+	surfaceBuilder.window = window;
+	m_surface = Owner<Vulkan_Surface>(surfaceBuilder, surface, *this, queueFamilyIndices);
+
 	// get queues
 	m_graphicsQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.graphicsFamily.value());
 	m_presentQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.presentFamily.value());
-
-	// create swapchain
-	m_swapchain = Owner(new Vulkan_Swapchain(*this, m_targetSurfaceFormat, queueFamilyIndices));
-	VkExtent2D swapchainExtent = m_swapchain->get_extent();
-
-	// create default viewport
-	UInt2 swapchainSize = UInt2(swapchainExtent.width, swapchainExtent.height);
-	ViewportBuilder viewportBuilder{};
-	viewportBuilder.id = UUID::create();
-	viewportBuilder.viewSize = swapchainSize;
-	viewportBuilder.maskSize = swapchainSize;
-	m_defaultViewport = Viewport::create(viewportBuilder);
 
 	// create command pool
 	m_commandPool = Vulkan_Renderer::create_command_pool(m_device, queueFamilyIndices.graphicsFamily.value());
@@ -130,12 +124,27 @@ void Minty::Vulkan_RenderManager::initialize()
 	}
 
 	Manager::initialize();
+
+	// create defaults
+	//     viewport
+	UInt2 swapchainSize = m_surface->get_size();
+	ViewportBuilder viewportBuilder{};
+	viewportBuilder.id = UUID::create();
+	viewportBuilder.viewSize = swapchainSize;
+	viewportBuilder.maskSize = swapchainSize;
+	m_defaultViewport = Viewport::create(viewportBuilder);
 }
 
 void Minty::Vulkan_RenderManager::dispose()
 {
 	// sync first
 	sync();
+
+	// unload defaults
+	m_defaultViewport.release();
+
+	// destroy surface
+	m_surface.release();
 
 	// dispose frames
 	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
@@ -150,26 +159,15 @@ void Minty::Vulkan_RenderManager::dispose()
 	Vulkan_Renderer::destroy_command_pool(m_device, m_commandPool);
 	m_commandPool = VK_NULL_HANDLE;
 
-	// destroy swapchain
-	m_swapchain.release();
-
 	// destroy device
 	Vulkan_Renderer::destroy_device(m_device);
 	m_device = VK_NULL_HANDLE;
-
-	// destroy surface
-	Vulkan_Renderer::destroy_surface(m_instance, m_surface);
-	m_surface = VK_NULL_HANDLE;
 
 	// destroy debug messenger
 #ifdef MINTY_DEBUG
 	Vulkan_Renderer::destroy_debug_messenger(m_instance, m_debugMessenger);
 	m_debugMessenger = VK_NULL_HANDLE;
 #endif // MINTY_DEBUG
-
-	// destroy instance
-	Vulkan_Renderer::destroy_surface(m_instance, m_surface);
-	m_surface = VK_NULL_HANDLE;
 
 	// destroy instance
 	Vulkan_Renderer::destroy_instance(m_instance);
@@ -185,19 +183,19 @@ void Minty::Vulkan_RenderManager::sync()
 
 Bool Minty::Vulkan_RenderManager::start_frame()
 {
-	Frame& frame = get_current_frame();
+	Vulkan_Frame& frame = get_current_frame();
 
 	// wait for last frame to finish
 	Vulkan_Renderer::wait_for_fence(m_device, frame.inFlightFence);
 	Vulkan_Renderer::reset_fence(m_device, frame.inFlightFence);
 
 	// get the image in the swapchain to use
-	VkResult swapchainResult = Vulkan_Renderer::get_next_swapchain_image_index(m_device, m_swapchain->get_swapchain(), frame.imageAvailableSemaphore, m_swapchain->get_index());
+	VkResult swapchainResult = Vulkan_Renderer::get_next_swapchain_image_index(m_device, m_surface->get_swapchain(), frame.imageAvailableSemaphore, m_surface->get_current_image_index_ref());
 
 	// check for swapchain rebuilding
 	if (swapchainResult == VK_ERROR_OUT_OF_DATE_KHR)
 	{
-		recreate_swapchain();
+		m_surface->refresh();
 		return false;
 	}
 
@@ -215,27 +213,65 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 
 void Minty::Vulkan_RenderManager::end_frame()
 {
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
-
 	// get command buffer
-	Frame const& frame = renderManager.get_current_frame();
+	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
 
 	// end and submit the command buffer
 	Vulkan_Renderer::end_command_buffer(commandBuffer);
-	Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, renderManager.get_graphics_queue());
+	Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
 
 	// present the frame
-	VkResult result = Vulkan_Renderer::present_frame(renderManager.get_present_queue(), renderManager.get_swapchain(), frame);
+	VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_surface.get(), frame);
 
 	// check for recreating swapchain
 	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
 	{
-		recreate_swapchain();
+		m_surface->refresh();
 	}
 
 	// next frame
 	advance_frame();
+}
+
+Bool Minty::Vulkan_RenderManager::start_pass(Camera const& camera, Transform const& transform)
+{
+	// get render target
+	Ref<RenderTarget> renderTarget = camera.get_render_target();
+
+	// skip frame if no target
+	if (!renderTarget)
+	{
+		return false;
+	}
+
+	// get vulkan render target and pass
+	Ref<Vulkan_RenderTarget> vulkanRenderTarget = renderTarget.cast_to<Vulkan_RenderTarget>();
+	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().cast_to<Vulkan_RenderPass>();
+	
+	// get render area
+	// remember: Viewport determines where to render within this area, so this area should be the whole screen
+	VkRect2D renderArea{};
+	renderArea.offset = { 0, 0 };
+	renderArea.extent = m_surface->get_extent();
+
+	// get clear color
+	Color clearColor = camera.get_color();
+	VkClearColorValue clearColorValue{};
+	clearColorValue.float32[0] = clearColor.r;
+	clearColorValue.float32[1] = clearColor.g;
+	clearColorValue.float32[2] = clearColor.b;
+	clearColorValue.float32[3] = clearColor.a;
+
+	// begin the pass
+	Vulkan_Renderer::begin_render_pass(get_current_command_buffer(), vulkanRenderPass->get_render_pass(), vulkanRenderTarget->get_framebuffer(m_surface->get_current_image_index_ref()), renderArea, clearColorValue);
+
+	return true;
+}
+
+void Minty::Vulkan_RenderManager::end_pass()
+{
+	Vulkan_Renderer::end_render_pass(get_current_command_buffer());
 }
 
 VkCommandBuffer Minty::Vulkan_RenderManager::start_command_buffer_single()
@@ -248,12 +284,12 @@ void Minty::Vulkan_RenderManager::finish_command_buffer_single(VkCommandBuffer c
 	Vulkan_Renderer::finish_command_buffer_single(m_device, m_commandPool, commandBuffer, queue);
 }
 
-void Minty::Vulkan_RenderManager::recreate_swapchain()
+Format Minty::Vulkan_RenderManager::get_color_attachment_format() const
 {
-	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, m_surface);
+	return m_surface->get_format();
+}
 
-	// destroy old swapchain and create new one over it
-	Format targetFormat = m_swapchain->get_target_format();
-	m_swapchain.release();
-	m_swapchain = Owner(new Vulkan_Swapchain(*this, targetFormat, queueFamilyIndices));
+Format Minty::Vulkan_RenderManager::get_depth_attachment_format() const
+{
+	return m_depthImage->get_format();
 }

@@ -1,83 +1,117 @@
 #include "pch.h"
 #include "ArgumentParser.h"
+#include "Minty/Core/Format.h"
+#include "Minty/Core/Math.h"
 
 using namespace Minty;
 
-void ArgumentParser::add_parameter(Parameter const& param)
+void Minty::ArgumentParser::add_parameter(String const& name, Int const argc)
 {
-	switch (param.type)
+	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
+	MINTY_ASSERT(argc != 0, "Positional parameters must have an argument not equal to zero.");
+
+	m_positionalParams.add({ name, argc });
+}
+
+void Minty::ArgumentParser::add_parameter(String const& name, String const& flag, Int const argc)
+{
+	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
+
+	Int index = static_cast<Int>(m_flagParams.get_size());
+	m_flagParams.add({ name, argc });
+	m_flagIndices.add(name, index);
+	if (!flag.is_empty())
 	{
-	case Parameter::Type::POSITIONAL:
-		m_positionalParams.add(param.index, param);
-		break;
-	case Parameter::Type::FLAG:
-		m_flagParams.add(param.flag, param);
-		break;
+		m_flagIndices.add(flag, index);
 	}
 }
 
 void ArgumentParser::parse(Int const argc, Char const* argv[])
 {
-	Parameter const* param = nullptr;
+    MINTY_ASSERT(argc > 0, "Argument count must be greater than 0.");
+    MINTY_ASSERT(argv != nullptr, "Argument array cannot be null.");
 
-	// iterate through all arguments
-	for (Int i = 0; i < argc; i++)
+    // Clear any previously parsed arguments
+    m_args.clear();
+
+    // Positional arguments
+	Int i = 0;
+	for (Parameter const& param : m_positionalParams)
 	{
-		// find positional argument or flag argument, flag takes priority
-		char const* argument = argv[i];
-		auto flagFound = m_flagParams.find(argument);
-		auto posFound = m_positionalParams.find(i);
-
-		Argument arg;
-
-		if (flagFound != m_flagParams.end())
+		// add args, if any
+		Int count = param.argc;
+		Int countAdj = Math::abs(count);
+		for (Int j = 0; j < countAdj; ++j)
 		{
-			param = &flagFound->second;
-
-			// grab values, store in argument
-			for (Int j = 1; j <= param->argc && j + i <= argc; j++)
+			// if no more args...
+			if (i >= argc || argv[i][0] == '-') // no more args OR next flag
 			{
-				arg.args.add(argv[i + j]);
+				if (count > 0)
+				{
+					// show error if required
+					Debug::write_error(F("Not enough arguments for parameter: {}", i));
+				}
+				break;
 			}
+			m_args[param.name].args.add(argv[i]);
+			++i;
 		}
-		else if (posFound != m_positionalParams.end())
-		{
-			param = &posFound->second;
+	}
 
-			// grab values, store in argument
-			for (Int j = 0; j < param->argc && j + i < argc; j++)
-			{
-				arg.args.add(argv[i + j]);
-			}
-		}
-		else
+	// flag arguments
+	for (; i < argc; ++i)
+	{
+		Char const* arg = argv[i];
+		Size argSize = strlen(arg);
+
+		// if not flag, ignore
+		if (!argSize || arg[0] != '-')
 		{
-			// no arg found at this position
+			Debug::write_warning(F("Ignoring argument: {}", arg));
 			continue;
 		}
 
-		// add/override to total arguments
-		m_args[param->name] = arg;
+		// search for flag
+		String flag = &arg[1]; // ignore -
+		auto it = m_flagIndices.find(flag);
+		if (it == m_flagIndices.end())
+		{
+			Debug::write_warning(F("Ignoring unknown flag: {}", arg));
+			continue;
+		}
+
+		// get argument
+		Int index = it->second;
+		Parameter const& param = m_flagParams[index];
+		Argument& argument = m_args[param.name];
+
+		// add args, if any
+		++i; // skip -name/-flag
+		Int count = param.argc;
+		Int countAdj = Math::abs(count);
+		for (Int j = 0; j < countAdj; ++j)
+		{
+			// if no more args...
+			if (i >= argc || argv[i][0] == '-') // no more args OR next flag
+			{
+				// negative count is optional
+				if (count > 0)
+				{
+					// show error if required
+					Debug::write_error(F("Not enough arguments for parameter: {}", param.name));
+				}
+				break;
+			}
+			m_args[param.name].args.add(argv[i]);
+			++i;
+		}
+		--i;
 	}
 }
 
-Bool ArgumentParser::get_argument(String const& name, Argument& arg)
+Vector<String> const& Minty::ArgumentParser::get_argument(String const& name)
 {
-	// try to find the arg
-	auto argFound = m_args.find(name);
-	if (argFound != m_args.end())
-	{
-		// found arg
-		arg = argFound->second;
-
-		return true;
-	}
-
-	// did not find arg
-	return false;
-}
-
-Bool ArgumentParser::get_argument(String const& name)
-{
-	return m_args.find(name) != m_args.end();
+	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
+	MINTY_ASSERT(m_args.contains(name), "Argument not found: " + name);
+	return m_args[name].args;
 }

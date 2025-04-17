@@ -3,6 +3,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Array.h"
 #include "Minty/Data/Set.h"
+#include "Platform/Vulkan/Vulkan_Surface.h"
 #include <map>
 
 using namespace Minty;
@@ -1031,7 +1032,7 @@ void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const command
 	VK_ASSERT_RESULT(vkQueueSubmit(queue, 1, &submitInfo, inFlightFence), "Failed to submit draw command buffer.");
 }
 
-void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const commandBuffer, Frame const& frame, VkQueue const queue)
+void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const commandBuffer, Vulkan_Frame const& frame, VkQueue const queue)
 {
 	submit_command_buffer(commandBuffer, queue, frame.imageAvailableSemaphore, frame.renderFinishedSemaphore, frame.inFlightFence);
 }
@@ -1317,6 +1318,11 @@ VkResult Minty::Vulkan_Renderer::present(VkQueue const queue, VkSwapchainKHR con
 	}
 
 	return result;
+}
+
+VkResult Minty::Vulkan_Renderer::present_frame(VkQueue const queue, Vulkan_Surface const& surface, Vulkan_Frame const& frame)
+{
+	return present(queue, surface.get_swapchain(), surface.get_current_image_index(), frame.renderFinishedSemaphore);
 }
 
 VkBuffer Minty::Vulkan_Renderer::create_buffer(VkDevice const device, VkDeviceSize const size, VkBufferUsageFlags const usage)
@@ -1702,15 +1708,15 @@ VkVertexInputRate Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderInputRate
 	return VK_VERTEX_INPUT_RATE_MAX_ENUM;
 }
 
-VkAttachmentLoadOp Minty::Vulkan_Renderer::to_vulkan(Minty::RenderAttachment::LoadOperation const operation)
+VkAttachmentLoadOp Minty::Vulkan_Renderer::to_vulkan(Minty::LoadOperation const operation)
 {
 	switch (operation)
 	{
-	case RenderAttachment::LoadOperation::DontCare:
+	case LoadOperation::DontCare:
 		return VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	case RenderAttachment::LoadOperation::Load:
+	case LoadOperation::Load:
 		return VK_ATTACHMENT_LOAD_OP_LOAD;
-	case RenderAttachment::LoadOperation::Clear:
+	case LoadOperation::Clear:
 		return VK_ATTACHMENT_LOAD_OP_CLEAR;
 	default:
 		MINTY_ABORT("Unsupported load operation.");
@@ -1720,13 +1726,13 @@ VkAttachmentLoadOp Minty::Vulkan_Renderer::to_vulkan(Minty::RenderAttachment::Lo
 	return VK_ATTACHMENT_LOAD_OP_MAX_ENUM;
 }
 
-VkAttachmentStoreOp Minty::Vulkan_Renderer::to_vulkan(Minty::RenderAttachment::StoreOperation const operation)
+VkAttachmentStoreOp Minty::Vulkan_Renderer::to_vulkan(Minty::StoreOperation const operation)
 {
 	switch (operation)
 	{
-	case RenderAttachment::StoreOperation::DontCare:
+	case StoreOperation::DontCare:
 		return VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	case RenderAttachment::StoreOperation::Store:
+	case StoreOperation::Store:
 		return VK_ATTACHMENT_STORE_OP_STORE;
 	default:
 		MINTY_ABORT("Unsupported store operation.");

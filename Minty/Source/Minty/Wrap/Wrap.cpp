@@ -5,14 +5,19 @@
 
 using namespace Minty;
 
-Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion)
+Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion, Type const type)
     : m_path(path.get_absolute())
     , m_header()
     , m_entries()
     , m_indexed()
 {
+    MINTY_ASSERT(!path.is_empty(), "Wrap path cannot be empty.");
+	MINTY_ASSERT(!name.is_empty(), "Wrap name cannot be empty.");
+	MINTY_ASSERT(entryCount > 0, "Wrap entry count must be greater than 0.");
+	MINTY_ASSERT(type != Type::None, "Wrap file type cannot be None.");
+
     // set header data
-    m_header.type = Type::File;
+    m_header.type = type;
     m_header.wrapVersion = WRAP_VERSION;
     m_header.contentVersion = contentVersion;
     set_name(name);
@@ -44,9 +49,7 @@ void Minty::Wrap::load(Path const& path)
 {
     Path absolutePath = path.get_absolute();
 
-    MINTY_ASSERT(Path::exists(absolutePath), "Cannot load Wrap file. The file does not exist at the given path.");
-	MINTY_ASSERT(Path::is_file(absolutePath), "Cannot load Wrap file. The path is not a file.");
-	MINTY_ASSERT(absolutePath.get_extension() == EXTENSION_WRAP, "Cannot load Wrap file. The file does not have the correct extension.");
+    MINTY_ASSERT(exists(path), "Cannot load a Wrap from a Path that does not lead to a valid Wrap file!");
 
     m_path = absolutePath;
 
@@ -440,7 +443,49 @@ Size Minty::Wrap::get_size() const
     return Path::get_file_size(m_path);
 }
 
-Wrap Minty::Wrap::load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion)
+Bool Minty::Wrap::exists(Path const& path)
+{
+	if (path.is_empty())
+	{
+		return false;
+	}
+	if (!Path::exists(path))
+	{
+		return false;
+	}
+    if (!Path::is_file(path))
+    {
+		return false;
+    }
+	if (path.get_extension() != EXTENSION_WRAP)
+	{
+		return false;
+	}
+
+	// open the file
+	PhysicalFile file(path, File::Flags::Read | File::Flags::Binary);
+
+    // cannot be a Wrap if smaller than a header
+	if (file.get_size() < sizeof(Header))
+	{
+		return false;
+	}
+
+    // check magic bytes
+	Char id[WRAP_MAGIC_SIZE];
+	file.read(id, WRAP_MAGIC_SIZE);
+    if (memcmp(id, WRAP_MAGIC, WRAP_MAGIC_SIZE))
+    {
+        return false;
+    }
+
+    file.close();
+
+    // OK, its a Wrap
+    return true;
+}
+
+Wrap Minty::Wrap::load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion, Type const type)
 {
     if (Path::exists(path))
     {
@@ -448,7 +493,7 @@ Wrap Minty::Wrap::load_or_create(Path const& path, String const& name, uint32_t 
     }
     else
     {
-        return Wrap(path, name, entryCount, base, contentVersion);
+        return Wrap(path, name, entryCount, base, contentVersion, type);
     }
 }
 

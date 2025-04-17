@@ -15,6 +15,7 @@ String Minty::to_string(ImageLayout const obj)
 	case ImageLayout::TransferSource: return "TransferSource";
 	case ImageLayout::TransferDestination: return "TransferDestination";
 	case ImageLayout::Preinitialized: return "Preinitialized";
+	case ImageLayout::Presentation: return "Presentation";
 
 	default: return "";
 	}
@@ -30,6 +31,7 @@ ImageLayout Minty::parse_to_image_layout(String const& string)
 	if (string == "TransferSource") return ImageLayout::TransferSource;
 	if (string == "TransferDestination") return ImageLayout::TransferDestination;
 	if (string == "Preinitialized") return ImageLayout::Preinitialized;
+	if (string == "Presentation") return ImageLayout::Presentation;
 
 	return ImageLayout();
 }

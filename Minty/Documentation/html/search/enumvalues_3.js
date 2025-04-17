@@ -9,6 +9,6 @@ var searchData=
   ['depthstencilattachment_6',['DepthStencilAttachment',['../namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaa652fd1408b3de263e32147770a48931e',1,'Minty']]],
   ['depthstencilreadonly_7',['DepthStencilReadOnly',['../namespace_minty.html#a1e062788e7975f7b07bb2f051f41ceeaab4dc3ad21093fbe36e3db22fc0d0be4f',1,'Minty']]],
   ['disabled_8',['Disabled',['../namespace_minty.html#a1bf85caac56dd328ba80673821c4a883ab9f5c797ebbf55adccdd8539a65a0241',1,'Minty']]],
-  ['dontcare_9',['DontCare',['../struct_minty_1_1_render_attachment.html#a6734410b78a22d8d1dee35bd5e72478ba60a3629ef6a8f991f45d7a85f2458544',1,'Minty::RenderAttachment::DontCare'],['../struct_minty_1_1_render_attachment.html#a46d5267085985581e1daacc624f9b268a60a3629ef6a8f991f45d7a85f2458544',1,'Minty::RenderAttachment::DontCare']]],
+  ['dontcare_9',['DontCare',['../namespace_minty.html#acb6aba09666ad1d293fe6570e7f0eb0ea60a3629ef6a8f991f45d7a85f2458544',1,'Minty::DontCare'],['../namespace_minty.html#a1fe2795b7b993a0e5da669364ca72ed8a60a3629ef6a8f991f45d7a85f2458544',1,'Minty::DontCare']]],
   ['double_10',['Double',['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdad909d38d705ce75386dd86e611a82f5b',1,'Minty']]]
 ];

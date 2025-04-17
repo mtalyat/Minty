@@ -13,80 +13,13 @@ namespace Minty
 	{
 #pragma region Classes
 
-	public:
-		/// <summary>
-		/// Defines a command line parameter.
-		/// </summary>
+	private:
 		struct Parameter
 		{
-			/// <summary>
-			/// The type of parameter.
-			/// </summary>
-			enum Type
-			{
-				/// <summary>
-				/// The parameter is identified by its position in the order of the parameters.
-				/// </summary>
-				POSITIONAL,
-
-				/// <summary>
-				/// The parameter is identified by a preceeding flag, such as "-f".
-				/// </summary>
-				FLAG,
-			};
-
-			Type type;
-			String name;
-			String flag;
-			Int index;
-			Int argc;
-
-			/// <summary>
-			/// Creates an empty Parameter.
-			/// </summary>
-			Parameter()
-				: type(Type::POSITIONAL)
-				, name("")
-				, flag("")
-				, index(0)
-				, argc(0)
-			{
-			}
-
-			/// <summary>
-			/// Creates a new positional parameter.
-			/// </summary>
-			/// <param name="name">The name of the parameter, to get the argument values later.</param>
-			/// <param name="index">The index of the parameter, including the name of the program.</param>
-			/// <param name="argc">The maximum number of string arguments to capture.</param>
-			Parameter(String const& name, Int const index, Int const argc = 1)
-				: type(Type::POSITIONAL)
-				, name(name)
-				, flag("")
-				, index(index)
-				, argc(argc)
-			{
-			}
-
-			/// <summary>
-			/// Creates a new flag parameter.
-			/// </summary>
-			/// <param name="name">The name of the parameter, to get the argument values later.</param>
-			/// <param name="flag">The index of the parameter, including the name of the program.</param>
-			/// <param name="argc">The maximum number of string arguments to capture.</param>
-			Parameter(String const& name, String const& flag, Int const argc = 1)
-				: type(Type::FLAG)
-				, name(name)
-				, flag(flag)
-				, index(-1)
-				, argc(argc)
-			{
-			}
+			String name = "";
+			Int argc = 0;
 		};
 
-		/// <summary>
-		/// Defines an command line argument given in place of a command line parameter.
-		/// </summary>
 		struct Argument
 		{
 			Vector<String> args;
@@ -97,8 +30,9 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Map<Int, Parameter> m_positionalParams;
-		Map<String, Parameter> m_flagParams;
+		Vector<Parameter> m_positionalParams;
+		Vector<Parameter> m_flagParams;
+		Map<String, Int> m_flagIndices;
 		Map<String, Argument> m_args;
 
 #pragma endregion
@@ -107,10 +41,19 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Adds the parameter to the list of parameters to parse for.
+		/// Adds a positional parameter to the list of parameters to parse for.
 		/// </summary>
-		/// <param name="param">The paramter to add.</param>
-		void add_parameter(Parameter const& param);
+		/// <param name="name">The name of the parameter.</param>
+		/// <param name="argc">The maximum number of string arguments to capture. Set to zero to be optional Must be at least 0.</param>
+		void add_parameter(String const& name, Int const argc = 1);
+
+		/// <summary>
+		/// Adds a flag parameter to the list of parameters to parse for. Flag parameters are denoted by either "-name" or "-flag".
+		/// </summary>
+		/// <param name="name">The name of the parameter.</param>
+		/// <param name="flag">The flag identifier. Optional.</param>
+		/// <param name="argc">The number of following arguments after the flag. Must be at least 0.</param>
+		void add_parameter(String const& name, String const& flag, Int const argc = 1);
 
 		/// <summary>
 		/// Parses the loaded parameters.
@@ -125,14 +68,17 @@ namespace Minty
 		/// <param name="name">The name of the parameter.</param>
 		/// <param name="arg">The argument to fill with the values.</param>
 		/// <returns>True if the argument was found.</returns>
-		Bool get_argument(String const& name, Argument& arg);
+		Vector<String> const& get_argument(String const& name);
 
 		/// <summary>
-		/// Checks if the argument was provided, using the given parameter name.
+		/// Checks if the argument was provided.
 		/// </summary>
-		/// <param name="name">The name of the parameter to check if it exists.</param>
-		/// <returns>True if the argument was given.</returns>
-		Bool get_argument(String const& name);
+		/// <param name="name">The name of the parameter.</param>
+		/// <returns>True if there was an argument provided with the name of the given parameter.</returns>
+		inline Bool has_argument(String const& name) const
+		{
+			return m_args.contains(name);
+		}
 
 #pragma endregion
 	};

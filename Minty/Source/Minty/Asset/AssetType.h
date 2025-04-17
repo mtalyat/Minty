@@ -20,6 +20,7 @@ namespace Minty
 		Viewport,
 		Image,
 		Texture,
+		Surface,
 		RenderPass,
 		RenderTarget,
 		ShaderCode,

@@ -1,20 +1,15 @@
 /// <summary>
-/// Determines how coordinates are interpreted.
+/// The store operation.
 /// </summary>
-enum class CoordinateMode
+enum class StoreOperation
 {
 	/// <summary>
-	/// Invalid.
+	/// Does nothing with the current data.
 	/// </summary>
-	Undefined = 0,
+	DontCare,
 
 	/// <summary>
-	/// Each coordinate is represented with a float that falls within the range of [0, 1].
+	/// Stores the current data.
 	/// </summary>
-	Normalized = 1,
-
-	/// <summary>
-	/// Each coordinate is represented with an integer that falls within the range of [0, size], where size is the width or height, respectively.
-	/// </summary>
-	Pixel = 2,
+	Store,
 };

@@ -5,7 +5,7 @@ namespace Minty
 	/// <summary>
 	/// Holds the data for one frame in the flight.
 	/// </summary>
-	struct Frame
+	struct Vulkan_Frame
 	{
 		VkCommandBuffer commandBuffer = VK_NULL_HANDLE;
 

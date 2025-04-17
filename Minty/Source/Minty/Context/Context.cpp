@@ -33,8 +33,8 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
 	m_managers.add(m_memoryManager.get());
 	m_managers.add(m_jobManager.get());
-	m_managers.add(m_assetManager.get());
 	m_managers.add(m_renderManager.get());
+	m_managers.add(m_assetManager.get());
 
 	// initialize managers
 	initialize();
@@ -69,9 +69,9 @@ void Minty::Context::initialize()
 
 void Minty::Context::dispose()
 {
-	for (Manager* manager : m_managers)
+	for (auto it = m_managers.rbegin(); it != m_managers.rend(); ++it)
 	{
-		manager->dispose();
+		(*it)->dispose();
 	}
 	m_managers.clear();
 }

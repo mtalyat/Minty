@@ -410,6 +410,37 @@ namespace Minty
 		/// <returns>The size of the File in Bytes.</returns>
 		static Size get_file_size(Path const& path);
 
+		/// <summary>
+		/// Gets the files within the directory at the given Path.
+		/// </summary>
+		/// <param name="path">The path to the directory.</param>
+		/// <param name="recursive">If true, get the sub-directory files as well.</param>
+		/// <returns>A Vector of Paths to the Files within directory at the given Path.</returns>
+		static Vector<Path> get_files(Path const& path, Bool const recursive = false);
+
+		/// <summary>
+		/// Gets the directories within the directory at the given Path.
+		/// </summary>
+		/// <param name="path">The path to the directory.</param>
+		/// <param name="recursive">If true, get the sub-directory directories as well.</param>
+		/// <returns>A Vector of Paths to the directories within directory at the given Path.</returns>
+		static Vector<Path> get_directories(Path const& path, Bool const recursive = false);
+
+		/// <summary>
+		/// Gets all of the files and directories within the directory at the given Path.
+		/// </summary>
+		/// <param name="path">The path to the directory.</param>
+		/// <param name="recursive">If true, get the sub-directory files and directories as well.</param>
+		/// <returns>A Vector of Paths to the files and directories within directory at the given Path.</returns>
+		static Vector<Path> get_contents(Path const& path, Bool const recursive = false);
+
+		/// <summary>
+		/// Creates the directories at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to create.</param>
+		/// <returns>True, if the directories were created.</returns>
+		static Bool create(Path const& path);
+
 #pragma endregion
 	};
 }

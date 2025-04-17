@@ -226,37 +226,37 @@ void test_Math(Test& _test)
 		TEST("Forward")
 		{
 			// forward
-			Quaternion q = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion q = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 forward = Math::forward(q);
 			Float3 expected(0.0f, 0.0f, 1.0f);
 			EXPECT_CLOSE_3(forward, expected);
 
 			// right
-			q = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			forward = Math::forward(q);
 			expected = Float3(1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(forward, expected);
 
 			// backward
-			q = Math::from_euler(0.0f, Math::PI, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			forward = Math::forward(q);
 			expected = Float3(0.0f, 0.0f, -1.0f);
 			EXPECT_CLOSE_3(forward, expected);
 
 			// left
-			q = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			forward = Math::forward(q);
 			expected = Float3(-1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(forward, expected);
 
 			// up
-			q = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			forward = Math::forward(q);
 			expected = Float3(0.0f, 1.0f, 0.0f);
 			EXPECT_CLOSE_3(forward, expected);
 
 			// down
-			q = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			forward = Math::forward(q);
 			expected = Float3(0.0f, -1.0f, 0.0f);
 			EXPECT_CLOSE_3(forward, expected);
@@ -265,37 +265,37 @@ void test_Math(Test& _test)
 		TEST("Backward")
 		{
 			// forward
-			Quaternion q = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion q = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 backward = Math::backward(q);
 			Float3 expected(0.0f, 0.0f, -1.0f);
 			EXPECT_CLOSE_3(backward, expected);
 
 			// right
-			q = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			backward = Math::backward(q);
 			expected = Float3(-1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(backward, expected);
 
 			// backward
-			q = Math::from_euler(0.0f, Math::PI, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			backward = Math::backward(q);
 			expected = Float3(0.0f, 0.0f, 1.0f);
 			EXPECT_CLOSE_3(backward, expected);
 
 			// left
-			q = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			backward = Math::backward(q);
 			expected = Float3(1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(backward, expected);
 
 			// up
-			q = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			backward = Math::backward(q);
 			expected = Float3(0.0f, -1.0f, 0.0f);
 			EXPECT_CLOSE_3(backward, expected);
 
 			// down
-			q = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			backward = Math::backward(q);
 			expected = Float3(0.0f, 1.0f, 0.0f);
 			EXPECT_CLOSE_3(backward, expected);
@@ -304,37 +304,37 @@ void test_Math(Test& _test)
 		TEST("Right")
 		{
 			// forward
-			Quaternion q = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion q = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 right = Math::right(q);
 			Float3 expected(1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(right, expected);
 
 			// right
-			q = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			right = Math::right(q);
 			expected = Float3(0.0f, 0.0f, -1.0f);
 			EXPECT_CLOSE_3(right, expected);
 
 			// backward
-			q = Math::from_euler(0.0f, Math::PI, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			right = Math::right(q);
 			expected = Float3(-1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(right, expected);
 
 			// left
-			q = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			right = Math::right(q);
 			expected = Float3(0.0f, 0.0f, 1.0f);
 			EXPECT_CLOSE_3(right, expected);
 
 			// up
-			q = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			right = Math::right(q);
 			expected = Float3(1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(right, expected);
 
 			// down
-			q = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			right = Math::right(q);
 			expected = Float3(1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(right, expected);
@@ -343,37 +343,37 @@ void test_Math(Test& _test)
 		TEST("Left")
 		{
 			// forward
-			Quaternion q = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion q = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 left = Math::left(q);
 			Float3 expected(-1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(left, expected);
 
 			// right
-			q = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			left = Math::left(q);
 			expected = Float3(0.0f, 0.0f, 1.0f);
 			EXPECT_CLOSE_3(left, expected);
 
 			// backward
-			q = Math::from_euler(0.0f, Math::PI, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			left = Math::left(q);
 			expected = Float3(1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(left, expected);
 
 			// left
-			q = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			left = Math::left(q);
 			expected = Float3(0.0f, 0.0f, -1.0f);
 			EXPECT_CLOSE_3(left, expected);
 
 			// up
-			q = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			left = Math::left(q);
 			expected = Float3(-1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(left, expected);
 
 			// down
-			q = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			left = Math::left(q);
 			expected = Float3(-1.0f, 0.0f, 0.0f);
 			EXPECT_CLOSE_3(left, expected);
@@ -382,37 +382,37 @@ void test_Math(Test& _test)
 		TEST("Up")
 		{
 			// forward
-			Quaternion q = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion q = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 up = Math::up(q);
 			Float3 expected(0.0f, 1.0f, 0.0f);
 			EXPECT_CLOSE_3(up, expected);
 
 			// right
-			q = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			up = Math::up(q);
 			expected = Float3(0.0f, 1.0f, 0.0f);
 			EXPECT_CLOSE_3(up, expected);
 
 			// backward
-			q = Math::from_euler(0.0f, Math::PI, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			up = Math::up(q);
 			expected = Float3(0.0f, 1.0f, 0.0f);
 			EXPECT_CLOSE_3(up, expected);
 
 			// left
-			q = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			up = Math::up(q);
 			expected = Float3(0.0f, 1.0f, 0.0f);
 			EXPECT_CLOSE_3(up, expected);
 
 			// up
-			q = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			up = Math::up(q);
 			expected = Float3(0.0f, 0.0f, -1.0f);
 			EXPECT_CLOSE_3(up, expected);
 
 			// down
-			q = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			up = Math::up(q);
 			expected = Float3(0.0f, 0.0f, 1.0f);
 			EXPECT_CLOSE_3(up, expected);
@@ -421,37 +421,37 @@ void test_Math(Test& _test)
 		TEST("Down")
 		{
 			// forward
-			Quaternion q = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion q = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 down = Math::down(q);
 			Float3 expected(0.0f, -1.0f, 0.0f);
 			EXPECT_CLOSE_3(down, expected);
 
 			// right
-			q = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			down = Math::down(q);
 			expected = Float3(0.0f, -1.0f, 0.0f);
 			EXPECT_CLOSE_3(down, expected);
 
 			// backward
-			q = Math::from_euler(0.0f, Math::PI, 0.0f);
+			q = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			down = Math::down(q);
 			expected = Float3(0.0f, -1.0f, 0.0f);
 			EXPECT_CLOSE_3(down, expected);
 
 			// left
-			q = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			q = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			down = Math::down(q);
 			expected = Float3(0.0f, -1.0f, 0.0f);
 			EXPECT_CLOSE_3(down, expected);
 
 			// up
-			q = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			down = Math::down(q);
 			expected = Float3(0.0f, 0.0f, 1.0f);
 			EXPECT_CLOSE_3(down, expected);
 
 			// down
-			q = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			q = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			down = Math::down(q);
 			expected = Float3(0.0f, 0.0f, -1.0f);
 			EXPECT_CLOSE_3(down, expected);
@@ -499,39 +499,39 @@ void test_Math(Test& _test)
 		TEST("From/To Euler")
 		{
 			// forward
-			Quaternion expected = Math::from_euler(0.0f, 0.0f, 0.0f);
+			Quaternion expected = Math::to_cartesian(0.0f, 0.0f, 0.0f);
 			Float3 euler = Math::to_euler(expected);
-			Quaternion actual = Math::from_euler(euler);
+			Quaternion actual = Math::to_cartesian(euler);
 			EXPECT_CLOSE_4(actual, expected);
 
 			// right
-			expected = Math::from_euler(0.0f, Math::PI / 2.0f, 0.0f);
+			expected = Math::to_cartesian(0.0f, Math::PI / 2.0f, 0.0f);
 			euler = Math::to_euler(expected);
-			actual = Math::from_euler(euler);
+			actual = Math::to_cartesian(euler);
 			EXPECT_CLOSE_4(actual, expected);
 
 			// backward
-			expected = Math::from_euler(0.0f, Math::PI, 0.0f);
+			expected = Math::to_cartesian(0.0f, Math::PI, 0.0f);
 			euler = Math::to_euler(expected);
-			actual = Math::from_euler(euler);
+			actual = Math::to_cartesian(euler);
 			EXPECT_CLOSE_4(actual, expected);
 
 			// left
-			expected = Math::from_euler(0.0f, -Math::PI / 2.0f, 0.0f);
+			expected = Math::to_cartesian(0.0f, -Math::PI / 2.0f, 0.0f);
 			euler = Math::to_euler(expected);
-			actual = Math::from_euler(euler);
+			actual = Math::to_cartesian(euler);
 			EXPECT_CLOSE_4(actual, expected);
 
 			// up
-			expected = Math::from_euler(Math::PI / -2.0f, 0.0f, 0.0f);
+			expected = Math::to_cartesian(Math::PI / -2.0f, 0.0f, 0.0f);
 			euler = Math::to_euler(expected);
-			actual = Math::from_euler(euler);
+			actual = Math::to_cartesian(euler);
 			EXPECT_CLOSE_4(actual, expected);
 
 			// down
-			expected = Math::from_euler(Math::PI / 2.0f, 0.0f, 0.0f);
+			expected = Math::to_cartesian(Math::PI / 2.0f, 0.0f, 0.0f);
 			euler = Math::to_euler(expected);
-			actual = Math::from_euler(euler);
+			actual = Math::to_cartesian(euler);
 			EXPECT_CLOSE_4(actual, expected);
 		}
 

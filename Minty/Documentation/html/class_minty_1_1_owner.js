@@ -9,6 +9,7 @@ var class_minty_1_1_owner =
     [ "Owner", "class_minty_1_1_owner.html#a705f0267cb52b8fe12a48306860e906c", null ],
     [ "Owner", "class_minty_1_1_owner.html#a928582ee13a8fecfa774d9943935dc2e", null ],
     [ "~Owner", "class_minty_1_1_owner.html#a2a92aed0406a682a6b4322a5347ce611", null ],
+    [ "cast_to", "class_minty_1_1_owner.html#ad7f4c1840ecc018a41164b25190dc0b1", null ],
     [ "create_ref", "class_minty_1_1_owner.html#a28d4a0d3ea71e870743c0a79602a9699", null ],
     [ "create_ref", "class_minty_1_1_owner.html#a9aa1de514312540bd196f0dafec02304", null ],
     [ "get", "class_minty_1_1_owner.html#aa0246b2abef19a259e6cb82271c1d202", null ],

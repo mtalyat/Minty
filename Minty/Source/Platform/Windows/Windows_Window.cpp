@@ -24,7 +24,7 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 	{
 		if (!glfwInit())
 		{
-			MINTY_ABORT("Failed to initialize GLFW.");
+			MINTY_ABORT("Failed to initialize_swapchain GLFW.");
 		}
 
 		glfwSetErrorCallback(error_callback);

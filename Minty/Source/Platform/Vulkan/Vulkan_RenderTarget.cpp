@@ -43,7 +43,7 @@ void Minty::Vulkan_RenderTarget::dispose()
 	m_framebuffers.clear();
 }
 
-void Minty::Vulkan_RenderTarget::reinitialize(RenderTargetBuilder const& builder)
+void Minty::Vulkan_RenderTarget::refresh(RenderTargetBuilder const& builder)
 {
 	dispose();
 	initialize(builder);

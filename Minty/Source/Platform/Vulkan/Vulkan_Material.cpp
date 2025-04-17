@@ -14,7 +14,7 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialBuilder const& builder)
 {
 	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
 	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
-	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().static_cast_to<Vulkan_Shader>();
+	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast_to<Vulkan_Shader>();
 	Map<String, ShaderInput> const& inputs = shader->get_inputs();
 
 #ifdef MINTY_DEBUG

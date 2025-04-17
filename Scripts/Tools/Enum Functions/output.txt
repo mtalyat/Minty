@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(CoordinateMode const obj);
-    CoordinateMode parse_to_coordinate_mode(String const& string);
-    Bool parse_try_coordinate_mode(String const& string, CoordinateMode& value);
+String to_string(StoreOperation const obj);
+    StoreOperation parse_to_store_operation(String const& string);
+    Bool parse_try_store_operation(String const& string, StoreOperation& value);
     template<>
-    inline CoordinateMode parse_to<CoordinateMode>(String const& string) { return parse_to_coordinate_mode(string); }
+    inline StoreOperation parse_to<StoreOperation>(String const& string) { return parse_to_store_operation(string); }
     template<>
-    inline Bool parse_try<CoordinateMode>(String const& string, CoordinateMode& value) { return parse_try_coordinate_mode(string, value); }
+    inline Bool parse_try<StoreOperation>(String const& string, StoreOperation& value) { return parse_try_store_operation(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,29 @@ String to_string(CoordinateMode const obj);
 
 using namespace Minty;
 
-String Minty::to_string(CoordinateMode const obj)
+String Minty::to_string(StoreOperation const obj)
 {
     switch (obj)
 	{
-		case CoordinateMode::Normalized: return "Normalized";
-		case CoordinateMode::Pixel: return "Pixel";
+		case StoreOperation::DontCare: return "DontCare";
+		case StoreOperation::Store: return "Store";
 
 		default: return "";
 	}
 }
 
-CoordinateMode Minty::parse_to_coordinate_mode(String const& string)
+StoreOperation Minty::parse_to_store_operation(String const& string)
 {
-	if (string == "Normalized") return CoordinateMode::Normalized;
-	if (string == "Pixel") return CoordinateMode::Pixel;
+	if (string == "DontCare") return StoreOperation::DontCare;
+	if (string == "Store") return StoreOperation::Store;
 
-	return CoordinateMode();
+	return StoreOperation();
 }
 
-Bool Minty::parse_try_coordinate_mode(String const& string, CoordinateMode& value)
+Bool Minty::parse_try_store_operation(String const& string, StoreOperation& value)
 {
-	value = parse_to_coordinate_mode(string);
-	return value != CoordinateMode();
+	value = parse_to_store_operation(string);
+	return value != StoreOperation();
 }
 
 ====================
@@ -49,22 +49,22 @@ Bool Minty::parse_try_coordinate_mode(String const& string, CoordinateMode& valu
 
 #include "Test.h"
 
-void test_CoordinateMode(Test& _test);
+void test_StoreOperation(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_CoordinateMode.h"
+#include "Test_StoreOperation.h"
 #include "Minty.h"
 
-void test_CoordinateMode(Test& _test)
+void test_StoreOperation(Test& _test)
 {
-	CATEGORY(CoordinateMode)
+	CATEGORY(StoreOperation)
 	{
-        std::vector<std::pair<CoordinateMode, String>> VALUES = {
-			{CoordinateMode::Normalized, "Normalized"},
-			{CoordinateMode::Pixel, "Pixel"},
+        std::vector<std::pair<StoreOperation, String>> VALUES = {
+			{StoreOperation::DontCare, "DontCare"},
+			{StoreOperation::Store, "Store"},
         };
     
         TEST("To String")
@@ -79,23 +79,23 @@ void test_CoordinateMode(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_coordinate_mode(name), value);
+                EXPECT_EQUAL(parse_to_store_operation(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_coordinate_mode(""), CoordinateMode());
+            EXPECT_EQUAL(parse_to_store_operation(""), StoreOperation());
         }
 
         TEST("Parse Try")
         {
-            CoordinateMode result;
+            StoreOperation result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_coordinate_mode(name, result));
+                EXPECT_TRUE(parse_try_store_operation(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_coordinate_mode("", result));
-            EXPECT_EQUAL(result, CoordinateMode());
+            EXPECT_FALSE(parse_try_store_operation("", result));
+            EXPECT_EQUAL(result, StoreOperation());
         }
 	}
 }

@@ -179,9 +179,11 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The path to the Wrap file on the disk.</param>
 		/// <param name="name">The name of the Wrap file.</param>
+		/// <param name="entryCount">The number of entries in the Wrap file.</param>
 		/// <param name="base">The base path all files within the Wrap file.</param>
 		/// <param name="contentVersion">The version of the content within the Wrap file.</param>
-		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
+		/// <param name="type">The type of the Wrap file.</param>
+		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File);
 
 #pragma endregion
 
@@ -343,6 +345,13 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Checks if there is a valid Wrap file at the given path.
+		/// </summary>
+		/// <param name="path">The Path to a file.</param>
+		/// <returns>True if the file exists, and is a Wrap file.</returns>
+		static Bool exists(Path const& path);
+
+		/// <summary>
 		/// Loads or creates a new Wrap if none exists.
 		/// </summary>
 		/// <param name="path"></param>
@@ -351,7 +360,7 @@ namespace Minty
 		/// <param name="base"></param>
 		/// <param name="contentVersion"></param>
 		/// <returns></returns>
-		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
+		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File);
 
 #pragma endregion
 	};

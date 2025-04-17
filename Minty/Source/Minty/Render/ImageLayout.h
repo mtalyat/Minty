@@ -53,6 +53,11 @@ namespace Minty
 		/// Pre-initialized.
 		/// </summary>
 		Preinitialized = 8,
+
+		/// <summary>
+		/// Presentation layout (ready to be rendered).
+		/// </summary>
+		Presentation = 9,
 	};
 
 	String to_string(ImageLayout const obj);

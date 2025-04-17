@@ -1,15 +1,7 @@
 var struct_minty_1_1_render_attachment =
 [
-    [ "LoadOperation", "struct_minty_1_1_render_attachment.html#a6734410b78a22d8d1dee35bd5e72478b", [
-      [ "DontCare", "struct_minty_1_1_render_attachment.html#a6734410b78a22d8d1dee35bd5e72478ba60a3629ef6a8f991f45d7a85f2458544", null ],
-      [ "Load", "struct_minty_1_1_render_attachment.html#a6734410b78a22d8d1dee35bd5e72478baf19dbf2edb3a0bd74b0524d960ff21eb", null ],
-      [ "Clear", "struct_minty_1_1_render_attachment.html#a6734410b78a22d8d1dee35bd5e72478badc30bc0c7914db5918da4263fce93ad2", null ]
-    ] ],
-    [ "StoreOperation", "struct_minty_1_1_render_attachment.html#a46d5267085985581e1daacc624f9b268", [
-      [ "DontCare", "struct_minty_1_1_render_attachment.html#a46d5267085985581e1daacc624f9b268a60a3629ef6a8f991f45d7a85f2458544", null ],
-      [ "Store", "struct_minty_1_1_render_attachment.html#a46d5267085985581e1daacc624f9b268afdb0c388de01d545017cdf9ccf00eb72", null ]
-    ] ],
     [ "Type", "struct_minty_1_1_render_attachment.html#aa49cde2b5b7fb2cfe89cfdc8fbc5384f", [
+      [ "Undefined", "struct_minty_1_1_render_attachment.html#aa49cde2b5b7fb2cfe89cfdc8fbc5384faec0fc0100c4fc1ce4eea230c3dc10360", null ],
       [ "Color", "struct_minty_1_1_render_attachment.html#aa49cde2b5b7fb2cfe89cfdc8fbc5384facb5feb1b7314637725a2e73bdc9f7295", null ],
       [ "Depth", "struct_minty_1_1_render_attachment.html#aa49cde2b5b7fb2cfe89cfdc8fbc5384fa675056ad1441b6375b2c5abd48c27ef1", null ]
     ] ],

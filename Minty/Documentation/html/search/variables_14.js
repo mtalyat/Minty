@@ -1,7 +1,7 @@
 var searchData=
 [
   ['weakcount_0',['weakCount',['../class_minty_1_1_counter.html#abc5a9b1006261ef3d9bed1d41f7c39a5',1,'Minty::Counter']]],
-  ['window_1',['window',['../struct_minty_1_1_render_manager_builder.html#a882c3fd93dc2c5a88dae966563985b76',1,'Minty::RenderManagerBuilder']]],
+  ['window_1',['window',['../struct_minty_1_1_render_manager_builder.html#a882c3fd93dc2c5a88dae966563985b76',1,'Minty::RenderManagerBuilder::window'],['../struct_minty_1_1_surface_builder.html#ab18245d0ec62377eea7b14b547e112b2',1,'Minty::SurfaceBuilder::window']]],
   ['wrap_5fentry_5fpath_5fsize_2',['WRAP_ENTRY_PATH_SIZE',['../namespace_minty.html#abb7a6b0a5cff0e74b20fbca8d19eab4a',1,'Minty']]],
   ['wrap_5fheader_5fname_5fsize_3',['WRAP_HEADER_NAME_SIZE',['../namespace_minty.html#ae1b2585100ce4f36087baa95c74b6b46',1,'Minty']]],
   ['wrap_5fheader_5fpath_5fsize_4',['WRAP_HEADER_PATH_SIZE',['../namespace_minty.html#a8c05a59d4aafa1136b848c6f7797989e',1,'Minty']]],

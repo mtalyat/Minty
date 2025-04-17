@@ -85,6 +85,15 @@
     <Filter Include="Minty\Render\RenderPass">
       <UniqueIdentifier>{314c3de5-72dd-4c60-961e-b572929213dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Camera">
+      <UniqueIdentifier>{af6c90e0-24e4-4072-9340-25f7e6c2c8eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Render\RenderTarget">
+      <UniqueIdentifier>{38f1de7e-5677-43d6-8450-ea36db12dfd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Tool">
+      <UniqueIdentifier>{3f7928d9-437b-432a-99d9-8533aaac56dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -468,16 +477,10 @@
     <ClInclude Include="Platform\Vulkan\Vulkan_RenderPass.h">
       <Filter>Platform\Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Render\RenderTarget.h">
-      <Filter>Minty\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_RenderTarget.h">
       <Filter>Platform\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_Frame.h">
-      <Filter>Platform\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\Vulkan\Vulkan_Swapchain.h">
       <Filter>Platform\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Vulkan\Vulkan_QueueFamilyIndices.h">
@@ -494,6 +497,36 @@
     </ClInclude>
     <ClInclude Include="Minty\Context\Manager.h">
       <Filter>Minty\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Camera.h">
+      <Filter>Minty\Render\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Perspective.h">
+      <Filter>Minty\Render\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Transform.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\RenderTarget.h">
+      <Filter>Minty\Render\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Tool\ArgumentParser.h">
+      <Filter>Minty\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Tool\_Tool.h">
+      <Filter>Minty\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Surface.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Surface.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\LoadOperation.h">
+      <Filter>Minty\Render\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\StoreOperation.h">
+      <Filter>Minty\Render\RenderPass</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -725,9 +758,6 @@
     <ClCompile Include="Minty\Render\RenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Platform\Vulkan\Vulkan_Swapchain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Platform\Vulkan\Vulkan_Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -738,6 +768,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Library\STB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Perspective.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Surface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Surface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Tool\ArgumentParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\LoadOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\StoreOperation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
