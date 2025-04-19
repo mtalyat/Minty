@@ -30,6 +30,7 @@ var class_minty_1_1_reader_implementation =
     [ "read_short", "class_minty_1_1_reader_implementation.html#ace43d295345dd13229cb223b6fd944e1", null ],
     [ "read_string", "class_minty_1_1_reader_implementation.html#a3b4d46a839776822f6de30af7da65da0", null ],
     [ "read_type", "class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7", null ],
+    [ "read_typed", "class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48", null ],
     [ "read_uint", "class_minty_1_1_reader_implementation.html#a6e786610b95c24943d3a90f42983f96e", null ],
     [ "read_uint2", "class_minty_1_1_reader_implementation.html#aa838b9dd096d4a719abd7051147c5c5e", null ],
     [ "read_uint3", "class_minty_1_1_reader_implementation.html#a716ca9234aecf050983e713c5bf1ce32", null ],

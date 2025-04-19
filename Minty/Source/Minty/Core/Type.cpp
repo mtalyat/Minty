@@ -128,10 +128,6 @@ Type Minty::type_typeid(TypeID const typeId)
 	}
 	else if (typeId == typeid(UUID))
 	{
-		return Type::UUID;
-	}
-	else if (typeId == typeid(void*))
-	{
 		return Type::Object;
 	}
 	else if (typeId == typeid(String))
@@ -208,10 +204,8 @@ TypeID Minty::typeid_type(Type const type)
 		return typeid(Quaternion);
 	case Type::Color:
 		return typeid(Color);
-	case Type::UUID:
-		return typeid(UUID);
 	case Type::Object:
-		return typeid(void*);
+		return typeid(UUID);
 	case Type::String:
 	case Type::MultilineString:
 		return typeid(String);
@@ -284,10 +278,8 @@ Size Minty::sizeof_type(Type const type)
 		return sizeof(Quaternion);
 	case Type::Color:
 		return sizeof(Color);
-	case Type::UUID:
-		return sizeof(UUID);
 	case Type::Object:
-		return sizeof(void*);
+		return sizeof(UUID);
 	case Type::String:
 	case Type::MultilineString:
 		return sizeof(String);
@@ -329,7 +321,6 @@ String Minty::to_string(Type const obj)
 	case Type::Matrix4: return "Matrix4";
 	case Type::Quaternion: return "Quaternion";
 	case Type::Color: return "Color";
-	case Type::UUID: return "UUID";
 	case Type::Object: return "Object";
 	case Type::String: return "String";
 	case Type::MultilineString: return "MultilineString";
@@ -370,7 +361,6 @@ Type Minty::parse_to_type(String const& string)
 	if (string == "Matrix4") return Type::Matrix4;
 	if (string == "Quaternion") return Type::Quaternion;
 	if (string == "Color") return Type::Color;
-	if (string == "UUID") return Type::UUID;
 	if (string == "Object") return Type::Object;
 	if (string == "String") return Type::String;
 	if (string == "MultilineString") return Type::MultilineString;

@@ -157,18 +157,26 @@ Bool Minty::AssetManager::exists(Path const& path) const
 
 Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
 {
-	// open file
-	File* file = open(path);
-
-	// if no file open, failed
-	if (file == nullptr)
+	// if no file, fail
+	if (!exists(path))
 	{
-		reader = nullptr;
 		return false;
 	}
 
+	// get the file data
+	Vector<Byte> bytes = read_bytes(path);
+
+	// if no bytes, fail
+	if (bytes.is_empty())
+	{
+		return false;
+	}
+
+	// create container
+	ConstantContainer* container = new ConstantContainer(bytes.get_data(), bytes.get_size());
+
 	// create reader
-	reader = new TextFileReader(file);
+	reader = new TextMemoryReader(container);
 
 	return true;
 }
@@ -177,9 +185,9 @@ void Minty::AssetManager::close_reader(Reader*& reader) const
 {
 	MINTY_ASSERT(reader != nullptr, "Reader is null.");
 
-	// close the file
-	File* file = static_cast<File*>(reader->get_source());
-	close(file);
+	// delete the container
+	ConstantContainer* container = static_cast<ConstantContainer*>(reader->get_source());
+	delete container;
 
 	// delete the reader
 	delete reader;
@@ -266,6 +274,8 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 		return load_material_template(path);
 	//case AssetType::Mesh:
 	//	return load_mesh(path);
+	case AssetType::RenderPass:
+		return load_render_pass(path);
 	case AssetType::Shader:
 		return load_shader(path);
 	case AssetType::ShaderModule:
@@ -676,7 +686,7 @@ static void read_values(Reader& reader, Map<String, Map<String, Variable>>& valu
 		reader.indent(i);
 
 		// read names and variables for each value
-		Map<String, Variable> objectValues(reader.get_size());
+		Map<String, Variable> objectValues(reader.get_size() * 2);
 		for (Size j = 0; j < reader.get_size(); j++)
 		{
 			// read the name of the variable
@@ -805,6 +815,13 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
+		// render pass
+		if (find_dependency<RenderPass>(path, *reader, "RenderPass", builder.renderPass, true))
+		{
+			close_reader(reader);
+			return Ref<Shader>();
+		}
+
 		// config
 		reader->read("PrimitiveTopology", builder.primitiveTopology);
 		reader->read("PolygonMode", builder.polygonMode);
@@ -848,43 +865,43 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
 						input.offset = offset;
 					}
 
-					reader->outdent();
-				}
-
-				// read structure
-				if (reader->indent("Structure"))
-				{
-					String name = "";
-					Type type = Type::Undefined;
-					for (Size j = 0; j < reader->get_size(); j++)
+					// read structure
+					if (reader->indent("Structure"))
 					{
-						// get name
-						if (!reader->read_name(j, name))
+						String name = "";
+						Type type = Type::Undefined;
+						for (Size j = 0; j < reader->get_size(); j++)
 						{
-							continue;
+							// get name
+							if (!reader->read_name(j, name))
+							{
+								continue;
+							}
+
+							// get type
+							if (!reader->read(j, type))
+							{
+								continue;
+							}
+
+							// add to the input
+							input.data.add(name, Variable(type));
+
+							// add to total size
+							UInt typeSize = static_cast<UInt>(sizeof_type(type));
+							input.size += typeSize;
 						}
 
-						// get type
-						if (!reader->read(j, type))
-						{
-							continue;
-						}
+						reader->outdent();
+					}
 
-						// add to the input
-						input.data.add(name, Variable(type));
-
-						// add to total size
-						UInt typeSize = static_cast<UInt>(sizeof_type(type));
-						input.size += typeSize;
+					// adjust offset if push constant, so next push const is aligned
+					if (input.type == ShaderInputType::PushConstant)
+					{
+						offset += input.size;
 					}
 
 					reader->outdent();
-				}
-
-				// adjust offset if push constant, so next push const is aligned
-				if (input.type == ShaderInputType::PushConstant)
-				{
-					offset += input.size;
 				}
 			}
 

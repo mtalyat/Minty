@@ -234,7 +234,7 @@ namespace Minty
 		/// <returns>An Iterator pointing to the first key-value pair.</returns>
 		Iterator begin()
 		{
-			if (mp_table)
+			if (m_capacity)
 			{
 				return Iterator(mp_table, m_capacity, 0, mp_table[0]);
 			}
@@ -256,7 +256,7 @@ namespace Minty
 		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
 		ConstIterator begin() const
 		{
-			if (mp_table)
+			if (m_capacity)
 			{
 				return ConstIterator(mp_table, m_capacity, 0, mp_table[0]);
 			}
@@ -306,7 +306,7 @@ namespace Minty
 		/// <param name="allocator">The memory allocator to use.</param>
 		Map(Size const capacity, Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
-			, m_capacity(capacity)
+			, m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{

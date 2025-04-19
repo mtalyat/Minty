@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Core/Math.h"
 #include "Minty/Library/Vulkan.h"
 #include "Minty/Render/RenderTarget.h"
 

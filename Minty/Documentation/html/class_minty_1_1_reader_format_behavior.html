@@ -178,6 +178,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a83e6d0c873fe70119164e918995fbced"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a201c5f280df3e9e5f1f96726f2a1de53" id="r_a201c5f280df3e9e5f1f96726f2a1de53"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a201c5f280df3e9e5f1f96726f2a1de53">read_string_from_buffer</a> (const void *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size) const =0</td></tr>
 <tr class="separator:a201c5f280df3e9e5f1f96726f2a1de53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ef47d58ddcc349f28d2217873d350de" id="r_a1ef47d58ddcc349f28d2217873d350de"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ef47d58ddcc349f28d2217873d350de">read_uuid_from_buffer</a> (const void *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size) const =0</td></tr>
+<tr class="separator:a1ef47d58ddcc349f28d2217873d350de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25726c6c626ae860485f8c0ba040d4de" id="r_a25726c6c626ae860485f8c0ba040d4de"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25726c6c626ae860485f8c0ba040d4de">read_type_from_buffer</a> (const void *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size) const =0</td></tr>
 <tr class="separator:a25726c6c626ae860485f8c0ba040d4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f05950259900cc0a0ade88e8455728" id="r_a57f05950259900cc0a0ade88e8455728"><td class="memItemLeft" align="right" valign="top">virtual void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57f05950259900cc0a0ade88e8455728">read_typed_from_buffer</a> (const void *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const type) const =0</td></tr>
@@ -1025,6 +1027,37 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_minty_1_1_text_reader_behavior.html#aada11c43e637950a425cd166814118d7">Minty::TextReaderBehavior</a>.</p>
+
+</div>
+</div>
+<a id="a1ef47d58ddcc349f28d2217873d350de" name="a1ef47d58ddcc349f28d2217873d350de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ef47d58ddcc349f28d2217873d350de">&#9670;&#160;</a></span>read_uuid_from_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> Minty::ReaderFormatBehavior::read_uuid_from_buffer </td>
+          <td>(</td>
+          <td class="paramtype">const void *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_minty_1_1_text_reader_behavior.html#a6ff5df22a04638440fa2215320d36e75">Minty::TextReaderBehavior</a>.</p>
 
 </div>
 </div>

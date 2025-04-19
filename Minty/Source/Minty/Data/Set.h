@@ -229,7 +229,7 @@ namespace Minty
 		/// <returns>An Iterator pointing to the first key-value pair.</returns>
 		Iterator begin()
 		{
-			if (mp_table)
+			if (m_capacity)
 			{
 				return Iterator(mp_table, m_capacity, 0, mp_table[0]);
 			}
@@ -251,7 +251,7 @@ namespace Minty
 		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
 		ConstIterator begin() const
 		{
-			if (mp_table)
+			if (m_capacity)
 			{
 				return ConstIterator(mp_table, m_capacity, 0, mp_table[0]);
 			}

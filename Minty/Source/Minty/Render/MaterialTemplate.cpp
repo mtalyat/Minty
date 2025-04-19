@@ -20,9 +20,6 @@ Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateBuilder const& builder
 		MINTY_ASSERT(m_shader->contains_input(name), F("Shader does not contain input with name: {}", name));
 	}
 
-	// check to verify that the material template has a default value for ALL shader inputs
-	MINTY_ASSERT(m_shader->get_inputs().get_size() == m_values.get_size(), "MaterialTemplate does not have a default value for all shader inputs.");
-
 #endif // MINTY_DEBUG
 }
 

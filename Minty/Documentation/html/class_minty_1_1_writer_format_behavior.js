@@ -25,11 +25,12 @@ var class_minty_1_1_writer_format_behavior =
     [ "write_space_to_buffer", "class_minty_1_1_writer_format_behavior.html#aa56dbe6a82368104f85c427e5d611228", null ],
     [ "write_string_to_buffer", "class_minty_1_1_writer_format_behavior.html#a402ac4aea61f55547080260ed6c00fdd", null ],
     [ "write_type_to_buffer", "class_minty_1_1_writer_format_behavior.html#ac4d878052dce3e6ff0bf6d0d2ac5c9a4", null ],
-    [ "write_typed_to_buffer", "class_minty_1_1_writer_format_behavior.html#a2e3873ab29731a9e2da003436942d52c", null ],
+    [ "write_typed_to_buffer", "class_minty_1_1_writer_format_behavior.html#a028d4eb32d9454ff92880b1173c44d58", null ],
     [ "write_uint2_to_buffer", "class_minty_1_1_writer_format_behavior.html#a9bce80ce76bc6e25dcac74e5ab89e0b9", null ],
     [ "write_uint3_to_buffer", "class_minty_1_1_writer_format_behavior.html#a828055cab11dfd385a76f51aaed58e7d", null ],
     [ "write_uint4_to_buffer", "class_minty_1_1_writer_format_behavior.html#a52710714e87d87b50ae0e55bed3bc831", null ],
     [ "write_uint_to_buffer", "class_minty_1_1_writer_format_behavior.html#aff5e204da8c85d01aaa958db681ab020", null ],
     [ "write_ulong_to_buffer", "class_minty_1_1_writer_format_behavior.html#accac480e3872514ad6b111e3956059d7", null ],
-    [ "write_ushort_to_buffer", "class_minty_1_1_writer_format_behavior.html#afaca14f1e554afc7096deafbf9541343", null ]
+    [ "write_ushort_to_buffer", "class_minty_1_1_writer_format_behavior.html#afaca14f1e554afc7096deafbf9541343", null ],
+    [ "write_uuid_to_buffer", "class_minty_1_1_writer_format_behavior.html#af418b082f6706840e86039c47cbabc2f", null ]
 ];

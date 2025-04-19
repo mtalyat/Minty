@@ -31,7 +31,6 @@ var _type_8h =
       [ "Minty::Type::Matrix4", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda218021da9a8517e946ebfd95e097e1d3", null ],
       [ "Minty::Type::Quaternion", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda3743af167c53361d795405561faac2b2", null ],
       [ "Minty::Type::Color", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdacb5feb1b7314637725a2e73bdc9f7295", null ],
-      [ "Minty::Type::UUID", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a", null ],
       [ "Minty::Type::Object", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda497031794414a552435f90151ac3b54b", null ],
       [ "Minty::Type::String", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda27118326006d3829667a400ad23d5d98", null ],
       [ "Minty::Type::MultilineString", "namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdac0739d40d21f0637dd97591b5331324c", null ],

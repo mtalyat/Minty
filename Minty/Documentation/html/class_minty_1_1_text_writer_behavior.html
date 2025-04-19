@@ -187,10 +187,12 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a7758f5feed2a677c12f3e3c2988d29f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abae68a5ea82593184ec83bbb50c71bb7" id="r_abae68a5ea82593184ec83bbb50c71bb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abae68a5ea82593184ec83bbb50c71bb7">write_string_to_buffer</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;data, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;buffer) override</td></tr>
 <tr class="separator:abae68a5ea82593184ec83bbb50c71bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bcb26548c0ea1f5039ae471ca30ae1e" id="r_a9bcb26548c0ea1f5039ae471ca30ae1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bcb26548c0ea1f5039ae471ca30ae1e">write_uuid_to_buffer</a> (<a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const data, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;buffer) override</td></tr>
+<tr class="separator:a9bcb26548c0ea1f5039ae471ca30ae1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f0ab868e2fe1942b1a0f3edd65a7093" id="r_a7f0ab868e2fe1942b1a0f3edd65a7093"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f0ab868e2fe1942b1a0f3edd65a7093">write_type_to_buffer</a> (<a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const data, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;buffer) override</td></tr>
 <tr class="separator:a7f0ab868e2fe1942b1a0f3edd65a7093"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a872d01fde046d20260851e0811c8ed10" id="r_a872d01fde046d20260851e0811c8ed10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a872d01fde046d20260851e0811c8ed10">write_typed_to_buffer</a> (<a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const type, void const *const data, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;buffer) override</td></tr>
-<tr class="separator:a872d01fde046d20260851e0811c8ed10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab70de33e9e9fa294223c19da0c850444" id="r_ab70de33e9e9fa294223c19da0c850444"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab70de33e9e9fa294223c19da0c850444">write_typed_to_buffer</a> (void const *const data, <a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;buffer, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const type) override</td></tr>
+<tr class="separator:ab70de33e9e9fa294223c19da0c850444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Writes data as plain text. </p>
@@ -958,8 +960,8 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a872d01fde046d20260851e0811c8ed10" name="a872d01fde046d20260851e0811c8ed10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a872d01fde046d20260851e0811c8ed10">&#9670;&#160;</a></span>write_typed_to_buffer()</h2>
+<a id="ab70de33e9e9fa294223c19da0c850444" name="ab70de33e9e9fa294223c19da0c850444"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab70de33e9e9fa294223c19da0c850444">&#9670;&#160;</a></span>write_typed_to_buffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -970,17 +972,17 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void Minty::TextWriterBehavior::write_typed_to_buffer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const</td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">void const *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -990,7 +992,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_minty_1_1_writer_format_behavior.html#a2e3873ab29731a9e2da003436942d52c">Minty::WriterFormatBehavior</a>.</p>
+<p>Implements <a class="el" href="class_minty_1_1_writer_format_behavior.html#a028d4eb32d9454ff92880b1173c44d58">Minty::WriterFormatBehavior</a>.</p>
 
 </div>
 </div>
@@ -1177,6 +1179,37 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implements <a class="el" href="class_minty_1_1_writer_format_behavior.html#afaca14f1e554afc7096deafbf9541343">Minty::WriterFormatBehavior</a>.</p>
+
+</div>
+</div>
+<a id="a9bcb26548c0ea1f5039ae471ca30ae1e" name="a9bcb26548c0ea1f5039ae471ca30ae1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bcb26548c0ea1f5039ae471ca30ae1e">&#9670;&#160;</a></span>write_uuid_to_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::TextWriterBehavior::write_uuid_to_buffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_vector.html">Vector</a>&lt; <a class="el" href="namespace_minty.html#abef3357ce7a39ebc4d787a38199de199">Byte</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>buffer</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_minty_1_1_writer_format_behavior.html#af418b082f6706840e86039c47cbabc2f">Minty::WriterFormatBehavior</a>.</p>
 
 </div>
 </div>

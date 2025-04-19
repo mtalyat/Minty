@@ -62,6 +62,8 @@ var class_minty_1_1_reader =
     [ "read_short", "class_minty_1_1_reader.html#a0806f0b2ac729a4587bbee3e566e5658", null ],
     [ "read_string", "class_minty_1_1_reader.html#a7730b70b99e59d40a85e08fae1b9c4f5", null ],
     [ "read_type", "class_minty_1_1_reader.html#ac9ca16b9eb1ad81badcd16eb33a9b250", null ],
+    [ "read_typed", "class_minty_1_1_reader.html#a19adc6f71643510a992aeba95ed774d4", null ],
+    [ "read_typed", "class_minty_1_1_reader.html#a3bcbfe84c0f01d95aa1f86080a7792a6", null ],
     [ "read_uint", "class_minty_1_1_reader.html#a7755ad6caa32765b3a00599b3e0d70fa", null ],
     [ "read_uint2", "class_minty_1_1_reader.html#aa177c836b1655281faf679694b3d86a2", null ],
     [ "read_uint3", "class_minty_1_1_reader.html#a022fb6cd71280ac98802086f35f91e4c", null ],

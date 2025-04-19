@@ -2,9 +2,7 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Serialization/Parseable.h"
-#include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Serializable.h"
-#include "Minty/Serialization/Writer.h"
 
 namespace Minty
 {

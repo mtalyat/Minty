@@ -21,6 +21,8 @@ Minty::Vulkan_Shader::Vulkan_Shader(ShaderBuilder const& builder)
 {
 	initialize_bindings(builder);
 	initialize_descriptor_set_layout(builder);
+	initialize_pipeline_layout(builder);
+	initialize_pipeline(builder);
 }
 
 Minty::Vulkan_Shader::~Vulkan_Shader()

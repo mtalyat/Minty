@@ -42,7 +42,6 @@ namespace Minty
 		Matrix4,
 		Quaternion,
 		Color,
-		UUID,
 		Object,
 		String,
 		MultilineString,

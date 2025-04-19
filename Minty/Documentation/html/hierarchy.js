@@ -158,7 +158,8 @@ var hierarchy =
     [ "Minty::List< T >::ReverseIterator", "class_minty_1_1_list_1_1_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", null ],
     [ "Minty::Serializable", "class_minty_1_1_serializable.html", [
-      [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ]
+      [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ],
+      [ "Minty::Variable", "class_minty_1_1_variable.html", null ]
     ] ],
     [ "Minty::SerializableObject", "class_minty_1_1_serializable_object.html", [
       [ "Minty::Camera", "class_minty_1_1_camera.html", null ],
@@ -188,7 +189,6 @@ var hierarchy =
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
       [ "Minty::is_serializable_object< T, std::enable_if_t< std::is_base_of_v< SerializableObject, T > > >", "struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html", null ]
     ] ],
-    [ "Minty::Variable", "class_minty_1_1_variable.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
     [ "Minty::ViewportBuilder", "struct_minty_1_1_viewport_builder.html", null ],
     [ "Minty::Vulkan_Frame", "struct_minty_1_1_vulkan___frame.html", null ],

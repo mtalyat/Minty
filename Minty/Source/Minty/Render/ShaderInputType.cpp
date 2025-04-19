@@ -17,6 +17,7 @@ String Minty::to_string(ShaderInputType const obj)
 	case ShaderInputType::StorageBuffer: return "StorageBuffer";
 	case ShaderInputType::UniformBufferDynamic: return "UniformBufferDynamic";
 	case ShaderInputType::StorageBufferDynamic: return "StorageBufferDynamic";
+	case ShaderInputType::PushConstant: return "PushConstant";
 
 	default: return "";
 	}
@@ -34,6 +35,7 @@ ShaderInputType Minty::parse_to_shader_input_type(String const& string)
 	if (string == "StorageBuffer") return ShaderInputType::StorageBuffer;
 	if (string == "UniformBufferDynamic") return ShaderInputType::UniformBufferDynamic;
 	if (string == "StorageBufferDynamic") return ShaderInputType::StorageBufferDynamic;
+	if (string == "PushConstant") return ShaderInputType::PushConstant;
 
 	return ShaderInputType();
 }

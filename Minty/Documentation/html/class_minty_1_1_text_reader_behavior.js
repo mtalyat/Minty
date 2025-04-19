@@ -26,5 +26,6 @@ var class_minty_1_1_text_reader_behavior =
     [ "read_uint4_from_buffer", "class_minty_1_1_text_reader_behavior.html#a3f84bae7a1fdcecdd2e23db2cc909906", null ],
     [ "read_uint_from_buffer", "class_minty_1_1_text_reader_behavior.html#a158db865576cb83468d57123818eba6b", null ],
     [ "read_ulong_from_buffer", "class_minty_1_1_text_reader_behavior.html#a893798de48bd2dc6a342a66ad0a893ef", null ],
-    [ "read_ushort_from_buffer", "class_minty_1_1_text_reader_behavior.html#aada11c43e637950a425cd166814118d7", null ]
+    [ "read_ushort_from_buffer", "class_minty_1_1_text_reader_behavior.html#aada11c43e637950a425cd166814118d7", null ],
+    [ "read_uuid_from_buffer", "class_minty_1_1_text_reader_behavior.html#a6ff5df22a04638440fa2215320d36e75", null ]
 ];

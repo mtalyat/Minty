@@ -28,6 +28,7 @@ var class_minty_1_1_writer_implementation =
     [ "write_size", "class_minty_1_1_writer_implementation.html#a319a535efac56ff7c7cc2c7fc6ce2deb", null ],
     [ "write_string", "class_minty_1_1_writer_implementation.html#ae3a470fd20b6df5b3c509e267671afd4", null ],
     [ "write_type", "class_minty_1_1_writer_implementation.html#a98ac6d59f67b650b238ac9d62c42faa9", null ],
+    [ "write_typed", "class_minty_1_1_writer_implementation.html#ab8737badcab5e25dd04ddf410ad558f3", null ],
     [ "write_uint", "class_minty_1_1_writer_implementation.html#a63fcde0b51c916090739ec553ed5c701", null ],
     [ "write_uint2", "class_minty_1_1_writer_implementation.html#a5c82a5dc262047c5288fc90d008b66b7", null ],
     [ "write_uint3", "class_minty_1_1_writer_implementation.html#a9b862095bc90c474653e81a5ce73196c", null ],

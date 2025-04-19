@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Variable.h"
 

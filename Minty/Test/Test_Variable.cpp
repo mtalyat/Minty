@@ -22,8 +22,6 @@ void test_Variable(Test& _test)
 			Variable v2(Type::Undefined);
 			EXPECT_EQUAL(v2.get_type(), Type::Undefined);
 			EXPECT_EQUAL(v2.get_data().get_size(), 0);
-
-			EXPECT_FAILURE(Variable v3(Type::Object));
 		}
 
 		TEST("Type Data Constructor")
@@ -44,9 +42,6 @@ void test_Variable(Test& _test)
 			EXPECT_EQUAL(v.get_data().get_capacity(), sizeof_type(Type::Int));
 			EXPECT_EQUAL(v.get_data().get_size(), sizeof_type(Type::Int));
 			EXPECT_EQUAL(v, value);
-
-			String const string = "42";
-			EXPECT_FAILURE(Variable v2(string));
 		}
 
 		TEST("T Operator")

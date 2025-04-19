@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "UUID.h"
 #include "Minty/Core/Encoding.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 #include <random>
 
 using namespace Minty;

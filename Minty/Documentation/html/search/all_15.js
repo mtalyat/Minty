@@ -23,7 +23,7 @@ var searchData=
   ['update_5fdescriptor_5fsets_20',['update_descriptor_sets',['../class_minty_1_1_vulkan___renderer.html#af81094fd58141f61ec93a14a5744297e',1,'Minty::Vulkan_Renderer']]],
   ['usage_21',['usage',['../struct_minty_1_1_buffer_builder.html#af8e956839f3b59528ab80e1d871ac9bd',1,'Minty::BufferBuilder::usage'],['../struct_minty_1_1_image_builder.html#a582bb9eb7d5487aba64d53705a19e879',1,'Minty::ImageBuilder::usage']]],
   ['ushort_22',['UShort',['../namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8',1,'Minty::UShort'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdadfe785f133347f9b473f99009732b1bc',1,'Minty::UShort']]],
-  ['uuid_23',['UUID',['../class_minty_1_1_u_u_i_d.html',1,'Minty::UUID'],['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda5a54d9ad87f7c4c1c70c8f05b9515d5a',1,'Minty::UUID']]],
+  ['uuid_23',['UUID',['../class_minty_1_1_u_u_i_d.html',1,'Minty::UUID'],['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)']]],
   ['uuid_2ecpp_24',['UUID.cpp',['../_u_u_i_d_8cpp.html',1,'']]],
   ['uuid_2eh_25',['UUID.h',['../_u_u_i_d_8h.html',1,'']]]
 ];

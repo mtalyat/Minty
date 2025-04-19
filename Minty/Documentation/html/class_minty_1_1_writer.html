@@ -152,9 +152,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad3fc737b65b304db4e72b20f01d24a2b" id="r_ad3fc737b65b304db4e72b20f01d24a2b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3fc737b65b304db4e72b20f01d24a2b">outdent</a> ()=0</td></tr>
 <tr class="memdesc:ad3fc737b65b304db4e72b20f01d24a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Steps out of the current <a class="el" href="class_minty_1_1_node.html" title="Represents an object that contains data, and a list of children nodes.">Node</a>, back to its parent.  <br /></td></tr>
 <tr class="separator:ad3fc737b65b304db4e72b20f01d24a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3adf76a710e7f8c6cf3a97218a88b8f6" id="r_a3adf76a710e7f8c6cf3a97218a88b8f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3adf76a710e7f8c6cf3a97218a88b8f6">write</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;name, const void *const data, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const type)</td></tr>
-<tr class="memdesc:a3adf76a710e7f8c6cf3a97218a88b8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.  <br /></td></tr>
-<tr class="separator:a3adf76a710e7f8c6cf3a97218a88b8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a320aa236d4bcf4273d3eb11da48c1d1d" id="r_a320aa236d4bcf4273d3eb11da48c1d1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a320aa236d4bcf4273d3eb11da48c1d1d">write</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;name)</td></tr>
 <tr class="memdesc:a320aa236d4bcf4273d3eb11da48c1d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a <a class="el" href="class_minty_1_1_node.html" title="Represents an object that contains data, and a list of children nodes.">Node</a> with no value.  <br /></td></tr>
 <tr class="separator:a320aa236d4bcf4273d3eb11da48c1d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -242,6 +239,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1a8be18b9eb3d184b9d1440a0e722ff7" id="r_a1a8be18b9eb3d184b9d1440a0e722ff7"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:a1a8be18b9eb3d184b9d1440a0e722ff7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1a8be18b9eb3d184b9d1440a0e722ff7">write</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;name, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const &amp;data)</td></tr>
 <tr class="separator:a1a8be18b9eb3d184b9d1440a0e722ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0457d9e3fdf69ee15bd7be4c7fd294df" id="r_a0457d9e3fdf69ee15bd7be4c7fd294df"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0457d9e3fdf69ee15bd7be4c7fd294df">write_typed</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;name, void const *const data, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const type)=0</td></tr>
+<tr class="memdesc:a0457d9e3fdf69ee15bd7be4c7fd294df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.  <br /></td></tr>
+<tr class="separator:a0457d9e3fdf69ee15bd7be4c7fd294df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -554,7 +554,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a320aa236d4bcf4273d3eb11da48c1d1d" name="a320aa236d4bcf4273d3eb11da48c1d1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a320aa236d4bcf4273d3eb11da48c1d1d">&#9670;&#160;</a></span>write() <span class="overload">[1/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a320aa236d4bcf4273d3eb11da48c1d1d">&#9670;&#160;</a></span>write() <span class="overload">[1/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -587,7 +587,7 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a96c665e798579f7524ca70497f9d4fdc" name="a96c665e798579f7524ca70497f9d4fdc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96c665e798579f7524ca70497f9d4fdc">&#9670;&#160;</a></span>write() <span class="overload">[2/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a96c665e798579f7524ca70497f9d4fdc">&#9670;&#160;</a></span>write() <span class="overload">[2/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -618,7 +618,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a161b518200c20e7be179b09ea4170b74" name="a161b518200c20e7be179b09ea4170b74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a161b518200c20e7be179b09ea4170b74">&#9670;&#160;</a></span>write() <span class="overload">[3/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a161b518200c20e7be179b09ea4170b74">&#9670;&#160;</a></span>write() <span class="overload">[3/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -649,7 +649,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a0c5936d3f82ee816ddea6f7404163e25" name="a0c5936d3f82ee816ddea6f7404163e25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c5936d3f82ee816ddea6f7404163e25">&#9670;&#160;</a></span>write() <span class="overload">[4/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c5936d3f82ee816ddea6f7404163e25">&#9670;&#160;</a></span>write() <span class="overload">[4/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -680,7 +680,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a91dd8eff091169ef35b6aeb46125b117" name="a91dd8eff091169ef35b6aeb46125b117"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91dd8eff091169ef35b6aeb46125b117">&#9670;&#160;</a></span>write() <span class="overload">[5/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a91dd8eff091169ef35b6aeb46125b117">&#9670;&#160;</a></span>write() <span class="overload">[5/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,7 +711,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a77129dfa2d010d04e4c2f816c4b371f8" name="a77129dfa2d010d04e4c2f816c4b371f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77129dfa2d010d04e4c2f816c4b371f8">&#9670;&#160;</a></span>write() <span class="overload">[6/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a77129dfa2d010d04e4c2f816c4b371f8">&#9670;&#160;</a></span>write() <span class="overload">[6/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -742,7 +742,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a0c8d7dd59eb574ed691d74d4a28c4272" name="a0c8d7dd59eb574ed691d74d4a28c4272"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c8d7dd59eb574ed691d74d4a28c4272">&#9670;&#160;</a></span>write() <span class="overload">[7/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c8d7dd59eb574ed691d74d4a28c4272">&#9670;&#160;</a></span>write() <span class="overload">[7/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -772,44 +772,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="a3adf76a710e7f8c6cf3a97218a88b8f6" name="a3adf76a710e7f8c6cf3a97218a88b8f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3adf76a710e7f8c6cf3a97218a88b8f6">&#9670;&#160;</a></span>write() <span class="overload">[8/30]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Minty::Writer::write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const void *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Writes the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">name</td><td>The name of the value.</td></tr>
-    <tr><td class="paramname">data</td><td>The data to write.</td></tr>
-    <tr><td class="paramname">type</td><td>The type of the data.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a7bee4c2dccaad6a03ccb508369ea7fc9" name="a7bee4c2dccaad6a03ccb508369ea7fc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bee4c2dccaad6a03ccb508369ea7fc9">&#9670;&#160;</a></span>write() <span class="overload">[9/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bee4c2dccaad6a03ccb508369ea7fc9">&#9670;&#160;</a></span>write() <span class="overload">[8/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -840,7 +804,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="abeb8f64972dc09db1f7753200a95fbb8" name="abeb8f64972dc09db1f7753200a95fbb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abeb8f64972dc09db1f7753200a95fbb8">&#9670;&#160;</a></span>write() <span class="overload">[10/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abeb8f64972dc09db1f7753200a95fbb8">&#9670;&#160;</a></span>write() <span class="overload">[9/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -871,7 +835,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a8576f50fac158e33b5fcdfd22eff6a9a" name="a8576f50fac158e33b5fcdfd22eff6a9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8576f50fac158e33b5fcdfd22eff6a9a">&#9670;&#160;</a></span>write() <span class="overload">[11/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8576f50fac158e33b5fcdfd22eff6a9a">&#9670;&#160;</a></span>write() <span class="overload">[10/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -902,7 +866,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ae39c5d2a12399bab5f7652d652eab4d6" name="ae39c5d2a12399bab5f7652d652eab4d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae39c5d2a12399bab5f7652d652eab4d6">&#9670;&#160;</a></span>write() <span class="overload">[12/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae39c5d2a12399bab5f7652d652eab4d6">&#9670;&#160;</a></span>write() <span class="overload">[11/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -933,7 +897,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="af01e120ec83d6dc8a28bcf61c3a44baa" name="af01e120ec83d6dc8a28bcf61c3a44baa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af01e120ec83d6dc8a28bcf61c3a44baa">&#9670;&#160;</a></span>write() <span class="overload">[13/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af01e120ec83d6dc8a28bcf61c3a44baa">&#9670;&#160;</a></span>write() <span class="overload">[12/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -964,7 +928,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="af8df9d486bbadb5c98e85f3d8b94f502" name="af8df9d486bbadb5c98e85f3d8b94f502"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8df9d486bbadb5c98e85f3d8b94f502">&#9670;&#160;</a></span>write() <span class="overload">[14/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af8df9d486bbadb5c98e85f3d8b94f502">&#9670;&#160;</a></span>write() <span class="overload">[13/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -995,7 +959,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="acc62284b97ae931fcd024dbf2e656e36" name="acc62284b97ae931fcd024dbf2e656e36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc62284b97ae931fcd024dbf2e656e36">&#9670;&#160;</a></span>write() <span class="overload">[15/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acc62284b97ae931fcd024dbf2e656e36">&#9670;&#160;</a></span>write() <span class="overload">[14/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1026,7 +990,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a2f304e285b6ae999c2d730fb64aa3254" name="a2f304e285b6ae999c2d730fb64aa3254"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f304e285b6ae999c2d730fb64aa3254">&#9670;&#160;</a></span>write() <span class="overload">[16/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f304e285b6ae999c2d730fb64aa3254">&#9670;&#160;</a></span>write() <span class="overload">[15/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1057,7 +1021,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ab9e38ce764086e8754b4d3aadc85c1c8" name="ab9e38ce764086e8754b4d3aadc85c1c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9e38ce764086e8754b4d3aadc85c1c8">&#9670;&#160;</a></span>write() <span class="overload">[17/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9e38ce764086e8754b4d3aadc85c1c8">&#9670;&#160;</a></span>write() <span class="overload">[16/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1088,7 +1052,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a5b1aca20d6092da6dd85f95e94488586" name="a5b1aca20d6092da6dd85f95e94488586"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b1aca20d6092da6dd85f95e94488586">&#9670;&#160;</a></span>write() <span class="overload">[18/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b1aca20d6092da6dd85f95e94488586">&#9670;&#160;</a></span>write() <span class="overload">[17/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1119,7 +1083,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a5433a17ffddd212f0c1f7f9ad88ab2e1" name="a5433a17ffddd212f0c1f7f9ad88ab2e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5433a17ffddd212f0c1f7f9ad88ab2e1">&#9670;&#160;</a></span>write() <span class="overload">[19/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5433a17ffddd212f0c1f7f9ad88ab2e1">&#9670;&#160;</a></span>write() <span class="overload">[18/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1150,7 +1114,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a56c79cf54aa6ff3b3f1950748f5fad71" name="a56c79cf54aa6ff3b3f1950748f5fad71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56c79cf54aa6ff3b3f1950748f5fad71">&#9670;&#160;</a></span>write() <span class="overload">[20/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a56c79cf54aa6ff3b3f1950748f5fad71">&#9670;&#160;</a></span>write() <span class="overload">[19/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1181,7 +1145,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a8f108f1fbd0f017cbe341397285fbc85" name="a8f108f1fbd0f017cbe341397285fbc85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f108f1fbd0f017cbe341397285fbc85">&#9670;&#160;</a></span>write() <span class="overload">[21/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f108f1fbd0f017cbe341397285fbc85">&#9670;&#160;</a></span>write() <span class="overload">[20/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1212,7 +1176,7 @@ template&lt;typename T, typename std::enable_if&lt;!<a class="el" href="struct_m
 </div>
 </div>
 <a id="a8f108f1fbd0f017cbe341397285fbc85" name="a8f108f1fbd0f017cbe341397285fbc85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f108f1fbd0f017cbe341397285fbc85">&#9670;&#160;</a></span>write() <span class="overload">[22/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f108f1fbd0f017cbe341397285fbc85">&#9670;&#160;</a></span>write() <span class="overload">[21/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1243,7 +1207,7 @@ template&lt;typename T, typename std::enable_if&lt;!<a class="el" href="struct_m
 </div>
 </div>
 <a id="a8f108f1fbd0f017cbe341397285fbc85" name="a8f108f1fbd0f017cbe341397285fbc85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f108f1fbd0f017cbe341397285fbc85">&#9670;&#160;</a></span>write() <span class="overload">[23/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f108f1fbd0f017cbe341397285fbc85">&#9670;&#160;</a></span>write() <span class="overload">[22/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1274,7 +1238,7 @@ template&lt;typename T, typename std::enable_if&lt; <a class="el" href="struct_m
 </div>
 </div>
 <a id="a1a8be18b9eb3d184b9d1440a0e722ff7" name="a1a8be18b9eb3d184b9d1440a0e722ff7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a8be18b9eb3d184b9d1440a0e722ff7">&#9670;&#160;</a></span>write() <span class="overload">[24/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a8be18b9eb3d184b9d1440a0e722ff7">&#9670;&#160;</a></span>write() <span class="overload">[23/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1305,7 +1269,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="af67751a589c2a77ecab9637c4a2bc5c0" name="af67751a589c2a77ecab9637c4a2bc5c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af67751a589c2a77ecab9637c4a2bc5c0">&#9670;&#160;</a></span>write() <span class="overload">[25/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af67751a589c2a77ecab9637c4a2bc5c0">&#9670;&#160;</a></span>write() <span class="overload">[24/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1336,7 +1300,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a93399a502d9000af87bfba3be147a809" name="a93399a502d9000af87bfba3be147a809"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93399a502d9000af87bfba3be147a809">&#9670;&#160;</a></span>write() <span class="overload">[26/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a93399a502d9000af87bfba3be147a809">&#9670;&#160;</a></span>write() <span class="overload">[25/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1367,7 +1331,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="afef0c10f8b82ff2e751dc7d5439cffd0" name="afef0c10f8b82ff2e751dc7d5439cffd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afef0c10f8b82ff2e751dc7d5439cffd0">&#9670;&#160;</a></span>write() <span class="overload">[27/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afef0c10f8b82ff2e751dc7d5439cffd0">&#9670;&#160;</a></span>write() <span class="overload">[26/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1398,7 +1362,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a663bda813589416d545fd11b03740c49" name="a663bda813589416d545fd11b03740c49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a663bda813589416d545fd11b03740c49">&#9670;&#160;</a></span>write() <span class="overload">[28/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a663bda813589416d545fd11b03740c49">&#9670;&#160;</a></span>write() <span class="overload">[27/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1429,7 +1393,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a6c15de610615d969f097b880305073cd" name="a6c15de610615d969f097b880305073cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c15de610615d969f097b880305073cd">&#9670;&#160;</a></span>write() <span class="overload">[29/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c15de610615d969f097b880305073cd">&#9670;&#160;</a></span>write() <span class="overload">[28/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1460,7 +1424,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a3482bb6d82a745997554e0342a542937" name="a3482bb6d82a745997554e0342a542937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3482bb6d82a745997554e0342a542937">&#9670;&#160;</a></span>write() <span class="overload">[30/30]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3482bb6d82a745997554e0342a542937">&#9670;&#160;</a></span>write() <span class="overload">[29/29]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2134,6 +2098,52 @@ template&lt;&gt; </div>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_minty_1_1_writer_implementation.html#a98ac6d59f67b650b238ac9d62c42faa9">Minty::WriterImplementation&lt; FormatBehavior, StorageBehavior &gt;</a>, <a class="el" href="class_minty_1_1_writer_implementation.html#a98ac6d59f67b650b238ac9d62c42faa9">Minty::WriterImplementation&lt; TextWriterBehavior, FileWriterBehavior &gt;</a>, <a class="el" href="class_minty_1_1_writer_implementation.html#a98ac6d59f67b650b238ac9d62c42faa9">Minty::WriterImplementation&lt; TextWriterBehavior, FileWriterBehavior &gt;</a>, <a class="el" href="class_minty_1_1_writer_implementation.html#a98ac6d59f67b650b238ac9d62c42faa9">Minty::WriterImplementation&lt; TextWriterBehavior, MemoryWriterBehavior &gt;</a>, and <a class="el" href="class_minty_1_1_writer_implementation.html#a98ac6d59f67b650b238ac9d62c42faa9">Minty::WriterImplementation&lt; TextWriterBehavior, MemoryWriterBehavior &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a0457d9e3fdf69ee15bd7be4c7fd294df" name="a0457d9e3fdf69ee15bd7be4c7fd294df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0457d9e3fdf69ee15bd7be4c7fd294df">&#9670;&#160;</a></span>write_typed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Minty::Writer::write_typed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void const *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> const</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name.</td></tr>
+    <tr><td class="paramname">data</td><td>A pointer to the byte data.</td></tr>
+    <tr><td class="paramname">type</td><td>The <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_writer_implementation.html#ab8737badcab5e25dd04ddf410ad558f3">Minty::WriterImplementation&lt; FormatBehavior, StorageBehavior &gt;</a>, <a class="el" href="class_minty_1_1_writer_implementation.html#ab8737badcab5e25dd04ddf410ad558f3">Minty::WriterImplementation&lt; TextWriterBehavior, FileWriterBehavior &gt;</a>, <a class="el" href="class_minty_1_1_writer_implementation.html#ab8737badcab5e25dd04ddf410ad558f3">Minty::WriterImplementation&lt; TextWriterBehavior, FileWriterBehavior &gt;</a>, <a class="el" href="class_minty_1_1_writer_implementation.html#ab8737badcab5e25dd04ddf410ad558f3">Minty::WriterImplementation&lt; TextWriterBehavior, MemoryWriterBehavior &gt;</a>, and <a class="el" href="class_minty_1_1_writer_implementation.html#ab8737badcab5e25dd04ddf410ad558f3">Minty::WriterImplementation&lt; TextWriterBehavior, MemoryWriterBehavior &gt;</a>.</p>
 
 </div>
 </div>

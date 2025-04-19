@@ -22,6 +22,8 @@ Minty::Material::Material(MaterialBuilder const& builder)
 
 Minty::Material::~Material()
 {
+	if (m_materialTemplate == nullptr) return;
+
 	// remove self from shader
 	Ref<Shader> shader = m_materialTemplate->get_shader();
 	shader->unregister_material(this);

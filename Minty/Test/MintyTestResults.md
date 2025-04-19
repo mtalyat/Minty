@@ -1,5 +1,5 @@
 # Results
-5632/5632 (100.00%)
+5652/5652 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -13,7 +13,7 @@
 | Compression                    |       10 |        0 |
 | Encoding                       |        2 |        0 |
 | Math                           |      196 |        0 |
-| Type                           |      104 |        0 |
+| Type                           |      101 |        0 |
 | Array::Iterator                |       85 |        0 |
 | Array::ConstIterator           |       85 |        0 |
 | Array::ReverseIterator         |       85 |        0 |
@@ -41,7 +41,7 @@
 | String::ConstIterator          |       89 |        0 |
 | String                         |      213 |        0 |
 | UUID                           |       55 |        0 |
-| Variable                       |       99 |        0 |
+| Variable                       |       97 |        0 |
 | Vector::Iterator               |       85 |        0 |
 | Vector::ConstIterator          |       85 |        0 |
 | Vector::ReverseIterator        |       85 |        0 |
@@ -71,7 +71,7 @@
 | LoadOperation                  |       15 |        0 |
 | Perspective                    |       11 |        0 |
 | RenderManager                  |        7 |        0 |
-| Shader                         |        0 |        0 |
+| Shader                         |       25 |        0 |
 | ShaderCullMode                 |       19 |        0 |
 | ShaderFrontFace                |       11 |        0 |
 | ShaderInputRate                |       11 |        0 |
@@ -543,110 +543,107 @@ No failures! :)
 ## Type
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 86: Setup (static_cast<Size>(Type::Count) == TYPE_IDS.get_size())                                                                |
-|  PASS  | 87: Setup (static_cast<Size>(Type::Count) == TYPE_SIZES.get_size())                                                              |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 107: Type TypeID (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 118: TypeID Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
-|  PASS  | 129: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 84: Setup (static_cast<Size>(Type::Count) == TYPE_IDS.get_size())                                                                |
+|  PASS  | 85: Setup (static_cast<Size>(Type::Count) == TYPE_SIZES.get_size())                                                              |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 105: Type TypeID (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 116: TypeID Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
+|  PASS  | 127: SizeOf Type (actual == expected)                                                                                            |
 
 ## Array::Iterator
 | Result | Message                                                                                                                          |
@@ -3055,98 +3052,96 @@ No failures! :)
 |  PASS  | 20: Type Constructor (v.get_data().get_size() == 0)                                                                              |
 |  PASS  | 23: Type Constructor (v2.get_type() == Type::Undefined)                                                                          |
 |  PASS  | 24: Type Constructor (v2.get_data().get_size() == 0)                                                                             |
-|  PASS  | 26: Type Constructor (Variable v3(Type::Object))                                                                                 |
-|  PASS  | 33: Type Data Constructor (v.get_type() == Type::Int)                                                                            |
-|  PASS  | 34: Type Data Constructor (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                |
-|  PASS  | 35: Type Data Constructor (v.get_data().get_size() == sizeof_type(Type::Int))                                                    |
-|  PASS  | 36: Type Data Constructor (v == value)                                                                                           |
-|  PASS  | 43: Value Constructor (v.get_type() == Type::Int)                                                                                |
-|  PASS  | 44: Value Constructor (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                    |
-|  PASS  | 45: Value Constructor (v.get_data().get_size() == sizeof_type(Type::Int))                                                        |
-|  PASS  | 46: Value Constructor (v == value)                                                                                               |
-|  PASS  | 49: Value Constructor (Variable v2(string))                                                                                      |
-|  PASS  | 57: T Operator (value == 42)                                                                                                     |
-|  PASS  | 60: T Operator (value2 == 42.0f)                                                                                                 |
-|  PASS  | 67: T Assignment Operator (v == 42)                                                                                              |
-|  PASS  | 69: T Assignment Operator (v == 42.0f)                                                                                           |
-|  PASS  | 75: Equal Operator (v1 == v2 == true)                                                                                            |
-|  PASS  | 77: Equal Operator (v1 == v2 == false)                                                                                           |
-|  PASS  | 79: Equal Operator (v1 == v2 == true)                                                                                            |
-|  PASS  | 81: Equal Operator (v1 == v2 == false)                                                                                           |
-|  PASS  | 83: Equal Operator (v1 == v2 == true)                                                                                            |
-|  PASS  | 89: Not Equal Operator (v1 != v2 == false)                                                                                       |
-|  PASS  | 91: Not Equal Operator (v1 != v2 == true)                                                                                        |
-|  PASS  | 93: Not Equal Operator (v1 != v2 == false)                                                                                       |
-|  PASS  | 95: Not Equal Operator (v1 != v2 == true)                                                                                        |
-|  PASS  | 97: Not Equal Operator (v1 != v2 == false)                                                                                       |
-|  PASS  | 104: Equal T Operator (v == 42 == true)                                                                                          |
-|  PASS  | 105: Equal T Operator (v == 42.0f == false)                                                                                      |
-|  PASS  | 106: Equal T Operator (v == String("42") == false)                                                                               |
-|  PASS  | 108: Equal T Operator (v == 42 == false)                                                                                         |
-|  PASS  | 109: Equal T Operator (v == 42.0f == true)                                                                                       |
-|  PASS  | 110: Equal T Operator (v == String("42") == false)                                                                               |
-|  PASS  | 117: Not Equal T Operator (v != 42 == false)                                                                                     |
-|  PASS  | 118: Not Equal T Operator (v != 42.0f == true)                                                                                   |
-|  PASS  | 119: Not Equal T Operator (v != String("42") == true)                                                                            |
-|  PASS  | 121: Not Equal T Operator (v != 42 == true)                                                                                      |
-|  PASS  | 122: Not Equal T Operator (v != 42.0f == false)                                                                                  |
-|  PASS  | 123: Not Equal T Operator (v != String("42") == true)                                                                            |
-|  PASS  | 129: Get Type (v.get_type() == Type::Undefined)                                                                                  |
-|  PASS  | 131: Get Type (v.get_type() == Type::Int)                                                                                        |
-|  PASS  | 133: Get Type (v.get_type() == Type::Float)                                                                                      |
-|  PASS  | 135: Get Type (v.get_type() == Type::Float)                                                                                      |
-|  PASS  | 136: Get Type (v.is_empty() == true)                                                                                             |
-|  PASS  | 143: Set Type (v.get_type() == Type::Int)                                                                                        |
-|  PASS  | 144: Set Type (v.get_data().get_size() == 0)                                                                                     |
-|  PASS  | 146: Set Type (v.get_type() == Type::Float)                                                                                      |
-|  PASS  | 147: Set Type (v.get_data().get_size() == 0)                                                                                     |
-|  PASS  | 149: Set Type (v.get_type() == Type::Undefined)                                                                                  |
-|  PASS  | 150: Set Type (v.get_data().get_size() == 0)                                                                                     |
-|  PASS  | 156: Get Data (v.get_data().get_capacity() == 0)                                                                                 |
-|  PASS  | 157: Get Data (v.get_data().get_size() == 0)                                                                                     |
-|  PASS  | 159: Get Data (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                            |
-|  PASS  | 160: Get Data (v.get_data().get_size() == sizeof_type(Type::Int))                                                                |
-|  PASS  | 162: Get Data (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                          |
-|  PASS  | 163: Get Data (v.get_data().get_size() == sizeof_type(Type::Float))                                                              |
-|  PASS  | 171: Set Type and Data (v.get_type() == Type::Int)                                                                               |
-|  PASS  | 172: Set Type and Data (v.get_data().get_capacity() >= sizeof_type(Type::Int))                                                   |
-|  PASS  | 173: Set Type and Data (v.get_data().get_size() == sizeof_type(Type::Int))                                                       |
-|  PASS  | 176: Set Type and Data (v.get_type() == Type::Float)                                                                             |
-|  PASS  | 177: Set Type and Data (v.get_data().get_capacity() >= sizeof_type(Type::Float))                                                 |
-|  PASS  | 178: Set Type and Data (v.get_data().get_size() == sizeof_type(Type::Float))                                                     |
-|  PASS  | 180: Set Type and Data (v.get_type() == Type::Undefined)                                                                         |
-|  PASS  | 181: Set Type and Data (v.get_data().get_size() == 0)                                                                            |
-|  PASS  | 189: Set Data (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                            |
-|  PASS  | 190: Set Data (v.get_data().get_size() == sizeof_type(Type::Int))                                                                |
-|  PASS  | 191: Set Data (v == value)                                                                                                       |
+|  PASS  | 31: Type Data Constructor (v.get_type() == Type::Int)                                                                            |
+|  PASS  | 32: Type Data Constructor (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                |
+|  PASS  | 33: Type Data Constructor (v.get_data().get_size() == sizeof_type(Type::Int))                                                    |
+|  PASS  | 34: Type Data Constructor (v == value)                                                                                           |
+|  PASS  | 41: Value Constructor (v.get_type() == Type::Int)                                                                                |
+|  PASS  | 42: Value Constructor (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                    |
+|  PASS  | 43: Value Constructor (v.get_data().get_size() == sizeof_type(Type::Int))                                                        |
+|  PASS  | 44: Value Constructor (v == value)                                                                                               |
+|  PASS  | 52: T Operator (value == 42)                                                                                                     |
+|  PASS  | 55: T Operator (value2 == 42.0f)                                                                                                 |
+|  PASS  | 62: T Assignment Operator (v == 42)                                                                                              |
+|  PASS  | 64: T Assignment Operator (v == 42.0f)                                                                                           |
+|  PASS  | 70: Equal Operator (v1 == v2 == true)                                                                                            |
+|  PASS  | 72: Equal Operator (v1 == v2 == false)                                                                                           |
+|  PASS  | 74: Equal Operator (v1 == v2 == true)                                                                                            |
+|  PASS  | 76: Equal Operator (v1 == v2 == false)                                                                                           |
+|  PASS  | 78: Equal Operator (v1 == v2 == true)                                                                                            |
+|  PASS  | 84: Not Equal Operator (v1 != v2 == false)                                                                                       |
+|  PASS  | 86: Not Equal Operator (v1 != v2 == true)                                                                                        |
+|  PASS  | 88: Not Equal Operator (v1 != v2 == false)                                                                                       |
+|  PASS  | 90: Not Equal Operator (v1 != v2 == true)                                                                                        |
+|  PASS  | 92: Not Equal Operator (v1 != v2 == false)                                                                                       |
+|  PASS  | 99: Equal T Operator (v == 42 == true)                                                                                           |
+|  PASS  | 100: Equal T Operator (v == 42.0f == false)                                                                                      |
+|  PASS  | 101: Equal T Operator (v == String("42") == false)                                                                               |
+|  PASS  | 103: Equal T Operator (v == 42 == false)                                                                                         |
+|  PASS  | 104: Equal T Operator (v == 42.0f == true)                                                                                       |
+|  PASS  | 105: Equal T Operator (v == String("42") == false)                                                                               |
+|  PASS  | 112: Not Equal T Operator (v != 42 == false)                                                                                     |
+|  PASS  | 113: Not Equal T Operator (v != 42.0f == true)                                                                                   |
+|  PASS  | 114: Not Equal T Operator (v != String("42") == true)                                                                            |
+|  PASS  | 116: Not Equal T Operator (v != 42 == true)                                                                                      |
+|  PASS  | 117: Not Equal T Operator (v != 42.0f == false)                                                                                  |
+|  PASS  | 118: Not Equal T Operator (v != String("42") == true)                                                                            |
+|  PASS  | 124: Get Type (v.get_type() == Type::Undefined)                                                                                  |
+|  PASS  | 126: Get Type (v.get_type() == Type::Int)                                                                                        |
+|  PASS  | 128: Get Type (v.get_type() == Type::Float)                                                                                      |
+|  PASS  | 130: Get Type (v.get_type() == Type::Float)                                                                                      |
+|  PASS  | 131: Get Type (v.is_empty() == true)                                                                                             |
+|  PASS  | 138: Set Type (v.get_type() == Type::Int)                                                                                        |
+|  PASS  | 139: Set Type (v.get_data().get_size() == 0)                                                                                     |
+|  PASS  | 141: Set Type (v.get_type() == Type::Float)                                                                                      |
+|  PASS  | 142: Set Type (v.get_data().get_size() == 0)                                                                                     |
+|  PASS  | 144: Set Type (v.get_type() == Type::Undefined)                                                                                  |
+|  PASS  | 145: Set Type (v.get_data().get_size() == 0)                                                                                     |
+|  PASS  | 151: Get Data (v.get_data().get_capacity() == 0)                                                                                 |
+|  PASS  | 152: Get Data (v.get_data().get_size() == 0)                                                                                     |
+|  PASS  | 154: Get Data (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                            |
+|  PASS  | 155: Get Data (v.get_data().get_size() == sizeof_type(Type::Int))                                                                |
+|  PASS  | 157: Get Data (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                          |
+|  PASS  | 158: Get Data (v.get_data().get_size() == sizeof_type(Type::Float))                                                              |
+|  PASS  | 166: Set Type and Data (v.get_type() == Type::Int)                                                                               |
+|  PASS  | 167: Set Type and Data (v.get_data().get_capacity() >= sizeof_type(Type::Int))                                                   |
+|  PASS  | 168: Set Type and Data (v.get_data().get_size() == sizeof_type(Type::Int))                                                       |
+|  PASS  | 171: Set Type and Data (v.get_type() == Type::Float)                                                                             |
+|  PASS  | 172: Set Type and Data (v.get_data().get_capacity() >= sizeof_type(Type::Float))                                                 |
+|  PASS  | 173: Set Type and Data (v.get_data().get_size() == sizeof_type(Type::Float))                                                     |
+|  PASS  | 175: Set Type and Data (v.get_type() == Type::Undefined)                                                                         |
+|  PASS  | 176: Set Type and Data (v.get_data().get_size() == 0)                                                                            |
+|  PASS  | 184: Set Data (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                            |
+|  PASS  | 185: Set Data (v.get_data().get_size() == sizeof_type(Type::Int))                                                                |
+|  PASS  | 186: Set Data (v == value)                                                                                                       |
+|  PASS  | 190: Set Data (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                          |
+|  PASS  | 191: Set Data (v.get_data().get_size() == sizeof_type(Type::Float))                                                              |
+|  PASS  | 192: Set Data (v == value2)                                                                                                      |
+|  PASS  | 194: Set Data (v.get_type() == Type::Float)                                                                                      |
 |  PASS  | 195: Set Data (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                          |
-|  PASS  | 196: Set Data (v.get_data().get_size() == sizeof_type(Type::Float))                                                              |
-|  PASS  | 197: Set Data (v == value2)                                                                                                      |
-|  PASS  | 199: Set Data (v.get_type() == Type::Float)                                                                                      |
-|  PASS  | 200: Set Data (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                          |
-|  PASS  | 201: Set Data (v.get_data().get_size() == 0)                                                                                     |
-|  PASS  | 208: Get (*v.get<Int>() == 42)                                                                                                   |
-|  PASS  | 209: Get (v.get<Float>() == nullptr)                                                                                             |
+|  PASS  | 196: Set Data (v.get_data().get_size() == 0)                                                                                     |
+|  PASS  | 203: Get (*v.get<Int>() == 42)                                                                                                   |
+|  PASS  | 204: Get (v.get<Float>() == nullptr)                                                                                             |
+|  PASS  | 206: Get (v.get<Int>() == nullptr)                                                                                               |
+|  PASS  | 208: Get (*v.get<Float>() == 42.0f)                                                                                              |
 |  PASS  | 211: Get (v.get<Int>() == nullptr)                                                                                               |
-|  PASS  | 213: Get (*v.get<Float>() == 42.0f)                                                                                              |
-|  PASS  | 216: Get (v.get<Int>() == nullptr)                                                                                               |
-|  PASS  | 224: Set (v.get_type() == Type::Int)                                                                                             |
-|  PASS  | 225: Set (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                                 |
-|  PASS  | 226: Set (v.get_data().get_size() == sizeof_type(Type::Int))                                                                     |
-|  PASS  | 227: Set (v == value)                                                                                                            |
-|  PASS  | 230: Set (v.get_type() == Type::Float)                                                                                           |
-|  PASS  | 231: Set (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                               |
-|  PASS  | 232: Set (v.get_data().get_size() == sizeof_type(Type::Float))                                                                   |
-|  PASS  | 233: Set (v == value2)                                                                                                           |
-|  PASS  | 239: Is Empty (v.is_empty() == true)                                                                                             |
-|  PASS  | 241: Is Empty (v.is_empty() == false)                                                                                            |
-|  PASS  | 243: Is Empty (v.is_empty() == true)                                                                                             |
-|  PASS  | 245: Is Empty (v.is_empty() == false)                                                                                            |
-|  PASS  | 247: Is Empty (v.is_empty() == true)                                                                                             |
-|  PASS  | 255: Clear (v.get_type() == Type::Int)                                                                                           |
-|  PASS  | 256: Clear (v.get_data().get_size() == 0)                                                                                        |
-|  PASS  | 259: Clear (v.get_type() == Type::Float)                                                                                         |
-|  PASS  | 260: Clear (v.get_data().get_size() == 0)                                                                                        |
+|  PASS  | 219: Set (v.get_type() == Type::Int)                                                                                             |
+|  PASS  | 220: Set (v.get_data().get_capacity() == sizeof_type(Type::Int))                                                                 |
+|  PASS  | 221: Set (v.get_data().get_size() == sizeof_type(Type::Int))                                                                     |
+|  PASS  | 222: Set (v == value)                                                                                                            |
+|  PASS  | 225: Set (v.get_type() == Type::Float)                                                                                           |
+|  PASS  | 226: Set (v.get_data().get_capacity() == sizeof_type(Type::Float))                                                               |
+|  PASS  | 227: Set (v.get_data().get_size() == sizeof_type(Type::Float))                                                                   |
+|  PASS  | 228: Set (v == value2)                                                                                                           |
+|  PASS  | 234: Is Empty (v.is_empty() == true)                                                                                             |
+|  PASS  | 236: Is Empty (v.is_empty() == false)                                                                                            |
+|  PASS  | 238: Is Empty (v.is_empty() == true)                                                                                             |
+|  PASS  | 240: Is Empty (v.is_empty() == false)                                                                                            |
+|  PASS  | 242: Is Empty (v.is_empty() == true)                                                                                             |
+|  PASS  | 250: Clear (v.get_type() == Type::Int)                                                                                           |
+|  PASS  | 251: Clear (v.get_data().get_size() == 0)                                                                                        |
+|  PASS  | 254: Clear (v.get_type() == Type::Float)                                                                                         |
+|  PASS  | 255: Clear (v.get_data().get_size() == 0)                                                                                        |
 
 ## Vector::Iterator
 | Result | Message                                                                                                                          |
@@ -5291,6 +5286,31 @@ No failures! :)
 ## Shader
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 25: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 27: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 30: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 33: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 36: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 42: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 54: Get Render Pass (renderPass == shader->get_render_pass())                                                                    |
+|  PASS  | 61: Contains Input (shader->contains_input("object") == true)                                                                    |
+|  PASS  | 62: Contains Input (shader->contains_input("camera") == true)                                                                    |
+|  PASS  | 63: Contains Input (shader->contains_input("texture") == true)                                                                   |
+|  PASS  | 64: Contains Input (shader->contains_input("") == false)                                                                         |
+|  PASS  | 65: Contains Input (shader->contains_input("nonexistent") == false)                                                              |
+|  PASS  | 74: Get Input (shader->get_input("object").type == ShaderInputType::PushConstant)                                                |
+|  PASS  | 75: Get Input (shader->get_input("camera").type == ShaderInputType::UniformBuffer)                                               |
+|  PASS  | 76: Get Input (shader->get_input("texture").type == ShaderInputType::CombinedImageSampler)                                       |
+|  PASS  | 86: Get Inputs (inputs.get_size() == 3)                                                                                          |
+|  PASS  | 87: Get Inputs (inputs["object"].type == ShaderInputType::PushConstant)                                                          |
+|  PASS  | 88: Get Inputs (inputs["camera"].type == ShaderInputType::UniformBuffer)                                                         |
+|  PASS  | 89: Get Inputs (inputs["texture"].type == ShaderInputType::CombinedImageSampler)                                                 |
+|  PASS  | 104: Set Global Input (shader->set_global_input("", nullptr, 0))                                                                 |
+|  PASS  | 105: Set Global Input (shader->set_global_input("", &cameraMatrix, sizeof(Matrix4)))                                             |
+|  PASS  | 106: Set Global Input (shader->set_global_input("camera", nullptr, sizeof(Matrix4)))                                             |
+|  PASS  | 107: Set Global Input (shader->set_global_input("camera", &cameraMatrix, 0))                                                     |
+|  PASS  | 108: Set Global Input (shader->set_global_input("camera", &cameraMatrix, sizeof(Matrix4) * 2))                                   |
+|  PASS  | 109: Set Global Input (shader->set_global_input("camera", &cameraMatrix, sizeof(Matrix4)))                                       |
 
 ## ShaderCullMode
 | Result | Message                                                                                                                          |

@@ -10,6 +10,7 @@ using namespace Minty;
 
 Minty::Shader::Shader(ShaderBuilder const& builder)
 	: Asset(builder.id)
+	, m_renderPass(builder.renderPass)
 	, m_inputs()
 	, m_materials()
 {

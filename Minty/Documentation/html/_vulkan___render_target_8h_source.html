@@ -106,68 +106,70 @@ $(function(){initNavTree('_vulkan___render_target_8h_source.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 <a href="_vulkan___render_target_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_vulkan_8h.html">Minty/Library/Vulkan.h</a>&quot;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_render_target_8h.html">Minty/Render/RenderTarget.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="class_minty_1_1_vulkan___render_target.html">    7</a></span>    <span class="keyword">class </span><a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354">Vulkan_RenderTarget</a></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        : <span class="keyword">public</span> <a class="code hl_function" href="class_minty_1_1_render_target.html#a00b81aff8491f9653979325f62b1072a">RenderTarget</a></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#pragma region Variables</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <a class="code hl_class" href="class_minty_1_1_vector.html">Vector&lt;VkFramebuffer&gt;</a> m_framebuffers;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_typedef" href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">UInt2</a> m_size;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#pragma region Constructors</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354">Vulkan_RenderTarget</a>(<a class="code hl_struct" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> <span class="keyword">const</span>&amp; builder);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a1fc0fac61b99b160180b946e6f74fc79">~Vulkan_RenderTarget</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#pragma region Get Set</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="class_minty_1_1_vulkan___render_target.html#a497adad1944643086e10ee87f8d4abf8">   30</a></span>        <a class="code hl_typedef" href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">UInt2</a> <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a497adad1944643086e10ee87f8d4abf8">get_size</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> m_size; }</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_minty_1_1_vulkan___render_target.html#a8942f6b87b5d496f917ee6f2c6b46ce1">   32</a></span>        <span class="keyword">inline</span> VkFramebuffer <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a8942f6b87b5d496f917ee6f2c6b46ce1">get_framebuffer</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_framebuffers[index]; }</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#pragma region Methods</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordtype">void</span> initialize(<a class="code hl_struct" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> <span class="keyword">const</span>&amp; builder);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordtype">void</span> dispose();</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a2817495ddba92e77f1d167ba35c6b859">refresh</a>(<a class="code hl_struct" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> <span class="keyword">const</span>&amp; builder) <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#pragma endregion</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    };</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="_math_8h.html">Minty/Core/Math.h</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="_vulkan_8h.html">Minty/Library/Vulkan.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="_render_target_8h.html">Minty/Render/RenderTarget.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_minty.html">Minty</a></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_minty_1_1_vulkan___render_target.html">    8</a></span>    <span class="keyword">class </span><a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354">Vulkan_RenderTarget</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        : <span class="keyword">public</span> <a class="code hl_function" href="class_minty_1_1_render_target.html#a00b81aff8491f9653979325f62b1072a">RenderTarget</a></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#pragma region Variables</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_class" href="class_minty_1_1_vector.html">Vector&lt;VkFramebuffer&gt;</a> m_framebuffers;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <a class="code hl_typedef" href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">UInt2</a> m_size;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#pragma region Constructors</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354">Vulkan_RenderTarget</a>(<a class="code hl_struct" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> <span class="keyword">const</span>&amp; builder);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a1fc0fac61b99b160180b946e6f74fc79">~Vulkan_RenderTarget</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#pragma region Get Set</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="class_minty_1_1_vulkan___render_target.html#a497adad1944643086e10ee87f8d4abf8">   31</a></span>        <a class="code hl_typedef" href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">UInt2</a> <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a497adad1944643086e10ee87f8d4abf8">get_size</a>()<span class="keyword"> const override </span>{ <span class="keywordflow">return</span> m_size; }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="class_minty_1_1_vulkan___render_target.html#a8942f6b87b5d496f917ee6f2c6b46ce1">   33</a></span>        <span class="keyword">inline</span> VkFramebuffer <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a8942f6b87b5d496f917ee6f2c6b46ce1">get_framebuffer</a>(<a class="code hl_typedef" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> <span class="keyword">const</span> index)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_framebuffers[index]; }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#pragma region Methods</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordtype">void</span> initialize(<a class="code hl_struct" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> <span class="keyword">const</span>&amp; builder);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordtype">void</span> dispose();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_vulkan___render_target.html#a2817495ddba92e77f1d167ba35c6b859">refresh</a>(<a class="code hl_struct" href="struct_minty_1_1_render_target_builder.html">RenderTargetBuilder</a> <span class="keyword">const</span>&amp; builder) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    };</div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
+<div class="ttc" id="a_math_8h_html"><div class="ttname"><a href="_math_8h.html">Math.h</a></div></div>
 <div class="ttc" id="a_render_target_8h_html"><div class="ttname"><a href="_render_target_8h.html">RenderTarget.h</a></div></div>
 <div class="ttc" id="a_vulkan_8h_html"><div class="ttname"><a href="_vulkan_8h.html">Vulkan.h</a></div></div>
-<div class="ttc" id="aclass_minty_1_1_render_target_html_a00b81aff8491f9653979325f62b1072a"><div class="ttname"><a href="class_minty_1_1_render_target.html#a00b81aff8491f9653979325f62b1072a">Minty::RenderTarget::RenderTarget</a></div><div class="ttdeci">RenderTarget(RenderTargetBuilder const &amp;builder)</div><div class="ttdoc">Creates a new RenderTarget.</div><div class="ttdef"><b>Definition</b> RenderTarget.h:53</div></div>
+<div class="ttc" id="aclass_minty_1_1_render_target_html_a00b81aff8491f9653979325f62b1072a"><div class="ttname"><a href="class_minty_1_1_render_target.html#a00b81aff8491f9653979325f62b1072a">Minty::RenderTarget::RenderTarget</a></div><div class="ttdeci">RenderTarget(RenderTargetBuilder const &amp;builder)</div><div class="ttdoc">Creates a new RenderTarget.</div><div class="ttdef"><b>Definition</b> RenderTarget.h:54</div></div>
 <div class="ttc" id="aclass_minty_1_1_vector_html"><div class="ttname"><a href="class_minty_1_1_vector.html">Minty::Vector</a></div><div class="ttdoc">Holds a collection of elements with a dynamic size.</div><div class="ttdef"><b>Definition</b> Vector.h:17</div></div>
 <div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_a1fc0fac61b99b160180b946e6f74fc79"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#a1fc0fac61b99b160180b946e6f74fc79">Minty::Vulkan_RenderTarget::~Vulkan_RenderTarget</a></div><div class="ttdeci">~Vulkan_RenderTarget() override</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.cpp:18</div></div>
 <div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_a2817495ddba92e77f1d167ba35c6b859"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#a2817495ddba92e77f1d167ba35c6b859">Minty::Vulkan_RenderTarget::refresh</a></div><div class="ttdeci">void refresh(RenderTargetBuilder const &amp;builder) override</div><div class="ttdoc">Reinitializes this RenderTarget with the given arguments.</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.cpp:46</div></div>
-<div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_a497adad1944643086e10ee87f8d4abf8"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#a497adad1944643086e10ee87f8d4abf8">Minty::Vulkan_RenderTarget::get_size</a></div><div class="ttdeci">UInt2 get_size() const override</div><div class="ttdoc">Gets the size of this RenderTarget in pixels.</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.h:30</div></div>
-<div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_a8942f6b87b5d496f917ee6f2c6b46ce1"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#a8942f6b87b5d496f917ee6f2c6b46ce1">Minty::Vulkan_RenderTarget::get_framebuffer</a></div><div class="ttdeci">VkFramebuffer get_framebuffer(Size const index) const</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.h:32</div></div>
+<div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_a497adad1944643086e10ee87f8d4abf8"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#a497adad1944643086e10ee87f8d4abf8">Minty::Vulkan_RenderTarget::get_size</a></div><div class="ttdeci">UInt2 get_size() const override</div><div class="ttdoc">Gets the size of this RenderTarget in pixels.</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.h:31</div></div>
+<div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_a8942f6b87b5d496f917ee6f2c6b46ce1"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#a8942f6b87b5d496f917ee6f2c6b46ce1">Minty::Vulkan_RenderTarget::get_framebuffer</a></div><div class="ttdeci">VkFramebuffer get_framebuffer(Size const index) const</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.h:33</div></div>
 <div class="ttc" id="aclass_minty_1_1_vulkan___render_target_html_ac381abbe9ce97fbc8ea48f50b19ca354"><div class="ttname"><a href="class_minty_1_1_vulkan___render_target.html#ac381abbe9ce97fbc8ea48f50b19ca354">Minty::Vulkan_RenderTarget::Vulkan_RenderTarget</a></div><div class="ttdeci">Vulkan_RenderTarget(RenderTargetBuilder const &amp;builder)</div><div class="ttdef"><b>Definition</b> Vulkan_RenderTarget.cpp:10</div></div>
 <div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
 <div class="ttc" id="anamespace_minty_html_a255c27cd8d5eacbbcbb02c4962ef3079"><div class="ttname"><a href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Minty::Size</a></div><div class="ttdeci">size_t Size</div><div class="ttdef"><b>Definition</b> Types.h:20</div></div>
 <div class="ttc" id="anamespace_minty_html_aa6f5417e44cde04f36f1de5b707f230c"><div class="ttname"><a href="namespace_minty.html#aa6f5417e44cde04f36f1de5b707f230c">Minty::UInt2</a></div><div class="ttdeci">glm::uvec2 UInt2</div><div class="ttdef"><b>Definition</b> Math.h:18</div></div>
-<div class="ttc" id="astruct_minty_1_1_render_target_builder_html"><div class="ttname"><a href="struct_minty_1_1_render_target_builder.html">Minty::RenderTargetBuilder</a></div><div class="ttdoc">The arguments for a RenderTarget.</div><div class="ttdef"><b>Definition</b> RenderTarget.h:15</div></div>
+<div class="ttc" id="astruct_minty_1_1_render_target_builder_html"><div class="ttname"><a href="struct_minty_1_1_render_target_builder.html">Minty::RenderTargetBuilder</a></div><div class="ttdoc">The arguments for a RenderTarget.</div><div class="ttdef"><b>Definition</b> RenderTarget.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

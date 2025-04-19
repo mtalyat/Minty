@@ -6,6 +6,7 @@
 #include "Minty/Data/List.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/File/File.h"
 #include "Minty/Serialization/IsSerializable.h"
@@ -353,6 +354,27 @@ namespace Minty
 			return read_type(index, data);
 		}
 
+		/// <summary>
+		/// Reads the data with the given Type.
+		/// </summary>
+		/// <param name="index">The index of the value.</param>
+		/// <param name="data">The value. Expects data to point to a buffer equal to or greater in size than the Type size.</param>
+		/// <param name="type">The Type.</param>
+		/// <returns>True on success.</returns>
+		virtual Bool read_typed(Size const index, void* const data, Type& type) = 0;
+
+		/// <summary>
+		/// Reads the data with the given Type.
+		/// </summary>
+		/// <param name="name">The name of the value.</param>
+		/// <param name="data">The value. Expects data to point to a buffer equal to or greater in size than the Type size.</param>
+		/// <param name="type">The Type.</param>
+		/// <returns>True on success.</returns>
+		Bool read_typed(String const& name, void* const data, Type& type)
+		{
+			return read_typed(get_index(name), data, type);
+		}
+
 #pragma endregion
 
 #pragma endregion
@@ -395,6 +417,7 @@ namespace Minty
 		virtual Float4 read_float4_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Double read_double_from_buffer(const void* const data, Size const size) const = 0;
 		virtual String read_string_from_buffer(const void* const data, Size const size) const = 0;
+		virtual UUID read_uuid_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Type read_type_from_buffer(const void* const data, Size const size) const = 0;
 		virtual void* read_typed_from_buffer(const void* const data, Size const size, Type const type) const = 0;
 
@@ -611,6 +634,7 @@ namespace Minty
 		Float4 read_float4_from_buffer(const void* const data, Size const size) const override;
 		Double read_double_from_buffer(const void* const data, Size const size) const override;
 		String read_string_from_buffer(const void* const data, Size const size) const override;
+		UUID read_uuid_from_buffer(const void* const data, Size const size) const override;
 		Type read_type_from_buffer(const void* const data, Size const size) const override;
 		void* read_typed_from_buffer(const void* const data, Size const size, Type const type) const override;
 
@@ -1136,6 +1160,50 @@ namespace Minty
 				{
 					Container const& data = node.get_child(index).get_data();
 					obj = this->read_type_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+
+		Bool read_typed(Size const index, void* const data, Type& type) override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& container = node.get_child(index).get_data();
+					// find separator (: )
+					Char* ch = static_cast<Char*>(container.get_data());
+					Size i;
+					for (i = 0; i < container.get_size(); ++i)
+					{
+						if (ch[i] == ':' && ch[i + 1] == ' ')
+						{
+							break;
+						}
+					}
+					// read type
+					type = this->read_type_from_buffer(container.get_data(), i);
+					i += 2; // skip (: )
+					// if i over the size, no value
+					if (i >= container.get_size())
+					{
+						return false;
+					}
+					// value
+					void* temp = this->read_typed_from_buffer(&ch[i], container.get_size() - i, type);
+					if (!temp)
+					{
+						// failed to read typed data
+						return false;
+					}
+					// copy data over
+					memcpy(data, temp, sizeof_type(type));
+					// delete the temp data
+					delete temp;
+
 					return true;
 				}
 			}

@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
+#include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 
 namespace Minty

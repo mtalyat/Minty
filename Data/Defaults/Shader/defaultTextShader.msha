@@ -27,6 +27,7 @@ PolygonMode: Fill
 CullMode: None
 FrontFace: Clockwise
 LineWidth: 1
+RenderPass: def000000000001c
 Bindings
     0: Vertex
         0: Float2

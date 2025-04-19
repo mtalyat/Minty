@@ -8,6 +8,8 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 #include "Minty/Wrap/Wrapper.h"
 #include <mutex>
 

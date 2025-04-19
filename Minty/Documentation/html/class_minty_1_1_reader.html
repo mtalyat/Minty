@@ -260,6 +260,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a641c7e86b989ff23efe4ba06fafa32de" id="r_a641c7e86b989ff23efe4ba06fafa32de"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:a641c7e86b989ff23efe4ba06fafa32de"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a641c7e86b989ff23efe4ba06fafa32de">read</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const index, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;data)</td></tr>
 <tr class="separator:a641c7e86b989ff23efe4ba06fafa32de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19adc6f71643510a992aeba95ed774d4" id="r_a19adc6f71643510a992aeba95ed774d4"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19adc6f71643510a992aeba95ed774d4">read_typed</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const index, void *const data, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;type)=0</td></tr>
+<tr class="memdesc:a19adc6f71643510a992aeba95ed774d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.  <br /></td></tr>
+<tr class="separator:a19adc6f71643510a992aeba95ed774d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bcbfe84c0f01d95aa1f86080a7792a6" id="r_a3bcbfe84c0f01d95aa1f86080a7792a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bcbfe84c0f01d95aa1f86080a7792a6">read_typed</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;name, void *const data, <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;type)</td></tr>
+<tr class="memdesc:a3bcbfe84c0f01d95aa1f86080a7792a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.  <br /></td></tr>
+<tr class="separator:a3bcbfe84c0f01d95aa1f86080a7792a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -2289,6 +2295,98 @@ template&lt;typename T&gt; </div>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; FormatBehavior, StorageBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; TextReaderBehavior, FileReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; TextReaderBehavior, FileReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; TextReaderBehavior, MemoryReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; TextReaderBehavior, MemoryReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; TextReaderBehavior, NodeReaderBehavior &gt;</a>, and <a class="el" href="class_minty_1_1_reader_implementation.html#a8d1a4e21ce142457debb25da9b6b6fc7">Minty::ReaderImplementation&lt; TextReaderBehavior, NodeReaderBehavior &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a19adc6f71643510a992aeba95ed774d4" name="a19adc6f71643510a992aeba95ed774d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19adc6f71643510a992aeba95ed774d4">&#9670;&#160;</a></span>read_typed() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::Reader::read_typed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the value.</td></tr>
+    <tr><td class="paramname">data</td><td>The value. Expects data to point to a buffer equal to or greater in size than the <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a> size.</td></tr>
+    <tr><td class="paramname">type</td><td>The <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True on success.</dd></dl>
+
+<p>Implemented in <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; FormatBehavior, StorageBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; TextReaderBehavior, FileReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; TextReaderBehavior, FileReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; TextReaderBehavior, MemoryReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; TextReaderBehavior, MemoryReaderBehavior &gt;</a>, <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; TextReaderBehavior, NodeReaderBehavior &gt;</a>, and <a class="el" href="class_minty_1_1_reader_implementation.html#a8ec54021b5c27b308b4a830963aa3e48">Minty::ReaderImplementation&lt; TextReaderBehavior, NodeReaderBehavior &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a3bcbfe84c0f01d95aa1f86080a7792a6" name="a3bcbfe84c0f01d95aa1f86080a7792a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bcbfe84c0f01d95aa1f86080a7792a6">&#9670;&#160;</a></span>read_typed() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::Reader::read_typed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reads the data with the given <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the value.</td></tr>
+    <tr><td class="paramname">data</td><td>The value. Expects data to point to a buffer equal to or greater in size than the <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a> size.</td></tr>
+    <tr><td class="paramname">type</td><td>The <a class="el" href="namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cd" title="Represents a type of data.">Type</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True on success.</dd></dl>
 
 </div>
 </div>

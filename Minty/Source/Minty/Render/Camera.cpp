@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Camera.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 
 using namespace Minty;
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Constant.h"
+#include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Window/CursorMode.h"
