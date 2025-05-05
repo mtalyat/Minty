@@ -79,8 +79,8 @@ public:
 #define EXPECT(actual, op, expected) try { if((actual) op (expected)) { PASS(actual op expected); } else { FAIL(actual op expected); } } catch(...) { FAIL(actual op expected); }
 #define EXPECT_EQUAL(actual, expected) EXPECT(actual, ==, expected)
 #define EXPECT_NOT_EQUAL(actual, expected) EXPECT(actual, !=, expected)
-#define EXPECT_TRUE(condition) EXPECT(condition, ==, true)
-#define EXPECT_FALSE(condition) EXPECT(condition, ==, false)
+#define EXPECT_TRUE(condition) EXPECT((condition), ==, true)
+#define EXPECT_FALSE(condition) EXPECT((condition), ==, false)
 #define EXPECT_SUCCESS(operation) try { operation; PASS(operation); } catch(...) { FAIL(operation); }
 #define EXPECT_FAILURE(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
 #define CLOSE_DELTA 0.01f

@@ -82,7 +82,7 @@ namespace Minty
 		template<typename T>
 		operator T() const
 		{
-			T* value = get<T>();
+			T* value = try_get<T>();
 			MINTY_ASSERT(value, "Variable is empty.");
 			return *value;
 		}
@@ -108,7 +108,7 @@ namespace Minty
 		template<typename T>
 		Bool operator==(T const& value) const
 		{
-			T* data = get<T>();
+			T* data = try_get<T>();
 			if (data == nullptr)
 			{
 				return typeid(T) == typeid(nullptr);
@@ -120,7 +120,7 @@ namespace Minty
 		template<typename T>
 		Bool operator!=(T const& value) const
 		{
-			T* data = get<T>();
+			T* data = try_get<T>();
 			if (data == nullptr)
 			{
 				return typeid(T) != typeid(nullptr);
@@ -175,7 +175,7 @@ namespace Minty
 		/// <typeparam name="T">The type associated with this Variable.</typeparam>
 		/// <returns>The value.</returns>
 		template<typename T>
-		T* get() const
+		T* try_get() const
 		{
 			if (m_type == Type::Undefined || m_type != type_typeid(typeid(T)) || is_empty())
 			{
@@ -183,6 +183,21 @@ namespace Minty
 			}
 
 			return static_cast<T*>(m_data.get_data());
+		}
+
+		/// <summary>
+		/// Get the data of this Variable.
+		/// </summary>
+		/// <typeparam name="T">The type associated with this Variable.</typeparam>
+		/// <returns>The value.</returns>
+		template<typename T>
+		T& get() const
+		{
+			MINTY_ASSERT(m_type != Type::Undefined, "Variable is undefined.");
+			MINTY_ASSERT(m_type == type_typeid(typeid(T)), "Variable type does not match requested type.");
+			MINTY_ASSERT(!is_empty(), "Variable is empty.");
+
+			return *static_cast<T*>(m_data.get_data());
 		}
 
 		/// <summary>

@@ -291,6 +291,12 @@
     <ClCompile Include="Test_MaterialTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Cargo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -523,6 +529,12 @@
     </ClInclude>
     <ClInclude Include="Test_MaterialTemplate.h">
       <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Object.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Cargo.h">
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

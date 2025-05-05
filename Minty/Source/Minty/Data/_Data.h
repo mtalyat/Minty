@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Array.h"
+#include "Cargo.h"
 #include "Color.h"
 #include "ConstantContainer.h"
 #include "Container.h"
@@ -8,6 +9,7 @@
 #include "List.h"
 #include "Map.h"
 #include "MemoryContainer.h"
+#include "Object.h"
 #include "Pair.h"
 #include "Path.h"
 #include "Pointer.h"

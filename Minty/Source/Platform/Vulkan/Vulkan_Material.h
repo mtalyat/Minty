@@ -49,9 +49,6 @@ namespace Minty
 
 		void set_initial_values();
 
-		// compiles the map of variables into a single buffer container
-		void collect_cargo(Map<String, Variable> const& values, Container& container);
-
 	public:
 		void on_bind() override;
 

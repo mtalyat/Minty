@@ -20,7 +20,7 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialBuilder const& builder)
 #ifdef MINTY_DEBUG
 
 	// check for all valid inputs
-	for (auto const& [name, cargo] : get_values())
+	for (auto const& [name, cargo] : get_inputs())
 	{
 		MINTY_ASSERT(shader->contains_input(name), F("Shader does not contain input with name: {}", name));
 	}
@@ -147,11 +147,11 @@ void Minty::Vulkan_Material::set_initial_values()
 	Set<String> setValues;
 
 	// set all override values in the material
-	DynamicContainer container;
-	for (auto const& [name, cargo] : get_values())
+	ConstantContainer container;
+	for (auto const& [name, cargo] : get_inputs())
 	{
 		// compile value to one array of byte data, set that value
-		collect_cargo(cargo, container);
+		container = cargo.pack();
 		set_input(name, container.get_data(), container.get_size());
 
 		// mark as set
@@ -159,25 +159,14 @@ void Minty::Vulkan_Material::set_initial_values()
 	}
 
 	// set any remaining not covered values
-	for (auto const& [name, cargo] : get_material_template()->get_values())
+	for (auto const& [name, cargo] : get_material_template()->get_inputs())
 	{
 		// skip if override value was set
 		if (setValues.contains(name)) continue;
 
 		// compile default values to one array of byte data, set that value
-		collect_cargo(cargo, container);
+		container = cargo.pack();
 		set_input(name, container.get_data(), container.get_size());
-	}
-}
-
-void Minty::Vulkan_Material::collect_cargo(Map<String, Variable> const& values, Container& container)
-{
-	container.clear();
-	for (auto const& [name, variable] : values)
-	{
-		// add variable data to container
-		Container const& variableContainer = variable.get_data();
-		container.append(variableContainer.get_data(), variableContainer.get_size());
 	}
 }
 

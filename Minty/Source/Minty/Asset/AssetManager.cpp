@@ -668,7 +668,7 @@ Ref<Image> Minty::AssetManager::load_image(Path const& path)
 	return image;
 }
 
-static void read_values(Reader& reader, Map<String, Map<String, Variable>>& values)
+static void read_values(Reader& reader, Cargo& values)
 {
 	String objectName;
 	String valueName;
@@ -686,7 +686,7 @@ static void read_values(Reader& reader, Map<String, Map<String, Variable>>& valu
 		reader.indent(i);
 
 		// read names and variables for each value
-		Map<String, Variable> objectValues(reader.get_size() * 2);
+		Object object(reader.get_size() * 2);
 		for (Size j = 0; j < reader.get_size(); j++)
 		{
 			// read the name of the variable
@@ -702,11 +702,11 @@ static void read_values(Reader& reader, Map<String, Map<String, Variable>>& valu
 			}
 
 			// add to the object values
-			objectValues.add(valueName, valueVariable);
+			object.add(valueName, valueVariable);
 		}
 
 		// add values to the object
-		values.add(objectName, std::move(objectValues));
+		values.add(objectName, object);
 
 		// outdent
 		reader.outdent();
@@ -885,7 +885,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
 							}
 
 							// add to the input
-							input.data.add(name, Variable(type));
+							input.data.add({ name, Variable(type) });
 
 							// add to total size
 							UInt typeSize = static_cast<UInt>(sizeof_type(type));

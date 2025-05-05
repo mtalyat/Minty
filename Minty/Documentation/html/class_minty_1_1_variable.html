@@ -171,10 +171,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acf5b6003176d3ea49185baf8af759b96" id="r_acf5b6003176d3ea49185baf8af759b96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf5b6003176d3ea49185baf8af759b96">set_data</a> (void const *const data)</td></tr>
 <tr class="memdesc:acf5b6003176d3ea49185baf8af759b96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the data of this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>.  <br /></td></tr>
 <tr class="separator:acf5b6003176d3ea49185baf8af759b96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8173fbc53408d92705ed6c0b01be940f" id="r_a8173fbc53408d92705ed6c0b01be940f"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:a8173fbc53408d92705ed6c0b01be940f"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8173fbc53408d92705ed6c0b01be940f">get</a> () const</td></tr>
-<tr class="memdesc:a8173fbc53408d92705ed6c0b01be940f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data of this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>.  <br /></td></tr>
-<tr class="separator:a8173fbc53408d92705ed6c0b01be940f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a887a5c3c9107bdea8b41644021ff57cb" id="r_a887a5c3c9107bdea8b41644021ff57cb"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a887a5c3c9107bdea8b41644021ff57cb"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a887a5c3c9107bdea8b41644021ff57cb">try_get</a> () const</td></tr>
+<tr class="memdesc:a887a5c3c9107bdea8b41644021ff57cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data of this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>.  <br /></td></tr>
+<tr class="separator:a887a5c3c9107bdea8b41644021ff57cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9691f726447582c716967feb68633f03" id="r_a9691f726447582c716967feb68633f03"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a9691f726447582c716967feb68633f03"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9691f726447582c716967feb68633f03">get</a> () const</td></tr>
+<tr class="memdesc:a9691f726447582c716967feb68633f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the data of this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>.  <br /></td></tr>
+<tr class="separator:a9691f726447582c716967feb68633f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cdc490b3ddf470d8f0fdefbaba7f2bc" id="r_a3cdc490b3ddf470d8f0fdefbaba7f2bc"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
 <tr class="memitem:a3cdc490b3ddf470d8f0fdefbaba7f2bc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3cdc490b3ddf470d8f0fdefbaba7f2bc">set</a> (T const &amp;value)</td></tr>
 <tr class="memdesc:a3cdc490b3ddf470d8f0fdefbaba7f2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the data of this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>.  <br /></td></tr>
@@ -453,8 +457,8 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a id="a8173fbc53408d92705ed6c0b01be940f" name="a8173fbc53408d92705ed6c0b01be940f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8173fbc53408d92705ed6c0b01be940f">&#9670;&#160;</a></span>get()</h2>
+<a id="a9691f726447582c716967feb68633f03" name="a9691f726447582c716967feb68633f03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9691f726447582c716967feb68633f03">&#9670;&#160;</a></span>get()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -465,7 +469,7 @@ template&lt;typename T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T * Minty::Variable::get </td>
+          <td class="memname">T &amp; Minty::Variable::get </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
@@ -889,6 +893,42 @@ template&lt;typename T&gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a887a5c3c9107bdea8b41644021ff57cb" name="a887a5c3c9107bdea8b41644021ff57cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a887a5c3c9107bdea8b41644021ff57cb">&#9670;&#160;</a></span>try_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * Minty::Variable::try_get </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the data of this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type associated with this <a class="el" href="class_minty_1_1_variable.html" title="A Container with a Type.">Variable</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value.</dd></dl>
 
 </div>
 </div>

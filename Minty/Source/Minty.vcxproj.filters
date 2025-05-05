@@ -528,6 +528,12 @@
     <ClInclude Include="Minty\Render\StoreOperation.h">
       <Filter>Minty\Render\RenderPass</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\Cargo.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Object.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -792,6 +798,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\StoreOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\Cargo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

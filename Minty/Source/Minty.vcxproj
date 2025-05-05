@@ -198,6 +198,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Macro.h" />
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
+    <ClInclude Include="Minty\Data\Cargo.h" />
     <ClInclude Include="Minty\Data\Color.h" />
     <ClInclude Include="Minty\Data\ConstantContainer.h" />
     <ClInclude Include="Minty\Data\Container.h" />
@@ -205,6 +206,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\List.h" />
     <ClInclude Include="Minty\Data\Map.h" />
     <ClInclude Include="Minty\Data\MemoryContainer.h" />
+    <ClInclude Include="Minty\Data\Object.h" />
     <ClInclude Include="Minty\Data\Pair.h" />
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
@@ -333,6 +335,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\Encoding.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
+    <ClCompile Include="Minty\Data\Cargo.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
     <ClCompile Include="Minty\Data\Container.cpp" />
     <ClCompile Include="Minty\Data\DynamicContainer.cpp" />

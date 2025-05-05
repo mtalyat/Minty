@@ -143,6 +143,7 @@
     <ClCompile Include="Test_ArgumentParser.cpp" />
     <ClCompile Include="Test_Buffer.cpp" />
     <ClCompile Include="Test_Camera.cpp" />
+    <ClCompile Include="Test_Cargo.cpp" />
     <ClCompile Include="Test_CoordinateMode.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Test_MemoryStack.cpp" />
     <ClCompile Include="Test_Minty.cpp" />
     <ClCompile Include="Test_Node.cpp" />
+    <ClCompile Include="Test_Object.cpp" />
     <ClCompile Include="Test_Pair.cpp" />
     <ClCompile Include="Test_Perspective.cpp" />
     <ClCompile Include="Test_PhysicalFile.cpp" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Test_ArgumentParser.h" />
     <ClInclude Include="Test_Buffer.h" />
     <ClInclude Include="Test_Camera.h" />
+    <ClInclude Include="Test_Cargo.h" />
     <ClInclude Include="Test_CoordinateMode.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
@@ -261,6 +264,7 @@
     <ClInclude Include="Test_MemoryStack.h" />
     <ClInclude Include="Test_Minty.h" />
     <ClInclude Include="Test_Node.h" />
+    <ClInclude Include="Test_Object.h" />
     <ClInclude Include="Test_Pair.h" />
     <ClInclude Include="Test_Perspective.h" />
     <ClInclude Include="Test_PhysicalFile.h" />

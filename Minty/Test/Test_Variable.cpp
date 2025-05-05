@@ -200,15 +200,15 @@ void test_Variable(Test& _test)
 		{
 			Variable v;
 			v = Int(42);
-			EXPECT_EQUAL(*v.get<Int>(), 42);
-			EXPECT_EQUAL(v.get<Float>(), nullptr);
+			EXPECT_EQUAL(v.get<Int>(), 42);
+			EXPECT_FAILURE(v.get<Float>());
 			v.clear();
-			EXPECT_EQUAL(v.get<Int>(), nullptr);
+			EXPECT_FAILURE(v.get<Int>());
 			v = Float(42.0f);
-			EXPECT_EQUAL(*v.get<Float>(), 42.0f);
+			EXPECT_EQUAL(v.get<Float>(), 42.0f);
 
 			v = Variable();
-			EXPECT_EQUAL(v.get<Int>(), nullptr);
+			EXPECT_FAILURE(v.get<Int>());
 		}
 
 		TEST("Set")

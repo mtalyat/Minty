@@ -11,7 +11,7 @@ using namespace Minty;
 Minty::Material::Material(MaterialBuilder const& builder)
 	: Asset(builder.id)
 	, m_materialTemplate(builder.materialTemplate)
-	, m_values(builder.values)
+	, m_cargo(builder.values)
 {
 	MINTY_ASSERT(m_materialTemplate != nullptr, "MaterialTemplate must not be null.");
 
@@ -29,6 +29,40 @@ Minty::Material::~Material()
 	shader->unregister_material(this);
 }
 
+Bool Minty::Material::has_input(String const& name) const
+{
+	// check self
+	if (m_cargo.contains(name))
+	{
+		return true;
+	}
+
+	// check template
+	MINTY_ASSERT(m_materialTemplate != nullptr, "MaterialTemplate must not be null.");
+	if (m_materialTemplate->has_input(name))
+	{
+		return true;
+	}
+
+	// not found
+	return false;
+}
+
+Object const& Minty::Material::get_input(String const& name) const
+{
+	MINTY_ASSERT(has_input(name), "Material does not have input with name: " + name);
+
+	// check self
+	auto it = m_cargo.find(name);
+	if (it != m_cargo.end())
+	{
+		return it->second;
+	}
+
+	// must be in template
+	return m_materialTemplate->get_input(name);
+}
+
 Bool Minty::Material::try_set_input(String const& name, void const* const data, Size const size)
 {
 	Ref<Shader> shader = m_materialTemplate->get_shader();
@@ -41,6 +75,12 @@ Bool Minty::Material::try_set_input(String const& name, void const* const data, 
 	// exists
 	set_input(name, data, size);
 	return true;
+}
+
+Bool Minty::Material::get_input(String const& name, void* const data, Size const size) const
+{
+	// if this Material has a value for the input, copy it
+	return false;
 }
 
 Owner<Material> Minty::Material::create(MaterialBuilder const& builder)

@@ -8,6 +8,7 @@ var class_minty_1_1_container =
     [ "get_capacity", "class_minty_1_1_container.html#a6f1ab1c81cac25bdc6be2a0e7159c01b", null ],
     [ "get_data", "class_minty_1_1_container.html#ac3857b6ff76e837b13b64516b70309ad", null ],
     [ "get_size", "class_minty_1_1_container.html#aebb21052c2d909779ae8795d89fa4ebd", null ],
+    [ "is_empty", "class_minty_1_1_container.html#adaee3ad61c9c3583deeb838750775aaa", null ],
     [ "reserve", "class_minty_1_1_container.html#aefe0ea786e22f38256c3b0bfb55a7705", null ],
     [ "resize", "class_minty_1_1_container.html#abaaa316b5e2711174213650f989a4a26", null ],
     [ "set", "class_minty_1_1_container.html#a58c6ab2da7bec62ecfa6d3d213269c13", null ],

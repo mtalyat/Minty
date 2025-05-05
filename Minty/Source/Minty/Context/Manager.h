@@ -18,6 +18,11 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		Manager()
+			: m_initialized(false)
+		{
+		}
+
 		virtual ~Manager();
 
 #pragma endregion

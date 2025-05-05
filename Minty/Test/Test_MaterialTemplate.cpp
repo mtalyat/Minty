@@ -26,10 +26,10 @@ void test_MaterialTemplate(Test& _test)
 			EXPECT_FAILURE(MaterialTemplate::create(builder));
 			builder.shader = shader;
 			EXPECT_SUCCESS(MaterialTemplate::create(builder));
-			builder.values.add("xxx", Map<String, Variable>());
+			builder.values.add("xxx", Object());
 			EXPECT_FAILURE(MaterialTemplate::create(builder));
 			builder.values.remove("xxx");
-			builder.values.add("camera", Map<String, Variable>());
+			builder.values.add("camera", Object());
 			EXPECT_SUCCESS(MaterialTemplate::create(builder));
 		}
 
@@ -45,11 +45,11 @@ void test_MaterialTemplate(Test& _test)
 		{
 			MaterialTemplateBuilder builder{};
 			builder.shader = shader;
-			builder.values.add("camera", Map<String, Variable>());
+			builder.values.add("camera", Object());
 			Owner<MaterialTemplate> materialTemplate = MaterialTemplate::create(builder);
-			EXPECT_EQUAL(materialTemplate->get_values().get_size(), 1);
-			EXPECT_TRUE(materialTemplate->get_values().contains("camera"));
-			EXPECT_FALSE(materialTemplate->get_values().contains("xxx"));
+			EXPECT_EQUAL(materialTemplate->get_inputs().get_size(), 1);
+			EXPECT_TRUE(materialTemplate->get_inputs().contains("camera"));
+			EXPECT_FALSE(materialTemplate->get_inputs().contains("xxx"));
 		}
 
 		TEST("Get Asset Type")

@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
+#include "Minty/Data/Cargo.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Variable.h"
@@ -26,7 +27,7 @@ namespace Minty
 		/// <summary>
 		/// The values of this Material. These override the default values in the MaterialTemplate.
 		/// </summary>
-		Map<String, Map<String, Variable>> values;
+		Cargo values;
 	};
 
 	class Material
@@ -36,7 +37,7 @@ namespace Minty
 
 	private:
 		Ref<MaterialTemplate> m_materialTemplate;
-		Map<String, Map<String, Variable>> m_values;
+		Cargo m_cargo;
 
 #pragma endregion
 
@@ -66,7 +67,21 @@ namespace Minty
 		/// Gets the values of this Material.
 		/// </summary>
 		/// <returns>The values.</returns>
-		Map<String, Map<String, Variable>> const& get_values() const { return m_values; }
+		Cargo const& get_inputs() const { return m_cargo; }
+
+		/// <summary>
+		/// Checks if this Material has an input with the given name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		Bool has_input(String const& name) const;
+
+		/// <summary>
+		/// Gets the input value for this Material with the given name.
+		/// </summary>
+		/// <param name="name">The name of the input.</param>
+		/// <returns>A reference to the Map containing the input object data.</returns>
+		Object const& get_input(String const& name) const;
 
 		/// <summary>
 		/// Gets an input value for this Material.
@@ -84,6 +99,15 @@ namespace Minty
 		/// <param name="size">The size of the data in bytes.</param>
 		/// <returns>True, on success.</returns>
 		Bool try_set_input(String const& name, void const* const data, Size const size);
+
+		/// <summary>
+		/// Gets the input data for this Material with the given name.
+		/// </summary>
+		/// <param name="name">The name of the input data.</param>
+		/// <param name="data">A pointer to the location to copy the data.</param>
+		/// <param name="size">The size of the data pointer.</param>
+		/// <returns>True on a successful copy, otherwise false.</returns>
+		Bool get_input(String const& name, void* const data, Size const size) const;
 
 		/// <summary>
 		/// Gets the AssetType of this Asset.

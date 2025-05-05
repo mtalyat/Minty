@@ -7,7 +7,7 @@ var class_minty_1_1_variable =
     [ "~Variable", "class_minty_1_1_variable.html#a8fb4d4421fdbb39d2ab463909de171dc", null ],
     [ "clear", "class_minty_1_1_variable.html#a3c29e58a2aa0d59f49258824c89aefa1", null ],
     [ "deserialize", "class_minty_1_1_variable.html#a8a61ee93ab357198f53618b4389513d0", null ],
-    [ "get", "class_minty_1_1_variable.html#a8173fbc53408d92705ed6c0b01be940f", null ],
+    [ "get", "class_minty_1_1_variable.html#a9691f726447582c716967feb68633f03", null ],
     [ "get_data", "class_minty_1_1_variable.html#a35b60407413cadd0dc402f02148f62cd", null ],
     [ "get_type", "class_minty_1_1_variable.html#a5bf2fd5714335d38f3bd58177ecb341e", null ],
     [ "is_empty", "class_minty_1_1_variable.html#ac3774f68eef51c20ac519a2c148e33a5", null ],
@@ -21,5 +21,6 @@ var class_minty_1_1_variable =
     [ "set", "class_minty_1_1_variable.html#a3cdc490b3ddf470d8f0fdefbaba7f2bc", null ],
     [ "set_data", "class_minty_1_1_variable.html#a601a286cd6c056de323cfec4e1c66440", null ],
     [ "set_data", "class_minty_1_1_variable.html#acf5b6003176d3ea49185baf8af759b96", null ],
-    [ "set_type", "class_minty_1_1_variable.html#a466ec37d713513fe2af01f3c8f8e8447", null ]
+    [ "set_type", "class_minty_1_1_variable.html#a466ec37d713513fe2af01f3c8f8e8447", null ],
+    [ "try_get", "class_minty_1_1_variable.html#a887a5c3c9107bdea8b41644021ff57cb", null ]
 ];

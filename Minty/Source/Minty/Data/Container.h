@@ -38,6 +38,12 @@ namespace Minty
 		/// <returns>The capacity in bytes.</returns>
 		virtual Size get_capacity() const = 0;
 
+		/// <summary>
+		/// Checks if this Container is empty.
+		/// </summary>
+		/// <returns>True if the size is zero.</returns>
+		Bool is_empty() const { return get_size() == 0; }
+
 #pragma endregion
 
 

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['value_0',['value',['../struct_minty_1_1_color.html#ac14bab089053d5b0043ef7cfc17912f1',1,'Minty::Color']]],
-  ['values_1',['values',['../struct_minty_1_1_material_builder.html#a03cf01b79458941542b9342109b59a06',1,'Minty::MaterialBuilder::values'],['../struct_minty_1_1_material_template_builder.html#a12d16781c255b488943915508a3a3892',1,'Minty::MaterialTemplateBuilder::values']]],
+  ['values_1',['values',['../struct_minty_1_1_material_builder.html#ad961c3a3756a6397aca6eb1357b315cc',1,'Minty::MaterialBuilder::values'],['../struct_minty_1_1_material_template_builder.html#a47b376d48bffbc93cb0d2ac59702f002',1,'Minty::MaterialTemplateBuilder::values']]],
   ['vertexinput_2',['vertexInput',['../struct_minty_1_1_shader_builder.html#a9d1d874bef9b10073ea7a6e496eb4cd7',1,'Minty::ShaderBuilder']]],
   ['vertexshadermodule_3',['vertexShaderModule',['../struct_minty_1_1_shader_builder.html#a903c3d8b976aac2d0cfcd5041a717521',1,'Minty::ShaderBuilder']]],
   ['vertexshadermoduleentrypoint_4',['vertexShaderModuleEntryPoint',['../struct_minty_1_1_shader_builder.html#a06bc3ae3ebfda09d5d25edf8037f4756',1,'Minty::ShaderBuilder']]],

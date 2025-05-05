@@ -38,6 +38,7 @@ var hierarchy =
     ] ],
     [ "Minty::BufferBuilder", "struct_minty_1_1_buffer_builder.html", null ],
     [ "Minty::CameraBuilder", "struct_minty_1_1_camera_builder.html", null ],
+    [ "Minty::Cargo", "class_minty_1_1_cargo.html", null ],
     [ "Minty::Color", "struct_minty_1_1_color.html", null ],
     [ "Minty::Array< T, S >::ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html", null ],
     [ "Minty::List< T >::ConstIterator", "class_minty_1_1_list_1_1_const_iterator.html", null ],
@@ -117,6 +118,7 @@ var hierarchy =
     [ "Minty::MemoryStack", "class_minty_1_1_memory_stack.html", null ],
     [ "Minty::MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", null ],
     [ "Minty::Node", "class_minty_1_1_node.html", null ],
+    [ "Minty::Object", "class_minty_1_1_object.html", null ],
     [ "Minty::Owner< T >", "class_minty_1_1_owner.html", null ],
     [ "Minty::Pair< T1, T2 >", "class_minty_1_1_pair.html", null ],
     [ "Minty::Parseable", "class_minty_1_1_parseable.html", [
