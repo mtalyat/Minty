@@ -13,6 +13,7 @@ var class_minty_1_1_vector_1_1_const_iterator =
     [ "operator-", "class_minty_1_1_vector_1_1_const_iterator.html#a40c93b777393b8b385dd774dc29cce28", null ],
     [ "operator--", "class_minty_1_1_vector_1_1_const_iterator.html#af15cad427541951ae646ab1a0d7c342a", null ],
     [ "operator--", "class_minty_1_1_vector_1_1_const_iterator.html#aa29e7e569e1aa3c1665a88fafc2adb24", null ],
+    [ "operator->", "class_minty_1_1_vector_1_1_const_iterator.html#a54a3f9f9e0bd28b64774d2d4be66f02b", null ],
     [ "operator==", "class_minty_1_1_vector_1_1_const_iterator.html#afcb7cf5bc75a35b379cdb198959284ea", null ],
     [ "Vector", "class_minty_1_1_vector_1_1_const_iterator.html#a8d31999cf2d1c149956d35c1c01b3186", null ]
 ];

@@ -10,7 +10,7 @@
 namespace Minty
 {
 	/// <summary>
-	/// Holds a collection of named Objects, each of which has an ordered list of named Variables.
+	/// Holds a collection of ordered, named Objects, each of which has an ordered list of named Variables.
 	/// </summary>
 	class Cargo
 	{
@@ -18,7 +18,7 @@ namespace Minty
 
 	private:
 		Allocator m_allocator;
-		Map<String, Object> m_objects;
+		Vector<Pair<String, Object>> m_objects;
 
 #pragma endregion
 
@@ -57,7 +57,7 @@ namespace Minty
 		{
 			for (auto const& [name, variables] : list)
 			{
-				m_objects.add(name, Object(variables));
+				m_objects.add({ name, Object(variables) });
 			}
 		}
 
@@ -103,22 +103,22 @@ namespace Minty
 #pragma region Iterators
 
 	public:
-		Map<String, Object>::Iterator begin()
+		Vector<Pair<String, Object>>::Iterator begin()
 		{
 			return m_objects.begin();
 		}
 
-		Map<String, Object>::ConstIterator begin() const
+		Vector<Pair<String, Object>>::ConstIterator begin() const
 		{
 			return m_objects.begin();
 		}
 
-		Map<String, Object>::Iterator end()
+		Vector<Pair<String, Object>>::Iterator end()
 		{
 			return m_objects.end();
 		}
 
-		Map<String, Object>::ConstIterator end() const
+		Vector<Pair<String, Object>>::ConstIterator end() const
 		{
 			return m_objects.end();
 		}
@@ -152,18 +152,14 @@ namespace Minty
 		/// <returns>True, if an Object with the given name exists.</returns>
 		Bool contains(String const& name) const
 		{
-			return m_objects.contains(name);
-		}
-
-		/// <summary>
-		/// Gets the Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <returns>The Object.</returns>
-		Object const& at(String const& name) const
-		{
-			MINTY_ASSERT(m_objects.contains(name), "Cargo has no object with the given name.");
-			return m_objects.at(name);
+			for (auto const& [objectName, object] : m_objects)
+			{
+				if (name == objectName)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -173,8 +169,33 @@ namespace Minty
 		/// <returns>The Object.</returns>
 		Object& at(String const& name)
 		{
-			MINTY_ASSERT(m_objects.contains(name), "Cargo has no object with the given name.");
-			return m_objects.at(name);
+			for (auto& [objectName, object] : m_objects)
+			{
+				if (name == objectName)
+				{
+					return object;
+				}
+			}
+			MINTY_ASSERT(false, "Cargo has no object with the given name.");
+			throw new std::runtime_error("Cargo has no object with the given name.");
+		}
+
+		/// <summary>
+		/// Gets the Object with the given name.
+		/// </summary>
+		/// <param name="name">The name of the Object.</param>
+		/// <returns>The Object.</returns>
+		Object const& at(String const& name) const
+		{
+			for (auto const& [objectName, object] : m_objects)
+			{
+				if (name == objectName)
+				{
+					return object;
+				}
+			}
+			MINTY_ASSERT(false, "Cargo has no object with the given name.");
+			throw new std::runtime_error("Cargo has no object with the given name.");
 		}
 
 		/// <summary>
@@ -184,8 +205,8 @@ namespace Minty
 		/// <param name="object">The Object.</param>
 		void add(String const& name, Object const& object)
 		{
-			MINTY_ASSERT(!m_objects.contains(name), "Cargo already contains an object with the given name.");
-			m_objects.add(name, object);
+			MINTY_ASSERT(!contains(name), "Cargo already contains an object with the given name.");
+			m_objects.add({ name, object });
 		}
 
 		/// <summary>
@@ -195,7 +216,18 @@ namespace Minty
 		/// <param name="object">The Object.</param>
 		void set(String const& name, Object const& object)
 		{
-			m_objects[name] = object;
+			// replace if found
+			for (auto& [objectName, obj] : m_objects)
+			{
+				if (objectName == name)
+				{
+					obj = object;
+					return;
+				}
+			}
+			
+			// add new
+			m_objects.add({ name, object });
 		}
 
 		/// <summary>
@@ -205,7 +237,18 @@ namespace Minty
 		/// <returns>True if an Object was removed.</returns>
 		Bool remove(String const& name)
 		{
-			return m_objects.remove(name);
+			// find the object and remove it
+			for (Size i = 0; i < m_objects.get_size(); ++i)
+			{
+				if (m_objects[i].first == name)
+				{
+					m_objects.remove(i);
+					return true;
+				}
+			}
+
+			// not found
+			return false;
 		}
 
 		/// <summary>
@@ -213,9 +256,18 @@ namespace Minty
 		/// </summary>
 		/// <param name="name">The name to find.</param>
 		/// <returns>An iterator to the Object with the given name.</returns>
-		Map<String, Object>::Iterator find(String const& name)
+		Vector<Pair<String, Object>>::Iterator find(String const& name)
 		{
-			return m_objects.find(name);
+			auto it = m_objects.begin();
+			while (it != m_objects.end())
+			{
+				if (it->first == name)
+				{
+					return it;
+				}
+				++it;
+			}
+			return it;
 		}
 
 		/// <summary>
@@ -223,9 +275,18 @@ namespace Minty
 		/// </summary>
 		/// <param name="name">The name to find.</param>
 		/// <returns>An iterator to the Object with the given name.</returns>
-		Map<String, Object>::ConstIterator find(String const& name) const
+		Vector<Pair<String, Object>>::ConstIterator find(String const& name) const
 		{
-			return m_objects.find(name);
+			auto it = m_objects.begin();
+			while (it != m_objects.end())
+			{
+				if (it->first == name)
+				{
+					return it;
+				}
+				++it;
+			}
+			return it;
 		}
 
 		/// <summary>

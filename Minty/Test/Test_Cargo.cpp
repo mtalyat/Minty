@@ -34,7 +34,7 @@ void test_Cargo(Test& _test)
 			EXPECT_EQUAL(cargo.get_size(), 2);
 			EXPECT_EQUAL(cargo.at("object1").at("key1").get<Int>(), 10);
 			EXPECT_EQUAL(cargo.at("object1").at("key2").get<Float>(), 20.0f);
-			EXPECT_EQUAL(cargo.at("object2").at("key3").get<Byte>(), 30);
+			EXPECT_EQUAL(cargo.at("object2").at("key3").get<Int>(), 30);
 			EXPECT_EQUAL(cargo.at("object2").at("key4").get<Float>(), 40.0f);
 		}
 
@@ -97,8 +97,12 @@ void test_Cargo(Test& _test)
 				{"key2", Variable(20.0f) }
 				});
 			auto it = cargo.end();
-			EXPECT_FAILURE(auto temp = it->first);
-			EXPECT_FAILURE(auto temp = it->second);
+			auto bit = cargo.begin();
+			for (Size i = 0; i < cargo.get_size(); i++)
+			{
+				++bit;
+			}
+			EXPECT_EQUAL(it, bit);
 		}
 
 		TEST("End Const")
@@ -110,8 +114,12 @@ void test_Cargo(Test& _test)
 				});
 			Cargo const& constCargo = cargo;
 			auto it = constCargo.end();
-			EXPECT_FAILURE(auto temp = it->first);
-			EXPECT_FAILURE(auto temp = it->second);
+			auto bit = constCargo.begin();
+			for (Size i = 0; i < constCargo.get_size(); i++)
+			{
+				++bit;
+			}
+			EXPECT_EQUAL(it, bit);
 		}
 
 		TEST("Is Empty")

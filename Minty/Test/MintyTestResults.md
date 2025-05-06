@@ -1,6 +1,5 @@
 # Results
-5746/5753 (99.88%)
-7 failures.
+5751/5751 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -20,7 +19,7 @@
 | Array::ReverseIterator         |       85 |        0 |
 | Array::ConstReverseIterator    |       85 |        0 |
 | Array                          |       59 |        0 |
-| Cargo                          |       47 |        7 |
+| Cargo                          |       52 |        0 |
 | Color                          |       72 |        0 |
 | ConstantContainer              |       72 |        0 |
 | DynamicContainer               |      131 |        0 |
@@ -96,15 +95,7 @@
 | Wrapper                        |       23 |        0 |
 
 ## Failures
-| Category                       | Message                                                                                                                          |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| Cargo                          | [FAIL] 37: Variables Constructor (cargo.at("object2").at("key3").get<Byte>() == 30)                                              |
-| Cargo                          | [FAIL] 268: Pack (*static_cast<Int*>(container.get_data()) == 10)                                                                |
-| Cargo                          | [FAIL] 269: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size)) == 20.0f)      |
-| Cargo                          | [FAIL] 270: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size)) == 30) |
-| Cargo                          | [FAIL] 271: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size)) == 30) |
-| Cargo                          | [FAIL] 272: Pack (*static_cast<Int*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size)) == 10) |
-| Cargo                          | [FAIL] 273: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size + value0Size)) == 20.0f) |
+No failures! :)
 
 # Categories
 
@@ -1084,7 +1075,7 @@
 |  PASS  | 34: Variables Constructor (cargo.get_size() == 2)                                                                                |
 |  PASS  | 35: Variables Constructor (cargo.at("object1").at("key1").get<Int>() == 10)                                                      |
 |  PASS  | 36: Variables Constructor (cargo.at("object1").at("key2").get<Float>() == 20.0f)                                                 |
-|  FAIL  | 37: Variables Constructor (cargo.at("object2").at("key3").get<Byte>() == 30)                                                     |
+|  PASS  | 37: Variables Constructor (cargo.at("object2").at("key3").get<Int>() == 30)                                                      |
 |  PASS  | 38: Variables Constructor (cargo.at("object2").at("key4").get<Float>() == 40.0f)                                                 |
 |  PASS  | 45: Copy Constructor ((copy.is_empty()) == true)                                                                                 |
 |  PASS  | 51: Copy Constructor ((copy.is_empty()) == false)                                                                                |
@@ -1094,44 +1085,42 @@
 |  PASS  | 76: Begin (it->second.at("key1").get<Int>() == 10)                                                                               |
 |  PASS  | 88: Begin Const (it->first == "object1")                                                                                         |
 |  PASS  | 89: Begin Const (it->second.at("key1").get<Int>() == 10)                                                                         |
-|  PASS  | 100: End (auto temp = it->first)                                                                                                 |
-|  PASS  | 101: End (auto temp = it->second)                                                                                                |
-|  PASS  | 113: End Const (auto temp = it->first)                                                                                           |
-|  PASS  | 114: End Const (auto temp = it->second)                                                                                          |
-|  PASS  | 120: Is Empty ((cargo.is_empty()) == true)                                                                                       |
-|  PASS  | 125: Is Empty ((cargo.is_empty()) == false)                                                                                      |
-|  PASS  | 131: Get Size (cargo.get_size() == 0)                                                                                            |
-|  PASS  | 136: Get Size (cargo.get_size() == 1)                                                                                            |
-|  PASS  | 146: Contains ((cargo.contains("object1")) == true)                                                                              |
-|  PASS  | 147: Contains ((cargo.contains("nonexistent")) == false)                                                                         |
-|  PASS  | 157: At (cargo.at("object1").at("key1").get<Int>() == 10)                                                                        |
-|  PASS  | 158: At (cargo.at("nonexistent"))                                                                                                |
-|  PASS  | 169: At Const (constCargo.at("object1").at("key1").get<Int>() == 10)                                                             |
-|  PASS  | 170: At Const (constCargo.at("nonexistent"))                                                                                     |
-|  PASS  | 176: Add (cargo.get_size() == 0)                                                                                                 |
-|  PASS  | 181: Add (cargo.get_size() == 1)                                                                                                 |
-|  PASS  | 182: Add (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
-|  PASS  | 188: Set ((cargo.contains("object1")) == false)                                                                                  |
-|  PASS  | 193: Set (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
-|  PASS  | 198: Set (cargo.at("object1").at("key1").get<Int>() == 30)                                                                       |
-|  PASS  | 208: Remove (cargo.get_size() == 1)                                                                                              |
-|  PASS  | 209: Remove ((cargo.remove("object1")) == true)                                                                                  |
-|  PASS  | 210: Remove (cargo.get_size() == 0)                                                                                              |
-|  PASS  | 211: Remove ((cargo.contains("object1")) == false)                                                                               |
-|  PASS  | 212: Remove ((cargo.remove("object1")) == false)                                                                                 |
-|  PASS  | 223: Find (it->first == "object1")                                                                                               |
-|  PASS  | 224: Find (it->second.at("key1").get<Int>() == 10)                                                                               |
-|  PASS  | 225: Find (cargo.find("nonexistent") == cargo.end())                                                                             |
-|  PASS  | 237: Find Const (it->first == "object1")                                                                                         |
-|  PASS  | 238: Find Const (it->second.at("key1").get<Int>() == 10)                                                                         |
-|  PASS  | 239: Find Const (constCargo.find("nonexistent") == constCargo.end())                                                             |
-|  PASS  | 267: Pack (container.get_size() == value0Size + value1Size + value2Size + value2Size + value0Size + value1Size)                  |
-|  FAIL  | 268: Pack (*static_cast<Int*>(container.get_data()) == 10)                                                                       |
-|  FAIL  | 269: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size)) == 20.0f)             |
-|  FAIL  | 270: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size)) == 30)    |
-|  FAIL  | 271: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size)) == 30) |
-|  FAIL  | 272: Pack (*static_cast<Int*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size)) == 10) |
-|  FAIL  | 273: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size + value0Size)) == 20.0f) |
+|  PASS  | 105: End (it == bit)                                                                                                             |
+|  PASS  | 122: End Const (it == bit)                                                                                                       |
+|  PASS  | 128: Is Empty ((cargo.is_empty()) == true)                                                                                       |
+|  PASS  | 133: Is Empty ((cargo.is_empty()) == false)                                                                                      |
+|  PASS  | 139: Get Size (cargo.get_size() == 0)                                                                                            |
+|  PASS  | 144: Get Size (cargo.get_size() == 1)                                                                                            |
+|  PASS  | 154: Contains ((cargo.contains("object1")) == true)                                                                              |
+|  PASS  | 155: Contains ((cargo.contains("nonexistent")) == false)                                                                         |
+|  PASS  | 165: At (cargo.at("object1").at("key1").get<Int>() == 10)                                                                        |
+|  PASS  | 166: At (cargo.at("nonexistent"))                                                                                                |
+|  PASS  | 177: At Const (constCargo.at("object1").at("key1").get<Int>() == 10)                                                             |
+|  PASS  | 178: At Const (constCargo.at("nonexistent"))                                                                                     |
+|  PASS  | 184: Add (cargo.get_size() == 0)                                                                                                 |
+|  PASS  | 189: Add (cargo.get_size() == 1)                                                                                                 |
+|  PASS  | 190: Add (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
+|  PASS  | 196: Set ((cargo.contains("object1")) == false)                                                                                  |
+|  PASS  | 201: Set (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
+|  PASS  | 206: Set (cargo.at("object1").at("key1").get<Int>() == 30)                                                                       |
+|  PASS  | 216: Remove (cargo.get_size() == 1)                                                                                              |
+|  PASS  | 217: Remove ((cargo.remove("object1")) == true)                                                                                  |
+|  PASS  | 218: Remove (cargo.get_size() == 0)                                                                                              |
+|  PASS  | 219: Remove ((cargo.contains("object1")) == false)                                                                               |
+|  PASS  | 220: Remove ((cargo.remove("object1")) == false)                                                                                 |
+|  PASS  | 231: Find (it->first == "object1")                                                                                               |
+|  PASS  | 232: Find (it->second.at("key1").get<Int>() == 10)                                                                               |
+|  PASS  | 233: Find (cargo.find("nonexistent") == cargo.end())                                                                             |
+|  PASS  | 245: Find Const (it->first == "object1")                                                                                         |
+|  PASS  | 246: Find Const (it->second.at("key1").get<Int>() == 10)                                                                         |
+|  PASS  | 247: Find Const (constCargo.find("nonexistent") == constCargo.end())                                                             |
+|  PASS  | 275: Pack (container.get_size() == value0Size + value1Size + value2Size + value2Size + value0Size + value1Size)                  |
+|  PASS  | 276: Pack (*static_cast<Int*>(container.get_data()) == 10)                                                                       |
+|  PASS  | 277: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size)) == 20.0f)             |
+|  PASS  | 278: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size)) == 30)    |
+|  PASS  | 279: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size)) == 30) |
+|  PASS  | 280: Pack (*static_cast<Int*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size)) == 10) |
+|  PASS  | 281: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size + value0Size)) == 20.0f) |
 
 ## Color
 | Result | Message                                                                                                                          |

@@ -1,5 +1,13 @@
 var NAVTREEINDEX20 =
 {
+"namespace_minty_1_1_math.html#aea0642a5d44b6d1962273d9a6ae2c75d":[0,0,0,0,53],
+"namespace_minty_1_1_math.html#aea58439669d7dbfafd092fdd9329e77f":[0,0,0,0,45],
+"namespace_minty_1_1_math.html#af06b6bfb5f19e6789107b90c8bc582c6":[0,0,0,0,36],
+"namespace_minty_1_1_math.html#af07c4169b9b8899da8259160e6be5be5":[0,0,0,0,32],
+"namespace_minty_1_1_math.html#af35bc6dd5cb5bd861c7cb1b5585547f3":[0,0,0,0,49],
+"namespace_minty_1_1_math.html#af9d0bf08ffa09d02099ebe3424c7197c":[0,0,0,0,15],
+"namespace_minty_1_1_math.html#af9d591825023753bf15e9d2eb350e21c":[0,0,0,0,40],
+"namespace_minty_1_1_math.html#afc424f547c87ecd2164a8907c325e5ba":[0,0,0,0,30],
 "namespacemembers.html":[0,1,0],
 "namespacemembers.html":[0,1,0,0],
 "namespacemembers_b.html":[0,1,0,1],
@@ -241,13 +249,5 @@ var NAVTREEINDEX20 =
 "struct_minty_1_1_render_target_builder.html":[0,0,0,75],
 "struct_minty_1_1_render_target_builder.html":[1,0,0,74],
 "struct_minty_1_1_render_target_builder.html#a4814beddf593e430810124cc4c0e0853":[0,0,0,75,0],
-"struct_minty_1_1_render_target_builder.html#a4814beddf593e430810124cc4c0e0853":[1,0,0,74,0],
-"struct_minty_1_1_render_target_builder.html#a6039478b88c05282981c2abedc988b96":[0,0,0,75,2],
-"struct_minty_1_1_render_target_builder.html#a6039478b88c05282981c2abedc988b96":[1,0,0,74,2],
-"struct_minty_1_1_render_target_builder.html#af896423dc7e81d6186e140a52e7ea9d9":[0,0,0,75,1],
-"struct_minty_1_1_render_target_builder.html#af896423dc7e81d6186e140a52e7ea9d9":[1,0,0,74,1],
-"struct_minty_1_1_shader_attribute.html":[0,0,0,80],
-"struct_minty_1_1_shader_attribute.html":[1,0,0,79],
-"struct_minty_1_1_shader_attribute.html#ab27305339712580a889f51949fdf6959":[0,0,0,80,1],
-"struct_minty_1_1_shader_attribute.html#ab27305339712580a889f51949fdf6959":[1,0,0,79,1]
+"struct_minty_1_1_render_target_builder.html#a4814beddf593e430810124cc4c0e0853":[1,0,0,74,0]
 };
