@@ -145,6 +145,9 @@ namespace Minty
 		// path to the wrap file on the disk
 		Path m_path;
 
+		// the threshold at which to compress files
+		Size m_compressionThreshold; // 1 KB
+
 		// header in the wrap file
 		Header m_header;
 
@@ -163,14 +166,18 @@ namespace Minty
 		/// <summary>
 		/// Creates an empty Wrap.
 		/// </summary>
-		Wrap() = default;
+		Wrap()
+			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_empties(), m_indexed()
+		{
+		}
 
 		/// <summary>
 		/// Creates and loads a Wrap file at the given path.
 		/// </summary>
 		/// <param name="path">The path to the Wrap file on the disk.</param>
 		Wrap(Path const& path)
-			: m_path(), m_header(), m_entries(), m_indexed() {
+			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_indexed()
+		{
 			load(path);
 		}
 
@@ -183,7 +190,8 @@ namespace Minty
 		/// <param name="base">The base path all files within the Wrap file.</param>
 		/// <param name="contentVersion">The version of the content within the Wrap file.</param>
 		/// <param name="type">The type of the Wrap file.</param>
-		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File);
+		/// <param name="compressionThreshold">The threshold at which to start compressing files. Anything below this value will not be compressed.</param>
+		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File, Size const compressionThreshold = KB);
 
 #pragma endregion
 

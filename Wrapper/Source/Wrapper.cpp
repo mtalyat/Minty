@@ -5,6 +5,11 @@ using namespace Minty;
 enum class Action
 {
 	/// <summary>
+	/// No action.
+	/// </summary>
+	Invalid,
+
+	/// <summary>
 	/// Create a new Wrap file, based on the given path to a directory.
 	/// </summary>
 	Wrap,
@@ -23,15 +28,92 @@ enum class Action
 	/// Opens an existing Wrap file and prints out the contents.
 	/// </summary>
 	Info,
+
+	/// <summary>
+	/// Shows the help message.
+	/// </summary>
+	Help,
 };
+
+Action get_action(ArgumentParser const& parser)
+{
+	if (!parser.has_argument("action") || parser.has_argument("help"))
+	{
+		// default to help
+		return Action::Help;
+	}
+	String actionStr = parser.get_argument("action").front();
+	if (actionStr == "wrap")
+	{
+		return Action::Wrap;
+	}
+	else if (actionStr == "unwrap")
+	{
+		return Action::Unwrap;
+	}
+	else if (actionStr == "update")
+	{
+		return Action::Update;
+	}
+	else if (actionStr == "info")
+	{
+		return Action::Info;
+	}
+	else if (actionStr == "help")
+	{
+		return Action::Help;
+	}
+	else
+	{
+		Debug::write_error(F("Invalid action argument provided: {}", actionStr));
+		return Action::Invalid;
+	}
+}
+
+std::string get_size_string(size_t size)
+{
+	if (size < 1000)
+	{
+		return std::format("{} B", size);
+	}
+	else if (size < 1000000)
+	{
+		return std::format("{:.2f} KB", size / 1000.0);
+	}
+	else if (size < 1000000000)
+	{
+		return std::format("{:.2f} MB", size / 1000000.0);
+	}
+	else
+	{
+		return std::format("{:.2f} GB", size / 1000000000.0);
+	}
+}
+
+size_t calculate_entry_paths_max_width(Wrap const& wrap)
+{
+	// calculate max width of entry paths
+	size_t maxWidth = 0;
+	for (uint32_t i = 0; i < wrap.get_entry_count(); i++)
+	{
+		auto const& entry = wrap.get_entry(i);
+		size_t width = strlen(entry.path);
+		if (width > maxWidth)
+		{
+			maxWidth = width;
+		}
+	}
+	maxWidth += 2; // add padding for the output
+	return maxWidth;
+}
 
 int main(Int argc, Char const* argv[])
 {
 	// Initialize the parser
 	ArgumentParser parser;
 	parser.add_parameter("file", 1); // file name
-	parser.add_parameter("action", 1); // action to perform
-	parser.add_parameter("path", 1); // path to directory or file to operate on
+	parser.add_parameter("action", -1); // action to perform
+	parser.add_parameter("path", -1); // path to directory or file to operate on
 	parser.add_parameter("path2", -1); // second path to use for certain actions (optional)
 	parser.add_parameter("output", "o"); // custom output directory or file
 	parser.add_parameter("name", "n"); // name of the wrap file
@@ -39,38 +121,40 @@ int main(Int argc, Char const* argv[])
 	parser.add_parameter("version", "v"); // the version of the wrap file
 	parser.add_parameter("type", "t"); // the type of the wrap file
 	parser.add_parameter("compression", "c"); // compression level for the wrap file
+	parser.add_parameter("help", "h"); // show help
 
-	// Parse the arguments
+	// Parse the arguments, if given any
 	parser.parse(argc, argv);
 
 	// get action
-	Action action;
-	if (!parser.has_argument("action"))
+	Action action = get_action(parser);
+
+	// if help, show help
+	if (action == Action::Help)
 	{
-		Debug::write_error("No action argument provided.");
-		return 1;
-	}
-	String actionStr = parser.get_argument("action").front();
-	if (actionStr == "wrap")
-	{
-		action = Action::Wrap;
-	}
-	else if (actionStr == "unwrap")
-	{
-		action = Action::Unwrap;
-	}
-	else if (actionStr == "update")
-	{
-		action = Action::Update;
-	}
-	else if (actionStr == "info")
-	{
-		action = Action::Info;
-	}
-	else
-	{
-		Debug::write_error(F("Invalid action argument provided: {}", actionStr));
-		return 1;
+		std::cout << "Usage: " << argv[0] << " <action> <path> [options]\n"
+			<< "\n"
+			<< "<action>:\n"
+			<< "  wrap       Create a new Wrap file from a directory.\n"
+			<< "  unwrap     Create a new directory from a Wrap file.\n"
+			<< "  update     Update an existing Wrap file with new files.\n"
+			<< "  info       Show information about a Wrap file.\n"
+			<< "  help       Show this help message.\n"
+			<< "\n"
+			<< "<path>:\n"
+			<< "  For wrap and update: Path to the directory to wrap.\n"
+			<< "  For unwrap: Path to the Wrap file to unwrap.\n"
+			<< "  For info: Path to the Wrap file to get info from.\n"
+			<< "\n"
+			<< "[options]:\n"
+			<< "  -o, --output <path>   Output path for the Wrap file or directory.\n"
+			<< "  -n, --name <name>     Name of the Wrap file.\n"
+			<< "  -b, --base <path>     Base path for the assets within the Wrap file.\n"
+			<< "  -v, --version <num>   Version of the Wrap file.\n"
+			<< "  -t, --type <type>     Type of the Wrap file (file/update).\n"
+			<< "  -c, --compression <level> Compression level (none/fast/default/best).\n"
+			<< "  -h, --help            Show this help message.\n";
+		return 0;
 	}
 
 	// get path
@@ -146,7 +230,6 @@ int main(Int argc, Char const* argv[])
 		{
 			// print all info
 			uint32_t entryCount = static_cast<uint32_t>(wrap->get_entry_count());
-
 			std::cout
 				<< "Wrap Info at \"" << path << "\":\n"
 				<< "  Name: " << wrap->get_name() << "\n"
@@ -157,11 +240,43 @@ int main(Int argc, Char const* argv[])
 				<< "  Entry Count: " << entryCount << "\n"
 				<< "  Entries:\n";
 
+			size_t maxWidth = calculate_entry_paths_max_width(*wrap);
+
+			// print headers
+			std::cout << "    "
+				<< std::setw(5) << std::left << "#"
+				<< std::setw(maxWidth) << std::left << "Path"
+				<< std::setw(7) << std::left << "Level"
+				<< std::setw(12) << std::left << "Compressed"
+				<< std::setw(12) << std::left << "Uncompressed"
+				<< "\n";
+
 			for (uint32_t i = 0; i < entryCount; i++)
 			{
 				auto const& entry = wrap->get_entry(i);
 
-				std::cout << "    " << entry.path << "\n";
+				std::string numberText = std::format("{}:", i);
+				std::string compressedSize = get_size_string(entry.compressedSize);
+				std::string uncompressedSize = get_size_string(entry.uncompressedSize);
+
+				std::cout
+					<< "    "
+					<< std::setw(5) << std::left << numberText
+					<< std::setw(maxWidth) << std::left << entry.path;
+
+				if (entry.compressionLevel > 0)
+				{
+					std::cout << std::setw(7) << std::left << static_cast<int>(entry.compressionLevel);
+				}
+				else
+				{
+					std::cout << std::setw(7) << std::left << "-";
+				}
+
+				std::cout
+					<< std::setw(12) << std::left << compressedSize
+					<< std::setw(12) << std::left << uncompressedSize
+					<< "\n";
 			}
 		}
 
@@ -347,7 +462,7 @@ int main(Int argc, Char const* argv[])
 		// Default: Make name the name of the directory
 		name = path.get_name().get_string();
 	}
-	
+
 	// get base path
 	Path base;
 	if (parser.has_argument("base"))
@@ -418,7 +533,7 @@ int main(Int argc, Char const* argv[])
 			std::cout << "  " << relativePath << "\n";
 			wrap->add(file, relativePath, compression);
 		}
-		
+
 		// all done
 		delete wrap;
 
@@ -447,12 +562,16 @@ int main(Int argc, Char const* argv[])
 		// create the output directory
 		Path::create(path2);
 
+		// calculate max width of entry paths
+		size_t maxWidth = calculate_entry_paths_max_width(*wrap);
+
 		// for each entry, extract the file into the output directory
 		for (uint32_t i = 0; i < wrap->get_entry_count(); i++)
 		{
 			auto const& entry = wrap->get_entry(i);
 
-			std::cout << "  " << entry.path << "\n";
+			std::string numberText = std::format("{}:", i);
+			std::string compressedSize = get_size_string(entry.compressedSize);
 
 			// get the path to extract to
 			Path extractPath = path2 / entry.path;
@@ -469,6 +588,17 @@ int main(Int argc, Char const* argv[])
 
 			// write to a file
 			File::write_bytes(extractPath, data);
+
+			std::string uncompressedSize = get_size_string(data.get_size());
+
+			std::cout
+				<< "    "
+				<< std::setw(5) << std::left << numberText
+				<< std::setw(maxWidth) << std::left << entry.path
+				<< std::setw(10) << std::left << compressedSize
+				<< " --> "
+				<< std::setw(10) << std::left << uncompressedSize
+				<< "\n";
 		}
 
 		// all done

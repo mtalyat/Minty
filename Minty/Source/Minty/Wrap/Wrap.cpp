@@ -5,8 +5,9 @@
 
 using namespace Minty;
 
-Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion, Type const type)
+Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base, uint32_t const contentVersion, Type const type, Size const compressionThreshold)
     : m_path(path.get_absolute())
+    , m_compressionThreshold(compressionThreshold)
     , m_header()
     , m_entries()
     , m_indexed()
@@ -178,7 +179,7 @@ uint32_t Minty::Wrap::add_entry(Entry& newEntry)
 
         // officially replace it
         m_entries[index] = newEntry;
-        m_indexed[Path(m_header.basePath) / newEntry.path] = index;
+        m_indexed[fix_path(newEntry.path)] = index;
 
         // return that index
         return static_cast<uint32_t>(index);
@@ -192,7 +193,7 @@ uint32_t Minty::Wrap::add_entry(Entry& newEntry)
 
 Path Minty::Wrap::fix_path(Path const& path) const
 {
-    if (path.is_empty() || m_header.basePath[0] == '\0' || path.begin()->get_string() == m_header.basePath)
+    if (path.is_empty() || m_header.basePath[0] == '\0' || path.get_string().starts_with(m_header.basePath))
     {
         // all good
         return path;
@@ -266,10 +267,11 @@ uint32_t Minty::Wrap::get_content_version() const
     return m_header.contentVersion;
 }
 
-void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compressionLevel, uint32_t const reservedSize)
+void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, CompressionLevel compressionLevel, uint32_t const reservedSize)
 {
 	MINTY_ASSERT(Path::exists(physicalPath), "Cannot add into Wrap file: file does not exist.");
 	MINTY_ASSERT(Path::is_file(physicalPath), "Cannot add into Wrap file: not a regular file.");
+	MINTY_ASSERT(!virtualPath.is_empty(), "Cannot add into Wrap file: virtual path is empty.");
 
     // open wrap file
     PhysicalFile wrapFile(m_path, File::Flags::ReadWrite | File::Flags::Binary);
@@ -291,8 +293,14 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
     Entry entry;
     memcpy(entry.path, source.get_data(), Math::min(static_cast<Size>(WRAP_ENTRY_PATH_SIZE - 1), source.get_size()));
     entry.path[WRAP_ENTRY_PATH_SIZE - 1] = '\0';
-    entry.compressionLevel = static_cast<Byte>(compressionLevel);
     entry.uncompressedSize = static_cast<uint32_t>(fileSize);
+
+	// if size below threshold, set compression level to none
+    if (entry.uncompressedSize < m_compressionThreshold)
+    {
+		compressionLevel = CompressionLevel::None;
+    }
+    entry.compressionLevel = static_cast<Byte>(compressionLevel);
 
     // compress the data, if needed
     if (static_cast<Bool>(compressionLevel))
@@ -315,8 +323,6 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
         delete[] fileData;
         fileData = compressedData;
         fileSize = static_cast<File::Size_t>(destSize);
-
-        //MINTY_LOG_FORMAT("Compressed{} from{} bytes to{} bytes.", physicalPath.string(), std::to_string(sourceSize), std::to_string(destSize));
     }
 
     // set size and offset
@@ -346,18 +352,20 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
 
 Bool Minty::Wrap::contains(Path const& path) const
 {
-    return m_indexed.contains(path);
+    return m_indexed.contains(fix_path(path));
 }
 
 Bool Minty::Wrap::open(Path const& path, VirtualFile& file) const
 {
-    if (!contains(path))
+    Path fixedPath = fix_path(path);
+
+    if (!contains(fixedPath))
     {
         return false;
     }
 
     // get entry
-    Entry const& entry = get_entry(path);
+    Entry const& entry = get_entry(fixedPath);
 
     // open file in the given virtual file
     file.open(m_path, File::Flags::Read | File::Flags::Binary, entry.offset, entry.uncompressedSize);
@@ -368,7 +376,6 @@ Bool Minty::Wrap::open(Path const& path, VirtualFile& file) const
 Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 {
     VirtualFile file;
-
     if (!open(path, file))
     {
         // could not open
@@ -425,7 +432,7 @@ Size Minty::Wrap::get_entry_count() const
 
 Wrap::Entry const& Minty::Wrap::get_entry(Path const& path) const
 {
-    return m_entries.at(m_indexed.at(path));
+    return m_entries.at(m_indexed.at(fix_path(path)));
 }
 
 Wrap::Type Minty::Wrap::get_type() const
