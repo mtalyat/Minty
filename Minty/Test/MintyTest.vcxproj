@@ -228,7 +228,7 @@
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
     <ClInclude Include="Test_Image.h" />
-    <ClInclude Include="Test_ImageAddressMode.h" />
+    <ClInclude Include="Test_AddressMode.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Results.h" />
     <ClInclude Include="Test.h" />

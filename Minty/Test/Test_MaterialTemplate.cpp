@@ -47,7 +47,7 @@ void test_MaterialTemplate(Test& _test)
 			builder.shader = shader;
 			builder.values.add("camera", Object());
 			Owner<MaterialTemplate> materialTemplate = MaterialTemplate::create(builder);
-			EXPECT_EQUAL(materialTemplate->get_inputs().get_size(), 1);
+			EXPECT_EQUAL(materialTemplate->get_inputs().get_size(), shader->get_inputs().get_size());
 			EXPECT_TRUE(materialTemplate->get_inputs().contains("camera"));
 			EXPECT_FALSE(materialTemplate->get_inputs().contains("xxx"));
 		}

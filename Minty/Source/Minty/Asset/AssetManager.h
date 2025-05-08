@@ -125,7 +125,7 @@ namespace Minty
 
 			// add to asset manager
 			add(path, asset);
-			
+
 			return asset.create_ref();
 		}
 
@@ -211,6 +211,83 @@ namespace Minty
 		Ref<T> load(Path const& path)
 		{
 			return static_cast<Ref<T>>(load_asset(path));
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as an Image at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Image Asset.</param>
+		/// <returns>A reference to the loaded Image Asset.</returns>
+		template<>
+		Ref<Image> load<Image>(Path const& path)
+		{
+			return load_image(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Material at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Material Asset.</param>
+		/// <returns>A reference to the loaded Material Asset.</returns>
+		template<>
+		Ref<Material> load<Material>(Path const& path)
+		{
+			return load_material(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a MaterialTemplate at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the MaterialTemplate Asset.</param>
+		/// <returns>A reference to the loaded MaterialTemplate Asset.</returns>
+		template<>
+		Ref<MaterialTemplate> load<MaterialTemplate>(Path const& path)
+		{
+			return load_material_template(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a RenderPass at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the RenderPass Asset.</param>
+		/// <returns>A reference to the loaded RenderPass Asset.</returns>
+		template<>
+		Ref<RenderPass> load<RenderPass>(Path const& path)
+		{
+			return load_render_pass(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Shader at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Shader Asset.</param>
+		/// <returns>A reference to the loaded Shader Asset.</returns>
+		template<>
+		Ref<Shader> load<Shader>(Path const& path)
+		{
+			return load_shader(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a ShaderModule at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the ShaderModule Asset.</param>
+		/// <returns>A reference to the loaded ShaderModule Asset.</returns>
+		template<>
+		Ref<ShaderModule> load<ShaderModule>(Path const& path)
+		{
+			return load_shader_module(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Texture at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Texture Asset.</param>
+		/// <returns>A reference to the loaded Texture Asset.</returns>
+		template<>
+		Ref<Texture> load<Texture>(Path const& path)
+		{
+			return load_texture(path);
 		}
 
 		/// <summary>
@@ -472,6 +549,8 @@ namespace Minty
 	private:
 		Ref<GenericAsset> load_generic(Path const& path);
 
+		Owner<Image> create_image(Path const& path, UUID const id);
+
 		Ref<Image> load_image(Path const& path);
 
 		Ref<Material> load_material(Path const& path);
@@ -490,7 +569,7 @@ namespace Minty
 
 		//Ref<Sprite> load_sprite(Path const& path);
 
-		//Ref<Texture> load_texture(Path const& path);
+		Ref<Texture> load_texture(Path const& path);
 
 #pragma endregion
 

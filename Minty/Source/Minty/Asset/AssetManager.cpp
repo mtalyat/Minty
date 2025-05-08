@@ -11,9 +11,9 @@
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
 //#include "Minty/Render/Sprite.h"
-//#include "Minty/Render/Texture.h"
 
 using namespace Minty;
 
@@ -48,7 +48,7 @@ AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 
 ID Minty::AssetManager::read_id(Path const& path) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read_bytes ID from file that does not exist.");
+	MINTY_ASSERT(exists(path), "Cannot read ID from file that does not exist.");
 
 	Path metaPath = Asset::get_meta_path(path);
 
@@ -284,8 +284,8 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 	//	return load_scene(path);
 	//case AssetType::Sprite:
 	//	return load_sprite(path);
-	//case AssetType::Texture:
-	//	return load_texture(path);
+	case AssetType::Texture:
+		return load_texture(path);
 	default:
 		MINTY_ABORT("Not implemented.");
 		return Ref<Asset>();
@@ -640,7 +640,7 @@ Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path)
 	return create_from_loaded<GenericAsset>(path, builder);
 }
 
-Ref<Image> Minty::AssetManager::load_image(Path const& path)
+Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 {
 	// get image data
 	Vector<Byte> bytes = read_bytes(path);
@@ -648,24 +648,36 @@ Ref<Image> Minty::AssetManager::load_image(Path const& path)
 	// get pixel data
 	int width, height, channels;
 	stbi_uc* data = stbi_load_from_memory(static_cast<stbi_uc*>(bytes.get_data()), static_cast<int>(bytes.get_size()), &width, &height, &channels, static_cast<int>(ImagePixelFormat::RedGreenBlueAlpha));
-	MINTY_ASSERT(data != nullptr, "Failed to load image pixel data.");
+	char const* reason = stbi_failure_reason();
+	MINTY_ASSERT(data != nullptr, F("Failed to load image pixel data: {}", reason));
 
 	// create the image
 	ImageBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 	builder.format = Format::Default;
 	builder.type = ImageType::D2;
 	builder.tiling = ImageTiling::Optimal;
 	builder.size = UInt2(width, height);
 	builder.pixelData = data;
 	builder.pixelDataSize = static_cast<Size>(width * height * channels * sizeof(Byte));
-	Ref<Image> image = create_from_loaded<Image>(path, builder);
+	Owner<Image> image = Image::create(builder);
 
 	// free the pixel data
 	stbi_image_free(data);
 
-	// done
 	return image;
+}
+
+Ref<Image> Minty::AssetManager::load_image(Path const& path)
+{
+	// create the image using the path and ID
+	Owner<Image> image = create_image(path, read_id(path));
+
+	// add to the asset manager
+	add(path, image);
+
+	// done
+	return image.create_ref();
 }
 
 static void read_values(Reader& reader, Cargo& values)
@@ -785,7 +797,7 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
 	if (open_reader(path, reader))
 	{
 		// read color attachment
-		if (reader->indent("ColorAttachment"))
+		if (reader->indent("Attachments"))
 		{
 			if(!read_attachment(path, *reader, "Color", colorAttachment, true))
 			{
@@ -1012,6 +1024,35 @@ Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path)
 	builder.size = bytes.get_size();
 
 	return create_from_loaded<ShaderModule>(path, builder);
+}
+
+Ref<Texture> Minty::AssetManager::load_texture(Path const& path)
+{
+	// create builder
+	TextureBuilder builder{};
+	builder.id = read_id(path);
+	
+	// read meta file
+	Path metaPath = Asset::get_meta_path(path);
+	Reader* reader;
+	if (open_reader(metaPath, reader))
+	{
+		// create image
+		UUID imageId = UUID::create();
+		Owner<Image> image = create_image(path, imageId);
+
+		// add image to asset manager
+		add(path, image);
+
+		// set builder values
+		builder.image = image.create_ref();
+		reader->read("Filter", builder.filter);
+		reader->read("AddressMode", builder.addressMode);
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<Texture>(path, builder);
 }
 
 Owner<AssetManager> Minty::AssetManager::create(AssetManagerBuilder const& builder)

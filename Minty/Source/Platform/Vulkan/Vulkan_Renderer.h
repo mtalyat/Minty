@@ -2,10 +2,10 @@
 #include "Minty/Core/Type.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Library/Vulkan.h"
+#include "Minty/Render/AddressMode.h"
 #include "Minty/Render/BufferUsage.h"
 #include "Minty/Render/Filter.h"
 #include "Minty/Render/Format.h"
-#include "Minty/Render/ImageAddressMode.h"
 #include "Minty/Render/ImageAspect.h"
 #include "Minty/Render/ImageLayout.h"
 #include "Minty/Render/ImageTiling.h"
@@ -272,6 +272,8 @@ namespace Minty
 
 		static void copy_buffer_to_image(VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkImage const dstImage, const uint32_t width, const uint32_t height);
 
+		static void update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data);
+
 #pragma endregion
 
 #pragma region Multithreading
@@ -337,7 +339,7 @@ namespace Minty
 
 		static VkImageTiling to_vulkan(const Minty::ImageTiling tiling);
 
-		static VkSamplerAddressMode to_vulkan(const Minty::ImageAddressMode addressMode);
+		static VkSamplerAddressMode to_vulkan(const Minty::AddressMode addressMode);
 
 		static VkImageAspectFlags to_vulkan(const Minty::ImageAspect aspect);
 

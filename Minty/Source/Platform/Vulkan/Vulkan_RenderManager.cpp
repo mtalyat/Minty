@@ -28,7 +28,21 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 	, m_graphicsQueue(VK_NULL_HANDLE)
 	, m_presentQueue(VK_NULL_HANDLE)
 	, m_commandPool(VK_NULL_HANDLE)
+	, m_defaultViewport(nullptr)
+	, m_depthImage(nullptr)
+	, m_frames()
+	, m_currentFrame(0)
+	, m_renderingFrame(false)
+	, m_renderingPass(false)
 {}
+
+
+// gets the current frame's command buffer
+VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
+{
+	MINTY_ASSERT(m_renderingFrame, "Attempting to get the current command buffer while not rendering a frame.");
+	return m_frames[m_currentFrame].commandBuffer;
+}
 
 void Minty::Vulkan_RenderManager::initialize_frame(Vulkan_Frame& frame)
 {
@@ -183,6 +197,8 @@ void Minty::Vulkan_RenderManager::sync()
 
 Bool Minty::Vulkan_RenderManager::start_frame()
 {
+	MINTY_ASSERT(!m_renderingFrame, "Attempting to start a frame while already rendering a frame.");
+
 	Vulkan_Frame& frame = get_current_frame();
 
 	// wait for last frame to finish
@@ -208,11 +224,17 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 	// start new buffer
 	Vulkan_Renderer::begin_command_buffer(commandBuffer);
 
+	m_renderingFrame = true;
 	return true;
 }
 
 void Minty::Vulkan_RenderManager::end_frame()
 {
+	MINTY_ASSERT(m_renderingFrame, "Attempting to end the frame before starting it.");
+	MINTY_ASSERT(!m_renderingPass, "Attempting to end the frame before ending the pass.");
+
+	m_renderingFrame = false;
+
 	// get command buffer
 	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
@@ -236,6 +258,9 @@ void Minty::Vulkan_RenderManager::end_frame()
 
 Bool Minty::Vulkan_RenderManager::start_pass(Camera const& camera, Transform const& transform)
 {
+	MINTY_ASSERT(m_renderingFrame, "Attempting to start a pass before starting the frame.");
+	MINTY_ASSERT(!m_renderingPass, "Attempting to start a pass while already rendering a pass.");
+
 	// get render target
 	Ref<RenderTarget> renderTarget = camera.get_render_target();
 
@@ -266,11 +291,16 @@ Bool Minty::Vulkan_RenderManager::start_pass(Camera const& camera, Transform con
 	// begin the pass
 	Vulkan_Renderer::begin_render_pass(get_current_command_buffer(), vulkanRenderPass->get_render_pass(), vulkanRenderTarget->get_framebuffer(m_surface->get_current_image_index_ref()), renderArea, clearColorValue);
 
+	m_renderingPass = true;
 	return true;
 }
 
 void Minty::Vulkan_RenderManager::end_pass()
 {
+	MINTY_ASSERT(m_renderingPass, "Attempting to end the pass before starting it.");
+
+	m_renderingPass = false;
+
 	Vulkan_Renderer::end_render_pass(get_current_command_buffer());
 }
 

@@ -94,6 +94,9 @@
     <Filter Include="Minty\Tool">
       <UniqueIdentifier>{3f7928d9-437b-432a-99d9-8533aaac56dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Texture">
+      <UniqueIdentifier>{0078df73-9f8b-4ab5-a06d-125f575da596}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -420,9 +423,6 @@
     <ClInclude Include="Minty\Render\Image.h">
       <Filter>Minty\Render\Image</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Render\ImageAddressMode.h">
-      <Filter>Minty\Render\Image</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Render\ImageAspect.h">
       <Filter>Minty\Render\Image</Filter>
     </ClInclude>
@@ -533,6 +533,15 @@
     </ClInclude>
     <ClInclude Include="Minty\Data\Object.h">
       <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Texture.h">
+      <Filter>Minty\Render\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Texture.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\AddressMode.h">
+      <Filter>Minty\Render\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -801,6 +810,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Data\Cargo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

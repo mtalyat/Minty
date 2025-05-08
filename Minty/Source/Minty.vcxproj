@@ -247,7 +247,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\Filter.h" />
     <ClInclude Include="Minty\Render\Format.h" />
     <ClInclude Include="Minty\Render\Image.h" />
-    <ClInclude Include="Minty\Render\ImageAddressMode.h" />
+    <ClInclude Include="Minty\Render\AddressMode.h" />
     <ClInclude Include="Minty\Render\ImageAspect.h" />
     <ClInclude Include="Minty\Render\ImageLayout.h" />
     <ClInclude Include="Minty\Render\ImagePixelFormat.h" />
@@ -279,6 +279,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />
+    <ClInclude Include="Minty\Render\Texture.h" />
     <ClInclude Include="Minty\Render\Viewport.h" />
     <ClInclude Include="Minty\Render\_Render.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
@@ -319,6 +320,7 @@ doxygen</Command>
     <ClInclude Include="Platform\Vulkan\Vulkan_ShaderModule.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Surface.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_SwapchainSupportDetails.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Texture.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Viewport.h" />
     <ClInclude Include="Platform\Windows\Windows_Window.h" />
   </ItemGroup>
@@ -387,6 +389,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
     <ClCompile Include="Minty\Render\StoreOperation.cpp" />
     <ClCompile Include="Minty\Render\Surface.cpp" />
+    <ClCompile Include="Minty\Render\Texture.cpp" />
     <ClCompile Include="Minty\Render\Viewport.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />
@@ -415,6 +418,7 @@ doxygen</Command>
     <ClCompile Include="Platform\Vulkan\Vulkan_Shader.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_ShaderModule.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Surface.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Texture.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Viewport.cpp" />
     <ClCompile Include="Platform\Windows\Windows_Window.cpp" />
   </ItemGroup>

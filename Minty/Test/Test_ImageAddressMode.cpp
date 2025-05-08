@@ -1,16 +1,16 @@
-#include "Test_ImageAddressMode.h"
+#include "Test_AddressMode.h"
 #include "Minty.h"
 
-void test_ImageAddressMode(Test& _test)
+void test_AddressMode(Test& _test)
 {
-    CATEGORY(ImageAddressMode)
+    CATEGORY(AddressMode)
     {
-        std::vector<std::pair<ImageAddressMode, String>> VALUES = {
-            {ImageAddressMode::Repeat, "Repeat"},
-            {ImageAddressMode::MirroredRepeat, "MirroredRepeat"},
-            {ImageAddressMode::ClampToEdge, "ClampToEdge"},
-            {ImageAddressMode::ClampToBorder, "ClampToBorder"},
-            {ImageAddressMode::MirroredClampToEdge, "MirroredClampToEdge"},
+        std::vector<std::pair<AddressMode, String>> VALUES = {
+            {AddressMode::Repeat, "Repeat"},
+            {AddressMode::MirroredRepeat, "MirroredRepeat"},
+            {AddressMode::ClampToEdge, "ClampToEdge"},
+            {AddressMode::ClampToBorder, "ClampToBorder"},
+            {AddressMode::MirroredClampToEdge, "MirroredClampToEdge"},
         };
 
         TEST("To String")
@@ -25,23 +25,23 @@ void test_ImageAddressMode(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_image_address_mode(name), value);
+                EXPECT_EQUAL(parse_to_address_mode(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_image_address_mode(""), ImageAddressMode());
+            EXPECT_EQUAL(parse_to_address_mode(""), AddressMode());
         }
 
         TEST("Parse Try")
         {
-            ImageAddressMode result;
+            AddressMode result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_image_address_mode(name, result));
+                EXPECT_TRUE(parse_try_address_mode(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_image_address_mode("", result));
-            EXPECT_EQUAL(result, ImageAddressMode());
+            EXPECT_FALSE(parse_try_address_mode("", result));
+            EXPECT_EQUAL(result, AddressMode());
         }
     }
 }

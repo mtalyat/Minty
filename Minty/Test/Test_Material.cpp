@@ -15,6 +15,7 @@ void test_Material(Test& _test)
 		RenderManager& renderManager = context.get_render_manager();
 		AssetManager& assetManager = context.get_asset_manager();
 		Ref<Viewport> const& viewport = renderManager.get_default_viewport();
+		Ref<Texture> const& texture = assetManager.load<Texture>("Defaults/Texture/defaultTexture.png");
 		Ref<ShaderModule> const& vertexModule = assetManager.load<ShaderModule>("Defaults/ShaderModule/defaultModule.vert.spv");
 		Ref<ShaderModule> const& fragmentModule = assetManager.load<ShaderModule>("Defaults/ShaderModule/defaultModule.frag.spv");
 		Ref<RenderPass> const& renderPass = assetManager.load<RenderPass>("Defaults/RenderPass/defaultRenderPass.mrpa");
@@ -67,6 +68,13 @@ void test_Material(Test& _test)
 			builder.materialTemplate = materialTemplate;
 			
 			Owner<Material> material = Material::create(builder);
+			EXPECT_FAILURE(material->set_input("xxx", nullptr, 0));
+			EXPECT_FAILURE(material->set_input("camera", nullptr, 0));
+			Matrix4 matrix = Math::identity<Matrix4>();
+			EXPECT_FAILURE(material->set_input("camera", &matrix, 0));
+			EXPECT_FAILURE(material->set_input("camera", &matrix, sizeof(Matrix4) + 1));
+			EXPECT_FAILURE(material->set_input("camera", nullptr, sizeof(Matrix4)));
+			EXPECT_SUCCESS(material->set_input("camera", &matrix, sizeof(Matrix4)));
 		}
 
 		TEST("Get Input")

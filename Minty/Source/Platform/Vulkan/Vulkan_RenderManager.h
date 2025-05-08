@@ -31,6 +31,9 @@ namespace Minty
 		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
 		Size m_currentFrame = 0;
 
+		Bool m_renderingFrame;
+		Bool m_renderingPass;
+
 #pragma endregion
 
 #pragma region Constructors
@@ -67,7 +70,7 @@ namespace Minty
 		inline Vulkan_Frame const& get_current_frame() const { return m_frames[m_currentFrame]; }
 
 		// gets the current frame's command buffer
-		inline VkCommandBuffer get_current_command_buffer() const { return m_frames[m_currentFrame].commandBuffer; }
+		VkCommandBuffer get_current_command_buffer() const;
 
 		inline Ref<Image> const& get_depth_image() const { return m_depthImage; }
 

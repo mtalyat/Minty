@@ -443,7 +443,7 @@
     <ClInclude Include="Test_ImageAspect.h">
       <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Test_ImageAddressMode.h">
+    <ClInclude Include="Test_AddressMode.h">
       <Filter>Header Files\Minty\Render</Filter>
     </ClInclude>
     <ClInclude Include="Test_ImageUsage.h">

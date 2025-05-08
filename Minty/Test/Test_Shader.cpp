@@ -15,6 +15,7 @@ void test_Shader(Test& _test)
 		RenderManager& renderManager = context.get_render_manager();
 		AssetManager& assetManager = context.get_asset_manager();
 		Ref<Viewport> const& viewport = renderManager.get_default_viewport();
+		Ref<Texture> const& texture = assetManager.load<Texture>("Defaults/Texture/defaultTexture.png");
 		Ref<ShaderModule> const& vertexModule = assetManager.load<ShaderModule>("Defaults/ShaderModule/defaultModule.vert.spv");
 		Ref<ShaderModule> const& fragmentModule = assetManager.load<ShaderModule>("Defaults/ShaderModule/defaultModule.frag.spv");
 		Ref<RenderPass> const& renderPass = assetManager.load<RenderPass>("Defaults/RenderPass/defaultRenderPass.mrpa");

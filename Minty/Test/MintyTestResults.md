@@ -1,5 +1,5 @@
 # Results
-5751/5751 (100.00%)
+5775/5775 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -63,7 +63,7 @@
 | Filter                         |       11 |        0 |
 | Format                         |      487 |        0 |
 | Image                          |       24 |        0 |
-| ImageAddressMode               |       23 |        0 |
+| AddressMode                    |       23 |        0 |
 | ImageAspect                    |       11 |        0 |
 | ImageLayout                    |       35 |        0 |
 | ImagePixelFormat               |       19 |        0 |
@@ -71,6 +71,8 @@
 | ImageType                      |       15 |        0 |
 | ImageUsage                     |       19 |        0 |
 | LoadOperation                  |       15 |        0 |
+| Material                       |       15 |        0 |
+| MaterialTemplate               |        9 |        0 |
 | Perspective                    |       11 |        0 |
 | RenderManager                  |        7 |        0 |
 | Shader                         |       25 |        0 |
@@ -5186,7 +5188,7 @@ No failures! :)
 |  PASS  | 126: Get Native (image->get_native() != nullptr)                                                                                 |
 |  PASS  | 134: Get Asset Type (image->get_asset_type() == AssetType::Image)                                                                |
 
-## ImageAddressMode
+## AddressMode
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
 |  PASS  | 20: To String (to_string(value) == name)                                                                                         |
@@ -5194,24 +5196,24 @@ No failures! :)
 |  PASS  | 20: To String (to_string(value) == name)                                                                                         |
 |  PASS  | 20: To String (to_string(value) == name)                                                                                         |
 |  PASS  | 20: To String (to_string(value) == name)                                                                                         |
-|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
-|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
-|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
-|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
-|  PASS  | 28: Parse To (parse_to_image_address_mode(name) == value)                                                                        |
-|  PASS  | 31: Parse To (parse_to_image_address_mode("") == ImageAddressMode())                                                             |
-|  PASS  | 39: Parse Try ((parse_try_image_address_mode(name, result)) == true)                                                             |
+|  PASS  | 28: Parse To (parse_to_address_mode(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_address_mode(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_address_mode(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_address_mode(name) == value)                                                                              |
+|  PASS  | 28: Parse To (parse_to_address_mode(name) == value)                                                                              |
+|  PASS  | 31: Parse To (parse_to_address_mode("") == AddressMode())                                                                        |
+|  PASS  | 39: Parse Try ((parse_try_address_mode(name, result)) == true)                                                                   |
 |  PASS  | 40: Parse Try (result == value)                                                                                                  |
-|  PASS  | 39: Parse Try ((parse_try_image_address_mode(name, result)) == true)                                                             |
+|  PASS  | 39: Parse Try ((parse_try_address_mode(name, result)) == true)                                                                   |
 |  PASS  | 40: Parse Try (result == value)                                                                                                  |
-|  PASS  | 39: Parse Try ((parse_try_image_address_mode(name, result)) == true)                                                             |
+|  PASS  | 39: Parse Try ((parse_try_address_mode(name, result)) == true)                                                                   |
 |  PASS  | 40: Parse Try (result == value)                                                                                                  |
-|  PASS  | 39: Parse Try ((parse_try_image_address_mode(name, result)) == true)                                                             |
+|  PASS  | 39: Parse Try ((parse_try_address_mode(name, result)) == true)                                                                   |
 |  PASS  | 40: Parse Try (result == value)                                                                                                  |
-|  PASS  | 39: Parse Try ((parse_try_image_address_mode(name, result)) == true)                                                             |
+|  PASS  | 39: Parse Try ((parse_try_address_mode(name, result)) == true)                                                                   |
 |  PASS  | 40: Parse Try (result == value)                                                                                                  |
-|  PASS  | 43: Parse Try ((parse_try_image_address_mode("", result)) == false)                                                              |
-|  PASS  | 44: Parse Try (result == ImageAddressMode())                                                                                     |
+|  PASS  | 43: Parse Try ((parse_try_address_mode("", result)) == false)                                                                    |
+|  PASS  | 44: Parse Try (result == AddressMode())                                                                                          |
 
 ## ImageAspect
 | Result | Message                                                                                                                          |
@@ -5366,6 +5368,38 @@ No failures! :)
 |  PASS  | 41: Parse Try ((parse_try_load_operation("", result)) == false)                                                                  |
 |  PASS  | 42: Parse Try (result == LoadOperation())                                                                                        |
 
+## Material
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 28: Constructor/Create (Material::create(builder))                                                                               |
+|  PASS  | 30: Constructor/Create (Material::create(builder))                                                                               |
+|  PASS  | 32: Constructor/Create (Material::create(builder))                                                                               |
+|  PASS  | 35: Constructor/Create (Material::create(builder))                                                                               |
+|  PASS  | 43: Get Material Template (materialTemplate == material->get_material_template())                                                |
+|  PASS  | 52: Get Inputs (material->get_inputs().get_size() == 1)                                                                          |
+|  PASS  | 53: Get Inputs ((material->get_inputs().contains("camera")) == true)                                                             |
+|  PASS  | 54: Get Inputs ((material->get_inputs().contains("xxx")) == false)                                                               |
+|  PASS  | 62: Get Asset Type (material->get_asset_type() == AssetType::Material)                                                           |
+|  PASS  | 71: Set/Get Input (material->set_input("xxx", nullptr, 0))                                                                       |
+|  PASS  | 72: Set/Get Input (material->set_input("camera", nullptr, 0))                                                                    |
+|  PASS  | 74: Set/Get Input (material->set_input("camera", &matrix, 0))                                                                    |
+|  PASS  | 75: Set/Get Input (material->set_input("camera", &matrix, sizeof(Matrix4) + 1))                                                  |
+|  PASS  | 76: Set/Get Input (material->set_input("camera", nullptr, sizeof(Matrix4)))                                                      |
+|  PASS  | 77: Set/Get Input (material->set_input("camera", &matrix, sizeof(Matrix4)))                                                      |
+
+## MaterialTemplate
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 26: Constructor/Create (MaterialTemplate::create(builder))                                                                       |
+|  PASS  | 28: Constructor/Create (MaterialTemplate::create(builder))                                                                       |
+|  PASS  | 30: Constructor/Create (MaterialTemplate::create(builder))                                                                       |
+|  PASS  | 33: Constructor/Create (MaterialTemplate::create(builder))                                                                       |
+|  PASS  | 41: Get Shader (shader == materialTemplate->get_shader())                                                                        |
+|  PASS  | 50: Get Values (materialTemplate->get_inputs().get_size() == shader->get_inputs().get_size())                                    |
+|  PASS  | 51: Get Values ((materialTemplate->get_inputs().contains("camera")) == true)                                                     |
+|  PASS  | 52: Get Values ((materialTemplate->get_inputs().contains("xxx")) == false)                                                       |
+|  PASS  | 60: Get Asset Type (materialTemplate->get_asset_type() == AssetType::MaterialTemplate)                                           |
+
 ## Perspective
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -5395,31 +5429,31 @@ No failures! :)
 ## Shader
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 25: Constructor/Create (Shader::create(builder))                                                                                 |
-|  PASS  | 27: Constructor/Create (Shader::create(builder))                                                                                 |
-|  PASS  | 30: Constructor/Create (Shader::create(builder))                                                                                 |
-|  PASS  | 33: Constructor/Create (Shader::create(builder))                                                                                 |
-|  PASS  | 36: Constructor/Create (Shader::create(builder))                                                                                 |
-|  PASS  | 42: Constructor/Create (Shader::create(builder))                                                                                 |
-|  PASS  | 54: Get Render Pass (renderPass == shader->get_render_pass())                                                                    |
-|  PASS  | 61: Contains Input ((shader->contains_input("object")) == true)                                                                  |
-|  PASS  | 62: Contains Input ((shader->contains_input("camera")) == true)                                                                  |
-|  PASS  | 63: Contains Input ((shader->contains_input("texture")) == true)                                                                 |
-|  PASS  | 64: Contains Input ((shader->contains_input("")) == false)                                                                       |
-|  PASS  | 65: Contains Input ((shader->contains_input("nonexistent")) == false)                                                            |
-|  PASS  | 74: Get Input (shader->get_input("object").type == ShaderInputType::PushConstant)                                                |
-|  PASS  | 75: Get Input (shader->get_input("camera").type == ShaderInputType::UniformBuffer)                                               |
-|  PASS  | 76: Get Input (shader->get_input("texture").type == ShaderInputType::CombinedImageSampler)                                       |
-|  PASS  | 86: Get Inputs (inputs.get_size() == 3)                                                                                          |
-|  PASS  | 87: Get Inputs (inputs["object"].type == ShaderInputType::PushConstant)                                                          |
-|  PASS  | 88: Get Inputs (inputs["camera"].type == ShaderInputType::UniformBuffer)                                                         |
-|  PASS  | 89: Get Inputs (inputs["texture"].type == ShaderInputType::CombinedImageSampler)                                                 |
-|  PASS  | 104: Set Global Input (shader->set_global_input("", nullptr, 0))                                                                 |
-|  PASS  | 105: Set Global Input (shader->set_global_input("", &cameraMatrix, sizeof(Matrix4)))                                             |
-|  PASS  | 106: Set Global Input (shader->set_global_input("camera", nullptr, sizeof(Matrix4)))                                             |
-|  PASS  | 107: Set Global Input (shader->set_global_input("camera", &cameraMatrix, 0))                                                     |
-|  PASS  | 108: Set Global Input (shader->set_global_input("camera", &cameraMatrix, sizeof(Matrix4) * 2))                                   |
-|  PASS  | 109: Set Global Input (shader->set_global_input("camera", &cameraMatrix, sizeof(Matrix4)))                                       |
+|  PASS  | 26: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 28: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 31: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 34: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 37: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 43: Constructor/Create (Shader::create(builder))                                                                                 |
+|  PASS  | 55: Get Render Pass (renderPass == shader->get_render_pass())                                                                    |
+|  PASS  | 62: Contains Input ((shader->contains_input("object")) == true)                                                                  |
+|  PASS  | 63: Contains Input ((shader->contains_input("camera")) == true)                                                                  |
+|  PASS  | 64: Contains Input ((shader->contains_input("texture")) == true)                                                                 |
+|  PASS  | 65: Contains Input ((shader->contains_input("")) == false)                                                                       |
+|  PASS  | 66: Contains Input ((shader->contains_input("nonexistent")) == false)                                                            |
+|  PASS  | 75: Get Input (shader->get_input("object").type == ShaderInputType::PushConstant)                                                |
+|  PASS  | 76: Get Input (shader->get_input("camera").type == ShaderInputType::UniformBuffer)                                               |
+|  PASS  | 77: Get Input (shader->get_input("texture").type == ShaderInputType::CombinedImageSampler)                                       |
+|  PASS  | 87: Get Inputs (inputs.get_size() == 3)                                                                                          |
+|  PASS  | 88: Get Inputs (inputs["object"].type == ShaderInputType::PushConstant)                                                          |
+|  PASS  | 89: Get Inputs (inputs["camera"].type == ShaderInputType::UniformBuffer)                                                         |
+|  PASS  | 90: Get Inputs (inputs["texture"].type == ShaderInputType::CombinedImageSampler)                                                 |
+|  PASS  | 105: Set Global Input (shader->set_global_input("", nullptr, 0))                                                                 |
+|  PASS  | 106: Set Global Input (shader->set_global_input("", &cameraMatrix, sizeof(Matrix4)))                                             |
+|  PASS  | 107: Set Global Input (shader->set_global_input("camera", nullptr, sizeof(Matrix4)))                                             |
+|  PASS  | 108: Set Global Input (shader->set_global_input("camera", &cameraMatrix, 0))                                                     |
+|  PASS  | 109: Set Global Input (shader->set_global_input("camera", &cameraMatrix, sizeof(Matrix4) * 2))                                   |
+|  PASS  | 110: Set Global Input (shader->set_global_input("camera", &cameraMatrix, sizeof(Matrix4)))                                       |
 
 ## ShaderCullMode
 | Result | Message                                                                                                                          |

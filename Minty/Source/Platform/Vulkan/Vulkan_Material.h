@@ -41,7 +41,7 @@ namespace Minty
 #pragma region Methods
 
 	private:
-		void initialize_frames(Vector<ShaderInput> const& descriptors);
+		void initialize_frames(Ref<Vulkan_Shader> const& shader, Vector<ShaderInput> const& descriptors);
 
 		void create_descriptor_sets(Ref<Vulkan_Shader> const& shader);
 

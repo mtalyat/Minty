@@ -49,7 +49,11 @@ public:
 
 	void set_category(char const* const categoryName);
 
+	char const* get_category() const { return currentCategoryName; }
+
 	void set_test(char const* const testName);
+
+	char const* get_test() const { return currentName; }
 
 	void pass(char const* const condition, size_t const line);
 

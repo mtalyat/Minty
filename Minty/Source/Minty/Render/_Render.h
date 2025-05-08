@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AddressMode.h"
 #include "Buffer.h"
 #include "BufferUsage.h"
 #include "Camera.h"
@@ -7,7 +8,6 @@
 #include "Filter.h"
 #include "Format.h"
 #include "Image.h"
-#include "ImageAddressMode.h"
 #include "ImageAspect.h"
 #include "ImageLayout.h"
 #include "ImagePixelFormat.h"
@@ -36,4 +36,5 @@
 #include "ShaderStage.h"
 #include "ShaderVertexInput.h"
 #include "Surface.h"
+#include "Texture.h"
 #include "Viewport.h"

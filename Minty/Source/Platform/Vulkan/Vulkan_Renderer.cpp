@@ -1235,6 +1235,16 @@ void Minty::Vulkan_Renderer::copy_buffer_to_image(VkCommandBuffer const commandB
 	vkCmdCopyBufferToImage(commandBuffer, srcBuffer, dstImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 }
 
+void Minty::Vulkan_Renderer::update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data)
+{
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(pipelineLayout != VK_NULL_HANDLE, "Pipeline layout is null.");
+	MINTY_ASSERT(data != nullptr, "Data is null.");
+	MINTY_ASSERT(size > 0, "Size is zero.");
+
+	vkCmdPushConstants(commandBuffer, pipelineLayout, stageFlags, offset, size, data);
+}
+
 VkSemaphore Minty::Vulkan_Renderer::create_semaphore(VkDevice const device)
 {
 	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
@@ -1532,22 +1542,22 @@ VkImageTiling Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageTiling tiling)
 	return VK_IMAGE_TILING_MAX_ENUM;
 }
 
-VkSamplerAddressMode Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageAddressMode addressMode)
+VkSamplerAddressMode Minty::Vulkan_Renderer::to_vulkan(const Minty::AddressMode addressMode)
 {
 	switch (addressMode)
 	{
-	case ImageAddressMode::Undefined:
+	case AddressMode::Undefined:
 		MINTY_ABORT("Image address mode is undefined.");
 		break;
-	case ImageAddressMode::Repeat:
+	case AddressMode::Repeat:
 		return VK_SAMPLER_ADDRESS_MODE_REPEAT;
-	case ImageAddressMode::MirroredRepeat:
+	case AddressMode::MirroredRepeat:
 		return VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
-	case ImageAddressMode::ClampToEdge:
+	case AddressMode::ClampToEdge:
 		return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-	case ImageAddressMode::ClampToBorder:
+	case AddressMode::ClampToBorder:
 		return VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_BORDER;
-	case ImageAddressMode::MirroredClampToEdge:
+	case AddressMode::MirroredClampToEdge:
 		return VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
 	default:
 		MINTY_ABORT("Unsupported image address mode.");
@@ -1763,8 +1773,7 @@ VkImageLayout Minty::Vulkan_Renderer::to_vulkan(Minty::ImageLayout const layout)
 	switch (layout)
 	{
 	case ImageLayout::Undefined:
-		MINTY_ABORT("Image layout is undefined.");
-		break;
+		return VK_IMAGE_LAYOUT_UNDEFINED;
 	case ImageLayout::General:
 		return VK_IMAGE_LAYOUT_GENERAL;
 	case ImageLayout::ColorAttachment:
