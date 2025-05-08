@@ -37,5 +37,6 @@ var searchData=
   ['vulkan_5fshadermodule_34',['Vulkan_ShaderModule',['../class_minty_1_1_vulkan___shader_module.html',1,'Minty']]],
   ['vulkan_5fsurface_35',['Vulkan_Surface',['../class_minty_1_1_vulkan___surface.html',1,'Minty']]],
   ['vulkan_5fswapchainsupportdetails_36',['Vulkan_SwapchainSupportDetails',['../struct_minty_1_1_vulkan___swapchain_support_details.html',1,'Minty']]],
-  ['vulkan_5fviewport_37',['Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html',1,'Minty']]]
+  ['vulkan_5ftexture_37',['Vulkan_Texture',['../class_minty_1_1_vulkan___texture.html',1,'Minty']]],
+  ['vulkan_5fviewport_38',['Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html',1,'Minty']]]
 ];

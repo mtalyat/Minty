@@ -9,5 +9,6 @@ var searchData=
   ['up_6',['up',['../namespace_minty_1_1_math.html#a26278c8ca3cb34282abcf5d73fbc4725',1,'Minty::Math']]],
   ['update_7',['update',['../class_minty_1_1_context.html#a351cf05f0eec759fe7d11d86eedff9f2',1,'Minty::Context::update()'],['../class_minty_1_1_manager.html#abb11246f0d4f2d0419dcc470263c1ca4',1,'Minty::Manager::update()'],['../class_minty_1_1_memory_manager.html#af99cd0c7cf968a1db745043288e3b4dd',1,'Minty::MemoryManager::update()'],['../class_minty_1_1_time.html#a05e6b7079c76a841a900a6a8d58845cf',1,'Minty::Time::update()']]],
   ['update_5fdescriptor_5fsets_8',['update_descriptor_sets',['../class_minty_1_1_vulkan___renderer.html#af81094fd58141f61ec93a14a5744297e',1,'Minty::Vulkan_Renderer']]],
-  ['uuid_9',['UUID',['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)']]]
+  ['update_5fpush_5fconstants_9',['update_push_constants',['../class_minty_1_1_vulkan___renderer.html#a28f66302e53d609b9cce4d8ac8377085',1,'Minty::Vulkan_Renderer']]],
+  ['uuid_10',['UUID',['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)']]]
 ];

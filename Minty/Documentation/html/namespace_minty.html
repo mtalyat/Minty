@@ -383,6 +383,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_text_reader_behavior.html">TextReaderBehavior</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads plain text data.  <a href="class_minty_1_1_text_reader_behavior.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_texture.html">Texture</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">An <a class="el" href="class_minty_1_1_image.html" title="Represents an Image.">Image</a> used for rendering.  <a href="class_minty_1_1_texture.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_texture_builder.html">TextureBuilder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arguments for creating a <a class="el" href="class_minty_1_1_texture.html" title="An Image used for rendering.">Texture</a>.  <a href="struct_minty_1_1_texture_builder.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_text_writer_behavior.html">TextWriterBehavior</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes data as plain text.  <a href="class_minty_1_1_text_writer_behavior.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -436,6 +442,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vulkan___surface.html">Vulkan_Surface</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_vulkan___swapchain_support_details.html">Vulkan_SwapchainSupportDetails</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vulkan___texture.html">Vulkan_Texture</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_vulkan___viewport.html">Vulkan_Viewport</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -697,6 +705,18 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a7c125bea6ecb565e1e79dab1f8526803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines how a given resource is allocated in memory.  <a href="#a7c125bea6ecb565e1e79dab1f8526803">More...</a><br /></td></tr>
 <tr class="separator:a7c125bea6ecb565e1e79dab1f8526803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a865a5961d72ac06c6afc78ce9ad7c642" id="r_a865a5961d72ac06c6afc78ce9ad7c642"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> { <br />
+&#160;&#160;<a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642aec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a> = 0
+, <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642a7020426cfb0a204051be4b3053d2acc8">Repeat</a> = 1
+, <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642a12ce4a5977988214a6b098b8cb0bf695">MirroredRepeat</a> = 2
+, <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642a74556551231333c36debc3d373261134">ClampToEdge</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642afb07f88f6f11cc5ab9c951290716f147">ClampToBorder</a> = 4
+, <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642a3ca5ec8b8b49cf4219bfb3061bac1643">MirroredClampToEdge</a> = 5
+<br />
+ }</td></tr>
+<tr class="memdesc:a865a5961d72ac06c6afc78ce9ad7c642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines how the image data is accessed in the pipeline.  <a href="#a865a5961d72ac06c6afc78ce9ad7c642">More...</a><br /></td></tr>
+<tr class="separator:a865a5961d72ac06c6afc78ce9ad7c642"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a182a8afa1eccb5564c6665b53a1789ee" id="r_a182a8afa1eccb5564c6665b53a1789ee"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a> { <br />
 &#160;&#160;<a class="el" href="#a182a8afa1eccb5564c6665b53a1789eeaec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a> = 0
 , <a class="el" href="#a182a8afa1eccb5564c6665b53a1789eea6950810f0d2bba97a6f710c7b965b84e">Transfer</a> = 1
@@ -878,18 +898,6 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a7e570fd4d54ffc38a87c99b4ee1024b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the format of an image.  <a href="#a7e570fd4d54ffc38a87c99b4ee1024b1">More...</a><br /></td></tr>
 <tr class="separator:a7e570fd4d54ffc38a87c99b4ee1024b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a2566ea94cf4b397f03f5bf08d78b9f" id="r_a6a2566ea94cf4b397f03f5bf08d78b9f"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> { <br />
-&#160;&#160;<a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9faec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a> = 0
-, <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9fa7020426cfb0a204051be4b3053d2acc8">Repeat</a> = 1
-, <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9fa12ce4a5977988214a6b098b8cb0bf695">MirroredRepeat</a> = 2
-, <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9fa74556551231333c36debc3d373261134">ClampToEdge</a> = 3
-, <br />
-&#160;&#160;<a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9fafb07f88f6f11cc5ab9c951290716f147">ClampToBorder</a> = 4
-, <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9fa3ca5ec8b8b49cf4219bfb3061bac1643">MirroredClampToEdge</a> = 5
-<br />
- }</td></tr>
-<tr class="memdesc:a6a2566ea94cf4b397f03f5bf08d78b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines how the image data is accessed in the pipeline.  <a href="#a6a2566ea94cf4b397f03f5bf08d78b9f">More...</a><br /></td></tr>
-<tr class="separator:a6a2566ea94cf4b397f03f5bf08d78b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72fe2666f6a3236286eb3b62db478335" id="r_a72fe2666f6a3236286eb3b62db478335"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72fe2666f6a3236286eb3b62db478335">ImageAspect</a> { <a class="el" href="#a72fe2666f6a3236286eb3b62db478335aec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a> = 0
 , <a class="el" href="#a72fe2666f6a3236286eb3b62db478335acb5feb1b7314637725a2e73bdc9f7295">Color</a> = 1
 , <a class="el" href="#a72fe2666f6a3236286eb3b62db478335a675056ad1441b6375b2c5abd48c27ef1">Depth</a> = 2
@@ -1103,6 +1111,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a648c3b27130efb2b885c158e3584e746" id="r_a648c3b27130efb2b885c158e3584e746"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:a648c3b27130efb2b885c158e3584e746"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a648c3b27130efb2b885c158e3584e746">parse_try&lt; Type &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a5ec65860f40f868afa18cc47f3a016cd">Type</a> &amp;value)</td></tr>
 <tr class="separator:a648c3b27130efb2b885c158e3584e746"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3a081af292c9d918ce9528fdfd9f7ff" id="r_ac3a081af292c9d918ce9528fdfd9f7ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3a081af292c9d918ce9528fdfd9f7ff">to_string</a> (<a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> const obj)</td></tr>
+<tr class="separator:ac3a081af292c9d918ce9528fdfd9f7ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad35bf444c3c77242c98e4a394236cc72" id="r_ad35bf444c3c77242c98e4a394236cc72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad35bf444c3c77242c98e4a394236cc72">parse_to_address_mode</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
+<tr class="separator:ad35bf444c3c77242c98e4a394236cc72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cbfcdbc987e1b9b2b8379069f3fd7ef" id="r_a0cbfcdbc987e1b9b2b8379069f3fd7ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cbfcdbc987e1b9b2b8379069f3fd7ef">parse_try_address_mode</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> &amp;value)</td></tr>
+<tr class="separator:a0cbfcdbc987e1b9b2b8379069f3fd7ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97ca4fd0e66e1d0978f448dcb38afd41" id="r_a97ca4fd0e66e1d0978f448dcb38afd41"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:a97ca4fd0e66e1d0978f448dcb38afd41"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a97ca4fd0e66e1d0978f448dcb38afd41">parse_to&lt; AddressMode &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
+<tr class="separator:a97ca4fd0e66e1d0978f448dcb38afd41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1765c41e72d24df9c7204dcfadd17b61" id="r_a1765c41e72d24df9c7204dcfadd17b61"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:a1765c41e72d24df9c7204dcfadd17b61"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1765c41e72d24df9c7204dcfadd17b61">parse_try&lt; AddressMode &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> &amp;value)</td></tr>
+<tr class="separator:a1765c41e72d24df9c7204dcfadd17b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8addfb23cbecd33d52e6bbdd0680161" id="r_ac8addfb23cbecd33d52e6bbdd0680161"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8addfb23cbecd33d52e6bbdd0680161">to_string</a> (<a class="el" href="#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a> const obj)</td></tr>
 <tr class="separator:ac8addfb23cbecd33d52e6bbdd0680161"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaef0ab2c3309c8f90e70d9e561bd1c61" id="r_aaef0ab2c3309c8f90e70d9e561bd1c61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a182a8afa1eccb5564c6665b53a1789ee">BufferUsage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaef0ab2c3309c8f90e70d9e561bd1c61">parse_to_buffer_usage</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
@@ -1151,18 +1171,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a1e0c44bd3ff3ae02f289d2be75e4322f" id="r_a1e0c44bd3ff3ae02f289d2be75e4322f"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:a1e0c44bd3ff3ae02f289d2be75e4322f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1e0c44bd3ff3ae02f289d2be75e4322f">parse_try&lt; Format &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> &amp;value)</td></tr>
 <tr class="separator:a1e0c44bd3ff3ae02f289d2be75e4322f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9000592dffa83e516707b52100e49ed1" id="r_a9000592dffa83e516707b52100e49ed1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9000592dffa83e516707b52100e49ed1">to_string</a> (<a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> const obj)</td></tr>
-<tr class="separator:a9000592dffa83e516707b52100e49ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00076803c13ecb6ce8b522dc5edfd171" id="r_a00076803c13ecb6ce8b522dc5edfd171"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00076803c13ecb6ce8b522dc5edfd171">parse_to_image_address_mode</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
-<tr class="separator:a00076803c13ecb6ce8b522dc5edfd171"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc7b1c1bc71d89bb8595fad1023f1b9a" id="r_abc7b1c1bc71d89bb8595fad1023f1b9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc7b1c1bc71d89bb8595fad1023f1b9a">parse_try_image_address_mode</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> &amp;value)</td></tr>
-<tr class="separator:abc7b1c1bc71d89bb8595fad1023f1b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77ffeb5aba7253ad03047edb553bb893" id="r_a77ffeb5aba7253ad03047edb553bb893"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
-<tr class="memitem:a77ffeb5aba7253ad03047edb553bb893"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a77ffeb5aba7253ad03047edb553bb893">parse_to&lt; ImageAddressMode &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
-<tr class="separator:a77ffeb5aba7253ad03047edb553bb893"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9232e439dad1c89bff842d4e55cb680f" id="r_a9232e439dad1c89bff842d4e55cb680f"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
-<tr class="memitem:a9232e439dad1c89bff842d4e55cb680f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a9232e439dad1c89bff842d4e55cb680f">parse_try&lt; ImageAddressMode &gt;</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string, <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> &amp;value)</td></tr>
-<tr class="separator:a9232e439dad1c89bff842d4e55cb680f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aded2f365853c9d2c7ca56ac35874547e" id="r_aded2f365853c9d2c7ca56ac35874547e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_string.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aded2f365853c9d2c7ca56ac35874547e">to_string</a> (<a class="el" href="#a72fe2666f6a3236286eb3b62db478335">ImageAspect</a> const obj)</td></tr>
 <tr class="separator:aded2f365853c9d2c7ca56ac35874547e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1204f1f23709e2ff5cc8e1717a9543f8" id="r_a1204f1f23709e2ff5cc8e1717a9543f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a72fe2666f6a3236286eb3b62db478335">ImageAspect</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1204f1f23709e2ff5cc8e1717a9543f8">parse_to_image_aspect</a> (<a class="el" href="class_minty_1_1_string.html">String</a> const &amp;string)</td></tr>
@@ -2447,6 +2455,44 @@ template&lt;typename T&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a865a5961d72ac06c6afc78ce9ad7c642" name="a865a5961d72ac06c6afc78ce9ad7c642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a865a5961d72ac06c6afc78ce9ad7c642">&#9670;&#160;</a></span>AddressMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">Minty::AddressMode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines how the image data is accessed in the pipeline. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a865a5961d72ac06c6afc78ce9ad7c642aec0fc0100c4fc1ce4eea230c3dc10360" name="a865a5961d72ac06c6afc78ce9ad7c642aec0fc0100c4fc1ce4eea230c3dc10360"></a>Undefined&#160;</td><td class="fielddoc"><p>Invalid. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a865a5961d72ac06c6afc78ce9ad7c642a7020426cfb0a204051be4b3053d2acc8" name="a865a5961d72ac06c6afc78ce9ad7c642a7020426cfb0a204051be4b3053d2acc8"></a>Repeat&#160;</td><td class="fielddoc"><p>The texture coordinates are repeated. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a865a5961d72ac06c6afc78ce9ad7c642a12ce4a5977988214a6b098b8cb0bf695" name="a865a5961d72ac06c6afc78ce9ad7c642a12ce4a5977988214a6b098b8cb0bf695"></a>MirroredRepeat&#160;</td><td class="fielddoc"><p>The texture coordinates are mirrored and repeated. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a865a5961d72ac06c6afc78ce9ad7c642a74556551231333c36debc3d373261134" name="a865a5961d72ac06c6afc78ce9ad7c642a74556551231333c36debc3d373261134"></a>ClampToEdge&#160;</td><td class="fielddoc"><p>The texture coordinates are clamped to the edge. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a865a5961d72ac06c6afc78ce9ad7c642afb07f88f6f11cc5ab9c951290716f147" name="a865a5961d72ac06c6afc78ce9ad7c642afb07f88f6f11cc5ab9c951290716f147"></a>ClampToBorder&#160;</td><td class="fielddoc"><p>The texture coordinates are clamped to the border. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a865a5961d72ac06c6afc78ce9ad7c642a3ca5ec8b8b49cf4219bfb3061bac1643" name="a865a5961d72ac06c6afc78ce9ad7c642a3ca5ec8b8b49cf4219bfb3061bac1643"></a>MirroredClampToEdge&#160;</td><td class="fielddoc"><p>The texture coordinates are mirrored and clamped to the edge. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="a7c125bea6ecb565e1e79dab1f8526803" name="a7c125bea6ecb565e1e79dab1f8526803"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c125bea6ecb565e1e79dab1f8526803">&#9670;&#160;</a></span>Allocator</h2>
 
@@ -2907,44 +2953,6 @@ template&lt;typename T&gt; </div>
 <tr><td class="fieldname"><a id="a7e570fd4d54ffc38a87c99b4ee1024b1a5b073ed5a9ab77824722e0661ca71e0c" name="a7e570fd4d54ffc38a87c99b4ee1024b1a5b073ed5a9ab77824722e0661ca71e0c"></a>R64G64B64A64_SINT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7e570fd4d54ffc38a87c99b4ee1024b1a28ed7ca4ebcd9bbcaad4e39c5b2f8a70" name="a7e570fd4d54ffc38a87c99b4ee1024b1a28ed7ca4ebcd9bbcaad4e39c5b2f8a70"></a>R64G64B64A64_SFLOAT&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7e570fd4d54ffc38a87c99b4ee1024b1a7a1920d61156abc05a60135aefe8bc67" name="a7e570fd4d54ffc38a87c99b4ee1024b1a7a1920d61156abc05a60135aefe8bc67"></a>Default&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="a6a2566ea94cf4b397f03f5bf08d78b9f" name="a6a2566ea94cf4b397f03f5bf08d78b9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a2566ea94cf4b397f03f5bf08d78b9f">&#9670;&#160;</a></span>ImageAddressMode</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">Minty::ImageAddressMode</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Determines how the image data is accessed in the pipeline. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6a2566ea94cf4b397f03f5bf08d78b9faec0fc0100c4fc1ce4eea230c3dc10360" name="a6a2566ea94cf4b397f03f5bf08d78b9faec0fc0100c4fc1ce4eea230c3dc10360"></a>Undefined&#160;</td><td class="fielddoc"><p>Invalid. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a6a2566ea94cf4b397f03f5bf08d78b9fa7020426cfb0a204051be4b3053d2acc8" name="a6a2566ea94cf4b397f03f5bf08d78b9fa7020426cfb0a204051be4b3053d2acc8"></a>Repeat&#160;</td><td class="fielddoc"><p>The texture coordinates are repeated. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a6a2566ea94cf4b397f03f5bf08d78b9fa12ce4a5977988214a6b098b8cb0bf695" name="a6a2566ea94cf4b397f03f5bf08d78b9fa12ce4a5977988214a6b098b8cb0bf695"></a>MirroredRepeat&#160;</td><td class="fielddoc"><p>The texture coordinates are mirrored and repeated. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a6a2566ea94cf4b397f03f5bf08d78b9fa74556551231333c36debc3d373261134" name="a6a2566ea94cf4b397f03f5bf08d78b9fa74556551231333c36debc3d373261134"></a>ClampToEdge&#160;</td><td class="fielddoc"><p>The texture coordinates are clamped to the edge. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a6a2566ea94cf4b397f03f5bf08d78b9fafb07f88f6f11cc5ab9c951290716f147" name="a6a2566ea94cf4b397f03f5bf08d78b9fafb07f88f6f11cc5ab9c951290716f147"></a>ClampToBorder&#160;</td><td class="fielddoc"><p>The texture coordinates are clamped to the border. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a6a2566ea94cf4b397f03f5bf08d78b9fa3ca5ec8b8b49cf4219bfb3061bac1643" name="a6a2566ea94cf4b397f03f5bf08d78b9fa3ca5ec8b8b49cf4219bfb3061bac1643"></a>MirroredClampToEdge&#160;</td><td class="fielddoc"><p>The texture coordinates are mirrored and clamped to the edge. </p>
-</td></tr>
 </table>
 
 </div>
@@ -4038,6 +4046,33 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a id="a97ca4fd0e66e1d0978f448dcb38afd41" name="a97ca4fd0e66e1d0978f448dcb38afd41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97ca4fd0e66e1d0978f448dcb38afd41">&#9670;&#160;</a></span>parse_to&lt; AddressMode &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> <a class="el" href="#a411ed6a538dafce7fdf05c6e2657860b">Minty::parse_to</a>&lt; <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2af1bb5d633f61250a68fcbeae41af49" name="a2af1bb5d633f61250a68fcbeae41af49"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2af1bb5d633f61250a68fcbeae41af49">&#9670;&#160;</a></span>parse_to&lt; Bool &gt;()</h2>
 
@@ -4429,33 +4464,6 @@ template&lt;&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> <a class="el" href="#a411ed6a538dafce7fdf05c6e2657860b">Minty::parse_to</a>&lt; <a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> &gt; </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a77ffeb5aba7253ad03047edb553bb893" name="a77ffeb5aba7253ad03047edb553bb893"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77ffeb5aba7253ad03047edb553bb893">&#9670;&#160;</a></span>parse_to&lt; ImageAddressMode &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> <a class="el" href="#a411ed6a538dafce7fdf05c6e2657860b">Minty::parse_to</a>&lt; <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> &gt; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
           <td></td>
@@ -5280,6 +5288,23 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="ad35bf444c3c77242c98e4a394236cc72" name="ad35bf444c3c77242c98e4a394236cc72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad35bf444c3c77242c98e4a394236cc72">&#9670;&#160;</a></span>parse_to_address_mode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> Minty::parse_to_address_mode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aaef0ab2c3309c8f90e70d9e561bd1c61" name="aaef0ab2c3309c8f90e70d9e561bd1c61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaef0ab2c3309c8f90e70d9e561bd1c61">&#9670;&#160;</a></span>parse_to_buffer_usage()</h2>
 
@@ -5339,23 +5364,6 @@ template&lt;&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> Minty::parse_to_format </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a00076803c13ecb6ce8b522dc5edfd171" name="a00076803c13ecb6ce8b522dc5edfd171"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00076803c13ecb6ce8b522dc5edfd171">&#9670;&#160;</a></span>parse_to_image_address_mode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> Minty::parse_to_image_address_mode </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span></td><td>)</td>
           <td></td>
@@ -5729,6 +5737,37 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True on success.</dd></dl>
+
+</div>
+</div>
+<a id="a1765c41e72d24df9c7204dcfadd17b61" name="a1765c41e72d24df9c7204dcfadd17b61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1765c41e72d24df9c7204dcfadd17b61">&#9670;&#160;</a></span>parse_try&lt; AddressMode &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="#a08f78e82e4c6902a4717e68113131153">Minty::parse_try</a>&lt; <a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -6186,37 +6225,6 @@ template&lt;&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9232e439dad1c89bff842d4e55cb680f" name="a9232e439dad1c89bff842d4e55cb680f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9232e439dad1c89bff842d4e55cb680f">&#9670;&#160;</a></span>parse_try&lt; ImageAddressMode &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a> <a class="el" href="#a08f78e82e4c6902a4717e68113131153">Minty::parse_try</a>&lt; <a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> &gt; </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -7158,6 +7166,27 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="a0cbfcdbc987e1b9b2b8379069f3fd7ef" name="a0cbfcdbc987e1b9b2b8379069f3fd7ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cbfcdbc987e1b9b2b8379069f3fd7ef">&#9670;&#160;</a></span>parse_try_address_mode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::parse_try_address_mode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a95a0c6771e2f369e926a427268b2bfe7" name="a95a0c6771e2f369e926a427268b2bfe7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95a0c6771e2f369e926a427268b2bfe7">&#9670;&#160;</a></span>parse_try_buffer_usage()</h2>
 
@@ -7236,27 +7265,6 @@ template&lt;&gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abc7b1c1bc71d89bb8595fad1023f1b9a" name="abc7b1c1bc71d89bb8595fad1023f1b9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc7b1c1bc71d89bb8595fad1023f1b9a">&#9670;&#160;</a></span>parse_try_image_address_mode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="#ae50ca127ff317b788faaab0563a8df56">Bool</a> Minty::parse_try_image_address_mode </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_string.html">String</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>string</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -7952,8 +7960,25 @@ template&lt;&gt; </div>
 
 </div>
 </div>
+<a id="ac3a081af292c9d918ce9528fdfd9f7ff" name="ac3a081af292c9d918ce9528fdfd9f7ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3a081af292c9d918ce9528fdfd9f7ff">&#9670;&#160;</a></span>to_string() <span class="overload">[1/49]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_string.html">String</a> Minty::to_string </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a865a5961d72ac06c6afc78ce9ad7c642">AddressMode</a> const</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab893e761714eabdf0ea31a3be860bf8a" name="ab893e761714eabdf0ea31a3be860bf8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab893e761714eabdf0ea31a3be860bf8a">&#9670;&#160;</a></span>to_string() <span class="overload">[1/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab893e761714eabdf0ea31a3be860bf8a">&#9670;&#160;</a></span>to_string() <span class="overload">[2/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -7970,7 +7995,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a51456ae1ba22b1b6dd9140aefe93e36c" name="a51456ae1ba22b1b6dd9140aefe93e36c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51456ae1ba22b1b6dd9140aefe93e36c">&#9670;&#160;</a></span>to_string() <span class="overload">[2/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a51456ae1ba22b1b6dd9140aefe93e36c">&#9670;&#160;</a></span>to_string() <span class="overload">[3/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -7987,7 +8012,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a20f8938f09147239bc63d7c67c0696fe" name="a20f8938f09147239bc63d7c67c0696fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20f8938f09147239bc63d7c67c0696fe">&#9670;&#160;</a></span>to_string() <span class="overload">[3/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a20f8938f09147239bc63d7c67c0696fe">&#9670;&#160;</a></span>to_string() <span class="overload">[4/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8004,7 +8029,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aa567f4f4dcba40eb7673a6e2beaa7aa4" name="aa567f4f4dcba40eb7673a6e2beaa7aa4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa567f4f4dcba40eb7673a6e2beaa7aa4">&#9670;&#160;</a></span>to_string() <span class="overload">[4/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa567f4f4dcba40eb7673a6e2beaa7aa4">&#9670;&#160;</a></span>to_string() <span class="overload">[5/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8021,7 +8046,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ac8addfb23cbecd33d52e6bbdd0680161" name="ac8addfb23cbecd33d52e6bbdd0680161"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8addfb23cbecd33d52e6bbdd0680161">&#9670;&#160;</a></span>to_string() <span class="overload">[5/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8addfb23cbecd33d52e6bbdd0680161">&#9670;&#160;</a></span>to_string() <span class="overload">[6/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8038,7 +8063,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aee9b46aa9efe254e134ae97e302fa48d" name="aee9b46aa9efe254e134ae97e302fa48d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee9b46aa9efe254e134ae97e302fa48d">&#9670;&#160;</a></span>to_string() <span class="overload">[6/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aee9b46aa9efe254e134ae97e302fa48d">&#9670;&#160;</a></span>to_string() <span class="overload">[7/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8055,7 +8080,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a9abc1a79ff8d79b0518914d0330795ce" name="a9abc1a79ff8d79b0518914d0330795ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9abc1a79ff8d79b0518914d0330795ce">&#9670;&#160;</a></span>to_string() <span class="overload">[7/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9abc1a79ff8d79b0518914d0330795ce">&#9670;&#160;</a></span>to_string() <span class="overload">[8/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8072,7 +8097,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a9375575ffcd15daf086e2837fc991b80" name="a9375575ffcd15daf086e2837fc991b80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9375575ffcd15daf086e2837fc991b80">&#9670;&#160;</a></span>to_string() <span class="overload">[8/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9375575ffcd15daf086e2837fc991b80">&#9670;&#160;</a></span>to_string() <span class="overload">[9/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8089,7 +8114,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a53156f372bb80234b30f89216fd1ca75" name="a53156f372bb80234b30f89216fd1ca75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53156f372bb80234b30f89216fd1ca75">&#9670;&#160;</a></span>to_string() <span class="overload">[9/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a53156f372bb80234b30f89216fd1ca75">&#9670;&#160;</a></span>to_string() <span class="overload">[10/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8106,7 +8131,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ae6d416153459b066aaca8a97fdc001ff" name="ae6d416153459b066aaca8a97fdc001ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6d416153459b066aaca8a97fdc001ff">&#9670;&#160;</a></span>to_string() <span class="overload">[10/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6d416153459b066aaca8a97fdc001ff">&#9670;&#160;</a></span>to_string() <span class="overload">[11/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8123,7 +8148,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aa5080d0890a496f046c4380052a8b698" name="aa5080d0890a496f046c4380052a8b698"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5080d0890a496f046c4380052a8b698">&#9670;&#160;</a></span>to_string() <span class="overload">[11/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5080d0890a496f046c4380052a8b698">&#9670;&#160;</a></span>to_string() <span class="overload">[12/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8140,7 +8165,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="ac5bf8839b2e282cc4532b138ba2e7cce" name="ac5bf8839b2e282cc4532b138ba2e7cce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5bf8839b2e282cc4532b138ba2e7cce">&#9670;&#160;</a></span>to_string() <span class="overload">[12/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5bf8839b2e282cc4532b138ba2e7cce">&#9670;&#160;</a></span>to_string() <span class="overload">[13/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8157,7 +8182,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aaf857b97743eeaa983b66d64b8dfe9d2" name="aaf857b97743eeaa983b66d64b8dfe9d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf857b97743eeaa983b66d64b8dfe9d2">&#9670;&#160;</a></span>to_string() <span class="overload">[13/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf857b97743eeaa983b66d64b8dfe9d2">&#9670;&#160;</a></span>to_string() <span class="overload">[14/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8174,7 +8199,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="aad6728986ac03083ce53b9b16598e98f" name="aad6728986ac03083ce53b9b16598e98f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad6728986ac03083ce53b9b16598e98f">&#9670;&#160;</a></span>to_string() <span class="overload">[14/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aad6728986ac03083ce53b9b16598e98f">&#9670;&#160;</a></span>to_string() <span class="overload">[15/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8191,7 +8216,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a0b6447705aa61a63deac2889bddc47c1" name="a0b6447705aa61a63deac2889bddc47c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b6447705aa61a63deac2889bddc47c1">&#9670;&#160;</a></span>to_string() <span class="overload">[15/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b6447705aa61a63deac2889bddc47c1">&#9670;&#160;</a></span>to_string() <span class="overload">[16/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8208,7 +8233,7 @@ template&lt;&gt; </div>
 </div>
 </div>
 <a id="a7f2c933a2621babe3241fd210c0c428d" name="a7f2c933a2621babe3241fd210c0c428d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f2c933a2621babe3241fd210c0c428d">&#9670;&#160;</a></span>to_string() <span class="overload">[16/49]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f2c933a2621babe3241fd210c0c428d">&#9670;&#160;</a></span>to_string() <span class="overload">[17/49]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -8217,23 +8242,6 @@ template&lt;&gt; </div>
           <td class="memname"><a class="el" href="class_minty_1_1_string.html">String</a> Minty::to_string </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a7e570fd4d54ffc38a87c99b4ee1024b1">Format</a> const</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9000592dffa83e516707b52100e49ed1" name="a9000592dffa83e516707b52100e49ed1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9000592dffa83e516707b52100e49ed1">&#9670;&#160;</a></span>to_string() <span class="overload">[17/49]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_string.html">String</a> Minty::to_string </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#a6a2566ea94cf4b397f03f5bf08d78b9f">ImageAddressMode</a> const</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>

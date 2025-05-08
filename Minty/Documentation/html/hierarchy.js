@@ -28,6 +28,9 @@ var hierarchy =
       [ "Minty::Surface", "class_minty_1_1_surface.html", [
         [ "Minty::Vulkan_Surface", "class_minty_1_1_vulkan___surface.html", null ]
       ] ],
+      [ "Minty::Texture", "class_minty_1_1_texture.html", [
+        [ "Minty::Vulkan_Texture", "class_minty_1_1_vulkan___texture.html", null ]
+      ] ],
       [ "Minty::Viewport", "class_minty_1_1_viewport.html", [
         [ "Minty::Vulkan_Viewport", "class_minty_1_1_vulkan___viewport.html", null ]
       ] ]
@@ -185,6 +188,7 @@ var hierarchy =
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
     [ "Minty::SurfaceBuilder", "struct_minty_1_1_surface_builder.html", null ],
+    [ "Minty::TextureBuilder", "struct_minty_1_1_texture_builder.html", null ],
     [ "Minty::Time", "class_minty_1_1_time.html", null ],
     [ "std::true_type", null, [
       [ "Minty::is_parseable< T, std::enable_if_t< std::is_base_of_v< Parseable, T > > >", "struct_minty_1_1is__parseable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_01_parseable_00_01_t_01_4_01_4_01_4.html", null ],

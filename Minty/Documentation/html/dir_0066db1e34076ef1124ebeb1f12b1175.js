@@ -1,6 +1,7 @@
 var dir_0066db1e34076ef1124ebeb1f12b1175 =
 [
     [ "_Render.h", "___render_8h.html", null ],
+    [ "AddressMode.h", "_address_mode_8h.html", "_address_mode_8h" ],
     [ "Buffer.cpp", "_buffer_8cpp.html", null ],
     [ "Buffer.h", "_buffer_8h.html", "_buffer_8h" ],
     [ "BufferUsage.cpp", "_buffer_usage_8cpp.html", null ],
@@ -16,7 +17,6 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "Image.cpp", "_image_8cpp.html", null ],
     [ "Image.h", "_image_8h.html", "_image_8h" ],
     [ "ImageAddressMode.cpp", "_image_address_mode_8cpp.html", null ],
-    [ "ImageAddressMode.h", "_image_address_mode_8h.html", "_image_address_mode_8h" ],
     [ "ImageAspect.cpp", "_image_aspect_8cpp.html", null ],
     [ "ImageAspect.h", "_image_aspect_8h.html", "_image_aspect_8h" ],
     [ "ImageLayout.cpp", "_image_layout_8cpp.html", null ],
@@ -71,6 +71,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "StoreOperation.h", "_store_operation_8h.html", "_store_operation_8h" ],
     [ "Surface.cpp", "_surface_8cpp.html", null ],
     [ "Surface.h", "_surface_8h.html", "_surface_8h" ],
+    [ "Texture.cpp", "_texture_8cpp.html", null ],
+    [ "Texture.h", "_texture_8h.html", "_texture_8h" ],
     [ "Viewport.cpp", "_viewport_8cpp.html", null ],
     [ "Viewport.h", "_viewport_8h.html", "_viewport_8h" ]
 ];

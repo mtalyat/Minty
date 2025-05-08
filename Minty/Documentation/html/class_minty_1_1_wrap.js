@@ -7,9 +7,9 @@ var class_minty_1_1_wrap =
       [ "File", "class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea0b27918290ff5323bea1e3b78a9cf04e", null ],
       [ "Update", "class_minty_1_1_wrap.html#a1b568b606146e23e496c1a417f2f120ea06933067aafd48425d67bcb01bba5cb6", null ]
     ] ],
-    [ "Wrap", "class_minty_1_1_wrap.html#ac55aa6cc0e4ced0708b6247358158912", null ],
+    [ "Wrap", "class_minty_1_1_wrap.html#a655c899c0ce466bc57937f46f6665e44", null ],
     [ "Wrap", "class_minty_1_1_wrap.html#a01484f3b41bf6037cc50f6f02f391f85", null ],
-    [ "Wrap", "class_minty_1_1_wrap.html#a8e771db8207a2ee59ae52d4108beaf90", null ],
+    [ "Wrap", "class_minty_1_1_wrap.html#ac5df47cf03ef41891272b37dca687dac", null ],
     [ "add", "class_minty_1_1_wrap.html#a0fea89e9c6323c6a306b4b36c70e1480", null ],
     [ "contains", "class_minty_1_1_wrap.html#ac23e58d886ec582ce672056dd6b7b23c", null ],
     [ "flush", "class_minty_1_1_wrap.html#ac6f4b689e6ddd35ba85d4bb337bf88ca", null ],

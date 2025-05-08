@@ -249,6 +249,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac3fec6d3ba6f555a6b6b3b8b5a12d0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d2ef1ca4c99bd4a0df9926e7d357560" id="r_a8d2ef1ca4c99bd4a0df9926e7d357560"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d2ef1ca4c99bd4a0df9926e7d357560">copy_buffer_to_image</a> (VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkImage const dstImage, const uint32_t width, const uint32_t height)</td></tr>
 <tr class="separator:a8d2ef1ca4c99bd4a0df9926e7d357560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f66302e53d609b9cce4d8ac8377085" id="r_a28f66302e53d609b9cce4d8ac8377085"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28f66302e53d609b9cce4d8ac8377085">update_push_constants</a> (VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const *const data)</td></tr>
+<tr class="separator:a28f66302e53d609b9cce4d8ac8377085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27eebef071a497770ee5681a116f46d2" id="r_a27eebef071a497770ee5681a116f46d2"><td class="memItemLeft" align="right" valign="top">static VkSemaphore&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27eebef071a497770ee5681a116f46d2">create_semaphore</a> (VkDevice const device)</td></tr>
 <tr class="separator:a27eebef071a497770ee5681a116f46d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5db1f8e0f2c4671aff2272b924957d6" id="r_ae5db1f8e0f2c4671aff2272b924957d6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5db1f8e0f2c4671aff2272b924957d6">destroy_semaphore</a> (VkDevice const device, VkSemaphore const semaphore)</td></tr>
@@ -289,8 +291,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a4498c1c3d23f19aa9566d8591fd83e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98fcd675bc81af45bea5b9628ef355f8" id="r_a98fcd675bc81af45bea5b9628ef355f8"><td class="memItemLeft" align="right" valign="top">static VkImageTiling&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98fcd675bc81af45bea5b9628ef355f8">to_vulkan</a> (const <a class="el" href="namespace_minty.html#afd87ae84a36b61cf04cc9022b33ec225">Minty::ImageTiling</a> tiling)</td></tr>
 <tr class="separator:a98fcd675bc81af45bea5b9628ef355f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82a149d909c11dcff460c67863ed439a" id="r_a82a149d909c11dcff460c67863ed439a"><td class="memItemLeft" align="right" valign="top">static VkSamplerAddressMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82a149d909c11dcff460c67863ed439a">to_vulkan</a> (const <a class="el" href="namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9f">Minty::ImageAddressMode</a> addressMode)</td></tr>
-<tr class="separator:a82a149d909c11dcff460c67863ed439a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac145130f0f6e5068399b60e01cadf942" id="r_ac145130f0f6e5068399b60e01cadf942"><td class="memItemLeft" align="right" valign="top">static VkSamplerAddressMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac145130f0f6e5068399b60e01cadf942">to_vulkan</a> (const <a class="el" href="namespace_minty.html#a865a5961d72ac06c6afc78ce9ad7c642">Minty::AddressMode</a> addressMode)</td></tr>
+<tr class="separator:ac145130f0f6e5068399b60e01cadf942"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64edee42ad6d1aea7af00c4bd66af944" id="r_a64edee42ad6d1aea7af00c4bd66af944"><td class="memItemLeft" align="right" valign="top">static VkImageAspectFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64edee42ad6d1aea7af00c4bd66af944">to_vulkan</a> (const <a class="el" href="namespace_minty.html#a72fe2666f6a3236286eb3b62db478335">Minty::ImageAspect</a> aspect)</td></tr>
 <tr class="separator:a64edee42ad6d1aea7af00c4bd66af944"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32e90257b39d53b9e77b2a91ec8e7a06" id="r_a32e90257b39d53b9e77b2a91ec8e7a06"><td class="memItemLeft" align="right" valign="top">static VkImageUsageFlags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32e90257b39d53b9e77b2a91ec8e7a06">to_vulkan</a> (const <a class="el" href="namespace_minty.html#a31d11b7431bfc8beb4ff164f35786e24">Minty::ImageUsage</a> usage)</td></tr>
@@ -2824,8 +2826,33 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac145130f0f6e5068399b60e01cadf942" name="ac145130f0f6e5068399b60e01cadf942"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac145130f0f6e5068399b60e01cadf942">&#9670;&#160;</a></span>to_vulkan() <span class="overload">[1/20]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VkSamplerAddressMode Minty::Vulkan_Renderer::to_vulkan </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespace_minty.html#a865a5961d72ac06c6afc78ce9ad7c642">Minty::AddressMode</a></td>          <td class="paramname"><span class="paramname"><em>addressMode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab2609978fd4680418cb67359309856f0" name="ab2609978fd4680418cb67359309856f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2609978fd4680418cb67359309856f0">&#9670;&#160;</a></span>to_vulkan() <span class="overload">[1/20]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2609978fd4680418cb67359309856f0">&#9670;&#160;</a></span>to_vulkan() <span class="overload">[2/20]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2850,7 +2877,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <a id="a4a881875a9234b91847d24a3a121b6fa" name="a4a881875a9234b91847d24a3a121b6fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a881875a9234b91847d24a3a121b6fa">&#9670;&#160;</a></span>to_vulkan() <span class="overload">[2/20]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a881875a9234b91847d24a3a121b6fa">&#9670;&#160;</a></span>to_vulkan() <span class="overload">[3/20]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2862,31 +2889,6 @@ Static Public Member Functions</h2></td></tr>
           <td class="memname">VkFormat Minty::Vulkan_Renderer::to_vulkan </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespace_minty.html#a7e570fd4d54ffc38a87c99b4ee1024b1">Minty::Format</a></td>          <td class="paramname"><span class="paramname"><em>format</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a82a149d909c11dcff460c67863ed439a" name="a82a149d909c11dcff460c67863ed439a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82a149d909c11dcff460c67863ed439a">&#9670;&#160;</a></span>to_vulkan() <span class="overload">[3/20]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">VkSamplerAddressMode Minty::Vulkan_Renderer::to_vulkan </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespace_minty.html#a6a2566ea94cf4b397f03f5bf08d78b9f">Minty::ImageAddressMode</a></td>          <td class="paramname"><span class="paramname"><em>addressMode</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -3420,6 +3422,55 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t const</td>          <td class="paramname"><span class="paramname"><em>count</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28f66302e53d609b9cce4d8ac8377085" name="a28f66302e53d609b9cce4d8ac8377085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28f66302e53d609b9cce4d8ac8377085">&#9670;&#160;</a></span>update_push_constants()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Vulkan_Renderer::update_push_constants </td>
+          <td>(</td>
+          <td class="paramtype">VkCommandBuffer const</td>          <td class="paramname"><span class="paramname"><em>commandBuffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkPipelineLayout const</td>          <td class="paramname"><span class="paramname"><em>pipelineLayout</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VkShaderStageFlags const</td>          <td class="paramname"><span class="paramname"><em>stageFlags</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t const</td>          <td class="paramname"><span class="paramname"><em>offset</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t const</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void const *const</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
         </tr>
       </table>
   </td>

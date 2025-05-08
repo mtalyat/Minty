@@ -81,7 +81,10 @@ var searchData=
   ['vulkan_5fsurface_2eh_78',['Vulkan_Surface.h',['../_vulkan___surface_8h.html',1,'']]],
   ['vulkan_5fswapchainsupportdetails_79',['Vulkan_SwapchainSupportDetails',['../struct_minty_1_1_vulkan___swapchain_support_details.html',1,'Minty']]],
   ['vulkan_5fswapchainsupportdetails_2eh_80',['Vulkan_SwapchainSupportDetails.h',['../_vulkan___swapchain_support_details_8h.html',1,'']]],
-  ['vulkan_5fviewport_81',['Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html',1,'Minty::Vulkan_Viewport'],['../class_minty_1_1_vulkan___viewport.html#a8b19077710edb667bf03820225575fee',1,'Minty::Vulkan_Viewport::Vulkan_Viewport()']]],
-  ['vulkan_5fviewport_2ecpp_82',['Vulkan_Viewport.cpp',['../_vulkan___viewport_8cpp.html',1,'']]],
-  ['vulkan_5fviewport_2eh_83',['Vulkan_Viewport.h',['../_vulkan___viewport_8h.html',1,'']]]
+  ['vulkan_5ftexture_81',['Vulkan_Texture',['../class_minty_1_1_vulkan___texture.html',1,'Minty::Vulkan_Texture'],['../class_minty_1_1_vulkan___texture.html#afaa287d5c9c7a36957387ad625db98b1',1,'Minty::Vulkan_Texture::Vulkan_Texture()']]],
+  ['vulkan_5ftexture_2ecpp_82',['Vulkan_Texture.cpp',['../_vulkan___texture_8cpp.html',1,'']]],
+  ['vulkan_5ftexture_2eh_83',['Vulkan_Texture.h',['../_vulkan___texture_8h.html',1,'']]],
+  ['vulkan_5fviewport_84',['Vulkan_Viewport',['../class_minty_1_1_vulkan___viewport.html',1,'Minty::Vulkan_Viewport'],['../class_minty_1_1_vulkan___viewport.html#a8b19077710edb667bf03820225575fee',1,'Minty::Vulkan_Viewport::Vulkan_Viewport()']]],
+  ['vulkan_5fviewport_2ecpp_85',['Vulkan_Viewport.cpp',['../_vulkan___viewport_8cpp.html',1,'']]],
+  ['vulkan_5fviewport_2eh_86',['Vulkan_Viewport.h',['../_vulkan___viewport_8h.html',1,'']]]
 ];
