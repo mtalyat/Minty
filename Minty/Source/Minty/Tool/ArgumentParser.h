@@ -68,7 +68,7 @@ namespace Minty
 		/// <param name="name">The name of the parameter.</param>
 		/// <param name="arg">The argument to fill with the values.</param>
 		/// <returns>True if the argument was found.</returns>
-		Vector<String> const& get_argument(String const& name);
+		Vector<String> const& get_argument(String const& name) const;
 
 		/// <summary>
 		/// Checks if the argument was provided.
