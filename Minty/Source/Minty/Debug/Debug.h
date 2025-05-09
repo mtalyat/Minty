@@ -26,27 +26,27 @@
 #define MINTY_DEBUG_INFO(message) "[", std::filesystem::path(__FILE__).filename().string(), "][", __func__, "()][line ", __LINE__, "] -> ", message
 
 #ifdef MINTY_DEBUG
-#define MINTY_LOG(message) Debug::write_message(message)
+#define MINTY_LOG(message) Minty::Debug::write_message(message)
 #else
 #define MINTY_LOG(message)
 #endif // MINTY_DEBUG
 
 #ifdef MINTY_DEBUG
-#define MINTY_INFO(message) Debug::write_info(message)
+#define MINTY_INFO(message) Minty::Debug::write_info(message)
 #else
 #define MINTY_INFO(message)
 #endif // MINTY_DEBUG
 
-#define MINTY_ERROR(message) Debug::write_error(message)
+#define MINTY_ERROR(message) Minty::Debug::write_error(message)
 
 #ifdef MINTY_DEBUG
-#define MINTY_WARNING(message) Debug::write_warning(message)
+#define MINTY_WARNING(message) Minty::Debug::write_warning(message)
 #else
 #define MINTY_WARNING(message)
 #endif // MINTY_DEBUG
 
 #ifdef MINTY_DEBUG
-#define MINTY_ABORT(message) do { Debug::write_abort(message); throw std::runtime_error(message); } while(false)
+#define MINTY_ABORT(message) do { Minty::Debug::write_abort(message); throw std::runtime_error(message); } while(false)
 #else
 #define MINTY_ABORT(message) MINTY_ERROR(message)
 #endif // MINTY_DEBUG
@@ -255,6 +255,11 @@ namespace Minty
 			reset();
 			std::cout << std::endl;
 		}
+
+		/// <summary>
+		/// Prints the stack trace to the terminal.
+		/// </summary>
+		static void write_stack_trace();
 
 #pragma endregion
 	};

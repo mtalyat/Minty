@@ -61,6 +61,9 @@
     <Filter Include="Header Files\Minty\Tool">
       <UniqueIdentifier>{d620be47-c910-4181-9abf-8c1c0dd84d75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Minty\Entity">
+      <UniqueIdentifier>{1017bcee-e0fb-4bbe-b76c-1b6b7d5324c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -295,6 +298,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Cargo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -535,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="Test_Cargo.h">
       <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_EntityManager.h">
+      <Filter>Header Files\Minty\Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

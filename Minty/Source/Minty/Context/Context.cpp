@@ -15,6 +15,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_jobManager(nullptr)
 	, m_assetManager(nullptr)
 	, m_renderManager(nullptr)
+	, m_entityManager(nullptr)
 	, m_managers()
 {
 	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
@@ -31,10 +32,12 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_jobManager = JobManager::create(builder.jobManagerBuilder);
 	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
+	m_entityManager = EntityManager::create(builder.entityManagerBuilder);
 	m_managers.add(m_memoryManager.get());
 	m_managers.add(m_jobManager.get());
 	m_managers.add(m_renderManager.get());
 	m_managers.add(m_assetManager.get());
+	m_managers.add(m_entityManager.get());
 
 	// initialize managers
 	initialize();
@@ -54,6 +57,7 @@ Minty::Context::~Context()
 	m_jobManager.release();
 	m_assetManager.release();
 	m_renderManager.release();
+	m_entityManager.release();
 	m_managers.clear();
 
 	s_instance = nullptr;

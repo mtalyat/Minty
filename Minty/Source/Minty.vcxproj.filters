@@ -97,6 +97,12 @@
     <Filter Include="Minty\Render\Texture">
       <UniqueIdentifier>{0078df73-9f8b-4ab5-a06d-125f575da596}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Entity">
+      <UniqueIdentifier>{33666f3b-57a3-470e-a677-d59bda3ff35e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Component">
+      <UniqueIdentifier>{8137c321-4bb8-48a5-b22c-8b48e97a12d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -543,6 +549,54 @@
     <ClInclude Include="Minty\Render\AddressMode.h">
       <Filter>Minty\Render\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Entity\_Entity.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\Entity.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntityManager.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Library\EnTT.h">
+      <Filter>Minty\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\_Component.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\UUIDComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\NameComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\Component.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\VisibleComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\EnabledComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\LayerComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\DirtyComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntityView.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\RelationshipComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntitySerializationData.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\TransformComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -816,6 +870,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Vulkan\Vulkan_Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Entity\EntityManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\NameComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\UUIDComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\RelationshipComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\TransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

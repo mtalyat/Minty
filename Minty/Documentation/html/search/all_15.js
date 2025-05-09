@@ -26,5 +26,8 @@ var searchData=
   ['ushort_23',['UShort',['../namespace_minty.html#a845421c5fcc75feb5c83f8285a4e63c8',1,'Minty::UShort'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cdadfe785f133347f9b473f99009732b1bc',1,'Minty::UShort']]],
   ['uuid_24',['UUID',['../class_minty_1_1_u_u_i_d.html',1,'Minty::UUID'],['../class_minty_1_1_u_u_i_d.html#a90b6cedf602bde9f966afc2cf87d1665',1,'Minty::UUID::UUID()'],['../class_minty_1_1_u_u_i_d.html#a66a7659890b59d8616bfb53747cdb3b1',1,'Minty::UUID::UUID(ID const id)']]],
   ['uuid_2ecpp_25',['UUID.cpp',['../_u_u_i_d_8cpp.html',1,'']]],
-  ['uuid_2eh_26',['UUID.h',['../_u_u_i_d_8h.html',1,'']]]
+  ['uuid_2eh_26',['UUID.h',['../_u_u_i_d_8h.html',1,'']]],
+  ['uuidcomponent_27',['UUIDComponent',['../struct_minty_1_1_u_u_i_d_component.html',1,'Minty']]],
+  ['uuidcomponent_2ecpp_28',['UUIDComponent.cpp',['../_u_u_i_d_component_8cpp.html',1,'']]],
+  ['uuidcomponent_2eh_29',['UUIDComponent.h',['../_u_u_i_d_component_8h.html',1,'']]]
 ];

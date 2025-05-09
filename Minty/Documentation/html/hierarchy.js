@@ -64,6 +64,9 @@ var hierarchy =
     [ "Minty::ContextBuilder", "struct_minty_1_1_context_builder.html", null ],
     [ "Minty::Counter", "class_minty_1_1_counter.html", null ],
     [ "Minty::Debug", "class_minty_1_1_debug.html", null ],
+    [ "Minty::EntityManagerBuilder", "struct_minty_1_1_entity_manager_builder.html", null ],
+    [ "Minty::EntitySerializationData", "struct_minty_1_1_entity_serialization_data.html", null ],
+    [ "Minty::EntityView< Get >", "class_minty_1_1_entity_view.html", null ],
     [ "Minty::Wrap::Entry", "struct_minty_1_1_wrap_1_1_entry.html", null ],
     [ "Minty::Event", "class_minty_1_1_event.html", [
       [ "Minty::WindowCloseEvent", "class_minty_1_1_window_close_event.html", null ],
@@ -106,6 +109,7 @@ var hierarchy =
     [ "Minty::List< T >", "class_minty_1_1_list.html", null ],
     [ "Minty::Manager", "class_minty_1_1_manager.html", [
       [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
+      [ "Minty::EntityManager", "class_minty_1_1_entity_manager.html", null ],
       [ "Minty::JobManager", "class_minty_1_1_job_manager.html", null ],
       [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
       [ "Minty::RenderManager", "class_minty_1_1_render_manager.html", [
@@ -168,6 +172,16 @@ var hierarchy =
     ] ],
     [ "Minty::SerializableObject", "class_minty_1_1_serializable_object.html", [
       [ "Minty::Camera", "class_minty_1_1_camera.html", null ],
+      [ "Minty::Component", "struct_minty_1_1_component.html", [
+        [ "Minty::DirtyComponent", "struct_minty_1_1_dirty_component.html", null ],
+        [ "Minty::EnabledComponent", "struct_minty_1_1_enabled_component.html", null ],
+        [ "Minty::LayerComponent", "struct_minty_1_1_layer_component.html", null ],
+        [ "Minty::NameComponent", "struct_minty_1_1_name_component.html", null ],
+        [ "Minty::RelationshipComponent", "struct_minty_1_1_relationship_component.html", null ],
+        [ "Minty::TransformComponent", "struct_minty_1_1_transform_component.html", null ],
+        [ "Minty::UUIDComponent", "struct_minty_1_1_u_u_i_d_component.html", null ],
+        [ "Minty::VisibleComponent", "struct_minty_1_1_visible_component.html", null ]
+      ] ],
       [ "Minty::Transform", "class_minty_1_1_transform.html", null ]
     ] ],
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],

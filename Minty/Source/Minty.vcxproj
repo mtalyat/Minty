@@ -184,6 +184,16 @@ doxygen</Command>
     <ClInclude Include="Minty\Asset\AssetType.h" />
     <ClInclude Include="Minty\Asset\GenericAsset.h" />
     <ClInclude Include="Minty\Asset\_Asset.h" />
+    <ClInclude Include="Minty\Component\Component.h" />
+    <ClInclude Include="Minty\Component\DirtyComponent.h" />
+    <ClInclude Include="Minty\Component\EnabledComponent.h" />
+    <ClInclude Include="Minty\Component\LayerComponent.h" />
+    <ClInclude Include="Minty\Component\NameComponent.h" />
+    <ClInclude Include="Minty\Component\RelationshipComponent.h" />
+    <ClInclude Include="Minty\Component\TransformComponent.h" />
+    <ClInclude Include="Minty\Component\UUIDComponent.h" />
+    <ClInclude Include="Minty\Component\VisibleComponent.h" />
+    <ClInclude Include="Minty\Component\_Component.h" />
     <ClInclude Include="Minty\Context\Context.h" />
     <ClInclude Include="Minty\Context\Manager.h" />
     <ClInclude Include="Minty\Context\_Context.h" />
@@ -223,6 +233,11 @@ doxygen</Command>
     <ClInclude Include="Minty\Debug\Debug.h" />
     <ClInclude Include="Minty\Debug\DualBuffer.h" />
     <ClInclude Include="Minty\Debug\_Debug.h" />
+    <ClInclude Include="Minty\Entity\Entity.h" />
+    <ClInclude Include="Minty\Entity\EntityManager.h" />
+    <ClInclude Include="Minty\Entity\EntitySerializationData.h" />
+    <ClInclude Include="Minty\Entity\EntityView.h" />
+    <ClInclude Include="Minty\Entity\_Entity.h" />
     <ClInclude Include="Minty\Event\Event.h" />
     <ClInclude Include="Minty\Event\EventType.h" />
     <ClInclude Include="Minty\Event\_Event.h" />
@@ -232,6 +247,7 @@ doxygen</Command>
     <ClInclude Include="Minty\File\_File.h" />
     <ClInclude Include="Minty\Job\JobManager.h" />
     <ClInclude Include="Minty\Job\_Job.h" />
+    <ClInclude Include="Minty\Library\EnTT.h" />
     <ClInclude Include="Minty\Library\GLFW.h" />
     <ClInclude Include="Minty\Library\GLM.h" />
     <ClInclude Include="Minty\Library\STB.h" />
@@ -330,6 +346,10 @@ doxygen</Command>
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
+    <ClCompile Include="Minty\Component\NameComponent.cpp" />
+    <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
+    <ClCompile Include="Minty\Component\TransformComponent.cpp" />
+    <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
     <ClCompile Include="Minty\Context\Manager.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
@@ -349,6 +369,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Data\UUID.cpp" />
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
+    <ClCompile Include="Minty\Entity\EntityManager.cpp" />
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />

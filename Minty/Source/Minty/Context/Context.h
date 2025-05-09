@@ -5,6 +5,7 @@
 #include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Entity/EntityManager.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
 #include "Minty/Render/RenderManager.h"
@@ -22,6 +23,7 @@ namespace Minty
 		JobManagerBuilder jobManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
 		RenderManagerBuilder renderManagerBuilder = {};
+		EntityManagerBuilder entityManagerBuilder = {};
 	};
 
 	/// <summary>
@@ -39,6 +41,7 @@ namespace Minty
 		Owner<JobManager> m_jobManager;
 		Owner<AssetManager> m_assetManager;
 		Owner<RenderManager> m_renderManager;
+		Owner<EntityManager> m_entityManager;
 		Vector<Manager*> m_managers;
 
 #pragma endregion
@@ -64,6 +67,7 @@ namespace Minty
 			, m_jobManager(std::move(other.m_jobManager))
 			, m_assetManager(std::move(other.m_assetManager))
 			, m_renderManager(std::move(other.m_renderManager))
+			, m_entityManager(std::move(other.m_entityManager))
 			, m_managers(std::move(other.m_managers))
 		{
 			other.mp_dualBuffer = nullptr;
@@ -88,6 +92,7 @@ namespace Minty
 				m_jobManager = std::move(other.m_jobManager);
 				m_assetManager = std::move(other.m_assetManager);
 				m_renderManager = std::move(other.m_renderManager);
+				m_entityManager = std::move(other.m_entityManager);
 				m_managers = std::move(other.m_managers);
 			}
 			return *this;
@@ -121,6 +126,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The RenderManager.</returns>
 		RenderManager& get_render_manager() { return *m_renderManager; }
+
+		/// <summary>
+		/// Gets the EntityManager in this Context.
+		/// </summary>
+		/// <returns>The EntityManager.</returns>
+		EntityManager& get_entity_manager() { return *m_entityManager; }
 
 #pragma endregion
 

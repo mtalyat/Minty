@@ -2,10 +2,12 @@
 
 #include "Minty/Application/_Application.h"
 #include "Minty/Asset/_Asset.h"
+#include "Minty/Component/_Component.h"
 #include "Minty/Context/_Context.h"
 #include "Minty/Core/_Core.h"
 #include "Minty/Data/_Data.h"
 #include "Minty/Debug/_Debug.h"
+#include "Minty/Entity/_Entity.h"
 #include "Minty/Event/_Event.h"
 #include "Minty/File/_File.h"
 #include "Minty/Job/_Job.h"

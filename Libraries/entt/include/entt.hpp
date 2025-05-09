@@ -5,7 +5,13 @@
 #ifndef ENTT_ASSERT
 #include <iostream>
 #include <cassert>
-#define ENTT_ASSERT(condition, message) if(!(condition)) { Minty::Debug::log_stack_trace(); std::cerr << "EnTT failed assert: (" #condition ") " #message << std::endl; assert(condition); }
+#define ENTT_ASSERT(condition, message) if(!(condition)) do { Minty::Debug::write_abort("EnTT Assertion Failed: " message); } while(false)
+#endif
+
+#ifndef ENTT_ASSERT_CONSTEXPR
+#include <iostream>
+#include <cassert>
+#define ENTT_ASSERT_CONSTEXPR(condition, message) if(!(condition)) do { std::cerr << "EnTT Assertion Failed: " << message << std::endl; } while(false)
 #endif
 
 // IWYU pragma: begin_exports

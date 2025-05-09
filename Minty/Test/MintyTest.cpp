@@ -35,6 +35,9 @@
 // Debug
 #include "Test_Debug.h"
 
+// Entity
+#include "Test_EntityManager.h"
+
 // File
 #include "Test_File.h"
 #include "Test_PhysicalFile.h"
@@ -154,6 +157,9 @@ static int run_tests()
 		test_UUID(_test);
 		test_Variable(_test);
 		test_Vector(_test);
+
+		// Entity
+		test_EntityManager(_test);
 
 		// File
 		test_File(_test);

@@ -46,12 +46,13 @@ var searchData=
   ['owner_43',['Owner',['../class_minty_1_1_owner.html',1,'Minty::Owner&lt; T &gt;'],['../class_minty_1_1_owner.html#a547efbded57a71f0f82b67187b645614',1,'Minty::Owner::Owner'],['../class_minty_1_1_owner.html#a95003e2944ae9d607f6b80ce49fde585',1,'Minty::Owner::Owner()'],['../class_minty_1_1_owner.html#afe7f713ac64c2bb37f069ba310daa029',1,'Minty::Owner::Owner(T *const ptr)'],['../class_minty_1_1_owner.html#aaee9941cfd95b4fa18e41e24f38b4cbd',1,'Minty::Owner::Owner(T *const ptr, Counter *const counter)'],['../class_minty_1_1_owner.html#a413eaf50be5af7ecaa1d90a8deecb69f',1,'Minty::Owner::Owner(Args &amp;&amp;... args)'],['../class_minty_1_1_owner.html#ada44e1b08806caa3aa2f0b803bff9445',1,'Minty::Owner::Owner(std::nullptr_t)'],['../class_minty_1_1_owner.html#af6ef7736d4c4023a73e0395fe08c1f4a',1,'Minty::Owner::Owner(Owner&lt; U &gt; const &amp;other)'],['../class_minty_1_1_owner.html#a705f0267cb52b8fe12a48306860e906c',1,'Minty::Owner::Owner(Owner const &amp;other)'],['../class_minty_1_1_owner.html#a928582ee13a8fecfa774d9943935dc2e',1,'Minty::Owner::Owner(Owner &amp;&amp;other) noexcept']]],
   ['owner_3c_20minty_3a_3aasset_20_3e_44',['Owner&lt; Minty::Asset &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
   ['owner_3c_20minty_3a_3aassetmanager_20_3e_45',['Owner&lt; Minty::AssetManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3aimage_20_3e_46',['Owner&lt; Minty::Image &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3ajobmanager_20_3e_47',['Owner&lt; Minty::JobManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3amemorymanager_20_3e_48',['Owner&lt; Minty::MemoryManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3arendermanager_20_3e_49',['Owner&lt; Minty::RenderManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3aviewport_20_3e_50',['Owner&lt; Minty::Viewport &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3avulkan_5fbuffer_20_3e_51',['Owner&lt; Minty::Vulkan_Buffer &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20minty_3a_3avulkan_5fsurface_20_3e_52',['Owner&lt; Minty::Vulkan_Surface &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
-  ['owner_3c_20t_20_3e_53',['Owner&lt; T &gt;',['../class_minty_1_1_ref.html#a6820e1b2c99192488743980f369c06da',1,'Minty::Ref']]]
+  ['owner_3c_20minty_3a_3aentitymanager_20_3e_46',['Owner&lt; Minty::EntityManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3aimage_20_3e_47',['Owner&lt; Minty::Image &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3ajobmanager_20_3e_48',['Owner&lt; Minty::JobManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3amemorymanager_20_3e_49',['Owner&lt; Minty::MemoryManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3arendermanager_20_3e_50',['Owner&lt; Minty::RenderManager &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3aviewport_20_3e_51',['Owner&lt; Minty::Viewport &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3avulkan_5fbuffer_20_3e_52',['Owner&lt; Minty::Vulkan_Buffer &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20minty_3a_3avulkan_5fsurface_20_3e_53',['Owner&lt; Minty::Vulkan_Surface &gt;',['../class_minty_1_1_owner.html',1,'Minty']]],
+  ['owner_3c_20t_20_3e_54',['Owner&lt; T &gt;',['../class_minty_1_1_ref.html#a6820e1b2c99192488743980f369c06da',1,'Minty::Ref']]]
 ];

@@ -1,5 +1,5 @@
 # Results
-5775/5775 (100.00%)
+5929/5929 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -49,6 +49,7 @@
 | Vector::ReverseIterator        |       85 |        0 |
 | Vector::ConstReverseIterator   |       85 |        0 |
 | Vector                         |      298 |        0 |
+| EntityManager                  |      154 |        0 |
 | File                           |       16 |        0 |
 | PhysicalFile                   |       86 |        0 |
 | VirtualFile                    |       77 |        0 |
@@ -3911,6 +3912,164 @@ No failures! :)
 |  PASS  | 1273: Reverse End ((vec.rend() == vec.rbegin() + 5) == true)                                                                     |
 |  PASS  | 1279: Const Reverse Begin ((*vec.rbegin() == 4) == true)                                                                         |
 |  PASS  | 1285: Const Reverse End ((vec.rend() == vec.rbegin() + 5) == true)                                                               |
+
+## EntityManager
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 10: Constructor/Create (EntityManager::create())                                                                                 |
+|  PASS  | 16: Get ID (manager->get_id(INVALID_ENTITY))                                                                                     |
+|  PASS  | 18: Get ID (manager->get_id(entity) == INVALID_ID)                                                                               |
+|  PASS  | 20: Get ID (manager->get_id(entity) == UUID(1))                                                                                  |
+|  PASS  | 26: Get Entity (manager->get_entity(INVALID_ID))                                                                                 |
+|  PASS  | 28: Get Entity (manager->get_entity(UUID(1)) == entity)                                                                          |
+|  PASS  | 35: Get/Set Enabled ((manager->get_enabled(entity)) == false)                                                                    |
+|  PASS  | 37: Get/Set Enabled ((manager->get_enabled(entity)) == true)                                                                     |
+|  PASS  | 39: Get/Set Enabled ((manager->get_enabled(entity)) == false)                                                                    |
+|  PASS  | 46: Get/Set Visible ((manager->get_visible(entity)) == false)                                                                    |
+|  PASS  | 48: Get/Set Visible ((manager->get_visible(entity)) == true)                                                                     |
+|  PASS  | 50: Get/Set Visible ((manager->get_visible(entity)) == false)                                                                    |
+|  PASS  | 57: Get/Set Layer (manager->get_layer(entity) == LAYER_DEFAULT)                                                                  |
+|  PASS  | 59: Get/Set Layer (manager->get_layer(entity) == 3)                                                                              |
+|  PASS  | 61: Get/Set Layer (manager->get_layer(entity) == LAYER_NONE)                                                                     |
+|  PASS  | 69: Get/Set Parent (manager->get_parent(entity) == INVALID_ENTITY)                                                               |
+|  PASS  | 72: Get/Set Parent (manager->get_parent(entity) == parent)                                                                       |
+|  PASS  | 74: Get/Set Parent (manager->get_parent(entity) == INVALID_ENTITY)                                                               |
+|  PASS  | 91: Get/Set Parent (relationship.parent == parent)                                                                               |
+|  PASS  | 92: Get/Set Parent (relationship.index == i)                                                                                     |
+|  PASS  | 96: Get/Set Parent (relationship.prev == INVALID_ENTITY)                                                                         |
+|  PASS  | 109: Get/Set Parent (relationship.next == children[i + 1])                                                                       |
+|  PASS  | 91: Get/Set Parent (relationship.parent == parent)                                                                               |
+|  PASS  | 92: Get/Set Parent (relationship.index == i)                                                                                     |
+|  PASS  | 100: Get/Set Parent (relationship.prev == children[i - 1])                                                                       |
+|  PASS  | 109: Get/Set Parent (relationship.next == children[i + 1])                                                                       |
+|  PASS  | 91: Get/Set Parent (relationship.parent == parent)                                                                               |
+|  PASS  | 92: Get/Set Parent (relationship.index == i)                                                                                     |
+|  PASS  | 100: Get/Set Parent (relationship.prev == children[i - 1])                                                                       |
+|  PASS  | 109: Get/Set Parent (relationship.next == children[i + 1])                                                                       |
+|  PASS  | 91: Get/Set Parent (relationship.parent == parent)                                                                               |
+|  PASS  | 92: Get/Set Parent (relationship.index == i)                                                                                     |
+|  PASS  | 100: Get/Set Parent (relationship.prev == children[i - 1])                                                                       |
+|  PASS  | 109: Get/Set Parent (relationship.next == children[i + 1])                                                                       |
+|  PASS  | 91: Get/Set Parent (relationship.parent == parent)                                                                               |
+|  PASS  | 92: Get/Set Parent (relationship.index == i)                                                                                     |
+|  PASS  | 100: Get/Set Parent (relationship.prev == children[i - 1])                                                                       |
+|  PASS  | 105: Get/Set Parent (relationship.next == INVALID_ENTITY)                                                                        |
+|  PASS  | 118: Get/Set Name (manager->get_name(entity) == "")                                                                              |
+|  PASS  | 120: Get/Set Name (manager->get_name(entity) == "Test")                                                                          |
+|  PASS  | 122: Get/Set Name (manager->get_name(entity) == "")                                                                              |
+|  PASS  | 130: Contains ((manager->contains(entity)) == true)                                                                              |
+|  PASS  | 131: Contains ((manager->contains(INVALID_ENTITY)) == false)                                                                     |
+|  PASS  | 132: Contains ((manager->contains(uuid)) == true)                                                                                |
+|  PASS  | 133: Contains ((manager->contains(INVALID_ID)) == false)                                                                         |
+|  PASS  | 140: Is In Layer ((manager->is_in_layer(entity, LAYER_DEFAULT)) == true)                                                         |
+|  PASS  | 141: Is In Layer ((manager->is_in_layer(entity, LAYER_NONE)) == false)                                                           |
+|  PASS  | 143: Is In Layer ((manager->is_in_layer(entity, 2)) == true)                                                                     |
+|  PASS  | 144: Is In Layer ((manager->is_in_layer(entity, LAYER_DEFAULT)) == false)                                                        |
+|  PASS  | 146: Is In Layer ((manager->is_in_layer(entity, LAYER_NONE)) == true)                                                            |
+|  PASS  | 148: Is In Layer ((manager->is_in_layer(entity, 1)) == true)                                                                     |
+|  PASS  | 149: Is In Layer ((manager->is_in_layer(entity, 2)) == true)                                                                     |
+|  PASS  | 150: Is In Layer ((manager->is_in_layer(entity, 7)) == true)                                                                     |
+|  PASS  | 151: Is In Layer ((manager->is_in_layer(entity, 15)) == false)                                                                   |
+|  PASS  | 158: Dirty ((manager->has_component<DirtyComponent>(entity)) == false)                                                           |
+|  PASS  | 160: Dirty ((manager->has_component<DirtyComponent>(entity)) == true)                                                            |
+|  PASS  | 167: Create Entity Default ((manager->contains(entity)) == true)                                                                 |
+|  PASS  | 168: Create Entity Default ((manager->get_enabled(entity)) == false)                                                             |
+|  PASS  | 169: Create Entity Default ((manager->get_visible(entity)) == false)                                                             |
+|  PASS  | 170: Create Entity Default (manager->get_layer(entity) == LAYER_DEFAULT)                                                         |
+|  PASS  | 171: Create Entity Default (manager->get_parent(entity) == INVALID_ENTITY)                                                       |
+|  PASS  | 172: Create Entity Default ((manager->has_component<DirtyComponent>(entity)) == false)                                           |
+|  PASS  | 180: Create Entity with ID ((manager->contains(entity)) == true)                                                                 |
+|  PASS  | 181: Create Entity with ID ((manager->contains(id)) == true)                                                                     |
+|  PASS  | 182: Create Entity with ID (manager->get_id(entity) == id)                                                                       |
+|  PASS  | 183: Create Entity with ID ((manager->get_enabled(entity)) == false)                                                             |
+|  PASS  | 184: Create Entity with ID ((manager->get_visible(entity)) == false)                                                             |
+|  PASS  | 185: Create Entity with ID (manager->get_layer(entity) == LAYER_DEFAULT)                                                         |
+|  PASS  | 186: Create Entity with ID (manager->get_parent(entity) == INVALID_ENTITY)                                                       |
+|  PASS  | 187: Create Entity with ID ((manager->has_component<DirtyComponent>(entity)) == false)                                           |
+|  PASS  | 195: Create Entity with Name ((manager->contains(entity)) == true)                                                               |
+|  PASS  | 196: Create Entity with Name (manager->get_name(entity) == name)                                                                 |
+|  PASS  | 197: Create Entity with Name ((manager->get_enabled(entity)) == false)                                                           |
+|  PASS  | 198: Create Entity with Name ((manager->get_visible(entity)) == false)                                                           |
+|  PASS  | 199: Create Entity with Name (manager->get_layer(entity) == LAYER_DEFAULT)                                                       |
+|  PASS  | 200: Create Entity with Name (manager->get_parent(entity) == INVALID_ENTITY)                                                     |
+|  PASS  | 201: Create Entity with Name ((manager->has_component<DirtyComponent>(entity)) == false)                                         |
+|  PASS  | 210: Create Entity with Name and ID ((manager->contains(entity)) == true)                                                        |
+|  PASS  | 211: Create Entity with Name and ID ((manager->contains(id)) == true)                                                            |
+|  PASS  | 212: Create Entity with Name and ID (manager->get_id(entity) == id)                                                              |
+|  PASS  | 213: Create Entity with Name and ID (manager->get_name(entity) == name)                                                          |
+|  PASS  | 214: Create Entity with Name and ID ((manager->get_enabled(entity)) == false)                                                    |
+|  PASS  | 215: Create Entity with Name and ID ((manager->get_visible(entity)) == false)                                                    |
+|  PASS  | 216: Create Entity with Name and ID (manager->get_layer(entity) == LAYER_DEFAULT)                                                |
+|  PASS  | 217: Create Entity with Name and ID (manager->get_parent(entity) == INVALID_ENTITY)                                              |
+|  PASS  | 218: Create Entity with Name and ID ((manager->has_component<DirtyComponent>(entity)) == false)                                  |
+|  PASS  | 225: Add Component ((manager->has_component<NameComponent>(entity)) == false)                                                    |
+|  PASS  | 228: Add Component ((manager->has_component<NameComponent>(entity)) == true)                                                     |
+|  PASS  | 229: Add Component (manager->get_component<NameComponent>(entity).name == nameComp.name)                                         |
+|  PASS  | 238: Get Component (manager->get_component<NameComponent>(entity).name == nameComp.name)                                         |
+|  PASS  | 248: Get Component Const (constManager.get_component<NameComponent>(entity).name == nameComp.name)                               |
+|  PASS  | 255: Try Get Component (manager->try_get_component<NameComponent>(entity) == nullptr)                                            |
+|  PASS  | 258: Try Get Component (manager->try_get_component<NameComponent>(entity)->name == nameComp.name)                                |
+|  PASS  | 265: Try Get Component Const (manager->try_get_component<NameComponent>(entity) == nullptr)                                      |
+|  PASS  | 269: Try Get Component Const (constManager.try_get_component<NameComponent>(entity)->name == nameComp.name)                      |
+|  PASS  | 276: Has Component ((manager->has_component<NameComponent>(entity)) == false)                                                    |
+|  PASS  | 279: Has Component ((manager->has_component<NameComponent>(entity)) == true)                                                     |
+|  PASS  | 286: Remove Component ((manager->has_component<NameComponent>(entity)) == false)                                                 |
+|  PASS  | 289: Remove Component ((manager->has_component<NameComponent>(entity)) == true)                                                  |
+|  PASS  | 291: Remove Component ((manager->has_component<NameComponent>(entity)) == false)                                                 |
+|  PASS  | 299: Clear ((manager->contains(entity)) == true)                                                                                 |
+|  PASS  | 300: Clear ((manager->contains(id)) == true)                                                                                     |
+|  PASS  | 302: Clear ((manager->contains(entity)) == false)                                                                                |
+|  PASS  | 303: Clear ((manager->contains(id)) == false)                                                                                    |
+|  PASS  | 322: Sort (manager->set_parent(entity0, entity0))                                                                                |
+|  PASS  | 323: Sort (manager->set_parent(entity0, entity3))                                                                                |
+|  PASS  | 333: Sort (manager->sort())                                                                                                      |
+|  PASS  | 340: Sort (entity == correctOrder[i])                                                                                            |
+|  PASS  | 340: Sort (entity == correctOrder[i])                                                                                            |
+|  PASS  | 340: Sort (entity == correctOrder[i])                                                                                            |
+|  PASS  | 340: Sort (entity == correctOrder[i])                                                                                            |
+|  PASS  | 357: Swap Siblings (manager->swap_siblings(entity0, parent))                                                                     |
+|  PASS  | 358: Swap Siblings (manager->swap_siblings(entity0, entity0))                                                                    |
+|  PASS  | 359: Swap Siblings (manager->swap_siblings(entity0, entity1))                                                                    |
+|  PASS  | 360: Swap Siblings (manager->swap_siblings(entity2, entity3))                                                                    |
+|  PASS  | 369: Swap Siblings (entity == correctOrder[i])                                                                                   |
+|  PASS  | 369: Swap Siblings (entity == correctOrder[i])                                                                                   |
+|  PASS  | 369: Swap Siblings (entity == correctOrder[i])                                                                                   |
+|  PASS  | 369: Swap Siblings (entity == correctOrder[i])                                                                                   |
+|  PASS  | 369: Swap Siblings (entity == correctOrder[i])                                                                                   |
+|  PASS  | 386: Move to Next (manager->move_to_next(INVALID_ENTITY))                                                                        |
+|  PASS  | 387: Move to Next (manager->move_to_next(entity0))                                                                               |
+|  PASS  | 388: Move to Next (manager->move_to_next(entity2))                                                                               |
+|  PASS  | 389: Move to Next (manager->move_to_next(entity3))                                                                               |
+|  PASS  | 396: Move to Next (entity == correctOrder[i])                                                                                    |
+|  PASS  | 396: Move to Next (entity == correctOrder[i])                                                                                    |
+|  PASS  | 396: Move to Next (entity == correctOrder[i])                                                                                    |
+|  PASS  | 396: Move to Next (entity == correctOrder[i])                                                                                    |
+|  PASS  | 396: Move to Next (entity == correctOrder[i])                                                                                    |
+|  PASS  | 413: Move to Previous (manager->move_to_previous(INVALID_ENTITY))                                                                |
+|  PASS  | 414: Move to Previous (manager->move_to_previous(entity0))                                                                       |
+|  PASS  | 415: Move to Previous (manager->move_to_previous(entity1))                                                                       |
+|  PASS  | 416: Move to Previous (manager->move_to_previous(entity3))                                                                       |
+|  PASS  | 423: Move to Previous (entity == correctOrder[i])                                                                                |
+|  PASS  | 423: Move to Previous (entity == correctOrder[i])                                                                                |
+|  PASS  | 423: Move to Previous (entity == correctOrder[i])                                                                                |
+|  PASS  | 423: Move to Previous (entity == correctOrder[i])                                                                                |
+|  PASS  | 423: Move to Previous (entity == correctOrder[i])                                                                                |
+|  PASS  | 440: Move to First (manager->move_to_first(INVALID_ENTITY))                                                                      |
+|  PASS  | 441: Move to First (manager->move_to_first(entity0))                                                                             |
+|  PASS  | 442: Move to First (manager->move_to_first(entity3))                                                                             |
+|  PASS  | 449: Move to First (entity == correctOrder[i])                                                                                   |
+|  PASS  | 449: Move to First (entity == correctOrder[i])                                                                                   |
+|  PASS  | 449: Move to First (entity == correctOrder[i])                                                                                   |
+|  PASS  | 449: Move to First (entity == correctOrder[i])                                                                                   |
+|  PASS  | 449: Move to First (entity == correctOrder[i])                                                                                   |
+|  PASS  | 466: Move to Last (manager->move_to_last(INVALID_ENTITY))                                                                        |
+|  PASS  | 467: Move to Last (manager->move_to_last(entity3))                                                                               |
+|  PASS  | 468: Move to Last (manager->move_to_last(entity0))                                                                               |
+|  PASS  | 475: Move to Last (entity == correctOrder[i])                                                                                    |
+|  PASS  | 475: Move to Last (entity == correctOrder[i])                                                                                    |
+|  PASS  | 475: Move to Last (entity == correctOrder[i])                                                                                    |
+|  PASS  | 475: Move to Last (entity == correctOrder[i])                                                                                    |
+|  PASS  | 475: Move to Last (entity == correctOrder[i])                                                                                    |
 
 ## File
 | Result | Message                                                                                                                          |

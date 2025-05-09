@@ -6,6 +6,7 @@ var class_minty_1_1_context =
     [ "~Context", "class_minty_1_1_context.html#a4083d1edfa338efd1a9d053abe6d3493", null ],
     [ "finalize", "class_minty_1_1_context.html#ae23e4fa9a4ad6ec681b279bb38fcdbcf", null ],
     [ "get_asset_manager", "class_minty_1_1_context.html#a510cbe5e9bdb30d14711c6bbfdc6ef2d", null ],
+    [ "get_entity_manager", "class_minty_1_1_context.html#a49d812c9b1d60a3435aa312417c16c73", null ],
     [ "get_job_manager", "class_minty_1_1_context.html#a4c5564b53b69ca298672f46eb8ddfbf1", null ],
     [ "get_memory_manager", "class_minty_1_1_context.html#af242098c9ce9b62fa566bc04d8c388f0", null ],
     [ "get_render_manager", "class_minty_1_1_context.html#ad38b5f4087e8d8c7676844b535321fdd", null ],
