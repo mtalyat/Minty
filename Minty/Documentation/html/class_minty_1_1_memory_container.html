@@ -124,6 +124,7 @@ Inheritance diagram for Minty::MemoryContainer:</div>
 <area href="class_minty_1_1_constant_container.html" title="A Container with a fixed capacity and size." alt="Minty::ConstantContainer" shape="rect" coords="0,112,153,136"/>
 <area href="class_minty_1_1_dynamic_container.html" title="A Container of Bytes with a dynamic capacity and size." alt="Minty::DynamicContainer" shape="rect" coords="163,112,316,136"/>
 <area href="class_minty_1_1_static_container.html" title="A Container of bytes that has a constant capacity. The size is dynamic, but only within the capacity." alt="Minty::StaticContainer" shape="rect" coords="326,112,479,136"/>
+<area href="class_minty_1_1_list_container.html" title="A Container of bytes that holds a list of elements." alt="Minty::ListContainer" shape="rect" coords="163,168,316,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -173,10 +174,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af5019a55c6f4cc2c86afae7260de8a53 inherit pub_methods_class_minty_1_1_container" id="r_af5019a55c6f4cc2c86afae7260de8a53"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#af5019a55c6f4cc2c86afae7260de8a53">append</a> (void const *const data, <a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const size)=0</td></tr>
 <tr class="memdesc:af5019a55c6f4cc2c86afae7260de8a53 inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the given bytes to the end of the data within this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>. Reserves more space if needed.  <br /></td></tr>
 <tr class="separator:af5019a55c6f4cc2c86afae7260de8a53 inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb27d6fe93d81ca6c8bcb60b70fcb734 inherit pub_methods_class_minty_1_1_container" id="r_adb27d6fe93d81ca6c8bcb60b70fcb734"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:adb27d6fe93d81ca6c8bcb60b70fcb734 inherit pub_methods_class_minty_1_1_container"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#adb27d6fe93d81ca6c8bcb60b70fcb734">append_object</a> (T const &amp;data)</td></tr>
-<tr class="memdesc:adb27d6fe93d81ca6c8bcb60b70fcb734 inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds the given object to the end of the data within this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>. Reserves more space if needed.  <br /></td></tr>
-<tr class="separator:adb27d6fe93d81ca6c8bcb60b70fcb734 inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefe0ea786e22f38256c3b0bfb55a7705 inherit pub_methods_class_minty_1_1_container" id="r_aefe0ea786e22f38256c3b0bfb55a7705"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespace_minty.html#ae50ca127ff317b788faaab0563a8df56">Bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_container.html#aefe0ea786e22f38256c3b0bfb55a7705">reserve</a> (<a class="el" href="namespace_minty.html#a255c27cd8d5eacbbcbb02c4962ef3079">Size</a> const capacity)=0</td></tr>
 <tr class="memdesc:aefe0ea786e22f38256c3b0bfb55a7705 inherit pub_methods_class_minty_1_1_container"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the new capacity for this <a class="el" href="class_minty_1_1_container.html" title="A collection of bytes.">Container</a>.  <br /></td></tr>
 <tr class="separator:aefe0ea786e22f38256c3b0bfb55a7705 inherit pub_methods_class_minty_1_1_container"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -501,7 +498,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="class_minty_1_1_container.html#abaaa316b5e2711174213650f989a4a26">Minty::Container</a>.</p>
 
-<p>Reimplemented in <a class="el" href="class_minty_1_1_constant_container.html#a5cbf288842ee0ac8e7f2382a2926d28d">Minty::ConstantContainer</a>, and <a class="el" href="class_minty_1_1_static_container.html#a6386096085f3a05745e182a1bc15c608">Minty::StaticContainer</a>.</p>
+<p>Reimplemented in <a class="el" href="class_minty_1_1_constant_container.html#a5cbf288842ee0ac8e7f2382a2926d28d">Minty::ConstantContainer</a>, <a class="el" href="class_minty_1_1_list_container.html#a4be8c513e5d8c93b7a16c6bec9297b33">Minty::ListContainer</a>, and <a class="el" href="class_minty_1_1_static_container.html#a6386096085f3a05745e182a1bc15c608">Minty::StaticContainer</a>.</p>
 
 </div>
 </div>

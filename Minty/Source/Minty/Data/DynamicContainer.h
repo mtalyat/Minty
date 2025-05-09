@@ -101,14 +101,14 @@ namespace Minty
 		/// <param name="data">The bytes to append.</param>
 		/// <param name="size">The number of bytes to append.</param>
 		/// <returns>True if appended successfully.</returns>
-		Bool append(void const* const data, Size const size) override;
+		virtual Bool append(void const* const data, Size const size) override;
 
 		/// <summary>
 		/// Sets the new capacity for this Container.
 		/// </summary>
 		/// <param name="capacity">The new capacity to set, in bytes.</param>
 		/// <returns>True on success.</returns>
-		Bool reserve(Size const newCapacity) override;
+		virtual Bool reserve(Size const newCapacity) override;
 
 #pragma endregion
 	};

@@ -47,6 +47,7 @@ var annotated_dup =
       [ "JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", "struct_minty_1_1_job_manager_builder" ],
       [ "LayerComponent", "struct_minty_1_1_layer_component.html", "struct_minty_1_1_layer_component" ],
       [ "List", "class_minty_1_1_list.html", "class_minty_1_1_list" ],
+      [ "ListContainer", "class_minty_1_1_list_container.html", "class_minty_1_1_list_container" ],
       [ "Manager", "class_minty_1_1_manager.html", "class_minty_1_1_manager" ],
       [ "Map", "class_minty_1_1_map.html", "class_minty_1_1_map" ],
       [ "Material", "class_minty_1_1_material.html", "class_minty_1_1_material" ],

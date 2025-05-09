@@ -597,6 +597,9 @@
     <ClInclude Include="Minty\Component\TransformComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\ListContainer.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -885,6 +888,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Component\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\ListContainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

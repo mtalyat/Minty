@@ -56,7 +56,9 @@ var hierarchy =
     [ "Minty::Container", "class_minty_1_1_container.html", [
       [ "Minty::MemoryContainer", "class_minty_1_1_memory_container.html", [
         [ "Minty::ConstantContainer", "class_minty_1_1_constant_container.html", null ],
-        [ "Minty::DynamicContainer", "class_minty_1_1_dynamic_container.html", null ],
+        [ "Minty::DynamicContainer", "class_minty_1_1_dynamic_container.html", [
+          [ "Minty::ListContainer", "class_minty_1_1_list_container.html", null ]
+        ] ],
         [ "Minty::StaticContainer", "class_minty_1_1_static_container.html", null ]
       ] ]
     ] ],

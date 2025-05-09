@@ -75,18 +75,6 @@ namespace Minty
 		virtual Bool append(void const* const data, Size const size) = 0;
 
 		/// <summary>
-		/// Adds the given object to the end of the data within this Container. Reserves more space if needed.
-		/// </summary>
-		/// <typeparam name="T">The type of object.</typeparam>
-		/// <param name="data">The object.</param>
-		/// <returns>True if appended succesfully.</returns>
-		template<typename T>
-		Bool append_object(T const& data)
-		{
-			return append(&data, sizeof(T));
-		}
-
-		/// <summary>
 		/// Clears all data out of this Container.
 		/// </summary>
 		virtual void clear() = 0;
