@@ -125,6 +125,7 @@ var annotated_dup =
       [ "Vulkan_Frame", "struct_minty_1_1_vulkan___frame.html", "struct_minty_1_1_vulkan___frame" ],
       [ "Vulkan_Image", "class_minty_1_1_vulkan___image.html", "class_minty_1_1_vulkan___image" ],
       [ "Vulkan_Material", "class_minty_1_1_vulkan___material.html", "class_minty_1_1_vulkan___material" ],
+      [ "Vulkan_Mesh", "class_minty_1_1_vulkan___mesh.html", "class_minty_1_1_vulkan___mesh" ],
       [ "Vulkan_QueueFamilyIndices", "struct_minty_1_1_vulkan___queue_family_indices.html", "struct_minty_1_1_vulkan___queue_family_indices" ],
       [ "Vulkan_Renderer", "class_minty_1_1_vulkan___renderer.html", null ],
       [ "Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html", "class_minty_1_1_vulkan___render_manager" ],

@@ -330,6 +330,7 @@ doxygen</Command>
     <ClInclude Include="Platform\Vulkan\Vulkan_Frame.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Image.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Material.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Mesh.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_QueueFamilyIndices.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Renderer.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_RenderManager.h" />
@@ -437,6 +438,7 @@ doxygen</Command>
     <ClCompile Include="Platform\Vulkan\Vulkan_Buffer.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Image.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Material.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Mesh.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Renderer.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderManager.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderPass.cpp" />

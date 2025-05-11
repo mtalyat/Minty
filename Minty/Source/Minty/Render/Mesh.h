@@ -37,7 +37,7 @@ namespace Minty
 	{
 #pragma region Variables
 
-	private:
+	protected:
 		ListContainer m_vertices;
 		Owner<Buffer> m_vertexBuffer;
 

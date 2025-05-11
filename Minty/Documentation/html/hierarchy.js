@@ -13,7 +13,9 @@ var hierarchy =
         [ "Minty::Vulkan_Material", "class_minty_1_1_vulkan___material.html", null ]
       ] ],
       [ "Minty::MaterialTemplate", "class_minty_1_1_material_template.html", null ],
-      [ "Minty::Mesh", "class_minty_1_1_mesh.html", null ],
+      [ "Minty::Mesh", "class_minty_1_1_mesh.html", [
+        [ "Minty::Vulkan_Mesh", "class_minty_1_1_vulkan___mesh.html", null ]
+      ] ],
       [ "Minty::RenderPass", "class_minty_1_1_render_pass.html", [
         [ "Minty::Vulkan_RenderPass", "class_minty_1_1_vulkan___render_pass.html", null ]
       ] ],

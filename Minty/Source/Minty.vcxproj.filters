@@ -609,6 +609,9 @@
     <ClInclude Include="Minty\Render\MeshType.h">
       <Filter>Minty\Render\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Platform\Vulkan\Vulkan_Mesh.h">
+      <Filter>Platform\Vulkan</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -903,6 +906,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
