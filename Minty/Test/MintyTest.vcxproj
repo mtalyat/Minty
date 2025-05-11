@@ -183,6 +183,7 @@
     <ClCompile Include="Test_MemoryManager.cpp" />
     <ClCompile Include="Test_MemoryPool.cpp" />
     <ClCompile Include="Test_MemoryStack.cpp" />
+    <ClCompile Include="Test_MeshType.cpp" />
     <ClCompile Include="Test_Minty.cpp" />
     <ClCompile Include="Test_Node.cpp" />
     <ClCompile Include="Test_Object.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Test_MemoryManager.h" />
     <ClInclude Include="Test_MemoryPool.h" />
     <ClInclude Include="Test_MemoryStack.h" />
+    <ClInclude Include="Test_MeshType.h" />
     <ClInclude Include="Test_Minty.h" />
     <ClInclude Include="Test_Node.h" />
     <ClInclude Include="Test_Object.h" />

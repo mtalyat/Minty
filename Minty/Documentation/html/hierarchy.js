@@ -182,6 +182,7 @@ var hierarchy =
         [ "Minty::DirtyComponent", "struct_minty_1_1_dirty_component.html", null ],
         [ "Minty::EnabledComponent", "struct_minty_1_1_enabled_component.html", null ],
         [ "Minty::LayerComponent", "struct_minty_1_1_layer_component.html", null ],
+        [ "Minty::MeshComponent", "struct_minty_1_1_mesh_component.html", null ],
         [ "Minty::NameComponent", "struct_minty_1_1_name_component.html", null ],
         [ "Minty::RelationshipComponent", "struct_minty_1_1_relationship_component.html", null ],
         [ "Minty::TransformComponent", "struct_minty_1_1_transform_component.html", null ],

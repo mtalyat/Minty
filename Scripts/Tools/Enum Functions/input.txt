@@ -1,15 +1,25 @@
 /// <summary>
-/// The store operation.
+/// The type of Mesh.
 /// </summary>
-enum class StoreOperation
+enum class MeshType
 {
 	/// <summary>
-	/// Does nothing with the current data.
+	/// An empty Mesh.
 	/// </summary>
-	DontCare,
+	Empty,
 
 	/// <summary>
-	/// Stores the current data.
+	/// A custom Mesh.
 	/// </summary>
-	Store,
+	Custom,
+
+	/// <summary>
+	/// A square Mesh.
+	/// </summary>
+	Quad,
+
+	/// <summary>
+	/// A cube Mesh.
+	/// </summary>
+	Cube,
 };

@@ -70,6 +70,7 @@
 #include "Test_LoadOperation.h"
 #include "Test_Material.h"
 #include "Test_MaterialTemplate.h"
+#include "Test_MeshType.h"
 #include "Test_Perspective.h"
 #include "Test_RenderManager.h"
 #include "Test_Shader.h"
@@ -194,6 +195,7 @@ static int run_tests()
 		test_LoadOperation(_test);
 		test_Material(_test);
 		test_MaterialTemplate(_test);
+		test_MeshType(_test);
 		test_Perspective(_test);
 		test_RenderManager(_test);
 		test_Shader(_test);

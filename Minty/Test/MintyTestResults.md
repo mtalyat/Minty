@@ -1,5 +1,5 @@
 # Results
-5967/5967 (100.00%)
+5986/5986 (100.00%)
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -75,6 +75,7 @@
 | LoadOperation                  |       15 |        0 |
 | Material                       |       15 |        0 |
 | MaterialTemplate               |        9 |        0 |
+| MeshType                       |       19 |        0 |
 | Perspective                    |       11 |        0 |
 | RenderManager                  |        7 |        0 |
 | Shader                         |       25 |        0 |
@@ -5601,6 +5602,29 @@ No failures! :)
 |  PASS  | 51: Get Values ((materialTemplate->get_inputs().contains("camera")) == true)                                                     |
 |  PASS  | 52: Get Values ((materialTemplate->get_inputs().contains("xxx")) == false)                                                       |
 |  PASS  | 60: Get Asset Type (materialTemplate->get_asset_type() == AssetType::MaterialTemplate)                                           |
+
+## MeshType
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 19: To String (to_string(value) == name)                                                                                         |
+|  PASS  | 27: Parse To (parse_to_mesh_type(name) == value)                                                                                 |
+|  PASS  | 27: Parse To (parse_to_mesh_type(name) == value)                                                                                 |
+|  PASS  | 27: Parse To (parse_to_mesh_type(name) == value)                                                                                 |
+|  PASS  | 27: Parse To (parse_to_mesh_type(name) == value)                                                                                 |
+|  PASS  | 30: Parse To (parse_to_mesh_type("") == MeshType())                                                                              |
+|  PASS  | 38: Parse Try ((parse_try_mesh_type(name, result)) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try ((parse_try_mesh_type(name, result)) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try ((parse_try_mesh_type(name, result)) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 38: Parse Try ((parse_try_mesh_type(name, result)) == true)                                                                      |
+|  PASS  | 39: Parse Try (result == value)                                                                                                  |
+|  PASS  | 42: Parse Try ((parse_try_mesh_type("", result)) == false)                                                                       |
+|  PASS  | 43: Parse Try (result == MeshType())                                                                                             |
 
 ## Perspective
 | Result | Message                                                                                                                          |

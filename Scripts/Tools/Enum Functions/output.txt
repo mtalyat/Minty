@@ -2,13 +2,13 @@
 	Header:
 ====================
 
-String to_string(StoreOperation const obj);
-    StoreOperation parse_to_store_operation(String const& string);
-    Bool parse_try_store_operation(String const& string, StoreOperation& value);
+String to_string(MeshType const obj);
+    MeshType parse_to_mesh_type(String const& string);
+    Bool parse_try_mesh_type(String const& string, MeshType& value);
     template<>
-    inline StoreOperation parse_to<StoreOperation>(String const& string) { return parse_to_store_operation(string); }
+    inline MeshType parse_to<MeshType>(String const& string) { return parse_to_mesh_type(string); }
     template<>
-    inline Bool parse_try<StoreOperation>(String const& string, StoreOperation& value) { return parse_try_store_operation(string, value); }
+    inline Bool parse_try<MeshType>(String const& string, MeshType& value) { return parse_try_mesh_type(string, value); }
 
 ====================
 	Source:
@@ -16,29 +16,33 @@ String to_string(StoreOperation const obj);
 
 using namespace Minty;
 
-String Minty::to_string(StoreOperation const obj)
+String Minty::to_string(MeshType const obj)
 {
     switch (obj)
 	{
-		case StoreOperation::DontCare: return "DontCare";
-		case StoreOperation::Store: return "Store";
+		case MeshType::Empty: return "Empty";
+		case MeshType::Custom: return "Custom";
+		case MeshType::Quad: return "Quad";
+		case MeshType::Cube: return "Cube";
 
 		default: return "";
 	}
 }
 
-StoreOperation Minty::parse_to_store_operation(String const& string)
+MeshType Minty::parse_to_mesh_type(String const& string)
 {
-	if (string == "DontCare") return StoreOperation::DontCare;
-	if (string == "Store") return StoreOperation::Store;
+	if (string == "Empty") return MeshType::Empty;
+	if (string == "Custom") return MeshType::Custom;
+	if (string == "Quad") return MeshType::Quad;
+	if (string == "Cube") return MeshType::Cube;
 
-	return StoreOperation();
+	return MeshType();
 }
 
-Bool Minty::parse_try_store_operation(String const& string, StoreOperation& value)
+Bool Minty::parse_try_mesh_type(String const& string, MeshType& value)
 {
-	value = parse_to_store_operation(string);
-	return value != StoreOperation();
+	value = parse_to_mesh_type(string);
+	return value != MeshType();
 }
 
 ====================
@@ -49,22 +53,24 @@ Bool Minty::parse_try_store_operation(String const& string, StoreOperation& valu
 
 #include "Test.h"
 
-void test_StoreOperation(Test& _test);
+void test_MeshType(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_StoreOperation.h"
+#include "Test_MeshType.h"
 #include "Minty.h"
 
-void test_StoreOperation(Test& _test)
+void test_MeshType(Test& _test)
 {
-	CATEGORY(StoreOperation)
+	CATEGORY(MeshType)
 	{
-        std::vector<std::pair<StoreOperation, String>> VALUES = {
-			{StoreOperation::DontCare, "DontCare"},
-			{StoreOperation::Store, "Store"},
+        std::vector<std::pair<MeshType, String>> VALUES = {
+			{MeshType::Empty, "Empty"},
+			{MeshType::Custom, "Custom"},
+			{MeshType::Quad, "Quad"},
+			{MeshType::Cube, "Cube"},
         };
     
         TEST("To String")
@@ -79,23 +85,23 @@ void test_StoreOperation(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_store_operation(name), value);
+                EXPECT_EQUAL(parse_to_mesh_type(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_store_operation(""), StoreOperation());
+            EXPECT_EQUAL(parse_to_mesh_type(""), MeshType());
         }
 
         TEST("Parse Try")
         {
-            StoreOperation result;
+            MeshType result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_store_operation(name, result));
+                EXPECT_TRUE(parse_try_mesh_type(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_store_operation("", result));
-            EXPECT_EQUAL(result, StoreOperation());
+            EXPECT_FALSE(parse_try_mesh_type("", result));
+            EXPECT_EQUAL(result, MeshType());
         }
 	}
 }

@@ -3,6 +3,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/UUID.h"
+#include <type_traits>
 
 namespace Minty
 {

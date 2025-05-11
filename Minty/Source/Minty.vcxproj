@@ -188,6 +188,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
     <ClInclude Include="Minty\Component\LayerComponent.h" />
+    <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
@@ -350,6 +351,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
+    <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
@@ -401,6 +403,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\Material.cpp" />
     <ClCompile Include="Minty\Render\MaterialTemplate.cpp" />
     <ClCompile Include="Minty\Render\Mesh.cpp" />
+    <ClCompile Include="Minty\Render\MeshType.cpp" />
     <ClCompile Include="Minty\Render\Perspective.cpp" />
     <ClCompile Include="Minty\Render\RenderManager.cpp" />
     <ClCompile Include="Minty\Render\RenderPass.cpp" />
