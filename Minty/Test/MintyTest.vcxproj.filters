@@ -303,6 +303,9 @@
     <ClCompile Include="Test_EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_ListContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Minty.h">
@@ -544,6 +547,9 @@
     </ClInclude>
     <ClInclude Include="Test_EntityManager.h">
       <Filter>Header Files\Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ListContainer.h">
+      <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,9 @@
 var NAVTREEINDEX20 =
 {
+"namespace_minty.html#ab893e761714eabdf0ea31a3be860bf8a":[0,0,0,389],
+"namespace_minty.html#ab8ab09a751e11d15cf255620fd0727cf":[0,0,0,385],
+"namespace_minty.html#aba151d57feef32a12b75b63d739c3f80":[0,0,0,412],
+"namespace_minty.html#aba8efead217577576134904b5c19c5ef":[0,0,0,462],
 "namespace_minty.html#abb2ba6b676702978d070655e5c5f754a":[0,0,0,208],
 "namespace_minty.html#abb2ba6b676702978d070655e5c5f754aa03424250432f2aa71de95579d2c0eaeb":[0,0,0,208,2],
 "namespace_minty.html#abb2ba6b676702978d070655e5c5f754aaa80420eef88d11f77532f1b9cb467fa3":[0,0,0,208,1],
@@ -245,9 +249,5 @@ var NAVTREEINDEX20 =
 "namespacemembers_vars.html":[0,1,2],
 "namespacemembers_w.html":[0,1,0,21],
 "namespaces.html":[0,0],
-"namespacestd.html":[0,0,1],
-"pages.html":[],
-"pch_8cpp.html":[2,0,0,5],
-"pch_8h.html":[2,0,0,6],
-"pch_8h_source.html":[2,0,0,6]
+"namespacestd.html":[0,0,1]
 };

@@ -169,22 +169,6 @@ void test_StaticContainer(Test& _test)
 			EXPECT_NOT_EQUAL(test2.get_data(), nullptr);
 		}
 
-		TEST("Append Object")
-		{
-			StaticContainer test;
-			ID value = UUID::create();
-			EXPECT_FALSE(test.append_object(value));
-			EXPECT_EQUAL(test.get_capacity(), 0);
-			EXPECT_EQUAL(test.get_size(), 0);
-			EXPECT_EQUAL(test.get_data(), nullptr);
-
-			StaticContainer test2(sizeof(ID));
-			EXPECT_TRUE(test2.append_object(value));
-			EXPECT_EQUAL(test2.get_capacity(), sizeof(ID));
-			EXPECT_EQUAL(test2.get_size(), sizeof(ID));
-			EXPECT_NOT_EQUAL(test2.get_data(), nullptr);
-		}
-
 		TEST("Clear")
 		{
 			ID value = UUID::create();

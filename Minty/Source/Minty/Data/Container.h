@@ -64,7 +64,7 @@ namespace Minty
 		/// <param name="data">The bytes to set.</param>
 		/// <param name="size">The number of bytes to set.</param>
 		/// <returns>True if set successfully.</returns>
-		Bool set(void const* const data, Size const size);
+		virtual Bool set(void const* const data, Size const size);
 
 		/// <summary>
 		/// Adds the given bytes to the end of the data within this Container. Reserves more space if needed.
