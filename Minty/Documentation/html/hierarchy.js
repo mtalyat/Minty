@@ -13,6 +13,7 @@ var hierarchy =
         [ "Minty::Vulkan_Material", "class_minty_1_1_vulkan___material.html", null ]
       ] ],
       [ "Minty::MaterialTemplate", "class_minty_1_1_material_template.html", null ],
+      [ "Minty::Mesh", "class_minty_1_1_mesh.html", null ],
       [ "Minty::RenderPass", "class_minty_1_1_render_pass.html", [
         [ "Minty::Vulkan_RenderPass", "class_minty_1_1_vulkan___render_pass.html", null ]
       ] ],
@@ -126,6 +127,7 @@ var hierarchy =
     [ "Minty::MemoryPoolBuilder", "struct_minty_1_1_memory_pool_builder.html", null ],
     [ "Minty::MemoryStack", "class_minty_1_1_memory_stack.html", null ],
     [ "Minty::MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", null ],
+    [ "Minty::MeshBuilder", "struct_minty_1_1_mesh_builder.html", null ],
     [ "Minty::Node", "class_minty_1_1_node.html", null ],
     [ "Minty::Object", "class_minty_1_1_object.html", null ],
     [ "Minty::Owner< T >", "class_minty_1_1_owner.html", null ],

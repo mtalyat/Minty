@@ -17,6 +17,8 @@
 #include "LoadOperation.h"
 #include "Material.h"
 #include "MaterialTemplate.h"
+#include "Mesh.h"
+#include "MeshType.h"
 #include "Perspective.h"
 #include "Renderer.h"
 #include "RenderAttachment.h"

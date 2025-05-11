@@ -118,6 +118,8 @@ var namespace_minty =
     [ "MemoryStack", "class_minty_1_1_memory_stack.html", "class_minty_1_1_memory_stack" ],
     [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
     [ "MemoryWriterBehavior", "class_minty_1_1_memory_writer_behavior.html", "class_minty_1_1_memory_writer_behavior" ],
+    [ "Mesh", "class_minty_1_1_mesh.html", "class_minty_1_1_mesh" ],
+    [ "MeshBuilder", "struct_minty_1_1_mesh_builder.html", "struct_minty_1_1_mesh_builder" ],
     [ "NameComponent", "struct_minty_1_1_name_component.html", "struct_minty_1_1_name_component" ],
     [ "Node", "class_minty_1_1_node.html", "class_minty_1_1_node" ],
     [ "NodeReaderBehavior", "class_minty_1_1_node_reader_behavior.html", "class_minty_1_1_node_reader_behavior" ],
@@ -511,6 +513,12 @@ var namespace_minty =
       [ "DontCare", "namespace_minty.html#acb6aba09666ad1d293fe6570e7f0eb0ea60a3629ef6a8f991f45d7a85f2458544", null ],
       [ "Load", "namespace_minty.html#acb6aba09666ad1d293fe6570e7f0eb0eaf19dbf2edb3a0bd74b0524d960ff21eb", null ],
       [ "Clear", "namespace_minty.html#acb6aba09666ad1d293fe6570e7f0eb0eadc30bc0c7914db5918da4263fce93ad2", null ]
+    ] ],
+    [ "MeshType", "namespace_minty.html#aff7d3f8cb0274b9348872371b342a204", [
+      [ "Empty", "namespace_minty.html#aff7d3f8cb0274b9348872371b342a204ace2c8aed9c2fa0cfbed56cbda4d8bf07", null ],
+      [ "Custom", "namespace_minty.html#aff7d3f8cb0274b9348872371b342a204a90589c47f06eb971d548591f23c285af", null ],
+      [ "Quad", "namespace_minty.html#aff7d3f8cb0274b9348872371b342a204ae9017664588010860a92ceb5f8fcb824", null ],
+      [ "Cube", "namespace_minty.html#aff7d3f8cb0274b9348872371b342a204aa296104f0c61a9cf39f4824d05315e12", null ]
     ] ],
     [ "Perspective", "namespace_minty.html#abb2ba6b676702978d070655e5c5f754a", [
       [ "Undefined", "namespace_minty.html#abb2ba6b676702978d070655e5c5f754aaec0fc0100c4fc1ce4eea230c3dc10360", null ],

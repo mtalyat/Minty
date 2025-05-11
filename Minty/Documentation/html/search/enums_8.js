@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['perspective_0',['Perspective',['../namespace_minty.html#abb2ba6b676702978d070655e5c5f754a',1,'Minty']]]
+  ['meshtype_0',['MeshType',['../namespace_minty.html#aff7d3f8cb0274b9348872371b342a204',1,'Minty']]]
 ];

@@ -275,6 +275,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\Material.h" />
     <ClInclude Include="Minty\Render\MaterialTemplate.h" />
     <ClInclude Include="Minty\Render\Camera.h" />
+    <ClInclude Include="Minty\Render\Mesh.h" />
+    <ClInclude Include="Minty\Render\MeshType.h" />
     <ClInclude Include="Minty\Render\Perspective.h" />
     <ClInclude Include="Minty\Render\RenderAttachment.h" />
     <ClInclude Include="Minty\Render\Renderer.h" />
@@ -397,6 +399,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\LoadOperation.cpp" />
     <ClCompile Include="Minty\Render\Material.cpp" />
     <ClCompile Include="Minty\Render\MaterialTemplate.cpp" />
+    <ClCompile Include="Minty\Render\Mesh.cpp" />
     <ClCompile Include="Minty\Render\Perspective.cpp" />
     <ClCompile Include="Minty\Render\RenderManager.cpp" />
     <ClCompile Include="Minty\Render\RenderPass.cpp" />

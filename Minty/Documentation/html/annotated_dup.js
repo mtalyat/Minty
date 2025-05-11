@@ -63,6 +63,8 @@ var annotated_dup =
       [ "MemoryStack", "class_minty_1_1_memory_stack.html", "class_minty_1_1_memory_stack" ],
       [ "MemoryStackBuilder", "struct_minty_1_1_memory_stack_builder.html", "struct_minty_1_1_memory_stack_builder" ],
       [ "MemoryWriterBehavior", "class_minty_1_1_memory_writer_behavior.html", "class_minty_1_1_memory_writer_behavior" ],
+      [ "Mesh", "class_minty_1_1_mesh.html", "class_minty_1_1_mesh" ],
+      [ "MeshBuilder", "struct_minty_1_1_mesh_builder.html", "struct_minty_1_1_mesh_builder" ],
       [ "NameComponent", "struct_minty_1_1_name_component.html", "struct_minty_1_1_name_component" ],
       [ "Node", "class_minty_1_1_node.html", "class_minty_1_1_node" ],
       [ "NodeReaderBehavior", "class_minty_1_1_node_reader_behavior.html", "class_minty_1_1_node_reader_behavior" ],

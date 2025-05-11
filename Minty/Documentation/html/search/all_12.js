@@ -217,7 +217,12 @@ var searchData=
   ['restart_214',['restart',['../class_minty_1_1_stopwatch.html#a9b6817c98cf755f14b4393609df7f02d',1,'Minty::Stopwatch']]],
   ['restore_215',['restore',['../class_minty_1_1_window.html#abd9f7c5ff61a046b48e7fda0c63b52cd',1,'Minty::Window::restore()'],['../class_minty_1_1_windows___window.html#ae55c084f37f0c88baa2d3fb50f3dbb36',1,'Minty::Windows_Window::restore()']]],
   ['reverseiterator_216',['ReverseIterator',['../class_minty_1_1_array_1_1_reverse_iterator.html',1,'Minty::Array&lt; T, S &gt;::ReverseIterator'],['../class_minty_1_1_list_1_1_reverse_iterator.html',1,'Minty::List&lt; T &gt;::ReverseIterator'],['../class_minty_1_1_vector_1_1_reverse_iterator.html',1,'Minty::Vector&lt; T &gt;::ReverseIterator']]],
-  ['right_217',['right',['../namespace_minty_1_1_math.html#af07c4169b9b8899da8259160e6be5be5',1,'Minty::Math']]],
-  ['rotate_218',['rotate',['../namespace_minty_1_1_math.html#a2af1269faf2e48d3476eec1a07da89f6',1,'Minty::Math::rotate(Matrix4 const &amp;matrix, Float const angle, Float3 const &amp;axis)'],['../namespace_minty_1_1_math.html#a36d3f23b1eca0e50ec546917a62007e4',1,'Minty::Math::rotate(Matrix4 const &amp;matrix, Quaternion const &amp;value)']]],
-  ['round_219',['round',['../namespace_minty_1_1_math.html#af06b6bfb5f19e6789107b90c8bc582c6',1,'Minty::Math::round(T_In const value)'],['../namespace_minty_1_1_math.html#ae482df813db1b81047e4bbe68a3582fb',1,'Minty::Math::round(T const value, Int const precision)']]]
+  ['right_217',['RIGHT',['../_mesh_8cpp.html#a80fb826a684cf3f0d306b22aa100ddac',1,'Mesh.cpp']]],
+  ['right_218',['right',['../namespace_minty_1_1_math.html#af07c4169b9b8899da8259160e6be5be5',1,'Minty::Math']]],
+  ['right_5fbottom_5fback_219',['RIGHT_BOTTOM_BACK',['../_mesh_8cpp.html#aea32d21d50489ab1e5db9ee622b523c6',1,'Mesh.cpp']]],
+  ['right_5fbottom_5ffront_220',['RIGHT_BOTTOM_FRONT',['../_mesh_8cpp.html#a033664d0208350507b390c473687fa41',1,'Mesh.cpp']]],
+  ['right_5ftop_5fback_221',['RIGHT_TOP_BACK',['../_mesh_8cpp.html#a620961d83ae7403b8c41a13ee0b1841a',1,'RIGHT_TOP_BACK:&#160;Mesh.cpp'],['../_mesh_8cpp.html#a620961d83ae7403b8c41a13ee0b1841a',1,'RIGHT_TOP_BACK:&#160;Mesh.cpp']]],
+  ['right_5ftop_5ffront_222',['RIGHT_TOP_FRONT',['../_mesh_8cpp.html#a41b4be24d571b7d8ce012c15ddeccc71',1,'RIGHT_TOP_FRONT:&#160;Mesh.cpp'],['../_mesh_8cpp.html#a41b4be24d571b7d8ce012c15ddeccc71',1,'RIGHT_TOP_FRONT:&#160;Mesh.cpp']]],
+  ['rotate_223',['rotate',['../namespace_minty_1_1_math.html#a2af1269faf2e48d3476eec1a07da89f6',1,'Minty::Math::rotate(Matrix4 const &amp;matrix, Float const angle, Float3 const &amp;axis)'],['../namespace_minty_1_1_math.html#a36d3f23b1eca0e50ec546917a62007e4',1,'Minty::Math::rotate(Matrix4 const &amp;matrix, Quaternion const &amp;value)']]],
+  ['round_224',['round',['../namespace_minty_1_1_math.html#af06b6bfb5f19e6789107b90c8bc582c6',1,'Minty::Math::round(T_In const value)'],['../namespace_minty_1_1_math.html#ae482df813db1b81047e4bbe68a3582fb',1,'Minty::Math::round(T const value, Int const precision)']]]
 ];

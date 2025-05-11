@@ -103,6 +103,9 @@
     <Filter Include="Minty\Component">
       <UniqueIdentifier>{8137c321-4bb8-48a5-b22c-8b48e97a12d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Mesh">
+      <UniqueIdentifier>{200f19c6-6889-432b-ab45-6286562c2e40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -600,6 +603,12 @@
     <ClInclude Include="Minty\Data\ListContainer.h">
       <Filter>Minty\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\Mesh.h">
+      <Filter>Minty\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\MeshType.h">
+      <Filter>Minty\Render\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -891,6 +900,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Data\ListContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -291,6 +291,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_memory_writer_behavior.html">MemoryWriterBehavior</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_mesh.html">Mesh</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_mesh_builder.html">MeshBuilder</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The arguments for creating a <a class="el" href="class_minty_1_1_mesh.html">Mesh</a>.  <a href="struct_minty_1_1_mesh_builder.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_minty_1_1_name_component.html">NameComponent</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a name for an <a class="el" href="#acdc34f37254f247fbe3724dcaf93d668" title="An entity is a unique identifier for an object in the world.">Entity</a>.  <a href="struct_minty_1_1_name_component.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1005,6 +1010,13 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:acb6aba09666ad1d293fe6570e7f0eb0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The load operation.  <a href="#acb6aba09666ad1d293fe6570e7f0eb0e">More...</a><br /></td></tr>
 <tr class="separator:acb6aba09666ad1d293fe6570e7f0eb0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff7d3f8cb0274b9348872371b342a204" id="r_aff7d3f8cb0274b9348872371b342a204"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff7d3f8cb0274b9348872371b342a204">MeshType</a> { <a class="el" href="#aff7d3f8cb0274b9348872371b342a204ace2c8aed9c2fa0cfbed56cbda4d8bf07">Empty</a>
+, <a class="el" href="#aff7d3f8cb0274b9348872371b342a204a90589c47f06eb971d548591f23c285af">Custom</a>
+, <a class="el" href="#aff7d3f8cb0274b9348872371b342a204ae9017664588010860a92ceb5f8fcb824">Quad</a>
+, <a class="el" href="#aff7d3f8cb0274b9348872371b342a204aa296104f0c61a9cf39f4824d05315e12">Cube</a>
+ }</td></tr>
+<tr class="memdesc:aff7d3f8cb0274b9348872371b342a204"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of Mesh.  <a href="#aff7d3f8cb0274b9348872371b342a204">More...</a><br /></td></tr>
+<tr class="separator:aff7d3f8cb0274b9348872371b342a204"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb2ba6b676702978d070655e5c5f754a" id="r_abb2ba6b676702978d070655e5c5f754a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb2ba6b676702978d070655e5c5f754a">Perspective</a> { <a class="el" href="#abb2ba6b676702978d070655e5c5f754aaec0fc0100c4fc1ce4eea230c3dc10360">Undefined</a>
 , <a class="el" href="#abb2ba6b676702978d070655e5c5f754aaa80420eef88d11f77532f1b9cb467fa3">Perspective</a>
 , <a class="el" href="#abb2ba6b676702978d070655e5c5f754aa03424250432f2aa71de95579d2c0eaeb">Orthographic</a>
@@ -3261,6 +3273,40 @@ template&lt;typename T&gt; </div>
 <tr><td class="fieldname"><a id="acb6aba09666ad1d293fe6570e7f0eb0eaf19dbf2edb3a0bd74b0524d960ff21eb" name="acb6aba09666ad1d293fe6570e7f0eb0eaf19dbf2edb3a0bd74b0524d960ff21eb"></a>Load&#160;</td><td class="fielddoc"><p>Loads the previous data. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="acb6aba09666ad1d293fe6570e7f0eb0eadc30bc0c7914db5918da4263fce93ad2" name="acb6aba09666ad1d293fe6570e7f0eb0eadc30bc0c7914db5918da4263fce93ad2"></a>Clear&#160;</td><td class="fielddoc"><p>Clears the previous data. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="aff7d3f8cb0274b9348872371b342a204" name="aff7d3f8cb0274b9348872371b342a204"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff7d3f8cb0274b9348872371b342a204">&#9670;&#160;</a></span>MeshType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aff7d3f8cb0274b9348872371b342a204">Minty::MeshType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The type of <a class="el" href="class_minty_1_1_mesh.html">Mesh</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff7d3f8cb0274b9348872371b342a204ace2c8aed9c2fa0cfbed56cbda4d8bf07" name="aff7d3f8cb0274b9348872371b342a204ace2c8aed9c2fa0cfbed56cbda4d8bf07"></a>Empty&#160;</td><td class="fielddoc"><p>An empty <a class="el" href="class_minty_1_1_mesh.html">Mesh</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff7d3f8cb0274b9348872371b342a204a90589c47f06eb971d548591f23c285af" name="aff7d3f8cb0274b9348872371b342a204a90589c47f06eb971d548591f23c285af"></a>Custom&#160;</td><td class="fielddoc"><p>A custom <a class="el" href="class_minty_1_1_mesh.html">Mesh</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff7d3f8cb0274b9348872371b342a204ae9017664588010860a92ceb5f8fcb824" name="aff7d3f8cb0274b9348872371b342a204ae9017664588010860a92ceb5f8fcb824"></a>Quad&#160;</td><td class="fielddoc"><p>A square <a class="el" href="class_minty_1_1_mesh.html">Mesh</a>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aff7d3f8cb0274b9348872371b342a204aa296104f0c61a9cf39f4824d05315e12" name="aff7d3f8cb0274b9348872371b342a204aa296104f0c61a9cf39f4824d05315e12"></a>Cube&#160;</td><td class="fielddoc"><p>A cube <a class="el" href="class_minty_1_1_mesh.html">Mesh</a>. </p>
 </td></tr>
 </table>
 
