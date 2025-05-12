@@ -47,7 +47,7 @@ namespace Minty
 		/// <summary>
 		/// A collection of Variables that are within this input.
 		/// </summary>
-		Vector<Pair<String, Variable>> data;
+		Vector<Tuple<String, Variable>> data;
 
 		/// <summary>
 		/// The size of the input in bytes, for one element.

@@ -39,6 +39,8 @@
 
 #define MINTY_ERROR(message) Minty::Debug::write_error(message)
 
+#define MINTY_ASSERT_ERROR(condition, message) do { if(!(condition)) { MINTY_ERROR(message); } } while(false)
+
 #ifdef MINTY_DEBUG
 #define MINTY_WARNING(message) Minty::Debug::write_warning(message)
 #else

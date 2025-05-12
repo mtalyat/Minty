@@ -37,4 +37,7 @@ namespace Minty
 
 	template<typename T>
 	using Function = std::function<T>;
+
+	using Job = Function<void()>;
+	using ParallelJob = Function<void(Size)>;
 }

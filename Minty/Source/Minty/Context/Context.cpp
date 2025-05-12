@@ -15,7 +15,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_jobManager(nullptr)
 	, m_assetManager(nullptr)
 	, m_renderManager(nullptr)
-	, m_entityManager(nullptr)
+	, m_sceneManager(nullptr)
 	, m_managers()
 {
 	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
@@ -32,12 +32,12 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_jobManager = JobManager::create(builder.jobManagerBuilder);
 	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
-	m_entityManager = EntityManager::create(builder.entityManagerBuilder);
+	m_sceneManager = SceneManager::create(builder.sceneManagerBuilder);
 	m_managers.add(m_memoryManager.get());
 	m_managers.add(m_jobManager.get());
 	m_managers.add(m_renderManager.get());
 	m_managers.add(m_assetManager.get());
-	m_managers.add(m_entityManager.get());
+	m_managers.add(m_sceneManager.get());
 
 	// initialize managers
 	initialize();
@@ -57,7 +57,7 @@ Minty::Context::~Context()
 	m_jobManager.release();
 	m_assetManager.release();
 	m_renderManager.release();
-	m_entityManager.release();
+	m_sceneManager.release();
 	m_managers.clear();
 
 	s_instance = nullptr;
@@ -65,27 +65,35 @@ Minty::Context::~Context()
 
 void Minty::Context::initialize()
 {
+	// initialize the managers
 	for (Manager* manager : m_managers)
 	{
 		manager->initialize();
 	}
+
+	// register systems
+	//register_system<RenderSystem>("Render");
 }
 
 void Minty::Context::dispose()
 {
+	// dispose managers
 	for (auto it = m_managers.rbegin(); it != m_managers.rend(); ++it)
 	{
 		(*it)->dispose();
 	}
 	m_managers.clear();
+
+	// unregister systems
+	m_registeredSystems.clear();
 }
 
-void Minty::Context::update()
+void Minty::Context::update(Time const& time)
 {
 	// update managers
 	for (Manager* manager : m_managers)
 	{
-		manager->update();
+		manager->update(time);
 	}
 }
 

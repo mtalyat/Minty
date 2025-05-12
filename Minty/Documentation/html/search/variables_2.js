@@ -14,5 +14,6 @@ var searchData=
   ['compressionlevel_11',['compressionLevel',['../struct_minty_1_1_wrap_1_1_entry.html#a11506e310e94e0cead7be6f535806faf',1,'Minty::Wrap::Entry']]],
   ['contentversion_12',['contentVersion',['../struct_minty_1_1_wrap_1_1_header.html#a1cbbcdde86ea685d3234e9f4bb22e1b7',1,'Minty::Wrap::Header']]],
   ['count_13',['count',['../struct_minty_1_1_shader_input.html#ad2bb0df7a06b9e64e0fa455784d702c6',1,'Minty::ShaderInput']]],
-  ['cullmode_14',['cullMode',['../struct_minty_1_1_shader_builder.html#a9bf2f69f62924f46af98129cf0c5f2a2',1,'Minty::ShaderBuilder']]]
+  ['create_14',['create',['../struct_minty_1_1_system_info.html#aee805d3d566360431f282d5f2557246c',1,'Minty::SystemInfo']]],
+  ['cullmode_15',['cullMode',['../struct_minty_1_1_shader_builder.html#a9bf2f69f62924f46af98129cf0c5f2a2',1,'Minty::ShaderBuilder']]]
 ];

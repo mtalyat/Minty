@@ -324,7 +324,7 @@ $(function(){initNavTree('_node_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="class_minty_1_1_node.html#a572a2b016887e29e604d16524db95e6c">  276</a></span>        <a class="code hl_typedef" href="namespace_minty.html#a40828e4d159d2056b9752d56e6b5f9ee">Int</a> <a class="code hl_function" href="class_minty_1_1_node.html#a572a2b016887e29e604d16524db95e6c">get_child_index</a>(<a class="code hl_class" href="class_minty_1_1_string.html">String</a> <span class="keyword">const</span>&amp; name)<span class="keyword"> const</span></div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="keyword">        </span>{</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>            <span class="keyword">auto</span> found = m_lookup.find(name);</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            <span class="keywordflow">return</span> found != m_lookup.end() ? found-&gt;second : -1;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            <span class="keywordflow">return</span> found != m_lookup.end() ? found-&gt;get_second() : -1;</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        }</div>
 </div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span></div>
@@ -348,7 +348,7 @@ $(function(){initNavTree('_node_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    };</div>
 </div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>}</div>
-<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:55</div></div>
+<div class="ttc" id="a_debug_8h_html_a978c1461a39cb8799b3a09f3587f4d6a"><div class="ttname"><a href="_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a">MINTY_ASSERT</a></div><div class="ttdeci">#define MINTY_ASSERT(expression, message)</div><div class="ttdef"><b>Definition</b> Debug.h:57</div></div>
 <div class="ttc" id="a_dynamic_container_8h_html"><div class="ttname"><a href="_dynamic_container_8h.html">DynamicContainer.h</a></div></div>
 <div class="ttc" id="a_map_8h_html"><div class="ttname"><a href="_map_8h.html">Map.h</a></div></div>
 <div class="ttc" id="a_string_8h_html"><div class="ttname"><a href="_string_8h.html">String.h</a></div></div>

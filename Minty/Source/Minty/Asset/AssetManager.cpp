@@ -108,6 +108,19 @@ void Minty::AssetManager::dispose()
 	Manager::dispose();
 }
 
+void Minty::AssetManager::update(Time const& time)
+{
+	// run all of the onCompletion jobs
+	{
+		std::unique_lock lock(m_onCompletionsMutex);
+		while (!m_onCompletions.is_empty())
+		{
+			Job job = m_onCompletions.pop();
+			job();
+		}
+	}
+}
+
 void Minty::AssetManager::sync()
 {
 	// get list of handles
@@ -116,7 +129,7 @@ void Minty::AssetManager::sync()
 		std::unique_lock lock(m_assetsMutex);
 		for (auto const& pair : m_handles)
 		{
-			handles.add(pair.second);
+			handles.add(pair.get_second());
 		}
 	}
 
@@ -128,6 +141,16 @@ void Minty::AssetManager::sync()
 	{
 		std::unique_lock lock(m_assetsMutex);
 		m_handles.clear();
+	}
+
+	// run all of the onCompletion jobs
+	{
+		std::unique_lock lock(m_onCompletionsMutex);
+		while (!m_onCompletions.is_empty())
+		{
+			Job job = m_onCompletions.pop();
+			job();
+		}
 	}
 }
 
@@ -220,7 +243,7 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 	writer = nullptr;
 }
 
-UUID Minty::AssetManager::schedule_load(Path const& path)
+UUID Minty::AssetManager::schedule_load(Path const& path, Job const& onCompletion)
 {
 	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
 	Path metaPath = Asset::get_meta_path(path);
@@ -237,18 +260,28 @@ UUID Minty::AssetManager::schedule_load(Path const& path)
 	Handle handle = jobManager.schedule([this, path, id]()
 		{
 			load_asset(path);
+		});
+	handle = jobManager.schedule([this, id, onCompletion]()
+		{
+			// remove handle
 			{
-				std::unique_lock lock(m_assetsMutex);
+				std::unique_lock lock(m_handlesMutex);
 				m_handles.remove(id);
 			}
-		});
+			// add to completion queue
+			{
+				std::unique_lock lock(m_onCompletionsMutex);
+				m_onCompletions.push(onCompletion);
+			}
+		}, handle);
 
+	// add final handle to the list
 	{
-		std::unique_lock lock(m_assetsMutex);
+		std::unique_lock lock(m_handlesMutex);
 		m_handles.add(id, handle);
 	}
 
-	// return the ID
+	// return the ID of the Asset
 	return id;
 }
 
@@ -292,7 +325,7 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 	}
 }
 
-void Minty::AssetManager::schedule_unload(UUID const id)
+void Minty::AssetManager::schedule_unload(UUID const id, Job const& onCompletion)
 {
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
@@ -303,14 +336,23 @@ void Minty::AssetManager::schedule_unload(UUID const id)
 	Handle handle = jobManager.schedule([this, id]()
 		{
 			unload(id);
+		});
+	handle = jobManager.schedule([this, id, onCompletion]()
+		{
+			// remove handle
 			{
-				std::unique_lock lock(m_assetsMutex);
+				std::unique_lock lock(m_handlesMutex);
 				m_handles.remove(id);
 			}
-		});
+			// add to completion queue
+			{
+				std::unique_lock lock(m_onCompletionsMutex);
+				m_onCompletions.push(onCompletion);
+			}
+		}, handle);
 
 	{
-		std::unique_lock lock(m_assetsMutex);
+		std::unique_lock lock(m_handlesMutex);
 		m_handles.add(id, handle);
 	}
 }
@@ -334,7 +376,7 @@ void Minty::AssetManager::unload_all()
 	// unload all assets
 	for (auto const& pair : m_assets)
 	{
-		pair.second.asset->on_unload();
+		pair.get_second().asset->on_unload();
 	}
 
 	// clear the lists
@@ -373,7 +415,7 @@ void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
 		}
 		else
 		{
-			it->second.add(id);
+			it->get_second().add(id);
 		}
 	}
 }
@@ -397,7 +439,7 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 	}
 
 	// return the asset
-	return it->second.asset.create_ref();
+	return it->get_second().asset.create_ref();
 }
 
 Ref<Asset> Minty::AssetManager::at_asset(UUID const id) const
@@ -427,7 +469,7 @@ Path Minty::AssetManager::get_asset_path(UUID const id) const
 	}
 
 	// return path
-	return it->second.path;
+	return it->get_second().path;
 }
 
 String Minty::AssetManager::get_asset_name(UUID const id) const

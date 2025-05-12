@@ -130,6 +130,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae679cca6d32e2bf6c8a61da107520c37" id="r_ae679cca6d32e2bf6c8a61da107520c37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae679cca6d32e2bf6c8a61da107520c37">dispose</a> () override</td></tr>
 <tr class="memdesc:ae679cca6d32e2bf6c8a61da107520c37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down the <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>.  <br /></td></tr>
 <tr class="separator:ae679cca6d32e2bf6c8a61da107520c37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1901baf402e891c98600abb3ded944b" id="r_ae1901baf402e891c98600abb3ded944b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1901baf402e891c98600abb3ded944b">update</a> (<a class="el" href="class_minty_1_1_time.html">Time</a> const &amp;time)</td></tr>
+<tr class="memdesc:ae1901baf402e891c98600abb3ded944b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every frame.  <br /></td></tr>
+<tr class="separator:ae1901baf402e891c98600abb3ded944b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6c8360f6ccc642dddee2d57d6bf7cdc" id="r_af6c8360f6ccc642dddee2d57d6bf7cdc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6c8360f6ccc642dddee2d57d6bf7cdc">sync</a> () override</td></tr>
 <tr class="memdesc:af6c8360f6ccc642dddee2d57d6bf7cdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">If any Assets are being loaded or unloaded, wait until they are finished.  <br /></td></tr>
 <tr class="separator:af6c8360f6ccc642dddee2d57d6bf7cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,9 +157,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4d2cd7c24e841c4c219ea08f510f3b1a" id="r_a4d2cd7c24e841c4c219ea08f510f3b1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d2cd7c24e841c4c219ea08f510f3b1a">close_writer</a> (<a class="el" href="class_minty_1_1_writer.html">Writer</a> *&amp;writer) const</td></tr>
 <tr class="memdesc:a4d2cd7c24e841c4c219ea08f510f3b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the given <a class="el" href="class_minty_1_1_writer.html">Writer</a>.  <br /></td></tr>
 <tr class="separator:a4d2cd7c24e841c4c219ea08f510f3b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafc0eaca7fad9f57e0d9874ecc17cfec" id="r_aafc0eaca7fad9f57e0d9874ecc17cfec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafc0eaca7fad9f57e0d9874ecc17cfec">schedule_load</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
-<tr class="memdesc:aafc0eaca7fad9f57e0d9874ecc17cfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queues the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to be loaded.  <br /></td></tr>
-<tr class="separator:aafc0eaca7fad9f57e0d9874ecc17cfec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3092b88f092c18b4a7be0f5012bd548" id="r_ae3092b88f092c18b4a7be0f5012bd548"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3092b88f092c18b4a7be0f5012bd548">schedule_load</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path, <a class="el" href="namespace_minty.html#a725a28f28e07e7d2437add832c3efbcc">Job</a> const &amp;onCompletion=[]() {})</td></tr>
+<tr class="memdesc:ae3092b88f092c18b4a7be0f5012bd548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queues the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to be loaded.  <br /></td></tr>
+<tr class="separator:ae3092b88f092c18b4a7be0f5012bd548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab5b7cd4c4bbf7c628f462f63eb8a968" id="r_aab5b7cd4c4bbf7c628f462f63eb8a968"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_asset.html">Asset</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab5b7cd4c4bbf7c628f462f63eb8a968">load_asset</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
 <tr class="memdesc:aab5b7cd4c4bbf7c628f462f63eb8a968"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.  <br /></td></tr>
 <tr class="separator:aab5b7cd4c4bbf7c628f462f63eb8a968"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,9 +195,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae4f726a3c208891d78b9c4c19143dc5a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_texture.html">Texture</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ae4f726a3c208891d78b9c4c19143dc5a">load</a> (<a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;path)</td></tr>
 <tr class="memdesc:ae4f726a3c208891d78b9c4c19143dc5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> specifically as a <a class="el" href="class_minty_1_1_texture.html" title="An Image used for rendering.">Texture</a> at the given <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a>.  <br /></td></tr>
 <tr class="separator:ae4f726a3c208891d78b9c4c19143dc5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d37eaca3a815d2118660232e25fa8c8" id="r_a4d37eaca3a815d2118660232e25fa8c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d37eaca3a815d2118660232e25fa8c8">schedule_unload</a> (<a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const id)</td></tr>
-<tr class="memdesc:a4d37eaca3a815d2118660232e25fa8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> with the given <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> for unloading.  <br /></td></tr>
-<tr class="separator:a4d37eaca3a815d2118660232e25fa8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad45a6eabb015d6108d124b36209c17f7" id="r_ad45a6eabb015d6108d124b36209c17f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad45a6eabb015d6108d124b36209c17f7">schedule_unload</a> (<a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const id, <a class="el" href="namespace_minty.html#a725a28f28e07e7d2437add832c3efbcc">Job</a> const &amp;onCompletion=[]() {})</td></tr>
+<tr class="memdesc:ad45a6eabb015d6108d124b36209c17f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> with the given <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> for unloading.  <br /></td></tr>
+<tr class="separator:ad45a6eabb015d6108d124b36209c17f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa78744392598c4bcfeb4fe813066aad5" id="r_aa78744392598c4bcfeb4fe813066aad5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa78744392598c4bcfeb4fe813066aad5">unload</a> (<a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const id)</td></tr>
 <tr class="memdesc:aa78744392598c4bcfeb4fe813066aad5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unloads the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> with the given <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> immediately.  <br /></td></tr>
 <tr class="separator:aa78744392598c4bcfeb4fe813066aad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,9 +271,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad8255400abccd79f3b473f60f3bc758f inherit pub_methods_class_minty_1_1_manager" id="r_ad8255400abccd79f3b473f60f3bc758f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#ad8255400abccd79f3b473f60f3bc758f">initialize</a> ()</td></tr>
 <tr class="memdesc:ad8255400abccd79f3b473f60f3bc758f inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the <a class="el" href="class_minty_1_1_manager.html" title="Base class for all Managers.">Manager</a> is created.  <br /></td></tr>
 <tr class="separator:ad8255400abccd79f3b473f60f3bc758f inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb11246f0d4f2d0419dcc470263c1ca4 inherit pub_methods_class_minty_1_1_manager" id="r_abb11246f0d4f2d0419dcc470263c1ca4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#abb11246f0d4f2d0419dcc470263c1ca4">update</a> ()</td></tr>
-<tr class="memdesc:abb11246f0d4f2d0419dcc470263c1ca4 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every frame.  <br /></td></tr>
-<tr class="separator:abb11246f0d4f2d0419dcc470263c1ca4 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager" id="r_aa33f61f7f39cda8418df635332f0d1f3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#aa33f61f7f39cda8418df635332f0d1f3">finalize</a> ()</td></tr>
 <tr class="memdesc:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after every update operation.  <br /></td></tr>
 <tr class="separator:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1453,8 +1453,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="aafc0eaca7fad9f57e0d9874ecc17cfec" name="aafc0eaca7fad9f57e0d9874ecc17cfec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafc0eaca7fad9f57e0d9874ecc17cfec">&#9670;&#160;</a></span>schedule_load()</h2>
+<a id="ae3092b88f092c18b4a7be0f5012bd548" name="ae3092b88f092c18b4a7be0f5012bd548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3092b88f092c18b4a7be0f5012bd548">&#9670;&#160;</a></span>schedule_load()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1462,8 +1462,12 @@ template&lt;&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> Minty::AssetManager::schedule_load </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_path.html">Path</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a725a28f28e07e7d2437add832c3efbcc">Job</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>onCompletion</em></span><span class="paramdefsep"> = </span><span class="paramdefval">[]()&#160;{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1472,6 +1476,7 @@ template&lt;&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>The <a class="el" href="class_minty_1_1_path.html" title="A collection of text representing a file path.">Path</a> to the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a>.</td></tr>
+    <tr><td class="paramname">onCompletion</td><td>The function to call when the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> is loaded.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1479,8 +1484,8 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a id="a4d37eaca3a815d2118660232e25fa8c8" name="a4d37eaca3a815d2118660232e25fa8c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d37eaca3a815d2118660232e25fa8c8">&#9670;&#160;</a></span>schedule_unload()</h2>
+<a id="ad45a6eabb015d6108d124b36209c17f7" name="ad45a6eabb015d6108d124b36209c17f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad45a6eabb015d6108d124b36209c17f7">&#9670;&#160;</a></span>schedule_unload()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1488,8 +1493,12 @@ template&lt;&gt; </div>
         <tr>
           <td class="memname">void Minty::AssetManager::schedule_unload </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const</td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespace_minty.html#a725a28f28e07e7d2437add832c3efbcc">Job</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>onCompletion</em></span><span class="paramdefsep"> = </span><span class="paramdefval">[]()&#160;{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1498,6 +1507,7 @@ template&lt;&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id</td><td>The <a class="el" href="namespace_minty.html#ad4d9c260f527c26c4c2e0176bfab2a1d">ID</a> of the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> to unload.</td></tr>
+    <tr><td class="paramname">onCompletion</td><td>The function to call when the <a class="el" href="class_minty_1_1_asset.html" title="The base class for all Asset types.">Asset</a> is unloaded.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1574,6 +1584,35 @@ template&lt;&gt; </div>
 </div><div class="memdoc">
 
 <p>Unloads all Assets stored within this <a class="el" href="class_minty_1_1_asset_manager.html">AssetManager</a>. </p>
+
+</div>
+</div>
+<a id="ae1901baf402e891c98600abb3ded944b" name="ae1901baf402e891c98600abb3ded944b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1901baf402e891c98600abb3ded944b">&#9670;&#160;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::AssetManager::update </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_time.html">Time</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>time</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called every frame. </p>
+
+<p>Reimplemented from <a class="el" href="class_minty_1_1_manager.html#a74eeacf2b1c190d5b3f579d35a66436d">Minty::Manager</a>.</p>
 
 </div>
 </div>

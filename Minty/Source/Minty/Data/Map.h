@@ -2,7 +2,7 @@
 #include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/Pair.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Debug/Debug.h"
 
 namespace Minty
@@ -82,16 +82,16 @@ namespace Minty
 			}
 
 		public:
-			Pair<Key, Value>& operator*() const
+			Tuple<Key, Value>& operator*() const
 			{
 				MINTY_ASSERT(mp_current, "Iterator is invalid.");
-				return reinterpret_cast<Pair<Key, Value>&>(*mp_current);
+				return reinterpret_cast<Tuple<Key, Value>&>(*mp_current);
 			}
 
-			Pair<Key, Value>* operator->() const
+			Tuple<Key, Value>* operator->() const
 			{
 				MINTY_ASSERT(mp_current, "Iterator is invalid.");
-				return reinterpret_cast<Pair<Key, Value>*>(mp_current);
+				return reinterpret_cast<Tuple<Key, Value>*>(mp_current);
 			}
 
 			Iterator& operator++()
@@ -174,16 +174,16 @@ namespace Minty
 			}
 
 		public:
-			Pair<Key, Value> const& operator*() const
+			Tuple<Key, Value> const& operator*() const
 			{
 				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
-				return reinterpret_cast<Pair<Key, Value> const&>(*mp_current);
+				return reinterpret_cast<Tuple<Key, Value> const&>(*mp_current);
 			}
 
-			Pair<Key, Value> const* operator->() const
+			Tuple<Key, Value> const* operator->() const
 			{
 				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
-				return reinterpret_cast<Pair<Key, Value> const*>(mp_current);
+				return reinterpret_cast<Tuple<Key, Value> const*>(mp_current);
 			}
 
 			ConstIterator& operator++()
@@ -318,16 +318,16 @@ namespace Minty
 		/// </summary>
 		/// <param name="list">A list of key-value pairs.</param>
 		/// <param name="allocator">The memory allocator to use.</param>
-		Map(std::initializer_list<Pair<Key, Value>> const& list, Allocator const allocator = Allocator::Default)
+		Map(std::initializer_list<Tuple<Key, Value>> const& list, Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
 			reserve(list.size() * 2);
-			for (Pair<Key, Value> const& pair : list)
+			for (Tuple<Key, Value> const& pair : list)
 			{
-				add(pair.first, pair.second);
+				add(pair.get_first(), pair.get_second());
 			}
 		}
 

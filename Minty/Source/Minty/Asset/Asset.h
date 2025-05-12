@@ -2,6 +2,7 @@
 #include "Minty/Asset/AssetType.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include <type_traits>
 

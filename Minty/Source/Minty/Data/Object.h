@@ -1,6 +1,6 @@
 #pragma once
 #include "Minty/Core/Base.h"
-#include "Minty/Data/Pair.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Variable.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Data/ConstantContainer.h"
@@ -15,7 +15,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Vector<Pair<String, Variable>> m_variables;
+		Vector<Tuple<String, Variable>> m_variables;
 
 #pragma endregion
 
@@ -43,7 +43,7 @@ namespace Minty
 		/// Creates an Object with the given name and list of Variables.
 		/// </summary>
 		/// <param name="list">A list of names and Variables.</param>
-		Object(std::initializer_list<Pair<String, Variable>> const& list)
+		Object(std::initializer_list<Tuple<String, Variable>> const& list)
 			: m_variables(list)
 		{
 		}
@@ -52,7 +52,7 @@ namespace Minty
 		/// Creates an Object with the given name and list of Variables.
 		/// </summary>
 		/// <param name="variables">The Variables.</param>
-		Object(Vector<Pair<String, Variable>> const& variables)
+		Object(Vector<Tuple<String, Variable>> const& variables)
 			: m_variables(variables)
 		{
 		}
@@ -66,7 +66,7 @@ namespace Minty
 		/// Gets a Vector of all the Variables in this Object.
 		/// </summary>
 		/// <returns>The list.</returns>
-		Vector<Pair<String, Variable>> const& get_variables() const { return m_variables; }
+		Vector<Tuple<String, Variable>> const& get_variables() const { return m_variables; }
 
 		/// <summary>
 		/// Gets the number of Variables in this Object.

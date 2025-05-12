@@ -129,6 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af236d619427bd26cb1428828e7b71884" id="r_af236d619427bd26cb1428828e7b71884"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af236d619427bd26cb1428828e7b71884">EntityManager</a> (<a class="el" href="struct_minty_1_1_entity_manager_builder.html">EntityManagerBuilder</a> const &amp;builder)</td></tr>
 <tr class="memdesc:af236d619427bd26cb1428828e7b71884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="class_minty_1_1_entity_manager.html" title="Manages all Entities in the game.">EntityManager</a> using the given arguments.  <br /></td></tr>
 <tr class="separator:af236d619427bd26cb1428828e7b71884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51b839951bbc023e1ace1b0ff9bb47a3" id="r_a51b839951bbc023e1ace1b0ff9bb47a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51b839951bbc023e1ace1b0ff9bb47a3">~EntityManager</a> ()</td></tr>
+<tr class="separator:a51b839951bbc023e1ace1b0ff9bb47a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2afe9f5024560c10ab29aba72d399809" id="r_a2afe9f5024560c10ab29aba72d399809"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2afe9f5024560c10ab29aba72d399809">get_id</a> (<a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a> const entity) const</td></tr>
 <tr class="separator:a2afe9f5024560c10ab29aba72d399809"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1fc03e0bf30fe890a7d2cc41f7e9889" id="r_ac1fc03e0bf30fe890a7d2cc41f7e9889"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1fc03e0bf30fe890a7d2cc41f7e9889">get_entity</a> (<a class="el" href="class_minty_1_1_u_u_i_d.html">UUID</a> const id) const</td></tr>
@@ -216,6 +218,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac1a80a2aa234803a013a96270bd540e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ebe2194c943d68c5bc59b49691e72d6" id="r_a2ebe2194c943d68c5bc59b49691e72d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ebe2194c943d68c5bc59b49691e72d6">move_to_last</a> (<a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a> const entity)</td></tr>
 <tr class="separator:a2ebe2194c943d68c5bc59b49691e72d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab79a3eb8b3d1bf805f1aa1793193fe29" id="r_ab79a3eb8b3d1bf805f1aa1793193fe29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab79a3eb8b3d1bf805f1aa1793193fe29">finalize</a> () override</td></tr>
+<tr class="memdesc:ab79a3eb8b3d1bf805f1aa1793193fe29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after every update operation.  <br /></td></tr>
+<tr class="separator:ab79a3eb8b3d1bf805f1aa1793193fe29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_minty_1_1_manager"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_class_minty_1_1_manager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_minty_1_1_manager.html">Minty::Manager</a></td></tr>
 <tr class="memitem:a0f2cfd5fdda59aa6625e5fedb0278603 inherit pub_methods_class_minty_1_1_manager" id="r_a0f2cfd5fdda59aa6625e5fedb0278603"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#a0f2cfd5fdda59aa6625e5fedb0278603">Manager</a> ()</td></tr>
 <tr class="separator:a0f2cfd5fdda59aa6625e5fedb0278603 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,12 +235,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5da9bc76c9787ee2d34f6baa1c4661e7 inherit pub_methods_class_minty_1_1_manager" id="r_a5da9bc76c9787ee2d34f6baa1c4661e7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#a5da9bc76c9787ee2d34f6baa1c4661e7">dispose</a> ()</td></tr>
 <tr class="memdesc:a5da9bc76c9787ee2d34f6baa1c4661e7 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when the <a class="el" href="class_minty_1_1_manager.html" title="Base class for all Managers.">Manager</a> is destroyed.  <br /></td></tr>
 <tr class="separator:a5da9bc76c9787ee2d34f6baa1c4661e7 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb11246f0d4f2d0419dcc470263c1ca4 inherit pub_methods_class_minty_1_1_manager" id="r_abb11246f0d4f2d0419dcc470263c1ca4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#abb11246f0d4f2d0419dcc470263c1ca4">update</a> ()</td></tr>
-<tr class="memdesc:abb11246f0d4f2d0419dcc470263c1ca4 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every frame.  <br /></td></tr>
-<tr class="separator:abb11246f0d4f2d0419dcc470263c1ca4 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager" id="r_aa33f61f7f39cda8418df635332f0d1f3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#aa33f61f7f39cda8418df635332f0d1f3">finalize</a> ()</td></tr>
-<tr class="memdesc:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called after every update operation.  <br /></td></tr>
-<tr class="separator:aa33f61f7f39cda8418df635332f0d1f3 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74eeacf2b1c190d5b3f579d35a66436d inherit pub_methods_class_minty_1_1_manager" id="r_a74eeacf2b1c190d5b3f579d35a66436d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#a74eeacf2b1c190d5b3f579d35a66436d">update</a> (<a class="el" href="class_minty_1_1_time.html">Time</a> const &amp;time)</td></tr>
+<tr class="memdesc:a74eeacf2b1c190d5b3f579d35a66436d inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every frame.  <br /></td></tr>
+<tr class="separator:a74eeacf2b1c190d5b3f579d35a66436d inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a301a78b7a34baeb662889e94e9dce8 inherit pub_methods_class_minty_1_1_manager" id="r_a0a301a78b7a34baeb662889e94e9dce8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_manager.html#a0a301a78b7a34baeb662889e94e9dce8">render</a> ()</td></tr>
 <tr class="memdesc:a0a301a78b7a34baeb662889e94e9dce8 inherit pub_methods_class_minty_1_1_manager"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called every frame to perform rendering.  <br /></td></tr>
 <tr class="separator:a0a301a78b7a34baeb662889e94e9dce8 inherit pub_methods_class_minty_1_1_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,6 +285,31 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a51b839951bbc023e1ace1b0ff9bb47a3" name="a51b839951bbc023e1ace1b0ff9bb47a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b839951bbc023e1ace1b0ff9bb47a3">&#9670;&#160;</a></span>~EntityManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::EntityManager::~EntityManager </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -563,6 +590,35 @@ template&lt;typename ComponentType, typename... Args&gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ab79a3eb8b3d1bf805f1aa1793193fe29" name="ab79a3eb8b3d1bf805f1aa1793193fe29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab79a3eb8b3d1bf805f1aa1793193fe29">&#9670;&#160;</a></span>finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::EntityManager::finalize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called after every update operation. </p>
+
+<p>Reimplemented from <a class="el" href="class_minty_1_1_manager.html#aa33f61f7f39cda8418df635332f0d1f3">Minty::Manager</a>.</p>
 
 </div>
 </div>

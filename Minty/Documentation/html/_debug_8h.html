@@ -139,6 +139,8 @@ Macros</h2></td></tr>
 <tr class="separator:aa45d61ac71d22847ff778f973ed81906"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6e89f951ebc33cdb4304e47a6851c79" id="r_ac6e89f951ebc33cdb4304e47a6851c79"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6e89f951ebc33cdb4304e47a6851c79">MINTY_ERROR</a>(message)</td></tr>
 <tr class="separator:ac6e89f951ebc33cdb4304e47a6851c79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf414f5fa115eea4c023678df5833de" id="r_aeaf414f5fa115eea4c023678df5833de"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeaf414f5fa115eea4c023678df5833de">MINTY_ASSERT_ERROR</a>(condition,  message)</td></tr>
+<tr class="separator:aeaf414f5fa115eea4c023678df5833de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f9a744986e882411a6c41b462c5618a" id="r_a2f9a744986e882411a6c41b462c5618a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f9a744986e882411a6c41b462c5618a">MINTY_WARNING</a>(message)</td></tr>
 <tr class="separator:a2f9a744986e882411a6c41b462c5618a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a361da9ef9b75bbbfefe1700e866ecc2c" id="r_a361da9ef9b75bbbfefe1700e866ecc2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a>(message)</td></tr>
@@ -162,7 +164,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <a class="code hl_function" href="class_minty_1_1_debug.html#a0e675c8e52b0718c68ffe9d3ff7892c4">Minty::Debug::write_abort</a>(message); <span class="keywordflow">throw</span> std::runtime_error(message); } <span class="keywordflow">while</span>(<span class="keyword">false</span>)</div>
-<div class="ttc" id="aclass_minty_1_1_debug_html_a0e675c8e52b0718c68ffe9d3ff7892c4"><div class="ttname"><a href="class_minty_1_1_debug.html#a0e675c8e52b0718c68ffe9d3ff7892c4">Minty::Debug::write_abort</a></div><div class="ttdeci">static void write_abort(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes an abort message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:186</div></div>
+<div class="ttc" id="aclass_minty_1_1_debug_html_a0e675c8e52b0718c68ffe9d3ff7892c4"><div class="ttname"><a href="class_minty_1_1_debug.html#a0e675c8e52b0718c68ffe9d3ff7892c4">Minty::Debug::write_abort</a></div><div class="ttdeci">static void write_abort(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes an abort message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:188</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -185,7 +187,30 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(expression)) { <a class="code hl_define" href="#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a>(<span class="stringliteral">&quot;(&quot;</span> #expression <span class="stringliteral">&quot;) failed: &quot;</span> #message); } } <span class="keywordflow">while</span>(<span class="keyword">false</span>)</div>
-<div class="ttc" id="a_debug_8h_html_a361da9ef9b75bbbfefe1700e866ecc2c"><div class="ttname"><a href="#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a></div><div class="ttdeci">#define MINTY_ABORT(message)</div><div class="ttdef"><b>Definition</b> Debug.h:49</div></div>
+<div class="ttc" id="a_debug_8h_html_a361da9ef9b75bbbfefe1700e866ecc2c"><div class="ttname"><a href="#a361da9ef9b75bbbfefe1700e866ecc2c">MINTY_ABORT</a></div><div class="ttdeci">#define MINTY_ABORT(message)</div><div class="ttdef"><b>Definition</b> Debug.h:51</div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="aeaf414f5fa115eea4c023678df5833de" name="aeaf414f5fa115eea4c023678df5833de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaf414f5fa115eea4c023678df5833de">&#9670;&#160;</a></span>MINTY_ASSERT_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINTY_ASSERT_ERROR</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>condition</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">do</span> { <span class="keywordflow">if</span>(!(condition)) { <a class="code hl_define" href="#ac6e89f951ebc33cdb4304e47a6851c79">MINTY_ERROR</a>(message); } } <span class="keywordflow">while</span>(<span class="keyword">false</span>)</div>
+<div class="ttc" id="a_debug_8h_html_ac6e89f951ebc33cdb4304e47a6851c79"><div class="ttname"><a href="#ac6e89f951ebc33cdb4304e47a6851c79">MINTY_ERROR</a></div><div class="ttdeci">#define MINTY_ERROR(message)</div><div class="ttdef"><b>Definition</b> Debug.h:40</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -253,7 +278,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="class_minty_1_1_debug.html#ab98831408c43ac75f9f317836556734b">Minty::Debug::write_error</a>(message)</div>
-<div class="ttc" id="aclass_minty_1_1_debug_html_ab98831408c43ac75f9f317836556734b"><div class="ttname"><a href="class_minty_1_1_debug.html#ab98831408c43ac75f9f317836556734b">Minty::Debug::write_error</a></div><div class="ttdeci">static void write_error(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes an error message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:203</div></div>
+<div class="ttc" id="aclass_minty_1_1_debug_html_ab98831408c43ac75f9f317836556734b"><div class="ttname"><a href="class_minty_1_1_debug.html#ab98831408c43ac75f9f317836556734b">Minty::Debug::write_error</a></div><div class="ttdeci">static void write_error(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes an error message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:205</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -272,7 +297,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="class_minty_1_1_debug.html#a09501f113b4764c55c8c8f14e90db9c9">Minty::Debug::write_info</a>(message)</div>
-<div class="ttc" id="aclass_minty_1_1_debug_html_a09501f113b4764c55c8c8f14e90db9c9"><div class="ttname"><a href="class_minty_1_1_debug.html#a09501f113b4764c55c8c8f14e90db9c9">Minty::Debug::write_info</a></div><div class="ttdeci">static void write_info(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes an info message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:251</div></div>
+<div class="ttc" id="aclass_minty_1_1_debug_html_a09501f113b4764c55c8c8f14e90db9c9"><div class="ttname"><a href="class_minty_1_1_debug.html#a09501f113b4764c55c8c8f14e90db9c9">Minty::Debug::write_info</a></div><div class="ttdeci">static void write_info(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes an info message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:253</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -291,7 +316,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="class_minty_1_1_debug.html#ad1211a06e2c990b339814ecea57b945b">Minty::Debug::write_message</a>(message)</div>
-<div class="ttc" id="aclass_minty_1_1_debug_html_ad1211a06e2c990b339814ecea57b945b"><div class="ttname"><a href="class_minty_1_1_debug.html#ad1211a06e2c990b339814ecea57b945b">Minty::Debug::write_message</a></div><div class="ttdeci">static void write_message(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes a message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:235</div></div>
+<div class="ttc" id="aclass_minty_1_1_debug_html_ad1211a06e2c990b339814ecea57b945b"><div class="ttname"><a href="class_minty_1_1_debug.html#ad1211a06e2c990b339814ecea57b945b">Minty::Debug::write_message</a></div><div class="ttdeci">static void write_message(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes a message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:237</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -310,7 +335,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><a class="code hl_function" href="class_minty_1_1_debug.html#a93024700c75518c30224116f678a9669">Minty::Debug::write_warning</a>(message)</div>
-<div class="ttc" id="aclass_minty_1_1_debug_html_a93024700c75518c30224116f678a9669"><div class="ttname"><a href="class_minty_1_1_debug.html#a93024700c75518c30224116f678a9669">Minty::Debug::write_warning</a></div><div class="ttdeci">static void write_warning(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes a warning message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:219</div></div>
+<div class="ttc" id="aclass_minty_1_1_debug_html_a93024700c75518c30224116f678a9669"><div class="ttname"><a href="class_minty_1_1_debug.html#a93024700c75518c30224116f678a9669">Minty::Debug::write_warning</a></div><div class="ttdeci">static void write_warning(T const &amp;first, Args const &amp;... args)</div><div class="ttdoc">Writes a warning message to the terminal.</div><div class="ttdef"><b>Definition</b> Debug.h:221</div></div>
 </div><!-- fragment -->
 </div>
 </div>

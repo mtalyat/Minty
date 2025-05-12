@@ -276,7 +276,7 @@ namespace Minty
 		Int get_child_index(String const& name) const
 		{
 			auto found = m_lookup.find(name);
-			return found != m_lookup.end() ? found->second : -1;
+			return found != m_lookup.end() ? found->get_second() : -1;
 		}
 
 		/// <summary>

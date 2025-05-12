@@ -81,7 +81,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 		}
 
 		// get argument
-		Int index = it->second;
+		Int index = it->get_second();
 		Parameter const& param = m_flagParams[index];
 		Argument& argument = m_args[param.name];
 

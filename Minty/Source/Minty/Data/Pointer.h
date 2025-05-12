@@ -476,6 +476,62 @@ namespace Minty
 
 #pragma endregion
 	};
+
+	/// <summary>
+	/// A Source is an Owner, but this object is where the pointer originates from.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	template<typename T>
+	class Source
+	{
+#pragma region Variables
+
+	private:
+		Counter* mp_counter;
+
+#pragma endregion
+
+#pragma region Constructors
+
+	public:
+		Source()
+			: mp_counter(new Counter({ 1, 0 }))
+		{
+		}
+
+		virtual ~Source()
+		{
+			release();
+		}
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		void release()
+		{
+			if (mp_counter == nullptr) return;
+
+			mp_counter->strongCount--;
+			//MINTY_ASSERT_FORMAT(mp_counter->strongCount >= 0, "Ref counter invalid in release ({}).", mp_counter->strongCount);
+
+			// if no more strong and no more weak, delete counter
+			if (!mp_counter->strongCount && !mp_counter->weakCount)
+			{
+				delete mp_counter;
+			}
+
+			mp_counter = nullptr;
+		}
+
+		Ref<T> create_ref()
+		{
+			return Ref<T>(static_cast<T*>(this), mp_counter);
+		}
+
+#pragma endregion		
+	};
 }
 
 namespace std {

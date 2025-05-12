@@ -4,7 +4,7 @@ var class_minty_1_1_map =
     [ "Iterator", "class_minty_1_1_map_1_1_iterator.html", "class_minty_1_1_map_1_1_iterator" ],
     [ "Map", "class_minty_1_1_map.html#a599b8020bdea5cfc9854222e2692ee4e", null ],
     [ "Map", "class_minty_1_1_map.html#ac6efa4fd90ab2fbcf9a8f5c9d7e99b74", null ],
-    [ "Map", "class_minty_1_1_map.html#a7a6a1164a29bd12cadbec326a54bc32c", null ],
+    [ "Map", "class_minty_1_1_map.html#a5895a88dccb9095d25a75e5c0585ca15", null ],
     [ "Map", "class_minty_1_1_map.html#adb54058f0da4ab6aafc3acff109c8392", null ],
     [ "Map", "class_minty_1_1_map.html#aec1ba639fa10661337003b90b378f773", null ],
     [ "~Map", "class_minty_1_1_map.html#aed0ed440dd9a2ff1c4a559132a05712d", null ],

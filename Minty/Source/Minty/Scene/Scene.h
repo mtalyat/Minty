@@ -1,0 +1,119 @@
+#pragma once
+#include "Minty/Asset/Asset.h"
+#include "Minty/Data/Map.h"
+#include "Minty/Data/Path.h"
+#include "Minty/Data/Set.h"
+#include "Minty/Data/Vector.h"
+#include "Minty/Entity/EntityManager.h"
+#include "Minty/System/SystemManager.h"
+#include "Minty/Time/Time.h"
+
+namespace Minty
+{
+	/// <summary>
+	/// The arguments for creating a Scene.
+	/// </summary>
+	struct SceneBuilder
+	{
+		/// <summary>
+		/// The UUID of the Scene.
+		/// </summary>
+		UUID id = INVALID_ID;
+
+		/// <summary>
+		/// The name of the Scene.
+		/// </summary>
+		String name = "Scene";
+
+		/// <summary>
+		/// The Assets in the Scene. These Assets will be loaded and unloaded with the Scene.
+		/// </summary>
+		Vector<Path> assets;
+	};
+
+	/// <summary>
+	/// A Scene is a collection of entities, components, and systems.
+	/// </summary>
+	class Scene
+		: public Asset, public Source<Scene>
+	{
+#pragma region Classes
+
+	private:
+		struct AssetData
+		{
+			Size index;
+			UUID id;
+		};
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		EntityManager* mp_entityManager;
+		SystemManager* mp_systemManager;
+		
+		// information for each registered asset
+		Map<Path, AssetData> m_registeredAssets;
+
+		// ordered list of each asset, determines loading order
+		Vector<Path> m_assets;
+
+		// set of IDs of the assets that have been loaded
+		Set<UUID> m_loadedAssets;
+
+#pragma endregion
+
+#pragma region Constructors
+
+	public:
+		Scene(SceneBuilder const& builder);
+
+		~Scene()
+		{
+		}
+
+#pragma endregion
+
+#pragma region Get Set
+
+	public:
+		EntityManager& get_entity_manager() const { return *mp_entityManager; }
+
+		SystemManager& get_system_manager() const { return *mp_systemManager; }
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/// <summary>
+		/// Called when the Asset is loaded into the AssetManager.
+		/// </summary>
+		void on_load() override;
+
+		/// <summary>
+		/// Called when the Asset is unloaded from the AssetManager.
+		/// </summary>
+		void on_unload() override;
+
+		/// <summary>
+		/// Called when the Scene is updated.
+		/// </summary>
+		void on_update(Time const& time);
+
+		/// <summary>
+		/// Called when the Scene is finalized.
+		/// </summary>
+		void on_finalize();
+
+		/// <summary>
+		/// Called when the Scene is rendered.
+		/// </summary>
+		void on_render();
+
+#pragma endregion
+
+	};
+}

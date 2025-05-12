@@ -3,6 +3,7 @@ var _debug_8h =
     [ "Minty::Debug", "class_minty_1_1_debug.html", "class_minty_1_1_debug" ],
     [ "MINTY_ABORT", "_debug_8h.html#a361da9ef9b75bbbfefe1700e866ecc2c", null ],
     [ "MINTY_ASSERT", "_debug_8h.html#a978c1461a39cb8799b3a09f3587f4d6a", null ],
+    [ "MINTY_ASSERT_ERROR", "_debug_8h.html#aeaf414f5fa115eea4c023678df5833de", null ],
     [ "MINTY_BREAK", "_debug_8h.html#a5840665eff380d63dd931d12890f0400", null ],
     [ "MINTY_DEBUG", "_debug_8h.html#a829c5ffd63d79b1812f0d89961f3009f", null ],
     [ "MINTY_DEBUG_INFO", "_debug_8h.html#adb50575c5f867b31cfad57c270eee694", null ],

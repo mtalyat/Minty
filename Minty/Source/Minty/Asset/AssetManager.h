@@ -7,6 +7,7 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
+#include "Minty/Data/Queue.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
@@ -84,7 +85,10 @@ namespace Minty
 		Map<UUID, AssetData> m_assets;
 		Map<AssetType, Set<UUID>> m_assetTypes;
 		Map<UUID, Handle> m_handles;
+		Queue<Job> m_onCompletions;
 		mutable std::mutex m_assetsMutex;
+		mutable std::mutex m_handlesMutex;
+		mutable std::mutex m_onCompletionsMutex;
 
 		Wrapper m_wrapper;
 
@@ -97,6 +101,7 @@ namespace Minty
 
 		~AssetManager()
 		{
+			MINTY_ASSERT_ERROR(!is_initialized(), "AssetManager is not disposed before destruction.");
 		}
 
 #pragma endregion
@@ -134,6 +139,11 @@ namespace Minty
 		/// Shuts down the AssetManager.
 		/// </summary>
 		void dispose() override;
+
+		/// <summary>
+		/// Called every frame.
+		/// </summary>
+		void update(Time const& time);
 
 		/// <summary>
 		/// If any Assets are being loaded or unloaded, wait until they are finished.
@@ -191,8 +201,9 @@ namespace Minty
 		/// Queues the Asset at the given Path to be loaded.
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
+		/// <param name="onCompletion">The function to call when the Asset is loaded.</param>
 		/// <returns>The UUID of the Asset to be loaded.</returns>
-		UUID schedule_load(Path const& path);
+		UUID schedule_load(Path const& path, Job const& onCompletion = []() {});
 
 		/// <summary>
 		/// Loads the Asset at the given Path.
@@ -294,7 +305,8 @@ namespace Minty
 		/// Marks the Asset with the given ID for unloading.
 		/// </summary>
 		/// <param name="id">The ID of the Asset to unload.</param>
-		void schedule_unload(UUID const id);
+		/// <param name="onCompletion">The function to call when the Asset is unloaded.</param>
+		void schedule_unload(UUID const id, Job const& onCompletion = []() {});
 
 		/// <summary>
 		/// Unloads the Asset with the given ID immediately.
@@ -404,8 +416,8 @@ namespace Minty
 				return Vector<Ref<T>>();
 			}
 
-			Vector<Ref<T>> assets(found->second.get_size());
-			for (UUID const id : found->second)
+			Vector<Ref<T>> assets(found->get_second().get_size());
+			for (UUID const id : found->get_second())
 			{
 				assets.add(at<T>(id));
 			}

@@ -1,6 +1,7 @@
 var class_minty_1_1_entity_manager =
 [
     [ "EntityManager", "class_minty_1_1_entity_manager.html#af236d619427bd26cb1428828e7b71884", null ],
+    [ "~EntityManager", "class_minty_1_1_entity_manager.html#a51b839951bbc023e1ace1b0ff9bb47a3", null ],
     [ "add_component", "class_minty_1_1_entity_manager.html#aa66f6f98b707411ff37a7ebd67a44b49", null ],
     [ "clear", "class_minty_1_1_entity_manager.html#ac37723b59e2c76844819001540a83f03", null ],
     [ "contains", "class_minty_1_1_entity_manager.html#af55faf405fd38210f165f9483ef4efe1", null ],
@@ -10,6 +11,7 @@ var class_minty_1_1_entity_manager =
     [ "create_entity", "class_minty_1_1_entity_manager.html#a3b8d7e0e8aa145cabb214753797600d6", null ],
     [ "create_entity", "class_minty_1_1_entity_manager.html#acc243b00dff3acd92ea2895fdb1b876c", null ],
     [ "dirty", "class_minty_1_1_entity_manager.html#aa602b57faf116b752974ce8c379187a4", null ],
+    [ "finalize", "class_minty_1_1_entity_manager.html#ab79a3eb8b3d1bf805f1aa1793193fe29", null ],
     [ "get_component", "class_minty_1_1_entity_manager.html#ad0d68a4bcdec4818a5e794c0d317c2bf", null ],
     [ "get_component", "class_minty_1_1_entity_manager.html#a4879c469256906d707de8facb760574f", null ],
     [ "get_enabled", "class_minty_1_1_entity_manager.html#a0bc9736e63c0e4c0b4f2f4d227a82b92", null ],

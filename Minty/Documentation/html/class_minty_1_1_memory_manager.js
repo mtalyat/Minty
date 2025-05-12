@@ -12,5 +12,5 @@ var class_minty_1_1_memory_manager =
     [ "get_static_size", "class_minty_1_1_memory_manager.html#a566044e5a23fb43049d379c4f6d3d2e7", null ],
     [ "operator=", "class_minty_1_1_memory_manager.html#a261ea2a0f2d7a7344fa2d2df20564110", null ],
     [ "operator=", "class_minty_1_1_memory_manager.html#a77de76d4c72db8261d893fd007b4f39c", null ],
-    [ "update", "class_minty_1_1_memory_manager.html#af99cd0c7cf968a1db745043288e3b4dd", null ]
+    [ "update", "class_minty_1_1_memory_manager.html#a382347873e36da113873d8fdd427fda0", null ]
 ];

@@ -68,7 +68,7 @@ Bool Minty::Object::remove(String const& name)
 {
 	for (Size i = 0; i < m_variables.get_size(); ++i)
 	{
-		if (m_variables[i].first == name)
+		if (m_variables[i].get_first() == name)
 		{
 			m_variables.remove(i);
 			return true;

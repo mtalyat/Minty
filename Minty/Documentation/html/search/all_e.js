@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name_0',['name',['../struct_minty_1_1_name_component.html#ac508a76a8347df09e45589d277f88aef',1,'Minty::NameComponent::name'],['../struct_minty_1_1_shader_input.html#a50a53ed83340486d18b2f89391633852',1,'Minty::ShaderInput::name'],['../struct_minty_1_1_wrap_1_1_header.html#a21290c23f3b2578f4de9eb8162a2c373',1,'Minty::Wrap::Header::name']]],
+  ['name_0',['name',['../struct_minty_1_1_name_component.html#ac508a76a8347df09e45589d277f88aef',1,'Minty::NameComponent::name'],['../struct_minty_1_1_shader_input.html#a50a53ed83340486d18b2f89391633852',1,'Minty::ShaderInput::name'],['../struct_minty_1_1_scene_builder.html#afed522fea1e0a917ff3176479d7ebf2a',1,'Minty::SceneBuilder::name'],['../struct_minty_1_1_system_info.html#a1dfa3703e9e86f79a357edc2de4c001f',1,'Minty::SystemInfo::name'],['../struct_minty_1_1_wrap_1_1_header.html#a21290c23f3b2578f4de9eb8162a2c373',1,'Minty::Wrap::Header::name']]],
   ['namecomponent_1',['NameComponent',['../struct_minty_1_1_name_component.html',1,'Minty']]],
   ['namecomponent_2ecpp_2',['NameComponent.cpp',['../_name_component_8cpp.html',1,'']]],
   ['namecomponent_2eh_3',['NameComponent.h',['../_name_component_8h.html',1,'']]],

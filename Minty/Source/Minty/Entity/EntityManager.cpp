@@ -31,7 +31,7 @@ Entity Minty::EntityManager::get_entity(UUID const id) const
 	auto it = m_ids.find(id);
 	if (it != m_ids.end())
 	{
-		return it->second;
+		return it->get_second();
 	}
 
 	// no related entity
@@ -207,15 +207,15 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	// if children, update their depths
 	if (relationshipComponent.children)
 	{
-		Stack<Pair<UInt, Entity>> entitiesToUpdate;
+		Stack<Tuple<UInt, Entity>> entitiesToUpdate;
 		entitiesToUpdate.push({ relationshipComponent.depth + 1, relationshipComponent.first });
 
 		while (!entitiesToUpdate.is_empty())
 		{
-			Pair<UInt, Entity> pair = entitiesToUpdate.pop();
+			Tuple<UInt, Entity> pair = entitiesToUpdate.pop();
 
 			// get the relationship component
-			RelationshipComponent& comp = m_registry.get<RelationshipComponent>(pair.second);
+			RelationshipComponent& comp = m_registry.get<RelationshipComponent>(pair.get_second());
 
 			// update the depth
 			comp.depth = pair.first;
@@ -637,6 +637,14 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 	}
 }
 
+void Minty::EntityManager::finalize()
+{
+	// TODO: update all dirty components
+
+	// sort the entities
+	sort();
+}
+
 Owner<EntityManager> Minty::EntityManager::create(EntityManagerBuilder const& builder)
 {
 	return Owner<EntityManager>(builder);
@@ -644,6 +652,8 @@ Owner<EntityManager> Minty::EntityManager::create(EntityManagerBuilder const& bu
 
 EntityManager& Minty::EntityManager::get_singleton()
 {
-
-	return Context::get_singleton().get_entity_manager();
+	// get the active scene
+	Ref<Scene> const& activeScene = Context::get_singleton().get_scene_manager().get_active();
+	MINTY_ASSERT(activeScene != nullptr, "No active scene. Cannot get EntityManager.");
+	return activeScene->get_entity_manager();
 }

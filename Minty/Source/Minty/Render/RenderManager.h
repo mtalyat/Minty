@@ -57,6 +57,7 @@ namespace Minty
 
 		virtual ~RenderManager()
 		{
+			MINTY_ASSERT_ERROR(!is_initialized(), "RenderManager is not disposed before destruction.");
 		}
 
 #pragma endregion

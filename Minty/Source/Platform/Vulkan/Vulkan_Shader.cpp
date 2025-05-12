@@ -59,7 +59,7 @@ void Minty::Vulkan_Shader::initialize_bindings(ShaderBuilder const& builder)
 		else
 		{
 			// add the input to the existing binding
-			BindingData& bindingData = found->second;
+			BindingData& bindingData = found->get_second();
 
 			MINTY_ASSERT(bindingData.descriptorType == descriptorType, "Shader input type must match the binding type.");
 			MINTY_ASSERT(bindingData.shaderStage == Vulkan_Renderer::to_vulkan(input.stage), "Shader input stage must match the binding stage.");
@@ -77,7 +77,7 @@ void Minty::Vulkan_Shader::initialize_bindings(ShaderBuilder const& builder)
 		else
 		{
 			// existing type
-			found2->second += input.count;
+			found2->get_second() += input.count;
 		}
 
 		// add name to lookup, if it has a buffer size

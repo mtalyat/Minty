@@ -33,7 +33,7 @@ void Minty::MemoryManager::dispose()
 	Manager::dispose();
 }
 
-void Minty::MemoryManager::update()
+void Minty::MemoryManager::update(Time const& time)
 {
 	// free memory of single frame allocator
 	m_staticSize -= m_temporary.get_size();

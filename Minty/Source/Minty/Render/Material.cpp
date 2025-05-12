@@ -56,7 +56,7 @@ Object const& Minty::Material::get_input(String const& name) const
 	auto it = m_cargo.find(name);
 	if (it != m_cargo.end())
 	{
-		return it->second;
+		return it->get_second();
 	}
 
 	// must be in template

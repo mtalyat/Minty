@@ -87,6 +87,7 @@ namespace Minty
 
 		~MemoryManager()
 		{
+			MINTY_ASSERT_ERROR(!is_initialized(), "MemoryManager is not disposed before destruction.");
 		}
 
 #pragma endregion
@@ -159,7 +160,7 @@ namespace Minty
 		/// <summary>
 		/// Called once a frame.
 		/// </summary>
-		void update() override;
+		void update(Time const& time) override;
 
 		/// <summary>
 		/// Allocates the given number of bytes using the appropriate allocation method.

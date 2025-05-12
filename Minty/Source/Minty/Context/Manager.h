@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Time/Time.h"
 
 namespace Minty
 {
@@ -54,7 +55,7 @@ namespace Minty
 		/// <summary>
 		/// Called every frame.
 		/// </summary>
-		virtual void update() {}
+		virtual void update(Time const& time) {}
 
 		/// <summary>
 		/// Called after every update operation.

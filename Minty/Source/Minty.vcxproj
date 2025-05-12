@@ -216,10 +216,10 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\DynamicContainer.h" />
     <ClInclude Include="Minty\Data\List.h" />
     <ClInclude Include="Minty\Data\ListContainer.h" />
+    <ClInclude Include="Minty\Data\Lookup.h" />
     <ClInclude Include="Minty\Data\Map.h" />
     <ClInclude Include="Minty\Data\MemoryContainer.h" />
     <ClInclude Include="Minty\Data\Object.h" />
-    <ClInclude Include="Minty\Data\Pair.h" />
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />
@@ -227,6 +227,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
     <ClInclude Include="Minty\Data\Transform.h" />
+    <ClInclude Include="Minty\Data\Tuple.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
     <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
@@ -302,6 +303,9 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\Texture.h" />
     <ClInclude Include="Minty\Render\Viewport.h" />
     <ClInclude Include="Minty\Render\_Render.h" />
+    <ClInclude Include="Minty\Scene\Scene.h" />
+    <ClInclude Include="Minty\Scene\SceneManager.h" />
+    <ClInclude Include="Minty\Scene\_Scene.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
     <ClInclude Include="Minty\Serialization\IsSerializable.h" />
     <ClInclude Include="Minty\Serialization\Node.h" />
@@ -313,6 +317,9 @@ doxygen</Command>
     <ClInclude Include="Minty\Serialization\ToString.h" />
     <ClInclude Include="Minty\Serialization\Writer.h" />
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
+    <ClInclude Include="Minty\System\System.h" />
+    <ClInclude Include="Minty\System\SystemManager.h" />
+    <ClInclude Include="Minty\System\_System.h" />
     <ClInclude Include="Minty\Time\Stopwatch.h" />
     <ClInclude Include="Minty\Time\Time.h" />
     <ClInclude Include="Minty\Time\_Time.h" />
@@ -421,11 +428,14 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Texture.cpp" />
     <ClCompile Include="Minty\Render\Viewport.cpp" />
+    <ClCompile Include="Minty\Scene\Scene.cpp" />
+    <ClCompile Include="Minty\Scene\SceneManager.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
     <ClCompile Include="Minty\Serialization\ToString.cpp" />
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
+    <ClCompile Include="Minty\System\SystemManager.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
     <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />

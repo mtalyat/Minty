@@ -45,6 +45,11 @@ namespace Minty
 		{
 		}
 
+		~EntityManager()
+		{
+			MINTY_ASSERT_ERROR(!is_initialized(), "EntityManager is not disposed before destruction.");
+		}
+
 #pragma endregion
 
 #pragma region Iterators
@@ -219,6 +224,11 @@ namespace Minty
 		void move_to_first(Entity const entity);
 
 		void move_to_last(Entity const entity);
+
+		/// <summary>
+		/// Called after every update operation.
+		/// </summary>
+		void finalize() override;
 
 #pragma endregion
 

@@ -106,6 +106,12 @@
     <Filter Include="Minty\Render\Mesh">
       <UniqueIdentifier>{200f19c6-6889-432b-ab45-6286562c2e40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\System">
+      <UniqueIdentifier>{ff604c55-9e13-4302-915d-1022ee722d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Scene">
+      <UniqueIdentifier>{a26af160-b155-4832-8b5b-eecf22b37857}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -167,9 +173,6 @@
     </ClInclude>
     <ClInclude Include="Minty\Core\_Core.h">
       <Filter>Minty\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Data\Pair.h">
-      <Filter>Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Data\Vector.h">
       <Filter>Minty\Data</Filter>
@@ -615,6 +618,30 @@
     <ClInclude Include="Minty\Component\MeshComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\System\_System.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\System.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Scene\_Scene.h">
+      <Filter>Minty\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Scene\Scene.h">
+      <Filter>Minty\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\SystemManager.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Scene\SceneManager.h">
+      <Filter>Minty\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Tuple.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Lookup.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -918,6 +945,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\MeshType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\SystemManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Scene\SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

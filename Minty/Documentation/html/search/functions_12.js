@@ -68,6 +68,7 @@ var searchData=
   ['try_5fuint4_65',['try_uint4',['../namespace_minty.html#a0e35b6bc3574e1e841cdfae38419cfd6',1,'Minty']]],
   ['try_5fulong_66',['try_ulong',['../namespace_minty.html#a3c718826255a02d14495509d905bcf44',1,'Minty']]],
   ['try_5fushort_67',['try_ushort',['../namespace_minty.html#ad6e4430a5a93ddf6aa16238f99885ab8',1,'Minty']]],
-  ['type_5ftypeid_68',['type_typeid',['../namespace_minty.html#a81812a6bb65a38856d2045920a26e685',1,'Minty']]],
-  ['typeid_5ftype_69',['typeid_type',['../namespace_minty.html#a54191006d794604e76cebcf24101ee9e',1,'Minty']]]
+  ['tuple_68',['Tuple',['../class_minty_1_1_tuple_3_4.html#ae48bbda74f66a3c8b8a3c8fb37511f2a',1,'Minty::Tuple&lt;&gt;::Tuple()'],['../class_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4.html#afefa5ed8d036a46b2fa7692b3e03f4e5',1,'Minty::Tuple&lt; T, Rest... &gt;::Tuple()'],['../class_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4.html#a8d5632620a35f8cdb9827e65f20e4976',1,'Minty::Tuple&lt; T, Rest... &gt;::Tuple(U &amp;&amp;first, URest &amp;&amp;... rest)'],['../class_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4.html#abcba2f27d8434c3e09f94039a385ece6',1,'Minty::Tuple&lt; T, Rest... &gt;::Tuple(Tuple const &amp;other)'],['../class_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4.html#acb9e08ddd6619ee98fbd404ebfbad010',1,'Minty::Tuple&lt; T, Rest... &gt;::Tuple(Tuple &amp;&amp;other) noexcept']]],
+  ['type_5ftypeid_69',['type_typeid',['../namespace_minty.html#a81812a6bb65a38856d2045920a26e685',1,'Minty']]],
+  ['typeid_5ftype_70',['typeid_type',['../namespace_minty.html#a54191006d794604e76cebcf24101ee9e',1,'Minty']]]
 ];

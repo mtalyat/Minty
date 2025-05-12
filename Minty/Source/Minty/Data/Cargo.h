@@ -18,7 +18,7 @@ namespace Minty
 
 	private:
 		Allocator m_allocator;
-		Vector<Pair<String, Object>> m_objects;
+		Vector<Tuple<String, Object>> m_objects;
 
 #pragma endregion
 
@@ -51,7 +51,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="list">The list of Objects.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Cargo(std::initializer_list<Pair<String, Vector<Pair<String, Variable>>>> const& list, Allocator const allocator = Allocator::Default)
+		Cargo(std::initializer_list<Tuple<String, Vector<Tuple<String, Variable>>>> const& list, Allocator const allocator = Allocator::Default)
 			: m_allocator(allocator)
 			, m_objects(list.size() * 2)
 		{
@@ -103,22 +103,22 @@ namespace Minty
 #pragma region Iterators
 
 	public:
-		Vector<Pair<String, Object>>::Iterator begin()
+		Vector<Tuple<String, Object>>::Iterator begin()
 		{
 			return m_objects.begin();
 		}
 
-		Vector<Pair<String, Object>>::ConstIterator begin() const
+		Vector<Tuple<String, Object>>::ConstIterator begin() const
 		{
 			return m_objects.begin();
 		}
 
-		Vector<Pair<String, Object>>::Iterator end()
+		Vector<Tuple<String, Object>>::Iterator end()
 		{
 			return m_objects.end();
 		}
 
-		Vector<Pair<String, Object>>::ConstIterator end() const
+		Vector<Tuple<String, Object>>::ConstIterator end() const
 		{
 			return m_objects.end();
 		}
@@ -240,7 +240,7 @@ namespace Minty
 			// find the object and remove it
 			for (Size i = 0; i < m_objects.get_size(); ++i)
 			{
-				if (m_objects[i].first == name)
+				if (m_objects[i].get_first() == name)
 				{
 					m_objects.remove(i);
 					return true;
@@ -256,12 +256,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="name">The name to find.</param>
 		/// <returns>An iterator to the Object with the given name.</returns>
-		Vector<Pair<String, Object>>::Iterator find(String const& name)
+		Vector<Tuple<String, Object>>::Iterator find(String const& name)
 		{
 			auto it = m_objects.begin();
 			while (it != m_objects.end())
 			{
-				if (it->first == name)
+				if (it->get_first() == name)
 				{
 					return it;
 				}
@@ -275,12 +275,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="name">The name to find.</param>
 		/// <returns>An iterator to the Object with the given name.</returns>
-		Vector<Pair<String, Object>>::ConstIterator find(String const& name) const
+		Vector<Tuple<String, Object>>::ConstIterator find(String const& name) const
 		{
 			auto it = m_objects.begin();
 			while (it != m_objects.end())
 			{
-				if (it->first == name)
+				if (it->get_first() == name)
 				{
 					return it;
 				}

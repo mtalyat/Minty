@@ -3,12 +3,13 @@
 #include "Minty/Core/Macro.h"
 #include "Minty/Context/Manager.h"
 #include "Minty/Debug/DualBuffer.h"
+#include "Minty/Data/Lookup.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Vector.h"
-#include "Minty/Entity/EntityManager.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
 #include "Minty/Render/RenderManager.h"
+#include "Minty/Scene/SceneManager.h"
 
 namespace Minty
 {
@@ -23,7 +24,7 @@ namespace Minty
 		JobManagerBuilder jobManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
 		RenderManagerBuilder renderManagerBuilder = {};
-		EntityManagerBuilder entityManagerBuilder = {};
+		SceneManagerBuilder sceneManagerBuilder = {};
 	};
 
 	/// <summary>
@@ -41,8 +42,11 @@ namespace Minty
 		Owner<JobManager> m_jobManager;
 		Owner<AssetManager> m_assetManager;
 		Owner<RenderManager> m_renderManager;
-		Owner<EntityManager> m_entityManager;
+		Owner<SceneManager> m_sceneManager;
 		Vector<Manager*> m_managers;
+
+		Lookup<TypeID, SystemInfo> m_registeredSystems;
+		//Lookup<TypeID, ComponentInfo> m_registeredComponents;
 
 #pragma endregion
 
@@ -67,7 +71,7 @@ namespace Minty
 			, m_jobManager(std::move(other.m_jobManager))
 			, m_assetManager(std::move(other.m_assetManager))
 			, m_renderManager(std::move(other.m_renderManager))
-			, m_entityManager(std::move(other.m_entityManager))
+			, m_sceneManager(std::move(other.m_sceneManager))
 			, m_managers(std::move(other.m_managers))
 		{
 			other.mp_dualBuffer = nullptr;
@@ -92,7 +96,7 @@ namespace Minty
 				m_jobManager = std::move(other.m_jobManager);
 				m_assetManager = std::move(other.m_assetManager);
 				m_renderManager = std::move(other.m_renderManager);
-				m_entityManager = std::move(other.m_entityManager);
+				m_sceneManager = std::move(other.m_sceneManager);
 				m_managers = std::move(other.m_managers);
 			}
 			return *this;
@@ -128,10 +132,10 @@ namespace Minty
 		RenderManager& get_render_manager() { return *m_renderManager; }
 
 		/// <summary>
-		/// Gets the EntityManager in this Context.
+		/// Gets the SceneManager in this Context.
 		/// </summary>
-		/// <returns>The EntityManager.</returns>
-		EntityManager& get_entity_manager() { return *m_entityManager; }
+		/// <returns>The SceneManager.</returns>
+		SceneManager& get_scene_manager() { return *m_sceneManager; }
 
 #pragma endregion
 
@@ -146,7 +150,7 @@ namespace Minty
 		/// <summary>
 		/// Updates all Managers in this Context.
 		/// </summary>
-		void update();
+		void update(Time const& time);
 
 		/// <summary>
 		/// Finalizes all Managers in this Context.
@@ -162,6 +166,48 @@ namespace Minty
 		/// Syncs all Managers in this Context.
 		/// </summary>
 		void sync();
+
+#pragma region Systems
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
+		void register_system(String const& name)
+		{
+			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
+			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
+
+			SystemInfo info{};
+			info.name = name;
+			info.typeId = typeid(T);
+			info.create = [](SystemBuilder const& builder) -> System*
+				{
+					return new T(builder);
+				};
+
+			m_registeredSystems.add(name, typeid(T), info);
+		}
+
+		SystemInfo const* get_system_info(String const& name) const
+		{
+			auto it = m_registeredSystems.find(name);
+			if (it == m_registeredSystems.end())
+			{
+				return nullptr;
+			}
+			return &it->get_third();
+		}
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
+		SystemInfo const* get_system_info() const
+		{
+			auto it = m_registeredSystems.find(typeid(T));
+			if (it == m_registeredSystems.end())
+			{
+				return nullptr;
+			}
+			return &it->get_third();
+		}
+
+#pragma endregion
 
 #pragma endregion
 

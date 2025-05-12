@@ -8,5 +8,5 @@ var class_minty_1_1_manager =
     [ "is_initialized", "class_minty_1_1_manager.html#a098602bb5850bf84a0cc898bb6007b92", null ],
     [ "render", "class_minty_1_1_manager.html#a0a301a78b7a34baeb662889e94e9dce8", null ],
     [ "sync", "class_minty_1_1_manager.html#af8fc39c624c3c06c0b0c0c49a27fc7e8", null ],
-    [ "update", "class_minty_1_1_manager.html#abb11246f0d4f2d0419dcc470263c1ca4", null ]
+    [ "update", "class_minty_1_1_manager.html#a74eeacf2b1c190d5b3f579d35a66436d", null ]
 ];

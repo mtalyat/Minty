@@ -54,7 +54,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	// extension not found
 	if (found == types.end()) return AssetType::Generic;
 
-	return found->second;
+	return found->get_second();
 }
 
 AssetType Minty::Asset::get_asset_type(TypeID const& typeId)

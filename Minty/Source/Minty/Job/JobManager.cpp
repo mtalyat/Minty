@@ -21,7 +21,7 @@ Minty::JobManager::JobManager(JobManagerBuilder const& builder, Allocator const 
 
 void Minty::JobManager::worker_thread()
 {
-	Pair<Job, Handle> pair = { []() {}, 0 };
+	Tuple<Job, Handle> pair = { []() {}, 0 };
 	JobData* jobData;
 	Bool complete;
 
@@ -41,12 +41,12 @@ void Minty::JobManager::worker_thread()
 		}
 
 		// run the job
-		pair.first();
+		pair.get_first()();
 
 		// get the job data
 		{
 			std::unique_lock lock(m_jobsMutex);
-			jobData = m_jobs.at(pair.second);
+			jobData = m_jobs.at(pair.get_second());
 		}
 
 		// decrement the job count
@@ -89,7 +89,7 @@ void Minty::JobManager::worker_thread()
 			// remove this job's resources
 			{
 				std::unique_lock lock(m_jobsMutex);
-				m_jobs.remove(pair.second);
+				m_jobs.remove(pair.get_second());
 			}
 			destruct<JobData>(jobData, m_allocator);
 		}

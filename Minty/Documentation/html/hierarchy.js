@@ -22,6 +22,7 @@ var hierarchy =
       [ "Minty::RenderTarget", "class_minty_1_1_render_target.html", [
         [ "Minty::Vulkan_RenderTarget", "class_minty_1_1_vulkan___render_target.html", null ]
       ] ],
+      [ "Minty::Scene", "class_minty_1_1_scene.html", null ],
       [ "Minty::Shader", "class_minty_1_1_shader.html", [
         [ "Minty::Vulkan_Shader", "class_minty_1_1_vulkan___shader.html", null ]
       ] ],
@@ -103,6 +104,9 @@ var hierarchy =
     [ "std::hash< Minty::UUID >", "structstd_1_1hash_3_01_minty_1_1_u_u_i_d_01_4.html", null ],
     [ "Minty::Wrap::Header", "struct_minty_1_1_wrap_1_1_header.html", null ],
     [ "Minty::ImageBuilder", "struct_minty_1_1_image_builder.html", null ],
+    [ "std::integral_constant", null, [
+      [ "std::tuple_size< Minty::Tuple< Types... > >", "structstd_1_1tuple__size_3_01_minty_1_1_tuple_3_01_types_8_8_8_01_4_01_4.html", null ]
+    ] ],
     [ "Minty::Array< T, S >::Iterator", "class_minty_1_1_array_1_1_iterator.html", null ],
     [ "Minty::List< T >::Iterator", "class_minty_1_1_list_1_1_iterator.html", null ],
     [ "Minty::Map< Key, Value >::Iterator", "class_minty_1_1_map_1_1_iterator.html", null ],
@@ -112,6 +116,7 @@ var hierarchy =
     [ "Minty::Vector< T >::Iterator", "class_minty_1_1_vector_1_1_iterator.html", null ],
     [ "Minty::JobManagerBuilder", "struct_minty_1_1_job_manager_builder.html", null ],
     [ "Minty::List< T >", "class_minty_1_1_list.html", null ],
+    [ "Minty::Lookup< Key, Value >", "class_minty_1_1_lookup.html", null ],
     [ "Minty::Manager", "class_minty_1_1_manager.html", [
       [ "Minty::AssetManager", "class_minty_1_1_asset_manager.html", null ],
       [ "Minty::EntityManager", "class_minty_1_1_entity_manager.html", null ],
@@ -119,7 +124,9 @@ var hierarchy =
       [ "Minty::MemoryManager", "class_minty_1_1_memory_manager.html", null ],
       [ "Minty::RenderManager", "class_minty_1_1_render_manager.html", [
         [ "Minty::Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html", null ]
-      ] ]
+      ] ],
+      [ "Minty::SceneManager", "class_minty_1_1_scene_manager.html", null ],
+      [ "Minty::SystemManager", "class_minty_1_1_system_manager.html", null ]
     ] ],
     [ "Minty::Map< Key, Value >", "class_minty_1_1_map.html", null ],
     [ "Minty::MaterialBuilder", "struct_minty_1_1_material_builder.html", null ],
@@ -133,7 +140,6 @@ var hierarchy =
     [ "Minty::Node", "class_minty_1_1_node.html", null ],
     [ "Minty::Object", "class_minty_1_1_object.html", null ],
     [ "Minty::Owner< T >", "class_minty_1_1_owner.html", null ],
-    [ "Minty::Pair< T1, T2 >", "class_minty_1_1_pair.html", null ],
     [ "Minty::Parseable", "class_minty_1_1_parseable.html", [
       [ "Minty::Path", "class_minty_1_1_path.html", null ],
       [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ]
@@ -172,6 +178,8 @@ var hierarchy =
     [ "Minty::Array< T, S >::ReverseIterator", "class_minty_1_1_array_1_1_reverse_iterator.html", null ],
     [ "Minty::List< T >::ReverseIterator", "class_minty_1_1_list_1_1_reverse_iterator.html", null ],
     [ "Minty::Vector< T >::ReverseIterator", "class_minty_1_1_vector_1_1_reverse_iterator.html", null ],
+    [ "Minty::SceneBuilder", "struct_minty_1_1_scene_builder.html", null ],
+    [ "Minty::SceneManagerBuilder", "struct_minty_1_1_scene_manager_builder.html", null ],
     [ "Minty::Serializable", "class_minty_1_1_serializable.html", [
       [ "Minty::UUID", "class_minty_1_1_u_u_i_d.html", null ],
       [ "Minty::Variable", "class_minty_1_1_variable.html", null ]
@@ -189,6 +197,7 @@ var hierarchy =
         [ "Minty::UUIDComponent", "struct_minty_1_1_u_u_i_d_component.html", null ],
         [ "Minty::VisibleComponent", "struct_minty_1_1_visible_component.html", null ]
       ] ],
+      [ "Minty::System", "class_minty_1_1_system.html", null ],
       [ "Minty::Transform", "class_minty_1_1_transform.html", null ]
     ] ],
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],
@@ -198,6 +207,10 @@ var hierarchy =
     [ "Minty::ShaderInput", "struct_minty_1_1_shader_input.html", null ],
     [ "Minty::ShaderModuleBuilder", "struct_minty_1_1_shader_module_builder.html", null ],
     [ "Minty::ShaderVertexInput", "struct_minty_1_1_shader_vertex_input.html", null ],
+    [ "Minty::Source< T >", "class_minty_1_1_source.html", null ],
+    [ "Minty::Source< Scene >", "class_minty_1_1_source.html", [
+      [ "Minty::Scene", "class_minty_1_1_scene.html", null ]
+    ] ],
     [ "Minty::Stack< T >", "class_minty_1_1_stack.html", null ],
     [ "Minty::Stopwatch", "class_minty_1_1_stopwatch.html", null ],
     [ "StorageBehavior", null, [
@@ -209,6 +222,9 @@ var hierarchy =
     ] ],
     [ "Minty::String", "class_minty_1_1_string.html", null ],
     [ "Minty::SurfaceBuilder", "struct_minty_1_1_surface_builder.html", null ],
+    [ "Minty::SystemBuilder", "struct_minty_1_1_system_builder.html", null ],
+    [ "Minty::SystemInfo", "struct_minty_1_1_system_info.html", null ],
+    [ "Minty::SystemManagerBuilder", "struct_minty_1_1_system_manager_builder.html", null ],
     [ "Minty::TextureBuilder", "struct_minty_1_1_texture_builder.html", null ],
     [ "Minty::Time", "class_minty_1_1_time.html", null ],
     [ "std::true_type", null, [
@@ -216,6 +232,13 @@ var hierarchy =
       [ "Minty::is_serializable< T, std::enable_if_t< std::is_base_of_v< Serializable, T > > >", "struct_minty_1_1is__serializable_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__of__v_3_0e61b24cf8de0099628fc4627104c54f1.html", null ],
       [ "Minty::is_serializable_object< T, std::enable_if_t< std::is_base_of_v< SerializableObject, T > > >", "struct_minty_1_1is__serializable__object_3_01_t_00_01std_1_1enable__if__t_3_01std_1_1is__base__o8b98ea3f58746b2d0c5b18654dddd28a.html", null ]
     ] ],
+    [ "Minty::Tuple< Types >", "class_minty_1_1_tuple.html", null ],
+    [ "Minty::Tuple< Rest... >", "class_minty_1_1_tuple.html", [
+      [ "Minty::Tuple< T, Rest... >", "class_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4.html", null ]
+    ] ],
+    [ "Minty::Tuple<>", "class_minty_1_1_tuple_3_4.html", null ],
+    [ "std::tuple_element< 0, Minty::Tuple< T, Rest... > >", "structstd_1_1tuple__element_3_010_00_01_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4_01_4.html", null ],
+    [ "std::tuple_element< Index, Minty::Tuple< T, Rest... > >", "structstd_1_1tuple__element_3_01_index_00_01_minty_1_1_tuple_3_01_t_00_01_rest_8_8_8_01_4_01_4.html", null ],
     [ "Minty::Vector< T >", "class_minty_1_1_vector.html", null ],
     [ "Minty::ViewportBuilder", "struct_minty_1_1_viewport_builder.html", null ],
     [ "Minty::Vulkan_Frame", "struct_minty_1_1_vulkan___frame.html", null ],
