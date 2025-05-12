@@ -317,6 +317,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Serialization\ToString.h" />
     <ClInclude Include="Minty\Serialization\Writer.h" />
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
+    <ClInclude Include="Minty\System\RenderSystem.h" />
     <ClInclude Include="Minty\System\System.h" />
     <ClInclude Include="Minty\System\SystemManager.h" />
     <ClInclude Include="Minty\System\_System.h" />
@@ -435,6 +436,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
     <ClCompile Include="Minty\Serialization\ToString.cpp" />
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
+    <ClCompile Include="Minty\System\RenderSystem.cpp" />
     <ClCompile Include="Minty\System\SystemManager.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />

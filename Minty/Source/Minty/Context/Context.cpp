@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Context.h"
+#include "Minty/System/RenderSystem.h"
 
 using namespace Minty;
 
@@ -72,7 +73,9 @@ void Minty::Context::initialize()
 	}
 
 	// register systems
-	//register_system<RenderSystem>("Render");
+	register_system<RenderSystem>("Render");
+
+	// register components
 }
 
 void Minty::Context::dispose()

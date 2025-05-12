@@ -143,6 +143,7 @@ var namespace_minty =
     [ "RenderManagerBuilder", "struct_minty_1_1_render_manager_builder.html", "struct_minty_1_1_render_manager_builder" ],
     [ "RenderPass", "class_minty_1_1_render_pass.html", "class_minty_1_1_render_pass" ],
     [ "RenderPassBuilder", "struct_minty_1_1_render_pass_builder.html", "struct_minty_1_1_render_pass_builder" ],
+    [ "RenderSystem", "class_minty_1_1_render_system.html", "class_minty_1_1_render_system" ],
     [ "RenderTarget", "class_minty_1_1_render_target.html", "class_minty_1_1_render_target" ],
     [ "RenderTargetBuilder", "struct_minty_1_1_render_target_builder.html", "struct_minty_1_1_render_target_builder" ],
     [ "Scene", "class_minty_1_1_scene.html", "class_minty_1_1_scene" ],

@@ -642,6 +642,9 @@
     <ClInclude Include="Minty\Data\Lookup.h">
       <Filter>Minty\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\System\RenderSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -954,6 +957,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Scene\SceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\RenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -197,7 +197,9 @@ var hierarchy =
         [ "Minty::UUIDComponent", "struct_minty_1_1_u_u_i_d_component.html", null ],
         [ "Minty::VisibleComponent", "struct_minty_1_1_visible_component.html", null ]
       ] ],
-      [ "Minty::System", "class_minty_1_1_system.html", null ],
+      [ "Minty::System", "class_minty_1_1_system.html", [
+        [ "Minty::RenderSystem", "class_minty_1_1_render_system.html", null ]
+      ] ],
       [ "Minty::Transform", "class_minty_1_1_transform.html", null ]
     ] ],
     [ "Minty::Set< T >", "class_minty_1_1_set.html", null ],

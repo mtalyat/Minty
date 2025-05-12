@@ -13,7 +13,10 @@ using namespace Minty;
 
 UUID Minty::EntityManager::get_id(Entity const entity) const
 {
-	MINTY_ASSERT(entity != INVALID_ENTITY, "Entity is invalid. No IDs can have an invalid Entity.");
+	if (entity == INVALID_ENTITY)
+	{
+		return INVALID_ID;
+	}
 
 	UUIDComponent const* uuidComponent = m_registry.try_get<UUIDComponent>(entity);
 	if (uuidComponent)
@@ -26,7 +29,10 @@ UUID Minty::EntityManager::get_id(Entity const entity) const
 
 Entity Minty::EntityManager::get_entity(UUID const id) const
 {
-	MINTY_ASSERT(id != INVALID_ID, "ID is invalid. No Entities can have an invalid ID.");
+	if (!id.is_valid())
+	{
+		return INVALID_ENTITY;
+	}
 
 	auto it = m_ids.find(id);
 	if (it != m_ids.end())
