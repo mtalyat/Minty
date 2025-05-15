@@ -204,3 +204,8 @@ void Minty::Mesh::initialize_cube()
 #undef BOTTOM_LEFT
 #undef BOTTOM_RIGHT
 }
+
+Owner<Mesh> Minty::Mesh::create(MeshBuilder const& builder)
+{
+	return Owner<Mesh>(builder);
+}

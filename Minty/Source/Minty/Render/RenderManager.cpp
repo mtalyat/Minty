@@ -85,7 +85,8 @@ void Minty::RenderManager::bind_mesh(Ref<Mesh> const& mesh)
 	}
 
 	m_boundMesh = mesh;
-	m_boundMesh->on_bind();
+	bind_vertex_buffer(m_boundMesh->get_vertex_buffer());
+	bind_index_buffer(m_boundMesh->get_index_buffer());
 }
 
 void Minty::RenderManager::bind_vertex_buffer(Ref<Buffer> const& buffer, UInt const binding)

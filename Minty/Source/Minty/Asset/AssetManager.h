@@ -256,6 +256,17 @@ namespace Minty
 		{
 			return load_material_template(path);
 		}
+		
+		/// <summary>
+		/// Loads the Asset specifically as a Mesh at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Mesh Asset.</param>
+		/// <returns>A reference to the loaded Mesh Asset.</returns>
+		template<>
+		Ref<Mesh> load<Mesh>(Path const& path)
+		{
+			return load_mesh(path);
+		}
 
 		/// <summary>
 		/// Loads the Asset specifically as a RenderPass at the given Path.
@@ -268,6 +279,17 @@ namespace Minty
 			return load_render_pass(path);
 		}
 
+		/// <summary>
+		/// Loads the Asset specifically as a Scene at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Scene Asset.</param>
+		/// <returns>A reference to the loaded Scene Asset.</returns>
+		template<>
+		Ref<Scene> load<Scene>(Path const& path)
+		{
+			return load_scene(path);
+		}
+		
 		/// <summary>
 		/// Loads the Asset specifically as a Shader at the given Path.
 		/// </summary>
@@ -569,11 +591,13 @@ namespace Minty
 
 		Ref<MaterialTemplate> load_material_template(Path const& path);
 
-		//Ref<Mesh> load_mesh(Path const& path);
+		Ref<Mesh> load_mesh_obj(Path const& path);
+
+		Ref<Mesh> load_mesh(Path const& path);
 
 		Ref<RenderPass> load_render_pass(Path const& path);
 
-		//Ref<Scene> load_scene(Path const& path);
+		Ref<Scene> load_scene(Path const& path);
 
 		Ref<Shader> load_shader(Path const& path);
 

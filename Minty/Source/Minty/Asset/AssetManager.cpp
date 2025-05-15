@@ -7,6 +7,7 @@
 #include "Minty/Render/ImagePixelFormat.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/Mesh.h"
 #include "Minty/Render/RenderAttachment.h"
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
@@ -826,6 +827,137 @@ Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& pa
 	return create_from_loaded<MaterialTemplate>(path, builder);
 }
 
+Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path)
+{
+	MeshBuilder builder{};
+	builder.id = read_id(path);
+	builder.type = MeshType::Custom;
+
+	Vector<String> lines = read_lines(path);
+
+	Vector<Float3> positions;
+	Vector<Float2> coords;
+	Vector<Float3> normals;
+
+	Map<Int3, UShort> faces;
+	UShort vertexCount = 0;
+
+	std::istringstream ss;
+	std::string token;
+
+	Float3 position;
+	Float2 coord;
+	Float3 normal;
+
+	for (auto const& line : lines)
+	{
+		ss = std::istringstream(line.get_data());
+		ss >> token;
+		if (token == "v")
+		{
+			// position
+			ss >> position.x >> position.y >> position.z;
+			position.y = -position.y; // flip Y
+			positions.add(position);
+		}
+		else if (token == "vt")
+		{
+			// coord
+			ss >> coord.x >> coord.y;
+			coord.y = -coord.y; // flip y
+			coords.add(coord);
+		}
+		else if (token == "vn")
+		{
+			// normal
+			ss >> normal.x >> normal.y >> normal.z;
+			normal.y = -normal.y;
+			normals.add(normal);
+		}
+		else if (token == "f")
+		{
+			// face
+			// get pairs
+			for (size_t i = 0; i < 3; i++)
+			{
+				std::string set;
+				ss >> set;
+
+				std::istringstream setss(set);
+				Int3 faceIndices = Int3();
+
+				// subtract 1, since all indices are 1 indexed apparently
+				if (std::getline(setss, token, '/'))
+				{
+					faceIndices.x = to_int(token.c_str()) - 1;
+
+					if (std::getline(setss, token, '/'))
+					{
+						faceIndices.y = to_int(token.c_str()) - 1;
+
+						if (std::getline(setss, token, '/'))
+						{
+							faceIndices.z = to_int(token.c_str()) - 1;
+						}
+					}
+				}
+
+				// if combo exists, add that index
+				auto found = faces.find(faceIndices);
+				if (found == faces.end())
+				{
+					// vertex does not exist yet
+					UShort index = vertexCount;
+					position = positions.at(faceIndices.x);
+					coord = coords.at(faceIndices.y);
+					normal = normals.at(faceIndices.z);
+
+					// create vertex
+					builder.vertices.append(&position.x);
+					builder.vertices.append(&position.y);
+					builder.vertices.append(&position.z);
+					builder.vertices.append(&normal.x);
+					builder.vertices.append(&normal.y);
+					builder.vertices.append(&normal.z);
+					builder.vertices.append(&coord.x);
+					builder.vertices.append(&coord.y);
+					builder.indices.append(&index);
+
+					// add for reference
+					faces.add(faceIndices, index);
+
+					// increment count
+					vertexCount += 1;
+				}
+				else
+				{
+					// vertex already exists
+					UShort index = found->get_second();
+					builder.indices.append(&index);
+				}
+			}
+		}
+	}
+
+	// create the mesh
+	return create_from_loaded<Mesh>(path, builder);
+}
+
+Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path)
+{
+	String extension = path.get_extension().get_string();
+
+	if (extension == "obj")
+	{
+		return load_mesh_obj(path);
+	}
+	else
+	{
+		MINTY_ERROR(F("Cannot load mesh. Unsupported file type: {}", extension));
+		return Ref<Mesh>();
+	}
+}
+
 Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
 {
 	// create builder
@@ -857,6 +989,11 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
 	}
 
 	return create_from_loaded<RenderPass>(path, builder);
+}
+
+Ref<Scene> Minty::AssetManager::load_scene(Path const& path)
+{
+	return Ref<Scene>();
 }
 
 Ref<Shader> Minty::AssetManager::load_shader(Path const& path)

@@ -607,3 +607,87 @@ namespace Minty
 
 #pragma endregion
 }
+
+namespace std {
+	template<>
+	struct hash<Minty::Int2> {
+		std::size_t operator()(Minty::Int2 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::Int>{}(v.x);
+			std::size_t h2 = std::hash<Minty::Int>{}(v.y);
+			return h1 ^ (h2 << 1);
+		}
+	};
+	template<>
+	struct hash<Minty::Int3> {
+		std::size_t operator()(Minty::Int3 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::Int>{}(v.x);
+			std::size_t h2 = std::hash<Minty::Int>{}(v.y);
+			std::size_t h3 = std::hash<Minty::Int>{}(v.z);
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
+	};
+	template<>
+	struct hash<Minty::Int4> {
+		std::size_t operator()(Minty::Int4 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::Int>{}(v.x);
+			std::size_t h2 = std::hash<Minty::Int>{}(v.y);
+			std::size_t h3 = std::hash<Minty::Int>{}(v.z);
+			std::size_t h4 = std::hash<Minty::Int>{}(v.w);
+			return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3);
+		}
+	};
+	template<>
+	struct hash<Minty::UInt2> {
+		std::size_t operator()(Minty::UInt2 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::UInt>{}(v.x);
+			std::size_t h2 = std::hash<Minty::UInt>{}(v.y);
+			return h1 ^ (h2 << 1);
+		}
+	};
+	template<>
+	struct hash<Minty::UInt3> {
+		std::size_t operator()(Minty::UInt3 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::UInt>{}(v.x);
+			std::size_t h2 = std::hash<Minty::UInt>{}(v.y);
+			std::size_t h3 = std::hash<Minty::UInt>{}(v.z);
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
+	};
+	template<>
+	struct hash<Minty::UInt4> {
+		std::size_t operator()(Minty::UInt4 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::UInt>{}(v.x);
+			std::size_t h2 = std::hash<Minty::UInt>{}(v.y);
+			std::size_t h3 = std::hash<Minty::UInt>{}(v.z);
+			std::size_t h4 = std::hash<Minty::UInt>{}(v.w);
+			return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3);
+		}
+	};
+	template<>
+	struct hash<Minty::Float2> {
+		std::size_t operator()(Minty::Float2 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::Float>{}(v.x);
+			std::size_t h2 = std::hash<Minty::Float>{}(v.y);
+			return h1 ^ (h2 << 1);
+		}
+	};
+	template<>
+	struct hash<Minty::Float3> {
+		std::size_t operator()(Minty::Float3 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::Float>{}(v.x);
+			std::size_t h2 = std::hash<Minty::Float>{}(v.y);
+			std::size_t h3 = std::hash<Minty::Float>{}(v.z);
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
+	};
+	template<>
+	struct hash<Minty::Float4> {
+		std::size_t operator()(Minty::Float4 const& v) const noexcept {
+			std::size_t h1 = std::hash<Minty::Float>{}(v.x);
+			std::size_t h2 = std::hash<Minty::Float>{}(v.y);
+			std::size_t h3 = std::hash<Minty::Float>{}(v.z);
+			std::size_t h4 = std::hash<Minty::Float>{}(v.w);
+			return h1 ^ (h2 << 1) ^ (h3 << 2) ^ (h4 << 3);
+		}
+	};
+}

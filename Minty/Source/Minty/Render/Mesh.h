@@ -32,6 +32,9 @@ namespace Minty
 		ListContainer indices;
 	};
 
+	/// <summary>
+	/// A model.
+	/// </summary>
 	class Mesh
 		: public Asset
 	{
@@ -73,6 +76,12 @@ namespace Minty
 		ListContainer const& get_vertices() const { return m_vertices; }
 
 		/// <summary>
+		/// Gets the vertex Buffer of this Mesh.
+		/// </summary>
+		/// <returns>The vertex Buffer.</returns>
+		Ref<Buffer> const& get_vertex_buffer() const { return m_vertexBuffer; }
+
+		/// <summary>
 		/// Gets the indices of this Mesh.
 		/// </summary>
 		/// <returns>The ListContainer with the data.</returns>
@@ -84,15 +93,21 @@ namespace Minty
 		/// <returns>The ListContainer with the data.</returns>
 		ListContainer const& get_indices() const { return m_indices; }
 
+		/// <summary>
+		/// Gets the index Buffer of this Mesh.
+		/// </summary>
+		/// <returns>The index Buffer.</returns>
+		Ref<Buffer> const& get_index_buffer() const { return m_indexBuffer; }
+
+		/// <summary>
+		/// Gets the AssetType of this Asset.
+		/// </summary>
+		/// <returns>Mesh.</returns>
+		AssetType get_asset_type() const override { return AssetType::Mesh; }
+
 #pragma endregion
 
 #pragma region Methods
-
-	public:
-		/// <summary>
-		/// Called when this Mesh is bound for rendering.
-		/// </summary>
-		virtual void on_bind() const = 0;
 
 	private:
 		void initialize(MeshBuilder const& builder);
@@ -100,6 +115,13 @@ namespace Minty
 		void initialize_quad();
 
 		void initialize_cube();
+
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		static Owner<Mesh> create(MeshBuilder const& builder = {});
 
 #pragma endregion
 	};
