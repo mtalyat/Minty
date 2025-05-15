@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 # Minty
 !Minty/Source/Minty/Debug/
+**/Documentation/*
