@@ -9,7 +9,7 @@ var searchData=
   ['pixeldata_6',['pixelData',['../struct_minty_1_1_image_builder.html#af09ca71e7453deef8ab09dff653eca0a',1,'Minty::ImageBuilder']]],
   ['pixeldatasize_7',['pixelDataSize',['../struct_minty_1_1_image_builder.html#af7147824edc15c518fb14fb248d56fa3',1,'Minty::ImageBuilder']]],
   ['polygonmode_8',['polygonMode',['../struct_minty_1_1_shader_builder.html#a09db362b00b4eb00b03d959f616d9cca',1,'Minty::ShaderBuilder']]],
-  ['position_9',['position',['../struct_minty_1_1_window_builder.html#a3784e82b6ef42bbf7846a3524dd60762',1,'Minty::WindowBuilder']]],
+  ['position_9',['position',['../struct_minty_1_1_camera_info.html#aa28c2ee6f4a4e78186b0439e0d77fe19',1,'Minty::CameraInfo::position'],['../struct_minty_1_1_window_builder.html#a3784e82b6ef42bbf7846a3524dd60762',1,'Minty::WindowBuilder::position']]],
   ['presentfamily_10',['presentFamily',['../struct_minty_1_1_vulkan___queue_family_indices.html#a3eb1ea1f31c2e9aeeee266c004de0255',1,'Minty::Vulkan_QueueFamilyIndices']]],
   ['presentmodes_11',['presentModes',['../struct_minty_1_1_vulkan___swapchain_support_details.html#aa0c6314861e31f8b1c4e79fd2e63078c',1,'Minty::Vulkan_SwapchainSupportDetails']]],
   ['prev_12',['prev',['../struct_minty_1_1_relationship_component.html#a854272f62290c3fd2e7d3b772a492311',1,'Minty::RelationshipComponent']]],

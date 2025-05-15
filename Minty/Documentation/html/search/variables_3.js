@@ -7,5 +7,6 @@ var searchData=
   ['deg2rad_4',['DEG2RAD',['../namespace_minty_1_1_math.html#a010b82b2421a46ef31f6a12b1ab13088',1,'Minty::Math']]],
   ['depth_5',['depth',['../struct_minty_1_1_relationship_component.html#ad121f9433b9ef4c40b4bdf8a6c91f8b5',1,'Minty::RelationshipComponent']]],
   ['depthattachment_6',['depthAttachment',['../struct_minty_1_1_render_pass_builder.html#af38d7149e6fdca2f898c2740bf127474',1,'Minty::RenderPassBuilder']]],
-  ['descriptor_5fpool_5fsize_7',['DESCRIPTOR_POOL_SIZE',['../namespace_minty.html#a2f318052317d07febbea4b949cb48e14',1,'Minty']]]
+  ['descriptor_5fpool_5fsize_7',['DESCRIPTOR_POOL_SIZE',['../namespace_minty.html#a2f318052317d07febbea4b949cb48e14',1,'Minty']]],
+  ['destroy_8',['destroy',['../struct_minty_1_1_component_info.html#ab8c8a7a6f429e143ddd165419e3db794',1,'Minty::ComponentInfo']]]
 ];

@@ -9,6 +9,7 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 	, m_registeredAssets()
 	, m_assets(builder.assets)
 	, m_loadedAssets()
+	, m_activeCameraEntity(INVALID_ENTITY)
 {
 	// create the entity manager
 	EntityManagerBuilder entityManagerBuilder{};

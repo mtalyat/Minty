@@ -4,41 +4,35 @@
 
 namespace Minty
 {
+	struct CameraInfo;
+
 	class RenderSystem
 		: public System
 	{
 #pragma region Variables
 
 	private:
-		Entity m_mainCameraEntity;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Sets the main camera for the RenderSystem.
-		/// </summary>
-		/// <param name="camera">The Entity with a Camera component.</param>
-		void set_main_camera(Entity const& camera)
+		RenderSystem(SystemBuilder const& builder)
+			: System(builder)
 		{
-			m_mainCameraEntity = camera;
-		}
-
-		/// <summary>
-		/// Gets the main camera for the RenderSystem.
-		/// </summary>
-		/// <returns>The main camera Entity.</returns>
-		Entity get_main_camera() const
-		{
-			return m_mainCameraEntity;
 		}
 
 #pragma endregion
 
-
 #pragma region Methods
+
+	private:
+		// draws everything
+		void render_scene(CameraInfo const& cameraInfo);
+
+		// draws the mesh objects
+		void render_meshes(CameraInfo const& cameraInfo);
 
 	public:
 		void serialize(Writer& writer) const override;

@@ -276,7 +276,7 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 	nameComponent.name = name;
 }
 
-Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const mask)
+Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const mask) const
 {
 	Layer layer = get_layer(entity);
 

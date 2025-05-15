@@ -10,7 +10,7 @@ void test_Map(Test& _test)
 			Map<int, int> map;
 			map[0] = 0;
 			Map<int, int>::Iterator it = map.begin();
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)));
 			++it;
 			EXPECT_FAILURE(*it);
 		}
@@ -20,11 +20,11 @@ void test_Map(Test& _test)
 			Map<int, int> map;
 			map[0] = 0;
 			Map<int, int>::Iterator it = map.begin();
-			EXPECT_TRUE(it->first == 0);
-			EXPECT_TRUE(it->second == 0);
+			EXPECT_TRUE(it->get_first() == 0);
+			EXPECT_TRUE(it->get_second() == 0);
 			++it;
-			EXPECT_FAILURE(it->first);
-			EXPECT_FAILURE(it->second);
+			EXPECT_FAILURE(it->get_first());
+			EXPECT_FAILURE(it->get_second());
 		}
 
 		TEST("Increment Operator")
@@ -33,9 +33,9 @@ void test_Map(Test& _test)
 			map[0] = 0;
 			map[1] = 1;
 			Map<int, int>::Iterator it = map.begin();
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
 			EXPECT_FAILURE(*it);
 		}
@@ -46,8 +46,8 @@ void test_Map(Test& _test)
 			map[0] = 0;
 			map[1] = 1;
 			Map<int, int>::Iterator it = map.begin();
-			EXPECT_TRUE((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1)));
-			EXPECT_TRUE((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*(it + 0) == Tuple<int, int>(0, 0)) || (*(it + 0) == Tuple<int, int>(1, 1)));
+			EXPECT_TRUE((*(it + 1) == Tuple<int, int>(0, 0)) || (*(it + 1) == Tuple<int, int>(1, 1)));
 			EXPECT_FAILURE(*(it + 2));
 			EXPECT_TRUE(it + 2 == map.end());
 		}
@@ -83,7 +83,7 @@ void test_Map(Test& _test)
 		{
 			Map<int, int> const map = { {0, 0} };
 			Map<int, int>::ConstIterator it = map.begin();
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)));
 			++it;
 			EXPECT_FAILURE(*it);
 		}
@@ -92,20 +92,20 @@ void test_Map(Test& _test)
 		{
 			Map<int, int> const map = { {0, 0} };
 			Map<int, int>::ConstIterator it = map.begin();
-			EXPECT_TRUE(it->first == 0);
-			EXPECT_TRUE(it->second == 0);
+			EXPECT_TRUE(it->get_first() == 0);
+			EXPECT_TRUE(it->get_second() == 0);
 			++it;
-			EXPECT_FAILURE(it->first);
-			EXPECT_FAILURE(it->second);
+			EXPECT_FAILURE(it->get_first());
+			EXPECT_FAILURE(it->get_second());
 		}
 
 		TEST("Increment Operator")
 		{
 			Map<int, int> const map = { {0, 0}, {1, 1} };
 			Map<int, int>::ConstIterator it = map.begin();
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
 			EXPECT_FAILURE(*it);
 		}
@@ -114,8 +114,8 @@ void test_Map(Test& _test)
 		{
 			Map<int, int> const map = { {0, 0}, {1, 1} };
 			Map<int, int>::ConstIterator it = map.begin();
-			EXPECT_TRUE((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1)));
-			EXPECT_TRUE((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*(it + 0) == Tuple<int, int>(0, 0)) || (*(it + 0) == Tuple<int, int>(1, 1)));
+			EXPECT_TRUE((*(it + 1) == Tuple<int, int>(0, 0)) || (*(it + 1) == Tuple<int, int>(1, 1)));
 			EXPECT_FAILURE(*(it + 2));
 			EXPECT_TRUE(it + 2 == map.end());
 		}
@@ -418,9 +418,9 @@ void test_Map(Test& _test)
 			map[0] = 0;
 			map[1] = 1;
 			Map<int, int>::Iterator it = map.begin();
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
 			EXPECT_FAILURE(*it);
 			Map<int, int> map2;
@@ -442,9 +442,9 @@ void test_Map(Test& _test)
 		{
 			Map<int, int> const map = { {0, 0}, {1, 1} };
 			Map<int, int>::ConstIterator it = map.begin();
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
-			EXPECT_TRUE((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1)));
+			EXPECT_TRUE((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1)));
 			++it;
 			EXPECT_FAILURE(*it);
 			Map<int, int> const map2;

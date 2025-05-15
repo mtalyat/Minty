@@ -45,8 +45,10 @@ var hierarchy =
     ] ],
     [ "Minty::BufferBuilder", "struct_minty_1_1_buffer_builder.html", null ],
     [ "Minty::CameraBuilder", "struct_minty_1_1_camera_builder.html", null ],
+    [ "Minty::CameraInfo", "struct_minty_1_1_camera_info.html", null ],
     [ "Minty::Cargo", "class_minty_1_1_cargo.html", null ],
     [ "Minty::Color", "struct_minty_1_1_color.html", null ],
+    [ "Minty::ComponentInfo", "struct_minty_1_1_component_info.html", null ],
     [ "Minty::Array< T, S >::ConstIterator", "class_minty_1_1_array_1_1_const_iterator.html", null ],
     [ "Minty::List< T >::ConstIterator", "class_minty_1_1_list_1_1_const_iterator.html", null ],
     [ "Minty::Map< Key, Value >::ConstIterator", "class_minty_1_1_map_1_1_const_iterator.html", null ],
@@ -187,6 +189,7 @@ var hierarchy =
     [ "Minty::SerializableObject", "class_minty_1_1_serializable_object.html", [
       [ "Minty::Camera", "class_minty_1_1_camera.html", null ],
       [ "Minty::Component", "struct_minty_1_1_component.html", [
+        [ "Minty::CameraComponent", "struct_minty_1_1_camera_component.html", null ],
         [ "Minty::DirtyComponent", "struct_minty_1_1_dirty_component.html", null ],
         [ "Minty::EnabledComponent", "struct_minty_1_1_enabled_component.html", null ],
         [ "Minty::LayerComponent", "struct_minty_1_1_layer_component.html", null ],

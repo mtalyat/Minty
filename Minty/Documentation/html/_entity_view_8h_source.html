@@ -122,24 +122,49 @@ $(function(){initNavTree('_entity_view_8h_source.html',''); initResizable(true);
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        }</div>
 </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Func&gt;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="foldopen" id="foldopen00016" data-start="{" data-end="}">
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="class_minty_1_1_entity_view.html#a033540cefc2400e25050564f6adbc8cb">   16</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_entity_view.html#a033540cefc2400e25050564f6adbc8cb">each</a>(Func&amp;&amp; func)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            m_view.each(func);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="class_minty_1_1_entity_view.html#a37c2ac8472d1f03b20cde9adabedfe6c">   16</a></span>        <a class="code hl_function" href="class_minty_1_1_entity_view.html#a37c2ac8472d1f03b20cde9adabedfe6c">EntityView</a>(entt::registry <span class="keyword">const</span>&amp; registry)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            : m_view(registry.view&lt;Get...&gt;())</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        {</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        }</div>
 </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        entt::view&lt;entt::get_t&lt;Get...&gt;&gt; m_view;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    };</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Func&gt;</div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_minty_1_1_entity_view.html#a033540cefc2400e25050564f6adbc8cb">   22</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_minty_1_1_entity_view.html#a033540cefc2400e25050564f6adbc8cb">each</a>(Func&amp;&amp; func)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            m_view.each(func);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        }</div>
 </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="class_minty_1_1_entity_view.html#ae27ca40438de48d41feb40eb76b25d27">   27</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="class_minty_1_1_entity_view.html#ae27ca40438de48d41feb40eb76b25d27">each</a>()</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">return</span> m_view.each();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
+</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_minty_1_1_entity_view.html#ab5d10bd12163af8a47e6da0df53c1ba2">   32</a></span>        <span class="keyword">auto</span> <a class="code hl_function" href="class_minty_1_1_entity_view.html#ab5d10bd12163af8a47e6da0df53c1ba2">each</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">return</span> m_view.each();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        entt::view&lt;entt::get_t&lt;Get...&gt;&gt; m_view;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    };</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
 <div class="ttc" id="a_en_t_t_8h_html"><div class="ttname"><a href="_en_t_t_8h.html">EnTT.h</a></div></div>
 <div class="ttc" id="a_entity_8h_html"><div class="ttname"><a href="_entity_8h.html">Entity.h</a></div></div>
-<div class="ttc" id="aclass_minty_1_1_entity_view_html_a033540cefc2400e25050564f6adbc8cb"><div class="ttname"><a href="class_minty_1_1_entity_view.html#a033540cefc2400e25050564f6adbc8cb">Minty::EntityView::each</a></div><div class="ttdeci">void each(Func &amp;&amp;func)</div><div class="ttdef"><b>Definition</b> EntityView.h:16</div></div>
+<div class="ttc" id="aclass_minty_1_1_entity_view_html_a033540cefc2400e25050564f6adbc8cb"><div class="ttname"><a href="class_minty_1_1_entity_view.html#a033540cefc2400e25050564f6adbc8cb">Minty::EntityView::each</a></div><div class="ttdeci">void each(Func &amp;&amp;func)</div><div class="ttdef"><b>Definition</b> EntityView.h:22</div></div>
+<div class="ttc" id="aclass_minty_1_1_entity_view_html_a37c2ac8472d1f03b20cde9adabedfe6c"><div class="ttname"><a href="class_minty_1_1_entity_view.html#a37c2ac8472d1f03b20cde9adabedfe6c">Minty::EntityView::EntityView</a></div><div class="ttdeci">EntityView(entt::registry const &amp;registry)</div><div class="ttdef"><b>Definition</b> EntityView.h:16</div></div>
 <div class="ttc" id="aclass_minty_1_1_entity_view_html_a839809672202cac34a826a2c240c402a"><div class="ttname"><a href="class_minty_1_1_entity_view.html#a839809672202cac34a826a2c240c402a">Minty::EntityView::EntityView</a></div><div class="ttdeci">EntityView(entt::registry &amp;registry)</div><div class="ttdef"><b>Definition</b> EntityView.h:11</div></div>
-<div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:5</div></div>
+<div class="ttc" id="aclass_minty_1_1_entity_view_html_ab5d10bd12163af8a47e6da0df53c1ba2"><div class="ttname"><a href="class_minty_1_1_entity_view.html#ab5d10bd12163af8a47e6da0df53c1ba2">Minty::EntityView::each</a></div><div class="ttdeci">auto each() const</div><div class="ttdef"><b>Definition</b> EntityView.h:32</div></div>
+<div class="ttc" id="aclass_minty_1_1_entity_view_html_ae27ca40438de48d41feb40eb76b25d27"><div class="ttname"><a href="class_minty_1_1_entity_view.html#ae27ca40438de48d41feb40eb76b25d27">Minty::EntityView::each</a></div><div class="ttdeci">auto each()</div><div class="ttdef"><b>Definition</b> EntityView.h:27</div></div>
+<div class="ttc" id="anamespace_minty_html"><div class="ttname"><a href="namespace_minty.html">Minty</a></div><div class="ttdef"><b>Definition</b> Application.h:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

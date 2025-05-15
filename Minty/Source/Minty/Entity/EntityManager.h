@@ -105,7 +105,7 @@ namespace Minty
 			return m_registry.valid(entity);
 		}
 
-		Bool is_in_layer(Entity const entity, Layer const mask);
+		Bool is_in_layer(Entity const entity, Layer const mask) const;
 
 		/// <summary>
 		/// Marks the given Entity as dirty. Dirty components need to be refreshed.
@@ -205,6 +205,12 @@ namespace Minty
 
 		template<typename... Get>
 		EntityView<Get...> view()
+		{
+			return EntityView<Get...>(m_registry);
+		}
+
+		template<typename... Get>
+		EntityView<Get...> view() const
 		{
 			return EntityView<Get...>(m_registry);
 		}

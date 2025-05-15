@@ -1,8 +1,27 @@
 #pragma once
+#include "Minty/Data/String.h"
+#include "Minty/Entity/Entity.h"
 #include "Minty/Serialization/SerializableObject.h"
 
 namespace Minty
 {
+	class EntityManager;
+	struct Component;
+
+	struct ComponentInfo
+	{
+		String name;
+
+		Function<Component* (EntityManager&, Entity const)> create;
+
+		Function<Component* (EntityManager const&, Entity const)> get;
+
+		Function<void(EntityManager&, Entity const)> destroy;
+	};
+
+	/// <summary>
+	/// The base class for all components. Holds data for an Entity.
+	/// </summary>
 	struct Component
 		: public SerializableObject
 	{

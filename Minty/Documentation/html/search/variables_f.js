@@ -6,5 +6,6 @@ var searchData=
   ['rendermanagerbuilder_3',['renderManagerBuilder',['../struct_minty_1_1_context_builder.html#a8d1a3d12b6d581432ff94daa04b44719',1,'Minty::ContextBuilder']]],
   ['renderpass_4',['renderPass',['../struct_minty_1_1_render_target_builder.html#a6039478b88c05282981c2abedc988b96',1,'Minty::RenderTargetBuilder::renderPass'],['../struct_minty_1_1_shader_builder.html#a0a10b7f9cf5859de8f4d619f22e8e0c7',1,'Minty::ShaderBuilder::renderPass']]],
   ['rendertarget_5',['renderTarget',['../struct_minty_1_1_camera_builder.html#a743ef78ae363d91cac46f2dae30b312e',1,'Minty::CameraBuilder']]],
-  ['reservedsize_6',['reservedSize',['../struct_minty_1_1_wrap_1_1_entry.html#aa9b9a3d74319612a08edd36dea0a7fca',1,'Minty::Wrap::Entry']]]
+  ['reservedsize_6',['reservedSize',['../struct_minty_1_1_wrap_1_1_entry.html#aa9b9a3d74319612a08edd36dea0a7fca',1,'Minty::Wrap::Entry']]],
+  ['rotation_7',['rotation',['../struct_minty_1_1_camera_info.html#aea8fa87d14f19623c49fd81a16bb4f1c',1,'Minty::CameraInfo']]]
 ];

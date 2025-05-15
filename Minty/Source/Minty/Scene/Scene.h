@@ -63,6 +63,8 @@ namespace Minty
 		// set of IDs of the assets that have been loaded
 		Set<UUID> m_loadedAssets;
 
+		Entity m_activeCameraEntity;
+
 #pragma endregion
 
 #pragma region Constructors
@@ -82,6 +84,16 @@ namespace Minty
 		EntityManager& get_entity_manager() const { return *mp_entityManager; }
 
 		SystemManager& get_system_manager() const { return *mp_systemManager; }
+
+		void set_active_camera_entity(Entity const entity)
+		{
+			m_activeCameraEntity = entity;
+		}
+
+		Entity get_active_camera_entity() const
+		{
+			return m_activeCameraEntity;
+		}
 
 #pragma endregion
 

@@ -52,6 +52,7 @@ var searchData=
   ['long_49',['Long',['../namespace_minty.html#ab5fff22b4756f66a6837a0dd3381fa07',1,'Minty::Long'],['../namespace_minty.html#a5ec65860f40f868afa18cc47f3a016cda8394f0347c184cf156ac5924dccb773b',1,'Minty::Long']]],
   ['lookup_50',['Lookup',['../class_minty_1_1_lookup.html',1,'Minty::Lookup&lt; Key, Value &gt;'],['../class_minty_1_1_lookup.html#ac4206e88630f78c96ec073ff58f62752',1,'Minty::Lookup::Lookup(Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_lookup.html#a1ea9eddd3f9cd9af3177eb91e228835c',1,'Minty::Lookup::Lookup(Size const capacity, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_lookup.html#a58e97b4354777747bb202af908da1d2f',1,'Minty::Lookup::Lookup(std::initializer_list&lt; Tuple&lt; String, Key, Value &gt; &gt; const &amp;list, Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_lookup.html#af67d562e649e03b147a95367716e603b',1,'Minty::Lookup::Lookup(Lookup const &amp;other)'],['../class_minty_1_1_lookup.html#ae518b4ae44c2f5a2c64ad52d0e8d256f',1,'Minty::Lookup::Lookup(Lookup &amp;&amp;other) noexcept']]],
   ['lookup_2eh_51',['Lookup.h',['../_lookup_8h.html',1,'']]],
-  ['lookup_3c_20typeid_2c_20minty_3a_3asysteminfo_20_3e_52',['Lookup&lt; TypeID, Minty::SystemInfo &gt;',['../class_minty_1_1_lookup.html',1,'Minty']]],
-  ['low_53',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
+  ['lookup_3c_20typeid_2c_20minty_3a_3acomponentinfo_20_3e_52',['Lookup&lt; TypeID, Minty::ComponentInfo &gt;',['../class_minty_1_1_lookup.html',1,'Minty']]],
+  ['lookup_3c_20typeid_2c_20minty_3a_3asysteminfo_20_3e_53',['Lookup&lt; TypeID, Minty::SystemInfo &gt;',['../class_minty_1_1_lookup.html',1,'Minty']]],
+  ['low_54',['Low',['../namespace_minty.html#abe96803589e915713959c294c0df12c6a28d0edd045e05cf5af64e35ae0c4c6ef',1,'Minty']]]
 ];

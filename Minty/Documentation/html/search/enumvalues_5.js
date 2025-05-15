@@ -10,5 +10,6 @@ var searchData=
   ['font_7',['Font',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a194f5394ae2e9c74dc3c441b92862d1d',1,'Minty']]],
   ['fontvariant_8',['FontVariant',['../namespace_minty.html#a37bfed3f50b2fb1c7816a08810b2b841a942fbf5aede93f3ba503193e480477c5',1,'Minty']]],
   ['fragment_9',['Fragment',['../namespace_minty.html#a14fb745cf2420635f17b39ee7d350264a37d01b98065725fe3a1d30acf3a0064a',1,'Minty']]],
-  ['front_10',['Front',['../namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a5835bab1ade0060909e31a06af2e2cde',1,'Minty']]]
+  ['frame_10',['Frame',['../class_minty_1_1_render_manager.html#a73cb0b49d99f063a4d2ca6dc3d4c511ea3bb3e8c8a24891ba0f7608bcc96f8b0a',1,'Minty::RenderManager']]],
+  ['front_11',['Front',['../namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a5835bab1ade0060909e31a06af2e2cde',1,'Minty']]]
 ];

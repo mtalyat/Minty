@@ -33,7 +33,7 @@
 | Map::ConstIterator             |       17 |        0 |
 | Map                            |      113 |        0 |
 | Object                         |       47 |        0 |
-| Pair                           |       54 |        0 |
+| tuple                          |       54 |        0 |
 | Queue                          |       36 |        0 |
 | Set::Iterator                  |       15 |        0 |
 | Set::ConstIterator             |       15 |        0 |
@@ -319,13 +319,13 @@ No failures! :)
 ## Base
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 13: Allocate/Deallocate ((ptr != nullptr) == true)                                                                               |
-|  PASS  | 20: Construct/Destruct ((ptr != nullptr) == true)                                                                                |
-|  PASS  | 21: Construct/Destruct ((*ptr == 5) == true)                                                                                     |
-|  PASS  | 29: Construct/Destruct Array ((ptr != nullptr) == true)                                                                          |
-|  PASS  | 32: Construct/Destruct Array ((ptr[i] == 5) == true)                                                                             |
-|  PASS  | 32: Construct/Destruct Array ((ptr[i] == 5) == true)                                                                             |
-|  PASS  | 32: Construct/Destruct Array ((ptr[i] == 5) == true)                                                                             |
+|  PASS  | 11: Allocate/Deallocate ((ptr != nullptr) == true)                                                                               |
+|  PASS  | 18: Construct/Destruct ((ptr != nullptr) == true)                                                                                |
+|  PASS  | 19: Construct/Destruct ((*ptr == 5) == true)                                                                                     |
+|  PASS  | 27: Construct/Destruct Array ((ptr != nullptr) == true)                                                                          |
+|  PASS  | 30: Construct/Destruct Array ((ptr[i] == 5) == true)                                                                             |
+|  PASS  | 30: Construct/Destruct Array ((ptr[i] == 5) == true)                                                                             |
+|  PASS  | 30: Construct/Destruct Array ((ptr[i] == 5) == true)                                                                             |
 
 ## Compression
 | Result | Message                                                                                                                          |
@@ -1076,56 +1076,56 @@ No failures! :)
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
 |  PASS  | 11: Default Constructor ((cargo.is_empty()) == true)                                                                             |
 |  PASS  | 17: Capacity Constructor ((cargo.is_empty()) == true)                                                                            |
-|  PASS  | 33: Variables Constructor ((cargo.is_empty()) == false)                                                                          |
-|  PASS  | 34: Variables Constructor (cargo.get_size() == 2)                                                                                |
-|  PASS  | 35: Variables Constructor (cargo.at("object1").at("key1").get<Int>() == 10)                                                      |
-|  PASS  | 36: Variables Constructor (cargo.at("object1").at("key2").get<Float>() == 20.0f)                                                 |
-|  PASS  | 37: Variables Constructor (cargo.at("object2").at("key3").get<Int>() == 30)                                                      |
-|  PASS  | 38: Variables Constructor (cargo.at("object2").at("key4").get<Float>() == 40.0f)                                                 |
-|  PASS  | 45: Copy Constructor ((copy.is_empty()) == true)                                                                                 |
-|  PASS  | 51: Copy Constructor ((copy.is_empty()) == false)                                                                                |
-|  PASS  | 58: Move Constructor ((move.is_empty()) == true)                                                                                 |
-|  PASS  | 64: Move Constructor ((move.is_empty()) == false)                                                                                |
-|  PASS  | 75: Begin (it->first == "object1")                                                                                               |
-|  PASS  | 76: Begin (it->second.at("key1").get<Int>() == 10)                                                                               |
-|  PASS  | 88: Begin Const (it->first == "object1")                                                                                         |
-|  PASS  | 89: Begin Const (it->second.at("key1").get<Int>() == 10)                                                                         |
-|  PASS  | 105: End (it == bit)                                                                                                             |
-|  PASS  | 122: End Const (it == bit)                                                                                                       |
-|  PASS  | 128: Is Empty ((cargo.is_empty()) == true)                                                                                       |
-|  PASS  | 133: Is Empty ((cargo.is_empty()) == false)                                                                                      |
-|  PASS  | 139: Get Size (cargo.get_size() == 0)                                                                                            |
-|  PASS  | 144: Get Size (cargo.get_size() == 1)                                                                                            |
-|  PASS  | 154: Contains ((cargo.contains("object1")) == true)                                                                              |
-|  PASS  | 155: Contains ((cargo.contains("nonexistent")) == false)                                                                         |
-|  PASS  | 165: At (cargo.at("object1").at("key1").get<Int>() == 10)                                                                        |
-|  PASS  | 166: At (cargo.at("nonexistent"))                                                                                                |
-|  PASS  | 177: At Const (constCargo.at("object1").at("key1").get<Int>() == 10)                                                             |
-|  PASS  | 178: At Const (constCargo.at("nonexistent"))                                                                                     |
-|  PASS  | 184: Add (cargo.get_size() == 0)                                                                                                 |
-|  PASS  | 189: Add (cargo.get_size() == 1)                                                                                                 |
-|  PASS  | 190: Add (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
-|  PASS  | 196: Set ((cargo.contains("object1")) == false)                                                                                  |
-|  PASS  | 201: Set (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
-|  PASS  | 206: Set (cargo.at("object1").at("key1").get<Int>() == 30)                                                                       |
-|  PASS  | 216: Remove (cargo.get_size() == 1)                                                                                              |
-|  PASS  | 217: Remove ((cargo.remove("object1")) == true)                                                                                  |
-|  PASS  | 218: Remove (cargo.get_size() == 0)                                                                                              |
-|  PASS  | 219: Remove ((cargo.contains("object1")) == false)                                                                               |
-|  PASS  | 220: Remove ((cargo.remove("object1")) == false)                                                                                 |
-|  PASS  | 231: Find (it->first == "object1")                                                                                               |
-|  PASS  | 232: Find (it->second.at("key1").get<Int>() == 10)                                                                               |
-|  PASS  | 233: Find (cargo.find("nonexistent") == cargo.end())                                                                             |
-|  PASS  | 245: Find Const (it->first == "object1")                                                                                         |
-|  PASS  | 246: Find Const (it->second.at("key1").get<Int>() == 10)                                                                         |
-|  PASS  | 247: Find Const (constCargo.find("nonexistent") == constCargo.end())                                                             |
-|  PASS  | 275: Pack (container.get_size() == value0Size + value1Size + value2Size + value2Size + value0Size + value1Size)                  |
-|  PASS  | 276: Pack (*static_cast<Int*>(container.get_data()) == 10)                                                                       |
-|  PASS  | 277: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size)) == 20.0f)             |
-|  PASS  | 278: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size)) == 30)    |
-|  PASS  | 279: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size)) == 30) |
-|  PASS  | 280: Pack (*static_cast<Int*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size)) == 10) |
-|  PASS  | 281: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size + value0Size)) == 20.0f) |
+|  PASS  | 42: Variables Constructor ((cargo.is_empty()) == false)                                                                          |
+|  PASS  | 43: Variables Constructor (cargo.get_size() == 2)                                                                                |
+|  PASS  | 44: Variables Constructor (cargo.at("object1").at("key1").get<Int>() == 10)                                                      |
+|  PASS  | 45: Variables Constructor (cargo.at("object1").at("key2").get<Float>() == 20.0f)                                                 |
+|  PASS  | 46: Variables Constructor (cargo.at("object2").at("key3").get<Int>() == 30)                                                      |
+|  PASS  | 47: Variables Constructor (cargo.at("object2").at("key4").get<Float>() == 40.0f)                                                 |
+|  PASS  | 54: Copy Constructor ((copy.is_empty()) == true)                                                                                 |
+|  PASS  | 60: Copy Constructor ((copy.is_empty()) == false)                                                                                |
+|  PASS  | 67: Move Constructor ((move.is_empty()) == true)                                                                                 |
+|  PASS  | 73: Move Constructor ((move.is_empty()) == false)                                                                                |
+|  PASS  | 84: Begin (it->get_first() == "object1")                                                                                         |
+|  PASS  | 85: Begin (it->get_second().at("key1").get<Int>() == 10)                                                                         |
+|  PASS  | 97: Begin Const (it->get_first() == "object1")                                                                                   |
+|  PASS  | 98: Begin Const (it->get_second().at("key1").get<Int>() == 10)                                                                   |
+|  PASS  | 114: End (it == bit)                                                                                                             |
+|  PASS  | 131: End Const (it == bit)                                                                                                       |
+|  PASS  | 137: Is Empty ((cargo.is_empty()) == true)                                                                                       |
+|  PASS  | 142: Is Empty ((cargo.is_empty()) == false)                                                                                      |
+|  PASS  | 148: Get Size (cargo.get_size() == 0)                                                                                            |
+|  PASS  | 153: Get Size (cargo.get_size() == 1)                                                                                            |
+|  PASS  | 163: Contains ((cargo.contains("object1")) == true)                                                                              |
+|  PASS  | 164: Contains ((cargo.contains("nonexistent")) == false)                                                                         |
+|  PASS  | 174: At (cargo.at("object1").at("key1").get<Int>() == 10)                                                                        |
+|  PASS  | 175: At (cargo.at("nonexistent"))                                                                                                |
+|  PASS  | 186: At Const (constCargo.at("object1").at("key1").get<Int>() == 10)                                                             |
+|  PASS  | 187: At Const (constCargo.at("nonexistent"))                                                                                     |
+|  PASS  | 193: Add (cargo.get_size() == 0)                                                                                                 |
+|  PASS  | 198: Add (cargo.get_size() == 1)                                                                                                 |
+|  PASS  | 199: Add (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
+|  PASS  | 205: Set ((cargo.contains("object1")) == false)                                                                                  |
+|  PASS  | 210: Set (cargo.at("object1").at("key1").get<Int>() == 10)                                                                       |
+|  PASS  | 215: Set (cargo.at("object1").at("key1").get<Int>() == 30)                                                                       |
+|  PASS  | 225: Remove (cargo.get_size() == 1)                                                                                              |
+|  PASS  | 226: Remove ((cargo.remove("object1")) == true)                                                                                  |
+|  PASS  | 227: Remove (cargo.get_size() == 0)                                                                                              |
+|  PASS  | 228: Remove ((cargo.contains("object1")) == false)                                                                               |
+|  PASS  | 229: Remove ((cargo.remove("object1")) == false)                                                                                 |
+|  PASS  | 240: Find (it->get_first() == "object1")                                                                                         |
+|  PASS  | 241: Find (it->get_second().at("key1").get<Int>() == 10)                                                                         |
+|  PASS  | 242: Find (cargo.find("nonexistent") == cargo.end())                                                                             |
+|  PASS  | 254: Find Const (it->get_first() == "object1")                                                                                   |
+|  PASS  | 255: Find Const (it->get_second().at("key1").get<Int>() == 10)                                                                   |
+|  PASS  | 256: Find Const (constCargo.find("nonexistent") == constCargo.end())                                                             |
+|  PASS  | 284: Pack (container.get_size() == value0Size + value1Size + value2Size + value2Size + value0Size + value1Size)                  |
+|  PASS  | 285: Pack (*static_cast<Int*>(container.get_data()) == 10)                                                                       |
+|  PASS  | 286: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size)) == 20.0f)             |
+|  PASS  | 287: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size)) == 30)    |
+|  PASS  | 288: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size)) == 30) |
+|  PASS  | 289: Pack (*static_cast<Int*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size)) == 10) |
+|  PASS  | 290: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size + value2Size + value2Size + value0Size)) == 20.0f) |
 
 ## Color
 | Result | Message                                                                                                                          |
@@ -2108,17 +2108,17 @@ No failures! :)
 ## Map::Iterator
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 13: Dereference Operator (((*it == Pair<int, int>(0, 0))) == true)                                                               |
+|  PASS  | 13: Dereference Operator (((*it == Tuple<int, int>(0, 0))) == true)                                                              |
 |  PASS  | 15: Dereference Operator (*it)                                                                                                   |
-|  PASS  | 23: Member Access Operator ((it->first == 0) == true)                                                                            |
-|  PASS  | 24: Member Access Operator ((it->second == 0) == true)                                                                           |
-|  PASS  | 26: Member Access Operator (it->first)                                                                                           |
-|  PASS  | 27: Member Access Operator (it->second)                                                                                          |
-|  PASS  | 36: Increment Operator (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                                |
-|  PASS  | 38: Increment Operator (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                                |
+|  PASS  | 23: Member Access Operator ((it->get_first() == 0) == true)                                                                      |
+|  PASS  | 24: Member Access Operator ((it->get_second() == 0) == true)                                                                     |
+|  PASS  | 26: Member Access Operator (it->get_first())                                                                                     |
+|  PASS  | 27: Member Access Operator (it->get_second())                                                                                    |
+|  PASS  | 36: Increment Operator (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                              |
+|  PASS  | 38: Increment Operator (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                              |
 |  PASS  | 40: Increment Operator (*it)                                                                                                     |
-|  PASS  | 49: Addition Operator (((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1))) == true)                     |
-|  PASS  | 50: Addition Operator (((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1))) == true)                     |
+|  PASS  | 49: Addition Operator (((*(it + 0) == Tuple<int, int>(0, 0)) || (*(it + 0) == Tuple<int, int>(1, 1))) == true)                   |
+|  PASS  | 50: Addition Operator (((*(it + 1) == Tuple<int, int>(0, 0)) || (*(it + 1) == Tuple<int, int>(1, 1))) == true)                   |
 |  PASS  | 51: Addition Operator (*(it + 2))                                                                                                |
 |  PASS  | 52: Addition Operator ((it + 2 == map.end()) == true)                                                                            |
 |  PASS  | 62: Equal Operator ((it == it2) == true)                                                                                         |
@@ -2129,17 +2129,17 @@ No failures! :)
 ## Map::ConstIterator
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
-|  PASS  | 86: Dereference Operator (((*it == Pair<int, int>(0, 0))) == true)                                                               |
+|  PASS  | 86: Dereference Operator (((*it == Tuple<int, int>(0, 0))) == true)                                                              |
 |  PASS  | 88: Dereference Operator (*it)                                                                                                   |
-|  PASS  | 95: Member Access Operator ((it->first == 0) == true)                                                                            |
-|  PASS  | 96: Member Access Operator ((it->second == 0) == true)                                                                           |
-|  PASS  | 98: Member Access Operator (it->first)                                                                                           |
-|  PASS  | 99: Member Access Operator (it->second)                                                                                          |
-|  PASS  | 106: Increment Operator (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                               |
-|  PASS  | 108: Increment Operator (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                               |
+|  PASS  | 95: Member Access Operator ((it->get_first() == 0) == true)                                                                      |
+|  PASS  | 96: Member Access Operator ((it->get_second() == 0) == true)                                                                     |
+|  PASS  | 98: Member Access Operator (it->get_first())                                                                                     |
+|  PASS  | 99: Member Access Operator (it->get_second())                                                                                    |
+|  PASS  | 106: Increment Operator (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                             |
+|  PASS  | 108: Increment Operator (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                             |
 |  PASS  | 110: Increment Operator (*it)                                                                                                    |
-|  PASS  | 117: Addition Operator (((*(it + 0) == Pair<int, int>(0, 0)) || (*(it + 0) == Pair<int, int>(1, 1))) == true)                    |
-|  PASS  | 118: Addition Operator (((*(it + 1) == Pair<int, int>(0, 0)) || (*(it + 1) == Pair<int, int>(1, 1))) == true)                    |
+|  PASS  | 117: Addition Operator (((*(it + 0) == Tuple<int, int>(0, 0)) || (*(it + 0) == Tuple<int, int>(1, 1))) == true)                  |
+|  PASS  | 118: Addition Operator (((*(it + 1) == Tuple<int, int>(0, 0)) || (*(it + 1) == Tuple<int, int>(1, 1))) == true)                  |
 |  PASS  | 119: Addition Operator (*(it + 2))                                                                                               |
 |  PASS  | 120: Addition Operator ((it + 2 == map.end()) == true)                                                                           |
 |  PASS  | 128: Equal Operator ((it == it2) == true)                                                                                        |
@@ -2251,14 +2251,14 @@ No failures! :)
 |  PASS  | 401: Contains ((!map.contains(3)) == true)                                                                                       |
 |  PASS  | 411: Clear ((map.get_capacity() >= 3) == true)                                                                                   |
 |  PASS  | 412: Clear ((map.get_size() == 0) == true)                                                                                       |
-|  PASS  | 421: Begin (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                                            |
-|  PASS  | 423: Begin (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                                            |
+|  PASS  | 421: Begin (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                                          |
+|  PASS  | 423: Begin (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                                          |
 |  PASS  | 425: Begin (*it)                                                                                                                 |
 |  PASS  | 427: Begin ((map2.begin() == map2.end()) == true)                                                                                |
 |  PASS  | 436: End ((it == map.end()) == true)                                                                                             |
 |  PASS  | 438: End ((map2.begin() == map2.end()) == true)                                                                                  |
-|  PASS  | 445: Const Begin (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                                      |
-|  PASS  | 447: Const Begin (((*it == Pair<int, int>(0, 0)) || (*it == Pair<int, int>(1, 1))) == true)                                      |
+|  PASS  | 445: Const Begin (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                                    |
+|  PASS  | 447: Const Begin (((*it == Tuple<int, int>(0, 0)) || (*it == Tuple<int, int>(1, 1))) == true)                                    |
 |  PASS  | 449: Const Begin (*it)                                                                                                           |
 |  PASS  | 451: Const Begin ((map2.begin() == map2.end()) == true)                                                                          |
 |  PASS  | 458: Const End ((it == map.end()) == true)                                                                                       |
@@ -2284,8 +2284,8 @@ No failures! :)
 |  PASS  | 76: Move Assignment ((move.is_empty()) == true)                                                                                  |
 |  PASS  | 79: Move Assignment ((move.is_empty()) == false)                                                                                 |
 |  PASS  | 87: Get Variables (variables.get_size() == 1)                                                                                    |
-|  PASS  | 88: Get Variables (variables[0].first == "key")                                                                                  |
-|  PASS  | 89: Get Variables (variables[0].second.get<Int>() == 10)                                                                         |
+|  PASS  | 88: Get Variables (variables[0].get_first() == "key")                                                                            |
+|  PASS  | 89: Get Variables (variables[0].get_second().get<Int>() == 10)                                                                   |
 |  PASS  | 95: Get Size (object.get_size() == 0)                                                                                            |
 |  PASS  | 97: Get Size (object.get_size() == 1)                                                                                            |
 |  PASS  | 103: Is Empty ((object.is_empty()) == true)                                                                                      |
@@ -2315,63 +2315,63 @@ No failures! :)
 |  PASS  | 191: Pack (*static_cast<Float*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size)) == 20.0f)             |
 |  PASS  | 192: Pack (*static_cast<Byte*>(static_cast<void*>(static_cast<Byte*>(container.get_data()) + value0Size + value1Size)) == 30)    |
 
-## Pair
+## tuple
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
 |  PASS  | 13: Copy/Copy Constructor ((first == "first") == true)                                                                           |
 |  PASS  | 14: Copy/Copy Constructor ((second == "second") == true)                                                                         |
-|  PASS  | 15: Copy/Copy Constructor ((pair.first == "first") == true)                                                                      |
-|  PASS  | 16: Copy/Copy Constructor ((pair.second == "second") == true)                                                                    |
+|  PASS  | 15: Copy/Copy Constructor ((tuple.get_first() == "first") == true)                                                               |
+|  PASS  | 16: Copy/Copy Constructor ((tuple.get_second() == "second") == true)                                                             |
 |  PASS  | 24: Move/Copy Constructor ((first == "") == true)                                                                                |
 |  PASS  | 25: Move/Copy Constructor ((second == "second") == true)                                                                         |
-|  PASS  | 26: Move/Copy Constructor ((pair.first == "first") == true)                                                                      |
-|  PASS  | 27: Move/Copy Constructor ((pair.second == "second") == true)                                                                    |
+|  PASS  | 26: Move/Copy Constructor ((tuple.get_first() == "first") == true)                                                               |
+|  PASS  | 27: Move/Copy Constructor ((tuple.get_second() == "second") == true)                                                             |
 |  PASS  | 35: Copy/Move Constructor ((first == "first") == true)                                                                           |
 |  PASS  | 36: Copy/Move Constructor ((second == "") == true)                                                                               |
-|  PASS  | 37: Copy/Move Constructor ((pair.first == "first") == true)                                                                      |
-|  PASS  | 38: Copy/Move Constructor ((pair.second == "second") == true)                                                                    |
+|  PASS  | 37: Copy/Move Constructor ((tuple.get_first() == "first") == true)                                                               |
+|  PASS  | 38: Copy/Move Constructor ((tuple.get_second() == "second") == true)                                                             |
 |  PASS  | 46: Move/Move Constructor ((first == "") == true)                                                                                |
 |  PASS  | 47: Move/Move Constructor ((second == "") == true)                                                                               |
-|  PASS  | 48: Move/Move Constructor ((pair.first == "first") == true)                                                                      |
-|  PASS  | 49: Move/Move Constructor ((pair.second == "second") == true)                                                                    |
-|  PASS  | 56: Copy Constructor ((pair.first == "First") == true)                                                                           |
-|  PASS  | 57: Copy Constructor ((pair.second == "Second") == true)                                                                         |
-|  PASS  | 58: Copy Constructor ((copy.first == "First") == true)                                                                           |
-|  PASS  | 59: Copy Constructor ((copy.second == "Second") == true)                                                                         |
-|  PASS  | 66: Move Constructor ((pair.first == "") == true)                                                                                |
-|  PASS  | 67: Move Constructor ((pair.second == "") == true)                                                                               |
-|  PASS  | 68: Move Constructor ((copy.first == "First") == true)                                                                           |
-|  PASS  | 69: Move Constructor ((copy.second == "Second") == true)                                                                         |
-|  PASS  | 76: Copy Operator ((pair.first == "First") == true)                                                                              |
-|  PASS  | 77: Copy Operator ((pair.second == "Second") == true)                                                                            |
-|  PASS  | 78: Copy Operator ((copy.first == "First") == true)                                                                              |
-|  PASS  | 79: Copy Operator ((copy.second == "Second") == true)                                                                            |
-|  PASS  | 86: Move Operator ((pair.first == "") == true)                                                                                   |
-|  PASS  | 87: Move Operator ((pair.second == "") == true)                                                                                  |
-|  PASS  | 88: Move Operator ((copy.first == "First") == true)                                                                              |
-|  PASS  | 89: Move Operator ((copy.second == "Second") == true)                                                                            |
-|  PASS  | 96: Equal Operator ((pair == copy) == true)                                                                                      |
-|  PASS  | 97: Equal Operator ((copy == pair) == true)                                                                                      |
-|  PASS  | 99: Equal Operator ((!(pair == pair2)) == true)                                                                                  |
-|  PASS  | 106: Not Equal Operator ((pair != copy) == true)                                                                                 |
-|  PASS  | 107: Not Equal Operator ((copy != pair) == true)                                                                                 |
-|  PASS  | 109: Not Equal Operator ((!(pair != pair2)) == true)                                                                             |
-|  PASS  | 116: Less Than Operator ((pair < copy) == true)                                                                                  |
-|  PASS  | 117: Less Than Operator ((!(copy < pair)) == true)                                                                               |
-|  PASS  | 119: Less Than Operator ((!(pair < copy)) == true)                                                                               |
-|  PASS  | 120: Less Than Operator ((!(copy < pair)) == true)                                                                               |
-|  PASS  | 127: Less Than or Equal To Operator ((pair <= copy) == true)                                                                     |
-|  PASS  | 128: Less Than or Equal To Operator ((!(copy <= pair)) == true)                                                                  |
-|  PASS  | 130: Less Than or Equal To Operator ((pair <= copy) == true)                                                                     |
-|  PASS  | 131: Less Than or Equal To Operator ((copy <= pair) == true)                                                                     |
-|  PASS  | 138: Greater Than Operator ((copy > pair) == true)                                                                               |
-|  PASS  | 139: Greater Than Operator ((!(pair > copy)) == true)                                                                            |
-|  PASS  | 141: Greater Than Operator ((!(pair > copy)) == true)                                                                            |
-|  PASS  | 142: Greater Than Operator ((!(copy > pair)) == true)                                                                            |
-|  PASS  | 149: Greater Than or Equal To Operator ((copy >= pair) == true)                                                                  |
-|  PASS  | 150: Greater Than or Equal To Operator ((!(pair >= copy)) == true)                                                               |
-|  PASS  | 152: Greater Than or Equal To Operator ((pair >= copy) == true)                                                                  |
-|  PASS  | 153: Greater Than or Equal To Operator ((copy >= pair) == true)                                                                  |
+|  PASS  | 48: Move/Move Constructor ((tuple.get_first() == "first") == true)                                                               |
+|  PASS  | 49: Move/Move Constructor ((tuple.get_second() == "second") == true)                                                             |
+|  PASS  | 56: Copy Constructor ((tuple.get_first() == "First") == true)                                                                    |
+|  PASS  | 57: Copy Constructor ((tuple.get_second() == "Second") == true)                                                                  |
+|  PASS  | 58: Copy Constructor ((copy.get_first() == "First") == true)                                                                     |
+|  PASS  | 59: Copy Constructor ((copy.get_second() == "Second") == true)                                                                   |
+|  PASS  | 66: Move Constructor ((tuple.get_first() == "") == true)                                                                         |
+|  PASS  | 67: Move Constructor ((tuple.get_second() == "") == true)                                                                        |
+|  PASS  | 68: Move Constructor ((copy.get_first() == "First") == true)                                                                     |
+|  PASS  | 69: Move Constructor ((copy.get_second() == "Second") == true)                                                                   |
+|  PASS  | 76: Copy Operator ((tuple.get_first() == "First") == true)                                                                       |
+|  PASS  | 77: Copy Operator ((tuple.get_second() == "Second") == true)                                                                     |
+|  PASS  | 78: Copy Operator ((copy.get_first() == "First") == true)                                                                        |
+|  PASS  | 79: Copy Operator ((copy.get_second() == "Second") == true)                                                                      |
+|  PASS  | 86: Move Operator ((tuple.get_first() == "") == true)                                                                            |
+|  PASS  | 87: Move Operator ((tuple.get_second() == "") == true)                                                                           |
+|  PASS  | 88: Move Operator ((copy.get_first() == "First") == true)                                                                        |
+|  PASS  | 89: Move Operator ((copy.get_second() == "Second") == true)                                                                      |
+|  PASS  | 96: Equal Operator ((tuple == copy) == true)                                                                                     |
+|  PASS  | 97: Equal Operator ((copy == tuple) == true)                                                                                     |
+|  PASS  | 99: Equal Operator ((!(tuple == tuple2)) == true)                                                                                |
+|  PASS  | 106: Not Equal Operator ((tuple != copy) == true)                                                                                |
+|  PASS  | 107: Not Equal Operator ((copy != tuple) == true)                                                                                |
+|  PASS  | 109: Not Equal Operator ((!(tuple != tuple2)) == true)                                                                           |
+|  PASS  | 116: Less Than Operator ((tuple < copy) == true)                                                                                 |
+|  PASS  | 117: Less Than Operator ((!(copy < tuple)) == true)                                                                              |
+|  PASS  | 119: Less Than Operator ((!(tuple < copy)) == true)                                                                              |
+|  PASS  | 120: Less Than Operator ((!(copy < tuple)) == true)                                                                              |
+|  PASS  | 127: Less Than or Equal To Operator ((tuple <= copy) == true)                                                                    |
+|  PASS  | 128: Less Than or Equal To Operator ((!(copy <= tuple)) == true)                                                                 |
+|  PASS  | 130: Less Than or Equal To Operator ((tuple <= copy) == true)                                                                    |
+|  PASS  | 131: Less Than or Equal To Operator ((copy <= tuple) == true)                                                                    |
+|  PASS  | 138: Greater Than Operator ((copy > tuple) == true)                                                                              |
+|  PASS  | 139: Greater Than Operator ((!(tuple > copy)) == true)                                                                           |
+|  PASS  | 141: Greater Than Operator ((!(tuple > copy)) == true)                                                                           |
+|  PASS  | 142: Greater Than Operator ((!(copy > tuple)) == true)                                                                           |
+|  PASS  | 149: Greater Than or Equal To Operator ((copy >= tuple) == true)                                                                 |
+|  PASS  | 150: Greater Than or Equal To Operator ((!(tuple >= copy)) == true)                                                              |
+|  PASS  | 152: Greater Than or Equal To Operator ((tuple >= copy) == true)                                                                 |
+|  PASS  | 153: Greater Than or Equal To Operator ((copy >= tuple) == true)                                                                 |
 
 ## Queue
 | Result | Message                                                                                                                          |
@@ -3961,10 +3961,10 @@ No failures! :)
 | Result | Message                                                                                                                          |
 | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
 |  PASS  | 10: Constructor/Create (EntityManager::create())                                                                                 |
-|  PASS  | 16: Get ID (manager->get_id(INVALID_ENTITY))                                                                                     |
+|  PASS  | 16: Get ID (manager->get_id(INVALID_ENTITY) == INVALID_ID)                                                                       |
 |  PASS  | 18: Get ID (manager->get_id(entity) == INVALID_ID)                                                                               |
 |  PASS  | 20: Get ID (manager->get_id(entity) == UUID(1))                                                                                  |
-|  PASS  | 26: Get Entity (manager->get_entity(INVALID_ID))                                                                                 |
+|  PASS  | 26: Get Entity (manager->get_entity(INVALID_ID) == INVALID_ENTITY)                                                               |
 |  PASS  | 28: Get Entity (manager->get_entity(UUID(1)) == entity)                                                                          |
 |  PASS  | 35: Get/Set Enabled ((manager->get_enabled(entity)) == false)                                                                    |
 |  PASS  | 37: Get/Set Enabled ((manager->get_enabled(entity)) == true)                                                                     |
@@ -4661,60 +4661,60 @@ No failures! :)
 |  PASS  | 119: Get Dynamic Size ((manager.get_dynamic_size() == 0) == true)                                                                |
 |  PASS  | 121: Get Dynamic Size ((manager.get_dynamic_size() == 0) == true)                                                                |
 |  PASS  | 123: Get Dynamic Size ((manager.get_dynamic_size() == 0) == true)                                                                |
-|  PASS  | 135: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
 |  PASS  | 136: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
-|  PASS  | 138: Update (manager.allocate(1024, Allocator::Task))                                                                            |
+|  PASS  | 137: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
 |  PASS  | 139: Update (manager.allocate(1024, Allocator::Task))                                                                            |
-|  PASS  | 135: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
+|  PASS  | 140: Update (manager.allocate(1024, Allocator::Task))                                                                            |
 |  PASS  | 136: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
-|  PASS  | 138: Update (manager.allocate(1024, Allocator::Task))                                                                            |
+|  PASS  | 137: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
 |  PASS  | 139: Update (manager.allocate(1024, Allocator::Task))                                                                            |
-|  PASS  | 135: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
+|  PASS  | 140: Update (manager.allocate(1024, Allocator::Task))                                                                            |
 |  PASS  | 136: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
-|  PASS  | 138: Update (manager.allocate(1024, Allocator::Task))                                                                            |
+|  PASS  | 137: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
 |  PASS  | 139: Update (manager.allocate(1024, Allocator::Task))                                                                            |
-|  PASS  | 135: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
+|  PASS  | 140: Update (manager.allocate(1024, Allocator::Task))                                                                            |
 |  PASS  | 136: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
-|  PASS  | 138: Update (manager.allocate(1024, Allocator::Task))                                                                            |
+|  PASS  | 137: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
 |  PASS  | 139: Update (manager.allocate(1024, Allocator::Task))                                                                            |
-|  PASS  | 135: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
+|  PASS  | 140: Update (manager.allocate(1024, Allocator::Task))                                                                            |
 |  PASS  | 136: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
-|  PASS  | 138: Update (manager.allocate(1024, Allocator::Task))                                                                            |
+|  PASS  | 137: Update (manager.allocate(1024, Allocator::Temporary))                                                                       |
 |  PASS  | 139: Update (manager.allocate(1024, Allocator::Task))                                                                            |
-|  PASS  | 156: Allocate (manager.allocate(0, Allocator::Temporary))                                                                        |
-|  PASS  | 157: Allocate (manager.allocate(0, Allocator::Task))                                                                             |
-|  PASS  | 158: Allocate (manager.allocate(0, Allocator::Persistent))                                                                       |
-|  PASS  | 159: Allocate (manager.allocate(0, Allocator::Default))                                                                          |
-|  PASS  | 161: Allocate (manager.allocate(2048, Allocator::Temporary))                                                                     |
-|  PASS  | 162: Allocate (manager.allocate(2048, Allocator::Task))                                                                          |
-|  PASS  | 163: Allocate (manager.allocate(2048, Allocator::Persistent))                                                                    |
-|  PASS  | 164: Allocate (def = manager.allocate(2048, Allocator::Default))                                                                 |
-|  PASS  | 168: Allocate ((temporary != nullptr) == true)                                                                                   |
-|  PASS  | 171: Allocate ((task != nullptr) == true)                                                                                        |
-|  PASS  | 174: Allocate ((persistent != nullptr) == true)                                                                                  |
-|  PASS  | 177: Allocate ((def != nullptr) == true)                                                                                         |
-|  PASS  | 187: Deallocate (manager.deallocate(nullptr, 24, Allocator::Temporary))                                                          |
-|  PASS  | 188: Deallocate (manager.deallocate(nullptr, 24, Allocator::Task))                                                               |
-|  PASS  | 189: Deallocate (manager.deallocate(nullptr, 24, Allocator::Persistent))                                                         |
-|  PASS  | 190: Deallocate (manager.deallocate(nullptr, 24, Allocator::Default))                                                            |
-|  PASS  | 193: Deallocate (manager.deallocate(nullptr, 24, Allocator::Temporary))                                                          |
-|  PASS  | 194: Deallocate (manager.deallocate(temporary, 0, Allocator::Temporary))                                                         |
-|  PASS  | 195: Deallocate (manager.deallocate(temporary, 24, Allocator::Temporary))                                                        |
-|  PASS  | 199: Deallocate (manager.deallocate(temporary, 24, Allocator::Temporary))                                                        |
-|  PASS  | 202: Deallocate (manager.deallocate(nullptr, 24, Allocator::Task))                                                               |
-|  PASS  | 203: Deallocate (manager.deallocate(task, 0, Allocator::Task))                                                                   |
-|  PASS  | 204: Deallocate (manager.deallocate(task, 24, Allocator::Default))                                                               |
-|  PASS  | 205: Deallocate (manager.deallocate(task, 24, Allocator::Task))                                                                  |
-|  PASS  | 208: Deallocate (manager.deallocate(nullptr, 24, Allocator::Persistent))                                                         |
-|  PASS  | 209: Deallocate (manager.deallocate(persistent, 0, Allocator::Persistent))                                                       |
-|  PASS  | 210: Deallocate (manager.deallocate(persistent, 24, Allocator::Default))                                                         |
-|  PASS  | 211: Deallocate (manager.deallocate(persistent, 24, Allocator::Persistent))                                                      |
-|  PASS  | 214: Deallocate (manager.deallocate(nullptr, 24, Allocator::Default))                                                            |
-|  PASS  | 215: Deallocate (manager.deallocate(def, 0, Allocator::Default))                                                                 |
-|  PASS  | 216: Deallocate (manager.deallocate(def, 24, Allocator::Temporary))                                                              |
-|  PASS  | 217: Deallocate (manager.deallocate(def, 24, Allocator::Default))                                                                |
-|  PASS  | 219: Deallocate ((manager.get_static_size() == 0) == true)                                                                       |
-|  PASS  | 220: Deallocate ((manager.get_dynamic_size() == 0) == true)                                                                      |
+|  PASS  | 140: Update (manager.allocate(1024, Allocator::Task))                                                                            |
+|  PASS  | 157: Allocate (manager.allocate(0, Allocator::Temporary))                                                                        |
+|  PASS  | 158: Allocate (manager.allocate(0, Allocator::Task))                                                                             |
+|  PASS  | 159: Allocate (manager.allocate(0, Allocator::Persistent))                                                                       |
+|  PASS  | 160: Allocate (manager.allocate(0, Allocator::Default))                                                                          |
+|  PASS  | 162: Allocate (manager.allocate(2048, Allocator::Temporary))                                                                     |
+|  PASS  | 163: Allocate (manager.allocate(2048, Allocator::Task))                                                                          |
+|  PASS  | 164: Allocate (manager.allocate(2048, Allocator::Persistent))                                                                    |
+|  PASS  | 165: Allocate (def = manager.allocate(2048, Allocator::Default))                                                                 |
+|  PASS  | 169: Allocate ((temporary != nullptr) == true)                                                                                   |
+|  PASS  | 172: Allocate ((task != nullptr) == true)                                                                                        |
+|  PASS  | 175: Allocate ((persistent != nullptr) == true)                                                                                  |
+|  PASS  | 178: Allocate ((def != nullptr) == true)                                                                                         |
+|  PASS  | 188: Deallocate (manager.deallocate(nullptr, 24, Allocator::Temporary))                                                          |
+|  PASS  | 189: Deallocate (manager.deallocate(nullptr, 24, Allocator::Task))                                                               |
+|  PASS  | 190: Deallocate (manager.deallocate(nullptr, 24, Allocator::Persistent))                                                         |
+|  PASS  | 191: Deallocate (manager.deallocate(nullptr, 24, Allocator::Default))                                                            |
+|  PASS  | 194: Deallocate (manager.deallocate(nullptr, 24, Allocator::Temporary))                                                          |
+|  PASS  | 195: Deallocate (manager.deallocate(temporary, 0, Allocator::Temporary))                                                         |
+|  PASS  | 196: Deallocate (manager.deallocate(temporary, 24, Allocator::Temporary))                                                        |
+|  PASS  | 201: Deallocate (manager.deallocate(temporary, 24, Allocator::Temporary))                                                        |
+|  PASS  | 204: Deallocate (manager.deallocate(nullptr, 24, Allocator::Task))                                                               |
+|  PASS  | 205: Deallocate (manager.deallocate(task, 0, Allocator::Task))                                                                   |
+|  PASS  | 206: Deallocate (manager.deallocate(task, 24, Allocator::Default))                                                               |
+|  PASS  | 207: Deallocate (manager.deallocate(task, 24, Allocator::Task))                                                                  |
+|  PASS  | 210: Deallocate (manager.deallocate(nullptr, 24, Allocator::Persistent))                                                         |
+|  PASS  | 211: Deallocate (manager.deallocate(persistent, 0, Allocator::Persistent))                                                       |
+|  PASS  | 212: Deallocate (manager.deallocate(persistent, 24, Allocator::Default))                                                         |
+|  PASS  | 213: Deallocate (manager.deallocate(persistent, 24, Allocator::Persistent))                                                      |
+|  PASS  | 216: Deallocate (manager.deallocate(nullptr, 24, Allocator::Default))                                                            |
+|  PASS  | 217: Deallocate (manager.deallocate(def, 0, Allocator::Default))                                                                 |
+|  PASS  | 218: Deallocate (manager.deallocate(def, 24, Allocator::Temporary))                                                              |
+|  PASS  | 219: Deallocate (manager.deallocate(def, 24, Allocator::Default))                                                                |
+|  PASS  | 221: Deallocate ((manager.get_static_size() == 0) == true)                                                                       |
+|  PASS  | 222: Deallocate ((manager.get_dynamic_size() == 0) == true)                                                                      |
 
 ## MemoryPool
 | Result | Message                                                                                                                          |

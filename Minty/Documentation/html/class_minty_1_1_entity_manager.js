@@ -22,7 +22,7 @@ var class_minty_1_1_entity_manager =
     [ "get_parent", "class_minty_1_1_entity_manager.html#a6bb0fb72b2ce48b17ff64ca454a26aa7", null ],
     [ "get_visible", "class_minty_1_1_entity_manager.html#a756d82537c06d1b806e7cf3cd37fb622", null ],
     [ "has_component", "class_minty_1_1_entity_manager.html#a8d4e63ea0879dc367ea9aa4893ba3c02", null ],
-    [ "is_in_layer", "class_minty_1_1_entity_manager.html#a109c2e61fc73f331c5a25e9fe4973c5b", null ],
+    [ "is_in_layer", "class_minty_1_1_entity_manager.html#a59ce45d71deec2fc45afc0db727a4888", null ],
     [ "move_to_first", "class_minty_1_1_entity_manager.html#ac1a80a2aa234803a013a96270bd540e1", null ],
     [ "move_to_last", "class_minty_1_1_entity_manager.html#a2ebe2194c943d68c5bc59b49691e72d6", null ],
     [ "move_to_next", "class_minty_1_1_entity_manager.html#a036db45a4130a6729d306902b1ca5e89", null ],
@@ -37,5 +37,6 @@ var class_minty_1_1_entity_manager =
     [ "swap_siblings", "class_minty_1_1_entity_manager.html#aad6c53d377f611f4aecc58c6e175f5d3", null ],
     [ "try_get_component", "class_minty_1_1_entity_manager.html#a47e3e5f753d9f166fa17385f76fb05f4", null ],
     [ "try_get_component", "class_minty_1_1_entity_manager.html#abfe01cdec7aea095998090b18067dc13", null ],
-    [ "view", "class_minty_1_1_entity_manager.html#a649fd9084333beb64ca81623957af0f2", null ]
+    [ "view", "class_minty_1_1_entity_manager.html#a649fd9084333beb64ca81623957af0f2", null ],
+    [ "view", "class_minty_1_1_entity_manager.html#ae986df6d84a30635c16e178c745550f7", null ]
 ];

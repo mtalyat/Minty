@@ -20,22 +20,34 @@ namespace Minty
 	private:
 		struct Node
 		{
-			Key key;
-			Value value;
+			Tuple<Key, Value> data;
 			Node* next;
 
 			Node(Key const& key, Value const& value)
-				: key(key)
-				, value(value)
+				: data(key, value)
 				, next(nullptr)
 			{
 			}
 
 			Node(Key const& key, Value&& value)
-				: key(key)
-				, value(std::move(value))
+				: data(key, std::move(value))
 				, next(nullptr)
 			{
+			}
+
+			Key const& get_key() const
+			{
+				return data.get_first();
+			}
+
+			Value& get_value()
+			{
+				return data.get_second();
+			}
+
+			Value const& get_value() const
+			{
+				return data.get_second();
 			}
 		};
 
@@ -85,13 +97,13 @@ namespace Minty
 			Tuple<Key, Value>& operator*() const
 			{
 				MINTY_ASSERT(mp_current, "Iterator is invalid.");
-				return reinterpret_cast<Tuple<Key, Value>&>(*mp_current);
+				return mp_current->data;
 			}
 
 			Tuple<Key, Value>* operator->() const
 			{
 				MINTY_ASSERT(mp_current, "Iterator is invalid.");
-				return reinterpret_cast<Tuple<Key, Value>*>(mp_current);
+				return &mp_current->data;
 			}
 
 			Iterator& operator++()
@@ -177,13 +189,13 @@ namespace Minty
 			Tuple<Key, Value> const& operator*() const
 			{
 				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
-				return reinterpret_cast<Tuple<Key, Value> const&>(*mp_current);
+				return mp_current->data;
 			}
 
 			Tuple<Key, Value> const* operator->() const
 			{
 				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
-				return reinterpret_cast<Tuple<Key, Value> const*>(mp_current);
+				return &mp_current->data;
 			}
 
 			ConstIterator& operator++()
@@ -343,7 +355,7 @@ namespace Minty
 				Node* prev = nullptr;
 				while (node)
 				{
-					Node* newNode = construct<Node>(m_allocator, node->key, node->value);
+					Node* newNode = construct<Node>(m_allocator, node->get_key(), node->get_value());
 					if (prev)
 					{
 						prev->next = newNode;
@@ -395,7 +407,7 @@ namespace Minty
 					Node* prev = nullptr;
 					while (node)
 					{
-						Node* newNode = construct<Node>(m_allocator, node->key, node->value);
+						Node* newNode = construct<Node>(m_allocator, node->get_key(), node->get_value());
 						if (prev)
 						{
 							prev->next = newNode;
@@ -502,7 +514,7 @@ namespace Minty
 					while (node)
 					{
 						Node* next = node->next;
-						Size index = hash(node->key, capacity);
+						Size index = hash(node->get_key(), capacity);
 						node->next = newTable[index];
 						newTable[index] = node;
 						node = next;
@@ -582,7 +594,7 @@ namespace Minty
 			Node* prev = nullptr;
 			while (node)
 			{
-				if (node->key == key)
+				if (node->get_key() == key)
 				{
 					if (prev)
 					{
@@ -622,16 +634,16 @@ namespace Minty
 
 			while (node)
 			{
-				if (node->key == key)
+				if (node->get_key() == key)
 				{
-					return node->value;
+					return node->get_value();
 				}
 				node = node->next;
 			}
 
 			MINTY_ASSERT(false, "Key does not exist in this Map.");
 
-			return node->value;
+			return node->get_value();
 		}
 
 		/// <summary>
@@ -648,16 +660,16 @@ namespace Minty
 
 			while (node)
 			{
-				if (node->key == key)
+				if (node->get_key() == key)
 				{
-					return node->value;
+					return node->get_value();
 				}
 				node = node->next;
 			}
 
 			MINTY_ASSERT(false, "Key does not exist in this Map.");
 
-			return node->value;
+			return node->get_value();
 		}
 
 		/// <summary>
@@ -676,7 +688,7 @@ namespace Minty
 			Node* node = mp_table[index];
 			while (node)
 			{
-				if (node->key == key)
+				if (node->get_key() == key)
 				{
 					return Iterator(mp_table, m_capacity, index, node);
 				}
@@ -701,7 +713,7 @@ namespace Minty
 			Node const* node = mp_table[index];
 			while (node)
 			{
-				if (node->key == key)
+				if (node->get_key() == key)
 				{
 					return ConstIterator(mp_table, m_capacity, index, node);
 				}

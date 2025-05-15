@@ -147,6 +147,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acd31ad781245acc2d5effc925af05243"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b1fb4857abeca3fee0d22446bea4892" id="r_a7b1fb4857abeca3fee0d22446bea4892"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b1fb4857abeca3fee0d22446bea4892">operator=</a> (<a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="separator:a7b1fb4857abeca3fee0d22446bea4892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70dca7aa3cfc0b69671dd3b9f443580d" id="r_a70dca7aa3cfc0b69671dd3b9f443580d"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70dca7aa3cfc0b69671dd3b9f443580d">operator==</a> (const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;other) const</td></tr>
+<tr class="separator:a70dca7aa3cfc0b69671dd3b9f443580d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac035299bdc5a9474ef33f679d0e0cf70" id="r_ac035299bdc5a9474ef33f679d0e0cf70"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac035299bdc5a9474ef33f679d0e0cf70">operator!=</a> (const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;other) const</td></tr>
+<tr class="separator:ac035299bdc5a9474ef33f679d0e0cf70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9db0f8153c7df587a1bd4f2d2dca4cd" id="r_ab9db0f8153c7df587a1bd4f2d2dca4cd"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9db0f8153c7df587a1bd4f2d2dca4cd">operator&lt;</a> (const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;other) const</td></tr>
+<tr class="separator:ab9db0f8153c7df587a1bd4f2d2dca4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a053f5ca4bd5cea4b75fec8cb4838aa3f" id="r_a053f5ca4bd5cea4b75fec8cb4838aa3f"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a053f5ca4bd5cea4b75fec8cb4838aa3f">operator&gt;</a> (const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;other) const</td></tr>
+<tr class="separator:a053f5ca4bd5cea4b75fec8cb4838aa3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6b4aac891f64cda041243e7aa8aaee2" id="r_ae6b4aac891f64cda041243e7aa8aaee2"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6b4aac891f64cda041243e7aa8aaee2">operator&lt;=</a> (const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;other) const</td></tr>
+<tr class="separator:ae6b4aac891f64cda041243e7aa8aaee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a592a543ed24a2085d1cfc6e5e7db8f6b" id="r_a592a543ed24a2085d1cfc6e5e7db8f6b"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a592a543ed24a2085d1cfc6e5e7db8f6b">operator&gt;=</a> (const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a> &amp;other) const</td></tr>
+<tr class="separator:a592a543ed24a2085d1cfc6e5e7db8f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24729c77bfa606d25081f54f20cb46e9" id="r_a24729c77bfa606d25081f54f20cb46e9"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="#a1eb6d209b8f6d771744e7b524697ddd1">Base</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24729c77bfa606d25081f54f20cb46e9">rest</a> () noexcept</td></tr>
 <tr class="memdesc:a24729c77bfa606d25081f54f20cb46e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the rest of the tuple.  <br /></td></tr>
 <tr class="separator:a24729c77bfa606d25081f54f20cb46e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -550,6 +562,87 @@ template&lt;typename T, typename... Rest&gt; </div>
 
 </div>
 </div>
+<a id="ac035299bdc5a9474ef33f679d0e0cf70" name="ac035299bdc5a9474ef33f679d0e0cf70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac035299bdc5a9474ef33f679d0e0cf70">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Rest&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_minty_1_1_tuple.html">Minty::Tuple</a>&lt; T, Rest... &gt;::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab9db0f8153c7df587a1bd4f2d2dca4cd" name="ab9db0f8153c7df587a1bd4f2d2dca4cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9db0f8153c7df587a1bd4f2d2dca4cd">&#9670;&#160;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Rest&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_minty_1_1_tuple.html">Minty::Tuple</a>&lt; T, Rest... &gt;::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6b4aac891f64cda041243e7aa8aaee2" name="ae6b4aac891f64cda041243e7aa8aaee2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6b4aac891f64cda041243e7aa8aaee2">&#9670;&#160;</a></span>operator&lt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Rest&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_minty_1_1_tuple.html">Minty::Tuple</a>&lt; T, Rest... &gt;::operator&lt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7b1fb4857abeca3fee0d22446bea4892" name="a7b1fb4857abeca3fee0d22446bea4892"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b1fb4857abeca3fee0d22446bea4892">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
@@ -593,6 +686,87 @@ template&lt;typename T, typename... Rest&gt; </div>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70dca7aa3cfc0b69671dd3b9f443580d" name="a70dca7aa3cfc0b69671dd3b9f443580d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70dca7aa3cfc0b69671dd3b9f443580d">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Rest&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_minty_1_1_tuple.html">Minty::Tuple</a>&lt; T, Rest... &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a053f5ca4bd5cea4b75fec8cb4838aa3f" name="a053f5ca4bd5cea4b75fec8cb4838aa3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a053f5ca4bd5cea4b75fec8cb4838aa3f">&#9670;&#160;</a></span>operator&gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Rest&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_minty_1_1_tuple.html">Minty::Tuple</a>&lt; T, Rest... &gt;::operator&gt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a592a543ed24a2085d1cfc6e5e7db8f6b" name="a592a543ed24a2085d1cfc6e5e7db8f6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592a543ed24a2085d1cfc6e5e7db8f6b">&#9670;&#160;</a></span>operator&gt;=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename... Rest&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_minty_1_1_tuple.html">Minty::Tuple</a>&lt; T, Rest... &gt;::operator&gt;= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_minty_1_1_tuple.html">Tuple</a>&lt; T, Rest... &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
   </td>

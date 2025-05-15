@@ -46,13 +46,14 @@ var searchData=
   ['fragment_43',['Fragment',['../namespace_minty.html#a14fb745cf2420635f17b39ee7d350264a37d01b98065725fe3a1d30acf3a0064a',1,'Minty']]],
   ['fragmentshadermodule_44',['fragmentShaderModule',['../struct_minty_1_1_shader_builder.html#a23cc0a3a318a98e3df92e0b743e18576',1,'Minty::ShaderBuilder']]],
   ['fragmentshadermoduleentrypoint_45',['fragmentShaderModuleEntryPoint',['../struct_minty_1_1_shader_builder.html#a7d0ff977b39ff5305eac657faf78aa03',1,'Minty::ShaderBuilder']]],
-  ['frames_5fper_5fflight_46',['FRAMES_PER_FLIGHT',['../namespace_minty.html#a15ccbe3e733593a03cd1fc302ff88a7c',1,'Minty']]],
-  ['framework_2eh_47',['framework.h',['../framework_8h.html',1,'']]],
-  ['free_5fmemory_48',['free_memory',['../class_minty_1_1_vulkan___renderer.html#ae24c9a508d3fdb5622ab057ecdf5d4ab',1,'Minty::Vulkan_Renderer']]],
-  ['frequent_49',['frequent',['../struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5',1,'Minty::BufferBuilder::frequent'],['../struct_minty_1_1_shader_input.html#ada07b90877e4e1abaedce5eeaa69acb3',1,'Minty::ShaderInput::frequent']]],
-  ['from_5fbytes_50',['from_bytes',['../class_minty_1_1_string.html#a58adf8c6b5b1a2e8a7a91ef09c92f422',1,'Minty::String']]],
-  ['front_51',['Front',['../namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a5835bab1ade0060909e31a06af2e2cde',1,'Minty']]],
-  ['front_52',['front',['../class_minty_1_1_array.html#a5d3c0f5c5d1a68c09a8cc5cd0a7445f5',1,'Minty::Array::front()'],['../class_minty_1_1_array.html#a3b31bb9a20494bd250d22cfe167e665b',1,'Minty::Array::front() const'],['../class_minty_1_1_list.html#add57ffedf65c0d3ebede3afa0e05832b',1,'Minty::List::front()'],['../class_minty_1_1_list.html#adda4374412bbdc1005673e07c5f8ec65',1,'Minty::List::front() const'],['../class_minty_1_1_string.html#ae386dcb5ceda657d43f04a38c72a4ed9',1,'Minty::String::front()'],['../class_minty_1_1_vector.html#a9306e7f1d2638a6cae6687220479a375',1,'Minty::Vector::front()'],['../class_minty_1_1_vector.html#ad04b7613d8ab2e5d95aba84cdf529762',1,'Minty::Vector::front() const']]],
-  ['frontface_53',['frontFace',['../struct_minty_1_1_shader_builder.html#ac8a0820d7a5b89a7a443c80ce7aeef51',1,'Minty::ShaderBuilder']]],
-  ['function_54',['Function',['../namespace_minty.html#a824f7ce2099d0ab1f9a450f9d1a071eb',1,'Minty']]]
+  ['frame_46',['Frame',['../class_minty_1_1_render_manager.html#a73cb0b49d99f063a4d2ca6dc3d4c511ea3bb3e8c8a24891ba0f7608bcc96f8b0a',1,'Minty::RenderManager']]],
+  ['frames_5fper_5fflight_47',['FRAMES_PER_FLIGHT',['../namespace_minty.html#a15ccbe3e733593a03cd1fc302ff88a7c',1,'Minty']]],
+  ['framework_2eh_48',['framework.h',['../framework_8h.html',1,'']]],
+  ['free_5fmemory_49',['free_memory',['../class_minty_1_1_vulkan___renderer.html#ae24c9a508d3fdb5622ab057ecdf5d4ab',1,'Minty::Vulkan_Renderer']]],
+  ['frequent_50',['frequent',['../struct_minty_1_1_buffer_builder.html#a81984b67a3e489955c5a13201490f6b5',1,'Minty::BufferBuilder::frequent'],['../struct_minty_1_1_shader_input.html#ada07b90877e4e1abaedce5eeaa69acb3',1,'Minty::ShaderInput::frequent']]],
+  ['from_5fbytes_51',['from_bytes',['../class_minty_1_1_string.html#a58adf8c6b5b1a2e8a7a91ef09c92f422',1,'Minty::String']]],
+  ['front_52',['Front',['../namespace_minty.html#a931a4116a02df9e06baf7f6a4f08f064a5835bab1ade0060909e31a06af2e2cde',1,'Minty']]],
+  ['front_53',['front',['../class_minty_1_1_array.html#a5d3c0f5c5d1a68c09a8cc5cd0a7445f5',1,'Minty::Array::front()'],['../class_minty_1_1_array.html#a3b31bb9a20494bd250d22cfe167e665b',1,'Minty::Array::front() const'],['../class_minty_1_1_list.html#add57ffedf65c0d3ebede3afa0e05832b',1,'Minty::List::front()'],['../class_minty_1_1_list.html#adda4374412bbdc1005673e07c5f8ec65',1,'Minty::List::front() const'],['../class_minty_1_1_string.html#ae386dcb5ceda657d43f04a38c72a4ed9',1,'Minty::String::front()'],['../class_minty_1_1_vector.html#a9306e7f1d2638a6cae6687220479a375',1,'Minty::Vector::front()'],['../class_minty_1_1_vector.html#ad04b7613d8ab2e5d95aba84cdf529762',1,'Minty::Vector::front() const']]],
+  ['frontface_54',['frontFace',['../struct_minty_1_1_shader_builder.html#ac8a0820d7a5b89a7a443c80ce7aeef51',1,'Minty::ShaderBuilder']]],
+  ['function_55',['Function',['../namespace_minty.html#a824f7ce2099d0ab1f9a450f9d1a071eb',1,'Minty']]]
 ];

@@ -79,7 +79,7 @@ var searchData=
   ['memorymanager_2ecpp_76',['MemoryManager.cpp',['../_memory_manager_8cpp.html',1,'']]],
   ['memorymanager_2eh_77',['MemoryManager.h',['../_memory_manager_8h.html',1,'']]],
   ['memorymanagerbuilder_78',['MemoryManagerBuilder',['../struct_minty_1_1_memory_manager_builder.html',1,'Minty']]],
-  ['memorymanagerbuilder_79',['memoryManagerBuilder',['../struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e',1,'Minty::ApplicationBuilder::memoryManagerBuilder'],['../struct_minty_1_1_context_builder.html#abc08bd279bb39d98da6133b16e1baae7',1,'Minty::ContextBuilder::memoryManagerBuilder']]],
+  ['memorymanagerbuilder_79',['memoryManagerBuilder',['../struct_minty_1_1_context_builder.html#abc08bd279bb39d98da6133b16e1baae7',1,'Minty::ContextBuilder']]],
   ['memorypool_80',['MemoryPool',['../class_minty_1_1_memory_pool.html',1,'Minty::MemoryPool'],['../class_minty_1_1_memory_pool.html#afb45c8655f6c5e956cdfa7b10ced0593',1,'Minty::MemoryPool::MemoryPool(MemoryPoolBuilder const &amp;builder)'],['../class_minty_1_1_memory_pool.html#aad2651b5892df31e0cdbdbeaf2515313',1,'Minty::MemoryPool::MemoryPool(MemoryPool const &amp;other)=delete'],['../class_minty_1_1_memory_pool.html#a44f78a70b7624f88174b2efdcaee4eee',1,'Minty::MemoryPool::MemoryPool(MemoryPool &amp;&amp;other) noexcept']]],
   ['memorypool_2ecpp_81',['MemoryPool.cpp',['../_memory_pool_8cpp.html',1,'']]],
   ['memorypool_2eh_82',['MemoryPool.h',['../_memory_pool_8h.html',1,'']]],

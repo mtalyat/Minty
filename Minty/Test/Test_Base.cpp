@@ -5,8 +5,6 @@ void test_Base(Test& _test)
 {
 	CATEGORY(Base)
 	{
-		Application app({});
-
 		TEST("Allocate/Deallocate")
 		{
 			void* ptr = allocate(16, Allocator::Default);

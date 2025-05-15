@@ -18,6 +18,8 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_renderManager(nullptr)
 	, m_sceneManager(nullptr)
 	, m_managers()
+	, m_registeredSystems()
+	, m_registeredComponents()
 {
 	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
 	s_instance = this;
@@ -76,6 +78,7 @@ void Minty::Context::initialize()
 	register_system<RenderSystem>("Render");
 
 	// register components
+	
 }
 
 void Minty::Context::dispose()

@@ -8,6 +8,8 @@ var dir_0066db1e34076ef1124ebeb1f12b1175 =
     [ "BufferUsage.h", "_buffer_usage_8h.html", "_buffer_usage_8h" ],
     [ "Camera.cpp", "_camera_8cpp.html", null ],
     [ "Camera.h", "_camera_8h.html", "_camera_8h" ],
+    [ "CameraInfo.cpp", "_camera_info_8cpp.html", null ],
+    [ "CameraInfo.h", "_camera_info_8h.html", "_camera_info_8h" ],
     [ "CoordinateMode.cpp", "_coordinate_mode_8cpp.html", null ],
     [ "CoordinateMode.h", "_coordinate_mode_8h.html", "_coordinate_mode_8h" ],
     [ "Filter.cpp", "_filter_8cpp.html", null ],

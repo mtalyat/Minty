@@ -3,6 +3,8 @@ var class_minty_1_1_vulkan___render_manager =
     [ "Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html#a8e49babb315f203e48d7d153c4210bb6", null ],
     [ "~Vulkan_RenderManager", "class_minty_1_1_vulkan___render_manager.html#a92a40585383e34b1cd13b0210b03bb55", null ],
     [ "dispose", "class_minty_1_1_vulkan___render_manager.html#a27daf92a5858670b49787188874a3d45", null ],
+    [ "draw_indices", "class_minty_1_1_vulkan___render_manager.html#ac302899ee9c55a9978bace86588b573e", null ],
+    [ "draw_vertices", "class_minty_1_1_vulkan___render_manager.html#a69bec188687b70591dc4523418a68c64", null ],
     [ "end_frame", "class_minty_1_1_vulkan___render_manager.html#a85af533ebab628613ca68a48baa712fe", null ],
     [ "end_pass", "class_minty_1_1_vulkan___render_manager.html#ac03e7ce6a5766729515a39a32b0401f8", null ],
     [ "finish_command_buffer_single", "class_minty_1_1_vulkan___render_manager.html#af54958d45bdaced9b72e93f483c5728f", null ],
@@ -23,6 +25,6 @@ var class_minty_1_1_vulkan___render_manager =
     [ "initialize", "class_minty_1_1_vulkan___render_manager.html#a7d4ce848a88b6a755d11a8675df16d12", null ],
     [ "start_command_buffer_single", "class_minty_1_1_vulkan___render_manager.html#aec38669a7ecdcdd305dafac7ca5de674", null ],
     [ "start_frame", "class_minty_1_1_vulkan___render_manager.html#a583311cb4158b259ca285aaf486ab7a7", null ],
-    [ "start_pass", "class_minty_1_1_vulkan___render_manager.html#abbf43e17451c6f2bd35096ed97cfbc8b", null ],
+    [ "start_pass", "class_minty_1_1_vulkan___render_manager.html#a3a3de751eafcee2cfa3714c800e3d9e0", null ],
     [ "sync", "class_minty_1_1_vulkan___render_manager.html#a1802e87570b0ad6f572e6d50a659ee18", null ]
 ];

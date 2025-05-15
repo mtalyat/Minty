@@ -23,7 +23,7 @@
 #include "Test_ListContainer.h"
 #include "Test_Map.h"
 #include "Test_Object.h"
-#include "Test_Pair.h"
+#include "Test_Tuple.h"
 #include "Test_Queue.h"
 #include "Test_Set.h"
 #include "Test_Stack.h"
@@ -151,7 +151,7 @@ static int run_tests()
 		test_ListContainer(_test);
 		test_Map(_test);
 		test_Object(_test);
-		test_Pair(_test);
+		test_Tuple(_test);
 		test_Queue(_test);
 		test_Set(_test);
 		test_Stack(_test);

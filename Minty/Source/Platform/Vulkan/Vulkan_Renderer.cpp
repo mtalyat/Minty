@@ -168,7 +168,7 @@ VkInstance Minty::Vulkan_Renderer::create_instance()
 
 	// validation layers
 #ifdef MINTY_DEBUG
-	MINTY_ASSERT(check_validation_layer_support(), "Validation layers requested, but not available.");
+	MINTY_ASSERT(check_validation_layer_support(), "Validation layer requested, but not available.");
 	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.get_size());
 	createInfo.ppEnabledLayerNames = validationLayers.get_data();
 #else

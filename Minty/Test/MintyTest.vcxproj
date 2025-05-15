@@ -187,7 +187,7 @@
     <ClCompile Include="Test_Minty.cpp" />
     <ClCompile Include="Test_Node.cpp" />
     <ClCompile Include="Test_Object.cpp" />
-    <ClCompile Include="Test_Pair.cpp" />
+    <ClCompile Include="Test_Tuple.cpp" />
     <ClCompile Include="Test_Perspective.cpp" />
     <ClCompile Include="Test_PhysicalFile.cpp" />
     <ClCompile Include="Test_Queue.cpp" />
@@ -271,7 +271,7 @@
     <ClInclude Include="Test_Minty.h" />
     <ClInclude Include="Test_Node.h" />
     <ClInclude Include="Test_Object.h" />
-    <ClInclude Include="Test_Pair.h" />
+    <ClInclude Include="Test_Tuple.h" />
     <ClInclude Include="Test_Perspective.h" />
     <ClInclude Include="Test_PhysicalFile.h" />
     <ClInclude Include="Test_Queue.h" />

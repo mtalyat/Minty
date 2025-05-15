@@ -19,13 +19,22 @@ void test_Cargo(Test& _test)
 
 		TEST("Variables Constructor")
 		{
-			Vector<Pair<String, Variable>> variables;
-			Cargo cargo({
-				{ "object1", {
+			Vector<Tuple<String, Variable>> variables;
+			/*Cargo cargo({Tuple<String, Vector<Tuple<String, Variable>>>("object1", {
 					{"key1", Variable(10)},
 					{"key2", Variable(20.0f) }
-				}},
+				}),
 				{ "object2", {
+					{"key3", Variable(30)},
+					{"key4", Variable(40.0f) }
+				}}
+				});*/
+			Cargo cargo({
+				Tuple<String, Vector<Tuple<String, Variable>>>( "object1", Vector<Tuple<String, Variable>>{
+					{"key1", Variable(10)},
+					{"key2", Variable(20.0f) }
+				}),
+				Tuple<String, Vector<Tuple<String, Variable>>>{ "object2", Vector<Tuple<String, Variable>>{
 					{"key3", Variable(30)},
 					{"key4", Variable(40.0f) }
 				}}
@@ -72,8 +81,8 @@ void test_Cargo(Test& _test)
 				{"key2", Variable(20.0f) }
 				});
 			auto it = cargo.begin();
-			EXPECT_EQUAL(it->first, "object1");
-			EXPECT_EQUAL(it->second.at("key1").get<Int>(), 10);
+			EXPECT_EQUAL(it->get_first(), "object1");
+			EXPECT_EQUAL(it->get_second().at("key1").get<Int>(), 10);
 		}
 
 		TEST("Begin Const")
@@ -85,8 +94,8 @@ void test_Cargo(Test& _test)
 				});
 			Cargo const& constCargo = cargo;
 			auto it = constCargo.begin();
-			EXPECT_EQUAL(it->first, "object1");
-			EXPECT_EQUAL(it->second.at("key1").get<Int>(), 10);
+			EXPECT_EQUAL(it->get_first(), "object1");
+			EXPECT_EQUAL(it->get_second().at("key1").get<Int>(), 10);
 		}
 
 		TEST("End")
@@ -228,8 +237,8 @@ void test_Cargo(Test& _test)
 				{"key2", Variable(20.0f) }
 				});
 			auto it = cargo.find("object1");
-			EXPECT_EQUAL(it->first, "object1");
-			EXPECT_EQUAL(it->second.at("key1").get<Int>(), 10);
+			EXPECT_EQUAL(it->get_first(), "object1");
+			EXPECT_EQUAL(it->get_second().at("key1").get<Int>(), 10);
 			EXPECT_EQUAL(cargo.find("nonexistent"), cargo.end());
 		}
 
@@ -242,8 +251,8 @@ void test_Cargo(Test& _test)
 				});
 			Cargo const& constCargo = cargo;
 			auto it = constCargo.find("object1");
-			EXPECT_EQUAL(it->first, "object1");
-			EXPECT_EQUAL(it->second.at("key1").get<Int>(), 10);
+			EXPECT_EQUAL(it->get_first(), "object1");
+			EXPECT_EQUAL(it->get_second().at("key1").get<Int>(), 10);
 			EXPECT_EQUAL(constCargo.find("nonexistent"), constCargo.end());
 		}
 

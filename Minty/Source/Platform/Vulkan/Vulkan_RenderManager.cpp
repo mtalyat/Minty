@@ -32,15 +32,12 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 	, m_depthImage(nullptr)
 	, m_frames()
 	, m_currentFrame(0)
-	, m_renderingFrame(false)
-	, m_renderingPass(false)
 {}
-
 
 // gets the current frame's command buffer
 VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
 {
-	MINTY_ASSERT(m_renderingFrame, "Attempting to get the current command buffer while not rendering a frame.");
+	MINTY_ASSERT(get_state() == State::Idle, "Attempting to get the current command buffer while not rendering a frame.");
 	return m_frames[m_currentFrame].commandBuffer;
 }
 
@@ -197,7 +194,10 @@ void Minty::Vulkan_RenderManager::sync()
 
 Bool Minty::Vulkan_RenderManager::start_frame()
 {
-	MINTY_ASSERT(!m_renderingFrame, "Attempting to start a frame while already rendering a frame.");
+	if (!RenderManager::start_frame())
+	{
+		return false;
+	}
 
 	Vulkan_Frame& frame = get_current_frame();
 
@@ -224,17 +224,11 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 	// start new buffer
 	Vulkan_Renderer::begin_command_buffer(commandBuffer);
 
-	m_renderingFrame = true;
 	return true;
 }
 
 void Minty::Vulkan_RenderManager::end_frame()
 {
-	MINTY_ASSERT(m_renderingFrame, "Attempting to end the frame before starting it.");
-	MINTY_ASSERT(!m_renderingPass, "Attempting to end the frame before ending the pass.");
-
-	m_renderingFrame = false;
-
 	// get command buffer
 	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
@@ -254,15 +248,19 @@ void Minty::Vulkan_RenderManager::end_frame()
 
 	// next frame
 	advance_frame();
+
+	RenderManager::end_frame();
 }
 
-Bool Minty::Vulkan_RenderManager::start_pass(Camera const& camera, Transform const& transform)
+Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 {
-	MINTY_ASSERT(m_renderingFrame, "Attempting to start a pass before starting the frame.");
-	MINTY_ASSERT(!m_renderingPass, "Attempting to start a pass while already rendering a pass.");
+	if (!RenderManager::start_pass(cameraInfo))
+	{
+		return false;
+	}
 
 	// get render target
-	Ref<RenderTarget> renderTarget = camera.get_render_target();
+	Ref<RenderTarget> renderTarget = cameraInfo.camera.get_render_target();
 
 	// skip frame if no target
 	if (!renderTarget)
@@ -281,7 +279,7 @@ Bool Minty::Vulkan_RenderManager::start_pass(Camera const& camera, Transform con
 	renderArea.extent = m_surface->get_extent();
 
 	// get clear color
-	Color clearColor = camera.get_color();
+	Color clearColor = cameraInfo.camera.get_color();
 	VkClearColorValue clearColorValue{};
 	clearColorValue.float32[0] = clearColor.r;
 	clearColorValue.float32[1] = clearColor.g;
@@ -291,17 +289,14 @@ Bool Minty::Vulkan_RenderManager::start_pass(Camera const& camera, Transform con
 	// begin the pass
 	Vulkan_Renderer::begin_render_pass(get_current_command_buffer(), vulkanRenderPass->get_render_pass(), vulkanRenderTarget->get_framebuffer(m_surface->get_current_image_index_ref()), renderArea, clearColorValue);
 
-	m_renderingPass = true;
 	return true;
 }
 
 void Minty::Vulkan_RenderManager::end_pass()
 {
-	MINTY_ASSERT(m_renderingPass, "Attempting to end the pass before starting it.");
-
-	m_renderingPass = false;
-
 	Vulkan_Renderer::end_render_pass(get_current_command_buffer());
+
+	RenderManager::end_pass();
 }
 
 VkCommandBuffer Minty::Vulkan_RenderManager::start_command_buffer_single()
@@ -312,6 +307,16 @@ VkCommandBuffer Minty::Vulkan_RenderManager::start_command_buffer_single()
 void Minty::Vulkan_RenderManager::finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue)
 {
 	Vulkan_Renderer::finish_command_buffer_single(m_device, m_commandPool, commandBuffer, queue);
+}
+
+void Minty::Vulkan_RenderManager::draw_vertices(UInt const vertexCount) const
+{
+	Vulkan_Renderer::draw(get_current_command_buffer(), vertexCount);
+}
+
+void Minty::Vulkan_RenderManager::draw_indices(UInt const indexCount) const
+{
+	Vulkan_Renderer::draw_indexed(get_current_command_buffer(), indexCount);
 }
 
 Format Minty::Vulkan_RenderManager::get_color_attachment_format() const

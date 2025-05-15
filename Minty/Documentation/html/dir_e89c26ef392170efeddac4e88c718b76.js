@@ -1,6 +1,8 @@
 var dir_e89c26ef392170efeddac4e88c718b76 =
 [
     [ "_Component.h", "___component_8h.html", null ],
+    [ "CameraComponent.cpp", "_camera_component_8cpp.html", null ],
+    [ "CameraComponent.h", "_camera_component_8h.html", "_camera_component_8h" ],
     [ "Component.h", "_component_8h.html", "_component_8h" ],
     [ "DirtyComponent.h", "_dirty_component_8h.html", "_dirty_component_8h" ],
     [ "EnabledComponent.h", "_enabled_component_8h.html", "_enabled_component_8h" ],

@@ -13,7 +13,7 @@ void test_EntityManager(Test& _test)
 		TEST("Get ID")
 		{
 			Owner<EntityManager> manager = EntityManager::create();
-			EXPECT_FAILURE(manager->get_id(INVALID_ENTITY));
+			EXPECT_EQUAL(manager->get_id(INVALID_ENTITY), INVALID_ID);
 			Entity entity = manager->create_entity();
 			EXPECT_EQUAL(manager->get_id(entity), INVALID_ID);
 			entity = manager->create_entity(UUID(1));
@@ -23,7 +23,7 @@ void test_EntityManager(Test& _test)
 		TEST("Get Entity")
 		{
 			Owner<EntityManager> manager = EntityManager::create();
-			EXPECT_FAILURE(manager->get_entity(INVALID_ID));
+			EXPECT_EQUAL(manager->get_entity(INVALID_ID), INVALID_ENTITY);
 			Entity entity = manager->create_entity(UUID(1));
 			EXPECT_EQUAL(manager->get_entity(UUID(1)), entity);
 		}

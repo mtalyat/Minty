@@ -36,7 +36,7 @@ void test_Asset(Test& _test)
 
 		TEST("Get Asset Type Path")
 		{
-			Vector<Pair<Char const*, AssetType>> const EXTENSIONS =
+			Vector<Tuple<Char const*, AssetType>> const EXTENSIONS =
 			{
 				{ EXTENSION_ANIMATION, AssetType::Animation },
 				{ EXTENSION_ANIMATOR, AssetType::Animator },

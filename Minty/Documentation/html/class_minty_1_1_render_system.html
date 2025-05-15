@@ -123,12 +123,8 @@ Inheritance diagram for Minty::RenderSystem:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ade827a4151a45d8b4491cac0f6842b2e" id="r_ade827a4151a45d8b4491cac0f6842b2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade827a4151a45d8b4491cac0f6842b2e">set_main_camera</a> (<a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a> const &amp;camera)</td></tr>
-<tr class="memdesc:ade827a4151a45d8b4491cac0f6842b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the main camera for the <a class="el" href="class_minty_1_1_render_system.html">RenderSystem</a>.  <br /></td></tr>
-<tr class="separator:ade827a4151a45d8b4491cac0f6842b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9255c2a57bbdd8e0195debb4bfebc8c8" id="r_a9255c2a57bbdd8e0195debb4bfebc8c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9255c2a57bbdd8e0195debb4bfebc8c8">get_main_camera</a> () const</td></tr>
-<tr class="memdesc:a9255c2a57bbdd8e0195debb4bfebc8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the main camera for the <a class="el" href="class_minty_1_1_render_system.html">RenderSystem</a>.  <br /></td></tr>
-<tr class="separator:a9255c2a57bbdd8e0195debb4bfebc8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42958f309bb3ca52d665342d88e50438" id="r_a42958f309bb3ca52d665342d88e50438"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42958f309bb3ca52d665342d88e50438">RenderSystem</a> (<a class="el" href="struct_minty_1_1_system_builder.html">SystemBuilder</a> const &amp;builder)</td></tr>
+<tr class="separator:a42958f309bb3ca52d665342d88e50438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa36f6ed646059625a915b3f5a994f6a0" id="r_aa36f6ed646059625a915b3f5a994f6a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa36f6ed646059625a915b3f5a994f6a0">serialize</a> (<a class="el" href="class_minty_1_1_writer.html">Writer</a> &amp;writer) const override</td></tr>
 <tr class="memdesc:aa36f6ed646059625a915b3f5a994f6a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write this object's data to the writer.  <br /></td></tr>
 <tr class="separator:aa36f6ed646059625a915b3f5a994f6a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,6 +165,32 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a4cb97229ec1ef4d39d3c77774c366994 inherit pro_attribs_class_minty_1_1_system" id="r_a4cb97229ec1ef4d39d3c77774c366994"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_scene.html">Scene</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minty_1_1_system.html#a4cb97229ec1ef4d39d3c77774c366994">m_scene</a></td></tr>
 <tr class="separator:a4cb97229ec1ef4d39d3c77774c366994 inherit pro_attribs_class_minty_1_1_system"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a42958f309bb3ca52d665342d88e50438" name="a42958f309bb3ca52d665342d88e50438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42958f309bb3ca52d665342d88e50438">&#9670;&#160;</a></span>RenderSystem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::RenderSystem::RenderSystem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_system_builder.html">SystemBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="af0fc367bb3e81b98d9ee7c0c61b85427" name="af0fc367bb3e81b98d9ee7c0c61b85427"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af0fc367bb3e81b98d9ee7c0c61b85427">&#9670;&#160;</a></span>deserialize()</h2>
@@ -203,34 +225,6 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>True on success.</dd></dl>
 
 <p>Implements <a class="el" href="class_minty_1_1_serializable_object.html#a9d89178ca700bf728f7f0cf1bc9575b9">Minty::SerializableObject</a>.</p>
-
-</div>
-</div>
-<a id="a9255c2a57bbdd8e0195debb4bfebc8c8" name="a9255c2a57bbdd8e0195debb4bfebc8c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9255c2a57bbdd8e0195debb4bfebc8c8">&#9670;&#160;</a></span>get_main_camera()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a> Minty::RenderSystem::get_main_camera </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the main camera for the <a class="el" href="class_minty_1_1_render_system.html">RenderSystem</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>The main camera <a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668" title="An entity is a unique identifier for an object in the world.">Entity</a>.</dd></dl>
 
 </div>
 </div>
@@ -417,39 +411,6 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="class_minty_1_1_serializable_object.html#a4fc336b1db08cd5326d2b664e6a409b9">Minty::SerializableObject</a>.</p>
-
-</div>
-</div>
-<a id="ade827a4151a45d8b4491cac0f6842b2e" name="ade827a4151a45d8b4491cac0f6842b2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade827a4151a45d8b4491cac0f6842b2e">&#9670;&#160;</a></span>set_main_camera()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Minty::RenderSystem::set_main_camera </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668">Entity</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>camera</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sets the main camera for the <a class="el" href="class_minty_1_1_render_system.html">RenderSystem</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">camera</td><td>The <a class="el" href="namespace_minty.html#acdc34f37254f247fbe3724dcaf93d668" title="An entity is a unique identifier for an object in the world.">Entity</a> with a <a class="el" href="class_minty_1_1_camera.html">Camera</a> component.</td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>

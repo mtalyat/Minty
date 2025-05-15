@@ -37,6 +37,19 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Constructors
+
+	public:
+		ArgumentParser()
+			: m_positionalParams()
+			, m_flagParams()
+			, m_flagIndices()
+			, m_args()
+		{
+		}
+
+#pragma endregion
+
 #pragma region Methods
 
 	public:

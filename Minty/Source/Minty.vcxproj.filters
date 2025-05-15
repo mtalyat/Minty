@@ -645,6 +645,12 @@
     <ClInclude Include="Minty\System\RenderSystem.h">
       <Filter>Minty\System</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Component\CameraComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\CameraInfo.h">
+      <Filter>Minty\Render\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -960,6 +966,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\System\RenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\CameraComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\CameraInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

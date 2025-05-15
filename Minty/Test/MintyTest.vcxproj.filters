@@ -84,7 +84,7 @@
     <ClCompile Include="Test_List.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Test_Pair.cpp">
+    <ClCompile Include="Test_Tuple.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Vector.cpp">
@@ -338,7 +338,7 @@
     <ClInclude Include="Test_Minty.h">
       <Filter>Header Files\Minty\Minty</Filter>
     </ClInclude>
-    <ClInclude Include="Test_Pair.h">
+    <ClInclude Include="Test_Tuple.h">
       <Filter>Header Files\Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Test_Vector.h">

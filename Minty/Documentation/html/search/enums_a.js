@@ -7,5 +7,6 @@ var searchData=
   ['shaderpolygonmode_4',['ShaderPolygonMode',['../namespace_minty.html#a70332c14d2bd0e68a662ab7ef08647bf',1,'Minty']]],
   ['shaderprimitivetopology_5',['ShaderPrimitiveTopology',['../namespace_minty.html#a0e04eab76e6d1a8198701d7230df00ec',1,'Minty']]],
   ['shaderstage_6',['ShaderStage',['../namespace_minty.html#a14fb745cf2420635f17b39ee7d350264',1,'Minty']]],
-  ['storeoperation_7',['StoreOperation',['../namespace_minty.html#a1fe2795b7b993a0e5da669364ca72ed8',1,'Minty']]]
+  ['state_7',['State',['../class_minty_1_1_render_manager.html#a73cb0b49d99f063a4d2ca6dc3d4c511e',1,'Minty::RenderManager']]],
+  ['storeoperation_8',['StoreOperation',['../namespace_minty.html#a1fe2795b7b993a0e5da669364ca72ed8',1,'Minty']]]
 ];

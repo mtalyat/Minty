@@ -18,6 +18,13 @@ namespace Minty
 	{
 	public:
 		constexpr Tuple() = default;
+
+		constexpr bool operator==(const Tuple<>&) const noexcept { return true; }
+		constexpr bool operator!=(const Tuple<>&) const noexcept { return false; }
+		constexpr bool operator<(const Tuple<>&) const noexcept { return false; }
+		constexpr bool operator>(const Tuple<>&) const noexcept { return false; }
+		constexpr bool operator<=(const Tuple<>&) const noexcept { return true; }
+		constexpr bool operator>=(const Tuple<>&) const noexcept { return true; }
 	};
 
 	/// <summary>
@@ -82,6 +89,33 @@ namespace Minty
 				Base::operator=(std::move(other.rest()));
 			}
 			return *this;
+		}
+
+		constexpr bool operator==(const Tuple& other) const
+		{
+			return first == other.first && rest() == other.rest();
+		}
+		constexpr bool operator!=(const Tuple& other) const
+		{
+			return !(*this == other);
+		}
+		constexpr bool operator<(const Tuple& other) const
+		{
+			if (first < other.first) return true;
+			if (other.first < first) return false;
+			return rest() < other.rest();
+		}
+		constexpr bool operator>(const Tuple& other) const
+		{
+			return other < *this;
+		}
+		constexpr bool operator<=(const Tuple& other) const
+		{
+			return !(other < *this);
+		}
+		constexpr bool operator>=(const Tuple& other) const
+		{
+			return !(*this < other);
 		}
 
 		/// <summary>

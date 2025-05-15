@@ -509,6 +509,30 @@ namespace Minty
 			return glm::identity<T>();
 		}
 
+		template<>
+		constexpr Float4 identity()
+		{
+			return Float4(0.0f, 0.0f, 0.0f, 0.0f);
+		}
+
+		template<>
+		constexpr Float3 identity()
+		{
+			return Float3(0.0f, 0.0f, 0.0f);
+		}
+
+		template<>
+		constexpr Float2 identity()
+		{
+			return Float2(0.0f, 0.0f);
+		}
+
+		template<>
+		constexpr Float identity()
+		{
+			return 0.0f;
+		}
+
 		/// <summary>
 		/// Converts the given Quaternion to a 3D matrix.
 		/// </summary>

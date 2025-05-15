@@ -6,5 +6,6 @@ var searchData=
   ['list_3c_20void_20_2a_20_3e_3',['List&lt; void * &gt;',['../class_minty_1_1_list.html',1,'Minty']]],
   ['listcontainer_4',['ListContainer',['../class_minty_1_1_list_container.html',1,'Minty']]],
   ['lookup_5',['Lookup',['../class_minty_1_1_lookup.html',1,'Minty']]],
-  ['lookup_3c_20typeid_2c_20minty_3a_3asysteminfo_20_3e_6',['Lookup&lt; TypeID, Minty::SystemInfo &gt;',['../class_minty_1_1_lookup.html',1,'Minty']]]
+  ['lookup_3c_20typeid_2c_20minty_3a_3acomponentinfo_20_3e_6',['Lookup&lt; TypeID, Minty::ComponentInfo &gt;',['../class_minty_1_1_lookup.html',1,'Minty']]],
+  ['lookup_3c_20typeid_2c_20minty_3a_3asysteminfo_20_3e_7',['Lookup&lt; TypeID, Minty::SystemInfo &gt;',['../class_minty_1_1_lookup.html',1,'Minty']]]
 ];

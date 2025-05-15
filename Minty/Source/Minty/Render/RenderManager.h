@@ -4,10 +4,15 @@
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Window/Window.h"
+#include "Minty/Render/Buffer.h"
+#include "Minty/Render/CameraInfo.h"
 #include "Minty/Render/Format.h"
 
 namespace Minty
 {
+	class Shader;
+	class Material;
+	class Mesh;
 	class Viewport;
 	class Camera;
 	class Transform;
@@ -35,10 +40,30 @@ namespace Minty
 	class RenderManager
 		: public Manager
 	{
+#pragma region Classes
+
+	protected:
+		enum class State
+		{
+			Idle,
+			Frame,
+			Pass,
+		};
+
+#pragma endregion
+
+
 #pragma region Variables
 
 	private:
+		State m_state;
 		Ref<Window> m_window;
+
+		Ref<Shader> m_boundShader;
+		Ref<Material> m_boundMaterial;
+		Ref<Mesh> m_boundMesh;
+		Camera m_camera;
+		Matrix4 m_cameraMatrix;
 
 #pragma endregion
 
@@ -50,7 +75,13 @@ namespace Minty
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
 		RenderManager(RenderManagerBuilder const& builder)
-			: m_window(builder.window)
+			: m_state(State::Idle)
+			, m_window(builder.window)
+			, m_boundShader(nullptr)
+			, m_boundMaterial(nullptr)
+			, m_boundMesh(nullptr)
+			, m_camera({})
+			, m_cameraMatrix()
 		{
 
 		}
@@ -63,6 +94,10 @@ namespace Minty
 #pragma endregion
 
 #pragma region Get Set
+
+	protected:
+		// gets the state of the RenderManager
+		State get_state() const { return m_state; }
 
 	public:
 		/// <summary>
@@ -96,24 +131,49 @@ namespace Minty
 		/// Prepares to render a frame.
 		/// </summary>
 		/// <returns>True, on success. Returns false when the frame should be skipped.</returns>
-		virtual Bool start_frame() = 0;
+		virtual Bool start_frame();
 
 		/// <summary>
 		/// Finishes rendering a frame.
 		/// </summary>
-		virtual void end_frame() = 0;
+		virtual void end_frame();
 
 		/// <summary>
 		/// Starts a render pass using the given Camera.
 		/// </summary>
-		/// <param name="camera">The Camera to render the Scene from.</param>
-		/// <returns>True, on success. Returns false when the frame should be skipped.</returns>
-		virtual Bool start_pass(Camera const& camera, Transform const& transform) = 0;
+		/// <param name="cameraInfo">The CameraInfo to render the Scene from.</param>
+		virtual Bool start_pass(CameraInfo const& cameraInfo);
 
 		/// <summary>
 		/// Finishes the current render pass.
 		/// </summary>
-		virtual void end_pass() = 0;
+		virtual void end_pass();
+
+#pragma region Bind
+
+	private:
+		void clear_binds();
+
+	public:
+		void bind_shader(Ref<Shader> const& shader);
+
+		void bind_material(Ref<Material> const& material);
+
+		void bind_mesh(Ref<Mesh> const& mesh);
+
+		void bind_vertex_buffer(Ref<Buffer> const& buffer, UInt const binding = 0);
+
+		void bind_index_buffer(Ref<Buffer> const& buffer);
+
+#pragma endregion
+
+#pragma region Draw
+
+	public:
+		void draw_mesh(Ref<Mesh> const& mesh);
+
+#pragma endregion
+
 
 #pragma endregion
 

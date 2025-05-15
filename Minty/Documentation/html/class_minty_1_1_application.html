@@ -110,6 +110,9 @@ $(function(){initNavTree('class_minty_1_1_application.html',''); initResizable(t
 </div><!--header-->
 <div class="contents">
 
+<p>Handles the update loop of an application.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_application_8h_source.html">Application.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -118,17 +121,33 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a35592e1781f833cfd10257497e4fbfe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0086a9da4924e3b7b993d376ee6144a2" id="r_a0086a9da4924e3b7b993d376ee6144a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0086a9da4924e3b7b993d376ee6144a2">~Application</a> ()</td></tr>
 <tr class="separator:a0086a9da4924e3b7b993d376ee6144a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ec177aee9ce8dea61228db89fc23f4d" id="r_a0ec177aee9ce8dea61228db89fc23f4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ec177aee9ce8dea61228db89fc23f4d">get_memory_manager</a> ()</td></tr>
-<tr class="separator:a0ec177aee9ce8dea61228db89fc23f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f70d06e2f725d99a0ab3ff185775625" id="r_a2f70d06e2f725d99a0ab3ff185775625"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f70d06e2f725d99a0ab3ff185775625">Application</a> (<a class="el" href="class_minty_1_1_application.html">Application</a> const &amp;)=delete</td></tr>
+<tr class="separator:a2f70d06e2f725d99a0ab3ff185775625"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6b61a69fbb89c4baa1d83ef1695d859" id="r_ab6b61a69fbb89c4baa1d83ef1695d859"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6b61a69fbb89c4baa1d83ef1695d859">Application</a> (<a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:ab6b61a69fbb89c4baa1d83ef1695d859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37757983f0a8d30ecafcc9c4cebef292" id="r_a37757983f0a8d30ecafcc9c4cebef292"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37757983f0a8d30ecafcc9c4cebef292">operator=</a> (<a class="el" href="class_minty_1_1_application.html">Application</a> const &amp;)=delete</td></tr>
+<tr class="separator:a37757983f0a8d30ecafcc9c4cebef292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05ca250b5c4a915ad365e0416bf86f86" id="r_a05ca250b5c4a915ad365e0416bf86f86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05ca250b5c4a915ad365e0416bf86f86">operator=</a> (<a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&amp;)=delete</td></tr>
+<tr class="separator:a05ca250b5c4a915ad365e0416bf86f86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a189696a2a09858a0056e93f129c20b7a" id="r_a189696a2a09858a0056e93f129c20b7a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_context.html">Context</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a189696a2a09858a0056e93f129c20b7a">get_context</a> () const</td></tr>
+<tr class="separator:a189696a2a09858a0056e93f129c20b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf2fdd34e11fdb926c0de0a518d959bb" id="r_aaf2fdd34e11fdb926c0de0a518d959bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf2fdd34e11fdb926c0de0a518d959bb">quit</a> ()</td></tr>
+<tr class="separator:aaf2fdd34e11fdb926c0de0a518d959bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c7f0648b8dbbb82acf34b9611bd2b0b" id="r_a6c7f0648b8dbbb82acf34b9611bd2b0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c7f0648b8dbbb82acf34b9611bd2b0b">run</a> ()</td></tr>
+<tr class="separator:a6c7f0648b8dbbb82acf34b9611bd2b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aaaf668bccb6ce57768527473baa781ba" id="r_aaaf668bccb6ce57768527473baa781ba"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaf668bccb6ce57768527473baa781ba">instance</a> ()</td></tr>
-<tr class="separator:aaaf668bccb6ce57768527473baa781ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41fce2241fae53346d86d588e69078d6" id="r_a41fce2241fae53346d86d588e69078d6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_application.html">Application</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41fce2241fae53346d86d588e69078d6">create</a> (<a class="el" href="struct_minty_1_1_application_builder.html">ApplicationBuilder</a> const &amp;builder={})</td></tr>
+<tr class="separator:a41fce2241fae53346d86d588e69078d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e0b6ac5cf479d039fe82424e4f74365" id="r_a1e0b6ac5cf479d039fe82424e4f74365"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e0b6ac5cf479d039fe82424e4f74365">get_singleton</a> ()</td></tr>
+<tr class="separator:a1e0b6ac5cf479d039fe82424e4f74365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Handles the update loop of an application. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a35592e1781f833cfd10257497e4fbfe1" name="a35592e1781f833cfd10257497e4fbfe1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35592e1781f833cfd10257497e4fbfe1">&#9670;&#160;</a></span>Application()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a35592e1781f833cfd10257497e4fbfe1">&#9670;&#160;</a></span>Application() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,9 +196,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0ec177aee9ce8dea61228db89fc23f4d" name="a0ec177aee9ce8dea61228db89fc23f4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ec177aee9ce8dea61228db89fc23f4d">&#9670;&#160;</a></span>get_memory_manager()</h2>
+<a id="a2f70d06e2f725d99a0ab3ff185775625" name="a2f70d06e2f725d99a0ab3ff185775625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f70d06e2f725d99a0ab3ff185775625">&#9670;&#160;</a></span>Application() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +206,183 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_minty_1_1_memory_manager.html">MemoryManager</a> &amp; Minty::Application::get_memory_manager </td>
+          <td class="memname">Minty::Application::Application </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_application.html">Application</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab6b61a69fbb89c4baa1d83ef1695d859" name="ab6b61a69fbb89c4baa1d83ef1695d859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6b61a69fbb89c4baa1d83ef1695d859">&#9670;&#160;</a></span>Application() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Minty::Application::Application </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a41fce2241fae53346d86d588e69078d6" name="a41fce2241fae53346d86d588e69078d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41fce2241fae53346d86d588e69078d6">&#9670;&#160;</a></span>create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_owner.html">Owner</a>&lt; <a class="el" href="class_minty_1_1_application.html">Application</a> &gt; Minty::Application::create </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_minty_1_1_application_builder.html">ApplicationBuilder</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>builder</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a189696a2a09858a0056e93f129c20b7a" name="a189696a2a09858a0056e93f129c20b7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a189696a2a09858a0056e93f129c20b7a">&#9670;&#160;</a></span>get_context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_ref.html">Ref</a>&lt; <a class="el" href="class_minty_1_1_context.html">Context</a> &gt; Minty::Application::get_context </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e0b6ac5cf479d039fe82424e4f74365" name="a1e0b6ac5cf479d039fe82424e4f74365"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e0b6ac5cf479d039fe82424e4f74365">&#9670;&#160;</a></span>get_singleton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp; Minty::Application::get_singleton </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a05ca250b5c4a915ad365e0416bf86f86" name="a05ca250b5c4a915ad365e0416bf86f86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05ca250b5c4a915ad365e0416bf86f86">&#9670;&#160;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp; Minty::Application::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37757983f0a8d30ecafcc9c4cebef292" name="a37757983f0a8d30ecafcc9c4cebef292"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37757983f0a8d30ecafcc9c4cebef292">&#9670;&#160;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_minty_1_1_application.html">Application</a> &amp; Minty::Application::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_minty_1_1_application.html">Application</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaf2fdd34e11fdb926c0de0a518d959bb" name="aaf2fdd34e11fdb926c0de0a518d959bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf2fdd34e11fdb926c0de0a518d959bb">&#9670;&#160;</a></span>quit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Minty::Application::quit </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -203,8 +397,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aaaf668bccb6ce57768527473baa781ba" name="aaaf668bccb6ce57768527473baa781ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaf668bccb6ce57768527473baa781ba">&#9670;&#160;</a></span>instance()</h2>
+<a id="a6c7f0648b8dbbb82acf34b9611bd2b0b" name="a6c7f0648b8dbbb82acf34b9611bd2b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c7f0648b8dbbb82acf34b9611bd2b0b">&#9670;&#160;</a></span>run()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +407,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="class_minty_1_1_application.html">Application</a> &amp; Minty::Application::instance </td>
+          <td class="memname">void Minty::Application::run </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -221,7 +415,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

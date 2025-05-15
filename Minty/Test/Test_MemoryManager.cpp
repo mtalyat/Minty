@@ -129,6 +129,7 @@ void test_MemoryManager(Test& _test)
 		{
 			MemoryManager manager(builder);
 			manager.initialize();
+			Time time{};
 
 			for (Size i = 0; i < MemoryManager::TASK_MEMORY_COUNT + 1; i++)
 			{
@@ -138,7 +139,7 @@ void test_MemoryManager(Test& _test)
 				EXPECT_SUCCESS(manager.allocate(1024, Allocator::Task));
 				EXPECT_FAILURE(manager.allocate(1024, Allocator::Task));
 
-				manager.update();
+				manager.update(time);
 			}
 
 			manager.dispose();
@@ -195,7 +196,8 @@ void test_MemoryManager(Test& _test)
 			EXPECT_SUCCESS(manager.deallocate(temporary, 24, Allocator::Temporary));
 
 			manager.allocate(24, Allocator::Temporary);
-			manager.update();
+			Time time{};
+			manager.update(time);
 			EXPECT_FAILURE(manager.deallocate(temporary, 24, Allocator::Temporary));
 
 			void* task = manager.allocate(24, Allocator::Task);

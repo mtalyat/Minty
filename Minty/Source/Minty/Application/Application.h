@@ -1,21 +1,31 @@
 #pragma once
-#include "Minty/Memory/MemoryManager.h"
+#include "Minty/Context/Context.h"
+#include "Minty/Core/Types.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Debug/Debug.h"
 
 namespace Minty
 {
+	/// <summary>
+	/// The arguments for creating an Application.
+	/// </summary>
 	struct ApplicationBuilder
 	{
-		MemoryManagerBuilder memoryManagerBuilder;
+		Owner<Context> context;
 	};
 
+	/// <summary>
+	/// Handles the update loop of an application.
+	/// </summary>
 	class Application
 	{
 #pragma region Variables
 
 	private:
-		static Application* s_instance;
+		Owner<Context> m_context;
+		Bool m_running;
 
-		MemoryManager m_memoryManager;
+		static Application* s_instance;
 
 #pragma endregion
 
@@ -23,10 +33,13 @@ namespace Minty
 
 	public:
 		Application(ApplicationBuilder const& builder)
-			: m_memoryManager(builder.memoryManagerBuilder)
+			: m_context(builder.context)
+			, m_running(false)
 		{
 			MINTY_ASSERT(!s_instance, "Application singleton already exists.");
 			s_instance = this;
+
+			MINTY_ASSERT(m_context != nullptr, "Context is null.");
 		}
 
 		~Application()
@@ -34,23 +47,25 @@ namespace Minty
 			s_instance = nullptr;
 		}
 
+		Application(Application const&) = delete;
+		Application(Application&&) = delete;
+
 #pragma endregion
 		
 #pragma region Operators
 
 	public:
+		Application& operator=(Application const&) = delete;
+		Application& operator=(Application&&) = delete;
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
-		MemoryManager& get_memory_manager() { return m_memoryManager; }
-
-		static Application& instance()
+		Ref<Context> get_context() const
 		{
-			MINTY_ASSERT(s_instance, "Application singleton is null.");
-			return *s_instance;
+			return m_context.create_ref();
 		}
 
 #pragma endregion
@@ -58,8 +73,30 @@ namespace Minty
 #pragma region Methods
 
 	public:
+		void quit()
+		{
+			m_running = false;
+		}
 
+		void run()
+		{
+			m_running = true;
+			while (m_running)
+			{
+				break;
+			}
+		}
 
 #pragma endregion
+
+#pragma region Statics
+
+	public:
+		static Owner<Application> create(ApplicationBuilder const& builder = {});
+
+		static Application& get_singleton();
+
+#pragma endregion
+
 	};
 }

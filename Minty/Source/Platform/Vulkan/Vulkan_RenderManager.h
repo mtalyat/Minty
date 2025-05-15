@@ -31,9 +31,6 @@ namespace Minty
 		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
 		Size m_currentFrame = 0;
 
-		Bool m_renderingFrame;
-		Bool m_renderingPass;
-
 #pragma endregion
 
 #pragma region Constructors
@@ -78,6 +75,10 @@ namespace Minty
 
 		inline Ref<Viewport> get_default_viewport() const override { return m_defaultViewport.create_ref(); }
 
+		Format get_color_attachment_format() const override;
+
+		Format get_depth_attachment_format() const override;
+
 #pragma endregion
 
 #pragma region Methods
@@ -103,7 +104,7 @@ namespace Minty
 		Bool start_frame() override;
 		void end_frame() override;
 
-		Bool start_pass(Camera const& camera, Transform const& transform) override;
+		Bool start_pass(CameraInfo const& cameraInfo) override;
 		void end_pass() override;
 
 		/// <summary>
@@ -118,6 +119,15 @@ namespace Minty
 		/// <param name="commandBuffer">The command buffer.</param>
 		/// <param name="queue">The queue to submit the commands to.</param>
 		void finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue);
+
+#pragma region Draw
+
+	public:
+		void draw_vertices(UInt const vertexCount) const;
+		void draw_indices(UInt const indexCount) const;
+
+#pragma endregion
+
 
 #pragma endregion
 
@@ -134,9 +144,5 @@ namespace Minty
 		}
 
 #pragma endregion
-
-		// Inherited via RenderManager
-		Format get_color_attachment_format() const override;
-		Format get_depth_attachment_format() const override;
 };
 }

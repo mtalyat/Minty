@@ -31,10 +31,10 @@ void test_Object(Test& _test)
 
 		TEST("Vector Constructor")
 		{
-			Vector<Pair<String, Variable>> variables;
+			Vector<Tuple<String, Variable>> variables;
 			Object object(variables);
 			EXPECT_TRUE(object.is_empty());
-			variables.add(Pair<String, Variable>("key", Variable(10)));
+			variables.add(Tuple<String, Variable>("key", Variable(10)));
 			object = Object(variables);
 			EXPECT_FALSE(object.is_empty());
 		}
@@ -83,10 +83,10 @@ void test_Object(Test& _test)
 		{
 			Object object(10);
 			object.add("key", Variable(10));
-			Vector<Pair<String, Variable>> variables = object.get_variables();
+			Vector<Tuple<String, Variable>> variables = object.get_variables();
 			EXPECT_EQUAL(variables.get_size(), 1);
-			EXPECT_EQUAL(variables[0].first, "key");
-			EXPECT_EQUAL(variables[0].second.get<Int>(), 10);
+			EXPECT_EQUAL(variables[0].get_first(), "key");
+			EXPECT_EQUAL(variables[0].get_second().get<Int>(), 10);
 		}
 
 		TEST("Get Size")

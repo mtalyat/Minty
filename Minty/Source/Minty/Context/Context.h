@@ -1,7 +1,8 @@
 #pragma once
 #include "Minty/Asset/AssetManager.h"
-#include "Minty/Core/Macro.h"
+#include "Minty/Component/Component.h"
 #include "Minty/Context/Manager.h"
+#include "Minty/Core/Macro.h"
 #include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Lookup.h"
 #include "Minty/Data/Path.h"
@@ -46,7 +47,7 @@ namespace Minty
 		Vector<Manager*> m_managers;
 
 		Lookup<TypeID, SystemInfo> m_registeredSystems;
-		//Lookup<TypeID, ComponentInfo> m_registeredComponents;
+		Lookup<TypeID, ComponentInfo> m_registeredComponents;
 
 #pragma endregion
 
@@ -73,6 +74,8 @@ namespace Minty
 			, m_renderManager(std::move(other.m_renderManager))
 			, m_sceneManager(std::move(other.m_sceneManager))
 			, m_managers(std::move(other.m_managers))
+			, m_registeredSystems(std::move(other.m_registeredSystems))
+			, m_registeredComponents(std::move(other.m_registeredComponents))
 		{
 			other.mp_dualBuffer = nullptr;
 		}
@@ -98,6 +101,8 @@ namespace Minty
 				m_renderManager = std::move(other.m_renderManager);
 				m_sceneManager = std::move(other.m_sceneManager);
 				m_managers = std::move(other.m_managers);
+				m_registeredSystems = std::move(other.m_registeredSystems);
+				m_registeredComponents = std::move(other.m_registeredComponents);
 			}
 			return *this;
 		}
@@ -175,13 +180,15 @@ namespace Minty
 			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
 			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
 
-			SystemInfo info{};
-			info.name = name;
-			info.typeId = typeid(T);
-			info.create = [](SystemBuilder const& builder) -> System*
+			SystemInfo info
+			{
+				.name = name,
+				.typeId = typeid(T),
+				.create = [](SystemBuilder const& builder) -> System*
 				{
 					return new T(builder);
-				};
+				}
+			};
 
 			m_registeredSystems.add(name, typeid(T), info);
 		}
@@ -201,6 +208,53 @@ namespace Minty
 		{
 			auto it = m_registeredSystems.find(typeid(T));
 			if (it == m_registeredSystems.end())
+			{
+				return nullptr;
+			}
+			return &it->get_third();
+		}
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+		void register_component(String const& name)
+		{
+			MINTY_ASSERT(!m_registeredComponents.contains(name), F("Component already exists with the name: {}", name));
+			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), F("Component already exists with the TypeID: {}", typeid(T)));
+
+			ComponentInfo info
+			{
+				.name = name,
+				.create = [](EntityManager& entityManager, Entity const entity) -> Component*
+				{
+					return &entityManager.add_component<T>(entity);
+				},
+				.get = [](EntityManager const& entityManager, Entity const entity) -> Component*
+				{
+					return entityManager.try_get_component<T>(entity);
+				},
+				.destroy = [](EntityManager& entityManager, Entity const entity) -> void
+				{
+					entityManager.remove_component<T>(entity);
+				}
+			};
+
+			m_registeredComponents.add(name, typeid(T), info);
+		}
+
+		ComponentInfo const* get_component_info(String const& name) const
+		{
+			auto it = m_registeredComponents.find(name);
+			if (it == m_registeredComponents.end())
+			{
+				return nullptr;
+			}
+			return &it->get_third();
+		}
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+		ComponentInfo const* get_component_info() const
+		{
+			auto it = m_registeredComponents.find(typeid(T));
+			if (it == m_registeredComponents.end())
 			{
 				return nullptr;
 			}

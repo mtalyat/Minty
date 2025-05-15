@@ -30,7 +30,7 @@ var searchData=
   ['max_5fchannel_27',['MAX_CHANNEL',['../struct_minty_1_1_color.html#aba2b1e37d2fc82d0e5c85da165b4eee4',1,'Minty::Color']]],
   ['maxdepth_28',['maxDepth',['../struct_minty_1_1_viewport_builder.html#a8f611e14bcf5e834eb483495c61dc98e',1,'Minty::ViewportBuilder']]],
   ['mb_29',['MB',['../namespace_minty.html#a50502c180fadbebbbe55753ae7ae37a7',1,'Minty']]],
-  ['memorymanagerbuilder_30',['memoryManagerBuilder',['../struct_minty_1_1_application_builder.html#aa9edad891091e8e0d67b319b5f93036e',1,'Minty::ApplicationBuilder::memoryManagerBuilder'],['../struct_minty_1_1_context_builder.html#abc08bd279bb39d98da6133b16e1baae7',1,'Minty::ContextBuilder::memoryManagerBuilder']]],
+  ['memorymanagerbuilder_30',['memoryManagerBuilder',['../struct_minty_1_1_context_builder.html#abc08bd279bb39d98da6133b16e1baae7',1,'Minty::ContextBuilder']]],
   ['mesh_31',['mesh',['../struct_minty_1_1_mesh_component.html#a2457ca68129f7896a8efcae86f0b828a',1,'Minty::MeshComponent']]],
   ['min_5fchannel_32',['MIN_CHANNEL',['../struct_minty_1_1_color.html#a659a91a84cf2fc6604bd876c31e45ff5',1,'Minty::Color']]],
   ['mindepth_33',['minDepth',['../struct_minty_1_1_viewport_builder.html#a85612bce20541af5ccec4e06806f340d',1,'Minty::ViewportBuilder']]],

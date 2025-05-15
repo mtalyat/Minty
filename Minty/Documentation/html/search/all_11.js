@@ -6,5 +6,6 @@ var searchData=
   ['queue_3',['Queue',['../class_minty_1_1_queue.html',1,'Minty::Queue&lt; T &gt;'],['../class_minty_1_1_queue.html#ac3f4ccf651e73729cc62e7e191d54386',1,'Minty::Queue::Queue(Allocator const allocator=Allocator::Default)'],['../class_minty_1_1_queue.html#a832b8ea1d5c8cbff2a85bff8e476c0a3',1,'Minty::Queue::Queue(Queue const &amp;other)'],['../class_minty_1_1_queue.html#a69388018ec09ef445ac85b0709529b01',1,'Minty::Queue::Queue(Queue &amp;&amp;other) noexcept']]],
   ['queue_2eh_4',['Queue.h',['../_queue_8h.html',1,'']]],
   ['queue_3c_20job_20_3e_5',['Queue&lt; Job &gt;',['../class_minty_1_1_queue.html',1,'Minty']]],
-  ['queue_3c_20minty_3a_3atuple_3c_20job_2c_20handle_20_3e_20_3e_6',['Queue&lt; Minty::Tuple&lt; Job, Handle &gt; &gt;',['../class_minty_1_1_queue.html',1,'Minty']]]
+  ['queue_3c_20minty_3a_3atuple_3c_20job_2c_20handle_20_3e_20_3e_6',['Queue&lt; Minty::Tuple&lt; Job, Handle &gt; &gt;',['../class_minty_1_1_queue.html',1,'Minty']]],
+  ['quit_7',['quit',['../class_minty_1_1_application.html#aaf2fdd34e11fdb926c0de0a518d959bb',1,'Minty::Application']]]
 ];

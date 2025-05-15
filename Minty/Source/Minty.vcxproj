@@ -184,6 +184,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Asset\AssetType.h" />
     <ClInclude Include="Minty\Asset\GenericAsset.h" />
     <ClInclude Include="Minty\Asset\_Asset.h" />
+    <ClInclude Include="Minty\Component\CameraComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
@@ -262,6 +263,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
     <ClInclude Include="Minty\Render\Buffer.h" />
     <ClInclude Include="Minty\Render\BufferUsage.h" />
+    <ClInclude Include="Minty\Render\CameraInfo.h" />
     <ClInclude Include="Minty\Render\CoordinateMode.h" />
     <ClInclude Include="Minty\Render\Filter.h" />
     <ClInclude Include="Minty\Render\Format.h" />
@@ -359,6 +361,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
+    <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
@@ -396,6 +399,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\Buffer.cpp" />
     <ClCompile Include="Minty\Render\BufferUsage.cpp" />
     <ClCompile Include="Minty\Render\Camera.cpp" />
+    <ClCompile Include="Minty\Render\CameraInfo.cpp" />
     <ClCompile Include="Minty\Render\CoordinateMode.cpp" />
     <ClCompile Include="Minty\Render\Filter.cpp" />
     <ClCompile Include="Minty\Render\Format.cpp" />
