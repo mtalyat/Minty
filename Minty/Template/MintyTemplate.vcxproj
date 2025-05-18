@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,6 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\mono\include;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include;$(MINTY_PATH)\Libraries\imgui\include;$(MINTY_PATH)\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +125,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\mono\include;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include;$(MINTY_PATH)\Libraries\imgui\include;$(MINTY_PATH)\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,7 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MintyTemplate.cpp" />
+    <ClCompile Include="Project.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
