@@ -38,6 +38,12 @@ namespace Minty
 		/// <returns>The capacity in bytes.</returns>
 		virtual Size get_capacity() const = 0;
 
+		/// <summary>
+		/// Checks if this Container is empty.
+		/// </summary>
+		/// <returns>True if the size is zero.</returns>
+		Bool is_empty() const { return get_size() == 0; }
+
 #pragma endregion
 
 
@@ -58,7 +64,7 @@ namespace Minty
 		/// <param name="data">The bytes to set.</param>
 		/// <param name="size">The number of bytes to set.</param>
 		/// <returns>True if set successfully.</returns>
-		Bool set(void const* const data, Size const size);
+		virtual Bool set(void const* const data, Size const size);
 
 		/// <summary>
 		/// Adds the given bytes to the end of the data within this Container. Reserves more space if needed.
@@ -67,18 +73,6 @@ namespace Minty
 		/// <param name="size">The number of bytes to append.</param>
 		/// <returns>True if appended successfully.</returns>
 		virtual Bool append(void const* const data, Size const size) = 0;
-
-		/// <summary>
-		/// Adds the given object to the end of the data within this Container. Reserves more space if needed.
-		/// </summary>
-		/// <typeparam name="T">The type of object.</typeparam>
-		/// <param name="data">The object.</param>
-		/// <returns>True if appended succesfully.</returns>
-		template<typename T>
-		Bool append_object(T const& data)
-		{
-			return append(&data, sizeof(T));
-		}
 
 		/// <summary>
 		/// Clears all data out of this Container.

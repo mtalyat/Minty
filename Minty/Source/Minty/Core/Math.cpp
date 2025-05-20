@@ -60,7 +60,7 @@ Float3 Minty::Math::to_euler(Quaternion const& value)
 	return glm::eulerAngles(value);
 }
 
-Quaternion Minty::Math::from_euler(Float3 const& value)
+Quaternion Minty::Math::to_cartesian(Float3 const& value)
 {
 	Quaternion q = angle_axis(value.y, Float3(0.0f, 1.0f, 0.0f));	// Yaw (Y)
 	q = angle_axis(value.x, Float3(1.0f, 0.0f, 0.0f)) * q;			// Pitch (X)

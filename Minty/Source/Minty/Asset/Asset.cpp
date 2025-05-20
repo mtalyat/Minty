@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Asset.h"
 #include "Minty/Core/Constant.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Data/Map.h"
 
 using namespace Minty;
@@ -14,9 +15,12 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 		{ EXTENSION_SCRIPT, AssetType::Script},
 
 		{ EXTENSION_BITMAP, AssetType::Image },
-		{ EXTENSION_JPG, AssetType::Image },
-		{ EXTENSION_JPEG, AssetType::Image },
-		{ EXTENSION_PNG, AssetType::Image },
+
+		{ EXTENSION_JPG, AssetType::Texture },
+		{ EXTENSION_JPEG, AssetType::Texture },
+		{ EXTENSION_PNG, AssetType::Texture },
+
+		{ EXTENSION_RENDER_PASS, AssetType::RenderPass },
 
 		{ EXTENSION_SPRITE, AssetType::Sprite },
 
@@ -52,9 +56,13 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	auto found = types.find(path.get_extension());
 
 	// extension not found
-	if (found == types.end()) return AssetType::Generic;
+	if (found == types.end())
+	{
+		MINTY_WARNING(F("Asset type not found for path: {}", path));
+		return AssetType::Generic;
+	}
 
-	return found->second;
+	return found->get_second();
 }
 
 AssetType Minty::Asset::get_asset_type(TypeID const& typeId)

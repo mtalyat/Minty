@@ -38,7 +38,6 @@ void test_Type(Test& _test)
 			typeid(Quaternion),
 			typeid(Color),
 			typeid(UUID),
-			typeid(void*),
 			typeid(String),
 			typeid(String),
 		};
@@ -76,7 +75,6 @@ void test_Type(Test& _test)
 			sizeof(Quaternion),
 			sizeof(Color),
 			sizeof(UUID),
-			sizeof(void*),
 			sizeof(String),
 			sizeof(String),
 		};

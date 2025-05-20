@@ -145,6 +145,9 @@ namespace Minty
 		// path to the wrap file on the disk
 		Path m_path;
 
+		// the threshold at which to compress files
+		Size m_compressionThreshold; // 1 KB
+
 		// header in the wrap file
 		Header m_header;
 
@@ -163,14 +166,18 @@ namespace Minty
 		/// <summary>
 		/// Creates an empty Wrap.
 		/// </summary>
-		Wrap() = default;
+		Wrap()
+			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_empties(), m_indexed()
+		{
+		}
 
 		/// <summary>
 		/// Creates and loads a Wrap file at the given path.
 		/// </summary>
 		/// <param name="path">The path to the Wrap file on the disk.</param>
 		Wrap(Path const& path)
-			: m_path(), m_header(), m_entries(), m_indexed() {
+			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_indexed()
+		{
 			load(path);
 		}
 
@@ -179,9 +186,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The path to the Wrap file on the disk.</param>
 		/// <param name="name">The name of the Wrap file.</param>
+		/// <param name="entryCount">The number of entries in the Wrap file.</param>
 		/// <param name="base">The base path all files within the Wrap file.</param>
 		/// <param name="contentVersion">The version of the content within the Wrap file.</param>
-		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
+		/// <param name="type">The type of the Wrap file.</param>
+		/// <param name="compressionThreshold">The threshold at which to start compressing files. Anything below this value will not be compressed.</param>
+		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File, Size const compressionThreshold = KB);
 
 #pragma endregion
 
@@ -278,7 +288,7 @@ namespace Minty
 		void write_entry(PhysicalFile& wrapFile, Size const index) const;
 
 		// adds the given entry to m_wraps, then returns the index of it
-		uint32_t emplace_entry(Entry& entry);
+		uint32_t add_entry(Entry& entry);
 
 #pragma region Files
 
@@ -297,7 +307,7 @@ namespace Minty
 		/// <param name="virtualPath">The path of the file within the Wrap file.</param>
 		/// <param name="compression">The level of compression for the given file.</param>
 		/// <param name="reservedSize">The reserved size of the chunk to store the file within. If the reservedSize is 0, it will default to the size of the file at the physicalPath.</param>
-		void emplace(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compression = CompressionLevel::Default, uint32_t const reservedSize = 0);
+		void add(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compression = CompressionLevel::Default, uint32_t const reservedSize = 0);
 
 		/// <summary>
 		/// Checks if the Wrap contains a file with the given path.
@@ -319,7 +329,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The path at which to open a file.</param>
 		/// <returns>The uncompressed data from the file, or an empty vector if no file found.</returns>
-		Vector<Char> read(Path const& path) const;
+		Vector<Byte> read_bytes(Path const& path) const;
 
 		/// <summary>
 		/// Gets the Entry at the given index.
@@ -343,6 +353,13 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Checks if there is a valid Wrap file at the given path.
+		/// </summary>
+		/// <param name="path">The Path to a file.</param>
+		/// <returns>True if the file exists, and is a Wrap file.</returns>
+		static Bool exists(Path const& path);
+
+		/// <summary>
 		/// Loads or creates a new Wrap if none exists.
 		/// </summary>
 		/// <param name="path"></param>
@@ -351,7 +368,7 @@ namespace Minty
 		/// <param name="base"></param>
 		/// <param name="contentVersion"></param>
 		/// <returns></returns>
-		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0);
+		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File);
 
 #pragma endregion
 	};

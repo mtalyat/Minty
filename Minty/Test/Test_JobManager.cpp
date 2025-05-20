@@ -8,7 +8,7 @@ void test_JobManager(Test& _test)
 		TEST("Constructor")
 		{
 			// default thread count
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			EXPECT_SUCCESS(JobManager manager(builder));
 			
 			builder.threadCount = 0;
@@ -17,8 +17,9 @@ void test_JobManager(Test& _test)
 
 		TEST("Schedule Job")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 			CLEAR_OUTPUT();
 			
 			Handle handle = manager.schedule([]() { std::cout << "Hello World!" << std::flush; });
@@ -26,12 +27,14 @@ void test_JobManager(Test& _test)
 			manager.wait(handle);
 			EXPECT_TRUE(manager.is_complete(handle));
 			EXPECT_OUTPUT("Hello World!");
+			manager.dispose();
 		}
 
 		TEST("Schedule Job with Dependency")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 			CLEAR_OUTPUT();
 
 			Int value = 0;
@@ -46,12 +49,14 @@ void test_JobManager(Test& _test)
 			manager.wait(handle1);
 			EXPECT_TRUE(manager.is_complete(handle0) && manager.is_complete(handle1));
 			EXPECT_OUTPUT("1");
+			manager.dispose();
 		}
 
 		TEST("Schedule Job with Dependencies")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 			CLEAR_OUTPUT();
 
 			Int value0 = 0;
@@ -71,12 +76,14 @@ void test_JobManager(Test& _test)
 			manager.wait(handle2);
 			EXPECT_TRUE(manager.is_complete(handle0) && manager.is_complete(handle1) && manager.is_complete(handle2));
 			EXPECT_OUTPUT("3");
+			manager.dispose();
 		}
 
 		TEST("Schedule Parallel Job")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 
 			Size const count = 100;
 			Int values[count] = { 0 };
@@ -90,12 +97,14 @@ void test_JobManager(Test& _test)
 			{
 				EXPECT_EQUAL(values[i], i);
 			}
+			manager.dispose();
 		}
 
 		TEST("Schedule Parallel Job with Dependency")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 
 			Size const count = 100;
 			Int values[count] = { 0 };
@@ -112,12 +121,14 @@ void test_JobManager(Test& _test)
 			{
 				EXPECT_EQUAL(values[i], i + 1);
 			}
+			manager.dispose();
 		}
 
 		TEST("Schedule Parallel Job with Dependencies")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 
 			Size const count = 100;
 			Int values[count] = { 0 };
@@ -145,35 +156,42 @@ void test_JobManager(Test& _test)
 			{
 				EXPECT_EQUAL(results[i], i * i);
 			}
+			manager.dispose();
 		}
 
 		TEST("Is Complete")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 			Handle handle = manager.schedule([]() { std::this_thread::sleep_for(std::chrono::milliseconds(10)); });
 			EXPECT_FALSE(manager.is_complete(handle));
 			manager.wait(handle);
 			EXPECT_TRUE(manager.is_complete(handle));
+			manager.dispose();
 		}
 
 		TEST("Wait")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 			Handle handle = manager.schedule([]() { std::this_thread::sleep_for(std::chrono::milliseconds(10)); });
 			manager.wait(handle);
 			EXPECT_TRUE(manager.is_complete(handle));
+			manager.dispose();
 		}
 
 		TEST("Wait Multiple")
 		{
-			JobManagerBuilder builder;
+			JobManagerBuilder builder{};
 			JobManager manager(builder);
+			manager.initialize();
 			Handle handle0 = manager.schedule([]() { std::this_thread::sleep_for(std::chrono::milliseconds(10)); });
 			Handle handle1 = manager.schedule([]() { std::this_thread::sleep_for(std::chrono::milliseconds(10)); });
 			manager.wait({ handle0, handle1 });
 			EXPECT_TRUE(manager.is_complete(handle0) && manager.is_complete(handle1));
+			manager.dispose();
 		}
 	}
 }

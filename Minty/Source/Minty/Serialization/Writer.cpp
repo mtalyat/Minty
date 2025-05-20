@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Writer.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Data/UUID.h"
 #include "Minty/Serialization/Serializable.h"
 #include "Minty/Serialization/SerializableObject.h"
 
@@ -26,65 +27,6 @@ void Minty::Writer::pop_user_data()
 	MINTY_ASSERT(m_dataStack.get_size() > 0, "Data stack is empty.");
 
 	m_dataStack.pop();
-}
-
-void Minty::Writer::write(String const& name, const void* const data, Type const type)
-{
-	switch (type)
-	{
-	case Type::Bool:
-		return write_bool(name, *static_cast<Bool const* const>(data));
-	case Type::Bool2:
-		return write_bool2(name, *static_cast<Bool2 const* const>(data));
-	case Type::Bool3:
-		return write_bool3(name, *static_cast<Bool3 const* const>(data));
-	case Type::Bool4:
-		return write_bool4(name, *static_cast<Bool4 const* const>(data));
-	case Type::Char:
-		return write_char(name, *static_cast<Char const* const>(data));
-	case Type::Byte:
-		return write_byte(name, *static_cast<Byte const* const>(data));
-	case Type::Short:
-		return write_short(name, *static_cast<Short const* const>(data));
-	case Type::UShort:
-		return write_ushort(name, *static_cast<UShort const* const>(data));
-	case Type::Int:
-		return write_int(name, *static_cast<Int const* const>(data));
-	case Type::Int2:
-		return write_int2(name, *static_cast<Int2 const* const>(data));
-	case Type::Int3:
-		return write_int3(name, *static_cast<Int3 const* const>(data));
-	case Type::Int4:
-		return write_int4(name, *static_cast<Int4 const* const>(data));
-	case Type::UInt:
-		return write_uint(name, *static_cast<UInt const* const>(data));
-	case Type::UInt2:
-		return write_uint2(name, *static_cast<UInt2 const* const>(data));
-	case Type::UInt3:
-		return write_uint3(name, *static_cast<UInt3 const* const>(data));
-	case Type::UInt4:
-		return write_uint4(name, *static_cast<UInt4 const* const>(data));
-	case Type::Long:
-		return write_long(name, *static_cast<Long const* const>(data));
-	case Type::ULong:
-		return write_ulong(name, *static_cast<ULong const* const>(data));
-	case Type::Size:
-		return write_size(name, *static_cast<Size const* const>(data));
-	case Type::Float:
-		return write_float(name, *static_cast<Float const* const>(data));
-	case Type::Float2:
-		return write_float2(name, *static_cast<Float2 const* const>(data));
-	case Type::Float3:
-		return write_float3(name, *static_cast<Float3 const* const>(data));
-	case Type::Float4:
-		return write_float4(name, *static_cast<Float4 const* const>(data));
-	case Type::Double:
-		return write_double(name, *static_cast<Double const* const>(data));
-	case Type::String:
-		return write_string(name, *static_cast<String const* const>(data));
-	default:
-		MINTY_ABORT(F("Cannot write type \"{}\".", to_string(type)).get_data());
-	}
 }
 
 void Minty::FileWriterBehavior::write_data(void const* const data, Size const size)
@@ -141,6 +83,11 @@ void Minty::TextWriterBehavior::write_string_to_buffer(String const& data, Vecto
 	Size offset = buffer.get_size();
 	buffer.resize(offset + data.get_size(), 0);
 	memcpy(buffer.get_data() + offset, data.get_data(), data.get_size());
+}
+
+void Minty::TextWriterBehavior::write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer)
+{
+	write_string_to_buffer(Minty::to_string(data), buffer);
 }
 
 void Minty::TextWriterBehavior::write_bool_to_buffer(Bool const data, Vector<Byte>& buffer)
@@ -244,7 +191,7 @@ void Minty::TextWriterBehavior::write_type_to_buffer(Type const data, Vector<Byt
 	write_string_to_buffer(Minty::to_string(data), buffer);
 }
 
-void Minty::TextWriterBehavior::write_typed_to_buffer(Type const type, void const* const data, Vector<Byte>& buffer)
+void Minty::TextWriterBehavior::write_typed_to_buffer(void const* const data, Vector<Byte>& buffer, Type const type)
 {
 	switch (type)
 	{
@@ -322,6 +269,9 @@ void Minty::TextWriterBehavior::write_typed_to_buffer(Type const type, void cons
 		break;
 	case Type::String:
 		write_string_to_buffer(*static_cast<String const* const>(data), buffer);
+		break;
+	case Type::Object:
+		write_uuid_to_buffer(*static_cast<UUID const* const>(data), buffer);
 		break;
 	default:
 		MINTY_ABORT(F("Cannot write type \"{}\".", to_string(type)).get_data());

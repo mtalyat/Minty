@@ -1,11 +1,16 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
+#include "Minty/Context/Manager.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/List.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
+#include "Minty/Data/Queue.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 #include "Minty/Wrap/Wrapper.h"
 #include <mutex>
 
@@ -13,6 +18,19 @@
 
 namespace Minty
 {
+	class Image;
+	class Material;
+	class MaterialTemplate;
+	class Mesh;
+	struct RenderAttachment;
+	class RenderPass;
+	class Scene;
+	class Shader;
+	class ShaderModule;
+	class Sprite;
+	class Texture;
+	class Viewport;
+
 	/// <summary>
 	/// Arguments for creates an AssetManager.
 	/// </summary>
@@ -37,6 +55,7 @@ namespace Minty
 	};
 
 	class AssetManager
+		: public Manager
 	{
 #pragma region Classes
 
@@ -66,7 +85,10 @@ namespace Minty
 		Map<UUID, AssetData> m_assets;
 		Map<AssetType, Set<UUID>> m_assetTypes;
 		Map<UUID, Handle> m_handles;
+		Queue<Job> m_onCompletions;
 		mutable std::mutex m_assetsMutex;
+		mutable std::mutex m_handlesMutex;
+		mutable std::mutex m_onCompletionsMutex;
 
 		Wrapper m_wrapper;
 
@@ -77,7 +99,10 @@ namespace Minty
 	public:
 		AssetManager(AssetManagerBuilder const& builder);
 
-		~AssetManager();
+		~AssetManager()
+		{
+			MINTY_ASSERT_ERROR(!is_initialized(), "AssetManager is not disposed before destruction.");
+		}
 
 #pragma endregion
 
@@ -105,11 +130,31 @@ namespace Minty
 
 			// add to asset manager
 			add(path, asset);
-			
+
 			return asset.create_ref();
 		}
 
 	public:
+		/// <summary>
+		/// Shuts down the AssetManager.
+		/// </summary>
+		void dispose() override;
+
+		/// <summary>
+		/// Called every frame.
+		/// </summary>
+		void update(Time const& time);
+
+		/// <summary>
+		/// If any Assets are being loaded or unloaded, wait until they are finished.
+		/// </summary>
+		void sync() override;
+
+		/// <summary>
+		/// Checks if any Assets are being loaded or unloaded.
+		/// </summary>
+		Bool is_syncing() const;
+
 		/// <summary>
 		/// Loads the Wrap at the given location into this AssetManager.
 		/// </summary>
@@ -156,8 +201,9 @@ namespace Minty
 		/// Queues the Asset at the given Path to be loaded.
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
+		/// <param name="onCompletion">The function to call when the Asset is loaded.</param>
 		/// <returns>The UUID of the Asset to be loaded.</returns>
-		UUID schedule_load(Path const& path);
+		UUID schedule_load(Path const& path, Job const& onCompletion = []() {});
 
 		/// <summary>
 		/// Loads the Asset at the given Path.
@@ -179,10 +225,110 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Loads the Asset specifically as an Image at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Image Asset.</param>
+		/// <returns>A reference to the loaded Image Asset.</returns>
+		template<>
+		Ref<Image> load<Image>(Path const& path)
+		{
+			return load_image(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Material at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Material Asset.</param>
+		/// <returns>A reference to the loaded Material Asset.</returns>
+		template<>
+		Ref<Material> load<Material>(Path const& path)
+		{
+			return load_material(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a MaterialTemplate at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the MaterialTemplate Asset.</param>
+		/// <returns>A reference to the loaded MaterialTemplate Asset.</returns>
+		template<>
+		Ref<MaterialTemplate> load<MaterialTemplate>(Path const& path)
+		{
+			return load_material_template(path);
+		}
+		
+		/// <summary>
+		/// Loads the Asset specifically as a Mesh at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Mesh Asset.</param>
+		/// <returns>A reference to the loaded Mesh Asset.</returns>
+		template<>
+		Ref<Mesh> load<Mesh>(Path const& path)
+		{
+			return load_mesh(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a RenderPass at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the RenderPass Asset.</param>
+		/// <returns>A reference to the loaded RenderPass Asset.</returns>
+		template<>
+		Ref<RenderPass> load<RenderPass>(Path const& path)
+		{
+			return load_render_pass(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Scene at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Scene Asset.</param>
+		/// <returns>A reference to the loaded Scene Asset.</returns>
+		template<>
+		Ref<Scene> load<Scene>(Path const& path)
+		{
+			return load_scene(path);
+		}
+		
+		/// <summary>
+		/// Loads the Asset specifically as a Shader at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Shader Asset.</param>
+		/// <returns>A reference to the loaded Shader Asset.</returns>
+		template<>
+		Ref<Shader> load<Shader>(Path const& path)
+		{
+			return load_shader(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a ShaderModule at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the ShaderModule Asset.</param>
+		/// <returns>A reference to the loaded ShaderModule Asset.</returns>
+		template<>
+		Ref<ShaderModule> load<ShaderModule>(Path const& path)
+		{
+			return load_shader_module(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Texture at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Texture Asset.</param>
+		/// <returns>A reference to the loaded Texture Asset.</returns>
+		template<>
+		Ref<Texture> load<Texture>(Path const& path)
+		{
+			return load_texture(path);
+		}
+
+		/// <summary>
 		/// Marks the Asset with the given ID for unloading.
 		/// </summary>
 		/// <param name="id">The ID of the Asset to unload.</param>
-		void schedule_unload(UUID const id);
+		/// <param name="onCompletion">The function to call when the Asset is unloaded.</param>
+		void schedule_unload(UUID const id, Job const& onCompletion = []() {});
 
 		/// <summary>
 		/// Unloads the Asset with the given ID immediately.
@@ -194,16 +340,6 @@ namespace Minty
 		/// Unloads all Assets stored within this AssetManager.
 		/// </summary>
 		void unload_all();
-
-		/// <summary>
-		/// If any Assets are being loaded or unloaded, wait until they are finished.
-		/// </summary>
-		void sync();
-
-		/// <summary>
-		/// Checks if any Assets are being loaded or unloaded.
-		/// </summary>
-		Bool is_syncing() const;
 
 		/// <summary>
 		/// Creates a new Asset of the given type.
@@ -263,7 +399,7 @@ namespace Minty
 		template<typename T>
 		Ref<T> get(UUID const id) const
 		{
-			return static_cast<Ref<T>>(get_asset(id));
+			return get_asset(id).cast_to<T>();
 		}
 
 		/// <summary>
@@ -302,8 +438,8 @@ namespace Minty
 				return Vector<Ref<T>>();
 			}
 
-			Vector<Ref<T>> assets(found->second.get_size());
-			for (UUID const id : found->second)
+			Vector<Ref<T>> assets(found->get_second().get_size());
+			for (UUID const id : found->get_second())
 			{
 				assets.add(at<T>(id));
 			}
@@ -373,6 +509,13 @@ namespace Minty
 		Vector<Ref<Asset>> get_dependents(UUID const id) const;
 
 		/// <summary>
+		/// Reads all of the bytes from the File at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Asset.</param>
+		/// <returns>A list of bytes from the File.</returns>
+		Vector<Byte> read_bytes(Path const& path) const;
+
+		/// <summary>
 		/// Reads the text from the file at the given Path.
 		/// </summary>
 		/// <param name="path">The Path to the Asset.</param>
@@ -386,21 +529,104 @@ namespace Minty
 		/// <returns>A list of lines of text within the File.</returns>
 		Vector<String> read_lines(Path const& path) const;
 
-		/// <summary>
-		/// Reads all of the bytes from the File at the given Path.
-		/// </summary>
-		/// <param name="path">The Path to the Asset.</param>
-		/// <returns>A list of bytes from the File.</returns>
-		Vector<Byte> read_bytes(Path const& path) const;
-
 #pragma region Load
+
+#pragma region Helper
+
+	private:
+		/// <summary>
+		/// Checks for a dependency, and gets a ref to it if able.
+		/// </summary>
+		/// <typeparam name="T">The type of Asset to find.</typeparam>
+		/// <param name="path">The path to the file that is being worked on.</param>
+		/// <param name="reader">The reader to the file that is being worked on.</param>
+		/// <param name="name">The name of the data to load from the Reader.</param>
+		/// <param name="asset">A reference to the Asset to load the data into.</param>
+		/// <param name="required">If true, an error is raised if no valid value with the given name is found.</param>
+		/// <returns>True if found and stored into asset.</returns>
+		template<typename T>
+		Int find_dependency(Path const& path, Reader& reader, String const& name, Ref<T>& asset, bool required) const
+		{
+			UUID id{};
+
+			// if nothing read, set to null
+			if (!reader.read(name, id))
+			{
+				if (required)
+				{
+					Debug::write_error(F("Cannot load \"{}\". Missing \"{}\".", path, name));
+				}
+
+				asset.release();
+				return 1;
+			}
+
+			// something read
+			if (Int result = check_dependency(id, path, name, required))
+			{
+				asset.release();
+				return result;
+			}
+
+			// load asset
+			asset = get<T>(id);
+			return 0;
+		}
+
+		Int check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const;
+
+		Int read_attachment(Path const& path, Reader& reader, String const& name, RenderAttachment& attachment, Bool const required) const;
+
+#pragma endregion
+
 
 	private:
 		Ref<GenericAsset> load_generic(Path const& path);
 
-#pragma endregion
+		Owner<Image> create_image(Path const& path, UUID const id);
+
+		Ref<Image> load_image(Path const& path);
+
+		Ref<Material> load_material(Path const& path);
+
+		Ref<MaterialTemplate> load_material_template(Path const& path);
+
+		Ref<Mesh> load_mesh_obj(Path const& path);
+
+		Ref<Mesh> load_mesh(Path const& path);
+
+		Ref<RenderPass> load_render_pass(Path const& path);
+
+		Ref<Scene> load_scene(Path const& path);
+
+		Ref<Shader> load_shader(Path const& path);
+
+		Ref<ShaderModule> load_shader_module(Path const& path);
+
+		//Ref<Sprite> load_sprite(Path const& path);
+
+		Ref<Texture> load_texture(Path const& path);
 
 #pragma endregion
 
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new AssetManager.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A AssetManager Owner.</returns>
+		static Owner<AssetManager> create(AssetManagerBuilder const& builder = {});
+
+		/// <summary>
+		/// Gets the active Context's AssetManager.
+		/// </summary>
+		/// <returns>The AssetManager.</returns>
+		static AssetManager& get_singleton();
+
+#pragma endregion
 	};
 }

@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-#define MINTY_TO_STRING(value) std::stringstream ss; ss << value; return String(ss.str().c_str())
+#define MINTY_TO_STRING_1(value) std::stringstream ss; ss << value; return String(ss.str().c_str())
 #define MINTY_TO_STRING_2(value0, value1) std::stringstream ss; ss << "(" << to_string(value0) << ", " << to_string(value1) << ")"; return String(ss.str().c_str())
 #define MINTY_TO_STRING_3(value0, value1, value2) std::stringstream ss; ss << "(" << to_string(value0) << ", " << to_string(value1) << ", " << to_string(value2) << ")"; return String(ss.str().c_str())
 #define MINTY_TO_STRING_4(value0, value1, value2, value3) std::stringstream ss; ss << "(" << to_string(value0) << ", " << to_string(value1) << ", " << to_string(value2) << ", " << to_string(value3) << ")"; return String(ss.str().c_str())
@@ -42,22 +42,22 @@ String Minty::to_string(Char const* const value)
 
 String Minty::to_string(Byte const value)
 {
-	MINTY_TO_STRING(static_cast<UInt>(value));
+	MINTY_TO_STRING_1(static_cast<UInt>(value));
 }
 
 String Minty::to_string(Short const value)
 {
-	MINTY_TO_STRING(value);
+	MINTY_TO_STRING_1(value);
 }
 
 String Minty::to_string(UShort const value)
 {
-	MINTY_TO_STRING(value);
+	MINTY_TO_STRING_1(value);
 }
 
 String Minty::to_string(Int const value)
 {
-	MINTY_TO_STRING(value);
+	MINTY_TO_STRING_1(value);
 }
 
 String Minty::to_string(Int2 const& value)
@@ -77,7 +77,7 @@ String Minty::to_string(Int4 const& value)
 
 String Minty::to_string(UInt const value)
 {
-	MINTY_TO_STRING(value);
+	MINTY_TO_STRING_1(value);
 }
 
 String Minty::to_string(UInt2 const& value)
@@ -97,12 +97,12 @@ String Minty::to_string(UInt4 const& value)
 
 String Minty::to_string(Long const value)
 {
-	MINTY_TO_STRING(value);
+	MINTY_TO_STRING_1(value);
 }
 
 String Minty::to_string(ULong const value)
 {
-	MINTY_TO_STRING(value);
+	MINTY_TO_STRING_1(value);
 }
 
 static String remove_trailing_zeros(std::string const& string)
@@ -154,7 +154,7 @@ String Minty::to_string(String const& value)
 	return value;
 }
 
-#undef MINTY_TO_STRING
+#undef MINTY_TO_STRING_1
 #undef MINTY_TO_STRING_2
 #undef MINTY_TO_STRING_3
 #undef MINTY_TO_STRING_4

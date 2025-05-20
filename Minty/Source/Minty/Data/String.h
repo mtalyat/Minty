@@ -520,6 +520,22 @@ namespace Minty
 		/// <returns>A list of Strings, split by the delimiters.</returns>
 		static Vector<String> split(String const& str, String const& delimiter);
 
+		/// <summary>
+		/// Splits the given text into a Vector of Strings using the default delimiter (newline).
+		/// </summary>
+		/// <param name="str">The String to split.</param>
+		/// <returns>A list of Strings, split by newlines.</returns>
+		static Vector<String> split(String const& str);
+
+		/// <summary>
+		/// Creates a String from the given bytes.
+		/// </summary>
+		/// <param name="data">A pointer to the array of bytes.</param>
+		/// <param name="size">The number of bytes.</param>
+		/// <param name="allocator">The allocator.</param>
+		/// <returns>A new null terminated String, with a copy of the given data.</returns>
+		static String from_bytes(void const* const data, Size const size, Allocator const allocator = Allocator::Default);
+
 #pragma endregion
 	};
 }

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MemoryPool.h"
+#include "Minty/Debug/Debug.h"
 
 using namespace Minty;
 

@@ -2,6 +2,7 @@
 #include "Reader.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Stack.h"
+#include "Minty/Data/UUID.h"
 #include "Minty/Serialization/Serializable.h"
 #include "Minty/Serialization/SerializableObject.h"
 
@@ -29,7 +30,7 @@ void Minty::Reader::pop_user_data()
 	m_dataStack.pop();
 }
 
-Bool Minty::Reader::read_object(Int const index, SerializableObject& obj)
+Bool Minty::Reader::read_object(Size const index, SerializableObject& obj)
 {
 	if (indent(index))
 	{
@@ -416,12 +417,22 @@ String Minty::TextReaderBehavior::read_string_from_buffer(const void* const data
 	text.at(size) = '\0';
 	return String(text.get_data());
 }
+
+UUID Minty::TextReaderBehavior::read_uuid_from_buffer(const void* const data, Size const size) const
+{
+	if (!size) return {};
+
+	String text = read_string_from_buffer(data, size);
+	UUID id = parse_to_uuid(text);
+	return id;
+}
+
 Type Minty::TextReaderBehavior::read_type_from_buffer(const void* const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
-	return to_type(text);
+	return parse_to_type(text);
 }
 
 void* Minty::TextReaderBehavior::read_typed_from_buffer(const void* const data, Size const size, Type const type) const
@@ -429,180 +440,188 @@ void* Minty::TextReaderBehavior::read_typed_from_buffer(const void* const data, 
 	if (!size) return nullptr;
 
 	void* output;
+	Size outputSize = sizeof_type(type);
 
 	switch (type)
 	{
 	case Type::Bool:
 	{
 		auto temp = read_bool_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Bool2:
 	{
 		auto temp = read_bool2_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Bool3:
 	{
 		auto temp = read_bool3_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Bool4:
 	{
 		auto temp = read_bool4_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Char:
 	{
 		auto temp = read_char_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Byte:
 	{
 		auto temp = read_byte_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Short:
 	{
 		auto temp = read_short_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::UShort:
 	{
 		auto temp = read_ushort_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Int:
 	{
 		auto temp = read_int_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Int2:
 	{
 		auto temp = read_int2_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Int3:
 	{
 		auto temp = read_int3_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Int4:
 	{
 		auto temp = read_int4_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::UInt:
 	{
 		auto temp = read_uint_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::UInt2:
 	{
 		auto temp = read_uint2_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::UInt3:
 	{
 		auto temp = read_uint3_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::UInt4:
 	{
 		auto temp = read_uint4_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Long:
 	{
 		auto temp = read_long_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::ULong:
 	case Type::Size:
 	{
 		auto temp = read_ulong_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Float:
 	{
 		auto temp = read_float_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Float2:
 	{
 		auto temp = read_float2_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Float3:
 	{
 		auto temp = read_float3_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Float4:
 	{
 		auto temp = read_float4_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::Double:
 	{
 		auto temp = read_double_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	case Type::String:
 	{
 		auto temp = read_string_from_buffer(data, size);
-		output = new Byte[size];
-		memcpy(output, &temp, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
+	}
+	break;
+	case Type::Object:
+	{
+		auto temp = read_uuid_from_buffer(data, size);
+		output = new Byte[outputSize];
+		memcpy(output, &temp, outputSize);
 	}
 	break;
 	default:
-		MINTY_ABORT(F("Cannot read type \"{}\".", to_string(type)).get_data());
+		MINTY_ABORT(F("Cannot read_bytes type \"{}\".", to_string(type)).get_data());
 	}
 
 	return output;

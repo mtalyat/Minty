@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Core/Macro.h"
 
 namespace Minty
 {
@@ -43,6 +44,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_MESH_OBJECT = ".obj";
 	constexpr Char const* EXTENSION_META = ".meta";
 	constexpr Char const* EXTENSION_PNG = ".png";
+	constexpr Char const* EXTENSION_RENDER_PASS = ".mrpa";
 	constexpr Char const* EXTENSION_SCENE = ".msce";
 	constexpr Char const* EXTENSION_SCRIPT = ".cs";
 	constexpr Char const* EXTENSION_SHADER = ".msha";
@@ -62,6 +64,41 @@ namespace Minty
 	/// Represents an invalid index.
 	/// </summary>
 	constexpr Size INVALID_INDEX = -1;
+
+#pragma endregion
+
+#pragma region Layer
+
+	/// <summary>
+	/// No Layers.
+	/// </summary>
+	constexpr Layer LAYER_NONE = 0;
+
+	/// <summary>
+	/// All Layers.
+	/// </summary>
+	constexpr Layer LAYER_ALL = ~0;
+
+	/// <summary>
+	/// The Default Layer.
+	/// </summary>
+	constexpr Layer LAYER_DEFAULT = 1;
+
+#pragma endregion
+
+#pragma region Minty
+
+	constexpr Char const* MINTY_NAME = "Minty";
+	constexpr UInt MINTY_VERSION_MAJOR = 0;
+	constexpr UInt MINTY_VERSION_MINOR = 1;
+	constexpr UInt MINTY_VERSION_PATCH = 0;
+	constexpr UInt MINTY_VERSION = MINTY_MAKE_VERSION(MINTY_VERSION_MAJOR, MINTY_VERSION_MINOR, MINTY_VERSION_PATCH);
+
+#pragma endregion
+
+#pragma region Render
+
+	constexpr Size FRAMES_PER_FLIGHT = 2;
 
 #pragma endregion
 

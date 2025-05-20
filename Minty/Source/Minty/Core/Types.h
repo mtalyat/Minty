@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <typeindex>
 #include <chrono>
+#include <functional>
 
 namespace Minty
 {
@@ -19,6 +20,7 @@ namespace Minty
 	using Size = size_t;
 	using ID = uint64_t;
 	using Handle = uint32_t;
+	using Layer = uint32_t;
 
 	/// <summary>
 	/// A point in time.
@@ -32,4 +34,10 @@ namespace Minty
 	using TypeID = std::type_index;
 	using TypeInfo = std::type_info;
 	using TypeIndex = Size;
+
+	template<typename T>
+	using Function = std::function<T>;
+
+	using Job = Function<void()>;
+	using ParallelJob = Function<void(Size)>;
 }

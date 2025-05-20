@@ -11,14 +11,14 @@ void test_Asset(Test& _test)
 			{
 				.id = 0
 			};
-			GenericAsset asset(builder);
-			EXPECT_EQUAL(asset.get_id().get_data(), 0);
+			Owner<GenericAsset> asset(builder);
+			EXPECT_EQUAL(asset->get_id().get_data(), 0);
 			builder.id = 1;
-			asset = GenericAsset(builder);
-			EXPECT_EQUAL(asset.get_id().get_data(), 1);
+			asset = Owner<GenericAsset>(builder);
+			EXPECT_EQUAL(asset->get_id().get_data(), 1);
 			builder.id = 0xFFFFFFFFFFFFFFFF;
-			asset = GenericAsset(builder);
-			EXPECT_EQUAL(asset.get_id().get_data(), 0xFFFFFFFFFFFFFFFF);
+			asset = Owner<GenericAsset>(builder);
+			EXPECT_EQUAL(asset->get_id().get_data(), 0xFFFFFFFFFFFFFFFF);
 		}
 
 		TEST("Get ID")
@@ -27,16 +27,16 @@ void test_Asset(Test& _test)
 			{
 				.id = 0
 			};
-			GenericAsset asset(builder);
-			EXPECT_EQUAL(asset.get_id().get_data(), 0);
+			Owner<GenericAsset> asset(builder);
+			EXPECT_EQUAL(asset->get_id().get_data(), 0);
 			builder.id = 1;
-			asset = GenericAsset(builder);
-			EXPECT_EQUAL(asset.get_id().get_data(), 1);
+			asset = Owner<GenericAsset>(builder);
+			EXPECT_EQUAL(asset->get_id().get_data(), 1);
 		}
 
 		TEST("Get Asset Type Path")
 		{
-			Vector<Pair<Char const*, AssetType>> const EXTENSIONS =
+			Vector<Tuple<Char const*, AssetType>> const EXTENSIONS =
 			{
 				{ EXTENSION_ANIMATION, AssetType::Animation },
 				{ EXTENSION_ANIMATOR, AssetType::Animator },

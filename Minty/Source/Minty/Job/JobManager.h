@@ -1,19 +1,16 @@
 #pragma once
+#include "Minty/Context/Manager.h"
 #include "Minty/Data/Map.h"
-#include "Minty/Data/Pair.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Queue.h"
 #include "Minty/Data/Vector.h"
 #include <thread>
 #include <condition_variable>
 #include <mutex>
-#include <functional>
 
 namespace Minty
 {
-	using Job = std::function<void()>;
-	using ParallelJob = std::function<void(Size)>;
-
 	/// <summary>
 	/// Arguments for creating a JobManager.
 	/// </summary>
@@ -29,6 +26,7 @@ namespace Minty
 	/// Handles batching and executing Jobs.
 	/// </summary>
 	class JobManager
+		: public Manager
 	{
 #pragma region Classes
 
@@ -62,7 +60,7 @@ namespace Minty
 		Map<Handle, Vector<Job>> m_batches;
 		std::mutex m_batchesMutex;
 		// the queue of actions to run
-		Queue<Pair<Job, Handle>> m_queue;
+		Queue<Tuple<Job, Handle>> m_queue;
 		std::mutex m_queueMutex;
 		// the condition variable used to notify the threads
 		std::condition_variable m_condition;
@@ -81,7 +79,10 @@ namespace Minty
 		/// <param name="allocator">The Allocator to use.</param>
 		JobManager(JobManagerBuilder const& builder, Allocator const allocator = Allocator::Default);
 
-		~JobManager();
+		~JobManager()
+		{
+			MINTY_ASSERT_ERROR(!is_initialized(), "JobManager is not disposed before destruction.");
+		}
 
 #pragma endregion
 
@@ -104,6 +105,16 @@ namespace Minty
 		void schedule_batch(Handle const handle);
 
 	public:
+		/// <summary>
+		/// Starts up this JobManager.
+		/// </summary>
+		void initialize() override;
+
+		/// <summary>
+		/// Shuts down this JobManager.
+		/// </summary>
+		void dispose() override;
+
 		/// <summary>
 		/// Schedules the given Job to run.
 		/// </summary>
@@ -183,6 +194,24 @@ namespace Minty
 		/// </summary>
 		/// <param name="handles">The Handles of the Jobs to wait for.</param>
 		void wait(Vector<Handle> const& handles);
+
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new JobManager.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A JobManager Owner.</returns>
+		static Owner<JobManager> create(JobManagerBuilder const& builder = {});
+
+		/// <summary>
+		/// Gets the active Context's JobManager.
+		/// </summary>
+		/// <returns>The JobManager.</returns>
+		static JobManager& get_singleton();
 
 #pragma endregion
 

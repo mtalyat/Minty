@@ -1,56 +1,76 @@
 #pragma once
-#include "Minty/Memory/MemoryManager.h"
+#include "Minty/Context/Context.h"
+#include "Minty/Core/Types.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Debug/Debug.h"
 
 namespace Minty
 {
+	/// <summary>
+	/// The arguments for creating an Application.
+	/// </summary>
 	struct ApplicationBuilder
 	{
-		MemoryManagerBuilder memoryManagerBuilder;
+		/// <summary>
+		/// The Context to use.
+		/// </summary>
+		Owner<Context> context;
 	};
 
+	/// <summary>
+	/// Handles the update loop of an application.
+	/// </summary>
 	class Application
 	{
 #pragma region Variables
 
 	private:
-		static Application* s_instance;
-
-		MemoryManager m_memoryManager;
+		Owner<Context> m_context;
+		Bool m_running;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates a new Application using the given ApplicationBuilder.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
 		Application(ApplicationBuilder const& builder)
-			: m_memoryManager(builder.memoryManagerBuilder)
+			: m_context(builder.context)
+			, m_running(false)
 		{
-			MINTY_ASSERT(!s_instance, "Application instance already exists.");
-			s_instance = this;
+			MINTY_ASSERT(m_context != nullptr, "Context is null.");
 		}
 
 		~Application()
 		{
-			s_instance = nullptr;
 		}
+
+		Application(Application const&) = delete;
+		Application(Application&&) = delete;
 
 #pragma endregion
 		
 #pragma region Operators
 
 	public:
+		Application& operator=(Application const&) = delete;
+		Application& operator=(Application&&) = delete;
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
-		MemoryManager& get_memory_manager() { return m_memoryManager; }
-
-		static Application& get_instance()
+		/// <summary>
+		/// Gets the Context this Application uses.
+		/// </summary>
+		/// <returns></returns>
+		Ref<Context> get_context() const
 		{
-			MINTY_ASSERT(s_instance, "Application instance is null.");
-			return *s_instance;
+			return m_context.create_ref();
 		}
 
 #pragma endregion
@@ -58,7 +78,21 @@ namespace Minty
 #pragma region Methods
 
 	public:
+		void quit();
 
+		void run();
+
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new Application using the given ApplicationBuilder.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>An Application Owner.</returns>
+		static Owner<Application> create(ApplicationBuilder const& builder = {});
 
 #pragma endregion
 	};

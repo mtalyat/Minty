@@ -1,10 +1,34 @@
 #include "pch.h"
 #include "MemoryManager.h"
+#include "Minty/Context/Context.h"
 #include "Minty/Core/Format.h"
 
 using namespace Minty;
 
-void Minty::MemoryManager::update()
+void Minty::MemoryManager::dispose()
+{
+	// clear all memory
+	m_temporary.clear();
+	for (Size i = 0; i < TASK_MEMORY_COUNT; ++i)
+	{
+		m_task[i].clear();
+	}
+	for (Size i = 0; i < PERSISTENT_MEMORY_COUNT; ++i)
+	{
+		m_persistent[i].clear();
+	}
+
+	// ensure nothing left
+	MINTY_ASSERT_ERROR(m_staticSize == 0, F("MemoryManager has static memory leaks. {} bytes of data leaked.", m_staticSize));
+
+	m_taskIndex = 0;
+	m_staticSize = 0;
+	m_dynamicSize = 0;
+
+	Manager::dispose();
+}
+
+void Minty::MemoryManager::update(Time const& time)
 {
 	// free memory of single frame allocator
 	m_staticSize -= m_temporary.get_size();
@@ -16,6 +40,24 @@ void Minty::MemoryManager::update()
 	// free all of its remaining memory
 	m_staticSize -= m_task[m_taskIndex].get_size();
 	m_task[m_taskIndex].clear();
+}
+
+Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
+	: Manager()
+	, m_temporary(builder.temporary)
+	, m_task{ MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task) }
+	, m_taskIndex(0)
+	, m_persistent{ MemoryPool(builder.persistent[0]), MemoryPool(builder.persistent[1]), MemoryPool(builder.persistent[2]), MemoryPool(builder.persistent[3]), MemoryPool(builder.persistent[4]), MemoryPool(builder.persistent[5]), MemoryPool(builder.persistent[6]), MemoryPool(builder.persistent[7]) }
+	, m_staticSize(0)
+	, m_dynamicSize(0)
+{
+}
+
+Size Minty::MemoryManager::get_persistent_index(Size const size) const
+{
+	Size index = 0;
+	for (; index < PERSISTENT_MEMORY_COUNT && size > m_persistent[index].get_block_size(); ++index) {}
+	return index;
 }
 
 void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
@@ -124,9 +166,12 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 	}
 }
 
-Size Minty::MemoryManager::get_persistent_index(Size const size) const
+Owner<MemoryManager> Minty::MemoryManager::create(MemoryManagerBuilder const& builder)
 {
-	Size index = 0;
-	for (; index < PERSISTENT_MEMORY_COUNT && size > m_persistent[index].get_block_size(); ++index) {}
-	return index;
+	return Owner<MemoryManager>(builder);
+}
+
+MemoryManager& Minty::MemoryManager::get_singleton()
+{
+	return Context::get_singleton().get_memory_manager();
 }

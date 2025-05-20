@@ -1,15 +1,15 @@
 #pragma once
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Parseable.h"
-#include "Minty/Serialization/Reader.h"
-#include "Minty/Serialization/Serializable.h"
-#include "Minty/Serialization/Writer.h"
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
+	/// <summary>
+	/// Holds an ID value that can be used to identify an object.
+	/// </summary>
 	class UUID
-		: public Serializable, Parseable
 	{
 #pragma region Variables
 
@@ -30,13 +30,13 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Create an UUID with the given ID.
+		/// Create a UUID with the given ID.
 		/// </summary>
 		/// <param name="id">The ID value to use.</param>
 		constexpr UUID(ID const id)
 			: m_id(id)
 		{
-		}		
+		}
 
 #pragma endregion
 
@@ -45,12 +45,12 @@ namespace Minty
 	public:
 		operator ID() const { return m_id; }
 
-		constexpr Bool operator==(UUID const other) const
+		inline Bool operator==(UUID const other) const
 		{
 			return m_id == other.m_id;
 		}
 
-		constexpr Bool operator!=(UUID const other) const
+		inline Bool operator!=(UUID const other) const
 		{
 			return m_id != other.m_id;
 		}
@@ -93,34 +93,6 @@ namespace Minty
 			return m_id != 0;
 		}
 
-		/// <summary>
-		/// Write this object's data to the writer.
-		/// </summary>
-		/// <param name="writer">The Writer to write to.</param>
-		/// <param name="name">The name of this object.</param>
-		void serialize(Writer& writer, String const& name) const override;
-
-		/// <summary>
-		/// Read this object's data from the reader.
-		/// </summary>
-		/// <param name="reader">The Reader to read from.</param>
-		/// <param name="index">The index of this object.</param>
-		/// <returns>True on success.</returns>
-		Bool deserialize(Reader& reader, Int const index) override;
-
-		/// <summary>
-		/// Reads the data for this object from a String.
-		/// </summary>
-		/// <param name="text">A String of this object.</param>
-		/// <returns>True on success.</returns>
-		Bool parse(String const& text) override;
-
-		/// <summary>
-		/// Converts the data in this object to a String.
-		/// </summary>
-		/// <returns>A String of this object.</returns>
-		String to_string() const override;
-
 #pragma endregion
 
 #pragma region Statics
@@ -134,6 +106,14 @@ namespace Minty
 
 #pragma endregion
 	};
+
+	String to_string(UUID const obj);
+	UUID parse_to_uuid(String const& string);
+	Bool parse_try_uuid(String const& string, UUID& value);
+	template<>
+	inline UUID parse_to<UUID>(String const& string) { return parse_to_uuid(string); }
+	template<>
+	inline Bool parse_try<UUID>(String const& string, UUID& value) { return parse_try_uuid(string, value); }
 }
 
 namespace std

@@ -122,7 +122,7 @@ doxygen</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -150,7 +150,7 @@ doxygen</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -184,7 +184,20 @@ doxygen</Command>
     <ClInclude Include="Minty\Asset\AssetType.h" />
     <ClInclude Include="Minty\Asset\GenericAsset.h" />
     <ClInclude Include="Minty\Asset\_Asset.h" />
+    <ClInclude Include="Minty\Component\CameraComponent.h" />
+    <ClInclude Include="Minty\Component\Component.h" />
+    <ClInclude Include="Minty\Component\DirtyComponent.h" />
+    <ClInclude Include="Minty\Component\EnabledComponent.h" />
+    <ClInclude Include="Minty\Component\LayerComponent.h" />
+    <ClInclude Include="Minty\Component\MeshComponent.h" />
+    <ClInclude Include="Minty\Component\NameComponent.h" />
+    <ClInclude Include="Minty\Component\RelationshipComponent.h" />
+    <ClInclude Include="Minty\Component\TransformComponent.h" />
+    <ClInclude Include="Minty\Component\UUIDComponent.h" />
+    <ClInclude Include="Minty\Component\VisibleComponent.h" />
+    <ClInclude Include="Minty\Component\_Component.h" />
     <ClInclude Include="Minty\Context\Context.h" />
+    <ClInclude Include="Minty\Context\Manager.h" />
     <ClInclude Include="Minty\Context\_Context.h" />
     <ClInclude Include="Minty\Core\Base.h" />
     <ClInclude Include="Minty\Core\Compression.h" />
@@ -197,40 +210,105 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Macro.h" />
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
+    <ClInclude Include="Minty\Data\Cargo.h" />
     <ClInclude Include="Minty\Data\Color.h" />
     <ClInclude Include="Minty\Data\ConstantContainer.h" />
     <ClInclude Include="Minty\Data\Container.h" />
     <ClInclude Include="Minty\Data\DynamicContainer.h" />
     <ClInclude Include="Minty\Data\List.h" />
+    <ClInclude Include="Minty\Data\ListContainer.h" />
+    <ClInclude Include="Minty\Data\Lookup.h" />
     <ClInclude Include="Minty\Data\Map.h" />
     <ClInclude Include="Minty\Data\MemoryContainer.h" />
-    <ClInclude Include="Minty\Data\Pair.h" />
+    <ClInclude Include="Minty\Data\Object.h" />
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />
     <ClInclude Include="Minty\Data\Set.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
+    <ClInclude Include="Minty\Data\Transform.h" />
+    <ClInclude Include="Minty\Data\Tuple.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
     <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
     <ClInclude Include="Minty\Data\String.h" />
     <ClInclude Include="Minty\Data\Vector.h" />
     <ClInclude Include="Minty\Debug\Debug.h" />
+    <ClInclude Include="Minty\Debug\DebugFlags.h" />
     <ClInclude Include="Minty\Debug\DualBuffer.h" />
     <ClInclude Include="Minty\Debug\_Debug.h" />
+    <ClInclude Include="Minty\Entity\Entity.h" />
+    <ClInclude Include="Minty\Entity\EntityManager.h" />
+    <ClInclude Include="Minty\Entity\EntitySerializationData.h" />
+    <ClInclude Include="Minty\Entity\EntityView.h" />
+    <ClInclude Include="Minty\Entity\_Entity.h" />
+    <ClInclude Include="Minty\Event\Event.h" />
+    <ClInclude Include="Minty\Event\EventType.h" />
+    <ClInclude Include="Minty\Event\_Event.h" />
     <ClInclude Include="Minty\File\File.h" />
     <ClInclude Include="Minty\File\PhysicalFile.h" />
     <ClInclude Include="Minty\File\VirtualFile.h" />
     <ClInclude Include="Minty\File\_File.h" />
     <ClInclude Include="Minty\Job\JobManager.h" />
     <ClInclude Include="Minty\Job\_Job.h" />
+    <ClInclude Include="Minty\Library\EnTT.h" />
+    <ClInclude Include="Minty\Library\GLFW.h" />
     <ClInclude Include="Minty\Library\GLM.h" />
+    <ClInclude Include="Minty\Library\STB.h" />
+    <ClInclude Include="Minty\Library\Vulkan.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\_Memory.h" />
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
+    <ClInclude Include="Minty\Render\Buffer.h" />
+    <ClInclude Include="Minty\Render\BufferUsage.h" />
+    <ClInclude Include="Minty\Render\CameraInfo.h" />
+    <ClInclude Include="Minty\Render\CoordinateMode.h" />
+    <ClInclude Include="Minty\Render\Filter.h" />
+    <ClInclude Include="Minty\Render\Format.h" />
+    <ClInclude Include="Minty\Render\Image.h" />
+    <ClInclude Include="Minty\Render\AddressMode.h" />
+    <ClInclude Include="Minty\Render\ImageAspect.h" />
+    <ClInclude Include="Minty\Render\ImageLayout.h" />
+    <ClInclude Include="Minty\Render\ImagePixelFormat.h" />
+    <ClInclude Include="Minty\Render\ImageTiling.h" />
+    <ClInclude Include="Minty\Render\ImageType.h" />
+    <ClInclude Include="Minty\Render\ImageUsage.h" />
+    <ClInclude Include="Minty\Render\LoadOperation.h" />
+    <ClInclude Include="Minty\Render\Material.h" />
+    <ClInclude Include="Minty\Render\MaterialTemplate.h" />
+    <ClInclude Include="Minty\Render\Camera.h" />
+    <ClInclude Include="Minty\Render\Mesh.h" />
+    <ClInclude Include="Minty\Render\MeshType.h" />
+    <ClInclude Include="Minty\Render\Perspective.h" />
+    <ClInclude Include="Minty\Render\RenderAttachment.h" />
+    <ClInclude Include="Minty\Render\Renderer.h" />
+    <ClInclude Include="Minty\Render\RenderManager.h" />
+    <ClInclude Include="Minty\Render\RenderPass.h" />
+    <ClInclude Include="Minty\Render\RenderTarget.h" />
+    <ClInclude Include="Minty\Render\Shader.h" />
+    <ClInclude Include="Minty\Render\ShaderAttribute.h" />
+    <ClInclude Include="Minty\Render\ShaderBinding.h" />
+    <ClInclude Include="Minty\Render\ShaderCullMode.h" />
+    <ClInclude Include="Minty\Render\ShaderFrontFace.h" />
+    <ClInclude Include="Minty\Render\ShaderInput.h" />
+    <ClInclude Include="Minty\Render\ShaderInputRate.h" />
+    <ClInclude Include="Minty\Render\ShaderInputType.h" />
+    <ClInclude Include="Minty\Render\ShaderModule.h" />
+    <ClInclude Include="Minty\Render\ShaderPolygonMode.h" />
+    <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
+    <ClInclude Include="Minty\Render\ShaderStage.h" />
+    <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
+    <ClInclude Include="Minty\Render\StoreOperation.h" />
+    <ClInclude Include="Minty\Render\Surface.h" />
+    <ClInclude Include="Minty\Render\Texture.h" />
+    <ClInclude Include="Minty\Render\Viewport.h" />
+    <ClInclude Include="Minty\Render\_Render.h" />
+    <ClInclude Include="Minty\Scene\Scene.h" />
+    <ClInclude Include="Minty\Scene\SceneManager.h" />
+    <ClInclude Include="Minty\Scene\_Scene.h" />
     <ClInclude Include="Minty\Serialization\IsParseable.h" />
     <ClInclude Include="Minty\Serialization\IsSerializable.h" />
     <ClInclude Include="Minty\Serialization\Node.h" />
@@ -242,13 +320,40 @@ doxygen</Command>
     <ClInclude Include="Minty\Serialization\ToString.h" />
     <ClInclude Include="Minty\Serialization\Writer.h" />
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
+    <ClInclude Include="Minty\System\RenderSystem.h" />
+    <ClInclude Include="Minty\System\System.h" />
+    <ClInclude Include="Minty\System\SystemManager.h" />
+    <ClInclude Include="Minty\System\_System.h" />
     <ClInclude Include="Minty\Time\Stopwatch.h" />
     <ClInclude Include="Minty\Time\Time.h" />
     <ClInclude Include="Minty\Time\_Time.h" />
+    <ClInclude Include="Minty\Tool\ArgumentParser.h" />
+    <ClInclude Include="Minty\Tool\_Tool.h" />
+    <ClInclude Include="Minty\Window\CursorMode.h" />
+    <ClInclude Include="Minty\Window\Window.h" />
+    <ClInclude Include="Minty\Window\WindowCloseEvent.h" />
+    <ClInclude Include="Minty\Window\WindowResizeEvent.h" />
+    <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
     <ClInclude Include="Minty\Wrap\Wrapper.h" />
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Buffer.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Frame.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Image.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Material.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_QueueFamilyIndices.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Renderer.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderManager.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderPass.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_RenderTarget.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Shader.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_ShaderModule.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Surface.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_SwapchainSupportDetails.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Texture.h" />
+    <ClInclude Include="Platform\Vulkan\Vulkan_Viewport.h" />
+    <ClInclude Include="Platform\Windows\Windows_Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp" />
@@ -256,36 +361,92 @@ doxygen</Command>
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
+    <ClCompile Include="Minty\Component\CameraComponent.cpp" />
+    <ClCompile Include="Minty\Component\MeshComponent.cpp" />
+    <ClCompile Include="Minty\Component\NameComponent.cpp" />
+    <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
+    <ClCompile Include="Minty\Component\TransformComponent.cpp" />
+    <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
+    <ClCompile Include="Minty\Context\Manager.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Encoding.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
+    <ClCompile Include="Minty\Data\Cargo.cpp" />
+    <ClCompile Include="Minty\Data\Color.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
     <ClCompile Include="Minty\Data\Container.cpp" />
     <ClCompile Include="Minty\Data\DynamicContainer.cpp" />
+    <ClCompile Include="Minty\Data\ListContainer.cpp" />
     <ClCompile Include="Minty\Data\MemoryContainer.cpp" />
     <ClCompile Include="Minty\Data\Path.cpp" />
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
+    <ClCompile Include="Minty\Data\Transform.cpp" />
     <ClCompile Include="Minty\Data\UUID.cpp" />
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
+    <ClCompile Include="Minty\Entity\EntityManager.cpp" />
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
     <ClCompile Include="Minty\Job\JobManager.cpp" />
+    <ClCompile Include="Minty\Library\STB.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
+    <ClCompile Include="Minty\Render\Buffer.cpp" />
+    <ClCompile Include="Minty\Render\BufferUsage.cpp" />
+    <ClCompile Include="Minty\Render\Camera.cpp" />
+    <ClCompile Include="Minty\Render\CameraInfo.cpp" />
+    <ClCompile Include="Minty\Render\CoordinateMode.cpp" />
+    <ClCompile Include="Minty\Render\Filter.cpp" />
+    <ClCompile Include="Minty\Render\Format.cpp" />
+    <ClCompile Include="Minty\Render\Image.cpp" />
+    <ClCompile Include="Minty\Render\ImageAddressMode.cpp" />
+    <ClCompile Include="Minty\Render\ImageAspect.cpp" />
+    <ClCompile Include="Minty\Render\ImageLayout.cpp" />
+    <ClCompile Include="Minty\Render\ImagePixelFormat.cpp" />
+    <ClCompile Include="Minty\Render\ImageTiling.cpp" />
+    <ClCompile Include="Minty\Render\ImageType.cpp" />
+    <ClCompile Include="Minty\Render\ImageUsage.cpp" />
+    <ClCompile Include="Minty\Render\LoadOperation.cpp" />
+    <ClCompile Include="Minty\Render\Material.cpp" />
+    <ClCompile Include="Minty\Render\MaterialTemplate.cpp" />
+    <ClCompile Include="Minty\Render\Mesh.cpp" />
+    <ClCompile Include="Minty\Render\MeshType.cpp" />
+    <ClCompile Include="Minty\Render\Perspective.cpp" />
+    <ClCompile Include="Minty\Render\RenderManager.cpp" />
+    <ClCompile Include="Minty\Render\RenderPass.cpp" />
+    <ClCompile Include="Minty\Render\RenderTarget.cpp" />
+    <ClCompile Include="Minty\Render\Shader.cpp" />
+    <ClCompile Include="Minty\Render\ShaderCullMode.cpp" />
+    <ClCompile Include="Minty\Render\ShaderFrontFace.cpp" />
+    <ClCompile Include="Minty\Render\ShaderInputRate.cpp" />
+    <ClCompile Include="Minty\Render\ShaderInputType.cpp" />
+    <ClCompile Include="Minty\Render\ShaderModule.cpp" />
+    <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
+    <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />
+    <ClCompile Include="Minty\Render\ShaderStage.cpp" />
+    <ClCompile Include="Minty\Render\StoreOperation.cpp" />
+    <ClCompile Include="Minty\Render\Surface.cpp" />
+    <ClCompile Include="Minty\Render\Texture.cpp" />
+    <ClCompile Include="Minty\Render\Viewport.cpp" />
+    <ClCompile Include="Minty\Scene\Scene.cpp" />
+    <ClCompile Include="Minty\Scene\SceneManager.cpp" />
     <ClCompile Include="Minty\Serialization\Node.cpp" />
     <ClCompile Include="Minty\Serialization\Parse.cpp" />
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
     <ClCompile Include="Minty\Serialization\ToString.cpp" />
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
+    <ClCompile Include="Minty\System\RenderSystem.cpp" />
+    <ClCompile Include="Minty\System\SystemManager.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
+    <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />
+    <ClCompile Include="Minty\Window\Window.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />
     <ClCompile Include="pch.cpp">
@@ -294,6 +455,22 @@ doxygen</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Platform\Vulkan\Vulkan_Buffer.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Image.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Material.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Renderer.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderManager.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderPass.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_RenderTarget.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Shader.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_ShaderModule.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Surface.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Texture.cpp" />
+    <ClCompile Include="Platform\Vulkan\Vulkan_Viewport.cpp" />
+    <ClCompile Include="Platform\Windows\Windows_Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

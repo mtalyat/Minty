@@ -108,13 +108,13 @@ Bool Minty::Wrapper::open(Path const& path, VirtualFile& file) const
 	return wrap->open(path, file);
 }
 
-Vector<Char> Minty::Wrapper::read(Path const& path) const
+Vector<Byte> Minty::Wrapper::read_bytes(Path const& path) const
 {
 	// find wrap
 	Wrap const* wrap = find_by_path(path);
 
-	if (!wrap) return Vector<Char>();
+	if (!wrap) return Vector<Byte>();
 
 	// read file
-	return wrap->read(path);
+	return wrap->read_bytes(path);
 }

@@ -2,7 +2,9 @@
 #include "Minty/Asset/AssetType.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
+#include <type_traits>
 
 namespace Minty
 {
@@ -33,6 +35,23 @@ namespace Minty
 		}
 
 		virtual ~Asset() = default;
+
+		// no moving
+		Asset(Asset&&) = delete;
+
+		// yes copying
+		Asset(Asset const&) = default;
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		// no moving
+		Asset& operator=(Asset&&) = delete;
+
+		// yes copying
+		Asset& operator=(Asset const&) = default;
 
 #pragma endregion
 

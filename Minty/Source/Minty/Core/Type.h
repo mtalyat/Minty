@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Core/Macro.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/ToString.h"
 #include "Minty/Serialization/Parse.h"
@@ -41,7 +42,6 @@ namespace Minty
 		Matrix4,
 		Quaternion,
 		Color,
-		UUID,
 		Object,
 		String,
 		MultilineString,
@@ -70,17 +70,11 @@ namespace Minty
 	/// <returns>The size of the type that the Type represents, in bytes.</returns>
 	Size sizeof_type(Type const type);
 
-	String to_string(Type const type);
-	Type to_type(String const& string);
-	Bool try_type(String const& string, Type& value);
+	String to_string(Type const obj);
+	Type parse_to_type(String const& string);
+	Bool parse_try_type(String const& string, Type& value);
 	template<>
-	inline Type parse_to<Type>(String const& string)
-	{
-		return to_type(string);
-	}
+	inline Type parse_to<Type>(String const& string) { return parse_to_type(string); }
 	template<>
-	inline Bool parse_try<Type>(String const& string, Type& value)
-	{
-		return try_type(string, value);
-	}
+	inline Bool parse_try<Type>(String const& string, Type& value) { return parse_try_type(string, value); }
 }

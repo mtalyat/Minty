@@ -128,10 +128,6 @@ Type Minty::type_typeid(TypeID const typeId)
 	}
 	else if (typeId == typeid(UUID))
 	{
-		return Type::UUID;
-	}
-	else if (typeId == typeid(void*))
-	{
 		return Type::Object;
 	}
 	else if (typeId == typeid(String))
@@ -208,10 +204,8 @@ TypeID Minty::typeid_type(Type const type)
 		return typeid(Quaternion);
 	case Type::Color:
 		return typeid(Color);
-	case Type::UUID:
-		return typeid(UUID);
 	case Type::Object:
-		return typeid(void*);
+		return typeid(UUID);
 	case Type::String:
 	case Type::MultilineString:
 		return typeid(String);
@@ -284,10 +278,8 @@ Size Minty::sizeof_type(Type const type)
 		return sizeof(Quaternion);
 	case Type::Color:
 		return sizeof(Color);
-	case Type::UUID:
-		return sizeof(UUID);
 	case Type::Object:
-		return sizeof(void*);
+		return sizeof(UUID);
 	case Type::String:
 	case Type::MultilineString:
 		return sizeof(String);
@@ -296,59 +288,49 @@ Size Minty::sizeof_type(Type const type)
 	}
 }
 
-String Minty::to_string(Type const type)
+String Minty::to_string(Type const obj)
 {
-	static Map<Type, String> const NAMES =
+	switch (obj)
 	{
-		{ Type::Undefined, "Undefined" },
-		{ Type::Bool, "Bool" },
-		{ Type::Bool2, "Bool2" },
-		{ Type::Bool3, "Bool3" },
-		{ Type::Bool4, "Bool4" },
-		{ Type::Char, "Char" },
-		{ Type::Byte, "Byte" },
-		{ Type::Short, "Short" },
-		{ Type::UShort, "UShort" },
-		{ Type::Int, "Int" },
-		{ Type::Int2, "Int2" },
-		{ Type::Int3, "Int3" },
-		{ Type::Int4, "Int4" },
-		{ Type::UInt, "UInt" },
-		{ Type::UInt2, "UInt2" },
-		{ Type::UInt3, "UInt3" },
-		{ Type::UInt4, "UInt4" },
-		{ Type::Long, "Long" },
-		{ Type::ULong, "ULong" },
-		{ Type::Size, "Size" },
-		{ Type::Float, "Float" },
-		{ Type::Float2, "Float2" },
-		{ Type::Float3, "Float3" },
-		{ Type::Float4, "Float4" },
-		{ Type::Double, "Double" },
-		{ Type::Matrix2, "Matrix2" },
-		{ Type::Matrix3, "Matrix3" },
-		{ Type::Matrix4, "Matrix4" },
-		{ Type::Quaternion, "Quaternion" },
-		{ Type::Color, "Color" },
-		{ Type::UUID, "UUID" },
-		{ Type::Object, "Object" },
-		{ Type::String, "String" },
-		{ Type::MultilineString, "MultilineString" }
-	};
+	case Type::Bool: return "Bool";
+	case Type::Bool2: return "Bool2";
+	case Type::Bool3: return "Bool3";
+	case Type::Bool4: return "Bool4";
+	case Type::Char: return "Char";
+	case Type::Byte: return "Byte";
+	case Type::Short: return "Short";
+	case Type::UShort: return "UShort";
+	case Type::Int: return "Int";
+	case Type::Int2: return "Int2";
+	case Type::Int3: return "Int3";
+	case Type::Int4: return "Int4";
+	case Type::UInt: return "UInt";
+	case Type::UInt2: return "UInt2";
+	case Type::UInt3: return "UInt3";
+	case Type::UInt4: return "UInt4";
+	case Type::Long: return "Long";
+	case Type::ULong: return "ULong";
+	case Type::Size: return "Size";
+	case Type::Float: return "Float";
+	case Type::Float2: return "Float2";
+	case Type::Float3: return "Float3";
+	case Type::Float4: return "Float4";
+	case Type::Double: return "Double";
+	case Type::Matrix2: return "Matrix2";
+	case Type::Matrix3: return "Matrix3";
+	case Type::Matrix4: return "Matrix4";
+	case Type::Quaternion: return "Quaternion";
+	case Type::Color: return "Color";
+	case Type::Object: return "Object";
+	case Type::String: return "String";
+	case Type::MultilineString: return "MultilineString";
+	case Type::Count: return "Count";
 
-	auto const it = NAMES.find(type);
-	if (it != NAMES.end())
-	{
-		return it->second;
-	}
-	else
-	{
-		return "";
+	default: return "";
 	}
 }
 
-
-Type Minty::to_type(String const& string)
+Type Minty::parse_to_type(String const& string)
 {
 	if (string == "Bool") return Type::Bool;
 	if (string == "Bool2") return Type::Bool2;
@@ -374,22 +356,21 @@ Type Minty::to_type(String const& string)
 	if (string == "Float3") return Type::Float3;
 	if (string == "Float4") return Type::Float4;
 	if (string == "Double") return Type::Double;
-	if (string == "String") return Type::String;
 	if (string == "Matrix2") return Type::Matrix2;
 	if (string == "Matrix3") return Type::Matrix3;
 	if (string == "Matrix4") return Type::Matrix4;
 	if (string == "Quaternion") return Type::Quaternion;
 	if (string == "Color") return Type::Color;
-	if (string == "UUID") return Type::UUID;
 	if (string == "Object") return Type::Object;
 	if (string == "String") return Type::String;
 	if (string == "MultilineString") return Type::MultilineString;
+	if (string == "Count") return Type::Count;
 
 	return Type();
 }
 
-Bool Minty::try_type(String const& string, Type& value)
+Bool Minty::parse_try_type(String const& string, Type& value)
 {
-	value = to_type(string);
+	value = parse_to_type(string);
 	return value != Type();
 }

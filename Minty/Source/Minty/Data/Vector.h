@@ -2,7 +2,7 @@
 #include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Core/Macro.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/Memory/Allocator.h"
 #include <iterator>
 
@@ -164,6 +164,11 @@ namespace Minty
 				return *mp_ptr;
 			}
 
+			constexpr pointer operator->() const
+			{
+				return mp_ptr;
+			}
+
 			Iterator& operator++()
 			{
 				++mp_ptr;
@@ -228,6 +233,11 @@ namespace Minty
 			constexpr reference operator*()
 			{
 				return *mp_ptr;
+			}
+
+			constexpr pointer operator->() const
+			{
+				return mp_ptr;
 			}
 
 			ConstIterator& operator++()
@@ -296,6 +306,11 @@ namespace Minty
 				return *mp_ptr;
 			}
 
+			constexpr pointer operator->() const
+			{
+				return mp_ptr;
+			}
+
 			ReverseIterator& operator++()
 			{
 				--mp_ptr;
@@ -360,6 +375,11 @@ namespace Minty
 			constexpr reference operator*()
 			{
 				return *mp_ptr;
+			}
+
+			constexpr pointer operator->() const
+			{
+				return mp_ptr;
 			}
 
 			ConstReverseIterator& operator++()

@@ -1,7 +1,9 @@
 #pragma once
 #include "Minty/Core/Constant.h"
-#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Debug/Debug.h"
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -117,10 +119,10 @@ namespace Minty
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
 		constexpr Color(Float const r, Float const g, Float const b, Float const a = 1.0f)
-			: r(static_cast<Channel_t>(r * MAX_CHANNEL))
-			, g(static_cast<Channel_t>(g * MAX_CHANNEL))
-			, b(static_cast<Channel_t>(b * MAX_CHANNEL))
-			, a(static_cast<Channel_t>(a * MAX_CHANNEL))
+			: r(static_cast<Channel_t>(r* MAX_CHANNEL))
+			, g(static_cast<Channel_t>(g* MAX_CHANNEL))
+			, b(static_cast<Channel_t>(b* MAX_CHANNEL))
+			, a(static_cast<Channel_t>(a* MAX_CHANNEL))
 		{
 			MINTY_ASSERT(r >= 0.0f, "Red value cannot be below zero.");
 			MINTY_ASSERT(g >= 0.0f, "Green value cannot be below zero.");
@@ -177,7 +179,68 @@ namespace Minty
 		}
 
 #pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a black color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color black() { return Color(MIN_CHANNEL, MIN_CHANNEL, MIN_CHANNEL); }
+
+		/// <summary>
+		/// Creates a red color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color red() { return Color(MAX_CHANNEL, MIN_CHANNEL, MIN_CHANNEL); }
+
+		/// <summary>
+		/// Creates a green color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color green() { return Color(MIN_CHANNEL, MAX_CHANNEL, MIN_CHANNEL); }
+
+		/// <summary>
+		/// Creates a blue color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color blue() { return Color(MIN_CHANNEL, MIN_CHANNEL, MAX_CHANNEL); }
+
+		/// <summary>
+		/// Creates a white color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color white() { return Color(MAX_CHANNEL, MAX_CHANNEL, MAX_CHANNEL); }
+
+		/// <summary>
+		/// Creates a yellow color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color yellow() { return Color(MAX_CHANNEL, MAX_CHANNEL, MIN_CHANNEL); }
+
+		/// <summary>
+		/// Creates a cyan color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color cyan() { return Color(MIN_CHANNEL, MAX_CHANNEL, MAX_CHANNEL); }
+
+		/// <summary>
+		/// Creates a magenta color.
+		/// </summary>
+		/// <returns></returns>
+		inline static Color magenta() { return Color(MAX_CHANNEL, MIN_CHANNEL, MAX_CHANNEL); }
+
+#pragma endregion
 	};
+
+	String to_string(Color const obj);
+	Color parse_to_color(String const& string);
+	Bool parse_try_color(String const& string, Color& value);
+	template<>
+	inline Color parse_to<Color>(String const& string) { return parse_to_color(string); }
+	template<>
+	inline Bool parse_try<Color>(String const& string, Color& value) { return parse_try_color(string, value); }
 }
 
 namespace std

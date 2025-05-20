@@ -1,10 +1,16 @@
 #pragma once
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Component/Component.h"
+#include "Minty/Context/Manager.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Debug/DualBuffer.h"
+#include "Minty/Data/Lookup.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Data/Vector.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
+#include "Minty/Render/RenderManager.h"
+#include "Minty/Scene/SceneManager.h"
 
 namespace Minty
 {
@@ -18,6 +24,8 @@ namespace Minty
 		MemoryManagerBuilder memoryManagerBuilder = {};
 		JobManagerBuilder jobManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
+		RenderManagerBuilder renderManagerBuilder = {};
+		SceneManagerBuilder sceneManagerBuilder = {};
 	};
 
 	/// <summary>
@@ -31,9 +39,15 @@ namespace Minty
 		static Context* s_instance;
 
 		DualBuffer* mp_dualBuffer;
-		MemoryManager* mp_memoryManager;
-		JobManager* mp_jobManager;
-		AssetManager* mp_assetManager;
+		Owner<MemoryManager> m_memoryManager;
+		Owner<JobManager> m_jobManager;
+		Owner<AssetManager> m_assetManager;
+		Owner<RenderManager> m_renderManager;
+		Owner<SceneManager> m_sceneManager;
+		Vector<Manager*> m_managers;
+
+		Lookup<TypeID, SystemInfo> m_registeredSystems;
+		Lookup<TypeID, ComponentInfo> m_registeredComponents;
 
 #pragma endregion
 
@@ -54,25 +68,19 @@ namespace Minty
 		/// <param name="other">The Context to move.</param>
 		Context(Context&& other) noexcept
 			: mp_dualBuffer(other.mp_dualBuffer)
-			, mp_memoryManager(other.mp_memoryManager)
-			, mp_jobManager(other.mp_jobManager)
-			, mp_assetManager(other.mp_assetManager)
+			, m_memoryManager(std::move(other.m_memoryManager))
+			, m_jobManager(std::move(other.m_jobManager))
+			, m_assetManager(std::move(other.m_assetManager))
+			, m_renderManager(std::move(other.m_renderManager))
+			, m_sceneManager(std::move(other.m_sceneManager))
+			, m_managers(std::move(other.m_managers))
+			, m_registeredSystems(std::move(other.m_registeredSystems))
+			, m_registeredComponents(std::move(other.m_registeredComponents))
 		{
 			other.mp_dualBuffer = nullptr;
-			other.mp_memoryManager = nullptr;
-			other.mp_jobManager = nullptr;
-			other.mp_assetManager = nullptr;
 		}
 
-		~Context()
-		{
-			delete mp_dualBuffer;
-			delete mp_memoryManager;
-			delete mp_jobManager;
-			delete mp_assetManager;
-
-			s_instance = nullptr;
-		}
+		~Context();
 
 #pragma endregion
 
@@ -86,13 +94,15 @@ namespace Minty
 			if (this != &other)
 			{
 				mp_dualBuffer = other.mp_dualBuffer;
-				mp_memoryManager = other.mp_memoryManager;
-				mp_jobManager = other.mp_jobManager;
-				mp_assetManager = other.mp_assetManager;
 				other.mp_dualBuffer = nullptr;
-				other.mp_memoryManager = nullptr;
-				other.mp_jobManager = nullptr;
-				other.mp_assetManager = nullptr;
+				m_memoryManager = std::move(other.m_memoryManager);
+				m_jobManager = std::move(other.m_jobManager);
+				m_assetManager = std::move(other.m_assetManager);
+				m_renderManager = std::move(other.m_renderManager);
+				m_sceneManager = std::move(other.m_sceneManager);
+				m_managers = std::move(other.m_managers);
+				m_registeredSystems = std::move(other.m_registeredSystems);
+				m_registeredComponents = std::move(other.m_registeredComponents);
 			}
 			return *this;
 		}
@@ -106,19 +116,125 @@ namespace Minty
 		/// Gets the MemoryManager in this Context.
 		/// </summary>
 		/// <returns>The MemoryManager.</returns>
-		MemoryManager& get_memory_manager() { return *mp_memoryManager; }
+		MemoryManager& get_memory_manager() { return *m_memoryManager; }
 
 		/// <summary>
 		/// Gets the JobManager in this Context.
 		/// </summary>
 		/// <returns>The JobManager.</returns>
-		JobManager& get_job_manager() { return *mp_jobManager; }
+		JobManager& get_job_manager() { return *m_jobManager; }
 
 		/// <summary>
 		/// Gets the AssetManager in this Context.
 		/// </summary>
 		/// <returns>The AssetManager.</returns>
-		AssetManager& get_asset_manager() { return *mp_assetManager; }
+		AssetManager& get_asset_manager() { return *m_assetManager; }
+
+		/// <summary>
+		/// Gets the RenderManager in this Context.
+		/// </summary>
+		/// <returns>The RenderManager.</returns>
+		RenderManager& get_render_manager() { return *m_renderManager; }
+
+		/// <summary>
+		/// Gets the SceneManager in this Context.
+		/// </summary>
+		/// <returns>The SceneManager.</returns>
+		SceneManager& get_scene_manager() { return *m_sceneManager; }
+
+#pragma endregion
+
+#pragma region Methods
+
+	private:
+		void register_components();
+		void register_systems();
+
+		void initialize();
+
+		void dispose();
+
+	public:
+		/// <summary>
+		/// Updates all Managers in this Context.
+		/// </summary>
+		void update(Time const& time);
+
+		/// <summary>
+		/// Finalizes all Managers in this Context.
+		/// </summary>
+		void finalize();
+
+		/// <summary>
+		/// Renders all Managers in this Context.
+		/// </summary>
+		void render();
+
+		/// <summary>
+		/// Syncs all Managers in this Context.
+		/// </summary>
+		void sync();
+
+#pragma region Systems
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
+		void register_system(String const& name)
+		{
+			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
+			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
+
+			SystemInfo info
+			{
+				.name = name,
+				.typeId = typeid(T),
+				.create = [](SystemBuilder const& builder) -> System*
+				{
+					return new T(builder);
+				}
+			};
+
+			m_registeredSystems.add(name, typeid(T), info);
+		}
+
+		SystemInfo const* get_system_info(String const& name) const;
+
+		SystemInfo const* get_system_info(TypeID const& typeId) const;
+
+		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+		void register_component(String const& name)
+		{
+			MINTY_ASSERT(!m_registeredComponents.contains(name), F("Component already exists with the name: {}", name));
+			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), F("Component already exists with the TypeID: {}", typeid(T)));
+
+			ComponentInfo info
+			{
+				.name = name,
+				.create = [](EntityManager& entityManager, Entity const entity) -> Component&
+				{
+					return entityManager.add_component<T>(entity);
+				},
+				.get = [](EntityManager& entityManager, Entity const entity) -> Component*
+				{
+					return entityManager.try_get_component<T>(entity);
+				},
+				.get_const = [](EntityManager const& entityManager, Entity const entity) -> Component const*
+				{
+					return entityManager.try_get_component<T>(entity);
+				},
+				.destroy = [](EntityManager& entityManager, Entity const entity) -> void
+				{
+					entityManager.remove_component<T>(entity);
+				}
+			};
+
+			m_registeredComponents.add(name, typeid(T), info);
+		}
+
+		ComponentInfo const* get_component_info(String const& name) const;
+
+		ComponentInfo const* get_component_info(TypeID const& typeId) const;
+
+#pragma endregion
 
 #pragma endregion
 
@@ -126,16 +242,22 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Creates a new Context using the given ContextBuilder.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A Context Owner.</returns>
+		static Owner<Context> create(ContextBuilder const& builder);
+
+		/// <summary>
 		/// Gets the current instance of the Context.
 		/// </summary>
 		/// <returns>The current instance of the Context.</returns>
-		static Context& get_instance()
+		static Context& get_singleton()
 		{
-			MINTY_ASSERT(s_instance, "Context instance is null.");
+			MINTY_ASSERT(s_instance, "Context singleton is null.");
 			return *s_instance;
 		}
 
 #pragma endregion
-
 	};
 }

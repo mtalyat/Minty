@@ -42,6 +42,9 @@ void Test::set_category(char const* const categoryName)
 
 void Test::set_test(char const* const testName)
 {
+	// clear the output
+	clear_output();
+
 	currentName = testName;
 	auto found2 = results.find(currentCategoryIndex);
 	if (found2 == results.end())
@@ -188,3 +191,4 @@ void Test::save_results(std::filesystem::path const& path) const
 
 	std::cout << "Results saved to: " << path << std::endl;
 }
+ 

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Compression.h"
-#include "Minty/Core/Macro.h"
+#include "Minty/Debug/Debug.h"
 #include <zlib.h>
 
 using namespace Minty;

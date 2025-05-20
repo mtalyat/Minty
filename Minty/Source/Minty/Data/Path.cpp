@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Path.h"
+#include "Minty/Data/Queue.h"
 #include "Minty/Data/String.h"
 
 using namespace Minty;
@@ -88,6 +89,103 @@ Size Minty::Path::get_file_size(Path const& path)
 	}
 
 	return std::filesystem::file_size(path.m_path);
+}
+
+Vector<Path> Minty::Path::get_files(Path const& path, Bool const recursive)
+{
+	MINTY_ASSERT(exists(path), "No directory exists at the given Path.");
+	MINTY_ASSERT(is_directory(path), "The given path does not point to a directory.");
+
+	Vector<Path> paths;
+	Queue<Path> directoriesToCheck;
+	directoriesToCheck.push(path);
+
+	while (!directoriesToCheck.is_empty())
+	{
+		Path current = directoriesToCheck.pop();
+		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		{
+			if (entry.is_regular_file())
+			{
+				paths.add(Path(entry.path().string().data()));
+			}
+			else if (recursive && entry.is_directory())
+			{
+				directoriesToCheck.push(Path(entry.path().string().data()));
+			}
+		}
+	}
+	
+	return paths;
+}
+
+Vector<Path> Minty::Path::get_directories(Path const& path, Bool const recursive)
+{
+	MINTY_ASSERT(exists(path), "No directory exists at the given Path.");
+	MINTY_ASSERT(is_directory(path), "The given path does not point to a directory.");
+
+	Vector<Path> paths;
+	Queue<Path> directoriesToCheck;
+	directoriesToCheck.push(path);
+
+	while (!directoriesToCheck.is_empty())
+	{
+		Path current = directoriesToCheck.pop();
+		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		{
+			if (entry.is_directory())
+			{
+				Path entryPath = Path(entry.path().string().data());
+				paths.add(entryPath);
+
+				if (recursive)
+				{
+					directoriesToCheck.push(entryPath);
+				}
+			}
+		}
+	}
+
+	return paths;
+}
+
+Vector<Path> Minty::Path::get_contents(Path const& path, Bool const recursive)
+{
+	MINTY_ASSERT(exists(path), "No directory exists at the given Path.");
+	MINTY_ASSERT(is_directory(path), "The given path does not point to a directory.");
+
+	Vector<Path> paths;
+	Queue<Path> directoriesToCheck;
+	directoriesToCheck.push(path);
+
+	while (!directoriesToCheck.is_empty())
+	{
+		Path current = directoriesToCheck.pop();
+		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		{
+			if (entry.is_regular_file())
+			{
+				paths.add(Path(entry.path().string().data()));
+			}
+			else if (entry.is_directory())
+			{
+				Path entryPath = Path(entry.path().string().data());
+				paths.add(entryPath);
+
+				if (recursive)
+				{
+					directoriesToCheck.push(entryPath);
+				}
+			}
+		}
+	}
+
+	return paths;
+}
+
+Bool Minty::Path::create(Path const& path)
+{
+	return std::filesystem::create_directories(path.m_path);
 }
 
 std::ostream& Minty::operator<<(std::ostream& stream, Path const& path)

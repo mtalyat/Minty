@@ -4,9 +4,13 @@
 #include "Minty/Serialization/ToString.h"
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Array.h"
 #include "Minty/Data/List.h"
+#include "Minty/Data/Map.h"
+#include "Minty/Data/Set.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/File/File.h"
 #include "Minty/Serialization/IsSerializable.h"
@@ -128,14 +132,6 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Writes the data with the given Type.
-		/// </summary>
-		/// <param name="name">The name of the value.</param>
-		/// <param name="data">The data to write.</param>
-		/// <param name="type">The type of the data.</param>
-		void write(String const& name, const void* const data, Type const type);
-
-		/// <summary>
 		/// Writes a Node with no value.
 		/// </summary>
 		/// <param name="name"></param>
@@ -148,7 +144,7 @@ namespace Minty
 			write_string(name, to_string(data));
 		}
 
-		template<typename T, typename std::enable_if<!is_serializable<T>::value && is_serializable_object<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_serializable<T>::value&& is_serializable_object<T>::value, int>::type = 0>
 		void write(String const& name, T const& data)
 		{
 			indent(name);
@@ -288,6 +284,69 @@ namespace Minty
 			write_type(name, data);
 		}
 
+		template<typename T, Size S>
+		void write(String const& name, Array<T, S> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < S; i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, List<T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, Vector<T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, Set<T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, Map<String, T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		/// <summary>
+		/// Writes the data with the given Type.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="data">A pointer to the byte data.</param>
+		/// <param name="type">The Type.</param>
+		virtual void write_typed(String const& name, void const* const data, Type const type) = 0;
+
 #pragma endregion
 
 #pragma endregion
@@ -336,8 +395,9 @@ namespace Minty
 		virtual void write_float4_to_buffer(Float4 const data, Vector<Byte>& buffer) = 0;
 		virtual void write_double_to_buffer(Double const data, Vector<Byte>& buffer) = 0;
 		virtual void write_string_to_buffer(String const& data, Vector<Byte>& buffer) = 0;
+		virtual void write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer) = 0;
 		virtual void write_type_to_buffer(Type const data, Vector<Byte>& buffer) = 0;
-		virtual void write_typed_to_buffer(Type const type, void const* const data, Vector<Byte>& buffer) = 0;
+		virtual void write_typed_to_buffer(void const* const data, Vector<Byte>& buffer, Type const type) = 0;
 
 #pragma endregion
 	};
@@ -487,8 +547,9 @@ namespace Minty
 		void write_float4_to_buffer(Float4 const data, Vector<Byte>& buffer) override;
 		void write_double_to_buffer(Double const data, Vector<Byte>& buffer) override;
 		void write_string_to_buffer(String const& data, Vector<Byte>& buffer) override;
+		void write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer) override;
 		void write_type_to_buffer(Type const data, Vector<Byte>& buffer) override;
-		void write_typed_to_buffer(Type const type, void const* const data, Vector<Byte>& buffer) override;
+		void write_typed_to_buffer(void const* const data, Vector<Byte>& buffer, Type const type) override;
 
 #pragma endregion
 	};
@@ -558,7 +619,7 @@ namespace Minty
 		/// <returns>True on success.</returns>
 		void indent(String const& name) override
 		{
-			write(name);
+			Writer::write(name);
 			indent();
 		}
 
@@ -574,7 +635,6 @@ namespace Minty
 #pragma region Write
 
 	protected:
-
 		void write_empty(String const& name) override
 		{
 			// write to memory buffer
@@ -1032,6 +1092,26 @@ namespace Minty
 				this->write_separator_to_buffer(buffer);
 			}
 			this->write_type_to_buffer(obj, buffer);
+			this->write_end_to_buffer(buffer);
+
+			// write to stream
+			this->write_data(buffer.get_data(), buffer.get_size());
+		}
+
+	public:
+		void write_typed(String const& name, void const* const data, Type const type) override
+		{
+			// write to memory buffer
+			Vector<Byte> buffer;
+			buffer.reserve(256);
+			this->write_indent_to_buffer(m_depth, buffer);
+			if (this->write_name_to_buffer(name, buffer))
+			{
+				this->write_separator_to_buffer(buffer);
+			}
+			this->write_type_to_buffer(type, buffer);
+			this->write_separator_to_buffer(buffer);
+			this->write_typed_to_buffer(data, buffer, type);
 			this->write_end_to_buffer(buffer);
 
 			// write to stream

@@ -3,6 +3,7 @@
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/DynamicContainer.h"
+#include "Minty/Serialization/Serializable.h"
 
 namespace Minty
 {
@@ -10,6 +11,7 @@ namespace Minty
 	/// A Container with a Type.
 	/// </summary>
 	class Variable
+		: public Serializable
 	{
 #pragma region Variables
 
@@ -41,7 +43,6 @@ namespace Minty
 			: m_type(type)
 			, m_data(allocator)
 		{
-			MINTY_ASSERT(m_type < Type::Object, "Cannot set Variable type to an object.");
 		}
 
 		/// <summary>
@@ -54,7 +55,6 @@ namespace Minty
 			: m_type(type)
 			, m_data(data, sizeof_type(type), allocator)
 		{
-			MINTY_ASSERT(m_type < Type::Object, "Cannot set Variable type to an object.");
 		}
 
 		/// <summary>
@@ -68,7 +68,6 @@ namespace Minty
 			: m_type(type_typeid(typeid(T)))
 			, m_data(&value, sizeof_type(m_type), allocator)
 		{
-			MINTY_ASSERT(m_type < Type::Object, "Cannot set Variable type to an object.");
 		}
 
 		~Variable()
@@ -83,7 +82,7 @@ namespace Minty
 		template<typename T>
 		operator T() const
 		{
-			T* value = get<T>();
+			T* value = try_get<T>();
 			MINTY_ASSERT(value, "Variable is empty.");
 			return *value;
 		}
@@ -109,7 +108,7 @@ namespace Minty
 		template<typename T>
 		Bool operator==(T const& value) const
 		{
-			T* data = get<T>();
+			T* data = try_get<T>();
 			if (data == nullptr)
 			{
 				return typeid(T) == typeid(nullptr);
@@ -121,7 +120,7 @@ namespace Minty
 		template<typename T>
 		Bool operator!=(T const& value) const
 		{
-			T* data = get<T>();
+			T* data = try_get<T>();
 			if (data == nullptr)
 			{
 				return typeid(T) != typeid(nullptr);
@@ -176,7 +175,7 @@ namespace Minty
 		/// <typeparam name="T">The type associated with this Variable.</typeparam>
 		/// <returns>The value.</returns>
 		template<typename T>
-		T* get() const
+		T* try_get() const
 		{
 			if (m_type == Type::Undefined || m_type != type_typeid(typeid(T)) || is_empty())
 			{
@@ -184,6 +183,21 @@ namespace Minty
 			}
 
 			return static_cast<T*>(m_data.get_data());
+		}
+
+		/// <summary>
+		/// Get the data of this Variable.
+		/// </summary>
+		/// <typeparam name="T">The type associated with this Variable.</typeparam>
+		/// <returns>The value.</returns>
+		template<typename T>
+		T& get() const
+		{
+			MINTY_ASSERT(m_type != Type::Undefined, "Variable is undefined.");
+			MINTY_ASSERT(m_type == type_typeid(typeid(T)), "Variable type does not match requested type.");
+			MINTY_ASSERT(!is_empty(), "Variable is empty.");
+
+			return *static_cast<T*>(m_data.get_data());
 		}
 
 		/// <summary>
@@ -229,6 +243,9 @@ namespace Minty
 		{
 			m_data.clear();
 		}
+
+		void serialize(Writer& writer, String const& name) const override;
+		Bool deserialize(Reader& reader, Size const index) override;
 
 #pragma endregion
 	};

@@ -192,22 +192,6 @@ void test_DynamicContainer(Test& _test)
 			}
 		}
 
-		TEST("Append Object")
-		{
-			DynamicContainer test;
-			ID value = UUID::create();
-			EXPECT_TRUE(test.append_object(value));
-			EXPECT_EQUAL(test.get_capacity(), sizeof(ID));
-			EXPECT_EQUAL(test.get_size(), sizeof(ID));
-			EXPECT_NOT_EQUAL(test.get_data(), nullptr);
-
-			DynamicContainer test2(sizeof(ID));
-			EXPECT_TRUE(test2.append_object(value));
-			EXPECT_EQUAL(test2.get_capacity(), sizeof(ID));
-			EXPECT_EQUAL(test2.get_size(), sizeof(ID));
-			EXPECT_NOT_EQUAL(test2.get_data(), nullptr);
-		}
-
 		TEST("Clear")
 		{
 			ID value = UUID::create();

@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "DynamicContainer.h"
-#include "Minty/Core/Macro.h"
+#include "Minty/Debug/Debug.h"
 
 using namespace Minty;
 
 Bool Minty::DynamicContainer::append(void const* const data, Size const size)
 {
 	MINTY_ASSERT(data != nullptr, "Cannot append nullptr data.");
-	MINTY_ASSERT(size > 0, "Cannot append data without a get_size.");
+	MINTY_ASSERT(size > 0, "Cannot append data without a size.");
 
 	// if new size will surpass the capacity, double the capacity
 	Size newSize = m_size + size;
