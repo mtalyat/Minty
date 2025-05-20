@@ -8,6 +8,10 @@
 #pragma comment(lib, "Dbghelp.lib")
 #endif
 
+using namespace Minty;
+
+DebugFlags Debug::s_flags = DebugFlags::Default;
+
 void Minty::Debug::set_foreground_color(Color const color)
 {
 	std::cout << "\033[" << static_cast<int>(color) << "m";
@@ -22,6 +26,9 @@ void Minty::Debug::reset()
 {
 	std::cout << "\033[0m";
 }
+
+#include <filesystem>
+// ... rest of your includes
 
 void Minty::Debug::write_stack_trace()
 {
@@ -84,12 +91,23 @@ void Minty::Debug::write_stack_trace()
 
         DWORD64 displacement = 0;
         if (SymFromAddr(process, stackframe.AddrPC.Offset, &displacement, symbol)) {
-            std::cout << symbol->Name << "\n";
-            //printf("%s\n", symbol->Name);
+            // Get line number info
+            IMAGEHLP_LINE64 line;
+            DWORD dwDisplacement;
+            memset(&line, 0, sizeof(line));
+            line.SizeOfStruct = sizeof(line);
+
+            if (SymGetLineFromAddr64(process, stackframe.AddrPC.Offset, &dwDisplacement, &line)) {
+                // Extract only the file name
+                std::filesystem::path filePath(line.FileName);
+                std::cout << symbol->Name << " at " << filePath.filename().string() << ":" << line.LineNumber << "\n";
+            }
+            else {
+                std::cout << symbol->Name << " at 0x" << std::hex << stackframe.AddrPC.Offset << std::dec << "\n";
+            }
         }
         else {
-            std::cout << std::hex << stackframe.AddrPC.Offset << "\n";
-            //printf("0x%llx\n", stackframe.AddrPC.Offset);
+            std::cout << std::hex << stackframe.AddrPC.Offset << std::dec << "\n";
         }
     }
 

@@ -5,6 +5,7 @@
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Entity/EntityManager.h"
+#include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/SystemManager.h"
 #include "Minty/Time/Time.h"
 
@@ -24,18 +25,13 @@ namespace Minty
 		/// The name of the Scene.
 		/// </summary>
 		String name = "Scene";
-
-		/// <summary>
-		/// The Assets in the Scene. These Assets will be loaded and unloaded with the Scene.
-		/// </summary>
-		Vector<Path> assets;
 	};
 
 	/// <summary>
 	/// A Scene is a collection of entities, components, and systems.
 	/// </summary>
 	class Scene
-		: public Asset, public Source<Scene>
+		: public Asset, public Source<Scene>, public SerializableObject
 	{
 #pragma region Classes
 
@@ -51,6 +47,8 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		String m_name;
+
 		EntityManager* mp_entityManager;
 		SystemManager* mp_systemManager;
 		
@@ -81,6 +79,12 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Gets the name of this Scene.
+		/// </summary>
+		/// <returns>The name.</returns>
+		String const& get_name() const { return m_name; }
+
 		EntityManager& get_entity_manager() const { return *mp_entityManager; }
 
 		SystemManager& get_system_manager() const { return *mp_systemManager; }
@@ -94,6 +98,12 @@ namespace Minty
 		{
 			return m_activeCameraEntity;
 		}
+
+		/// <summary>
+		/// Gets the AssetType of this Asset.
+		/// </summary>
+		/// <returns>Scene.</returns>
+		constexpr AssetType get_asset_type() const override { return AssetType::Scene; }
 
 #pragma endregion
 
@@ -124,6 +134,22 @@ namespace Minty
 		/// Called when the Scene is rendered.
 		/// </summary>
 		void on_render();
+
+		void serialize(Writer& writer) const override;
+
+		Bool deserialize(Reader& reader) override;
+
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		/// <summary>
+		/// Creates a new Scene using the given arguments.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A Scene Owner.</returns>
+		static Owner<Scene> create(SceneBuilder const& builder = {});
 
 #pragma endregion
 

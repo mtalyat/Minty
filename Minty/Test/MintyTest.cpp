@@ -85,6 +85,9 @@
 #include "Test_StoreOperation.h"
 #include "Test_Viewport.h"
 
+// Scene
+#include "Test_Scene.h"
+
 // Serialization
 #include "Test_Node.h"
 #include "Test_Reader.h"
@@ -209,6 +212,9 @@ static int run_tests()
 		test_ShaderStage(_test);
 		test_StoreOperation(_test);
 		test_Viewport(_test);
+
+		// Scene
+		test_Scene(_test);
 
 		// Serialization
 		test_Node(_test);

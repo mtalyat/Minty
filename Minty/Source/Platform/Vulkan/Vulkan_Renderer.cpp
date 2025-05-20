@@ -1380,6 +1380,24 @@ void Minty::Vulkan_Renderer::bind_buffer_memory(VkDevice const device, VkBuffer 
 	VK_ASSERT_RESULT(vkBindBufferMemory(device, buffer, memory, 0), "Failed to bind buffer memory.");
 }
 
+Array<VkDescriptorSet, FRAMES_PER_FLIGHT> Minty::Vulkan_Renderer::allocate_descriptor_sets(VkDevice const device, VkDescriptorPool const pool, VkDescriptorSetLayout const layout)
+{
+	Vector<VkDescriptorSetLayout> descriptorSetLayouts(FRAMES_PER_FLIGHT, layout);
+	VkDescriptorSetAllocateInfo descriptorSetAllocInfo{};
+	descriptorSetAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+	descriptorSetAllocInfo.descriptorPool = pool;
+	descriptorSetAllocInfo.descriptorSetCount = static_cast<uint32_t>(descriptorSetLayouts.get_size());
+	descriptorSetAllocInfo.pSetLayouts = descriptorSetLayouts.get_data();
+	Array<VkDescriptorSet, FRAMES_PER_FLIGHT> descriptorSets(VK_NULL_HANDLE);
+	VK_ASSERT_RESULT(vkAllocateDescriptorSets(device, &descriptorSetAllocInfo, descriptorSets.get_data()), "Failed to allocate descriptor sets.");
+	return descriptorSets;
+}
+
+void Minty::Vulkan_Renderer::free_descriptor_sets(VkDevice const device, VkDescriptorPool const pool, Array<VkDescriptorSet, FRAMES_PER_FLIGHT> const& descriptorSets)
+{
+	VK_ASSERT_RESULT(vkFreeDescriptorSets(device, pool, static_cast<uint32_t>(descriptorSets.get_size()), descriptorSets.get_data()), "Failed to free descriptor sets.");
+}
+
 void Minty::Vulkan_Renderer::update_descriptor_sets(VkDevice const device, VkWriteDescriptorSet* const write, uint32_t const count)
 {
 	vkUpdateDescriptorSets(device, count, write, 0, nullptr);
@@ -1752,22 +1770,6 @@ VkAttachmentStoreOp Minty::Vulkan_Renderer::to_vulkan(Minty::StoreOperation cons
 	return VK_ATTACHMENT_STORE_OP_MAX_ENUM;
 }
 
-VkAttachmentDescription Minty::Vulkan_Renderer::to_vulkan(Minty::RenderAttachment const& attachment)
-{
-	VkAttachmentDescription description{};
-
-	description.format = to_vulkan(attachment.format);
-	description.samples = VK_SAMPLE_COUNT_1_BIT;
-	description.loadOp = to_vulkan(attachment.loadOperation);
-	description.storeOp = to_vulkan(attachment.storeOperation);
-	description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-	description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-	description.initialLayout = to_vulkan(attachment.initialLayout);
-	description.finalLayout = to_vulkan(attachment.finalLayout);
-
-	return description;
-}
-
 VkImageLayout Minty::Vulkan_Renderer::to_vulkan(Minty::ImageLayout const layout)
 {
 	switch (layout)
@@ -1790,6 +1792,8 @@ VkImageLayout Minty::Vulkan_Renderer::to_vulkan(Minty::ImageLayout const layout)
 		return VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 	case ImageLayout::Preinitialized:
 		return VK_IMAGE_LAYOUT_PREINITIALIZED;
+	case ImageLayout::Presentation:
+		return VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 	default:
 		MINTY_ABORT("Unsupported image layout.");
 		break;

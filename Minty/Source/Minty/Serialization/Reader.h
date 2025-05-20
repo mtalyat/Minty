@@ -1,16 +1,21 @@
 #pragma once
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Math.h"
-#include "Minty/Serialization/Parse.h"
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Array.h"
 #include "Minty/Data/List.h"
+#include "Minty/Data/Map.h"
+#include "Minty/Data/Set.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/File/File.h"
 #include "Minty/Serialization/IsSerializable.h"
 #include "Minty/Serialization/Node.h"
+#include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
@@ -228,6 +233,39 @@ namespace Minty
 			return read(get_index(name), obj);
 		}
 
+		/// <summary>
+		/// Reads the data from the Node at the given index.
+		/// </summary>
+		/// <typeparam name="T">The type of the data.</typeparam>
+		/// <param name="index">The index to the data.</param>
+		/// <param name="obj">The object to set.</param>
+		/// <param name="defaultValue">The default value to set obj to, if no value found.</param>
+		/// <returns>True if set using the found value, otherwise false if the default was used.</returns>
+		template<typename T>
+		Bool read(Size const index, T& obj, T const& defaultValue)
+		{
+			if (read(index, obj))
+			{
+				return true;
+			}
+			obj = defaultValue;
+			return false;
+		}
+
+		/// <summary>
+		/// Reads the data from the Node with the given name.
+		/// </summary>
+		/// <typeparam name="T">The type of the data.</typeparam>
+		/// <param name="name">The name of the data.</param>
+		/// <param name="obj">The object to set.</param>
+		/// <param name="defaultValue">The default value to set obj to, if no value found.</param>
+		/// <returns>True if set using the found value, otherwise false if the default was used.</returns>
+		template<typename T>
+		Bool read(String const& name, T& obj, T const& defaultValue)
+		{
+			return read(get_index(name), obj, defaultValue);
+		}
+
 		template<>
 		Bool read(Size const index, Bool& data)
 		{
@@ -352,6 +390,143 @@ namespace Minty
 		Bool read(Size const index, Type& data)
 		{
 			return read_type(index, data);
+		}
+
+		template<typename T, Size S>
+		Bool read(Size const index, Array<T, S>& data)
+		{
+			if (indent(index))
+			{
+				// read each elements
+				for (Size i = 0; i < S; i++)
+				{
+					if (!read<T>(i, data[i]))
+					{
+						// could not read element
+						return false;
+					}
+				}
+				outdent();
+				return true;
+			}
+			return false;
+		}
+
+		template<typename T>
+		Bool read(Size const index, List<T>& data)
+		{
+			if (indent(index))
+			{
+				// resize the list
+				Size size = get_size();
+				data.clear();
+
+				// read each element
+				T obj;
+				for (Size i = 0; i < size; i++)
+				{
+					if (!read<T>(i, obj))
+					{
+						MINTY_ERROR(F("Reader failed to read element {}.", i));
+						continue;
+					}
+					data.add(obj);
+				}
+
+				outdent();
+				return true;
+			}
+			return false;
+		}
+
+		template<typename T>
+		Bool read(Size const index, Vector<T>& data)
+		{
+			if (indent(index))
+			{
+				// resize the vector
+				Size size = get_size();
+				data.clear();
+				data.reserve(size);
+
+				// read each element
+				T obj;
+				for (Size i = 0; i < size; i++)
+				{
+					if (!read<T>(i, obj))
+					{
+						MINTY_ERROR(F("Reader failed to read element {}.", i));
+						continue;
+					}
+					data.add(obj);
+				}
+
+				outdent();
+
+				return true;
+			}
+
+			return false;
+		}
+
+		template<typename T>
+		Bool read(Size const index, Set<T>& data)
+		{
+			if (indent(index))
+			{
+				// resize the set
+				Size size = get_size();
+				data.reserve(size);
+
+				// read each element
+				T obj;
+				for (Size i = 0; i < size; i++)
+				{
+					if (!read<T>(i, obj))
+					{
+						MINTY_ERROR(F("Reader failed to read element {}.", i));
+						continue;
+					}
+					data.add(obj);
+				}
+
+				outdent();
+				return true;
+			}
+			return false;
+		}
+
+		template<typename T>
+		Bool read(Size const index, Map<String, T>& data)
+		{
+			if (indent(index))
+			{
+				// resize the map
+				Size size = get_size();
+				data.reserve(size);
+
+				// read each element
+				String key;
+				T value;
+				for (Size i = 0; i < size; i++)
+				{
+					if (!read_name(i, key))
+					{
+						MINTY_ERROR(F("Reader failed to read key {}.", i));
+						continue;
+					}
+					if (!read(i, value))
+					{
+						MINTY_ERROR(F("Reader failed to read value {}.", i));
+						continue;
+					}
+					data.add(key, value);
+				}
+
+				outdent();
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>

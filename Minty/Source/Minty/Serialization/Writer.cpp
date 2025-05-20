@@ -87,7 +87,7 @@ void Minty::TextWriterBehavior::write_string_to_buffer(String const& data, Vecto
 
 void Minty::TextWriterBehavior::write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer)
 {
-	write_string_to_buffer(data.to_string(), buffer);
+	write_string_to_buffer(Minty::to_string(data), buffer);
 }
 
 void Minty::TextWriterBehavior::write_bool_to_buffer(Bool const data, Vector<Byte>& buffer)

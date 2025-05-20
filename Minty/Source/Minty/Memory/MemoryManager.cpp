@@ -19,12 +19,7 @@ void Minty::MemoryManager::dispose()
 	}
 
 	// ensure nothing left
-#ifdef MINTY_DEBUG
-	if (m_dynamicSize == 0)
-	{
-		MINTY_ERROR(F("MemoryManager has dynamic memory leaks. {} bytes of data leaked.", m_dynamicSize));
-	}
-#endif // MINTY_DEBUG
+	MINTY_ASSERT_ERROR(m_staticSize == 0, F("MemoryManager has static memory leaks. {} bytes of data leaked.", m_staticSize));
 
 	m_taskIndex = 0;
 	m_staticSize = 0;

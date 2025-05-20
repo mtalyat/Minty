@@ -13,10 +13,10 @@ Minty::Vulkan_RenderPass::Vulkan_RenderPass(RenderPassBuilder const& builder)
 
 	if (builder.colorAttachment)
 	{
-		VkAttachmentDescription colorAttachment = Vulkan_Renderer::to_vulkan(*builder.colorAttachment);
+		VkAttachmentDescription colorAttachment = renderManager.create_attachment_description(*builder.colorAttachment);
 		if (builder.depthAttachment)
 		{
-			VkAttachmentDescription depthAttachment = Vulkan_Renderer::to_vulkan(*builder.depthAttachment);
+			VkAttachmentDescription depthAttachment = renderManager.create_attachment_description(*builder.depthAttachment);
 			m_renderPass = Vulkan_Renderer::create_render_pass(renderManager.get_device(), &colorAttachment, &depthAttachment);
 		}
 		else
@@ -28,7 +28,7 @@ Minty::Vulkan_RenderPass::Vulkan_RenderPass(RenderPassBuilder const& builder)
 	{
 		if (builder.depthAttachment)
 		{
-			VkAttachmentDescription depthAttachment = Vulkan_Renderer::to_vulkan(*builder.depthAttachment);
+			VkAttachmentDescription depthAttachment = renderManager.create_attachment_description(*builder.depthAttachment);
 			m_renderPass = Vulkan_Renderer::create_render_pass(renderManager.get_device(), nullptr, &depthAttachment);
 		}
 		else

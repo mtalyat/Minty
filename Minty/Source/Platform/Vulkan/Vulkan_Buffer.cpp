@@ -93,5 +93,6 @@ void Minty::Vulkan_Buffer::set_data(void const* const data)
 
 		// destroy staging buffer
 		Vulkan_Renderer::destroy_buffer(renderManager.get_device(), stagingBuffer);
+		Vulkan_Renderer::free_memory(renderManager.get_device(), stagingBufferMemory);
 	}
 }

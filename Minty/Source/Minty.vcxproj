@@ -235,6 +235,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\String.h" />
     <ClInclude Include="Minty\Data\Vector.h" />
     <ClInclude Include="Minty\Debug\Debug.h" />
+    <ClInclude Include="Minty\Debug\DebugFlags.h" />
     <ClInclude Include="Minty\Debug\DualBuffer.h" />
     <ClInclude Include="Minty\Debug\_Debug.h" />
     <ClInclude Include="Minty\Entity\Entity.h" />
@@ -374,6 +375,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
     <ClCompile Include="Minty\Data\Cargo.cpp" />
+    <ClCompile Include="Minty\Data\Color.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
     <ClCompile Include="Minty\Data\Container.cpp" />
     <ClCompile Include="Minty\Data\DynamicContainer.cpp" />

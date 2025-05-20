@@ -309,6 +309,35 @@ void Minty::Vulkan_RenderManager::finish_command_buffer_single(VkCommandBuffer c
 	Vulkan_Renderer::finish_command_buffer_single(m_device, m_commandPool, commandBuffer, queue);
 }
 
+VkAttachmentDescription Minty::Vulkan_RenderManager::create_attachment_description(RenderAttachment const& attachment) const
+{
+	VkAttachmentDescription description{};
+
+	// set format based on the attachment type
+	switch (attachment.type)
+	{
+	case RenderAttachment::Type::Color:
+		description.format = Vulkan_Renderer::to_vulkan(get_color_attachment_format());
+		break;
+	case RenderAttachment::Type::Depth:
+		description.format = Vulkan_Renderer::to_vulkan(get_depth_attachment_format());
+		break;
+	default:
+		MINTY_ABORT("Invalid attachment type.");
+		return {};
+	}
+	description.samples = VK_SAMPLE_COUNT_1_BIT;
+	description.loadOp = Vulkan_Renderer::to_vulkan(attachment.loadOperation);
+	description.storeOp = Vulkan_Renderer::to_vulkan(attachment.storeOperation);
+	description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+	description.initialLayout = Vulkan_Renderer::to_vulkan(attachment.initialLayout);
+	description.finalLayout = Vulkan_Renderer::to_vulkan(attachment.finalLayout);
+	description.flags = 0;
+
+	return description;
+}
+
 void Minty::Vulkan_RenderManager::draw_vertices(UInt const vertexCount) const
 {
 	Vulkan_Renderer::draw(get_current_command_buffer(), vertexCount);

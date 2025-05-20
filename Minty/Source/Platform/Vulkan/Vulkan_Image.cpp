@@ -81,7 +81,7 @@ void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 void Minty::Vulkan_Image::initialize()
 {
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
-	m_image = Vulkan_Renderer::create_image(renderManager.get_device(), m_size.x, m_size.y, Vulkan_Renderer::to_vulkan(m_type), Vulkan_Renderer::to_vulkan(m_format), Vulkan_Renderer::to_vulkan(m_tiling), Vulkan_Renderer::to_vulkan(m_usage));
+	m_image = Vulkan_Renderer::create_image(renderManager.get_device(), m_size.x, m_size.y, Vulkan_Renderer::to_vulkan(m_type), Vulkan_Renderer::to_vulkan(m_format), Vulkan_Renderer::to_vulkan(m_tiling), Vulkan_Renderer::to_vulkan(m_usage) | VK_IMAGE_USAGE_TRANSFER_DST_BIT);
 	m_memory = Vulkan_Renderer::allocate_image_memory(renderManager.get_device(), renderManager.get_physical_device(), m_image, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 	Vulkan_Renderer::bind_image_memory(renderManager.get_device(), m_image, m_memory);
 	m_view = Vulkan_Renderer::create_image_view(renderManager.get_device(), m_image, Vulkan_Renderer::to_vulkan(m_format), Vulkan_Renderer::to_vulkan(m_aspect));

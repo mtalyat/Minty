@@ -15,6 +15,7 @@ using namespace Minty;
 Minty::Vulkan_Material::Vulkan_Material(MaterialBuilder const& builder)
 	: Material(builder)
 	, m_frames()
+	, m_pool(VK_NULL_HANDLE)
 {
 	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
 	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
@@ -45,6 +46,20 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialBuilder const& builder)
 	create_descriptor_sets(shader);
 	initialize_descriptor_sets(descriptors, shader);
 	set_initial_values();
+}
+
+Minty::Vulkan_Material::~Vulkan_Material()
+{
+	// dispose all the frames
+	Array<VkDescriptorSet, FRAMES_PER_FLIGHT> descriptorSets;
+	for (Size i = 0; i < FRAMES_PER_FLIGHT; i++)
+	{
+		FrameData& frame = m_frames.at(i);
+		frame.buffers.clear();
+		descriptorSets.at(i) = frame.descriptorSet;
+	}
+	// free descriptor sets
+	Vulkan_Renderer::free_descriptor_sets(Vulkan_RenderManager::get_singleton().get_device(), m_pool, descriptorSets);
 }
 
 void Minty::Vulkan_Material::initialize_frames(Ref<Vulkan_Shader> const& shader, Vector<ShaderInput> const& descriptors)
@@ -101,18 +116,12 @@ void Minty::Vulkan_Material::initialize_frames(Ref<Vulkan_Shader> const& shader,
 void Minty::Vulkan_Material::create_descriptor_sets(Ref<Vulkan_Shader> const& shader)
 {
 	// create descriptor sets for each frame
-	Vector<VkDescriptorSetLayout> descriptorSetLayouts(FRAMES_PER_FLIGHT, shader->get_descriptor_set_layout());
-	VkDescriptorSetAllocateInfo descriptorSetAllocInfo{};
-	descriptorSetAllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-	descriptorSetAllocInfo.descriptorPool = shader->get_descriptor_pool(1);
-	descriptorSetAllocInfo.descriptorSetCount = static_cast<uint32_t>(descriptorSetLayouts.get_size());
-	descriptorSetAllocInfo.pSetLayouts = descriptorSetLayouts.get_data();
-	Vector<VkDescriptorSet> descriptorSets(FRAMES_PER_FLIGHT, VK_NULL_HANDLE);
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
-	VK_ASSERT_RESULT(vkAllocateDescriptorSets(renderManager.get_device(), &descriptorSetAllocInfo, descriptorSets.get_data()), "Failed to allocate descriptor sets.");
+	m_pool = shader->get_descriptor_pool(1);
+	Array<VkDescriptorSet, FRAMES_PER_FLIGHT> descriptorSets = Vulkan_Renderer::allocate_descriptor_sets(renderManager.get_device(), m_pool, shader->get_descriptor_set_layout());
 
 	// distribute to frames
-	for (Size i = 0; i < m_frames.get_size(); i++)
+	for (Size i = 0; i < FRAMES_PER_FLIGHT; i++)
 	{
 		FrameData& frameData = m_frames.at(i);
 		frameData.descriptorSet = descriptorSets.at(i);
@@ -275,6 +284,7 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 			MINTY_ASSERT(textureId.is_valid(), "Texture ID must be valid.");
 			MINTY_ASSERT(assetManager.contains(textureId), "Texture ID does not exist within the AssetManager.");
 			Ref<Texture> texture = assetManager.get<Texture>(textureId);
+			MINTY_ASSERT(texture != nullptr, "Texture must not be null.");
 			Ref<Image> const& image = texture->get_image();
 			MINTY_ASSERT(image != nullptr, "Image must not be null.");
 		}
@@ -304,8 +314,9 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 
 				VkDescriptorImageInfo imageInfo{};
 				imageInfo.sampler = static_cast<VkSampler>(texture->get_sampler());
-				imageInfo.imageView = static_cast<VkImageView>(image->get_native());
+				imageInfo.imageView = static_cast<VkImageView>(image->get_view());
 				imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+				imageInfos.add(imageInfo);
 			}
 			descriptorWrite.pImageInfo = imageInfos.get_data();
 

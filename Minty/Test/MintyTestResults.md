@@ -1,5 +1,6 @@
 # Results
-5986/5986 (100.00%)
+5988/5991 (99.95%)
+3 failures.
 
 ## Summary
 | Category                       | Passes   | Fails    |
@@ -89,6 +90,7 @@
 | ShaderStage                    |       11 |        0 |
 | StoreOperation                 |       11 |        0 |
 | Viewport                       |       25 |        0 |
+| Scene                          |        2 |        3 |
 | Node                           |       93 |        0 |
 | TextFileReader                 |      163 |        0 |
 | TextFileWriter                 |       45 |        0 |
@@ -100,7 +102,11 @@
 | Wrapper                        |       23 |        0 |
 
 ## Failures
-No failures! :)
+| Category                       | Message                                                                                                                          |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Scene                          | [FAIL] 27: Constructor/Create (entityManager.get_size() == 2)                                                                    |
+| Scene                          | [FAIL] 30: Constructor/Create ((entityManager.contains(cameraId)) == true)                                                       |
+| Scene                          | [FAIL] 32: Constructor/Create ((entityManager.contains(cubeId)) == true)                                                         |
 
 # Categories
 
@@ -5897,6 +5903,15 @@ No failures! :)
 |  PASS  | 78: Get/Set Mask Size (viewport->set_mask_size(value))                                                                           |
 |  PASS  | 79: Get/Set Mask Size (viewport->get_mask_size() == value)                                                                       |
 |  PASS  | 86: Get Asset Type (viewport->get_asset_type() == AssetType::Viewport)                                                           |
+
+## Scene
+| Result | Message                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+|  PASS  | 23: Constructor/Create (scene->get_name() == "minty")                                                                            |
+|  PASS  | 25: Constructor/Create (scene->get_id() == id)                                                                                   |
+|  FAIL  | 27: Constructor/Create (entityManager.get_size() == 2)                                                                           |
+|  FAIL  | 30: Constructor/Create ((entityManager.contains(cameraId)) == true)                                                              |
+|  FAIL  | 32: Constructor/Create ((entityManager.contains(cubeId)) == true)                                                                |
 
 ## Node
 | Result | Message                                                                                                                          |

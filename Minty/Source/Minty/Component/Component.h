@@ -12,9 +12,11 @@ namespace Minty
 	{
 		String name;
 
-		Function<Component* (EntityManager&, Entity const)> create;
+		Function<Component& (EntityManager&, Entity const)> create;
 
-		Function<Component* (EntityManager const&, Entity const)> get;
+		Function<Component* (EntityManager&, Entity const)> get;
+
+		Function<Component const*(EntityManager const&, Entity const)> get_const;
 
 		Function<void(EntityManager&, Entity const)> destroy;
 	};

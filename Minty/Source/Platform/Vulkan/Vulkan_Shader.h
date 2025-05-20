@@ -80,7 +80,10 @@ namespace Minty
 	public:
 		void on_bind() override;
 
+		// gets a descriptor pool that has sufficient space for the requested slots
 		VkDescriptorPool get_descriptor_pool(UInt const requestedSlots);
+
+		void free_descriptors(VkDescriptorPool const pool, UInt const slots);
 
 		Size get_buffer_index(String const& name) const
 		{

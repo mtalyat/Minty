@@ -3,6 +3,7 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/System.h"
 
 namespace Minty
@@ -22,7 +23,7 @@ namespace Minty
 	/// Manages all Systems in the game.
 	/// </summary>
 	class SystemManager
-		: public Manager
+		: public Manager, public SerializableObject
 	{
 #pragma region Variables
 
@@ -51,26 +52,32 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Get Set
+
+	public:
+		Size get_size() const { return m_systems.get_size(); }
+
+#pragma endregion
+
+
 #pragma region Methods
 
 	private:
-		void add(TypeID const& typeId, System* system);
+		System* add(SystemInfo const* info);
+
+		System* add(TypeID const& typeId);
 
 	public:
         template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
-        void add()
+        T* add()
         {
 			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
 
-			// create the system
-			SystemBuilder builder{};
-			builder.scene = m_scene;
-			System* system = new T(builder);
-
-			add(typeid(T), system);
+			// add using type
+			return static_cast<T*>(add(typeid(T)));
         }
 
-		void add(String const& name);
+		System* add(String const& name);
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
 		Bool remove()
@@ -134,6 +141,9 @@ namespace Minty
 		/// </summary>
 		void render() override;
 
+		void serialize(Writer& writer) const override;
+		Bool deserialize(Reader& reader) override;
+
 #pragma endregion
 
 #pragma region Statics
@@ -144,5 +154,5 @@ namespace Minty
 		static SystemManager& get_singleton();
 
 #pragma endregion
-	};
+};
 }

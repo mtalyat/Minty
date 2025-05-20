@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Context.h"
-#include "Minty/System/RenderSystem.h"
+#include "Minty/Component/_Component.h"
+#include "Minty/System/_System.h"
 
 using namespace Minty;
 
@@ -66,6 +67,25 @@ Minty::Context::~Context()
 	s_instance = nullptr;
 }
 
+void Minty::Context::register_components()
+{
+	register_component<CameraComponent>("Camera");
+	register_component<DirtyComponent>("Dirty");
+	register_component<EnabledComponent>("Enabled");
+	register_component<LayerComponent>("Layer");
+	register_component<MeshComponent>("Mesh");
+	register_component<NameComponent>("Name");
+	register_component<RelationshipComponent>("Relationship");
+	register_component<TransformComponent>("Transform");
+	register_component<UUIDComponent>("UUID");
+	register_component<VisibleComponent>("Visible");
+}
+
+void Minty::Context::register_systems()
+{
+	register_system<RenderSystem>("Render");
+}
+
 void Minty::Context::initialize()
 {
 	// initialize the managers
@@ -74,11 +94,9 @@ void Minty::Context::initialize()
 		manager->initialize();
 	}
 
-	// register systems
-	register_system<RenderSystem>("Render");
-
-	// register components
-	
+	// register systems and components
+	register_systems();
+	register_components();
 }
 
 void Minty::Context::dispose()
@@ -128,4 +146,44 @@ void Minty::Context::sync()
 	{
 		manager->sync();
 	}
+}
+
+SystemInfo const* Minty::Context::get_system_info(String const& name) const
+{
+	auto it = m_registeredSystems.find(name);
+	if (it == m_registeredSystems.end())
+	{
+		return nullptr;
+	}
+	return &it->get_third();
+}
+
+SystemInfo const* Minty::Context::get_system_info(TypeID const& typeId) const
+{
+	auto it = m_registeredSystems.find(typeId);
+	if (it == m_registeredSystems.end())
+	{
+		return nullptr;
+	}
+	return &it->get_third();
+}
+
+ComponentInfo const* Minty::Context::get_component_info(String const& name) const
+{
+	auto it = m_registeredComponents.find(name);
+	if (it == m_registeredComponents.end())
+	{
+		return nullptr;
+	}
+	return &it->get_third();
+}
+
+ComponentInfo const* Minty::Context::get_component_info(TypeID const& typeId) const
+{
+	auto it = m_registeredComponents.find(typeId);
+	if (it == m_registeredComponents.end())
+	{
+		return nullptr;
+	}
+	return &it->get_third();
 }

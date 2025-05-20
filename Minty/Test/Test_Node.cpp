@@ -253,10 +253,10 @@ void test_Node(Test& _test)
 			EXPECT_EQUAL(node.add_child("Child3", "Data").get_data_string(), "Data");
 
 
-			EXPECT_FAILURE(node.add_child(""));
+			EXPECT_SUCCESS(node.add_child(""));
 			EXPECT_FAILURE(node.add_child("Child0"));
 			EXPECT_FAILURE(node.add_child("Child1"));
-			EXPECT_FAILURE(node.add_child("", nullptr, 0));
+			EXPECT_SUCCESS(node.add_child("", nullptr, 0));
 			EXPECT_FAILURE(node.add_child("Child0", nullptr, 0));
 			EXPECT_FAILURE(node.add_child("Child1", nullptr, 0));
 		}

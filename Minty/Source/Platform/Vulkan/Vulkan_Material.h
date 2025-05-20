@@ -28,6 +28,8 @@ namespace Minty
 
 	private:
 		Array<FrameData, FRAMES_PER_FLIGHT> m_frames;
+		// the used pool from the shader
+		VkDescriptorPool m_pool;
 
 #pragma endregion
 
@@ -35,6 +37,8 @@ namespace Minty
 
 	public:
 		Vulkan_Material(MaterialBuilder const& builder);
+
+		~Vulkan_Material() override;
 
 #pragma endregion
 

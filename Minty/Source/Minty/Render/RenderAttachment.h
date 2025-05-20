@@ -47,11 +47,6 @@ namespace Minty
 		Type type = Type::Undefined;
 
 		/// <summary>
-		/// The format this attachment uses.
-		/// </summary>
-		Format format = Format::Default;
-
-		/// <summary>
 		/// The load operation to perform.
 		/// </summary>
 		LoadOperation loadOperation = LoadOperation::DontCare;

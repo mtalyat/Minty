@@ -4,29 +4,35 @@
 
 using namespace Minty;
 
-void Minty::SystemManager::add(TypeID const& typeId, System* system)
+System* Minty::SystemManager::add(SystemInfo const* info)
 {
-	MINTY_ASSERT(!m_systemsByType.contains(typeId), F("System already exists with the TypeID: {}", typeId));
-
-	// add the system
-	m_systemsByType.add(typeId, m_systems.get_size());
-	m_systems.add(system);
-}
-
-void Minty::SystemManager::add(String const& name)
-{
-	// look up creation from Context
-	Context& context = Context::get_singleton();
-
-	SystemInfo const* info = context.get_system_info(name);
 	MINTY_ASSERT(info != nullptr, F("System is not registered with the name: {}", name));
 
-	// create system
+	// create the system
 	SystemBuilder builder{};
 	builder.scene = m_scene;
+	builder.info = info;
 	System* system = info->create(builder);
-	
-	add(info->typeId, system);
+
+	MINTY_ASSERT(!m_systemsByType.contains(info->typeId), F("System already exists: {}", info->name));
+
+	// add the system
+	m_systemsByType.add(info->typeId, m_systems.get_size());
+	m_systems.add(system);
+
+	return system;
+}
+
+System* Minty::SystemManager::add(TypeID const& typeId)
+{
+	// get info from type
+	return add(Context::get_singleton().get_system_info(typeId));
+}
+
+System* Minty::SystemManager::add(String const& name)
+{
+	// get info from name
+	return add(Context::get_singleton().get_system_info(name));
 }
 
 void Minty::SystemManager::initialize()
@@ -81,6 +87,56 @@ void Minty::SystemManager::render()
 	{
 		system->on_render();
 	}
+}
+
+void Minty::SystemManager::serialize(Writer& writer) const
+{
+	// serialize each system
+	for (System* system : m_systems)
+	{
+		writer.indent(system->get_info()->name);
+		system->serialize(writer);
+		writer.outdent();
+	}
+}
+
+Bool Minty::SystemManager::deserialize(Reader& reader)
+{
+	// unload systems
+	dispose();
+
+	// deserialize each system
+	String name;
+	for (Size i = 0; i < reader.get_size(); i++)
+	{
+		if (!reader.read_name(i, name))
+		{
+			// failed to read name
+			continue;
+		}
+		
+		// create the system
+		System* system = add(name);
+
+		// enter system
+		reader.indent(i);
+
+		// deserialize the system
+		if (!system->deserialize(reader))
+		{
+			MINTY_ERROR(F("Failed to deserialize system: {}", name));
+			reader.outdent();
+			return false;
+			initialize();
+		}
+
+		reader.outdent();
+	}
+
+	// load the systems
+	initialize();
+
+	return true;
 }
 
 Owner<SystemManager> Minty::SystemManager::create(SystemManagerBuilder const& builder)

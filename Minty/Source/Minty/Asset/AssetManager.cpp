@@ -663,7 +663,10 @@ Int Minty::AssetManager::read_attachment(Path const& path, Reader& reader, Strin
 	}
 
 	// read the attachment data
-
+	reader.read("Load", attachment.loadOperation, LoadOperation::DontCare);
+	reader.read("Store", attachment.storeOperation, StoreOperation::DontCare);
+	reader.read("Initial", attachment.initialLayout, ImageLayout::Undefined);
+	reader.read("Final", attachment.finalLayout, ImageLayout::Undefined);
 
 	reader.outdent();
 
@@ -697,12 +700,38 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	// create the image
 	ImageBuilder builder{};
 	builder.id = id;
-	builder.format = Format::Default;
-	builder.type = ImageType::D2;
-	builder.tiling = ImageTiling::Optimal;
 	builder.size = UInt2(width, height);
 	builder.pixelData = data;
-	builder.pixelDataSize = static_cast<Size>(width * height * channels * sizeof(Byte));
+	builder.pixelDataSize = static_cast<Size>(width * height * 4 * sizeof(Byte));
+
+	Reader* reader;
+	Path metaPath = Asset::get_meta_path(path);
+	if (open_reader(metaPath, reader))
+	{
+		if (!reader->read("Format", builder.format))
+		{
+			builder.format = Format::Default;
+		}
+		if (!reader->read("Type", builder.type))
+		{
+			builder.type = ImageType::D2;
+		}
+		if (!reader->read("Tiling", builder.tiling))
+		{
+			builder.tiling = ImageTiling::Optimal;
+		}
+		if (!reader->read("Aspect", builder.aspect))
+		{
+			builder.aspect = ImageAspect::Color;
+		}
+		if (!reader->read("Usage", builder.usage))
+		{
+			builder.usage = ImageUsage::Sampled;
+		}
+		close_reader(reader);
+	}
+
+	// create the image
 	Owner<Image> image = Image::create(builder);
 
 	// free the pixel data
@@ -993,7 +1022,23 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
 
 Ref<Scene> Minty::AssetManager::load_scene(Path const& path)
 {
-	return Ref<Scene>();
+	// get scene details
+	SceneBuilder builder{};
+	builder.id = read_id(path);
+	builder.name = path.get_name().get_string();
+
+	// create empty scene
+	Ref<Scene> scene = create_from_loaded<Scene>(path, builder);
+
+	// deserialize the Scene
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		scene->deserialize(*reader);
+		close_reader(reader);
+	}
+
+	return scene;
 }
 
 Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
@@ -1178,7 +1223,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
 		}
 
 		// viewport
-		if (find_dependency<Viewport>(path, *reader, "Viewport", builder.viewport, true))
+		if (find_dependency<Viewport>(path, *reader, "Viewport", builder.viewport, false))
 		{
 			// if no viewport given, use default viewport
 			builder.viewport = RenderManager::get_singleton().get_default_viewport();

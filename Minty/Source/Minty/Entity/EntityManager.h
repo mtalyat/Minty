@@ -6,6 +6,7 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Serialization/SerializableObject.h"
 
 namespace Minty
 {
@@ -21,7 +22,7 @@ namespace Minty
 	/// Manages all Entities in the game.
 	/// </summary>
 	class EntityManager
-		: public Manager
+		: public Manager, public SerializableObject
 	{
 #pragma region Variables
 
@@ -65,6 +66,9 @@ namespace Minty
 
 		Entity get_entity(UUID const id) const;
 
+		// name (UUID)
+		String get_entity_string(Entity const entity) const;
+
 		void set_enabled(Entity const entity, Bool const enabled);
 
 		Bool get_enabled(Entity const entity) const;
@@ -84,6 +88,8 @@ namespace Minty
 		String get_name(Entity const entity) const;
 
 		void set_name(Entity const entity, String const& name);
+
+		Size get_size() const { return m_registry.storage<Entity>()->in_use(); }
 
 #pragma endregion
 
@@ -156,6 +162,8 @@ namespace Minty
 			return m_registry.emplace<ComponentType>(entity, std::forward<Args>(args)...);
 		}
 
+		Component& add_component(Entity const entity, String const& name);
+
 		template<typename ComponentType>
 		ComponentType& get_component(Entity const entity)
 		{
@@ -169,6 +177,10 @@ namespace Minty
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
 			return m_registry.get<ComponentType>(entity);
 		}
+
+		Component& get_component(Entity const entity, String const& name);
+
+		Component const& get_component(Entity const entity, String const& name) const;
 
 		template<typename ComponentType>
 		ComponentType* try_get_component(Entity const entity)
@@ -184,6 +196,10 @@ namespace Minty
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
+		Component* try_get_component(Entity const entity, String const& name);
+
+		Component const* try_get_component(Entity const entity, String const& name) const;
+
 		template<typename ComponentType>
 		Bool has_component(Entity const entity) const
 		{
@@ -191,12 +207,16 @@ namespace Minty
 			return m_registry.all_of<ComponentType>(entity);
 		}
 
+		Bool has_component(Entity const entity, String const& name) const;
+
 		template<typename ComponentType>
 		void remove_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
 			m_registry.remove<ComponentType>(entity);
 		}
+
+		void remove_component(Entity const entity, String const& name);
 
 		/// <summary>
 		/// Destroys all Entities.
@@ -236,6 +256,22 @@ namespace Minty
 		/// </summary>
 		void finalize() override;
 
+#pragma region Serialization
+
+	private:
+		// deserializes just the entity at the index
+		Entity deserialize_entity(Reader& reader, Size const index);
+		// deserializes the components of the entity at the index
+		Bool deserialize_components(Reader& reader, Entity const entity, Size const index);
+
+	public:
+		void serialize(Writer& writer) const override;
+		Bool deserialize(Reader& reader) override;
+
+#pragma endregion
+
+
+
 #pragma endregion
 
 #pragma region Statics
@@ -246,5 +282,5 @@ namespace Minty
 		static EntityManager& get_singleton();
 
 #pragma endregion
-	};
+};
 }

@@ -88,7 +88,10 @@ void Minty::SceneManager::dispose()
 	// unload all of the scenes
 	for (Ref<Scene> const& scene : m_scenes)
 	{
-		scene->on_unload();
+		if (scene != nullptr)
+		{
+			scene->on_unload();
+		}
 	}
 
 	// clear the list of scenes

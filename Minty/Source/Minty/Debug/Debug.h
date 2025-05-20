@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Debug/DebugFlags.h"
 #include <iostream>
 
 #pragma region Macros
@@ -97,10 +98,34 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		static DebugFlags s_flags;
+
+#pragma endregion
+
 #pragma region Constructors
 
 	private:
 		Debug() = delete;
+
+#pragma endregion
+
+#pragma region Get Set
+
+	public:
+		/// <summary>
+		/// Sets the debug flags.
+		/// </summary>
+		/// <param name="flags">The DebugFlags.</param>
+		static void set_flags(DebugFlags const flags) { s_flags = flags; }
+
+		/// <summary>
+		/// Gets the debug flags.
+		/// </summary>
+		/// <returns>The DebugFlags.</returns>
+		static DebugFlags get_flags() { return s_flags; }
 
 #pragma endregion
 
@@ -187,11 +212,26 @@ namespace Minty
 		template<typename T, typename... Args>
 		static void write_abort(T const& first, Args const&... args)
 		{
+			if ((s_flags & DebugFlags::Abort) == DebugFlags::None)
+			{
+				return;
+			}
+
 			set_foreground_color(Color::Black);
 			set_background_color(Color::BrightRed);
 			write("[ABO] ", first, args...);
 			reset();
 			std::cout << std::endl;
+
+			if ((s_flags & DebugFlags::StackTrace) != DebugFlags::None)
+			{
+				write_stack_trace();
+			}
+
+			if ((s_flags & DebugFlags::Break) != DebugFlags::None)
+			{
+				MINTY_BREAK();
+			}
 		}
 
 		/// <summary>
@@ -204,10 +244,20 @@ namespace Minty
 		template<typename T, typename... Args>
 		static void write_error(T const& first, Args const&... args)
 		{
+			if ((s_flags & DebugFlags::Error) == DebugFlags::None)
+			{
+				return;
+			}
+
 			set_foreground_color(Color::BrightRed);
 			write("[ERR] ", first, args...);
 			reset();
 			std::cout << std::endl;
+
+			if ((s_flags & DebugFlags::StackTrace) != DebugFlags::None)
+			{
+				write_stack_trace();
+			}
 		}
 
 		/// <summary>
@@ -220,6 +270,11 @@ namespace Minty
 		template<typename T, typename... Args>
 		static void write_warning(T const& first, Args const&... args)
 		{
+			if ((s_flags & DebugFlags::Warning) == DebugFlags::None)
+			{
+				return;
+			}
+
 			set_foreground_color(Color::BrightYellow);
 			write("[WRN] ", first, args...);
 			reset();
@@ -236,6 +291,11 @@ namespace Minty
 		template<typename T, typename... Args>
 		static void write_message(T const& first, Args const&... args)
 		{
+			if ((s_flags & DebugFlags::Message) == DebugFlags::None)
+			{
+				return;
+			}
+
 			set_foreground_color(Color::White);
 			write("[MSG] ", first, args...);
 			reset();
@@ -252,6 +312,11 @@ namespace Minty
 		template<typename T, typename... Args>
 		static void write_info(T const& first, Args const&... args)
 		{
+			if ((s_flags & DebugFlags::Info) == DebugFlags::None)
+			{
+				return;
+			}
+
 			set_foreground_color(Color::BrightBlack);
 			write("[INF] ", first, args...);
 			reset();

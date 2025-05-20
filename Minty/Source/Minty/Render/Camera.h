@@ -81,6 +81,14 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Creates an empty Camera.
+		/// </summary>
+		Camera()
+			: Camera(CameraBuilder())
+		{
+		}
+
+		/// <summary>
 		/// Creates a new Camera.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>

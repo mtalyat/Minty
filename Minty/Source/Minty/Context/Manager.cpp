@@ -4,12 +4,7 @@
 
 Minty::Manager::~Manager()
 {
-#ifdef MINTY_DEBUG
-	if (!m_initialized)
-	{
-		MINTY_ERROR("Manager was not initialized, but was destroyed.");
-	}
-#endif // MINTY_DEBUG
+	MINTY_ASSERT_ERROR(!m_initialized, "Manager was destroyed before it was disposed.");
 }
 
 /// <summary>

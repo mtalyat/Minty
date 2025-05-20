@@ -7,6 +7,7 @@ namespace Minty
 {
 	class Scene;
 	class System;
+	struct SystemInfo;
 
 	/// <summary>
 	/// The arguments for creating a System.
@@ -17,8 +18,16 @@ namespace Minty
 		/// The Scene this System belongs to.
 		/// </summary>
 		Ref<Scene> scene = nullptr;
+
+		/// <summary>
+		/// The SystemInfo for this System.
+		/// </summary>
+		SystemInfo const* info = nullptr;
 	};
 
+	/// <summary>
+	/// Info for creating a System.
+	/// </summary>
 	struct SystemInfo
 	{
 		/// <summary>
@@ -48,6 +57,7 @@ namespace Minty
 
 	protected:
 		Ref<Scene> m_scene;
+		SystemInfo const* m_info;
 
 #pragma endregion
 
@@ -61,6 +71,7 @@ namespace Minty
 		System(SystemBuilder const& builder)
 			: SerializableObject()
 			, m_scene(builder.scene)
+			, m_info(builder.info)
 		{
 		}
 
@@ -76,6 +87,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The Scene.</returns>
 		Ref<Scene> get_scene() const { return m_scene; }
+
+		/// <summary>
+		/// Gets the SystemInfo for this System.
+		/// </summary>
+		/// <returns>The SystemInfo.</returns>
+		SystemInfo const* get_info() const { return m_info; }
 
 #pragma endregion
 

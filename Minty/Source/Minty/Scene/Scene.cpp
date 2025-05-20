@@ -1,13 +1,18 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
+
+using namespace Minty;
 
 Minty::Scene::Scene(SceneBuilder const& builder)
 	: Asset(builder.id)
+	, m_name(builder.name)
 	, mp_entityManager(nullptr)
 	, mp_systemManager(nullptr)
 	, m_registeredAssets()
-	, m_assets(builder.assets)
+	, m_assets()
 	, m_loadedAssets()
 	, m_activeCameraEntity(INVALID_ENTITY)
 {
@@ -57,8 +62,11 @@ void Minty::Scene::on_load()
 
 void Minty::Scene::on_unload()
 {
-	mp_systemManager->dispose();
-	mp_entityManager->dispose();
+	if (mp_systemManager->is_initialized())
+	{
+		mp_systemManager->dispose();
+		mp_entityManager->dispose();
+	}
 
 	// unload all of the assets from the Scene
 	AssetManager& assetManager = AssetManager::get_singleton();
@@ -103,4 +111,42 @@ void Minty::Scene::on_render()
 {
 	mp_systemManager->render();
 	mp_entityManager->render();
+}
+
+void Minty::Scene::serialize(Writer& writer) const
+{
+	
+}
+
+Bool Minty::Scene::deserialize(Reader& reader)
+{
+	// unload old data
+	on_unload();
+
+	// read assets
+	reader.read("Assets", m_assets);
+
+	// load new data
+	on_load();
+
+	// read the systems
+	if (reader.indent("Systems"))
+	{
+		mp_systemManager->deserialize(reader);
+		reader.outdent();
+	}
+
+	// read the entities
+	if (reader.indent("Entities"))
+	{
+		mp_entityManager->deserialize(reader);
+		reader.outdent();
+	}
+
+	return true;
+}
+
+Owner<Scene> Minty::Scene::create(SceneBuilder const& builder)
+{
+	return Owner<Scene>(builder);
 }

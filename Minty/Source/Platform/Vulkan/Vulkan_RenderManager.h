@@ -3,6 +3,7 @@
 #include "Minty/Library/Vulkan.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/RenderManager.h"
+#include "Minty/Render/RenderAttachment.h"
 #include "Minty/Render/Viewport.h"
 #include "Platform/Vulkan/Vulkan_Frame.h"
 #include "Platform/Vulkan/Vulkan_Surface.h"
@@ -119,6 +120,9 @@ namespace Minty
 		/// <param name="commandBuffer">The command buffer.</param>
 		/// <param name="queue">The queue to submit the commands to.</param>
 		void finish_command_buffer_single(VkCommandBuffer const commandBuffer, VkQueue const queue);
+
+		// creates a Vulkan render attachment from the RenderAttachment
+		VkAttachmentDescription create_attachment_description(RenderAttachment const& attachment) const;
 
 #pragma region Draw
 

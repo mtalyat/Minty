@@ -1,0 +1,38 @@
+Assets
+	- Defaults/Texture/defaultTexture.png
+	- Defaults/ShaderModule/defaultModule.vert.spv
+	- Defaults/ShaderModule/defaultModule.frag.spv
+    - Defaults/RenderPass/defaultRenderPass.mrpa
+	- Defaults/Shader/defaultShader.msha
+	- Defaults/MaterialTemplate/defaultMaterialTemplate.mmtp
+	- Defaults/Material/defaultMaterial.mmat
+Systems
+	Render
+Entities
+	World Camera: 6e2c8e09c099405c
+		Transform
+			position: (5, -5, 0)
+			rotation: (-45.000004, 0, 0)
+			scale: (1, 1, 1)
+		Camera
+			perspective: Orthographic
+			fov: 45
+			near: 0.1
+			far: 100
+			color: Red
+			aspectRatio: 1.777778
+			size: 5
+			layerMask: 15
+		Relationship
+			parent: 0000000000000000
+		Visible
+		Enabled
+	Cube: 99606238de99041e
+		Transform
+			position: (0, 0, 1)
+			rotation: (0, 0, 0)
+			scale: (1, 1, 1)
+		Relationship
+			parent: 6e2c8e09c099405c
+        Visible
+        Enabled

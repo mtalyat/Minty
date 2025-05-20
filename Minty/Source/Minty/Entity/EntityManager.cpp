@@ -8,6 +8,7 @@
 #include "Minty/Component/UUIDComponent.h"
 #include "Minty/Component/VisibleComponent.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Entity/EntitySerializationData.h"
 
 using namespace Minty;
 
@@ -42,6 +43,35 @@ Entity Minty::EntityManager::get_entity(UUID const id) const
 
 	// no related entity
 	return INVALID_ENTITY;
+}
+
+String Minty::EntityManager::get_entity_string(Entity const entity) const
+{
+	String const& name = get_name(entity);
+	UUID const id = get_id(entity);
+
+	if (name.is_empty())
+	{
+		if (id.is_valid())
+		{
+			return format("({})", id);
+		}
+		else
+		{
+			return "";
+		}
+	}
+	else
+	{
+		if (id.is_valid())
+		{
+			return format("{} ({})", name, id);
+		}
+		else
+		{
+			return name;
+		}
+	}
 }
 
 void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
@@ -352,6 +382,69 @@ Entity Minty::EntityManager::create_entity(String const& name, UUID const id)
 	return entity;
 }
 
+Component& Minty::EntityManager::add_component(Entity const entity, String const& name)
+{
+	Context& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	return info->create(*this, entity);
+}
+
+Component& Minty::EntityManager::get_component(Entity const entity, String const& name)
+{
+	Context& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	Component* component = info->get(*this, entity);
+	MINTY_ASSERT(component, F("Failed to get component \"{}\".", name));
+	return *component;
+}
+
+Component const& Minty::EntityManager::get_component(Entity const entity, String const& name) const
+{
+	Context const& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	Component const* component = info->get_const(*this, entity);
+	MINTY_ASSERT(component, F("Failed to get component \"{}\".", name));
+	return *component;
+}
+
+Component* Minty::EntityManager::try_get_component(Entity const entity, String const& name)
+{
+	Context& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	Component* component = info->get(*this, entity);
+	return component;
+}
+
+Component const* Minty::EntityManager::try_get_component(Entity const entity, String const& name) const
+{
+	Context const& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	Component const* component = info->get_const(*this, entity);
+	return component;
+}
+
+Bool Minty::EntityManager::has_component(Entity const entity, String const& name) const
+{
+	Context const& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	Component const* component = info->get_const(*this, entity);
+	return component != nullptr;
+}
+
+void Minty::EntityManager::remove_component(Entity const entity, String const& name)
+{
+	Context& context = Context::get_singleton();
+	ComponentInfo const* info = context.get_component_info(name);
+	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	info->destroy(*this, entity);
+}
+
 void Minty::EntityManager::clear()
 {
 	m_registry.clear();
@@ -649,6 +742,124 @@ void Minty::EntityManager::finalize()
 
 	// sort the entities
 	sort();
+}
+
+Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index)
+{
+	String name;
+	UUID id;
+	if (reader.read_name(index, name) && !name.is_empty())
+	{
+		if (reader.read(index, id) && id.is_valid())
+		{
+			return create_entity(name, id);
+		}
+		else
+		{
+			return create_entity(name);
+		}
+	}
+	else
+	{
+		if (reader.read(index, id) && id.is_valid())
+		{
+			return create_entity(id);
+		}
+		else
+		{
+			return create_entity();
+		}
+	}
+}
+
+Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const entity, Size const index)
+{
+	MINTY_ASSERT(contains(entity), F("Failed to deserialize Entity at index {}.", index));
+
+	if (!reader.indent(index))
+	{
+		MINTY_ERROR(F("Failed to indent for entity {}.", get_entity_string(entity)));
+		return false;
+	}
+
+	Context const& context = Context::get_singleton();
+
+	// create the serialization data
+	EntitySerializationData data{};
+	data.entity = entity;
+	data.entityManager = this;
+	reader.push_user_data(&data);
+
+	// read each component on the Entity
+	String componentName;
+	ComponentInfo const* info;
+	for (Size i = 0; i < reader.get_size(); i++)
+	{
+		if (!reader.read_name(i, componentName) || componentName.is_empty())
+		{
+			MINTY_ERROR(F("Failed to read component name at index {}.", i));
+			continue;
+		}
+
+		info = context.get_component_info(componentName);
+		MINTY_ASSERT(info != nullptr, F("Component \"{}\" does not exist.", componentName));
+
+		// create the component
+		Component& component = info->create(*this, entity);
+
+		// deserialize the component
+		if (reader.indent(i))
+		{
+			if (!component.deserialize(reader))
+			{
+				MINTY_ERROR(F("Failed to deserialize component \"{}\" for entity {}.", componentName, get_entity_string(entity)));
+				continue;
+			}
+
+			reader.outdent();
+		}
+	}
+
+	reader.pop_user_data();
+	reader.outdent();
+
+	return true;
+}
+
+void Minty::EntityManager::serialize(Writer& writer) const
+{
+
+}
+
+Bool Minty::EntityManager::deserialize(Reader& reader)
+{
+	// NOTE: The entities must be all loaded before the components, as some components will have Entity dependencies.
+
+	// unload old data
+	dispose();
+
+	// read the entities
+	Vector<Entity> entities;
+	entities.resize(reader.get_size(), INVALID_ENTITY);
+	for (Size i = 0; i < reader.get_size(); i++)
+	{
+		entities[i] = deserialize_entity(reader, i);
+	}
+
+	// read the components
+	for (Size i = 0; i < reader.get_size(); i++)
+	{
+		if (!deserialize_components(reader, entities[i], i))
+		{
+			MINTY_ERROR(F("Failed to deserialize components for entity {}.", get_entity_string(entities[i])));
+			return false;
+		}
+	}
+
+	// load new data
+	initialize();
+
+	return true;
 }
 
 Owner<EntityManager> Minty::EntityManager::create(EntityManagerBuilder const& builder)

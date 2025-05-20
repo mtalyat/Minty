@@ -1,5 +1,7 @@
 #pragma once
+#include "Minty/Core/Constant.h"
 #include "Minty/Core/Type.h"
+#include "Minty/Data/Array.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Library/Vulkan.h"
 #include "Minty/Render/AddressMode.h"
@@ -318,6 +320,10 @@ namespace Minty
 #pragma region Descriptor Set
 
 	public:
+		static Array<VkDescriptorSet, FRAMES_PER_FLIGHT> allocate_descriptor_sets(VkDevice const device, VkDescriptorPool const pool, VkDescriptorSetLayout const layout);
+
+		static void free_descriptor_sets(VkDevice const device, VkDescriptorPool const pool, Array<VkDescriptorSet, FRAMES_PER_FLIGHT> const& descriptorSets);
+
 		static void update_descriptor_sets(VkDevice const device, VkWriteDescriptorSet* const write, uint32_t const count);
 
 #pragma endregion
@@ -358,8 +364,6 @@ namespace Minty
 		static VkAttachmentLoadOp to_vulkan(Minty::LoadOperation const operation);
 
 		static VkAttachmentStoreOp to_vulkan(Minty::StoreOperation const operation);
-
-		static VkAttachmentDescription to_vulkan(Minty::RenderAttachment const& attachment);
 
 		static VkImageLayout to_vulkan(Minty::ImageLayout const layout);
 

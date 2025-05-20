@@ -64,6 +64,9 @@
     <Filter Include="Header Files\Minty\Entity">
       <UniqueIdentifier>{1017bcee-e0fb-4bbe-b76c-1b6b7d5324c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Minty\Scene">
+      <UniqueIdentifier>{c1b28bbb-4bec-4648-a814-10585b173221}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -307,6 +310,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_MeshType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -556,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="Test_MeshType.h">
       <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Scene.h">
+      <Filter>Header Files\Minty\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

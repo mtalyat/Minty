@@ -4,7 +4,10 @@
 #include "Minty/Serialization/ToString.h"
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Array.h"
 #include "Minty/Data/List.h"
+#include "Minty/Data/Map.h"
+#include "Minty/Data/Set.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/UUID.h"
@@ -279,6 +282,61 @@ namespace Minty
 		void write(String const& name, Type const& data)
 		{
 			write_type(name, data);
+		}
+
+		template<typename T, Size S>
+		void write(String const& name, Array<T, S> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < S; i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, List<T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, Vector<T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, Set<T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
+		}
+
+		template<typename T>
+		void write(String const& name, Map<String, T> const& data)
+		{
+			indent(name);
+			for (Size i = 0; i < data.size(); i++)
+			{
+				write(to_string(i), data[i]);
+			}
+			outdent();
 		}
 
 		/// <summary>

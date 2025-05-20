@@ -27,6 +27,28 @@ Minty::Vulkan_Shader::Vulkan_Shader(ShaderBuilder const& builder)
 
 Minty::Vulkan_Shader::~Vulkan_Shader()
 {
+	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+
+	// destroy pipeline
+	if (m_pipeline != VK_NULL_HANDLE)
+	{
+		vkDestroyPipeline(renderManager.get_device(), m_pipeline, nullptr);
+	}
+	// destroy pipeline layout
+	if (m_pipelineLayout != VK_NULL_HANDLE)
+	{
+		vkDestroyPipelineLayout(renderManager.get_device(), m_pipelineLayout, nullptr);
+	}
+	// destroy descriptor set layout
+	if (m_descriptorSetLayout != VK_NULL_HANDLE)
+	{
+		vkDestroyDescriptorSetLayout(renderManager.get_device(), m_descriptorSetLayout, nullptr);
+	}
+	// destroy descriptor pools
+	for (PoolData& poolData : m_descriptorPools)
+	{
+		vkDestroyDescriptorPool(renderManager.get_device(), poolData.pool, nullptr);
+	}
 }
 
 void Minty::Vulkan_Shader::initialize_bindings(ShaderBuilder const& builder)
@@ -446,4 +468,24 @@ VkDescriptorPool Minty::Vulkan_Shader::get_descriptor_pool(UInt const requestedS
 
 	// none found, create a new one
 	return create_descriptor_pool(requestedSlots);
+}
+
+void Minty::Vulkan_Shader::free_descriptors(VkDescriptorPool const pool, UInt const slots)
+{
+	MINTY_ASSERT(slots > 0, "Slots must be greater than 0.");
+	MINTY_ASSERT(pool != VK_NULL_HANDLE, "Pool is null.");
+
+	// find the pool
+	for (PoolData& poolData : m_descriptorPools)
+	{
+		if (poolData.pool == pool)
+		{
+			// decrement used count
+			MINTY_ASSERT(slots <= poolData.used, "Cannot free more slots than used.");
+			poolData.used -= slots;
+
+			return;
+		}
+	}
+	MINTY_ABORT("Failed to free descriptors: Pool not found.");
 }

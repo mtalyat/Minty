@@ -147,6 +147,9 @@ namespace Minty
 #pragma region Methods
 
 	private:
+		void register_components();
+		void register_systems();
+
 		void initialize();
 
 		void dispose();
@@ -193,26 +196,9 @@ namespace Minty
 			m_registeredSystems.add(name, typeid(T), info);
 		}
 
-		SystemInfo const* get_system_info(String const& name) const
-		{
-			auto it = m_registeredSystems.find(name);
-			if (it == m_registeredSystems.end())
-			{
-				return nullptr;
-			}
-			return &it->get_third();
-		}
+		SystemInfo const* get_system_info(String const& name) const;
 
-		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
-		SystemInfo const* get_system_info() const
-		{
-			auto it = m_registeredSystems.find(typeid(T));
-			if (it == m_registeredSystems.end())
-			{
-				return nullptr;
-			}
-			return &it->get_third();
-		}
+		SystemInfo const* get_system_info(TypeID const& typeId) const;
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
 		void register_component(String const& name)
@@ -223,11 +209,15 @@ namespace Minty
 			ComponentInfo info
 			{
 				.name = name,
-				.create = [](EntityManager& entityManager, Entity const entity) -> Component*
+				.create = [](EntityManager& entityManager, Entity const entity) -> Component&
 				{
-					return &entityManager.add_component<T>(entity);
+					return entityManager.add_component<T>(entity);
 				},
-				.get = [](EntityManager const& entityManager, Entity const entity) -> Component*
+				.get = [](EntityManager& entityManager, Entity const entity) -> Component*
+				{
+					return entityManager.try_get_component<T>(entity);
+				},
+				.get_const = [](EntityManager const& entityManager, Entity const entity) -> Component const*
 				{
 					return entityManager.try_get_component<T>(entity);
 				},
@@ -240,26 +230,9 @@ namespace Minty
 			m_registeredComponents.add(name, typeid(T), info);
 		}
 
-		ComponentInfo const* get_component_info(String const& name) const
-		{
-			auto it = m_registeredComponents.find(name);
-			if (it == m_registeredComponents.end())
-			{
-				return nullptr;
-			}
-			return &it->get_third();
-		}
+		ComponentInfo const* get_component_info(String const& name) const;
 
-		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
-		ComponentInfo const* get_component_info() const
-		{
-			auto it = m_registeredComponents.find(typeid(T));
-			if (it == m_registeredComponents.end())
-			{
-				return nullptr;
-			}
-			return &it->get_third();
-		}
+		ComponentInfo const* get_component_info(TypeID const& typeId) const;
 
 #pragma endregion
 
@@ -279,6 +252,5 @@ namespace Minty
 		}
 
 #pragma endregion
-
 	};
 }

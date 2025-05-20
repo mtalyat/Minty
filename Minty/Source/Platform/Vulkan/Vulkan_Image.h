@@ -40,6 +40,14 @@ namespace Minty
 
 		void set_pixels(void const* const data, Size const size) override;
 
+		VkImage get_image() const { return m_image; }
+
+		VkDeviceMemory get_memory() const { return m_memory; }
+
+		VkImageView get_view() const { return m_view; }
+
+		VkImageLayout get_layout() const { return m_layout; }
+
 #pragma endregion
 
 #pragma region Methods
