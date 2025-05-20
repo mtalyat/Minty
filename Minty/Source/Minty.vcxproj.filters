@@ -112,6 +112,9 @@
     <Filter Include="Minty\Scene">
       <UniqueIdentifier>{a26af160-b155-4832-8b5b-eecf22b37857}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Input">
+      <UniqueIdentifier>{54bbc3c0-7480-4c0e-ac7f-db2c773bc223}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -650,6 +653,30 @@
     </ClInclude>
     <ClInclude Include="Minty\Debug\DebugFlags.h">
       <Filter>Minty\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\_Input.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\GamepadAxis.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\GamepadButton.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\Key.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\KeyAction.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\KeyModifiers.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\MouseButton.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\CursorMode.h">
+      <Filter>Minty\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

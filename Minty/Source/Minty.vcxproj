@@ -250,6 +250,14 @@ doxygen</Command>
     <ClInclude Include="Minty\File\PhysicalFile.h" />
     <ClInclude Include="Minty\File\VirtualFile.h" />
     <ClInclude Include="Minty\File\_File.h" />
+    <ClInclude Include="Minty\Input\CursorMode.h" />
+    <ClInclude Include="Minty\Input\GamepadAxis.h" />
+    <ClInclude Include="Minty\Input\GamepadButton.h" />
+    <ClInclude Include="Minty\Input\Key.h" />
+    <ClInclude Include="Minty\Input\KeyAction.h" />
+    <ClInclude Include="Minty\Input\KeyModifiers.h" />
+    <ClInclude Include="Minty\Input\MouseButton.h" />
+    <ClInclude Include="Minty\Input\_Input.h" />
     <ClInclude Include="Minty\Job\JobManager.h" />
     <ClInclude Include="Minty\Job\_Job.h" />
     <ClInclude Include="Minty\Library\EnTT.h" />
