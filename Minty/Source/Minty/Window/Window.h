@@ -3,7 +3,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
-#include "Minty/Window/CursorMode.h"
+#include "Minty/Input/CursorMode.h"
 #include "Minty/Window/WindowCloseEvent.h"
 #include "Minty/Window/WindowResizeEvent.h"
 #include <functional>

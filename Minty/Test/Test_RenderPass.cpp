@@ -14,7 +14,6 @@ void test_RenderPass(Test& _test)
 
 		RenderAttachment colorAttachment{};
 		colorAttachment.type = RenderAttachment::Type::Color;
-		colorAttachment.format = renderManager.get_color_attachment_format();
 		colorAttachment.loadOperation = LoadOperation::Clear;
 		colorAttachment.storeOperation = StoreOperation::Store;
 		colorAttachment.initialLayout = ImageLayout::Undefined;
@@ -22,7 +21,6 @@ void test_RenderPass(Test& _test)
 
 		RenderAttachment depthAttachment{};
 		depthAttachment.type = RenderAttachment::Type::Depth;
-		depthAttachment.format = renderManager.get_depth_attachment_format();
 		depthAttachment.loadOperation = LoadOperation::Clear;
 		depthAttachment.storeOperation = StoreOperation::Store;
 		depthAttachment.initialLayout = ImageLayout::Undefined;

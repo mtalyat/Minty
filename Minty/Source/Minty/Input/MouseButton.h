@@ -1,4 +1,6 @@
 #pragma once
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -20,4 +22,12 @@ namespace Minty
 		Right = Button2,
 		Middle = Button3,
 	};
+
+	String to_string(MouseButton const obj);
+	MouseButton parse_to_mouse_button(String const& string);
+	Bool parse_try_mouse_button(String const& string, MouseButton& value);
+	template<>
+	inline MouseButton parse_to<MouseButton>(String const& string) { return parse_to_mouse_button(string); }
+	template<>
+	inline Bool parse_try<MouseButton>(String const& string, MouseButton& value) { return parse_try_mouse_button(string, value); }
 }

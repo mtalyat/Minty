@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test_CursorMode.cpp" />
     <ClCompile Include="Test_ArgumentParser.cpp" />
     <ClCompile Include="Test_Buffer.cpp" />
     <ClCompile Include="Test_Camera.cpp" />
@@ -148,6 +149,8 @@
     <ClCompile Include="Test_EntityManager.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
+    <ClCompile Include="Test_GamepadAxis.cpp" />
+    <ClCompile Include="Test_GamepadButton.cpp" />
     <ClCompile Include="Test_Image.cpp" />
     <ClCompile Include="Test_ImageAddressMode.cpp" />
     <ClCompile Include="MintyTest.cpp" />
@@ -173,6 +176,9 @@
     <ClCompile Include="Test_ImageType.cpp" />
     <ClCompile Include="Test_ImageUsage.cpp" />
     <ClCompile Include="Test_JobManager.cpp" />
+    <ClCompile Include="Test_Key.cpp" />
+    <ClCompile Include="Test_KeyAction.cpp" />
+    <ClCompile Include="Test_KeyModifiers.cpp" />
     <ClCompile Include="Test_List.cpp" />
     <ClCompile Include="Test_ListContainer.cpp" />
     <ClCompile Include="Test_LoadOperation.cpp" />
@@ -185,6 +191,7 @@
     <ClCompile Include="Test_MemoryStack.cpp" />
     <ClCompile Include="Test_MeshType.cpp" />
     <ClCompile Include="Test_Minty.cpp" />
+    <ClCompile Include="Test_MouseButton.cpp" />
     <ClCompile Include="Test_Node.cpp" />
     <ClCompile Include="Test_Object.cpp" />
     <ClCompile Include="Test_Scene.cpp" />
@@ -224,6 +231,7 @@
     <ClCompile Include="Test_Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Test_CursorMode.h" />
     <ClInclude Include="Test_ArgumentParser.h" />
     <ClInclude Include="Test_Buffer.h" />
     <ClInclude Include="Test_Camera.h" />
@@ -232,6 +240,8 @@
     <ClInclude Include="Test_EntityManager.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
+    <ClInclude Include="Test_GamepadAxis.h" />
+    <ClInclude Include="Test_GamepadButton.h" />
     <ClInclude Include="Test_Image.h" />
     <ClInclude Include="Test_AddressMode.h" />
     <ClInclude Include="Minty.h" />
@@ -258,6 +268,9 @@
     <ClInclude Include="Test_ImageType.h" />
     <ClInclude Include="Test_ImageUsage.h" />
     <ClInclude Include="Test_JobManager.h" />
+    <ClInclude Include="Test_Key.h" />
+    <ClInclude Include="Test_KeyAction.h" />
+    <ClInclude Include="Test_KeyModifiers.h" />
     <ClInclude Include="Test_List.h" />
     <ClInclude Include="Test_ListContainer.h" />
     <ClInclude Include="Test_LoadOperation.h" />
@@ -270,6 +283,7 @@
     <ClInclude Include="Test_MemoryStack.h" />
     <ClInclude Include="Test_MeshType.h" />
     <ClInclude Include="Test_Minty.h" />
+    <ClInclude Include="Test_MouseButton.h" />
     <ClInclude Include="Test_Node.h" />
     <ClInclude Include="Test_Object.h" />
     <ClInclude Include="Test_Scene.h" />

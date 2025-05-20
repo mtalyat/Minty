@@ -46,7 +46,10 @@ def generate(lines):
     
     #   ToString
     output += header('Header:')
-    output += f'''String to_string({name} const obj);
+    output += f'''#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
+
+    String to_string({name} const obj);
     {name} parse_to_{name2}(String const& string);
     Bool parse_try_{name2}(String const& string, {name}& value);
     template<>
@@ -80,8 +83,12 @@ String Minty::to_string({name} const obj)
 Bool Minty::parse_try_{name2}(String const& string, {name}& value)
 {{
 	value = parse_to_{name2}(string);
-	return value != {name}();
-}}
+'''
+    if values[0] == "Undefined":
+        output += f'\treturn value != {name}();\n'
+    else:
+        output += f'\treturn true;\n'
+    output += f'''}}
 
 '''
     

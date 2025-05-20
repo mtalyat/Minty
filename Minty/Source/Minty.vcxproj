@@ -253,6 +253,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Input\CursorMode.h" />
     <ClInclude Include="Minty\Input\GamepadAxis.h" />
     <ClInclude Include="Minty\Input\GamepadButton.h" />
+    <ClInclude Include="Minty\Input\InputManager.h" />
     <ClInclude Include="Minty\Input\Key.h" />
     <ClInclude Include="Minty\Input\KeyAction.h" />
     <ClInclude Include="Minty\Input\KeyModifiers.h" />
@@ -337,7 +338,6 @@ doxygen</Command>
     <ClInclude Include="Minty\Time\_Time.h" />
     <ClInclude Include="Minty\Tool\ArgumentParser.h" />
     <ClInclude Include="Minty\Tool\_Tool.h" />
-    <ClInclude Include="Minty\Window\CursorMode.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\WindowCloseEvent.h" />
     <ClInclude Include="Minty\Window\WindowResizeEvent.h" />
@@ -400,6 +400,13 @@ doxygen</Command>
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
+    <ClCompile Include="Minty\Input\CursorMode.cpp" />
+    <ClCompile Include="Minty\Input\GamepadAxis.cpp" />
+    <ClCompile Include="Minty\Input\GamepadButton.cpp" />
+    <ClCompile Include="Minty\Input\Key.cpp" />
+    <ClCompile Include="Minty\Input\KeyAction.cpp" />
+    <ClCompile Include="Minty\Input\KeyModifiers.cpp" />
+    <ClCompile Include="Minty\Input\MouseButton.cpp" />
     <ClCompile Include="Minty\Job\JobManager.cpp" />
     <ClCompile Include="Minty\Library\STB.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />

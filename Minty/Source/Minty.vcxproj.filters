@@ -378,9 +378,6 @@
     <ClInclude Include="Minty\Window\WindowCloseEvent.h">
       <Filter>Minty\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Window\CursorMode.h">
-      <Filter>Minty\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Library\STB.h">
       <Filter>Minty\Library</Filter>
     </ClInclude>
@@ -676,6 +673,9 @@
       <Filter>Minty\Input</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Input\CursorMode.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\InputManager.h">
       <Filter>Minty\Input</Filter>
     </ClInclude>
   </ItemGroup>
@@ -999,6 +999,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Data\Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\CursorMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\GamepadAxis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\GamepadButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\KeyAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\KeyModifiers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\MouseButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

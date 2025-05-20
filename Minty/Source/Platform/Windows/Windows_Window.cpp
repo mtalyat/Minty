@@ -116,7 +116,7 @@ CursorMode Minty::Windows_Window::get_cursor_mode() const
 	case GLFW_CURSOR_DISABLED:
 		return CursorMode::Disabled;
 	default:
-		return CursorMode::Undefined;
+		return CursorMode();
 	}
 }
 

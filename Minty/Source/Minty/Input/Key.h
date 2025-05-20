@@ -1,4 +1,6 @@
 #pragma once
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -128,4 +130,12 @@ namespace Minty
 		RightSuper = 347,
 		Menu = 348,
 	};
+
+	String to_string(Key const obj);
+	Key parse_to_key(String const& string);
+	Bool parse_try_key(String const& string, Key& value);
+	template<>
+	inline Key parse_to<Key>(String const& string) { return parse_to_key(string); }
+	template<>
+	inline Bool parse_try<Key>(String const& string, Key& value) { return parse_try_key(string, value); }
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -23,4 +25,12 @@ namespace Minty
 		DpadDown = 13,
 		DpadLeft = 14,
 	};
+
+	String to_string(GamepadButton const obj);
+	GamepadButton parse_to_gamepad_button(String const& string);
+	Bool parse_try_gamepad_button(String const& string, GamepadButton& value);
+	template<>
+	inline GamepadButton parse_to<GamepadButton>(String const& string) { return parse_to_gamepad_button(string); }
+	template<>
+	inline Bool parse_try<GamepadButton>(String const& string, GamepadButton& value) { return parse_try_gamepad_button(string, value); }
 }
