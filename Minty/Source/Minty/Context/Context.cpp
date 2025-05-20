@@ -187,3 +187,8 @@ ComponentInfo const* Minty::Context::get_component_info(TypeID const& typeId) co
 	}
 	return &it->get_third();
 }
+
+Owner<Context> Minty::Context::create(ContextBuilder const& builder)
+{
+	return Owner<Context>(builder);
+}

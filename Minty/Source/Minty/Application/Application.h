@@ -11,6 +11,9 @@ namespace Minty
 	/// </summary>
 	struct ApplicationBuilder
 	{
+		/// <summary>
+		/// The Context to use.
+		/// </summary>
 		Owner<Context> context;
 	};
 
@@ -25,26 +28,24 @@ namespace Minty
 		Owner<Context> m_context;
 		Bool m_running;
 
-		static Application* s_instance;
-
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates a new Application using the given ApplicationBuilder.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
 		Application(ApplicationBuilder const& builder)
 			: m_context(builder.context)
 			, m_running(false)
 		{
-			MINTY_ASSERT(!s_instance, "Application singleton already exists.");
-			s_instance = this;
-
 			MINTY_ASSERT(m_context != nullptr, "Context is null.");
 		}
 
 		~Application()
 		{
-			s_instance = nullptr;
 		}
 
 		Application(Application const&) = delete;
@@ -63,6 +64,10 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Gets the Context this Application uses.
+		/// </summary>
+		/// <returns></returns>
 		Ref<Context> get_context() const
 		{
 			return m_context.create_ref();
@@ -73,30 +78,22 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		void quit()
-		{
-			m_running = false;
-		}
+		void quit();
 
-		void run()
-		{
-			m_running = true;
-			while (m_running)
-			{
-				break;
-			}
-		}
+		void run();
 
 #pragma endregion
 
 #pragma region Statics
 
 	public:
+		/// <summary>
+		/// Creates a new Application using the given ApplicationBuilder.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>An Application Owner.</returns>
 		static Owner<Application> create(ApplicationBuilder const& builder = {});
 
-		static Application& get_singleton();
-
 #pragma endregion
-
 	};
 }
