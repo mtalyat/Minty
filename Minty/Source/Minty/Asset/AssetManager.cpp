@@ -740,6 +740,38 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	return image;
 }
 
+Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)
+{
+	// create builder
+	AudioClipBuilder builder{};
+
+	// read audio bytes
+	builder.data = read_bytes(path);
+	if (builder.data.is_empty())
+	{
+		return Ref<AudioClip>();
+	}
+
+	// read ID
+	builder.id = read_id(path);
+
+	// read values from meta
+	Path metaPath = Asset::get_meta_path(path);
+	Reader* reader;
+	if (open_reader(metaPath, reader))
+	{
+		// read values
+		reader->read("Volume", builder.volume);
+		reader->read("Loop", builder.loop);
+		reader->read("LoopPoint", builder.loopPoint);
+		reader->read("Exclusive", builder.exclusive);
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<AudioClip>(path, builder);
+}
+
 Ref<Image> Minty::AssetManager::load_image(Path const& path)
 {
 	// create the image using the path and ID
