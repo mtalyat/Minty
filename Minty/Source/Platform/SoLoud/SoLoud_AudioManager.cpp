@@ -5,12 +5,16 @@ using namespace Minty;
 
 void Minty::SoLoud_AudioManager::initialize()
 {
+	AudioManager::initialize();
+
 	m_engine->init(SoLoud::Soloud::CLIP_ROUNDOFF | SoLoud::Soloud::LEFT_HANDED_3D);
 	m_dirty = true;
 }
 
 void Minty::SoLoud_AudioManager::dispose()
 {
+	AudioManager::dispose();
+
 	m_engine->deinit();
 }
 

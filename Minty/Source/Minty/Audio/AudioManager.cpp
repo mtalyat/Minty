@@ -20,3 +20,10 @@ Owner<AudioManager> Minty::AudioManager::create(AudioManagerBuilder const& build
 	return Owner<AudioManager>();
 #endif // MINTY_SOLOUD
 }
+
+void Minty::AudioManager::dispose()
+{
+	stop_all();
+
+	Manager::dispose();
+}

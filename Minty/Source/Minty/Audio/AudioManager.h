@@ -94,6 +94,11 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Called when this AudioManager is destroyed.
+		/// </summary>
+		void dispose() override;
+
+		/// <summary>
 		/// Plays the given AudioClip in 2D space.
 		/// </summary>
 		/// <param name="clip">The clip to play.</param>
