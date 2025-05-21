@@ -196,9 +196,9 @@ void Minty::Context::handle_event(Event& event)
 		break;
 	case EventType::GamepadButton:
 		break;
-	case EventType::GamepadConnected:
+	case EventType::GamepadConnect:
 		break;
-	case EventType::GamepadDisconnected:
+	case EventType::GamepadDisconnect:
 		break;
 	case EventType::Key:
 	{
@@ -234,9 +234,9 @@ void Minty::Context::handle_event(Event& event)
 		}
 		break;
 	}
-	case EventType::MouseMoved:
+	case EventType::MouseMove:
 		break;
-	case EventType::MouseScrolled:
+	case EventType::MouseScroll:
 		break;
 	default:
 		MINTY_ABORT("Unhandled event type.");
