@@ -218,7 +218,22 @@ void Minty::Context::handle_event(Event& event)
 		break;
 	}
 	case EventType::MouseButton:
+	{
+		MouseButtonEvent& mouseButtonEvent = static_cast<MouseButtonEvent&>(event);
+		if (mouseButtonEvent.get_action() == KeyAction::Down)
+		{
+			Debug::write_message("Mouse button down: ", to_string(mouseButtonEvent.get_button()));
+		}
+		else if (mouseButtonEvent.get_action() == KeyAction::Up)
+		{
+			Debug::write_message("Mouse button up: ", to_string(mouseButtonEvent.get_button()));
+		}
+		else if (mouseButtonEvent.get_action() == KeyAction::Hold)
+		{
+			Debug::write_message("Mouse button repeated: ", to_string(mouseButtonEvent.get_button()));
+		}
 		break;
+	}
 	case EventType::MouseMoved:
 		break;
 	case EventType::MouseScrolled:

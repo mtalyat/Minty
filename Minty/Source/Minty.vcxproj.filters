@@ -684,6 +684,9 @@
     <ClInclude Include="Minty\Event\KeyEvent.h">
       <Filter>Minty\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Event\MouseButtonEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
