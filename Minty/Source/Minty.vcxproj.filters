@@ -687,6 +687,24 @@
     <ClInclude Include="Minty\Event\MouseButtonEvent.h">
       <Filter>Minty\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Event\MouseMoveEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\MouseScrollEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadConnectEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadDisconnectEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadButtonEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadAxisEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">

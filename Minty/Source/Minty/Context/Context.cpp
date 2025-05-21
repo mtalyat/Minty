@@ -187,19 +187,46 @@ void Minty::Context::handle_event(Event& event)
 		// if not canceled, close the window
 		if (event.get_state() != EventState::Canceled)
 		{
-			Debug::write("Window closing...");
+			Debug::write_message("Window closing...");
 			m_window->close();
 		}
 		break;
 	}
 	case EventType::GamepadAxis:
+	{
+		GamepadAxisEvent& axisEvent = static_cast<GamepadAxisEvent&>(event);
+		Debug::write_message("Gamepad axis: ", to_string(axisEvent.get_axis()), " = ", axisEvent.get_value());
 		break;
+	}
 	case EventType::GamepadButton:
+	{
+		GamepadButtonEvent& buttonEvent = static_cast<GamepadButtonEvent&>(event);
+		if (buttonEvent.get_action() == KeyAction::Down)
+		{
+			Debug::write_message("Gamepad button down: ", to_string(buttonEvent.get_button()));
+		}
+		else if (buttonEvent.get_action() == KeyAction::Up)
+		{
+			Debug::write_message("Gamepad button up: ", to_string(buttonEvent.get_button()));
+		}
+		else if (buttonEvent.get_action() == KeyAction::Hold)
+		{
+			Debug::write_message("Gamepad button repeated: ", to_string(buttonEvent.get_button()));
+		}
 		break;
+	}
 	case EventType::GamepadConnect:
+	{
+		GamepadConnectEvent& connectEvent = static_cast<GamepadConnectEvent&>(event);
+		Debug::write_message("Gamepad connected: ", connectEvent.get_id());
 		break;
+	}
 	case EventType::GamepadDisconnect:
+	{
+		GamepadDisconnectEvent& disconnectEvent = static_cast<GamepadDisconnectEvent&>(event);
+		Debug::write_message("Gamepad disconnected: ", disconnectEvent.get_id());
 		break;
+	}
 	case EventType::Key:
 	{
 		KeyEvent& keyEvent = static_cast<KeyEvent&>(event);
@@ -235,9 +262,17 @@ void Minty::Context::handle_event(Event& event)
 		break;
 	}
 	case EventType::MouseMove:
+	{
+		MouseMoveEvent& mouseMoveEvent = static_cast<MouseMoveEvent&>(event);
+		Debug::write_message("Mouse moved to ", mouseMoveEvent.get_position().x, ", ", mouseMoveEvent.get_position().y);
 		break;
+	}
 	case EventType::MouseScroll:
+	{
+		MouseScrollEvent& mouseScrollEvent = static_cast<MouseScrollEvent&>(event);
+		Debug::write_message("Mouse scrolled by ", mouseScrollEvent.get_offset().x, ", ", mouseScrollEvent.get_offset().y);
 		break;
+	}
 	default:
 		MINTY_ABORT("Unhandled event type.");
 		return;

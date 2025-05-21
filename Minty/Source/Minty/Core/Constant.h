@@ -67,6 +67,16 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Input
+
+	/// <summary>
+	/// The threshold for a joystick to be considered non-zero.
+	/// </summary>
+	constexpr Float JOYSTICK_DEADZONE = 0.1f;
+
+#pragma endregion
+
+
 #pragma region Layer
 
 	/// <summary>

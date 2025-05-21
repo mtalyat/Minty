@@ -6,6 +6,9 @@
 
 namespace Minty
 {
+	/// <summary>
+	/// A MouseButtonEvent is triggered when a MouseButton is pressed or released.
+	/// </summary>
 	class MouseButtonEvent
 		: public Event
 	{
