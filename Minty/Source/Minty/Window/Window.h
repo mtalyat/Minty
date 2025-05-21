@@ -4,8 +4,7 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Input/CursorMode.h"
-#include "Minty/Event/WindowCloseEvent.h"
-#include "Minty/Event/WindowResizeEvent.h"
+#include "Minty/Event/Event.h"
 #include <functional>
 
 namespace Minty

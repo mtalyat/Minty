@@ -2,6 +2,9 @@
 #include "Windows_Window.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Event/KeyEvent.h"
+#include "Minty/Event/WindowCloseEvent.h"
+#include "Minty/Event/WindowResizeEvent.h"
 #include "Minty/Library/STB.h"
 
 using namespace Minty;
@@ -64,16 +67,16 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 			}
 		});
 
-	//glfwSetKeyCallback(mp_window, [](GLFWwindow* window, Int key, Int scancode, Int action, Int mods)
-	//	{
-	//		Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-	//		MINTY_ASSERT(obj, "Window is null in Key callback.");
-	//		if (obj->m_eventCallback)
-	//		{
-	//			KeyEvent event(static_cast<Key>(key), static_cast<KeyAction>(action));
-	//			obj->m_eventCallback(event);
-	//		}
-	//	});
+	glfwSetKeyCallback(mp_window, [](GLFWwindow* window, Int key, Int scancode, Int action, Int mods)
+		{
+			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
+			MINTY_ASSERT(obj, "Window is null in Key callback.");
+			if (obj->m_eventCallback)
+			{
+				KeyEvent event(static_cast<Key>(key), static_cast<KeyAction>(action), static_cast<KeyModifiers>(mods));
+				obj->m_eventCallback(event);
+			}
+		});
 }
 
 Minty::Windows_Window::~Windows_Window()

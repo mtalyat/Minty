@@ -246,6 +246,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Event\Event.h" />
     <ClInclude Include="Minty\Event\EventState.h" />
     <ClInclude Include="Minty\Event\EventType.h" />
+    <ClInclude Include="Minty\Event\KeyEvent.h" />
     <ClInclude Include="Minty\Event\WindowCloseEvent.h" />
     <ClInclude Include="Minty\Event\WindowResizeEvent.h" />
     <ClInclude Include="Minty\Event\_Event.h" />

@@ -115,6 +115,7 @@ void Minty::Vulkan_Surface::dispose_swapchain()
 
 void Minty::Vulkan_Surface::refresh()
 {
+	Debug::write_message("Refreshing surface...");
 	// recreate the swapchain
 	dispose_swapchain();
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();

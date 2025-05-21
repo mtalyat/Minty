@@ -2,6 +2,7 @@
 #include "Context.h"
 #include "Minty/Component/_Component.h"
 #include "Minty/System/_System.h"
+#include "Minty/Event/_Event.h"
 
 using namespace Minty;
 
@@ -175,27 +176,52 @@ void Minty::Context::handle_event(Event& event)
 	switch (event.get_type())
 	{
 	case EventType::WindowResize:
-		// TODO: handle event
+	{
+		WindowResizeEvent& resizeEvent = static_cast<WindowResizeEvent&>(event);
+		Debug::write_message("Window resized to ", resizeEvent.get_width(), "x", resizeEvent.get_height());
 		break;
+	}
 	case EventType::WindowClose:
+	{
 		// TODO: handle event
 		// if not canceled, close the window
-		Debug::write("Window close event.\n");
 		if (event.get_state() != EventState::Canceled)
 		{
-			Debug::write("Closing...\n");
+			Debug::write("Window closing...");
 			m_window->close();
 		}
 		break;
+	}
 	case EventType::GamepadAxis:
+		break;
 	case EventType::GamepadButton:
+		break;
 	case EventType::GamepadConnected:
+		break;
 	case EventType::GamepadDisconnected:
+		break;
 	case EventType::Key:
+	{
+		KeyEvent& keyEvent = static_cast<KeyEvent&>(event);
+		if (keyEvent.get_action() == KeyAction::Down)
+		{
+			Debug::write_message("Key down: ", to_string(keyEvent.get_key()));
+		}
+		else if (keyEvent.get_action() == KeyAction::Up)
+		{
+			Debug::write_message("Key up: ", to_string(keyEvent.get_key()));
+		}
+		else if (keyEvent.get_action() == KeyAction::Hold)
+		{
+			Debug::write_message("Key repeated: ", to_string(keyEvent.get_key()));
+		}
+		break;
+	}
 	case EventType::MouseButton:
+		break;
 	case EventType::MouseMoved:
+		break;
 	case EventType::MouseScrolled:
-		// TODO: handle event
 		break;
 	default:
 		MINTY_ABORT("Unhandled event type.");
