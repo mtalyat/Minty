@@ -44,10 +44,8 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 
 	glfwSetWindowSizeCallback(mp_window, [](GLFWwindow* window, Int width, Int height)
 		{
-			MINTY_ASSERT(width >= 0, "Width is invalid.");
-			MINTY_ASSERT(height >= 0, "Height is invalid.");
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in callback.");
+			MINTY_ASSERT(obj, "Window is null in Window Size callback.");
 			if (obj->m_eventCallback)
 			{
 				WindowResizeEvent event(static_cast<UInt>(width), static_cast<UInt>(height));
@@ -58,13 +56,24 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 	glfwSetWindowCloseCallback(mp_window, [](GLFWwindow* window)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in callback.");
+			MINTY_ASSERT(obj, "Window is null in Window Close callback.");
 			if (obj->m_eventCallback)
 			{
 				WindowCloseEvent event{};
 				obj->m_eventCallback(event);
 			}
 		});
+
+	//glfwSetKeyCallback(mp_window, [](GLFWwindow* window, Int key, Int scancode, Int action, Int mods)
+	//	{
+	//		Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
+	//		MINTY_ASSERT(obj, "Window is null in Key callback.");
+	//		if (obj->m_eventCallback)
+	//		{
+	//			KeyEvent event(static_cast<Key>(key), static_cast<KeyAction>(action));
+	//			obj->m_eventCallback(event);
+	//		}
+	//	});
 }
 
 Minty::Windows_Window::~Windows_Window()

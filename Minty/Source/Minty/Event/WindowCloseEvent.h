@@ -31,6 +31,5 @@ namespace Minty
 		constexpr EventType get_type() const override { return EventType::WindowClose; }
 
 #pragma endregion
-
 	};
 }

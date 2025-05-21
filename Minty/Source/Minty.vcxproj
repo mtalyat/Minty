@@ -246,6 +246,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Event\Event.h" />
     <ClInclude Include="Minty\Event\EventState.h" />
     <ClInclude Include="Minty\Event\EventType.h" />
+    <ClInclude Include="Minty\Event\WindowCloseEvent.h" />
+    <ClInclude Include="Minty\Event\WindowResizeEvent.h" />
     <ClInclude Include="Minty\Event\_Event.h" />
     <ClInclude Include="Minty\File\File.h" />
     <ClInclude Include="Minty\File\PhysicalFile.h" />
@@ -340,8 +342,6 @@ doxygen</Command>
     <ClInclude Include="Minty\Tool\ArgumentParser.h" />
     <ClInclude Include="Minty\Tool\_Tool.h" />
     <ClInclude Include="Minty\Window\Window.h" />
-    <ClInclude Include="Minty\Window\WindowCloseEvent.h" />
-    <ClInclude Include="Minty\Window\WindowResizeEvent.h" />
     <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
     <ClInclude Include="Minty\Wrap\Wrapper.h" />

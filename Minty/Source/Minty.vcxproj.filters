@@ -372,12 +372,6 @@
     <ClInclude Include="Minty\Event\EventType.h">
       <Filter>Minty\Event</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Window\WindowResizeEvent.h">
-      <Filter>Minty\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Window\WindowCloseEvent.h">
-      <Filter>Minty\Window</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Library\STB.h">
       <Filter>Minty\Library</Filter>
     </ClInclude>
@@ -679,6 +673,12 @@
       <Filter>Minty\Input</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Event\EventState.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\WindowCloseEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\WindowResizeEvent.h">
       <Filter>Minty\Event</Filter>
     </ClInclude>
   </ItemGroup>
