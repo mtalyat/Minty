@@ -2,16 +2,31 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Library/GLFW.h"
 #include "Minty/Window/Window.h"
+#include "Minty/Data/Map.h"
 
 namespace Minty
 {
 	class Windows_Window
 		: public Window
 	{
+#pragma region Classes
+
+	private:
+		struct GamepadData
+		{
+			GLFWgamepadstate state;
+
+			Char const* name;
+		};
+
+#pragma endregion
+
+
 #pragma region Variables
 
 	private:
 		GLFWwindow* mp_window;
+		Map<Int, GamepadData> m_gamepads;
 		Int2 m_restorePosition;
 		Int2 m_restoreSize;
 
@@ -51,6 +66,10 @@ namespace Minty
 
 	private:
 		void save_restore_info();
+
+		void process_window_events();
+
+		void process_gamepad_events();
 
 	public:
 		void maximize() override;

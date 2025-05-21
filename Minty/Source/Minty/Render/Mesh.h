@@ -79,7 +79,7 @@ namespace Minty
 		/// Gets the vertex Buffer of this Mesh.
 		/// </summary>
 		/// <returns>The vertex Buffer.</returns>
-		Ref<Buffer> const& get_vertex_buffer() const { return m_vertexBuffer; }
+		Ref<Buffer> get_vertex_buffer() const { return m_vertexBuffer.create_ref(); }
 
 		/// <summary>
 		/// Gets the indices of this Mesh.
@@ -97,7 +97,7 @@ namespace Minty
 		/// Gets the index Buffer of this Mesh.
 		/// </summary>
 		/// <returns>The index Buffer.</returns>
-		Ref<Buffer> const& get_index_buffer() const { return m_indexBuffer; }
+		Ref<Buffer> get_index_buffer() const { return m_indexBuffer.create_ref(); }
 
 		/// <summary>
 		/// Gets the AssetType of this Asset.

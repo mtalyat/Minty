@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Event/EventState.h"
 #include "Minty/Event/EventType.h"
 #include <functional>
 
@@ -13,15 +14,18 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Bool m_handled;
+		EventState m_state;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates an empty Event.
+		/// </summary>
 		Event()
-			: m_handled(false)
+			: m_state(EventState::Unhandled)
 		{
 		}
 
@@ -29,22 +33,36 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
+#pragma region Get Set
 
 	public:
 		/// <summary>
-		/// Checks if this Event has been handled.
+		/// Gets the state of this Event.
 		/// </summary>
-		/// <returns>True, if this Event has been handled.</returns>
-		Bool is_handled() const { return m_handled; }
+		/// <returns>The EventState.</returns>
+		EventState get_state() const
+		{
+			return m_state;
+		}
 
 		/// <summary>
-		/// Marks this Event as handled.
+		/// Sets the state of this Event.
 		/// </summary>
-		void mark_as_handled() { m_handled = true; }
+		/// <param name="state">The new EventState.</param>
+		void set_state(EventState const state)
+		{
+			MINTY_ASSERT(state != EventState::Unhandled, "Cannot set state to Unhandled.");
+			m_state = state;
+		}
+
+		/// <summary>
+		/// Gets the type of this Event.
+		/// </summary>
+		/// <returns>The EventType.</returns>
+		virtual constexpr EventType get_type() const = 0;
 
 #pragma endregion
 	};
 
-	using EventCallbackFunction = std::function<void(Event const&)>;
+	using EventCallbackFunction = Function<void(Event&)>;
 }

@@ -47,16 +47,11 @@ namespace Minty
 		/// <returns>The new height.</returns>
 		UInt get_height() const { return m_height; }
 
-#pragma endregion
-
-#pragma region Statics
-
-	public:
 		/// <summary>
-		/// Gets the type of event for this class.
+		/// Gets the type of this Event.
 		/// </summary>
-		/// <returns>The EventType.</returns>
-		static EventType get_event_type() { return EventType::WindowResize; }
+		/// <returns>WindowResize.</returns>
+		constexpr EventType get_type() const override { return EventType::WindowResize; }
 
 #pragma endregion
 	};

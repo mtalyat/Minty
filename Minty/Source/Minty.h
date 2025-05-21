@@ -11,6 +11,7 @@
 #include "Minty/Entity/_Entity.h"
 #include "Minty/Event/_Event.h"
 #include "Minty/File/_File.h"
+#include "Minty/Input/_Input.h"
 #include "Minty/Job/_Job.h"
 #include "Minty/Memory/_Memory.h"
 #include "Minty/Render/_Render.h"

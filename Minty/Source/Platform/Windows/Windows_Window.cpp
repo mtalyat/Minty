@@ -2,6 +2,7 @@
 #include "Windows_Window.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Event/_Event.h"
 #include "Minty/Library/STB.h"
 
 using namespace Minty;
@@ -16,6 +17,7 @@ static void error_callback(Int error, Char const* description)
 Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 	: Window(builder)
 	, mp_window(nullptr)
+	, m_gamepads()
 	, m_restorePosition(builder.position)
 	, m_restoreSize(builder.size)
 {
@@ -44,23 +46,67 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 
 	glfwSetWindowSizeCallback(mp_window, [](GLFWwindow* window, Int width, Int height)
 		{
-			MINTY_ASSERT(width >= 0, "Width is invalid.");
-			MINTY_ASSERT(height >= 0, "Height is invalid.");
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in callback.");
+			MINTY_ASSERT(obj, "Window is null in Window Size callback.");
 			if (obj->m_eventCallback)
 			{
-				obj->m_eventCallback(WindowResizeEvent(static_cast<UInt>(width), static_cast<UInt>(height)));
+				WindowResizeEvent event(static_cast<UInt>(width), static_cast<UInt>(height));
+				obj->m_eventCallback(event);
 			}
 		});
 
 	glfwSetWindowCloseCallback(mp_window, [](GLFWwindow* window)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in callback.");
+			MINTY_ASSERT(obj, "Window is null in Window Close callback.");
 			if (obj->m_eventCallback)
 			{
-				obj->m_eventCallback(WindowCloseEvent());
+				WindowCloseEvent event{};
+				obj->m_eventCallback(event);
+			}
+		});
+
+	glfwSetKeyCallback(mp_window, [](GLFWwindow* window, Int key, Int scancode, Int action, Int mods)
+		{
+			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
+			MINTY_ASSERT(obj, "Window is null in Key callback.");
+			if (obj->m_eventCallback)
+			{
+				KeyEvent event(static_cast<Key>(key), static_cast<KeyAction>(action), static_cast<KeyModifiers>(mods));
+				obj->m_eventCallback(event);
+			}
+		});
+
+	glfwSetMouseButtonCallback(mp_window, [](GLFWwindow* window, Int button, Int action, Int mods)
+		{
+			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
+			MINTY_ASSERT(obj, "Window is null in Mouse Button callback.");
+			if (obj->m_eventCallback)
+			{
+				MouseButtonEvent event(static_cast<MouseButton>(button), static_cast<KeyAction>(action), static_cast<KeyModifiers>(mods));
+				obj->m_eventCallback(event);
+			}
+		});
+
+	glfwSetCursorPosCallback(mp_window, [](GLFWwindow* window, Double x, Double y)
+		{
+			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
+			MINTY_ASSERT(obj, "Window is null in Mouse Move callback.");
+			if (obj->m_eventCallback)
+			{
+				MouseMoveEvent event(Float2(static_cast<Float>(x), static_cast<Float>(y)));
+				obj->m_eventCallback(event);
+			}
+		});
+
+	glfwSetScrollCallback(mp_window, [](GLFWwindow* window, Double xOffset, Double yOffset)
+		{
+			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
+			MINTY_ASSERT(obj, "Window is null in Mouse Scroll callback.");
+			if (obj->m_eventCallback)
+			{
+				MouseScrollEvent event(Float2(static_cast<Float>(xOffset), static_cast<Float>(yOffset)));
+				obj->m_eventCallback(event);
 			}
 		});
 }
@@ -116,7 +162,7 @@ CursorMode Minty::Windows_Window::get_cursor_mode() const
 	case GLFW_CURSOR_DISABLED:
 		return CursorMode::Disabled;
 	default:
-		return CursorMode::Undefined;
+		return CursorMode();
 	}
 }
 
@@ -150,6 +196,98 @@ void Minty::Windows_Window::save_restore_info()
 	glfwGetWindowSize(mp_window, &m_restoreSize.x, &m_restoreSize.y);
 }
 
+void Minty::Windows_Window::process_window_events()
+{
+	glfwPollEvents();
+}
+
+void Minty::Windows_Window::process_gamepad_events()
+{
+	GLFWgamepadstate state;
+
+	// check for each controller
+	for (Int i = 0; i <= GLFW_JOYSTICK_LAST; i++)
+	{
+		if (glfwGetGamepadState(i, &state))
+		{
+			if (!m_gamepads.contains(i))
+			{
+				// newly connected controller
+
+				// create gamepad data
+				GamepadData data{};
+				data.state = GLFWgamepadstate{};
+				data.name = glfwGetGamepadName(i);
+
+				// trigger event
+				GamepadConnectEvent event(i);
+				if (m_eventCallback)
+				{
+					m_eventCallback(event);
+				}
+
+				// add to map
+				m_gamepads.add(i, data);
+			}
+
+			// get data
+			GamepadData& data = m_gamepads.at(i);
+			GLFWgamepadstate& oldState = data.state;
+
+			// check button changes
+			for (Int j = 0; j <= GLFW_GAMEPAD_BUTTON_LAST; j++)
+			{
+				if (state.buttons[j] != oldState.buttons[j])
+				{
+					GamepadButtonEvent event(i, static_cast<GamepadButton>(j), static_cast<KeyAction>(state.buttons[j]));
+					if (m_eventCallback)
+					{
+						m_eventCallback(event);
+					}
+				}
+			}
+
+			// check axis changes
+			for (Int j = 0; j <= GLFW_GAMEPAD_AXIS_LAST; j++)
+			{
+				// round to zero if a stick
+				if (j <= GLFW_GAMEPAD_AXIS_RIGHT_Y && Math::abs(state.axes[j]) < JOYSTICK_DEADZONE)
+				{
+					state.axes[j] = 0.0f;
+				}
+
+				// compare to old value
+				if (state.axes[j] != oldState.axes[j])
+				{
+					// value changed, trigger callback
+					GamepadAxisEvent event(i, static_cast<GamepadAxis>(j), state.axes[j]);
+					if (m_eventCallback)
+					{
+						m_eventCallback(event);
+					}
+				}
+			}
+
+			// copy over new state data
+			memcpy(&oldState, &state, sizeof(GLFWgamepadstate));
+		}
+		else if (m_gamepads.contains(i))
+		{
+			// controller disconnected
+			
+			// trigger event
+			GamepadDisconnectEvent event(i);
+			if (m_eventCallback)
+			{
+				m_eventCallback(event);
+			}
+
+			// remove from map
+			m_gamepads.remove(i);
+		}
+	}
+}
+
 void Minty::Windows_Window::maximize()
 {
 	save_restore_info();
@@ -180,7 +318,8 @@ Bool Minty::Windows_Window::is_open() const
 
 void Minty::Windows_Window::process_events()
 {
-	glfwPollEvents();
+	process_window_events();
+	process_gamepad_events();
 }
 
 void Minty::Windows_Window::sync()

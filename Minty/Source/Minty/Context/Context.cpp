@@ -2,6 +2,7 @@
 #include "Context.h"
 #include "Minty/Component/_Component.h"
 #include "Minty/System/_System.h"
+#include "Minty/Event/_Event.h"
 
 using namespace Minty;
 
@@ -17,12 +18,15 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_jobManager(nullptr)
 	, m_audioManager(nullptr)
 	, m_assetManager(nullptr)
+	, m_inputManager(nullptr)
 	, m_renderManager(nullptr)
 	, m_sceneManager(nullptr)
 	, m_managers()
+	, m_window(nullptr)
 	, m_registeredSystems()
 	, m_registeredComponents()
 {
+	// set instance
 	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
 	s_instance = this;
 	
@@ -37,6 +41,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_jobManager = JobManager::create(builder.jobManagerBuilder);
 	m_audioManager = AudioManager::create(builder.audioManagerBuilder);
 	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
+	m_inputManager = InputManager::create(builder.inputManagerBuilder);
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
 	m_sceneManager = SceneManager::create(builder.sceneManagerBuilder);
 	m_managers.add(m_memoryManager.get());
@@ -44,7 +49,14 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_managers.add(m_renderManager.get());
 	m_managers.add(m_audioManager.get());
 	m_managers.add(m_assetManager.get());
+	m_managers.add(m_inputManager.get());
 	m_managers.add(m_sceneManager.get());
+
+	// set the window event callback function
+	m_window = m_renderManager->get_window();
+	m_window->set_event_callback([this](Event& event) {
+		handle_event(event);
+		});
 
 	// initialize managers
 	initialize();
@@ -137,10 +149,127 @@ void Minty::Context::render()
 
 void Minty::Context::sync()
 {
+	// sync window
+	m_window->sync();
+
 	// sync managers
 	for (Manager* manager : m_managers)
 	{
 		manager->sync();
+	}
+}
+
+void Minty::Context::process_events()
+{
+	m_window->process_events();
+}
+
+void Minty::Context::handle_event(Event& event)
+{
+	// send the event to specific managers, based on what the event is
+	switch (event.get_type())
+	{
+	case EventType::WindowResize:
+	{
+		WindowResizeEvent& resizeEvent = static_cast<WindowResizeEvent&>(event);
+		Debug::write_message("Window resized to ", resizeEvent.get_width(), "x", resizeEvent.get_height());
+		break;
+	}
+	case EventType::WindowClose:
+	{
+		// TODO: handle event
+		// if not canceled, close the window
+		if (event.get_state() != EventState::Canceled)
+		{
+			Debug::write_message("Window closing...");
+			m_window->close();
+		}
+		break;
+	}
+	case EventType::GamepadAxis:
+	{
+		GamepadAxisEvent& axisEvent = static_cast<GamepadAxisEvent&>(event);
+		Debug::write_message("Gamepad axis: ", to_string(axisEvent.get_axis()), " = ", axisEvent.get_value());
+		break;
+	}
+	case EventType::GamepadButton:
+	{
+		GamepadButtonEvent& buttonEvent = static_cast<GamepadButtonEvent&>(event);
+		if (buttonEvent.get_action() == KeyAction::Down)
+		{
+			Debug::write_message("Gamepad button down: ", to_string(buttonEvent.get_button()));
+		}
+		else if (buttonEvent.get_action() == KeyAction::Up)
+		{
+			Debug::write_message("Gamepad button up: ", to_string(buttonEvent.get_button()));
+		}
+		else if (buttonEvent.get_action() == KeyAction::Hold)
+		{
+			Debug::write_message("Gamepad button repeated: ", to_string(buttonEvent.get_button()));
+		}
+		break;
+	}
+	case EventType::GamepadConnect:
+	{
+		GamepadConnectEvent& connectEvent = static_cast<GamepadConnectEvent&>(event);
+		Debug::write_message("Gamepad connected: ", connectEvent.get_id());
+		break;
+	}
+	case EventType::GamepadDisconnect:
+	{
+		GamepadDisconnectEvent& disconnectEvent = static_cast<GamepadDisconnectEvent&>(event);
+		Debug::write_message("Gamepad disconnected: ", disconnectEvent.get_id());
+		break;
+	}
+	case EventType::Key:
+	{
+		KeyEvent& keyEvent = static_cast<KeyEvent&>(event);
+		if (keyEvent.get_action() == KeyAction::Down)
+		{
+			Debug::write_message("Key down: ", to_string(keyEvent.get_key()));
+		}
+		else if (keyEvent.get_action() == KeyAction::Up)
+		{
+			Debug::write_message("Key up: ", to_string(keyEvent.get_key()));
+		}
+		else if (keyEvent.get_action() == KeyAction::Hold)
+		{
+			Debug::write_message("Key repeated: ", to_string(keyEvent.get_key()));
+		}
+		break;
+	}
+	case EventType::MouseButton:
+	{
+		MouseButtonEvent& mouseButtonEvent = static_cast<MouseButtonEvent&>(event);
+		if (mouseButtonEvent.get_action() == KeyAction::Down)
+		{
+			Debug::write_message("Mouse button down: ", to_string(mouseButtonEvent.get_button()));
+		}
+		else if (mouseButtonEvent.get_action() == KeyAction::Up)
+		{
+			Debug::write_message("Mouse button up: ", to_string(mouseButtonEvent.get_button()));
+		}
+		else if (mouseButtonEvent.get_action() == KeyAction::Hold)
+		{
+			Debug::write_message("Mouse button repeated: ", to_string(mouseButtonEvent.get_button()));
+		}
+		break;
+	}
+	case EventType::MouseMove:
+	{
+		MouseMoveEvent& mouseMoveEvent = static_cast<MouseMoveEvent&>(event);
+		Debug::write_message("Mouse moved to ", mouseMoveEvent.get_position().x, ", ", mouseMoveEvent.get_position().y);
+		break;
+	}
+	case EventType::MouseScroll:
+	{
+		MouseScrollEvent& mouseScrollEvent = static_cast<MouseScrollEvent&>(event);
+		Debug::write_message("Mouse scrolled by ", mouseScrollEvent.get_offset().x, ", ", mouseScrollEvent.get_offset().y);
+		break;
+	}
+	default:
+		MINTY_ABORT("Unhandled event type.");
+		return;
 	}
 }
 

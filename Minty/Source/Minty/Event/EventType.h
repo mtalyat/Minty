@@ -39,22 +39,22 @@ namespace Minty
 		/// <summary>
 		/// The the Mouse is moved.
 		/// </summary>
-		MouseMoved,
+		MouseMove,
 
 		/// <summary>
 		/// When the Mouse is scrolled.
 		/// </summary>
-		MouseScrolled,
+		MouseScroll,
 
 		/// <summary>
 		/// When a Gamepad is connected.
 		/// </summary>
-		GamepadConnected,
+		GamepadConnect,
 
 		/// <summary>
 		/// When a Gamepad is disconnected.
 		/// </summary>
-		GamepadDisconnected,
+		GamepadDisconnect,
 
 		/// <summary>
 		/// When a Gamepad Button is pressed or released.

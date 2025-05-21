@@ -67,6 +67,9 @@
     <Filter Include="Header Files\Minty\Scene">
       <UniqueIdentifier>{c1b28bbb-4bec-4648-a814-10585b173221}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Minty\Input">
+      <UniqueIdentifier>{d5f5a31d-e4bd-4d8a-be4c-1c665d6ac75f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -313,6 +316,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CursorMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_GamepadAxis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_GamepadButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_KeyAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_KeyModifiers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MouseButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -565,6 +589,27 @@
     </ClInclude>
     <ClInclude Include="Test_Scene.h">
       <Filter>Header Files\Minty\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CursorMode.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GamepadAxis.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GamepadButton.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Key.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_KeyAction.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_KeyModifiers.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MouseButton.h">
+      <Filter>Header Files\Minty\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

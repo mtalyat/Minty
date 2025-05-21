@@ -44,6 +44,15 @@
 #include "Test_PhysicalFile.h"
 #include "Test_VirtualFile.h"
 
+// Input
+#include "Test_CursorMode.h"
+#include "Test_GamepadAxis.h"
+#include "Test_GamepadButton.h"
+#include "Test_Key.h"
+#include "Test_KeyAction.h"
+#include "Test_KeyModifiers.h"
+#include "Test_MouseButton.h"
+
 // Job
 #include "Test_JobManager.h"
 
@@ -171,6 +180,15 @@ static int run_tests()
 		test_File(_test);
 		test_PhysicalFile(_test);
 		test_VirtualFile(_test);
+
+		// Input
+		test_CursorMode(_test);
+		test_GamepadAxis(_test);
+		test_GamepadButton(_test);
+		test_Key(_test);
+		test_KeyAction(_test);
+		test_KeyModifiers(_test);
+		test_MouseButton(_test);
 
 		// Job
 		test_JobManager(_test);

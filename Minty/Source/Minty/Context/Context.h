@@ -8,6 +8,7 @@
 #include "Minty/Data/Lookup.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Input/InputManager.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Memory/MemoryManager.h"
 #include "Minty/Render/RenderManager.h"
@@ -26,6 +27,7 @@ namespace Minty
 		JobManagerBuilder jobManagerBuilder = {};
 		AudioManagerBuilder audioManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
+		InputManagerBuilder inputManagerBuilder = {};
 		RenderManagerBuilder renderManagerBuilder = {};
 		SceneManagerBuilder sceneManagerBuilder = {};
 	};
@@ -45,9 +47,11 @@ namespace Minty
 		Owner<JobManager> m_jobManager;
 		Owner<AudioManager> m_audioManager;
 		Owner<AssetManager> m_assetManager;
+		Owner<InputManager> m_inputManager;
 		Owner<RenderManager> m_renderManager;
 		Owner<SceneManager> m_sceneManager;
 		Vector<Manager*> m_managers;
+		Ref<Window> m_window;
 
 		Lookup<TypeID, SystemInfo> m_registeredSystems;
 		Lookup<TypeID, ComponentInfo> m_registeredComponents;
@@ -75,6 +79,7 @@ namespace Minty
 			, m_jobManager(std::move(other.m_jobManager))
 			, m_audioManager(std::move(other.m_audioManager))
 			, m_assetManager(std::move(other.m_assetManager))
+			, m_inputManager(std::move(other.m_inputManager))
 			, m_renderManager(std::move(other.m_renderManager))
 			, m_sceneManager(std::move(other.m_sceneManager))
 			, m_managers(std::move(other.m_managers))
@@ -142,10 +147,22 @@ namespace Minty
 		AssetManager& get_asset_manager() { return *m_assetManager; }
 
 		/// <summary>
+		/// Gets the InputManager in this Context.
+		/// </summary>
+		/// <returns>The InputManager.</returns>
+		InputManager& get_input_manager() { return *m_inputManager; }
+
+		/// <summary>
 		/// Gets the RenderManager in this Context.
 		/// </summary>
 		/// <returns>The RenderManager.</returns>
 		RenderManager& get_render_manager() { return *m_renderManager; }
+
+		/// <summary>
+		/// Gets the Window in this Context.
+		/// </summary>
+		/// <returns></returns>
+		Ref<Window> const& get_window() const { return m_window; }
 
 		/// <summary>
 		/// Gets the SceneManager in this Context.
@@ -186,6 +203,16 @@ namespace Minty
 		/// </summary>
 		void sync();
 
+		/// <summary>
+		/// Processes all pending events in this Context.
+		/// </summary>
+		void process_events();
+
+		/// <summary>
+		/// Handles the given Event.
+		/// </summary>
+		/// <param name="event">The Event that has occured.</param>
+		void handle_event(Event& event);
 #pragma region Systems
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>

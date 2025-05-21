@@ -3,9 +3,8 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
-#include "Minty/Window/CursorMode.h"
-#include "Minty/Window/WindowCloseEvent.h"
-#include "Minty/Window/WindowResizeEvent.h"
+#include "Minty/Input/CursorMode.h"
+#include "Minty/Event/Event.h"
 #include <functional>
 
 namespace Minty
@@ -149,6 +148,15 @@ namespace Minty
 		/// </summary>
 		/// <returns>A pointer to the native object.</returns>
 		virtual void* get_native() const = 0;
+
+		/// <summary>
+		/// Sets the event callback function.
+		/// </summary>
+		/// <param name="callback">The event callback function.</param>
+		void set_event_callback(EventCallbackFunction const& callback)
+		{
+			m_eventCallback = callback;
+		}
 
 #pragma endregion
 

@@ -112,6 +112,9 @@
     <Filter Include="Minty\Scene">
       <UniqueIdentifier>{a26af160-b155-4832-8b5b-eecf22b37857}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Input">
+      <UniqueIdentifier>{54bbc3c0-7480-4c0e-ac7f-db2c773bc223}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -368,15 +371,6 @@
     </ClInclude>
     <ClInclude Include="Minty\Event\EventType.h">
       <Filter>Minty\Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Window\WindowResizeEvent.h">
-      <Filter>Minty\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Window\WindowCloseEvent.h">
-      <Filter>Minty\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Window\CursorMode.h">
-      <Filter>Minty\Window</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Library\STB.h">
       <Filter>Minty\Library</Filter>
@@ -650,6 +644,66 @@
     </ClInclude>
     <ClInclude Include="Minty\Debug\DebugFlags.h">
       <Filter>Minty\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\_Input.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\GamepadAxis.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\GamepadButton.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\Key.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\KeyAction.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\KeyModifiers.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\MouseButton.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\CursorMode.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Input\InputManager.h">
+      <Filter>Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\EventState.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\WindowCloseEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\WindowResizeEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\KeyEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\MouseButtonEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\MouseMoveEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\MouseScrollEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadConnectEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadDisconnectEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadButtonEvent.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Event\GamepadAxisEvent.h">
+      <Filter>Minty\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -972,6 +1026,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Data\Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\CursorMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\GamepadAxis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\GamepadButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\KeyAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\KeyModifiers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\MouseButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
