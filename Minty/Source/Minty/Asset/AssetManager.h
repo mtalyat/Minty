@@ -18,6 +18,7 @@
 
 namespace Minty
 {
+	class AudioClip;
 	class Image;
 	class Material;
 	class MaterialTemplate;
@@ -222,6 +223,17 @@ namespace Minty
 		Ref<T> load(Path const& path)
 		{
 			return static_cast<Ref<T>>(load_asset(path));
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a AudioClip at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the AudioClip Asset.</param>
+		/// <returns>A reference to the loaded AudioClip Asset.</returns>
+		template<>
+		Ref<AudioClip> load<AudioClip>(Path const& path)
+		{
+			return load_audio_clip(path);
 		}
 
 		/// <summary>
@@ -584,6 +596,8 @@ namespace Minty
 		Ref<GenericAsset> load_generic(Path const& path);
 
 		Owner<Image> create_image(Path const& path, UUID const id);
+
+		Ref<AudioClip> load_audio_clip(Path const& path);
 
 		Ref<Image> load_image(Path const& path);
 

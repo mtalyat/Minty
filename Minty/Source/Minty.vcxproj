@@ -122,7 +122,7 @@ doxygen</Command>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN;MINTY_SOLOUD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -150,7 +150,7 @@ doxygen</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN;MINTY_SOLOUD</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -184,6 +184,12 @@ doxygen</Command>
     <ClInclude Include="Minty\Asset\AssetType.h" />
     <ClInclude Include="Minty\Asset\GenericAsset.h" />
     <ClInclude Include="Minty\Asset\_Asset.h" />
+    <ClInclude Include="Minty\Audio\Attenuation.h" />
+    <ClInclude Include="Minty\Audio\AudioClip.h" />
+    <ClInclude Include="Minty\Audio\AudioListener.h" />
+    <ClInclude Include="Minty\Audio\AudioManager.h" />
+    <ClInclude Include="Minty\Audio\AudioSource.h" />
+    <ClInclude Include="Minty\Audio\_Audio.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
@@ -275,6 +281,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Library\EnTT.h" />
     <ClInclude Include="Minty\Library\GLFW.h" />
     <ClInclude Include="Minty\Library\GLM.h" />
+    <ClInclude Include="Minty\Library\SoLoud.h" />
     <ClInclude Include="Minty\Library\STB.h" />
     <ClInclude Include="Minty\Library\Vulkan.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
@@ -355,6 +362,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Wrap\Wrapper.h" />
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Platform\SoLoud\SoLoud_AudioClip.h" />
+    <ClInclude Include="Platform\SoLoud\SoLoud_AudioManager.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Buffer.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Frame.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Image.h" />
@@ -373,11 +382,37 @@ doxygen</Command>
     <ClInclude Include="Platform\Windows\Windows_Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Libraries\soloud\include\dr_impl.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_audiosource.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_bus.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_3d.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_basicops.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_faderops.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_filterops.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_getters.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_setters.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_voicegroup.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_voiceops.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_fader.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_fft.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_fft_lut.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_file.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_filter.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_miniaudio.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_misc.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_queue.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_thread.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_wav.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_wavstream.cpp" />
+    <ClCompile Include="..\..\Libraries\soloud\include\stb_vorbis.cpp" />
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
+    <ClCompile Include="Minty\Audio\AudioClip.cpp" />
+    <ClCompile Include="Minty\Audio\AudioManager.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
@@ -480,6 +515,8 @@ doxygen</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Platform\SoLoud\SoLoud_AudioClip.cpp" />
+    <ClCompile Include="Platform\SoLoud\SoLoud_AudioManager.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Buffer.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Image.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Material.cpp" />

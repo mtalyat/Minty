@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Audio/AudioManager.h"
 #include "Minty/Component/Component.h"
 #include "Minty/Context/Manager.h"
 #include "Minty/Core/Macro.h"
@@ -24,6 +25,7 @@ namespace Minty
 
 		MemoryManagerBuilder memoryManagerBuilder = {};
 		JobManagerBuilder jobManagerBuilder = {};
+		AudioManagerBuilder audioManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
 		InputManagerBuilder inputManagerBuilder = {};
 		RenderManagerBuilder renderManagerBuilder = {};
@@ -43,6 +45,7 @@ namespace Minty
 		DualBuffer* mp_dualBuffer;
 		Owner<MemoryManager> m_memoryManager;
 		Owner<JobManager> m_jobManager;
+		Owner<AudioManager> m_audioManager;
 		Owner<AssetManager> m_assetManager;
 		Owner<InputManager> m_inputManager;
 		Owner<RenderManager> m_renderManager;
@@ -74,6 +77,7 @@ namespace Minty
 			: mp_dualBuffer(other.mp_dualBuffer)
 			, m_memoryManager(std::move(other.m_memoryManager))
 			, m_jobManager(std::move(other.m_jobManager))
+			, m_audioManager(std::move(other.m_audioManager))
 			, m_assetManager(std::move(other.m_assetManager))
 			, m_inputManager(std::move(other.m_inputManager))
 			, m_renderManager(std::move(other.m_renderManager))
@@ -102,6 +106,7 @@ namespace Minty
 				other.mp_dualBuffer = nullptr;
 				m_memoryManager = std::move(other.m_memoryManager);
 				m_jobManager = std::move(other.m_jobManager);
+				m_audioManager = std::move(other.m_audioManager);
 				m_assetManager = std::move(other.m_assetManager);
 				m_renderManager = std::move(other.m_renderManager);
 				m_sceneManager = std::move(other.m_sceneManager);
@@ -128,6 +133,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The JobManager.</returns>
 		JobManager& get_job_manager() { return *m_jobManager; }
+
+		/// <summary>
+		/// Gets the AudioManager in this Context.
+		/// </summary>
+		/// <returns>The AudioManager.</returns>
+		AudioManager& get_audio_manager() { return *m_audioManager; }
 
 		/// <summary>
 		/// Gets the AssetManager in this Context.

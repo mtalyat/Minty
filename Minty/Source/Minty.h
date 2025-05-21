@@ -2,6 +2,7 @@
 
 #include "Minty/Application/_Application.h"
 #include "Minty/Asset/_Asset.h"
+#include "Minty/Audio/_Audio.h"
 #include "Minty/Component/_Component.h"
 #include "Minty/Context/_Context.h"
 #include "Minty/Core/_Core.h"

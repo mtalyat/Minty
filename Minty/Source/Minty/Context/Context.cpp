@@ -16,6 +16,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	: mp_dualBuffer(nullptr)
 	, m_memoryManager(nullptr)
 	, m_jobManager(nullptr)
+	, m_audioManager(nullptr)
 	, m_assetManager(nullptr)
 	, m_inputManager(nullptr)
 	, m_renderManager(nullptr)
@@ -38,6 +39,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	// create managers
 	m_memoryManager = MemoryManager::create(builder.memoryManagerBuilder);
 	m_jobManager = JobManager::create(builder.jobManagerBuilder);
+	m_audioManager = AudioManager::create(builder.audioManagerBuilder);
 	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
 	m_inputManager = InputManager::create(builder.inputManagerBuilder);
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
@@ -45,6 +47,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_managers.add(m_memoryManager.get());
 	m_managers.add(m_jobManager.get());
 	m_managers.add(m_renderManager.get());
+	m_managers.add(m_audioManager.get());
 	m_managers.add(m_assetManager.get());
 	m_managers.add(m_inputManager.get());
 	m_managers.add(m_sceneManager.get());
@@ -69,15 +72,6 @@ Minty::Context::~Context()
 
 	// clean up
 	delete mp_dualBuffer;
-	m_memoryManager.release();
-	m_jobManager.release();
-	m_assetManager.release();
-	m_renderManager.release();
-	m_inputManager.release();
-	m_sceneManager.release();
-	m_managers.clear();
-	m_window.release();
-
 	s_instance = nullptr;
 }
 
