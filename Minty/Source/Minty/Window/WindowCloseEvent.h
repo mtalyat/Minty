@@ -21,15 +21,16 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Get Set
 
 	public:
 		/// <summary>
-		/// Gets the type of event for this class.
+		/// Gets the type of this Event.
 		/// </summary>
-		/// <returns>The EventType.</returns>
-		static EventType get_event_type() { return EventType::WindowClose; }
+		/// <returns>WindowClose.</returns>
+		constexpr EventType get_type() const override { return EventType::WindowClose; }
 
 #pragma endregion
+
 	};
 }

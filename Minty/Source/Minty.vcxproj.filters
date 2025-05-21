@@ -678,6 +678,9 @@
     <ClInclude Include="Minty\Input\InputManager.h">
       <Filter>Minty\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Event\EventState.h">
+      <Filter>Minty\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1020,6 +1023,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Input\MouseButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Input\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

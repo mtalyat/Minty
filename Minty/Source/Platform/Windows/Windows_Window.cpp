@@ -50,7 +50,8 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 			MINTY_ASSERT(obj, "Window is null in callback.");
 			if (obj->m_eventCallback)
 			{
-				obj->m_eventCallback(WindowResizeEvent(static_cast<UInt>(width), static_cast<UInt>(height)));
+				WindowResizeEvent event(static_cast<UInt>(width), static_cast<UInt>(height));
+				obj->m_eventCallback(event);
 			}
 		});
 
@@ -60,7 +61,8 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 			MINTY_ASSERT(obj, "Window is null in callback.");
 			if (obj->m_eventCallback)
 			{
-				obj->m_eventCallback(WindowCloseEvent());
+				WindowCloseEvent event{};
+				obj->m_eventCallback(event);
 			}
 		});
 }

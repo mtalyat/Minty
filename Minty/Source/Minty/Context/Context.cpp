@@ -16,12 +16,15 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_memoryManager(nullptr)
 	, m_jobManager(nullptr)
 	, m_assetManager(nullptr)
+	, m_inputManager(nullptr)
 	, m_renderManager(nullptr)
 	, m_sceneManager(nullptr)
 	, m_managers()
+	, m_window(nullptr)
 	, m_registeredSystems()
 	, m_registeredComponents()
 {
+	// set instance
 	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
 	s_instance = this;
 	
@@ -35,13 +38,21 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_memoryManager = MemoryManager::create(builder.memoryManagerBuilder);
 	m_jobManager = JobManager::create(builder.jobManagerBuilder);
 	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
+	m_inputManager = InputManager::create(builder.inputManagerBuilder);
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
 	m_sceneManager = SceneManager::create(builder.sceneManagerBuilder);
 	m_managers.add(m_memoryManager.get());
 	m_managers.add(m_jobManager.get());
 	m_managers.add(m_renderManager.get());
 	m_managers.add(m_assetManager.get());
+	m_managers.add(m_inputManager.get());
 	m_managers.add(m_sceneManager.get());
+
+	// set the window event callback function
+	m_window = m_renderManager->get_window();
+	m_window->set_event_callback([this](Event& event) {
+		handle_event(event);
+		});
 
 	// initialize managers
 	initialize();
@@ -61,8 +72,10 @@ Minty::Context::~Context()
 	m_jobManager.release();
 	m_assetManager.release();
 	m_renderManager.release();
+	m_inputManager.release();
 	m_sceneManager.release();
 	m_managers.clear();
+	m_window.release();
 
 	s_instance = nullptr;
 }
@@ -141,10 +154,52 @@ void Minty::Context::render()
 
 void Minty::Context::sync()
 {
+	// sync window
+	m_window->sync();
+
 	// sync managers
 	for (Manager* manager : m_managers)
 	{
 		manager->sync();
+	}
+}
+
+void Minty::Context::process_events()
+{
+	m_window->process_events();
+}
+
+void Minty::Context::handle_event(Event& event)
+{
+	// send the event to specific managers, based on what the event is
+	switch (event.get_type())
+	{
+	case EventType::WindowResize:
+		// TODO: handle event
+		break;
+	case EventType::WindowClose:
+		// TODO: handle event
+		// if not canceled, close the window
+		Debug::write("Window close event.\n");
+		if (event.get_state() != EventState::Canceled)
+		{
+			Debug::write("Closing...\n");
+			m_window->close();
+		}
+		break;
+	case EventType::GamepadAxis:
+	case EventType::GamepadButton:
+	case EventType::GamepadConnected:
+	case EventType::GamepadDisconnected:
+	case EventType::Key:
+	case EventType::MouseButton:
+	case EventType::MouseMoved:
+	case EventType::MouseScrolled:
+		// TODO: handle event
+		break;
+	default:
+		MINTY_ABORT("Unhandled event type.");
+		return;
 	}
 }
 

@@ -18,13 +18,17 @@ void Minty::Application::run()
 	Stopwatch elapsedWatch = Stopwatch::start_new();
 
 	// run the application loop
-	m_running = true;
-	while (m_running)
+	Ref<Window> const& window = m_context->get_window();
+	while (window->is_open())
 	{
+		// render managers
+		m_context->render();
+
+		// process events
+		m_context->process_events();
+
 		// update Time object
 		time.update(totalWatch.get_elapsed_s(), elapsedWatch.get_elapsed_s());
-
-		// reset elapsed watch
 		elapsedWatch.reset();
 
 		// update managers
@@ -32,9 +36,6 @@ void Minty::Application::run()
 
 		// finalize (late update) managers
 		m_context->finalize();
-
-		// render managers
-		m_context->render();
 	}
 
 	// sync operations before moving on (threads, rendering, etc.)

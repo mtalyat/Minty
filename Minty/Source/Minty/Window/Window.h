@@ -150,6 +150,15 @@ namespace Minty
 		/// <returns>A pointer to the native object.</returns>
 		virtual void* get_native() const = 0;
 
+		/// <summary>
+		/// Sets the event callback function.
+		/// </summary>
+		/// <param name="callback">The event callback function.</param>
+		void set_event_callback(EventCallbackFunction const& callback)
+		{
+			m_eventCallback = callback;
+		}
+
 #pragma endregion
 
 #pragma region Methods

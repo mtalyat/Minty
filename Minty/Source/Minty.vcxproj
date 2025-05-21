@@ -244,6 +244,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Entity\EntityView.h" />
     <ClInclude Include="Minty\Entity\_Entity.h" />
     <ClInclude Include="Minty\Event\Event.h" />
+    <ClInclude Include="Minty\Event\EventState.h" />
     <ClInclude Include="Minty\Event\EventType.h" />
     <ClInclude Include="Minty\Event\_Event.h" />
     <ClInclude Include="Minty\File\File.h" />
@@ -403,6 +404,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Input\CursorMode.cpp" />
     <ClCompile Include="Minty\Input\GamepadAxis.cpp" />
     <ClCompile Include="Minty\Input\GamepadButton.cpp" />
+    <ClCompile Include="Minty\Input\InputManager.cpp" />
     <ClCompile Include="Minty\Input\Key.cpp" />
     <ClCompile Include="Minty\Input\KeyAction.cpp" />
     <ClCompile Include="Minty\Input\KeyModifiers.cpp" />
