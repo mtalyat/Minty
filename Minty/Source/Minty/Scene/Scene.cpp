@@ -113,6 +113,12 @@ void Minty::Scene::on_render()
 	mp_entityManager->render();
 }
 
+void Minty::Scene::on_event(Event& event)
+{
+	// pass event on to the systems
+	mp_systemManager->handle_event(event);
+}
+
 void Minty::Scene::serialize(Writer& writer) const
 {
 	

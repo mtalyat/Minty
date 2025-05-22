@@ -141,6 +141,12 @@ namespace Minty
 		/// </summary>
 		void render() override;
 
+		/// <summary>
+		/// Handles the given Event.
+		/// </summary>
+		/// <param name="event">The Event.</param>
+		void handle_event(Event& event) override;
+
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 

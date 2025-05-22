@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/Event/EventState.h"
 #include "Minty/Event/EventType.h"
 #include <functional>
@@ -54,6 +55,12 @@ namespace Minty
 			MINTY_ASSERT(state != EventState::Unhandled, "Cannot set state to Unhandled.");
 			m_state = state;
 		}
+
+		/// <summary>
+		/// Checks if this Event is processed. A processed Event is one that has been handled or canceled.
+		/// </summary>
+		/// <returns>True if not Unhandled.</returns>
+		Bool is_processed() const { return m_state != EventState::Unhandled; }
 
 		/// <summary>
 		/// Gets the type of this Event.

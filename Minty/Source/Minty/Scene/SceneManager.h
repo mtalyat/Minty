@@ -142,6 +142,12 @@ namespace Minty
 		/// </summary>
 		void sync() override;
 
+		/// <summary>
+		/// Handles the given Event.
+		/// </summary>
+		/// <param name="event">The Event to handle.</param>
+		void handle_event(Event& event) override;
+
 #pragma endregion
 
 #pragma region Statics

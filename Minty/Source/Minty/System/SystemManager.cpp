@@ -89,6 +89,20 @@ void Minty::SystemManager::render()
 	}
 }
 
+void Minty::SystemManager::handle_event(Event& event)
+{
+	// pass the event on to each of the systems
+	for (System* system : m_systems)
+	{
+		system->on_event(event);
+
+		if (event.is_processed())
+		{
+			return;
+		}
+	}
+}
+
 void Minty::SystemManager::serialize(Writer& writer) const
 {
 	// serialize each system

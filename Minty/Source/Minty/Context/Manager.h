@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
+#include "Minty/Event/Event.h"
 #include "Minty/Time/Time.h"
 
 namespace Minty
@@ -71,6 +72,12 @@ namespace Minty
 		/// Called when the Manager needs to synchronize operations.
 		/// </summary>
 		virtual void sync() {}
+
+		/// <summary>
+		/// Handles the given Event.
+		/// </summary>
+		/// <param name="event">The Event to handle.</param>
+		virtual void handle_event(Event& event) {}
 
 #pragma endregion
 

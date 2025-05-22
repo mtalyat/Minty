@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Data/Pointer.h"
+#include "Minty/Event/Event.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/Time/Time.h"
 
@@ -102,28 +103,34 @@ namespace Minty
 		/// <summary>
 		/// Called when the Scene is loaded.
 		/// </summary>
-		virtual void on_load() = 0;
+		virtual void on_load() {}
 
 		/// <summary>
 		/// Called when the Scene is unloaded.
 		/// </summary>
-		virtual void on_unload() = 0;
+		virtual void on_unload() {}
 
 		/// <summary>
 		/// Called when the Scene is updated.
 		/// </summary>
 		/// <param name="time"></param>
-		virtual void on_update(Time const& time) = 0;
+		virtual void on_update(Time const& time) {}
 
 		/// <summary>
 		/// Called when the Scene is finalized.
 		/// </summary>
-		virtual void on_finalize() = 0;
+		virtual void on_finalize() {}
 
 		/// <summary>
 		/// Called when the Scene is rendered.
 		/// </summary>
-		virtual void on_render() = 0;
+		virtual void on_render() {}
+
+		/// <summary>
+		/// Called when an Event is received.
+		/// </summary>
+		/// <param name="event">The Event.</param>
+		virtual void on_event(Event& event) {}
 
 #pragma endregion
 

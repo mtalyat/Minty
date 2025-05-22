@@ -5,6 +5,7 @@
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Entity/EntityManager.h"
+#include "Minty/Event/Event.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/SystemManager.h"
 #include "Minty/Time/Time.h"
@@ -134,6 +135,12 @@ namespace Minty
 		/// Called when the Scene is rendered.
 		/// </summary>
 		void on_render();
+
+		/// <summary>
+		/// Called when an Event is received.
+		/// </summary>
+		/// <param name="event">The Event.</param>
+		void on_event(Event& event);
 
 		void serialize(Writer& writer) const override;
 

@@ -140,6 +140,15 @@ void Minty::SceneManager::sync()
 
 }
 
+void Minty::SceneManager::handle_event(Event& event)
+{
+	// pass the event on to each of the systems
+	if (m_activeScene != nullptr)
+	{
+		m_activeScene->on_event(event);
+	}
+}
+
 Owner<SceneManager> Minty::SceneManager::create(SceneManagerBuilder const& builder)
 {
 	return Owner<SceneManager>(builder);
