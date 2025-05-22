@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Minty/Animation/_Animation.h"
 #include "Minty/Application/_Application.h"
 #include "Minty/Asset/_Asset.h"
 #include "Minty/Audio/_Audio.h"
@@ -11,6 +12,7 @@
 #include "Minty/Entity/_Entity.h"
 #include "Minty/Event/_Event.h"
 #include "Minty/File/_File.h"
+#include "Minty/FSM/_FSM.h"
 #include "Minty/Input/_Input.h"
 #include "Minty/Job/_Job.h"
 #include "Minty/Memory/_Memory.h"

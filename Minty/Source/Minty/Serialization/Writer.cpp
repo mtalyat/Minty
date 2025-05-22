@@ -7,7 +7,7 @@
 
 using namespace Minty;
 
-void* Minty::Writer::get_user_data() const
+void const* Minty::Writer::get_user_data() const
 {
 	if (m_dataStack.get_size() == 0)
 	{
@@ -17,7 +17,7 @@ void* Minty::Writer::get_user_data() const
 	return m_dataStack.peek();
 }
 
-void Minty::Writer::push_user_data(void* const data)
+void Minty::Writer::push_user_data(void const* const data)
 {
 	m_dataStack.push(data);
 }

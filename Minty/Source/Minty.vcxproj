@@ -177,6 +177,9 @@ doxygen</Command>
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Minty.h" />
+    <ClInclude Include="Minty\Animation\Animation.h" />
+    <ClInclude Include="Minty\Animation\Animator.h" />
+    <ClInclude Include="Minty\Animation\_Animation.h" />
     <ClInclude Include="Minty\Application\Application.h" />
     <ClInclude Include="Minty\Application\_Application.h" />
     <ClInclude Include="Minty\Asset\Asset.h" />
@@ -230,6 +233,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />
+    <ClInclude Include="Minty\Data\Scope.h" />
     <ClInclude Include="Minty\Data\Set.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
@@ -267,6 +271,12 @@ doxygen</Command>
     <ClInclude Include="Minty\File\PhysicalFile.h" />
     <ClInclude Include="Minty\File\VirtualFile.h" />
     <ClInclude Include="Minty\File\_File.h" />
+    <ClInclude Include="Minty\FSM\Condition.h" />
+    <ClInclude Include="Minty\FSM\Conditional.h" />
+    <ClInclude Include="Minty\FSM\FSM.h" />
+    <ClInclude Include="Minty\FSM\State.h" />
+    <ClInclude Include="Minty\FSM\Transition.h" />
+    <ClInclude Include="Minty\FSM\_FSM.h" />
     <ClInclude Include="Minty\Input\CursorMode.h" />
     <ClInclude Include="Minty\Input\GamepadAxis.h" />
     <ClInclude Include="Minty\Input\GamepadButton.h" />
@@ -444,6 +454,11 @@ doxygen</Command>
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
+    <ClCompile Include="Minty\FSM\Condition.cpp" />
+    <ClCompile Include="Minty\FSM\Conditional.cpp" />
+    <ClCompile Include="Minty\FSM\FSM.cpp" />
+    <ClCompile Include="Minty\FSM\State.cpp" />
+    <ClCompile Include="Minty\FSM\Transition.cpp" />
     <ClCompile Include="Minty\Input\CursorMode.cpp" />
     <ClCompile Include="Minty\Input\GamepadAxis.cpp" />
     <ClCompile Include="Minty\Input\GamepadButton.cpp" />

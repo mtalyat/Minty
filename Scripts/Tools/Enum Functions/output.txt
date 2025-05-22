@@ -5,13 +5,13 @@
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
-    String to_string(MouseButton const obj);
-    MouseButton parse_to_mouse_button(String const& string);
-    Bool parse_try_mouse_button(String const& string, MouseButton& value);
+    String to_string(Conditional const obj);
+    Conditional parse_to_conditional(String const& string);
+    Bool parse_try_conditional(String const& string, Conditional& value);
     template<>
-    inline MouseButton parse_to<MouseButton>(String const& string) { return parse_to_mouse_button(string); }
+    inline Conditional parse_to<Conditional>(String const& string) { return parse_to_conditional(string); }
     template<>
-    inline Bool parse_try<MouseButton>(String const& string, MouseButton& value) { return parse_try_mouse_button(string, value); }
+    inline Bool parse_try<Conditional>(String const& string, Conditional& value) { return parse_try_conditional(string, value); }
 
 ====================
 	Source:
@@ -19,40 +19,36 @@
 
 using namespace Minty;
 
-String Minty::to_string(MouseButton const obj)
+String Minty::to_string(Conditional const obj)
 {
     switch (obj)
 	{
-		case MouseButton::Button1: return "Button1";
-		case MouseButton::Button2: return "Button2";
-		case MouseButton::Button3: return "Button3";
-		case MouseButton::Button4: return "Button4";
-		case MouseButton::Button5: return "Button5";
-		case MouseButton::Button6: return "Button6";
-		case MouseButton::Button7: return "Button7";
-		case MouseButton::Button8: return "Button8";
+		case Conditional::Equal: return "Equal";
+		case Conditional::NotEqual: return "NotEqual";
+		case Conditional::GreaterThan: return "GreaterThan";
+		case Conditional::GreaterThanOrEqualTo: return "GreaterThanOrEqualTo";
+		case Conditional::LessThan: return "LessThan";
+		case Conditional::LessThanOrEqualTo: return "LessThanOrEqualTo";
 
 		default: return "";
 	}
 }
 
-MouseButton Minty::parse_to_mouse_button(String const& string)
+Conditional Minty::parse_to_conditional(String const& string)
 {
-	if (string == "Button1") return MouseButton::Button1;
-	if (string == "Button2") return MouseButton::Button2;
-	if (string == "Button3") return MouseButton::Button3;
-	if (string == "Button4") return MouseButton::Button4;
-	if (string == "Button5") return MouseButton::Button5;
-	if (string == "Button6") return MouseButton::Button6;
-	if (string == "Button7") return MouseButton::Button7;
-	if (string == "Button8") return MouseButton::Button8;
+	if (string == "Equal") return Conditional::Equal;
+	if (string == "NotEqual") return Conditional::NotEqual;
+	if (string == "GreaterThan") return Conditional::GreaterThan;
+	if (string == "GreaterThanOrEqualTo") return Conditional::GreaterThanOrEqualTo;
+	if (string == "LessThan") return Conditional::LessThan;
+	if (string == "LessThanOrEqualTo") return Conditional::LessThanOrEqualTo;
 
-	return MouseButton();
+	return Conditional();
 }
 
-Bool Minty::parse_try_mouse_button(String const& string, MouseButton& value)
+Bool Minty::parse_try_conditional(String const& string, Conditional& value)
 {
-	value = parse_to_mouse_button(string);
+	value = parse_to_conditional(string);
 	return true;
 }
 
@@ -64,28 +60,26 @@ Bool Minty::parse_try_mouse_button(String const& string, MouseButton& value)
 
 #include "Test.h"
 
-void test_MouseButton(Test& _test);
+void test_Conditional(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_MouseButton.h"
+#include "Test_Conditional.h"
 #include "Minty.h"
 
-void test_MouseButton(Test& _test)
+void test_Conditional(Test& _test)
 {
-	CATEGORY(MouseButton)
+	CATEGORY(Conditional)
 	{
-        std::vector<std::pair<MouseButton, String>> VALUES = {
-			{MouseButton::Button1, "Button1"},
-			{MouseButton::Button2, "Button2"},
-			{MouseButton::Button3, "Button3"},
-			{MouseButton::Button4, "Button4"},
-			{MouseButton::Button5, "Button5"},
-			{MouseButton::Button6, "Button6"},
-			{MouseButton::Button7, "Button7"},
-			{MouseButton::Button8, "Button8"},
+        std::vector<std::pair<Conditional, String>> VALUES = {
+			{Conditional::Equal, "Equal"},
+			{Conditional::NotEqual, "NotEqual"},
+			{Conditional::GreaterThan, "GreaterThan"},
+			{Conditional::GreaterThanOrEqualTo, "GreaterThanOrEqualTo"},
+			{Conditional::LessThan, "LessThan"},
+			{Conditional::LessThanOrEqualTo, "LessThanOrEqualTo"},
         };
     
         TEST("To String")
@@ -100,23 +94,23 @@ void test_MouseButton(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_mouse_button(name), value);
+                EXPECT_EQUAL(parse_to_conditional(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_mouse_button(""), MouseButton());
+            EXPECT_EQUAL(parse_to_conditional(""), Conditional());
         }
 
         TEST("Parse Try")
         {
-            MouseButton result;
+            Conditional result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_mouse_button(name, result));
+                EXPECT_TRUE(parse_try_conditional(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_mouse_button("", result));
-            EXPECT_EQUAL(result, MouseButton());
+            EXPECT_FALSE(parse_try_conditional("", result));
+            EXPECT_EQUAL(result, Conditional());
         }
 	}
 }

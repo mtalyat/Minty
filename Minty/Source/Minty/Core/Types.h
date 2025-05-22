@@ -3,6 +3,7 @@
 #include <typeindex>
 #include <chrono>
 #include <functional>
+#include <concepts>
 
 namespace Minty
 {
@@ -40,4 +41,15 @@ namespace Minty
 
 	using Job = Function<void()>;
 	using ParallelJob = Function<void(Size)>;
+
+	// Concept to require all comparison operators for T
+	template<typename T>
+	concept Comparable = requires(T a, T b) {
+		{ a == b } -> std::convertible_to<bool>;
+		{ a != b } -> std::convertible_to<bool>;
+		{ a < b } -> std::convertible_to<bool>;
+		{ a > b } -> std::convertible_to<bool>;
+		{ a <= b } -> std::convertible_to<bool>;
+		{ a >= b } -> std::convertible_to<bool>;
+	};
 }

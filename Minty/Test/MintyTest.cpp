@@ -44,6 +44,9 @@
 #include "Test_PhysicalFile.h"
 #include "Test_VirtualFile.h"
 
+// FSM
+#include "Test_Conditional.h"
+
 // Input
 #include "Test_CursorMode.h"
 #include "Test_GamepadAxis.h"
@@ -180,6 +183,9 @@ static int run_tests()
 		test_File(_test);
 		test_PhysicalFile(_test);
 		test_VirtualFile(_test);
+		
+		// FSM
+		test_Conditional(_test);
 
 		// Input
 		test_CursorMode(_test);
