@@ -40,7 +40,7 @@ namespace Minty
 		/// <summary>
 		/// A list of Wrap files to load on initialization.
 		/// </summary>
-		List<Path> wraps = { "Game.wrap" };
+		List<Path> wraps = {};
 
 #ifdef MINTY_DEBUG
 		/// <summary>
