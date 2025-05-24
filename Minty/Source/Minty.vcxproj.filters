@@ -774,6 +774,18 @@
     <ClInclude Include="Minty\Audio\AudioManager.h">
       <Filter>Minty\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Animation\AnimationStep.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Animation\AnimationStepFlags.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntityPath.h">
+      <Filter>Minty</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\AnimatorComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1218,6 +1230,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\FSM\FSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\AnimatorComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Entity\EntityPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\AnimationStep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

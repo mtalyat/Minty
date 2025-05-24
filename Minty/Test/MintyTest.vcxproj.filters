@@ -70,6 +70,9 @@
     <Filter Include="Header Files\Minty\Input">
       <UniqueIdentifier>{d5f5a31d-e4bd-4d8a-be4c-1c665d6ac75f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Minty\FSM">
+      <UniqueIdentifier>{a8f01021-3408-43fc-b01c-d8002c795f21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
@@ -337,6 +340,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Test_MouseButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Conditional.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_FSM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -610,6 +619,12 @@
     </ClInclude>
     <ClInclude Include="Test_MouseButton.h">
       <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Conditional.h">
+      <Filter>Header Files\Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_FSM.h">
+      <Filter>Header Files\Minty\FSM</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

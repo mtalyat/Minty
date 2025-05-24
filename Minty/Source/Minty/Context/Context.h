@@ -284,7 +284,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
 		/// <returns>A Context Owner.</returns>
-		static Owner<Context> create(ContextBuilder const& builder);
+		static Owner<Context> create(ContextBuilder const& builder = {});
 
 		/// <summary>
 		/// Gets the current instance of the Context.

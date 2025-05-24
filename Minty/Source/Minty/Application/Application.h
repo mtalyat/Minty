@@ -14,7 +14,7 @@ namespace Minty
 		/// <summary>
 		/// The Context to use.
 		/// </summary>
-		Owner<Context> context;
+		Owner<Context> context = nullptr;
 	};
 
 	/// <summary>
@@ -78,8 +78,14 @@ namespace Minty
 #pragma region Methods
 
 	public:
+		/// <summary>
+		/// Quits the Application.
+		/// </summary>
 		void quit();
-
+		
+		/// <summary>
+		/// Runs the Application.
+		/// </summary>
 		void run();
 
 #pragma endregion

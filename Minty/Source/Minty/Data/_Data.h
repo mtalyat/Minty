@@ -15,6 +15,7 @@
 #include "Path.h"
 #include "Pointer.h"
 #include "Queue.h"
+#include "Scope.h"
 #include "Set.h"
 #include "Stack.h"
 #include "StaticContainer.h"

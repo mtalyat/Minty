@@ -17,11 +17,29 @@ String Minty::Node::get_data_string() const
 
 Node& Minty::Node::add_child(String const& name, void const* const data, Size const size)
 {
-	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
-
 	Node child(name, data, size, m_allocator);
+	return add_child(std::move(child));
+}
+
+Node& Minty::Node::add_child(Node const& node)
+{
+	String const& name = node.get_name();
+	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
 	Int const index = static_cast<Int>(m_children.get_size());
-	m_children.add(std::move(child));
+	m_children.add(node);
+	if (!name.is_empty())
+	{
+		m_lookup[name] = index;
+	}
+	return m_children.at(index);
+}
+
+Node& Minty::Node::add_child(Node&& node)
+{
+	String const& name = node.get_name();
+	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
+	Int const index = static_cast<Int>(m_children.get_size());
+	m_children.add(std::move(node));
 	if (!name.is_empty())
 	{
 		m_lookup[name] = index;

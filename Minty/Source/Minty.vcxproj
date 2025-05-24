@@ -178,6 +178,8 @@ doxygen</Command>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Minty\Animation\Animation.h" />
+    <ClInclude Include="Minty\Animation\AnimationStep.h" />
+    <ClInclude Include="Minty\Animation\AnimationStepFlags.h" />
     <ClInclude Include="Minty\Animation\Animator.h" />
     <ClInclude Include="Minty\Animation\_Animation.h" />
     <ClInclude Include="Minty\Application\Application.h" />
@@ -193,6 +195,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Audio\AudioManager.h" />
     <ClInclude Include="Minty\Audio\AudioSource.h" />
     <ClInclude Include="Minty\Audio\_Audio.h" />
+    <ClInclude Include="Minty\Component\AnimatorComponent.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
@@ -250,6 +253,7 @@ doxygen</Command>
     <ClInclude Include="Minty\Debug\_Debug.h" />
     <ClInclude Include="Minty\Entity\Entity.h" />
     <ClInclude Include="Minty\Entity\EntityManager.h" />
+    <ClInclude Include="Minty\Entity\EntityPath.h" />
     <ClInclude Include="Minty\Entity\EntitySerializationData.h" />
     <ClInclude Include="Minty\Entity\EntityView.h" />
     <ClInclude Include="Minty\Entity\_Entity.h" />
@@ -417,12 +421,16 @@ doxygen</Command>
     <ClCompile Include="..\..\Libraries\soloud\include\soloud_wavstream.cpp" />
     <ClCompile Include="..\..\Libraries\soloud\include\stb_vorbis.cpp" />
     <ClCompile Include="Minty.cpp" />
+    <ClCompile Include="Minty\Animation\Animation.cpp" />
+    <ClCompile Include="Minty\Animation\AnimationStep.cpp" />
+    <ClCompile Include="Minty\Animation\Animator.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
     <ClCompile Include="Minty\Audio\AudioClip.cpp" />
     <ClCompile Include="Minty\Audio\AudioManager.cpp" />
+    <ClCompile Include="Minty\Component\AnimatorComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
@@ -451,6 +459,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
     <ClCompile Include="Minty\Entity\EntityManager.cpp" />
+    <ClCompile Include="Minty\Entity\EntityPath.cpp" />
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />

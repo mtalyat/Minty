@@ -34,15 +34,19 @@ void Minty::SceneManager::remove(Ref<Scene> const& scene)
 	}
 }
 
-void Minty::SceneManager::load(Path const& path)
+Ref<Scene> Minty::SceneManager::load(Path const& path)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
 	// load the scene
 	Ref<Scene> scene = assetManager.load<Scene>(path);
 
+	MINTY_ASSERT(scene != nullptr, F("Failed to load Scene at path: {}", path));
+
 	// add the Scene
 	add(scene);
+
+	return scene;
 }
 
 void Minty::SceneManager::unload(UUID const id)
@@ -59,21 +63,50 @@ void Minty::SceneManager::unload(UUID const id)
 	assetManager.unload(id);
 }
 
-void Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletion)
+UUID Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletion)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
-	
-
-	// load the scene
-	
+	assetManager.schedule_load(path, [this, onCompletion](AssetManager& assetManager, UUID const id)
+		{
+			// get the scene
+			Ref<Scene> scene = assetManager.get<Scene>(id);
+			MINTY_ASSERT(scene != nullptr, F("Failed to load Scene with ID: {}", id));
+			// add the scene
+			add(scene);
+			// run the completion job
+			onCompletion();
+		});
 }
 
 void Minty::SceneManager::schedule_unload(UUID const id, Job const& onCompletion)
 {
+	AssetManager& assetManager = AssetManager::get_singleton();
+
+	// get the scene
+	Ref<Scene> scene = assetManager.at<Scene>(id);
+
+	// remove the scene
+	remove(scene);
+
+	assetManager.schedule_unload(id, [this, onCompletion](AssetManager& assetManager, UUID const id)
+		{
+			// run the completion job
+			onCompletion();
+		});
 }
 
 void Minty::SceneManager::initialize()
 {
+	// load the initial scene, if not loaded
+	if (!m_initialScene.is_empty())
+	{
+		// load
+		Ref<Scene> scene = load(m_initialScene);
+		
+		// set as active
+		m_activeScene = scene;
+	}
+
 	// load all of the scenes
 	for (Ref<Scene> const& scene : m_scenes)
 	{
@@ -97,6 +130,7 @@ void Minty::SceneManager::dispose()
 	// clear the list of scenes
 	m_scenes.clear();
 	m_activeScene = nullptr;
+	m_nextScene = nullptr;
 
 	Manager::dispose();
 }

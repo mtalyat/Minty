@@ -100,9 +100,29 @@ namespace Minty
 		/// Gets the ID of the current State.
 		/// </summary>
 		/// <returns>The ID of the current State.</returns>
-		UUID get_current_state() const
+		UUID get_current_state_id() const
 		{
 			return m_currentStateId;
+		}
+
+		/// <summary>
+		/// Gets the current State.
+		/// </summary>
+		/// <returns>The State.</returns>
+		State& get_current_state()
+		{
+			MINTY_ASSERT(m_states.contains(m_currentStateId), F("No state found with ID {}.", m_currentStateId));
+			return m_states.at(m_currentStateId);
+		}
+
+		/// <summary>
+		/// Gets the current State.
+		/// </summary>
+		/// <returns>The State.</returns>
+		State const& get_current_state() const
+		{
+			MINTY_ASSERT(m_states.contains(m_currentStateId), F("No state found with ID {}.", m_currentStateId));
+			return m_states.at(m_currentStateId);
 		}
 
 		/// <summary>
@@ -127,10 +147,39 @@ namespace Minty
 		/// <summary>
 		/// Gets the ID of the starting state.
 		/// </summary>
-		/// <returns></returns>
-		UUID get_starting_state() const
+		/// <returns>The ID of the starting State.</returns>
+		UUID get_starting_state_id() const
 		{
 			return m_startingStateId;
+		}
+
+		/// <summary>
+		/// Gets the starting state.
+		/// </summary>
+		/// <returns>The State.</returns>
+		State& get_starting_state()
+		{
+			MINTY_ASSERT(m_states.contains(m_startingStateId), F("No state found with ID {}.", m_startingStateId));
+			return m_states.at(m_startingStateId);
+		}
+
+		/// <summary>
+		/// Gets the starting state.
+		/// </summary>
+		/// <returns>The State.</returns>
+		State const& get_starting_state() const
+		{
+			MINTY_ASSERT(m_states.contains(m_startingStateId), F("No state found with ID {}.", m_startingStateId));
+			return m_states.at(m_startingStateId);
+		}
+
+		/// <summary>
+		/// Checks if this FSM has a starting State.
+		/// </summary>
+		/// <returns>True if there is a starting State, otherwise false.</returns>
+		Bool has_starting_state() const
+		{
+			return m_startingStateId.is_valid();
 		}
 
 		/// <summary>
@@ -158,9 +207,19 @@ namespace Minty
 		/// </summary>
 		/// <param name="id">The ID of the variable.</param>
 		/// <returns>The name of the variable.</returns>
-		String get_variable_name(UUID const id) const
+		String const& get_variable_name(UUID const id) const
 		{
 			return m_scope.get_name(id);
+		}
+
+		/// <summary>
+		/// Gets the name of the State with the given ID.
+		/// </summary>
+		/// <param name="id">The ID of the State.</param>
+		/// <returns>The name of the State.</returns>
+		String const& get_state_name(UUID const id) const
+		{
+			return m_states.get_string(id);
 		}
 
 #pragma endregion
@@ -191,10 +250,7 @@ namespace Minty
 		/// <param name="name">The name of the variable.</param>
 		/// <param name="value">The initial value of the variable.</param>
 		/// <returns>The ID of the new variable.</returns>
-		UUID create_variable(String const& name, Int const value = 0)
-		{
-			return m_scope.add(name, value);
-		}
+		UUID create_variable(String const& name, Int const value = 0);
 
 		/// <summary>
 		/// Gets the ID of the variable with the given name.

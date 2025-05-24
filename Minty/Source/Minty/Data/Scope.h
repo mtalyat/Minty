@@ -159,6 +159,8 @@ namespace Minty
 				UUID id = UUID::create();
 				m_values.add(name, id, value);
 			}
+
+			return true;
 		}
 
 #pragma endregion

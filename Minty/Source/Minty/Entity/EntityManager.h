@@ -2,6 +2,7 @@
 #include "Minty/Component/Component.h"
 #include "Minty/Context/Manager.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/Entity/EntityPath.h"
 #include "Minty/Entity/EntityView.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
@@ -66,6 +67,8 @@ namespace Minty
 
 		Entity get_entity(UUID const id) const;
 
+		Entity get_entity(Entity const source, EntityPath const& path) const;
+
 		// name (UUID)
 		String get_entity_string(Entity const entity) const;
 
@@ -84,6 +87,8 @@ namespace Minty
 		void set_parent(Entity const entity, Entity const parent);
 
 		Entity get_parent(Entity const entity) const;
+
+		Entity get_child(Entity const entity, Size const index) const;
 
 		String get_name(Entity const entity) const;
 

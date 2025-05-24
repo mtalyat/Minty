@@ -11,6 +11,8 @@ UUID Minty::FSM::create_state(String const& name, Variable const& value)
 
 UUID Minty::FSM::add_state(String const& name, State const& state)
 {
+	MINTY_ASSERT(!name.is_empty(), F("State name cannot be empty."));
+
 	UUID id = UUID::create();
 	// if no states, set this as the starting state and current state
 	if (m_states.is_empty())
@@ -20,6 +22,12 @@ UUID Minty::FSM::add_state(String const& name, State const& state)
 	}
 	m_states.add(name, id, state);
 	return id;
+}
+
+UUID Minty::FSM::create_variable(String const& name, Int const value)
+{
+	MINTY_ASSERT(!name.is_empty(), F("Variable name cannot be empty."));
+	return m_scope.add(name, value);
 }
 
 Bool Minty::FSM::evaluate()
