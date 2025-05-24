@@ -66,7 +66,7 @@ void Minty::SceneManager::unload(UUID const id)
 UUID Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletion)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
-	assetManager.schedule_load(path, [this, onCompletion](AssetManager& assetManager, UUID const id)
+	return assetManager.schedule_load(path, [this, onCompletion](AssetManager& assetManager, UUID const id)
 		{
 			// get the scene
 			Ref<Scene> scene = assetManager.get<Scene>(id);
