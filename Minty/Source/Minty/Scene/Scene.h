@@ -108,6 +108,13 @@ namespace Minty
 
 #pragma region Methods
 
+	private:
+		// loads the assets controlled by this Scene
+		void load_assets();
+
+		// unloads the assets controlled by this Scene
+		void unload_assets();
+
 	public:
 		/// <summary>
 		/// Called when the Asset is loaded into the AssetManager.
