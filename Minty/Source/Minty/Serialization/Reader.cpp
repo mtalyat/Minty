@@ -244,6 +244,7 @@ Node Minty::TextReaderBehavior::read_node(const void* const data, Size const siz
 			{
 				// no String::split, just key
 				key = line;
+				value = "";
 			}
 			else
 			{
