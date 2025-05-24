@@ -100,6 +100,23 @@ void Minty::AssetManager::close(File* file) const
 	delete file;
 }
 
+void Minty::AssetManager::run_completion_jobs()
+{
+	{
+		std::unique_lock lock(m_onCompletionsMutex);
+		while (!m_onCompletions.is_empty())
+		{
+			// get the ID and the Job
+			auto tuple = m_onCompletions.pop();
+			UUID const id = tuple.get_first();
+			AssetJob const& job = tuple.get_second();
+
+			// run the Job
+			job(*this, id);
+		}
+	}
+}
+
 void Minty::AssetManager::dispose()
 {
 	// sync to finish loading/unloading
@@ -114,19 +131,7 @@ void Minty::AssetManager::dispose()
 void Minty::AssetManager::update(Time const& time)
 {
 	// run all of the onCompletion jobs
-	{
-		std::unique_lock lock(m_onCompletionsMutex);
-		while (!m_onCompletions.is_empty())
-		{
-			// get the ID and the Job
-			auto const& tuple = m_onCompletions.pop();
-			UUID const id = tuple.get_first();
-			AssetJob const& job = tuple.get_second();
-			
-			// run the Job
-			job(id);
-		}
-	}
+	run_completion_jobs();
 }
 
 void Minty::AssetManager::sync()
@@ -152,14 +157,7 @@ void Minty::AssetManager::sync()
 	}
 
 	// run all of the onCompletion jobs
-	{
-		std::unique_lock lock(m_onCompletionsMutex);
-		while (!m_onCompletions.is_empty())
-		{
-			Job job = m_onCompletions.pop();
-			job();
-		}
-	}
+	run_completion_jobs();
 }
 
 Bool Minty::AssetManager::is_syncing() const

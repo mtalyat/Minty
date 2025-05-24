@@ -144,6 +144,8 @@ namespace Minty
 			return asset.create_ref();
 		}
 
+		void run_completion_jobs();
+
 	public:
 		/// <summary>
 		/// Shuts down the AssetManager.
