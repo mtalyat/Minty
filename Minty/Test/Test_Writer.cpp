@@ -26,7 +26,7 @@ void test_Writer(Test& _test)
 			EXPECT_EQUAL(writer.get_user_data(), nullptr);
 			Size data = 45;
 			writer.push_user_data(&data);
-			EXPECT_EQUAL(*static_cast<Size*>(writer.get_user_data()), data);
+			EXPECT_EQUAL(*static_cast<Size const*>(writer.get_user_data()), data);
 
 			file.close();
 			File::destroy(TEST_PATH);
@@ -66,7 +66,7 @@ void test_Writer(Test& _test)
 			TextFileWriter writer(&file);
 			Size data = 45;
 			writer.push_user_data(&data);
-			EXPECT_EQUAL(*static_cast<Size*>(writer.get_user_data()), data);
+			EXPECT_EQUAL(*static_cast<Size const*>(writer.get_user_data()), data);
 			file.close();
 			File::destroy(TEST_PATH);
 		}
@@ -77,7 +77,7 @@ void test_Writer(Test& _test)
 			TextFileWriter writer(&file);
 			Size data = 45;
 			writer.push_user_data(&data);
-			EXPECT_EQUAL(*static_cast<Size*>(writer.get_user_data()), data);
+			EXPECT_EQUAL(*static_cast<Size const*>(writer.get_user_data()), data);
 			writer.pop_user_data();
 			EXPECT_EQUAL(writer.get_user_data(), nullptr);
 			EXPECT_FAILURE(writer.pop_user_data());

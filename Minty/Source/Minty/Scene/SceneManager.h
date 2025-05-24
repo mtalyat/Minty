@@ -9,7 +9,10 @@ namespace Minty
 	/// </summary>
 	struct SceneManagerBuilder
 	{
-
+		/// <summary>
+		/// The path to the first scene to load.
+		/// </summary>
+		String initialScene;
 	};
 
 	/// <summary>
@@ -21,6 +24,8 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		String m_initialScene;
+
 		// loaded scenes
 		Set<Ref<Scene>> m_scenes;
 
@@ -37,6 +42,7 @@ namespace Minty
 	public:
 		SceneManager(SceneManagerBuilder const& builder)
 			: Manager()
+			, m_initialScene(builder.initialScene)
 			, m_scenes()
 			, m_activeScene(nullptr)
 			, m_nextScene(nullptr)
@@ -90,7 +96,7 @@ namespace Minty
 		/// Loads the Scene from the given Path, and adds it to the SceneManager.
 		/// </summary>
 		/// <param name="path">The Path to the Scene.</param>
-		void load(Path const& path);
+		Ref<Scene> load(Path const& path);
 
 		/// <summary>
 		/// Removes the Scene with the given ID from the SceneManager, and unloads it.
@@ -103,7 +109,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="path"></param>
 		/// <param name="onCompletion">The Job to run upon completion of the loading.</param>
-		void schedule_load(Path const& path, Job const& onCompletion = []() {});
+		UUID schedule_load(Path const& path, Job const& onCompletion = []() {});
 
 		/// <summary>
 		/// Removes the Scene from the SceneManager, and Schedules the Scene with the given ID to be unloaded.

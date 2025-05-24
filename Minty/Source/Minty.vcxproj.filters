@@ -115,6 +115,18 @@
     <Filter Include="Minty\Input">
       <UniqueIdentifier>{54bbc3c0-7480-4c0e-ac7f-db2c773bc223}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Animation">
+      <UniqueIdentifier>{b6b0feda-025e-44db-8ebb-c0f7e3b64e54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\FSM">
+      <UniqueIdentifier>{4db0d735-5090-4cd0-aff4-cdece9e5ed90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\SoLoud">
+      <UniqueIdentifier>{8355d1cd-f508-453b-b0c3-879f0a7c6a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Audio">
+      <UniqueIdentifier>{2dbbe95e-ad54-4bf4-8674-a047ab4db63b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -705,6 +717,75 @@
     <ClInclude Include="Minty\Event\GamepadAxisEvent.h">
       <Filter>Minty\Event</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Animation\_Animation.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Animation\Animation.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Animation\Animator.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\FSM\FSM.h">
+      <Filter>Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\FSM\Conditional.h">
+      <Filter>Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\FSM\Condition.h">
+      <Filter>Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\FSM\_FSM.h">
+      <Filter>Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\FSM\Transition.h">
+      <Filter>Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\FSM\State.h">
+      <Filter>Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Scope.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Library\SoLoud.h">
+      <Filter>Platform\SoLoud</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\SoLoud\SoLoud_AudioClip.h">
+      <Filter>Platform\SoLoud</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\SoLoud\SoLoud_AudioManager.h">
+      <Filter>Platform\SoLoud</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Audio\AudioSource.h">
+      <Filter>Minty\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Audio\_Audio.h">
+      <Filter>Minty\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Audio\Attenuation.h">
+      <Filter>Minty\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Audio\AudioClip.h">
+      <Filter>Minty\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Audio\AudioListener.h">
+      <Filter>Minty\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Audio\AudioManager.h">
+      <Filter>Minty\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Animation\AnimationStep.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Animation\AnimationStepFlags.h">
+      <Filter>Minty\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntityPath.h">
+      <Filter>Minty</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\AnimatorComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1050,6 +1131,120 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Input\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\dr_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_audiosource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_bus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_basicops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_faderops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_filterops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_getters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_setters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_voicegroup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_core_voiceops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_fader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_fft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_fft_lut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_filter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_miniaudio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_wav.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\soloud_wavstream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\soloud\include\stb_vorbis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Audio\AudioClip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Audio\AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\FSM\Condition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\FSM\Conditional.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\SoLoud\SoLoud_AudioClip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\SoLoud\SoLoud_AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\FSM\Transition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\FSM\State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\FSM\FSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\AnimatorComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Entity\EntityPath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\AnimationStep.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

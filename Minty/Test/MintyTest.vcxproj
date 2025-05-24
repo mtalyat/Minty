@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test_Conditional.cpp" />
     <ClCompile Include="Test_CursorMode.cpp" />
     <ClCompile Include="Test_ArgumentParser.cpp" />
     <ClCompile Include="Test_Buffer.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Test_EntityManager.cpp" />
     <ClCompile Include="Test_Filter.cpp" />
     <ClCompile Include="Test_Format.cpp" />
+    <ClCompile Include="Test_FSM.cpp" />
     <ClCompile Include="Test_GamepadAxis.cpp" />
     <ClCompile Include="Test_GamepadButton.cpp" />
     <ClCompile Include="Test_Image.cpp" />
@@ -231,6 +233,7 @@
     <ClCompile Include="Test_Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Test_Conditional.h" />
     <ClInclude Include="Test_CursorMode.h" />
     <ClInclude Include="Test_ArgumentParser.h" />
     <ClInclude Include="Test_Buffer.h" />
@@ -240,6 +243,7 @@
     <ClInclude Include="Test_EntityManager.h" />
     <ClInclude Include="Test_Filter.h" />
     <ClInclude Include="Test_Format.h" />
+    <ClInclude Include="Test_FSM.h" />
     <ClInclude Include="Test_GamepadAxis.h" />
     <ClInclude Include="Test_GamepadButton.h" />
     <ClInclude Include="Test_Image.h" />

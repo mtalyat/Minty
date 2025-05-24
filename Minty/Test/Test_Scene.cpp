@@ -23,14 +23,14 @@ void test_Scene(Test& _test)
 			Ref<Scene> scene = context.get_asset_manager().load<Scene>("Assets/minty.msce");
 
 			EXPECT_EQUAL(scene->get_name(), "minty");
-			UUID id("ee7ea0f3b2ed868f");
+			UUID id = parse_to_uuid("ee7ea0f3b2ed868f");
 			EXPECT_EQUAL(scene->get_id(), id);
 			EntityManager& entityManager = scene->get_entity_manager();
 			EXPECT_EQUAL(entityManager.get_size(), 2);
 
-			UUID cameraId("6e2c8e09c099405c");
+			UUID cameraId = parse_to_uuid("6e2c8e09c099405c");
 			EXPECT_TRUE(entityManager.contains(cameraId));
-			UUID cubeId("99606238de99041e");
+			UUID cubeId = parse_to_uuid("99606238de99041e");
 			EXPECT_TRUE(entityManager.contains(cubeId));
 		}
 

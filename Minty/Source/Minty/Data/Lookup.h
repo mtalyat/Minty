@@ -2,8 +2,10 @@
 #include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/Tuple.h"
+#include "Minty/Data/Map.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/Tuple.h"
+#include "Minty/Data/Vector.h"
 #include "Minty/Debug/Debug.h"
 
 namespace Minty
@@ -172,9 +174,39 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Gets the capacity of this Lookup.
+		/// </summary>
+		/// <returns>The maximum number of elements.</returns>
 		Size get_capacity() const { return m_values.get_capacity(); }
 
+		/// <summary>
+		/// Gets the size of this Lookup.
+		/// </summary>
+		/// <returns>The number of elements.</returns>
 		Size get_size() const { return m_values.get_size(); }
+
+		/// <summary>
+		/// Gets the String associated with the given Key.
+		/// </summary>
+		/// <param name="key">The Key.</param>
+		/// <returns>The String.</returns>
+		String const& get_string(Key const& key) const
+		{
+			MINTY_ASSERT(m_keys.contains(key), F("Key does not exist: {}", key));
+			return m_values[m_keys.at(key)].get_first();
+		}
+
+		/// <summary>
+		/// Gets the Key associated with the given String.
+		/// </summary>
+		/// <param name="string">The String.</param>
+		/// <returns>The Key.</returns>
+		Key const& get_key(String const& string) const
+		{
+			MINTY_ASSERT(m_strings.contains(string), F("String does not exist: {}", string));
+			return m_values[m_strings.at(string)].get_second();
+		}
 
 #pragma endregion
 
@@ -304,7 +336,7 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value& at(String const& key)
 		{
-			return m_values.at(m_strings.at(key));
+			return m_values.at(m_strings.at(key)).get_third();
 		}
 
 		/// <summary>
@@ -314,7 +346,7 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value const& at(String const& key) const
 		{
-			return m_values.at(m_strings.at(key));
+			return m_values.at(m_strings.at(key)).get_third();
 		}
 
 		/// <summary>
@@ -324,7 +356,7 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value& at(Key const& key)
 		{
-			return m_values.at(m_keys.at(key));
+			return m_values.at(m_keys.at(key)).get_third();
 		}
 
 		/// <summary>
@@ -334,7 +366,7 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value const& at(Key const& key) const
 		{
-			return m_values.at(m_keys.at(key));
+			return m_values.at(m_keys.at(key)).get_third();
 		}
 
 		/// <summary>

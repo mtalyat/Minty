@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "AssetManager.h"
+#include "Minty/Animation/Animation.h"
+#include "Minty/Animation/Animator.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Context/Context.h"
 #include "Minty/Library/STB.h"
@@ -116,8 +118,13 @@ void Minty::AssetManager::update(Time const& time)
 		std::unique_lock lock(m_onCompletionsMutex);
 		while (!m_onCompletions.is_empty())
 		{
-			Job job = m_onCompletions.pop();
-			job();
+			// get the ID and the Job
+			auto const& tuple = m_onCompletions.pop();
+			UUID const id = tuple.get_first();
+			AssetJob const& job = tuple.get_second();
+			
+			// run the Job
+			job(id);
 		}
 	}
 }
@@ -244,7 +251,7 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 	writer = nullptr;
 }
 
-UUID Minty::AssetManager::schedule_load(Path const& path, Job const& onCompletion)
+UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onCompletion)
 {
 	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
 	Path metaPath = Asset::get_meta_path(path);
@@ -272,7 +279,7 @@ UUID Minty::AssetManager::schedule_load(Path const& path, Job const& onCompletio
 			// add to completion queue
 			{
 				std::unique_lock lock(m_onCompletionsMutex);
-				m_onCompletions.push(onCompletion);
+				m_onCompletions.push({ id, onCompletion });
 			}
 		}, handle);
 
@@ -326,7 +333,7 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 	}
 }
 
-void Minty::AssetManager::schedule_unload(UUID const id, Job const& onCompletion)
+void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const& onCompletion)
 {
 	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
 	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
@@ -348,7 +355,7 @@ void Minty::AssetManager::schedule_unload(UUID const id, Job const& onCompletion
 			// add to completion queue
 			{
 				std::unique_lock lock(m_onCompletionsMutex);
-				m_onCompletions.push(onCompletion);
+				m_onCompletions.push({ id, onCompletion });
 			}
 		}, handle);
 
@@ -738,6 +745,80 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	stbi_image_free(data);
 
 	return image;
+}
+
+Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
+{
+	// create builder
+	AnimationBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values from the file
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read values
+		reader->read("Duration", builder.duration);
+		reader->read("Loop", builder.loop);
+		reader->read("Entities", builder.entities);
+		reader->read("Components", builder.components);
+		reader->read("Variables", builder.variables);
+		reader->read("Values", builder.values);
+
+		// read steps
+		if (reader->indent("Steps"))
+		{
+			// read each time
+			String timeString;
+			Float time;
+			for (Size i = 0; i < reader->get_size(); i++)
+			{
+				if (!reader->read_name(i, timeString))
+				{
+					MINTY_ERROR(F("Failed to read time from animation step: {}.", path));
+					continue;
+				}
+				if (!try_float(timeString, time))
+				{
+					MINTY_ERROR(F("Failed to convert time string to float: {}.", timeString));
+					continue;
+				}
+				builder.steps.add({ time, Vector<AnimationStep>{} });
+				auto& list = builder.steps.back().get_second();
+
+				// read each step within the time
+				reader->indent(i);
+
+				AnimationStep step;
+				for (Size j = 0; j < reader->get_size(); j++)
+				{
+					// read the step
+					if (!reader->read(j, step))
+					{
+						MINTY_ERROR(F("Failed to read animation step: {}.", path));
+						continue;
+					}
+
+					// add the step to the builder
+					list.add(step);
+				}
+
+				reader->outdent();
+			}
+
+			reader->outdent();
+		}
+
+		close_reader(reader);
+	}
+
+	// create the animation
+	return create_from_loaded<Animation>(path, builder);
+}
+
+Ref<Animator> Minty::AssetManager::load_animator(Path const& path)
+{
+	return Ref<Animator>();
 }
 
 Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)

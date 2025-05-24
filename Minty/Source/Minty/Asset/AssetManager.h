@@ -7,6 +7,7 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Queue.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Serialization/Reader.h"
@@ -18,6 +19,8 @@
 
 namespace Minty
 {
+	class Animation;
+	class Animator;
 	class AudioClip;
 	class Image;
 	class Material;
@@ -31,6 +34,9 @@ namespace Minty
 	class Sprite;
 	class Texture;
 	class Viewport;
+
+	class AssetManager;
+	using AssetJob = Function<void(AssetManager&, UUID const)>;
 
 	/// <summary>
 	/// Arguments for creates an AssetManager.
@@ -55,6 +61,9 @@ namespace Minty
 #endif
 	};
 
+	/// <summary>
+	/// Handles loading and unloading of Assets.
+	/// </summary>
 	class AssetManager
 		: public Manager
 	{
@@ -86,7 +95,7 @@ namespace Minty
 		Map<UUID, AssetData> m_assets;
 		Map<AssetType, Set<UUID>> m_assetTypes;
 		Map<UUID, Handle> m_handles;
-		Queue<Job> m_onCompletions;
+		Queue<Tuple<UUID, AssetJob>> m_onCompletions;
 		mutable std::mutex m_assetsMutex;
 		mutable std::mutex m_handlesMutex;
 		mutable std::mutex m_onCompletionsMutex;
@@ -204,7 +213,7 @@ namespace Minty
 		/// <param name="path">The Path to the Asset.</param>
 		/// <param name="onCompletion">The function to call when the Asset is loaded.</param>
 		/// <returns>The UUID of the Asset to be loaded.</returns>
-		UUID schedule_load(Path const& path, Job const& onCompletion = []() {});
+		UUID schedule_load(Path const& path, AssetJob const& onCompletion = [](AssetManager& assetManager, UUID const id) {});
 
 		/// <summary>
 		/// Loads the Asset at the given Path.
@@ -223,6 +232,28 @@ namespace Minty
 		Ref<T> load(Path const& path)
 		{
 			return static_cast<Ref<T>>(load_asset(path));
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Animation at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Animation Asset.</param>
+		/// <returns>A reference to the loaded Animation Asset.</returns>
+		template<>
+		Ref<Animation> load<Animation>(Path const& path)
+		{
+			return load_animation(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Animator at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Animator Asset.</param>
+		/// <returns>A reference to the loaded Animator Asset.</returns>
+		template<>
+		Ref<Animator> load<Animator>(Path const& path)
+		{
+			return load_animator(path);
 		}
 
 		/// <summary>
@@ -340,7 +371,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="id">The ID of the Asset to unload.</param>
 		/// <param name="onCompletion">The function to call when the Asset is unloaded.</param>
-		void schedule_unload(UUID const id, Job const& onCompletion = []() {});
+		void schedule_unload(UUID const id, AssetJob const& onCompletion = [](AssetManager& assetManager, UUID const id) {});
 
 		/// <summary>
 		/// Unloads the Asset with the given ID immediately.
@@ -596,6 +627,10 @@ namespace Minty
 		Ref<GenericAsset> load_generic(Path const& path);
 
 		Owner<Image> create_image(Path const& path, UUID const id);
+
+		Ref<Animation> load_animation(Path const& path);
+
+		Ref<Animator> load_animator(Path const& path);
 
 		Ref<AudioClip> load_audio_clip(Path const& path);
 

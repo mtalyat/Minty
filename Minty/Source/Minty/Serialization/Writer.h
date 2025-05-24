@@ -26,7 +26,7 @@ namespace Minty
 
 	private:
 		Allocator m_allocator;
-		List<void*> m_dataStack;
+		List<void const*> m_dataStack;
 
 #pragma endregion
 
@@ -52,7 +52,7 @@ namespace Minty
 		/// Gets the top of the data stack.
 		/// </summary>
 		/// <returns>A pointer to the data, or null if nothing in the data stack.</returns>
-		void* get_user_data() const;
+		void const* get_user_data() const;
 
 		/// <summary>
 		/// Gets the data source for this Reader.
@@ -75,7 +75,7 @@ namespace Minty
 		/// Adds data to the top of the data stack.
 		/// </summary>
 		/// <param name="data">The pointer to the data to add.</param>
-		void push_user_data(void* const data);
+		void push_user_data(void const* const data);
 
 		/// <summary>
 		/// Removes the top of the data stack.

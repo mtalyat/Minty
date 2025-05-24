@@ -159,6 +159,12 @@ namespace Minty
 		String const& get_name() const { return m_name; }
 
 		/// <summary>
+		/// Sets the name of this Node.
+		/// </summary>
+		/// <param name="name">The new name of this Node.</param>
+		void set_name(String const& name) { m_name = name; }
+
+		/// <summary>
 		/// Gets the data of this Node.
 		/// </summary>
 		/// <returns>The data container.</returns>
@@ -308,6 +314,20 @@ namespace Minty
 		{
 			return add_child(name, nullptr, 0);
 		}
+
+		/// <summary>
+		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		/// </summary>
+		/// <param name="node">The Node to add a copy of.</param>
+		/// <returns>The child Node.</returns>
+		Node& add_child(Node const& node);
+
+		/// <summary>
+		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		/// </summary>
+		/// <param name="node">The Node to add.</param>
+		/// <returns>The child Node.</returns>
+		Node& add_child(Node&& node);
 
 #pragma endregion
 	};

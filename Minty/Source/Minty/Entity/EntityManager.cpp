@@ -45,6 +45,37 @@ Entity Minty::EntityManager::get_entity(UUID const id) const
 	return INVALID_ENTITY;
 }
 
+Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const& path) const
+{
+	// if no path, it is the source entity
+	if (path.is_empty())
+	{
+		return source;
+	}
+	
+	// follow the children indices down until found
+	Entity entity = source;
+	RelationshipComponent const* relationshipComponent;
+	for (Byte index : path.get_path())
+	{
+		relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+		if (!relationshipComponent)
+		{
+			return INVALID_ENTITY;
+		}
+
+		// get the child entity
+		entity = get_child(entity, index);
+		if (entity == INVALID_ENTITY)
+		{
+			return INVALID_ENTITY;
+		}
+	}
+
+	// found the entity
+	return entity;
+}
+
 String Minty::EntityManager::get_entity_string(Entity const entity) const
 {
 	String const& name = get_name(entity);
@@ -275,6 +306,21 @@ Entity Minty::EntityManager::get_parent(Entity const entity) const
 	if (relationshipComponent)
 	{
 		return relationshipComponent->parent;
+	}
+	return INVALID_ENTITY;
+}
+
+Entity Minty::EntityManager::get_child(Entity const entity, Size const index) const
+{
+	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	if (relationshipComponent)
+	{
+		Entity child = relationshipComponent->first;
+		for (Size i = 0; i < index && child != INVALID_ENTITY; i++)
+		{
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+		return child;
 	}
 	return INVALID_ENTITY;
 }
