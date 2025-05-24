@@ -718,7 +718,7 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	builder.id = id;
 	builder.size = UInt2(width, height);
 	builder.pixelData = data;
-	builder.pixelDataSize = static_cast<Size>(width * height * 4 * sizeof(Byte));
+	builder.pixelDataSize = static_cast<Size>(width) * static_cast<Size>(height) * 4 * sizeof(Byte);
 
 	Reader* reader;
 	Path metaPath = Asset::get_meta_path(path);

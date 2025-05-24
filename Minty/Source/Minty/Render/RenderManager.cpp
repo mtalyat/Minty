@@ -128,6 +128,7 @@ Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 	, m_boundMesh(nullptr)
 	, m_camera(nullptr)
 	, m_cameraMatrix()
+	, m_defaultMeshes()
 {
 	// if no window given, use the Context's window
 	if (m_window == nullptr)
@@ -136,6 +137,37 @@ Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 	}
 
 	MINTY_ASSERT(m_window != nullptr, "RenderManager requires a Window to render to. Provide a window in the RenderManagerBuilder, or create a Context.");
+}
+
+Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
+{
+	MINTY_ASSERT(type != MeshType::Custom, "Cannot get default Mesh of type Custom.");
+
+	// find the mesh
+	auto found = m_defaultMeshes.find(type);
+	if (found != m_defaultMeshes.end())
+	{
+		// already exists
+		Ref<Mesh> mesh = found->get_second();
+		MINTY_ASSERT(mesh != nullptr, F("Default Mesh for type {} is null.", type));
+		return mesh;
+	}
+
+	// if empty
+	if (type == MeshType::Empty)
+	{
+		return nullptr;
+	}
+
+	// create the mesh
+	MeshBuilder builder{};
+	builder.id = UUID::create();
+	builder.type = type;
+	AssetManager& assetManager = AssetManager::get_singleton();
+	Ref<Mesh> mesh = assetManager.create<Mesh>(builder);
+	m_defaultMeshes.add(type, std::move(mesh));
+
+	return mesh;
 }
 
 Bool Minty::RenderManager::start_frame()

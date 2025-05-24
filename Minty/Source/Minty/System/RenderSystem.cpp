@@ -44,7 +44,7 @@ void Minty::RenderSystem::render_meshes(CameraInfo const& cameraInfo)
 		}
 
 		// ignore if not in correct layer
-		if (!entityManager.is_in_layer(entity, cameraInfo.camera->get_layer()))
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
 		{
 			continue;
 		}
@@ -72,9 +72,11 @@ void Minty::RenderSystem::render_meshes(CameraInfo const& cameraInfo)
 		}
 		material->set_input("object", &transformation, sizeof(Matrix4));
 
-		// draw the mesh
+		// bind the mesh
 		renderManager.bind_mesh(mesh);
 
+		// draw the mesh
+		renderManager.draw_mesh(mesh);
 	}
 }
 

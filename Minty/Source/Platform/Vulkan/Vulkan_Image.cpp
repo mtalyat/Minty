@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Minty/Core/Format.h"
 #include "Vulkan_Image.h"
 #include "Vulkan_Renderer.h"
 #include "Vulkan_RenderManager.h"
@@ -19,6 +20,7 @@ Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder)
 	// set the pixel data, if given any
 	if (builder.pixelData)
 	{
+		// set pixels and transition to read only layout
 		set_pixels(builder.pixelData, builder.pixelDataSize);
 	}
 }
@@ -66,16 +68,20 @@ void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 	bufferBuilder.frequent = false;
 	Vulkan_Buffer stagingBuffer(bufferBuilder);
 
+	// get render manager resources
+	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	VkQueue graphicsQueue = renderManager.get_graphics_queue();
+
 	// transition image so it can be modified
-	VkCommandBuffer commandBuffer = Vulkan_RenderManager::get_singleton().start_command_buffer_single();
-	Vulkan_Renderer::transition_image_layout(commandBuffer, m_image, format, m_layout, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+	VkCommandBuffer commandBuffer = renderManager.start_command_buffer_single();
+	transition_layout(commandBuffer, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
 
 	// copy buffer to image
-	Vulkan_Renderer::copy_buffer_to_image(commandBuffer, Vulkan_RenderManager::get_singleton().get_graphics_queue(), stagingBuffer.get_buffer(), m_image, m_size.x, m_size.y);
+	Vulkan_Renderer::copy_buffer_to_image(commandBuffer, graphicsQueue, stagingBuffer.get_buffer(), m_image, m_size.x, m_size.y);
 
 	// transition image back so it can be used to render
-	m_layout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-	Vulkan_Renderer::transition_image_layout(commandBuffer, m_image, format, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, m_layout);
+	transition_layout(commandBuffer, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+	renderManager.finish_command_buffer_single(commandBuffer, graphicsQueue);
 }
 
 void Minty::Vulkan_Image::initialize()
@@ -102,4 +108,15 @@ void Minty::Vulkan_Image::dispose()
 	{
 		Vulkan_Renderer::destroy_image_view(renderManager.get_device(), m_view);
 	}
+}
+
+void Minty::Vulkan_Image::transition_layout(VkCommandBuffer const commandBuffer, VkImageLayout const newLayout)
+{
+	Vulkan_Renderer::transition_image_layout(
+		commandBuffer, 
+		m_image, 
+		Vulkan_Renderer::to_vulkan(m_format), 
+		m_layout, 
+		newLayout);
+	m_layout = newLayout;
 }

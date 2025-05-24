@@ -224,7 +224,26 @@ void Minty::Vulkan_Material::set_initial_values()
 
 void Minty::Vulkan_Material::on_bind()
 {
+	// get command buffer
+	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	VkCommandBuffer commandBuffer = renderManager.get_current_command_buffer();
 
+	// get shader
+	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
+	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
+	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast_to<Vulkan_Shader>();
+	MINTY_ASSERT(shader != nullptr, "Shader must not be null.");
+
+	// get current frame data
+	FrameData& frame = m_frames.at(renderManager.get_current_frame_index());
+
+	// bind the descriptor set
+	Vulkan_Renderer::bind_descriptor_set(
+		commandBuffer,
+		shader->get_pipeline_layout(),
+		frame.descriptorSet,
+		VK_PIPELINE_BIND_POINT_GRAPHICS
+	);
 }
 
 void Minty::Vulkan_Material::set_input(String const& name, void const* const data, Size const size)

@@ -30,7 +30,7 @@ namespace Minty
 		Owner<Image> m_depthImage;
 
 		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
-		Size m_currentFrame = 0;
+		Size m_currentFrameIndex = 0;
 
 #pragma endregion
 
@@ -48,7 +48,7 @@ namespace Minty
 #pragma region Get Set
 
 	private:
-		inline void advance_frame() { m_currentFrame = (m_currentFrame + 1) % FRAMES_PER_FLIGHT; }
+		inline void advance_frame() { m_currentFrameIndex = (m_currentFrameIndex + 1) % FRAMES_PER_FLIGHT; }
 
 	public:
 		inline VkInstance get_instance() const { return m_instance; }
@@ -63,9 +63,11 @@ namespace Minty
 
 		inline VkCommandPool get_command_pool() const { return m_commandPool; }
 
-		inline Vulkan_Frame& get_current_frame() { return m_frames[m_currentFrame]; }
+		inline Size get_current_frame_index() const { return m_currentFrameIndex; }
 
-		inline Vulkan_Frame const& get_current_frame() const { return m_frames[m_currentFrame]; }
+		inline Vulkan_Frame& get_current_frame() { return m_frames[m_currentFrameIndex]; }
+
+		inline Vulkan_Frame const& get_current_frame() const { return m_frames[m_currentFrameIndex]; }
 
 		// gets the current frame's command buffer
 		VkCommandBuffer get_current_command_buffer() const;

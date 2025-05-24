@@ -2,11 +2,13 @@
 #include "Minty/Context/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Color.h"
+#include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Window/Window.h"
 #include "Minty/Render/Buffer.h"
 #include "Minty/Render/CameraInfo.h"
 #include "Minty/Render/Format.h"
+#include "Minty/Render/MeshType.h"
 
 namespace Minty
 {
@@ -64,6 +66,8 @@ namespace Minty
 		Ref<Camera> m_camera;
 		Matrix4 m_cameraMatrix;
 
+		Map<MeshType, Ref<Mesh>> m_defaultMeshes;
+
 #pragma endregion
 
 #pragma region Constructors
@@ -110,6 +114,13 @@ namespace Minty
 		virtual Format get_color_attachment_format() const = 0;
 
 		virtual Format get_depth_attachment_format() const = 0;
+
+		/// <summary>
+		/// Gets the default Mesh for the given type.
+		/// </summary>
+		/// <param name="type">The type of Mesh. Cannot be Custom.</param>
+		/// <returns>A Ref to a Mesh that corresponds with the type, or nullptr if the type is Empty.</returns>
+		Ref<Mesh> get_default_mesh(MeshType const type);
 
 #pragma endregion
 

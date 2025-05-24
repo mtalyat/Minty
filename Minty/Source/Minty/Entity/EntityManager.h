@@ -116,7 +116,21 @@ namespace Minty
 			return m_registry.valid(entity);
 		}
 
-		Bool is_in_layer(Entity const entity, Layer const mask) const;
+		/// <summary>
+		/// Checks if the given Entity's layer mask contains the given Layer.
+		/// </summary>
+		/// <param name="entity">The Entity.</param>
+		/// <param name="layer">The Layer(s).</param>
+		/// <returns>True if the layer is within the Entity's layers.</returns>
+		Bool is_in_layer(Entity const entity, Layer const layer) const;
+
+		/// <summary>
+		/// Checks if the given mask contains the given Entity's layer.
+		/// </summary>
+		/// <param name="entity">The Entity.</param>
+		/// <param name="mask">The Layer(s).</param>
+		/// <returns>True if the Entity's layers are within the layer mask.</returns>
+		Bool is_in_mask(Entity const entity, Layer const mask) const;
 
 		/// <summary>
 		/// Marks the given Entity as dirty. Dirty components need to be refreshed.

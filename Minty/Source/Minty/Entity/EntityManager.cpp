@@ -352,18 +352,32 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 	nameComponent.name = name;
 }
 
-Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const mask) const
+Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const layer) const
 {
-	Layer layer = get_layer(entity);
+	Layer entityLayer = get_layer(entity);
+
+	// special case for LAYER_NONE
+	if (layer == LAYER_NONE)
+	{
+		return entityLayer == LAYER_NONE;
+	}
+
+	// check if the layer is within the Entity's layers
+	return (entityLayer & layer) == layer;
+}
+
+Bool Minty::EntityManager::is_in_mask(Entity const entity, Layer const mask) const
+{
+	Layer entityLayer = get_layer(entity);
 
 	// special case for LAYER_NONE
 	if (mask == LAYER_NONE)
 	{
-		return layer == LAYER_NONE;
+		return entityLayer == LAYER_NONE;
 	}
 
-	// check if layer is within mask
-	return (layer & mask) == mask;
+	// check if the Entity's layers are within the layer mask
+	return (entityLayer & mask) == entityLayer;
 }
 
 void Minty::EntityManager::dirty(Entity const entity)

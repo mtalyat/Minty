@@ -57,6 +57,9 @@ namespace Minty
 
 		void dispose();
 
+	public:
+		void transition_layout(VkCommandBuffer const commandBuffer, VkImageLayout const newLayout);
+
 #pragma endregion
 	};
 }
