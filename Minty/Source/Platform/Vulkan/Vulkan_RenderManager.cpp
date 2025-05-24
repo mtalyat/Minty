@@ -37,7 +37,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 // gets the current frame's command buffer
 VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
 {
-	MINTY_ASSERT(get_state() == State::Idle, "Attempting to get the current command buffer while not rendering a frame.");
+	MINTY_ASSERT(get_state() == State::Pass, "Attempting to get the current command buffer while not rendering a pass.");
 	return m_frames[m_currentFrame].commandBuffer;
 }
 

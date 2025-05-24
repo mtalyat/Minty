@@ -109,12 +109,6 @@ void Minty::RenderSystem::on_render()
 	EntityManager& entityManager = m_scene->get_entity_manager();
 	RenderManager& renderManager = RenderManager::get_singleton();
 
-	// start the frame
-	if (!renderManager.start_frame())
-	{
-		return;
-	}
-
 	// render each camera
 	for (auto const& [cameraEntity, cameraComp] : entityManager.view<CameraComponent>().each())
 	{
@@ -140,7 +134,4 @@ void Minty::RenderSystem::on_render()
 		// end the pass
 		renderManager.end_pass();
 	}
-
-	// end the frame
-	renderManager.end_frame();
 }

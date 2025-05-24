@@ -39,10 +39,10 @@ Node& Minty::Node::add_child(Node&& node)
 	String const& name = node.get_name();
 	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
 	Int const index = static_cast<Int>(m_children.get_size());
-	m_children.add(std::move(node));
 	if (!name.is_empty())
 	{
 		m_lookup[name] = index;
 	}
+	m_children.add(std::move(node));
 	return m_children.at(index);
 }

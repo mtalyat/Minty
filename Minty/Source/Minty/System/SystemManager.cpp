@@ -6,7 +6,7 @@ using namespace Minty;
 
 System* Minty::SystemManager::add(SystemInfo const* info)
 {
-	MINTY_ASSERT(info != nullptr, F("System is not registered with the name: {}", name));
+	MINTY_ASSERT(info != nullptr, "Given system is not registered.");
 
 	// create the system
 	SystemBuilder builder{};

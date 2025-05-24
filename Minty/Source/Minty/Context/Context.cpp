@@ -36,6 +36,10 @@ Minty::Context::Context(ContextBuilder const& builder)
 		mp_dualBuffer = new DualBuffer(std::cout, builder.debugLogPath);
 	}
 
+	// register systems and components
+	register_systems();
+	register_components();
+
 	// create window
 	m_window = Window::create(builder.windowBuilder);
 
@@ -103,10 +107,6 @@ void Minty::Context::initialize()
 	{
 		manager->initialize();
 	}
-
-	// register systems and components
-	register_systems();
-	register_components();
 }
 
 void Minty::Context::dispose()
@@ -142,11 +142,17 @@ void Minty::Context::finalize()
 
 void Minty::Context::render()
 {
+	// start rendering
+	m_renderManager->start_frame();
+
 	// render managers
 	for (Manager* manager : m_managers)
 	{
 		manager->render();
 	}
+
+	// stop rendering
+	m_renderManager->end_frame();
 }
 
 void Minty::Context::sync()
