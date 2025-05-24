@@ -1,0 +1,116 @@
+====================
+	Header:
+====================
+
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
+
+    String to_string(Conditional const obj);
+    Conditional parse_to_conditional(String const& string);
+    Bool parse_try_conditional(String const& string, Conditional& value);
+    template<>
+    inline Conditional parse_to<Conditional>(String const& string) { return parse_to_conditional(string); }
+    template<>
+    inline Bool parse_try<Conditional>(String const& string, Conditional& value) { return parse_try_conditional(string, value); }
+
+====================
+	Source:
+====================
+
+using namespace Minty;
+
+String Minty::to_string(Conditional const obj)
+{
+    switch (obj)
+	{
+		case Conditional::Equal: return "Equal";
+		case Conditional::NotEqual: return "NotEqual";
+		case Conditional::GreaterThan: return "GreaterThan";
+		case Conditional::GreaterThanOrEqualTo: return "GreaterThanOrEqualTo";
+		case Conditional::LessThan: return "LessThan";
+		case Conditional::LessThanOrEqualTo: return "LessThanOrEqualTo";
+
+		default: return "";
+	}
+}
+
+Conditional Minty::parse_to_conditional(String const& string)
+{
+	if (string == "Equal") return Conditional::Equal;
+	if (string == "NotEqual") return Conditional::NotEqual;
+	if (string == "GreaterThan") return Conditional::GreaterThan;
+	if (string == "GreaterThanOrEqualTo") return Conditional::GreaterThanOrEqualTo;
+	if (string == "LessThan") return Conditional::LessThan;
+	if (string == "LessThanOrEqualTo") return Conditional::LessThanOrEqualTo;
+
+	return Conditional();
+}
+
+Bool Minty::parse_try_conditional(String const& string, Conditional& value)
+{
+	value = parse_to_conditional(string);
+	return true;
+}
+
+====================
+	Test Header:
+====================
+
+#pragma once
+
+#include "Test.h"
+
+void test_Conditional(Test& _test);
+
+====================
+	Test Source:
+====================
+
+#include "Test_Conditional.h"
+#include "Minty.h"
+
+void test_Conditional(Test& _test)
+{
+	CATEGORY(Conditional)
+	{
+        std::vector<std::pair<Conditional, String>> VALUES = {
+			{Conditional::Equal, "Equal"},
+			{Conditional::NotEqual, "NotEqual"},
+			{Conditional::GreaterThan, "GreaterThan"},
+			{Conditional::GreaterThanOrEqualTo, "GreaterThanOrEqualTo"},
+			{Conditional::LessThan, "LessThan"},
+			{Conditional::LessThanOrEqualTo, "LessThanOrEqualTo"},
+        };
+    
+        TEST("To String")
+        {
+            for (auto const& [value, name] : VALUES)
+            {
+                EXPECT_EQUAL(to_string(value), name);
+            }
+        }
+
+        TEST("Parse To")
+        {
+            for (auto const& [value, name] : VALUES)
+            {
+                EXPECT_EQUAL(parse_to_conditional(name), value);
+            }
+
+            EXPECT_EQUAL(parse_to_conditional(""), Conditional());
+        }
+
+        TEST("Parse Try")
+        {
+            Conditional result;
+            for (auto const& [value, name] : VALUES)
+            {
+                EXPECT_TRUE(parse_try_conditional(name, result));
+                EXPECT_EQUAL(result, value);
+            }
+
+            EXPECT_FALSE(parse_try_conditional("", result));
+            EXPECT_EQUAL(result, Conditional());
+        }
+	}
+}

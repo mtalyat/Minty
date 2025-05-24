@@ -1,7 +1,9 @@
 #pragma once
+#include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Vector.h"
 #include <utility>
 
 namespace Minty
@@ -11,9 +13,135 @@ namespace Minty
 	/// </summary>
 	class String
 	{
+#pragma region Iterators
+
+	public:
+		class Iterator
+		{
+			friend class String;
+
+		public:
+			using iterator_category = std::forward_iterator_tag;
+			using value_type = Char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type*;
+			using reference = value_type&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			explicit Iterator(pointer const ptr)
+				: mp_ptr(ptr)
+			{
+			}
+
+		public:
+			reference operator*() const
+			{
+				return *mp_ptr;
+			}
+
+			Iterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			Iterator operator++(int)
+			{
+				Iterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			Iterator operator+(Size const value)
+			{
+				return Iterator(mp_ptr + value);
+			}
+
+			Bool operator==(Iterator const& other) const { return mp_ptr == other.mp_ptr; }
+			Bool operator!=(Iterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		class ConstIterator
+		{
+			friend class String;
+
+		public:
+			using iterator_category = std::forward_iterator_tag;
+			using value_type = Char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type const*;
+			using reference = value_type const&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			explicit ConstIterator(pointer const data)
+				: mp_ptr(data)
+			{
+			}
+
+		public:
+			reference operator*()
+			{
+				return *mp_ptr;
+			}
+
+			ConstIterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			ConstIterator operator++(int)
+			{
+				ConstIterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			ConstIterator operator+(Size const value)
+			{
+				return ConstIterator(mp_ptr + value);
+			}
+
+			Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
+			Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		/// <summary>
+		/// Gets an Iterator to the beginning of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the first character.</returns>
+		Iterator begin() { return Iterator(mp_data); }
+
+		/// <summary>
+		/// Gets an Iterator to the end of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the null terminating character.</returns>
+		Iterator end() { return Iterator(mp_data + m_size); }
+
+		/// <summary>
+		/// Gets an Iterator to the beginning of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the first character.</returns>
+		ConstIterator begin() const { return ConstIterator(mp_data); }
+
+		/// <summary>
+		/// Gets an Iterator to the end of the String.
+		/// </summary>
+		/// <returns>An Iterator pointing to the null terminating character.</returns>
+		ConstIterator end() const { return ConstIterator(mp_data + m_size); }
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
+		Allocator m_allocator;
 		Size m_capacity;
 		Size m_size;
 		Char* mp_data;
@@ -26,32 +154,46 @@ namespace Minty
 		/// <summary>
 		/// Creates an empty String.
 		/// </summary>
-		constexpr String()
-			: m_capacity(0)
+		/// <param name="allocator">The Allocator to use.</param>
+		constexpr String(Allocator const allocator = Allocator::Default)
+			: m_allocator(allocator)
+			, m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
-		{}
+		{
+		}
 
 		/// <summary>
 		/// Creates a String and reserves the given capacity.
 		/// </summary>
 		/// <param name="capacity">The amount of characters to allocate.</param>
-		String(Size const capacity);
+		/// <param name="allocator">The Allocator to use.</param>
+		String(Size const capacity, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Creates a String and copies the given data.
 		/// </summary>
 		/// <param name="data">The text to copy.</param>
-		String(Char const* data);
+		/// <param name="allocator">The Allocator to use.</param>
+		String(Char const* const data, Allocator const allocator = Allocator::Default);
+
+		/// <summary>
+		/// Creates a string with the given character repeated the given amount of times.
+		/// </summary>
+		/// <param name="character">The character to repeat.</param>
+		/// <param name="count">The number of characters to repeat.</param>
+		/// <param name="allocator">The Allocator to use.</param>
+		String(Char const character, Size const count, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Copies the given String.
 		/// </summary>
 		/// <param name="other">The String to copy.</param>
 		String(String const& other)
-			: m_capacity(other.m_capacity)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)
-			, mp_data(new Char[m_capacity + 1])
+			, mp_data(static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator)))
 		{
 			memcpy(mp_data, other.mp_data, m_size * sizeof(Char));
 			mp_data[m_size] = '\0';
@@ -62,10 +204,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="other">The String to move.</param>
 		String(String&& other) noexcept
-			: m_capacity(other.m_capacity)
+			: m_allocator(other.m_allocator)
+			, m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
+			other.m_allocator = Allocator::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -75,7 +219,7 @@ namespace Minty
 		{
 			if (mp_data)
 			{
-				delete[] mp_data;
+				deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
 			}
 		}
 
@@ -88,11 +232,12 @@ namespace Minty
 		{
 			if (this != &other)
 			{
-				if (m_capacity < other.m_size)
+				if (m_capacity < other.m_size || m_allocator != other.m_allocator)
 				{
-					delete[] mp_data;
-					mp_data = new Char[other.m_capacity + 1];
+					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
+					m_allocator = other.m_allocator;
 					m_capacity = other.m_capacity;
+					mp_data = static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator));
 				}
 				m_size = other.m_size;
 				memcpy(mp_data, other.mp_data, m_size * sizeof(Char));
@@ -107,8 +252,9 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					delete[] mp_data;
+					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
 				}
+				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_data = other.mp_data;
@@ -163,6 +309,15 @@ namespace Minty
 			return !(*this < other);
 		}
 
+		String operator+(String const& other) const;
+
+		String& operator+=(String const& other)
+		{
+			return append(other);
+		}
+
+		friend std::ostream& operator<<(std::ostream& stream, String const& str);
+
 #pragma endregion
 
 #pragma region Get Set
@@ -201,7 +356,22 @@ namespace Minty
 		/// Resizes the String to the given size. Reallocates if necessary.
 		/// </summary>
 		/// <param name="size">The new size.</param>
-		void resize(Size const size);
+		/// <param name="value">The character to fill the new space with.</param>
+		void resize(Size const size, Char const value = ' ');
+
+		/// <summary>
+		/// Adds the given String to the end of this String.
+		/// </summary>
+		/// <param name="other">The other String to add.</param>
+		/// <returns>This String.</returns>
+		String& append(String const& other);
+
+		/// <summary>
+		/// Adds the given Char to the end of this String.
+		/// </summary>
+		/// <param name="character">The character to add.</param>
+		/// <returns>This String.</returns>
+		String& append(Char const character);
 
 		/// <summary>
 		/// Checks if this String is empty.
@@ -221,6 +391,18 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Gets the first character in the String.
+		/// </summary>
+		/// <returns>The first character.</returns>
+		constexpr Char front() const { return at(0); }
+
+		/// <summary>
+		/// Gets the last character in the String.
+		/// </summary>
+		/// <returns>The last character.</returns>
+		constexpr Char back() const { return at(m_size - 1); }
+
+		/// <summary>
 		/// Gets the sub string starting from the given index.
 		/// </summary>
 		/// <param name="start">The index of the first character.</param>
@@ -232,8 +414,33 @@ namespace Minty
 		/// Finds the first occurrence of the given sub string.
 		/// </summary>
 		/// <param name="sub">The text to find.</param>
+		/// <param name="index">The index of the first character to start searching at.</param>
 		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find(String const& sub) const;
+		Size find(String const& sub, Size const index = 0) const;
+
+		/// <summary>
+		/// Finds the first occurrence of the given character.
+		/// </summary>
+		/// <param name="character">The character to find.</param>
+		/// <param name="index">The index of the first character to start searching at.</param>
+		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
+		Size find(Char const character, Size const index = 0) const;
+
+		/// <summary>
+		/// Finds the first occurrence of a character within the given sub String.
+		/// </summary>
+		/// <param name="sub">The substring to use.</param>
+		/// <param name="index">The starting index.</param>
+		/// <returns>The index of the first character found.</returns>
+		Size find_first_of(String const& sub, Size const index = 0) const;
+
+		/// <summary>
+		/// Finds the first occurrence of a character not within the given sub String.
+		/// </summary>
+		/// <param name="sub">The substring to use.</param>
+		/// <param name="index">The starting index.</param>
+		/// <returns>The index of the first character found.</returns>
+		Size find_first_not_of(String const& sub, Size const index = 0) const;
 
 		/// <summary>
 		/// Checks if this String contains the given sub string.
@@ -244,124 +451,103 @@ namespace Minty
 		{
 			return find(sub) != INVALID_INDEX;
 		}
+		
+		/// <summary>
+		/// Checks if this String contains the given character.
+		/// </summary>
+		/// <param name="character">The character to check.</param>
+		/// <returns>True if found.</returns>
+		Bool contains(Char const character) const
+		{
+			return find(character) != INVALID_INDEX;
+		}
+
+		/// <summary>
+		/// Checks if this String starts with the given sub string.
+		/// </summary>
+		/// <param name="sub">The text to check.</param>
+		/// <returns>True, if this String starts with sub.</returns>
+		Bool starts_with(String const& sub) const;
+
+		/// <summary>
+		/// Checks if this String ends with the given sub string.
+		/// </summary>
+		/// <param name="sub">The text to check.</param>
+		/// <returns>True, if this String ends with sub.</returns>
+		Bool ends_with(String const& sub) const;
 
 #pragma endregion
 
-#pragma region Iterators
+#pragma region Statics
 
 	public:
-		class Iterator
-		{
-		public:
-			using iterator_category = std::forward_iterator_tag;
-			using value_type = Char;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-		private:
-			pointer mp_ptr;
-
-		public:
-			explicit Iterator(pointer const ptr)
-				: mp_ptr(ptr)
-			{}
-
-			reference operator*() const
-			{
-				return *mp_ptr;
-			}
-
-			Iterator& operator++()
-			{
-				++mp_ptr;
-				return *this;
-			}
-
-			Iterator operator++(int)
-			{
-				Iterator temp = *this;
-				++mp_ptr;
-				return temp;
-			}
-
-			Iterator operator+(Size const value)
-			{
-				return Iterator(mp_ptr + value);
-			}
-
-			Bool operator==(Iterator const& other) const { return mp_ptr == other.mp_ptr; }
-			Bool operator!=(Iterator const& other) const { return mp_ptr != other.mp_ptr; }
-		};
-
-		class ConstIterator
-		{
-		public:
-			using iterator_category = std::forward_iterator_tag;
-			using value_type = Char;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type const*;
-			using reference = value_type const&;
-
-		private:
-			pointer mp_ptr;
-
-		public:
-			explicit ConstIterator(pointer const data)
-				: mp_ptr(data)
-			{}
-
-			reference operator*()
-			{
-				return *mp_ptr;
-			}
-
-			ConstIterator& operator++()
-			{
-				++mp_ptr;
-				return *this;
-			}
-
-			ConstIterator operator++(int)
-			{
-				ConstIterator temp = *this;
-				++mp_ptr;
-				return temp;
-			}
-
-			ConstIterator operator+(Size const value)
-			{
-				return ConstIterator(mp_ptr + value);
-			}
-
-			Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
-		};
+		/// <summary>
+		/// Converts the given text to upper case.
+		/// </summary>
+		/// <param name="str">The text to convert.</param>
+		/// <returns>A copy of the given String, uppercased.</returns>
+		static String to_upper(String const& str);
 
 		/// <summary>
-		/// Gets an Iterator to the beginning of the String.
+		/// Converts the given text to lower case.
 		/// </summary>
-		/// <returns>An Iterator pointing to the first character.</returns>
-		Iterator begin() { return Iterator(mp_data); }
+		/// <param name="str">The text to convert.</param>
+		/// <returns>A copy of the given String, lowercased.</returns>
+		static String to_lower(String const& str);
 
 		/// <summary>
-		/// Gets an Iterator to the end of the String.
+		/// Replaces all occurrences of the given text with the replacement text.
 		/// </summary>
-		/// <returns>An Iterator pointing to the null terminating character.</returns>
-		Iterator end() { return Iterator(mp_data + m_size); }
+		/// <param name="str">The text to search within.</param>
+		/// <param name="find">The text to find.</param>
+		/// <param name="replace">The text to replace it with.</param>
+		/// <returns>A new string with the text replaced.</returns>
+		static String replace(String const& str, String const& find, String const& replace);
 
 		/// <summary>
-		/// Gets an Iterator to the beginning of the String.
+		/// Splits the given text into a Vector of Strings using the given delimiter.
 		/// </summary>
-		/// <returns>An Iterator pointing to the first character.</returns>
-		ConstIterator cbegin() const { return ConstIterator(mp_data); }
+		/// <param name="str">The String to split.</param>
+		/// <param name="delimiter">The delimiter to use.</param>
+		/// <returns>A list of Strings, split by the delimiters.</returns>
+		static Vector<String> split(String const& str, Char const delimiter);
 
 		/// <summary>
-		/// Gets an Iterator to the end of the String.
+		/// Splits the given text into a Vector of Strings using the given delimiter.
 		/// </summary>
-		/// <returns>An Iterator pointing to the null terminating character.</returns>
-		ConstIterator cend() const { return ConstIterator(mp_data + m_size); }
+		/// <param name="str">The String to split.</param>
+		/// <param name="delimiter">The delimiter to use.</param>
+		/// <returns>A list of Strings, split by the delimiters.</returns>
+		static Vector<String> split(String const& str, String const& delimiter);
+
+		/// <summary>
+		/// Splits the given text into a Vector of Strings using the default delimiter (newline).
+		/// </summary>
+		/// <param name="str">The String to split.</param>
+		/// <returns>A list of Strings, split by newlines.</returns>
+		static Vector<String> split(String const& str);
+
+		/// <summary>
+		/// Creates a String from the given bytes.
+		/// </summary>
+		/// <param name="data">A pointer to the array of bytes.</param>
+		/// <param name="size">The number of bytes.</param>
+		/// <param name="allocator">The allocator.</param>
+		/// <returns>A new null terminated String, with a copy of the given data.</returns>
+		static String from_bytes(void const* const data, Size const size, Allocator const allocator = Allocator::Default);
 
 #pragma endregion
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<Minty::String>
+	{
+		std::size_t operator()(Minty::String const& str) const
+		{
+			return std::hash<std::string_view>()(std::string_view(str.get_data(), str.get_size()));
+		}
 	};
 }

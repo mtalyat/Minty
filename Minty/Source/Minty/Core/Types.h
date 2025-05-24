@@ -1,5 +1,9 @@
 #pragma once
 #include <cstdint>
+#include <typeindex>
+#include <chrono>
+#include <functional>
+#include <concepts>
 
 namespace Minty
 {
@@ -15,4 +19,37 @@ namespace Minty
 	using Float = float;
 	using Double = double;
 	using Size = size_t;
+	using ID = uint64_t;
+	using Handle = uint32_t;
+	using Layer = uint32_t;
+
+	/// <summary>
+	/// A point in time.
+	/// </summary>
+	using TimePoint = std::chrono::steady_clock::time_point;
+	/// <summary>
+	/// Time elapsed in nanoseconds.
+	/// </summary>
+	using TimeElapsed = long long;
+
+	using TypeID = std::type_index;
+	using TypeInfo = std::type_info;
+	using TypeIndex = Size;
+
+	template<typename T>
+	using Function = std::function<T>;
+
+	using Job = Function<void()>;
+	using ParallelJob = Function<void(Size)>;
+
+	// Concept to require all comparison operators for T
+	template<typename T>
+	concept Comparable = requires(T a, T b) {
+		{ a == b } -> std::convertible_to<bool>;
+		{ a != b } -> std::convertible_to<bool>;
+		{ a < b } -> std::convertible_to<bool>;
+		{ a > b } -> std::convertible_to<bool>;
+		{ a <= b } -> std::convertible_to<bool>;
+		{ a >= b } -> std::convertible_to<bool>;
+	};
 }

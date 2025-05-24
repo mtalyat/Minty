@@ -111,13 +111,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,19 +128,203 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Source;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Test_Conditional.cpp" />
+    <ClCompile Include="Test_CursorMode.cpp" />
+    <ClCompile Include="Test_ArgumentParser.cpp" />
+    <ClCompile Include="Test_Buffer.cpp" />
+    <ClCompile Include="Test_Camera.cpp" />
+    <ClCompile Include="Test_Cargo.cpp" />
+    <ClCompile Include="Test_CoordinateMode.cpp" />
+    <ClCompile Include="Test_EntityManager.cpp" />
+    <ClCompile Include="Test_Filter.cpp" />
+    <ClCompile Include="Test_Format.cpp" />
+    <ClCompile Include="Test_FSM.cpp" />
+    <ClCompile Include="Test_GamepadAxis.cpp" />
+    <ClCompile Include="Test_GamepadButton.cpp" />
+    <ClCompile Include="Test_Image.cpp" />
+    <ClCompile Include="Test_ImageAddressMode.cpp" />
     <ClCompile Include="MintyTest.cpp" />
+    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="Test_Array.cpp" />
+    <ClCompile Include="Test_Asset.cpp" />
+    <ClCompile Include="Test_AssetManager.cpp" />
+    <ClCompile Include="Test_Base.cpp" />
+    <ClCompile Include="Test_BufferUsage.cpp" />
+    <ClCompile Include="Test_Color.cpp" />
+    <ClCompile Include="Test_Compression.cpp" />
+    <ClCompile Include="Test_ConstantContainer.cpp" />
+    <ClCompile Include="Test_Debug.cpp" />
+    <ClCompile Include="Test_DualBuffer.cpp" />
+    <ClCompile Include="Test_DynamicContainer.cpp" />
+    <ClCompile Include="Test_Encoding.cpp" />
+    <ClCompile Include="Test_File.cpp" />
+    <ClCompile Include="Test_GenericAsset.cpp" />
+    <ClCompile Include="Test_ImageAspect.cpp" />
+    <ClCompile Include="Test_ImageLayout.cpp" />
+    <ClCompile Include="Test_ImagePixelFormat.cpp" />
+    <ClCompile Include="Test_ImageTiling.cpp" />
+    <ClCompile Include="Test_ImageType.cpp" />
+    <ClCompile Include="Test_ImageUsage.cpp" />
+    <ClCompile Include="Test_JobManager.cpp" />
+    <ClCompile Include="Test_Key.cpp" />
+    <ClCompile Include="Test_KeyAction.cpp" />
+    <ClCompile Include="Test_KeyModifiers.cpp" />
+    <ClCompile Include="Test_List.cpp" />
+    <ClCompile Include="Test_ListContainer.cpp" />
+    <ClCompile Include="Test_LoadOperation.cpp" />
+    <ClCompile Include="Test_Map.cpp" />
+    <ClCompile Include="Test_Material.cpp" />
+    <ClCompile Include="Test_MaterialTemplate.cpp" />
+    <ClCompile Include="Test_Math.cpp" />
+    <ClCompile Include="Test_MemoryManager.cpp" />
+    <ClCompile Include="Test_MemoryPool.cpp" />
+    <ClCompile Include="Test_MemoryStack.cpp" />
+    <ClCompile Include="Test_MeshType.cpp" />
+    <ClCompile Include="Test_Minty.cpp" />
+    <ClCompile Include="Test_MouseButton.cpp" />
+    <ClCompile Include="Test_Node.cpp" />
+    <ClCompile Include="Test_Object.cpp" />
+    <ClCompile Include="Test_Scene.cpp" />
+    <ClCompile Include="Test_Tuple.cpp" />
+    <ClCompile Include="Test_Perspective.cpp" />
+    <ClCompile Include="Test_PhysicalFile.cpp" />
+    <ClCompile Include="Test_Queue.cpp" />
+    <ClCompile Include="Test_Reader.cpp" />
+    <ClCompile Include="Test_RenderManager.cpp" />
+    <ClCompile Include="Test_RenderPass.cpp" />
+    <ClCompile Include="Test_RenderTarget.cpp" />
+    <ClCompile Include="Test_Set.cpp" />
+    <ClCompile Include="Test_Shader.cpp" />
+    <ClCompile Include="Test_ShaderCullMode.cpp" />
+    <ClCompile Include="Test_ShaderFrontFace.cpp" />
+    <ClCompile Include="Test_ShaderInputRate.cpp" />
+    <ClCompile Include="Test_ShaderInputType.cpp" />
+    <ClCompile Include="Test_ShaderModule.cpp" />
+    <ClCompile Include="Test_ShaderPolygonMode.cpp" />
+    <ClCompile Include="Test_ShaderPrimitiveTopology.cpp" />
+    <ClCompile Include="Test_ShaderStage.cpp" />
+    <ClCompile Include="Test_Stack.cpp" />
+    <ClCompile Include="Test_StaticContainer.cpp" />
+    <ClCompile Include="Test_Stopwatch.cpp" />
+    <ClCompile Include="Test_StoreOperation.cpp" />
+    <ClCompile Include="Test_String.cpp" />
+    <ClCompile Include="Test_Time.cpp" />
+    <ClCompile Include="Test_Type.cpp" />
+    <ClCompile Include="Test_UUID.cpp" />
+    <ClCompile Include="Test_Variable.cpp" />
+    <ClCompile Include="Test_Vector.cpp" />
+    <ClCompile Include="Test_Viewport.cpp" />
+    <ClCompile Include="Test_VirtualFile.cpp" />
+    <ClCompile Include="Test_Window.cpp" />
+    <ClCompile Include="Test_Wrap.cpp" />
+    <ClCompile Include="Test_Wrapper.cpp" />
+    <ClCompile Include="Test_Writer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Test_Conditional.h" />
+    <ClInclude Include="Test_CursorMode.h" />
+    <ClInclude Include="Test_ArgumentParser.h" />
+    <ClInclude Include="Test_Buffer.h" />
+    <ClInclude Include="Test_Camera.h" />
+    <ClInclude Include="Test_Cargo.h" />
+    <ClInclude Include="Test_CoordinateMode.h" />
+    <ClInclude Include="Test_EntityManager.h" />
+    <ClInclude Include="Test_Filter.h" />
+    <ClInclude Include="Test_Format.h" />
+    <ClInclude Include="Test_FSM.h" />
+    <ClInclude Include="Test_GamepadAxis.h" />
+    <ClInclude Include="Test_GamepadButton.h" />
+    <ClInclude Include="Test_Image.h" />
+    <ClInclude Include="Test_AddressMode.h" />
+    <ClInclude Include="Minty.h" />
+    <ClInclude Include="Results.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="Test_Array.h" />
+    <ClInclude Include="Test_Asset.h" />
+    <ClInclude Include="Test_AssetManager.h" />
+    <ClInclude Include="Test_Base.h" />
+    <ClInclude Include="Test_BufferUsage.h" />
+    <ClInclude Include="Test_Color.h" />
+    <ClInclude Include="Test_Compression.h" />
+    <ClInclude Include="Test_ConstantContainer.h" />
+    <ClInclude Include="Test_Debug.h" />
+    <ClInclude Include="Test_DualBuffer.h" />
+    <ClInclude Include="Test_DynamicContainer.h" />
+    <ClInclude Include="Test_Encoding.h" />
+    <ClInclude Include="Test_File.h" />
+    <ClInclude Include="Test_GenericAsset.h" />
+    <ClInclude Include="Test_ImageAspect.h" />
+    <ClInclude Include="Test_ImageLayout.h" />
+    <ClInclude Include="Test_ImagePixelFormat.h" />
+    <ClInclude Include="Test_ImageTiling.h" />
+    <ClInclude Include="Test_ImageType.h" />
+    <ClInclude Include="Test_ImageUsage.h" />
+    <ClInclude Include="Test_JobManager.h" />
+    <ClInclude Include="Test_Key.h" />
+    <ClInclude Include="Test_KeyAction.h" />
+    <ClInclude Include="Test_KeyModifiers.h" />
+    <ClInclude Include="Test_List.h" />
+    <ClInclude Include="Test_ListContainer.h" />
+    <ClInclude Include="Test_LoadOperation.h" />
+    <ClInclude Include="Test_Map.h" />
+    <ClInclude Include="Test_Material.h" />
+    <ClInclude Include="Test_MaterialTemplate.h" />
+    <ClInclude Include="Test_Math.h" />
+    <ClInclude Include="Test_MemoryManager.h" />
+    <ClInclude Include="Test_MemoryPool.h" />
+    <ClInclude Include="Test_MemoryStack.h" />
+    <ClInclude Include="Test_MeshType.h" />
+    <ClInclude Include="Test_Minty.h" />
+    <ClInclude Include="Test_MouseButton.h" />
+    <ClInclude Include="Test_Node.h" />
+    <ClInclude Include="Test_Object.h" />
+    <ClInclude Include="Test_Scene.h" />
+    <ClInclude Include="Test_Tuple.h" />
+    <ClInclude Include="Test_Perspective.h" />
+    <ClInclude Include="Test_PhysicalFile.h" />
+    <ClInclude Include="Test_Queue.h" />
+    <ClInclude Include="Test_Reader.h" />
+    <ClInclude Include="Test_RenderManager.h" />
+    <ClInclude Include="Test_RenderPass.h" />
+    <ClInclude Include="Test_RenderTarget.h" />
+    <ClInclude Include="Test_Set.h" />
+    <ClInclude Include="Test_Shader.h" />
+    <ClInclude Include="Test_ShaderCullMode.h" />
+    <ClInclude Include="Test_ShaderFrontFace.h" />
+    <ClInclude Include="Test_ShaderInputRate.h" />
+    <ClInclude Include="Test_ShaderInputType.h" />
+    <ClInclude Include="Test_ShaderModule.h" />
+    <ClInclude Include="Test_ShaderPolygonMode.h" />
+    <ClInclude Include="Test_ShaderPrimitiveTopology.h" />
+    <ClInclude Include="Test_ShaderStage.h" />
+    <ClInclude Include="Test_Stack.h" />
+    <ClInclude Include="Test_StaticContainer.h" />
+    <ClInclude Include="Test_Stopwatch.h" />
+    <ClInclude Include="Test_StoreOperation.h" />
+    <ClInclude Include="Test_String.h" />
+    <ClInclude Include="Test_Time.h" />
+    <ClInclude Include="Test_Type.h" />
+    <ClInclude Include="Test_UUID.h" />
+    <ClInclude Include="Test_Variable.h" />
+    <ClInclude Include="Test_Vector.h" />
+    <ClInclude Include="Test_Viewport.h" />
+    <ClInclude Include="Test_VirtualFile.h" />
+    <ClInclude Include="Test_Window.h" />
+    <ClInclude Include="Test_Wrap.h" />
+    <ClInclude Include="Test_Wrapper.h" />
+    <ClInclude Include="Test_Writer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

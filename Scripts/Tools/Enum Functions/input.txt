@@ -1,0 +1,32 @@
+enum class Conditional
+{
+	/// <summary>
+	/// ==
+	/// </summary>
+	Equal,
+
+	/// <summary>
+	/// !=
+	/// </summary>
+	NotEqual,
+
+	/// <summary>
+	/// >
+	/// </summary>
+	GreaterThan,
+
+	/// <summary>
+	/// >=
+	/// </summary>
+	GreaterThanOrEqualTo,
+
+	/// <summary>
+	/// <
+	/// </summary>
+	LessThan,
+
+	/// <summary>
+	/// <=
+	/// </summary>
+	LessThanOrEqualTo,
+};

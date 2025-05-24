@@ -1,14 +1,42 @@
 #pragma once
+#include "Minty/Core/Types.h"
 #include <iostream>
 #include <format>
 #include <filesystem>
 
-#define MINTY_DEBUG_INFO(message) "[" << std::filesystem::path(__FILE__).filename().string() << "][" << __func__ << "()][line " << __LINE__ << "] -> " << message
+#pragma region Function
 
-#define MINTY_LOG(message) std::cout << message << std::endl;
+#define MINTY_ENUM_OPERATORS(type) inline Bool operator!(type const value) { return static_cast<Size>(value) == 0; } \
+inline Bool operator<(type const left, type const right) { return static_cast<Size>(left) < static_cast<Size>(right); } \
+inline Bool operator>(type const left, type const right) { return static_cast<Size>(left) > static_cast<Size>(right); }
 
-#define MINTY_ERROR(message) std::cerr << "ERROR: " << MINTY_DEBUG_INFO(message) << std::endl;
+#define MINTY_ENUM_FLAGS_OPERATORS(type) inline type operator|(type const left, type const right) { return static_cast<type>(static_cast<Size>(left) | static_cast<Size>(right)); } \
+inline type operator|=(type& left, type const right) { left = left | right; return left; } \
+inline type operator&(type const left, type const right) { return static_cast<type>(static_cast<Size>(left) & static_cast<Size>(right)); } \
+inline type operator&=(type& left, type const right) { left = left & right; return left; } \
+inline type operator~(type const value) { return static_cast<type>(~static_cast<Size>(value)); } \
+inline Bool operator!(type const value) { return static_cast<Size>(value) == 0; } \
+inline Bool operator<(type const left, type const right) { return static_cast<Size>(left) < static_cast<Size>(right); } \
+inline Bool operator>(type const left, type const right) { return static_cast<Size>(left) > static_cast<Size>(right); }
 
-#define MINTY_ABORT(message) { std::cerr << "FATAL ERROR: " << MINTY_DEBUG_INFO(message) << std::endl; throw std::runtime_error(message); }
+#pragma endregion
 
-#define MINTY_ASSERT(expression, message) if(!(expression)) MINTY_ABORT("(" #expression ") failed: " #message)
+#pragma region OS
+
+#ifdef _WIN32
+#define MINTY_WINDOWS
+#elif defined(__APPLE__)
+#define MINTY_APPLE
+#elif defined(__linux__)
+#define MINTY_LINUX
+#else
+#error "Unsupported operating system."
+#endif
+
+#pragma endregion
+
+#pragma region Tool
+
+#define MINTY_MAKE_VERSION(major, minor, patch) (((static_cast<uint32_t>(major)) << 22U) | ((static_cast<uint32_t>(minor)) << 12U) | (static_cast<uint32_t>(patch)))
+
+#pragma endregion

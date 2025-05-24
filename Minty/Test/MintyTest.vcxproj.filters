@@ -13,10 +13,618 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\MintyTest">
+      <UniqueIdentifier>{d402cf7f-ebee-47c9-b221-67a91a93af1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty">
+      <UniqueIdentifier>{e0e19628-83a6-43f4-b8f6-85789ec900d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Minty">
+      <UniqueIdentifier>{15d850e1-3c6f-4513-b382-97e1be9f7d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Data">
+      <UniqueIdentifier>{4a42e44d-03a7-4cdd-8631-4af15eaad390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Memory">
+      <UniqueIdentifier>{06c85f8e-2e02-4183-9dcb-7e5cdad32a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Core">
+      <UniqueIdentifier>{da1285e4-a878-40dd-800e-dd46d2ed096f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\File">
+      <UniqueIdentifier>{98750518-5e3a-4395-b83a-a14c1a5f22ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Wrap">
+      <UniqueIdentifier>{4ec241ba-b60f-4223-8cdd-edd7ed73960a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Debug">
+      <UniqueIdentifier>{e951fa1f-a8b2-4919-ac0a-cb767902e055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Serialization">
+      <UniqueIdentifier>{2ad639a7-df6f-4ffe-95b7-aac8a979e238}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Asset">
+      <UniqueIdentifier>{8acdb392-49f6-4df1-9a99-d734d8b5df11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Job">
+      <UniqueIdentifier>{0d58f503-a72d-456f-97a3-a174affd0684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Time">
+      <UniqueIdentifier>{60d2160e-c2dd-4ce3-8cdd-26c0355b8c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Render">
+      <UniqueIdentifier>{e4b80fb9-4cab-43cb-8f17-673b59e61cc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Window">
+      <UniqueIdentifier>{5b09807e-9f65-4b49-8a0f-c6fee1fafd3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Tool">
+      <UniqueIdentifier>{d620be47-c910-4181-9abf-8c1c0dd84d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Entity">
+      <UniqueIdentifier>{1017bcee-e0fb-4bbe-b76c-1b6b7d5324c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Scene">
+      <UniqueIdentifier>{c1b28bbb-4bec-4648-a814-10585b173221}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\Input">
+      <UniqueIdentifier>{d5f5a31d-e4bd-4d8a-be4c-1c665d6ac75f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Minty\FSM">
+      <UniqueIdentifier>{a8f01021-3408-43fc-b01c-d8002c795f21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MintyTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test_String.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Minty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Array.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MemoryPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_List.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Tuple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MemoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MemoryStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Set.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Compression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_PhysicalFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_VirtualFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Wrap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_File.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_DualBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_UUID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ConstantContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_StaticContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_DynamicContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Variable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Type.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Reader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Writer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Asset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_JobManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_GenericAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Stopwatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_BufferUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImagePixelFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageTiling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageAspect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageAddressMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ImageLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Filter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Format.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderInputType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderPrimitiveTopology.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderCullMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderFrontFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderPolygonMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderInputRate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CoordinateMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_RenderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ShaderModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Viewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Perspective.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_RenderPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_RenderTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ArgumentParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_LoadOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_StoreOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MaterialTemplate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Cargo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_EntityManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_ListContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MeshType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_CursorMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_GamepadAxis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_GamepadButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Key.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_KeyAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_KeyModifiers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_MouseButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_Conditional.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test_FSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Minty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Results.h">
+      <Filter>Header Files\MintyTest</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Header Files\MintyTest</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Array.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_List.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MemoryManager.h">
+      <Filter>Header Files\Minty\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MemoryPool.h">
+      <Filter>Header Files\Minty\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MemoryStack.h">
+      <Filter>Header Files\Minty\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Minty.h">
+      <Filter>Header Files\Minty\Minty</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Tuple.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Vector.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_String.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Map.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Set.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Stack.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Queue.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Color.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Base.h">
+      <Filter>Header Files\Minty\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Compression.h">
+      <Filter>Header Files\Minty\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_PhysicalFile.h">
+      <Filter>Header Files\Minty\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_VirtualFile.h">
+      <Filter>Header Files\Minty\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Wrap.h">
+      <Filter>Header Files\Minty\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_File.h">
+      <Filter>Header Files\Minty\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Wrapper.h">
+      <Filter>Header Files\Minty\Wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Debug.h">
+      <Filter>Header Files\Minty\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_DualBuffer.h">
+      <Filter>Header Files\Minty\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Math.h">
+      <Filter>Header Files\Minty\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ConstantContainer.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_UUID.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_StaticContainer.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_DynamicContainer.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Node.h">
+      <Filter>Header Files\Minty\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Variable.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Type.h">
+      <Filter>Header Files\Minty\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Reader.h">
+      <Filter>Header Files\Minty\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Writer.h">
+      <Filter>Header Files\Minty\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Encoding.h">
+      <Filter>Header Files\Minty\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_AssetManager.h">
+      <Filter>Header Files\Minty\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Asset.h">
+      <Filter>Header Files\Minty\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_JobManager.h">
+      <Filter>Header Files\Minty\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GenericAsset.h">
+      <Filter>Header Files\Minty\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Time.h">
+      <Filter>Header Files\Minty\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Stopwatch.h">
+      <Filter>Header Files\Minty\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_BufferUsage.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageType.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImagePixelFormat.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageTiling.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageAspect.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_AddressMode.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageUsage.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ImageLayout.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Filter.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Format.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderStage.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderInputType.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderPrimitiveTopology.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderCullMode.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderFrontFace.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderPolygonMode.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderInputRate.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CoordinateMode.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Buffer.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Window.h">
+      <Filter>Header Files\Minty\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_RenderManager.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ShaderModule.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Viewport.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Image.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Shader.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Camera.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Perspective.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_RenderPass.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_RenderTarget.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ArgumentParser.h">
+      <Filter>Header Files\Minty\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_LoadOperation.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_StoreOperation.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Material.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MaterialTemplate.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Object.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Cargo.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_EntityManager.h">
+      <Filter>Header Files\Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_ListContainer.h">
+      <Filter>Header Files\Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MeshType.h">
+      <Filter>Header Files\Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Scene.h">
+      <Filter>Header Files\Minty\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_CursorMode.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GamepadAxis.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_GamepadButton.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Key.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_KeyAction.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_KeyModifiers.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_MouseButton.h">
+      <Filter>Header Files\Minty\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_Conditional.h">
+      <Filter>Header Files\Minty\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="Test_FSM.h">
+      <Filter>Header Files\Minty\FSM</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

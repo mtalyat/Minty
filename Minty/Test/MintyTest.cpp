@@ -1,809 +1,317 @@
-// MintyTest.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// Minty
+#include "Test_Minty.h"
 
-#include <iostream>
-#include <Minty.h>
-#include <unordered_map>
+// Asset
+#include "Test_Asset.h"
+#include "Test_AssetManager.h"
+#include "Test_GenericAsset.h"
 
-using namespace Minty;
+// Core
+#include "Test_Base.h"
+#include "Test_Compression.h"
+#include "Test_Encoding.h"
+#include "Test_Math.h"
+#include "Test_Type.h"
 
-struct Results
-{
-	int category;
-	int passes;
-	int fails;
-};
+// Data
+#include "Test_Array.h"
+#include "Test_Cargo.h"
+#include "Test_Color.h"
+#include "Test_ConstantContainer.h"
+#include "Test_DynamicContainer.h"
+#include "Test_List.h"
+#include "Test_ListContainer.h"
+#include "Test_Map.h"
+#include "Test_Object.h"
+#include "Test_Tuple.h"
+#include "Test_Queue.h"
+#include "Test_Set.h"
+#include "Test_Stack.h"
+#include "Test_StaticContainer.h"
+#include "Test_String.h"
+#include "Test_UUID.h"
+#include "Test_Variable.h"
+#include "Test_Vector.h"
 
-class DualStreamBuffer : public std::streambuf {
-public:
-	DualStreamBuffer(std::streambuf* originalBuffer, std::ostream& secondStream)
-		: originalBuffer(originalBuffer), secondStream(secondStream.rdbuf()) {}
+// Debug
+#include "Test_Debug.h"
 
-protected:
-	virtual int overflow(int ch) override {
-		if (ch != EOF) {
-			originalBuffer->sputc(ch); // Write to original stdout
-			secondStream->sputc(ch);   // Write to additional stream
-		}
-		return ch;
-	}
+// Entity
+#include "Test_EntityManager.h"
 
-private:
-	std::streambuf* originalBuffer;
-	std::streambuf* secondStream;
-};
+// File
+#include "Test_File.h"
+#include "Test_PhysicalFile.h"
+#include "Test_VirtualFile.h"
+
+// FSM
+#include "Test_Conditional.h"
+
+// Input
+#include "Test_CursorMode.h"
+#include "Test_GamepadAxis.h"
+#include "Test_GamepadButton.h"
+#include "Test_Key.h"
+#include "Test_KeyAction.h"
+#include "Test_KeyModifiers.h"
+#include "Test_MouseButton.h"
+
+// Job
+#include "Test_JobManager.h"
+
+// Memory
+#include "Test_MemoryManager.h"
+#include "Test_MemoryPool.h"
+#include "Test_MemoryStack.h"
+
+// Render
+#include "Test_AddressMode.h"
+#include "Test_Buffer.h"
+#include "Test_BufferUsage.h"
+#include "Test_Camera.h"
+#include "Test_CoordinateMode.h"
+#include "Test_Filter.h"
+#include "Test_Format.h"
+#include "Test_Image.h"
+#include "Test_ImageAspect.h"
+#include "Test_ImageLayout.h"
+#include "Test_ImagePixelFormat.h"
+#include "Test_ImageTiling.h"
+#include "Test_ImageType.h"
+#include "Test_ImageUsage.h"
+#include "Test_LoadOperation.h"
+#include "Test_Material.h"
+#include "Test_MaterialTemplate.h"
+#include "Test_MeshType.h"
+#include "Test_Perspective.h"
+#include "Test_RenderManager.h"
+#include "Test_Shader.h"
+#include "Test_ShaderCullMode.h"
+#include "Test_ShaderFrontFace.h"
+#include "Test_ShaderInputRate.h"
+#include "Test_ShaderInputType.h"
+#include "Test_ShaderModule.h"
+#include "Test_ShaderPolygonMode.h"
+#include "Test_ShaderPrimitiveTopology.h"
+#include "Test_ShaderStage.h"
+#include "Test_StoreOperation.h"
+#include "Test_Viewport.h"
+
+// Scene
+#include "Test_Scene.h"
+
+// Serialization
+#include "Test_Node.h"
+#include "Test_Reader.h"
+#include "Test_Writer.h"
+
+// Time
+#include "Test_Stopwatch.h"
+#include "Test_Time.h"
+
+// Tool
+#include "Test_ArgumentParser.h"
+
+// Window
+#include "Test_Window.h"
+
+// Wrap
+#include "Test_Wrap.h"
+#include "Test_Wrapper.h"
 
 // runs all of the tests
-static void run_tests()
+static int run_tests()
 {
 #pragma region Test Setup
 
-	// keep track of results
-	std::unordered_map<std::string, int> categories;
-	std::unordered_map<int, Results> results;
+	// create the test object
+	Test _test;
 
-	// variables used for tests
-	char const* currentName = nullptr;
-	char const* currentCategoryName = nullptr;
-	int currentCategoryIndex = 0;
-	Results* currentResults = nullptr;
-
-	// catch stdout and stderr
-	std::streambuf* coutBuf = std::cout.rdbuf();
-	std::streambuf* cerrBuf = std::cerr.rdbuf();
-	std::ostringstream coutStream;
-	std::ostringstream cerrStream;
-
-	//#define PRINT_OUTPUT
-
-#ifdef PRINT_OUTPUT
-#define CAPTURE_OUTPUT()
-#define RESTORE_OUTPUT()
-#else
-#define CAPTURE_OUTPUT() std::cout.rdbuf(coutStream.rdbuf()); std::cerr.rdbuf(cerrStream.rdbuf())
-#define RESTORE_OUTPUT() std::cout.rdbuf(coutBuf); std::cerr.rdbuf(cerrBuf)
-#endif // PRINT_OUTPUT
-
-	// category start macro
-#define CATEGORY(categoryName) { \
-currentCategoryName = #categoryName; \
-auto found = categories.find(currentCategoryName); \
-RESTORE_OUTPUT(); if(found == categories.end()) { currentCategoryIndex = static_cast<int>(categories.size()); categories.emplace(currentCategoryName, currentCategoryIndex); std::cout << "\n\t" << currentCategoryName << std::endl; } else { currentCategoryIndex = found->second; } CAPTURE_OUTPUT(); \
-}
-
-	// test start macro
-#define TEST(testName) { \
-currentName = testName; \
-auto found2 = results.find(currentCategoryIndex); \
-if(found2 == results.end()) { results.emplace(currentCategoryIndex, Results()); currentResults = &results[currentCategoryIndex]; } else { currentResults = &found2->second; } \
-}
-
-	// evaluation macros
-#define PASS(condition) { RESTORE_OUTPUT(); currentResults->passes++; std::cout << "\r[\033[92mPASS\033[0m] " << currentName << " (" << #condition << ")" << std::endl; CAPTURE_OUTPUT(); }
-#define FAIL(condition) { RESTORE_OUTPUT(); currentResults->fails++; std::cout << "\r[\033[91mFAIL\033[0m] " << currentName << " (" << #condition << ")" << std::endl; CAPTURE_OUTPUT(); }
-#define EXPECT_TRUE(condition) if(condition) { PASS(condition); } else { FAIL(condition); }
-#define EXPECT_FAIL(operation) try { operation; FAIL(operation); } catch(...) { PASS(operation); }
-#define PRINT(message) { RESTORE_OUTPUT(); std::cout << message << std::endl; CAPTURE_OUTPUT(); }
+	std::cout << "Running Minty tests..." << std::endl;
 
 	// start capturing the output
-	CAPTURE_OUTPUT();
+	_test.capture_output();
 
 #pragma endregion
 
 #pragma region Tests
 
-	CATEGORY(String::Iterator)
+	try
 	{
-		TEST("Copy Constructor")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			String::Iterator copy(it);
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.end());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.end());
-			copy = it;
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.end());
-		}
+		// Minty
+		test_Minty(_test);
 
-		TEST("Move Constructor")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			String::Iterator copy(std::move(it));
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.end());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.end());
-			it = test.begin();
-			copy = std::move(it);
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.end());
-		}
+		// Asset
+		test_Asset(_test);
+		test_AssetManager(_test);
+		test_GenericAsset(_test);
 
-		TEST("Copy Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			String::Iterator copy = it;
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.end());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.end());
-			copy = it;
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.end());
-		}
+		// Console
+		test_Debug(_test);
 
-		TEST("Move Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			String::Iterator copy = std::move(it);
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.end());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.end());
-			it = test.begin();
-			copy = std::move(it);
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.end());
-		}
+		// Core
+		test_Base(_test);
+		test_Compression(_test);
+		test_Encoding(_test);
+		test_Math(_test);
+		test_Type(_test);
 
-		TEST("Dereference Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.end());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.end());
-			it = test.begin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.end());
-		}
+		// Data
+		test_Array(_test);
+		test_Cargo(_test);
+		test_Color(_test);
+		test_ConstantContainer(_test);
+		test_DynamicContainer(_test);
+		test_List(_test);
+		test_ListContainer(_test);
+		test_Map(_test);
+		test_Object(_test);
+		test_Tuple(_test);
+		test_Queue(_test);
+		test_Set(_test);
+		test_Stack(_test);
+		test_StaticContainer(_test);
+		test_String(_test);
+		test_UUID(_test);
+		test_Variable(_test);
+		test_Vector(_test);
 
-		TEST("Increment Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.end());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.end());
-			it = test.begin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.end());
-		}
+		// Entity
+		test_EntityManager(_test);
 
-		TEST("Addition Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.end());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.end());
-			it = test.begin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.end());
-		}
+		// File
+		test_File(_test);
+		test_PhysicalFile(_test);
+		test_VirtualFile(_test);
+		
+		// FSM
+		test_Conditional(_test);
 
-		TEST("Equal Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			String::Iterator copy = it;
-			EXPECT_TRUE(it == copy);
-			EXPECT_TRUE(copy == it);
-			EXPECT_TRUE(it == test.begin());
-			EXPECT_TRUE(test.begin() == it);
-			EXPECT_TRUE(copy == test.begin());
-			EXPECT_TRUE(test.begin() == copy);
-		}
+		// Input
+		test_CursorMode(_test);
+		test_GamepadAxis(_test);
+		test_GamepadButton(_test);
+		test_Key(_test);
+		test_KeyAction(_test);
+		test_KeyModifiers(_test);
+		test_MouseButton(_test);
 
-		TEST("Not Equal Operator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			String::Iterator copy = it;
-			EXPECT_TRUE(!(it != copy));
-			EXPECT_TRUE(!(copy != it));
-			EXPECT_TRUE(!(it != test.begin()));
-			EXPECT_TRUE(!(test.begin() != it));
-			EXPECT_TRUE(!(copy != test.begin()));
-			EXPECT_TRUE(!(test.begin() != copy));
-		}
+		// Job
+		test_JobManager(_test);
+
+		// Memory
+		test_MemoryManager(_test);
+		test_MemoryPool(_test);
+		test_MemoryStack(_test);
+
+		// Render
+		test_Buffer(_test);
+		test_BufferUsage(_test);
+		test_Camera(_test);
+		test_CoordinateMode(_test);
+		test_Filter(_test);
+		test_Format(_test);
+		test_Image(_test);
+		test_AddressMode(_test);
+		test_ImageAspect(_test);
+		test_ImageLayout(_test);
+		test_ImagePixelFormat(_test);
+		test_ImageTiling(_test);
+		test_ImageType(_test);
+		test_ImageUsage(_test);
+		test_LoadOperation(_test);
+		test_Material(_test);
+		test_MaterialTemplate(_test);
+		test_MeshType(_test);
+		test_Perspective(_test);
+		test_RenderManager(_test);
+		test_Shader(_test);
+		test_ShaderCullMode(_test);
+		test_ShaderFrontFace(_test);
+		test_ShaderInputRate(_test);
+		test_ShaderInputType(_test);
+		test_ShaderModule(_test);
+		test_ShaderPolygonMode(_test);
+		test_ShaderPrimitiveTopology(_test);
+		test_ShaderStage(_test);
+		test_StoreOperation(_test);
+		test_Viewport(_test);
+
+		// Scene
+		test_Scene(_test);
+
+		// Serialization
+		test_Node(_test);
+		test_Reader(_test);
+		test_Writer(_test);
+
+		// Time
+		test_Stopwatch(_test);
+		test_Time(_test);
+
+		// Tool
+		test_ArgumentParser(_test);
+
+		// Window
+		test_Window(_test);
+
+		// Wrap
+		test_Wrap(_test);
+		test_Wrapper(_test);
 	}
-
-	CATEGORY(String::ConstIterator)
+	catch (std::exception const& e)
 	{
-		TEST("Copy Constructor")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			String::ConstIterator copy(it);
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
-			copy = it;
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
-		}
+		_test.restore_output();
 
-		TEST("Move Constructor")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			String::ConstIterator copy(std::move(it));
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
-			it = test.cbegin();
-			copy = std::move(it);
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
-		}
+		std::cerr << "Testing failed while in [" << _test.get_category() << "](" << _test.get_test() << "): " << e.what() << std::endl;
+		std::cerr << _test.get_output() << std::endl;
 
-		TEST("Copy Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			String::ConstIterator copy = it;
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
-			copy = it;
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
-		}
-
-		TEST("Move Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			String::ConstIterator copy = std::move(it);
-			EXPECT_TRUE(*copy == 'a');
-			EXPECT_TRUE(*(copy + 1) == 'b');
-			EXPECT_TRUE(*(copy + 2) == 'c');
-			EXPECT_TRUE(copy + 3 == test.cend());
-			EXPECT_TRUE(*++copy == 'b');
-			EXPECT_TRUE(*++copy == 'c');
-			EXPECT_TRUE(++copy == test.cend());
-			it = test.cbegin();
-			copy = std::move(it);
-			EXPECT_TRUE(*copy++ == 'a');
-			EXPECT_TRUE(*copy++ == 'b');
-			EXPECT_TRUE(*copy++ == 'c');
-			EXPECT_TRUE(copy == test.cend());
-		}
-
-		TEST("Dereference Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
-		}
-
-		TEST("Increment Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
-		}
-
-		TEST("Addition Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
-		}
-
-		TEST("Equal Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			String::ConstIterator copy = it;
-			EXPECT_TRUE(it == copy);
-			EXPECT_TRUE(copy == it);
-			EXPECT_TRUE(it == test.cbegin());
-			EXPECT_TRUE(test.cbegin() == it);
-			EXPECT_TRUE(copy == test.cbegin());
-			EXPECT_TRUE(test.cbegin() == copy);
-		}
-
-		TEST("Not Equal Operator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			String::ConstIterator copy = it;
-			EXPECT_TRUE(!(it != copy));
-			EXPECT_TRUE(!(copy != it));
-			EXPECT_TRUE(!(it != test.cbegin()));
-			EXPECT_TRUE(!(test.cbegin() != it));
-			EXPECT_TRUE(!(copy != test.cbegin()));
-			EXPECT_TRUE(!(test.cbegin() != copy));
-		}
+		return 1;
 	}
-
-	CATEGORY(String)
+	catch (...)
 	{
-		TEST("Default Constructor")
-		{
-			String test;
-			EXPECT_TRUE(test.get_capacity() == 0);
-			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_data() == nullptr);
-		}
+		_test.restore_output();
 
-		TEST("Capacity Constructor")
-		{
-			String test(10);
-			EXPECT_TRUE(test.get_capacity() == 10);
-			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_data() != nullptr);
-		}
+		std::cerr << "Testing failed while in [" << _test.get_category() << "](" << _test.get_test() << "): Unknown error" << std::endl;
+		std::cerr << _test.get_output() << std::endl;
 
-		TEST("C String Constructor")
-		{
-			String test("Hello world!\n");
-
-			EXPECT_TRUE(test.get_capacity() == 13);
-			EXPECT_TRUE(test.get_size() == 13);
-			EXPECT_TRUE(test.get_data() != nullptr);
-			EXPECT_TRUE(test.get_data()[test.get_size()] == '\0');
-		}
-
-		TEST("Copy Constructor")
-		{
-			String test("Hello world!\n");
-			String copy(test);
-			EXPECT_TRUE(copy.get_capacity() == test.get_capacity());
-			EXPECT_TRUE(copy.get_size() == test.get_size());
-			EXPECT_TRUE(copy.get_data() != nullptr);
-		}
-
-		TEST("Move Constructor")
-		{
-			String test("Hello world!\n");
-			String copy(std::move(test));
-			EXPECT_TRUE(test.get_capacity() == 0);
-			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_data() == nullptr);
-			EXPECT_TRUE(copy.get_capacity() == 13);
-			EXPECT_TRUE(copy.get_size() == 13);
-			EXPECT_TRUE(copy.get_data() != nullptr);
-		}
-
-		TEST("Copy Operator")
-		{
-			String test("Hello world!\n");
-			String copy = test;
-			EXPECT_TRUE(copy.get_capacity() == test.get_capacity());
-			EXPECT_TRUE(copy.get_size() == test.get_size());
-			EXPECT_TRUE(copy.get_data() != nullptr);
-		}
-
-		TEST("Move Operator")
-		{
-			String test("Hello world!\n");
-			String copy = std::move(test);
-			EXPECT_TRUE(test.get_capacity() == 0);
-			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_data() == nullptr);
-			EXPECT_TRUE(copy.get_capacity() == 13);
-			EXPECT_TRUE(copy.get_size() == 13);
-			EXPECT_TRUE(copy.get_data() != nullptr);
-		}
-
-		TEST("Index Operator")
-		{
-			String test("Hello world!\n");
-			EXPECT_TRUE(test[0] == 'H');
-			EXPECT_TRUE(test[1] == 'e');
-			EXPECT_TRUE(test[2] == 'l');
-			EXPECT_TRUE(test[3] == 'l');
-			EXPECT_TRUE(test[4] == 'o');
-			EXPECT_TRUE(test[5] == ' ');
-			EXPECT_TRUE(test[6] == 'w');
-			EXPECT_TRUE(test[7] == 'o');
-			EXPECT_TRUE(test[8] == 'r');
-			EXPECT_TRUE(test[9] == 'l');
-			EXPECT_TRUE(test[10] == 'd');
-			EXPECT_TRUE(test[11] == '!');
-			EXPECT_TRUE(test[12] == '\n');
-			EXPECT_FAIL(test[13]);
-		}
-
-		TEST("Equal Operator")
-		{
-			String test("aaa");
-			String copy("aaa");
-			EXPECT_TRUE(test == copy);
-
-			copy = "bbbbbb";
-			EXPECT_TRUE(!(test == copy));
-
-			copy = "aaa";
-			EXPECT_TRUE(test == copy);
-
-			copy = "aaaa";
-			EXPECT_TRUE(!(test == copy));
-		}
-
-		TEST("Not Equal Operator")
-		{
-			String test("aaa");
-			String copy("aaa");
-			EXPECT_TRUE(!(test != copy));
-
-			copy = "bbbbbb";
-			EXPECT_TRUE(test != copy);
-
-			copy = "aaa";
-			EXPECT_TRUE(!(test != copy));
-
-			copy = "aaaa";
-			EXPECT_TRUE(test != copy);
-		}
-
-		TEST("Less Than Operator")
-		{
-			String test("aaa");
-			String copy("aaa");
-			EXPECT_TRUE(!(test < copy));
-
-			copy = "bbb";
-			EXPECT_TRUE(test < copy);
-
-			copy = "aaa";
-			EXPECT_TRUE(!(test < copy));
-
-			copy = "aaaa";
-			EXPECT_TRUE(test < copy);
-
-			copy = "aa";
-			EXPECT_TRUE(!(test < copy));
-		}
-
-		TEST("Less Than Or Equal Operator")
-		{
-			String test("aaa");
-			String copy("aaa");
-			EXPECT_TRUE(test <= copy);
-
-			copy = "bbb";
-			EXPECT_TRUE(test <= copy);
-
-			copy = "aaa";
-			EXPECT_TRUE(test <= copy);
-
-			copy = "aaaa";
-			EXPECT_TRUE(test <= copy);
-
-			copy = "aa";
-			EXPECT_TRUE(!(test <= copy));
-		}
-
-		TEST("Greater Than Operator")
-		{
-			String test("aaa");
-			String copy("aaa");
-			EXPECT_TRUE(!(test > copy));
-
-			copy = "bbb";
-			EXPECT_TRUE(!(test > copy));
-
-			copy = "aaa";
-			EXPECT_TRUE(!(test > copy));
-
-			copy = "ccc";
-			EXPECT_TRUE(!(test > copy));
-
-			copy = "aa";
-			EXPECT_TRUE(test > copy);
-
-			copy = "aaaa";
-			EXPECT_TRUE(!(test > copy));
-		}
-
-		TEST("Greater Than Or Equal Operator")
-		{
-			String test("aaa\n");
-			String copy("aaa\n");
-			EXPECT_TRUE(test >= copy);
-
-			copy = "bbb";
-			EXPECT_TRUE(!(test >= copy));
-
-			copy = "aaa";
-			EXPECT_TRUE(test >= copy);
-
-			copy = "ccc";
-			EXPECT_TRUE(!(test >= copy));
-
-			copy = "aa";
-			EXPECT_TRUE(test >= copy);
-
-			copy = "aaaa";
-			EXPECT_TRUE(!(test >= copy));
-		}
-
-		TEST("Get Capacity")
-		{
-			String test(100);
-
-			EXPECT_TRUE(test.get_capacity() == 100);
-		}
-
-		TEST("Get Size")
-		{
-			String test("Hello world!\n");
-
-			EXPECT_TRUE(test.get_size() == 13);
-		}
-
-		TEST("Get Data")
-		{
-			String test("Hello world!\n");
-
-			EXPECT_TRUE(test.get_data() != nullptr);
-		}
-
-		TEST("Reserve")
-		{
-			String test;
-
-			test.reserve(0);
-			EXPECT_TRUE(test.get_capacity() == 0);
-
-			test.reserve(100);
-			EXPECT_TRUE(test.get_capacity() == 100);
-
-			test.reserve(10);
-			EXPECT_TRUE(test.get_capacity() == 10);
-		}
-
-		TEST("Resize")
-		{
-			String test;
-
-			test.resize(0);
-			EXPECT_TRUE(test.get_size() == 0);
-			EXPECT_TRUE(test.get_capacity() == 0);
-
-			test.resize(100);
-			EXPECT_TRUE(test.get_size() == 100);
-			EXPECT_TRUE(test.get_capacity() == 100);
-
-			test.resize(10);
-			EXPECT_TRUE(test.get_size() == 10);
-			EXPECT_TRUE(test.get_capacity() == 100);
-		}
-
-		TEST("Is Empty")
-		{
-			String test;
-			EXPECT_TRUE(test.is_empty());
-
-			test = "Hello world!\n";
-			EXPECT_TRUE(!test.is_empty());
-		}
-
-		TEST("At")
-		{
-			String test("Hello world!\n");
-			EXPECT_TRUE(test.at(0) == 'H');
-			EXPECT_TRUE(test.at(1) == 'e');
-			EXPECT_TRUE(test.at(2) == 'l');
-			EXPECT_TRUE(test.at(3) == 'l');
-			EXPECT_TRUE(test.at(4) == 'o');
-			EXPECT_TRUE(test.at(5) == ' ');
-			EXPECT_TRUE(test.at(6) == 'w');
-			EXPECT_TRUE(test.at(7) == 'o');
-			EXPECT_TRUE(test.at(8) == 'r');
-			EXPECT_TRUE(test.at(9) == 'l');
-			EXPECT_TRUE(test.at(10) == 'd');
-			EXPECT_TRUE(test.at(11) == '!');
-			EXPECT_TRUE(test.at(12) == '\n');
-			EXPECT_FAIL(test.at(13));
-		}
-
-		TEST("Sub")
-		{
-			String test("Hello world!\n");
-			EXPECT_TRUE(test.sub(0, 5) == "Hello");
-			EXPECT_TRUE(test.sub(6, 5) == "world");
-			EXPECT_TRUE(test.sub(12, 1) == "\n");
-			EXPECT_FAIL(test.sub(13, 1));
-		}
-
-		TEST("Find")
-		{
-			String test("Hello world!\n");
-			EXPECT_TRUE(test.find("Hello") == 0);
-			EXPECT_TRUE(test.find("world") == 6);
-			EXPECT_TRUE(test.find("\n") == 12);
-			EXPECT_TRUE(test.find("Hello world!\n") == 0);
-			EXPECT_TRUE(test.find("aaa") == INVALID_INDEX);
-			EXPECT_TRUE(test.find("") == INVALID_INDEX);
-
-			test = "";
-			EXPECT_TRUE(test.find("aaa") == INVALID_INDEX);
-		}
-
-		TEST("Contains")
-		{
-			String test("Hello world!\n");
-			EXPECT_TRUE(test.contains("Hello"));
-			EXPECT_TRUE(test.contains("world"));
-			EXPECT_TRUE(test.contains("\n"));
-			EXPECT_TRUE(test.contains("Hello world!\n"));
-			EXPECT_TRUE(!test.contains("aaa"));
-			EXPECT_TRUE(!test.contains(""));
-
-			test = "";
-			EXPECT_TRUE(!test.contains("aaa"));
-		}
-
-		TEST("Iterator")
-		{
-			String test("abc");
-			String::Iterator it = test.begin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.end());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.end());
-			it = test.begin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.end());
-		}
-
-		TEST("ConstIterator")
-		{
-			String test("abc");
-			String::ConstIterator it = test.cbegin();
-			EXPECT_TRUE(*it == 'a');
-			EXPECT_TRUE(*(it + 1) == 'b');
-			EXPECT_TRUE(*(it + 2) == 'c');
-			EXPECT_TRUE(it + 3 == test.cend());
-			EXPECT_TRUE(*++it == 'b');
-			EXPECT_TRUE(*++it == 'c');
-			EXPECT_TRUE(++it == test.cend());
-			it = test.cbegin();
-			EXPECT_TRUE(*it++ == 'a');
-			EXPECT_TRUE(*it++ == 'b');
-			EXPECT_TRUE(*it++ == 'c');
-			EXPECT_TRUE(it == test.cend());
-		}
+		return 1;
 	}
+	
 
 #pragma endregion
 
 #pragma region Test Teardown
 
 	// restore stdout and stderr
-	RESTORE_OUTPUT();
+	_test.restore_output();
 
-	// print results
-	std::cout << "\nFinal Results:\n";
-	for (auto const& [categoryName, categoryIndex] : categories)
+	// print high level results
+	size_t passCount = _test.get_pass_count();
+	size_t failCount = _test.get_fail_count();
+	double passRate = _test.get_pass_rate();
+	std::cout << "Results: ";
+	if (failCount == 0)
 	{
-		Results const& result = results[categoryIndex];
-
-		std::cout << categoryName << ": ";
-
-		if (result.fails == 0)
-		{
-			// green
-			std::cout << "\033[92m";
-		}
-		else
-		{
-			// red
-			std::cout << "\033[91m";
-		}
-
-		std::cout << "(" << result.passes << "/" << (result.passes + result.fails) << ")\033[0m" << std::endl;
+		// bright green
+		std::cout << "\033[92m";
 	}
+	else
+	{
+		// bright red
+		std::cout << "\033[91m";
+	}
+	std::cout << passCount << " / " << passCount + failCount << " (" << std::fixed << std::setprecision(2) << passRate << "%)\033[0m\n" << std::endl;
+
+	_test.save_results("MintyTestResults.md");
 
 #pragma endregion
+
+	return 0;
 }
 
 int main()
 {
-	run_tests();
+	system("cls");
+	return run_tests();
 }
