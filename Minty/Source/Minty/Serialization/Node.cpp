@@ -85,13 +85,46 @@ Node Minty::parse_to_node(String const& string)
 
 	int const SPACES_PER_TAB = 4;
 
+	Map<String, String> macros;
+
 	for (String line : lines)
 	{
+		// read macros or other special lines
+		if (line.front() == '#')
+		{
+			if (line.starts_with("#define"))
+			{
+				// remove "#define "
+				line = line.sub(7, line.get_size() - 7); // remove "#define "
+
+				// skip whitespace
+				Size solidIndex = line.find_first_not_of(" \t\n\v\f\r");
+				line = line.sub(solidIndex, line.get_size() - solidIndex);
+
+				// split into name and value
+				Size index = line.find(' ');
+				String macroName = line.sub(0, index);
+				String macroValue = line.sub(index + 1, line.get_size() - index - 1);
+
+				MINTY_ASSERT(!macroName.is_empty(), "Macro name is empty.");
+
+				// define macro
+				macros[macroName] = macroValue;
+			}
+			continue;
+		}
+
 		// skip empty/whitespace/comment lines
 		Size solidIndex = line.find_first_not_of(" \t\n\v\f\r");
 		if (line.get_size() == 0 || solidIndex == INVALID_INDEX || line.front() == '#' || line.front() == ':')
 		{
 			continue;
+		}
+
+		// replace macros
+		for (auto const& macro : macros)
+		{
+			line = String::replace(line, macro.get_first(), macro.get_second());
 		}
 
 		// count number of tabs (indents)
