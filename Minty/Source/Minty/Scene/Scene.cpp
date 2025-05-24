@@ -123,6 +123,7 @@ void Minty::Scene::on_update(Time const& time)
 	mp_systemManager->update(time);
 	mp_entityManager->update(time);
 }
+
 void Minty::Scene::on_finalize()
 {
 	mp_systemManager->finalize();
