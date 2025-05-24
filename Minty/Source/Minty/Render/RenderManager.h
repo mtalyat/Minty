@@ -52,7 +52,6 @@ namespace Minty
 
 #pragma endregion
 
-
 #pragma region Variables
 
 	private:
@@ -62,7 +61,7 @@ namespace Minty
 		Ref<Shader> m_boundShader;
 		Ref<Material> m_boundMaterial;
 		Ref<Mesh> m_boundMesh;
-		Camera m_camera;
+		Ref<Camera> m_camera;
 		Matrix4 m_cameraMatrix;
 
 #pragma endregion

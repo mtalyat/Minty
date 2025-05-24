@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Asset/Asset.h"
 #include "Minty/Core/Math.h"
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
@@ -137,14 +138,14 @@ namespace Minty
 		/// <param name="name"></param>
 		void write(String const& name) { write_empty(name); }
 
-		template<typename T, typename std::enable_if<!is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
 		void write(String const& name, T const& data)
 		{
 			// default: write as string
 			write_string(name, to_string(data));
 		}
 
-		template<typename T, typename std::enable_if<!is_serializable<T>::value&& is_serializable_object<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value&& is_serializable_object<T>::value, int>::type = 0>
 		void write(String const& name, T const& data)
 		{
 			indent(name);
@@ -152,7 +153,7 @@ namespace Minty
 			outdent();
 		}
 
-		template<typename T, typename std::enable_if<is_serializable<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value && is_serializable<T>::value, int>::type = 0>
 		void write(String const& name, T const& data)
 		{
 			data.serialize(*this, name);
@@ -346,6 +347,25 @@ namespace Minty
 		/// <param name="data">A pointer to the byte data.</param>
 		/// <param name="type">The Type.</param>
 		virtual void write_typed(String const& name, void const* const data, Type const type) = 0;
+
+		/// <summary>
+		/// Writes the given Asset's ID. If null, writes INVALID_ID.
+		/// </summary>
+		/// <param name="name">The name of the Asset.</param>
+		/// <param name="asset">The Asset.</param>
+		void write_asset(String const& name, Ref<Asset> const& asset);
+
+		/// <summary>
+		/// Writes the given Asset's ID. If null, writes INVALID_ID.
+		/// </summary>
+		/// <typeparam name="T">The type of Asset.</typeparam>
+		/// <param name="name">The name of the Asset.</param>
+		/// <param name="asset">The Asset.</param>
+		template<typename T, typename std::enable_if<is_asset<T>::value, int>::type = 0>
+		void write(String const& name, Ref<T> const& asset)
+		{
+			write_asset(name, asset);
+		}
 
 #pragma endregion
 

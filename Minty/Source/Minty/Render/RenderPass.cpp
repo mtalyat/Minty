@@ -6,6 +6,15 @@
 
 using namespace Minty;
 
+Minty::RenderPass::RenderPass(RenderPassBuilder const& builder)
+	: Asset(builder.id)
+	, m_renderTargets()
+	, m_colorAttachment(builder.colorAttachment != nullptr)
+	, m_depthAttachment(builder.depthAttachment != nullptr)
+{
+	MINTY_ASSERT(m_colorAttachment || m_depthAttachment, "RenderPass must have at least one attachment.");
+}
+
 void Minty::RenderPass::refresh(RenderTargetBuilder const& builder)
 {
 	for (RenderTarget* target : m_renderTargets)

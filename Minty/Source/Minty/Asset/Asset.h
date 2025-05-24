@@ -8,6 +8,12 @@
 
 namespace Minty
 {
+	class Asset;
+	template<typename T, typename = void>
+	struct is_asset : std::false_type {};
+	template<typename T>
+	struct is_asset<T, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
+
 	/// <summary>
 	/// The base class for all Asset types.
 	/// </summary>

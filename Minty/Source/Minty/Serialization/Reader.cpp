@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Reader.h"
+#include "Minty/Asset/AssetManager.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/UUID.h"
@@ -39,6 +40,35 @@ Bool Minty::Reader::read_object(Size const index, SerializableObject& obj)
 		return result;
 	}
 
+	return false;
+}
+
+Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
+{
+	UUID id{};
+	if (read(index, id))
+	{
+		// if ID is empty, that is okay, set to null
+		if (!id.is_valid())
+		{
+			asset = nullptr;
+			return true;
+		}
+
+		AssetManager& assetManager = AssetManager::get_singleton();
+		asset = assetManager.get_asset(id);
+		if (asset == nullptr)
+		{
+			// if ID not invalid, and no asset found, error
+			MINTY_ERROR(F("Failed to read Asset with ID {}. It has not been loaded.", id));
+			return false;
+		}
+
+		// asset found and set
+		return true;
+	}
+
+	// no ID read
 	return false;
 }
 

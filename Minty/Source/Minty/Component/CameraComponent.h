@@ -13,7 +13,7 @@ namespace Minty
 		/// <summary>
 		/// The Camera.
 		/// </summary>
-		Camera camera;
+		Ref<Camera> camera = nullptr;
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;

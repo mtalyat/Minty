@@ -51,18 +51,9 @@ namespace Minty
 		/// Creates a new RenderTarget.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
-		RenderTarget(RenderTargetBuilder const& builder)
-			: Asset(builder.id)
-			, m_renderPass(builder.renderPass)
-			, m_images(builder.images)
-		{
-			MINTY_ASSERT(m_renderPass != nullptr, "RenderTargetBuilder renderPass must not be null.");
-			MINTY_ASSERT(!m_images.is_empty(), "RenderTargetBuilder images must not be empty.");
-		}
+		RenderTarget(RenderTargetBuilder const& builder);
 
-		virtual ~RenderTarget() override
-		{
-		}
+		virtual ~RenderTarget() override;
 
 #pragma endregion
 

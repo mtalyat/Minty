@@ -23,7 +23,7 @@ namespace Minty
 		/// <summary>
 		/// The Camera data.
 		/// </summary>
-		Camera camera = CameraBuilder{};
+		Ref<Camera> camera = nullptr;
 
 		/// <summary>
 		/// The view to render the Camera to.

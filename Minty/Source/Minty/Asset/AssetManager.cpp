@@ -14,6 +14,7 @@
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/Surface.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
 //#include "Minty/Render/Sprite.h"
@@ -311,20 +312,30 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 		return load_material(path);
 	case AssetType::MaterialTemplate:
 		return load_material_template(path);
-	//case AssetType::Mesh:
-	//	return load_mesh(path);
+	case AssetType::Mesh:
+		return load_mesh(path);
 	case AssetType::RenderPass:
 		return load_render_pass(path);
+	case AssetType::RenderTarget:
+		return load_render_target(path);
+	case AssetType::Camera:
+		return load_camera(path);
 	case AssetType::Shader:
 		return load_shader(path);
 	case AssetType::ShaderModule:
 		return load_shader_module(path);
-	//case AssetType::Scene:
-	//	return load_scene(path);
+	case AssetType::Scene:
+		return load_scene(path);
 	//case AssetType::Sprite:
 	//	return load_sprite(path);
 	case AssetType::Texture:
 		return load_texture(path);
+	case AssetType::Animation:
+		return load_animation(path);
+	case AssetType::Animator:
+		return load_animator(path);
+	case AssetType::AudioClip:
+		return load_audio_clip(path);
 	default:
 		MINTY_ABORT("Not implemented.");
 		return Ref<Asset>();
@@ -851,6 +862,32 @@ Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)
 	return create_from_loaded<AudioClip>(path, builder);
 }
 
+Ref<Camera> Minty::AssetManager::load_camera(Path const& path)
+{
+	// create the builder
+	CameraBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values from the file
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read values
+		reader->read("Perspective", builder.perspective);
+		reader->read("FOV", builder.fov);
+		reader->read("Near", builder.nearPlane);
+		reader->read("Far", builder.farPlane);
+		reader->read("AspectRatio", builder.aspectRatio);
+		reader->read("Size", builder.size);
+		reader->read("Layer", builder.layer);
+		reader->read("RenderTarget", builder.renderTarget);
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<Camera>(path, builder);
+}
+
 Ref<Image> Minty::AssetManager::load_image(Path const& path)
 {
 	// create the image using the path and ID
@@ -1129,6 +1166,75 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
 	}
 
 	return create_from_loaded<RenderPass>(path, builder);
+}
+
+Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path)
+{
+	// create builder
+	RenderTargetBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		reader->read("RenderPass", builder.renderPass);
+		String images;
+		if (reader->read("Images", images) && !images.is_empty())
+		{
+			// if "Surface", automatically grab the images from the surface
+			if (images != "Surface")
+			{
+				MINTY_ERROR(F("Failed to load render target. Invalid image name: \"{}\". Must provide a valid name (Surface), or a list of Image IDs to use.", images));
+				return Ref<RenderTarget>();
+			}
+			
+			// get the surface images
+			RenderManager& renderManager = RenderManager::get_singleton();
+			Ref<Surface> surface = renderManager.get_surface();
+			MINTY_ASSERT(surface != nullptr, "Failed to load render target. No surface found.");
+			builder.images = surface->get_images();
+		}
+		else
+		{
+			// manually providing the images
+			// read the images
+			if (reader->indent("Images"))
+			{
+				// read each image
+				UUID id;
+				Ref<Image> image;
+				Ref<Texture> texture;
+				for (Size i = 0; i < reader->get_size(); i++)
+				{
+					// read the ID
+					if (!reader->read(i, id))
+					{
+						continue;
+					}
+
+					// get the image, either from the texture with the given ID, or the image with the given ID
+					texture = get<Texture>(id);
+					if (texture != nullptr)
+					{
+						image = texture->get_image();
+					}
+					else
+					{
+						image = get<Image>(id);
+					}
+
+					// add to the list
+					builder.images.add(image);
+				}
+
+				reader->outdent();
+			}
+		}
+		close_reader(reader);
+	}
+
+	return create_from_loaded<RenderTarget>(path, builder);
 }
 
 Ref<Scene> Minty::AssetManager::load_scene(Path const& path)

@@ -23,6 +23,7 @@ namespace Minty
 		Surface,
 		RenderPass,
 		RenderTarget,
+		Camera,
 		ShaderCode,
 		ShaderModule,
 		Shader,

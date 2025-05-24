@@ -70,7 +70,7 @@ namespace Minty
 		// gets the current frame's command buffer
 		VkCommandBuffer get_current_command_buffer() const;
 
-		inline Ref<Image> const& get_depth_image() const { return m_depthImage; }
+		inline Ref<Image> get_depth_image() const { return m_depthImage.create_ref(); }
 
 		inline Ref<Surface> get_surface() const override { return m_surface.create_ref().cast_to<Surface>(); }
 

@@ -8,6 +8,9 @@ namespace Minty
 	class Window;
 	class Image;
 
+	/// <summary>
+	/// The arguments for creating a Surface.
+	/// </summary>
 	struct SurfaceBuilder
 	{
 		/// <summary>
@@ -101,6 +104,11 @@ namespace Minty
 #pragma region Statics
 
 	public:
+		/// <summary>
+		/// Creates a new Surface.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A Surface Owner.</returns>
 		Owner<Surface> create(SurfaceBuilder const& builder = {});
 
 #pragma endregion

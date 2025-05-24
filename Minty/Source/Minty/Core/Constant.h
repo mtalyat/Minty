@@ -42,6 +42,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_AUDIO_CLIP_WAV = ".wav";
 	constexpr Char const* EXTENSION_AUDIO_CLIP_MP3 = ".mp3";
 	constexpr Char const* EXTENSION_BITMAP = ".bmp";
+	constexpr Char const* EXTENSION_CAMERA = ".mcam";
 	constexpr Char const* EXTENSION_CSV = ".csv";
 	constexpr Char const* EXTENSION_FONT = ".mfnt";
 	constexpr Char const* EXTENSION_FONT_VARIANT = ".fnt";
@@ -53,6 +54,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_META = ".meta";
 	constexpr Char const* EXTENSION_PNG = ".png";
 	constexpr Char const* EXTENSION_RENDER_PASS = ".mrpa";
+	constexpr Char const* EXTENSION_RENDER_TARGET = ".mrta";
 	constexpr Char const* EXTENSION_SCENE = ".msce";
 	constexpr Char const* EXTENSION_SCRIPT = ".cs";
 	constexpr Char const* EXTENSION_SHADER = ".msha";

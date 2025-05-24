@@ -1,0 +1,7 @@
+Perspective: Perspective
+FOV: 45
+Near: 0.1
+Far: 100.0
+Color: Black
+AspectRatio: 1.77777
+RenderTarget: def000000000001e

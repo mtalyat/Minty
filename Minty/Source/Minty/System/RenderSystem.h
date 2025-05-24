@@ -6,6 +6,9 @@ namespace Minty
 {
 	struct CameraInfo;
 
+	/// <summary>
+	/// Handles rendering the Scene.
+	/// </summary>
 	class RenderSystem
 		: public System
 	{
@@ -35,13 +38,10 @@ namespace Minty
 		void render_meshes(CameraInfo const& cameraInfo);
 
 	public:
+		void on_render() override;
+
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
-		void on_load() override;
-		void on_unload() override;
-		void on_update(Time const& time) override;
-		void on_finalize() override;
-		void on_render() override;
 
 #pragma endregion
 	};

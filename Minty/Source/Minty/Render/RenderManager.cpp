@@ -126,7 +126,7 @@ Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 	, m_boundShader(nullptr)
 	, m_boundMaterial(nullptr)
 	, m_boundMesh(nullptr)
-	, m_camera({})
+	, m_camera(nullptr)
 	, m_cameraMatrix()
 {
 	// if no window given, use the Context's window

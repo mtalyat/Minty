@@ -277,3 +277,15 @@ void Minty::TextWriterBehavior::write_typed_to_buffer(void const* const data, Ve
 		MINTY_ABORT(F("Cannot write type \"{}\".", to_string(type)).get_data());
 	}
 }
+
+void Minty::Writer::write_asset(String const& name, Ref<Asset> const& asset)
+{
+	if (asset == nullptr)
+	{
+		write(name, UUID(INVALID_ID));
+	}
+	else
+	{
+		write(name, asset->get_id());
+	}
+}

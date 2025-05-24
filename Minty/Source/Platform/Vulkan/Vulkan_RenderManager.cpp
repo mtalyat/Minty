@@ -134,7 +134,7 @@ void Minty::Vulkan_RenderManager::initialize()
 		initialize_frame(m_frames.at(i));
 	}
 
-	Manager::initialize();
+	RenderManager::initialize();
 
 	// create defaults
 	//     viewport
@@ -254,17 +254,27 @@ void Minty::Vulkan_RenderManager::end_frame()
 
 Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 {
-	if (!RenderManager::start_pass(cameraInfo))
+	// get the camera
+	Ref<Camera> const& camera = cameraInfo.camera;
+
+	if (camera == nullptr)
 	{
 		return false;
 	}
 
 	// get render target
-	Ref<RenderTarget> renderTarget = cameraInfo.camera.get_render_target();
+	Ref<RenderTarget> renderTarget = camera->get_render_target();
 
 	// skip frame if no target
-	if (!renderTarget)
+	if (renderTarget == nullptr)
 	{
+		return false;
+	}
+
+	// start pass
+	if (!RenderManager::start_pass(cameraInfo))
+	{
+		// could not start pass
 		return false;
 	}
 
@@ -279,7 +289,7 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 	renderArea.extent = m_surface->get_extent();
 
 	// get clear color
-	Color clearColor = cameraInfo.camera.get_color();
+	Color clearColor = cameraInfo.camera->get_color();
 	VkClearColorValue clearColorValue{};
 	clearColorValue.float32[0] = clearColor.r;
 	clearColorValue.float32[1] = clearColor.g;

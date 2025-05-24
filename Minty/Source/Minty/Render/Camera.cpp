@@ -7,7 +7,8 @@
 using namespace Minty;
 
 Minty::Camera::Camera(CameraBuilder const& builder)
-	: m_perspective(builder.perspective)
+	: Asset(builder.id)
+	, m_perspective(builder.perspective)
 	, m_fov(builder.fov)
 	, m_nearPlane(builder.nearPlane)
 	, m_farPlane(builder.farPlane)

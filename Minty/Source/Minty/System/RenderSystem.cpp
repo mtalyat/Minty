@@ -44,7 +44,7 @@ void Minty::RenderSystem::render_meshes(CameraInfo const& cameraInfo)
 		}
 
 		// ignore if not in correct layer
-		if (!entityManager.is_in_layer(entity, cameraInfo.camera.get_layer()))
+		if (!entityManager.is_in_layer(entity, cameraInfo.camera->get_layer()))
 		{
 			continue;
 		}
@@ -85,23 +85,6 @@ void Minty::RenderSystem::serialize(Writer& writer) const
 Bool Minty::RenderSystem::deserialize(Reader& reader)
 {
 	return true;
-}
-
-void Minty::RenderSystem::on_load()
-{
-}
-
-void Minty::RenderSystem::on_unload()
-{
-}
-
-void Minty::RenderSystem::on_update(Time const& time)
-{
-
-}
-
-void Minty::RenderSystem::on_finalize()
-{
 }
 
 void Minty::RenderSystem::on_render()

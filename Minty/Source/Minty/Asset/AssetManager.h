@@ -22,12 +22,14 @@ namespace Minty
 	class Animation;
 	class Animator;
 	class AudioClip;
+	class Camera;
 	class Image;
 	class Material;
 	class MaterialTemplate;
 	class Mesh;
 	struct RenderAttachment;
 	class RenderPass;
+	class RenderTarget;
 	class Scene;
 	class Shader;
 	class ShaderModule;
@@ -639,6 +641,8 @@ namespace Minty
 
 		Ref<AudioClip> load_audio_clip(Path const& path);
 
+		Ref<Camera> load_camera(Path const& path);
+
 		Ref<Image> load_image(Path const& path);
 
 		Ref<Material> load_material(Path const& path);
@@ -650,6 +654,8 @@ namespace Minty
 		Ref<Mesh> load_mesh(Path const& path);
 
 		Ref<RenderPass> load_render_pass(Path const& path);
+
+		Ref<RenderTarget> load_render_target(Path const& path);
 
 		Ref<Scene> load_scene(Path const& path);
 

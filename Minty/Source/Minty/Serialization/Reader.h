@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Asset/Asset.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Type.h"
@@ -179,7 +180,7 @@ namespace Minty
 		/// <param name="index">The index of the Node to read from.</param>
 		/// <param name="obj">The object to read the data into.</param>
 		/// <returns>True on success.</returns>
-		template<typename T, typename std::enable_if<!is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
 		Bool read(Size const index, T& obj)
 		{
 			// default: read as string
@@ -200,7 +201,7 @@ namespace Minty
 		/// <param name="index">The index of the Node to read from.</param>
 		/// <param name="obj">The object to read the data into.</param>
 		/// <returns>True on success.</returns>
-		template<typename T, typename std::enable_if<!is_serializable<T>::value&& is_serializable_object<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && is_serializable_object<T>::value, int>::type = 0>
 		Bool read(Size const index, T& obj)
 		{
 			return read_object(index, obj);
@@ -214,7 +215,7 @@ namespace Minty
 		/// <param name="index">The index of the Node to read from.</param>
 		/// <param name="obj">The object to read the data into.</param>
 		/// <returns>True on success.</returns>
-		template<typename T, typename std::enable_if<is_serializable<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value && is_serializable<T>::value, int>::type = 0>
 		Bool read(Size const index, T& obj)
 		{
 			return obj.deserialize(*this, index);
@@ -548,6 +549,42 @@ namespace Minty
 		Bool read_typed(String const& name, void* const data, Type& type)
 		{
 			return read_typed(get_index(name), data, type);
+		}
+
+		/// <summary>
+		/// Reads the ID of the Asset and populates the given Asset if found.
+		/// </summary>
+		/// <param name="index">The index of the Node to read.</param>
+		/// <param name="asset">The Asset.</param>
+		/// <returns>True on success.</returns>
+		Bool read_asset(Size const index, Ref<Asset>& asset);
+
+		/// <summary>
+		/// Reads the ID of the Asset and populates the given Asset if found.
+		/// </summary>
+		/// <param name="name">The name of the Node to read.</param>
+		/// <param name="asset">The Asset.</param>
+		/// <returns>True on success.</returns>
+		Bool read_asset(String const& name, Ref<Asset>& asset)
+		{
+			return read_asset(get_index(name), asset);
+		}
+
+		/// <summary>
+		/// Reads the ID of the Asset and populates the given Asset if found.
+		/// </summary>
+		/// <typeparam name="T">The type of Asset.</typeparam>
+		/// <typeparam name="type">The type.</typeparam>
+		/// <param name="index">The index of the Asset.</param>
+		/// <param name="asset">The Asset.</param>
+		/// <returns>True on success.</returns>
+		template<typename T, typename std::enable_if<is_asset<T>::value, int>::type = 0>
+		Bool read(Size const index, Ref<T>& asset)
+		{
+			Ref<Asset> assetRef = asset.cast_to<Asset>();
+			Bool result = read_asset(index, assetRef);
+			asset = assetRef.cast_to<T>();
+			return result;
 		}
 
 #pragma endregion

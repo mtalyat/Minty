@@ -22,6 +22,10 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 
 		{ EXTENSION_RENDER_PASS, AssetType::RenderPass },
 
+		{ EXTENSION_RENDER_TARGET, AssetType::RenderTarget },
+
+		{ EXTENSION_CAMERA, AssetType::Camera },
+
 		{ EXTENSION_SPRITE, AssetType::Sprite },
 
 		{ EXTENSION_MATERIAL, AssetType::Material },
@@ -58,7 +62,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	// extension not found
 	if (found == types.end())
 	{
-		MINTY_WARNING(F("Asset type not found for path: {}", path));
+		MINTY_ERROR(F("Asset type not found for path: {}. Creating Generic Asset.", path));
 		return AssetType::Generic;
 	}
 
@@ -67,6 +71,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 
 AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 {
+	MINTY_ABORT("Not implemented.");
 	return AssetType::Generic;
 }
 

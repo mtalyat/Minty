@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Pointer.h"
@@ -13,6 +14,11 @@ namespace Minty
 	/// </summary>
 	struct CameraBuilder
 	{
+		/// <summary>
+		/// The Asset ID.
+		/// </summary>
+		UUID id = INVALID_ID;
+
 		/// <summary>
 		/// The perspective.
 		/// </summary>
@@ -59,8 +65,11 @@ namespace Minty
 		Ref<RenderTarget> renderTarget = nullptr;
 	};
 
+	/// <summary>
+	/// Holds information used to render a specific view of the Scene.
+	/// </summary>
 	class Camera
-		: SerializableObject
+		: public Asset, public SerializableObject
 	{
 #pragma region Variables
 
@@ -80,14 +89,6 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Camera.
-		/// </summary>
-		Camera()
-			: Camera(CameraBuilder())
-		{
-		}
-
 		/// <summary>
 		/// Creates a new Camera.
 		/// </summary>
@@ -207,6 +208,12 @@ namespace Minty
 		/// <param name="renderTarget">The new value.</param>
 		void set_render_target(Ref<RenderTarget> const& renderTarget) { m_renderTarget = renderTarget; }
 
+		/// <summary>
+		/// Gets the AssetType of this Asset.
+		/// </summary>
+		/// <returns>Camera.</returns>
+		constexpr AssetType get_asset_type() const override { return AssetType::Camera; }
+
 #pragma endregion
 
 #pragma region Methods
@@ -220,7 +227,12 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		Owner<Camera> create(CameraBuilder const& builder = {});
+		/// <summary>
+		/// Creates a new Camera.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A Camera Owner.</returns>
+		static Owner<Camera> create(CameraBuilder const& builder = {});
 
 #pragma endregion
 

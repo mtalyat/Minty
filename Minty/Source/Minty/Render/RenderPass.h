@@ -28,6 +28,9 @@ namespace Minty
 		RenderAttachment const* depthAttachment = nullptr;
 	};
 
+	/// <summary>
+	/// A RenderPass handles the attachments used for rendering.
+	/// </summary>
 	class RenderPass
 		: public Asset
 	{
@@ -48,13 +51,7 @@ namespace Minty
 		/// Creates a new RenderPass.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
-		RenderPass(RenderPassBuilder const& builder)
-			: Asset(builder.id)
-			, m_colorAttachment(builder.colorAttachment != nullptr)
-			, m_depthAttachment(builder.depthAttachment != nullptr)
-		{
-			MINTY_ASSERT(m_colorAttachment || m_depthAttachment, "RenderPass must have at least one attachment.");
-		}
+		RenderPass(RenderPassBuilder const& builder);
 
 		virtual ~RenderPass() override
 		{
