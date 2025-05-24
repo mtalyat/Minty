@@ -87,9 +87,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,9 +112,8 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -135,9 +133,8 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -165,9 +162,8 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
