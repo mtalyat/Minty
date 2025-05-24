@@ -80,6 +80,11 @@ namespace Minty
 
 		inline Matrix4 get_global_matrix() const { return m_globalMatrix; }
 
+		inline void set_global_matrix(Matrix4 const& matrix)
+		{
+			m_globalMatrix = matrix;
+		}
+
 #pragma endregion
 
 #pragma region Methods

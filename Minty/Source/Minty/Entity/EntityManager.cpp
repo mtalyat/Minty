@@ -1,12 +1,6 @@
 #include "pch.h"
 #include "EntityManager.h"
-#include "Minty/Component/DirtyComponent.h"
-#include "Minty/Component/EnabledComponent.h"
-#include "Minty/Component/LayerComponent.h"
-#include "Minty/Component/NameComponent.h"
-#include "Minty/Component/RelationshipComponent.h"
-#include "Minty/Component/UUIDComponent.h"
-#include "Minty/Component/VisibleComponent.h"
+#include "Minty/Component/_Component.h"
 #include "Minty/Context/Context.h"
 #include "Minty/Entity/EntitySerializationData.h"
 
@@ -350,6 +344,37 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 	// set name
 	NameComponent& nameComponent = m_registry.get_or_emplace<NameComponent>(entity);
 	nameComponent.name = name;
+}
+
+void Minty::EntityManager::finalize_dirties()
+{
+	// update dirty transforms with relationships
+	for (auto&& [entity, dirty, transform, relationship] : m_registry.view<DirtyComponent const, TransformComponent, RelationshipComponent const>().each())
+	{
+		// if parent, use parent's global matrix
+		if (relationship.parent != INVALID_ENTITY)
+		{
+			// get the parent transform
+			TransformComponent const* parentTransform = m_registry.try_get<TransformComponent>(relationship.parent);
+			if (parentTransform)
+			{
+				Matrix4 matrix = parentTransform->transform.get_global_matrix() * transform.transform.get_local_matrix();
+				transform.transform.set_global_matrix(matrix);
+
+				continue;
+			}
+		}
+
+		// if no parent, or if no parent transform, use local matrix
+		transform.transform.set_global_matrix(transform.transform.get_local_matrix());
+	}
+
+	// update dirty transforms with no relationships
+	for (auto&& [entity, dirty, transform] : m_registry.view<DirtyComponent const, TransformComponent>(entt::exclude<RelationshipComponent>).each())
+	{
+		// no parent
+		transform.transform.set_global_matrix(transform.transform.get_local_matrix());
+	}
 }
 
 Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const layer) const
@@ -796,12 +821,23 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 	}
 }
 
+void Minty::EntityManager::initialize()
+{
+	// dirty all components on load
+	mark_all_entities<DirtyComponent>();
+
+	Manager::initialize();
+}
+
 void Minty::EntityManager::finalize()
 {
-	// TODO: update all dirty components
-
 	// sort the entities
 	sort();
+
+	// refresh the dirty components
+	finalize_dirties();
+
+	Manager::finalize();
 }
 
 Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index)

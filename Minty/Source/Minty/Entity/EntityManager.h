@@ -100,7 +100,20 @@ namespace Minty
 
 #pragma region Methods
 
+	private:
+		// finalizes dirty components
+		void finalize_dirties();
+
 	public:
+		/// <summary>
+		/// Called when the Manager is created.
+		/// </summary>
+		void initialize() override;
+		/// <summary>
+		/// Called after every update operation.
+		/// </summary>
+		void finalize() override;
+
 		/// <summary>
 		/// Checks if this manager contains an Entity with the given ID.
 		/// </summary>
@@ -242,6 +255,31 @@ namespace Minty
 		/// </summary>
 		void clear();
 
+		/// <summary>
+		/// Adds or replaces the component on the given Entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of Component.</typeparam>
+		/// <param name="entity">The Entity to add the Component to.</param>
+		template<typename ComponentType>
+		void mark_entity(Entity const entity)
+		{
+			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			m_registry.emplace_or_replace<ComponentType>(entity);
+		}
+
+		/// <summary>
+		/// Adds or replaces the component on all Entities.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of Component.</typeparam>
+		template<typename ComponentType>
+		void mark_all_entities()
+		{
+			for (auto const [entity] : m_registry.storage<Entity>().each())
+			{
+				m_registry.emplace_or_replace<ComponentType>(entity);
+			}
+		}
+
 		template<typename... Get>
 		EntityView<Get...> view()
 		{
@@ -270,11 +308,6 @@ namespace Minty
 
 		void move_to_last(Entity const entity);
 
-		/// <summary>
-		/// Called after every update operation.
-		/// </summary>
-		void finalize() override;
-
 #pragma region Serialization
 
 	private:
@@ -288,8 +321,6 @@ namespace Minty
 		Bool deserialize(Reader& reader) override;
 
 #pragma endregion
-
-
 
 #pragma endregion
 

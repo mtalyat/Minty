@@ -21,6 +21,9 @@ void Minty::Application::run()
 	Ref<Window> const& window = m_context->get_window();
 	while (window->is_open())
 	{
+		// finalize managers
+		m_context->finalize();
+
 		// render managers
 		m_context->render();
 
@@ -33,9 +36,6 @@ void Minty::Application::run()
 
 		// update managers
 		m_context->update(time);
-
-		// finalize (late update) managers
-		m_context->finalize();
 	}
 
 	// sync operations before moving on (threads, rendering, etc.)
