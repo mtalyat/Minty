@@ -138,6 +138,9 @@ namespace Minty
 			// create new asset
 			Owner<T> asset = T::create(std::forward<Args>(args)...);
 
+			// trigger load
+			asset->on_load();
+
 			// add to asset manager
 			add(path, asset);
 

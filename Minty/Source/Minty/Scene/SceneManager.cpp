@@ -107,26 +107,11 @@ void Minty::SceneManager::initialize()
 		m_activeScene = scene;
 	}
 
-	// load all of the scenes
-	for (Ref<Scene> const& scene : m_scenes)
-	{
-		scene->on_load();
-	}
-
 	Manager::initialize();
 }
 
 void Minty::SceneManager::dispose()
 {
-	// unload all of the scenes
-	for (Ref<Scene> const& scene : m_scenes)
-	{
-		if (scene != nullptr)
-		{
-			scene->on_unload();
-		}
-	}
-
 	// clear the list of scenes
 	m_scenes.clear();
 	m_activeScene = nullptr;
