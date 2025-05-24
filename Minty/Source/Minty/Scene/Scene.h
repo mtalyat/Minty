@@ -71,9 +71,7 @@ namespace Minty
 	public:
 		Scene(SceneBuilder const& builder);
 
-		~Scene()
-		{
-		}
+		~Scene() override;
 
 #pragma endregion
 
