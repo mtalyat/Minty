@@ -23,6 +23,7 @@ namespace Minty
 	{
 		Path debugLogPath = "";
 
+		WindowBuilder windowBuilder = {};
 		MemoryManagerBuilder memoryManagerBuilder = {};
 		JobManagerBuilder jobManagerBuilder = {};
 		AudioManagerBuilder audioManagerBuilder = {};
@@ -43,6 +44,7 @@ namespace Minty
 		static Context* s_instance;
 
 		DualBuffer* mp_dualBuffer;
+		Owner<Window> m_window;
 		Owner<MemoryManager> m_memoryManager;
 		Owner<JobManager> m_jobManager;
 		Owner<AudioManager> m_audioManager;
@@ -51,7 +53,6 @@ namespace Minty
 		Owner<RenderManager> m_renderManager;
 		Owner<SceneManager> m_sceneManager;
 		Vector<Manager*> m_managers;
-		Ref<Window> m_window;
 
 		Lookup<TypeID, SystemInfo> m_registeredSystems;
 		Lookup<TypeID, ComponentInfo> m_registeredComponents;
@@ -75,6 +76,7 @@ namespace Minty
 		/// <param name="other">The Context to move.</param>
 		Context(Context&& other) noexcept
 			: mp_dualBuffer(other.mp_dualBuffer)
+			, m_window(std::move(other.m_window))
 			, m_memoryManager(std::move(other.m_memoryManager))
 			, m_jobManager(std::move(other.m_jobManager))
 			, m_audioManager(std::move(other.m_audioManager))
@@ -162,7 +164,7 @@ namespace Minty
 		/// Gets the Window in this Context.
 		/// </summary>
 		/// <returns></returns>
-		Ref<Window> const& get_window() const { return m_window; }
+		Ref<Window> get_window() const { return m_window.create_ref(); }
 
 		/// <summary>
 		/// Gets the SceneManager in this Context.

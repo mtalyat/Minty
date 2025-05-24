@@ -14,6 +14,7 @@ Context* Context::s_instance = nullptr;
 /// <param name="builder">The input arguments.</param>
 Minty::Context::Context(ContextBuilder const& builder)
 	: mp_dualBuffer(nullptr)
+	, m_window(nullptr)
 	, m_memoryManager(nullptr)
 	, m_jobManager(nullptr)
 	, m_audioManager(nullptr)
@@ -22,7 +23,6 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_renderManager(nullptr)
 	, m_sceneManager(nullptr)
 	, m_managers()
-	, m_window(nullptr)
 	, m_registeredSystems()
 	, m_registeredComponents()
 {
@@ -35,6 +35,9 @@ Minty::Context::Context(ContextBuilder const& builder)
 	{
 		mp_dualBuffer = new DualBuffer(std::cout, builder.debugLogPath);
 	}
+
+	// create window
+	m_window = Window::create(builder.windowBuilder);
 
 	// create managers
 	m_memoryManager = MemoryManager::create(builder.memoryManagerBuilder);
@@ -53,7 +56,6 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_managers.add(m_sceneManager.get());
 
 	// set the window event callback function
-	m_window = m_renderManager->get_window();
 	m_window->set_event_callback([this](Event& event) {
 		handle_event(event);
 		});

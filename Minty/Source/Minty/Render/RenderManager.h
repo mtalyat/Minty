@@ -74,17 +74,7 @@ namespace Minty
 		/// Creates a new RenderManager.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
-		RenderManager(RenderManagerBuilder const& builder)
-			: m_state(State::Idle)
-			, m_window(builder.window)
-			, m_boundShader(nullptr)
-			, m_boundMaterial(nullptr)
-			, m_boundMesh(nullptr)
-			, m_camera({})
-			, m_cameraMatrix()
-		{
-
-		}
+		RenderManager(RenderManagerBuilder const& builder);
 
 		virtual ~RenderManager()
 		{

@@ -120,6 +120,24 @@ void Minty::RenderManager::draw_mesh(Ref<Mesh> const& mesh)
 #endif // MINTY_VULKAN
 }
 
+Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
+	: m_state(State::Idle)
+	, m_window(builder.window)
+	, m_boundShader(nullptr)
+	, m_boundMaterial(nullptr)
+	, m_boundMesh(nullptr)
+	, m_camera({})
+	, m_cameraMatrix()
+{
+	// if no window given, use the Context's window
+	if (m_window == nullptr)
+	{
+		m_window = Context::get_singleton().get_window();
+	}
+
+	MINTY_ASSERT(m_window != nullptr, "RenderManager requires a Window to render to. Provide a window in the RenderManagerBuilder, or create a Context.");
+}
+
 Bool Minty::RenderManager::start_frame()
 {
 	MINTY_ASSERT(m_state != State::Frame, "Attempting to start a frame while already rendering a frame.");
