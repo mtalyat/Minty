@@ -92,6 +92,7 @@ void Minty::Context::register_components()
 	register_component<RelationshipComponent>("Relationship");
 	register_component<SpriteComponent>("Sprite");
 	register_component<TransformComponent>("Transform");
+	register_component<UITransformComponent>("UITransform");
 	register_component<UUIDComponent>("UUID");
 	register_component<VisibleComponent>("Visible");
 }

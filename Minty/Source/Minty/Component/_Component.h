@@ -10,5 +10,6 @@
 #include "RelationshipComponent.h"
 #include "SpriteComponent.h"
 #include "TransformComponent.h"
+#include "UITransformComponent.h"
 #include "UUIDComponent.h"
 #include "VisibleComponent.h"
