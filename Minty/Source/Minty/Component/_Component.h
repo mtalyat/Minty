@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CameraComponent.h"
+#include "CanvasComponent.h"
 #include "Component.h"
 #include "DirtyComponent.h"
 #include "EnabledComponent.h"
@@ -10,5 +11,6 @@
 #include "RelationshipComponent.h"
 #include "SpriteComponent.h"
 #include "TransformComponent.h"
+#include "UITransformComponent.h"
 #include "UUIDComponent.h"
 #include "VisibleComponent.h"

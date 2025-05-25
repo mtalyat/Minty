@@ -292,6 +292,32 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 			}
 		}
 	}
+
+	// if the entity has a UITransform, update its Canvas value
+	if (UITransformComponent* uiTransform = try_get_component<UITransformComponent>(entity))
+	{
+		uiTransform->canvas = INVALID_ENTITY;
+
+		Entity parent = entity;
+
+		while (parent != INVALID_ENTITY)
+		{
+			// if parent has canvas, set value
+			if (CanvasComponent* canvas = try_get_component<CanvasComponent>(parent))
+			{
+				uiTransform->canvas = parent;
+				break;
+			}
+
+			// move to next parent
+			RelationshipComponent const* parentRelationship = try_get_component<RelationshipComponent const>(parent);
+			if (!parentRelationship)
+			{
+				break;
+			}
+			parent = parentRelationship->parent;
+		}
+	}
 }
 
 Entity Minty::EntityManager::get_parent(Entity const entity) const
@@ -374,6 +400,43 @@ void Minty::EntityManager::finalize_dirties()
 	{
 		// no parent
 		transform.transform.set_global_matrix(transform.transform.get_local_matrix());
+	}
+
+	// get window size as a rect
+	Ref<Window> window = Context::get_singleton().get_window();
+	UInt2 windowSize = window->get_size();
+	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
+
+	// update dirty canvas transforms
+	for (auto&& [entity, dirtyComp, uiTransformComp, canvasComp] : m_registry.view<DirtyComponent const, UITransformComponent, CanvasComponent const>().each())
+	{
+		// canvas controls the size and position
+		uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
+		uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
+		uiTransformComp.transform.set_global_rect(canvasComp.canvas.get_rect());
+	}
+
+	// update dirty UI transforms with relationships
+	for (auto&& [entity, dirtyComp, uiTransformComp, relationshipComp] : m_registry.view<DirtyComponent const, UITransformComponent, RelationshipComponent const>().each())
+	{
+		// if parent, use parent's global rect
+		UITransformComponent const* parentUITransform = m_registry.try_get<UITransformComponent>(relationshipComp.parent);
+		if (parentUITransform)
+		{
+			uiTransformComp.transform.update_global_rect(parentUITransform->transform.get_global_rect());
+			continue;
+		}
+
+		// if no parent, use canvas
+		CanvasComponent const* canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
+		if (canvas)
+		{
+			uiTransformComp.transform.update_global_rect(canvas->canvas.get_rect());
+			continue;
+		}
+
+		// if no parent and no canvas...
+		uiTransformComp.transform.update_global_rect(windowRect);
 	}
 }
 

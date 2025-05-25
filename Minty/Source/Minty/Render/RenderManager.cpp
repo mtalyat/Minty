@@ -69,7 +69,7 @@ void Minty::RenderManager::bind_material(Ref<Material> const& material)
 	m_boundMaterial = material;
 
 	// set constants
-	m_boundMaterial->set_input("camera", &m_cameraMatrix, sizeof(Matrix4));
+	m_boundMaterial->try_set_input("camera", &m_cameraMatrix, sizeof(Matrix4));
 
 	// bind
 	m_boundMaterial->on_bind();

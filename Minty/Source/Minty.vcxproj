@@ -193,6 +193,7 @@
     <ClInclude Include="Minty\Audio\_Audio.h" />
     <ClInclude Include="Minty\Component\AnimatorComponent.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
+    <ClInclude Include="Minty\Component\CanvasComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
     <ClInclude Include="Minty\Component\SpriteComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
+    <ClInclude Include="Minty\Component\UITransformComponent.h" />
     <ClInclude Include="Minty\Component\UUIDComponent.h" />
     <ClInclude Include="Minty\Component\VisibleComponent.h" />
     <ClInclude Include="Minty\Component\_Component.h" />
@@ -237,12 +239,14 @@
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />
+    <ClInclude Include="Minty\Data\Rect.h" />
     <ClInclude Include="Minty\Data\Scope.h" />
     <ClInclude Include="Minty\Data\Set.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
     <ClInclude Include="Minty\Data\Transform.h" />
     <ClInclude Include="Minty\Data\Tuple.h" />
+    <ClInclude Include="Minty\Data\UITransform.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
     <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
@@ -373,6 +377,9 @@
     <ClInclude Include="Minty\Time\_Time.h" />
     <ClInclude Include="Minty\Tool\ArgumentParser.h" />
     <ClInclude Include="Minty\Tool\_Tool.h" />
+    <ClInclude Include="Minty\UI\AnchorMode.h" />
+    <ClInclude Include="Minty\UI\Canvas.h" />
+    <ClInclude Include="Minty\UI\_UI.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
@@ -436,11 +443,13 @@
     <ClCompile Include="Minty\Audio\AudioManager.cpp" />
     <ClCompile Include="Minty\Component\AnimatorComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
+    <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
     <ClCompile Include="Minty\Component\SpriteComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
+    <ClCompile Include="Minty\Component\UITransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
     <ClCompile Include="Minty\Context\Manager.cpp" />
@@ -462,6 +471,7 @@
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Data\Transform.cpp" />
+    <ClCompile Include="Minty\Data\UITransform.cpp" />
     <ClCompile Include="Minty\Data\UUID.cpp" />
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
@@ -539,6 +549,8 @@
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
     <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />
+    <ClCompile Include="Minty\UI\AnchorMode.cpp" />
+    <ClCompile Include="Minty\UI\Canvas.cpp" />
     <ClCompile Include="Minty\Window\Window.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />

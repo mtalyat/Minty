@@ -42,7 +42,7 @@ namespace Minty
 	public:
 		inline Float3 get_local_position() const { return m_localPosition; }
 
-		void set_local_position(Float3 const& position)
+		inline void set_local_position(Float3 const& position)
 		{
 			m_localPosition = position;
 		}
@@ -54,7 +54,7 @@ namespace Minty
 
 		inline Quaternion get_local_rotation() const { return m_localRotation; }
 
-		void set_local_rotation(Quaternion const& rotation)
+		inline void set_local_rotation(Quaternion const& rotation)
 		{
 			m_localRotation = rotation;
 		}
@@ -66,7 +66,7 @@ namespace Minty
 
 		inline Float3 get_local_scale() const { return m_localScale; }
 
-		void set_local_scale(Float3 const& scale)
+		inline void set_local_scale(Float3 const& scale)
 		{
 			m_localScale = scale;
 		}

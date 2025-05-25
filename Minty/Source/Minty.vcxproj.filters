@@ -130,6 +130,9 @@
     <Filter Include="Minty\Render\Sprite">
       <UniqueIdentifier>{c4cd2f2f-561e-4cfe-8643-bf9f4ac3fbd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\UI">
+      <UniqueIdentifier>{b22bed7d-65fd-43de-ad92-e39a3edbb641}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -783,9 +786,6 @@
     <ClInclude Include="Minty\Animation\AnimationStepFlags.h">
       <Filter>Minty\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Entity\EntityPath.h">
-      <Filter>Minty</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Component\AnimatorComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
@@ -809,6 +809,30 @@
     </ClInclude>
     <ClInclude Include="Minty\Data\BufferContainerFactory.h">
       <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\UI\_UI.h">
+      <Filter>Minty\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\UI\AnchorMode.h">
+      <Filter>Minty\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntityPath.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\UITransform.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Rect.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\UITransformComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\UI\Canvas.h">
+      <Filter>Minty\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\CanvasComponent.h">
+      <Filter>Minty\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1287,6 +1311,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Asset\AssetType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\UITransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\UITransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\UI\AnchorMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\UI\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\CanvasComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
