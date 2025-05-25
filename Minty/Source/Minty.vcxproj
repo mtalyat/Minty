@@ -237,12 +237,14 @@
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />
+    <ClInclude Include="Minty\Data\Rect.h" />
     <ClInclude Include="Minty\Data\Scope.h" />
     <ClInclude Include="Minty\Data\Set.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
     <ClInclude Include="Minty\Data\Transform.h" />
     <ClInclude Include="Minty\Data\Tuple.h" />
+    <ClInclude Include="Minty\Data\UITransform.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
     <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
@@ -464,6 +466,7 @@
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Data\Transform.cpp" />
+    <ClCompile Include="Minty\Data\UITransform.cpp" />
     <ClCompile Include="Minty\Data\UUID.cpp" />
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
