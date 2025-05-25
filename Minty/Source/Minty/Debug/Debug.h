@@ -49,13 +49,13 @@
 #endif // MINTY_DEBUG
 
 #ifdef MINTY_DEBUG
-#define MINTY_ABORT(message) do { Minty::Debug::write_abort(message); throw std::runtime_error(message); } while(false)
+#define MINTY_ABORT(message) do { Minty::Debug::write_abort(message); throw std::runtime_error(""); } while(false)
 #else
 #define MINTY_ABORT(message) MINTY_ERROR(message)
 #endif // MINTY_DEBUG
 
 #ifdef MINTY_DEBUG
-#define MINTY_ASSERT(expression, message) do { if(!(expression)) { MINTY_ABORT("(" #expression ") failed: " #message); } } while(false)
+#define MINTY_ASSERT(expression, message) do { if(!(expression)) { Minty::Debug::write_abort("(", #expression, ") failed: ", message); throw std::runtime_error(""); } } while(false)
 #else
 #define MINTY_ASSERT(expression, message)
 #endif // MINTY_DEBUG

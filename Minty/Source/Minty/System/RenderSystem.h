@@ -1,10 +1,13 @@
 #pragma once
+#include "Minty/Data/BufferContainerFactory.h"
 #include "Minty/System/System.h"
 #include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
 	struct CameraInfo;
+	class RenderManager;
+	class EntityManager;
 
 	/// <summary>
 	/// Handles rendering the Scene.
@@ -15,14 +18,18 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		BufferContainerFactory m_bufferContainerFactory;
+		UUID m_3dSpriteGroupId;
+		UUID m_uiSpriteGroupId;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		RenderSystem(SystemBuilder const& builder)
-			: System(builder)
+		RenderSystem(SystemBuilder const& builder);
+
+		~RenderSystem()
 		{
 		}
 
@@ -35,7 +42,13 @@ namespace Minty
 		void render_scene(CameraInfo const& cameraInfo);
 
 		// draws the mesh objects
-		void render_meshes(CameraInfo const& cameraInfo);
+		void render_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager const& entityManager);
+
+		// draws the sprites
+		void render_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager const& entityManager);
+
+		// draws the sprites in world space
+		void render_sprites_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager const& entityManager);
 
 	public:
 		void on_render() override;

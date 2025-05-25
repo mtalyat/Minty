@@ -9,6 +9,7 @@
 #include "Minty/Render/CameraInfo.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/MeshType.h"
+#include "Minty/Render/Space.h"
 
 namespace Minty
 {
@@ -17,6 +18,7 @@ namespace Minty
 	class Mesh;
 	class Viewport;
 	class Camera;
+	class Texture;
 	class Transform;
 	class Surface;
 
@@ -44,6 +46,9 @@ namespace Minty
 	{
 #pragma region Classes
 
+	private:
+		using TexMatKey = UInt;
+
 	protected:
 		enum class State
 		{
@@ -67,6 +72,7 @@ namespace Minty
 		Matrix4 m_cameraMatrix;
 
 		Map<MeshType, Ref<Mesh>> m_defaultMeshes;
+		Map<TexMatKey, Ref<Material>> m_defaultMaterials;
 
 #pragma endregion
 
@@ -122,6 +128,15 @@ namespace Minty
 		/// <returns>A Ref to a Mesh that corresponds with the type, or nullptr if the type is Empty.</returns>
 		Ref<Mesh> get_default_mesh(MeshType const type);
 
+		/// <summary>
+		/// Gets the default Material for the given Texture, AssetType, and Space.
+		/// </summary>
+		/// <param name="texture">The Texture.</param>
+		/// <param name="assetType">The AssetType.</param>
+		/// <param name="space">The Space.</param>
+		/// <returns>The default Material.</returns>
+		Ref<Material> get_default_material(Ref<Texture> const& texture, AssetType const assetType, Space const space);
+
 #pragma endregion
 
 #pragma region Methods
@@ -172,12 +187,21 @@ namespace Minty
 	public:
 		void draw_mesh(Ref<Mesh> const& mesh);
 
+		void draw_instances(UInt const instanceCount, UInt const vertexCount);
+
 #pragma endregion
 
 
 #pragma endregion
 
 #pragma region Statics
+
+	private:
+		// creates a key for the default materials
+		static TexMatKey create_texmat_key(AssetType const type, Space const space)
+		{
+			return (static_cast<UShort>(type) << (sizeof(UShort) << 3)) | static_cast<UShort>(space);
+		}
 
 	public:
 		/// <summary>

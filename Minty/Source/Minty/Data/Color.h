@@ -180,6 +180,35 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Methods
+
+	public:
+		/// <summary>
+		/// Gets the R value as a normalized Float between 0.0 and 1.0.
+		/// </summary>
+		/// <returns>The R value.</returns>
+		constexpr Float rf() const { return static_cast<Float>(r) / static_cast<Float>(MAX_CHANNEL); }
+
+		/// <summary>
+		/// Gets the G value as a normalized Float between 0.0 and 1.0.
+		/// </summary>
+		/// <returns>The G value.</returns>
+		constexpr Float gf() const { return static_cast<Float>(g) / static_cast<Float>(MAX_CHANNEL); }
+
+		/// <summary>
+		/// Gets the B value as a normalized Float between 0.0 and 1.0.
+		/// </summary>
+		/// <returns>The B value.</returns>
+		constexpr Float bf() const { return static_cast<Float>(b) / static_cast<Float>(MAX_CHANNEL); }
+
+		/// <summary>
+		/// Gets the A value as a normalized Float between 0.0 and 1.0.
+		/// </summary>
+		/// <returns>The A value.</returns>
+		constexpr Float af() const { return static_cast<Float>(a) / static_cast<Float>(MAX_CHANNEL); }
+
+#pragma endregion
+
 #pragma region Statics
 
 	public:

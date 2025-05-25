@@ -94,6 +94,7 @@
 #include "Test_ShaderPolygonMode.h"
 #include "Test_ShaderPrimitiveTopology.h"
 #include "Test_ShaderStage.h"
+#include "Test_Space.h"
 #include "Test_StoreOperation.h"
 #include "Test_Viewport.h"
 
@@ -234,6 +235,7 @@ static int run_tests()
 		test_ShaderPolygonMode(_test);
 		test_ShaderPrimitiveTopology(_test);
 		test_ShaderStage(_test);
+		test_Space(_test);
 		test_StoreOperation(_test);
 		test_Viewport(_test);
 

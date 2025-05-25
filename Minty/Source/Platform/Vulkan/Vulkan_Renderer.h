@@ -268,6 +268,8 @@ namespace Minty
 
 		static void draw_indexed(VkCommandBuffer const commandBuffer, uint32_t const indexCount, uint32_t const instanceCount = 1);
 
+		static void draw_instanced(VkCommandBuffer const commandBuffer, uint32_t const instanceCount, uint32_t const vertexCount);
+
 		static void transition_image_layout(VkCommandBuffer const commandBuffer, VkImage const image, VkFormat const format, VkImageLayout const oldLayout, VkImageLayout const newLayout);
 
 		static void copy_buffer_to_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkBuffer const dstBuffer, VkDeviceSize const size);

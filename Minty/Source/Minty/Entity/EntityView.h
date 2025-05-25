@@ -34,6 +34,11 @@ namespace Minty
 			return m_view.each();
 		}
 
+		Size get_size() const
+		{
+			return m_view.size_hint();
+		}
+
     private:
 		entt::view<entt::get_t<Get...>> m_view;
     };

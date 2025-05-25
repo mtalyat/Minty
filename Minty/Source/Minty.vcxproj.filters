@@ -127,6 +127,9 @@
     <Filter Include="Minty\Audio">
       <UniqueIdentifier>{2dbbe95e-ad54-4bf4-8674-a047ab4db63b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Sprite">
+      <UniqueIdentifier>{c4cd2f2f-561e-4cfe-8643-bf9f4ac3fbd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -786,6 +789,27 @@
     <ClInclude Include="Minty\Component\AnimatorComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\Sprite.h">
+      <Filter>Minty\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\SpriteComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Batch.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\BatchFactory.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Space.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\BufferContainer.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\BufferContainerFactory.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1245,6 +1269,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Animation\AnimationStep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\SpriteComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Space.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\BufferContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\BufferContainerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Asset\AssetType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

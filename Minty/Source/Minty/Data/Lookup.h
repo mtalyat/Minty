@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/String.h"

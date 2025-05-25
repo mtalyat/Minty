@@ -200,6 +200,7 @@
     <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
+    <ClInclude Include="Minty\Component\SpriteComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
     <ClInclude Include="Minty\Component\UUIDComponent.h" />
     <ClInclude Include="Minty\Component\VisibleComponent.h" />
@@ -218,6 +219,10 @@
     <ClInclude Include="Minty\Core\Macro.h" />
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
+    <ClInclude Include="Minty\Data\Batch.h" />
+    <ClInclude Include="Minty\Data\BatchFactory.h" />
+    <ClInclude Include="Minty\Data\BufferContainer.h" />
+    <ClInclude Include="Minty\Data\BufferContainerFactory.h" />
     <ClInclude Include="Minty\Data\Cargo.h" />
     <ClInclude Include="Minty\Data\Color.h" />
     <ClInclude Include="Minty\Data\ConstantContainer.h" />
@@ -338,6 +343,8 @@
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
     <ClInclude Include="Minty\Render\ShaderStage.h" />
     <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
+    <ClInclude Include="Minty\Render\Space.h" />
+    <ClInclude Include="Minty\Render\Sprite.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />
     <ClInclude Include="Minty\Render\Texture.h" />
@@ -423,6 +430,7 @@
     <ClCompile Include="Minty\Application\Application.cpp" />
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
+    <ClCompile Include="Minty\Asset\AssetType.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
     <ClCompile Include="Minty\Audio\AudioClip.cpp" />
     <ClCompile Include="Minty\Audio\AudioManager.cpp" />
@@ -431,6 +439,7 @@
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
+    <ClCompile Include="Minty\Component\SpriteComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
@@ -440,6 +449,8 @@
     <ClCompile Include="Minty\Core\Encoding.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
+    <ClCompile Include="Minty\Data\BufferContainer.cpp" />
+    <ClCompile Include="Minty\Data\BufferContainerFactory.cpp" />
     <ClCompile Include="Minty\Data\Cargo.cpp" />
     <ClCompile Include="Minty\Data\Color.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
@@ -510,6 +521,8 @@
     <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
+    <ClCompile Include="Minty\Render\Space.cpp" />
+    <ClCompile Include="Minty\Render\Sprite.cpp" />
     <ClCompile Include="Minty\Render\StoreOperation.cpp" />
     <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Texture.cpp" />

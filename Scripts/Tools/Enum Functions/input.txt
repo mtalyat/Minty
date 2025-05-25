@@ -1,32 +1,27 @@
-enum class Conditional
+enum class AssetType
 {
-	/// <summary>
-	/// ==
-	/// </summary>
-	Equal,
-
-	/// <summary>
-	/// !=
-	/// </summary>
-	NotEqual,
-
-	/// <summary>
-	/// >
-	/// </summary>
-	GreaterThan,
-
-	/// <summary>
-	/// >=
-	/// </summary>
-	GreaterThanOrEqualTo,
-
-	/// <summary>
-	/// <
-	/// </summary>
-	LessThan,
-
-	/// <summary>
-	/// <=
-	/// </summary>
-	LessThanOrEqualTo,
+	Generic,
+	Wrap,
+	Info, // application info
+	Script,
+	AudioClip,
+	Animation,
+	Animator,
+	Viewport,
+	Image,
+	Texture,
+	Surface,
+	RenderPass,
+	RenderTarget,
+	Camera,
+	ShaderCode,
+	ShaderModule,
+	Shader,
+	MaterialTemplate,
+	Material,
+	Sprite,
+	FontVariant,
+	Font,
+	Mesh,
+	Scene,
 };

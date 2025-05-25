@@ -280,12 +280,22 @@ namespace Minty
 			}
 		}
 
+		/// <summary>
+		/// Gets an EntityView with the given Components.
+		/// </summary>
+		/// <typeparam name="...Get">The Component types.</typeparam>
+		/// <returns>A view containing all of the Entities with the given Component types.</returns>
 		template<typename... Get>
 		EntityView<Get...> view()
 		{
 			return EntityView<Get...>(m_registry);
 		}
 
+		/// <summary>
+		/// Gets an EntityView with the given Components.
+		/// </summary>
+		/// <typeparam name="...Get">The Component types.</typeparam>
+		/// <returns>A view containing all of the Entities with the given Component types.</returns>
 		template<typename... Get>
 		EntityView<Get...> view() const
 		{
