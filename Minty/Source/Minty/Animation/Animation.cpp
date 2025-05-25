@@ -164,7 +164,7 @@ void Minty::Animation::perform_step(AnimationAction const& step, Entity const th
 	};
 
 	// create a root node for the deserialization
-	Node root;
+	Node root{};
 	root.add_child(std::move(value));
 
 	// deserialize the data
