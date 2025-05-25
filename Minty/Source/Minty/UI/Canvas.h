@@ -25,10 +25,7 @@ namespace Minty
 		/// <summary>
 		/// Creates an empty Canvas.
 		/// </summary>
-		Canvas()
-			: m_resolution(0, 0)
-		{
-		}
+		Canvas();
 
 		/// <summary>
 		/// Creates a new canvas with the given resolution.

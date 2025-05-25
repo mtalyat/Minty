@@ -42,6 +42,16 @@ namespace Minty
 	/// </summary>
 	constexpr Float DEFAULT_COLLECTION_REHASH_THRESHOLD = 0.75f;
 
+	/// <summary>
+	/// The default width of a Canvas.
+	/// </summary>
+	constexpr Int DEFAULT_CANVAS_RESOLUTION_X = 1920;
+
+	/// <summary>
+	/// The default height of a Canvas.
+	/// </summary>
+	constexpr Int DEFAULT_CANVAS_RESOLUTION_Y = 1080;
+
 #pragma endregion
 
 #pragma region Extensions
