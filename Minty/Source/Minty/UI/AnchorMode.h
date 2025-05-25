@@ -12,12 +12,23 @@ namespace Minty
 	enum class AnchorMode : Int
 	{
 		Empty = 0,
+
 		Top = 0b000001,
 		Middle = 0b000010,
 		Bottom = 0b000100,
 		Left = 0b001000,
 		Center = 0b010000,
 		Right = 0b100000,
+
+		TopLeft = Top | Left,
+		TopCenter = Top | Center,
+		TopRight = Top | Right,
+		MiddleLeft = Middle | Left,
+		MiddleCenter = Middle | Center,
+		MiddleRight = Middle | Right,
+		BottomLeft = Bottom | Left,
+		BottomCenter = Bottom | Center,
+		BottomRight = Bottom | Right,
 
 		All = 0b111111,
 	};
