@@ -338,6 +338,7 @@
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
     <ClInclude Include="Minty\Render\ShaderStage.h" />
     <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
+    <ClInclude Include="Minty\Render\Sprite.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />
     <ClInclude Include="Minty\Render\Texture.h" />
@@ -510,6 +511,7 @@
     <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
+    <ClCompile Include="Minty\Render\Sprite.cpp" />
     <ClCompile Include="Minty\Render\StoreOperation.cpp" />
     <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Texture.cpp" />
