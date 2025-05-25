@@ -373,6 +373,8 @@
     <ClInclude Include="Minty\Time\_Time.h" />
     <ClInclude Include="Minty\Tool\ArgumentParser.h" />
     <ClInclude Include="Minty\Tool\_Tool.h" />
+    <ClInclude Include="Minty\UI\AnchorMode.h" />
+    <ClInclude Include="Minty\UI\_UI.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
@@ -539,6 +541,7 @@
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
     <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />
+    <ClCompile Include="Minty\UI\AnchorMode.cpp" />
     <ClCompile Include="Minty\Window\Window.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />
