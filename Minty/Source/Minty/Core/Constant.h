@@ -7,8 +7,19 @@ namespace Minty
 #pragma region Audio
 
 	constexpr Float DEFAULT_AUDIO_ATTENUATION_ROLL_OFF = 1.0f;
-	constexpr Float DEFAULT_AUDIO_MIN_DISTANCE = 1.0f;
 	constexpr Float DEFAULT_AUDIO_MAX_DISTANCE = 100.0f;
+	constexpr Float DEFAULT_AUDIO_MIN_DISTANCE = 1.0f;
+	constexpr Float DEFAULT_AUDIO_VOLUME = 1.0f;
+
+#pragma endregion
+
+#pragma region Assets
+
+	constexpr Size DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
+	constexpr Size DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
+	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
+	constexpr Size DEFAULT_ASSET_UI_MATERIAL_TEMPLATE = 0xdef0000000000011;
+	constexpr Size DEFAULT_ASSET_TEXTURE = 0xdef0000000000000;
 
 #pragma endregion
 
@@ -32,6 +43,16 @@ namespace Minty
 	/// The default threshold for rehashing a hashed collection.
 	/// </summary>
 	constexpr Float DEFAULT_COLLECTION_REHASH_THRESHOLD = 0.75f;
+
+	/// <summary>
+	/// The default width of a Canvas.
+	/// </summary>
+	constexpr Int DEFAULT_CANVAS_RESOLUTION_X = 1920;
+
+	/// <summary>
+	/// The default height of a Canvas.
+	/// </summary>
+	constexpr Int DEFAULT_CANVAS_RESOLUTION_Y = 1080;
 
 #pragma endregion
 
@@ -68,6 +89,12 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Handle
+
+	constexpr Handle INVALID_HANDLE = UINT_MAX;
+
+#pragma endregion
+
 #pragma region Indexing
 
 	/// <summary>
@@ -85,7 +112,6 @@ namespace Minty
 	constexpr Float JOYSTICK_DEADZONE = 0.1f;
 
 #pragma endregion
-
 
 #pragma region Layer
 

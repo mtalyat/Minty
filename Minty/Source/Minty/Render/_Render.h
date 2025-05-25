@@ -37,6 +37,8 @@
 #include "ShaderPrimitiveTopology.h"
 #include "ShaderStage.h"
 #include "ShaderVertexInput.h"
+#include "Space.h"
+#include "Sprite.h"
 #include "Surface.h"
 #include "Texture.h"
 #include "Viewport.h"

@@ -4,6 +4,9 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Serializable.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -11,6 +14,7 @@ namespace Minty
 	/// Represents an object that contains data, and a list of children nodes.
 	/// </summary>
 	class Node
+		: public Serializable
 	{
 #pragma region Variables
 
@@ -329,6 +333,17 @@ namespace Minty
 		/// <returns>The child Node.</returns>
 		Node& add_child(Node&& node);
 
+		void serialize(Writer& writer, String const& name) const override;
+		Bool deserialize(Reader& reader, Size const index) override;
+
 #pragma endregion
 	};
+
+	String to_string(Node const& obj);
+	Node parse_to_node(String const& string);
+	Bool parse_try_node(String const& string, Node& value);
+	template<>
+	inline Node parse_to<Node>(String const& string) { return parse_to_node(string); }
+	template<>
+	inline Bool parse_try<Node>(String const& string, Node& value) { return parse_try_node(string, value); }
 }

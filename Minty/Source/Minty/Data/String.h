@@ -232,7 +232,7 @@ namespace Minty
 		{
 			if (this != &other)
 			{
-				if (m_capacity < other.m_size || m_allocator != other.m_allocator)
+				if (m_capacity < other.m_size || m_allocator != other.m_allocator || !mp_data)
 				{
 					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
 					m_allocator = other.m_allocator;

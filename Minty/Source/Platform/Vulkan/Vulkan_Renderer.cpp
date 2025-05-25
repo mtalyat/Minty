@@ -998,7 +998,17 @@ void Minty::Vulkan_Renderer::finish_command_buffer_single(VkDevice const device,
 	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
 	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
 
+	// end the command buffer
 	end_command_buffer(commandBuffer);
+
+	// submit the command buffer
+	submit_command_buffer(commandBuffer, queue);
+
+	// wait for the queue to finish
+	VK_ASSERT_RESULT(vkQueueWaitIdle(queue), "Failed to wait for queue to finish.");
+
+	// destroy the command buffer
+	destroy_command_buffer(device, commandPool, commandBuffer);
 }
 
 void Minty::Vulkan_Renderer::reset_command_buffer(VkCommandBuffer const commandBuffer)
@@ -1144,8 +1154,20 @@ void Minty::Vulkan_Renderer::draw_indexed(VkCommandBuffer const commandBuffer, u
 	vkCmdDrawIndexed(commandBuffer, indexCount, instanceCount, 0, 0, 0);
 }
 
+void Minty::Vulkan_Renderer::draw_instanced(VkCommandBuffer const commandBuffer, uint32_t const instanceCount, uint32_t const vertexCount)
+{
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+
+	vkCmdDraw(commandBuffer, vertexCount, instanceCount, 0, 0);
+}
+
 void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const commandBuffer, VkImage const image, VkFormat const format, VkImageLayout const oldLayout, VkImageLayout const newLayout)
 {
+	if (oldLayout == newLayout)
+	{
+		return;
+	}
+
 	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
 	MINTY_ASSERT(image != VK_NULL_HANDLE, "Image is null.");
 

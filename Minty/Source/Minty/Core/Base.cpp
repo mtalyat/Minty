@@ -19,6 +19,12 @@ void* Minty::allocate(Size const size, Allocator const allocator)
 
 void Minty::deallocate(void* const ptr, Size const size, Allocator const allocator)
 {
+	// ignore if nullptr
+	if (ptr == nullptr)
+	{
+		return;
+	}
+
 	if (allocator == Allocator::Default)
 	{
 		free(ptr);

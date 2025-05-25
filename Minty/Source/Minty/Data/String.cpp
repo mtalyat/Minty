@@ -224,7 +224,8 @@ String Minty::String::sub(Size const start, Size const length) const
 
 Size Minty::String::find(String const& sub, Size const index) const
 {
-	if (is_empty() || sub.is_empty())
+	// if either string is empty or sub is larger than this string, return invalid index
+	if (is_empty() || sub.is_empty() || sub.get_size() > m_size)
 	{
 		return INVALID_INDEX;
 	}

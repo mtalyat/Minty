@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Cargo.h"
+#include "Minty/Core/Format.h"
 
 using namespace Minty;
 
@@ -45,7 +46,7 @@ Variable& Minty::Object::at(String const& name)
 
 void Minty::Object::add(String const& name, Variable const& variable)
 {
-	MINTY_ASSERT(!contains(name), "Object already contains variable with name: " + name);
+	MINTY_ASSERT(!contains(name), F("Object already contains variable with name: {}", name));
 	m_variables.add({ name, variable });
 }
 

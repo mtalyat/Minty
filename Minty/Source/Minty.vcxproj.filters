@@ -127,6 +127,12 @@
     <Filter Include="Minty\Audio">
       <UniqueIdentifier>{2dbbe95e-ad54-4bf4-8674-a047ab4db63b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Sprite">
+      <UniqueIdentifier>{c4cd2f2f-561e-4cfe-8643-bf9f4ac3fbd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\UI">
+      <UniqueIdentifier>{b22bed7d-65fd-43de-ad92-e39a3edbb641}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -774,16 +780,70 @@
     <ClInclude Include="Minty\Audio\AudioManager.h">
       <Filter>Minty\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Animation\AnimationStep.h">
+    <ClInclude Include="Minty\Animation\AnimationAction.h">
       <Filter>Minty\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Animation\AnimationStepFlags.h">
+    <ClInclude Include="Minty\Animation\AnimationActionFlags.h">
       <Filter>Minty\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Entity\EntityPath.h">
-      <Filter>Minty</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Component\AnimatorComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Sprite.h">
+      <Filter>Minty\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\SpriteComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Batch.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\BatchFactory.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Space.h">
+      <Filter>Minty\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\BufferContainer.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\BufferContainerFactory.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\UI\_UI.h">
+      <Filter>Minty\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\UI\AnchorMode.h">
+      <Filter>Minty\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Entity\EntityPath.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\UITransform.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Rect.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\UITransformComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\UI\Canvas.h">
+      <Filter>Minty\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\CanvasComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\AnimationSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\AudioSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\AudioListenerComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\AudioSourceComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1244,7 +1304,58 @@
     <ClCompile Include="Minty\Entity\EntityPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minty\Animation\AnimationStep.cpp">
+    <ClCompile Include="Minty\Animation\AnimationAction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\SpriteComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Space.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\BufferContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\BufferContainerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Asset\AssetType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\UITransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\UITransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\UI\AnchorMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\UI\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\CanvasComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\AnimationSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\AnimationActionFlags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\AudioSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\AudioSourceComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Audio\AudioSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Audio\AudioListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

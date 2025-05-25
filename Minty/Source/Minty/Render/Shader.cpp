@@ -36,7 +36,7 @@ Minty::Shader::Shader(ShaderBuilder const& builder)
 
 void Minty::Shader::set_global_input(String const& name, void const* const data, Size const size)
 {
-	MINTY_ASSERT(m_inputs.contains(name), "Shader does not contain input with name: " + name);
+	MINTY_ASSERT(m_inputs.contains(name), F("Shader does not contain input with name: {}", name));
 	MINTY_ASSERT(data != nullptr, "Data must not be null.");
 	MINTY_ASSERT(size > 0, "Data size must be greater than 0.");
 

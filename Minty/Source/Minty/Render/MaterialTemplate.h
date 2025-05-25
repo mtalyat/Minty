@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Cargo.h"
 #include "Minty/Data/Map.h"
@@ -82,7 +83,7 @@ namespace Minty
 		/// <returns>A reference to the map of values for the object.</returns>
 		Object const& get_input(String const& name) const
 		{
-			MINTY_ASSERT(m_cargo.contains(name), "MaterialTemplate does not contain input with name: " + name);
+			MINTY_ASSERT(m_cargo.contains(name), F("MaterialTemplate does not contain input with name: {}", name));
 			return m_cargo.at(name);
 		}
 

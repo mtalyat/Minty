@@ -20,5 +20,6 @@
 #include "Minty/Serialization/_Serialization.h"
 #include "Minty/Time/_Time.h"
 #include "Minty/Tool/_Tool.h"
+#include "Minty/UI/_UI.h"
 #include "Minty/Window/_Window.h"
 #include "Minty/Wrap/_Wrap.h"

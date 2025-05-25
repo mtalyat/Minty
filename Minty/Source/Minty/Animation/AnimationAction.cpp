@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "AnimationStep.h"
+#include "AnimationAction.h"
 #include "Minty/Animation/Animation.h"
 #include "Minty/Core/Format.h"
 
@@ -7,6 +7,10 @@ using namespace Minty;
 
 UInt get_split(Size const index, Vector<String> const& split, UInt const defaultValue)
 {
+	if (index >= split.get_size())
+	{
+		return defaultValue;
+	}
 	String const& part = split.at(index);
 	if (part.is_empty())
 	{
@@ -20,15 +24,10 @@ UInt get_split(Size const index, Vector<String> const& split, UInt const default
 	return value;
 }
 
-Bool Minty::AnimationStep::parse(String const& text)
+Bool Minty::AnimationAction::parse(String const& text)
 {
 	// split into parts based on /
 	Vector<String> parts = String::split(text, '/');
-
-	if (parts.get_size() != 5)
-	{
-		return false;
-	}
 
 	// create the step
 	entityIndex = get_split(1, parts, Animation::MAX_ENTITY_INDEX);
@@ -36,14 +35,14 @@ Bool Minty::AnimationStep::parse(String const& text)
 	variableIndex = get_split(3, parts, Animation::MAX_VARIABLE_INDEX);
 	timeIndex = Animation::MAX_TIME_INDEX;
 	valueIndex = get_split(4, parts, Animation::MAX_VALUE_INDEX);
-	flags = static_cast<AnimationStepFlags>(get_split(0, parts, 0));
+	type = static_cast<AnimationActionType>(get_split(0, parts, 0));
 
 	return true;
 }
 
-String Minty::AnimationStep::to_string() const
+String Minty::AnimationAction::to_string() const
 {
-	String flagString = flags == AnimationStepFlags::None ? "" : Minty::to_string(static_cast<UInt>(flags));
+	String flagString = type == AnimationActionType::None ? "" : Minty::to_string(static_cast<UInt>(type));
 	String entityString = entityIndex == Animation::MAX_ENTITY_INDEX ? "" : Minty::to_string(entityIndex);
 	String componentString = componentIndex == Animation::MAX_COMPONENT_INDEX ? "" : Minty::to_string(componentIndex);
 	String variableString = variableIndex == Animation::MAX_VARIABLE_INDEX ? "" : Minty::to_string(variableIndex);

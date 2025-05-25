@@ -87,9 +87,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,9 +112,8 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -135,9 +133,8 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -165,9 +162,8 @@ doxygen</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd $(ProjectDir)
-cd ..
-doxygen</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -178,8 +174,8 @@ doxygen</Command>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Minty\Animation\Animation.h" />
-    <ClInclude Include="Minty\Animation\AnimationStep.h" />
-    <ClInclude Include="Minty\Animation\AnimationStepFlags.h" />
+    <ClInclude Include="Minty\Animation\AnimationAction.h" />
+    <ClInclude Include="Minty\Animation\AnimationActionFlags.h" />
     <ClInclude Include="Minty\Animation\Animator.h" />
     <ClInclude Include="Minty\Animation\_Animation.h" />
     <ClInclude Include="Minty\Application\Application.h" />
@@ -196,7 +192,10 @@ doxygen</Command>
     <ClInclude Include="Minty\Audio\AudioSource.h" />
     <ClInclude Include="Minty\Audio\_Audio.h" />
     <ClInclude Include="Minty\Component\AnimatorComponent.h" />
+    <ClInclude Include="Minty\Component\AudioListenerComponent.h" />
+    <ClInclude Include="Minty\Component\AudioSourceComponent.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
+    <ClInclude Include="Minty\Component\CanvasComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
@@ -204,7 +203,9 @@ doxygen</Command>
     <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
+    <ClInclude Include="Minty\Component\SpriteComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
+    <ClInclude Include="Minty\Component\UITransformComponent.h" />
     <ClInclude Include="Minty\Component\UUIDComponent.h" />
     <ClInclude Include="Minty\Component\VisibleComponent.h" />
     <ClInclude Include="Minty\Component\_Component.h" />
@@ -222,6 +223,10 @@ doxygen</Command>
     <ClInclude Include="Minty\Core\Macro.h" />
     <ClInclude Include="Minty\Core\Types.h" />
     <ClInclude Include="Minty\Data\Array.h" />
+    <ClInclude Include="Minty\Data\Batch.h" />
+    <ClInclude Include="Minty\Data\BatchFactory.h" />
+    <ClInclude Include="Minty\Data\BufferContainer.h" />
+    <ClInclude Include="Minty\Data\BufferContainerFactory.h" />
     <ClInclude Include="Minty\Data\Cargo.h" />
     <ClInclude Include="Minty\Data\Color.h" />
     <ClInclude Include="Minty\Data\ConstantContainer.h" />
@@ -236,12 +241,14 @@ doxygen</Command>
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />
+    <ClInclude Include="Minty\Data\Rect.h" />
     <ClInclude Include="Minty\Data\Scope.h" />
     <ClInclude Include="Minty\Data\Set.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
     <ClInclude Include="Minty\Data\Transform.h" />
     <ClInclude Include="Minty\Data\Tuple.h" />
+    <ClInclude Include="Minty\Data\UITransform.h" />
     <ClInclude Include="Minty\Data\UUID.h" />
     <ClInclude Include="Minty\Data\Variable.h" />
     <ClInclude Include="Minty\Data\_Data.h" />
@@ -342,6 +349,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Render\ShaderPrimitiveTopology.h" />
     <ClInclude Include="Minty\Render\ShaderStage.h" />
     <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
+    <ClInclude Include="Minty\Render\Space.h" />
+    <ClInclude Include="Minty\Render\Sprite.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />
     <ClInclude Include="Minty\Render\Texture.h" />
@@ -361,6 +370,8 @@ doxygen</Command>
     <ClInclude Include="Minty\Serialization\ToString.h" />
     <ClInclude Include="Minty\Serialization\Writer.h" />
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
+    <ClInclude Include="Minty\System\AnimationSystem.h" />
+    <ClInclude Include="Minty\System\AudioSystem.h" />
     <ClInclude Include="Minty\System\RenderSystem.h" />
     <ClInclude Include="Minty\System\System.h" />
     <ClInclude Include="Minty\System\SystemManager.h" />
@@ -370,6 +381,9 @@ doxygen</Command>
     <ClInclude Include="Minty\Time\_Time.h" />
     <ClInclude Include="Minty\Tool\ArgumentParser.h" />
     <ClInclude Include="Minty\Tool\_Tool.h" />
+    <ClInclude Include="Minty\UI\AnchorMode.h" />
+    <ClInclude Include="Minty\UI\Canvas.h" />
+    <ClInclude Include="Minty\UI\_UI.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\_Window.h" />
     <ClInclude Include="Minty\Wrap\Wrap.h" />
@@ -422,20 +436,28 @@ doxygen</Command>
     <ClCompile Include="..\..\Libraries\soloud\include\stb_vorbis.cpp" />
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Animation\Animation.cpp" />
-    <ClCompile Include="Minty\Animation\AnimationStep.cpp" />
+    <ClCompile Include="Minty\Animation\AnimationAction.cpp" />
+    <ClCompile Include="Minty\Animation\AnimationActionFlags.cpp" />
     <ClCompile Include="Minty\Animation\Animator.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
     <ClCompile Include="Minty\Asset\Asset.cpp" />
     <ClCompile Include="Minty\Asset\AssetManager.cpp" />
+    <ClCompile Include="Minty\Asset\AssetType.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
     <ClCompile Include="Minty\Audio\AudioClip.cpp" />
+    <ClCompile Include="Minty\Audio\AudioListener.cpp" />
     <ClCompile Include="Minty\Audio\AudioManager.cpp" />
+    <ClCompile Include="Minty\Audio\AudioSource.cpp" />
     <ClCompile Include="Minty\Component\AnimatorComponent.cpp" />
+    <ClCompile Include="Minty\Component\AudioSourceComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
+    <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
+    <ClCompile Include="Minty\Component\SpriteComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
+    <ClCompile Include="Minty\Component\UITransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
     <ClCompile Include="Minty\Context\Manager.cpp" />
@@ -444,6 +466,8 @@ doxygen</Command>
     <ClCompile Include="Minty\Core\Encoding.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
+    <ClCompile Include="Minty\Data\BufferContainer.cpp" />
+    <ClCompile Include="Minty\Data\BufferContainerFactory.cpp" />
     <ClCompile Include="Minty\Data\Cargo.cpp" />
     <ClCompile Include="Minty\Data\Color.cpp" />
     <ClCompile Include="Minty\Data\ConstantContainer.cpp" />
@@ -455,6 +479,7 @@ doxygen</Command>
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Data\Transform.cpp" />
+    <ClCompile Include="Minty\Data\UITransform.cpp" />
     <ClCompile Include="Minty\Data\UUID.cpp" />
     <ClCompile Include="Minty\Data\Variable.cpp" />
     <ClCompile Include="Minty\Debug\Debug.cpp" />
@@ -514,6 +539,8 @@ doxygen</Command>
     <ClCompile Include="Minty\Render\ShaderPolygonMode.cpp" />
     <ClCompile Include="Minty\Render\ShaderPrimitiveTopology.cpp" />
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
+    <ClCompile Include="Minty\Render\Space.cpp" />
+    <ClCompile Include="Minty\Render\Sprite.cpp" />
     <ClCompile Include="Minty\Render\StoreOperation.cpp" />
     <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Texture.cpp" />
@@ -525,11 +552,15 @@ doxygen</Command>
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
     <ClCompile Include="Minty\Serialization\ToString.cpp" />
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
+    <ClCompile Include="Minty\System\AnimationSystem.cpp" />
+    <ClCompile Include="Minty\System\AudioSystem.cpp" />
     <ClCompile Include="Minty\System\RenderSystem.cpp" />
     <ClCompile Include="Minty\System\SystemManager.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
     <ClCompile Include="Minty\Time\Time.cpp" />
     <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />
+    <ClCompile Include="Minty\UI\AnchorMode.cpp" />
+    <ClCompile Include="Minty\UI\Canvas.cpp" />
     <ClCompile Include="Minty\Window\Window.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />

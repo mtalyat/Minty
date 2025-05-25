@@ -1,12 +1,6 @@
 #include "pch.h"
 #include "EntityManager.h"
-#include "Minty/Component/DirtyComponent.h"
-#include "Minty/Component/EnabledComponent.h"
-#include "Minty/Component/LayerComponent.h"
-#include "Minty/Component/NameComponent.h"
-#include "Minty/Component/RelationshipComponent.h"
-#include "Minty/Component/UUIDComponent.h"
-#include "Minty/Component/VisibleComponent.h"
+#include "Minty/Component/_Component.h"
 #include "Minty/Context/Context.h"
 #include "Minty/Entity/EntitySerializationData.h"
 
@@ -298,6 +292,32 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 			}
 		}
 	}
+
+	// if the entity has a UITransform, update its Canvas value
+	if (UITransformComponent* uiTransform = try_get_component<UITransformComponent>(entity))
+	{
+		uiTransform->canvas = INVALID_ENTITY;
+
+		Entity parent = entity;
+
+		while (parent != INVALID_ENTITY)
+		{
+			// if parent has canvas, set value
+			if (CanvasComponent* canvas = try_get_component<CanvasComponent>(parent))
+			{
+				uiTransform->canvas = parent;
+				break;
+			}
+
+			// move to next parent
+			RelationshipComponent const* parentRelationship = try_get_component<RelationshipComponent const>(parent);
+			if (!parentRelationship)
+			{
+				break;
+			}
+			parent = parentRelationship->parent;
+		}
+	}
 }
 
 Entity Minty::EntityManager::get_parent(Entity const entity) const
@@ -352,24 +372,133 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 	nameComponent.name = name;
 }
 
-Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const mask) const
+void Minty::EntityManager::finalize_dirties()
 {
-	Layer layer = get_layer(entity);
+	// update dirty transforms with relationships
+	for (auto&& [entity, dirty, transform, relationship] : m_registry.view<DirtyComponent const, TransformComponent, RelationshipComponent const>().each())
+	{
+		// if parent, use parent's global matrix
+		if (relationship.parent != INVALID_ENTITY)
+		{
+			// get the parent transform
+			TransformComponent const* parentTransform = m_registry.try_get<TransformComponent>(relationship.parent);
+			if (parentTransform)
+			{
+				Matrix4 matrix = parentTransform->transform.get_global_matrix() * transform.transform.get_local_matrix();
+				transform.transform.set_global_matrix(matrix);
+
+				continue;
+			}
+		}
+
+		// if no parent, or if no parent transform, use local matrix
+		transform.transform.set_global_matrix(transform.transform.get_local_matrix());
+	}
+
+	// update dirty transforms with no relationships
+	for (auto&& [entity, dirty, transform] : m_registry.view<DirtyComponent const, TransformComponent>(entt::exclude<RelationshipComponent>).each())
+	{
+		// no parent
+		transform.transform.set_global_matrix(transform.transform.get_local_matrix());
+	}
+
+	// get window size as a rect
+	Ref<Window> window = Context::get_singleton().get_window();
+	UInt2 windowSize = window->get_size();
+	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
+
+	// update dirty canvas transforms
+	for (auto&& [entity, dirtyComp, uiTransformComp, canvasComp] : m_registry.view<DirtyComponent const, UITransformComponent, CanvasComponent const>().each())
+	{
+		// canvas controls the size and position
+		uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
+		uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
+		uiTransformComp.transform.set_global_rect(canvasComp.canvas.get_rect());
+	}
+
+	// update dirty UI transforms with relationships
+	for (auto&& [entity, dirtyComp, uiTransformComp, relationshipComp] : m_registry.view<DirtyComponent const, UITransformComponent, RelationshipComponent const>().each())
+	{
+		// if parent, use parent's global rect
+		UITransformComponent const* parentUITransform = m_registry.try_get<UITransformComponent>(relationshipComp.parent);
+		if (parentUITransform)
+		{
+			uiTransformComp.transform.update_global_rect(parentUITransform->transform.get_global_rect());
+			continue;
+		}
+
+		// if no parent, use canvas
+		CanvasComponent const* canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
+		if (canvas)
+		{
+			uiTransformComp.transform.update_global_rect(canvas->canvas.get_rect());
+			continue;
+		}
+
+		// if no parent and no canvas...
+		uiTransformComp.transform.update_global_rect(windowRect);
+	}
+}
+
+Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const layer) const
+{
+	Layer entityLayer = get_layer(entity);
+
+	// special case for LAYER_NONE
+	if (layer == LAYER_NONE)
+	{
+		return entityLayer == LAYER_NONE;
+	}
+
+	// check if the layer is within the Entity's layers
+	return (entityLayer & layer) == layer;
+}
+
+Bool Minty::EntityManager::is_in_mask(Entity const entity, Layer const mask) const
+{
+	Layer entityLayer = get_layer(entity);
 
 	// special case for LAYER_NONE
 	if (mask == LAYER_NONE)
 	{
-		return layer == LAYER_NONE;
+		return entityLayer == LAYER_NONE;
 	}
 
-	// check if layer is within mask
-	return (layer & mask) == mask;
+	// check if the Entity's layers are within the layer mask
+	return (entityLayer & mask) == entityLayer;
 }
 
 void Minty::EntityManager::dirty(Entity const entity)
 {
 	// mark the entity as dirty
 	m_registry.emplace_or_replace<DirtyComponent>(entity);
+
+	// stop if no children
+	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	if (!relationshipComponent || relationshipComponent->children == 0)
+	{
+		return;
+	}
+
+	// dirty all children, and their children
+	Stack<Entity> entitiesToDirty;
+	entitiesToDirty.push(entity);
+	while (!entitiesToDirty.is_empty())
+	{
+		Entity currentEntity = entitiesToDirty.pop();
+		m_registry.emplace_or_replace<DirtyComponent>(currentEntity);
+
+		// get the relationship component
+		RelationshipComponent const& relationship = m_registry.get<RelationshipComponent>(currentEntity);
+		
+		// dirty all children
+		Entity child = relationship.first;
+		while (child != INVALID_ENTITY)
+		{
+			entitiesToDirty.push(child);
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+	}
 }
 
 Entity Minty::EntityManager::create_entity()
@@ -782,12 +911,23 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 	}
 }
 
+void Minty::EntityManager::initialize()
+{
+	// dirty all components on load
+	mark_all_entities<DirtyComponent>();
+
+	Manager::initialize();
+}
+
 void Minty::EntityManager::finalize()
 {
-	// TODO: update all dirty components
-
 	// sort the entities
 	sort();
+
+	// refresh the dirty components
+	finalize_dirties();
+
+	Manager::finalize();
 }
 
 Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index)

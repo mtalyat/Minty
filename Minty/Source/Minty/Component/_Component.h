@@ -1,6 +1,10 @@
 #pragma once
 
+#include "AnimatorComponent.h"
+#include "AudioListenerComponent.h"
+#include "AudioSourceComponent.h"
 #include "CameraComponent.h"
+#include "CanvasComponent.h"
 #include "Component.h"
 #include "DirtyComponent.h"
 #include "EnabledComponent.h"
@@ -8,6 +12,8 @@
 #include "MeshComponent.h"
 #include "NameComponent.h"
 #include "RelationshipComponent.h"
+#include "SpriteComponent.h"
 #include "TransformComponent.h"
+#include "UITransformComponent.h"
 #include "UUIDComponent.h"
 #include "VisibleComponent.h"

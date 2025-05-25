@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "MeshComponent.h"
+#include "Minty/Asset/AssetManager.h"
+#include "Minty/Render/RenderManager.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
-#include "Minty/Asset/AssetManager.h"
 
 using namespace Minty;
 
@@ -41,6 +42,8 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 		return false;
 	}
 
+	
+
 	// read mesh ID
 	if (type == MeshType::Custom)
 	{
@@ -49,7 +52,14 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 		{
 			mesh = nullptr;
 		}
-		mesh = AssetManager::get_singleton().get<Mesh>(id);
+		AssetManager& assetManager = AssetManager::get_singleton();
+		mesh = assetManager.get<Mesh>(id);
+	}
+	else
+	{
+		// get default mesh
+		RenderManager& renderManager = RenderManager::get_singleton();
+		mesh = renderManager.get_default_mesh(type);
 	}
 
 	// read material ID

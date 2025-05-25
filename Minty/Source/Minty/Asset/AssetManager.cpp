@@ -14,10 +14,10 @@
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/Sprite.h"
 #include "Minty/Render/Surface.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
-//#include "Minty/Render/Sprite.h"
 
 using namespace Minty;
 
@@ -326,8 +326,8 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 		return load_shader_module(path);
 	case AssetType::Scene:
 		return load_scene(path);
-	//case AssetType::Sprite:
-	//	return load_sprite(path);
+	case AssetType::Sprite:
+		return load_sprite(path);
 	case AssetType::Texture:
 		return load_texture(path);
 	case AssetType::Animation:
@@ -718,7 +718,7 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	builder.id = id;
 	builder.size = UInt2(width, height);
 	builder.pixelData = data;
-	builder.pixelDataSize = static_cast<Size>(width * height * 4 * sizeof(Byte));
+	builder.pixelDataSize = static_cast<Size>(width) * static_cast<Size>(height) * 4 * sizeof(Byte);
 
 	Reader* reader;
 	Path metaPath = Asset::get_meta_path(path);
@@ -773,6 +773,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 		reader->read("Components", builder.components);
 		reader->read("Variables", builder.variables);
 		reader->read("Values", builder.values);
+		reader->read("Actions", builder.actions);
 
 		// read steps
 		if (reader->indent("Steps"))
@@ -782,6 +783,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 			Float time;
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
+				// read the time
 				if (!reader->read_name(i, timeString))
 				{
 					MINTY_ERROR(F("Failed to read time from animation step: {}.", path));
@@ -792,31 +794,19 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 					MINTY_ERROR(F("Failed to convert time string to float: {}.", timeString));
 					continue;
 				}
-				builder.steps.add({ time, Vector<AnimationStep>{} });
-				auto& list = builder.steps.back().get_second();
 
-				// read each step within the time
-				reader->indent(i);
-
-				AnimationStep step;
-				for (Size j = 0; j < reader->get_size(); j++)
-				{
-					// read the step
-					if (!reader->read(j, step))
-					{
-						MINTY_ERROR(F("Failed to read animation step: {}.", path));
-						continue;
-					}
-
-					// add the step to the builder
-					list.add(step);
-				}
-
-				reader->outdent();
+				// add to the builder
+				builder.steps.add({ time, Vector<Size>() });
+				
+				// read the action indices
+				reader->read(i, builder.steps.back().get_second());
 			}
 
 			reader->outdent();
 		}
+
+		// read reset steps
+		reader->read("Reset", builder.resetSteps);
 
 		close_reader(reader);
 	}
@@ -827,7 +817,23 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 
 Ref<Animator> Minty::AssetManager::load_animator(Path const& path)
 {
-	return Ref<Animator>();
+	// create builder
+	AnimatorBuilder builder{};
+	builder.id = read_id(path);
+	
+	// read values from the file
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read value, directly as an FSM
+		builder.fsm.deserialize(*reader);
+		builder.fsm.reset();
+
+		close_reader(reader);
+	}
+
+	// create the animator
+	return create_from_loaded<Animator>(path, builder);
 }
 
 Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)
@@ -1465,6 +1471,30 @@ Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path)
 	builder.size = bytes.get_size();
 
 	return create_from_loaded<ShaderModule>(path, builder);
+}
+
+Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path)
+{
+	// create builder
+	SpriteBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read values
+		reader->read("Texture", builder.texture);
+		reader->read("CoordinateMode", builder.coordinateMode);
+		reader->read("Offset", builder.offset);
+		reader->read("Size", builder.size);
+		reader->read("Pivot", builder.pivot);
+		reader->read("PPU", builder.pixelsPerUnit);
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<Sprite>(path, builder);
 }
 
 Ref<Texture> Minty::AssetManager::load_texture(Path const& path)

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SoLoud_AudioClip.h"
+#include "Minty/Core/Format.h"
 
 using namespace Minty;
 

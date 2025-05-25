@@ -50,7 +50,7 @@ Bool Minty::Material::has_input(String const& name) const
 
 Object const& Minty::Material::get_input(String const& name) const
 {
-	MINTY_ASSERT(has_input(name), "Material does not have input with name: " + name);
+	MINTY_ASSERT(has_input(name), F("Material does not have input with name: {}", name));
 
 	// check self
 	auto it = m_cargo.find(name);

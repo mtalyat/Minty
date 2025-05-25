@@ -31,14 +31,14 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 	, m_defaultViewport(nullptr)
 	, m_depthImage(nullptr)
 	, m_frames()
-	, m_currentFrame(0)
+	, m_currentFrameIndex(0)
 {}
 
 // gets the current frame's command buffer
 VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
 {
 	MINTY_ASSERT(get_state() == State::Pass, "Attempting to get the current command buffer while not rendering a pass.");
-	return m_frames[m_currentFrame].commandBuffer;
+	return m_frames[m_currentFrameIndex].commandBuffer;
 }
 
 void Minty::Vulkan_RenderManager::initialize_frame(Vulkan_Frame& frame)
@@ -356,6 +356,11 @@ void Minty::Vulkan_RenderManager::draw_vertices(UInt const vertexCount) const
 void Minty::Vulkan_RenderManager::draw_indices(UInt const indexCount) const
 {
 	Vulkan_Renderer::draw_indexed(get_current_command_buffer(), indexCount);
+}
+
+void Minty::Vulkan_RenderManager::draw_instances(UInt const instanceCount, UInt const vertexCount) const
+{
+	Vulkan_Renderer::draw_instanced(get_current_command_buffer(), instanceCount, vertexCount);
 }
 
 Format Minty::Vulkan_RenderManager::get_color_attachment_format() const

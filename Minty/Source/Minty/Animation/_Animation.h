@@ -1,6 +1,6 @@
 #pragma once
 
 #include "Animation.h"
-#include "AnimationStep.h"
-#include "AnimationStepFlags.h"
+#include "AnimationAction.h"
+#include "AnimationActionFlags.h"
 #include "Animator.h"

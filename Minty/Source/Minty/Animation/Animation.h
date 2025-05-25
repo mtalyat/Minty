@@ -1,5 +1,5 @@
 #pragma once
-#include "Minty/Animation/AnimationStep.h"
+#include "Minty/Animation/AnimationAction.h"
 #include "Minty/Asset/Asset.h"
 #include "Minty/Component/Component.h"
 #include "Minty/Core/Types.h"
@@ -53,16 +53,21 @@ namespace Minty
 		Vector<Node> values;
 
 		/// <summary>
-		/// The times and steps to take during the Animation.
+		/// The actions to take during the Animation.
+		/// </summary>
+		Vector<AnimationAction> actions;
+
+		/// <summary>
+		/// The times and indices to the actions to take during the Animation.
 		/// The times are expected to be in ascending order.
 		/// There are to be no duplicate times.
 		/// </summary>
-		Vector<Tuple<Float, Vector<AnimationStep>>> steps;
+		Vector<Tuple<Float, Vector<Size>>> steps;
 
 		/// <summary>
-		/// The steps to take to reset the Animation to the beginning.
+		/// Indices to the actions to take to reset the Animation to the beginning.
 		/// </summary>
-		Vector<AnimationStep> resetSteps;
+		Vector<Size> resetSteps;
 	};
 
 	/// <summary>
@@ -145,11 +150,11 @@ namespace Minty
 	private:
 		StepKey compile_key(Index const entityIndex, Index const componentIndex, Index const variableIndex) const;
 
-		StepValue compile_value(Index const valueIndex, AnimationStepFlags const flags) const;
+		StepValue compile_value(Index const valueIndex, AnimationActionType const flags) const;
 
 		void perform_step(StepKey const key, StepTime const time, StepValue const value, Entity const thisEntity, EntityManager& entityManager) const;
 
-		void perform_step(AnimationStep const& step, Entity const thisEntity, EntityManager& entityManager) const;
+		void perform_step(AnimationAction const& step, Entity const thisEntity, EntityManager& entityManager) const;
 
 	public:
 		/// <summary>
@@ -158,10 +163,17 @@ namespace Minty
 		/// <param name="time">The current time. This will be updated.</param>
 		/// <param name="elapsedTime">The time that has elapsed over the last frame.</param>
 		/// <param name="index">The index of the next step to perform.</param>
-		/// <param name="thisEntity">The entity in which this Animation is being acted upon.</param>
-		/// <param name="registry">The EntityRegistry in which thisEntity is in.</param>
+		/// <param name="thisEntity">The Entity being reset.</param>
+		/// <param name="entityManager">The EntityManager thisEntity belongs to.</param>
 		/// <returns>True when the animation has completed, otherwise false.</returns>
-		Bool animate(Float& time, Float const elapsedTime, Index& index, Entity const thisEntity, EntityManager& scene) const;
+		Bool animate(Float& time, Float const elapsedTime, Index& index, Entity const thisEntity, EntityManager& entityManager) const;
+
+		/// <summary>
+		/// Resets the Animation to the beginning.
+		/// </summary>
+		/// <param name="thisEntity">The Entity being reset.</param>
+		/// <param name="entityManager">The EntityManager thisEntity belongs to.</param>
+		void reset(Entity const thisEntity, EntityManager& entityManager);
 
 #pragma endregion
 

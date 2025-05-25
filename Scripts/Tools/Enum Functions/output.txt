@@ -5,13 +5,13 @@
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
-    String to_string(Conditional const obj);
-    Conditional parse_to_conditional(String const& string);
-    Bool parse_try_conditional(String const& string, Conditional& value);
+    String to_string(AnimationActionType const obj);
+    AnimationActionType parse_to_animation_action_type(String const& string);
+    Bool parse_try_animation_action_type(String const& string, AnimationActionType& value);
     template<>
-    inline Conditional parse_to<Conditional>(String const& string) { return parse_to_conditional(string); }
+    inline AnimationActionType parse_to<AnimationActionType>(String const& string) { return parse_to_animation_action_type(string); }
     template<>
-    inline Bool parse_try<Conditional>(String const& string, Conditional& value) { return parse_try_conditional(string, value); }
+    inline Bool parse_try<AnimationActionType>(String const& string, AnimationActionType& value) { return parse_try_animation_action_type(string, value); }
 
 ====================
 	Source:
@@ -19,36 +19,30 @@
 
 using namespace Minty;
 
-String Minty::to_string(Conditional const obj)
+String Minty::to_string(AnimationActionType const obj)
 {
     switch (obj)
 	{
-		case Conditional::Equal: return "Equal";
-		case Conditional::NotEqual: return "NotEqual";
-		case Conditional::GreaterThan: return "GreaterThan";
-		case Conditional::GreaterThanOrEqualTo: return "GreaterThanOrEqualTo";
-		case Conditional::LessThan: return "LessThan";
-		case Conditional::LessThanOrEqualTo: return "LessThanOrEqualTo";
+		case AnimationActionType::None: return "None";
+		case AnimationActionType::Add: return "Add";
+		case AnimationActionType::Remove: return "Remove";
 
 		default: return "";
 	}
 }
 
-Conditional Minty::parse_to_conditional(String const& string)
+AnimationActionType Minty::parse_to_animation_action_type(String const& string)
 {
-	if (string == "Equal") return Conditional::Equal;
-	if (string == "NotEqual") return Conditional::NotEqual;
-	if (string == "GreaterThan") return Conditional::GreaterThan;
-	if (string == "GreaterThanOrEqualTo") return Conditional::GreaterThanOrEqualTo;
-	if (string == "LessThan") return Conditional::LessThan;
-	if (string == "LessThanOrEqualTo") return Conditional::LessThanOrEqualTo;
+	if (string == "None") return AnimationActionType::None;
+	if (string == "Add") return AnimationActionType::Add;
+	if (string == "Remove") return AnimationActionType::Remove;
 
-	return Conditional();
+	return AnimationActionType();
 }
 
-Bool Minty::parse_try_conditional(String const& string, Conditional& value)
+Bool Minty::parse_try_animation_action_type(String const& string, AnimationActionType& value)
 {
-	value = parse_to_conditional(string);
+	value = parse_to_animation_action_type(string);
 	return true;
 }
 
@@ -60,26 +54,23 @@ Bool Minty::parse_try_conditional(String const& string, Conditional& value)
 
 #include "Test.h"
 
-void test_Conditional(Test& _test);
+void test_AnimationActionType(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_Conditional.h"
+#include "Test_AnimationActionType.h"
 #include "Minty.h"
 
-void test_Conditional(Test& _test)
+void test_AnimationActionType(Test& _test)
 {
-	CATEGORY(Conditional)
+	CATEGORY(AnimationActionType)
 	{
-        std::vector<std::pair<Conditional, String>> VALUES = {
-			{Conditional::Equal, "Equal"},
-			{Conditional::NotEqual, "NotEqual"},
-			{Conditional::GreaterThan, "GreaterThan"},
-			{Conditional::GreaterThanOrEqualTo, "GreaterThanOrEqualTo"},
-			{Conditional::LessThan, "LessThan"},
-			{Conditional::LessThanOrEqualTo, "LessThanOrEqualTo"},
+        std::vector<std::pair<AnimationActionType, String>> VALUES = {
+			{AnimationActionType::None, "None"},
+			{AnimationActionType::Add, "Add"},
+			{AnimationActionType::Remove, "Remove"},
         };
     
         TEST("To String")
@@ -94,23 +85,23 @@ void test_Conditional(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_conditional(name), value);
+                EXPECT_EQUAL(parse_to_animation_action_type(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_conditional(""), Conditional());
+            EXPECT_EQUAL(parse_to_animation_action_type(""), AnimationActionType());
         }
 
         TEST("Parse Try")
         {
-            Conditional result;
+            AnimationActionType result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_conditional(name, result));
+                EXPECT_TRUE(parse_try_animation_action_type(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_conditional("", result));
-            EXPECT_EQUAL(result, Conditional());
+            EXPECT_FALSE(parse_try_animation_action_type("", result));
+            EXPECT_EQUAL(result, AnimationActionType());
         }
 	}
 }

@@ -28,6 +28,50 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 
 Minty::Scene::~Scene()
 {
+	
+}
+
+void Minty::Scene::load_assets()
+{
+	// load all of the assets into the Scene
+	// load all of the assets into the Scene
+	AssetManager& assetManager = AssetManager::get_singleton();
+	Size i = 0;
+	for (auto const& assetPath : m_assets)
+	{
+		MINTY_ASSERT(!assetPath.is_empty(), "Asset path is empty");
+
+		// skip if already loaded
+		if (m_registeredAssets.contains(assetPath))
+		{
+			continue;
+		}
+
+		// get the data
+		AssetData assetData{};
+		assetData.index = i;
+
+		// load the asset
+		Ref<Asset> asset = assetManager.load_asset(assetPath);
+		if (asset == nullptr)
+		{
+			MINTY_ERROR(F("Failed to load asset: {}", assetPath));
+			continue;
+		}
+		else
+		{
+			assetData.id = asset->get_id();
+		}
+
+		// add the path to registered assets
+		m_registeredAssets.add(assetPath, std::move(assetData));
+
+		i++;
+	}
+}
+
+void Minty::Scene::unload_assets()
+{
 	// unload all of the assets from the Scene
 	AssetManager& assetManager = AssetManager::get_singleton();
 
@@ -36,9 +80,11 @@ Minty::Scene::~Scene()
 	{
 		Path const& assetPath = *it;
 
+		// find the asset in the registered assets
 		auto registeredIt = m_registeredAssets.find(assetPath);
 		if (registeredIt == m_registeredAssets.end())
 		{
+			// asset not registered, skip
 			continue;
 		}
 
@@ -60,10 +106,14 @@ void Minty::Scene::on_load()
 {
 	mp_systemManager->initialize();
 	mp_entityManager->initialize();
+	
+	load_assets();
 }
 
 void Minty::Scene::on_unload()
 {
+	unload_assets();
+
 	mp_systemManager->dispose();
 	mp_entityManager->dispose();
 }
@@ -73,6 +123,7 @@ void Minty::Scene::on_update(Time const& time)
 	mp_systemManager->update(time);
 	mp_entityManager->update(time);
 }
+
 void Minty::Scene::on_finalize()
 {
 	mp_systemManager->finalize();
@@ -98,36 +149,14 @@ void Minty::Scene::serialize(Writer& writer) const
 
 Bool Minty::Scene::deserialize(Reader& reader)
 {
+	// unload assets before loading new ones
+	unload_assets();
+
 	// read assets
 	reader.read("Assets", m_assets);
 
-	// load all of the assets into the Scene
-	AssetManager& assetManager = AssetManager::get_singleton();
-	Size i = 0;
-	for (auto const& assetPath : m_assets)
-	{
-		MINTY_ASSERT(!assetPath.is_empty(), "Asset path is empty");
-		MINTY_ASSERT(!m_registeredAssets.contains(assetPath), F("Scene already contains an Asset with the Path: {}", assetPath));
-
-		m_registeredAssets.add(assetPath, { 0, INVALID_ID });
-
-		// get the data
-		AssetData& assetData = m_registeredAssets.at(assetPath);
-		assetData.index = i;
-
-		// load the asset
-		Ref<Asset> asset = assetManager.load_asset(assetPath);
-		if (asset == nullptr)
-		{
-			MINTY_ERROR(F("Failed to load asset: {}", assetPath));
-		}
-		else
-		{
-			assetData.id = asset->get_id();
-		}
-
-		i++;
-	}
+	// load the assets read
+	load_assets();
 
 	// read the systems
 	if (reader.indent("Systems"))

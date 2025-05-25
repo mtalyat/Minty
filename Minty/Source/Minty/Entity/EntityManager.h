@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Component/Component.h"
 #include "Minty/Context/Manager.h"
+#include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Entity/EntityPath.h"
 #include "Minty/Entity/EntityView.h"
@@ -100,7 +101,20 @@ namespace Minty
 
 #pragma region Methods
 
+	private:
+		// finalizes dirty components
+		void finalize_dirties();
+
 	public:
+		/// <summary>
+		/// Called when the Manager is created.
+		/// </summary>
+		void initialize() override;
+		/// <summary>
+		/// Called after every update operation.
+		/// </summary>
+		void finalize() override;
+
 		/// <summary>
 		/// Checks if this manager contains an Entity with the given ID.
 		/// </summary>
@@ -116,7 +130,21 @@ namespace Minty
 			return m_registry.valid(entity);
 		}
 
-		Bool is_in_layer(Entity const entity, Layer const mask) const;
+		/// <summary>
+		/// Checks if the given Entity's layer mask contains the given Layer.
+		/// </summary>
+		/// <param name="entity">The Entity.</param>
+		/// <param name="layer">The Layer(s).</param>
+		/// <returns>True if the layer is within the Entity's layers.</returns>
+		Bool is_in_layer(Entity const entity, Layer const layer) const;
+
+		/// <summary>
+		/// Checks if the given mask contains the given Entity's layer.
+		/// </summary>
+		/// <param name="entity">The Entity.</param>
+		/// <param name="mask">The Layer(s).</param>
+		/// <returns>True if the Entity's layers are within the layer mask.</returns>
+		Bool is_in_mask(Entity const entity, Layer const mask) const;
 
 		/// <summary>
 		/// Marks the given Entity as dirty. Dirty components need to be refreshed.
@@ -228,23 +256,59 @@ namespace Minty
 		/// </summary>
 		void clear();
 
-		template<typename... Get>
-		EntityView<Get...> view()
+		/// <summary>
+		/// Adds or replaces the component on the given Entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of Component.</typeparam>
+		/// <param name="entity">The Entity to add the Component to.</param>
+		template<typename ComponentType>
+		void mark_entity(Entity const entity)
 		{
-			return EntityView<Get...>(m_registry);
-		}
-
-		template<typename... Get>
-		EntityView<Get...> view() const
-		{
-			return EntityView<Get...>(m_registry);
+			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			m_registry.emplace_or_replace<ComponentType>(entity);
 		}
 
 		/// <summary>
-		/// Sorts all of the Entities in the EntityManager.
+		/// Adds or replaces the component on all Entities.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of Component.</typeparam>
+		template<typename ComponentType>
+		void mark_all_entities()
+		{
+			for (auto const [entity] : m_registry.storage<Entity>().each())
+			{
+				m_registry.emplace_or_replace<ComponentType>(entity);
+			}
+		}
+
+        /// <summary>
+        /// Gets an EntityView with the given Components.
+        /// </summary>
+        /// <typeparam name="...Include">The Component types to include.</typeparam>
+        /// <typeparam name="...Exclude">The Component types to exclude.</typeparam>
+        /// <returns>A view containing all of the Entities with the given Component types.</returns>
+        template<typename... Include, typename... Exclude>
+        auto view(entt::exclude_t<Exclude...> exclude = entt::exclude_t{})
+        {
+			return EntityView(m_registry.view<Include...>(exclude));
+        }
+
+		/// <summary>
+		/// Sorts all of the Entities.
 		/// The order is based on the RelationshipComponent hierarchy.
 		/// </summary>
 		void sort();
+
+		/// <summary>
+		/// Sorts the Entities with the given Component type.
+		/// </summary>
+		/// <typeparam name="T">The Component type.</typeparam>
+		/// <param name="compare">The compare function.</param>
+		template<typename T>
+		void sort(Function<Bool(T const&, T const&)> const& compare)
+		{
+			m_registry.sort<T>(compare);
+		}
 
 		void swap_siblings(Entity const left, Entity const right);
 
@@ -255,11 +319,6 @@ namespace Minty
 		void move_to_first(Entity const entity);
 
 		void move_to_last(Entity const entity);
-
-		/// <summary>
-		/// Called after every update operation.
-		/// </summary>
-		void finalize() override;
 
 #pragma region Serialization
 
@@ -274,8 +333,6 @@ namespace Minty
 		Bool deserialize(Reader& reader) override;
 
 #pragma endregion
-
-
 
 #pragma endregion
 
