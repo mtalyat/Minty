@@ -245,6 +245,21 @@ namespace Minty
 		UUID add_state(String const& name, State const& state);
 
 		/// <summary>
+		/// Finds the ID of the State with the given name.
+		/// </summary>
+		/// <param name="name">The name of the State.</param>
+		/// <returns>The ID of the State, or INVALID_ID if none found.</returns>
+		UUID find_state(String const& name) const
+		{
+			auto found = m_states.find(name);
+			if (found == m_states.end())
+			{
+				return INVALID_ID;
+			}
+			return found->get_second();
+		}
+
+		/// <summary>
 		/// Creates a new variable with the given name and value.
 		/// </summary>
 		/// <param name="name">The name of the variable.</param>

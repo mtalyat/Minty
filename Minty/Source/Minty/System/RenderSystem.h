@@ -59,9 +59,6 @@ namespace Minty
 	public:
 		void on_render() override;
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
 #pragma endregion
 	};
 }

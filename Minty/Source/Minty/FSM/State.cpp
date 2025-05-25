@@ -22,9 +22,14 @@ UUID Minty::State::evaluate(BasicScope const& scope) const
 
 void Minty::State::serialize(Writer& writer) const
 {
+	writer.write("Value", m_value);
+	writer.write("Transitions", m_transitions);
 }
 
 Bool Minty::State::deserialize(Reader& reader)
 {
-    return Bool();
+	reader.read("Value", m_value);
+	reader.read("Transitions", m_transitions);
+
+	return true;
 }

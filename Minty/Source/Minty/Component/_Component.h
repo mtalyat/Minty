@@ -1,5 +1,6 @@
 #pragma once
 
+#include "AnimatorComponent.h"
 #include "CameraComponent.h"
 #include "CanvasComponent.h"
 #include "Component.h"

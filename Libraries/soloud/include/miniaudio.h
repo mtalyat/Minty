@@ -15516,7 +15516,7 @@ typedef struct
     const char* monitor_source_name;
     ma_uint64 latency;
     const char* driver;
-    ma_pa_sink_flags_t flags;
+    ma_pa_sink_flags_t type;
     void* proplist;
     ma_uint64 configured_latency;
     ma_uint32 base_volume;
@@ -15544,7 +15544,7 @@ typedef struct
     const char *monitor_of_sink_name;
     ma_uint64 latency;
     const char *driver;
-    ma_pa_source_flags_t flags;
+    ma_pa_source_flags_t type;
     void* proplist;
     ma_uint64 configured_latency;
     ma_uint32 base_volume;
@@ -15574,7 +15574,7 @@ typedef int                      (* ma_pa_mainloop_iterate_proc)               (
 typedef void                     (* ma_pa_mainloop_wakeup_proc)                (ma_pa_mainloop* m);
 typedef ma_pa_context*           (* ma_pa_context_new_proc)                    (ma_pa_mainloop_api* mainloop, const char* name);
 typedef void                     (* ma_pa_context_unref_proc)                  (ma_pa_context* c);
-typedef int                      (* ma_pa_context_connect_proc)                (ma_pa_context* c, const char* server, ma_pa_context_flags_t flags, const ma_pa_spawn_api* api);
+typedef int                      (* ma_pa_context_connect_proc)                (ma_pa_context* c, const char* server, ma_pa_context_flags_t type, const ma_pa_spawn_api* api);
 typedef void                     (* ma_pa_context_disconnect_proc)             (ma_pa_context* c);
 typedef void                     (* ma_pa_context_set_state_callback_proc)     (ma_pa_context* c, ma_pa_context_notify_cb_t cb, void* userdata);
 typedef ma_pa_context_state_t    (* ma_pa_context_get_state_proc)              (ma_pa_context* c);
@@ -15589,8 +15589,8 @@ typedef int                      (* ma_pa_channel_map_valid_proc)              (
 typedef int                      (* ma_pa_channel_map_compatible_proc)         (const ma_pa_channel_map* m, const ma_pa_sample_spec* ss);
 typedef ma_pa_stream*            (* ma_pa_stream_new_proc)                     (ma_pa_context* c, const char* name, const ma_pa_sample_spec* ss, const ma_pa_channel_map* map);
 typedef void                     (* ma_pa_stream_unref_proc)                   (ma_pa_stream* s);
-typedef int                      (* ma_pa_stream_connect_playback_proc)        (ma_pa_stream* s, const char* dev, const ma_pa_buffer_attr* attr, ma_pa_stream_flags_t flags, const ma_pa_cvolume* volume, ma_pa_stream* sync_stream);
-typedef int                      (* ma_pa_stream_connect_record_proc)          (ma_pa_stream* s, const char* dev, const ma_pa_buffer_attr* attr, ma_pa_stream_flags_t flags);
+typedef int                      (* ma_pa_stream_connect_playback_proc)        (ma_pa_stream* s, const char* dev, const ma_pa_buffer_attr* attr, ma_pa_stream_flags_t type, const ma_pa_cvolume* volume, ma_pa_stream* sync_stream);
+typedef int                      (* ma_pa_stream_connect_record_proc)          (ma_pa_stream* s, const char* dev, const ma_pa_buffer_attr* attr, ma_pa_stream_flags_t type);
 typedef int                      (* ma_pa_stream_disconnect_proc)              (ma_pa_stream* s);
 typedef ma_pa_stream_state_t     (* ma_pa_stream_get_state_proc)               (ma_pa_stream* s);
 typedef const ma_pa_sample_spec* (* ma_pa_stream_get_sample_spec_proc)         (ma_pa_stream* s);
@@ -22920,7 +22920,7 @@ int ma_open_temp_device__oss()
 ma_result ma_context_open_device__oss(ma_context* pContext, ma_device_type deviceType, const ma_device_id* pDeviceID, ma_share_mode shareMode, int* pfd)
 {
     const char* deviceName;
-    int flags;
+    int type;
 
     ma_assert(pContext != NULL);
     ma_assert(pfd != NULL);
@@ -22938,12 +22938,12 @@ ma_result ma_context_open_device__oss(ma_context* pContext, ma_device_type devic
         deviceName = pDeviceID->oss;
     }
 
-    flags = (deviceType == ma_device_type_playback) ? O_WRONLY : O_RDONLY;
+    type = (deviceType == ma_device_type_playback) ? O_WRONLY : O_RDONLY;
     if (shareMode == ma_share_mode_exclusive) {
-        flags |= O_EXCL;
+        type |= O_EXCL;
     }
 
-    *pfd = open(deviceName, flags, 0);
+    *pfd = open(deviceName, type, 0);
     if (*pfd == -1) {
         return MA_FAILED_TO_OPEN_BACKEND_DEVICE;
     }

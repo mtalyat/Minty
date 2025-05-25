@@ -132,8 +132,9 @@ namespace Minty
 		/// <param name="event">The Event.</param>
 		virtual void on_event(Event& event) {}
 
+		virtual void serialize(Writer& writer) const override {}
+		virtual Bool deserialize(Reader& reader) override { return true; }
+
 #pragma endregion
-
-
 	};
 }

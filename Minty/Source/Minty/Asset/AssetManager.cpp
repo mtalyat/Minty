@@ -773,6 +773,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 		reader->read("Components", builder.components);
 		reader->read("Variables", builder.variables);
 		reader->read("Values", builder.values);
+		reader->read("Actions", builder.actions);
 
 		// read steps
 		if (reader->indent("Steps"))
@@ -782,6 +783,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 			Float time;
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
+				// read the time
 				if (!reader->read_name(i, timeString))
 				{
 					MINTY_ERROR(F("Failed to read time from animation step: {}.", path));
@@ -792,31 +794,19 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 					MINTY_ERROR(F("Failed to convert time string to float: {}.", timeString));
 					continue;
 				}
-				builder.steps.add({ time, Vector<AnimationStep>{} });
-				auto& list = builder.steps.back().get_second();
 
-				// read each step within the time
-				reader->indent(i);
-
-				AnimationStep step;
-				for (Size j = 0; j < reader->get_size(); j++)
-				{
-					// read the step
-					if (!reader->read(j, step))
-					{
-						MINTY_ERROR(F("Failed to read animation step: {}.", path));
-						continue;
-					}
-
-					// add the step to the builder
-					list.add(step);
-				}
-
-				reader->outdent();
+				// add to the builder
+				builder.steps.add({ time, Vector<Size>() });
+				
+				// read the action indices
+				reader->read(i, builder.steps.back().get_second());
 			}
 
 			reader->outdent();
 		}
+
+		// read reset steps
+		reader->read("Reset", builder.resetSteps);
 
 		close_reader(reader);
 	}
@@ -827,7 +817,23 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 
 Ref<Animator> Minty::AssetManager::load_animator(Path const& path)
 {
-	return Ref<Animator>();
+	// create builder
+	AnimatorBuilder builder{};
+	builder.id = read_id(path);
+	
+	// read values from the file
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read value, directly as an FSM
+		builder.fsm.deserialize(*reader);
+		builder.fsm.reset();
+
+		close_reader(reader);
+	}
+
+	// create the animator
+	return create_from_loaded<Animator>(path, builder);
 }
 
 Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)

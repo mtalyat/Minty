@@ -291,7 +291,7 @@ namespace Minty
 			indent(name);
 			for (Size i = 0; i < S; i++)
 			{
-				write(to_string(i), data[i]);
+				write("", data[i]);
 			}
 			outdent();
 		}
@@ -302,7 +302,7 @@ namespace Minty
 			indent(name);
 			for (Size i = 0; i < data.size(); i++)
 			{
-				write(to_string(i), data[i]);
+				write("", data[i]);
 			}
 			outdent();
 		}
@@ -311,9 +311,9 @@ namespace Minty
 		void write(String const& name, Vector<T> const& data)
 		{
 			indent(name);
-			for (Size i = 0; i < data.size(); i++)
+			for (Size i = 0; i < data.get_size(); i++)
 			{
-				write(to_string(i), data[i]);
+				write("", data[i]);
 			}
 			outdent();
 		}
@@ -322,9 +322,9 @@ namespace Minty
 		void write(String const& name, Set<T> const& data)
 		{
 			indent(name);
-			for (Size i = 0; i < data.size(); i++)
+			for (Size i = 0; i < data.get_size(); i++)
 			{
-				write(to_string(i), data[i]);
+				write("", data[i]);
 			}
 			outdent();
 		}
@@ -333,9 +333,9 @@ namespace Minty
 		void write(String const& name, Map<String, T> const& data)
 		{
 			indent(name);
-			for (Size i = 0; i < data.size(); i++)
+			for (auto const& [key, value] : data)
 			{
-				write(to_string(i), data[i]);
+				write(key, value);
 			}
 			outdent();
 		}
