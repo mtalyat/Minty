@@ -14,10 +14,10 @@
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/Sprite.h"
 #include "Minty/Render/Surface.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
-//#include "Minty/Render/Sprite.h"
 
 using namespace Minty;
 
@@ -326,8 +326,8 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 		return load_shader_module(path);
 	case AssetType::Scene:
 		return load_scene(path);
-	//case AssetType::Sprite:
-	//	return load_sprite(path);
+	case AssetType::Sprite:
+		return load_sprite(path);
 	case AssetType::Texture:
 		return load_texture(path);
 	case AssetType::Animation:
@@ -1465,6 +1465,30 @@ Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path)
 	builder.size = bytes.get_size();
 
 	return create_from_loaded<ShaderModule>(path, builder);
+}
+
+Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path)
+{
+	// create builder
+	SpriteBuilder builder{};
+	builder.id = read_id(path);
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read values
+		reader->read("Texture", builder.texture);
+		reader->read("CoordinateMode", builder.coordinateMode);
+		reader->read("Offset", builder.offset);
+		reader->read("Size", builder.size);
+		reader->read("Pivot", builder.pivot);
+		reader->read("PPU", builder.pixelsPerUnit);
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<Sprite>(path, builder);
 }
 
 Ref<Texture> Minty::AssetManager::load_texture(Path const& path)

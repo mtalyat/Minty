@@ -363,6 +363,17 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Loads the Asset specifically as a Sprite at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Sprite Asset.</param>
+		/// <returns>A reference to the loaded Sprite Asset.</returns>
+		template<>
+		Ref<Sprite> load<Sprite>(Path const& path)
+		{
+			return load_sprite(path);
+		}
+
+		/// <summary>
 		/// Loads the Asset specifically as a Texture at the given Path.
 		/// </summary>
 		/// <param name="path">The Path to the Texture Asset.</param>
@@ -663,7 +674,7 @@ namespace Minty
 
 		Ref<ShaderModule> load_shader_module(Path const& path);
 
-		//Ref<Sprite> load_sprite(Path const& path);
+		Ref<Sprite> load_sprite(Path const& path);
 
 		Ref<Texture> load_texture(Path const& path);
 
