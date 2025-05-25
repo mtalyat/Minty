@@ -7,17 +7,23 @@ using namespace Minty;
 
 void Minty::UITransform::update_global_rect(Rect const& parentRect)
 {
-	if ((m_anchorMode & AnchorMode::Left) != AnchorMode::Empty)
+	// mask the anchor mode to get the vertical and horizontal modes
+	// the mask is needed so they are independent of one another
+	AnchorMode horizontal = m_anchorMode & AnchorMode::HorizontalMask;
+	AnchorMode vertical = m_anchorMode & AnchorMode::VerticalMask;
+
+	// update horizontal
+	if ((horizontal & AnchorMode::Left) == horizontal)
 	{
 		m_globalRect.x = parentRect.x + x;
 		m_globalRect.width = width;
 	}
-	else if ((m_anchorMode & AnchorMode::Center) != AnchorMode::Empty)
+	else if ((horizontal & AnchorMode::Center) == horizontal)
 	{
 		m_globalRect.x = parentRect.x + x + (parentRect.width * 0.5f);
 		m_globalRect.width = width;
 	}
-	else if ((m_anchorMode & AnchorMode::Right) != AnchorMode::Empty)
+	else if ((horizontal & AnchorMode::Right) == horizontal)
 	{
 		m_globalRect.x = parentRect.x + x + parentRect.width;
 		m_globalRect.width = width;
@@ -29,17 +35,18 @@ void Minty::UITransform::update_global_rect(Rect const& parentRect)
 		m_globalRect.width = parentRect.width - width - m_globalRect.x;
 	}
 
-	if ((m_anchorMode & AnchorMode::Top) != AnchorMode::Empty)
+	// update vertical
+	if ((vertical & AnchorMode::Top) == vertical)
 	{
 		m_globalRect.y = parentRect.y + y;
 		m_globalRect.height = height;
 	}
-	else if ((m_anchorMode & AnchorMode::Middle) != AnchorMode::Empty)
+	else if ((vertical & AnchorMode::Middle) == vertical)
 	{
 		m_globalRect.y = parentRect.y + y + (parentRect.height * 0.5f);
 		m_globalRect.height = height;
 	}
-	else if ((m_anchorMode & AnchorMode::Bottom) != AnchorMode::Empty)
+	else if ((vertical & AnchorMode::Bottom) == vertical)
 	{
 		m_globalRect.y = parentRect.y + y + parentRect.height;
 		m_globalRect.height = height;

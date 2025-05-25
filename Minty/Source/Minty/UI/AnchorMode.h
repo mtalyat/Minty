@@ -20,6 +20,9 @@ namespace Minty
 		Center = 0b010000,
 		Right = 0b100000,
 
+		VerticalMask = 0b000111,
+		HorizontalMask = 0b111000,
+
 		TopLeft = Top | Left,
 		TopCenter = Top | Center,
 		TopRight = Top | Right,
