@@ -200,6 +200,7 @@
     <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
+    <ClInclude Include="Minty\Component\SpriteComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
     <ClInclude Include="Minty\Component\UUIDComponent.h" />
     <ClInclude Include="Minty\Component\VisibleComponent.h" />
@@ -432,6 +433,7 @@
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
+    <ClCompile Include="Minty\Component\SpriteComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
