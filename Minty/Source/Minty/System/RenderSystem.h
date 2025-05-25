@@ -41,14 +41,20 @@ namespace Minty
 		// draws everything
 		void render_scene(CameraInfo const& cameraInfo);
 
+		// draws the 3D objects
+		void render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+
 		// draws the mesh objects
-		void render_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager const& entityManager);
+		void render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
 		// draws the sprites
-		void render_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager const& entityManager);
+		void render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
-		// draws the sprites in world space
-		void render_sprites_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager const& entityManager);
+		// draws the UI objects
+		void render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+
+		// draws the sprites in screen space
+		void render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
 	public:
 		void on_render() override;

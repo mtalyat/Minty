@@ -5,6 +5,53 @@
 
 using namespace Minty;
 
+void Minty::UITransform::update_global_rect(Rect const& parentRect)
+{
+	if ((m_anchorMode & AnchorMode::Left) != AnchorMode::Empty)
+	{
+		m_globalRect.x = parentRect.x + x;
+		m_globalRect.width = width;
+	}
+	else if ((m_anchorMode & AnchorMode::Center) != AnchorMode::Empty)
+	{
+		m_globalRect.x = parentRect.x + x + (parentRect.width * 0.5f);
+		m_globalRect.width = width;
+	}
+	else if ((m_anchorMode & AnchorMode::Right) != AnchorMode::Empty)
+	{
+		m_globalRect.x = parentRect.x + x + parentRect.width;
+		m_globalRect.width = width;
+	}
+	else
+	{
+		// stretch
+		m_globalRect.x = parentRect.x + x;
+		m_globalRect.width = parentRect.width - width - m_globalRect.x;
+	}
+
+	if ((m_anchorMode & AnchorMode::Top) != AnchorMode::Empty)
+	{
+		m_globalRect.y = parentRect.y + y;
+		m_globalRect.height = height;
+	}
+	else if ((m_anchorMode & AnchorMode::Middle) != AnchorMode::Empty)
+	{
+		m_globalRect.y = parentRect.y + y + (parentRect.height * 0.5f);
+		m_globalRect.height = height;
+	}
+	else if ((m_anchorMode & AnchorMode::Bottom) != AnchorMode::Empty)
+	{
+		m_globalRect.y = parentRect.y + y + parentRect.height;
+		m_globalRect.height = height;
+	}
+	else
+	{
+		// stretch
+		m_globalRect.y = parentRect.y + y;
+		m_globalRect.height = parentRect.height - height - m_globalRect.y;
+	}
+}
+
 void Minty::UITransform::serialize(Writer& writer) const
 {
 	writer.write("anchorMode", m_anchorMode);

@@ -207,6 +207,15 @@ namespace Minty
 		/// <returns>The A value.</returns>
 		constexpr Float af() const { return static_cast<Float>(a) / static_cast<Float>(MAX_CHANNEL); }
 
+		/// <summary>
+		/// Converts this Color to a Float4. Each value is normalzed.
+		/// </summary>
+		/// <returns>The Float4 color.</returns>
+		constexpr Float4 to_float4() const
+		{
+			return Float4(rf(), gf(), bf(), af());
+		}
+
 #pragma endregion
 
 #pragma region Statics

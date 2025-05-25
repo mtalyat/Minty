@@ -213,6 +213,49 @@ namespace Minty
 			this->height = bottom;
 		}
 
+		/// <summary>
+		/// Gets the global rectangle of this UI element.
+		/// </summary>
+		/// <returns>The global Rect.</returns>
+		inline Rect get_global_rect() const { return m_globalRect; }
+
+		/// <summary>
+		/// Sets the global rectangle of this UI element.
+		/// </summary>
+		/// <param name="rect">The global Rect.</param>
+		inline void set_global_rect(Rect const& rect)
+		{
+			m_globalRect = rect;
+		}
+
+		/// <summary>
+		/// Updates the global rectangle of this UI element based on the given parent rectangle.
+		/// </summary>
+		/// <param name="parentRect">The rectangle of the parent.</param>
+		void update_global_rect(Rect const& parentRect);
+
+		/// <summary>
+		/// Sets the position of this UI element.
+		/// </summary>
+		/// <param name="x">The x coordinate.</param>
+		/// <param name="y">The y coordinate.</param>
+		inline void set_position(Float const& x, Float const& y)
+		{
+			this->x = x;
+			this->y = y;
+		}
+
+		/// <summary>
+		/// Sets the size of this UI element.
+		/// </summary>
+		/// <param name="width">The width.</param>
+		/// <param name="height">The height.</param>
+		inline void set_size(Float const& width, Float const& height)
+		{
+			this->width = width;
+			this->height = height;
+		}
+
 #pragma endregion
 
 #pragma region Methods

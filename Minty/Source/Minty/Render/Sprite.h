@@ -2,6 +2,7 @@
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Data/Rect.h"
 #include "Minty/Render/CoordinateMode.h"
 #include "Minty/Render/Texture.h"
 
@@ -128,12 +129,12 @@ namespace Minty
 		Float get_scale() const { return m_scale; }
 
 		/// <summary>
-		/// Gets the UV coordinates of this Sprite.
+		/// Gets the rectangle of this Sprite.
 		/// </summary>
-		/// <returns>The offset and size packed into a Float4.</returns>
-		inline Float4 get_uv() const
+		/// <returns>The offset and size packed into a Rect.</returns>
+		inline Rect get_rect() const
 		{
-			return Float4(m_offset.x, m_offset.y, m_size.x, m_size.y);
+			return Rect(m_offset.x, m_offset.y, m_size.x, m_size.y);
 		}
 
 		/// <summary>

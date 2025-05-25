@@ -30,6 +30,7 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 {
 	// get the serialization data
 	void* userData = reader.get_user_data();
+	MINTY_ASSERT(userData != nullptr, "Failed to get user data.");
 	EntitySerializationData* entityData = static_cast<EntitySerializationData*>(userData);
 
 	// read the parent id
@@ -37,7 +38,14 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 	if (reader.read("parent", parentId))
 	{
 		// get the parent entity
-		parent = entityData->entityManager->get_entity(parentId);
+		Entity parent = entityData->entityManager->get_entity(parentId);
+
+		// set the parent
+		EntityManager* entityManager = entityData->entityManager;
+		MINTY_ASSERT(entityManager != nullptr, "Failed to get EntityManager.");
+		entityManager->set_parent(entityData->entity, parent);
+
+		// using set_parent because of all of the other stuff it does other than just set the parent value
 	}
 
 	return true;

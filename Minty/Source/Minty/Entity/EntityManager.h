@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Component/Component.h"
 #include "Minty/Context/Manager.h"
+#include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Entity/EntityPath.h"
 #include "Minty/Entity/EntityView.h"
@@ -303,10 +304,21 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Sorts all of the Entities in the EntityManager.
+		/// Sorts all of the Entities.
 		/// The order is based on the RelationshipComponent hierarchy.
 		/// </summary>
 		void sort();
+
+		/// <summary>
+		/// Sorts the Entities with the given Component type.
+		/// </summary>
+		/// <typeparam name="T">The Component type.</typeparam>
+		/// <param name="compare">The compare function.</param>
+		template<typename T>
+		void sort(Function<Bool(T const&, T const&)> const& compare)
+		{
+			m_registry.sort<T>(compare);
+		}
 
 		void swap_siblings(Entity const left, Entity const right);
 
