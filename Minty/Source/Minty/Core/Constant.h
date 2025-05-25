@@ -13,7 +13,6 @@ namespace Minty
 #pragma endregion
 
 #pragma region Assets
-
 	constexpr Size DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
 	constexpr Size DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
 	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;

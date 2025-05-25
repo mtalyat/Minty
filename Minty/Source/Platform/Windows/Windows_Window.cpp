@@ -35,12 +35,15 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 	s_windowCount++;
 
 	mp_window = glfwCreateWindow(static_cast<Int>(builder.size.x), static_cast<Int>(builder.size.y), "", nullptr, nullptr);
-
 	MINTY_ASSERT(mp_window, "Failed to create window.");
 
+	// set user pointer for callback functions
 	glfwSetWindowUserPointer(mp_window, this);
 
-	restore();
+	// set Window values
+	glfwSetWindowTitle(mp_window, m_title.get_data());
+	glfwSetWindowPos(mp_window, m_position.x, m_position.y);
+	glfwSetWindowSize(mp_window, m_size.x, m_size.y);
 
 	// set callbacks
 
