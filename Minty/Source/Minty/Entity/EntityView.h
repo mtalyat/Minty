@@ -1,20 +1,20 @@
-#pragma once  
+#pragma once
 #include "Minty/Entity/Entity.h"
 #include "Minty/Library/EnTT.h"
 
-namespace Minty  
+namespace Minty
 {
     /// <summary>
-	/// A view of Entities in the EntityManager with the given Components.
+    /// A view of Entities in the EntityManager with the given Components.
     /// </summary>
-    /// <typeparam name="...Get">The Component types.</typeparam>
-    template<typename... Get>
+    /// <typeparam name="View">The type of view.</typeparam>
+    template<typename View>
     class EntityView
     {
 #pragma region Variables
 
 	private:
-		entt::view<entt::get_t<Get...>> m_view;
+		View m_view;
 
 #pragma endregion
 
@@ -22,20 +22,15 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new EntityView using the given registry.
+		/// Creates a new EntityView using the given view.
 		/// </summary>
-		/// <param name="registry">The EnTT registry.</param>
-		EntityView(entt::registry& registry)
-			: m_view(registry.view<Get...>())
+		/// <param name="view">The view.</param>
+		EntityView(View const& view)
+			: m_view(view)
 		{
 		}
 
-		/// <summary>
-		/// Creates a new EntityView using the given registry.
-		/// </summary>
-		/// <param name="registry">The EnTT registry.</param>
-		EntityView(entt::registry const& registry)
-			: m_view(registry.view<Get...>())
+		~EntityView()
 		{
 		}
 
@@ -45,9 +40,9 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Gets the maximum number of Entities that could be in the view.
+		/// Gets the maximum number of Entities in the view.
 		/// </summary>
-		/// <returns>The maximum count.</returns>
+		/// <returns>The max count.</returns>
 		Size get_size() const
 		{
 			return m_view.size_hint();
@@ -59,18 +54,7 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Iterates through all of the Entities in the view and calls the function for each one.
-		/// </summary>
-		/// <typeparam name="Func">The type of Function.</typeparam>
-		/// <param name="func">The function.</param>
-		template<typename Func>
-		void each(Func&& func)
-		{
-			m_view.each(func);
-		}
-
-		/// <summary>
-		/// Returns the iterator for the view.
+		/// Allows iterating over the Entities and Components in the view.
 		/// </summary>
 		/// <returns>The iterator.</returns>
 		auto each()
@@ -79,7 +63,7 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Returns the iterator for the view.
+		/// Allows iterating over the Entities and Components in the view.
 		/// </summary>
 		/// <returns>The iterator.</returns>
 		auto each() const
@@ -88,9 +72,9 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Specifies the type to use for ordering.
+		/// Specifies the Component type to use when ordering the Entities.
 		/// </summary>
-		/// <typeparam name="T">The type.</typeparam>
+		/// <typeparam name="T">The Component type.</typeparam>
 		template<typename T>
 		void use()
 		{

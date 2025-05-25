@@ -472,6 +472,33 @@ void Minty::EntityManager::dirty(Entity const entity)
 {
 	// mark the entity as dirty
 	m_registry.emplace_or_replace<DirtyComponent>(entity);
+
+	// stop if no children
+	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	if (!relationshipComponent || relationshipComponent->children == 0)
+	{
+		return;
+	}
+
+	// dirty all children, and their children
+	Stack<Entity> entitiesToDirty;
+	entitiesToDirty.push(entity);
+	while (!entitiesToDirty.is_empty())
+	{
+		Entity currentEntity = entitiesToDirty.pop();
+		m_registry.emplace_or_replace<DirtyComponent>(currentEntity);
+
+		// get the relationship component
+		RelationshipComponent const& relationship = m_registry.get<RelationshipComponent>(currentEntity);
+		
+		// dirty all children
+		Entity child = relationship.first;
+		while (child != INVALID_ENTITY)
+		{
+			entitiesToDirty.push(child);
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+	}
 }
 
 Entity Minty::EntityManager::create_entity()

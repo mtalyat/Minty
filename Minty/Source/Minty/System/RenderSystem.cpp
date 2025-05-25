@@ -311,15 +311,6 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 	}
 }
 
-void Minty::RenderSystem::serialize(Writer& writer) const
-{
-}
-
-Bool Minty::RenderSystem::deserialize(Reader& reader)
-{
-	return true;
-}
-
 void Minty::RenderSystem::on_render()
 {
 	EntityManager& entityManager = m_scene->get_entity_manager();

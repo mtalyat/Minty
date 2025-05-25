@@ -41,13 +41,15 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 		m_times.add(time);
 
 		// add each step
-		for (auto const& step : steps)
+		for (auto const& index : steps)
 		{
+			AnimationAction const& step = builder.actions.at(index);
+
 			// compile the key
 			StepKey key = compile_key(step.entityIndex, step.componentIndex, step.variableIndex);
 
 			// compile the value
-			StepValue value = compile_value(step.valueIndex, step.flags);
+			StepValue value = compile_value(step.valueIndex, step.type);
 
 			// add the compiled values to the steps
 			m_steps[key].add(timeIndex, value);
@@ -56,13 +58,15 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 
 	// do the same for the reset steps
 	m_resetSteps.reserve(builder.resetSteps.get_size() * 2);
-	for (auto const& step : builder.resetSteps)
+	for (auto const& index : builder.resetSteps)
 	{
+		AnimationAction const& step = builder.actions.at(index);
+
 		// compile the key
 		StepKey key = compile_key(step.entityIndex, step.componentIndex, step.variableIndex);
 		
 		// compile the value
-		StepValue value = compile_value(step.valueIndex, step.flags);
+		StepValue value = compile_value(step.valueIndex, step.type);
 
 		// add the compiled values to the reset steps
 		m_resetSteps[key].add(value);
@@ -78,7 +82,7 @@ Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index 
 		((variableIndex & MAX_VARIABLE_INDEX) << VARIABLE_OFFSET);
 }
 
-Animation::StepValue Minty::Animation::compile_value(Index const valueIndex, AnimationStepFlags const flags) const
+Animation::StepValue Minty::Animation::compile_value(Index const valueIndex, AnimationActionType const flags) const
 {
 	// pack the value and flags into a single value
 	return
@@ -89,19 +93,19 @@ Animation::StepValue Minty::Animation::compile_value(Index const valueIndex, Ani
 void Minty::Animation::perform_step(StepKey const key, StepTime const time, StepValue const value, Entity const thisEntity, EntityManager& entityManager) const
 {
 	// unpack the step
-	AnimationStep step{};
+	AnimationAction step{};
 	step.entityIndex = (key >> ENTITY_OFFSET) & MAX_ENTITY_INDEX;
 	step.componentIndex = (key >> COMPONENT_OFFSET) & MAX_COMPONENT_INDEX;
 	step.variableIndex = (key >> VARIABLE_OFFSET) & MAX_VARIABLE_INDEX;
 	step.timeIndex = (time >> TIME_OFFSET) & MAX_TIME_INDEX;
 	step.valueIndex = (value >> VALUE_OFFSET) & MAX_VALUE_INDEX;
-	step.flags = static_cast<AnimationStepFlags>((value >> FLAGS_OFFSET) & MAX_FLAGS_INDEX);
+	step.type = static_cast<AnimationActionType>((value >> FLAGS_OFFSET) & MAX_FLAGS_INDEX);
 
 	// perform the step
 	return perform_step(step, thisEntity, entityManager);
 }
 
-void Minty::Animation::perform_step(AnimationStep const& step, Entity const thisEntity, EntityManager& entityManager) const
+void Minty::Animation::perform_step(AnimationAction const& step, Entity const thisEntity, EntityManager& entityManager) const
 {
 	MINTY_ASSERT(step.entityIndex < MAX_ENTITY_INDEX, "Entity index is out of range.");
 
@@ -122,7 +126,7 @@ void Minty::Animation::perform_step(AnimationStep const& step, Entity const this
 	Component* component = componentInfo->get(entityManager, entity);
 
 	// determine what to do based on the flags
-	if (static_cast<Bool>(step.flags & AnimationStepFlags::Add))
+	if (step.type == AnimationActionType::Add)
 	{
 		if (component == nullptr)
 		{
@@ -130,7 +134,7 @@ void Minty::Animation::perform_step(AnimationStep const& step, Entity const this
 		}
 		return;
 	}
-	if (static_cast<Bool>(step.flags & AnimationStepFlags::Remove))
+	if (step.type == AnimationActionType::Remove)
 	{
 		if (component != nullptr)
 		{
@@ -160,7 +164,7 @@ void Minty::Animation::perform_step(AnimationStep const& step, Entity const this
 	};
 
 	// create a root node for the deserialization
-	Node root;
+	Node root{};
 	root.add_child(std::move(value));
 
 	// deserialize the data
@@ -224,6 +228,19 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Index& inde
 
 	// check if we are done
 	return time >= m_duration;
+}
+
+void Minty::Animation::reset(Entity const thisEntity, EntityManager& entityManager)
+{
+	// perform each step within reset
+	for (auto const& [stepKey, values] : m_resetSteps)
+	{
+		for (auto const& value : values)
+		{
+			// perform the step
+			perform_step(stepKey, 0, value, thisEntity, entityManager);
+		}
+	}
 }
 
 Owner<Animation> Minty::Animation::create(AnimationBuilder const& builder)

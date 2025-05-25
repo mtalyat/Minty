@@ -1,5 +1,5 @@
 #pragma once
-#include "Minty/Animation/AnimationStepFlags.h"
+#include "Minty/Animation/AnimationActionFlags.h"
 #include "Minty/Serialization/Parseable.h"
 
 namespace Minty
@@ -7,7 +7,7 @@ namespace Minty
 	/// <summary>
 	/// A single step within an animation.
 	/// </summary>
-	struct AnimationStep
+	struct AnimationAction
 		: public Parseable
 	{
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Minty
 		/// <summary>
 		/// The flags to use on this step.
 		/// </summary>
-		AnimationStepFlags flags;
+		AnimationActionType type;
 
 		Bool parse(String const& text) override;
 		String to_string() const override;

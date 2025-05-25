@@ -7,12 +7,14 @@ namespace Minty
 #pragma region Audio
 
 	constexpr Float DEFAULT_AUDIO_ATTENUATION_ROLL_OFF = 1.0f;
-	constexpr Float DEFAULT_AUDIO_MIN_DISTANCE = 1.0f;
 	constexpr Float DEFAULT_AUDIO_MAX_DISTANCE = 100.0f;
+	constexpr Float DEFAULT_AUDIO_MIN_DISTANCE = 1.0f;
+	constexpr Float DEFAULT_AUDIO_VOLUME = 1.0f;
 
 #pragma endregion
 
 #pragma region Assets
+
 	constexpr Size DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
 	constexpr Size DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
 	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
@@ -84,6 +86,12 @@ namespace Minty
 	constexpr Char const* EXTENSION_SPRITE = ".mspr";
 	constexpr Char const* EXTENSION_TEXT = ".txt";
 	constexpr Char const* EXTENSION_WRAP = ".wrap";
+
+#pragma endregion
+
+#pragma region Handle
+
+	constexpr Handle INVALID_HANDLE = UINT_MAX;
 
 #pragma endregion
 

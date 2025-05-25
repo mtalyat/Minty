@@ -2,6 +2,8 @@
 #include "Node.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Stack.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 
 using namespace Minty;
 
@@ -47,6 +49,27 @@ Node& Minty::Node::add_child(Node&& node)
 	}
 	m_children.add(std::move(node));
 	return m_children.at(index);
+}
+
+void Minty::Node::serialize(Writer& writer, String const& name) const
+{
+	// write this value
+	writer.write(name, get_data_string());
+
+	// write children
+	writer.indent();
+	for (auto const& child : m_children)
+	{
+		child.serialize(writer, child.get_name());
+	}
+	writer.outdent();
+}
+
+Bool Minty::Node::deserialize(Reader& reader, Size const index)
+{
+	// directly copy the node from the reader to this
+	*this = reader.get_node().get_child(index);
+	return true;
 }
 
 String Minty::to_string(Node const& obj)

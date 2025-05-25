@@ -882,9 +882,9 @@ objects because the operating system may restrict the number of file handles an 
 any given time.
 */
 drwav_bool32 drwav_init_file(drwav* pWav, const char* filename, const drwav_allocation_callbacks* pAllocationCallbacks);
-drwav_bool32 drwav_init_file_ex(drwav* pWav, const char* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 flags, const drwav_allocation_callbacks* pAllocationCallbacks);
+drwav_bool32 drwav_init_file_ex(drwav* pWav, const char* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 type, const drwav_allocation_callbacks* pAllocationCallbacks);
 drwav_bool32 drwav_init_file_w(drwav* pWav, const wchar_t* filename, const drwav_allocation_callbacks* pAllocationCallbacks);
-drwav_bool32 drwav_init_file_ex_w(drwav* pWav, const wchar_t* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 flags, const drwav_allocation_callbacks* pAllocationCallbacks);
+drwav_bool32 drwav_init_file_ex_w(drwav* pWav, const wchar_t* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 type, const drwav_allocation_callbacks* pAllocationCallbacks);
 
 /*
 Helper for initializing a wave file for writing using stdio.
@@ -2480,17 +2480,17 @@ drwav_bool32 drwav_init_file(drwav* pWav, const char* filename, const drwav_allo
 }
 
 
-drwav_bool32 drwav_init_file__internal_FILE(drwav* pWav, FILE* pFile, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 flags, const drwav_allocation_callbacks* pAllocationCallbacks)
+drwav_bool32 drwav_init_file__internal_FILE(drwav* pWav, FILE* pFile, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 type, const drwav_allocation_callbacks* pAllocationCallbacks)
 {
     if (!drwav_preinit(pWav, drwav__on_read_stdio, drwav__on_seek_stdio, (void*)pFile, pAllocationCallbacks)) {
         fclose(pFile);
         return DRWAV_FALSE;
     }
 
-    return drwav_init__internal(pWav, onChunk, pChunkUserData, flags);
+    return drwav_init__internal(pWav, onChunk, pChunkUserData, type);
 }
 
-drwav_bool32 drwav_init_file_ex(drwav* pWav, const char* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 flags, const drwav_allocation_callbacks* pAllocationCallbacks)
+drwav_bool32 drwav_init_file_ex(drwav* pWav, const char* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 type, const drwav_allocation_callbacks* pAllocationCallbacks)
 {
     FILE* pFile = drwav_fopen(filename, "rb");
     if (pFile == NULL) {
@@ -2498,7 +2498,7 @@ drwav_bool32 drwav_init_file_ex(drwav* pWav, const char* filename, drwav_chunk_p
     }
 
     /* This takes ownership of the FILE* object. */
-    return drwav_init_file__internal_FILE(pWav, pFile, onChunk, pChunkUserData, flags, pAllocationCallbacks);
+    return drwav_init_file__internal_FILE(pWav, pFile, onChunk, pChunkUserData, type, pAllocationCallbacks);
 }
 
 drwav_bool32 drwav_init_file_w(drwav* pWav, const wchar_t* filename, const drwav_allocation_callbacks* pAllocationCallbacks)
@@ -2506,7 +2506,7 @@ drwav_bool32 drwav_init_file_w(drwav* pWav, const wchar_t* filename, const drwav
     return drwav_init_file_ex_w(pWav, filename, NULL, NULL, 0, pAllocationCallbacks);
 }
 
-drwav_bool32 drwav_init_file_ex_w(drwav* pWav, const wchar_t* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 flags, const drwav_allocation_callbacks* pAllocationCallbacks)
+drwav_bool32 drwav_init_file_ex_w(drwav* pWav, const wchar_t* filename, drwav_chunk_proc onChunk, void* pChunkUserData, drwav_uint32 type, const drwav_allocation_callbacks* pAllocationCallbacks)
 {
     FILE* pFile = drwav_wfopen(filename, L"rb", pAllocationCallbacks);
     if (pFile == NULL) {
@@ -2514,7 +2514,7 @@ drwav_bool32 drwav_init_file_ex_w(drwav* pWav, const wchar_t* filename, drwav_ch
     }
 
     /* This takes ownership of the FILE* object. */
-    return drwav_init_file__internal_FILE(pWav, pFile, onChunk, pChunkUserData, flags, pAllocationCallbacks);
+    return drwav_init_file__internal_FILE(pWav, pFile, onChunk, pChunkUserData, type, pAllocationCallbacks);
 }
 
 

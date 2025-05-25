@@ -48,10 +48,12 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 	MINTY_ASSERT(parts.get_size() == 3, "Condition string must have 3 parts, split by spaces.");
 
 	// get the scope
-	BasicScope* scope = static_cast<BasicScope*>(reader.get_user_data());
+	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
+	MINTY_ASSERT(fsm != nullptr, "FSM is null.");
+	BasicScope& scope = fsm->get_scope();
 
 	// get the values
-	m_variableId = scope->find(parts[0]);
+	m_variableId = scope.find(parts[0]);
 	MINTY_ASSERT(m_variableId != INVALID_ID, F("No variable found with name {}.", parts[0]));
 	m_conditional = parse_to_conditional(parts[1]);
 	m_value = parse_to<Int>(parts[2]);

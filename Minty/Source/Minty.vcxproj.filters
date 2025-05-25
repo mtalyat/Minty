@@ -780,10 +780,10 @@
     <ClInclude Include="Minty\Audio\AudioManager.h">
       <Filter>Minty\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Animation\AnimationStep.h">
+    <ClInclude Include="Minty\Animation\AnimationAction.h">
       <Filter>Minty\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Animation\AnimationStepFlags.h">
+    <ClInclude Include="Minty\Animation\AnimationActionFlags.h">
       <Filter>Minty\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Component\AnimatorComponent.h">
@@ -832,6 +832,18 @@
       <Filter>Minty\UI</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Component\CanvasComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\AnimationSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\AudioSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\AudioListenerComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\AudioSourceComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1292,7 +1304,7 @@
     <ClCompile Include="Minty\Entity\EntityPath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minty\Animation\AnimationStep.cpp">
+    <ClCompile Include="Minty\Animation\AnimationAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Render\Sprite.cpp">
@@ -1326,6 +1338,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Component\CanvasComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\AnimationSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Animation\AnimationActionFlags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\AudioSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\AudioSourceComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Audio\AudioSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Audio\AudioListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

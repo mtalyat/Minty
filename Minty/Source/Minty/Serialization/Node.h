@@ -5,6 +5,7 @@
 #include "Minty/Data/String.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Serializable.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
@@ -13,6 +14,7 @@ namespace Minty
 	/// Represents an object that contains data, and a list of children nodes.
 	/// </summary>
 	class Node
+		: public Serializable
 	{
 #pragma region Variables
 
@@ -330,6 +332,9 @@ namespace Minty
 		/// <param name="node">The Node to add.</param>
 		/// <returns>The child Node.</returns>
 		Node& add_child(Node&& node);
+
+		void serialize(Writer& writer, String const& name) const override;
+		Bool deserialize(Reader& reader, Size const index) override;
 
 #pragma endregion
 	};

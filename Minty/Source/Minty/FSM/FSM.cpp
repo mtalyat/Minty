@@ -122,12 +122,25 @@ Bool Minty::FSM::deserialize(Reader& reader)
 	// add this to push data
 	reader.push_user_data(this);
 
+	// read scope
 	reader.read("Scope", m_scope);
 
-	// read all states
+	// read states
 	String name;
 	if (reader.indent("States"))
 	{
+		// read the names
+		for (Size i = 0; i < reader.get_size(); i++)
+		{
+			if (!reader.read_name(i, name))
+			{
+				MINTY_ERROR(F("Failed to read state name at index {}.", i));
+				return false;
+			}
+			m_states.add(name, UUID::create(), State());
+		}
+
+		// read the states
 		State state;
 		for (Size i = 0; i < reader.get_size(); i++)
 		{
@@ -136,14 +149,17 @@ Bool Minty::FSM::deserialize(Reader& reader)
 				MINTY_ERROR(F("Failed to read state name at index {}.", i));
 				return false;
 			}
-			if (!reader.read(name, state))
+
+			// get the state
+			// no need to check if not found, just added the state above
+			State& state = m_states.at(name);
+
+			// read the state values
+			if (!reader.read(i, state))
 			{
 				MINTY_ERROR(F("Failed to read state {}.", name));
 				return false;
 			}
-
-			// add the state to the FSM
-			add_state(name, state);
 		}
 
 		reader.outdent();

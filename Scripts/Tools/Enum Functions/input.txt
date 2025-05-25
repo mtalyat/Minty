@@ -1,27 +1,20 @@
-enum class AssetType
-{
-	Generic,
-	Wrap,
-	Info, // application info
-	Script,
-	AudioClip,
-	Animation,
-	Animator,
-	Viewport,
-	Image,
-	Texture,
-	Surface,
-	RenderPass,
-	RenderTarget,
-	Camera,
-	ShaderCode,
-	ShaderModule,
-	Shader,
-	MaterialTemplate,
-	Material,
-	Sprite,
-	FontVariant,
-	Font,
-	Mesh,
-	Scene,
-};
+	/// <summary>
+	/// Determines what additional actions are taken during an animation step.
+	/// </summary>
+	enum class AnimationActionType
+	{
+		/// <summary>
+		/// No additional action taken.
+		/// </summary>
+		None = 0,
+
+		/// <summary>
+		/// Add the associated component to the entity.
+		/// </summary>
+		Add = 1,
+
+		/// <summary>
+		/// Remove the associated component from the entity.
+		/// </summary>
+		Remove = 2,
+	};

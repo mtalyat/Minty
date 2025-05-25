@@ -25,6 +25,8 @@ namespace Minty
 		/// <summary>
 		/// The sound gets exponentially louder as the source approaches the listener.
 		/// </summary>
-		ExponentialDistance
+		ExponentialDistance,
+
+		Default = LinearDistance,
 	};
 }

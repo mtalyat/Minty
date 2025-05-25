@@ -83,6 +83,9 @@ Minty::Context::~Context()
 
 void Minty::Context::register_components()
 {
+	register_component<AnimatorComponent>("Animator");
+	register_component<AudioListenerComponent>("AudioListener");
+	register_component<AudioSourceComponent>("AudioSource");
 	register_component<CameraComponent>("Camera");
 	register_component<CanvasComponent>("Canvas");
 	register_component<DirtyComponent>("Dirty");
@@ -100,6 +103,8 @@ void Minty::Context::register_components()
 
 void Minty::Context::register_systems()
 {
+	register_system<AnimationSystem>("Animation");
+	register_system<AudioSystem>("Audio");
 	register_system<RenderSystem>("Render");
 }
 

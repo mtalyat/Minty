@@ -174,8 +174,8 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Minty\Animation\Animation.h" />
-    <ClInclude Include="Minty\Animation\AnimationStep.h" />
-    <ClInclude Include="Minty\Animation\AnimationStepFlags.h" />
+    <ClInclude Include="Minty\Animation\AnimationAction.h" />
+    <ClInclude Include="Minty\Animation\AnimationActionFlags.h" />
     <ClInclude Include="Minty\Animation\Animator.h" />
     <ClInclude Include="Minty\Animation\_Animation.h" />
     <ClInclude Include="Minty\Application\Application.h" />
@@ -192,6 +192,8 @@
     <ClInclude Include="Minty\Audio\AudioSource.h" />
     <ClInclude Include="Minty\Audio\_Audio.h" />
     <ClInclude Include="Minty\Component\AnimatorComponent.h" />
+    <ClInclude Include="Minty\Component\AudioListenerComponent.h" />
+    <ClInclude Include="Minty\Component\AudioSourceComponent.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
     <ClInclude Include="Minty\Component\CanvasComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
@@ -368,6 +370,8 @@
     <ClInclude Include="Minty\Serialization\ToString.h" />
     <ClInclude Include="Minty\Serialization\Writer.h" />
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
+    <ClInclude Include="Minty\System\AnimationSystem.h" />
+    <ClInclude Include="Minty\System\AudioSystem.h" />
     <ClInclude Include="Minty\System\RenderSystem.h" />
     <ClInclude Include="Minty\System\System.h" />
     <ClInclude Include="Minty\System\SystemManager.h" />
@@ -432,7 +436,8 @@
     <ClCompile Include="..\..\Libraries\soloud\include\stb_vorbis.cpp" />
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Animation\Animation.cpp" />
-    <ClCompile Include="Minty\Animation\AnimationStep.cpp" />
+    <ClCompile Include="Minty\Animation\AnimationAction.cpp" />
+    <ClCompile Include="Minty\Animation\AnimationActionFlags.cpp" />
     <ClCompile Include="Minty\Animation\Animator.cpp" />
     <ClCompile Include="Minty\Application\Application.cpp" />
     <ClCompile Include="Minty\Asset\Asset.cpp" />
@@ -440,8 +445,11 @@
     <ClCompile Include="Minty\Asset\AssetType.cpp" />
     <ClCompile Include="Minty\Asset\GenericAsset.cpp" />
     <ClCompile Include="Minty\Audio\AudioClip.cpp" />
+    <ClCompile Include="Minty\Audio\AudioListener.cpp" />
     <ClCompile Include="Minty\Audio\AudioManager.cpp" />
+    <ClCompile Include="Minty\Audio\AudioSource.cpp" />
     <ClCompile Include="Minty\Component\AnimatorComponent.cpp" />
+    <ClCompile Include="Minty\Component\AudioSourceComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
@@ -544,6 +552,8 @@
     <ClCompile Include="Minty\Serialization\Reader.cpp" />
     <ClCompile Include="Minty\Serialization\ToString.cpp" />
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
+    <ClCompile Include="Minty\System\AnimationSystem.cpp" />
+    <ClCompile Include="Minty\System\AudioSystem.cpp" />
     <ClCompile Include="Minty\System\RenderSystem.cpp" />
     <ClCompile Include="Minty\System\SystemManager.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />

@@ -67,6 +67,46 @@ namespace Minty
 		/// </summary>
 		constexpr Float INF = std::numeric_limits<Float>::infinity();
 
+		/// <summary>
+		/// Forward direction in 3D space.
+		/// </summary>
+		constexpr Float3 FORWARD = Float3(0.0f, 0.0f, 1.0f);
+
+		/// <summary>
+		/// Backward direction in 3D space.
+		/// </summary>
+		constexpr Float3 BACKWARD = Float3(0.0f, 0.0f, -1.0f);
+
+		/// <summary>
+		/// Up direction in 3D space.
+		/// </summary>
+		constexpr Float3 UP = Float3(0.0f, 1.0f, 0.0f);
+
+		/// <summary>
+		/// Down direction in 3D space.
+		/// </summary>
+		constexpr Float3 DOWN = Float3(0.0f, -1.0f, 0.0f);
+
+		/// <summary>
+		/// Left direction in 3D space.
+		/// </summary>
+		constexpr Float3 LEFT = Float3(-1.0f, 0.0f, 0.0f);
+
+		/// <summary>
+		/// Right direction in 3D space.
+		/// </summary>
+		constexpr Float3 RIGHT = Float3(1.0f, 0.0f, 0.0f);
+
+		/// <summary>
+		/// Zero vector in 3D space.
+		/// </summary>
+		constexpr Float3 ZERO = Float3(0.0f, 0.0f, 0.0f);
+
+		/// <summary>
+		/// One vector in 3D space.
+		/// </summary>
+		constexpr Float3 ONE = Float3(1.0f, 1.0f, 1.0f);
+
 #pragma endregion
 
 #pragma region Functions

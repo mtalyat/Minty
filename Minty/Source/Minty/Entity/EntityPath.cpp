@@ -8,18 +8,22 @@ using namespace Minty;
 Bool Minty::EntityPath::parse(String const& text)
 {
 	// split the string into parts
-	Vector<String> parts = String::split(text, '.');
+	Vector<String> parts = String::split(text, '/');
 
 	// parse to the path
-	m_path.resize(parts.get_size(), 0);
+	m_path.reserve(parts.get_size());
 	for (Size i = 0; i < m_path.get_size(); i++)
 	{
 		// parse the byte
-		if (!try_byte(parts.at(i), m_path.at(i)))
+		Byte b;
+		if (!try_byte(parts.at(i), b))
 		{
 			// failed to parse
 			return false;
 		}
+		
+		// add to the path
+		m_path.add(b);
 	}
 
 	return true;
@@ -33,11 +37,11 @@ String Minty::EntityPath::to_string() const
 		return "";
 	}
 
-	// compile the path into a string separated by .
+	// compile the path into a string separated by /
 	String result = Minty::to_string(m_path.front());
 	for (Size i = 1; i < m_path.get_size(); i++)
 	{
-		result.append('.');
+		result.append('/');
 		result.append(Minty::to_string(m_path.at(i)));
 	}
 
