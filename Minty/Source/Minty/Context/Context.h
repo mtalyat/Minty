@@ -74,22 +74,7 @@ namespace Minty
 		/// Moves the given Context.
 		/// </summary>
 		/// <param name="other">The Context to move.</param>
-		Context(Context&& other) noexcept
-			: mp_dualBuffer(other.mp_dualBuffer)
-			, m_window(std::move(other.m_window))
-			, m_memoryManager(std::move(other.m_memoryManager))
-			, m_jobManager(std::move(other.m_jobManager))
-			, m_audioManager(std::move(other.m_audioManager))
-			, m_assetManager(std::move(other.m_assetManager))
-			, m_inputManager(std::move(other.m_inputManager))
-			, m_renderManager(std::move(other.m_renderManager))
-			, m_sceneManager(std::move(other.m_sceneManager))
-			, m_managers(std::move(other.m_managers))
-			, m_registeredSystems(std::move(other.m_registeredSystems))
-			, m_registeredComponents(std::move(other.m_registeredComponents))
-		{
-			other.mp_dualBuffer = nullptr;
-		}
+		Context(Context&& other) noexcept;
 
 		~Context();
 
@@ -100,24 +85,7 @@ namespace Minty
 	public:
 		Context& operator=(Context const& other) = delete;
 
-		Context& operator=(Context&& other) noexcept
-		{
-			if (this != &other)
-			{
-				mp_dualBuffer = other.mp_dualBuffer;
-				other.mp_dualBuffer = nullptr;
-				m_memoryManager = std::move(other.m_memoryManager);
-				m_jobManager = std::move(other.m_jobManager);
-				m_audioManager = std::move(other.m_audioManager);
-				m_assetManager = std::move(other.m_assetManager);
-				m_renderManager = std::move(other.m_renderManager);
-				m_sceneManager = std::move(other.m_sceneManager);
-				m_managers = std::move(other.m_managers);
-				m_registeredSystems = std::move(other.m_registeredSystems);
-				m_registeredComponents = std::move(other.m_registeredComponents);
-			}
-			return *this;
-		}
+		Context& operator=(Context&& other) noexcept;
 
 #pragma endregion
 
