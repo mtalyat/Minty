@@ -120,9 +120,9 @@ namespace Minty
 
 		inline DynamicContainer const& get_data_container() const { return m_data; }
 
-		inline void* get_data() const { return m_data.data(); }
+		inline void* get_data() const { return m_data.get_data(); }
 
-		inline Size get_data_size() const { return m_data.size(); }
+		inline Size get_data_size() const { return m_data.get_size(); }
 
 		inline Size get_count() const { return m_count; }
 

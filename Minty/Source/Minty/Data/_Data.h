@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Array.h"
+#include "Batch.h"
+#include "BatchFactory.h"
+#include "BufferContainer.h"
 #include "Cargo.h"
 #include "Color.h"
 #include "ConstantContainer.h"

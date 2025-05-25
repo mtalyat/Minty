@@ -12,6 +12,16 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Assets
+
+	constexpr Size DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
+	constexpr Size DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
+	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
+	constexpr Size DEFAULT_ASSET_UI_MATERIAL_TEMPLATE = 0xdef0000000000011;
+	constexpr Size DEFAULT_ASSET_TEXTURE = 0xdef0000000000000;
+
+#pragma endregion
+
 #pragma region Color
 
 	constexpr Size COLOR_SHAMT_R = 0;
@@ -85,7 +95,6 @@ namespace Minty
 	constexpr Float JOYSTICK_DEADZONE = 0.1f;
 
 #pragma endregion
-
 
 #pragma region Layer
 

@@ -358,6 +358,11 @@ void Minty::Vulkan_RenderManager::draw_indices(UInt const indexCount) const
 	Vulkan_Renderer::draw_indexed(get_current_command_buffer(), indexCount);
 }
 
+void Minty::Vulkan_RenderManager::draw_instances(UInt const instanceCount, UInt const vertexCount) const
+{
+	Vulkan_Renderer::draw_instanced(get_current_command_buffer(), instanceCount, vertexCount);
+}
+
 Format Minty::Vulkan_RenderManager::get_color_attachment_format() const
 {
 	return m_surface->get_format();

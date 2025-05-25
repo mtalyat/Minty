@@ -58,7 +58,17 @@ Minty::Vulkan_Material::~Vulkan_Material()
 		frame.buffers.clear();
 		descriptorSets.at(i) = frame.descriptorSet;
 	}
-	// free descriptor sets
+	// free descriptor sets, if the shader still exists
+	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
+	if (materialTemplate == nullptr)
+	{
+		return;
+	}
+	Ref<Shader> const& shader = materialTemplate->get_shader();
+	if (shader == nullptr)
+	{
+		return;
+	}
 	Vulkan_Renderer::free_descriptor_sets(Vulkan_RenderManager::get_singleton().get_device(), m_pool, descriptorSets);
 }
 
@@ -255,7 +265,7 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 	// get material template
 	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
 	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
-	MINTY_ASSERT(materialTemplate->has_input(name), "Material does not have input with name: " + name);
+	MINTY_ASSERT(materialTemplate->has_input(name), F("Material does not have input with name: {}", name));
 
 	// get shader
 	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast_to<Vulkan_Shader>();

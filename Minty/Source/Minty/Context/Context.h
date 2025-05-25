@@ -221,7 +221,7 @@ namespace Minty
 		void register_system(String const& name)
 		{
 			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
-			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
+			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
 
 			SystemInfo info
 			{
@@ -244,7 +244,7 @@ namespace Minty
 		void register_component(String const& name)
 		{
 			MINTY_ASSERT(!m_registeredComponents.contains(name), F("Component already exists with the name: {}", name));
-			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), F("Component already exists with the TypeID: {}", typeid(T)));
+			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), F("Component already exists with the TypeID: {}", typeid(T).name()));
 
 			ComponentInfo info
 			{

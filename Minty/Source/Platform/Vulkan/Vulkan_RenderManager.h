@@ -131,6 +131,7 @@ namespace Minty
 	public:
 		void draw_vertices(UInt const vertexCount) const;
 		void draw_indices(UInt const indexCount) const;
+		void draw_instances(UInt const instanceCount, UInt const vertexCount) const;
 
 #pragma endregion
 

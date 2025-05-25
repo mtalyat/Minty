@@ -112,6 +112,6 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 Vector<String> const& Minty::ArgumentParser::get_argument(String const& name) const
 {
 	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
-	MINTY_ASSERT(m_args.contains(name), "Argument not found: " + name);
+	MINTY_ASSERT(m_args.contains(name), F("Argument not found: {}", name));
 	return m_args[name].args;
 }

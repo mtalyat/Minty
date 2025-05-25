@@ -87,7 +87,7 @@ namespace Minty
 
 		Size get_buffer_index(String const& name) const
 		{
-			MINTY_ASSERT(m_descriptorNameToBufferIndex.contains(name), "Shader does not contain buffer with name: " + name);
+			MINTY_ASSERT(m_descriptorNameToBufferIndex.contains(name), F("Shader does not contain buffer with name: {}", name));
 			return m_descriptorNameToBufferIndex.at(name);
 		}
 
