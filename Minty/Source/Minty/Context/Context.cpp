@@ -84,6 +84,7 @@ Minty::Context::~Context()
 void Minty::Context::register_components()
 {
 	register_component<CameraComponent>("Camera");
+	register_component<CanvasComponent>("Canvas");
 	register_component<DirtyComponent>("Dirty");
 	register_component<EnabledComponent>("Enabled");
 	register_component<LayerComponent>("Layer");

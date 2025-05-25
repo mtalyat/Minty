@@ -193,6 +193,7 @@
     <ClInclude Include="Minty\Audio\_Audio.h" />
     <ClInclude Include="Minty\Component\AnimatorComponent.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
+    <ClInclude Include="Minty\Component\CanvasComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
@@ -377,6 +378,7 @@
     <ClInclude Include="Minty\Tool\ArgumentParser.h" />
     <ClInclude Include="Minty\Tool\_Tool.h" />
     <ClInclude Include="Minty\UI\AnchorMode.h" />
+    <ClInclude Include="Minty\UI\Canvas.h" />
     <ClInclude Include="Minty\UI\_UI.h" />
     <ClInclude Include="Minty\Window\Window.h" />
     <ClInclude Include="Minty\Window\_Window.h" />
@@ -441,6 +443,7 @@
     <ClCompile Include="Minty\Audio\AudioManager.cpp" />
     <ClCompile Include="Minty\Component\AnimatorComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
+    <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
@@ -547,6 +550,7 @@
     <ClCompile Include="Minty\Time\Time.cpp" />
     <ClCompile Include="Minty\Tool\ArgumentParser.cpp" />
     <ClCompile Include="Minty\UI\AnchorMode.cpp" />
+    <ClCompile Include="Minty\UI\Canvas.cpp" />
     <ClCompile Include="Minty\Window\Window.cpp" />
     <ClCompile Include="Minty\Wrap\Wrap.cpp" />
     <ClCompile Include="Minty\Wrap\Wrapper.cpp" />

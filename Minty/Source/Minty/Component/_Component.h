@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CameraComponent.h"
+#include "CanvasComponent.h"
 #include "Component.h"
 #include "DirtyComponent.h"
 #include "EnabledComponent.h"

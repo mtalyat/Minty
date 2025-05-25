@@ -292,6 +292,32 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 			}
 		}
 	}
+
+	// if the entity has a UITransform, update its Canvas value
+	if (UITransformComponent* uiTransform = try_get_component<UITransformComponent>(entity))
+	{
+		uiTransform->canvas = INVALID_ENTITY;
+
+		Entity parent = entity;
+
+		while (parent != INVALID_ENTITY)
+		{
+			// if parent has canvas, set value
+			if (CanvasComponent* canvas = try_get_component<CanvasComponent>(parent))
+			{
+				uiTransform->canvas = parent;
+				break;
+			}
+
+			// move to next parent
+			RelationshipComponent const* parentRelationship = try_get_component<RelationshipComponent const>(parent);
+			if (!parentRelationship)
+			{
+				break;
+			}
+			parent = parentRelationship->parent;
+		}
+	}
 }
 
 Entity Minty::EntityManager::get_parent(Entity const entity) const
