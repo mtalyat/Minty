@@ -32,7 +32,7 @@ namespace Minty
 		/// <summary>
 		/// The title of the Window.
 		/// </summary>
-		String title = "Minty Window";
+		String title = MINTY_NAME;
 
 		/// <summary>
 		/// Called when an Event is triggered.
@@ -58,21 +58,13 @@ namespace Minty
 
 #pragma endregion
 
-
 #pragma region Constructors
 
 	public:
 		/// <summary>
 		/// Creates a new Window.
 		/// </summary>
-		Window(WindowBuilder const& builder)
-			: m_id(builder.id)
-			, m_position(builder.position)
-			, m_size(builder.size)
-			, m_title(builder.title)
-			, m_eventCallback(builder.eventCallback)
-		{
-		}
+		Window(WindowBuilder const& builder);
 
 		virtual ~Window()
 		{
@@ -212,6 +204,5 @@ namespace Minty
 		static Owner<Window> create(WindowBuilder const& builder = {});
 
 #pragma endregion
-
 	};
 }
