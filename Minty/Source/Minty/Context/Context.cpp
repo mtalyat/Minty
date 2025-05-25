@@ -90,6 +90,7 @@ void Minty::Context::register_components()
 	register_component<MeshComponent>("Mesh");
 	register_component<NameComponent>("Name");
 	register_component<RelationshipComponent>("Relationship");
+	register_component<SpriteComponent>("Sprite");
 	register_component<TransformComponent>("Transform");
 	register_component<UUIDComponent>("UUID");
 	register_component<VisibleComponent>("Visible");

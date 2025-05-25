@@ -8,6 +8,7 @@
 #include "MeshComponent.h"
 #include "NameComponent.h"
 #include "RelationshipComponent.h"
+#include "SpriteComponent.h"
 #include "TransformComponent.h"
 #include "UUIDComponent.h"
 #include "VisibleComponent.h"
