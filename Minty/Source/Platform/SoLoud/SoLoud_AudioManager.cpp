@@ -35,43 +35,51 @@ Bool Minty::SoLoud_AudioManager::is_valid(Handle const handle) const
 
 void Minty::SoLoud_AudioManager::set_audio_listener(AudioListener const& listener)
 {
+	Float3 const& position = listener.get_position();
+	Float3 const& forward = listener.get_forward();
+	Float3 const& up = listener.get_up();
+	Float3 const& velocity = listener.get_velocity();
+
 	m_engine->set3dListenerParameters(
-		listener.position.x,
-		listener.position.y,
-		listener.position.z,
-		listener.forward.x,
-		listener.forward.y,
-		listener.forward.z,
-		listener.up.x,
-		listener.up.y,
-		listener.up.z,
-		listener.velocity.x,
-		listener.velocity.y,
-		listener.velocity.z
+		position.x,
+		position.y,
+		position.z,
+		forward.x,
+		forward.y,
+		forward.z,
+		up.x,
+		up.y,
+		up.z,
+		velocity.x,
+		velocity.y,
+		velocity.z
 	);
 	m_dirty = true;
 }
 
 void Minty::SoLoud_AudioManager::set_audio_source(Handle const handle, AudioSource const& source)
 {
+	Float3 const& position = source.get_position();
+	Float3 const& velocity = source.get_velocity();
+
 	m_engine->set3dSourceParameters(
 		handle,
-		source.position.x,
-		source.position.y,
-		source.position.z,
-		source.velocity.x,
-		source.velocity.y,
-		source.velocity.z
+		position.x,
+		position.y,
+		position.z,
+		velocity.x,
+		velocity.y,
+		velocity.z
 	);
 	m_engine->set3dSourceAttenuation(
 		handle,
-		static_cast<unsigned int>(source.attenuation),
-		source.attenuationRolloff
+		static_cast<unsigned int>(source.get_attenuation()),
+		source.get_attenuation_rolloff()
 	);
 	m_engine->set3dSourceMinMaxDistance(
 		handle,
-		source.minDistance,
-		source.maxDistance
+		source.get_min_distance(),
+		source.get_max_distance()
 	);
 	m_dirty = true;
 }
@@ -105,28 +113,30 @@ Handle Minty::SoLoud_AudioManager::play(Ref<AudioClip> const& clip, Float const 
 
 Handle Minty::SoLoud_AudioManager::play_object(Ref<AudioClip> const& clip, AudioSource const& source, Float const volume, Bool const paused, UInt const bus)
 {
+	Float3 const& position = source.get_position();
+	Float3 const& velocity = source.get_velocity();
 	SoLoud::Wav* wav = static_cast<SoLoud::Wav*>(clip->get_native());
 	Handle handle = m_engine->play3d(
 		*wav,
-		source.position.x,
-		source.position.y,
-		source.position.z,
-		source.velocity.x,
-		source.velocity.y,
-		source.velocity.z,
+		position.x,
+		position.y,
+		position.z,
+		velocity.x,
+		velocity.y,
+		velocity.z,
 		volume,
 		paused,
 		bus
 	);
 	m_engine->set3dSourceAttenuation(
 		handle,
-		static_cast<unsigned int>(source.attenuation),
-		source.attenuationRolloff
+		static_cast<unsigned int>(source.get_attenuation()),
+		source.get_attenuation_rolloff()
 	);
 	m_engine->set3dSourceMinMaxDistance(
 		handle,
-		source.minDistance,
-		source.maxDistance
+		source.get_min_distance(),
+		source.get_max_distance()
 	);
 	m_dirty = true;
 	return handle;

@@ -15686,9 +15686,9 @@ ma_format ma_format_from_pulse(ma_pa_sample_format_t format)
     }
 }
 
-ma_channel ma_channel_position_from_pulse(ma_pa_channel_position_t position)
+ma_channel ma_channel_position_from_pulse(ma_pa_channel_position_t m_position)
 {
-    switch (position)
+    switch (m_position)
     {
         case MA_PA_CHANNEL_POSITION_INVALID:               return MA_CHANNEL_NONE;
         case MA_PA_CHANNEL_POSITION_MONO:                  return MA_CHANNEL_MONO;
@@ -15747,9 +15747,9 @@ ma_channel ma_channel_position_from_pulse(ma_pa_channel_position_t position)
 }
 
 #if 0
-ma_pa_channel_position_t ma_channel_position_to_pulse(ma_channel position)
+ma_pa_channel_position_t ma_channel_position_to_pulse(ma_channel m_position)
 {
-    switch (position)
+    switch (m_position)
     {
         case MA_CHANNEL_NONE:               return MA_PA_CHANNEL_POSITION_INVALID;
         case MA_CHANNEL_FRONT_LEFT:         return MA_PA_CHANNEL_POSITION_FRONT_LEFT;
@@ -15784,7 +15784,7 @@ ma_pa_channel_position_t ma_channel_position_to_pulse(ma_channel position)
         case MA_CHANNEL_30:                 return MA_PA_CHANNEL_POSITION_AUX29;
         case MA_CHANNEL_31:                 return MA_PA_CHANNEL_POSITION_AUX30;
         case MA_CHANNEL_32:                 return MA_PA_CHANNEL_POSITION_AUX31;
-        default: return (ma_pa_channel_position_t)position;
+        default: return (ma_pa_channel_position_t)m_position;
     }
 }
 #endif
