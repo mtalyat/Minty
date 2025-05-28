@@ -23,6 +23,8 @@ namespace Minty
 	class Animator;
 	class AudioClip;
 	class Camera;
+	class Font;
+	class FontVariant;
 	class Image;
 	class Material;
 	class MaterialTemplate;
@@ -272,6 +274,39 @@ namespace Minty
 		Ref<AudioClip> load<AudioClip>(Path const& path)
 		{
 			return load_audio_clip(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Camera at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Camera Asset.</param>
+		/// <returns>A reference to the loaded Camera Asset.</returns>
+		template<>
+		Ref<Camera> load<Camera>(Path const& path)
+		{
+			return load_camera(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a Font at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Font Asset.</param>
+		/// <returns>A reference to the loaded Font Asset.</returns>
+		template<>
+		Ref<Font> load<Font>(Path const& path)
+		{
+			return load_font(path);
+		}
+
+		/// <summary>
+		/// Loads the Asset specifically as a FontVariant at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the FontVariant Asset.</param>
+		/// <returns>A reference to the loaded FontVariant Asset.</returns>
+		template<>
+		Ref<FontVariant> load<FontVariant>(Path const& path)
+		{
+			return load_font_variant(path);
 		}
 
 		/// <summary>
@@ -653,6 +688,10 @@ namespace Minty
 		Ref<AudioClip> load_audio_clip(Path const& path);
 
 		Ref<Camera> load_camera(Path const& path);
+
+		Ref<Font> load_font(Path const& path);
+
+		Ref<FontVariant> load_font_variant(Path const& path);
 
 		Ref<Image> load_image(Path const& path);
 

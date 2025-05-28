@@ -17,6 +17,7 @@ namespace Minty
 
 	constexpr Size DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
 	constexpr Size DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
+	constexpr Size DEFAULT_ASSET_TEXT_SHADER = 0xdef000000000000c;
 	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
 	constexpr Size DEFAULT_ASSET_UI_MATERIAL_TEMPLATE = 0xdef0000000000011;
 	constexpr Size DEFAULT_ASSET_TEXTURE = 0xdef0000000000000;
@@ -156,6 +157,13 @@ namespace Minty
 	constexpr TimeElapsed ONE_SECOND = ONE_MILLISECOND * 1000ll;
 	constexpr TimeElapsed ONE_MINUTE = ONE_SECOND * 60ll;
 	constexpr TimeElapsed ONE_HOUR = ONE_MINUTE * 60ll;
+
+#pragma endregion
+
+#pragma region Text
+
+	constexpr Char const* TEXT_EMPTY = "";
+	constexpr Char const* TEXT_WHITESPACE = " \n\r\t\v\b\f";
 
 #pragma endregion
 

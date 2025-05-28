@@ -5,6 +5,7 @@ Inputs
         Structure
             position: Float4
             color: Float4
+            depth: Float
     canvas
         Type: UniformBuffer
         Stage: Vertex
@@ -27,6 +28,7 @@ PolygonMode: Fill
 CullMode: None
 FrontFace: Clockwise
 LineWidth: 1
+Transparency: True
 RenderPass: def000000000001c
 Bindings
     0: Vertex

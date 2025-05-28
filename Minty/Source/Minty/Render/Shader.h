@@ -83,6 +83,11 @@ namespace Minty
 		Float lineWidth = 1.0f;
 
 		/// <summary>
+		/// Support for transparency in the Shader.
+		/// </summary>
+		Bool transparency = false;
+
+		/// <summary>
 		/// The vertex input of the Shader.
 		/// </summary>
 		ShaderVertexInput vertexInput;

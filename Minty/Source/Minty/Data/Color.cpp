@@ -12,6 +12,16 @@ String Minty::to_string(Color const obj)
 
 Color Minty::parse_to_color(String const& string)
 {
+	// check for common names
+    if (string == "Black") return Color::black();
+    else if (string == "Red") return Color::red();
+    else if (string == "Green") return Color::green();
+    else if (string == "Blue") return Color::blue();
+    else if (string == "White") return Color::white();
+    else if (string == "Yellow") return Color::yellow();
+    else if (string == "Cyan") return Color::cyan();
+    else if (string == "Magenta") return Color::magenta();
+
 	if (string.starts_with("#"))
 	{
 		// remove #

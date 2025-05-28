@@ -1,15 +1,18 @@
 #include "pch.h"
 #include "RenderSystem.h"
+#include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/CameraComponent.h"
 #include "Minty/Component/CanvasComponent.h"
 #include "Minty/Component/EnabledComponent.h"
 #include "Minty/Component/MeshComponent.h"
 #include "Minty/Component/SpriteComponent.h"
+#include "Minty/Component/TextComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Component/UITransformComponent.h"
 #include "Minty/Component/VisibleComponent.h"
 #include "Minty/Data/BatchFactory.h"
 #include "Minty/Data/BufferContainer.h"
+#include "Minty/Data/StaticContainer.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
@@ -28,6 +31,9 @@ Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
 	, m_bufferContainerFactory(BufferUsage::Vertex)
 	, m_3dSpriteGroupId(m_bufferContainerFactory.create_group())
 	, m_uiSpriteGroupId(m_bufferContainerFactory.create_group())
+	, m_canvasEntity(INVALID_ENTITY)
+	, m_canvasShader(nullptr)
+	, m_canvas()
 {
 }
 
@@ -49,7 +55,7 @@ void Minty::RenderSystem::render_3d(CameraInfo const& cameraInfo, RenderManager&
 void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
 	// render enabled, visible meshes
-	for (auto const& [entity, meshComp, enabledComp, visibleComp] : entityManager.view<MeshComponent const, EnabledComponent const, VisibleComponent const>().each())
+	for (auto const& [entity, meshComp, transformComp, enabledComp, visibleComp] : entityManager.view<MeshComponent const, TransformComponent const, EnabledComponent const, VisibleComponent const>().each())
 	{
 		// ignore if empty
 		if (meshComp.type == MeshType::Empty)
@@ -80,16 +86,7 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 		renderManager.bind_material(material);
 
 		// set the transform of the object
-		Matrix4 transformation;
-		TransformComponent const* transformComponent = entityManager.try_get_component<TransformComponent>(entity);
-		if (transformComponent)
-		{
-			transformation = transformComponent->transform.get_global_matrix();
-		}
-		else
-		{
-			transformation = Math::identity<Matrix4>();
-		}
+		Matrix4 transformation = transformComp.transform.get_global_matrix();
 		material->set_input("object", &transformation, sizeof(Matrix4));
 
 		// bind the mesh
@@ -200,6 +197,36 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	}
 }
 
+void Minty::RenderSystem::update_canvas(Entity const entity, Ref<Shader> const& shader, EntityManager& entityManager)
+{
+	// skip if enitity matches the canvas entity
+	if (entity == m_canvasEntity)
+	{
+		return;
+	}
+
+	// get canvas
+	CanvasComponent* canvasComp = entityManager.try_get_component<CanvasComponent>(entity);
+	MINTY_ASSERT(canvasComp != nullptr, "Failed to get Canvas component for UITransform.");
+	Canvas const& canvas = canvasComp->canvas;
+
+	// if same shader and same size, do nothing
+	if (shader == m_canvasShader &&
+		canvas.get_resolution() == m_canvas.get_resolution())
+	{
+		return;
+	}
+
+	// update Canvas global constant
+	DynamicContainer canvasContainer(sizeof(Int) * 2);
+	Int2 resolution = canvasComp->canvas.get_resolution();
+	canvasContainer.append(&resolution.x, sizeof(Int));
+	canvasContainer.append(&resolution.y, sizeof(Int));
+
+	// update shader
+	shader->set_global_input("canvas", canvasContainer.get_data(), canvasContainer.get_size());
+}
+
 void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
 	// sort the UITransform components by depth
@@ -208,7 +235,59 @@ void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager&
 			return a.transform.get_depth() < b.transform.get_depth();
 		});
 
+	// reset canvas
+	m_canvas.set_resolution(UInt2());
+
+	// render UI
 	render_ui_sprites(cameraInfo, renderManager, entityManager);
+	render_ui_meshes(cameraInfo, renderManager, entityManager);
+}
+
+void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+{
+	BatchFactory<2, Ref<Material>, Entity> batchFactory(256);
+	StaticContainer pushData(sizeof(Float) * 9);
+	for (auto&& [entity, enabledComp, visibleComp, uiTransformComp, textComp, meshComp] : entityManager.view<EnabledComponent const, VisibleComponent const, UITransformComponent const, TextComponent const, MeshComponent const>().each())
+	{
+		// skip if no mesh
+		if (meshComp.mesh == nullptr || meshComp.material == nullptr)
+		{
+			continue;
+		}
+
+		// skip if not in correct layer
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
+		{
+			continue;
+		}
+
+		Ref<Mesh> const& mesh = meshComp.mesh;
+		Ref<Material> const& material = meshComp.material;
+		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		MINTY_ASSERT(materialTemplate != nullptr, "Failed to get MaterialTemplate for UI Mesh.");
+		Ref<Shader> const& shader = materialTemplate->get_shader();
+		MINTY_ASSERT(shader != nullptr, "Failed to get Shader for UI Mesh.");
+
+		// update canvas info
+		update_canvas(uiTransformComp.canvas, shader, entityManager);
+
+		// update push constant info
+		pushData.clear();
+		pushData.append_object(uiTransformComp.transform.get_global_rect().rect);
+		pushData.append_object(textComp.color.to_float4());
+		pushData.append_object(uiTransformComp.transform.get_depth());
+		material->set_input("push", pushData.get_data(), pushData.get_size());
+
+		// bind shader and material
+		renderManager.bind_shader(shader);
+		renderManager.bind_material(material);
+
+		// bind mesh
+		renderManager.bind_mesh(mesh);
+
+		// draw the mesh
+		renderManager.draw_mesh(mesh);
+	}
 }
 
 void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
@@ -243,45 +322,17 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		auto& batch = batchFactory.get_or_create_batch({ material, uiTransformComp.canvas });
 		DynamicContainer& batchContainer = batch.get_data_container();
 
-		// set canvas data in the new shader
-		if (batch.empty())
-		{
-			// get material template
-			Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
-			MINTY_ASSERT(materialTemplate != nullptr, "Failed to get MaterialTemplate for UI Sprite.");
-
-			// get the shader
-			Ref<Shader> const& shader = materialTemplate->get_shader();
-			MINTY_ASSERT(shader != nullptr, "Failed to get Shader for UI Sprite.");
-
-			// update Canvas global constant
-			CanvasComponent* canvas = entityManager.try_get_component<CanvasComponent>(uiTransformComp.canvas);
-			MINTY_ASSERT(canvas != nullptr, "Failed to get Canvas component for UI Sprite.");
-			DynamicContainer canvasContainer(sizeof(Int) * 2);
-			if (canvas)
-			{
-				Int2 resolution = canvas->canvas.get_resolution();
-				canvasContainer.append(&resolution.x, sizeof(Int));
-				canvasContainer.append(&resolution.y, sizeof(Int));
-			}
-			else
-			{
-				Int empty = 0;
-				canvasContainer.append(&empty, sizeof(Int));
-				canvasContainer.append(&empty, sizeof(Int));
-			}
-			shader->set_global_input("canvas", canvasContainer.get_data(), canvasContainer.get_size());
-		}
-
 		// get instance data
 		Float4 instRect = uiTransformComp.transform.get_global_rect().rect;
 		Float4 instSprite = sprite->get_rect().rect;
 		Float4 instColor = spriteComp.color.to_float4();
+		Float instDepth = uiTransformComp.transform.get_depth();
 
 		// add data to batch
-		batchContainer.append(&instRect, sizeof(Float4));
-		batchContainer.append(&instSprite, sizeof(Float4));
-		batchContainer.append(&instColor, sizeof(Float4));
+		batchContainer.append_object(instRect);
+		batchContainer.append_object(instSprite);
+		batchContainer.append_object(instColor);
+		batchContainer.append_object(instDepth);
 
 		batch.increment();
 	}
@@ -290,12 +341,18 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 	Size index = 0;
 	for (auto const& batch : batchFactory)
 	{
-		// bind batch
+		// get assets
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
 		MINTY_ASSERT(materialTemplate != nullptr, "Failed to get material template for UI Sprite.");
 		Ref<Shader> const& shader = materialTemplate->get_shader();
 		MINTY_ASSERT(shader != nullptr, "Failed to get shader for UI Sprite.");
+
+		// update canvas info
+		Entity const canvasEntity = batch.get_object<Entity>(1);
+		update_canvas(canvasEntity, shader, entityManager);
+
+		// bind assets
 		renderManager.bind_shader(shader);
 		renderManager.bind_material(material);
 
