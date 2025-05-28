@@ -28,7 +28,7 @@ Minty::Camera::Camera(CameraBuilder const& builder)
 void Minty::Camera::serialize(Writer& writer) const
 {
 	writer.write("Perspective", m_perspective);
-	writer.write("Fov", m_fov * Math::RAD2DEG); // stored as radians, write as degrees
+	writer.write("FOV", m_fov * Math::RAD2DEG); // stored as radians, write as degrees
 	writer.write("Near", m_nearPlane);
 	writer.write("Far", m_farPlane);
 	writer.write("Color", m_color);
@@ -41,7 +41,7 @@ Bool Minty::Camera::deserialize(Reader& reader)
 {
 	reader.read("Perspective", m_perspective);
 	// read as degrees, store as radians
-	if (reader.read("Fov", m_fov))
+	if (reader.read("FOV", m_fov))
 	{
 		m_fov *= Math::DEG2RAD;
 	}

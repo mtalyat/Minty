@@ -9,13 +9,13 @@ using namespace Minty;
 
 void Minty::AnimatorComponent::serialize(Writer& writer) const
 {
-	writer.write("animator", animator->get_id());
+	writer.write("Animator", animator->get_id());
 }
 
 Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 {
 	UUID id;
-	if (reader.read("animator", id))
+	if (reader.read("Animator", id))
 	{
 		AssetManager& assetManager = AssetManager::get_singleton();
 

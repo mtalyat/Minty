@@ -7,18 +7,18 @@ using namespace Minty;
 
 void Minty::AudioListener::serialize(Writer& writer) const
 {
-	writer.write("position", position);
-	writer.write("forward", forward);
-	writer.write("up", up);
-	writer.write("velocity", velocity);
+	writer.write("Position", position);
+	writer.write("Forward", forward);
+	writer.write("Up", up);
+	writer.write("Velocity", velocity);
 }
 
 Bool Minty::AudioListener::deserialize(Reader& reader)
 {
-	reader.read("position", position);
-	reader.read("forward", forward);
-	reader.read("up", up);
-	reader.read("velocity", velocity);
+	reader.read("Position", position);
+	reader.read("Forward", forward);
+	reader.read("Up", up);
+	reader.read("Velocity", velocity);
 
 	return true;
 }

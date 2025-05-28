@@ -23,7 +23,7 @@ void Minty::RelationshipComponent::serialize(Writer& writer) const
 	UUID parentId = entityData->entityManager->get_id(parent);
 	
 	// write that id
-	writer.write("parent", parentId);
+	writer.write("Parent", parentId);
 }
 
 Bool Minty::RelationshipComponent::deserialize(Reader& reader)
@@ -35,7 +35,7 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 
 	// read the parent id
 	UUID parentId = INVALID_ID;
-	if (reader.read("parent", parentId))
+	if (reader.read("Parent", parentId))
 	{
 		// get the parent entity
 		Entity parent = entityData->entityManager->get_entity(parentId);

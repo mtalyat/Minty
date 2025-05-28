@@ -7,11 +7,11 @@ using namespace Minty;
 
 void Minty::NameComponent::serialize(Writer& writer) const
 {
-	writer.write("name", name);
+	writer.write("Name", name);
 }
 
 Bool Minty::NameComponent::deserialize(Reader& reader)
 {
-	reader.read("name", name);
+	reader.read("Name", name);
 	return true;
 }

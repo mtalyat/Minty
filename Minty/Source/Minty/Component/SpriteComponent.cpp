@@ -7,14 +7,14 @@ using namespace Minty;
 
 void Minty::SpriteComponent::serialize(Writer& writer) const
 {
-	writer.write("sprite", sprite);
-	writer.write("color", color);
+	writer.write("Sprite", sprite);
+	writer.write("Color", color);
 }
 
 Bool Minty::SpriteComponent::deserialize(Reader& reader)
 {
-	reader.read("sprite", sprite);
-	reader.read("color", color);
+	reader.read("Sprite", sprite);
+	reader.read("Color", color);
 
 	return true;
 }
