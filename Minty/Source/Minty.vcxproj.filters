@@ -133,6 +133,9 @@
     <Filter Include="Minty\UI">
       <UniqueIdentifier>{b22bed7d-65fd-43de-ad92-e39a3edbb641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\Font">
+      <UniqueIdentifier>{7bcc0278-9db6-48a1-8094-4055c2a27f63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -600,9 +603,6 @@
     <ClInclude Include="Minty\Component\LayerComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Component\DirtyComponent.h">
-      <Filter>Minty\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Entity\EntityView.h">
       <Filter>Minty\Entity</Filter>
     </ClInclude>
@@ -844,6 +844,24 @@
       <Filter>Minty\Component</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Component\AudioSourceComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\Font.h">
+      <Filter>Minty\Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\FontFlags.h">
+      <Filter>Minty\Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\FontVariant.h">
+      <Filter>Minty\Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\FontChar.h">
+      <Filter>Minty\Render\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\TextComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\DirtyComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1356,6 +1374,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Audio\AudioListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\FontFlags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\FontVariant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\TextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -56,6 +56,9 @@ namespace Minty
 		// draws the sprites in screen space
 		void render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
+		// draws the text in screen space
+		void render_ui_text(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+
 	public:
 		void on_render() override;
 

@@ -124,7 +124,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -137,8 +137,8 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\Libraries\mono\include;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\imgui\include;..\..\Libraries\imguifiledialog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -166,8 +166,8 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\mono\lib\$(Configuration);..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -204,6 +204,7 @@
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
     <ClInclude Include="Minty\Component\SpriteComponent.h" />
+    <ClInclude Include="Minty\Component\TextComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
     <ClInclude Include="Minty\Component\UITransformComponent.h" />
     <ClInclude Include="Minty\Component\UUIDComponent.h" />
@@ -315,6 +316,10 @@
     <ClInclude Include="Minty\Render\CameraInfo.h" />
     <ClInclude Include="Minty\Render\CoordinateMode.h" />
     <ClInclude Include="Minty\Render\Filter.h" />
+    <ClInclude Include="Minty\Render\Font.h" />
+    <ClInclude Include="Minty\Render\FontChar.h" />
+    <ClInclude Include="Minty\Render\FontFlags.h" />
+    <ClInclude Include="Minty\Render\FontVariant.h" />
     <ClInclude Include="Minty\Render\Format.h" />
     <ClInclude Include="Minty\Render\Image.h" />
     <ClInclude Include="Minty\Render\AddressMode.h" />
@@ -456,6 +461,7 @@
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
     <ClCompile Include="Minty\Component\SpriteComponent.cpp" />
+    <ClCompile Include="Minty\Component\TextComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UITransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
@@ -512,6 +518,9 @@
     <ClCompile Include="Minty\Render\CameraInfo.cpp" />
     <ClCompile Include="Minty\Render\CoordinateMode.cpp" />
     <ClCompile Include="Minty\Render\Filter.cpp" />
+    <ClCompile Include="Minty\Render\Font.cpp" />
+    <ClCompile Include="Minty\Render\FontFlags.cpp" />
+    <ClCompile Include="Minty\Render\FontVariant.cpp" />
     <ClCompile Include="Minty\Render\Format.cpp" />
     <ClCompile Include="Minty\Render\Image.cpp" />
     <ClCompile Include="Minty\Render\ImageAddressMode.cpp" />

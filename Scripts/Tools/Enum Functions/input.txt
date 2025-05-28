@@ -1,20 +1,17 @@
-	/// <summary>
-	/// Determines what additional actions are taken during an animation step.
-	/// </summary>
-	enum class AnimationActionType
+	enum class FontFlags
 	{
 		/// <summary>
-		/// No additional action taken.
+		/// The font is regular, with no special styling.
 		/// </summary>
 		None = 0,
 
 		/// <summary>
-		/// Add the associated component to the entity.
+		/// The font is bold.
 		/// </summary>
-		Add = 1,
+		Bold = 1,
 
 		/// <summary>
-		/// Remove the associated component from the entity.
+		/// The font is italic.
 		/// </summary>
-		Remove = 2,
+		Italic = 1
 	};

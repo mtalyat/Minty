@@ -104,6 +104,18 @@ namespace Minty
 		virtual Bool append(void const* const data, Size const size) override;
 
 		/// <summary>
+		/// Adds the given object to the end of the data within this Container. Reserves more space if needed.
+		/// </summary>
+		/// <typeparam name="T">The type of the object.</typeparam>
+		/// <param name="object">The object.</param>
+		/// <returns>True if appended successfully.</returns>
+		template<typename T>
+		Bool append_object(T const& object)
+		{
+			return append(&object, sizeof(T));
+		}
+
+		/// <summary>
 		/// Sets the new capacity for this Container.
 		/// </summary>
 		/// <param name="capacity">The new capacity to set, in bytes.</param>

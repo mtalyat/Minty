@@ -5,13 +5,13 @@
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
-    String to_string(AnimationActionType const obj);
-    AnimationActionType parse_to_animation_action_type(String const& string);
-    Bool parse_try_animation_action_type(String const& string, AnimationActionType& value);
+    String to_string(FontFlags const obj);
+    FontFlags parse_to_font_flags(String const& string);
+    Bool parse_try_font_flags(String const& string, FontFlags& value);
     template<>
-    inline AnimationActionType parse_to<AnimationActionType>(String const& string) { return parse_to_animation_action_type(string); }
+    inline FontFlags parse_to<FontFlags>(String const& string) { return parse_to_font_flags(string); }
     template<>
-    inline Bool parse_try<AnimationActionType>(String const& string, AnimationActionType& value) { return parse_try_animation_action_type(string, value); }
+    inline Bool parse_try<FontFlags>(String const& string, FontFlags& value) { return parse_try_font_flags(string, value); }
 
 ====================
 	Source:
@@ -19,30 +19,26 @@
 
 using namespace Minty;
 
-String Minty::to_string(AnimationActionType const obj)
+String Minty::to_string(FontFlags const obj)
 {
     switch (obj)
 	{
-		case AnimationActionType::None: return "None";
-		case AnimationActionType::Add: return "Add";
-		case AnimationActionType::Remove: return "Remove";
+		case FontFlags::None: return "None";
 
 		default: return "";
 	}
 }
 
-AnimationActionType Minty::parse_to_animation_action_type(String const& string)
+FontFlags Minty::parse_to_font_flags(String const& string)
 {
-	if (string == "None") return AnimationActionType::None;
-	if (string == "Add") return AnimationActionType::Add;
-	if (string == "Remove") return AnimationActionType::Remove;
+	if (string == "None") return FontFlags::None;
 
-	return AnimationActionType();
+	return FontFlags();
 }
 
-Bool Minty::parse_try_animation_action_type(String const& string, AnimationActionType& value)
+Bool Minty::parse_try_font_flags(String const& string, FontFlags& value)
 {
-	value = parse_to_animation_action_type(string);
+	value = parse_to_font_flags(string);
 	return true;
 }
 
@@ -54,23 +50,21 @@ Bool Minty::parse_try_animation_action_type(String const& string, AnimationActio
 
 #include "Test.h"
 
-void test_AnimationActionType(Test& _test);
+void test_FontFlags(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_AnimationActionType.h"
+#include "Test_FontFlags.h"
 #include "Minty.h"
 
-void test_AnimationActionType(Test& _test)
+void test_FontFlags(Test& _test)
 {
-	CATEGORY(AnimationActionType)
+	CATEGORY(FontFlags)
 	{
-        std::vector<std::pair<AnimationActionType, String>> VALUES = {
-			{AnimationActionType::None, "None"},
-			{AnimationActionType::Add, "Add"},
-			{AnimationActionType::Remove, "Remove"},
+        std::vector<std::pair<FontFlags, String>> VALUES = {
+			{FontFlags::None, "None"},
         };
     
         TEST("To String")
@@ -85,23 +79,23 @@ void test_AnimationActionType(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_animation_action_type(name), value);
+                EXPECT_EQUAL(parse_to_font_flags(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_animation_action_type(""), AnimationActionType());
+            EXPECT_EQUAL(parse_to_font_flags(""), FontFlags());
         }
 
         TEST("Parse Try")
         {
-            AnimationActionType result;
+            FontFlags result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_animation_action_type(name, result));
+                EXPECT_TRUE(parse_try_font_flags(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_animation_action_type("", result));
-            EXPECT_EQUAL(result, AnimationActionType());
+            EXPECT_FALSE(parse_try_font_flags("", result));
+            EXPECT_EQUAL(result, FontFlags());
         }
 	}
 }

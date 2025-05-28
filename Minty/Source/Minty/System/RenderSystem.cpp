@@ -209,6 +209,7 @@ void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager&
 		});
 
 	render_ui_sprites(cameraInfo, renderManager, entityManager);
+	render_ui_text(cameraInfo, renderManager, entityManager);
 }
 
 void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
@@ -309,6 +310,11 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 
 		index++;
 	}
+}
+
+void Minty::RenderSystem::render_ui_text(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+{
+
 }
 
 void Minty::RenderSystem::on_render()

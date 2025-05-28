@@ -257,6 +257,17 @@ namespace Minty
 		void clear();
 
 		/// <summary>
+		/// Destroys all Components of the given type.
+		/// If any Entity has this Component, it will be removed.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of Component.</typeparam>
+		template<typename ComponentType>
+		void clear()
+		{
+			m_registry.clear<ComponentType>();
+		}
+
+		/// <summary>
 		/// Adds or replaces the component on the given Entity.
 		/// </summary>
 		/// <typeparam name="ComponentType">The type of Component.</typeparam>
