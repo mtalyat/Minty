@@ -12,5 +12,8 @@ namespace Minty
 		: public Component
 	{
 		Layer layer = LAYER_DEFAULT;
+
+		void serialize(Writer& writer) const override;
+		Bool deserialize(Reader& reader) override;
 	};
 }

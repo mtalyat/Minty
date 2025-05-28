@@ -458,6 +458,7 @@
     <ClCompile Include="Minty\Component\AudioSourceComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
+    <ClCompile Include="Minty\Component\LayerComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
@@ -465,7 +466,6 @@
     <ClCompile Include="Minty\Component\TextComponent.cpp" />
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UITransformComponent.cpp" />
-    <ClCompile Include="Minty\Component\UUIDComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
     <ClCompile Include="Minty\Context\Manager.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />

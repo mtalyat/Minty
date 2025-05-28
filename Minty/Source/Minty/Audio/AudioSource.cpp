@@ -7,22 +7,22 @@ using namespace Minty;
 
 void Minty::AudioSource::serialize(Writer& writer) const
 {
-	writer.write("position", m_position);
-	writer.write("velocity", m_velocity);
-	writer.write("attenuation", m_attenuation);
-	writer.write("attenuationRolloff", m_attenuationRolloff);
-	writer.write("minDistance", m_minDistance);
-	writer.write("maxDistance", m_maxDistance);
+	writer.write("Position", m_position);
+	writer.write("Velocity", m_velocity);
+	writer.write("Attenuation", m_attenuation);
+	writer.write("AttenuationRolloff", m_attenuationRolloff);
+	writer.write("Min", m_minDistance);
+	writer.write("Max", m_maxDistance);
 }
 
 Bool Minty::AudioSource::deserialize(Reader& reader)
 {
-	reader.read("position", m_position);
-	reader.read("velocity", m_velocity);
-	reader.read("attenuation", m_attenuation);
-	reader.read("attenuationRolloff", m_attenuationRolloff);
-	reader.read("minDistance", m_minDistance);
-	reader.read("maxDistance", m_maxDistance);
+	reader.read("Position", m_position);
+	reader.read("Velocity", m_velocity);
+	reader.read("Attenuation", m_attenuation);
+	reader.read("AttenuationRolloff", m_attenuationRolloff);
+	reader.read("Min", m_minDistance);
+	reader.read("Max", m_maxDistance);
 
 	return true;
 }

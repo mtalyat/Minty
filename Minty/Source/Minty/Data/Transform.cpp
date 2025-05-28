@@ -12,20 +12,20 @@ Matrix4 Minty::Transform::get_local_matrix() const
 
 void Minty::Transform::serialize(Writer& writer) const
 {
-	writer.write("m_position", m_localPosition);
-	writer.write("rotation", Math::to_euler(m_localRotation));
-	writer.write("scale", m_localScale);
+	writer.write("Position", m_localPosition);
+	writer.write("Rotation", Math::to_euler(m_localRotation));
+	writer.write("Scale", m_localScale);
 }
 
 Bool Minty::Transform::deserialize(Reader& reader)
 {
-	reader.read("m_position", m_localPosition);
+	reader.read("Position", m_localPosition);
 	Float3 eulerAngles;
-	if (reader.read("rotation", eulerAngles))
+	if (reader.read("Rotation", eulerAngles))
 	{
 		m_localRotation = Math::to_cartesian(eulerAngles);
 	}
-	reader.read("scale", m_localScale);
+	reader.read("Scale", m_localScale);
 
 	return true;
 }

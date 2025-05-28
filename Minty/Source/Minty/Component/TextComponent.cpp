@@ -9,11 +9,11 @@ using namespace Minty;
 
 void Minty::TextComponent::serialize(Writer& writer) const
 {
-	writer.write("text", text);
-	writer.write("color", color);
-	writer.write("font", font);
-	writer.write("size", fontVariant == nullptr ?  0 : fontVariant->get_size());
-	writer.write("flags", fontVariant == nullptr ? FontFlags::None : fontVariant->get_flags());
+	writer.write("Text", text);
+	writer.write("Color", color);
+	writer.write("Font", font);
+	writer.write("Size", fontVariant == nullptr ?  0 : fontVariant->get_size());
+	writer.write("Flags", fontVariant == nullptr ? FontFlags::None : fontVariant->get_flags());
 }
 
 Bool Minty::TextComponent::deserialize(Reader& reader)
@@ -29,15 +29,15 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 	entityManager.mark_entity<DirtyTextComponent>(data->entity);
 
 	// read text info
-	reader.read<String>("text", text, "");
-	reader.read("color", color, Color::white());
-	reader.read<Ref<Font>>("font", font, nullptr);
+	reader.read<String>("Text", text, "");
+	reader.read("Color", color, Color::white());
+	reader.read<Ref<Font>>("Font", font, nullptr);
 
 	// read variant info
 	UInt fontSize;
-	reader.read<UInt>("size", fontSize, 0);
+	reader.read<UInt>("Size", fontSize, 0);
 	FontFlags fontFlags;
-	reader.read<FontFlags>("flags", fontFlags, FontFlags::None);
+	reader.read<FontFlags>("Flags", fontFlags, FontFlags::None);
 
 	// get variant if able
 	if (font != nullptr)

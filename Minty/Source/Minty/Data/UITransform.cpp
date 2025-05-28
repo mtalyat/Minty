@@ -61,37 +61,37 @@ void Minty::UITransform::update_global_rect(Rect const& parentRect)
 
 void Minty::UITransform::serialize(Writer& writer) const
 {
-	writer.write("anchorMode", m_anchorMode);
-	writer.write("x", x);
-	writer.write("y", y);
-	writer.write("z", z);
-	writer.write("width", width);
-	writer.write("height", height);
+	writer.write("AnchorMode", m_anchorMode);
+	writer.write("X", x);
+	writer.write("Y", y);
+	writer.write("Z", z);
+	writer.write("Width", width);
+	writer.write("Height", height);
 }
 
 Bool Minty::UITransform::deserialize(Reader& reader)
 {
-	reader.read("anchorMode", m_anchorMode);
-	if (!reader.read("x", x))
+	reader.read("AnchorMode", m_anchorMode);
+	if (!reader.read("X", x))
 	{
-		reader.read("left", x);
+		reader.read("Left", x);
 	}
-	if (!reader.read("y", y))
+	if (!reader.read("Y", y))
 	{
-		reader.read("top", y);
+		reader.read("Top", y);
 	}
-	if (!reader.read("z", z))
+	if (!reader.read("Z", z))
 	{
-		reader.read("depth", z);
+		reader.read("Depth", z);
 	}
 	z = Math::clamp(z, 0.0f, 1.0f); // ensure depth is between 0 and 1
-	if (!reader.read("width", width))
+	if (!reader.read("Width", width))
 	{
-		reader.read("right", width);
+		reader.read("Right", width);
 	}
-	if (!reader.read("height", height))
+	if (!reader.read("Height", height))
 	{
-		reader.read("bottom", height);
+		reader.read("Bottom", height);
 	}
 	return true;
 }
