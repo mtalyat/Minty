@@ -5,12 +5,19 @@
 
 using namespace Minty;
 
-void Minty::Font::add(Ref<FontVariant> const& variant)
+Minty::Font::Font(FontBuilder const& builder)
+	: Asset(builder.id)
+	, m_name(builder.name)
+	, m_variants()
 {
-	MINTY_ASSERT(variant != nullptr, "Cannot add null FontVariant to Font.");
-	ID key = create_font_id(variant->get_size(), variant->get_flags());
-	MINTY_ASSERT(!m_variants.contains(key), F("FontVariant with size {} and flags {} already exists in Font \"{}\".", variant->get_size(), to_string(variant->get_flags()), m_name));
-	m_variants.add(key, variant);
+	// add variants
+	for (auto const& variant : builder.variants)
+	{
+		MINTY_ASSERT(variant != nullptr, F("FontVariant is null in Font \"{}\".", m_name));
+		ID key = create_font_id(variant->get_size(), variant->get_flags());
+		MINTY_ASSERT(!m_variants.contains(key), F("FontVariant with size {} and flags {} already exists in Font \"{}\".", variant->get_size(), to_string(variant->get_flags()), m_name));
+		m_variants.add(key, variant);
+	}
 }
 
 Ref<FontVariant> const& Minty::Font::at(UInt const size, FontFlags const flags) const

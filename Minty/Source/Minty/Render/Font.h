@@ -23,6 +23,11 @@ namespace Minty
 		/// The name of this Font.
 		/// </summary>
 		String name;
+
+		/// <summary>
+		/// The variants this Font will use.
+		/// </summary>
+		Vector<Ref<FontVariant>> variants;
 	};
 
 	/// <summary>
@@ -54,12 +59,7 @@ namespace Minty
 		/// Creates a Font with the given arguments.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
-		Font(FontBuilder const& builder)
-			: Asset(builder.id)
-			, m_name(builder.name)
-			, m_variants()
-		{
-		}
+		Font(FontBuilder const& builder);
 
 #pragma endregion
 
@@ -74,12 +74,6 @@ namespace Minty
 #pragma endregion
 
 #pragma region Methods
-
-		/// <summary>
-		/// Adds a variant to this Font.
-		/// </summary>
-		/// <param name="variant">The variant to add.</param>
-		void add(Ref<FontVariant> const& variant);
 
 		/// <summary>
 		/// Gets the variant for the given size and flags.
@@ -120,6 +114,11 @@ namespace Minty
 		}
 
 	public:
+		/// <summary>
+		/// Creates a Font with the given arguments.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A Font Owner.</returns>
 		static Owner<Font> create(FontBuilder const& builder);
 
 #pragma endregion

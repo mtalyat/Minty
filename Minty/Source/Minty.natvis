@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+  <!-- Minty::Vector -->
+  <Type Name="Minty::Vector&lt;*&gt;">
+    <DisplayString>size = {m_size}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>m_size</Size>
+        <ValuePointer>mp_data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <!-- Minty::Array -->
+  <Type Name="Minty::Array&lt;*,*&gt;">
+    <DisplayString>size = {S}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>S</Size>
+        <ValuePointer>m_data</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <!-- Minty::List -->
+  <Type Name="Minty::List&lt;*&gt;">
+    <DisplayString>size = {m_size}</DisplayString>
+    <Expand>
+      <LinkedListItems>
+        <Size>m_size</Size>
+        <HeadPointer>mp_head</HeadPointer>
+        <NextPointer>next</NextPointer>
+        <ValueNode>data</ValueNode>
+      </LinkedListItems>
+    </Expand>
+  </Type>
+
+  <!-- Minty::Set -->
+  <Type Name="Minty::Set&lt;*&gt;">
+    <DisplayString>size = {m_size}</DisplayString>
+    <Expand>
+      <!-- Shows the first bucket; for full view, see note below -->
+      <LinkedListItems>
+        <Size>m_size</Size>
+        <HeadPointer>mp_table[0]</HeadPointer>
+        <NextPointer>next</NextPointer>
+        <ValueNode>key</ValueNode>
+      </LinkedListItems>
+    </Expand>
+  </Type>
+
+  <!-- Minty::Map -->
+  <Type Name="Minty::Map&lt;*,*&gt;">
+    <DisplayString>size = {m_size}</DisplayString>
+    <Expand>
+      <!-- Shows the first bucket; for full view, see note below -->
+      <LinkedListItems>
+        <Size>m_size</Size>
+        <HeadPointer>mp_table[0]</HeadPointer>
+        <NextPointer>next</NextPointer>
+        <ValueNode>data</ValueNode>
+      </LinkedListItems>
+    </Expand>
+  </Type>
+
+  <!-- Minty::String -->
+  <Type Name="Minty::String">
+    <DisplayString>{mp_data,s8} ({m_size})</DisplayString>
+    <Expand>
+      <Item Name="Data">mp_data,s8</Item>
+    </Expand>
+  </Type>
+
+</AutoVisualizer>

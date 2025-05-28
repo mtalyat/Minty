@@ -12,7 +12,14 @@ layout(binding = 1) uniform sampler2D texSampler;
 void main() {
     vec4 texColor = texture(texSampler, fragTexCoord);
 
-    if(texColor.a == 0.0) discard;
+    // get average color from texture
+    float averageColor = (texColor.r + texColor.g + texColor.b) / 3.0;
 
-    outColor = vec4(fragColor.rgb, texColor.a);
+    // get the alpha value to use
+    float alpha = averageColor;
+
+    // ignore invisible pixels
+    if(alpha == 0.0) discard;
+
+    outColor = vec4(texColor.r * fragColor.r, texColor.g * fragColor.g, texColor.b * fragColor.b, alpha);
 }

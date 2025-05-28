@@ -12,6 +12,7 @@ layout(binding = 0) uniform Canvas {
 layout(location = 0) in vec4 position; // (x, y, width, height)
 layout(location = 1) in vec4 uv; // (x, y, width, height)
 layout(location = 2) in vec4 color;
+layout(location = 3) in float depth;
 
 layout(location = 0) out vec4 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
@@ -29,7 +30,7 @@ void main() {
     };
 
     vec2 pos = vertices[gl_VertexIndex % 6];
-    gl_Position = vec4((position.x + pos.x * position.z) / canvas.width * 2.0 - 1.0, (position.y + pos.y * position.w) / canvas.height * 2.0 - 1.0, 0.0, 1.0);
+    gl_Position = vec4((position.x + pos.x * position.z) / canvas.width * 2.0 - 1.0, (position.y + pos.y * position.w) / canvas.height * 2.0 - 1.0, depth, 1.0);
     fragColor = color;
     fragTexCoord = pos;
 }

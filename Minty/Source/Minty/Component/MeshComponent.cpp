@@ -37,12 +37,7 @@ void Minty::MeshComponent::serialize(Writer& writer) const
 Bool Minty::MeshComponent::deserialize(Reader& reader)
 {
 	// read type
-	if (!reader.read("type", type))
-	{
-		return false;
-	}
-
-	
+	reader.read("type", type, MeshType::Custom);
 
 	// read mesh ID
 	if (type == MeshType::Custom)
@@ -64,10 +59,13 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 
 	// read material ID
 	UUID id = INVALID_ID;
-	if (!reader.read("material", id))
+	if (reader.read("material", id))
+	{
+		material = AssetManager::get_singleton().get<Material>(id);
+	}
+	else
 	{
 		material = nullptr;
 	}
-	material = AssetManager::get_singleton().get<Material>(id);
 	return true;
 }

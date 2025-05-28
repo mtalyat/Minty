@@ -12,8 +12,8 @@ void Minty::TextComponent::serialize(Writer& writer) const
 	writer.write("text", text);
 	writer.write("color", color);
 	writer.write("font", font);
-	writer.write("fontSize", fontVariant == nullptr ?  0 : fontVariant->get_size());
-	writer.write("fontFlags", fontVariant == nullptr ? FontFlags::None : fontVariant->get_flags());
+	writer.write("size", fontVariant == nullptr ?  0 : fontVariant->get_size());
+	writer.write("flags", fontVariant == nullptr ? FontFlags::None : fontVariant->get_flags());
 }
 
 Bool Minty::TextComponent::deserialize(Reader& reader)
@@ -35,9 +35,9 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 
 	// read variant info
 	UInt fontSize;
-	reader.read<UInt>("fontSize", fontSize, 0);
+	reader.read<UInt>("size", fontSize, 0);
 	FontFlags fontFlags;
-	reader.read<FontFlags>("fontFlags", fontFlags, FontFlags::None);
+	reader.read<FontFlags>("flags", fontFlags, FontFlags::None);
 
 	// get variant if able
 	if (font != nullptr)

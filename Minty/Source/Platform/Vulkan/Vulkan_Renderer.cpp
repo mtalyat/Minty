@@ -263,6 +263,14 @@ int Minty::Vulkan_Renderer::rate_device_suitability(VkPhysicalDevice const physi
 	{
 		return 0;
 	}
+	if (!supportedFeatures.fillModeNonSolid)
+	{
+		return 0;
+	}
+	if (!supportedFeatures.wideLines)
+	{
+		return 0;
+	}
 
 	// anything works for now
 	return 1;
@@ -468,7 +476,9 @@ VkDevice Minty::Vulkan_Renderer::create_device(VkPhysicalDevice const physicalDe
 	}
 
 	VkPhysicalDeviceFeatures deviceFeatures{};
-	deviceFeatures.samplerAnisotropy = VK_TRUE;
+	deviceFeatures.samplerAnisotropy = VK_TRUE; // enable sampler anisotropy for textures
+	deviceFeatures.fillModeNonSolid = VK_TRUE; // enable non-solid fill mode for pipelines
+	deviceFeatures.wideLines = VK_TRUE; // enable wide lines for pipelines
 
 	VkDeviceCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;

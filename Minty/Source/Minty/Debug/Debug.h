@@ -258,6 +258,11 @@ namespace Minty
 			{
 				write_stack_trace();
 			}
+
+			if ((s_flags & DebugFlags::Break) != DebugFlags::None)
+			{
+				MINTY_BREAK();
+			}
 		}
 
 		/// <summary>

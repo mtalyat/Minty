@@ -508,9 +508,59 @@ Vector<String> Minty::String::split(String const& str, String const& delimiter)
 	return result;
 }
 
-Vector<String> Minty::String::split(String const& str)
+Vector<String> Minty::String::split(String const& inputStr)
 {
-	return split(replace(str, "\r\n", "\n"), "\n");
+	String str = replace(inputStr, "\r\n", "\n");
+
+	Vector<String> result;
+
+	// find all occurances of the delimiter
+	Vector<Size> indices;
+	Size index = 0;
+	while (true)
+	{
+		index = str.find_first_of(TEXT_WHITESPACE, index);
+		if (index == INVALID_INDEX)
+		{
+			break;
+		}
+		indices.add(index);
+		index += 1; // 1 character delimiter
+	}
+
+	// if no occurances, return the original string
+	if (indices.is_empty())
+	{
+		result.add(str);
+		return result;
+	}
+
+	// calculate new size
+	result.reserve(indices.get_size() + 1);
+
+	// copy over data
+	Size last = 0;
+	for (Size i = 0; i < indices.get_size(); i++)
+	{
+		Size current = indices[i];
+		Size length = current - last;
+		result.add(str.sub(last, length));
+		last = current + 1; // 1 character delimiter
+	}
+
+	// copy over the rest of the data
+	Size length = str.get_size() - last;
+	if (length > 0)
+	{
+		result.add(str.sub(last, length));
+	}
+	return result;
+}
+
+Vector<String> Minty::String::split_lines(String const& inputStr)
+{
+	String str = replace(inputStr, "\r\n", "\n");
+	return split(str, '\n');
 }
 
 /// <summary>

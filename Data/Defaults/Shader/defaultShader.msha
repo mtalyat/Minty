@@ -25,6 +25,7 @@ PolygonMode: Fill
 CullMode: Back
 FrontFace: Clockwise
 LineWidth: 1
+Transparency: False
 RenderPass: def000000000001c
 Bindings
     0: Vertex

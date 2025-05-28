@@ -521,11 +521,18 @@ namespace Minty
 		static Vector<String> split(String const& str, String const& delimiter);
 
 		/// <summary>
-		/// Splits the given text into a Vector of Strings using the default delimiter (newline).
+		/// Splits the given text into a Vector of Strings using whitespace as the delimiter.
+		/// </summary>
+		/// <param name="str">The String to split.</param>
+		/// <returns>A list of Strings, split by whitespace.</returns>
+		static Vector<String> split(String const& str);
+
+		/// <summary>
+		/// Splits the given text into a Vector of Strings using newlines as the delimiter.
 		/// </summary>
 		/// <param name="str">The String to split.</param>
 		/// <returns>A list of Strings, split by newlines.</returns>
-		static Vector<String> split(String const& str);
+		static Vector<String> split_lines(String const& str);
 
 		/// <summary>
 		/// Creates a String from the given bytes.

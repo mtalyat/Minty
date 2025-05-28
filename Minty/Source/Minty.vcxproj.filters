@@ -864,6 +864,9 @@
     <ClInclude Include="Minty\Component\DirtyComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Tool\Operation.h">
+      <Filter>Minty\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1388,8 +1391,16 @@
     <ClCompile Include="Minty\Component\TextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Minty\Tool\Operation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Minty.natvis">
+      <Filter>Resource Files</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>

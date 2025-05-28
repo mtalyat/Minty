@@ -2,12 +2,15 @@
 #include "Minty/Data/BufferContainerFactory.h"
 #include "Minty/System/System.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/UI/Canvas.h"
 
 namespace Minty
 {
 	struct CameraInfo;
-	class RenderManager;
 	class EntityManager;
+	class Material;
+	class RenderManager;
+	class Shader;
 
 	/// <summary>
 	/// Handles rendering the Scene.
@@ -21,6 +24,9 @@ namespace Minty
 		BufferContainerFactory m_bufferContainerFactory;
 		UUID m_3dSpriteGroupId;
 		UUID m_uiSpriteGroupId;
+		Entity m_canvasEntity;
+		Ref<Shader> m_canvasShader;
+		Canvas m_canvas;
 
 #pragma endregion
 
@@ -50,14 +56,16 @@ namespace Minty
 		// draws the sprites
 		void render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
+		void update_canvas(Entity const entity, Ref<Shader> const& shader, EntityManager& entityManager);
+
 		// draws the UI objects
 		void render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
+		// draws the text in screen space
+		void render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+
 		// draws the sprites in screen space
 		void render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
-
-		// draws the text in screen space
-		void render_ui_text(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
 
 	public:
 		void on_render() override;

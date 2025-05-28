@@ -395,17 +395,11 @@ void Minty::EntityManager::finalize_dirties()
 		MeshBuilder builder{};
 		builder.type = MeshType::Custom;
 
-		// if no mesh, create a new mesh quickly
-		if (meshComp.mesh == nullptr)
-		{
-			builder.id = UUID::create();
-			meshComp.mesh = assetManager.create<Mesh>(builder);
-		}
-
 		// (re)generate the mesh
-		builder.type = MeshType::Custom;
-		DynamicContainer& vertices = builder.vertices;
-		DynamicContainer& indices = builder.indices;
+		builder.vertices = ListContainer(sizeof(Float) * 4, textComp.text.get_size());
+		ListContainer& vertices = builder.vertices;
+		builder.indices = ListContainer(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
+		ListContainer& indices = builder.indices;
 
 		Float xAdvance = 0.0f;
 		Float yAdvance = 0.0f;
@@ -461,17 +455,14 @@ void Minty::EntityManager::finalize_dirties()
 			xAdvance += fontVariant->get_kerning(last, c);
 
 			// create vertices based on each Char
-			vertices.append_object(Float2(xAdvance, yAdvance) + offset);
-			vertices.append_object(min);
-
-			vertices.append_object(Float2(xAdvance + fc->width, yAdvance) + offset);
-			vertices.append_object(Float2(max.x, min.y));
-
-			vertices.append_object(Float2(xAdvance + fc->width, yAdvance + fc->height) + offset);
-			vertices.append_object(max);
-
-			vertices.append_object(Float2(xAdvance, yAdvance + fc->height) + offset);
-			vertices.append_object(Float2(min.x, max.y));
+			Float4 value = { xAdvance + offset.x, yAdvance + offset.y, min.x, min.y };
+			vertices.append_object(value); // bottom left
+			value = { xAdvance + fc->width + offset.x, yAdvance + offset.y, max.x, min.y };
+			vertices.append_object(value); // bottom right
+			value = { xAdvance + fc->width + offset.x, yAdvance + fc->height + offset.y, max.x, max.y };
+			vertices.append_object(value); // top left
+			value = { xAdvance + offset.x, yAdvance + fc->height + offset.y, min.x, max.y };
+			vertices.append_object(value); // top right
 
 			// create indices, always in the same order
 			indices.append_object(index);
@@ -490,11 +481,23 @@ void Minty::EntityManager::finalize_dirties()
 			last = c;
 		}
 
-		UInt vertexCount = index;
-		UInt indexCount = (index * 3) >> 1; // 6 indices for every 4 vertices (simplified to *3 and /2)
-
 		// create the new mesh
-		*meshComp.mesh = Mesh(builder);
+		// if no mesh, create a new mesh quickly
+		if (meshComp.mesh == nullptr)
+		{
+			// create new mesh outright
+			builder.id = UUID::create();
+			meshComp.mesh = assetManager.create<Mesh>(builder);
+		}
+		else
+		{
+			// replace existing mesh
+			builder.id = meshComp.mesh->get_id();
+			*meshComp.mesh = Mesh(builder);
+		}
+
+		// update the material
+		meshComp.material = fontVariant->get_material();
 	}
 	clear<DirtyTextComponent>();
 

@@ -50,7 +50,7 @@ namespace Minty
 		/// The list of kernings for this FontVariant. 
 		/// Kernings are the adjustments made to the spacing between specific pairs of characters.
 		/// </summary>
-		Map<Int, Float> kernings;
+		Vector<Tuple<Char, Char, Float>> kernings;
 	};
 
 	/// <summary>
@@ -132,11 +132,6 @@ namespace Minty
 		/// <returns>The kerning value.</returns>
 		Float get_kerning(Char const left, Char const right) const;
 
-#pragma endregion
-
-#pragma region Methods
-
-	public:
 		/// <summary>
 		/// Gets the AssetType of this Asset.
 		/// </summary>
@@ -163,5 +158,5 @@ namespace Minty
 		static Owner<FontVariant> create(FontVariantBuilder const& builder = {});
 
 #pragma endregion
-	};
+};
 }

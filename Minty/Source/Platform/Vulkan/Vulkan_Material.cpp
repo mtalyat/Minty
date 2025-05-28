@@ -360,7 +360,7 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 		Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 		VkCommandBuffer commandBuffer = renderManager.get_current_command_buffer();
 		VkShaderStageFlags shaderStage = Vulkan_Renderer::to_vulkan(input.stage);
-		MINTY_ASSERT(input.size == size, "Push constant size does not match the given size.");
+		MINTY_ASSERT(input.size == size, F("Push constant size ({}) does not match the given size ({}).", input.size, size));
 
 		// update push constants
 		Vulkan_Renderer::update_push_constants(commandBuffer, shader->get_pipeline_layout(), shaderStage, static_cast<uint32_t>(input.offset), static_cast<uint32_t>(input.size), data);

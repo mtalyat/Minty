@@ -5,6 +5,8 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Context/Context.h"
 #include "Minty/Library/STB.h"
+#include "Minty/Render/Font.h"
+#include "Minty/Render/FontVariant.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/ImagePixelFormat.h"
 #include "Minty/Render/Material.h"
@@ -324,6 +326,10 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 		return load_shader(path);
 	case AssetType::ShaderModule:
 		return load_shader_module(path);
+	case AssetType::Font:
+		return load_font(path);
+	case AssetType::FontVariant:
+		return load_font_variant(path);
 	case AssetType::Scene:
 		return load_scene(path);
 	case AssetType::Sprite:
@@ -641,7 +647,7 @@ Vector<String> Minty::AssetManager::read_lines(Path const& path) const
 	String text = read_text(path);
 
 	// split into lines
-	return String::split(text);
+	return String::split_lines(text);
 }
 
 Int Minty::AssetManager::check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const
@@ -892,6 +898,219 @@ Ref<Camera> Minty::AssetManager::load_camera(Path const& path)
 	}
 
 	return create_from_loaded<Camera>(path, builder);
+}
+
+Ref<Font> Minty::AssetManager::load_font(Path const& path)
+{
+	// create builder
+	FontBuilder builder{};
+	builder.id = read_id(path);
+
+	// read the font data
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read values
+		reader->read("Name", builder.name);
+		Vector<UUID> variantIds;
+		if (reader->read("Variants", variantIds))
+		{
+			// get the variants
+			for (UUID const& variantId : variantIds)
+			{
+				Ref<FontVariant> variant = get<FontVariant>(variantId);
+				MINTY_ASSERT(variant != nullptr, "FontVariant with the given ID does not exist.");
+				builder.variants.add(variant);
+			}
+		}
+
+		close_reader(reader);
+	}
+
+	// create the font
+	return create_from_loaded<Font>(path, builder);
+}
+
+Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path)
+{
+	// create the builder
+	FontVariantBuilder builder{};
+	builder.id = read_id(path);
+
+	// read the font variant data
+	// this is a different, standard format (TTF)
+
+	Vector<String> lines = read_lines(path);
+	Float widthScale = 1.0f;
+	Float heightScale = 1.0f;
+	for (String const& line : lines)
+	{
+		// split by tabs
+		Vector<String> parts = String::split(line);
+
+		// determine what to do based on first word in line
+		if (line.starts_with("char "))
+		{
+			FontChar fontChar{};
+
+			for (String const& part : parts)
+			{
+				if (part.is_empty())
+				{
+					continue; // skip empty parts
+				}
+
+				if (part.starts_with("id="))
+				{
+					fontChar.id = to_char(part.sub(3, part.get_size() - 3));
+				}
+				else if (part.starts_with("x="))
+				{
+					fontChar.x = to_int(part.sub(2, part.get_size() - 2)) * widthScale;
+				}
+				else if (part.starts_with("y="))
+				{
+					fontChar.y = to_int(part.sub(2, part.get_size() - 2)) * heightScale;
+				}
+				else if (part.starts_with("width="))
+				{
+					fontChar.width = to_int(part.sub(6, part.get_size() - 6)) * widthScale;
+				}
+				else if (part.starts_with("height="))
+				{
+					fontChar.height = to_int(part.sub(7, part.get_size() - 7)) * heightScale;
+				}
+				else if (part.starts_with("xoffset="))
+				{
+					fontChar.xOffset = to_int(part.sub(8, part.get_size() - 8)) * widthScale;
+				}
+				else if (part.starts_with("yoffset="))
+				{
+					fontChar.yOffset = to_int(part.sub(8, part.get_size() - 8)) * heightScale;
+				}
+				else if (part.starts_with("xadvance="))
+				{
+					fontChar.xAdvance = to_int(part.sub(9, part.get_size() - 9)) * widthScale;
+				}
+			}
+
+			builder.characters.add(fontChar);
+		}
+		else if (line.starts_with("kerning "))
+		{
+			char first = 0;
+			char second = 0;
+			float amount = 0;
+			for (String const& part : parts)
+			{
+				if (part.is_empty())
+				{
+					continue; // skip empty parts
+				}
+
+				if (part.starts_with("first="))
+				{
+					first = static_cast<Char>(to_int(part.sub(6, part.get_size() - 6)));
+				}
+				else if (part.starts_with("second="))
+				{
+					second = static_cast<Char>(to_int(part.sub(7, part.get_size() - 7)));
+				}
+				else if (part.starts_with("amount="))
+				{
+					amount = static_cast<Char>(to_int(part.sub(7, part.get_size() - 7)) * widthScale);
+				}
+			}
+
+			// pack kerning into builder
+			builder.kernings.add({ first, second, amount });
+		}
+		else if (line.starts_with("info "))
+		{
+			for (String const& part : parts)
+			{
+				if (part.is_empty())
+				{
+					continue; // skip empty parts
+				}
+
+				if (part.starts_with("size="))
+				{
+					builder.size = to_uint(part.sub(5, part.get_size() - 5));
+				}
+				else if (part.starts_with("bold="))
+				{
+					Bool isBold = static_cast<Bool>(to_int(part.sub(5, part.get_size() - 5)));
+					if (isBold)
+					{
+						builder.flags |= FontFlags::Bold;
+					}
+				}
+				else if (part.starts_with("italic="))
+				{
+					Bool isItalic = static_cast<Bool>(to_int(part.sub(7, part.get_size() - 7)));
+					if (isItalic)
+					{
+						builder.flags |= FontFlags::Italic;
+					}
+				}
+			}
+		}
+		else if (line.starts_with("common "))
+		{
+			for (String const& part : parts)
+			{
+				if (part.is_empty())
+				{
+					continue; // skip empty parts
+				}
+
+				if (part.starts_with("lineHeight="))
+				{
+					builder.lineHeight = static_cast<float>(to_int(part.sub(11, part.get_size() - 11)));
+				}
+			}
+		}
+		else if (line.starts_with("page "))
+		{
+			// textures to load
+			Path directoryPath = path.get_parent();
+
+			for (String const& part : parts)
+			{
+				if (part.is_empty())
+				{
+					continue; // skip empty parts
+				}
+
+				if (part.starts_with("file="))
+				{
+					// ignore " "
+					String name = part.sub(6, part.get_size() - 7);
+					UUID textureId = read_id(directoryPath / name);
+					builder.texture = get<Texture>(textureId);
+				}
+			}
+
+			// stop if no texture
+			if (builder.texture == nullptr)
+			{
+				break;
+			}
+			
+			// get size
+			UInt2 textureSize = builder.texture->get_size();
+
+			// stop if no texture size
+			MINTY_ASSERT(textureSize.x > 0 && textureSize.y > 0, F("Font variant's texture file has invalid size: {}", path));
+
+			// get scale
+			widthScale = 1.0f / textureSize.x;
+			heightScale = 1.0f / textureSize.y;
+		}
+	}
+
+	return create_from_loaded<FontVariant>(path, builder);
 }
 
 Ref<Image> Minty::AssetManager::load_image(Path const& path)
@@ -1287,6 +1506,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
 		reader->read("CullMode", builder.cullMode);
 		reader->read("FrontFace", builder.frontFace);
 		reader->read("LineWidth", builder.lineWidth);
+		reader->read("Transparency", builder.transparency);
 
 		// inputs (uniform, push, etc.)
 		if (reader->indent("Inputs"))
@@ -1517,8 +1737,8 @@ Ref<Texture> Minty::AssetManager::load_texture(Path const& path)
 
 		// set builder values
 		builder.image = image.create_ref();
-		reader->read("Filter", builder.filter);
-		reader->read("AddressMode", builder.addressMode);
+		reader->read("Filter", builder.filter, Filter::Linear);
+		reader->read("AddressMode", builder.addressMode, AddressMode::Repeat);
 
 		close_reader(reader);
 	}

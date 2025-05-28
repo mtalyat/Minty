@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "FontVariant.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Render/Texture.h"
@@ -14,7 +15,7 @@ Minty::FontVariant::FontVariant(FontVariantBuilder const& builder)
 	, m_texture(builder.texture)
 	, m_material(nullptr)
 	, m_characters()
-	, m_kernings(builder.kernings)
+	, m_kernings(builder.kernings.get_size() * 2)
 {
 	// get the material based on the texture
 	RenderManager& renderManager = RenderManager::get_singleton();
@@ -25,6 +26,14 @@ Minty::FontVariant::FontVariant(FontVariantBuilder const& builder)
 	for (FontChar const& character : builder.characters)
 	{
 		m_characters.add(character.id, character);
+	}
+
+	// initialize the kernings map
+	for (auto const& [left, right, value] : builder.kernings)
+	{
+		Int kerningId = compact_kerning(left, right);
+		MINTY_ASSERT(!m_kernings.contains(kerningId), F("Duplicate kerning for characters '{}' and '{}'.", left, right));
+		m_kernings.add(kerningId, value);
 	}
 }
 

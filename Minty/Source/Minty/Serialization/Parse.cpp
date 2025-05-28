@@ -340,8 +340,7 @@ Bool Minty::try_byte(String const& string, Byte& value)
 
 Char Minty::to_char(String const& string)
 {
-	MINTY_ASSERT(string.get_size() > 0, "Cannot parse an empty String to a Char.");
-	return string.front();
+	return static_cast<Char>(std::stoi(string.get_data()));
 }
 
 Bool Minty::try_char(String const& string, Char& value)
