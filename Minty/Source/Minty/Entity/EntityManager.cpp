@@ -374,6 +374,133 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 
 void Minty::EntityManager::finalize_dirties()
 {
+	// update dirty text components
+	AssetManager& assetManager = AssetManager::get_singleton();
+	for (auto&& [entity, dirtyComp, uiTransformComp, textComp, meshComp] : m_registry.view<DirtyComponent const, UITransformComponent const, TextComponent const, MeshComponent>().each())
+	{
+		// if no font or variant or text, destroy the mesh
+		if (textComp.font == nullptr || textComp.fontVariant == nullptr || textComp.text == nullptr || textComp.text.is_empty())
+		{
+			if (meshComp.mesh != nullptr)
+			{
+				// unload the mesh
+				assetManager.unload(meshComp.mesh->get_id());
+				meshComp.mesh = nullptr;
+			}
+
+			continue;
+		}
+
+		// create a builder
+		MeshBuilder builder{};
+		builder.type = MeshType::Custom;
+
+		// (re)generate the mesh
+		builder.vertices = ListContainer(sizeof(Float) * 4, textComp.text.get_size());
+		ListContainer& vertices = builder.vertices;
+		builder.indices = ListContainer(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
+		ListContainer& indices = builder.indices;
+
+		Float xAdvance = 0.0f;
+		Float yAdvance = 0.0f;
+		UShort index = 0;
+
+		Ref<Font> const& font = textComp.font;
+		Ref<FontVariant> const& fontVariant = textComp.fontVariant;
+		Ref<Texture> const& fontVariantTexture = fontVariant->get_texture();
+		UInt2 textureSize = fontVariantTexture->get_size();
+		Float const width = static_cast<Float>(textureSize.x);
+		Float const height = static_cast<Float>(textureSize.y);
+		Char last = '\0';
+
+		for (Char c : textComp.text)
+		{
+			// special characters
+			Bool cont = true;
+			switch (c)
+			{
+			case '\n':
+				yAdvance += fontVariant->get_line_height();
+				xAdvance = 0;
+				break;
+			default:
+				cont = false;
+				break;
+			}
+
+			// if special character handled, skip, keep going
+			if (cont)
+			{
+				last = c;
+				continue;
+			}
+
+			// get font character data
+			FontChar const* fc = fontVariant->get_char(c);
+
+			if (!fc)
+			{
+				MINTY_ERROR(F("There is no FontChar data for character \"{}\" in font \"{}\".", c, font->get_name()));
+
+				last = c;
+
+				continue;
+			}
+
+			Float2 const min(fc->x, fc->y);
+			Float2 const max(fc->x + fc->width, fc->y + fc->height);
+			Float2 const offset(fc->xOffset, fc->yOffset);
+
+			// adjust spacing for special cases
+			xAdvance += fontVariant->get_kerning(last, c);
+
+			// create vertices based on each Char
+			Float4 value = { xAdvance + offset.x, yAdvance + offset.y, min.x, min.y };
+			vertices.append_object(value); // bottom left
+			value = { xAdvance + fc->width + offset.x, yAdvance + offset.y, max.x, min.y };
+			vertices.append_object(value); // bottom right
+			value = { xAdvance + fc->width + offset.x, yAdvance + fc->height + offset.y, max.x, max.y };
+			vertices.append_object(value); // top left
+			value = { xAdvance + offset.x, yAdvance + fc->height + offset.y, min.x, max.y };
+			vertices.append_object(value); // top right
+
+			// create indices, always in the same order
+			indices.append_object(index);
+			indices.append_object(static_cast<UShort>(index + 1));
+			indices.append_object(static_cast<UShort>(index + 2));
+			indices.append_object(index);
+			indices.append_object(static_cast<UShort>(index + 2));
+			indices.append_object(static_cast<UShort>(index + 3));
+
+			index += 4;
+
+			// advance the "cursor"
+			xAdvance += fc->xAdvance;
+
+			// update new last Char
+			last = c;
+		}
+
+		// create the new mesh
+		// if no mesh, create a new mesh quickly
+		if (meshComp.mesh == nullptr)
+		{
+			// create new mesh outright
+			builder.id = UUID::create();
+			meshComp.mesh = assetManager.create<Mesh>(builder);
+		}
+		else
+		{
+			// replace existing mesh
+			builder.id = meshComp.mesh->get_id();
+			*meshComp.mesh = Mesh(builder);
+		}
+
+		// update the material
+		meshComp.material = fontVariant->get_material();
+	}
+	clear<DirtyTextComponent>();
+
 	// update dirty transforms with relationships
 	for (auto&& [entity, dirty, transform, relationship] : m_registry.view<DirtyComponent const, TransformComponent, RelationshipComponent const>().each())
 	{
@@ -438,6 +565,24 @@ void Minty::EntityManager::finalize_dirties()
 		// if no parent and no canvas...
 		uiTransformComp.transform.update_global_rect(windowRect);
 	}
+
+	// update dirty UI transforms with no relationships
+	for (auto&& [entity, dirtyComp, uiTransformComp] : m_registry.view<DirtyComponent const, UITransformComponent>(entt::exclude_t<RelationshipComponent>{}).each())
+	{
+		// if canvas, use canvas
+		CanvasComponent const* canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
+		if (canvas)
+		{
+			uiTransformComp.transform.update_global_rect(canvas->canvas.get_rect());
+			continue;
+		}
+
+		// if no parent and no canvas...
+		uiTransformComp.transform.update_global_rect(windowRect);
+	}
+
+	// clear all dirties
+	clear<DirtyComponent>();
 }
 
 Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const layer) const

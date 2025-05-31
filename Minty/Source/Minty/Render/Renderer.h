@@ -12,14 +12,5 @@ namespace Minty
 		~Renderer() = default;
 
 #pragma endregion
-
-#pragma region Statics
-
-	public:
-
-
-#pragma endregion
-
-
 	};
 }

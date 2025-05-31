@@ -21,12 +21,6 @@ namespace Minty
 	class AudioManager
 		: public Manager
 	{
-#pragma region Variables
-
-
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:

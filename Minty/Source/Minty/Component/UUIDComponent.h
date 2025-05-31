@@ -11,8 +11,5 @@ namespace Minty
 		: public Component
 	{
 		UUID id = INVALID_ID;
-
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
 	};
 }

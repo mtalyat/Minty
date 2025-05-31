@@ -141,6 +141,13 @@ namespace Minty
 
 #pragma region Methods
 
+	protected:
+		Bool append_one(void const* const object, Size const size) override
+		{
+			MINTY_ASSERT(size == m_stride, "Size of the object being appended must match the stride of the ListContainer.");
+			return append(object, 1);
+		}
+
 	public:
 		/// <summary>
 		/// Sets the element bytes at the given element index and count.

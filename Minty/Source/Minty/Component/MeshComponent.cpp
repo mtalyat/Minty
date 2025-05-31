@@ -9,46 +9,41 @@ using namespace Minty;
 
 void Minty::MeshComponent::serialize(Writer& writer) const
 {
-	writer.write("type", type);
+	writer.write("Type", type);
 
 	// if type is custom, print the mesh ID
 	if (type == MeshType::Custom)
 	{
 		if (mesh != nullptr)
 		{
-			writer.write("mesh", mesh->get_id());
+			writer.write("Mesh", mesh->get_id());
 		}
 		else
 		{
-			writer.write("mesh", INVALID_ID);
+			writer.write("Mesh", INVALID_ID);
 		}
 	}
 
 	if (material != nullptr)
 	{
-		writer.write("material", material->get_id());
+		writer.write("Naterial", material->get_id());
 	}
 	else
 	{
-		writer.write("material", INVALID_ID);
+		writer.write("Naterial", INVALID_ID);
 	}
 }
 
 Bool Minty::MeshComponent::deserialize(Reader& reader)
 {
 	// read type
-	if (!reader.read("type", type))
-	{
-		return false;
-	}
-
-	
+	reader.read("Type", type, MeshType::Custom);
 
 	// read mesh ID
 	if (type == MeshType::Custom)
 	{
 		UUID id = INVALID_ID;
-		if (!reader.read("mesh", id))
+		if (!reader.read("Mesh", id))
 		{
 			mesh = nullptr;
 		}
@@ -64,10 +59,13 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 
 	// read material ID
 	UUID id = INVALID_ID;
-	if (!reader.read("material", id))
+	if (reader.read("Material", id))
+	{
+		material = AssetManager::get_singleton().get<Material>(id);
+	}
+	else
 	{
 		material = nullptr;
 	}
-	material = AssetManager::get_singleton().get<Material>(id);
 	return true;
 }

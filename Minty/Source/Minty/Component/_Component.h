@@ -13,6 +13,7 @@
 #include "NameComponent.h"
 #include "RelationshipComponent.h"
 #include "SpriteComponent.h"
+#include "TextComponent.h"
 #include "TransformComponent.h"
 #include "UITransformComponent.h"
 #include "UUIDComponent.h"

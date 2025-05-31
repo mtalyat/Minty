@@ -106,14 +106,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\mono\include;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include;$(MINTY_PATH)\Libraries\imgui\include;$(MINTY_PATH)\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(MINTY_PATH)\Libraries\mono\lib\$(Configuration);$(MINTY_PATH)\Libraries\vulkan\lib;$(MINTY_PATH)\Libraries\glfw\lib;$(MINTY_PATH)\Libraries\zlib\lib;$(MINTY_PATH)\Minty\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MINTY_PATH)\Libraries\vulkan\lib;$(MINTY_PATH)\Libraries\glfw\lib;$(MINTY_PATH)\Libraries\zlib\lib;$(MINTY_PATH)\Minty\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\mono\include;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include;$(MINTY_PATH)\Libraries\imgui\include;$(MINTY_PATH)\Libraries\imguifiledialog\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -132,8 +132,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(MINTY_PATH)\Libraries\mono\lib\$(Configuration);$(MINTY_PATH)\Libraries\vulkan\lib;$(MINTY_PATH)\Libraries\glfw\lib;$(MINTY_PATH)\Libraries\zlib\lib;$(MINTY_PATH)\Minty\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mono-2.0-sgen.lib;vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MINTY_PATH)\Libraries\vulkan\lib;$(MINTY_PATH)\Libraries\glfw\lib;$(MINTY_PATH)\Libraries\zlib\lib;$(MINTY_PATH)\Minty\Source\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;Minty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -142,4 +142,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ItemGroup>
+    <Natvis Include="$(MINTY_PATH)\Minty\Source\Minty.natvis" />
+  </ItemGroup>
 </Project>

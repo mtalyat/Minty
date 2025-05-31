@@ -20,6 +20,9 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates an empty Manager.
+		/// </summary>
 		Manager()
 			: m_initialized(false)
 		{

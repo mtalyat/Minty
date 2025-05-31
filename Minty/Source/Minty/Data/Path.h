@@ -347,6 +347,12 @@ namespace Minty
 		Bool has_extension() const { return m_path.has_extension(); }
 
 		/// <summary>
+		/// Checks if this Path has a parent directory.
+		/// </summary>
+		/// <returns>True if there is a parent directory.</returns>
+		Bool has_parent() const { return m_path.has_parent_path(); }
+
+		/// <summary>
 		/// Gets the extension of this Path.
 		/// </summary>
 		/// <returns>A Path with the extension.</returns>
