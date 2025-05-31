@@ -21,9 +21,15 @@ This is only needed if you would like to [generate the documentation](#documenta
 
 ### Quick Installation
 
+To install:
+
 1. Clone this repository. [Don't know how?](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 2. Run `installer.bat`.
 3. Build the Minty source code at `MINTY_PATH/Minty/Source/`.
+
+To uninstall:
+1. Run `uninstaller.bat`.
+2. Delete the repository.
 
 ### Documentation
 
