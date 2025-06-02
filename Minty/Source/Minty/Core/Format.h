@@ -20,7 +20,7 @@ namespace Minty
 	template<typename T, typename... Args>
 	static String _format(String const& format, T&& first, Args&&... args)
 	{
-		Size index = format.find("{}");
+		Size index = format.find_first("{}");
 		if (index != INVALID_INDEX)
 		{
 			String firstString = to_string(std::forward<T>(first));

@@ -77,6 +77,12 @@ String Minty::to_string(Node const& obj)
 	MINTY_ABORT("Not implemented.");
 }
 
+struct NodeMacro
+{
+	Vector<String> parameters;
+	Vector<String> values;
+};
+
 Node Minty::parse_to_node(String const& string)
 {
 	// split lines
@@ -108,47 +114,174 @@ Node Minty::parse_to_node(String const& string)
 
 	int const SPACES_PER_TAB = 4;
 
-	Map<String, String> macros;
+	Vector<Tuple<String, NodeMacro>> macros;
 
-	for (String line : lines)
+	for (Size lineIndex = 0; lineIndex < lines.get_size(); lineIndex++)
 	{
+		String line = lines.at(lineIndex);
+		
+		// skip empty/whitespace
+		Size solidIndex = line.find_first_not_of(TEXT_WHITESPACE);
+		if (line.get_size() == 0 || solidIndex == INVALID_INDEX)
+		{
+			continue;
+		}
+
 		// read macros or other special lines
 		if (line.front() == '#')
 		{
 			if (line.starts_with("#define"))
 			{
-				// remove "#define "
-				line = line.sub(7, line.get_size() - 7); // remove "#define "
+				Size nameIndex = 8;
 
-				// skip whitespace
-				Size solidIndex = line.find_first_not_of(" \t\n\v\f\r");
-				line = line.sub(solidIndex, line.get_size() - solidIndex);
+				// find end of name
+				Size nameEnd = nameIndex;
+				for (; nameEnd < line.get_size(); nameEnd++)
+				{
+					Char c = line.at(nameEnd);
+					if (!isalnum(c) && c != '_')
+					{
+						break;
+					}
+				}
 
-				// split into name and value
-				Size index = line.find(' ');
-				String macroName = line.sub(0, index);
-				String macroValue = line.sub(index + 1, line.get_size() - index - 1);
+				// if end is (, get args
 
-				MINTY_ASSERT(!macroName.is_empty(), "Macro name is empty.");
+				// get name
+				String macroName = line.sub(nameIndex, nameEnd - nameIndex);
+				// get macro data
+				NodeMacro macro{};
+				// if has arguments
+				Size valueIndex = nameEnd;
+				if (nameEnd < line.get_size() && line.at(nameEnd) == '(')
+				{
+					// find end of args
+					Tuple<Size, Size> argGroup = line.find_group('(', ')', nameEnd);
+					MINTY_ASSERT(argGroup.get_first() == nameEnd, "#define found the wrong group.");
+					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, "#define missing ')'.");
 
-				// define macro
-				macros[macroName] = macroValue;
+					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
+					macro.parameters = argLine.split(',');
+					for (String& param : macro.parameters)
+					{
+						param = param.trim();
+					}
+
+					valueIndex = argGroup.get_second() + 1;
+				}
+
+				// get value
+				String value = line.sub(valueIndex, line.get_size() - valueIndex);
+				while (value.ends_with("\\"))
+				{
+					macro.values.add(value.sub(0, value.get_size() - 1));
+
+					lineIndex++;
+					if (lineIndex == lines.get_size())
+					{
+						value = "";
+						break;
+					}
+					value = lines.at(lineIndex);
+				}
+				if (!value.is_empty())
+				{
+					macro.values.add(value);
+				}
+
+				// add to macros
+				macros.add({ macroName, std::move(macro) });
 			}
-			continue;
-		}
 
-		// skip empty/whitespace/comment lines
-		Size solidIndex = line.find_first_not_of(" \t\n\v\f\r");
-		if (line.get_size() == 0 || solidIndex == INVALID_INDEX || line.front() == '#' || line.front() == ':')
-		{
+			// skip line if started with #
 			continue;
 		}
 
 		// replace macros
-		for (auto const& macro : macros)
+		Size macroLineNumber = 0;
+		Size macroLineCount = 1;
+		while (macroLineNumber < macroLineCount)
 		{
-			line = String::replace(line, macro.get_first(), macro.get_second());
+			String macroLine = lines.at(macroLineNumber);
+
+			Size macroIndex = 0;
+			while (macroIndex < macros.get_size())
+			{
+				auto const& [name, macro] = macros.at(macroIndex);
+
+				Size mStart = macroLine.find_first(name);
+				Size mEnd = mStart + name.get_size();
+				if (mStart < macroLine.get_size())
+				{
+					Vector<Tuple<String, String>> args;
+
+					// if params, replace those
+					if (!macro.values.is_empty())
+					{
+						auto [start, count] = line.find_group('(', ')', mStart + name.get_size());
+						MINTY_ASSERT(start != INVALID_INDEX, F("Macro \"{}\" missing its arguments.", name));
+						Vector<String> parts = String::split(line.sub(start + 1, count - 2), ',');
+						MINTY_ASSERT(parts.get_size() != macro.parameters.get_size(), F("Macro \"{}\" has an incorrect number of arguments.", name));
+						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
+						{
+							args.add({ macro.parameters.at(argIndex), parts.at(argIndex) });
+						}
+						mEnd = start + count;
+					}
+
+					// get text before and after the macro
+					String before = macroLine.sub(0, mStart);
+					String after = macroLine.sub(mEnd, macroLine.get_size() - mEnd);
+
+					// insert lines and replace args as they are inserted
+					Size valueCount = macro.values.get_size();
+					for (Size valueIndex = 0; valueIndex < valueCount; valueIndex++)
+					{
+						// get value
+						String value = macro.values.at(valueIndex);
+
+						// replace args
+						for (auto const& [find, replace] : args)
+						{
+							value = String::replace(value, find, replace);
+						}
+
+						// insert before and after as needed
+						if (valueIndex == 0)
+						{
+							value = before + value;
+						}
+						if (valueIndex == valueCount - 1)
+						{
+							value = value + after;
+						}
+
+						// replace or insert the line
+						if (valueIndex == 0)
+						{
+							// replace line
+							lines.at(lineIndex) = value;
+						}
+						else
+						{
+							// insert a line
+							lines.insert(lineIndex + valueIndex, value);
+							macroLineCount++;
+						}
+					}
+
+					// repeat operation on this line
+					break;
+				}
+
+				macroIndex++;
+			}
+
+			macroLineNumber++;
 		}
+
+		// re-get line
+		line = lines.at(lineIndex);
 
 		// count number of tabs (indents)
 
@@ -224,7 +357,7 @@ Node Minty::parse_to_node(String const& string)
 		else
 		{
 			// String::split by colon, if there is one
-			Size split = line.find(':');
+			Size split = line.find_first(':');
 
 			if (split == INVALID_INDEX)
 			{

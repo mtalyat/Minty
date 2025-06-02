@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "String.h"
+#include "Minty/Core/Math.h"
 #include <cstring>
 
 using namespace Minty;
@@ -222,7 +223,40 @@ String Minty::String::sub(Size const start, Size const length) const
 	return result;
 }
 
-Size Minty::String::find(String const& sub, Size const index) const
+String Minty::String::trim_start(String const& characters)
+{
+	Size index = find_first_not_of(characters);
+	if (index == INVALID_INDEX)
+	{
+		return "";
+	}
+	if (index == 0)
+	{
+		return *this;
+	}
+	return sub(index, get_size() - index);
+}
+
+String Minty::String::trim_end(String const& characters)
+{
+	Size index = find_last_not_of(characters);
+	if (index == INVALID_INDEX)
+	{
+		return "";
+	}
+	if (index == get_size() - 1)
+	{
+		return *this;
+	}
+	return sub(0, index);
+}
+
+String Minty::String::trim(String const& whitespace)
+{
+	return trim_start(whitespace).trim_end(whitespace);
+}
+
+Size Minty::String::find_first(String const& sub, Size const index) const
 {
 	// if either string is empty or sub is larger than this string, return invalid index
 	if (is_empty() || sub.is_empty() || sub.get_size() > m_size)
@@ -242,7 +276,7 @@ Size Minty::String::find(String const& sub, Size const index) const
 	return INVALID_INDEX;
 }
 
-Size Minty::String::find(Char const character, Size const index) const
+Size Minty::String::find_first(Char const character, Size const index) const
 {
 	if (is_empty() || character == '\0')
 	{
@@ -260,18 +294,18 @@ Size Minty::String::find(Char const character, Size const index) const
 	return INVALID_INDEX;
 }
 
-Size Minty::String::find_first_of(String const& sub, Size const index) const
+Size Minty::String::find_first_of(String const& characters, Size const index) const
 {
-	if (is_empty() || sub.is_empty())
+	if (is_empty() || characters.is_empty())
 	{
 		return INVALID_INDEX;
 	}
 	Size length = m_size;
 	for (Size i = index; i < length; ++i)
 	{
-		for (Size j = 0; j < sub.m_size; ++j)
+		for (Size j = 0; j < characters.m_size; ++j)
 		{
-			if (mp_data[i] == sub.mp_data[j])
+			if (mp_data[i] == characters.mp_data[j])
 			{
 				return i;
 			}
@@ -280,9 +314,9 @@ Size Minty::String::find_first_of(String const& sub, Size const index) const
 	return INVALID_INDEX;
 }
 
-Size Minty::String::find_first_not_of(String const& sub, Size const index) const
+Size Minty::String::find_first_not_of(String const& characters, Size const index) const
 {
-	if (is_empty() || sub.is_empty())
+	if (is_empty() || characters.is_empty())
 	{
 		return INVALID_INDEX;
 	}
@@ -290,9 +324,9 @@ Size Minty::String::find_first_not_of(String const& sub, Size const index) const
 	for (Size i = index; i < length; ++i)
 	{
 		Bool found = false;
-		for (Size j = 0; j < sub.m_size; ++j)
+		for (Size j = 0; j < characters.m_size; ++j)
 		{
-			if (mp_data[i] == sub.mp_data[j])
+			if (mp_data[i] == characters.mp_data[j])
 			{
 				found = true;
 				break;
@@ -304,6 +338,148 @@ Size Minty::String::find_first_not_of(String const& sub, Size const index) const
 		}
 	}
 	return INVALID_INDEX;
+}
+
+Size Minty::String::find_last(String const& sub, Size const index) const
+{
+	// if either string is empty or sub is larger than this string, return invalid index
+	if (is_empty() || sub.is_empty() || sub.get_size() > m_size)
+	{
+		return INVALID_INDEX;
+	}
+
+	Size length = get_size();
+	Size i = Math::min(length - sub.get_size(), index);
+	for (; i < length; --i)
+	{
+		if (memcpy(mp_data + i, sub.mp_data, sub.m_size * sizeof(Char)) == 0)
+		{
+			return i;
+		}
+	}
+	
+	return INVALID_INDEX;
+}
+
+Size Minty::String::find_last(Char const character, Size const index) const
+{
+	if (is_empty() || character == '\0')
+	{
+		return INVALID_INDEX;
+	}
+
+	Size length = get_size();
+	Size i = Math::min(length - 1, index);
+	for (; i < length; --i)
+	{
+		if (mp_data[i] == character)
+		{
+			return i;
+		}
+	}
+
+	return INVALID_INDEX;
+}
+
+Size Minty::String::find_last_of(String const& characters, Size const index) const
+{
+	if (is_empty() || characters.is_empty())
+	{
+		return INVALID_INDEX;
+	}
+	Size length = m_size;
+	Size i = Math::min(length - 1, index);
+	for (; i < length; --i)
+	{
+		for (Size j = 0; j < characters.m_size; ++j)
+		{
+			if (mp_data[i] == characters.mp_data[j])
+			{
+				return i;
+			}
+		}
+	}
+	return INVALID_INDEX;
+}
+
+Size Minty::String::find_last_not_of(String const& characters, Size const index) const
+{
+	if (is_empty() || characters.is_empty())
+	{
+		return INVALID_INDEX;
+	}
+	Size length = m_size;
+	Size i = Math::min(length - 1, index);
+	for (i; i < length; --i)
+	{
+		Bool found = false;
+		for (Size j = 0; j < characters.m_size; ++j)
+		{
+			if (mp_data[i] == characters.mp_data[j])
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+		{
+			return i;
+		}
+	}
+	return INVALID_INDEX;
+}
+
+Tuple<Size, Size> Minty::String::find_group(Char const open, Char const close, Size const index) const
+{
+	Size depth = 0;
+	Size start = INVALID_INDEX;
+	for (Size i = index; i < m_size; i++)
+	{
+		Char c = mp_data[i];
+		if (c == '\\')
+		{
+			// escape character
+			i++;
+		} else if (c == open && (open != close || depth == 0))
+		{
+			if (depth == 0)
+			{
+				start = i;
+			}
+			depth++;
+		}
+		else if (c == close)
+		{
+			depth--;
+			if (depth == 0)
+			{
+				return { start, i - start };
+			}
+		}
+	}
+
+	// not found
+	return { INVALID_INDEX, INVALID_INDEX };
+}
+
+Vector<Tuple<Size, Size>> Minty::String::find_groups(Char const open, Char const close, Size const index) const
+{
+	Vector<Tuple<Size, Size>> result;
+	Size i = index;
+	Tuple<Size, Size> found;
+	do {
+		found = find_group(open, close, i);
+		if (found.get_first() != INVALID_INDEX)
+		{
+			result.add(found);
+			i = found.get_second() + 1;
+		}
+		else
+		{
+			i = m_size;
+		}
+	} while (i < m_size);
+	return result;
 }
 
 Bool Minty::String::starts_with(String const& sub) const
@@ -374,7 +550,7 @@ String Minty::String::replace(String const& str, String const& find, String cons
 	Size index = 0;
 	while (true)
 	{
-		index = str.find(find, index);
+		index = str.find_first(find, index);
 		if (index == INVALID_INDEX)
 		{
 			break;
@@ -423,7 +599,7 @@ Vector<String> Minty::String::split(String const& str, Char const delimiter)
 	Size index = 0;
 	while (true)
 	{
-		index = str.find(delimiter, index);
+		index = str.find_first(delimiter, index);
 		if (index == INVALID_INDEX)
 		{
 			break;
@@ -470,7 +646,7 @@ Vector<String> Minty::String::split(String const& str, String const& delimiter)
 	Size index = 0;
 	while (true)
 	{
-		index = str.find(delimiter, index);
+		index = str.find_first(delimiter, index);
 		if (index == INVALID_INDEX)
 		{
 			break;

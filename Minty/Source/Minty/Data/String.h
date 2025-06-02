@@ -3,6 +3,7 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Vector.h"
 #include <utility>
 
@@ -410,13 +411,19 @@ namespace Minty
 		/// <returns>A new String with the text within the given range.</returns>
 		String sub(Size const start, Size const length) const;
 
+		String trim_start(String const& characters = TEXT_WHITESPACE);
+
+		String trim_end(String const& characters = TEXT_WHITESPACE);
+
+		String trim(String const& whitespace = TEXT_WHITESPACE);
+
 		/// <summary>
 		/// Finds the first occurrence of the given sub string.
 		/// </summary>
 		/// <param name="sub">The text to find.</param>
 		/// <param name="index">The index of the first character to start searching at.</param>
 		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find(String const& sub, Size const index = 0) const;
+		Size find_first(String const& sub, Size const index = 0) const;
 
 		/// <summary>
 		/// Finds the first occurrence of the given character.
@@ -424,23 +431,35 @@ namespace Minty
 		/// <param name="character">The character to find.</param>
 		/// <param name="index">The index of the first character to start searching at.</param>
 		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find(Char const character, Size const index = 0) const;
+		Size find_first(Char const character, Size const index = 0) const;
 
 		/// <summary>
 		/// Finds the first occurrence of a character within the given sub String.
 		/// </summary>
-		/// <param name="sub">The substring to use.</param>
+		/// <param name="characters">The characters to use.</param>
 		/// <param name="index">The starting index.</param>
 		/// <returns>The index of the first character found.</returns>
-		Size find_first_of(String const& sub, Size const index = 0) const;
+		Size find_first_of(String const& characters, Size const index = 0) const;
 
 		/// <summary>
 		/// Finds the first occurrence of a character not within the given sub String.
 		/// </summary>
-		/// <param name="sub">The substring to use.</param>
+		/// <param name="characters">The characters to use.</param>
 		/// <param name="index">The starting index.</param>
 		/// <returns>The index of the first character found.</returns>
-		Size find_first_not_of(String const& sub, Size const index = 0) const;
+		Size find_first_not_of(String const& characters, Size const index = 0) const;
+
+		Size find_last(String const& sub, Size const index = INVALID_INDEX) const;
+
+		Size find_last(Char const character, Size const index = INVALID_INDEX) const;
+
+		Size find_last_of(String const& characters, Size const index = INVALID_INDEX) const;
+
+		Size find_last_not_of(String const& characters, Size const index = INVALID_INDEX) const;
+
+		Tuple<Size, Size> find_group(Char const open, Char const close, Size const index = 0) const;
+
+		Vector<Tuple<Size, Size>> find_groups(Char const open, Char const close, Size const index = 0) const;
 
 		/// <summary>
 		/// Checks if this String contains the given sub string.
@@ -449,7 +468,7 @@ namespace Minty
 		/// <returns>True if found.</returns>
 		Bool contains(String const& sub) const
 		{
-			return find(sub) != INVALID_INDEX;
+			return find_first(sub) != INVALID_INDEX;
 		}
 		
 		/// <summary>
@@ -459,7 +478,7 @@ namespace Minty
 		/// <returns>True if found.</returns>
 		Bool contains(Char const character) const
 		{
-			return find(character) != INVALID_INDEX;
+			return find_first(character) != INVALID_INDEX;
 		}
 
 		/// <summary>
