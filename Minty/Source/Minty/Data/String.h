@@ -495,24 +495,19 @@ namespace Minty
 		/// <returns>True, if this String ends with sub.</returns>
 		Bool ends_with(String const& sub) const;
 
-#pragma endregion
-
-#pragma region Statics
-
-	public:
 		/// <summary>
 		/// Converts the given text to upper case.
 		/// </summary>
 		/// <param name="str">The text to convert.</param>
 		/// <returns>A copy of the given String, uppercased.</returns>
-		static String to_upper(String const& str);
+		String to_upper() const;
 
 		/// <summary>
 		/// Converts the given text to lower case.
 		/// </summary>
 		/// <param name="str">The text to convert.</param>
 		/// <returns>A copy of the given String, lowercased.</returns>
-		static String to_lower(String const& str);
+		String to_lower() const;
 
 		/// <summary>
 		/// Replaces all occurrences of the given text with the replacement text.
@@ -521,7 +516,7 @@ namespace Minty
 		/// <param name="find">The text to find.</param>
 		/// <param name="replace">The text to replace it with.</param>
 		/// <returns>A new string with the text replaced.</returns>
-		static String replace(String const& str, String const& find, String const& replace);
+		String replace(String const& find, String const& replace) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using the given delimiter.
@@ -529,7 +524,7 @@ namespace Minty
 		/// <param name="str">The String to split.</param>
 		/// <param name="delimiter">The delimiter to use.</param>
 		/// <returns>A list of Strings, split by the delimiters.</returns>
-		static Vector<String> split(String const& str, Char const delimiter);
+		Vector<String> split(Char const delimiter) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using the given delimiter.
@@ -537,22 +532,27 @@ namespace Minty
 		/// <param name="str">The String to split.</param>
 		/// <param name="delimiter">The delimiter to use.</param>
 		/// <returns>A list of Strings, split by the delimiters.</returns>
-		static Vector<String> split(String const& str, String const& delimiter);
+		Vector<String> split(String const& delimiter) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using whitespace as the delimiter.
 		/// </summary>
 		/// <param name="str">The String to split.</param>
 		/// <returns>A list of Strings, split by whitespace.</returns>
-		static Vector<String> split(String const& str);
+		Vector<String> split() const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using newlines as the delimiter.
 		/// </summary>
 		/// <param name="str">The String to split.</param>
 		/// <returns>A list of Strings, split by newlines.</returns>
-		static Vector<String> split_lines(String const& str);
+		Vector<String> split_lines() const;
 
+#pragma endregion
+
+#pragma region Statics
+
+	public:
 		/// <summary>
 		/// Creates a String from the given bytes.
 		/// </summary>

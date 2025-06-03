@@ -1084,7 +1084,7 @@ namespace Minty
 				return;
 			}
 
-			String fixedObj = String::replace(obj, "\n", "\\n");
+			String fixedObj = obj.replace("\n", "\\n");
 
 			// write to memory buffer
 			Vector<Byte> buffer;

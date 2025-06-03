@@ -212,6 +212,11 @@ String& Minty::String::append(Char const character)
 
 String Minty::String::sub(Size const start, Size const length) const
 {
+	if (length == 0)
+	{
+		return "";
+	}
+
 	MINTY_ASSERT(start < m_size, "Start index is out of bounds.");
 	MINTY_ASSERT(start + length <= m_size, "Start + length index is out of bounds.");
 
@@ -453,7 +458,7 @@ Tuple<Size, Size> Minty::String::find_group(Char const open, Char const close, S
 			depth--;
 			if (depth == 0)
 			{
-				return { start, i - start };
+				return { start + 1, i - start - 1 };
 			}
 		}
 	}
@@ -508,10 +513,10 @@ Bool Minty::String::ends_with(String const& sub) const
 	return memcmp(mp_data + m_size - sub.m_size, sub.mp_data, sub.m_size * sizeof(Char)) == 0;
 }
 
-String Minty::String::to_upper(String const& str)
+String Minty::String::to_upper() const
 {
-	String copy(str);
-	for (Size i = 0; i < str.get_size(); i++)
+	String copy(*this);
+	for (Size i = 0; i < m_size; i++)
 	{
 		Char c = copy.at(i);
 		if (c >= 'a' && c <= 'z')
@@ -522,10 +527,10 @@ String Minty::String::to_upper(String const& str)
 	return copy;
 }
 
-String Minty::String::to_lower(String const& str)
+String Minty::String::to_lower() const
 {
-	String copy(str);
-	for (Size i = 0; i < str.get_size(); i++)
+	String copy(*this);
+	for (Size i = 0; i < m_size; i++)
 	{
 		Char c = copy.at(i);
 		if (c >= 'A' && c <= 'Z')
@@ -536,9 +541,9 @@ String Minty::String::to_lower(String const& str)
 	return copy;
 }
 
-String Minty::String::replace(String const& str, String const& find, String const& replace)
+String Minty::String::replace(String const& find, String const& replace) const
 {
-	if (str.is_empty())
+	if (is_empty())
 	{
 		return String();
 	}
@@ -550,7 +555,7 @@ String Minty::String::replace(String const& str, String const& find, String cons
 	Size index = 0;
 	while (true)
 	{
-		index = str.find_first(find, index);
+		index = find_first(find, index);
 		if (index == INVALID_INDEX)
 		{
 			break;
@@ -562,11 +567,11 @@ String Minty::String::replace(String const& str, String const& find, String cons
 	// if no occurances, return the original string
 	if (indices.is_empty())
 	{
-		return str;
+		return *this;
 	}
 
 	// calculate new size
-	Size newSize = str.get_size() + indices.get_size() * (replace.get_size() - find.get_size());
+	Size newSize = m_size + indices.get_size() * (replace.get_size() - find.get_size());
 	String result(0, newSize);
 
 	// copy over data
@@ -576,7 +581,7 @@ String Minty::String::replace(String const& str, String const& find, String cons
 	{
 		Size current = indices[i];
 		Size length = current - last;
-		memcpy(result.mp_data + offset, str.mp_data + last, length * sizeof(Char));
+		memcpy(result.mp_data + offset, mp_data + last, length * sizeof(Char));
 		offset += length;
 		memcpy(result.mp_data + offset, replace.mp_data, replace.get_size() * sizeof(Char));
 		offset += replace.get_size();
@@ -584,13 +589,13 @@ String Minty::String::replace(String const& str, String const& find, String cons
 	}
 
 	// copy over the rest of the data
-	Size length = str.get_size() - last;
-	memcpy(result.mp_data + offset, str.mp_data + last, length * sizeof(Char));
+	Size length = get_size() - last;
+	memcpy(result.mp_data + offset, mp_data + last, length * sizeof(Char));
 
 	return result;
 }
 
-Vector<String> Minty::String::split(String const& str, Char const delimiter)
+Vector<String> Minty::String::split(Char const delimiter) const
 {
 	Vector<String> result;
 
@@ -599,7 +604,7 @@ Vector<String> Minty::String::split(String const& str, Char const delimiter)
 	Size index = 0;
 	while (true)
 	{
-		index = str.find_first(delimiter, index);
+		index = find_first(delimiter, index);
 		if (index == INVALID_INDEX)
 		{
 			break;
@@ -611,7 +616,7 @@ Vector<String> Minty::String::split(String const& str, Char const delimiter)
 	// if no occurances, return the original string
 	if (indices.is_empty())
 	{
-		result.add(str);
+		result.add(*this);
 		return result;
 	}
 
@@ -624,20 +629,20 @@ Vector<String> Minty::String::split(String const& str, Char const delimiter)
 	{
 		Size current = indices[i];
 		Size length = current - last;
-		result.add(str.sub(last, length));
+		result.add(sub(last, length));
 		last = current + 1;
 	}
 
 	// copy over the rest of the data
-	Size length = str.get_size() - last;
+	Size length = m_size - last;
 	if (length > 0)
 	{
-		result.add(str.sub(last, length));
+		result.add(sub(last, length));
 	}
 	return result;
 }
 
-Vector<String> Minty::String::split(String const& str, String const& delimiter)
+Vector<String> Minty::String::split(String const& delimiter) const
 {
 	Vector<String> result;
 
@@ -646,7 +651,7 @@ Vector<String> Minty::String::split(String const& str, String const& delimiter)
 	Size index = 0;
 	while (true)
 	{
-		index = str.find_first(delimiter, index);
+		index = find_first(delimiter, index);
 		if (index == INVALID_INDEX)
 		{
 			break;
@@ -658,7 +663,7 @@ Vector<String> Minty::String::split(String const& str, String const& delimiter)
 	// if no occurances, return the original string
 	if (indices.is_empty())
 	{
-		result.add(str);
+		result.add(*this);
 		return result;
 	}
 
@@ -671,22 +676,22 @@ Vector<String> Minty::String::split(String const& str, String const& delimiter)
 	{
 		Size current = indices[i];
 		Size length = current - last;
-		result.add(str.sub(last, length));
+		result.add(sub(last, length));
 		last = current + delimiter.get_size();
 	}
 
 	// copy over the rest of the data
-	Size length = str.get_size() - last;
+	Size length = m_size - last;
 	if (length > 0)
 	{
-		result.add(str.sub(last, length));
+		result.add(sub(last, length));
 	}
 	return result;
 }
 
-Vector<String> Minty::String::split(String const& inputStr)
+Vector<String> Minty::String::split() const
 {
-	String str = replace(inputStr, "\r\n", "\n");
+	String str = replace("\r\n", "\n");
 
 	Vector<String> result;
 
@@ -733,10 +738,9 @@ Vector<String> Minty::String::split(String const& inputStr)
 	return result;
 }
 
-Vector<String> Minty::String::split_lines(String const& inputStr)
+Vector<String> Minty::String::split_lines() const
 {
-	String str = replace(inputStr, "\r\n", "\n");
-	return split(str, '\n');
+	return replace("\r\n", "\n").split('\n');
 }
 
 /// <summary>

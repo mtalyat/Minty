@@ -83,10 +83,15 @@ struct NodeMacro
 	Vector<String> values;
 };
 
+static Bool is_word_character(Char const c)
+{
+	return isalnum(c) || c == '_';
+}
+
 Node Minty::parse_to_node(String const& string)
 {
 	// split lines
-	Vector<String> lines = String::split(string, "\n");
+	Vector<String> lines = string.split_lines();
 
 	// parse node
 	int indent = 0;
@@ -101,13 +106,6 @@ Node Minty::parse_to_node(String const& string)
 		return root;
 	}
 
-	// if first line starts with a ": ", then that is the data for the root node
-	if (lines.front().starts_with(": "))
-	{
-		String temp = lines.front().sub(2, lines.front().get_size() - 2);
-		root.set_data(temp.get_data(), temp.get_size());
-	}
-
 	Stack<Node*> nodeStack;
 	nodeStack.push(&root);
 	Node* node = nodeStack.peek();
@@ -120,9 +118,8 @@ Node Minty::parse_to_node(String const& string)
 	{
 		String line = lines.at(lineIndex);
 		
-		// skip empty/whitespace
-		Size solidIndex = line.find_first_not_of(TEXT_WHITESPACE);
-		if (line.get_size() == 0 || solidIndex == INVALID_INDEX)
+		// skip empty
+		if (line.get_size() == 0)
 		{
 			continue;
 		}
@@ -157,7 +154,7 @@ Node Minty::parse_to_node(String const& string)
 				{
 					// find end of args
 					Tuple<Size, Size> argGroup = line.find_group('(', ')', nameEnd);
-					MINTY_ASSERT(argGroup.get_first() == nameEnd, "#define found the wrong group.");
+					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, "#define found the wrong group.");
 					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, "#define missing ')'.");
 
 					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
@@ -167,11 +164,11 @@ Node Minty::parse_to_node(String const& string)
 						param = param.trim();
 					}
 
-					valueIndex = argGroup.get_second() + 1;
+					valueIndex = argGroup.get_first() + argGroup.get_second() + 1;
 				}
 
 				// get value
-				String value = line.sub(valueIndex, line.get_size() - valueIndex);
+				String value = line.sub(valueIndex + 1, line.get_size() - valueIndex - 1);
 				while (value.ends_with("\\"))
 				{
 					macro.values.add(value.sub(0, value.get_size() - 1));
@@ -202,7 +199,7 @@ Node Minty::parse_to_node(String const& string)
 		Size macroLineCount = 1;
 		while (macroLineNumber < macroLineCount)
 		{
-			String macroLine = lines.at(macroLineNumber);
+			String macroLine = lines.at(macroLineNumber + lineIndex);
 
 			Size macroIndex = 0;
 			while (macroIndex < macros.get_size())
@@ -211,22 +208,41 @@ Node Minty::parse_to_node(String const& string)
 
 				Size mStart = macroLine.find_first(name);
 				Size mEnd = mStart + name.get_size();
-				if (mStart < macroLine.get_size())
+
+				if (mStart == INVALID_INDEX)
 				{
+					macroIndex++;
+					continue;
+				}
+
+				Size count = 0;
+				while (mStart != INVALID_INDEX)
+				{
+					// check if the macro is a valid word, by itself
+					if ((mStart != 0 && is_word_character(macroLine.at(mStart - 1))) ||
+						(mEnd < macroLine.get_size() && is_word_character(macroLine.at(mEnd))))
+					{
+						// skip, not the right macro
+						mStart = mEnd;
+						mStart = macroLine.find_first(name, mStart + 1);
+						mEnd = mStart + name.get_size();
+						continue;
+					}
+
 					Vector<Tuple<String, String>> args;
 
 					// if params, replace those
-					if (!macro.values.is_empty())
+					if (!macro.parameters.is_empty())
 					{
-						auto [start, count] = line.find_group('(', ')', mStart + name.get_size());
+						auto [start, count] = macroLine.find_group('(', ')', mStart + name.get_size());
 						MINTY_ASSERT(start != INVALID_INDEX, F("Macro \"{}\" missing its arguments.", name));
-						Vector<String> parts = String::split(line.sub(start + 1, count - 2), ',');
-						MINTY_ASSERT(parts.get_size() != macro.parameters.get_size(), F("Macro \"{}\" has an incorrect number of arguments.", name));
+						Vector<String> parts = macroLine.sub(start, count).split(',');
+						MINTY_ASSERT(parts.get_size() == macro.parameters.get_size(), F("Macro \"{}\" has an incorrect number of arguments.", name));
 						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
 						{
 							args.add({ macro.parameters.at(argIndex), parts.at(argIndex) });
 						}
-						mEnd = start + count;
+						mEnd = start + count + 1;
 					}
 
 					// get text before and after the macro
@@ -243,7 +259,7 @@ Node Minty::parse_to_node(String const& string)
 						// replace args
 						for (auto const& [find, replace] : args)
 						{
-							value = String::replace(value, find, replace);
+							value = value.replace(find, replace);
 						}
 
 						// insert before and after as needed
@@ -260,17 +276,27 @@ Node Minty::parse_to_node(String const& string)
 						if (valueIndex == 0)
 						{
 							// replace line
-							lines.at(lineIndex) = value;
+							lines.at(macroLineNumber + lineIndex) = value;
 						}
 						else
 						{
 							// insert a line
-							lines.insert(lineIndex + valueIndex, value);
+							lines.insert(macroLineNumber + lineIndex + valueIndex, value);
 							macroLineCount++;
 						}
 					}
 
-					// repeat operation on this line
+					count++;
+
+					mStart = macroLine.find_first(name, mStart + 1);
+					mEnd = mStart + name.get_size();
+				}
+
+				if (count)
+				{
+					// if the macro replaced anything, re-evaluate the line
+					macroLineNumber--;
+					macroIndex = macros.get_size();
 					break;
 				}
 
@@ -282,6 +308,21 @@ Node Minty::parse_to_node(String const& string)
 
 		// re-get line
 		line = lines.at(lineIndex);
+
+		// skip empty/whitespace line
+		Size solidIndex = line.find_first_not_of(TEXT_WHITESPACE);
+		if (solidIndex == INVALID_INDEX)
+		{
+			continue;
+		}
+
+		// if first line starts with a ": ", then that is the data for the root node
+		if (line.starts_with(": "))
+		{
+			String temp = line.sub(2, line.get_size() - 2);
+			root.set_data(temp.get_data(), temp.get_size());
+			continue;
+		}
 
 		// count number of tabs (indents)
 
@@ -352,7 +393,7 @@ Node Minty::parse_to_node(String const& string)
 			// bullet point, use "" as key and the whole line as the value
 			key = "";
 			value = line.sub(2, line.get_size() - 2);
-			value = String::replace(value, "\\n", "\n");
+			value = value.replace("\\n", "\n");
 		}
 		else
 		{
@@ -381,7 +422,7 @@ Node Minty::parse_to_node(String const& string)
 					// nothing on other side of the ": "
 					value = "";
 				}
-				value = String::replace(value, "\\n", "\n");
+				value = value.replace("\\n", "\n");
 			}
 		}
 
