@@ -24,19 +24,20 @@ String Minty::to_string(UUID const obj)
 
 UUID Minty::parse_to_uuid(String const& string)
 {
-	// check if the string is a valid UUID
-	if (string.get_size() != sizeof(ID) * 2)
-	{
-		return UUID();
-	}
-
-	ID value;
-	decode_base16(string, &value, sizeof(ID));
+	UUID value;
+	parse_try_uuid(string, value);
 	return value;
 }
 
 Bool Minty::parse_try_uuid(String const& string, UUID& value)
 {
+	// check if empty or "NULL"
+	if (string.is_empty() || string == "NULL" || string == "null")
+	{
+		value = UUID();
+		return true;
+	}
+
 	// check if the string is a valid UUID
 	if (string.get_size() != sizeof(ID) * 2)
 	{
