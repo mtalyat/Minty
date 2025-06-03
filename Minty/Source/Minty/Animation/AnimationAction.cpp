@@ -27,7 +27,7 @@ UInt get_split(Size const index, Vector<String> const& split, UInt const default
 Bool Minty::AnimationAction::parse(String const& text)
 {
 	// split into parts based on /
-	Vector<String> parts = String::split(text, '/');
+	Vector<String> parts = text.split('/');
 
 	// create the step
 	entityIndex = get_split(1, parts, Animation::MAX_ENTITY_INDEX);

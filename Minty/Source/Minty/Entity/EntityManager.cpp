@@ -706,7 +706,7 @@ Component& Minty::EntityManager::add_component(Entity const entity, String const
 {
 	Context& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	return info->create(*this, entity);
 }
 
@@ -714,7 +714,7 @@ Component& Minty::EntityManager::get_component(Entity const entity, String const
 {
 	Context& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	Component* component = info->get(*this, entity);
 	MINTY_ASSERT(component, F("Failed to get component \"{}\".", name));
 	return *component;
@@ -724,7 +724,7 @@ Component const& Minty::EntityManager::get_component(Entity const entity, String
 {
 	Context const& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	Component const* component = info->get_const(*this, entity);
 	MINTY_ASSERT(component, F("Failed to get component \"{}\".", name));
 	return *component;
@@ -734,7 +734,7 @@ Component* Minty::EntityManager::try_get_component(Entity const entity, String c
 {
 	Context& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	Component* component = info->get(*this, entity);
 	return component;
 }
@@ -743,7 +743,7 @@ Component const* Minty::EntityManager::try_get_component(Entity const entity, St
 {
 	Context const& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	Component const* component = info->get_const(*this, entity);
 	return component;
 }
@@ -752,7 +752,7 @@ Bool Minty::EntityManager::has_component(Entity const entity, String const& name
 {
 	Context const& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	Component const* component = info->get_const(*this, entity);
 	return component != nullptr;
 }
@@ -761,7 +761,7 @@ void Minty::EntityManager::remove_component(Entity const entity, String const& n
 {
 	Context& context = Context::get_singleton();
 	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find component info for \"{}\".", name));
+	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
 	info->destroy(*this, entity);
 }
 
