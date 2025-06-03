@@ -5,8 +5,20 @@
 :: projects that use the engine library.
 
 :: Set the Minty Enviornment Variable
-set "TEMP=%~dp0"
-setx MINTY_PATH %TEMP%
-echo MINTY_PATH set to "%MINTY_PATH%".
+set "pdir=%~dp0"
+setx MINTY_PATH %pdir%
+echo MINTY_PATH set to "%pdir%".
+
+:: Import the Minty Project Visual Studio project template
+set "VS_PATH=%USERPROFILE%\Documents\Visual Studio 2022"
+if not exist "%VS_PATH%\" (
+    set "VS_PATH=%USERPROFILE%\Documents\Visual Studio 2019"
+)
+if exist "%VS_PATH%" (
+    xcopy "%pdir%Minty\Template\Minty Project.zip" "%VS_PATH%\Templates\ProjectTemplates\" /Y
+    echo Imported the Minty Project project template into Visual Studio.
+) else (
+    echo Failed to import the Minty Project project template into Visual Studio.
+)
 
 pause

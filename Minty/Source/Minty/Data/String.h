@@ -3,6 +3,7 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Vector.h"
 #include <utility>
 
@@ -410,13 +411,19 @@ namespace Minty
 		/// <returns>A new String with the text within the given range.</returns>
 		String sub(Size const start, Size const length) const;
 
+		String trim_start(String const& characters = TEXT_WHITESPACE);
+
+		String trim_end(String const& characters = TEXT_WHITESPACE);
+
+		String trim(String const& whitespace = TEXT_WHITESPACE);
+
 		/// <summary>
 		/// Finds the first occurrence of the given sub string.
 		/// </summary>
 		/// <param name="sub">The text to find.</param>
 		/// <param name="index">The index of the first character to start searching at.</param>
 		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find(String const& sub, Size const index = 0) const;
+		Size find_first(String const& sub, Size const index = 0) const;
 
 		/// <summary>
 		/// Finds the first occurrence of the given character.
@@ -424,23 +431,35 @@ namespace Minty
 		/// <param name="character">The character to find.</param>
 		/// <param name="index">The index of the first character to start searching at.</param>
 		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find(Char const character, Size const index = 0) const;
+		Size find_first(Char const character, Size const index = 0) const;
 
 		/// <summary>
 		/// Finds the first occurrence of a character within the given sub String.
 		/// </summary>
-		/// <param name="sub">The substring to use.</param>
+		/// <param name="characters">The characters to use.</param>
 		/// <param name="index">The starting index.</param>
 		/// <returns>The index of the first character found.</returns>
-		Size find_first_of(String const& sub, Size const index = 0) const;
+		Size find_first_of(String const& characters, Size const index = 0) const;
 
 		/// <summary>
 		/// Finds the first occurrence of a character not within the given sub String.
 		/// </summary>
-		/// <param name="sub">The substring to use.</param>
+		/// <param name="characters">The characters to use.</param>
 		/// <param name="index">The starting index.</param>
 		/// <returns>The index of the first character found.</returns>
-		Size find_first_not_of(String const& sub, Size const index = 0) const;
+		Size find_first_not_of(String const& characters, Size const index = 0) const;
+
+		Size find_last(String const& sub, Size const index = INVALID_INDEX) const;
+
+		Size find_last(Char const character, Size const index = INVALID_INDEX) const;
+
+		Size find_last_of(String const& characters, Size const index = INVALID_INDEX) const;
+
+		Size find_last_not_of(String const& characters, Size const index = INVALID_INDEX) const;
+
+		Tuple<Size, Size> find_group(Char const open, Char const close, Size const index = 0) const;
+
+		Vector<Tuple<Size, Size>> find_groups(Char const open, Char const close, Size const index = 0) const;
 
 		/// <summary>
 		/// Checks if this String contains the given sub string.
@@ -449,7 +468,7 @@ namespace Minty
 		/// <returns>True if found.</returns>
 		Bool contains(String const& sub) const
 		{
-			return find(sub) != INVALID_INDEX;
+			return find_first(sub) != INVALID_INDEX;
 		}
 		
 		/// <summary>
@@ -459,7 +478,7 @@ namespace Minty
 		/// <returns>True if found.</returns>
 		Bool contains(Char const character) const
 		{
-			return find(character) != INVALID_INDEX;
+			return find_first(character) != INVALID_INDEX;
 		}
 
 		/// <summary>
@@ -476,24 +495,19 @@ namespace Minty
 		/// <returns>True, if this String ends with sub.</returns>
 		Bool ends_with(String const& sub) const;
 
-#pragma endregion
-
-#pragma region Statics
-
-	public:
 		/// <summary>
 		/// Converts the given text to upper case.
 		/// </summary>
 		/// <param name="str">The text to convert.</param>
 		/// <returns>A copy of the given String, uppercased.</returns>
-		static String to_upper(String const& str);
+		String to_upper() const;
 
 		/// <summary>
 		/// Converts the given text to lower case.
 		/// </summary>
 		/// <param name="str">The text to convert.</param>
 		/// <returns>A copy of the given String, lowercased.</returns>
-		static String to_lower(String const& str);
+		String to_lower() const;
 
 		/// <summary>
 		/// Replaces all occurrences of the given text with the replacement text.
@@ -502,7 +516,7 @@ namespace Minty
 		/// <param name="find">The text to find.</param>
 		/// <param name="replace">The text to replace it with.</param>
 		/// <returns>A new string with the text replaced.</returns>
-		static String replace(String const& str, String const& find, String const& replace);
+		String replace(String const& find, String const& replace) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using the given delimiter.
@@ -510,7 +524,7 @@ namespace Minty
 		/// <param name="str">The String to split.</param>
 		/// <param name="delimiter">The delimiter to use.</param>
 		/// <returns>A list of Strings, split by the delimiters.</returns>
-		static Vector<String> split(String const& str, Char const delimiter);
+		Vector<String> split(Char const delimiter) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using the given delimiter.
@@ -518,22 +532,27 @@ namespace Minty
 		/// <param name="str">The String to split.</param>
 		/// <param name="delimiter">The delimiter to use.</param>
 		/// <returns>A list of Strings, split by the delimiters.</returns>
-		static Vector<String> split(String const& str, String const& delimiter);
+		Vector<String> split(String const& delimiter) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using whitespace as the delimiter.
 		/// </summary>
 		/// <param name="str">The String to split.</param>
 		/// <returns>A list of Strings, split by whitespace.</returns>
-		static Vector<String> split(String const& str);
+		Vector<String> split() const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using newlines as the delimiter.
 		/// </summary>
 		/// <param name="str">The String to split.</param>
 		/// <returns>A list of Strings, split by newlines.</returns>
-		static Vector<String> split_lines(String const& str);
+		Vector<String> split_lines() const;
 
+#pragma endregion
+
+#pragma region Statics
+
+	public:
 		/// <summary>
 		/// Creates a String from the given bytes.
 		/// </summary>

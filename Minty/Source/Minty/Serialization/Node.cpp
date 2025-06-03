@@ -77,10 +77,21 @@ String Minty::to_string(Node const& obj)
 	MINTY_ABORT("Not implemented.");
 }
 
+struct NodeMacro
+{
+	Vector<String> parameters;
+	Vector<String> values;
+};
+
+static Bool is_word_character(Char const c)
+{
+	return isalnum(c) || c == '_';
+}
+
 Node Minty::parse_to_node(String const& string)
 {
 	// split lines
-	Vector<String> lines = String::split(string, "\n");
+	Vector<String> lines = string.split_lines();
 
 	// parse node
 	int indent = 0;
@@ -95,59 +106,222 @@ Node Minty::parse_to_node(String const& string)
 		return root;
 	}
 
-	// if first line starts with a ": ", then that is the data for the root node
-	if (lines.front().starts_with(": "))
-	{
-		String temp = lines.front().sub(2, lines.front().get_size() - 2);
-		root.set_data(temp.get_data(), temp.get_size());
-	}
-
 	Stack<Node*> nodeStack;
 	nodeStack.push(&root);
 	Node* node = nodeStack.peek();
 
 	int const SPACES_PER_TAB = 4;
 
-	Map<String, String> macros;
+	Vector<Tuple<String, NodeMacro>> macros;
 
-	for (String line : lines)
+	for (Size lineIndex = 0; lineIndex < lines.get_size(); lineIndex++)
 	{
+		String line = lines.at(lineIndex);
+		
+		// skip empty
+		if (line.get_size() == 0)
+		{
+			continue;
+		}
+
 		// read macros or other special lines
 		if (line.front() == '#')
 		{
 			if (line.starts_with("#define"))
 			{
-				// remove "#define "
-				line = line.sub(7, line.get_size() - 7); // remove "#define "
+				Size nameIndex = 8;
 
-				// skip whitespace
-				Size solidIndex = line.find_first_not_of(" \t\n\v\f\r");
-				line = line.sub(solidIndex, line.get_size() - solidIndex);
+				// find end of name
+				Size nameEnd = nameIndex;
+				for (; nameEnd < line.get_size(); nameEnd++)
+				{
+					Char c = line.at(nameEnd);
+					if (!isalnum(c) && c != '_')
+					{
+						break;
+					}
+				}
 
-				// split into name and value
-				Size index = line.find(' ');
-				String macroName = line.sub(0, index);
-				String macroValue = line.sub(index + 1, line.get_size() - index - 1);
+				// if end is (, get args
 
-				MINTY_ASSERT(!macroName.is_empty(), "Macro name is empty.");
+				// get name
+				String macroName = line.sub(nameIndex, nameEnd - nameIndex);
+				// get macro data
+				NodeMacro macro{};
+				// if has arguments
+				Size valueIndex = nameEnd;
+				if (nameEnd < line.get_size() && line.at(nameEnd) == '(')
+				{
+					// find end of args
+					Tuple<Size, Size> argGroup = line.find_group('(', ')', nameEnd);
+					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, "#define found the wrong group.");
+					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, "#define missing ')'.");
 
-				// define macro
-				macros[macroName] = macroValue;
+					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
+					macro.parameters = argLine.split(',');
+					for (String& param : macro.parameters)
+					{
+						param = param.trim();
+					}
+
+					valueIndex = argGroup.get_first() + argGroup.get_second() + 1;
+				}
+
+				// get value
+				String value = line.sub(valueIndex + 1, line.get_size() - valueIndex - 1);
+				while (value.ends_with("\\"))
+				{
+					macro.values.add(value.sub(0, value.get_size() - 1));
+
+					lineIndex++;
+					if (lineIndex == lines.get_size())
+					{
+						value = "";
+						break;
+					}
+					value = lines.at(lineIndex);
+				}
+				if (!value.is_empty())
+				{
+					macro.values.add(value);
+				}
+
+				// add to macros
+				macros.add({ macroName, std::move(macro) });
 			}
-			continue;
-		}
 
-		// skip empty/whitespace/comment lines
-		Size solidIndex = line.find_first_not_of(" \t\n\v\f\r");
-		if (line.get_size() == 0 || solidIndex == INVALID_INDEX || line.front() == '#' || line.front() == ':')
-		{
+			// skip line if started with #
 			continue;
 		}
 
 		// replace macros
-		for (auto const& macro : macros)
+		Size macroLineNumber = 0;
+		Size macroLineCount = 1;
+		while (macroLineNumber < macroLineCount)
 		{
-			line = String::replace(line, macro.get_first(), macro.get_second());
+			String macroLine = lines.at(macroLineNumber + lineIndex);
+
+			Size macroIndex = 0;
+			while (macroIndex < macros.get_size())
+			{
+				auto const& [name, macro] = macros.at(macroIndex);
+
+				Size mStart = macroLine.find_first(name);
+				Size mEnd = mStart + name.get_size();
+
+				if (mStart == INVALID_INDEX)
+				{
+					macroIndex++;
+					continue;
+				}
+
+				Size count = 0;
+				while (mStart != INVALID_INDEX)
+				{
+					// check if the macro is a valid word, by itself
+					if ((mStart != 0 && is_word_character(macroLine.at(mStart - 1))) ||
+						(mEnd < macroLine.get_size() && is_word_character(macroLine.at(mEnd))))
+					{
+						// skip, not the right macro
+						mStart = mEnd;
+						mStart = macroLine.find_first(name, mStart + 1);
+						mEnd = mStart + name.get_size();
+						continue;
+					}
+
+					Vector<Tuple<String, String>> args;
+
+					// if params, replace those
+					if (!macro.parameters.is_empty())
+					{
+						auto [start, count] = macroLine.find_group('(', ')', mStart + name.get_size());
+						MINTY_ASSERT(start != INVALID_INDEX, F("Macro \"{}\" missing its arguments.", name));
+						Vector<String> parts = macroLine.sub(start, count).split(',');
+						MINTY_ASSERT(parts.get_size() == macro.parameters.get_size(), F("Macro \"{}\" has an incorrect number of arguments.", name));
+						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
+						{
+							args.add({ macro.parameters.at(argIndex), parts.at(argIndex) });
+						}
+						mEnd = start + count + 1;
+					}
+
+					// get text before and after the macro
+					String before = macroLine.sub(0, mStart);
+					String after = macroLine.sub(mEnd, macroLine.get_size() - mEnd);
+
+					// insert lines and replace args as they are inserted
+					Size valueCount = macro.values.get_size();
+					for (Size valueIndex = 0; valueIndex < valueCount; valueIndex++)
+					{
+						// get value
+						String value = macro.values.at(valueIndex);
+
+						// replace args
+						for (auto const& [find, replace] : args)
+						{
+							value = value.replace(find, replace);
+						}
+
+						// insert before and after as needed
+						if (valueIndex == 0)
+						{
+							value = before + value;
+						}
+						if (valueIndex == valueCount - 1)
+						{
+							value = value + after;
+						}
+
+						// replace or insert the line
+						if (valueIndex == 0)
+						{
+							// replace line
+							lines.at(macroLineNumber + lineIndex) = value;
+						}
+						else
+						{
+							// insert a line
+							lines.insert(macroLineNumber + lineIndex + valueIndex, value);
+							macroLineCount++;
+						}
+					}
+
+					count++;
+
+					mStart = macroLine.find_first(name, mStart + 1);
+					mEnd = mStart + name.get_size();
+				}
+
+				if (count)
+				{
+					// if the macro replaced anything, re-evaluate the line
+					macroLineNumber--;
+					macroIndex = macros.get_size();
+					break;
+				}
+
+				macroIndex++;
+			}
+
+			macroLineNumber++;
+		}
+
+		// re-get line
+		line = lines.at(lineIndex);
+
+		// skip empty/whitespace line
+		Size solidIndex = line.find_first_not_of(TEXT_WHITESPACE);
+		if (solidIndex == INVALID_INDEX)
+		{
+			continue;
+		}
+
+		// if first line starts with a ": ", then that is the data for the root node
+		if (line.starts_with(": "))
+		{
+			String temp = line.sub(2, line.get_size() - 2);
+			root.set_data(temp.get_data(), temp.get_size());
+			continue;
 		}
 
 		// count number of tabs (indents)
@@ -219,12 +393,12 @@ Node Minty::parse_to_node(String const& string)
 			// bullet point, use "" as key and the whole line as the value
 			key = "";
 			value = line.sub(2, line.get_size() - 2);
-			value = String::replace(value, "\\n", "\n");
+			value = value.replace("\\n", "\n");
 		}
 		else
 		{
 			// String::split by colon, if there is one
-			Size split = line.find(':');
+			Size split = line.find_first(':');
 
 			if (split == INVALID_INDEX)
 			{
@@ -248,7 +422,7 @@ Node Minty::parse_to_node(String const& string)
 					// nothing on other side of the ": "
 					value = "";
 				}
-				value = String::replace(value, "\\n", "\n");
+				value = value.replace("\\n", "\n");
 			}
 		}
 

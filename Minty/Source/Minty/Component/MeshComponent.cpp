@@ -26,11 +26,11 @@ void Minty::MeshComponent::serialize(Writer& writer) const
 
 	if (material != nullptr)
 	{
-		writer.write("Naterial", material->get_id());
+		writer.write("Material", material->get_id());
 	}
 	else
 	{
-		writer.write("Naterial", INVALID_ID);
+		writer.write("Material", INVALID_ID);
 	}
 }
 

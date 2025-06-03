@@ -44,7 +44,7 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 	}
 
 	// split the condition string into parts
-	Vector<String> parts = String::split(conditionString);
+	Vector<String> parts = conditionString.split();
 	MINTY_ASSERT(parts.get_size() == 3, "Condition string must have 3 parts, split by spaces.");
 
 	// get the scope

@@ -8,7 +8,7 @@ using namespace Minty;
 Bool Minty::EntityPath::parse(String const& text)
 {
 	// split the string into parts
-	Vector<String> parts = String::split(text, '/');
+	Vector<String> parts = text.split('/');
 
 	// parse to the path
 	m_path.reserve(parts.get_size());

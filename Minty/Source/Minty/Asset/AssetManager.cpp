@@ -647,7 +647,7 @@ Vector<String> Minty::AssetManager::read_lines(Path const& path) const
 	String text = read_text(path);
 
 	// split into lines
-	return String::split_lines(text);
+	return text.split_lines();
 }
 
 Int Minty::AssetManager::check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const
@@ -946,7 +946,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path)
 	for (String const& line : lines)
 	{
 		// split by tabs
-		Vector<String> parts = String::split(line);
+		Vector<String> parts = line.split();
 
 		// determine what to do based on first word in line
 		if (line.starts_with("char "))

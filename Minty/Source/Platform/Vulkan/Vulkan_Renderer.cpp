@@ -310,7 +310,7 @@ VkPhysicalDevice Minty::Vulkan_Renderer::select_physical_device(VkInstance const
 
 	if (deviceCount == 0)
 	{
-		VK_ASSERT_ABORT("Failed to find GPUs with Vulkan support.");
+		VK_ASSERT_ABORT("Failed to find_first GPUs with Vulkan support.");
 	}
 
 	Vector<VkPhysicalDevice> devices;
@@ -332,7 +332,7 @@ VkPhysicalDevice Minty::Vulkan_Renderer::select_physical_device(VkInstance const
 	}
 	else
 	{
-		VK_ASSERT_ABORT("Failed to find a suitable GPU.");
+		VK_ASSERT_ABORT("Failed to find_first a suitable GPU.");
 	}
 }
 
@@ -403,7 +403,7 @@ VkFormat Minty::Vulkan_Renderer::find_supported_format(VkPhysicalDevice const ph
 		}
 	}
 
-	VK_ASSERT_ABORT("Failed to find supported depthFormat.");
+	VK_ASSERT_ABORT("Failed to find_first supported depthFormat.");
 }
 
 VkFormat Minty::Vulkan_Renderer::find_supported_depth_format(VkPhysicalDevice const physicalDevice)
@@ -641,7 +641,7 @@ uint32_t Minty::Vulkan_Renderer::find_memory_type(VkPhysicalDevice const physica
 		}
 	}
 
-	MINTY_ABORT("Failed to find suitable memory type.");
+	MINTY_ABORT("Failed to find_first suitable memory type.");
 	return 0;
 }
 

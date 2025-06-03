@@ -96,7 +96,7 @@ namespace Minty
 		/// Loads the Scene from the given Path, and adds it to the SceneManager.
 		/// </summary>
 		/// <param name="path">The Path to the Scene.</param>
-		Ref<Scene> load(Path const& path);
+		Ref<Scene> load(Path const& path, Bool const setAsActive = false);
 
 		/// <summary>
 		/// Removes the Scene with the given ID from the SceneManager, and unloads it.
@@ -109,7 +109,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="path"></param>
 		/// <param name="onCompletion">The Job to run upon completion of the loading.</param>
-		UUID schedule_load(Path const& path, Job const& onCompletion = []() {});
+		UUID schedule_load(Path const& path, Job const& onCompletion = []() {}, Bool const setAsActive = false);
 
 		/// <summary>
 		/// Removes the Scene from the SceneManager, and Schedules the Scene with the given ID to be unloaded.
