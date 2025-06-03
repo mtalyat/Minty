@@ -34,7 +34,7 @@ void Minty::SceneManager::remove(Ref<Scene> const& scene)
 	}
 }
 
-Ref<Scene> Minty::SceneManager::load(Path const& path)
+Ref<Scene> Minty::SceneManager::load(Path const& path, Bool const setAsActive)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
@@ -45,6 +45,12 @@ Ref<Scene> Minty::SceneManager::load(Path const& path)
 
 	// add the Scene
 	add(scene);
+
+	// set as active if requested
+	if (setAsActive)
+	{
+		set_active(scene);
+	}
 
 	return scene;
 }
@@ -63,16 +69,21 @@ void Minty::SceneManager::unload(UUID const id)
 	assetManager.unload(id);
 }
 
-UUID Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletion)
+UUID Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletion, Bool const setAsActive)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
-	return assetManager.schedule_load(path, [this, onCompletion](AssetManager& assetManager, UUID const id)
+	return assetManager.schedule_load(path, [this, onCompletion, setAsActive](AssetManager& assetManager, UUID const id)
 		{
 			// get the scene
 			Ref<Scene> scene = assetManager.get<Scene>(id);
 			MINTY_ASSERT(scene != nullptr, F("Failed to load Scene with ID: {}", id));
 			// add the scene
 			add(scene);
+			// set as active if requested
+			if (setAsActive)
+			{
+				set_active(scene);
+			}
 			// run the completion job
 			onCompletion();
 		});
