@@ -308,6 +308,8 @@
     <ClInclude Include="Minty\Input\_Input.h" />
     <ClInclude Include="Minty\Job\JobManager.h" />
     <ClInclude Include="Minty\Job\_Job.h" />
+    <ClInclude Include="Minty\Layer\LayerManager.h" />
+    <ClInclude Include="Minty\Layer\_Layer.h" />
     <ClInclude Include="Minty\Library\Bullet.h" />
     <ClInclude Include="Minty\Library\EnTT.h" />
     <ClInclude Include="Minty\Library\GLFW.h" />
@@ -531,6 +533,7 @@
     <ClCompile Include="Minty\Input\KeyModifiers.cpp" />
     <ClCompile Include="Minty\Input\MouseButton.cpp" />
     <ClCompile Include="Minty\Job\JobManager.cpp" />
+    <ClCompile Include="Minty\Layer\LayerManager.cpp" />
     <ClCompile Include="Minty\Library\STB.cpp" />
     <ClCompile Include="Minty\Manager\Manager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />

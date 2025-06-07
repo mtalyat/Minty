@@ -131,6 +131,11 @@ namespace Minty
 	/// </summary>
 	constexpr Layer LAYER_DEFAULT = 1;
 
+	/// <summary>
+	/// The maximum number of Layers that can be used in the engine.
+	/// </summary>
+	constexpr Layer LAYER_COUNT = 32;
+
 #pragma endregion
 
 #pragma region Minty

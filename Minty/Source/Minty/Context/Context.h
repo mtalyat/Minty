@@ -9,6 +9,7 @@
 #include "Minty/Data/Vector.h"
 #include "Minty/Input/InputManager.h"
 #include "Minty/Job/JobManager.h"
+#include "Minty/Layer/LayerManager.h"
 #include "Minty/Manager/Manager.h"
 #include "Minty/Memory/MemoryManager.h"
 #include "Minty/Physics/PhysicsManager.h"
@@ -28,6 +29,7 @@ namespace Minty
 		MemoryManagerBuilder memoryManagerBuilder = {};
 		JobManagerBuilder jobManagerBuilder = {};
 		AudioManagerBuilder audioManagerBuilder = {};
+		LayerManagerBuilder layerManagerBuilder = {};
 		PhysicsManagerBuilder physicsManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
 		InputManagerBuilder inputManagerBuilder = {};
@@ -50,6 +52,7 @@ namespace Minty
 		Owner<MemoryManager> m_memoryManager;
 		Owner<JobManager> m_jobManager;
 		Owner<AudioManager> m_audioManager;
+		Owner<LayerManager> m_layerManager;
 		Owner<PhysicsManager> m_physicsManager;
 		Owner<AssetManager> m_assetManager;
 		Owner<InputManager> m_inputManager;
@@ -130,6 +133,18 @@ namespace Minty
 		/// </summary>
 		/// <returns>The AudioManager.</returns>
 		Ref<AudioManager> get_audio_manager_ref() const { return m_audioManager.create_ref(); }
+
+		/// <summary>
+		/// Gets the LayerManager in this Context.
+		/// </summary>
+		/// <returns>The LayerManager.</returns>
+		LayerManager& get_layer_manager() { return *m_layerManager; }
+
+		/// <summary>
+		/// Gets the LayerManager in this Context.
+		/// </summary>
+		/// <returns>The LayerManager.</returns>
+		Ref<LayerManager> get_layer_manager_ref() const { return m_layerManager.create_ref(); }
 
 		/// <summary>
 		/// Gets the PhysicsManager in this Context.

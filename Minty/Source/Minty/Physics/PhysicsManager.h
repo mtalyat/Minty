@@ -15,13 +15,6 @@ namespace Minty
 	/// </summary>
 	struct PhysicsManagerBuilder
 	{
-		/// <summary>
-		/// The layer collision matrix.
-		/// </summary>
-		Vector<Tuple<String, Layer, Layer>> layerCollisions = {
-			{ "None", LAYER_NONE, LAYER_NONE },
-			{ "Default", LAYER_DEFAULT, LAYER_ALL }
-		};
 	};
 
 	/// <summary>

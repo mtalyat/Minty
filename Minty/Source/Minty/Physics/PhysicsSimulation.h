@@ -11,6 +11,7 @@
 namespace Minty
 {
 	class PhysicsManager;
+	class LayerManager;
 
 	/// <summary>
 	/// The arguments to create a PhysicsSimulation.
@@ -26,6 +27,11 @@ namespace Minty
 		/// The PhysicsManager this PhysicsSimulation uses.
 		/// </summary>
 		Ref<PhysicsManager> physicsManager = nullptr;
+
+		/// <summary>
+		/// The LayerManager this PhysicsSimulation uses.
+		/// </summary>
+		Ref<LayerManager> layerManager = nullptr;
 	};
 
 	/// <summary>
@@ -38,18 +44,18 @@ namespace Minty
 	private:
 		Float3 m_gravity;
 		Ref<PhysicsManager> m_physicsManager;
+		Ref<LayerManager> m_layerManager;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		PhysicsSimulation(PhysicsSimulationBuilder const& builder)
-			: m_gravity(builder.gravity)
-			, m_physicsManager(builder.physicsManager)
-		{
-			MINTY_ASSERT(m_physicsManager != nullptr, "PhysicsManager cannot be null.");
-		}
+		/// <summary>
+		/// Creates a new PhysicsSimulation with the given arguments.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		PhysicsSimulation(PhysicsSimulationBuilder const& builder);
 
 #pragma endregion
 
@@ -59,6 +65,11 @@ namespace Minty
 		inline PhysicsManager& get_physics_manager() const
 		{
 			return *m_physicsManager;
+		}
+
+		inline LayerManager& get_layer_manager() const
+		{
+			return *m_layerManager;
 		}
 
 	public:

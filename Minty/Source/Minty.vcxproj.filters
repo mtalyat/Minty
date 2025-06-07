@@ -145,6 +145,9 @@
     <Filter Include="Minty\Manager">
       <UniqueIdentifier>{19fa1b94-d382-4254-a8aa-23a6e5e185cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Layer">
+      <UniqueIdentifier>{d26e455c-3cd2-42ee-87df-718b354ae839}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -936,6 +939,12 @@
     <ClInclude Include="Minty\Data\Dictionary.h">
       <Filter>Minty\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Layer\_Layer.h">
+      <Filter>Minty\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Layer\LayerManager.h">
+      <Filter>Minty\Layer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1485,6 +1494,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\System\PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Layer\LayerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
