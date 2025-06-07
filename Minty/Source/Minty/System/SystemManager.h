@@ -1,8 +1,8 @@
 #pragma once
-#include "Minty/Context/Manager.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Manager/SubManager.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/System.h"
 
@@ -23,7 +23,7 @@ namespace Minty
 	/// Manages all Systems in the game.
 	/// </summary>
 	class SystemManager
-		: public Manager, public SerializableObject
+		: public SubManager, public SerializableObject
 	{
 #pragma region Variables
 
@@ -37,8 +37,8 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		SystemManager(SystemManagerBuilder const& builder)
-			: Manager()
+		SystemManager(Scene* scene, SystemManagerBuilder const& builder)
+			: SubManager(scene)
 			, m_scene(builder.scene)
 			, m_systems()
 			, m_systemsByType()
@@ -155,8 +155,17 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<SystemManager> create(SystemManagerBuilder const& builder = {});
+		/// <summary>
+		/// Creates a new SystemManager with the given arguments.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>A SystemManager Owner.</returns>
+		static Owner<SystemManager> create(Scene* scene, SystemManagerBuilder const& builder = {});
 
+		/// <summary>
+		/// Gets the SystemManager for the active Scene.
+		/// </summary>
+		/// <returns>The SystemManager.</returns>
 		static SystemManager& get_singleton();
 
 #pragma endregion

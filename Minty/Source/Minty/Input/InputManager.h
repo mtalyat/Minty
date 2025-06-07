@@ -1,5 +1,5 @@
 #pragma once
-#include "Minty/Context/Manager.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Debug/Debug.h"

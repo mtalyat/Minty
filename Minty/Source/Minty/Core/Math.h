@@ -444,6 +444,32 @@ namespace Minty
 			return value < 0 ? -1 : (value > 0 ? 1 : 0);
 		}
 
+		/// <summary>
+		/// Gets the dot product of the two given Float3 values.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <returns>The dot product.</returns>
+		constexpr Float dot(Float3 const& a, Float3 const& b)
+		{
+			return a.x * b.x + a.y * b.y + a.z * b.z;
+		}
+		
+		/// <summary>
+		/// Gets the cross product of the two given Float3 values.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <returns>The cross product.</returns>
+		constexpr Float3 cross(Float3 const& a, Float3 const& b)
+		{
+			return Float3(
+				a.y * b.z - a.z * b.y,
+				a.z * b.x - a.x * b.z,
+				a.x * b.y - a.y * b.x
+			);
+		}
+
 #pragma endregion
 
 #pragma region Utility

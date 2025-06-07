@@ -143,6 +143,13 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Physics
+
+	constexpr Float DEFAULT_PHYSICS_GRAVITY = -9.81f;
+	constexpr Float DEFAULT_PHYSICS_TIME_STEP = 1.0f / 60.0f;
+
+#pragma endregion
+
 #pragma region Render
 
 	constexpr Size FRAMES_PER_FLIGHT = 2;

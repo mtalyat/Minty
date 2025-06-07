@@ -2,7 +2,7 @@
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Audio/AudioManager.h"
 #include "Minty/Component/Component.h"
-#include "Minty/Context/Manager.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Lookup.h"

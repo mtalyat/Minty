@@ -40,7 +40,7 @@ Minty::Context::Context(ContextBuilder const& builder)
 	register_systems();
 	register_components();
 
-	// create window
+	// create window 
 	m_window = Window::create(builder.windowBuilder);
 
 	// create managers
@@ -129,11 +129,13 @@ void Minty::Context::register_components()
 	register_component<AudioSourceComponent>("AudioSource");
 	register_component<CameraComponent>("Camera");
 	register_component<CanvasComponent>("Canvas");
+	register_component<ColliderComponent>("Collider");
 	register_component<EnabledComponent>("Enabled");
 	register_component<LayerComponent>("Layer");
 	register_component<MeshComponent>("Mesh");
 	register_component<NameComponent>("Name");
 	register_component<RelationshipComponent>("Relationship");
+	register_component<RigidBodyComponent>("RigidBody");
 	register_component<SpriteComponent>("Sprite");
 	register_component<TextComponent>("Text");
 	register_component<TransformComponent>("Transform");
@@ -146,6 +148,7 @@ void Minty::Context::register_systems()
 {
 	register_system<AnimationSystem>("Animation");
 	register_system<AudioSystem>("Audio");
+	register_system<PhysicsSystem>("Physics");
 	register_system<RenderSystem>("Render");
 }
 

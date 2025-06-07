@@ -153,9 +153,9 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<SystemManager> Minty::SystemManager::create(SystemManagerBuilder const& builder)
+Owner<SystemManager> Minty::SystemManager::create(Scene* scene, SystemManagerBuilder const& builder)
 {
-	return Owner<SystemManager>(builder);
+	return Owner<SystemManager>(scene, builder);
 }
 
 SystemManager& Minty::SystemManager::get_singleton()

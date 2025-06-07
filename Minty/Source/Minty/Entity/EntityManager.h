@@ -1,6 +1,5 @@
 #pragma once
 #include "Minty/Component/Component.h"
-#include "Minty/Context/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Entity/EntityPath.h"
@@ -8,6 +7,7 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Manager/SubManager.h"
 #include "Minty/Serialization/SerializableObject.h"
 
 namespace Minty
@@ -24,7 +24,7 @@ namespace Minty
 	/// Manages all Entities in the game.
 	/// </summary>
 	class EntityManager
-		: public Manager, public SerializableObject
+		: public SubManager, public SerializableObject
 	{
 #pragma region Variables
 
@@ -41,8 +41,8 @@ namespace Minty
 		/// Creates a new EntityManager using the given arguments.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>
-		EntityManager(EntityManagerBuilder const& builder)
-			: Manager()
+		EntityManager(Scene* scene, EntityManagerBuilder const& builder)
+			: SubManager(scene)
 			, m_registry()
 			, m_ids()
 		{
@@ -110,6 +110,10 @@ namespace Minty
 		/// Called when the Manager is created.
 		/// </summary>
 		void initialize() override;
+		/// <summary>
+		/// Called every frame.
+		/// </summary>
+		void update(Time const& time) override;
 		/// <summary>
 		/// Called after every update operation.
 		/// </summary>
@@ -331,6 +335,20 @@ namespace Minty
 
 		void move_to_last(Entity const entity);
 
+		void destroy(Entity const entity);
+
+		template<typename ComponentType>
+		void destroy_with()
+		{
+			auto view = m_registry.view<ComponentType>();
+			m_registry.destroy(view.begin(), view.end());
+		}
+
+		/// <summary>
+		/// Destroys all Entities with a DestroyComponent.
+		/// </summary>
+		void cleanup();
+
 #pragma region Serialization
 
 	private:
@@ -350,8 +368,17 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<EntityManager> create(EntityManagerBuilder const& builder = {});
+		/// <summary>
+		/// Creates a new EntityManager with the given arguments.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
+		/// <returns>An EntityManager Owner.</returns>
+		static Owner<EntityManager> create(Scene* scene, EntityManagerBuilder const& builder = {});
 
+		/// <summary>
+		/// Gets the singleton EntityManager for the active Scene.
+		/// </summary>
+		/// <returns>The EntityManager.</returns>
 		static EntityManager& get_singleton();
 
 #pragma endregion

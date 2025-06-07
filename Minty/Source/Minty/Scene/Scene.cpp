@@ -9,25 +9,29 @@ using namespace Minty;
 Minty::Scene::Scene(SceneBuilder const& builder)
 	: Asset(builder.id)
 	, m_name(builder.name)
-	, mp_entityManager(nullptr)
-	, mp_systemManager(nullptr)
+	, m_entityManager(nullptr)
+	, m_systemManager(nullptr)
+	, m_physicsManager(nullptr)
 	, m_registeredAssets()
 	, m_assets()
 	, m_loadedAssets()
 {
 	// create the entity manager
 	EntityManagerBuilder entityManagerBuilder{};
-	mp_entityManager = new EntityManager(entityManagerBuilder);
+	m_entityManager = EntityManager::create(this, entityManagerBuilder);
 
 	// create the system manager
 	SystemManagerBuilder systemManagerBuilder{};
 	systemManagerBuilder.scene = create_ref();
-	mp_systemManager = new SystemManager(systemManagerBuilder);
+	m_systemManager = SystemManager::create(this, systemManagerBuilder);
+
+	// create physics manager
+	PhysicsManagerBuilder physicsManagerBuilder{};
+	m_physicsManager = PhysicsManager::create(this, physicsManagerBuilder);
 }
 
 Minty::Scene::~Scene()
 {
-	
 }
 
 void Minty::Scene::load_assets()
@@ -103,8 +107,9 @@ void Minty::Scene::unload_assets()
 
 void Minty::Scene::on_load()
 {
-	mp_systemManager->initialize();
-	mp_entityManager->initialize();
+	m_physicsManager->initialize();
+	m_systemManager->initialize();
+	m_entityManager->initialize();
 	
 	load_assets();
 }
@@ -113,32 +118,34 @@ void Minty::Scene::on_unload()
 {
 	unload_assets();
 
-	mp_systemManager->dispose();
-	mp_entityManager->dispose();
+	m_systemManager->dispose();
+	m_entityManager->dispose();
+	m_physicsManager->dispose();
 }
 
 void Minty::Scene::on_update(Time const& time)
 {
-	mp_systemManager->update(time);
-	mp_entityManager->update(time);
+	m_physicsManager->update(time);
+	m_systemManager->update(time);
+	m_entityManager->update(time);
 }
 
 void Minty::Scene::on_finalize()
 {
-	mp_systemManager->finalize();
-	mp_entityManager->finalize();
+	m_physicsManager->finalize();
+	m_systemManager->finalize();
+	m_entityManager->finalize();
 }
 
 void Minty::Scene::on_render()
 {
-	mp_systemManager->render();
-	mp_entityManager->render();
+	m_systemManager->render();
 }
 
 void Minty::Scene::on_event(Event& event)
 {
 	// pass event on to the systems
-	mp_systemManager->handle_event(event);
+	m_systemManager->handle_event(event);
 }
 
 void Minty::Scene::serialize(Writer& writer) const
@@ -160,14 +167,14 @@ Bool Minty::Scene::deserialize(Reader& reader)
 	// read the systems
 	if (reader.indent("Systems"))
 	{
-		mp_systemManager->deserialize(reader);
+		m_systemManager->deserialize(reader);
 		reader.outdent();
 	}
 
 	// read the entities
 	if (reader.indent("Entities"))
 	{
-		mp_entityManager->deserialize(reader);
+		m_entityManager->deserialize(reader);
 		reader.outdent();
 	}
 

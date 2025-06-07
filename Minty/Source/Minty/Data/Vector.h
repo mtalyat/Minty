@@ -586,7 +586,11 @@ namespace Minty
 			// move data over, if it exists
 			if (mp_data)
 			{
-				memcpy(newData, mp_data, m_size * sizeof(T));
+				for (Size i = 0; i < m_size; ++i)
+				{
+					new (&newData[i]) T(std::move(mp_data[i]));
+					mp_data[i].~T();
+				}
 				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
 			}
 

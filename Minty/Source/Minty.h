@@ -15,6 +15,7 @@
 #include "Minty/FSM/_FSM.h"
 #include "Minty/Input/_Input.h"
 #include "Minty/Job/_Job.h"
+#include "Minty/Manager/_Manager.h"
 #include "Minty/Memory/_Memory.h"
 #include "Minty/Render/_Render.h"
 #include "Minty/Serialization/_Serialization.h"

@@ -1056,12 +1056,32 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 	}
 }
 
+void Minty::EntityManager::destroy(Entity const entity)
+{
+	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	m_registry.destroy(entity);
+}
+
 void Minty::EntityManager::initialize()
 {
 	// dirty all components on load
 	mark_all_entities<DirtyComponent>();
 
 	Manager::initialize();
+}
+
+void Minty::EntityManager::update(Time const& time)
+{
+	// remove any entities that are marked for destruction
+	cleanup();
+
+	// sort the entities
+	sort();
+
+	// refresh the dirty components
+	finalize_dirties();
+
+	Manager::update(time);
 }
 
 void Minty::EntityManager::finalize()
@@ -1073,6 +1093,11 @@ void Minty::EntityManager::finalize()
 	finalize_dirties();
 
 	Manager::finalize();
+}
+
+void Minty::EntityManager::cleanup()
+{
+	destroy_with<DestroyComponent>();
 }
 
 Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index)
@@ -1193,9 +1218,9 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<EntityManager> Minty::EntityManager::create(EntityManagerBuilder const& builder)
+Owner<EntityManager> Minty::EntityManager::create(Scene* scene, EntityManagerBuilder const& builder)
 {
-	return Owner<EntityManager>(builder);
+	return Owner<EntityManager>(scene, builder);
 }
 
 EntityManager& Minty::EntityManager::get_singleton()
