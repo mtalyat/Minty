@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Component/ColliderComponent.h"
+#include "Minty/Component/DestroyComponent.h"
+#include "Minty/Component/RigidBodyComponent.h"
+#include "Minty/Component/SimulateComponent.h"
+#include "Minty/Component/TransformComponent.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 
@@ -11,7 +16,6 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 	, m_name(builder.name)
 	, m_entityManager(nullptr)
 	, m_systemManager(nullptr)
-	, m_physicsManager(nullptr)
 	, m_registeredAssets()
 	, m_assets()
 	, m_loadedAssets()
@@ -24,10 +28,6 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 	SystemManagerBuilder systemManagerBuilder{};
 	systemManagerBuilder.scene = create_ref();
 	m_systemManager = SystemManager::create(this, systemManagerBuilder);
-
-	// create physics manager
-	PhysicsManagerBuilder physicsManagerBuilder{};
-	m_physicsManager = PhysicsManager::create(this, physicsManagerBuilder);
 }
 
 Minty::Scene::~Scene()
@@ -107,7 +107,6 @@ void Minty::Scene::unload_assets()
 
 void Minty::Scene::on_load()
 {
-	m_physicsManager->initialize();
 	m_systemManager->initialize();
 	m_entityManager->initialize();
 	
@@ -120,19 +119,16 @@ void Minty::Scene::on_unload()
 
 	m_systemManager->dispose();
 	m_entityManager->dispose();
-	m_physicsManager->dispose();
 }
 
 void Minty::Scene::on_update(Time const& time)
 {
-	m_physicsManager->update(time);
 	m_systemManager->update(time);
 	m_entityManager->update(time);
 }
 
 void Minty::Scene::on_finalize()
 {
-	m_physicsManager->finalize();
 	m_systemManager->finalize();
 	m_entityManager->finalize();
 }

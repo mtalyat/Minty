@@ -1085,6 +1085,32 @@ namespace Minty
 			m_size = 0;
 		}
 
+		inline void push(T const& value)
+		{
+			add(value);
+		}
+
+		inline void push(T&& value)
+		{
+			add(std::move(value));
+		}
+
+		inline T& peek()
+		{
+			return back();
+		}
+
+		inline T const& peek() const
+		{
+			return back();
+		}
+
+		T pop()
+		{
+			MINTY_ASSERT(m_size > 0, "Cannot pop from an empty Vector.");
+			return std::move(mp_data[--m_size]);
+		}
+
 #pragma endregion
 	};
 }

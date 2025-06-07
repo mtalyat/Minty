@@ -238,6 +238,7 @@
     <ClInclude Include="Minty\Data\Color.h" />
     <ClInclude Include="Minty\Data\ConstantContainer.h" />
     <ClInclude Include="Minty\Data\Container.h" />
+    <ClInclude Include="Minty\Data\Dictionary.h" />
     <ClInclude Include="Minty\Data\DynamicContainer.h" />
     <ClInclude Include="Minty\Data\List.h" />
     <ClInclude Include="Minty\Data\ListContainer.h" />
@@ -323,8 +324,8 @@
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
     <ClInclude Include="Minty\Physics\Collider.h" />
-    <ClInclude Include="Minty\Physics\MeshCollider.h" />
     <ClInclude Include="Minty\Physics\PhysicsManager.h" />
+    <ClInclude Include="Minty\Physics\PhysicsSimulation.h" />
     <ClInclude Include="Minty\Physics\RaycastHit.h" />
     <ClInclude Include="Minty\Physics\RigidBody.h" />
     <ClInclude Include="Minty\Physics\_Physics.h" />
@@ -414,7 +415,8 @@
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Platform\Bullet\Bullet_Collider.h" />
-    <ClInclude Include="Platform\Bullet\Bullet_PhysicsManager.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_Physics.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_PhysicsSimulation.h" />
     <ClInclude Include="Platform\Bullet\Bullet_RigidBody.h" />
     <ClInclude Include="Platform\SoLoud\SoLoud_AudioClip.h" />
     <ClInclude Include="Platform\SoLoud\SoLoud_AudioManager.h" />
@@ -536,6 +538,7 @@
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
     <ClCompile Include="Minty\Physics\Collider.cpp" />
     <ClCompile Include="Minty\Physics\PhysicsManager.cpp" />
+    <ClCompile Include="Minty\Physics\PhysicsSimulation.cpp" />
     <ClCompile Include="Minty\Physics\RigidBody.cpp" />
     <ClCompile Include="Minty\Render\Buffer.cpp" />
     <ClCompile Include="Minty\Render\BufferUsage.cpp" />
@@ -606,7 +609,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Platform\Bullet\Bullet_Collider.cpp" />
-    <ClCompile Include="Platform\Bullet\Bullet_PhysicsManager.cpp" />
+    <ClCompile Include="Platform\Bullet\Bullet_PhysicsSimulation.cpp" />
     <ClCompile Include="Platform\Bullet\Bullet_RigidBody.cpp" />
     <ClCompile Include="Platform\SoLoud\SoLoud_AudioClip.cpp" />
     <ClCompile Include="Platform\SoLoud\SoLoud_AudioManager.cpp" />

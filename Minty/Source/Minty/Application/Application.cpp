@@ -18,8 +18,8 @@ void Minty::Application::run()
 	Stopwatch elapsedWatch = Stopwatch::start_new();
 
 	// run the application loop
-	Ref<Window> const& window = m_context->get_window();
-	while (window->is_open())
+	Window& window = m_context->get_window();
+	while (window.is_open())
 	{
 		// finalize managers
 		m_context->finalize();

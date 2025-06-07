@@ -2,7 +2,6 @@
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Audio/AudioManager.h"
 #include "Minty/Component/Component.h"
-#include "Minty/Manager/Manager.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Lookup.h"
@@ -10,7 +9,9 @@
 #include "Minty/Data/Vector.h"
 #include "Minty/Input/InputManager.h"
 #include "Minty/Job/JobManager.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Memory/MemoryManager.h"
+#include "Minty/Physics/PhysicsManager.h"
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Scene/SceneManager.h"
 
@@ -27,6 +28,7 @@ namespace Minty
 		MemoryManagerBuilder memoryManagerBuilder = {};
 		JobManagerBuilder jobManagerBuilder = {};
 		AudioManagerBuilder audioManagerBuilder = {};
+		PhysicsManagerBuilder physicsManagerBuilder = {};
 		AssetManagerBuilder assetManagerBuilder = {};
 		InputManagerBuilder inputManagerBuilder = {};
 		RenderManagerBuilder renderManagerBuilder = {};
@@ -48,6 +50,7 @@ namespace Minty
 		Owner<MemoryManager> m_memoryManager;
 		Owner<JobManager> m_jobManager;
 		Owner<AudioManager> m_audioManager;
+		Owner<PhysicsManager> m_physicsManager;
 		Owner<AssetManager> m_assetManager;
 		Owner<InputManager> m_inputManager;
 		Owner<RenderManager> m_renderManager;
@@ -99,10 +102,22 @@ namespace Minty
 		MemoryManager& get_memory_manager() { return *m_memoryManager; }
 
 		/// <summary>
+		/// Gets the MemoryManager in this Context.
+		/// </summary>
+		/// <returns>The MemoryManager.</returns>
+		Ref<MemoryManager> get_memory_manager_ref() const { return m_memoryManager.create_ref(); }
+
+		/// <summary>
 		/// Gets the JobManager in this Context.
 		/// </summary>
 		/// <returns>The JobManager.</returns>
 		JobManager& get_job_manager() { return *m_jobManager; }
+
+		/// <summary>
+		/// Gets the JobManager in this Context.
+		/// </summary>
+		/// <returns>The JobManager.</returns>
+		Ref<JobManager> get_job_manager_ref() const { return m_jobManager.create_ref(); }
 
 		/// <summary>
 		/// Gets the AudioManager in this Context.
@@ -111,10 +126,34 @@ namespace Minty
 		AudioManager& get_audio_manager() { return *m_audioManager; }
 
 		/// <summary>
+		/// Gets the AudioManager in this Context.
+		/// </summary>
+		/// <returns>The AudioManager.</returns>
+		Ref<AudioManager> get_audio_manager_ref() const { return m_audioManager.create_ref(); }
+
+		/// <summary>
+		/// Gets the PhysicsManager in this Context.
+		/// </summary>
+		/// <returns>The PhysicsManager.</returns>
+		PhysicsManager& get_physics_manager() { return *m_physicsManager; }
+
+		/// <summary>
+		/// Gets the PhysicsManager in this Context.
+		/// </summary>
+		/// <returns>The PhysicsManager.</returns>
+		Ref<PhysicsManager> get_physics_manager_ref() const { return m_physicsManager.create_ref(); }
+
+		/// <summary>
 		/// Gets the AssetManager in this Context.
 		/// </summary>
 		/// <returns>The AssetManager.</returns>
 		AssetManager& get_asset_manager() { return *m_assetManager; }
+
+		/// <summary>
+		/// Gets the AssetManager in this Context.
+		/// </summary>
+		/// <returns>The AssetManager.</returns>
+		Ref<AssetManager> get_asset_manager_ref() const { return m_assetManager.create_ref(); }
 
 		/// <summary>
 		/// Gets the InputManager in this Context.
@@ -123,22 +162,46 @@ namespace Minty
 		InputManager& get_input_manager() { return *m_inputManager; }
 
 		/// <summary>
+		/// Gets the InputManager in this Context.
+		/// </summary>
+		/// <returns>The InputManager.</returns>
+		Ref<InputManager> get_input_manager_ref() const { return m_inputManager.create_ref(); }
+
+		/// <summary>
 		/// Gets the RenderManager in this Context.
 		/// </summary>
 		/// <returns>The RenderManager.</returns>
 		RenderManager& get_render_manager() { return *m_renderManager; }
 
 		/// <summary>
+		/// Gets the RenderManager in this Context.
+		/// </summary>
+		/// <returns>The RenderManager.</returns>
+		Ref<RenderManager> get_render_manager_ref() const { return m_renderManager.create_ref(); }
+
+		/// <summary>
 		/// Gets the Window in this Context.
 		/// </summary>
 		/// <returns></returns>
-		Ref<Window> get_window() const { return m_window.create_ref(); }
+		Window& get_window() const { return *m_window; }
+
+		/// <summary>
+		/// Gets the Window in this Context.
+		/// </summary>
+		/// <returns></returns>
+		Ref<Window> get_window_ref() const { return m_window.create_ref(); }
 
 		/// <summary>
 		/// Gets the SceneManager in this Context.
 		/// </summary>
 		/// <returns>The SceneManager.</returns>
 		SceneManager& get_scene_manager() { return *m_sceneManager; }
+
+		/// <summary>
+		/// Gets the SceneManager in this Context.
+		/// </summary>
+		/// <returns>The SceneManager.</returns>
+		Ref<SceneManager> get_scene_manager_ref() const { return m_sceneManager.create_ref(); }
 
 #pragma endregion
 
@@ -186,7 +249,7 @@ namespace Minty
 #pragma region Systems
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
-		void register_system(String const& name)
+		void register_system(String const& name, Int const priority)
 		{
 			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
 			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
@@ -198,7 +261,8 @@ namespace Minty
 				.create = [](SystemBuilder const& builder) -> System*
 				{
 					return new T(builder);
-				}
+				},
+				.defaultPriority = priority
 			};
 
 			m_registeredSystems.add(name, typeid(T), info);

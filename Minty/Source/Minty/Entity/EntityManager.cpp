@@ -530,8 +530,8 @@ void Minty::EntityManager::finalize_dirties()
 	}
 
 	// get window size as a rect
-	Ref<Window> window = Context::get_singleton().get_window();
-	UInt2 windowSize = window->get_size();
+	Window& window = Context::get_singleton().get_window();
+	UInt2 windowSize = window.get_size();
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
 	// update dirty canvas transforms

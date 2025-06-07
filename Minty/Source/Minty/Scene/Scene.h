@@ -6,7 +6,7 @@
 #include "Minty/Data/Vector.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Event/Event.h"
-#include "Minty/Physics/PhysicsManager.h"
+#include "Minty/Physics/PhysicsSimulation.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/SystemManager.h"
 #include "Minty/Time/Time.h"
@@ -53,7 +53,6 @@ namespace Minty
 
 		Owner<EntityManager> m_entityManager;
 		Owner<SystemManager> m_systemManager;
-		Owner<PhysicsManager> m_physicsManager;
 		
 		// information for each registered asset
 		Map<Path, AssetData> m_registeredAssets;
@@ -99,12 +98,6 @@ namespace Minty
 		/// </summary>
 		/// <returns></returns>
 		SystemManager& get_system_manager() const { return *m_systemManager; }
-
-		/// <summary>
-		/// Gets the PhysicsManager of this Scene.
-		/// </summary>
-		/// <returns></returns>
-		PhysicsManager& get_physics_manager() const { return *m_physicsManager; }
 
 		/// <summary>
 		/// Gets the AssetType of this Asset.

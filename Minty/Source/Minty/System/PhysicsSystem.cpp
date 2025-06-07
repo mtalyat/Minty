@@ -1,18 +1,28 @@
 #include "pch.h"
 #include "PhysicsSystem.h"
-#include "Minty/Scene/Scene.h"
+#include "Minty/Context/Context.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Component/ColliderComponent.h"
+#include "Minty/Component/DestroyComponent.h"
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/SimulateComponent.h"
 #include "Minty/Component/TransformComponent.h"
+#include "Minty/Physics/PhysicsManager.h"
+#include "Minty/Scene/Scene.h"
 
 using namespace Minty;
 
 Minty::PhysicsSystem::PhysicsSystem(SystemBuilder const& builder)
 	: System(builder)
+	, m_simulation()
+	, m_accumulator(0.0f)
 {
-
+	Context& context = Context::get_singleton();
+	
+	// create the simulation based on data from the physics manager
+	PhysicsSimulationBuilder simulationBuilder{};
+	simulationBuilder.physicsManager = context.get_physics_manager_ref();
+	m_simulation = PhysicsSimulation::create(simulationBuilder);
 }
 
 void Minty::PhysicsSystem::initialize_entities()
@@ -21,12 +31,11 @@ void Minty::PhysicsSystem::initialize_entities()
 	Ref<Scene> const& scene = get_scene();
 	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
 	EntityManager& entityManager = scene->get_entity_manager();
-	PhysicsManager& physicsManager = scene->get_physics_manager();
 
-	for (auto&& [entity, transform, collider] : entityManager.view<TransformComponent, ColliderComponent>(entt::exclude<RigidBodyComponent, SimulateComponent>).each())
+	for (auto&& [entity, transform, collider] : entityManager.view<TransformComponent, ColliderComponent>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
 		// add to physics manager
-		physicsManager.add_static(transform.transform, *collider.collider);
+		m_simulation->add_static(transform.transform, *collider.collider, entityManager.get_layer(entity));
 
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);
@@ -35,7 +44,20 @@ void Minty::PhysicsSystem::initialize_entities()
 
 void Minty::PhysicsSystem::deinitialize_entities()
 {
+	// get scene and managers
+	Ref<Scene> const& scene = get_scene();
+	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+	EntityManager& entityManager = scene->get_entity_manager();
 
+	// clear simulation
+	for (auto&& [entity, transform, collider, body, simulate] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+	{
+		// remove from physics simulation
+		m_simulation->remove_dynamic(*collider.collider, *body.rigidBody);
+
+		// remove simulate component
+		entityManager.remove_component<SimulateComponent>(entity);
+	}
 }
 
 void Minty::PhysicsSystem::on_load()
@@ -54,10 +76,51 @@ void Minty::PhysicsSystem::on_update(Time const& time)
 	Ref<Scene> const& scene = get_scene();
 	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
 	EntityManager& entityManager = scene->get_entity_manager();
-	PhysicsManager& physicsManager = scene->get_physics_manager();
 
 	// initialize any new entities
 	initialize_entities();
 
-	// update transforms from scene to physics engine
+	// accumulate time for physics
+	m_accumulator += time.get_elapsed();
+
+	// if time for at least one step, perform update
+	if (m_accumulator >= DEFAULT_PHYSICS_TIME_STEP)
+	{
+		// update the physics simulation data with the world data
+		for (auto const& [entity, transform, collider, body, simulate] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+		{
+			m_simulation->set_dynamic(transform.transform, *collider.collider, *body.rigidBody);
+		}
+
+		// perform the physics steps
+		while (m_accumulator >= DEFAULT_PHYSICS_TIME_STEP)
+		{
+			m_simulation->step(DEFAULT_PHYSICS_TIME_STEP);
+			m_accumulator -= DEFAULT_PHYSICS_TIME_STEP;
+		}
+
+		// update the world data with the physics simulation data
+		for (auto&& [entity, transform, collider, body, simulate] : entityManager.view<TransformComponent, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+		{
+			m_simulation->get_dynamic(transform.transform, *collider.collider, *body.rigidBody);
+		}
+	}
+}
+
+void Minty::PhysicsSystem::on_finalize()
+{
+	// get scene and managers
+	Ref<Scene> const& scene = get_scene();
+	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+	EntityManager& entityManager = scene->get_entity_manager();
+
+	// remove any entities marked for destruction from the physics simulation
+	for (auto&& [entity, transform, collider, body, simulate, destroy] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, DestroyComponent const>().each())
+	{
+		// remove from physics manager
+		m_simulation->remove_dynamic(*collider.collider, *body.rigidBody);
+
+		// remove simulate component
+		entityManager.remove_component<SimulateComponent>(entity);
+	}
 }

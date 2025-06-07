@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/System/System.h"
+#include "Minty/Physics/PhysicsSimulation.h"
 
 namespace Minty
 {
@@ -9,6 +10,14 @@ namespace Minty
 	class PhysicsSystem
 		: public System
 	{
+#pragma region Variables
+
+	private:
+		Owner<PhysicsSimulation> m_simulation;
+		Float m_accumulator;
+
+#pragma endregion
+
 #pragma region Constructors
 
 	public:
@@ -46,7 +55,11 @@ namespace Minty
 		/// <param name="time"></param>
 		void on_update(Time const& time) override;
 
-#pragma endregion
+		/// <summary>
+		/// Called when the Scene is finalized.
+		/// </summary>
+		void on_finalize() override;
 
+#pragma endregion
 	};
 }

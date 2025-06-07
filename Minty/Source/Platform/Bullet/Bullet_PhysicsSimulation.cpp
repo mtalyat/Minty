@@ -1,12 +1,15 @@
 #include "pch.h"
-#include "Bullet_PhysicsManager.h"
+#include "Bullet_PhysicsSimulation.h"
+#include "Minty/Debug/Debug.h"
+#include "Minty/Physics/PhysicsManager.h"
 #include "Platform/Bullet/Bullet_Collider.h"
+#include "Platform/Bullet/Bullet_Physics.h"
 #include "Platform/Bullet/Bullet_RigidBody.h"
 
 using namespace Minty;
 
-Minty::Bullet_PhysicsManager::Bullet_PhysicsManager(Scene* scene, PhysicsManagerBuilder const& builder)
-	: PhysicsManager(scene, builder)
+Minty::Bullet_PhysicsSimulation::Bullet_PhysicsSimulation(PhysicsSimulationBuilder const& builder)
+	: PhysicsSimulation(builder)
 	, mp_broadphase(new btDbvtBroadphase())
 	, mp_collisionConfiguration(new btDefaultCollisionConfiguration())
 	, mp_dispatcher(new btCollisionDispatcher(mp_collisionConfiguration))
@@ -14,49 +17,34 @@ Minty::Bullet_PhysicsManager::Bullet_PhysicsManager(Scene* scene, PhysicsManager
 	, mp_dynamicsWorld(new btDiscreteDynamicsWorld(mp_dispatcher, mp_broadphase, mp_solver, mp_collisionConfiguration))
 {
 	// set gravity
-	mp_dynamicsWorld->setGravity(to_bullet(builder.gravity));
+	set_gravity(builder.gravity);
 }
 
-Minty::Bullet_PhysicsManager::~Bullet_PhysicsManager()
+Size Minty::Bullet_PhysicsSimulation::get_size() const
 {
-	delete mp_dynamicsWorld;
-	delete mp_solver;
-	delete mp_dispatcher;
-	delete mp_collisionConfiguration;
-	delete mp_broadphase;
+	return static_cast<Size>(mp_dynamicsWorld->getNumCollisionObjects());
 }
 
-void Minty::Bullet_PhysicsManager::step(Float const elapsedTime)
+void Minty::Bullet_PhysicsSimulation::set_gravity(Float3 const& gravity)
+{
+	// set the gravity in the dynamics world
+	mp_dynamicsWorld->setGravity(Bullet_Physics::to_bullet(gravity));
+	
+	PhysicsSimulation::set_gravity(gravity);
+}
+
+void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 {
 	mp_dynamicsWorld->stepSimulation(elapsedTime, 1, DEFAULT_PHYSICS_TIME_STEP);
 }
 
-void Minty::Bullet_PhysicsManager::initialize()
-{
-	PhysicsManager::initialize();
-}
-
-void Minty::Bullet_PhysicsManager::dispose()
-{
-	// clear the dynamics world
-	Int count = mp_dynamicsWorld->getNumCollisionObjects();
-	for (Int i = count - 1; i >= 0; i--)
-	{
-		// deleting handled by the individual objects
-		btCollisionObject* obj = mp_dynamicsWorld->getCollisionObjectArray()[i];
-		mp_dynamicsWorld->removeCollisionObject(obj);
-	}
-
-	PhysicsManager::dispose();
-}
-
-void Minty::Bullet_PhysicsManager::add_static(Transform const& transform, Collider& collider)
+void Minty::Bullet_PhysicsSimulation::add_static(Transform const& transform, Collider& collider, Layer const layer)
 {
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
 
 	// create transform data
-	btTransform btTransform = to_bullet(transform);
+	btTransform btTransform = Bullet_Physics::to_bullet(transform);
 
 	// create the collision object
 	btCollisionObject* collisionObject = new btCollisionObject();
@@ -70,7 +58,7 @@ void Minty::Bullet_PhysicsManager::add_static(Transform const& transform, Collid
 	mp_dynamicsWorld->addCollisionObject(collisionObject);
 }
 
-void Minty::Bullet_PhysicsManager::add_dynamic(Transform const& transform, Collider& collider, RigidBody& body)
+void Minty::Bullet_PhysicsSimulation::add_dynamic(Transform const& transform, Collider& collider, RigidBody& body, Layer const layer)
 {
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -78,7 +66,7 @@ void Minty::Bullet_PhysicsManager::add_dynamic(Transform const& transform, Colli
 	btCollisionShape* shape = btCollider.get_collision_shape();
 
 	// create transform data
-	btTransform btTransform = to_bullet(transform);
+	btTransform btTransform = Bullet_Physics::to_bullet(transform);
 
 	// set inertia
 	btVector3 inertia(0, 0, 0);
@@ -101,7 +89,7 @@ void Minty::Bullet_PhysicsManager::add_dynamic(Transform const& transform, Colli
 	mp_dynamicsWorld->addRigidBody(rigidBody);
 }
 
-void Minty::Bullet_PhysicsManager::remove_static(Collider& collider)
+void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
 {
 	// remove from dynamics world
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -114,7 +102,7 @@ void Minty::Bullet_PhysicsManager::remove_static(Collider& collider)
 	btCollider.set_collision_object(nullptr);
 }
 
-void Minty::Bullet_PhysicsManager::remove_dynamic(Collider& collider, RigidBody& body)
+void Minty::Bullet_PhysicsSimulation::remove_dynamic(Collider& collider, RigidBody& body)
 {
 	// remove from dynamics world
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -131,12 +119,24 @@ void Minty::Bullet_PhysicsManager::remove_dynamic(Collider& collider, RigidBody&
 	btBody.set_rigid_body(nullptr);
 }
 
-void Minty::Bullet_PhysicsManager::set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body)
+void Minty::Bullet_PhysicsSimulation::set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body)
 {
 	MINTY_WARNING("TODO: PhysicsManager::set_dynamic()");
 }
 
-void Minty::Bullet_PhysicsManager::get_dynamic(Transform& transform, Collider const& collider, RigidBody& body)
+void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider const& collider, RigidBody& body)
 {
 	MINTY_WARNING("TODO: PhysicsManager::get_dynamic()");
+}
+
+void Minty::Bullet_PhysicsSimulation::clear()
+{
+	// clear the dynamics world
+	Int count = mp_dynamicsWorld->getNumCollisionObjects();
+	for (Int i = count - 1; i >= 0; i--)
+	{
+		// deleting handled by the individual objects
+		btCollisionObject* obj = mp_dynamicsWorld->getCollisionObjectArray()[i];
+		mp_dynamicsWorld->removeCollisionObject(obj);
+	}
 }

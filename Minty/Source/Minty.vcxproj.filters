@@ -882,17 +882,11 @@
     <ClInclude Include="Minty\Physics\Collider.h">
       <Filter>Minty\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Physics\MeshCollider.h">
-      <Filter>Minty\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Library\Bullet.h">
       <Filter>Minty\Library</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Core\MeshType.h">
       <Filter>Minty\Render\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform\Bullet\Bullet_PhysicsManager.h">
-      <Filter>Platform\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Physics\RigidBody.h">
       <Filter>Minty\Physics</Filter>
@@ -915,9 +909,6 @@
     <ClInclude Include="Minty\Component\RigidBodyComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\System\PhysicsSystem.h">
-      <Filter>Minty\System</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Component\DestroyComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
@@ -929,6 +920,21 @@
     </ClInclude>
     <ClInclude Include="Minty\Manager\SubManager.h">
       <Filter>Minty\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Physics\PhysicsSimulation.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_PhysicsSimulation.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_Physics.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\PhysicsSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Dictionary.h">
+      <Filter>Minty\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1457,9 +1463,6 @@
     <ClCompile Include="Minty\Physics\PhysicsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Platform\Bullet\Bullet_PhysicsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Platform\Bullet\Bullet_Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1469,13 +1472,19 @@
     <ClCompile Include="Minty\Physics\Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minty\System\PhysicsSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Platform\Bullet\Bullet_RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Manager\Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Physics\PhysicsSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_PhysicsSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\PhysicsSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
