@@ -145,7 +145,7 @@ Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 	// if no window given, use the Context's window
 	if (m_window == nullptr)
 	{
-		m_window = Context::get_singleton().get_window();
+		m_window = Context::get_singleton().get_window_ref();
 	}
 
 	MINTY_ASSERT(m_window != nullptr, "RenderManager requires a Window to render to. Provide a window in the RenderManagerBuilder, or create a Context.");

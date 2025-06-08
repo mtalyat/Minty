@@ -5,13 +5,13 @@
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
-    String to_string(FontFlags const obj);
-    FontFlags parse_to_font_flags(String const& string);
-    Bool parse_try_font_flags(String const& string, FontFlags& value);
+    String to_string(Shape const obj);
+    Shape parse_to_shape(String const& string);
+    Bool parse_try_shape(String const& string, Shape& value);
     template<>
-    inline FontFlags parse_to<FontFlags>(String const& string) { return parse_to_font_flags(string); }
+    inline Shape parse_to<Shape>(String const& string) { return parse_to_shape(string); }
     template<>
-    inline Bool parse_try<FontFlags>(String const& string, FontFlags& value) { return parse_try_font_flags(string, value); }
+    inline Bool parse_try<Shape>(String const& string, Shape& value) { return parse_try_shape(string, value); }
 
 ====================
 	Source:
@@ -19,26 +19,38 @@
 
 using namespace Minty;
 
-String Minty::to_string(FontFlags const obj)
+String Minty::to_string(Shape const obj)
 {
     switch (obj)
 	{
-		case FontFlags::None: return "None";
+		case Shape::Empty: return "Empty";
+		case Shape::Box: return "Box";
+		case Shape::Sphere: return "Sphere";
+		case Shape::Capsule: return "Capsule";
+		case Shape::Cylinder: return "Cylinder";
+		case Shape::Cone: return "Cone";
+		case Shape::Custom: return "Custom";
 
 		default: return "";
 	}
 }
 
-FontFlags Minty::parse_to_font_flags(String const& string)
+Shape Minty::parse_to_shape(String const& string)
 {
-	if (string == "None") return FontFlags::None;
+	if (string == "Empty") return Shape::Empty;
+	if (string == "Box") return Shape::Box;
+	if (string == "Sphere") return Shape::Sphere;
+	if (string == "Capsule") return Shape::Capsule;
+	if (string == "Cylinder") return Shape::Cylinder;
+	if (string == "Cone") return Shape::Cone;
+	if (string == "Custom") return Shape::Custom;
 
-	return FontFlags();
+	return Shape();
 }
 
-Bool Minty::parse_try_font_flags(String const& string, FontFlags& value)
+Bool Minty::parse_try_shape(String const& string, Shape& value)
 {
-	value = parse_to_font_flags(string);
+	value = parse_to_shape(string);
 	return true;
 }
 
@@ -50,21 +62,27 @@ Bool Minty::parse_try_font_flags(String const& string, FontFlags& value)
 
 #include "Test.h"
 
-void test_FontFlags(Test& _test);
+void test_Shape(Test& _test);
 
 ====================
 	Test Source:
 ====================
 
-#include "Test_FontFlags.h"
+#include "Test_Shape.h"
 #include "Minty.h"
 
-void test_FontFlags(Test& _test)
+void test_Shape(Test& _test)
 {
-	CATEGORY(FontFlags)
+	CATEGORY(Shape)
 	{
-        std::vector<std::pair<FontFlags, String>> VALUES = {
-			{FontFlags::None, "None"},
+        std::vector<std::pair<Shape, String>> VALUES = {
+			{Shape::Empty, "Empty"},
+			{Shape::Box, "Box"},
+			{Shape::Sphere, "Sphere"},
+			{Shape::Capsule, "Capsule"},
+			{Shape::Cylinder, "Cylinder"},
+			{Shape::Cone, "Cone"},
+			{Shape::Custom, "Custom"},
         };
     
         TEST("To String")
@@ -79,23 +97,23 @@ void test_FontFlags(Test& _test)
         {
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_EQUAL(parse_to_font_flags(name), value);
+                EXPECT_EQUAL(parse_to_shape(name), value);
             }
 
-            EXPECT_EQUAL(parse_to_font_flags(""), FontFlags());
+            EXPECT_EQUAL(parse_to_shape(""), Shape());
         }
 
         TEST("Parse Try")
         {
-            FontFlags result;
+            Shape result;
             for (auto const& [value, name] : VALUES)
             {
-                EXPECT_TRUE(parse_try_font_flags(name, result));
+                EXPECT_TRUE(parse_try_shape(name, result));
                 EXPECT_EQUAL(result, value);
             }
 
-            EXPECT_FALSE(parse_try_font_flags("", result));
-            EXPECT_EQUAL(result, FontFlags());
+            EXPECT_FALSE(parse_try_shape("", result));
+            EXPECT_EQUAL(result, Shape());
         }
 	}
 }

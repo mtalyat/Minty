@@ -1,17 +1,40 @@
-	enum class FontFlags
-	{
-		/// <summary>
-		/// The font is regular, with no special styling.
-		/// </summary>
-		None = 0,
+/// <summary>
+/// Defines a shape for a collider or a mesh.
+/// </summary>
+enum class Shape
+{
+	/// <summary>
+	/// No shape.
+	/// </summary>
+	Empty,
 
-		/// <summary>
-		/// The font is bold.
-		/// </summary>
-		Bold = 1,
+	/// <summary>
+	/// A rectangular prism.
+	/// </summary>
+	Box,
 
-		/// <summary>
-		/// The font is italic.
-		/// </summary>
-		Italic = 1
-	};
+	/// <summary>
+	/// A sphere.
+	/// </summary>
+	Sphere,
+
+	/// <summary>
+	/// A capsule.
+	/// </summary>
+	Capsule,
+
+	/// <summary>
+	/// A cylinder.
+	/// </summary>
+	Cylinder,
+
+	/// <summary>
+	/// A cone.
+	/// </summary>
+	Cone,
+
+	/// <summary>
+	/// A custom shape.
+	/// </summary>
+	Custom,
+};

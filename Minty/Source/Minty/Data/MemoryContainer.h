@@ -133,6 +133,13 @@ namespace Minty
 		/// <param name="size">The number of bytes to set.</param>
 		/// <param name="index">The index of the bytes to set.</param>
 		void set_at(void const* const data, Size const size, Size const index) override;
+		
+		/// <summary>
+		/// Gets the pointer to the data at the given index.
+		/// </summary>
+		/// <param name="index">The index in bytes.</param>
+		/// <returns>A pointer to the data.</returns>
+		void const* get_at(Size const index) const override;
 
 		/// <summary>
 		/// Clears all data out of this Container.

@@ -120,12 +120,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN;MINTY_SOLOUD</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN;MINTY_SOLOUD;MINTY_BULLET</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\bullet\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -137,8 +138,8 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\..\Libraries\bullet\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,12 +148,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN;MINTY_SOLOUD</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions);MINTY_VULKAN;MINTY_SOLOUD;MINTY_BULLET</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\bullet\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -166,8 +168,8 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\..\Libraries\bullet\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -196,13 +198,17 @@
     <ClInclude Include="Minty\Component\AudioSourceComponent.h" />
     <ClInclude Include="Minty\Component\CameraComponent.h" />
     <ClInclude Include="Minty\Component\CanvasComponent.h" />
+    <ClInclude Include="Minty\Component\ColliderComponent.h" />
     <ClInclude Include="Minty\Component\Component.h" />
+    <ClInclude Include="Minty\Component\DestroyComponent.h" />
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
     <ClInclude Include="Minty\Component\LayerComponent.h" />
     <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
+    <ClInclude Include="Minty\Component\RigidBodyComponent.h" />
+    <ClInclude Include="Minty\Component\SimulateComponent.h" />
     <ClInclude Include="Minty\Component\SpriteComponent.h" />
     <ClInclude Include="Minty\Component\TextComponent.h" />
     <ClInclude Include="Minty\Component\TransformComponent.h" />
@@ -211,13 +217,13 @@
     <ClInclude Include="Minty\Component\VisibleComponent.h" />
     <ClInclude Include="Minty\Component\_Component.h" />
     <ClInclude Include="Minty\Context\Context.h" />
-    <ClInclude Include="Minty\Context\Manager.h" />
     <ClInclude Include="Minty\Context\_Context.h" />
     <ClInclude Include="Minty\Core\Base.h" />
     <ClInclude Include="Minty\Core\Compression.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
     <ClInclude Include="Minty\Core\Encoding.h" />
     <ClInclude Include="Minty\Core\Math.h" />
+    <ClInclude Include="Minty\Core\MeshType.h" />
     <ClInclude Include="Minty\Core\Type.h" />
     <ClInclude Include="Minty\Core\_Core.h" />
     <ClInclude Include="Minty\Core\Format.h" />
@@ -232,6 +238,7 @@
     <ClInclude Include="Minty\Data\Color.h" />
     <ClInclude Include="Minty\Data\ConstantContainer.h" />
     <ClInclude Include="Minty\Data\Container.h" />
+    <ClInclude Include="Minty\Data\Dictionary.h" />
     <ClInclude Include="Minty\Data\DynamicContainer.h" />
     <ClInclude Include="Minty\Data\List.h" />
     <ClInclude Include="Minty\Data\ListContainer.h" />
@@ -245,6 +252,7 @@
     <ClInclude Include="Minty\Data\Rect.h" />
     <ClInclude Include="Minty\Data\Scope.h" />
     <ClInclude Include="Minty\Data\Set.h" />
+    <ClInclude Include="Minty\Data\Shape.h" />
     <ClInclude Include="Minty\Data\Stack.h" />
     <ClInclude Include="Minty\Data\StaticContainer.h" />
     <ClInclude Include="Minty\Data\Transform.h" />
@@ -300,17 +308,29 @@
     <ClInclude Include="Minty\Input\_Input.h" />
     <ClInclude Include="Minty\Job\JobManager.h" />
     <ClInclude Include="Minty\Job\_Job.h" />
+    <ClInclude Include="Minty\Layer\LayerManager.h" />
+    <ClInclude Include="Minty\Layer\_Layer.h" />
+    <ClInclude Include="Minty\Library\Bullet.h" />
     <ClInclude Include="Minty\Library\EnTT.h" />
     <ClInclude Include="Minty\Library\GLFW.h" />
     <ClInclude Include="Minty\Library\GLM.h" />
     <ClInclude Include="Minty\Library\SoLoud.h" />
     <ClInclude Include="Minty\Library\STB.h" />
     <ClInclude Include="Minty\Library\Vulkan.h" />
+    <ClInclude Include="Minty\Manager\Manager.h" />
+    <ClInclude Include="Minty\Manager\SubManager.h" />
+    <ClInclude Include="Minty\Manager\_Manager.h" />
     <ClInclude Include="Minty\Memory\Allocator.h" />
     <ClInclude Include="Minty\Memory\_Memory.h" />
     <ClInclude Include="Minty\Memory\MemoryManager.h" />
     <ClInclude Include="Minty\Memory\MemoryPool.h" />
     <ClInclude Include="Minty\Memory\MemoryStack.h" />
+    <ClInclude Include="Minty\Physics\Collider.h" />
+    <ClInclude Include="Minty\Physics\PhysicsManager.h" />
+    <ClInclude Include="Minty\Physics\PhysicsSimulation.h" />
+    <ClInclude Include="Minty\Physics\RaycastHit.h" />
+    <ClInclude Include="Minty\Physics\RigidBody.h" />
+    <ClInclude Include="Minty\Physics\_Physics.h" />
     <ClInclude Include="Minty\Render\Buffer.h" />
     <ClInclude Include="Minty\Render\BufferUsage.h" />
     <ClInclude Include="Minty\Render\CameraInfo.h" />
@@ -334,7 +354,6 @@
     <ClInclude Include="Minty\Render\MaterialTemplate.h" />
     <ClInclude Include="Minty\Render\Camera.h" />
     <ClInclude Include="Minty\Render\Mesh.h" />
-    <ClInclude Include="Minty\Render\MeshType.h" />
     <ClInclude Include="Minty\Render\Perspective.h" />
     <ClInclude Include="Minty\Render\RenderAttachment.h" />
     <ClInclude Include="Minty\Render\Renderer.h" />
@@ -377,6 +396,7 @@
     <ClInclude Include="Minty\Serialization\_Serialization.h" />
     <ClInclude Include="Minty\System\AnimationSystem.h" />
     <ClInclude Include="Minty\System\AudioSystem.h" />
+    <ClInclude Include="Minty\System\PhysicsSystem.h" />
     <ClInclude Include="Minty\System\RenderSystem.h" />
     <ClInclude Include="Minty\System\System.h" />
     <ClInclude Include="Minty\System\SystemManager.h" />
@@ -396,6 +416,13 @@
     <ClInclude Include="Minty\Wrap\Wrapper.h" />
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_Collider.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_MeshCollider.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_Object.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_ShapeCollider.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_Physics.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_PhysicsSimulation.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_RigidBody.h" />
     <ClInclude Include="Platform\SoLoud\SoLoud_AudioClip.h" />
     <ClInclude Include="Platform\SoLoud\SoLoud_AudioManager.h" />
     <ClInclude Include="Platform\Vulkan\Vulkan_Buffer.h" />
@@ -458,6 +485,7 @@
     <ClCompile Include="Minty\Component\AudioSourceComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
+    <ClCompile Include="Minty\Component\ColliderComponent.cpp" />
     <ClCompile Include="Minty\Component\LayerComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
@@ -467,11 +495,11 @@
     <ClCompile Include="Minty\Component\TransformComponent.cpp" />
     <ClCompile Include="Minty\Component\UITransformComponent.cpp" />
     <ClCompile Include="Minty\Context\Context.cpp" />
-    <ClCompile Include="Minty\Context\Manager.cpp" />
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Encoding.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
+    <ClCompile Include="Minty\Core\MeshType.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />
     <ClCompile Include="Minty\Data\BufferContainer.cpp" />
     <ClCompile Include="Minty\Data\BufferContainerFactory.cpp" />
@@ -483,6 +511,7 @@
     <ClCompile Include="Minty\Data\ListContainer.cpp" />
     <ClCompile Include="Minty\Data\MemoryContainer.cpp" />
     <ClCompile Include="Minty\Data\Path.cpp" />
+    <ClCompile Include="Minty\Data\Shape.cpp" />
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Data\Transform.cpp" />
@@ -509,10 +538,16 @@
     <ClCompile Include="Minty\Input\KeyModifiers.cpp" />
     <ClCompile Include="Minty\Input\MouseButton.cpp" />
     <ClCompile Include="Minty\Job\JobManager.cpp" />
+    <ClCompile Include="Minty\Layer\LayerManager.cpp" />
     <ClCompile Include="Minty\Library\STB.cpp" />
+    <ClCompile Include="Minty\Manager\Manager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryManager.cpp" />
     <ClCompile Include="Minty\Memory\MemoryPool.cpp" />
     <ClCompile Include="Minty\Memory\MemoryStack.cpp" />
+    <ClCompile Include="Minty\Physics\Collider.cpp" />
+    <ClCompile Include="Minty\Physics\PhysicsManager.cpp" />
+    <ClCompile Include="Minty\Physics\PhysicsSimulation.cpp" />
+    <ClCompile Include="Minty\Physics\RigidBody.cpp" />
     <ClCompile Include="Minty\Render\Buffer.cpp" />
     <ClCompile Include="Minty\Render\BufferUsage.cpp" />
     <ClCompile Include="Minty\Render\Camera.cpp" />
@@ -535,7 +570,6 @@
     <ClCompile Include="Minty\Render\Material.cpp" />
     <ClCompile Include="Minty\Render\MaterialTemplate.cpp" />
     <ClCompile Include="Minty\Render\Mesh.cpp" />
-    <ClCompile Include="Minty\Render\MeshType.cpp" />
     <ClCompile Include="Minty\Render\Perspective.cpp" />
     <ClCompile Include="Minty\Render\RenderManager.cpp" />
     <ClCompile Include="Minty\Render\RenderPass.cpp" />
@@ -564,6 +598,7 @@
     <ClCompile Include="Minty\Serialization\Writer.cpp" />
     <ClCompile Include="Minty\System\AnimationSystem.cpp" />
     <ClCompile Include="Minty\System\AudioSystem.cpp" />
+    <ClCompile Include="Minty\System\PhysicsSystem.cpp" />
     <ClCompile Include="Minty\System\RenderSystem.cpp" />
     <ClCompile Include="Minty\System\SystemManager.cpp" />
     <ClCompile Include="Minty\Time\Stopwatch.cpp" />
@@ -581,6 +616,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_MeshCollider.cpp" />
+    <ClCompile Include="Platform\Bullet\Bullet_ShapeCollider.cpp" />
+    <ClCompile Include="Platform\Bullet\Bullet_PhysicsSimulation.cpp" />
+    <ClCompile Include="Platform\Bullet\Bullet_RigidBody.cpp" />
     <ClCompile Include="Platform\SoLoud\SoLoud_AudioClip.cpp" />
     <ClCompile Include="Platform\SoLoud\SoLoud_AudioManager.cpp" />
     <ClCompile Include="Platform\Vulkan\Vulkan_Buffer.cpp" />

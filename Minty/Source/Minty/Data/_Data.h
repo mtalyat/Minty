@@ -8,6 +8,7 @@
 #include "Color.h"
 #include "ConstantContainer.h"
 #include "Container.h"
+#include "Dictionary.h"
 #include "DynamicContainer.h"
 #include "List.h"
 #include "ListContainer.h"

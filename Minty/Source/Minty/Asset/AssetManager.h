@@ -1,6 +1,6 @@
 #pragma once
 #include "Minty/Asset/Asset.h"
-#include "Minty/Context/Manager.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/List.h"
@@ -113,9 +113,8 @@ namespace Minty
 	public:
 		AssetManager(AssetManagerBuilder const& builder);
 
-		~AssetManager()
+		~AssetManager() override
 		{
-			MINTY_ASSERT_ERROR(!is_initialized(), "AssetManager is not disposed before destruction.");
 		}
 
 #pragma endregion

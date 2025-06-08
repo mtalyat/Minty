@@ -6,6 +6,7 @@
 #include "Minty/Data/Vector.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Event/Event.h"
+#include "Minty/Physics/PhysicsSimulation.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/SystemManager.h"
 #include "Minty/Time/Time.h"
@@ -50,8 +51,8 @@ namespace Minty
 	private:
 		String m_name;
 
-		EntityManager* mp_entityManager;
-		SystemManager* mp_systemManager;
+		Owner<EntityManager> m_entityManager;
+		Owner<SystemManager> m_systemManager;
 		
 		// information for each registered asset
 		Map<Path, AssetData> m_registeredAssets;
@@ -67,6 +68,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates a new Scene using the given arguments.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
 		Scene(SceneBuilder const& builder);
 
 		~Scene() override;
@@ -82,9 +87,17 @@ namespace Minty
 		/// <returns>The name.</returns>
 		String const& get_name() const { return m_name; }
 
-		EntityManager& get_entity_manager() const { return *mp_entityManager; }
+		/// <summary>
+		/// Gets the EntityManager of this Scene.
+		/// </summary>
+		/// <returns></returns>
+		EntityManager& get_entity_manager() const { return *m_entityManager; }
 
-		SystemManager& get_system_manager() const { return *mp_systemManager; }
+		/// <summary>
+		/// Gets the SystemManager of this Scene.
+		/// </summary>
+		/// <returns></returns>
+		SystemManager& get_system_manager() const { return *m_systemManager; }
 
 		/// <summary>
 		/// Gets the AssetType of this Asset.

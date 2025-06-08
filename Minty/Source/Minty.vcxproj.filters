@@ -136,6 +136,18 @@
     <Filter Include="Minty\Render\Font">
       <UniqueIdentifier>{7bcc0278-9db6-48a1-8094-4055c2a27f63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Physics">
+      <UniqueIdentifier>{4dd5d02e-f136-42bc-afe8-9f772c8e838d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Bullet">
+      <UniqueIdentifier>{9d0ca95e-1f16-4059-bceb-fdc392b9745c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Manager">
+      <UniqueIdentifier>{19fa1b94-d382-4254-a8aa-23a6e5e185cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Minty\Layer">
+      <UniqueIdentifier>{d26e455c-3cd2-42ee-87df-718b354ae839}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -522,9 +534,6 @@
     <ClInclude Include="Minty\Render\RenderPass.h">
       <Filter>Minty\Render\RenderPass</Filter>
     </ClInclude>
-    <ClInclude Include="Minty\Context\Manager.h">
-      <Filter>Minty\Context</Filter>
-    </ClInclude>
     <ClInclude Include="Minty\Render\Camera.h">
       <Filter>Minty\Render\Camera</Filter>
     </ClInclude>
@@ -619,9 +628,6 @@
       <Filter>Minty\Data</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Render\Mesh.h">
-      <Filter>Minty\Render\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Minty\Render\MeshType.h">
       <Filter>Minty\Render\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Component\MeshComponent.h">
@@ -867,6 +873,87 @@
     <ClInclude Include="Minty\Tool\Operation.h">
       <Filter>Minty\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Physics\_Physics.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Physics\PhysicsManager.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Physics\RaycastHit.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Physics\Collider.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Library\Bullet.h">
+      <Filter>Minty\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Core\MeshType.h">
+      <Filter>Minty\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Physics\RigidBody.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_RigidBody.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Shape.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_ShapeCollider.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\ColliderComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\SimulateComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\RigidBodyComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\DestroyComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Manager\_Manager.h">
+      <Filter>Minty\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Manager\Manager.h">
+      <Filter>Minty\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Manager\SubManager.h">
+      <Filter>Minty\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Physics\PhysicsSimulation.h">
+      <Filter>Minty\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_PhysicsSimulation.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_Physics.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\System\PhysicsSystem.h">
+      <Filter>Minty\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Data\Dictionary.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Layer\_Layer.h">
+      <Filter>Minty\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Layer\LayerManager.h">
+      <Filter>Minty\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_MeshCollider.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_Collider.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_Object.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1103,9 +1190,6 @@
     <ClCompile Include="Platform\Vulkan\Vulkan_RenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minty\Context\Manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minty\Library\STB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1161,9 +1245,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Component\MeshComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Minty\Render\MeshType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Scene\Scene.cpp">
@@ -1392,6 +1473,48 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Component\LayerComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Core\MeshType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Physics\PhysicsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_ShapeCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Physics\RigidBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Physics\Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_RigidBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Manager\Manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Physics\PhysicsSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_PhysicsSimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\System\PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Layer\LayerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_MeshCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

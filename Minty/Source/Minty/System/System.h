@@ -45,6 +45,11 @@ namespace Minty
 		/// The function to create the System.
 		/// </summary>
 		Function<System* (SystemBuilder const&)> create;
+
+		/// <summary>
+		/// The default priority of the System, if none is specified.
+		/// </summary>
+		Int defaultPriority = 0;
 	};
 
 	/// <summary>

@@ -131,6 +131,11 @@ namespace Minty
 	/// </summary>
 	constexpr Layer LAYER_DEFAULT = 1;
 
+	/// <summary>
+	/// The maximum number of Layers that can be used in the engine.
+	/// </summary>
+	constexpr Layer LAYER_COUNT = 32;
+
 #pragma endregion
 
 #pragma region Minty
@@ -140,6 +145,14 @@ namespace Minty
 	constexpr UInt MINTY_VERSION_MINOR = 1;
 	constexpr UInt MINTY_VERSION_PATCH = 0;
 	constexpr UInt MINTY_VERSION = MINTY_MAKE_VERSION(MINTY_VERSION_MAJOR, MINTY_VERSION_MINOR, MINTY_VERSION_PATCH);
+
+#pragma endregion
+
+#pragma region Physics
+
+	constexpr Float DEFAULT_PHYSICS_GRAVITY = -9.81f;
+	constexpr Float DEFAULT_PHYSICS_TIME_STEP = 1.0f / 60.0f;
+	constexpr Float DEFAULT_PHYSICS_RAYCAST_DISTANCE = 1000.0f;
 
 #pragma endregion
 
