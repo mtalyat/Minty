@@ -180,6 +180,8 @@ namespace Minty
 
 	constexpr Char const* TEXT_EMPTY = "";
 	constexpr Char const* TEXT_WHITESPACE = " \n\r\t\v\b\f";
+	constexpr Char const* TEXT_OPEN = "([{<\"";
+	constexpr Char const* TEXT_CLOSE = ")]}>\"";
 
 #pragma endregion
 

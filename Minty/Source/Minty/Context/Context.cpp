@@ -3,6 +3,7 @@
 #include "Minty/Component/_Component.h"
 #include "Minty/System/_System.h"
 #include "Minty/Event/_Event.h"
+#include "Minty/File/PhysicalFile.h"
 
 using namespace Minty;
 
@@ -287,6 +288,46 @@ ComponentInfo const* Minty::Context::get_component_info(TypeID const& typeId) co
 		return nullptr;
 	}
 	return &it->get_third();
+}
+
+Owner<Context> Minty::Context::open(Path const& path)
+{
+	// check if the path is valid
+	MINTY_ASSERT(!path.is_empty(), "Path to context file is empty.");
+	MINTY_ASSERT(path.has_extension(".minty"), "Context file must have a .minty extension.");
+	MINTY_ASSERT(Path::exists(path), F("Context file does not exist: {}", path));
+	MINTY_ASSERT(Path::is_file(path), F("Context file is not a file: {}", path));
+
+	// read the file
+	PhysicalFile file(path, File::Flags::Read);
+
+	MINTY_ASSERT(file.is_open(), F("Failed to open context file: {}", path));
+
+	// open a reader
+	TextFileReader reader(&file);
+
+	// create the builder
+	ContextBuilder builder{};
+	if (reader.indent("Window"))
+	{
+		reader.read("Position", builder.windowBuilder.position);
+		reader.read("Size", builder.windowBuilder.size);
+		reader.read("Title", builder.windowBuilder.title);
+
+		reader.outdent();
+	}
+	if (reader.indent("Memory"))
+	{
+		Size temp;
+		if (reader.read("Temporary", temp))
+		{
+			builder.memoryManagerBuilder.temporary.capacity = temp;
+		}
+
+		reader.outdent();
+	}
+
+	return create(builder);
 }
 
 Owner<Context> Minty::Context::create(ContextBuilder const& builder)

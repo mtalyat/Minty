@@ -9,13 +9,13 @@ void Minty::MemoryManager::dispose()
 {
 	// clear all memory
 	m_temporary.clear();
-	for (Size i = 0; i < TASK_MEMORY_COUNT; ++i)
+	for (Size i = 0; i < m_tasks.get_size(); ++i)
 	{
-		m_task[i].clear();
+		m_tasks[i].clear();
 	}
-	for (Size i = 0; i < PERSISTENT_MEMORY_COUNT; ++i)
+	for (Size i = 0; i < m_persistents.get_size(); ++i)
 	{
-		m_persistent[i].clear();
+		m_persistents[i].clear();
 	}
 
 	// ensure nothing left
@@ -35,28 +35,42 @@ void Minty::MemoryManager::update(Time const& time)
 	m_temporary.clear();
 
 	// move to next task
-	m_taskIndex = (m_taskIndex + 1) % TASK_MEMORY_COUNT;
+	m_taskIndex = (m_taskIndex + 1) % m_tasks.get_size();
 
 	// free all of its remaining memory
-	m_staticSize -= m_task[m_taskIndex].get_size();
-	m_task[m_taskIndex].clear();
+	m_staticSize -= m_tasks[m_taskIndex].get_size();
+	m_tasks[m_taskIndex].clear();
 }
 
 Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
 	: Manager()
 	, m_temporary(builder.temporary)
-	, m_task{ MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task), MemoryStack(builder.task) }
+	, m_tasks(builder.taskCount)
 	, m_taskIndex(0)
-	, m_persistent{ MemoryPool(builder.persistent[0]), MemoryPool(builder.persistent[1]), MemoryPool(builder.persistent[2]), MemoryPool(builder.persistent[3]), MemoryPool(builder.persistent[4]), MemoryPool(builder.persistent[5]), MemoryPool(builder.persistent[6]), MemoryPool(builder.persistent[7]) }
+	, m_persistents(builder.persistents.get_size())
 	, m_staticSize(0)
 	, m_dynamicSize(0)
 {
+	// temporary memory stack made above
+
+	// create the task memory stacks
+	// they are all the same size
+	for (Size i = 0; i < builder.taskCount; i++)
+	{
+		m_tasks.add(MemoryStack(builder.task));
+	}
+	
+	// create the persistent memory pools
+	for (auto const& poolBuilder : builder.persistents)
+	{
+		m_persistents.add(MemoryPool(poolBuilder));
+	}
 }
 
 Size Minty::MemoryManager::get_persistent_index(Size const size) const
 {
 	Size index = 0;
-	for (; index < PERSISTENT_MEMORY_COUNT && size > m_persistent[index].get_block_size(); ++index) {}
+	for (; index < m_persistents.get_size() && size > m_persistents[index].get_block_size(); ++index) {}
 	return index;
 }
 
@@ -71,24 +85,24 @@ void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
 		return m_temporary.allocate(size);
 	case Allocator::Task:
 		m_staticSize += size;
-		return m_task[m_taskIndex].allocate(size);
+		return m_tasks[m_taskIndex].allocate(size);
 	case Allocator::Persistent:
 	{
 		// find the pool to use, based on the size
 		Size index = get_persistent_index(size);
 
-		MINTY_ASSERT(index != PERSISTENT_MEMORY_COUNT, F("Cannot allocate memory of size {} bytes. No pool large enough is available.", size));
+		MINTY_ASSERT(index != m_persistents.get_size(), F("Cannot allocate memory of size {} bytes. No pool large enough is available.", size));
 
 		// if pool is full, do not allocate
-		if (m_persistent[index].is_full())
+		if (m_persistents[index].is_full())
 		{
-			MINTY_ERROR(F("Persistent memory pool is full. Pool capacity: {} bytes.", m_persistent[index].get_block_size()));
+			MINTY_ERROR(F("Persistent memory pool is full. Pool capacity: {} bytes.", m_persistents[index].get_block_size()));
 			return nullptr;
 		}
 
 		// allocate memory
 		m_staticSize += size;
-		return m_persistent[index].allocate();
+		return m_persistents[index].allocate();
 	}
 	default:
 		m_dynamicSize += size;
@@ -112,9 +126,9 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 	else
 	{
 		Size taskIndex = 0;
-		for (; taskIndex < TASK_MEMORY_COUNT; ++taskIndex)
+		for (; taskIndex < m_tasks.get_size(); ++taskIndex)
 		{
-			if (ptr >= m_task[taskIndex].get_data() && ptr < m_task[taskIndex].get_data() + m_task[taskIndex].get_size())
+			if (ptr >= m_tasks[taskIndex].get_data() && ptr < m_tasks[taskIndex].get_data() + m_tasks[taskIndex].get_size())
 			{
 				temp = Allocator::Task;
 				break;
@@ -125,7 +139,7 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 		MINTY_ASSERT(temp != Allocator::Task || taskIndex == m_taskIndex, "The given pointer is not from the current task.");
 
 		Size index = get_persistent_index(size);
-		if (index != PERSISTENT_MEMORY_COUNT && ptr >= m_persistent[index].get_data() && ptr < m_persistent[index].get_data() + m_persistent[index].get_block_size())
+		if (index != m_persistents.get_size() && ptr >= m_persistents[index].get_data() && ptr < m_persistents[index].get_data() + m_persistents[index].get_block_size())
 		{
 			temp = Allocator::Persistent;
 		}
@@ -145,8 +159,8 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 		break;
 	case Allocator::Task:
 		// verify that this pointer is the last element of the stack
-		MINTY_ASSERT(size <= m_task[m_taskIndex].get_size() && m_task[m_taskIndex].get_data() + m_task[m_taskIndex].get_size() - size == ptr, "The given pointer is not the last element of the stack.");
-		m_task[m_taskIndex].deallocate(size);
+		MINTY_ASSERT(size <= m_tasks[m_taskIndex].get_size() && m_tasks[m_taskIndex].get_data() + m_tasks[m_taskIndex].get_size() - size == ptr, "The given pointer is not the last element of the stack.");
+		m_tasks[m_taskIndex].deallocate(size);
 		m_staticSize -= size;
 		break;
 	case Allocator::Persistent:
@@ -155,7 +169,7 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 		Size index = get_persistent_index(size);
 
 		// deallocate memory
-		m_persistent[index].deallocate(ptr);
+		m_persistents[index].deallocate(ptr);
 		m_staticSize -= size;
 		break;
 	}

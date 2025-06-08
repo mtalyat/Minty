@@ -2,6 +2,7 @@
 #include "Reader.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Core/Evaluate.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Serialization/Serializable.h"
 #include "Minty/Serialization/SerializableObject.h"
@@ -260,7 +261,7 @@ Float Minty::TextReaderBehavior::read_float_from_buffer(const void* const data, 
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
-	return to_float(text);
+	return Math::evaluate<Float>(text);
 }
 Float2 Minty::TextReaderBehavior::read_float2_from_buffer(const void* const data, Size const size) const
 {

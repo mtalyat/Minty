@@ -27,9 +27,14 @@ namespace Minty
 		MemoryStackBuilder task = { MB * 4 };
 
 		/// <summary>
+		/// The number of task MemoryStacks to create.
+		/// </summary>
+		Size taskCount = 4;
+
+		/// <summary>
 		/// The MemoryPools for persistent memory.
 		/// </summary>
-		MemoryPoolBuilder persistent[8] =
+		Vector<MemoryPoolBuilder> persistents =
 		{
 			{64, MB / 64}, {256, MB / 256}, {KB, MB / KB}, {4 * KB, MB / (4 * KB)}, {16 * KB, MB / (16 * KB)}, {64 * KB, MB / (64 * KB)}, {256 * KB, MB / (256 * KB)}, {MB, 16}
 		};
@@ -43,19 +48,15 @@ namespace Minty
 	{
 #pragma region Variables
 
-	public:
-		static constexpr Size TASK_MEMORY_COUNT = 4;
-		static constexpr Size PERSISTENT_MEMORY_COUNT = 8;
-
 	private:
 		// temporary, one frame only
 		MemoryStack m_temporary;
-		// task, 4 frames or less
-		MemoryStack m_task[TASK_MEMORY_COUNT];
+		// task, variable number of frames
+		Vector<MemoryStack> m_tasks;
 		// the index of the current task
 		Size m_taskIndex;
-		// persistent: 64b, 256b, 1kb, 4kb, 16kb, 64kb, 256kb, 1mb
-		MemoryPool m_persistent[PERSISTENT_MEMORY_COUNT];
+		// persistent: 64b, 256b, 1kb, 4kb, 16kb, 64kb, 256kb, 1mb, etc.
+		Vector<MemoryPool> m_persistents;
 
 		// number of bytes allocated using the MemoryManager
 		Size m_staticSize;
@@ -74,15 +75,12 @@ namespace Minty
 		MemoryManager(MemoryManager&& other) noexcept
 			: Manager()
 			, m_temporary(std::move(other.m_temporary))
-			, m_task{ std::move(other.m_task[0]), std::move(other.m_task[1]), std::move(other.m_task[2]), std::move(other.m_task[3]) }
-			, m_taskIndex(other.m_taskIndex)
-			, m_persistent{ std::move(other.m_persistent[0]), std::move(other.m_persistent[1]), std::move(other.m_persistent[2]), std::move(other.m_persistent[3]), std::move(other.m_persistent[4]), std::move(other.m_persistent[5]), std::move(other.m_persistent[6]), std::move(other.m_persistent[7]) }
-			, m_staticSize(other.m_staticSize)
-			, m_dynamicSize(other.m_dynamicSize)
+			, m_tasks(std::move(other.m_tasks))
+			, m_taskIndex(std::move(other.m_taskIndex))
+			, m_persistents(std::move(other.m_persistents))
+			, m_staticSize(std::move(other.m_staticSize))
+			, m_dynamicSize(std::move(other.m_dynamicSize))
 		{
-			other.m_taskIndex = 0;
-			other.m_staticSize = 0;
-			other.m_dynamicSize = 0;
 		}
 
 		~MemoryManager()
@@ -102,20 +100,11 @@ namespace Minty
 			if (this != &other)
 			{
 				m_temporary = std::move(other.m_temporary);
-				for (Size i = 0; i < TASK_MEMORY_COUNT; ++i)
-				{
-					m_task[i] = std::move(other.m_task[i]);
-				}
-				for (Size i = 0; i < PERSISTENT_MEMORY_COUNT; i++)
-				{
-					m_persistent[i] = std::move(other.m_persistent[i]);
-				}
-				m_taskIndex = other.m_taskIndex;
-				m_staticSize = other.m_staticSize;
-				m_dynamicSize = other.m_dynamicSize;
-				other.m_taskIndex = 0;
-				other.m_staticSize = 0;
-				other.m_dynamicSize = 0;
+				m_tasks = std::move(other.m_tasks);
+				m_persistents = std::move(other.m_persistents);
+				m_taskIndex = std::move(other.m_taskIndex);
+				m_staticSize = std::move(other.m_staticSize);
+				m_dynamicSize = std::move(other.m_dynamicSize);
 			}
 			return *this;
 		}

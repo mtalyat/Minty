@@ -329,6 +329,13 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Creates a new Context using the configuration file at the given path.
+		/// </summary>
+		/// <param name="path">The path to a .minty file.</param>
+		/// <returns>A Context Owner.</returns>
+		static Owner<Context> open(Path const& path);
+
+		/// <summary>
 		/// Creates a new Context using the given ContextBuilder.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>

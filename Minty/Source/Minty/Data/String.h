@@ -527,12 +527,29 @@ namespace Minty
 		Vector<String> split(Char const delimiter) const;
 
 		/// <summary>
+		/// Splits the text outside of the given open and close characters into a Vector of Strings using the given delimiter.
+		/// </summary>
+		/// <param name="delimiter">The delimiter to use.</param>
+		/// <param name="open">A list of opening group characters.</param>
+		/// <param name="close">A list of closing group characters.</param>
+		/// <returns>A list of Strings, split by the delimiters.</returns>
+		Vector<String> split_smart(Char const delimiter, String const& open = TEXT_OPEN, String const& close = TEXT_CLOSE) const;
+
+		/// <summary>
 		/// Splits the given text into a Vector of Strings using the given delimiter.
 		/// </summary>
-		/// <param name="str">The String to split.</param>
 		/// <param name="delimiter">The delimiter to use.</param>
 		/// <returns>A list of Strings, split by the delimiters.</returns>
 		Vector<String> split(String const& delimiter) const;
+
+		/// <summary>
+		/// Splits the text outside of the given open and close characters into a Vector of Strings using the given delimiter.
+		/// </summary>
+		/// <param name="delimiter">The delimiter to use.</param>
+		/// <param name="open">A list of opening group characters.</param>
+		/// <param name="close">A list of closing group characters.</param>
+		/// <returns>A list of Strings, split by the delimiters.</returns>
+		Vector<String> split_smart(String const& delimiter, String const& open = TEXT_OPEN, String const& close = TEXT_CLOSE) const;
 
 		/// <summary>
 		/// Splits the given text into a Vector of Strings using whitespace as the delimiter.
