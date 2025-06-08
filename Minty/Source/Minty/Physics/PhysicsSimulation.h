@@ -113,7 +113,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="transform">The Transform.</param>
 		/// <param name="collider">The Collider.</param>
-		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer) = 0;
+		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL) = 0;
 
 		/// <summary>
 		/// Adds a dynamic Collider with a RigidBody to the physics simulation.
@@ -121,7 +121,7 @@ namespace Minty
 		/// <param name="transform">The Transform.</param>
 		/// <param name="collider">The Collider.</param>
 		/// <param name="body">The RigidBody.</param>
-		virtual void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer) = 0;
+		virtual void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL) = 0;
 
 		/// <summary>
 		/// Removes a static Collider from the physics simulation.

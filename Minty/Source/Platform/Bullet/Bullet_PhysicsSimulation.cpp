@@ -41,7 +41,7 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 	mp_dynamicsWorld->stepSimulation(elapsedTime, 1, DEFAULT_PHYSICS_TIME_STEP);
 }
 
-void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer)
+void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer, Layer const layerMask)
 {
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -65,10 +65,10 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 	btCollider.set_collision_object(collisionObject);
 
 	// add the collision object to the dynamics world
-	mp_dynamicsWorld->addCollisionObject(collisionObject);
+	mp_dynamicsWorld->addCollisionObject(collisionObject, layer, layerMask);
 }
 
-void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer)
+void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer, Layer const layerMask)
 {
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -103,7 +103,7 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform
 	btCollider.set_collision_object(rigidBody);
 
 	// add the rigid body to the dynamics world
-	mp_dynamicsWorld->addRigidBody(rigidBody);
+	mp_dynamicsWorld->addRigidBody(rigidBody, layer, layerMask);
 }
 
 void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)

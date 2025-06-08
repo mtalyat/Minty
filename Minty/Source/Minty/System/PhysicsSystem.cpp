@@ -34,6 +34,7 @@ void Minty::PhysicsSystem::initialize_entities()
 	Ref<Scene> const& scene = get_scene();
 	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
 	EntityManager& entityManager = scene->get_entity_manager();
+	LayerManager& layerManager = LayerManager::get_singleton();
 
 	// check for disabled entities
 	for (auto&& [entity, collider, simulate] : entityManager.view<ColliderComponent, SimulateComponent const>(entt::exclude<RigidBodyComponent, EnabledComponent>).each())
@@ -56,7 +57,8 @@ void Minty::PhysicsSystem::initialize_entities()
 		MINTY_ASSERT(collider.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
 
 		// add to physics simulation
-		m_simulation->add_static(entity, transform.transform, *collider.collider, entityManager.get_layer(entity));
+		Layer layer = entityManager.get_layer(entity);
+		m_simulation->add_static(entity, transform.transform, *collider.collider, layer, layerManager.get_mask(layer));
 
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);
