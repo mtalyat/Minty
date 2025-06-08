@@ -29,6 +29,20 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Get Set
+
+	public:
+		/// <summary>
+		/// Gets the PhysicsSimulation used by this PhysicsSystem.
+		/// </summary>
+		/// <returns>The simulation.</returns>
+		PhysicsSimulation& get_simulation() const
+		{
+			return *m_simulation;
+		}
+
+#pragma endregion
+
 #pragma region Methods
 
 	private:

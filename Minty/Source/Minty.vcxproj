@@ -418,6 +418,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Platform\Bullet\Bullet_Collider.h" />
     <ClInclude Include="Platform\Bullet\Bullet_MeshCollider.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_Object.h" />
     <ClInclude Include="Platform\Bullet\Bullet_ShapeCollider.h" />
     <ClInclude Include="Platform\Bullet\Bullet_Physics.h" />
     <ClInclude Include="Platform\Bullet\Bullet_PhysicsSimulation.h" />

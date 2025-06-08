@@ -6,6 +6,7 @@
 #include "Minty/Data/Transform.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Physics/Collider.h"
+#include "Minty/Physics/RaycastHit.h"
 #include "Minty/Physics/RigidBody.h"
 
 namespace Minty
@@ -112,7 +113,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="transform">The Transform.</param>
 		/// <param name="collider">The Collider.</param>
-		virtual void add_static(Transform const& transform, Collider& collider, Layer const layer) = 0;
+		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer) = 0;
 
 		/// <summary>
 		/// Adds a dynamic Collider with a RigidBody to the physics simulation.
@@ -120,7 +121,7 @@ namespace Minty
 		/// <param name="transform">The Transform.</param>
 		/// <param name="collider">The Collider.</param>
 		/// <param name="body">The RigidBody.</param>
-		virtual void add_dynamic(Transform const& transform, Collider& collider, RigidBody& body, Layer const layer) = 0;
+		virtual void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer) = 0;
 
 		/// <summary>
 		/// Removes a static Collider from the physics simulation.
@@ -150,6 +151,17 @@ namespace Minty
 		/// <param name="collider">The Collider.</param>
 		/// <param name="body">The RigidBody.</param>
 		virtual void get_dynamic(Transform& transform, Collider const& collider, RigidBody& body) = 0;
+
+		/// <summary>
+		/// Performs a raycast in the physics simulation.
+		/// </summary>
+		/// <param name="origin">The origin of the ray.</param>
+		/// <param name="direction">The direction of the ray.</param>
+		/// <param name="hit">The RaycastHit information to be populated on a successful hit.</param>
+		/// <param name="layerMask">The Layer mask to use.</param>
+		/// <param name="maxDistance">The maximum amount of distance to travel.</param>
+		/// <returns>True if an object was hit, otherwise false.</returns>
+		virtual Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layerMask = LAYER_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const = 0;
 
 		/// <summary>
 		/// Clears all physics objects from the simulation.

@@ -6,6 +6,7 @@
 #include "Platform/Bullet/Bullet_Physics.h"
 #include "Platform/Bullet/Bullet_RigidBody.h"
 #include "Platform/Bullet/Bullet_ShapeCollider.h"
+#include "Platform/Bullet/Bullet_Object.h"
 
 using namespace Minty;
 
@@ -39,7 +40,7 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 	mp_dynamicsWorld->stepSimulation(elapsedTime, 1, DEFAULT_PHYSICS_TIME_STEP);
 }
 
-void Minty::Bullet_PhysicsSimulation::add_static(Transform const& transform, Collider& collider, Layer const layer)
+void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer)
 {
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -52,6 +53,13 @@ void Minty::Bullet_PhysicsSimulation::add_static(Transform const& transform, Col
 	collisionObject->setCollisionShape(btCollider.get_collision_shape());
 	collisionObject->setWorldTransform(btTransform);
 
+	// create object data
+	Bullet_Object* objectData = new Bullet_Object();
+	objectData->entity = entity;
+
+	// set the user pointer to the object data
+	collisionObject->setUserPointer(objectData);
+
 	// update collider
 	btCollider.set_collision_object(collisionObject);
 
@@ -59,7 +67,7 @@ void Minty::Bullet_PhysicsSimulation::add_static(Transform const& transform, Col
 	mp_dynamicsWorld->addCollisionObject(collisionObject);
 }
 
-void Minty::Bullet_PhysicsSimulation::add_dynamic(Transform const& transform, Collider& collider, RigidBody& body, Layer const layer)
+void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer)
 {
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
@@ -82,6 +90,13 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Transform const& transform, Co
 	// create the rigid body
 	btRigidBody* rigidBody = new btRigidBody(rbInfo);
 
+	// create object data
+	Bullet_Object* objectData = new Bullet_Object();
+	objectData->entity = entity;
+
+	// set the user pointer to the object data
+	rigidBody->setUserPointer(objectData);
+
 	// set data
 	btBody.set_rigid_body(rigidBody);
 	btCollider.set_collision_object(rigidBody);
@@ -98,6 +113,9 @@ void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
 	MINTY_ASSERT(collisionObject != nullptr, "Collider is not in the PhysicsManager.");
 	mp_dynamicsWorld->removeCollisionObject(collisionObject);
 
+	// delete user data
+	delete collisionObject->getUserPointer();
+
 	// delete the collision object
 	delete collisionObject;
 	btCollider.set_collision_object(nullptr);
@@ -112,6 +130,9 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(Collider& collider, RigidBo
 	btRigidBody* rigidBody = btBody.get_rigid_body();
 	MINTY_ASSERT(collisionObject != nullptr && rigidBody != nullptr, "Collider or RigidBody is not in the PhysicsManager.");
 	mp_dynamicsWorld->removeRigidBody(rigidBody);
+
+	// delete user data
+	delete collisionObject->getUserPointer();
 
 	// delete the rigid body and motion state
 	delete rigidBody->getMotionState();
@@ -128,6 +149,37 @@ void Minty::Bullet_PhysicsSimulation::set_dynamic(Transform const& transform, Co
 void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider const& collider, RigidBody& body)
 {
 	MINTY_WARNING("TODO: PhysicsManager::get_dynamic()");
+}
+
+Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layerMask, Float const maxDistance) const
+{
+	// create the ray
+	btVector3 btOrigin = Bullet_Physics::to_bullet(origin);
+	btVector3 btDirection = Bullet_Physics::to_bullet(direction);
+	btVector3 btEnd = btOrigin + (btDirection.normalized() * maxDistance);
+
+	// create the raycast
+	btCollisionWorld::ClosestRayResultCallback rayCallback(btOrigin, btEnd);
+	rayCallback.m_collisionFilterMask = static_cast<int>(layerMask);
+
+	// perform the raycast
+	mp_dynamicsWorld->rayTest(btOrigin, btEnd, rayCallback);
+
+	// check if we hit something
+	if (rayCallback.hasHit())
+	{
+		// get the user data
+		Bullet_Object* objectData = static_cast<Bullet_Object*>(rayCallback.m_collisionObject->getUserPointer());
+		MINTY_ASSERT(objectData != nullptr, "Raycast hit object does not have user data.");
+
+		// populate the hit information
+		hit.point = Bullet_Physics::to_minty(rayCallback.m_hitPointWorld);
+		hit.normal = Bullet_Physics::to_minty(rayCallback.m_hitNormalWorld);
+		hit.distance = (hit.point - origin).length();
+		hit.entity = objectData->entity;
+		return true;
+	}
+	return false;
 }
 
 void Minty::Bullet_PhysicsSimulation::clear()

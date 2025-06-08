@@ -951,6 +951,9 @@
     <ClInclude Include="Platform\Bullet\Bullet_Collider.h">
       <Filter>Platform\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_Object.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">

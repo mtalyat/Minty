@@ -35,5 +35,5 @@ Shape Minty::parse_to_shape(String const& string)
 Bool Minty::parse_try_shape(String const& string, Shape& value)
 {
 	value = parse_to_shape(string);
-	return true;
+	return value != Shape() || string == "Empty";
 }

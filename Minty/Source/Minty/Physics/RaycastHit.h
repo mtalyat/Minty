@@ -12,7 +12,7 @@ namespace Minty
 		/// <summary>
 		/// The position of the hit.
 		/// </summary>
-		Float3 position = Math::ZERO;
+		Float3 point = Math::ZERO;
 
 		/// <summary>
 		/// The normal of the surface hit.

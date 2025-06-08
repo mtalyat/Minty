@@ -32,10 +32,20 @@ namespace Minty
 		{
 			return btVector3(vector.x, vector.y, vector.z);
 		}
+		
+		inline static Float3 to_minty(btVector3 const& vector)
+		{
+			return Float3(vector.x(), vector.y(), vector.z());
+		}
 
 		inline static btQuaternion to_bullet(Quaternion const& quaternion)
 		{
 			return btQuaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+		}
+
+		inline static Quaternion to_minty(btQuaternion const& quaternion)
+		{
+			return Quaternion(quaternion.x(), quaternion.y(), quaternion.z(), quaternion.w());
 		}
 
 #pragma endregion

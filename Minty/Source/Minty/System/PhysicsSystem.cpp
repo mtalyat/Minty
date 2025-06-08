@@ -36,6 +36,7 @@ void Minty::PhysicsSystem::initialize_entities()
 
 	for (auto&& [entity, transform, collider] : entityManager.view<TransformComponent, ColliderComponent>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
+		MINTY_ASSERT(collider.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
 		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
 		MINTY_ASSERT(collider.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
 
@@ -49,7 +50,7 @@ void Minty::PhysicsSystem::initialize_entities()
 		// create collision mesh data
 
 		// add to physics manager
-		m_simulation->add_static(transform.transform, *collider.collider, entityManager.get_layer(entity));
+		m_simulation->add_static(entity, transform.transform, *collider.collider, entityManager.get_layer(entity));
 
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);

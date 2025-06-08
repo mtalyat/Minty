@@ -16,10 +16,14 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 	collider.release(); // release any existing collider
 
 	ColliderBuilder builder{};
-	reader.read("Shape", builder.shape);
+	if (!reader.read("Shape", builder.shape))
+	{
+		// could not read shape
+		return false;
+	}
 	if (builder.shape == Shape::Empty)
 	{
-		collider = nullptr; // no collider
+		// read shape, but it is empty, so do nothing
 		return true;
 	}
 	reader.read("Size", builder.size);

@@ -152,6 +152,7 @@ namespace Minty
 
 	constexpr Float DEFAULT_PHYSICS_GRAVITY = -9.81f;
 	constexpr Float DEFAULT_PHYSICS_TIME_STEP = 1.0f / 60.0f;
+	constexpr Float DEFAULT_PHYSICS_RAYCAST_DISTANCE = 1000.0f;
 
 #pragma endregion
 

@@ -162,7 +162,7 @@ namespace Minty
 			{
 				return nullptr;
 			}
-			return static_cast<T*>(m_systems.at(it->get_second()));
+			return static_cast<T*>(it->get_second());
 		}
 
 		/// <summary>
