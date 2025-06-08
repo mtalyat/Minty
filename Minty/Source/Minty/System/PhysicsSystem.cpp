@@ -40,15 +40,6 @@ void Minty::PhysicsSystem::initialize_entities()
 		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
 		MINTY_ASSERT(collider.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
 
-		if (collider.collider->get_shape() == Shape::Custom)
-		{
-			// if custom shape, must have a MeshComponent
-			MeshComponent const* meshComponent = entityManager.try_get_component<MeshComponent>(entity);
-			MINTY_ASSERT(meshComponent != nullptr, "Custom Shape Colliders must have a MeshComponent.");
-		}
-
-		// create collision mesh data
-
 		// add to physics manager
 		m_simulation->add_static(entity, transform.transform, *collider.collider, entityManager.get_layer(entity));
 

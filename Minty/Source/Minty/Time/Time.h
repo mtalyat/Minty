@@ -29,6 +29,17 @@ namespace Minty
 		{
 		}
 
+		/// <summary>
+		/// Creates a new Time object with the given total and elapsed time values.
+		/// </summary>
+		/// <param name="total">The total time that has passed.</param>
+		/// <param name="elapsed">The time that has passed since last frame.</param>
+		Time(Float const total, Float const elapsed)
+			: m_total(total)
+			, m_elapsed(elapsed)
+		{
+		}
+
 #pragma endregion
 
 #pragma region Get Set

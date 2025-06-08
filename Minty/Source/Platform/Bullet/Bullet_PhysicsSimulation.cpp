@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Bullet_PhysicsSimulation.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Physics/PhysicsManager.h"
 #include "Platform/Bullet/Bullet_MeshCollider.h"
@@ -153,10 +154,22 @@ void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider
 
 Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layerMask, Float const maxDistance) const
 {
+	Debug::write_line("Physics simulation:");
+	Int count = mp_dynamicsWorld->getNumCollisionObjects();
+	for (Int i = count - 1; i >= 0; i--)
+	{
+		// deleting handled by the individual objects
+		btCollisionObject* obj = mp_dynamicsWorld->getCollisionObjectArray()[i];
+		btTransform& transform = obj->getWorldTransform();
+		Debug::write_line(F("Object at ({}, {}, {}).", transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()));
+	}
+
 	// create the ray
 	btVector3 btOrigin = Bullet_Physics::to_bullet(origin);
 	btVector3 btDirection = Bullet_Physics::to_bullet(direction);
 	btVector3 btEnd = btOrigin + (btDirection.normalized() * maxDistance);
+
+	Debug::write_line(F("Raycast from ({}, {}, {}) to ({}, {}, {})", btOrigin.x(), btOrigin.y(), btOrigin.z(), btEnd.x(), btEnd.y(), btEnd.z()));
 
 	// create the raycast
 	btCollisionWorld::ClosestRayResultCallback rayCallback(btOrigin, btEnd);
@@ -175,7 +188,7 @@ Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const
 		// populate the hit information
 		hit.point = Bullet_Physics::to_minty(rayCallback.m_hitPointWorld);
 		hit.normal = Bullet_Physics::to_minty(rayCallback.m_hitNormalWorld);
-		hit.distance = (hit.point - origin).length();
+		hit.distance = Math::magnitude(hit.point - origin);
 		hit.entity = objectData->entity;
 		return true;
 	}
