@@ -15,7 +15,7 @@ Minty::Bullet_ShapeCollider::Bullet_ShapeCollider(ColliderBuilder const& builder
 	MINTY_ASSERT(builder.mesh == nullptr, "ShapeCollider cannot have custom data. Use a MeshCollider instead, or set to null.");
 
 	// create the collision shape based on the builder
-	btVector3 size = Bullet_Physics::to_bullet(builder.size);
+	btVector3 size = Bullet_Physics::to_bullet(builder.size * 0.5f); // half size since Bullet uses half extents for box shapes
 	switch (builder.shape)
 	{
 	case Shape::Box:
