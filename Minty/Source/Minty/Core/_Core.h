@@ -4,6 +4,7 @@
 #include "Compression.h"
 #include "Constant.h"
 #include "Encoding.h"
+#include "Evaluate.h"
 #include "Format.h"
 #include "Macro.h"
 #include "Math.h"

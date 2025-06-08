@@ -470,6 +470,17 @@ namespace Minty
 			);
 		}
 
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		constexpr Float mod(Float const value, Float const divisor)
+		{
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
 #pragma endregion
 
 #pragma region Utility

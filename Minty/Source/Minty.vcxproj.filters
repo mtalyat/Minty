@@ -954,6 +954,9 @@
     <ClInclude Include="Platform\Bullet\Bullet_Object.h">
       <Filter>Platform\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Core\Evaluate.h">
+      <Filter>Minty\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1515,6 +1518,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Data\Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Core\Evaluate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
