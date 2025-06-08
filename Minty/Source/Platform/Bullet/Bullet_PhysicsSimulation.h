@@ -38,8 +38,8 @@ namespace Minty
 
 	public:
 		void step(Float const elapsedTime) override;
-		void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer) override;
-		void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer) override;
+		void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL) override;
+		void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL) override;
 		void remove_static(Collider& collider) override;
 		void remove_dynamic(Collider& collider, RigidBody& body) override;
 		void set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body) override;

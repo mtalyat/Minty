@@ -21,7 +21,7 @@ namespace Minty
 	using Size = size_t;
 	using ID = uint64_t;
 	using Handle = uint32_t;
-	using Layer = uint32_t;
+	using Layer = Int;
 
 	/// <summary>
 	/// A point in time.
