@@ -502,7 +502,9 @@ void Minty::EntityManager::finalize_dirties()
 	clear<DirtyTextComponent>();
 
 	// update dirty transforms with relationships
-	for (auto&& [entity, dirty, transform, relationship] : m_registry.view<DirtyComponent const, TransformComponent, RelationshipComponent const>().each())
+	auto view = m_registry.view<DirtyComponent const, TransformComponent, RelationshipComponent const>();
+	view.use<RelationshipComponent>();
+	for (auto&& [entity, dirty, transform, relationship] : view.each())
 	{
 		// if parent, use parent's global matrix
 		if (relationship.parent != INVALID_ENTITY)

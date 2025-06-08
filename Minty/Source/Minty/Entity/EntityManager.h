@@ -55,12 +55,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Iterators
-
-	public:
-
-#pragma endregion
-
 #pragma region Get Set
 
 	public:
