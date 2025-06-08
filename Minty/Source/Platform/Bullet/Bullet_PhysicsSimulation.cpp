@@ -2,9 +2,10 @@
 #include "Bullet_PhysicsSimulation.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Physics/PhysicsManager.h"
-#include "Platform/Bullet/Bullet_Collider.h"
+#include "Platform/Bullet/Bullet_MeshCollider.h"
 #include "Platform/Bullet/Bullet_Physics.h"
 #include "Platform/Bullet/Bullet_RigidBody.h"
+#include "Platform/Bullet/Bullet_ShapeCollider.h"
 
 using namespace Minty;
 

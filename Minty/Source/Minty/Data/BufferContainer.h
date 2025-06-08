@@ -125,6 +125,8 @@ namespace Minty
 	public:
 		void set_at(void const* const data, Size const size, Size const index) override;
 
+		void const* get_at(Size const index) const override;
+
 		Bool append(void const* const data, Size const size) override;
 
 		void clear() override;

@@ -10,6 +10,12 @@ namespace Minty
 	struct ColliderComponent
 		: public Component
 	{
+		/// <summary>
+		/// The Collider.
+		/// </summary>
 		Owner<Collider> collider;
+
+		void serialize(Writer& writer) const override;
+		Bool deserialize(Reader& reader) override;
 	};
 }

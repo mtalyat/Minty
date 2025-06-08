@@ -8,6 +8,11 @@ void Minty::ListContainer::set_at(void const* const data, Size const count, Size
 	DynamicContainer::set_at(data, count * m_stride, index * m_stride);
 }
 
+void const* Minty::ListContainer::get_at(Size const index) const
+{
+	return DynamicContainer::get_at(index * m_stride);
+}
+
 Bool Minty::ListContainer::set(void const* const data, Size const count)
 {
 	return DynamicContainer::set(data, count);

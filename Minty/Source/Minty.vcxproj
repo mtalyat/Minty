@@ -417,6 +417,8 @@
     <ClInclude Include="Minty\Wrap\_Wrap.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Platform\Bullet\Bullet_Collider.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_MeshCollider.h" />
+    <ClInclude Include="Platform\Bullet\Bullet_ShapeCollider.h" />
     <ClInclude Include="Platform\Bullet\Bullet_Physics.h" />
     <ClInclude Include="Platform\Bullet\Bullet_PhysicsSimulation.h" />
     <ClInclude Include="Platform\Bullet\Bullet_RigidBody.h" />
@@ -482,6 +484,7 @@
     <ClCompile Include="Minty\Component\AudioSourceComponent.cpp" />
     <ClCompile Include="Minty\Component\CameraComponent.cpp" />
     <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
+    <ClCompile Include="Minty\Component\ColliderComponent.cpp" />
     <ClCompile Include="Minty\Component\LayerComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
@@ -507,6 +510,7 @@
     <ClCompile Include="Minty\Data\ListContainer.cpp" />
     <ClCompile Include="Minty\Data\MemoryContainer.cpp" />
     <ClCompile Include="Minty\Data\Path.cpp" />
+    <ClCompile Include="Minty\Data\Shape.cpp" />
     <ClCompile Include="Minty\Data\StaticContainer.cpp" />
     <ClCompile Include="Minty\Data\String.cpp" />
     <ClCompile Include="Minty\Data\Transform.cpp" />
@@ -611,7 +615,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Platform\Bullet\Bullet_Collider.cpp" />
+    <ClCompile Include="Platform\Bullet\Bullet_MeshCollider.cpp" />
+    <ClCompile Include="Platform\Bullet\Bullet_ShapeCollider.cpp" />
     <ClCompile Include="Platform\Bullet\Bullet_PhysicsSimulation.cpp" />
     <ClCompile Include="Platform\Bullet\Bullet_RigidBody.cpp" />
     <ClCompile Include="Platform\SoLoud\SoLoud_AudioClip.cpp" />

@@ -4,6 +4,7 @@
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Component/ColliderComponent.h"
 #include "Minty/Component/DestroyComponent.h"
+#include "Minty/Component/MeshComponent.h"
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/SimulateComponent.h"
 #include "Minty/Component/TransformComponent.h"
@@ -34,6 +35,18 @@ void Minty::PhysicsSystem::initialize_entities()
 
 	for (auto&& [entity, transform, collider] : entityManager.view<TransformComponent, ColliderComponent>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
+		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
+		MINTY_ASSERT(collider.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
+
+		if (collider.collider->get_shape() == Shape::Custom)
+		{
+			// if custom shape, must have a MeshComponent
+			MeshComponent const* meshComponent = entityManager.try_get_component<MeshComponent>(entity);
+			MINTY_ASSERT(meshComponent != nullptr, "Custom Shape Colliders must have a MeshComponent.");
+		}
+
+		// create collision mesh data
+
 		// add to physics manager
 		m_simulation->add_static(transform.transform, *collider.collider, entityManager.get_layer(entity));
 

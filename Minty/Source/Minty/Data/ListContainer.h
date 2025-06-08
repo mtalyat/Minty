@@ -126,17 +126,6 @@ namespace Minty
 		/// <returns>The number of elements.</returns>
 		Size get_count() const { return m_size / m_stride; }
 
-		/// <summary>
-		/// Gets the pointer to the element at the given index.
-		/// </summary>
-		/// <param name="index">The index of the element.</param>
-		/// <returns>A pointer to the element.</returns>
-		void* get_element(Size const index) const
-		{
-			MINTY_ASSERT(index < get_count(), "Index out of bounds.");
-			return static_cast<Byte*>(mp_data) + (index * m_stride);
-		}
-
 #pragma endregion
 
 #pragma region Methods
@@ -155,7 +144,14 @@ namespace Minty
 		/// <param name="data">The bytes of the element(s) to set.</param>
 		/// <param name="count">The number of elements to set.</param>
 		/// <param name="index">The index of the element(s) to set.</param>
-		virtual void set_at(void const* const data, Size const count, Size const index) override;
+		void set_at(void const* const data, Size const count, Size const index) override;
+
+		/// <summary>
+		/// Gets the element bytes at the given element index.
+		/// </summary>
+		/// <param name="index">The index to the element.</param>
+		/// <returns>A pointer to the element at the given index.</returns>
+		void const* get_at(Size const index) const override;
 
 		/// <summary>
 		/// Resizes and sets the data to the given element bytes.
@@ -163,7 +159,7 @@ namespace Minty
 		/// <param name="data">The element bytes to set.</param>
 		/// <param name="size">The number of elements to set.</param>
 		/// <returns>True if set successfully.</returns>
-		virtual Bool set(void const* const data, Size const count) override;
+		Bool set(void const* const data, Size const count) override;
 
 		/// <summary>
 		/// Adds the given element bytes to the end of the data within this Container. Reserves more space if needed.
@@ -171,21 +167,21 @@ namespace Minty
 		/// <param name="data">The bytes of the element(s) to append.</param>
 		/// <param name="count">The number of elements to append.</param>
 		/// <returns>True if appended successfully.</returns>
-		virtual Bool append(void const* const data, Size const count = 1) override;
+		Bool append(void const* const data, Size const count = 1) override;
 
 		/// <summary>
 		/// Sets the new capacity for this Container.
 		/// </summary>
 		/// <param name="capacity">The new capacity to set, in elements.</param>
 		/// <returns>True on success.</returns>
-		virtual Bool reserve(Size const newCapacity) override;
+		Bool reserve(Size const newCapacity) override;
 
 		/// <summary>
 		/// Sets the new size for this Container.
 		/// </summary>
 		/// <param name="count">The number of elements.</param>
 		/// <returns>True on success.</returns>
-		virtual Bool resize(Size const count) override;
+		Bool resize(Size const count) override;
 
 #pragma endregion
 	};

@@ -72,6 +72,25 @@ namespace Minty
 		virtual Bool set(void const* const data, Size const size);
 
 		/// <summary>
+		/// Gets the pointer to the data at the given index.
+		/// </summary>
+		/// <param name="index">The index of the bytes to get.</param>
+		/// <returns>The pointer to the data.</returns>
+		virtual void const* get_at(Size const index) const = 0;
+
+		/// <summary>
+		/// Gets the object at the given index, cast to the specified type.
+		/// </summary>
+		/// <typeparam name="T">The type to cast to.</typeparam>
+		/// <param name="index">The index of the object.</param>
+		/// <returns>A const reference to the object.</returns>
+		template<typename T>
+		T const& get_object(Size const index) const
+		{
+			return *static_cast<T const*>(get_at(index));
+		}
+
+		/// <summary>
 		/// Adds the given bytes to the end of the data within this Container. Reserves more space if needed.
 		/// </summary>
 		/// <param name="data">The bytes to append.</param>

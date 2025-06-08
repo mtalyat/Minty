@@ -14,6 +14,12 @@ void Minty::MemoryContainer::set_at(void const* const data, Size const size, Siz
 	memcpy(&mp_data[index], data, size);
 }
 
+void const* Minty::MemoryContainer::get_at(Size const index) const
+{
+	MINTY_ASSERT(index < m_size, "Index out of bounds.");
+	return &mp_data[index];
+}
+
 void Minty::MemoryContainer::clear()
 {
 	m_size = 0;

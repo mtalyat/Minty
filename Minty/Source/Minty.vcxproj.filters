@@ -900,7 +900,7 @@
     <ClInclude Include="Minty\Data\Shape.h">
       <Filter>Minty\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Platform\Bullet\Bullet_Collider.h">
+    <ClInclude Include="Platform\Bullet\Bullet_ShapeCollider.h">
       <Filter>Platform\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Minty\Component\ColliderComponent.h">
@@ -944,6 +944,12 @@
     </ClInclude>
     <ClInclude Include="Minty\Layer\LayerManager.h">
       <Filter>Minty\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_MeshCollider.h">
+      <Filter>Platform\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Bullet\Bullet_Collider.h">
+      <Filter>Platform\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1472,7 +1478,7 @@
     <ClCompile Include="Minty\Physics\PhysicsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Platform\Bullet\Bullet_Collider.cpp">
+    <ClCompile Include="Platform\Bullet\Bullet_ShapeCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Physics\RigidBody.cpp">
@@ -1497,6 +1503,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Layer\LayerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Bullet\Bullet_MeshCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\ColliderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Data\Shape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
