@@ -14,8 +14,12 @@ set "VS_PATH=%USERPROFILE%\Documents\Visual Studio 2022"
 if not exist "%VS_PATH%\" (
     set "VS_PATH=%USERPROFILE%\Documents\Visual Studio 2019"
 )
+set "FULL_VS_PATH=%VS_PATH%\Templates\ProjectTemplates\"
 if exist "%VS_PATH%" (
-    xcopy "%pdir%Minty\Template\Minty Project.zip" "%VS_PATH%\Templates\ProjectTemplates\" /Y
+    if not exist "%FULL_VS_PATH%" (
+        mkdir "%FULL_VS_PATH%"
+    )
+    xcopy "%pdir%Minty\Template\Minty Project.zip" "%FULL_VS_PATH%" /Y
     echo Imported the Minty Project project template into Visual Studio.
 ) else (
     echo Failed to import the Minty Project project template into Visual Studio.

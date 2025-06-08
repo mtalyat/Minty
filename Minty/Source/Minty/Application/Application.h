@@ -6,6 +6,8 @@
 
 namespace Minty
 {
+	class Stopwatch;
+
 	/// <summary>
 	/// The arguments for creating an Application.
 	/// </summary>
@@ -82,6 +84,13 @@ namespace Minty
 		/// Quits the Application.
 		/// </summary>
 		void quit();
+
+		/// <summary>
+		/// Performs one step in the Application's update loop.
+		/// </summary>
+		/// <param name="totalWatch">The total time Stopwatch.</param>
+		/// <param name="elapsedWatch">The elapsed time Stopwatch.</param>
+		void step(Stopwatch& totalWatch, Stopwatch& elapsedWatch);
 		
 		/// <summary>
 		/// Runs the Application.

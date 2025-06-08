@@ -1,5 +1,5 @@
 #pragma once
-#include "Minty/Context/Manager.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Scene/Scene.h"
 
 namespace Minty

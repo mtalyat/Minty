@@ -13,6 +13,13 @@ void Minty::BufferContainer::set_at(void const* const data, Size const size, Siz
 	memcpy(&containerData[index], data, size);
 }
 
+void const* Minty::BufferContainer::get_at(Size const index) const
+{
+	MINTY_ASSERT(index < m_size, "Index out of bounds.");
+	Byte* containerData = static_cast<Byte*>(m_buffer->get_data());
+	return &containerData[index];
+}
+
 Bool Minty::BufferContainer::append(void const* const data, Size const size)
 {
 	MINTY_ASSERT(data != nullptr, "Cannot append nullptr data.");

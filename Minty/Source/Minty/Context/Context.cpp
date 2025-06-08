@@ -18,6 +18,8 @@ Minty::Context::Context(ContextBuilder const& builder)
 	, m_memoryManager(nullptr)
 	, m_jobManager(nullptr)
 	, m_audioManager(nullptr)
+	, m_layerManager(nullptr)
+	, m_physicsManager(nullptr)
 	, m_assetManager(nullptr)
 	, m_inputManager(nullptr)
 	, m_renderManager(nullptr)
@@ -40,13 +42,15 @@ Minty::Context::Context(ContextBuilder const& builder)
 	register_systems();
 	register_components();
 
-	// create window
+	// create window 
 	m_window = Window::create(builder.windowBuilder);
 
 	// create managers
 	m_memoryManager = MemoryManager::create(builder.memoryManagerBuilder);
 	m_jobManager = JobManager::create(builder.jobManagerBuilder);
 	m_audioManager = AudioManager::create(builder.audioManagerBuilder);
+	m_layerManager = LayerManager::create(builder.layerManagerBuilder);
+	m_physicsManager = PhysicsManager::create(builder.physicsManagerBuilder);
 	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
 	m_inputManager = InputManager::create(builder.inputManagerBuilder);
 	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
@@ -55,6 +59,8 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_managers.add(m_jobManager.get());
 	m_managers.add(m_renderManager.get());
 	m_managers.add(m_audioManager.get());
+	m_managers.add(m_layerManager.get());
+	m_managers.add(m_physicsManager.get());
 	m_managers.add(m_assetManager.get());
 	m_managers.add(m_inputManager.get());
 	m_managers.add(m_sceneManager.get());
@@ -79,6 +85,8 @@ Minty::Context::Context(Context&& other) noexcept
 	, m_memoryManager(std::move(other.m_memoryManager))
 	, m_jobManager(std::move(other.m_jobManager))
 	, m_audioManager(std::move(other.m_audioManager))
+	, m_layerManager(std::move(other.m_layerManager))
+	, m_physicsManager(std::move(other.m_physicsManager))
 	, m_assetManager(std::move(other.m_assetManager))
 	, m_inputManager(std::move(other.m_inputManager))
 	, m_renderManager(std::move(other.m_renderManager))
@@ -112,6 +120,8 @@ Context& Minty::Context::operator=(Context&& other) noexcept
 		m_memoryManager = std::move(other.m_memoryManager);
 		m_jobManager = std::move(other.m_jobManager);
 		m_audioManager = std::move(other.m_audioManager);
+		m_layerManager = std::move(other.m_layerManager);
+		m_physicsManager = std::move(other.m_physicsManager);
 		m_assetManager = std::move(other.m_assetManager);
 		m_renderManager = std::move(other.m_renderManager);
 		m_sceneManager = std::move(other.m_sceneManager);
@@ -129,11 +139,13 @@ void Minty::Context::register_components()
 	register_component<AudioSourceComponent>("AudioSource");
 	register_component<CameraComponent>("Camera");
 	register_component<CanvasComponent>("Canvas");
+	register_component<ColliderComponent>("Collider");
 	register_component<EnabledComponent>("Enabled");
 	register_component<LayerComponent>("Layer");
 	register_component<MeshComponent>("Mesh");
 	register_component<NameComponent>("Name");
 	register_component<RelationshipComponent>("Relationship");
+	register_component<RigidBodyComponent>("RigidBody");
 	register_component<SpriteComponent>("Sprite");
 	register_component<TextComponent>("Text");
 	register_component<TransformComponent>("Transform");
@@ -144,9 +156,10 @@ void Minty::Context::register_components()
 
 void Minty::Context::register_systems()
 {
-	register_system<AnimationSystem>("Animation");
-	register_system<AudioSystem>("Audio");
-	register_system<RenderSystem>("Render");
+	register_system<AnimationSystem>("Animation", 1);
+	register_system<AudioSystem>("Audio", 1);
+	register_system<PhysicsSystem>("Physics", -100);
+	register_system<RenderSystem>("Render", 100);
 }
 
 void Minty::Context::initialize()

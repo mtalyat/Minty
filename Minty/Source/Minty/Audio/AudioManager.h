@@ -2,7 +2,7 @@
 #include "Minty/Audio/AudioClip.h"
 #include "Minty/Audio/AudioListener.h"
 #include "Minty/Audio/AudioSource.h"
-#include "Minty/Context/Manager.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Data/Pointer.h"
 
 namespace Minty

@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "CameraInfo.h"
+#include "Minty/Core/Math.h"
 
 using namespace Minty;
 
 Matrix4 Minty::CameraInfo::get_transformation_matrix() const
 {
-    Matrix4 view = glm::lookAt(position, position + Math::forward(rotation), Float3(0.0f, 1.0f, 0.0f));
+    Matrix4 view = glm::lookAtLH(position, position + Math::forward(rotation), Math::UP);
 
     // TODO: don't use lookat
     // maybe invert global?
@@ -15,7 +16,8 @@ Matrix4 Minty::CameraInfo::get_transformation_matrix() const
 	switch (camera->get_perspective())
 	{
 	case Perspective::Perspective:
-		proj = glm::perspective(camera->get_fov(), camera->get_aspect_ratio(), camera->get_near_plane(), camera->get_far_plane());
+		proj = glm::perspectiveLH(camera->get_fov(), camera->get_aspect_ratio(), camera->get_near_plane(), camera->get_far_plane());
+		proj[1][1] *= -1.0f; // flip Y axis for OpenGL compatibility
 		break;
 	case Perspective::Orthographic:
 	{
