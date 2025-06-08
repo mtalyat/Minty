@@ -1234,6 +1234,8 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path)
 	MeshBuilder builder{};
 	builder.id = read_id(path);
 	builder.type = MeshType::Custom;
+	builder.vertices = ListContainer(sizeof(Float));
+	builder.indices = ListContainer(sizeof(UShort));
 
 	Vector<String> lines = read_lines(path);
 
@@ -1259,21 +1261,19 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path)
 		{
 			// position
 			ss >> position.x >> position.y >> position.z;
-			position.y = -position.y; // flip Y
 			positions.add(position);
 		}
 		else if (token == "vt")
 		{
 			// coord
 			ss >> coord.x >> coord.y;
-			coord.y = -coord.y; // flip y
+			coord.y = 1.0f - coord.y; // invert Y so it works with Vulkan
 			coords.add(coord);
 		}
 		else if (token == "vn")
 		{
 			// normal
 			ss >> normal.x >> normal.y >> normal.z;
-			normal.y = -normal.y;
 			normals.add(normal);
 		}
 		else if (token == "f")
@@ -1341,6 +1341,9 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path)
 		}
 	}
 
+	// update vertex stride to match the vertex size
+	builder.vertices.set_stride(sizeof(Float) * 8);
+
 	// create the mesh
 	return create_from_loaded<Mesh>(path, builder);
 }
@@ -1349,7 +1352,7 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path)
 {
 	String extension = path.get_extension().get_string();
 
-	if (extension == "obj")
+	if (extension == ".obj")
 	{
 		return load_mesh_obj(path);
 	}

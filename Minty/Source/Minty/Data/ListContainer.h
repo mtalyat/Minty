@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Core/Constant.h"
 #include "Minty/Data/DynamicContainer.h"
 #include "Minty/Debug/Debug.h"
 
@@ -36,7 +37,7 @@ namespace Minty
 		/// <param name="stride">The size of each element in bytes.</param>
 		/// <param name="capacity">The initial capacity in elements.</param>
 		/// <param name="allocator">The allocator to use.</param>
-		ListContainer(Size const stride, Size const capacity, Allocator const allocator = Allocator::Default)
+		ListContainer(Size const stride, Size const capacity = DEFAULT_COLLECTION_SIZE, Allocator const allocator = Allocator::Default)
 			: DynamicContainer(allocator)
 			, m_stride(stride)
 		{
@@ -119,6 +120,17 @@ namespace Minty
 		/// </summary>
 		/// <returns>The size of an element in bytes.</returns>
 		Size get_stride() const { return m_stride; }
+
+		/// <summary>
+		/// Sets the stride (size of each element in bytes) for this Container.
+		/// </summary>
+		/// <param name="stride">The size of an element in bytes.</param>
+		void set_stride(Size const stride)
+		{
+			MINTY_ASSERT(stride > 0, "Stride must be greater than 0.");
+			MINTY_ASSERT(m_size % stride == 0, "Size of the Container must be a multiple of the stride.");
+			m_stride = stride;
+		}
 
 		/// <summary>
 		/// Gets the number of elements in this Container.
