@@ -4,6 +4,7 @@
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Component/ColliderComponent.h"
 #include "Minty/Component/DestroyComponent.h"
+#include "Minty/Component/EnabledComponent.h"
 #include "Minty/Component/MeshComponent.h"
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/SimulateComponent.h"
@@ -34,13 +35,27 @@ void Minty::PhysicsSystem::initialize_entities()
 	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
 	EntityManager& entityManager = scene->get_entity_manager();
 
-	for (auto&& [entity, transform, collider] : entityManager.view<TransformComponent, ColliderComponent>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
+	// check for disabled entities
+	for (auto&& [entity, collider, simulate] : entityManager.view<ColliderComponent, SimulateComponent const>(entt::exclude<RigidBodyComponent, EnabledComponent>).each())
+	{
+		MINTY_ASSERT(collider.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
+		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
+		
+		// remove from physics simulation
+		m_simulation->remove_static(*collider.collider);
+
+		// remove simulate component
+		entityManager.remove_component<SimulateComponent>(entity);
+	}
+
+	// check for enabled, non-simulated entities
+	for (auto&& [entity, transform, collider, enabled] : entityManager.view<TransformComponent, ColliderComponent, EnabledComponent>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
 		MINTY_ASSERT(collider.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
 		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
 		MINTY_ASSERT(collider.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
 
-		// add to physics manager
+		// add to physics simulation
 		m_simulation->add_static(entity, transform.transform, *collider.collider, entityManager.get_layer(entity));
 
 		// add simulate component
