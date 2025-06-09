@@ -46,6 +46,14 @@ void Minty::Application::run()
 	m_context->sync();
 }
 
+Owner<Application> Minty::Application::open(Path const& path)
+{
+	ApplicationBuilder builder{};
+	builder.context = Context::open(path);
+	MINTY_ASSERT(builder.context, F("Failed to open context from path: {}", path));
+	return create(builder);
+}
+
 Owner<Application> Minty::Application::create(ApplicationBuilder const& builder)
 {
 	return Owner<Application>(builder);
