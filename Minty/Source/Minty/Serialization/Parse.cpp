@@ -72,6 +72,27 @@ static Bool is_unsigned_integer(String const& string)
 {
 	if (!string.get_size()) return false; // nothing in string
 
+	// check if different base
+	if (string.get_size() >= 2 && string.at(0) == '0')
+	{
+		if (std::toupper(string.at(1)) == 'X')
+		{
+			for (Size i = 2; i < string.get_size(); i++)
+			{
+				if (!isxdigit(string.at(i))) return false; // not a hex digit
+			}
+			return true;
+		}
+		else if (std::toupper(string.at(1)) == 'B')
+		{
+			for (Size i = 2; i < string.get_size(); i++)
+			{
+				if (string.at(i) != '0' && string.at(i) != '1') return false; // not a binary digit
+			}
+			return true;
+		}
+	}
+
 	for (Char const c : string)
 	{
 		if (!isdigit(c)) return false; // not a digit
@@ -79,6 +100,37 @@ static Bool is_unsigned_integer(String const& string)
 
 	// all digits
 	return true;
+}
+
+static Int get_base(String const& string)
+{
+	if (string.get_size() >= 2 && string.at(0) == '0')
+	{
+		if (std::toupper(string.at(1)) == 'X')
+		{
+			return 16; // hexadecimal
+		}
+		else if (std::toupper(string.at(1)) == 'B')
+		{
+			return 2; // binary
+		}
+	}
+
+	return 10; // decimal
+}
+
+template<typename T, typename U>
+static inline T to_int_type(String const& string, U(*func)(std::string const&, size_t*, int))
+{
+	Int base = get_base(string);
+	if (base == 10)
+	{
+		return static_cast<T>(func(string.get_data(), nullptr, 10));
+	}
+	else
+	{
+		return static_cast<T>(func(&string.get_data()[2], nullptr, base));
+	}
 }
 
 static Bool is_signed_integer(String const& string)
@@ -89,6 +141,27 @@ static Bool is_signed_integer(String const& string)
 
 	// check if just the '-'
 	if (i == 1 && string.get_size() == 1) return false;
+
+	// check if different base
+	if (string.get_size() >= 2 && string.at(0) == '0')
+	{
+		if (std::toupper(string.at(1)) == 'X')
+		{
+			for (Size i = 2; i < string.get_size(); i++)
+			{
+				if (!isxdigit(string.at(i))) return false; // not a hex digit
+			}
+			return true;
+		}
+		else if (std::toupper(string.at(1)) == 'B')
+		{
+			for (Size i = 2; i < string.get_size(); i++)
+			{
+				if (string.at(i) != '0' && string.at(i) != '1') return false; // not a binary digit
+			}
+			return true;
+		}
+	}
 
 	Char c;
 	for (; i < string.get_size(); i++)
@@ -324,14 +397,14 @@ Bool Minty::try_bool4(String const& string, Bool4& value)
 
 Byte Minty::to_byte(String const& string)
 {
-	return static_cast<Byte>(std::stoi(string.get_data()));
+	return to_int_type<Byte, int>(string, std::stoi);
 }
 
 Bool Minty::try_byte(String const& string, Byte& value)
 {
 	if (is_unsigned_integer(string))
 	{
-		value = static_cast<Byte>(std::stoi(string.get_data()));
+		value = to_byte(string);
 		return true;
 	}
 
@@ -340,7 +413,7 @@ Bool Minty::try_byte(String const& string, Byte& value)
 
 Char Minty::to_char(String const& string)
 {
-	return static_cast<Char>(std::stoi(string.get_data()));
+	return to_int_type<Char, int>(string, std::stoi);
 }
 
 Bool Minty::try_char(String const& string, Char& value)
@@ -350,20 +423,20 @@ Bool Minty::try_char(String const& string, Char& value)
 		return false;
 	}
 
-	value = string.front();
+	value = to_char(string);
 	return true;
 }
 
 Short Minty::to_short(String const& string)
 {
-	return static_cast<Short>(std::stoi(string.get_data()));
+	return to_int_type<Short, int>(string, std::stoi);
 }
 
 Bool Minty::try_short(String const& string, Short& value)
 {
 	if (is_signed_integer(string))
 	{
-		value = static_cast<Short>(std::stoi(string.get_data()));
+		value = to_short(string);
 		return true;
 	}
 
@@ -372,14 +445,14 @@ Bool Minty::try_short(String const& string, Short& value)
 
 UShort Minty::to_ushort(String const& string)
 {
-	return static_cast<UShort>(std::stoi(string.get_data()));
+	return to_int_type<UShort, int>(string, std::stoi);
 }
 
 Bool Minty::try_ushort(String const& string, UShort& value)
 {
 	if (is_signed_integer(string))
 	{
-		value = static_cast<UShort>(std::stoi(string.get_data()));
+		value = to_ushort(string);
 		return true;
 	}
 
@@ -388,14 +461,14 @@ Bool Minty::try_ushort(String const& string, UShort& value)
 
 Int Minty::to_int(String const& string)
 {
-	return std::stoi(string.get_data());
+	return to_int_type<Int, int>(string, std::stoi);
 }
 
 Bool Minty::try_int(String const& string, Int& value)
 {
 	if (is_signed_integer(string))
 	{
-		value = std::stoi(string.get_data());
+		value = to_int(string);
 		return true;
 	}
 
@@ -434,14 +507,14 @@ Bool Minty::try_int4(String const& string, Int4& value)
 
 UInt Minty::to_uint(String const& string)
 {
-	return static_cast<UInt>(std::stoul(string.get_data()));
+	return to_int_type<UInt, unsigned long>(string, std::stoul);
 }
 
 Bool Minty::try_uint(String const& string, UInt& value)
 {
 	if (is_unsigned_integer(string))
 	{
-		value = static_cast<UInt>(std::stoul(string.get_data()));
+		value = to_uint(string);
 		return true;
 	}
 
@@ -480,14 +553,14 @@ Bool Minty::try_uint4(String const& string, UInt4& value)
 
 Long Minty::to_long(String const& string)
 {
-	return std::stol(string.get_data());
+	return to_int_type<Long, long>(string, std::stol);
 }
 
 Bool Minty::try_long(String const& string, Long& value)
 {
 	if (is_signed_integer(string))
 	{
-		value = std::stol(string.get_data());
+		value = to_long(string);
 		return true;
 	}
 
@@ -496,14 +569,14 @@ Bool Minty::try_long(String const& string, Long& value)
 
 ULong Minty::to_ulong(String const& string)
 {
-	return std::stoul(string.get_data());
+	return to_int_type<ULong, unsigned long>(string, std::stoul);
 }
 
 Bool Minty::try_ulong(String const& string, ULong& value)
 {
 	if (is_signed_integer(string))
 	{
-		value = std::stoul(string.get_data());
+		value = to_ulong(string);
 		return true;
 	}
 
