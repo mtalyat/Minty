@@ -157,7 +157,7 @@ Double Minty::Internal::evaluate_operator(String const& token, Double const left
 
 // splits the expression into String tokens
 Vector<String> Minty::Internal::split_into_tokens(String const& expression) {
-	std::regex tokenRegex(R"(-?\d+(\.\d+)?|[a-zA-Z]+|\+|\-|\*\*|\*|\/|\%|\&|\||\^|\~|\(|\))");
+	std::regex tokenRegex(R"(0[xX][a-fA-F0-9]+|0[bB][01]+|-?\d+(\.\d+)?|[a-zA-Z]+|\+|\-|\*\*|\*|\/|\%|\&|\||\^|\~|\(|\))");
 	Vector<String> tokens;
 
 	std::string stdExpression = expression.get_data();

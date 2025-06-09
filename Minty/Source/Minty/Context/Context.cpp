@@ -318,11 +318,97 @@ Owner<Context> Minty::Context::open(Path const& path)
 	}
 	if (reader.indent("Memory"))
 	{
-		Size temp;
-		if (reader.read("Temporary", temp))
+		ULong tempTemporary;
+		if (reader.read("Temporary", tempTemporary))
 		{
-			builder.memoryManagerBuilder.temporary.capacity = temp;
+			builder.memoryManagerBuilder.temporary.capacity = tempTemporary;
 		}
+		ULong2 tempTask;
+		if (reader.read("Task", tempTask))
+		{
+			builder.memoryManagerBuilder.task.capacity = tempTask.x;
+			builder.memoryManagerBuilder.taskCount = tempTask.y;
+		}
+		Vector<ULong2> tempPersistent;
+		if (reader.read("Persistent", tempPersistent))
+		{
+			builder.memoryManagerBuilder.persistents.clear();
+			builder.memoryManagerBuilder.persistents.reserve(tempPersistent.get_size());
+			for (ULong2 const& persistent : tempPersistent)
+			{
+				builder.memoryManagerBuilder.persistents.add(MemoryPoolBuilder(persistent.x, persistent.y));
+			}
+		}
+
+		reader.outdent();
+	}
+	if (reader.indent("Job"))
+	{
+		reader.read("Threads", builder.jobManagerBuilder.threadCount);
+
+		reader.outdent();
+	}
+	if (reader.indent("Audio"))
+	{
+		reader.outdent();
+	}
+	if (reader.indent("Layer"))
+	{
+		if (reader.indent("Layers"))
+		{
+			builder.layerManagerBuilder.layerCollisions.clear();
+			builder.layerManagerBuilder.layerCollisions.reserve(reader.get_size());
+
+			String name;
+			Int2 layer;
+			for (Size i = 0; i < reader.get_size(); i++)
+			{
+				// read the name
+				if (!reader.read_name(i, name))
+				{
+					MINTY_ABORT(F("Failed to read Layer name at index {}.", i));
+				}
+				// read the layer data
+				if (!reader.read(i, layer))
+				{
+					MINTY_ABORT(F("Failed to read Layer data at index {}.", i));
+				}
+
+				// add the layer collision
+				builder.layerManagerBuilder.layerCollisions.add(
+					{ name, layer.x, layer.y }
+				);
+			}
+
+			reader.outdent();
+		}
+
+		reader.outdent();
+	}
+	if (reader.indent("Physics"))
+	{
+		reader.outdent();
+	}
+	if (reader.indent("Asset"))
+	{
+		builder.assetManagerBuilder.wraps.clear();
+		reader.read("Wraps", builder.assetManagerBuilder.wraps);
+
+		reader.outdent();
+	}
+	if (reader.indent("Input"))
+	{
+		reader.outdent();
+	}
+	if (reader.indent("Render"))
+	{
+		reader.read("TargetFormat", builder.renderManagerBuilder.targetSurfaceFormat);
+
+		reader.outdent();
+	}
+	if (reader.indent("Scene"))
+	{
+		reader.read("Initial", builder.sceneManagerBuilder.initialScene);
 
 		reader.outdent();
 	}

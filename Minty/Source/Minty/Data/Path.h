@@ -353,7 +353,7 @@ namespace Minty
 		/// <returns>True if the path has the given extension.</returns>
 		Bool has_extension(Path const& extension) const
 		{
-			return m_path.has_extension() && m_path.extension() == extension.m_path.extension();
+			return m_path.has_extension() && m_path.extension() == extension.m_path;
 		}
 
 		/// <summary>
