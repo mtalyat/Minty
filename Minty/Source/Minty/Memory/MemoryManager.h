@@ -4,6 +4,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Dictionary.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Memory/Allocator.h"
 #include "Minty/Memory/MemoryPool.h"
@@ -19,25 +20,22 @@ namespace Minty
 		/// <summary>
 		/// The MemoryStack for temporary (one frame) memory.
 		/// </summary>
-		MemoryStackBuilder temporary = { MB * 4 };
+		MemoryStackBuilder temporary = {};
 
 		/// <summary>
 		/// The MemoryStacks for tasks (multiple frames) memory.
 		/// </summary>
-		MemoryStackBuilder task = { MB * 4 };
+		MemoryStackBuilder task = {};
 
 		/// <summary>
 		/// The number of task MemoryStacks to create.
 		/// </summary>
-		Size taskCount = 4;
+		Size taskCount = 0;
 
 		/// <summary>
 		/// The MemoryPools for persistent memory.
 		/// </summary>
-		Vector<MemoryPoolBuilder> persistents =
-		{
-			{64, MB / 64}, {256, MB / 256}, {KB, MB / KB}, {4 * KB, MB / (4 * KB)}, {16 * KB, MB / (16 * KB)}, {64 * KB, MB / (64 * KB)}, {256 * KB, MB / (256 * KB)}, {MB, 16}
-		};
+		Vector<MemoryPoolBuilder> persistents;
 	};
 
 	/// <summary>
@@ -57,6 +55,8 @@ namespace Minty
 		Size m_taskIndex;
 		// persistent: 64b, 256b, 1kb, 4kb, 16kb, 64kb, 256kb, 1mb, etc.
 		Vector<MemoryPool> m_persistents;
+		// ordered list of persistent sizes and indices to the pools
+		Dictionary<Size, Size> m_persistentSizes;
 
 		// number of bytes allocated using the MemoryManager
 		Size m_staticSize;
@@ -78,6 +78,7 @@ namespace Minty
 			, m_tasks(std::move(other.m_tasks))
 			, m_taskIndex(std::move(other.m_taskIndex))
 			, m_persistents(std::move(other.m_persistents))
+			, m_persistentSizes(std::move(other.m_persistentSizes))
 			, m_staticSize(std::move(other.m_staticSize))
 			, m_dynamicSize(std::move(other.m_dynamicSize))
 		{

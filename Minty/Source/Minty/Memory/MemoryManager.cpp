@@ -35,11 +35,14 @@ void Minty::MemoryManager::update(Time const& time)
 	m_temporary.clear();
 
 	// move to next task
-	m_taskIndex = (m_taskIndex + 1) % m_tasks.get_size();
+	if (!m_tasks.is_empty())
+	{
+		m_taskIndex = (m_taskIndex + 1) % m_tasks.get_size();
 
-	// free all of its remaining memory
-	m_staticSize -= m_tasks[m_taskIndex].get_size();
-	m_tasks[m_taskIndex].clear();
+		// free all of its remaining memory
+		m_staticSize -= m_tasks[m_taskIndex].get_size();
+		m_tasks[m_taskIndex].clear();
+	}
 }
 
 Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
@@ -48,6 +51,7 @@ Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
 	, m_tasks(builder.taskCount)
 	, m_taskIndex(0)
 	, m_persistents(builder.persistents.get_size())
+	, m_persistentSizes()
 	, m_staticSize(0)
 	, m_dynamicSize(0)
 {
@@ -63,15 +67,21 @@ Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
 	// create the persistent memory pools
 	for (auto const& poolBuilder : builder.persistents)
 	{
+		m_persistentSizes.add(poolBuilder.blockSize, m_persistents.get_size());
 		m_persistents.add(MemoryPool(poolBuilder));
 	}
 }
 
 Size Minty::MemoryManager::get_persistent_index(Size const size) const
 {
-	Size index = 0;
-	for (; index < m_persistents.get_size() && size > m_persistents[index].get_block_size(); ++index) {}
-	return index;
+	for (auto const& [blockSize, index] : m_persistentSizes)
+	{
+		if (size <= blockSize)
+		{
+			return index;
+		}
+	}
+	return m_persistents.get_size();
 }
 
 void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
@@ -90,7 +100,6 @@ void* Minty::MemoryManager::allocate(Size const size, Allocator const allocator)
 	{
 		// find the pool to use, based on the size
 		Size index = get_persistent_index(size);
-
 		MINTY_ASSERT(index != m_persistents.get_size(), F("Cannot allocate memory of size {} bytes. No pool large enough is available.", size));
 
 		// if pool is full, do not allocate

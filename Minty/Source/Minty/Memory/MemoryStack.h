@@ -47,6 +47,8 @@ namespace Minty
 			other.m_capacity = 0;
 		}
 
+		~MemoryStack();
+
 #pragma endregion
 
 #pragma region Operators
