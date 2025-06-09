@@ -19,9 +19,21 @@ namespace Minty
 	using UInt3 = glm::uvec3;
 	using UInt4 = glm::uvec4;
 
+	using Long2 = glm::vec<2, Long>;
+	using Long3 = glm::vec<3, Long>;
+	using Long4 = glm::vec<4, Long>;
+
+	using ULong2 = glm::vec<2, ULong>;
+	using ULong3 = glm::vec<3, ULong>;
+	using ULong4 = glm::vec<4, ULong>;
+
 	using Float2 = glm::vec2;
 	using Float3 = glm::vec3;
 	using Float4 = glm::vec4;
+
+	using Double2 = glm::dvec2;
+	using Double3 = glm::dvec3;
+	using Double4 = glm::dvec4;
 
 	using Quaternion = glm::quat;
 
@@ -417,6 +429,41 @@ namespace Minty
 		template<typename T>
 		constexpr T pow(T const base, T const exponent)
 		{
+			if (exponent == 0) return 1;
+			if (exponent == 1) return base;
+
+			T temp = pow<T>(base, exponent / 2);
+			if (exponent % 2 == 0)
+			{
+				return temp * temp;
+			}
+
+			return base * temp * temp;
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<>
+		inline Float pow(Float const base, Float const exponent)
+		{
+			return std::powf(base, exponent);
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<>
+		inline Double pow(Double const base, Double const exponent)
+		{
 			return std::pow(base, exponent);
 		}
 
@@ -473,10 +520,37 @@ namespace Minty
 		/// <summary>
 		/// Performs a modulus operation on the given value and divisor.
 		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
 		/// <param name="value">The value.</param>
 		/// <param name="divisor">The divisor.</param>
 		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T mod(T const value, T const divisor)
+		{
+			return value % divisor;
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<>
 		constexpr Float mod(Float const value, Float const divisor)
+		{
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double mod(Double const value, Double const divisor)
 		{
 			return value - Math::floor(value / divisor) * divisor;
 		}

@@ -9,6 +9,13 @@
 
 namespace Minty
 {
+	// forward declaration so this can be used internally
+	namespace Math
+	{
+		template<typename T>
+		T evaluate(String const&);
+	}
+
 	namespace Internal
 	{
 		// attempts to get a constant value from the given string
@@ -17,7 +24,7 @@ namespace Minty
 		{
 			static Map<String, T> const constants =
 			{
-				{"PI", Minty::Math::PI},
+				{"PI", static_cast<T>(Minty::Math::PI)},
 				{"FLOAT", static_cast<T>(sizeof(Float))},
 				{"DOUBLE", static_cast<T>(sizeof(Double))},
 				{"INT", static_cast<T>(sizeof(Int))},
@@ -53,15 +60,83 @@ namespace Minty
 		}
 
 		// checks if the given string is the name of a function
-		Bool is_function(String const& str)
-		{
-			// TODO: implement a list of functions
-			return false;
-		}
+		Bool is_function(String const& str);
 
 		// returns the precedence of the given operator as an Int
 		// https://en.cppreference.com/w/c/language/operator_precedence
 		Int operator_precedence(String const& str);
+
+		// returns the number of operators in the given expression for the given operation
+		Int operator_count(String const& str);
+
+		// checks if the operator is left to right associative
+		Bool operator_left_to_right(String const& str);
+
+		template<typename T>
+		T evaluate_operator(String const& token, T const left, T const right)
+		{
+			// operator
+			if (token == "**")
+			{
+				return Math::pow(left, right);
+			}
+			if (token == "*")
+			{
+				return left * right;
+			}
+			else if (token == "/")
+			{
+				MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+				return left / right;
+			}
+			else if (token == "%")
+			{
+				MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+				return Math::mod(left, right);
+			}
+			else if (token == "+")
+			{
+				return left + right;
+			}
+			else if (token == "-")
+			{
+				return left - right;
+			}
+			else if (token == "<<")
+			{
+				return left << right;
+			}
+			else if (token == ">>")
+			{
+				return left >> right;
+			}
+			else if (token == "&")
+			{
+				return left & right;
+			}
+			else if (token == "|")
+			{
+				return left | right;
+			}
+			else if (token == "^")
+			{
+				return left ^ right;
+			}
+			else if (token == "~")
+			{
+				return ~left; // unary operator, only left operand
+			}
+			else
+			{
+				MINTY_ABORT(F("Invalid operator: {}", token));
+			}
+		}
+
+		template<>
+		Float evaluate_operator(String const& token, Float const left, Float const right);
+
+		template<>
+		Double evaluate_operator(String const& token, Double const left, Double const right);
 
 		// splits the expression into String tokens
 		Vector<String> split_into_tokens(String const& expression);
@@ -94,7 +169,7 @@ namespace Minty
 					if (!operators.is_empty())
 					{
 						Int operatorPrecedence = operator_precedence(operators.peek());
-						while (!operators.is_empty() && operators.peek() != "(" && (operatorPrecedence > tokenPrecedence || (operatorPrecedence == tokenPrecedence && token != "^")))
+						while (!operators.is_empty() && operators.peek() != "(" && (operatorPrecedence > tokenPrecedence || (operatorPrecedence == tokenPrecedence && operator_left_to_right(token))))
 						{
 							tokens.add(operators.pop());
 						}
@@ -142,17 +217,43 @@ namespace Minty
 			}
 		}
 
-		Vector<String> split_into_args(String const& expression)
+		// splits the expression (arg0, arg1, ...) into a Vector of arguments
+		Vector<String> split_into_args(String const& expression);
+
+		template<typename T, typename SubT>
+		T evaluate_2(String const& expression)
 		{
-			MINTY_ASSERT(!expression.is_empty(), "Expression is empty.");
-			MINTY_ASSERT(expression.front() == '(', "Expression must start with '('.");
-			MINTY_ASSERT(expression.back() == ')', "Expression must end with ')'.");
+			Vector<String> args = Internal::split_into_args(expression);
+			MINTY_ASSERT(args.get_size() == 2, F("Expected 2 arguments, got {}: {}", args.get_size(), expression));
+			return T{
+				Minty::Math::evaluate<SubT>(args.at(0)),
+				Minty::Math::evaluate<SubT>(args.at(1))
+			};
+		}
 
-			// remove ()
-			String text = expression.sub(1, expression.get_size() - 2);
+		template<typename T, typename SubT>
+		T evaluate_3(String const& expression)
+		{
+			Vector<String> args = Internal::split_into_args(expression);
+			MINTY_ASSERT(args.get_size() == 3, F("Expected 3 arguments, got {}: {}", args.get_size(), expression));
+			return T{
+				Minty::Math::evaluate<SubT>(args.at(0)),
+				Minty::Math::evaluate<SubT>(args.at(1)),
+				Minty::Math::evaluate<SubT>(args.at(2))
+			};
+		}
 
-			// split by commas, but ignore commas inside parentheses
-			return text.split_smart(',', "(", ")");
+		template<typename T, typename SubT>
+		T evaluate_4(String const& expression)
+		{
+			Vector<String> args = Internal::split_into_args(expression);
+			MINTY_ASSERT(args.get_size() == 4, F("Expected 4 arguments, got {}: {}", args.get_size(), expression));
+			return T{
+				Minty::Math::evaluate<SubT>(args.at(0)),
+				Minty::Math::evaluate<SubT>(args.at(1)),
+				Minty::Math::evaluate<SubT>(args.at(2)),
+				Minty::Math::evaluate<SubT>(args.at(3))
+			};
 		}
 	}
 
@@ -176,7 +277,9 @@ namespace Minty
 			// evaluate
 			Stack<T> stack;
 
-			T left, right;
+			T left = {};
+			T right = {};
+			Int operationCount;
 			for (String const& token : tokens)
 			{
 				if (parse_try(token, left) || Internal::try_get_constant<T>(token, left))
@@ -184,42 +287,18 @@ namespace Minty
 					// operand, push value onto stack
 					stack.push(left);
 				}
-				else if (Internal::operator_precedence(token))
+				else if (operationCount = Internal::operator_count(token))
 				{
-					right = stack.pop();
-					left = stack.pop();
+					if (operationCount >= 2)
+					{
+						right = stack.pop();
+					}
+					if (operationCount >= 1)
+					{
+						left = stack.pop();
+					}
 
-					// operator
-					if (token == "^")
-					{
-						stack.push(Math::pow(left, right));
-					}
-					else if (token == "*")
-					{
-						stack.push(left * right);
-					}
-					else if (token == "/")
-					{
-						MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
-						stack.push(left / right);
-					}
-					else if (token == "%")
-					{
-						MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
-						stack.push(Math::mod(left, right));
-					}
-					else if (token == "+")
-					{
-						stack.push(left + right);
-					}
-					else if (token == "-")
-					{
-						stack.push(left - right);
-					}
-					else
-					{
-						MINTY_ABORT(F("Invalid operator: {}", token));
-					}
+					stack.push(Internal::evaluate_operator(token, left, right));
 				}
 				else if (Internal::is_function(token))
 				{
@@ -238,88 +317,100 @@ namespace Minty
 			return stack.peek();
 		}
 
-		template<typename T, typename SubT>
-		T evaluate_2(String const& expression)
+		template<>
+		inline Int2 evaluate(String const& expression)
 		{
-			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 2, F("Expected 2 arguments, got {}: {}", args.get_size(), expression));
-			return T{
-				evaluate<SubT>(args.at(0)),
-				evaluate<SubT>(args.at(1))
-			};
+			return Internal::evaluate_2<Int2, Int>(expression);
 		}
-
-		template<typename T, typename SubT>
-		T evaluate_3(String const& expression)
+		template<>
+		inline Int3 evaluate(String const& expression)
 		{
-			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 3, F("Expected 3 arguments, got {}: {}", args.get_size(), expression));
-			return T{
-				evaluate<SubT>(args.at(0)),
-				evaluate<SubT>(args.at(1)),
-				evaluate<SubT>(args.at(2))
-			};
+			return Internal::evaluate_3<Int3, Int>(expression);
 		}
-
-		template<typename T, typename SubT>
-		T evaluate_4(String const& expression)
+		template<>
+		inline Int4 evaluate(String const& expression)
 		{
-			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 4, F("Expected 4 arguments, got {}: {}", args.get_size(), expression));
-			return T{
-				evaluate<SubT>(args.at(0)),
-				evaluate<SubT>(args.at(1)),
-				evaluate<SubT>(args.at(2)),
-				evaluate<SubT>(args.at(3))
-			};
+			return Internal::evaluate_4<Int4, Int>(expression);
 		}
 
 		template<>
-		Float2 evaluate(String const& expression)
+		inline UInt2 evaluate(String const& expression)
 		{
-			return evaluate_2<Float2, Float>(expression);
+			return Internal::evaluate_2<UInt2, UInt>(expression);
 		}
 		template<>
-		Float3 evaluate(String const& expression)
+		inline UInt3 evaluate(String const& expression)
 		{
-			return evaluate_3<Float3, Float>(expression);
+			return Internal::evaluate_3<UInt3, UInt>(expression);
 		}
 		template<>
-		Float4 evaluate(String const& expression)
+		inline UInt4 evaluate(String const& expression)
 		{
-			return evaluate_4<Float4, Float>(expression);
-		}
-
-		template<>
-		Int2 evaluate(String const& expression)
-		{
-			return evaluate_2<Int2, Int>(expression);
-		}
-		template<>
-		Int3 evaluate(String const& expression)
-		{
-			return evaluate_3<Int3, Int>(expression);
-		}
-		template<>
-		Int4 evaluate(String const& expression)
-		{
-			return evaluate_4<Int4, Int>(expression);
+			return Internal::evaluate_4<UInt4, UInt>(expression);
 		}
 
 		template<>
-		UInt2 evaluate(String const& expression)
+		inline Long2 evaluate(String const& expression)
 		{
-			return evaluate_2<UInt2, UInt>(expression);
+			return Internal::evaluate_2<Long2, Long>(expression);
 		}
 		template<>
-		UInt3 evaluate(String const& expression)
+		inline Long3 evaluate(String const& expression)
 		{
-			return evaluate_3<UInt3, UInt>(expression);
+			return Internal::evaluate_3<Long3, Long>(expression);
 		}
 		template<>
-		UInt4 evaluate(String const& expression)
+		inline Long4 evaluate(String const& expression)
 		{
-			return evaluate_4<UInt4, UInt>(expression);
+			return Internal::evaluate_4<Long4, Long>(expression);
+		}
+
+		template<>
+		inline ULong2 evaluate(String const& expression)
+		{
+			return Internal::evaluate_2<ULong2, ULong>(expression);
+		}
+		template<>
+		inline ULong3 evaluate(String const& expression)
+		{
+			return Internal::evaluate_3<ULong3, ULong>(expression);
+		}
+		template<>
+		inline ULong4 evaluate(String const& expression)
+		{
+			return Internal::evaluate_4<ULong4, ULong>(expression);
+		}
+
+		template<>
+		inline Float2 evaluate(String const& expression)
+		{
+			return Internal::evaluate_2<Float2, Float>(expression);
+		}
+		template<>
+		inline Float3 evaluate(String const& expression)
+		{
+			return Internal::evaluate_3<Float3, Float>(expression);
+		}
+		template<>
+		inline Float4 evaluate(String const& expression)
+		{
+			return Internal::evaluate_4<Float4, Float>(expression);
+		}
+
+		template<>
+		inline Double2 evaluate(String const& expression)
+		{
+			return Internal::evaluate_2<Double2, Double>(expression);
+		}
+		template<>
+		inline Double3 evaluate(String const& expression)
+		{
+			return Internal::evaluate_3<Double3, Double>(expression);
+		}
+		template<>
+		inline Double4 evaluate(String const& expression)
+		{
+			return Internal::evaluate_4<Double4, Double>(expression);
 		}
 	}
 }
