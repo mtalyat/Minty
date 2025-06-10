@@ -17,6 +17,8 @@ namespace Minty
 		NumLock = 0b100000
 	};
 
+	MINTY_ENUM_FLAGS_OPERATORS(KeyModifiers)
+
 	String to_string(KeyModifiers const obj);
 	KeyModifiers parse_to_key_modifiers(String const& string);
 	Bool parse_try_key_modifiers(String const& string, KeyModifiers& value);

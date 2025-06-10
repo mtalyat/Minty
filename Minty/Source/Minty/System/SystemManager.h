@@ -2,6 +2,7 @@
 #include "Minty/Data/Dictionary.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Manager/SubManager.h"
 #include "Minty/Serialization/SerializableObject.h"
@@ -30,7 +31,7 @@ namespace Minty
 
 	private:
 		Ref<Scene> m_scene;
-		Dictionary<Int, Vector<System*>> m_systems;
+		Dictionary<Int, Set<System*>> m_systems;
 		Map<TypeID, System*> m_systemsByType;
 
 #pragma endregion
@@ -164,6 +165,8 @@ namespace Minty
 			}
 			return static_cast<T*>(it->get_second());
 		}
+
+		System* get_system(String const& name) const;
 
 		/// <summary>
 		/// Gets the System of the given type from the SystemManager, or asserts if not found.

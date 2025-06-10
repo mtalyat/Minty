@@ -33,7 +33,7 @@ namespace Minty
 	/// A Scene is a collection of entities, components, and systems.
 	/// </summary>
 	class Scene
-		: public Asset, public Source<Scene>, public SerializableObject
+		: public SerializableObject, public Source<Scene>
 	{
 #pragma region Classes
 
@@ -49,6 +49,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		UUID m_id;
 		String m_name;
 
 		Owner<EntityManager> m_entityManager;
@@ -74,13 +75,28 @@ namespace Minty
 		/// <param name="builder">The arguments.</param>
 		Scene(SceneBuilder const& builder);
 
+		Scene(Scene&& other) noexcept;
+
 		~Scene() override;
+
+#pragma endregion
+		
+#pragma region Operators
+
+	public:
+		Scene& operator=(Scene&& other) noexcept;
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Gets the ID of this Scene.
+		/// </summary>
+		/// <returns>The ID.</returns>
+		UUID get_id() const { return m_id; }
+
 		/// <summary>
 		/// Gets the name of this Scene.
 		/// </summary>
@@ -99,19 +115,13 @@ namespace Minty
 		/// <returns></returns>
 		SystemManager& get_system_manager() const { return *m_systemManager; }
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Scene.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Scene; }
-
 #pragma endregion
 
 #pragma region Methods
 
 	private:
 		// loads the assets controlled by this Scene
-		void load_assets();
+		void load_assets(Vector<Path> const& newAssets);
 
 		// unloads the assets controlled by this Scene
 		void unload_assets();
@@ -120,12 +130,12 @@ namespace Minty
 		/// <summary>
 		/// Called when the Asset is loaded into the AssetManager.
 		/// </summary>
-		void on_load() override;
+		void on_load();
 
 		/// <summary>
 		/// Called when the Asset is unloaded from the AssetManager.
 		/// </summary>
-		void on_unload() override;
+		void on_unload();
 
 		/// <summary>
 		/// Called when the Scene is updated.
@@ -147,9 +157,8 @@ namespace Minty
 		/// </summary>
 		/// <param name="event">The Event.</param>
 		void on_event(Event& event);
-
+		
 		void serialize(Writer& writer) const override;
-
 		Bool deserialize(Reader& reader) override;
 
 #pragma endregion

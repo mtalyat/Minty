@@ -48,9 +48,31 @@ namespace Minty
 		{
 		}
 
+		EntityManager(EntityManager&& other) noexcept
+			: SubManager(std::move(other))
+			, m_registry(std::move(other.m_registry))
+			, m_ids(std::move(other.m_ids))
+		{
+		}
+
 		~EntityManager()
 		{
 			MINTY_ASSERT_ERROR(!is_initialized(), "EntityManager is not disposed before destruction.");
+		}
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		EntityManager& operator=(EntityManager&& other) noexcept
+		{
+			if (this != &other)
+			{
+				m_registry = std::move(other.m_registry);
+				m_ids = std::move(other.m_ids);
+			}
+			return *this;
 		}
 
 #pragma endregion

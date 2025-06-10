@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Data/Path.h"
 #include "Minty/Manager/Manager.h"
 #include "Minty/Scene/Scene.h"
 
@@ -12,7 +13,7 @@ namespace Minty
 		/// <summary>
 		/// The path to the first scene to load.
 		/// </summary>
-		String initialScene;
+		Path initialScene;
 	};
 
 	/// <summary>
@@ -21,13 +22,24 @@ namespace Minty
 	class SceneManager
 		: public Manager
 	{
+#pragma region Classes
+
+	private:
+		struct SceneData
+		{
+			Owner<Scene> scene;
+			Path path;
+		};
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
-		String m_initialScene;
+		Path m_initialScene;
 
 		// loaded scenes
-		Set<Ref<Scene>> m_scenes;
+		Map<UUID, SceneData> m_scenes;
 
 		// current scene receiving updates
 		Ref<Scene> m_activeScene;
@@ -81,16 +93,14 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Adds the Scene to the SceneManager.
+		/// Checks if this SceneManager contains a Scene with the given ID.
 		/// </summary>
-		/// <param name="scene">The Scene.</param>
-		void add(Ref<Scene> const& scene);
-
-		/// <summary>
-		/// Removes the Scene from the SceneManager.
-		/// </summary>
-		/// <param name="scene">The Scene.</param>
-		void remove(Ref<Scene> const& scene);
+		/// <param name="id">The ID.</param>
+		/// <returns>True if the Scene exists.</returns>
+		inline Bool contains(UUID const id) const
+		{
+			return m_scenes.contains(id);
+		}
 
 		/// <summary>
 		/// Loads the Scene from the given Path, and adds it to the SceneManager.
@@ -103,6 +113,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="id"></param>
 		void unload(UUID const id);
+
+		/// <summary>
+		/// Reloads the Scene with the given ID.
+		/// </summary>
+		/// <param name="id">The ID of the Scene.</param>
+		void reload(UUID const id);
 
 		/// <summary>
 		/// Schedules the Scene to be loaded from the given Path, and adds it to the SceneManager upon completion.

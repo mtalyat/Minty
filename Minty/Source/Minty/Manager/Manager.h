@@ -28,7 +28,42 @@ namespace Minty
 		{
 		}
 
+		Manager(Manager const& manager)
+			: m_initialized(manager.m_initialized)
+		{
+		}
+
+		Manager(Manager&& manager) noexcept
+			: m_initialized(std::move(manager.m_initialized))
+		{
+			manager.m_initialized = false;
+		}
+
 		virtual ~Manager();
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		Manager& operator=(Manager const& manager)
+		{
+			if (this != &manager)
+			{
+				m_initialized = manager.m_initialized;
+			}
+			return *this;
+		}
+
+		Manager& operator=(Manager&& manager) noexcept
+		{
+			if (this != &manager)
+			{
+				m_initialized = std::move(manager.m_initialized);
+				manager.m_initialized = false;
+			}
+			return *this;
+		}
 
 #pragma endregion
 

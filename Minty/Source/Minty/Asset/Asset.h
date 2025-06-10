@@ -4,6 +4,7 @@
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Serialization/SerializableObject.h"
 #include <type_traits>
 
 namespace Minty
@@ -18,6 +19,7 @@ namespace Minty
 	/// The base class for all Asset types.
 	/// </summary>
 	class Asset
+		: public SerializableObject
 	{
 		friend class AssetManager;
 
@@ -40,24 +42,9 @@ namespace Minty
 		{
 		}
 
-		virtual ~Asset() = default;
-
-		// no moving
-		Asset(Asset&&) = delete;
-
-		// yes copying
-		Asset(Asset const&) = default;
-
-#pragma endregion
-
-#pragma region Operators
-
-	public:
-		// no moving
-		Asset& operator=(Asset&&) = delete;
-
-		// yes copying
-		Asset& operator=(Asset const&) = default;
+		virtual ~Asset()
+		{
+		}
 
 #pragma endregion
 
@@ -89,6 +76,9 @@ namespace Minty
 		/// </summary>
 		/// <returns>The AssetType.</returns>
 		virtual constexpr AssetType get_asset_type() const = 0;
+
+		virtual void serialize(Writer& writer) const override { MINTY_ABORT("Not implemented."); }
+		virtual Bool deserialize(Reader& reader) override { MINTY_ABORT("Not implemented."); return false; }
 
 #pragma endregion
 

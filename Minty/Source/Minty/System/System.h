@@ -16,6 +16,11 @@ namespace Minty
 	struct SystemBuilder
 	{
 		/// <summary>
+		/// The priority of this System.
+		/// </summary>
+		Int priority = 0;
+
+		/// <summary>
 		/// The Scene this System belongs to.
 		/// </summary>
 		Ref<Scene> scene = nullptr;
@@ -59,7 +64,12 @@ namespace Minty
 	class System
 		: public SerializableObject
 	{
+		friend class SystemManager;
+
 #pragma region Variables
+
+	private:
+		Int m_priority;
 
 	protected:
 		Ref<Scene> m_scene;
@@ -76,6 +86,7 @@ namespace Minty
 		/// <param name="builder">The arguments.</param>
 		System(SystemBuilder const& builder)
 			: SerializableObject()
+			, m_priority(builder.priority)
 			, m_scene(builder.scene)
 			, m_info(builder.info)
 		{
@@ -88,6 +99,12 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Gets the priority of this System.
+		/// </summary>
+		/// <returns>The priority.</returns>
+		Int get_priority() const { return m_priority; }
+
 		/// <summary>
 		/// Gets the Scene this System belongs to.
 		/// </summary>

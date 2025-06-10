@@ -12,7 +12,7 @@
 using namespace Minty;
 
 Minty::Scene::Scene(SceneBuilder const& builder)
-	: Asset(builder.id)
+	: m_id(builder.id)
 	, m_name(builder.name)
 	, m_entityManager(nullptr)
 	, m_systemManager(nullptr)
@@ -30,22 +30,91 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 	m_systemManager = SystemManager::create(this, systemManagerBuilder);
 }
 
+Minty::Scene::Scene(Scene&& other) noexcept
+	: m_id(std::move(other.m_id))
+	, m_name(std::move(other.m_name))
+	, m_entityManager(std::move(other.m_entityManager))
+	, m_systemManager(std::move(other.m_systemManager))
+	, m_registeredAssets()
+	, m_assets()
+	, m_loadedAssets()
+{
+	// the target scene now owns the registered assets from the other scene
+	// in ADDITION to this Scene's assets
+	for (auto const& [path, assetData] : other.m_registeredAssets)
+	{
+		m_registeredAssets.add(path, assetData);
+	}
+	other.m_registeredAssets.clear();
+	for (auto const& assetPath : other.m_assets)
+	{
+		m_assets.add(assetPath);
+	}
+	other.m_assets.clear();
+	for (auto const& assetId : other.m_loadedAssets)
+	{
+		m_loadedAssets.add(assetId);
+	}
+	other.m_assets.clear();
+}
+
 Minty::Scene::~Scene()
 {
 }
 
-void Minty::Scene::load_assets()
+Scene& Minty::Scene::operator=(Scene&& other) noexcept
+{
+	if (this != &other)
+	{
+		m_id = std::move(other.m_id);
+		m_name = std::move(other.m_name);
+		m_entityManager = std::move(other.m_entityManager);
+		m_systemManager = std::move(other.m_systemManager);
+		// the target scene now owns the registered assets from the other scene
+		// in ADDITION to this Scene's assets
+		for (auto const& [path, assetData] : other.m_registeredAssets)
+		{
+			m_registeredAssets.add(path, assetData);
+		}
+		other.m_registeredAssets.clear();
+		for (auto const& assetPath : other.m_assets)
+		{
+			m_assets.add(assetPath);
+		}
+		other.m_assets.clear();
+		for (auto const& assetId : other.m_loadedAssets)
+		{
+			m_loadedAssets.add(assetId);
+		}
+		other.m_assets.clear();
+	}
+
+	return *this;
+}
+
+void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 {
 	// load all of the assets into the Scene
-	// load all of the assets into the Scene
+	Set<Path> loaded;
 	AssetManager& assetManager = AssetManager::get_singleton();
 	Size i = 0;
-	for (auto const& assetPath : m_assets)
+	for (auto const& assetPath : newAssets)
 	{
 		MINTY_ASSERT(!assetPath.is_empty(), "Asset path is empty");
 
-		// skip if already loaded
+		// add to loaded
+		loaded.add(assetPath);
+
+		// update if already loaded
 		if (m_registeredAssets.contains(assetPath))
+		{
+			AssetData& assetData = m_registeredAssets.at(assetPath);
+			assetData.index = i;
+			continue;
+		}
+
+		// skip if already loaded
+		if (assetManager.contains(assetManager.read_id(assetPath)))
 		{
 			continue;
 		}
@@ -71,6 +140,31 @@ void Minty::Scene::load_assets()
 
 		i++;
 	}
+
+	// unload assets that are not in the loaded set
+	Vector<Path> toUnload;
+	for (auto const& [path, assetData] : m_registeredAssets)
+	{
+		if (!loaded.contains(path))
+		{
+			toUnload.add(path);
+		}
+	}
+	for (auto const& path : toUnload)
+	{
+		// unload the asset
+		AssetData& assetData = m_registeredAssets.at(path);
+		if (assetData.id != INVALID_ID)
+		{
+			assetManager.unload(assetData.id);
+		}
+
+		// remove from registered assets
+		m_registeredAssets.remove(path);
+	}
+
+	// update assets list
+	m_assets = newAssets;
 }
 
 void Minty::Scene::unload_assets()
@@ -110,7 +204,7 @@ void Minty::Scene::on_load()
 	m_systemManager->initialize();
 	m_entityManager->initialize();
 	
-	load_assets();
+	load_assets(m_assets);
 }
 
 void Minty::Scene::on_unload()
@@ -151,14 +245,10 @@ void Minty::Scene::serialize(Writer& writer) const
 
 Bool Minty::Scene::deserialize(Reader& reader)
 {
-	// unload assets before loading new ones
-	unload_assets();
-
-	// read assets
-	reader.read("Assets", m_assets);
-
-	// load the assets read
-	load_assets();
+	// load new assets, unload old assets
+	Vector<Path> assetPaths;
+	reader.read("Assets", assetPaths);
+	load_assets(assetPaths);
 
 	// read the systems
 	if (reader.indent("Systems"))

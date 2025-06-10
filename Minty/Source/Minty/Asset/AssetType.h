@@ -35,7 +35,6 @@ namespace Minty
 		FontVariant,
 		Font,
 		Mesh,
-		Scene,
 	};
 
 	String to_string(AssetType const obj);

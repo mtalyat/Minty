@@ -14,7 +14,8 @@ Context* Context::s_instance = nullptr;
 /// </summary>
 /// <param name="builder">The input arguments.</param>
 Minty::Context::Context(ContextBuilder const& builder)
-	: mp_dualBuffer(nullptr)
+	: m_initialized(false)
+	, mp_dualBuffer(nullptr)
 	, m_window(nullptr)
 	, m_memoryManager(nullptr)
 	, m_jobManager(nullptr)
@@ -70,9 +71,6 @@ Minty::Context::Context(ContextBuilder const& builder)
 	m_window->set_event_callback([this](Event& event) {
 		handle_event(event);
 		});
-
-	// initialize managers
-	initialize();
 }
 
 
@@ -81,7 +79,8 @@ Minty::Context::Context(ContextBuilder const& builder)
 /// </summary>
 /// <param name="other">The Context to move.</param>
 Minty::Context::Context(Context&& other) noexcept
-	: mp_dualBuffer(other.mp_dualBuffer)
+	: m_initialized(other.m_initialized)
+	, mp_dualBuffer(other.mp_dualBuffer)
 	, m_window(std::move(other.m_window))
 	, m_memoryManager(std::move(other.m_memoryManager))
 	, m_jobManager(std::move(other.m_jobManager))
@@ -96,16 +95,13 @@ Minty::Context::Context(Context&& other) noexcept
 	, m_registeredSystems(std::move(other.m_registeredSystems))
 	, m_registeredComponents(std::move(other.m_registeredComponents))
 {
+	other.m_initialized = false;
 	other.mp_dualBuffer = nullptr;
 }
 
 Minty::Context::~Context()
 {
-	// sync managers
-	sync();
-
-	// dispose managers
-	dispose();
+	MINTY_ASSERT_ERROR(!m_initialized, "Context was destroyed before it was disposed.");
 
 	// clean up
 	delete mp_dualBuffer;
@@ -165,15 +161,21 @@ void Minty::Context::register_systems()
 
 void Minty::Context::initialize()
 {
+	MINTY_ASSERT(!m_initialized, "Context was already initialized.");
+
 	// initialize the managers
 	for (Manager* manager : m_managers)
 	{
 		manager->initialize();
 	}
+
+	m_initialized = true;
 }
 
 void Minty::Context::dispose()
 {
+	MINTY_ASSERT(m_initialized, "Context was not initialized.");
+
 	// dispose managers
 	for (auto it = m_managers.rbegin(); it != m_managers.rend(); ++it)
 	{
@@ -183,6 +185,8 @@ void Minty::Context::dispose()
 
 	// unregister systems
 	m_registeredSystems.clear();
+
+	m_initialized = false;
 }
 
 void Minty::Context::update(Time const& time)
@@ -391,7 +395,7 @@ Owner<Context> Minty::Context::open(Path const& path)
 	}
 	if (reader.indent("Asset"))
 	{
-		builder.assetManagerBuilder.wraps.clear();
+		reader.read("SavePaths", builder.assetManagerBuilder.savePaths);
 		reader.read("Wraps", builder.assetManagerBuilder.wraps);
 
 		reader.outdent();

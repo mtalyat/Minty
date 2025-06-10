@@ -40,8 +40,6 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 		{ EXTENSION_SHADER_CODE_FRAGMENT, AssetType::ShaderCode },
 		{ EXTENSION_SHADER_CODE_VERTEX, AssetType::ShaderCode },
 
-		{ EXTENSION_SCENE, AssetType::Scene },
-
 		{ EXTENSION_MESH_OBJECT, AssetType::Mesh },
 
 		{ EXTENSION_AUDIO_CLIP_WAV, AssetType::AudioClip },

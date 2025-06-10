@@ -31,6 +31,9 @@ void Minty::Application::step(Stopwatch& totalWatch, Stopwatch& elapsedWatch)
 
 void Minty::Application::run()
 {
+	// initialize
+	m_context->initialize();
+
 	// keep track of time passed
 	Stopwatch totalWatch = Stopwatch::start_new();
 	Stopwatch elapsedWatch = Stopwatch::start_new();
@@ -44,6 +47,9 @@ void Minty::Application::run()
 
 	// sync operations before moving on (threads, rendering, etc.)
 	m_context->sync();
+
+	// dispose the context
+	m_context->dispose();
 }
 
 Owner<Application> Minty::Application::open(Path const& path)

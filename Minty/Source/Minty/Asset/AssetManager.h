@@ -125,9 +125,6 @@ namespace Minty
 		// determines where the file is located at the given path
 		Location get_location(Path const& path) const;
 
-		// read the ID from the corresponding meta file for the given path to an Asset
-		ID read_id(Path const& path) const;
-
 		// opens a file at the given path
 		File* open(Path const& path) const;
 
@@ -152,7 +149,23 @@ namespace Minty
 
 		void run_completion_jobs();
 
+		// loads the Asset at the given Path, using the AssetType to determine how to load it
+		inline Ref<Asset> load_asset(Path const& path, AssetType const type)
+		{
+			return load_asset(path, type, read_id(path));
+		}
+
+		// loads the Asset at the given Path, using the AssetType to determine how to load it and the given ID
+		Ref<Asset> load_asset(Path const& path, AssetType const type, UUID const id);
+
 	public:
+		/// <summary>
+		/// Reads the ID from the corresponding meta file for the given path to an Asset.
+		/// </summary>
+		/// <param name="path">The path to the Asset.</param>
+		/// <returns>The ID stored within the Asset's meta file.</returns>
+		ID read_id(Path const& path) const;
+
 		/// <summary>
 		/// Shuts down the AssetManager.
 		/// </summary>
@@ -248,9 +261,9 @@ namespace Minty
 		/// <param name="path">The Path to the Animation Asset.</param>
 		/// <returns>A reference to the loaded Animation Asset.</returns>
 		template<>
-		Ref<Animation> load<Animation>(Path const& path)
+		inline Ref<Animation> load<Animation>(Path const& path)
 		{
-			return load_animation(path);
+			return load_animation(path, read_id(path));
 		}
 
 		/// <summary>
@@ -259,9 +272,9 @@ namespace Minty
 		/// <param name="path">The Path to the Animator Asset.</param>
 		/// <returns>A reference to the loaded Animator Asset.</returns>
 		template<>
-		Ref<Animator> load<Animator>(Path const& path)
+		inline Ref<Animator> load<Animator>(Path const& path)
 		{
-			return load_animator(path);
+			return load_animator(path, read_id(path));
 		}
 
 		/// <summary>
@@ -270,9 +283,9 @@ namespace Minty
 		/// <param name="path">The Path to the AudioClip Asset.</param>
 		/// <returns>A reference to the loaded AudioClip Asset.</returns>
 		template<>
-		Ref<AudioClip> load<AudioClip>(Path const& path)
+		inline Ref<AudioClip> load<AudioClip>(Path const& path)
 		{
-			return load_audio_clip(path);
+			return load_audio_clip(path, read_id(path));
 		}
 
 		/// <summary>
@@ -281,9 +294,9 @@ namespace Minty
 		/// <param name="path">The Path to the Camera Asset.</param>
 		/// <returns>A reference to the loaded Camera Asset.</returns>
 		template<>
-		Ref<Camera> load<Camera>(Path const& path)
+		inline Ref<Camera> load<Camera>(Path const& path)
 		{
-			return load_camera(path);
+			return load_camera(path, read_id(path));
 		}
 
 		/// <summary>
@@ -292,9 +305,9 @@ namespace Minty
 		/// <param name="path">The Path to the Font Asset.</param>
 		/// <returns>A reference to the loaded Font Asset.</returns>
 		template<>
-		Ref<Font> load<Font>(Path const& path)
+		inline Ref<Font> load<Font>(Path const& path)
 		{
-			return load_font(path);
+			return load_font(path, read_id(path));
 		}
 
 		/// <summary>
@@ -303,9 +316,9 @@ namespace Minty
 		/// <param name="path">The Path to the FontVariant Asset.</param>
 		/// <returns>A reference to the loaded FontVariant Asset.</returns>
 		template<>
-		Ref<FontVariant> load<FontVariant>(Path const& path)
+		inline Ref<FontVariant> load<FontVariant>(Path const& path)
 		{
-			return load_font_variant(path);
+			return load_font_variant(path, read_id(path));
 		}
 
 		/// <summary>
@@ -314,9 +327,9 @@ namespace Minty
 		/// <param name="path">The Path to the Image Asset.</param>
 		/// <returns>A reference to the loaded Image Asset.</returns>
 		template<>
-		Ref<Image> load<Image>(Path const& path)
+		inline Ref<Image> load<Image>(Path const& path)
 		{
-			return load_image(path);
+			return load_image(path, read_id(path));
 		}
 
 		/// <summary>
@@ -325,9 +338,9 @@ namespace Minty
 		/// <param name="path">The Path to the Material Asset.</param>
 		/// <returns>A reference to the loaded Material Asset.</returns>
 		template<>
-		Ref<Material> load<Material>(Path const& path)
+		inline Ref<Material> load<Material>(Path const& path)
 		{
-			return load_material(path);
+			return load_material(path, read_id(path));
 		}
 
 		/// <summary>
@@ -336,9 +349,9 @@ namespace Minty
 		/// <param name="path">The Path to the MaterialTemplate Asset.</param>
 		/// <returns>A reference to the loaded MaterialTemplate Asset.</returns>
 		template<>
-		Ref<MaterialTemplate> load<MaterialTemplate>(Path const& path)
+		inline Ref<MaterialTemplate> load<MaterialTemplate>(Path const& path)
 		{
-			return load_material_template(path);
+			return load_material_template(path, read_id(path));
 		}
 		
 		/// <summary>
@@ -347,9 +360,9 @@ namespace Minty
 		/// <param name="path">The Path to the Mesh Asset.</param>
 		/// <returns>A reference to the loaded Mesh Asset.</returns>
 		template<>
-		Ref<Mesh> load<Mesh>(Path const& path)
+		inline Ref<Mesh> load<Mesh>(Path const& path)
 		{
-			return load_mesh(path);
+			return load_mesh(path, read_id(path));
 		}
 
 		/// <summary>
@@ -358,20 +371,9 @@ namespace Minty
 		/// <param name="path">The Path to the RenderPass Asset.</param>
 		/// <returns>A reference to the loaded RenderPass Asset.</returns>
 		template<>
-		Ref<RenderPass> load<RenderPass>(Path const& path)
+		inline Ref<RenderPass> load<RenderPass>(Path const& path)
 		{
-			return load_render_pass(path);
-		}
-
-		/// <summary>
-		/// Loads the Asset specifically as a Scene at the given Path.
-		/// </summary>
-		/// <param name="path">The Path to the Scene Asset.</param>
-		/// <returns>A reference to the loaded Scene Asset.</returns>
-		template<>
-		Ref<Scene> load<Scene>(Path const& path)
-		{
-			return load_scene(path);
+			return load_render_pass(path, read_id(path));
 		}
 		
 		/// <summary>
@@ -380,9 +382,9 @@ namespace Minty
 		/// <param name="path">The Path to the Shader Asset.</param>
 		/// <returns>A reference to the loaded Shader Asset.</returns>
 		template<>
-		Ref<Shader> load<Shader>(Path const& path)
+		inline Ref<Shader> load<Shader>(Path const& path)
 		{
-			return load_shader(path);
+			return load_shader(path, read_id(path));
 		}
 
 		/// <summary>
@@ -391,9 +393,9 @@ namespace Minty
 		/// <param name="path">The Path to the ShaderModule Asset.</param>
 		/// <returns>A reference to the loaded ShaderModule Asset.</returns>
 		template<>
-		Ref<ShaderModule> load<ShaderModule>(Path const& path)
+		inline Ref<ShaderModule> load<ShaderModule>(Path const& path)
 		{
-			return load_shader_module(path);
+			return load_shader_module(path, read_id(path));
 		}
 
 		/// <summary>
@@ -402,9 +404,9 @@ namespace Minty
 		/// <param name="path">The Path to the Sprite Asset.</param>
 		/// <returns>A reference to the loaded Sprite Asset.</returns>
 		template<>
-		Ref<Sprite> load<Sprite>(Path const& path)
+		inline Ref<Sprite> load<Sprite>(Path const& path)
 		{
-			return load_sprite(path);
+			return load_sprite(path, read_id(path));
 		}
 
 		/// <summary>
@@ -413,9 +415,9 @@ namespace Minty
 		/// <param name="path">The Path to the Texture Asset.</param>
 		/// <returns>A reference to the loaded Texture Asset.</returns>
 		template<>
-		Ref<Texture> load<Texture>(Path const& path)
+		inline Ref<Texture> load<Texture>(Path const& path)
 		{
-			return load_texture(path);
+			return load_texture(path, read_id(path));
 		}
 
 		/// <summary>
@@ -430,6 +432,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="id">The ID of the Asset to unload.</param>
 		void unload(UUID const id);
+
+		/// <summary>
+		/// Reloads the Asset with the given ID.
+		/// </summary>
+		/// <param name="id">The ID of the Asset.</param>
+		void reload(UUID const id);
 
 		/// <summary>
 		/// Unloads all Assets stored within this AssetManager.
@@ -674,47 +682,44 @@ namespace Minty
 
 #pragma endregion
 
-
 	private:
-		Ref<GenericAsset> load_generic(Path const& path);
+		Ref<GenericAsset> load_generic(Path const& path, UUID const id);
 
 		Owner<Image> create_image(Path const& path, UUID const id);
 
-		Ref<Animation> load_animation(Path const& path);
+		Ref<Animation> load_animation(Path const& path, UUID const id);
 
-		Ref<Animator> load_animator(Path const& path);
+		Ref<Animator> load_animator(Path const& path, UUID const id);
 
-		Ref<AudioClip> load_audio_clip(Path const& path);
+		Ref<AudioClip> load_audio_clip(Path const& path, UUID const id);
 
-		Ref<Camera> load_camera(Path const& path);
+		Ref<Camera> load_camera(Path const& path, UUID const id);
 
-		Ref<Font> load_font(Path const& path);
+		Ref<Font> load_font(Path const& path, UUID const id);
 
-		Ref<FontVariant> load_font_variant(Path const& path);
+		Ref<FontVariant> load_font_variant(Path const& path, UUID const id);
 
-		Ref<Image> load_image(Path const& path);
+		Ref<Image> load_image(Path const& path, UUID const id);
 
-		Ref<Material> load_material(Path const& path);
+		Ref<Material> load_material(Path const& path, UUID const id);
 
-		Ref<MaterialTemplate> load_material_template(Path const& path);
+		Ref<MaterialTemplate> load_material_template(Path const& path, UUID const id);
 
-		Ref<Mesh> load_mesh_obj(Path const& path);
+		Ref<Mesh> load_mesh_obj(Path const& path, UUID const id);
 
-		Ref<Mesh> load_mesh(Path const& path);
+		Ref<Mesh> load_mesh(Path const& path, UUID const id);
 
-		Ref<RenderPass> load_render_pass(Path const& path);
+		Ref<RenderPass> load_render_pass(Path const& path, UUID const id);
 
-		Ref<RenderTarget> load_render_target(Path const& path);
+		Ref<RenderTarget> load_render_target(Path const& path, UUID const id);
 
-		Ref<Scene> load_scene(Path const& path);
+		Ref<Shader> load_shader(Path const& path, UUID const id);
 
-		Ref<Shader> load_shader(Path const& path);
+		Ref<ShaderModule> load_shader_module(Path const& path, UUID const id);
 
-		Ref<ShaderModule> load_shader_module(Path const& path);
+		Ref<Sprite> load_sprite(Path const& path, UUID const id);
 
-		Ref<Sprite> load_sprite(Path const& path);
-
-		Ref<Texture> load_texture(Path const& path);
+		Ref<Texture> load_texture(Path const& path, UUID const id);
 
 #pragma endregion
 

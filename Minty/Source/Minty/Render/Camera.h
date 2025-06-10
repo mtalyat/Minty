@@ -69,7 +69,7 @@ namespace Minty
 	/// Holds information used to render a specific view of the Scene.
 	/// </summary>
 	class Camera
-		: public Asset, public SerializableObject
+		: public Asset
 	{
 #pragma region Variables
 

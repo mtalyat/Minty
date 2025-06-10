@@ -1,8 +1,9 @@
 #pragma once
 #include "Minty/Core/Base.h"
+#include "Minty/Core/Format.h"
+#include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
-#include "Minty/Core/Math.h"
 #include "Minty/Data/Vector.h"
 
 namespace Minty
