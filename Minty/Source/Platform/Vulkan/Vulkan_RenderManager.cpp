@@ -32,7 +32,9 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 	, m_depthImage(nullptr)
 	, m_frames()
 	, m_currentFrameIndex(0)
-{}
+	, m_passesMade(0)
+{
+}
 
 // gets the current frame's command buffer
 VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
@@ -224,6 +226,9 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 	// start new buffer
 	Vulkan_Renderer::begin_command_buffer(commandBuffer);
 
+	// reset the render pass count
+	m_passesMade = 0;
+
 	return true;
 }
 
@@ -233,21 +238,28 @@ void Minty::Vulkan_RenderManager::end_frame()
 	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
 
-	// end and submit the command buffer
-	Vulkan_Renderer::end_command_buffer(commandBuffer);
-	Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
-
-	// present the frame
-	VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_surface.get(), frame);
-
-	// check for recreating swapchain
-	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
+	// only submit if we have made passes
+	if (m_passesMade)
 	{
-		// sync
-		sync();
+		// end and submit the command buffer
+		Vulkan_Renderer::end_command_buffer(commandBuffer);
+		Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
 
-		// recreate the surface
-		m_surface->refresh();
+		VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_surface.get(), frame);
+
+		// check for recreating swapchain
+		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
+		{
+			// sync
+			sync();
+
+			// recreate the surface
+			m_surface->refresh();
+		}
+	}
+	else
+	{
+		MINTY_ABORT("No passes made in this frame. Make sure there is a RenderPass, RenderTarget and an Entity with a CameraComponent that has a valid Camera with a valid RenderTarget.");
 	}
 
 	// next frame
@@ -285,7 +297,7 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 	// get vulkan render target and pass
 	Ref<Vulkan_RenderTarget> vulkanRenderTarget = renderTarget.cast_to<Vulkan_RenderTarget>();
 	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().cast_to<Vulkan_RenderPass>();
-	
+
 	// get render area
 	// remember: Viewport determines where to render within this area, so this area should be the whole screen
 	VkRect2D renderArea{};
@@ -311,6 +323,8 @@ void Minty::Vulkan_RenderManager::end_pass()
 	Vulkan_Renderer::end_render_pass(get_current_command_buffer());
 
 	RenderManager::end_pass();
+
+	m_passesMade++;
 }
 
 VkCommandBuffer Minty::Vulkan_RenderManager::start_command_buffer_single()

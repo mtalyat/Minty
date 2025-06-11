@@ -32,6 +32,9 @@ namespace Minty
 		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
 		Size m_currentFrameIndex = 0;
 
+		// number of passes done in the current frame
+		Size m_passesMade;
+
 #pragma endregion
 
 #pragma region Constructors

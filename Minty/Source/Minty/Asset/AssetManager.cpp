@@ -55,17 +55,25 @@ AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 
 ID Minty::AssetManager::read_id(Path const& path) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read ID from file that does not exist.");
+	if (!exists(path))
+	{
+		// return invalid if no file
+		return INVALID_ID;
+	}
 
 	Path metaPath = Asset::get_meta_path(path);
 
-	MINTY_ASSERT(exists(metaPath), "Cannot read_bytes ID from file that does not have a meta file.");
+	if (!exists(metaPath))
+	{
+		// return invalid if no meta file
+		return INVALID_ID;
+	}
 
 	Vector<String> lines = read_lines(metaPath);
 
-	// ignore if empty
 	if (lines.is_empty())
 	{
+		// return invalid if empty meta file
 		return INVALID_ID;
 	}
 
