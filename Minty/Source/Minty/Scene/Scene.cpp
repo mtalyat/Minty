@@ -96,6 +96,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 {
 	// load all of the assets into the Scene
 	Set<Path> loaded;
+	m_loadedAssets.clear();
 	AssetManager& assetManager = AssetManager::get_singleton();
 	Size i = 0;
 	for (auto const& assetPath : newAssets)
@@ -110,6 +111,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 		{
 			AssetData& assetData = m_registeredAssets.at(assetPath);
 			assetData.index = i;
+			m_loadedAssets.add(assetData.id);
 			continue;
 		}
 
@@ -134,6 +136,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 		{
 			assetData.id = asset->get_id();
 		}
+		m_loadedAssets.add(assetData.id);
 
 		// add the path to registered assets
 		m_registeredAssets.add(assetPath, std::move(assetData));

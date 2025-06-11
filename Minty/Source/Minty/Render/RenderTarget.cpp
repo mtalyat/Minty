@@ -7,7 +7,6 @@
 
 using namespace Minty;
 
-
 /// <summary>
 /// Creates a new RenderTarget.
 /// </summary>

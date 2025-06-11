@@ -243,6 +243,10 @@ void Minty::Vulkan_RenderManager::end_frame()
 	// check for recreating swapchain
 	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
 	{
+		// sync
+		sync();
+
+		// recreate the surface
 		m_surface->refresh();
 	}
 

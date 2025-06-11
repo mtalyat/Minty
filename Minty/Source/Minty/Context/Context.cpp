@@ -317,6 +317,7 @@ Owner<Context> Minty::Context::open(Path const& path)
 		reader.read("Position", builder.windowBuilder.position);
 		reader.read("Size", builder.windowBuilder.size);
 		reader.read("Title", builder.windowBuilder.title);
+		reader.read("Icon", builder.windowBuilder.icon);
 
 		reader.outdent();
 	}

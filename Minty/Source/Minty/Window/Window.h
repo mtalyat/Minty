@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Math.h"
+#include "Minty/Data/Path.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Input/CursorMode.h"
@@ -33,6 +34,11 @@ namespace Minty
 		/// The title of the Window.
 		/// </summary>
 		String title = MINTY_NAME;
+
+		/// <summary>
+		/// The path to the icon image.
+		/// </summary>
+		Path icon = TEXT_EMPTY;
 
 		/// <summary>
 		/// Called when an Event is triggered.
@@ -149,6 +155,12 @@ namespace Minty
 		{
 			m_eventCallback = callback;
 		}
+
+		/// <summary>
+		/// Sets the icon of the Window.
+		/// </summary>
+		/// <param name="path">The Path to the icon.</param>
+		virtual void set_icon(Path const& path) = 0;
 
 #pragma endregion
 

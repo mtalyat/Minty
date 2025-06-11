@@ -20,6 +20,7 @@
 #include "Minty/Render/Surface.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
+#include "Minty/Event/WindowResizeEvent.h"
 
 using namespace Minty;
 
@@ -205,6 +206,27 @@ void Minty::AssetManager::sync()
 
 	// run all of the onCompletion jobs
 	run_completion_jobs();
+}
+
+void Minty::AssetManager::handle_event(Event& event)
+{
+	if (event.get_type() == EventType::WindowResize)
+	{
+		WindowResizeEvent& resizeEvent = static_cast<WindowResizeEvent&>(event);
+
+		// sync render manager
+		RenderManager& renderManager = RenderManager::get_singleton();
+		renderManager.sync();
+
+		// resize all of the render targets
+		RenderTargetBuilder builder{};
+		builder.id = INVALID_ID;
+
+		for (auto const& renderPass : get_by_type<RenderPass>())
+		{
+			renderPass->refresh(builder);
+		}
+	}
 }
 
 Bool Minty::AssetManager::is_syncing() const

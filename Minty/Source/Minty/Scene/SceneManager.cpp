@@ -89,13 +89,22 @@ void Minty::SceneManager::reload(UUID const id)
 		return;
 	}
 
-	// deserialize the asset again
+	// deserialize the scene again
 	if (!scene->deserialize(*reader))
 	{
 		MINTY_ABORT(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
 		assetManager.close_reader(reader);
 		return;
 	}
+
+	// TODO: implement deserialization for all asset types
+	// TODO: reload all assets within the scene
+	//// reload all assets within the scene
+	//for (UUID const assetId : scene->get_loaded_assets())
+	//{
+	//	// reload the asset
+	//	assetManager.reload(assetId);
+	//}
 
 	// close the reader
 	assetManager.close_reader(reader);

@@ -41,9 +41,8 @@ Node& Minty::Node::add_child(Node const& node)
 Node& Minty::Node::add_child(Node&& node)
 {
 	String const& name = node.get_name();
-	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
 	Int const index = static_cast<Int>(m_children.get_size());
-	if (!name.is_empty())
+	if (!name.is_empty() && !m_lookup.contains(name))
 	{
 		m_lookup[name] = index;
 	}

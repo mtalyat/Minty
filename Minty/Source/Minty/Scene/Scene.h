@@ -115,6 +115,12 @@ namespace Minty
 		/// <returns></returns>
 		SystemManager& get_system_manager() const { return *m_systemManager; }
 
+		/// <summary>
+		/// Gets the set of loaded Asset IDs in this Scene.
+		/// </summary>
+		/// <returns>The set of IDs.</returns>
+		Set<UUID> const& get_loaded_assets() const { return m_loadedAssets; }
+
 #pragma endregion
 
 #pragma region Methods

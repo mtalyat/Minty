@@ -4,6 +4,25 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Map.h"
 
+#include "Minty/Render/Image.h"
+#include "Minty/Render/Texture.h"
+#include "Minty/Render/Material.h"
+#include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/Shader.h"
+#include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/RenderPass.h"
+#include "Minty/Render/RenderTarget.h"
+#include "Minty/Render/Camera.h"
+#include "Minty/Render/Sprite.h"
+#include "Minty/Render/Mesh.h"
+#include "Minty/Audio/AudioClip.h"
+#include "Minty/Animation/Animation.h"
+#include "Minty/Animation/Animator.h"
+#include "Minty/Wrap/Wrap.h"
+#include "Minty/Render/Font.h"
+#include "Minty/Render/FontVariant.h"
+#include "Minty/Asset/GenericAsset.h"
+
 using namespace Minty;
 
 AssetType Minty::Asset::get_asset_type(Path const& path)
@@ -69,8 +88,53 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 
 AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 {
-	MINTY_ABORT("Not implemented.");
-	return AssetType::Generic;
+	static Map<TypeID, AssetType> types
+	{
+		{ typeid(Image), AssetType::Image},
+
+		{ typeid(Texture), AssetType::Texture},
+
+		{ typeid(RenderPass), AssetType::RenderPass},
+
+		{ typeid(RenderTarget), AssetType::RenderTarget },
+
+		{ typeid(Camera), AssetType::Camera },
+
+		{ typeid(Sprite), AssetType::Sprite },
+
+		{ typeid(Material), AssetType::Material },
+
+		{ typeid(MaterialTemplate), AssetType::MaterialTemplate },
+
+		{ typeid(Shader), AssetType::Shader },
+
+		{ typeid(ShaderModule), AssetType::ShaderModule },
+
+		{ typeid(Mesh), AssetType::Mesh },
+
+		{ typeid(AudioClip), AssetType::AudioClip },
+
+		{ typeid(Animation), AssetType::Animation },
+
+		{ typeid(Animator), AssetType::Animator },
+
+		{ typeid(Wrap), AssetType::Wrap },
+
+		{ typeid(FontVariant), AssetType::FontVariant },
+
+		{ typeid(Font), AssetType::Font},
+	};
+
+	auto found = types.find(typeId);
+
+	// extension not found
+	if (found == types.end())
+	{
+		MINTY_ABORT("Asset type not found for type.");
+		return AssetType::Generic;
+	}
+
+	return found->get_second();
 }
 
 Path Minty::Asset::get_meta_path(Path const& path)
