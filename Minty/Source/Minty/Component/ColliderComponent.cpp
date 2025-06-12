@@ -16,7 +16,7 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 	collider.release(); // release any existing collider
 
 	ColliderBuilder builder{};
-	if (!reader.read("Shape", builder.shape))
+	if (!reader.read_default(builder.shape) && !reader.read("Shape", builder.shape))
 	{
 		// could not read shape
 		return false;

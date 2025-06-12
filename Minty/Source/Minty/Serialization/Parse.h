@@ -52,6 +52,7 @@ namespace Minty
 	std::enable_if_t<!is_parseable<T>::value, T> 
 		parse_to(String const& string)
 	{
+		MINTY_INFO(typeid(T).name());
 		MINTY_ABORT("The given type is not parseable.");
 	}
 
@@ -66,6 +67,7 @@ namespace Minty
 	std::enable_if_t<!is_parseable<T>::value, Bool> 
 		parse_try(String const& string, T& value)
 	{
+		MINTY_INFO(typeid(T).name());
 		MINTY_ABORT("The given type is not parseable.");
 	}
 

@@ -20,6 +20,18 @@
 
 namespace Minty
 {
+	class TextReaderBehavior;
+	class FileReaderBehavior;
+	class NodeReaderBehavior;
+	class MemoryReaderBehavior;
+
+	template<typename, typename>
+	class ReaderImplementation;
+
+	using TextFileReader = ReaderImplementation<TextReaderBehavior, FileReaderBehavior>;
+	using TextNodeReader = ReaderImplementation<TextReaderBehavior, NodeReaderBehavior>;
+	using TextMemoryReader = ReaderImplementation<TextReaderBehavior, MemoryReaderBehavior>;
+
 #pragma region Base
 
 	/// <summary>
@@ -632,13 +644,42 @@ namespace Minty
 		/// <param name="index">The index of the Asset.</param>
 		/// <param name="asset">The Asset.</param>
 		/// <returns>True on success.</returns>
-		template<typename T, typename std::enable_if<is_asset<T>::value, int>::type = 0>
-		Bool read(Size const index, Ref<T>& asset)
+		template<typename T>
+		Bool read(Size const index, Ref<T>& asset,
+			typename std::enable_if<is_asset<T>::value, int>::type = 0)
 		{
 			Ref<Asset> assetRef = asset.cast_to<Asset>();
 			Bool result = read_asset(index, assetRef);
 			asset = assetRef.cast_to<T>();
 			return result;
+		}
+
+		// special case for Assets
+		template<typename T>
+		Bool read_default(Ref<T>& obj)
+		{
+			// create temporary reader with just the value from this node
+			Node const& current = get_node();
+			DynamicContainer const& data = current.get_data();
+			Node tempRoot{};
+			Node temp(TEXT_EMPTY, data.get_data(), data.get_size());
+			tempRoot.add_child(temp);
+			TextNodeReader reader(tempRoot, m_allocator);
+			return reader.read<T>(0, obj);
+		}
+
+		// normal case for non-Assets
+		template<typename T> 
+		Bool read_default(T& obj)
+		{
+			// create temporary reader with just the value from this node
+			Node const& current = get_node();
+			DynamicContainer const& data = current.get_data();
+			Node tempRoot{};
+			Node temp(TEXT_EMPTY, data.get_data(), data.get_size());
+			tempRoot.add_child(temp);
+			TextNodeReader reader(tempRoot, m_allocator);
+			return reader.read<T>(0, obj);
 		}
 
 #pragma endregion
@@ -938,12 +979,24 @@ namespace Minty
 	class ReaderImplementation
 		: public Reader, private FormatBehavior, private StorageBehavior
 	{
+#pragma region Classes
+
+	private:
+		struct NodeData
+		{
+			Size index;
+			Node const* node;
+		};
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
 		Size m_depth;
+		// root node
 		Node* mp_node;
-		Stack<Node const*> m_nodeStack;
+		Stack<NodeData> m_nodeStack;
 
 #pragma endregion
 
@@ -977,7 +1030,7 @@ namespace Minty
 				data = std::move(temp);
 			}
 			*mp_node = this->read_node(data.get_data(), data.get_size());
-			m_nodeStack.push(mp_node);
+			m_nodeStack.push({ 0, mp_node });
 		}
 
 		/// <summary>
@@ -994,7 +1047,7 @@ namespace Minty
 			, m_nodeStack(allocator)
 		{
 			*mp_node = root;
-			m_nodeStack.push(mp_node);
+			m_nodeStack.push({ 0, mp_node });
 		}
 
 		virtual ~ReaderImplementation()
@@ -1023,7 +1076,7 @@ namespace Minty
 		/// Gets the current Node this Reader is on.
 		/// </summary>
 		/// <returns>The active Node.</returns>
-		Node const& get_node() const override { return *m_nodeStack.peek(); }
+		Node const& get_node() const override { return *m_nodeStack.peek().node; }
 
 #pragma endregion
 
@@ -1040,7 +1093,7 @@ namespace Minty
 			Node const& node = get_node();
 			if (is_valid() && index < node.get_children_size())
 			{
-				m_nodeStack.push(&node.get_child(index));
+				m_nodeStack.push({ index, &node.get_child(index) });
 				m_depth++;
 				return true;
 			}

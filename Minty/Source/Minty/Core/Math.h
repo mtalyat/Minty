@@ -65,6 +65,11 @@ namespace Minty
 		constexpr Float E = 2.71828182845904523536f;
 
 		/// <summary>
+		/// The smallest value that is considered to be zero in floating point calculations.
+		/// </summary>
+		constexpr Float EPSILON = 0.00001f;
+
+		/// <summary>
 		/// 180 / PI.
 		/// </summary>
 		constexpr Float RAD2DEG = 57.2957795130823208768f;
@@ -307,6 +312,142 @@ namespace Minty
 		constexpr T abs(T const value)
 		{
 			return value < 0 ? -value : value;
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float2 abs(Float2 const value)
+		{
+			return Float2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float3 abs(Float3 const value)
+		{
+			return Float3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float4 abs(Float4 const value)
+		{
+			return Float4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Double2 abs(Double2 const value)
+		{
+			return Double2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Double3 abs(Double3 const value)
+		{
+			return Double3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Double4 abs(Double4 const value)
+		{
+			return Double4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int2 abs(Int2 const value)
+		{
+			return Int2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int3 abs(Int3 const value)
+		{
+			return Int3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int4 abs(Int4 const value)
+		{
+			return Int4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Long2 abs(Long2 const value)
+		{
+			return Long2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Long3 abs(Long3 const value)
+		{
+			return Long3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Long4 abs(Long4 const value)
+		{
+			return Long4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
 		}
 
 		/// <summary>
@@ -622,6 +763,15 @@ namespace Minty
 		/// <param name="axis">The axis the given angle is on.</param>
 		/// <returns>The rotation, as a Quaternion.</returns>
 		Quaternion angle_axis(Float const angle, Float3 const& axis);
+
+		/// <summary>
+		/// Creates a Quaternion that looks at the target position from the given eye position, using the given up vector.
+		/// </summary>
+		/// <param name="eye">The location of the object that is looking.</param>
+		/// <param name="target">The location to look at.</param>
+		/// <param name="up">The up direction.</param>
+		/// <returns>A Quaternion reflecting the given values.</returns>
+		Quaternion look_at(Float3 const& eye, Float3 const& target, Float3 const& up = UP);
 
 		/// <summary>
 		/// Converts the given Quaternion to Euler angles.

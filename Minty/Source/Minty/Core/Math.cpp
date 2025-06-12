@@ -55,9 +55,25 @@ Quaternion Minty::Math::angle_axis(Float const angle, Float3 const& axis)
 	return glm::angleAxis(angle, axis);
 }
 
+Quaternion Minty::Math::look_at(Float3 const& eye, Float3 const& target, Float3 const& up)
+{
+	Float3 forward = glm::normalize(target - eye);
+	Float3 right = glm::normalize(glm::cross(up, forward));
+	Float3 newUp = glm::cross(forward, right);
+
+	Matrix3 rotationMatrix = {
+		right.x, right.y, right.z,
+		newUp.x, newUp.y, newUp.z,
+		forward.x, forward.y, forward.z
+	};
+
+	return glm::quat_cast(rotationMatrix);
+}
+
 Float3 Minty::Math::to_euler(Quaternion const& value)
 {
-	return glm::eulerAngles(value);
+	Float3 euler = glm::eulerAngles(value);
+	return euler;
 }
 
 Quaternion Minty::Math::to_cartesian(Float3 const& value)

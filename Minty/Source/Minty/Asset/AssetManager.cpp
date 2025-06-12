@@ -952,6 +952,7 @@ Ref<Camera> Minty::AssetManager::load_camera(Path const& path, UUID const id)
 		reader->read("FOV", builder.fov);
 		reader->read("Near", builder.nearPlane);
 		reader->read("Far", builder.farPlane);
+		reader->read("Color", builder.color);
 		reader->read("AspectRatio", builder.aspectRatio);
 		reader->read("Size", builder.size);
 		reader->read("Layer", builder.layer);

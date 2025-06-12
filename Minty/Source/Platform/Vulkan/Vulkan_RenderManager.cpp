@@ -307,10 +307,10 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 	// get clear color
 	Color clearColor = cameraInfo.camera->get_color();
 	VkClearColorValue clearColorValue{};
-	clearColorValue.float32[0] = clearColor.r;
-	clearColorValue.float32[1] = clearColor.g;
-	clearColorValue.float32[2] = clearColor.b;
-	clearColorValue.float32[3] = clearColor.a;
+	clearColorValue.float32[0] = clearColor.rlf();
+	clearColorValue.float32[1] = clearColor.glf();
+	clearColorValue.float32[2] = clearColor.blf();
+	clearColorValue.float32[3] = clearColor.alf();
 
 	// begin the pass
 	Vulkan_Renderer::begin_render_pass(get_current_command_buffer(), vulkanRenderPass->get_render_pass(), vulkanRenderTarget->get_framebuffer(m_surface->get_current_image_index_ref()), renderArea, clearColorValue);

@@ -45,21 +45,21 @@ namespace Minty
 			struct
 			{
 				/// <summary>
-				/// The red component.
+				/// The alpha component.
 				/// </summary>
-				Channel_t r;
-				/// <summary>
-				/// The green component.
-				/// </summary>
-				Channel_t g;
+				Channel_t a;
 				/// <summary>
 				/// The blue component.
 				/// </summary>
 				Channel_t b;
 				/// <summary>
-				/// The alpha component.
+				/// The green component.
 				/// </summary>
-				Channel_t a;
+				Channel_t g;
+				/// <summary>
+				/// The red component.
+				/// </summary>
+				Channel_t r;
 			};
 
 			/// <summary>
@@ -81,10 +81,10 @@ namespace Minty
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
 		constexpr Color(Channel_t const r, Channel_t const g, Channel_t const b, Channel_t const a = MAX_CHANNEL)
-			: r(r)
-			, g(g)
+			: a(a)
 			, b(b)
-			, a(a)
+			, g(g)
+			, r(r)
 		{
 		}
 
@@ -96,10 +96,10 @@ namespace Minty
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
 		constexpr Color(Int const r, Int const g, Int const b, Int const a = MAX_CHANNEL)
-			: r(static_cast<Channel_t>(r))
-			, g(static_cast<Channel_t>(g))
+			: a(static_cast<Channel_t>(a))
 			, b(static_cast<Channel_t>(b))
-			, a(static_cast<Channel_t>(a))
+			, g(static_cast<Channel_t>(g))
+			, r(static_cast<Channel_t>(r))
 		{
 			MINTY_ASSERT(r >= 0, "Red value cannot be below zero.");
 			MINTY_ASSERT(g >= 0, "Green value cannot be below zero.");
@@ -119,10 +119,10 @@ namespace Minty
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
 		constexpr Color(Float const r, Float const g, Float const b, Float const a = 1.0f)
-			: r(static_cast<Channel_t>(r* MAX_CHANNEL))
-			, g(static_cast<Channel_t>(g* MAX_CHANNEL))
+			: a(static_cast<Channel_t>(a* MAX_CHANNEL))
 			, b(static_cast<Channel_t>(b* MAX_CHANNEL))
-			, a(static_cast<Channel_t>(a* MAX_CHANNEL))
+			, g(static_cast<Channel_t>(g* MAX_CHANNEL))
+			, r(static_cast<Channel_t>(r* MAX_CHANNEL))
 		{
 			MINTY_ASSERT(r >= 0.0f, "Red value cannot be below zero.");
 			MINTY_ASSERT(g >= 0.0f, "Green value cannot be below zero.");
@@ -208,6 +208,30 @@ namespace Minty
 		constexpr Float af() const { return static_cast<Float>(a) / static_cast<Float>(MAX_CHANNEL); }
 
 		/// <summary>
+		/// Gets the R value as a linear Float.
+		/// </summary>
+		/// <returns>The R value.</returns>
+		inline Float rlf() const { return to_linear(rf()); }
+
+        /// <summary>
+        /// Gets the G value as a linear Float.
+        /// </summary>
+        /// <returns>The G value.</returns>
+		inline Float glf() const { return to_linear(gf()); }
+
+        /// <summary>
+        /// Gets the B value as a linear Float.
+        /// </summary>
+        /// <returns>The B value.</returns>
+		inline Float blf() const { return to_linear(bf()); }
+
+		/// <summary>
+		/// Gets the A value as a linear Float.
+		/// </summary>
+		/// <returns>The A value.</returns>
+		constexpr Float alf() const { return af(); }
+
+		/// <summary>
 		/// Converts this Color to a Float4. Each value is normalzed.
 		/// </summary>
 		/// <returns>The Float4 color.</returns>
@@ -216,9 +240,24 @@ namespace Minty
 			return Float4(rf(), gf(), bf(), af());
 		}
 
+		/// <summary>
+		/// Converts this Color to a Float4. Each value is linearized.
+		/// </summary>
+		/// <returns>The Float4 color.</returns>
+		inline Float4 to_linear_float4() const
+		{
+			return Float4(rlf(), glf(), blf(), alf());
+		}
+
 #pragma endregion
 
 #pragma region Statics
+
+	private:
+		static inline Float to_linear(Float value)
+		{
+			return (value <= 0.04045f) ? (value / 12.92f) : Math::pow((value + 0.055f) / 1.055f, 2.4f);
+		}
 
 	public:
 		/// <summary>
