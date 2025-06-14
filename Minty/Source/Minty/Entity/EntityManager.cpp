@@ -1178,6 +1178,9 @@ Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const e
 			continue;
 		}
 
+		// fix name
+		componentName = componentName.trim_end();
+
 		info = context.get_component_info(componentName);
 		MINTY_ASSERT(info != nullptr, F("Component \"{}\" does not exist.", componentName));
 
