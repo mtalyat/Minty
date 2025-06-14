@@ -1,0 +1,11 @@
+Attachments
+    Color
+        Load: Clear
+        Store: Store
+        Initial: Undefined
+        Final: Presentation
+    Depth
+        Load: Clear
+        Store: Store
+        Initial: Undefined
+        Final: DepthStencilAttachment
