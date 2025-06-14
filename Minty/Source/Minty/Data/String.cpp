@@ -244,7 +244,7 @@ String Minty::String::trim_start(String const& characters)
 	{
 		return *this;
 	}
-	return sub(index, get_size() - index);
+	return sub(index);
 }
 
 String Minty::String::trim_end(String const& characters)
