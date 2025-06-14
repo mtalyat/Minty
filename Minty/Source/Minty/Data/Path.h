@@ -347,6 +347,16 @@ namespace Minty
 		Bool has_extension() const { return m_path.has_extension(); }
 
 		/// <summary>
+		/// Checks if this Path has the given extension.
+		/// </summary>
+		/// <param name="extension">The extension to check for, including the '.'.</param>
+		/// <returns>True if the path has the given extension.</returns>
+		Bool has_extension(Path const& extension) const
+		{
+			return m_path.has_extension() && m_path.extension() == extension.m_path;
+		}
+
+		/// <summary>
 		/// Checks if this Path has a parent directory.
 		/// </summary>
 		/// <returns>True if there is a parent directory.</returns>

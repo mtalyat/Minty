@@ -19,9 +19,21 @@ namespace Minty
 	using UInt3 = glm::uvec3;
 	using UInt4 = glm::uvec4;
 
+	using Long2 = glm::vec<2, Long>;
+	using Long3 = glm::vec<3, Long>;
+	using Long4 = glm::vec<4, Long>;
+
+	using ULong2 = glm::vec<2, ULong>;
+	using ULong3 = glm::vec<3, ULong>;
+	using ULong4 = glm::vec<4, ULong>;
+
 	using Float2 = glm::vec2;
 	using Float3 = glm::vec3;
 	using Float4 = glm::vec4;
+
+	using Double2 = glm::dvec2;
+	using Double3 = glm::dvec3;
+	using Double4 = glm::dvec4;
 
 	using Quaternion = glm::quat;
 
@@ -51,6 +63,11 @@ namespace Minty
 		/// Euler's number.
 		/// </summary>
 		constexpr Float E = 2.71828182845904523536f;
+
+		/// <summary>
+		/// The smallest value that is considered to be zero in floating point calculations.
+		/// </summary>
+		constexpr Float EPSILON = 0.00001f;
 
 		/// <summary>
 		/// 180 / PI.
@@ -298,6 +315,142 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float2 abs(Float2 const value)
+		{
+			return Float2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float3 abs(Float3 const value)
+		{
+			return Float3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float4 abs(Float4 const value)
+		{
+			return Float4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Double2 abs(Double2 const value)
+		{
+			return Double2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Double3 abs(Double3 const value)
+		{
+			return Double3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Double4 abs(Double4 const value)
+		{
+			return Double4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int2 abs(Int2 const value)
+		{
+			return Int2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int3 abs(Int3 const value)
+		{
+			return Int3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int4 abs(Int4 const value)
+		{
+			return Int4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Long2 abs(Long2 const value)
+		{
+			return Long2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Long3 abs(Long3 const value)
+		{
+			return Long3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Long4 abs(Long4 const value)
+		{
+			return Long4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
 		/// Gets the sine of the given value.
 		/// </summary>
 		/// <typeparam name="T">The type.</typeparam>
@@ -417,6 +570,41 @@ namespace Minty
 		template<typename T>
 		constexpr T pow(T const base, T const exponent)
 		{
+			if (exponent == 0) return 1;
+			if (exponent == 1) return base;
+
+			T temp = pow<T>(base, exponent / 2);
+			if (exponent % 2 == 0)
+			{
+				return temp * temp;
+			}
+
+			return base * temp * temp;
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<>
+		inline Float pow(Float const base, Float const exponent)
+		{
+			return std::powf(base, exponent);
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<>
+		inline Double pow(Double const base, Double const exponent)
+		{
 			return std::pow(base, exponent);
 		}
 
@@ -468,6 +656,44 @@ namespace Minty
 				a.z * b.x - a.x * b.z,
 				a.x * b.y - a.y * b.x
 			);
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T mod(T const value, T const divisor)
+		{
+			return value % divisor;
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float mod(Float const value, Float const divisor)
+		{
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double mod(Double const value, Double const divisor)
+		{
+			return value - Math::floor(value / divisor) * divisor;
 		}
 
 #pragma endregion
@@ -537,6 +763,15 @@ namespace Minty
 		/// <param name="axis">The axis the given angle is on.</param>
 		/// <returns>The rotation, as a Quaternion.</returns>
 		Quaternion angle_axis(Float const angle, Float3 const& axis);
+
+		/// <summary>
+		/// Creates a Quaternion that looks at the target position from the given eye position, using the given up vector.
+		/// </summary>
+		/// <param name="eye">The location of the object that is looking.</param>
+		/// <param name="target">The location to look at.</param>
+		/// <param name="up">The up direction.</param>
+		/// <returns>A Quaternion reflecting the given values.</returns>
+		Quaternion look_at(Float3 const& eye, Float3 const& target, Float3 const& up = UP);
 
 		/// <summary>
 		/// Converts the given Quaternion to Euler angles.

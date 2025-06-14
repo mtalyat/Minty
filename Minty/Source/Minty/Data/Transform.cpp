@@ -22,6 +22,7 @@ void Minty::Transform::serialize(Writer& writer) const
 
 Bool Minty::Transform::deserialize(Reader& reader)
 {
+	reader.read_default(m_localPosition);
 	reader.read("Position", m_localPosition);
 	Float3 eulerAngles;
 	if (reader.read("Rotation", eulerAngles))

@@ -585,13 +585,12 @@ VkExtent2D Minty::Vulkan_Renderer::get_swapchain_extent(VkSurfaceCapabilitiesKHR
 	}
 
 	// create new extent from window size
-	int width, height;
-	glfwGetFramebufferSize(static_cast<GLFWwindow*>(window->get_native()), &width, &height);
+	UInt2 size = window->get_framebuffer_size();
 
 	VkExtent2D actualExtent =
 	{
-		static_cast<uint32_t>(width),
-		static_cast<uint32_t>(height)
+		static_cast<uint32_t>(size.x),
+		static_cast<uint32_t>(size.y)
 	};
 
 	actualExtent.width = Math::clamp(actualExtent.width, capabilities.minImageExtent.width, capabilities.maxImageExtent.width);

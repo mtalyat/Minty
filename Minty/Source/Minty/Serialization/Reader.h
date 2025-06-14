@@ -20,6 +20,18 @@
 
 namespace Minty
 {
+	class TextReaderBehavior;
+	class FileReaderBehavior;
+	class NodeReaderBehavior;
+	class MemoryReaderBehavior;
+
+	template<typename, typename>
+	class ReaderImplementation;
+
+	using TextFileReader = ReaderImplementation<TextReaderBehavior, FileReaderBehavior>;
+	using TextNodeReader = ReaderImplementation<TextReaderBehavior, NodeReaderBehavior>;
+	using TextMemoryReader = ReaderImplementation<TextReaderBehavior, MemoryReaderBehavior>;
+
 #pragma region Base
 
 	/// <summary>
@@ -151,12 +163,21 @@ namespace Minty
 		virtual Bool read_uint3(Size const index, UInt3& obj) const = 0;
 		virtual Bool read_uint4(Size const index, UInt4& obj) const = 0;
 		virtual Bool read_long(Size const index, Long& obj) const = 0;
+		virtual Bool read_long2(Size const index, Long2& obj) const = 0;
+		virtual Bool read_long3(Size const index, Long3& obj) const = 0;
+		virtual Bool read_long4(Size const index, Long4& obj) const = 0;
 		virtual Bool read_ulong(Size const index, ULong& obj) const = 0;
+		virtual Bool read_ulong2(Size const index, ULong2& obj) const = 0;
+		virtual Bool read_ulong3(Size const index, ULong3& obj) const = 0;
+		virtual Bool read_ulong4(Size const index, ULong4& obj) const = 0;
 		virtual Bool read_float(Size const index, Float& obj) const = 0;
 		virtual Bool read_float2(Size const index, Float2& obj) const = 0;
 		virtual Bool read_float3(Size const index, Float3& obj) const = 0;
 		virtual Bool read_float4(Size const index, Float4& obj) const = 0;
 		virtual Bool read_double(Size const index, Double& obj) const = 0;
+		virtual Bool read_double2(Size const index, Double2& obj) const = 0;
+		virtual Bool read_double3(Size const index, Double3& obj) const = 0;
+		virtual Bool read_double4(Size const index, Double4& obj) const = 0;
 		virtual Bool read_string(Size const index, String& obj) const = 0;
 		virtual Bool read_type(Size const index, Type& obj) const = 0;
 
@@ -353,9 +374,39 @@ namespace Minty
 			return read_long(index, data);
 		}
 		template<>
+		Bool read(Size const index, Long2& data)
+		{
+			return read_long2(index, data);
+		}
+		template<>
+		Bool read(Size const index, Long3& data)
+		{
+			return read_long3(index, data);
+		}
+		template<>
+		Bool read(Size const index, Long4& data)
+		{
+			return read_long4(index, data);
+		}
+		template<>
 		Bool read(Size const index, ULong& data)
 		{
 			return read_ulong(index, data);
+		}
+		template<>
+		Bool read(Size const index, ULong2& data)
+		{
+			return read_ulong2(index, data);
+		}
+		template<>
+		Bool read(Size const index, ULong3& data)
+		{
+			return read_ulong3(index, data);
+		}
+		template<>
+		Bool read(Size const index, ULong4& data)
+		{
+			return read_ulong4(index, data);
 		}
 		template<>
 		Bool read(Size const index, Float& data)
@@ -381,6 +432,21 @@ namespace Minty
 		Bool read(Size const index, Double& data)
 		{
 			return read_double(index, data);
+		}
+		template<>
+		Bool read(Size const index, Double2& data)
+		{
+			return read_double2(index, data);
+		}
+		template<>
+		Bool read(Size const index, Double3& data)
+		{
+			return read_double3(index, data);
+		}
+		template<>
+		Bool read(Size const index, Double4& data)
+		{
+			return read_double4(index, data);
 		}
 		template<>
 		Bool read(Size const index, String& data)
@@ -578,13 +644,42 @@ namespace Minty
 		/// <param name="index">The index of the Asset.</param>
 		/// <param name="asset">The Asset.</param>
 		/// <returns>True on success.</returns>
-		template<typename T, typename std::enable_if<is_asset<T>::value, int>::type = 0>
-		Bool read(Size const index, Ref<T>& asset)
+		template<typename T>
+		Bool read(Size const index, Ref<T>& asset,
+			typename std::enable_if<is_asset<T>::value, int>::type = 0)
 		{
 			Ref<Asset> assetRef = asset.cast_to<Asset>();
 			Bool result = read_asset(index, assetRef);
 			asset = assetRef.cast_to<T>();
 			return result;
+		}
+
+		// special case for Assets
+		template<typename T>
+		Bool read_default(Ref<T>& obj)
+		{
+			// create temporary reader with just the value from this node
+			Node const& current = get_node();
+			DynamicContainer const& data = current.get_data();
+			Node tempRoot{};
+			Node temp(TEXT_EMPTY, data.get_data(), data.get_size());
+			tempRoot.add_child(temp);
+			TextNodeReader reader(tempRoot, m_allocator);
+			return reader.read<T>(0, obj);
+		}
+
+		// normal case for non-Assets
+		template<typename T> 
+		Bool read_default(T& obj)
+		{
+			// create temporary reader with just the value from this node
+			Node const& current = get_node();
+			DynamicContainer const& data = current.get_data();
+			Node tempRoot{};
+			Node temp(TEXT_EMPTY, data.get_data(), data.get_size());
+			tempRoot.add_child(temp);
+			TextNodeReader reader(tempRoot, m_allocator);
+			return reader.read<T>(0, obj);
 		}
 
 #pragma endregion
@@ -622,12 +717,21 @@ namespace Minty
 		virtual UInt3 read_uint3_from_buffer(const void* const data, Size const size) const = 0;
 		virtual UInt4 read_uint4_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Long read_long_from_buffer(const void* const data, Size const size) const = 0;
+		virtual Long2 read_long2_from_buffer(const void* const data, Size const size) const = 0;
+		virtual Long3 read_long3_from_buffer(const void* const data, Size const size) const = 0;
+		virtual Long4 read_long4_from_buffer(const void* const data, Size const size) const = 0;
 		virtual ULong read_ulong_from_buffer(const void* const data, Size const size) const = 0;
+		virtual ULong2 read_ulong2_from_buffer(const void* const data, Size const size) const = 0;
+		virtual ULong3 read_ulong3_from_buffer(const void* const data, Size const size) const = 0;
+		virtual ULong4 read_ulong4_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Float read_float_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Float2 read_float2_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Float3 read_float3_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Float4 read_float4_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Double read_double_from_buffer(const void* const data, Size const size) const = 0;
+		virtual Double2 read_double2_from_buffer(const void* const data, Size const size) const = 0;
+		virtual Double3 read_double3_from_buffer(const void* const data, Size const size) const = 0;
+		virtual Double4 read_double4_from_buffer(const void* const data, Size const size) const = 0;
 		virtual String read_string_from_buffer(const void* const data, Size const size) const = 0;
 		virtual UUID read_uuid_from_buffer(const void* const data, Size const size) const = 0;
 		virtual Type read_type_from_buffer(const void* const data, Size const size) const = 0;
@@ -839,12 +943,21 @@ namespace Minty
 		UInt3 read_uint3_from_buffer(const void* const data, Size const size) const override;
 		UInt4 read_uint4_from_buffer(const void* const data, Size const size) const override;
 		Long read_long_from_buffer(const void* const data, Size const size) const override;
+		Long2 read_long2_from_buffer(const void* const data, Size const size) const override;
+		Long3 read_long3_from_buffer(const void* const data, Size const size) const override;
+		Long4 read_long4_from_buffer(const void* const data, Size const size) const override;
 		ULong read_ulong_from_buffer(const void* const data, Size const size) const override;
+		ULong2 read_ulong2_from_buffer(const void* const data, Size const size) const override;
+		ULong3 read_ulong3_from_buffer(const void* const data, Size const size) const override;
+		ULong4 read_ulong4_from_buffer(const void* const data, Size const size) const override;
 		Float read_float_from_buffer(const void* const data, Size const size) const override;
 		Float2 read_float2_from_buffer(const void* const data, Size const size) const override;
 		Float3 read_float3_from_buffer(const void* const data, Size const size) const override;
 		Float4 read_float4_from_buffer(const void* const data, Size const size) const override;
 		Double read_double_from_buffer(const void* const data, Size const size) const override;
+		Double2 read_double2_from_buffer(const void* const data, Size const size) const override;
+		Double3 read_double3_from_buffer(const void* const data, Size const size) const override;
+		Double4 read_double4_from_buffer(const void* const data, Size const size) const override;
 		String read_string_from_buffer(const void* const data, Size const size) const override;
 		UUID read_uuid_from_buffer(const void* const data, Size const size) const override;
 		Type read_type_from_buffer(const void* const data, Size const size) const override;
@@ -866,12 +979,24 @@ namespace Minty
 	class ReaderImplementation
 		: public Reader, private FormatBehavior, private StorageBehavior
 	{
+#pragma region Classes
+
+	private:
+		struct NodeData
+		{
+			Size index;
+			Node const* node;
+		};
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
 		Size m_depth;
+		// root node
 		Node* mp_node;
-		Stack<Node const*> m_nodeStack;
+		Stack<NodeData> m_nodeStack;
 
 #pragma endregion
 
@@ -905,7 +1030,7 @@ namespace Minty
 				data = std::move(temp);
 			}
 			*mp_node = this->read_node(data.get_data(), data.get_size());
-			m_nodeStack.push(mp_node);
+			m_nodeStack.push({ 0, mp_node });
 		}
 
 		/// <summary>
@@ -922,7 +1047,7 @@ namespace Minty
 			, m_nodeStack(allocator)
 		{
 			*mp_node = root;
-			m_nodeStack.push(mp_node);
+			m_nodeStack.push({ 0, mp_node });
 		}
 
 		virtual ~ReaderImplementation()
@@ -951,7 +1076,7 @@ namespace Minty
 		/// Gets the current Node this Reader is on.
 		/// </summary>
 		/// <returns>The active Node.</returns>
-		Node const& get_node() const override { return *m_nodeStack.peek(); }
+		Node const& get_node() const override { return *m_nodeStack.peek().node; }
 
 #pragma endregion
 
@@ -968,7 +1093,7 @@ namespace Minty
 			Node const& node = get_node();
 			if (is_valid() && index < node.get_children_size())
 			{
-				m_nodeStack.push(&node.get_child(index));
+				m_nodeStack.push({ index, &node.get_child(index) });
 				m_depth++;
 				return true;
 			}
@@ -1265,6 +1390,48 @@ namespace Minty
 			}
 			return false;
 		}
+		Bool read_long2(Size const index, Long2& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_long2_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_long3(Size const index, Long3& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_long3_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_long4(Size const index, Long4& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_long4_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
 		Bool read_ulong(Size const index, ULong& obj) const override
 		{
 			if (is_valid())
@@ -1274,6 +1441,48 @@ namespace Minty
 				{
 					Container const& data = node.get_child(index).get_data();
 					obj = this->read_ulong_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_ulong2(Size const index, ULong2& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_ulong2_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_ulong3(Size const index, ULong3& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_ulong3_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_ulong4(Size const index, ULong4& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_ulong4_from_buffer(data.get_data(), data.get_size());
 					return true;
 				}
 			}
@@ -1344,6 +1553,48 @@ namespace Minty
 				{
 					Container const& data = node.get_child(index).get_data();
 					obj = this->read_double_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_double2(Size const index, Double2& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_double2_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_double3(Size const index, Double3& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_double3_from_buffer(data.get_data(), data.get_size());
+					return true;
+				}
+			}
+			return false;
+		}
+		Bool read_double4(Size const index, Double4& obj) const override
+		{
+			if (is_valid())
+			{
+				Node const& node = get_node();
+				if (node.has_child(index))
+				{
+					Container const& data = node.get_child(index).get_data();
+					obj = this->read_double4_from_buffer(data.get_data(), data.get_size());
 					return true;
 				}
 			}

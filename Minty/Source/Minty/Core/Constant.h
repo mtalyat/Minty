@@ -59,8 +59,11 @@ namespace Minty
 
 #pragma region Extensions
 
+	constexpr Char const* EXTENSION_MINTY = ".minty";
+
 	constexpr Char const* EXTENSION_ANIMATION = ".mani";
 	constexpr Char const* EXTENSION_ANIMATOR = ".manr";
+	constexpr Char const* EXTENSION_CONTEXT = EXTENSION_MINTY;
 	constexpr Char const* EXTENSION_AUDIO_CLIP_WAV = ".wav";
 	constexpr Char const* EXTENSION_AUDIO_CLIP_MP3 = ".mp3";
 	constexpr Char const* EXTENSION_BITMAP = ".bmp";
@@ -177,6 +180,8 @@ namespace Minty
 
 	constexpr Char const* TEXT_EMPTY = "";
 	constexpr Char const* TEXT_WHITESPACE = " \n\r\t\v\b\f";
+	constexpr Char const* TEXT_OPEN = "([{<\"";
+	constexpr Char const* TEXT_CLOSE = ")]}>\"";
 
 #pragma endregion
 

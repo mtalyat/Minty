@@ -10,6 +10,7 @@ System* Minty::SystemManager::add(SystemInfo const* info, Int const priority)
 
 	// create the system
 	SystemBuilder builder{};
+	builder.priority = priority;
 	builder.scene = m_scene;
 	builder.info = info;
 	System* system = info->create(builder);
@@ -53,6 +54,26 @@ System* Minty::SystemManager::add(String const& name)
 System* Minty::SystemManager::add(String const& name, Int const priority)
 {
 	return add(Context::get_singleton().get_system_info(name), priority);
+}
+
+System* Minty::SystemManager::get_system(String const& name) const
+{
+	// get the system info
+	SystemInfo const* info = Context::get_singleton().get_system_info(name);
+	MINTY_ASSERT(info != nullptr, F("System does not exist with the name: {}", name));
+
+	// get the system by type
+	auto it = m_systemsByType.find(info->typeId);
+
+	// check if it exists
+	if (it == m_systemsByType.end())
+	{
+		// does not exist
+		return nullptr;
+	}
+
+	// return the system
+	return it->get_second();
 }
 
 void Minty::SystemManager::initialize()
@@ -168,9 +189,6 @@ void Minty::SystemManager::serialize(Writer& writer) const
 
 Bool Minty::SystemManager::deserialize(Reader& reader)
 {
-	// unload systems
-	dispose();
-
 	// deserialize each system
 	String name;
 	for (Size i = 0; i < reader.get_size(); i++)
@@ -181,18 +199,43 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 			continue;
 		}
 
-		// read the priority and create the system
+		// get the system if it already exists
+		System* system = get_system(name);
+
 		Int priority;
-		System* system;
-		if (reader.read(i, priority))
+		if (system)
 		{
-			// use priority since it was given
-			system = add(name, priority);
+			// move the system if it has a new priority
+			if (reader.read(i, priority) && priority != system->get_priority())
+			{
+				m_systems.at(system->get_priority()).remove(system);
+				system->m_priority = priority;
+				auto it = m_systems.find(priority);
+				if (it == m_systems.end())
+				{
+					// create a new list for this priority
+					m_systems.add(priority, { system });
+				}
+				else
+				{
+					// add to the existing list
+					m_systems.at(priority).add(system);
+				}
+			}
 		}
 		else
 		{
-			// use default priority
-			system = add(name);
+			// read the priority and create a new system
+			if (reader.read(i, priority))
+			{
+				// use priority since it was given
+				system = add(name, priority);
+			}
+			else
+			{
+				// use default priority
+				system = add(name);
+			}
 		}
 
 		// enter system
@@ -201,17 +244,13 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 		// deserialize the system
 		if (!system->deserialize(reader))
 		{
-			MINTY_ERROR(F("Failed to deserialize system: {}", name));
+			MINTY_ABORT(F("Failed to deserialize system: {}", name));
 			reader.outdent();
 			return false;
-			initialize();
 		}
 
 		reader.outdent();
 	}
-
-	// load the systems
-	initialize();
 
 	return true;
 }

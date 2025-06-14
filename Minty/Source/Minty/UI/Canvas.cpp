@@ -20,5 +20,5 @@ void Minty::Canvas::serialize(Writer& writer) const
 
 Bool Minty::Canvas::deserialize(Reader& reader)
 {
-	return reader.read("Resolution", m_resolution);
+	return reader.read_default(m_resolution) || reader.read("Resolution", m_resolution);
 }

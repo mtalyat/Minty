@@ -20,6 +20,7 @@
 #include "Minty/Render/Surface.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
+#include "Minty/Event/WindowResizeEvent.h"
 
 using namespace Minty;
 
@@ -54,17 +55,25 @@ AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 
 ID Minty::AssetManager::read_id(Path const& path) const
 {
-	MINTY_ASSERT(exists(path), "Cannot read ID from file that does not exist.");
+	if (!exists(path))
+	{
+		// return invalid if no file
+		return INVALID_ID;
+	}
 
 	Path metaPath = Asset::get_meta_path(path);
 
-	MINTY_ASSERT(exists(metaPath), "Cannot read_bytes ID from file that does not have a meta file.");
+	if (!exists(metaPath))
+	{
+		// return invalid if no meta file
+		return INVALID_ID;
+	}
 
 	Vector<String> lines = read_lines(metaPath);
 
-	// ignore if empty
 	if (lines.is_empty())
 	{
+		// return invalid if empty meta file
 		return INVALID_ID;
 	}
 
@@ -117,6 +126,50 @@ void Minty::AssetManager::run_completion_jobs()
 			// run the Job
 			job(*this, id);
 		}
+	}
+}
+
+Ref<Asset> Minty::AssetManager::load_asset(Path const& path, AssetType const type, UUID const id)
+{
+	switch (type)
+	{
+	case AssetType::Generic:
+		return load_generic(path, id);
+	case AssetType::Image:
+		return load_image(path, id);
+	case AssetType::Material:
+		return load_material(path, id);
+	case AssetType::MaterialTemplate:
+		return load_material_template(path, id);
+	case AssetType::Mesh:
+		return load_mesh(path, id);
+	case AssetType::RenderPass:
+		return load_render_pass(path, id);
+	case AssetType::RenderTarget:
+		return load_render_target(path, id);
+	case AssetType::Camera:
+		return load_camera(path, id);
+	case AssetType::Shader:
+		return load_shader(path, id);
+	case AssetType::ShaderModule:
+		return load_shader_module(path, id);
+	case AssetType::Font:
+		return load_font(path, id);
+	case AssetType::FontVariant:
+		return load_font_variant(path, id);
+	case AssetType::Sprite:
+		return load_sprite(path, id);
+	case AssetType::Texture:
+		return load_texture(path, id);
+	case AssetType::Animation:
+		return load_animation(path, id);
+	case AssetType::Animator:
+		return load_animator(path, id);
+	case AssetType::AudioClip:
+		return load_audio_clip(path, id);
+	default:
+		MINTY_ABORT("Not implemented.");
+		return Ref<Asset>();
 	}
 }
 
@@ -303,49 +356,7 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 #endif // MINTY_DEBUG  
 
 	AssetType type = Asset::get_asset_type(path);
-
-	switch (type)
-	{
-	case AssetType::Generic:
-		return load_generic(path);
-	case AssetType::Image:
-		return load_image(path);
-	case AssetType::Material:
-		return load_material(path);
-	case AssetType::MaterialTemplate:
-		return load_material_template(path);
-	case AssetType::Mesh:
-		return load_mesh(path);
-	case AssetType::RenderPass:
-		return load_render_pass(path);
-	case AssetType::RenderTarget:
-		return load_render_target(path);
-	case AssetType::Camera:
-		return load_camera(path);
-	case AssetType::Shader:
-		return load_shader(path);
-	case AssetType::ShaderModule:
-		return load_shader_module(path);
-	case AssetType::Font:
-		return load_font(path);
-	case AssetType::FontVariant:
-		return load_font_variant(path);
-	case AssetType::Scene:
-		return load_scene(path);
-	case AssetType::Sprite:
-		return load_sprite(path);
-	case AssetType::Texture:
-		return load_texture(path);
-	case AssetType::Animation:
-		return load_animation(path);
-	case AssetType::Animator:
-		return load_animator(path);
-	case AssetType::AudioClip:
-		return load_audio_clip(path);
-	default:
-		MINTY_ABORT("Not implemented.");
-		return Ref<Asset>();
-	}
+	return load_asset(path, type);
 }
 
 void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const& onCompletion)
@@ -392,6 +403,37 @@ void Minty::AssetManager::unload(UUID const id)
 
 	// remove from the lists
 	remove(id);
+}
+
+void Minty::AssetManager::reload(UUID const id)
+{
+	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(m_savePaths, "Cannot reload Asset without having saving paths enabled.");
+
+	// get the path to the asset
+	Path path = get_asset_path(id);
+
+	// get the asset
+	Ref<Asset> asset = get_asset(id);
+
+	// open the file
+	Reader* reader = nullptr;
+	if (!open_reader(path, reader))
+	{
+		MINTY_ERROR(F("Failed to reload asset: {}. Could not open file.", path));
+		return;
+	}
+
+	// deserialize the asset again
+	if (!asset->deserialize(*reader))
+	{
+		MINTY_ERROR(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
+		close_reader(reader);
+		return;
+	}
+
+	// close the reader
+	close_reader(reader);
 }
 
 void Minty::AssetManager::unload_all()
@@ -695,13 +737,13 @@ Int Minty::AssetManager::read_attachment(Path const& path, Reader& reader, Strin
 	return 0;
 }
 
-Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path)
+Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path, UUID const id)
 {
 	Vector<Byte> bytes = read_bytes(path);
 
 	GenericAssetBuilder builder
 	{
-		.id = read_id(path),
+		.id = id,
 		.data = ConstantContainer(bytes.get_data(), bytes.get_size())
 	};
 
@@ -762,11 +804,11 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	return image;
 }
 
-Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
+Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const id)
 {
 	// create builder
 	AnimationBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values from the file
 	Reader* reader;
@@ -821,11 +863,11 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path)
 	return create_from_loaded<Animation>(path, builder);
 }
 
-Ref<Animator> Minty::AssetManager::load_animator(Path const& path)
+Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id)
 {
 	// create builder
 	AnimatorBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 	
 	// read values from the file
 	Reader* reader;
@@ -842,7 +884,7 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path)
 	return create_from_loaded<Animator>(path, builder);
 }
 
-Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)
+Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path, UUID const id)
 {
 	// create builder
 	AudioClipBuilder builder{};
@@ -855,7 +897,7 @@ Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)
 	}
 
 	// read ID
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values from meta
 	Path metaPath = Asset::get_meta_path(path);
@@ -874,11 +916,11 @@ Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path)
 	return create_from_loaded<AudioClip>(path, builder);
 }
 
-Ref<Camera> Minty::AssetManager::load_camera(Path const& path)
+Ref<Camera> Minty::AssetManager::load_camera(Path const& path, UUID const id)
 {
 	// create the builder
 	CameraBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values from the file
 	Reader* reader;
@@ -889,6 +931,7 @@ Ref<Camera> Minty::AssetManager::load_camera(Path const& path)
 		reader->read("FOV", builder.fov);
 		reader->read("Near", builder.nearPlane);
 		reader->read("Far", builder.farPlane);
+		reader->read("Color", builder.color);
 		reader->read("AspectRatio", builder.aspectRatio);
 		reader->read("Size", builder.size);
 		reader->read("Layer", builder.layer);
@@ -900,11 +943,11 @@ Ref<Camera> Minty::AssetManager::load_camera(Path const& path)
 	return create_from_loaded<Camera>(path, builder);
 }
 
-Ref<Font> Minty::AssetManager::load_font(Path const& path)
+Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 {
 	// create builder
 	FontBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read the font data
 	Reader* reader;
@@ -931,11 +974,11 @@ Ref<Font> Minty::AssetManager::load_font(Path const& path)
 	return create_from_loaded<Font>(path, builder);
 }
 
-Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path)
+Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID const id)
 {
 	// create the builder
 	FontVariantBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read the font variant data
 	// this is a different, standard format (TTF)
@@ -1113,10 +1156,10 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path)
 	return create_from_loaded<FontVariant>(path, builder);
 }
 
-Ref<Image> Minty::AssetManager::load_image(Path const& path)
+Ref<Image> Minty::AssetManager::load_image(Path const& path, UUID const id)
 {
 	// create the image using the path and ID
-	Owner<Image> image = create_image(path, read_id(path));
+	Owner<Image> image = create_image(path, id);
 
 	// add to the asset manager
 	add(path, image);
@@ -1170,11 +1213,11 @@ static void read_values(Reader& reader, Cargo& values)
 	}
 }
 
-Ref<Material> Minty::AssetManager::load_material(Path const& path)
+Ref<Material> Minty::AssetManager::load_material(Path const& path, UUID const id)
 {
 	// create builder
 	MaterialBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values
 	Reader* reader;
@@ -1200,11 +1243,11 @@ Ref<Material> Minty::AssetManager::load_material(Path const& path)
 	return create_from_loaded<Material>(path, builder);
 }
 
-Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& path)
+Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& path, UUID const id)
 {
 	// create builder
 	MaterialTemplateBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values
 	Reader* reader;
@@ -1229,10 +1272,10 @@ Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& pa
 	return create_from_loaded<MaterialTemplate>(path, builder);
 }
 
-Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path)
+Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
 {
 	MeshBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 	builder.type = MeshType::Custom;
 	builder.vertices = ListContainer(sizeof(Float));
 	builder.indices = ListContainer(sizeof(UShort));
@@ -1348,13 +1391,13 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path)
 	return create_from_loaded<Mesh>(path, builder);
 }
 
-Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path)
+Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
 {
 	String extension = path.get_extension().get_string();
 
 	if (extension == ".obj")
 	{
-		return load_mesh_obj(path);
+		return load_mesh_obj(path, id);
 	}
 	else
 	{
@@ -1363,11 +1406,11 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path)
 	}
 }
 
-Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
+Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID const id)
 {
 	// create builder
 	RenderPassBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values
 	RenderAttachment colorAttachment{};
@@ -1396,11 +1439,11 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path)
 	return create_from_loaded<RenderPass>(path, builder);
 }
 
-Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path)
+Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID const id)
 {
 	// create builder
 	RenderTargetBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values
 	Reader* reader;
@@ -1421,10 +1464,13 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path)
 			RenderManager& renderManager = RenderManager::get_singleton();
 			Ref<Surface> surface = renderManager.get_surface();
 			MINTY_ASSERT(surface != nullptr, "Failed to load render target. No surface found.");
+			builder.surfaceBound = true;
 			builder.images = surface->get_images();
 		}
 		else
 		{
+			builder.surfaceBound = false;
+
 			// manually providing the images
 			// read the images
 			if (reader->indent("Images"))
@@ -1465,32 +1511,11 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path)
 	return create_from_loaded<RenderTarget>(path, builder);
 }
 
-Ref<Scene> Minty::AssetManager::load_scene(Path const& path)
-{
-	// get scene details
-	SceneBuilder builder{};
-	builder.id = read_id(path);
-	builder.name = path.get_name().get_string();
-
-	// create empty scene
-	Ref<Scene> scene = create_from_loaded<Scene>(path, builder);
-
-	// deserialize the Scene
-	Reader* reader;
-	if (open_reader(path, reader))
-	{
-		scene->deserialize(*reader);
-		close_reader(reader);
-	}
-
-	return scene;
-}
-
-Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
+Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 {
 	// create builder
 	ShaderBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values
 	Reader* reader;
@@ -1682,11 +1707,11 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path)
 	return create_from_loaded<Shader>(path, builder);
 }
 
-Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path)
+Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path, UUID const id)
 {
 	// create builder
 	ShaderModuleBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read data
 	Vector<Byte> bytes = read_bytes(path);
@@ -1696,11 +1721,11 @@ Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path)
 	return create_from_loaded<ShaderModule>(path, builder);
 }
 
-Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path)
+Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 {
 	// create builder
 	SpriteBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 
 	// read values
 	Reader* reader;
@@ -1720,11 +1745,11 @@ Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path)
 	return create_from_loaded<Sprite>(path, builder);
 }
 
-Ref<Texture> Minty::AssetManager::load_texture(Path const& path)
+Ref<Texture> Minty::AssetManager::load_texture(Path const& path, UUID const id)
 {
 	// create builder
 	TextureBuilder builder{};
-	builder.id = read_id(path);
+	builder.id = id;
 	
 	// read meta file
 	Path metaPath = Asset::get_meta_path(path);

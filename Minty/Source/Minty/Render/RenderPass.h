@@ -94,8 +94,7 @@ namespace Minty
 		/// <summary>
 		/// Reinitializes all of the RenderTargets that use this RenderPass.
 		/// </summary>
-		/// <param name="builder">The RenderTargetBuilder to use.</param>
-		void refresh(RenderTargetBuilder const& builder);
+		void refresh();
 
 		/// <summary>
 		/// Registers a RenderTarget with this RenderPass.

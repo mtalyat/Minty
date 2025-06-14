@@ -28,6 +28,11 @@ namespace Minty
 		/// The images this RenderTarget uses.
 		/// </summary>
 		Vector<Ref<Image>> images;
+
+		/// <summary>
+		/// If true, the RenderTarget is bound to the screen surface.
+		/// </summary>
+		Bool surfaceBound = false;
 	};
 
 	/// <summary>
@@ -41,6 +46,7 @@ namespace Minty
 	private:
 		Ref<RenderPass> m_renderPass;
 		Vector<Ref<Image>> m_images;
+		Bool m_surfaceBound = false; // if true, the RenderTarget is bound to the screen surface
 
 #pragma endregion
 
@@ -60,6 +66,12 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Checks if this RenderTarget is bound to the screen surface.
+		/// </summary>
+		/// <returns>True if bound to the Surface.</returns>
+		Bool is_surface_bound() const { return m_surfaceBound; }
+
 		/// <summary>
 		/// Gets the RenderPass this RenderTarget belongs to.
 		/// </summary>

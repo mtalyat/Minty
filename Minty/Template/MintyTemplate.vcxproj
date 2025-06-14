@@ -108,6 +108,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +127,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(MINTY_PATH)\Minty\Source;$(MINTY_PATH)\Libraries\vulkan\include;$(MINTY_PATH)\Libraries\glm\include;$(MINTY_PATH)\Libraries\glfw\include;$(MINTY_PATH)\Libraries\stb\include;$(MINTY_PATH)\Libraries\zlib\include;$(MINTY_PATH)\Libraries\entt\include;$(MINTY_PATH)\Libraries\soloud\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -35,7 +35,7 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 
 	// read the parent id
 	UUID parentId = INVALID_ID;
-	if (reader.read("Parent", parentId))
+	if (reader.read_default(parentId) || reader.read("Parent", parentId))
 	{
 		// get the parent entity
 		Entity parent = entityData->entityManager->get_entity(parentId);

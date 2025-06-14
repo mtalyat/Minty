@@ -222,6 +222,7 @@
     <ClInclude Include="Minty\Core\Compression.h" />
     <ClInclude Include="Minty\Core\Constant.h" />
     <ClInclude Include="Minty\Core\Encoding.h" />
+    <ClInclude Include="Minty\Core\Evaluate.h" />
     <ClInclude Include="Minty\Core\Math.h" />
     <ClInclude Include="Minty\Core\MeshType.h" />
     <ClInclude Include="Minty\Core\Type.h" />
@@ -498,6 +499,7 @@
     <ClCompile Include="Minty\Core\Base.cpp" />
     <ClCompile Include="Minty\Core\Compression.cpp" />
     <ClCompile Include="Minty\Core\Encoding.cpp" />
+    <ClCompile Include="Minty\Core\Evaluate.cpp" />
     <ClCompile Include="Minty\Core\Math.cpp" />
     <ClCompile Include="Minty\Core\MeshType.cpp" />
     <ClCompile Include="Minty\Core\Type.cpp" />

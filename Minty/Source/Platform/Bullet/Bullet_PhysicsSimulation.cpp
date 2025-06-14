@@ -154,22 +154,22 @@ void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider
 
 Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layerMask, Float const maxDistance) const
 {
-	Debug::write_line("Physics simulation:");
-	Int count = mp_dynamicsWorld->getNumCollisionObjects();
-	for (Int i = count - 1; i >= 0; i--)
+	// if too small of a distance, nothing is going to be hit
+	if (maxDistance <= Math::EPSILON)
 	{
-		// deleting handled by the individual objects
-		btCollisionObject* obj = mp_dynamicsWorld->getCollisionObjectArray()[i];
-		btTransform& transform = obj->getWorldTransform();
-		Debug::write_line(F("Object at ({}, {}, {}).", transform.getOrigin().x(), transform.getOrigin().y(), transform.getOrigin().z()));
+		return false;
+	}
+
+	// if the direction is zero, nothing is going to be hit
+	if (direction == Math::ZERO)
+	{
+		return false;
 	}
 
 	// create the ray
 	btVector3 btOrigin = Bullet_Physics::to_bullet(origin);
 	btVector3 btDirection = Bullet_Physics::to_bullet(direction);
 	btVector3 btEnd = btOrigin + (btDirection.normalized() * maxDistance);
-
-	Debug::write_line(F("Raycast from ({}, {}, {}) to ({}, {}, {})", btOrigin.x(), btOrigin.y(), btOrigin.z(), btEnd.x(), btEnd.y(), btEnd.z()));
 
 	// create the raycast
 	btCollisionWorld::ClosestRayResultCallback rayCallback(btOrigin, btEnd);

@@ -41,9 +41,8 @@ Node& Minty::Node::add_child(Node const& node)
 Node& Minty::Node::add_child(Node&& node)
 {
 	String const& name = node.get_name();
-	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
 	Int const index = static_cast<Int>(m_children.get_size());
-	if (!name.is_empty())
+	if (!name.is_empty() && !m_lookup.contains(name))
 	{
 		m_lookup[name] = index;
 	}
@@ -113,7 +112,6 @@ Node Minty::parse_to_node(String const& string)
 	int const SPACES_PER_TAB = 4;
 
 	Vector<Tuple<String, NodeMacro>> macros;
-
 	for (Size lineIndex = 0; lineIndex < lines.get_size(); lineIndex++)
 	{
 		String line = lines.at(lineIndex);

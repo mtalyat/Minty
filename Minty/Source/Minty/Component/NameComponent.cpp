@@ -12,6 +12,7 @@ void Minty::NameComponent::serialize(Writer& writer) const
 
 Bool Minty::NameComponent::deserialize(Reader& reader)
 {
+	reader.read_default(name);
 	reader.read("Name", name);
 	return true;
 }

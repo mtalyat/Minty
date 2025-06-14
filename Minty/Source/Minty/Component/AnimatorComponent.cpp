@@ -15,7 +15,7 @@ void Minty::AnimatorComponent::serialize(Writer& writer) const
 Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 {
 	UUID id;
-	if (reader.read("Animator", id))
+	if (reader.read_default(id) || reader.read("Animator", id))
 	{
 		AssetManager& assetManager = AssetManager::get_singleton();
 

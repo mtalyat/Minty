@@ -59,6 +59,8 @@ namespace Minty
 		void set_cursor_mode(CursorMode const mode) override;
 
 		void* get_native() const override;
+		
+		void set_icon(Path const& path) override;
 
 #pragma endregion
 

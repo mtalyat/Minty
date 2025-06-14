@@ -103,6 +103,13 @@ namespace Minty
 
 	public:
 		/// <summary>
+		/// Creates a new Application using the configuration file at the given path.
+		/// </summary>
+		/// <param name="path">The path to the configuration file.</param>
+		/// <returns>An Application Owner.</returns>
+		static Owner<Application> open(Path const& path);
+
+		/// <summary>
 		/// Creates a new Application using the given ApplicationBuilder.
 		/// </summary>
 		/// <param name="builder">The arguments.</param>

@@ -208,7 +208,7 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Sets the Owner to null.
+		/// Sets the Owner to null. Disposes of the data if this was the last Owner.
 		/// </summary>
 		void release()
 		{
@@ -227,6 +227,25 @@ namespace Minty
 				{
 					delete mp_counter;
 				}
+			}
+
+			mp_ptr = nullptr;
+			mp_counter = nullptr;
+		}
+
+		/// <summary>
+		/// Sets the Owner to null without deleting the data.
+		/// </summary>
+		void kill()
+		{
+			if (mp_ptr == nullptr) return;
+
+			mp_counter->strongCount--;
+
+			// check to delete the counter
+			if (!mp_counter->strongCount && !mp_counter->weakCount)
+			{
+				delete mp_counter;
 			}
 
 			mp_ptr = nullptr;

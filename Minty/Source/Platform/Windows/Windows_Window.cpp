@@ -112,6 +112,12 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 				obj->m_eventCallback(event);
 			}
 		});
+	
+	// set icon
+	if (!builder.icon.is_empty())
+	{
+		set_icon(builder.icon);
+	}
 }
 
 Minty::Windows_Window::~Windows_Window()
@@ -191,6 +197,16 @@ void Minty::Windows_Window::set_cursor_mode(CursorMode const mode)
 void* Minty::Windows_Window::get_native() const
 {
 	return mp_window;
+}
+
+void Minty::Windows_Window::set_icon(Path const& path)
+{
+	MINTY_ASSERT(Path::exists(path), F("Cannot set icon. Path does not exist: {}", path));
+	GLFWimage icon;
+	icon.pixels = stbi_load(path.get_string().get_data(), &icon.width, &icon.height, nullptr, 4);
+	MINTY_ASSERT(icon.pixels != nullptr, F("Failed to load icon image: {}", path));
+	glfwSetWindowIcon(mp_window, 1, &icon);
+	stbi_image_free(icon.pixels);
 }
 
 void Minty::Windows_Window::save_restore_info()

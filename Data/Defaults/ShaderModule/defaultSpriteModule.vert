@@ -21,16 +21,16 @@ void main() {
     vec2 vertices[6] =
     {
         vec2(0.0, 0.0),
-        vec2(1.0, 0.0),
-        vec2(0.0, 1.0),
         vec2(0.0, 1.0),
         vec2(1.0, 0.0),
-        vec2(1.0, 1.0)
+        vec2(0.0, 1.0),
+        vec2(1.0, 1.0),
+        vec2(1.0, 0.0),
     };
 
     vec2 pos = vertices[gl_VertexIndex % 6];
     
-    gl_Position = camera.camera * instanceTransform * vec4((pos.x - instancePivot.x) * instanceScale, (pos.y - instancePivot.y) * instanceScale, 0.0, 1.0);
+    gl_Position = camera.camera * instanceTransform * vec4((pos.x - instancePivot.x) * instanceScale, (pos.y - instancePivot.y) * instanceScale * -1, 0.0, 1.0);
     fragColor = instanceColor;
     fragTexCoord = pos * instanceSize + instanceOffset;
 }

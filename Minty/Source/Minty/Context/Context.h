@@ -47,6 +47,8 @@ namespace Minty
 	private:
 		static Context* s_instance;
 
+		Bool m_initialized;
+
 		DualBuffer* mp_dualBuffer;
 		Owner<Window> m_window;
 		Owner<MemoryManager> m_memoryManager;
@@ -98,6 +100,12 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Checks if this Context is initialized.
+		/// </summary>
+		/// <returns>True if the Context has been initialized and not disposed.</returns>
+		Bool is_initialized() const { return m_initialized; }
+
 		/// <summary>
 		/// Gets the MemoryManager in this Context.
 		/// </summary>
@@ -226,11 +234,17 @@ namespace Minty
 		void register_components();
 		void register_systems();
 
+	public:
+		/// <summary>
+		/// Initializes this Context and all of its Managers.
+		/// </summary>
 		void initialize();
 
+		/// <summary>
+		/// Disposes this Context and all of its Managers.
+		/// </summary>
 		void dispose();
 
-	public:
 		/// <summary>
 		/// Updates all Managers in this Context.
 		/// </summary>
@@ -264,7 +278,7 @@ namespace Minty
 #pragma region Systems
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
-		void register_system(String const& name, Int const priority)
+		void register_system(String const& name, Int const priority = 0)
 		{
 			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
 			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
@@ -328,6 +342,13 @@ namespace Minty
 #pragma region Statics
 
 	public:
+		/// <summary>
+		/// Creates a new Context using the configuration file at the given path.
+		/// </summary>
+		/// <param name="path">The path to a .minty file.</param>
+		/// <returns>A Context Owner.</returns>
+		static Owner<Context> open(Path const& path);
+
 		/// <summary>
 		/// Creates a new Context using the given ContextBuilder.
 		/// </summary>

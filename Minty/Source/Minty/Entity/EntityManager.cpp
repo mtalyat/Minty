@@ -242,7 +242,10 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 		{
 			// else, set this entity's prev to parent's last
 			relationshipComponent.prev = parentRelationshipComponent.last;
-			m_registry.get<RelationshipComponent>(parentRelationshipComponent.last).next = entity;
+			if (relationshipComponent.prev != INVALID_ENTITY)
+			{
+				m_registry.get<RelationshipComponent>(parentRelationshipComponent.last).next = entity;
+			}
 		}
 
 		// set this entity's next to INVALID_ENTITY
@@ -1110,6 +1113,14 @@ Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index
 	{
 		if (reader.read(index, id) && id.is_valid())
 		{
+			// if entity with the same ID already exists, return it
+			Entity entity = get_entity(id);
+			if (entity != INVALID_ENTITY)
+			{
+				return entity;
+			}
+
+			// new entity
 			return create_entity(name, id);
 		}
 		else
@@ -1120,7 +1131,15 @@ Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index
 	else
 	{
 		if (reader.read(index, id) && id.is_valid())
-		{
+		{	
+			// if entity with the same ID already exists, return it
+			Entity entity = get_entity(id);
+			if (entity != INVALID_ENTITY)
+			{
+				return entity;
+			}
+
+			// new entity
 			return create_entity(id);
 		}
 		else
@@ -1162,13 +1181,19 @@ Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const e
 		info = context.get_component_info(componentName);
 		MINTY_ASSERT(info != nullptr, F("Component \"{}\" does not exist.", componentName));
 
-		// create the component
-		Component& component = info->create(*this, entity);
+		// get the component
+		Component* component = info->get(*this, entity);
+
+		// create the component if it does not exist yet
+		if (!component)
+		{
+			component = &info->create(*this, entity);
+		}
 
 		// deserialize the component
 		if (reader.indent(i))
 		{
-			if (!component.deserialize(reader))
+			if (!component->deserialize(reader))
 			{
 				MINTY_ERROR(F("Failed to deserialize component \"{}\" for entity {}.", componentName, get_entity_string(entity)));
 				continue;
@@ -1193,9 +1218,6 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 {
 	// NOTE: The entities must be all loaded before the components, as some components will have Entity dependencies.
 
-	// unload old data
-	dispose();
-
 	// read the entities
 	Vector<Entity> entities;
 	entities.resize(reader.get_size(), INVALID_ENTITY);
@@ -1214,8 +1236,8 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 		}
 	}
 
-	// load new data
-	initialize();
+	// always mark all entities as dirty to reflect any changes made
+	mark_all_entities<DirtyComponent>();
 
 	return true;
 }

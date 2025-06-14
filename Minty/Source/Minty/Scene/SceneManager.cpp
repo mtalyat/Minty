@@ -10,97 +10,130 @@ void Minty::SceneManager::set_active(Ref<Scene> const& scene)
 	m_nextScene = scene;
 }
 
-void Minty::SceneManager::add(Ref<Scene> const& scene)
-{
-	// add to the list of scenes
-	m_scenes.add(scene);
-
-	// set to active if not set
-	if (m_activeScene == nullptr)
-	{
-		m_activeScene = scene;
-	}
-}
-
-void Minty::SceneManager::remove(Ref<Scene> const& scene)
-{
-	// remove from the list of scenes
-	m_scenes.remove(scene);
-
-	// set to null if it was the active scene
-	if (m_activeScene == scene)
-	{
-		m_activeScene = nullptr;
-	}
-}
-
 Ref<Scene> Minty::SceneManager::load(Path const& path, Bool const setAsActive)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
-	// load the scene
-	Ref<Scene> scene = assetManager.load<Scene>(path);
+	SceneBuilder builder{};
+	builder.id = assetManager.read_id(path);
+	builder.name = path.get_name().get_string();
 
-	MINTY_ASSERT(scene != nullptr, F("Failed to load Scene at path: {}", path));
+	// create empty scene
+	Owner<Scene> scene = Scene::create(builder);
+
+	// deserialize the Scene
+	Reader* reader;
+	if (assetManager.open_reader(path, reader))
+	{
+		// deserialize the scene
+		scene->deserialize(*reader);
+
+		// close the reader
+		assetManager.close_reader(reader);
+	}
 
 	// add the Scene
-	add(scene);
+	m_scenes.add(scene->get_id(), {scene, path});
+
+	Ref<Scene> sceneRef = scene.create_ref();
 
 	// set as active if requested
 	if (setAsActive)
 	{
-		set_active(scene);
+		set_active(sceneRef);
 	}
 
-	return scene;
+	return sceneRef;
 }
 
 void Minty::SceneManager::unload(UUID const id)
 {
-	AssetManager& assetManager = AssetManager::get_singleton();
+	MINTY_ASSERT(contains(id), "Cannot unload Scene. The SceneManager does not contain a Scene with the given ID.");
 
 	// get the scene
-	Ref<Scene> scene = assetManager.at<Scene>(id);
+	Owner<Scene> scene = m_scenes.at(id).scene;
 
-	// remove the scene
-	remove(scene);
+	// remove it
+	m_scenes.remove(id);
 
-	// unload the scene
-	assetManager.unload(id);
+	// if it is the active scene, set the active scene to null
+	if (m_activeScene != nullptr)
+	{
+		m_activeScene->on_unload();
+		m_activeScene = nullptr;
+	}
+
+	// done
+	scene.release();
+}
+
+void Minty::SceneManager::reload(UUID const id)
+{
+	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+
+	// get the scene data
+	SceneData& sceneData = m_scenes.at(id);
+
+	// get the path to the scene
+	Path const& path = sceneData.path;
+
+	// get the scene
+	Owner<Scene>& scene = sceneData.scene;
+
+	// open the file
+	AssetManager& assetManager = AssetManager::get_singleton();
+	Reader* reader = nullptr;
+	if (!assetManager.open_reader(path, reader))
+	{
+		MINTY_ABORT(F("Failed to reload asset: {}. Could not open file.", path));
+		return;
+	}
+
+	// deserialize the scene again
+	if (!scene->deserialize(*reader))
+	{
+		MINTY_ABORT(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
+		assetManager.close_reader(reader);
+		return;
+	}
+
+	// TODO: implement deserialization for all asset types
+	// TODO: reload all assets within the scene
+	//// reload all assets within the scene
+	//for (UUID const assetId : scene->get_loaded_assets())
+	//{
+	//	// reload the asset
+	//	assetManager.reload(assetId);
+	//}
+
+	// close the reader
+	assetManager.close_reader(reader);
 }
 
 UUID Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletion, Bool const setAsActive)
 {
-	AssetManager& assetManager = AssetManager::get_singleton();
-	return assetManager.schedule_load(path, [this, onCompletion, setAsActive](AssetManager& assetManager, UUID const id)
+	JobManager& jobManager = JobManager::get_singleton();
+	jobManager.schedule([this, path, onCompletion, setAsActive]()
 		{
-			// get the scene
-			Ref<Scene> scene = assetManager.get<Scene>(id);
-			MINTY_ASSERT(scene != nullptr, F("Failed to load Scene with ID: {}", id));
-			// add the scene
-			add(scene);
-			// set as active if requested
-			if (setAsActive)
-			{
-				set_active(scene);
-			}
+			// load the scene
+			Ref<Scene> scene = load(path, setAsActive);
+
 			// run the completion job
 			onCompletion();
 		});
+	return AssetManager::get_singleton().read_id(path);
 }
 
 void Minty::SceneManager::schedule_unload(UUID const id, Job const& onCompletion)
 {
-	AssetManager& assetManager = AssetManager::get_singleton();
+	MINTY_ASSERT(m_scenes.contains(id), "Cannot schedule unload. The SceneManager does not contain a Scene with the given ID.");
 
-	// get the scene
-	Ref<Scene> scene = assetManager.at<Scene>(id);
-
-	// remove the scene
-	remove(scene);
-
-	assetManager.schedule_unload(id, [this, onCompletion](AssetManager& assetManager, UUID const id)
+	JobManager& jobManager = JobManager::get_singleton();
+	jobManager.schedule([this, id, onCompletion]()
 		{
+			// unload the scene
+			unload(id);
+
 			// run the completion job
 			onCompletion();
 		});
@@ -112,10 +145,7 @@ void Minty::SceneManager::initialize()
 	if (!m_initialScene.is_empty())
 	{
 		// load
-		Ref<Scene> scene = load(m_initialScene);
-		
-		// set as active
-		m_activeScene = scene;
+		Ref<Scene> scene = load(m_initialScene, true);
 	}
 
 	Manager::initialize();
@@ -123,6 +153,12 @@ void Minty::SceneManager::initialize()
 
 void Minty::SceneManager::dispose()
 {
+	// unload the active scene
+	if (m_activeScene != nullptr)
+	{
+		m_activeScene->on_unload();
+	}
+
 	// clear the list of scenes
 	m_scenes.clear();
 	m_activeScene = nullptr;
@@ -151,8 +187,16 @@ void Minty::SceneManager::finalize()
 	// move to the next active Scene
 	if (m_nextScene != nullptr)
 	{
+		if (m_activeScene != nullptr)
+		{
+			m_activeScene->on_unload();
+		}
 		m_activeScene = m_nextScene;
 		m_nextScene = nullptr;
+		if (m_activeScene != nullptr)
+		{
+			m_activeScene->on_load();
+		}
 	}
 }
 

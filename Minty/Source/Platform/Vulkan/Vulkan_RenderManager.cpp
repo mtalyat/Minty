@@ -22,17 +22,17 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& bu
 	, m_debugMessenger(VK_NULL_HANDLE)
 #endif // MINTY_DEBUG
 	, m_targetSurfaceFormat(builder.targetSurfaceFormat)
-	, m_surface(VK_NULL_HANDLE)
+	, m_vulkanSurface(VK_NULL_HANDLE)
 	, m_physicalDevice(VK_NULL_HANDLE)
 	, m_device(VK_NULL_HANDLE)
 	, m_graphicsQueue(VK_NULL_HANDLE)
 	, m_presentQueue(VK_NULL_HANDLE)
 	, m_commandPool(VK_NULL_HANDLE)
-	, m_defaultViewport(nullptr)
-	, m_depthImage(nullptr)
 	, m_frames()
 	, m_currentFrameIndex(0)
-{}
+	, m_passesMade(0)
+{
+}
 
 // gets the current frame's command buffer
 VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
@@ -64,7 +64,7 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	VkFormat depthFormat = Vulkan_Renderer::find_supported_depth_format(m_physicalDevice);
 
 	// create depth image
-	VkExtent2D swapchainExtent = m_surface->get_extent();
+	VkExtent2D swapchainExtent = m_vulkanSurface->get_extent();
 	ImageBuilder depthImageBuilder{};
 	depthImageBuilder.id = UUID::create();
 	depthImageBuilder.size = UInt2(swapchainExtent.width, swapchainExtent.height);
@@ -74,12 +74,13 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	depthImageBuilder.type = ImageType::D2;
 	depthImageBuilder.usage = ImageUsage::DepthStencil;
 	depthImageBuilder.immutable = false;
-	m_depthImage = Owner<Vulkan_Image>(depthImageBuilder);
+	MINTY_LOG(F("Creating depth image with size {}.", depthImageBuilder.size));
+	set_depth_image(Owner<Vulkan_Image>(depthImageBuilder));
 }
 
 void Minty::Vulkan_RenderManager::destroy_depth_resources()
 {
-	m_depthImage.release();
+	set_depth_image(nullptr);
 }
 
 void Minty::Vulkan_RenderManager::recreate_depth_resources()
@@ -116,7 +117,9 @@ void Minty::Vulkan_RenderManager::initialize()
 	surfaceBuilder.id = UUID::create();
 	surfaceBuilder.targetFormat = m_targetSurfaceFormat;
 	surfaceBuilder.window = window;
-	m_surface = Owner<Vulkan_Surface>(surfaceBuilder, surface, *this, queueFamilyIndices);
+	Owner<Surface> vulkanSurface = Owner<Vulkan_Surface>(surfaceBuilder, surface, *this, queueFamilyIndices);
+	m_vulkanSurface = vulkanSurface.create_ref();
+	set_surface(std::move(vulkanSurface));
 
 	// get queues
 	m_graphicsQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.graphicsFamily.value());
@@ -138,12 +141,12 @@ void Minty::Vulkan_RenderManager::initialize()
 
 	// create defaults
 	//     viewport
-	UInt2 swapchainSize = m_surface->get_size();
+	UInt2 swapchainSize = m_vulkanSurface->get_size();
 	ViewportBuilder viewportBuilder{};
 	viewportBuilder.id = UUID::create();
 	viewportBuilder.viewSize = swapchainSize;
 	viewportBuilder.maskSize = swapchainSize;
-	m_defaultViewport = Viewport::create(viewportBuilder);
+	set_default_viewport(Viewport::create(viewportBuilder));
 }
 
 void Minty::Vulkan_RenderManager::dispose()
@@ -151,11 +154,10 @@ void Minty::Vulkan_RenderManager::dispose()
 	// sync first
 	sync();
 
-	// unload defaults
-	m_defaultViewport.release();
+	RenderManager::dispose();
 
-	// destroy surface
-	m_surface.release();
+	// remove references
+	m_vulkanSurface.release();
 
 	// dispose frames
 	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
@@ -183,8 +185,6 @@ void Minty::Vulkan_RenderManager::dispose()
 	// destroy instance
 	Vulkan_Renderer::destroy_instance(m_instance);
 	m_instance = VK_NULL_HANDLE;
-
-	Manager::dispose();
 }
 
 void Minty::Vulkan_RenderManager::sync()
@@ -206,12 +206,15 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 	Vulkan_Renderer::reset_fence(m_device, frame.inFlightFence);
 
 	// get the image in the swapchain to use
-	VkResult swapchainResult = Vulkan_Renderer::get_next_swapchain_image_index(m_device, m_surface->get_swapchain(), frame.imageAvailableSemaphore, m_surface->get_current_image_index_ref());
+	VkResult swapchainResult = Vulkan_Renderer::get_next_swapchain_image_index(m_device, m_vulkanSurface->get_swapchain(), frame.imageAvailableSemaphore, m_vulkanSurface->get_current_image_index_ref());
 
 	// check for swapchain rebuilding
-	if (swapchainResult == VK_ERROR_OUT_OF_DATE_KHR)
+	if (swapchainResult == VK_ERROR_OUT_OF_DATE_KHR && check_resize_pending())
 	{
-		m_surface->refresh();
+		abort_frame();
+
+		refresh();
+		
 		return false;
 	}
 
@@ -224,6 +227,9 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 	// start new buffer
 	Vulkan_Renderer::begin_command_buffer(commandBuffer);
 
+	// reset the render pass count
+	m_passesMade = 0;
+
 	return true;
 }
 
@@ -233,17 +239,24 @@ void Minty::Vulkan_RenderManager::end_frame()
 	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
 
-	// end and submit the command buffer
-	Vulkan_Renderer::end_command_buffer(commandBuffer);
-	Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
-
-	// present the frame
-	VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_surface.get(), frame);
-
-	// check for recreating swapchain
-	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
+	// only submit if we have made passes
+	if (m_passesMade)
 	{
-		m_surface->refresh();
+		// end and submit the command buffer
+		Vulkan_Renderer::end_command_buffer(commandBuffer);
+		Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
+
+		VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_vulkanSurface.get(), frame);
+
+		// check for recreating swapchain
+		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
+		{
+			refresh();
+		}
+	}
+	else
+	{
+		MINTY_ABORT("No passes made in this frame. Make sure there is a RenderPass, RenderTarget and an Entity with a CameraComponent that has a valid Camera with a valid RenderTarget.");
 	}
 
 	// next frame
@@ -281,23 +294,23 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 	// get vulkan render target and pass
 	Ref<Vulkan_RenderTarget> vulkanRenderTarget = renderTarget.cast_to<Vulkan_RenderTarget>();
 	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().cast_to<Vulkan_RenderPass>();
-	
+
 	// get render area
 	// remember: Viewport determines where to render within this area, so this area should be the whole screen
 	VkRect2D renderArea{};
 	renderArea.offset = { 0, 0 };
-	renderArea.extent = m_surface->get_extent();
+	renderArea.extent = m_vulkanSurface->get_extent();
 
 	// get clear color
 	Color clearColor = cameraInfo.camera->get_color();
 	VkClearColorValue clearColorValue{};
-	clearColorValue.float32[0] = clearColor.r;
-	clearColorValue.float32[1] = clearColor.g;
-	clearColorValue.float32[2] = clearColor.b;
-	clearColorValue.float32[3] = clearColor.a;
+	clearColorValue.float32[0] = clearColor.rlf();
+	clearColorValue.float32[1] = clearColor.glf();
+	clearColorValue.float32[2] = clearColor.blf();
+	clearColorValue.float32[3] = clearColor.alf();
 
 	// begin the pass
-	Vulkan_Renderer::begin_render_pass(get_current_command_buffer(), vulkanRenderPass->get_render_pass(), vulkanRenderTarget->get_framebuffer(m_surface->get_current_image_index_ref()), renderArea, clearColorValue);
+	Vulkan_Renderer::begin_render_pass(get_current_command_buffer(), vulkanRenderPass->get_render_pass(), vulkanRenderTarget->get_framebuffer(m_vulkanSurface->get_current_image_index_ref()), renderArea, clearColorValue);
 
 	return true;
 }
@@ -307,6 +320,8 @@ void Minty::Vulkan_RenderManager::end_pass()
 	Vulkan_Renderer::end_render_pass(get_current_command_buffer());
 
 	RenderManager::end_pass();
+
+	m_passesMade++;
 }
 
 VkCommandBuffer Minty::Vulkan_RenderManager::start_command_buffer_single()
@@ -361,14 +376,4 @@ void Minty::Vulkan_RenderManager::draw_indices(UInt const indexCount) const
 void Minty::Vulkan_RenderManager::draw_instances(UInt const instanceCount, UInt const vertexCount) const
 {
 	Vulkan_Renderer::draw_instanced(get_current_command_buffer(), instanceCount, vertexCount);
-}
-
-Format Minty::Vulkan_RenderManager::get_color_attachment_format() const
-{
-	return m_surface->get_format();
-}
-
-Format Minty::Vulkan_RenderManager::get_depth_attachment_format() const
-{
-	return m_depthImage->get_format();
 }

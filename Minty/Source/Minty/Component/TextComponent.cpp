@@ -29,6 +29,7 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 	entityManager.mark_entity<DirtyTextComponent>(data->entity);
 
 	// read text info
+	reader.read_default(text);
 	reader.read<String>("Text", text, "");
 	reader.read("Color", color, Color::white());
 	reader.read<Ref<Font>>("Font", font, nullptr);

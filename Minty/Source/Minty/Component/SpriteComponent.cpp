@@ -13,6 +13,7 @@ void Minty::SpriteComponent::serialize(Writer& writer) const
 
 Bool Minty::SpriteComponent::deserialize(Reader& reader)
 {
+	reader.read_default(sprite);
 	reader.read("Sprite", sprite);
 	reader.read("Color", color);
 

@@ -595,10 +595,41 @@ String Minty::String::replace(String const& find, String const& replace) const
 	return result;
 }
 
-Vector<String> Minty::String::split(Char const delimiter) const
+static Vector<String> split_by_indices(String const& str, Vector<Size> const& indices, Size delimiterSize)
 {
 	Vector<String> result;
 
+	// calculate new size
+	result.reserve(indices.get_size() + 1);
+
+	// if no occurances, return the original string
+	if (indices.is_empty())
+	{
+		result.add(str);
+		return result;
+	}
+
+	// copy over data
+	Size last = 0;
+	for (Size i = 0; i < indices.get_size(); i++)
+	{
+		Size current = indices[i];
+		Size length = current - last;
+		result.add(str.sub(last, length));
+		last = current + delimiterSize;
+	}
+
+	// copy over the rest of the data
+	Size length = str.get_size() - last;
+	if (length > 0)
+	{
+		result.add(str.sub(last, length));
+	}
+	return result;
+}
+
+Vector<String> Minty::String::split(Char const delimiter) const
+{
 	// find all occurances of the delimiter
 	Vector<Size> indices;
 	Size index = 0;
@@ -613,39 +644,71 @@ Vector<String> Minty::String::split(Char const delimiter) const
 		index += 1;
 	}
 
-	// if no occurances, return the original string
-	if (indices.is_empty())
+	return split_by_indices(*this, indices, 1);
+}
+
+Vector<String> Minty::String::split_smart(Char const delimiter, String const& open, String const& close) const
+{
+	MINTY_ASSERT(open.get_size() == close.get_size(), "Open and close strings must have the same size.");
+
+	// find all occurances of the delimiter
+	Vector<Size> indices;
+	Size index = 0;
+	while (true)
 	{
-		result.add(*this);
-		return result;
+		Size groupIndex = INVALID_INDEX;
+		Size depth = 0;
+		for (; index < m_size; index++)
+		{
+			Char c = mp_data[index];
+			if (c == '\\')
+			{
+				index++;
+				continue;
+			}
+			if (depth == 0)
+			{
+				groupIndex = open.find_first(c);
+				if (groupIndex != INVALID_INDEX)
+				{
+					depth++;
+					continue;
+				}
+
+				if (c == delimiter)
+				{
+					// found a delimiter not in a group
+					break;
+				}
+			}
+			else
+			{
+				// in a group
+				if (open.find_first(c) == groupIndex)
+				{
+					// entered a sub-group
+					depth++;
+				}
+				else if (close.find_first(c) == groupIndex)
+				{
+					// left a sub-group
+					depth--;
+				}
+			}
+		}
+		if (index == m_size)
+		{
+			break;
+		}
+		indices.add(index);
+		index += 1;
 	}
 
-	// calculate new size
-	result.reserve(indices.get_size() + 1);
-
-	// copy over data
-	Size last = 0;
-	for (Size i = 0; i < indices.get_size(); i++)
-	{
-		Size current = indices[i];
-		Size length = current - last;
-		result.add(sub(last, length));
-		last = current + 1;
-	}
-
-	// copy over the rest of the data
-	Size length = m_size - last;
-	if (length > 0)
-	{
-		result.add(sub(last, length));
-	}
-	return result;
+	return split_by_indices(*this, indices, 1);
 }
 
 Vector<String> Minty::String::split(String const& delimiter) const
 {
-	Vector<String> result;
-
 	// find all occurances of the delimiter
 	Vector<Size> indices;
 	Size index = 0;
@@ -660,40 +723,72 @@ Vector<String> Minty::String::split(String const& delimiter) const
 		index += delimiter.get_size();
 	}
 
-	// if no occurances, return the original string
-	if (indices.is_empty())
+	return split_by_indices(*this, indices, delimiter.get_size());
+}
+
+Vector<String> Minty::String::split_smart(String const& delimiter, String const& open, String const& close) const
+{
+	MINTY_ASSERT(open.get_size() == close.get_size(), "Open and close strings must have the same size.");
+
+	// find all occurances of the delimiter
+	Vector<Size> indices;
+	Size index = 0;
+	while (true)
 	{
-		result.add(*this);
-		return result;
+		Size groupIndex = INVALID_INDEX;
+		Size depth = 0;
+		for (; index < m_size; index++)
+		{
+			Char c = mp_data[index];
+			if (c == '\\')
+			{
+				index++;
+				continue;
+			}
+			if (depth == 0)
+			{
+				groupIndex = open.find_first(c);
+				if (groupIndex != INVALID_INDEX)
+				{
+					depth++;
+					continue;
+				}
+
+				if (memcmp(&mp_data[index], delimiter.mp_data, sizeof(Char) * delimiter.get_size()) == 0)
+				{
+					// found a delimiter not in a group
+					break;
+				}
+			}
+			else
+			{
+				// in a group
+				if (open.find_first(c) == groupIndex)
+				{
+					// entered a sub-group
+					depth++;
+				}
+				else if (close.find_first(c) == groupIndex)
+				{
+					// left a sub-group
+					depth--;
+				}
+			}
+		}
+		if (index == m_size)
+		{
+			break;
+		}
+		indices.add(index);
+		index += delimiter.get_size();
 	}
 
-	// calculate new size
-	result.reserve(indices.get_size() + 1);
-
-	// copy over data
-	Size last = 0;
-	for (Size i = 0; i < indices.get_size(); i++)
-	{
-		Size current = indices[i];
-		Size length = current - last;
-		result.add(sub(last, length));
-		last = current + delimiter.get_size();
-	}
-
-	// copy over the rest of the data
-	Size length = m_size - last;
-	if (length > 0)
-	{
-		result.add(sub(last, length));
-	}
-	return result;
+	return split_by_indices(*this, indices, delimiter.get_size());
 }
 
 Vector<String> Minty::String::split() const
 {
 	String str = replace("\r\n", "\n");
-
-	Vector<String> result;
 
 	// find all occurances of the delimiter
 	Vector<Size> indices;
@@ -709,33 +804,7 @@ Vector<String> Minty::String::split() const
 		index += 1; // 1 character delimiter
 	}
 
-	// if no occurances, return the original string
-	if (indices.is_empty())
-	{
-		result.add(str);
-		return result;
-	}
-
-	// calculate new size
-	result.reserve(indices.get_size() + 1);
-
-	// copy over data
-	Size last = 0;
-	for (Size i = 0; i < indices.get_size(); i++)
-	{
-		Size current = indices[i];
-		Size length = current - last;
-		result.add(str.sub(last, length));
-		last = current + 1; // 1 character delimiter
-	}
-
-	// copy over the rest of the data
-	Size length = str.get_size() - last;
-	if (length > 0)
-	{
-		result.add(str.sub(last, length));
-	}
-	return result;
+	return split_by_indices(str, indices, 1);
 }
 
 Vector<String> Minty::String::split_lines() const

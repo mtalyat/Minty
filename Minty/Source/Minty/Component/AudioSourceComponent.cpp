@@ -18,6 +18,7 @@ void Minty::AudioSourceComponent::serialize(Writer& writer) const
 
 Bool Minty::AudioSourceComponent::deserialize(Reader& reader)
 {
+	reader.read_default(audioClip);
 	reader.read("AudioClip", audioClip);
 	reader.read("Play", play);
 	reader.read("Volume", volume);

@@ -19,18 +19,18 @@ namespace Minty
 		VkInstance m_instance;
 		VkDebugUtilsMessengerEXT m_debugMessenger;
 		Format m_targetSurfaceFormat;
-		Owner<Vulkan_Surface> m_surface;
+		Ref<Vulkan_Surface> m_vulkanSurface;
 		VkPhysicalDevice m_physicalDevice;
 		VkDevice m_device;
 		VkQueue m_graphicsQueue;
 		VkQueue m_presentQueue;
 		VkCommandPool m_commandPool;
 
-		Owner<Viewport> m_defaultViewport;
-		Owner<Image> m_depthImage;
-
 		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
 		Size m_currentFrameIndex = 0;
+
+		// number of passes done in the current frame
+		Size m_passesMade;
 
 #pragma endregion
 
@@ -72,16 +72,6 @@ namespace Minty
 		// gets the current frame's command buffer
 		VkCommandBuffer get_current_command_buffer() const;
 
-		inline Ref<Image> get_depth_image() const { return m_depthImage.create_ref(); }
-
-		inline Ref<Surface> get_surface() const override { return m_surface.create_ref().cast_to<Surface>(); }
-
-		inline Ref<Viewport> get_default_viewport() const override { return m_defaultViewport.create_ref(); }
-
-		Format get_color_attachment_format() const override;
-
-		Format get_depth_attachment_format() const override;
-
 #pragma endregion
 
 #pragma region Methods
@@ -95,7 +85,8 @@ namespace Minty
 
 		void destroy_depth_resources();
 
-		void recreate_depth_resources();
+	protected:
+		void recreate_depth_resources() override;
 
 	public:
 		void initialize() override;
