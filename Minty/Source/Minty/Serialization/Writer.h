@@ -153,7 +153,7 @@ namespace Minty
 			outdent();
 		}
 
-		template<typename T, typename std::enable_if<!is_asset<T>::value && is_serializable<T>::value, int>::type = 0>
+		template<typename T, typename std::enable_if<!is_asset<T>::value&& is_serializable<T>::value, int>::type = 0>
 		void write(String const& name, T const& data)
 		{
 			data.serialize(*this, name);
@@ -639,7 +639,10 @@ namespace Minty
 		/// <returns>True on success.</returns>
 		void indent(String const& name) override
 		{
-			Writer::write(name);
+			if (!name.is_empty())
+			{
+				Writer::write(name);
+			}
 			indent();
 		}
 
