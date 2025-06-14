@@ -74,7 +74,6 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	depthImageBuilder.type = ImageType::D2;
 	depthImageBuilder.usage = ImageUsage::DepthStencil;
 	depthImageBuilder.immutable = false;
-	MINTY_LOG(F("Creating depth image with size {}.", depthImageBuilder.size));
 	set_depth_image(Owner<Vulkan_Image>(depthImageBuilder));
 }
 
@@ -233,30 +232,39 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 	return true;
 }
 
+void Minty::Vulkan_RenderManager::abort_frame()
+{
+	// reset current command buffer
+	Vulkan_Frame const& frame = get_current_frame();
+	VkCommandBuffer commandBuffer = frame.commandBuffer;
+	Vulkan_Renderer::reset_command_buffer(commandBuffer);
+
+	RenderManager::abort_frame();
+}
+
 void Minty::Vulkan_RenderManager::end_frame()
 {
+	// if no passes made, abort
+	if (!m_passesMade)
+	{
+		abort_frame();
+		return;
+	}
+
 	// get command buffer
 	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
 
-	// only submit if we have made passes
-	if (m_passesMade)
-	{
-		// end and submit the command buffer
-		Vulkan_Renderer::end_command_buffer(commandBuffer);
-		Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
+	// end and submit the command buffer
+	Vulkan_Renderer::end_command_buffer(commandBuffer);
+	Vulkan_Renderer::submit_command_buffer(commandBuffer, frame, get_graphics_queue());
 
-		VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_vulkanSurface.get(), frame);
+	VkResult result = Vulkan_Renderer::present_frame(get_present_queue(), *m_vulkanSurface.get(), frame);
 
-		// check for recreating swapchain
-		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
-		{
-			refresh();
-		}
-	}
-	else
+	// check for recreating swapchain
+	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR)
 	{
-		MINTY_ABORT("No passes made in this frame. Make sure there is a RenderPass, RenderTarget and an Entity with a CameraComponent that has a valid Camera with a valid RenderTarget.");
+		refresh();
 	}
 
 	// next frame

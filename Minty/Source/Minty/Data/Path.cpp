@@ -33,6 +33,40 @@ Path Minty::Path::get_extension() const
 	return Path(m_path.extension().string().data());
 }
 
+Path Minty::Path::get_extension_full() const
+{
+	// get the full path
+	String fullPath = get_string();
+	
+	// find the last /
+	Size lastSlash = fullPath.find_last('/');
+
+	Size start;
+
+	// if none, search whole string
+	if (lastSlash == INVALID_INDEX)
+	{
+		start = 0;
+	}
+	else
+	{
+		// search after the last slash
+		start = lastSlash + 1;
+	}
+
+	// find the first .
+	Size firstDot = fullPath.find_first('.', start);
+
+	// if none, return empty
+	if (firstDot == INVALID_INDEX)
+	{
+		return Path();
+	}
+
+	// return from the first . to the end
+	return Path(fullPath.sub(firstDot).get_data());
+}
+
 Path Minty::Path::get_relative_to(Path const& other) const
 {
 	return Path(m_path.lexically_relative(other.m_path).string().data());

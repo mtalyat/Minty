@@ -213,7 +213,7 @@ namespace Minty
 		/// <summary>
 		/// Aborts the current started frame.
 		/// </summary>
-		void abort_frame();
+		virtual void abort_frame();
 
 		/// <summary>
 		/// Finishes rendering a frame.

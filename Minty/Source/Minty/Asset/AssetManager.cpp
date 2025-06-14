@@ -307,9 +307,9 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 
 UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onCompletion)
 {
-	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
+	MINTY_ASSERT(exists(path), F("Cannot load Asset. The file does not exist: {}", path));
 	Path metaPath = Asset::get_meta_path(path);
-	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
+	MINTY_ASSERT(exists(metaPath), F("Cannot load Asset. The meta file does not exist: {}", metaPath));
 
 	JobManager& jobManager = JobManager::get_singleton();
 
@@ -350,9 +350,9 @@ UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onComp
 Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 {
 #ifdef MINTY_DEBUG
-	MINTY_ASSERT(exists(path), "Cannot load Asset. The file does not exist.");
+	MINTY_ASSERT(exists(path), F("Cannot load Asset. The file does not exist: {}", path));
 	Path metaPath = Asset::get_meta_path(path);
-	MINTY_ASSERT(exists(metaPath), "Cannot load Asset. The meta file does not exist.");
+	MINTY_ASSERT(exists(metaPath), F("Cannot load Asset. The meta file does not exist: {}", metaPath));
 #endif // MINTY_DEBUG  
 
 	AssetType type = Asset::get_asset_type(path);

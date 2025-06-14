@@ -374,6 +374,7 @@ void Minty::RenderSystem::on_render()
 	RenderManager& renderManager = RenderManager::get_singleton();
 
 	// render each camera
+	Int count = 0;
 	for (auto const& [cameraEntity, cameraComp] : entityManager.view<CameraComponent>().each())
 	{
 		// create the camera info
@@ -397,5 +398,9 @@ void Minty::RenderSystem::on_render()
 
 		// end the pass
 		renderManager.end_pass();
+
+		count++;
 	}
+
+	MINTY_ASSERT(count > 0, "No cameras found to render from.");
 }

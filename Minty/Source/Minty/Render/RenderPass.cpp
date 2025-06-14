@@ -29,8 +29,6 @@ void Minty::RenderPass::refresh()
 	MINTY_ASSERT(surface != nullptr, "Failed to refresh RenderPass. No surface found.");
 	Vector<Ref<Image>> surfaceImages = surface->get_images();
 
-	Debug::write_line("Render pass image new size: ", to_string(surfaceImages.front()->get_size()));
-
 	// set the render pass to self
 	Owner<RenderPass> self = Owner<RenderPass>(this);
 	builder.renderPass = self.create_ref();

@@ -174,6 +174,10 @@ void Minty::SceneManager::update(Time const& time)
 	{
 		m_activeScene->on_update(time);
 	}
+	else
+	{
+		MINTY_WARNING("No active Scene.");
+	}
 }
 
 void Minty::SceneManager::finalize()
