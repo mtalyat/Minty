@@ -182,12 +182,6 @@ namespace Minty
 		void sync() override;
 
 		/// <summary>
-		/// Handles the given Event.
-		/// </summary>
-		/// <param name="event">The Event to handle.</param>
-		void handle_event(Event& event) override;
-
-		/// <summary>
 		/// Checks if any Assets are being loaded or unloaded.
 		/// </summary>
 		Bool is_syncing() const;

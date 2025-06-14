@@ -3,11 +3,14 @@
 #include "Minty/Context/Context.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Render/Camera.h"
+#include "Minty/Render/Image.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
 #include "Minty/Render/Mesh.h"
+#include "Minty/Render/RenderPass.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/Texture.h"
+#include "Minty/Event/WindowResizeEvent.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
@@ -135,12 +138,17 @@ void Minty::RenderManager::draw_instances(UInt const instanceCount, UInt const v
 Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 	: m_state(State::Idle)
 	, m_window(builder.window)
+	, m_resizePending(false)
 	, m_boundShader(nullptr)
 	, m_boundMaterial(nullptr)
 	, m_boundMesh(nullptr)
 	, m_camera(nullptr)
 	, m_cameraMatrix()
+	, m_surface(nullptr)
+	, m_depthImage(nullptr)
+	, m_defaultViewport(nullptr)
 	, m_defaultMeshes()
+	, m_defaultMaterials()
 {
 	// if no window given, use the Context's window
 	if (m_window == nullptr)
@@ -253,6 +261,52 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 	return material;
 }
 
+void Minty::RenderManager::refresh()
+{
+	// sync before refreshing
+	sync();
+
+	// refresh the surface
+	Ref<Surface> surface = get_surface();
+	if (surface != nullptr)
+	{
+		surface->refresh();
+	}
+
+	// recreate depth resources
+	recreate_depth_resources();
+
+	UInt2 size = surface->get_size();
+
+	// refresh the default viewport
+	Ref<Viewport> defaultViewport = get_default_viewport();
+	defaultViewport->set_size(size);
+
+	// refresh default render passes
+	AssetManager& assetManager = AssetManager::get_singleton();
+	for (auto const& renderPass : assetManager.get_by_type<RenderPass>())
+	{
+		renderPass->refresh();
+	}
+}
+
+void Minty::RenderManager::initialize()
+{
+	Manager::initialize();
+}
+
+void Minty::RenderManager::dispose()
+{
+	Manager::dispose();
+
+	// dispose default materials
+	m_surface.release();
+	m_depthImage.release();
+	m_defaultViewport.release();
+	m_defaultMeshes.clear();
+	m_defaultMaterials.clear();
+}
+
 Bool Minty::RenderManager::start_frame()
 {
 	MINTY_ASSERT(m_state != State::Frame, "Attempting to start a frame while already rendering a frame.");
@@ -263,6 +317,15 @@ Bool Minty::RenderManager::start_frame()
 
 	// ready to render
 	return true;
+}
+
+void Minty::RenderManager::abort_frame()
+{
+	MINTY_ASSERT(m_state != State::Idle, "Attempting to abort a frame while not rendering a frame.");
+	MINTY_ASSERT(m_state != State::Pass, "Attempting to abort a frame while rendering a pass. End the pass first.");
+
+	// reset state
+	m_state = State::Idle;
 }
 
 void Minty::RenderManager::end_frame()
@@ -312,4 +375,13 @@ void Minty::RenderManager::end_pass()
 
 	// reset state
 	m_state = State::Frame;
+}
+
+void Minty::RenderManager::handle_event(Event& event)
+{
+	if (event.get_type() == EventType::WindowResize)
+	{
+		// mark resize pending
+		m_resizePending = true;
+	}
 }

@@ -15,6 +15,7 @@ Minty::RenderTarget::RenderTarget(RenderTargetBuilder const& builder)
 	: Asset(builder.id)
 	, m_renderPass(builder.renderPass)
 	, m_images(builder.images)
+	, m_surfaceBound(builder.surfaceBound)
 {
 	MINTY_ASSERT(m_renderPass != nullptr, "RenderTargetBuilder renderPass must not be null.");
 	MINTY_ASSERT(!m_images.is_empty(), "RenderTargetBuilder images must not be empty.");

@@ -8,8 +8,10 @@
 #include "Minty/Render/Buffer.h"
 #include "Minty/Render/CameraInfo.h"
 #include "Minty/Render/Format.h"
+#include "Minty/Render/Image.h"
 #include "Minty/Render/MeshType.h"
 #include "Minty/Render/Space.h"
+#include "Minty/Render/Surface.h"
 
 namespace Minty
 {
@@ -65,12 +67,24 @@ namespace Minty
 		State m_state;
 		Ref<Window> m_window;
 
+		Bool m_resizePending;
+
+		// current binds
+
 		Ref<Shader> m_boundShader;
 		Ref<Material> m_boundMaterial;
 		Ref<Mesh> m_boundMesh;
 		Ref<Camera> m_camera;
 		Matrix4 m_cameraMatrix;
 
+		// global resources
+		
+		Owner<Surface> m_surface;
+		Owner<Image> m_depthImage;
+
+		// default resources
+
+		Owner<Viewport> m_defaultViewport;
 		Map<MeshType, Ref<Mesh>> m_defaultMeshes;
 		Map<TexMatKey, Ref<Material>> m_defaultMaterials;
 
@@ -98,28 +112,64 @@ namespace Minty
 		// gets the state of the RenderManager
 		State get_state() const { return m_state; }
 
+		Bool check_resize_pending()
+		{
+			if (m_resizePending)
+			{
+				m_resizePending = false;
+				return true;
+			}
+			return false;
+		}
+
+		inline void set_surface(Owner<Surface>&& surface) { m_surface = std::move(surface); }
+
+		inline void set_depth_image(Owner<Image>&& image) { m_depthImage = std::move(image); }
+
+		inline void set_default_viewport(Owner<Viewport>&& viewport) { m_defaultViewport = std::move(viewport); }
+
 	public:
 		/// <summary>
 		/// Gets the Window that this RenderManager is rendering to.
 		/// </summary>
 		/// <returns>The Window.</returns>
-		Ref<Window> const& get_window() const { return m_window; }
+		inline Ref<Window> const& get_window() const { return m_window; }
 
 		/// <summary>
 		/// Gets the Surface that this RenderManager is rendering to.
 		/// </summary>
 		/// <returns>The Surface.</returns>
-		virtual Ref<Surface> get_surface() const = 0;
+		inline Ref<Surface> get_surface() const { return m_surface.create_ref(); }
+
+		/// <summary>
+		/// Gets the depth Image used for depth testing.
+		/// </summary>
+		/// <returns>The depth Image.</returns>
+		inline Ref<Image> get_depth_image() const { return m_depthImage.create_ref(); }
+
+		/// <summary>
+		/// Gets the default Viewport that renders to the entire Surface.
+		/// </summary>
+		/// <returns>The default Viewport.</returns>
+		inline Ref<Viewport> get_default_viewport() { return m_defaultViewport.create_ref(); }
 
 		/// <summary>
 		/// Gets the default Viewport that renders to the entire Window.
 		/// </summary>
 		/// <returns>The default Viewport.</returns>
-		virtual Ref<Viewport> get_default_viewport() const = 0;
+		inline Ref<Viewport> get_default_viewport() const { return m_defaultViewport.create_ref(); }
 
-		virtual Format get_color_attachment_format() const = 0;
+		/// <summary>
+		/// Gets the color attachment format of the current Surface.
+		/// </summary>
+		/// <returns>The attachment Format.</returns>
+		inline Format get_color_attachment_format() const { return m_surface->get_format(); }
 
-		virtual Format get_depth_attachment_format() const = 0;
+		/// <summary>
+		/// Gets the depth attachment format of the current depth Image.
+		/// </summary>
+		/// <returns>The attachment Format.</returns>
+		inline Format get_depth_attachment_format() const { return m_depthImage->get_format(); }
 
 		/// <summary>
 		/// Gets the default Mesh for the given type.
@@ -141,12 +191,29 @@ namespace Minty
 
 #pragma region Methods
 
+	protected:
+		/// <summary>
+		/// Refreshes the Surface and related resources.
+		/// </summary>
+		void refresh();
+
+		virtual	void recreate_depth_resources() = 0;
+
 	public:
+		void initialize() override;
+
+		void dispose() override;
+
 		/// <summary>
 		/// Prepares to render a frame.
 		/// </summary>
 		/// <returns>True, on success. Returns false when the frame should be skipped.</returns>
 		virtual Bool start_frame();
+
+		/// <summary>
+		/// Aborts the current started frame.
+		/// </summary>
+		void abort_frame();
 
 		/// <summary>
 		/// Finishes rendering a frame.
@@ -163,6 +230,8 @@ namespace Minty
 		/// Finishes the current render pass.
 		/// </summary>
 		virtual void end_pass();
+
+		void handle_event(Event& event) override;
 
 #pragma region Bind
 

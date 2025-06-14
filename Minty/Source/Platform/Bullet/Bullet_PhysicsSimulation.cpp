@@ -160,6 +160,12 @@ Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const
 		return false;
 	}
 
+	// if the direction is zero, nothing is going to be hit
+	if (direction == Math::ZERO)
+	{
+		return false;
+	}
+
 	// create the ray
 	btVector3 btOrigin = Bullet_Physics::to_bullet(origin);
 	btVector3 btDirection = Bullet_Physics::to_bullet(direction);

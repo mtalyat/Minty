@@ -210,7 +210,10 @@ void Minty::Context::finalize()
 void Minty::Context::render()
 {
 	// start rendering
-	m_renderManager->start_frame();
+	if (!m_renderManager->start_frame())
+	{
+		return;
+	}
 
 	// render managers
 	for (Manager* manager : m_managers)

@@ -216,27 +216,6 @@ void Minty::AssetManager::sync()
 	run_completion_jobs();
 }
 
-void Minty::AssetManager::handle_event(Event& event)
-{
-	if (event.get_type() == EventType::WindowResize)
-	{
-		WindowResizeEvent& resizeEvent = static_cast<WindowResizeEvent&>(event);
-
-		// sync render manager
-		RenderManager& renderManager = RenderManager::get_singleton();
-		renderManager.sync();
-
-		// resize all of the render targets
-		RenderTargetBuilder builder{};
-		builder.id = INVALID_ID;
-
-		for (auto const& renderPass : get_by_type<RenderPass>())
-		{
-			renderPass->refresh(builder);
-		}
-	}
-}
-
 Bool Minty::AssetManager::is_syncing() const
 {
 	// if any handles saved, the manager is syncing asset files
@@ -1485,10 +1464,13 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 			RenderManager& renderManager = RenderManager::get_singleton();
 			Ref<Surface> surface = renderManager.get_surface();
 			MINTY_ASSERT(surface != nullptr, "Failed to load render target. No surface found.");
+			builder.surfaceBound = true;
 			builder.images = surface->get_images();
 		}
 		else
 		{
+			builder.surfaceBound = false;
+
 			// manually providing the images
 			// read the images
 			if (reader->indent("Images"))
