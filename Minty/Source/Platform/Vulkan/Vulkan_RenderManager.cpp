@@ -74,7 +74,6 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	depthImageBuilder.type = ImageType::D2;
 	depthImageBuilder.usage = ImageUsage::DepthStencil;
 	depthImageBuilder.immutable = false;
-	MINTY_LOG(F("Creating depth image with size {}.", depthImageBuilder.size));
 	set_depth_image(Owner<Vulkan_Image>(depthImageBuilder));
 }
 

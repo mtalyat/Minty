@@ -121,4 +121,5 @@ void Minty::Vulkan_Surface::refresh()
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(renderManager.get_physical_device(), m_surface);
 	initialize_swapchain(m_format, renderManager, queueFamilyIndices);
+	Debug::write_message(F("Surface refreshed with new size: {}.", get_size()));
 }
