@@ -52,6 +52,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
+		/// <summary>
+		/// Creates a new SceneManager.
+		/// </summary>
+		/// <param name="builder">The arguments.</param>
 		SceneManager(SceneManagerBuilder const& builder)
 			: Manager()
 			, m_initialScene(builder.initialScene)
@@ -59,6 +63,7 @@ namespace Minty
 			, m_activeScene(nullptr)
 			, m_nextScene(nullptr)
 		{
+			MINTY_ASSERT(m_initialScene.is_empty() || Path::exists(m_initialScene), "The initial scene path does not exist.");
 		}
 
 		~SceneManager()

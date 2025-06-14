@@ -96,6 +96,7 @@ namespace Minty
 		void sync() override;
 
 		Bool start_frame() override;
+		void abort_frame() override;
 		void end_frame() override;
 
 		Bool start_pass(CameraInfo const& cameraInfo) override;

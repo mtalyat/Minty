@@ -298,10 +298,16 @@ namespace Minty
 		Path get_absolute() const;
 
 		/// <summary>
-		/// Gets the extension of this Path.
+		/// Gets the last extension of this Path.
 		/// </summary>
 		/// <returns>A path with just the extension.</returns>
 		Path get_extension() const;
+
+		/// <summary>
+		/// Gets the full extension of this Path, including multiple extensions.
+		/// </summary>
+		/// <returns>A path with just the extension.</returns>
+		Path get_extension_full() const;
 
 		/// <summary>
 		/// Gets the lexically relative path to the given Path.

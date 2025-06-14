@@ -169,7 +169,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="capacity">The amount of characters to allocate.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		String(Size const capacity, Allocator const allocator = Allocator::Default);
+		explicit String(Size const capacity, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Creates a String and copies the given data.
@@ -184,7 +184,7 @@ namespace Minty
 		/// <param name="character">The character to repeat.</param>
 		/// <param name="count">The number of characters to repeat.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		String(Char const character, Size const count, Allocator const allocator = Allocator::Default);
+		explicit String(Char const character, Size const count, Allocator const allocator = Allocator::Default);
 
 		/// <summary>
 		/// Copies the given String.
@@ -410,6 +410,13 @@ namespace Minty
 		/// <param name="length">The number of characters to use.</param>
 		/// <returns>A new String with the text within the given range.</returns>
 		String sub(Size const start, Size const length) const;
+
+		/// <summary>
+		/// Gets the sub string starting from the given index to the end of the String.
+		/// </summary>
+		/// <param name="start">The index of the first character.</param>
+		/// <returns>A new String with the text within the given range.</returns>
+		String sub(Size const start) const;
 
 		String trim_start(String const& characters = TEXT_WHITESPACE);
 

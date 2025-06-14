@@ -228,6 +228,11 @@ String Minty::String::sub(Size const start, Size const length) const
 	return result;
 }
 
+String Minty::String::sub(Size const start) const
+{
+	return sub(start, m_size - start);
+}
+
 String Minty::String::trim_start(String const& characters)
 {
 	Size index = find_first_not_of(characters);

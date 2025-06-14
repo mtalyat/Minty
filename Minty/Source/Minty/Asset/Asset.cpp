@@ -74,7 +74,13 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 		{ EXTENSION_FONT, AssetType::Font }
 	};
 
-	auto found = types.find(path.get_extension());
+	auto found = types.find(path.get_extension_full());
+
+	// if not found, try just the last extension
+	if (found == types.end())
+	{
+		found = types.find(path.get_extension());
+	}
 
 	// extension not found
 	if (found == types.end())
