@@ -111,6 +111,47 @@ Node Minty::parse_to_node(String const& string)
 
 	int const SPACES_PER_TAB = 4;
 
+	// remove all comments from the lines
+	Bool inBlockComment = false;
+	for (String& line : lines)
+	{
+		String cleanLine;
+		cleanLine.reserve(line.get_size());
+		Size i = 0;
+		while (i < line.get_size())
+		{
+			Char c = line.at(i);
+			if (inBlockComment)
+			{
+				if (c == '-' && i + 1 < line.get_size() && line.at(i + 1) == '#')
+				{
+					inBlockComment = false;
+					i += 2;
+				}
+				else
+				{
+					i++;
+				}
+			}
+			else if (c == '#' && i + 1 < line.get_size() && line.at(i + 1) == '-')
+			{
+				inBlockComment = true;
+				i += 2;
+			}
+			else if (c == '#' && i + 1 < line.get_size() && line.at(i + 1) == ' ')
+			{
+				// single-line comment, skip to end of line
+				break;
+			}
+			else
+			{
+				cleanLine.append(c);
+				i++;
+			}
+		}
+		line = cleanLine;
+	}
+
 	Vector<Tuple<String, NodeMacro>> macros;
 	for (Size lineIndex = 0; lineIndex < lines.get_size(); lineIndex++)
 	{
