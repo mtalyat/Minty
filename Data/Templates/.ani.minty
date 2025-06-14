@@ -1,0 +1,19 @@
+Duration: 1.0
+Loop: False
+Entities
+    - 
+Components
+    - 
+Variables
+    - 
+Values
+    - 
+Actions
+    - 0/0/0/0/0
+Steps
+    0.0
+        - 0
+    1.0
+        - 0
+Reset
+    - 0

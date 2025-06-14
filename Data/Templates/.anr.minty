@@ -1,0 +1,14 @@
+Scope
+    x: 0
+Start: State1
+States
+    State1
+        Value: Object: 0000000000000000
+        Transitions
+            - State2
+                x == 1
+    State2
+        Value: Object: 0000000000000000
+        Transitions
+            - State1
+                x == 0

@@ -2,7 +2,7 @@
 #include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/FSM/Condition.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializable.h"
 
 namespace Minty
 {
@@ -10,7 +10,7 @@ namespace Minty
 	/// A Transition is a set of conditions that must be met in order for a State to transition to another State.
 	/// </summary>
 	class Transition
-		: public SerializableObject
+		: public Serializable
 	{
 #pragma region Variables
 
@@ -71,8 +71,8 @@ namespace Minty
 		/// <returns>True if this Transition is valid, otherwise false.</returns>
 		Bool evaluate(BasicScope const& scope) const;
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+		void serialize(Writer& writer, String const& name) const override;
+		Bool deserialize(Reader& reader, Size const index) override;
 
 #pragma endregion
 	};
