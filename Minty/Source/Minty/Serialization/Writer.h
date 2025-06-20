@@ -361,8 +361,9 @@ namespace Minty
 		/// <typeparam name="T">The type of Asset.</typeparam>
 		/// <param name="name">The name of the Asset.</param>
 		/// <param name="asset">The Asset.</param>
-		template<typename T, typename std::enable_if<is_asset<T>::value, int>::type = 0>
-		void write(String const& name, Ref<T> const& asset)
+		template<typename T>
+		void write(String const& name, T const& asset
+		, typename std::enable_if<is_asset<T>::value, int>::type = 0)
 		{
 			write_asset(name, asset);
 		}

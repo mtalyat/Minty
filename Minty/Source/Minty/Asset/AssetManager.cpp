@@ -4,6 +4,7 @@
 #include "Minty/Animation/Animator.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Entity/Prefab.h"
 #include "Minty/Library/STB.h"
 #include "Minty/Render/Font.h"
 #include "Minty/Render/FontVariant.h"
@@ -167,8 +168,10 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path, AssetType const typ
 		return load_animator(path, id);
 	case AssetType::AudioClip:
 		return load_audio_clip(path, id);
+	case AssetType::Prefab:
+		return load_prefab(path, id);
 	default:
-		MINTY_ABORT("Not implemented.");
+		MINTY_ABORT("Loading from path not implemented for the given type.");
 		return Ref<Asset>();
 	}
 }
@@ -1404,6 +1407,25 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
 		MINTY_ERROR(F("Cannot load mesh. Unsupported file type: {}", extension));
 		return Ref<Mesh>();
 	}
+}
+
+Ref<Prefab> Minty::AssetManager::load_prefab(Path const& path, UUID const id)
+{
+	// create builder
+	PrefabBuilder builder{};
+	builder.id = id;
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// just save the values
+		builder.source = reader->get_node();
+
+		close_reader(reader);
+	}
+
+	return create_from_loaded<Prefab>(path, builder);
 }
 
 Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID const id)

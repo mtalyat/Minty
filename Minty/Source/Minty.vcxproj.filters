@@ -957,6 +957,12 @@
     <ClInclude Include="Minty\Core\Evaluate.h">
       <Filter>Minty\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Entity\Prefab.h">
+      <Filter>Minty\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\PrefabComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1521,6 +1527,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Core\Evaluate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Entity\Prefab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Entity\EntitySerializationData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

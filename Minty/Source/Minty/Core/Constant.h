@@ -78,6 +78,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_MESH_OBJECT = ".obj";
 	constexpr Char const* EXTENSION_META = ".meta";
 	constexpr Char const* EXTENSION_PNG = ".png";
+	constexpr Char const* EXTENSION_PREFAB = ".pre.minty";
 	constexpr Char const* EXTENSION_RENDER_PASS = ".rpa.minty";
 	constexpr Char const* EXTENSION_RENDER_TARGET = ".rta.minty";
 	constexpr Char const* EXTENSION_SCENE = ".sce.minty";
@@ -212,6 +213,7 @@ namespace Minty
 #pragma region UUID
 
 	constexpr ID INVALID_ID = 0;
+	constexpr Size UUID_HEX_CHAR_COUNT = 16;
 
 #pragma endregion
 

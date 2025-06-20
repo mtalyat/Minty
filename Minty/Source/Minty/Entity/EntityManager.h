@@ -3,7 +3,9 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Entity/EntityPath.h"
+#include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Entity/EntityView.h"
+#include "Minty/Entity/Prefab.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
@@ -82,6 +84,8 @@ namespace Minty
 	public:
 		UUID get_id(Entity const entity) const;
 
+		void set_id(Entity const entity, UUID const id);
+
 		Entity get_entity(UUID const id) const;
 
 		Entity get_entity(Entity const source, EntityPath const& path) const;
@@ -120,6 +124,8 @@ namespace Minty
 	private:
 		// finalizes dirty components
 		void finalize_dirties();
+
+		Entity create_entity_smart(String const& name, UUID const id);
 
 	public:
 		/// <summary>
@@ -201,6 +207,14 @@ namespace Minty
 		Entity create_entity(String const& name, UUID const id);
 
 		/// <summary>
+		/// Creates an Entity based on the given Prefab.
+		/// </summary>
+		/// <param name="id">The new ID to use.</param>
+		/// <param name="prefab">The Prefab.</param>
+		/// <returns>The first Entity created by the Prefab.</returns>
+		Entity create_entity(UUID const id, Ref<Prefab> const& prefab);
+
+		/// <summary>
 		/// Adds a Component to the given Entity.
 		/// </summary>
 		/// <typeparam name="ComponentType"></typeparam>
@@ -234,6 +248,15 @@ namespace Minty
 		Component& get_component(Entity const entity, String const& name);
 
 		Component const& get_component(Entity const entity, String const& name) const;
+
+		template<typename ComponentType>
+		ComponentType& get_or_add_component(Entity const entity)
+		{
+			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			return m_registry.emplace_or_replace<ComponentType>(entity);
+		}
+
+		Component& get_or_add_component(Entity const entity, String const& name);
 
 		template<typename ComponentType>
 		ComponentType* try_get_component(Entity const entity)
@@ -351,7 +374,7 @@ namespace Minty
 
 		void move_to_last(Entity const entity);
 
-		void destroy(Entity const entity);
+		void destroy_entity(Entity const entity);
 
 		template<typename ComponentType>
 		void destroy_with()
@@ -371,8 +394,11 @@ namespace Minty
 		// deserializes just the entity at the index
 		Entity deserialize_entity(Reader& reader, Size const index);
 		// deserializes the components of the entity at the index
-		Bool deserialize_components(Reader& reader, Entity const entity, Size const index);
-
+		Bool deserialize_components(Reader& reader, Size const index, EntitySerializationData data);
+		// deserialize the entities from the prefab
+		Bool deserialize_prefab(Reader& reader, Map<UUID, UUID>& idMap);
+		// deserialize the override values for a prefab
+		Bool deserialize_prefab_entity(Reader& reader, Ref<Prefab> const& prefab);
 	public:
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
@@ -396,6 +422,13 @@ namespace Minty
 		/// </summary>
 		/// <returns>The EntityManager.</returns>
 		static EntityManager& get_singleton();
+
+#pragma region Entity Serialization Utility
+
+		public:
+			static void deserialize_entity(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId);
+
+#pragma endregion
 
 #pragma endregion
 };

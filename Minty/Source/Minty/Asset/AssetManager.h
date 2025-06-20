@@ -29,6 +29,7 @@ namespace Minty
 	class Material;
 	class MaterialTemplate;
 	class Mesh;
+	class Prefab;
 	struct RenderAttachment;
 	class RenderPass;
 	class RenderTarget;
@@ -363,6 +364,17 @@ namespace Minty
 		inline Ref<Mesh> load<Mesh>(Path const& path)
 		{
 			return load_mesh(path, read_id(path));
+		}
+		
+		/// <summary>
+		/// Loads the Asset specifically as a Prefab at the given Path.
+		/// </summary>
+		/// <param name="path">The Path to the Prefab Asset.</param>
+		/// <returns>A reference to the loaded Prefab Asset.</returns>
+		template<>
+		inline Ref<Prefab> load<Prefab>(Path const& path)
+		{
+			return load_prefab(path, read_id(path));
 		}
 
 		/// <summary>
@@ -708,6 +720,8 @@ namespace Minty
 		Ref<Mesh> load_mesh_obj(Path const& path, UUID const id);
 
 		Ref<Mesh> load_mesh(Path const& path, UUID const id);
+
+		Ref<Prefab> load_prefab(Path const& path, UUID const id);
 
 		Ref<RenderPass> load_render_pass(Path const& path, UUID const id);
 

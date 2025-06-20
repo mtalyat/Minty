@@ -13,6 +13,7 @@
 #include "LayerComponent.h"
 #include "MeshComponent.h"
 #include "NameComponent.h"
+#include "PrefabComponent.h"
 #include "RelationshipComponent.h"
 #include "RigidBodyComponent.h"
 #include "SimulateComponent.h"

@@ -4,6 +4,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Map.h"
 
+#include "Minty/Entity/Prefab.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Material.h"
@@ -71,7 +72,13 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 		{ EXTENSION_WRAP, AssetType::Wrap },
 
 		{ EXTENSION_FONT_VARIANT, AssetType::FontVariant },
-		{ EXTENSION_FONT, AssetType::Font }
+		{ EXTENSION_FONT, AssetType::Font },
+
+		{ EXTENSION_PREFAB, AssetType::Prefab },
+
+		{ EXTENSION_MINTY, AssetType::Generic },
+		{ EXTENSION_TEXT, AssetType::Generic },
+		{ EXTENSION_CSV, AssetType::Generic },
 	};
 
 	auto found = types.find(path.get_extension_full());
@@ -129,6 +136,10 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 		{ typeid(FontVariant), AssetType::FontVariant },
 
 		{ typeid(Font), AssetType::Font},
+
+		{ typeid(GenericAsset), AssetType::Generic },
+
+		{ typeid(Prefab), AssetType::Prefab }
 	};
 
 	auto found = types.find(typeId);

@@ -32,7 +32,13 @@ UUID Minty::parse_to_uuid(String const& string)
 Bool Minty::parse_try_uuid(String const& string, UUID& value)
 {
 	// check if empty or "NULL"
-	if (string.is_empty() || string == "NULL" || string == "null")
+	if (string.is_empty())
+	{
+		value = UUID();
+		return false;
+	}
+
+	if (string == "NULL" || string == "null")
 	{
 		value = UUID();
 		return true;

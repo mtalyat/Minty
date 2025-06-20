@@ -206,9 +206,8 @@ namespace Minty
 		{
 			// default: read as string
 			String stringData;
-			if (read_string(index, stringData))
+			if (read_string(index, stringData) && parse_try<T>(stringData, obj))
 			{
-				obj = parse_to<T>(stringData);
 				return true;
 			}
 			return false;
@@ -645,31 +644,22 @@ namespace Minty
 		/// <param name="asset">The Asset.</param>
 		/// <returns>True on success.</returns>
 		template<typename T>
-		Bool read(Size const index, Ref<T>& asset,
+		Bool read(Size const index, T& asset,
 			typename std::enable_if<is_asset<T>::value, int>::type = 0)
 		{
-			Ref<Asset> assetRef = asset.cast_to<Asset>();
+			Ref<Asset> assetRef = static_cast<Ref<Asset>>(asset);
 			Bool result = read_asset(index, assetRef);
-			asset = assetRef.cast_to<T>();
+			asset = static_cast<T>(assetRef);
 			return result;
 		}
 
-		// special case for Assets
+		/// <summary>
+		/// Reads the value of the current node into the given object.
+		/// </summary>
+		/// <typeparam name="T">The type of object.</typeparam>
+		/// <param name="obj">The object.</param>
+		/// <returns>True on success.</returns>
 		template<typename T>
-		Bool read_default(Ref<T>& obj)
-		{
-			// create temporary reader with just the value from this node
-			Node const& current = get_node();
-			DynamicContainer const& data = current.get_data();
-			Node tempRoot{};
-			Node temp(TEXT_EMPTY, data.get_data(), data.get_size());
-			tempRoot.add_child(temp);
-			TextNodeReader reader(tempRoot, m_allocator);
-			return reader.read<T>(0, obj);
-		}
-
-		// normal case for non-Assets
-		template<typename T> 
 		Bool read_default(T& obj)
 		{
 			// create temporary reader with just the value from this node

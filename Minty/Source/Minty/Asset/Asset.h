@@ -10,10 +10,25 @@
 namespace Minty
 {
 	class Asset;
+	// Helper to remove const, volatile, and reference qualifiers
+	template<typename T>
+	using remove_cvref_t = std::remove_cv_t<std::remove_reference_t<T>>;
+
+	// Primary template: false by default
 	template<typename T, typename = void>
 	struct is_asset : std::false_type {};
+
+	// Specialization for Ref<T> where T derives from Asset
 	template<typename T>
-	struct is_asset<T, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
+	struct is_asset<Ref<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
+
+	//// Specialization for Owner<T> where T derives from Asset
+	//template<typename T>
+	//struct is_asset<Owner<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
+
+	// Forwarding specialization to handle cv/ref-qualified types
+	template<typename T>
+	struct is_asset<T, std::enable_if_t<!std::is_same_v<T, remove_cvref_t<T>>>> : is_asset<remove_cvref_t<T>> {};
 
 	/// <summary>
 	/// The base class for all Asset types.

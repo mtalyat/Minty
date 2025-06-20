@@ -211,6 +211,81 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float2 lerp(Float2 const left, Float2 const right, Float const t)
+		{
+			return Float2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float3 lerp(Float3 const left, Float3 const right, Float const t)
+		{
+			return Float3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float4 lerp(Float4 const left, Float4 const right, Float const t)
+		{
+			return Float4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		constexpr Double2 lerp(Double2 const left, Double2 const right, Double const t)
+		{
+			return Double2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		constexpr Double3 lerp(Double3 const left, Double3 const right, Double const t)
+		{
+			return Double3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		constexpr Double4 lerp(Double4 const left, Double4 const right, Double const t)
+		{
+			return Double4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
 		/// Gets the position between left and right, based on t, and clamps it between left and right.
 		/// </summary>
 		/// <typeparam name="T">The type of value to lerp.</typeparam>
@@ -235,6 +310,72 @@ namespace Minty
 		constexpr T_Out round(T_In const value)
 		{
 			return static_cast<T_Out>(std::round(value));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float2 round(Float2 const value)
+		{
+			return Float2(std::round(value.x), std::round(value.y));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float3 round(Float3 const value)
+		{
+			return Float3(std::round(value.x), std::round(value.y), std::round(value.z));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float4 round(Float4 const value)
+		{
+			return Float4(std::round(value.x), std::round(value.y), std::round(value.z), std::round(value.w));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double2 round(Double2 const value)
+		{
+			return Double2(std::round(value.x), std::round(value.y));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double3 round(Double3 const value)
+		{
+			return Double3(std::round(value.x), std::round(value.y), std::round(value.z));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double4 round(Double4 const value)
+		{
+			return Double4(std::round(value.x), std::round(value.y), std::round(value.z), std::round(value.w));
 		}
 
 		/// <summary>
@@ -264,6 +405,72 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float2 floor(Float2 const value)
+		{
+			return Float2(std::floor(value.x), std::floor(value.y));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float3 floor(Float3 const value)
+		{
+			return Float3(std::floor(value.x), std::floor(value.y), std::floor(value.z));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float4 floor(Float4 const value)
+		{
+			return Float4(std::floor(value.x), std::floor(value.y), std::floor(value.z), std::floor(value.w));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double2 floor(Double2 const value)
+		{
+			return Double2(std::floor(value.x), std::floor(value.y));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double3 floor(Double3 const value)
+		{
+			return Double3(std::floor(value.x), std::floor(value.y), std::floor(value.z));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double4 floor(Double4 const value)
+		{
+			return Double4(std::floor(value.x), std::floor(value.y), std::floor(value.z), std::floor(value.w));
+		}
+
+		/// <summary>
 		/// Floors the given value to the nearest value based on the given precision. The precision is the number of decimal places to floor to.
 		/// </summary>
 		/// <typeparam name="T">The type.</typeparam>
@@ -287,6 +494,72 @@ namespace Minty
 		constexpr T_Out ceiling(T_In const value)
 		{
 			return static_cast<T_Out>(std::ceil(value));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float2 ceiling(Float2 const value)
+		{
+			return Float2(std::ceil(value.x), std::ceil(value.y));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float3 ceiling(Float3 const value)
+		{
+			return Float3(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float4 ceiling(Float4 const value)
+		{
+			return Float4(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z), std::ceil(value.w));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double2 ceiling(Double2 const value)
+		{
+			return Double2(std::ceil(value.x), std::ceil(value.y));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double3 ceiling(Double3 const value)
+		{
+			return Double3(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Double4 ceiling(Double4 const value)
+		{
+			return Double4(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z), std::ceil(value.w));
 		}
 
 		/// <summary>
@@ -699,6 +972,54 @@ namespace Minty
 #pragma endregion
 
 #pragma region Utility
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float const a, Float const b, Float const epsilon = EPSILON)
+		{
+			return Math::abs(a - b) < epsilon;
+		}
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float2 const& a, Float2 const& b, Float const epsilon = EPSILON)
+		{
+			return close(a.x, b.x, epsilon) && close(a.y, b.y, epsilon);
+		}
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float3 const& a, Float3 const& b, Float const epsilon = EPSILON)
+		{
+			return close(a.x, b.x, epsilon) && close(a.y, b.y, epsilon) && close(a.z, b.z, epsilon);
+		}
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float4 const& a, Float4 const& b, Float const epsilon = EPSILON)
+		{
+			return close(a.x, b.x, epsilon) && close(a.y, b.y, epsilon) && close(a.z, b.z, epsilon) && close(a.w, b.w, epsilon);
+		}
 
 		/// <summary>
 		/// Normalizes the given Float3.

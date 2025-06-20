@@ -19,5 +19,5 @@ void Minty::CameraComponent::serialize(Writer& writer) const
 
 Bool Minty::CameraComponent::deserialize(Reader& reader)
 {
-	return reader.read_default<Camera>(camera) || reader.read("Camera", camera);
+	return reader.read_default<Ref<Camera>>(camera) || reader.read("Camera", camera);
 }

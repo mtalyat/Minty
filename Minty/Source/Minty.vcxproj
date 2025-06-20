@@ -206,6 +206,7 @@
     <ClInclude Include="Minty\Component\LayerComponent.h" />
     <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
+    <ClInclude Include="Minty\Component\PrefabComponent.h" />
     <ClInclude Include="Minty\Component\RelationshipComponent.h" />
     <ClInclude Include="Minty\Component\RigidBodyComponent.h" />
     <ClInclude Include="Minty\Component\SimulateComponent.h" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Minty\Entity\EntityPath.h" />
     <ClInclude Include="Minty\Entity\EntitySerializationData.h" />
     <ClInclude Include="Minty\Entity\EntityView.h" />
+    <ClInclude Include="Minty\Entity\Prefab.h" />
     <ClInclude Include="Minty\Entity\_Entity.h" />
     <ClInclude Include="Minty\Event\Event.h" />
     <ClInclude Include="Minty\Event\EventState.h" />
@@ -523,6 +525,8 @@
     <ClCompile Include="Minty\Debug\Debug.cpp" />
     <ClCompile Include="Minty\Entity\EntityManager.cpp" />
     <ClCompile Include="Minty\Entity\EntityPath.cpp" />
+    <ClCompile Include="Minty\Entity\EntitySerializationData.cpp" />
+    <ClCompile Include="Minty\Entity\Prefab.cpp" />
     <ClCompile Include="Minty\File\File.cpp" />
     <ClCompile Include="Minty\File\PhysicalFile.cpp" />
     <ClCompile Include="Minty\File\VirtualFile.cpp" />
