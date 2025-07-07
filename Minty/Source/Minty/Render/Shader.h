@@ -88,6 +88,11 @@ namespace Minty
 		Bool transparency = false;
 
 		/// <summary>
+		/// Enable depth testing in the Shader.
+		/// </summary>
+		Bool depthTest = true;
+
+		/// <summary>
 		/// The vertex input of the Shader.
 		/// </summary>
 		ShaderVertexInput vertexInput;

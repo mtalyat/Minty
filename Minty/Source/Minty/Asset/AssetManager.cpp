@@ -1557,6 +1557,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		reader->read("FrontFace", builder.frontFace);
 		reader->read("LineWidth", builder.lineWidth);
 		reader->read("Transparency", builder.transparency);
+		reader->read("DepthTest", builder.depthTest);
 
 		// inputs (uniform, push, etc.)
 		if (reader->indent("Inputs"))

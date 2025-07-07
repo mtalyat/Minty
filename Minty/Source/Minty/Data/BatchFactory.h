@@ -1,6 +1,6 @@
 #pragma once
 #include "Minty/Data/Batch.h"
-#include "Minty/Data/Set.h"
+#include "Minty/Data/Ordered.h"
 
 namespace Minty
 {
@@ -14,7 +14,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Set<Batch<N, Args...>> m_batches;
+		Ordered<Batch<N, Args...>> m_batches;
 		Size m_newBatchCapacity;
 
 #pragma endregion
@@ -42,8 +42,8 @@ namespace Minty
 #pragma region Iterators
 
 	public:
-		inline Set<Batch<N, Args...>>::Iterator begin() { return m_batches.begin(); }
-		inline Set<Batch<N, Args...>>::Iterator end() { return m_batches.end(); }
+		inline Ordered<Batch<N, Args...>>::Iterator begin() { return m_batches.begin(); }
+		inline Ordered<Batch<N, Args...>>::Iterator end() { return m_batches.end(); }
 
 #pragma endregion
 

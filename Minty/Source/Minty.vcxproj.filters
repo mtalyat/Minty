@@ -963,6 +963,9 @@
     <ClInclude Include="Minty\Component\PrefabComponent.h">
       <Filter>Minty\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Data\Ordered.h">
+      <Filter>Minty\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">

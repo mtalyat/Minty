@@ -248,6 +248,7 @@
     <ClInclude Include="Minty\Data\Map.h" />
     <ClInclude Include="Minty\Data\MemoryContainer.h" />
     <ClInclude Include="Minty\Data\Object.h" />
+    <ClInclude Include="Minty\Data\Ordered.h" />
     <ClInclude Include="Minty\Data\Path.h" />
     <ClInclude Include="Minty\Data\Pointer.h" />
     <ClInclude Include="Minty\Data\Queue.h" />

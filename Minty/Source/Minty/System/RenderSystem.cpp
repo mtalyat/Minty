@@ -292,10 +292,25 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 
 void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	// sort by depth
+	entityManager.sort<UITransformComponent>([&](UITransformComponent const& left, UITransformComponent const& right)
+		{
+			// sort by canvas first
+			if (left.canvas != right.canvas)
+			{
+				return left.canvas < right.canvas;
+			}
+
+			// then by depth
+			return left.transform.get_depth() < right.transform.get_depth();
+		});
+
 	// batch the UI sprites
 	Ref<Material> material;
 	BatchFactory<2, Ref<Material>, Entity> batchFactory(256);
-	for (auto const& [entity, enabledComp, visibleComp, spriteComp, uiTransformComp] : entityManager.view<EnabledComponent const, VisibleComponent const, SpriteComponent const, UITransformComponent const>().each())
+	auto view = entityManager.view<EnabledComponent const, VisibleComponent const, SpriteComponent const, UITransformComponent const>();
+	view.use<UITransformComponent>();
+	for (auto const& [entity, enabledComp, visibleComp, spriteComp, uiTransformComp] : view.each())
 	{
 		// skip if no sprite
 		Ref<Sprite> const& sprite = spriteComp.sprite;
@@ -326,7 +341,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		Float4 instRect = uiTransformComp.transform.get_global_rect().rect;
 		Float4 instSprite = sprite->get_rect().rect;
 		Float4 instColor = spriteComp.color.to_float4();
-		Float instDepth = uiTransformComp.transform.get_depth();
+		Float instDepth = 0.0f;
 
 		// add data to batch
 		batchContainer.append_object(instRect);

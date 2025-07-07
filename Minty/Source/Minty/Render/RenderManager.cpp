@@ -194,7 +194,7 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 {
 	MINTY_ASSERT(texture != nullptr, "Cannot get default Material with null Texture.");
 	
-	TexMatKey key = create_texmat_key(assetType, space);
+	TexMatKey key = create_texmat_key(texture->get_id(), assetType, space);
 
 	auto found = m_defaultMaterials.find(key);
 	if (found != m_defaultMaterials.end())

@@ -48,8 +48,17 @@ namespace Minty
 	{
 #pragma region Classes
 
-	private:
-		using TexMatKey = UInt;
+	public:
+        struct TexMatKey
+        {
+            UUID textureId;
+            UInt key;
+
+            bool operator==(const TexMatKey& other) const
+            {
+                return textureId == other.textureId && key == other.key;
+            }
+        };
 
 	protected:
 		enum class State
@@ -267,9 +276,9 @@ namespace Minty
 
 	private:
 		// creates a key for the default materials
-		static TexMatKey create_texmat_key(AssetType const type, Space const space)
+		static TexMatKey create_texmat_key(UUID const textureId, AssetType const type, Space const space)
 		{
-			return (static_cast<UShort>(type) << (sizeof(UShort) << 3)) | static_cast<UShort>(space);
+			return TexMatKey(textureId, (static_cast<UInt>(type) << 2) | static_cast<UInt>(space));
 		}
 
 	public:
@@ -288,5 +297,19 @@ namespace Minty
 
 #pragma endregion
 
+	};
+}
+
+namespace std
+{
+	template<>
+	struct hash<Minty::RenderManager::TexMatKey>
+	{
+		std::size_t operator()(const Minty::RenderManager::TexMatKey& k) const noexcept
+		{
+			std::size_t h1 = std::hash<Minty::UUID>{}(k.textureId);
+			std::size_t h2 = std::hash<Minty::UInt>{}(k.key);
+			return h1 ^ (h2 << 1);
+		}
 	};
 }

@@ -84,7 +84,6 @@ Bool Minty::UITransform::deserialize(Reader& reader)
 	{
 		reader.read("Depth", z);
 	}
-	z = Math::clamp(z, 0.0f, 1.0f); // ensure depth is between 0 and 1
 	if (!reader.read("Width", width))
 	{
 		reader.read("Right", width);

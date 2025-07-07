@@ -14,6 +14,9 @@
 
 namespace Minty
 {
+	struct TransformComponent;
+	struct UITransformComponent;
+
 	/// <summary>
 	/// The arguments for an EntityManager.
 	/// </summary>
@@ -127,6 +130,10 @@ namespace Minty
 
 		Entity create_entity_smart(String const& name, UUID const id);
 
+		void update_transform(Entity const entity, Entity const parent, TransformComponent& transformComp);
+
+		void update_uiTransform(Entity const entity, Entity const parent, UITransformComponent& uiTransformComp);
+
 	public:
 		/// <summary>
 		/// Called when the Manager is created.
@@ -177,6 +184,12 @@ namespace Minty
 		/// </summary>
 		/// <param name="entity">The Entity.</param>
 		void dirty(Entity const entity);
+
+		/// <summary>
+		/// Forcefully refreshes the given Entity. This will update all Components of the Entity, even if they are not dirty.
+		/// </summary>
+		/// <param name="entity">The Entity.</param>
+		void refresh(Entity const entity);
 
 		/// <summary>
 		/// Creates an empty Entity.
@@ -360,6 +373,17 @@ namespace Minty
 		/// <param name="compare">The compare function.</param>
 		template<typename T>
 		void sort(Function<Bool(T const&, T const&)> const& compare)
+		{
+			m_registry.sort<T>(compare);
+		}
+
+		/// <summary>
+		/// Sorts the Entities with the given Component type.
+		/// </summary>
+		/// <typeparam name="T">The Component type.</typeparam>
+		/// <param name="compare">The compare function.</param>
+		template<typename T>
+		void sort(Function<Bool(Entity const, Entity const)> const& compare)
 		{
 			m_registry.sort<T>(compare);
 		}

@@ -321,27 +321,37 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	// depth stencil testing
 	VkPipelineDepthStencilStateCreateInfo depthStencil{};
 	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-	depthStencil.depthTestEnable = VK_TRUE;
-	if (builder.transparency)
+	if (builder.depthTest)
 	{
-		// do not write if transparent, since we don't know if we can see behind the transparent object or not
-		depthStencil.depthWriteEnable = VK_FALSE;
+		// enable depth testing
+		depthStencil.depthTestEnable = VK_TRUE;
+
+		if (builder.transparency)
+		{
+			// do not write if transparent, since we don't know if we can see behind the transparent object or not
+			depthStencil.depthWriteEnable = VK_FALSE;
+		}
+		else
+		{
+			// write if opaque
+			depthStencil.depthWriteEnable = VK_TRUE;
+		}
+		// replace closer pixels
+		depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+		// only keep within a specific range (0 to 1 is default)
+		depthStencil.depthBoundsTestEnable = VK_FALSE;
+		depthStencil.minDepthBounds = 0.0f; // Optional
+		depthStencil.maxDepthBounds = 1.0f; // Optional
+		// operations
+		depthStencil.stencilTestEnable = VK_FALSE;
+		depthStencil.front = {}; // Optional
+		depthStencil.back = {}; // Optional
 	}
 	else
 	{
-		// write if opaque
-		depthStencil.depthWriteEnable = VK_TRUE;
+		// disable depth testing
+		depthStencil.depthTestEnable = VK_FALSE;
 	}
-	// replace closer pixels
-	depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
-	// only keep within a specific range (0 to 1 is default)
-	depthStencil.depthBoundsTestEnable = VK_FALSE;
-	depthStencil.minDepthBounds = 0.0f; // Optional
-	depthStencil.maxDepthBounds = 1.0f; // Optional
-	// operations
-	depthStencil.stencilTestEnable = VK_FALSE;
-	depthStencil.front = {}; // Optional
-	depthStencil.back = {}; // Optional
 
 	// color blending (transparency)
 	VkPipelineColorBlendAttachmentState colorBlendAttachment{};
@@ -362,17 +372,6 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 	colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-
-	/*
-	// transparency:
-	colorBlendAttachment.blendEnable = VK_TRUE;
-	colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-	colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-	colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-	colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-	colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-	colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-	*/
 
 	VkPipelineColorBlendStateCreateInfo colorBlendInfo{};
 	colorBlendInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
