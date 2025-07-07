@@ -2,6 +2,7 @@
 #include "Bullet_PhysicsSimulation.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Layer/LayerManager.h"
 #include "Minty/Physics/PhysicsManager.h"
 #include "Platform/Bullet/Bullet_MeshCollider.h"
 #include "Platform/Bullet/Bullet_Physics.h"
@@ -65,7 +66,7 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 	btCollider.set_collision_object(collisionObject);
 
 	// add the collision object to the dynamics world
-	mp_dynamicsWorld->addCollisionObject(collisionObject, layer, layerMask);
+	mp_dynamicsWorld->addCollisionObject(collisionObject, LayerManager::layer_to_bit(layer), layerMask);
 }
 
 void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer, Layer const layerMask)
@@ -103,7 +104,7 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform
 	btCollider.set_collision_object(rigidBody);
 
 	// add the rigid body to the dynamics world
-	mp_dynamicsWorld->addRigidBody(rigidBody, layer, layerMask);
+	mp_dynamicsWorld->addRigidBody(rigidBody, LayerManager::layer_to_bit(layer), layerMask);
 }
 
 void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
@@ -152,7 +153,7 @@ void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider
 	MINTY_WARNING("TODO: PhysicsManager::get_dynamic()");
 }
 
-Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layerMask, Float const maxDistance) const
+Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer, Layer const layerMask, Float const maxDistance) const
 {
 	// if too small of a distance, nothing is going to be hit
 	if (maxDistance <= Math::EPSILON)
@@ -173,6 +174,7 @@ Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const
 
 	// create the raycast
 	btCollisionWorld::ClosestRayResultCallback rayCallback(btOrigin, btEnd);
+	rayCallback.m_collisionFilterGroup = LayerManager::layer_to_bit(layer);
 	rayCallback.m_collisionFilterMask = static_cast<int>(layerMask);
 
 	// perform the raycast

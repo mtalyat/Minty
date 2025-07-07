@@ -85,6 +85,17 @@ namespace Minty
 
 #pragma region Statics
 
+	public:
+		/// <summary>
+		/// Converts the layer index to a bit.
+		/// </summary>
+		/// <param name="layer"></param>
+		/// <returns></returns>
+		static inline Layer layer_to_bit(Layer const layer)
+		{
+			return 1 << layer;
+		}
+
 		/// <summary>
 		/// Creates a new LayerManager with the given arguments.
 		/// </summary>

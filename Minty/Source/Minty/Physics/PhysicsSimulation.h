@@ -161,7 +161,7 @@ namespace Minty
 		/// <param name="layerMask">The Layer mask to use.</param>
 		/// <param name="maxDistance">The maximum amount of distance to travel.</param>
 		/// <returns>True if an object was hit, otherwise false.</returns>
-		virtual Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layerMask = LAYER_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const = 0;
+		virtual Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const = 0;
 
 		/// <summary>
 		/// Clears all physics objects from the simulation.
