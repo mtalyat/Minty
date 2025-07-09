@@ -3,8 +3,8 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Rect.h"
-#include "Minty/Render/CoordinateMode.h"
 #include "Minty/Render/Texture.h"
+#include "Minty/Render/SpriteSlice.h"
 
 namespace Minty
 {
@@ -24,29 +24,9 @@ namespace Minty
 		Ref<Texture> texture = nullptr;
 
 		/// <summary>
-		/// How the coordinates are interpreted.
+		/// The slice of the Texture this Sprite uses.
 		/// </summary>
-		CoordinateMode coordinateMode = CoordinateMode::Normalized;
-
-		/// <summary>
-		/// The offset of this Sprite within the Texture.
-		/// </summary>
-		Float2 offset = { 0.0f, 0.0f };
-
-		/// <summary>
-		/// The size of this Sprite within the Texture.
-		/// </summary>
-		Float2 size = { 1.0f, 1.0f };
-
-		/// <summary>
-		/// The pivot of this Sprite within world space.
-		/// </summary>
-		Float2 pivot = { 0.5f, 0.5f };
-
-		/// <summary>
-		/// The number of pixels that fit within 1 unit of world space.
-		/// </summary>
-		Float pixelsPerUnit = 16.0f;
+		SpriteSlice slice = {};
 	};
 
 	/// <summary>
@@ -58,15 +38,15 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		// the texture this Sprite uses
 		Ref<Texture> m_texture;
+		// the slice data of the Sprite
 		CoordinateMode m_coordinateMode;
-		// store offset, size, pivot as normalized, since that is what the shaders use
-		Float2 m_offset;
-		Float2 m_size;
-		Float2 m_pivot;
-		Float m_pixelsPerUnit;
-		// scale within world space so it matches the PPU
-		Float m_scale;
+		Float2 m_offset; // the offset of the Sprite within the Texture
+		Float2 m_size; // the size of the Sprite within the Texture
+		Float2 m_pivot; // the pivot of the Sprite within world space
+		Float m_pixelsPerUnit; // the number of pixels that fit within 1 unit of world space
+		Float m_scale; // scale within world space so it matches the PPU
 
 #pragma endregion
 
@@ -104,12 +84,6 @@ namespace Minty
 		/// <returns>The CoordinateMode.</returns>
 		CoordinateMode get_coordinate_mode() const { return m_coordinateMode; }
 
-		/// <summary>
-		/// Sets the CoordinateMode of this Sprite.
-		/// </summary>
-		/// <param name="mode">The CoordinateMode.</param>
-		void set_coordinate_mode(CoordinateMode mode) { m_coordinateMode = mode; }
-
 		Float2 get_offset() const;
 
 		void set_offset(Float2 const& offset);
@@ -123,8 +97,6 @@ namespace Minty
 		void set_pivot(Float2 const& pivot);
 
 		Float get_pixels_per_unit() const { return m_pixelsPerUnit; }
-
-		void set_pixels_per_unit(Float ppu);
 
 		Float get_scale() const { return m_scale; }
 

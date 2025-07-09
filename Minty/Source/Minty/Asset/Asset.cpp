@@ -4,7 +4,12 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Map.h"
 
+#include "Minty/Animation/Animation.h"
+#include "Minty/Animation/Animator.h"
+#include "Minty/Asset/GenericAsset.h"
+#include "Minty/Audio/AudioClip.h"
 #include "Minty/Entity/Prefab.h"
+#include "Minty/Render/Camera.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Material.h"
@@ -13,16 +18,12 @@
 #include "Minty/Render/ShaderModule.h"
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/RenderTarget.h"
-#include "Minty/Render/Camera.h"
 #include "Minty/Render/Sprite.h"
+#include "Minty/Render/SpriteAtlas.h"
 #include "Minty/Render/Mesh.h"
-#include "Minty/Audio/AudioClip.h"
-#include "Minty/Animation/Animation.h"
-#include "Minty/Animation/Animator.h"
-#include "Minty/Wrap/Wrap.h"
 #include "Minty/Render/Font.h"
 #include "Minty/Render/FontVariant.h"
-#include "Minty/Asset/GenericAsset.h"
+#include "Minty/Wrap/Wrap.h"
 
 using namespace Minty;
 
@@ -47,6 +48,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 		{ EXTENSION_CAMERA, AssetType::Camera },
 
 		{ EXTENSION_SPRITE, AssetType::Sprite },
+		{ EXTENSION_SPRITE_ATLAS, AssetType::SpriteAtlas },
 
 		{ EXTENSION_MATERIAL, AssetType::Material },
 
@@ -114,6 +116,8 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 		{ typeid(Camera), AssetType::Camera },
 
 		{ typeid(Sprite), AssetType::Sprite },
+
+		{ typeid(SpriteAtlas), AssetType::SpriteAtlas },
 
 		{ typeid(Material), AssetType::Material },
 

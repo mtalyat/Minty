@@ -379,6 +379,8 @@
     <ClInclude Include="Minty\Render\ShaderVertexInput.h" />
     <ClInclude Include="Minty\Render\Space.h" />
     <ClInclude Include="Minty\Render\Sprite.h" />
+    <ClInclude Include="Minty\Render\SpriteAtlas.h" />
+    <ClInclude Include="Minty\Render\SpriteSlice.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />
     <ClInclude Include="Minty\Render\Texture.h" />
@@ -592,6 +594,7 @@
     <ClCompile Include="Minty\Render\ShaderStage.cpp" />
     <ClCompile Include="Minty\Render\Space.cpp" />
     <ClCompile Include="Minty\Render\Sprite.cpp" />
+    <ClCompile Include="Minty\Render\SpriteAtlas.cpp" />
     <ClCompile Include="Minty\Render\StoreOperation.cpp" />
     <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Texture.cpp" />

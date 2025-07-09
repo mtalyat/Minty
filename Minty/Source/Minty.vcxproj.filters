@@ -966,6 +966,12 @@
     <ClInclude Include="Minty\Data\Ordered.h">
       <Filter>Minty\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\SpriteAtlas.h">
+      <Filter>Minty\Render\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\SpriteSlice.h">
+      <Filter>Minty\Render\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1536,6 +1542,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\Entity\EntitySerializationData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\SpriteAtlas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

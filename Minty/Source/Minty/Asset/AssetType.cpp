@@ -26,6 +26,7 @@ String Minty::to_string(AssetType const obj)
 	case AssetType::MaterialTemplate: return "MaterialTemplate";
 	case AssetType::Material: return "Material";
 	case AssetType::Sprite: return "Sprite";
+	case AssetType::SpriteAtlas: return "SpriteAtlas";
 	case AssetType::FontVariant: return "FontVariant";
 	case AssetType::Font: return "Font";
 	case AssetType::Mesh: return "Mesh";
@@ -55,6 +56,7 @@ AssetType Minty::parse_to_asset_type(String const& string)
 	if (string == "MaterialTemplate") return AssetType::MaterialTemplate;
 	if (string == "Material") return AssetType::Material;
 	if (string == "Sprite") return AssetType::Sprite;
+	if (string == "SpriteAtlas") return AssetType::SpriteAtlas;
 	if (string == "FontVariant") return AssetType::FontVariant;
 	if (string == "Font") return AssetType::Font;
 	if (string == "Mesh") return AssetType::Mesh;

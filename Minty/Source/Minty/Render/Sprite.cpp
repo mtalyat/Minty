@@ -6,20 +6,20 @@ using namespace Minty;
 Minty::Sprite::Sprite(SpriteBuilder const& builder)
 	: Asset(builder.id)
 	, m_texture(builder.texture)
-	, m_coordinateMode(builder.coordinateMode)
+	, m_coordinateMode(builder.slice.coordinateMode)
 	, m_offset()
 	, m_size()
 	, m_pivot()
-	, m_pixelsPerUnit()
+	, m_pixelsPerUnit(builder.slice.pixelsPerUnit)
 	, m_scale()
 {
-	MINTY_ASSERT(m_texture != nullptr, "Sprite must have a Texture.");
+	MINTY_ASSERT(builder.texture != nullptr, "Sprite must have a Texture.");
+	MINTY_ASSERT(builder.slice.pixelsPerUnit > 0.0f, "Sprite pixels per unit must be greater than 0.");
 
-	set_offset(builder.offset);
-	set_size(builder.size);
-	set_pivot(builder.pivot);
-
-	set_pixels_per_unit(builder.pixelsPerUnit);
+	set_offset(builder.slice.offset);
+	set_size(builder.slice.size);
+	set_pivot(builder.slice.pivot);
+	update_scale();
 }
 
 Float2 Minty::Sprite::get_coords(Float2 const raw) const
@@ -97,15 +97,6 @@ Float2 Minty::Sprite::get_pivot() const
 void Minty::Sprite::set_pivot(Float2 const& pivot)
 {
 	m_pivot = set_coords(pivot);
-}
-
-void Minty::Sprite::set_pixels_per_unit(Float ppu)
-{
-	MINTY_ASSERT(ppu > 0.0f, "Pixels per unit must be greater than 0.");
-
-	m_pixelsPerUnit = ppu;
-
-	update_scale();
 }
 
 Owner<Sprite> Minty::Sprite::create(SpriteBuilder const& builder)

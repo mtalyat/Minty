@@ -37,6 +37,7 @@ namespace Minty
 	class Shader;
 	class ShaderModule;
 	class Sprite;
+	class SpriteAtlas;
 	class Texture;
 	class Viewport;
 
@@ -732,6 +733,8 @@ namespace Minty
 		Ref<ShaderModule> load_shader_module(Path const& path, UUID const id);
 
 		Ref<Sprite> load_sprite(Path const& path, UUID const id);
+
+		Ref<SpriteAtlas> load_sprite_atlas(Path const& path, UUID const id);
 
 		Ref<Texture> load_texture(Path const& path, UUID const id);
 

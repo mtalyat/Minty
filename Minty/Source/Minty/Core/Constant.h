@@ -89,6 +89,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_SHADER_CODE_VERTEX = ".vert";
 	constexpr Char const* EXTENSION_SHADER_MODULE = ".spv";
 	constexpr Char const* EXTENSION_SPRITE = ".spr.minty";
+	constexpr Char const* EXTENSION_SPRITE_ATLAS = ".sat.minty";
 	constexpr Char const* EXTENSION_TEXT = ".txt";
 	constexpr Char const* EXTENSION_WRAP = ".wrap";
 

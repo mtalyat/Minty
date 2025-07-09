@@ -18,6 +18,7 @@
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/ShaderModule.h"
 #include "Minty/Render/Sprite.h"
+#include "Minty/Render/SpriteAtlas.h"
 #include "Minty/Render/Surface.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
@@ -1744,6 +1745,15 @@ Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path, UUID
 	return create_from_loaded<ShaderModule>(path, builder);
 }
 
+static void read_sprite_slice(Reader& reader, SpriteSlice& slice, CoordinateMode const defaultCoordinateMode = CoordinateMode::Normalized)
+{
+	reader.read("CoordinateMode", slice.coordinateMode, defaultCoordinateMode);
+	reader.read("Offset", slice.offset);
+	reader.read("Size", slice.size);
+	reader.read("Pivot", slice.pivot);
+	reader.read("PPU", slice.pixelsPerUnit);
+}
+
 Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 {
 	// create builder
@@ -1756,16 +1766,88 @@ Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 	{
 		// read values
 		reader->read("Texture", builder.texture);
-		reader->read("CoordinateMode", builder.coordinateMode);
-		reader->read("Offset", builder.offset);
-		reader->read("Size", builder.size);
-		reader->read("Pivot", builder.pivot);
-		reader->read("PPU", builder.pixelsPerUnit);
+		read_sprite_slice(*reader, builder.slice);
 
 		close_reader(reader);
 	}
 
 	return create_from_loaded<Sprite>(path, builder);
+}
+
+Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID const id)
+{
+	// create builder
+	SpriteAtlasBuilder builder{};
+	builder.id = id;
+
+	// read values
+	Reader* reader;
+	if (open_reader(path, reader))
+	{
+		// read values
+		reader->read("Texture", builder.texture);
+		CoordinateMode defaultCoordinateMode;
+		reader->read("CoordinateMode", defaultCoordinateMode, CoordinateMode::Normalized);
+
+		// read the automatic slices
+		if (reader->indent("Automatic"))
+		{
+			for (Size i = 0; i < reader->get_size(); i++)
+			{
+				SpriteSlice slice;
+				Int2 count;
+
+				if (reader->indent(i))
+				{
+					// read data
+					read_sprite_slice(*reader, slice, defaultCoordinateMode);
+					reader->read("Count", count);
+
+					// add to builder
+					builder.automaticSlices.add({ slice, count });
+
+					reader->outdent();
+				}
+			}
+
+			reader->outdent();
+		}
+
+		// read the manual slices
+		if (reader->indent("Manual"))
+		{
+			for (Size i = 0; i < reader->get_size(); i++)
+			{
+				UUID id;
+				SpriteSlice slice;
+
+				// read the ID
+				if (!reader->read(i, id))
+				{
+					MINTY_ERROR(F("Failed to read sprite slice ID from atlas: {}.", path));
+					continue;
+				}
+
+				// read the slice
+				if (!reader->indent(i))
+				{
+					MINTY_ERROR(F("Failed to read sprite slice with ID {} from atlas: {}.", id, path));
+					continue;
+				}
+				read_sprite_slice(*reader, slice, defaultCoordinateMode);
+				reader->outdent();
+
+				// add to builder
+				builder.manualSlices.add({ slice, id });
+			}
+
+			reader->outdent();
+		}
+		
+		close_reader(reader);
+	}
+
+	return create_from_loaded<SpriteAtlas>(path, builder);
 }
 
 Ref<Texture> Minty::AssetManager::load_texture(Path const& path, UUID const id)
