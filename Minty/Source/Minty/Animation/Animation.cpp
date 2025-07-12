@@ -71,6 +71,12 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 		// add the compiled values to the reset steps
 		m_resetSteps[key].add(value);
 	}
+
+	// if no entities given, default to the root entity
+	if (m_entities.is_empty())
+	{
+		m_entities.add(EntityPath{});
+	}
 }
 
 Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index const componentIndex, Index const variableIndex) const
