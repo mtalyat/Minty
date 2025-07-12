@@ -161,6 +161,8 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path, AssetType const typ
 		return load_font_variant(path, id);
 	case AssetType::Sprite:
 		return load_sprite(path, id);
+	case AssetType::SpriteAtlas:
+		return load_sprite_atlas(path, id);
 	case AssetType::Texture:
 		return load_texture(path, id);
 	case AssetType::Animation:
@@ -1790,55 +1792,78 @@ Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID c
 		reader->read("CoordinateMode", defaultCoordinateMode, CoordinateMode::Normalized);
 
 		// read the automatic slices
-		if (reader->indent("Automatic"))
+		if (reader->indent("Groups"))
 		{
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
-				SpriteSlice slice;
-				Int2 count;
-
 				if (reader->indent(i))
 				{
+					SpriteSlice slice;
+					Int2 count;
+
 					// read data
 					read_sprite_slice(*reader, slice, defaultCoordinateMode);
 					reader->read("Count", count);
 
+					// Sprites is overrides for specific slices, so they can have their own, static IDs.
+					// The other Sprites within the Count range will have random IDs, generated every time the game is ran.
+					Map<Int2, UUID> overrides;
+					if (reader->indent("IDs"))
+					{
+						String name;
+						Int2 index;
+						UUID id;
+						for (Size j = 0; j < reader->get_size(); j++)
+						{
+							// read the index
+							if (!reader->read_name(j, name) || !try_int2(name, index))
+							{
+								continue;
+							}
+							// read the ID
+							if (!reader->read(j, id))
+							{
+								continue;
+							}
+							// add to overrides
+							overrides.add(index, id);
+						}
+
+						reader->outdent();
+					}
+
+					// turn the overrides into a vector, and fill any missing IDs with random UUIDs
+					Vector<UUID> spriteIds(static_cast<Size>(count.y) * count.x);
+					for (Int y = 0; y < count.y; y++)
+					{
+						for (Int x = 0; x < count.x; x++)
+						{
+							Int2 spriteIndex2D = Int2(x, y);
+							UUID spriteId;
+							auto it = overrides.find(spriteIndex2D);
+							if (it != overrides.end())
+							{
+								// if override exists, use it
+								spriteId = it->get_second();
+							}
+							else
+							{
+								// otherwise, generate a random ID
+								spriteId = UUID::create();
+							}
+
+							spriteIds.add(std::move(spriteId));
+						}
+					}
+
+					// create group
+					SpriteGroup group(std::move(slice), count, std::move(spriteIds));
+
 					// add to builder
-					builder.automaticSlices.add({ slice, count });
+					builder.groups.add(std::move(group));
 
 					reader->outdent();
 				}
-			}
-
-			reader->outdent();
-		}
-
-		// read the manual slices
-		if (reader->indent("Manual"))
-		{
-			for (Size i = 0; i < reader->get_size(); i++)
-			{
-				UUID id;
-				SpriteSlice slice;
-
-				// read the ID
-				if (!reader->read(i, id))
-				{
-					MINTY_ERROR(F("Failed to read sprite slice ID from atlas: {}.", path));
-					continue;
-				}
-
-				// read the slice
-				if (!reader->indent(i))
-				{
-					MINTY_ERROR(F("Failed to read sprite slice with ID {} from atlas: {}.", id, path));
-					continue;
-				}
-				read_sprite_slice(*reader, slice, defaultCoordinateMode);
-				reader->outdent();
-
-				// add to builder
-				builder.manualSlices.add({ slice, id });
 			}
 
 			reader->outdent();

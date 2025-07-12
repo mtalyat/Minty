@@ -7,6 +7,7 @@
 #include "Minty/Data/Vector.h"
 #include "Minty/Render/CoordinateMode.h"
 #include "Minty/Render/SpriteSlice.h"
+#include "Minty/Render/SpriteGroup.h"
 
 namespace Minty
 {
@@ -30,14 +31,9 @@ namespace Minty
 		Ref<Texture> texture = nullptr;
 
 		/// <summary>
-		/// The slices automatically generated from the Texture.
+		/// The Sprite groups within this Atlas.
 		/// </summary>
-		Vector<Tuple<SpriteSlice, Int2>> automaticSlices;
-
-		/// <summary>
-		/// The slices manually added to this Atlas.
-		/// </summary>
-		Vector<Tuple<SpriteSlice, UUID>> manualSlices;
+		Vector<SpriteGroup> groups;
 	};
 
 	/// <summary>
@@ -50,10 +46,7 @@ namespace Minty
 
 	private:
 		Ref<Texture> m_texture;
-		Vector<Tuple<SpriteSlice, Int2>> m_automaticSlices;
-		Vector<Tuple<SpriteSlice, UUID>> m_manualSlices;
-		Map<Int, Map<Int2, Ref<Sprite>>> m_automaticSprites;
-		Vector<Ref<Sprite>> m_manualSprites;
+		Vector<SpriteGroup> m_groups;
 
 #pragma endregion
 
@@ -78,58 +71,35 @@ namespace Minty
 		inline Ref<Texture> const& get_texture() const { return m_texture; }
 
 		/// <summary>
-		/// Gets the manually generated Sprite from this SpriteAtlas by its index.
+		/// Gets the Group with the given index.
 		/// </summary>
-		/// <param name="index">The index of the Sprite.</param>
+		/// <param name="index">The index of the Group.</param>
+		/// <returns>The Group.</returns>
+		inline SpriteGroup const& get_group(Int const index) const
+		{
+			MINTY_ASSERT(index >= 0 && index < m_groups.get_size(), "Index out of bounds.");
+			return m_groups[index];
+		}
+
+		/// <summary>
+		/// Gets the ID of the Sprite at the given index in the specified group.
+		/// </summary>
+		/// <param name="groupIndex">The Group the Sprite ID is in.</param>
+		/// <param name="index">The 2D index of the Sprite ID.</param>
+		/// <returns>The Sprite ID.</returns>
+		inline UUID get_sprite_id(Int const groupIndex, Int2 const index) const
+		{
+			MINTY_ASSERT(index.x >= 0 && index.x < m_groups.get_size(), "Index out of bounds.");
+			return m_groups[index.x].get_id(index);
+		}
+
+		/// <summary>
+		/// Gets the Sprite at the given index in the specified group.
+		/// </summary>
+		/// <param name="groupIndex">The Group the Sprite is in.</param>
+		/// <param name="index">The 2D index of the Sprite.</param>
 		/// <returns>The Sprite.</returns>
-		inline Ref<Sprite> const& get_manual_sprite(Size const index) const
-		{
-			MINTY_ASSERT(index < m_manualSprites.get_size(), "Index out of bounds for manual sprites.");
-			return m_manualSprites[index];
-		}
-
-		/// <summary>
-		/// Gets the number of manually generated Sprites in this SpriteAtlas.
-		/// </summary>
-		/// <returns>The count.</returns>
-		inline Size get_manual_sprite_count() const
-		{
-			return m_manualSprites.get_size();
-		}
-
-		/// <summary>
-		/// Gets the specific automatically generated Sprite from this SpriteAtlas by its 2D index and group index.
-		/// </summary>
-		/// <param name="index">The 2D index.</param>
-		/// <param name="groupIndex">The group index.</param>
-		/// <returns>The Sprite.</returns>
-		inline Ref<Sprite> const& get_automatic_sprite(Int2 const index, Int const groupIndex = 0)
-		{
-			MINTY_ASSERT(groupIndex < m_automaticSprites.get_size(), "Group index out of bounds for automatic sprites.");
-			auto const& group = m_automaticSprites[groupIndex];
-			MINTY_ASSERT(group.contains(index), "Index out of bounds for automatic sprites.");
-			return group.at(index);
-		}
-
-		/// <summary>
-		/// Gets the number of automatic Sprite groups.
-		/// </summary>
-		/// <returns>The count.</returns>
-		inline Int get_automatic_sprite_group_count() const
-		{
-			return static_cast<Int>(m_automaticSprites.get_size());
-		}
-
-		/// <summary>
-		/// Gets the size of the automatic Sprite group at the given index.
-		/// </summary>
-		/// <param name="groupIndex">The index of the automatic Sprite group.</param>
-		/// <returns>The 2D count of the group.</returns>
-		inline Int2 get_automatic_sprite_group_size(Int const groupIndex) const
-		{
-			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_automaticSlices.get_size(), "Group index out of bounds for automatic sprites.");
-			return m_automaticSlices.at(groupIndex).get_second();
-		}
+		Ref<Sprite> get_sprite(Int const groupIndex, Int2 const index) const;
 
 #pragma endregion
 

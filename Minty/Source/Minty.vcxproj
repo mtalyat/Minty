@@ -380,6 +380,7 @@
     <ClInclude Include="Minty\Render\Space.h" />
     <ClInclude Include="Minty\Render\Sprite.h" />
     <ClInclude Include="Minty\Render\SpriteAtlas.h" />
+    <ClInclude Include="Minty\Render\SpriteGroup.h" />
     <ClInclude Include="Minty\Render\SpriteSlice.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />

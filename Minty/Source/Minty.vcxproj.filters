@@ -972,6 +972,9 @@
     <ClInclude Include="Minty\Render\SpriteSlice.h">
       <Filter>Minty\Render\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\SpriteGroup.h">
+      <Filter>Minty\Render\Sprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
