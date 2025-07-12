@@ -1,7 +1,6 @@
-Duration: 1.0
+Duration: 0.0
 Loop: False
 Entities
-    - 
 Components
     - 
 Variables
