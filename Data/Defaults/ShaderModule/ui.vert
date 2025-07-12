@@ -32,5 +32,5 @@ void main() {
     vec2 pos = vertices[gl_VertexIndex % 6];
     gl_Position = vec4((position.x + pos.x * position.z) / canvas.width * 2.0 - 1.0, (position.y + pos.y * position.w) / canvas.height * 2.0 - 1.0, depth, 1.0);
     fragColor = color;
-    fragTexCoord = pos;
+    fragTexCoord = vec2(uv.x + pos.x * uv.z, uv.y + pos.y * uv.w);
 }
