@@ -89,8 +89,8 @@ namespace Minty
 		/// <returns>The Sprite ID.</returns>
 		inline UUID get_sprite_id(Int const groupIndex, Int2 const index) const
 		{
-			MINTY_ASSERT(index.x >= 0 && index.x < m_groups.get_size(), "Index out of bounds.");
-			return m_groups[index.x].get_id(index);
+			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), "Index out of bounds.");
+			return m_groups[groupIndex].get_id(index);
 		}
 
 		/// <summary>
