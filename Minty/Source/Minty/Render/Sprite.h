@@ -84,21 +84,53 @@ namespace Minty
 		/// <returns>The CoordinateMode.</returns>
 		CoordinateMode get_coordinate_mode() const { return m_coordinateMode; }
 
-		Float2 get_offset() const;
+        /// <summary>
+        /// Gets the offset of the Sprite within the Texture.
+        /// </summary>
+        /// <returns>The offset as a Float2.</returns>
+        Float2 get_offset() const;
 
-		void set_offset(Float2 const& offset);
+        /// <summary>
+        /// Sets the offset of the Sprite within the Texture.
+        /// </summary>
+        /// <param name="offset">The new offset as a Float2.</param>
+        void set_offset(Float2 const& offset);
 
-		Float2 get_size() const;
+        /// <summary>
+        /// Gets the size of the Sprite within the Texture.
+        /// </summary>
+        /// <returns>The size as a Float2.</returns>
+        Float2 get_size() const;
 
-		void set_size(Float2 const& size);
+        /// <summary>
+        /// Sets the size of the Sprite within the Texture.
+        /// </summary>
+        /// <param name="size">The new size as a Float2.</param>
+        void set_size(Float2 const& size);
 
-		Float2 get_pivot() const;
+        /// <summary>
+        /// Gets the pivot point of the Sprite in world space.
+        /// </summary>
+        /// <returns>The pivot as a Float2.</returns>
+        Float2 get_pivot() const;
 
-		void set_pivot(Float2 const& pivot);
+        /// <summary>
+        /// Sets the pivot point of the Sprite in world space.
+        /// </summary>
+        /// <param name="pivot">The new pivot as a Float2.</param>
+        void set_pivot(Float2 const& pivot);
 
-		Float get_pixels_per_unit() const { return m_pixelsPerUnit; }
+        /// <summary>
+        /// Gets the number of pixels that fit within one unit of world space for this Sprite.
+        /// </summary>
+        /// <returns>The pixels per unit as a Float.</returns>
+        Float get_pixels_per_unit() const { return m_pixelsPerUnit; }
 
-		Float get_scale() const { return m_scale; }
+        /// <summary>
+        /// Gets the scale of the Sprite in world space so it matches the pixels per unit.
+        /// </summary>
+        /// <returns>The scale as a Float.</returns>
+        Float get_scale() const { return m_scale; }
 
 		/// <summary>
 		/// Gets the rectangle of this Sprite.
