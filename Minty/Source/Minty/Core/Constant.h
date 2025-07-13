@@ -4,12 +4,11 @@
 
 namespace Minty
 {
-#pragma region Audio
+#pragma region Animation
 
-	constexpr Float DEFAULT_AUDIO_ATTENUATION_ROLL_OFF = 1.0f;
-	constexpr Float DEFAULT_AUDIO_MAX_DISTANCE = 100.0f;
-	constexpr Float DEFAULT_AUDIO_MIN_DISTANCE = 1.0f;
-	constexpr Float DEFAULT_AUDIO_VOLUME = 1.0f;
+	constexpr Char ANIMATION_ACTION_HALF = ':';
+	constexpr Char ANIMATION_ACTION_DELIMITER = '/';
+	constexpr Char ANIMATION_ACTION_GROUP = ',';
 
 #pragma endregion
 
@@ -21,6 +20,15 @@ namespace Minty
 	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
 	constexpr Size DEFAULT_ASSET_UI_MATERIAL_TEMPLATE = 0xdef0000000000011;
 	constexpr Size DEFAULT_ASSET_TEXTURE = 0xdef0000000000000;
+
+#pragma endregion
+
+#pragma region Audio
+
+	constexpr Float DEFAULT_AUDIO_ATTENUATION_ROLL_OFF = 1.0f;
+	constexpr Float DEFAULT_AUDIO_MAX_DISTANCE = 100.0f;
+	constexpr Float DEFAULT_AUDIO_MIN_DISTANCE = 1.0f;
+	constexpr Float DEFAULT_AUDIO_VOLUME = 1.0f;
 
 #pragma endregion
 

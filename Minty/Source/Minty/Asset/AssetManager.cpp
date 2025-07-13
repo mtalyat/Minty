@@ -822,6 +822,12 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 	{
 		// read values
 		reader->read("Duration", builder.duration);
+		MINTY_ASSERT(builder.duration >= 0.0f, "Animation duration must be greater than 0.0f.");
+		// of duration is 0, adjust it to a small value so it will still play
+		if (builder.duration < Math::EPSILON)
+		{
+			builder.duration = Math::EPSILON;
+		}
 		reader->read("Loop", builder.loop);
 		reader->read("Entities", builder.entities);
 		reader->read("Components", builder.components);

@@ -72,4 +72,13 @@
     </Expand>
   </Type>
 
+  <!-- Minty::UUID -->
+  <Type Name="Minty::UUID">
+  	<DisplayString>{m_id,X}</DisplayString>
+  	<Expand>
+  	  <Item Name="ID (hex)">m_id,X</Item>
+  	  <Item Name="ID (decimal)">m_id</Item>
+  	</Expand>
+  </Type>
+
 </AutoVisualizer>

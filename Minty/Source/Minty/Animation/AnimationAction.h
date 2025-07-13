@@ -21,24 +21,14 @@ namespace Minty
 		UInt componentIndex;
 
 		/// <summary>
-		/// The index to the variable to act upon.
-		/// </summary>
-		UInt variableIndex;
-
-		/// <summary>
-		/// The index to the time of when to act.
-		/// </summary>
-		UInt timeIndex;
-
-		/// <summary>
-		/// The index to the value to use upon reaching the set time.
-		/// </summary>
-		UInt valueIndex;
-
-		/// <summary>
 		/// The flags to use on this step.
 		/// </summary>
 		AnimationActionType type;
+
+		/// <summary>
+		/// A vector of key-value variable-names and values to set when the time is reached.
+		/// </summary>
+		Vector<Tuple<UInt, UInt>> values;
 
 		Bool parse(String const& text) override;
 		String to_string() const override;

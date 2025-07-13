@@ -79,9 +79,9 @@ namespace Minty
 #pragma region Classes
 
 	private:
-		using StepKey = UInt;
-		using StepTime = UInt;
+		using StepKey = ULong;
 		using StepValue = UInt;
+		using StepList = Vector<Tuple<StepKey, Vector<StepValue>>>;
 
 	public:
 		using Index = UInt;
@@ -97,23 +97,20 @@ namespace Minty
 		Vector<ComponentInfo const*> m_components;
 		Vector<String> m_variables;
 		Vector<Node> m_values;
-		Vector<Float> m_times;
-		Map<StepKey, Map<StepTime, StepValue>> m_steps;
-		Map<StepKey, Vector<StepValue>> m_resetSteps;
+		Vector<Tuple<Float, StepList>> m_steps;
+		StepList m_resetSteps;
 
 	public:
-		constexpr static Int ENTITY_OFFSET = 16;
-		constexpr static Int COMPONENT_OFFSET = 8;
+		constexpr static Int ENTITY_OFFSET = 0;
+		constexpr static Int COMPONENT_OFFSET = 16;
+		constexpr static Int FLAGS_OFFSET = 32;
 		constexpr static Int VARIABLE_OFFSET = 0;
-		constexpr static Int TIME_OFFSET = 0;
-		constexpr static Int VALUE_OFFSET = 4;
-		constexpr static Int FLAGS_OFFSET = 0;
-		constexpr static UInt MAX_ENTITY_INDEX = 0xff;
-		constexpr static UInt MAX_COMPONENT_INDEX = 0xff;
-		constexpr static UInt MAX_VARIABLE_INDEX = 0xff;
-		constexpr static UInt MAX_TIME_INDEX = 0xffffffff;
-		constexpr static UInt MAX_VALUE_INDEX = 0xfffffff;
+		constexpr static Int VALUE_OFFSET = 16;
+		constexpr static UInt MAX_ENTITY_INDEX = 0xffff;
+		constexpr static UInt MAX_COMPONENT_INDEX = 0xffff;
 		constexpr static UInt MAX_FLAGS_INDEX = 0xf;
+		constexpr static UInt MAX_VARIABLE_INDEX = 0xffff;
+		constexpr static UInt MAX_VALUE_INDEX = 0xffff;
 
 #pragma endregion
 
@@ -148,13 +145,19 @@ namespace Minty
 #pragma region Methods
 
 	private:
-		StepKey compile_key(Index const entityIndex, Index const componentIndex, Index const variableIndex) const;
+		StepKey compile_key(Index const entityIndex, Index const componentIndex, AnimationActionType const type) const;
 
-		StepValue compile_value(Index const valueIndex, AnimationActionType const flags) const;
+		void extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionType& flags) const;
 
-		void perform_step(StepKey const key, StepTime const time, StepValue const value, Entity const thisEntity, EntityManager& entityManager) const;
+		StepValue compile_value(Index const variableIndex, Index const valueIndex) const;
 
-		void perform_step(AnimationAction const& step, Entity const thisEntity, EntityManager& entityManager) const;
+		void extract_value(StepValue const value, Index& variableIndex, Index& valueIndex) const;
+
+		void build_step_list(StepList& stepList, Vector<AnimationAction> const& actions, Vector<Size> const& actionIndices) const;
+
+		void perform_step(StepList const& stepList, Entity const thisEntity, EntityManager& entityManager) const;
+
+		void perform_action(AnimationAction const& step, Entity const thisEntity, EntityManager& entityManager) const;
 
 	public:
 		/// <summary>
