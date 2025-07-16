@@ -831,9 +831,40 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 		reader->read("Loop", builder.loop);
 		reader->read("Entities", builder.entities);
 		reader->read("Components", builder.components);
-		reader->read("Variables", builder.variables);
+		MINTY_ASSERT(!builder.components.is_empty(), "Animation must have at least one component to animate.");
+		if (reader->indent("Variables"))
+		{
+			reader->read("Rigid", builder.rigidVariables);
+			reader->read("Smooth", builder.smoothVariables);
+
+			reader->outdent();
+		}
+		MINTY_ASSERT(!builder.rigidVariables.is_empty() || !builder.smoothVariables.is_empty(), "Animation must have at least one variable to animate. Make sure the variables are under Rigid or Smooth, under Variables.");
 		reader->read("Values", builder.values);
+		MINTY_ASSERT(!builder.values.is_empty(), "Animation must have at least one value to animate with.");
 		reader->read("Actions", builder.actions);
+		MINTY_ASSERT(!builder.actions.is_empty(), "Animation must have at least one action to animate with.");
+
+#ifdef MINTY_DEBUG
+
+		// ensure all action indices are valid
+		for (Size i = 0; i < builder.actions.get_size(); i++)
+		{
+			AnimationAction const& action = builder.actions.at(i);
+			MINTY_ASSERT(
+				(builder.entities.get_size() == 0 && action.entityIndex == 0) ||
+				(action.entityIndex < builder.entities.get_size()), 
+				F("Action {} has an invalid entity index: {}. It must be less than the number of entities: {}.", i, action.entityIndex, builder.entities.get_size()));
+			MINTY_ASSERT(action.componentIndex < builder.components.get_size(), F("Action {} has an invalid component index: {}. It must be less than the number of components: {}.", i, action.componentIndex, builder.components.get_size()));
+			for (Size j = 0; j < action.values.get_size(); j++)
+			{
+				auto const [variableIndex, valueIndex] = action.values.at(j);
+				MINTY_ASSERT(variableIndex < builder.rigidVariables.get_size() + builder.smoothVariables.get_size(), F("Action {} has an invalid variable index: {}. It must be less than the number of variables: {}.", i, variableIndex, builder.rigidVariables.get_size() + builder.smoothVariables.get_size()));
+				MINTY_ASSERT(valueIndex < builder.values.get_size(), F("Action {} has an invalid value index: {}. It must be less than the number of values: {}.", i, valueIndex, builder.values.get_size()));
+			}
+		}
+
+#endif // MINTY_DEBUG
 
 		// read steps
 		if (reader->indent("Steps"))
@@ -855,18 +886,61 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 					continue;
 				}
 
-				// add to the builder
-				builder.steps.add({ time, Vector<Size>() });
-				
 				// read the action indices
-				reader->read(i, builder.steps.back().get_second());
+				String actionIndicesString;
+				if (!reader->read(i, actionIndicesString))
+				{
+					MINTY_ERROR(F("Failed to read action indices from animation step: {}.", path));
+					continue;
+				}
+				Vector<String> actionIndicesParts = actionIndicesString.split(ANIMATION_ACTION_GROUP);
+				Vector<Size> actionIndices;
+				actionIndices.reserve(actionIndicesParts.get_size());
+				for (String const& part : actionIndicesParts)
+				{
+					// convert to size
+					Size index;
+					if (try_size(part, index))
+					{
+						actionIndices.add(index);
+					}
+					else
+					{
+						MINTY_ERROR(F("Failed to convert action index string to size: {}.", part));
+					}
+				}
+
+				// add to the builder
+				builder.steps.add({ time, std::move(actionIndices) });
 			}
 
 			reader->outdent();
 		}
+		MINTY_ASSERT(!builder.steps.is_empty(), "Animation must have at least one step to animate with.");
 
 		// read reset steps
-		reader->read("Reset", builder.resetSteps);
+		String resetStepsString;
+		if (reader->read("Reset", resetStepsString))
+		{
+			// split each step by comma
+			Vector<String> resetStepsParts = resetStepsString.split(ANIMATION_ACTION_GROUP);
+
+			// read each step
+			for (String const& part : resetStepsParts)
+			{
+				// convert to size
+				Size index;
+				if (try_size(part, index))
+				{
+					builder.resetSteps.add(index);
+				}
+				else
+				{
+					MINTY_ERROR(F("Failed to convert reset step string to size: {}.", part));
+				}
+			}
+		}
+		MINTY_ASSERT(!builder.resetSteps.is_empty(), "Animation must have at least one reset step to animate with.");
 
 		close_reader(reader);
 	}
@@ -888,6 +962,31 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id
 		// read value, directly as an FSM
 		builder.fsm.deserialize(*reader);
 		builder.fsm.reset();
+
+#ifdef MINTY_DEBUG
+
+		// check each state value
+		// each one should be a valid UUID, or empty
+		for (auto const& [name, stateId, state] : builder.fsm.get_states())
+		{
+			Variable const& variable = state.get_value();
+
+			// if empty, skip
+			if(variable.is_empty())
+			{
+				continue;
+			}
+
+			// check type
+			MINTY_ASSERT(variable.get_type() == Type::Object, F("Animator state \"{}\" has an invalid value type: expected Object, got {}.", name, variable.get_type()));
+
+			// check value
+			UUID const id = variable.get<UUID>();
+			MINTY_ASSERT(contains(id), F("Animator state \"{}\" has an invalid value: {}. An Asset with the given ID does not exist.", name, id));
+			MINTY_ASSERT(get_asset(id)->get_asset_type() == AssetType::Animation, F("Animator state \"{}\" has an invalid value: {}. An Asset with the given ID is not an Animation.", name, id));
+		}
+
+#endif // MINTY_DEBUG
 
 		close_reader(reader);
 	}

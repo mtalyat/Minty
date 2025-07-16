@@ -222,8 +222,16 @@ namespace Minty
 			return m_states.get_string(id);
 		}
 
-#pragma endregion
+		/// <summary>
+		/// Gets the States of this FSM.
+		/// </summary>
+		/// <returns>The Lookup containing all of the States.</returns>
+		Lookup<UUID, State> const& get_states() const
+		{
+			return m_states;
+		}
 
+#pragma endregion
 
 #pragma region Methods
 

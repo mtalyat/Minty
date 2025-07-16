@@ -26,19 +26,44 @@ UInt get_split(Size const index, Vector<String> const& split, UInt const default
 
 Bool Minty::AnimationAction::parse(String const& text)
 {
-	// format: type/entity/component:variable/value,variable/value,variable/value...
+	// format: type?:entity/component:variable/value,variable/value,variable/value...
 	Vector<String> halves = text.split(ANIMATION_ACTION_HALF);
-	MINTY_ASSERT(halves.get_size() == 2, F("AnimationAction must have exactly one '{}' to split into halves.", ANIMATION_ACTION_HALF));
+	MINTY_ASSERT(halves.get_size() == 2 || halves.get_size() == 3, F("AnimationAction must have exactly one or two '{}' to split into halves.", ANIMATION_ACTION_HALF));
 
 	Vector<String> majorParts = halves.at(0).split(ANIMATION_ACTION_DELIMITER);
-	MINTY_ASSERT(majorParts.get_size() == 3, F("AnimationAction must have at 3 parts before the '{}', split by '{}'.", ANIMATION_ACTION_HALF, ANIMATION_ACTION_DELIMITER));
+	MINTY_ASSERT(majorParts.get_size() == 2, F("AnimationAction must have at 2 parts before the last '{}', split by '{}'.", ANIMATION_ACTION_HALF, ANIMATION_ACTION_DELIMITER));
 
 	Vector<String> minorParts = halves.at(1).split(ANIMATION_ACTION_GROUP);
 
 	// set major data
-	type = static_cast<AnimationActionType>(get_split(0, majorParts, 0));
-	entityIndex = get_split(1, majorParts, Animation::MAX_ENTITY_INDEX);
-	componentIndex = get_split(2, majorParts, Animation::MAX_COMPONENT_INDEX);
+	if (halves.get_size() == 3)
+	{
+		// if there are 3 halves, the first is the type
+		String const& typeString = halves.at(0);
+		if (typeString == "A")
+		{
+			type = AnimationActionType::Add;
+		}
+		else if (typeString == "R")
+		{
+			type = AnimationActionType::Remove;
+		}
+		else if (typeString.is_empty())
+		{
+			type = AnimationActionType::None;
+		}
+		else
+		{
+			type = parse_to_animation_action_type(halves.at(0));
+		}
+	}
+	else
+	{
+		// default to None if there are only 2 halves
+		type = AnimationActionType::None;
+	}
+	entityIndex = get_split(0, majorParts, Animation::MAX_ENTITY_INDEX);
+	componentIndex = get_split(1, majorParts, Animation::MAX_COMPONENT_INDEX);
 
 	// set minor data
 	values.resize(minorParts.get_size(), Tuple<UInt, UInt>());

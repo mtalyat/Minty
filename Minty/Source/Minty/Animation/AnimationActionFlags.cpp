@@ -7,6 +7,7 @@ String Minty::to_string(AnimationActionType const obj)
 {
 	switch (obj)
 	{
+	case AnimationActionType::Smooth: return "Smooth";
 	case AnimationActionType::Add: return "Add";
 	case AnimationActionType::Remove: return "Remove";
 
@@ -16,6 +17,7 @@ String Minty::to_string(AnimationActionType const obj)
 
 AnimationActionType Minty::parse_to_animation_action_type(String const& string)
 {
+	if (string == "Smooth") return AnimationActionType::Smooth;
 	if (string == "Add") return AnimationActionType::Add;
 	if (string == "Remove") return AnimationActionType::Remove;
 

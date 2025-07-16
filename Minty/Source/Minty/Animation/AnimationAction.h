@@ -13,17 +13,17 @@ namespace Minty
 		/// <summary>
 		/// The index to the Entity to act upon.
 		/// </summary>
-		UInt entityIndex;
+		UInt entityIndex = 0;
 
 		/// <summary>
 		/// The index to the Component to act upon.
 		/// </summary>
-		UInt componentIndex;
+		UInt componentIndex = 0;
 
 		/// <summary>
 		/// The flags to use on this step.
 		/// </summary>
-		AnimationActionType type;
+		AnimationActionType type = AnimationActionType::None;
 
 		/// <summary>
 		/// A vector of key-value variable-names and values to set when the time is reached.

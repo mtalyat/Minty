@@ -43,9 +43,14 @@ namespace Minty
 		Vector<String> components;
 
 		/// <summary>
-		/// The names of the variables being modified by this Animation.
+		/// The names of the variables being modified by this Animation that are rigid (not interpolated).
 		/// </summary>
-		Vector<String> variables;
+		Vector<String> rigidVariables;
+
+		/// <summary>
+		/// The names of the variables being modified by this Animation that are smooth (interpolated).
+		/// </summary>
+		Vector<String> smoothVariables;
 
 		/// <summary>
 		/// The values to set the variables to.
@@ -81,7 +86,6 @@ namespace Minty
 	private:
 		using StepKey = ULong;
 		using StepValue = UInt;
-		using StepList = Vector<Tuple<StepKey, Vector<StepValue>>>;
 
 	public:
 		using Index = UInt;
@@ -95,10 +99,10 @@ namespace Minty
 		Bool m_loop;
 		Vector<EntityPath> m_entities;
 		Vector<ComponentInfo const*> m_components;
-		Vector<String> m_variables;
+		Vector<Tuple<String, Bool>> m_variables;
 		Vector<Node> m_values;
-		Vector<Tuple<Float, StepList>> m_steps;
-		StepList m_resetSteps;
+		Map<StepKey, Tuple<UInt, Vector<Tuple<Float, Vector<StepValue>>>>> m_steps;
+		Map<StepKey, Tuple<UInt, Vector<StepValue>>> m_resetSteps;
 
 	public:
 		constexpr static Int ENTITY_OFFSET = 0;
@@ -153,23 +157,21 @@ namespace Minty
 
 		void extract_value(StepValue const value, Index& variableIndex, Index& valueIndex) const;
 
-		void build_step_list(StepList& stepList, Vector<AnimationAction> const& actions, Vector<Size> const& actionIndices) const;
+		void build_action(StepKey& key, Vector<StepValue>& values, AnimationAction const& action) const;
 
-		void perform_step(StepList const& stepList, Entity const thisEntity, EntityManager& entityManager) const;
+		void perform_action(StepKey const key, Vector<StepValue> const& values, Entity const thisEntity, EntityManager& entityManager) const;
 
-		void perform_action(AnimationAction const& step, Entity const thisEntity, EntityManager& entityManager) const;
-
+		void perform_action(AnimationAction const& action, Entity const thisEntity, EntityManager& entityManager) const;
 	public:
 		/// <summary>
 		/// Performs an animation on an Entity.
 		/// </summary>
 		/// <param name="time">The current time. This will be updated.</param>
 		/// <param name="elapsedTime">The time that has elapsed over the last frame.</param>
-		/// <param name="index">The index of the next step to perform.</param>
 		/// <param name="thisEntity">The Entity being reset.</param>
 		/// <param name="entityManager">The EntityManager thisEntity belongs to.</param>
 		/// <returns>True when the animation has completed, otherwise false.</returns>
-		Bool animate(Float& time, Float const elapsedTime, Index& index, Entity const thisEntity, EntityManager& entityManager) const;
+		Bool animate(Float& time, Float const elapsedTime, Entity const thisEntity, EntityManager& entityManager) const;
 
 		/// <summary>
 		/// Resets the Animation to the beginning.

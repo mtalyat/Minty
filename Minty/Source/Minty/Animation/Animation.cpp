@@ -14,11 +14,22 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 	, m_loop(builder.loop)
 	, m_entities(builder.entities)
 	, m_components()
-	, m_variables(builder.variables)
+	, m_variables()
 	, m_values(builder.values)
 	, m_steps()
 	, m_resetSteps()
 {
+	// set the variables
+	m_variables.reserve(builder.rigidVariables.get_size() + builder.smoothVariables.get_size());
+	for (auto const& variable : builder.rigidVariables)
+	{
+		m_variables.add({ variable, false });
+	}
+	for (auto const& variable : builder.smoothVariables)
+	{
+		m_variables.add({ variable, true });
+	}
+
 	// get the component infos from the names
 	m_components.resize(builder.components.get_size(), nullptr);
 	Context const& context = Context::get_singleton();
@@ -32,24 +43,85 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 	// make space for the steps
 	m_steps.reserve(builder.steps.get_size());
 	Float lastTime = -1.0f;
+	Map<StepKey, Set<StepValue>> valuesEdited;
 	for (auto const& [time, actionIndices] : builder.steps)
 	{
 		MINTY_ASSERT(time >= 0.0f, "Time must be non-negative.");
 		MINTY_ASSERT(time > lastTime, "Times must be in ascending order. Do not duplicate times.");
 
 		// create the steplist
-		StepList stepList;
-		build_step_list(stepList, builder.actions, actionIndices);
+		for(Size const actionIndex : actionIndices)
+		{
+			MINTY_ASSERT(actionIndex < builder.actions.get_size(), "Action index is out of range.");
 
-		// add the steplist to the steps
-		m_steps.add({ time, std::move(stepList) });
+			AnimationAction const& action = builder.actions.at(actionIndex);
+			StepKey key;
+			Vector<StepValue> values;
+			build_action(key, values, action);
+
+			// add values to the set of edited values
+			if(!valuesEdited.contains(key))
+			{
+				valuesEdited.add(key, Set<StepValue>{});
+			}
+			Set<StepValue>& valuesEditedSet = valuesEdited.at(key);
+			for(auto const& value : values)
+			{
+				valuesEditedSet.add(value);
+			}
+
+			// add the key and values to the step list
+			auto it = m_steps.find(key);
+			if (it != m_steps.end())
+			{
+				// if the key already exists, add the values to the existing step
+				auto& [count, actionList] = it->get_second();
+				count = static_cast<UInt>(valuesEditedSet.get_size());
+				actionList.add({time, std::move(values)});
+				continue;
+			}
+			else
+			{
+				// if the key does not exist, create a new step
+				m_steps.add(key, {
+					static_cast<UInt>(valuesEditedSet.get_size()), 
+					Vector<Tuple<Float, Vector<StepValue>>>{ {time, std::move(values) } }
+					});
+			}
+		}
 
 		lastTime = time;
 	}
 
 	// do the same for the reset steps
 	m_resetSteps.reserve(builder.resetSteps.get_size());
-	build_step_list(m_resetSteps, builder.actions, builder.resetSteps);
+	Set<StepValue> valuesEditedSet;
+	for(auto const& actionIndex : builder.resetSteps)
+	{
+		MINTY_ASSERT(actionIndex < builder.actions.get_size(), "Action index is out of range.");
+
+		AnimationAction const& action = builder.actions.at(actionIndex);
+		StepKey key;
+		Vector<StepValue> values;
+		build_action(key, values, action);
+		auto it = m_resetSteps.find(key);
+		if (it != m_resetSteps.end())
+		{
+			// if the key already exists, add the values to the existing step
+			auto& [count, actionList] = it->get_second();
+			count = static_cast<UInt>(valuesEditedSet.get_size());
+			actionList = std::move(values);
+			continue;
+		}
+		else
+		{
+			// if the key does not exist, create a new step
+			m_resetSteps.add(key, {
+				static_cast<UInt>(valuesEditedSet.get_size()), 
+				std::move(values)
+				});
+		}
+	}
 
 	// if no entities given, default to the root entity
 	if (m_entities.is_empty())
@@ -91,60 +163,58 @@ void Minty::Animation::extract_value(StepValue const value, Index& variableIndex
 	valueIndex = static_cast<Index>((value >> VALUE_OFFSET) & MAX_VALUE_INDEX);
 }
 
-void Minty::Animation::build_step_list(StepList& stepList, Vector<AnimationAction> const& actions, Vector<Size> const& actionIndices) const
+void Minty::Animation::build_action(StepKey& key, Vector<StepValue>& values, AnimationAction const& action) const
 {
-	// add each step
-	for (auto const& index : actionIndices)
+	// compile the values
+	values.clear();
+	values.reserve(action.values.get_size());
+	Bool hasSmooth = false;
+	for (auto const& [variableIndex, valueIndex] : action.values)
 	{
-		AnimationAction const& action = actions.at(index);
-
-		// compile the key
-		StepKey key = compile_key(action.entityIndex, action.componentIndex, action.type);
-
-		// compile the values
-		Vector<StepValue> values(action.values.get_size());
-		for (auto const& [variableIndex, valueIndex] : action.values)
-		{
-			// compile the value
-			values.add(compile_value(variableIndex, valueIndex));
-		}
-
-		// add the compiled values to the step list
-		stepList.add({ key, std::move(values) });
+		// compile the value
+		values.add(compile_value(variableIndex, valueIndex));
+		hasSmooth |= m_variables.at(variableIndex).get_second();
 	}
+
+	// if the action has smooth variables, it must be a smooth action
+	AnimationActionType type = action.type;
+	if (hasSmooth)
+	{
+		type |= AnimationActionType::Smooth;
+	}
+
+	// compile the key
+	key = compile_key(action.entityIndex, action.componentIndex, type);
 }
 
-void Minty::Animation::perform_step(StepList const& stepList, Entity const thisEntity, EntityManager& entityManager) const
+void Minty::Animation::perform_action(StepKey const key, Vector<StepValue> const& values, Entity const thisEntity, EntityManager& entityManager) const
 {
+	// extract the key
 	AnimationAction action;
-	for(auto const& [stepKey, valueList] : stepList)
+	extract_key(key, action.entityIndex, action.componentIndex, action.type);
+
+	// clear the values
+	action.values.clear();
+	action.values.reserve(values.get_size());
+
+	// extract each value
+	for (auto const value : values)
 	{
-		// extract the key
-		extract_key(stepKey, action.entityIndex, action.componentIndex, action.type);
-		
-		// clear the values
-		action.values.clear();
-		action.values.reserve(valueList.get_size());
-
-		// extract each value
-		for(auto const value : valueList)
-		{
-			Index variableIndex, valueIndex;
-			extract_value(value, variableIndex, valueIndex);
-			action.values.add({ variableIndex, valueIndex });
-		}
-
-		// perform the action
-		perform_action(action, thisEntity, entityManager);
+		Index variableIndex, valueIndex;
+		extract_value(value, variableIndex, valueIndex);
+		action.values.add({ variableIndex, valueIndex });
 	}
+
+	// perform the action
+	perform_action(action, thisEntity, entityManager);
 }
 
-void Minty::Animation::perform_action(AnimationAction const& step, Entity const thisEntity, EntityManager& entityManager) const
+void Minty::Animation::perform_action(AnimationAction const& action, Entity const thisEntity, EntityManager& entityManager) const
 {
-	MINTY_ASSERT(step.entityIndex < MAX_ENTITY_INDEX, "Entity index is out of range.");
+	MINTY_ASSERT(action.entityIndex < MAX_ENTITY_INDEX, "Entity index is out of range.");
 
 	// get the entity based on the path
-	Entity entity = entityManager.get_entity(thisEntity, m_entities.at(step.entityIndex));
+	Entity entity = entityManager.get_entity(thisEntity, m_entities.at(action.entityIndex));
 
 	// if no entity, do nothing
 	if (entity == INVALID_ENTITY)
@@ -153,14 +223,14 @@ void Minty::Animation::perform_action(AnimationAction const& step, Entity const 
 		return;
 	}
 
-	MINTY_ASSERT(step.componentIndex < MAX_COMPONENT_INDEX, "Component index is out of range.");
+	MINTY_ASSERT(action.componentIndex < MAX_COMPONENT_INDEX, "Component index is out of range.");
 
 	// get the component
-	ComponentInfo const* componentInfo = m_components.at(step.componentIndex);
+	ComponentInfo const* componentInfo = m_components.at(action.componentIndex);
 	Component* component = componentInfo->get(entityManager, entity);
 
 	// determine what to do based on the flags
-	if (step.type == AnimationActionType::Add)
+	if ((action.type & AnimationActionType::Add) != AnimationActionType::None)
 	{
 		if (component == nullptr)
 		{
@@ -168,7 +238,7 @@ void Minty::Animation::perform_action(AnimationAction const& step, Entity const 
 		}
 		return;
 	}
-	if (step.type == AnimationActionType::Remove)
+	if ((action.type & AnimationActionType::Remove) != AnimationActionType::None)
 	{
 		if (component != nullptr)
 		{
@@ -181,15 +251,15 @@ void Minty::Animation::perform_action(AnimationAction const& step, Entity const 
 
 	// build and add all of the values to set
 	Node root{};
-	for(auto const& [variableIndex, valueIndex] : step.values)
+	for (auto const& [variableIndex, valueIndex] : action.values)
 	{
 		// get the variable name
-		String const& variableName = m_variables.at(variableIndex);
+		String const& variableName = m_variables.at(variableIndex).get_first();
 
 		// get a copy of the value to set
 		Node value = m_values.at(valueIndex);
 		value.set_name(variableName);
-		
+
 		// add the value to the root node
 		root.add_child(std::move(value));
 	}
@@ -208,7 +278,8 @@ void Minty::Animation::perform_action(AnimationAction const& step, Entity const 
 	reader.pop_user_data();
 }
 
-Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Index& index, Entity const thisEntity, EntityManager& entityManager) const
+// return true when animation is completed
+Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity const thisEntity, EntityManager& entityManager) const
 {
 	// check if already completed
 	if (time >= m_duration)
@@ -216,52 +287,218 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Index& inde
 		return true;
 	}
 
-	// increase time
-	time += elapsedTime;
+	// get the new time
+	Float const newTime = time + elapsedTime;
 
-	// if no more times in the animation, do nothing
-	if (index >= m_steps.get_size())
+	// check interpolated steps
+	for (auto const& [key, stepList] : m_steps)
 	{
-		return false;
-	}
+		auto const& [count, times] = stepList;
 
-	Float const nextTime = m_steps.at(index).get_first();
-
-	// if current time < the next time, wait and do nothing
-	if (time < nextTime)
-	{
-		return false;
-	}
-
-	// find the index range
-	Index i = index;
-	for (; i < m_steps.get_size(); i++)
-	{
-		// get the step
-		auto const& step = m_steps.at(i);
-
-		// if the time is less than the step's time, we are done
-		if (time < step.get_first())
+		// skip, if the time is not within the step range
+		if (newTime < times.front().get_first() || (time > 0.0f && time >= times.back().get_first()))
 		{
-			break;
+			continue;
 		}
 
-		// perform the step
-		StepList const& stepList = step.get_second();
-		perform_step(stepList, thisEntity, entityManager);
+		// check if the key is smooth or rigid
+		Index entityIndex, componentIndex;
+		AnimationActionType type;
+		extract_key(key, entityIndex, componentIndex, type);
+
+		// get the entity
+		Entity entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
+
+		// get the component
+		ComponentInfo const* componentInfo = m_components.at(componentIndex);
+		Component* component = componentInfo->get(entityManager, entity);
+
+		// determine what to do based on the flags
+		if ((type & AnimationActionType::Add) != AnimationActionType::None)
+		{
+			if (component == nullptr)
+			{
+				component = &componentInfo->create(entityManager, entity);
+			}
+			continue;
+		}
+		if ((type & AnimationActionType::Remove) != AnimationActionType::None)
+		{
+			if (component != nullptr)
+			{
+				componentInfo->destroy(entityManager, entity);
+			}
+			continue;
+		}
+
+		// normal step
+		Bool const interpolate = (type & AnimationActionType::Smooth) != AnimationActionType::None;
+
+		// behave differently based on the interpolation type
+		if (interpolate)
+		{
+			// find the last value of each variable before the new time
+			Size index = 0;
+			for (; index < times.get_size(); index++)
+			{
+				auto const& [stepTime, values] = times.at(index);
+				if (newTime < stepTime)
+				{
+					break;
+				}
+			}
+			Map<Index, Tuple<Float, Index>> previousValues;
+			for(Size i = 0; i < index; i++)
+			{
+				// get the index to check
+				Size j = index - 1 - i;
+
+				auto const& [stepTime, values] = times.at(j);
+
+				// add to the previous variable values, if there is one to set
+				for(auto const& value : values)
+				{
+					Index variableIndex, valueIndex;
+					extract_value(value, variableIndex, valueIndex);
+					if (!previousValues.contains(variableIndex))
+					{
+						previousValues.add(variableIndex, { stepTime, valueIndex });
+					}
+				}
+
+				// if all variables have been set, break
+				if (previousValues.get_size() == count)
+				{
+					break;
+				}
+			}
+			Map<Index, Tuple<Float, Index>> nextValues;
+			for (Size i = index; i < times.get_size(); i++)
+			{
+				auto const& [stepTime, values] = times.at(i);
+
+				for (auto const& value : values)
+				{
+					Index variableIndex, valueIndex;
+					extract_value(value, variableIndex, valueIndex);
+					if (!nextValues.contains(variableIndex))
+					{
+						nextValues.add(variableIndex, { stepTime, valueIndex });
+					}
+				}
+
+				// if all variables have been set, break
+				if (nextValues.get_size() == count)
+				{
+					break;
+				}
+			}
+
+			Node root;
+			for (auto const& [variableIndex, timeValue] : previousValues)
+			{
+				auto const& [previousTime, previousValueIndex] = timeValue;
+				auto const& [variableName, variableSmooth] = m_variables.at(variableIndex);
+				auto it = nextValues.find(variableIndex);
+
+				if(!variableSmooth || it == nextValues.end())
+				{
+					// if no next value, no interpolation, use the previous value
+					Node node = m_values.at(timeValue.get_second());
+					node.set_name(variableName);
+					root.add_child(std::move(node));
+				}
+				else
+				{
+					// if next value exists, interpolate
+					auto const& [nextTime, nextValueIndex] = it->get_second();
+					Float t = (newTime - previousTime) / (nextTime - previousTime);
+
+					Node const& previousNode = m_values.at(previousValueIndex);
+					Node const& nextNode = m_values.at(it->get_second().get_second());
+					String previousValue = previousNode.get_data_string();
+					String nextValue = nextNode.get_data_string();
+
+					// figure out the type of the variable based on the value
+					Int previousInt, nextInt;
+					Float previousFloat, nextFloat;
+					if(try_int(previousValue, previousInt) && try_int(nextValue, nextInt))
+					{
+						// if both are integers, interpolate as integers
+						Int interpolatedValue = static_cast<Int>(Math::lerp(previousInt, nextInt, t));
+						Node node;
+						node.set_name(variableName);
+						node.set_data(to_string(interpolatedValue));
+						root.add_child(std::move(node));
+					}
+					else if(try_float(previousValue, previousFloat) && try_float(nextValue, nextFloat))
+					{
+						// if both are floats, interpolate as floats
+						Float interpolatedValue = Math::lerp(previousFloat, nextFloat, t);
+						Node node;
+						node.set_name(variableName);
+						node.set_data(to_string(interpolatedValue));
+						root.add_child(std::move(node));
+					}
+					else
+					{
+						MINTY_ERROR("Cannot interpolate between non-numeric values.");
+					}
+				}
+			}
+
+			// create serialization data
+			EntitySerializationData data
+			{
+				.entity = entity,
+				.entityManager = &entityManager
+			};
+
+			// deserialize the data
+			TextNodeReader reader(root);
+			reader.push_user_data(&data);
+			component->deserialize(reader);
+			reader.pop_user_data();
+		}
+		else
+		{
+			// find and act on any steps that are after the current time, and before the new time
+			for (Size i = 0; i < times.get_size(); i++)
+			{
+				auto const& [stepTime, values] = times.at(i);
+				if (time > stepTime)
+				{
+					// to early, skip
+					continue;
+				}
+
+				if (newTime < stepTime)
+				{
+					// too late, break
+					break;
+				}
+
+				// found the step
+				perform_action(key, values, thisEntity, entityManager);
+			}
+		}
 	}
 
-	// update index
-	index = i + 1;
+	// update the time
+	time = newTime;
 
-	// check if we are done
+	// check if the animation is completed
 	return time >= m_duration;
 }
 
 void Minty::Animation::reset(Entity const thisEntity, EntityManager& entityManager)
 {
 	// perform each step within reset
-	perform_step(m_resetSteps, thisEntity, entityManager);
+	for(auto const& [key, step] : m_resetSteps)
+	{
+		// perform the action
+		perform_action(key, step.get_second(), thisEntity, entityManager);
+	}
 }
 
 Owner<Animation> Minty::Animation::create(AnimationBuilder const& builder)

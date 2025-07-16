@@ -37,7 +37,6 @@ void Minty::AnimationSystem::on_update(Time const& time)
 			// reset animator component
 			animatorComp.animation = newAnim;
 			animatorComp.time = 0.0f;
-			animatorComp.index = 0;
 		}
 
 		// if the animator time is below zero, then the animator has paused, so do nothing
@@ -48,13 +47,12 @@ void Minty::AnimationSystem::on_update(Time const& time)
 		}
 
 		// animate with it
-		if (animatorComp.animation->animate(animatorComp.time, deltaTime, animatorComp.index, entity, entityManager))
+		if (animatorComp.animation->animate(animatorComp.time, deltaTime, entity, entityManager))
 		{
 			// animation has completed, loop if supposed to
 			if (animatorComp.animation->is_looping())
 			{
 				// reset
-				animatorComp.index = 0;
 				animatorComp.time = 0.0f;
 			}
 			else

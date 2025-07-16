@@ -18,7 +18,7 @@ Bool Minty::Object::contains(String const& name) const
 
 Variable const& Minty::Object::at(String const& name) const
 {
-	MINTY_ASSERT(!m_variables.is_empty(), "Object has no variables.");
+	MINTY_ASSERT(!m_variables.is_empty(), "Object has no rigidVariables.");
 	for (auto const& [varName, variable] : m_variables)
 	{
 		if (varName == name)
@@ -32,7 +32,7 @@ Variable const& Minty::Object::at(String const& name) const
 
 Variable& Minty::Object::at(String const& name)
 {
-	MINTY_ASSERT(!m_variables.is_empty(), "Object has no variables.");
+	MINTY_ASSERT(!m_variables.is_empty(), "Object has no rigidVariables.");
 	for (auto& [varName, variable] : m_variables)
 	{
 		if (varName == name)

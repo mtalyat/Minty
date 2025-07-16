@@ -26,11 +26,6 @@ namespace Minty
 		/// </summary>
 		Float time = 0.0f;
 
-		/// <summary>
-		/// The current index in the Animation.
-		/// </summary>
-		Animation::Index index = 0;
-
 		virtual void serialize(Writer& writer) const override;
 		virtual Bool deserialize(Reader& reader) override;
 	};
