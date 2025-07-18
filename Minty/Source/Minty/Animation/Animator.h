@@ -13,12 +13,17 @@ namespace Minty
 		/// <summary>
 		/// The Asset ID.
 		/// </summary>
-		UUID id;
+		UUID id = INVALID_ID;
 
 		/// <summary>
 		/// The FSM to use for this Animator.
 		/// </summary>
 		FSM fsm;
+
+		/// <summary>
+		/// When true, forces the Animator to transition out of the current state as soon as possible.
+		/// </summary>
+		Bool force = false;
 	};
 
 	/// <summary>
@@ -31,6 +36,7 @@ namespace Minty
 
 	private:
 		FSM m_fsm;
+		Bool m_force;
 
 #pragma endregion
 
@@ -44,6 +50,7 @@ namespace Minty
 		Animator(AnimatorBuilder const& builder)
 			: Asset(builder.id)
 			, m_fsm(builder.fsm)
+			, m_force(builder.force)
 		{
 		}
 
@@ -52,6 +59,24 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Sets the force value of this Animator.
+		/// </summary>
+		/// <param name="force">If true, animations will transition as soon as possible.</param>
+		void set_force(Bool const force)
+		{
+			m_force = force;
+		}
+
+		/// <summary>
+		/// Gets the force value of this Animator.
+		/// </summary>
+		/// <returns>If true, animations will transition as soon as possible.</returns>
+		Bool get_force() const
+		{
+			return m_force;
+		}
+
 		/// <summary>
 		/// Sets the value of the variable with the given name.
 		/// </summary>

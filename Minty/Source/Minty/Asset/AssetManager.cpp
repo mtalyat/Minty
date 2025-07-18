@@ -963,6 +963,9 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id
 		builder.fsm.deserialize(*reader);
 		builder.fsm.reset();
 
+		// read other values
+		reader->read("Force", builder.force);
+
 #ifdef MINTY_DEBUG
 
 		// check each state value

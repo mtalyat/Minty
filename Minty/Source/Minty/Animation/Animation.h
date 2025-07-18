@@ -144,6 +144,12 @@ namespace Minty
 		/// <returns>Animation.</returns>
 		AssetType get_asset_type() const override { return AssetType::Animation; }
 
+		/// <summary>
+		/// Gets the duration of this Animation.
+		/// </summary>
+		/// <returns>The duration in seconds.</returns>
+		Float get_duration() const { return m_duration; }
+
 #pragma endregion
 
 #pragma region Methods

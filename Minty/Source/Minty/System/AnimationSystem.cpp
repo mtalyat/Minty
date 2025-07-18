@@ -21,12 +21,24 @@ void Minty::AnimationSystem::on_update(Time const& time)
 	// update all entities with an animator
 	for (auto&& [entity, animatorComp, enabledComp] : entityManager.view<AnimatorComponent, EnabledComponent const>().each())
 	{
+		// if the animator is forcing, or the animation is not running/done, then update the animator
+		Animator& animator = *animatorComp.animator;
+		Ref<Animation> const& animation = animatorComp.animation;
+		Bool const updateAnimator = animator.get_force() || animatorComp.time < 0.0f || animation == nullptr || animatorComp.time >= animation->get_duration();
+
 		// update the animator
-		UUID newId = animatorComp.animator->update();
-		Ref<Animation> newAnim = assetManager.get<Animation>(newId);
+		UUID newId;
+		if (updateAnimator)
+		{
+			newId = animatorComp.animator->update();
+		}
+		else if (animation != nullptr)
+		{
+			newId = animation->get_id();
+		}
 
 		// if ID changed, reset animation data
-		if (animatorComp.animation != newAnim)
+		if (animatorComp.animation->get_id() != newId)
 		{
 			// reset animation
 			if (animatorComp.animation != nullptr)
@@ -35,8 +47,22 @@ void Minty::AnimationSystem::on_update(Time const& time)
 			}
 
 			// reset animator component
-			animatorComp.animation = newAnim;
+			animatorComp.animation = assetManager.get<Animation>(newId);
 			animatorComp.time = 0.0f;
+		}
+		else if (animation != nullptr && animatorComp.time >= animation->get_duration())
+		{
+			// if tried to change, and no change, and looping...
+			if (animatorComp.animation->is_looping())
+			{
+				// reset the time to zero to start the animation over
+				animatorComp.time = 0.0f;
+			}
+			else
+			{
+				// set to idle
+				animatorComp.time = -1.0f;
+			}
 		}
 
 		// if the animator time is below zero, then the animator has paused, so do nothing
@@ -47,22 +73,7 @@ void Minty::AnimationSystem::on_update(Time const& time)
 		}
 
 		// animate with it
-		if (animatorComp.animation->animate(animatorComp.time, deltaTime, entity, entityManager))
-		{
-			// animation has completed, loop if supposed to
-			if (animatorComp.animation->is_looping())
-			{
-				// reset
-				animatorComp.time = 0.0f;
-			}
-			else
-			{
-				// not looping
-
-				// set time to -1 to indicate that it has stopped, until a new animation ID is given
-				animatorComp.time = -1.0f;
-			}
-		}
+		animatorComp.animation->animate(animatorComp.time, deltaTime, entity, entityManager);
 
 		// assuming something has changed that needs updating, so dirty the entity
 		entityManager.dirty(entity);

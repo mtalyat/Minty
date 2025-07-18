@@ -290,7 +290,7 @@ namespace Minty
 		/// The current state will attempt to transition to another State based on its Transitions and values stored within this FSM's Scope.
 		/// </summary>
 		/// <returns>True if the FSM transitioned to a new State, otherwise false.</returns>
-		Bool evaluate();
+		Bool evaluate(Bool const continuous = false);
 
 		/// <summary>
 		/// Clears all States and variables from this FSM.

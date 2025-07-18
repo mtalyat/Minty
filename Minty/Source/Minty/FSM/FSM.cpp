@@ -30,7 +30,7 @@ UUID Minty::FSM::create_variable(String const& name, Int const value)
 	return m_scope.add(name, value);
 }
 
-Bool Minty::FSM::evaluate()
+Bool Minty::FSM::evaluate(Bool const continuous)
 {
 	// do nothing if no current state
 	if (!has_current_state())
@@ -45,18 +45,25 @@ Bool Minty::FSM::evaluate()
 	UUID next = state;
 
 	// keep looping until no more transitions have been made
-	while (next != INVALID_ID)
+	if (next != INVALID_ID)
 	{
-		// move to the next state
-		state = next;
+		do {
+			// move to the next state
+			state = next;
 
-		// evaluate the state and get the next state
-		next = get_state(next).evaluate(m_scope);
+			// evaluate the state and get the next state
+			next = get_state(next).evaluate(m_scope);
 
-		if (!visitedStates.add(state))
+			if (!visitedStates.add(state))
+			{
+				MINTY_ERROR(F("Infinite loop detected in FSM: {}", state));
+				return false;
+			}
+		} while (continuous && next != INVALID_ID);
+
+		if (next != INVALID_ID)
 		{
-			MINTY_ERROR(F("Infinite loop detected in FSM: {}", state));
-			return false;
+			state = next;
 		}
 	}
 

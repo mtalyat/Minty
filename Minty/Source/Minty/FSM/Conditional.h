@@ -27,7 +27,7 @@ namespace Minty
 		/// <summary>
 		/// >=
 		/// </summary>
-		GreaterThanOrEqualTo,
+		GreaterThanOrEqual,
 
 		/// <summary>
 		/// <
@@ -37,7 +37,7 @@ namespace Minty
 		/// <summary>
 		/// <=
 		/// </summary>
-		LessThanOrEqualTo,
+		LessThanOrEqual,
 	};
 
 	template<Comparable T>
@@ -51,11 +51,11 @@ namespace Minty
 			return left != right;
 		case Conditional::GreaterThan:
 			return left > right;
-		case Conditional::GreaterThanOrEqualTo:
+		case Conditional::GreaterThanOrEqual:
 			return left >= right;
 		case Conditional::LessThan:
 			return left < right;
-		case Conditional::LessThanOrEqualTo:
+		case Conditional::LessThanOrEqual:
 			return left <= right;
 		}
 		return false;
