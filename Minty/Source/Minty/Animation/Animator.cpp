@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Animator.h"
+#include "Minty/Animation/Animation.h"
 
 using namespace Minty;
 
@@ -29,13 +30,21 @@ UUID Minty::Animator::get_current_animation() const
 	return INVALID_ID;
 }
 
-UUID Minty::Animator::update()
+UUID Minty::Animator::update(Ref<Animation> const& currentAnimation, Float const currentTime)
 {
-	m_fsm.evaluate();
+	// Perform update if:
+	// 1. Force is true
+	// 2. No current animation
+	// 3. Animator is idling
+	// 4. Animation has completed
+	if (m_force || currentAnimation == nullptr || currentTime < 0.0f || currentTime >= currentAnimation->get_duration())
+	{
+		m_fsm.evaluate();
+	}
 
+	// if no current state, return invalid ID
 	if (!m_fsm.has_current_state())
 	{
-		// no current state
 		return INVALID_ID;
 	}
 

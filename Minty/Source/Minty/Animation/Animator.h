@@ -5,6 +5,8 @@
 
 namespace Minty
 {
+	class Animation;
+
 	/// <summary>
 	/// The arguments for an Animator.
 	/// </summary>
@@ -112,7 +114,7 @@ namespace Minty
 		/// Updates the state of this Animator based on the values of the variables in the FSM.
 		/// </summary>
 		/// <returns>The ID to the Animation that should be playing.</returns>
-		UUID update();
+		UUID update(Ref<Animation> const& currentAnimation, Float const currentTime);
 
 #pragma endregion
 

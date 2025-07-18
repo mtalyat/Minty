@@ -21,29 +21,18 @@ void Minty::AnimationSystem::on_update(Time const& time)
 	// update all entities with an animator
 	for (auto&& [entity, animatorComp, enabledComp] : entityManager.view<AnimatorComponent, EnabledComponent const>().each())
 	{
-		// if the animator is forcing, or the animation is not running/done, then update the animator
-		Animator& animator = *animatorComp.animator;
-		Ref<Animation> const& animation = animatorComp.animation;
-		Bool const updateAnimator = animator.get_force() || animatorComp.time < 0.0f || animation == nullptr || animatorComp.time >= animation->get_duration();
-
 		// update the animator
-		UUID newId;
-		if (updateAnimator)
-		{
-			newId = animatorComp.animator->update();
-		}
-		else if (animation != nullptr)
-		{
-			newId = animation->get_id();
-		}
+		Ref<Animation>& animation = animatorComp.animation;
+		UUID currentId = animation == nullptr ? UUID(INVALID_ID) : animation->get_id();
+		UUID newId = animatorComp.animator->update(animation, animatorComp.time);
 
 		// if ID changed, reset animation data
-		if (animatorComp.animation->get_id() != newId)
+		if (currentId != newId)
 		{
 			// reset animation
-			if (animatorComp.animation != nullptr)
+			if (animation != nullptr)
 			{
-				animatorComp.animation->reset(entity, entityManager);
+				animation->reset(entity, entityManager);
 			}
 
 			// reset animator component
@@ -66,7 +55,7 @@ void Minty::AnimationSystem::on_update(Time const& time)
 		}
 
 		// if the animator time is below zero, then the animator has paused, so do nothing
-		// OR if the animation ID is ERROR_ID, do nothing
+		// OR if the animation ID is INVALID_ID, do nothing
 		if (animatorComp.time < 0.0f || !animatorComp.animation)
 		{
 			continue;
