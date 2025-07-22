@@ -7,6 +7,8 @@
 namespace Minty
 {
 	class Scene;
+	class EntityManager;
+	class SystemManager;
 	class System;
 	struct SystemInfo;
 
@@ -109,7 +111,23 @@ namespace Minty
 		/// Gets the Scene this System belongs to.
 		/// </summary>
 		/// <returns>The Scene.</returns>
-		Ref<Scene> get_scene() const { return m_scene; }
+		Ref<Scene> const& get_scene() const
+		{
+			MINTY_ASSERT(m_scene != nullptr, "System does not belong to a Scene.");
+			return m_scene;
+		}
+
+		/// <summary>
+		/// Gets the EntityManager for this System's Scene.
+		/// </summary>
+		/// <returns>The EntityManager.</returns>
+		EntityManager& get_entity_manager() const;
+
+		/// <summary>
+		/// Gets the SystemManager for this System's Scene.
+		/// </summary>
+		/// <returns>The SystemManager.</returns>
+		SystemManager& get_system_manager() const;
 
 		/// <summary>
 		/// Gets the SystemInfo for this System.
