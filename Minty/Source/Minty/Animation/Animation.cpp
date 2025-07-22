@@ -278,6 +278,20 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	reader.pop_user_data();
 }
 
+template<typename T>
+static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result, Bool(*try_func)(String const&, T&))
+{
+	T leftValue, rightValue;
+	if (try_func(left, leftValue) && try_func(right, rightValue))
+	{
+		// if both are valid, interpolate
+		T interpolatedValue = static_cast<T>(Math::lerp(leftValue, rightValue, t));
+		result = to_string(interpolatedValue);
+		return true;
+	}
+	return false;
+}
+
 // return true when animation is completed
 Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity const thisEntity, EntityManager& entityManager) const
 {
@@ -418,32 +432,27 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 					Node const& nextNode = m_values.at(it->get_second().get_second());
 					String previousValue = previousNode.get_data_string();
 					String nextValue = nextNode.get_data_string();
+					String resultValue;
 
 					// figure out the type of the variable based on the value
-					Int previousInt, nextInt;
-					Float previousFloat, nextFloat;
-					if(try_int(previousValue, previousInt) && try_int(nextValue, nextInt))
-					{
-						// if both are integers, interpolate as integers
-						Int interpolatedValue = static_cast<Int>(Math::lerp(previousInt, nextInt, t));
-						Node node;
-						node.set_name(variableName);
-						node.set_data(to_string(interpolatedValue));
-						root.add_child(std::move(node));
-					}
-					else if(try_float(previousValue, previousFloat) && try_float(nextValue, nextFloat))
-					{
-						// if both are floats, interpolate as floats
-						Float interpolatedValue = Math::lerp(previousFloat, nextFloat, t);
-						Node node;
-						node.set_name(variableName);
-						node.set_data(to_string(interpolatedValue));
-						root.add_child(std::move(node));
-					}
+					if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_long)) {} // signed integers
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_double)) {} // floating point values
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int2)) {} // int2
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int3)) {} // int3
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int4)) {} // int4
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float2)) {} // float2
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float3)) {} // float3
+					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float4)) {} // float4
 					else
 					{
-						MINTY_ERROR("Cannot interpolate between non-numeric values.");
+						MINTY_ERROR(F("Interpolation between \"{}\" and \"{}\" is not supported.", previousValue, nextValue));
 					}
+
+					// create the node with the interpolated value and add it to the root
+					Node node;
+					node.set_name(variableName);
+					node.set_data(resultValue);
+					root.add_child(std::move(node));
 				}
 			}
 

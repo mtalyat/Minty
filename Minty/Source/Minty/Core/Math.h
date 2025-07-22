@@ -481,6 +481,84 @@ namespace Minty
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
 		template<>
+		constexpr Int2 lerp(Int2 const left, Int2 const right, Float const t)
+		{
+			return Int2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Int3 lerp(Int3 const left, Int3 const right, Float const t)
+		{
+			return Int3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Int4 lerp(Int4 const left, Int4 const right, Float const t)
+		{
+			return Int4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr UInt2 lerp(UInt2 const left, UInt2 const right, Float const t)
+		{
+			return UInt2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr UInt3 lerp(UInt3 const left, UInt3 const right, Float const t)
+		{
+			return UInt3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr UInt4 lerp(UInt4 const left, UInt4 const right, Float const t)
+		{
+			return UInt4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}		
+		
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
 		constexpr Float lerp(Float const left, Float const right, Float const t)
 		{
 			return left + (right - left) * t;
@@ -532,7 +610,8 @@ namespace Minty
 		/// <param name="right">The upper bound.</param>
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
-		constexpr Double lerp(Double const left, Double const right, Double const t)
+		template<>
+		constexpr Double lerp(Double const left, Double const right, Float const t)
 		{
 			return left + (right - left) * t;
 		}
@@ -544,7 +623,8 @@ namespace Minty
 		/// <param name="right">The upper bound.</param>
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
-		constexpr Double2 lerp(Double2 const left, Double2 const right, Double const t)
+		template<>
+		constexpr Double2 lerp(Double2 const left, Double2 const right, Float const t)
 		{
 			return Double2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
 		}
@@ -556,7 +636,8 @@ namespace Minty
 		/// <param name="right">The upper bound.</param>
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
-		constexpr Double3 lerp(Double3 const left, Double3 const right, Double const t)
+		template<>
+		constexpr Double3 lerp(Double3 const left, Double3 const right, Float const t)
 		{
 			return Double3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
 		}
@@ -568,7 +649,8 @@ namespace Minty
 		/// <param name="right">The upper bound.</param>
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
-		constexpr Double4 lerp(Double4 const left, Double4 const right, Double const t)
+		template<>
+		constexpr Double4 lerp(Double4 const left, Double4 const right, Float const t)
 		{
 			return Double4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
 		}
