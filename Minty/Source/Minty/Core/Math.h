@@ -289,6 +289,105 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T snap(T const value, T const snapValue)
+		{
+			return static_cast<T>(std::round(value / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Float2 snap(Float2 const value, Float const snapValue)
+		{
+			return Float2(std::round(value.x / snapValue) * snapValue, std::round(value.y / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Float3 snap(Float3 const value, Float const snapValue)
+		{
+			return Float3(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Float4 snap(Float4 const value, Float const snapValue)
+		{
+			return Float4(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue,
+				std::round(value.w / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Double2 snap(Double2 const value, Double const snapValue)
+		{
+			return Double2(std::round(value.x / snapValue) * snapValue, std::round(value.y / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Double3 snap(Double3 const value, Double const snapValue)
+		{
+			return Double3(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Double4 snap(Double4 const value, Double const snapValue)
+		{
+			return Double4(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue,
+				std::round(value.w / snapValue) * snapValue);
+		}
+
+		/// <summary>
 		/// Floors the given value, and casts it to the given type, if necessary.
 		/// </summary>
 		/// <typeparam name="T_In">The input type.</typeparam>
@@ -549,8 +648,8 @@ namespace Minty
 		constexpr UInt4 lerp(UInt4 const left, UInt4 const right, Float const t)
 		{
 			return UInt4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
-		}		
-		
+		}
+
 		/// <summary>
 		/// Gets the position between left and right, based on t.
 		/// </summary>
@@ -1022,7 +1121,7 @@ namespace Minty
 		{
 			return a.x * b.x + a.y * b.y + a.z * b.z;
 		}
-		
+
 		/// <summary>
 		/// Gets the cross product of the two given Float3 values.
 		/// </summary>
