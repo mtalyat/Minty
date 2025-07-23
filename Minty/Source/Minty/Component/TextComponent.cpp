@@ -26,7 +26,7 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 
 	// mark as dirty
 	EntityManager& entityManager = *data->entityManager;
-	entityManager.mark_entity<DirtyTextComponent>(data->entity);
+	entityManager.mark<DirtyTextComponent>(data->entity);
 
 	// read text info
 	reader.read_default(text);

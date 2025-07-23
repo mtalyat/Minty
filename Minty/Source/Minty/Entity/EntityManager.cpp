@@ -1224,7 +1224,7 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 	}
 }
 
-void Minty::EntityManager::destroy_entity(Entity const entity)
+void Minty::EntityManager::destroy(Entity const entity)
 {
 	MINTY_ASSERT(contains(entity), "Entity does not exist.");
 	m_registry.destroy(entity);
@@ -1233,7 +1233,7 @@ void Minty::EntityManager::destroy_entity(Entity const entity)
 void Minty::EntityManager::initialize()
 {
 	// dirty all components on load
-	mark_all_entities<DirtyComponent>();
+	mark_all<DirtyComponent>();
 
 	Manager::initialize();
 }
@@ -1527,7 +1527,7 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 			reader.outdent();
 
 			// destroy the temporary entity
-			destroy_entity(entity);
+			destroy(entity);
 		}
 		else
 		{

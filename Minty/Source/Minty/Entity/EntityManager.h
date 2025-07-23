@@ -158,6 +158,11 @@ namespace Minty
 			return m_ids.contains(id);
 		}
 
+		/// <summary>
+		/// Checks if this manager contains the given Entity.
+		/// </summary>
+		/// <param name="entity">The Entity.</param>
+		/// <returns>True if the given Entity exists.</returns>
 		Bool contains(Entity const entity) const
 		{
 			return m_registry.valid(entity);
@@ -242,8 +247,20 @@ namespace Minty
 			return m_registry.emplace<ComponentType>(entity, std::forward<Args>(args)...);
 		}
 
+		/// <summary>
+		/// Adds a component with the specified name to the given entity and returns a reference to the newly added component.
+		/// </summary>
+		/// <param name="entity">The entity to which the component will be added.</param>
+		/// <param name="name">The name of the component to add.</param>
+		/// <returns>A reference to the newly added component.</returns>
 		Component& add_component(Entity const entity, String const& name);
 
+		/// <summary>
+		/// Retrieves a reference to a component of the specified type from the given entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <returns>A reference to the component of the specified type associated with the entity.</returns>
 		template<typename ComponentType>
 		ComponentType& get_component(Entity const entity)
 		{
@@ -251,6 +268,12 @@ namespace Minty
 			return m_registry.get<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Retrieves a reference to a component of the specified type from the given entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <returns>A constant reference to the component of the specified type associated with the entity.</returns>
 		template<typename ComponentType>
 		ComponentType const& get_component(Entity const entity) const
 		{
@@ -258,10 +281,28 @@ namespace Minty
 			return m_registry.get<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Retrieves a reference to a component of the specified entity by name.
+		/// </summary>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <param name="name">The name of the component to retrieve.</param>
+		/// <returns>A reference to the requested component.</returns>
 		Component& get_component(Entity const entity, String const& name);
 
+		/// <summary>
+		/// Retrieves a constant reference to a component of the specified entity by name.
+		/// </summary>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <param name="name">The name of the component to retrieve.</param>
+		/// <returns>A constant reference to the requested component.</returns>
 		Component const& get_component(Entity const entity, String const& name) const;
 
+		/// <summary>
+		/// Retrieves a component of the specified type from the given entity, or adds it if it does not exist.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to retrieve or add.</typeparam>
+		/// <param name="entity">The entity from which to get or add the component.</param>
+		/// <returns>A reference to the component of the specified type associated with the entity.</returns>
 		template<typename ComponentType>
 		ComponentType& get_or_add_component(Entity const entity)
 		{
@@ -269,8 +310,20 @@ namespace Minty
 			return m_registry.emplace_or_replace<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Retrieves a component by name from the specified entity, or adds it if it does not exist.
+		/// </summary>
+		/// <param name="entity">The entity from which to retrieve or add the component.</param>
+		/// <param name="name">The name of the component to retrieve or add.</param>
+		/// <returns>A reference to the retrieved or newly added component.</returns>
 		Component& get_or_add_component(Entity const entity, String const& name);
 
+		/// <summary>
+		/// Attempts to retrieve a pointer to a component of the specified type from the given entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <returns>A pointer to the component of the specified type if it exists; otherwise, nullptr.</returns>
 		template<typename ComponentType>
 		ComponentType* try_get_component(Entity const entity)
 		{
@@ -278,6 +331,12 @@ namespace Minty
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Attempts to retrieve a pointer to a component of the specified type from the given entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <returns>A pointer to the component of the specified type if it exists; otherwise, nullptr.</returns>
 		template<typename ComponentType>
 		ComponentType const* try_get_component(Entity const entity) const
 		{
@@ -285,10 +344,28 @@ namespace Minty
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Attempts to retrieve a component from the specified entity by name.
+		/// </summary>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <param name="name">The name of the component to retrieve.</param>
+		/// <returns>A pointer to the component if found; otherwise, nullptr.</returns>
 		Component* try_get_component(Entity const entity, String const& name);
 
+		/// <summary>
+		/// Attempts to retrieve a component from the specified entity by name.
+		/// </summary>
+		/// <param name="entity">The entity from which to retrieve the component.</param>
+		/// <param name="name">The name of the component to retrieve.</param>
+		/// <returns>A pointer to the component if found; otherwise, nullptr.</returns>
 		Component const* try_get_component(Entity const entity, String const& name) const;
 
+		/// <summary>
+		/// Checks if the specified entity has a component of the given type.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to check for.</typeparam>
+		/// <param name="entity">The entity to check for the component.</param>
+		/// <returns>True if the entity has the specified component; otherwise, false.</returns>
 		template<typename ComponentType>
 		Bool has_component(Entity const entity) const
 		{
@@ -296,8 +373,19 @@ namespace Minty
 			return m_registry.all_of<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Checks whether the specified entity has a component with the given name.
+		/// </summary>
+		/// <param name="entity">The entity to check for the component.</param>
+		/// <param name="name">The name of the component to look for.</param>
+		/// <returns>True if the entity has a component with the specified name; otherwise, false.</returns>
 		Bool has_component(Entity const entity, String const& name) const;
 
+		/// <summary>
+		/// Removes a component of the specified type from an entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of the component to remove from the entity.</typeparam>
+		/// <param name="entity">The entity from which the component will be removed.</param>
 		template<typename ComponentType>
 		void remove_component(Entity const entity)
 		{
@@ -305,6 +393,11 @@ namespace Minty
 			m_registry.remove<ComponentType>(entity);
 		}
 
+		/// <summary>
+		/// Removes a component with the specified name from the given entity.
+		/// </summary>
+		/// <param name="entity">The entity from which the component will be removed.</param>
+		/// <param name="name">The name of the component to remove.</param>
 		void remove_component(Entity const entity, String const& name);
 
 		/// <summary>
@@ -344,7 +437,7 @@ namespace Minty
 		/// <typeparam name="ComponentType">The type of Component.</typeparam>
 		/// <param name="entity">The Entity to add the Component to.</param>
 		template<typename ComponentType>
-		void mark_entity(Entity const entity)
+		void mark(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
 			m_registry.emplace_or_replace<ComponentType>(entity);
@@ -355,7 +448,7 @@ namespace Minty
 		/// </summary>
 		/// <typeparam name="ComponentType">The type of Component.</typeparam>
 		template<typename ComponentType>
-		void mark_all_entities()
+		void mark_all()
 		{
 			for (auto const [entity] : m_registry.storage<Entity>().each())
 			{
@@ -403,18 +496,47 @@ namespace Minty
 			m_registry.sort<T>(compare);
 		}
 
+		/// <summary>
+		/// Swaps the positions of two sibling entities.
+		/// </summary>
+		/// <param name="left">The first sibling entity to swap.</param>
+		/// <param name="right">The second sibling entity to swap.</param>
 		void swap_siblings(Entity const left, Entity const right);
 
+		/// <summary>
+		/// Advances the specified entity to its next state or position.
+		/// </summary>
+		/// <param name="entity">The entity to be moved to the next state or position.</param>
 		void move_to_next(Entity const entity);
 
+		/// <summary>
+		/// Moves the specified entity to its previous position or state.
+		/// </summary>
+		/// <param name="entity">The entity to be moved to the previous position or state.</param>
 		void move_to_previous(Entity const entity);
 
+		/// <summary>
+		/// Moves the specified entity to the first position.
+		/// </summary>
+		/// <param name="entity">The entity to move to the first position.</param>
 		void move_to_first(Entity const entity);
 
+		/// <summary>
+		/// Moves the specified entity to the last position.
+		/// </summary>
+		/// <param name="entity">The entity to move to the last position.</param>
 		void move_to_last(Entity const entity);
 
-		void destroy_entity(Entity const entity);
+		/// <summary>
+		/// Destroys the given Entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		void destroy(Entity const entity);
 
+		/// <summary>
+		/// Destroys all Entities with the given Component type.
+		/// </summary>
+		/// <typeparam name="ComponentType"></typeparam>
 		template<typename ComponentType>
 		void destroy_with()
 		{
