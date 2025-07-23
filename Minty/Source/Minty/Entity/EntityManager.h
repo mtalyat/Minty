@@ -324,6 +324,21 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Clears the Component from the given Entity.
+		/// </summary>
+		/// <typeparam name="ComponentType">The type of Component.</typeparam>
+		/// <param name="entity">The Entity.</param>
+		template<typename ComponentType>
+		void clear(Entity const entity)
+		{
+			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			if(m_registry.all_of<ComponentType>(entity))
+			{
+				m_registry.remove<ComponentType>(entity);
+			}
+		}
+
+		/// <summary>
 		/// Adds or replaces the component on the given Entity.
 		/// </summary>
 		/// <typeparam name="ComponentType">The type of Component.</typeparam>
