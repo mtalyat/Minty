@@ -136,7 +136,7 @@ namespace Minty
 		/// <param name="z">The z position (depth).</param>
 		inline void set_z(Float const& z)
 		{
-			this->z = Math::clamp(z, 0.0f, 1.0f);
+			this->z = z;
 		}
 
 		/// <summary>
@@ -151,7 +151,7 @@ namespace Minty
 		/// <param name="depth">The depth (z position).</param>
 		inline void set_depth(Float const& depth)
 		{
-			this->z = Math::clamp(depth, 0.0f, 1.0f);
+			this->z = depth;
 		}
 
 		/// <summary>
