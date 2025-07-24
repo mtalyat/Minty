@@ -7,6 +7,71 @@
 
 using namespace Minty;
 
+void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp)
+{
+	// if this is the first child, set parent's first to next
+	if (relationshipComp.prev != INVALID_ENTITY)
+	{
+		parentRelationshipComp.first = relationshipComp.next;
+	}
+	// if this is the last child, set parent's last to prev
+	if (relationshipComp.next != INVALID_ENTITY)
+	{
+		parentRelationshipComp.last = relationshipComp.prev;
+	}
+
+	// iterate from next to end and update indices
+	Entity sibling = relationshipComp.next;
+	while (sibling != INVALID_ENTITY)
+	{
+		RelationshipComponent& siblingRelationshipComponent = m_registry.get<RelationshipComponent>(sibling);
+		siblingRelationshipComponent.index--;
+		sibling = siblingRelationshipComponent.next;
+	}
+
+	// update child count
+	parentRelationshipComp.children--;
+
+	// clear this entity's relationship
+	relationshipComp.prev = INVALID_ENTITY;
+	relationshipComp.next = INVALID_ENTITY;
+	relationshipComp.depth = 0;
+}
+
+void Minty::EntityManager::add_to_parent(Entity const entity, RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp)
+{
+	// set this entity's index
+	relationshipComp.index = parentRelationshipComp.children;
+
+	// if this is the first child, set parent's first to this
+	if (parentRelationshipComp.first == INVALID_ENTITY)
+	{
+		parentRelationshipComp.first = entity;
+		relationshipComp.prev = INVALID_ENTITY;
+	}
+	else
+	{
+		// else, set this entity's prev to parent's last
+		relationshipComp.prev = parentRelationshipComp.last;
+		if (relationshipComp.prev != INVALID_ENTITY)
+		{
+			m_registry.get<RelationshipComponent>(parentRelationshipComp.last).next = entity;
+		}
+	}
+
+	// set this entity's next to INVALID_ENTITY
+	relationshipComp.next = INVALID_ENTITY;
+
+	// set parent's last to this
+	parentRelationshipComp.last = entity;
+
+	// increment child count
+	parentRelationshipComp.children++;
+
+	// set depth
+	relationshipComp.depth = parentRelationshipComp.depth + 1;
+}
+
 UUID Minty::EntityManager::get_id(Entity const entity) const
 {
 	if (entity == INVALID_ENTITY)
@@ -80,7 +145,7 @@ Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const& p
 	{
 		return source;
 	}
-	
+
 	// follow the children indices down until found
 	Entity entity = source;
 	RelationshipComponent const* relationshipComponent;
@@ -221,85 +286,46 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 
 	RelationshipComponent& relationshipComponent = m_registry.get_or_emplace<RelationshipComponent>(entity);
 
-	// if existing parent, remove from parent
-	if (relationshipComponent.parent != INVALID_ENTITY)
+	if (relationshipComponent.parent == INVALID_ENTITY)
 	{
+		// remove from root, if part of root
+		Entity child = m_root.first;
+		while(child != INVALID_ENTITY && child != entity)
+		{
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+		if (child != INVALID_ENTITY)
+		{
+			// child must be part of root, so remove it
+			remove_from_parent(relationshipComponent, m_root);
+		}
+	}
+	else
+	{
+		// remove from parent
 		RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent.parent);
-
-		// if this is the first child, set parent's first to next
-		if (relationshipComponent.prev != INVALID_ENTITY)
-		{
-			parentRelationshipComponent.first = relationshipComponent.next;
-		}
-		// if this is the last child, set parent's last to prev
-		if (relationshipComponent.next != INVALID_ENTITY)
-		{
-			parentRelationshipComponent.last = relationshipComponent.prev;
-		}
-
-		// iterate from next to end and update indices
-		Entity sibling = relationshipComponent.next;
-		while (sibling != INVALID_ENTITY)
-		{
-			RelationshipComponent& siblingRelationshipComponent = m_registry.get<RelationshipComponent>(sibling);
-			siblingRelationshipComponent.index--;
-			sibling = siblingRelationshipComponent.next;
-		}
-
-		// update child count
-		parentRelationshipComponent.children--;
-
-		// clear this entity's relationship
-		relationshipComponent.prev = INVALID_ENTITY;
-		relationshipComponent.next = INVALID_ENTITY;
-		relationshipComponent.depth = 0;
+		remove_from_parent(relationshipComponent, parentRelationshipComponent);
 	}
 
 	// set parent
 	relationshipComponent.parent = parent;
 
 	// if parent is valid, add to parent's children
-	if (parent != INVALID_ENTITY)
+	if (parent == INVALID_ENTITY)
 	{
-		RelationshipComponent& parentRelationshipComponent = m_registry.get_or_emplace<RelationshipComponent>(parent);
-
-		// set this entity's index
-		relationshipComponent.index = parentRelationshipComponent.children;
-
-		// if this is the first child, set parent's first to this
-		if (parentRelationshipComponent.first == INVALID_ENTITY)
-		{
-			parentRelationshipComponent.first = entity;
-			relationshipComponent.prev = INVALID_ENTITY;
-		}
-		else
-		{
-			// else, set this entity's prev to parent's last
-			relationshipComponent.prev = parentRelationshipComponent.last;
-			if (relationshipComponent.prev != INVALID_ENTITY)
-			{
-				m_registry.get<RelationshipComponent>(parentRelationshipComponent.last).next = entity;
-			}
-		}
-
-		// set this entity's next to INVALID_ENTITY
-		relationshipComponent.next = INVALID_ENTITY;
-
-		// set parent's last to this
-		parentRelationshipComponent.last = entity;
-
-		// increment child count
-		parentRelationshipComponent.children++;
-
-		// set depth
-		relationshipComponent.depth = parentRelationshipComponent.depth + 1;
+		// add to root
+		add_to_parent(entity, relationshipComponent, m_root);
 	}
-
-	// if no parent or children, remove the relationship component
-	if (relationshipComponent.parent == INVALID_ENTITY && relationshipComponent.children == 0)
+	else
 	{
-		m_registry.remove<RelationshipComponent>(entity);
-		return;
+		// add to parent
+		if(!m_registry.all_of<RelationshipComponent>(parent))
+		{
+			// if parent does not have a relationship component, create one
+			set_parent(parent, INVALID_ENTITY);
+		}
+		RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
+		add_to_parent(entity, relationshipComponent, parentRelationshipComponent);
 	}
 
 	// if children, update their depths
@@ -538,22 +564,8 @@ void Minty::EntityManager::finalize_dirties()
 	}
 	clear<DirtyTextComponent>();
 
-	// update dirty transforms with relationships
-	auto transformView = m_registry.view<DirtyComponent const, TransformComponent, RelationshipComponent const>();
-	transformView.use<RelationshipComponent>();
-	for (auto&& [entity, dirty, transformComp, relationshipComp] : transformView.each())
-	{
-		update_transform(entity, relationshipComp.parent, transformComp);
-	}
-
-	// update dirty transforms without relationships
-	for (auto&& [entity, dirty, transformComp] : m_registry.view<DirtyComponent const, TransformComponent>(entt::exclude<RelationshipComponent>).each())
-	{
-		update_transform(entity, INVALID_ENTITY, transformComp);
-	}
-
 	// update dirty canvas transforms
-	for (auto&& [entity, dirtyComp, uiTransformComp, canvasComp] : m_registry.view<DirtyComponent const, UITransformComponent, CanvasComponent const>().each())
+	for (auto&& [entity, uiTransformComp, canvasComp, dirty] : m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const>().each())
 	{
 		// get window size as a rect
 		Window& window = Context::get_singleton().get_window();
@@ -566,17 +578,28 @@ void Minty::EntityManager::finalize_dirties()
 		uiTransformComp.transform.set_global_rect(canvasComp.canvas.get_rect());
 	}
 
-	// update dirty UI transforms with relationships
-	auto uiTransformView = m_registry.view<DirtyComponent const, UITransformComponent, RelationshipComponent const>();
-	uiTransformView.use<RelationshipComponent>();
-	for (auto&& [entity, dirtyComp, uiTransformComp, relationshipComp] : uiTransformView.each())
+	// update entities with relationships
+	for (auto&& [entity, relationshipComp] : m_registry.view<RelationshipComponent>().each())
 	{
-		update_uiTransform(entity, relationshipComp.parent, uiTransformComp);
+		if(TransformComponent* transformComp = m_registry.try_get<TransformComponent>(entity))
+		{
+			update_transform(entity, relationshipComp.parent, *transformComp);
+		}
+		else if (UITransformComponent* uiTransformComp = m_registry.try_get<UITransformComponent>(entity))
+		{
+			update_uiTransform(entity, relationshipComp.parent, *uiTransformComp);
+		}
 	}
 
-	// update dirty UI transforms without relationships
-	for (auto&& [entity, dirtyComp, uiTransformComp] : m_registry.view<DirtyComponent const, UITransformComponent>(entt::exclude<RelationshipComponent>).each())
+	// update entities without relationships
+	for (auto&& [entity, transformComp] : m_registry.view<TransformComponent>(entt::exclude<RelationshipComponent>).each())
 	{
+		// if no relationship, update the transform with no parent
+		update_transform(entity, INVALID_ENTITY, transformComp);
+	}
+	for (auto&& [entity, uiTransformComp] : m_registry.view<UITransformComponent>(entt::exclude<RelationshipComponent>).each())
+	{
+		// if no relationship, update the UITransform with no parent
 		update_uiTransform(entity, INVALID_ENTITY, uiTransformComp);
 	}
 
@@ -713,7 +736,7 @@ void Minty::EntityManager::dirty(Entity const entity)
 
 		// get the relationship component
 		RelationshipComponent const& relationship = m_registry.get<RelationshipComponent>(currentEntity);
-		
+
 		// dirty all children
 		Entity child = relationship.first;
 		while (child != INVALID_ENTITY)
@@ -943,32 +966,31 @@ void Minty::EntityManager::sort()
 {
 	m_registry.sort<RelationshipComponent>([&](Entity const left, Entity const right)
 		{
+			if (left == right)
+			{
+				return false;
+			}
+
 			RelationshipComponent const& leftRelationship = m_registry.get<RelationshipComponent>(left);
 			RelationshipComponent const& rightRelationship = m_registry.get<RelationshipComponent>(right);
+
+			// if the depths are different, compare by depth first
+			if(leftRelationship.depth != rightRelationship.depth)
+			{
+				return leftRelationship.depth < rightRelationship.depth;
+			}
+
+			// keep going up until they have the same parent
 			RelationshipComponent const* leftR = &leftRelationship;
 			RelationshipComponent const* rightR = &rightRelationship;
-
-			// get equal depth relationships
-			while (leftR->depth > rightR->depth)
+			while (leftR->parent != rightR->parent)
 			{
 				leftR = &m_registry.get<RelationshipComponent>(leftR->parent);
-			}
-			while (rightR->depth > leftR->depth)
-			{
 				rightR = &m_registry.get<RelationshipComponent>(rightR->parent);
 			}
 
-			// if index is equal, they are part of the same tree
-			if (leftR->index == rightR->index)
-			{
-				// use depth of originals
-				return leftRelationship.depth < rightRelationship.depth;
-			}
-			else
-			{
-				// if not equal, use index, as they are part of different trees
-				return leftR->index < rightR->index;
-			}
+			// sort by index of ancestor
+			return leftR->index < rightR->index;
 		});
 }
 
@@ -1004,7 +1026,7 @@ void Minty::EntityManager::swap_siblings(Entity const left, Entity const right)
 		leftRelationshipComponent->prev = right;
 		rightRelationshipComponent->next = left;
 	}
-	else if(leftRelationshipComponent->prev == left)
+	else if (leftRelationshipComponent->prev == left)
 	{
 		rightRelationshipComponent->next = leftRelationshipComponent->next;
 		leftRelationshipComponent->prev = right;
@@ -1164,7 +1186,7 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 {
 	MINTY_ASSERT(contains(entity), "Entity does not exist.");
 
-	RelationshipComponent* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);\
+	RelationshipComponent* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 
 	// if no relationship component, do nothing
 	if (!relationshipComponent)
@@ -1514,7 +1536,7 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 		if (prefabComponent)
 		{
 			// deserialize the prefab entity
-			reader.indent(i); 
+			reader.indent(i);
 			AssetManager& assetManager = AssetManager::get_singleton();
 			Ref<Prefab> const& prefab = assetManager.get<Prefab>(prefabComponent->id);
 			MINTY_ASSERT(prefab != nullptr, F("Failed to find prefab with ID {}.", prefabComponent->id));

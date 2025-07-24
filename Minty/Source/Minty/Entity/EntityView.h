@@ -45,7 +45,7 @@ namespace Minty
 		/// <returns>The max count.</returns>
 		Size get_size() const
 		{
-			return m_view.size_hint();
+			return m_view.size();
 		}
 
 #pragma endregion
@@ -53,7 +53,7 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
+		/// <summary> 
 		/// Allows iterating over the Entities and Components in the view.
 		/// </summary>
 		/// <returns>The iterator.</returns>

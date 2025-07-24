@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Component/Component.h"
+#include "Minty/Component/RelationshipComponent.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Entity/EntityPath.h"
@@ -35,6 +36,7 @@ namespace Minty
 
 	private:
 		entt::registry m_registry;
+		RelationshipComponent m_root;
 		Map<UUID, Entity> m_ids;
 
 #pragma endregion
@@ -49,6 +51,7 @@ namespace Minty
 		EntityManager(Scene* scene, EntityManagerBuilder const& builder)
 			: SubManager(scene)
 			, m_registry()
+			, m_root()
 			, m_ids()
 		{
 		}
@@ -56,6 +59,7 @@ namespace Minty
 		EntityManager(EntityManager&& other) noexcept
 			: SubManager(std::move(other))
 			, m_registry(std::move(other.m_registry))
+			, m_root(std::move(other.m_root))
 			, m_ids(std::move(other.m_ids))
 		{
 		}
@@ -75,6 +79,7 @@ namespace Minty
 			if (this != &other)
 			{
 				m_registry = std::move(other.m_registry);
+				m_root = std::move(other.m_root);
 				m_ids = std::move(other.m_ids);
 			}
 			return *this;
@@ -83,6 +88,11 @@ namespace Minty
 #pragma endregion
 
 #pragma region Get Set
+
+	private:
+		void remove_from_parent(RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp);
+
+		void add_to_parent(Entity const entity, RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp);
 
 	public:
 		UUID get_id(Entity const entity) const;
