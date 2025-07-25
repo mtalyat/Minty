@@ -893,6 +893,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 					MINTY_ERROR(F("Failed to read action indices from animation step: {}.", path));
 					continue;
 				}
+				actionIndicesString = actionIndicesString.strip();
 				Vector<String> actionIndicesParts = actionIndicesString.split(ANIMATION_ACTION_GROUP);
 				Vector<Size> actionIndices;
 				actionIndices.reserve(actionIndicesParts.get_size());

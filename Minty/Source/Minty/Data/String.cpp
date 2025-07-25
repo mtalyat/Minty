@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "String.h"
 #include "Minty/Core/Math.h"
+#include "Minty/Data/Set.h"
 #include <cstring>
 
 using namespace Minty;
@@ -221,7 +222,7 @@ String Minty::String::sub(Size const start, Size const length) const
 	MINTY_ASSERT(start + length <= m_size, "Start + length index is out of bounds.");
 
 	// create new string
-	String result;
+	String result(m_allocator);
 	result.resize(length);
 	memcpy(result.mp_data, mp_data + start, length * sizeof(Char));
 
@@ -233,7 +234,7 @@ String Minty::String::sub(Size const start) const
 	return sub(start, m_size - start);
 }
 
-String Minty::String::trim_start(String const& characters)
+String Minty::String::trim_start(String const& characters) const
 {
 	Size index = find_first_not_of(characters);
 	if (index == INVALID_INDEX)
@@ -247,7 +248,7 @@ String Minty::String::trim_start(String const& characters)
 	return sub(index);
 }
 
-String Minty::String::trim_end(String const& characters)
+String Minty::String::trim_end(String const& characters) const
 {
 	Size index = find_last_not_of(characters);
 	if (index == INVALID_INDEX)
@@ -261,9 +262,29 @@ String Minty::String::trim_end(String const& characters)
 	return sub(0, index);
 }
 
-String Minty::String::trim(String const& whitespace)
+String Minty::String::trim(String const& whitespace) const
 {
 	return trim_start(whitespace).trim_end(whitespace);
+}
+
+String Minty::String::strip(String const& characters) const
+{
+	String result(' ', m_size, m_allocator);
+	Size index = 0;
+	Set<Char> charSet;
+	for (Char c : characters)
+	{
+		charSet.add(c);
+	}
+	for (Size i = 0; i < m_size; i++)
+	{
+		if(!charSet.contains(mp_data[i]))
+		{
+			result.mp_data[index++] = mp_data[i];
+		}
+	}
+	result.m_size = index;
+	return result;
 }
 
 Size Minty::String::find_first(String const& sub, Size const index) const

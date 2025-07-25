@@ -12,7 +12,7 @@ Bool Minty::EntityPath::parse(String const& text)
 
 	// parse to the path
 	m_path.reserve(parts.get_size());
-	for (Size i = 0; i < m_path.get_size(); i++)
+	for (Size i = 0; i < parts.get_size(); i++)
 	{
 		// parse the byte
 		Byte b;

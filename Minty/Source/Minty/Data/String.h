@@ -418,11 +418,33 @@ namespace Minty
 		/// <returns>A new String with the text within the given range.</returns>
 		String sub(Size const start) const;
 
-		String trim_start(String const& characters = TEXT_WHITESPACE);
+		/// <summary>
+		/// Removes the characters from the start of this String.
+		/// </summary>
+		/// <param name="characters">The characters to remove.</param>
+		/// <returns>The new String without the characters at the beginning.</returns>
+		String trim_start(String const& characters = TEXT_WHITESPACE) const;
 
-		String trim_end(String const& characters = TEXT_WHITESPACE);
+		/// <summary>
+		/// Removes all trailing characters from the end of the string that match any character in the specified set.
+		/// </summary>
+		/// <param name="characters">A string containing the set of characters to remove from the end of the string. Defaults to whitespace characters if not specified.</param>
+		/// <returns>A new string with the specified characters removed from the end.</returns>
+		String trim_end(String const& characters = TEXT_WHITESPACE) const;
 
-		String trim(String const& whitespace = TEXT_WHITESPACE);
+		/// <summary>
+		/// Removes leading and trailing whitespace characters from the string.
+		/// </summary>
+		/// <param name="whitespace">A string containing the characters to be considered as whitespace. Defaults to TEXT_WHITESPACE.</param>
+		/// <returns>A new string with leading and trailing whitespace characters removed.</returns>
+		String trim(String const& whitespace = TEXT_WHITESPACE) const;
+
+		/// <summary>
+		/// Removes any of the given characters from this String.
+		/// </summary>
+		/// <param name="characters">The characters to remove.</param>
+		/// <returns>A new string with the characters removed.</returns>
+		String strip(String const& characters = TEXT_WHITESPACE) const;
 
 		/// <summary>
 		/// Finds the first occurrence of the given sub string.

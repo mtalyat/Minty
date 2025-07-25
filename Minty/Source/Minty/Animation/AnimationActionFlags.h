@@ -16,19 +16,19 @@ namespace Minty
 		None = 0,
 
 		/// <summary>
-		/// Enable interpolation for the action.
-		/// </summary>
-		Smooth = 1 << 0,
-
-		/// <summary>
 		/// Add the associated component to the entity.
 		/// </summary>
-		Add = 1 << 1,
+		Add = 1 << 0,
 
 		/// <summary>
 		/// Remove the associated component from the entity.
 		/// </summary>
-		Remove = 1 << 2,
+		Remove = 1 << 1,
+
+		/// <summary>
+		/// Enable interpolation for the action.
+		/// </summary>
+		Smooth = 1 << 2,
 	};
 
 	MINTY_ENUM_FLAGS_OPERATORS(AnimationActionType)

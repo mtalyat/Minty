@@ -248,6 +248,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	}
 
 	// normal step
+	MINTY_ASSERT(component != nullptr, "Component is null. Cannot perform action.");
 
 	// build and add all of the values to set
 	Node root{};
