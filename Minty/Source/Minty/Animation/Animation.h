@@ -20,17 +20,17 @@ namespace Minty
 		/// <summary>
 		/// The Asset ID.
 		/// </summary>
-		UUID id;
+		UUID id = INVALID_ID;
 
 		/// <summary>
 		/// The amount of time this animation takes to complete, in seconds.
 		/// </summary>
-		Float duration;
+		Float duration = 0.0f;
 
 		/// <summary>
 		/// When true, the animation will restart after it ends.
 		/// </summary>
-		Bool loop;
+		Bool loop = false;
 
 		/// <summary>
 		/// The paths to the Entities to animate.
