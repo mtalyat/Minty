@@ -839,9 +839,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 
 			reader->outdent();
 		}
-		MINTY_ASSERT(!builder.rigidVariables.is_empty() || !builder.smoothVariables.is_empty(), "Animation must have at least one variable to animate. Make sure the variables are under Rigid or Smooth, under Variables.");
 		reader->read("Values", builder.values);
-		MINTY_ASSERT(!builder.values.is_empty(), "Animation must have at least one value to animate with.");
 		reader->read("Actions", builder.actions);
 		MINTY_ASSERT(!builder.actions.is_empty(), "Animation must have at least one action to animate with.");
 
@@ -941,7 +939,6 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				}
 			}
 		}
-		MINTY_ASSERT(!builder.resetSteps.is_empty(), "Animation must have at least one reset step to animate with.");
 
 		close_reader(reader);
 	}
