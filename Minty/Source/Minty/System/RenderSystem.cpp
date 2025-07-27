@@ -28,7 +28,7 @@ using namespace Minty;
 
 Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
 	: System(builder)
-	, m_bufferContainerFactory(BufferUsage::Vertex)
+	, m_bufferContainerFactory(256, BufferUsage::Vertex)
 	, m_3dSpriteGroupId(m_bufferContainerFactory.create_group())
 	, m_uiSpriteGroupId(m_bufferContainerFactory.create_group())
 	, m_canvasEntity(INVALID_ENTITY)

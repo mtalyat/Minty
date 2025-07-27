@@ -235,12 +235,36 @@ namespace Minty
 		Entity create_entity(String const& name, UUID const id);
 
 		/// <summary>
+		/// Creates a new entity from the specified prefab.
+		/// </summary>
+		/// <param name="prefab">A constant reference to the prefab used to instantiate the entity.</param>
+		/// <returns>The newly created entity.</returns>
+		Entity create_entity(Ref<Prefab> const& prefab);
+
+		/// <summary>
 		/// Creates an Entity based on the given Prefab.
 		/// </summary>
 		/// <param name="id">The new ID to use.</param>
 		/// <param name="prefab">The Prefab.</param>
 		/// <returns>The first Entity created by the Prefab.</returns>
 		Entity create_entity(UUID const id, Ref<Prefab> const& prefab);
+
+		/// <summary>
+		/// Creates a new entity with the specified name and prefab.
+		/// </summary>
+		/// <param name="name">The name to assign to the new entity.</param>
+		/// <param name="prefab">A reference to the prefab used to initialize the entity.</param>
+		/// <returns>The newly created entity.</returns>
+		Entity create_entity(String const& name, Ref<Prefab> const& prefab);
+
+		/// <summary>
+		/// Creates a new entity with the specified name, unique identifier, and prefab reference.
+		/// </summary>
+		/// <param name="name">The name to assign to the new entity.</param>
+		/// <param name="id">The unique identifier (UUID) for the entity.</param>
+		/// <param name="prefab">A reference to the prefab used to initialize the entity.</param>
+		/// <returns>The newly created Entity object.</returns>
+		Entity create_entity(String const& name, UUID const id, Ref<Prefab> const& prefab);
 
 		/// <summary>
 		/// Adds a Component to the given Entity.

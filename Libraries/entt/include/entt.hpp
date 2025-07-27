@@ -22639,7 +22639,7 @@ public:
      * @brief Estimates the number of entities iterated by the view.
      * @return Estimated number of entities iterated by the view.
      */
-    [[nodiscard]] size_type size_hint() const noexcept {
+    [[nodiscard]] size_type size() const noexcept {
         return view ? view->size() : size_type{};
     }
 
@@ -39270,7 +39270,7 @@ public:
      * @brief Estimates the number of entities iterated by the view.
      * @return Estimated number of entities iterated by the view.
      */
-    [[nodiscard]] size_type size_hint() const {
+    [[nodiscard]] size_type size() const {
         return pools.empty() ? size_type{} : pools.front()->size();
     }
 
@@ -42607,7 +42607,7 @@ public:
      * @brief Estimates the number of entities iterated by the view.
      * @return Estimated number of entities iterated by the view.
      */
-    [[nodiscard]] size_type size_hint() const noexcept {
+    [[nodiscard]] size_type size() const noexcept {
         return view ? view->size() : size_type{};
     }
 
