@@ -818,8 +818,11 @@ Entity Minty::EntityManager::create_entity(String const& name)
 	Entity entity = m_registry.create();
 
 	// add the name component
-	NameComponent& nameComponent = m_registry.emplace<NameComponent>(entity);
-	nameComponent.name = name;
+	if (!name.is_empty())
+	{
+		NameComponent& nameComponent = m_registry.emplace<NameComponent>(entity);
+		nameComponent.name = name;
+	}
 
 	// done
 	return entity;
@@ -837,45 +840,17 @@ Entity Minty::EntityManager::create_entity(Entity const parent)
 	return entity;
 }
 
-Entity Minty::EntityManager::create_entity(Ref<Prefab> const& prefab)
-{
-	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
-
-	TextNodeReader reader(prefab->get_node());
-	if (reader.get_size() == 0)
-	{
-		return INVALID_ENTITY;
-	}
-	Map<UUID, UUID> idMap;
-
-	// add first entity to the ID map
-	UUID id = UUID::create();
-	String name;
-	UUID eId;
-	UUID pId;
-	deserialize_entity(reader, 0, name, eId, pId);
-	idMap.add(eId, id);
-	Entity entity = create_entity(name, id);
-
-	// deserialize the rest of the entities
-	if (!deserialize_prefab(reader, idMap))
-	{
-		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
-		return INVALID_ENTITY;
-	}
-
-	dirty(entity);
-	return entity;
-}
-
 Entity Minty::EntityManager::create_entity(String const& name, UUID const id)
 {
 	// create empty entity
 	Entity entity = m_registry.create();
 
 	// add the name component
-	NameComponent& nameComponent = m_registry.emplace<NameComponent>(entity);
-	nameComponent.name = name;
+	if (!name.is_empty())
+	{
+		NameComponent& nameComponent = m_registry.emplace<NameComponent>(entity);
+		nameComponent.name = name;
+	}
 
 	// add the id component
 	UUIDComponent& idComponent = m_registry.emplace<UUIDComponent>(entity);
@@ -900,7 +875,156 @@ Entity Minty::EntityManager::create_entity(String const& name, UUID const id, En
 	return entity;
 }
 
-Entity Minty::EntityManager::create_entity(String const& name, UUID const id, Entity const parent, Ref<Prefab> const& prefab)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
+{
+	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
+
+	TextNodeReader reader(prefab->get_node());
+	if (reader.get_size() == 0)
+	{
+		return INVALID_ENTITY;
+	}
+	Map<UUID, UUID> idMap;
+
+	// add first entity to the ID map
+	String name;
+	UUID eId;
+	UUID pId;
+	deserialize_entity(reader, 0, name, eId, pId);
+	idMap.add(eId, UUID::create());
+	Entity entity = create_entity();
+
+	// deserialize the rest of the entities
+	if (!deserialize_prefab(reader, idMap))
+	{
+		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
+		return INVALID_ENTITY;
+	}
+
+	dirty(entity);
+	return entity;
+}
+
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String const& name)
+{
+	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
+	TextNodeReader reader(prefab->get_node());
+	if (reader.get_size() == 0)
+	{
+		return INVALID_ENTITY;
+	}
+	Map<UUID, UUID> idMap;
+
+	// add first entity to the ID map
+	String oldName;
+	UUID eId;
+	UUID pId;
+	deserialize_entity(reader, 0, oldName, eId, pId);
+	idMap.add(eId, UUID::create());
+	Entity entity = create_entity(name);
+
+	// deserialize the rest of the entities
+	if (!deserialize_prefab(reader, idMap))
+	{
+		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
+		return INVALID_ENTITY;
+	}
+
+	dirty(entity);
+	return entity;
+}
+
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, UUID const id)
+{
+	MINTY_ASSERT(id.is_valid(), "ID is not valid.");
+	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
+	TextNodeReader reader(prefab->get_node());
+	if (reader.get_size() == 0)
+	{
+		return INVALID_ENTITY;
+	}
+	Map<UUID, UUID> idMap;
+
+	// add first entity to the ID map
+	String oldName;
+	UUID eId;
+	UUID pId;
+	deserialize_entity(reader, 0, oldName, eId, pId);
+	idMap.add(eId, id);
+	Entity entity = create_entity(oldName, id);
+
+	// deserialize the rest of the entities
+	if (!deserialize_prefab(reader, idMap))
+	{
+		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
+		return INVALID_ENTITY;
+	}
+
+	dirty(entity);
+	return entity;
+}
+
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, Entity const parent)
+{
+	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
+	TextNodeReader reader(prefab->get_node());
+	if (reader.get_size() == 0)
+	{
+		return INVALID_ENTITY;
+	}
+	Map<UUID, UUID> idMap;
+
+	// add first entity to the ID map
+	String oldName;
+	UUID eId;
+	UUID pId;
+	deserialize_entity(reader, 0, oldName, eId, pId);
+	idMap.add(eId, UUID::create());
+	Entity entity = create_entity(parent);
+	set_name(entity, oldName);
+
+	// deserialize the rest of the entities
+	if (!deserialize_prefab(reader, idMap))
+	{
+		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
+		return INVALID_ENTITY;
+	}
+
+	dirty(entity);
+	return entity;
+}
+
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id)
+{
+	MINTY_ASSERT(id.is_valid(), "ID is not valid.");
+	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
+	TextNodeReader reader(prefab->get_node());
+	if (reader.get_size() == 0)
+	{
+		return INVALID_ENTITY;
+	}
+	Map<UUID, UUID> idMap;
+
+	// add first entity to the ID map
+	String oldName;
+	UUID eId;
+	UUID pId;
+	deserialize_entity(reader, 0, oldName, eId, pId);
+	idMap.add(eId, id);
+	Entity entity = create_entity(name, id);
+
+	// deserialize the rest of the entities
+	if (!deserialize_prefab(reader, idMap))
+	{
+		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
+		return INVALID_ENTITY;
+	}
+
+	dirty(entity);
+	return entity;
+}
+
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id, Entity const parent)
 {
 	MINTY_ASSERT(id.is_valid(), "ID is not valid.");
 	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");

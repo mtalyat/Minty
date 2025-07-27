@@ -234,13 +234,6 @@ namespace Minty
 		Entity create_entity(Entity const parent);
 
 		/// <summary>
-		/// Creates a new entity from the specified prefab.
-		/// </summary>
-		/// <param name="prefab">A constant reference to the prefab used to instantiate the entity.</param>
-		/// <returns>The Entity.</returns>
-		Entity create_entity(Ref<Prefab> const& prefab);
-
-		/// <summary>
 		/// Creates a new Entity with the specified name and unique identifier.
 		/// </summary>
 		/// <param name="name">The name to assign to the new Entity.</param>
@@ -258,14 +251,54 @@ namespace Minty
 		Entity create_entity(String const& name, UUID const id, Entity const parent);
 
 		/// <summary>
-		/// Creates a new entity with the specified name, unique identifier, parent entity, and prefab reference.
+		/// Spawns a new entity from the specified prefab.
 		/// </summary>
-		/// <param name="name">The name to assign to the new entity.</param>
-		/// <param name="id">The unique identifier (UUID) for the entity.</param>
+		/// <param name="prefab">A constant reference to the prefab used to create the entity.</param>
+		/// <returns>The spawned Entity.</returns>
+		Entity spawn_entity(Ref<Prefab> const& prefab);
+
+		/// <summary>
+		/// Creates and returns a new entity instance from the specified prefab with the given name.
+		/// </summary>
+		/// <param name="prefab">A reference to the prefab used to instantiate the entity.</param>
+		/// <param name="name">The name to assign to the newly spawned entity.</param>
+		/// <returns>The newly created entity instance.</returns>
+		Entity spawn_entity(Ref<Prefab> const& prefab, String const& name);
+
+		/// <summary>
+		/// Spawns a new entity from the given prefab with the specified unique identifier.
+		/// </summary>
+		/// <param name="prefab">A reference to the prefab used to create the entity.</param>
+		/// <param name="id">The unique identifier to assign to the spawned entity.</param>
+		/// <returns>The newly spawned entity.</returns>
+		Entity spawn_entity(Ref<Prefab> const& prefab, UUID const id);
+
+		/// <summary>
+		/// Spawns a new entity from the given prefab, optionally attaching it to a parent entity.
+		/// </summary>
+		/// <param name="prefab">A reference to the prefab to instantiate.</param>
 		/// <param name="parent">The parent entity to which the new entity will be attached.</param>
-		/// <param name="prefab">A reference to the prefab used to initialize the entity's properties.</param>
-		/// <returns>The Entity.</returns>
-		Entity create_entity(String const& name, UUID const id, Entity const parent, Ref<Prefab> const& prefab);
+		/// <returns>The newly spawned entity.</returns>
+		Entity spawn_entity(Ref<Prefab> const& prefab, Entity const parent);
+
+		/// <summary>
+		/// Creates and returns a new entity instance from the specified prefab.
+		/// </summary>
+		/// <param name="prefab">A reference to the prefab to instantiate.</param>
+		/// <param name="name">The name to assign to the spawned entity.</param>
+		/// <param name="id">The unique identifier to assign to the entity.</param>
+		/// <returns>The newly spawned entity.</returns>
+		Entity spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id);
+
+		/// <summary>
+		/// Creates and returns a new entity instance from a prefab.
+		/// </summary>
+		/// <param name="prefab">A reference to the prefab to instantiate.</param>
+		/// <param name="name">The name to assign to the spawned entity.</param>
+		/// <param name="id">The unique identifier to assign to the entity.</param>
+		/// <param name="parent">The parent entity to which the new entity will be attached.</param>
+		/// <returns>The newly spawned entity.</returns>
+		Entity spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id, Entity const parent);
 
 		/// <summary>
 		/// Adds a Component to the given Entity.
