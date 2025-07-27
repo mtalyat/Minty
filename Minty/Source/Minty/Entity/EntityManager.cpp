@@ -10,12 +10,12 @@ using namespace Minty;
 void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp)
 {
 	// if this is the first child, set parent's first to next
-	if (relationshipComp.prev != INVALID_ENTITY)
+	if (relationshipComp.prev == INVALID_ENTITY)
 	{
 		parentRelationshipComp.first = relationshipComp.next;
 	}
 	// if this is the last child, set parent's last to prev
-	if (relationshipComp.next != INVALID_ENTITY)
+	if (relationshipComp.next == INVALID_ENTITY)
 	{
 		parentRelationshipComp.last = relationshipComp.prev;
 	}
@@ -31,6 +31,7 @@ void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshi
 
 	// update child count
 	parentRelationshipComp.children--;
+	MINTY_ASSERT(parentRelationshipComp.children == 0 || (parentRelationshipComp.first != INVALID_ENTITY && parentRelationshipComp.last != INVALID_ENTITY), "Children count is not zero, yet there is no first and last children.");
 
 	// clear this entity's relationship
 	relationshipComp.prev = INVALID_ENTITY;
@@ -55,7 +56,7 @@ void Minty::EntityManager::add_to_parent(Entity const entity, RelationshipCompon
 		relationshipComp.prev = parentRelationshipComp.last;
 		if (relationshipComp.prev != INVALID_ENTITY)
 		{
-			m_registry.get<RelationshipComponent>(parentRelationshipComp.last).next = entity;
+			m_registry.get<RelationshipComponent>(relationshipComp.prev).next = entity;
 		}
 	}
 
@@ -878,7 +879,6 @@ Entity Minty::EntityManager::create_entity(String const& name, UUID const id, En
 Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
 {
 	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
-
 	TextNodeReader reader(prefab->get_node());
 	if (reader.get_size() == 0)
 	{
@@ -887,12 +887,13 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
 	Map<UUID, UUID> idMap;
 
 	// add first entity to the ID map
-	String name;
+	UUID id = UUID::create();
+	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, name, eId, pId);
-	idMap.add(eId, UUID::create());
-	Entity entity = create_entity();
+	deserialize_entity(reader, 0, oldName, eId, pId);
+	idMap.add(eId, id);
+	Entity entity = create_entity(oldName, id);
 
 	// deserialize the rest of the entities
 	if (!deserialize_prefab(reader, idMap))
@@ -900,6 +901,9 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
 		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
 		return INVALID_ENTITY;
 	}
+
+	// remove ID from parent, since a new ID was not specified
+	set_id(entity, INVALID_ID);
 
 	dirty(entity);
 	return entity;
@@ -916,12 +920,13 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	Map<UUID, UUID> idMap;
 
 	// add first entity to the ID map
+	UUID id = UUID::create();
 	String oldName;
 	UUID eId;
 	UUID pId;
 	deserialize_entity(reader, 0, oldName, eId, pId);
-	idMap.add(eId, UUID::create());
-	Entity entity = create_entity(name);
+	idMap.add(eId, id);
+	Entity entity = create_entity(name, id);
 
 	// deserialize the rest of the entities
 	if (!deserialize_prefab(reader, idMap))
@@ -929,6 +934,9 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
 		return INVALID_ENTITY;
 	}
+
+	// remove ID from parent, since a new ID was not specified
+	set_id(entity, INVALID_ID);
 
 	dirty(entity);
 	return entity;
@@ -975,13 +983,13 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, Entity cons
 	Map<UUID, UUID> idMap;
 
 	// add first entity to the ID map
+	UUID id = UUID::create();
 	String oldName;
 	UUID eId;
 	UUID pId;
 	deserialize_entity(reader, 0, oldName, eId, pId);
-	idMap.add(eId, UUID::create());
-	Entity entity = create_entity(parent);
-	set_name(entity, oldName);
+	idMap.add(eId, id);
+	Entity entity = create_entity(oldName, id);
 
 	// deserialize the rest of the entities
 	if (!deserialize_prefab(reader, idMap))
@@ -989,6 +997,12 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, Entity cons
 		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
 		return INVALID_ENTITY;
 	}
+
+	// remove ID from parent, since a new ID was not specified
+	set_id(entity, INVALID_ID);
+
+	// set the parent
+	set_parent(entity, parent);
 
 	dirty(entity);
 	return entity;
@@ -1041,7 +1055,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	UUID pId;
 	deserialize_entity(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
-	Entity entity = create_entity(name, id, parent);
+	Entity entity = create_entity(name, id);
 
 	// deserialize the rest of the entities
 	if (!deserialize_prefab(reader, idMap))
@@ -1049,6 +1063,9 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 		MINTY_ABORT(F("Failed to create Entity from Prefab \"{}\".", prefab->get_id()));
 		return INVALID_ENTITY;
 	}
+
+	// set the parent
+	set_parent(entity, parent);
 
 	dirty(entity);
 	return entity;
@@ -1354,6 +1371,7 @@ void Minty::EntityManager::move_to_first(Entity const entity)
 	UInt index = 0;
 	while (temp != INVALID_ENTITY)
 	{
+		MINTY_ASSERT(index < parentRelationshipComponent.children, "Infinite loop detected with move_to_first().");
 		RelationshipComponent& tempRelationshipComponent = m_registry.get<RelationshipComponent>(temp);
 		tempRelationshipComponent.index = index;
 		temp = tempRelationshipComponent.next;
