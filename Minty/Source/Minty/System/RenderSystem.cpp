@@ -28,9 +28,7 @@ using namespace Minty;
 
 Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
 	: System(builder)
-	, m_bufferContainerFactory(256, BufferUsage::Vertex)
-	, m_3dSpriteGroupId(m_bufferContainerFactory.create_group())
-	, m_uiSpriteGroupId(m_bufferContainerFactory.create_group())
+	, m_bufferContainerFactory(64, BufferUsage::Vertex)
 	, m_canvasEntity(INVALID_ENTITY)
 	, m_canvasShader(nullptr)
 	, m_canvas()
@@ -186,7 +184,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		renderManager.bind_material(material);
 
 		// update the instanced container with the data
-		BufferContainer& container = m_bufferContainerFactory.get_container(m_3dSpriteGroupId, index);
+		BufferContainer& container = m_bufferContainerFactory.get_container(batch.get_data_size());
 		container.set(batch.get_data(), batch.get_data_size());
 		renderManager.bind_vertex_buffer(container.get_buffer());
 
@@ -302,15 +300,15 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 			}
 
 			// then by depth
-			return left.transform.get_depth() < right.transform.get_depth();
+			return left.transform.get_global_depth() < right.transform.get_global_depth();
 		});
 
 	// batch the UI sprites
 	Ref<Material> material;
 	BatchFactory<2, Ref<Material>, Entity> batchFactory(256);
-	auto view = entityManager.view<EnabledComponent const, VisibleComponent const, SpriteComponent const, UITransformComponent const>();
+	auto view = entityManager.view<UITransformComponent const, EnabledComponent const, VisibleComponent const, SpriteComponent const>();
 	view.use<UITransformComponent>();
-	for (auto const& [entity, enabledComp, visibleComp, spriteComp, uiTransformComp] : view.each())
+	for (auto const& [entity, uiTransformComp, enabledComp, visibleComp, spriteComp] : view.each())
 	{
 		// skip if no sprite
 		Ref<Sprite> const& sprite = spriteComp.sprite;
@@ -372,7 +370,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		renderManager.bind_material(material);
 
 		// update the instanced container with the data
-		BufferContainer& container = m_bufferContainerFactory.get_container(m_uiSpriteGroupId, index);
+		BufferContainer& container = m_bufferContainerFactory.get_container(batch.get_data_size());
 		container.set(batch.get_data(), batch.get_data_size());
 		renderManager.bind_vertex_buffer(container.get_buffer());
 
@@ -385,6 +383,9 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 
 void Minty::RenderSystem::on_render()
 {
+	// reset all buffers so they can be reused this frame
+	m_bufferContainerFactory.reset();
+
 	EntityManager& entityManager = m_scene->get_entity_manager();
 	RenderManager& renderManager = RenderManager::get_singleton();
 

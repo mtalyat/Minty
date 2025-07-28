@@ -16,24 +16,13 @@ namespace Minty
 	private:
 		Size m_initialCapacity;
 		BufferUsage m_usage;
-		Map<UUID, Vector<BufferContainer>> m_groups;
+		Vector<Vector<Tuple<Bool, BufferContainer>>> m_containers;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new BufferContainerFactory with the given BufferContainer usage.
-		/// </summary>
-		/// <param name="usage">The usage for each new BufferContainer.</param>
-		BufferContainerFactory(BufferUsage const usage)
-			: m_initialCapacity(0)
-			, m_usage(usage)
-			, m_groups()
-		{
-		}
-
 		/// <summary>
 		/// Creates a new BufferContainerFactory with the given BufferContainer capacity and usage.
 		/// </summary>
@@ -42,7 +31,7 @@ namespace Minty
 		BufferContainerFactory(Size const initialCapacity, BufferUsage const usage)
 			: m_initialCapacity(initialCapacity)
 			, m_usage(usage)
-			, m_groups()
+			, m_containers()
 		{
 		}
 
@@ -56,10 +45,9 @@ namespace Minty
 		/// <summary>
 		/// Gets the BufferContainer that corresponds to the given group ID and index.
 		/// </summary>
-		/// <param name="groupId">The ID of the group to get the BufferContainer from.</param>
-		/// <param name="index">The index of the BufferContainer within the group.</param>
+		/// <param name="size">The size the BufferContainer must be able to hold.</param>
 		/// <returns>The BufferContainer.</returns>
-		BufferContainer& get_container(UUID const groupId, Size const index);
+		BufferContainer& get_container(Size const size);
 
 #pragma endregion
 
@@ -67,10 +55,9 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new group of BufferContainers and returns its ID.
+		/// Marks all BufferContainers as unused, so they can be reused.
 		/// </summary>
-		/// <returns>The ID of the new group.</returns>
-		UUID create_group();
+		void reset();
 
 #pragma endregion
 	};

@@ -4,33 +4,52 @@
 
 using namespace Minty;
 
-BufferContainer& Minty::BufferContainerFactory::get_container(UUID const groupId, Size const index)
+BufferContainer& Minty::BufferContainerFactory::get_container(Size const size)
 {
-    MINTY_ASSERT(m_groups.contains(groupId), "BufferCargo does not contain a group with the given ID.");
-
-    // find group
-    Vector<BufferContainer>& group = m_groups.at(groupId);
-
-    MINTY_ASSERT(index <= group.get_size(), F("BufferCargo getting container at index {} when the get_size of the cargo is {}. The given index should be <= the group get_size.", index, group.get_size()));
-
-    // ensure there is a value at that index
-    if (index == group.get_size())
+    // calculate index based on the size
+    Size index = 0;
+    Size bufferSize = 0;
+    while (bufferSize < size)
     {
-        group.add(BufferContainer(m_initialCapacity, m_usage));
+        index++;
+        bufferSize = Math::pow(m_initialCapacity, index);
     }
 
-    // return buffer
-    return group.at(index);
+    // if index is too large, add new lists
+    while (index >= m_containers.get_size())
+    {
+		m_containers.add(Vector<Tuple<Bool, BufferContainer>>());
+    }
+
+	// get the containers at that index
+	Vector<Tuple<Bool, BufferContainer>>& containers = m_containers.at(index);
+
+	// if there is one that is unused, return it
+    for(auto& [used, container] : containers)
+    {
+        if (!used)
+        {
+            used = true;
+            return container;
+        }
+	}
+
+	// if there is no unused container, create a new one
+	BufferContainer newContainer(bufferSize, m_usage);
+	containers.add({ true, std::move(newContainer) });
+
+	// return the new container
+	return containers.back().get_second();
 }
 
-UUID Minty::BufferContainerFactory::create_group()
+void Minty::BufferContainerFactory::reset()
 {
-    // create ID
-    UUID id = UUID::create();
-
-    // make group
-    m_groups.add(id, Vector<BufferContainer>());
-
-    // return ID to that group
-    return id;
+    // mark all containers as unused
+    for (auto& containers : m_containers)
+    {
+        for (auto& [used, container] : containers)
+        {
+            used = false;
+        }
+    }
 }

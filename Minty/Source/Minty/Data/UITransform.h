@@ -23,6 +23,7 @@ namespace Minty
 		Float width;
 		Float height;
 
+		Float m_globalDepth;
 		Rect m_globalRect;
 
 #pragma endregion
@@ -40,6 +41,7 @@ namespace Minty
 			, z(0.0f)
 			, width(0.0f)
 			, height(0.0f)
+			, m_globalDepth(0.0f)
 			, m_globalRect()
 		{
 		}
@@ -215,27 +217,6 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Gets the global rectangle of this UI element.
-		/// </summary>
-		/// <returns>The global Rect.</returns>
-		inline Rect get_global_rect() const { return m_globalRect; }
-
-		/// <summary>
-		/// Sets the global rectangle of this UI element.
-		/// </summary>
-		/// <param name="rect">The global Rect.</param>
-		inline void set_global_rect(Rect const& rect)
-		{
-			m_globalRect = rect;
-		}
-
-		/// <summary>
-		/// Updates the global rectangle of this UI element based on the given parent rectangle.
-		/// </summary>
-		/// <param name="parentRect">The rectangle of the parent.</param>
-		void update_global_rect(Rect const& parentRect);
-
-		/// <summary>
 		/// Sets the position of this UI element.
 		/// </summary>
 		/// <param name="x">The x coordinate.</param>
@@ -256,6 +237,34 @@ namespace Minty
 			this->width = width;
 			this->height = height;
 		}
+
+		/// <summary>
+		/// Gets the global rectangle of this UI element.
+		/// </summary>
+		/// <returns>The global Rect.</returns>
+		inline Rect get_global_rect() const { return m_globalRect; }
+
+		/// <summary>
+		/// Gets the global depth of this UI element.
+		/// </summary>
+		/// <returns>The global depth.</returns>
+		inline Float get_global_depth() const { return m_globalDepth; }
+
+		/// <summary>
+		/// Updates the current UI transform based on the parent's global rectangle and depth.
+		/// </summary>
+		/// <param name="parentTransform">A constant reference to the parent UITransform whose global rectangle and depth are used for the update.</param>
+		inline void update(UITransform const& parentTransform)
+		{
+			update(parentTransform.get_global_rect(), parentTransform.get_global_depth());
+		}
+
+		/// <summary>
+		/// Updates the global rectangle of this UI element based on the given parent rectangle.
+		/// </summary>
+		/// <param name="parentRect">The rectangle of the parent.</param>
+		/// <param name="parentDepth">The depth of the parent.</param>
+		void update(Rect const& parentRect, Float const parentDepth);
 
 #pragma endregion
 

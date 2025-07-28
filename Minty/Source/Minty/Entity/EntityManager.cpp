@@ -576,7 +576,7 @@ void Minty::EntityManager::finalize_dirties()
 		// canvas controls the size and position
 		uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
 		uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
-		uiTransformComp.transform.set_global_rect(canvasComp.canvas.get_rect());
+		uiTransformComp.transform.update(windowRect, 0.0f);
 	}
 
 	// update entities with relationships
@@ -662,7 +662,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 		UITransformComponent const* parentUITransform = m_registry.try_get<UITransformComponent>(parent);
 		if (parentUITransform)
 		{
-			uiTransformComp.transform.update_global_rect(parentUITransform->transform.get_global_rect());
+			uiTransformComp.transform.update(parentUITransform->transform);
 			return;
 		}
 	}
@@ -673,7 +673,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 		CanvasComponent const* canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
 		if (canvas)
 		{
-			uiTransformComp.transform.update_global_rect(canvas->canvas.get_rect());
+			uiTransformComp.transform.update(canvas->canvas.get_rect(), 0.0f);
 			return;
 		}
 	}
@@ -684,7 +684,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
 	// if no parent and no canvas, default to Window rect
-	uiTransformComp.transform.update_global_rect(windowRect);
+	uiTransformComp.transform.update(windowRect, 0.0f);
 }
 
 Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const layer) const

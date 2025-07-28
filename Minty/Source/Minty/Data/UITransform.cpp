@@ -5,7 +5,7 @@
 
 using namespace Minty;
 
-void Minty::UITransform::update_global_rect(Rect const& parentRect)
+void Minty::UITransform::update(Rect const& parentRect, Float const parentDepth)
 {
 	// mask the anchor mode to get the vertical and horizontal modes
 	// the mask is needed so they are independent of one another
@@ -57,6 +57,9 @@ void Minty::UITransform::update_global_rect(Rect const& parentRect)
 		m_globalRect.y = parentRect.y + y;
 		m_globalRect.height = parentRect.height - height - m_globalRect.y;
 	}
+	
+	// update the global depth
+	m_globalDepth = parentDepth + z;
 }
 
 void Minty::UITransform::serialize(Writer& writer) const
