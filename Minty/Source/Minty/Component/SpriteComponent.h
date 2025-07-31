@@ -21,6 +21,16 @@ namespace Minty
 		/// </summary>
 		Color color = Color::white();
 
+		/// <summary>
+		/// Indicates whether the X axis should be flipped.
+		/// </summary>
+		Bool flipX = false;
+
+		/// <summary>
+		/// Indicates whether the Y axis should be flipped.
+		/// </summary>
+		Bool flipY = false;
+
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 	};

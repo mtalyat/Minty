@@ -11,6 +11,8 @@ void Minty::SpriteComponent::serialize(Writer& writer) const
 {
 	writer.write("Sprite", sprite);
 	writer.write("Color", color);
+	writer.write("FlipX", flipX);
+	writer.write("FlipY", flipY);
 }
 
 Bool Minty::SpriteComponent::deserialize(Reader& reader)
@@ -82,6 +84,8 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 	}
 
 	reader.read("Color", color);
+	reader.read("FlipX", flipX);
+	reader.read("FlipY", flipY);
 
 	return true;
 }

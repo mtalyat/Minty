@@ -29,7 +29,8 @@ Bindings
         2: Float2
         3: Float2
         4: Float
-        5: Matrix4
+        5: UInt
+        6: Matrix4
 Stages
     Vertex: def0000000000005
     Fragment: def0000000000004

@@ -108,7 +108,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	}
 
 	// calculate the size of the batch
-	Size const dataSize = sizeof(Float4) + sizeof(Float2) * 3 + sizeof(Float) + sizeof(Matrix4);
+	Size const dataSize = sizeof(Float4) + sizeof(Float2) * 3 + sizeof(Float) + sizeof(UInt) + sizeof(Matrix4);
 	Size const maxDataSize = count * dataSize;
 
 	// create each batch of sprites
@@ -149,6 +149,9 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		Float2 instSize = sprite->get_size();
 		Float2 instPivot = sprite->get_pivot();
 		Float instScale = sprite->get_scale();
+		UInt instFlags = 0;
+		if (spriteComp.flipX) instFlags |= 0x1;
+		if (spriteComp.flipY) instFlags |= 0x2;
 		Transform const& transform = transformComp.transform;
 		Matrix4 transformGlobalMatrix = transform.get_global_matrix();
 		Float4 instTransform0 = transformGlobalMatrix[0];
@@ -163,6 +166,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		batchContainer.append(&instSize, sizeof(Float2));
 		batchContainer.append(&instPivot, sizeof(Float2));
 		batchContainer.append(&instScale, sizeof(Float));
+		batchContainer.append(&instFlags, sizeof(UInt));
 		batchContainer.append(&instTransform0, sizeof(Float4));
 		batchContainer.append(&instTransform1, sizeof(Float4));
 		batchContainer.append(&instTransform2, sizeof(Float4));
