@@ -3,17 +3,13 @@
 #include "Minty/Core/Encoding.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
-#include <random>
+#include "Minty/Core/Math.h"
 
 using namespace Minty;
 
-static std::random_device randomDevice;
-static std::mt19937_64 randomEngine(randomDevice());
-static std::uniform_int_distribution<Size> uniformDistribution;
-
 UUID Minty::UUID::create()
 {
-    return UUID(uniformDistribution(randomEngine));
+    return UUID(Math::random_ulong());
 }
 
 String Minty::to_string(UUID const obj)

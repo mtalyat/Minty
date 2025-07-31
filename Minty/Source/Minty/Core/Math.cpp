@@ -1,8 +1,19 @@
 #include "pch.h"
 #include "Math.h"
+#include <random>
 
 using namespace Minty;
 using namespace Minty::Math;
+
+static std::random_device s_randomDevice;
+static std::mt19937 s_randomEngine(s_randomDevice());
+static std::mt19937_64 s_randomEngine64(s_randomDevice());
+static std::uniform_real_distribution<Float> s_uniformDistributionFloat;
+static std::uniform_int_distribution<Int> s_uniformDistributionInt;
+static std::uniform_int_distribution<UInt> s_uniformDistributionUInt;
+static std::uniform_real_distribution<Double> s_uniformDistributionDouble;
+static std::uniform_int_distribution<Long> s_uniformDistributionLong;
+static std::uniform_int_distribution<ULong> s_uniformDistributionULong;
 
 Float3 Minty::Math::normalize(Float3 const& value)
 {
@@ -153,4 +164,70 @@ Quaternion Minty::Math::extract_rotation(Matrix4 const& value, Float3 const& sca
 Quaternion Minty::Math::extract_rotation(Matrix4 const& value)
 {
 	return extract_rotation(value, extract_scale(value));
+}
+
+Float Minty::Math::random(Float const min, Float const max)
+{
+	std::uniform_real_distribution<Float> dist(min, max);
+	return dist(s_randomEngine);
+}
+
+Float Minty::Math::random_float()
+{
+	return s_uniformDistributionFloat(s_randomEngine);
+}
+
+Int Minty::Math::random(Int const min, Int const max)
+{
+	std::uniform_int_distribution<Int> dist(min, max);
+	return dist(s_randomEngine);
+}
+
+Int Minty::Math::random_int()
+{
+	return s_uniformDistributionInt(s_randomEngine);
+}
+
+UInt Minty::Math::random(UInt const min, UInt const max)
+{
+	std::uniform_int_distribution<UInt> dist(min, max);
+	return dist(s_randomEngine);
+}
+
+UInt Minty::Math::random_uint()
+{
+	return s_uniformDistributionUInt(s_randomEngine);
+}
+
+Double Minty::Math::random(Double const min, Double const max)
+{
+	std::uniform_real_distribution<Double> dist(min, max);
+	return dist(s_randomEngine64);
+}
+
+Double Minty::Math::random_double()
+{
+	return s_uniformDistributionDouble(s_randomEngine64);
+}
+
+Long Minty::Math::random(Long const min, Long const max)
+{
+	std::uniform_int_distribution<Long> dist(min, max);
+	return dist(s_randomEngine64);
+}
+
+Long Minty::Math::random_long()
+{
+	return s_uniformDistributionLong(s_randomEngine64);
+}
+
+ULong Minty::Math::random(ULong const min, ULong const max)
+{
+	std::uniform_int_distribution<ULong> dist(min, max);
+	return dist(s_randomEngine64);
+}
+
+ULong Minty::Math::random_ulong()
+{
+	return s_uniformDistributionULong(s_randomEngine64);
 }

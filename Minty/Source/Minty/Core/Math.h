@@ -1431,6 +1431,94 @@ namespace Minty
 		Quaternion extract_rotation(Matrix4 const& value);
 
 #pragma endregion
+
+#pragma region Random
+
+        /// <summary>
+        /// Returns a random Float in the range [min, max).
+        /// </summary>
+        /// <param name="min">The minimum value (inclusive).</param>
+        /// <param name="max">The maximum value (exclusive).</param>
+        /// <returns>A random Float in the given range.</returns>
+        Float random(Float const min, Float const max);
+
+		/// <summary>
+		/// Returns a random Float in the range [0.0, 1.0).
+		/// </summary>
+		/// <returns>A random Float.</returns>
+		Float random_float();
+
+		/// <summary>
+		/// Returns a random Int in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random Int in the given range.</returns>
+		Int random(Int const min, Int const max);
+
+		/// <summary>
+		/// Returns a random Int in the range [INT_MIN, INT_MAX].
+		/// </summary>
+		/// <returns>A random Int.</returns>
+		Int random_int();
+
+		/// <summary>
+		/// Returns a random UInt in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random UInt in the given range.</returns>
+		UInt random(UInt const min, UInt const max);
+
+		/// <summary>
+		/// Returns a random UInt in the range [UINT_MIN, UINT_MAX].
+		/// </summary>
+		/// <returns>A random UInt.</returns>
+		UInt random_uint();
+
+		/// <summary>
+		/// Returns a random Double in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random Double in the given range.</returns>
+		Double random(Double const min, Double const max);
+
+		/// <summary>
+		/// Returns a random Double in the range [0.0, 1.0).
+		/// </summary>
+		/// <returns>A random Double.</returns>
+		Double random_double();
+
+		/// <summary>
+		/// Returns a random Long in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random Long in the given range.</returns>
+		Long random(Long const min, Long const max);
+
+		/// <summary>
+		/// Returns a random Long in the range [LONG_MIN, LONG_MAX].
+		/// </summary>
+		/// <returns>A random Long.</returns>
+		Long random_long();
+
+		/// <summary>
+		/// Returns a random ULong in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random ULong in the given range.</returns>
+		ULong random(ULong const min, ULong const max);
+
+		/// <summary>
+		/// Returns a random ULong in the range [ULONG_MIN, ULONG_MAX].
+		/// </summary>
+		/// <returns>A random ULong.</returns>
+		ULong random_ulong();
+
+#pragma endregion
 	}
 
 #pragma endregion
