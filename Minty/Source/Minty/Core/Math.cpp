@@ -166,7 +166,7 @@ Quaternion Minty::Math::extract_rotation(Matrix4 const& value)
 	return extract_rotation(value, extract_scale(value));
 }
 
-Float Minty::Math::random(Float const min, Float const max)
+Float Minty::Math::random_float(Float const min, Float const max)
 {
 	std::uniform_real_distribution<Float> dist(min, max);
 	return dist(s_randomEngine);
@@ -177,7 +177,7 @@ Float Minty::Math::random_float()
 	return s_uniformDistributionFloat(s_randomEngine);
 }
 
-Int Minty::Math::random(Int const min, Int const max)
+Int Minty::Math::random_int(Int const min, Int const max)
 {
 	std::uniform_int_distribution<Int> dist(min, max);
 	return dist(s_randomEngine);
@@ -188,7 +188,7 @@ Int Minty::Math::random_int()
 	return s_uniformDistributionInt(s_randomEngine);
 }
 
-UInt Minty::Math::random(UInt const min, UInt const max)
+UInt Minty::Math::random_uint(UInt const min, UInt const max)
 {
 	std::uniform_int_distribution<UInt> dist(min, max);
 	return dist(s_randomEngine);
@@ -199,7 +199,7 @@ UInt Minty::Math::random_uint()
 	return s_uniformDistributionUInt(s_randomEngine);
 }
 
-Double Minty::Math::random(Double const min, Double const max)
+Double Minty::Math::random_double(Double const min, Double const max)
 {
 	std::uniform_real_distribution<Double> dist(min, max);
 	return dist(s_randomEngine64);
@@ -210,7 +210,7 @@ Double Minty::Math::random_double()
 	return s_uniformDistributionDouble(s_randomEngine64);
 }
 
-Long Minty::Math::random(Long const min, Long const max)
+Long Minty::Math::random_long(Long const min, Long const max)
 {
 	std::uniform_int_distribution<Long> dist(min, max);
 	return dist(s_randomEngine64);
@@ -221,7 +221,7 @@ Long Minty::Math::random_long()
 	return s_uniformDistributionLong(s_randomEngine64);
 }
 
-ULong Minty::Math::random(ULong const min, ULong const max)
+ULong Minty::Math::random_ulong(ULong const min, ULong const max)
 {
 	std::uniform_int_distribution<ULong> dist(min, max);
 	return dist(s_randomEngine64);

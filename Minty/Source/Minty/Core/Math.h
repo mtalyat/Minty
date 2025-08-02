@@ -1434,13 +1434,13 @@ namespace Minty
 
 #pragma region Random
 
-        /// <summary>
-        /// Returns a random Float in the range [min, max).
-        /// </summary>
-        /// <param name="min">The minimum value (inclusive).</param>
-        /// <param name="max">The maximum value (exclusive).</param>
-        /// <returns>A random Float in the given range.</returns>
-        Float random(Float const min, Float const max);
+		/// <summary>
+		/// Returns a random Float in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random Float in the given range.</returns>
+		Float random_float(Float const min, Float const max);
 
 		/// <summary>
 		/// Returns a random Float in the range [0.0, 1.0).
@@ -1449,12 +1449,12 @@ namespace Minty
 		Float random_float();
 
 		/// <summary>
-		/// Returns a random Int in the range [min, max).
+		/// Returns a random Int in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
-		/// <param name="max">The maximum value (exclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
 		/// <returns>A random Int in the given range.</returns>
-		Int random(Int const min, Int const max);
+		Int random_int(Int const min, Int const max);
 
 		/// <summary>
 		/// Returns a random Int in the range [INT_MIN, INT_MAX].
@@ -1463,12 +1463,12 @@ namespace Minty
 		Int random_int();
 
 		/// <summary>
-		/// Returns a random UInt in the range [min, max).
+		/// Returns a random UInt in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
-		/// <param name="max">The maximum value (exclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
 		/// <returns>A random UInt in the given range.</returns>
-		UInt random(UInt const min, UInt const max);
+		UInt random_uint(UInt const min, UInt const max);
 
 		/// <summary>
 		/// Returns a random UInt in the range [UINT_MIN, UINT_MAX].
@@ -1482,7 +1482,7 @@ namespace Minty
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (exclusive).</param>
 		/// <returns>A random Double in the given range.</returns>
-		Double random(Double const min, Double const max);
+		Double random_double(Double const min, Double const max);
 
 		/// <summary>
 		/// Returns a random Double in the range [0.0, 1.0).
@@ -1491,12 +1491,12 @@ namespace Minty
 		Double random_double();
 
 		/// <summary>
-		/// Returns a random Long in the range [min, max).
+		/// Returns a random Long in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
-		/// <param name="max">The maximum value (exclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
 		/// <returns>A random Long in the given range.</returns>
-		Long random(Long const min, Long const max);
+		Long random_long(Long const min, Long const max);
 
 		/// <summary>
 		/// Returns a random Long in the range [LONG_MIN, LONG_MAX].
@@ -1505,18 +1505,186 @@ namespace Minty
 		Long random_long();
 
 		/// <summary>
-		/// Returns a random ULong in the range [min, max).
+		/// Returns a random ULong in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
-		/// <param name="max">The maximum value (exclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
 		/// <returns>A random ULong in the given range.</returns>
-		ULong random(ULong const min, ULong const max);
+		ULong random_ulong(ULong const min, ULong const max);
 
 		/// <summary>
 		/// Returns a random ULong in the range [ULONG_MIN, ULONG_MAX].
 		/// </summary>
 		/// <returns>A random ULong.</returns>
 		ULong random_ulong();
+
+		/// <summary>
+		/// Returns a random value of the specified type.
+		/// </summary>
+		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, Double, Long, ULong.</typeparam>
+		/// <returns>A random value of the specified type.</returns>
+		template<typename T>
+		inline T random() requires (
+			std::is_same_v<T, Float> ||
+			std::is_same_v<T, Int> ||
+			std::is_same_v<T, UInt> ||
+			std::is_same_v<T, Double> ||
+			std::is_same_v<T, Long> ||
+			std::is_same_v<T, ULong>)
+		{
+			return T();
+		}
+
+		/// <summary>
+		/// Returns a random Float in the range [0.0, 1.0).
+		/// </summary>
+		/// <returns>A random Float.</returns>
+		template<>
+		inline Float random<Float>()
+		{
+			return random_float();
+		}
+
+		/// <summary>
+		/// Returns a random Int in the range [INT_MIN, INT_MAX].
+		/// </summary>
+		/// <returns>A random Int.</returns>
+		template<>
+		inline Int random<Int>()
+		{
+			return random_int();
+		}
+
+		/// <summary>
+		/// Returns a random UInt in the range [UINT_MIN, UINT_MAX].
+		/// </summary>
+		/// <returns>A random UInt.</returns>
+		template<>
+		inline UInt random<UInt>()
+		{
+			return random_uint();
+		}
+
+		/// <summary>
+		/// Returns a random Double in the range [0.0, 1.0).
+		/// </summary>
+		/// <returns>A random Double.</returns>
+		template<>
+		inline Double random<Double>()
+		{
+			return random_double();
+		}
+
+		/// <summary>
+		/// Returns a random Long in the range [LONG_MIN, LONG_MAX].
+		/// </summary>
+		/// <returns>A random Long.</returns>
+		template<>
+		inline Long random<Long>()
+		{
+			return random_long();
+		}
+
+		/// <summary>
+		/// Returns a random ULong in the range [ULONG_MIN, ULONG_MAX].
+		/// </summary>
+		/// <returns>A random ULong.</returns>
+		template<>
+		inline ULong random<ULong>()
+		{
+			return random_ulong();
+		}
+
+		/// <summary>
+		/// Returns a random value of the specified type in the range [min, max).
+		/// </summary>
+		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, Double, Long, ULong.</typeparam>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random value of the specified type in the given range.</returns>
+		template<typename T>
+		inline T random(T const min, T const max) requires (
+			std::is_same_v<T, Float> ||
+			std::is_same_v<T, Int> ||
+			std::is_same_v<T, UInt> ||
+			std::is_same_v<T, Double> ||
+			std::is_same_v<T, Long> ||
+			std::is_same_v<T, ULong>)
+		{
+			return random(min, max);
+		}
+
+		/// <summary>
+		/// Returns a random Float in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random Float in the given range.</returns>
+		template<>
+		inline Float random<Float>(Float const min, Float const max)
+		{
+			return random_float(min, max);
+		}
+
+		/// <summary>
+		/// Returns a random Int in the range [min, max].
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
+		/// <returns>A random Int in the given range.</returns>
+		template<>
+		inline Int random<Int>(Int const min, Int const max)
+		{
+			return random_int(min, max);
+		}
+
+		/// <summary>
+		/// Returns a random UInt in the range [min, max].
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
+		/// <returns>A random UInt in the given range.</returns>
+		template<>
+		inline UInt random<UInt>(UInt const min, UInt const max)
+		{
+			return random_uint(min, max);
+		}
+
+		/// <summary>
+		/// Returns a random Double in the range [min, max).
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (exclusive).</param>
+		/// <returns>A random Double in the given range.</returns>
+		template<>
+		inline Double random<Double>(Double const min, Double const max)
+		{
+			return random_double(min, max);
+		}
+
+		/// <summary>
+		/// Returns a random Long in the range [min, max].
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
+		/// <returns>A random Long in the given range.</returns>
+		template<>
+		inline Long random<Long>(Long const min, Long const max)
+		{
+			return random_long(min, max);
+		}
+
+		/// <summary>
+		/// Returns a random ULong in the range [min, max].
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
+		/// <returns>A random ULong in the given range.</returns>
+		template<>
+		inline ULong random<ULong>(ULong const min, ULong const max)
+		{
+			return random_ulong(min, max);
+		}
 
 #pragma endregion
 	}
