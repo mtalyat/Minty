@@ -2,6 +2,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Map.h"
+#include "Minty/Data/Set.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/Vector.h"
@@ -61,10 +62,49 @@ namespace Minty
 				{"B", static_cast<T>(B)},
 				{"KB", static_cast<T>(KB)},
 				{"MB", static_cast<T>(MB)},
-				{"GB", static_cast<T>(GB)},
+				{"GB", static_cast<T>(GB)}
 			};
 
-			auto found = constants.find(str.to_upper());
+			String fixedStr = str.to_upper();
+
+			if (fixedStr == "RANDOM")
+			{
+				if (std::is_same_v<T, Float>)
+				{
+					value = static_cast<T>(Math::random_float());
+					return true;
+				}
+				else if (std::is_same_v<T, Double>)
+				{
+					value = static_cast<T>(Math::random_double());
+					return true;
+				}
+				else if (std::is_same_v<T, Int>)
+				{
+					value = static_cast<T>(Math::random_int());
+					return true;
+				}
+				else if (std::is_same_v<T, UInt>)
+				{
+					value = static_cast<T>(Math::random_uint());
+					return true;
+				}
+				else if (std::is_same_v<T, Long>)
+				{
+					value = static_cast<T>(Math::random_long());
+					return true;
+				}
+				else if (std::is_same_v<T, ULong>)
+				{
+					value = static_cast<T>(Math::random_ulong());
+					return true;
+				}
+				// assume a small type
+				value = static_cast<T>(Math::random_long());
+				return true;
+			}
+
+			auto found = constants.find(fixedStr);
 			if (found == constants.end())
 			{
 				return false;

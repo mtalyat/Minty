@@ -36,7 +36,6 @@ namespace Minty
 
 	private:
 		entt::registry m_registry;
-		RelationshipComponent m_root;
 		Map<UUID, Entity> m_ids;
 
 		Bool m_needsSorted;
@@ -53,7 +52,6 @@ namespace Minty
 		EntityManager(Scene* scene, EntityManagerBuilder const& builder)
 			: SubManager(scene)
 			, m_registry()
-			, m_root()
 			, m_ids()
 			, m_needsSorted(false)
 		{
@@ -62,7 +60,6 @@ namespace Minty
 		EntityManager(EntityManager&& other) noexcept
 			: SubManager(std::move(other))
 			, m_registry(std::move(other.m_registry))
-			, m_root(std::move(other.m_root))
 			, m_ids(std::move(other.m_ids))
 			, m_needsSorted(std::move(other.m_needsSorted))
 		{
@@ -83,7 +80,6 @@ namespace Minty
 			if (this != &other)
 			{
 				m_registry = std::move(other.m_registry);
-				m_root = std::move(other.m_root);
 				m_ids = std::move(other.m_ids);
 			}
 			return *this;
@@ -143,6 +139,9 @@ namespace Minty
 		void finalize_dirties();
 
 		Entity create_entity_smart(String const& name, UUID const id);
+
+		// preps the entity for destruction
+		void strip_entity(Entity const entity);
 
 		void update_transform(Entity const entity, Entity const parent, TransformComponent& transformComp);
 
@@ -379,7 +378,7 @@ namespace Minty
 		ComponentType& get_or_add_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
-			return m_registry.emplace_or_replace<ComponentType>(entity);
+			return m_registry.get_or_emplace<ComponentType>(entity);
 		}
 
 		/// <summary>
@@ -612,9 +611,17 @@ namespace Minty
 		template<typename ComponentType>
 		void destroy_with()
 		{
-			auto view = m_registry.view<ComponentType>();
-			m_registry.destroy(view.begin(), view.end());
+			for(auto&& [entity, comp] : m_registry.view<ComponentType>().each())
+			{
+				destroy(entity);
+			}
 		}
+
+		/// <summary>
+		/// Destroys the given Entity immediately.
+		/// </summary>
+		/// <param name="entity">The Entity to destroy.</param>
+		void destroy_immediately(Entity const entity);
 
 		/// <summary>
 		/// Destroys all Entities with a DestroyComponent.

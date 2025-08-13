@@ -288,21 +288,7 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 
 	RelationshipComponent& relationshipComponent = m_registry.get_or_emplace<RelationshipComponent>(entity);
 
-	if (relationshipComponent.parent == INVALID_ENTITY)
-	{
-		// remove from root, if part of root
-		Entity child = m_root.first;
-		while(child != INVALID_ENTITY && child != entity)
-		{
-			child = m_registry.get<RelationshipComponent>(child).next;
-		}
-		if (child != INVALID_ENTITY)
-		{
-			// child must be part of root, so remove it
-			remove_from_parent(relationshipComponent, m_root);
-		}
-	}
-	else
+	if (relationshipComponent.parent != INVALID_ENTITY)
 	{
 		// remove from parent
 		RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent.parent);
@@ -313,12 +299,7 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	relationshipComponent.parent = parent;
 
 	// if parent is valid, add to parent's children
-	if (parent == INVALID_ENTITY)
-	{
-		// add to root
-		add_to_parent(entity, relationshipComponent, m_root);
-	}
-	else
+	if (parent != INVALID_ENTITY)
 	{
 		// add to parent
 		if(!m_registry.all_of<RelationshipComponent>(parent))
@@ -637,6 +618,18 @@ Entity Minty::EntityManager::create_entity_smart(String const& name, UUID const 
 		{
 			return create_entity(name);
 		}
+	}
+}
+
+void Minty::EntityManager::strip_entity(Entity const entity)
+{
+	// remove from parent
+	set_parent(entity, INVALID_ENTITY);
+
+	// remove ID, if any
+	if(UUIDComponent const* const uuidComponent = m_registry.try_get<UUIDComponent>(entity))
+	{
+		m_ids.remove(uuidComponent->id);
 	}
 }
 
@@ -1461,7 +1454,12 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 void Minty::EntityManager::destroy(Entity const entity)
 {
 	MINTY_ASSERT(contains(entity), "Entity does not exist.");
-	m_registry.destroy(entity);
+
+	// mark the entity for destruction, if not already marked
+	if(!m_registry.all_of<DestroyComponent>(entity))
+	{
+		m_registry.emplace<DestroyComponent>(entity);
+	}
 }
 
 void Minty::EntityManager::initialize()
@@ -1501,9 +1499,30 @@ void Minty::EntityManager::finalize()
 	Manager::finalize();
 }
 
+void Minty::EntityManager::destroy_immediately(Entity const entity)
+{
+	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+
+	// strip entity
+	strip_entity(entity);
+
+	// destroy the entity
+	m_registry.destroy(entity);
+}
+
 void Minty::EntityManager::cleanup()
 {
-	destroy_with<DestroyComponent>();
+	// destroy all entities that are marked for destruction
+	auto view = m_registry.view<DestroyComponent>();
+
+	// strip all entities before destroying them
+	for(auto&& [entity, destroyComponent] : view.each())
+	{
+		strip_entity(entity);
+	}
+	
+	// destroy the entities
+	m_registry.destroy(view.begin(), view.end());
 }
 
 Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index)
