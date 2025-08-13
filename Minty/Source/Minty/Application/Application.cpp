@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Application.h"
 #include "Minty/Time/Stopwatch.h"
+#include "Minty/Debug/Trace.h"
 
 using namespace Minty;
 
@@ -12,6 +13,8 @@ void Minty::Application::quit()
 
 void Minty::Application::step(Stopwatch& totalWatch, Stopwatch& elapsedWatch)
 {
+	MINTY_TRACE_SCOPE();
+
 	// finalize managers
 	m_context->finalize();
 

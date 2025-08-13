@@ -9,6 +9,7 @@
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/SimulateComponent.h"
 #include "Minty/Component/TransformComponent.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Physics/PhysicsManager.h"
 #include "Minty/Scene/Scene.h"
 
@@ -95,6 +96,8 @@ void Minty::PhysicsSystem::on_unload()
 
 void Minty::PhysicsSystem::on_update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// get scene and managers
 	Ref<Scene> const& scene = get_scene();
 	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
@@ -132,6 +135,8 @@ void Minty::PhysicsSystem::on_update(Time const& time)
 
 void Minty::PhysicsSystem::on_finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	// get scene and managers
 	Ref<Scene> const& scene = get_scene();
 	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");

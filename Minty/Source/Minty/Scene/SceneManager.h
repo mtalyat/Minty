@@ -165,11 +165,6 @@ namespace Minty
 		void render() override;
 
 		/// <summary>
-		/// Called when the Manager needs to synchronize operations.
-		/// </summary>
-		void sync() override;
-
-		/// <summary>
 		/// Handles the given Event.
 		/// </summary>
 		/// <param name="event">The Event to handle.</param>

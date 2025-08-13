@@ -5,6 +5,7 @@
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/AnimatorComponent.h"
 #include "Minty/Component/EnabledComponent.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Scene/Scene.h"
 #include "Minty/Entity/EntityManager.h"
 
@@ -12,6 +13,8 @@ using namespace Minty;
 
 void Minty::AnimationSystem::on_update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	Float deltaTime = time.get_elapsed();
 
 	// get managers

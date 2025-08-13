@@ -148,6 +148,12 @@
     <Filter Include="Minty\Layer">
       <UniqueIdentifier>{d26e455c-3cd2-42ee-87df-718b354ae839}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{c3f78288-bd36-4a91-a977-ab3afff112da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Tracy">
+      <UniqueIdentifier>{3a83ebb5-2107-4739-8437-9274f1bc1e9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -975,6 +981,15 @@
     <ClInclude Include="Minty\Render\SpriteGroup.h">
       <Filter>Minty\Render\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Library\Tracy.h">
+      <Filter>Minty\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\tracy\tracy\Tracy.hpp">
+      <Filter>Tool\Tracy</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Debug\Trace.h">
+      <Filter>Minty\Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1551,6 +1566,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minty\System\System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\tracy\TracyClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

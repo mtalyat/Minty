@@ -6,6 +6,7 @@
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/SimulateComponent.h"
 #include "Minty/Component/TransformComponent.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 
@@ -204,6 +205,8 @@ void Minty::Scene::unload_assets()
 
 void Minty::Scene::on_load()
 {
+	MINTY_TRACE_SCOPE();
+
 	m_systemManager->initialize();
 	m_entityManager->initialize();
 	
@@ -212,6 +215,8 @@ void Minty::Scene::on_load()
 
 void Minty::Scene::on_unload()
 {
+	MINTY_TRACE_SCOPE();
+
 	unload_assets();
 
 	m_systemManager->dispose();
@@ -220,23 +225,31 @@ void Minty::Scene::on_unload()
 
 void Minty::Scene::on_update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	m_systemManager->update(time);
 	m_entityManager->update(time);
 }
 
 void Minty::Scene::on_finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	m_systemManager->finalize();
 	m_entityManager->finalize();
 }
 
 void Minty::Scene::on_render()
 {
+	MINTY_TRACE_SCOPE();
+
 	m_systemManager->render();
 }
 
 void Minty::Scene::on_event(Event& event)
 {
+	MINTY_TRACE_SCOPE();
+
 	// pass event on to the systems
 	m_systemManager->handle_event(event);
 }

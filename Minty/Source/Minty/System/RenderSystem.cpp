@@ -13,6 +13,7 @@
 #include "Minty/Data/BatchFactory.h"
 #include "Minty/Data/BufferContainer.h"
 #include "Minty/Data/StaticContainer.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
@@ -37,6 +38,8 @@ Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
 
 void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
 {
+	MINTY_TRACE_SCOPE();
+
 	RenderManager& renderManager = RenderManager::get_singleton();
 	EntityManager& entityManager = m_scene->get_entity_manager();
 
@@ -46,12 +49,16 @@ void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
 
 void Minty::RenderSystem::render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	MINTY_TRACE_SCOPE();
+
 	render_3d_meshes(cameraInfo, renderManager, entityManager);
 	render_3d_sprites(cameraInfo, renderManager, entityManager);
 }
 
 void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	MINTY_TRACE_SCOPE();
+
 	// render enabled, visible meshes
 	for (auto const& [entity, meshComp, transformComp, enabledComp, visibleComp] : entityManager.view<MeshComponent const, TransformComponent const, EnabledComponent const, VisibleComponent const>().each())
 	{
@@ -97,6 +104,8 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 
 void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	MINTY_TRACE_SCOPE();
+
 	// get the number of world sprites
 	auto spriteView = entityManager.view<EnabledComponent const, VisibleComponent const, SpriteComponent const, TransformComponent const>();
 	Size count = spriteView.get_size();
@@ -145,10 +154,10 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 			spriteComp.color.bf(),
 			spriteComp.color.af()
 		};
-		Float2 instOffset = sprite->get_offset();
-		Float2 instSize = sprite->get_size();
-		Float2 instPivot = sprite->get_pivot();
-		Float instScale = sprite->get_scale();
+		Float2 instOffset = sprite->get_render_offset();
+		Float2 instSize = sprite->get_render_size();
+		Float2 instPivot = sprite->get_render_pivot();
+		Float instScale = sprite->get_render_scale();
 		UInt instFlags = 0;
 		if (spriteComp.flipX) instFlags |= 0x1;
 		if (spriteComp.flipY) instFlags |= 0x2;
@@ -231,6 +240,8 @@ void Minty::RenderSystem::update_canvas(Entity const entity, Ref<Shader> const& 
 
 void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	MINTY_TRACE_SCOPE();
+
 	// sort the UITransform components by depth
 	entityManager.sort<UITransformComponent>([](UITransformComponent const& a, UITransformComponent const& b) -> Bool
 		{
@@ -247,6 +258,8 @@ void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager&
 
 void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	MINTY_TRACE_SCOPE();
+
 	BatchFactory<2, Ref<Material>, Entity> batchFactory(256);
 	StaticContainer pushData(sizeof(Float) * 9);
 	for (auto&& [entity, enabledComp, visibleComp, uiTransformComp, textComp, meshComp] : entityManager.view<EnabledComponent const, VisibleComponent const, UITransformComponent const, TextComponent const, MeshComponent const>().each())
@@ -294,6 +307,8 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 
 void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
 {
+	MINTY_TRACE_SCOPE();
+
 	// sort by depth
 	entityManager.sort<UITransformComponent>([&](UITransformComponent const& left, UITransformComponent const& right)
 		{
@@ -341,7 +356,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 
 		// get instance data
 		Float4 instRect = uiTransformComp.transform.get_global_rect().rect;
-		Float4 instSprite = sprite->get_rect().rect;
+		Float4 instSprite = sprite->get_render_rect().rect;
 		Float4 instColor = spriteComp.color.to_float4();
 		Float instDepth = 0.0f;
 
@@ -387,6 +402,8 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 
 void Minty::RenderSystem::on_render()
 {
+	MINTY_TRACE_SCOPE();
+
 	// reset all buffers so they can be reused this frame
 	m_bufferContainerFactory.reset();
 

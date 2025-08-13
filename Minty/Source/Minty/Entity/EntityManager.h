@@ -39,6 +39,8 @@ namespace Minty
 		RelationshipComponent m_root;
 		Map<UUID, Entity> m_ids;
 
+		Bool m_needsSorted;
+
 #pragma endregion
 
 #pragma region Constructors
@@ -53,6 +55,7 @@ namespace Minty
 			, m_registry()
 			, m_root()
 			, m_ids()
+			, m_needsSorted(false)
 		{
 		}
 
@@ -61,6 +64,7 @@ namespace Minty
 			, m_registry(std::move(other.m_registry))
 			, m_root(std::move(other.m_root))
 			, m_ids(std::move(other.m_ids))
+			, m_needsSorted(std::move(other.m_needsSorted))
 		{
 		}
 

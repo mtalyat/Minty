@@ -2,6 +2,7 @@
 #include "EntityManager.h"
 #include "Minty/Component/_Component.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Entity/Prefab.h"
 
@@ -329,6 +330,9 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 		add_to_parent(entity, relationshipComponent, parentRelationshipComponent);
 	}
 
+	// manager needs to resort the relationships
+	m_needsSorted = true;
+
 	// if children, update their depths
 	if (relationshipComponent.children)
 	{
@@ -438,6 +442,8 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 
 void Minty::EntityManager::finalize_dirties()
 {
+	MINTY_TRACE_SCOPE();
+
 	// update dirty text components
 	AssetManager& assetManager = AssetManager::get_singleton();
 	for (auto&& [entity, dirtyComp, uiTransformComp, textComp, meshComp] : m_registry.view<DirtyComponent const, UITransformComponent const, TextComponent const, MeshComponent>().each())
@@ -1160,33 +1166,42 @@ void Minty::EntityManager::clear()
 
 void Minty::EntityManager::sort()
 {
-	m_registry.sort<RelationshipComponent>([&](Entity const left, Entity const right)
+	MINTY_TRACE_SCOPE();
+
+	if (!m_needsSorted)
+	{
+		return;
+	}
+
+	m_registry.sort<RelationshipComponent>([&](RelationshipComponent const& leftRelationship, RelationshipComponent const& rightRelationship)
 		{
-			if (left == right)
-			{
-				return false;
-			}
+			return leftRelationship.depth < rightRelationship.depth;
 
-			RelationshipComponent const& leftRelationship = m_registry.get<RelationshipComponent>(left);
-			RelationshipComponent const& rightRelationship = m_registry.get<RelationshipComponent>(right);
+			//if (left == right)
+			//{
+			//	return false;
+			//}
 
-			// if the depths are different, compare by depth first
-			if(leftRelationship.depth != rightRelationship.depth)
-			{
-				return leftRelationship.depth < rightRelationship.depth;
-			}
+			//RelationshipComponent const& leftRelationship = m_registry.get<RelationshipComponent>(left);
+			//RelationshipComponent const& rightRelationship = m_registry.get<RelationshipComponent>(right);
 
-			// keep going up until they have the same parent
-			RelationshipComponent const* leftR = &leftRelationship;
-			RelationshipComponent const* rightR = &rightRelationship;
-			while (leftR->parent != rightR->parent)
-			{
-				leftR = &m_registry.get<RelationshipComponent>(leftR->parent);
-				rightR = &m_registry.get<RelationshipComponent>(rightR->parent);
-			}
+			//// if the depths are different, compare by depth first
+			//if(leftRelationship.depth != rightRelationship.depth)
+			//{
+			//	return leftRelationship.depth < rightRelationship.depth;
+			//}
 
-			// sort by index of ancestor
-			return leftR->index < rightR->index;
+			//// keep going up until they have the same parent
+			//RelationshipComponent const* leftR = &leftRelationship;
+			//RelationshipComponent const* rightR = &rightRelationship;
+			//while (leftR->parent != rightR->parent)
+			//{
+			//	leftR = &m_registry.get<RelationshipComponent>(leftR->parent);
+			//	rightR = &m_registry.get<RelationshipComponent>(rightR->parent);
+			//}
+
+			//// sort by index of ancestor
+			//return leftR->index < rightR->index;
 		});
 }
 
@@ -1459,6 +1474,8 @@ void Minty::EntityManager::initialize()
 
 void Minty::EntityManager::update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// remove any entities that are marked for destruction
 	cleanup();
 
@@ -1473,6 +1490,8 @@ void Minty::EntityManager::update(Time const& time)
 
 void Minty::EntityManager::finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	// sort the entities
 	sort();
 

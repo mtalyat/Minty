@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SystemManager.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Debug/Trace.h"
 
 using namespace Minty;
 
@@ -111,6 +112,8 @@ void Minty::SystemManager::dispose()
 
 void Minty::SystemManager::update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// update all of the systems
 	for (auto const& [priority, list] : m_systems)
 	{
@@ -123,6 +126,8 @@ void Minty::SystemManager::update(Time const& time)
 
 void Minty::SystemManager::finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	// finalize all of the systems
 	for (auto const& [priority, list] : m_systems)
 	{
@@ -135,6 +140,8 @@ void Minty::SystemManager::finalize()
 
 void Minty::SystemManager::render()
 {
+	MINTY_TRACE_SCOPE();
+
 	// render all of the systems
 	for (auto const& [priority, list] : m_systems)
 	{
@@ -147,6 +154,8 @@ void Minty::SystemManager::render()
 
 void Minty::SystemManager::handle_event(Event& event)
 {
+	MINTY_TRACE_SCOPE();
+
 	// pass the event on to each of the systems
 	for (auto const& [priority, list] : m_systems)
 	{

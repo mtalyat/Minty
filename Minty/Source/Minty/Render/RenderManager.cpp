@@ -2,6 +2,7 @@
 #include "RenderManager.h"
 #include "Minty/Context/Context.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/Material.h"
@@ -263,6 +264,8 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 
 void Minty::RenderManager::refresh()
 {
+	MINTY_TRACE_SCOPE();
+
 	// sync before refreshing
 	sync();
 
@@ -309,6 +312,8 @@ void Minty::RenderManager::dispose()
 
 Bool Minty::RenderManager::start_frame()
 {
+	MINTY_TRACE_SCOPE();
+
 	MINTY_ASSERT(m_state != State::Frame, "Attempting to start a frame while already rendering a frame.");
 	MINTY_ASSERT(m_state != State::Pass, "Attempting to start a frame while rendering a pass. End the pass and frame first.");
 
@@ -330,6 +335,8 @@ void Minty::RenderManager::abort_frame()
 
 void Minty::RenderManager::end_frame()
 {
+	MINTY_TRACE_SCOPE();
+
 	MINTY_ASSERT(m_state != State::Idle, "Attempting to end a frame while not rendering a frame.");
 	MINTY_ASSERT(m_state != State::Pass, "Attempting to end a frame while rendering a pass. End the pass first.");
 

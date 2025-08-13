@@ -130,15 +130,42 @@ namespace Minty
         /// Gets the scale of the Sprite in world space so it matches the pixels per unit.
         /// </summary>
         /// <returns>The scale as a Float.</returns>
-        Float get_scale() const { return m_scale; }
+        Float get_render_scale() const { return m_scale; }
 
 		/// <summary>
-		/// Gets the rectangle of this Sprite.
+		/// Returns the current render offset.
+		/// </summary>
+		/// <returns>The current render offset as a Float2 value.</returns>
+		inline Float2 get_render_offset() const
+		{
+			return m_offset;
+		}
+
+		/// <summary>
+		/// Returns the current render size.
+		/// </summary>
+		/// <returns>A Float2 representing the current render size.</returns>
+		inline Float2 get_render_size() const
+		{
+			return m_size;
+		}
+
+		/// <summary>
+		/// Gets the rendering rectangle of this Sprite.
 		/// </summary>
 		/// <returns>The offset and size packed into a Rect.</returns>
-		inline Rect get_rect() const
+		inline Rect get_render_rect() const
 		{
 			return Rect(m_offset.x, m_offset.y, m_size.x, m_size.y);
+		}
+
+		/// <summary>
+		/// Returns the current render pivot point.
+		/// </summary>
+		/// <returns>The render pivot as a Float2 value.</returns>
+		inline Float2 get_render_pivot() const
+		{
+			return m_pivot;
 		}
 
 		/// <summary>

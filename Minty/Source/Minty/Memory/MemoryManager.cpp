@@ -2,6 +2,7 @@
 #include "MemoryManager.h"
 #include "Minty/Context/Context.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Debug/Trace.h"
 
 using namespace Minty;
 
@@ -30,6 +31,8 @@ void Minty::MemoryManager::dispose()
 
 void Minty::MemoryManager::update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// free memory of single frame allocator
 	m_staticSize -= m_temporary.get_size();
 	m_temporary.clear();

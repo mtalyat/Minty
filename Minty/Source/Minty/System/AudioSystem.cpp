@@ -5,6 +5,7 @@
 #include "Minty/Component/AudioSourceComponent.h"
 #include "Minty/Component/EnabledComponent.h"
 #include "Minty/Component/TransformComponent.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Scene/Scene.h"
 
@@ -26,6 +27,8 @@ void Minty::AudioSystem::on_unload()
 
 void Minty::AudioSystem::on_finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	// get the managers
 	AudioManager& audioManager = AudioManager::get_singleton();
 	EntityManager& entityManager = m_scene->get_entity_manager();

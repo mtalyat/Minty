@@ -47,18 +47,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
-
-	public:
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-
-#pragma endregion
-
 #pragma region Statics
 
 	public:

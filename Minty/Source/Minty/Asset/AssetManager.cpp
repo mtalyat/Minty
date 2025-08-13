@@ -4,6 +4,7 @@
 #include "Minty/Animation/Animator.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Entity/Prefab.h"
 #include "Minty/Library/STB.h"
 #include "Minty/Render/Font.h"
@@ -192,12 +193,16 @@ void Minty::AssetManager::dispose()
 
 void Minty::AssetManager::update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// run all of the onCompletion jobs
 	run_completion_jobs();
 }
 
 void Minty::AssetManager::sync()
 {
+	MINTY_TRACE_SCOPE();
+
 	// get list of handles
 	Vector<Handle> handles(m_handles.get_size());
 	{

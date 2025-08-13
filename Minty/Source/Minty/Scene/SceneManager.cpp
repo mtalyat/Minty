@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Context/Context.h"
+#include "Minty/Debug/Trace.h"
 
 using namespace Minty;
 
@@ -169,6 +170,8 @@ void Minty::SceneManager::dispose()
 
 void Minty::SceneManager::update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// update the active scene
 	if (m_activeScene != nullptr)
 	{
@@ -182,6 +185,8 @@ void Minty::SceneManager::update(Time const& time)
 
 void Minty::SceneManager::finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	// finalize the active scene
 	if (m_activeScene != nullptr)
 	{
@@ -206,6 +211,8 @@ void Minty::SceneManager::finalize()
 
 void Minty::SceneManager::render()
 {
+	MINTY_TRACE_SCOPE();
+
 	// render the active scene
 	if (m_activeScene != nullptr)
 	{
@@ -213,13 +220,10 @@ void Minty::SceneManager::render()
 	}
 }
 
-void Minty::SceneManager::sync()
-{
-
-}
-
 void Minty::SceneManager::handle_event(Event& event)
 {
+	MINTY_TRACE_SCOPE();
+
 	// pass the event on to each of the systems
 	if (m_activeScene != nullptr)
 	{

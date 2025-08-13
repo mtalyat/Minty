@@ -4,6 +4,7 @@
 #include "Minty/System/_System.h"
 #include "Minty/Event/_Event.h"
 #include "Minty/File/PhysicalFile.h"
+#include "Minty/Debug/Trace.h"
 
 using namespace Minty;
 
@@ -191,6 +192,8 @@ void Minty::Context::dispose()
 
 void Minty::Context::update(Time const& time)
 {
+	MINTY_TRACE_SCOPE();
+
 	// update managers
 	for (Manager* manager : m_managers)
 	{
@@ -200,6 +203,8 @@ void Minty::Context::update(Time const& time)
 
 void Minty::Context::finalize()
 {
+	MINTY_TRACE_SCOPE();
+
 	// finalize managers
 	for (Manager* manager : m_managers)
 	{
@@ -209,6 +214,8 @@ void Minty::Context::finalize()
 
 void Minty::Context::render()
 {
+	MINTY_TRACE_SCOPE();
+
 	// start rendering
 	if (!m_renderManager->start_frame())
 	{
@@ -223,10 +230,14 @@ void Minty::Context::render()
 
 	// stop rendering
 	m_renderManager->end_frame();
+
+	MINTY_TRACE_FRAME();
 }
 
 void Minty::Context::sync()
 {
+	MINTY_TRACE_SCOPE();
+
 	// sync window
 	m_window->sync();
 
@@ -239,6 +250,8 @@ void Minty::Context::sync()
 
 void Minty::Context::process_events()
 {
+	MINTY_TRACE_SCOPE();
+
 	m_window->process_events();
 }
 

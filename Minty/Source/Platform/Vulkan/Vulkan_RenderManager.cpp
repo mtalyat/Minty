@@ -5,6 +5,7 @@
 #include "Minty/Data/Transform.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Trace.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/RenderTarget.h"
@@ -188,11 +189,15 @@ void Minty::Vulkan_RenderManager::dispose()
 
 void Minty::Vulkan_RenderManager::sync()
 {
+	MINTY_TRACE_SCOPE();
+
 	Vulkan_Renderer::sync_device(m_device);
 }
 
 Bool Minty::Vulkan_RenderManager::start_frame()
 {
+	MINTY_TRACE_SCOPE();
+
 	if (!RenderManager::start_frame())
 	{
 		return false;
@@ -234,6 +239,8 @@ Bool Minty::Vulkan_RenderManager::start_frame()
 
 void Minty::Vulkan_RenderManager::abort_frame()
 {
+	MINTY_TRACE_SCOPE();
+
 	// reset current command buffer
 	Vulkan_Frame const& frame = get_current_frame();
 	VkCommandBuffer commandBuffer = frame.commandBuffer;
@@ -244,6 +251,8 @@ void Minty::Vulkan_RenderManager::abort_frame()
 
 void Minty::Vulkan_RenderManager::end_frame()
 {
+	MINTY_TRACE_SCOPE();
+
 	// if no passes made, abort
 	if (!m_passesMade)
 	{
@@ -275,6 +284,8 @@ void Minty::Vulkan_RenderManager::end_frame()
 
 Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 {
+	MINTY_TRACE_SCOPE();
+
 	// get the camera
 	Ref<Camera> const& camera = cameraInfo.camera;
 
@@ -325,6 +336,8 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
 
 void Minty::Vulkan_RenderManager::end_pass()
 {
+	MINTY_TRACE_SCOPE();
+
 	Vulkan_Renderer::end_render_pass(get_current_command_buffer());
 
 	RenderManager::end_pass();

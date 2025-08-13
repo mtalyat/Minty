@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Sprite.h"
+#include "Minty/Debug/Debug.h"
+#include "Minty/Core/Format.h"
 
 using namespace Minty;
 
@@ -96,7 +98,23 @@ Float2 Minty::Sprite::get_pivot() const
 
 void Minty::Sprite::set_pivot(Float2 const& pivot)
 {
-	m_pivot = set_coords(pivot);
+	// translate from CoordinateMode to normalized
+	switch (m_coordinateMode)
+	{
+	case CoordinateMode::Normalized:
+		m_pivot = pivot;
+		break;
+	case CoordinateMode::Pixel:
+	{
+		UInt2 textureSize = m_texture->get_size();
+		m_pivot = Float2(
+			pivot.x / (static_cast<Float>(textureSize.x) * m_size.x),
+			pivot.y / (static_cast<Float>(textureSize.y) * m_size.y));
+		break;
+	}
+	default:
+		MINTY_ABORT("Failed to set Sprite value. Unhandled CoordinateMode.");
+	}
 }
 
 Owner<Sprite> Minty::Sprite::create(SpriteBuilder const& builder)
