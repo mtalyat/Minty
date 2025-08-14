@@ -638,7 +638,7 @@ namespace Minty
 		// deserialize the entities from the prefab
 		Bool deserialize_prefab(Reader& reader, Map<UUID, UUID>& idMap);
 		// deserialize the override values for a prefab
-		Bool deserialize_prefab_entity(Reader& reader, Ref<Prefab> const& prefab);
+		Bool deserialize_prefab_entity(Reader& reader, Ref<Prefab> const& prefab, Entity const baseEntity);
 	public:
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
@@ -665,8 +665,8 @@ namespace Minty
 
 #pragma region Entity Serialization Utility
 
-		public:
-			static void deserialize_entity(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId);
+		private:
+			static void deserialize_entity_header(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId);
 
 #pragma endregion
 

@@ -890,7 +890,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
 	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, oldName, eId, pId);
+	deserialize_entity_header(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
 	Entity entity = create_entity(oldName, id);
 
@@ -923,7 +923,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, oldName, eId, pId);
+	deserialize_entity_header(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
 	Entity entity = create_entity(name, id);
 
@@ -956,7 +956,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, UUID const 
 	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, oldName, eId, pId);
+	deserialize_entity_header(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
 	Entity entity = create_entity(oldName, id);
 
@@ -986,7 +986,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, Entity cons
 	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, oldName, eId, pId);
+	deserialize_entity_header(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
 	Entity entity = create_entity(oldName, id);
 
@@ -1022,7 +1022,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, oldName, eId, pId);
+	deserialize_entity_header(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
 	Entity entity = create_entity(name, id);
 
@@ -1052,7 +1052,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	String oldName;
 	UUID eId;
 	UUID pId;
-	deserialize_entity(reader, 0, oldName, eId, pId);
+	deserialize_entity_header(reader, 0, oldName, eId, pId);
 	idMap.add(eId, id);
 	Entity entity = create_entity(name, id);
 
@@ -1531,7 +1531,7 @@ Entity Minty::EntityManager::deserialize_entity(Reader& reader, Size const index
 	String name;
 	UUID id;
 	UUID prefabId;
-	deserialize_entity(reader, index, name, id, prefabId);
+	deserialize_entity_header(reader, index, name, id, prefabId);
 
 	// create the entity
 	Entity entity = create_entity_smart(name, id);
@@ -1617,7 +1617,7 @@ Bool Minty::EntityManager::deserialize_prefab(Reader& reader, Map<UUID, UUID>& i
 		String name;
 		UUID id;
 		UUID prefabId;
-		deserialize_entity(reader, i, name, id, prefabId);
+		deserialize_entity_header(reader, i, name, id, prefabId);
 
 		// get the new ID of the entity, and the entity
 		UUID newId;
@@ -1654,13 +1654,21 @@ Bool Minty::EntityManager::deserialize_prefab(Reader& reader, Map<UUID, UUID>& i
 			MINTY_ASSERT(prefab != nullptr, F("Failed to find prefab with ID {}.", prefabId));
 
 			// deserialize the prefab
-			Node const& node = prefab->get_node();
-			TextNodeReader prefabReader(node);
-			if (!deserialize_prefab(prefabReader, idMap))
+			reader.indent(i);
+			if(!deserialize_prefab_entity(reader, prefab, entity))
 			{
 				MINTY_ERROR(F("Failed to deserialize nested prefab {}.", prefabId));
+				reader.outdent();
 				return false;
 			}
+			reader.outdent();
+			//Node const& node = prefab->get_node();
+			//TextNodeReader prefabReader(node);
+			//if (!deserialize_prefab(prefabReader, idMap))
+			//{
+			//	MINTY_ERROR(F("Failed to deserialize nested prefab {}.", prefabId));
+			//	return false;
+			//}
 		}
 	}
 
@@ -1685,7 +1693,7 @@ Bool Minty::EntityManager::deserialize_prefab(Reader& reader, Map<UUID, UUID>& i
 	return true;
 }
 
-Bool Minty::EntityManager::deserialize_prefab_entity(Reader& reader, Ref<Prefab> const& prefab)
+Bool Minty::EntityManager::deserialize_prefab_entity(Reader& reader, Ref<Prefab> const& prefab, Entity const baseEntity)
 {
 	// get all of the entities and map their IDs
 	Map<UUID, UUID> idMap(reader.get_size() * 2);
@@ -1695,23 +1703,41 @@ Bool Minty::EntityManager::deserialize_prefab_entity(Reader& reader, Ref<Prefab>
 		String name; // the name of the entity
 		UUID id; // the ID within the scene
 		UUID pId; // the ID within the prefab
-		deserialize_entity(reader, i, name, id, pId);
+		deserialize_entity_header(reader, i, name, id, pId);
 
 		MINTY_ASSERT(pId.is_valid(), "No prefab ID found for entity within prefab.");
 
 		// set up the ID mapping
 		UUID newId = id.is_valid() ? id : UUID::create();
-		idMap.add(pId, newId);
 
 		// create an entity with the new ID
-		if (name.is_empty())
+		if (i == 0 && baseEntity != INVALID_ENTITY)
 		{
-			entities.add(create_entity(newId));
+			entities.add(baseEntity);
+			UUID const baseId = get_id(baseEntity);
+			if (baseId.is_valid())
+			{
+				newId = baseId;
+			}
+			else
+			{
+				newId = UUID::create();
+				set_id(baseEntity, newId);
+			}
 		}
 		else
 		{
-			entities.add(create_entity(name, newId));
+			if (name.is_empty())
+			{
+				entities.add(create_entity(newId));
+			}
+			else
+			{
+				entities.add(create_entity(name, newId));
+			}
 		}
+
+		idMap.add(pId, newId);
 	}
 
 	// deserialize the prefab
@@ -1775,16 +1801,13 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 			AssetManager& assetManager = AssetManager::get_singleton();
 			Ref<Prefab> const& prefab = assetManager.get<Prefab>(prefabComponent->id);
 			MINTY_ASSERT(prefab != nullptr, F("Failed to find prefab with ID {}.", prefabComponent->id));
-			if (!deserialize_prefab_entity(reader, prefab))
+			if (!deserialize_prefab_entity(reader, prefab, entity))
 			{
 				MINTY_ERROR(F("Failed to deserialize prefab entity {}.", get_entity_string(entity)));
 				reader.outdent();
 				return false;
 			}
 			reader.outdent();
-
-			// destroy the temporary entity
-			destroy(entity);
 		}
 		else
 		{
@@ -1817,7 +1840,7 @@ EntityManager& Minty::EntityManager::get_singleton()
 	return activeScene->get_entity_manager();
 }
 
-void Minty::EntityManager::deserialize_entity(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId)
+void Minty::EntityManager::deserialize_entity_header(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId)
 {
 	// get name
 	if (!reader.read_name(index, name))
@@ -1827,12 +1850,17 @@ void Minty::EntityManager::deserialize_entity(Reader& reader, Size const index, 
 
 	// get ID string
 	String idString;
-	if (!reader.read(index, idString) || idString.is_empty())
+	reader.read(index, idString);
+
+	// if name starts with "- " and idString is empty, it is a prefab ID
+	if (name.starts_with("- ") && idString.is_empty())
 	{
-		id = INVALID_ID;
-		prefabId = INVALID_ID;
+		// this is a prefab ID
+		idString = name.sub(2); // remove the "- " prefix
+		name = "";
 	}
-	else
+
+	if(!idString.is_empty())
 	{
 		// trim the string down
 		idString = idString.trim();
@@ -1849,14 +1877,26 @@ void Minty::EntityManager::deserialize_entity(Reader& reader, Size const index, 
 			prefabId = parse_to_uuid(prefabIdString);
 
 			// remove prefab from id string
-			idString = idString.sub(0, prefabIndex).trim();
+			idString = idString.sub(0, prefabIndex) + idString.sub(prefabIndexEnd + 1);
+			idString = idString.trim();
 		}
 		else
 		{
 			prefabId = INVALID_ID;
 		}
 
-		// get the ID
-		id = parse_to_uuid(idString);
+		// get the ID, if any
+		if (!idString.is_empty())
+		{
+			id = parse_to_uuid(idString);
+		} else
+		{
+			id = INVALID_ID;
+		}
+	}
+	else
+	{
+		id = INVALID_ID;
+		prefabId = INVALID_ID;
 	}
 }
