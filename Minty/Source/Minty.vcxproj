@@ -185,8 +185,8 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\..\Libraries\bullet\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\bullet\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Trace|x64'">
@@ -211,8 +211,8 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\..\Libraries\bullet\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\bullet\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -242,12 +242,23 @@
       </Command>
     </PostBuildEvent>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;zlib-static.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\zlib\lib;..\..\Libraries\bullet\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3_mt.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\vulkan\lib;..\..\Libraries\glfw\lib;..\..\Libraries\bullet\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Libraries\tracy\tracy\Tracy.hpp" />
+    <ClInclude Include="..\..\Libraries\zlib\include\crc32.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\deflate.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\gzguts.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\inffast.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\inffixed.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\inflate.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\inftrees.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\trees.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\zconf.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\zlib.h" />
+    <ClInclude Include="..\..\Libraries\zlib\include\zutil.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Minty.h" />
     <ClInclude Include="Minty\Animation\Animation.h" />
@@ -552,6 +563,21 @@
     <ClCompile Include="..\..\Libraries\soloud\include\soloud_wavstream.cpp" />
     <ClCompile Include="..\..\Libraries\soloud\include\stb_vorbis.cpp" />
     <ClCompile Include="..\..\Libraries\tracy\TracyClient.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\adler32.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\compress.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\crc32.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\deflate.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\gzclose.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\gzlib.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\gzread.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\gzwrite.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\infback.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\inffast.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\inflate.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\inftrees.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\trees.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\uncompr.cpp" />
+    <ClCompile Include="..\..\Libraries\zlib\source\zutil.cpp" />
     <ClCompile Include="Minty.cpp" />
     <ClCompile Include="Minty\Animation\Animation.cpp" />
     <ClCompile Include="Minty\Animation\AnimationAction.cpp" />

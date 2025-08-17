@@ -177,6 +177,9 @@ void Minty::Context::dispose()
 {
 	MINTY_ASSERT(m_initialized, "Context was not initialized.");
 
+	// dispose window
+	m_window.release();
+
 	// dispose managers
 	for (auto it = m_managers.rbegin(); it != m_managers.rend(); ++it)
 	{
@@ -184,8 +187,9 @@ void Minty::Context::dispose()
 	}
 	m_managers.clear();
 
-	// unregister systems
+	// unregister systems and components
 	m_registeredSystems.clear();
+	m_registeredComponents.clear();
 
 	m_initialized = false;
 }

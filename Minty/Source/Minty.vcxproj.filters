@@ -154,6 +154,12 @@
     <Filter Include="Tool\Tracy">
       <UniqueIdentifier>{3a83ebb5-2107-4739-8437-9274f1bc1e9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{e1663c54-ca22-40c0-89f0-16f513d73995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\zlib">
+      <UniqueIdentifier>{a2b41efc-448a-4c7e-b5d9-2c66c8d2fe34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -990,6 +996,39 @@
     <ClInclude Include="Minty\Debug\Trace.h">
       <Filter>Minty\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\zconf.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\zlib.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\zutil.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\crc32.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\deflate.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\gzguts.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\inffast.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\inffixed.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\inflate.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\inftrees.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Libraries\zlib\include\trees.h">
+      <Filter>Libraries\zlib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1570,6 +1609,51 @@
     </ClCompile>
     <ClCompile Include="..\..\Libraries\tracy\TracyClient.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\compress.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\deflate.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\inflate.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\uncompr.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\gzclose.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\gzlib.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\gzread.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\gzwrite.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\infback.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\inffast.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\inftrees.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\trees.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\zutil.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\adler32.cpp">
+      <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Libraries\zlib\source\crc32.cpp">
+      <Filter>Libraries\zlib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
