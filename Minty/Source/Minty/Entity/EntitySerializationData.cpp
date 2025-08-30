@@ -12,7 +12,7 @@ Entity Minty::EntitySerializationData::get_entity(UUID const id)
 		auto it = idMap->find(id);
 		if (it != idMap->end())
 		{
-			return entityManager->get_entity(it->get_second());
+			return it->get_second();
 		}
 	}
 	// get the entity normally

@@ -25,7 +25,7 @@ namespace Minty
 		/// <summary>
 		/// Mapping of IDs for prefab Entities to scene Entities.
 		/// </summary>
-		Map<UUID, UUID> const* idMap = nullptr;
+		Map<UUID, Entity> const* idMap = nullptr;
 
 		/// <summary>
 		/// Gets the Entity with the given ID. Uses the ID map if it is available.

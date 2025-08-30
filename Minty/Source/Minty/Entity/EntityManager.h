@@ -453,6 +453,32 @@ namespace Minty
 		Bool has_component(Entity const entity, String const& name) const;
 
 		/// <summary>
+		/// Checks if the specified entity has all components of the given types.
+		/// </summary>
+		/// <typeparam name="ComponentTypes">The types of the components to check for.</typeparam>
+		/// <param name="entity">The entity to check for the components.</param>
+		/// <returns>True if the entity has all the specified components; otherwise, false.</returns>
+		template<typename... ComponentTypes>
+		Bool has_all_components(Entity const entity) const
+		{
+			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			return m_registry.all_of<ComponentTypes...>(entity);
+		}
+
+		/// <summary>
+		/// Checks if the specified entity has any components of the given types.
+		/// </summary>
+		/// <typeparam name="ComponentTypes">The types of the components to check for.</typeparam>
+		/// <param name="entity">The entity to check for the components.</param>
+		/// <returns>True if the entity has any of the specified components; otherwise, false.</returns>
+		template<typename... ComponentTypes>
+		Bool has_any_components(Entity const entity) const
+		{
+			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			return m_registry.any_of<ComponentTypes...>(entity);
+		}
+
+		/// <summary>
 		/// Removes a component of the specified type from an entity.
 		/// </summary>
 		/// <typeparam name="ComponentType">The type of the component to remove from the entity.</typeparam>
@@ -631,14 +657,10 @@ namespace Minty
 #pragma region Serialization
 
 	private:
-		// deserializes just the entity at the index
-		Entity deserialize_entity(Reader& reader, Size const index);
-		// deserializes the components of the entity at the index
-		Bool deserialize_components(Reader& reader, Size const index, EntitySerializationData data);
-		// deserialize the entities from the prefab
-		Bool deserialize_prefab(Reader& reader, Map<UUID, UUID>& idMap);
-		// deserialize the override values for a prefab
-		Bool deserialize_prefab_entity(Reader& reader, Ref<Prefab> const& prefab, Entity const baseEntity);
+		Bool deserialize_entities(Reader& reader, Map<UUID, Entity>* idMap = nullptr, Entity const baseEntity = INVALID_ENTITY);
+
+		Bool deserialize_components(Reader& reader, Entity const entity, Map<UUID, Entity>* idMap = nullptr);
+
 	public:
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;

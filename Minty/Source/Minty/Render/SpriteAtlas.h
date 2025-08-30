@@ -94,12 +94,35 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Gets the ID of the Sprite at the given index in the specified group.
+		/// </summary>
+		/// <param name="groupIndex">The Group the Sprite ID is in.</param>
+		/// <param name="index">The 1D index of the Sprite ID.</param>
+		/// <returns>The Sprite ID.</returns>
+		inline UUID get_sprite_id(Int const groupIndex, Int const index) const
+		{
+			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), "Index out of bounds.");
+			Int const width = m_groups[groupIndex].get_count().x;
+			Int const indexY = index / width;
+			Int const indexX = index - indexY * width;
+			return m_groups[groupIndex].get_id(indexX, indexY);
+		}
+
+		/// <summary>
 		/// Gets the Sprite at the given index in the specified group.
 		/// </summary>
 		/// <param name="groupIndex">The Group the Sprite is in.</param>
 		/// <param name="index">The 2D index of the Sprite.</param>
 		/// <returns>The Sprite.</returns>
 		Ref<Sprite> get_sprite(Int const groupIndex, Int2 const index) const;
+
+		/// <summary>
+		/// Gets the Sprite at the given index in the specified group.
+		/// </summary>
+		/// <param name="groupIndex">The Group the Sprite is in.</param>
+		/// <param name="index">The 1D index of the Sprite.</param>
+		/// <returns>The Sprite.</returns>
+		Ref<Sprite> get_sprite(Int const groupIndex, Int const index) const;
 
 #pragma endregion
 

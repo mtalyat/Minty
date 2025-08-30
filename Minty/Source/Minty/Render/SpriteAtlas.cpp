@@ -16,7 +16,12 @@ Minty::SpriteAtlas::SpriteAtlas(SpriteAtlasBuilder const& builder)
 
 Ref<Sprite> Minty::SpriteAtlas::get_sprite(Int const groupIndex, Int2 const index) const
 {
-	MINTY_ASSERT(index.x >= 0 && index.x < m_groups.get_size(), "Index out of bounds.");
+	AssetManager& assetManager = AssetManager::get_singleton();
+	return assetManager.get<Sprite>(get_sprite_id(groupIndex, index));
+}
+
+Ref<Sprite> Minty::SpriteAtlas::get_sprite(Int const groupIndex, Int const index) const
+{
 	AssetManager& assetManager = AssetManager::get_singleton();
 	return assetManager.get<Sprite>(get_sprite_id(groupIndex, index));
 }
