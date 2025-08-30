@@ -13,7 +13,7 @@ namespace Minty
 		/// <summary>
 		/// The Entity with a Canvas component that this UITransformComponent belongs to.
 		/// </summary>
-		Entity canvas;
+		Entity canvas = INVALID_ENTITY;
 
 		/// <summary>
 		/// The UITransform data.
