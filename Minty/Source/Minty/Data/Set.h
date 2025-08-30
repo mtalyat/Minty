@@ -368,6 +368,10 @@ namespace Minty
 		~Set()
 		{
 			clear();
+			if (mp_table)
+			{
+				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
+			}
 		}
 
 #pragma endregion
