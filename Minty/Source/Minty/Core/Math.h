@@ -1020,7 +1020,7 @@ namespace Minty
 		/// <typeparam name="T">The type.</typeparam>
 		/// <param name="dx">The X position.</param>
 		/// <param name="dy">The Y position.</param>
-		/// <returns>Thje angle based on the given position.</returns>
+		/// <returns>The angle based on the given position.</returns>
 		template<typename T>
 		constexpr T angle(T const dx, T const dy)
 		{
