@@ -50,28 +50,32 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 			// read the index of the sprite in the atlas
 			// could be either a 1D or 2D index
 			String indexText;
-			if (!reader.read("Index", indexText))
-			{
-				MINTY_ABORT(F("SpriteComponent: Failed to read Index for SpriteAtlas with ID {}.", id));
-				return false;
-			}
 			Int index1d;
 			Int2 index2d;
-			if (try_int(indexText, index1d))
+			if (!reader.read("Index", indexText))
 			{
-				// convert into 2D index
-				Int2 count = atlas->get_group(groupIndex).get_count();
-				index2d.y = index1d / count.x;
-				index2d.x = index1d - index2d.y * count.x;
-			}
-			else if (try_int2(indexText, index2d))
-			{
-				// do nothing
+				// default to index of (0,0)
+				index2d = Int2();
 			}
 			else
 			{
-				MINTY_ABORT(F("SpriteComponent: Invalid Index format for SpriteAtlas with ID {}: {}", id, indexText));
-				return false;
+				// parse index
+				if (try_int(indexText, index1d))
+				{
+					// convert into 2D index
+					Int2 count = atlas->get_group(groupIndex).get_count();
+					index2d.y = index1d / count.x;
+					index2d.x = index1d - index2d.y * count.x;
+				}
+				else if (try_int2(indexText, index2d))
+				{
+					// do nothing
+				}
+				else
+				{
+					MINTY_ABORT(F("SpriteComponent: Invalid Index format for SpriteAtlas with ID {}: {}", id, indexText));
+					return false;
+				}
 			}
 
 			// get the sprite from the atlas
