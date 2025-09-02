@@ -553,29 +553,37 @@ void Minty::EntityManager::finalize_dirties()
 	clear<DirtyTextComponent>();
 
 	// update dirty canvas transforms
-	for (auto&& [entity, uiTransformComp, canvasComp, dirtyComp] : m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const>().each())
 	{
-		// get window size as a rect
-		Window& window = Context::get_singleton().get_window();
-		UInt2 windowSize = window.get_size();
-		Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
-
-		// canvas controls the size and position
-		uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
-		uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
-		uiTransformComp.transform.update(windowRect, 0.0f);
-	}
-
-	// update entities with relationships
-	for (auto&& [entity, relationshipComp, dirtyComp] : m_registry.view<RelationshipComponent, DirtyComponent const>().each())
-	{
-		if(TransformComponent* transformComp = m_registry.try_get<TransformComponent>(entity))
+		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const>();
+		view.use<UITransformComponent>();
+		for (auto&& [entity, uiTransformComp, canvasComp, dirtyComp] : view.each())
 		{
-			update_transform(entity, relationshipComp.parent, *transformComp);
+			// get window size as a rect
+			Window& window = Context::get_singleton().get_window();
+			UInt2 windowSize = window.get_size();
+			Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
+
+			// canvas controls the size and position
+			uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
+			uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
+			uiTransformComp.transform.update(windowRect, 0.0f);
 		}
-		else if (UITransformComponent* uiTransformComp = m_registry.try_get<UITransformComponent>(entity))
+	}
+	
+	// update entities with relationships
+	{
+		auto view = m_registry.view<RelationshipComponent, DirtyComponent const>();
+		view.use<RelationshipComponent>();
+		for (auto&& [entity, relationshipComp, dirtyComp] : view.each())
 		{
-			update_uiTransform(entity, relationshipComp.parent, *uiTransformComp);
+			if (TransformComponent* transformComp = m_registry.try_get<TransformComponent>(entity))
+			{
+				update_transform(entity, relationshipComp.parent, *transformComp);
+			}
+			else if (UITransformComponent* uiTransformComp = m_registry.try_get<UITransformComponent>(entity))
+			{
+				update_uiTransform(entity, relationshipComp.parent, *uiTransformComp);
+			}
 		}
 	}
 
