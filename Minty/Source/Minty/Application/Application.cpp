@@ -5,6 +5,8 @@
 
 using namespace Minty;
 
+Application* Minty::Application::s_instance = nullptr;
+
 void Minty::Application::quit()
 {
 	// stop running
@@ -41,12 +43,22 @@ void Minty::Application::run()
 	Stopwatch totalWatch = Stopwatch::start_new();
 	Stopwatch elapsedWatch = Stopwatch::start_new();
 
-	// run the application loop
+	// get the window and start running
 	Window& window = m_context->get_window();
-	while (window.is_open())
+	m_running = true;
+
+	// run the application loop
+	while (m_running && window.is_open())
 	{
 		step(totalWatch, elapsedWatch);
 	}
+
+	// if window is still open, close it
+	if (window.is_open())
+	{
+		window.close();
+	}
+	m_running = false;
 
 	// sync operations before moving on (threads, rendering, etc.)
 	m_context->sync();
