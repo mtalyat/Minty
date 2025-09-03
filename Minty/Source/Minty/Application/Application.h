@@ -29,6 +29,7 @@ namespace Minty
 	private:
 		Owner<Context> m_context;
 		Bool m_running;
+		static Application* s_instance;
 
 #pragma endregion
 
@@ -43,11 +44,16 @@ namespace Minty
 			: m_context(builder.context)
 			, m_running(false)
 		{
+			MINTY_ASSERT(!s_instance, "Application singleton already exists.");
 			MINTY_ASSERT(m_context != nullptr, "Context is null.");
+
+			s_instance = this;
 		}
 
 		~Application()
 		{
+			MINTY_ASSERT_ERROR(s_instance == this, "Application singleton is not this instance.");
+			s_instance = nullptr;
 		}
 
 		Application(Application const&) = delete;
@@ -115,6 +121,16 @@ namespace Minty
 		/// <param name="builder">The arguments.</param>
 		/// <returns>An Application Owner.</returns>
 		static Owner<Application> create(ApplicationBuilder const& builder = {});
+
+		/// <summary>
+		/// Gets the current instance of the Application.
+		/// </summary>
+		/// <returns>The current instance of the Application.</returns>
+		static Application& get_singleton()
+		{
+			MINTY_ASSERT(s_instance, "Application singleton is null.");
+			return *s_instance;
+		}
 
 #pragma endregion
 	};
