@@ -427,7 +427,7 @@ void Minty::EntityManager::finalize_dirties()
 
 	// update dirty text components
 	AssetManager& assetManager = AssetManager::get_singleton();
-	for (auto&& [entity, uiTransformComp, textComp, meshComp, dirtyComp] : m_registry.view<UITransformComponent const, TextComponent const, MeshComponent, DirtyComponent const>().each())
+	for (auto&& [entity, uiTransformComp, textComp, meshComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent const, TextComponent const, MeshComponent, DirtyComponent const, EnabledComponent const>().each())
 	{
 		// if no font or variant or text, destroy the mesh
 		if (textComp.font == nullptr || textComp.fontVariant == nullptr || textComp.text == nullptr || textComp.text.is_empty())
@@ -554,9 +554,9 @@ void Minty::EntityManager::finalize_dirties()
 
 	// update dirty canvas transforms
 	{
-		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const>();
+		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const, EnabledComponent const>();
 		view.use<UITransformComponent>();
-		for (auto&& [entity, uiTransformComp, canvasComp, dirtyComp] : view.each())
+		for (auto&& [entity, uiTransformComp, canvasComp, dirtyComp, enabledComp] : view.each())
 		{
 			// get window size as a rect
 			Window& window = Context::get_singleton().get_window();
@@ -572,9 +572,9 @@ void Minty::EntityManager::finalize_dirties()
 	
 	// update entities with relationships
 	{
-		auto view = m_registry.view<RelationshipComponent, DirtyComponent const>();
+		auto view = m_registry.view<RelationshipComponent, DirtyComponent const, EnabledComponent const>();
 		view.use<RelationshipComponent>();
-		for (auto&& [entity, relationshipComp, dirtyComp] : view.each())
+		for (auto&& [entity, relationshipComp, dirtyComp, enabledComp] : view.each())
 		{
 			if (TransformComponent* transformComp = m_registry.try_get<TransformComponent>(entity))
 			{
@@ -588,12 +588,12 @@ void Minty::EntityManager::finalize_dirties()
 	}
 
 	// update entities without relationships
-	for (auto&& [entity, transformComp, dirtyComp] : m_registry.view<TransformComponent, DirtyComponent const>(entt::exclude<RelationshipComponent>).each())
+	for (auto&& [entity, transformComp, dirtyComp, enabledComp] : m_registry.view<TransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
 	{
 		// if no relationship, update the transform with no parent
 		update_transform(entity, INVALID_ENTITY, transformComp);
 	}
-	for (auto&& [entity, uiTransformComp, dirtyComp] : m_registry.view<UITransformComponent, DirtyComponent const>(entt::exclude<RelationshipComponent>).each())
+	for (auto&& [entity, uiTransformComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
 	{
 		// if no relationship, update the UITransform with no parent
 		update_uiTransform(entity, INVALID_ENTITY, uiTransformComp);

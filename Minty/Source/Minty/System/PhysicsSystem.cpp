@@ -38,28 +38,28 @@ void Minty::PhysicsSystem::initialize_entities()
 	LayerManager& layerManager = LayerManager::get_singleton();
 
 	// check for disabled entities
-	for (auto&& [entity, collider, simulate] : entityManager.view<ColliderComponent, SimulateComponent const>(entt::exclude<RigidBodyComponent, EnabledComponent>).each())
+	for (auto&& [entity, colliderComp, simulateComp] : entityManager.view<ColliderComponent, SimulateComponent const>(entt::exclude<RigidBodyComponent, EnabledComponent>).each())
 	{
-		MINTY_ASSERT(collider.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
-		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
+		MINTY_ASSERT(colliderComp.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
+		MINTY_ASSERT(colliderComp.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
 		
 		// remove from physics simulation
-		m_simulation->remove_static(*collider.collider);
+		m_simulation->remove_static(*colliderComp.collider);
 
 		// remove simulate component
 		entityManager.remove_component<SimulateComponent>(entity);
 	}
 
 	// check for enabled, non-simulated entities
-	for (auto&& [entity, transform, collider, enabled] : entityManager.view<TransformComponent, ColliderComponent, EnabledComponent>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
+	for (auto&& [entity, transformComp, colliderComp, enabledComp] : entityManager.view<TransformComponent, ColliderComponent, EnabledComponent const>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
-		MINTY_ASSERT(collider.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
-		MINTY_ASSERT(collider.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
-		MINTY_ASSERT(collider.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
+		MINTY_ASSERT(colliderComp.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
+		MINTY_ASSERT(colliderComp.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
+		MINTY_ASSERT(colliderComp.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
 
 		// add to physics simulation
 		Layer layer = entityManager.get_layer(entity);
-		m_simulation->add_static(entity, transform.transform, *collider.collider, layer, layerManager.get_mask(layer));
+		m_simulation->add_static(entity, transformComp.transform, *colliderComp.collider, layer, layerManager.get_mask(layer));
 
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);
@@ -74,10 +74,10 @@ void Minty::PhysicsSystem::deinitialize_entities()
 	EntityManager& entityManager = scene->get_entity_manager();
 
 	// clear simulation
-	for (auto&& [entity, transform, collider, body, simulate] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+	for (auto&& [entity, transformComp, colliderComp, bodyComp, simulateComp] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
 	{
 		// remove from physics simulation
-		m_simulation->remove_dynamic(*collider.collider, *body.rigidBody);
+		m_simulation->remove_dynamic(*colliderComp.collider, *bodyComp.rigidBody);
 
 		// remove simulate component
 		entityManager.remove_component<SimulateComponent>(entity);
@@ -113,9 +113,9 @@ void Minty::PhysicsSystem::on_update(Time const& time)
 	if (m_accumulator >= DEFAULT_PHYSICS_TIME_STEP)
 	{
 		// update the physics simulation data with the world data
-		for (auto const& [entity, transform, collider, body, simulate] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+		for (auto const& [entity, transformComp, colliderComp, bodyComp, simulateComp, enabledComp] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, EnabledComponent const>().each())
 		{
-			m_simulation->set_dynamic(transform.transform, *collider.collider, *body.rigidBody);
+			m_simulation->set_dynamic(transformComp.transform, *colliderComp.collider, *bodyComp.rigidBody);
 		}
 
 		// perform the physics steps
@@ -126,9 +126,9 @@ void Minty::PhysicsSystem::on_update(Time const& time)
 		}
 
 		// update the world data with the physics simulation data
-		for (auto&& [entity, transform, collider, body, simulate] : entityManager.view<TransformComponent, ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+		for (auto&& [entity, transformComp, colliderComp, bodyComp, simulateComp, enabledComp] : entityManager.view<TransformComponent, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, EnabledComponent const>().each())
 		{
-			m_simulation->get_dynamic(transform.transform, *collider.collider, *body.rigidBody);
+			m_simulation->get_dynamic(transformComp.transform, *colliderComp.collider, *bodyComp.rigidBody);
 		}
 	}
 }
@@ -143,10 +143,10 @@ void Minty::PhysicsSystem::on_finalize()
 	EntityManager& entityManager = scene->get_entity_manager();
 
 	// remove any entities marked for destruction from the physics simulation
-	for (auto&& [entity, transform, collider, body, simulate, destroy] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, DestroyComponent const>().each())
+	for (auto&& [entity, transformComp, colliderComp, bodyComp, simulateComp, destroyComp] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, DestroyComponent const>().each())
 	{
 		// remove from physics manager
-		m_simulation->remove_dynamic(*collider.collider, *body.rigidBody);
+		m_simulation->remove_dynamic(*colliderComp.collider, *bodyComp.rigidBody);
 
 		// remove simulate component
 		entityManager.remove_component<SimulateComponent>(entity);

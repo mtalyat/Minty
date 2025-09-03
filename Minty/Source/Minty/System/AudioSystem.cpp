@@ -35,7 +35,7 @@ void Minty::AudioSystem::on_finalize()
 
 	// get the audio listener
 	Size count = 0;
-	for (auto const& [entity, audioListenerComp] : entityManager.view<AudioListenerComponent>().each())
+	for (auto const& [entity, audioListenerComp, enabledComp] : entityManager.view<AudioListenerComponent, EnabledComponent const>().each())
 	{
 		// ignore if not the first
 		if (count > 0)

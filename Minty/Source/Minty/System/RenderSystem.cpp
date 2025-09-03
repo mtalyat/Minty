@@ -59,8 +59,8 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 {
 	MINTY_TRACE_SCOPE();
 
-	// render enabled, visible meshes
-	for (auto const& [entity, meshComp, transformComp, enabledComp, visibleComp] : entityManager.view<MeshComponent const, TransformComponent const, EnabledComponent const, VisibleComponent const>().each())
+	// render visible meshes
+	for (auto const& [entity, meshComp, transformComp, visibleComp] : entityManager.view<MeshComponent const, TransformComponent const, VisibleComponent const>().each())
 	{
 		// ignore if empty
 		if (meshComp.type == MeshType::Empty)
@@ -107,7 +107,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	MINTY_TRACE_SCOPE();
 
 	// get the number of world sprites
-	auto spriteView = entityManager.view<EnabledComponent const, VisibleComponent const, SpriteComponent const, TransformComponent const>();
+	auto spriteView = entityManager.view<VisibleComponent const, SpriteComponent const, TransformComponent const>();
 	Size count = spriteView.get_size();
 
 	// skip if no sprites
@@ -124,7 +124,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	Ref<Sprite> sprite;
 	Ref<Material> material;
 	BatchFactory<1, Ref<Material>> batchFactory(maxDataSize);
-	for (auto const& [entity, enabledComp, visibleComp, spriteComp, transformComp] : spriteView.each())
+	for (auto const& [entity, visibleComp, spriteComp, transformComp] : spriteView.each())
 	{
 		sprite = spriteComp.sprite;
 
@@ -325,9 +325,9 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 	// batch the UI sprites
 	Ref<Material> material;
 	BatchFactory<2, Ref<Material>, Entity> batchFactory(256);
-	auto view = entityManager.view<UITransformComponent const, EnabledComponent const, VisibleComponent const, SpriteComponent const>();
+	auto view = entityManager.view<UITransformComponent const, VisibleComponent const, SpriteComponent const>();
 	view.use<UITransformComponent>();
-	for (auto const& [entity, uiTransformComp, enabledComp, visibleComp, spriteComp] : view.each())
+	for (auto const& [entity, uiTransformComp, visibleComp, spriteComp] : view.each())
 	{
 		// skip if no sprite
 		Ref<Sprite> const& sprite = spriteComp.sprite;
@@ -412,7 +412,7 @@ void Minty::RenderSystem::on_render()
 
 	// render each camera
 	Int count = 0;
-	for (auto const& [cameraEntity, cameraComp] : entityManager.view<CameraComponent>().each())
+	for (auto const& [cameraEntity, cameraComp, enabledComp] : entityManager.view<CameraComponent, EnabledComponent const>().each())
 	{
 		// create the camera info
 		TransformComponent* transformComponent = entityManager.try_get_component<TransformComponent>(cameraEntity);
