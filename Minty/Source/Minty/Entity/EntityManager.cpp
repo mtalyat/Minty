@@ -21,6 +21,18 @@ void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshi
 		parentRelationshipComp.last = relationshipComp.prev;
 	}
 
+	// update previous sibling's next
+	if (relationshipComp.prev != INVALID_ENTITY)
+	{
+		m_registry.get<RelationshipComponent>(relationshipComp.prev).next = relationshipComp.next;
+	}
+
+	// update next sibling's prev
+	if (relationshipComp.next != INVALID_ENTITY)
+	{
+		m_registry.get<RelationshipComponent>(relationshipComp.next).prev = relationshipComp.prev;
+	}
+
 	// iterate from next to end and update indices
 	Entity sibling = relationshipComp.next;
 	while (sibling != INVALID_ENTITY)
@@ -213,6 +225,18 @@ void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
 			m_registry.remove<EnabledComponent>(entity);
 		}
 	}
+
+	// set children as well
+	RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+	if (relationshipComp && relationshipComp->children > 0)
+	{
+		Entity child = relationshipComp->first;
+		while (child != INVALID_ENTITY)
+		{
+			set_enabled(child, enabled);
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+	}
 }
 
 Bool Minty::EntityManager::get_enabled(Entity const entity) const
@@ -233,6 +257,18 @@ void Minty::EntityManager::set_visible(Entity const entity, Bool const visible)
 			m_registry.remove<VisibleComponent>(entity);
 		}
 	}
+
+	// set children as well
+	RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+	if (relationshipComp && relationshipComp->children > 0)
+	{
+		Entity child = relationshipComp->first;
+		while (child != INVALID_ENTITY)
+		{
+			set_visible(child, visible);
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+	}
 }
 
 Bool Minty::EntityManager::get_visible(Entity const entity) const
@@ -249,11 +285,24 @@ void Minty::EntityManager::set_layer(Entity const entity, Layer const layer)
 		{
 			m_registry.remove<LayerComponent>(entity);
 		}
-		return;
+	}
+	else
+	{
+		LayerComponent& layerComponent = m_registry.get_or_emplace<LayerComponent>(entity);
+		layerComponent.layer = layer;
 	}
 
-	LayerComponent& layerComponent = m_registry.get_or_emplace<LayerComponent>(entity);
-	layerComponent.layer = layer;
+	// set children as well
+	RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+	if (relationshipComp && relationshipComp->children > 0)
+	{
+		Entity child = relationshipComp->first;
+		while (child != INVALID_ENTITY)
+		{
+			set_layer(child, layer);
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
+	}
 }
 
 Layer Minty::EntityManager::get_layer(Entity const entity) const
@@ -1338,6 +1387,18 @@ void Minty::EntityManager::destroy(Entity const entity)
 	if(!m_registry.all_of<DestroyComponent>(entity))
 	{
 		m_registry.emplace<DestroyComponent>(entity);
+	}
+
+	// destroy all children as well
+	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	if (relationshipComponent && relationshipComponent->children > 0)
+	{
+		Entity child = relationshipComponent->first;
+		while (child != INVALID_ENTITY)
+		{
+			destroy(child);
+			child = m_registry.get<RelationshipComponent>(child).next;
+		}
 	}
 }
 
