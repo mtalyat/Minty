@@ -37,8 +37,10 @@ void Minty::MeshComponent::serialize(Writer& writer) const
 Bool Minty::MeshComponent::deserialize(Reader& reader)
 {
 	// read type
-	reader.read_default(type);
-	reader.read("Type", type, MeshType::Custom);
+	if (!reader.read_default(type))
+	{
+		reader.read("Type", type, MeshType::Custom);
+	}
 
 	// read mesh ID
 	if (type == MeshType::Custom)
