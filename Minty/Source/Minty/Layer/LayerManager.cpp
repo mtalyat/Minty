@@ -40,6 +40,42 @@ Minty::LayerManager::LayerManager(LayerManagerBuilder const& builder)
 		m_names[layer] = name;
 		m_matrix[layer] = mask;
 	}
+
+	// for each layer, ensure that the collisions are symmetric
+	for (Layer layer = 0; layer < LAYER_COUNT; ++layer)
+	{
+		// skip if empty layer
+		if(m_names[layer].is_empty())
+		{
+			continue;
+		}
+
+		Layer const mask = m_matrix[layer];
+		Layer const bit = (1 << layer);
+		for (Layer otherLayer = 0; otherLayer < LAYER_COUNT; ++otherLayer)
+		{
+			// skip self
+			if (otherLayer == layer)
+			{
+				continue;
+			}
+
+			// skip if other layer is empty
+			if (m_names[otherLayer].is_empty())
+			{
+				continue;
+			}
+
+			// if this layer collides with the other layer, ensure the other layer collides with this layer
+			// print warning if not symmetric
+			Layer const otherBit = (1 << otherLayer);
+			if (((mask & otherBit) != 0) && !(m_matrix[otherLayer] & bit))
+			{
+				MINTY_WARNING(F("Layer collision between '{}' and '{}' is not symmetric. Making it symmetric.", m_names[layer], m_names[otherLayer]));
+				m_matrix[otherLayer] |= bit;
+			}
+		}
+	}
 }
 
 Layer Minty::LayerManager::get_layer(String const& name) const
