@@ -538,6 +538,18 @@ namespace Minty
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
 			m_registry.emplace_or_replace<ComponentType>(entity);
+
+			// mark children as well
+			RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+			if (relationshipComp && relationshipComp->children > 0)
+			{
+				Entity child = relationshipComp->first;
+				while (child != INVALID_ENTITY)
+				{
+					mark<ComponentType>(child);
+					child = m_registry.get<RelationshipComponent>(child).next;
+				}
+			}
 		}
 
 		/// <summary>
