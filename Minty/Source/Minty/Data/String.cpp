@@ -241,10 +241,6 @@ String Minty::String::trim_start(String const& characters) const
 	{
 		return "";
 	}
-	if (index == 0)
-	{
-		return *this;
-	}
 	return sub(index);
 }
 
@@ -255,11 +251,7 @@ String Minty::String::trim_end(String const& characters) const
 	{
 		return "";
 	}
-	if (index == get_size() - 1)
-	{
-		return *this;
-	}
-	return sub(0, index);
+	return sub(0, index + 1);
 }
 
 String Minty::String::trim(String const& whitespace) const
