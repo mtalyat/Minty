@@ -120,7 +120,7 @@ Node Minty::parse_to_node(String const& string)
 		Size i = 0;
 		while (i < line.get_size())
 		{
-			Char c = line.at(i);
+			Char const c = line.at(i);
 			if (inBlockComment)
 			{
 				if (c == '-' && i + 1 < line.get_size() && line.at(i + 1) == '#')
@@ -149,7 +149,8 @@ Node Minty::parse_to_node(String const& string)
 				i++;
 			}
 		}
-		line = cleanLine;
+		// remove whitespace from the end of the line, since that does nothing
+		line = cleanLine.trim_end();
 	}
 
 	Vector<Tuple<String, NodeMacro>> macros;
