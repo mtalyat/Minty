@@ -5,7 +5,7 @@
 namespace Minty
 {
 	/// <summary>
-	/// Holds the Canvas data for an Enitity.
+	/// Holds the Canvas data for an Entity.
 	/// </summary>
 	struct CanvasComponent
 		: public Component
