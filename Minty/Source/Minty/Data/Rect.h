@@ -89,5 +89,15 @@ namespace Minty
 			: rect(rect)
 		{
 		}
+
+		/// <summary>
+		/// Checks if the rectangle contains the given point.
+		/// </summary>
+		/// <param name="point">The point to check.</param>
+		/// <returns>True if the Rect contains the given point.</returns>
+		Bool contains(Float2 const point) const
+		{
+			return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
+		}
 	};
 }
