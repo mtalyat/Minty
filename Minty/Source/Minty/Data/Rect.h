@@ -97,7 +97,7 @@ namespace Minty
 		/// <returns>True if the Rect contains the given point.</returns>
 		Bool contains(Float2 const point) const
 		{
-			return point.x >= x && point.x <= x + width && point.y >= y && point.y <= y + height;
+			return (point.x >= x) && (point.x <= x + width) && (point.y >= y) && (point.y <= y + height);
 		}
 	};
 }
