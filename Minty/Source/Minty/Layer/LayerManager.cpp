@@ -92,6 +92,16 @@ Layer Minty::LayerManager::get_layer(String const& name) const
 	return LAYER_NONE;
 }
 
+Bool Minty::LayerManager::check_for_collision(Layer const layerA, Layer const layerB) const
+{
+	// get the mask for layer A
+	Layer const maskA = get_mask(layerA);
+
+	// check if layer B is in the mask for layer A
+	Layer const bitB = layer_to_bit(layerB);
+	return (maskA & bitB) != 0;
+}
+
 Owner<LayerManager> Minty::LayerManager::create(LayerManagerBuilder const& builder)
 {
 	return Owner<LayerManager>(builder);

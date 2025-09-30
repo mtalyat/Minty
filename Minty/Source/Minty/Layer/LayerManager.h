@@ -81,6 +81,14 @@ namespace Minty
 			return m_matrix[layer];
 		}
 
+		/// <summary>
+		/// Determines whether a collision occurs between two layers.
+		/// </summary>
+		/// <param name="layerA">The first layer to check for collision.</param>
+		/// <param name="layerB">The second layer to check for collision.</param>
+		/// <returns>True if a collision is detected between the two layers; otherwise, false.</returns>
+		Bool check_for_collision(Layer const layerA, Layer const layerB) const;
+
 #pragma endregion
 
 #pragma region Statics
