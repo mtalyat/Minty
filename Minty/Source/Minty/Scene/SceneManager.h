@@ -170,6 +170,11 @@ namespace Minty
 		/// <param name="event">The Event to handle.</param>
 		void handle_event(Event& event) override;
 
+		/// <summary>
+		/// Updates the internal state of the SceneManager.
+		/// </summary>
+		void refresh();
+
 #pragma endregion
 
 #pragma region Statics

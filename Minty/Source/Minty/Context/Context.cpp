@@ -170,6 +170,9 @@ void Minty::Context::initialize()
 		manager->initialize();
 	}
 
+	// make sure the scene manager is refreshed to load the initial scene
+	m_sceneManager->refresh();
+
 	m_initialized = true;
 }
 

@@ -193,20 +193,7 @@ void Minty::SceneManager::finalize()
 		m_activeScene->on_finalize();
 	}
 
-	// move to the next active Scene
-	if (m_nextScene != nullptr)
-	{
-		if (m_activeScene != nullptr)
-		{
-			m_activeScene->on_unload();
-		}
-		m_activeScene = m_nextScene;
-		m_nextScene = nullptr;
-		if (m_activeScene != nullptr)
-		{
-			m_activeScene->on_load();
-		}
-	}
+	refresh();
 }
 
 void Minty::SceneManager::render()
@@ -228,6 +215,24 @@ void Minty::SceneManager::handle_event(Event& event)
 	if (m_activeScene != nullptr)
 	{
 		m_activeScene->on_event(event);
+	}
+}
+
+void Minty::SceneManager::refresh()
+{
+	// move to the next active Scene
+	if (m_nextScene != nullptr)
+	{
+		if (m_activeScene != nullptr)
+		{
+			m_activeScene->on_unload();
+		}
+		m_activeScene = m_nextScene;
+		m_nextScene = nullptr;
+		if (m_activeScene != nullptr)
+		{
+			m_activeScene->on_load();
+		}
 	}
 }
 
