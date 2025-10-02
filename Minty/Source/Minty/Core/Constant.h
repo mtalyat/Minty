@@ -137,7 +137,7 @@ namespace Minty
 	/// <summary>
 	/// All Layers.
 	/// </summary>
-	constexpr Layer LAYER_ALL = ~0;
+	constexpr Layer LAYER_ALL = ~1; // ~1 excludes layer 0 (LAYER_NONE)
 
 	/// <summary>
 	/// The Default Layer.
