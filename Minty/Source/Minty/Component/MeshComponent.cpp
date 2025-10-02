@@ -70,5 +70,5 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 	{
 		material = nullptr;
 	}
-	return true;
+	return mesh != nullptr && material != nullptr;
 }

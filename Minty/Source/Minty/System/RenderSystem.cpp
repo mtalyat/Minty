@@ -68,15 +68,16 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 			continue;
 		}
 
-		// ignore if missing mesh or material
-		if (meshComp.mesh == nullptr || meshComp.material == nullptr)
+		// ignore if not in correct layer
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
 		{
 			continue;
 		}
 
-		// ignore if not in correct layer
-		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
+		// ignore if missing mesh or material
+		if (meshComp.mesh == nullptr || meshComp.material == nullptr)
 		{
+			MINTY_WARNING(F("Skipping {} due to missing mesh or material.", entityManager.get_entity_string(entity)));
 			continue;
 		}
 

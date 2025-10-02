@@ -511,6 +511,7 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 	// if not found, return null
 	if (it == m_assets.end())
 	{
+		MINTY_ERROR(F("Asset with the given ID does not exist: {}", id));
 		return Ref<Asset>();
 	}
 
