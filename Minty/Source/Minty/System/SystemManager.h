@@ -83,7 +83,7 @@ namespace Minty
         template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
         T* add()
         {
-			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
+			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
 
 			// add using type
 			return static_cast<T*>(add(typeid(T)));

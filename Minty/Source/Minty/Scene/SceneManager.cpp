@@ -34,7 +34,23 @@ Ref<Scene> Minty::SceneManager::load(Path const& path, Bool const setAsActive)
 	}
 
 	// add the Scene
-	m_scenes.add(scene->get_id(), {scene, path});
+	m_scenes.add(scene->get_id(), { scene, path });
+
+	Ref<Scene> sceneRef = scene.create_ref();
+
+	// set as active if requested
+	if (setAsActive)
+	{
+		set_active(sceneRef);
+	}
+
+	return sceneRef;
+}
+
+Ref<Scene> Minty::SceneManager::load(Owner<Scene> const& scene, Bool const setAsActive)
+{
+	// add the Scene
+	m_scenes.add(scene->get_id(), { scene, "" });
 
 	Ref<Scene> sceneRef = scene.create_ref();
 

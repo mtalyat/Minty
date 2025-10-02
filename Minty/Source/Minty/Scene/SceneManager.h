@@ -114,6 +114,13 @@ namespace Minty
 		Ref<Scene> load(Path const& path, Bool const setAsActive = false);
 
 		/// <summary>
+		/// Loads a scene, optionally setting it as the active scene.
+		/// </summary>
+		/// <param name="scene">A constant reference to the scene to load, wrapped in an Owner smart pointer.</param>
+		/// <param name="setAsActive">If true, sets the loaded scene as the active scene. Defaults to false.</param>
+		Ref<Scene> load(Owner<Scene> const& scene, Bool const setAsActive = false);
+
+		/// <summary>
 		/// Removes the Scene with the given ID from the SceneManager, and unloads it.
 		/// </summary>
 		/// <param name="id"></param>
