@@ -24,5 +24,3 @@ if exist "%VS_PATH%" (
 ) else (
     echo Failed to import the Minty Project project template into Visual Studio.
 )
-
-pause
