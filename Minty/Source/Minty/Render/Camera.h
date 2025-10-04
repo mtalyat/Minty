@@ -57,7 +57,7 @@ namespace Minty
 		/// <summary>
 		/// The layers to render.
 		/// </summary>
-		Layer layer = LAYER_ALL;
+		Layer layer = LAYER_MASK_ALL;
 
 		/// <summary>
 		/// The RenderTarget to render to.
@@ -173,7 +173,7 @@ namespace Minty
 		void set_aspect_ratio(Float aspectRatio) { m_aspectRatio = aspectRatio; }
 
 		/// <summary>
-		/// Gets the size.
+		/// Gets the size. The size is equal to the height of the Camera view. This is used for orthographic cameras.
 		/// </summary>
 		/// <returns>The value.</returns>
 		Float get_size() const { return m_size; }
@@ -188,13 +188,13 @@ namespace Minty
 		/// Gets the Layer.
 		/// </summary>
 		/// <returns>The value.</returns>
-		Layer get_layer() const { return m_layer; }
+		Layer get_layer_mask() const { return m_layer; }
 
 		/// <summary>
 		/// Sets the Layer.
 		/// </summary>
 		/// <param name="layer">The new value.</param>
-		void set_layer(Layer layer) { m_layer = layer; }
+		void set_layer_mask(Layer const mask) { m_layer = mask; }
 
 		/// <summary>
 		/// Gets the RenderTarget.

@@ -113,7 +113,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="transform">The Transform.</param>
 		/// <param name="collider">The Collider.</param>
-		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL) = 0;
+		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
 
 		/// <summary>
 		/// Adds a dynamic Collider with a RigidBody to the physics simulation.
@@ -121,7 +121,7 @@ namespace Minty
 		/// <param name="transform">The Transform.</param>
 		/// <param name="collider">The Collider.</param>
 		/// <param name="body">The RigidBody.</param>
-		virtual void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL) = 0;
+		virtual void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
 
 		/// <summary>
 		/// Removes a static Collider from the physics simulation.
@@ -161,7 +161,7 @@ namespace Minty
 		/// <param name="layerMask">The Layer mask to use.</param>
 		/// <param name="maxDistance">The maximum amount of distance to travel.</param>
 		/// <returns>True if an object was hit, otherwise false.</returns>
-		virtual Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const = 0;
+		virtual Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const = 0;
 
 		/// <summary>
 		/// Clears all physics objects from the simulation.

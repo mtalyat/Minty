@@ -19,7 +19,7 @@ namespace Minty
 		/// </summary>
 		Vector<Tuple<String, Layer, Layer>> layerCollisions = {
 			{ "None", LAYER_NONE, LAYER_NONE },
-			{ "Default", LAYER_DEFAULT, LAYER_ALL }
+			{ "Default", LAYER_DEFAULT, LAYER_MASK_ALL }
 		};
 	};
 

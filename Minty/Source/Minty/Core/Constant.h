@@ -135,11 +135,6 @@ namespace Minty
 	constexpr Layer LAYER_NONE = 0;
 
 	/// <summary>
-	/// All Layers.
-	/// </summary>
-	constexpr Layer LAYER_ALL = ~1; // ~1 excludes layer 0 (LAYER_NONE)
-
-	/// <summary>
 	/// The Default Layer.
 	/// </summary>
 	constexpr Layer LAYER_DEFAULT = 1;
@@ -148,6 +143,11 @@ namespace Minty
 	/// The maximum number of Layers that can be used in the engine.
 	/// </summary>
 	constexpr Layer LAYER_COUNT = 32;
+
+	/// <summary>
+	/// All Layers.
+	/// </summary>
+	constexpr Layer LAYER_MASK_ALL = ~0;
 
 #pragma endregion
 

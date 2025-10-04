@@ -15,6 +15,7 @@
 #include "Minty/Data/StaticContainer.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
+#include "Minty/Layer/LayerManager.h"
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
 #include "Minty/Render/Mesh.h"
@@ -69,8 +70,9 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 		}
 
 		// ignore if not in correct layer
-		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer_mask()))
 		{
+			MINTY_LOG(F("Entity {} (layer = {}) is not in camera layer mask ({}), skipping.", entityManager.get_entity_string(entity), entityManager.get_layer(entity), cameraInfo.camera->get_layer_mask()));
 			continue;
 		}
 
@@ -136,7 +138,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		}
 
 		// skip if not in correct layer
-		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer_mask()))
 		{
 			continue;
 		}
@@ -272,7 +274,7 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 		}
 
 		// skip if not in correct layer
-		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer_mask()))
 		{
 			continue;
 		}
@@ -338,7 +340,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		}
 
 		// skip if not in correct layer
-		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer()))
+		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer_mask()))
 		{
 			continue;
 		}
