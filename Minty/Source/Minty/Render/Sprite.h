@@ -3,11 +3,13 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Rect.h"
-#include "Minty/Render/Texture.h"
 #include "Minty/Render/SpriteSlice.h"
 
 namespace Minty
 {
+	class Texture;
+	class MaterialTemplate;
+
 	/// <summary>
 	/// The arguments for a Sprite.
 	/// </summary>
@@ -24,6 +26,11 @@ namespace Minty
 		Ref<Texture> texture = nullptr;
 
 		/// <summary>
+		/// The MaterialTemplate used to render this Sprite. If none given, use default
+		/// </summary>
+		Ref<MaterialTemplate> materialTemplate = nullptr;
+
+		/// <summary>
 		/// The slice of the Texture this Sprite uses.
 		/// </summary>
 		SpriteSlice slice = {};
@@ -38,15 +45,15 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		// the texture this Sprite uses
-		Ref<Texture> m_texture;
+		Ref<Texture> m_texture; // the texture this Sprite uses
+		Ref<MaterialTemplate> m_materialTemplate; // the MaterialTemplate used to render this Sprite. If none given, use default
 		// the slice data of the Sprite
 		CoordinateMode m_coordinateMode;
 		Float2 m_offset; // the offset of the Sprite within the Texture
 		Float2 m_size; // the size of the Sprite within the Texture
 		Float2 m_pivot; // the pivot of the Sprite within world space
 		Float m_pixelsPerUnit; // the number of pixels that fit within 1 unit of world space
-		Float m_scale; // scale within world space so it matches the PPU
+		Float2 m_scale; // scale within world space so it matches the PPU
 
 #pragma endregion
 
@@ -77,6 +84,12 @@ namespace Minty
 		/// </summary>
 		/// <returns>The Texture.</returns>
 		Ref<Texture> const& get_texture() const { return m_texture; }
+
+		/// <summary>
+		/// Returns a constant reference to the associated MaterialTemplate object.
+		/// </summary>
+		/// <returns>A constant reference to the MaterialTemplate object.</returns>
+		Ref<MaterialTemplate> const& get_material_template() const { return m_materialTemplate; }
 
 		/// <summary>
 		/// Gets the CoordinateMode of this Sprite.
@@ -130,7 +143,7 @@ namespace Minty
         /// Gets the scale of the Sprite in world space so it matches the pixels per unit.
         /// </summary>
         /// <returns>The scale as a Float.</returns>
-        Float get_render_scale() const { return m_scale; }
+		Float2 get_render_scale() const { return m_scale; }
 
 		/// <summary>
 		/// Returns the current render offset.

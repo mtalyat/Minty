@@ -325,19 +325,13 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	{
 		// enable depth testing
 		depthStencil.depthTestEnable = VK_TRUE;
+		depthStencil.depthWriteEnable = builder.depthWrite ? VK_TRUE : VK_FALSE;
 
-		if (builder.transparency)
-		{
-			// do not write if transparent, since we don't know if we can see behind the transparent object or not
-			depthStencil.depthWriteEnable = VK_FALSE;
-		}
-		else
-		{
-			// write if opaque
-			depthStencil.depthWriteEnable = VK_TRUE;
-		}
-		// replace closer pixels
-		depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+		// transparent shaders should not write to depth
+		MINTY_ASSERT((builder.transparency == true && builder.depthWrite == false) || builder.depthWrite == true, "Transparent shaders must have depth write disabled.");
+
+		// set depth comparison operation
+		depthStencil.depthCompareOp = Vulkan_Renderer::to_vulkan(builder.depthTestOp);
 		// only keep within a specific range (0 to 1 is default)
 		depthStencil.depthBoundsTestEnable = VK_FALSE;
 		depthStencil.minDepthBounds = 0.0f; // Optional

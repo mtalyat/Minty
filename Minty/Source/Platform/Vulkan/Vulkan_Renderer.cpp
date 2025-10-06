@@ -1851,3 +1851,31 @@ VkFilter Minty::Vulkan_Renderer::to_vulkan(Minty::Filter const filter)
 
 	return VK_FILTER_MAX_ENUM;
 }
+
+VkCompareOp Minty::Vulkan_Renderer::to_vulkan(Minty::Conditional const conditional)
+{
+	switch (conditional)
+	{
+	case Conditional::Equal:
+		return VK_COMPARE_OP_EQUAL;
+		break;
+	case Conditional::NotEqual:
+		return VK_COMPARE_OP_NOT_EQUAL;
+		break;
+	case Conditional::GreaterThan:
+		return VK_COMPARE_OP_GREATER;
+		break;
+	case Conditional::GreaterThanOrEqual:
+		return VK_COMPARE_OP_GREATER_OR_EQUAL;
+		break;
+	case Conditional::LessThan:
+		return VK_COMPARE_OP_LESS;
+		break;
+	case Conditional::LessThanOrEqual:
+		return VK_COMPARE_OP_LESS_OR_EQUAL;
+		break;
+	default:
+		MINTY_ABORT("Unsupported conditional operation.");
+		break;
+	}
+}

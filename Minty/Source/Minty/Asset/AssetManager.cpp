@@ -1666,6 +1666,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		}
 
 		// config
+		reader->read("Priority", builder.priority);
 		reader->read("PrimitiveTopology", builder.primitiveTopology);
 		reader->read("PolygonMode", builder.polygonMode);
 		reader->read("CullMode", builder.cullMode);
@@ -1673,6 +1674,8 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		reader->read("LineWidth", builder.lineWidth);
 		reader->read("Transparency", builder.transparency);
 		reader->read("DepthTest", builder.depthTest);
+		reader->read("DepthWrite", builder.depthWrite);
+		reader->read("DepthTestOp", builder.depthTestOp);
 
 		// inputs (uniform, push, etc.)
 		if (reader->indent("Inputs"))
@@ -1878,8 +1881,9 @@ Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
-		// read values
+		// read values6
 		reader->read("Texture", builder.texture);
+		reader->read("MaterialTemplate", builder.materialTemplate);
 		read_sprite_slice(*reader, builder.slice);
 
 		close_reader(reader);

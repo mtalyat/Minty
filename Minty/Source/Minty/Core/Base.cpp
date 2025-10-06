@@ -17,6 +17,20 @@ void* Minty::allocate(Size const size, Allocator const allocator)
 	return memoryManager.allocate(size, allocator);
 }
 
+void* Minty::copy(void const* const src, Size const size, Allocator const allocator)
+{
+	// allocate new memory
+	void* const dst = allocate(size, allocator);
+
+	// copy data
+	if (src != nullptr && dst != nullptr)
+	{
+		memcpy(dst, src, size);
+	}
+
+	return dst;
+}
+
 void Minty::deallocate(void* const ptr, Size const size, Allocator const allocator)
 {
 	// ignore if nullptr

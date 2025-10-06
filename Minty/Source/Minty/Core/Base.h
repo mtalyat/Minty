@@ -55,6 +55,28 @@ namespace Minty
 	}
 
 	/// <summary>
+	/// Creates a copy of a memory block using the specified allocator.
+	/// </summary>
+	/// <param name="src">Pointer to the source memory block to copy.</param>
+	/// <param name="size">The size, in bytes, of the memory block to copy.</param>
+	/// <param name="allocator">The allocator to use for allocating the new memory block.</param>
+	/// <returns>A pointer to the newly allocated and copied memory block, or nullptr if allocation fails.</returns>
+	void* copy(void const* const src, Size const size, Allocator const allocator);
+
+	/// <summary>
+	/// Creates a new object by copying the source object using the provided allocator.
+	/// </summary>
+	/// <typeparam name="T">The type of the object to clone.</typeparam>
+	/// <param name="src">The source object to be cloned.</param>
+	/// <param name="allocator">The allocator used to construct the new object.</param>
+	/// <returns>A pointer to the newly constructed copy of the source object.</returns>
+	template<typename T>
+	T* clone(T const& src, Allocator const allocator)
+	{
+		return construct<T>(allocator, src);
+	}
+
+	/// <summary>
 	/// Frees the memory allocated by the given pointer using the given allocator.
 	/// 
 	/// Requires a Context instance to be created before calling this function, if any Allocator other than Default is used.

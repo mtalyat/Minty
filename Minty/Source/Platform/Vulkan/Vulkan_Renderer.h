@@ -3,6 +3,7 @@
 #include "Minty/Core/Type.h"
 #include "Minty/Data/Array.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/FSM/Conditional.h"
 #include "Minty/Library/Vulkan.h"
 #include "Minty/Render/AddressMode.h"
 #include "Minty/Render/BufferUsage.h"
@@ -370,6 +371,8 @@ namespace Minty
 		static VkImageLayout to_vulkan(Minty::ImageLayout const layout);
 
 		static VkFilter to_vulkan(Minty::Filter const filter);
+
+		static VkCompareOp to_vulkan(Minty::Conditional const conditional);
 
 #pragma endregion
 

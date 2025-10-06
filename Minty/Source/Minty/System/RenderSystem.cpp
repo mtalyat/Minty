@@ -12,7 +12,9 @@
 #include "Minty/Component/VisibleComponent.h"
 #include "Minty/Data/BatchFactory.h"
 #include "Minty/Data/BufferContainer.h"
+#include "Minty/Data/Dictionary.h"
 #include "Minty/Data/StaticContainer.h"
+#include "Minty/Data/Vector.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Layer/LayerManager.h"
@@ -27,6 +29,37 @@
 #include "Minty/Serialization/Writer.h"
 
 using namespace Minty;
+
+struct Minty::RenderSystem::RenderInfo
+{
+	Ref<Shader> shader = nullptr;
+	Ref<Material> material = nullptr;
+	Vector<Tuple<String, void*, Size>> inputs;
+	Entity canvas = INVALID_ENTITY; // for UI rendering
+
+	Ref<Mesh> mesh = nullptr;
+	Ref<Buffer> vertexBuffer = nullptr;
+	UInt instanceCount = 0;
+	UInt vertexCountPerInstance = 0;
+};
+
+struct Minty::RenderSystem::RenderMap
+{
+	Dictionary<Int, Vector<RenderInfo>> data;
+
+	void add(Int priority, RenderInfo&& info)
+	{
+		// so the highest priority is rendered first
+		priority = -priority;
+
+		// add to map
+		if (!data.contains(priority))
+		{
+			data.add(priority, Vector<RenderInfo>());
+		}
+		data.at(priority).add(std::move(info));
+	}
+};
 
 Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
 	: System(builder)
@@ -44,19 +77,57 @@ void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
 	RenderManager& renderManager = RenderManager::get_singleton();
 	EntityManager& entityManager = m_scene->get_entity_manager();
 
-	render_3d(cameraInfo, renderManager, entityManager);
-	render_ui(cameraInfo, renderManager, entityManager);
+	RenderMap renderMap;
+
+	// add all items to the render map
+	render_3d(cameraInfo, renderManager, entityManager, renderMap);
+	render_ui(cameraInfo, renderManager, entityManager, renderMap);
+
+	// render all items in the render map by priority
+	for (auto const& [priority, renderInfos] : renderMap.data)
+	{
+		for (RenderInfo const& info : renderInfos)
+		{
+			// bind the resources
+			renderManager.bind_shader(info.shader);
+			renderManager.bind_material(info.material);
+			// set the inputs
+			for (auto const& [name, data, size] : info.inputs)
+			{
+				info.material->set_input(name, data, size);
+
+				// free the data when done, as it was cloned when added to the render map
+				deallocate(data, size, Allocator::Default);
+			}
+			// if there is a canvas, update it
+			if(info.canvas != INVALID_ENTITY)
+			{
+				update_canvas(info.canvas, info.shader, entityManager);
+			}
+			// bind the mesh or vertex buffer
+			if (info.mesh != nullptr)
+			{
+				renderManager.bind_mesh(info.mesh);
+				renderManager.draw_mesh(info.mesh);
+			}
+			else if (info.vertexBuffer != nullptr && info.instanceCount > 0 && info.vertexCountPerInstance > 0)
+			{
+				renderManager.bind_vertex_buffer(info.vertexBuffer);
+				renderManager.draw_instances(info.instanceCount, info.vertexCountPerInstance);
+			}
+		}
+	}
 }
 
-void Minty::RenderSystem::render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+void Minty::RenderSystem::render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
-	render_3d_meshes(cameraInfo, renderManager, entityManager);
-	render_3d_sprites(cameraInfo, renderManager, entityManager);
+	render_3d_meshes(cameraInfo, renderManager, entityManager, renderMap);
+	render_3d_sprites(cameraInfo, renderManager, entityManager, renderMap);
 }
 
-void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -72,7 +143,7 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 		// ignore if not in correct layer
 		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer_mask()))
 		{
-			MINTY_LOG(F("Entity {} (layer = {}) is not in camera layer mask ({}), skipping.", entityManager.get_entity_string(entity), entityManager.get_layer(entity), cameraInfo.camera->get_layer_mask()));
+			MINTY_LOG(F("Entity {} (priority = {}) is not in camera priority mask ({}), skipping.", entityManager.get_entity_string(entity), entityManager.get_layer(entity), cameraInfo.camera->get_layer_mask()));
 			continue;
 		}
 
@@ -88,24 +159,34 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 		Ref<Mesh> const& mesh = meshComp.mesh;
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
 		Ref<Shader> const& shader = materialTemplate->get_shader();
-
-		// bind the resources
-		renderManager.bind_shader(shader);
-		renderManager.bind_material(material);
-
-		// set the transform of the object
 		Matrix4 transformation = transformComp.transform.get_global_matrix();
-		material->set_input("object", &transformation, sizeof(Matrix4));
 
-		// bind the mesh
-		renderManager.bind_mesh(mesh);
+		// add to render map
+		RenderInfo info = {
+			.shader = shader,
+			.material = material,
+			.mesh = mesh
+		};
+		info.inputs.add({ "object", clone(transformation, Allocator::Default), sizeof(Matrix4) });
+		renderMap.add(shader->get_priority(), std::move(info));
 
-		// draw the mesh
-		renderManager.draw_mesh(mesh);
+		//// bind the resources
+		//renderManager.bind_shader(shader);
+		//renderManager.bind_material(material);
+
+		//// set the transform of the object
+		//Matrix4 transformation = transformComp.transform.get_global_matrix();
+		//material->set_input("object", &transformation, sizeof(Matrix4));
+
+		//// bind the mesh
+		//renderManager.bind_mesh(mesh);
+
+		//// draw the mesh
+		//renderManager.draw_mesh(mesh);
 	}
 }
 
-void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -144,9 +225,10 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		}
 
 		// get the batch based on the material
-		Ref<Texture> texture = sprite->get_texture();
+		Ref<Texture> const& texture = sprite->get_texture();
 		MINTY_ASSERT(texture != nullptr, "Sprite has no texture.");
-		material = renderManager.get_default_material(texture, AssetType::Sprite, Space::D3);
+		Ref<MaterialTemplate> const& materialTemplate = sprite->get_material_template();
+		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::D3);
 		Batch<1, Ref<Material>>& batch = batchFactory.get_or_create_batch({ material });
 
 		// get the values for this instance
@@ -160,7 +242,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		Float2 instOffset = sprite->get_render_offset();
 		Float2 instSize = sprite->get_render_size();
 		Float2 instPivot = sprite->get_render_pivot();
-		Float instScale = sprite->get_render_scale();
+		Float2 instScale = sprite->get_render_scale();
 		UInt instFlags = 0;
 		if (spriteComp.flipX) instFlags |= 0x1;
 		if (spriteComp.flipY) instFlags |= 0x2;
@@ -177,7 +259,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		batchContainer.append(&instOffset, sizeof(Float2));
 		batchContainer.append(&instSize, sizeof(Float2));
 		batchContainer.append(&instPivot, sizeof(Float2));
-		batchContainer.append(&instScale, sizeof(Float));
+		batchContainer.append(&instScale, sizeof(Float2));
 		batchContainer.append(&instFlags, sizeof(UInt));
 		batchContainer.append(&instTransform0, sizeof(Float4));
 		batchContainer.append(&instTransform1, sizeof(Float4));
@@ -189,25 +271,34 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	}
 
 	// render the batches
-	Size index = 0;
 	for (auto const& batch : batchFactory)
 	{
-		// bind batch
+		// get resources
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
 		Ref<MaterialTemplate> materialTemplate = material->get_material_template();
 		Ref<Shader> shader = materialTemplate->get_shader();
-		renderManager.bind_shader(shader);
-		renderManager.bind_material(material);
 
 		// update the instanced container with the data
 		BufferContainer& container = m_bufferContainerFactory.get_container(batch.get_data_size());
 		container.set(batch.get_data(), batch.get_data_size());
-		renderManager.bind_vertex_buffer(container.get_buffer());
 
-		// draw the sprites
-		renderManager.draw_instances(static_cast<UInt>(batch.get_count()), 6); // 6 vertices per sprite, generated in the shader
+		// add to render map
+		RenderInfo info = {
+			.shader = shader,
+			.material = material,
+			.vertexBuffer = container.get_buffer(),
+			.instanceCount = static_cast<UInt>(batch.get_count()),
+			.vertexCountPerInstance = 6 // 6 vertices per sprite, generated in the shader
+		};
+		renderMap.add(shader->get_priority(), std::move(info));
 
-		index++;
+		//// bind batch
+		//renderManager.bind_shader(shader);
+		//renderManager.bind_material(material);
+		//renderManager.bind_vertex_buffer(container.get_buffer());
+
+		//// draw the sprites
+		//renderManager.draw_instances(static_cast<UInt>(batch.get_count()), 6); // 6 vertices per sprite, generated in the shader
 	}
 }
 
@@ -241,7 +332,7 @@ void Minty::RenderSystem::update_canvas(Entity const entity, Ref<Shader> const& 
 	shader->set_global_input("canvas", canvasContainer.get_data(), canvasContainer.get_size());
 }
 
-void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -255,11 +346,11 @@ void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager&
 	m_canvas.set_resolution(UInt2());
 
 	// render UI
-	render_ui_sprites(cameraInfo, renderManager, entityManager);
-	render_ui_meshes(cameraInfo, renderManager, entityManager);
+	render_ui_sprites(cameraInfo, renderManager, entityManager, renderMap);
+	render_ui_meshes(cameraInfo, renderManager, entityManager, renderMap);
 }
 
-void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -279,6 +370,7 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 			continue;
 		}
 
+		// get resources
 		Ref<Mesh> const& mesh = meshComp.mesh;
 		Ref<Material> const& material = meshComp.material;
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
@@ -286,29 +378,39 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 		Ref<Shader> const& shader = materialTemplate->get_shader();
 		MINTY_ASSERT(shader != nullptr, "Failed to get Shader for UI Mesh.");
 
-		// update canvas info
-		update_canvas(uiTransformComp.canvas, shader, entityManager);
-
 		// update push constant info
 		pushData.clear();
 		pushData.append_object(uiTransformComp.transform.get_global_rect().rect);
 		pushData.append_object(textComp.color.to_float4());
 		pushData.append_object(uiTransformComp.transform.get_depth());
-		material->set_input("push", pushData.get_data(), pushData.get_size());
+		//material->set_input("push", pushData.get_data(), pushData.get_size());
 
-		// bind shader and material
-		renderManager.bind_shader(shader);
-		renderManager.bind_material(material);
+		// add to render map
+		RenderInfo info = {
+			.shader = shader,
+			.material = material,
+			.canvas = uiTransformComp.canvas,
+			.mesh = mesh
+		};
+		info.inputs.add({ "push", copy(pushData.get_data(), pushData.get_size(), Allocator::Default), pushData.get_size() });
+		renderMap.add(shader->get_priority(), std::move(info));
 
-		// bind mesh
-		renderManager.bind_mesh(mesh);
+		//// update canvas info
+		//update_canvas(uiTransformComp.canvas, shader, entityManager);
 
-		// draw the mesh
-		renderManager.draw_mesh(mesh);
+		//// bind shader and material
+		//renderManager.bind_shader(shader);
+		//renderManager.bind_material(material);
+
+		//// bind mesh
+		//renderManager.bind_mesh(mesh);
+
+		//// draw the mesh
+		//renderManager.draw_mesh(mesh);
 	}
 }
 
-void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager)
+void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -348,9 +450,10 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		// get the texture
 		Ref<Texture> const& texture = sprite->get_texture();
 		MINTY_ASSERT(texture != nullptr, "Sprite has no Texture.");
+		Ref<MaterialTemplate> const& materialTemplate = sprite->get_material_template();
 
 		// get the material to use
-		material = renderManager.get_default_material(texture, AssetType::Sprite, Space::UI);
+		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI);
 		MINTY_ASSERT(material != nullptr, "Failed to get default Material for UI Sprite.");
 
 		// get batch based on material and canvas
@@ -373,33 +476,41 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 	}
 
 	// render each batch
-	Size index = 0;
 	for (auto const& batch : batchFactory)
 	{
-		// get assets
+		// get resources
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
 		MINTY_ASSERT(materialTemplate != nullptr, "Failed to get material template for UI Sprite.");
 		Ref<Shader> const& shader = materialTemplate->get_shader();
 		MINTY_ASSERT(shader != nullptr, "Failed to get shader for UI Sprite.");
-
-		// update canvas info
 		Entity const canvasEntity = batch.get_object<Entity>(1);
-		update_canvas(canvasEntity, shader, entityManager);
-
-		// bind assets
-		renderManager.bind_shader(shader);
-		renderManager.bind_material(material);
 
 		// update the instanced container with the data
 		BufferContainer& container = m_bufferContainerFactory.get_container(batch.get_data_size());
 		container.set(batch.get_data(), batch.get_data_size());
-		renderManager.bind_vertex_buffer(container.get_buffer());
 
-		// draw the sprites
-		renderManager.draw_instances(static_cast<UInt>(batch.get_count()), 6); // 6 vertices per sprite, generated in the shader
+		RenderInfo info = {
+			.shader = shader,
+			.material = material,
+			.canvas = canvasEntity,
+			.vertexBuffer = container.get_buffer(),
+			.instanceCount = static_cast<UInt>(batch.get_count()),
+			.vertexCountPerInstance = 6 // 6 vertices per sprite, generated in the shader
+		};
+		renderMap.add(shader->get_priority(), std::move(info));
 
-		index++;
+		//// update canvas info
+		//update_canvas(canvasEntity, shader, entityManager);
+
+		//// bind assets
+		//renderManager.bind_shader(shader);
+		//renderManager.bind_material(material);
+
+		//renderManager.bind_vertex_buffer(container.get_buffer());
+
+		//// draw the sprites
+		//renderManager.draw_instances(static_cast<UInt>(batch.get_count()), 6); // 6 vertices per sprite, generated in the shader
 	}
 }
 

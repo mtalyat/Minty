@@ -3,6 +3,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
+#include "Minty/FSM/Conditional.h"
 #include "Minty/Render/ShaderCullMode.h"
 #include "Minty/Render/ShaderFrontFace.h"
 #include "Minty/Render/ShaderInput.h"
@@ -26,6 +27,11 @@ namespace Minty
 		/// The ID.
 		/// </summary>
 		UUID id = INVALID_ID;
+
+		/// <summary>
+		/// The priority of the Shader. Higher priority Shaders are rendered first.
+		/// </summary>
+		Int priority = 0;
 
 		/// <summary>
 		/// The viewport this Shader is used to render to.
@@ -93,6 +99,16 @@ namespace Minty
 		Bool depthTest = true;
 
 		/// <summary>
+		/// Enable writing to the depth buffer in the Shader.
+		/// </summary>
+		Bool depthWrite = true;
+
+		/// <summary>
+		/// Defines the default depth test operation as 'less than'.
+		/// </summary>
+		Conditional depthTestOp = Conditional::LessThan;
+
+		/// <summary>
 		/// The vertex input of the Shader.
 		/// </summary>
 		ShaderVertexInput vertexInput;
@@ -112,6 +128,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
+		Int m_priority;
 		// the render pass this Shader belongs to
 		Ref<RenderPass> m_renderPass;
 		// list of inputs to the shader (for verification when setting values)
@@ -139,6 +156,12 @@ namespace Minty
 #pragma region Get Set
 
 	public:
+		/// <summary>
+		/// Returns the priority of this Shader.
+		/// </summary>
+		/// <returns>The priority.</returns>
+		Int get_priority() const { return m_priority; }
+
 		/// <summary>
 		/// Gets the RenderPass this Shader is used to render to.
 		/// </summary>

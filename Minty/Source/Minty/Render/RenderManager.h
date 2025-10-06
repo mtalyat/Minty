@@ -16,6 +16,7 @@
 namespace Minty
 {
 	class Shader;
+	class MaterialTemplate;
 	class Material;
 	class Mesh;
 	class Viewport;
@@ -194,7 +195,7 @@ namespace Minty
 		/// <param name="assetType">The AssetType.</param>
 		/// <param name="space">The Space.</param>
 		/// <returns>The default Material.</returns>
-		Ref<Material> get_default_material(Ref<Texture> const& texture, AssetType const assetType, Space const space);
+		Ref<Material> get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space);
 
 #pragma endregion
 

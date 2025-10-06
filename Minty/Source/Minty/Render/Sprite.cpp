@@ -1,19 +1,21 @@
 #include "pch.h"
 #include "Sprite.h"
-#include "Minty/Debug/Debug.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Debug/Debug.h"
+#include "Minty/Render/Texture.h"
 
 using namespace Minty;
 
 Minty::Sprite::Sprite(SpriteBuilder const& builder)
 	: Asset(builder.id)
 	, m_texture(builder.texture)
+	, m_materialTemplate(builder.materialTemplate)
 	, m_coordinateMode(builder.slice.coordinateMode)
 	, m_offset()
 	, m_size()
 	, m_pivot()
 	, m_pixelsPerUnit(builder.slice.pixelsPerUnit)
-	, m_scale()
+	, m_scale(1.0f, 1.0f)
 {
 	MINTY_ASSERT(builder.texture != nullptr, "Sprite must have a Texture.");
 	MINTY_ASSERT(builder.slice.pixelsPerUnit > 0.0f, "Sprite pixels per unit must be greater than 0.");
@@ -65,10 +67,15 @@ Float2 Minty::Sprite::set_coords(Float2 const raw) const
 void Minty::Sprite::update_scale()
 {
 	// get the width of the texture
-	Float width = static_cast<Float>(m_texture->get_size().x);
+	UInt2 const textureSize = m_texture->get_size();
+	Float const width = static_cast<Float>(textureSize.x);
+	Float const height = static_cast<Float>(textureSize.y);
 
 	// update the scale
-	m_scale = (m_size.x * width) / m_pixelsPerUnit;
+	m_scale.x = (m_size.x * width) / m_pixelsPerUnit;
+	m_scale.y = (m_size.y * height) / m_pixelsPerUnit;
+
+	MINTY_LOG(F("Sprite with Texture {} has scale: ({}, {})", m_texture->get_id(), m_scale.x, m_scale.y));
 }
 
 Float2 Minty::Sprite::get_offset() const

@@ -18,6 +18,14 @@ namespace Minty
 	class RenderSystem
 		: public System
 	{
+#pragma region Classes
+
+	private:
+		struct RenderInfo;
+		struct RenderMap;
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -48,24 +56,24 @@ namespace Minty
 		void render_scene(CameraInfo const& cameraInfo);
 
 		// draws the 3D objects
-		void render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+		void render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
 		// draws the mesh objects
-		void render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+		void render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
 		// draws the sprites
-		void render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+		void render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
 		void update_canvas(Entity const entity, Ref<Shader> const& shader, EntityManager& entityManager);
 
 		// draws the UI objects
-		void render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+		void render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
 		// draws the text in screen space
-		void render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+		void render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
 		// draws the sprites in screen space
-		void render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager);
+		void render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
 	public:
 		void on_render() override;

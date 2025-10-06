@@ -1,3 +1,4 @@
+Priority: -1000000
 Inputs
     push
         Type: PushConstant

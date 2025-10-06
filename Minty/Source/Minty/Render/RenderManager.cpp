@@ -191,7 +191,7 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	return mesh;
 }
 
-Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& texture, AssetType const assetType, Space const space)
+Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space)
 {
 	MINTY_ASSERT(texture != nullptr, "Cannot get default Material with null Texture.");
 	
@@ -210,43 +210,50 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 	MaterialBuilder builder{};
 	builder.id = UUID::create();
 
-	UUID templateId;
-
-	// get the material template based on the asset type and the space
-	switch (assetType)
-	{
-	case AssetType::Sprite:
-		switch (space)
-		{
-		case Space::D3:
-			templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
-			break;
-		case Space::UI:
-			templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
-			break;
-		default:
-			MINTY_ABORT(F("Invalid Space for Sprite: {}", space));
-			break;
-		}
-		break;
-	case AssetType::FontVariant:
-		switch (space)
-		{
-		case Space::UI:
-			templateId = DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE;
-			break;
-		default:
-			MINTY_ERROR(F("Invalid Space for AssetType FontVariant: \"{}\".", to_string(space)));
-			break;
-		}
-		break;
-	default:
-		MINTY_ABORT(F("Cannot create a default Mesh for the type \"{}\".", to_string(assetType)));
-		break;
-	}
 	AssetManager& assetManager = AssetManager::get_singleton();
-	builder.materialTemplate = assetManager.get<MaterialTemplate>(templateId);
-	MINTY_ASSERT(builder.materialTemplate != nullptr, F("Default MaterialTemplate for type {} and space {} is not loaded ({}).", assetType, space, templateId));
+	
+	// get the material template based on the asset type and the space, if none given
+	if(materialTemplate != nullptr)
+	{
+		builder.materialTemplate = materialTemplate;
+	}
+	else
+	{
+		UUID templateId;
+		switch (assetType)
+		{
+		case AssetType::Sprite:
+			switch (space)
+			{
+			case Space::D3:
+				templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
+				break;
+			case Space::UI:
+				templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
+				break;
+			default:
+				MINTY_ABORT(F("Invalid Space for Sprite: {}", space));
+				break;
+			}
+			break;
+		case AssetType::FontVariant:
+			switch (space)
+			{
+			case Space::UI:
+				templateId = DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE;
+				break;
+			default:
+				MINTY_ERROR(F("Invalid Space for AssetType FontVariant: \"{}\".", to_string(space)));
+				break;
+			}
+			break;
+		default:
+			MINTY_ABORT(F("Cannot create a default Mesh for the type \"{}\".", to_string(assetType)));
+			break;
+		}
+		builder.materialTemplate = assetManager.get<MaterialTemplate>(templateId);
+		MINTY_ASSERT(builder.materialTemplate != nullptr, F("Default MaterialTemplate for type {} and space {} is not loaded ({}).", assetType, space, templateId));
+	}
 
 	// set the texture
 	Object object{};

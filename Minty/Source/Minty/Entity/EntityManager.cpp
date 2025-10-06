@@ -5,6 +5,7 @@
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Entity/Prefab.h"
+#include "Minty/Render/Texture.h"
 
 using namespace Minty;
 
