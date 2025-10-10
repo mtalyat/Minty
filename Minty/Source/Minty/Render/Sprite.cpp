@@ -74,8 +74,6 @@ void Minty::Sprite::update_scale()
 	// update the scale
 	m_scale.x = (m_size.x * width) / m_pixelsPerUnit;
 	m_scale.y = (m_size.y * height) / m_pixelsPerUnit;
-
-	MINTY_LOG(F("Sprite with Texture {} has scale: ({}, {})", m_texture->get_id(), m_scale.x, m_scale.y));
 }
 
 Float2 Minty::Sprite::get_offset() const
