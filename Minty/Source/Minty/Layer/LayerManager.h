@@ -18,7 +18,7 @@ namespace Minty
 		/// Each bit, starting with the least significant bit, corresponds to the layer index of the layer it collides with.
 		/// </summary>
 		Vector<Tuple<String, Layer, Layer>> layerCollisions = {
-			{ "None", LAYER_NONE, LAYER_NONE },
+			{ "None", LAYER_NONE, ~LAYER_MASK_ALL },
 			{ "Default", LAYER_DEFAULT, LAYER_MASK_ALL }
 		};
 	};
