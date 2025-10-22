@@ -163,7 +163,7 @@ Char Minty::TextReaderBehavior::read_char_from_buffer(const void* const data, Si
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Char>(text);
+	return text.front();
 }
 Byte Minty::TextReaderBehavior::read_byte_from_buffer(const void* const data, Size const size) const
 {
