@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Animator.h"
 #include "Minty/Animation/Animation.h"
+#if defined(MINTY_DEBUG)
+#include "Minty/Data/Set.h"
+#include "Minty/Data/Vector.h"
+#endif // MINTY_DEBUG
 
 using namespace Minty;
 
@@ -44,6 +48,7 @@ UUID Minty::Animator::update(Ref<Animation> const& currentAnimation, Float const
 #if defined(MINTY_DEBUG)
 		// if in debug, check for infinite loops
 		Set<UUID> visitedStates;
+		Vector<UUID> visitedStatesInOrder;
 #endif // MINTY_DEBUG
 
 		// if forcing, keep evaluating until no more transitions are possible
@@ -55,10 +60,16 @@ UUID Minty::Animator::update(Ref<Animation> const& currentAnimation, Float const
 				UUID id = m_fsm.get_current_state().get_value().get<UUID>();
 				if (visitedStates.contains(id))
 				{
-					MINTY_ERROR(F("Infinite loop detected in Animator FSM. State ID: {}", id));
+					String states = "";
+					for (UUID const& stateId : visitedStatesInOrder)
+					{
+						states += F("{} -> ", stateId);
+					}
+					MINTY_ERROR(F("Infinite loop detected in Animator FSM. State ID: {}, States: {}", id, states));
 					break; // break out of the loop to prevent infinite recursion
 				}
 				visitedStates.add(id);
+				visitedStatesInOrder.add(id);
 			}
 #endif // MINTY_DEBUG
 		} while (m_force && result);	
