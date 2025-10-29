@@ -22,9 +22,11 @@ namespace Minty
 		Float z; // depth
 		Float width;
 		Float height;
+		Float rotation;
 
 		Float m_globalDepth;
 		Rect m_globalRect;
+		Float m_globalRotation;
 
 #pragma endregion
 
@@ -41,6 +43,7 @@ namespace Minty
 			, z(0.0f)
 			, width(0.0f)
 			, height(0.0f)
+			, rotation(0.0f)
 			, m_globalDepth(0.0f)
 			, m_globalRect()
 		{
@@ -217,6 +220,27 @@ namespace Minty
 		}
 
 		/// <summary>
+		/// Gets the rotation of this UI element.
+		/// </summary>
+		/// <returns>The rotation in radians.</returns>
+		inline Float get_rotation() const { return rotation; }
+
+		/// <summary>
+		/// Sets the rotation of this UI element.
+		/// </summary>
+		/// <param name="rotation">The rotation in radians.</param>
+		inline void set_rotation(Float const& rotation)
+		{
+			this->rotation = rotation;
+		}
+
+		/// <summary>
+		/// Gets the global rotation of this UI element.
+		/// </summary>
+		/// <returns>The global rotation in radians.</returns>
+		inline Float get_global_rotation() const { return m_globalRotation; }
+
+		/// <summary>
 		/// Sets the position of this UI element.
 		/// </summary>
 		/// <param name="x">The x coordinate.</param>
@@ -256,7 +280,7 @@ namespace Minty
 		/// <param name="parentTransform">A constant reference to the parent UITransform whose global rectangle and depth are used for the update.</param>
 		inline void update(UITransform const& parentTransform)
 		{
-			update(parentTransform.get_global_rect(), parentTransform.get_global_depth());
+			update(parentTransform.get_global_rect(), parentTransform.get_global_depth(), parentTransform.get_global_rotation());
 		}
 
 		/// <summary>
@@ -264,7 +288,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="parentRect">The rectangle of the parent.</param>
 		/// <param name="parentDepth">The depth of the parent.</param>
-		void update(Rect const& parentRect, Float const parentDepth);
+		void update(Rect const& parentRect, Float const parentDepth, Float const parentRotation);
 
 #pragma endregion
 

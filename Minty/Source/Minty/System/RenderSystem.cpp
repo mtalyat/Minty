@@ -291,14 +291,6 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 			.vertexCountPerInstance = 6 // 6 vertices per sprite, generated in the shader
 		};
 		renderMap.add(shader->get_priority(), std::move(info));
-
-		//// bind batch
-		//renderManager.bind_shader(shader);
-		//renderManager.bind_material(material);
-		//renderManager.bind_vertex_buffer(container.get_buffer());
-
-		//// draw the sprites
-		//renderManager.draw_instances(static_cast<UInt>(batch.get_count()), 6); // 6 vertices per sprite, generated in the shader
 	}
 }
 
@@ -394,19 +386,6 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 		};
 		info.inputs.add({ "push", copy(pushData.get_data(), pushData.get_size(), Allocator::Default), pushData.get_size() });
 		renderMap.add(shader->get_priority(), std::move(info));
-
-		//// update canvas info
-		//update_canvas(uiTransformComp.canvas, shader, entityManager);
-
-		//// bind shader and material
-		//renderManager.bind_shader(shader);
-		//renderManager.bind_material(material);
-
-		//// bind mesh
-		//renderManager.bind_mesh(mesh);
-
-		//// draw the mesh
-		//renderManager.draw_mesh(mesh);
 	}
 }
 
@@ -465,7 +444,8 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		Float4 instSprite = sprite->get_render_rect().rect;
 		Float4 instColor = spriteComp.color.to_float4();
 		Float2 instPivot = sprite->get_render_pivot();
-		Float instDepth = 0.0f;
+		Float instDepth = 0.0f; // the UITransformComponent::depth is used for sorting only
+		Float instRotation = uiTransformComp.transform.get_global_rotation();
 
 		// add data to batch
 		batchContainer.append_object(instRect);
@@ -473,6 +453,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		batchContainer.append_object(instColor);
 		batchContainer.append_object(instPivot);
 		batchContainer.append_object(instDepth);
+		batchContainer.append_object(instRotation);
 
 		batch.increment();
 	}
@@ -501,18 +482,6 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 			.vertexCountPerInstance = 6 // 6 vertices per sprite, generated in the shader
 		};
 		renderMap.add(shader->get_priority(), std::move(info));
-
-		//// update canvas info
-		//update_canvas(canvasEntity, shader, entityManager);
-
-		//// bind assets
-		//renderManager.bind_shader(shader);
-		//renderManager.bind_material(material);
-
-		//renderManager.bind_vertex_buffer(container.get_buffer());
-
-		//// draw the sprites
-		//renderManager.draw_instances(static_cast<UInt>(batch.get_count()), 6); // 6 vertices per sprite, generated in the shader
 	}
 }
 

@@ -616,7 +616,7 @@ void Minty::EntityManager::finalize_dirties()
 			// canvas controls the size and position
 			uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
 			uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
-			uiTransformComp.transform.update(windowRect, 0.0f);
+			uiTransformComp.transform.update(windowRect, 0.0f, 0.0f);
 		}
 	}
 	
@@ -730,7 +730,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 		CanvasComponent const* canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
 		if (canvas)
 		{
-			uiTransformComp.transform.update(canvas->canvas.get_rect(), 0.0f);
+			uiTransformComp.transform.update(canvas->canvas.get_rect(), 0.0f, 0.0f);
 			return;
 		}
 	}
@@ -741,7 +741,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
 	// if no parent and no canvas, default to Window rect
-	uiTransformComp.transform.update(windowRect, 0.0f);
+	uiTransformComp.transform.update(windowRect, 0.0f, 0.0f);
 }
 
 Bool Minty::EntityManager::is_in_layer(Entity const entity, Layer const layer) const

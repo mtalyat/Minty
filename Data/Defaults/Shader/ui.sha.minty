@@ -32,6 +32,7 @@ Bindings
         2: Float4
         3: Float2
         4: Float
+        5: Float
 Stages
     Vertex: def0000000000009
     Fragment: def0000000000008

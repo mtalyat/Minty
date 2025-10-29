@@ -5,7 +5,7 @@
 
 using namespace Minty;
 
-void Minty::UITransform::update(Rect const& parentRect, Float const parentDepth)
+void Minty::UITransform::update(Rect const& parentRect, Float const parentDepth, Float const parentRotation)
 {
 	// mask the anchor mode to get the vertical and horizontal modes
 	// the mask is needed so they are independent of one another
@@ -58,8 +58,9 @@ void Minty::UITransform::update(Rect const& parentRect, Float const parentDepth)
 		m_globalRect.height = parentRect.height - height - m_globalRect.y;
 	}
 	
-	// update the global depth
+	// update the global depth, rotation
 	m_globalDepth = parentDepth + z;
+	m_globalRotation = parentRotation + rotation;
 }
 
 void Minty::UITransform::serialize(Writer& writer) const
@@ -70,6 +71,7 @@ void Minty::UITransform::serialize(Writer& writer) const
 	writer.write("Z", z);
 	writer.write("Width", width);
 	writer.write("Height", height);
+	writer.write("Rotation", Math::RAD2DEG * rotation);
 }
 
 Bool Minty::UITransform::deserialize(Reader& reader)
@@ -94,6 +96,10 @@ Bool Minty::UITransform::deserialize(Reader& reader)
 	if (!reader.read("Height", height))
 	{
 		reader.read("Bottom", height);
+	}
+	if(reader.read("Rotation", rotation))
+	{
+		rotation = Math::DEG2RAD * rotation;
 	}
 	return true;
 }
