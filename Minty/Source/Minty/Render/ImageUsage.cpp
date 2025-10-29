@@ -3,27 +3,47 @@
 
 using namespace Minty;
 
+static String const s_usageStrings[] = {
+	"Sampled",
+	"Storage",
+	"Color",
+	"DepthStencil",
+	"TransferSrc",
+	"TransferDst"
+};
+
 String Minty::to_string(ImageUsage const obj)
 {
-	switch (obj)
+	if (obj == ImageUsage::Undefined)
 	{
-	case ImageUsage::Sampled: return "Sampled";
-	case ImageUsage::Storage: return "Storage";
-	case ImageUsage::Color: return "Color";
-	case ImageUsage::DepthStencil: return "DepthStencil";
-
-	default: return "";
+		return "Undefined";
 	}
+
+	String output = "";
+	Size objValue = static_cast<Size>(obj);
+	Size usage = 1;
+	Size const max = static_cast<Size>(ImageUsage::Max);
+	for (Size index = 0; usage <= max; usage <<= 1, index++)
+	{
+		if (usage & objValue)
+		{
+			output += s_usageStrings[index] + "|";
+		}
+	}
+	MINTY_ASSERT(output.get_size() > 0, "Invalid ImageUsage value.");
+	return output.sub(0, output.get_size() - 1);
 }
 
 ImageUsage Minty::parse_to_image_usage(String const& string)
 {
-	if (string == "Sampled") return ImageUsage::Sampled;
-	if (string == "Storage") return ImageUsage::Storage;
-	if (string == "Color") return ImageUsage::Color;
-	if (string == "DepthStencil") return ImageUsage::DepthStencil;
-
-	return ImageUsage();
+	ImageUsage usage = ImageUsage::Undefined;
+	if (string.contains("Sampled")) usage |= ImageUsage::Sampled;
+	if (string.contains("Storage")) usage |= ImageUsage::Storage;
+	if (string.contains("Color")) usage |= ImageUsage::Color;
+	if (string.contains("DepthStencil")) usage |= ImageUsage::DepthStencil;
+	if (string.contains("TransferSrc")) usage |= ImageUsage::TransferSrc;
+	if (string.contains("TransferDst")) usage |= ImageUsage::TransferDst;
+	return usage;
 }
 
 Bool Minty::parse_try_image_usage(String const& string, ImageUsage& value)

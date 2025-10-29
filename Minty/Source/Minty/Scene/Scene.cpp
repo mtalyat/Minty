@@ -17,9 +17,9 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 	, m_name(builder.name)
 	, m_entityManager(nullptr)
 	, m_systemManager(nullptr)
-	, m_registeredAssets()
-	, m_assets()
 	, m_loadedAssets()
+	, m_assets()
+	, m_registeredAssets()
 {
 	// create the entity manager
 	EntityManagerBuilder entityManagerBuilder{};
@@ -36,25 +36,25 @@ Minty::Scene::Scene(Scene&& other) noexcept
 	, m_name(std::move(other.m_name))
 	, m_entityManager(std::move(other.m_entityManager))
 	, m_systemManager(std::move(other.m_systemManager))
-	, m_registeredAssets()
-	, m_assets()
 	, m_loadedAssets()
+	, m_assets()
+	, m_registeredAssets()
 {
 	// the target scene now owns the registered assets from the other scene
 	// in ADDITION to this Scene's assets
-	for (auto const& [path, assetData] : other.m_registeredAssets)
+	for (auto const& [path, assetData] : other.m_loadedAssets)
 	{
-		m_registeredAssets.add(path, assetData);
+		m_loadedAssets.add(path, assetData);
 	}
-	other.m_registeredAssets.clear();
+	other.m_loadedAssets.clear();
 	for (auto const& assetPath : other.m_assets)
 	{
 		m_assets.add(assetPath);
 	}
 	other.m_assets.clear();
-	for (auto const& assetId : other.m_loadedAssets)
+	for (auto const& assetId : other.m_registeredAssets)
 	{
-		m_loadedAssets.add(assetId);
+		m_registeredAssets.add(assetId);
 	}
 	other.m_assets.clear();
 }
@@ -73,19 +73,19 @@ Scene& Minty::Scene::operator=(Scene&& other) noexcept
 		m_systemManager = std::move(other.m_systemManager);
 		// the target scene now owns the registered assets from the other scene
 		// in ADDITION to this Scene's assets
-		for (auto const& [path, assetData] : other.m_registeredAssets)
+		for (auto const& [path, assetData] : other.m_loadedAssets)
 		{
-			m_registeredAssets.add(path, assetData);
+			m_loadedAssets.add(path, assetData);
 		}
-		other.m_registeredAssets.clear();
+		other.m_loadedAssets.clear();
 		for (auto const& assetPath : other.m_assets)
 		{
 			m_assets.add(assetPath);
 		}
 		other.m_assets.clear();
-		for (auto const& assetId : other.m_loadedAssets)
+		for (auto const& assetId : other.m_registeredAssets)
 		{
-			m_loadedAssets.add(assetId);
+			m_registeredAssets.add(assetId);
 		}
 		other.m_assets.clear();
 	}
@@ -97,7 +97,6 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 {
 	// load all of the assets into the Scene
 	Set<Path> loaded;
-	m_loadedAssets.clear();
 	AssetManager& assetManager = AssetManager::get_singleton();
 	Size i = 0;
 	for (auto const& assetPath : newAssets)
@@ -108,11 +107,10 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 		loaded.add(assetPath);
 
 		// update if already loaded
-		if (m_registeredAssets.contains(assetPath))
+		if (m_loadedAssets.contains(assetPath))
 		{
-			AssetData& assetData = m_registeredAssets.at(assetPath);
+			AssetData& assetData = m_loadedAssets.at(assetPath);
 			assetData.index = i;
-			m_loadedAssets.add(assetData.id);
 			continue;
 		}
 
@@ -137,17 +135,16 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 		{
 			assetData.id = asset->get_id();
 		}
-		m_loadedAssets.add(assetData.id);
 
 		// add the path to registered assets
-		m_registeredAssets.add(assetPath, std::move(assetData));
+		m_loadedAssets.add(assetPath, std::move(assetData));
 
 		i++;
 	}
 
 	// unload assets that are not in the loaded set
 	Vector<Path> toUnload;
-	for (auto const& [path, assetData] : m_registeredAssets)
+	for (auto const& [path, assetData] : m_loadedAssets)
 	{
 		if (!loaded.contains(path))
 		{
@@ -157,14 +154,14 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 	for (auto const& path : toUnload)
 	{
 		// unload the asset
-		AssetData& assetData = m_registeredAssets.at(path);
+		AssetData& assetData = m_loadedAssets.at(path);
 		if (assetData.id != INVALID_ID)
 		{
 			assetManager.unload(assetData.id);
 		}
 
 		// remove from registered assets
-		m_registeredAssets.remove(path);
+		m_loadedAssets.remove(path);
 	}
 
 	// update assets list
@@ -182,15 +179,15 @@ void Minty::Scene::unload_assets()
 		Path const& assetPath = *it;
 
 		// find the asset in the registered assets
-		auto registeredIt = m_registeredAssets.find(assetPath);
-		if (registeredIt == m_registeredAssets.end())
+		auto registeredIt = m_loadedAssets.find(assetPath);
+		if (registeredIt == m_loadedAssets.end())
 		{
 			// asset not registered, skip
 			continue;
 		}
 
 		// get the data
-		AssetData& assetData = m_registeredAssets.at(assetPath);
+		AssetData& assetData = m_loadedAssets.at(assetPath);
 
 		// unload the asset
 		if (assetData.id != INVALID_ID)
@@ -199,7 +196,14 @@ void Minty::Scene::unload_assets()
 		}
 	}
 
+	// Unload any remaining registered assets
+	for(UUID const id : m_registeredAssets)
+	{
+		assetManager.unload(id);
+	}
+
 	// clear the registered assets
+	m_loadedAssets.clear();
 	m_registeredAssets.clear();
 }
 
@@ -252,6 +256,16 @@ void Minty::Scene::on_event(Event& event)
 
 	// pass event on to the systems
 	m_systemManager->handle_event(event);
+}
+
+void Minty::Scene::register_asset(UUID const assetId)
+{
+	m_registeredAssets.add(assetId);
+}
+
+void Minty::Scene::unregister_asset(UUID const assetId)
+{
+	m_registeredAssets.remove(assetId);
 }
 
 void Minty::Scene::serialize(Writer& writer) const

@@ -4,7 +4,7 @@
 
 namespace Minty
 {
-#define F(formatString, ...) format(formatString, __VA_ARGS__)
+#define F(formatString, ...) Minty::format(formatString, __VA_ARGS__)
 
 	template<typename... Args>
 	static String format(String const& format, Args&&... args)

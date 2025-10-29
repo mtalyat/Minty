@@ -145,4 +145,6 @@ namespace Minty
     inline Format parse_to<Format>(String const& string) { return parse_to_format(string); }
     template<>
     inline Bool parse_try<Format>(String const& string, Format& value) { return parse_try_format(string, value); }
+
+	Size format_get_size(Format const format);
 }

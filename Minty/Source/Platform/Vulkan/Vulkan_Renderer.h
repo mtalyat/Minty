@@ -277,6 +277,8 @@ namespace Minty
 
 		static void copy_buffer_to_image(VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkImage const dstImage, const uint32_t width, const uint32_t height);
 
+		static void copy_image_to_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkImage const srcImage, VkBuffer const dstBuffer, const uint32_t width, const uint32_t height);
+
 		static void update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data);
 
 #pragma endregion

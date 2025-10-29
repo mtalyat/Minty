@@ -55,14 +55,14 @@ namespace Minty
 		Owner<EntityManager> m_entityManager;
 		Owner<SystemManager> m_systemManager;
 		
-		// information for each registered asset
-		Map<Path, AssetData> m_registeredAssets;
+		// information for each loaded asset
+		Map<Path, AssetData> m_loadedAssets;
 
 		// ordered list of each asset, determines loading order
 		Vector<Path> m_assets;
 
-		// set of IDs of the assets that have been loaded
-		Set<UUID> m_loadedAssets;
+		// set of IDs of the assets that have been registered
+		Set<UUID> m_registeredAssets;
 
 #pragma endregion
 
@@ -119,7 +119,7 @@ namespace Minty
 		/// Gets the set of loaded Asset IDs in this Scene.
 		/// </summary>
 		/// <returns>The set of IDs.</returns>
-		Set<UUID> const& get_loaded_assets() const { return m_loadedAssets; }
+		Set<UUID> const& get_loaded_assets() const { return m_registeredAssets; }
 
 #pragma endregion
 
@@ -163,6 +163,27 @@ namespace Minty
 		/// </summary>
 		/// <param name="event">The Event.</param>
 		void on_event(Event& event);
+
+		/// <summary>
+		/// Register an Asset to the Scene. The Scene takes ownership of the Asset.
+		/// </summary>
+		/// <param name="asset">The ID of the Asset to take ownership of.</param>
+		void register_asset(UUID const assetId);
+
+		/// <summary>
+		/// Registers an asset by extracting its id and forwarding it to the overload that accepts an asset id.
+		/// </summary>
+		/// <param name="asset">Const reference to a Ref<Asset> that identifies the asset to register. The function extracts the asset's id and calls register_asset(id).</param>
+		inline void register_asset(Ref<Asset> const& asset)
+		{
+			register_asset(asset->get_id());
+		}
+
+		/// <summary>
+		/// Unregisters an Asset from the Scene. The Scene releases ownership of the Asset.
+		/// </summary>
+		/// <param name="assetId">The ID of the Asset to release ownership of.</param>
+		void unregister_asset(UUID const assetId);
 		
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;

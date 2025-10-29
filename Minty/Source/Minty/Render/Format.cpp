@@ -265,3 +265,145 @@ Bool Minty::parse_try_format(String const& string, Format& value)
 	value = parse_to_format(string);
 	return value != Format();
 }
+
+Size Minty::format_get_size(Format const format)
+{
+	switch (format)
+	{
+	case Format::R4G4_UNORM_PACK8:
+	case Format::R8_UNORM:
+	case Format::R8_SNORM:
+	case Format::R8_USCALED:
+	case Format::R8_SSCALED:
+	case Format::R8_UINT:
+	case Format::R8_SINT:
+	case Format::R8_SRGB:
+		return sizeof(Byte) * 1;
+	case Format::R4G4B4A4_UNORM_PACK16:
+	case Format::B4G4R4A4_UNORM_PACK16:
+	case Format::R5G6B5_UNORM_PACK16:
+	case Format::B5G6R5_UNORM_PACK16:
+	case Format::R5G5B5A1_UNORM_PACK16:
+	case Format::B5G5R5A1_UNORM_PACK16:
+	case Format::A1R5G5B5_UNORM_PACK16:
+	case Format::R8G8_UNORM:
+	case Format::R8G8_SNORM:
+	case Format::R8G8_USCALED:
+	case Format::R8G8_SSCALED:
+	case Format::R8G8_UINT:
+	case Format::R8G8_SINT:
+	case Format::R8G8_SRGB:
+	case Format::R16_UNORM:
+	case Format::R16_SNORM:
+	case Format::R16_USCALED:
+	case Format::R16_SSCALED:
+	case Format::R16_UINT:
+	case Format::R16_SINT:
+	case Format::R16_SFLOAT:
+		return sizeof(Byte) * 2;
+	case Format::R8G8B8_UNORM:
+	case Format::R8G8B8_SNORM:
+	case Format::R8G8B8_USCALED:
+	case Format::R8G8B8_SSCALED:
+	case Format::R8G8B8_UINT:
+	case Format::R8G8B8_SINT:
+	case Format::R8G8B8_SRGB:
+	case Format::B8G8R8_UNORM:
+	case Format::B8G8R8_SNORM:
+	case Format::B8G8R8_USCALED:
+	case Format::B8G8R8_SSCALED:
+	case Format::B8G8R8_UINT:
+	case Format::B8G8R8_SINT:
+	case Format::B8G8R8_SRGB:
+		return sizeof(Byte) * 3;
+	case Format::R8G8B8A8_UNORM:
+	case Format::R8G8B8A8_SNORM:
+	case Format::R8G8B8A8_USCALED:
+	case Format::R8G8B8A8_SSCALED:
+	case Format::R8G8B8A8_UINT:
+	case Format::R8G8B8A8_SINT:
+	case Format::R8G8B8A8_SRGB:
+	case Format::B8G8R8A8_UNORM:
+	case Format::B8G8R8A8_SNORM:
+	case Format::B8G8R8A8_USCALED:
+	case Format::B8G8R8A8_SSCALED:
+	case Format::B8G8R8A8_UINT:
+	case Format::B8G8R8A8_SINT:
+	case Format::B8G8R8A8_SRGB:
+	case Format::A8B8G8R8_UNORM_PACK32:
+	case Format::A8B8G8R8_SNORM_PACK32:
+	case Format::A8B8G8R8_USCALED_PACK32:
+	case Format::A8B8G8R8_SSCALED_PACK32:
+	case Format::A8B8G8R8_UINT_PACK32:
+	case Format::A8B8G8R8_SINT_PACK32:
+	case Format::A8B8G8R8_SRGB_PACK32:
+	case Format::A2R10G10B10_UNORM_PACK32:
+	case Format::A2R10G10B10_SNORM_PACK32:
+	case Format::A2R10G10B10_USCALED_PACK32:
+	case Format::A2R10G10B10_SSCALED_PACK32:
+	case Format::A2R10G10B10_UINT_PACK32:
+	case Format::A2R10G10B10_SINT_PACK32:
+	case Format::A2B10G10R10_UNORM_PACK32:
+	case Format::A2B10G10R10_SNORM_PACK32:
+	case Format::A2B10G10R10_USCALED_PACK32:
+	case Format::A2B10G10R10_SSCALED_PACK32:
+	case Format::A2B10G10R10_UINT_PACK32:
+	case Format::A2B10G10R10_SINT_PACK32:
+	case Format::R16G16_UNORM:
+	case Format::R16G16_SNORM:
+	case Format::R16G16_USCALED:
+	case Format::R16G16_SSCALED:
+	case Format::R16G16_UINT:
+	case Format::R16G16_SINT:
+	case Format::R16G16_SFLOAT:
+		return sizeof(Byte) * 4;
+	case Format::R16G16B16_UNORM:
+	case Format::R16G16B16_SNORM:
+	case Format::R16G16B16_USCALED:
+	case Format::R16G16B16_SSCALED:
+	case Format::R16G16B16_UINT:
+	case Format::R16G16B16_SINT:
+	case Format::R16G16B16_SFLOAT:
+		return sizeof(Byte) * 6;
+	case Format::R16G16B16A16_UNORM:
+	case Format::R16G16B16A16_SNORM:
+	case Format::R16G16B16A16_USCALED:
+	case Format::R16G16B16A16_SSCALED:
+	case Format::R16G16B16A16_UINT:
+	case Format::R16G16B16A16_SINT:
+	case Format::R16G16B16A16_SFLOAT:
+	case Format::R32_UINT:
+	case Format::R32_SINT:
+	case Format::R32_SFLOAT:
+		return sizeof(Byte) * 8;
+	case Format::R32G32_UINT:
+	case Format::R32G32_SINT:
+	case Format::R32G32_SFLOAT:
+		return sizeof(Byte) * 16;
+	case Format::R32G32B32_UINT:
+	case Format::R32G32B32_SINT:
+	case Format::R32G32B32_SFLOAT:
+		return sizeof(Byte) * 24;
+	case Format::R32G32B32A32_UINT:
+	case Format::R32G32B32A32_SINT:
+	case Format::R32G32B32A32_SFLOAT:
+	case Format::R64_UINT:
+	case Format::R64_SINT:
+	case Format::R64_SFLOAT:
+		return sizeof(Byte) * 64;
+	case Format::R64G64_UINT:
+	case Format::R64G64_SINT:
+	case Format::R64G64_SFLOAT:
+		return sizeof(Byte) * 128;
+	case Format::R64G64B64_UINT:
+	case Format::R64G64B64_SINT:
+	case Format::R64G64B64_SFLOAT:
+		return sizeof(Byte) * 192;
+	case Format::R64G64B64A64_UINT:
+	case Format::R64G64B64A64_SINT:
+	case Format::R64G64B64A64_SFLOAT:
+		return sizeof(Byte) * 256;
+	default:
+		return 0;
+	}
+}

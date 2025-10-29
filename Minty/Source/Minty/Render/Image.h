@@ -127,6 +127,13 @@ namespace Minty
 		virtual void set_pixels(void const* const data, Size const size) = 0;
 
 		/// <summary>
+		/// Pure virtual method that retrieves pixel data and writes it into a caller-provided output buffer.
+		/// </summary>
+		/// <param name="outData">Pointer to the output buffer where the pixel data will be written. The caller must provide a valid, sufficiently large buffer; the concrete implementation defines the pixel format and layout.</param>
+		/// <param name="size">Size value indicating how much pixel data to write. The precise meaning (for example, number of bytes, number of pixels, or width/height) depends on the concrete implementation of Size and the derived class.</param>
+		virtual void get_pixels(void* const outData, Size const size) const = 0;
+
+		/// <summary>
 		/// Gets the Format.
 		/// </summary>
 		/// <returns>The Format.</returns>

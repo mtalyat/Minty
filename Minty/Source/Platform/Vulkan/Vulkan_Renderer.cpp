@@ -1200,25 +1200,41 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 	// determine when the transfer can be conducted based on its layout
 	VkPipelineStageFlags sourceStage;
 	VkPipelineStageFlags destinationStage;
-	if (oldLayout == VK_IMAGE_LAYOUT_UNDEFINED && newLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL)
+	switch (oldLayout)
 	{
-		barrier.srcAccessMask = 0;
-		barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-
-		sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-		destinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+		case VK_IMAGE_LAYOUT_UNDEFINED:
+			barrier.srcAccessMask = 0;
+			sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+			break;
+		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+			barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+			sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			break;
+		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+			barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+			sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			break;
+		default:
+			MINTY_ABORT(F("Unsupported layout transition for old layout: ({} -> {}).", static_cast<Size>(oldLayout), static_cast<Size>(newLayout)));
+			break;
 	}
-	else if (oldLayout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && newLayout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL)
+	switch (newLayout)
 	{
-		barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-		barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-
-		sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-		destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-	}
-	else
-	{
-		MINTY_ABORT("Unsupported layout transition.");
+		case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+			barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+			destinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			break;
+		case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+			barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+			destinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
+			break;
+		case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+			barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+			destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
+			break;
+		default:
+			MINTY_ABORT(F("Unsupported layout transition for new layout: ({} -> {}).", static_cast<Size>(oldLayout), static_cast<Size>(newLayout)));
+			break;
 	}
 
 	vkCmdPipelineBarrier(commandBuffer, sourceStage, destinationStage, 0, 0, nullptr, 0, nullptr, 1, &barrier);
@@ -1264,6 +1280,33 @@ void Minty::Vulkan_Renderer::copy_buffer_to_image(VkCommandBuffer const commandB
 	};
 
 	vkCmdCopyBufferToImage(commandBuffer, srcBuffer, dstImage, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
+}
+
+void Minty::Vulkan_Renderer::copy_image_to_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkImage const srcImage, VkBuffer const dstBuffer, const uint32_t width, const uint32_t height)
+{
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
+	MINTY_ASSERT(srcImage != VK_NULL_HANDLE, "Source image is null.");
+	MINTY_ASSERT(dstBuffer != VK_NULL_HANDLE, "Destination buffer is null.");
+
+	VkBufferImageCopy copyRegion{};
+	copyRegion.bufferOffset = 0;
+	copyRegion.bufferRowLength = 0;
+	copyRegion.bufferImageHeight = 0;
+
+	copyRegion.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	copyRegion.imageSubresource.mipLevel = 0;
+	copyRegion.imageSubresource.baseArrayLayer = 0;
+	copyRegion.imageSubresource.layerCount = 1;
+
+	copyRegion.imageOffset = { 0, 0, 0 };
+	copyRegion.imageExtent = {
+		width,
+		height,
+		1
+	};
+
+	vkCmdCopyImageToBuffer(commandBuffer, srcImage, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, dstBuffer, 1, &copyRegion);
 }
 
 void Minty::Vulkan_Renderer::update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data)
@@ -1447,8 +1490,10 @@ VkBufferUsageFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::BufferUsage bu
 	case BufferUsage::Undefined:
 		MINTY_ABORT("Buffer usage is undefined.");
 		break;
-	case BufferUsage::Transfer:
+	case BufferUsage::TransferSrc:
 		return VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+	case BufferUsage::TransferDst:
+		return VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 	case BufferUsage::Vertex:
 		return VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 	case BufferUsage::Index:
@@ -1637,25 +1682,34 @@ VkImageAspectFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageAspect as
 
 VkImageUsageFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageUsage usage)
 {
-	switch (usage)
-	{
-	case ImageUsage::Undefined:
-		MINTY_ABORT("Image usage is undefined.");
-		break;
-	case ImageUsage::Sampled:
-		return VK_IMAGE_USAGE_SAMPLED_BIT;
-	case ImageUsage::Storage:
-		return VK_IMAGE_USAGE_STORAGE_BIT;
-	case ImageUsage::Color:
-		return VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-	case ImageUsage::DepthStencil:
-		return VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
-	default:
-		MINTY_ABORT("Unsupported image usage.");
-		break;
-	}
+	VkImageUsageFlags flags = 0;
 
-	return VK_IMAGE_USAGE_FLAG_BITS_MAX_ENUM;
+	if((usage & ImageUsage::Sampled) != ImageUsage::Undefined)
+	{
+		flags |= VK_IMAGE_USAGE_SAMPLED_BIT;
+	}
+	if((usage & ImageUsage::Storage) != ImageUsage::Undefined)
+	{
+		flags |= VK_IMAGE_USAGE_STORAGE_BIT;
+	}
+	if((usage & ImageUsage::Color) != ImageUsage::Undefined)
+	{
+		flags |= VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+	}
+	if((usage & ImageUsage::DepthStencil) != ImageUsage::Undefined)
+	{
+		flags |= VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+	}
+	if((usage & ImageUsage::TransferSrc) != ImageUsage::Undefined)
+	{
+		flags |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+	}
+	if((usage & ImageUsage::TransferDst) != ImageUsage::Undefined)
+	{
+		flags |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+	}
+	MINTY_ASSERT(flags != 0, "Image usage is undefined.");
+	return flags;
 }
 
 VkPrimitiveTopology Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderPrimitiveTopology topology)

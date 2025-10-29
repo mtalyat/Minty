@@ -3,25 +3,43 @@
 
 using namespace Minty;
 
+static String const s_usageStrings[] = {
+	"TransferSrc",
+	"TransferDst",
+	"Vertex",
+	"Index",
+	"Uniform"
+};
+
 String Minty::to_string(BufferUsage const obj)
 {
-	switch (obj)
+	if (obj == BufferUsage::Undefined)
 	{
-	case BufferUsage::Transfer: return "Transfer";
-	case BufferUsage::Vertex: return "Vertex";
-	case BufferUsage::Index: return "Index";
-	case BufferUsage::Uniform: return "Uniform";
-
-	default: return "";
+		return "Undefined";
 	}
+
+	String output = "";
+	Size objValue = static_cast<Size>(obj);
+	Size usage = 1;
+	Size const max = static_cast<Size>(BufferUsage::Max);
+	for (Size index = 0; usage <= max; usage <<= 1, index++)
+	{
+		if (usage & objValue)
+		{
+			output += s_usageStrings[index] + "|";
+		}
+	}
+	MINTY_ASSERT(output.get_size() > 0, "Invalid BufferUsage value.");
+	return output.sub(0, output.get_size() - 1);
 }
 
 BufferUsage Minty::parse_to_buffer_usage(String const& string)
 {
-	if (string == "Transfer") return BufferUsage::Transfer;
-	if (string == "Vertex") return BufferUsage::Vertex;
-	if (string == "Index") return BufferUsage::Index;
-	if (string == "Uniform") return BufferUsage::Uniform;
+	if (string.contains("TransferSrc")) return BufferUsage::TransferSrc;
+	if (string.contains("TransferDst")) return BufferUsage::TransferDst;
+	if (string.contains("Vertex")) return BufferUsage::Vertex;
+	if (string.contains("Index")) return BufferUsage::Index;
+	if (string.contains("Uniform")) return BufferUsage::Uniform;
 
 	return BufferUsage();
 }

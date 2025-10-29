@@ -30,7 +30,8 @@ Bindings
         0: Float4
         1: Float4
         2: Float4
-        3: Float
+        3: Float2
+        4: Float
 Stages
     Vertex: def0000000000009
     Fragment: def0000000000008

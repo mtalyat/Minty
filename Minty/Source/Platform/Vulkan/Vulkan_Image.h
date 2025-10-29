@@ -40,6 +40,8 @@ namespace Minty
 
 		void set_pixels(void const* const data, Size const size) override;
 
+		void get_pixels(void* const outData, Size const size) const override;
+
 		VkImage get_image() const { return m_image; }
 
 		VkDeviceMemory get_memory() const { return m_memory; }
@@ -56,6 +58,9 @@ namespace Minty
 		void initialize();
 
 		void dispose();
+
+		// returns true if layout is a visible layout (image is used for rendering)
+		Bool is_visible() const;
 
 	public:
 		void transition_layout(VkCommandBuffer const commandBuffer, VkImageLayout const newLayout);

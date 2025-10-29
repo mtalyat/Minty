@@ -13,28 +13,37 @@ namespace Minty
         /// <summary>
         /// Invalid.
         /// </summary>
-        Undefined = 0,
+        Undefined = 0x0,
 
         /// <summary>
-		/// Transfer buffer.
+		/// Transfer source buffer.
         /// </summary>
-        Transfer = 1,
+        TransferSrc = 0x1,
+
+        /// <summary>
+        /// Transfer destination buffer.
+        /// </summary>
+        TransferDst = 0x2,
 
         /// <summary>
 		/// Vertex buffer.
         /// </summary>
-        Vertex = 2,
+        Vertex = 0x4,
 
         /// <summary>
 		/// Index buffer.
         /// </summary>
-        Index = 3,
+        Index = 0x8,
 
         /// <summary>
 		/// Uniform buffer.
         /// </summary>
-        Uniform = 4
+        Uniform =  0x10,
+
+		Max = Uniform,
     };
+
+	MINTY_ENUM_FLAGS_OPERATORS(BufferUsage)
 
     String to_string(BufferUsage const obj);
     BufferUsage parse_to_buffer_usage(String const& string);

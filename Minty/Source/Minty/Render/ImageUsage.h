@@ -12,27 +12,39 @@ namespace Minty
 		/// <summary>
 		/// Invalid.
 		/// </summary>
-		Undefined = 0,
+		Undefined = 0x0,
 
 		/// <summary>
 		/// The image is sampled.
 		/// </summary>
-		Sampled = 1,
+		Sampled = 0x1,
 
 		/// <summary>
 		/// The image is used for storage.
 		/// </summary>
-		Storage = 2,
+		Storage = 0x2,
 
 		/// <summary>
 		/// The image is used for input attachment.
 		/// </summary>
-		Color = 4,
+		Color = 0x4,
 
 		/// <summary>
 		/// The image is used for depth/stencil.
 		/// </summary>
-		DepthStencil = 8
+		DepthStencil = 0x8,
+
+		/// <summary>
+		/// The image is used as a transfer source.
+		/// </summary>
+		TransferSrc = 0x10,
+
+		/// <summary>
+		/// The image is used as a transfer destination.
+		/// </summary>
+		TransferDst = 0x20,
+
+		Max = TransferDst,
 	};
 
 	MINTY_ENUM_FLAGS_OPERATORS(ImageUsage)

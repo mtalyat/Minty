@@ -464,12 +464,14 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		Float4 instRect = uiTransformComp.transform.get_global_rect().rect;
 		Float4 instSprite = sprite->get_render_rect().rect;
 		Float4 instColor = spriteComp.color.to_float4();
+		Float2 instPivot = sprite->get_render_pivot();
 		Float instDepth = 0.0f;
 
 		// add data to batch
 		batchContainer.append_object(instRect);
 		batchContainer.append_object(instSprite);
 		batchContainer.append_object(instColor);
+		batchContainer.append_object(instPivot);
 		batchContainer.append_object(instDepth);
 
 		batch.increment();
