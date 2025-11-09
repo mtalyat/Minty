@@ -146,7 +146,7 @@ Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 	, m_camera(nullptr)
 	, m_cameraMatrix()
 	, m_surface(nullptr)
-	, m_depthImage(nullptr)
+	, m_depthStencilImage(nullptr)
 	, m_defaultViewport(nullptr)
 	, m_defaultMeshes()
 	, m_defaultMaterials()
@@ -191,7 +191,69 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	return mesh;
 }
 
-Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space)
+Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask)
+{
+	UUID templateId;
+	switch (assetType)
+	{
+	case AssetType::Sprite:
+		switch (space)
+		{
+		case Space::D3:
+			templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
+			break;
+		case Space::UI:
+			templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
+			break;
+		default:
+			MINTY_ABORT(F("Invalid Space for Sprite: {}", space));
+			break;
+		}
+		break;
+	case AssetType::FontVariant:
+		switch (space)
+		{
+		case Space::UI:
+			templateId = DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE;
+			break;
+		default:
+			MINTY_ERROR(F("Invalid Space for AssetType FontVariant: \"{}\".", to_string(space)));
+			break;
+		}
+		break;
+	default:
+		MINTY_ABORT(F("Cannot create a default Mesh for the type \"{}\".", to_string(assetType)));
+		break;
+	}
+	if (mask != MaskMode::None)
+	{
+		if (templateId == DEFAULT_ASSET_UI_MATERIAL_TEMPLATE)
+		{
+			switch (mask)
+			{
+			case MaskMode::Write:
+				templateId = DEFAULT_ASSET_UI_MASK_WRITE_MATERIAL_TEMPLATE;
+				break;
+			case MaskMode::Test:
+				templateId = DEFAULT_ASSET_UI_MASK_TEST_MATERIAL_TEMPLATE;
+				break;
+			default:
+				MINTY_ABORT(F("Invalid mask {} for UI MaterialTemplate.", static_cast<Int>(mask)));
+			}
+		}
+		else
+		{
+			MINTY_ABORT(F("Variants are only supported for UI MaterialTemplates, not for type {}.", to_string(assetType)));
+		}
+	}
+
+	AssetManager& assetManager = AssetManager::get_singleton();
+	Ref<MaterialTemplate> const& materialTemplate = assetManager.get<MaterialTemplate>(templateId);
+	MINTY_ASSERT(materialTemplate != nullptr, F("Default MaterialTemplate for type {} and space {} is not loaded ({}).", assetType, space, templateId));
+	return materialTemplate;
+}
+
+Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask)
 {
 	MINTY_ASSERT(texture != nullptr, "Cannot get default Material with null Texture.");
 	
@@ -219,40 +281,7 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 	}
 	else
 	{
-		UUID templateId;
-		switch (assetType)
-		{
-		case AssetType::Sprite:
-			switch (space)
-			{
-			case Space::D3:
-				templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
-				break;
-			case Space::UI:
-				templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
-				break;
-			default:
-				MINTY_ABORT(F("Invalid Space for Sprite: {}", space));
-				break;
-			}
-			break;
-		case AssetType::FontVariant:
-			switch (space)
-			{
-			case Space::UI:
-				templateId = DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE;
-				break;
-			default:
-				MINTY_ERROR(F("Invalid Space for AssetType FontVariant: \"{}\".", to_string(space)));
-				break;
-			}
-			break;
-		default:
-			MINTY_ABORT(F("Cannot create a default Mesh for the type \"{}\".", to_string(assetType)));
-			break;
-		}
-		builder.materialTemplate = assetManager.get<MaterialTemplate>(templateId);
-		MINTY_ASSERT(builder.materialTemplate != nullptr, F("Default MaterialTemplate for type {} and space {} is not loaded ({}).", assetType, space, templateId));
+		builder.materialTemplate = get_default_material_template(assetType, space, mask);
 	}
 
 	// set the texture
@@ -311,7 +340,7 @@ void Minty::RenderManager::dispose()
 
 	// dispose default materials
 	m_surface.release();
-	m_depthImage.release();
+	m_depthStencilImage.release();
 	m_defaultViewport.release();
 	m_defaultMeshes.clear();
 	m_defaultMaterials.clear();

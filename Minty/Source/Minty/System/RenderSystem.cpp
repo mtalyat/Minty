@@ -4,6 +4,8 @@
 #include "Minty/Component/CameraComponent.h"
 #include "Minty/Component/CanvasComponent.h"
 #include "Minty/Component/EnabledComponent.h"
+#include "Minty/Component/MaskComponent.h"
+#include "Minty/Component/MaskedComponent.h"
 #include "Minty/Component/MeshComponent.h"
 #include "Minty/Component/SpriteComponent.h"
 #include "Minty/Component/TextComponent.h"
@@ -91,6 +93,7 @@ void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
 			// bind the resources
 			renderManager.bind_shader(info.shader);
 			renderManager.bind_material(info.material);
+
 			// set the inputs
 			for (auto const& [name, data, size] : info.inputs)
 			{
@@ -99,11 +102,13 @@ void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
 				// free the data when done, as it was cloned when added to the render map
 				deallocate(data, size, Allocator::Default);
 			}
+
 			// if there is a canvas, update it
 			if(info.canvas != INVALID_ENTITY)
 			{
 				update_canvas(info.canvas, info.shader, entityManager);
 			}
+
 			// bind the mesh or vertex buffer
 			if (info.mesh != nullptr)
 			{
@@ -169,20 +174,6 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 		};
 		info.inputs.add({ "object", clone(transformation, Allocator::Default), sizeof(Matrix4) });
 		renderMap.add(shader->get_priority(), std::move(info));
-
-		//// bind the resources
-		//renderManager.bind_shader(shader);
-		//renderManager.bind_material(material);
-
-		//// set the transform of the object
-		//Matrix4 transformation = transformComp.transform.get_global_matrix();
-		//material->set_input("object", &transformation, sizeof(Matrix4));
-
-		//// bind the mesh
-		//renderManager.bind_mesh(mesh);
-
-		//// draw the mesh
-		//renderManager.draw_mesh(mesh);
 	}
 }
 
@@ -191,7 +182,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	MINTY_TRACE_SCOPE();
 
 	// get the number of world sprites
-	auto spriteView = entityManager.view<VisibleComponent const, SpriteComponent const, TransformComponent const>();
+	auto spriteView = entityManager.view<SpriteComponent const, TransformComponent const, VisibleComponent const>();
 	Size count = spriteView.get_size();
 
 	// skip if no sprites
@@ -208,7 +199,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 	Ref<Sprite> sprite;
 	Ref<Material> material;
 	BatchFactory<1, Ref<Material>> batchFactory(maxDataSize);
-	for (auto const& [entity, visibleComp, spriteComp, transformComp] : spriteView.each())
+	for (auto const& [entity, spriteComp, transformComp, visibleComp] : spriteView.each())
 	{
 		sprite = spriteComp.sprite;
 
@@ -227,7 +218,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, Render
 		// get the batch based on the material
 		Ref<Texture> const& texture = sprite->get_texture();
 		MINTY_ASSERT(texture != nullptr, "Sprite has no texture.");
-		Ref<MaterialTemplate> const& materialTemplate = sprite->get_material_template();
+		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::D3);
 		Batch<1, Ref<Material>>& batch = batchFactory.get_or_create_batch({ material });
 
@@ -429,12 +420,26 @@ void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, Render
 		// get the texture
 		Ref<Texture> const& texture = sprite->get_texture();
 		MINTY_ASSERT(texture != nullptr, "Sprite has no Texture.");
-		Ref<MaterialTemplate> const& materialTemplate = sprite->get_material_template();
+		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 
 		// get the material to use
-		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI);
+		MaskMode mask = MaskMode::None;
+		UInt stencil = 0;
+		if (entityManager.has_component<MaskComponent>(entity))
+		{
+			mask = MaskMode::Write;
+			stencil = entityManager.get_component<MaskComponent>(entity).value;
+		} else if (entityManager.has_component<MaskedComponent>(entity))
+		{
+			mask = MaskMode::Test;
+			stencil = entityManager.get_component<MaskedComponent>(entity).value;
+		}
+		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI, mask);
 		MINTY_ASSERT(material != nullptr, "Failed to get default Material for UI Sprite.");
-
+		if (mask != MaskMode::None)
+		{
+			material->set_stencil(stencil);
+		}
 		// get batch based on material and canvas
 		auto& batch = batchFactory.get_or_create_batch({ material, uiTransformComp.canvas });
 		DynamicContainer& batchContainer = batch.get_data_container();

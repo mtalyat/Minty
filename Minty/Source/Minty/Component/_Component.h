@@ -11,6 +11,8 @@
 #include "DirtyComponent.h"
 #include "EnabledComponent.h"
 #include "LayerComponent.h"
+#include "MaskComponent.h"
+#include "MaskedComponent.h"
 #include "MeshComponent.h"
 #include "NameComponent.h"
 #include "PrefabComponent.h"

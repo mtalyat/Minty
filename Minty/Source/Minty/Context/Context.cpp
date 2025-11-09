@@ -140,6 +140,8 @@ void Minty::Context::register_components()
 	register_component<ColliderComponent>("Collider");
 	register_component<EnabledComponent>("Enabled");
 	register_component<LayerComponent>("Layer");
+	register_component<MaskComponent>("Mask");
+	register_component<MaskedComponent>("Masked");
 	register_component<MeshComponent>("Mesh");
 	register_component<NameComponent>("Name");
 	register_component<RelationshipComponent>("Relationship");

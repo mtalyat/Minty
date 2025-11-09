@@ -14,6 +14,8 @@ Minty::Shader::Shader(ShaderBuilder const& builder)
 	, m_renderPass(builder.renderPass)
 	, m_inputs()
 	, m_materials()
+	, m_depthMode(builder.depthMode)
+	, m_stencilMode(builder.stencilMode)
 {
 	MINTY_ASSERT(builder.fragmentShaderModule != nullptr, "ShaderBuilder fragmentShaderModule must not be null.");
 	MINTY_ASSERT(!builder.fragmentShaderModuleEntryPoint.is_empty(), "ShaderBuilder fragmentShaderModuleEntryPoint must not be empty.");

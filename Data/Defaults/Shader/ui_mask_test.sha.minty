@@ -24,7 +24,8 @@ FrontFace: Clockwise
 LineWidth: 1
 Transparency: True
 DepthMode: None
-StencilMode: None
+StencilMode: Test
+StencilTestOp: Equal
 RenderPass: def000000000001c
 Bindings
     0: Instance

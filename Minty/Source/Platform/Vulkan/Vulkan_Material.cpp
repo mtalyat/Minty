@@ -254,6 +254,15 @@ void Minty::Vulkan_Material::on_bind()
 		frame.descriptorSet,
 		VK_PIPELINE_BIND_POINT_GRAPHICS
 	);
+	
+	// bind the stencil, if any
+	UInt const stencil = get_stencil();
+	MINTY_ASSERT(stencil <= 255, "Stencil value must be between 0 and 255.");
+	MINTY_ASSERT(stencil == 0 || shader->get_stencil_mode() != StencilMode::None, "Cannot use stencil value when stencil mode is disabled in the shader.");
+	if (stencil)
+	{
+		Vulkan_Renderer::set_stencil_reference(commandBuffer, stencil);
+	}
 }
 
 void Minty::Vulkan_Material::set_input(String const& name, void const* const data, Size const size)

@@ -160,6 +160,9 @@
     <Filter Include="Libraries\zlib">
       <UniqueIdentifier>{a2b41efc-448a-4c7e-b5d9-2c66c8d2fe34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Minty\Render\DepthStencil">
+      <UniqueIdentifier>{8eb8497e-ffec-4261-aa97-58e41e5acb82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1029,6 +1032,21 @@
     <ClInclude Include="..\..\Libraries\zlib\include\trees.h">
       <Filter>Libraries\zlib</Filter>
     </ClInclude>
+    <ClInclude Include="Minty\Render\DepthMode.h">
+      <Filter>Minty\Render\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\StencilMode.h">
+      <Filter>Minty\Render\DepthStencil</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\MaskComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Component\MaskedComponent.h">
+      <Filter>Minty\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Minty\Render\MaskMode.h">
+      <Filter>Minty\Render\DepthStencil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Minty.cpp">
@@ -1654,6 +1672,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Libraries\zlib\source\crc32.cpp">
       <Filter>Libraries\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\DepthMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Render\StencilMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\MaskComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minty\Component\MaskedComponent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

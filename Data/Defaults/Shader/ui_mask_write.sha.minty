@@ -24,7 +24,7 @@ FrontFace: Clockwise
 LineWidth: 1
 Transparency: True
 DepthMode: None
-StencilMode: None
+StencilMode: Write
 RenderPass: def000000000001c
 Bindings
     0: Instance

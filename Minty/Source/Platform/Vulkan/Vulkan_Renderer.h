@@ -88,7 +88,7 @@ namespace Minty
 
 		static VkFormat find_supported_format(VkPhysicalDevice const physicalDevice, Vector<VkFormat> const& candidates, VkImageTiling const tiling, VkFormatFeatureFlags const features);
 
-		static VkFormat find_supported_depth_format(VkPhysicalDevice const physicalDevice);
+		static VkFormat find_supported_depth_stencil_format(VkPhysicalDevice const physicalDevice);
 
 #pragma endregion
 
@@ -260,6 +260,8 @@ namespace Minty
 		static void bind_viewport(VkCommandBuffer const commandBuffer, VkViewport const& viewport);
 
 		static void bind_scissor(VkCommandBuffer const commandBuffer, VkRect2D const& scissor);
+
+		static void set_stencil_reference(VkCommandBuffer const commandBuffer, uint32_t const reference);
 
 		static void bind_vertex_buffer(VkCommandBuffer const commandBuffer, VkBuffer const buffer, uint32_t const binding = 0);
 

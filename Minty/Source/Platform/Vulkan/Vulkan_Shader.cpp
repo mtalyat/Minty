@@ -321,14 +321,19 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	// depth stencil testing
 	VkPipelineDepthStencilStateCreateInfo depthStencil{};
 	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-	if (builder.depthTest)
+	if (builder.depthMode == DepthMode::None)
+	{
+		// disable depth testing
+		depthStencil.depthTestEnable = VK_FALSE;
+	}
+	else
 	{
 		// enable depth testing
 		depthStencil.depthTestEnable = VK_TRUE;
-		depthStencil.depthWriteEnable = builder.depthWrite ? VK_TRUE : VK_FALSE;
+		depthStencil.depthWriteEnable = builder.depthMode == DepthMode::Write ? VK_TRUE : VK_FALSE;
 
 		// transparent shaders should not write to depth
-		MINTY_ASSERT((builder.transparency == true && builder.depthWrite == false) || builder.depthWrite == true, "Transparent shaders must have depth write disabled.");
+		MINTY_ASSERT((builder.transparency == true && builder.depthMode != DepthMode::Write) || builder.depthMode == DepthMode::Write, "Transparent shaders must have depth write disabled.");
 
 		// set depth comparison operation
 		depthStencil.depthCompareOp = Vulkan_Renderer::to_vulkan(builder.depthTestOp);
@@ -341,10 +346,35 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 		depthStencil.front = {}; // Optional
 		depthStencil.back = {}; // Optional
 	}
+
+	if (builder.stencilMode == StencilMode::None)
+	{
+		depthStencil.stencilTestEnable = VK_FALSE;
+	}
 	else
 	{
-		// disable depth testing
-		depthStencil.depthTestEnable = VK_FALSE;
+		depthStencil.stencilTestEnable = VK_TRUE;
+
+		VkStencilOpState stencilOpState{};
+		stencilOpState.failOp = VK_STENCIL_OP_KEEP;
+		stencilOpState.depthFailOp = VK_STENCIL_OP_KEEP;
+		stencilOpState.compareMask = 0xFF;
+		stencilOpState.writeMask = 0xFF;
+		stencilOpState.reference = 0; // set dynamically later
+
+		if (builder.stencilMode == StencilMode::Write)
+		{
+			stencilOpState.passOp = VK_STENCIL_OP_REPLACE;
+			stencilOpState.compareOp = VK_COMPARE_OP_ALWAYS;
+		}
+		else if (builder.stencilMode == StencilMode::Test)
+		{
+			stencilOpState.passOp = VK_STENCIL_OP_KEEP;
+			stencilOpState.compareOp = Vulkan_Renderer::to_vulkan(builder.stencilTestOp);
+		}
+
+		depthStencil.front = stencilOpState;
+		depthStencil.back = stencilOpState;
 	}
 
 	// color blending (transparency)
@@ -365,7 +395,15 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
 	colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 	colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+
+	// disable color writing for stencil-write operations
+	if(builder.stencilMode == StencilMode::Write)
+	{
+		colorBlendAttachment.colorWriteMask = 0;
+	} else
+	{
+		colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+	}
 
 	VkPipelineColorBlendStateCreateInfo colorBlendInfo{};
 	colorBlendInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -378,8 +416,16 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	colorBlendInfo.blendConstants[2] = 0.0f;
 	colorBlendInfo.blendConstants[3] = 0.0f;
 
-	// dynamic states (viewport, scissor)
-	Vector<VkDynamicState> dynamicStates = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+	// dynamic states 
+	// Viewport and scissor by default, add others depending on conditions
+	Vector<VkDynamicState> dynamicStates = { 
+		VK_DYNAMIC_STATE_VIEWPORT,
+		VK_DYNAMIC_STATE_SCISSOR
+	};
+	if (builder.stencilMode != StencilMode::None)
+	{
+		dynamicStates.add(VK_DYNAMIC_STATE_STENCIL_REFERENCE);
+	}
 
 	VkPipelineDynamicStateCreateInfo dynamicStateInfo{};
 	dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;

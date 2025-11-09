@@ -171,7 +171,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\bullet\include;..\..\Libraries\tracy\tracy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\bullet\include;..\..\Libraries\tracy\tracy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -197,7 +197,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>.;..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\bullet\include;..\..\Libraries\tracy\tracy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);..\..\Libraries\vulkan\include;..\..\Libraries\glm\include;..\..\Libraries\glfw\include;..\..\Libraries\stb\include;..\..\Libraries\zlib\include;..\..\Libraries\entt\include;..\..\Libraries\soloud\include;..\..\Libraries\bullet\include;..\..\Libraries\tracy\tracy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -290,6 +290,8 @@
     <ClInclude Include="Minty\Component\DirtyComponent.h" />
     <ClInclude Include="Minty\Component\EnabledComponent.h" />
     <ClInclude Include="Minty\Component\LayerComponent.h" />
+    <ClInclude Include="Minty\Component\MaskComponent.h" />
+    <ClInclude Include="Minty\Component\MaskedComponent.h" />
     <ClInclude Include="Minty\Component\MeshComponent.h" />
     <ClInclude Include="Minty\Component\NameComponent.h" />
     <ClInclude Include="Minty\Component\PrefabComponent.h" />
@@ -427,6 +429,7 @@
     <ClInclude Include="Minty\Render\BufferUsage.h" />
     <ClInclude Include="Minty\Render\CameraInfo.h" />
     <ClInclude Include="Minty\Render\CoordinateMode.h" />
+    <ClInclude Include="Minty\Render\DepthMode.h" />
     <ClInclude Include="Minty\Render\Filter.h" />
     <ClInclude Include="Minty\Render\Font.h" />
     <ClInclude Include="Minty\Render\FontChar.h" />
@@ -442,6 +445,7 @@
     <ClInclude Include="Minty\Render\ImageType.h" />
     <ClInclude Include="Minty\Render\ImageUsage.h" />
     <ClInclude Include="Minty\Render\LoadOperation.h" />
+    <ClInclude Include="Minty\Render\MaskMode.h" />
     <ClInclude Include="Minty\Render\Material.h" />
     <ClInclude Include="Minty\Render\MaterialTemplate.h" />
     <ClInclude Include="Minty\Render\Camera.h" />
@@ -470,6 +474,7 @@
     <ClInclude Include="Minty\Render\SpriteAtlas.h" />
     <ClInclude Include="Minty\Render\SpriteGroup.h" />
     <ClInclude Include="Minty\Render\SpriteSlice.h" />
+    <ClInclude Include="Minty\Render\StencilMode.h" />
     <ClInclude Include="Minty\Render\StoreOperation.h" />
     <ClInclude Include="Minty\Render\Surface.h" />
     <ClInclude Include="Minty\Render\Texture.h" />
@@ -598,6 +603,8 @@
     <ClCompile Include="Minty\Component\CanvasComponent.cpp" />
     <ClCompile Include="Minty\Component\ColliderComponent.cpp" />
     <ClCompile Include="Minty\Component\LayerComponent.cpp" />
+    <ClCompile Include="Minty\Component\MaskComponent.cpp" />
+    <ClCompile Include="Minty\Component\MaskedComponent.cpp" />
     <ClCompile Include="Minty\Component\MeshComponent.cpp" />
     <ClCompile Include="Minty\Component\NameComponent.cpp" />
     <ClCompile Include="Minty\Component\RelationshipComponent.cpp" />
@@ -667,6 +674,7 @@
     <ClCompile Include="Minty\Render\Camera.cpp" />
     <ClCompile Include="Minty\Render\CameraInfo.cpp" />
     <ClCompile Include="Minty\Render\CoordinateMode.cpp" />
+    <ClCompile Include="Minty\Render\DepthMode.cpp" />
     <ClCompile Include="Minty\Render\Filter.cpp" />
     <ClCompile Include="Minty\Render\Font.cpp" />
     <ClCompile Include="Minty\Render\FontFlags.cpp" />
@@ -700,6 +708,7 @@
     <ClCompile Include="Minty\Render\Space.cpp" />
     <ClCompile Include="Minty\Render\Sprite.cpp" />
     <ClCompile Include="Minty\Render\SpriteAtlas.cpp" />
+    <ClCompile Include="Minty\Render\StencilMode.cpp" />
     <ClCompile Include="Minty\Render\StoreOperation.cpp" />
     <ClCompile Include="Minty\Render\Surface.cpp" />
     <ClCompile Include="Minty\Render\Texture.cpp" />

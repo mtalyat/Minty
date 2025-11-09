@@ -15,8 +15,9 @@ Minty::Material::Material(MaterialBuilder const& builder)
 {
 	MINTY_ASSERT(m_materialTemplate != nullptr, "MaterialTemplate must not be null.");
 
-	// add self to shader
 	Ref<Shader> shader = m_materialTemplate->get_shader();
+
+	// add self to shader
 	shader->register_material(this);
 }
 

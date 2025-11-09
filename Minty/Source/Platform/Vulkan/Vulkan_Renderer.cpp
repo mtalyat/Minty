@@ -406,10 +406,10 @@ VkFormat Minty::Vulkan_Renderer::find_supported_format(VkPhysicalDevice const ph
 	VK_ASSERT_ABORT("Failed to find_first supported depthFormat.");
 }
 
-VkFormat Minty::Vulkan_Renderer::find_supported_depth_format(VkPhysicalDevice const physicalDevice)
+VkFormat Minty::Vulkan_Renderer::find_supported_depth_stencil_format(VkPhysicalDevice const physicalDevice)
 {
 	return find_supported_format(physicalDevice,
-		{ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
+		{ VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
 		VK_IMAGE_TILING_OPTIMAL,
 		VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
 	);
@@ -1130,6 +1130,13 @@ void Minty::Vulkan_Renderer::bind_scissor(VkCommandBuffer const commandBuffer, V
 	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
 
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
+}
+
+void Minty::Vulkan_Renderer::set_stencil_reference(VkCommandBuffer const commandBuffer, uint32_t const reference)
+{
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+
+	vkCmdSetStencilReference(commandBuffer, VK_STENCIL_FACE_FRONT_AND_BACK, reference);
 }
 
 void Minty::Vulkan_Renderer::bind_vertex_buffer(VkCommandBuffer const commandBuffer, VkBuffer const buffer, uint32_t const binding)

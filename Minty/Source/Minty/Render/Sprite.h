@@ -26,11 +26,6 @@ namespace Minty
 		Ref<Texture> texture = nullptr;
 
 		/// <summary>
-		/// The MaterialTemplate used to render this Sprite. If none given, use default
-		/// </summary>
-		Ref<MaterialTemplate> materialTemplate = nullptr;
-
-		/// <summary>
 		/// The slice of the Texture this Sprite uses.
 		/// </summary>
 		SpriteSlice slice = {};
@@ -46,7 +41,6 @@ namespace Minty
 
 	private:
 		Ref<Texture> m_texture; // the texture this Sprite uses
-		Ref<MaterialTemplate> m_materialTemplate; // the MaterialTemplate used to render this Sprite. If none given, use default
 		// the slice data of the Sprite
 		CoordinateMode m_coordinateMode;
 		Float2 m_offset; // the offset of the Sprite within the Texture
@@ -84,12 +78,6 @@ namespace Minty
 		/// </summary>
 		/// <returns>The Texture.</returns>
 		Ref<Texture> const& get_texture() const { return m_texture; }
-
-		/// <summary>
-		/// Returns a constant reference to the associated MaterialTemplate object.
-		/// </summary>
-		/// <returns>A constant reference to the MaterialTemplate object.</returns>
-		Ref<MaterialTemplate> const& get_material_template() const { return m_materialTemplate; }
 
 		/// <summary>
 		/// Gets the CoordinateMode of this Sprite.

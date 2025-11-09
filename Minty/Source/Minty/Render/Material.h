@@ -28,6 +28,11 @@ namespace Minty
 		/// The values of this Material. These override the default values in the MaterialTemplate.
 		/// </summary>
 		Cargo values;
+
+		/// <summary>
+		/// The stencil value for this Material. This requires this Material's Shader to have stencil testing enabled.
+		/// </summary>
+		UInt stencil = 0;
 	};
 
 	class Material
@@ -38,6 +43,7 @@ namespace Minty
 	private:
 		Ref<MaterialTemplate> m_materialTemplate;
 		Cargo m_cargo;
+		UInt m_stencil;
 
 #pragma endregion
 
@@ -108,6 +114,18 @@ namespace Minty
 		/// <param name="size">The size of the data pointer.</param>
 		/// <returns>True on a successful copy, otherwise false.</returns>
 		Bool get_input(String const& name, void* const data, Size const size) const;
+
+		/// <summary>
+		/// Sets the object's stencil value.
+		/// </summary>
+		/// <param name="stencil">The stencil value.</param>
+		void set_stencil(UInt const stencil) { m_stencil = stencil; }
+
+		/// <summary>
+		/// Gets the object's stencil value.
+		/// </summary>
+		/// <returns>The stencil value.</returns>
+		UInt get_stencil() const { return m_stencil; }
 
 		/// <summary>
 		/// Gets the AssetType of this Asset.

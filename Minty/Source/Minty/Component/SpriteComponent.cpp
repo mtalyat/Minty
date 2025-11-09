@@ -10,6 +10,7 @@ using namespace Minty;
 void Minty::SpriteComponent::serialize(Writer& writer) const
 {
 	writer.write("Sprite", sprite);
+	writer.write("MaterialTemplate", materialTemplate);
 	writer.write("Color", color);
 	writer.write("FlipX", flipX);
 	writer.write("FlipY", flipY);
@@ -85,6 +86,11 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 			break;
 		}
 		}
+	}
+
+	if (reader.read("MaterialTemplate", id))
+	{
+		materialTemplate = assetManager.get<MaterialTemplate>(id);
 	}
 
 	reader.read("Color", color);

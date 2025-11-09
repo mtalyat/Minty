@@ -1673,9 +1673,10 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		reader->read("FrontFace", builder.frontFace);
 		reader->read("LineWidth", builder.lineWidth);
 		reader->read("Transparency", builder.transparency);
-		reader->read("DepthTest", builder.depthTest);
-		reader->read("DepthWrite", builder.depthWrite);
+		reader->read("DepthMode", builder.depthMode);
 		reader->read("DepthTestOp", builder.depthTestOp);
+		reader->read("StencilMode", builder.stencilMode);
+		reader->read("StencilTestOp", builder.stencilTestOp);
 
 		// inputs (uniform, push, etc.)
 		if (reader->indent("Inputs"))
@@ -1881,9 +1882,8 @@ Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
-		// read values6
+		// read values
 		reader->read("Texture", builder.texture);
-		reader->read("MaterialTemplate", builder.materialTemplate);
 		read_sprite_slice(*reader, builder.slice);
 
 		close_reader(reader);

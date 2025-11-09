@@ -10,6 +10,8 @@
 #include "Minty/Render/ShaderPolygonMode.h"
 #include "Minty/Render/ShaderPrimitiveTopology.h"
 #include "Minty/Render/ShaderVertexInput.h"
+#include "Minty/Render/DepthMode.h"
+#include "Minty/Render/StencilMode.h"
 
 namespace Minty
 {
@@ -94,19 +96,24 @@ namespace Minty
 		Bool transparency = false;
 
 		/// <summary>
-		/// Enable depth testing in the Shader.
+		/// Should this Shader use the depth buffer?
 		/// </summary>
-		Bool depthTest = true;
-
-		/// <summary>
-		/// Enable writing to the depth buffer in the Shader.
-		/// </summary>
-		Bool depthWrite = true;
+		DepthMode depthMode = DepthMode::Write;
 
 		/// <summary>
 		/// Defines the default depth test operation as 'less than'.
 		/// </summary>
 		Conditional depthTestOp = Conditional::LessThan;
+
+		/// <summary>
+		/// Should this Shader use the stencil buffer?
+		/// </summary>
+		StencilMode stencilMode = StencilMode::None;
+
+		/// <summary>
+		/// Defines the default stencil test operation as 'equal'.
+		/// </summary>
+		Conditional stencilTestOp = Conditional::Equal;
 
 		/// <summary>
 		/// The vertex input of the Shader.
@@ -135,6 +142,8 @@ namespace Minty
 		Map<String, ShaderInput> m_inputs;
 		// list of materials that use this shader (for global updates)
 		Set<Material*> m_materials;
+		DepthMode m_depthMode;
+		StencilMode m_stencilMode;
 
 #pragma endregion
 
@@ -161,6 +170,18 @@ namespace Minty
 		/// </summary>
 		/// <returns>The priority.</returns>
 		Int get_priority() const { return m_priority; }
+
+		/// <summary>
+		/// Gets the depth mode of this Shader.
+		/// </summary>
+		/// <returns>The depth mode.</returns>
+		DepthMode get_depth_mode() const { return m_depthMode; }
+
+		/// <summary>
+		/// Gets the stencil mode of this Shader.
+		/// </summary>
+		/// <returns>The stencil mode.</returns>
+		StencilMode get_stencil_mode() const { return m_stencilMode; }
 
 		/// <summary>
 		/// Gets the RenderPass this Shader is used to render to.

@@ -9,6 +9,7 @@
 #include "Minty/Render/CameraInfo.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/Image.h"
+#include "Minty/Render/MaskMode.h"
 #include "Minty/Render/MeshType.h"
 #include "Minty/Render/Space.h"
 #include "Minty/Render/Surface.h"
@@ -90,7 +91,7 @@ namespace Minty
 		// global resources
 		
 		Owner<Surface> m_surface;
-		Owner<Image> m_depthImage;
+		Owner<Image> m_depthStencilImage;
 
 		// default resources
 
@@ -134,7 +135,7 @@ namespace Minty
 
 		inline void set_surface(Owner<Surface>&& surface) { m_surface = std::move(surface); }
 
-		inline void set_depth_image(Owner<Image>&& image) { m_depthImage = std::move(image); }
+		inline void set_depth_image(Owner<Image>&& image) { m_depthStencilImage = std::move(image); }
 
 		inline void set_default_viewport(Owner<Viewport>&& viewport) { m_defaultViewport = std::move(viewport); }
 
@@ -155,7 +156,7 @@ namespace Minty
 		/// Gets the depth Image used for depth testing.
 		/// </summary>
 		/// <returns>The depth Image.</returns>
-		inline Ref<Image> get_depth_image() const { return m_depthImage.create_ref(); }
+		inline Ref<Image> get_depth_image() const { return m_depthStencilImage.create_ref(); }
 
 		/// <summary>
 		/// Gets the default Viewport that renders to the entire Surface.
@@ -179,7 +180,7 @@ namespace Minty
 		/// Gets the depth attachment format of the current depth Image.
 		/// </summary>
 		/// <returns>The attachment Format.</returns>
-		inline Format get_depth_attachment_format() const { return m_depthImage->get_format(); }
+		inline Format get_depth_attachment_format() const { return m_depthStencilImage->get_format(); }
 
 		/// <summary>
 		/// Gets the default Mesh for the given type.
@@ -189,13 +190,23 @@ namespace Minty
 		Ref<Mesh> get_default_mesh(MeshType const type);
 
 		/// <summary>
-		/// Gets the default Material for the given Texture, AssetType, and Space.
+		/// Gets the default MaterialTemplate for the give AssetType, Space, and variant.
+		/// </summary>
+		/// <param name="assetType">The AssetType.</param>
+		/// <param name="space">The Space.</param>
+		/// <param name="mask">The mask mode of the MaterialTemplate.</param>
+		/// <returns>The default MaterialTemplate.</returns>
+		Ref<MaterialTemplate> get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
+
+		/// <summary>
+		/// Gets the default Material for the given Texture, AssetType, Space and variant.
 		/// </summary>
 		/// <param name="texture">The Texture.</param>
 		/// <param name="assetType">The AssetType.</param>
 		/// <param name="space">The Space.</param>
+		/// <param name="mask">The mask mode of the MaterialTemplate.</param>
 		/// <returns>The default Material.</returns>
-		Ref<Material> get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space);
+		Ref<Material> get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
 
 #pragma endregion
 

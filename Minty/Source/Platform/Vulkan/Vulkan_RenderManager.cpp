@@ -62,7 +62,7 @@ void Minty::Vulkan_RenderManager::dispose_frame(Vulkan_Frame& frame)
 void Minty::Vulkan_RenderManager::create_depth_resources()
 {
 	// get depth format
-	VkFormat depthFormat = Vulkan_Renderer::find_supported_depth_format(m_physicalDevice);
+	VkFormat depthFormat = Vulkan_Renderer::find_supported_depth_stencil_format(m_physicalDevice);
 
 	// create depth image
 	VkExtent2D swapchainExtent = m_vulkanSurface->get_extent();
