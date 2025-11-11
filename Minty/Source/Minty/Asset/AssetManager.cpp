@@ -274,6 +274,20 @@ Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
 	// create reader
 	reader = new TextMemoryReader(container);
 
+	// import any existing includes
+	String includePath;
+	if (reader->read("import", includePath))
+	{
+		Reader* includeReader = nullptr;
+		if (open_reader(Path(includePath), includeReader))
+		{
+			// merge the include into this reader and replace with the included reader
+			includeReader->merge(*reader);
+			close_reader(reader);
+			reader = includeReader;
+		}
+	}
+
 	return true;
 }
 

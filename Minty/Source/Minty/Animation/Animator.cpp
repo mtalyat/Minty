@@ -47,8 +47,8 @@ UUID Minty::Animator::update(Ref<Animation> const& currentAnimation, Float const
 
 #if defined(MINTY_DEBUG)
 		// if in debug, check for infinite loops
-		Set<UUID> visitedStates;
-		Vector<UUID> visitedStatesInOrder;
+		Set<State const*> visitedStates;
+		Vector<State const*> visitedStatesInOrder;
 #endif // MINTY_DEBUG
 
 		// if forcing, keep evaluating until no more transitions are possible
@@ -57,19 +57,19 @@ UUID Minty::Animator::update(Ref<Animation> const& currentAnimation, Float const
 #if defined(MINTY_DEBUG)
 			if (result && m_fsm.has_current_state())
 			{
-				UUID id = m_fsm.get_current_state().get_value().get<UUID>();
-				if (visitedStates.contains(id))
+				State const* const state = &m_fsm.get_current_state();
+				if (visitedStates.contains(state))
 				{
-					String states = "";
-					for (UUID const& stateId : visitedStatesInOrder)
+					String statesString = "";
+					for (State const* const visitedState : visitedStatesInOrder)
 					{
-						states += F("{} -> ", stateId);
+						statesString += F("{} -> ", visitedState->get_value().get<UUID>());
 					}
-					MINTY_ERROR(F("Infinite loop detected in Animator FSM. State ID: {}, States: {}", id, states));
+					MINTY_ERROR(F("Infinite loop detected in Animator FSM. State ID: {}, States: {}", state->get_value().get<UUID>(), statesString));
 					break; // break out of the loop to prevent infinite recursion
 				}
-				visitedStates.add(id);
-				visitedStatesInOrder.add(id);
+				visitedStates.add(state);
+				visitedStatesInOrder.add(state);
 			}
 #endif // MINTY_DEBUG
 		} while (m_force && result);	

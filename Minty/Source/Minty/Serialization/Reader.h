@@ -86,6 +86,18 @@ namespace Minty
 		virtual Size get_depth() const = 0;
 
 		/// <summary>
+		/// Gets the root Node this Reader has.
+		/// </summary>
+		/// <returns>The root Node.</returns>
+		virtual Node& get_root_node() = 0;
+
+		/// <summary>
+		/// Gets the root Node this Reader has.
+		/// </summary>
+		/// <returns>The root Node.</returns>
+		virtual Node const& get_root_node() const = 0;
+		
+		/// <summary>
 		/// Gets the current Node this Reader is on.
 		/// </summary>
 		/// <returns>The active Node.</returns>
@@ -137,6 +149,14 @@ namespace Minty
 		/// </summary>
 		/// <returns>True when valid.</returns>
 		virtual Bool is_valid() const = 0;
+
+		/// <summary>
+		/// Adds the value of another Reader to this one.
+		/// The values of the other Reader will override the values of this Reader when conflicts occur,
+		/// otherwise the values will be appended.
+		/// </summary>
+		/// <param name="other">The other Reader to merge with this one.</param>
+		virtual Bool merge(Reader const& other) = 0;
 
 #pragma region Reading
 
@@ -1063,6 +1083,18 @@ namespace Minty
 		Size get_depth() const override { return m_depth; }
 
 		/// <summary>
+		/// Gets the root Node this Reader has.
+		/// </summary>
+		/// <returns>The root Node.</returns>
+		Node& get_root_node() override { return *mp_node; }
+
+		/// <summary>
+		/// Gets the root Node this Reader has.
+		/// </summary>
+		/// <returns>The root Node.</returns>
+		Node const& get_root_node() const override { return *mp_node; }
+
+		/// <summary>
 		/// Gets the current Node this Reader is on.
 		/// </summary>
 		/// <returns>The active Node.</returns>
@@ -1139,6 +1171,20 @@ namespace Minty
 				}
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Adds the value of another Reader to this one.
+		/// The values of the other Reader will override the values of this Reader when conflicts occur,
+		/// otherwise the values will be appended.
+		/// </summary>
+		/// <param name="other">The other Reader to merge with this one.</param>
+		Bool merge(Reader const& other) override
+		{
+			// compare nodes and merge
+			Bool const result = this->get_root_node().merge(other.get_root_node());
+			MINTY_ASSERT(result, "Failed to merge Reader nodes.");
+			return result;
 		}
 
 	protected:

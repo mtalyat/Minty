@@ -333,6 +333,13 @@ namespace Minty
 		/// <returns>The child Node.</returns>
 		Node& add_child(Node&& node);
 
+		/// <summary>
+		/// Merge the contents or state of another Node into this Node.
+		/// </summary>
+		/// <param name="other">The node to merge into this one.</param>
+		/// <returns>True on success.</returns>
+		Bool merge(Node const& other);
+
 		void serialize(Writer& writer, String const& name) const override;
 		Bool deserialize(Reader& reader, Size const index) override;
 

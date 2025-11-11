@@ -322,7 +322,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		extract_key(key, entityIndex, componentIndex, type);
 
 		// get the entity
-		Entity entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
+		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
 
 		// get the component
 		ComponentInfo const* componentInfo = m_components.at(componentIndex);

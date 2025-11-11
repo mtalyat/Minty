@@ -50,6 +50,34 @@ Node& Minty::Node::add_child(Node&& node)
 	return m_children.at(index);
 }
 
+Bool Minty::Node::merge(Node const& other)
+{
+	if(m_name != other.m_name)
+	{
+		return false;
+	}
+
+	// merge data
+	m_data = other.m_data;
+
+	// merge children
+	for (auto const& otherChild : other.m_children)
+	{
+		String const& childName = otherChild.get_name();
+		if (m_lookup.contains(childName))
+		{
+			// merge existing child
+			Int const index = m_lookup[childName];
+			m_children.at(index).merge(otherChild);
+		}
+		else
+		{
+			// add new child
+			add_child(otherChild);
+		}
+	}
+}
+
 void Minty::Node::serialize(Writer& writer, String const& name) const
 {
 	// write this value
