@@ -22,6 +22,11 @@ void Minty::Debug::set_background_color(Color const color)
 	std::cout << "\033[" << static_cast<int>(color) + 10  << "m";
 }
 
+void Minty::Debug::set_color(Color const foreground, Color const background)
+{
+	std::cout << "\033[" << static_cast<int>(foreground) << ";" << static_cast<int>(background) + 10 << "m";
+}
+
 void Minty::Debug::reset()
 {
 	std::cout << "\033[0m";

@@ -145,6 +145,13 @@ namespace Minty
 		static void set_background_color(Color const color);
 
 		/// <summary>
+		/// Sets the foreground and background color attributes of the terminal.
+		/// </summary>
+		/// <param name="foreground">The color to use for text.</param>
+		/// <param name="background">The color to use for the background.</param>
+		static void set_color(Color const foreground, Color const background);
+
+		/// <summary>
 		/// Resets all attributes in the terminal.
 		/// </summary>
 		static void reset();
@@ -217,9 +224,11 @@ namespace Minty
 				return;
 			}
 
-			set_foreground_color(Color::Black);
-			set_background_color(Color::BrightRed);
-			write("[ABO] ", first, args...);
+			set_color(Color::Black, Color::BrightRed);
+			std::cout << " ABO ";
+			reset();
+			set_foreground_color(Color::BrightRed);
+			write(" ", first, args...);
 			reset();
 			std::cout << std::endl;
 
@@ -249,9 +258,10 @@ namespace Minty
 				return;
 			}
 
-			set_foreground_color(Color::BrightRed);
-			write("[ERR] ", first, args...);
+			set_color(Color::Black, Color::BrightRed);
+			std::cout << " ERR ";
 			reset();
+			write(" ", first, args...);
 			std::cout << std::endl;
 
 			if ((s_flags & DebugFlags::StackTrace) != DebugFlags::None)
@@ -280,9 +290,10 @@ namespace Minty
 				return;
 			}
 
-			set_foreground_color(Color::BrightYellow);
-			write("[WRN] ", first, args...);
+			set_color(Color::Black, Color::BrightYellow);
+			std::cout << " WRN ";
 			reset();
+			write(" ", first, args...);
 			std::cout << std::endl;
 		}
 
@@ -301,9 +312,10 @@ namespace Minty
 				return;
 			}
 
-			set_foreground_color(Color::White);
-			write("[MSG] ", first, args...);
+			set_color(Color::Black, Color::White);
+			std::cout << " MSG ";
 			reset();
+			write(" ", first, args...);
 			std::cout << std::endl;
 		}
 
@@ -322,8 +334,11 @@ namespace Minty
 				return;
 			}
 
+			set_color(Color::Black, Color::BrightBlack);
+			std::cout << " INF ";
+			reset();
 			set_foreground_color(Color::BrightBlack);
-			write("[INF] ", first, args...);
+			write(" ", first, args...);
 			reset();
 			std::cout << std::endl;
 		}
