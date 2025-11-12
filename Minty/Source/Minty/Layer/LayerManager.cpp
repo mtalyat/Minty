@@ -81,11 +81,11 @@ Minty::LayerManager::LayerManager(LayerManagerBuilder const& builder)
 Layer Minty::LayerManager::get_layer(String const& name) const
 {
 	MINTY_ASSERT(!name.is_empty(), "Layer name cannot be empty.");
-	for (Size i = 0; i < LAYER_COUNT; i++)
+	for (Layer i = 0; i < LAYER_COUNT; i++)
 	{
 		if (m_names[i] == name)
 		{
-			return static_cast<Layer>(i);
+			return i;
 		}
 	}
 	// not found
