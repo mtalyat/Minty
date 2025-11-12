@@ -323,6 +323,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// get the entity
 		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
+		MINTY_ASSERT(entity != INVALID_ENTITY, F("Animation Entity at path {} not found.", m_entities.at(entityIndex).to_string()));
 
 		// get the component
 		ComponentInfo const* componentInfo = m_components.at(componentIndex);
