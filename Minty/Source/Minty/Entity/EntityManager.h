@@ -315,6 +315,7 @@ namespace Minty
 		ComponentType& add_component(Entity const entity, Args&&... args)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), "Entity already has the requested component.");
 			return m_registry.emplace<ComponentType>(entity, std::forward<Args>(args)...);
 		}
 
@@ -336,6 +337,7 @@ namespace Minty
 		ComponentType& get_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), "Entity does not have the requested component.");
 			return m_registry.get<ComponentType>(entity);
 		}
 
@@ -349,6 +351,7 @@ namespace Minty
 		ComponentType const& get_component(Entity const entity) const
 		{
 			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), "Entity does not have the requested component.");
 			return m_registry.get<ComponentType>(entity);
 		}
 
