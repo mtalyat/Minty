@@ -955,8 +955,10 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
 	Map<UUID, Entity> idMap;
 	deserialize_entities(reader, &idMap, entity);
 
+	// refresh the entity so it is ready to be used
+	refresh(entity);
+
 	// done
-	dirty(entity);
 	return entity;
 }
 
