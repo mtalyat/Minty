@@ -25,7 +25,7 @@ Minty::StringBuilder::~StringBuilder()
 {
     if (mp_data)
     {
-        MemoryManager& memoryManager = MemoryManager::get_singleton();
+        MemoryManager &memoryManager = MemoryManager::get_singleton();
         memoryManager.deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
     }
 }
@@ -39,10 +39,10 @@ void Minty::StringBuilder::reserve(Size const newCapacity)
     }
 
     // Allocate new memory and copy existing data
-        MemoryManager& memoryManager = MemoryManager::get_singleton();
-    void* const ptr = memoryManager.allocate((newCapacity) * sizeof(Char), m_allocator);
+    MemoryManager &memoryManager = MemoryManager::get_singleton();
+    void *const ptr = memoryManager.allocate((newCapacity) * sizeof(Char), m_allocator);
     // MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed);
-    Char* const newData = static_cast<Char*>(ptr);
+    Char *const newData = static_cast<Char *>(ptr);
     if (mp_data)
     {
         std::memcpy(newData, mp_data, m_size * sizeof(Char));
