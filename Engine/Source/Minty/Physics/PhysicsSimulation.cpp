@@ -6,19 +6,19 @@
 
 using namespace Minty;
 
-Owner<PhysicsSimulation> Minty::PhysicsSimulation::create(PhysicsSimulationBuilder const& builder)
+Owner<PhysicsSimulation> Minty::PhysicsSimulation::create(PhysicsSimulationInfo const& info)
 {
 #if defined(MINTY_BULLET)
-	return Owner<Bullet_PhysicsSimulation>(builder);
+	return Owner<Bullet_PhysicsSimulation>(info);
 #else
     return Owner<PhysicsSimulation>();
 #endif
 }
 
-Minty::PhysicsSimulation::PhysicsSimulation(PhysicsSimulationBuilder const& builder)
-	: m_gravity(builder.gravity)
-	, m_physicsManager(builder.physicsManager)
-	, m_layerManager(builder.layerManager)
+Minty::PhysicsSimulation::PhysicsSimulation(PhysicsSimulationInfo const& info)
+	: m_gravity(info.gravity)
+	, m_physicsManager(info.physicsManager)
+	, m_layerManager(info.layerManager)
 {
 	MINTY_ASSERT(m_physicsManager != nullptr, "PhysicsSimulation requires a PhysicsManager.");
 	MINTY_ASSERT(m_layerManager != nullptr, "PhysicsSimulation requires a LayerManager.");

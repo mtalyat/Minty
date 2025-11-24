@@ -8,10 +8,10 @@
 
 using namespace Minty;
 
-Minty::Material::Material(MaterialBuilder const& builder)
-	: Asset(builder.id)
-	, m_materialTemplate(builder.materialTemplate)
-	, m_cargo(builder.values)
+Minty::Material::Material(MaterialInfo const& info)
+	: Asset(info.id)
+	, m_materialTemplate(info.materialTemplate)
+	, m_cargo(info.values)
 {
 	MINTY_ASSERT(m_materialTemplate != nullptr, "MaterialTemplate must not be null.");
 
@@ -84,10 +84,10 @@ Bool Minty::Material::get_input(String const& name, void* const data, Size const
 	return false;
 }
 
-Owner<Material> Minty::Material::create(MaterialBuilder const& builder)
+Owner<Material> Minty::Material::create(MaterialInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Material>(builder);
+	return Owner<Vulkan_Material>(info);
 #else
 	return Owner<Material>();
 #endif // MINTY_VULKAN

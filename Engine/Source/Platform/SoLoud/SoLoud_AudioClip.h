@@ -17,7 +17,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		SoLoud_AudioClip(AudioClipBuilder const& builder);
+		SoLoud_AudioClip(AudioClipInfo const& info);
 
 		~SoLoud_AudioClip() override;
 

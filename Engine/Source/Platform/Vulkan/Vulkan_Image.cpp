@@ -7,18 +7,18 @@
 
 using namespace Minty;
 
-Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder)
-	: Image(builder)
+Minty::Vulkan_Image::Vulkan_Image(ImageInfo const& info)
+	: Image(info)
 	, m_image(VK_NULL_HANDLE)
 	, m_memory(VK_NULL_HANDLE)
 	, m_view(VK_NULL_HANDLE)
 	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
 	, m_owner(true)
 {
-	MINTY_ASSERT((builder.pixelData != nullptr) == (builder.pixelDataSize > 0), "Invalid pixel data for Image.");
+	MINTY_ASSERT((info.pixelData != nullptr) == (info.pixelDataSize > 0), "Invalid pixel data for Image.");
 
 	// automatically add TransferDst usage if pixel data is given
-	if (builder.pixelData)
+	if (info.pixelData)
 	{
 		m_usage = m_usage | ImageUsage::TransferDst;
 	}
@@ -26,26 +26,26 @@ Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder)
 	initialize();
 
 	// set the pixel data, if given any
-	if (builder.pixelData)
+	if (info.pixelData)
 	{
 		// set pixels and transition to read only layout
-		set_pixels(builder.pixelData, builder.pixelDataSize);
+		set_pixels(info.pixelData, info.pixelDataSize);
 	}
 }
 
-Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder, VkImage const image)
-	: Image(builder)
+Minty::Vulkan_Image::Vulkan_Image(ImageInfo const& info, VkImage const image)
+	: Image(info)
 	, m_image(image)
 	, m_memory(VK_NULL_HANDLE)
 	, m_view(VK_NULL_HANDLE)
 	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
 	, m_owner(false)
 {
-	m_view = Vulkan_Renderer::create_image_view(Vulkan_RenderManager::get_singleton().get_device(), m_image, Vulkan_Renderer::to_vulkan(builder.format), Vulkan_Renderer::to_vulkan(builder.aspect));
+	m_view = Vulkan_Renderer::create_image_view(Vulkan_RenderManager::get_singleton().get_device(), m_image, Vulkan_Renderer::to_vulkan(info.format), Vulkan_Renderer::to_vulkan(info.aspect));
 }
 
-Minty::Vulkan_Image::Vulkan_Image(ImageBuilder const& builder, VkImage const image, VkDeviceMemory const memory, VkImageView const imageView)
-	: Image(builder)
+Minty::Vulkan_Image::Vulkan_Image(ImageInfo const& info, VkImage const image, VkDeviceMemory const memory, VkImageView const imageView)
+	: Image(info)
 	, m_image(image)
 	, m_memory(memory)
 	, m_view(imageView)
@@ -98,12 +98,12 @@ void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 	VkFormat format = Vulkan_Renderer::to_vulkan(m_format);
 
 	// create staging buffer, put data into it
-	BufferBuilder bufferBuilder{};
-	bufferBuilder.usage = BufferUsage::TransferSrc;
-	bufferBuilder.size = size;
-	bufferBuilder.data = data;
-	bufferBuilder.frequent = true;
-	Vulkan_Buffer stagingBuffer(bufferBuilder);
+	BufferInfo bufferInfo{};
+	bufferInfo.usage = BufferUsage::TransferSrc;
+	bufferInfo.size = size;
+	bufferInfo.data = data;
+	bufferInfo.frequent = true;
+	Vulkan_Buffer stagingBuffer(bufferInfo);
 
 	// get render manager resources
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
@@ -132,12 +132,12 @@ void Minty::Vulkan_Image::get_pixels(void* const outData, Size const size) const
 	Size const imageSize = static_cast<Size>(m_size.x) * m_size.y * format_get_size(m_format);
 
 	// Create staging buffer to receive image data
-	BufferBuilder bufferBuilder{};
-	bufferBuilder.usage = BufferUsage::TransferDst;
-	bufferBuilder.size = imageSize;
-	bufferBuilder.data = nullptr; // No initial data
-	bufferBuilder.frequent = true;
-	Vulkan_Buffer stagingBuffer(bufferBuilder);
+	BufferInfo bufferInfo{};
+	bufferInfo.usage = BufferUsage::TransferDst;
+	bufferInfo.size = imageSize;
+	bufferInfo.data = nullptr; // No initial data
+	bufferInfo.frequent = true;
+	Vulkan_Buffer stagingBuffer(bufferInfo);
 
 	// Get render manager resources
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();

@@ -6,23 +6,23 @@
 
 using namespace Minty;
 
-Minty::Camera::Camera(CameraBuilder const& builder)
-	: Asset(builder.id)
-	, m_perspective(builder.perspective)
-	, m_fov(builder.fov)
-	, m_nearPlane(builder.nearPlane)
-	, m_farPlane(builder.farPlane)
-	, m_color(builder.color)
-	, m_aspectRatio(builder.aspectRatio)
-	, m_size(builder.size)
-	, m_layer(builder.layer)
-	, m_renderTarget(builder.renderTarget)
+Minty::Camera::Camera(CameraInfo const& info)
+	: Asset(info.id)
+	, m_perspective(info.perspective)
+	, m_fov(info.fov)
+	, m_nearPlane(info.nearPlane)
+	, m_farPlane(info.farPlane)
+	, m_color(info.color)
+	, m_aspectRatio(info.aspectRatio)
+	, m_size(info.size)
+	, m_layer(info.layer)
+	, m_renderTarget(info.renderTarget)
 {
-	MINTY_ASSERT(builder.perspective != Perspective::Undefined, "Camera perspective cannot be undefined.");
-	MINTY_ASSERT(builder.fov > 0.0f && builder.fov < 180.0f, "Camera Field of View must be between 0 and 180 degrees.");
-	MINTY_ASSERT(builder.nearPlane > 0.0f, "Camera near plane must be greater than 0.");
-	MINTY_ASSERT(builder.farPlane > builder.nearPlane, "Camera far plane must be greater than near plane.");
-	MINTY_ASSERT(builder.size > 0.0f, "Camera size must be greater than 0.");
+	MINTY_ASSERT(info.perspective != Perspective::Undefined, "Camera perspective cannot be undefined.");
+	MINTY_ASSERT(info.fov > 0.0f && info.fov < 180.0f, "Camera Field of View must be between 0 and 180 degrees.");
+	MINTY_ASSERT(info.nearPlane > 0.0f, "Camera near plane must be greater than 0.");
+	MINTY_ASSERT(info.farPlane > info.nearPlane, "Camera far plane must be greater than near plane.");
+	MINTY_ASSERT(info.size > 0.0f, "Camera size must be greater than 0.");
 }
 
 void Minty::Camera::serialize(Writer& writer) const
@@ -55,7 +55,7 @@ Bool Minty::Camera::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<Camera> Minty::Camera::create(CameraBuilder const& builder)
+Owner<Camera> Minty::Camera::create(CameraInfo const& info)
 {
-	return Owner<Camera>(builder);
+	return Owner<Camera>(info);
 }

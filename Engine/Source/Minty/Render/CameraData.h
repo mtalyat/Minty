@@ -8,7 +8,7 @@ namespace Minty
 	/// <summary>
 	/// Holds information needed for a Camera for rendering.
 	/// </summary>
-	struct CameraInfo
+	struct CameraData
 	{
 		/// <summary>
 		/// The position of the Camera.

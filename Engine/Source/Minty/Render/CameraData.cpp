@@ -1,10 +1,10 @@
 #include "pch.h"
-#include "CameraInfo.h"
+#include "CameraData.h"
 #include "Minty/Core/Math.h"
 
 using namespace Minty;
 
-Matrix4 Minty::CameraInfo::get_transformation_matrix() const
+Matrix4 Minty::CameraData::get_transformation_matrix() const
 {
     Matrix4 view = glm::lookAtLH(position, position + Math::forward(rotation), Math::UP);
 

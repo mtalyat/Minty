@@ -7,29 +7,29 @@
 
 using namespace Minty;
 
-Minty::FontVariant::FontVariant(FontVariantBuilder const& builder)
-	: Asset(builder.id)
-	, m_size(builder.size)
-	, m_flags(builder.flags)
-	, m_lineHeight(builder.lineHeight)
-	, m_texture(builder.texture)
+Minty::FontVariant::FontVariant(FontVariantInfo const& info)
+	: Asset(info.id)
+	, m_size(info.size)
+	, m_flags(info.flags)
+	, m_lineHeight(info.lineHeight)
+	, m_texture(info.texture)
 	, m_material(nullptr)
 	, m_characters()
-	, m_kernings(builder.kernings.get_size() * 2)
+	, m_kernings(info.kernings.get_size() * 2)
 {
 	// get the material based on the texture
 	RenderManager& renderManager = RenderManager::get_singleton();
 	m_material = renderManager.get_default_material(m_texture, nullptr, AssetType::FontVariant, Space::UI);
 
 	// initiale the characters map
-	m_characters.reserve(builder.characters.get_size());
-	for (FontChar const& character : builder.characters)
+	m_characters.reserve(info.characters.get_size());
+	for (FontChar const& character : info.characters)
 	{
 		m_characters.add(character.id, character);
 	}
 
 	// initialize the kernings map
-	for (auto const& [left, right, value] : builder.kernings)
+	for (auto const& [left, right, value] : info.kernings)
 	{
 		Int kerningId = compact_kerning(left, right);
 		MINTY_ASSERT(!m_kernings.contains(kerningId), F("Duplicate kerning for characters '{}' and '{}'.", left, right));
@@ -60,7 +60,7 @@ Float Minty::FontVariant::get_kerning(Char const left, Char const right) const
 	return found->get_second();
 }
 
-Owner<FontVariant> Minty::FontVariant::create(FontVariantBuilder const& builder)
+Owner<FontVariant> Minty::FontVariant::create(FontVariantInfo const& info)
 {
-	return Owner<FontVariant>(builder);
+	return Owner<FontVariant>(info);
 }

@@ -12,9 +12,9 @@
 
 using namespace Minty;
 
-Minty::Scene::Scene(SceneBuilder const& builder)
-	: m_id(builder.id)
-	, m_name(builder.name)
+Minty::Scene::Scene(SceneInfo const& info)
+	: m_id(info.id)
+	, m_name(info.name)
 	, m_entityManager(nullptr)
 	, m_systemManager(nullptr)
 	, m_loadedAssets()
@@ -22,13 +22,13 @@ Minty::Scene::Scene(SceneBuilder const& builder)
 	, m_registeredAssets()
 {
 	// create the entity manager
-	EntityManagerBuilder entityManagerBuilder{};
-	m_entityManager = EntityManager::create(this, entityManagerBuilder);
+	EntityManagerInfo entityManagerInfo{};
+	m_entityManager = EntityManager::create(this, entityManagerInfo);
 
 	// create the system manager
-	SystemManagerBuilder systemManagerBuilder{};
-	systemManagerBuilder.scene = create_ref();
-	m_systemManager = SystemManager::create(this, systemManagerBuilder);
+	SystemManagerInfo systemManagerInfo{};
+	systemManagerInfo.scene = create_ref();
+	m_systemManager = SystemManager::create(this, systemManagerInfo);
 }
 
 Minty::Scene::Scene(Scene&& other) noexcept
@@ -305,7 +305,7 @@ Bool Minty::Scene::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<Scene> Minty::Scene::create(SceneBuilder const& builder)
+Owner<Scene> Minty::Scene::create(SceneInfo const& info)
 {
-	return Owner<Scene>(builder);
+	return Owner<Scene>(info);
 }

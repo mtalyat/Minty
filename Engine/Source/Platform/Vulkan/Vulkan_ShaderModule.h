@@ -17,7 +17,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_ShaderModule(ShaderModuleBuilder const& builder);
+		Vulkan_ShaderModule(ShaderModuleInfo const& info);
 
 		~Vulkan_ShaderModule() override;
 

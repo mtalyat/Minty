@@ -23,11 +23,11 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Image(ImageBuilder const& builder);
+		Vulkan_Image(ImageInfo const& info);
 
-		Vulkan_Image(ImageBuilder const& builder, VkImage const image);
+		Vulkan_Image(ImageInfo const& info, VkImage const image);
 
-		Vulkan_Image(ImageBuilder const& builder, VkImage const image, VkDeviceMemory const memory, VkImageView const imageView);
+		Vulkan_Image(ImageInfo const& info, VkImage const image, VkDeviceMemory const memory, VkImageView const imageView);
 
 		~Vulkan_Image();
 

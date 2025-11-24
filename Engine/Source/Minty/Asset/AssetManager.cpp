@@ -27,15 +27,15 @@
 
 using namespace Minty;
 
-Minty::AssetManager::AssetManager(AssetManagerBuilder const& builder)
-	: m_savePaths(builder.savePaths)
+Minty::AssetManager::AssetManager(AssetManagerInfo const& info)
+	: m_savePaths(info.savePaths)
 	, m_assets()
 	, m_assetTypes()
 	, m_handles()
 	, m_assetsMutex()
 	, m_wrapper()
 {
-	for (Path const& path : builder.wraps)
+	for (Path const& path : info.wraps)
 	{
 		load_wrap(path);
 	}
@@ -767,13 +767,13 @@ Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path, UUID const
 {
 	Vector<Byte> bytes = read_bytes(path);
 
-	GenericAssetBuilder builder
+	GenericAssetInfo info
 	{
 		.id = id,
 		.data = ConstantContainer(bytes.get_data(), bytes.get_size())
 	};
 
-	return create_from_loaded<GenericAsset>(path, builder);
+	return create_from_loaded<GenericAsset>(path, info);
 }
 
 Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
@@ -788,41 +788,41 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	MINTY_ASSERT(data != nullptr, F("Failed to load image pixel data: {}", reason));
 
 	// create the image
-	ImageBuilder builder{};
-	builder.id = id;
-	builder.size = UInt2(width, height);
-	builder.pixelData = data;
-	builder.pixelDataSize = static_cast<Size>(width) * static_cast<Size>(height) * 4 * sizeof(Byte);
+	ImageInfo info{};
+	info.id = id;
+	info.size = UInt2(width, height);
+	info.pixelData = data;
+	info.pixelDataSize = static_cast<Size>(width) * static_cast<Size>(height) * 4 * sizeof(Byte);
 
 	Reader* reader;
 	Path metaPath = Asset::get_meta_path(path);
 	if (open_reader(metaPath, reader))
 	{
-		if (!reader->read("Format", builder.format))
+		if (!reader->read("Format", info.format))
 		{
-			builder.format = Format::Default;
+			info.format = Format::Default;
 		}
-		if (!reader->read("Type", builder.type))
+		if (!reader->read("Type", info.type))
 		{
-			builder.type = ImageType::D2;
+			info.type = ImageType::D2;
 		}
-		if (!reader->read("Tiling", builder.tiling))
+		if (!reader->read("Tiling", info.tiling))
 		{
-			builder.tiling = ImageTiling::Optimal;
+			info.tiling = ImageTiling::Optimal;
 		}
-		if (!reader->read("Aspect", builder.aspect))
+		if (!reader->read("Aspect", info.aspect))
 		{
-			builder.aspect = ImageAspect::Color;
+			info.aspect = ImageAspect::Color;
 		}
-		if (!reader->read("Usage", builder.usage))
+		if (!reader->read("Usage", info.usage))
 		{
-			builder.usage = ImageUsage::Sampled;
+			info.usage = ImageUsage::Sampled;
 		}
 		close_reader(reader);
 	}
 
 	// create the image
-	Owner<Image> image = Image::create(builder);
+	Owner<Image> image = Image::create(info);
 
 	// free the pixel data
 	stbi_image_free(data);
@@ -832,53 +832,53 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 
 Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const id)
 {
-	// create builder
-	AnimationBuilder builder{};
-	builder.id = id;
+	// create info
+	AnimationInfo info{};
+	info.id = id;
 
 	// read values from the file
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// read values
-		reader->read("Duration", builder.duration);
-		MINTY_ASSERT(builder.duration >= 0.0f, "Animation duration must be greater than 0.0f.");
+		reader->read("Duration", info.duration);
+		MINTY_ASSERT(info.duration >= 0.0f, "Animation duration must be greater than 0.0f.");
 		// of duration is 0, adjust it to a small value so it will still play
-		if (builder.duration < Math::EPSILON)
+		if (info.duration < Math::EPSILON)
 		{
-			builder.duration = Math::EPSILON;
+			info.duration = Math::EPSILON;
 		}
-		reader->read("Loop", builder.loop);
-		reader->read("Entities", builder.entities);
-		reader->read("Components", builder.components);
-		MINTY_ASSERT(!builder.components.is_empty(), "Animation must have at least one component to animate.");
+		reader->read("Loop", info.loop);
+		reader->read("Entities", info.entities);
+		reader->read("Components", info.components);
+		MINTY_ASSERT(!info.components.is_empty(), "Animation must have at least one component to animate.");
 		if (reader->indent("Variables"))
 		{
-			reader->read("Rigid", builder.rigidVariables);
-			reader->read("Smooth", builder.smoothVariables);
+			reader->read("Rigid", info.rigidVariables);
+			reader->read("Smooth", info.smoothVariables);
 
 			reader->outdent();
 		}
-		reader->read("Values", builder.values);
-		reader->read("Actions", builder.actions);
-		MINTY_ASSERT(!builder.actions.is_empty(), "Animation must have at least one action to animate with.");
+		reader->read("Values", info.values);
+		reader->read("Actions", info.actions);
+		MINTY_ASSERT(!info.actions.is_empty(), "Animation must have at least one action to animate with.");
 
 #ifdef MINTY_DEBUG
 
 		// ensure all action indices are valid
-		for (Size i = 0; i < builder.actions.get_size(); i++)
+		for (Size i = 0; i < info.actions.get_size(); i++)
 		{
-			AnimationAction const& action = builder.actions.at(i);
+			AnimationAction const& action = info.actions.at(i);
 			MINTY_ASSERT(
-				(builder.entities.get_size() == 0 && action.entityIndex == 0) ||
-				(action.entityIndex < builder.entities.get_size()), 
-				F("Action {} has an invalid entity index: {}. It must be less than the number of entities: {}.", i, action.entityIndex, builder.entities.get_size()));
-			MINTY_ASSERT(action.componentIndex < builder.components.get_size(), F("Action {} has an invalid component index: {}. It must be less than the number of components: {}.", i, action.componentIndex, builder.components.get_size()));
+				(info.entities.get_size() == 0 && action.entityIndex == 0) ||
+				(action.entityIndex < info.entities.get_size()), 
+				F("Action {} has an invalid entity index: {}. It must be less than the number of entities: {}.", i, action.entityIndex, info.entities.get_size()));
+			MINTY_ASSERT(action.componentIndex < info.components.get_size(), F("Action {} has an invalid component index: {}. It must be less than the number of components: {}.", i, action.componentIndex, info.components.get_size()));
 			for (Size j = 0; j < action.values.get_size(); j++)
 			{
 				auto const [variableIndex, valueIndex] = action.values.at(j);
-				MINTY_ASSERT(variableIndex < builder.rigidVariables.get_size() + builder.smoothVariables.get_size(), F("Action {} has an invalid variable index: {}. It must be less than the number of variables: {}.", i, variableIndex, builder.rigidVariables.get_size() + builder.smoothVariables.get_size()));
-				MINTY_ASSERT(valueIndex < builder.values.get_size(), F("Action {} has an invalid value index: {}. It must be less than the number of values: {}.", i, valueIndex, builder.values.get_size()));
+				MINTY_ASSERT(variableIndex < info.rigidVariables.get_size() + info.smoothVariables.get_size(), F("Action {} has an invalid variable index: {}. It must be less than the number of variables: {}.", i, variableIndex, info.rigidVariables.get_size() + info.smoothVariables.get_size()));
+				MINTY_ASSERT(valueIndex < info.values.get_size(), F("Action {} has an invalid value index: {}. It must be less than the number of values: {}.", i, valueIndex, info.values.get_size()));
 			}
 		}
 
@@ -929,13 +929,13 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 					}
 				}
 
-				// add to the builder
-				builder.steps.add({ time, std::move(actionIndices) });
+				// add to the info
+				info.steps.add({ time, std::move(actionIndices) });
 			}
 
 			reader->outdent();
 		}
-		MINTY_ASSERT(!builder.steps.is_empty(), "Animation must have at least one step to animate with.");
+		MINTY_ASSERT(!info.steps.is_empty(), "Animation must have at least one step to animate with.");
 
 		// read reset steps
 		String resetStepsString;
@@ -951,7 +951,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				Size index;
 				if (try_size(part, index))
 				{
-					builder.resetSteps.add(index);
+					info.resetSteps.add(index);
 				}
 				else
 				{
@@ -964,31 +964,31 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 	}
 
 	// create the animation
-	return create_from_loaded<Animation>(path, builder);
+	return create_from_loaded<Animation>(path, info);
 }
 
 Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id)
 {
-	// create builder
-	AnimatorBuilder builder{};
-	builder.id = id;
+	// create info
+	AnimatorInfo info{};
+	info.id = id;
 	
 	// read values from the file
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// read value, directly as an FSM
-		builder.fsm.deserialize(*reader);
-		builder.fsm.reset();
+		info.fsm.deserialize(*reader);
+		info.fsm.reset();
 
 		// read other values
-		reader->read("Force", builder.force);
+		reader->read("Force", info.force);
 
 #ifdef MINTY_DEBUG
 
 		// check each state value
 		// each one should be a valid UUID, or empty
-		for (auto const& [name, stateId, state] : builder.fsm.get_states())
+		for (auto const& [name, stateId, state] : info.fsm.get_states())
 		{
 			Variable const& variable = state.get_value();
 
@@ -1013,23 +1013,23 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id
 	}
 
 	// create the animator
-	return create_from_loaded<Animator>(path, builder);
+	return create_from_loaded<Animator>(path, info);
 }
 
 Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path, UUID const id)
 {
-	// create builder
-	AudioClipBuilder builder{};
+	// create info
+	AudioClipInfo info{};
 
 	// read audio bytes
-	builder.data = read_bytes(path);
-	if (builder.data.is_empty())
+	info.data = read_bytes(path);
+	if (info.data.is_empty())
 	{
 		return Ref<AudioClip>();
 	}
 
 	// read ID
-	builder.id = id;
+	info.id = id;
 
 	// read values from meta
 	Path metaPath = Asset::get_meta_path(path);
@@ -1037,56 +1037,56 @@ Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path, UUID const
 	if (open_reader(metaPath, reader))
 	{
 		// read values
-		reader->read("Volume", builder.volume);
-		reader->read("Loop", builder.loop);
-		reader->read("LoopPoint", builder.loopPoint);
-		reader->read("Exclusive", builder.exclusive);
+		reader->read("Volume", info.volume);
+		reader->read("Loop", info.loop);
+		reader->read("LoopPoint", info.loopPoint);
+		reader->read("Exclusive", info.exclusive);
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<AudioClip>(path, builder);
+	return create_from_loaded<AudioClip>(path, info);
 }
 
 Ref<Camera> Minty::AssetManager::load_camera(Path const& path, UUID const id)
 {
-	// create the builder
-	CameraBuilder builder{};
-	builder.id = id;
+	// create the info
+	CameraInfo info{};
+	info.id = id;
 
 	// read values from the file
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// read values
-		reader->read("Perspective", builder.perspective);
-		reader->read("FOV", builder.fov);
-		reader->read("Near", builder.nearPlane);
-		reader->read("Far", builder.farPlane);
-		reader->read("Color", builder.color);
-		reader->read("AspectRatio", builder.aspectRatio);
-		reader->read("Size", builder.size);
-		reader->read("Layer", builder.layer);
-		reader->read("RenderTarget", builder.renderTarget);
+		reader->read("Perspective", info.perspective);
+		reader->read("FOV", info.fov);
+		reader->read("Near", info.nearPlane);
+		reader->read("Far", info.farPlane);
+		reader->read("Color", info.color);
+		reader->read("AspectRatio", info.aspectRatio);
+		reader->read("Size", info.size);
+		reader->read("Layer", info.layer);
+		reader->read("RenderTarget", info.renderTarget);
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<Camera>(path, builder);
+	return create_from_loaded<Camera>(path, info);
 }
 
 Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 {
-	// create builder
-	FontBuilder builder{};
-	builder.id = id;
+	// create info
+	FontInfo info{};
+	info.id = id;
 
 	// read the font data
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// read values
-		reader->read("Name", builder.name);
+		reader->read("Name", info.name);
 		Vector<UUID> variantIds;
 		if (reader->read("Variants", variantIds))
 		{
@@ -1095,7 +1095,7 @@ Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 			{
 				Ref<FontVariant> variant = get<FontVariant>(variantId);
 				MINTY_ASSERT(variant != nullptr, "FontVariant with the given ID does not exist.");
-				builder.variants.add(variant);
+				info.variants.add(variant);
 			}
 		}
 
@@ -1103,14 +1103,14 @@ Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 	}
 
 	// create the font
-	return create_from_loaded<Font>(path, builder);
+	return create_from_loaded<Font>(path, info);
 }
 
 Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID const id)
 {
-	// create the builder
-	FontVariantBuilder builder{};
-	builder.id = id;
+	// create the info
+	FontVariantInfo info{};
+	info.id = id;
 
 	// read the font variant data
 	// this is a different, standard format (TTF)
@@ -1169,7 +1169,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 				}
 			}
 
-			builder.characters.add(fontChar);
+			info.characters.add(fontChar);
 		}
 		else if (line.starts_with("kerning "))
 		{
@@ -1197,8 +1197,8 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 				}
 			}
 
-			// pack kerning into builder
-			builder.kernings.add({ first, second, amount });
+			// pack kerning into info
+			info.kernings.add({ first, second, amount });
 		}
 		else if (line.starts_with("info "))
 		{
@@ -1211,14 +1211,14 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 
 				if (part.starts_with("size="))
 				{
-					builder.size = to_uint(part.sub(5, part.get_size() - 5));
+					info.size = to_uint(part.sub(5, part.get_size() - 5));
 				}
 				else if (part.starts_with("bold="))
 				{
 					Bool isBold = static_cast<Bool>(to_int(part.sub(5, part.get_size() - 5)));
 					if (isBold)
 					{
-						builder.flags |= FontFlags::Bold;
+						info.flags |= FontFlags::Bold;
 					}
 				}
 				else if (part.starts_with("italic="))
@@ -1226,7 +1226,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 					Bool isItalic = static_cast<Bool>(to_int(part.sub(7, part.get_size() - 7)));
 					if (isItalic)
 					{
-						builder.flags |= FontFlags::Italic;
+						info.flags |= FontFlags::Italic;
 					}
 				}
 			}
@@ -1242,7 +1242,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 
 				if (part.starts_with("lineHeight="))
 				{
-					builder.lineHeight = static_cast<float>(to_int(part.sub(11, part.get_size() - 11)));
+					info.lineHeight = static_cast<float>(to_int(part.sub(11, part.get_size() - 11)));
 				}
 			}
 		}
@@ -1263,18 +1263,18 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 					// ignore " "
 					String name = part.sub(6, part.get_size() - 7);
 					UUID textureId = read_id(directoryPath / name);
-					builder.texture = get<Texture>(textureId);
+					info.texture = get<Texture>(textureId);
 				}
 			}
 
 			// stop if no texture
-			if (builder.texture == nullptr)
+			if (info.texture == nullptr)
 			{
 				break;
 			}
 			
 			// get size
-			UInt2 textureSize = builder.texture->get_size();
+			UInt2 textureSize = info.texture->get_size();
 
 			// stop if no texture size
 			MINTY_ASSERT(textureSize.x > 0 && textureSize.y > 0, F("Font variant's texture file has invalid size: {}", path));
@@ -1285,7 +1285,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 		}
 	}
 
-	return create_from_loaded<FontVariant>(path, builder);
+	return create_from_loaded<FontVariant>(path, info);
 }
 
 Ref<Image> Minty::AssetManager::load_image(Path const& path, UUID const id)
@@ -1347,16 +1347,16 @@ static void read_values(Reader& reader, Cargo& values)
 
 Ref<Material> Minty::AssetManager::load_material(Path const& path, UUID const id)
 {
-	// create builder
-	MaterialBuilder builder{};
-	builder.id = id;
+	// create info
+	MaterialInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// get template
-		if (find_dependency<MaterialTemplate>(path, *reader, "Template", builder.materialTemplate, true))
+		if (find_dependency<MaterialTemplate>(path, *reader, "Template", info.materialTemplate, true))
 		{
 			close_reader(reader);
 			return Ref<Material>();
@@ -1365,27 +1365,27 @@ Ref<Material> Minty::AssetManager::load_material(Path const& path, UUID const id
 		// read values
 		if (reader->indent("Values"))
 		{
-			read_values(*reader, builder.values);
+			read_values(*reader, info.values);
 			reader->outdent();
 		}
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<Material>(path, builder);
+	return create_from_loaded<Material>(path, info);
 }
 
 Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& path, UUID const id)
 {
-	// create builder
-	MaterialTemplateBuilder builder{};
-	builder.id = id;
+	// create info
+	MaterialTemplateInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
-		if (find_dependency<Shader>(path, *reader, "Shader", builder.shader, true))
+		if (find_dependency<Shader>(path, *reader, "Shader", info.shader, true))
 		{
 			close_reader(reader);
 			return Ref<MaterialTemplate>();
@@ -1394,23 +1394,23 @@ Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& pa
 		// read values
 		if (reader->indent("Values"))
 		{
-			read_values(*reader, builder.values);
+			read_values(*reader, info.values);
 			reader->outdent();
 		}
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<MaterialTemplate>(path, builder);
+	return create_from_loaded<MaterialTemplate>(path, info);
 }
 
 Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
 {
-	MeshBuilder builder{};
-	builder.id = id;
-	builder.type = MeshType::Custom;
-	builder.vertices = ListContainer(sizeof(Float));
-	builder.indices = ListContainer(sizeof(UShort));
+	MeshInfo info{};
+	info.id = id;
+	info.type = MeshType::Custom;
+	info.vertices = ListContainer(sizeof(Float));
+	info.indices = ListContainer(sizeof(UShort));
 
 	Vector<String> lines = read_lines(path);
 
@@ -1490,15 +1490,15 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
 					normal = normals.at(faceIndices.z);
 
 					// create vertex
-					builder.vertices.append(&position.x);
-					builder.vertices.append(&position.y);
-					builder.vertices.append(&position.z);
-					builder.vertices.append(&normal.x);
-					builder.vertices.append(&normal.y);
-					builder.vertices.append(&normal.z);
-					builder.vertices.append(&coord.x);
-					builder.vertices.append(&coord.y);
-					builder.indices.append(&index);
+					info.vertices.append(&position.x);
+					info.vertices.append(&position.y);
+					info.vertices.append(&position.z);
+					info.vertices.append(&normal.x);
+					info.vertices.append(&normal.y);
+					info.vertices.append(&normal.z);
+					info.vertices.append(&coord.x);
+					info.vertices.append(&coord.y);
+					info.indices.append(&index);
 
 					// add for reference
 					faces.add(faceIndices, index);
@@ -1510,17 +1510,17 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
 				{
 					// vertex already exists
 					UShort index = found->get_second();
-					builder.indices.append(&index);
+					info.indices.append(&index);
 				}
 			}
 		}
 	}
 
 	// update vertex stride to match the vertex size
-	builder.vertices.set_stride(sizeof(Float) * 8);
+	info.vertices.set_stride(sizeof(Float) * 8);
 
 	// create the mesh
-	return create_from_loaded<Mesh>(path, builder);
+	return create_from_loaded<Mesh>(path, info);
 }
 
 Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
@@ -1540,28 +1540,28 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
 
 Ref<Prefab> Minty::AssetManager::load_prefab(Path const& path, UUID const id)
 {
-	// create builder
-	PrefabBuilder builder{};
-	builder.id = id;
+	// create info
+	PrefabInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// just save the values
-		builder.source = reader->get_node();
+		info.source = reader->get_node();
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<Prefab>(path, builder);
+	return create_from_loaded<Prefab>(path, info);
 }
 
 Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID const id)
 {
-	// create builder
-	RenderPassBuilder builder{};
-	builder.id = id;
+	// create info
+	RenderPassInfo info{};
+	info.id = id;
 
 	// read values
 	RenderAttachment colorAttachment{};
@@ -1575,32 +1575,32 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID con
 			if(!read_attachment(path, *reader, "Color", colorAttachment, true))
 			{
 				colorAttachment.type = RenderAttachment::Type::Color;
-				builder.colorAttachment = &colorAttachment;
+				info.colorAttachment = &colorAttachment;
 			}
 			if (!read_attachment(path, *reader, "Depth", depthAttachment, false))
 			{
 				depthAttachment.type = RenderAttachment::Type::Depth;
-				builder.depthAttachment = &depthAttachment;
+				info.depthAttachment = &depthAttachment;
 			}
 			
 			reader->outdent();
 		}
 	}
 
-	return create_from_loaded<RenderPass>(path, builder);
+	return create_from_loaded<RenderPass>(path, info);
 }
 
 Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID const id)
 {
-	// create builder
-	RenderTargetBuilder builder{};
-	builder.id = id;
+	// create info
+	RenderTargetInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
-		reader->read("RenderPass", builder.renderPass);
+		reader->read("RenderPass", info.renderPass);
 		String images;
 		if (reader->read("Images", images) && !images.is_empty())
 		{
@@ -1615,12 +1615,12 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 			RenderManager& renderManager = RenderManager::get_singleton();
 			Ref<Surface> surface = renderManager.get_surface();
 			MINTY_ASSERT(surface != nullptr, "Failed to load render target. No surface found.");
-			builder.surfaceBound = true;
-			builder.images = surface->get_images();
+			info.surfaceBound = true;
+			info.images = surface->get_images();
 		}
 		else
 		{
-			builder.surfaceBound = false;
+			info.surfaceBound = false;
 
 			// manually providing the images
 			// read the images
@@ -1650,7 +1650,7 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 					}
 
 					// add to the list
-					builder.images.add(image);
+					info.images.add(image);
 				}
 
 				reader->outdent();
@@ -1659,38 +1659,38 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 		close_reader(reader);
 	}
 
-	return create_from_loaded<RenderTarget>(path, builder);
+	return create_from_loaded<RenderTarget>(path, info);
 }
 
 Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 {
-	// create builder
-	ShaderBuilder builder{};
-	builder.id = id;
+	// create info
+	ShaderInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// render pass
-		if (find_dependency<RenderPass>(path, *reader, "RenderPass", builder.renderPass, true))
+		if (find_dependency<RenderPass>(path, *reader, "RenderPass", info.renderPass, true))
 		{
 			close_reader(reader);
 			return Ref<Shader>();
 		}
 
 		// config
-		reader->read("Priority", builder.priority);
-		reader->read("PrimitiveTopology", builder.primitiveTopology);
-		reader->read("PolygonMode", builder.polygonMode);
-		reader->read("CullMode", builder.cullMode);
-		reader->read("FrontFace", builder.frontFace);
-		reader->read("LineWidth", builder.lineWidth);
-		reader->read("Transparency", builder.transparency);
-		reader->read("DepthMode", builder.depthMode);
-		reader->read("DepthTestOp", builder.depthTestOp);
-		reader->read("StencilMode", builder.stencilMode);
-		reader->read("StencilTestOp", builder.stencilTestOp);
+		reader->read("Priority", info.priority);
+		reader->read("PrimitiveTopology", info.primitiveTopology);
+		reader->read("PolygonMode", info.polygonMode);
+		reader->read("CullMode", info.cullMode);
+		reader->read("FrontFace", info.frontFace);
+		reader->read("LineWidth", info.lineWidth);
+		reader->read("Transparency", info.transparency);
+		reader->read("DepthMode", info.depthMode);
+		reader->read("DepthTestOp", info.depthTestOp);
+		reader->read("StencilMode", info.stencilMode);
+		reader->read("StencilTestOp", info.stencilTestOp);
 
 		// inputs (uniform, push, etc.)
 		if (reader->indent("Inputs"))
@@ -1698,11 +1698,11 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 			// offset for push constants
 			Size offset = 0;
 
-			builder.inputs.resize(reader->get_size(), ShaderInput{});
+			info.inputs.resize(reader->get_size(), ShaderInput{});
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
 				// get the input
-				ShaderInput& input = builder.inputs[i];
+				ShaderInput& input = info.inputs[i];
 
 				// get the name
 				if (!reader->read_name(i, input.name))
@@ -1775,14 +1775,14 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		if (reader->indent("Bindings"))
 		{
 			// allot space for bindings
-			builder.vertexInput.bindings.resize(reader->get_size(), ShaderBinding{});
+			info.vertexInput.bindings.resize(reader->get_size(), ShaderBinding{});
 
 			String name;
 			UInt binding = UINT_MAX;
 			UInt location;
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
-				ShaderBinding& shaderBinding = builder.vertexInput.bindings[i];
+				ShaderBinding& shaderBinding = info.vertexInput.bindings[i];
 
 				// read the binding
 				if (!reader->read_name(i, name) || !try_uint(name, binding))
@@ -1834,13 +1834,13 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		// modules
 		if (reader->indent("Stages"))
 		{
-			if (find_dependency<ShaderModule>(path, *reader, "Vertex", builder.vertexShaderModule, true))
+			if (find_dependency<ShaderModule>(path, *reader, "Vertex", info.vertexShaderModule, true))
 			{
 				close_reader(reader);
 				return Ref<Shader>();
 			}
 
-			if (find_dependency<ShaderModule>(path, *reader, "Fragment", builder.fragmentShaderModule, true))
+			if (find_dependency<ShaderModule>(path, *reader, "Fragment", info.fragmentShaderModule, true))
 			{
 				close_reader(reader);
 				return Ref<Shader>();
@@ -1850,31 +1850,31 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 		}
 
 		// viewport
-		if (find_dependency<Viewport>(path, *reader, "Viewport", builder.viewport, false))
+		if (find_dependency<Viewport>(path, *reader, "Viewport", info.viewport, false))
 		{
 			// if no viewport given, use default viewport
-			builder.viewport = RenderManager::get_singleton().get_default_viewport();
+			info.viewport = RenderManager::get_singleton().get_default_viewport();
 		}
 
 		close_reader(reader);
 	}
 
 	// create the shader
-	return create_from_loaded<Shader>(path, builder);
+	return create_from_loaded<Shader>(path, info);
 }
 
 Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path, UUID const id)
 {
-	// create builder
-	ShaderModuleBuilder builder{};
-	builder.id = id;
+	// create info
+	ShaderModuleInfo info{};
+	info.id = id;
 
 	// read data
 	Vector<Byte> bytes = read_bytes(path);
-	builder.data = bytes.get_data();
-	builder.size = bytes.get_size();
+	info.data = bytes.get_data();
+	info.size = bytes.get_size();
 
-	return create_from_loaded<ShaderModule>(path, builder);
+	return create_from_loaded<ShaderModule>(path, info);
 }
 
 static void read_sprite_slice(Reader& reader, SpriteSlice& slice, CoordinateMode const defaultCoordinateMode = CoordinateMode::Normalized)
@@ -1888,36 +1888,36 @@ static void read_sprite_slice(Reader& reader, SpriteSlice& slice, CoordinateMode
 
 Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 {
-	// create builder
-	SpriteBuilder builder{};
-	builder.id = id;
+	// create info
+	SpriteInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// read values
-		reader->read("Texture", builder.texture);
-		read_sprite_slice(*reader, builder.slice);
+		reader->read("Texture", info.texture);
+		read_sprite_slice(*reader, info.slice);
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<Sprite>(path, builder);
+	return create_from_loaded<Sprite>(path, info);
 }
 
 Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID const id)
 {
-	// create builder
-	SpriteAtlasBuilder builder{};
-	builder.id = id;
+	// create info
+	SpriteAtlasInfo info{};
+	info.id = id;
 
 	// read values
 	Reader* reader;
 	if (open_reader(path, reader))
 	{
 		// read values
-		reader->read("Texture", builder.texture);
+		reader->read("Texture", info.texture);
 		CoordinateMode defaultCoordinateMode;
 		reader->read("CoordinateMode", defaultCoordinateMode, CoordinateMode::Normalized);
 
@@ -1989,8 +1989,8 @@ Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID c
 					// create group
 					SpriteGroup group(std::move(slice), count, std::move(spriteIds));
 
-					// add to builder
-					builder.groups.add(std::move(group));
+					// add to info
+					info.groups.add(std::move(group));
 
 					reader->outdent();
 				}
@@ -2002,14 +2002,14 @@ Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID c
 		close_reader(reader);
 	}
 
-	return create_from_loaded<SpriteAtlas>(path, builder);
+	return create_from_loaded<SpriteAtlas>(path, info);
 }
 
 Ref<Texture> Minty::AssetManager::load_texture(Path const& path, UUID const id)
 {
-	// create builder
-	TextureBuilder builder{};
-	builder.id = id;
+	// create info
+	TextureInfo info{};
+	info.id = id;
 	
 	// read meta file
 	Path metaPath = Asset::get_meta_path(path);
@@ -2023,20 +2023,20 @@ Ref<Texture> Minty::AssetManager::load_texture(Path const& path, UUID const id)
 		// add image to asset manager
 		add(path, image);
 
-		// set builder values
-		builder.image = image.create_ref();
-		reader->read("Filter", builder.filter, Filter::Linear);
-		reader->read("AddressMode", builder.addressMode, AddressMode::Repeat);
+		// set info values
+		info.image = image.create_ref();
+		reader->read("Filter", info.filter, Filter::Linear);
+		reader->read("AddressMode", info.addressMode, AddressMode::Repeat);
 
 		close_reader(reader);
 	}
 
-	return create_from_loaded<Texture>(path, builder);
+	return create_from_loaded<Texture>(path, info);
 }
 
-Owner<AssetManager> Minty::AssetManager::create(AssetManagerBuilder const& builder)
+Owner<AssetManager> Minty::AssetManager::create(AssetManagerInfo const& info)
 {
-	return Owner<AssetManager>(builder);
+	return Owner<AssetManager>(info);
 }
 
 AssetManager& Minty::AssetManager::get_singleton()

@@ -15,12 +15,12 @@ Ref<Scene> Minty::SceneManager::load(Path const& path, Bool const setAsActive)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
-	SceneBuilder builder{};
-	builder.id = assetManager.read_id(path);
-	builder.name = path.get_name().get_string();
+	SceneInfo info{};
+	info.id = assetManager.read_id(path);
+	info.name = path.get_name().get_string();
 
 	// create empty scene
-	Owner<Scene> scene = Scene::create(builder);
+	Owner<Scene> scene = Scene::create(info);
 
 	// deserialize the Scene
 	Reader* reader;
@@ -267,9 +267,9 @@ void Minty::SceneManager::refresh()
 	}
 }
 
-Owner<SceneManager> Minty::SceneManager::create(SceneManagerBuilder const& builder)
+Owner<SceneManager> Minty::SceneManager::create(SceneManagerInfo const& info)
 {
-	return Owner<SceneManager>(builder);
+	return Owner<SceneManager>(info);
 }
 
 SceneManager& Minty::SceneManager::get_singleton()

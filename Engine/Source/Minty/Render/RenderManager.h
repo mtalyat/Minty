@@ -6,7 +6,7 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Window/Window.h"
 #include "Minty/Render/Buffer.h"
-#include "Minty/Render/CameraInfo.h"
+#include "Minty/Render/CameraData.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/MaskMode.h"
@@ -29,7 +29,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a RenderManager.
 	/// </summary>
-	struct RenderManagerBuilder
+	struct RenderManagerInfo
 	{
 		/// <summary>
 		/// The Window to render to.
@@ -107,8 +107,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new RenderManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		RenderManager(RenderManagerBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		RenderManager(RenderManagerInfo const& info);
 
 		virtual ~RenderManager()
 		{
@@ -245,7 +245,7 @@ namespace Minty
 		/// Starts a render pass using the given Camera.
 		/// </summary>
 		/// <param name="cameraInfo">The CameraInfo to render the Scene from.</param>
-		virtual Bool start_pass(CameraInfo const& cameraInfo);
+		virtual Bool start_pass(CameraData const& cameraInfo);
 
 		/// <summary>
 		/// Finishes the current render pass.
@@ -297,9 +297,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new RenderManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A RenderManager Owner.</returns>
-		static Owner<RenderManager> create(RenderManagerBuilder const& builder = {});
+		static Owner<RenderManager> create(RenderManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's RenderManager.

@@ -48,12 +48,12 @@ void Minty::MemoryManager::frame_update(Time const& time)
 	}
 }
 
-Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
+Minty::MemoryManager::MemoryManager(MemoryManagerInfo const& info)
 	: Manager()
-	, m_temporary(builder.temporary)
-	, m_tasks(builder.taskCount)
+	, m_temporary(info.temporary)
+	, m_tasks(info.taskCount)
 	, m_taskIndex(0)
-	, m_persistents(builder.persistents.get_size())
+	, m_persistents(info.persistents.get_size())
 	, m_persistentSizes()
 	, m_staticSize(0)
 	, m_dynamicSize(0)
@@ -62,16 +62,16 @@ Minty::MemoryManager::MemoryManager(MemoryManagerBuilder const& builder)
 
 	// create the task memory stacks
 	// they are all the same size
-	for (Size i = 0; i < builder.taskCount; i++)
+	for (Size i = 0; i < info.taskCount; i++)
 	{
-		m_tasks.add(MemoryStack(builder.task));
+		m_tasks.add(MemoryStack(info.task));
 	}
 	
 	// create the persistent memory pools
-	for (auto const& poolBuilder : builder.persistents)
+	for (auto const& poolInfo : info.persistents)
 	{
-		m_persistentSizes.add(poolBuilder.blockSize, m_persistents.get_size());
-		m_persistents.add(MemoryPool(poolBuilder));
+		m_persistentSizes.add(poolInfo.blockSize, m_persistents.get_size());
+		m_persistents.add(MemoryPool(poolInfo));
 	}
 }
 
@@ -192,9 +192,9 @@ void Minty::MemoryManager::deallocate(void* const ptr, Size const size, Allocato
 	}
 }
 
-Owner<MemoryManager> Minty::MemoryManager::create(MemoryManagerBuilder const& builder)
+Owner<MemoryManager> Minty::MemoryManager::create(MemoryManagerInfo const& info)
 {
-	return Owner<MemoryManager>(builder);
+	return Owner<MemoryManager>(info);
 }
 
 MemoryManager& Minty::MemoryManager::get_singleton()

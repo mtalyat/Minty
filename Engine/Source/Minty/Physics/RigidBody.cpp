@@ -6,10 +6,10 @@
 
 using namespace Minty;
 
-Owner<RigidBody> Minty::RigidBody::create(RigidBodyBuilder const& builder)
+Owner<RigidBody> Minty::RigidBody::create(RigidBodyInfo const& info)
 {
 #if defined(MINTY_BULLET)
-	return Owner<Bullet_RigidBody>(builder);
+	return Owner<Bullet_RigidBody>(info);
 #else
     return Owner<RigidBody>();
 #endif

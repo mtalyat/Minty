@@ -4,9 +4,9 @@
 
 using namespace Minty;
 
-Owner<PhysicsManager> Minty::PhysicsManager::create(PhysicsManagerBuilder const& builder)
+Owner<PhysicsManager> Minty::PhysicsManager::create(PhysicsManagerInfo const& info)
 {
-	return Owner<PhysicsManager>(builder);
+	return Owner<PhysicsManager>(info);
 }
 
 PhysicsManager& Minty::PhysicsManager::get_singleton()

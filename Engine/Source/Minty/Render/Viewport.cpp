@@ -6,10 +6,10 @@
 
 using namespace Minty;
 
-Owner<Viewport> Minty::Viewport::create(ViewportBuilder const& builder)
+Owner<Viewport> Minty::Viewport::create(ViewportInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Viewport>(builder);
+	return Owner<Vulkan_Viewport>(info);
 #else
     return Owner<Viewport>();
 #endif // MINTY_VULKAN

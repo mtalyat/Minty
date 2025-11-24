@@ -5,13 +5,13 @@
 
 using namespace Minty;
 
-Minty::Font::Font(FontBuilder const& builder)
-	: Asset(builder.id)
-	, m_name(builder.name)
+Minty::Font::Font(FontInfo const& info)
+	: Asset(info.id)
+	, m_name(info.name)
 	, m_variants()
 {
 	// add variants
-	for (auto const& variant : builder.variants)
+	for (auto const& variant : info.variants)
 	{
 		MINTY_ASSERT(variant != nullptr, F("FontVariant is null in Font \"{}\".", m_name));
 		ID key = create_font_id(variant->get_size(), variant->get_flags());
@@ -48,7 +48,7 @@ Vector<Ref<FontVariant>> Minty::Font::get_variants() const
 	return variants;
 }
 
-Owner<Font> Minty::Font::create(FontBuilder const& builder)
+Owner<Font> Minty::Font::create(FontInfo const& info)
 {
-	return Owner<Font>(builder);
+	return Owner<Font>(info);
 }

@@ -10,7 +10,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Bullet_MeshCollider(ColliderBuilder const& builder);
+		Bullet_MeshCollider(ColliderInfo const& info);
 
 		~Bullet_MeshCollider() override
 		{

@@ -12,8 +12,8 @@
 
 using namespace Minty;
 
-Minty::Vulkan_Material::Vulkan_Material(MaterialBuilder const& builder)
-	: Material(builder)
+Minty::Vulkan_Material::Vulkan_Material(MaterialInfo const& info)
+	: Material(info)
 	, m_frames()
 	, m_pool(VK_NULL_HANDLE)
 {
@@ -113,11 +113,11 @@ void Minty::Vulkan_Material::initialize_frames(Ref<Vulkan_Shader> const& shader,
 				Size index = shader->get_buffer_index(descriptor.name);
 
 				// create the buffer
-				BufferBuilder bufferBuilder{};
-				bufferBuilder.frequent = descriptor.frequent;
-				bufferBuilder.size = descriptor.size * descriptor.count;
-				bufferBuilder.usage = BufferUsage::Uniform;
-				frameData.buffers.at(index) = Owner<Vulkan_Buffer>(bufferBuilder);
+				BufferInfo bufferInfo{};
+				bufferInfo.frequent = descriptor.frequent;
+				bufferInfo.size = descriptor.size * descriptor.count;
+				bufferInfo.usage = BufferUsage::Uniform;
+				frameData.buffers.at(index) = Owner<Vulkan_Buffer>(bufferInfo);
 			}
 		}
 	}

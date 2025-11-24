@@ -12,7 +12,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a Collider.
 	/// </summary>
-	struct ColliderBuilder
+	struct ColliderInfo
 	{
 		/// <summary>
 		/// The shape of the collider.
@@ -58,12 +58,12 @@ namespace Minty
 		/// <summary>
 		/// Creates a new collider with the given arguments..
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Collider(ColliderBuilder const& builder)
-			: m_shape(builder.shape)
-			, m_mesh(builder.mesh)
-			, m_size(builder.size)
-			, m_isStatic(builder.isStatic)
+		/// <param name="info">The arguments.</param>
+		Collider(ColliderInfo const& info)
+			: m_shape(info.shape)
+			, m_mesh(info.mesh)
+			, m_size(info.size)
+			, m_isStatic(info.isStatic)
 		{
 		}
 
@@ -109,9 +109,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Collider with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Collider Owner.</returns>
-		static Owner<Collider> create(ColliderBuilder const& builder = {});
+		static Owner<Collider> create(ColliderInfo const& info = {});
 
 #pragma endregion
 	};

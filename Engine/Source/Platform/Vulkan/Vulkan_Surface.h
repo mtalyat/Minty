@@ -29,9 +29,9 @@ namespace Minty
 
 	public:
 		// special constructor to create the initial surface
-		Vulkan_Surface(SurfaceBuilder const& builder, VkSurfaceKHR const surface, Vulkan_RenderManager& renderManager, Vulkan_QueueFamilyIndices const& queueFamilyIndices);
+		Vulkan_Surface(SurfaceInfo const& info, VkSurfaceKHR const surface, Vulkan_RenderManager& renderManager, Vulkan_QueueFamilyIndices const& queueFamilyIndices);
 
-		Vulkan_Surface(SurfaceBuilder const& builder);
+		Vulkan_Surface(SurfaceInfo const& info);
 
 		~Vulkan_Surface() override;
 

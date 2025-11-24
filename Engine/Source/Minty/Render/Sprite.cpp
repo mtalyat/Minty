@@ -6,22 +6,22 @@
 
 using namespace Minty;
 
-Minty::Sprite::Sprite(SpriteBuilder const& builder)
-	: Asset(builder.id)
-	, m_texture(builder.texture)
-	, m_coordinateMode(builder.slice.coordinateMode)
+Minty::Sprite::Sprite(SpriteInfo const& info)
+	: Asset(info.id)
+	, m_texture(info.texture)
+	, m_coordinateMode(info.slice.coordinateMode)
 	, m_offset()
 	, m_size()
 	, m_pivot()
-	, m_pixelsPerUnit(builder.slice.pixelsPerUnit)
+	, m_pixelsPerUnit(info.slice.pixelsPerUnit)
 	, m_scale(1.0f, 1.0f)
 {
-	MINTY_ASSERT(builder.texture != nullptr, "Sprite must have a Texture.");
-	MINTY_ASSERT(builder.slice.pixelsPerUnit > 0.0f, "Sprite pixels per unit must be greater than 0.");
+	MINTY_ASSERT(info.texture != nullptr, "Sprite must have a Texture.");
+	MINTY_ASSERT(info.slice.pixelsPerUnit > 0.0f, "Sprite pixels per unit must be greater than 0.");
 
-	set_offset(builder.slice.offset);
-	set_size(builder.slice.size);
-	set_pivot(builder.slice.pivot);
+	set_offset(info.slice.offset);
+	set_size(info.slice.size);
+	set_pivot(info.slice.pivot);
 	update_scale();
 }
 
@@ -121,7 +121,7 @@ void Minty::Sprite::set_pivot(Float2 const& pivot)
 	}
 }
 
-Owner<Sprite> Minty::Sprite::create(SpriteBuilder const& builder)
+Owner<Sprite> Minty::Sprite::create(SpriteInfo const& info)
 {
-	return Owner<Sprite>(builder);
+	return Owner<Sprite>(info);
 }

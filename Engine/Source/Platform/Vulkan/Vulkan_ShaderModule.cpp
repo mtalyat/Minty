@@ -5,11 +5,11 @@
 
 using namespace Minty;
 
-Minty::Vulkan_ShaderModule::Vulkan_ShaderModule(ShaderModuleBuilder const& builder)
-	: ShaderModule(builder)
+Minty::Vulkan_ShaderModule::Vulkan_ShaderModule(ShaderModuleInfo const& info)
+	: ShaderModule(info)
 	, m_shaderModule(VK_NULL_HANDLE)
 {
-	m_shaderModule = Vulkan_Renderer::create_shader_module(Vulkan_RenderManager::get_singleton().get_device(), builder.data, builder.size);
+	m_shaderModule = Vulkan_Renderer::create_shader_module(Vulkan_RenderManager::get_singleton().get_device(), info.data, info.size);
 }
 
 Minty::Vulkan_ShaderModule::~Vulkan_ShaderModule()

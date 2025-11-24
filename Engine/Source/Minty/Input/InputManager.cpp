@@ -11,7 +11,7 @@ InputManager& Minty::InputManager::get_instance()
 	return Context::get_singleton().get_input_manager();
 }
 
-Owner<InputManager> Minty::InputManager::create(InputManagerBuilder const& builder)
+Owner<InputManager> Minty::InputManager::create(InputManagerInfo const& info)
 {
-	return Owner<InputManager>(new InputManager(builder));
+	return Owner<InputManager>(new InputManager(info));
 }

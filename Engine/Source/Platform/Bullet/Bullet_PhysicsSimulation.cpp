@@ -12,8 +12,8 @@
 
 using namespace Minty;
 
-Minty::Bullet_PhysicsSimulation::Bullet_PhysicsSimulation(PhysicsSimulationBuilder const& builder)
-	: PhysicsSimulation(builder)
+Minty::Bullet_PhysicsSimulation::Bullet_PhysicsSimulation(PhysicsSimulationInfo const& info)
+	: PhysicsSimulation(info)
 	, mp_broadphase(new btDbvtBroadphase())
 	, mp_collisionConfiguration(new btDefaultCollisionConfiguration())
 	, mp_dispatcher(new btCollisionDispatcher(mp_collisionConfiguration))
@@ -21,7 +21,7 @@ Minty::Bullet_PhysicsSimulation::Bullet_PhysicsSimulation(PhysicsSimulationBuild
 	, mp_dynamicsWorld(new btDiscreteDynamicsWorld(mp_dispatcher, mp_broadphase, mp_solver, mp_collisionConfiguration))
 {
 	// set gravity
-	set_gravity(builder.gravity);
+	set_gravity(info.gravity);
 }
 
 Size Minty::Bullet_PhysicsSimulation::get_size() const

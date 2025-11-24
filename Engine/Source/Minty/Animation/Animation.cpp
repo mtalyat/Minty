@@ -8,43 +8,43 @@
 
 using namespace Minty;
 
-Minty::Animation::Animation(AnimationBuilder const& builder)
-	: Asset(builder.id)
-	, m_duration(builder.duration)
-	, m_loop(builder.loop)
-	, m_entities(builder.entities)
+Minty::Animation::Animation(AnimationInfo const& info)
+	: Asset(info.id)
+	, m_duration(info.duration)
+	, m_loop(info.loop)
+	, m_entities(info.entities)
 	, m_components()
 	, m_variables()
-	, m_values(builder.values)
+	, m_values(info.values)
 	, m_steps()
 	, m_resetSteps()
 {
 	// set the variables
-	m_variables.reserve(builder.rigidVariables.get_size() + builder.smoothVariables.get_size());
-	for (auto const& variable : builder.rigidVariables)
+	m_variables.reserve(info.rigidVariables.get_size() + info.smoothVariables.get_size());
+	for (auto const& variable : info.rigidVariables)
 	{
 		m_variables.add({ variable, false });
 	}
-	for (auto const& variable : builder.smoothVariables)
+	for (auto const& variable : info.smoothVariables)
 	{
 		m_variables.add({ variable, true });
 	}
 
 	// get the component infos from the names
-	m_components.resize(builder.components.get_size(), nullptr);
+	m_components.resize(info.components.get_size(), nullptr);
 	Context const& context = Context::get_singleton();
-	for (Size i = 0; i < builder.components.get_size(); i++)
+	for (Size i = 0; i < info.components.get_size(); i++)
 	{
 		// get the component info
-		m_components.at(i) = context.get_component_info(builder.components.at(i));
-		MINTY_ASSERT(m_components.at(i) != nullptr, F("Component \"{}\" does not exist.", builder.components.at(i)));
+		m_components.at(i) = context.get_component_info(info.components.at(i));
+		MINTY_ASSERT(m_components.at(i) != nullptr, F("Component \"{}\" does not exist.", info.components.at(i)));
 	}
 
 	// make space for the steps
-	m_steps.reserve(builder.steps.get_size());
+	m_steps.reserve(info.steps.get_size());
 	Float lastTime = -1.0f;
 	Map<StepKey, Set<StepValue>> valuesEdited;
-	for (auto const& [time, actionIndices] : builder.steps)
+	for (auto const& [time, actionIndices] : info.steps)
 	{
 		MINTY_ASSERT(time >= 0.0f, "Time must be non-negative.");
 		MINTY_ASSERT(time > lastTime, "Times must be in ascending order. Do not duplicate times.");
@@ -52,9 +52,9 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 		// create the steplist
 		for(Size const actionIndex : actionIndices)
 		{
-			MINTY_ASSERT(actionIndex < builder.actions.get_size(), "Action index is out of range.");
+			MINTY_ASSERT(actionIndex < info.actions.get_size(), "Action index is out of range.");
 
-			AnimationAction const& action = builder.actions.at(actionIndex);
+			AnimationAction const& action = info.actions.at(actionIndex);
 			StepKey key;
 			Vector<StepValue> values;
 			build_action(key, values, action);
@@ -94,13 +94,13 @@ Minty::Animation::Animation(AnimationBuilder const& builder)
 	}
 
 	// do the same for the reset steps
-	m_resetSteps.reserve(builder.resetSteps.get_size());
+	m_resetSteps.reserve(info.resetSteps.get_size());
 	Set<StepValue> valuesEditedSet;
-	for(auto const& actionIndex : builder.resetSteps)
+	for(auto const& actionIndex : info.resetSteps)
 	{
-		MINTY_ASSERT(actionIndex < builder.actions.get_size(), "Action index is out of range.");
+		MINTY_ASSERT(actionIndex < info.actions.get_size(), "Action index is out of range.");
 
-		AnimationAction const& action = builder.actions.at(actionIndex);
+		AnimationAction const& action = info.actions.at(actionIndex);
 		StepKey key;
 		Vector<StepValue> values;
 		build_action(key, values, action);
@@ -512,7 +512,7 @@ void Minty::Animation::reset(Entity const thisEntity, EntityManager& entityManag
 	}
 }
 
-Owner<Animation> Minty::Animation::create(AnimationBuilder const& builder)
+Owner<Animation> Minty::Animation::create(AnimationInfo const& info)
 {
-	return Owner<Animation>(builder);
+	return Owner<Animation>(info);
 }

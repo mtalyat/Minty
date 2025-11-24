@@ -72,16 +72,16 @@ Bool Minty::BufferContainer::reserve(Size const newCapacity)
 	if (newCapacity <= m_capacity) return true;
 
 	// allocate a new buffer, using this buffer's current data, if there is one
-	BufferBuilder builder{};
+	BufferInfo info{};
 	if (m_buffer != nullptr)
 	{
-		builder.data = m_buffer->get_data();
+		info.data = m_buffer->get_data();
 	}
-	builder.frequent = true;
-	builder.size = newCapacity;
-	builder.usage = m_usage;
+	info.frequent = true;
+	info.size = newCapacity;
+	info.usage = m_usage;
 
-	Owner<Buffer> newBuffer = Buffer::create(builder);
+	Owner<Buffer> newBuffer = Buffer::create(info);
 
 	// update reference and data
 	m_buffer = newBuffer;

@@ -11,7 +11,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a prefab.
 	/// </summary>
-	struct PrefabBuilder
+	struct PrefabInfo
 	{
 		/// <summary>
 		/// The ID of this Prefab.
@@ -43,10 +43,10 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Prefab from the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Prefab(PrefabBuilder const& builder)
-			: Asset(builder.id)
-			, m_data(builder.source)
+		/// <param name="info">The arguments.</param>
+		Prefab(PrefabInfo const& info)
+			: Asset(info.id)
+			, m_data(info.source)
 		{
 		}
 
@@ -85,9 +85,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Prefab from the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Prefab Owner.</returns>
-		static Owner<Prefab> create(PrefabBuilder const& builder = {});
+		static Owner<Prefab> create(PrefabInfo const& info = {});
 
 #pragma endregion
 	};

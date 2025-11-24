@@ -19,7 +19,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_RenderTarget(RenderTargetBuilder const& builder);
+		Vulkan_RenderTarget(RenderTargetInfo const& info);
 
 		~Vulkan_RenderTarget() override;
 
@@ -37,12 +37,12 @@ namespace Minty
 #pragma region Methods
 
 	private:
-		void initialize(RenderTargetBuilder const& builder);
+		void initialize(RenderTargetInfo const& info);
 
 		void dispose();
 
 	public:
-		void refresh(RenderTargetBuilder const& builder) override;
+		void refresh(RenderTargetInfo const& info) override;
 
 #pragma endregion
 	};

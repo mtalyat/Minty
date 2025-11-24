@@ -10,7 +10,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for an Animator.
 	/// </summary>
-	struct AnimatorBuilder
+	struct AnimatorInfo
 	{
 		/// <summary>
 		/// The Asset ID.
@@ -48,11 +48,11 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Animator using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Animator(AnimatorBuilder const& builder)
-			: Asset(builder.id)
-			, m_fsm(builder.fsm)
-			, m_force(builder.force)
+		/// <param name="info">The arguments.</param>
+		Animator(AnimatorInfo const& info)
+			: Asset(info.id)
+			, m_fsm(info.fsm)
+			, m_force(info.force)
 		{
 		}
 
@@ -124,9 +124,9 @@ namespace Minty
 		/// <summary>
 		/// Creates an Animator using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>An Animator Owner.</returns>
-		static Owner<Animator> create(AnimatorBuilder const& builder = {});
+		static Owner<Animator> create(AnimatorInfo const& info = {});
 
 #pragma endregion
 	};

@@ -5,10 +5,10 @@
 
 using namespace Minty;
 
-Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateBuilder const& builder)
-	: Asset(builder.id)
-	, m_shader(builder.shader)
-	, m_cargo(builder.values)
+Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateInfo const& info)
+	: Asset(info.id)
+	, m_shader(info.shader)
+	, m_cargo(info.values)
 {
 	MINTY_ASSERT(m_shader != nullptr, "MaterialTemplate shader must not be null.");
 
@@ -41,7 +41,7 @@ Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateBuilder const& builder
 	}
 }
 
-Owner<MaterialTemplate> Minty::MaterialTemplate::create(MaterialTemplateBuilder const& builder)
+Owner<MaterialTemplate> Minty::MaterialTemplate::create(MaterialTemplateInfo const& info)
 {
-    return Owner<MaterialTemplate>(builder);
+    return Owner<MaterialTemplate>(info);
 }

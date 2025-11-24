@@ -10,7 +10,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments used to create an AudioManager.
 	/// </summary>
-	struct AudioManagerBuilder
+	struct AudioManagerInfo
 	{
 
 	};
@@ -25,10 +25,10 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new AudioManager using the given AudioManagerBuilder.
+		/// Creates a new AudioManager using the given AudioManagerInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		AudioManager(AudioManagerBuilder const& builder)
+		/// <param name="info">The arguments.</param>
+		AudioManager(AudioManagerInfo const& info)
 			: Manager()
 		{
 		}
@@ -147,10 +147,10 @@ namespace Minty
 		static AudioManager& get_singleton();
 
 		/// <summary>
-		/// Creates a new AudioManager using the given AudioManagerBuilder.
+		/// Creates a new AudioManager using the given AudioManagerInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		static Owner<AudioManager> create(AudioManagerBuilder const& builder = {});
+		/// <param name="info">The arguments.</param>
+		static Owner<AudioManager> create(AudioManagerInfo const& info = {});
 
 #pragma endregion
 	};

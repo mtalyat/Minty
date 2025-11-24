@@ -11,10 +11,10 @@ using namespace Minty;
 Context* Context::s_instance = nullptr;
 
 /// <summary>
-/// Creates a new Context using the given ContextBuilder.
+/// Creates a new Context using the given ContextInfo.
 /// </summary>
-/// <param name="builder">The input arguments.</param>
-Minty::Context::Context(ContextBuilder const& builder)
+/// <param name="info">The input arguments.</param>
+Minty::Context::Context(ContextInfo const& info)
 	: m_initialized(false)
 	, mp_dualBuffer(nullptr)
 	, m_window(nullptr)
@@ -36,9 +36,9 @@ Minty::Context::Context(ContextBuilder const& builder)
 	s_instance = this;
 	
 	// initialize dual buffering if a debug log path was given
-	if (!builder.debugLogPath.is_empty())
+	if (!info.debugLogPath.is_empty())
 	{
-		mp_dualBuffer = new DualBuffer(std::cout, builder.debugLogPath);
+		mp_dualBuffer = new DualBuffer(std::cout, info.debugLogPath);
 	}
 
 	// register systems and components
@@ -46,18 +46,18 @@ Minty::Context::Context(ContextBuilder const& builder)
 	register_components();
 
 	// create window 
-	m_window = Window::create(builder.windowBuilder);
+	m_window = Window::create(info.windowInfo);
 
 	// create managers
-	m_memoryManager = MemoryManager::create(builder.memoryManagerBuilder);
-	m_jobManager = JobManager::create(builder.jobManagerBuilder);
-	m_audioManager = AudioManager::create(builder.audioManagerBuilder);
-	m_layerManager = LayerManager::create(builder.layerManagerBuilder);
-	m_physicsManager = PhysicsManager::create(builder.physicsManagerBuilder);
-	m_assetManager = AssetManager::create(builder.assetManagerBuilder);
-	m_inputManager = InputManager::create(builder.inputManagerBuilder);
-	m_renderManager = RenderManager::create(builder.renderManagerBuilder);
-	m_sceneManager = SceneManager::create(builder.sceneManagerBuilder);
+	m_memoryManager = MemoryManager::create(info.memoryManagerInfo);
+	m_jobManager = JobManager::create(info.jobManagerInfo);
+	m_audioManager = AudioManager::create(info.audioManagerInfo);
+	m_layerManager = LayerManager::create(info.layerManagerInfo);
+	m_physicsManager = PhysicsManager::create(info.physicsManagerInfo);
+	m_assetManager = AssetManager::create(info.assetManagerInfo);
+	m_inputManager = InputManager::create(info.inputManagerInfo);
+	m_renderManager = RenderManager::create(info.renderManagerInfo);
+	m_sceneManager = SceneManager::create(info.sceneManagerInfo);
 	m_managers.add(m_memoryManager.get());
 	m_managers.add(m_jobManager.get());
 	m_managers.add(m_renderManager.get());
@@ -290,7 +290,7 @@ void Minty::Context::handle_event(Event& event)
 	}
 }
 
-SystemInfo const* Minty::Context::get_system_info(String const& name) const
+SystemData const* Minty::Context::get_system_info(String const& name) const
 {
 	auto it = m_registeredSystems.find(name);
 	if (it == m_registeredSystems.end())
@@ -300,7 +300,7 @@ SystemInfo const* Minty::Context::get_system_info(String const& name) const
 	return &it->get_third();
 }
 
-SystemInfo const* Minty::Context::get_system_info(TypeID const& typeId) const
+SystemData const* Minty::Context::get_system_info(TypeID const& typeId) const
 {
 	auto it = m_registeredSystems.find(typeId);
 	if (it == m_registeredSystems.end())
@@ -346,14 +346,14 @@ Owner<Context> Minty::Context::open(Path const& path)
 	// open a reader
 	TextFileReader reader(&file);
 
-	// create the builder
-	ContextBuilder builder{};
+	// create the info
+	ContextInfo info{};
 	if (reader.indent("Window"))
 	{
-		reader.read("Position", builder.windowBuilder.position);
-		reader.read("Size", builder.windowBuilder.size);
-		reader.read("Title", builder.windowBuilder.title);
-		reader.read("Icon", builder.windowBuilder.icon);
+		reader.read("Position", info.windowInfo.position);
+		reader.read("Size", info.windowInfo.size);
+		reader.read("Title", info.windowInfo.title);
+		reader.read("Icon", info.windowInfo.icon);
 
 		reader.outdent();
 	}
@@ -362,22 +362,22 @@ Owner<Context> Minty::Context::open(Path const& path)
 		ULong tempTemporary;
 		if (reader.read("Temporary", tempTemporary))
 		{
-			builder.memoryManagerBuilder.temporary.capacity = tempTemporary;
+			info.memoryManagerInfo.temporary.capacity = tempTemporary;
 		}
 		ULong2 tempTask;
 		if (reader.read("Task", tempTask))
 		{
-			builder.memoryManagerBuilder.task.capacity = tempTask.x;
-			builder.memoryManagerBuilder.taskCount = tempTask.y;
+			info.memoryManagerInfo.task.capacity = tempTask.x;
+			info.memoryManagerInfo.taskCount = tempTask.y;
 		}
 		Vector<ULong2> tempPersistent;
 		if (reader.read("Persistent", tempPersistent))
 		{
-			builder.memoryManagerBuilder.persistents.clear();
-			builder.memoryManagerBuilder.persistents.reserve(tempPersistent.get_size());
+			info.memoryManagerInfo.persistents.clear();
+			info.memoryManagerInfo.persistents.reserve(tempPersistent.get_size());
 			for (ULong2 const& persistent : tempPersistent)
 			{
-				builder.memoryManagerBuilder.persistents.add(MemoryPoolBuilder(persistent.x, persistent.y));
+				info.memoryManagerInfo.persistents.add(MemoryPoolInfo(persistent.x, persistent.y));
 			}
 		}
 
@@ -385,7 +385,7 @@ Owner<Context> Minty::Context::open(Path const& path)
 	}
 	if (reader.indent("Job"))
 	{
-		reader.read("Threads", builder.jobManagerBuilder.threadCount);
+		reader.read("Threads", info.jobManagerInfo.threadCount);
 
 		reader.outdent();
 	}
@@ -397,8 +397,8 @@ Owner<Context> Minty::Context::open(Path const& path)
 	{
 		if (reader.indent("Layers"))
 		{
-			builder.layerManagerBuilder.layerCollisions.clear();
-			builder.layerManagerBuilder.layerCollisions.reserve(reader.get_size());
+			info.layerManagerInfo.layerCollisions.clear();
+			info.layerManagerInfo.layerCollisions.reserve(reader.get_size());
 
 			String name;
 			Int2 layer;
@@ -416,7 +416,7 @@ Owner<Context> Minty::Context::open(Path const& path)
 				}
 
 				// add the layer collision
-				builder.layerManagerBuilder.layerCollisions.add(
+				info.layerManagerInfo.layerCollisions.add(
 					{ name, layer.x, layer.y }
 				);
 			}
@@ -432,8 +432,8 @@ Owner<Context> Minty::Context::open(Path const& path)
 	}
 	if (reader.indent("Asset"))
 	{
-		reader.read("SavePaths", builder.assetManagerBuilder.savePaths);
-		reader.read("Wraps", builder.assetManagerBuilder.wraps);
+		reader.read("SavePaths", info.assetManagerInfo.savePaths);
+		reader.read("Wraps", info.assetManagerInfo.wraps);
 
 		reader.outdent();
 	}
@@ -443,21 +443,21 @@ Owner<Context> Minty::Context::open(Path const& path)
 	}
 	if (reader.indent("Render"))
 	{
-		reader.read("TargetFormat", builder.renderManagerBuilder.targetSurfaceFormat);
+		reader.read("TargetFormat", info.renderManagerInfo.targetSurfaceFormat);
 
 		reader.outdent();
 	}
 	if (reader.indent("Scene"))
 	{
-		reader.read("Initial", builder.sceneManagerBuilder.initialScene);
+		reader.read("Initial", info.sceneManagerInfo.initialScene);
 
 		reader.outdent();
 	}
 
-	return create(builder);
+	return create(info);
 }
 
-Owner<Context> Minty::Context::create(ContextBuilder const& builder)
+Owner<Context> Minty::Context::create(ContextInfo const& info)
 {
-	return Owner<Context>(builder);
+	return Owner<Context>(info);
 }

@@ -9,11 +9,11 @@ using namespace Minty;
 Application* Minty::Application::s_instance = nullptr;
 
 /// <summary>
-/// Creates a new Application using the given ApplicationBuilder.
+/// Creates a new Application using the given ApplicationInfo.
 /// </summary>
-/// <param name="builder">The arguments.</param>
-inline Minty::Application::Application(ApplicationBuilder const& builder)
-	: m_context(builder.context)
+/// <param name="info">The arguments.</param>
+inline Minty::Application::Application(ApplicationInfo const& info)
+	: m_context(info.context)
 	, mp_timeManager(nullptr)
 	, m_running(false)
 {
@@ -21,7 +21,7 @@ inline Minty::Application::Application(ApplicationBuilder const& builder)
 	MINTY_ASSERT(m_context != nullptr, "Context is null.");
 
 	s_instance = this;
-	mp_timeManager = new TimeManager(builder.timeManagerBuilder);
+	mp_timeManager = new TimeManager(info.timeManagerInfo);
 }
 
 Minty::Application::~Application()
@@ -67,8 +67,8 @@ void Minty::Application::run()
 	// keep track of time passed
 	Stopwatch totalWatch = Stopwatch::start_new();
 	Stopwatch elapsedWatch = Stopwatch::start_new();
-	TimeManagerBuilder tmBuilder;
-	TimeManager timeManager(tmBuilder);
+	TimeManagerInfo tmInfo;
+	TimeManager timeManager(tmInfo);
 
 	// get the window and start running
 	Window& window = m_context->get_window();
@@ -96,13 +96,13 @@ void Minty::Application::run()
 
 Owner<Application> Minty::Application::open(Path const& path)
 {
-	ApplicationBuilder builder{};
-	builder.context = Context::open(path);
-	MINTY_ASSERT(builder.context, F("Failed to open context from path: {}", path));
-	return create(builder);
+	ApplicationInfo info{};
+	info.context = Context::open(path);
+	MINTY_ASSERT(info.context, F("Failed to open context from path: {}", path));
+	return create(info);
 }
 
-Owner<Application> Minty::Application::create(ApplicationBuilder const& builder)
+Owner<Application> Minty::Application::create(ApplicationInfo const& info)
 {
-	return Owner<Application>(builder);
+	return Owner<Application>(info);
 }

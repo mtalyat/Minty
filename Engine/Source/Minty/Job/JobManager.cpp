@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-Minty::JobManager::JobManager(JobManagerBuilder const& builder, Allocator const allocator)
+Minty::JobManager::JobManager(JobManagerInfo const& info, Allocator const allocator)
 	: m_allocator(allocator)
 	, m_threads()
 	, m_nextHandle(0)
@@ -13,10 +13,10 @@ Minty::JobManager::JobManager(JobManagerBuilder const& builder, Allocator const 
 	, m_queueMutex()
 	, m_stop(false)
 {
-	MINTY_ASSERT(builder.threadCount > 0, "JobManager must have at least one thread.");
+	MINTY_ASSERT(info.threadCount > 0, "JobManager must have at least one thread.");
 
 	// create threads
-	m_threads.reserve(builder.threadCount);
+	m_threads.reserve(info.threadCount);
 }
 
 void Minty::JobManager::worker_thread()
@@ -261,9 +261,9 @@ void Minty::JobManager::wait(Vector<Handle> const& handles)
 	}
 }
 
-Owner<JobManager> Minty::JobManager::create(JobManagerBuilder const& builder)
+Owner<JobManager> Minty::JobManager::create(JobManagerInfo const& info)
 {
-	return Owner<JobManager>(builder);
+	return Owner<JobManager>(info);
 }
 
 JobManager& Minty::JobManager::get_singleton()

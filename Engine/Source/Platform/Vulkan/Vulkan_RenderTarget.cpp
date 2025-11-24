@@ -8,12 +8,12 @@
 
 using namespace Minty;
 
-Minty::Vulkan_RenderTarget::Vulkan_RenderTarget(RenderTargetBuilder const& builder)
-	: RenderTarget(builder)
+Minty::Vulkan_RenderTarget::Vulkan_RenderTarget(RenderTargetInfo const& info)
+	: RenderTarget(info)
 	, m_framebuffers()
 	, m_size()
 {
-	initialize(builder);
+	initialize(info);
 }
 
 Minty::Vulkan_RenderTarget::~Vulkan_RenderTarget()
@@ -21,40 +21,40 @@ Minty::Vulkan_RenderTarget::~Vulkan_RenderTarget()
 	dispose();
 }
 
-void Minty::Vulkan_RenderTarget::initialize(RenderTargetBuilder const& builder)
+void Minty::Vulkan_RenderTarget::initialize(RenderTargetInfo const& info)
 {
-	MINTY_ASSERT(builder.images.get_size() > 0, "RenderTargetBuilder must have at least one image.");
+	MINTY_ASSERT(info.images.get_size() > 0, "RenderTargetInfo must have at least one image.");
 
 	// get size
-	Ref<Image> const& image = builder.images.front();
+	Ref<Image> const& image = info.images.front();
 	m_size = image->get_size();
 
 	// get render pass
-	Ref<Vulkan_RenderPass> vulkanRenderPass = builder.renderPass.cast_to<Vulkan_RenderPass>();
+	Ref<Vulkan_RenderPass> vulkanRenderPass = info.renderPass.cast_to<Vulkan_RenderPass>();
 
 	// get render manager and resources
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 	Ref<Image> depthImage = renderManager.get_depth_image();
 	Ref<Vulkan_Image> vulkanDepthImage = depthImage.cast_to<Vulkan_Image>();
 
-	MINTY_ASSERT(!builder.renderPass->has_depth_attachment() || depthImage != nullptr, "Attempting to initialize a RenderTarget when the RenderManager depth image is null.");
+	MINTY_ASSERT(!info.renderPass->has_depth_attachment() || depthImage != nullptr, "Attempting to initialize a RenderTarget when the RenderManager depth image is null.");
 
 	// create framebuffers
-	m_framebuffers.reserve(builder.images.get_size());
+	m_framebuffers.reserve(info.images.get_size());
 	Ref<Vulkan_Image> vulkanImage;
 	UInt2 size;
 	VkExtent2D extent;
-	for (Ref<Image> const& image : builder.images)
+	for (Ref<Image> const& image : info.images)
 	{
 		vulkanImage = image.cast_to<Vulkan_Image>();
 		size = vulkanImage->get_size();
 		extent = { static_cast<uint32_t>(size.x), static_cast<uint32_t>(size.y) };
 		VkFramebuffer framebuffer = Vulkan_Renderer::create_framebuffer(
 			renderManager.get_device(),
-			static_cast<VkRenderPass>(builder.renderPass->get_native()),
+			static_cast<VkRenderPass>(info.renderPass->get_native()),
 			extent,
-			builder.renderPass->has_color_attachment() ? vulkanImage->get_view() : VK_NULL_HANDLE,
-			builder.renderPass->has_depth_attachment() ? vulkanDepthImage->get_view() : VK_NULL_HANDLE
+			info.renderPass->has_color_attachment() ? vulkanImage->get_view() : VK_NULL_HANDLE,
+			info.renderPass->has_depth_attachment() ? vulkanDepthImage->get_view() : VK_NULL_HANDLE
 		);
 		m_framebuffers.add(framebuffer);
 	}
@@ -71,8 +71,8 @@ void Minty::Vulkan_RenderTarget::dispose()
 	m_framebuffers.clear();
 }
 
-void Minty::Vulkan_RenderTarget::refresh(RenderTargetBuilder const& builder)
+void Minty::Vulkan_RenderTarget::refresh(RenderTargetInfo const& info)
 {
 	dispose();
-	initialize(builder);
+	initialize(info);
 }

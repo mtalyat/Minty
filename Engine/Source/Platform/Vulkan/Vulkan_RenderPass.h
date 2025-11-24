@@ -17,7 +17,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_RenderPass(RenderPassBuilder const& builder);
+		Vulkan_RenderPass(RenderPassInfo const& info);
 
 		~Vulkan_RenderPass() override;
 

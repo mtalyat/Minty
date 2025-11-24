@@ -12,7 +12,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for a Material.
 	/// </summary>
-	struct MaterialBuilder
+	struct MaterialInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -53,8 +53,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Material.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Material(MaterialBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		Material(MaterialInfo const& info);
 
 		virtual ~Material() override;
 
@@ -148,7 +148,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<Material> create(MaterialBuilder const& builder = {});
+		static Owner<Material> create(MaterialInfo const& info = {});
 
 #pragma endregion
 

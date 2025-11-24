@@ -19,10 +19,10 @@
 
 using namespace Minty;
 
-Owner<RenderManager> Minty::RenderManager::create(RenderManagerBuilder const& builder)
+Owner<RenderManager> Minty::RenderManager::create(RenderManagerInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_RenderManager>(builder);
+	return Owner<Vulkan_RenderManager>(info);
 #else
 	return Owner<RenderManager>();
 #endif // MINTY_VULKAN
@@ -136,9 +136,9 @@ void Minty::RenderManager::draw_instances(UInt const instanceCount, UInt const v
 #endif // MINTY_VULKAN
 }
 
-Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
+Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
 	: m_state(State::Idle)
-	, m_window(builder.window)
+	, m_window(info.window)
 	, m_resizePending(false)
 	, m_boundShader(nullptr)
 	, m_boundMaterial(nullptr)
@@ -157,7 +157,7 @@ Minty::RenderManager::RenderManager(RenderManagerBuilder const& builder)
 		m_window = Context::get_singleton().get_window_ref();
 	}
 
-	MINTY_ASSERT(m_window != nullptr, "RenderManager requires a Window to render to. Provide a window in the RenderManagerBuilder, or create a Context.");
+	MINTY_ASSERT(m_window != nullptr, "RenderManager requires a Window to render to. Provide a window in the RenderManagerInfo, or create a Context.");
 }
 
 Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
@@ -181,11 +181,11 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	}
 
 	// create the mesh
-	MeshBuilder builder{};
-	builder.id = UUID::create();
-	builder.type = type;
+	MeshInfo info{};
+	info.id = UUID::create();
+	info.type = type;
 	AssetManager& assetManager = AssetManager::get_singleton();
-	Ref<Mesh> mesh = assetManager.create<Mesh>(builder);
+	Ref<Mesh> mesh = assetManager.create<Mesh>(info);
 	m_defaultMeshes.add(type, mesh);
 
 	return mesh;
@@ -269,28 +269,28 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 	}
 
 	// create new Material
-	MaterialBuilder builder{};
-	builder.id = UUID::create();
+	MaterialInfo info{};
+	info.id = UUID::create();
 
 	AssetManager& assetManager = AssetManager::get_singleton();
 	
 	// get the material template based on the asset type and the space, if none given
 	if(materialTemplate != nullptr)
 	{
-		builder.materialTemplate = materialTemplate;
+		info.materialTemplate = materialTemplate;
 	}
 	else
 	{
-		builder.materialTemplate = get_default_material_template(assetType, space, mask);
+		info.materialTemplate = get_default_material_template(assetType, space, mask);
 	}
 
 	// set the texture
 	Object object{};
 	object.add("texSampler", texture->get_id());
-	builder.values.add("texture", object);
+	info.values.add("texture", object);
 
 	// create the material
-	Ref<Material> material = assetManager.create<Material>(builder);
+	Ref<Material> material = assetManager.create<Material>(info);
 
 	// add to default materials
 	m_defaultMaterials.add(key, material);
@@ -380,7 +380,7 @@ void Minty::RenderManager::end_frame()
 	m_state = State::Idle;
 }
 
-Bool Minty::RenderManager::start_pass(CameraInfo const& cameraInfo)
+Bool Minty::RenderManager::start_pass(CameraData const& cameraInfo)
 {
 	MINTY_ASSERT(m_state != State::Idle, "Attempting to start a pass while not rendering a frame.");
 	MINTY_ASSERT(m_state != State::Pass, "Attempting to start a pass while already rendering a pass.");

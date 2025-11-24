@@ -4,20 +4,20 @@
 
 using namespace Minty;
 
-Minty::SoLoud_AudioClip::SoLoud_AudioClip(AudioClipBuilder const& builder)
-	: AudioClip(builder)
+Minty::SoLoud_AudioClip::SoLoud_AudioClip(AudioClipInfo const& info)
+	: AudioClip(info)
 	, mp_clip(new SoLoud::Wav())
 {
 	// load clip
-	SoLoud::result result = mp_clip->loadMem(static_cast<unsigned char const*>(builder.data.get_data()), static_cast<unsigned int>(builder.data.get_size()), true, false);
+	SoLoud::result result = mp_clip->loadMem(static_cast<unsigned char const*>(info.data.get_data()), static_cast<unsigned int>(info.data.get_size()), true, false);
 
-	MINTY_ASSERT(result == SoLoud::SO_NO_ERROR, F("Failed to load audio clip: {}. Error: {}", builder.id, result));
+	MINTY_ASSERT(result == SoLoud::SO_NO_ERROR, F("Failed to load audio clip: {}. Error: {}", info.id, result));
 
 	// set data
-	mp_clip->setVolume(builder.volume);
-	mp_clip->setLooping(builder.loop);
-	mp_clip->setLoopPoint(builder.loopPoint);
-	mp_clip->setSingleInstance(builder.exclusive);
+	mp_clip->setVolume(info.volume);
+	mp_clip->setLooping(info.loop);
+	mp_clip->setLoopPoint(info.loopPoint);
+	mp_clip->setSingleInstance(info.exclusive);
 }
 
 Minty::SoLoud_AudioClip::~SoLoud_AudioClip()

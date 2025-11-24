@@ -12,7 +12,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a Camera.
 	/// </summary>
-	struct CameraBuilder
+	struct CameraInfo
 	{
 		/// <summary>
 		/// The Asset ID.
@@ -92,8 +92,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Camera.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Camera(CameraBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		Camera(CameraInfo const& info);
 
 #pragma endregion
 
@@ -230,9 +230,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Camera.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Camera Owner.</returns>
-		static Owner<Camera> create(CameraBuilder const& builder = {});
+		static Owner<Camera> create(CameraInfo const& info = {});
 
 #pragma endregion
 

@@ -3,7 +3,7 @@
 
 namespace Minty
 {
-	struct TimeManagerBuilder;
+	struct TimeManagerInfo;
 
 	/// <summary>
 	/// Manages the time for the application.
@@ -28,7 +28,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		TimeManager(TimeManagerBuilder const& builder);
+		TimeManager(TimeManagerInfo const& info);
 
 #pragma endregion
 

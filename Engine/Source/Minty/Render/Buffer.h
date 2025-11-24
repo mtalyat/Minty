@@ -7,7 +7,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a Buffer.
 	/// </summary>
-	struct BufferBuilder
+	struct BufferInfo
 	{
 		/// <summary>
 		/// The usage of the Buffer.
@@ -49,10 +49,10 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Buffer.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Buffer(BufferBuilder const& builder)
-			: m_usage(builder.usage)
-			, m_frequent(builder.frequent)
+		/// <param name="info">The arguments.</param>
+		Buffer(BufferInfo const& info)
+			: m_usage(info.usage)
+			, m_frequent(info.frequent)
 		{
 		}
 
@@ -109,9 +109,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Buffer.
 		/// </summary>
-		/// <param name="builder">The builder to use.</param>
+		/// <param name="info">The info to use.</param>
 		/// <returns>A Buffer Owner.</returns>
-		static Owner<Buffer> create(BufferBuilder const& builder = {});
+		static Owner<Buffer> create(BufferInfo const& info = {});
 
 #pragma endregion
 	};

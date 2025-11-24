@@ -13,7 +13,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a PhysicsManager.
 	/// </summary>
-	struct PhysicsManagerBuilder
+	struct PhysicsManagerInfo
 	{
 	};
 
@@ -35,8 +35,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new PhysicsManager with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		PhysicsManager(PhysicsManagerBuilder const& builder)
+		/// <param name="info">The arguments.</param>
+		PhysicsManager(PhysicsManagerInfo const& info)
 			: Manager()
 		{
 		}
@@ -53,9 +53,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new PhysicsManager with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A PhysicsManager Owner.</returns>
-		static Owner<PhysicsManager> create(PhysicsManagerBuilder const& builder);
+		static Owner<PhysicsManager> create(PhysicsManagerInfo const& info);
 
 		/// <summary>
 		/// Gets the singleton PhysicsManager for the active Scene.

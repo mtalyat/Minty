@@ -12,10 +12,10 @@ AudioManager& Minty::AudioManager::get_singleton()
 	return Context::get_singleton().get_audio_manager();
 }
 
-Owner<AudioManager> Minty::AudioManager::create(AudioManagerBuilder const& builder)
+Owner<AudioManager> Minty::AudioManager::create(AudioManagerInfo const& info)
 {
 #ifdef MINTY_SOLOUD
-	return Owner<SoLoud_AudioManager>(builder);
+	return Owner<SoLoud_AudioManager>(info);
 #else
 	return Owner<AudioManager>();
 #endif // MINTY_SOLOUD

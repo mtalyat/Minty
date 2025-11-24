@@ -8,31 +8,31 @@
 
 using namespace Minty;
 
-Minty::Shader::Shader(ShaderBuilder const& builder)
-	: Asset(builder.id)
-	, m_priority(builder.priority)
-	, m_renderPass(builder.renderPass)
+Minty::Shader::Shader(ShaderInfo const& info)
+	: Asset(info.id)
+	, m_priority(info.priority)
+	, m_renderPass(info.renderPass)
 	, m_inputs()
 	, m_materials()
-	, m_depthMode(builder.depthMode)
-	, m_stencilMode(builder.stencilMode)
+	, m_depthMode(info.depthMode)
+	, m_stencilMode(info.stencilMode)
 {
-	MINTY_ASSERT(builder.fragmentShaderModule != nullptr, "ShaderBuilder fragmentShaderModule must not be null.");
-	MINTY_ASSERT(!builder.fragmentShaderModuleEntryPoint.is_empty(), "ShaderBuilder fragmentShaderModuleEntryPoint must not be empty.");
-	MINTY_ASSERT(builder.vertexShaderModule != nullptr, "ShaderBuilder vertexShaderModule must not be null.");
-	MINTY_ASSERT(!builder.vertexShaderModuleEntryPoint.is_empty(), "ShaderBuilder vertexShaderModuleEntryPoint must not be empty.");
-	MINTY_ASSERT(builder.renderPass != nullptr, "ShaderBuilder renderPass must not be null.");
-	MINTY_ASSERT(builder.primitiveTopology != ShaderPrimitiveTopology::Undefined, "ShaderBuilder primitiveTopology must not be undefined.");
-	MINTY_ASSERT(builder.polygonMode != ShaderPolygonMode::Undefined, "ShaderBuilder polygonMode must not be undefined.");
-	MINTY_ASSERT(builder.frontFace != ShaderFrontFace::Undefined, "ShaderBuilder frontFace must not be undefined.");
-	MINTY_ASSERT(builder.cullMode != ShaderCullMode::Undefined, "ShaderBuilder cullMode must not be undefined.");
-	MINTY_ASSERT(builder.lineWidth > 0.0f, "ShaderBuilder lineWidth must be greater than 0.0f.");
-	MINTY_ASSERT(builder.primitiveTopology != ShaderPrimitiveTopology::LineList || builder.lineWidth == 1.0f, "ShaderBuilder lineWidth must be 1.0f if not using line topology.");
+	MINTY_ASSERT(info.fragmentShaderModule != nullptr, "ShaderInfo fragmentShaderModule must not be null.");
+	MINTY_ASSERT(!info.fragmentShaderModuleEntryPoint.is_empty(), "ShaderInfo fragmentShaderModuleEntryPoint must not be empty.");
+	MINTY_ASSERT(info.vertexShaderModule != nullptr, "ShaderInfo vertexShaderModule must not be null.");
+	MINTY_ASSERT(!info.vertexShaderModuleEntryPoint.is_empty(), "ShaderInfo vertexShaderModuleEntryPoint must not be empty.");
+	MINTY_ASSERT(info.renderPass != nullptr, "ShaderInfo renderPass must not be null.");
+	MINTY_ASSERT(info.primitiveTopology != ShaderPrimitiveTopology::Undefined, "ShaderInfo primitiveTopology must not be undefined.");
+	MINTY_ASSERT(info.polygonMode != ShaderPolygonMode::Undefined, "ShaderInfo polygonMode must not be undefined.");
+	MINTY_ASSERT(info.frontFace != ShaderFrontFace::Undefined, "ShaderInfo frontFace must not be undefined.");
+	MINTY_ASSERT(info.cullMode != ShaderCullMode::Undefined, "ShaderInfo cullMode must not be undefined.");
+	MINTY_ASSERT(info.lineWidth > 0.0f, "ShaderInfo lineWidth must be greater than 0.0f.");
+	MINTY_ASSERT(info.primitiveTopology != ShaderPrimitiveTopology::LineList || info.lineWidth == 1.0f, "ShaderInfo lineWidth must be 1.0f if not using line topology.");
 
 	// copy inputs into map
-	for (ShaderInput const& input : builder.inputs)
+	for (ShaderInput const& input : info.inputs)
 	{
-		MINTY_ASSERT(!m_inputs.contains(input.name), "ShaderBuilder inputs must not contain duplicate names.");
+		MINTY_ASSERT(!m_inputs.contains(input.name), "ShaderInfo inputs must not contain duplicate names.");
 		m_inputs.add(input.name, input);
 	}
 }
@@ -67,10 +67,10 @@ void Minty::Shader::unregister_material(Material* const material)
 	m_materials.remove(material);
 }
 
-Owner<Shader> Minty::Shader::create(ShaderBuilder const& builder)
+Owner<Shader> Minty::Shader::create(ShaderInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Shader>(builder);
+	return Owner<Vulkan_Shader>(info);
 #else
     return Owner<Shader>();
 #endif // MINTY_VULKAN

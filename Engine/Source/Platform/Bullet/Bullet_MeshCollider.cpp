@@ -4,13 +4,13 @@
 
 using namespace Minty;
 
-Minty::Bullet_MeshCollider::Bullet_MeshCollider(ColliderBuilder const& builder)
-	: Bullet_Collider(builder)
+Minty::Bullet_MeshCollider::Bullet_MeshCollider(ColliderInfo const& info)
+	: Bullet_Collider(info)
 {
-	MINTY_ASSERT(builder.shape == Shape::Custom, "MeshCollider must have a Custom shape.");
-	MINTY_ASSERT(builder.mesh != nullptr, "MeshCollider must have custom data.");
+	MINTY_ASSERT(info.shape == Shape::Custom, "MeshCollider must have a Custom shape.");
+	MINTY_ASSERT(info.mesh != nullptr, "MeshCollider must have custom data.");
 
-	Ref<Mesh> mesh = builder.mesh;
+	Ref<Mesh> mesh = info.mesh;
 	ListContainer const& vertices = mesh->get_vertices();
 	ListContainer const& indices = mesh->get_indices();
 

@@ -15,29 +15,29 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 {
 	collider.release(); // release any existing collider
 
-	ColliderBuilder builder{};
-	if (!reader.read_default(builder.shape) && !reader.read("Shape", builder.shape))
+	ColliderInfo info{};
+	if (!reader.read_default(info.shape) && !reader.read("Shape", info.shape))
 	{
 		// could not read shape
 		return false;
 	}
-	if (builder.shape == Shape::Empty)
+	if (info.shape == Shape::Empty)
 	{
 		// read shape, but it is empty, so do nothing
 		return true;
 	}
-	reader.read("Size", builder.size);
-	reader.read("Static", builder.isStatic);
-	if (builder.shape == Shape::Custom)
+	reader.read("Size", info.size);
+	reader.read("Static", info.isStatic);
+	if (info.shape == Shape::Custom)
 	{
 		Ref<Mesh> mesh;
 		reader.read("Mesh", mesh);
-		builder.mesh = mesh;
+		info.mesh = mesh;
 	}
 	else
 	{
-		builder.mesh = nullptr; // no mesh for non-custom shapes
+		info.mesh = nullptr; // no mesh for non-custom shapes
 	}
-	collider = Collider::create(builder);
+	collider = Collider::create(info);
 	return collider != nullptr; // return true if a collider was created
 }

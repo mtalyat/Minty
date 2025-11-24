@@ -17,7 +17,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments to create a PhysicsSimulation.
 	/// </summary>
-	struct PhysicsSimulationBuilder
+	struct PhysicsSimulationInfo
 	{
 		/// <summary>
 		/// The gravity vector applied to all objects in the simulation.
@@ -55,8 +55,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new PhysicsSimulation with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		PhysicsSimulation(PhysicsSimulationBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		PhysicsSimulation(PhysicsSimulationInfo const& info);
 
 #pragma endregion
 
@@ -175,9 +175,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new PhysicsSimulation with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A PhysicsSimulation Owner.</returns>
-		static Owner<PhysicsSimulation> create(PhysicsSimulationBuilder const& builder);
+		static Owner<PhysicsSimulation> create(PhysicsSimulationInfo const& info);
 
 #pragma endregion
 

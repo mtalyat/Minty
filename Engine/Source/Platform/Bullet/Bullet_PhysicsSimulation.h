@@ -21,7 +21,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Bullet_PhysicsSimulation(PhysicsSimulationBuilder const& builder);
+		Bullet_PhysicsSimulation(PhysicsSimulationInfo const& info);
 
 #pragma endregion
 

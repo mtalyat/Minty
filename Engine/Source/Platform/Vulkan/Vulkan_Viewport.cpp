@@ -5,21 +5,21 @@
 
 using namespace Minty;
 
-Minty::Vulkan_Viewport::Vulkan_Viewport(ViewportBuilder const& builder)
-	: Viewport(builder)
+Minty::Vulkan_Viewport::Vulkan_Viewport(ViewportInfo const& info)
+	: Viewport(info)
     , m_viewport({})
 	, m_scissor({})
 {
-	m_viewport.x = static_cast<float>(builder.viewPosition.x);
-	m_viewport.y = static_cast<float>(builder.viewPosition.y);
-	m_viewport.width = static_cast<float>(builder.viewSize.x);
-	m_viewport.height = static_cast<float>(builder.viewSize.y);
-	m_viewport.minDepth = builder.minDepth;
-	m_viewport.maxDepth = builder.maxDepth;
-	m_scissor.offset.x = builder.maskPosition.x;
-	m_scissor.offset.y = builder.maskPosition.y;
-	m_scissor.extent.width = builder.maskSize.x;
-	m_scissor.extent.height = builder.maskSize.y;
+	m_viewport.x = static_cast<float>(info.viewPosition.x);
+	m_viewport.y = static_cast<float>(info.viewPosition.y);
+	m_viewport.width = static_cast<float>(info.viewSize.x);
+	m_viewport.height = static_cast<float>(info.viewSize.y);
+	m_viewport.minDepth = info.minDepth;
+	m_viewport.maxDepth = info.maxDepth;
+	m_scissor.offset.x = info.maskPosition.x;
+	m_scissor.offset.y = info.maskPosition.y;
+	m_scissor.extent.width = info.maskSize.x;
+	m_scissor.extent.height = info.maskSize.y;
 }
 
 void Minty::Vulkan_Viewport::set_position(Int2 const& position)

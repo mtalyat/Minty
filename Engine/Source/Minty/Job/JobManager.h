@@ -14,7 +14,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creating a JobManager.
 	/// </summary>
-	struct JobManagerBuilder
+	struct JobManagerInfo
 	{
 		/// <summary>
 		/// The number of threads to use.
@@ -75,9 +75,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new JobManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		JobManager(JobManagerBuilder const& builder, Allocator const allocator = Allocator::Default);
+		JobManager(JobManagerInfo const& info, Allocator const allocator = Allocator::Default);
 
 		~JobManager()
 		{
@@ -203,9 +203,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new JobManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A JobManager Owner.</returns>
-		static Owner<JobManager> create(JobManagerBuilder const& builder = {});
+		static Owner<JobManager> create(JobManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's JobManager.

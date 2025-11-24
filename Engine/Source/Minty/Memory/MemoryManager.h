@@ -15,17 +15,17 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creating a MemoryManager.
 	/// </summary>
-	struct MemoryManagerBuilder
+	struct MemoryManagerInfo
 	{
 		/// <summary>
 		/// The MemoryStack for temporary (one frame) memory.
 		/// </summary>
-		MemoryStackBuilder temporary = {};
+		MemoryStackInfo temporary = {};
 
 		/// <summary>
 		/// The MemoryStacks for tasks (multiple frames) memory.
 		/// </summary>
-		MemoryStackBuilder task = {};
+		MemoryStackInfo task = {};
 
 		/// <summary>
 		/// The number of task MemoryStacks to create.
@@ -35,7 +35,7 @@ namespace Minty
 		/// <summary>
 		/// The MemoryPools for persistent memory.
 		/// </summary>
-		Vector<MemoryPoolBuilder> persistents;
+		Vector<MemoryPoolInfo> persistents;
 	};
 
 	/// <summary>
@@ -68,7 +68,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		MemoryManager(MemoryManagerBuilder const& builder);
+		MemoryManager(MemoryManagerInfo const& info);
 
 		MemoryManager(MemoryManager const& other) = delete;
 
@@ -176,9 +176,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new MemoryManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A MemoryManager Owner.</returns>
-		static Owner<MemoryManager> create(MemoryManagerBuilder const& builder = {});
+		static Owner<MemoryManager> create(MemoryManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's MemoryManager.

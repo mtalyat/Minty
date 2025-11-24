@@ -14,7 +14,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a FontVariant. 
 	/// </summary>
-	struct FontVariantBuilder
+	struct FontVariantInfo
 	{
 		/// <summary>
 		/// The Asset ID.
@@ -78,8 +78,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a FontVariant with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		FontVariant(FontVariantBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		FontVariant(FontVariantInfo const& info);
 
 #pragma endregion
 
@@ -153,9 +153,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a FontVariant with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A FontVariant Owner.</returns>
-		static Owner<FontVariant> create(FontVariantBuilder const& builder = {});
+		static Owner<FontVariant> create(FontVariantInfo const& info = {});
 
 #pragma endregion
 };

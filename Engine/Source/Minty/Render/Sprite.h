@@ -13,7 +13,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a Sprite.
 	/// </summary>
-	struct SpriteBuilder
+	struct SpriteInfo
 	{
 		/// <summary>
 		/// The Asset ID.
@@ -54,7 +54,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Sprite(SpriteBuilder const& builder);
+		Sprite(SpriteInfo const& info);
 
 		~Sprite()
 		{
@@ -183,9 +183,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a Sprite with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Sprite Owner.</returns>
-		static Owner<Sprite> create(SpriteBuilder const& builder = {});
+		static Owner<Sprite> create(SpriteInfo const& info = {});
 
 #pragma endregion
 	};

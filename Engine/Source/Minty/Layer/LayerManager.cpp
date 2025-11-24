@@ -8,7 +8,7 @@
 
 using namespace Minty;
 
-Minty::LayerManager::LayerManager(LayerManagerBuilder const& builder)
+Minty::LayerManager::LayerManager(LayerManagerInfo const& info)
 	: Manager()
 	, m_names()
 	, m_matrix()
@@ -25,7 +25,7 @@ Minty::LayerManager::LayerManager(LayerManagerBuilder const& builder)
 #endif // MINTY_DEBUG
 
 	// build the matrix and names using the provided layer collisions
-	for (auto const& layerCollision : builder.layerCollisions)
+	for (auto const& layerCollision : info.layerCollisions)
 	{
 		String const& name = layerCollision.get_first();
 		MINTY_ASSERT(!name.is_empty(), "Layer name cannot be empty.");
@@ -102,9 +102,9 @@ Bool Minty::LayerManager::check_for_collision(Layer const layerA, Layer const la
 	return (maskA & bitB) != 0;
 }
 
-Owner<LayerManager> Minty::LayerManager::create(LayerManagerBuilder const& builder)
+Owner<LayerManager> Minty::LayerManager::create(LayerManagerInfo const& info)
 {
-	return Owner<LayerManager>(builder);
+	return Owner<LayerManager>(info);
 }
 
 LayerManager& Minty::LayerManager::get_singleton()

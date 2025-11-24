@@ -8,7 +8,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creating a GenericAsset.
 	/// </summary>
-	struct GenericAssetBuilder
+	struct GenericAssetInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -37,9 +37,9 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		GenericAsset(GenericAssetBuilder const& builder)
-			: Asset(builder.id)
-			, m_data(builder.data)
+		GenericAsset(GenericAssetInfo const& info)
+			: Asset(info.id)
+			, m_data(info.data)
 		{
 		}
 
@@ -80,9 +80,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new GenericAsset.
 		/// </summary>
-		/// <param name="builder">The builder.</param>
+		/// <param name="info">The info.</param>
 		/// <returns>A GenericAsset Owner.</returns>
-		static Owner<GenericAsset> create(GenericAssetBuilder const& builder = {});
+		static Owner<GenericAsset> create(GenericAssetInfo const& info = {});
 
 #pragma endregion
 

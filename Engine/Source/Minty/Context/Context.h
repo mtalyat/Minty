@@ -21,20 +21,20 @@ namespace Minty
 	/// <summary>
 	/// Holds data to initialize a Context.
 	/// </summary>
-	struct ContextBuilder
+	struct ContextInfo
 	{
 		Path debugLogPath = "";
 
-		WindowBuilder windowBuilder = {};
-		MemoryManagerBuilder memoryManagerBuilder = {};
-		JobManagerBuilder jobManagerBuilder = {};
-		AudioManagerBuilder audioManagerBuilder = {};
-		LayerManagerBuilder layerManagerBuilder = {};
-		PhysicsManagerBuilder physicsManagerBuilder = {};
-		AssetManagerBuilder assetManagerBuilder = {};
-		InputManagerBuilder inputManagerBuilder = {};
-		RenderManagerBuilder renderManagerBuilder = {};
-		SceneManagerBuilder sceneManagerBuilder = {};
+		WindowInfo windowInfo = {};
+		MemoryManagerInfo memoryManagerInfo = {};
+		JobManagerInfo jobManagerInfo = {};
+		AudioManagerInfo audioManagerInfo = {};
+		LayerManagerInfo layerManagerInfo = {};
+		PhysicsManagerInfo physicsManagerInfo = {};
+		AssetManagerInfo assetManagerInfo = {};
+		InputManagerInfo inputManagerInfo = {};
+		RenderManagerInfo renderManagerInfo = {};
+		SceneManagerInfo sceneManagerInfo = {};
 	};
 
 	/// <summary>
@@ -62,7 +62,7 @@ namespace Minty
 		Owner<SceneManager> m_sceneManager;
 		Vector<Manager*> m_managers;
 
-		Lookup<TypeID, SystemInfo> m_registeredSystems;
+		Lookup<TypeID, SystemData> m_registeredSystems;
 		Lookup<TypeID, ComponentInfo> m_registeredComponents;
 
 #pragma endregion
@@ -71,10 +71,10 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new Context using the given ContextBuilder.
+		/// Creates a new Context using the given ContextInfo.
 		/// </summary>
-		/// <param name="builder">The input arguments.</param>
-		Context(ContextBuilder const& builder);
+		/// <param name="info">The input arguments.</param>
+		Context(ContextInfo const& info);
 
 		Context(Context const& other) = delete;
 
@@ -290,13 +290,13 @@ namespace Minty
 			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
 			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
 
-			SystemInfo info
+			SystemData info
 			{
 				.name = name,
 				.typeId = typeid(T),
-				.create = [](SystemBuilder const& builder) -> System*
+				.create = [](SystemInfo const& info) -> System*
 				{
-					return new T(builder);
+					return new T(info);
 				},
 				.defaultPriority = priority
 			};
@@ -304,9 +304,9 @@ namespace Minty
 			m_registeredSystems.add(name, typeid(T), info);
 		}
 
-		SystemInfo const* get_system_info(String const& name) const;
+		SystemData const* get_system_info(String const& name) const;
 
-		SystemInfo const* get_system_info(TypeID const& typeId) const;
+		SystemData const* get_system_info(TypeID const& typeId) const;
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
 		void register_component(String const& name)
@@ -357,11 +357,11 @@ namespace Minty
 		static Owner<Context> open(Path const& path);
 
 		/// <summary>
-		/// Creates a new Context using the given ContextBuilder.
+		/// Creates a new Context using the given ContextInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Context Owner.</returns>
-		static Owner<Context> create(ContextBuilder const& builder = {});
+		static Owner<Context> create(ContextInfo const& info = {});
 
 		/// <summary>
 		/// Gets the current instance of the Context.

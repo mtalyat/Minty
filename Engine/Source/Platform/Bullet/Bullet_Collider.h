@@ -21,8 +21,8 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Bullet_Collider(ColliderBuilder const& builder)
-			: Collider(builder)
+		Bullet_Collider(ColliderInfo const& info)
+			: Collider(info)
 			, mp_shape(nullptr)
 			, mp_object(nullptr)
 		{

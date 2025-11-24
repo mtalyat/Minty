@@ -15,9 +15,9 @@ namespace Minty
 		/// <summary>
 		/// Creates an AnimationSystem using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		AnimationSystem(SystemBuilder const& builder)
-			: System(builder)
+		/// <param name="info">The arguments.</param>
+		AnimationSystem(SystemInfo const& info)
+			: System(info)
 		{
 		}
 

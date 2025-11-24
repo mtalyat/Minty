@@ -869,12 +869,12 @@ struct IDxcValidator2 : public IDxcValidator {
     ) = 0;
 };
 
-CROSS_PLATFORM_UUIDOF(IDxcContainerBuilder, "334b1f50-2292-4b35-99a1-25588d8c17fe")
-/// \brief Interface to DXC container builder.
+CROSS_PLATFORM_UUIDOF(IDxcContainerInfo, "334b1f50-2292-4b35-99a1-25588d8c17fe")
+/// \brief Interface to DXC container info.
 ///
-/// Use DxcCreateInstance with CLSID_DxcContainerBuilder to obtain an instance of this.
-struct IDxcContainerBuilder : public IUnknown {
-  /// \brief Load a DxilContainer to the builder.
+/// Use DxcCreateInstance with CLSID_DxcContainerInfo to obtain an instance of this.
+struct IDxcContainerInfo : public IUnknown {
+  /// \brief Load a DxilContainer to the info.
   virtual HRESULT STDMETHODCALLTYPE Load(_In_ IDxcBlob *pDxilContainerHeader) = 0;
 
   /// \brief Add a part to the container.
@@ -1202,7 +1202,7 @@ CLSID_SCOPE const GUID CLSID_DxcOptimizer = {
     {0x9b, 0x6b, 0xb1, 0x24, 0xe7, 0xa5, 0x20, 0x4c}};
 
 // {94134294-411f-4574-b4d0-8741e25240d2}
-CLSID_SCOPE const GUID CLSID_DxcContainerBuilder = {
+CLSID_SCOPE const GUID CLSID_DxcContainerInfo = {
     0x94134294,
     0x411f,
     0x4574,

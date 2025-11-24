@@ -294,7 +294,7 @@ protected:
 
     // track whether this block is known to be uncreachable (not necessarily
     // true for all unreachable blocks, but should be set at least
-    // for the extraneous ones introduced by the builder).
+    // for the extraneous ones introduced by the info).
     bool unreachable;
 };
 

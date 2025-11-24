@@ -10,10 +10,10 @@
 
 using namespace Minty;
 
-Owner<Collider> Minty::Collider::create(ColliderBuilder const& builder)
+Owner<Collider> Minty::Collider::create(ColliderInfo const& info)
 {
 	// create a shape collider or a mesh collider based on the shape type
-	switch (builder.shape)
+	switch (info.shape)
 	{
 	case Shape::Empty:
 		// no collider
@@ -21,14 +21,14 @@ Owner<Collider> Minty::Collider::create(ColliderBuilder const& builder)
 	case Shape::Custom:
 		// custom mesh collider
 #if defined(MINTY_BULLET)
-		return Owner<Bullet_MeshCollider>(builder);
+		return Owner<Bullet_MeshCollider>(info);
 #else
 		return Owner<Collider>();
 #endif
 	default:
 		// simple shape collider
 #if defined(MINTY_BULLET)
-		return Owner<Bullet_ShapeCollider>(builder);
+		return Owner<Bullet_ShapeCollider>(info);
 #else
 		return Owner<Collider>();
 #endif

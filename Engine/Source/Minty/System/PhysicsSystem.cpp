@@ -15,18 +15,18 @@
 
 using namespace Minty;
 
-Minty::PhysicsSystem::PhysicsSystem(SystemBuilder const& builder)
-	: System(builder)
+Minty::PhysicsSystem::PhysicsSystem(SystemInfo const& info)
+	: System(info)
 	, m_simulation()
 	, m_accumulator(0.0f)
 {
 	Context& context = Context::get_singleton();
 	
 	// create the simulation based on data from the physics manager
-	PhysicsSimulationBuilder simulationBuilder{};
-	simulationBuilder.physicsManager = context.get_physics_manager_ref();
-	simulationBuilder.layerManager = context.get_layer_manager_ref();
-	m_simulation = PhysicsSimulation::create(simulationBuilder);
+	PhysicsSimulationInfo simulationInfo{};
+	simulationInfo.physicsManager = context.get_physics_manager_ref();
+	simulationInfo.layerManager = context.get_layer_manager_ref();
+	m_simulation = PhysicsSimulation::create(simulationInfo);
 }
 
 void Minty::PhysicsSystem::initialize_entities()

@@ -7,7 +7,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creating a MemoryStack.
 	/// </summary>
-	struct MemoryStackBuilder
+	struct MemoryStackInfo
 	{
 		Size capacity = 0;
 	};
@@ -33,7 +33,7 @@ namespace Minty
 		/// Creates a new MemoryStack with the given capacity in Bytes.
 		/// </summary>
 		/// <param name="capacity">The capacity in Bytes.</param>
-		MemoryStack(MemoryStackBuilder const& builder);
+		MemoryStack(MemoryStackInfo const& info);
 
 		MemoryStack(MemoryStack const& other) = delete;
 

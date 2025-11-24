@@ -492,15 +492,15 @@ void Minty::EntityManager::finalize_dirties()
 			continue;
 		}
 
-		// create a builder
-		MeshBuilder builder{};
-		builder.type = MeshType::Custom;
+		// create a info
+		MeshInfo info{};
+		info.type = MeshType::Custom;
 
 		// (re)generate the mesh
-		builder.vertices = ListContainer(sizeof(Float) * 4, textComp.text.get_size());
-		ListContainer& vertices = builder.vertices;
-		builder.indices = ListContainer(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
-		ListContainer& indices = builder.indices;
+		info.vertices = ListContainer(sizeof(Float) * 4, textComp.text.get_size());
+		ListContainer& vertices = info.vertices;
+		info.indices = ListContainer(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
+		ListContainer& indices = info.indices;
 
 		Float xAdvance = 0.0f;
 		Float yAdvance = 0.0f;
@@ -587,14 +587,14 @@ void Minty::EntityManager::finalize_dirties()
 		if (meshComp.mesh == nullptr)
 		{
 			// create new mesh outright
-			builder.id = UUID::create();
-			meshComp.mesh = assetManager.create<Mesh>(builder);
+			info.id = UUID::create();
+			meshComp.mesh = assetManager.create<Mesh>(info);
 		}
 		else
 		{
 			// replace existing mesh
-			builder.id = meshComp.mesh->get_id();
-			*meshComp.mesh = Mesh(builder);
+			info.id = meshComp.mesh->get_id();
+			*meshComp.mesh = Mesh(info);
 		}
 
 		// update the material
@@ -1660,9 +1660,9 @@ Bool Minty::EntityManager::deserialize(Reader& reader)
 	return deserialize_entities(reader);
 }
 
-Owner<EntityManager> Minty::EntityManager::create(Scene* scene, EntityManagerBuilder const& builder)
+Owner<EntityManager> Minty::EntityManager::create(Scene* scene, EntityManagerInfo const& info)
 {
-	return Owner<EntityManager>(scene, builder);
+	return Owner<EntityManager>(scene, info);
 }
 
 EntityManager& Minty::EntityManager::get_singleton()

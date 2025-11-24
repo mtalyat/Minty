@@ -36,7 +36,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Material(MaterialBuilder const& builder);
+		Vulkan_Material(MaterialInfo const& info);
 
 		~Vulkan_Material() override;
 

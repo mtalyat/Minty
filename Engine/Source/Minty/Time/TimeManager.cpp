@@ -1,19 +1,19 @@
 #include "pch.h"
 #include "TimeManager.h"
-#include "Minty/Time/TimeManagerBuilder.h"
+#include "Minty/Time/TimeManagerInfo.h"
 
 using namespace Minty;
 
-Minty::TimeManager::TimeManager(TimeManagerBuilder const& builder)
+Minty::TimeManager::TimeManager(TimeManagerInfo const& info)
 	: m_time(0.0f)
 	, m_rawTime(0.0f)
 	, m_elapsed(0.0f)
 	, m_rawElapsed(0.0f)
 	, m_timeScale(1.0f)
-	, m_fixedTimeStep(builder.fixedTimeStep)
+	, m_fixedTimeStep(info.fixedTimeStep)
 	, m_fixedTimeAccumulator(0.0f)
-	, m_maxAllowedTimeStep(builder.maxAllowedTimeStep)
-	, m_maxFixedUpdatesPerFrame(builder.maxFixedUpdatesPerFrame)
+	, m_maxAllowedTimeStep(info.maxAllowedTimeStep)
+	, m_maxFixedUpdatesPerFrame(info.maxFixedUpdatesPerFrame)
 {}
 
 Int Minty::TimeManager::update(Float const deltaTime)

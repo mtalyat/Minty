@@ -18,8 +18,8 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		SoLoud_AudioManager(AudioManagerBuilder const& builder)
-			: AudioManager(builder)
+		SoLoud_AudioManager(AudioManagerInfo const& info)
+			: AudioManager(info)
 			, m_engine(new SoLoud::Soloud())
 			, m_dirty(false)
 		{

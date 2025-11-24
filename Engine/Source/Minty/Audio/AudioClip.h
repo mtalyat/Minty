@@ -7,7 +7,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments used to create an AudioClip.
 	/// </summary>
-	struct AudioClipBuilder
+	struct AudioClipInfo
 	{
 		/// <summary>
 		/// The ID of the AudioClip.
@@ -47,11 +47,11 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new AudioClip using the given AudioClipBuilder.
+		/// Creates a new AudioClip using the given AudioClipInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		AudioClip(AudioClipBuilder const& builder)
-			: Asset(builder.id)
+		/// <param name="info">The arguments.</param>
+		AudioClip(AudioClipInfo const& info)
+			: Asset(info.id)
 		{
 		}
 
@@ -82,10 +82,10 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new AudioClip using the given AudioClipBuilder.
+		/// Creates a new AudioClip using the given AudioClipInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		static Owner<AudioClip> create(AudioClipBuilder const& builder = {});
+		/// <param name="info">The arguments.</param>
+		static Owner<AudioClip> create(AudioClipInfo const& info = {});
 
 #pragma endregion
 	};

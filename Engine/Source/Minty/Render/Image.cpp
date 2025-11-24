@@ -6,10 +6,10 @@
 
 using namespace Minty;
 
-Owner<Image> Minty::Image::create(ImageBuilder const& builder)
+Owner<Image> Minty::Image::create(ImageInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Image>(builder);
+	return Owner<Vulkan_Image>(info);
 #else
 	return Owner<Image>();
 #endif // MINTY_VULKAN

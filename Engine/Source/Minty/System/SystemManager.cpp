@@ -5,21 +5,21 @@
 
 using namespace Minty;
 
-System* Minty::SystemManager::add(SystemInfo const* info, Int const priority)
+System* Minty::SystemManager::add(SystemData const* data, Int const priority)
 {
-	MINTY_ASSERT(info != nullptr, "Given system is not registered.");
+	MINTY_ASSERT(data != nullptr, "Given system is not registered.");
 
 	// create the system
-	SystemBuilder builder{};
-	builder.priority = priority;
-	builder.scene = m_scene;
-	builder.info = info;
-	System* system = info->create(builder);
+	SystemInfo info{};
+	info.priority = priority;
+	info.scene = m_scene;
+	info.info = data;
+	System* system = data->create(info);
 
-	MINTY_ASSERT(!m_systemsByType.contains(info->typeId), F("System already exists: {}", info->name));
+	MINTY_ASSERT(!m_systemsByType.contains(data->typeId), F("System already exists: {}", data->name));
 
 	// add the system
-	m_systemsByType.add(info->typeId, system);
+	m_systemsByType.add(data->typeId, system);
 	auto found = m_systems.find(priority);
 	if (found == m_systems.end())
 	{
@@ -35,10 +35,10 @@ System* Minty::SystemManager::add(SystemInfo const* info, Int const priority)
 	return system;
 }
 
-System* Minty::SystemManager::add(SystemInfo const* info)
+System* Minty::SystemManager::add(SystemData const* data)
 {
-	MINTY_ASSERT(info != nullptr, "Given system is not registered.");
-	return add(info, info->defaultPriority);
+	MINTY_ASSERT(data != nullptr, "Given system is not registered.");
+	return add(data, data->defaultPriority);
 }
 
 System* Minty::SystemManager::add(TypeID const& typeId)
@@ -60,12 +60,11 @@ System* Minty::SystemManager::add(String const& name, Int const priority)
 System* Minty::SystemManager::get_system(String const& name) const
 {
 	// get the system info
-	SystemInfo const* info = Context::get_singleton().get_system_info(name);
-	MINTY_ASSERT(info != nullptr, F("System does not exist with the name: {}", name));
+	SystemData const* data = Context::get_singleton().get_system_info(name);
+	MINTY_ASSERT(data != nullptr, F("System does not exist with the name: {}", name));
 
 	// get the system by type
-	auto it = m_systemsByType.find(info->typeId);
-
+	auto it = m_systemsByType.find(data->typeId);
 	// check if it exists
 	if (it == m_systemsByType.end())
 	{
@@ -193,13 +192,13 @@ void Minty::SystemManager::serialize(Writer& writer) const
 		for (System* system : list)
 		{
 			// write the name, only write the priority if it is not the default priority
-			if (priority != system->get_info()->defaultPriority)
+			if (priority != system->get_data()->defaultPriority)
 			{
-				writer.write(system->get_info()->name, priority);
+				writer.write(system->get_data()->name, priority);
 			}
 			else
 			{
-				writer.write(system->get_info()->name);
+				writer.write(system->get_data()->name);
 			}
 
 			// write the system data
@@ -278,9 +277,9 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<SystemManager> Minty::SystemManager::create(Scene* scene, SystemManagerBuilder const& builder)
+Owner<SystemManager> Minty::SystemManager::create(Scene* scene, SystemManagerInfo const& info)
 {
-	return Owner<SystemManager>(scene, builder);
+	return Owner<SystemManager>(scene, info);
 }
 
 SystemManager& Minty::SystemManager::get_singleton()

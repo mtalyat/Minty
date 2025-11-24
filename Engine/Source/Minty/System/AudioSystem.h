@@ -10,9 +10,9 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new AudioSystem using the given SystemBuilder.
+		/// Creates a new AudioSystem using the given SystemInfo.
 		/// </summary>
-		AudioSystem(SystemBuilder const& builder);
+		AudioSystem(SystemInfo const& info);
 
 		~AudioSystem() override
 		{

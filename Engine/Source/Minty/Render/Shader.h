@@ -23,7 +23,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a Shader.
 	/// </summary>
-	struct ShaderBuilder
+	struct ShaderInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -153,8 +153,8 @@ namespace Minty
 		/// <summary>
 		/// Creates 
 		/// </summary>
-		/// <param name="builder"></param>
-		Shader(ShaderBuilder const& builder);
+		/// <param name="info"></param>
+		Shader(ShaderInfo const& info);
 
 		virtual ~Shader() override
 		{
@@ -257,9 +257,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Shader.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Shader Owner.</returns>
-		static Owner<Shader> create(ShaderBuilder const& builder = {});
+		static Owner<Shader> create(ShaderInfo const& info = {});
 
 #pragma endregion
 	};

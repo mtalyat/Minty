@@ -10,7 +10,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a RenderPass.
 	/// </summary>
-	struct RenderPassBuilder
+	struct RenderPassInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -50,8 +50,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new RenderPass.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		RenderPass(RenderPassBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		RenderPass(RenderPassInfo const& info);
 
 		virtual ~RenderPass() override
 		{
@@ -113,7 +113,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<RenderPass> create(RenderPassBuilder const& builder = {});
+		static Owner<RenderPass> create(RenderPassInfo const& info = {});
 
 #pragma endregion
 

@@ -11,8 +11,8 @@
 
 using namespace Minty;
 
-Minty::AudioSystem::AudioSystem(SystemBuilder const& builder)
-	: System(builder)
+Minty::AudioSystem::AudioSystem(SystemInfo const& info)
+	: System(info)
 {
 }
 

@@ -8,7 +8,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a SceneManager.
 	/// </summary>
-	struct SceneManagerBuilder
+	struct SceneManagerInfo
 	{
 		/// <summary>
 		/// The path to the first scene to load.
@@ -55,10 +55,10 @@ namespace Minty
 		/// <summary>
 		/// Creates a new SceneManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		SceneManager(SceneManagerBuilder const& builder)
+		/// <param name="info">The arguments.</param>
+		SceneManager(SceneManagerInfo const& info)
 			: Manager()
-			, m_initialScene(builder.initialScene)
+			, m_initialScene(info.initialScene)
 			, m_scenes()
 			, m_activeScene(nullptr)
 			, m_nextScene(nullptr)
@@ -197,9 +197,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new SceneManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A SceneManager Owner.</returns>
-		static Owner<SceneManager> create(SceneManagerBuilder const& builder = {});
+		static Owner<SceneManager> create(SceneManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's SceneManager.

@@ -13,7 +13,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for a Window.
 	/// </summary>
-	struct WindowBuilder
+	struct WindowInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -70,7 +70,7 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Window.
 		/// </summary>
-		Window(WindowBuilder const& builder);
+		Window(WindowInfo const& info);
 
 		virtual ~Window()
 		{
@@ -211,9 +211,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Window.
 		/// </summary>
-		/// <param name="builder">The builder.</param>
+		/// <param name="info">The info.</param>
 		/// <returns>A Window Owner.</returns>
-		static Owner<Window> create(WindowBuilder const& builder = {});
+		static Owner<Window> create(WindowInfo const& info = {});
 
 #pragma endregion
 	};

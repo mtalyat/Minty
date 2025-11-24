@@ -46,7 +46,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Shader(ShaderBuilder const& builder);
+		Vulkan_Shader(ShaderInfo const& info);
 
 		~Vulkan_Shader() override;
 
@@ -67,13 +67,13 @@ namespace Minty
 #pragma region Methods
 
 	private:
-		void initialize_bindings(ShaderBuilder const& builder);
+		void initialize_bindings(ShaderInfo const& info);
 
-		void initialize_descriptor_set_layout(ShaderBuilder const& builder);
+		void initialize_descriptor_set_layout(ShaderInfo const& info);
 
-		void initialize_pipeline_layout(ShaderBuilder const& builder);
+		void initialize_pipeline_layout(ShaderInfo const& info);
 
-		void initialize_pipeline(ShaderBuilder const& builder);
+		void initialize_pipeline(ShaderInfo const& info);
 
 		VkDescriptorPool create_descriptor_pool(UInt const requestedSlots);
 

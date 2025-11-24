@@ -671,7 +671,7 @@ void Minty::Vulkan_Renderer::unmap_memory(VkDevice const device, VkDeviceMemory 
 
 VkImage Minty::Vulkan_Renderer::create_image(VkDevice const device, const uint32_t width, const uint32_t height, VkImageType const type, VkFormat const format, VkImageTiling const tiling, VkImageUsageFlags const usage)
 {
-	// create image from builder
+	// create image from info
 	VkImageCreateInfo imageInfo{};
 	imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 	imageInfo.imageType = type;

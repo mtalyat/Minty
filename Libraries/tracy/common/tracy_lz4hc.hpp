@@ -231,7 +231,7 @@ union LZ4_streamHC_u {
  *
  * Note that invoking LZ4_initStreamHC() is not required when
  * the state was created using LZ4_createStreamHC() (which is recommended).
- * Using the normal builder, a newly created state is automatically initialized.
+ * Using the normal info, a newly created state is automatically initialized.
  *
  * Static allocation shall only be used in combination with static linking.
  */

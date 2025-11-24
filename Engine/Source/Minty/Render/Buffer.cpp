@@ -6,10 +6,10 @@
 
 using namespace Minty;
 
-Owner<Buffer> Minty::Buffer::create(BufferBuilder const& builder)
+Owner<Buffer> Minty::Buffer::create(BufferInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Buffer>(builder);
+	return Owner<Vulkan_Buffer>(info);
 #else
 	return Owner<Buffer>();
 #endif // MINTY_VULKAN

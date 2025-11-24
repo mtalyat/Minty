@@ -3,22 +3,22 @@
 
 using namespace Minty;
 
-Minty::Mesh::Mesh(MeshBuilder const& builder)
-	: Asset(builder.id)
+Minty::Mesh::Mesh(MeshInfo const& info)
+	: Asset(info.id)
 	, m_vertices()
 	, m_vertexBuffer(nullptr)
 	, m_indices()
 	, m_indexBuffer(nullptr)
 {
-	MINTY_ASSERT(builder.type == MeshType::Custom || (builder.vertices.is_empty() && builder.indices.is_empty()), "Non-custom meshes should not be given vertex or index arguments.");
-	MINTY_ASSERT(builder.type != MeshType::Custom || (!builder.vertices.is_empty() && !builder.indices.is_empty()), "Custom meshes require both vertex and index arguments.");
+	MINTY_ASSERT(info.type == MeshType::Custom || (info.vertices.is_empty() && info.indices.is_empty()), "Non-custom meshes should not be given vertex or index arguments.");
+	MINTY_ASSERT(info.type != MeshType::Custom || (!info.vertices.is_empty() && !info.indices.is_empty()), "Custom meshes require both vertex and index arguments.");
 
-	switch (builder.type)
+	switch (info.type)
 	{
 	case MeshType::Empty:
 		break;
 	case MeshType::Custom:
-		initialize(builder);
+		initialize(info);
 		break;
 	case MeshType::Quad:
 		initialize_quad();
@@ -32,23 +32,23 @@ Minty::Mesh::Mesh(MeshBuilder const& builder)
 	}
 }
 
-void Minty::Mesh::initialize(MeshBuilder const& builder)
+void Minty::Mesh::initialize(MeshInfo const& info)
 {
-	m_vertices = builder.vertices;
-	BufferBuilder vertexBufferBuilder{};
-	vertexBufferBuilder.data = m_vertices.get_data();
-	vertexBufferBuilder.size = m_vertices.get_size();
-	vertexBufferBuilder.usage = BufferUsage::Vertex;
-	vertexBufferBuilder.frequent = false;
-	m_vertexBuffer = Buffer::create(vertexBufferBuilder);
+	m_vertices = info.vertices;
+	BufferInfo vertexBufferInfo{};
+	vertexBufferInfo.data = m_vertices.get_data();
+	vertexBufferInfo.size = m_vertices.get_size();
+	vertexBufferInfo.usage = BufferUsage::Vertex;
+	vertexBufferInfo.frequent = false;
+	m_vertexBuffer = Buffer::create(vertexBufferInfo);
 
-	m_indices = builder.indices;
-	BufferBuilder indexBufferBuilder{};
-	indexBufferBuilder.data = m_indices.get_data();
-	indexBufferBuilder.size = m_indices.get_size();
-	indexBufferBuilder.usage = BufferUsage::Index;
-	indexBufferBuilder.frequent = false;
-	m_indexBuffer = Buffer::create(indexBufferBuilder);
+	m_indices = info.indices;
+	BufferInfo indexBufferInfo{};
+	indexBufferInfo.data = m_indices.get_data();
+	indexBufferInfo.size = m_indices.get_size();
+	indexBufferInfo.usage = BufferUsage::Index;
+	indexBufferInfo.frequent = false;
+	m_indexBuffer = Buffer::create(indexBufferInfo);
 }
 
 void Minty::Mesh::initialize_quad()
@@ -82,14 +82,14 @@ void Minty::Mesh::initialize_quad()
 		0, 2, 3
 	};
 
-	// create builder
-	MeshBuilder builder{};
+	// create info
+	MeshInfo info{};
 	Size const vertexStride = sizeof(Float) * 8;
-	builder.vertices = ListContainer(vertices, vertexStride, sizeof(vertices) / vertexStride);
+	info.vertices = ListContainer(vertices, vertexStride, sizeof(vertices) / vertexStride);
 	Size const indexStride = sizeof(UShort);
-	builder.indices = ListContainer(indices, indexStride, sizeof(indices) / indexStride);
+	info.indices = ListContainer(indices, indexStride, sizeof(indices) / indexStride);
 
-	initialize(builder);
+	initialize(info);
 
 #undef SIZE
 #undef LEFT_TOP_BACK 
@@ -177,12 +177,12 @@ void Minty::Mesh::initialize_cube()
 		20, 21, 22, 20, 22, 23,
 	};
 
-	MeshBuilder builder{};
+	MeshInfo info{};
 	Size const vertexStride = sizeof(Float) * 8;
-	builder.vertices = ListContainer(vertices, vertexStride, sizeof(vertices) / (vertexStride));
+	info.vertices = ListContainer(vertices, vertexStride, sizeof(vertices) / (vertexStride));
 	Size const indexStride = sizeof(UShort);
-	builder.indices = ListContainer(indices, indexStride, sizeof(indices) / indexStride);
-	initialize(builder);
+	info.indices = ListContainer(indices, indexStride, sizeof(indices) / indexStride);
+	initialize(info);
 
 #undef SIZE
 #undef LEFT_BOTTOM_BACK
@@ -205,7 +205,7 @@ void Minty::Mesh::initialize_cube()
 #undef BOTTOM_RIGHT
 }
 
-Owner<Mesh> Minty::Mesh::create(MeshBuilder const& builder)
+Owner<Mesh> Minty::Mesh::create(MeshInfo const& info)
 {
-	return Owner<Mesh>(builder);
+	return Owner<Mesh>(info);
 }

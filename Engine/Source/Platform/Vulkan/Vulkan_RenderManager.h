@@ -37,7 +37,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_RenderManager(RenderManagerBuilder const& builder);
+		Vulkan_RenderManager(RenderManagerInfo const& info);
 
 		~Vulkan_RenderManager()
 		{
@@ -99,7 +99,7 @@ namespace Minty
 		void abort_frame() override;
 		void end_frame() override;
 
-		Bool start_pass(CameraInfo const& cameraInfo) override;
+		Bool start_pass(CameraData const& cameraInfo) override;
 		void end_pass() override;
 
 		/// <summary>

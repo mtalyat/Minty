@@ -9,7 +9,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a Mesh.
 	/// </summary>
-	struct MeshBuilder
+	struct MeshInfo
 	{
 		/// <summary>
 		/// The UUID of the Mesh.
@@ -52,7 +52,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Mesh(MeshBuilder const& builder);
+		Mesh(MeshInfo const& info);
 
 		~Mesh()
 		{
@@ -110,7 +110,7 @@ namespace Minty
 #pragma region Methods
 
 	private:
-		void initialize(MeshBuilder const& builder);
+		void initialize(MeshInfo const& info);
 
 		void initialize_quad();
 
@@ -121,7 +121,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<Mesh> create(MeshBuilder const& builder = {});
+		static Owner<Mesh> create(MeshInfo const& info = {});
 
 #pragma endregion
 	};

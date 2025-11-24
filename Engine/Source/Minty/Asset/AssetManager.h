@@ -47,7 +47,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creates an AssetManager.
 	/// </summary>
-	struct AssetManagerBuilder
+	struct AssetManagerInfo
 	{
 		/// <summary>
 		/// A list of Wrap files to load on initialization.
@@ -113,7 +113,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		AssetManager(AssetManagerBuilder const& builder);
+		AssetManager(AssetManagerInfo const& info);
 
 		~AssetManager() override
 		{
@@ -748,9 +748,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new AssetManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A AssetManager Owner.</returns>
-		static Owner<AssetManager> create(AssetManagerBuilder const& builder = {});
+		static Owner<AssetManager> create(AssetManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's AssetManager.

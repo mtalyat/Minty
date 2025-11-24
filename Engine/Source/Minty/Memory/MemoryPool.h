@@ -6,7 +6,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creating a MemoryPool.
 	/// </summary>
-	struct MemoryPoolBuilder
+	struct MemoryPoolInfo
 	{
 		/// <summary>
 		/// The size of each block when allocate() is called.
@@ -41,8 +41,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new MemoryPool with enough space for the given block size and count.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		MemoryPool(MemoryPoolBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		MemoryPool(MemoryPoolInfo const& info);
 
 		MemoryPool(MemoryPool const& other) = delete;
 

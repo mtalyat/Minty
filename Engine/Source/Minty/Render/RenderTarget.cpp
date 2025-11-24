@@ -10,15 +10,15 @@ using namespace Minty;
 /// <summary>
 /// Creates a new RenderTarget.
 /// </summary>
-/// <param name="builder">The arguments.</param>
-Minty::RenderTarget::RenderTarget(RenderTargetBuilder const& builder)
-	: Asset(builder.id)
-	, m_renderPass(builder.renderPass)
-	, m_images(builder.images)
-	, m_surfaceBound(builder.surfaceBound)
+/// <param name="info">The arguments.</param>
+Minty::RenderTarget::RenderTarget(RenderTargetInfo const& info)
+	: Asset(info.id)
+	, m_renderPass(info.renderPass)
+	, m_images(info.images)
+	, m_surfaceBound(info.surfaceBound)
 {
-	MINTY_ASSERT(m_renderPass != nullptr, "RenderTargetBuilder renderPass must not be null.");
-	MINTY_ASSERT(!m_images.is_empty(), "RenderTargetBuilder images must not be empty.");
+	MINTY_ASSERT(m_renderPass != nullptr, "RenderTargetInfo renderPass must not be null.");
+	MINTY_ASSERT(!m_images.is_empty(), "RenderTargetInfo images must not be empty.");
 
 	m_renderPass->register_render_target(this);
 }
@@ -28,10 +28,10 @@ Minty::RenderTarget::~RenderTarget()
 	m_renderPass->unregister_render_target(this);
 }
 
-Owner<RenderTarget> Minty::RenderTarget::create(RenderTargetBuilder const& builder)
+Owner<RenderTarget> Minty::RenderTarget::create(RenderTargetInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_RenderTarget>(builder);
+	return Owner<Vulkan_RenderTarget>(info);
 #else
 	return Owner<RenderTarget>();
 #endif // MINTY_VULKAN

@@ -5,13 +5,13 @@
 
 using namespace Minty;
 
-Minty::SpriteAtlas::SpriteAtlas(SpriteAtlasBuilder const& builder)
-	: Asset(builder.id)
-	, m_texture(builder.texture)
-	, m_groups(builder.groups)
+Minty::SpriteAtlas::SpriteAtlas(SpriteAtlasInfo const& info)
+	: Asset(info.id)
+	, m_texture(info.texture)
+	, m_groups(info.groups)
 {
-	MINTY_ASSERT(builder.texture != nullptr, "Cannot create a SpriteAtlas without a Texture.");
-	MINTY_ASSERT(!builder.groups.is_empty(), "Cannot create a SpriteAtlas without at least one group.");
+	MINTY_ASSERT(info.texture != nullptr, "Cannot create a SpriteAtlas without a Texture.");
+	MINTY_ASSERT(!info.groups.is_empty(), "Cannot create a SpriteAtlas without at least one group.");
 }
 
 Ref<Sprite> Minty::SpriteAtlas::get_sprite(Int const groupIndex, Int2 const index) const
@@ -30,8 +30,8 @@ void Minty::SpriteAtlas::on_load()
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
-	SpriteBuilder spriteBuilder{};
-	spriteBuilder.texture = m_texture;
+	SpriteInfo spriteInfo{};
+	spriteInfo.texture = m_texture;
 
 	// create all of the Sprites
 	for (Size i = 0; i < m_groups.get_size(); i++)
@@ -44,12 +44,12 @@ void Minty::SpriteAtlas::on_load()
 			{
 				SpriteSlice const& slice = group.get_slice();
 				UUID id = group.get_id(x, y);
-				spriteBuilder.id = id;
-				spriteBuilder.slice = slice;
-				spriteBuilder.slice.offset = slice.offset + Float2(static_cast<Float>(x), static_cast<Float>(y)) * slice.size;
+				spriteInfo.id = id;
+				spriteInfo.slice = slice;
+				spriteInfo.slice.offset = slice.offset + Float2(static_cast<Float>(x), static_cast<Float>(y)) * slice.size;
 
 				// create the Sprite
-				assetManager.create<Sprite>(spriteBuilder);
+				assetManager.create<Sprite>(spriteInfo);
 			}
 		}
 	}
@@ -70,7 +70,7 @@ void Minty::SpriteAtlas::on_unload()
 	}
 }
 
-Owner<SpriteAtlas> Minty::SpriteAtlas::create(SpriteAtlasBuilder const& builder)
+Owner<SpriteAtlas> Minty::SpriteAtlas::create(SpriteAtlasInfo const& info)
 {
-	return Owner<SpriteAtlas>(new SpriteAtlas(builder));
+	return Owner<SpriteAtlas>(new SpriteAtlas(info));
 }

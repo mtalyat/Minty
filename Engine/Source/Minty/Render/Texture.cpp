@@ -6,10 +6,10 @@
 
 using namespace Minty;
 
-Owner<Texture> Minty::Texture::create(TextureBuilder const& builder)
+Owner<Texture> Minty::Texture::create(TextureInfo const& info)
 {
 #if defined(MINTY_VULKAN)
-	return Owner<Vulkan_Texture>(builder);
+	return Owner<Vulkan_Texture>(info);
 #else
     return Owner<Texture>();
 #endif // MINTY_VULKAN

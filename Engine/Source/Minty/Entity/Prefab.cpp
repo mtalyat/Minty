@@ -3,7 +3,7 @@
 
 using namespace Minty;
 
-Owner<Prefab> Minty::Prefab::create(PrefabBuilder const& builder)
+Owner<Prefab> Minty::Prefab::create(PrefabInfo const& info)
 {
-    return Owner<Prefab>(builder);
+    return Owner<Prefab>(info);
 }

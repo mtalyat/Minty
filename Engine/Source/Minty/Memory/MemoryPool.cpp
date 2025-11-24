@@ -4,9 +4,9 @@
 
 using namespace Minty;
 
-Minty::MemoryPool::MemoryPool(MemoryPoolBuilder const& builder)
-	: m_blockSize(builder.blockSize)
-	, m_blockCountCapacity(builder.blockCountCapacity)
+Minty::MemoryPool::MemoryPool(MemoryPoolInfo const& info)
+	: m_blockSize(info.blockSize)
+	, m_blockCountCapacity(info.blockCountCapacity)
 	, m_blockCount(0)
 	, mp_data(new Byte[m_blockSize * m_blockCountCapacity])
 	, mp_freeBlocks(new Size[m_blockCountCapacity])

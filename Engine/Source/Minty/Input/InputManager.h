@@ -9,7 +9,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for an InputManager.
 	/// </summary>
-	struct InputManagerBuilder
+	struct InputManagerInfo
 	{
 
 	};
@@ -30,8 +30,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new InputManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		InputManager(InputManagerBuilder const& builder)
+		/// <param name="info">The arguments.</param>
+		InputManager(InputManagerInfo const& info)
 			: Manager()
 		{
 			MINTY_ASSERT(!s_instance, "InputManager already exists.");
@@ -60,9 +60,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new InputManager.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>An InputManager Owner.</returns>
-		static Owner<InputManager> create(InputManagerBuilder const& builder = {});
+		static Owner<InputManager> create(InputManagerInfo const& info = {});
 
 #pragma endregion
 

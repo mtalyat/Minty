@@ -11,7 +11,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a Surface.
 	/// </summary>
-	struct SurfaceBuilder
+	struct SurfaceInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -38,8 +38,8 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Surface(SurfaceBuilder const& builder)
-			: Asset(builder.id)
+		Surface(SurfaceInfo const& info)
+			: Asset(info.id)
 		{
 		}
 
@@ -107,9 +107,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Surface.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Surface Owner.</returns>
-		Owner<Surface> create(SurfaceBuilder const& builder = {});
+		Owner<Surface> create(SurfaceInfo const& info = {});
 
 #pragma endregion
 

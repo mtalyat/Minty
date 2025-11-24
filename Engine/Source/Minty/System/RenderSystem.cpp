@@ -63,8 +63,8 @@ struct Minty::RenderSystem::RenderMap
 	}
 };
 
-Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
-	: System(builder)
+Minty::RenderSystem::RenderSystem(SystemInfo const& info)
+	: System(info)
 	, m_bufferContainerFactory(64, BufferUsage::Vertex)
 	, m_canvasEntity(INVALID_ENTITY)
 	, m_canvasShader(nullptr)
@@ -72,7 +72,7 @@ Minty::RenderSystem::RenderSystem(SystemBuilder const& builder)
 {
 }
 
-void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
+void Minty::RenderSystem::render_scene(CameraData const& cameraInfo)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -124,7 +124,7 @@ void Minty::RenderSystem::render_scene(CameraInfo const& cameraInfo)
 	}
 }
 
-void Minty::RenderSystem::render_3d(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
+void Minty::RenderSystem::render_3d(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -132,7 +132,7 @@ void Minty::RenderSystem::render_3d(CameraInfo const& cameraInfo, RenderManager&
 	render_3d_sprites(cameraInfo, renderManager, entityManager, renderMap);
 }
 
-void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
+void Minty::RenderSystem::render_3d_meshes(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -177,7 +177,7 @@ void Minty::RenderSystem::render_3d_meshes(CameraInfo const& cameraInfo, RenderM
 	}
 }
 
-void Minty::RenderSystem::render_3d_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
+void Minty::RenderSystem::render_3d_sprites(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -315,7 +315,7 @@ void Minty::RenderSystem::update_canvas(Entity const entity, Ref<Shader> const& 
 	shader->set_global_input("canvas", canvasContainer.get_data(), canvasContainer.get_size());
 }
 
-void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
+void Minty::RenderSystem::render_ui(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -333,7 +333,7 @@ void Minty::RenderSystem::render_ui(CameraInfo const& cameraInfo, RenderManager&
 	render_ui_meshes(cameraInfo, renderManager, entityManager, renderMap);
 }
 
-void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
+void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -380,7 +380,7 @@ void Minty::RenderSystem::render_ui_meshes(CameraInfo const& cameraInfo, RenderM
 	}
 }
 
-void Minty::RenderSystem::render_ui_sprites(CameraInfo const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
+void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -506,7 +506,7 @@ void Minty::RenderSystem::on_render()
 	{
 		// create the camera info
 		TransformComponent* transformComponent = entityManager.try_get_component<TransformComponent>(cameraEntity);
-		CameraInfo cameraInfo
+		CameraData cameraInfo
 		{
 			.position = transformComponent ? transformComponent->transform.get_global_position() : Math::identity<Float3>(),
 			.rotation = transformComponent ? transformComponent->transform.get_global_rotation() : Math::identity<Quaternion>(),

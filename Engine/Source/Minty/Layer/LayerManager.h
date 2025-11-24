@@ -10,7 +10,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a LayerManager.
 	/// </summary>
-	struct LayerManagerBuilder
+	struct LayerManagerInfo
 	{
 		/// <summary>
 		/// The layer collision matrix data.
@@ -44,8 +44,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new LayerManager with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		LayerManager(LayerManagerBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		LayerManager(LayerManagerInfo const& info);
 
 #pragma endregion
 
@@ -107,9 +107,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new LayerManager with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A LayerManager Owner.</returns>
-		static Owner<LayerManager> create(LayerManagerBuilder const& builder = {});
+		static Owner<LayerManager> create(LayerManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's LayerManager.

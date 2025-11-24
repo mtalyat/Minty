@@ -15,7 +15,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for an animation.
 	/// </summary>
-	struct AnimationBuilder
+	struct AnimationInfo
 	{
 		/// <summary>
 		/// The Asset ID.
@@ -124,8 +124,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Animation using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Animation(AnimationBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		Animation(AnimationInfo const& info);
 
 #pragma endregion
 
@@ -194,8 +194,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Animation.
 		/// </summary>
-		/// <param name="builder">The arguments for the Animation.</param>
-		static Owner<Animation> create(AnimationBuilder const& builder = {});
+		/// <param name="info">The arguments for the Animation.</param>
+		static Owner<Animation> create(AnimationInfo const& info = {});
 
 #pragma endregion
 	};

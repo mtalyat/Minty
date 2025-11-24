@@ -12,7 +12,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a RenderTarget.
 	/// </summary>
-	struct RenderTargetBuilder
+	struct RenderTargetInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -56,8 +56,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new RenderTarget.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		RenderTarget(RenderTargetBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		RenderTarget(RenderTargetInfo const& info);
 
 		virtual ~RenderTarget() override;
 
@@ -104,8 +104,8 @@ namespace Minty
 		/// <summary>
 		/// Reinitializes this RenderTarget with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		virtual void refresh(RenderTargetBuilder const& builder) = 0;
+		/// <param name="info">The arguments.</param>
+		virtual void refresh(RenderTargetInfo const& info) = 0;
 
 #pragma endregion
 
@@ -115,9 +115,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new RenderTarget.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A RenderTarget Owner.</returns>
-		static Owner<RenderTarget> create(RenderTargetBuilder const& builder = {});
+		static Owner<RenderTarget> create(RenderTargetInfo const& info = {});
 
 #pragma endregion
 	};

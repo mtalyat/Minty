@@ -14,12 +14,12 @@ static void error_callback(Int error, Char const* description)
 	MINTY_ERROR(F("GLFW error ({}): {}", error, description).get_data());
 }
 
-Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
-	: Window(builder)
+Minty::Windows_Window::Windows_Window(WindowInfo const& info)
+	: Window(info)
 	, mp_window(nullptr)
 	, m_gamepads()
-	, m_restorePosition(builder.position)
-	, m_restoreSize(builder.size)
+	, m_restorePosition(info.position)
+	, m_restoreSize(info.size)
 {
 	// initialize GLFW if first window
 	if (!s_windowCount)
@@ -34,7 +34,7 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 	}
 	s_windowCount++;
 
-	mp_window = glfwCreateWindow(static_cast<Int>(builder.size.x), static_cast<Int>(builder.size.y), "", nullptr, nullptr);
+	mp_window = glfwCreateWindow(static_cast<Int>(info.size.x), static_cast<Int>(info.size.y), "", nullptr, nullptr);
 	MINTY_ASSERT(mp_window, "Failed to create window.");
 
 	// set user pointer for callback functions
@@ -114,9 +114,9 @@ Minty::Windows_Window::Windows_Window(WindowBuilder const& builder)
 		});
 	
 	// set icon
-	if (!builder.icon.is_empty())
+	if (!info.icon.is_empty())
 	{
-		set_icon(builder.icon);
+		set_icon(info.icon);
 	}
 }
 

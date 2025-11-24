@@ -9,8 +9,8 @@ using namespace Minty;
 /// Creates a new MemoryStack with the given capacity in Bytes.
 /// </summary>
 /// <param name="capacity">The capacity in Bytes.</param>
-Minty::MemoryStack::MemoryStack(MemoryStackBuilder const& builder)
-	: m_capacity(builder.capacity)
+Minty::MemoryStack::MemoryStack(MemoryStackInfo const& info)
+	: m_capacity(info.capacity)
 	, m_size(0)
 	, mp_data(nullptr)
 {

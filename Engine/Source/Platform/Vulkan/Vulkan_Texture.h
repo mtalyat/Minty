@@ -17,7 +17,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Texture(TextureBuilder const& builder);
+		Vulkan_Texture(TextureInfo const& info);
 
 		~Vulkan_Texture();
 

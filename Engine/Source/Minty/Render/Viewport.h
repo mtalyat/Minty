@@ -8,7 +8,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for a Viewport.
 	/// </summary>
-	struct ViewportBuilder
+	struct ViewportInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -58,13 +58,13 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Viewport.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Viewport(ViewportBuilder const& builder)
-			: Asset(builder.id)
+		/// <param name="info">The arguments.</param>
+		Viewport(ViewportInfo const& info)
+			: Asset(info.id)
 		{
-			MINTY_ASSERT(builder.minDepth >= 0.0f && builder.minDepth <= 1.0f, "ViewportBuilder minDepth must be between 0.0 and 1.0.");
-			MINTY_ASSERT(builder.maxDepth >= 0.0f && builder.maxDepth <= 1.0f, "ViewportBuilder maxDepth must be between 0.0 and 1.0.");
-			MINTY_ASSERT(builder.minDepth <= builder.maxDepth, "ViewportBuilder minDepth must be less than or equal to maxDepth.");
+			MINTY_ASSERT(info.minDepth >= 0.0f && info.minDepth <= 1.0f, "ViewportInfo minDepth must be between 0.0 and 1.0.");
+			MINTY_ASSERT(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, "ViewportInfo maxDepth must be between 0.0 and 1.0.");
+			MINTY_ASSERT(info.minDepth <= info.maxDepth, "ViewportInfo minDepth must be less than or equal to maxDepth.");
 		}
 
 		virtual ~Viewport() override
@@ -157,7 +157,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<Viewport> create(ViewportBuilder const& builder = {});
+		static Owner<Viewport> create(ViewportInfo const& info = {});
 
 #pragma endregion
 	};

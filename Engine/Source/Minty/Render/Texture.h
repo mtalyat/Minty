@@ -9,7 +9,7 @@ namespace Minty
 	/// <summary>
 	/// Arguments for creating a Texture.
 	/// </summary>
-	struct TextureBuilder
+	struct TextureInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -56,10 +56,10 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Texture.
 		/// </summary>
-		/// <param name="builder">The Texture builder.</param>
-		Texture(TextureBuilder const& builder)
-			: Asset(builder.id)
-			, m_image(builder.image)
+		/// <param name="info">The Texture info.</param>
+		Texture(TextureInfo const& info)
+			: Asset(info.id)
+			, m_image(info.image)
 		{
 			MINTY_ASSERT(m_image != nullptr, "Image must not be null.");
 		}
@@ -94,7 +94,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<Texture> create(TextureBuilder const& builder = {});
+		static Owner<Texture> create(TextureInfo const& info = {});
 
 #pragma endregion
 

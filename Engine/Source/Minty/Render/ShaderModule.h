@@ -7,7 +7,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a ShaderModule.
 	/// </summary>
-	struct ShaderModuleBuilder
+	struct ShaderModuleInfo
 	{
 		/// <summary>
 		/// The ID.
@@ -37,12 +37,12 @@ namespace Minty
 		/// <summary>
 		/// Creates a ShaderModule with the given ID.
 		/// </summary>
-		/// <param name="builder"></param>
-		ShaderModule(ShaderModuleBuilder const& builder)
-			: Asset(builder.id)
+		/// <param name="info"></param>
+		ShaderModule(ShaderModuleInfo const& info)
+			: Asset(info.id)
 		{
-			MINTY_ASSERT(builder.data != nullptr, "ShaderModuleBuilder data must not be null.");
-			MINTY_ASSERT(builder.size > 0, "ShaderModuleBuilder size must be greater than 0.");
+			MINTY_ASSERT(info.data != nullptr, "ShaderModuleInfo data must not be null.");
+			MINTY_ASSERT(info.size > 0, "ShaderModuleInfo size must be greater than 0.");
 		}
 
 		virtual ~ShaderModule()
@@ -71,7 +71,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<ShaderModule> create(ShaderModuleBuilder const& builder = {});
+		static Owner<ShaderModule> create(ShaderModuleInfo const& info = {});
 
 #pragma endregion
 	};

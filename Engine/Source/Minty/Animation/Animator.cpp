@@ -85,7 +85,7 @@ UUID Minty::Animator::update(Ref<Animation> const& currentAnimation, Float const
 	return m_fsm.get_current_state().get_value().get<UUID>();
 }
 
-Owner<Animator> Minty::Animator::create(AnimatorBuilder const& builder)
+Owner<Animator> Minty::Animator::create(AnimatorInfo const& info)
 {
-	return Owner<Animator>(builder);
+	return Owner<Animator>(info);
 }

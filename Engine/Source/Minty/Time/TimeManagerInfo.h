@@ -6,7 +6,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a TimeManager.
 	/// </summary>
-	struct TimeManagerBuilder
+	struct TimeManagerInfo
 	{
 		/// <summary>
 		/// The fixed time step in seconds.

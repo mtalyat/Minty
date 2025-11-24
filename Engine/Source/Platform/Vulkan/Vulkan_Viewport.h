@@ -18,7 +18,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Viewport(ViewportBuilder const& builder);
+		Vulkan_Viewport(ViewportInfo const& info);
 
 		~Vulkan_Viewport() override
 		{

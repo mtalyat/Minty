@@ -20,7 +20,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Vulkan_Buffer(BufferBuilder const& builder);
+		Vulkan_Buffer(BufferInfo const& info);
 
 		~Vulkan_Buffer();
 

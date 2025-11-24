@@ -13,7 +13,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for an Image.
 	/// </summary>
-	struct ImageBuilder
+	struct ImageInfo
 	{
 		/// <summary>
 		/// The ID of the Image.
@@ -90,24 +90,24 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Image.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 	public:
-		Image(ImageBuilder const& builder)
-			: Asset(builder.id)
-			, m_format(builder.format)
-			, m_type(builder.type)
-			, m_tiling(builder.tiling)
-			, m_aspect(builder.aspect)
-			, m_usage(builder.usage)
-			, m_size(builder.size)
-			, m_immutable(builder.immutable)
+		Image(ImageInfo const& info)
+			: Asset(info.id)
+			, m_format(info.format)
+			, m_type(info.type)
+			, m_tiling(info.tiling)
+			, m_aspect(info.aspect)
+			, m_usage(info.usage)
+			, m_size(info.size)
+			, m_immutable(info.immutable)
 		{
-			MINTY_ASSERT(builder.format != Format::Undefined, "ImageBuilder format must not be undefined.");
-			MINTY_ASSERT(builder.type != ImageType::Undefined, "ImageBuilder type must not be undefined.");
-			MINTY_ASSERT(builder.tiling != ImageTiling::Undefined, "ImageBuilder tiling must not be undefined.");
-			MINTY_ASSERT(builder.aspect != ImageAspect::Undefined, "ImageBuilder aspect must not be undefined.");
-			MINTY_ASSERT(builder.usage != ImageUsage::Undefined, "ImageBuilder usage must not be undefined.");
-			MINTY_ASSERT(builder.size.x > 0 && builder.size.y > 0, "ImageBuilder size must be greater than 0.");
+			MINTY_ASSERT(info.format != Format::Undefined, "ImageInfo format must not be undefined.");
+			MINTY_ASSERT(info.type != ImageType::Undefined, "ImageInfo type must not be undefined.");
+			MINTY_ASSERT(info.tiling != ImageTiling::Undefined, "ImageInfo tiling must not be undefined.");
+			MINTY_ASSERT(info.aspect != ImageAspect::Undefined, "ImageInfo aspect must not be undefined.");
+			MINTY_ASSERT(info.usage != ImageUsage::Undefined, "ImageInfo usage must not be undefined.");
+			MINTY_ASSERT(info.size.x > 0 && info.size.y > 0, "ImageInfo size must be greater than 0.");
 		}
 
 		virtual ~Image()
@@ -195,9 +195,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Image.
 		/// </summary>
-		/// <param name="builder">An ImageBuilder.</param>
+		/// <param name="info">An ImageInfo.</param>
 		/// <returns>An Image Owner.</returns>
-		static Owner<Image> create(ImageBuilder const& builder = {});
+		static Owner<Image> create(ImageInfo const& info = {});
 
 #pragma endregion
 

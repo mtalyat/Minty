@@ -16,13 +16,13 @@
 
 using namespace Minty;
 
-Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerBuilder const& builder)
-	: RenderManager(builder)
+Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const& info)
+	: RenderManager(info)
 	, m_instance(VK_NULL_HANDLE)
 #ifdef MINTY_DEBUG
 	, m_debugMessenger(VK_NULL_HANDLE)
 #endif // MINTY_DEBUG
-	, m_targetSurfaceFormat(builder.targetSurfaceFormat)
+	, m_targetSurfaceFormat(info.targetSurfaceFormat)
 	, m_vulkanSurface(VK_NULL_HANDLE)
 	, m_physicalDevice(VK_NULL_HANDLE)
 	, m_device(VK_NULL_HANDLE)
@@ -66,16 +66,16 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 
 	// create depth image
 	VkExtent2D swapchainExtent = m_vulkanSurface->get_extent();
-	ImageBuilder depthImageBuilder{};
-	depthImageBuilder.id = UUID::create();
-	depthImageBuilder.size = UInt2(swapchainExtent.width, swapchainExtent.height);
-	depthImageBuilder.aspect = ImageAspect::Depth;
-	depthImageBuilder.format = static_cast<Format>(depthFormat);
-	depthImageBuilder.tiling = ImageTiling::Optimal;
-	depthImageBuilder.type = ImageType::D2;
-	depthImageBuilder.usage = ImageUsage::DepthStencil;
-	depthImageBuilder.immutable = false;
-	set_depth_image(Owner<Vulkan_Image>(depthImageBuilder));
+	ImageInfo depthImageInfo{};
+	depthImageInfo.id = UUID::create();
+	depthImageInfo.size = UInt2(swapchainExtent.width, swapchainExtent.height);
+	depthImageInfo.aspect = ImageAspect::Depth;
+	depthImageInfo.format = static_cast<Format>(depthFormat);
+	depthImageInfo.tiling = ImageTiling::Optimal;
+	depthImageInfo.type = ImageType::D2;
+	depthImageInfo.usage = ImageUsage::DepthStencil;
+	depthImageInfo.immutable = false;
+	set_depth_image(Owner<Vulkan_Image>(depthImageInfo));
 }
 
 void Minty::Vulkan_RenderManager::destroy_depth_resources()
@@ -113,11 +113,11 @@ void Minty::Vulkan_RenderManager::initialize()
 	m_device = Vulkan_Renderer::create_device(m_physicalDevice, queueFamilyIndices);
 
 	// create surface/swapchain object
-	SurfaceBuilder surfaceBuilder{};
-	surfaceBuilder.id = UUID::create();
-	surfaceBuilder.targetFormat = m_targetSurfaceFormat;
-	surfaceBuilder.window = window;
-	Owner<Surface> vulkanSurface = Owner<Vulkan_Surface>(surfaceBuilder, surface, *this, queueFamilyIndices);
+	SurfaceInfo surfaceInfo{};
+	surfaceInfo.id = UUID::create();
+	surfaceInfo.targetFormat = m_targetSurfaceFormat;
+	surfaceInfo.window = window;
+	Owner<Surface> vulkanSurface = Owner<Vulkan_Surface>(surfaceInfo, surface, *this, queueFamilyIndices);
 	m_vulkanSurface = vulkanSurface.create_ref();
 	set_surface(std::move(vulkanSurface));
 
@@ -142,11 +142,11 @@ void Minty::Vulkan_RenderManager::initialize()
 	// create defaults
 	//     viewport
 	UInt2 swapchainSize = m_vulkanSurface->get_size();
-	ViewportBuilder viewportBuilder{};
-	viewportBuilder.id = UUID::create();
-	viewportBuilder.viewSize = swapchainSize;
-	viewportBuilder.maskSize = swapchainSize;
-	set_default_viewport(Viewport::create(viewportBuilder));
+	ViewportInfo viewportInfo{};
+	viewportInfo.id = UUID::create();
+	viewportInfo.viewSize = swapchainSize;
+	viewportInfo.maskSize = swapchainSize;
+	set_default_viewport(Viewport::create(viewportInfo));
 }
 
 void Minty::Vulkan_RenderManager::dispose()
@@ -282,7 +282,7 @@ void Minty::Vulkan_RenderManager::end_frame()
 	RenderManager::end_frame();
 }
 
-Bool Minty::Vulkan_RenderManager::start_pass(CameraInfo const& cameraInfo)
+Bool Minty::Vulkan_RenderManager::start_pass(CameraData const& cameraInfo)
 {
 	MINTY_TRACE_SCOPE();
 

@@ -10,12 +10,12 @@ namespace Minty
 	class EntityManager;
 	class SystemManager;
 	class System;
-	struct SystemInfo;
+	struct SystemData;
 
 	/// <summary>
 	/// The arguments for creating a System.
 	/// </summary>
-	struct SystemBuilder
+	struct SystemInfo
 	{
 		/// <summary>
 		/// The priority of this System.
@@ -28,15 +28,15 @@ namespace Minty
 		Ref<Scene> scene = nullptr;
 
 		/// <summary>
-		/// The SystemInfo for this System.
+		/// The SystemData for this System.
 		/// </summary>
-		SystemInfo const* info = nullptr;
+		SystemData const* info = nullptr;
 	};
 
 	/// <summary>
-	/// Info for creating a System.
+	/// Data for creating a System.
 	/// </summary>
-	struct SystemInfo
+	struct SystemData
 	{
 		/// <summary>
 		/// The name of the System.
@@ -51,7 +51,7 @@ namespace Minty
 		/// <summary>
 		/// The function to create the System.
 		/// </summary>
-		Function<System* (SystemBuilder const&)> create;
+		Function<System* (SystemInfo const&)> create;
 
 		/// <summary>
 		/// The default priority of the System, if none is specified.
@@ -75,7 +75,7 @@ namespace Minty
 
 	protected:
 		Ref<Scene> m_scene;
-		SystemInfo const* m_info;
+		SystemData const* m_data;
 
 #pragma endregion
 
@@ -85,12 +85,12 @@ namespace Minty
 		/// <summary>
 		/// Creates a new System using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		System(SystemBuilder const& builder)
+		/// <param name="info">The arguments.</param>
+		System(SystemInfo const& info)
 			: SerializableObject()
-			, m_priority(builder.priority)
-			, m_scene(builder.scene)
-			, m_info(builder.info)
+			, m_priority(info.priority)
+			, m_scene(info.scene)
+			, m_data(info.info)
 		{
 		}
 
@@ -133,7 +133,7 @@ namespace Minty
 		/// Gets the SystemInfo for this System.
 		/// </summary>
 		/// <returns>The SystemInfo.</returns>
-		SystemInfo const* get_info() const { return m_info; }
+		SystemData const* get_data() const { return m_data; }
 
 #pragma endregion
 

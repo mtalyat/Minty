@@ -13,7 +13,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a SystemManager.
 	/// </summary>
-	struct SystemManagerBuilder
+	struct SystemManagerInfo
 	{
 		/// <summary>
 		/// The Scene this SystemManager belongs to.
@@ -39,9 +39,9 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		SystemManager(Scene* scene, SystemManagerBuilder const& builder)
+		SystemManager(Scene* scene, SystemManagerInfo const& info)
 			: SubManager(scene)
-			, m_scene(builder.scene)
+			, m_scene(info.scene)
 			, m_systems()
 			, m_systemsByType()
 		{
@@ -68,9 +68,9 @@ namespace Minty
 #pragma region Methods
 
 	private:
-		System* add(SystemInfo const* info, Int const priority);
+		System* add(SystemData const* data, Int const priority);
 
-		System* add(SystemInfo const* info);
+		System* add(SystemData const* data);
 
 		System* add(TypeID const& typeId);
 
@@ -224,9 +224,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new SystemManager with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A SystemManager Owner.</returns>
-		static Owner<SystemManager> create(Scene* scene, SystemManagerBuilder const& builder = {});
+		static Owner<SystemManager> create(Scene* scene, SystemManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the SystemManager for the active Scene.

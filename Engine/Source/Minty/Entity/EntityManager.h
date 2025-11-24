@@ -21,7 +21,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for an EntityManager.
 	/// </summary>
-	struct EntityManagerBuilder
+	struct EntityManagerInfo
 	{
 
 	};
@@ -48,8 +48,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new EntityManager using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		EntityManager(Scene* scene, EntityManagerBuilder const& builder)
+		/// <param name="info">The arguments.</param>
+		EntityManager(Scene* scene, EntityManagerInfo const& info)
 			: SubManager(scene)
 			, m_registry()
 			, m_ids()
@@ -692,9 +692,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new EntityManager with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>An EntityManager Owner.</returns>
-		static Owner<EntityManager> create(Scene* scene, EntityManagerBuilder const& builder = {});
+		static Owner<EntityManager> create(Scene* scene, EntityManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the singleton EntityManager for the active Scene.

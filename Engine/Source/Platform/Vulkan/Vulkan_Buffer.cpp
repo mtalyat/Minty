@@ -5,15 +5,15 @@
 
 using namespace Minty;
 
-Minty::Vulkan_Buffer::Vulkan_Buffer(BufferBuilder const& builder)
-	: Buffer(builder)
+Minty::Vulkan_Buffer::Vulkan_Buffer(BufferInfo const& info)
+	: Buffer(info)
 	, m_buffer(VK_NULL_HANDLE)
 	, m_memory(VK_NULL_HANDLE)
-	, m_size(static_cast<VkDeviceSize>(builder.size))
+	, m_size(static_cast<VkDeviceSize>(info.size))
 	, mp_mappedMemory(nullptr)
 {
-	MINTY_ASSERT(builder.size > 0, "Attempting to create a buffer with a size of 0.");
-	MINTY_ASSERT(builder.usage != BufferUsage::Undefined, "Attempting to create a buffer with an undefined usage.");
+	MINTY_ASSERT(info.size > 0, "Attempting to create a buffer with a size of 0.");
+	MINTY_ASSERT(info.usage != BufferUsage::Undefined, "Attempting to create a buffer with an undefined usage.");
 
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 
@@ -30,19 +30,19 @@ Minty::Vulkan_Buffer::Vulkan_Buffer(BufferBuilder const& builder)
 		memoryPropertyFlags = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
 	}
 
-	m_buffer = Vulkan_Renderer::create_buffer(renderManager.get_device(), builder.size, Vulkan_Renderer::to_vulkan(builder.usage) | extraUsageFlags);
+	m_buffer = Vulkan_Renderer::create_buffer(renderManager.get_device(), info.size, Vulkan_Renderer::to_vulkan(info.usage) | extraUsageFlags);
 	m_memory = Vulkan_Renderer::allocate_buffer_memory(renderManager.get_device(), renderManager.get_physical_device(), m_buffer, memoryPropertyFlags);
 
 	// if frequent, map memory indefinitely
 	if (is_frequent())
 	{
-		mp_mappedMemory = Vulkan_Renderer::map_memory(renderManager.get_device(), m_memory, 0, builder.size);
+		mp_mappedMemory = Vulkan_Renderer::map_memory(renderManager.get_device(), m_memory, 0, info.size);
 	}
 
 	// if given initial data, set it
-	if (builder.data)
+	if (info.data)
 	{
-		set_data(builder.data);
+		set_data(info.data);
 	}
 }
 

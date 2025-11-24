@@ -8,7 +8,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a RigidBody.
 	/// </summary>
-	struct RigidBodyBuilder
+	struct RigidBodyInfo
 	{
 		/// <summary>
 		/// Determines if the rigid body is affected by forces. If true, it is not affected by forces and behaves like a static object.
@@ -41,10 +41,10 @@ namespace Minty
 		/// <summary>
 		/// Creates a new rigid body with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		RigidBody(RigidBodyBuilder const& builder)
-			: m_isKinematic(builder.isKinematic)
-			, m_mass(builder.mass)
+		/// <param name="info">The arguments.</param>
+		RigidBody(RigidBodyInfo const& info)
+			: m_isKinematic(info.isKinematic)
+			, m_mass(info.mass)
 		{
 		}
 
@@ -107,9 +107,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new RigidBody with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A RigidBody Owner.</returns>
-		static Owner<RigidBody> create(RigidBodyBuilder const& builder = {});
+		static Owner<RigidBody> create(RigidBodyInfo const& info = {});
 
 #pragma endregion
 

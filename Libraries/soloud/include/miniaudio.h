@@ -2336,20 +2336,20 @@ struct ma_context
         struct
         {
             ma_handle hAAudio; /* libaaudio.so */
-            ma_proc AAudio_createStreamBuilder;
-            ma_proc AAudioStreamBuilder_delete;
-            ma_proc AAudioStreamBuilder_setDeviceId;
-            ma_proc AAudioStreamBuilder_setDirection;
-            ma_proc AAudioStreamBuilder_setSharingMode;
-            ma_proc AAudioStreamBuilder_setFormat;
-            ma_proc AAudioStreamBuilder_setChannelCount;
-            ma_proc AAudioStreamBuilder_setSampleRate;
-            ma_proc AAudioStreamBuilder_setBufferCapacityInFrames;
-            ma_proc AAudioStreamBuilder_setFramesPerDataCallback;
-            ma_proc AAudioStreamBuilder_setDataCallback;
-            ma_proc AAudioStreamBuilder_setErrorCallback;
-            ma_proc AAudioStreamBuilder_setPerformanceMode;
-            ma_proc AAudioStreamBuilder_openStream;
+            ma_proc AAudio_createStreamInfo;
+            ma_proc AAudioStreamInfo_delete;
+            ma_proc AAudioStreamInfo_setDeviceId;
+            ma_proc AAudioStreamInfo_setDirection;
+            ma_proc AAudioStreamInfo_setSharingMode;
+            ma_proc AAudioStreamInfo_setFormat;
+            ma_proc AAudioStreamInfo_setChannelCount;
+            ma_proc AAudioStreamInfo_setSampleRate;
+            ma_proc AAudioStreamInfo_setBufferCapacityInFrames;
+            ma_proc AAudioStreamInfo_setFramesPerDataCallback;
+            ma_proc AAudioStreamInfo_setDataCallback;
+            ma_proc AAudioStreamInfo_setErrorCallback;
+            ma_proc AAudioStreamInfo_setPerformanceMode;
+            ma_proc AAudioStreamInfo_openStream;
             ma_proc AAudioStream_close;
             ma_proc AAudioStream_getState;
             ma_proc AAudioStream_waitForStateChange;
@@ -23680,26 +23680,26 @@ typedef int32_t ma_aaudio_data_callback_result_t;
 #define MA_AAUDIO_CALLBACK_RESULT_STOP             1
 
 /* Objects. */
-typedef struct ma_AAudioStreamBuilder_t* ma_AAudioStreamBuilder;
+typedef struct ma_AAudioStreamInfo_t* ma_AAudioStreamInfo;
 typedef struct ma_AAudioStream_t*        ma_AAudioStream;
 
 typedef ma_aaudio_data_callback_result_t (* ma_AAudioStream_dataCallback) (ma_AAudioStream* pStream, void* pUserData, void* pAudioData, int32_t numFrames);
 typedef void                             (* ma_AAudioStream_errorCallback)(ma_AAudioStream *pStream, void *pUserData, ma_aaudio_result_t error);
 
-typedef ma_aaudio_result_t       (* MA_PFN_AAudio_createStreamBuilder)                   (ma_AAudioStreamBuilder** ppBuilder);
-typedef ma_aaudio_result_t       (* MA_PFN_AAudioStreamBuilder_delete)                   (ma_AAudioStreamBuilder* pBuilder);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setDeviceId)              (ma_AAudioStreamBuilder* pBuilder, int32_t deviceId);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setDirection)             (ma_AAudioStreamBuilder* pBuilder, ma_aaudio_direction_t direction);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setSharingMode)           (ma_AAudioStreamBuilder* pBuilder, ma_aaudio_sharing_mode_t sharingMode);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setFormat)                (ma_AAudioStreamBuilder* pBuilder, ma_aaudio_format_t format);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setChannelCount)          (ma_AAudioStreamBuilder* pBuilder, int32_t channelCount);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setSampleRate)            (ma_AAudioStreamBuilder* pBuilder, int32_t sampleRate);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setBufferCapacityInFrames)(ma_AAudioStreamBuilder* pBuilder, int32_t numFrames);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setFramesPerDataCallback) (ma_AAudioStreamBuilder* pBuilder, int32_t numFrames);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setDataCallback)          (ma_AAudioStreamBuilder* pBuilder, ma_AAudioStream_dataCallback callback, void* pUserData);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setErrorCallback)         (ma_AAudioStreamBuilder* pBuilder, ma_AAudioStream_errorCallback callback, void* pUserData);
-typedef void                     (* MA_PFN_AAudioStreamBuilder_setPerformanceMode)       (ma_AAudioStreamBuilder* pBuilder, ma_aaudio_performance_mode_t mode);
-typedef ma_aaudio_result_t       (* MA_PFN_AAudioStreamBuilder_openStream)               (ma_AAudioStreamBuilder* pBuilder, ma_AAudioStream** ppStream);
+typedef ma_aaudio_result_t       (* MA_PFN_AAudio_createStreamInfo)                   (ma_AAudioStreamInfo** ppInfo);
+typedef ma_aaudio_result_t       (* MA_PFN_AAudioStreamInfo_delete)                   (ma_AAudioStreamInfo* pInfo);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setDeviceId)              (ma_AAudioStreamInfo* pInfo, int32_t deviceId);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setDirection)             (ma_AAudioStreamInfo* pInfo, ma_aaudio_direction_t direction);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setSharingMode)           (ma_AAudioStreamInfo* pInfo, ma_aaudio_sharing_mode_t sharingMode);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setFormat)                (ma_AAudioStreamInfo* pInfo, ma_aaudio_format_t format);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setChannelCount)          (ma_AAudioStreamInfo* pInfo, int32_t channelCount);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setSampleRate)            (ma_AAudioStreamInfo* pInfo, int32_t sampleRate);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setBufferCapacityInFrames)(ma_AAudioStreamInfo* pInfo, int32_t numFrames);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setFramesPerDataCallback) (ma_AAudioStreamInfo* pInfo, int32_t numFrames);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setDataCallback)          (ma_AAudioStreamInfo* pInfo, ma_AAudioStream_dataCallback callback, void* pUserData);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setErrorCallback)         (ma_AAudioStreamInfo* pInfo, ma_AAudioStream_errorCallback callback, void* pUserData);
+typedef void                     (* MA_PFN_AAudioStreamInfo_setPerformanceMode)       (ma_AAudioStreamInfo* pInfo, ma_aaudio_performance_mode_t mode);
+typedef ma_aaudio_result_t       (* MA_PFN_AAudioStreamInfo_openStream)               (ma_AAudioStreamInfo* pInfo, ma_AAudioStream** ppStream);
 typedef ma_aaudio_result_t       (* MA_PFN_AAudioStream_close)                           (ma_AAudioStream* pStream);
 typedef ma_aaudio_stream_state_t (* MA_PFN_AAudioStream_getState)                        (ma_AAudioStream* pStream);
 typedef ma_aaudio_result_t       (* MA_PFN_AAudioStream_waitForStateChange)              (ma_AAudioStream* pStream, ma_aaudio_stream_state_t inputState, ma_aaudio_stream_state_t* pNextState, int64_t timeoutInNanoseconds);
@@ -23777,45 +23777,45 @@ ma_aaudio_data_callback_result_t ma_stream_data_callback_playback__aaudio(ma_AAu
 
 ma_result ma_open_stream__aaudio(ma_context* pContext, ma_device_type deviceType, const ma_device_id* pDeviceID, ma_share_mode shareMode, const ma_device_config* pConfig, const ma_device* pDevice, ma_AAudioStream** ppStream)
 {
-    ma_AAudioStreamBuilder* pBuilder;
+    ma_AAudioStreamInfo* pInfo;
     ma_aaudio_result_t resultAA;
 
     ma_assert(deviceType != ma_device_type_duplex);   /* This function should not be called for a full-duplex device type. */
 
     *ppStream = NULL;
 
-    resultAA = ((MA_PFN_AAudio_createStreamBuilder)pContext->aaudio.AAudio_createStreamBuilder)(&pBuilder);
+    resultAA = ((MA_PFN_AAudio_createStreamInfo)pContext->aaudio.AAudio_createStreamInfo)(&pInfo);
     if (resultAA != MA_AAUDIO_OK) {
         return ma_result_from_aaudio(resultAA);
     }
 
     if (pDeviceID != NULL) {
-        ((MA_PFN_AAudioStreamBuilder_setDeviceId)pContext->aaudio.AAudioStreamBuilder_setDeviceId)(pBuilder, pDeviceID->aaudio);
+        ((MA_PFN_AAudioStreamInfo_setDeviceId)pContext->aaudio.AAudioStreamInfo_setDeviceId)(pInfo, pDeviceID->aaudio);
     }
 
-    ((MA_PFN_AAudioStreamBuilder_setDirection)pContext->aaudio.AAudioStreamBuilder_setDirection)(pBuilder, (deviceType == ma_device_type_playback) ? MA_AAUDIO_DIRECTION_OUTPUT : MA_AAUDIO_DIRECTION_INPUT);
-    ((MA_PFN_AAudioStreamBuilder_setSharingMode)pContext->aaudio.AAudioStreamBuilder_setSharingMode)(pBuilder, (shareMode == ma_share_mode_shared) ? MA_AAUDIO_SHARING_MODE_SHARED : MA_AAUDIO_SHARING_MODE_EXCLUSIVE);
+    ((MA_PFN_AAudioStreamInfo_setDirection)pContext->aaudio.AAudioStreamInfo_setDirection)(pInfo, (deviceType == ma_device_type_playback) ? MA_AAUDIO_DIRECTION_OUTPUT : MA_AAUDIO_DIRECTION_INPUT);
+    ((MA_PFN_AAudioStreamInfo_setSharingMode)pContext->aaudio.AAudioStreamInfo_setSharingMode)(pInfo, (shareMode == ma_share_mode_shared) ? MA_AAUDIO_SHARING_MODE_SHARED : MA_AAUDIO_SHARING_MODE_EXCLUSIVE);
 
     if (pConfig != NULL) {
         ma_uint32 bufferCapacityInFrames;
 
         if (pDevice == NULL || !pDevice->usingDefaultSampleRate) {
-            ((MA_PFN_AAudioStreamBuilder_setSampleRate)pContext->aaudio.AAudioStreamBuilder_setSampleRate)(pBuilder, pConfig->sampleRate);
+            ((MA_PFN_AAudioStreamInfo_setSampleRate)pContext->aaudio.AAudioStreamInfo_setSampleRate)(pInfo, pConfig->sampleRate);
         }
 
         if (deviceType == ma_device_type_capture) {
             if (pDevice == NULL || !pDevice->capture.usingDefaultChannels) {
-                ((MA_PFN_AAudioStreamBuilder_setChannelCount)pContext->aaudio.AAudioStreamBuilder_setChannelCount)(pBuilder, pConfig->capture.channels);
+                ((MA_PFN_AAudioStreamInfo_setChannelCount)pContext->aaudio.AAudioStreamInfo_setChannelCount)(pInfo, pConfig->capture.channels);
             }
             if (pDevice == NULL || !pDevice->capture.usingDefaultFormat) {
-                ((MA_PFN_AAudioStreamBuilder_setFormat)pContext->aaudio.AAudioStreamBuilder_setFormat)(pBuilder, (pConfig->capture.format == ma_format_s16) ? MA_AAUDIO_FORMAT_PCM_I16 : MA_AAUDIO_FORMAT_PCM_FLOAT);
+                ((MA_PFN_AAudioStreamInfo_setFormat)pContext->aaudio.AAudioStreamInfo_setFormat)(pInfo, (pConfig->capture.format == ma_format_s16) ? MA_AAUDIO_FORMAT_PCM_I16 : MA_AAUDIO_FORMAT_PCM_FLOAT);
             }
         } else {
             if (pDevice == NULL || !pDevice->playback.usingDefaultChannels) {
-                ((MA_PFN_AAudioStreamBuilder_setChannelCount)pContext->aaudio.AAudioStreamBuilder_setChannelCount)(pBuilder, pConfig->playback.channels);
+                ((MA_PFN_AAudioStreamInfo_setChannelCount)pContext->aaudio.AAudioStreamInfo_setChannelCount)(pInfo, pConfig->playback.channels);
             }
             if (pDevice == NULL || !pDevice->playback.usingDefaultFormat) {
-                ((MA_PFN_AAudioStreamBuilder_setFormat)pContext->aaudio.AAudioStreamBuilder_setFormat)(pBuilder, (pConfig->playback.format == ma_format_s16) ? MA_AAUDIO_FORMAT_PCM_I16 : MA_AAUDIO_FORMAT_PCM_FLOAT);
+                ((MA_PFN_AAudioStreamInfo_setFormat)pContext->aaudio.AAudioStreamInfo_setFormat)(pInfo, (pConfig->playback.format == ma_format_s16) ? MA_AAUDIO_FORMAT_PCM_I16 : MA_AAUDIO_FORMAT_PCM_FLOAT);
             }
         }
 
@@ -23824,30 +23824,30 @@ ma_result ma_open_stream__aaudio(ma_context* pContext, ma_device_type deviceType
             bufferCapacityInFrames = ma_calculate_buffer_size_in_frames_from_milliseconds(pConfig->bufferSizeInMilliseconds, pConfig->sampleRate);
         }
         bufferCapacityInFrames = (bufferCapacityInFrames / pConfig->periods) * pConfig->periods;  /* <-- Make sure the buffer capacity is an even multiple of a period. */
-        ((MA_PFN_AAudioStreamBuilder_setBufferCapacityInFrames)pContext->aaudio.AAudioStreamBuilder_setBufferCapacityInFrames)(pBuilder, bufferCapacityInFrames);
+        ((MA_PFN_AAudioStreamInfo_setBufferCapacityInFrames)pContext->aaudio.AAudioStreamInfo_setBufferCapacityInFrames)(pInfo, bufferCapacityInFrames);
 
-        ((MA_PFN_AAudioStreamBuilder_setFramesPerDataCallback)pContext->aaudio.AAudioStreamBuilder_setFramesPerDataCallback)(pBuilder, bufferCapacityInFrames / pConfig->periods);
+        ((MA_PFN_AAudioStreamInfo_setFramesPerDataCallback)pContext->aaudio.AAudioStreamInfo_setFramesPerDataCallback)(pInfo, bufferCapacityInFrames / pConfig->periods);
 
         if (deviceType == ma_device_type_capture) {
-            ((MA_PFN_AAudioStreamBuilder_setDataCallback)pContext->aaudio.AAudioStreamBuilder_setDataCallback)(pBuilder, ma_stream_data_callback_capture__aaudio, (void*)pDevice);
+            ((MA_PFN_AAudioStreamInfo_setDataCallback)pContext->aaudio.AAudioStreamInfo_setDataCallback)(pInfo, ma_stream_data_callback_capture__aaudio, (void*)pDevice);
         } else {
-            ((MA_PFN_AAudioStreamBuilder_setDataCallback)pContext->aaudio.AAudioStreamBuilder_setDataCallback)(pBuilder, ma_stream_data_callback_playback__aaudio, (void*)pDevice);
+            ((MA_PFN_AAudioStreamInfo_setDataCallback)pContext->aaudio.AAudioStreamInfo_setDataCallback)(pInfo, ma_stream_data_callback_playback__aaudio, (void*)pDevice);
         }
 
         /* Not sure how this affects things, but since there's a mapping between miniaudio's performance profiles and AAudio's performance modes, let go ahead and set it. */
-        ((MA_PFN_AAudioStreamBuilder_setPerformanceMode)pContext->aaudio.AAudioStreamBuilder_setPerformanceMode)(pBuilder, (pConfig->performanceProfile == ma_performance_profile_low_latency) ? MA_AAUDIO_PERFORMANCE_MODE_LOW_LATENCY : MA_AAUDIO_PERFORMANCE_MODE_NONE);
+        ((MA_PFN_AAudioStreamInfo_setPerformanceMode)pContext->aaudio.AAudioStreamInfo_setPerformanceMode)(pInfo, (pConfig->performanceProfile == ma_performance_profile_low_latency) ? MA_AAUDIO_PERFORMANCE_MODE_LOW_LATENCY : MA_AAUDIO_PERFORMANCE_MODE_NONE);
     }
 
-    ((MA_PFN_AAudioStreamBuilder_setErrorCallback)pContext->aaudio.AAudioStreamBuilder_setErrorCallback)(pBuilder, ma_stream_error_callback__aaudio, (void*)pDevice);
+    ((MA_PFN_AAudioStreamInfo_setErrorCallback)pContext->aaudio.AAudioStreamInfo_setErrorCallback)(pInfo, ma_stream_error_callback__aaudio, (void*)pDevice);
 
-    resultAA = ((MA_PFN_AAudioStreamBuilder_openStream)pContext->aaudio.AAudioStreamBuilder_openStream)(pBuilder, ppStream);
+    resultAA = ((MA_PFN_AAudioStreamInfo_openStream)pContext->aaudio.AAudioStreamInfo_openStream)(pInfo, ppStream);
     if (resultAA != MA_AAUDIO_OK) {
         *ppStream = NULL;
-        ((MA_PFN_AAudioStreamBuilder_delete)pContext->aaudio.AAudioStreamBuilder_delete)(pBuilder);
+        ((MA_PFN_AAudioStreamInfo_delete)pContext->aaudio.AAudioStreamInfo_delete)(pInfo);
         return ma_result_from_aaudio(resultAA);
     }
 
-    ((MA_PFN_AAudioStreamBuilder_delete)pContext->aaudio.AAudioStreamBuilder_delete)(pBuilder);
+    ((MA_PFN_AAudioStreamInfo_delete)pContext->aaudio.AAudioStreamInfo_delete)(pInfo);
     return MA_SUCCESS;
 }
 
@@ -24234,20 +24234,20 @@ ma_result ma_context_init__aaudio(const ma_context_config* pConfig, ma_context* 
         return MA_FAILED_TO_INIT_BACKEND;
     }
 
-    pContext->aaudio.AAudio_createStreamBuilder                    = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudio_createStreamBuilder");
-    pContext->aaudio.AAudioStreamBuilder_delete                    = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_delete");
-    pContext->aaudio.AAudioStreamBuilder_setDeviceId               = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setDeviceId");
-    pContext->aaudio.AAudioStreamBuilder_setDirection              = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setDirection");
-    pContext->aaudio.AAudioStreamBuilder_setSharingMode            = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setSharingMode");
-    pContext->aaudio.AAudioStreamBuilder_setFormat                 = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setFormat");
-    pContext->aaudio.AAudioStreamBuilder_setChannelCount           = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setChannelCount");
-    pContext->aaudio.AAudioStreamBuilder_setSampleRate             = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setSampleRate");
-    pContext->aaudio.AAudioStreamBuilder_setBufferCapacityInFrames = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setBufferCapacityInFrames");
-    pContext->aaudio.AAudioStreamBuilder_setFramesPerDataCallback  = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setFramesPerDataCallback");
-    pContext->aaudio.AAudioStreamBuilder_setDataCallback           = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setDataCallback");
-    pContext->aaudio.AAudioStreamBuilder_setErrorCallback          = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setErrorCallback");
-    pContext->aaudio.AAudioStreamBuilder_setPerformanceMode        = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_setPerformanceMode");
-    pContext->aaudio.AAudioStreamBuilder_openStream                = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamBuilder_openStream");
+    pContext->aaudio.AAudio_createStreamInfo                    = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudio_createStreamInfo");
+    pContext->aaudio.AAudioStreamInfo_delete                    = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_delete");
+    pContext->aaudio.AAudioStreamInfo_setDeviceId               = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setDeviceId");
+    pContext->aaudio.AAudioStreamInfo_setDirection              = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setDirection");
+    pContext->aaudio.AAudioStreamInfo_setSharingMode            = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setSharingMode");
+    pContext->aaudio.AAudioStreamInfo_setFormat                 = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setFormat");
+    pContext->aaudio.AAudioStreamInfo_setChannelCount           = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setChannelCount");
+    pContext->aaudio.AAudioStreamInfo_setSampleRate             = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setSampleRate");
+    pContext->aaudio.AAudioStreamInfo_setBufferCapacityInFrames = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setBufferCapacityInFrames");
+    pContext->aaudio.AAudioStreamInfo_setFramesPerDataCallback  = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setFramesPerDataCallback");
+    pContext->aaudio.AAudioStreamInfo_setDataCallback           = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setDataCallback");
+    pContext->aaudio.AAudioStreamInfo_setErrorCallback          = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setErrorCallback");
+    pContext->aaudio.AAudioStreamInfo_setPerformanceMode        = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_setPerformanceMode");
+    pContext->aaudio.AAudioStreamInfo_openStream                = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStreamInfo_openStream");
     pContext->aaudio.AAudioStream_close                            = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStream_close");
     pContext->aaudio.AAudioStream_getState                         = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStream_getState");
     pContext->aaudio.AAudioStream_waitForStateChange               = (ma_proc)ma_dlsym(pContext, pContext->aaudio.hAAudio, "AAudioStream_waitForStateChange");

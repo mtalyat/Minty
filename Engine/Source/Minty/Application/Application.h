@@ -3,7 +3,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Debug/Debug.h"
-#include "Minty/Time/TimeManagerBuilder.h"
+#include "Minty/Time/TimeManagerInfo.h"
 
 namespace Minty
 {
@@ -13,7 +13,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating an Application.
 	/// </summary>
-	struct ApplicationBuilder
+	struct ApplicationInfo
 	{
 		/// <summary>
 		/// The Context to use.
@@ -23,7 +23,7 @@ namespace Minty
 		/// <summary>
 		/// The arguments for the application's TimeManager.
 		/// </summary>
-		TimeManagerBuilder timeManagerBuilder = {};
+		TimeManagerInfo timeManagerInfo = {};
 	};
 
 	/// <summary>
@@ -45,10 +45,10 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Creates a new Application using the given ApplicationBuilder.
+		/// Creates a new Application using the given ApplicationInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Application(ApplicationBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		Application(ApplicationInfo const& info);
 
 		~Application();
 
@@ -111,11 +111,11 @@ namespace Minty
 		static Owner<Application> open(Path const& path);
 
 		/// <summary>
-		/// Creates a new Application using the given ApplicationBuilder.
+		/// Creates a new Application using the given ApplicationInfo.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>An Application Owner.</returns>
-		static Owner<Application> create(ApplicationBuilder const& builder = {});
+		static Owner<Application> create(ApplicationInfo const& info = {});
 
 		/// <summary>
 		/// Gets the current instance of the Application.

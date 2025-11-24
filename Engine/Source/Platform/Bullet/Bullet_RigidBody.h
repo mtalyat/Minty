@@ -17,7 +17,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Bullet_RigidBody(RigidBodyBuilder const& builder);
+		Bullet_RigidBody(RigidBodyInfo const& info);
 
 #pragma endregion
 

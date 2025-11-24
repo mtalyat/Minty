@@ -3,8 +3,8 @@
 
 using namespace Minty;
 
-Minty::Bullet_RigidBody::Bullet_RigidBody(RigidBodyBuilder const& builder)
-	: RigidBody(builder)
+Minty::Bullet_RigidBody::Bullet_RigidBody(RigidBodyInfo const& info)
+	: RigidBody(info)
 	, mp_body(nullptr)
 {
 	

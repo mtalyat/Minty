@@ -16,7 +16,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for creating a Scene.
 	/// </summary>
-	struct SceneBuilder
+	struct SceneInfo
 	{
 		/// <summary>
 		/// The UUID of the Scene.
@@ -72,8 +72,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Scene using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		Scene(SceneBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		Scene(SceneInfo const& info);
 
 		Scene(Scene&& other) noexcept;
 
@@ -198,9 +198,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new Scene using the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A Scene Owner.</returns>
-		static Owner<Scene> create(SceneBuilder const& builder = {});
+		static Owner<Scene> create(SceneInfo const& info = {});
 
 #pragma endregion
 

@@ -21,7 +21,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		PhysicsSystem(SystemBuilder const& builder);
+		PhysicsSystem(SystemInfo const& info);
 
 		~PhysicsSystem() override
 		{

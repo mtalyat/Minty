@@ -157,7 +157,7 @@ class Compiler
 {
 public:
 	friend class CFG;
-	friend class DominatorBuilder;
+	friend class DominatorInfo;
 
 	// The constructor takes a buffer of SPIR-V words and parses it.
 	// It will create its own parser, parse the SPIR-V and move the parsed IR
@@ -984,9 +984,9 @@ protected:
 	const CFG &get_cfg_for_current_function() const;
 	const CFG &get_cfg_for_function(uint32_t id) const;
 
-	struct CFGBuilder : OpcodeHandler
+	struct CFGInfo : OpcodeHandler
 	{
-		explicit CFGBuilder(Compiler &compiler_);
+		explicit CFGInfo(Compiler &compiler_);
 
 		bool follow_function_call(const SPIRFunction &func) override;
 		bool handle(spv::Op op, const uint32_t *args, uint32_t length) override;

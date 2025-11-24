@@ -16,7 +16,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments for a MaterialTemplate.
 	/// </summary>
-	struct MaterialTemplateBuilder
+	struct MaterialTemplateInfo
 	{
 		UUID id = INVALID_ID;
 
@@ -45,8 +45,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new MaterialTemplate.
 		/// </summary>
-		/// <param name="builder"></param>
-		MaterialTemplate(MaterialTemplateBuilder const& builder);
+		/// <param name="info"></param>
+		MaterialTemplate(MaterialTemplateInfo const& info);
 
 		virtual ~MaterialTemplate() override
 		{
@@ -101,8 +101,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new MaterialTemplate.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		static Owner<MaterialTemplate> create(MaterialTemplateBuilder const& builder = {});
+		/// <param name="info">The arguments.</param>
+		static Owner<MaterialTemplate> create(MaterialTemplateInfo const& info = {});
 
 #pragma endregion
 

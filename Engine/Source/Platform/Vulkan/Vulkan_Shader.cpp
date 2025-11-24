@@ -9,8 +9,8 @@
 
 using namespace Minty;
 
-Minty::Vulkan_Shader::Vulkan_Shader(ShaderBuilder const& builder)
-	: Shader(builder)
+Minty::Vulkan_Shader::Vulkan_Shader(ShaderInfo const& info)
+	: Shader(info)
 	, m_pipelineLayout(VK_NULL_HANDLE)
 	, m_pipeline(VK_NULL_HANDLE)
 	, m_bindings()
@@ -19,10 +19,10 @@ Minty::Vulkan_Shader::Vulkan_Shader(ShaderBuilder const& builder)
 	, m_descriptorTypeCounts()
 	, m_descriptorPools()
 {
-	initialize_bindings(builder);
-	initialize_descriptor_set_layout(builder);
-	initialize_pipeline_layout(builder);
-	initialize_pipeline(builder);
+	initialize_bindings(info);
+	initialize_descriptor_set_layout(info);
+	initialize_pipeline_layout(info);
+	initialize_pipeline(info);
 }
 
 Minty::Vulkan_Shader::~Vulkan_Shader()
@@ -51,10 +51,10 @@ Minty::Vulkan_Shader::~Vulkan_Shader()
 	}
 }
 
-void Minty::Vulkan_Shader::initialize_bindings(ShaderBuilder const& builder)
+void Minty::Vulkan_Shader::initialize_bindings(ShaderInfo const& info)
 {
 	// create a binding for each descriptor (not push constants)
-	for (ShaderInput const& input : builder.inputs)
+	for (ShaderInput const& input : info.inputs)
 	{
 		// ignore push constants
 		if (input.type == ShaderInputType::PushConstant)
@@ -110,7 +110,7 @@ void Minty::Vulkan_Shader::initialize_bindings(ShaderBuilder const& builder)
 	}
 }
 
-void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderBuilder const& builder)
+void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderInfo const& info)
 {
 	// descriptor set layout
 	Vector<VkDescriptorSetLayoutBinding> descriptorSetBindings;
@@ -143,11 +143,11 @@ void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderBuilder const&
 	VK_ASSERT_RESULT(vkCreateDescriptorSetLayout(renderManager.get_device(), &layoutInfo, nullptr, &m_descriptorSetLayout), "Failed to create descriptor set layout.");
 }
 
-void Minty::Vulkan_Shader::initialize_pipeline_layout(ShaderBuilder const& builder)
+void Minty::Vulkan_Shader::initialize_pipeline_layout(ShaderInfo const& info)
 {
 	// push constants
 	Vector<VkPushConstantRange> pushConstantRanges;
-	for (ShaderInput const& descriptor : builder.inputs)
+	for (ShaderInput const& descriptor : info.inputs)
 	{
 		// only push constants
 		if (descriptor.type != ShaderInputType::PushConstant)
@@ -179,21 +179,21 @@ void Minty::Vulkan_Shader::initialize_pipeline_layout(ShaderBuilder const& build
 	VK_ASSERT_RESULT(vkCreatePipelineLayout(renderManager.get_device(), &pipelineLayoutInfo, nullptr, &m_pipelineLayout), "Failed to create pipeline layout.");
 }
 
-void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
+void Minty::Vulkan_Shader::initialize_pipeline(ShaderInfo const& info)
 {
 	// vertex stage
 	VkPipelineShaderStageCreateInfo vertexShaderStageInfo{};
 	vertexShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	vertexShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vertexShaderStageInfo.module = static_cast<VkShaderModule>(builder.vertexShaderModule->get_native());
-	vertexShaderStageInfo.pName = builder.vertexShaderModuleEntryPoint.get_data();
+	vertexShaderStageInfo.module = static_cast<VkShaderModule>(info.vertexShaderModule->get_native());
+	vertexShaderStageInfo.pName = info.vertexShaderModuleEntryPoint.get_data();
 
 	// fragment stage
 	VkPipelineShaderStageCreateInfo fragmentShaderStageInfo{};
 	fragmentShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	fragmentShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	fragmentShaderStageInfo.module = static_cast<VkShaderModule>(builder.fragmentShaderModule->get_native());
-	fragmentShaderStageInfo.pName = builder.fragmentShaderModuleEntryPoint.get_data();
+	fragmentShaderStageInfo.module = static_cast<VkShaderModule>(info.fragmentShaderModule->get_native());
+	fragmentShaderStageInfo.pName = info.fragmentShaderModuleEntryPoint.get_data();
 
 	// all stages
 	VkPipelineShaderStageCreateInfo shaderStages[] = { vertexShaderStageInfo, fragmentShaderStageInfo };
@@ -205,10 +205,10 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	// vertex input bindings and attributes
 	Vector<VkVertexInputBindingDescription> vertexInputBindings;
 	Vector<VkVertexInputAttributeDescription> vertexInputAttributes;
-	vertexInputBindings.resize(builder.vertexInput.bindings.get_size(), VkVertexInputBindingDescription{});
-	for (Size i = 0; i < builder.vertexInput.bindings.get_size(); i++)
+	vertexInputBindings.resize(info.vertexInput.bindings.get_size(), VkVertexInputBindingDescription{});
+	for (Size i = 0; i < info.vertexInput.bindings.get_size(); i++)
 	{
-		ShaderBinding const& binding = builder.vertexInput.bindings.at(i);
+		ShaderBinding const& binding = info.vertexInput.bindings.at(i);
 		VkVertexInputBindingDescription& vertexInputBinding = vertexInputBindings.at(i);
 		vertexInputBinding.binding = static_cast<uint32_t>(i);
 		vertexInputBinding.inputRate = Vulkan_Renderer::to_vulkan(binding.inputRate);
@@ -279,11 +279,11 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	// topology (point, line, or triangle)
 	VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo{};
 	inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
-	inputAssemblyInfo.topology = Vulkan_Renderer::to_vulkan(builder.primitiveTopology);
+	inputAssemblyInfo.topology = Vulkan_Renderer::to_vulkan(info.primitiveTopology);
 	inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
 
 	// viewport and scissor
-	Ref<Vulkan_Viewport> vulkanViewport = static_cast<Ref<Vulkan_Viewport>>(builder.viewport);
+	Ref<Vulkan_Viewport> vulkanViewport = static_cast<Ref<Vulkan_Viewport>>(info.viewport);
 	const VkViewport* viewport = &vulkanViewport->get_viewport();
 	const VkRect2D* scissor = &vulkanViewport->get_scissor();
 
@@ -299,10 +299,10 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	rasterizerInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 	rasterizerInfo.depthClampEnable = VK_FALSE; // discard pixels outside of viewport when false, otherwise clamp
 	rasterizerInfo.rasterizerDiscardEnable = VK_FALSE; // geometry will pass through rasterizer when false
-	rasterizerInfo.polygonMode = Vulkan_Renderer::to_vulkan(builder.polygonMode); // how polygons are rendered (anything other than fill requires a GPU feature)
-	rasterizerInfo.lineWidth = builder.lineWidth; // width of line in line/point polygon mode
-	rasterizerInfo.cullMode = Vulkan_Renderer::to_vulkan(builder.cullMode); // which side to ignore
-	rasterizerInfo.frontFace = Vulkan_Renderer::to_vulkan(builder.frontFace); // how to determine front side
+	rasterizerInfo.polygonMode = Vulkan_Renderer::to_vulkan(info.polygonMode); // how polygons are rendered (anything other than fill requires a GPU feature)
+	rasterizerInfo.lineWidth = info.lineWidth; // width of line in line/point polygon mode
+	rasterizerInfo.cullMode = Vulkan_Renderer::to_vulkan(info.cullMode); // which side to ignore
+	rasterizerInfo.frontFace = Vulkan_Renderer::to_vulkan(info.frontFace); // how to determine front side
 	rasterizerInfo.depthBiasEnable = VK_FALSE;
 	rasterizerInfo.depthBiasConstantFactor = 0.0f;
 	rasterizerInfo.depthBiasClamp = 0.0f;
@@ -321,7 +321,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	// depth stencil testing
 	VkPipelineDepthStencilStateCreateInfo depthStencil{};
 	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
-	if (builder.depthMode == DepthMode::None)
+	if (info.depthMode == DepthMode::None)
 	{
 		// disable depth testing
 		depthStencil.depthTestEnable = VK_FALSE;
@@ -330,13 +330,13 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	{
 		// enable depth testing
 		depthStencil.depthTestEnable = VK_TRUE;
-		depthStencil.depthWriteEnable = builder.depthMode == DepthMode::Write ? VK_TRUE : VK_FALSE;
+		depthStencil.depthWriteEnable = info.depthMode == DepthMode::Write ? VK_TRUE : VK_FALSE;
 
 		// transparent shaders should not write to depth
-		MINTY_ASSERT((builder.transparency == true && builder.depthMode != DepthMode::Write) || builder.depthMode == DepthMode::Write, "Transparent shaders must have depth write disabled.");
+		MINTY_ASSERT((info.transparency == true && info.depthMode != DepthMode::Write) || info.depthMode == DepthMode::Write, "Transparent shaders must have depth write disabled.");
 
 		// set depth comparison operation
-		depthStencil.depthCompareOp = Vulkan_Renderer::to_vulkan(builder.depthTestOp);
+		depthStencil.depthCompareOp = Vulkan_Renderer::to_vulkan(info.depthTestOp);
 		// only keep within a specific range (0 to 1 is default)
 		depthStencil.depthBoundsTestEnable = VK_FALSE;
 		depthStencil.minDepthBounds = 0.0f; // Optional
@@ -347,7 +347,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 		depthStencil.back = {}; // Optional
 	}
 
-	if (builder.stencilMode == StencilMode::None)
+	if (info.stencilMode == StencilMode::None)
 	{
 		depthStencil.stencilTestEnable = VK_FALSE;
 	}
@@ -362,15 +362,15 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 		stencilOpState.writeMask = 0xFF;
 		stencilOpState.reference = 0; // set dynamically later
 
-		if (builder.stencilMode == StencilMode::Write)
+		if (info.stencilMode == StencilMode::Write)
 		{
 			stencilOpState.passOp = VK_STENCIL_OP_REPLACE;
 			stencilOpState.compareOp = VK_COMPARE_OP_ALWAYS;
 		}
-		else if (builder.stencilMode == StencilMode::Test)
+		else if (info.stencilMode == StencilMode::Test)
 		{
 			stencilOpState.passOp = VK_STENCIL_OP_KEEP;
-			stencilOpState.compareOp = Vulkan_Renderer::to_vulkan(builder.stencilTestOp);
+			stencilOpState.compareOp = Vulkan_Renderer::to_vulkan(info.stencilTestOp);
 		}
 
 		depthStencil.front = stencilOpState;
@@ -379,7 +379,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 
 	// color blending (transparency)
 	VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-	if (builder.transparency)
+	if (info.transparency)
 	{
 		colorBlendAttachment.blendEnable = VK_TRUE;
 		colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
@@ -397,7 +397,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 	colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 
 	// disable color writing for stencil-write operations
-	if(builder.stencilMode == StencilMode::Write)
+	if(info.stencilMode == StencilMode::Write)
 	{
 		colorBlendAttachment.colorWriteMask = 0;
 	} else
@@ -422,7 +422,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 		VK_DYNAMIC_STATE_VIEWPORT,
 		VK_DYNAMIC_STATE_SCISSOR
 	};
-	if (builder.stencilMode != StencilMode::None)
+	if (info.stencilMode != StencilMode::None)
 	{
 		dynamicStates.add(VK_DYNAMIC_STATE_STENCIL_REFERENCE);
 	}
@@ -449,7 +449,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderBuilder const& builder)
 
 	pipelineInfo.layout = m_pipelineLayout;
 
-	pipelineInfo.renderPass = static_cast<Ref<Vulkan_RenderPass>>(builder.renderPass)->get_render_pass();
+	pipelineInfo.renderPass = static_cast<Ref<Vulkan_RenderPass>>(info.renderPass)->get_render_pass();
 	pipelineInfo.subpass = 0;
 
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;

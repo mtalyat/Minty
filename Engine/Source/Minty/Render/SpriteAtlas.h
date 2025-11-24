@@ -18,7 +18,7 @@ namespace Minty
 	/// <summary>
 	/// The arguments to build a SpriteAtlas.
 	/// </summary>
-	struct SpriteAtlasBuilder
+	struct SpriteAtlasInfo
 	{
 		/// <summary>
 		/// The ID of this Atlas.
@@ -56,8 +56,8 @@ namespace Minty
 		/// <summary>
 		/// Creates a new SpriteAtlas with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
-		SpriteAtlas(SpriteAtlasBuilder const& builder);
+		/// <param name="info">The arguments.</param>
+		SpriteAtlas(SpriteAtlasInfo const& info);
 
 #pragma endregion
 
@@ -153,9 +153,9 @@ namespace Minty
 		/// <summary>
 		/// Creates a new SpriteAtlas with the given arguments.
 		/// </summary>
-		/// <param name="builder">The arguments.</param>
+		/// <param name="info">The arguments.</param>
 		/// <returns>A SpriteAtlas Owner.</returns>
-		static Owner<SpriteAtlas> create(SpriteAtlasBuilder const& builder = {});
+		static Owner<SpriteAtlas> create(SpriteAtlasInfo const& info = {});
 
 #pragma endregion
 

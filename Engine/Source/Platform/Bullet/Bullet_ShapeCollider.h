@@ -10,7 +10,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Bullet_ShapeCollider(ColliderBuilder const& builder);
+		Bullet_ShapeCollider(ColliderInfo const& info);
 
 		~Bullet_ShapeCollider() override
 		{

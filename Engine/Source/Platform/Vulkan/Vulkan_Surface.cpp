@@ -9,8 +9,8 @@ using namespace Minty;
 
 
 // special constructor to create the initial surface
-Minty::Vulkan_Surface::Vulkan_Surface(SurfaceBuilder const& builder, VkSurfaceKHR const surface, Vulkan_RenderManager& renderManager, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
-	: Surface(builder),
+Minty::Vulkan_Surface::Vulkan_Surface(SurfaceInfo const& info, VkSurfaceKHR const surface, Vulkan_RenderManager& renderManager, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
+	: Surface(info),
 	m_surface(surface),
 	m_swapchain(VK_NULL_HANDLE),
 	m_extent({ 0, 0 }),
@@ -18,11 +18,11 @@ Minty::Vulkan_Surface::Vulkan_Surface(SurfaceBuilder const& builder, VkSurfaceKH
 	m_index(0),
 	m_images()
 {
-	initialize_swapchain(builder.targetFormat, renderManager, queueFamilyIndices);
+	initialize_swapchain(info.targetFormat, renderManager, queueFamilyIndices);
 }
 
-Minty::Vulkan_Surface::Vulkan_Surface(SurfaceBuilder const& builder)
-	: Surface(builder),
+Minty::Vulkan_Surface::Vulkan_Surface(SurfaceInfo const& info)
+	: Surface(info),
 	m_surface(VK_NULL_HANDLE),
 	m_swapchain(VK_NULL_HANDLE),
 	m_extent({ 0, 0 }),
@@ -33,13 +33,13 @@ Minty::Vulkan_Surface::Vulkan_Surface(SurfaceBuilder const& builder)
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 
 	// create the surface
-	m_surface = Vulkan_Renderer::create_surface(renderManager.get_instance(), builder.window);
+	m_surface = Vulkan_Renderer::create_surface(renderManager.get_instance(), info.window);
 
 	// get the queue family indices
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(renderManager.get_physical_device(), m_surface);
 
 	// continue
-	initialize_swapchain(builder.targetFormat, renderManager, queueFamilyIndices);
+	initialize_swapchain(info.targetFormat, renderManager, queueFamilyIndices);
 }
 
 Minty::Vulkan_Surface::~Vulkan_Surface()
@@ -76,18 +76,18 @@ void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulk
 	// create the images
 	AssetManager& assetManager = AssetManager::get_singleton();
 	m_images.resize(swapchainImages.get_size(), Ref<Image>());
-	ImageBuilder imageBuilder{};
-	imageBuilder.aspect = ImageAspect::Color;
-	imageBuilder.format = m_format;
-	imageBuilder.immutable = true;
-	imageBuilder.size = get_size();
-	imageBuilder.tiling = ImageTiling::Optimal;
-	imageBuilder.type = ImageType::D2;
-	imageBuilder.usage = ImageUsage::Color;
+	ImageInfo imageInfo{};
+	imageInfo.aspect = ImageAspect::Color;
+	imageInfo.format = m_format;
+	imageInfo.immutable = true;
+	imageInfo.size = get_size();
+	imageInfo.tiling = ImageTiling::Optimal;
+	imageInfo.type = ImageType::D2;
+	imageInfo.usage = ImageUsage::Color;
 	for (Size i = 0; i < m_images.get_size(); i++)
 	{
-		imageBuilder.id = UUID::create();
-		Owner<Image> vulkanImage = Owner<Vulkan_Image>(imageBuilder, swapchainImages.at(i));
+		imageInfo.id = UUID::create();
+		Owner<Image> vulkanImage = Owner<Vulkan_Image>(imageInfo, swapchainImages.at(i));
 		m_images.at(i) = vulkanImage.create_ref();
 		assetManager.add(vulkanImage);
 		vulkanImage.release();

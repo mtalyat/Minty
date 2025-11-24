@@ -36,7 +36,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Windows_Window(WindowBuilder const& builder);
+		Windows_Window(WindowInfo const& info);
 
 		~Windows_Window();
 
