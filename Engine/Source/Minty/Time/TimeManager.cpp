@@ -1,50 +1,75 @@
 #include "pch.h"
 #include "TimeManager.h"
+#include "Minty/Debug/Debug.h"
+#include "Minty/Core/Constant.h"
 #include "Minty/Time/TimeManagerInfo.h"
+#include "Minty/Time/Time.h"
 
 using namespace Minty;
 
-Minty::TimeManager::TimeManager(TimeManagerInfo const& info)
-	: m_time(0.0f)
-	, m_rawTime(0.0f)
-	, m_elapsed(0.0f)
-	, m_rawElapsed(0.0f)
-	, m_timeScale(1.0f)
-	, m_fixedTimeStep(info.fixedTimeStep)
-	, m_fixedTimeAccumulator(0.0f)
-	, m_maxAllowedTimeStep(info.maxAllowedTimeStep)
-	, m_maxFixedUpdatesPerFrame(info.maxFixedUpdatesPerFrame)
+Minty::TimeManager::TimeManager(TimeManagerInfo const &info)
+    : m_running(false)
+    , m_time(0)
+    , m_unscaledTime(0.0f)
+    , m_scaledTime(0.0f)
+    , m_unscaledDelta(0.0f)
+    , m_scaledDelta(0.0f)
+    , m_timeScale(1.0f)
+    , m_fixedTimeStep(info.fixedTimeStep)
+    , m_fixedTimeAccumulator(0.0f)
+    , m_maxAllowedTimeStep(info.maxAllowedTimeStep)
+    , m_maxFixedUpdatesPerFrame(info.maxFixedUpdatesPerFrame)
 {}
 
-Int Minty::TimeManager::update(Float const deltaTime)
+void Minty::TimeManager::start()
 {
-	// update raw time and elapsed time
-	m_rawTime += deltaTime;
-	m_rawElapsed = deltaTime;
+    // MINTY_ASSERT(m_running == false, ErrorCode::Object_AlreadyRunning);
+    m_running = true;
 
-	// apply time scale
-	Float scaledDeltaTime = deltaTime * m_timeScale;
+    m_time = Time::get_time();
+    m_unscaledTime = 0.0f;
+    m_scaledTime = 0.0f;
+    m_unscaledDelta = 0.0f;
+    m_scaledDelta = 0.0f;
+    m_fixedTimeAccumulator = 0.0f;
+}
 
-	// clamp to max allowed time step
-	if (scaledDeltaTime > m_maxAllowedTimeStep)
-	{
-		scaledDeltaTime = m_maxAllowedTimeStep;
-	}
+void Minty::TimeManager::stop()
+{
+    // MINTY_ASSERT(m_running == true, ErrorCode::Object_NotRunning);
+    m_running = false;
+}
 
-	// update total time and elapsed time
-	m_time += scaledDeltaTime;
-	m_elapsed = scaledDeltaTime;
+Int Minty::TimeManager::update()
+{
+    // MINTY_ASSERT(m_running == true, ErrorCode::Object_NotRunning);
 
-	// accumulate fixed time
-	m_fixedTimeAccumulator += scaledDeltaTime;
+    TimePoint const currentTime = Time::get_time();
+    Float deltaTime = static_cast<Float>(currentTime - m_time) / static_cast<Float>(ONE_SECOND); // Convert nanoseconds to seconds
+    m_time = currentTime;
 
-	// determine number of fixed updates to perform
-	Int fixedUpdates = 0;
-	while (m_fixedTimeAccumulator >= m_fixedTimeStep && fixedUpdates < m_maxFixedUpdatesPerFrame)
-	{
-		m_fixedTimeAccumulator -= m_fixedTimeStep;
-		fixedUpdates++;
-	}
+    // Clamp delta time to max allowed time step
+    if (deltaTime > m_maxAllowedTimeStep)
+    {
+        deltaTime = m_maxAllowedTimeStep;
+    }
 
-	return fixedUpdates;
+    m_unscaledDelta = deltaTime;
+    m_scaledDelta = deltaTime * m_timeScale;
+
+    m_unscaledTime += m_unscaledDelta;
+    m_scaledTime += m_scaledDelta;
+
+    // Update fixed time accumulator
+    m_fixedTimeAccumulator += m_unscaledDelta;
+
+    // Calculate number of fixed updates to perform
+    Int fixedUpdates = 0;
+    while (m_fixedTimeAccumulator >= m_fixedTimeStep && fixedUpdates < m_maxFixedUpdatesPerFrame)
+    {
+        m_fixedTimeAccumulator -= m_fixedTimeStep;
+        fixedUpdates++;
+    }
+
+    return fixedUpdates;
 }

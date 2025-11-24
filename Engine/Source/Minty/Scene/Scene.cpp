@@ -227,7 +227,7 @@ void Minty::Scene::on_unload()
 	m_entityManager->dispose();
 }
 
-void Minty::Scene::on_frame_update(Time const& time)
+void Minty::Scene::on_frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -235,7 +235,7 @@ void Minty::Scene::on_frame_update(Time const& time)
 	m_entityManager->frame_update(time);
 }
 
-void Minty::Scene::on_fixed_update(Time const& time)
+void Minty::Scene::on_fixed_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

@@ -21,7 +21,7 @@ namespace Minty
         /// <summary>
         /// The total amount of time in nanoseconds that have passed.
         /// </summary>
-        TimeElapsed m_elapsed;
+        TimePoint m_elapsed;
 
         /// <summary>
         /// Is the Stopwatch currently recording time?
@@ -47,7 +47,7 @@ namespace Minty
         /// How much time has elapsed since the start?
         /// </summary>
         /// <returns>Time elapsed in nanoseconds.</returns>
-        TimeElapsed get_elapsed() const;
+        TimePoint get_elapsed() const;
 
         /// <summary>
         /// How much time (in seconds) have elapsed since the start?
@@ -92,9 +92,9 @@ namespace Minty
         /// 
 		/// Ex. If the time elapsed is 10 seconds, and the mod is 3 seconds, the result will be 3, while setting the new elapsed time to 1.
         /// </summary>
-        /// <param name="mod">The lap length in TimeElapsed.</param>
+        /// <param name="mod">The lap length in TimePoint.</param>
         /// <returns>The maximum number of laps.</returns>
-        Size lap(TimeElapsed const mod);
+        Size lap(TimePoint const mod);
 
         /// <summary>
         /// Stop, reset and start.

@@ -29,7 +29,7 @@ void Minty::MemoryManager::dispose()
 	Manager::dispose();
 }
 
-void Minty::MemoryManager::frame_update(Time const& time)
+void Minty::MemoryManager::frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

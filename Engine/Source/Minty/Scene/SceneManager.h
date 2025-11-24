@@ -160,13 +160,13 @@ namespace Minty
 		/// Called every frame.
 		/// </summary>
 		/// <param name="time">The frame time step.</param>
-		void frame_update(Time const& time) override;
+		void frame_update(Timestep const& time) override;
 
 		/// <summary>
 		/// Called every fixed update interval.
 		/// </summary>
 		/// <param name="time">The fixed time step.</param>
-		void fixed_update(Time const& time) override;
+		void fixed_update(Timestep const& time) override;
 
 		/// <summary>
 		/// Called after every update operation.

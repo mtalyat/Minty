@@ -176,7 +176,7 @@ namespace Minty
 		/// <summary>
 		/// Called every frame.
 		/// </summary>
-		void update(Time const& time);
+		void frame_update(Timestep const& time) override;
 
 		/// <summary>
 		/// If any Assets are being loaded or unloaded, wait until they are finished.

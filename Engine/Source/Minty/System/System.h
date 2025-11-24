@@ -1,8 +1,9 @@
 #pragma once
 #include "Minty/Data/Pointer.h"
+#include "Minty/Data/String.h"
 #include "Minty/Event/Event.h"
 #include "Minty/Serialization/SerializableObject.h"
-#include "Minty/Time/Time.h"
+#include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
@@ -154,13 +155,13 @@ namespace Minty
 		/// Called when the Scene is updated.
 		/// </summary>
 		/// <param name="time">The time information for the update.</param>
-		virtual void on_frame_update(Time const& time) {}
+		virtual void on_frame_update(Timestep const& time) {}
 
 		/// <summary>
 		/// Called when the Scene is fixed updated.
 		/// </summary>
 		/// <param name="time">The time information for the fixed update.</param>
-		virtual void on_fixed_update(Time const& time) {}
+		virtual void on_fixed_update(Timestep const& time) {}
 
 		/// <summary>
 		/// Called when the Scene is finalized.

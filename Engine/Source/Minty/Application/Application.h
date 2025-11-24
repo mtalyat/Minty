@@ -90,8 +90,7 @@ namespace Minty
 		/// <summary>
 		/// Performs one step in the Application's update loop.
 		/// </summary>
-		/// <param name="timeManager">The TimeManager to use for this step.</param>
-		void step(TimeManager const& timeManager);
+		void step();
 		
 		/// <summary>
 		/// Runs the Application.

@@ -1,72 +1,83 @@
 #pragma once
 #include "Minty/Time/Time.h"
+#include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
 	struct TimeManagerInfo;
 
-	/// <summary>
-	/// Manages the time for the application.
-	/// </summary>
-	class TimeManager
-	{
-#pragma region Variables
-
-	private:
-		Float m_time; // total time in seconds
-		Float m_rawTime; // unscaled total time in seconds
-		Float m_elapsed; // elapsed time since last frame in seconds
-		Float m_rawElapsed; // unscaled elapsed time since last frame in seconds
-		Float m_timeScale;
-		Float m_fixedTimeStep;
-		Float m_fixedTimeAccumulator;
-		Float m_maxAllowedTimeStep;
-		Int m_maxFixedUpdatesPerFrame;
-
-#pragma endregion
-
+    /**
+     * @class TimeManager
+     * @brief Class for managing time and delta times in the engine.
+     */
+    class TimeManager
+    {
 #pragma region Constructors
 
-	public:
-		TimeManager(TimeManagerInfo const& info);
+    public:
+        /**
+         * @brief Constructs a new TimeManager with the specified information.
+         * @param info The TimeManagerInfo structure containing initialization parameters.
+         */
+        TimeManager(TimeManagerInfo const &info);
+
+        ~TimeManager() = default;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
-	public:
-		/// <summary>
-		/// Returns a Time value representing the frame time.
-		/// </summary>
-		/// <returns>The Time value.</returns>
-		Time get_frame_time() const
-		{
-			return Time(m_time, m_elapsed);
-		}
+    public:
+        /**
+         * @brief Gets the current unscaled time in seconds.
+         * @return The unscaled time as a Float.
+         */
+        Timestep get_frame_timestep() const { return Timestep(m_scaledDelta, m_scaledTime);}
 
-		/// <summary>
-		/// Returns a Time value representing the fixed time step.
-		/// </summary>
-		/// <returns>The Time value.</returns>
-		Time get_fixed_time() const
-		{
-			return Time(m_time - m_fixedTimeAccumulator, m_fixedTimeStep);
-		}
+        /**
+         * @brief Gets the current fixed timestep.
+         * @return The fixed timestep as a Timestep.
+         */
+        Timestep get_fixed_timestep() const { return Timestep(m_fixedTimeStep, m_scaledTime - m_fixedTimeAccumulator); }
 
 #pragma endregion
 
 #pragma region Methods
 
-	public:
-		/// <summary>
-		/// Processes the frame time and returns the number of fixed updates to perform.
-		/// </summary>
-		/// <param name="deltaTime">The time that has elapsed since last frame.</param>
-		/// <returns>The number of fixed updates to perform.</returns>
-		Int update(Float const deltaTime);
+    public:
+        /**
+         * @brief Starts the time manager, initializing timing variables.
+         */
+        void start();
+
+        /**
+         * @brief Stops the time manager.
+         */
+        void stop();
+
+        /**
+         * @brief Updates the time manager, calculating delta times and updating accumulators.
+         * @return The number of fixed updates performed this frame.
+         */
+        Int update();
 
 #pragma endregion
 
+#pragma region Variables
 
-	};
+    private:
+        Bool m_running;
+        TimePoint m_time;
+        Float m_unscaledTime;
+        Float m_scaledTime;
+        Float m_unscaledDelta;
+        Float m_scaledDelta;
+        Float m_timeScale;
+        Float m_fixedTimeStep;
+        Float m_fixedTimeAccumulator;
+        Float m_maxAllowedTimeStep;
+        Int m_maxFixedUpdatesPerFrame;
+
+#pragma endregion
+    };
 }

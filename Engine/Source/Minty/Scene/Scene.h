@@ -9,7 +9,7 @@
 #include "Minty/Physics/PhysicsSimulation.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/System/SystemManager.h"
-#include "Minty/Time/Time.h"
+#include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
@@ -146,9 +146,9 @@ namespace Minty
 		/// <summary>
 		/// Called when the Scene is updated.
 		/// </summary>
-		void on_frame_update(Time const& time);
+		void on_frame_update(Timestep const& time);
 
-		void on_fixed_update(Time const& time);
+		void on_fixed_update(Timestep const& time);
 
 		/// <summary>
 		/// Called when the Scene is finalized.

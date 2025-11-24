@@ -1413,7 +1413,7 @@ void Minty::EntityManager::initialize()
 	Manager::initialize();
 }
 
-void Minty::EntityManager::frame_update(Time const& time)
+void Minty::EntityManager::frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

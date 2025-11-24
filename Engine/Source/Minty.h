@@ -16,6 +16,7 @@
 #include "Minty/Input/_Input.h"
 #include "Minty/Job/_Job.h"
 #include "Minty/Layer/_Layer.h"
+#include "Minty/Log/_Log.h"
 #include "Minty/Manager/_Manager.h"
 #include "Minty/Memory/_Memory.h"
 #include "Minty/Physics/_Physics.h"

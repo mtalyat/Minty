@@ -24,6 +24,7 @@
 #include "Minty/Render/Texture.h"
 #include "Minty/Render/Viewport.h"
 #include "Minty/Event/WindowResizeEvent.h"
+#include "Minty/Time/Timestep.h"
 
 using namespace Minty;
 
@@ -191,7 +192,7 @@ void Minty::AssetManager::dispose()
 	Manager::dispose();
 }
 
-void Minty::AssetManager::update(Time const& time)
+void Minty::AssetManager::frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

@@ -11,7 +11,7 @@
 
 using namespace Minty;
 
-void Minty::AnimationSystem::on_frame_update(Time const& time)
+void Minty::AnimationSystem::on_frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

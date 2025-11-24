@@ -1,31 +1,47 @@
 #include "pch.h"
 #include "Time.h"
-#include "Minty/Core/Format.h"
-#include <thread>
+#include <chrono>
+#include <sstream>
+#include <iomanip>
 
 using namespace Minty;
 
-TimePoint Minty::Time::now()
+TimePoint Minty::Time::get_time()
 {
-	return std::chrono::steady_clock::now();
+    static auto const start = std::chrono::high_resolution_clock::now();
+    auto const now = std::chrono::high_resolution_clock::now();
+    return static_cast<TimePoint>(std::chrono::duration_cast<std::chrono::nanoseconds>(now - start).count());
 }
 
-Float Minty::Time::calculate_duration_seconds(TimePoint const start, TimePoint const end)
+TimePoint Minty::Time::get_system_time()
 {
-	Size frameTime = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-
-	// change from nanoseconds to seconds
-	return frameTime / 1000000000.0f;
+    auto now = std::chrono::system_clock::now();
+    auto epoch = now.time_since_epoch();
+    return static_cast<TimePoint>(std::chrono::duration_cast<std::chrono::nanoseconds>(epoch).count());
 }
 
-String Minty::Time::timestamp()
+String Minty::Time::format(TimePoint const time)
 {
-	auto now = std::chrono::system_clock::now();
-	auto current_time = std::chrono::zoned_time(std::chrono::current_zone(), now);
-	return String(std::format("{:%Y-%m-%d %H:%M:%S}", current_time).c_str());
+    // Fix the time_point construction issue
+    auto nanoseconds = std::chrono::nanoseconds(time);
+    auto duration = std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds);
+    auto timePoint = std::chrono::system_clock::time_point(duration);
+    
+    auto timeT = std::chrono::system_clock::to_time_t(timePoint);
+    std::stringstream ss;
+    std::tm timeStruct;
+#ifdef MINTY_WINDOWS
+    localtime_s(&timeStruct, &timeT);
+#else
+    #error "Platform not supported"
+#endif
+    ss << std::put_time(&timeStruct, "%Y-%m-%d %H:%M:%S");
+    
+    // Use the const char* constructor for your String class
+    return String(ss.str().c_str());
 }
 
-void Minty::Time::sleep(TimeElapsed const time)
+String Minty::Time::get_timestamp()
 {
-	std::this_thread::sleep_for(std::chrono::nanoseconds(time));
+    return format(get_system_time());
 }

@@ -94,7 +94,7 @@ void Minty::PhysicsSystem::on_unload()
 	deinitialize_entities();
 }
 
-void Minty::PhysicsSystem::on_frame_update(Time const& time)
+void Minty::PhysicsSystem::on_frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

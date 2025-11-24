@@ -249,13 +249,13 @@ namespace Minty
 		/// Updates all Managers in this Context.
 		/// </summary>
 		/// <param name="time">The frame time step.</param>
-		void frame_update(Time const& time);
+		void frame_update(Timestep const& time);
 
 		/// <summary>
 		/// Updates all Managers in this Context at fixed intervals.
 		/// </summary>
 		/// <param name="time">The fixed time step.</param>
-		void fixed_update(Time const& time);
+		void fixed_update(Timestep const& time);
 
 		/// <summary>
 		/// Finalizes all Managers in this Context.

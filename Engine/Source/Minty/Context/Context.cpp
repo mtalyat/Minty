@@ -199,7 +199,7 @@ void Minty::Context::dispose()
 	m_initialized = false;
 }
 
-void Minty::Context::frame_update(Time const& time)
+void Minty::Context::frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -210,7 +210,7 @@ void Minty::Context::frame_update(Time const& time)
 	}
 }
 
-void Minty::Context::fixed_update(Time const& time)
+void Minty::Context::fixed_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

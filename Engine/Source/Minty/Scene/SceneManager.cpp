@@ -184,7 +184,7 @@ void Minty::SceneManager::dispose()
 	Manager::dispose();
 }
 
-void Minty::SceneManager::frame_update(Time const& time)
+void Minty::SceneManager::frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -199,7 +199,7 @@ void Minty::SceneManager::frame_update(Time const& time)
 	}
 }
 
-void Minty::SceneManager::fixed_update(Time const& time)
+void Minty::SceneManager::fixed_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 	

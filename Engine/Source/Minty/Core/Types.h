@@ -22,15 +22,7 @@ namespace Minty
 	using ID = uint64_t;
 	using Handle = uint32_t;
 	using Layer = Int;
-
-	/// <summary>
-	/// A point in time.
-	/// </summary>
-	using TimePoint = std::chrono::steady_clock::time_point;
-	/// <summary>
-	/// Time elapsed in nanoseconds.
-	/// </summary>
-	using TimeElapsed = long long;
+	using TimePoint = int64_t;
 
 	using TypeID = std::type_index;
 	using TypeInfo = std::type_info;

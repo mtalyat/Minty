@@ -109,7 +109,7 @@ void Minty::SystemManager::dispose()
 	Manager::dispose();
 }
 
-void Minty::SystemManager::frame_update(Time const& time)
+void Minty::SystemManager::frame_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -123,7 +123,7 @@ void Minty::SystemManager::frame_update(Time const& time)
 	}
 }
 
-void Minty::SystemManager::fixed_update(Time const& time)
+void Minty::SystemManager::fixed_update(Timestep const& time)
 {
 	MINTY_TRACE_SCOPE();
 

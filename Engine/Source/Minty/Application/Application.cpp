@@ -3,6 +3,7 @@
 #include "Minty/Time/Stopwatch.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Time/TimeManager.h"
+#include "Minty/Time/Timestep.h"
 
 using namespace Minty;
 
@@ -38,7 +39,7 @@ void Minty::Application::quit()
 	m_running = false;
 }
 
-void Minty::Application::step(TimeManager const& timeManager)
+void Minty::Application::step()
 {
 	MINTY_TRACE_SCOPE();
 
@@ -51,12 +52,17 @@ void Minty::Application::step(TimeManager const& timeManager)
 	// process events
 	m_context->process_events();
 
-	// update managers
-	Time const time = timeManager.get_frame_time();
+	// perform updates for frame and fixed updates
+	Int const fixedUpdates = mp_timeManager->update();
+
+	Timestep const time = mp_timeManager->get_frame_timestep();
 	m_context->frame_update(time);
 
-	Time const fixedTime = timeManager.get_fixed_time();
-	m_context->fixed_update(fixedTime);
+	for (Int i = 0; i < fixedUpdates; i++)
+	{
+		Timestep const fixedTime = mp_timeManager->get_fixed_timestep();
+		m_context->fixed_update(fixedTime);
+	}
 }
 
 void Minty::Application::run()
@@ -64,28 +70,26 @@ void Minty::Application::run()
 	// initialize
 	m_context->initialize();
 
-	// keep track of time passed
-	Stopwatch totalWatch = Stopwatch::start_new();
-	Stopwatch elapsedWatch = Stopwatch::start_new();
-	TimeManagerInfo tmInfo;
-	TimeManager timeManager(tmInfo);
-
 	// get the window and start running
 	Window& window = m_context->get_window();
-	m_running = true;
+
+	mp_timeManager->start();
 
 	// run the application loop
+	m_running = true;
 	while (m_running && window.is_open())
 	{
-		step(timeManager);
+		step();
 	}
+	m_running = false;
+
+	mp_timeManager->stop();
 
 	// if window is still open, close it
 	if (window.is_open())
 	{
 		window.close();
 	}
-	m_running = false;
 
 	// sync operations before moving on (threads, rendering, etc.)
 	m_context->sync();

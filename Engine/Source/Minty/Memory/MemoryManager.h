@@ -150,7 +150,7 @@ namespace Minty
 		/// <summary>
 		/// Called once a frame.
 		/// </summary>
-		void frame_update(Time const& time) override;
+		void frame_update(Timestep const& time) override;
 
 		/// <summary>
 		/// Allocates the given number of bytes using the appropriate allocation method.

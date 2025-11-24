@@ -156,7 +156,7 @@ namespace Minty
 		/// <summary>
 		/// Called every frame.
 		/// </summary>
-		void frame_update(Time const& time) override;
+		void frame_update(Timestep const& time) override;
 		
 		/// <summary>
 		/// Called after every update operation.
