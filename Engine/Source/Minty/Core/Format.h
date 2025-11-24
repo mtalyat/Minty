@@ -1,37 +1,135 @@
-#pragma once
+#ifndef MINTY_FORMAT_H
+#define MINTY_FORMAT_H
+
+/**
+ * @file Format.h
+ * @brief Header file for string formatting utilities.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/StringBuilder.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-#define F(formatString, ...) Minty::format(formatString, __VA_ARGS__)
+    namespace Internal
+    {
+        template <typename T>
+        void append_value(StringBuilder &builder, T const &value)
+        {
+            builder.append(to_string(value));
+        }
 
-	template<typename... Args>
-	static String format(String const& format, Args&&... args)
-	{
-		return _format(format, std::forward<Args>(args)...);
-	}
+        template <typename T, typename... Args>
+        void append_value(StringBuilder &builder, T const &value, Args const &...args)
+        {
+            builder.append(to_string(value));
+            if constexpr (sizeof...(args) > 0)
+            {
+                append_value(builder, args...);
+            }
+        }
+    }
 
-	static String _format(String const& format)
-	{
-		return format;
-	}
+    /**
+     * @brief Format a string using the specified format and arguments.
+     * @tparam Args The types of the arguments to format.
+     * @param allocator The allocator to use for the resulting string.
+     * @param format The format string.
+     * @param args The arguments to format into the string.
+     * @return The formatted string.
+     */
+    template <typename... Args>
+    String format(Allocator const allocator, String const formatStr, Args const &...args)
+    {
+        Size formatSize = formatStr.get_size();
+        StringBuilder builder(formatStr.get_size() * 2, allocator);
+        Size argIndex = 0;
+        constexpr Size argCount = sizeof...(args);
 
-	template<typename T, typename... Args>
-	static String _format(String const& format, T&& first, Args&&... args)
-	{
-		Size index = format.find_first("{}");
-		if (index != INVALID_INDEX)
-		{
-			String firstString = to_string(std::forward<T>(first));
-			Size size = format.get_size() - (index + 2);
-			String formatted = format.sub(0, index) + firstString;
-			if (size > 0)
-			{
-				formatted += format.sub(index + 2, size);
-			}
-			return _format(formatted, std::forward<Args>(args)...);
-		}
-		return _format(format);
-	}
+        // Parse the formatStr string
+        for (Size i = 0; i < formatSize; i++)
+        {
+            if (i + 1 < formatSize)
+            {
+                if (formatStr[i] == '{')
+                {
+                    if (formatStr[i + 1] == '{')
+                    {
+                        // Escaped '{'
+                        builder.append('{');
+                        ++i; // Skip the next '{'
+                        continue;
+                    }
+                    else if (formatStr[i + 1] == '}')
+                    {
+                        // Append argument
+                        if (argIndex < argCount)
+                        {
+                            // Use fold expression to get the correct argument
+                            Size currentIndex = 0;
+                            ((currentIndex++ == argIndex ? Internal::append_value(builder, args) : void(0)), ...);
+                            ++argIndex;
+                        }
+
+                        // Skip the next '}'
+                        ++i;
+                        continue;
+                    }
+                    else
+                    {
+                        // Ignore malformed '{', for now just append it
+                        // TODO: add additional formatting options
+                        builder.append(formatStr[i]);
+                        continue;
+                    }
+                } else if (formatStr[i] == '}')
+                {
+                    if (formatStr[i + 1] == '}')
+                    {
+                        // Escaped '}'
+                        builder.append('}');
+                        ++i; // Skip the next '}'
+                        continue;
+                    }
+                }
+            }
+            
+            // Append regular character
+            builder.append(formatStr[i]);
+        }
+
+        // Append the remaining arguments (if any)
+        while (argIndex < argCount)
+        {
+            Size currentIndex = 0;
+            ((currentIndex++ == argIndex ? Internal::append_value(builder, args) : void(0)), ...);
+            ++argIndex;
+        }
+
+        return builder.to_string(allocator);
+    }
+
+    /**
+     * @brief Format a string using the specified format and arguments with the default allocator.
+     * @tparam Args The types of the arguments to format.
+     * @param format The format string.
+     * @param args The arguments to format into the string.
+     * @return The formatted string.
+     */
+    template <typename... Args>
+    inline String format(String const formatStr, Args const &...args)
+    {
+        return format(Allocator::Default, formatStr, args...);
+    }
 }
+
+/**
+ * @brief Macro for formatting strings using the default allocator.
+ * @param msg The format string.
+ */
+#define F(msg, ...) Minty::format(msg, ##__VA_ARGS__)
+
+#endif // MINTY_FORMAT_H
