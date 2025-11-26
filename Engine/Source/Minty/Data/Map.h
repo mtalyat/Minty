@@ -96,13 +96,13 @@ namespace Minty
 		public:
 			Tuple<Key, Value>& operator*() const
 			{
-				MINTY_ASSERT(mp_current, "Iterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current->data;
 			}
 
 			Tuple<Key, Value>* operator->() const
 			{
-				MINTY_ASSERT(mp_current, "Iterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return &mp_current->data;
 			}
 
@@ -188,13 +188,13 @@ namespace Minty
 		public:
 			Tuple<Key, Value> const& operator*() const
 			{
-				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current->data;
 			}
 
 			Tuple<Key, Value> const* operator->() const
 			{
-				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return &mp_current->data;
 			}
 
@@ -538,13 +538,13 @@ namespace Minty
 		/// <param name="value">The value to add.</param>
 		void add(Key const& key, Value const& value)
 		{
+			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
+
 			// rehash if necessary
 			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
 			{
 				rehash();
 			}
-
-			MINTY_ASSERT(!contains(key), "Key already exists in this Map.");
 
 			// insert into bucket
 			Size index = hash(key);
@@ -563,13 +563,13 @@ namespace Minty
 		/// <param name="value">The value to add.</param>
 		void add(Key const& key, Value&& value)
 		{
+			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
+
 			// rehash if necessary
 			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
 			{
 				rehash();
 			}
-
-			MINTY_ASSERT(!contains(key), "Key already exists in this Map.");
 
 			// insert into bucket
 			Size index = hash(key);
@@ -631,7 +631,7 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value& at(Key const& key)
 		{
-			MINTY_ASSERT(m_size > 0, "Map is empty.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 
 			Size index = hash(key);
 			Node* node = mp_table[index];
@@ -645,9 +645,7 @@ namespace Minty
 				node = node->next;
 			}
 
-			MINTY_ASSERT(false, "Key does not exist in this Map.");
-
-			return node->get_value();
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 		}
 
 		/// <summary>
@@ -657,7 +655,7 @@ namespace Minty
 		/// <returns>The Value with the given Key.</returns>
 		Value const& at(Key const& key) const
 		{
-			MINTY_ASSERT(m_size > 0, "Map is empty.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 
 			Size index = hash(key);
 			Node const* node = mp_table[index];
@@ -671,9 +669,7 @@ namespace Minty
 				node = node->next;
 			}
 
-			MINTY_ASSERT(false, "Key does not exist in this Map.");
-
-			return node->get_value();
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 		}
 
 		/// <summary>

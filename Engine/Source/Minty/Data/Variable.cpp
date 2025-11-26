@@ -12,7 +12,7 @@ Bool Minty::Variable::operator==(Variable const& other) const
 
 void Minty::Variable::set_type(Type const type)
 {
-	MINTY_ASSERT(type < Type::Object, "Cannot set Variable type to an object.");
+	MINTY_ASSERT(type < Type::Object, ErrorCode::Argument_InvalidValue, type);
 
 	clear();
 	m_type = type;
@@ -22,7 +22,7 @@ void Minty::Variable::set_data(void const* const data)
 {
 	if (data)
 	{
-		MINTY_ASSERT(m_type != Type::Undefined, "Type is undefined. Cannot set data to non-null.");
+		MINTY_ASSERT(m_type != Type::Undefined, ErrorCode::Object_InvalidState);
 		m_data.set(data, sizeof_type(m_type));
 	}
 	else

@@ -102,12 +102,12 @@ namespace Minty
 			, m_size(info.size)
 			, m_immutable(info.immutable)
 		{
-			MINTY_ASSERT(info.format != Format::Undefined, "ImageInfo format must not be undefined.");
-			MINTY_ASSERT(info.type != ImageType::Undefined, "ImageInfo type must not be undefined.");
-			MINTY_ASSERT(info.tiling != ImageTiling::Undefined, "ImageInfo tiling must not be undefined.");
-			MINTY_ASSERT(info.aspect != ImageAspect::Undefined, "ImageInfo aspect must not be undefined.");
-			MINTY_ASSERT(info.usage != ImageUsage::Undefined, "ImageInfo usage must not be undefined.");
-			MINTY_ASSERT(info.size.x > 0 && info.size.y > 0, "ImageInfo size must be greater than 0.");
+			MINTY_ASSERT(info.format != Format::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+			MINTY_ASSERT(info.type != ImageType::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+			MINTY_ASSERT(info.tiling != ImageTiling::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+			MINTY_ASSERT(info.aspect != ImageAspect::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+			MINTY_ASSERT(info.usage != ImageUsage::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+			MINTY_ASSERT(info.size.x > 0 && info.size.y > 0, ErrorCode::Argument_ExpectedAboveZero);
 		}
 
 		virtual ~Image()

@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "Container.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
 Bool Minty::Container::set(void const* const data, Size const size)
 {
-	MINTY_ASSERT(data != nullptr, "Cannot set nullptr data.");
-	MINTY_ASSERT(size > 0, "Cannot set data without a size.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// resize to new size
 	if (!resize(size))

@@ -29,7 +29,7 @@ using namespace Minty;
 
 AssetType Minty::Asset::get_asset_type(Path const& path)
 {
-	MINTY_ASSERT(!path.is_empty(), "Cannot get asset type from empty path.");
+	MINTY_ASSERT(!path.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 	static Map<Path, AssetType> types
 	{
@@ -94,7 +94,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	// extension not found
 	if (found == types.end())
 	{
-		MINTY_ERROR(F("Asset type not found for path: {}. Creating Generic Asset.", path));
+		MINTY_LOG_ERROR(F("Asset type not found for path: {}. Creating Generic Asset.", path));
 		return AssetType::Generic;
 	}
 
@@ -151,7 +151,7 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 	// extension not found
 	if (found == types.end())
 	{
-		MINTY_ABORT("Asset type not found for type.");
+		MINTY_ABORT(ErrorCode::Asset_UnknownType, typeId.name());
 		return AssetType::Generic;
 	}
 
@@ -160,7 +160,7 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 
 Path Minty::Asset::get_meta_path(Path const& path)
 {
-	MINTY_ASSERT(!path.is_empty(), "Cannot get meta path from empty path.");
+	MINTY_ASSERT(!path.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 	return Path(path.get_string() + EXTENSION_META);
 }

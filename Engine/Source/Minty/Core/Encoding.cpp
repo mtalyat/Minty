@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Encoding.h"
+#include "Minty/Core/Format.h"
+#include "Minty/Debug/Debug.h"
+#include <sstream>
 
 using namespace Minty;
 
@@ -21,8 +24,8 @@ String Minty::encode_base16(void const* const data, Size const size)
 
 void Minty::decode_base16(String const& string, void* const data, Size const size)
 {
-	MINTY_ASSERT(string.get_size() % 2 == 0, "The given string is not a valid base16 string.");
-	MINTY_ASSERT(size == string.get_size() / 2, "The given size does not match the string size.");
+	MINTY_ASSERT(string.get_size() % 2 == 0, ErrorCode::Argument_InvalidFormat);
+	MINTY_ASSERT(size == string.get_size() / 2, ErrorCode::Argument_InvalidSize);
 
 	Byte* const bytes = static_cast<Byte* const>(data);
 	

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ImageUsage.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
@@ -30,7 +31,7 @@ String Minty::to_string(ImageUsage const obj)
 			output += s_usageStrings[index] + "|";
 		}
 	}
-	MINTY_ASSERT(output.get_size() > 0, "Invalid ImageUsage value.");
+	MINTY_ASSERT(output.get_size() > 0, ErrorCode::Serialization_Failed);
 	return output.sub(0, output.get_size() - 1);
 }
 

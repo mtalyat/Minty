@@ -10,14 +10,14 @@ Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateInfo const& info)
 	, m_shader(info.shader)
 	, m_cargo(info.values)
 {
-	MINTY_ASSERT(m_shader != nullptr, "MaterialTemplate shader must not be null.");
+	MINTY_ASSERT(m_shader != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 #ifdef MINTY_DEBUG
 
 	// check for all valid inputs
 	for (auto const& [name, cargo] : get_inputs())
 	{
-		MINTY_ASSERT(m_shader->contains_input(name), F("Shader does not contain input with name: {}", name));
+		MINTY_ASSERT(m_shader->contains_input(name), ErrorCode::Argument_KeyNotFound, name);
 	}
 
 #endif // MINTY_DEBUG

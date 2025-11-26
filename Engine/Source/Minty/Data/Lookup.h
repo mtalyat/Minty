@@ -194,7 +194,7 @@ namespace Minty
 		/// <returns>The String.</returns>
 		String const& get_string(Key const& key) const
 		{
-			MINTY_ASSERT(m_keys.contains(key), F("Key does not exist: {}", key));
+			MINTY_ASSERT(m_keys.contains(key), ErrorCode::Argument_KeyNotFound);
 			return m_values[m_keys.at(key)].get_first();
 		}
 
@@ -205,7 +205,7 @@ namespace Minty
 		/// <returns>The Key.</returns>
 		Key const& get_key(String const& string) const
 		{
-			MINTY_ASSERT(m_strings.contains(string), F("String does not exist: {}", string));
+			MINTY_ASSERT(m_strings.contains(string), ErrorCode::Argument_KeyNotFound);
 			return m_values[m_strings.at(string)].get_second();
 		}
 

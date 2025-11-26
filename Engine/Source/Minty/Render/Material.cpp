@@ -13,7 +13,7 @@ Minty::Material::Material(MaterialInfo const& info)
 	, m_materialTemplate(info.materialTemplate)
 	, m_cargo(info.values)
 {
-	MINTY_ASSERT(m_materialTemplate != nullptr, "MaterialTemplate must not be null.");
+	MINTY_ASSERT(m_materialTemplate != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	Ref<Shader> shader = m_materialTemplate->get_shader();
 
@@ -39,7 +39,7 @@ Bool Minty::Material::has_input(String const& name) const
 	}
 
 	// check template
-	MINTY_ASSERT(m_materialTemplate != nullptr, "MaterialTemplate must not be null.");
+	MINTY_ASSERT(m_materialTemplate != nullptr, ErrorCode::Object_InvalidState);
 	if (m_materialTemplate->has_input(name))
 	{
 		return true;
@@ -51,7 +51,7 @@ Bool Minty::Material::has_input(String const& name) const
 
 Object const& Minty::Material::get_input(String const& name) const
 {
-	MINTY_ASSERT(has_input(name), F("Material does not have input with name: {}", name));
+	MINTY_ASSERT(has_input(name), ErrorCode::Argument_KeyNotFound, name);
 
 	// check self
 	auto it = m_cargo.find(name);

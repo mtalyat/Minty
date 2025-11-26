@@ -34,7 +34,7 @@ namespace Minty
 		InputManager(InputManagerInfo const& info)
 			: Manager()
 		{
-			MINTY_ASSERT(!s_instance, "InputManager already exists.");
+			MINTY_ASSERT(!s_instance, ErrorCode::Singleton_AlreadyExists);
 			s_instance = this;
 		}
 

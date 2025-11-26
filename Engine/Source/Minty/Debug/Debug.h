@@ -1,69 +1,15 @@
 #pragma once
+#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Debug/DebugFlags.h"
+#include "Minty/Debug/Error.h"
+#include "Minty/Log/LogLevel.h"
 #include <iostream>
-
-#pragma region Macros
-
-#ifdef NDEBUG
-#define MINTY_RELEASE
-#else
-#define MINTY_DEBUG
-#endif // NDEBUG
-
-#ifdef MINTY_DEBUG
-
-// if debugging and using Visual Studio, insert debug break
-#ifdef _MSC_VER
-#define MINTY_BREAK() __debugbreak()
-#else
-#define MINTY_BREAK()
-#endif // _MSC_VER
-
-#else
-#define MINTY_BREAK()
-#endif // MINTY_DEBUG
-
-#define MINTY_DEBUG_INFO(message) "[", std::filesystem::path(__FILE__).filename().string(), "][", __func__, "()][line ", __LINE__, "] -> ", message
-
-#ifdef MINTY_DEBUG
-#define MINTY_LOG(message) Minty::Debug::write_message(message)
-#else
-#define MINTY_LOG(message)
-#endif // MINTY_DEBUG
-
-#ifdef MINTY_DEBUG
-#define MINTY_INFO(message) Minty::Debug::write_info(message)
-#else
-#define MINTY_INFO(message)
-#endif // MINTY_DEBUG
-
-#define MINTY_ERROR(message) Minty::Debug::write_error(message)
-
-#define MINTY_ASSERT_ERROR(condition, message) do { if(!(condition)) { MINTY_ERROR(message); } } while(false)
-
-#ifdef MINTY_DEBUG
-#define MINTY_WARNING(message) Minty::Debug::write_warning(message)
-#else
-#define MINTY_WARNING(message)
-#endif // MINTY_DEBUG
-
-#ifdef MINTY_DEBUG
-#define MINTY_ABORT(message) do { Minty::Debug::write_abort(message); throw std::runtime_error(""); } while(false)
-#else
-#define MINTY_ABORT(message) MINTY_ERROR(message)
-#endif // MINTY_DEBUG
-
-#ifdef MINTY_DEBUG
-#define MINTY_ASSERT(expression, message) do { if(!(expression)) { Minty::Debug::write_abort("(", #expression, ") failed: ", message); throw std::runtime_error(""); } } while(false)
-#else
-#define MINTY_ASSERT(expression, message)
-#endif // MINTY_DEBUG
-
-#pragma endregion
 
 namespace Minty
 {
+	class String;
+
 	/// <summary>
 	/// A static class for writing output.
 	/// </summary>
@@ -109,6 +55,7 @@ namespace Minty
 
 	private:
 		Debug() = delete;
+		~Debug() = delete;
 
 #pragma endregion
 
@@ -119,235 +66,185 @@ namespace Minty
 		/// Sets the debug flags.
 		/// </summary>
 		/// <param name="flags">The DebugFlags.</param>
-		static void set_flags(DebugFlags const flags) { s_flags = flags; }
+		static void set_flags(DebugFlags const flags);
 
 		/// <summary>
 		/// Gets the debug flags.
 		/// </summary>
 		/// <returns>The DebugFlags.</returns>
-		static DebugFlags get_flags() { return s_flags; }
+		inline static DebugFlags get_flags() { return s_flags; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Sets the foreground color attribute of the terminal.
-		/// </summary>
-		/// <param name="color">The color to use for text.</param>
-		static void set_foreground_color(Color const color);
+		/**
+		 * @brief Logs a message with the specified log level.
+		 * @param level The log level.
+		 * @param message The message to log.
+		 */
+		static void log(LogLevel const level, String const& message);
 
-		/// <summary>
-		/// Sets the background color attribute of the terminal.
-		/// </summary>
-		/// <param name="color">The color to use for the background.</param>
-		static void set_background_color(Color const color);
+		/**
+		 * @brief Sets the foreground color for terminal output.
+		 * @param color The color to set.
+		 */
+		static void flush();
 
-		/// <summary>
-		/// Sets the foreground and background color attributes of the terminal.
-		/// </summary>
-		/// <param name="foreground">The color to use for text.</param>
-		/// <param name="background">The color to use for the background.</param>
-		static void set_color(Color const foreground, Color const background);
-
-		/// <summary>
-		/// Resets all attributes in the terminal.
-		/// </summary>
-		static void reset();
-
-		/// <summary>
-		/// Writes nothing.
-		/// </summary>
-		constexpr static void write()
-		{
-			// base case
-		}
-
-		/// <summary>
-		/// Writes the given value(s) to the terminal.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		inline static void write(T const& first, Args const&... args)
-		{
-			std::cout << first;
-			write(args...);
-		}
-
-		/// <summary>
-		/// Writes a newline to the terminal.
-		/// </summary>
-		inline static void write_line()
-		{
-			std::cout << std::endl;
-		}
-
-		/// <summary>
-		/// Writes the given value(s) to the terminal and adds a newline.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		inline static void write_line(T const& first, Args const&... args)
-		{
-			std::cout << first;
-			write(args...);
-			std::cout << std::endl;
-		}
-
-		/// <summary>
-		/// Flushes the output buffer.
-		/// </summary>
-		inline static void flush()
-		{
-			std::cout << std::flush;
-		}
-
-		/// <summary>
-		/// Writes an abort message to the terminal.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		static void write_abort(T const& first, Args const&... args)
-		{
-			if ((s_flags & DebugFlags::Abort) == DebugFlags::None)
-			{
-				return;
-			}
-
-			set_color(Color::Black, Color::BrightRed);
-			std::cout << " ABO ";
-			reset();
-			set_foreground_color(Color::BrightRed);
-			write(" ", first, args...);
-			reset();
-			std::cout << std::endl;
-
-			if ((s_flags & DebugFlags::StackTrace) != DebugFlags::None)
-			{
-				write_stack_trace();
-			}
-
-			if ((s_flags & DebugFlags::Break) != DebugFlags::None)
-			{
-				MINTY_BREAK();
-			}
-		}
-
-		/// <summary>
-		/// Writes an error message to the terminal.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		static void write_error(T const& first, Args const&... args)
-		{
-			if ((s_flags & DebugFlags::Error) == DebugFlags::None)
-			{
-				return;
-			}
-
-			set_color(Color::Black, Color::BrightRed);
-			std::cout << " ERR ";
-			reset();
-			write(" ", first, args...);
-			std::cout << std::endl;
-
-			if ((s_flags & DebugFlags::StackTrace) != DebugFlags::None)
-			{
-				write_stack_trace();
-			}
-
-			if ((s_flags & DebugFlags::Break) != DebugFlags::None)
-			{
-				MINTY_BREAK();
-			}
-		}
-
-		/// <summary>
-		/// Writes a warning message to the terminal.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		static void write_warning(T const& first, Args const&... args)
-		{
-			if ((s_flags & DebugFlags::Warning) == DebugFlags::None)
-			{
-				return;
-			}
-
-			set_color(Color::Black, Color::BrightYellow);
-			std::cout << " WRN ";
-			reset();
-			write(" ", first, args...);
-			std::cout << std::endl;
-		}
-
-		/// <summary>
-		/// Writes a message to the terminal.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		static void write_message(T const& first, Args const&... args)
-		{
-			if ((s_flags & DebugFlags::Message) == DebugFlags::None)
-			{
-				return;
-			}
-
-			set_color(Color::Black, Color::White);
-			std::cout << " MSG ";
-			reset();
-			write(" ", first, args...);
-			std::cout << std::endl;
-		}
-
-		/// <summary>
-		/// Writes an info message to the terminal.
-		/// </summary>
-		/// <typeparam name="T">The first argument type to use.</typeparam>
-		/// <typeparam name="...Args">The argument types to use.</typeparam>
-		/// <param name="first">The first argument to write.</param>
-		/// <param name="...args">The rest of the arguments to write.</param>
-		template<typename T, typename... Args>
-		static void write_info(T const& first, Args const&... args)
-		{
-			if ((s_flags & DebugFlags::Info) == DebugFlags::None)
-			{
-				return;
-			}
-
-			set_color(Color::Black, Color::BrightBlack);
-			std::cout << " INF ";
-			reset();
-			set_foreground_color(Color::BrightBlack);
-			write(" ", first, args...);
-			reset();
-			std::cout << std::endl;
-		}
-
-		/// <summary>
-		/// Prints the stack trace to the terminal.
-		/// </summary>
-		static void write_stack_trace();
+		/**
+		 * @brief Logs the current stack trace to the debug output.
+		 * @note This function is only available in debug builds when DebugFlags::StackTrace is enabled.
+		 */
+		static void log_stack_trace();
 
 #pragma endregion
 	};
 }
+
+#ifdef MINTY_DEBUG
+// if debugging and using Visual Studio, insert debug break
+#ifdef _MSC_VER
+#define MINTY_BREAK() __debugbreak()
+#else
+#error "Debug break not implemented for this compiler."
+#endif // _MSC_VER
+#else
+#define MINTY_BREAK()
+#endif // MINTY_DEBUG
+
+/**
+ * @brief Macro to log a message with a specified log level.
+ * @note Always active.
+ */
+#define MINTY_LOG(level, msg, ...) \
+    do { \
+        Minty::Debug::log(level, F(msg, ##__VA_ARGS__)); \
+    } while(0)
+
+/**
+ * @brief Macro to log a message with a specified log level. Includes file, function and line number.
+ * @note Always active.
+ */
+#define MINTY_LOG_TRACE(level, msg, ...) \
+    do { \
+        Minty::Debug::log(level, F("{{ {}, {}(), {} }} {}", __FILE__, __func__, __LINE__, F(msg, ##__VA_ARGS__))); \
+    } while(0)
+
+
+/**
+ * @brief Macro to log a debug message.
+ * @note Only active in debug builds.
+ */
+#ifdef MINTY_DEBUG
+    #define MINTY_LOG_DEBUG(msg, ...) \
+        do { \
+            MINTY_LOG(LogLevel::Debug, msg, ##__VA_ARGS__); \
+        } while(0)
+#else
+    #define MINTY_LOG_DEBUG(msg, ...)
+#endif
+
+/**
+ * @brief Macro to log an info message.
+ * @note Only active in debug builds.
+ */
+#ifdef MINTY_DEBUG
+    #define MINTY_LOG_INFO(msg, ...) \
+        do { \
+            MINTY_LOG(LogLevel::Info, msg, ##__VA_ARGS__); \
+        } while(0)
+#else
+    #define MINTY_LOG_INFO(msg, ...)
+#endif
+
+/**
+ * @brief Macro to log a message.
+ * @note Always active.
+ */
+#define MINTY_LOG_MESSAGE(msg, ...) \
+    do { \
+        MINTY_LOG(LogLevel::Message, msg, ##__VA_ARGS__); \
+    } while(0)
+
+/**
+ * @brief Macro to log a warning message.
+ * @note Only active in debug builds.
+ */
+#ifdef MINTY_DEBUG
+    #define MINTY_LOG_WARNING(msg, ...) \
+        do { \
+            MINTY_LOG(LogLevel::Warning, msg, ##__VA_ARGS__); \
+        } while(0)
+#else
+    #define MINTY_LOG_WARNING(msg, ...)
+#endif
+
+/**
+ * @brief Macro to log an error message.
+ * @note Always active.
+ */
+#define MINTY_LOG_ERROR(msg, ...) \
+    do { \
+        MINTY_LOG_TRACE(LogLevel::Error, msg, ##__VA_ARGS__); \
+    } while(0)
+
+/**
+ * @brief Macro to log a fatal message.
+ * @note Always active.
+ */
+#define MINTY_LOG_CRITICAL(msg, ...) \
+    do { \
+        MINTY_LOG_TRACE(LogLevel::Critical, msg, ##__VA_ARGS__); \
+		Minty::Debug::flush(); \
+        MINTY_BREAK(); \
+    } while(0)
+
+/**
+ * @brief Macro to assert a condition.
+ * @note Only active in debug builds.
+ */
+#ifdef MINTY_DEBUG
+    #define MINTY_ASSERT(condition, errorCode, ...) \
+        do { \
+            if (!(condition)) { \
+                Minty::set_error(errorCode); \
+                MINTY_LOG_CRITICAL(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
+            } \
+        } while(0)
+#else
+    #define MINTY_ASSERT(condition, errorCode, ...)
+#endif
+
+/**
+ * @brief Macro to indicate a not implemented code path.
+ * @note Only active in debug builds.
+ */
+#ifdef MINTY_DEBUG
+        #define MINTY_NOT_IMPLEMENTED(...) \
+            do { \
+                Minty::set_error(Minty::ErrorCode::NotImplemented); \
+                MINTY_LOG_CRITICAL(Minty::get_error_message(Minty::ErrorCode::NotImplemented), ##__VA_ARGS__); \
+                MINTY_BREAK(); \
+            } while(0)
+#else
+        #define MINTY_NOT_IMPLEMENTED(...)
+#endif
+
+/**
+ * @brief Macro to abort execution with a message.
+ * @note Only active in debug builds.
+ */
+#ifdef MINTY_DEBUG
+    #define MINTY_ABORT(errorCode, ...) \
+        do { \
+            Minty::set_error(errorCode); \
+            MINTY_LOG_CRITICAL(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
+            std::abort(); \
+        } while(0)
+#else
+    #define MINTY_ABORT(errorCode, ...) \
+		do { \
+			std::abort(); \
+		} while(0)
+#endif

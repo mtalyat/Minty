@@ -12,8 +12,8 @@ Minty::Vulkan_Buffer::Vulkan_Buffer(BufferInfo const& info)
 	, m_size(static_cast<VkDeviceSize>(info.size))
 	, mp_mappedMemory(nullptr)
 {
-	MINTY_ASSERT(info.size > 0, "Attempting to create a buffer with a size of 0.");
-	MINTY_ASSERT(info.usage != BufferUsage::Undefined, "Attempting to create a buffer with an undefined usage.");
+	MINTY_ASSERT(info.size > 0, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT(info.usage != BufferUsage::Undefined, ErrorCode::Argument_ExpectedNonDefault);
 
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 
@@ -59,14 +59,14 @@ Minty::Vulkan_Buffer::~Vulkan_Buffer()
 
 void* Minty::Vulkan_Buffer::get_data() const
 {
-	MINTY_ASSERT(is_frequent(), "Attempting to get data from a non-frequent buffer.");
+	MINTY_ASSERT(is_frequent(), ErrorCode::Argument_InvalidState);
 
 	return mp_mappedMemory;
 }
 
 void Minty::Vulkan_Buffer::set_data(void const* const data)
 {
-	MINTY_ASSERT(data, "Attempting to set data to nullptr.");
+	MINTY_ASSERT(data, ErrorCode::Argument_ExpectedNonNull);
 
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 

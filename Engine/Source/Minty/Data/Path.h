@@ -3,7 +3,7 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 #include "Minty/Serialization/Parseable.h"
 #include <filesystem>
 
@@ -59,13 +59,13 @@ namespace Minty
 		public:
 			reference operator*() const
 			{
-				MINTY_ASSERT(mp_current, "Path Iterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return *mp_current;
 			}
 
 			pointer operator->() const
 			{
-				MINTY_ASSERT(mp_current, "Path Iterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current;
 			}
 
@@ -129,13 +129,13 @@ namespace Minty
 		public:
 			reference operator*() const
 			{
-				MINTY_ASSERT(mp_current, "Path ConstIterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return *mp_current;
 			}
 
 			pointer operator->() const
 			{
-				MINTY_ASSERT(mp_current, "Path ConstIterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current;
 			}
 

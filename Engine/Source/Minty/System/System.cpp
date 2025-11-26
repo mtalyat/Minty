@@ -4,14 +4,20 @@
 
 using namespace Minty;
 
-EntityManager& Minty::System::get_entity_manager() const
+Ref<Scene> const &Minty::System::get_scene() const
 {
-	MINTY_ASSERT(m_scene != nullptr, "System does not belong to a Scene.");
+	MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
+	return m_scene;
+}
+
+EntityManager &Minty::System::get_entity_manager() const
+{
+	MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
 	return m_scene->get_entity_manager();
 }
 
-SystemManager& Minty::System::get_system_manager() const
+SystemManager &Minty::System::get_system_manager() const
 {
-	MINTY_ASSERT(m_scene != nullptr, "System does not belong to a Scene.");
+	MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
 	return m_scene->get_system_manager();
 }

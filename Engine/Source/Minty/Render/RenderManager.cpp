@@ -42,7 +42,7 @@ void Minty::RenderManager::clear_binds()
 
 void Minty::RenderManager::bind_shader(Ref<Shader> const& shader)
 {
-	MINTY_ASSERT(shader != nullptr, "Cannot bind null Shader.");
+	MINTY_ASSERT(shader != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// do nothing if already bound
 	if (m_boundShader == shader)
@@ -60,7 +60,7 @@ void Minty::RenderManager::bind_shader(Ref<Shader> const& shader)
 
 void Minty::RenderManager::bind_material(Ref<Material> const& material)
 {
-	MINTY_ASSERT(material != nullptr, "Cannot bind null Material.");
+	MINTY_ASSERT(material != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// do nothing if already bound
 	if (m_boundMaterial == material)
@@ -68,7 +68,7 @@ void Minty::RenderManager::bind_material(Ref<Material> const& material)
 		return;
 	}
 
-	MINTY_ASSERT(material->get_material_template()->get_shader() == m_boundShader, "Material and Shader do not match.");
+	MINTY_ASSERT(material->get_material_template()->get_shader() == m_boundShader, ErrorCode::Argument_InvalidValue);
 
 	m_boundMaterial = material;
 
@@ -81,7 +81,7 @@ void Minty::RenderManager::bind_material(Ref<Material> const& material)
 
 void Minty::RenderManager::bind_mesh(Ref<Mesh> const& mesh)
 {
-	MINTY_ASSERT(mesh != nullptr, "Cannot bind null Mesh.");
+	MINTY_ASSERT(mesh != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// do nothing if already bound
 	if (m_boundMesh == mesh)
@@ -117,7 +117,7 @@ void Minty::RenderManager::bind_index_buffer(Ref<Buffer> const& buffer)
 
 void Minty::RenderManager::draw_mesh(Ref<Mesh> const& mesh)
 {
-	MINTY_ASSERT(mesh != nullptr, "Cannot draw null Mesh.");
+	MINTY_ASSERT(mesh != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 #if defined(MINTY_VULKAN)
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
@@ -127,8 +127,8 @@ void Minty::RenderManager::draw_mesh(Ref<Mesh> const& mesh)
 
 void Minty::RenderManager::draw_instances(UInt const instanceCount, UInt const vertexCount)
 {
-	MINTY_ASSERT(instanceCount > 0, "Cannot draw 0 instances.");
-	MINTY_ASSERT(vertexCount > 0, "Cannot draw 0 vertices.");
+	MINTY_ASSERT(instanceCount > 0, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT(vertexCount > 0, ErrorCode::Argument_ExpectedNonZero);
 
 #if defined(MINTY_VULKAN)
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
@@ -157,12 +157,12 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
 		m_window = Context::get_singleton().get_window_ref();
 	}
 
-	MINTY_ASSERT(m_window != nullptr, "RenderManager requires a Window to render to. Provide a window in the RenderManagerInfo, or create a Context.");
+	MINTY_ASSERT(m_window != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }
 
 Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 {
-	MINTY_ASSERT(type != MeshType::Custom, "Cannot get default Mesh of type Custom.");
+	MINTY_ASSERT(type != MeshType::Custom, ErrorCode::Argument_InvalidValue);
 
 	// find the mesh
 	auto found = m_defaultMeshes.find(type);
@@ -170,7 +170,7 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	{
 		// already exists
 		Ref<Mesh> mesh = found->get_second();
-		MINTY_ASSERT(mesh != nullptr, F("Default Mesh for type {} is null.", type));
+		MINTY_ASSERT(mesh != nullptr, ErrorCode::Object_InvalidState);
 		return mesh;
 	}
 
@@ -206,8 +206,7 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 			templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
 			break;
 		default:
-			MINTY_ABORT(F("Invalid Space for Sprite: {}", space));
-			break;
+			MINTY_NOT_IMPLEMENTED(to_string(space));
 		}
 		break;
 	case AssetType::FontVariant:
@@ -217,12 +216,11 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 			templateId = DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE;
 			break;
 		default:
-			MINTY_ERROR(F("Invalid Space for AssetType FontVariant: \"{}\".", to_string(space)));
-			break;
+			MINTY_NOT_IMPLEMENTED(to_string(space));
 		}
 		break;
 	default:
-		MINTY_ABORT(F("Cannot create a default Mesh for the type \"{}\".", to_string(assetType)));
+		MINTY_NOT_IMPLEMENTED(to_string(assetType));
 		break;
 	}
 	if (mask != MaskMode::None)
@@ -238,24 +236,25 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 				templateId = DEFAULT_ASSET_UI_MASK_TEST_MATERIAL_TEMPLATE;
 				break;
 			default:
-				MINTY_ABORT(F("Invalid mask {} for UI MaterialTemplate.", static_cast<Int>(mask)));
+				MINTY_NOT_IMPLEMENTED(to_string(mask));
 			}
 		}
 		else
 		{
-			MINTY_ABORT(F("Variants are only supported for UI MaterialTemplates, not for type {}.", to_string(assetType)));
+			// "Variants are only supported for UI MaterialTemplates, not for type {}."
+			MINTY_ABORT(ErrorCode::Argument_InvalidValue, to_string(assetType));
 		}
 	}
 
 	AssetManager& assetManager = AssetManager::get_singleton();
 	Ref<MaterialTemplate> const& materialTemplate = assetManager.get<MaterialTemplate>(templateId);
-	MINTY_ASSERT(materialTemplate != nullptr, F("Default MaterialTemplate for type {} and space {} is not loaded ({}).", assetType, space, templateId));
+	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId));
 	return materialTemplate;
 }
 
 Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask)
 {
-	MINTY_ASSERT(texture != nullptr, "Cannot get default Material with null Texture.");
+	MINTY_ASSERT(texture != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	
 	TexMatKey key = create_texmat_key(texture->get_id(), assetType, space);
 
@@ -264,7 +263,7 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 	{
 		// return existing Material
 		Ref<Material> material = found->get_second();
-		MINTY_ASSERT(material != nullptr, F("Default Material for type {} and space {} is null.", assetType, space));
+		MINTY_ASSERT(material != nullptr, ErrorCode::Object_InvalidState);
 		return material;
 	}
 
@@ -350,8 +349,8 @@ Bool Minty::RenderManager::start_frame()
 {
 	MINTY_TRACE_SCOPE();
 
-	MINTY_ASSERT(m_state != State::Frame, "Attempting to start a frame while already rendering a frame.");
-	MINTY_ASSERT(m_state != State::Pass, "Attempting to start a frame while rendering a pass. End the pass and frame first.");
+	MINTY_ASSERT(m_state != State::Frame, ErrorCode::Render_AlreadyRenderingFrame);
+	MINTY_ASSERT(m_state != State::Pass, ErrorCode::Render_AlreadyRenderingPass);
 
 	// set state
 	m_state = State::Frame;
@@ -362,8 +361,8 @@ Bool Minty::RenderManager::start_frame()
 
 void Minty::RenderManager::abort_frame()
 {
-	MINTY_ASSERT(m_state != State::Idle, "Attempting to abort a frame while not rendering a frame.");
-	MINTY_ASSERT(m_state != State::Pass, "Attempting to abort a frame while rendering a pass. End the pass first.");
+	MINTY_ASSERT(m_state != State::Idle, ErrorCode::Render_NotRenderingFrame);
+	MINTY_ASSERT(m_state != State::Pass, ErrorCode::Render_AlreadyRenderingPass);
 
 	// reset state
 	m_state = State::Idle;
@@ -373,8 +372,8 @@ void Minty::RenderManager::end_frame()
 {
 	MINTY_TRACE_SCOPE();
 
-	MINTY_ASSERT(m_state != State::Idle, "Attempting to end a frame while not rendering a frame.");
-	MINTY_ASSERT(m_state != State::Pass, "Attempting to end a frame while rendering a pass. End the pass first.");
+	MINTY_ASSERT(m_state != State::Idle, ErrorCode::Render_NotRenderingFrame);
+	MINTY_ASSERT(m_state != State::Pass, ErrorCode::Render_AlreadyRenderingPass);
 
 	// reset state
 	m_state = State::Idle;
@@ -382,8 +381,8 @@ void Minty::RenderManager::end_frame()
 
 Bool Minty::RenderManager::start_pass(CameraData const& cameraInfo)
 {
-	MINTY_ASSERT(m_state != State::Idle, "Attempting to start a pass while not rendering a frame.");
-	MINTY_ASSERT(m_state != State::Pass, "Attempting to start a pass while already rendering a pass.");
+	MINTY_ASSERT(m_state != State::Idle, ErrorCode::Render_NotRenderingFrame);
+	MINTY_ASSERT(m_state != State::Pass, ErrorCode::Render_AlreadyRenderingPass);
 
 	// set state
 	m_state = State::Pass;
@@ -413,8 +412,8 @@ Bool Minty::RenderManager::start_pass(CameraData const& cameraInfo)
 
 void Minty::RenderManager::end_pass()
 {
-	MINTY_ASSERT(m_state != State::Idle, "Attempting to end a pass while not rendering a frame.");
-	MINTY_ASSERT(m_state != State::Frame, "Attempting to end a pass while not rendering a pass.");
+	MINTY_ASSERT(m_state != State::Idle, ErrorCode::Render_NotRenderingFrame);
+	MINTY_ASSERT(m_state != State::Frame, ErrorCode::Render_NotRenderingPass);
 
 	// reset state
 	m_state = State::Frame;

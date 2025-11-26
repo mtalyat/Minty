@@ -15,7 +15,8 @@ Minty::Vulkan_Image::Vulkan_Image(ImageInfo const& info)
 	, m_layout(VK_IMAGE_LAYOUT_UNDEFINED)
 	, m_owner(true)
 {
-	MINTY_ASSERT((info.pixelData != nullptr) == (info.pixelDataSize > 0), "Invalid pixel data for Image.");
+	// "Pixel data and pixel data size must both be provided or both be null/zero."
+	MINTY_ASSERT((info.pixelData != nullptr) == (info.pixelDataSize > 0), ErrorCode::Argument_InvalidValue);
 
 	// automatically add TransferDst usage if pixel data is given
 	if (info.pixelData)
@@ -89,12 +90,11 @@ static VkImageLayout usage_to_layout(Minty::ImageUsage const usage)
 
 void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 {
-	MINTY_ASSERT(!m_immutable, "Image is not mutable.");
-	MINTY_ASSERT(m_owner, "Image is not owned by this object.");
-	MINTY_ASSERT(data != nullptr, "Pixel data must not be null.");
-	MINTY_ASSERT(size > 0, "Pixel data size must be greater than 0.");
-	MINTY_ASSERT(m_layout == 0 || (m_usage & ImageUsage::TransferDst) != ImageUsage::Undefined, "Image usage must include TransferDst to set pixels.");
-
+	MINTY_ASSERT(!m_immutable, ErrorCode::Argument_InvalidState);
+	MINTY_ASSERT(m_owner, ErrorCode::Argument_InvalidState);
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT(m_layout == 0 || (m_usage & ImageUsage::TransferDst) != ImageUsage::Undefined, ErrorCode::Argument_InvalidState);
 	VkFormat format = Vulkan_Renderer::to_vulkan(m_format);
 
 	// create staging buffer, put data into it
@@ -123,10 +123,10 @@ void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 
 void Minty::Vulkan_Image::get_pixels(void* const outData, Size const size) const
 {
-	MINTY_ASSERT(m_owner, "Image is not owned by this object.");
-	MINTY_ASSERT(outData != nullptr, "Out data buffer must not be null.");
-	MINTY_ASSERT(size > 0, "Pixel data size must be greater than 0.");
-	MINTY_ASSERT((m_usage & ImageUsage::TransferSrc) != ImageUsage::Undefined, "Image usage must include TransferSrc to get pixels.");
+	MINTY_ASSERT(m_owner, ErrorCode::Argument_InvalidState);
+	MINTY_ASSERT(outData != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT((m_usage & ImageUsage::TransferSrc) != ImageUsage::Undefined, ErrorCode::Argument_InvalidState);
 
 	// Calculate the expected image size
 	Size const imageSize = static_cast<Size>(m_size.x) * m_size.y * format_get_size(m_format);

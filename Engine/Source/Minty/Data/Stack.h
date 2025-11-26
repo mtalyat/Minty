@@ -264,7 +264,7 @@ namespace Minty
 		/// </summary>
 		T pop()
 		{
-			MINTY_ASSERT(m_size > 0, "There are no items to pop.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 
 			// decrement size
 			--m_size;
@@ -285,7 +285,7 @@ namespace Minty
 		/// <returns>The topmost element of the Stack.</returns>
 		constexpr T& peek()
 		{
-			MINTY_ASSERT(m_size > 0, "There are no items to peek.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_data[m_size - 1];
 		}
 
@@ -295,7 +295,7 @@ namespace Minty
 		/// <returns>The topmost element of the Stack.</returns>
 		constexpr T const& peek() const
 		{
-			MINTY_ASSERT(m_size > 0, "There are no items to peek.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_data[m_size - 1];
 		}
 

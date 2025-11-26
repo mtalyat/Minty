@@ -11,7 +11,7 @@ UUID Minty::FSM::create_state(String const& name, Variable const& value)
 
 UUID Minty::FSM::add_state(String const& name, State const& state)
 {
-	MINTY_ASSERT(!name.is_empty(), F("State name cannot be empty."));
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 	UUID id = UUID::create();
 	// if no states, set this as the starting state and current state
@@ -26,7 +26,7 @@ UUID Minty::FSM::add_state(String const& name, State const& state)
 
 UUID Minty::FSM::create_variable(String const& name, Int const value)
 {
-	MINTY_ASSERT(!name.is_empty(), F("Variable name cannot be empty."));
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 	return m_scope.add(name, value);
 }
 
@@ -56,7 +56,7 @@ Bool Minty::FSM::evaluate(Bool const continuous)
 
 			if (!visitedStates.add(state))
 			{
-				MINTY_ERROR(F("Infinite loop detected in FSM: {}", state));
+				MINTY_LOG_ERROR(F("Infinite loop detected in FSM: {}", state));
 				return false;
 			}
 		} while (continuous && next != INVALID_ID);
@@ -141,7 +141,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 		{
 			if (!reader.read_name(i, name))
 			{
-				MINTY_ERROR(F("Failed to read state name at index {}.", i));
+				MINTY_LOG_ERROR(F("Failed to read state name at index {}.", i));
 				return false;
 			}
 			m_states.add(name, UUID::create(), State());
@@ -153,7 +153,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 		{
 			if (!reader.read_name(i, name))
 			{
-				MINTY_ERROR(F("Failed to read state name at index {}.", i));
+				MINTY_LOG_ERROR(F("Failed to read state name at index {}.", i));
 				return false;
 			}
 
@@ -164,7 +164,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 			// read the state values
 			if (!reader.read(i, state))
 			{
-				MINTY_ERROR(F("Failed to read state {}.", name));
+				MINTY_LOG_ERROR(F("Failed to read state {}.", name));
 				return false;
 			}
 		}
@@ -175,7 +175,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 	// read starting state
 	if (reader.read("Start", name))
 	{
-		MINTY_ASSERT(m_states.contains(name), F("Starting state {} not found.", name));
+		MINTY_ASSERT(m_states.contains(name), ErrorCode::Serialization_DataNotFound, name);
 		m_startingStateId = m_states.get_key(name);
 	}
 

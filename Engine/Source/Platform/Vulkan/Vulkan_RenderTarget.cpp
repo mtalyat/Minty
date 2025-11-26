@@ -23,7 +23,7 @@ Minty::Vulkan_RenderTarget::~Vulkan_RenderTarget()
 
 void Minty::Vulkan_RenderTarget::initialize(RenderTargetInfo const& info)
 {
-	MINTY_ASSERT(info.images.get_size() > 0, "RenderTargetInfo must have at least one image.");
+	MINTY_ASSERT(info.images.get_size() > 0, ErrorCode::Argument_ExpectedNonEmpty);
 
 	// get size
 	Ref<Image> const& image = info.images.front();
@@ -37,7 +37,7 @@ void Minty::Vulkan_RenderTarget::initialize(RenderTargetInfo const& info)
 	Ref<Image> depthImage = renderManager.get_depth_image();
 	Ref<Vulkan_Image> vulkanDepthImage = depthImage.cast_to<Vulkan_Image>();
 
-	MINTY_ASSERT(!info.renderPass->has_depth_attachment() || depthImage != nullptr, "Attempting to initialize a RenderTarget when the RenderManager depth image is null.");
+	MINTY_ASSERT(!info.renderPass->has_depth_attachment() || depthImage != nullptr, ErrorCode::Argument_InvalidValue); // "Attempting to initialize a RenderTarget when the RenderManager depth image is null."
 
 	// create framebuffers
 	m_framebuffers.reserve(info.images.get_size());

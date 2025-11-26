@@ -50,11 +50,7 @@ namespace Minty
 		/// Sets the state of this Event.
 		/// </summary>
 		/// <param name="state">The new EventState.</param>
-		void set_state(EventState const state)
-		{
-			MINTY_ASSERT(state != EventState::Unhandled, "Cannot set state to Unhandled.");
-			m_state = state;
-		}
+		void set_state(EventState const state);
 
 		/// <summary>
 		/// Checks if this Event is processed. A processed Event is one that has been handled or canceled.
@@ -66,7 +62,7 @@ namespace Minty
 		/// Gets the type of this Event.
 		/// </summary>
 		/// <returns>The EventType.</returns>
-		virtual constexpr EventType get_type() const = 0;
+		virtual EventType get_type() const = 0;
 
 #pragma endregion
 	};

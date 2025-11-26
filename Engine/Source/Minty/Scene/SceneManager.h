@@ -63,7 +63,7 @@ namespace Minty
 			, m_activeScene(nullptr)
 			, m_nextScene(nullptr)
 		{
-			MINTY_ASSERT(m_initialScene.is_empty() || Path::exists(m_initialScene), "The initial scene path does not exist.");
+			MINTY_ASSERT(m_initialScene.is_empty() || Path::exists(m_initialScene), ErrorCode::Argument_InvalidValue, m_initialScene);
 		}
 
 		~SceneManager()

@@ -67,7 +67,7 @@ namespace Minty
 
 		~EntityManager()
 		{
-			MINTY_ASSERT_ERROR(!is_initialized(), "EntityManager is not disposed before destruction.");
+			MINTY_ASSERT(!is_initialized(), ErrorCode::Object_NeverDisposed);
 		}
 
 #pragma endregion
@@ -316,8 +316,8 @@ namespace Minty
 		template<typename ComponentType, typename... Args>
 		ComponentType& add_component(Entity const entity, Args&&... args)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
-			MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), "Entity already has the requested component.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
+			MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_DuplicateComponent);
 			return m_registry.emplace<ComponentType>(entity, std::forward<Args>(args)...);
 		}
 
@@ -338,8 +338,8 @@ namespace Minty
 		template<typename ComponentType>
 		ComponentType& get_component(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
-			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), "Entity does not have the requested component.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
+			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_MissingComponent);
 			return m_registry.get<ComponentType>(entity);
 		}
 
@@ -352,8 +352,8 @@ namespace Minty
 		template<typename ComponentType>
 		ComponentType const& get_component(Entity const entity) const
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
-			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), "Entity does not have the requested component.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
+			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_MissingComponent);
 			return m_registry.get<ComponentType>(entity);
 		}
 
@@ -382,7 +382,7 @@ namespace Minty
 		template<typename ComponentType>
 		ComponentType& get_or_add_component(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.get_or_emplace<ComponentType>(entity);
 		}
 
@@ -403,7 +403,7 @@ namespace Minty
 		template<typename ComponentType>
 		ComponentType* try_get_component(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
@@ -416,7 +416,7 @@ namespace Minty
 		template<typename ComponentType>
 		ComponentType const* try_get_component(Entity const entity) const
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
@@ -445,7 +445,7 @@ namespace Minty
 		template<typename ComponentType>
 		Bool has_component(Entity const entity) const
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.all_of<ComponentType>(entity);
 		}
 
@@ -466,7 +466,7 @@ namespace Minty
 		template<typename... ComponentTypes>
 		Bool has_all_components(Entity const entity) const
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.all_of<ComponentTypes...>(entity);
 		}
 
@@ -479,7 +479,7 @@ namespace Minty
 		template<typename... ComponentTypes>
 		Bool has_any_components(Entity const entity) const
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.any_of<ComponentTypes...>(entity);
 		}
 
@@ -491,7 +491,7 @@ namespace Minty
 		template<typename ComponentType>
 		void remove_component(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			m_registry.remove<ComponentType>(entity);
 		}
 
@@ -526,7 +526,7 @@ namespace Minty
 		template<typename ComponentType>
 		void clear(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			if(m_registry.all_of<ComponentType>(entity))
 			{
 				m_registry.remove<ComponentType>(entity);
@@ -541,7 +541,7 @@ namespace Minty
 		template<typename ComponentType>
 		void mark(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), "Entity is not valid.");
+			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			m_registry.emplace_or_replace<ComponentType>(entity);
 
 			// mark children as well

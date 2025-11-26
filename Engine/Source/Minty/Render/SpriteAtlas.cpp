@@ -10,8 +10,8 @@ Minty::SpriteAtlas::SpriteAtlas(SpriteAtlasInfo const& info)
 	, m_texture(info.texture)
 	, m_groups(info.groups)
 {
-	MINTY_ASSERT(info.texture != nullptr, "Cannot create a SpriteAtlas without a Texture.");
-	MINTY_ASSERT(!info.groups.is_empty(), "Cannot create a SpriteAtlas without at least one group.");
+	MINTY_ASSERT(info.texture != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(!info.groups.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 }
 
 Ref<Sprite> Minty::SpriteAtlas::get_sprite(Int const groupIndex, Int2 const index) const

@@ -112,7 +112,7 @@ void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
 	// remove from dynamics world
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
 	btCollisionObject* collisionObject = btCollider.get_collision_object();
-	MINTY_ASSERT(collisionObject != nullptr, "Collider is not in the PhysicsManager.");
+	MINTY_ASSERT(collisionObject != nullptr, ErrorCode::Argument_KeyNotFound);
 	mp_dynamicsWorld->removeCollisionObject(collisionObject);
 
 	// delete user data
@@ -130,7 +130,7 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(Collider& collider, RigidBo
 	Bullet_RigidBody& btBody = static_cast<Bullet_RigidBody&>(body);
 	btCollisionObject* collisionObject = btCollider.get_collision_object();
 	btRigidBody* rigidBody = btBody.get_rigid_body();
-	MINTY_ASSERT(collisionObject != nullptr && rigidBody != nullptr, "Collider or RigidBody is not in the PhysicsManager.");
+	MINTY_ASSERT(collisionObject != nullptr && rigidBody != nullptr, ErrorCode::Argument_KeyNotFound);
 	mp_dynamicsWorld->removeRigidBody(rigidBody);
 
 	// delete user data
@@ -145,12 +145,12 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(Collider& collider, RigidBo
 
 void Minty::Bullet_PhysicsSimulation::set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body)
 {
-	MINTY_WARNING("TODO: PhysicsManager::set_dynamic()");
+	MINTY_NOT_IMPLEMENTED();
 }
 
 void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider const& collider, RigidBody& body)
 {
-	MINTY_WARNING("TODO: PhysicsManager::get_dynamic()");
+	MINTY_NOT_IMPLEMENTED();
 }
 
 Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer, Layer const layerMask, Float const maxDistance) const
@@ -185,7 +185,7 @@ Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const
 	{
 		// get the user data
 		Bullet_Object* objectData = static_cast<Bullet_Object*>(rayCallback.m_collisionObject->getUserPointer());
-		MINTY_ASSERT(objectData != nullptr, "Raycast hit object does not have user data.");
+		MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
 
 		// populate the hit information
 		hit.point = Bullet_Physics::to_minty(rayCallback.m_hitPointWorld);

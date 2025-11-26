@@ -17,35 +17,35 @@ Minty::Shader::Shader(ShaderInfo const& info)
 	, m_depthMode(info.depthMode)
 	, m_stencilMode(info.stencilMode)
 {
-	MINTY_ASSERT(info.fragmentShaderModule != nullptr, "ShaderInfo fragmentShaderModule must not be null.");
-	MINTY_ASSERT(!info.fragmentShaderModuleEntryPoint.is_empty(), "ShaderInfo fragmentShaderModuleEntryPoint must not be empty.");
-	MINTY_ASSERT(info.vertexShaderModule != nullptr, "ShaderInfo vertexShaderModule must not be null.");
-	MINTY_ASSERT(!info.vertexShaderModuleEntryPoint.is_empty(), "ShaderInfo vertexShaderModuleEntryPoint must not be empty.");
-	MINTY_ASSERT(info.renderPass != nullptr, "ShaderInfo renderPass must not be null.");
-	MINTY_ASSERT(info.primitiveTopology != ShaderPrimitiveTopology::Undefined, "ShaderInfo primitiveTopology must not be undefined.");
-	MINTY_ASSERT(info.polygonMode != ShaderPolygonMode::Undefined, "ShaderInfo polygonMode must not be undefined.");
-	MINTY_ASSERT(info.frontFace != ShaderFrontFace::Undefined, "ShaderInfo frontFace must not be undefined.");
-	MINTY_ASSERT(info.cullMode != ShaderCullMode::Undefined, "ShaderInfo cullMode must not be undefined.");
-	MINTY_ASSERT(info.lineWidth > 0.0f, "ShaderInfo lineWidth must be greater than 0.0f.");
-	MINTY_ASSERT(info.primitiveTopology != ShaderPrimitiveTopology::LineList || info.lineWidth == 1.0f, "ShaderInfo lineWidth must be 1.0f if not using line topology.");
+	MINTY_ASSERT(info.fragmentShaderModule != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(!info.fragmentShaderModuleEntryPoint.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(info.vertexShaderModule != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(!info.vertexShaderModuleEntryPoint.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(info.renderPass != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(info.primitiveTopology != ShaderPrimitiveTopology::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.polygonMode != ShaderPolygonMode::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.frontFace != ShaderFrontFace::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.cullMode != ShaderCullMode::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.lineWidth > 0.0f, ErrorCode::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(info.primitiveTopology != ShaderPrimitiveTopology::LineList || info.lineWidth == 1.0f, ErrorCode::Argument_InvalidValue);
 
 	// copy inputs into map
 	for (ShaderInput const& input : info.inputs)
 	{
-		MINTY_ASSERT(!m_inputs.contains(input.name), "ShaderInfo inputs must not contain duplicate names.");
+		MINTY_ASSERT(!m_inputs.contains(input.name), ErrorCode::Argument_DuplicateValue, input.name);
 		m_inputs.add(input.name, input);
 	}
 }
 
 void Minty::Shader::set_global_input(String const& name, void const* const data, Size const size)
 {
-	MINTY_ASSERT(m_inputs.contains(name), F("Shader does not contain input with name: {}", name));
-	MINTY_ASSERT(data != nullptr, "Data must not be null.");
-	MINTY_ASSERT(size > 0, "Data size must be greater than 0.");
+	MINTY_ASSERT(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedAboveZero);
 
 	ShaderInput const& input = m_inputs.at(name);
 
-	MINTY_ASSERT(size <= m_inputs.at(name).size, "Data size must not exceed the size of the input size.");
+	MINTY_ASSERT(size <= m_inputs.at(name).size, ErrorCode::Argument_InvalidSize, name);
 
 	for (Material* const material : m_materials)
 	{
@@ -55,15 +55,15 @@ void Minty::Shader::set_global_input(String const& name, void const* const data,
 
 void Minty::Shader::register_material(Material* const material)
 {
-	MINTY_ASSERT(material != nullptr, "Material must not be null.");
-	MINTY_ASSERT(!m_materials.contains(material), "Material is already registered to this Shader.");
+	MINTY_ASSERT(material != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(!m_materials.contains(material), ErrorCode::Argument_KeyAlreadyExists);
 	m_materials.add(material);
 }
 
 void Minty::Shader::unregister_material(Material* const material)
 {
-	MINTY_ASSERT(material != nullptr, "Material must not be null.");
-	MINTY_ASSERT(m_materials.contains(material), "Material is not registered to this Shader.");
+	MINTY_ASSERT(material != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(m_materials.contains(material), ErrorCode::Argument_KeyNotFound);
 	m_materials.remove(material);
 }
 

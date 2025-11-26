@@ -20,9 +20,9 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 {
 	// get data
 	EntitySerializationData* data = static_cast<EntitySerializationData*>(reader.get_user_data());
-	MINTY_ASSERT(data != nullptr, "TextComponent deserialization requires EntitySerializationData to be set as user data.");
-	MINTY_ASSERT(data->entityManager != nullptr, "TextComponent deserialization requires EntitySerializationData to have a valid EntityManager.");
-	MINTY_ASSERT(data->entityManager->contains(data->entity), "TextComponent deserialization requires EntitySerializationData to have a valid Entity for the EntityManager.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::InvalidUserData);
+	MINTY_ASSERT(data->entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entity);
 
 	// mark as dirty
 	EntityManager& entityManager = *data->entityManager;
@@ -47,7 +47,7 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 		fontVariant = font->get(fontSize, fontFlags);
 		if (fontVariant == nullptr)
 		{
-			MINTY_ASSERT_ERROR(false, F("Font \"{}\" does not have a variant with size {} and flags {}.", font->get_name(), fontSize, to_string(fontFlags)));
+			MINTY_ABORT(ErrorCode::Asset_MissingDependency, font->get_name(), fontSize, to_string(fontFlags));
 			return false; // no variant found
 		}
 	}

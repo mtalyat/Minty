@@ -8,11 +8,12 @@
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Data/String.h"
 #include "Minty/Memory/Allocator.h"
 
 namespace Minty
 {
+    class String;
+
     /**
      * @brief Class representing a string builder utility.
      */
@@ -39,7 +40,7 @@ namespace Minty
          * @param initialString The initial string to initialize the string builder with.
          * @param allocator The allocator to use for memory management. Default is Allocator::Default.
          */
-        StringBuilder(String const initialString, Allocator const allocator = Allocator::Default);
+        StringBuilder(String const& initialString, Allocator const allocator = Allocator::Default);
         
         ~StringBuilder();
 
@@ -59,13 +60,6 @@ namespace Minty
         Size get_length() const noexcept { return m_size; }
 
         Size get_capacity() const noexcept { return m_capacity; }
-
-        /**
-         * @brief Converts the StringBuilder to a String.
-         * @param allocator The allocator to use for the String. Default is Allocator::Default
-         * @return A String containing the current string data.
-         */
-        String to_string(Allocator const allocator = Allocator::Default) const;
 
 #pragma endregion
 
@@ -92,7 +86,7 @@ namespace Minty
          * @brief Appends a string to the end of the StringBuilder.
          * @param str The string to append.
          */
-        void append(String const str);
+        void append(String const& str);
 
 #pragma endregion
 

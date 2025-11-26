@@ -9,10 +9,10 @@ using namespace Minty;
 Minty::Bullet_ShapeCollider::Bullet_ShapeCollider(ColliderInfo const& info)
 	: Bullet_Collider(info)
 {
-	MINTY_ASSERT(info.shape != Shape::Empty, "ShapeCollider must have a non-empty shape.");
-	MINTY_ASSERT(info.shape != Shape::Custom, "ShapeCollider cannot have a custom shape. Use a MeshCollider instead.");
-	MINTY_ASSERT(info.size != Math::ZERO, "ShapeCollider size cannot be zero.");
-	MINTY_ASSERT(info.mesh == nullptr, "ShapeCollider cannot have custom data. Use a MeshCollider instead, or set to null.");
+	MINTY_ASSERT(info.shape != Shape::Empty, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.shape != Shape::Custom, ErrorCode::Argument_InvalidValue);
+	MINTY_ASSERT(info.size != Math::ZERO, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT(info.mesh == nullptr, ErrorCode::Argument_ExpectedNull);
 
 	// create the collision shape based on the info
 	btVector3 size = Bullet_Physics::to_bullet(info.size * 0.5f); // half size since Bullet uses half extents for box shapes
@@ -22,7 +22,6 @@ Minty::Bullet_ShapeCollider::Bullet_ShapeCollider(ColliderInfo const& info)
 		mp_shape = new btBoxShape(size);
 		break;
 	default:
-		MINTY_ABORT("Unknown shape type.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 }

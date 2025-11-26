@@ -7,17 +7,31 @@
 
 namespace Minty
 {
+	using Int8 = signed char;
+    using UInt8 = unsigned char;
+    using Int16 = signed short;
+    using UInt16 = unsigned short;
+    using Int32 = signed int;
+    using UInt32 = unsigned int;
+    using Int64 = signed long long;
+    using UInt64 = unsigned long long;
+    using Float32 = float;
+    using Float64 = double;
+
 	using Bool = bool;
 	using Char = char;
-	using Byte = uint8_t;
-	using Short = int16_t;
-	using UShort = uint16_t;
-	using Int = int32_t;
-	using UInt = uint32_t;
-	using Long = int64_t;
-	using ULong = uint64_t;
-	using Float = float;
-	using Double = double;
+	using Byte = UInt8;
+	using Short = Int16;
+	using UShort = UInt16;
+	using Int = Int32;
+	using UInt = UInt32;
+	using Long = Int64;
+	using ULong = UInt64;
+	using Float = Float32;
+	using Double = Float64;
+	using Any = void*;
+	using AnyConst = void const*;
+	
 	using Size = size_t;
 	using ID = uint64_t;
 	using Handle = uint32_t;

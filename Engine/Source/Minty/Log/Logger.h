@@ -43,6 +43,23 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Accessors
+
+    public:
+        /**
+         * @brief Gets the enabled log levels.
+         * @return The enabled LogLevel.
+         */
+        inline LogLevel get_enabled_levels() const { return m_enabledLevels; }
+
+        /**
+         * @brief Sets the enabled log levels.
+         * @param levels The LogLevel to enable.
+         */
+        inline void set_enabled_levels(LogLevel const levels) { m_enabledLevels = levels; }
+
+#pragma endregion
+
 #pragma region Methods
 
     public:
@@ -51,16 +68,16 @@ namespace Minty
          * @param level The log level.
          * @param message The message to log.
          */
-        void Log(LogLevel const level, String const& message);
+        void log(LogLevel const level, String const& message);
 
         /**
          * @brief Flush the log queue, ensuring all log entries are processed.
          */
-        void Flush();
+        void flush();
 
     private:
-        void WorkerThread();
-        void ProcessLogEntry(LogEntry const& entry);
+        void worker_thread();
+        void process_log_entry(LogEntry const& entry);
 
 #pragma endregion
 

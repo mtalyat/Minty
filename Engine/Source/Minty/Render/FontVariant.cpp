@@ -32,7 +32,7 @@ Minty::FontVariant::FontVariant(FontVariantInfo const& info)
 	for (auto const& [left, right, value] : info.kernings)
 	{
 		Int kerningId = compact_kerning(left, right);
-		MINTY_ASSERT(!m_kernings.contains(kerningId), F("Duplicate kerning for characters '{}' and '{}'.", left, right));
+		MINTY_ASSERT(!m_kernings.contains(kerningId), ErrorCode::Argument_DuplicateValue, left, right);
 		m_kernings.add(kerningId, value);
 	}
 }

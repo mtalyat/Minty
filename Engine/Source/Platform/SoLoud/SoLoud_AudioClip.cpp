@@ -11,7 +11,7 @@ Minty::SoLoud_AudioClip::SoLoud_AudioClip(AudioClipInfo const& info)
 	// load clip
 	SoLoud::result result = mp_clip->loadMem(static_cast<unsigned char const*>(info.data.get_data()), static_cast<unsigned int>(info.data.get_size()), true, false);
 
-	MINTY_ASSERT(result == SoLoud::SO_NO_ERROR, F("Failed to load audio clip: {}. Error: {}", info.id, result));
+	MINTY_ASSERT(result == SoLoud::SO_NO_ERROR, ErrorCode::Audio_FailedToLoadClip, to_string(result));
 
 	// set data
 	mp_clip->setVolume(info.volume);

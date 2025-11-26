@@ -16,7 +16,6 @@ Context* Context::s_instance = nullptr;
 /// <param name="info">The input arguments.</param>
 Minty::Context::Context(ContextInfo const& info)
 	: m_initialized(false)
-	, mp_dualBuffer(nullptr)
 	, m_window(nullptr)
 	, m_memoryManager(nullptr)
 	, m_jobManager(nullptr)
@@ -32,14 +31,8 @@ Minty::Context::Context(ContextInfo const& info)
 	, m_registeredComponents()
 {
 	// set instance
-	MINTY_ASSERT(!s_instance, "Context singleton already exists.");
+	MINTY_ASSERT(!s_instance, ErrorCode::Singleton_AlreadyExists);
 	s_instance = this;
-	
-	// initialize dual buffering if a debug log path was given
-	if (!info.debugLogPath.is_empty())
-	{
-		mp_dualBuffer = new DualBuffer(std::cout, info.debugLogPath);
-	}
 
 	// register systems and components
 	register_systems();
@@ -81,7 +74,6 @@ Minty::Context::Context(ContextInfo const& info)
 /// <param name="other">The Context to move.</param>
 Minty::Context::Context(Context&& other) noexcept
 	: m_initialized(other.m_initialized)
-	, mp_dualBuffer(other.mp_dualBuffer)
 	, m_window(std::move(other.m_window))
 	, m_memoryManager(std::move(other.m_memoryManager))
 	, m_jobManager(std::move(other.m_jobManager))
@@ -97,15 +89,13 @@ Minty::Context::Context(Context&& other) noexcept
 	, m_registeredComponents(std::move(other.m_registeredComponents))
 {
 	other.m_initialized = false;
-	other.mp_dualBuffer = nullptr;
 }
 
 Minty::Context::~Context()
 {
-	MINTY_ASSERT_ERROR(!m_initialized, "Context was destroyed before it was disposed.");
+	MINTY_ASSERT(!m_initialized, ErrorCode::Object_NeverDisposed);
 
 	// clean up
-	delete mp_dualBuffer;
 	s_instance = nullptr;
 }
 
@@ -113,8 +103,6 @@ Context& Minty::Context::operator=(Context&& other) noexcept
 {
 	if (this != &other)
 	{
-		mp_dualBuffer = other.mp_dualBuffer;
-		other.mp_dualBuffer = nullptr;
 		m_memoryManager = std::move(other.m_memoryManager);
 		m_jobManager = std::move(other.m_jobManager);
 		m_audioManager = std::move(other.m_audioManager);
@@ -164,7 +152,7 @@ void Minty::Context::register_systems()
 
 void Minty::Context::initialize()
 {
-	MINTY_ASSERT(!m_initialized, "Context was already initialized.");
+	MINTY_ASSERT(!m_initialized, ErrorCode::Object_AlreadyInitialized);
 
 	// initialize the managers
 	for (Manager* manager : m_managers)
@@ -180,7 +168,7 @@ void Minty::Context::initialize()
 
 void Minty::Context::dispose()
 {
-	MINTY_ASSERT(m_initialized, "Context was not initialized.");
+	MINTY_ASSERT(m_initialized, ErrorCode::Object_NotInitialized);
 
 	// dispose window
 	m_window.release();
@@ -290,58 +278,47 @@ void Minty::Context::handle_event(Event& event)
 	}
 }
 
-SystemData const* Minty::Context::get_system_info(String const& name) const
+SystemData const& Minty::Context::get_system_info(String const& name) const
 {
-	auto it = m_registeredSystems.find(name);
-	if (it == m_registeredSystems.end())
-	{
-		return nullptr;
-	}
-	return &it->get_third();
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(m_initialized, ErrorCode::Object_NotInitialized);
+	MINTY_ASSERT(m_registeredSystems.contains(name), ErrorCode::System_NotRegistered, name);
+	return m_registeredSystems.at(name);
 }
 
-SystemData const* Minty::Context::get_system_info(TypeID const& typeId) const
+SystemData const& Minty::Context::get_system_info(TypeID const& typeId) const
 {
-	auto it = m_registeredSystems.find(typeId);
-	if (it == m_registeredSystems.end())
-	{
-		return nullptr;
-	}
-	return &it->get_third();
+	MINTY_ASSERT(m_initialized, ErrorCode::Object_NotInitialized);
+	MINTY_ASSERT(m_registeredSystems.contains(typeId), ErrorCode::System_NotRegistered, typeId.name());
+	return m_registeredSystems.at(typeId);
 }
 
-ComponentInfo const* Minty::Context::get_component_info(String const& name) const
+ComponentData const& Minty::Context::get_component_info(String const& name) const
 {
-	auto it = m_registeredComponents.find(name);
-	if (it == m_registeredComponents.end())
-	{
-		return nullptr;
-	}
-	return &it->get_third();
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(m_initialized, ErrorCode::Object_NotInitialized);
+	MINTY_ASSERT(m_registeredComponents.contains(name), ErrorCode::Component_NotRegistered, name);
+	return m_registeredComponents.at(name);
 }
 
-ComponentInfo const* Minty::Context::get_component_info(TypeID const& typeId) const
+ComponentData const& Minty::Context::get_component_info(TypeID const& typeId) const
 {
-	auto it = m_registeredComponents.find(typeId);
-	if (it == m_registeredComponents.end())
-	{
-		return nullptr;
-	}
-	return &it->get_third();
+	MINTY_ASSERT(m_initialized, ErrorCode::Object_NotInitialized);
+	MINTY_ASSERT(m_registeredComponents.contains(typeId), ErrorCode::Component_NotRegistered, typeId.name());
+	return m_registeredComponents.at(typeId);
 }
 
 Owner<Context> Minty::Context::open(Path const& path)
 {
 	// check if the path is valid
-	MINTY_ASSERT(!path.is_empty(), "Path to context file is empty.");
-	MINTY_ASSERT(path.has_extension(".minty"), "Context file must have a .minty extension.");
-	MINTY_ASSERT(Path::exists(path), F("Context file does not exist: {}", path));
-	MINTY_ASSERT(Path::is_file(path), F("Context file is not a file: {}", path));
+	MINTY_ASSERT(!path.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(path.has_extension(".minty"), ErrorCode::Argument_InvalidFormat);
+	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound);
+	MINTY_ASSERT(Path::is_file(path), ErrorCode::File_NotAFile);
 
 	// read the file
 	PhysicalFile file(path, File::Flags::Read);
-
-	MINTY_ASSERT(file.is_open(), F("Failed to open context file: {}", path));
+	MINTY_ASSERT(file.is_open(), ErrorCode::File_FailedToOpen, path);
 
 	// open a reader
 	TextFileReader reader(&file);
@@ -377,7 +354,10 @@ Owner<Context> Minty::Context::open(Path const& path)
 			info.memoryManagerInfo.persistents.reserve(tempPersistent.get_size());
 			for (ULong2 const& persistent : tempPersistent)
 			{
-				info.memoryManagerInfo.persistents.add(MemoryPoolInfo(persistent.x, persistent.y));
+				info.memoryManagerInfo.persistents.add(MemoryPoolInfo{
+					static_cast<Size>(persistent.x), 
+					static_cast<Size>(persistent.y)
+				});
 			}
 		}
 
@@ -404,15 +384,15 @@ Owner<Context> Minty::Context::open(Path const& path)
 			Int2 layer;
 			for (Size i = 0; i < reader.get_size(); i++)
 			{
-				// read the name
+				// read layer name
 				if (!reader.read_name(i, name))
 				{
-					MINTY_ABORT(F("Failed to read Layer name at index {}.", i));
+					MINTY_ABORT(ErrorCode::Serialization_InvalidFormat);
 				}
-				// read the layer data
+				// read layer data
 				if (!reader.read(i, layer))
 				{
-					MINTY_ABORT(F("Failed to read Layer data at index {}.", i));
+					MINTY_ABORT(ErrorCode::Serialization_InvalidFormat);
 				}
 
 				// add the layer collision

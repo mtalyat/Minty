@@ -21,7 +21,7 @@ Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 
 		// make a copy of the animator
 		animator = assetManager.clone<Animator>(id);
-		MINTY_ASSERT(animator != nullptr, F("Failed to load Animator with ID {}.", id));
+		MINTY_ASSERT(animator != nullptr, ErrorCode::Asset_MissingDependency, id);
 
 		// get the animation
 		id = animator->get_current_animation();

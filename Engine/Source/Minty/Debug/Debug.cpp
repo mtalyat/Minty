@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Debug.h"
 #include "Minty/Core/Macro.h"
+#include "Minty/Data/String.h"
+#include "Minty/Log/Logger.h"
+#include "Minty/Log/LoggerInfo.h"
 
 #ifdef MINTY_WINDOWS
 #include <windows.h>
@@ -12,31 +15,67 @@ using namespace Minty;
 
 DebugFlags Debug::s_flags = DebugFlags::Default;
 
-void Minty::Debug::set_foreground_color(Color const color)
+Logger* s_logger = nullptr;
+
+static Logger& get_logger()
 {
-	std::cout << "\033[" << static_cast<int>(color) << "m";
+    if (!s_logger) {
+        LoggerInfo info;
+        s_logger = new Logger(info);
+    }
+    return *s_logger;
 }
 
-void Minty::Debug::set_background_color(Color const color)
+void Minty::Debug::set_flags(DebugFlags const flags)
 {
-	std::cout << "\033[" << static_cast<int>(color) + 10  << "m";
+    // Set the debug flags
+    s_flags = flags;
+
+    // Set the logger's enabled levels based on the flags
+    Logger& logger = get_logger();
+    LogLevel levels = LogLevel::None;
+    if ((flags & DebugFlags::Info) != DebugFlags::None) {
+        levels = levels | LogLevel::Info;
+    }
+    if ((flags & DebugFlags::Message) != DebugFlags::None) {
+        levels = levels | LogLevel::Message;
+    }
+    if ((flags & DebugFlags::Warning) != DebugFlags::None) {
+        levels = levels | LogLevel::Warning;
+    }
+    if ((flags & DebugFlags::Error) != DebugFlags::None) {
+        levels = levels | LogLevel::Error;
+    }
+    if ((flags & DebugFlags::Critical) != DebugFlags::None) {
+        levels = levels | LogLevel::Critical;
+    }
+    logger.set_enabled_levels(levels);
 }
 
-void Minty::Debug::set_color(Color const foreground, Color const background)
+void Minty::Debug::log(LogLevel const level, String const &message)
 {
-	std::cout << "\033[" << static_cast<int>(foreground) << ";" << static_cast<int>(background) + 10 << "m";
+    Logger& logger = get_logger();
+    logger.log(level, message);
 }
 
-void Minty::Debug::reset()
+void Minty::Debug::flush()
 {
-	std::cout << "\033[0m";
+    // Do not flush if logger is not initialized
+    if(s_logger)
+    {
+        s_logger->flush();
+    }
 }
 
 #include <filesystem>
 // ... rest of your includes
 
-void Minty::Debug::write_stack_trace()
+void Minty::Debug::log_stack_trace()
 {
+    if ((s_flags & DebugFlags::StackTrace) == DebugFlags::None) {
+        return; // Stack trace logging is disabled
+    }
+
 #ifdef MINTY_WINDOWS
     HANDLE process = GetCurrentProcess();
     HANDLE thread = GetCurrentThread();

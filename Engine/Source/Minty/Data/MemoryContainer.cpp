@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "MemoryContainer.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
 void Minty::MemoryContainer::set_at(void const* const data, Size const size, Size const index)
 {
-	MINTY_ASSERT(data != nullptr, "Cannot set nullptr data.");
-	MINTY_ASSERT(size > 0, "Cannot set data without a size.");
-	MINTY_ASSERT(index + size <= m_size, "Cannot set data that exceeds the size of the container.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT(index + size <= m_size, ErrorCode::Argument_InvalidSize, size);
 
 	// copy into data
 	memcpy(&mp_data[index], data, size);
@@ -16,7 +16,7 @@ void Minty::MemoryContainer::set_at(void const* const data, Size const size, Siz
 
 void const* Minty::MemoryContainer::get_at(Size const index) const
 {
-	MINTY_ASSERT(index < m_size, "Index out of bounds.");
+	MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 	return &mp_data[index];
 }
 

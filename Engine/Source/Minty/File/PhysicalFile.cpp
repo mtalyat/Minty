@@ -23,8 +23,7 @@ void Minty::PhysicalFile::open(Path const& path, Flags const flags)
     // check if open
     if (!m_stream.is_open())
     {
-		MINTY_ASSERT(false, "Cannot open File at given Path.");
-        return;
+		MINTY_ABORT(ErrorCode::File_FailedToOpen, path);
     }
 }
 
@@ -70,7 +69,7 @@ Bool Minty::PhysicalFile::end_of_file()
 
 File::Position_t Minty::PhysicalFile::tell()
 {
-	MINTY_ASSERT(tell_read() == tell_write(), "Read and Write cursors are not in sync.");
+	MINTY_ASSERT(tell_read() == tell_write(), ErrorCode::File_ReadWriteSyncMismatch);
 	return tell_read();
 }
 

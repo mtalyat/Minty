@@ -13,9 +13,9 @@ Minty::Font::Font(FontInfo const& info)
 	// add variants
 	for (auto const& variant : info.variants)
 	{
-		MINTY_ASSERT(variant != nullptr, F("FontVariant is null in Font \"{}\".", m_name));
+		MINTY_ASSERT(variant != nullptr, ErrorCode::Argument_ExpectedNonNull);
 		ID key = create_font_id(variant->get_size(), variant->get_flags());
-		MINTY_ASSERT(!m_variants.contains(key), F("FontVariant with size {} and flags {} already exists in Font \"{}\".", variant->get_size(), to_string(variant->get_flags()), m_name));
+		MINTY_ASSERT(!m_variants.contains(key), ErrorCode::Argument_KeyAlreadyExists, variant->get_size(), variant->get_flags());
 		m_variants.add(key, variant);
 	}
 }
@@ -23,7 +23,7 @@ Minty::Font::Font(FontInfo const& info)
 Ref<FontVariant> const& Minty::Font::at(UInt const size, FontFlags const flags) const
 {
 	ID key = create_font_id(size, flags);
-	MINTY_ASSERT(m_variants.contains(key), F("FontVariant with size {} and flags {} not found in Font \"{}\".", size, to_string(flags), m_name));
+	MINTY_ASSERT(m_variants.contains(key), ErrorCode::Argument_KeyNotFound, size, flags);
 	return m_variants.at(key);
 }
 

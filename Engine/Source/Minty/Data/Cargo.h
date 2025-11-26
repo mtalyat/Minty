@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Core/Base.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Data/ConstantContainer.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Object.h"
@@ -176,8 +177,7 @@ namespace Minty
 					return object;
 				}
 			}
-			MINTY_ASSERT(false, "Cargo has no object with the given name.");
-			throw new std::runtime_error("Cargo has no object with the given name.");
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 		}
 
 		/// <summary>
@@ -194,8 +194,7 @@ namespace Minty
 					return object;
 				}
 			}
-			MINTY_ASSERT(false, "Cargo has no object with the given name.");
-			throw new std::runtime_error("Cargo has no object with the given name.");
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 		}
 
 		/// <summary>
@@ -205,7 +204,7 @@ namespace Minty
 		/// <param name="object">The Object.</param>
 		void add(String const& name, Object const& object)
 		{
-			MINTY_ASSERT(!contains(name), "Cargo already contains an object with the given name.");
+			MINTY_ASSERT(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
 			m_objects.add({ name, object });
 		}
 

@@ -10,8 +10,10 @@ Minty::Mesh::Mesh(MeshInfo const& info)
 	, m_indices()
 	, m_indexBuffer(nullptr)
 {
-	MINTY_ASSERT(info.type == MeshType::Custom || (info.vertices.is_empty() && info.indices.is_empty()), "Non-custom meshes should not be given vertex or index arguments.");
-	MINTY_ASSERT(info.type != MeshType::Custom || (!info.vertices.is_empty() && !info.indices.is_empty()), "Custom meshes require both vertex and index arguments.");
+	// vertices and indices must be empty for non-custom types
+	// vertices and indices must be non-empty for custom types
+	MINTY_ASSERT(info.type == MeshType::Custom || (info.vertices.is_empty() && info.indices.is_empty()), ErrorCode::Argument_ExpectedEmpty);
+	MINTY_ASSERT(info.type != MeshType::Custom || (!info.vertices.is_empty() && !info.indices.is_empty()), ErrorCode::Argument_ExpectedNonEmpty);
 
 	switch (info.type)
 	{
@@ -27,8 +29,7 @@ Minty::Mesh::Mesh(MeshInfo const& info)
 		initialize_cube();
 		break;
 	default:
-		MINTY_ASSERT(false, "Unknown Mesh type.");
-		break;
+		MINTY_ABORT(ErrorCode::Argument_InvalidValue);
 	}
 }
 

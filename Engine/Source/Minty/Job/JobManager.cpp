@@ -13,7 +13,7 @@ Minty::JobManager::JobManager(JobManagerInfo const& info, Allocator const alloca
 	, m_queueMutex()
 	, m_stop(false)
 {
-	MINTY_ASSERT(info.threadCount > 0, "JobManager must have at least one thread.");
+	MINTY_ASSERT(info.threadCount > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// create threads
 	m_threads.reserve(info.threadCount);
@@ -103,13 +103,13 @@ Handle Minty::JobManager::create_job(Vector<Job> const& batch, Vector<Handle> co
 	{
 		// add new job
 		std::unique_lock lock(m_jobsMutex);
-		MINTY_ASSERT(!m_jobs.contains(handle), "Job with the new handle already exists.");
+		MINTY_ASSERT(!m_jobs.contains(handle), ErrorCode::Threading_HandleAlreadyExists, handle);
 		m_jobs.add(handle, jobData);
 
 		// add this job as dependents to the dependencies
 		for (Handle dependency : dependencies)
 		{
-			MINTY_ASSERT(handle != dependency, "Job cannot depend on itself.");
+			MINTY_ASSERT(handle != dependency, ErrorCode::Threading_CyclicDependency);
 
 			auto it = m_jobs.find(dependency);
 
@@ -147,7 +147,7 @@ void Minty::JobManager::create_batch(Handle const handle, Vector<Job> const& bat
 {
 	{
 		std::unique_lock lock(m_batchesMutex);
-		MINTY_ASSERT(!m_batches.contains(handle), "Batch with the new handle already exists.");
+		MINTY_ASSERT(!m_batches.contains(handle), ErrorCode::Argument_KeyAlreadyExists, handle);
 		m_batches.add(handle, batch);
 	}
 }

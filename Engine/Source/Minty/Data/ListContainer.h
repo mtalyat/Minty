@@ -1,7 +1,7 @@
 #pragma once
 #include "Minty/Core/Constant.h"
 #include "Minty/Data/DynamicContainer.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 
 namespace Minty
 {
@@ -41,7 +41,7 @@ namespace Minty
 			: DynamicContainer(allocator)
 			, m_stride(stride)
 		{
-			MINTY_ASSERT(stride > 0, "Stride must be greater than 0.");
+			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
 
 			reserve(capacity);
 		}
@@ -57,7 +57,7 @@ namespace Minty
 			: DynamicContainer(allocator)
 			, m_stride(stride)
 		{
-			MINTY_ASSERT(stride > 0, "Stride must be greater than 0.");
+			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
 
 			if (data && count)
 			{
@@ -127,8 +127,8 @@ namespace Minty
 		/// <param name="stride">The size of an element in bytes.</param>
 		void set_stride(Size const stride)
 		{
-			MINTY_ASSERT(stride > 0, "Stride must be greater than 0.");
-			MINTY_ASSERT(m_size % stride == 0, "Size of the Container must be a multiple of the stride.");
+			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
+			MINTY_ASSERT(m_size % stride == 0, ErrorCode::Argument_InvalidSize); // size must be multiple of stride
 			m_stride = stride;
 		}
 
@@ -145,7 +145,7 @@ namespace Minty
 	protected:
 		Bool append_one(void const* const object, Size const size) override
 		{
-			MINTY_ASSERT(size == m_stride, "Size of the object being appended must match the stride of the ListContainer.");
+			MINTY_ASSERT(size == m_stride, ErrorCode::Argument_InvalidSize); // object size must match stride
 			return append(object, 1);
 		}
 

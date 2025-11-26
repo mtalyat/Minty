@@ -8,7 +8,7 @@ namespace Minty
 	class EntityManager;
 	struct Component;
 
-	struct ComponentInfo
+	struct ComponentData
 	{
 		String name;
 

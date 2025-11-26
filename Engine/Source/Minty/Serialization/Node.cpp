@@ -19,16 +19,28 @@ String Minty::Node::get_data_string() const
 	return text;
 }
 
-Node& Minty::Node::add_child(String const& name, void const* const data, Size const size)
+Node const &Minty::Node::get_child(Size const index) const
+{
+	MINTY_ASSERT(index < m_children.get_size(), ErrorCode::Argument_OutOfBounds, index);
+	return m_children[index];
+}
+
+Node const &Minty::Node::get_child(String const &name) const
+{
+	MINTY_ASSERT(m_lookup.contains(name), ErrorCode::Argument_KeyNotFound, name);
+	return m_children[m_lookup[name]];
+}
+
+Node &Minty::Node::add_child(String const &name, void const *const data, Size const size)
 {
 	Node child(name, data, size, m_allocator);
 	return add_child(std::move(child));
 }
 
-Node& Minty::Node::add_child(Node const& node)
+Node &Minty::Node::add_child(Node const &node)
 {
-	String const& name = node.get_name();
-	MINTY_ASSERT(!m_lookup.contains(name), "Name already exists.");
+	String const &name = node.get_name();
+	MINTY_ASSERT(!m_lookup.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
 	Int const index = static_cast<Int>(m_children.get_size());
 	m_children.add(node);
 	if (!name.is_empty())
@@ -38,9 +50,9 @@ Node& Minty::Node::add_child(Node const& node)
 	return m_children.at(index);
 }
 
-Node& Minty::Node::add_child(Node&& node)
+Node &Minty::Node::add_child(Node &&node)
 {
-	String const& name = node.get_name();
+	String const &name = node.get_name();
 	Int const index = static_cast<Int>(m_children.get_size());
 	if (!name.is_empty() && !m_lookup.contains(name))
 	{
@@ -50,9 +62,9 @@ Node& Minty::Node::add_child(Node&& node)
 	return m_children.at(index);
 }
 
-Bool Minty::Node::merge(Node const& other)
+Bool Minty::Node::merge(Node const &other)
 {
-	if(m_name != other.m_name)
+	if (m_name != other.m_name)
 	{
 		return false;
 	}
@@ -61,9 +73,9 @@ Bool Minty::Node::merge(Node const& other)
 	m_data = other.m_data;
 
 	// merge children
-	for (auto const& otherChild : other.m_children)
+	for (auto const &otherChild : other.m_children)
 	{
-		String const& childName = otherChild.get_name();
+		String const &childName = otherChild.get_name();
 		if (m_lookup.contains(childName))
 		{
 			// merge existing child
@@ -80,30 +92,30 @@ Bool Minty::Node::merge(Node const& other)
 	return true;
 }
 
-void Minty::Node::serialize(Writer& writer, String const& name) const
+void Minty::Node::serialize(Writer &writer, String const &name) const
 {
 	// write this value
 	writer.write(name, get_data_string());
 
 	// write children
 	writer.indent();
-	for (auto const& child : m_children)
+	for (auto const &child : m_children)
 	{
 		child.serialize(writer, child.get_name());
 	}
 	writer.outdent();
 }
 
-Bool Minty::Node::deserialize(Reader& reader, Size const index)
+Bool Minty::Node::deserialize(Reader &reader, Size const index)
 {
 	// directly copy the node from the reader to this
 	*this = reader.get_node().get_child(index);
 	return true;
 }
 
-String Minty::to_string(Node const& obj)
+String Minty::to_string(Node const &obj)
 {
-	MINTY_ABORT("Not implemented.");
+	MINTY_NOT_IMPLEMENTED();
 }
 
 struct NodeMacro
@@ -117,7 +129,7 @@ static Bool is_word_character(Char const c)
 	return isalnum(c) || c == '_';
 }
 
-Node Minty::parse_to_node(String const& string)
+Node Minty::parse_to_node(String const &string)
 {
 	// split lines
 	Vector<String> lines = string.split_lines();
@@ -135,15 +147,15 @@ Node Minty::parse_to_node(String const& string)
 		return root;
 	}
 
-	Stack<Node*> nodeStack;
+	Stack<Node *> nodeStack;
 	nodeStack.push(&root);
-	Node* node = nodeStack.peek();
+	Node *node = nodeStack.peek();
 
 	int const SPACES_PER_TAB = 4;
 
 	// remove all comments from the lines
 	Bool inBlockComment = false;
-	for (String& line : lines)
+	for (String &line : lines)
 	{
 		String cleanLine;
 		cleanLine.reserve(line.get_size());
@@ -187,7 +199,7 @@ Node Minty::parse_to_node(String const& string)
 	for (Size lineIndex = 0; lineIndex < lines.get_size(); lineIndex++)
 	{
 		String line = lines.at(lineIndex);
-		
+
 		// skip empty
 		if (line.get_size() == 0)
 		{
@@ -224,12 +236,12 @@ Node Minty::parse_to_node(String const& string)
 				{
 					// find end of args
 					Tuple<Size, Size> argGroup = line.find_group('(', ')', nameEnd);
-					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, "#define found the wrong group.");
-					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, "#define missing ')'.");
+					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, ErrorCode::Serialization_InvalidFormat);	  // "#define found the wrong group."
+					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat); // "#define missing ')'.");
 
 					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
 					macro.parameters = argLine.split(',');
-					for (String& param : macro.parameters)
+					for (String &param : macro.parameters)
 					{
 						param = param.trim();
 					}
@@ -257,7 +269,7 @@ Node Minty::parse_to_node(String const& string)
 				}
 
 				// add to macros
-				macros.add({ macroName, std::move(macro) });
+				macros.add({macroName, std::move(macro)});
 			}
 
 			// skip line if started with #
@@ -274,7 +286,7 @@ Node Minty::parse_to_node(String const& string)
 			Size macroIndex = 0;
 			while (macroIndex < macros.get_size())
 			{
-				auto const& [name, macro] = macros.at(macroIndex);
+				auto const &[name, macro] = macros.at(macroIndex);
 
 				Size mStart = macroLine.find_first(name);
 				Size mEnd = mStart + name.get_size();
@@ -305,12 +317,12 @@ Node Minty::parse_to_node(String const& string)
 					if (!macro.parameters.is_empty())
 					{
 						auto [start, count] = macroLine.find_group('(', ')', mStart + name.get_size());
-						MINTY_ASSERT(start != INVALID_INDEX, F("Macro \"{}\" missing its arguments.", name));
+						MINTY_ASSERT(start != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" missing its arguments.", name));
 						Vector<String> parts = macroLine.sub(start, count).split(',');
-						MINTY_ASSERT(parts.get_size() == macro.parameters.get_size(), F("Macro \"{}\" has an incorrect number of arguments.", name));
+						MINTY_ASSERT(parts.get_size() == macro.parameters.get_size(), ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" has an incorrect number of arguments.", name));
 						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
 						{
-							args.add({ macro.parameters.at(argIndex), parts.at(argIndex) });
+							args.add({macro.parameters.at(argIndex), parts.at(argIndex)});
 						}
 						mEnd = start + count + 1;
 					}
@@ -327,7 +339,7 @@ Node Minty::parse_to_node(String const& string)
 						String value = macro.values.at(valueIndex);
 
 						// replace args
-						for (auto const& [find, replace] : args)
+						for (auto const &[find, replace] : args)
 						{
 							value = value.replace(find, replace);
 						}
@@ -422,7 +434,7 @@ Node Minty::parse_to_node(String const& string)
 		// if new indent is too deep, ignore
 		if (indentChange > 1)
 		{
-			MINTY_WARNING(F("Discarding line, invalid indent change of {}: {}", indentChange, line));
+			MINTY_LOG_WARNING(F("Discarding line, invalid indent change of {}: {}", indentChange, line));
 			continue;
 		}
 
@@ -506,8 +518,7 @@ Node Minty::parse_to_node(String const& string)
 	return root;
 }
 
-Bool Minty::parse_try_node(String const& string, Node& value)
+Bool Minty::parse_try_node(String const &string, Node &value)
 {
-	MINTY_ABORT("Not implemented.");
-	return Bool();
+	MINTY_NOT_IMPLEMENTED();
 }

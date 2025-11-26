@@ -28,12 +28,12 @@ Minty::LayerManager::LayerManager(LayerManagerInfo const& info)
 	for (auto const& layerCollision : info.layerCollisions)
 	{
 		String const& name = layerCollision.get_first();
-		MINTY_ASSERT(!name.is_empty(), "Layer name cannot be empty.");
+		MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 		Layer const layer = layerCollision.get_second();
 #ifdef MINTY_DEBUG
 		if (!usedLayers.add(layer))
 		{
-			MINTY_ABORT(F("Layer {} is already used.", layer));
+			MINTY_ABORT(ErrorCode::Argument_KeyAlreadyExists, layer);
 		}
 #endif // MINTY_DEBUG
 		Layer const mask = layerCollision.get_third();
@@ -71,7 +71,7 @@ Minty::LayerManager::LayerManager(LayerManagerInfo const& info)
 			Layer const otherBit = (1 << otherLayer);
 			if (((mask & otherBit) != 0) && !(m_matrix[otherLayer] & bit))
 			{
-				MINTY_WARNING(F("Layer collision between '{}' and '{}' is not symmetric. Making it symmetric.", m_names[layer], m_names[otherLayer]));
+				MINTY_LOG_WARNING(F("Layer collision between '{}' and '{}' is not symmetric. Making it symmetric.", m_names[layer], m_names[otherLayer]));
 				m_matrix[otherLayer] |= bit;
 			}
 		}
@@ -80,7 +80,7 @@ Minty::LayerManager::LayerManager(LayerManagerInfo const& info)
 
 Layer Minty::LayerManager::get_layer(String const& name) const
 {
-	MINTY_ASSERT(!name.is_empty(), "Layer name cannot be empty.");
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 	for (Layer i = 0; i < LAYER_COUNT; i++)
 	{
 		if (m_names[i] == name)

@@ -75,7 +75,7 @@ Bool Minty::Operation::copy(Path const& from, Path const& to)
 	}
 	catch (std::filesystem::filesystem_error& e)
 	{
-		MINTY_ERROR(F("Failed to copy \"{}\" to \"{}\": \"{}\"", from.get_string(), dest.get_string(), e.what()));
+		MINTY_LOG_ERROR(F("Failed to copy \"{}\" to \"{}\": \"{}\"", from.get_string(), dest.get_string(), e.what()));
 		return false;
 	}
 
@@ -104,12 +104,12 @@ Bool Minty::Operation::copy_all(Path const& from, Path const& to)
 	{
 		if (!Path::exists(from))
 		{
-			MINTY_ERROR(F("Failed to copy_all, from \"{}\": Path does not exist.", from.get_string()));
+			MINTY_LOG_ERROR(F("Failed to copy_all, from \"{}\": Path does not exist.", from.get_string()));
 			return false;
 		}
 		else if (!Path::is_directory(from))
 		{
-			MINTY_ERROR(F("Failed to copy_all, from \"{}\": Path is not a directory.", from.get_string()));
+			MINTY_LOG_ERROR(F("Failed to copy_all, from \"{}\": Path is not a directory.", from.get_string()));
 			return false;
 		}
 
@@ -139,12 +139,12 @@ Bool Minty::Operation::copy_all(Path const& from, Path const& to)
 	}
 	catch (std::filesystem::filesystem_error& e)
 	{
-		MINTY_ERROR(F("Failed to copy_all \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
+		MINTY_LOG_ERROR(F("Failed to copy_all \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
 		return false;
 	}
 	catch (std::exception& e)
 	{
-		MINTY_ERROR(F("Failed to copy_all \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
+		MINTY_LOG_ERROR(F("Failed to copy_all \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
 		return false;
 	}
 
@@ -157,12 +157,12 @@ Bool Minty::Operation::copy_some(Path const& from, Path const& to, Set<String> c
 	{
 		if (!Path::exists(from))
 		{
-			MINTY_ERROR(F("Failed to copy_some, from \"{}\": Path does not exist.", from.get_string()));
+			MINTY_LOG_ERROR(F("Failed to copy_some, from \"{}\": Path does not exist.", from.get_string()));
 			return false;
 		}
 		else if (!Path::is_directory(from))
 		{
-			MINTY_ERROR(F("Failed to copy_some, from \"{}\": Path is not a directory.", from.get_string()));
+			MINTY_LOG_ERROR(F("Failed to copy_some, from \"{}\": Path is not a directory.", from.get_string()));
 			return false;
 		}
 
@@ -198,12 +198,12 @@ Bool Minty::Operation::copy_some(Path const& from, Path const& to, Set<String> c
 	}
 	catch (std::filesystem::filesystem_error& e)
 	{
-		MINTY_ERROR(F("Failed to copy_some \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
+		MINTY_LOG_ERROR(F("Failed to copy_some \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
 		return false;
 	}
 	catch (std::exception& e)
 	{
-		MINTY_ERROR(F("Failed to copy_some \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
+		MINTY_LOG_ERROR(F("Failed to copy_some \"{}\" to \"{}\": \"{}\"", from.get_string(), to.get_string(), e.what()));
 		return false;
 	}
 
@@ -219,13 +219,13 @@ String Minty::Operation::get_environment_variable(String const& name)
 
 	if (err)
 	{
-		MINTY_ERROR(F("Error retrieving \"{}\" environment variable.", name));
+		MINTY_LOG_ERROR(F("Error retrieving \"{}\" environment variable.", name));
 
 		return "";
 	}
 	else if (buffer == nullptr)
 	{
-		MINTY_ERROR(F("\"{}\" environment variable has not been set.", name));
+		MINTY_LOG_ERROR(F("\"{}\" environment variable has not been set.", name));
 
 		return "";
 	}

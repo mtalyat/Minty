@@ -16,8 +16,8 @@ Minty::Sprite::Sprite(SpriteInfo const& info)
 	, m_pixelsPerUnit(info.slice.pixelsPerUnit)
 	, m_scale(1.0f, 1.0f)
 {
-	MINTY_ASSERT(info.texture != nullptr, "Sprite must have a Texture.");
-	MINTY_ASSERT(info.slice.pixelsPerUnit > 0.0f, "Sprite pixels per unit must be greater than 0.");
+	MINTY_ASSERT(info.texture != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(info.slice.pixelsPerUnit > 0.0f, ErrorCode::Argument_ExpectedAboveZero);
 
 	set_offset(info.slice.offset);
 	set_size(info.slice.size);
@@ -40,7 +40,7 @@ Float2 Minty::Sprite::get_coords(Float2 const raw) const
 			raw.y * static_cast<Float>(textureSize.y));
 	}
 	default:
-		MINTY_ABORT("Failed to get Sprite value. Unhandled CoordinateMode.");
+		MINTY_NOT_IMPLEMENTED(m_coordinateMode);
 	}
 }
 
@@ -59,7 +59,7 @@ Float2 Minty::Sprite::set_coords(Float2 const raw) const
 			raw.y / static_cast<Float>(textureSize.y));
 	}
 		default:
-			MINTY_ABORT("Failed to set Sprite value. Unhandled CoordinateMode.");
+			MINTY_NOT_IMPLEMENTED(m_coordinateMode);
 	}
 }
 
@@ -117,7 +117,7 @@ void Minty::Sprite::set_pivot(Float2 const& pivot)
 		break;
 	}
 	default:
-		MINTY_ABORT("Failed to set Sprite value. Unhandled CoordinateMode.");
+		MINTY_NOT_IMPLEMENTED(m_coordinateMode);
 	}
 }
 

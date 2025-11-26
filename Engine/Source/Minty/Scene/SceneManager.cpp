@@ -65,7 +65,7 @@ Ref<Scene> Minty::SceneManager::load(Owner<Scene> const& scene, Bool const setAs
 
 void Minty::SceneManager::unload(UUID const id)
 {
-	MINTY_ASSERT(contains(id), "Cannot unload Scene. The SceneManager does not contain a Scene with the given ID.");
+	MINTY_ASSERT(contains(id), ErrorCode::Argument_KeyNotFound, id);
 
 	// get the scene
 	Owner<Scene> scene = m_scenes.at(id).scene;
@@ -86,7 +86,7 @@ void Minty::SceneManager::unload(UUID const id)
 
 void Minty::SceneManager::reload(UUID const id)
 {
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(contains(id), ErrorCode::Argument_KeyNotFound, id);
 
 	// get the scene data
 	SceneData& sceneData = m_scenes.at(id);
@@ -102,16 +102,13 @@ void Minty::SceneManager::reload(UUID const id)
 	Reader* reader = nullptr;
 	if (!assetManager.open_reader(path, reader))
 	{
-		MINTY_ABORT(F("Failed to reload asset: {}. Could not open file.", path));
-		return;
+		MINTY_ABORT(ErrorCode::File_FailedToOpen);
 	}
 
 	// deserialize the scene again
 	if (!scene->deserialize(*reader))
 	{
-		MINTY_ABORT(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
-		assetManager.close_reader(reader);
-		return;
+		MINTY_ABORT(ErrorCode::OperationFailed);
 	}
 
 	// TODO: implement deserialization for all asset types
@@ -143,7 +140,7 @@ UUID Minty::SceneManager::schedule_load(Path const& path, Job const& onCompletio
 
 void Minty::SceneManager::schedule_unload(UUID const id, Job const& onCompletion)
 {
-	MINTY_ASSERT(m_scenes.contains(id), "Cannot schedule unload. The SceneManager does not contain a Scene with the given ID.");
+	MINTY_ASSERT(m_scenes.contains(id), ErrorCode::Argument_KeyNotFound, id);
 
 	JobManager& jobManager = JobManager::get_singleton();
 	jobManager.schedule([this, id, onCompletion]()
@@ -195,7 +192,7 @@ void Minty::SceneManager::frame_update(Timestep const& time)
 	}
 	else
 	{
-		MINTY_WARNING("No active Scene.");
+		MINTY_LOG_WARNING("No active Scene.");
 	}
 }
 
@@ -210,7 +207,7 @@ void Minty::SceneManager::fixed_update(Timestep const& time)
 	}
 	else
 	{
-		MINTY_WARNING("No active Scene.");
+		MINTY_LOG_WARNING("No active Scene.");
 	}
 }
 

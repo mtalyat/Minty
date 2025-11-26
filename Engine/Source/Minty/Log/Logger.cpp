@@ -7,7 +7,7 @@
 using namespace Minty;
 
 Minty::Logger::Logger(LoggerInfo const &info)
-    : m_enabledLevels(info.enabledLevels), m_logQueue(), m_queueMutex(), m_queueCondition(), m_isRunning(true), m_workerThread(&Logger::WorkerThread, this)
+    : m_enabledLevels(info.enabledLevels), m_logQueue(), m_queueMutex(), m_queueCondition(), m_isRunning(true), m_workerThread(&Logger::worker_thread, this)
 {
 }
 
@@ -23,7 +23,7 @@ Minty::Logger::~Logger()
     }
 }
 
-void Minty::Logger::Log(LogLevel const level, String const &message)
+void Minty::Logger::log(LogLevel const level, String const &message)
 {
     if ((m_enabledLevels & level) == LogLevel::None)
     {
@@ -43,13 +43,13 @@ void Minty::Logger::Log(LogLevel const level, String const &message)
     m_queueCondition.notify_one();
 }
 
-void Minty::Logger::Flush()
+void Minty::Logger::flush()
 {
     std::unique_lock<std::mutex> lock(m_queueMutex);
     m_queueCondition.wait(lock, [this]() { return m_logQueue.is_empty() || !m_isRunning; });
 }
 
-void Minty::Logger::WorkerThread()
+void Minty::Logger::worker_thread()
 {
     while(m_isRunning || !m_logQueue.is_empty())
     {
@@ -61,7 +61,7 @@ void Minty::Logger::WorkerThread()
             LogEntry entry = std::move(m_logQueue.pop());
             lock.unlock();
 
-            ProcessLogEntry(entry);
+            process_log_entry(entry);
 
             lock.lock();
         }
@@ -70,7 +70,7 @@ void Minty::Logger::WorkerThread()
     }
 }
 
-void Minty::Logger::ProcessLogEntry(LogEntry const &entry)
+void Minty::Logger::process_log_entry(LogEntry const &entry)
 {
     // todo: combine into one string and print all at once
 

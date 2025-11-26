@@ -7,8 +7,8 @@ using namespace Minty;
 Minty::Bullet_MeshCollider::Bullet_MeshCollider(ColliderInfo const& info)
 	: Bullet_Collider(info)
 {
-	MINTY_ASSERT(info.shape == Shape::Custom, "MeshCollider must have a Custom shape.");
-	MINTY_ASSERT(info.mesh != nullptr, "MeshCollider must have custom data.");
+	MINTY_ASSERT(info.shape == Shape::Custom, ErrorCode::Argument_InvalidValue);
+	MINTY_ASSERT(info.mesh != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	Ref<Mesh> mesh = info.mesh;
 	ListContainer const& vertices = mesh->get_vertices();
@@ -35,7 +35,7 @@ Minty::Bullet_MeshCollider::Bullet_MeshCollider(ColliderInfo const& info)
 	}
 	else
 	{
-		MINTY_ABORT("Unsupported index stride for MeshCollider. Must be either UShort or UInt.");
+		MINTY_ABORT(ErrorCode::Asset_Mesh_InvalidStride, indices.get_stride());
 	}
 
 	// add it to the interface

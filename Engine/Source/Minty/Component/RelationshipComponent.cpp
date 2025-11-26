@@ -29,27 +29,23 @@ void Minty::RelationshipComponent::serialize(Writer& writer) const
 Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 {
 	// get the serialization data
-	void* userData = reader.get_user_data();
-	MINTY_ASSERT(userData != nullptr, "Failed to get user data.");
+	void* const userData = reader.get_user_data();
+	MINTY_ASSERT(userData != nullptr, ErrorCode::InvalidUserData);
 	EntitySerializationData* entityData = static_cast<EntitySerializationData*>(userData);
 
-	EntityManager* entityManager = entityData->entityManager;
-	MINTY_ASSERT(entityManager != nullptr, "Failed to get EntityManager.");
+	EntityManager* const entityManager = entityData->entityManager;
+	MINTY_ASSERT(entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// read the parent id
-	UUID parentId = INVALID_ID;
+	UUID const parentId = INVALID_ID;
 	if (reader.read_default(parentId) || reader.read("Parent", parentId))
 	{
 		// get the parent entity
-		Entity parent = entityData->get_entity(parentId);
-		MINTY_ASSERT(parent != INVALID_ENTITY, F("Failed to get parent entity with ID {}.", parentId));
+		Entity const parent = entityData->get_entity(parentId);
+		MINTY_ASSERT(parent != INVALID_ENTITY, ErrorCode::Entity_NotValid, parentId);
 
 		// set the parent
-		EntityManager* entityManager = entityData->entityManager;
-		MINTY_ASSERT(entityManager != nullptr, "Failed to get EntityManager.");
 		entityManager->set_parent(entityData->entity, parent);
-
-		// using set_parent because of all of the other stuff it does other than just set the parent value
 	}
 	else
 	{

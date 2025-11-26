@@ -101,7 +101,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 	Size i = 0;
 	for (auto const& assetPath : newAssets)
 	{
-		MINTY_ASSERT(!assetPath.is_empty(), "Asset path is empty");
+		MINTY_ASSERT(!assetPath.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 		// add to loaded
 		loaded.add(assetPath);
@@ -128,7 +128,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 		Ref<Asset> asset = assetManager.load_asset(assetPath);
 		if (asset == nullptr)
 		{
-			MINTY_ERROR(F("Failed to load asset: {}", assetPath));
+			MINTY_LOG_ERROR(F("Failed to load asset: {}", assetPath));
 			continue;
 		}
 		else
@@ -278,7 +278,7 @@ void Minty::Scene::unregister_asset(UUID const assetId)
 
 void Minty::Scene::serialize(Writer& writer) const
 {
-	MINTY_ABORT("Not implemented.");
+	MINTY_NOT_IMPLEMENTED();
 }
 
 Bool Minty::Scene::deserialize(Reader& reader)

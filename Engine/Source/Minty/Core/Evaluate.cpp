@@ -83,6 +83,7 @@ Bool Minty::Internal::operator_left_to_right(String const& str)
 	return !rightToLeft.contains(str);
 }
 
+// TODO: make generic that works for float and double together (enable if float type? like is_floating_point?)
 template<>
 Float Minty::Internal::evaluate_operator(String const& token, Float const left, Float const right)
 {
@@ -97,12 +98,12 @@ Float Minty::Internal::evaluate_operator(String const& token, Float const left, 
 	}
 	else if (token == "/")
 	{
-		MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+		MINTY_ASSERT(right != 0.0f, ErrorCode::Math_DivideByZero);
 		return left / right;
 	}
 	else if (token == "%")
 	{
-		MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+		MINTY_ASSERT(right != 0.0f, ErrorCode::Math_DivideByZero);
 		return Math::mod(left, right);
 	}
 	else if (token == "+")
@@ -115,7 +116,7 @@ Float Minty::Internal::evaluate_operator(String const& token, Float const left, 
 	}
 	else
 	{
-		MINTY_ABORT(F("Invalid operator: {}", token));
+		MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
 	}
 }
 
@@ -133,12 +134,12 @@ Double Minty::Internal::evaluate_operator(String const& token, Double const left
 	}
 	else if (token == "/")
 	{
-		MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+		MINTY_ASSERT(right != 0.0f, ErrorCode::Math_DivideByZero);
 		return left / right;
 	}
 	else if (token == "%")
 	{
-		MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+		MINTY_ASSERT(right != 0.0f, ErrorCode::Math_DivideByZero);
 		return Math::mod(left, right);
 	}
 	else if (token == "+")
@@ -151,7 +152,7 @@ Double Minty::Internal::evaluate_operator(String const& token, Double const left
 	}
 	else
 	{
-		MINTY_ABORT(F("Invalid operator: {}", token));
+		MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
 	}
 }
 
@@ -173,9 +174,9 @@ Vector<String> Minty::Internal::split_into_tokens(String const& expression) {
 
 Vector<String> Minty::Internal::split_into_args(String const& expression)
 {
-	MINTY_ASSERT(!expression.is_empty(), "Expression is empty.");
-	MINTY_ASSERT(expression.front() == '(', "Expression must start with '('.");
-	MINTY_ASSERT(expression.back() == ')', "Expression must end with ')'.");
+	MINTY_ASSERT(!expression.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(expression.front() == '(', ErrorCode::Argument_InvalidFormat);
+	MINTY_ASSERT(expression.back() == ')', ErrorCode::Argument_InvalidFormat);
 
 	// remove ()
 	String text = expression.sub(1, expression.get_size() - 2);

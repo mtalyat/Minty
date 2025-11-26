@@ -26,7 +26,7 @@ Bool Minty::Transition::evaluate(BasicScope const& scope) const
 void Minty::Transition::serialize(Writer& writer, String const& name) const
 {
 	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
-	MINTY_ASSERT(fsm != nullptr, "FSM is null.");
+	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
 	String stateName = fsm->get_state_name(m_stateId);
 	writer.write(name, stateName);
@@ -36,7 +36,7 @@ void Minty::Transition::serialize(Writer& writer, String const& name) const
 Bool Minty::Transition::deserialize(Reader& reader, Size const index)
 {
 	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
-	MINTY_ASSERT(fsm != nullptr, "FSM is null.");
+	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
 	String stateName;
 	if (reader.read(index, stateName))

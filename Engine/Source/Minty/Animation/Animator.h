@@ -1,32 +1,11 @@
 #pragma once
-#include "Minty/Core/Types.h"
 #include "Minty/Asset/Asset.h"
-#include "Minty/FSM/FSM.h"
+#include "Minty/Core/Types.h"
 
 namespace Minty
 {
 	class Animation;
-
-	/// <summary>
-	/// The arguments for an Animator.
-	/// </summary>
-	struct AnimatorInfo
-	{
-		/// <summary>
-		/// The Asset ID.
-		/// </summary>
-		UUID id = INVALID_ID;
-
-		/// <summary>
-		/// The FSM to use for this Animator.
-		/// </summary>
-		FSM fsm;
-
-		/// <summary>
-		/// When true, forces the Animator to transition out of the current state as soon as possible.
-		/// </summary>
-		Bool force = false;
-	};
+	struct AnimatorInfo;
 
 	/// <summary>
 	/// Handles animating an Entity.
@@ -37,7 +16,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		FSM m_fsm;
+		FSM* mp_fsm;
 		Bool m_force;
 
 #pragma endregion
@@ -45,88 +24,74 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Animator using the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		Animator(AnimatorInfo const& info)
-			: Asset(info.id)
-			, m_fsm(info.fsm)
-			, m_force(info.force)
-		{
-		}
+		/**
+		 * @brief Creates an Animator with the given arguments.
+		 * @param info The arguments for the Animator.
+		 */
+		Animator(AnimatorInfo const& info);
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
-		/// <summary>
-		/// Sets the force value of this Animator.
-		/// </summary>
-		/// <param name="force">If true, animations will transition as soon as possible.</param>
-		void set_force(Bool const force)
-		{
-			m_force = force;
-		}
+		/**
+		 * @brief Sets the force value of this Animator.
+		 * @param force If true, animations will transition as soon as possible.
+		 */
+		inline void set_force(Bool const force) { m_force = force; }
 
-		/// <summary>
-		/// Gets the force value of this Animator.
-		/// </summary>
-		/// <returns>If true, animations will transition as soon as possible.</returns>
-		Bool get_force() const
-		{
-			return m_force;
-		}
+		/**
+		 * @brief Gets the force value of this Animator.
+		 * @return True if animations will transition as soon as possible.
+		 */
+		inline Bool get_force() const { return m_force; }
 
-		/// <summary>
-		/// Sets the value of the variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the variable.</param>
-		/// <param name="value">The new value of the variable.</param>
+		/**
+		 * @brief Sets the value of the variable with the given name.
+		 * @param name The name of the variable.
+		 * @param value The new value of the variable.
+		 */
 		void set_variable(String const& name, Int const value);
 
-		/// <summary>
-		/// Gets the value of the variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the variable.</param>
-		/// <returns>The value of the variable.</returns>
+		/**
+		 * @brief Gets the value of the variable with the given name.
+		 * @param name The name of the variable.
+		 * @return The value of the variable.
+		 */
 		Int get_variable(String const& name) const;
 
-		/// <summary>
-		/// Gets the ID of the current Animation.
-		/// </summary>
-		/// <returns>The ID of the animation, or INVALID_ID if no Animation is currently being played.</returns>
+		/**
+		 * @brief Gets the Asset ID of the current Animation.
+		 * @return The Asset ID of the current Animation.
+		 */
 		UUID get_current_animation() const;
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Animator.</returns>
-		AssetType get_asset_type() const override { return AssetType::Animator; }
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return The AssetType::Animator.
+		 */
+		inline AssetType get_asset_type() const override { return AssetType::Animator; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Updates the state of this Animator based on the values of the variables in the FSM.
-		/// </summary>
-		/// <returns>The ID to the Animation that should be playing.</returns>
+		/**
+		 * @brief Updates the Animator, potentially transitioning to a new Animation.
+		 * @param currentAnimation The current Animation Ref.
+		 * @param currentTime The current time of the Animation.
+		 * @return The Asset ID of the current Animation after the update.
+		 */
 		UUID update(Ref<Animation> const& currentAnimation, Float const currentTime);
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		/// <summary>
-		/// Creates an Animator using the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>An Animator Owner.</returns>
-		static Owner<Animator> create(AnimatorInfo const& info = {});
+		
+		/**
+		 * @brief Creates a new Animator from the given AnimatorInfo.
+		 * @param info The arguments for the Animator.
+		 * @return The created Animator.
+		 */
+		static Owner<Animator> create(AnimatorInfo const& info);
 
 #pragma endregion
 	};

@@ -83,7 +83,7 @@ namespace Minty
 		/// <returns>A reference to the map of values for the object.</returns>
 		Object const& get_input(String const& name) const
 		{
-			MINTY_ASSERT(m_cargo.contains(name), F("MaterialTemplate does not contain input with name: {}", name));
+			MINTY_ASSERT(m_cargo.contains(name), ErrorCode::Argument_KeyNotFound, name);
 			return m_cargo.at(name);
 		}
 

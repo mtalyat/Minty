@@ -795,7 +795,7 @@ namespace Minty
 		/// <param name="value">The value to insert a copy of.</param>
 		void insert(Size const index, T const& value)
 		{
-			MINTY_ASSERT(index <= m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
 			// add to end
 			if (index == m_size)
 			{
@@ -814,7 +814,7 @@ namespace Minty
 		/// <param name="value">The value to insert.</param>
 		void insert(Size const index, T&& value)
 		{
-			MINTY_ASSERT(index <= m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
 			// add to end
 			if (index == m_size)
 			{
@@ -920,7 +920,7 @@ namespace Minty
 		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
 			insert(Size const index, IteratorType const& begin, IteratorType const& end)
 		{
-			MINTY_ASSERT(index <= m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
 
 			// add to end
 			if (index == m_size)
@@ -946,9 +946,9 @@ namespace Minty
 		typename std::enable_if<!std::is_integral<InsertIteratorType>::value && !std::is_integral<IteratorType>::value, void>::type
 			insert(InsertIteratorType const& it, IteratorType const& begin, IteratorType const& end)
 		{
-			MINTY_ASSERT(it.mp_node != nullptr, "Iterator is out of bounds.");
-			MINTY_ASSERT(begin.mp_node != nullptr, "Begin iterator is out of bounds.");
-			MINTY_ASSERT(begin != end, "Begin and end iterators are the same.");
+			MINTY_ASSERT(it.mp_node != nullptr, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(begin.mp_node != nullptr, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(begin != end, ErrorCode::Argument_InvalidValue);
 
 			// get adjacent nodes
 			Node* nextNode = it.mp_node;
@@ -1002,7 +1002,7 @@ namespace Minty
 		/// <param name="index">The index to remove at.</param>
 		void remove(Size const index)
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
 
 			Iterator it = begin() + index;
 			remove(it);
@@ -1058,9 +1058,9 @@ namespace Minty
 		/// <param name="count">The number of elements to remove.</param>
 		void remove(Size const index, Size const count)
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
-			MINTY_ASSERT(index + count <= m_size, "Index + count is out of bounds.");
-			MINTY_ASSERT(count > 0, "Count must be greater than zero.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index + count <= m_size, ErrorCode::Argument_InvalidSize);
+			MINTY_ASSERT(count > 0, ErrorCode::Argument_ExpectedNonZero);
 
 			Iterator start = begin() + index;
 			Iterator stop = start + count;
@@ -1078,8 +1078,8 @@ namespace Minty
 		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
 			remove(IteratorType const& begin, IteratorType const& end)
 		{
-			MINTY_ASSERT(begin.mp_node != nullptr, "Begin iterator is out of bounds.");
-			MINTY_ASSERT(begin != end, "Begin and end iterators are the same.");
+			MINTY_ASSERT(begin.mp_node != nullptr, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(begin != end, ErrorCode::Argument_InvalidValue);
 
 			// get the nodes
 			Node* startNode = begin.mp_node;
@@ -1168,7 +1168,7 @@ namespace Minty
 		/// <returns>The value at the given index.</returns>
 		T& at(Size const index)
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
 			Iterator it = begin() + index;
 			return *it;
 		}
@@ -1180,7 +1180,7 @@ namespace Minty
 		/// <returns>The value at the given index.</returns>
 		T const& at(Size const index) const
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
 			ConstIterator it = begin() + index;
 			return *it;
 		}
@@ -1229,9 +1229,9 @@ namespace Minty
 		/// <returns>A new List with the elements from the given range.</returns>
 		List<T> sub(Size const index, Size const length) const
 		{
-			MINTY_ASSERT(index < m_size, "Start index is out of bounds.");
-			MINTY_ASSERT(index + length <= m_size, "Index + length is out of bounds.");
-			MINTY_ASSERT(length > 0, "Length must be greater than zero.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index + length <= m_size, ErrorCode::Argument_InvalidSize);
+			MINTY_ASSERT(length > 0, ErrorCode::Argument_ExpectedNonZero);
 			List<T> result;
 			ConstIterator it = begin() + index;
 			for (Size i = 0; i < length; ++i)

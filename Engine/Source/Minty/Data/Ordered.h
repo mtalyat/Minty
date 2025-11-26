@@ -60,13 +60,13 @@ namespace Minty
 		public:
 			T& operator*() const
 			{
-				MINTY_ASSERT(mp_current, "Iterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current->key;
 			}
 
 			T* operator->() const
 			{
-				MINTY_ASSERT(mp_current, "Iterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return &mp_current->key;
 			}
 
@@ -123,13 +123,13 @@ namespace Minty
 		public:
 			T const& operator*() const
 			{
-				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current->key;
 			}
 
 			T const* operator->() const
 			{
-				MINTY_ASSERT(mp_current, "ConstIterator is invalid.");
+				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return &mp_current->key;
 			}
 

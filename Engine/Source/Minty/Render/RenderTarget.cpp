@@ -17,8 +17,8 @@ Minty::RenderTarget::RenderTarget(RenderTargetInfo const& info)
 	, m_images(info.images)
 	, m_surfaceBound(info.surfaceBound)
 {
-	MINTY_ASSERT(m_renderPass != nullptr, "RenderTargetInfo renderPass must not be null.");
-	MINTY_ASSERT(!m_images.is_empty(), "RenderTargetInfo images must not be empty.");
+	MINTY_ASSERT(m_renderPass != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(!m_images.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 	m_renderPass->register_render_target(this);
 }

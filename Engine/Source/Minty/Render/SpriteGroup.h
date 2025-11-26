@@ -38,10 +38,10 @@ namespace Minty
 			, m_count(count)
 			, m_ids(std::move(ids))
 		{
-			MINTY_ASSERT(m_slice.coordinateMode != CoordinateMode::Undefined, "Slice coordinate mode must be defined.");
-			MINTY_ASSERT(m_slice.pixelsPerUnit > 0.0f, "Pixels per unit (PPU) must be greater than zero.");
-			MINTY_ASSERT(m_count.x > 0 && m_count.y > 0, "Count must be greater than zero.");
-			MINTY_ASSERT(m_ids.get_size() == static_cast<Size>(m_count.x) * static_cast<Size>(m_count.y), "IDs size must match the count of Sprites.");
+			MINTY_ASSERT(m_slice.coordinateMode != CoordinateMode::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+			MINTY_ASSERT(m_slice.pixelsPerUnit > 0.0f, ErrorCode::Argument_ExpectedAboveZero);
+			MINTY_ASSERT(m_count.x > 0 && m_count.y > 0, ErrorCode::Argument_ExpectedAboveZero);
+			MINTY_ASSERT(m_ids.get_size() == static_cast<Size>(m_count.x) * static_cast<Size>(m_count.y), ErrorCode::Argument_ExpectedNonEmpty);
 		}
 
 		/// <summary>
@@ -70,9 +70,9 @@ namespace Minty
 		/// <returns>The Sprite's ID.</returns>
 		UUID get_id(Int const x, Int const y) const
 		{
-			MINTY_ASSERT(x >= 0 && x < m_count.x && y >= 0 && y < m_count.y, "Index out of bounds.");
+			MINTY_ASSERT(x >= 0 && x < m_count.x && y >= 0 && y < m_count.y, ErrorCode::Argument_OutOfBounds);
 			Size const i = static_cast<Size>(y) * m_count.x + x;
-			MINTY_ASSERT(i < m_ids.get_size(), "Index out of bounds.");
+			MINTY_ASSERT(i < m_ids.get_size(), ErrorCode::Argument_OutOfBounds);
 			return m_ids[i];
 		}
 

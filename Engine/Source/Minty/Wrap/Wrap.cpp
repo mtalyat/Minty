@@ -12,10 +12,10 @@ Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCoun
     , m_entries()
     , m_indexed()
 {
-    MINTY_ASSERT(!path.is_empty(), "Wrap path cannot be empty.");
-	MINTY_ASSERT(!name.is_empty(), "Wrap name cannot be empty.");
-	MINTY_ASSERT(entryCount > 0, "Wrap entry count must be greater than 0.");
-	MINTY_ASSERT(type != Type::None, "Wrap file type cannot be None.");
+    MINTY_ASSERT(!path.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(entryCount > 0, ErrorCode::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(type != Type::None, ErrorCode::Argument_ExpectedNonDefault);
 
     // set header data
     m_header.type = type;
@@ -50,7 +50,7 @@ void Minty::Wrap::load(Path const& path)
 {
     Path absolutePath = path.get_absolute();
 
-    MINTY_ASSERT(exists(path), "Cannot load a Wrap from a Path that does not lead to a valid Wrap file!");
+    MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
 
     m_path = absolutePath;
 
@@ -64,7 +64,7 @@ void Minty::Wrap::load(Path const& path)
     if (memcmp(m_header.id, WRAP_MAGIC, WRAP_MAGIC_SIZE))
     {
         // does not have the correct "WRAP" id magic
-        MINTY_ERROR(F("Cannot add \"{}\" into Wrap file: invalid data.", m_path.get_string()));
+        MINTY_LOG_ERROR(F("Cannot add \"{}\" into Wrap file: invalid magic data.", m_path.get_string()));
         m_header = Header();
         return;
     }
@@ -186,7 +186,7 @@ uint32_t Minty::Wrap::add_entry(Entry& newEntry)
     }
 
     // cannot fit
-    MINTY_ERROR(F("Cannot add entry to Wrap file. Entry count surpassed ({}).", m_entries.get_size()));
+    MINTY_LOG_ERROR(F("Cannot add entry to Wrap file. Entry count surpassed ({}).", m_entries.get_size()));
 
     return -1;
 }
@@ -269,9 +269,9 @@ uint32_t Minty::Wrap::get_content_version() const
 
 void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, CompressionLevel compressionLevel, uint32_t const reservedSize)
 {
-	MINTY_ASSERT(Path::exists(physicalPath), "Cannot add into Wrap file: file does not exist.");
-	MINTY_ASSERT(Path::is_file(physicalPath), "Cannot add into Wrap file: not a regular file.");
-	MINTY_ASSERT(!virtualPath.is_empty(), "Cannot add into Wrap file: virtual path is empty.");
+	MINTY_ASSERT(Path::exists(physicalPath), ErrorCode::File_NotFound);
+	MINTY_ASSERT(Path::is_file(physicalPath), ErrorCode::File_NotAFile);
+	MINTY_ASSERT(!virtualPath.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
     // open wrap file
     PhysicalFile wrapFile(m_path, File::Flags::ReadWrite | File::Flags::Binary);
@@ -289,7 +289,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
 
     // create an entry for the new file
     String source = relative_path(virtualPath).get_string();
-    MINTY_ASSERT(source.get_size() < WRAP_ENTRY_PATH_SIZE, "The given virtual Path is too long.");
+    MINTY_ASSERT(source.get_size() < WRAP_ENTRY_PATH_SIZE, ErrorCode::File_PathTooLong);
     Entry entry;
     memcpy(entry.path, source.get_data(), Math::min(static_cast<Size>(WRAP_ENTRY_PATH_SIZE - 1), source.get_size()));
     entry.path[WRAP_ENTRY_PATH_SIZE - 1] = '\0';
@@ -315,7 +315,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
         // compress it
         if (!compress(compressedData, destSize, fileData, sourceSize, compressionLevel))
         {
-            MINTY_ERROR(F("Cannot add \"{}\" into Wrap file: failed to compress file with compression level {}.", physicalPath.get_string(), static_cast<Int>(compressionLevel)));
+            MINTY_LOG_ERROR(F("Cannot add \"{}\" into Wrap file: failed to compress file with compression level {}.", physicalPath.get_string(), static_cast<Int>(compressionLevel)));
             return;
         }
 
@@ -403,7 +403,7 @@ Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 		data = new Byte[size];
 		if (!uncompress(data, size, fileData, sourceSize))
 		{
-			MINTY_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
+			MINTY_LOG_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
 			return Vector<Byte>();
 		}
         delete[] fileData;

@@ -7,15 +7,15 @@ using namespace Minty;
 
 void Minty::ArgumentParser::add_parameter(String const& name, Int const argc)
 {
-	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
-	MINTY_ASSERT(argc != 0, "Positional parameters must have an argument not equal to zero.");
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(argc != 0, ErrorCode::Argument_ExpectedNonZero);
 
 	m_positionalParams.add({ name, argc });
 }
 
 void Minty::ArgumentParser::add_parameter(String const& name, String const& flag, Int const argc)
 {
-	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 	Int index = static_cast<Int>(m_flagParams.get_size());
 	m_flagParams.add({ name, argc });
@@ -28,8 +28,8 @@ void Minty::ArgumentParser::add_parameter(String const& name, String const& flag
 
 void ArgumentParser::parse(Int const argc, Char const* argv[])
 {
-    MINTY_ASSERT(argc > 0, "Argument count must be greater than 0.");
-    MINTY_ASSERT(argv != nullptr, "Argument array cannot be null.");
+    MINTY_ASSERT(argc > 0, ErrorCode::Argument_ExpectedAboveZero);
+    MINTY_ASSERT(argv != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
     // Clear any previously parsed arguments
     m_args.clear();
@@ -49,7 +49,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 				if (count > 0)
 				{
 					// show error if required
-					Debug::write_error(F("Not enough arguments for parameter: {}", i));
+					MINTY_LOG_ERROR(F("Not enough arguments for parameter: {}", i));
 				}
 				break;
 			}
@@ -67,7 +67,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 		// if not flag, ignore
 		if (!argSize || arg[0] != '-')
 		{
-			Debug::write_warning(F("Ignoring argument: {}", arg));
+			Debug::log(LogLevel::Warning, F("Ignoring argument: {}", arg));
 			continue;
 		}
 
@@ -76,7 +76,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 		auto it = m_flagIndices.find(flag);
 		if (it == m_flagIndices.end())
 		{
-			Debug::write_warning(F("Ignoring unknown flag: {}", arg));
+			Debug::log(LogLevel::Warning, F("Ignoring unknown flag: {}", arg));
 			continue;
 		}
 
@@ -98,7 +98,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 				if (count > 0)
 				{
 					// show error if required
-					Debug::write_error(F("Not enough arguments for parameter: {}", param.name));
+					Debug::log(LogLevel::Error, F("Not enough arguments for parameter: {}", param.name));
 				}
 				break;
 			}
@@ -111,7 +111,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 
 Vector<String> const& Minty::ArgumentParser::get_argument(String const& name) const
 {
-	MINTY_ASSERT(!name.is_empty(), "Name cannot be empty.");
-	MINTY_ASSERT(m_args.contains(name), F("Argument not found: {}", name));
+	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(m_args.contains(name), ErrorCode::Argument_KeyNotFound, name);
 	return m_args[name].args;
 }

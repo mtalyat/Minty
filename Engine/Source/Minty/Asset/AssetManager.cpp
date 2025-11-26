@@ -83,7 +83,7 @@ ID Minty::AssetManager::read_id(Path const& path) const
 
 	// get ID from first line
 	String const& line = lines.front();
-	MINTY_ASSERT(line.starts_with(": ") && line.get_size() == 18, "Failed to read_bytes ID from meta file: meta file not in correct format.");
+	MINTY_ASSERT(line.starts_with(": ") && line.get_size() == 18, ErrorCode::Asset_InvalidFormat, metaPath.to_string());
 
 	// get the ID
 	String idString = line.sub(2, 16);
@@ -176,7 +176,7 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path, AssetType const typ
 	case AssetType::Prefab:
 		return load_prefab(path, id);
 	default:
-		MINTY_ABORT("Loading from path not implemented for the given type.");
+		MINTY_ABORT(ErrorCode::Asset_UnknownType, type);
 		return Ref<Asset>();
 	}
 }
@@ -238,7 +238,7 @@ Bool Minty::AssetManager::load_wrap(Path const& path)
 {
 	if (!Path::exists(path))
 	{
-		MINTY_ERROR(F("Cannot load Wrap file. Path does not exist: {}", path));
+		MINTY_LOG_ERROR(F("Cannot load Wrap file. Path does not exist: {}", path));
 		return false;
 	}
 
@@ -294,7 +294,7 @@ Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
 
 void Minty::AssetManager::close_reader(Reader*& reader) const
 {
-	MINTY_ASSERT(reader != nullptr, "Reader is null.");
+	MINTY_ASSERT(reader != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// delete the container
 	ConstantContainer* container = static_cast<ConstantContainer*>(reader->get_source());
@@ -320,7 +320,7 @@ Bool Minty::AssetManager::open_writer(Path const& path, Writer*& writer) const
 
 void Minty::AssetManager::close_writer(Writer*& writer) const
 {
-	MINTY_ASSERT(writer != nullptr, "Writer is null.");
+	MINTY_ASSERT(writer != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// close the file
 	File* file = static_cast<File*>(writer->get_source());
@@ -333,16 +333,17 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 
 UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onCompletion)
 {
-	MINTY_ASSERT(exists(path), F("Cannot load Asset. The file does not exist: {}", path));
+	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound, path);
 	Path metaPath = Asset::get_meta_path(path);
-	MINTY_ASSERT(exists(metaPath), F("Cannot load Asset. The meta file does not exist: {}", metaPath));
+	MINTY_ASSERT(exists(metaPath), ErrorCode::Asset_MissingMeta, metaPath);
 
 	JobManager& jobManager = JobManager::get_singleton();
 
 	// get UUID for reference
 	UUID id = read_id(path);
 
-	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
+	// ensure not already loading
+	MINTY_ASSERT(!m_handles.contains(id), ErrorCode::Asset_Busy, id, path);
 
 	// use a job to load the asset in the background
 	Handle handle = jobManager.schedule([this, path, id]()
@@ -376,9 +377,9 @@ UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onComp
 Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 {
 #ifdef MINTY_DEBUG
-	MINTY_ASSERT(exists(path), F("Cannot load Asset. The file does not exist: {}", path));
+	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound, path);
 	Path metaPath = Asset::get_meta_path(path);
-	MINTY_ASSERT(exists(metaPath), F("Cannot load Asset. The meta file does not exist: {}", metaPath));
+	MINTY_ASSERT(exists(metaPath), ErrorCode::Asset_MissingMeta, metaPath);
 #endif // MINTY_DEBUG  
 
 	AssetType type = Asset::get_asset_type(path);
@@ -387,8 +388,8 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
 
 void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const& onCompletion)
 {
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
-	MINTY_ASSERT(!m_handles.contains(id), "Asset with the given ID is already being operated on.");
+	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
+	MINTY_ASSERT(!m_handles.contains(id), ErrorCode::Asset_Busy, id);
 
 	JobManager& jobManager = JobManager::get_singleton();
 
@@ -419,7 +420,7 @@ void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const& onCompl
 
 void Minty::AssetManager::unload(UUID const id)
 {
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 
 	// get the asset
 	Owner<Asset> asset = m_assets.at(id).asset;
@@ -433,8 +434,8 @@ void Minty::AssetManager::unload(UUID const id)
 
 void Minty::AssetManager::reload(UUID const id)
 {
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
-	MINTY_ASSERT(m_savePaths, "Cannot reload Asset without having saving paths enabled.");
+	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
+	MINTY_ASSERT(m_savePaths, ErrorCode::Asset_SavePathsNotEnabled);
 
 	// get the path to the asset
 	Path path = get_asset_path(id);
@@ -446,14 +447,14 @@ void Minty::AssetManager::reload(UUID const id)
 	Reader* reader = nullptr;
 	if (!open_reader(path, reader))
 	{
-		MINTY_ERROR(F("Failed to reload asset: {}. Could not open file.", path));
+		MINTY_LOG_ERROR(F("Failed to reload asset: {}. Could not open file.", path));
 		return;
 	}
 
 	// deserialize the asset again
 	if (!asset->deserialize(*reader))
 	{
-		MINTY_ERROR(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
+		MINTY_LOG_ERROR(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
 		close_reader(reader);
 		return;
 	}
@@ -491,8 +492,8 @@ void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
 
 	// add to lists
 	UUID id = asset->get_id();
-	MINTY_ASSERT(id.is_valid(), "Asset ID is invalid.");
-	MINTY_ASSERT(!m_assets.contains(id), "Asset with the given ID already exists.");
+	MINTY_ASSERT(id.is_valid(), ErrorCode::UUID_Invalid);
+	MINTY_ASSERT(!m_assets.contains(id), ErrorCode::Asset_AlreadyLoaded, id, path);
 	AssetType assetType = asset->get_asset_type();
 	{
 		std::unique_lock lock(m_assetsMutex);
@@ -526,7 +527,7 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 	// if not found, return null
 	if (it == m_assets.end())
 	{
-		MINTY_ERROR(F("Asset with the given ID does not exist: {}", id));
+		MINTY_LOG_ERROR(F("Asset with the given ID does not exist: {}", id));
 		return Ref<Asset>();
 	}
 
@@ -537,7 +538,7 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 Ref<Asset> Minty::AssetManager::at_asset(UUID const id) const
 {
 	std::unique_lock lock(m_assetsMutex);
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 	return m_assets.at(id).asset.create_ref();
 }
 
@@ -572,7 +573,7 @@ String Minty::AssetManager::get_asset_name(UUID const id) const
 		return String();
 	}
 
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 
 	// get path
 	std::unique_lock lock(m_assetsMutex);
@@ -584,7 +585,7 @@ String Minty::AssetManager::get_asset_name(UUID const id) const
 
 Owner<Asset> Minty::AssetManager::remove(UUID const id)
 {
-	MINTY_ASSERT(contains(id), "Asset with the given ID does not exist.");
+	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 
 	// get asset
 	Owner<Asset> asset;
@@ -615,7 +616,8 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 
 	// check based on type
 	// some types inherently have no dependents, some do
-	MINTY_ABORT("Not implemented.");
+	MINTY_NOT_IMPLEMENTED();
+
 	//switch (type)
 	//{
 	//case AssetType::Shader:
@@ -683,9 +685,8 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 
 Vector<Byte> Minty::AssetManager::read_bytes(Path const& path) const
 {
-	Location location = get_location(path);
-
-	MINTY_ASSERT(location != Location::Undefined, "Cannot read bytes from file that does not exist.");
+	Location const location = get_location(path);
+	MINTY_ASSERT(location != Location::Undefined, ErrorCode::File_NotFound, path);
 
 	switch (location)
 	{
@@ -786,7 +787,7 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	int width, height, channels;
 	stbi_uc* data = stbi_load_from_memory(static_cast<stbi_uc*>(bytes.get_data()), static_cast<int>(bytes.get_size()), &width, &height, &channels, static_cast<int>(ImagePixelFormat::RedGreenBlueAlpha));
 	char const* reason = stbi_failure_reason();
-	MINTY_ASSERT(data != nullptr, F("Failed to load image pixel data: {}", reason));
+	MINTY_ASSERT(data != nullptr, ErrorCode::Asset_LoadFailed, path, reason ? String(reason) : F("Unknown error"));
 
 	// create the image
 	ImageInfo info{};
@@ -843,7 +844,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 	{
 		// read values
 		reader->read("Duration", info.duration);
-		MINTY_ASSERT(info.duration >= 0.0f, "Animation duration must be greater than 0.0f.");
+		MINTY_ASSERT(info.duration >= 0.0f, ErrorCode::Animation_NegativeTime, path);
 		// of duration is 0, adjust it to a small value so it will still play
 		if (info.duration < Math::EPSILON)
 		{
@@ -852,7 +853,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 		reader->read("Loop", info.loop);
 		reader->read("Entities", info.entities);
 		reader->read("Components", info.components);
-		MINTY_ASSERT(!info.components.is_empty(), "Animation must have at least one component to animate.");
+		MINTY_ASSERT(!info.components.is_empty(), ErrorCode::Animation_NotEnoughComponents, path);
 		if (reader->indent("Variables"))
 		{
 			reader->read("Rigid", info.rigidVariables);
@@ -862,7 +863,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 		}
 		reader->read("Values", info.values);
 		reader->read("Actions", info.actions);
-		MINTY_ASSERT(!info.actions.is_empty(), "Animation must have at least one action to animate with.");
+		MINTY_ASSERT(!info.actions.is_empty(), ErrorCode::Animation_NotEnoughActions, path);
 
 #ifdef MINTY_DEBUG
 
@@ -873,13 +874,13 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 			MINTY_ASSERT(
 				(info.entities.get_size() == 0 && action.entityIndex == 0) ||
 				(action.entityIndex < info.entities.get_size()), 
-				F("Action {} has an invalid entity index: {}. It must be less than the number of entities: {}.", i, action.entityIndex, info.entities.get_size()));
-			MINTY_ASSERT(action.componentIndex < info.components.get_size(), F("Action {} has an invalid component index: {}. It must be less than the number of components: {}.", i, action.componentIndex, info.components.get_size()));
+				ErrorCode::Animation_InvalidEntityIndex, path);
+			MINTY_ASSERT(action.componentIndex < info.components.get_size(), ErrorCode::Animation_InvalidComponentIndex, path);
 			for (Size j = 0; j < action.values.get_size(); j++)
 			{
 				auto const [variableIndex, valueIndex] = action.values.at(j);
-				MINTY_ASSERT(variableIndex < info.rigidVariables.get_size() + info.smoothVariables.get_size(), F("Action {} has an invalid variable index: {}. It must be less than the number of variables: {}.", i, variableIndex, info.rigidVariables.get_size() + info.smoothVariables.get_size()));
-				MINTY_ASSERT(valueIndex < info.values.get_size(), F("Action {} has an invalid value index: {}. It must be less than the number of values: {}.", i, valueIndex, info.values.get_size()));
+				MINTY_ASSERT(variableIndex < info.rigidVariables.get_size() + info.smoothVariables.get_size(), ErrorCode::Animation_InvalidVariableIndex, path);
+				MINTY_ASSERT(valueIndex < info.values.get_size(), ErrorCode::Animation_InvalidValueIndex, path);
 			}
 		}
 
@@ -896,12 +897,12 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				// read the time
 				if (!reader->read_name(i, timeString))
 				{
-					MINTY_ERROR(F("Failed to read time from animation step: {}.", path));
+					MINTY_LOG_ERROR(F("Failed to read time from animation step: {}.", path));
 					continue;
 				}
 				if (!try_float(timeString, time))
 				{
-					MINTY_ERROR(F("Failed to convert time string to float: {}.", timeString));
+					MINTY_LOG_ERROR(F("Failed to convert time string to float: {}.", timeString));
 					continue;
 				}
 
@@ -909,7 +910,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				String actionIndicesString;
 				if (!reader->read(i, actionIndicesString))
 				{
-					MINTY_ERROR(F("Failed to read action indices from animation step: {}.", path));
+					MINTY_LOG_ERROR(F("Failed to read action indices from animation step: {}.", path));
 					continue;
 				}
 				actionIndicesString = actionIndicesString.strip();
@@ -926,7 +927,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 					}
 					else
 					{
-						MINTY_ERROR(F("Failed to convert action index string to size: {}.", part));
+						MINTY_LOG_ERROR(F("Failed to convert action index string to size: {}.", part));
 					}
 				}
 
@@ -936,7 +937,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 
 			reader->outdent();
 		}
-		MINTY_ASSERT(!info.steps.is_empty(), "Animation must have at least one step to animate with.");
+		MINTY_ASSERT(!info.steps.is_empty(), ErrorCode::Animation_NotEnoughSteps, path);
 
 		// read reset steps
 		String resetStepsString;
@@ -956,7 +957,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				}
 				else
 				{
-					MINTY_ERROR(F("Failed to convert reset step string to size: {}.", part));
+					MINTY_LOG_ERROR(F("Failed to convert reset step string to size: {}.", part));
 				}
 			}
 		}
@@ -1000,12 +1001,12 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id
 			}
 
 			// check type
-			MINTY_ASSERT(variable.get_type() == Type::Object, F("Animator state \"{}\" has an invalid value type: expected Object, got {}.", name, variable.get_type()));
+			MINTY_ASSERT(variable.get_type() == Type::Object, ErrorCode::Asset_InvalidFormat, name, variable.get_type());
 
 			// check value
 			UUID const id = variable.get<UUID>();
-			MINTY_ASSERT(contains(id), F("Animator state \"{}\" has an invalid value: {}. An Asset with the given ID does not exist.", name, id));
-			MINTY_ASSERT(get_asset(id)->get_asset_type() == AssetType::Animation, F("Animator state \"{}\" has an invalid value: {}. An Asset with the given ID is not an Animation.", name, id));
+			MINTY_ASSERT(contains(id), ErrorCode::Asset_MissingDependency, path, id);
+			MINTY_ASSERT(get_asset(id)->get_asset_type() == AssetType::Animation, ErrorCode::Asset_InvalidDependencyType, name, id);
 		}
 
 #endif // MINTY_DEBUG
@@ -1095,7 +1096,7 @@ Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 			for (UUID const& variantId : variantIds)
 			{
 				Ref<FontVariant> variant = get<FontVariant>(variantId);
-				MINTY_ASSERT(variant != nullptr, "FontVariant with the given ID does not exist.");
+				MINTY_ASSERT(variant != nullptr, ErrorCode::Asset_MissingDependency, path, variantId);
 				info.variants.add(variant);
 			}
 		}
@@ -1278,7 +1279,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 			UInt2 textureSize = info.texture->get_size();
 
 			// stop if no texture size
-			MINTY_ASSERT(textureSize.x > 0 && textureSize.y > 0, F("Font variant's texture file has invalid size: {}", path));
+			MINTY_ASSERT(textureSize.x > 0 && textureSize.y > 0, ErrorCode::Asset_InvalidConfiguration, path);
 
 			// get scale
 			widthScale = 1.0f / textureSize.x;
@@ -1534,7 +1535,7 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
 	}
 	else
 	{
-		MINTY_ERROR(F("Cannot load mesh. Unsupported file type: {}", extension));
+		MINTY_LOG_ERROR(F("Cannot load mesh. Unsupported file type: {}", extension));
 		return Ref<Mesh>();
 	}
 }
@@ -1608,14 +1609,14 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 			// if "Surface", automatically grab the images from the surface
 			if (images != "Surface")
 			{
-				MINTY_ERROR(F("Failed to load render target. Invalid image name: \"{}\". Must provide a valid name (Surface), or a list of Image IDs to use.", images));
+				MINTY_LOG_ERROR(F("Failed to load render target. Invalid image name: \"{}\". Must provide a valid name (Surface), or a list of Image IDs to use.", images));
 				return Ref<RenderTarget>();
 			}
 			
 			// get the surface images
 			RenderManager& renderManager = RenderManager::get_singleton();
 			Ref<Surface> surface = renderManager.get_surface();
-			MINTY_ASSERT(surface != nullptr, "Failed to load render target. No surface found.");
+			MINTY_ASSERT(surface != nullptr, ErrorCode::Asset_MissingDependency, path);
 			info.surfaceBound = true;
 			info.images = surface->get_images();
 		}
@@ -1724,7 +1725,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 					// set offset if push constant
 					if (input.type == ShaderInputType::PushConstant)
 					{
-						MINTY_ASSERT(input.stage == ShaderStage::Vertex, "Push constants can only be used in the vertex stage.");
+						MINTY_ASSERT(input.stage == ShaderStage::Vertex, ErrorCode::Asset_Shader_PushConstantLocation, path, input.name);
 
 						input.offset = offset;
 					}

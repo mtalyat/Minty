@@ -18,8 +18,8 @@ inline Minty::Application::Application(ApplicationInfo const& info)
 	, mp_timeManager(nullptr)
 	, m_running(false)
 {
-	MINTY_ASSERT(!s_instance, "Application singleton already exists.");
-	MINTY_ASSERT(m_context != nullptr, "Context is null.");
+	MINTY_ASSERT(!s_instance, ErrorCode::Singleton_AlreadyExists);
+	MINTY_ASSERT(info.context != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	s_instance = this;
 	mp_timeManager = new TimeManager(info.timeManagerInfo);
@@ -29,7 +29,8 @@ Minty::Application::~Application()
 {
 	delete mp_timeManager;
 
-	MINTY_ASSERT_ERROR(s_instance == this, "Application singleton is not this instance.");
+	MINTY_ASSERT(s_instance != nullptr, ErrorCode::Singleton_DoesNotExist);
+	MINTY_ASSERT(s_instance == this, ErrorCode::Singleton_DifferentObject);
 	s_instance = nullptr;
 }
 
@@ -102,7 +103,7 @@ Owner<Application> Minty::Application::open(Path const& path)
 {
 	ApplicationInfo info{};
 	info.context = Context::open(path);
-	MINTY_ASSERT(info.context, F("Failed to open context from path: {}", path));
+	MINTY_ASSERT(info.context != nullptr, ErrorCode::File_NotFound, path);
 	return create(info);
 }
 

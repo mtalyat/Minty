@@ -60,19 +60,19 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 
 	if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
 	{
-		Debug::write_error(message);
+		Debug::log(LogLevel::Error, message);
 	}
 	else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
 	{
-		Debug::write_warning(message);
+		Debug::log(LogLevel::Warning, message);
 	}
 	else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
 	{
-		Debug::write_message(message);
+		Debug::log(LogLevel::Info, message);
 	}
 	else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
 	{
-		Debug::write_info(message);
+		Debug::log(LogLevel::Info, message);
 	}
 
 	return VK_FALSE;
@@ -168,7 +168,7 @@ VkInstance Minty::Vulkan_Renderer::create_instance()
 
 	// validation layers
 #ifdef MINTY_DEBUG
-	MINTY_ASSERT(check_validation_layer_support(), "Validation layer requested, but not available.");
+	MINTY_ASSERT(check_validation_layer_support(), ErrorCode::Render_UnsupportedFeature); // "Validation layers requested, but not available."
 	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.get_size());
 	createInfo.ppEnabledLayerNames = validationLayers.get_data();
 #else
@@ -640,8 +640,7 @@ uint32_t Minty::Vulkan_Renderer::find_memory_type(VkPhysicalDevice const physica
 		}
 	}
 
-	MINTY_ABORT("Failed to find_first suitable memory type.");
-	return 0;
+	MINTY_ABORT(ErrorCode::Render_QueryFailed); // "Failed to find_first suitable memory type."
 }
 
 VkDeviceMemory Minty::Vulkan_Renderer::allocate_memory(VkDevice const device, VkDeviceSize const size, const uint32_t memoryTypeIndex)
@@ -799,9 +798,9 @@ Bool Minty::Vulkan_Renderer::has_stencil_component(VkFormat const format)
 
 VkShaderModule Minty::Vulkan_Renderer::create_shader_module(VkDevice const device, void const* const data, Size const size)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(data != nullptr, "Data is null.");
-	MINTY_ASSERT(size > 0, "Size is zero.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	VkShaderModuleCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -813,15 +812,15 @@ VkShaderModule Minty::Vulkan_Renderer::create_shader_module(VkDevice const devic
 
 void Minty::Vulkan_Renderer::destroy_shader_module(VkDevice const device, VkShaderModule const shaderModule)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(shaderModule != VK_NULL_HANDLE, "Shader module is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(shaderModule != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroyShaderModule(device, shaderModule, nullptr);
 }
 
 VkRenderPass Minty::Vulkan_Renderer::create_render_pass(VkDevice const device, VkAttachmentDescription const* const colorAttachment, VkAttachmentDescription const* const depthAttachment)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	Vector<VkAttachmentDescription> attachments;
 	attachments.reserve(2);
@@ -874,16 +873,16 @@ VkRenderPass Minty::Vulkan_Renderer::create_render_pass(VkDevice const device, V
 
 void Minty::Vulkan_Renderer::destroy_render_pass(VkDevice const device, VkRenderPass const renderPass)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(renderPass != VK_NULL_HANDLE, "Render pass is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(renderPass != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroyRenderPass(device, renderPass, nullptr);
 }
 
 VkFramebuffer Minty::Vulkan_Renderer::create_framebuffer(VkDevice const device, VkRenderPass const renderPass, VkExtent2D const extent, VkImageView const colorAttachment, VkImageView const depthAttachment)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(renderPass != VK_NULL_HANDLE, "Render pass is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(renderPass != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	Vector<VkImageView> attachments;
 	attachments.reserve(2);
@@ -911,15 +910,15 @@ VkFramebuffer Minty::Vulkan_Renderer::create_framebuffer(VkDevice const device, 
 
 void Minty::Vulkan_Renderer::destroy_framebuffer(VkDevice const device, VkFramebuffer const framebuffer)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(framebuffer != VK_NULL_HANDLE, "Framebuffer is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(framebuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroyFramebuffer(device, framebuffer, nullptr);
 }
 
 VkCommandPool Minty::Vulkan_Renderer::create_command_pool(VkDevice const device, const uint32_t queueFamilyIndex)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkCommandPoolCreateInfo poolInfo{};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -931,16 +930,16 @@ VkCommandPool Minty::Vulkan_Renderer::create_command_pool(VkDevice const device,
 
 void Minty::Vulkan_Renderer::destroy_command_pool(VkDevice const device, VkCommandPool const pool)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(pool != VK_NULL_HANDLE, "Command pool is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(pool != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroyCommandPool(device, pool, nullptr);
 }
 
 VkCommandBuffer Minty::Vulkan_Renderer::create_command_buffer(VkDevice const device, VkCommandPool const commandPool)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, "Command pool is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkCommandBufferAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -953,16 +952,16 @@ VkCommandBuffer Minty::Vulkan_Renderer::create_command_buffer(VkDevice const dev
 
 void Minty::Vulkan_Renderer::destroy_command_buffer(VkDevice const device, VkCommandPool const commandPool, VkCommandBuffer const commandBuffer)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, "Command pool is null.");
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
 }
 
 void Minty::Vulkan_Renderer::begin_command_buffer(VkCommandBuffer const commandBuffer)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkCommandBufferBeginInfo beginInfo{};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -972,7 +971,7 @@ void Minty::Vulkan_Renderer::begin_command_buffer(VkCommandBuffer const commandB
 
 void Minty::Vulkan_Renderer::begin_command_buffer_temp(VkCommandBuffer const commandBuffer)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkCommandBufferBeginInfo beginInfo{};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -983,15 +982,15 @@ void Minty::Vulkan_Renderer::begin_command_buffer_temp(VkCommandBuffer const com
 
 void Minty::Vulkan_Renderer::end_command_buffer(VkCommandBuffer const commandBuffer)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VK_ASSERT_RESULT(vkEndCommandBuffer(commandBuffer), "Failed to record command buffer.");
 }
 
 VkCommandBuffer Minty::Vulkan_Renderer::start_command_buffer_single(VkDevice const device, VkCommandPool const commandPool)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, "Command pool is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkCommandBuffer commandBuffer = create_command_buffer(device, commandPool);
 
@@ -1002,10 +1001,10 @@ VkCommandBuffer Minty::Vulkan_Renderer::start_command_buffer_single(VkDevice con
 
 void Minty::Vulkan_Renderer::finish_command_buffer_single(VkDevice const device, VkCommandPool const commandPool, VkCommandBuffer const commandBuffer, VkQueue const queue)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, "Command pool is null.");
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(commandPool != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	// end the command buffer
 	end_command_buffer(commandBuffer);
@@ -1022,15 +1021,15 @@ void Minty::Vulkan_Renderer::finish_command_buffer_single(VkDevice const device,
 
 void Minty::Vulkan_Renderer::reset_command_buffer(VkCommandBuffer const commandBuffer)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VK_ASSERT_RESULT(vkResetCommandBuffer(commandBuffer, 0), "Failed to reset command buffer.");
 }
 
 void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkSemaphore const waitSemaphore, VkSemaphore const signalSemaphore, VkFence const inFlightFence)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -1058,8 +1057,8 @@ void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const command
 
 void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -1071,9 +1070,9 @@ void Minty::Vulkan_Renderer::submit_command_buffer(VkCommandBuffer const command
 
 void Minty::Vulkan_Renderer::begin_render_pass(VkCommandBuffer const commandBuffer, VkRenderPass const renderPass, VkFramebuffer const framebuffer, VkRect2D const renderArea, VkClearColorValue const clearColor)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(renderPass != VK_NULL_HANDLE, "Render pass is null.");
-	MINTY_ASSERT(framebuffer != VK_NULL_HANDLE, "Framebuffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(renderPass != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(framebuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkRenderPassBeginInfo renderPassInfo{};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -1096,53 +1095,53 @@ void Minty::Vulkan_Renderer::begin_render_pass(VkCommandBuffer const commandBuff
 
 void Minty::Vulkan_Renderer::end_render_pass(VkCommandBuffer const commandBuffer)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdEndRenderPass(commandBuffer);
 }
 
 void Minty::Vulkan_Renderer::bind_pipeline(VkCommandBuffer const commandBuffer, VkPipeline const graphicsPipeline, VkPipelineBindPoint const bindPoint)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(graphicsPipeline != VK_NULL_HANDLE, "Graphics pipeline is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(graphicsPipeline != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdBindPipeline(commandBuffer, bindPoint, graphicsPipeline);
 }
 
 void Minty::Vulkan_Renderer::bind_descriptor_set(VkCommandBuffer const commandBuffer, VkPipelineLayout const graphicsPipelineLayout, VkDescriptorSet const descriptorSet, VkPipelineBindPoint const bindPoint)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(graphicsPipelineLayout != VK_NULL_HANDLE, "Graphics pipeline layout is null.");
-	MINTY_ASSERT(descriptorSet != VK_NULL_HANDLE, "Descriptor set is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(graphicsPipelineLayout != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(descriptorSet != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdBindDescriptorSets(commandBuffer, bindPoint, graphicsPipelineLayout, 0, 1, &descriptorSet, 0, nullptr);
 }
 
 void Minty::Vulkan_Renderer::bind_viewport(VkCommandBuffer const commandBuffer, VkViewport const& viewport)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdSetViewport(commandBuffer, 0, 1, &viewport);
 }
 
 void Minty::Vulkan_Renderer::bind_scissor(VkCommandBuffer const commandBuffer, VkRect2D const& scissor)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 }
 
 void Minty::Vulkan_Renderer::set_stencil_reference(VkCommandBuffer const commandBuffer, uint32_t const reference)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdSetStencilReference(commandBuffer, VK_STENCIL_FACE_FRONT_AND_BACK, reference);
 }
 
 void Minty::Vulkan_Renderer::bind_vertex_buffer(VkCommandBuffer const commandBuffer, VkBuffer const buffer, uint32_t const binding)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(buffer != VK_NULL_HANDLE, "Buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(buffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkDeviceSize offset = 0;
 	vkCmdBindVertexBuffers(commandBuffer, binding, 1, &buffer, &offset);
@@ -1150,29 +1149,29 @@ void Minty::Vulkan_Renderer::bind_vertex_buffer(VkCommandBuffer const commandBuf
 
 void Minty::Vulkan_Renderer::bind_index_buffer(VkCommandBuffer const commandBuffer, VkBuffer const buffer, VkIndexType const indexType)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(buffer != VK_NULL_HANDLE, "Buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(buffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdBindIndexBuffer(commandBuffer, buffer, 0, indexType);
 }
 
 void Minty::Vulkan_Renderer::draw(VkCommandBuffer const commandBuffer, uint32_t const vertexCount, uint32_t const instanceCount)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdDraw(commandBuffer, vertexCount, instanceCount, 0, 0);
 }
 
 void Minty::Vulkan_Renderer::draw_indexed(VkCommandBuffer const commandBuffer, uint32_t const indexCount, uint32_t const instanceCount)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdDrawIndexed(commandBuffer, indexCount, instanceCount, 0, 0, 0);
 }
 
 void Minty::Vulkan_Renderer::draw_instanced(VkCommandBuffer const commandBuffer, uint32_t const instanceCount, uint32_t const vertexCount)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkCmdDraw(commandBuffer, vertexCount, instanceCount, 0, 0);
 }
@@ -1184,8 +1183,8 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 		return;
 	}
 
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(image != VK_NULL_HANDLE, "Image is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(image != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkImageMemoryBarrier barrier{};
 	barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -1222,8 +1221,7 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 			sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
 			break;
 		default:
-			MINTY_ABORT(F("Unsupported layout transition for old layout: ({} -> {}).", static_cast<Size>(oldLayout), static_cast<Size>(newLayout)));
-			break;
+			MINTY_ABORT(ErrorCode::Render_UnsupportedTransition, static_cast<Size>(oldLayout), static_cast<Size>(newLayout));
 	}
 	switch (newLayout)
 	{
@@ -1240,8 +1238,7 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 			destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
 			break;
 		default:
-			MINTY_ABORT(F("Unsupported layout transition for new layout: ({} -> {}).", static_cast<Size>(oldLayout), static_cast<Size>(newLayout)));
-			break;
+			MINTY_ABORT(ErrorCode::Render_UnsupportedTransition, static_cast<Size>(oldLayout), static_cast<Size>(newLayout));
 	}
 
 	vkCmdPipelineBarrier(commandBuffer, sourceStage, destinationStage, 0, 0, nullptr, 0, nullptr, 1, &barrier);
@@ -1249,11 +1246,11 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 
 void Minty::Vulkan_Renderer::copy_buffer_to_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkBuffer const dstBuffer, VkDeviceSize const size)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
-	MINTY_ASSERT(srcBuffer != VK_NULL_HANDLE, "Source buffer is null.");
-	MINTY_ASSERT(dstBuffer != VK_NULL_HANDLE, "Destination buffer is null.");
-	MINTY_ASSERT(size > 0, "Size is zero.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(srcBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(dstBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	VkBufferCopy copyRegion{};
 	copyRegion.srcOffset = 0;
@@ -1264,10 +1261,10 @@ void Minty::Vulkan_Renderer::copy_buffer_to_buffer(VkCommandBuffer const command
 
 void Minty::Vulkan_Renderer::copy_buffer_to_image(VkCommandBuffer const commandBuffer, VkQueue const queue, VkBuffer const srcBuffer, VkImage const dstImage, const uint32_t width, const uint32_t height)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
-	MINTY_ASSERT(srcBuffer != VK_NULL_HANDLE, "Source buffer is null.");
-	MINTY_ASSERT(dstImage != VK_NULL_HANDLE, "Destination image is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(srcBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(dstImage != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkBufferImageCopy region{};
 	region.bufferOffset = 0;
@@ -1291,10 +1288,10 @@ void Minty::Vulkan_Renderer::copy_buffer_to_image(VkCommandBuffer const commandB
 
 void Minty::Vulkan_Renderer::copy_image_to_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkImage const srcImage, VkBuffer const dstBuffer, const uint32_t width, const uint32_t height)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(queue != VK_NULL_HANDLE, "Queue is null.");
-	MINTY_ASSERT(srcImage != VK_NULL_HANDLE, "Source image is null.");
-	MINTY_ASSERT(dstBuffer != VK_NULL_HANDLE, "Destination buffer is null.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(queue != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(srcImage != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(dstBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkBufferImageCopy copyRegion{};
 	copyRegion.bufferOffset = 0;
@@ -1318,17 +1315,17 @@ void Minty::Vulkan_Renderer::copy_image_to_buffer(VkCommandBuffer const commandB
 
 void Minty::Vulkan_Renderer::update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data)
 {
-	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, "Command buffer is null.");
-	MINTY_ASSERT(pipelineLayout != VK_NULL_HANDLE, "Pipeline layout is null.");
-	MINTY_ASSERT(data != nullptr, "Data is null.");
-	MINTY_ASSERT(size > 0, "Size is zero.");
+	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(pipelineLayout != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	vkCmdPushConstants(commandBuffer, pipelineLayout, stageFlags, offset, size, data);
 }
 
 VkSemaphore Minty::Vulkan_Renderer::create_semaphore(VkDevice const device)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkSemaphoreCreateInfo semaphoreInfo{};
 	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -1338,15 +1335,15 @@ VkSemaphore Minty::Vulkan_Renderer::create_semaphore(VkDevice const device)
 
 void Minty::Vulkan_Renderer::destroy_semaphore(VkDevice const device, VkSemaphore const semaphore)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(semaphore != VK_NULL_HANDLE, "Semaphore is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(semaphore != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroySemaphore(device, semaphore, nullptr);
 }
 
 VkFence Minty::Vulkan_Renderer::create_fence(VkDevice const device)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkFenceCreateInfo fenceInfo{};
 	fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
@@ -1357,24 +1354,24 @@ VkFence Minty::Vulkan_Renderer::create_fence(VkDevice const device)
 
 void Minty::Vulkan_Renderer::destroy_fence(VkDevice const device, VkFence const fence)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(fence != VK_NULL_HANDLE, "Fence is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(fence != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroyFence(device, fence, nullptr);
 }
 
 void Minty::Vulkan_Renderer::wait_for_fence(VkDevice const device, VkFence const fence)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(fence != VK_NULL_HANDLE, "Fence is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(fence != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkWaitForFences(device, 1, &fence, VK_TRUE, UINT64_MAX);
 }
 
 void Minty::Vulkan_Renderer::reset_fence(VkDevice const device, VkFence const fence)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(fence != VK_NULL_HANDLE, "Fence is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(fence != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkResetFences(device, 1, &fence);
 }
@@ -1418,7 +1415,7 @@ VkResult Minty::Vulkan_Renderer::present_frame(VkQueue const queue, Vulkan_Surfa
 
 VkBuffer Minty::Vulkan_Renderer::create_buffer(VkDevice const device, VkDeviceSize const size, VkBufferUsageFlags const usage)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkBufferCreateInfo bufferInfo{};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -1431,17 +1428,17 @@ VkBuffer Minty::Vulkan_Renderer::create_buffer(VkDevice const device, VkDeviceSi
 
 void Minty::Vulkan_Renderer::destroy_buffer(VkDevice const device, VkBuffer const buffer)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(buffer != VK_NULL_HANDLE, "Buffer is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(buffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	vkDestroyBuffer(device, buffer, nullptr);
 }
 
 VkDeviceMemory Minty::Vulkan_Renderer::allocate_buffer_memory(VkDevice const device, VkPhysicalDevice const physicalDevice, VkBuffer const buffer, VkMemoryPropertyFlags const memoryProperties)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(physicalDevice != VK_NULL_HANDLE, "Physical device is null.");
-	MINTY_ASSERT(buffer != VK_NULL_HANDLE, "Buffer is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(physicalDevice != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(buffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VkMemoryRequirements memoryRequirements{};
 	vkGetBufferMemoryRequirements(device, buffer, &memoryRequirements);
@@ -1454,9 +1451,9 @@ VkDeviceMemory Minty::Vulkan_Renderer::allocate_buffer_memory(VkDevice const dev
 
 void Minty::Vulkan_Renderer::bind_buffer_memory(VkDevice const device, VkBuffer const buffer, VkDeviceMemory const memory)
 {
-	MINTY_ASSERT(device != VK_NULL_HANDLE, "Device is null.");
-	MINTY_ASSERT(buffer != VK_NULL_HANDLE, "Buffer is null.");
-	MINTY_ASSERT(memory != VK_NULL_HANDLE, "Memory is null.");
+	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(buffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(memory != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	VK_ASSERT_RESULT(vkBindBufferMemory(device, buffer, memory, 0), "Failed to bind buffer memory.");
 }
@@ -1495,8 +1492,7 @@ VkBufferUsageFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::BufferUsage bu
 	switch (bufferUsage)
 	{
 	case BufferUsage::Undefined:
-		MINTY_ABORT("Buffer usage is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case BufferUsage::TransferSrc:
 		return VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
 	case BufferUsage::TransferDst:
@@ -1508,8 +1504,7 @@ VkBufferUsageFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::BufferUsage bu
 	case BufferUsage::Uniform:
 		return VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
 	default:
-		MINTY_ABORT("Unsupported buffer usage.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_BUFFER_USAGE_FLAG_BITS_MAX_ENUM;
@@ -1520,15 +1515,13 @@ VkShaderStageFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderStage sh
 	switch (shaderStage)
 	{
 	case ShaderStage::Undefined:
-		MINTY_ABORT("Shader stage is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderStage::Vertex:
 		return VK_SHADER_STAGE_VERTEX_BIT;
 	case ShaderStage::Fragment:
 		return VK_SHADER_STAGE_FRAGMENT_BIT;
 	default:
-		MINTY_ABORT("Unsupported shader stage.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
@@ -1539,8 +1532,7 @@ VkDescriptorType Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderInputType 
 	switch (type)
 	{
 	case ShaderInputType::Undefined:
-		MINTY_ABORT("Shader input type is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderInputType::Sample:
 		return VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE;
 	case ShaderInputType::CombinedImageSampler:
@@ -1564,8 +1556,7 @@ VkDescriptorType Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderInputType 
 	case ShaderInputType::PushConstant:
 		return VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
 	default:
-		MINTY_ABORT("Unsupported shader input type.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 	return VK_DESCRIPTOR_TYPE_MAX_ENUM;
 }
@@ -1599,8 +1590,7 @@ VkFormat Minty::Vulkan_Renderer::to_vulkan(const Minty::Type type)
 	case Type::UInt4:
 		return VkFormat::VK_FORMAT_R32G32B32A32_UINT;
 	default:
-		MINTY_ABORT("Unsupported type.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_FORMAT_UNDEFINED;
@@ -1617,8 +1607,7 @@ VkImageType Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageType type)
 	case Minty::ImageType::D3:
 		return VK_IMAGE_TYPE_3D;
 	default:
-		MINTY_ABORT("Unsupported image type.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	}
 
 	return VK_IMAGE_TYPE_MAX_ENUM;
@@ -1629,15 +1618,13 @@ VkImageTiling Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageTiling tiling)
 	switch (tiling)
 	{
 	case ImageTiling::Undefined:
-		MINTY_ABORT("Image tiling is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ImageTiling::Optimal:
 		return VK_IMAGE_TILING_OPTIMAL;
 	case ImageTiling::Linear:
 		return VK_IMAGE_TILING_LINEAR;
 	default:
-		MINTY_ABORT("Unsupported image tiling.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	};
 
 	return VK_IMAGE_TILING_MAX_ENUM;
@@ -1648,8 +1635,7 @@ VkSamplerAddressMode Minty::Vulkan_Renderer::to_vulkan(const Minty::AddressMode 
 	switch (addressMode)
 	{
 	case AddressMode::Undefined:
-		MINTY_ABORT("Image address mode is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case AddressMode::Repeat:
 		return VK_SAMPLER_ADDRESS_MODE_REPEAT;
 	case AddressMode::MirroredRepeat:
@@ -1661,8 +1647,7 @@ VkSamplerAddressMode Minty::Vulkan_Renderer::to_vulkan(const Minty::AddressMode 
 	case AddressMode::MirroredClampToEdge:
 		return VK_SAMPLER_ADDRESS_MODE_MIRROR_CLAMP_TO_EDGE;
 	default:
-		MINTY_ABORT("Unsupported image address mode.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	};
 
 	return VK_SAMPLER_ADDRESS_MODE_MAX_ENUM;
@@ -1673,15 +1658,13 @@ VkImageAspectFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageAspect as
 	switch (aspect)
 	{
 	case ImageAspect::Undefined:
-		MINTY_ABORT("Image aspect is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ImageAspect::Color:
 		return VK_IMAGE_ASPECT_COLOR_BIT;
 	case ImageAspect::Depth:
 		return VK_IMAGE_ASPECT_DEPTH_BIT;
 	default:
-		MINTY_ABORT("Unsupported image aspect.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_IMAGE_ASPECT_FLAG_BITS_MAX_ENUM;
@@ -1715,7 +1698,7 @@ VkImageUsageFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ImageUsage usag
 	{
 		flags |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 	}
-	MINTY_ASSERT(flags != 0, "Image usage is undefined.");
+	MINTY_ASSERT(flags != 0, ErrorCode::ConversionFailed);
 	return flags;
 }
 
@@ -1724,8 +1707,7 @@ VkPrimitiveTopology Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderPrimiti
 	switch (topology)
 	{
 	case ShaderPrimitiveTopology::Undefined:
-		MINTY_ABORT("Shader primitive topology is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderPrimitiveTopology::PointList:
 		return VK_PRIMITIVE_TOPOLOGY_POINT_LIST;
 	case ShaderPrimitiveTopology::LineList:
@@ -1739,8 +1721,7 @@ VkPrimitiveTopology Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderPrimiti
 	case ShaderPrimitiveTopology::TriangleFan:
 		return VK_PRIMITIVE_TOPOLOGY_TRIANGLE_FAN;
 	default:
-		MINTY_ABORT("Unsupported shader primitive topology.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_PRIMITIVE_TOPOLOGY_MAX_ENUM;
@@ -1751,8 +1732,7 @@ VkCullModeFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderCullMode mo
 	switch (mode)
 	{
 	case ShaderCullMode::Undefined:
-		MINTY_ABORT("Shader cull mode is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderCullMode::None:
 		return VK_CULL_MODE_NONE;
 	case ShaderCullMode::Front:
@@ -1762,8 +1742,7 @@ VkCullModeFlags Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderCullMode mo
 	case ShaderCullMode::Both:
 		return VK_CULL_MODE_FRONT_AND_BACK;
 	default:
-		MINTY_ABORT("Unsupported shader cull mode.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_CULL_MODE_FLAG_BITS_MAX_ENUM;
@@ -1774,15 +1753,13 @@ VkFrontFace Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderFrontFace front
 	switch (frontFace)
 	{
 	case ShaderFrontFace::Undefined:
-		MINTY_ABORT("Shader front face is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderFrontFace::Clockwise:
 		return VK_FRONT_FACE_CLOCKWISE;
 	case ShaderFrontFace::CounterClockwise:
 		return VK_FRONT_FACE_COUNTER_CLOCKWISE;
 	default:
-		MINTY_ABORT("Unsupported shader front face.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_FRONT_FACE_MAX_ENUM;
@@ -1793,8 +1770,7 @@ VkPolygonMode Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderPolygonMode m
 	switch (mode)
 	{
 	case ShaderPolygonMode::Undefined:
-		MINTY_ABORT("Shader polygon mode is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderPolygonMode::Fill:
 		return VK_POLYGON_MODE_FILL;
 	case ShaderPolygonMode::Line:
@@ -1802,8 +1778,7 @@ VkPolygonMode Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderPolygonMode m
 	case ShaderPolygonMode::Point:
 		return VK_POLYGON_MODE_POINT;
 	default:
-		MINTY_ABORT("Unsupported shader polygon mode.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_POLYGON_MODE_MAX_ENUM;
@@ -1814,15 +1789,13 @@ VkVertexInputRate Minty::Vulkan_Renderer::to_vulkan(const Minty::ShaderInputRate
 	switch (rate)
 	{
 	case ShaderInputRate::Undefined:
-		MINTY_ABORT("Shader input rate is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case ShaderInputRate::Vertex:
 		return VK_VERTEX_INPUT_RATE_VERTEX;
 	case ShaderInputRate::Instance:
 		return VK_VERTEX_INPUT_RATE_INSTANCE;
 	default:
-		MINTY_ABORT("Unsupported shader input rate.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_VERTEX_INPUT_RATE_MAX_ENUM;
@@ -1839,8 +1812,7 @@ VkAttachmentLoadOp Minty::Vulkan_Renderer::to_vulkan(Minty::LoadOperation const 
 	case LoadOperation::Clear:
 		return VK_ATTACHMENT_LOAD_OP_CLEAR;
 	default:
-		MINTY_ABORT("Unsupported load operation.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_ATTACHMENT_LOAD_OP_MAX_ENUM;
@@ -1855,8 +1827,7 @@ VkAttachmentStoreOp Minty::Vulkan_Renderer::to_vulkan(Minty::StoreOperation cons
 	case StoreOperation::Store:
 		return VK_ATTACHMENT_STORE_OP_STORE;
 	default:
-		MINTY_ABORT("Unsupported store operation.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_ATTACHMENT_STORE_OP_MAX_ENUM;
@@ -1887,8 +1858,7 @@ VkImageLayout Minty::Vulkan_Renderer::to_vulkan(Minty::ImageLayout const layout)
 	case ImageLayout::Presentation:
 		return VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 	default:
-		MINTY_ABORT("Unsupported image layout.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_IMAGE_LAYOUT_MAX_ENUM;
@@ -1899,15 +1869,13 @@ VkFilter Minty::Vulkan_Renderer::to_vulkan(Minty::Filter const filter)
 	switch (filter)
 	{
 	case Filter::Undefined:
-		MINTY_ABORT("Filter is undefined.");
-		break;
+		MINTY_ABORT(ErrorCode::NotSupported);
 	case Filter::Nearest:
 		return VK_FILTER_NEAREST;
 	case Filter::Linear:
 		return VK_FILTER_LINEAR;
 	default:
-		MINTY_ABORT("Unsupported filter.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return VK_FILTER_MAX_ENUM;
@@ -1936,7 +1904,6 @@ VkCompareOp Minty::Vulkan_Renderer::to_vulkan(Minty::Conditional const condition
 		return VK_COMPARE_OP_LESS_OR_EQUAL;
 		break;
 	default:
-		MINTY_ABORT("Unsupported conditional operation.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 }

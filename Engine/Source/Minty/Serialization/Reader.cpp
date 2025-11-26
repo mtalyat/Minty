@@ -26,7 +26,7 @@ void Minty::Reader::push_user_data(void* const data)
 
 void Minty::Reader::pop_user_data()
 {
-	MINTY_ASSERT(m_dataStack.get_size() > 0, "Data stack is empty.");
+	MINTY_ASSERT(m_dataStack.get_size() > 0, ErrorCode::Object_EmptyContainer);
 
 	m_dataStack.pop();
 }
@@ -60,7 +60,7 @@ Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
 		if (asset == nullptr)
 		{
 			// if ID not invalid, and no asset found, error
-			MINTY_ERROR(F("Failed to read Asset with ID {}. It has not been loaded.", id));
+			MINTY_LOG_ERROR(F("Failed to read Asset with ID {}. It has not been loaded.", id));
 			return false;
 		}
 
@@ -74,8 +74,8 @@ Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
 
 void Minty::FileReaderBehavior::read_data(void* const data, Size const size)
 {
-	MINTY_ASSERT(mp_file != nullptr, "File is null.");
-	MINTY_ASSERT(mp_file->is_open(), "File is not open.");
+	MINTY_ASSERT(mp_file != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(mp_file->is_open(), ErrorCode::Argument_InvalidState);
 
 	mp_file->read(data, size);
 }
@@ -568,7 +568,7 @@ void* Minty::TextReaderBehavior::read_typed_from_buffer(const void* const data, 
 	}
 	break;
 	default:
-		MINTY_ABORT(F("Cannot read_bytes type \"{}\".", to_string(type)).get_data());
+		MINTY_NOT_IMPLEMENTED(to_string(type));
 	}
 
 	return output;

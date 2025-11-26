@@ -2,6 +2,7 @@
 #include "Path.h"
 #include "Minty/Data/Queue.h"
 #include "Minty/Data/String.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
@@ -79,7 +80,7 @@ Path Minty::Path::get_parent() const
 
 void Minty::Path::reserve(Size const capacity)
 {
-	MINTY_ASSERT(false, "Not implemented.");
+	MINTY_NOT_IMPLEMENTED();
 }
 
 Path& Minty::Path::append(Path const& other)
@@ -127,8 +128,8 @@ Size Minty::Path::get_file_size(Path const& path)
 
 Vector<Path> Minty::Path::get_files(Path const& path, Bool const recursive)
 {
-	MINTY_ASSERT(exists(path), "No directory exists at the given Path.");
-	MINTY_ASSERT(is_directory(path), "The given path does not point to a directory.");
+	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
+	MINTY_ASSERT(is_directory(path), ErrorCode::File_NotADirectory);
 
 	Vector<Path> paths;
 	Queue<Path> directoriesToCheck;
@@ -155,8 +156,8 @@ Vector<Path> Minty::Path::get_files(Path const& path, Bool const recursive)
 
 Vector<Path> Minty::Path::get_directories(Path const& path, Bool const recursive)
 {
-	MINTY_ASSERT(exists(path), "No directory exists at the given Path.");
-	MINTY_ASSERT(is_directory(path), "The given path does not point to a directory.");
+	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
+	MINTY_ASSERT(is_directory(path), ErrorCode::File_NotADirectory);
 
 	Vector<Path> paths;
 	Queue<Path> directoriesToCheck;
@@ -185,8 +186,8 @@ Vector<Path> Minty::Path::get_directories(Path const& path, Bool const recursive
 
 Vector<Path> Minty::Path::get_contents(Path const& path, Bool const recursive)
 {
-	MINTY_ASSERT(exists(path), "No directory exists at the given Path.");
-	MINTY_ASSERT(is_directory(path), "The given path does not point to a directory.");
+	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
+	MINTY_ASSERT(is_directory(path), ErrorCode::File_NotADirectory);
 
 	Vector<Path> paths;
 	Queue<Path> directoriesToCheck;

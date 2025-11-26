@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ListContainer.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
@@ -20,8 +21,8 @@ Bool Minty::ListContainer::set(void const* const data, Size const count)
 
 Bool Minty::ListContainer::append(void const* const data, Size const count)
 {
-	MINTY_ASSERT(data != nullptr, "Cannot append nullptr data.");
-	MINTY_ASSERT(count > 0, "Cannot append data without a count.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(count > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// if new size will surpass the capacity, double the capacity
 	Size newSize = m_size + count * m_stride;

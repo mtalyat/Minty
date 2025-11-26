@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "BufferContainer.h"
+#include "Minty/Core/Format.h"
 
 using namespace Minty;
 
 void Minty::BufferContainer::set_at(void const* const data, Size const size, Size const index)
 {
-	MINTY_ASSERT(data != nullptr, "Cannot set nullptr data.");
-	MINTY_ASSERT(index + size <= m_size, "Cannot set data that exceeds the get_size of the container.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(index + size <= m_size, ErrorCode::Argument_InvalidSize, size);
 
 	Byte* containerData = static_cast<Byte*>(m_buffer->get_data());
 
@@ -15,15 +16,15 @@ void Minty::BufferContainer::set_at(void const* const data, Size const size, Siz
 
 void const* Minty::BufferContainer::get_at(Size const index) const
 {
-	MINTY_ASSERT(index < m_size, "Index out of bounds.");
+	MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 	Byte* containerData = static_cast<Byte*>(m_buffer->get_data());
 	return &containerData[index];
 }
 
 Bool Minty::BufferContainer::append(void const* const data, Size const size)
 {
-	MINTY_ASSERT(data != nullptr, "Cannot append nullptr data.");
-	MINTY_ASSERT(size > 0, "Cannot append data without a get_size.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// if new size will surpass the capacity, double the capacity
 	Size newSize = m_size + size;

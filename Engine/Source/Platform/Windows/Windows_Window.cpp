@@ -11,7 +11,7 @@ Int Windows_Window::s_windowCount = 0;
 
 static void error_callback(Int error, Char const* description)
 {
-	MINTY_ERROR(F("GLFW error ({}): {}", error, description).get_data());
+	MINTY_LOG_ERROR(F("GLFW error ({}): {}", error, description).get_data());
 }
 
 Minty::Windows_Window::Windows_Window(WindowInfo const& info)
@@ -26,7 +26,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	{
 		if (!glfwInit())
 		{
-			MINTY_ABORT("Failed to initialize_swapchain GLFW.");
+			MINTY_ABORT(ErrorCode::Library_InitializationFailed);
 		}
 
 		glfwSetErrorCallback(error_callback);
@@ -35,7 +35,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	s_windowCount++;
 
 	mp_window = glfwCreateWindow(static_cast<Int>(info.size.x), static_cast<Int>(info.size.y), "", nullptr, nullptr);
-	MINTY_ASSERT(mp_window, "Failed to create window.");
+	MINTY_ASSERT(mp_window, ErrorCode::Window_CreationFailed);
 
 	// set user pointer for callback functions
 	glfwSetWindowUserPointer(mp_window, this);
@@ -50,7 +50,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	glfwSetWindowSizeCallback(mp_window, [](GLFWwindow* window, Int width, Int height)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in Window Size callback.");
+			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
 			if (obj->m_eventCallback)
 			{
 				WindowResizeEvent event(static_cast<UInt>(width), static_cast<UInt>(height));
@@ -61,7 +61,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	glfwSetWindowCloseCallback(mp_window, [](GLFWwindow* window)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in Window Close callback.");
+			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
 			if (obj->m_eventCallback)
 			{
 				WindowCloseEvent event{};
@@ -72,7 +72,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	glfwSetKeyCallback(mp_window, [](GLFWwindow* window, Int key, Int scancode, Int action, Int mods)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in Key callback.");
+			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
 			if (obj->m_eventCallback)
 			{
 				KeyEvent event(static_cast<Key>(key), static_cast<KeyAction>(action), static_cast<KeyModifiers>(mods));
@@ -83,7 +83,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	glfwSetMouseButtonCallback(mp_window, [](GLFWwindow* window, Int button, Int action, Int mods)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in Mouse Button callback.");
+			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
 			if (obj->m_eventCallback)
 			{
 				MouseButtonEvent event(static_cast<MouseButton>(button), static_cast<KeyAction>(action), static_cast<KeyModifiers>(mods));
@@ -94,7 +94,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	glfwSetCursorPosCallback(mp_window, [](GLFWwindow* window, Double x, Double y)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in Mouse Move callback.");
+			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
 			if (obj->m_eventCallback)
 			{
 				MouseMoveEvent event(Float2(static_cast<Float>(x), static_cast<Float>(y)));
@@ -105,7 +105,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 	glfwSetScrollCallback(mp_window, [](GLFWwindow* window, Double xOffset, Double yOffset)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
-			MINTY_ASSERT(obj, "Window is null in Mouse Scroll callback.");
+			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
 			if (obj->m_eventCallback)
 			{
 				MouseScrollEvent event(Float2(static_cast<Float>(xOffset), static_cast<Float>(yOffset)));
@@ -155,8 +155,7 @@ UInt2 Minty::Windows_Window::get_framebuffer_size() const
 {
 	Int2 size;
 	glfwGetFramebufferSize(mp_window, &size.x, &size.y);
-	MINTY_ASSERT(size.x >= 0, "Width is invalid.");
-	MINTY_ASSERT(size.y >= 0, "Height is invalid.");
+	MINTY_ASSERT(size.x >= 0 && size.y >= 0, ErrorCode::Object_InvalidState, size.x, size.y);
 	return UInt2(static_cast<UInt>(size.x), static_cast<UInt>(size.y));
 }
 
@@ -189,8 +188,7 @@ void Minty::Windows_Window::set_cursor_mode(CursorMode const mode)
 		glfwSetInputMode(mp_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		break;
 	default:
-		MINTY_ABORT("Invalid CursorMode.");
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 }
 
@@ -201,10 +199,10 @@ void* Minty::Windows_Window::get_native() const
 
 void Minty::Windows_Window::set_icon(Path const& path)
 {
-	MINTY_ASSERT(Path::exists(path), F("Cannot set icon. Path does not exist: {}", path));
+	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound, path);
 	GLFWimage icon;
 	icon.pixels = stbi_load(path.get_string().get_data(), &icon.width, &icon.height, nullptr, 4);
-	MINTY_ASSERT(icon.pixels != nullptr, F("Failed to load icon image: {}", path));
+	MINTY_ASSERT(icon.pixels != nullptr, ErrorCode::Render_FailedToLoadImage, path);
 	glfwSetWindowIcon(mp_window, 1, &icon);
 	stbi_image_free(icon.pixels);
 }

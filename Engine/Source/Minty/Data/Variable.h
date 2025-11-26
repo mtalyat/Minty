@@ -83,7 +83,7 @@ namespace Minty
 		operator T() const
 		{
 			T* value = try_get<T>();
-			MINTY_ASSERT(value, "Variable is empty.");
+			MINTY_ASSERT(value != nullptr, ErrorCode::Object_InvalidState);
 			return *value;
 		}
 
@@ -193,9 +193,9 @@ namespace Minty
 		template<typename T>
 		T& get() const
 		{
-			MINTY_ASSERT(m_type != Type::Undefined, "Variable is undefined.");
-			MINTY_ASSERT(m_type == type_typeid(typeid(T)), "Variable type does not match requested type.");
-			MINTY_ASSERT(!is_empty(), "Variable is empty.");
+			MINTY_ASSERT(m_type != Type::Undefined, ErrorCode::Object_InvalidState);
+			MINTY_ASSERT(m_type == type_typeid(typeid(T)), ErrorCode::Argument_InvalidType);
+			MINTY_ASSERT(!is_empty(), ErrorCode::Object_EmptyContainer);
 
 			return *static_cast<T*>(m_data.get_data());
 		}
@@ -209,8 +209,7 @@ namespace Minty
 		void set(T const& value)
 		{
 			Type newType = type_typeid(typeid(T));
-
-			MINTY_ASSERT(newType < Type::Object, "Cannot set Variable type to an object.");
+			MINTY_ASSERT(newType < Type::Object, ErrorCode::Argument_InvalidType, newType);
 
 			if (newType != m_type)
 			{

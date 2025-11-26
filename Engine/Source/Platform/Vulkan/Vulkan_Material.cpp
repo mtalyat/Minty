@@ -17,9 +17,8 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialInfo const& info)
 	, m_frames()
 	, m_pool(VK_NULL_HANDLE)
 {
-	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
-	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast_to<Vulkan_Shader>();
+	MINTY_ASSERT(info.materialTemplate != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	Ref<Vulkan_Shader> shader = info.materialTemplate->get_shader().cast_to<Vulkan_Shader>();
 	Map<String, ShaderInput> const& inputs = shader->get_inputs();
 
 #ifdef MINTY_DEBUG
@@ -27,7 +26,7 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialInfo const& info)
 	// check for all valid inputs
 	for (auto const& [name, cargo] : get_inputs())
 	{
-		MINTY_ASSERT(shader->contains_input(name), F("Shader does not contain input with name: {}", name));
+		MINTY_ASSERT(shader->contains_input(name), ErrorCode::Argument_KeyNotFound, name);
 	}
 
 #endif // MINTY_DEBUG
@@ -240,9 +239,9 @@ void Minty::Vulkan_Material::on_bind()
 
 	// get shader
 	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
+	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState);
 	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast_to<Vulkan_Shader>();
-	MINTY_ASSERT(shader != nullptr, "Shader must not be null.");
+	MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState);
 
 	// get current frame data
 	FrameData& frame = m_frames.at(renderManager.get_current_frame_index());
@@ -257,8 +256,8 @@ void Minty::Vulkan_Material::on_bind()
 	
 	// bind the stencil, if any
 	UInt const stencil = get_stencil();
-	MINTY_ASSERT(stencil <= 255, "Stencil value must be between 0 and 255.");
-	MINTY_ASSERT(stencil == 0 || shader->get_stencil_mode() != StencilMode::None, "Cannot use stencil value when stencil mode is disabled in the shader.");
+	MINTY_ASSERT(stencil <= 255, ErrorCode::Object_InvalidState); // "Stencil value must be between 0 and 255."
+	MINTY_ASSERT(stencil == 0 || shader->get_stencil_mode() != StencilMode::None, ErrorCode::Object_InvalidState); // "Shader does not support stencil operations."
 	if (stencil)
 	{
 		Vulkan_Renderer::set_stencil_reference(commandBuffer, stencil);
@@ -268,17 +267,17 @@ void Minty::Vulkan_Material::on_bind()
 void Minty::Vulkan_Material::set_input(String const& name, void const* const data, Size const size)
 {
 	// check if the input exists
-	MINTY_ASSERT(data != nullptr, "Data must not be null.");
-	MINTY_ASSERT(size > 0, "Size must be greater than 0.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// get material template
 	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	MINTY_ASSERT(materialTemplate != nullptr, "MaterialTemplate must not be null.");
-	MINTY_ASSERT(materialTemplate->has_input(name), F("Material does not have input with name: {}", name));
+	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState);
+	MINTY_ASSERT(materialTemplate->has_input(name), ErrorCode::Argument_KeyNotFound, name);
 
 	// get shader
 	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast_to<Vulkan_Shader>();
-	MINTY_ASSERT(shader != nullptr, "Shader must not be null.");
+	MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState);
 
 	// get the input
 	ShaderInput const& input = shader->get_input(name);
@@ -298,8 +297,8 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 			// get the buffer
 			Ref<Vulkan_Buffer> vulkanBuffer = frame.buffers.at(index);
 
-			MINTY_ASSERT(vulkanBuffer != nullptr, "Buffer must not be null.");
-			MINTY_ASSERT(vulkanBuffer->get_size() == size, "Buffer size does not match the given size.");
+			MINTY_ASSERT(vulkanBuffer != nullptr, ErrorCode::Object_InvalidState);
+			MINTY_ASSERT(vulkanBuffer->get_size() == size, ErrorCode::Argument_InvalidValue, name);
 
 			// set the data
 			vulkanBuffer->set_data(data);
@@ -319,12 +318,12 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 		for (UInt i = 0; i < input.count; i++)
 		{
 			textureId = textureIds[i];
-			MINTY_ASSERT(textureId.is_valid(), "Texture ID must be valid.");
-			MINTY_ASSERT(assetManager.contains(textureId), "Texture ID does not exist within the AssetManager.");
+			MINTY_ASSERT(textureId.is_valid(), ErrorCode::Argument_InvalidValue, name);
+			MINTY_ASSERT(assetManager.contains(textureId), ErrorCode::Argument_InvalidValue, name);
 			Ref<Texture> texture = assetManager.get<Texture>(textureId);
-			MINTY_ASSERT(texture != nullptr, "Texture must not be null.");
+			MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState);
 			Ref<Image> const& image = texture->get_image();
-			MINTY_ASSERT(image != nullptr, "Image must not be null.");
+			MINTY_ASSERT(image != nullptr, ErrorCode::Object_InvalidState);
 		}
 #endif
 
@@ -369,7 +368,7 @@ void Minty::Vulkan_Material::set_input(String const& name, void const* const dat
 		Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 		VkCommandBuffer commandBuffer = renderManager.get_current_command_buffer();
 		VkShaderStageFlags shaderStage = Vulkan_Renderer::to_vulkan(input.stage);
-		MINTY_ASSERT(input.size == size, F("Push constant size ({}) does not match the given size ({}).", input.size, size));
+		MINTY_ASSERT(input.size == size, ErrorCode::Argument_InvalidValue, name); // "Push constant size ({}) does not match the given size ({}).", input.size, size
 
 		// update push constants
 		Vulkan_Renderer::update_push_constants(commandBuffer, shader->get_pipeline_layout(), shaderStage, static_cast<uint32_t>(input.offset), static_cast<uint32_t>(input.size), data);

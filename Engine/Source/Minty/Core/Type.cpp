@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Type.h"
 #include "Minty/Core/Math.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Data/Color.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/UUID.h"
@@ -210,7 +211,7 @@ TypeID Minty::typeid_type(Type const type)
 	case Type::MultilineString:
 		return typeid(String);
 	default:
-		MINTY_ABORT("typeid_type not implemented for given type.");
+		MINTY_NOT_IMPLEMENTED(type);
 	}
 }
 
@@ -284,13 +285,13 @@ Size Minty::sizeof_type(Type const type)
 	case Type::MultilineString:
 		return sizeof(String);
 	default:
-		MINTY_ABORT("sizeof_type not implemented for given type.");
+		MINTY_NOT_IMPLEMENTED(type);
 	}
 }
 
-String Minty::to_string(Type const obj)
+String Minty::to_string(Type const type)
 {
-	switch (obj)
+	switch (type)
 	{
 	case Type::Bool: return "Bool";
 	case Type::Bool2: return "Bool2";
@@ -325,9 +326,10 @@ String Minty::to_string(Type const obj)
 	case Type::String: return "String";
 	case Type::MultilineString: return "MultilineString";
 	case Type::Count: return "Count";
-
-	default: return "";
 	}
+
+	MINTY_NOT_IMPLEMENTED(type);
+	return String();
 }
 
 Type Minty::parse_to_type(String const& string)

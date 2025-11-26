@@ -33,15 +33,15 @@ void Minty::PhysicsSystem::initialize_entities()
 {
 	// get scene and managers
 	Ref<Scene> const& scene = get_scene();
-	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager& entityManager = scene->get_entity_manager();
 	LayerManager& layerManager = LayerManager::get_singleton();
 
 	// check for disabled entities
 	for (auto&& [entity, colliderComp, simulateComp] : entityManager.view<ColliderComponent, SimulateComponent const>(entt::exclude<RigidBodyComponent, EnabledComponent>).each())
 	{
-		MINTY_ASSERT(colliderComp.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
-		MINTY_ASSERT(colliderComp.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
+		MINTY_ASSERT(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
 		
 		// remove from physics simulation
 		m_simulation->remove_static(*colliderComp.collider);
@@ -53,9 +53,9 @@ void Minty::PhysicsSystem::initialize_entities()
 	// check for enabled, non-simulated entities
 	for (auto&& [entity, transformComp, colliderComp, enabledComp] : entityManager.view<TransformComponent, ColliderComponent, EnabledComponent const>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
-		MINTY_ASSERT(colliderComp.collider != nullptr, F("Collider cannot be null. Entity: {}", entityManager.get_name(entity)));
-		MINTY_ASSERT(colliderComp.collider->is_static(), "Collider must be static if it does not have a RigidBody.");
-		MINTY_ASSERT(colliderComp.collider->get_shape() != Shape::Empty, "Collider must have a non-empty shape.");
+		MINTY_ASSERT(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
+		MINTY_ASSERT(colliderComp.collider->get_shape() != Shape::Empty, ErrorCode::Component_InvalidState); // "Collider must have a non-empty shape. Entity: {}", entityManager.get_name(entity)
 
 		// add to physics simulation
 		Layer layer = entityManager.get_layer(entity);
@@ -70,7 +70,7 @@ void Minty::PhysicsSystem::deinitialize_entities()
 {
 	// get scene and managers
 	Ref<Scene> const& scene = get_scene();
-	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager& entityManager = scene->get_entity_manager();
 
 	// clear simulation
@@ -100,7 +100,7 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const& time)
 
 	// get scene and managers
 	Ref<Scene> const& scene = get_scene();
-	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager& entityManager = scene->get_entity_manager();
 
 	// initialize any new entities
@@ -139,7 +139,7 @@ void Minty::PhysicsSystem::on_finalize()
 
 	// get scene and managers
 	Ref<Scene> const& scene = get_scene();
-	MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager& entityManager = scene->get_entity_manager();
 
 	// remove any entities marked for destruction from the physics simulation

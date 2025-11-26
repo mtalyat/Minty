@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Manager.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 
 Minty::Manager::~Manager()
 {
-	MINTY_ASSERT_ERROR(!m_initialized, "Manager was destroyed before it was disposed.");
+	MINTY_ASSERT(!m_initialized, ErrorCode::Object_NeverDisposed);
 }
 
 /// <summary>
@@ -12,7 +12,7 @@ Minty::Manager::~Manager()
 /// </summary>
 void Minty::Manager::initialize()
 {
-	MINTY_ASSERT(!m_initialized, "Manager was already initialized.");
+	MINTY_ASSERT(!m_initialized, ErrorCode::Object_AlreadyInitialized);
 	m_initialized = true;
 }
 
@@ -21,6 +21,6 @@ void Minty::Manager::initialize()
 /// </summary>
 void Minty::Manager::dispose()
 {
-	MINTY_ASSERT(m_initialized, "Manager was not initialized.");
+	MINTY_ASSERT(m_initialized, ErrorCode::Object_NotInitialized);
 	m_initialized = false;
 }

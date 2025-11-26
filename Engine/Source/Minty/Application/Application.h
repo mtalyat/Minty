@@ -122,7 +122,7 @@ namespace Minty
 		/// <returns>The current instance of the Application.</returns>
 		static Application& get_singleton()
 		{
-			MINTY_ASSERT(s_instance, "Application singleton is null.");
+			MINTY_ASSERT(s_instance, ErrorCode::Singleton_DoesNotExist);
 			return *s_instance;
 		}
 

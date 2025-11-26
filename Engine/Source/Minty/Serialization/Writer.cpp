@@ -24,7 +24,7 @@ void Minty::Writer::push_user_data(void const* const data)
 
 void Minty::Writer::pop_user_data()
 {
-	MINTY_ASSERT(m_dataStack.get_size() > 0, "Data stack is empty.");
+	MINTY_ASSERT(m_dataStack.get_size() > 0, ErrorCode::Object_EmptyContainer);
 
 	m_dataStack.pop();
 }
@@ -46,7 +46,7 @@ void Minty::TextWriterBehavior::write_indent_to_buffer(Size const indent, Vector
 
 Bool Minty::TextWriterBehavior::write_name_to_buffer(String const& data, Vector<Byte>& buffer)
 {
-	MINTY_ASSERT(data.get_size() < 256, "A name cannot be longer than 255 bytes.");
+	MINTY_ASSERT(data.get_size() < 256, ErrorCode::Argument_InvalidSize);
 
 	if (data.is_empty())
 	{
@@ -274,7 +274,7 @@ void Minty::TextWriterBehavior::write_typed_to_buffer(void const* const data, Ve
 		write_uuid_to_buffer(*static_cast<UUID const* const>(data), buffer);
 		break;
 	default:
-		MINTY_ABORT(F("Cannot write type \"{}\".", to_string(type)).get_data());
+		MINTY_NOT_IMPLEMENTED(to_string(type));
 	}
 }
 

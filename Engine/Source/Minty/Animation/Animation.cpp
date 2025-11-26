@@ -37,7 +37,7 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	{
 		// get the component info
 		m_components.at(i) = context.get_component_info(info.components.at(i));
-		MINTY_ASSERT(m_components.at(i) != nullptr, F("Component \"{}\" does not exist.", info.components.at(i)));
+		MINTY_ASSERT(m_components.at(i) != nullptr, ErrorCode::Component_NotRegistered, info.components.at(i));
 	}
 
 	// make space for the steps
@@ -46,13 +46,14 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	Map<StepKey, Set<StepValue>> valuesEdited;
 	for (auto const& [time, actionIndices] : info.steps)
 	{
-		MINTY_ASSERT(time >= 0.0f, "Time must be non-negative.");
-		MINTY_ASSERT(time > lastTime, "Times must be in ascending order. Do not duplicate times.");
+		MINTY_ASSERT(time >= 0.0f, ErrorCode::Animation_NegativeTime, time);
+		MINTY_ASSERT(time == lastTime, ErrorCode::Animation_DuplicateTime, time);
+		MINTY_ASSERT(time > lastTime, ErrorCode::Animation_IncorrectTimeOrder, time);
 
 		// create the steplist
 		for(Size const actionIndex : actionIndices)
 		{
-			MINTY_ASSERT(actionIndex < info.actions.get_size(), "Action index is out of range.");
+			MINTY_ASSERT(actionIndex < info.actions.get_size(), ErrorCode::Animation_InvalidActionIndex, actionIndex);
 
 			AnimationAction const& action = info.actions.at(actionIndex);
 			StepKey key;
@@ -98,7 +99,7 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	Set<StepValue> valuesEditedSet;
 	for(auto const& actionIndex : info.resetSteps)
 	{
-		MINTY_ASSERT(actionIndex < info.actions.get_size(), "Action index is out of range.");
+		MINTY_ASSERT(actionIndex < info.actions.get_size(), ErrorCode::Animation_InvalidActionIndex, actionIndex);
 
 		AnimationAction const& action = info.actions.at(actionIndex);
 		StepKey key;
@@ -211,7 +212,7 @@ void Minty::Animation::perform_action(StepKey const key, Vector<StepValue> const
 
 void Minty::Animation::perform_action(AnimationAction const& action, Entity const thisEntity, EntityManager& entityManager) const
 {
-	MINTY_ASSERT(action.entityIndex < MAX_ENTITY_INDEX, "Entity index is out of range.");
+	MINTY_ASSERT(action.entityIndex < MAX_ENTITY_INDEX, ErrorCode::Animation_InvalidEntityIndex, action.entityIndex);
 
 	// get the entity based on the path
 	Entity entity = entityManager.get_entity(thisEntity, m_entities.at(action.entityIndex));
@@ -219,14 +220,14 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	// if no entity, do nothing
 	if (entity == INVALID_ENTITY)
 	{
-		MINTY_ERROR("Animation Entity not found.");
+		MINTY_LOG_ERROR("Animation Entity not found.");
 		return;
 	}
 
-	MINTY_ASSERT(action.componentIndex < MAX_COMPONENT_INDEX, "Component index is out of range.");
+	MINTY_ASSERT(action.componentIndex < MAX_COMPONENT_INDEX, ErrorCode::Animation_InvalidComponentIndex, action.componentIndex);
 
 	// get the component
-	ComponentInfo const* componentInfo = m_components.at(action.componentIndex);
+	ComponentData const* componentInfo = m_components.at(action.componentIndex);
 	Component* component = componentInfo->get(entityManager, entity);
 
 	// determine what to do based on the flags
@@ -248,7 +249,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	}
 
 	// normal step
-	MINTY_ASSERT(component != nullptr, "Component is null. Cannot perform action.");
+	MINTY_ASSERT(component != nullptr, ErrorCode::Animation_ComponentNotFound);
 
 	// build and add all of the values to set
 	Node root{};
@@ -323,10 +324,10 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// get the entity
 		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
-		MINTY_ASSERT(entity != INVALID_ENTITY, F("Animation Entity at path {} not found.", m_entities.at(entityIndex).to_string()));
+		MINTY_ASSERT(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, m_entities.at(entityIndex).to_string());
 
 		// get the component
-		ComponentInfo const* componentInfo = m_components.at(componentIndex);
+		ComponentData const* componentInfo = m_components.at(componentIndex);
 		Component* component = componentInfo->get(entityManager, entity);
 
 		// determine what to do based on the flags
@@ -447,7 +448,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float4)) {} // float4
 					else
 					{
-						MINTY_ERROR(F("Interpolation between \"{}\" and \"{}\" is not supported.", previousValue, nextValue));
+						MINTY_LOG_ERROR(F("Interpolation between \"{}\" and \"{}\" is not supported.", previousValue, nextValue));
 					}
 
 					// create the node with the interpolated value and add it to the root

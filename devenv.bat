@@ -1,4 +1,4 @@
-@echo off
+@REM @echo off
 cls
 
 @rem Parse command line arguments
@@ -46,6 +46,8 @@ if /i "%1"=="build" (
 )
 
 if /i "%2"=="engine" (
+  set "PROJECTS=Engine"
+  ) else if /i "%2"=="minty" (
   set "PROJECTS=Engine"
   ) else if /i "%2"=="test" (
   set "PROJECTS=Test"
@@ -120,7 +122,7 @@ if defined BUILD (
   )
   
   rem Build the project
-  cmake --build . --config %CONFIG%
+  powershell "cmake --build . --config %CONFIG% 2>&1 | tee build.log"
   
   if not "%ERRORLEVEL%"=="0" (
     echo Build failed!

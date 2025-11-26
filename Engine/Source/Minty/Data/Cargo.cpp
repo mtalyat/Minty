@@ -18,7 +18,7 @@ Bool Minty::Object::contains(String const& name) const
 
 Variable const& Minty::Object::at(String const& name) const
 {
-	MINTY_ASSERT(!m_variables.is_empty(), "Object has no rigidVariables.");
+	MINTY_ASSERT(!m_variables.is_empty(), ErrorCode::Object_InvalidState);
 	for (auto const& [varName, variable] : m_variables)
 	{
 		if (varName == name)
@@ -26,13 +26,12 @@ Variable const& Minty::Object::at(String const& name) const
 			return variable;
 		}
 	}
-	MINTY_ASSERT(false, "Variable not found.");
-	throw std::runtime_error("Variable not found.");
+	MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 }
 
 Variable& Minty::Object::at(String const& name)
 {
-	MINTY_ASSERT(!m_variables.is_empty(), "Object has no rigidVariables.");
+	MINTY_ASSERT(!m_variables.is_empty(), ErrorCode::Object_InvalidState);
 	for (auto& [varName, variable] : m_variables)
 	{
 		if (varName == name)
@@ -40,13 +39,12 @@ Variable& Minty::Object::at(String const& name)
 			return variable;
 		}
 	}
-	MINTY_ASSERT(false, "Variable not found.");
-	throw std::runtime_error("Variable not found.");
+	MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 }
 
 void Minty::Object::add(String const& name, Variable const& variable)
 {
-	MINTY_ASSERT(!contains(name), F("Object already contains variable with name: {}", name));
+	MINTY_ASSERT(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
 	m_variables.add({ name, variable });
 }
 

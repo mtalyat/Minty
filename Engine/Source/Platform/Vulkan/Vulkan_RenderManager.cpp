@@ -38,7 +38,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const& info)
 // gets the current frame's command buffer
 VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
 {
-	MINTY_ASSERT(get_state() == State::Pass, "Attempting to get the current command buffer while not rendering a pass.");
+	MINTY_ASSERT(get_state() == State::Pass, ErrorCode::Object_InvalidState); // "Attempting to get the current command buffer while not rendering a pass."
 	return m_frames[m_currentFrameIndex].commandBuffer;
 }
 
@@ -369,8 +369,7 @@ VkAttachmentDescription Minty::Vulkan_RenderManager::create_attachment_descripti
 		description.format = Vulkan_Renderer::to_vulkan(get_depth_attachment_format());
 		break;
 	default:
-		MINTY_ABORT("Invalid attachment type.");
-		return {};
+		MINTY_NOT_IMPLEMENTED(); // "Unsupported render attachment type."
 	}
 	description.samples = VK_SAMPLE_COUNT_1_BIT;
 	description.loadOp = Vulkan_Renderer::to_vulkan(attachment.loadOperation);

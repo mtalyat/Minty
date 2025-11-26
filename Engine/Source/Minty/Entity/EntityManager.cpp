@@ -9,7 +9,7 @@
 
 using namespace Minty;
 
-void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp)
+void Minty::EntityManager::remove_from_parent(RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp)
 {
 	// if this is the first child, set parent's first to next
 	if (relationshipComp.prev == INVALID_ENTITY)
@@ -38,14 +38,19 @@ void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshi
 	Entity sibling = relationshipComp.next;
 	while (sibling != INVALID_ENTITY)
 	{
-		RelationshipComponent& siblingRelationshipComponent = m_registry.get<RelationshipComponent>(sibling);
+		RelationshipComponent &siblingRelationshipComponent = m_registry.get<RelationshipComponent>(sibling);
 		siblingRelationshipComponent.index--;
 		sibling = siblingRelationshipComponent.next;
 	}
 
 	// update child count
 	parentRelationshipComp.children--;
-	MINTY_ASSERT(parentRelationshipComp.children == 0 || (parentRelationshipComp.first != INVALID_ENTITY && parentRelationshipComp.last != INVALID_ENTITY), "Children count is not zero, yet there is no first and last children.");
+	// Children count is not zero, yet there is no first and last children.
+	MINTY_ASSERT(
+		parentRelationshipComp.children == 0 ||
+			(parentRelationshipComp.first != INVALID_ENTITY &&
+			 parentRelationshipComp.last != INVALID_ENTITY),
+		ErrorCode::Entity_InvalidRelationship);
 
 	// clear this entity's relationship
 	relationshipComp.prev = INVALID_ENTITY;
@@ -53,7 +58,7 @@ void Minty::EntityManager::remove_from_parent(RelationshipComponent& relationshi
 	relationshipComp.depth = 0;
 }
 
-void Minty::EntityManager::add_to_parent(Entity const entity, RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp)
+void Minty::EntityManager::add_to_parent(Entity const entity, RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp)
 {
 	// set this entity's index
 	relationshipComp.index = parentRelationshipComp.children;
@@ -94,7 +99,7 @@ UUID Minty::EntityManager::get_id(Entity const entity) const
 		return INVALID_ID;
 	}
 
-	UUIDComponent const* uuidComponent = m_registry.try_get<UUIDComponent>(entity);
+	UUIDComponent const *uuidComponent = m_registry.try_get<UUIDComponent>(entity);
 	if (uuidComponent)
 	{
 		return uuidComponent->id;
@@ -153,7 +158,7 @@ Entity Minty::EntityManager::get_entity(UUID const id) const
 	return INVALID_ENTITY;
 }
 
-Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const& path) const
+Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const &path) const
 {
 	// if no path, it is the source entity
 	if (path.is_empty())
@@ -163,7 +168,7 @@ Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const& p
 
 	// follow the children indices down until found
 	Entity entity = source;
-	RelationshipComponent const* relationshipComponent;
+	RelationshipComponent const *relationshipComponent;
 	for (Byte index : path.get_path())
 	{
 		relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
@@ -186,7 +191,7 @@ Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const& p
 
 String Minty::EntityManager::get_entity_string(Entity const entity) const
 {
-	String const& name = get_name(entity);
+	String const &name = get_name(entity);
 	UUID const id = get_id(entity);
 
 	if (name.is_empty())
@@ -228,7 +233,7 @@ void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
 	}
 
 	// set children as well
-	RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComp && relationshipComp->children > 0)
 	{
 		Entity child = relationshipComp->first;
@@ -260,7 +265,7 @@ void Minty::EntityManager::set_visible(Entity const entity, Bool const visible)
 	}
 
 	// set children as well
-	RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComp && relationshipComp->children > 0)
 	{
 		Entity child = relationshipComp->first;
@@ -289,12 +294,12 @@ void Minty::EntityManager::set_layer(Entity const entity, Layer const layer)
 	}
 	else
 	{
-		LayerComponent& layerComponent = m_registry.get_or_emplace<LayerComponent>(entity);
+		LayerComponent &layerComponent = m_registry.get_or_emplace<LayerComponent>(entity);
 		layerComponent.layer = layer;
 	}
 
 	// set children as well
-	RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComp && relationshipComp->children > 0)
 	{
 		Entity child = relationshipComp->first;
@@ -308,7 +313,7 @@ void Minty::EntityManager::set_layer(Entity const entity, Layer const layer)
 
 Layer Minty::EntityManager::get_layer(Entity const entity) const
 {
-	LayerComponent const* layerComponent = m_registry.try_get<LayerComponent>(entity);
+	LayerComponent const *layerComponent = m_registry.try_get<LayerComponent>(entity);
 	if (layerComponent)
 	{
 		return layerComponent->layer;
@@ -325,9 +330,9 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	Entity current = parent;
 	while (current != INVALID_ENTITY)
 	{
-		MINTY_ASSERT(current != entity, "Entity is a child of itself.");
+		MINTY_ASSERT(current != entity, ErrorCode::Entity_CyclicRelationship);
 		// get the relationship component
-		RelationshipComponent const* temp = m_registry.try_get<RelationshipComponent>(current);
+		RelationshipComponent const *temp = m_registry.try_get<RelationshipComponent>(current);
 		if (!temp)
 		{
 			break;
@@ -336,12 +341,12 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	}
 #endif // MINTY_DEBUG
 
-	RelationshipComponent& relationshipComponent = m_registry.get_or_emplace<RelationshipComponent>(entity);
+	RelationshipComponent &relationshipComponent = m_registry.get_or_emplace<RelationshipComponent>(entity);
 
 	if (relationshipComponent.parent != INVALID_ENTITY)
 	{
 		// remove from parent
-		RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent.parent);
+		RelationshipComponent &parentRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent.parent);
 		remove_from_parent(relationshipComponent, parentRelationshipComponent);
 	}
 
@@ -352,12 +357,12 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	if (parent != INVALID_ENTITY)
 	{
 		// add to parent
-		if(!m_registry.all_of<RelationshipComponent>(parent))
+		if (!m_registry.all_of<RelationshipComponent>(parent))
 		{
 			// if parent does not have a relationship component, create one
 			set_parent(parent, INVALID_ENTITY);
 		}
-		RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
+		RelationshipComponent &parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
 		add_to_parent(entity, relationshipComponent, parentRelationshipComponent);
 	}
 
@@ -368,14 +373,14 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	if (relationshipComponent.children)
 	{
 		Stack<Tuple<UInt, Entity>> entitiesToUpdate;
-		entitiesToUpdate.push({ relationshipComponent.depth + 1, relationshipComponent.first });
+		entitiesToUpdate.push({relationshipComponent.depth + 1, relationshipComponent.first});
 
 		while (!entitiesToUpdate.is_empty())
 		{
 			Tuple<UInt, Entity> pair = entitiesToUpdate.pop();
 
 			// get the relationship component
-			RelationshipComponent& comp = m_registry.get<RelationshipComponent>(pair.get_second());
+			RelationshipComponent &comp = m_registry.get<RelationshipComponent>(pair.get_second());
 
 			// update the depth
 			comp.depth = pair.first;
@@ -383,17 +388,17 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 			// add next and child, if any
 			if (comp.next != INVALID_ENTITY)
 			{
-				entitiesToUpdate.push({ pair.first, comp.next });
+				entitiesToUpdate.push({pair.first, comp.next});
 			}
 			if (comp.first != INVALID_ENTITY)
 			{
-				entitiesToUpdate.push({ pair.first + 1, comp.first });
+				entitiesToUpdate.push({pair.first + 1, comp.first});
 			}
 		}
 	}
 
 	// if the entity has a UITransform, update its Canvas value
-	if (UITransformComponent* uiTransform = try_get_component<UITransformComponent>(entity))
+	if (UITransformComponent *uiTransform = try_get_component<UITransformComponent>(entity))
 	{
 		uiTransform->canvas = INVALID_ENTITY;
 
@@ -402,14 +407,14 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 		while (parent != INVALID_ENTITY)
 		{
 			// if parent has canvas, set value
-			if (CanvasComponent* canvas = try_get_component<CanvasComponent>(parent))
+			if (CanvasComponent *canvas = try_get_component<CanvasComponent>(parent))
 			{
 				uiTransform->canvas = parent;
 				break;
 			}
 
 			// move to next parent
-			RelationshipComponent const* parentRelationship = try_get_component<RelationshipComponent const>(parent);
+			RelationshipComponent const *parentRelationship = try_get_component<RelationshipComponent const>(parent);
 			if (!parentRelationship)
 			{
 				break;
@@ -421,7 +426,7 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 
 Entity Minty::EntityManager::get_parent(Entity const entity) const
 {
-	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComponent)
 	{
 		return relationshipComponent->parent;
@@ -431,7 +436,7 @@ Entity Minty::EntityManager::get_parent(Entity const entity) const
 
 Entity Minty::EntityManager::get_child(Entity const entity, Size const index) const
 {
-	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComponent)
 	{
 		Entity child = relationshipComponent->first;
@@ -446,7 +451,7 @@ Entity Minty::EntityManager::get_child(Entity const entity, Size const index) co
 
 String Minty::EntityManager::get_name(Entity const entity) const
 {
-	NameComponent const* nameComponent = m_registry.try_get<NameComponent>(entity);
+	NameComponent const *nameComponent = m_registry.try_get<NameComponent>(entity);
 	if (nameComponent)
 	{
 		return nameComponent->name;
@@ -454,7 +459,7 @@ String Minty::EntityManager::get_name(Entity const entity) const
 	return String();
 }
 
-void Minty::EntityManager::set_name(Entity const entity, String const& name)
+void Minty::EntityManager::set_name(Entity const entity, String const &name)
 {
 	// remove name
 	if (name.is_empty())
@@ -467,7 +472,7 @@ void Minty::EntityManager::set_name(Entity const entity, String const& name)
 	}
 
 	// set name
-	NameComponent& nameComponent = m_registry.get_or_emplace<NameComponent>(entity);
+	NameComponent &nameComponent = m_registry.get_or_emplace<NameComponent>(entity);
 	nameComponent.name = name;
 }
 
@@ -476,8 +481,8 @@ void Minty::EntityManager::finalize_dirties()
 	MINTY_TRACE_SCOPE();
 
 	// update dirty text components
-	AssetManager& assetManager = AssetManager::get_singleton();
-	for (auto&& [entity, uiTransformComp, textComp, meshComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent const, TextComponent const, MeshComponent, DirtyComponent const, EnabledComponent const>().each())
+	AssetManager &assetManager = AssetManager::get_singleton();
+	for (auto &&[entity, uiTransformComp, textComp, meshComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent const, TextComponent const, MeshComponent, DirtyComponent const, EnabledComponent const>().each())
 	{
 		// if no font or variant or text, destroy the mesh
 		if (textComp.font == nullptr || textComp.fontVariant == nullptr || textComp.text == nullptr || textComp.text.is_empty())
@@ -498,17 +503,17 @@ void Minty::EntityManager::finalize_dirties()
 
 		// (re)generate the mesh
 		info.vertices = ListContainer(sizeof(Float) * 4, textComp.text.get_size());
-		ListContainer& vertices = info.vertices;
+		ListContainer &vertices = info.vertices;
 		info.indices = ListContainer(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
-		ListContainer& indices = info.indices;
+		ListContainer &indices = info.indices;
 
 		Float xAdvance = 0.0f;
 		Float yAdvance = 0.0f;
 		UShort index = 0;
 
-		Ref<Font> const& font = textComp.font;
-		Ref<FontVariant> const& fontVariant = textComp.fontVariant;
-		Ref<Texture> const& fontVariantTexture = fontVariant->get_texture();
+		Ref<Font> const &font = textComp.font;
+		Ref<FontVariant> const &fontVariant = textComp.fontVariant;
+		Ref<Texture> const &fontVariantTexture = fontVariant->get_texture();
 		UInt2 textureSize = fontVariantTexture->get_size();
 		Float const width = static_cast<Float>(textureSize.x);
 		Float const height = static_cast<Float>(textureSize.y);
@@ -537,11 +542,11 @@ void Minty::EntityManager::finalize_dirties()
 			}
 
 			// get font character data
-			FontChar const* fc = fontVariant->get_char(c);
+			FontChar const *fc = fontVariant->get_char(c);
 
 			if (!fc)
 			{
-				MINTY_ERROR(F("There is no FontChar data for character \"{}\" in font \"{}\".", c, font->get_name()));
+				MINTY_LOG_ERROR(F("There is no FontChar data for character \"{}\" in font \"{}\".", c, font->get_name()));
 
 				last = c;
 
@@ -556,13 +561,13 @@ void Minty::EntityManager::finalize_dirties()
 			xAdvance += fontVariant->get_kerning(last, c);
 
 			// create vertices based on each Char
-			Float4 value = { xAdvance + offset.x, yAdvance + offset.y, min.x, min.y };
+			Float4 value = {xAdvance + offset.x, yAdvance + offset.y, min.x, min.y};
 			vertices.append_object(value); // bottom left
-			value = { xAdvance + fc->width + offset.x, yAdvance + offset.y, max.x, min.y };
+			value = {xAdvance + fc->width + offset.x, yAdvance + offset.y, max.x, min.y};
 			vertices.append_object(value); // bottom right
-			value = { xAdvance + fc->width + offset.x, yAdvance + fc->height + offset.y, max.x, max.y };
+			value = {xAdvance + fc->width + offset.x, yAdvance + fc->height + offset.y, max.x, max.y};
 			vertices.append_object(value); // top left
-			value = { xAdvance + offset.x, yAdvance + fc->height + offset.y, min.x, max.y };
+			value = {xAdvance + offset.x, yAdvance + fc->height + offset.y, min.x, max.y};
 			vertices.append_object(value); // top right
 
 			// create indices, always in the same order
@@ -606,10 +611,10 @@ void Minty::EntityManager::finalize_dirties()
 	{
 		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const, EnabledComponent const>();
 		view.use<UITransformComponent>();
-		for (auto&& [entity, uiTransformComp, canvasComp, dirtyComp, enabledComp] : view.each())
+		for (auto &&[entity, uiTransformComp, canvasComp, dirtyComp, enabledComp] : view.each())
 		{
 			// get window size as a rect
-			Window& window = Context::get_singleton().get_window();
+			Window &window = Context::get_singleton().get_window();
 			UInt2 windowSize = window.get_size();
 			Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
@@ -619,18 +624,18 @@ void Minty::EntityManager::finalize_dirties()
 			uiTransformComp.transform.update(windowRect, 0.0f, 0.0f);
 		}
 	}
-	
+
 	// update entities with relationships
 	{
 		auto view = m_registry.view<RelationshipComponent, DirtyComponent const, EnabledComponent const>();
 		view.use<RelationshipComponent>();
-		for (auto&& [entity, relationshipComp, dirtyComp, enabledComp] : view.each())
+		for (auto &&[entity, relationshipComp, dirtyComp, enabledComp] : view.each())
 		{
-			if (TransformComponent* transformComp = m_registry.try_get<TransformComponent>(entity))
+			if (TransformComponent *transformComp = m_registry.try_get<TransformComponent>(entity))
 			{
 				update_transform(entity, relationshipComp.parent, *transformComp);
 			}
-			else if (UITransformComponent* uiTransformComp = m_registry.try_get<UITransformComponent>(entity))
+			else if (UITransformComponent *uiTransformComp = m_registry.try_get<UITransformComponent>(entity))
 			{
 				update_uiTransform(entity, relationshipComp.parent, *uiTransformComp);
 			}
@@ -638,12 +643,12 @@ void Minty::EntityManager::finalize_dirties()
 	}
 
 	// update entities without relationships
-	for (auto&& [entity, transformComp, dirtyComp, enabledComp] : m_registry.view<TransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
+	for (auto &&[entity, transformComp, dirtyComp, enabledComp] : m_registry.view<TransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
 	{
 		// if no relationship, update the transform with no parent
 		update_transform(entity, INVALID_ENTITY, transformComp);
 	}
-	for (auto&& [entity, uiTransformComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
+	for (auto &&[entity, uiTransformComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
 	{
 		// if no relationship, update the UITransform with no parent
 		update_uiTransform(entity, INVALID_ENTITY, uiTransformComp);
@@ -653,7 +658,7 @@ void Minty::EntityManager::finalize_dirties()
 	clear<DirtyComponent>();
 }
 
-Entity Minty::EntityManager::create_entity_smart(String const& name, UUID const id)
+Entity Minty::EntityManager::create_entity_smart(String const &name, UUID const id)
 {
 	if (id.is_valid())
 	{
@@ -685,19 +690,19 @@ void Minty::EntityManager::strip_entity(Entity const entity)
 	set_parent(entity, INVALID_ENTITY);
 
 	// remove ID, if any
-	if(UUIDComponent const* const uuidComponent = m_registry.try_get<UUIDComponent>(entity))
+	if (UUIDComponent const *const uuidComponent = m_registry.try_get<UUIDComponent>(entity))
 	{
 		m_ids.remove(uuidComponent->id);
 	}
 }
 
-void Minty::EntityManager::update_transform(Entity const entity, Entity const parent, TransformComponent& transformComp)
+void Minty::EntityManager::update_transform(Entity const entity, Entity const parent, TransformComponent &transformComp)
 {
 	// if parent, use parent's global matrix
 	if (parent != INVALID_ENTITY)
 	{
 		// get the parent transform
-		TransformComponent const* parentTransform = m_registry.try_get<TransformComponent>(parent);
+		TransformComponent const *parentTransform = m_registry.try_get<TransformComponent>(parent);
 		if (parentTransform)
 		{
 			Matrix4 matrix = parentTransform->transform.get_global_matrix() * transformComp.transform.get_local_matrix();
@@ -711,12 +716,12 @@ void Minty::EntityManager::update_transform(Entity const entity, Entity const pa
 	transformComp.transform.set_global_matrix(transformComp.transform.get_local_matrix());
 }
 
-void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const parent, UITransformComponent& uiTransformComp)
+void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const parent, UITransformComponent &uiTransformComp)
 {
 	// use the parent, if there is one and it is not the canvas
 	if (parent != INVALID_ENTITY && parent != uiTransformComp.canvas)
 	{
-		UITransformComponent const* parentUITransform = m_registry.try_get<UITransformComponent>(parent);
+		UITransformComponent const *parentUITransform = m_registry.try_get<UITransformComponent>(parent);
 		if (parentUITransform)
 		{
 			uiTransformComp.transform.update(parentUITransform->transform);
@@ -727,7 +732,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	// if no parent, use canvas
 	if (uiTransformComp.canvas != INVALID_ENTITY)
 	{
-		CanvasComponent const* canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
+		CanvasComponent const *canvas = m_registry.try_get<CanvasComponent>(uiTransformComp.canvas);
 		if (canvas)
 		{
 			uiTransformComp.transform.update(canvas->canvas.get_rect(), 0.0f, 0.0f);
@@ -736,7 +741,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	}
 
 	// get window size as a rect
-	Window& window = Context::get_singleton().get_window();
+	Window &window = Context::get_singleton().get_window();
 	UInt2 windowSize = window.get_size();
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
@@ -778,7 +783,7 @@ void Minty::EntityManager::dirty(Entity const entity)
 	m_registry.emplace_or_replace<DirtyComponent>(entity);
 
 	// stop if no children
-	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 	if (!relationshipComponent || relationshipComponent->children == 0)
 	{
 		return;
@@ -793,7 +798,7 @@ void Minty::EntityManager::dirty(Entity const entity)
 		m_registry.emplace_or_replace<DirtyComponent>(currentEntity);
 
 		// get the relationship component
-		RelationshipComponent const& relationship = m_registry.get<RelationshipComponent>(currentEntity);
+		RelationshipComponent const &relationship = m_registry.get<RelationshipComponent>(currentEntity);
 
 		// dirty all children
 		Entity child = relationship.first;
@@ -814,7 +819,7 @@ void Minty::EntityManager::refresh(Entity const entity)
 	}
 
 	// if parent is dirty, refresh it as well
-	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComponent && relationshipComponent->parent != INVALID_ENTITY && has_component<DirtyComponent>(relationshipComponent->parent))
 	{
 		// refresh the parent
@@ -822,14 +827,14 @@ void Minty::EntityManager::refresh(Entity const entity)
 	}
 
 	// if Transform, update global matrix
-	TransformComponent* transformComponent = m_registry.try_get<TransformComponent>(entity);
+	TransformComponent *transformComponent = m_registry.try_get<TransformComponent>(entity);
 	if (transformComponent)
 	{
 		update_transform(entity, get_parent(entity), *transformComponent);
 	}
 
 	// if UITransform, update the global rect
-	UITransformComponent* uiTransformComponent = m_registry.try_get<UITransformComponent>(entity);
+	UITransformComponent *uiTransformComponent = m_registry.try_get<UITransformComponent>(entity);
 	if (uiTransformComponent)
 	{
 		update_uiTransform(entity, get_parent(entity), *uiTransformComponent);
@@ -854,13 +859,13 @@ Entity Minty::EntityManager::create_entity()
 
 Entity Minty::EntityManager::create_entity(UUID const id)
 {
-	MINTY_ASSERT(!contains(id), "Entity with the given ID already exists.");
+	MINTY_ASSERT(!contains(id), ErrorCode::Argument_KeyAlreadyExists, id);
 
 	// create empty entity
 	Entity entity = m_registry.create();
 
 	// add the id component
-	UUIDComponent& idComponent = m_registry.emplace<UUIDComponent>(entity);
+	UUIDComponent &idComponent = m_registry.emplace<UUIDComponent>(entity);
 	idComponent.id = id;
 
 	// link ID to Entity
@@ -870,7 +875,7 @@ Entity Minty::EntityManager::create_entity(UUID const id)
 	return entity;
 }
 
-Entity Minty::EntityManager::create_entity(String const& name)
+Entity Minty::EntityManager::create_entity(String const &name)
 {
 	// create empty entity
 	Entity entity = m_registry.create();
@@ -878,7 +883,7 @@ Entity Minty::EntityManager::create_entity(String const& name)
 	// add the name component
 	if (!name.is_empty())
 	{
-		NameComponent& nameComponent = m_registry.emplace<NameComponent>(entity);
+		NameComponent &nameComponent = m_registry.emplace<NameComponent>(entity);
 		nameComponent.name = name;
 	}
 
@@ -898,7 +903,7 @@ Entity Minty::EntityManager::create_entity(Entity const parent)
 	return entity;
 }
 
-Entity Minty::EntityManager::create_entity(String const& name, UUID const id)
+Entity Minty::EntityManager::create_entity(String const &name, UUID const id)
 {
 	// create empty entity
 	Entity entity = m_registry.create();
@@ -906,12 +911,12 @@ Entity Minty::EntityManager::create_entity(String const& name, UUID const id)
 	// add the name component
 	if (!name.is_empty())
 	{
-		NameComponent& nameComponent = m_registry.emplace<NameComponent>(entity);
+		NameComponent &nameComponent = m_registry.emplace<NameComponent>(entity);
 		nameComponent.name = name;
 	}
 
 	// add the id component
-	UUIDComponent& idComponent = m_registry.emplace<UUIDComponent>(entity);
+	UUIDComponent &idComponent = m_registry.emplace<UUIDComponent>(entity);
 	idComponent.id = id;
 
 	// link ID to Entity
@@ -921,7 +926,7 @@ Entity Minty::EntityManager::create_entity(String const& name, UUID const id)
 	return entity;
 }
 
-Entity Minty::EntityManager::create_entity(String const& name, UUID const id, Entity const parent)
+Entity Minty::EntityManager::create_entity(String const &name, UUID const id, Entity const parent)
 {
 	// create empty entity
 	Entity entity = create_entity(name, id);
@@ -933,9 +938,9 @@ Entity Minty::EntityManager::create_entity(String const& name, UUID const id, En
 	return entity;
 }
 
-Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 {
-	MINTY_ASSERT(prefab != nullptr, "Prefab is null.");
+	MINTY_ASSERT(prefab != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	TextNodeReader reader(prefab->get_node());
 	if (reader.get_size() == 0)
 	{
@@ -962,28 +967,28 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab)
 	return entity;
 }
 
-Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String const& name)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String const &name)
 {
 	Entity const entity = spawn_entity(prefab);
 	set_name(entity, name);
 	return entity;
 }
 
-Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, UUID const id)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, UUID const id)
 {
 	Entity const entity = spawn_entity(prefab);
 	set_id(entity, id);
 	return entity;
 }
 
-Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, Entity const parent)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, Entity const parent)
 {
 	Entity const entity = spawn_entity(prefab);
 	set_parent(entity, parent);
 	return entity;
 }
 
-Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String const &name, UUID const id)
 {
 	Entity const entity = spawn_entity(prefab);
 	set_name(entity, name);
@@ -991,7 +996,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	return entity;
 }
 
-Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id, Entity const parent)
+Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String const &name, UUID const id, Entity const parent)
 {
 
 	Entity const entity = spawn_entity(prefab);
@@ -1001,40 +1006,40 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const& prefab, String cons
 	return entity;
 }
 
-Component& Minty::EntityManager::add_component(Entity const entity, String const& name)
+Component &Minty::EntityManager::add_component(Entity const entity, String const &name)
 {
-	Context& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
+	Context &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	return info->create(*this, entity);
 }
 
-Component& Minty::EntityManager::get_component(Entity const entity, String const& name)
+Component &Minty::EntityManager::get_component(Entity const entity, String const &name)
 {
-	Context& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
-	Component* component = info->get(*this, entity);
-	MINTY_ASSERT(component, F("Failed to get component \"{}\".", name));
+	Context &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
+	Component *component = info->get(*this, entity);
+	MINTY_ASSERT(component, ErrorCode::Entity_MissingComponent, name);
 	return *component;
 }
 
-Component const& Minty::EntityManager::get_component(Entity const entity, String const& name) const
+Component const &Minty::EntityManager::get_component(Entity const entity, String const &name) const
 {
-	Context const& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
-	Component const* component = info->get_const(*this, entity);
-	MINTY_ASSERT(component, F("Failed to get component \"{}\".", name));
+	Context const &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
+	Component const *component = info->get_const(*this, entity);
+	MINTY_ASSERT(component, ErrorCode::Entity_MissingComponent, name);
 	return *component;
 }
 
-Component& Minty::EntityManager::get_or_add_component(Entity const entity, String const& name)
+Component &Minty::EntityManager::get_or_add_component(Entity const entity, String const &name)
 {
-	Context& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
-	Component* component = info->get(*this, entity);
+	Context &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
+	Component *component = info->get(*this, entity);
 	if (component == nullptr)
 	{
 		// create the component if it does not exist
@@ -1047,38 +1052,38 @@ Component& Minty::EntityManager::get_or_add_component(Entity const entity, Strin
 	}
 }
 
-Component* Minty::EntityManager::try_get_component(Entity const entity, String const& name)
+Component *Minty::EntityManager::try_get_component(Entity const entity, String const &name)
 {
-	Context& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
-	Component* component = info->get(*this, entity);
+	Context &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
+	Component *component = info->get(*this, entity);
 	return component;
 }
 
-Component const* Minty::EntityManager::try_get_component(Entity const entity, String const& name) const
+Component const *Minty::EntityManager::try_get_component(Entity const entity, String const &name) const
 {
-	Context const& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
-	Component const* component = info->get_const(*this, entity);
+	Context const &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
+	Component const *component = info->get_const(*this, entity);
 	return component;
 }
 
-Bool Minty::EntityManager::has_component(Entity const entity, String const& name) const
+Bool Minty::EntityManager::has_component(Entity const entity, String const &name) const
 {
-	Context const& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
-	Component const* component = info->get_const(*this, entity);
+	Context const &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
+	Component const *component = info->get_const(*this, entity);
 	return component != nullptr;
 }
 
-void Minty::EntityManager::remove_component(Entity const entity, String const& name)
+void Minty::EntityManager::remove_component(Entity const entity, String const &name)
 {
-	Context& context = Context::get_singleton();
-	ComponentInfo const* info = context.get_component_info(name);
-	MINTY_ASSERT(info, F("Failed to find_first component info for \"{}\".", name));
+	Context &context = Context::get_singleton();
+	ComponentData const *info = context.get_component_info(name);
+	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	info->destroy(*this, entity);
 }
 
@@ -1097,46 +1102,46 @@ void Minty::EntityManager::sort()
 		return;
 	}
 
-	m_registry.sort<RelationshipComponent>([&](RelationshipComponent const& leftRelationship, RelationshipComponent const& rightRelationship)
-		{
-			return leftRelationship.depth < rightRelationship.depth;
+	m_registry.sort<RelationshipComponent>([&](RelationshipComponent const &leftRelationship, RelationshipComponent const &rightRelationship)
+										   {
+											   return leftRelationship.depth < rightRelationship.depth;
 
-			//if (left == right)
-			//{
-			//	return false;
-			//}
+											   // if (left == right)
+											   //{
+											   //	return false;
+											   // }
 
-			//RelationshipComponent const& leftRelationship = m_registry.get<RelationshipComponent>(left);
-			//RelationshipComponent const& rightRelationship = m_registry.get<RelationshipComponent>(right);
+											   // RelationshipComponent const& leftRelationship = m_registry.get<RelationshipComponent>(left);
+											   // RelationshipComponent const& rightRelationship = m_registry.get<RelationshipComponent>(right);
 
-			//// if the depths are different, compare by depth first
-			//if(leftRelationship.depth != rightRelationship.depth)
-			//{
-			//	return leftRelationship.depth < rightRelationship.depth;
-			//}
+											   //// if the depths are different, compare by depth first
+											   // if(leftRelationship.depth != rightRelationship.depth)
+											   //{
+											   //	return leftRelationship.depth < rightRelationship.depth;
+											   // }
 
-			//// keep going up until they have the same parent
-			//RelationshipComponent const* leftR = &leftRelationship;
-			//RelationshipComponent const* rightR = &rightRelationship;
-			//while (leftR->parent != rightR->parent)
-			//{
-			//	leftR = &m_registry.get<RelationshipComponent>(leftR->parent);
-			//	rightR = &m_registry.get<RelationshipComponent>(rightR->parent);
-			//}
+											   //// keep going up until they have the same parent
+											   // RelationshipComponent const* leftR = &leftRelationship;
+											   // RelationshipComponent const* rightR = &rightRelationship;
+											   // while (leftR->parent != rightR->parent)
+											   //{
+											   //	leftR = &m_registry.get<RelationshipComponent>(leftR->parent);
+											   //	rightR = &m_registry.get<RelationshipComponent>(rightR->parent);
+											   // }
 
-			//// sort by index of ancestor
-			//return leftR->index < rightR->index;
-		});
+											   //// sort by index of ancestor
+											   // return leftR->index < rightR->index;
+										   });
 }
 
 void Minty::EntityManager::swap_siblings(Entity const left, Entity const right)
 {
-	MINTY_ASSERT(left != right, "Cannot swap the same entity.");
-	MINTY_ASSERT(contains(left), "Left entity does not exist.");
-	MINTY_ASSERT(contains(right), "Right entity does not exist.");
+	MINTY_ASSERT(left != right, ErrorCode::Argument_InvalidValue);
+	MINTY_ASSERT(contains(left), ErrorCode::Entity_NotValid);
+	MINTY_ASSERT(contains(right), ErrorCode::Entity_NotValid);
 
-	RelationshipComponent* leftRelationshipComponent = m_registry.try_get<RelationshipComponent>(left);
-	RelationshipComponent* rightRelationshipComponent = m_registry.try_get<RelationshipComponent>(right);
+	RelationshipComponent *leftRelationshipComponent = m_registry.try_get<RelationshipComponent>(left);
+	RelationshipComponent *rightRelationshipComponent = m_registry.try_get<RelationshipComponent>(right);
 
 	// if no relationship component, do nothing
 	if (!leftRelationshipComponent || !rightRelationshipComponent)
@@ -1144,7 +1149,8 @@ void Minty::EntityManager::swap_siblings(Entity const left, Entity const right)
 		return;
 	}
 
-	MINTY_ASSERT(leftRelationshipComponent->parent == rightRelationshipComponent->parent, "Entities are not siblings.");
+	// verify they have the same parent
+	MINTY_ASSERT(leftRelationshipComponent->parent == rightRelationshipComponent->parent, ErrorCode::Argument_InvalidValue);
 
 	// swap the indices
 	UInt tempIndex = leftRelationshipComponent->index;
@@ -1179,7 +1185,7 @@ void Minty::EntityManager::swap_siblings(Entity const left, Entity const right)
 	}
 
 	// update the parent's first and last children
-	RelationshipComponent& parent = m_registry.get<RelationshipComponent>(leftRelationshipComponent->parent);
+	RelationshipComponent &parent = m_registry.get<RelationshipComponent>(leftRelationshipComponent->parent);
 	if (parent.first == left)
 	{
 		parent.first = right;
@@ -1200,9 +1206,9 @@ void Minty::EntityManager::swap_siblings(Entity const left, Entity const right)
 
 void Minty::EntityManager::move_to_next(Entity const entity)
 {
-	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
-	RelationshipComponent* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 
 	// if no relationship component, do nothing
 	if (!relationshipComponent)
@@ -1228,9 +1234,9 @@ void Minty::EntityManager::move_to_next(Entity const entity)
 
 void Minty::EntityManager::move_to_previous(Entity const entity)
 {
-	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
-	RelationshipComponent* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 
 	// if no relationship component, do nothing
 	if (!relationshipComponent)
@@ -1256,9 +1262,9 @@ void Minty::EntityManager::move_to_previous(Entity const entity)
 
 void Minty::EntityManager::move_to_first(Entity const entity)
 {
-	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
-	RelationshipComponent* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 
 	// if no relationship component, do nothing
 	if (!relationshipComponent)
@@ -1280,19 +1286,19 @@ void Minty::EntityManager::move_to_first(Entity const entity)
 
 	// get the parent
 	Entity parent = relationshipComponent->parent;
-	RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
+	RelationshipComponent &parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
 
 	// get the first child
 	Entity first = parentRelationshipComponent.first;
-	RelationshipComponent& firstRelationshipComponent = m_registry.get<RelationshipComponent>(first);
+	RelationshipComponent &firstRelationshipComponent = m_registry.get<RelationshipComponent>(first);
 
 	// bridge the gap in the current position
 	if (relationshipComponent->next != INVALID_ENTITY)
 	{
-		RelationshipComponent& nextRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent->next);
+		RelationshipComponent &nextRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent->next);
 		nextRelationshipComponent.prev = relationshipComponent->prev;
 	}
-	RelationshipComponent& prevRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent->prev);
+	RelationshipComponent &prevRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent->prev);
 	prevRelationshipComponent.next = relationshipComponent->next;
 	if (parentRelationshipComponent.last == entity)
 	{
@@ -1310,8 +1316,8 @@ void Minty::EntityManager::move_to_first(Entity const entity)
 	UInt index = 0;
 	while (temp != INVALID_ENTITY)
 	{
-		MINTY_ASSERT(index < parentRelationshipComponent.children, "Infinite loop detected with move_to_first().");
-		RelationshipComponent& tempRelationshipComponent = m_registry.get<RelationshipComponent>(temp);
+		MINTY_ASSERT(index < parentRelationshipComponent.children, ErrorCode::Entity_CyclicRelationship);
+		RelationshipComponent &tempRelationshipComponent = m_registry.get<RelationshipComponent>(temp);
 		tempRelationshipComponent.index = index;
 		temp = tempRelationshipComponent.next;
 		index++;
@@ -1320,9 +1326,9 @@ void Minty::EntityManager::move_to_first(Entity const entity)
 
 void Minty::EntityManager::move_to_last(Entity const entity)
 {
-	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
-	RelationshipComponent* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 
 	// if no relationship component, do nothing
 	if (!relationshipComponent)
@@ -1344,20 +1350,20 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 
 	// get the parent
 	Entity parent = relationshipComponent->parent;
-	RelationshipComponent& parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
+	RelationshipComponent &parentRelationshipComponent = m_registry.get<RelationshipComponent>(parent);
 
 	// get the last child
 	Entity last = parentRelationshipComponent.last;
-	RelationshipComponent& lastRelationshipComponent = m_registry.get<RelationshipComponent>(last);
+	RelationshipComponent &lastRelationshipComponent = m_registry.get<RelationshipComponent>(last);
 
 	// bridge the gap in the current position
 	if (relationshipComponent->prev != INVALID_ENTITY)
 	{
-		RelationshipComponent& prevRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent->prev);
+		RelationshipComponent &prevRelationshipComponent = m_registry.get<RelationshipComponent>(relationshipComponent->prev);
 		prevRelationshipComponent.next = relationshipComponent->next;
 	}
 	Entity next = relationshipComponent->next;
-	RelationshipComponent& nextRelationshipComponent = m_registry.get<RelationshipComponent>(next);
+	RelationshipComponent &nextRelationshipComponent = m_registry.get<RelationshipComponent>(next);
 	nextRelationshipComponent.prev = relationshipComponent->prev;
 	if (parentRelationshipComponent.first == entity)
 	{
@@ -1375,7 +1381,7 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 	UInt index = 0;
 	while (temp != INVALID_ENTITY)
 	{
-		RelationshipComponent& tempRelationshipComponent = m_registry.get<RelationshipComponent>(temp);
+		RelationshipComponent &tempRelationshipComponent = m_registry.get<RelationshipComponent>(temp);
 		tempRelationshipComponent.index = index;
 		temp = tempRelationshipComponent.next;
 		index++;
@@ -1384,16 +1390,16 @@ void Minty::EntityManager::move_to_last(Entity const entity)
 
 void Minty::EntityManager::destroy(Entity const entity)
 {
-	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
 	// mark the entity for destruction, if not already marked
-	if(!m_registry.all_of<DestroyComponent>(entity))
+	if (!m_registry.all_of<DestroyComponent>(entity))
 	{
 		m_registry.emplace<DestroyComponent>(entity);
 	}
 
 	// destroy all children as well
-	RelationshipComponent const* relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComponent && relationshipComponent->children > 0)
 	{
 		Entity child = relationshipComponent->first;
@@ -1413,7 +1419,7 @@ void Minty::EntityManager::initialize()
 	Manager::initialize();
 }
 
-void Minty::EntityManager::frame_update(Timestep const& time)
+void Minty::EntityManager::frame_update(Timestep const &time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -1444,7 +1450,7 @@ void Minty::EntityManager::finalize()
 
 void Minty::EntityManager::destroy_immediately(Entity const entity)
 {
-	MINTY_ASSERT(contains(entity), "Entity does not exist.");
+	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
 	// strip entity
 	strip_entity(entity);
@@ -1459,19 +1465,19 @@ void Minty::EntityManager::cleanup()
 	auto view = m_registry.view<DestroyComponent>();
 
 	// strip all entities before destroying them
-	for(auto&& [entity, destroyComponent] : view.each())
+	for (auto &&[entity, destroyComponent] : view.each())
 	{
 		strip_entity(entity);
 	}
-	
+
 	// destroy the entities
 	m_registry.destroy(view.begin(), view.end());
 }
 
-Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity>* idMap, Entity const baseEntity)
+Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity> *idMap, Entity const baseEntity)
 {
 	// NOTE: The entities must be all loaded before the components, as some components will have Entity dependencies.
-	
+
 	// get entities
 	Vector<Entity> entities;
 	entities.resize(reader.get_size(), INVALID_ENTITY);
@@ -1505,10 +1511,10 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 		}
 
 		// if there is a prefab ID, set it
-		if(prefabId.is_valid())
+		if (prefabId.is_valid())
 		{
 			// add the prefab ID component
-			PrefabComponent& prefabIdComponent = m_registry.emplace<PrefabComponent>(entity);
+			PrefabComponent &prefabIdComponent = m_registry.emplace<PrefabComponent>(entity);
 			prefabIdComponent.id = prefabId;
 		}
 
@@ -1516,7 +1522,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 	}
 
 	// get components/prefabs
-	AssetManager& assetManager = AssetManager::get_singleton();
+	AssetManager &assetManager = AssetManager::get_singleton();
 	for (Size i = 0; i < entities.get_size(); i++)
 	{
 		Entity const entity = entities[i];
@@ -1524,24 +1530,23 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 		reader.indent(i);
 
 		// if a prefab, handle differently
-		PrefabComponent const* const prefabComponent = m_registry.try_get<PrefabComponent>(entity);
+		PrefabComponent const *const prefabComponent = m_registry.try_get<PrefabComponent>(entity);
 		if (prefabComponent)
 		{
 			// get the prefab
-			MINTY_ASSERT(assetManager.contains(prefabComponent->id), F("Prefab with ID {} does not exist.", prefabComponent->id));
+			MINTY_ASSERT(assetManager.contains(prefabComponent->id), ErrorCode::Asset_NotLoaded, prefabComponent->id);
 			Ref<Prefab> prefab = assetManager.get<Prefab>(prefabComponent->id);
 
 			// remove prefab component, as it is not needed anymore
 			m_registry.remove<PrefabComponent>(entity);
 
 			// deserialize the prefab
-			Node const& prefabNode = prefab->get_node();
+			Node const &prefabNode = prefab->get_node();
 			TextNodeReader prefabReader(prefabNode);
 			Map<UUID, Entity> prefabIdMap;
 			if (!deserialize_entities(prefabReader, &prefabIdMap, entity))
 			{
-				MINTY_ABORT(F("Failed to deserialize prefab \"{}\" for entity {}.", prefab->get_id(), get_entity_string(entity)));
-				return false;
+				MINTY_ABORT(ErrorCode::OperationFailed);
 			}
 
 			// read the override values
@@ -1554,7 +1559,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 				deserialize_entity_header(reader, j, name, id, prefabId);
 
 				// get the entity to override
-				MINTY_ASSERT(prefabIdMap.contains(prefabId), F("Prefab override ID {} does not exist in prefab \"{}\".", prefabId, prefab->get_id()));
+				MINTY_ASSERT(prefabIdMap.contains(prefabId), ErrorCode::Asset_Prefab_OverrideNotFound, prefabId, prefab->get_id());
 				Entity const overrideEntity = prefabIdMap.at(prefabId);
 
 				// override the name, if specified
@@ -1572,10 +1577,9 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 				// deserialize the components
 				reader.indent(j);
 
-				if(!deserialize_components(reader, overrideEntity, idMap))
+				if (!deserialize_components(reader, overrideEntity, idMap))
 				{
-					MINTY_ABORT(F("Failed to deserialize override components for entity {} in prefab \"{}\".", get_entity_string(overrideEntity), prefab->get_id()));
-					return false;
+					MINTY_ABORT(ErrorCode::OperationFailed);
 				}
 
 				reader.outdent();
@@ -1585,8 +1589,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 		{
 			if (!deserialize_components(reader, entity, idMap))
 			{
-				MINTY_ABORT(F("Failed to deserialize components for entity {} at index {}.", entity, i));
-				return false;
+				MINTY_ABORT(ErrorCode::OperationFailed);
 			}
 		}
 
@@ -1596,9 +1599,9 @@ Bool Minty::EntityManager::deserialize_entities(Reader& reader, Map<UUID, Entity
 	return true;
 }
 
-Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const entity, Map<UUID, Entity>* idMap)
+Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const entity, Map<UUID, Entity> *idMap)
 {
-	Context const& context = Context::get_singleton();
+	Context const &context = Context::get_singleton();
 
 	EntitySerializationData data{};
 	data.entityManager = this;
@@ -1608,28 +1611,26 @@ Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const e
 
 	// read each component on the Entity
 	String componentName;
-	ComponentInfo const* info;
 	for (Size i = 0; i < reader.get_size(); i++)
 	{
 		if (!reader.read_name(i, componentName) || componentName.is_empty())
 		{
-			MINTY_ERROR(F("Failed to read component name at index {}.", i));
+			MINTY_LOG_ERROR(F("Failed to read component name at index {}.", i));
 			continue;
 		}
 
 		// fix name
 		componentName = componentName.trim_end();
 
-		info = context.get_component_info(componentName);
-		MINTY_ASSERT(info != nullptr, F("Component \"{}\" does not exist.", componentName));
+		ComponentData const& info = context.get_component_info(componentName);
 
 		// get the component
-		Component* component = info->get(*this, data.entity);
+		Component *component = info.get(*this, data.entity);
 
 		// create the component if it does not exist yet
 		if (!component)
 		{
-			component = &info->create(*this, data.entity);
+			component = &info.create(*this, data.entity);
 		}
 
 		// deserialize the component
@@ -1637,8 +1638,7 @@ Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const e
 		{
 			if (!component->deserialize(reader))
 			{
-				MINTY_ERROR(F("Failed to deserialize component \"{}\" for entity {}.", componentName, get_entity_string(data.entity)));
-				continue;
+				MINTY_ABORT(ErrorCode::OperationFailed);
 			}
 
 			reader.outdent();
@@ -1650,30 +1650,29 @@ Bool Minty::EntityManager::deserialize_components(Reader& reader, Entity const e
 	return true;
 }
 
-void Minty::EntityManager::serialize(Writer& writer) const
+void Minty::EntityManager::serialize(Writer &writer) const
 {
-
 }
 
-Bool Minty::EntityManager::deserialize(Reader& reader)
+Bool Minty::EntityManager::deserialize(Reader &reader)
 {
 	return deserialize_entities(reader);
 }
 
-Owner<EntityManager> Minty::EntityManager::create(Scene* scene, EntityManagerInfo const& info)
+Owner<EntityManager> Minty::EntityManager::create(Scene *scene, EntityManagerInfo const &info)
 {
 	return Owner<EntityManager>(scene, info);
 }
 
-EntityManager& Minty::EntityManager::get_singleton()
+EntityManager &Minty::EntityManager::get_singleton()
 {
 	// get the active scene
-	Ref<Scene> const& activeScene = Context::get_singleton().get_scene_manager().get_active();
-	MINTY_ASSERT(activeScene != nullptr, "No active scene. Cannot get EntityManager.");
+	Ref<Scene> const &activeScene = Context::get_singleton().get_scene_manager().get_active();
+	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_entity_manager();
 }
 
-void Minty::EntityManager::deserialize_entity_header(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId)
+void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const index, String &name, UUID &id, UUID &prefabId)
 {
 	// get name
 	if (!reader.read_name(index, name))
@@ -1693,7 +1692,7 @@ void Minty::EntityManager::deserialize_entity_header(Reader& reader, Size const 
 		name = "";
 	}
 
-	if(!idString.is_empty())
+	if (!idString.is_empty())
 	{
 		// trim the string down
 		idString = idString.trim();
@@ -1703,7 +1702,8 @@ void Minty::EntityManager::deserialize_entity_header(Reader& reader, Size const 
 		Size prefabIndexEnd = idString.find_first(']', prefabIndex);
 		if (prefabIndex != INVALID_INDEX || prefabIndexEnd != INVALID_INDEX)
 		{
-			MINTY_ASSERT(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX && prefabIndexEnd - prefabIndex - 1 == UUID_HEX_CHAR_COUNT, F("Malformed prefab ID in entity ID string. Expecting [ and ] to be {} characters apart, with a UUID in between them.", UUID_HEX_CHAR_COUNT));
+			// Malformed prefab ID in entity ID string. Expecting [ and ] to be UUID_HEX_CHAR_COUNT characters apart, with a UUID in between them.
+			MINTY_ASSERT(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX && prefabIndexEnd - prefabIndex - 1 == UUID_HEX_CHAR_COUNT, ErrorCode::Serialization_InvalidFormat, idString);
 
 			// there is a prefab
 			String prefabIdString = idString.sub(prefabIndex + 1, UUID_HEX_CHAR_COUNT);
@@ -1722,7 +1722,8 @@ void Minty::EntityManager::deserialize_entity_header(Reader& reader, Size const 
 		if (!idString.is_empty())
 		{
 			id = parse_to_uuid(idString);
-		} else
+		}
+		else
 		{
 			id = INVALID_ID;
 		}

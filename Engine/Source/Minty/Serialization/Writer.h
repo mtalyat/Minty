@@ -652,7 +652,7 @@ namespace Minty
 		/// </summary>
 		void outdent() override
 		{
-			MINTY_ASSERT(m_depth > 0, "Cannot outdent from the root.");
+			MINTY_ASSERT(m_depth > 0, ErrorCode::Object_InvalidOperation);
 			m_depth--;
 		}
 

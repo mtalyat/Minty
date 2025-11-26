@@ -59,7 +59,7 @@ namespace Minty
 		/// <returns>The name of the Layer.</returns>
 		inline String const& get_name(Layer const layer) const
 		{
-			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, "Layer index out of bounds.");
+			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
 			return m_names[layer];
 		}
 		
@@ -77,7 +77,7 @@ namespace Minty
 		/// <returns></returns>
 		inline Layer get_mask(Layer const layer) const
 		{
-			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, "Layer index out of bounds.");
+			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
 			return m_matrix[layer];
 		}
 

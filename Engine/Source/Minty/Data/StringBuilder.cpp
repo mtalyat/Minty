@@ -1,6 +1,7 @@
 #include "StringBuilder.h"
 #include "Minty/Memory/MemoryManager.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Data/String.h"
 
 using namespace Minty;
 
@@ -15,7 +16,7 @@ Minty::StringBuilder::StringBuilder(Size const initialCapacity, Allocator const 
     reserve(initialCapacity);
 }
 
-Minty::StringBuilder::StringBuilder(String const initialString, Allocator const allocator)
+Minty::StringBuilder::StringBuilder(String const& initialString, Allocator const allocator)
     : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
 {
     reserve(initialString.get_size());
@@ -75,7 +76,7 @@ void Minty::StringBuilder::append(Char const c)
     mp_data[m_size] = '\0';
 }
 
-void Minty::StringBuilder::append(String const str)
+void Minty::StringBuilder::append(String const& str)
 {
     // Reserve more space if needed
     Size const requiredCapacity = m_size + str.get_size();

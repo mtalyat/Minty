@@ -513,7 +513,7 @@ namespace Minty
 				{
 					if (!read<T>(i, obj))
 					{
-						MINTY_ERROR(F("Reader failed to read element {}.", i));
+						MINTY_LOG_ERROR(F("Reader failed to read element {}.", i));
 						continue;
 					}
 					data.add(obj);
@@ -541,7 +541,7 @@ namespace Minty
 				{
 					if (!read<T>(i, obj))
 					{
-						MINTY_ERROR(F("Reader failed to read element {}.", i));
+						MINTY_LOG_ERROR(F("Reader failed to read element {}.", i));
 						continue;
 					}
 					data.add(obj);
@@ -570,7 +570,7 @@ namespace Minty
 				{
 					if (!read<T>(i, obj))
 					{
-						MINTY_ERROR(F("Reader failed to read element {}.", i));
+						MINTY_LOG_ERROR(F("Reader failed to read element {}.", i));
 						continue;
 					}
 					data.add(obj);
@@ -598,12 +598,12 @@ namespace Minty
 				{
 					if (!read_name(i, key))
 					{
-						MINTY_ERROR(F("Reader failed to read key {}.", i));
+						MINTY_LOG_ERROR(F("Reader failed to read key {}.", i));
 						continue;
 					}
 					if (!read(i, value))
 					{
-						MINTY_ERROR(F("Reader failed to read value {}.", i));
+						MINTY_LOG_ERROR(F("Reader failed to read value {}.", i));
 						continue;
 					}
 					data.add(key, value);
@@ -1142,7 +1142,7 @@ namespace Minty
 		/// </summary>
 		void outdent() override
 		{
-			MINTY_ASSERT(m_depth > 0, "Cannot outdent from the root Node.");
+			MINTY_ASSERT(m_depth > 0, ErrorCode::Object_InvalidOperation);
 
 			if (is_valid())
 			{
@@ -1187,9 +1187,7 @@ namespace Minty
 		Bool merge(Reader const& other) override
 		{
 			// compare nodes and merge
-			Bool const result = this->get_root_node().merge(other.get_root_node());
-			MINTY_ASSERT(result, "Failed to merge Reader nodes.");
-			return result;
+			return this->get_root_node().merge(other.get_root_node());
 		}
 
 	protected:

@@ -41,8 +41,8 @@ namespace Minty
 		ShaderModule(ShaderModuleInfo const& info)
 			: Asset(info.id)
 		{
-			MINTY_ASSERT(info.data != nullptr, "ShaderModuleInfo data must not be null.");
-			MINTY_ASSERT(info.size > 0, "ShaderModuleInfo size must be greater than 0.");
+			MINTY_ASSERT(info.data != nullptr, ErrorCode::Argument_ExpectedNonNull);
+			MINTY_ASSERT(info.size > 0, ErrorCode::Argument_ExpectedAboveZero);
 		}
 
 		virtual ~ShaderModule()

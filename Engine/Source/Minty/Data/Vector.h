@@ -709,7 +709,7 @@ namespace Minty
 		/// <param name="value">The value to insert.</param>
 		void insert(Size const index, T const& value)
 		{
-			MINTY_ASSERT(index <= m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds, index);
 
 			// add to end
 			if (index == m_size)
@@ -749,7 +749,7 @@ namespace Minty
 		/// <param name="value">The value to insert.</param>
 		void insert(Size const index, T&& value)
 		{
-			MINTY_ASSERT(index <= m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds, index);
 
 			// add to end
 			if (index == m_size)
@@ -819,7 +819,7 @@ namespace Minty
 		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
 		insert(Size const index, IteratorType const& begin, IteratorType const& end)
 		{
-			MINTY_ASSERT(index <= m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds, index);
 
 			// add to end
 			if (index == m_size)
@@ -887,7 +887,7 @@ namespace Minty
 		/// <param name="index">The index to remove the element from.</param>
 		void remove(Size const index)
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 
 			// call destructor
 			mp_data[index].~T();
@@ -921,9 +921,9 @@ namespace Minty
 		/// <param name="count">The number of elements to remove.</param>
 		void remove(Size const index, Size const count)
 		{
-			MINTY_ASSERT(index < m_size, "Begin index is out of bounds.");
-			MINTY_ASSERT(index + count <= m_size, "End index is out of bounds.");
-			MINTY_ASSERT(count != 0, "Cannot remove zero elements.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT(index + count <= m_size, ErrorCode::Argument_InvalidSize, count);
+			MINTY_ASSERT(count != 0, ErrorCode::Argument_ExpectedNonZero);
 
 			// call destructors
 			for (Size i = index; i < index + count; ++i)
@@ -969,7 +969,7 @@ namespace Minty
 		/// <returns>The element at the given index.</returns>
 		constexpr T& at(Size const index)
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 			return mp_data[index];
 		}
 
@@ -980,7 +980,7 @@ namespace Minty
 		/// <returns>The element at the given index.</returns>
 		constexpr T const& at(Size const index) const
 		{
-			MINTY_ASSERT(index < m_size, "Index is out of bounds.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 			return mp_data[index];
 		}
 
@@ -1016,9 +1016,9 @@ namespace Minty
 		/// <returns>An Vector with the copied elements in the given range.</returns>
 		constexpr Vector<T> sub(Size const index, Size const length) const
 		{
-			MINTY_ASSERT(index < m_size, "Start index is out of bounds.");
-			MINTY_ASSERT(index + length <= m_size, "Index + length is out of bounds.");
-			MINTY_ASSERT(length > 0, "Length must be greater than zero.");
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT(index + length <= m_size, ErrorCode::Argument_InvalidSize, length);
+			MINTY_ASSERT(length > 0, ErrorCode::Argument_ExpectedNonZero);
 
 			// create new array
 			Vector result(length);
@@ -1107,7 +1107,7 @@ namespace Minty
 
 		T pop()
 		{
-			MINTY_ASSERT(m_size > 0, "Cannot pop from an empty Vector.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return std::move(mp_data[--m_size]);
 		}
 

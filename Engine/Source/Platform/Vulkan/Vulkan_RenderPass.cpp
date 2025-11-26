@@ -33,7 +33,7 @@ Minty::Vulkan_RenderPass::Vulkan_RenderPass(RenderPassInfo const& info)
 		}
 		else
 		{
-			MINTY_ABORT("Cannot create a RenderPass without any attachments.");
+			MINTY_ABORT(ErrorCode::Argument_InvalidValue); // "RenderPass must have at least one attachment."
 		}
 	}
 }

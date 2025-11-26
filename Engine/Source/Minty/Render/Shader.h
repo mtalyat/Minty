@@ -203,7 +203,7 @@ namespace Minty
 		/// <returns>The input.</returns>
 		ShaderInput const& get_input(String const& name) const
 		{
-			MINTY_ASSERT(m_inputs.contains(name), F("Shader does not contain input with name: {}", name));
+			MINTY_ASSERT(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
 			return m_inputs[name];
 		}
 

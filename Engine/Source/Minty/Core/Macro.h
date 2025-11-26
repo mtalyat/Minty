@@ -4,6 +4,20 @@
 #include <format>
 #include <filesystem>
 
+#pragma region Debug
+
+#ifdef NDEBUG
+#define MINTY_RELEASE
+#endif // NDEBUG
+#if defined(_DEBUG) || !defined(MINTY_RELEASE)
+#define MINTY_DEBUG
+#endif // _DEBUG
+#if !defined(MINTY_DEBUG) && !defined(MINTY_RELEASE)
+#error "Either MINTY_DEBUG or MINTY_RELEASE must be defined."
+#endif // !MINTY_DEBUG && !MINTY_RELEASE
+
+#pragma endregion
+
 #pragma region Function
 
 #define MINTY_ENUM_OPERATORS(type) inline Bool operator!(type const value) { return static_cast<Size>(value) == 0; } \

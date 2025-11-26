@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Stopwatch.h"
+#include "Minty/Debug/Assert.h"
 #include "Minty/Time/Time.h"
 #include <format>
 
@@ -39,7 +40,7 @@ void Stopwatch::reset()
 
 Size Stopwatch::lap(TimePoint const mod)
 {
-	MINTY_ASSERT(mod > 0, "Mod must be greater than zero.");
+	MINTY_ASSERT(mod > 0, ErrorCode::Argument_ExpectedAboveZero);
 
 	TimePoint time = get_elapsed();
 	TimePoint laps = time / mod;

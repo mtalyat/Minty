@@ -61,7 +61,7 @@ namespace Minty
 			: Asset(info.id)
 			, m_image(info.image)
 		{
-			MINTY_ASSERT(m_image != nullptr, "Image must not be null.");
+			MINTY_ASSERT(m_image != nullptr, ErrorCode::Argument_ExpectedNonNull);
 		}
 
 		virtual ~Texture() = default;

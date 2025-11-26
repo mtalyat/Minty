@@ -103,7 +103,7 @@ namespace Minty
 		/// <param name="value">The value.</param>
 		void set(UUID const id, T const& value)
 		{
-			MINTY_ASSERT(m_values.contains(id), F("ID does not exist: {}", id));
+			MINTY_ASSERT(m_values.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			m_values.at(id) = value;
 		}
 
@@ -145,13 +145,13 @@ namespace Minty
 			{
 				if (!reader.read_name(i, name))
 				{
-					MINTY_ERROR(F("Reader failed to read name {}.", i));
+					MINTY_LOG_ERROR(F("Reader failed to read name {}.", i));
 					continue;
 				}
 
 				if (!reader.read(i, value))
 				{
-					MINTY_ERROR(F("Reader failed to read value {}.", i));
+					MINTY_LOG_ERROR(F("Reader failed to read value {}.", i));
 					continue;
 				}
 

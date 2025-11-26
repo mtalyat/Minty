@@ -365,7 +365,7 @@ namespace Minty
 		constexpr Array(std::initializer_list<T> const& list)
 			: m_data()
 		{
-			MINTY_ASSERT(list.size() == S, "Initializer list size does not match Array size.");
+			MINTY_ASSERT(list.size() == S, ErrorCode::Argument_InvalidSize, list.size());
 
 			Size i = 0;
 			for (T const& value : list)
@@ -477,7 +477,7 @@ namespace Minty
 		/// <returns>The element at the given index.</returns>
 		constexpr T& at(Size const index)
 		{
-			MINTY_ASSERT(index < S, "Index is out of bounds.");
+			MINTY_ASSERT(index < S, ErrorCode::Argument_OutOfRange, index);
 			return m_data[index];
 		}
 
@@ -488,7 +488,7 @@ namespace Minty
 		/// <returns>The element at the given index.</returns>
 		constexpr T const& at(Size const index) const
 		{
-			MINTY_ASSERT(index < S, "Index is out of bounds.");
+			MINTY_ASSERT(index < S, ErrorCode::Argument_OutOfRange, index);
 			return m_data[index];
 		}
 
@@ -525,8 +525,8 @@ namespace Minty
 		template<Size N>
 		constexpr Array<T, N> sub(Size const start) const
 		{
-			MINTY_ASSERT(start < S, "Start index is out of bounds.");
-			MINTY_ASSERT(start + N <= S, "Start + length index is out of bounds.");
+			MINTY_ASSERT(start < S, ErrorCode::Argument_OutOfBounds, start);
+			MINTY_ASSERT(start + N <= S, ErrorCode::Argument_InvalidSize, N);
 
 			// create new array
 			Array<T, N> result;

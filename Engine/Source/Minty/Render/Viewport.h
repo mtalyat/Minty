@@ -62,9 +62,9 @@ namespace Minty
 		Viewport(ViewportInfo const& info)
 			: Asset(info.id)
 		{
-			MINTY_ASSERT(info.minDepth >= 0.0f && info.minDepth <= 1.0f, "ViewportInfo minDepth must be between 0.0 and 1.0.");
-			MINTY_ASSERT(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, "ViewportInfo maxDepth must be between 0.0 and 1.0.");
-			MINTY_ASSERT(info.minDepth <= info.maxDepth, "ViewportInfo minDepth must be less than or equal to maxDepth.");
+			MINTY_ASSERT(info.minDepth >= 0.0f && info.minDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.minDepth);
+			MINTY_ASSERT(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.maxDepth);
+			MINTY_ASSERT(info.minDepth <= info.maxDepth, ErrorCode::Argument_IncorrectOrder, info.minDepth, info.maxDepth);
 		}
 
 		virtual ~Viewport() override

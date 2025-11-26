@@ -2,6 +2,7 @@
 #include "AnimationAction.h"
 #include "Minty/Animation/Animation.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Tool/Util.h"
 
 using namespace Minty;
 
@@ -28,8 +29,8 @@ Bool Minty::AnimationAction::parse(String const& text)
 {
 	// format: type?:entity/component:variable/value,variable/value,variable/value...
 	String strippedText = text.strip();
-	Vector<String> halves = strippedText.split(ANIMATION_ACTION_HALF);
-	MINTY_ASSERT(halves.get_size() == 2 || halves.get_size() == 3, F("AnimationAction must have exactly one or two '{}' to split into halves.", ANIMATION_ACTION_HALF));
+	Vector<String> halves = Util::split(strippedText, ANIMATION_ACTION_HALF);
+	MINTY_ASSERT(halves.get_size() == 2 || halves.get_size() == 3, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
 	Size offset = 0;
 
@@ -41,7 +42,7 @@ Bool Minty::AnimationAction::parse(String const& text)
 		Char typeChar = toupper(typeString.front());
 		offset = 1; // skip the type part
 
-		MINTY_ASSERT(typeChar == 'A' || typeChar == 'R', F("AnimationAction type must be 'A' or 'R', got '{}'.", typeChar));
+		MINTY_ASSERT(typeChar == 'A' || typeChar == 'R', ErrorCode::Animation_InvalidActionType, typeChar);
 
 		if (typeChar == 'A')
 		{
@@ -53,12 +54,13 @@ Bool Minty::AnimationAction::parse(String const& text)
 		}
 	}
 
-	Vector<String> majorParts = halves.at(offset).split(ANIMATION_ACTION_DELIMITER);
-	MINTY_ASSERT(majorParts.get_size() == 2, F("AnimationAction must have at 2 parts before the last '{}', split by '{}'.", ANIMATION_ACTION_HALF, ANIMATION_ACTION_DELIMITER));
+	Vector<String> majorParts = Util::split(halves.at(offset), ANIMATION_ACTION_DELIMITER);
+	// AnimationAction must have at 2 parts before the last ANIMATION_ACTION_HALF, split by ANIMATION_ACTION_DELIMITER
+	MINTY_ASSERT(majorParts.get_size() == 2, ErrorCode::Animation_InvalidActionFormat, strippedText);
 	Vector<String> minorParts;
 	if (offset + 1 < halves.get_size())
 	{
-		minorParts = halves.at(offset + 1).split(ANIMATION_ACTION_GROUP);
+		minorParts = Util::split(halves.at(offset + 1), ANIMATION_ACTION_GROUP);
 	}
 
 	entityIndex = get_split(0, majorParts, Animation::MAX_ENTITY_INDEX);
@@ -68,8 +70,9 @@ Bool Minty::AnimationAction::parse(String const& text)
 	values.resize(minorParts.get_size(), Tuple<UInt, UInt>());
 	for (Size i = 0; i < minorParts.get_size(); i++)
 	{
-		Vector<String> parts = minorParts.at(i).split(ANIMATION_ACTION_DELIMITER);
-		MINTY_ASSERT(parts.get_size() == 2, F("AnimationAction value at index {} must have exactly one '{}' to split into parts.", i, ANIMATION_ACTION_DELIMITER));
+		Vector<String> parts = Util::split(minorParts.at(i), ANIMATION_ACTION_DELIMITER);
+		// AnimationAction value at index i must have exactly one ANIMATION_ACTION_DELIMITER
+		MINTY_ASSERT(parts.get_size() == 2, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
 		UInt variableIndex = get_split(0, parts, Animation::MAX_VARIABLE_INDEX);
 		UInt valueIndex = get_split(1, parts, Animation::MAX_VALUE_INDEX);

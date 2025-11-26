@@ -3,7 +3,6 @@
 #include "Minty/Audio/AudioManager.h"
 #include "Minty/Component/Component.h"
 #include "Minty/Core/Macro.h"
-#include "Minty/Debug/DualBuffer.h"
 #include "Minty/Data/Lookup.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Vector.h"
@@ -49,7 +48,6 @@ namespace Minty
 
 		Bool m_initialized;
 
-		DualBuffer* mp_dualBuffer;
 		Owner<Window> m_window;
 		Owner<MemoryManager> m_memoryManager;
 		Owner<JobManager> m_jobManager;
@@ -63,7 +61,7 @@ namespace Minty
 		Vector<Manager*> m_managers;
 
 		Lookup<TypeID, SystemData> m_registeredSystems;
-		Lookup<TypeID, ComponentInfo> m_registeredComponents;
+		Lookup<TypeID, ComponentData> m_registeredComponents;
 
 #pragma endregion
 
@@ -287,8 +285,8 @@ namespace Minty
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
 		void register_system(String const& name, Int const priority = 0)
 		{
-			MINTY_ASSERT(!m_registeredSystems.contains(name), F("System already exists with the name: {}", name));
-			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
+			MINTY_ASSERT(!m_registeredSystems.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
 			SystemData info
 			{
@@ -304,17 +302,17 @@ namespace Minty
 			m_registeredSystems.add(name, typeid(T), info);
 		}
 
-		SystemData const* get_system_info(String const& name) const;
+		SystemData const& get_system_info(String const& name) const;
 
-		SystemData const* get_system_info(TypeID const& typeId) const;
+		SystemData const& get_system_info(TypeID const& typeId) const;
 
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
 		void register_component(String const& name)
 		{
-			MINTY_ASSERT(!m_registeredComponents.contains(name), F("Component already exists with the name: {}", name));
-			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), F("Component already exists with the TypeID: {}", typeid(T).name()));
+			MINTY_ASSERT(!m_registeredComponents.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
-			ComponentInfo info
+			ComponentData info
 			{
 				.name = name,
 				.create = [](EntityManager& entityManager, Entity const entity) -> Component&
@@ -338,9 +336,9 @@ namespace Minty
 			m_registeredComponents.add(name, typeid(T), info);
 		}
 
-		ComponentInfo const* get_component_info(String const& name) const;
+		ComponentData const& get_component_info(String const& name) const;
 
-		ComponentInfo const* get_component_info(TypeID const& typeId) const;
+		ComponentData const& get_component_info(TypeID const& typeId) const;
 
 #pragma endregion
 
@@ -369,7 +367,7 @@ namespace Minty
 		/// <returns>The current instance of the Context.</returns>
 		static Context& get_singleton()
 		{
-			MINTY_ASSERT(s_instance, "Context singleton is null.");
+			MINTY_ASSERT(s_instance, ErrorCode::Singleton_DoesNotExist);
 			return *s_instance;
 		}
 

@@ -261,22 +261,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="index">The index of the child Node.</param>
 		/// <returns>The Node at the given index.</returns>
-		Node const& get_child(Size const index) const
-		{
-			MINTY_ASSERT(index < m_children.get_size(), "The given index is out of range.");
-			return m_children[index];
-		}
+		Node const& get_child(Size const index) const;
 
 		/// <summary>
 		/// Gets the child Node with the given name.
 		/// </summary>
 		/// <param name="name">The name of the child Node.</param>
 		/// <returns>The Node with the given name.</returns>
-		Node const& get_child(String const& name) const
-		{
-			MINTY_ASSERT(m_lookup.contains(name), "The given name does not exist.");
-			return m_children[m_lookup[name]];
-		}
+		Node const& get_child(String const& name) const;
 
 		/// <summary>
 		/// Gets the index of the child Node with the given name.

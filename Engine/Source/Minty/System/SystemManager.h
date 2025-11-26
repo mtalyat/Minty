@@ -49,7 +49,7 @@ namespace Minty
 
 		~SystemManager()
 		{
-			MINTY_ASSERT_ERROR(!is_initialized(), "SystemManager is not disposed before destruction.");
+			MINTY_ASSERT(!is_initialized(), ErrorCode::Object_NeverDisposed);
 		}
 
 #pragma endregion
@@ -83,7 +83,7 @@ namespace Minty
         template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
         T* add()
         {
-			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T).name()));
+			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
 			// add using type
 			return static_cast<T*>(add(typeid(T)));
@@ -98,7 +98,7 @@ namespace Minty
         template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
         T* add(Int const priority)
         {
-			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), F("System already exists with the TypeID: {}", typeid(T)));
+			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
 			// add using type
 			return static_cast<T*>(add(typeid(T), priority));
@@ -176,7 +176,7 @@ namespace Minty
 		template<typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
 		T& at() const
 		{
-			MINTY_ASSERT(m_systemsByType.contains(typeid(T)), F("System does not exist with the TypeID: {}", typeid(T)));
+			MINTY_ASSERT(m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyNotFound, typeid(T).name());
 			return static_cast<T&>(*m_systems.at(m_systemsByType.at(typeid(T))));
 		}
 

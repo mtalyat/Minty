@@ -29,7 +29,7 @@ namespace Minty
 			: Manager()
 			, mp_scene(scene)
 		{
-			MINTY_ASSERT(scene != nullptr, "Scene cannot be null.");
+			MINTY_ASSERT(scene != nullptr, ErrorCode::Argument_ExpectedNonNull);
 		}
 
 #pragma endregion

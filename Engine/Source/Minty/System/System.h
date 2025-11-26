@@ -112,11 +112,7 @@ namespace Minty
 		/// Gets the Scene this System belongs to.
 		/// </summary>
 		/// <returns>The Scene.</returns>
-		Ref<Scene> const& get_scene() const
-		{
-			MINTY_ASSERT(m_scene != nullptr, "System does not belong to a Scene.");
-			return m_scene;
-		}
+		Ref<Scene> const& get_scene() const;
 
 		/// <summary>
 		/// Gets the EntityManager for this System's Scene.

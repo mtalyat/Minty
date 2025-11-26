@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PhysicsSimulation.h"
+#include "Minty/Debug/Assert.h"
 #if defined(MINTY_BULLET)
 #include "Platform/Bullet/Bullet_PhysicsSimulation.h"
 #endif
@@ -20,6 +21,6 @@ Minty::PhysicsSimulation::PhysicsSimulation(PhysicsSimulationInfo const& info)
 	, m_physicsManager(info.physicsManager)
 	, m_layerManager(info.layerManager)
 {
-	MINTY_ASSERT(m_physicsManager != nullptr, "PhysicsSimulation requires a PhysicsManager.");
-	MINTY_ASSERT(m_layerManager != nullptr, "PhysicsSimulation requires a LayerManager.");
+	MINTY_ASSERT(m_physicsManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(m_layerManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }

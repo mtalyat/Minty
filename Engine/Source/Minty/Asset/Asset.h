@@ -1,5 +1,6 @@
 #pragma once
 #include "Minty/Asset/AssetType.h"
+#include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Pointer.h"
@@ -90,10 +91,10 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>The AssetType.</returns>
-		virtual constexpr AssetType get_asset_type() const = 0;
+		virtual AssetType get_asset_type() const = 0;
 
-		virtual void serialize(Writer& writer) const override { MINTY_ABORT("Not implemented."); }
-		virtual Bool deserialize(Reader& reader) override { MINTY_ABORT("Not implemented."); return false; }
+		virtual void serialize(Writer& writer) const override { MINTY_NOT_IMPLEMENTED(); }
+		virtual Bool deserialize(Reader& reader) override { MINTY_NOT_IMPLEMENTED(); return false; }
 
 #pragma endregion
 

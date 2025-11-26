@@ -222,7 +222,7 @@ namespace Minty
 		/// </summary>
 		T pop()
 		{
-			MINTY_ASSERT(m_size > 0, "There is nothing to pop.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 
 			// get the node to remove
 			Node* node = mp_head;
@@ -258,7 +258,7 @@ namespace Minty
 		/// <returns>A reference to the next element.</returns>
 		T& peek()
 		{
-			MINTY_ASSERT(m_size > 0, "There is nothing to peek at.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_head->data;
 		}
 
@@ -268,7 +268,7 @@ namespace Minty
 		/// <returns>A reference to the next element.</returns>
 		T const& peek() const
 		{
-			MINTY_ASSERT(m_size > 0, "There is nothing to peek at.");
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_head->data;
 		}
 

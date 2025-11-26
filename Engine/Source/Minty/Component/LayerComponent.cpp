@@ -26,7 +26,7 @@ Bool Minty::LayerComponent::deserialize(Reader& reader)
 
 		if (layer == LAYER_NONE)
 		{
-			MINTY_ERROR(F("Failed to find layer \"{}\".", layerName));
+			MINTY_LOG_ERROR(F("Failed to find layer \"{}\".", layerName));
 			return false;
 		}
 

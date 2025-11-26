@@ -148,14 +148,12 @@ void Minty::RenderSystem::render_3d_meshes(CameraData const& cameraInfo, RenderM
 		// ignore if not in correct layer
 		if (!entityManager.is_in_mask(entity, cameraInfo.camera->get_layer_mask()))
 		{
-			MINTY_LOG(F("Entity {} (priority = {}) is not in camera priority mask ({}), skipping.", entityManager.get_entity_string(entity), entityManager.get_layer(entity), cameraInfo.camera->get_layer_mask()));
 			continue;
 		}
 
 		// ignore if missing mesh or material
 		if (meshComp.mesh == nullptr || meshComp.material == nullptr)
 		{
-			MINTY_WARNING(F("Skipping {} due to missing mesh or material.", entityManager.get_entity_string(entity)));
 			continue;
 		}
 
@@ -217,7 +215,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraData const& cameraInfo, Render
 
 		// get the batch based on the material
 		Ref<Texture> const& texture = sprite->get_texture();
-		MINTY_ASSERT(texture != nullptr, "Sprite has no texture.");
+		MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::D3);
 		Batch<1, Ref<Material>>& batch = batchFactory.get_or_create_batch({ material });
@@ -295,7 +293,7 @@ void Minty::RenderSystem::update_canvas(Entity const entity, Ref<Shader> const& 
 
 	// get canvas
 	CanvasComponent* canvasComp = entityManager.try_get_component<CanvasComponent>(entity);
-	MINTY_ASSERT(canvasComp != nullptr, "Failed to get Canvas component for UITransform.");
+	MINTY_ASSERT(canvasComp != nullptr, ErrorCode::Entity_MissingComponent, entityManager.get_name(entity));
 	Canvas const& canvas = canvasComp->canvas;
 
 	// if same shader and same size, do nothing
@@ -357,9 +355,9 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 		Ref<Mesh> const& mesh = meshComp.mesh;
 		Ref<Material> const& material = meshComp.material;
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
-		MINTY_ASSERT(materialTemplate != nullptr, "Failed to get MaterialTemplate for UI Mesh.");
+		MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<Shader> const& shader = materialTemplate->get_shader();
-		MINTY_ASSERT(shader != nullptr, "Failed to get Shader for UI Mesh.");
+		MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 
 		// update push constant info
 		pushData.clear();
@@ -419,7 +417,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 
 		// get the texture
 		Ref<Texture> const& texture = sprite->get_texture();
-		MINTY_ASSERT(texture != nullptr, "Sprite has no Texture.");
+		MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 
 		// get the material to use
@@ -435,7 +433,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 			stencil = entityManager.get_component<MaskedComponent>(entity).value;
 		}
 		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI, mask);
-		MINTY_ASSERT(material != nullptr, "Failed to get default Material for UI Sprite.");
+		MINTY_ASSERT(material != nullptr, ErrorCode::OperationFailed, entityManager.get_name(entity));
 		if (mask != MaskMode::None)
 		{
 			material->set_stencil(stencil);
@@ -469,9 +467,9 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 		// get resources
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
-		MINTY_ASSERT(materialTemplate != nullptr, "Failed to get material template for UI Sprite.");
+		MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<Shader> const& shader = materialTemplate->get_shader();
-		MINTY_ASSERT(shader != nullptr, "Failed to get shader for UI Sprite.");
+		MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Entity const canvasEntity = batch.get_object<Entity>(1);
 
 		// update the instanced container with the data
@@ -529,5 +527,5 @@ void Minty::RenderSystem::on_render()
 		count++;
 	}
 
-	MINTY_ASSERT(count > 0, "No cameras found to render from.");
+	MINTY_ASSERT(count > 0, ErrorCode::Scene_MissingCamera);
 }

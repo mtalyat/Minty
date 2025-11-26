@@ -71,7 +71,7 @@ namespace Minty
 		/// <returns>The State.</returns>
 		State& get_state(UUID const id)
 		{
-			MINTY_ASSERT(m_states.contains(id), F("No state found with ID {}.", id));
+			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			return m_states.at(id);
 		}
 
@@ -82,7 +82,7 @@ namespace Minty
 		/// <returns>The State.</returns>
 		State const& get_state(UUID const id) const
 		{
-			MINTY_ASSERT(m_states.contains(id), F("No state found with ID {}.", id));
+			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			return m_states.at(id);
 		}
 
@@ -92,7 +92,7 @@ namespace Minty
 		/// <param name="id">The ID of the State.</param>
 		void set_current_state(UUID const id)
 		{
-			MINTY_ASSERT(m_states.contains(id), F("No state found with ID {}.", id));
+			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			m_currentStateId = id;
 		}
 
@@ -111,7 +111,7 @@ namespace Minty
 		/// <returns>The State.</returns>
 		State& get_current_state()
 		{
-			MINTY_ASSERT(m_states.contains(m_currentStateId), F("No state found with ID {}.", m_currentStateId));
+			MINTY_ASSERT(m_states.contains(m_currentStateId), ErrorCode::Object_InvalidState, m_currentStateId);
 			return m_states.at(m_currentStateId);
 		}
 
@@ -121,7 +121,7 @@ namespace Minty
 		/// <returns>The State.</returns>
 		State const& get_current_state() const
 		{
-			MINTY_ASSERT(m_states.contains(m_currentStateId), F("No state found with ID {}.", m_currentStateId));
+			MINTY_ASSERT(m_states.contains(m_currentStateId), ErrorCode::Object_InvalidState, m_currentStateId);
 			return m_states.at(m_currentStateId);
 		}
 
@@ -140,7 +140,7 @@ namespace Minty
 		/// <param name="id">The ID of the State.</param>
 		void set_starting_state(UUID const id)
 		{
-			MINTY_ASSERT(m_states.contains(id), F("No state found with ID {}.", id));
+			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			m_startingStateId = id;
 		}
 
@@ -159,7 +159,7 @@ namespace Minty
 		/// <returns>The State.</returns>
 		State& get_starting_state()
 		{
-			MINTY_ASSERT(m_states.contains(m_startingStateId), F("No state found with ID {}.", m_startingStateId));
+			MINTY_ASSERT(m_states.contains(m_startingStateId), ErrorCode::Object_InvalidState, m_startingStateId);
 			return m_states.at(m_startingStateId);
 		}
 
@@ -169,7 +169,7 @@ namespace Minty
 		/// <returns>The State.</returns>
 		State const& get_starting_state() const
 		{
-			MINTY_ASSERT(m_states.contains(m_startingStateId), F("No state found with ID {}.", m_startingStateId));
+			MINTY_ASSERT(m_states.contains(m_startingStateId), ErrorCode::Object_InvalidState, m_startingStateId);
 			return m_states.at(m_startingStateId);
 		}
 

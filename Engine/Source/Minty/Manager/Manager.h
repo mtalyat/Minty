@@ -1,131 +1,70 @@
-#pragma once
+#ifndef MINTY_MANAGER_MANAGER_H
+#define MINTY_MANAGER_MANAGER_H
+
+/**
+ * @file Manager.h
+ * @brief Header file for the base Manager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
-#include "Minty/Event/Event.h"
-#include "Minty/Time/Time.h"
 #include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Base class for all Managers.
-	/// </summary>
+	class Event;
+
+	/**
+	 * @brief Base class for all Managers in the engine.
+	 */
 	class Manager
 	{
-#pragma region Variables
-
-	private:
-		Bool m_initialized;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Manager.
-		/// </summary>
-		Manager()
-			: m_initialized(false)
-		{
-		}
-
-		Manager(Manager const& manager)
-			: m_initialized(manager.m_initialized)
-		{
-		}
-
-		Manager(Manager&& manager) noexcept
-			: m_initialized(std::move(manager.m_initialized))
-		{
-			manager.m_initialized = false;
-		}
-
-		virtual ~Manager();
-
-#pragma endregion
-
-#pragma region Operators
-
-	public:
-		Manager& operator=(Manager const& manager)
-		{
-			if (this != &manager)
-			{
-				m_initialized = manager.m_initialized;
-			}
-			return *this;
-		}
-
-		Manager& operator=(Manager&& manager) noexcept
-		{
-			if (this != &manager)
-			{
-				m_initialized = std::move(manager.m_initialized);
-				manager.m_initialized = false;
-			}
-			return *this;
-		}
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Checks if this Manager is initialized.
-		/// </summary>
-		/// <returns>True, if initialized.</returns>
-		Bool is_initialized() const { return m_initialized; }
+		Manager() = default;
+		virtual ~Manager() = default;
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Called when the Manager is created.
-		/// </summary>
-		virtual void initialize();
-
-		/// <summary>
-		/// Called when the Manager is destroyed.
-		/// </summary>
-		virtual void dispose();
-
-		/// <summary>
-		/// Called every frame.
-		/// </summary>
-		/// <param name="time">The time information for the update.</param>
+		/**
+		 * @brief Called once a frame.
+		 * @param time The time information for the frame.
+		 */
 		virtual void frame_update(Timestep const& time) {}
 
-		/// <summary>
-		/// Called every fixed update interval.
-		/// </summary>
-		/// <param name="time">The time information for the fixed update.</param>
+		/**
+		 * @brief Called at a fixed interval.
+		 * @param time The time information for the update.
+		 */
 		virtual void fixed_update(Timestep const& time) {}
 
-		/// <summary>
-		/// Called after every update operation.
-		/// </summary>
+		/**
+		 * @brief Called at the end of the frame to finalize operations.
+		 */
 		virtual void finalize() {}
 
-		/// <summary>
-		/// Called every frame to perform rendering.
-		/// </summary>
+		/**
+		 * @brief Called once per frame to perform any rendering operations.
+		 */
 		virtual void render() {}
 
-		/// <summary>
-		/// Called when the Manager needs to synchronize operations.
-		/// </summary>
+		/**
+		 * @brief Synchronizes the Manager state.
+		 */
 		virtual void sync() {}
 
-		/// <summary>
-		/// Handles the given Event.
-		/// </summary>
-		/// <param name="event">The Event to handle.</param>
+		/**
+		 * @brief Handles an event sent to this Manager.
+		 * @param event The event to handle.
+		 */
 		virtual void handle_event(Event& event) {}
 
 #pragma endregion
-
 	};
 }
+
+#endif // MINTY_MANAGER_MANAGER_H

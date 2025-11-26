@@ -1,5 +1,5 @@
 #pragma once
-#include "Minty/Core/Macro.h"
+#include "Minty/Core/Enum.h"
 
 namespace Minty
 {
@@ -34,30 +34,30 @@ namespace Minty
 		Error = 1 << 3,
 
 		/// <summary>
-		/// Write abort messages.
+		/// Write critical messages.
 		/// </summary>
-		Abort = 1 << 4,
+		Critical = 1 << 4,
 
 		/// <summary>
-		/// Write stack trace messages on aborts and errors.
+		/// Write stack trace messages on critical errors.
 		/// </summary>
 		StackTrace = 1 << 5,
 
 		/// <summary>
-		/// Break on aborts.
+		/// Break on critical errors.
 		/// </summary>
 		Break = 1 << 6,
 
 		/// <summary>
 		/// Log all messages and perform debug operations.
 		/// </summary>
-		All = Info | Message | Warning | Error | Abort | StackTrace | Break,
+		All = Info | Message | Warning | Error | Critical | StackTrace | Break,
 
 		/// <summary>
 		/// Default logging state.
 		/// </summary>
-		Default = Info | Message | Warning | Error | Abort,
+		Default = Info | Message | Warning | Error | Critical,
 	};
 
-	MINTY_ENUM_FLAGS_OPERATORS(DebugFlags)
+	MINTY_ENABLE_ENUM_OPERATORS(DebugFlags)
 }

@@ -62,8 +62,8 @@ void Minty::Vulkan_Shader::initialize_bindings(ShaderInfo const& info)
 			continue;
 		}
 
-		MINTY_ASSERT(input.count > 0, "Shader input count must be greater than 0.");
-		MINTY_ASSERT(!input.name.is_empty(), "Shader input name must not be empty.");
+		MINTY_ASSERT(input.count > 0, ErrorCode::Argument_ExpectedNonZero);
+		MINTY_ASSERT(!input.name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
 		VkDescriptorType descriptorType = Vulkan_Renderer::to_vulkan(input.type);
 
@@ -83,8 +83,8 @@ void Minty::Vulkan_Shader::initialize_bindings(ShaderInfo const& info)
 			// add the input to the existing binding
 			BindingData& bindingData = found->get_second();
 
-			MINTY_ASSERT(bindingData.descriptorType == descriptorType, "Shader input type must match the binding type.");
-			MINTY_ASSERT(bindingData.shaderStage == Vulkan_Renderer::to_vulkan(input.stage), "Shader input stage must match the binding stage.");
+			MINTY_ASSERT(bindingData.descriptorType == descriptorType, ErrorCode::Argument_InvalidValue); // "Shader input type must match the binding type."
+			MINTY_ASSERT(bindingData.shaderStage == Vulkan_Renderer::to_vulkan(input.stage), ErrorCode::Argument_InvalidValue); // "Shader input stage must match the binding stage."
 
 			bindingData.descriptorCount += input.count;
 		}
@@ -123,7 +123,7 @@ void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderInfo const& in
 		uint32_t bindingIndex = static_cast<UInt>(i);
 
 		// find shader binding info
-		MINTY_ASSERT(m_bindings.contains(bindingIndex), F("Missing ShaderBinding for binding: {}.", i));
+		MINTY_ASSERT(m_bindings.contains(bindingIndex), ErrorCode::Render_ShaderConfiguration); // F("Missing ShaderBinding for binding: {}.", i)
 
 		BindingData const& bindingInfo = m_bindings.at(bindingIndex);
 
@@ -155,8 +155,8 @@ void Minty::Vulkan_Shader::initialize_pipeline_layout(ShaderInfo const& info)
 			continue;
 		}
 
-		MINTY_ASSERT(descriptor.size > 0, "Push constant size must be greater than 0.");
-		MINTY_ASSERT(descriptor.stage != ShaderStage::Undefined, "Push constant stage must not be undefined.");
+		MINTY_ASSERT(descriptor.size > 0, ErrorCode::Argument_ExpectedNonZero);
+		MINTY_ASSERT(descriptor.stage != ShaderStage::Undefined, ErrorCode::Argument_InvalidValue); // "Push constant stage cannot be undefined."
 
 		// create range for this push constant
 		VkPushConstantRange pushConstantRange{};
@@ -226,11 +226,8 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderInfo const& info)
 			switch (attribute.type)
 			{
 			case Type::Matrix2:
-				MINTY_ASSERT(false, "Matrix2 is not supported.");
-				break;
 			case Type::Matrix3:
-				MINTY_ASSERT(false, "Matrix3 is not supported.");
-				break;
+				MINTY_NOT_IMPLEMENTED();
 			case Type::Matrix4:
 			{
 				uint32_t typeSize = static_cast<uint32_t>(sizeof(Float4));
@@ -333,7 +330,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderInfo const& info)
 		depthStencil.depthWriteEnable = info.depthMode == DepthMode::Write ? VK_TRUE : VK_FALSE;
 
 		// transparent shaders should not write to depth
-		MINTY_ASSERT((info.transparency == true && info.depthMode != DepthMode::Write) || info.depthMode == DepthMode::Write, "Transparent shaders must have depth write disabled.");
+		MINTY_ASSERT((info.transparency == true && info.depthMode != DepthMode::Write) || info.depthMode == DepthMode::Write, ErrorCode::Render_ShaderConfiguration); // "Transparent shaders must have depth write disabled."
 
 		// set depth comparison operation
 		depthStencil.depthCompareOp = Vulkan_Renderer::to_vulkan(info.depthTestOp);
@@ -507,8 +504,8 @@ void Minty::Vulkan_Shader::on_bind()
 
 VkDescriptorPool Minty::Vulkan_Shader::get_descriptor_pool(UInt const requestedSlots)
 {
-	MINTY_ASSERT(requestedSlots > 0, "Requested slots must be greater than 0.");
-	MINTY_ASSERT(requestedSlots <= DESCRIPTOR_POOL_SIZE, "Requested slots must be less than or equal to the max pool size.");
+	MINTY_ASSERT(requestedSlots > 0, ErrorCode::Argument_ExpectedNonZero); // "Requested slots must be greater than 0."
+	MINTY_ASSERT(requestedSlots <= DESCRIPTOR_POOL_SIZE, ErrorCode::Argument_InvalidCount); // "Requested slots must be less than or equal to the max pool size."
 
 	// find a pool with enough slots, use that if able
 	for (PoolData& pool : m_descriptorPools)
@@ -529,8 +526,8 @@ VkDescriptorPool Minty::Vulkan_Shader::get_descriptor_pool(UInt const requestedS
 
 void Minty::Vulkan_Shader::free_descriptors(VkDescriptorPool const pool, UInt const slots)
 {
-	MINTY_ASSERT(slots > 0, "Slots must be greater than 0.");
-	MINTY_ASSERT(pool != VK_NULL_HANDLE, "Pool is null.");
+	MINTY_ASSERT(slots > 0, ErrorCode::Argument_ExpectedNonZero);
+	MINTY_ASSERT(pool != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 
 	// find the pool
 	for (PoolData& poolData : m_descriptorPools)
@@ -538,11 +535,11 @@ void Minty::Vulkan_Shader::free_descriptors(VkDescriptorPool const pool, UInt co
 		if (poolData.pool == pool)
 		{
 			// decrement used count
-			MINTY_ASSERT(slots <= poolData.used, "Cannot free more slots than used.");
+			MINTY_ASSERT(slots <= poolData.used, ErrorCode::Argument_InvalidCount); // "Cannot free more slots than used."
 			poolData.used -= slots;
 
 			return;
 		}
 	}
-	MINTY_ABORT("Failed to free descriptors: Pool not found.");
+	MINTY_ABORT(ErrorCode::Argument_KeyNotFound); // "Descriptor pool not found."
 }

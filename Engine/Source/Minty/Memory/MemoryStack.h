@@ -1,53 +1,37 @@
-#pragma once
+#ifndef MINTY_MEMORY_MEMORYSTACK_H
+#define MINTY_MEMORY_MEMORYSTACK_H
+
+/**
+ * @file MemoryStack.h
+ * @brief Header file for the MemoryStack class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Arguments for creating a MemoryStack.
-	/// </summary>
-	struct MemoryStackInfo
-	{
-		Size capacity = 0;
-	};
+	struct MemoryStackInfo;
 
-	/// <summary>
-	/// Manages a stack of memory.
-	/// </summary>
+	/**
+	 * @brief A stack-based memory allocator.
+	 */
 	class MemoryStack
 	{
-#pragma region Variables
-
-	private:
-		Size m_capacity;
-		Size m_size;
-		Byte* mp_data;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new MemoryStack with the given capacity in Bytes.
-		/// </summary>
-		/// <param name="capacity">The capacity in Bytes.</param>
+		/**
+		 * @brief Creates a MemoryStack using the given information.
+		 * @param info The information for creating the MemoryStack.
+		 */
 		MemoryStack(MemoryStackInfo const& info);
 
-		MemoryStack(MemoryStack const& other) = delete;
-
-		MemoryStack(MemoryStack&& other) noexcept
-			: m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_data(other.mp_data)
-		{
-			other.mp_data = nullptr;
-			other.m_size = 0;
-			other.m_capacity = 0;
-		}
-
 		~MemoryStack();
+
+		MemoryStack(MemoryStack const& other) = delete;
+		MemoryStack(MemoryStack&& other) = delete;
 
 #pragma endregion
 
@@ -55,43 +39,29 @@ namespace Minty
 
 	public:
 		MemoryStack& operator=(MemoryStack const& other) = delete;
-
-		MemoryStack& operator=(MemoryStack&& other) noexcept
-		{
-			if (this != &other)
-			{
-				delete[] mp_data;
-				m_capacity = other.m_capacity;
-				m_size = other.m_size;
-				mp_data = other.mp_data;
-				other.mp_data = nullptr;
-				other.m_size = 0;
-				other.m_capacity = 0;
-			}
-			return *this;
-		}
+		MemoryStack& operator=(MemoryStack&& other) = delete;
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
-		/// <summary>
-		/// Gets the capacity of this MemoryStack.
-		/// </summary>
-		/// <returns>The maximum number of bytes that can be allocated at once.</returns>
+		/**
+		 * @brief Gets the total capacity of the memory stack in bytes.
+		 * @return The capacity in bytes.
+		 */
 		Size get_capacity() const { return m_capacity; }
 
-		/// <summary>
-		/// Gets the number of allocated bytes.
-		/// </summary>
-		/// <returns>The number of bytes that have been allocated.</returns>
+		/**
+		 * @brief Gets the current size of allocated memory in bytes.
+		 * @return The current size in bytes.
+		 */
 		Size get_size() const { return m_size; }
 
-		/// <summary>
-		/// Gets the internal data of this MemoryStack.
-		/// </summary>
-		/// <returns>A pointer to the beginning of the stack.</returns>
+		/**
+		 * @brief Gets a pointer to the internal data.
+		 * @return A pointer to the internal data.
+		 */
 		Byte* get_data() const { return mp_data; }
 
 #pragma endregion
@@ -99,24 +69,36 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Allocates the given number of bytes.
-		/// </summary>
-		/// <param name="size">The number of bytes to allocate.</param>
-		/// <returns>The pointer to the allocated data.</returns>
-		void* allocate(Size const size);
+		/**
+		 * @brief Allocates a block of memory from the stack.
+		 * @param size The size of the memory block to allocate in bytes.
+		 * @return A pointer to the allocated memory.
+		 */
+		Any allocate(Size const size);
 
-		/// <summary>
-		/// Deallocates the given number of bytes.
-		/// </summary>
-		/// <param name="size">The number of bytes to free from memory.</param>
-		void deallocate(Size const size);
+		/**
+		 * @brief Deallocates to the given pointer. All allocations after the pointer are invalidated.
+		 * @param ptr The pointer to deallocate to.
+		 */
+		void deallocate(Any const ptr);
 
-		/// <summary>
-		/// Deallocates all memory.
-		/// </summary>
-		void clear();
+		/**
+		 * @brief Resets the memory stack, deallocating all memory.
+		 */
+		inline void reset() { m_size = 0; }
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Size m_capacity;
+		Size m_size;
+		Size m_alignment;
+		Byte* mp_data;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_MEMORY_MEMORYSTACK_H

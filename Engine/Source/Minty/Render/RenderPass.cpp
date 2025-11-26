@@ -15,7 +15,8 @@ Minty::RenderPass::RenderPass(RenderPassInfo const& info)
 	, m_colorAttachment(info.colorAttachment != nullptr)
 	, m_depthAttachment(info.depthAttachment != nullptr)
 {
-	MINTY_ASSERT(m_colorAttachment || m_depthAttachment, "RenderPass must have at least one attachment.");
+	// "At least one attachment (color or depth) must be provided to create a RenderPass."
+	MINTY_ASSERT(m_colorAttachment || m_depthAttachment, ErrorCode::Argument_InvalidValue);
 }
 
 void Minty::RenderPass::refresh()
@@ -26,7 +27,7 @@ void Minty::RenderPass::refresh()
 	// get a reference to the surface images for any RenderTargets that are surface bound
 	RenderManager& renderManager = RenderManager::get_singleton();
 	Ref<Surface> surface = renderManager.get_surface();
-	MINTY_ASSERT(surface != nullptr, "Failed to refresh RenderPass. No surface found.");
+	MINTY_ASSERT(surface != nullptr, ErrorCode::Render_NoSurface);
 	Vector<Ref<Image>> surfaceImages = surface->get_images();
 
 	// set the render pass to self
@@ -60,13 +61,13 @@ void Minty::RenderPass::refresh()
 
 void Minty::RenderPass::register_render_target(RenderTarget* const renderTarget)
 {
-	MINTY_ASSERT(!m_renderTargets.contains(renderTarget), "RenderPass already contains this RenderTarget.");
+	MINTY_ASSERT(!m_renderTargets.contains(renderTarget), ErrorCode::Argument_KeyAlreadyExists);
 	m_renderTargets.add(renderTarget);
 }
 
 void Minty::RenderPass::unregister_render_target(RenderTarget* const renderTarget)
 {
-	MINTY_ASSERT(m_renderTargets.contains(renderTarget), "RenderPass does not contain this RenderTarget.");
+	MINTY_ASSERT(m_renderTargets.contains(renderTarget), ErrorCode::Argument_KeyNotFound);
 	m_renderTargets.remove(renderTarget);
 }
 

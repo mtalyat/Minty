@@ -18,12 +18,12 @@ namespace Minty
 		/// <summary>
 		/// The color value type.
 		/// </summary>
-		using Color_t = Int;
+		using Color_t = Int32;
 
 		/// <summary>
 		/// The color channel type.
 		/// </summary>
-		using Channel_t = Byte;
+		using Channel_t = UInt8;
 
 		/// <summary>
 		/// The maximum value for a color channel.
@@ -80,7 +80,7 @@ namespace Minty
 		/// <param name="g">The green value.</param>
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
-		constexpr Color(Channel_t const r, Channel_t const g, Channel_t const b, Channel_t const a = MAX_CHANNEL)
+		explicit Color(Channel_t const r, Channel_t const g, Channel_t const b, Channel_t const a = MAX_CHANNEL)
 			: a(a)
 			, b(b)
 			, g(g)
@@ -95,21 +95,7 @@ namespace Minty
 		/// <param name="g">The green value.</param>
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
-		constexpr Color(Int const r, Int const g, Int const b, Int const a = MAX_CHANNEL)
-			: a(static_cast<Channel_t>(a))
-			, b(static_cast<Channel_t>(b))
-			, g(static_cast<Channel_t>(g))
-			, r(static_cast<Channel_t>(r))
-		{
-			MINTY_ASSERT(r >= 0, "Red value cannot be below zero.");
-			MINTY_ASSERT(g >= 0, "Green value cannot be below zero.");
-			MINTY_ASSERT(b >= 0, "Blue value cannot be below zero.");
-			MINTY_ASSERT(a >= 0, "Alpha value cannot be below zero.");
-			MINTY_ASSERT(r <= MAX_CHANNEL, "Red value cannot be above MAX_CHANNEL.");
-			MINTY_ASSERT(g <= MAX_CHANNEL, "Green value cannot be above MAX_CHANNEL.");
-			MINTY_ASSERT(b <= MAX_CHANNEL, "Blue value cannot be above MAX_CHANNEL.");
-			MINTY_ASSERT(a <= MAX_CHANNEL, "Alpha value cannot be above MAX_CHANNEL.");
-		}
+		explicit Color(Int const r, Int const g, Int const b, Int const a = MAX_CHANNEL);
 
 		/// <summary>
 		/// Creates a new Color with the given R, G, B, and A values.
@@ -118,27 +104,13 @@ namespace Minty
 		/// <param name="g">The green value.</param>
 		/// <param name="b">The blue value.</param>
 		/// <param name="a">The alpha value.</param>
-		constexpr Color(Float const r, Float const g, Float const b, Float const a = 1.0f)
-			: a(static_cast<Channel_t>(a* MAX_CHANNEL))
-			, b(static_cast<Channel_t>(b* MAX_CHANNEL))
-			, g(static_cast<Channel_t>(g* MAX_CHANNEL))
-			, r(static_cast<Channel_t>(r* MAX_CHANNEL))
-		{
-			MINTY_ASSERT(r >= 0.0f, "Red value cannot be below zero.");
-			MINTY_ASSERT(g >= 0.0f, "Green value cannot be below zero.");
-			MINTY_ASSERT(b >= 0.0f, "Blue value cannot be below zero.");
-			MINTY_ASSERT(a >= 0.0f, "Alpha value cannot be below zero.");
-			MINTY_ASSERT(r <= 1.0f, "Red value cannot be above one.");
-			MINTY_ASSERT(g <= 1.0f, "Green value cannot be above one.");
-			MINTY_ASSERT(b <= 1.0f, "Blue value cannot be above one.");
-			MINTY_ASSERT(a <= 1.0f, "Alpha value cannot be above one.");
-		}
+		explicit Color(Float const r, Float const g, Float const b, Float const a = 1.0f);
 
 		/// <summary>
 		/// Creates a new Color with the given color value.
 		/// </summary>
 		/// <param name="value">The color value.</param>
-		constexpr Color(Color_t const value)
+		explicit Color(Color_t const value)
 			: value(value)
 		{
 		}

@@ -7,7 +7,7 @@ using namespace Minty;
 
 System* Minty::SystemManager::add(SystemData const* data, Int const priority)
 {
-	MINTY_ASSERT(data != nullptr, "Given system is not registered.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::System_NotRegistered);
 
 	// create the system
 	SystemInfo info{};
@@ -16,7 +16,7 @@ System* Minty::SystemManager::add(SystemData const* data, Int const priority)
 	info.info = data;
 	System* system = data->create(info);
 
-	MINTY_ASSERT(!m_systemsByType.contains(data->typeId), F("System already exists: {}", data->name));
+	MINTY_ASSERT(!m_systemsByType.contains(data->typeId), ErrorCode::Argument_KeyAlreadyExists, data->name);
 
 	// add the system
 	m_systemsByType.add(data->typeId, system);
@@ -37,7 +37,7 @@ System* Minty::SystemManager::add(SystemData const* data, Int const priority)
 
 System* Minty::SystemManager::add(SystemData const* data)
 {
-	MINTY_ASSERT(data != nullptr, "Given system is not registered.");
+	MINTY_ASSERT(data != nullptr, ErrorCode::System_NotRegistered);
 	return add(data, data->defaultPriority);
 }
 
@@ -60,11 +60,10 @@ System* Minty::SystemManager::add(String const& name, Int const priority)
 System* Minty::SystemManager::get_system(String const& name) const
 {
 	// get the system info
-	SystemData const* data = Context::get_singleton().get_system_info(name);
-	MINTY_ASSERT(data != nullptr, F("System does not exist with the name: {}", name));
+	SystemData const& data = Context::get_singleton().get_system_info(name);
 
 	// get the system by type
-	auto it = m_systemsByType.find(data->typeId);
+	auto it = m_systemsByType.find(data.typeId);
 	// check if it exists
 	if (it == m_systemsByType.end())
 	{
@@ -266,9 +265,7 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 		// deserialize the system
 		if (!system->deserialize(reader))
 		{
-			MINTY_ABORT(F("Failed to deserialize system: {}", name));
-			reader.outdent();
-			return false;
+			MINTY_ABORT(ErrorCode::Serialization_Failed, name);
 		}
 
 		reader.outdent();
@@ -286,6 +283,6 @@ SystemManager& Minty::SystemManager::get_singleton()
 {
 	// get active scene
 	Ref<Scene> const& activeScene = Context::get_singleton().get_scene_manager().get_active();
-	MINTY_ASSERT(activeScene != nullptr, "No active scene. Cannot get SystemManager.");
+	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_system_manager();
 }

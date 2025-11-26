@@ -13,8 +13,8 @@ Minty::Vulkan_Texture::Vulkan_Texture(TextureInfo const& info)
 	: Texture(info)
 	, m_sampler(VK_NULL_HANDLE)
 {
-	MINTY_ASSERT(info.filter != Filter::Undefined, "Filter must not be undefined.");
-	MINTY_ASSERT(info.addressMode != AddressMode::Undefined, "Address mode must not be undefined.");
+	MINTY_ASSERT(info.filter != Filter::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.addressMode != AddressMode::Undefined, ErrorCode::Argument_ExpectedNonDefault);
 
 	// create the sampler
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();

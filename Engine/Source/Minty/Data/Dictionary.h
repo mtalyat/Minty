@@ -455,7 +455,7 @@ namespace Minty
 			}
 
 			// not found
-			MINTY_ABORT(F("Key not found in Dictionary: {}", key));
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 		}
 
 		/// <summary>
@@ -483,7 +483,7 @@ namespace Minty
 			}
 
 			// not found
-			MINTY_ABORT(F("Key not found in Dictionary: {}", key));
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 		}
 
 		Iterator find(Key const& key)

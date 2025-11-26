@@ -141,12 +141,12 @@ namespace Minty
 			}
 			else if (token == "/")
 			{
-				MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+				MINTY_ASSERT(right != 0.0f, ErrorCode::Math_DivideByZero);
 				return left / right;
 			}
 			else if (token == "%")
 			{
-				MINTY_ASSERT(right != 0.0f, "Attempt to divide by zero.");
+				MINTY_ASSERT(right != 0.0f, ErrorCode::Math_DivideByZero);
 				return Math::mod(left, right);
 			}
 			else if (token == "+")
@@ -183,7 +183,7 @@ namespace Minty
 			}
 			else
 			{
-				MINTY_ABORT(F("Invalid operator: {}", token));
+				MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
 			}
 		}
 
@@ -249,7 +249,7 @@ namespace Minty
 						tokens.add(operators.pop());
 					}
 
-					MINTY_ASSERT(!operators.is_empty(), "Mismatch parenthesis.");
+					MINTY_ASSERT(!operators.is_empty(), ErrorCode::Math_MismatchedParentheses);
 
 					operators.pop();
 
@@ -260,13 +260,13 @@ namespace Minty
 				}
 				else
 				{
-					MINTY_ABORT(F("Invalid token: {}", token));
+					MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
 				}
 			}
 
 			while (!operators.is_empty())
 			{
-				MINTY_ASSERT(operators.peek() != "(", "Mismatch parenthesis.");
+				MINTY_ASSERT(operators.peek() != "(", ErrorCode::Math_MismatchedParentheses);
 
 				tokens.add(operators.pop());
 			}
@@ -279,7 +279,7 @@ namespace Minty
 		T evaluate_2(String const& expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 2, F("Expected 2 arguments, got {}: {}", args.get_size(), expression));
+			MINTY_ASSERT(args.get_size() == 2, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1))
@@ -290,7 +290,7 @@ namespace Minty
 		T evaluate_3(String const& expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 3, F("Expected 3 arguments, got {}: {}", args.get_size(), expression));
+			MINTY_ASSERT(args.get_size() == 3, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1)),
@@ -302,7 +302,7 @@ namespace Minty
 		T evaluate_4(String const& expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 4, F("Expected 4 arguments, got {}: {}", args.get_size(), expression));
+			MINTY_ASSERT(args.get_size() == 4, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1)),
@@ -362,11 +362,11 @@ namespace Minty
 				else
 				{
 					// something else
-					MINTY_ABORT(F("Invalid token: {}", token));
+					MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
 				}
 			}
 
-			MINTY_ASSERT(stack.get_size() == 1, F("Invalid evaluation, resulted with {} values. (\"{}\").", stack.get_size(), expression));
+			MINTY_ASSERT(stack.get_size() == 1, ErrorCode::Math_EvaluationFailed, expression);
 
 			// last value left on stack should be the result
 			return stack.peek();

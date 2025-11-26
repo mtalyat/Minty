@@ -1,38 +1,39 @@
 #include "pch.h"
 #include "Parse.h"
+#include "Minty/Debug/Assert.h"
 #include <cstdint>
 #include <string> // Include the string header for std::stoi
 
 using namespace Minty;
 
 #define MINTY_PARSE_TO_2(type) type result{}; std::istringstream ss(string.get_data()); Char discard;\
-ss >> discard; MINTY_ASSERT(discard == '(', #type " must start with '('");\
+ss >> discard; MINTY_ASSERT(discard == '(', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.x;\
-ss >> discard; MINTY_ASSERT(discard == ',', #type " must have a ',' after the first value");\
+ss >> discard; MINTY_ASSERT(discard == ',', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.y;\
-ss >> discard; MINTY_ASSERT(discard == ')', #type " must end with ')'");\
+ss >> discard; MINTY_ASSERT(discard == ')', ErrorCode::Serialization_InvalidFormat);\
 return result
 
 #define MINTY_PARSE_TO_3(type) type result{}; std::istringstream ss(string.get_data()); Char discard;\
-ss >> discard; MINTY_ASSERT(discard == '(', #type " must start with '('");\
+ss >> discard; MINTY_ASSERT(discard == '(', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.x;\
-ss >> discard; MINTY_ASSERT(discard == ',', #type " must have a ',' after the first value");\
+ss >> discard; MINTY_ASSERT(discard == ',', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.y;\
-ss >> discard; MINTY_ASSERT(discard == ',', #type " must have a ',' after the second value");\
+ss >> discard; MINTY_ASSERT(discard == ',', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.z;\
-ss >> discard; MINTY_ASSERT(discard == ')', #type " must end with ')'");\
+ss >> discard; MINTY_ASSERT(discard == ')', ErrorCode::Serialization_InvalidFormat);\
 return result
 
 #define MINTY_PARSE_TO_4(type) type result{}; std::istringstream ss(string.get_data()); Char discard;\
-ss >> discard; MINTY_ASSERT(discard == '(', #type " must start with '('");\
+ss >> discard; MINTY_ASSERT(discard == '(', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.x;\
-ss >> discard; MINTY_ASSERT(discard == ',', #type " must have a ',' after the first value");\
+ss >> discard; MINTY_ASSERT(discard == ',', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.y;\
-ss >> discard; MINTY_ASSERT(discard == ',', #type " must have a ',' after the second value");\
+ss >> discard; MINTY_ASSERT(discard == ',', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.z;\
-ss >> discard; MINTY_ASSERT(discard == ',', #type " must have a ',' after the third value");\
+ss >> discard; MINTY_ASSERT(discard == ',', ErrorCode::Serialization_InvalidFormat);\
 ss >> result.w;\
-ss >> discard; MINTY_ASSERT(discard == ')', #type " must end with ')'");\
+ss >> discard; MINTY_ASSERT(discard == ')', ErrorCode::Serialization_InvalidFormat);\
 return result
 
 #define MINTY_TRY_PARSE_TO_2(type) type result{}; std::istringstream ss(string.get_data()); Char discard;\
@@ -206,6 +207,11 @@ static Bool is_float(String const& string)
 	return digit;
 }
 
+static Bool is_bool(Char const c)
+{
+	return c == 't' || c == 'T' || c == 'f' || c == 'F' || c == '0' || c == '1';
+}
+
 Bool Minty::to_bool(String const& string)
 {
 	if (string.is_empty())
@@ -248,17 +254,17 @@ Bool2 Minty::to_bool2(String const& string)
 	Char c;
 	std::istringstream ss(string.get_data());
 	ss >> c;
-	MINTY_ASSERT(c == '(', "Bool2 must start with '('");
+	MINTY_ASSERT(c == '(', ErrorCode::Serialization_InvalidFormat); // Bool2 must start with '('
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool2 must have a valid first value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool2 must have a valid first value
 	result.x = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ',', "Bool2 must have a ',' after the first value");
+	MINTY_ASSERT(c == ',', ErrorCode::Serialization_InvalidFormat); // Bool2 must have a ',' after the first value
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool2 must have a valid second value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool2 must have a valid second value
 	result.y = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ')', "Bool2 must end with ')'");
+	MINTY_ASSERT(c == ')', ErrorCode::Serialization_InvalidFormat); // Bool2 must end with ')'
 	return result;
 }
 
@@ -289,22 +295,22 @@ Bool3 Minty::to_bool3(String const& string)
 	Char c;
 	std::istringstream ss(string.get_data());
 	ss >> c;
-	MINTY_ASSERT(c == '(', "Bool3 must start with '('");
+	MINTY_ASSERT(c == '(', ErrorCode::Serialization_InvalidFormat); // Bool3 must start with '('
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool3 must have a valid first value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool3 must have a valid first value
 	result.x = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ',', "Bool3 must have a ',' after the first value");
+	MINTY_ASSERT(c == ',', ErrorCode::Serialization_InvalidFormat); // Bool3 must have a ',' after the first value
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool3 must have a valid second value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool3 must have a valid second value
 	result.y = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ',', "Bool3 must have a ',' after the second value");
+	MINTY_ASSERT(c == ',', ErrorCode::Serialization_InvalidFormat); // Bool3 must have a ',' after the second value
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool3 must have a valid third value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool3 must have a valid third value
 	result.z = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ')', "Bool3 must end with ')'");
+	MINTY_ASSERT(c == ')', ErrorCode::Serialization_InvalidFormat); // Bool3 must end with ')'
 	return result;
 }
 
@@ -340,27 +346,27 @@ Bool4 Minty::to_bool4(String const& string)
 	Char c;
 	std::istringstream ss(string.get_data());
 	ss >> c;
-	MINTY_ASSERT(c == '(', "Bool4 must start with '('");
+	MINTY_ASSERT(c == '(', ErrorCode::Serialization_InvalidFormat); // Bool4 must start with '('
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool4 must have a valid first value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool4 must have a valid first value
 	result.x = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ',', "Bool4 must have a ',' after the first value");
+	MINTY_ASSERT(c == ',', ErrorCode::Serialization_InvalidFormat); // Bool4 must have a ',' after the first value)
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool4 must have a valid second value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool4 must have a valid second value
 	result.y = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ',', "Bool4 must have a ',' after the second value");
+	MINTY_ASSERT(c == ',', ErrorCode::Serialization_InvalidFormat); // Bool4 must have a ',' after the second value
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool4 must have a valid third value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool4 must have a valid third value
 	result.z = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ',', "Bool4 must have a ',' after the third value");
+	MINTY_ASSERT(c == ',', ErrorCode::Serialization_InvalidFormat); // Bool4 must have a ',' after the third value
 	ss >> c;
-	MINTY_ASSERT(c == 't' || c == 'f' || c == 'T' || c == 'F' || c == '0' || c == '1', "Bool4 must have a valid fourth value");
+	MINTY_ASSERT(is_bool(c), ErrorCode::Serialization_InvalidFormat); // Bool4 must have a valid fourth value
 	result.w = c != 'f' && c != 'F' && c != '0';
 	ss >> c;
-	MINTY_ASSERT(c == ')', "Bool4 must end with ')'");
+	MINTY_ASSERT(c == ')', ErrorCode::Serialization_InvalidFormat); // Bool4 must end with ')'
 	return result;
 }
 

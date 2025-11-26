@@ -38,11 +38,7 @@ void Minty::AudioSystem::on_finalize()
 	for (auto const& [entity, audioListenerComp, enabledComp] : entityManager.view<AudioListenerComponent, EnabledComponent const>().each())
 	{
 		// ignore if not the first
-		if (count > 0)
-		{
-			MINTY_ABORT("More than one AudioListenerComponent in the Scene.");
-			continue;
-		}
+		MINTY_ASSERT(count == 0, ErrorCode::Scene_TooManyListeners);
 
 		// get the listener data
 		AudioListener listenerData;
@@ -72,7 +68,7 @@ void Minty::AudioSystem::on_finalize()
 	// if no audio listener was found, warn
 	if (count == 0)
 	{
-		MINTY_WARNING("No Audio Listener found in the Scene.");
+		MINTY_LOG_WARNING("No Audio Listener found in the Scene.");
 	}
 
 	// if any entities were disabled, stop their audio

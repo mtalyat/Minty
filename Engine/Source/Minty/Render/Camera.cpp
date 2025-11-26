@@ -18,11 +18,11 @@ Minty::Camera::Camera(CameraInfo const& info)
 	, m_layer(info.layer)
 	, m_renderTarget(info.renderTarget)
 {
-	MINTY_ASSERT(info.perspective != Perspective::Undefined, "Camera perspective cannot be undefined.");
-	MINTY_ASSERT(info.fov > 0.0f && info.fov < 180.0f, "Camera Field of View must be between 0 and 180 degrees.");
-	MINTY_ASSERT(info.nearPlane > 0.0f, "Camera near plane must be greater than 0.");
-	MINTY_ASSERT(info.farPlane > info.nearPlane, "Camera far plane must be greater than near plane.");
-	MINTY_ASSERT(info.size > 0.0f, "Camera size must be greater than 0.");
+	MINTY_ASSERT(info.perspective != Perspective::Undefined, ErrorCode::Argument_ExpectedNonDefault);
+	MINTY_ASSERT(info.fov > 0.0f && info.fov < 180.0f, ErrorCode::Argument_OutOfBounds);
+	MINTY_ASSERT(info.nearPlane > 0.0f, ErrorCode::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(info.farPlane > info.nearPlane, ErrorCode::Argument_IncorrectOrder);
+	MINTY_ASSERT(info.size > 0.0f, ErrorCode::Argument_ExpectedAboveZero);
 }
 
 void Minty::Camera::serialize(Writer& writer) const

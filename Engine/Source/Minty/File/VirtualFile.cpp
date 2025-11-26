@@ -10,9 +10,9 @@ PhysicalFile::Size_t Minty::VirtualFile::get_size() const
 
 void Minty::VirtualFile::open(Path const& path, Flags const flags, Position_t const offset, Size const size)
 {
-    MINTY_ASSERT((flags & Flags::Truncate) == Flags::None, "VirtualFiles are not allowed to be opened with the Truncate flag.");
-	MINTY_ASSERT((flags & Flags::Append) == Flags::None, "VirtualFiles are not allowed to be opened with the Append flag.");
-	MINTY_ASSERT((flags & Flags::Write) == Flags::None || (flags & Flags::Read) != Flags::None, "VirtualFiles are not allowed to be opened with the Write flag without an accompanying Read flag.");
+    MINTY_ASSERT((flags & Flags::Truncate) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
+	MINTY_ASSERT((flags & Flags::Append) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
+	MINTY_ASSERT((flags & Flags::Write) == Flags::None || (flags & Flags::Read) != Flags::None, ErrorCode::File_FlagNotSupported, flags);
 
     PhysicalFile::open(path, flags);
     m_virtualOffset = offset;
@@ -96,7 +96,7 @@ Char Minty::VirtualFile::read()
     // if at the end of the file, stop
     if (end_of_file())
     {
-        MINTY_ERROR("Cannot read_file from file to buffer. End Of File.");
+        MINTY_LOG_ERROR("Cannot read_file from file to buffer. End Of File.");
         return '\0';
     }
 
@@ -109,7 +109,7 @@ void Minty::VirtualFile::read(void* const buffer, Size_t const size)
     // if at the end of the file, stop
     if (end_of_file())
     {
-        MINTY_ERROR("Cannot read_file from file to buffer. End Of File.");
+        MINTY_LOG_ERROR("Cannot read_file from file to buffer. End Of File.");
         return;
     }
 
