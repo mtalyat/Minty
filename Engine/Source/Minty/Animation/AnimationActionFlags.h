@@ -1,37 +1,46 @@
-#pragma once
+#ifndef MINTY_ANIMATION_ANIMATIONACTIONFLAGS_H
+#define MINTY_ANIMATION_ANIMATIONACTIONFLAGS_H
+
+/**
+ * @file AnimationActionFlags.h
+ * @brief Defines flags for actions to be taken during animation.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines what additional actions are taken during an animation step.
-	/// </summary>
+	/**
+	 * @brief Flags for actions to be taken during animation.
+	 */
 	enum class AnimationActionType
 	{
-		/// <summary>
-		/// No additional action taken.
-		/// </summary>
+		/**
+		 * @brief No action.
+		 */
 		None = 0,
 
-		/// <summary>
-		/// Add the associated component to the entity.
-		/// </summary>
+		/**
+		 * @brief Add the associated component to the entity.
+		 */
 		Add = 1 << 0,
 
-		/// <summary>
-		/// Remove the associated component from the entity.
-		/// </summary>
+		/**
+		 * @brief Remove the associated component from the entity.
+		 */
 		Remove = 1 << 1,
 
-		/// <summary>
-		/// Enable interpolation for the action.
-		/// </summary>
+		/**
+		 * @brief Enable interpolation for the action.
+		 */
 		Smooth = 1 << 2,
 	};
 
-	MINTY_ENUM_FLAGS_OPERATORS(AnimationActionType)
+	MINTY_ENABLE_ENUM_OPERATORS(AnimationActionType)
 
 	String to_string(AnimationActionType const obj);
 	AnimationActionType parse_to_animation_action_type(String const& string);
@@ -41,3 +50,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<AnimationActionType>(String const& string, AnimationActionType& value) { return parse_try_animation_action_type(string, value); }
 }
+
+#endif // MINTY_ANIMATION_ANIMATIONACTIONFLAGS_H

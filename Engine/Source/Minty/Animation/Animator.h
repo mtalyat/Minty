@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ANIMATION_ANIMATOR_H
+#define MINTY_ANIMATION_ANIMATOR_H
+
+/**
+ * @file Animator.h
+ * @brief Defines the Animator class used for controlling animations on an Entity.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
 
@@ -96,3 +104,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_ANIMATION_ANIMATOR_H
