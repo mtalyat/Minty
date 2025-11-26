@@ -5,10 +5,10 @@
 
 using namespace Minty;
 
-Owner<Window> Minty::Window::create(WindowInfo const &info)
+Window* Minty::Window::create(WindowInfo const &info)
 {
 #ifdef MINTY_WINDOWS
-	return Owner<Windows_Window>(info);
+	return new Windows_Window(info);
 #else
 	MINTY_ABORT(ErrorCode::NotSupported);
 #endif // MINTY_WINDOWS

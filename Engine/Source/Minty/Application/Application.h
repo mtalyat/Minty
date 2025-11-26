@@ -1,80 +1,156 @@
-#pragma once
+#ifndef MINTY_APPLICATION_APPLICATION_H
+#define MINTY_APPLICATION_APPLICATION_H
+
+/**
+ * @file Application.h
+ * @brief Defines the Application class used for managing the application lifecycle.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Context/Context.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Debug/Debug.h"
-#include "Minty/Time/TimeManagerInfo.h"
+#include "Minty/Data/Lookup.h"
+#include "Minty/Data/Vector.h"
 
 namespace Minty
 {
-	class Stopwatch;
+	struct ApplicationInfo;
+	class Window;
+	class MemoryManager;
+	class JobManager;
+	class AudioManager;
+	class LayerManager;
+	class PhysicsManager;
+	class AssetManager;
+	class InputManager;
+	class RenderManager;
+	class SceneManager;
 	class TimeManager;
 
-	/// <summary>
-	/// The arguments for creating an Application.
-	/// </summary>
-	struct ApplicationInfo
-	{
-		/// <summary>
-		/// The Context to use.
-		/// </summary>
-		Owner<Context> context = nullptr;
-
-		/// <summary>
-		/// The arguments for the application's TimeManager.
-		/// </summary>
-		TimeManagerInfo timeManagerInfo = {};
-	};
-
-	/// <summary>
-	/// Handles the update loop of an application.
-	/// </summary>
+	/**
+	 * @brief The main Application class that manages the application lifecycle.
+	 */
 	class Application
 	{
-#pragma region Variables
-
-	private:
-		Owner<Context> m_context;
-		TimeManager* mp_timeManager;
-		Bool m_running;
-		static Application* s_instance;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Application using the given ApplicationInfo.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		Application(ApplicationInfo const& info);
+		/**
+		 * @brief Creates a new Application using the given ApplicationInfo.
+		 * @param info The arguments.
+		 */
+		Application(ApplicationInfo const &info);
 
 		~Application();
 
-		Application(Application const&) = delete;
-		Application(Application&&) = delete;
+		Application(Application const &) = delete;
+		Application(Application &&) = delete;
 
 #pragma endregion
-		
+
 #pragma region Operators
 
 	public:
-		Application& operator=(Application const&) = delete;
-		Application& operator=(Application&&) = delete;
+		Application &operator=(Application const &) = delete;
+		Application &operator=(Application &&) = delete;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Context this Application uses.
-		/// </summary>
-		/// <returns></returns>
-		Ref<Context> get_context() const
+		/**
+		 * @brief Checks if the Application is currently running.
+		 * @return True if running, otherwise false.
+		 */
+		inline Bool is_running() const { return m_running; }
+
+		/**
+		 * @brief Gets the Window of the Application.
+		 * @note This will be invalid if no Window was created using the ApplicationInfo.
+		 * @return The Window.
+		 */
+		Window& get_window() const;
+
+		/**
+		 * @note This will be invalid if no MemoryManager was created using the ApplicationInfo.
+		 * @brief Gets the MemoryManager of the Application.
+		 * @return The MemoryManager.
+		 */
+		MemoryManager& get_memory_manager() const;
+
+		/**
+		 * @brief Gets the JobManager of the Application.
+		 * @note This will be invalid if no JobManager was created using the ApplicationInfo.
+		 * @return The JobManager.
+		 */
+		JobManager& get_job_manager() const;
+
+		/**
+		 * @brief Gets the AudioManager of the Application.
+		 * @note This will be invalid if no AudioManager was created using the ApplicationInfo.
+		 * @return The AudioManager.
+		 */
+		AudioManager& get_audio_manager() const;
+
+		/**
+		 * @brief Gets the LayerManager of the Application.
+		 * @note This will be invalid if no LayerManager was created using the ApplicationInfo.
+		 * @return The LayerManager.
+		 */
+		LayerManager& get_layer_manager() const;
+
+		/**
+		 * @brief Gets the PhysicsManager of the Application.
+		 * @note This will be invalid if no PhysicsManager was created using the ApplicationInfo.
+		 * @return The PhysicsManager.
+		 */
+		PhysicsManager& get_physics_manager() const;
+
+		/**
+		 * @brief Gets the AssetManager of the Application.
+		 * @note This will be invalid if no AssetManager was created using the ApplicationInfo.
+		 * @return The AssetManager.
+		 */
+		AssetManager& get_asset_manager() const;
+
+		/**
+		 * @brief Gets the InputManager of the Application.
+		 * @note This will be invalid if no InputManager was created using the ApplicationInfo.
+		 * @return The InputManager.
+		 */
+		InputManager& get_input_manager() const;
+
+		/**
+		 * @brief Gets the RenderManager of the Application.
+		 * @note This will be invalid if no RenderManager was created using the ApplicationInfo.
+		 * @return The RenderManager.
+		 */
+		RenderManager& get_render_manager() const;
+
+		/**
+		 * @brief Gets the SceneManager of the Application.
+		 * @note This will be invalid if no SceneManager was created using the ApplicationInfo.
+		 * @return The SceneManager.
+		 */
+		SceneManager& get_scene_manager() const;
+
+		/**
+		 * @brief Gets the TimeManager of the Application.
+		 * @note This will be invalid if no TimeManager was created using the ApplicationInfo.
+		 * @return The TimeManager.
+		 */
+		TimeManager& get_time_manager() const;
+
+		/**
+		 * @brief Gets the current instance of the Application.
+		 * @return The current instance of the Application.
+		 */
+		static Application &get_singleton()
 		{
-			return m_context.create_ref();
+			MINTY_ASSERT(s_instance, ErrorCode::Singleton_DoesNotExist);
+			return *s_instance;
 		}
 
 #pragma endregion
@@ -82,50 +158,61 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Quits the Application.
-		/// </summary>
+		/**
+		 * @brief Quits the Application.
+		 */
 		void quit();
 
-		/// <summary>
-		/// Performs one step in the Application's update loop.
-		/// </summary>
+		/**
+		 * @brief Performs one step in the Application's update loop.
+		 */
 		void step();
-		
-		/// <summary>
-		/// Runs the Application.
-		/// </summary>
+
+		/**
+		 * @brief Runs the Application.
+		 */
 		void run();
+
+		/**
+		 * @brief Creates a new Application using the configuration file at the given path.
+		 * @param path The path to the configuration file.
+		 * @return An Application Owner.
+		 */
+		static Owner<Application> open(Path const &path);
+
+		/**
+		 * @brief Creates a new Application using the given ApplicationInfo.
+		 * @param info The arguments.
+		 * @return An Application Owner.
+		 */
+		static Owner<Application> create(ApplicationInfo const &info);
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Variables
 
-	public:
-		/// <summary>
-		/// Creates a new Application using the configuration file at the given path.
-		/// </summary>
-		/// <param name="path">The path to the configuration file.</param>
-		/// <returns>An Application Owner.</returns>
-		static Owner<Application> open(Path const& path);
+	private:
+		Bool m_running;
+		Window *mp_window;
+		MemoryManager *mp_memoryManager;
+		JobManager *mp_jobManager;
+		AudioManager *mp_audioManager;
+		LayerManager *mp_layerManager;
+		PhysicsManager *mp_physicsManager;
+		AssetManager *mp_assetManager;
+		InputManager *mp_inputManager;
+		RenderManager *mp_renderManager;
+		SceneManager *mp_sceneManager;
+		TimeManager *mp_timeManager;
+		Vector<Manager *> m_managers;
 
-		/// <summary>
-		/// Creates a new Application using the given ApplicationInfo.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>An Application Owner.</returns>
-		static Owner<Application> create(ApplicationInfo const& info = {});
+		Lookup<TypeID, SystemData> m_registeredSystems;
+		Lookup<TypeID, ComponentData> m_registeredComponents;
 
-		/// <summary>
-		/// Gets the current instance of the Application.
-		/// </summary>
-		/// <returns>The current instance of the Application.</returns>
-		static Application& get_singleton()
-		{
-			MINTY_ASSERT(s_instance, ErrorCode::Singleton_DoesNotExist);
-			return *s_instance;
-		}
+		static Application *s_instance;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_APPLICATION_APPLICATION_H

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Animation.h"
 #include "AnimationAction.h"
 #include "AnimationActionFlags.h"

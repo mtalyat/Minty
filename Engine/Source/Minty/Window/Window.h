@@ -213,7 +213,9 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The info.</param>
 		/// <returns>A Window Owner.</returns>
-		static Owner<Window> create(WindowInfo const& info = {});
+		static Window* create(WindowInfo const& info);
+
+		inline static void destroy(Window* p_window) { delete p_window; }
 
 #pragma endregion
 	};
