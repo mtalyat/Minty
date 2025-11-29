@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 
@@ -40,7 +39,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 		Node* mp_head;
 		Node* mp_tail;
 		Size m_size;
@@ -54,7 +53,7 @@ namespace Minty
 		/// Creates an empty Queue.
 		/// </summary>
 		/// <param name="allocator">The memory allocator to use.</param>
-		constexpr Queue(Allocator const allocator = Allocator::Default)
+		constexpr Queue(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, mp_head(nullptr)
 			, mp_tail(nullptr)
@@ -90,7 +89,7 @@ namespace Minty
 			, mp_tail(other.mp_tail)
 			, m_size(other.m_size)
 		{
-			other.m_allocator = Allocator::Default;
+			other.m_allocator = AllocatorType::Default;
 			other.mp_head = nullptr;
 			other.mp_tail = nullptr;
 			other.m_size = 0;
@@ -151,7 +150,7 @@ namespace Minty
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
 				m_size = other.m_size;
-				other.m_allocator = Allocator::Default;
+				other.m_allocator = AllocatorType::Default;
 				other.mp_head = nullptr;
 				other.mp_tail = nullptr;
 				other.m_size = 0;

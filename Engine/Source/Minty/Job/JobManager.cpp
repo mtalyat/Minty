@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-Minty::JobManager::JobManager(JobManagerInfo const& info, Allocator const allocator)
+Minty::JobManager::JobManager(JobManagerInfo const& info, AllocatorType const allocator)
 	: m_allocator(allocator)
 	, m_threads()
 	, m_nextHandle(0)

@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
 
@@ -15,7 +14,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 		Size m_capacity;
 		Size m_size;
 		T* mp_data;
@@ -29,7 +28,7 @@ namespace Minty
 		/// Creates an empty Stack.
 		/// </summary>
 		/// <param name="allocator">The memory allocator to use.</param>
-		constexpr Stack(Allocator const allocator = Allocator::Default)
+		constexpr Stack(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
@@ -42,7 +41,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="capacity">The maximum number of elements.</param>
 		/// <param name="allocator">The memory allocator to use.</param>
-		Stack(Size const capacity, Allocator const allocator = Allocator::Default)
+		Stack(Size const capacity, AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
@@ -80,7 +79,7 @@ namespace Minty
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
-			other.m_allocator = Allocator::Default;
+			other.m_allocator = AllocatorType::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -138,7 +137,7 @@ namespace Minty
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_data = other.mp_data;
-				other.m_allocator = Allocator::Default;
+				other.m_allocator = AllocatorType::Default;
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_data = nullptr;

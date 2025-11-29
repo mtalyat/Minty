@@ -1,9 +1,38 @@
 #include "pch.h"
 #include "StaticContainer.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
-Bool Minty::StaticContainer::append(void const* const data, Size const size)
+Minty::StaticContainer::StaticContainer()
+	: MemoryContainer()
+{
+}
+
+Minty::StaticContainer::StaticContainer(Size const capacity)
+	: MemoryContainer()
+{
+	if (capacity)
+	{
+		m_capacity = capacity;
+		mp_data = static_cast<Byte *>(DefaultAllocator::allocate(capacity));
+	}
+}
+
+Minty::StaticContainer::StaticContainer(void const *const data, Size const size)
+	: MemoryContainer()
+{
+	if (data && size)
+	{
+		m_capacity = size;
+		m_size = size;
+		mp_data = static_cast<Byte *>(DefaultAllocator::allocate(size));
+		memcpy(mp_data, data, size);
+	}
+}
+
+Bool Minty::StaticContainer::append(void const *const data, Size const size)
 {
 	// can append to a static container, as long as the capacity allows for it
 	if (m_size + size > m_capacity)

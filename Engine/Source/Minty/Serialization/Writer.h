@@ -26,7 +26,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 		List<void const*> m_dataStack;
 
 #pragma endregion
@@ -38,7 +38,7 @@ namespace Minty
 		/// Creates a new Writer.
 		/// </summary>
 		/// <param name="allocator">The Allocator to use.</param>
-		Writer(Allocator const allocator = Allocator::Default)
+		Writer(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_dataStack(allocator)
 		{

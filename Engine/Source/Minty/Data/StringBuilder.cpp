@@ -5,18 +5,18 @@
 
 using namespace Minty;
 
-Minty::StringBuilder::StringBuilder(Allocator const allocator)
+Minty::StringBuilder::StringBuilder(AllocatorType const allocator)
     : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
 {
 }
 
-Minty::StringBuilder::StringBuilder(Size const initialCapacity, Allocator const allocator)
+Minty::StringBuilder::StringBuilder(Size const initialCapacity, AllocatorType const allocator)
     : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
 {
     reserve(initialCapacity);
 }
 
-Minty::StringBuilder::StringBuilder(String const& initialString, Allocator const allocator)
+Minty::StringBuilder::StringBuilder(String const& initialString, AllocatorType const allocator)
     : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
 {
     reserve(initialString.get_size());
@@ -98,7 +98,7 @@ void Minty::StringBuilder::append(String const& str)
     mp_data[m_size] = '\0';
 }
 
-String Minty::StringBuilder::to_string(Allocator const allocator) const
+String Minty::StringBuilder::to_string(AllocatorType const allocator) const
 {
     return String(mp_data, allocator);
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
@@ -198,7 +197,7 @@ namespace Minty
 		/// Creates an empty Path.
 		/// </summary>
 		/// <param name="allocator">The Allocator to use.</param>
-		constexpr Path(Allocator const allocator = Allocator::Default)
+		constexpr Path(AllocatorType const allocator = AllocatorType::Default)
 			: m_path()
 		{
 		}
@@ -208,14 +207,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="string">The String to create the Path from.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Path(String const& string, Allocator const allocator = Allocator::Default);
+		Path(String const& string, AllocatorType const allocator = AllocatorType::Default);
 
 		/// <summary>
 		/// Creates a Path and copies the given data.
 		/// </summary>
 		/// <param name="data">The text to copy.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Path(Char const* data, Allocator const allocator = Allocator::Default);
+		Path(Char const* data, AllocatorType const allocator = AllocatorType::Default);
 
 #pragma endregion
 

@@ -42,7 +42,7 @@ namespace Minty
      * @return The formatted string.
      */
     template <typename... Args>
-    String format(Allocator const allocator, String const formatStr, Args const &...args)
+    String format(AllocatorType const allocator, String const formatStr, Args const &...args)
     {
         Size formatSize = formatStr.get_size();
         StringBuilder builder(formatStr.get_size() * 2, allocator);
@@ -122,7 +122,7 @@ namespace Minty
     template <typename... Args>
     inline String format(String const formatStr, Args const &...args)
     {
-        return format(Allocator::Default, formatStr, args...);
+        return format(AllocatorType::Default, formatStr, args...);
     }
 }
 

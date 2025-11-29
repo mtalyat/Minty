@@ -1,130 +1,59 @@
-#pragma once
+#ifndef MINTY_DATA_LISTCONTAINER_H
+#define MINTY_DATA_LISTCONTAINER_H
+
+/**
+ * @file ListContainer.h
+ * @brief Header file for the ListContainer class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
 #include "Minty/Data/DynamicContainer.h"
-#include "Minty/Debug/Assert.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A Container of bytes that holds a list of elements.
-	/// </summary>
+	/**
+	 * @class ListContainer
+	 * @brief A DynamicContainer that stores a list of elements of fixed stride (size in
+	 */
 	class ListContainer
 		: public DynamicContainer
 	{
-#pragma region Variables
-
-	protected:
-		Size m_stride; // size of each element in bytes
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty ListContainer.
-		/// </summary>
-		/// <param name="allocator">The allocator to use.</param>
-		ListContainer(Allocator const allocator = Allocator::Default)
-			: DynamicContainer(allocator)
-			, m_stride(sizeof(Byte))
-		{
-		}
+		/**
+		 * @brief Creates an empty ListContainer.
+		 */
+		ListContainer();
 
-		/// <summary>
-		/// Creates a ListContainer with the given capacity.
-		/// </summary>
-		/// <param name="stride">The size of each element in bytes.</param>
-		/// <param name="capacity">The initial capacity in elements.</param>
-		/// <param name="allocator">The allocator to use.</param>
-		ListContainer(Size const stride, Size const capacity = DEFAULT_COLLECTION_SIZE, Allocator const allocator = Allocator::Default)
-			: DynamicContainer(allocator)
-			, m_stride(stride)
-		{
-			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
+		/**
+		 * @brief Creates a ListContainer with the given element stride and capacity.
+		 * @param stride The size of each element in bytes.
+		 */
+		ListContainer(Size const stride, Size const capacity = DEFAULT_COLLECTION_SIZE);
 
-			reserve(capacity);
-		}
-
-		/// <summary>
-		/// Creates a ListContainer with the given data and size.
-		/// </summary>
-		/// <param name="data">The byte data.</param>
-		/// <param name="stride">The size of each element in bytes.</param>
-		/// <param name="count">The size of the data in elements.</param>
-		/// <param name="allocator">The allocator to use.</param>
-		ListContainer(void const* const data, Size const stride, Size const count, Allocator const allocator = Allocator::Default)
-			: DynamicContainer(allocator)
-			, m_stride(stride)
-		{
-			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
-
-			if (data && count)
-			{
-				set(data, count);
-			}
-		}
-
-		/// <summary>
-		/// Copies the given DynamicAllocator.
-		/// </summary>
-		/// <param name="other">The DynamicAllocator to copy.</param>
-		ListContainer(ListContainer const& other)
-			: DynamicContainer(other)
-			, m_stride(other.m_stride)
-		{
-		}
-
-		/// <summary>
-		/// Moves the given DynamicAllocator.
-		/// </summary>
-		/// <param name="other">The DynamicAllocator to move.</param>
-		ListContainer(ListContainer&& other) noexcept
-			: DynamicContainer(std::move(other))
-			, m_stride(std::move(other.m_stride))
-		{
-		}
+		/**
+		 * @brief Creates a ListContainer with the given data, stride, and count.
+		 * @param data The byte data.
+		 */
+		ListContainer(void const* const data, Size const stride, Size const count);
 
 #pragma endregion
 
-#pragma region Operators
+#pragma region Accessors
 
 	public:
-		ListContainer& operator=(ListContainer const& other)
-		{
-			if (this != &other)
-			{
-				DynamicContainer::operator=(other);
-				m_stride = other.m_stride;
-			}
-			return *this;
-		}
+		/**
+		 * @brief Gets the stride (size of each element in bytes) for this Container.
+		 * @returns The size of an element in bytes.
+		 */
+		inline Size get_stride() const { return m_stride; }
 
-		ListContainer& operator=(ListContainer&& other) noexcept
-		{
-			if (this != &other)
-			{
-				DynamicContainer::operator=(std::move(other));
-				m_stride = std::move(other.m_stride);
-			}
-			return *this;
-		}
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets the size of each element in bytes.
-		/// </summary>
-		/// <returns>The size of an element in bytes.</returns>
-		Size get_stride() const { return m_stride; }
-
-		/// <summary>
-		/// Sets the stride (size of each element in bytes) for this Container.
-		/// </summary>
-		/// <param name="stride">The size of an element in bytes.</param>
+		/**
+		 * @brief Sets the stride (size of each element in bytes) for this Container.
+		 * @param stride The size of an element in bytes.
+		 */
 		void set_stride(Size const stride)
 		{
 			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
@@ -132,15 +61,58 @@ namespace Minty
 			m_stride = stride;
 		}
 
-		/// <summary>
-		/// Gets the number of elements in this Container.
-		/// </summary>
-		/// <returns>The number of elements.</returns>
+		/**
+		 * @brief Gets the number of elements in this Container.
+		 * @returns The number of elements.
+		 */
 		Size get_count() const { return m_size / m_stride; }
 
 #pragma endregion
 
 #pragma region Methods
+
+	public:
+		/**
+		 * @brief Sets the element bytes at the given element index.
+		 * @param data The bytes of the element(s) to set.
+		 * @param count The number of elements to set.
+		 * @param index The index of the element(s) to set.
+		 */
+		void set_at(void const* const data, Size const count, Size const index) override;
+
+		/**
+		 * @brief Gets the bytes of the element at the given index.
+		 * @param index The index of the element to get.
+		 */
+		void const* get_at(Size const index) const override;
+
+		/**
+		 * @brief Sets the element bytes for this Container.
+		 * @param data The bytes of the element(s) to set.
+		 * @param count The number of elements to set.
+		 */
+		Bool set(void const* const data, Size const count) override;
+
+		/**
+		 * @brief Adds the given element bytes to the end of the data within this Container.
+		 * @param data The bytes of the element(s) to append.
+		 * @param count The number of elements to append.
+		 */
+		Bool append(void const* const data, Size const count = 1) override;
+
+		/**
+		 * @brief Sets the new capacity for this Container.
+		 * @param newCapacity The new capacity in bytes.
+		 * @returns True on success.
+		 */
+		Bool reserve(Size const newCapacity) override;
+
+		/**
+		 * @brief Resizes this Container to the given number of elements.
+		 * @param count The new number of elements.
+		 * @returns True on success.
+		 */
+		Bool resize(Size const count) override;
 
 	protected:
 		Bool append_one(void const* const object, Size const size) override
@@ -149,52 +121,15 @@ namespace Minty
 			return append(object, 1);
 		}
 
-	public:
-		/// <summary>
-		/// Sets the element bytes at the given element index and count.
-		/// </summary>
-		/// <param name="data">The bytes of the element(s) to set.</param>
-		/// <param name="count">The number of elements to set.</param>
-		/// <param name="index">The index of the element(s) to set.</param>
-		void set_at(void const* const data, Size const count, Size const index) override;
+#pragma endregion
 
-		/// <summary>
-		/// Gets the element bytes at the given element index.
-		/// </summary>
-		/// <param name="index">The index to the element.</param>
-		/// <returns>A pointer to the element at the given index.</returns>
-		void const* get_at(Size const index) const override;
+#pragma region Variables
 
-		/// <summary>
-		/// Resizes and sets the data to the given element bytes.
-		/// </summary>
-		/// <param name="data">The element bytes to set.</param>
-		/// <param name="size">The number of elements to set.</param>
-		/// <returns>True if set successfully.</returns>
-		Bool set(void const* const data, Size const count) override;
-
-		/// <summary>
-		/// Adds the given element bytes to the end of the data within this Container. Reserves more space if needed.
-		/// </summary>
-		/// <param name="data">The bytes of the element(s) to append.</param>
-		/// <param name="count">The number of elements to append.</param>
-		/// <returns>True if appended successfully.</returns>
-		Bool append(void const* const data, Size const count = 1) override;
-
-		/// <summary>
-		/// Sets the new capacity for this Container.
-		/// </summary>
-		/// <param name="capacity">The new capacity to set, in elements.</param>
-		/// <returns>True on success.</returns>
-		Bool reserve(Size const newCapacity) override;
-
-		/// <summary>
-		/// Sets the new size for this Container.
-		/// </summary>
-		/// <param name="count">The number of elements.</param>
-		/// <returns>True on success.</returns>
-		Bool resize(Size const count) override;
+	protected:
+		Size m_stride;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_LISTCONTAINER_H

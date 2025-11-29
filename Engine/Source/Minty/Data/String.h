@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
@@ -141,7 +140,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 		Size m_capacity;
 		Size m_size;
 		Char* mp_data;
@@ -155,7 +154,7 @@ namespace Minty
 		/// Creates an empty String.
 		/// </summary>
 		/// <param name="allocator">The Allocator to use.</param>
-		constexpr String(Allocator const allocator = Allocator::Default)
+		constexpr String(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
@@ -168,14 +167,14 @@ namespace Minty
 		/// </summary>
 		/// <param name="capacity">The amount of characters to allocate.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		explicit String(Size const capacity, Allocator const allocator = Allocator::Default);
+		explicit String(Size const capacity, AllocatorType const allocator = AllocatorType::Default);
 
 		/// <summary>
 		/// Creates a String and copies the given data.
 		/// </summary>
 		/// <param name="data">The text to copy.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		String(Char const* const data, Allocator const allocator = Allocator::Default);
+		String(Char const* const data, AllocatorType const allocator = AllocatorType::Default);
 
 		/// <summary>
 		/// Creates a string with the given character repeated the given amount of times.
@@ -183,7 +182,7 @@ namespace Minty
 		/// <param name="character">The character to repeat.</param>
 		/// <param name="count">The number of characters to repeat.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		explicit String(Char const character, Size const count, Allocator const allocator = Allocator::Default);
+		explicit String(Char const character, Size const count, AllocatorType const allocator = AllocatorType::Default);
 
 		/// <summary>
 		/// Copies the given String.
@@ -209,7 +208,7 @@ namespace Minty
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
-			other.m_allocator = Allocator::Default;
+			other.m_allocator = AllocatorType::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -550,7 +549,7 @@ namespace Minty
 		/// <param name="size">The number of bytes.</param>
 		/// <param name="allocator">The allocator.</param>
 		/// <returns>A new null terminated String, with a copy of the given data.</returns>
-		static String from_bytes(void const* const data, Size const size, Allocator const allocator = Allocator::Default);
+		static String from_bytes(void const* const data, Size const size, AllocatorType const allocator = AllocatorType::Default);
 
 #pragma endregion
 	};

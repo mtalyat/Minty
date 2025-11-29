@@ -69,7 +69,7 @@ namespace Minty
      * @return A pointer to the cloned object.
      */
     template<typename T>
-    T* Clone(T const& src, Allocator const allocator = Allocator::Default)
+    T* Clone(T const& src, AllocatorType const allocator = AllocatorType::Default)
     {
         T* dest = Construct<T>(allocator);
         DeepCopy(*dest, src);
@@ -85,7 +85,7 @@ namespace Minty
      * @return A pointer to the cloned array.
      */
     template<typename T>
-    T* CloneArray(T const* const src, WUInt const count, Allocator const allocator = Allocator::Default)
+    T* CloneArray(T const* const src, WUInt const count, AllocatorType const allocator = AllocatorType::Default)
     {
         T* dest = ConstructArray<T>(allocator, count);
         DeepCopyArray(dest, src, count);

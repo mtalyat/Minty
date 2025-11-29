@@ -261,4 +261,23 @@ namespace Minty
 	constexpr uint16_t const WRAP_VERSION = 0;
 
 #pragma endregion
+
+#pragma region Memory
+
+	/**
+	 * @brief The maximum number of persistent memory pools.
+	 */
+	constexpr Size MAX_PERSISTENT_POOLS = 16;
+
+	/**
+	 * @brief The minimum size of a persistent memory pool.
+	 */
+	constexpr Size MIN_PERSISTENT_POOL_SIZE = 8;
+
+	/**
+	 * @brief The maximum size of a persistent memory pool.
+	 */
+	constexpr Size MAX_PERSISTENT_POOL_SIZE = 4096;
+
+#pragma endregion
 }

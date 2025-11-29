@@ -543,10 +543,9 @@ void Minty::EntityManager::finalize_dirties()
 
 			// get font character data
 			FontChar const *fc = fontVariant->get_char(c);
-
 			if (!fc)
 			{
-				MINTY_LOG_ERROR(F("There is no FontChar data for character \"{}\" in font \"{}\".", c, font->get_name()));
+				MINTY_ERROR(ErrorCode::Asset_Font_CharNotFound, c, font->get_name());
 
 				last = c;
 
@@ -1613,11 +1612,8 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 	String componentName;
 	for (Size i = 0; i < reader.get_size(); i++)
 	{
-		if (!reader.read_name(i, componentName) || componentName.is_empty())
-		{
-			MINTY_LOG_ERROR(F("Failed to read component name at index {}.", i));
-			continue;
-		}
+		Bool const nameResult = reader.read_name(i, componentName);
+		MINTY_ASSERT(nameResult && !componentName.is_empty(), ErrorCode::Serialization_ReadName);
 
 		// fix name
 		componentName = componentName.trim_end();
@@ -1652,6 +1648,7 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 
 void Minty::EntityManager::serialize(Writer &writer) const
 {
+	MINTY_NOT_IMPLEMENTED();
 }
 
 Bool Minty::EntityManager::deserialize(Reader &reader)

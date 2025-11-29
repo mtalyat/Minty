@@ -126,15 +126,8 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 
 		// load the asset
 		Ref<Asset> asset = assetManager.load_asset(assetPath);
-		if (asset == nullptr)
-		{
-			MINTY_LOG_ERROR(F("Failed to load asset: {}", assetPath));
-			continue;
-		}
-		else
-		{
-			assetData.id = asset->get_id();
-		}
+		MINTY_ASSERT(asset != nullptr, ErrorCode::Asset_LoadFailed, assetPath);
+		assetData.id = asset->get_id();
 
 		// add the path to registered assets
 		m_loadedAssets.add(assetPath, std::move(assetData));

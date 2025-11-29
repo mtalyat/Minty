@@ -220,7 +220,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	// if no entity, do nothing
 	if (entity == INVALID_ENTITY)
 	{
-		MINTY_LOG_ERROR("Animation Entity not found.");
+		MINTY_ERROR(ErrorCode::Animation_EntityNotFound);
 		return;
 	}
 

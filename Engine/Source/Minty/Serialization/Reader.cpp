@@ -57,12 +57,7 @@ Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
 
 		AssetManager& assetManager = AssetManager::get_singleton();
 		asset = assetManager.get_asset(id);
-		if (asset == nullptr)
-		{
-			// if ID not invalid, and no asset found, error
-			MINTY_LOG_ERROR(F("Failed to read Asset with ID {}. It has not been loaded.", id));
-			return false;
-		}
+		MINTY_ASSERT(asset != nullptr, ErrorCode::Asset_LoadFailed, id);
 
 		// asset found and set
 		return true;

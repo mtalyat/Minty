@@ -94,7 +94,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	// extension not found
 	if (found == types.end())
 	{
-		MINTY_LOG_ERROR(F("Asset type not found for path: {}. Creating Generic Asset.", path));
+		MINTY_ABORT(ErrorCode::Asset_UnknownType, path);
 		return AssetType::Generic;
 	}
 

@@ -42,7 +42,7 @@ namespace Minty
 #pragma region Variables
 
 	protected:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 
 	private:
 		List<void*> m_dataStack;
@@ -56,7 +56,7 @@ namespace Minty
 		/// Creates a new Reader.
 		/// </summary>
 		/// <param name="allocator">The Allocator to use.</param>
-		Reader(Allocator const allocator = Allocator::Default)
+		Reader(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_dataStack(allocator)
 		{
@@ -511,11 +511,8 @@ namespace Minty
 				T obj;
 				for (Size i = 0; i < size; i++)
 				{
-					if (!read<T>(i, obj))
-					{
-						MINTY_LOG_ERROR(F("Reader failed to read element {}.", i));
-						continue;
-					}
+					Bool const result = read<T>(i, obj);
+					MINTY_ASSERT(result, ErrorCode::Serialization_ReadValue);
 					data.add(obj);
 				}
 
@@ -539,11 +536,8 @@ namespace Minty
 				T obj;
 				for (Size i = 0; i < size; i++)
 				{
-					if (!read<T>(i, obj))
-					{
-						MINTY_LOG_ERROR(F("Reader failed to read element {}.", i));
-						continue;
-					}
+					Bool const result = read<T>(i, obj);
+					MINTY_ASSERT(result, ErrorCode::Serialization_ReadValue);
 					data.add(obj);
 				}
 
@@ -568,11 +562,8 @@ namespace Minty
 				T obj;
 				for (Size i = 0; i < size; i++)
 				{
-					if (!read<T>(i, obj))
-					{
-						MINTY_LOG_ERROR(F("Reader failed to read element {}.", i));
-						continue;
-					}
+					Bool const result = read<T>(i, obj);
+					MINTY_ASSERT(result, ErrorCode::Serialization_ReadValue);
 					data.add(obj);
 				}
 
@@ -596,16 +587,12 @@ namespace Minty
 				T value;
 				for (Size i = 0; i < size; i++)
 				{
-					if (!read_name(i, key))
-					{
-						MINTY_LOG_ERROR(F("Reader failed to read key {}.", i));
-						continue;
-					}
-					if (!read(i, value))
-					{
-						MINTY_LOG_ERROR(F("Reader failed to read value {}.", i));
-						continue;
-					}
+					Bool const keyResult = read_name(i, key);
+					MINTY_ASSERT(keyResult, ErrorCode::Serialization_ReadName);
+
+					Bool const valueResult = read<T>(i, value);
+					MINTY_ASSERT(valueResult, ErrorCode::Serialization_ReadValue);
+					
 					data.add(key, value);
 				}
 
@@ -1023,7 +1010,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="source">A pointer to the appropriate data source for this Reader.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		ReaderImplementation(void* const source, Allocator const allocator = Allocator::Default)
+		ReaderImplementation(void* const source, AllocatorType const allocator = AllocatorType::Default)
 			: Reader(allocator)
 			, FormatBehavior()
 			, StorageBehavior(source)
@@ -1053,7 +1040,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="root">The root Node data source.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		ReaderImplementation(Node const& root, Allocator const allocator = Allocator::Default)
+		ReaderImplementation(Node const& root, AllocatorType const allocator = AllocatorType::Default)
 			: Reader(allocator)
 			, FormatBehavior()
 			, StorageBehavior(nullptr)

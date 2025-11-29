@@ -1,10 +1,31 @@
 #include "pch.h"
 #include "DynamicContainer.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
-Bool Minty::DynamicContainer::append(void const* const data, Size const size)
+Minty::DynamicContainer::DynamicContainer()
+	: MemoryContainer()
+{
+}
+
+Minty::DynamicContainer::DynamicContainer(Size const capacity)
+	: MemoryContainer()
+{
+	reserve(capacity);
+}
+
+Minty::DynamicContainer::DynamicContainer(void const *const data, Size const size)
+	: MemoryContainer()
+{
+	if (data && size)
+	{
+		set(data, size);
+	}
+}
+
+Bool Minty::DynamicContainer::append(void const *const data, Size const size)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
@@ -50,11 +71,12 @@ Bool Minty::DynamicContainer::append(void const* const data, Size const size)
 
 Bool Minty::DynamicContainer::reserve(Size const capacity)
 {
-    // ignore if below capacity
-	if (capacity <= m_capacity) return true;
+	// ignore if below capacity
+	if (capacity <= m_capacity)
+		return true;
 
 	// allocate a new array
-	Byte* newData = static_cast<Byte*>(allocate(capacity, m_allocator));
+	Byte *newData = static_cast<Byte *>(DefaultAllocator::allocate(capacity));
 
 	// copy over existing data, if any
 	if (mp_data)
@@ -62,7 +84,7 @@ Bool Minty::DynamicContainer::reserve(Size const capacity)
 		memcpy(newData, mp_data, m_size);
 
 		// delete old array
-		deallocate(mp_data, m_capacity, m_allocator);
+		DefaultAllocator::deallocate(mp_data);
 	}
 
 	// update reference and data

@@ -22,7 +22,7 @@ namespace Minty
         /** 
          * @brief Information for the temporary memory stack.
          */
-		MemoryStackInfo* temporaryStackInfo = nullptr;
+		MemoryStackInfo* frameStackInfo = nullptr;
 
         /**
          * @brief Information for the task memory stacks.

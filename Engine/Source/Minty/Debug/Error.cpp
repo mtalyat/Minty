@@ -23,6 +23,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Platform specific error. The corresponding library or platform should provide more details: ";
     case ErrorCode::InvalidUserData:
         return "Invalid user data provided. ";
+    case ErrorCode::InfiniteLoop:
+        return "Infinite loop detected. ";
 
     case ErrorCode::Memory:
         return "Memory error. ";
@@ -129,6 +131,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "File error. Flag not supported. ";
     case ErrorCode::File_PathTooLong:
         return "File error. Path too long. ";
+    case ErrorCode::File_EndOfFileReached:
+        return "File error. End of file reached. ";
 
     case ErrorCode::Singleton:
         return "Singleton error. ";
@@ -143,6 +147,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Library error. ";
     case ErrorCode::Library_InitializationFailed:
         return "Library error. Initialization failed. ";
+    case ErrorCode::Library_LibraryError:
+        return "Library error. A library-specific error occurred. ";
 
     case ErrorCode::Serialization:
         return "Serialization error. ";
@@ -247,6 +253,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Asset error. Prefab override not found. ";
     case ErrorCode::Asset_Mesh_InvalidStride:
         return "Asset error. Mesh has an invalid vertex stride. ";
+    case ErrorCode::Asset_Font_CharNotFound:
+        return "Asset error. Font character not found in the font variant. ";
 
     case ErrorCode::UUID:
         return "UUID error. ";
@@ -315,6 +323,36 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Window error. ";
     case ErrorCode::Window_CreationFailed:
         return "Window error. Window creation failed. ";
+
+    case ErrorCode::Layer:
+        return "Layer error. ";
+    case ErrorCode::Layer_NotFound:
+        return "Layer error. Layer not found. ";
+
+    case ErrorCode::CommandLine:
+        return "Command line error. ";
+    case ErrorCode::CommandLine_NotEnoughArguments:
+        return "Command line error. Not enough arguments provided for the specified parameter. ";
+
+    case ErrorCode::OS:
+        return "System error. ";
+    case ErrorCode::OS_CopyFailed:
+        return "System error. File or directory copy operation failed. ";
+    case ErrorCode::OS_MoveFailed:
+        return "System error. File or directory move operation failed. ";
+    case ErrorCode::OS_EnvironmentVariableNotFound:
+        return "System error. Environment variable not found. ";
+        
+    case ErrorCode::Wrap:
+        return "Wrap error. ";
+    case ErrorCode::Wrap_InvalidFormat:
+        return "Wrap error. Invalid wrap format. ";
+    case ErrorCode::Wrap_EntryLimitReached:
+        return "Wrap error. Entry limit reached. Cannot add more entries to the wrap. ";
+    case ErrorCode::Wrap_CompressionFailed:
+        return "Wrap error. Compression failed. ";
+    case ErrorCode::Wrap_UncompressionFailed:
+        return "Wrap error. Uncompression failed. ";
 
     default:
         return "Unknown error. ";

@@ -1,15 +1,145 @@
-#pragma once
+#ifndef MINTY_DATA_BUFFERCONTAINER_H
+#define MINTY_DATA_BUFFERCONTAINER_H
+
+/**
+ * @file BufferContainer.h
+ * @brief Header file for the BufferContainer class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/Container.h"
-#include "Minty/Render/Buffer.h"
+#include "Minty/Render/BufferUsage.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A container that uses a Buffer.
-	/// </summary>
+	class Buffer;
+
+	/**
+	 * @class BufferContainer
+	 * @brief A container that holds data in a GPU buffer.
+	 */
 	class BufferContainer
 		: public Container
 	{
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates an empty BufferContainer.
+		 */
+		BufferContainer();
+
+		/**
+		 * @brief Creates a BufferContainer with the given BufferUsage.
+		 * @param usage The BufferUsage to use.
+		 */
+		BufferContainer(BufferUsage const usage);
+
+		/**
+		 * @brief Creates a BufferContainer with the given capacity and BufferUsage.
+		 * @param capacity The capacity in bytes.
+		 * @param usage The BufferUsage to use.
+		 */
+		BufferContainer(Size const capacity, BufferUsage const usage);
+
+		/**
+		 * @brief Copies the given BufferContainer.
+		 * @param other The BufferContainer to copy.
+		 */
+		BufferContainer(BufferContainer const& other);
+
+		/**
+		 * @brief Moves the given BufferContainer.
+		 * @param other The BufferContainer to move.
+		 */
+		BufferContainer(BufferContainer&& other) noexcept;
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		BufferContainer& operator=(BufferContainer const& other);
+		BufferContainer& operator=(BufferContainer&& other) noexcept;
+
+#pragma endregion
+
+#pragma region Get Set
+
+	public:
+		/**
+		 * @brief Gets the internal Buffer data pointer.
+		 * @returns A pointer to the internal Buffer data.
+		 */
+		inline void* get_data() const override { return m_buffer->get_data(); }
+
+		/**
+		 * @brief Gets the size of this BufferContainer.
+		 * @returns The size in bytes.
+		 */
+		inline Size get_size() const override { return m_size; }
+		
+		/**
+		 * @brief Gets the capacity of this BufferContainer.
+		 * @returns The capacity in bytes.
+		 */
+		inline Size get_capacity() const override { return m_capacity; }
+
+		/**
+		 * @brief Gets a reference to the internal Buffer.
+		 * @returns A reference to the internal Buffer.
+		 */
+		inline Ref<Buffer> get_buffer() const { return m_buffer.create_ref(); }
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Sets the bytes at the given index.
+		 * @param data The bytes to set.
+		 * @param size The number of bytes to set.
+		 * @param index The index of the bytes to set.
+		 */
+		void set_at(AnyConst const data, Size const size, Size const index) override;
+
+		/**
+		 * @brief Gets the bytes at the given index.
+		 * @param index The index to the bytes.
+		 * @returns A pointer to the bytes at the given index.
+		 */
+		AnyConst get_at(Size const index) const override;
+
+		/**
+		 * @brief Adds the given bytes to the end of the data within this BufferContainer. Reserves more space if needed.
+		 * @param data The bytes to append.
+		 * @param size The number of bytes to append.
+		 * @returns True if appended successfully.
+		 */
+		Bool append(AnyConst const data, Size const size) override;
+
+		/**
+		 * @brief Clears this BufferContainer.
+		 */
+		void clear() override;
+
+		/**
+		 * @brief Sets the new capacity for this BufferContainer.
+		 * @param newCapacity The new capacity in bytes.
+		 * @returns True on success.
+		 */
+		Bool reserve(Size const newCapacity) override;
+
+		/**
+		 * @brief Resizes this BufferContainer.
+		 * @param newSize The new size in bytes.
+		 * @returns True on success.
+		 */
+		Bool resize(Size const newSize) override;
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -19,122 +149,7 @@ namespace Minty
 		Size m_size;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates an empty BufferContainer.
-		/// </summary>
-		BufferContainer()
-			: Container()
-			, m_buffer(nullptr)
-			, m_usage(BufferUsage::Undefined)
-			, m_capacity(0)
-			, m_size(0)
-		{
-		}
-
-		BufferContainer(BufferUsage const usage)
-			: Container()
-			, m_buffer(nullptr)
-			, m_usage(usage)
-			, m_capacity(0)
-			, m_size(0)
-		{
-		}
-
-		BufferContainer(Size const capacity, BufferUsage const usage)
-			: Container()
-			, m_buffer(nullptr)
-			, m_usage(usage)
-			, m_capacity(0)
-			, m_size(0)
-		{
-			reserve(capacity);
-		}
-
-		BufferContainer(BufferContainer const& other)
-			: Container()
-			, m_buffer(other.m_buffer)
-			, m_usage(other.m_usage)
-			, m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-		{
-		}
-
-		BufferContainer(BufferContainer&& other) noexcept
-			: Container()
-			, m_buffer(std::move(other.m_buffer))
-			, m_usage(std::move(other.m_usage))
-			, m_capacity(std::move(other.m_capacity))
-			, m_size(std::move(other.m_size))
-		{
-			other.m_buffer = nullptr;
-			other.m_capacity = 0;
-			other.m_size = 0;
-		}
-
-#pragma endregion
-
-#pragma region Operators
-
-	public:
-		BufferContainer& operator=(BufferContainer const& other)
-		{
-			if (this != &other)
-			{
-				m_buffer = other.m_buffer;
-				m_usage = other.m_usage;
-				m_capacity = other.m_capacity;
-				m_size = other.m_size;
-			}
-
-			return *this;
-		}
-
-		BufferContainer& operator=(BufferContainer&& other) noexcept
-		{
-			if (this != &other)
-			{
-				m_buffer = std::move(other.m_buffer);
-				m_usage = std::move(other.m_usage);
-				m_capacity = std::move(other.m_capacity);
-				m_size = std::move(other.m_size);
-			}
-			return *this;
-		}
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		void* get_data() const override { return m_buffer->get_data(); }
-
-		Size get_size() const override { return m_size; }
-
-		Size get_capacity() const override { return m_capacity; }
-
-		Ref<Buffer> get_buffer() const { return m_buffer.create_ref(); }
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		void set_at(void const* const data, Size const size, Size const index) override;
-
-		void const* get_at(Size const index) const override;
-
-		Bool append(void const* const data, Size const size) override;
-
-		void clear() override;
-
-		Bool reserve(Size const newCapacity) override;
-
-		Bool resize(Size const newSize) override;
-
-#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_BUFFERCONTAINER_H

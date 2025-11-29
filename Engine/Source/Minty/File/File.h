@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
 #include <fstream>

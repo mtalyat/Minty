@@ -1,19 +1,27 @@
-#pragma once
-#include "Minty/Core/Base.h"
+#ifndef MINTY_DATA_SET_H
+#define MINTY_DATA_SET_H
+
+/**
+ * @file Set.h
+ * @brief Header file defining the Set class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a hash map of key-value pairs.
-	/// </summary>
-	/// <typeparam name="T">The type of the keys.</typeparam>
-	/// <typeparam name="Value">The type of the values.</typeparam>
-	template<typename T>
+	/**
+	 * @brief A Set is a collection of unique keys, stored in a hash table.
+	 * @tparam T The type of the keys.
+	 */
+	template<typename T, typename Allocator = DefaultAllocator>
 	class Set
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Node
@@ -223,10 +231,6 @@ namespace Minty
 			}
 		};
 
-		/// <summary>
-		/// Gets an Iterator to the beginning of the Set.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first key-value pair.</returns>
 		Iterator begin()
 		{
 			if (m_capacity)
@@ -238,17 +242,7 @@ namespace Minty
 				return end();
 			}
 		}
-
-		/// <summary>
-		/// Gets an Iterator to the end of the Set.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first key-value pair.</returns>
 		Iterator end() { return Iterator(mp_table, m_capacity, m_capacity, nullptr); }
-
-		/// <summary>
-		/// Gets a ConstIterator to the beginning of the Set.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
 		ConstIterator begin() const
 		{
 			if (m_capacity)
@@ -260,62 +254,41 @@ namespace Minty
 				return end();
 			}
 		}
-
-		/// <summary>
-		/// Gets a ConstIterator to the end of the Set.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
 		ConstIterator end() const { return ConstIterator(mp_table, m_capacity, m_capacity, nullptr); }
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		Allocator m_allocator;
-		Size m_capacity;
-		Size m_size;
-		Node** mp_table;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Set.
-		/// </summary>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Set(Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates an empty Set.
+		 */
+		Set()
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
 		}
 
-		/// <summary>
-		/// Creates a Set with the given capacity.
-		/// </summary>
-		/// <param name="capacity">The starting capacity to use.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Set(Size const capacity, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(capacity)
+		/**
+		 * @brief Creates a Set with the given capacity.
+		 * @param capacity The initial capacity.
+		 */
+		Set(Size const capacity)
+			: m_capacity(capacity)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
 			reserve(capacity);
 		}
 
-		/// <summary>
-		/// Creates a Set with the given list of key-value pairs.
-		/// </summary>
-		/// <param name="list">A list of key-value pairs.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Set(std::initializer_list<T> const& list, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates a Set with the given initializer list.
+		 * @param list The list of keys to add.
+		 */
+		Set(std::initializer_list<T> const& list)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
@@ -326,11 +299,14 @@ namespace Minty
 			}
 		}
 
+		/**
+		 * @brief Copy constructor.
+		 * @param other The other Set to copy.
+		 */
 		Set(Set const& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
-			, mp_table(construct_array<Node*>(m_capacity, m_allocator))
+			, mp_table(construct_array<Node*>(m_capacity))
 		{
 			for (Size i = 0; i < m_capacity; ++i)
 			{
@@ -353,13 +329,15 @@ namespace Minty
 			}
 		}
 
+		/**
+		 * @brief Move constructor.
+		 * @param other The other Set to move.
+		 */
 		Set(Set&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_table(other.mp_table)
 		{
-			other.m_allocator = Allocator::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_table = nullptr;
@@ -384,17 +362,16 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_table = construct_array<Node*>(m_capacity, m_allocator);
+				mp_table = Allocator::construct_array<Node*>(m_capacity);
 				for (Size i = 0; i < m_capacity; ++i)
 				{
 					Node* node = other.mp_table[i];
 					Node* prev = nullptr;
 					while (node)
 					{
-						Node* newNode = construct<Node>(m_allocator, node->key);
+						Node* newNode = Allocator::construct<Node>(node->key);
 						if (prev)
 						{
 							prev->next = newNode;
@@ -416,11 +393,9 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
-				other.m_allocator = Allocator::Default;
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;
@@ -430,45 +405,36 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		Size get_capacity() const { return m_capacity; }
+		/**
+		 * @brief Gets the capacity of this Set.
+		 * @returns The capacity.
+		 */
+		inline Size get_capacity() const { return m_capacity; }
 
-		Size get_size() const { return m_size; }
+		/**
+		 * @brief Gets the size of this Set.
+		 * @returns The size.
+		 */
+		inline Size get_size() const { return m_size; }
+
+		/**
+		 * @brief Checks if this Set is empty.
+		 * @returns True, if the Set is empty.
+		 */
+		inline Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
-	private:
-		Size hash(T const& key, Size const capacity) const
-		{
-			return std::hash<T>{}(key) % capacity;
-		}
-
-		Size hash(T const& key) const
-		{
-			return hash(key, m_capacity);
-		}
-
-		void rehash()
-		{
-			if (m_capacity == 0)
-			{
-				reserve(DEFAULT_COLLECTION_SIZE);
-			}
-			else
-			{
-				reserve(m_capacity * 2);
-			}
-		}
-
 	public:
-		/// <summary>
-		/// Reserves more space in this Set.
-		/// </summary>
-		/// <param name="capacity">The new capacity to use.</param>
+		/**
+		 * @brief Reserves more space for the Set.
+		 * @param capacity The new capacity.
+		 */
 		void reserve(Size const capacity)
 		{
 			// do nothing if smaller or same size
@@ -498,11 +464,11 @@ namespace Minty
 			m_capacity = capacity;
 		}
 
-		/// <summary>
-		/// Adds a copy of the given key to this Set.
-		/// </summary>
-		/// <param name="key">The key to add.</param>
-		/// <returns>True, if the key was added.</returns>
+		/**
+		 * @brief Adds a copy of the given key to this Set.
+		 * @param key The key to add.
+		 * @returns True, if the key was added.
+		 */
 		Bool add(T const& key)
 		{
 			if (contains(key))
@@ -528,11 +494,11 @@ namespace Minty
 			return true;
 		}
 
-		/// <summary>
-		/// Adds a copy of the given key to this Set.
-		/// </summary>
-		/// <param name="key">The key to add.</param>
-		/// <returns>True, if the key was added.</returns>
+		/**
+		 * @brief Adds the given key to this Set.
+		 * @param key The key to add.
+		 * @returns True, if the key was added.
+		 */
 		Bool add(T&& key)
 		{
 			if (contains(key))
@@ -548,7 +514,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = construct<Node>(m_allocator, std::move(key));
+			Node* node = construct<Node>(m_allocator, key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -557,30 +523,11 @@ namespace Minty
 			return true;
 		}
 
-		/// <summary>
-		/// Adds the range of elements to this Set.
-		/// </summary>
-		/// <typeparam name="IteratorType">The type of iterator.</typeparam>
-		/// <param name="begin">The beginning of the range.</param>
-		/// <param name="end">The end of the range.</param>
-		/// <returns></returns>
-		template<typename IteratorType>
-		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			add(IteratorType const& begin, IteratorType const& end)
-		{
-			IteratorType it = begin;
-			while (it != end)
-			{
-				add(*it);
-				++it;
-			}
-		}
-
-		/// <summary>
-		/// Removes the key.
-		/// </summary>
-		/// <param name="key">The key to remove.</param>
-		/// <returns>True, if the key was found and removed.</returns>
+		/**
+		 * @brief Removes the given key from this Set.
+		 * @param key The key to remove.
+		 * @returns True, if the key was found and removed.
+		 */
 		Bool remove(T const& key)
 		{
 			if (m_size == 0)
@@ -613,18 +560,12 @@ namespace Minty
 
 			return false;
 		}
-
-		/// <summary>
-		/// Checks if this Set is empty.
-		/// </summary>
-		/// <returns>True, if the size is zero.</returns>
-		Bool is_empty() const { return m_size == 0; }
-
-		/// <summary>
-		/// Finds the first occurrence of the given T.
-		/// </summary>
-		/// <param name="key">The T to find.</param>
-		/// <returns>An Iterator to the key-value pair with the given T.</returns>
+		
+		/**
+		 * @brief Finds the first occurrence of the given T.
+		 * @param key The T to find.
+		 * @returns An Iterator to the key-value pair with the given T.
+		 */
 		Iterator find(T const& key)
 		{
 			if (m_size == 0)
@@ -644,12 +585,12 @@ namespace Minty
 			}
 			return end();
 		}
-
-		/// <summary>
-		/// Finds the first occurrence of the given T.
-		/// </summary>
-		/// <param name="key">The T to find.</param>
-		/// <returns>A ConstIterator to the key-value pair with the given T.</returns>
+		
+		/**
+		 * @brief Finds the first occurrence of the given T.
+		 * @param key The T to find.
+		 * @returns A ConstIterator to the key-value pair with the given T.
+		 */
 		ConstIterator find(T const& key) const
 		{
 			if (m_capacity == 0)
@@ -670,16 +611,16 @@ namespace Minty
 			return end();
 		}
 
-		/// <summary>
-		/// Checks if this Set contains the given T.
-		/// </summary>
-		/// <param name="key">The T to check.</param>
-		/// <returns>True, if the T is found.</returns>
+		/**
+		 * @brief Checks if the given key exists in this Set.
+		 * @param key The key to check.
+		 * @returns True, if the key exists.
+		 */
 		Bool contains(T const& key) const { return find(key) != end(); }
 
-		/// <summary>
-		/// Removes all key-value pairs from this Set.
-		/// </summary>
+		/**
+		 * @brief Clears all keys from this Set.
+		 */
 		void clear()
 		{
 			if (mp_table)
@@ -699,6 +640,40 @@ namespace Minty
 			m_size = 0;
 		}
 
+	private:
+		Size hash(T const& key, Size const capacity) const
+		{
+			return std::hash<T>{}(key) % capacity;
+		}
+
+		Size hash(T const& key) const
+		{
+			return hash(key, m_capacity);
+		}
+
+		void rehash()
+		{
+			if (m_capacity == 0)
+			{
+				reserve(DEFAULT_COLLECTION_SIZE);
+			}
+			else
+			{
+				reserve(m_capacity * 2);
+			}
+		}
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Size m_capacity;
+		Size m_size;
+		Node** mp_table;
+
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_SET_H

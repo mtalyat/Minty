@@ -11,7 +11,7 @@ Int Windows_Window::s_windowCount = 0;
 
 static void error_callback(Int error, Char const* description)
 {
-	MINTY_LOG_ERROR(F("GLFW error ({}): {}", error, description).get_data());
+	MINTY_ERROR(ErrorCode::Library_LibraryError, F("GLFW error ({}): {}", error, description).get_data());
 }
 
 Minty::Windows_Window::Windows_Window(WindowInfo const& info)

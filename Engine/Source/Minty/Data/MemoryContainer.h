@@ -1,158 +1,116 @@
-#pragma once
-#include "Minty/Core/Base.h"
+#ifndef MINTY_DATA_MEMORYCONTAINER_H
+#define MINTY_DATA_MEMORYCONTAINER_H
+
+/**
+ * @file MemoryContainer.h
+ * @brief Header file for the MemoryContainer class.
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Container.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a collection of bytes in memory.
-	/// </summary>
+	/**
+	 * @class MemoryContainer
+	 * @brief A Container that manages its own memory.
+	 */
 	class MemoryContainer
 		: public Container
 	{
-#pragma region Variables
-
-	protected:
-		Allocator m_allocator;
-		Size m_capacity;
-		Size m_size;
-		Byte* mp_data;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		MemoryContainer(Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
-			, m_size(0)
-			, mp_data(nullptr)
-		{
-		}
+		/**
+		 * @brief Creates an empty MemoryContainer.
+		 */
+		MemoryContainer();
 
-		MemoryContainer(MemoryContainer const& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_data(static_cast<Byte*>(allocate(m_capacity, m_allocator)))
-		{
-			memcpy(mp_data, other.mp_data, m_size);
-		}
+		/**
+		 * @brief Creates a MemoryContainer with the given capacity.
+		 * @param capacity The capacity in bytes.
+		 */
+		MemoryContainer(MemoryContainer const& other);
 
-		MemoryContainer(MemoryContainer&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_data(other.mp_data)
-		{
-			other.m_allocator = Allocator::Default;
-			other.m_capacity = 0;
-			other.m_size = 0;
-			other.mp_data = nullptr;
-		}
+		/**
+		 * @brief Moves a MemoryContainer.
+		 * @param other The other MemoryContainer.
+		 */
+		MemoryContainer(MemoryContainer&& other) noexcept;
 
-		virtual ~MemoryContainer()
-		{
-			if (mp_data)
-			{
-				deallocate(mp_data, m_size, m_allocator);
-				mp_data = nullptr;
-			}
-			m_capacity = 0;
-			m_size = 0;
-		}
+		virtual ~MemoryContainer();
 
 #pragma endregion
 
 #pragma region Operators
 
 	public:
-		MemoryContainer& operator=(MemoryContainer const& other)
-		{
-			if (this != &other)
-			{
-				m_allocator = other.m_allocator;
-				m_capacity = other.m_capacity;
-				m_size = other.m_size;
-				mp_data = static_cast<Byte*>(allocate(m_capacity, m_allocator));
-				memcpy(mp_data, other.mp_data, m_size);
-			}
-			return *this;
-		}
+		MemoryContainer& operator=(MemoryContainer const& other);
 
-		MemoryContainer& operator=(MemoryContainer&& other) noexcept
-		{
-			if (this != &other)
-			{
-				m_allocator = other.m_allocator;
-				m_capacity = other.m_capacity;
-				m_size = other.m_size;
-				mp_data = other.mp_data;
-				other.m_allocator = Allocator::Default;
-				other.m_capacity = 0;
-				other.m_size = 0;
-				other.mp_data = nullptr;
-			}
-			return *this;
-		}
+		MemoryContainer& operator=(MemoryContainer&& other) noexcept;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the internal data pointer.
-		/// </summary>
-		/// <returns>A pointer to the internal data.</returns>
-		void* get_data() const override { return mp_data; }
+		/**
+		 * @brief Gets the internal data pointer.
+		 * @returns A pointer to the internal data.
+		 */
+		inline void* get_data() const override { return mp_data; }
 
-		/// <summary>
-		/// Gets the number of bytes in this Container.
-		/// </summary>
-		/// <returns>The size in bytes.</returns>
-		Size get_size() const override { return m_size; }
+		/**
+		 * @brief Gets the number of bytes in this Container.
+		 * @returns The size in bytes.
+		 */
+		inline Size get_size() const override { return m_size; }
 
-		/// <summary>
-		/// Gets the maximum number of bytes in this Container.
-		/// </summary>
-		/// <returns>The capacity in bytes.</returns>
-		Size get_capacity() const override { return m_capacity; }
+		/**
+		 * @brief Gets the capacity of this Container.
+		 * @returns The capacity in bytes.
+		 */
+		inline Size get_capacity() const override { return m_capacity; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Sets the bytes at the given index and size.
-		/// </summary>
-		/// <param name="data">The bytes to set.</param>
-		/// <param name="size">The number of bytes to set.</param>
-		/// <param name="index">The index of the bytes to set.</param>
+		/**
+		 * @brief Sets the bytes at the given index and size.
+		 * @param data The bytes to set.
+		 */
 		void set_at(void const* const data, Size const size, Size const index) override;
 		
-		/// <summary>
-		/// Gets the pointer to the data at the given index.
-		/// </summary>
-		/// <param name="index">The index in bytes.</param>
-		/// <returns>A pointer to the data.</returns>
+		/**
+		 * @brief Gets the bytes at the given index.
+		 * @param index The index to get from.
+		 */
 		void const* get_at(Size const index) const override;
 
-		/// <summary>
-		/// Clears all data out of this Container.
-		/// </summary>
+		/**
+		 * @brief Clears this Container.
+		 */
 		virtual void clear() override;
 
-		/// <summary>
-		/// Sets the new size for this Container.
-		/// </summary>
-		/// <param name="size">The number of bytes.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Adds the given bytes to the end of the data within this Container. Reserves more space if needed.
+		 * @param data The bytes to append.
+		 */
 		virtual Bool resize(Size const size) override;
+
+#pragma endregion
+
+#pragma region Variables
+
+	protected:
+		Size m_capacity;
+		Size m_size;
+		Byte* mp_data;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_MEMORYCONTAINER_H

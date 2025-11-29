@@ -19,7 +19,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 
 		// the name of this node
 		String m_name;
@@ -42,7 +42,7 @@ namespace Minty
 		/// Create an empty Node.
 		/// </summary>
 		/// <param name="allocator">The Allocator to use.</param>
-		Node(Allocator const allocator = Allocator::Default)
+		Node(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_name(allocator)
 			, m_data(allocator)
@@ -58,7 +58,7 @@ namespace Minty
 		/// <param name="data">The data of this Node.</param>
 		/// <param name="size">The size of the data in bytes.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Node(String const& name, void const* const data, Size const size, Allocator const allocator = Allocator::Default)
+		Node(String const& name, void const* const data, Size const size, AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_name(name)
 			, m_data(allocator)
@@ -77,7 +77,7 @@ namespace Minty
 		/// <param name="name">The name of this Node.</param>
 		/// <param name="value">The string data of this Node.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Node(String const& name, String const& value, Allocator const allocator = Allocator::Default)
+		Node(String const& name, String const& value, AllocatorType const allocator = AllocatorType::Default)
 			: Node(name, value.get_data(), value.get_size(), allocator)
 		{
 		}
@@ -87,7 +87,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="name">The name of this Node.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Node(String const& name, Allocator const allocator = Allocator::Default)
+		Node(String const& name, AllocatorType const allocator = AllocatorType::Default)
 			: Node(name, nullptr, 0, allocator)
 		{
 		}

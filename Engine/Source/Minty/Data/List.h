@@ -1,19 +1,27 @@
-#pragma once
-#include "Minty/Core/Base.h"
-#include "Minty/Core/Macro.h"
+#ifndef MINTY_DATA_LIST_H
+#define MINTY_DATA_LIST_H
+
+/**
+ * @file List.h
+ * @brief Header file for the List class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
+#include "Minty/Memory/DefaultAllocator.h"
 #include <iterator>
 
 namespace Minty
 {
-	/// <summary>
-	/// Provides a collection of elements as a doubly linked list.
-	/// </summary>
-	/// <typeparam name="T">The type of elements.</typeparam>
-	template<typename T>
+	/**
+	 * @brief A doubly linked list implementation.
+	 * @tparam T The type of elements stored in the list.
+	 * @tparam Allocator The allocator type to use for memory management.
+	 */
+	template<typename T, typename Allocator = DefaultAllocator>
 	class List
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Node
@@ -425,111 +433,49 @@ namespace Minty
 			constexpr Bool operator!=(ConstReverseIterator const& other) const { return mp_node != other.mp_node; }
 		};
 
-		/// <summary>
-		/// Gets an Iterator to the beginning of the List.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first element.</returns>
-		constexpr Iterator begin() { return Iterator(mp_head); }
-
-		/// <summary>
-		/// Gets an Iterator to the end of the List.
-		/// </summary>
-		/// <returns>An Iterator pointing to the last element + 1.</returns>
-		constexpr Iterator end() { return Iterator(nullptr); }
-
-		/// <summary>
-		/// Gets an ConstIterator to the beginning of the List.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the first element.</returns>
-		constexpr ConstIterator begin() const { return ConstIterator(mp_head); }
-
-		/// <summary>
-		/// Gets an ConstIterator to the end of the List.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the last element + 1.</returns>
-		constexpr ConstIterator end() const { return ConstIterator(nullptr); }
-
-		/// <summary>
-		/// Gets a ReverseIterator to the beginning of the List.
-		/// </summary>
-		/// <returns>A ReverseIterator pointing to the first element.</returns>
-		constexpr ReverseIterator rbegin() { return ReverseIterator(mp_tail); }
-
-		/// <summary>
-		/// Gets an ReverseIterator to the end of the List.
-		/// </summary>
-		/// <returns>An ReverseIterator pointing to the last element + 1.</returns>
-		constexpr ReverseIterator rend() { return ReverseIterator(nullptr); }
-
-		/// <summary>
-		/// Gets an ConstReverseIterator to the beginning of the List.
-		/// </summary>
-		/// <returns>A ConstReverseIterator pointing to the first element.</returns>
-		constexpr ConstReverseIterator rbegin() const { return ConstReverseIterator(mp_tail); }
-
-		/// <summary>
-		/// Gets an ConstReverseIterator to the end of the List.
-		/// </summary>
-		/// <returns>A ConstReverseIterator pointing to the last element + 1.</returns>
-		constexpr ConstReverseIterator rend() const { return ConstReverseIterator(nullptr); }
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		Allocator m_allocator;
-		Node* mp_head;
-		Node* mp_tail;
-		Size m_size;
+		inline Iterator begin() { return Iterator(mp_head); }
+		inline Iterator end() { return Iterator(nullptr); }
+		inline ConstIterator begin() const { return ConstIterator(mp_head); }
+		inline ConstIterator end() const { return ConstIterator(nullptr); }
+		inline ReverseIterator rbegin() { return ReverseIterator(mp_tail); }
+		inline ReverseIterator rend() { return ReverseIterator(nullptr); }
+		inline ConstReverseIterator rbegin() const { return ConstReverseIterator(mp_tail); }
+		inline ConstReverseIterator rend() const { return ConstReverseIterator(nullptr); }
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty List.
-		/// </summary>
-		/// <param name="allocator">The memory allocator to use.</param>
-		constexpr List(Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, mp_head(nullptr)
+		/**
+		 * @brief Creates an empty List.
+		 */
+		constexpr List()
+			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
 		}
 
-		/// <summary>
-		/// Creates a List and fills it with the given value.
-		/// </summary>
-		/// <param name="size">The number of elements to populate.</param>
-		/// <param name="value">The value to use.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		List(Size const size, T const& value, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, mp_head(nullptr)
+		/**
+		 * @brief Creates a List with the given size, initializing all elements to the given value.
+		 * @param size The number of elements in the List.
+		 */
+		template<typename... Args>
+		List(Size const size, Args&&... value)
+			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
-			resize(size, value);
-
-			Node* node = mp_head;
-			while (node)
-			{
-				node->data = value;
-				node = node->next;
-			}
+			resize(size, std::forward<Args>(value)...);
 		}
 
-		/// <summary>
-		/// Creates a List with the given values.
-		/// </summary>
-		/// <param name="list">The values to set the List data to.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		List(std::initializer_list<T> const& list, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, mp_head(nullptr)
+		/**
+		 * @brief Creates a List from an initializer list.
+		 * @param list The initializer list of elements.
+		 */
+		List(std::initializer_list<T> const& list)
+			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
@@ -539,13 +485,12 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Copies the given List.
-		/// </summary>
-		/// <param name="other">The List to copy.</param>
+		/**
+		 * @brief Copies the given List.
+		 * @param other The List to copy.
+		 */
 		List(List const& other)
-			: m_allocator(other.m_allocator)
-			, mp_head(nullptr)
+			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
@@ -557,17 +502,15 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Moves the given List.
-		/// </summary>
-		/// <param name="other">The List to move.</param>
+		/**
+		 * @brief Moves the given List.
+		 * @param other The List to move.
+		 */
 		List(List&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, mp_head(other.mp_head)
+			: mp_head(other.mp_head)
 			, mp_tail(other.mp_tail)
 			, m_size(other.m_size)
 		{
-			other.m_allocator = Allocator::Default;
 			other.mp_head = nullptr;
 			other.mp_tail = nullptr;
 			other.m_size = 0;
@@ -592,7 +535,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					destruct<Node>(temp, m_allocator);
+					Allocator::destruct<Node>(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -616,13 +559,11 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					destruct<Node>(temp, m_allocator);
+					Allocator::destruct<Node>(temp);
 				}
-				m_allocator = other.m_allocator;
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
 				m_size = other.m_size;
-				other.m_allocator = Allocator::Default;
 				other.mp_head = nullptr;
 				other.mp_tail = nullptr;
 				other.m_size = 0;
@@ -630,38 +571,40 @@ namespace Minty
 			return *this;
 		}
 
-		constexpr T& operator[](Size const index)
-		{
-			return at(index);
-		}
+		constexpr T& operator[](Size const index) { return at(index); }
 
-		constexpr T const& operator[](Size const index) const
-		{
-			return at(index);
-		}
+		constexpr T const& operator[](Size const index) const { return at(index); }
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the size of this List.
-		/// </summary>
-		/// <returns>The number of elements.</returns>
-		Size get_size() const { return m_size; }
+		/**
+		 * @brief Gets the element at the given index.
+		 * @param index The index of the element to get.
+		 */
+		inline Size get_size() const { return m_size; }
+
+		/**
+		 * @brief Peeks at the last element in the List without removing it.
+		 * @returns A reference to the last element.
+		 */
+		inline Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Resizes the List to the given size.
-		/// </summary>
-		/// <param name="size">The number of elements to exist within the list.</param>
-		/// <param name="value">The value to use for new elements.</param>
-		void resize(Size const size, T const& value)
+		/**
+		 * @brief Clears all elements from the List.
+		 * @tparam Args Additional arguments for value construction.
+		 * @param index The index to get.
+		 * @param value The value to initialize new elements with.
+		 */
+		template<typename... Args>
+		void resize(Size const size, Args&&... value)
 		{
 			if (size < m_size)
 			{
@@ -691,7 +634,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					destruct<Node>(temp, m_allocator);
+					Allocator::destruct<Node>(temp);
 				}
 			}
 			else if (size > m_size)
@@ -700,7 +643,7 @@ namespace Minty
 				Node* node = mp_tail;
 				for (Size i = 0; i < size - m_size; ++i)
 				{
-					node = construct<Node>(m_allocator, value);
+					node = Allocator::construct<Node>(value);
 					node->prev = mp_tail;
 					if (mp_tail)
 					{
@@ -717,34 +660,13 @@ namespace Minty
 			m_size = size;
 		}
 
-		/// <summary>
-		/// Adds a copy of the given value to the List.
-		/// </summary>
-		/// <param name="value">The value to add.</param>
-		void add(T const& value)
-		{
-			Node* node = construct<Node>(m_allocator, value);
-			if (mp_head == nullptr)
-			{
-				mp_head = node;
-				mp_tail = node;
-			}
-			else
-			{
-				mp_tail->next = node;
-				node->prev = mp_tail;
-				mp_tail = node;
-			}
-			++m_size;
-		}
-
-		/// <summary>
-		/// Adds the given value to the List.
-		/// </summary>
-		/// <param name="value">The value to add.</param>
+		/**
+		 * @brief Gets the element at the given index.
+		 * @param index The index of the element to get.
+		 */
 		void add(T&& value)
 		{
-			Node* node = construct<Node>(m_allocator, std::move(value));
+			Node* node = Allocator::construct<Node>(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -759,40 +681,22 @@ namespace Minty
 			++m_size;
 		}
 
-		/// <summary>
-		/// Adds a copy of the given range of values to the List.
-		/// </summary>
-		/// <typeparam name="IteratorType">The type of iterator to use.</typeparam>
-		/// <param name="begin">The beginning of the range.</param>
-		/// <param name="end">The end of the range.</param>
-		/// <returns>Nothing.</returns>
-		template<typename IteratorType>
-		std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			add(IteratorType const& begin, IteratorType const& end)
-		{
-			for (IteratorType it = begin; it != end; ++it)
-			{
-				add(*it);
-			}
-		}
-
-		/// <summary>
-		/// Adds the given value to the List.
-		/// </summary>
-		/// <param name="value">The value to add.</param>
+		/**
+		 * @brief Adds the given value to the List.
+		 * @param value The value to add.
+		 */
 		void push(T const& value) { add(value); }
 
-		/// <summary>
-		/// Adds the given value to the List.
-		/// </summary>
-		/// <param name="value">The value to add.</param>
+		/**
+		 * @brief Adds the given value to the List.
+		 * @param value The value to add.
+		 */
 		void push(T&& value) { add(std::move(value)); }
 
-		/// <summary>
-		/// Inserts a copy of the given value at the given index.
-		/// </summary>
-		/// <param name="index">The index to insert at.</param>
-		/// <param name="value">The value to insert a copy of.</param>
+		/**
+		 * @brief Inserts the given value at the given index.
+		 * @param index The index to insert at.
+		 */
 		void insert(Size const index, T const& value)
 		{
 			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
@@ -807,11 +711,10 @@ namespace Minty
 			insert(it, value);
 		}
 
-		/// <summary>
-		/// Inserts the given value at the given index.
-		/// </summary>
-		/// <param name="index">The index to insert at.</param>
-		/// <param name="value">The value to insert.</param>
+		/**
+		 * @brief Inserts the given value at the given index.
+		 * @param index The index to insert at.
+		 */
 		void insert(Size const index, T&& value)
 		{
 			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
@@ -826,11 +729,10 @@ namespace Minty
 			insert(it, std::move(value));
 		}
 
-		/// <summary>
-		/// Inserts a copy of the given value at the given iterator.
-		/// </summary>
-		/// <param name="it">The iterator to insert at.</param>
-		/// <param name="value">The value to insert a copy of.</param>
+		/**
+		 * @brief Inserts the given value at the given iterator.
+		 * @param it The iterator to insert at.
+		 */
 		template<typename IteratorType>
 		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
 			insert(IteratorType const& it, T const& value)
@@ -867,139 +769,10 @@ namespace Minty
 			++m_size;
 		}
 
-		/// <summary>
-		/// Inserts the given value at the given iterator.
-		/// </summary>
-		/// <param name="it">The iterator to insert at.</param>
-		/// <param name="value">The value to insert.</param>
-		template<typename IteratorType>
-		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			insert(IteratorType const& it, T&& value)
-		{
-			// get adjacent nodes
-			Node* nextNode = it.mp_node;
-			Node* prevNode = nextNode ? nextNode->prev : nullptr;
-
-			// make new node
-			Node* newNode = construct<Node>(m_allocator, std::move(value));
-
-			// link them together
-			newNode->next = nextNode;
-			newNode->prev = prevNode;
-			if (nextNode)
-			{
-				nextNode->prev = newNode;
-			}
-			if (prevNode)
-			{
-				prevNode->next = newNode;
-			}
-
-			// update head and tail
-			if (nextNode == mp_head)
-			{
-				mp_head = newNode;
-			}
-			if (prevNode == mp_tail)
-			{
-				mp_tail = newNode;
-			}
-
-			++m_size;
-		}
-
-		/// <summary>
-		/// Inserts the given range of elements at the given index.
-		/// </summary>
-		/// <typeparam name="IteratorType">The type of iterator to use.</typeparam>
-		/// <param name="index">The index to insert at.</param>
-		/// <param name="begin">The beginning of the range.</param>
-		/// <param name="end">The end of the range.</param>
-		/// <returns>Nothing.</returns>
-		template<typename IteratorType>
-		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			insert(Size const index, IteratorType const& begin, IteratorType const& end)
-		{
-			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
-
-			// add to end
-			if (index == m_size)
-			{
-				add(begin, end);
-				return;
-			}
-
-			Iterator it = this->begin() + index;
-			insert(it, begin, end);
-		}
-
-		/// <summary>
-		/// Inserts the given range of elements at the given index.
-		/// </summary>
-		/// <typeparam name="InsertIteratorType">The type of iterator to use to insert at.</typeparam>
-		/// <typeparam name="IteratorType">The type of iterator to use.</typeparam>
-		/// <param name="it">The iterator to insert at.</param>
-		/// <param name="begin">The beginning of the range.</param>
-		/// <param name="end">The end of the range.</param>
-		/// <returns>Nothing.</returns>
-		template<typename InsertIteratorType, typename IteratorType>
-		typename std::enable_if<!std::is_integral<InsertIteratorType>::value && !std::is_integral<IteratorType>::value, void>::type
-			insert(InsertIteratorType const& it, IteratorType const& begin, IteratorType const& end)
-		{
-			MINTY_ASSERT(it.mp_node != nullptr, ErrorCode::Argument_OutOfBounds);
-			MINTY_ASSERT(begin.mp_node != nullptr, ErrorCode::Argument_OutOfBounds);
-			MINTY_ASSERT(begin != end, ErrorCode::Argument_InvalidValue);
-
-			// get adjacent nodes
-			Node* nextNode = it.mp_node;
-			Node* prevNode = nextNode ? nextNode->prev : nullptr;
-
-			// make new nodes
-			IteratorType newIt = begin;
-			Node* subHead = construct<Node>(m_allocator, *newIt);
-			Node* subTail = subHead;
-			++newIt;
-			Size count = 1;
-			while (newIt != end)
-			{
-				Node* node = construct<Node>(m_allocator, *newIt);
-				subTail->next = node;
-				node->prev = subTail;
-				subTail = node;
-
-				++newIt;
-				++count;
-			}
-
-			// link them together
-			subTail->next = nextNode;
-			subHead->prev = prevNode;
-			if (nextNode)
-			{
-				nextNode->prev = subTail;
-			}
-			if (prevNode)
-			{
-				prevNode->next = subHead;
-			}
-
-			// update head and tail
-			if (nextNode == mp_head)
-			{
-				mp_head = subHead;
-			}
-			if (prevNode == mp_tail)
-			{
-				mp_tail = subTail;
-			}
-
-			m_size += count;
-		}
-
-		/// <summary>
-		/// Removes the element at the given index.
-		/// </summary>
-		/// <param name="index">The index to remove at.</param>
+		/**
+		 * @brief Inserts the given value at the given iterator.
+		 * @param it The iterator to insert at.
+		 */
 		void remove(Size const index)
 		{
 			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
@@ -1008,54 +781,10 @@ namespace Minty
 			remove(it);
 		}
 
-		/// <summary>
-		/// Removes the element at the given iterator.
-		/// </summary>
-		/// <typeparam name="IteratorType">The iterator to use.</typeparam>
-		/// <param name="it">The iterator to remove at.</param>
-		/// <returns>Nothing.</returns>
-		template<typename IteratorType>
-		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			remove(IteratorType const& it)
-		{
-			// get the node
-			Node* node = it.mp_node;
-
-			// get the adjacent nodes
-			Node* nextNode = node->next;
-			Node* prevNode = node->prev;
-
-			// link them together
-			if (nextNode)
-			{
-				nextNode->prev = prevNode;
-			}
-			if (prevNode)
-			{
-				prevNode->next = nextNode;
-			}
-
-			// update head and tail
-			if (node == mp_head)
-			{
-				mp_head = nextNode;
-			}
-			if (node == mp_tail)
-			{
-				mp_tail = prevNode;
-			}
-
-			// delete the node
-			destruct<Node>(node, m_allocator);
-
-			--m_size;
-		}
-
-		/// <summary>
-		/// Removes the number of elements at the given index.
-		/// </summary>
-		/// <param name="index">The index to remove at.</param>
-		/// <param name="count">The number of elements to remove.</param>
+		/**
+		 * @brief Removes the range of elements.
+		 * @param index The starting index.	
+		 */
 		void remove(Size const index, Size const count)
 		{
 			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
@@ -1067,73 +796,9 @@ namespace Minty
 			remove(start, stop);
 		}
 
-		/// <summary>
-		/// Removes the range of elements.
-		/// </summary>
-		/// <typeparam name="IteratorType">The type of iterator to use.</typeparam>
-		/// <param name="begin">The beginning of the range.</param>
-		/// <param name="end">The end of the range.</param>
-		/// <returns>Nothing.</returns>
-		template<typename IteratorType>
-		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			remove(IteratorType const& begin, IteratorType const& end)
-		{
-			MINTY_ASSERT(begin.mp_node != nullptr, ErrorCode::Argument_OutOfBounds);
-			MINTY_ASSERT(begin != end, ErrorCode::Argument_InvalidValue);
-
-			// get the nodes
-			Node* startNode = begin.mp_node;
-			Node* stopNode = end.mp_node;
-
-			// get count
-			Size count = 0;
-			Node* node = startNode;
-			while (node != stopNode)
-			{
-				++count;
-				node = node->next;
-			}
-
-			// get the adjacent nodes
-			Node* prevNode = startNode->prev;
-			Node* nextNode = stopNode;
-
-			// link them together
-			if (nextNode)
-			{
-				nextNode->prev = prevNode;
-			}
-			if (prevNode)
-			{
-				prevNode->next = nextNode;
-			}
-
-			// update head and tail
-			if (startNode == mp_head)
-			{
-				mp_head = nextNode;
-			}
-			if (stopNode == nullptr)
-			{
-				mp_tail = prevNode;
-			}
-
-			// delete the nodes
-			node = startNode;
-			while (node != stopNode)
-			{
-				Node* temp = node;
-				node = node->next;
-				destruct<Node>(temp, m_allocator);
-			}
-
-			// update size
-			m_size -= count;
-		}
-
-		/// <summary>
-		/// Removes the last element in the List.
-		/// </summary>
+		/**
+		 * @brief Pops the last element off the List.
+		 */
 		void pop()
 		{
 			Node* node = mp_tail;
@@ -1155,17 +820,11 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Checks if this List is empty.
-		/// </summary>
-		/// <returns>True, if size is zero.</returns>
-		Bool is_empty() const { return m_size == 0; }
-
-		/// <summary>
-		/// Gets the element at the given index.
-		/// </summary>
-		/// <param name="index">The index of the element to get.</param>
-		/// <returns>The value at the given index.</returns>
+		/**
+		 * @brief Gets the element at the given index.
+		 * @param index The index of the element to get.
+		 * @returns A reference to the element at the given index.
+		 */
 		T& at(Size const index)
 		{
 			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
@@ -1173,11 +832,11 @@ namespace Minty
 			return *it;
 		}
 
-		/// <summary>
-		/// Gets the element at the given index.
-		/// </summary>
-		/// <param name="index">The index of the element to get.</param>
-		/// <returns>The value at the given index.</returns>
+		/**
+		 * @brief Gets the element at the given index.
+		 * @param index The index of the element to get.
+		 * @returns A reference to the element at the given index.
+		 */
 		T const& at(Size const index) const
 		{
 			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
@@ -1185,48 +844,47 @@ namespace Minty
 			return *it;
 		}
 
-		/// <summary>
-		/// Gets the first element in the List.
-		/// </summary>
-		/// <returns>The first element.</returns>
+		/**
+		 * @brief Gets the first element in the List.
+		 * @returns The first element.
+		 */
 		T& front() { return mp_head->data; }
 
-		/// <summary>
-		/// Gets the first element in the List.
-		/// </summary>
-		/// <returns>The first element.</returns>
+		/**
+		 * @brief Gets the first element in the List.
+		 * @returns The first element.
+		 */
 		T const& front() const { return mp_head->data; }
 
-		/// <summary>
-		/// Gets the last element in the List.
-		/// </summary>
-		/// <returns>The last element.</returns>
+		/**
+		 * @brief Gets the last element in the List.
+		 * @returns The last element.
+		 */
 		T& back() { return mp_tail->data; }
 
-		/// <summary>
-		/// Gets the last element in the List.
-		/// </summary>
-		/// <returns>The last element.</returns>
+		/**
+		 * @brief Gets the last element in the List.
+		 * @returns The last element.
+		 */
 		T const& back() const { return mp_tail->data; }
 
-		/// <summary>
-		/// Gets the last element in the List.
-		/// </summary>
-		/// <returns>The last element.</returns>
+		/**
+		 * @brief Gets the last element in the List.
+		 * @returns The last element.
+		 */
 		T& peek() { return back(); }
 
-		/// <summary>
-		/// Gets the last element in the List.
-		/// </summary>
-		/// <returns>The last element.</returns>
+		/**
+		 * @brief Gets the last element in the List.
+		 * @returns The last element.
+		 */
 		T const& peek() const { return back(); }
 
-		/// <summary>
-		/// Creates a sublist of this List.
-		/// </summary>
-		/// <param name="index">The index to start the sublist at.</param>
-		/// <param name="length">The size of the sublist.</param>
-		/// <returns>A new List with the elements from the given range.</returns>
+		/**
+		 * @brief Creates a sublist from the List.
+		 * @param index The starting index of the sublist.
+		 * @param length The length of the sublist.
+		 */
 		List<T> sub(Size const index, Size const length) const
 		{
 			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
@@ -1242,11 +900,11 @@ namespace Minty
 			return result;
 		}
 
-		/// <summary>
-		/// Finds a value in the List.
-		/// </summary>
-		/// <param name="value">The value to find.</param>
-		/// <returns>An iterator to the found value, or end() if not found.</returns>
+		/**
+		 * @brief Finds a value in the List.
+		 * @param value The value to find.
+		 * @returns An iterator to the found value, or end() if not found.
+		 */
 		Iterator find(T const& value)
 		{
 			Iterator it = begin();
@@ -1261,11 +919,11 @@ namespace Minty
 			return end();
 		}
 
-		/// <summary>
-		/// Finds a value in the List.
-		/// </summary>
-		/// <param name="value">The value to find.</param>
-		/// <returns>An iterator to the found value, or end() if not found.</returns>
+		/**
+		 * @brief Finds a value in the List.
+		 * @param value The value to find.
+		 * @returns An iterator to the found value, or end() if not found.
+		 */
 		ConstIterator find(T const& value) const
 		{
 			ConstIterator it = begin();
@@ -1280,16 +938,16 @@ namespace Minty
 			return end();
 		}
 
-		/// <summary>
-		/// Checks if this List contains the given value.
-		/// </summary>
-		/// <param name="value">The value to check.</param>
-		/// <returns>True if the value was found.</returns>
-		Bool contains(T const& value) const { return find(value) != end(); }
+		/**
+		 * @brief Checks if the List contains the given value.
+		 * @param value The value to check for.
+		 * @returns True if the value is found, false otherwise.
+		 */
+		inline Bool contains(T const& value) const { return find(value) != end(); }
 
-		/// <summary>
-		/// Removes all elements from this List.
-		/// </summary>
+		/**
+		 * @brief Clears all elements from the List.
+		 */
 		void clear()
 		{
 			// remove nodes
@@ -1311,5 +969,16 @@ namespace Minty
 		}
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		Node* mp_head;
+		Node* mp_tail;
+		Size m_size;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_LIST_H

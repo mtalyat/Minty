@@ -1,14 +1,33 @@
 #include "pch.h"
 #include "Cargo.h"
-#include "Minty/Core/Format.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
-Bool Minty::Object::contains(String const& name) const
+Minty::Cargo::Cargo()
+	: m_objects()
 {
-	for (auto const& [varName, variable] : m_variables)
+}
+
+Minty::Cargo::Cargo(Size const capacity)
+	: m_objects(capacity)
+{
+}
+
+Minty::Cargo::Cargo(std::initializer_list<Tuple<String, Vector<Tuple<String, Variable>>>> const &list)
+	: m_objects(list.size() * 2)
+{
+	for (auto const &[name, variables] : list)
 	{
-		if (varName == name)
+		m_objects.add({name, Object(variables)});
+	}
+}
+
+Bool Minty::Cargo::contains(String const &name) const
+{
+	for (auto const &[objectName, object] : m_objects)
+	{
+		if (name == objectName)
 		{
 			return true;
 		}
@@ -16,76 +35,88 @@ Bool Minty::Object::contains(String const& name) const
 	return false;
 }
 
-Variable const& Minty::Object::at(String const& name) const
+Object &Minty::Cargo::at(String const &name)
 {
-	MINTY_ASSERT(!m_variables.is_empty(), ErrorCode::Object_InvalidState);
-	for (auto const& [varName, variable] : m_variables)
+	for (auto &[objectName, object] : m_objects)
 	{
-		if (varName == name)
+		if (name == objectName)
 		{
-			return variable;
+			return object;
 		}
 	}
 	MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 }
 
-Variable& Minty::Object::at(String const& name)
+Object const &Minty::Cargo::at(String const &name) const
 {
-	MINTY_ASSERT(!m_variables.is_empty(), ErrorCode::Object_InvalidState);
-	for (auto& [varName, variable] : m_variables)
+	for (auto const &[objectName, object] : m_objects)
 	{
-		if (varName == name)
+		if (name == objectName)
 		{
-			return variable;
+			return object;
 		}
 	}
 	MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 }
 
-void Minty::Object::add(String const& name, Variable const& variable)
+void Minty::Cargo::add(String const &name, Object const &object)
 {
 	MINTY_ASSERT(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
-	m_variables.add({ name, variable });
+	m_objects.add({name, object});
 }
 
-void Minty::Object::set(String const& name, Variable const& variable)
+void Minty::Cargo::set(String const &name, Object const &object)
 {
 	// replace if found
-	for (auto& [varName, var] : m_variables)
+	for (auto &[objectName, obj] : m_objects)
 	{
-		if (varName == name)
+		if (objectName == name)
 		{
-			var = variable;
+			obj = object;
 			return;
 		}
 	}
-	// add to end
-	m_variables.add({ name, variable });
+
+	// add new
+	m_objects.add({name, object});
 }
 
-Bool Minty::Object::remove(String const& name)
+Bool Minty::Cargo::remove(String const &name)
 {
-	for (Size i = 0; i < m_variables.get_size(); ++i)
+	// find the object and remove it
+	for (Size i = 0; i < m_objects.get_size(); ++i)
 	{
-		if (m_variables[i].get_first() == name)
+		if (m_objects[i].get_first() == name)
 		{
-			m_variables.remove(i);
+			m_objects.remove(i);
 			return true;
 		}
 	}
+
+	// not found
 	return false;
 }
 
-/// <summary>
-/// Packs the data within this Cargo into a byte array.
-/// </summary>
-/// <returns>A ConstContainer containing the byte data.</returns>
+Minty::Cargo::Iterator Minty::Cargo::find(String const &name)
+{
+	auto it = m_objects.begin();
+	while (it != m_objects.end())
+	{
+		if (it->get_first() == name)
+		{
+			return it;
+		}
+		++it;
+	}
+	return it;
+}
+
 ConstantContainer Minty::Object::pack() const
 {
 	// get the size of the container
 	Size size = 0;
 	Type type;
-	for (auto const& [name, variable] : m_variables)
+	for (auto const &[name, variable] : m_variables)
 	{
 		type = variable.get_type();
 		size += sizeof_type(type);
@@ -96,14 +127,14 @@ ConstantContainer Minty::Object::pack() const
 
 	// pack data into the container
 	Size offset = 0;
-	for (auto const& [name, variable] : m_variables)
+	for (auto const &[name, variable] : m_variables)
 	{
 		type = variable.get_type();
 		Size typeSize = sizeof_type(type);
 		// if variable is empty, set to zeros, otherwise set the variable data
 		if (variable.is_empty())
 		{
-			Byte* ptr = static_cast<Byte*>(container.get_data()) + offset;
+			Byte *ptr = static_cast<Byte *>(container.get_data()) + offset;
 			memset(ptr, 0, typeSize);
 		}
 		else
@@ -116,12 +147,26 @@ ConstantContainer Minty::Object::pack() const
 	return container;
 }
 
+Minty::Cargo::ConstIterator Minty::Cargo::find(String const &name) const
+{
+	auto it = m_objects.begin();
+	while (it != m_objects.end())
+	{
+		if (it->get_first() == name)
+		{
+			return it;
+		}
+		++it;
+	}
+	return it;
+}
+
 ConstantContainer Minty::Cargo::pack() const
 {
 	// get each container, and its size
 	Vector<ConstantContainer> containers(m_objects.get_size());
 	Size size = 0;
-	for (auto const& [name, object] : m_objects)
+	for (auto const &[name, object] : m_objects)
 	{
 		ConstantContainer container = object.pack();
 		size += container.get_size();
@@ -133,7 +178,7 @@ ConstantContainer Minty::Cargo::pack() const
 
 	// pack data into the container
 	Size offset = 0;
-	for (auto const& container : containers)
+	for (auto const &container : containers)
 	{
 		packed.set_at(container.get_data(), container.get_size(), offset);
 		offset += container.get_size();

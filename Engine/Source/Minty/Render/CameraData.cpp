@@ -32,9 +32,7 @@ Matrix4 Minty::CameraData::get_transformation_matrix() const
 		break;
 	}
 	default:
-		MINTY_LOG_ERROR("Unrecognized Camera perspective.");
-		return Math::identity<Matrix4>();
-		break;
+		MINTY_NOT_IMPLEMENTED();
 	}
 	
 	// flip Y axis

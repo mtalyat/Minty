@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Wrap/Wrap.h"
 #include "Minty/Data/Vector.h"

@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Compression.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"

@@ -94,11 +94,7 @@ Char Minty::VirtualFile::peek()
 Char Minty::VirtualFile::read()
 {
     // if at the end of the file, stop
-    if (end_of_file())
-    {
-        MINTY_LOG_ERROR("Cannot read_file from file to buffer. End Of File.");
-        return '\0';
-    }
+    MINTY_ASSERT(!end_of_file(), ErrorCode::File_EndOfFileReached);
 
     // read as per normal
 	return PhysicalFile::read();
@@ -107,12 +103,8 @@ Char Minty::VirtualFile::read()
 void Minty::VirtualFile::read(void* const buffer, Size_t const size)
 {
     // if at the end of the file, stop
-    if (end_of_file())
-    {
-        MINTY_LOG_ERROR("Cannot read_file from file to buffer. End Of File.");
-        return;
-    }
-
+    MINTY_ASSERT(!end_of_file(), ErrorCode::File_EndOfFileReached);
+    
     // read as per normal
     PhysicalFile::read(buffer, size);
 }

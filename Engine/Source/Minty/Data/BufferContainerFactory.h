@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_DATA_BUFFERCONTAINERFACTORY_H
+#define MINTY_DATA_BUFFERCONTAINERFACTORY_H
+
+/**
+ * @file BufferContainerFactory.h
+ * @brief Header file for the BufferContainerFactory class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/BufferContainer.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/UUID.h"
@@ -6,11 +14,48 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Handles groups of BufferContainers. Used for batch rendering.
-	/// </summary>
+	/**
+	 * @class BufferContainerFactory
+	 * @brief A factory that creates and manages BufferContainers of a specific usage and initial capacity.
+	 */
 	class BufferContainerFactory
 	{
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates a BufferContainerFactory with the given initial capacity and BufferUsage.
+		 * @param initialCapacity The initial capacity in bytes for each BufferContainer.
+		 * @param usage The BufferUsage to use for each BufferContainer.
+		 */
+		BufferContainerFactory(Size const initialCapacity, BufferUsage const usage);
+
+		~BufferContainerFactory() = default;
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		/**
+		 * @brief Gets a BufferContainer with at least the given size.
+		 * @param size The minimum size in bytes the BufferContainer must be able to hold.
+		 * @returns A reference to a BufferContainer.
+		 */
+		BufferContainer& get_container(Size const size);
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Marks all BufferContainers as unused, so they can be reused.
+		 */
+		void reset();
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -19,46 +64,7 @@ namespace Minty
 		Vector<Vector<Tuple<Bool, BufferContainer>>> m_containers;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates a new BufferContainerFactory with the given BufferContainer capacity and usage.
-		/// </summary>
-		/// <param name="initialCapacity">The capacity for each new BufferContainer.</param>
-		/// <param name="usage">The usage for each new BufferContainer.</param>
-		BufferContainerFactory(Size const initialCapacity, BufferUsage const usage)
-			: m_initialCapacity(initialCapacity)
-			, m_usage(usage)
-			, m_containers()
-		{
-		}
-
-		~BufferContainerFactory() = default;
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets the BufferContainer that corresponds to the given group ID and index.
-		/// </summary>
-		/// <param name="size">The size the BufferContainer must be able to hold.</param>
-		/// <returns>The BufferContainer.</returns>
-		BufferContainer& get_container(Size const size);
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		/// <summary>
-		/// Marks all BufferContainers as unused, so they can be reused.
-		/// </summary>
-		void reset();
-
-#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_BUFFERCONTAINERFACTORY_H

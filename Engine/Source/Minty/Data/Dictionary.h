@@ -1,22 +1,31 @@
-#pragma once
-#include "Minty/Core/Base.h"
-#include "Minty/Core/Format.h"
+#ifndef MINTY_DATA_DICTIONARY_H
+#define MINTY_DATA_DICTIONARY_H
+
+/**
+ * @file Dictionary.h
+ * @brief Header file for the Dictionary class.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Debug/Debug.h"
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
-#include "Minty/Data/Vector.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// An ordered collection of key-value pairs.
-	/// </summary>
-	/// <typeparam name="Key">The type of Key.</typeparam>
-	/// <typeparam name="Value">The type of Value.</typeparam>
-	template<typename Key, typename Value, typename Compare = std::less<Key>>
+	/**
+	 * @class Dictionary
+	 * @brief A key-value pair collection implemented as a balanced binary search tree (AVL Tree).
+	 * @tparam Key The type of keys in the dictionary.
+	 * @tparam Value The type of values in the dictionary.
+	 * @tparam Allocator The allocator type to use for memory management.
+	 * @tparam Compare The comparison functor for ordering keys.
+	 */
+	template<typename Key, typename Value, typename Allocator = DefaultAllocator, typename Compare = std::less<Key>>
 	class Dictionary
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Node
@@ -43,22 +52,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Variables
-
-	private:
-		Allocator m_allocator;
-		Node* mp_root;
-		Size m_size;
-		Compare m_compare;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		Dictionary(Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, mp_root(nullptr)
+		/**
+		 * @brief Creates an empty Dictionary.
+		 */
+		Dictionary()
+			: mp_root(nullptr)
 			, m_size(0)
 			, m_compare(Compare())
 		{
@@ -244,41 +245,239 @@ namespace Minty
 			}
 		};
 
-		Iterator begin()
-		{
-			return Iterator(mp_root);
-		}
-
-		Iterator end()
-		{
-			return Iterator();
-		}
-
-		ConstIterator begin() const
-		{
-			return ConstIterator(mp_root);
-		}
-
-		ConstIterator end() const
-		{
-			return ConstIterator();
-		}
+		Iterator begin() { return Iterator(mp_root); }
+		Iterator end() { return Iterator(); }
+		ConstIterator begin() const { return ConstIterator(mp_root); }
+		ConstIterator end() const { return ConstIterator(); }
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
-		Size get_size() const { return m_size; }
+		/**
+		 * @brief Checks if the Dictionary contains the given key.
+		 * @param key The key to check for.
+		 */
+		inline Size get_size() const { return m_size; }
 
-		Bool is_empty() const { return m_size == 0; }
+		/**
+		 * @brief Checks if the Dictionary is empty.
+		 * @returns True if the Dictionary contains no elements.
+		 */
+		inline Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
+	public:
+		/**
+		 * @brief Inserts a Key-Value pair into the Dictionary.
+		 * @param key The Key.
+		 * @param value The Value.
+		 * @returns True when a new pair was inserted, or false if the key already exists and its value was replaced.
+		 */
+		Bool insert(Key const& key, Value const& value)
+		{
+			Bool inserted = false;
+			mp_root = insert(mp_root, key, value, inserted);
+			return inserted;
+		}
+
+		/**
+		 * @brief Inserts a Key-Value pair into the Dictionary.
+		 * @param key The Key.
+		 * @param value The Value.
+		 * @returns True when a new pair was inserted, or false if the key already exists.
+		 */
+		Bool add(Key const& key, Value const& value)
+		{
+			if (contains(key))
+			{
+				return false;
+			}
+
+			insert(key, value);
+			return true;
+		}
+
+		/**
+		 * @brief Gets the Value for the given Key.
+		 * @param key The key.
+		 * @returns The value.
+		 */
+		Value& at(Key const& key)
+		{
+			Node* node = mp_root;
+			while (node)
+			{
+				if (m_compare(key, node->data.get_first()))
+				{
+					node = node->left;
+				}
+				else if (m_compare(node->data.get_first(), key))
+				{
+					node = node->right;
+				}
+				else
+				{
+					return node->data.get_second();
+				}
+			}
+
+			// not found
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
+		}
+
+		/**
+		 * @brief Gets the Value for the given Key.
+		 * @param key The key.
+		 * @returns The value.
+		 */
+		Value const& at(Key const& key) const
+		{
+			Node const* node = mp_root;
+			while (node)
+			{
+				if (m_compare(key, node->data.get_first()))
+				{
+					node = node->left;
+				}
+				else if (m_compare(node->data.get_first(), key))
+				{
+					node = node->right;
+				}
+				else
+				{
+					return node->data.get_second();
+				}
+			}
+
+			// not found
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
+		}
+
+		/**
+		 * @brief Finds the Iterator for the given Key.
+		 * @param key The Key to find.
+		 * @returns An Iterator to the found element, or end() if not found.
+		 */
+		Iterator find(Key const& key)
+		{
+			Node* node = mp_root;
+			Vector<Node*> stack;
+
+			while (node)
+			{
+				if (m_compare(key, node->data.get_first()))
+				{
+					stack.add(node);
+					node = node->left;
+				}
+				else if (m_compare(node->data.get_first(), key))
+				{
+					node = node->right;
+				}
+				else
+				{
+					// Found the node, stack is set for in-order traversal
+					return Iterator(node, std::move(stack));
+				}
+			}
+
+			// not found
+			return end();
+		}
+
+		/**
+		 * @brief Finds the ConstIterator for the given Key.
+		 * @param key The Key to find.
+		 * @returns A ConstIterator to the found element, or end() if not found.
+		 */
+		ConstIterator find(Key const& key) const
+		{
+			Node const* node = mp_root;
+			Vector<Node const*> stack;
+
+			while (node)
+			{
+				if (m_compare(key, node->data.get_first()))
+				{
+					stack.add(node);
+					node = node->left;
+				}
+				else if (m_compare(node->data.get_first(), key))
+				{
+					node = node->right;
+				}
+				else
+				{
+					// Found the node, stack is set for in-order traversal
+					return ConstIterator(node, std::move(stack));
+				}
+			}
+
+			// not found
+			return end();
+		}
+
+		/**
+		 * @brief Removes the Key-Value pair with the given Key.
+		 * @param key The Key to remove.
+		 * @returns True if the Key was found and removed, false otherwise.
+		 */
+		Bool remove(Key const& key)
+		{
+			Bool erased = false;
+			mp_root = erase(mp_root, key, erased);
+			if (erased)
+			{
+				m_size--;
+			}
+			return erased;
+		}
+
+		/**
+		 * @brief Checks if the Dictionary contains the given key.
+		 * @param key The key to check for.
+		 * @returns True if the key exists in the Dictionary, false otherwise.
+		 */
+		Bool contains(Key const& key) const
+		{
+			Node* node = mp_root;
+			while (node)
+			{
+				if (m_compare(key, node->data.get_first()))
+				{
+					node = node->left;
+				}
+				else if (m_compare(node->data.get_first(), key))
+				{
+					node = node->right;
+				}
+				else
+				{
+					return true;
+				}
+			}
+
+			// not found
+			return false;
+		}
+
+		/**
+		 * @brief Clears all Key-Value pairs from the Dictionary.
+		 */
+		void clear()
+		{
+			clear(mp_root);
+			mp_root = nullptr;
+			m_size = 0;
+		}
+		
 	private:
-		Int get_height(Node const* const n) const { return n ? n->height : 0; }
+		inline Int get_height(Node const* const n) const { return n ? n->height : 0; }
 		
 		Int get_balance(Node const* const n) const { return n ? get_height(n->left) - get_height(n->right) : 0; }
 		
@@ -399,164 +598,18 @@ namespace Minty
 			clear(n->right);
 			destruct<Node>(n, m_allocator);
 		}
-	public:
-		/// <summary>
-		/// Inserts the Key and Value pair into the Dictionary.
-		/// </summary>
-		/// <param name="key">The Key.</param>
-		/// <param name="value">The Value.</param>
-		/// <returns>True when a new pair was inserted, or false if the key already exists and its value was replaced.</returns>
-		Bool insert(Key const& key, Value const& value)
-		{
-			Bool inserted = false;
-			mp_root = insert(mp_root, key, value, inserted);
-			return inserted;
-		}
 
-		/// <summary>
-		/// Adds a Key-Value pair to the Dictionary, if the Key does not already exist.
-		/// </summary>
-		/// <param name="key">The Key.</param>
-		/// <param name="value">The Value.</param>
-		/// <returns>True when a new pair was inserted, or false if the key already exists.</returns>
-		Bool add(Key const& key, Value const& value)
-		{
-			if (contains(key))
-			{
-				return false;
-			}
+#pragma endregion
 
-			insert(key, value);
-			return true;
-		}
+#pragma region Variables
 
-		/// <summary>
-		/// Gets the Value for the given Key.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>The value.</returns>
-		Value& at(Key const& key)
-		{
-			Node* node = mp_root;
-			while (node)
-			{
-				if (m_compare(key, node->data.get_first()))
-				{
-					node = node->left;
-				}
-				else if (m_compare(node->data.get_first(), key))
-				{
-					node = node->right;
-				}
-				else
-				{
-					return node->data.get_second();
-				}
-			}
-
-			// not found
-			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
-
-		/// <summary>
-		/// Gets the Value for the given Key.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>The value.</returns>
-		Value const& at(Key const& key) const
-		{
-			Node const* node = mp_root;
-			while (node)
-			{
-				if (m_compare(key, node->data.get_first()))
-				{
-					node = node->left;
-				}
-				else if (m_compare(node->data.get_first(), key))
-				{
-					node = node->right;
-				}
-				else
-				{
-					return node->data.get_second();
-				}
-			}
-
-			// not found
-			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
-
-		Iterator find(Key const& key)
-		{
-			Node* node = mp_root;
-			Vector<Node*> stack;
-
-			while (node)
-			{
-				if (m_compare(key, node->data.get_first()))
-				{
-					stack.add(node);
-					node = node->left;
-				}
-				else if (m_compare(node->data.get_first(), key))
-				{
-					node = node->right;
-				}
-				else
-				{
-					// Found the node, stack is set for in-order traversal
-					return Iterator(node, std::move(stack));
-				}
-			}
-
-			// not found
-			return end();
-		}
-
-		Bool remove(Key const& key)
-		{
-			Bool erased = false;
-			mp_root = erase(mp_root, key, erased);
-			if (erased)
-			{
-				m_size--;
-			}
-			return erased;
-		}
-
-		Bool contains(Key const& key) const
-		{
-			Node* node = mp_root;
-			while (node)
-			{
-				if (m_compare(key, node->data.get_first()))
-				{
-					node = node->left;
-				}
-				else if (m_compare(node->data.get_first(), key))
-				{
-					node = node->right;
-				}
-				else
-				{
-					return true;
-				}
-			}
-
-			// not found
-			return false;
-		}
-
-		/// <summary>
-		/// Clears this Dictionary, removing all Key-Value pairs.
-		/// </summary>
-		void clear()
-		{
-			clear(mp_root);
-			mp_root = nullptr;
-			m_size = 0;
-		}
+	private:
+		Node* mp_root;
+		Size m_size;
+		Compare m_compare;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_DICTIONARY_H

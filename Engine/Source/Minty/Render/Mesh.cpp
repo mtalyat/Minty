@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Mesh.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Render/MeshInfo.h"
 
 using namespace Minty;
 

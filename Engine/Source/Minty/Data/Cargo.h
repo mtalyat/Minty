@@ -1,8 +1,13 @@
-#pragma once
-#include "Minty/Core/Base.h"
-#include "Minty/Core/Format.h"
+#ifndef MINTY_DATA_CARGO_H
+#define MINTY_DATA_CARGO_H
+
+/**
+ * @file Cargo.h
+ * @brief Header file for the Cargo class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/ConstantContainer.h"
-#include "Minty/Data/Map.h"
 #include "Minty/Data/Object.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/Variable.h"
@@ -10,290 +15,138 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a collection of ordered, named Objects, each of which has an ordered list of named Variables.
-	/// </summary>
+	/**
+	 * @class Cargo
+	 * @brief A collection of named Objects, each containing Variables.
+	 */
 	class Cargo
 	{
-#pragma region Variables
-
-	private:
-		Allocator m_allocator;
-		Vector<Tuple<String, Object>> m_objects;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Cargo.
-		/// </summary>
-		/// <param name="allocator">The Allocator to use.</param>
-		Cargo(Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_objects()
-		{
-		}
+		/**
+		 * @brief Creates an empty Cargo.
+		 */
+		Cargo();
 
-		/// <summary>
-		/// Creates a Cargo with the given capacity.
-		/// </summary>
-		/// <param name="capacity">The capacity of the number of Objects.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Cargo(Size const capacity, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_objects(capacity)
-		{
-		}
+		/**
+		 * @brief Creates a Cargo with the given initial capacity.
+		 * @param capacity The initial capacity.
+		 */
+		Cargo(Size const capacity);
 
-		/// <summary>
-		/// Creates a Cargo with the given list of Objects.
-		/// </summary>
-		/// <param name="list">The list of Objects.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Cargo(std::initializer_list<Tuple<String, Vector<Tuple<String, Variable>>>> const& list, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_objects(list.size() * 2)
-		{
-			for (auto const& [name, variables] : list)
-			{
-				m_objects.add({ name, Object(variables) });
-			}
-		}
-
-		Cargo(Cargo const& other)
-			: m_allocator(other.m_allocator)
-			, m_objects(other.m_objects)
-		{
-		}
-
-		Cargo(Cargo&& other) noexcept
-			: m_allocator(std::move(other.m_allocator))
-			, m_objects(std::move(other.m_objects))
-		{
-		}
-
-#pragma endregion
-
-#pragma region Operators
-
-	public:
-		Cargo& operator=(Cargo const& other)
-		{
-			if (this != &other)
-			{
-				m_allocator = other.m_allocator;
-				m_objects = other.m_objects;
-			}
-			return *this;
-		}
-
-		Cargo& operator=(Cargo&& other) noexcept
-		{
-			if (this != &other)
-			{
-				m_allocator = std::move(other.m_allocator);
-				m_objects = std::move(other.m_objects);
-			}
-			return *this;
-		}
+		/**
+		 * @brief Creates a Cargo with the given list of named Objects.
+		 * @param list A list of names and Objects.
+		 */
+		Cargo(std::initializer_list<Tuple<String, Vector<Tuple<String, Variable>>>> const& list);
 
 #pragma endregion
 
 #pragma region Iterators
 
 	public:
-		Vector<Tuple<String, Object>>::Iterator begin()
-		{
-			return m_objects.begin();
-		}
+		using Iterator = Vector<Tuple<String, Object>>::Iterator;
+		using ConstIterator = Vector<Tuple<String, Object>>::ConstIterator;
 
-		Vector<Tuple<String, Object>>::ConstIterator begin() const
-		{
-			return m_objects.begin();
-		}
-
-		Vector<Tuple<String, Object>>::Iterator end()
-		{
-			return m_objects.end();
-		}
-
-		Vector<Tuple<String, Object>>::ConstIterator end() const
-		{
-			return m_objects.end();
-		}
+		Iterator begin() { return m_objects.begin(); }
+		ConstIterator begin() const { return m_objects.begin(); }
+		Iterator end() { return m_objects.end(); }
+		ConstIterator end() const { return m_objects.end(); }
 
 #pragma endregion
 
 #pragma region Get Set
 
 	public:
-		/// <summary>
-		/// Checks if this Cargo is empty.
-		/// </summary>
-		/// <returns>True if there are no Objects.</returns>
-		Bool is_empty() const { return m_objects.is_empty(); }
+		/**
+		 * @brief Checks if this Cargo is empty.
+		 * @returns True if no Objects are in this Cargo.
+		 */
+		inline Bool is_empty() const { return m_objects.is_empty(); }
 
-		/// <summary>
-		/// Gets the number of Objects in this Cargo.
-		/// </summary>
-		/// <returns>The number of Objects.</returns>
-		Size get_size() const { return m_objects.get_size(); }
+		/**
+		 * @brief Gets the number of Objects in this Cargo.
+		 * @returns The size.
+		 */
+		inline Size get_size() const { return m_objects.get_size(); }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if this Cargo has an Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <returns>True, if an Object with the given name exists.</returns>
-		Bool contains(String const& name) const
-		{
-			for (auto const& [objectName, object] : m_objects)
-			{
-				if (name == objectName)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
+		/**
+		 * @brief Checks if this Cargo has an Object with the given name.
+		 * @param name The name of the Object.
+		 * @returns True if an Object with the given name exists.
+		 */
+		Bool contains(String const& name) const;
 
-		/// <summary>
-		/// Gets the Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <returns>The Object.</returns>
-		Object& at(String const& name)
-		{
-			for (auto& [objectName, object] : m_objects)
-			{
-				if (name == objectName)
-				{
-					return object;
-				}
-			}
-			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
+		/**
+		 * @brief Gets the Object with the given name.
+		 * @param name The name of the Object.
+		 * @returns The Object.
+		 */
+		Object& at(String const& name);
 
-		/// <summary>
-		/// Gets the Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <returns>The Object.</returns>
-		Object const& at(String const& name) const
-		{
-			for (auto const& [objectName, object] : m_objects)
-			{
-				if (name == objectName)
-				{
-					return object;
-				}
-			}
-			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
+		/**
+		 * @brief Gets the Object with the given name.
+		 * @param name The name of the Object.
+		 * @returns The Object.
+		 */
+		Object const& at(String const& name) const;
 
-		/// <summary>
-		/// Adds the Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <param name="object">The Object.</param>
-		void add(String const& name, Object const& object)
-		{
-			MINTY_ASSERT(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
-			m_objects.add({ name, object });
-		}
+		/**
+		 * @brief Adds an Object to this Cargo.
+		 * @param name The name of the Object.
+		 * @param object The Object.
+		 */
+		void add(String const& name, Object const& object);
 
-		/// <summary>
-		/// Sets the Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <param name="object">The Object.</param>
-		void set(String const& name, Object const& object)
-		{
-			// replace if found
-			for (auto& [objectName, obj] : m_objects)
-			{
-				if (objectName == name)
-				{
-					obj = object;
-					return;
-				}
-			}
+		/**
+		 * @brief Sets the Object with the given name.
+		 * @param name The name of the Object.
+		 * @param object The Object.
+		 */
+		void set(String const& name, Object const& object);
 			
-			// add new
-			m_objects.add({ name, object });
-		}
+		/**
+		 * @brief Removes the Object with the given name.
+		 * @param name The name of the Object.
+		 * @returns True if the Object was found and removed.
+		 */
+		Bool remove(String const& name);
 
-		/// <summary>
-		/// Removes the Object with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Object.</param>
-		/// <returns>True if an Object was removed.</returns>
-		Bool remove(String const& name)
-		{
-			// find the object and remove it
-			for (Size i = 0; i < m_objects.get_size(); ++i)
-			{
-				if (m_objects[i].get_first() == name)
-				{
-					m_objects.remove(i);
-					return true;
-				}
-			}
+		/**
+		 * @brief Finds the first occurrence of the given name.
+		 * @param name The name to find.
+		 * @returns An iterator to the Object with the given name.
+		 */
+		Iterator find(String const& name);
 
-			// not found
-			return false;
-		}
+		/**
+		 * @brief Finds the first occurrence of the given name.
+		 * @param name The name to find.
+		 * @returns An iterator to the Object with the given name.
+		 */
+		ConstIterator find(String const& name) const;
 
-		/// <summary>
-		/// Finds the first occurrence of the given name.
-		/// </summary>
-		/// <param name="name">The name to find.</param>
-		/// <returns>An iterator to the Object with the given name.</returns>
-		Vector<Tuple<String, Object>>::Iterator find(String const& name)
-		{
-			auto it = m_objects.begin();
-			while (it != m_objects.end())
-			{
-				if (it->get_first() == name)
-				{
-					return it;
-				}
-				++it;
-			}
-			return it;
-		}
-
-		/// <summary>
-		/// Finds the first occurrence of the given name.
-		/// </summary>
-		/// <param name="name">The name to find.</param>
-		/// <returns>An iterator to the Object with the given name.</returns>
-		Vector<Tuple<String, Object>>::ConstIterator find(String const& name) const
-		{
-			auto it = m_objects.begin();
-			while (it != m_objects.end())
-			{
-				if (it->get_first() == name)
-				{
-					return it;
-				}
-				++it;
-			}
-			return it;
-		}
-
-		/// <summary>
-		/// Packs the data within this Cargo into a byte array.
-		/// </summary>
-		/// <returns>A ConstContainer with the byte array.</returns>
+		/**
+		 * @brief Packs this Cargo into a ConstantContainer.
+		 * @returns The packed ConstantContainer.
+		 */
 		ConstantContainer pack() const;
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Vector<Tuple<String, Object>> m_objects;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_CARGO_H

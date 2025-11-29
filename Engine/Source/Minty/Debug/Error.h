@@ -24,6 +24,7 @@ namespace Minty
         NotSupported,
         PlatformSpecific,
         InvalidUserData,
+        InfiniteLoop,
 
         Memory = 100,
         Memory_AllocationFailed,
@@ -34,6 +35,7 @@ namespace Minty
         Memory_WeakLeakDetected,
         Memory_StrongLeakDetected,
         Memory_InvalidPointer,
+        Memory_SizeMismatch,
         
         Argument = 200,
         Argument_ExpectedNonZero,
@@ -79,6 +81,7 @@ namespace Minty
         File_ReadWriteSyncMismatch,
         File_FlagNotSupported,
         File_PathTooLong,
+        File_EndOfFileReached,
 
         Singleton = 500,
         Singleton_AlreadyExists,
@@ -87,12 +90,15 @@ namespace Minty
 
         Library = 600,
         Library_InitializationFailed,
+        Library_LibraryError,
 
         Serialization = 700,
         Serialization_InvalidFormat,
         Serialization_UnexpectedEndOfData,
         Serialization_DataNotFound,
         Serialization_Failed,
+        Serialization_ReadName,
+        Serialization_ReadValue,
 
         Entity = 800,
         Entity_NotValid,
@@ -142,6 +148,7 @@ namespace Minty
         Asset_Shader_PushConstantLocation,
         Asset_Prefab_OverrideNotFound,
         Asset_Mesh_InvalidStride,
+        Asset_Font_CharNotFound,
 
         UUID = 1300,
         UUID_Invalid,
@@ -180,6 +187,23 @@ namespace Minty
 
         Window = 2000,
         Window_CreationFailed,
+
+        Layer = 2100,
+        Layer_NotFound,
+
+        CommandLine = 2200,
+        CommandLine_NotEnoughArguments,
+
+        OS = 2300,
+        OS_CopyFailed,
+        OS_MoveFailed,
+        OS_EnvironmentVariableNotFound,
+
+        Wrap = 2400,
+        Wrap_InvalidFormat,
+        Wrap_EntryLimitReached,
+        Wrap_CompressionFailed,
+        Wrap_UncompressionFailed,
         
         Unknown = ~0U
     };

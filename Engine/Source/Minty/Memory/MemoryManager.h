@@ -4,7 +4,7 @@
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Memory/Allocator.h"
+#include "Minty/Memory/AllocatorType.h"
 
 namespace Minty
 {
@@ -12,15 +12,20 @@ namespace Minty
 	class MemoryPool;
 	class MemoryStack;
 
-	/// <summary>
-	/// Handles allocation and deallocation of memory.
-	/// </summary>
+	/**
+	 * @class MemoryManager
+	 * @brief Manages memory allocation and deallocation using various allocators.
+	 */
 	class MemoryManager
 		: public Manager
 	{
 #pragma region Constructors
 
 	public:
+		/**
+		 * @brief Creates a MemoryManager using the given information.
+		 * @param info The information for creating the MemoryManager.
+		 */
 		MemoryManager(MemoryManagerInfo const& info);
 
 		~MemoryManager() override;
@@ -35,25 +40,6 @@ namespace Minty
 	public:
 		MemoryManager& operator=(MemoryManager const& other) = delete;
 		MemoryManager& operator=(MemoryManager&& other) = delete;
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-#ifdef MINTY_DEBUG
-		/**
-		 * @brief Gets the size in bytes that has been allocated statically.
-		 * @return The static allocated size in bytes.
-		 */
-		inline Size get_static_size_DEBUG() const { return m_staticSize_DEBUG; }
-
-		/**
-		 * @brief Gets the size in bytes that has been allocated dynamically.
-		 * @return The dynamic allocated size in bytes.
-		 */
-		inline Size get_dynamic_size_DEBUG() const { return m_dynamicSize_DEBUG; }
-#endif // MINTY_DEBUG
 
 #pragma endregion
 
@@ -72,7 +58,7 @@ namespace Minty
 		 * @param size The size of memory to allocate in bytes.
 		 * @return A pointer to the allocated memory.
 		 */
-		Any allocate(Allocator const allocator, Size const size);
+		Any allocate(AllocatorType const allocator, Size const size);
 		
 		/**
 		 * @brief Allocates memory using the default system allocator.
@@ -86,7 +72,7 @@ namespace Minty
 		 * @param size The size of memory to allocate in bytes.
 		 * @return A pointer to the allocated memory.
 		 */
-		Any allocate_temporary(Size const size);
+		Any allocate_frame(Size const size);
 
 		/**
 		 * @brief Allocates memory using the task memory stack.
@@ -107,7 +93,7 @@ namespace Minty
 		 * @param allocator The allocator to use.
 		 * @param ptr The pointer to deallocate.
 		 */
-		void deallocate(Allocator const allocator, Any const ptr);
+		void deallocate(AllocatorType const allocator, Any const ptr);
 
 		/**
 		 * @brief Deallocates memory using the default system allocator.
@@ -119,7 +105,7 @@ namespace Minty
 		 * @brief Deallocates memory using the temporary memory stack.
 		 * @param ptr The pointer to deallocate.
 		 */
-		void deallocate_temporary(Any const ptr);
+		void deallocate_frame(Any const ptr);
 
 		/**
 		 * @brief Deallocates memory using the task memory stack.
@@ -155,17 +141,11 @@ namespace Minty
 
 	private:
 		Bool m_initialized;
-		MemoryStack* mp_temporaryStack;
-		MemoryStack* mp_taskStacks;
-		Size m_taskStackCount;
-		Size m_taskIndex;
-		MemoryPool* mp_persistentPools;
-		Size m_persistentPoolCount;
-		Size *mp_persistentPoolSizeMap;
-#ifdef MINTY_DEBUG
-		Size m_staticSize_DEBUG;
-		Size m_dynamicSize_DEBUG;
-#endif // MINTY_DEBUG
+		Bool m_frameInitialized;
+		Bool m_taskInitialized;
+		Bool m_persistentInitialized;
+		Size m_persistentSizes[MAX_PERSISTENT_POOLS];
+		Size m_persistentMap[MAX_PERSISTENT_POOL_SIZE + 1];
 
 #pragma endregion
 	};

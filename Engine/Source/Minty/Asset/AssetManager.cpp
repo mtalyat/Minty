@@ -236,11 +236,7 @@ Bool Minty::AssetManager::is_syncing() const
 
 Bool Minty::AssetManager::load_wrap(Path const& path)
 {
-	if (!Path::exists(path))
-	{
-		MINTY_LOG_ERROR(F("Cannot load Wrap file. Path does not exist: {}", path));
-		return false;
-	}
+	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound, path);
 
 	m_wrapper.add(path);
 
@@ -445,19 +441,12 @@ void Minty::AssetManager::reload(UUID const id)
 
 	// open the file
 	Reader* reader = nullptr;
-	if (!open_reader(path, reader))
-	{
-		MINTY_LOG_ERROR(F("Failed to reload asset: {}. Could not open file.", path));
-		return;
-	}
+	Bool const openReaderResult = open_reader(path, reader);
+	MINTY_ASSERT(openReaderResult, ErrorCode::File_FailedToOpen, path);
 
 	// deserialize the asset again
-	if (!asset->deserialize(*reader))
-	{
-		MINTY_LOG_ERROR(F("Failed to deserialize asset: {}. Failed to deserialize the data.", path));
-		close_reader(reader);
-		return;
-	}
+	Bool const deserializeResult = asset->deserialize(*reader);
+	MINTY_ASSERT(deserializeResult, ErrorCode::Serialization_Failed, path);
 
 	// close the reader
 	close_reader(reader);
@@ -527,7 +516,7 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 	// if not found, return null
 	if (it == m_assets.end())
 	{
-		MINTY_LOG_ERROR(F("Asset with the given ID does not exist: {}", id));
+		MINTY_ERROR(ErrorCode::Asset_NotLoaded, id);
 		return Ref<Asset>();
 	}
 
@@ -895,24 +884,15 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
 				// read the time
-				if (!reader->read_name(i, timeString))
-				{
-					MINTY_LOG_ERROR(F("Failed to read time from animation step: {}.", path));
-					continue;
-				}
-				if (!try_float(timeString, time))
-				{
-					MINTY_LOG_ERROR(F("Failed to convert time string to float: {}.", timeString));
-					continue;
-				}
+				Bool readNameResult = reader->read_name(i, timeString);
+				MINTY_ASSERT(readNameResult, ErrorCode::Serialization_ReadName, path);
+
+				time = parse_to<Float>(timeString);
 
 				// read the action indices
 				String actionIndicesString;
-				if (!reader->read(i, actionIndicesString))
-				{
-					MINTY_LOG_ERROR(F("Failed to read action indices from animation step: {}.", path));
-					continue;
-				}
+				Bool const readActionIndicesResult = reader->read(i, actionIndicesString);
+				MINTY_ASSERT(readActionIndicesResult, ErrorCode::Serialization_ReadValue, path);
 				actionIndicesString = actionIndicesString.strip();
 				Vector<String> actionIndicesParts = actionIndicesString.split(ANIMATION_ACTION_GROUP);
 				Vector<Size> actionIndices;
@@ -920,15 +900,8 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				for (String const& part : actionIndicesParts)
 				{
 					// convert to size
-					Size index;
-					if (try_size(part, index))
-					{
-						actionIndices.add(index);
-					}
-					else
-					{
-						MINTY_LOG_ERROR(F("Failed to convert action index string to size: {}.", part));
-					}
+					Size const index = parse_to<Size>(part);
+					actionIndices.add(index);
 				}
 
 				// add to the info
@@ -950,15 +923,8 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 			for (String const& part : resetStepsParts)
 			{
 				// convert to size
-				Size index;
-				if (try_size(part, index))
-				{
-					info.resetSteps.add(index);
-				}
-				else
-				{
-					MINTY_LOG_ERROR(F("Failed to convert reset step string to size: {}.", part));
-				}
+				Size const index = parse_to<Size>(part);
+				info.resetSteps.add(index);
 			}
 		}
 
@@ -1533,11 +1499,8 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
 	{
 		return load_mesh_obj(path, id);
 	}
-	else
-	{
-		MINTY_LOG_ERROR(F("Cannot load mesh. Unsupported file type: {}", extension));
-		return Ref<Mesh>();
-	}
+
+	MINTY_ABORT(ErrorCode::Asset_UnknownType, path);
 }
 
 Ref<Prefab> Minty::AssetManager::load_prefab(Path const& path, UUID const id)
@@ -1607,11 +1570,7 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 		if (reader->read("Images", images) && !images.is_empty())
 		{
 			// if "Surface", automatically grab the images from the surface
-			if (images != "Surface")
-			{
-				MINTY_LOG_ERROR(F("Failed to load render target. Invalid image name: \"{}\". Must provide a valid name (Surface), or a list of Image IDs to use.", images));
-				return Ref<RenderTarget>();
-			}
+			MINTY_ASSERT(images == "Surface", ErrorCode::Serialization_InvalidFormat, path, F("Invalid image name: \"{}\". Must provide a valid name (Surface), or a list of Image IDs to use.", images));
 			
 			// get the surface images
 			RenderManager& renderManager = RenderManager::get_singleton();

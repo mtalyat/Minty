@@ -64,7 +64,7 @@ void Minty::Wrap::load(Path const& path)
     if (memcmp(m_header.id, WRAP_MAGIC, WRAP_MAGIC_SIZE))
     {
         // does not have the correct "WRAP" id magic
-        MINTY_LOG_ERROR(F("Cannot add \"{}\" into Wrap file: invalid magic data.", m_path.get_string()));
+        MINTY_ERROR(ErrorCode::Wrap_InvalidFormat, m_path.get_string());
         m_header = Header();
         return;
     }
@@ -186,8 +186,7 @@ uint32_t Minty::Wrap::add_entry(Entry& newEntry)
     }
 
     // cannot fit
-    MINTY_LOG_ERROR(F("Cannot add entry to Wrap file. Entry count surpassed ({}).", m_entries.get_size()));
-
+    MINTY_ERROR(ErrorCode::Wrap_EntryLimitReached, m_entries.get_size());
     return -1;
 }
 
@@ -313,9 +312,10 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
         Byte* compressedData = new Byte[destSize];
 
         // compress it
-        if (!compress(compressedData, destSize, fileData, sourceSize, compressionLevel))
+        Bool const compressionResult = compress(compressedData, destSize, fileData, sourceSize, compressionLevel);
+        if (!compressionResult)
         {
-            MINTY_LOG_ERROR(F("Cannot add \"{}\" into Wrap file: failed to compress file with compression level {}.", physicalPath.get_string(), static_cast<Int>(compressionLevel)));
+            MINTY_ERROR(ErrorCode::Wrap_CompressionFailed, physicalPath.get_string());
             return;
         }
 
@@ -401,12 +401,14 @@ Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 	else
 	{
 		data = new Byte[size];
-		if (!uncompress(data, size, fileData, sourceSize))
+        Bool const uncompressResult = decompress(fileData, sourceSize, data, size);
+        delete[] fileData;
+		if (!uncompressResult)
 		{
-			MINTY_LOG_ERROR(F("Failed to uncompress file \"{}\" in Wrap file.", path.get_string()));
+			MINTY_ERROR(ErrorCode::Wrap_UncompressionFailed, path.get_string());
+            delete[] data;
 			return Vector<Byte>();
 		}
-        delete[] fileData;
 	}
 
     // add to vector

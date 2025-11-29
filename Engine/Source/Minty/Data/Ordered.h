@@ -1,5 +1,4 @@
 #pragma once
-#include "Minty/Core/Base.h"
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 
@@ -195,7 +194,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 		Size m_capacity;
 		Size m_size;
 		Node** mp_table;
@@ -207,7 +206,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Ordered(Allocator const allocator = Allocator::Default)
+		Ordered(AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
@@ -217,7 +216,7 @@ namespace Minty
 		{
 		}
 
-		Ordered(Size const capacity, Allocator const allocator = Allocator::Default)
+		Ordered(Size const capacity, AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_capacity(capacity)
 			, m_size(0)
@@ -228,7 +227,7 @@ namespace Minty
 			reserve(capacity);
 		}
 
-		Ordered(std::initializer_list<T> const& list, Allocator const allocator = Allocator::Default)
+		Ordered(std::initializer_list<T> const& list, AllocatorType const allocator = AllocatorType::Default)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
@@ -266,7 +265,7 @@ namespace Minty
 			, mp_head(other.mp_head)
 			, mp_tail(other.mp_tail)
 		{
-			other.m_allocator = Allocator::Default;
+			other.m_allocator = AllocatorType::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_table = nullptr;
@@ -319,7 +318,7 @@ namespace Minty
 				mp_table = other.mp_table;
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
-				other.m_allocator = Allocator::Default;
+				other.m_allocator = AllocatorType::Default;
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;

@@ -37,11 +37,8 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 {
 	// read the condition string
 	String conditionString;
-	if (!reader.read(index, conditionString))
-	{
-		MINTY_LOG_ERROR(F("Failed to read condition string at index {}.", index));
-		return false;
-	}
+	Bool const readResult = reader.read(index, conditionString);
+	MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
 
 	// split the condition string into parts
 	Vector<String> parts = conditionString.split();

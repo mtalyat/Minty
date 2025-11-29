@@ -56,7 +56,7 @@ Bool Minty::FSM::evaluate(Bool const continuous)
 
 			if (!visitedStates.add(state))
 			{
-				MINTY_LOG_ERROR(F("Infinite loop detected in FSM: {}", state));
+				MINTY_ERROR(ErrorCode::InfiniteLoop, state);
 				return false;
 			}
 		} while (continuous && next != INVALID_ID);
@@ -139,11 +139,8 @@ Bool Minty::FSM::deserialize(Reader& reader)
 		// read the names
 		for (Size i = 0; i < reader.get_size(); i++)
 		{
-			if (!reader.read_name(i, name))
-			{
-				MINTY_LOG_ERROR(F("Failed to read state name at index {}.", i));
-				return false;
-			}
+			Bool const nameResult = reader.read_name(i, name);
+			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
 			m_states.add(name, UUID::create(), State());
 		}
 
@@ -151,22 +148,16 @@ Bool Minty::FSM::deserialize(Reader& reader)
 		State state;
 		for (Size i = 0; i < reader.get_size(); i++)
 		{
-			if (!reader.read_name(i, name))
-			{
-				MINTY_LOG_ERROR(F("Failed to read state name at index {}.", i));
-				return false;
-			}
+			Bool const nameResult = reader.read_name(i, name);
+			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
 
 			// get the state
 			// no need to check if not found, just added the state above
 			State& state = m_states.at(name);
 
 			// read the state values
-			if (!reader.read(i, state))
-			{
-				MINTY_LOG_ERROR(F("Failed to read state {}.", name));
-				return false;
-			}
+			Bool const readResult = reader.read(i, state);
+			MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
 		}
 
 		reader.outdent();

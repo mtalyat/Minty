@@ -6,11 +6,11 @@
 
 using namespace Minty;
 
-Minty::Path::Path(String const& string, Allocator const allocator)
+Minty::Path::Path(String const& string, AllocatorType const allocator)
 	: m_path(string.get_data())
 {}
 
-Minty::Path::Path(Char const* data, Allocator const allocator)
+Minty::Path::Path(Char const* data, AllocatorType const allocator)
 	: m_path(data)
 {}
 

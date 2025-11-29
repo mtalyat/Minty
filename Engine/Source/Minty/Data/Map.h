@@ -1,18 +1,27 @@
-#pragma once
-#include "Minty/Core/Base.h"
+#ifndef MINTY_DATA_MAP_H
+#define MINTY_DATA_MAP_H
+
+/**
+ * @file Map.h
+ * @brief Header file for the Map class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a hash map of key-value pairs.
-	/// </summary>
-	/// <typeparam name="Key">The type of the keys.</typeparam>
-	/// <typeparam name="Value">The type of the values.</typeparam>
-	template<typename Key, typename Value>
+	/**
+	 * @brief A hash map implementation using separate chaining for collision resolution.
+	 * @tparam Key The type of keys stored in the map.
+	 * @tparam Value The type of values stored in the map.
+	 * @tparam Allocator The allocator type to use for memory management.
+	 */
+	template<typename Key, typename Value, typename Allocator = DefaultAllocator>
 	class Map
 	{
 #pragma region Classes
@@ -240,10 +249,6 @@ namespace Minty
 			}
 		};
 
-		/// <summary>
-		/// Gets an Iterator to the beginning of the Map.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first key-value pair.</returns>
 		Iterator begin()
 		{
 			if (m_capacity)
@@ -255,17 +260,7 @@ namespace Minty
 				return end();
 			}
 		}
-
-		/// <summary>
-		/// Gets an Iterator to the end of the Map.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first key-value pair.</returns>
 		Iterator end() { return Iterator(mp_table, m_capacity, m_capacity, nullptr); }
-
-		/// <summary>
-		/// Gets a ConstIterator to the beginning of the Map.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
 		ConstIterator begin() const
 		{
 			if (m_capacity)
@@ -277,62 +272,41 @@ namespace Minty
 				return end();
 			}
 		}
-
-		/// <summary>
-		/// Gets a ConstIterator to the end of the Map.
-		/// </summary>
-		/// <returns>A ConstIterator pointing to the first key-value pair.</returns>
 		ConstIterator end() const { return ConstIterator(mp_table, m_capacity, m_capacity, nullptr); }
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		Allocator m_allocator;
-		Size m_capacity;
-		Size m_size;
-		Node** mp_table;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Map.
-		/// </summary>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Map(Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates an empty Map.
+		 */
+		Map()
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
 		}
 
-		/// <summary>
-		/// Creates a Map with the given capacity.
-		/// </summary>
-		/// <param name="capacity">The starting capacity to use.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Map(Size const capacity, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates a Map with the given capacity.
+		 * @param capacity The starting capacity to use.
+		 */
+		Map(Size const capacity)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
 			reserve(capacity);
 		}
 
-		/// <summary>
-		/// Creates a Map with the given list of key-value pairs.
-		/// </summary>
-		/// <param name="list">A list of key-value pairs.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Map(std::initializer_list<Tuple<Key, Value>> const& list, Allocator const allocator = Allocator::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates a Map from an initializer list of key-value pairs.
+		 * @param list The initializer list of key-value pairs.
+		 */
+		Map(std::initializer_list<Tuple<Key, Value>> const& list)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{
@@ -343,11 +317,14 @@ namespace Minty
 			}
 		}
 
+		/**
+		 * @brief Copies the given Map.
+		 * @param other The Map to copy.
+		 */
 		Map(Map const& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
-			, mp_table(construct_array<Node*>(m_capacity, m_allocator))
+			, mp_table(Allocator::construct_array<Node*>(m_capacity))
 		{
 			for (Size i = 0; i < m_capacity; ++i)
 			{
@@ -355,7 +332,7 @@ namespace Minty
 				Node* prev = nullptr;
 				while (node)
 				{
-					Node* newNode = construct<Node>(m_allocator, node->get_key(), node->get_value());
+					Node* newNode = Allocator::construct<Node>(node->get_key(), node->get_value());
 					if (prev)
 					{
 						prev->next = newNode;
@@ -370,13 +347,15 @@ namespace Minty
 			}
 		}
 
+		/**
+		 * @brief Moves the given Map.
+		 * @param other The Map to move.
+		 */
 		Map(Map&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_table(other.mp_table)
 		{
-			other.m_allocator = Allocator::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_table = nullptr;
@@ -401,17 +380,16 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_table = construct_array<Node*>(m_capacity, m_allocator);
+				mp_table = Allocator::construct_array<Node*>(m_capacity);
 				for (Size i = 0; i < m_capacity; ++i)
 				{
 					Node* node = other.mp_table[i];
 					Node* prev = nullptr;
 					while (node)
 					{
-						Node* newNode = construct<Node>(m_allocator, node->get_key(), node->get_value());
+						Node* newNode = Allocator::construct<Node>(node->get_key(), node->get_value());
 						if (prev)
 						{
 							prev->next = newNode;
@@ -433,11 +411,9 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
-				other.m_allocator = Allocator::Default;
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;
@@ -464,13 +440,247 @@ namespace Minty
 #pragma region Get Set
 
 	public:
-		Size get_capacity() const { return m_capacity; }
+		/**
+		 * @brief Gets the capacity of this Map.
+		 * @returns The capacity.
+		 */
+		inline Size get_capacity() const { return m_capacity; }
 
-		Size get_size() const { return m_size; }
+		/**
+		 * @brief Gets the size of this Map.
+		 * @returns The size.
+		 */
+		inline Size get_size() const { return m_size; }
+
+		/**
+		 * @brief Checks if the Map is empty.
+		 * @returns True if the Map is empty, false otherwise.
+		 */
+		Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
+
+	public:
+		/**
+		 * @brief Hashes the given key to an index in the table.
+		 * @param key The key to hash.
+		 */
+		void reserve(Size const capacity)
+		{
+			// do nothing if smaller or same size
+			if (capacity <= m_capacity)
+			{
+				return;
+			}
+
+			Node** newTable = Allocator::construct_array<Node*>(capacity);
+
+			if (m_capacity > 0)
+			{
+				for (Size i = 0; i < m_capacity; ++i)
+				{
+					Node* node = mp_table[i];
+					while (node)
+					{
+						Node* next = node->next;
+						Size index = hash(node->get_key(), capacity);
+						node->next = newTable[index];
+						newTable[index] = node;
+						node = next;
+					}
+				}
+				Allocator::destruct_array<Node*>(mp_table, m_capacity);
+			}
+
+			mp_table = newTable;
+			m_capacity = capacity;
+		}
+
+		/**
+		 * @brief Adds a key-value pair to the Map.
+		 * @param key The key of the pair.
+		 * @param value The value of the pair.
+		 */
+		void add(Key const& key, Value&& value)
+		{
+			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
+
+			// rehash if necessary
+			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
+			{
+				rehash();
+			}
+
+			// insert into bucket
+			Size index = hash(key);
+			Node* node = Allocator::construct<Node>(key, std::move(value));
+			node->next = mp_table[index];
+			mp_table[index] = node;
+
+			// add to size
+			++m_size;
+		}
+
+		/**
+		 * @brief Adds a key-value pair to the Map.
+		 * @param key The key of the pair.
+		 * @param value The value of the pair.
+		 */
+		Bool remove(Key const& key)
+		{
+			if (m_size == 0)
+			{
+				return false;
+			}
+
+			Size index = hash(key);
+			Node* node = mp_table[index];
+			Node* prev = nullptr;
+			while (node)
+			{
+				if (node->get_key() == key)
+				{
+					if (prev)
+					{
+						prev->next = node->next;
+					}
+					else
+					{
+						mp_table[index] = node->next;
+					}
+					Allocator::destruct<Node>(node);
+					--m_size;
+					return true;
+				}
+				prev = node;
+				node = node->next;
+			}
+			return false;
+		}
+
+		/**
+		 * @brief Gets the Value with the given Key.
+		 * @param key The Key of the Value to get.
+		 */
+		Value& at(Key const& key)
+		{
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
+
+			Size index = hash(key);
+			Node* node = mp_table[index];
+
+			while (node)
+			{
+				if (node->get_key() == key)
+				{
+					return node->get_value();
+				}
+				node = node->next;
+			}
+
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
+		}
+
+		/**
+		 * @brief Gets the Value with the given Key.
+		 * @param key The Key of the Value to get.
+		 */
+		Value const& at(Key const& key) const
+		{
+			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
+
+			Size index = hash(key);
+			Node const* node = mp_table[index];
+
+			while (node)
+			{
+				if (node->get_key() == key)
+				{
+					return node->get_value();
+				}
+				node = node->next;
+			}
+
+			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
+		}
+		
+		/**
+		 * @brief Finds the first occurrence of the given Key.
+		 * @param key The Key to find.
+		 */
+		Iterator find(Key const& key)
+		{
+			if (m_size == 0)
+			{
+				return end();
+			}
+
+			Size index = hash(key);
+			Node* node = mp_table[index];
+			while (node)
+			{
+				if (node->get_key() == key)
+				{
+					return Iterator(mp_table, m_capacity, index, node);
+				}
+				node = node->next;
+			}
+			return end();
+		}
+
+		/**
+		 * @brief Finds the first occurrence of the given Key.
+		 * @param key The Key to find.
+		 */
+		ConstIterator find(Key const& key) const
+		{
+			if (m_size == 0)
+			{
+				return end();
+			}
+
+			Size index = hash(key);
+			Node const* node = mp_table[index];
+			while (node)
+			{
+				if (node->get_key() == key)
+				{
+					return ConstIterator(mp_table, m_capacity, index, node);
+				}
+				node = node->next;
+			}
+			return end();
+		}
+
+		/**
+		 * @brief Checks if the Map contains the given Key.
+		 * @param key The Key to check for.
+		 */
+		inline Bool contains(Key const& key) const { return find(key) != end(); }
+
+		/**
+		 * @brief Clears all key-value pairs from the Map.
+		 */
+		void clear()
+		{
+			if (mp_table)
+			{
+				for (Size i = 0; i < m_capacity; ++i)
+				{
+					Node* node = mp_table[i];
+					while (node)
+					{
+						Node* temp = node;
+						node = node->next;
+						destruct<Node>(temp, m_allocator);
+					}
+					mp_table[i] = nullptr;
+				}
+			}
+			m_size = 0;
+		}
 
 	private:
 		Size hash(Key const& key, Size const capacity) const
@@ -495,262 +705,17 @@ namespace Minty
 			}
 		}
 
-	public:
-		/// <summary>
-		/// Reserves more space in this Map.
-		/// </summary>
-		/// <param name="capacity">The new capacity to use.</param>
-		void reserve(Size const capacity)
-		{
-			// do nothing if smaller or same size
-			if (capacity <= m_capacity)
-			{
-				return;
-			}
+#pragma endregion
 
-			Node** newTable = construct_array<Node*>(capacity, m_allocator);
+#pragma region Variables
 
-			if (m_capacity > 0)
-			{
-				for (Size i = 0; i < m_capacity; ++i)
-				{
-					Node* node = mp_table[i];
-					while (node)
-					{
-						Node* next = node->next;
-						Size index = hash(node->get_key(), capacity);
-						node->next = newTable[index];
-						newTable[index] = node;
-						node = next;
-					}
-				}
-				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
-			}
-
-			mp_table = newTable;
-			m_capacity = capacity;
-		}
-
-		/// <summary>
-		/// Adds a key-value pair to this Map.
-		/// </summary>
-		/// <param name="key">The key to add.</param>
-		/// <param name="value">The value to add.</param>
-		void add(Key const& key, Value const& value)
-		{
-			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
-
-			// rehash if necessary
-			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
-			{
-				rehash();
-			}
-
-			// insert into bucket
-			Size index = hash(key);
-			Node* node = construct<Node>(m_allocator, key, value);
-			node->next = mp_table[index];
-			mp_table[index] = node;
-
-			// add to size
-			++m_size;
-		}
-
-		/// <summary>
-		/// Adds a key-value pair to this Map.
-		/// </summary>
-		/// <param name="key">The key to add.</param>
-		/// <param name="value">The value to add.</param>
-		void add(Key const& key, Value&& value)
-		{
-			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
-
-			// rehash if necessary
-			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
-			{
-				rehash();
-			}
-
-			// insert into bucket
-			Size index = hash(key);
-			Node* node = construct<Node>(m_allocator, key, std::move(value));
-			node->next = mp_table[index];
-			mp_table[index] = node;
-
-			// add to size
-			++m_size;
-		}
-
-		/// <summary>
-		/// Removes the key-value pair with the given key.
-		/// </summary>
-		/// <param name="key">The key of the pair to remove.</param>
-		/// <returns>True, if the key was found and the pair was removed.</returns>
-		Bool remove(Key const& key)
-		{
-			if (m_size == 0)
-			{
-				return false;
-			}
-
-			Size index = hash(key);
-			Node* node = mp_table[index];
-			Node* prev = nullptr;
-			while (node)
-			{
-				if (node->get_key() == key)
-				{
-					if (prev)
-					{
-						prev->next = node->next;
-					}
-					else
-					{
-						mp_table[index] = node->next;
-					}
-					destruct<Node>(node, m_allocator);
-					--m_size;
-					return true;
-				}
-				prev = node;
-				node = node->next;
-			}
-			return false;
-		}
-
-		/// <summary>
-		/// Checks if this Map is empty.
-		/// </summary>
-		/// <returns>True, if the size is zero.</returns>
-		Bool is_empty() const { return m_size == 0; }
-
-		/// <summary>
-		/// Gets the Value with the given Key.
-		/// </summary>
-		/// <param name="key">The Key of the Value to get.</param>
-		/// <returns>The Value with the given Key.</returns>
-		Value& at(Key const& key)
-		{
-			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
-
-			Size index = hash(key);
-			Node* node = mp_table[index];
-
-			while (node)
-			{
-				if (node->get_key() == key)
-				{
-					return node->get_value();
-				}
-				node = node->next;
-			}
-
-			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
-
-		/// <summary>
-		/// Gets the Value with the given Key.
-		/// </summary>
-		/// <param name="key">The Key of the Value to get.</param>
-		/// <returns>The Value with the given Key.</returns>
-		Value const& at(Key const& key) const
-		{
-			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
-
-			Size index = hash(key);
-			Node const* node = mp_table[index];
-
-			while (node)
-			{
-				if (node->get_key() == key)
-				{
-					return node->get_value();
-				}
-				node = node->next;
-			}
-
-			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
-
-		/// <summary>
-		/// Finds the first occurrence of the given Key.
-		/// </summary>
-		/// <param name="key">The Key to find.</param>
-		/// <returns>An Iterator to the key-value pair with the given Key.</returns>
-		Iterator find(Key const& key)
-		{
-			if (m_size == 0)
-			{
-				return end();
-			}
-
-			Size index = hash(key);
-			Node* node = mp_table[index];
-			while (node)
-			{
-				if (node->get_key() == key)
-				{
-					return Iterator(mp_table, m_capacity, index, node);
-				}
-				node = node->next;
-			}
-			return end();
-		}
-
-		/// <summary>
-		/// Finds the first occurrence of the given Key.
-		/// </summary>
-		/// <param name="key">The Key to find.</param>
-		/// <returns>A ConstIterator to the key-value pair with the given Key.</returns>
-		ConstIterator find(Key const& key) const
-		{
-			if (m_size == 0)
-			{
-				return end();
-			}
-
-			Size index = hash(key);
-			Node const* node = mp_table[index];
-			while (node)
-			{
-				if (node->get_key() == key)
-				{
-					return ConstIterator(mp_table, m_capacity, index, node);
-				}
-				node = node->next;
-			}
-			return end();
-		}
-
-		/// <summary>
-		/// Checks if this Map contains the given Key.
-		/// </summary>
-		/// <param name="key">The Key to check.</param>
-		/// <returns>True, if the Key is found.</returns>
-		Bool contains(Key const& key) const { return find(key) != end(); }
-
-		/// <summary>
-		/// Removes all key-value pairs from this Map.
-		/// </summary>
-		void clear()
-		{
-			if (mp_table)
-			{
-				for (Size i = 0; i < m_capacity; ++i)
-				{
-					Node* node = mp_table[i];
-					while (node)
-					{
-						Node* temp = node;
-						node = node->next;
-						destruct<Node>(temp, m_allocator);
-					}
-					mp_table[i] = nullptr;
-				}
-			}
-			m_size = 0;
-		}
+	private:
+		Size m_capacity;
+		Size m_size;
+		Node** mp_table;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_MAP_H

@@ -77,7 +77,7 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 					{
 						statesString += F("{} -> ", visitedState->get_value().get<UUID>());
 					}
-					MINTY_LOG_ERROR(F("Infinite loop detected in Animator FSM. State ID: {}, States: {}", state->get_value().get<UUID>(), statesString));
+					MINTY_ERROR(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesString));
 					break; // break out of the loop to prevent infinite recursion
 				}
 				visitedStates.add(state);

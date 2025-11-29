@@ -143,17 +143,11 @@ namespace Minty
 			T value;
 			for (Size i = 0; i < reader.get_size(); i++)
 			{
-				if (!reader.read_name(i, name))
-				{
-					MINTY_LOG_ERROR(F("Reader failed to read name {}.", i));
-					continue;
-				}
+				Bool const nameResult = reader.read_name(i, name);
+				MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
 
-				if (!reader.read(i, value))
-				{
-					MINTY_LOG_ERROR(F("Reader failed to read value {}.", i));
-					continue;
-				}
+				Bool const valueResult = reader.read(i, value);
+				MINTY_ASSERT(valueResult, ErrorCode::Serialization_ReadValue);
 
 				// add to scope
 				UUID id = UUID::create();

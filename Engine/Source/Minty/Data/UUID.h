@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_DATA_UUID_H
+#define MINTY_DATA_UUID_H
+
+/**
+ * @file UUID.h
+ * @brief Header file for the UUID class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Serialization/Parse.h"
@@ -6,36 +14,31 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds an ID value that can be used to identify an object.
-	/// </summary>
+	constexpr Size UUID_SIZE = 16;
+
+	/**
+	 * @class UUID
+	 * @brief A Universally Unique Identifier (UUID) class.
+	 */
 	class UUID
 	{
-#pragma region Variables
-
-	private:
-		ID m_id;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Create an empty UUID.
-		/// </summary>
+		/**
+		 * @brief Create an empty UUID.
+		 */
 		constexpr UUID()
 			: m_id(0)
 		{
 		}
 
-		/// <summary>
-		/// Create a UUID with the given ID.
-		/// </summary>
-		/// <param name="id">The ID value to use.</param>
-		constexpr UUID(ID const id)
-			: m_id(id)
+		constexpr UUID(Byte const (&id)[UUID_SIZE])
 		{
+			for (Size i = 0; i < UUID_SIZE; ++i)
+			{
+				m_id[i] = id[i];
+			}
 		}
 
 #pragma endregion
@@ -43,40 +46,14 @@ namespace Minty
 #pragma region Operators
 
 	public:
-		operator ID() const { return m_id; }
-
 		inline Bool operator==(UUID const other) const
 		{
-			return m_id == other.m_id;
+			return std::memcmp(m_id, other.m_id, UUID_SIZE) == 0;
 		}
 
 		inline Bool operator!=(UUID const other) const
 		{
-			return m_id != other.m_id;
-		}
-
-		constexpr Bool operator==(ID const other) const
-		{
-			return m_id == other;
-		}
-
-		constexpr Bool operator!=(ID const other) const
-		{
-			return m_id != other;
-		}
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets the ID value of this UUID.
-		/// </summary>
-		/// <returns>The ID value.</returns>
-		constexpr ID get_data() const
-		{
-			return m_id;
+			return std::memcmp(m_id, other.m_id, UUID_SIZE) != 0;
 		}
 
 #pragma endregion
@@ -84,13 +61,20 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if this UUID is valid.
-		/// </summary>
-		/// <returns>True if the ID value is not zero.</returns>
+		/**
+		 * @brief Gets the raw data of the UUID.
+		 * @returns A pointer to the raw byte data of the UUID.
+		 */
 		constexpr Bool is_valid() const
 		{
-			return m_id != 0;
+			for (Size i = 0; i < UUID_SIZE; ++i)
+			{
+				if (m_id[i] != 0)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 #pragma endregion
@@ -98,11 +82,18 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		/// <summary>
-		/// Creates a new, random UUID using a uniform distribution.
-		/// </summary>
-		/// <returns>The UUID with a randomly generated ID value.</returns>
+		/**
+		 * @brief Creates a new UUID.
+		 * @returns The newly created UUID.
+		 */
 		static UUID create();
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Byte m_id[UUID_SIZE];
 
 #pragma endregion
 	};
@@ -123,7 +114,15 @@ namespace std
 	{
 		std::size_t operator()(Minty::UUID const& value) const
 		{
-			return std::hash<Minty::ID>{}(value.get_data());
+			const Byte* data = reinterpret_cast<const Byte*>(&value);
+			std::size_t hash = 0;
+			for (Size i = 0; i < Minty::UUID_SIZE; ++i)
+			{
+				hash ^= std::hash<Byte>()(data[i]) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+			}
+			return hash;
 		}
 	};
 }
+
+#endif // MINTY_DATA_UUID_H

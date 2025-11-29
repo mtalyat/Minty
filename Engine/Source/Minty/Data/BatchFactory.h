@@ -1,31 +1,32 @@
-#pragma once
+#ifndef MINTY_DATA_BATCHFACTORY_H
+#define MINTY_DATA_BATCHFACTORY_H
+
+/**
+ * @file BatchFactory.h
+ * @brief Header file for the BatchFactory class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/Batch.h"
 #include "Minty/Data/Ordered.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Handles creating and managing Batches.
-	/// </summary>
-	/// <typeparam name="...Args">The type arguements for each Batch.</typeparam>
+	/**
+	 * @brief A factory for creating and managing Batches.
+	 * @tparam N The number of objects in each Batch.
+	 * @tparam Args The types of the objects in each Batch.
+	 */
 	template<typename Size N, typename ...Args>
 	class BatchFactory
 	{
-#pragma region Variables
-
-	private:
-		Ordered<Batch<N, Args...>> m_batches;
-		Size m_newBatchCapacity;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new BatchFactory.
-		/// </summary>
-		/// <param name="newBatchCapacity">The capacity of each Batch's internal compiled data.</param>
+		/**
+		 * @brief Creates a new BatchFactory.
+		 * @param newBatchCapacity The capacity for new Batches created by this factory.
+		 */
 		BatchFactory(Size const newBatchCapacity = 0)
 			: m_batches()
 			, m_newBatchCapacity(newBatchCapacity)
@@ -50,10 +51,10 @@ namespace Minty
 #pragma region Get Set
 
 	public:
-		/// <summary>
-		/// Gets the number of batches in this BatchFactory.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the number of Batches managed by this factory.
+		 * @returns The number of Batches.
+		 */
 		Size get_size() const { return m_batches.size(); }
 
 #pragma endregion
@@ -61,22 +62,22 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if there is a Batch with the given objects.
-		/// </summary>
-		/// <param name="objects">The objects to check for.</param>
-		/// <returns>True if there is a batch that contains the objects.</returns>
+		/**
+		 * @brief Checks if a Batch with the given objects exists.
+		 * @param objects The objects to check for.
+		 * @returns True if a matching Batch exists, false otherwise.
+		 */
 		Bool has_batch(Array<std::variant<Args...>, sizeof...(Args)> const& objects)
 		{
 			Batch<N, Args...> temp(objects);
 			return m_batches.contains(temp);
 		}
 
-		/// <summary>
-		/// Gets the previous Batch, or creates a new one if the objects do not match.
-		/// </summary>
-		/// <param name="objects">The objects to check for.</param>
-		/// <returns>A batch with the given objects.</returns>
+		/**
+		 * @brief Gets an existing Batch with the given objects, or creates a new one if none exists.
+		 * @param objects The objects for the Batch.
+		 * @returns A reference to the Batch.
+		 */
 		Batch<N, Args...>& get_or_create_batch(Array<std::variant<Args...>, sizeof...(Args)> const& objects)
 		{
 			Batch<N, Args...> batch(objects);
@@ -92,5 +93,15 @@ namespace Minty
 		}
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		Ordered<Batch<N, Args...>> m_batches;
+		Size m_newBatchCapacity;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_BATCHFACTORY_H

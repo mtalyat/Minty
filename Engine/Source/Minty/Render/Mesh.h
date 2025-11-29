@@ -1,4 +1,11 @@
-#pragma once
+#ifndef MINTY_RENDER_MESH_H
+#define MINTY_RENDER_MESH_H
+
+/**
+ * @file Mesh.h
+ * @brief Header file for the Mesh class.
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/ListContainer.h"
 #include "Minty/Render/Buffer.h"
@@ -6,35 +13,12 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for creating a Mesh.
-	/// </summary>
-	struct MeshInfo
-	{
-		/// <summary>
-		/// The UUID of the Mesh.
-		/// </summary>
-		UUID id = INVALID_ID;
-
-		/// <summary>
-		/// The type of the Mesh.
-		/// </summary>
-		MeshType type = MeshType::Empty;
-
-		/// <summary>
-		/// The vertex data.
-		/// </summary>
-		ListContainer vertices;
-
-		/// <summary>
-		/// The index data.
-		/// </summary>
-		ListContainer indices;
-	};
-
-	/// <summary>
-	/// A model.
-	/// </summary>
+	struct MeshInfo;
+	
+	/**
+	 * @class Mesh
+	 * @brief Represents a 3D mesh asset.
+	 */
 	class Mesh
 		: public Asset
 	{
@@ -126,3 +110,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_RENDER_MESH_H

@@ -48,7 +48,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Allocator m_allocator;
+		AllocatorType m_allocator;
 		// the threads used to run the jobs
 		Vector<std::thread> m_threads;
 		// the next handle to use
@@ -77,7 +77,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		JobManager(JobManagerInfo const& info, Allocator const allocator = Allocator::Default);
+		JobManager(JobManagerInfo const& info, AllocatorType const allocator = AllocatorType::Default);
 
 		~JobManager()
 		{

@@ -28,7 +28,7 @@ namespace Minty
 		/// Creates an empty Variable.
 		/// </summary>
 		/// <param name="allocator">The Allocator to use.</param>
-		Variable(Allocator const allocator = Allocator::Default)
+		Variable(AllocatorType const allocator = AllocatorType::Default)
 			: m_type(Type::Undefined)
 			, m_data(allocator)
 		{
@@ -39,7 +39,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="type">The Type of variable.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Variable(Type const type, Allocator const allocator = Allocator::Default)
+		Variable(Type const type, AllocatorType const allocator = AllocatorType::Default)
 			: m_type(type)
 			, m_data(allocator)
 		{
@@ -51,7 +51,7 @@ namespace Minty
 		/// <param name="type">The Type of Variable.</param>
 		/// <param name="data">The data to set in bytes.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		Variable(Type const type, void const* const data, Allocator const allocator = Allocator::Default)
+		Variable(Type const type, void const* const data, AllocatorType const allocator = AllocatorType::Default)
 			: m_type(type)
 			, m_data(data, sizeof_type(type), allocator)
 		{
@@ -64,7 +64,7 @@ namespace Minty
 		/// <param name="value">The value.</param>
 		/// <param name="allocator">The Allocator to use.</param>
 		template<typename T>
-		Variable(T const& value, Allocator const allocator = Allocator::Default)
+		Variable(T const& value, AllocatorType const allocator = AllocatorType::Default)
 			: m_type(type_typeid(typeid(T)))
 			, m_data(&value, sizeof_type(m_type), allocator)
 		{

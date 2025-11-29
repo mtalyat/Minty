@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Memory/Allocator.h"
+#include "Minty/Memory/AllocatorType.h"
 
 namespace Minty
 {
@@ -26,21 +26,21 @@ namespace Minty
          * @brief Constructs a StringBuilder with an optional allocator.
          * @param allocator The allocator to use for memory management. Default is Allocator::Default.
          */
-        explicit StringBuilder(Allocator const allocator = Allocator::Default);
+        explicit StringBuilder(AllocatorType const allocator = AllocatorType::Default);
 
         /**
          * @brief Constructs a StringBuilder with an initial capacity and an optional allocator.
          * @param initialCapacity The initial capacity of the string builder.
          * @param allocator The allocator to use for memory management. Default is Allocator::Default.
          */
-        explicit StringBuilder(Size const initialCapacity, Allocator const allocator = Allocator::Default);
+        explicit StringBuilder(Size const initialCapacity, AllocatorType const allocator = AllocatorType::Default);
 
         /**
          * @brief Constructs a StringBuilder with an initial string and an optional allocator.
          * @param initialString The initial string to initialize the string builder with.
          * @param allocator The allocator to use for memory management. Default is Allocator::Default.
          */
-        StringBuilder(String const& initialString, Allocator const allocator = Allocator::Default);
+        StringBuilder(String const& initialString, AllocatorType const allocator = AllocatorType::Default);
         
         ~StringBuilder();
 
@@ -96,7 +96,7 @@ namespace Minty
         Char* mp_data;
         Size m_size;
         Size m_capacity;
-        Allocator m_allocator;
+        AllocatorType m_allocator;
 
 #pragma endregion
     };

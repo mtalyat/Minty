@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Allocator.h"
+#include "AllocatorType.h"
 #include "Copy.h"
 #include "Memory.h"
 #include "MemoryManager.h"

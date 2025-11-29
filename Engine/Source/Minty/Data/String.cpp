@@ -8,7 +8,7 @@
 
 using namespace Minty;
 
-Minty::String::String(Size const capacity, Allocator const allocator)
+Minty::String::String(Size const capacity, AllocatorType const allocator)
 	: m_allocator(allocator), m_capacity(0), m_size(0), mp_data(nullptr)
 {
 	// do nothing if no capacity
@@ -20,7 +20,7 @@ Minty::String::String(Size const capacity, Allocator const allocator)
 	reserve(capacity);
 }
 
-Minty::String::String(Char const *const data, Allocator const allocator)
+Minty::String::String(Char const *const data, AllocatorType const allocator)
 	: m_allocator(allocator), m_capacity(0), m_size(0), mp_data(nullptr)
 {
 	// do nothing if null
@@ -44,7 +44,7 @@ Minty::String::String(Char const *const data, Allocator const allocator)
 	memcpy(mp_data, data, m_size * sizeof(Char));
 }
 
-Minty::String::String(Char const character, Size const count, Allocator const allocator)
+Minty::String::String(Char const character, Size const count, AllocatorType const allocator)
 	: m_allocator(allocator), m_capacity(0), m_size(0), mp_data(nullptr)
 {
 	// do nothing if count is zero
@@ -559,7 +559,7 @@ String Minty::String::replace(String const &find, String const &replace) const
 	return result;
 }
 
-String Minty::String::from_bytes(void const *const data, Size const size, Allocator const allocator)
+String Minty::String::from_bytes(void const *const data, Size const size, AllocatorType const allocator)
 {
 	String result('\0', size, allocator);
 	memcpy(result.mp_data, data, size);

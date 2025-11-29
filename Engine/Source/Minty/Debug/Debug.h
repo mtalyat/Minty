@@ -248,3 +248,13 @@ namespace Minty
 			std::abort(); \
 		} while(0)
 #endif
+
+/**
+ * @brief Macro to log and set an error.
+ * @note Always active.
+ */
+#define MINTY_ERROR(errorCode, ...) \
+	do { \
+		Minty::set_error(errorCode); \
+		MINTY_LOG_ERROR(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
+	} while(0)

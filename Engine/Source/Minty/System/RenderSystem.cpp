@@ -100,7 +100,7 @@ void Minty::RenderSystem::render_scene(CameraData const& cameraInfo)
 				info.material->set_input(name, data, size);
 
 				// free the data when done, as it was cloned when added to the render map
-				deallocate(data, size, Allocator::Default);
+				deallocate(data, size, AllocatorType::Default);
 			}
 
 			// if there is a canvas, update it
@@ -170,7 +170,7 @@ void Minty::RenderSystem::render_3d_meshes(CameraData const& cameraInfo, RenderM
 			.material = material,
 			.mesh = mesh
 		};
-		info.inputs.add({ "object", clone(transformation, Allocator::Default), sizeof(Matrix4) });
+		info.inputs.add({ "object", clone(transformation, AllocatorType::Default), sizeof(Matrix4) });
 		renderMap.add(shader->get_priority(), std::move(info));
 	}
 }
@@ -373,7 +373,7 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 			.canvas = uiTransformComp.canvas,
 			.mesh = mesh
 		};
-		info.inputs.add({ "push", copy(pushData.get_data(), pushData.get_size(), Allocator::Default), pushData.get_size() });
+		info.inputs.add({ "push", copy(pushData.get_data(), pushData.get_size(), AllocatorType::Default), pushData.get_size() });
 		renderMap.add(shader->get_priority(), std::move(info));
 	}
 }
