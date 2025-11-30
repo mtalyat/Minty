@@ -1,42 +1,50 @@
-#pragma once
-#include "Minty/Data/String.h"
+#ifndef MINTY_RENDER_ADDRESSMODE_H
+#define MINTY_RENDER_ADDRESSMODE_H
+
+/**
+ * @file AddressMode.h
+ * @brief Header file defining the AddressMode enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the image data is accessed in the pipeline.
-	/// </summary>
+	/**
+	 * @brief Determines how the image data is accessed in the pipeline.
+	 */
 	enum class AddressMode
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// The texture coordinates are repeated.
-		/// </summary>
+		/**
+		 * @brief The texture coordinates are repeated.
+		 */
 		Repeat = 1,
 
-		/// <summary>
-		/// The texture coordinates are mirrored and repeated.
-		/// </summary>
+		/**
+		 * @brief The texture coordinates are mirrored and repeated.
+		 */
 		MirroredRepeat = 2,
 
-		/// <summary>
-		/// The texture coordinates are clamped to the edge.
-		/// </summary>
+		/**
+		 * @brief The texture coordinates are clamped to the edge.
+		 */
 		ClampToEdge = 3,
 
-		/// <summary>
-		/// The texture coordinates are clamped to the border.
-		/// </summary>
+		/**
+		 * @brief The texture coordinates are clamped to the border.
+		 */
 		ClampToBorder = 4,
 
-		/// <summary>
-		/// The texture coordinates are mirrored and clamped to the edge.
-		/// </summary>
+		/**
+		 * @brief The texture coordinates are mirrored and clamped to the edge.
+		 */
 		MirroredClampToEdge = 5,
 	};
 
@@ -47,5 +55,6 @@ namespace Minty
 	inline AddressMode parse_to<AddressMode>(String const& string) { return parse_to_address_mode(string); }
 	template<>
 	inline Bool parse_try<AddressMode>(String const& string, AddressMode& value) { return parse_try_address_mode(string, value); }
-
 }
+
+#endif // MINTY_RENDER_ADDRESSMODE_H

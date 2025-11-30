@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "FSM.h"
 #include "Minty/Data/Set.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 
 using namespace Minty;
 
@@ -45,7 +47,7 @@ Bool Minty::FSM::evaluate(Bool const continuous)
 	UUID next = state;
 
 	// keep looping until no more transitions have been made
-	if (next != INVALID_ID)
+	if (next != UUID())
 	{
 		do {
 			// move to the next state
@@ -59,9 +61,9 @@ Bool Minty::FSM::evaluate(Bool const continuous)
 				MINTY_ERROR(ErrorCode::InfiniteLoop, state);
 				return false;
 			}
-		} while (continuous && next != INVALID_ID);
+		} while (continuous && next != UUID());
 
-		if (next != INVALID_ID)
+		if (next != UUID())
 		{
 			state = next;
 		}
@@ -84,8 +86,8 @@ void Minty::FSM::clear()
 {
 	m_scope.clear();
 	m_states.clear();
-	m_startingStateId = INVALID_ID;
-	m_currentStateId = INVALID_ID;
+	m_startingStateId = UUID();
+	m_currentStateId = UUID();
 }
 
 void Minty::FSM::reset()

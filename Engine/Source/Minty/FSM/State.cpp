@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "State.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
 
 using namespace Minty;
 
@@ -8,7 +10,7 @@ void Minty::State::add_transition(Transition const& transition)
 	m_transitions.add(transition);
 }
 
-UUID Minty::State::evaluate(BasicScope const& scope) const
+UUID Minty::State::evaluate(Scope const& scope) const
 {
 	for (auto const& transition : m_transitions)
 	{
@@ -17,7 +19,7 @@ UUID Minty::State::evaluate(BasicScope const& scope) const
 			return transition.get_state_id();
 		}
 	}
-	return INVALID_ID;
+	return UUID();
 }
 
 void Minty::State::serialize(Writer& writer) const

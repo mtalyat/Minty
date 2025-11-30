@@ -10,7 +10,7 @@ void Minty::CameraComponent::serialize(Writer& writer) const
 {
 	if (camera == nullptr)
 	{
-		writer.write("Camera", INVALID_ID);
+		writer.write("Camera", UUID());
 		return;
 	}
 

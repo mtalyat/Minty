@@ -11,7 +11,7 @@ namespace Minty
 	/// </summary>
 	class ArgumentParser
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Parameter

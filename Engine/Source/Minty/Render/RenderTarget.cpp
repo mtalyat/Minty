@@ -28,11 +28,11 @@ Minty::RenderTarget::~RenderTarget()
 	m_renderPass->unregister_render_target(this);
 }
 
-Owner<RenderTarget> Minty::RenderTarget::create(RenderTargetInfo const& info)
+Shared<RenderTarget> Minty::RenderTarget::create(RenderTargetInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_RenderTarget>(info);
+	return Shared<Vulkan_RenderTarget>(info);
 #else
-	return Owner<RenderTarget>();
+	return Shared<RenderTarget>();
 #endif // MINTY_VULKAN
 }

@@ -23,12 +23,12 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		VkRenderPass get_render_pass() const { return m_renderPass; }
 
-		void* get_native() const override { return m_renderPass; }
+		Any get_native() const override { return m_renderPass; }
 
 #pragma endregion
 

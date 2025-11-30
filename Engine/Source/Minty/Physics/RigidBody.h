@@ -1,31 +1,84 @@
-#pragma once
+#ifndef MINTY_PHYSICS_RIGIDBODY_H
+#define MINTY_PHYSICS_RIGIDBODY_H
+
+/**
+ * @file RigidBody.h
+ * @brief Header file defining the RigidBody class and RigidBodyInfo struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for a RigidBody.
-	/// </summary>
-	struct RigidBodyInfo
-	{
-		/// <summary>
-		/// Determines if the rigid body is affected by forces. If true, it is not affected by forces and behaves like a static object.
-		/// </summary>
-		Bool isKinematic = false;
+	struct RigidBodyInfo;
 
-		/// <summary>
-		/// The mass of the object.
-		/// </summary>
-		Float mass = 1.0f;
-	};
-
-	/// <summary>
-	/// A physical object that can be moved and interacted with in the physics world.
-	/// </summary>
+	/**
+	 * @brief A physical object that can be moved and interacted with in the physics world.
+	 */
 	class RigidBody
 	{
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates a new rigid body with the given arguments.
+		 * @param info The arguments.
+		 */
+		RigidBody(RigidBodyInfo const& info);
+
+		virtual ~RigidBody() = default;
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		/**
+		 * @brief Gets if this rigid body is kinematic.
+		 * @return True if kinematic.
+		 */
+		inline Bool is_kinematic() const { return m_isKinematic; }
+
+		/**
+		 * @brief Sets the kinematic state of this rigid body.
+		 * @param isKinematic True if kinematic.
+		 */
+		inline virtual void set_kinematic(Bool isKinematic) { m_isKinematic = isKinematic; }
+
+		/**
+		 * @brief Gets the mass of the rigid body.
+		 * @return The mass.
+		 */
+		inline Float get_mass() const { return m_mass; }
+
+		/**
+		 * @brief Sets the mass of the rigid body.
+		 * @param mass The mass.
+		 */
+		inline virtual void set_mass(Float mass) { m_mass = mass; }
+
+		/**
+		 * @brief Gets the native pointer to the underlying physics object.
+		 * @return The pointer to the native object.
+		 */
+		virtual Any get_native() const = 0;
+
+#pragma endregion
+
+#pragma region Methods
+
+		/**
+		 * @brief Creates a new RigidBody with the given arguments.
+		 * @param info The arguments.
+		 * @return A RigidBody Owner.
+		 */
+		static Shared<RigidBody> create(RigidBodyInfo const& info);
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -33,85 +86,7 @@ namespace Minty
 		Float m_mass = 1.0f;
 
 #pragma endregion
-
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates a new rigid body with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		RigidBody(RigidBodyInfo const& info)
-			: m_isKinematic(info.isKinematic)
-			, m_mass(info.mass)
-		{
-		}
-
-		virtual ~RigidBody()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets if this rigid body is kinematic.
-		/// </summary>
-		/// <returns>True if kinematic.</returns>
-		inline Bool is_kinematic() const { return m_isKinematic; }
-
-		/// <summary>
-		/// Sets the kinematic state of this rigid body.
-		/// </summary>
-		/// <param name="isKinematic">True if kinematic.</param>
-		virtual inline void set_kinematic(Bool isKinematic)
-		{
-			m_isKinematic = isKinematic;
-		}
-
-		/// <summary>
-		/// Gets the mass of the rigid body.
-		/// </summary>
-		/// <returns>The mass.</returns>
-		inline Float get_mass() const { return m_mass; }
-
-		/// <summary>
-		/// Sets the mass of the rigid body.
-		/// </summary>
-		/// <param name="mass">The mass.</param>
-		virtual inline void set_mass(Float mass)
-		{
-			m_mass = mass;
-		}
-
-		/// <summary>
-		/// Gets the native pointer to the underlying physics object.
-		/// </summary>
-		/// <returns>The pointer to the native object.</returns>
-		virtual void* get_native() const = 0;
-
-#pragma endregion
-
-#pragma region Methods
-
-
-
-#pragma endregion
-
-
-#pragma region Statics
-
-		/// <summary>
-		/// Creates a new RigidBody with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A RigidBody Owner.</returns>
-		static Owner<RigidBody> create(RigidBodyInfo const& info = {});
-
-#pragma endregion
-
 	};
 }
+
+#endif // MINTY_PHYSICS_RIGIDBODY_H

@@ -123,7 +123,7 @@ namespace Minty
 		 * @brief Creates the singleton MemoryManager.
 		 * @param info The arguments for creating the MemoryManager.
 		 */
-		static Owner<MemoryManager> create(MemoryManagerInfo const& info);
+		static Unique<MemoryManager> create(MemoryManagerInfo const& info);
 
 		/**
 		 * @brief Gets the singleton MemoryManager.

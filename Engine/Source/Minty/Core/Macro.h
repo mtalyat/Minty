@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_CORE_MACRO_H
+#define MINTY_CORE_MACRO_H
+
+/**
+ * @file Macro.h
+ * @brief Header file defining core macros for the Minty engine.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include <iostream>
 #include <format>
@@ -22,8 +30,6 @@
 
 #ifdef _WIN32
 #define MINTY_WINDOWS
-#elif defined(__APPLE__)
-#define MINTY_APPLE
 #elif defined(__linux__)
 #define MINTY_LINUX
 #else
@@ -37,3 +43,5 @@
 #define MINTY_MAKE_VERSION(major, minor, patch) (((static_cast<uint32_t>(major)) << 22U) | ((static_cast<uint32_t>(minor)) << 12U) | (static_cast<uint32_t>(patch)))
 
 #pragma endregion
+
+#endif // MINTY_CORE_MACRO_H

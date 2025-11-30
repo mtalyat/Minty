@@ -11,11 +11,10 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
+#include "Minty/Data/StringView.h"
 
 namespace Minty
 {
-	constexpr Size UUID_SIZE = 16;
-
 	/**
 	 * @class UUID
 	 * @brief A Universally Unique Identifier (UUID) class.
@@ -28,62 +27,53 @@ namespace Minty
 		/**
 		 * @brief Create an empty UUID.
 		 */
-		constexpr UUID()
-			: m_id(0)
-		{
-		}
+		UUID();
 
-		constexpr UUID(Byte const (&id)[UUID_SIZE])
-		{
-			for (Size i = 0; i < UUID_SIZE; ++i)
-			{
-				m_id[i] = id[i];
-			}
-		}
+		/**
+		 * @brief Create a UUID from a byte array.
+		 * @param id The byte array representing the UUID.
+		 */
+		UUID(Byte const (&id)[UUID_BYTE_SIZE]);
+
+		/**
+		 * @brief Create a UUID from a string representation.
+		 * @param string The string representation of the UUID.
+		 */
+		UUID(StringView const& string);
 
 #pragma endregion
 
 #pragma region Operators
 
 	public:
-		inline Bool operator==(UUID const other) const
-		{
-			return std::memcmp(m_id, other.m_id, UUID_SIZE) == 0;
-		}
-
-		inline Bool operator!=(UUID const other) const
-		{
-			return std::memcmp(m_id, other.m_id, UUID_SIZE) != 0;
-		}
+		inline Bool operator==(UUID const other) const { return std::memcmp(m_id, other.m_id, UUID_BYTE_SIZE) == 0; }
+		inline Bool operator!=(UUID const other) const { return !(*this == other); }
 
 #pragma endregion
 
-#pragma region Methods
+#pragma region Accessors
 
 	public:
 		/**
 		 * @brief Gets the raw data of the UUID.
 		 * @returns A pointer to the raw byte data of the UUID.
 		 */
-		constexpr Bool is_valid() const
-		{
-			for (Size i = 0; i < UUID_SIZE; ++i)
-			{
-				if (m_id[i] != 0)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
+		inline Byte const* get_bytes() const noexcept { return m_id; }
+		
+		/**
+		 * @brief Gets the raw data of the UUID.
+		 * @returns A pointer to the raw byte data of the UUID.
+		 */
+		inline Bool is_valid() const { return *this != UUID(); }
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Methods
 
 	public:
+		
 		/**
-		 * @brief Creates a new UUID.
+		 * @brief Creates a new UUID with a random value.
 		 * @returns The newly created UUID.
 		 */
 		static UUID create();
@@ -93,7 +83,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Byte m_id[UUID_SIZE];
+		Byte m_id[UUID_BYTE_SIZE];
 
 #pragma endregion
 	};
@@ -116,7 +106,7 @@ namespace std
 		{
 			const Byte* data = reinterpret_cast<const Byte*>(&value);
 			std::size_t hash = 0;
-			for (Size i = 0; i < Minty::UUID_SIZE; ++i)
+			for (Size i = 0; i < Minty::UUID_BYTE_SIZE; ++i)
 			{
 				hash ^= std::hash<Byte>()(data[i]) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 			}

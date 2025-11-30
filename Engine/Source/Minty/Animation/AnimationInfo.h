@@ -25,7 +25,7 @@ namespace Minty
 		/// <summary>
 		/// The Asset ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The amount of time this animation takes to complete, in seconds.

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_PHYSICS_COLLIDER_H
+#define MINTY_PHYSICS_COLLIDER_H
+
+/**
+ * @file Collider.h
+ * @brief Header file defining the Collider class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
@@ -8,91 +16,47 @@
 namespace Minty
 {
 	class Mesh;
+	struct ColliderInfo;
 
-	/// <summary>
-	/// The arguments for a Collider.
-	/// </summary>
-	struct ColliderInfo
-	{
-		/// <summary>
-		/// The shape of the collider.
-		/// </summary>
-		Shape shape = Shape::Empty;
-
-		/// <summary>
-		/// The data for a custom Shape.
-		/// </summary>
-		Ref<Mesh> mesh = nullptr;
-
-		/// <summary>
-		/// The size of the collider.
-		/// </summary>
-		Float3 size = Math::ONE;
-
-		/// <summary>
-		/// If the Collider is static or not. 
-		/// If static, it cannot move, rotate, deform, or have a RigidBody.
-		/// </summary>
-		Bool isStatic = false;
-	};
-
-	/// <summary>
-	/// The base class for all physics Colliders.
-	/// </summary>
+	/**
+	 * @brief The base class for all physics Colliders.
+	 */
 	class Collider
 		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		Shape m_shape;
-		Ref<Mesh> m_mesh; // only used if shape is Custom
-		Float3 m_size;
-		Bool m_isStatic;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new collider with the given arguments..
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		Collider(ColliderInfo const& info)
-			: m_shape(info.shape)
-			, m_mesh(info.mesh)
-			, m_size(info.size)
-			, m_isStatic(info.isStatic)
-		{
-		}
+		/**
+		 * @brief Creates a new collider with the given arguments.
+		 * @param info The arguments.
+		 */
+		Collider(ColliderInfo const& info);
 
-		virtual ~Collider()
-		{
-		}
+		virtual ~Collider() = default;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Shape of this Collider.
-		/// </summary>
-		/// <returns>The Shape.</returns>
+		/**
+		 * @brief Gets the Shape of this Collider.
+		 * @return The Shape.
+		 */
 		inline Shape get_shape() const { return m_shape; }
 
-		/// <summary>
-		/// Checks if this Collider is static.
-		/// </summary>
-		/// <returns>True if static, otherwise false.</returns>
+		/**
+		 * @brief Checks if this Collider is static.
+		 * @return True if static, otherwise false.
+		 */
 		inline Bool is_static() const { return m_isStatic; }
 
-		/// <summary>
-		/// Gets the native pointer to the underlying physics object.
-		/// </summary>
-		/// <returns>The pointer to the native object.</returns>
-		virtual void* get_native() const = 0;
+		/**
+		 * @brief Gets the native pointer to the underlying physics object.
+		 * @return The pointer to the native object.
+		 */
+		virtual Any get_native() const = 0;
 
 #pragma endregion
 
@@ -102,17 +66,25 @@ namespace Minty
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 
+		/**
+		 * @brief Creates a new Collider with the given arguments.
+		 * @param info The arguments.
+		 * @return A Collider Owner.
+		 */
+		static Shared<Collider> create(ColliderInfo const& info);
+
 #pragma endregion
 
-#pragma region Statics
+#pragma region Variables
 
-		/// <summary>
-		/// Creates a new Collider with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A Collider Owner.</returns>
-		static Owner<Collider> create(ColliderInfo const& info = {});
+	private:
+		Shape m_shape;
+		Ref<Mesh> m_mesh; // only used if shape is Custom
+		Float3 m_size;
+		Bool m_isStatic;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_PHYSICS_COLLIDER_H

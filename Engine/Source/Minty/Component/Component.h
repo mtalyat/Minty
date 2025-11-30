@@ -6,20 +6,7 @@
 namespace Minty
 {
 	class EntityManager;
-	struct Component;
-
-	struct ComponentData
-	{
-		String name;
-
-		Function<Component& (EntityManager&, Entity const)> create;
-
-		Function<Component* (EntityManager&, Entity const)> get;
-
-		Function<Component const*(EntityManager const&, Entity const)> get_const;
-
-		Function<void(EntityManager&, Entity const)> destroy;
-	};
+	struct ComponentData;
 
 	/// <summary>
 	/// The base class for all components. Holds data for an Entity.

@@ -4,10 +4,11 @@
 #include "Minty/FSM/FSM.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Tool/Util.h"
 
 using namespace Minty;
 
-Bool Minty::Condition::evaluate(BasicScope const& scope) const
+Bool Minty::Condition::evaluate(Scope const& scope) const
 {
 	// get the variable value from the scope
 	Int value = scope.get_value(m_variableId);
@@ -21,7 +22,7 @@ void Minty::Condition::serialize(Writer& writer, String const& name) const
     // get scope from user data
 	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
-	BasicScope const& scope = fsm->get_scope();
+	Scope const& scope = fsm->get_scope();
 	
     // get the variable name
 	String const& variableName = scope.get_name(m_variableId);
@@ -41,18 +42,18 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 	MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
 
 	// split the condition string into parts
-	Vector<String> parts = conditionString.split();
+	Vector<String> parts = Util::split(conditionString);
 	// "Condition string must have 3 parts, split by spaces."
 	MINTY_ASSERT(parts.get_size() == 3, ErrorCode::Serialization_InvalidFormat);
 
 	// get the scope
 	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
-	BasicScope& scope = fsm->get_scope();
+	Scope& scope = fsm->get_scope();
 
 	// get the values
 	m_variableId = scope.find(parts[0]);
-	MINTY_ASSERT(m_variableId != INVALID_ID, ErrorCode::Serialization_DataNotFound, parts[0]);
+	MINTY_ASSERT(m_variableId != UUID(), ErrorCode::Serialization_DataNotFound, parts[0]);
 	m_conditional = parse_to_conditional(parts[1]);
 	m_value = parse_to<Int>(parts[2]);
 

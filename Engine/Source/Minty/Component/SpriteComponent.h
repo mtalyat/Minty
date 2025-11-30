@@ -1,43 +1,54 @@
-#pragma once
+#ifndef MINTY_COMPONENT_SPRITECOMPONENT_H
+#define MINTY_COMPONENT_SPRITECOMPONENT_H
+
+/**
+ * @file SpriteComponent.h
+ * @brief Header file defining the SpriteComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
 #include "Minty/Data/Color.h"
-#include "Minty/Render/MaterialTemplate.h"
-#include "Minty/Render/Sprite.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a Sprite that is used by this Entity.
-	/// </summary>
+	class Sprite;
+	class MaterialTemplate;
+
+	/**
+	 * @brief Holds a Sprite that is used by this Entity.
+	 */
 	struct SpriteComponent
 		: public Component
 	{
-		/// <summary>
-		/// The Sprite that this Component uses.
-		/// </summary>
+		/**
+		 * @brief The Sprite that this Component uses.
+		 */
 		Ref<Sprite> sprite = nullptr;
 
-		/// <summary>
-		/// The MaterialTemplate used to render this Sprite. If null, the Sprite's default MaterialTemplate is used.
-		/// </summary>
+		/**
+		 * @brief The MaterialTemplate used to render this Sprite. If null, the Sprite's default MaterialTemplate is used.
+		 */
 		Ref<MaterialTemplate> materialTemplate = nullptr;
 
-		/// <summary>
-		/// The color of this Sprite.
-		/// </summary>
+		/**
+		 * @brief The color of this Sprite.
+		 */
 		Color color = Color::white();
 
-		/// <summary>
-		/// Indicates whether the X axis should be flipped.
-		/// </summary>
+		/**
+		 * @brief Indicates whether the X axis should be flipped.
+		 */
 		Bool flipX = false;
 
-		/// <summary>
-		/// Indicates whether the Y axis should be flipped.
-		/// </summary>
+		/**
+		 * @brief Indicates whether the Y axis should be flipped.
+		 */
 		Bool flipY = false;
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 	};
 }
+
+#endif // MINTY_COMPONENT_SPRITECOMPONENT_H

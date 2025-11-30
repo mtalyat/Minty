@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_FSM_FSM_H
+#define MINTY_FSM_FSM_H
+
+/**
+ * @file FSM.h
+ * @brief Header file for Finite State Machine (FSM) class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/Lookup.h"
 #include "Minty/Data/Scope.h"
 #include "Minty/Data/UUID.h"
@@ -7,33 +15,23 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// A Finite State Machine (FSM) is a model of computation that can be in one of a finite number of states at any given time.
-	/// </summary>
+	/**
+	 * @brief A Finite State Machine (FSM) is a model of computation that can be in one of a finite number of states at any given time.
+	 */
 	class FSM
 		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		BasicScope m_scope;
-		Lookup<UUID, State> m_states;
-		UUID m_currentStateId;
-		UUID m_startingStateId;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty FSM.
-		/// </summary>
+		/**
+		 * @brief Creates an empty FSM.
+		 */
 		FSM()
 			: m_scope()
 			, m_states()
-			, m_currentStateId(INVALID_ID)
-			, m_startingStateId(INVALID_ID)
+			, m_currentStateId(UUID())
+			, m_startingStateId(UUID())
 		{
 		}
 
@@ -43,189 +41,189 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Scope of this FSM.
-		/// </summary>
-		/// <returns>The Scope.</returns>
-		BasicScope& get_scope()
+		/**
+		 * @brief Gets the Scope of this FSM.
+		 * @return The Scope.
+		 */
+		Scope& get_scope()
 		{
 			return m_scope;
 		}
 
-		/// <summary>
-		/// Gets the Scope of this FSM.
-		/// </summary>
-		/// <returns>The Scope.</returns>
-		BasicScope const& get_scope() const
+		/**
+		 * @brief Gets the Scope of this FSM.
+		 * @return The Scope.
+		 */
+		Scope const& get_scope() const
 		{
 			return m_scope;
 		}
 
-		/// <summary>
-		/// Gets the State with the given ID.
-		/// </summary>
-		/// <param name="id">The ID.</param>
-		/// <returns>The State.</returns>
+		/**
+		 * @brief Gets the State with the given ID.
+		 * @param id The ID.
+		 * @return The State.
+		 */
 		State& get_state(UUID const id)
 		{
 			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			return m_states.at(id);
 		}
 
-		/// <summary>
-		/// Gets the State with the given ID.
-		/// </summary>
-		/// <param name="id">The ID.</param>
-		/// <returns>The State.</returns>
+		/**
+		 * @brief Gets the State with the given ID.
+		 * @param id The ID.
+		 * @return The State.
+		 */
 		State const& get_state(UUID const id) const
 		{
 			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			return m_states.at(id);
 		}
 
-		/// <summary>
-		/// Sets the current State using the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the State.</param>
+		/**
+		 * @brief Sets the current State using the given ID.
+		 * @param id The ID of the State.
+		 */
 		void set_current_state(UUID const id)
 		{
 			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			m_currentStateId = id;
 		}
 
-		/// <summary>
-		/// Gets the ID of the current State.
-		/// </summary>
-		/// <returns>The ID of the current State.</returns>
+		/**
+		 * @brief Gets the ID of the current State.
+		 * @return The ID of the current State.
+		 */
 		UUID get_current_state_id() const
 		{
 			return m_currentStateId;
 		}
 
-		/// <summary>
-		/// Gets the current State.
-		/// </summary>
-		/// <returns>The State.</returns>
+		/**
+		 * @brief Gets the current State.
+		 * @return The State.
+		 */
 		State& get_current_state()
 		{
 			MINTY_ASSERT(m_states.contains(m_currentStateId), ErrorCode::Object_InvalidState, m_currentStateId);
 			return m_states.at(m_currentStateId);
 		}
 
-		/// <summary>
-		/// Gets the current State.
-		/// </summary>
-		/// <returns>The State.</returns>
+		/**
+		 * @brief Gets the current State.
+		 * @return The State.
+		 */
 		State const& get_current_state() const
 		{
 			MINTY_ASSERT(m_states.contains(m_currentStateId), ErrorCode::Object_InvalidState, m_currentStateId);
 			return m_states.at(m_currentStateId);
 		}
 
-		/// <summary>
-		/// Checks if this FSM has a current State.
-		/// </summary>
-		/// <returns>True if there is a State selected currently, otherwise false.</returns>
+		/**
+		 * @brief Checks if this FSM has a current State.
+		 * @return True if there is a State selected currently, otherwise false.
+		 */
 		Bool has_current_state() const
 		{
 			return m_currentStateId.is_valid();
 		}
 
-		/// <summary>
-		/// Sets the starting state using the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the State.</param>
+		/**
+		 * @brief Sets the starting state using the given ID.
+		 * @param id The ID of the State.
+		 */
 		void set_starting_state(UUID const id)
 		{
 			MINTY_ASSERT(m_states.contains(id), ErrorCode::Argument_KeyNotFound, id);
 			m_startingStateId = id;
 		}
 
-		/// <summary>
-		/// Gets the ID of the starting state.
-		/// </summary>
-		/// <returns>The ID of the starting State.</returns>
+		/**
+		 * @brief Gets the ID of the starting state.
+		 * @return The ID of the starting State.
+		 */
 		UUID get_starting_state_id() const
 		{
 			return m_startingStateId;
 		}
 
-		/// <summary>
-		/// Gets the starting state.
-		/// </summary>
-		/// <returns>The State.</returns>
+		/**
+		 * @brief Gets the starting state.
+		 * @return The State.
+		 */
 		State& get_starting_state()
 		{
 			MINTY_ASSERT(m_states.contains(m_startingStateId), ErrorCode::Object_InvalidState, m_startingStateId);
 			return m_states.at(m_startingStateId);
 		}
 
-		/// <summary>
-		/// Gets the starting state.
-		/// </summary>
-		/// <returns>The State.</returns>
+		/**
+		 * @brief Gets the starting state.
+		 * @return The State.
+		 */
 		State const& get_starting_state() const
 		{
 			MINTY_ASSERT(m_states.contains(m_startingStateId), ErrorCode::Object_InvalidState, m_startingStateId);
 			return m_states.at(m_startingStateId);
 		}
 
-		/// <summary>
-		/// Checks if this FSM has a starting State.
-		/// </summary>
-		/// <returns>True if there is a starting State, otherwise false.</returns>
+		/**
+		 * @brief Checks if this FSM has a starting State.
+		 * @return True if there is a starting State, otherwise false.
+		 */
 		Bool has_starting_state() const
 		{
 			return m_startingStateId.is_valid();
 		}
 
-		/// <summary>
-		/// Sets the value of the variable with the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the variable.</param>
-		/// <param name="value">The value of the variable.</param>
+		/**
+		 * @brief Sets the value of the variable with the given ID.
+		 * @param id The ID of the variable.
+		 * @param value The value of the variable.
+		 */
 		void set_variable(UUID const id, Int const value)
 		{
 			m_scope.set(id, value);
 		}
 
-		/// <summary>
-		/// Gets the value of the variable with the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the variable.</param>
-		/// <returns>The value of the variable.</returns>
+		/**
+		 * @brief Gets the value of the variable with the given ID.
+		 * @param id The ID of the variable.
+		 * @return The value of the variable.
+		 */
 		Int get_variable(UUID const id) const
 		{
 			return m_scope.get_value(id);
 		}
 
-		/// <summary>
-		/// Gets the name of the variable with the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the variable.</param>
-		/// <returns>The name of the variable.</returns>
+		/**
+		 * @brief Gets the name of the variable with the given ID.
+		 * @param id The ID of the variable.
+		 * @return The name of the variable.
+		 */
 		String const& get_variable_name(UUID const id) const
 		{
 			return m_scope.get_name(id);
 		}
 
-		/// <summary>
-		/// Gets the name of the State with the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the State.</param>
-		/// <returns>The name of the State.</returns>
+		/**
+		 * @brief Gets the name of the State with the given ID.
+		 * @param id The ID of the State.
+		 * @return The name of the State.
+		 */
 		String const& get_state_name(UUID const id) const
 		{
 			return m_states.get_string(id);
 		}
 
-		/// <summary>
-		/// Gets the States of this FSM.
-		/// </summary>
-		/// <returns>The Lookup containing all of the States.</returns>
+		/**
+		 * @brief Gets the States of this FSM.
+		 * @return The Lookup containing all of the States.
+		 */
 		Lookup<UUID, State> const& get_states() const
 		{
 			return m_states;
@@ -236,75 +234,88 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Creates a new State with the given name and value.
-		/// </summary>
-		/// <param name="name">The name of the State.</param>
-		/// <param name="value">The initial value of the State.</param>
-		/// <returns>The ID of the new State.</returns>
+		/**
+		 * @brief Creates a new State with the given name and value.
+		 * @param name The name of the State.
+		 * @param value The initial value of the State.
+		 * @return The ID of the new State.
+		 */
 		UUID create_state(String const& name, Variable const& value = Variable());
 
-		/// <summary>
-		/// Adds the given State to this FSM.
-		/// </summary>
-		/// <param name="name">The name of the State.</param>
-		/// <param name="state">The State.</param>
-		/// <returns>The ID of the State.</returns>
+		/**
+		 * @brief Adds the given State to this FSM.
+		 * @param name The name of the State.
+		 * @param state The State.
+		 * @return The ID of the State.
+		 */
 		UUID add_state(String const& name, State const& state);
 
-		/// <summary>
-		/// Finds the ID of the State with the given name.
-		/// </summary>
-		/// <param name="name">The name of the State.</param>
-		/// <returns>The ID of the State, or INVALID_ID if none found.</returns>
+		/**
+		 * @brief Finds the ID of the State with the given name.
+		 * @param name The name of the State.
+		 * @return The ID of the State, or UUID() if none found.
+		 */
 		UUID find_state(String const& name) const
 		{
 			auto found = m_states.find(name);
 			if (found == m_states.end())
 			{
-				return INVALID_ID;
+				return UUID();
 			}
 			return found->get_second();
 		}
 
-		/// <summary>
-		/// Creates a new variable with the given name and value.
-		/// </summary>
-		/// <param name="name">The name of the variable.</param>
-		/// <param name="value">The initial value of the variable.</param>
-		/// <returns>The ID of the new variable.</returns>
+		/**
+		 * @brief Creates a new variable with the given name and value.
+		 * @param name The name of the variable.
+		 * @param value The initial value of the variable.
+		 * @return The ID of the new variable.
+		 */
 		UUID create_variable(String const& name, Int const value = 0);
 
-		/// <summary>
-		/// Gets the ID of the variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the variable.</param>
-		/// <returns>The ID of the variable.</returns>
+		/**
+		 * @brief Gets the ID of the variable with the given name.
+		 * @param name The name of the variable.
+		 * @return The ID of the variable.
+		 */
 		UUID find_variable(String const& name) const
 		{
 			return m_scope.find(name);
 		}
 
-		/// <summary>
-		/// Evaluates this FSM.
-		/// The current state will attempt to transition to another State based on its Transitions and values stored within this FSM's Scope.
-		/// </summary>
-		/// <returns>True if the FSM transitioned to a new State, otherwise false.</returns>
+		/**
+		 * @brief Evaluates this FSM.
+		 * The current state will attempt to transition to another State based on its Transitions and values stored within this FSM's Scope.
+		 * @param continuous Whether to continue evaluating until no more transitions are possible.
+		 * @return True if the FSM transitioned to a new State, otherwise false.
+		 */
 		Bool evaluate(Bool const continuous = false);
 
-		/// <summary>
-		/// Clears all States and variables from this FSM.
-		/// </summary>
+		/**
+		 * @brief Clears all States and variables from this FSM.
+		 */
 		void clear();
 
-		/// <summary>
-		/// Resets this FSM to its starting state.
-		/// </summary>
+		/**
+		 * @brief Resets this FSM to its starting state.
+		 */
 		void reset();
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		Scope m_scope;
+		Lookup<UUID, State> m_states;
+		UUID m_currentStateId;
+		UUID m_startingStateId;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_FSM_FSM_H

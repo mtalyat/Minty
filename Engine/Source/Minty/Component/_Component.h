@@ -1,5 +1,3 @@
-#pragma once
-
 #include "AnimatorComponent.h"
 #include "AudioListenerComponent.h"
 #include "AudioSourceComponent.h"
@@ -9,6 +7,7 @@
 #include "Component.h"
 #include "DestroyComponent.h"
 #include "DirtyComponent.h"
+#include "DirtyTextComponent.h"
 #include "EnabledComponent.h"
 #include "LayerComponent.h"
 #include "MaskComponent.h"

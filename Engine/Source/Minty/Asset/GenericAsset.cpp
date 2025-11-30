@@ -11,7 +11,7 @@ String Minty::GenericAsset::get_text() const
 	return String(text.get_data());
 }
 
-Owner<GenericAsset> Minty::GenericAsset::create(GenericAssetInfo const& info)
+Shared<GenericAsset> Minty::GenericAsset::create(GenericAssetInfo const& info)
 {
-    return Owner<GenericAsset>(info);
+    return Shared<GenericAsset>(info);
 }

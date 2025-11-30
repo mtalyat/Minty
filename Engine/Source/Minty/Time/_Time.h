@@ -1,7 +1,5 @@
-#pragma once
-
 #include "Stopwatch.h"
 #include "Time.h"
-#include "TimeManager.h"
-#include "TimeManagerInfo.h"
+#include "TimeController.h"
+#include "TimeControllerInfo.h"
 #include "Timestep.h"

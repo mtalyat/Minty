@@ -1,32 +1,40 @@
-#pragma once
+#ifndef MINTY_RENDER_LOADOPERATION_H
+#define MINTY_RENDER_LOADOPERATION_H
+
+/**
+ * @file LoadOperation.h
+ * @brief Header file defining the LoadOperation enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The load operation.
-	/// </summary>
+	/**
+	 * @brief The load operation.
+	 */
 	enum class LoadOperation
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined,
 
-		/// <summary>
-		/// Do nothing with the previous data.
-		/// </summary>
+		/**
+		 * @brief Do nothing with the previous data.
+		 */
 		DontCare,
 
-		/// <summary>
-		/// Loads the previous data.
-		/// </summary>
+		/**
+		 * @brief Loads the previous data.
+		 */
 		Load,
 
-		/// <summary>
-		/// Clears the previous data.
-		/// </summary>
+		/**
+		 * @brief Clears the previous data.
+		 */
 		Clear,
 	};
 
@@ -38,3 +46,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<LoadOperation>(String const& string, LoadOperation& value) { return parse_try_load_operation(string, value); }
 }
+
+#endif // MINTY_RENDER_LOADOPERATION_H

@@ -1,28 +1,49 @@
 #include "pch.h"
 #include "JobManager.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Job/JobManagerInfo.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
-Minty::JobManager::JobManager(JobManagerInfo const& info, AllocatorType const allocator)
-	: m_allocator(allocator)
-	, m_threads()
-	, m_nextHandle(0)
-	, m_jobs()
-	, m_queue()
-	, m_queueMutex()
-	, m_stop(false)
+Minty::JobManager::JobManager(JobManagerInfo const &info)
+	: m_threads(), m_nextHandle(0), m_jobs(), m_queue(), m_queueMutex(), m_stop(false)
 {
 	MINTY_ASSERT(info.threadCount > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// create threads
 	m_threads.reserve(info.threadCount);
+
+	for (Size i = 0; i < m_threads.get_capacity(); ++i)
+	{
+		m_threads.add(std::thread([this]()
+								  { worker_thread(); }));
+	}
+}
+
+Minty::JobManager::~JobManager()
+{
+	// mark as stopped
+	{
+		std::unique_lock<std::mutex> lock(m_queueMutex);
+		m_stop = true;
+	}
+
+	// notify all threads
+	m_condition.notify_all();
+
+	// wait for threads to finish
+	for (auto &thread : m_threads)
+	{
+		thread.join();
+	}
 }
 
 void Minty::JobManager::worker_thread()
 {
-	Tuple<Job, Handle> pair = { []() {}, 0 };
-	JobData* jobData;
+	Tuple<Job, Handle> pair = {[]() {}, 0};
+	JobData *jobData;
 	Bool complete;
 
 	while (true)
@@ -31,10 +52,12 @@ void Minty::JobManager::worker_thread()
 		{
 			// wait until stopping, or until there is a job
 			std::unique_lock lock(m_queueMutex);
-			m_condition.wait(lock, [this]() { return m_stop || !m_queue.is_empty(); });
+			m_condition.wait(lock, [this]()
+							 { return m_stop || !m_queue.is_empty(); });
 
 			// if stopping, exit
-			if (m_stop) return;
+			if (m_stop)
+				return;
 
 			// get the next job
 			pair = std::move(m_queue.pop());
@@ -65,7 +88,7 @@ void Minty::JobManager::worker_thread()
 				for (Handle dependent : jobData->dependents)
 				{
 					// get dependent job data
-					JobData* dependentData;
+					JobData *dependentData;
 					{
 						std::unique_lock lock(m_jobsMutex);
 						dependentData = m_jobs.at(dependent);
@@ -91,15 +114,15 @@ void Minty::JobManager::worker_thread()
 				std::unique_lock lock(m_jobsMutex);
 				m_jobs.remove(pair.get_second());
 			}
-			destruct<JobData>(jobData, m_allocator);
+			DefaultAllocator::destruct<JobData>(jobData);
 		}
 	}
 }
 
-Handle Minty::JobManager::create_job(Vector<Job> const& batch, Vector<Handle> const& dependencies)
+Handle Minty::JobManager::create_job(Vector<Job> const &batch, Vector<Handle> const &dependencies)
 {
 	Handle handle = m_nextHandle++;
-	JobData* jobData = construct<JobData>(m_allocator, dependencies.get_size(), batch.get_size());
+	JobData *jobData = DefaultAllocator::construct<JobData>(dependencies.get_size(), batch.get_size());
 	{
 		// add new job
 		std::unique_lock lock(m_jobsMutex);
@@ -122,7 +145,7 @@ Handle Minty::JobManager::create_job(Vector<Job> const& batch, Vector<Handle> co
 			}
 
 			// dependency is not complete, so add this job as a dependent
-			JobData* dependencyData = m_jobs[dependency];
+			JobData *dependencyData = m_jobs[dependency];
 			{
 				std::unique_lock lock(dependencyData->mutex);
 				dependencyData->dependents.add(handle);
@@ -143,7 +166,7 @@ Handle Minty::JobManager::create_job(Vector<Job> const& batch, Vector<Handle> co
 	return handle;
 }
 
-void Minty::JobManager::create_batch(Handle const handle, Vector<Job> const& batch)
+void Minty::JobManager::create_batch(Handle const handle, Vector<Job> const &batch)
 {
 	{
 		std::unique_lock lock(m_batchesMutex);
@@ -152,14 +175,14 @@ void Minty::JobManager::create_batch(Handle const handle, Vector<Job> const& bat
 	}
 }
 
-void Minty::JobManager::schedule_batch(Handle const handle, Vector<Job> const& batch)
+void Minty::JobManager::schedule_batch(Handle const handle, Vector<Job> const &batch)
 {
 	// add each action to queue and start it
-	for (Job const& job : batch)
+	for (Job const &job : batch)
 	{
 		{
 			std::unique_lock lock(m_queueMutex);
-			m_queue.push({ job, handle });
+			m_queue.push({job, handle});
 		}
 		m_condition.notify_one();
 	}
@@ -179,56 +202,22 @@ void Minty::JobManager::schedule_batch(Handle const handle)
 	schedule_batch(handle, batch);
 }
 
-void Minty::JobManager::initialize()
-{
-	for (Size i = 0; i < m_threads.get_capacity(); ++i)
-	{
-		m_threads.add(std::thread([this]() { worker_thread(); }));
-	}
-
-	Manager::initialize();
-}
-
-void Minty::JobManager::dispose()
-{
-	// mark as stopped
-	{
-		std::unique_lock<std::mutex> lock(m_queueMutex);
-		m_stop = true;
-	}
-
-	// notify all threads
-	m_condition.notify_all();
-
-	// wait for threads to finish
-	for (auto& thread : m_threads)
-	{
-		thread.join();
-	}
-
-	// remove all threads
-	m_threads.clear();
-
-	Manager::dispose();
-}
-
-Handle Minty::JobManager::schedule(Job const action, Vector<Handle> const& dependencies)
+Handle Minty::JobManager::schedule(Job const action, Vector<Handle> const &dependencies)
 {
 	// create batch
-	Vector<Job> batch = { action };
+	Vector<Job> batch = {action};
 
 	return create_job(batch, dependencies);
 }
 
-Handle Minty::JobManager::schedule_parallel(ParallelJob const action, Size const count, Vector<Handle> const& dependencies)
+Handle Minty::JobManager::schedule_parallel(ParallelJob const action, Size const count, Vector<Handle> const &dependencies)
 {
 	// create batch
 	Vector<Job> batch(count);
 	for (Size i = 0; i < count; ++i)
 	{
-		batch.add(std::move([action, i]() {
-			action(i);
-			}));
+		batch.add(std::move([action, i]()
+							{ action(i); }));
 	}
 
 	// create job data
@@ -252,7 +241,7 @@ void Minty::JobManager::wait(Handle const handle)
 	} while (waiting);
 }
 
-void Minty::JobManager::wait(Vector<Handle> const& handles)
+void Minty::JobManager::wait(Vector<Handle> const &handles)
 {
 	// wait for each handle in order
 	for (Handle handle : handles)
@@ -261,12 +250,12 @@ void Minty::JobManager::wait(Vector<Handle> const& handles)
 	}
 }
 
-Owner<JobManager> Minty::JobManager::create(JobManagerInfo const& info)
+Unique<JobManager> Minty::JobManager::create(JobManagerInfo const &info)
 {
-	return Owner<JobManager>(info);
+	return Unique<JobManager>::create(info);
 }
 
-JobManager& Minty::JobManager::get_singleton()
+JobManager &Minty::JobManager::get_singleton()
 {
-	return Context::get_singleton().get_job_manager();
+	return Application::get_singleton().get_job_manager();
 }

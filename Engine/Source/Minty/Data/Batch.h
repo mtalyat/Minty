@@ -152,7 +152,7 @@ namespace Minty
 		 * @brief Gets a pointer to the compiled data.
 		 * @returns A pointer to the data.
 		 */
-		inline void* get_data() const { return m_data.get_data(); }
+		inline Any get_data() const { return m_data.get_data(); }
 
 		/**
 		 * @brief Gets the size of the compiled data.

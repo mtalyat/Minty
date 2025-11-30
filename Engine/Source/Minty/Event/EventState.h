@@ -1,25 +1,28 @@
-#pragma once
+#ifndef MINTY_EVENT_EVENTSTATE_H
+#define MINTY_EVENT_EVENTSTATE_H
 
 namespace Minty
 {
-	/// <summary>
-	/// The state of an Event.
-	/// </summary>
+	/**
+	 * @brief The state of an Event.
+	 */
 	enum class EventState
 	{
-		/// <summary>
-		/// The event has not yet been handled.
-		/// </summary>
+		/**
+		 * @brief The event has not yet been handled.
+		 */
 		Unhandled = 0,
 
-		/// <summary>
-		/// The event has been handled.
-		/// </summary>
+		/**
+		 * @brief The event has been handled.
+		 */
 		Handled = 1,
 
-		/// <summary>
-		/// The event has been canceled.
-		/// </summary>
+		/**
+		 * @brief The event has been canceled.
+		 */
 		Canceled = 2,
 	};
 }
+
+#endif // MINTY_EVENT_EVENTSTATE_H

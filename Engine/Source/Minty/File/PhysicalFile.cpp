@@ -106,7 +106,7 @@ Char Minty::PhysicalFile::read()
     return m_stream.get();
 }
 
-void Minty::PhysicalFile::read(void* const buffer, Size_t const size)
+void Minty::PhysicalFile::read(Any const buffer, Size_t const size)
 {
     m_stream.read(static_cast<Char*>(buffer), size);
 }

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MINTY_AUDIO_AUDIOSOURCE_H
+#define MINTY_AUDIO_AUDIOSOURCE_H
+
 #include "Minty/Audio/Attenuation.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Math.h"
@@ -6,9 +8,9 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds the data for an audio source.
-	/// </summary>
+	/**
+	 * @brief Holds the data for an audio source.
+	 */
 	class AudioSource
 		: public SerializableObject
 	{
@@ -27,9 +29,9 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty AudioSource.
-		/// </summary>
+		/**
+		 * @brief Creates an empty AudioSource.
+		 */
 		AudioSource()
 			: SerializableObject()
 			, m_position(Float3(0.0f, 0.0f, 0.0f))
@@ -41,15 +43,15 @@ namespace Minty
 		{
 		}
 
-		/// <summary>
-		/// Creates a new AudioSource with the given parameters.
-		/// </summary>
-        /// <param name="position">The position of the audio source in 3D space.</param>
-        /// <param name="velocity">The velocity of the audio source in 3D space.</param>
-        /// <param name="attenuation">The attenuation model used for distance-based volume reduction.</param>
-        /// <param name="attenuationRolloff">The rolloff factor for attenuation calculation.</param>
-        /// <param name="minDistance">The minimum distance at which attenuation begins.</param>
-        /// <param name="maxDistance">The maximum distance at which attenuation is applied.</param>
+		/**
+		 * @brief Creates a new AudioSource with the given parameters.
+		 * @param position The position of the audio source in 3D space.
+		 * @param velocity The velocity of the audio source in 3D space.
+		 * @param attenuation The attenuation model used for distance-based volume reduction.
+		 * @param attenuationRolloff The rolloff factor for attenuation calculation.
+		 * @param minDistance The minimum distance at which attenuation begins.
+		 * @param maxDistance The maximum distance at which attenuation is applied.
+		 */
 		AudioSource(Float3 const& position, Float3 const& velocity, Attenuation attenuation, Float attenuationRolloff, Float minDistance, Float maxDistance)
 			: SerializableObject()
 			, m_position(position)
@@ -67,80 +69,80 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the position of this audio source.
-		/// </summary>
-		/// <returns>The position.</returns>
+		/**
+		 * @brief Gets the position of this audio source.
+		 * @return The position.
+		 */
 		inline Float3 const& get_position() const { return m_position; }
 
-		/// <summary>
-		/// Sets the position of this audio source.
-		/// </summary>
-		/// <param name="value">The position.</param>
+		/**
+		 * @brief Sets the position of this audio source.
+		 * @param value The position.
+		 */
 		inline void set_position(Float3 const& value) { m_position = value; }
 
-        /// <summary>
-        /// Gets the velocity of this audio source.
-        /// </summary>
-        /// <returns>The velocity.</returns>
-        inline Float3 const& get_velocity() const { return m_velocity; }
+		/**
+		 * @brief Gets the velocity of this audio source.
+		 * @return The velocity.
+		 */
+		inline Float3 const& get_velocity() const { return m_velocity; }
 
-        /// <summary>
-        /// Sets the velocity of this audio source.
-        /// </summary>
-        /// <param name="value">The velocity.</param>
-        inline void set_velocity(Float3 const& value) { m_velocity = value; }
+		/**
+		 * @brief Sets the velocity of this audio source.
+		 * @param value The velocity.
+		 */
+		inline void set_velocity(Float3 const& value) { m_velocity = value; }
 
-        /// <summary>
-        /// Gets the attenuation type of this audio source.
-        /// </summary>
-        /// <returns>The attenuation type.</returns>
-        inline Attenuation get_attenuation() const { return m_attenuation; }
+		/**
+		 * @brief Gets the attenuation type of this audio source.
+		 * @return The attenuation type.
+		 */
+		inline Attenuation get_attenuation() const { return m_attenuation; }
 
-        /// <summary>
-        /// Sets the attenuation type of this audio source.
-        /// </summary>
-        /// <param name="value">The attenuation type.</param>
-        inline void set_attenuation(Attenuation value) { m_attenuation = value; }
+		/**
+		 * @brief Sets the attenuation type of this audio source.
+		 * @param value The attenuation type.
+		 */
+		inline void set_attenuation(Attenuation value) { m_attenuation = value; }
 
-        /// <summary>
-        /// Gets the attenuation rolloff value of this audio source.
-        /// </summary>
-        /// <returns>The attenuation rolloff value.</returns>
-        inline Float get_attenuation_rolloff() const { return m_attenuationRolloff; }
+		/**
+		 * @brief Gets the attenuation rolloff value of this audio source.
+		 * @return The attenuation rolloff value.
+		 */
+		inline Float get_attenuation_rolloff() const { return m_attenuationRolloff; }
 
-        /// <summary>
-        /// Sets the attenuation rolloff value of this audio source.
-        /// </summary>
-        /// <param name="value">The attenuation rolloff value.</param>
-        inline void set_attenuation_rolloff(Float value) { m_attenuationRolloff = value; }
+		/**
+		 * @brief Sets the attenuation rolloff value of this audio source.
+		 * @param value The attenuation rolloff value.
+		 */
+		inline void set_attenuation_rolloff(Float value) { m_attenuationRolloff = value; }
 
-        /// <summary>
-        /// Gets the minimum distance for this audio source.
-        /// </summary>
-        /// <returns>The minimum distance.</returns>
-        inline Float get_min_distance() const { return m_minDistance; }
+		/**
+		 * @brief Gets the minimum distance for this audio source.
+		 * @return The minimum distance.
+		 */
+		inline Float get_min_distance() const { return m_minDistance; }
 
-        /// <summary>
-        /// Sets the minimum distance for this audio source.
-        /// </summary>
-        /// <param name="value">The minimum distance.</param>
-        inline void set_min_distance(Float value) { m_minDistance = value; }
+		/**
+		 * @brief Sets the minimum distance for this audio source.
+		 * @param value The minimum distance.
+		 */
+		inline void set_min_distance(Float value) { m_minDistance = value; }
 
-        /// <summary>
-        /// Gets the maximum distance for this audio source.
-        /// </summary>
-        /// <returns>The maximum distance.</returns>
-        inline Float get_max_distance() const { return m_maxDistance; }
+		/**
+		 * @brief Gets the maximum distance for this audio source.
+		 * @return The maximum distance.
+		 */
+		inline Float get_max_distance() const { return m_maxDistance; }
 
-        /// <summary>
-        /// Sets the maximum distance for this audio source.
-        /// </summary>
-        /// <param name="value">The maximum distance.</param>
-        inline void set_max_distance(Float value) { m_maxDistance = value; }
+		/**
+		 * @brief Sets the maximum distance for this audio source.
+		 * @param value The maximum distance.
+		 */
+		inline void set_max_distance(Float value) { m_maxDistance = value; }
 
 #pragma endregion
 
@@ -153,3 +155,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_AUDIO_AUDIOSOURCE_H

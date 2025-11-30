@@ -13,7 +13,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The position of the view.
@@ -73,7 +73,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -150,14 +150,14 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>Viewport.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Viewport; }
+		inline AssetType get_asset_type() const override { return AssetType::Viewport; }
 
 #pragma endregion
 
 #pragma region Statics
 
 	public:
-		static Owner<Viewport> create(ViewportInfo const& info = {});
+		static Shared<Viewport> create(ViewportInfo const& info = {});
 
 #pragma endregion
 	};

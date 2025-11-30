@@ -23,9 +23,9 @@ namespace Minty
 	template<typename T>
 	struct is_asset<Ref<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
 
-	//// Specialization for Owner<T> where T derives from Asset
+	//// Specialization for Shared<T> where T derives from Asset
 	//template<typename T>
-	//struct is_asset<Owner<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
+	//struct is_asset<Shared<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
 
 	// Forwarding specialization to handle cv/ref-qualified types
 	template<typename T>
@@ -64,7 +64,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 		/// <summary>
 		/// Gets the UUID of this Asset.

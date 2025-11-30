@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_FSM_TRANSITION_H
+#define MINTY_FSM_TRANSITION_H
+
+/**
+ * @file Transition.h
+ * @brief Header file for FSM Transition class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/FSM/Condition.h"
@@ -6,9 +14,9 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// A Transition is a set of conditions that must be met in order for a State to transition to another State.
-	/// </summary>
+	/**
+	 * @brief A Transition is a set of conditions that must be met in order for a State to transition to another State.
+	 */
 	class Transition
 		: public Serializable
 	{
@@ -23,20 +31,20 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Transition.
-		/// </summary>
+		/**
+		 * @brief Creates an empty Transition.
+		 */
 		Transition()
-			: m_stateId(INVALID_ID)
+			: m_stateId(UUID())
 			, m_conditions()
 		{
 		}
 
-		/// <summary>
-		/// Creates a Transition with the given state ID and conditions.
-		/// </summary>
-		/// <param name="stateId">The ID of the State to transition to.</param>
-		/// <param name="conditions">The conditions to check.</param>
+		/**
+		 * @brief Creates a Transition with the given state ID and conditions.
+		 * @param stateId The ID of the State to transition to.
+		 * @param conditions The conditions to check.
+		 */
 		Transition(UUID const stateId, Vector<Condition> const& conditions)
 			: m_stateId(stateId)
 			, m_conditions(conditions)
@@ -45,12 +53,13 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the ID of the State to transition to.
-		/// </summary>
+		/**
+		 * @brief Gets the ID of the State to transition to.
+		 * @return The ID of the State to transition to.
+		 */
 		UUID get_state_id() const { return m_stateId; }
 
 #pragma endregion
@@ -58,18 +67,18 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Adds a condition to this Transition.
-		/// </summary>
-		/// <param name="condition">The condition to add.</param>
+		/**
+		 * @brief Adds a condition to this Transition.
+		 * @param condition The condition to add.
+		 */
 		void add_condition(Condition const& condition);
 
-		/// <summary>
-		/// Evaluates this Transition given the Scope.
-		/// </summary>
-		/// <param name="scope">The Scope to use.</param>
-		/// <returns>True if this Transition is valid, otherwise false.</returns>
-		Bool evaluate(BasicScope const& scope) const;
+		/**
+		 * @brief Evaluates this Transition given the Scope.
+		 * @param scope The Scope to use.
+		 * @return True if this Transition is valid, otherwise false.
+		 */
+		Bool evaluate(Scope const& scope) const;
 
 		void serialize(Writer& writer, String const& name) const override;
 		Bool deserialize(Reader& reader, Size const index) override;
@@ -77,3 +86,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_FSM_TRANSITION_H

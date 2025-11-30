@@ -30,12 +30,12 @@ void Minty::Vulkan_RenderTarget::initialize(RenderTargetInfo const& info)
 	m_size = image->get_size();
 
 	// get render pass
-	Ref<Vulkan_RenderPass> vulkanRenderPass = info.renderPass.cast_to<Vulkan_RenderPass>();
+	Ref<Vulkan_RenderPass> vulkanRenderPass = info.renderPass.cast<Vulkan_RenderPass>();
 
 	// get render manager and resources
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 	Ref<Image> depthImage = renderManager.get_depth_image();
-	Ref<Vulkan_Image> vulkanDepthImage = depthImage.cast_to<Vulkan_Image>();
+	Ref<Vulkan_Image> vulkanDepthImage = depthImage.cast<Vulkan_Image>();
 
 	MINTY_ASSERT(!info.renderPass->has_depth_attachment() || depthImage != nullptr, ErrorCode::Argument_InvalidValue); // "Attempting to initialize a RenderTarget when the RenderManager depth image is null."
 
@@ -46,7 +46,7 @@ void Minty::Vulkan_RenderTarget::initialize(RenderTargetInfo const& info)
 	VkExtent2D extent;
 	for (Ref<Image> const& image : info.images)
 	{
-		vulkanImage = image.cast_to<Vulkan_Image>();
+		vulkanImage = image.cast<Vulkan_Image>();
 		size = vulkanImage->get_size();
 		extent = { static_cast<uint32_t>(size.x), static_cast<uint32_t>(size.y) };
 		VkFramebuffer framebuffer = Vulkan_Renderer::create_framebuffer(

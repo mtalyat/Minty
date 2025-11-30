@@ -1,103 +1,113 @@
-#pragma once
+#ifndef MINTY_DATA_RECT_H
+#define MINTY_DATA_RECT_H
+
+/**
+ * @file Rect.h
+ * @brief Defines the Rect struct for representing rectangles.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A rectangle.
-	/// </summary>
+	/**
+	 * @brief Represents a rectangle defined by its position and size.
+	 */
 	struct Rect
 	{
 		union
 		{
 			struct
 			{
-				/// <summary>
-				/// The x coordinate of the rectangle.
-				/// </summary>
+				/**
+				 * @brief The x coordinate of the rectangle.
+				 */
 				Float x;
 				
-				/// <summary>
-				/// The y coordinate of the rectangle.
-				/// </summary>
+				/**
+				 * @brief The y coordinate of the rectangle.
+				 */
 				Float y;
 
-				/// <summary>
-				/// The width of the rectangle.
-				/// </summary>
+				/**
+				 * @brief The width of the rectangle.
+				 */
 				Float width;
 
-				/// <summary>
-				/// The height of the rectangle.
-				/// </summary>
+				/**
+				 * @brief The height of the rectangle.
+				 */
 				Float height;
 			};
 			struct 
 			{
-				/// <summary>
-				/// The position of the rectangle.
-				/// </summary>
+				/**
+				 * @brief The position of the rectangle.
+				 */
 				Float2 position;
 
-				/// <summary>
-				/// The size of the rectangle.
-				/// </summary>
+				/**
+				 * @brief The size of the rectangle.
+				 */
 				Float2 size;
 			};
-			/// <summary>
-			/// The rectangle as a Float4.
-			/// </summary>
+			/**
+			 * @brief The rectangle as a Float4.
+			 */
 			Float4 rect;
 		};
 
-		/// <summary>
-		/// Creates an empty rectangle.
-		/// </summary>
+		/**
+		 * @brief Creates an empty rectangle.
+		 */
 		Rect()
 			: rect()
 		{
 		}
 
-		/// <summary>
-		/// Creates a rectangle with the given x, y, width and height.
-		/// </summary>
-		/// <param name="x">The x coordinate.</param>
-		/// <param name="y">The y coordinate.</param>
-		/// <param name="width">The width.</param>
-		/// <param name="height">The height.</param>
+		/**
+		 * @brief Creates a rectangle with the given position and size.
+		 * @param x The x coordinate.
+		 * @param y The y coordinate.
+		 * @param width The width.
+		 * @param height The height.
+		 */
 		Rect(Float const x, Float const y, Float const width, Float const height)
 			: x(x), y(y), width(width), height(height)
 		{
 		}
-
-		/// <summary>
-		/// Creates a rectangle with the given position and size.
-		/// </summary>
-		/// <param name="position">The position.</param>
-		/// <param name="size">The size.</param>
+		
+		/**
+		 * @brief Creates a rectangle with the given position and size.
+		 * @param position The position.
+		 * @param size The size.
+		 */
 		Rect(Float2 const position, Float2 const size)
 			: position(position), size(size)
 		{
 		}
 
-		/// <summary>
-		/// Creates a rectangle with the given Float4.
-		/// </summary>
-		/// <param name="rect"></param>
+		/**
+		 * @brief Creates a rectangle from the given Float4.
+		 * @param rect The Float4 representing the rectangle.
+		 */
 		Rect(Float4 const rect)
 			: rect(rect)
 		{
 		}
 
-		/// <summary>
-		/// Checks if the rectangle contains the given point.
-		/// </summary>
-		/// <param name="point">The point to check.</param>
-		/// <returns>True if the Rect contains the given point.</returns>
+		/**
+		 * @brief Checks if the given point is inside this rectangle.
+		 * @param point The point to check.
+		 * @return True if the point is inside, otherwise false.
+		 */
 		Bool contains(Float2 const point) const
 		{
 			return (point.x >= x) && (point.x <= x + width) && (point.y >= y) && (point.y <= y + height);
 		}
 	};
 }
+
+#endif // MINTY_DATA_RECT_H

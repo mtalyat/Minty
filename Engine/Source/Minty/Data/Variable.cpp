@@ -5,7 +5,24 @@
 
 using namespace Minty;
 
-Bool Minty::Variable::operator==(Variable const& other) const
+Minty::Variable::Variable()
+			: m_type(Type::Undefined)
+		{
+		}
+
+        Minty::Variable::Variable(Type const type)
+			: m_type(type)
+			, m_data()
+		{
+		}
+
+        Minty::Variable::Variable(Type const type, void const *const data)
+			: m_type(type)
+			, m_data(data, sizeof_type(type))
+		{
+		}
+
+Bool Minty::Variable::operator==(Variable const &other) const
 {
 	return m_type == other.m_type && m_data.get_size() == other.m_data.get_size() && memcmp(m_data.get_data(), other.m_data.get_data(), m_data.get_size()) == 0;
 }

@@ -1,95 +1,65 @@
-#pragma once
+#ifndef MINTY_SCENE_SCENEMANAGER_H
+#define MINTY_SCENE_SCENEMANAGER_H
+
+/**
+ * @file SceneManager.h
+ * @brief Defines the SceneManager class used for managing Scenes.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/Path.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Manager/Manager.h"
-#include "Minty/Scene/Scene.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for creating a SceneManager.
-	/// </summary>
-	struct SceneManagerInfo
-	{
-		/// <summary>
-		/// The path to the first scene to load.
-		/// </summary>
-		Path initialScene;
-	};
+	class Scene;
+	struct SceneManagerInfo;
 
-	/// <summary>
-	/// Manages and controls all Scenes in the game.
-	/// </summary>
+	/**
+	 * @brief Controls Scenes within the application.
+	 */
 	class SceneManager
-		: public Manager
+	: public Manager
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct SceneData
 		{
-			Owner<Scene> scene;
+			Shared<Scene> scene;
 			Path path;
 		};
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		Path m_initialScene;
-
-		// loaded scenes
-		Map<UUID, SceneData> m_scenes;
-
-		// current scene receiving updates
-		Ref<Scene> m_activeScene;
-
-		// the next scene to become active
-		Ref<Scene> m_nextScene;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new SceneManager.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		SceneManager(SceneManagerInfo const& info)
-			: Manager()
-			, m_initialScene(info.initialScene)
-			, m_scenes()
-			, m_activeScene(nullptr)
-			, m_nextScene(nullptr)
-		{
-			MINTY_ASSERT(m_initialScene.is_empty() || Path::exists(m_initialScene), ErrorCode::Argument_InvalidValue, m_initialScene);
-		}
+		/**
+		 * @brief Creates a new SceneManager using the given SceneManagerInfo.
+		 * @param info The arguments.
+		 */
+		SceneManager(SceneManagerInfo const& info);
 
-		~SceneManager()
-		{
-			MINTY_ASSERT_ERROR(!is_initialized(), "SceneManager is not disposed before destruction.");
-		}
+		~SceneManager();
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Sets the given Scene as the active Scene.
-		/// </summary>
-		/// <param name="scene">The next active Scene.</param>
+		/**
+		 * @brief Sets the active Scene.
+		 * @param scene The Scene to set as active.
+		 */
 		void set_active(Ref<Scene> const& scene);
 
-		/// <summary>
-		/// Gets the active Scene.
-		/// </summary>
-		/// <returns>The active Scene.</returns>
-		Ref<Scene> const& get_active() const
-		{
-			return m_activeScene;
-		}
+		/**
+		 * @brief Gets the active Scene.
+		 * @returns A Ref to the active Scene.
+		 */
+		inline Ref<Scene> const& get_active() const { return m_activeScene; }
 
 #pragma endregion
 
@@ -97,96 +67,83 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if this SceneManager contains a Scene with the given ID.
-		/// </summary>
-		/// <param name="id">The ID.</param>
-		/// <returns>True if the Scene exists.</returns>
-		inline Bool contains(UUID const id) const
-		{
-			return m_scenes.contains(id);
-		}
+		/**
+		 * @brief Checks if a Scene with the given ID is managed by the SceneManager.
+		 * @param id The ID of the Scene.
+		 */
+		inline Bool contains(UUID const id) const { return m_scenes.contains(id); }
 
-		/// <summary>
-		/// Loads the Scene from the given Path, and adds it to the SceneManager.
-		/// </summary>
-		/// <param name="path">The Path to the Scene.</param>
+		/**
+		 * @brief Loads a scene from the given Path, optionally setting it as the active scene.
+		 * @param path The Path to load the scene from.
+		 * @param setAsActive If true, sets the loaded scene as the active scene. Defaults to false.
+		 * @return A Ref to the loaded Scene.
+		 */
 		Ref<Scene> load(Path const& path, Bool const setAsActive = false);
 
-		/// <summary>
-		/// Loads a scene, optionally setting it as the active scene.
-		/// </summary>
-		/// <param name="scene">A constant reference to the scene to load, wrapped in an Owner smart pointer.</param>
-		/// <param name="setAsActive">If true, sets the loaded scene as the active scene. Defaults to false.</param>
-		Ref<Scene> load(Owner<Scene> const& scene, Bool const setAsActive = false);
+		/**
+		 * @brief Loads the given Scene, optionally setting it as the active scene.
+		 * @param scene The Scene to load.
+		 * @param setAsActive If true, sets the loaded scene as the active scene. Defaults to false.
+		 * @return A Ref to the loaded Scene.
+		 */
+		Ref<Scene> load(Shared<Scene> const& scene, Bool const setAsActive = false);
 
-		/// <summary>
-		/// Removes the Scene with the given ID from the SceneManager, and unloads it.
-		/// </summary>
-		/// <param name="id"></param>
+		/**
+		 * @brief Unloads the Scene with the given ID.
+		 * @param id The ID of the Scene.
+		 */
 		void unload(UUID const id);
 
-		/// <summary>
-		/// Reloads the Scene with the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the Scene.</param>
+		/**
+		 * @brief Reloads the Scene with the given ID.
+		 * @param id The ID of the Scene.
+		 */
 		void reload(UUID const id);
 
-		/// <summary>
-		/// Schedules the Scene to be loaded from the given Path, and adds it to the SceneManager upon completion.
-		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="onCompletion">The Job to run upon completion of the loading.</param>
+		/**
+		 * @brief Schedules the loading of a Scene from the given Path.
+		 * @param path The Path to load the Scene from.
+		 */
 		UUID schedule_load(Path const& path, Job const& onCompletion = []() {}, Bool const setAsActive = false);
 
-		/// <summary>
-		/// Removes the Scene from the SceneManager, and Schedules the Scene with the given ID to be unloaded.
-		/// </summary>
-		/// <param name="id">The ID of the Scene.</param>
-		/// <param name="onCompletion">The Job to run upon completion of the unloading.</param>
+		/**
+		 * @brief Schedules the unloading of the Scene with the given ID.
+		 * @param id The ID of the Scene.
+		 */
 		void schedule_unload(UUID const id, Job const& onCompletion = []() {});
 
-		/// <summary>
-		/// Called when the Manager is created.
-		/// </summary>
-		void initialize() override;
-
-		/// <summary>
-		/// Called when the Manager is destroyed.
-		/// </summary>
-		void dispose() override;
-
-		/// <summary>
-		/// Called every frame.
-		/// </summary>
-		/// <param name="time">The frame time step.</param>
+		/**
+		 * @brief Called every frame to perform frame updates.
+		 * @param time The time step.
+		 */
 		void frame_update(Timestep const& time) override;
 
-		/// <summary>
-		/// Called every fixed update interval.
-		/// </summary>
-		/// <param name="time">The fixed time step.</param>
+		/**
+		 * @brief Called at fixed intervals to perform fixed updates.
+		 * @param time The time step.
+		 */
 		void fixed_update(Timestep const& time) override;
 
-		/// <summary>
-		/// Called after every update operation.
-		/// </summary>
+		/**
+		 * @brief Finalizes the frame.
+		 */
 		void finalize() override;
 
-		/// <summary>
-		/// Called every frame to perform rendering.
-		/// </summary>
+		/**
+		 * @brief Renders the active Scene.
+		 */
 		void render() override;
 
-		/// <summary>
-		/// Handles the given Event.
-		/// </summary>
-		/// <param name="event">The Event to handle.</param>
+		/**
+		 * @brief Handles an event sent to the SceneManager.
+		 * @param event The event to handle.
+		 */
 		void handle_event(Event& event) override;
 
-		/// <summary>
-		/// Updates the internal state of the SceneManager.
-		/// </summary>
+		/**
+		 * @brief Refreshes all loaded Scenes.
+		 */
 		void refresh();
 
 #pragma endregion
@@ -194,20 +151,31 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		/// <summary>
-		/// Creates a new SceneManager.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A SceneManager Owner.</returns>
-		static Owner<SceneManager> create(SceneManagerInfo const& info = {});
+		/**
+		 * @brief Creates a new SceneManager using the given SceneManagerInfo.
+		 * @param info The arguments.
+		 * @return A Unique pointer to the created SceneManager.
+		 */
+		static Unique<SceneManager> create(SceneManagerInfo const& info);
 
-		/// <summary>
-		/// Gets the active Context's SceneManager.
-		/// </summary>
-		/// <returns>The SceneManager.</returns>
+		/**
+		 * @brief Gets the singleton instance of the SceneManager.
+		 * @return A reference to the SceneManager singleton.
+		 */
 		static SceneManager& get_singleton();
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		Path m_initialScene;
+		Map<UUID, SceneData> m_scenes;
+		Ref<Scene> m_activeScene;
+		Ref<Scene> m_nextScene;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_SCENE_SCENEMANAGER_H

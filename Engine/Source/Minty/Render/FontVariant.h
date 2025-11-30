@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_FONTVARIANT_H
+#define MINTY_RENDER_FONTVARIANT_H
+
+/**
+ * @file FontVariant.h
+ * @brief Header file defining the FontVariant class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Map.h"
@@ -10,52 +18,11 @@ namespace Minty
 {
 	class Texture;
 	class Material;
+	struct FontVariantInfo;
 
-	/// <summary>
-	/// The arguments for a FontVariant. 
-	/// </summary>
-	struct FontVariantInfo
-	{
-		/// <summary>
-		/// The Asset ID.
-		/// </summary>
-		UUID id = INVALID_ID;
-
-		/// <summary>
-		/// The size of this FontVariant.
-		/// </summary>
-		UInt size;
-
-		/// <summary>
-		/// The flags applied to this FontVariant.
-		/// </summary>
-		FontFlags flags = FontFlags::None;
-
-		/// <summary>
-		/// The height of each line 
-		/// </summary>
-		Float lineHeight = 0.0f;
-
-		/// <summary>
-		/// The texture this FontVariant uses to render characters.
-		/// </summary>
-		Ref<Texture> texture = nullptr;
-
-		/// <summary>
-		/// The data for each character that this FontVariant uses.
-		/// </summary>
-		Vector<FontChar> characters;
-
-		/// <summary>
-		/// The list of kernings for this FontVariant. 
-		/// Kernings are the adjustments made to the spacing between specific pairs of characters.
-		/// </summary>
-		Vector<Tuple<Char, Char, Float>> kernings;
-	};
-
-	/// <summary>
-	/// Represents a variant of a font, such as a specific size or style.
-	/// </summary>
+	/**
+	 * @brief Represents a variant of a font, such as a specific size or style.
+	 */
 	class FontVariant
 		: public Asset
 	{
@@ -75,68 +42,68 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a FontVariant with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		FontVariant(FontVariantInfo const& info);
+		/**
+		 * @brief Creates a FontVariant with the given arguments.
+		 * @param info The arguments.
+		 */
+		FontVariant(FontVariantInfo const &info);
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the size of this FontVariant.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the size of this FontVariant.
+		 * @return The size.
+		 */
 		inline UInt get_size() const { return m_size; }
 
-		/// <summary>
-		/// Gets the flags applied to this FontVariant.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the flags applied to this FontVariant.
+		 * @return The flags.
+		 */
 		inline FontFlags get_flags() const { return m_flags; }
 
-		/// <summary>
-		/// Gets the height of each line in this FontVariant.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the height of each line in this FontVariant.
+		 * @return The line height.
+		 */
 		inline Float get_line_height() const { return m_lineHeight; }
 
-		/// <summary>
-		/// Gets the Texture this FontVariant uses to render characters.
-		/// </summary>
-		/// <returns></returns>
-		inline Ref<Texture> const& get_texture() const { return m_texture; }
+		/**
+		 * @brief Gets the Texture this FontVariant uses to render characters.
+		 * @return The texture.
+		 */
+		inline Ref<Texture> const &get_texture() const { return m_texture; }
 
-		/// <summary>
-		/// Gets the Material this FontVariant uses for rendering.
-		/// </summary>
-		/// <returns></returns>
-		inline Ref<Material> const& get_material() const { return m_material; }
+		/**
+		 * @brief Gets the Material this FontVariant uses for rendering.
+		 * @return The material.
+		 */
+		inline Ref<Material> const &get_material() const { return m_material; }
 
-		/// <summary>
-		/// Gets the character data for this FontVariant.
-		/// </summary>
-		/// <param name="ch">The character to get the data for.</param>
-		/// <returns>A pointer to the FontChar data if it exists, otherwise nullptr.</returns>
-		FontChar const* get_char(Char const ch) const;
+		/**
+		 * @brief Gets the character data for this FontVariant.
+		 * @param ch The character to get the data for.
+		 * @return A pointer to the FontChar data if it exists, otherwise nullptr.
+		 */
+		FontChar const *get_char(Char const ch) const;
 
-		/// <summary>
-		/// Gets the kerning value for the given pair of characters.
-		/// The kerning value is the offset of the second character relative to the first character.
-		/// </summary>
-		/// <param name="left">The character on the left.</param>
-		/// <param name="right">The character on the right.</param>
-		/// <returns>The kerning value.</returns>
+		/**
+		 * @brief Gets the kerning value for the given pair of characters.
+		 * The kerning value is the offset of the second character relative to the first character.
+		 * @param left The character on the left.
+		 * @param right The character on the right.
+		 * @return The kerning value.
+		 */
 		Float get_kerning(Char const left, Char const right) const;
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>FontVariant.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::FontVariant; }
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return FontVariant.
+		 */
+		inline AssetType get_asset_type() const override { return AssetType::FontVariant; }
 
 #pragma endregion
 
@@ -150,13 +117,15 @@ namespace Minty
 		}
 
 	public:
-		/// <summary>
-		/// Creates a FontVariant with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A FontVariant Owner.</returns>
-		static Owner<FontVariant> create(FontVariantInfo const& info = {});
+		/**
+		 * @brief Creates a FontVariant with the given arguments.
+		 * @param info The arguments.
+		 * @return A FontVariant Owner.
+		 */
+		static Shared<FontVariant> create(FontVariantInfo const &info);
 
 #pragma endregion
-};
+	};
 }
+
+#endif // MINTY_RENDER_FONTVARIANT_H

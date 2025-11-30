@@ -1,3 +1,2 @@
-#pragma once
-
 #include "Window.h"
+#include "WindowInfo.h"

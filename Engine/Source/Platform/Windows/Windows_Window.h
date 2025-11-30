@@ -9,7 +9,7 @@ namespace Minty
 	class Windows_Window
 		: public Window
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct GamepadData
@@ -42,7 +42,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		void set_title(String const& title) override;
@@ -57,7 +57,7 @@ namespace Minty
 
 		void set_cursor_mode(CursorMode const mode) override;
 
-		void* get_native() const override;
+		Any get_native() const override;
 		
 		void set_icon(Path const& path) override;
 

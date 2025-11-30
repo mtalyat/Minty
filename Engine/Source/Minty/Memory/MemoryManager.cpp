@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MemoryManager.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Memory/MemoryManagerInfo.h"
@@ -246,14 +246,14 @@ void Minty::MemoryManager::deallocate_persistent(Any const ptr)
 	}
 }
 
-Owner<MemoryManager> Minty::MemoryManager::create(MemoryManagerInfo const &info)
+Unique<MemoryManager> Minty::MemoryManager::create(MemoryManagerInfo const &info)
 {
-	return Owner<MemoryManager>(info);
+	return Unique<MemoryManager>::create(info);
 }
 
 MemoryManager &Minty::MemoryManager::get_singleton()
 {
-	return Context::get_singleton().get_memory_manager();
+	return Application::get_singleton().get_memory_manager();
 }
 
 Size Minty::MemoryManager::get_persistent_index(Size const size) const

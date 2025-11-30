@@ -1,32 +1,44 @@
-#pragma once
+#ifndef MINTY_AUDIO_ATTENUATION_H
+#define MINTY_AUDIO_ATTENUATION_H
+
+/**
+ * @file Attenuation.h
+ * @brief Header file defining the Attenuation enumeration.
+ * @author Mitchell Talyat
+ */
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how spatial audio scales based on the distance from the source to the listener.
-	/// </summary>
+	/**
+	 * @brief Determines how spatial audio scales based on the distance from the source to the listener.
+	 */
 	enum class Attenuation
 	{
-		/// <summary>
-		/// No attenuation is applied. The sound is always at full volume.
-		/// </summary>
+		/**
+		 * @brief No attenuation is applied. The sound is always at full volume.
+		 */
 		None,
 
-		/// <summary>
-		/// The sound gets linearly quieter as the source approaches the listener?
-		/// </summary>
+		/**
+		 * @brief The sound gets linearly quieter as the source approaches the listener.
+		 */
 		InverseDistance,
 
-		/// <summary>
-		/// The sound gets linearly louder as the source approaches the listener.
-		/// </summary>
+		/**
+		 * @brief The sound gets linearly louder as the source approaches the listener.
+		 */
 		LinearDistance,
 
-		/// <summary>
-		/// The sound gets exponentially louder as the source approaches the listener.
-		/// </summary>
+		/**
+		 * @brief The sound gets exponentially louder as the source approaches the listener.
+		 */
 		ExponentialDistance,
 
+		/**
+		 * @brief Default attenuation mode, set to LinearDistance.
+		 */
 		Default = LinearDistance,
 	};
 }
+
+#endif // MINTY_AUDIO_ATTENUATION_H

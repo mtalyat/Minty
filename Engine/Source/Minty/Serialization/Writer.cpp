@@ -282,7 +282,7 @@ void Minty::Writer::write_asset(String const& name, Ref<Asset> const& asset)
 {
 	if (asset == nullptr)
 	{
-		write(name, UUID(INVALID_ID));
+		write(name, UUID(UUID()));
 	}
 	else
 	{

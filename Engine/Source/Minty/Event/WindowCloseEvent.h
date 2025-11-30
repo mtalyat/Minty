@@ -1,35 +1,43 @@
-#pragma once
+#ifndef MINTY_EVENT_WINDOWCLOSEEVENT_H
+#define MINTY_EVENT_WINDOWCLOSEEVENT_H
+
+/**
+ * @file WindowCloseEvent.h
+ * @brief Header file defining the WindowCloseEvent class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Event/Event.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds data about a WindowCloseEvent.
-	/// </summary>
+	/**
+	 * @brief Holds data about a WindowCloseEvent.
+	 */
 	class WindowCloseEvent
 		: public Event
 	{
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new WindowCloseEvent.
-		/// </summary>
-		WindowCloseEvent()
-		{
-		}
+		/**
+		 * @brief Creates a new WindowCloseEvent.
+		 */
+		WindowCloseEvent() = default;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the type of this Event.
-		/// </summary>
-		/// <returns>WindowClose.</returns>
-		constexpr EventType get_type() const override { return EventType::WindowClose; }
+		/**
+		 * @brief Gets the type of this Event.
+		 * @return WindowClose.
+		 */
+		inline EventType get_type() const override { return EventType::WindowClose; }
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_EVENT_WINDOWCLOSEEVENT_H

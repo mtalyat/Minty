@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_CAMERA_H
+#define MINTY_RENDER_CAMERA_H
+
+/**
+ * @file Camera.h
+ * @brief Header file defining the Camera class and CameraInfo struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Color.h"
@@ -9,68 +17,159 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for a Camera.
-	/// </summary>
-	struct CameraInfo
-	{
-		/// <summary>
-		/// The Asset ID.
-		/// </summary>
-		UUID id = INVALID_ID;
+	struct CameraInfo;
 
-		/// <summary>
-		/// The perspective.
-		/// </summary>
-		Perspective perspective = Perspective::Perspective;
-
-		/// <summary>
-		/// The Field of View.
-		/// </summary>
-		Float fov = 45.0f;
-
-		/// <summary>
-		/// The near plane. Nothing close than this distance are rendered.
-		/// </summary>
-		Float nearPlane = 0.1f;
-
-		/// <summary>
-		/// The far plane. Nothing further than this distance are rendered.
-		/// </summary>
-		Float farPlane = 100.0f;
-
-		/// <summary>
-		/// The clear color.
-		/// </summary>
-		Color color = Color::black();
-
-		/// <summary>
-		/// The aspect ratio.
-		/// </summary>
-		Float aspectRatio = 16.0f / 9.0f;
-
-		/// <summary>
-		/// The size/height of the Camera view. This is used for orthographic cameras.
-		/// </summary>
-		Float size = 5.0f;
-
-		/// <summary>
-		/// The layers to render.
-		/// </summary>
-		Layer layer = LAYER_MASK_ALL;
-
-		/// <summary>
-		/// The RenderTarget to render to.
-		/// </summary>
-		Ref<RenderTarget> renderTarget = nullptr;
-	};
-
-	/// <summary>
-	/// Holds information used to render a specific view of the Scene.
-	/// </summary>
+	/**
+	 * @brief Holds information used to render a specific view of the Scene.
+	 */
 	class Camera
 		: public Asset
 	{
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates a new Camera.
+		 * @param info The arguments.
+		 */
+		Camera(CameraInfo const& info);
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		/**
+		 * @brief Gets the perspective.
+		 * @return The value.
+		 */
+		inline Perspective get_perspective() const { return m_perspective; }
+
+		/**
+		 * @brief Sets the perspective.
+		 * @param perspective The new value.
+		 */
+		inline void set_perspective(Perspective perspective) { m_perspective = perspective; }
+
+		/**
+		 * @brief Gets the Field of View.
+		 * @return The value.
+		 */
+		inline Float get_fov() const { return m_fov; }
+
+		/**
+		 * @brief Sets the Field of View.
+		 * @param fov The new value.
+		 */
+		inline void set_fov(Float fov) { m_fov = fov; }
+
+		/**
+		 * @brief Gets the near plane.
+		 * @return The value.
+		 */
+		inline Float get_near_plane() const { return m_nearPlane; }
+
+		/**
+		 * @brief Sets the near plane.
+		 * @param nearPlane The new value.
+		 */
+		inline void set_near_plane(Float nearPlane) { m_nearPlane = nearPlane; }
+
+		/**
+		 * @brief Gets the far plane.
+		 * @return The value.
+		 */
+		inline Float get_far_plane() const { return m_farPlane; }
+
+		/**
+		 * @brief Sets the far plane.
+		 * @param farPlane The new value.
+		 */
+		inline void set_far_plane(Float farPlane) { m_farPlane = farPlane; }
+
+		/**
+		 * @brief Gets the clear color.
+		 * @return The value.
+		 */
+		inline Color get_color() const { return m_color; }
+
+		/**
+		 * @brief Sets the clear color.
+		 * @param color The new value.
+		 */
+		inline void set_color(Color color) { m_color = color; }
+
+		/**
+		 * @brief Gets the aspect ratio.
+		 * @return The value.
+		 */
+		inline Float get_aspect_ratio() const { return m_aspectRatio; }
+
+		/**
+		 * @brief Sets the aspect ratio.
+		 * @param aspectRatio The new value.
+		 */
+		inline void set_aspect_ratio(Float aspectRatio) { m_aspectRatio = aspectRatio; }
+
+		/**
+		 * @brief Gets the size. The size is equal to the height of the Camera view. Used for orthographic cameras.
+		 * @return The value.
+		 */
+		inline Float get_size() const { return m_size; }
+
+		/**
+		 * @brief Sets the size.
+		 * @param size The new value.
+		 */
+		inline void set_size(Float size) { m_size = size; }
+
+		/**
+		 * @brief Gets the Layer.
+		 * @return The value.
+		 */
+		inline Layer get_layer_mask() const { return m_layer; }
+
+		/**
+		 * @brief Sets the Layer.
+		 * @param mask The new value.
+		 */
+		inline void set_layer_mask(Layer const mask) { m_layer = mask; }
+
+		/**
+		 * @brief Gets the RenderTarget.
+		 * @return The value.
+		 */
+		inline Ref<RenderTarget> const& get_render_target() const { return m_renderTarget; }
+
+		/**
+		 * @brief Sets the RenderTarget.
+		 * @param renderTarget The new value.
+		 */
+		inline void set_render_target(Ref<RenderTarget> const& renderTarget) { m_renderTarget = renderTarget; }
+
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return Camera.
+		 */
+		inline inline AssetType get_asset_type() const override { return AssetType::Camera; }
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		void serialize(Writer& writer) const override;
+		Bool deserialize(Reader& reader) override;
+
+		/**
+		 * @brief Creates a new Camera.
+		 * @param info The arguments.
+		 * @return A Camera Owner.
+		 */
+		static Shared<Camera> create(CameraInfo const& info);
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -85,156 +184,7 @@ namespace Minty
 		Ref<RenderTarget> m_renderTarget;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates a new Camera.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		Camera(CameraInfo const& info);
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets the perspective.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Perspective get_perspective() const { return m_perspective; }
-
-		/// <summary>
-		/// Sets the perspective.
-		/// </summary>
-		/// <param name="perspective">The new value.</param>
-		void set_perspective(Perspective perspective) { m_perspective = perspective; }
-
-		/// <summary>
-		/// Gets the Field of View.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Float get_fov() const { return m_fov; }
-
-		/// <summary>
-		/// Sets the Field of View.
-		/// </summary>
-		/// <param name="fov">The new value.</param>
-		void set_fov(Float fov) { m_fov = fov; }
-
-		/// <summary>
-		/// Gets the near plane.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Float get_near_plane() const { return m_nearPlane; }
-
-		/// <summary>
-		/// Sets the near plane.
-		/// </summary>
-		/// <param name="nearPlane">The new value.</param>
-		void set_near_plane(Float nearPlane) { m_nearPlane = nearPlane; }
-
-		/// <summary>
-		/// Gets the far plane.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Float get_far_plane() const { return m_farPlane; }
-
-		/// <summary>
-		/// Sets the far plane.
-		/// </summary>
-		/// <param name="farPlane">The new value.</param>
-		void set_far_plane(Float farPlane) { m_farPlane = farPlane; }
-
-		/// <summary>
-		/// Gets the clear color.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Color get_color() const { return m_color; }
-
-		/// <summary>
-		/// Sets the clear color.
-		/// </summary>
-		/// <param name="color">The new value.</param>
-		void set_color(Color color) { m_color = color; }
-
-		/// <summary>
-		/// Gets the aspect ratio.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Float get_aspect_ratio() const { return m_aspectRatio; }
-
-		/// <summary>
-		/// Sets the aspect ratio.
-		/// </summary>
-		/// <param name="aspectRatio">The new value.</param>
-		void set_aspect_ratio(Float aspectRatio) { m_aspectRatio = aspectRatio; }
-
-		/// <summary>
-		/// Gets the size. The size is equal to the height of the Camera view. This is used for orthographic cameras.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Float get_size() const { return m_size; }
-
-		/// <summary>
-		/// Sets the size.
-		/// </summary>
-		/// <param name="size">The new value.</param>
-		void set_size(Float size) { m_size = size; }
-
-		/// <summary>
-		/// Gets the Layer.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Layer get_layer_mask() const { return m_layer; }
-
-		/// <summary>
-		/// Sets the Layer.
-		/// </summary>
-		/// <param name="layer">The new value.</param>
-		void set_layer_mask(Layer const mask) { m_layer = mask; }
-
-		/// <summary>
-		/// Gets the RenderTarget.
-		/// </summary>
-		/// <returns>The value.</returns>
-		Ref<RenderTarget> const& get_render_target() const { return m_renderTarget; }
-
-		/// <summary>
-		/// Sets the RenderTarget.
-		/// </summary>
-		/// <param name="renderTarget">The new value.</param>
-		void set_render_target(Ref<RenderTarget> const& renderTarget) { m_renderTarget = renderTarget; }
-
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Camera.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Camera; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		/// <summary>
-		/// Creates a new Camera.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A Camera Owner.</returns>
-		static Owner<Camera> create(CameraInfo const& info = {});
-
-#pragma endregion
-
 	};
 }
+
+#endif // MINTY_RENDER_CAMERA_H

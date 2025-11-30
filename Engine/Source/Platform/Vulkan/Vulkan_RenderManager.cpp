@@ -75,7 +75,7 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	depthImageInfo.type = ImageType::D2;
 	depthImageInfo.usage = ImageUsage::DepthStencil;
 	depthImageInfo.immutable = false;
-	set_depth_image(Owner<Vulkan_Image>(depthImageInfo));
+	set_depth_image(Shared<Vulkan_Image>(depthImageInfo));
 }
 
 void Minty::Vulkan_RenderManager::destroy_depth_resources()
@@ -117,8 +117,8 @@ void Minty::Vulkan_RenderManager::initialize()
 	surfaceInfo.id = UUID::create();
 	surfaceInfo.targetFormat = m_targetSurfaceFormat;
 	surfaceInfo.window = window;
-	Owner<Surface> vulkanSurface = Owner<Vulkan_Surface>(surfaceInfo, surface, *this, queueFamilyIndices);
-	m_vulkanSurface = vulkanSurface.create_ref();
+	Shared<Surface> vulkanSurface = Shared<Vulkan_Surface>(surfaceInfo, surface, *this, queueFamilyIndices);
+	m_vulkanSurface = vulkanSurface.to_ref();
 	set_surface(std::move(vulkanSurface));
 
 	// get queues
@@ -311,8 +311,8 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraData const& cameraInfo)
 	}
 
 	// get vulkan render target and pass
-	Ref<Vulkan_RenderTarget> vulkanRenderTarget = renderTarget.cast_to<Vulkan_RenderTarget>();
-	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().cast_to<Vulkan_RenderPass>();
+	Ref<Vulkan_RenderTarget> vulkanRenderTarget = renderTarget.cast<Vulkan_RenderTarget>();
+	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().cast<Vulkan_RenderPass>();
 
 	// get render area
 	// remember: Viewport determines where to render within this area, so this area should be the whole screen

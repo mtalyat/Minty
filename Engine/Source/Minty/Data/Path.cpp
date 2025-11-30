@@ -6,11 +6,16 @@
 
 using namespace Minty;
 
-Minty::Path::Path(String const& string, AllocatorType const allocator)
-	: m_path(string.get_data())
+Minty::Path::Path()
+			: m_path()
+		{
+		}
+
+Minty::Path::Path(String const &string)
+    : m_path(string.get_data())
 {}
 
-Minty::Path::Path(Char const* data, AllocatorType const allocator)
+Minty::Path::Path(Char const* data)
 	: m_path(data)
 {}
 
@@ -124,98 +129,6 @@ Size Minty::Path::get_file_size(Path const& path)
 	}
 
 	return std::filesystem::file_size(path.m_path);
-}
-
-Vector<Path> Minty::Path::get_files(Path const& path, Bool const recursive)
-{
-	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
-	MINTY_ASSERT(is_directory(path), ErrorCode::File_NotADirectory);
-
-	Vector<Path> paths;
-	Queue<Path> directoriesToCheck;
-	directoriesToCheck.push(path);
-
-	while (!directoriesToCheck.is_empty())
-	{
-		Path current = directoriesToCheck.pop();
-		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
-		{
-			if (entry.is_regular_file())
-			{
-				paths.add(Path(entry.path().string().data()));
-			}
-			else if (recursive && entry.is_directory())
-			{
-				directoriesToCheck.push(Path(entry.path().string().data()));
-			}
-		}
-	}
-	
-	return paths;
-}
-
-Vector<Path> Minty::Path::get_directories(Path const& path, Bool const recursive)
-{
-	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
-	MINTY_ASSERT(is_directory(path), ErrorCode::File_NotADirectory);
-
-	Vector<Path> paths;
-	Queue<Path> directoriesToCheck;
-	directoriesToCheck.push(path);
-
-	while (!directoriesToCheck.is_empty())
-	{
-		Path current = directoriesToCheck.pop();
-		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
-		{
-			if (entry.is_directory())
-			{
-				Path entryPath = Path(entry.path().string().data());
-				paths.add(entryPath);
-
-				if (recursive)
-				{
-					directoriesToCheck.push(entryPath);
-				}
-			}
-		}
-	}
-
-	return paths;
-}
-
-Vector<Path> Minty::Path::get_contents(Path const& path, Bool const recursive)
-{
-	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound);
-	MINTY_ASSERT(is_directory(path), ErrorCode::File_NotADirectory);
-
-	Vector<Path> paths;
-	Queue<Path> directoriesToCheck;
-	directoriesToCheck.push(path);
-
-	while (!directoriesToCheck.is_empty())
-	{
-		Path current = directoriesToCheck.pop();
-		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
-		{
-			if (entry.is_regular_file())
-			{
-				paths.add(Path(entry.path().string().data()));
-			}
-			else if (entry.is_directory())
-			{
-				Path entryPath = Path(entry.path().string().data());
-				paths.add(entryPath);
-
-				if (recursive)
-				{
-					directoriesToCheck.push(entryPath);
-				}
-			}
-		}
-	}
-
-	return paths;
 }
 
 Bool Minty::Path::create(Path const& path)

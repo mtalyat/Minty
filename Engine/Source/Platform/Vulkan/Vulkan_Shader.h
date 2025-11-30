@@ -7,7 +7,7 @@ namespace Minty
 	class Vulkan_Shader
 		: public Shader
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct BindingData
@@ -52,7 +52,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		VkPipelineLayout get_pipeline_layout() const { return m_pipelineLayout; }

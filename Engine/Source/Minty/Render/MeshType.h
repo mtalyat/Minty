@@ -1,32 +1,40 @@
-#pragma once
+#ifndef MINTY_RENDER_MESHTYPE_H
+#define MINTY_RENDER_MESHTYPE_H
+
+/**
+ * @file MeshType.h
+ * @brief Header file defining the MeshType enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The type of Mesh.
-	/// </summary>
+	/**
+	 * @brief The type of Mesh.
+	 */
 	enum class MeshType
 	{
-		/// <summary>
-		/// An empty Mesh.
-		/// </summary>
+		/**
+		 * @brief An empty Mesh.
+		 */
 		Empty,
 
-		/// <summary>
-		/// A custom Mesh.
-		/// </summary>
+		/**
+		 * @brief A custom Mesh.
+		 */
 		Custom,
 
-		/// <summary>
-		/// A square Mesh.
-		/// </summary>
+		/**
+		 * @brief A square Mesh.
+		 */
 		Quad,
 
-		/// <summary>
-		/// A cube Mesh.
-		/// </summary>
+		/**
+		 * @brief A cube Mesh.
+		 */
 		Cube,
 	};
 
@@ -38,3 +46,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<MeshType>(String const& string, MeshType& value) { return parse_try_mesh_type(string, value); }
 }
+
+#endif // MINTY_RENDER_MESHTYPE_H

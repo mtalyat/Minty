@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "SystemManager.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
 #include "Minty/Debug/Trace.h"
 
 using namespace Minty;
@@ -44,23 +44,23 @@ System* Minty::SystemManager::add(SystemData const* data)
 System* Minty::SystemManager::add(TypeID const& typeId)
 {
 	// get info from type
-	return add(Context::get_singleton().get_system_info(typeId));
+	return add(Application::get_singleton().get_system_info(typeId));
 }
 
 System* Minty::SystemManager::add(String const& name)
 {
-	return add(Context::get_singleton().get_system_info(name));
+	return add(Application::get_singleton().get_system_info(name));
 }
 
 System* Minty::SystemManager::add(String const& name, Int const priority)
 {
-	return add(Context::get_singleton().get_system_info(name), priority);
+	return add(Application::get_singleton().get_system_info(name), priority);
 }
 
 System* Minty::SystemManager::get_system(String const& name) const
 {
 	// get the system info
-	SystemData const& data = Context::get_singleton().get_system_info(name);
+	SystemData const& data = Application::get_singleton().get_system_info(name);
 
 	// get the system by type
 	auto it = m_systemsByType.find(data.typeId);
@@ -274,15 +274,15 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<SystemManager> Minty::SystemManager::create(Scene* scene, SystemManagerInfo const& info)
+Shared<SystemManager> Minty::SystemManager::create(Scene* scene, SystemManagerInfo const& info)
 {
-	return Owner<SystemManager>(scene, info);
+	return Shared<SystemManager>(scene, info);
 }
 
 SystemManager& Minty::SystemManager::get_singleton()
 {
 	// get active scene
-	Ref<Scene> const& activeScene = Context::get_singleton().get_scene_manager().get_active();
+	Ref<Scene> const& activeScene = Application::get_singleton().get_scene_manager().get_active();
 	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_system_manager();
 }

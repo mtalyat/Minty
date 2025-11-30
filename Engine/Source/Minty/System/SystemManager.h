@@ -54,7 +54,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -226,7 +226,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A SystemManager Owner.</returns>
-		static Owner<SystemManager> create(Scene* scene, SystemManagerInfo const& info = {});
+		static Shared<SystemManager> create(Scene* scene, SystemManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the SystemManager for the active Scene.

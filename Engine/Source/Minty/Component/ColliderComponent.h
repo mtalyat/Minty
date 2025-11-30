@@ -1,21 +1,32 @@
-#pragma once
+#ifndef MINTY_COMPONENT_COLLIDERCOMPONENT_H
+#define MINTY_COMPONENT_COLLIDERCOMPONENT_H
+
+/**
+ * @file ColliderComponent.h
+ * @brief Header file defining the ColliderComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
-#include "Minty/Physics/Collider.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a Collider for an Entity.
-	/// </summary>
+	class Collider;
+	
+	/**
+	 * @brief Holds a Collider for an Entity.
+	 */
 	struct ColliderComponent
 		: public Component
 	{
-		/// <summary>
-		/// The Collider.
-		/// </summary>
-		Owner<Collider> collider;
+		/**
+		 * @brief The Collider.
+		 */
+		Shared<Collider> collider;
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 	};
 }
+
+#endif // MINTY_COMPONENT_COLLIDERCOMPONENT_H

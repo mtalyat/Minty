@@ -1,16 +1,22 @@
 #include "pch.h"
 #include "Buffer.h"
+#include "Minty/Render/BufferInfo.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Buffer.h"
 #endif // MINTY_VULKAN
 
 using namespace Minty;
 
-Owner<Buffer> Minty::Buffer::create(BufferInfo const& info)
+Minty::Buffer::Buffer(BufferInfo const &info)
+	: m_usage(info.usage), m_frequent(info.frequent)
+{
+}
+
+Shared<Buffer> Minty::Buffer::create(BufferInfo const &info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Buffer>(info);
+	return Shared<Vulkan_Buffer>(info);
 #else
-	return Owner<Buffer>();
+	return Shared<Buffer>();
 #endif // MINTY_VULKAN
 }

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CameraData.h"
 #include "Minty/Core/Math.h"
+#include "Minty/Render/Camera.h"
+#include "Minty/Render/Viewport.h"
 
 using namespace Minty;
 

@@ -45,7 +45,7 @@ namespace Minty
 		AllocatorType m_allocator;
 
 	private:
-		List<void*> m_dataStack;
+		List<Any> m_dataStack;
 
 #pragma endregion
 
@@ -64,20 +64,20 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Gets the top of the data stack.
 		/// </summary>
 		/// <returns>A pointer to the data, or null if nothing in the data stack.</returns>
-		void* get_user_data() const;
+		Any get_user_data() const;
 
 		/// <summary>
 		/// Gets the data source for this Reader.
 		/// </summary>
 		/// <returns>A pointer to the data source.</returns>
-		virtual void* get_source() const = 0;
+		virtual Any get_source() const = 0;
 
 		/// <summary>
 		/// Gets the depth in the Node structure.
@@ -118,7 +118,7 @@ namespace Minty
 		/// Adds data to the top of the data stack.
 		/// </summary>
 		/// <param name="data">The pointer to the data to add.</param>
-		void push_user_data(void* const data);
+		void push_user_data(Any const data);
 
 		/// <summary>
 		/// Removes the top of the data stack.
@@ -609,7 +609,7 @@ namespace Minty
 		/// <param name="data">The value. Expects data to point to a buffer equal to or greater in size than the Type size.</param>
 		/// <param name="type">The Type.</param>
 		/// <returns>True on success.</returns>
-		virtual Bool read_typed(Size const index, void* const data, Type& type) = 0;
+		virtual Bool read_typed(Size const index, Any const data, Type& type) = 0;
 
 		/// <summary>
 		/// Reads the data with the given Type.
@@ -618,7 +618,7 @@ namespace Minty
 		/// <param name="data">The value. Expects data to point to a buffer equal to or greater in size than the Type size.</param>
 		/// <param name="type">The Type.</param>
 		/// <returns>True on success.</returns>
-		Bool read_typed(String const& name, void* const data, Type& type)
+		Bool read_typed(String const& name, Any const data, Type& type)
 		{
 			return read_typed(get_index(name), data, type);
 		}
@@ -701,43 +701,43 @@ namespace Minty
 #pragma region Methods
 
 	protected:
-		virtual Node read_node(const void* const data, Size const size) const = 0;
-		virtual Bool read_bool_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Bool2 read_bool2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Bool3 read_bool3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Bool4 read_bool4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Char read_char_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Byte read_byte_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Short read_short_from_buffer(const void* const data, Size const size) const = 0;
-		virtual UShort read_ushort_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Int read_int_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Int2 read_int2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Int3 read_int3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Int4 read_int4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual UInt read_uint_from_buffer(const void* const data, Size const size) const = 0;
-		virtual UInt2 read_uint2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual UInt3 read_uint3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual UInt4 read_uint4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Long read_long_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Long2 read_long2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Long3 read_long3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Long4 read_long4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual ULong read_ulong_from_buffer(const void* const data, Size const size) const = 0;
-		virtual ULong2 read_ulong2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual ULong3 read_ulong3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual ULong4 read_ulong4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Float read_float_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Float2 read_float2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Float3 read_float3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Float4 read_float4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Double read_double_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Double2 read_double2_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Double3 read_double3_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Double4 read_double4_from_buffer(const void* const data, Size const size) const = 0;
-		virtual String read_string_from_buffer(const void* const data, Size const size) const = 0;
-		virtual UUID read_uuid_from_buffer(const void* const data, Size const size) const = 0;
-		virtual Type read_type_from_buffer(const void* const data, Size const size) const = 0;
-		virtual void* read_typed_from_buffer(const void* const data, Size const size, Type const type) const = 0;
+		virtual Node read_node(const Any const data, Size const size) const = 0;
+		virtual Bool read_bool_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Bool2 read_bool2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Bool3 read_bool3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Bool4 read_bool4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Char read_char_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Byte read_byte_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Short read_short_from_buffer(const Any const data, Size const size) const = 0;
+		virtual UShort read_ushort_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Int read_int_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Int2 read_int2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Int3 read_int3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Int4 read_int4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual UInt read_uint_from_buffer(const Any const data, Size const size) const = 0;
+		virtual UInt2 read_uint2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual UInt3 read_uint3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual UInt4 read_uint4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Long read_long_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Long2 read_long2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Long3 read_long3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Long4 read_long4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual ULong read_ulong_from_buffer(const Any const data, Size const size) const = 0;
+		virtual ULong2 read_ulong2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual ULong3 read_ulong3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual ULong4 read_ulong4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Float read_float_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Float2 read_float2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Float3 read_float3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Float4 read_float4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Double read_double_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Double2 read_double2_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Double3 read_double3_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Double4 read_double4_from_buffer(const Any const data, Size const size) const = 0;
+		virtual String read_string_from_buffer(const Any const data, Size const size) const = 0;
+		virtual UUID read_uuid_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Type read_type_from_buffer(const Any const data, Size const size) const = 0;
+		virtual Any read_typed_from_buffer(const Any const data, Size const size, Type const type) const = 0;
 
 #pragma endregion
 	};
@@ -747,21 +747,21 @@ namespace Minty
 	/// </summary>
 	class ReaderStorageBehavior
 	{
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Gets the pointer to the data source.
 		/// </summary>
 		/// <returns>A pointer to the data source.</returns>
-		virtual void* get_source() const = 0;
+		virtual Any get_source() const = 0;
 
 #pragma endregion
 
 #pragma region Methods
 
 	protected:
-		virtual void read_data(void* const data, Size const size) = 0;
+		virtual void read_data(Any const data, Size const size) = 0;
 		virtual Vector<Byte> read_all() = 0;
 
 #pragma endregion
@@ -784,7 +784,7 @@ namespace Minty
 		/// Creates a new NodeReaderBehavior.
 		/// </summary>
 		/// <param name="ignore">This argument is ignored.</param>
-		NodeReaderBehavior(void* const ignore)
+		NodeReaderBehavior(Any const ignore)
 		{
 		}
 
@@ -794,21 +794,21 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Returns nullptr.
 		/// </summary>
 		/// <returns>Nullptr.</returns>
-		void* get_source() const override { return nullptr; }
+		Any get_source() const override { return nullptr; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	protected:
-		void read_data(void* const data, Size const size) override {}
+		void read_data(Any const data, Size const size) override {}
 		Vector<Byte> read_all() override { return {}; }
 
 #pragma endregion
@@ -834,7 +834,7 @@ namespace Minty
 		/// Creates a new FileReaderBehavior.
 		/// </summary>
 		/// <param name="file">The File to read from.</param>
-		FileReaderBehavior(void* const file)
+		FileReaderBehavior(Any const file)
 			: mp_file(static_cast<File*>(file))
 		{
 		}
@@ -845,21 +845,21 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Gets the pointer to the File data source.
 		/// </summary>
 		/// <returns>A pointer to the File.</returns>
-		void* get_source() const { return mp_file; }
+		Any get_source() const { return mp_file; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	protected:
-		void read_data(void* const data, Size const size) override;
+		void read_data(Any const data, Size const size) override;
 		Vector<Byte> read_all() override;
 
 #pragma endregion
@@ -886,7 +886,7 @@ namespace Minty
 		/// Creates a new MemoryReaderBehavior.
 		/// </summary>
 		/// <param name="data">The data to read from.</param>
-		MemoryReaderBehavior(void* const data)
+		MemoryReaderBehavior(Any const data)
 			: mp_data(static_cast<Container*>(data))
 			, m_index(0)
 		{
@@ -898,21 +898,21 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Gets the memory source.
 		/// </summary>
 		/// <returns>A pointer to the memory source.</returns>
-		void* get_source() const override { return mp_data; }
+		Any get_source() const override { return mp_data; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	protected:
-		void read_data(void* const data, Size const size) override;
+		void read_data(Any const data, Size const size) override;
 		Vector<Byte> read_all() override;
 
 #pragma endregion
@@ -927,43 +927,43 @@ namespace Minty
 #pragma region Methods
 
 	protected:
-		Node read_node(const void* const data, Size const size) const override;
-		Bool read_bool_from_buffer(const void* const data, Size const size) const override;
-		Bool2 read_bool2_from_buffer(const void* const data, Size const size) const override;
-		Bool3 read_bool3_from_buffer(const void* const data, Size const size) const override;
-		Bool4 read_bool4_from_buffer(const void* const data, Size const size) const override;
-		Char read_char_from_buffer(const void* const data, Size const size) const override;
-		Byte read_byte_from_buffer(const void* const data, Size const size) const override;
-		Short read_short_from_buffer(const void* const data, Size const size) const override;
-		UShort read_ushort_from_buffer(const void* const data, Size const size) const override;
-		Int read_int_from_buffer(const void* const data, Size const size) const override;
-		Int2 read_int2_from_buffer(const void* const data, Size const size) const override;
-		Int3 read_int3_from_buffer(const void* const data, Size const size) const override;
-		Int4 read_int4_from_buffer(const void* const data, Size const size) const override;
-		UInt read_uint_from_buffer(const void* const data, Size const size) const override;
-		UInt2 read_uint2_from_buffer(const void* const data, Size const size) const override;
-		UInt3 read_uint3_from_buffer(const void* const data, Size const size) const override;
-		UInt4 read_uint4_from_buffer(const void* const data, Size const size) const override;
-		Long read_long_from_buffer(const void* const data, Size const size) const override;
-		Long2 read_long2_from_buffer(const void* const data, Size const size) const override;
-		Long3 read_long3_from_buffer(const void* const data, Size const size) const override;
-		Long4 read_long4_from_buffer(const void* const data, Size const size) const override;
-		ULong read_ulong_from_buffer(const void* const data, Size const size) const override;
-		ULong2 read_ulong2_from_buffer(const void* const data, Size const size) const override;
-		ULong3 read_ulong3_from_buffer(const void* const data, Size const size) const override;
-		ULong4 read_ulong4_from_buffer(const void* const data, Size const size) const override;
-		Float read_float_from_buffer(const void* const data, Size const size) const override;
-		Float2 read_float2_from_buffer(const void* const data, Size const size) const override;
-		Float3 read_float3_from_buffer(const void* const data, Size const size) const override;
-		Float4 read_float4_from_buffer(const void* const data, Size const size) const override;
-		Double read_double_from_buffer(const void* const data, Size const size) const override;
-		Double2 read_double2_from_buffer(const void* const data, Size const size) const override;
-		Double3 read_double3_from_buffer(const void* const data, Size const size) const override;
-		Double4 read_double4_from_buffer(const void* const data, Size const size) const override;
-		String read_string_from_buffer(const void* const data, Size const size) const override;
-		UUID read_uuid_from_buffer(const void* const data, Size const size) const override;
-		Type read_type_from_buffer(const void* const data, Size const size) const override;
-		void* read_typed_from_buffer(const void* const data, Size const size, Type const type) const override;
+		Node read_node(const Any const data, Size const size) const override;
+		Bool read_bool_from_buffer(const Any const data, Size const size) const override;
+		Bool2 read_bool2_from_buffer(const Any const data, Size const size) const override;
+		Bool3 read_bool3_from_buffer(const Any const data, Size const size) const override;
+		Bool4 read_bool4_from_buffer(const Any const data, Size const size) const override;
+		Char read_char_from_buffer(const Any const data, Size const size) const override;
+		Byte read_byte_from_buffer(const Any const data, Size const size) const override;
+		Short read_short_from_buffer(const Any const data, Size const size) const override;
+		UShort read_ushort_from_buffer(const Any const data, Size const size) const override;
+		Int read_int_from_buffer(const Any const data, Size const size) const override;
+		Int2 read_int2_from_buffer(const Any const data, Size const size) const override;
+		Int3 read_int3_from_buffer(const Any const data, Size const size) const override;
+		Int4 read_int4_from_buffer(const Any const data, Size const size) const override;
+		UInt read_uint_from_buffer(const Any const data, Size const size) const override;
+		UInt2 read_uint2_from_buffer(const Any const data, Size const size) const override;
+		UInt3 read_uint3_from_buffer(const Any const data, Size const size) const override;
+		UInt4 read_uint4_from_buffer(const Any const data, Size const size) const override;
+		Long read_long_from_buffer(const Any const data, Size const size) const override;
+		Long2 read_long2_from_buffer(const Any const data, Size const size) const override;
+		Long3 read_long3_from_buffer(const Any const data, Size const size) const override;
+		Long4 read_long4_from_buffer(const Any const data, Size const size) const override;
+		ULong read_ulong_from_buffer(const Any const data, Size const size) const override;
+		ULong2 read_ulong2_from_buffer(const Any const data, Size const size) const override;
+		ULong3 read_ulong3_from_buffer(const Any const data, Size const size) const override;
+		ULong4 read_ulong4_from_buffer(const Any const data, Size const size) const override;
+		Float read_float_from_buffer(const Any const data, Size const size) const override;
+		Float2 read_float2_from_buffer(const Any const data, Size const size) const override;
+		Float3 read_float3_from_buffer(const Any const data, Size const size) const override;
+		Float4 read_float4_from_buffer(const Any const data, Size const size) const override;
+		Double read_double_from_buffer(const Any const data, Size const size) const override;
+		Double2 read_double2_from_buffer(const Any const data, Size const size) const override;
+		Double3 read_double3_from_buffer(const Any const data, Size const size) const override;
+		Double4 read_double4_from_buffer(const Any const data, Size const size) const override;
+		String read_string_from_buffer(const Any const data, Size const size) const override;
+		UUID read_uuid_from_buffer(const Any const data, Size const size) const override;
+		Type read_type_from_buffer(const Any const data, Size const size) const override;
+		Any read_typed_from_buffer(const Any const data, Size const size, Type const type) const override;
 
 #pragma endregion
 	};
@@ -981,7 +981,7 @@ namespace Minty
 	class ReaderImplementation
 		: public Reader, private FormatBehavior, private StorageBehavior
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct NodeData
@@ -1010,7 +1010,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="source">A pointer to the appropriate data source for this Reader.</param>
 		/// <param name="allocator">The Allocator to use.</param>
-		ReaderImplementation(void* const source, AllocatorType const allocator = AllocatorType::Default)
+		ReaderImplementation(Any const source, AllocatorType const allocator = AllocatorType::Default)
 			: Reader(allocator)
 			, FormatBehavior()
 			, StorageBehavior(source)
@@ -1059,14 +1059,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Gets the data source for this Reader.
 		/// </summary>
 		/// <returns>A pointer to the data source.</returns>
-		void* get_source() const override { return StorageBehavior::get_source(); }
+		Any get_source() const override { return StorageBehavior::get_source(); }
 
 		/// <summary>
 		/// Gets the depth in the Node structure.
@@ -1655,7 +1655,7 @@ namespace Minty
 			return false;
 		}
 
-		Bool read_typed(Size const index, void* const data, Type& type) override
+		Bool read_typed(Size const index, Any const data, Type& type) override
 		{
 			if (is_valid())
 			{
@@ -1682,7 +1682,7 @@ namespace Minty
 						return false;
 					}
 					// value
-					void* temp = this->read_typed_from_buffer(&ch[i], container.get_size() - i, type);
+					Any temp = this->read_typed_from_buffer(&ch[i], container.get_size() - i, type);
 					if (!temp)
 					{
 						// failed to read typed data

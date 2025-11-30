@@ -1,10 +1,17 @@
-#pragma once
+#ifndef MINTY_DEBUG_DEBUG_H
+#define MINTY_DEBUG_DEBUG_H
+
+/**
+ * @file Debug.h
+ * @brief Header file for debug utilities.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Debug/DebugFlags.h"
 #include "Minty/Debug/Error.h"
 #include "Minty/Log/LogLevel.h"
-#include <iostream>
 
 namespace Minty
 {
@@ -15,42 +22,6 @@ namespace Minty
 	/// </summary>
 	class Debug
 	{
-#pragma region Classes
-
-	public:
-		/// <summary>
-		/// A color that can be used to write in the terminal.
-		/// </summary>
-		enum class Color
-		{
-			Black = 30,
-			Red = 31,
-			Green = 32,
-			Yellow = 33,
-			Blue = 34,
-			Magenta = 35,
-			Cyan = 36,
-			White = 37,
-			BrightBlack = 90,
-			Gray = BrightBlack,
-			BrightRed = 91,
-			BrightGreen = 92,
-			BrightYellow = 93,
-			BrightBlue = 94,
-			BrightMagenta = 95,
-			BrightCyan = 96,
-			BrightWhite = 97
-		};
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		static DebugFlags s_flags;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	private:
@@ -59,7 +30,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -99,6 +70,13 @@ namespace Minty
 		static void log_stack_trace();
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		static DebugFlags s_flags;
+
+#pragma endregion
 	};
 }
 
@@ -130,7 +108,6 @@ namespace Minty
     do { \
         Minty::Debug::log(level, F("{{ {}, {}(), {} }} {}", __FILE__, __func__, __LINE__, F(msg, ##__VA_ARGS__))); \
     } while(0)
-
 
 /**
  * @brief Macro to log a debug message.
@@ -258,3 +235,5 @@ namespace Minty
 		Minty::set_error(errorCode); \
 		MINTY_LOG_ERROR(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
 	} while(0)
+
+#endif // MINTY_DEBUG_DEBUG_H

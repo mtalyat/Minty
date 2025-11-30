@@ -1,64 +1,75 @@
-#pragma once
+#ifndef MINTY_RENDER_IMAGELAYOUT_H
+#define MINTY_RENDER_IMAGELAYOUT_H
+
+/**
+ * @file ImageLayout.h
+ * @brief Header file defining the ImageLayout enum.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the image data is laid out in memory.
-	/// </summary>
+	/**
+	 * @brief Determines how the image data is laid out in memory.
+	 */
 	enum class ImageLayout
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// Generic layout.
-		/// </summary>
+		/**
+		 * @brief Generic layout.
+		 */
 		General = 1,
 
-		/// <summary>
-		/// Color attachment.
-		/// </summary>
+		/**
+		 * @brief Color attachment.
+		 */
 		ColorAttachment = 2,
 
-		/// <summary>
-		/// Depth stencil attachment.
-		/// </summary>
+		/**
+		 * @brief Depth stencil attachment.
+		 */
 		DepthStencilAttachment = 3,
 
-		/// <summary>
-		/// Depth stencil read only.
-		/// </summary>
+		/**
+		 * @brief Depth stencil read only.
+		 */
 		DepthStencilReadOnly = 4,
 
-		/// <summary>
-		/// Shader read only.
-		/// </summary>
+		/**
+		 * @brief Shader read only.
+		 */
 		ShaderReadOnly = 5,
 
-		/// <summary>
-		/// Transfer source location.
-		/// </summary>
+		/**
+		 * @brief Transfer source location.
+		 */
 		TransferSource = 6,
 
-		/// <summary>
-		/// Transfer destination location.
-		/// </summary>
+		/**
+		 * @brief Transfer destination location.
+		 */
 		TransferDestination = 7,
 
-		/// <summary>
-		/// Pre-initialized.
-		/// </summary>
+		/**
+		 * @brief Pre-initialized.
+		 */
 		Preinitialized = 8,
 
-		/// <summary>
-		/// Presentation layout (ready to be rendered).
-		/// </summary>
+		/**
+		 * @brief Presentation layout (ready to be rendered).
+		 */
 		Presentation = 9,
 	};
+
+	MINTY_ENABLE_ENUM_OPERATORS(ImageLayout);
 
 	String to_string(ImageLayout const obj);
 	ImageLayout parse_to_image_layout(String const& string);
@@ -68,3 +79,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ImageLayout>(String const& string, ImageLayout& value) { return parse_try_image_layout(string, value); }
 }
+
+#endif // MINTY_RENDER_IMAGELAYOUT_H

@@ -1,9 +1,11 @@
-#pragma once
-
 #include "Array.h"
 #include "Batch.h"
 #include "BatchFactory.h"
+#include "Box.h"
+#include "BoxArray.h"
+#include "BoxVector.h"
 #include "BufferContainer.h"
+#include "BufferContainerFactory.h"
 #include "Cargo.h"
 #include "Color.h"
 #include "ConstantContainer.h"

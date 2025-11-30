@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Collider.h"
 #include "PhysicsManager.h"
 #include "PhysicsSimulation.h"

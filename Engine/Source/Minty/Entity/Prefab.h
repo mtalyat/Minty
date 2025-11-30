@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ENTITY_PREFAB_H
+#define MINTY_ENTITY_PREFAB_H
+
+/**
+ * @file Prefab.h
+ * @brief Header file defining the Prefab class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Tuple.h"
@@ -8,25 +16,11 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for a prefab.
-	/// </summary>
-	struct PrefabInfo
-	{
-		/// <summary>
-		/// The ID of this Prefab.
-		/// </summary>
-		UUID id = INVALID_ID;
+	struct PrefabInfo;
 
-		/// <summary>
-		/// The data for each Entity in this Prefab.
-		/// </summary>
-		Node source;
-	};
-
-	/// <summary>
-	/// A prefabricated Entity for a Scene.
-	/// </summary>
+	/**
+	 * @brief A prefabricated Entity for a Scene.
+	 */
 	class Prefab
 		: public Asset
 	{
@@ -40,15 +34,11 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Prefab from the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		Prefab(PrefabInfo const& info)
-			: Asset(info.id)
-			, m_data(info.source)
-		{
-		}
+		/**
+		 * @brief Creates a new Prefab from the given arguments.
+		 * @param info The arguments.
+		 */
+		Prefab(PrefabInfo const& info);
 
 		~Prefab()
 		{
@@ -56,20 +46,20 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the data within this Prefab.
-		/// </summary>
-		/// <returns>The data.</returns>
+		/**
+		 * @brief Gets the data within this Prefab.
+		 * @return The data.
+		 */
 		Node const& get_node() const { return m_data; }
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Prefab.</returns>
-		constexpr AssetType get_asset_type() const { return AssetType::Prefab; }
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return Prefab.
+		 */
+		inline AssetType get_asset_type() const { return AssetType::Prefab; }
 
 #pragma endregion
 
@@ -82,13 +72,15 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		/// <summary>
-		/// Creates a new Prefab from the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A Prefab Owner.</returns>
-		static Owner<Prefab> create(PrefabInfo const& info = {});
+		/**
+		 * @brief Creates a new Prefab from the given arguments.
+		 * @param info The arguments.
+		 * @return A Prefab Owner.
+		 */
+		static Shared<Prefab> create(PrefabInfo const& info);
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_ENTITY_PREFAB_H

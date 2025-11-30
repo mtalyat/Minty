@@ -26,7 +26,7 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		void* get_native() const { return m_shaderModule; }
+		Any get_native() const { return m_shaderModule; }
 
 #pragma endregion
 	};

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_RENDERMANAGER_H
+#define MINTY_RENDER_RENDERMANAGER_H
+
+/**
+ * @file RenderManager.h
+ * @brief Header file defining the RenderManager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Manager/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Color.h"
@@ -25,30 +33,15 @@ namespace Minty
 	class Texture;
 	class Transform;
 	class Surface;
+	struct RenderManagerInfo;
 
-	/// <summary>
-	/// The arguments for creating a RenderManager.
-	/// </summary>
-	struct RenderManagerInfo
-	{
-		/// <summary>
-		/// The Window to render to.
-		/// </summary>
-		Ref<Window> window = nullptr;
-
-		/// <summary>
-		/// The format of the target surface.
-		/// </summary>
-		Format targetSurfaceFormat = Format::Default;
-	};
-
-	/// <summary>
-	/// Handles rendering to a Window.
-	/// </summary>
+	/**
+	 * @brief Manages rendering operations.
+	 */
 	class RenderManager
 		: public Manager
 	{
-#pragma region Classes
+#pragma region Types
 
 	public:
         struct TexMatKey
@@ -72,6 +65,190 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates a new RenderManager.
+		 * @param info The arguments.
+		 */
+		RenderManager(RenderManagerInfo const& info);
+
+		virtual ~RenderManager() = default;
+
+#pragma endregion
+
+#pragma region Accessors
+
+	protected:
+		// gets the state of the RenderManager
+		State get_state() const { return m_state; }
+
+		Bool check_resize_pending()
+		{
+			if (m_resizePending)
+			{
+				m_resizePending = false;
+				return true;
+			}
+			return false;
+		}
+
+		inline void set_surface(Shared<Surface>&& surface) { m_surface = std::move(surface); }
+
+		inline void set_depth_image(Shared<Image>&& image) { m_depthStencilImage = std::move(image); }
+
+		inline void set_default_viewport(Shared<Viewport>&& viewport) { m_defaultViewport = std::move(viewport); }
+
+	public:
+		/**
+		 * @brief Gets the Window that this RenderManager is rendering to.
+		 * @return The Window.
+		 */
+		inline Ref<Window> const& get_window() const { return m_window; }
+
+		/**
+		 * @brief Gets the Surface that this RenderManager is rendering to.
+		 * @return The Surface.
+		 */
+		inline Ref<Surface> get_surface() const { return m_surface.to_ref(); }
+
+		/**
+		 * @brief Gets the depth Image used for depth testing.
+		 * @return The depth Image.
+		 */
+		inline Ref<Image> get_depth_image() const { return m_depthStencilImage.to_ref(); }
+
+		/**
+		 * @brief Gets the default Viewport that renders to the entire Surface.
+		 * @return The default Viewport.
+		 */
+		inline Ref<Viewport> get_default_viewport() { return m_defaultViewport.to_ref(); }
+
+		/**
+		 * @brief Gets the default Viewport that renders to the entire Window.
+		 * @return The default Viewport.
+		 */
+		inline Ref<Viewport> get_default_viewport() const { return m_defaultViewport.to_ref(); }
+
+		/**
+		 * @brief Gets the color attachment format of the current Surface.
+		 * @return The attachment Format.
+		 */
+		inline Format get_color_attachment_format() const { return m_surface->get_format(); }
+
+		/**
+		 * @brief Gets the depth attachment format of the current depth Image.
+		 * @return The attachment Format.
+		 */
+		inline Format get_depth_attachment_format() const { return m_depthStencilImage->get_format(); }
+
+		/**
+		 * @brief Gets the default Mesh for the given type.
+		 * @param type The type of Mesh. Cannot be Custom.
+		 * @return A Ref to a Mesh that corresponds with the type, or nullptr if the type is Empty.
+		 */
+		Ref<Mesh> get_default_mesh(MeshType const type);
+
+		/**
+		 * @brief Gets the default MaterialTemplate for the give AssetType, Space, and variant.
+		 * @param assetType The AssetType.
+		 * @param space The Space.
+		 * @param mask The mask mode of the MaterialTemplate.
+		 * @return The default MaterialTemplate.
+		 */
+		Ref<MaterialTemplate> get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
+
+		/**
+		 * @brief Gets the default Material for the given Texture, AssetType, Space and variant.
+		 * @param texture The Texture.
+		 * @param assetType The AssetType.
+		 * @param space The Space.
+		 * @param mask The mask mode of the MaterialTemplate.
+		 * @return The default Material.
+		 */
+		Ref<Material> get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Prepares to render a frame.
+		 * @return True, on success. Returns false when the frame should be skipped.
+		 */
+		virtual Bool start_frame();
+
+		/**
+		 * @brief Aborts the current started frame.
+		 */
+		virtual void abort_frame();
+
+		/**
+		 * @brief Finishes rendering a frame.
+		 */
+		virtual void end_frame();
+
+		/**
+		 * @brief Starts a render pass using the given Camera.
+		 * @param cameraInfo The CameraInfo to render the Scene from.
+		 */
+		virtual Bool start_pass(CameraData const& cameraInfo);
+
+		/**
+		 * @brief Finishes the current render pass.
+		 */
+		virtual void end_pass();
+
+		void handle_event(Event& event) override;
+
+		void bind_shader(Ref<Shader> const& shader);
+
+		void bind_material(Ref<Material> const& material);
+
+		void bind_mesh(Ref<Mesh> const& mesh);
+
+		void bind_vertex_buffer(Ref<Buffer> const& buffer, UInt const binding = 0);
+
+		void bind_index_buffer(Ref<Buffer> const& buffer);
+		
+		void draw_mesh(Ref<Mesh> const& mesh);
+
+		void draw_instances(UInt const instanceCount, UInt const vertexCount);
+		
+		/**
+		 * @brief Creates a new RenderManager.
+		 * @param info The arguments.
+		 * @return A RenderManager Owner.
+		 */
+		static Unique<RenderManager> create(RenderManagerInfo const& info = {});
+
+		/**
+		 * @brief Gets the active Context's RenderManager.
+		 * @return The RenderManager.
+		 */
+		static RenderManager& get_singleton();
+
+	protected:
+		/**
+		 * @brief Refreshes the Surface and related resources.
+		 */
+		void refresh();
+
+		virtual	void recreate_depth_resources() = 0;
+
+	private:
+		void clear_binds();
+
+		// creates a key for the default materials
+		static TexMatKey create_texmat_key(UUID const textureId, AssetType const type, Space const space)
+		{
+			return TexMatKey(textureId, (static_cast<UInt>(type) << 2) | static_cast<UInt>(space));
+		}
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -90,225 +267,16 @@ namespace Minty
 
 		// global resources
 		
-		Owner<Surface> m_surface;
-		Owner<Image> m_depthStencilImage;
+		Shared<Surface> m_surface;
+		Shared<Image> m_depthStencilImage;
 
 		// default resources
 
-		Owner<Viewport> m_defaultViewport;
+		Shared<Viewport> m_defaultViewport;
 		Map<MeshType, Ref<Mesh>> m_defaultMeshes;
 		Map<TexMatKey, Ref<Material>> m_defaultMaterials;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates a new RenderManager.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		RenderManager(RenderManagerInfo const& info);
-
-		virtual ~RenderManager()
-		{
-			MINTY_ASSERT_ERROR(!is_initialized(), "RenderManager is not disposed before destruction.");
-		}
-
-#pragma endregion
-
-#pragma region Get Set
-
-	protected:
-		// gets the state of the RenderManager
-		State get_state() const { return m_state; }
-
-		Bool check_resize_pending()
-		{
-			if (m_resizePending)
-			{
-				m_resizePending = false;
-				return true;
-			}
-			return false;
-		}
-
-		inline void set_surface(Owner<Surface>&& surface) { m_surface = std::move(surface); }
-
-		inline void set_depth_image(Owner<Image>&& image) { m_depthStencilImage = std::move(image); }
-
-		inline void set_default_viewport(Owner<Viewport>&& viewport) { m_defaultViewport = std::move(viewport); }
-
-	public:
-		/// <summary>
-		/// Gets the Window that this RenderManager is rendering to.
-		/// </summary>
-		/// <returns>The Window.</returns>
-		inline Ref<Window> const& get_window() const { return m_window; }
-
-		/// <summary>
-		/// Gets the Surface that this RenderManager is rendering to.
-		/// </summary>
-		/// <returns>The Surface.</returns>
-		inline Ref<Surface> get_surface() const { return m_surface.create_ref(); }
-
-		/// <summary>
-		/// Gets the depth Image used for depth testing.
-		/// </summary>
-		/// <returns>The depth Image.</returns>
-		inline Ref<Image> get_depth_image() const { return m_depthStencilImage.create_ref(); }
-
-		/// <summary>
-		/// Gets the default Viewport that renders to the entire Surface.
-		/// </summary>
-		/// <returns>The default Viewport.</returns>
-		inline Ref<Viewport> get_default_viewport() { return m_defaultViewport.create_ref(); }
-
-		/// <summary>
-		/// Gets the default Viewport that renders to the entire Window.
-		/// </summary>
-		/// <returns>The default Viewport.</returns>
-		inline Ref<Viewport> get_default_viewport() const { return m_defaultViewport.create_ref(); }
-
-		/// <summary>
-		/// Gets the color attachment format of the current Surface.
-		/// </summary>
-		/// <returns>The attachment Format.</returns>
-		inline Format get_color_attachment_format() const { return m_surface->get_format(); }
-
-		/// <summary>
-		/// Gets the depth attachment format of the current depth Image.
-		/// </summary>
-		/// <returns>The attachment Format.</returns>
-		inline Format get_depth_attachment_format() const { return m_depthStencilImage->get_format(); }
-
-		/// <summary>
-		/// Gets the default Mesh for the given type.
-		/// </summary>
-		/// <param name="type">The type of Mesh. Cannot be Custom.</param>
-		/// <returns>A Ref to a Mesh that corresponds with the type, or nullptr if the type is Empty.</returns>
-		Ref<Mesh> get_default_mesh(MeshType const type);
-
-		/// <summary>
-		/// Gets the default MaterialTemplate for the give AssetType, Space, and variant.
-		/// </summary>
-		/// <param name="assetType">The AssetType.</param>
-		/// <param name="space">The Space.</param>
-		/// <param name="mask">The mask mode of the MaterialTemplate.</param>
-		/// <returns>The default MaterialTemplate.</returns>
-		Ref<MaterialTemplate> get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
-
-		/// <summary>
-		/// Gets the default Material for the given Texture, AssetType, Space and variant.
-		/// </summary>
-		/// <param name="texture">The Texture.</param>
-		/// <param name="assetType">The AssetType.</param>
-		/// <param name="space">The Space.</param>
-		/// <param name="mask">The mask mode of the MaterialTemplate.</param>
-		/// <returns>The default Material.</returns>
-		Ref<Material> get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		/// <summary>
-		/// Refreshes the Surface and related resources.
-		/// </summary>
-		void refresh();
-
-		virtual	void recreate_depth_resources() = 0;
-
-	public:
-		void initialize() override;
-
-		void dispose() override;
-
-		/// <summary>
-		/// Prepares to render a frame.
-		/// </summary>
-		/// <returns>True, on success. Returns false when the frame should be skipped.</returns>
-		virtual Bool start_frame();
-
-		/// <summary>
-		/// Aborts the current started frame.
-		/// </summary>
-		virtual void abort_frame();
-
-		/// <summary>
-		/// Finishes rendering a frame.
-		/// </summary>
-		virtual void end_frame();
-
-		/// <summary>
-		/// Starts a render pass using the given Camera.
-		/// </summary>
-		/// <param name="cameraInfo">The CameraInfo to render the Scene from.</param>
-		virtual Bool start_pass(CameraData const& cameraInfo);
-
-		/// <summary>
-		/// Finishes the current render pass.
-		/// </summary>
-		virtual void end_pass();
-
-		void handle_event(Event& event) override;
-
-#pragma region Bind
-
-	private:
-		void clear_binds();
-
-	public:
-		void bind_shader(Ref<Shader> const& shader);
-
-		void bind_material(Ref<Material> const& material);
-
-		void bind_mesh(Ref<Mesh> const& mesh);
-
-		void bind_vertex_buffer(Ref<Buffer> const& buffer, UInt const binding = 0);
-
-		void bind_index_buffer(Ref<Buffer> const& buffer);
-
-#pragma endregion
-
-#pragma region Draw
-
-	public:
-		void draw_mesh(Ref<Mesh> const& mesh);
-
-		void draw_instances(UInt const instanceCount, UInt const vertexCount);
-
-#pragma endregion
-
-
-#pragma endregion
-
-#pragma region Statics
-
-	private:
-		// creates a key for the default materials
-		static TexMatKey create_texmat_key(UUID const textureId, AssetType const type, Space const space)
-		{
-			return TexMatKey(textureId, (static_cast<UInt>(type) << 2) | static_cast<UInt>(space));
-		}
-
-	public:
-		/// <summary>
-		/// Creates a new RenderManager.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A RenderManager Owner.</returns>
-		static Owner<RenderManager> create(RenderManagerInfo const& info = {});
-
-		/// <summary>
-		/// Gets the active Context's RenderManager.
-		/// </summary>
-		/// <returns>The RenderManager.</returns>
-		static RenderManager& get_singleton();
-
-#pragma endregion
-
 	};
 }
 
@@ -325,3 +293,5 @@ namespace std
 		}
 	};
 }
+
+#endif // MINTY_RENDER_RENDERMANAGER_H

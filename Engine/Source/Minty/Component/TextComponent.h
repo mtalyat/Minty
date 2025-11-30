@@ -1,46 +1,51 @@
-#pragma once
+#ifndef MINTY_COMPONENT_TEXTCOMPONENT_H
+#define MINTY_COMPONENT_TEXTCOMPONENT_H
+
+/**
+ * @file TextComponent.h
+ * @brief Header file defining the TextComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
 #include "Minty/Data/Color.h"
-#include "Minty/Render/Font.h"
-#include "Minty/Render/FontVariant.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Data/String.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds Text data for an Entity.
-	/// </summary>
+	class Font;
+	class FontVariant;
+
+	/**
+	 * @brief Holds Text data for an Entity.
+	 */
 	struct TextComponent
 		: public Component
 	{
-		/// <summary>
-		/// The text to render.
-		/// </summary>
+		/**
+		 * @brief The text to render.
+		 */
 		String text = "";
 
-		/// <summary>
-		/// The color of the text.
-		/// </summary>
+		/**
+		 * @brief The color of the text.
+		 */
 		Color color = Color::white();
 
-		/// <summary>
-		/// The font to render the text in.
-		/// </summary>
+		/**
+		 * @brief The font to render the text in.
+		 */
 		Ref<Font> font = nullptr;
 
-		/// <summary>
-		/// The specific variant of the font to render the text in.
-		/// </summary>
+		/**
+		 * @brief The specific variant of the font to render the text in.
+		 */
 		Ref<FontVariant> fontVariant = nullptr;
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 	};
-	
-	/// <summary>
-	/// Marks an Entity as having a dirty TextComponent.
-	/// </summary>
-	struct DirtyTextComponent
-		: public Component
-	{
-	};
 }
+
+#endif // MINTY_COMPONENT_TEXTCOMPONENT_H

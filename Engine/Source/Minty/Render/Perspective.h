@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_PERSPECTIVE_H
+#define MINTY_RENDER_PERSPECTIVE_H
+
+/**
+ * @file Perspective.h
+ * @brief Header file defining the Perspective enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The perspective type for a Camera.
-	/// </summary>
+	/**
+	 * @brief The perspective type for a Camera.
+	 */
 	enum class Perspective
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined,
 
-		/// <summary>
-		/// Perspective camera view.
-		/// </summary>
+		/**
+		 * @brief Perspective camera view.
+		 */
 		Perspective,
 
-		/// <summary>
-		/// Orthographic camera view.
-		/// </summary>
+		/**
+		 * @brief Orthographic camera view.
+		 */
 		Orthographic,
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Perspective>(String const& string, Perspective& value) { return parse_try_perspective(string, value); }
 }
+
+#endif // MINTY_RENDER_PERSPECTIVE_H

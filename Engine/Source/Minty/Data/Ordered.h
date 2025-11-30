@@ -1,25 +1,34 @@
-#pragma once
-#include "Minty/Core/Macro.h"
+#ifndef MINTY_DATA_ORDERED_H
+#define MINTY_DATA_ORDERED_H
+
+/**
+ * @file Ordered.h
+ * @brief Defines the Ordered class for an ordered set of unique keys.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds an ordered set of unique keys, preserving insertion order.
-	/// </summary>
-	/// <typeparam name="T">The type of the keys.</typeparam>
-	template<typename T>
+	/**
+	 * Holds an ordered set of unique keys, preserving insertion order.
+	 * @tparam T The type of the keys.
+	 */
+	template<typename T, typename Allocator = DefaultAllocator>
 	class Ordered
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Node
 		{
 			T key;
-			Node* next;      // for hash bucket
-			Node* prevOrder; // for order list
-			Node* nextOrder; // for order list
+			Node* next;
+			Node* prevOrder;
+			Node* nextOrder;
 
 			Node(T const& key)
 				: key(key)
@@ -194,20 +203,19 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		AllocatorType m_allocator;
 		Size m_capacity;
 		Size m_size;
 		Node** mp_table;
-		Node* mp_head; // first in order
-		Node* mp_tail; // last in order
+		Node* mp_head;
+		Node* mp_tail;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		Ordered(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
+		Ordered()
+			: m_allocator()
 			, m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
@@ -216,8 +224,8 @@ namespace Minty
 		{
 		}
 
-		Ordered(Size const capacity, AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
+		Ordered(Size const capacity)
+			: m_allocator()
 			, m_capacity(capacity)
 			, m_size(0)
 			, mp_table(nullptr)
@@ -227,7 +235,7 @@ namespace Minty
 			reserve(capacity);
 		}
 
-		Ordered(std::initializer_list<T> const& list, AllocatorType const allocator = AllocatorType::Default)
+		Ordered(std::initializer_list<T> const& list)
 			: m_allocator(allocator)
 			, m_capacity(0)
 			, m_size(0)
@@ -243,8 +251,7 @@ namespace Minty
 		}
 
 		Ordered(Ordered const& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(0)
 			, mp_table(nullptr)
 			, mp_head(nullptr)
@@ -258,8 +265,7 @@ namespace Minty
 		}
 
 		Ordered(Ordered&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_table(other.mp_table)
 			, mp_head(other.mp_head)
@@ -278,7 +284,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
+				Allocator::destruct_array<Node*>(mp_table, m_capacity);
 				mp_table = nullptr;
 			}
 		}
@@ -293,7 +299,6 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
-				m_allocator = other.m_allocator;
 				reserve(other.m_capacity);
 				for (Node const* node = other.mp_head; node; node = node->nextOrder)
 				{
@@ -310,15 +315,13 @@ namespace Minty
 				clear();
 				if (mp_table)
 				{
-					destruct_array<Node*>(mp_table, m_capacity, m_allocator);
+					Allocator::destruct_array<Node*>(mp_table, m_capacity);
 				}
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
-				other.m_allocator = AllocatorType::Default;
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;
@@ -330,41 +333,36 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		Size get_capacity() const { return m_capacity; }
+		/**
+		 * @brief Gets the current capacity of this Ordered set.
+		 * @returns The capacity.
+		 */
+		inline Size get_capacity() const { return m_capacity; }
 
-		Size get_size() const { return m_size; }
+		/**
+		 * @brief Gets the number of keys in this Ordered set.
+		 * @returns The size.
+		 */
+		inline Size get_size() const { return m_size; }
+
+		/**
+		 * @brief Checks if this Ordered set is empty.
+		 * @returns True if no keys are in this Ordered set.
+		 */
+		inline Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
-	private:
-		Size hash(T const& key, Size const capacity) const
-		{
-			return std::hash<T>{}(key) % capacity;
-		}
-
-		Size hash(T const& key) const
-		{
-			return hash(key, m_capacity);
-		}
-
-		void rehash()
-		{
-			if (m_capacity == 0)
-			{
-				reserve(DEFAULT_COLLECTION_SIZE);
-			}
-			else
-			{
-				reserve(m_capacity * 2);
-			}
-		}
-
 	public:
+		/**
+		 * @brief Reserves space for the given number of keys.
+		 * @param capacity The capacity to reserve.
+		 */
 		void reserve(Size const capacity)
 		{
 			if (capacity <= m_capacity)
@@ -396,40 +394,10 @@ namespace Minty
 			m_capacity = capacity;
 		}
 
-		Bool add(T const& key)
-		{
-			if (contains(key))
-			{
-				return false;
-			}
-
-			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
-			{
-				rehash();
-			}
-
-			Size index = hash(key);
-			Node* node = construct<Node>(m_allocator, key);
-			node->next = mp_table[index];
-			mp_table[index] = node;
-
-			// Insert into order list
-			node->prevOrder = mp_tail;
-			node->nextOrder = nullptr;
-			if (mp_tail)
-			{
-				mp_tail->nextOrder = node;
-			}
-			else
-			{
-				mp_head = node;
-			}
-			mp_tail = node;
-
-			++m_size;
-			return true;
-		}
-
+		/**
+		 * @brief Adds a key to this Ordered set.
+		 * @param key The key to add.
+		 */
 		Bool add(T&& key)
 		{
 			if (contains(key))
@@ -443,11 +411,11 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = construct<Node>(m_allocator, std::move(key));
+			Node* node = Allocator::construct<Node>(key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
-			// Insert into order list
+			/** Insert into order list */
 			node->prevOrder = mp_tail;
 			node->nextOrder = nullptr;
 			if (mp_tail)
@@ -464,18 +432,10 @@ namespace Minty
 			return true;
 		}
 
-		template<typename IteratorType>
-		typename std::enable_if<!std::is_integral<IteratorType>::value, void>::type
-			add(IteratorType const& begin, IteratorType const& end)
-		{
-			IteratorType it = begin;
-			while (it != end)
-			{
-				add(*it);
-				++it;
-			}
-		}
-
+		/**
+		 * @brief Removes a key from this Ordered set.
+		 * @param key The key to remove.
+		 */
 		Bool remove(T const& key)
 		{
 			if (m_size == 0)
@@ -490,7 +450,7 @@ namespace Minty
 			{
 				if (node->key == key)
 				{
-					// Remove from hash bucket
+					/** Remove from hash bucket */
 					if (prev)
 					{
 						prev->next = node->next;
@@ -500,7 +460,7 @@ namespace Minty
 						mp_table[index] = node->next;
 					}
 
-					// Remove from order list
+					/** Remove from order list */
 					if (node->prevOrder)
 					{
 						node->prevOrder->nextOrder = node->nextOrder;
@@ -529,8 +489,10 @@ namespace Minty
 			return false;
 		}
 
-		Bool is_empty() const { return m_size == 0; }
-
+		/**
+		 * @brief Finds a key in this Ordered set.
+		 * @param key The key to find.
+		 */
 		Iterator find(T const& key)
 		{
 			if (m_size == 0)
@@ -551,6 +513,10 @@ namespace Minty
 			return end();
 		}
 
+		/**
+		 * @brief Finds a key in this Ordered set.
+		 * @param key The key to find.
+		 */
 		ConstIterator find(T const& key) const
 		{
 			if (m_capacity == 0)
@@ -571,8 +537,15 @@ namespace Minty
 			return end();
 		}
 
-		Bool contains(T const& key) const { return find(key) != end(); }
+		/**
+		 * @brief Checks if this Ordered set contains the given key.
+		 * @param key The key to check.
+		 */
+		inline Bool contains(T const& key) const { return find(key) != end(); }
 
+		/**
+		 * @brief Clears this Ordered set.
+		 */
 		void clear()
 		{
 			Node* node = mp_head;
@@ -594,6 +567,31 @@ namespace Minty
 			m_size = 0;
 		}
 
+	private:
+		Size hash(T const& key, Size const capacity) const
+		{
+			return std::hash<T>{}(key) % capacity;
+		}
+
+		Size hash(T const& key) const
+		{
+			return hash(key, m_capacity);
+		}
+
+		void rehash()
+		{
+			if (m_capacity == 0)
+			{
+				reserve(DEFAULT_COLLECTION_SIZE);
+			}
+			else
+			{
+				reserve(m_capacity * 2);
+			}
+		}
+
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_ORDERED_H

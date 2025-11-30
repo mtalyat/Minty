@@ -1,5 +1,12 @@
-#pragma once
-#include "Minty/Core/Macro.h"
+#ifndef MINTY_DATA_VARIABLE_H
+#define MINTY_DATA_VARIABLE_H
+
+/**
+ * @file Variable.h
+ * @brief Defines the Variable class for typed data storage.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/DynamicContainer.h"
@@ -7,72 +14,46 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// A Container with a Type.
-	/// </summary>
+	/**
+	 * @class Variable
+	 * @brief A typed data storage class.
+	 */
 	class Variable
 		: public Serializable
 	{
-#pragma region Variables
-
-	private:
-		Type m_type;
-		DynamicContainer m_data;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Variable.
-		/// </summary>
-		/// <param name="allocator">The Allocator to use.</param>
-		Variable(AllocatorType const allocator = AllocatorType::Default)
-			: m_type(Type::Undefined)
-			, m_data(allocator)
-		{
-		}
+		/**
+		 * @brief Creates an empty Variable.
+		 */
+		Variable();
 
-		/// <summary>
-		/// Creates an empty Variable with the given Type.
-		/// </summary>
-		/// <param name="type">The Type of variable.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Variable(Type const type, AllocatorType const allocator = AllocatorType::Default)
-			: m_type(type)
-			, m_data(allocator)
-		{
-		}
+		/**
+		 * @brief Creates a Variable with the given Type.
+		 * @param type The Type of Variable.
+		 */
+		Variable(Type const type);
 
-		/// <summary>
-		/// Creates a Variable with the given data.
-		/// </summary>
-		/// <param name="type">The Type of Variable.</param>
-		/// <param name="data">The data to set in bytes.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Variable(Type const type, void const* const data, AllocatorType const allocator = AllocatorType::Default)
-			: m_type(type)
-			, m_data(data, sizeof_type(type), allocator)
-		{
-		}
+		/**
+		 * @brief Creates a Variable with the given Type and data.
+		 * @param type The Type of Variable.
+		 */
+		Variable(Type const type, void const* const data);
 
-		/// <summary>
-		/// Creates a Variable with the given value.
-		/// </summary>
-		/// <typeparam name="T">The type of value.</typeparam>
-		/// <param name="value">The value.</param>
-		/// <param name="allocator">The Allocator to use.</param>
+		/**
+		 * @brief Creates a Variable with the given value.
+		 * @tparam T The type of the value.
+		 * @param value The value to store.
+		 */
 		template<typename T>
-		Variable(T const& value, AllocatorType const allocator = AllocatorType::Default)
+		Variable(T const& value)
 			: m_type(type_typeid(typeid(T)))
-			, m_data(&value, sizeof_type(m_type), allocator)
+			, m_data(&value, sizeof_type(m_type))
 		{
 		}
 
-		~Variable()
-		{
-		}
+		~Variable() = default;
 
 #pragma endregion
 
@@ -102,8 +83,7 @@ namespace Minty
 		}
 
 		Bool operator==(Variable const& other) const;
-
-		Bool operator!=(Variable const& other) const { return !(*this == other); }
+		inline Bool operator!=(Variable const& other) const { return !(*this == other); }
 
 		template<typename T>
 		Bool operator==(T const& value) const
@@ -118,62 +98,53 @@ namespace Minty
 		}
 
 		template<typename T>
-		Bool operator!=(T const& value) const
-		{
-			T* data = try_get<T>();
-			if (data == nullptr)
-			{
-				return typeid(T) != typeid(nullptr);
-			}
-
-			return *data != value;
-		}
+		inline Bool operator!=(T const& value) const { return !(*this == value); }
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Type of this Variable.
-		/// </summary>
-		/// <returns>The Type.</returns>
+		/**
+		 * @brief Gets the Type of this Variable.
+		 * @returns The Type.
+		 */
 		Type get_type() const { return m_type; }
 
-		/// <summary>
-		/// Sets the Type of this Variable.
-		/// </summary>
-		/// <param name="type">The Type.</param>
+		/**
+		 * @brief Sets the Type of this Variable.
+		 * @param type The new Type.
+		 */
 		void set_type(Type const type);
 
-		/// <summary>
-		/// Gets the data of this Variable.
-		/// </summary>
-		/// <returns>The DynamicContainer with the data.</returns>
+		/**
+		 * @brief Gets the data of this Variable.
+		 * @returns The data.
+		 */
 		DynamicContainer const& get_data() const { return m_data; }
 
-		/// <summary>
-		/// Sets the data of this Variable.
-		/// </summary>
-		/// <param name="type">The new Type for this Variable.</param>
-		/// <param name="data">The data of this Variable.</param>
+		/**
+		 * @brief Sets the Type and data of this Variable.
+		 * @param type The new Type.
+		 * @param data The new data.
+		 */
 		void set_data(Type const type, void const* const data)
 		{
 			set_type(type);
 			set_data(data);
 		}
 
-		/// <summary>
-		/// Sets the data of this Variable.
-		/// </summary>
-		/// <param name="data">The data of this Variable.</param>
+		/**
+		 * @brief Sets the data of this Variable.
+		 * @param data The new data.
+		 */
 		void set_data(void const* const data);
 
-		/// <summary>
-		/// Get the data of this Variable.
-		/// </summary>
-		/// <typeparam name="T">The type associated with this Variable.</typeparam>
-		/// <returns>The value.</returns>
+		/**
+		 * @brief Tries to get the data of this Variable.
+		 * @tparam T The type associated with this Variable.
+		 * @returns A pointer to the value, or nullptr if the type does not match or the Variable is empty.
+		 */
 		template<typename T>
 		T* try_get() const
 		{
@@ -185,11 +156,10 @@ namespace Minty
 			return static_cast<T*>(m_data.get_data());
 		}
 
-		/// <summary>
-		/// Get the data of this Variable.
-		/// </summary>
-		/// <typeparam name="T">The type associated with this Variable.</typeparam>
-		/// <returns>The value.</returns>
+		/**
+		 * @brief Gets the data of this Variable.
+		 * @tparam T The type associated with this Variable.
+		 */
 		template<typename T>
 		T& get() const
 		{
@@ -200,11 +170,11 @@ namespace Minty
 			return *static_cast<T*>(m_data.get_data());
 		}
 
-		/// <summary>
-		/// Sets the data of this Variable.
-		/// </summary>
-		/// <typeparam name="T">The type associated with this Variable.</typeparam>
-		/// <param name="value">The value.</param>
+		/**
+		 * @brief Sets the value of this Variable.
+		 * @tparam T The type of the value.
+		 * @param value The value to set.
+		 */
 		template<typename T>
 		void set(T const& value)
 		{
@@ -229,23 +199,30 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if this Variable is empty.
-		/// </summary>
-		/// <returns>True if there is no data set.</returns>
-		Bool is_empty() const { return m_data.get_size() == 0; }
+		/**
+		 * @brief Checks if this Variable is empty (has no data).
+		 * @returns True if empty.
+		 */
+		inline Bool is_empty() const { return m_data.get_size() == 0; }
 
-		/// <summary>
-		/// Clears the data from this Variable.
-		/// </summary>
-		void clear()
-		{
-			m_data.clear();
-		}
+		/**
+		 * @brief Clears the data of this Variable.
+		 */
+		inline void clear() { m_data.clear(); }
 
 		void serialize(Writer& writer, String const& name) const override;
 		Bool deserialize(Reader& reader, Size const index) override;
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		Type m_type;
+		DynamicContainer m_data;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_VARIABLE_H

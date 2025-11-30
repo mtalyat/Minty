@@ -1,49 +1,57 @@
-#pragma once
-#include "Minty/Core/Macro.h"
-#include "Minty/Data/String.h"
+#ifndef MINTY_RENDER_BUFFERUSAGE_H
+#define MINTY_RENDER_BUFFERUSAGE_H
+
+/**
+ * @file BufferUsage.h
+ * @brief Header file defining the BufferUsage enum.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-    /// <summary>
-	/// Describes how a buffer is used.
-    /// </summary>
+    /**
+	 * @brief Describes how a buffer is used.
+     */
     enum class BufferUsage
     {
-        /// <summary>
-        /// Invalid.
-        /// </summary>
+        /**
+         * @brief Invalid.
+         */
         Undefined = 0x0,
 
-        /// <summary>
-		/// Transfer source buffer.
-        /// </summary>
+        /**
+		 * @brief Transfer source buffer.
+         */
         TransferSrc = 0x1,
 
-        /// <summary>
-        /// Transfer destination buffer.
-        /// </summary>
+        /**
+         * @brief Transfer destination buffer.
+         */
         TransferDst = 0x2,
 
-        /// <summary>
-		/// Vertex buffer.
-        /// </summary>
+        /**
+		 * @brief Vertex buffer.
+         */
         Vertex = 0x4,
 
-        /// <summary>
-		/// Index buffer.
-        /// </summary>
+        /**
+		 * @brief Index buffer.
+         */
         Index = 0x8,
 
-        /// <summary>
-		/// Uniform buffer.
-        /// </summary>
+        /**
+		 * @brief Uniform buffer.
+         */
         Uniform =  0x10,
 
 		Max = Uniform,
     };
 
-	MINTY_ENUM_FLAGS_OPERATORS(BufferUsage)
+	MINTY_ENABLE_ENUM_OPERATORS(BufferUsage)
 
     String to_string(BufferUsage const obj);
     BufferUsage parse_to_buffer_usage(String const& string);
@@ -53,3 +61,5 @@ namespace Minty
     template<>
     inline Bool parse_try<BufferUsage>(String const& string, BufferUsage& value) { return parse_try_buffer_usage(string, value); }
 }
+
+#endif // MINTY_RENDER_BUFFERUSAGE_H

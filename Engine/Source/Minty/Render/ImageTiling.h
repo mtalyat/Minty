@@ -1,29 +1,40 @@
-#pragma once
+#ifndef MINTY_RENDER_IMAGETILING_H
+#define MINTY_RENDER_IMAGETILING_H
+
+/**
+ * @file ImageTiling.h
+ * @brief Header file defining the ImageTiling enum.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the image is tiled.
-	/// </summary>
+	/**
+	 * @brief Determines how the image is tiled.
+	 */
 	enum class ImageTiling
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// 
-		/// </summary>
+		/**
+		 * @brief Optimal tiling.
+		 */
 		Optimal,
 
-		/// <summary>
-		/// 
-		/// </summary>
+		/**
+		 * @brief Linear tiling.
+		 */
 		Linear,
 	};
+
+	MINTY_ENABLE_ENUM_OPERATORS(ImageTiling);
 
 	String to_string(ImageTiling const obj);
 	ImageTiling parse_to_image_tiling(String const& string);
@@ -33,3 +44,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ImageTiling>(String const& string, ImageTiling& value) { return parse_try_image_tiling(string, value); }
 }
+
+#endif // MINTY_RENDER_IMAGETILING_H

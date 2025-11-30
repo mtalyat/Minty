@@ -1,16 +1,22 @@
 #include "pch.h"
 #include "RigidBody.h"
+#include "Minty/Physics/RigidBodyInfo.h"
 #ifdef MINTY_BULLET
 #include "Platform/Bullet/Bullet_RigidBody.h"
 #endif
 
 using namespace Minty;
 
-Owner<RigidBody> Minty::RigidBody::create(RigidBodyInfo const& info)
+Minty::RigidBody::RigidBody(RigidBodyInfo const &info)
+    : m_isKinematic(info.isKinematic), m_mass(info.mass)
+{
+}
+
+Shared<RigidBody> Minty::RigidBody::create(RigidBodyInfo const &info)
 {
 #if defined(MINTY_BULLET)
-	return Owner<Bullet_RigidBody>(info);
+    return Shared<Bullet_RigidBody>::create(info);
 #else
-    return Owner<RigidBody>();
+    return Shared<RigidBody>();
 #endif
 }

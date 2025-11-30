@@ -23,7 +23,7 @@ namespace Minty
 		/// <summary>
 		/// The ID of this Atlas.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The Texture that this Atlas uses.
@@ -61,7 +61,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -143,7 +143,7 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>The AssetType.</returns>
-		constexpr AssetType get_asset_type() const { return AssetType::SpriteAtlas; }
+		inline AssetType get_asset_type() const { return AssetType::SpriteAtlas; }
 
 #pragma endregion
 
@@ -155,7 +155,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A SpriteAtlas Owner.</returns>
-		static Owner<SpriteAtlas> create(SpriteAtlasInfo const& info = {});
+		static Shared<SpriteAtlas> create(SpriteAtlasInfo const& info = {});
 
 #pragma endregion
 

@@ -5,7 +5,12 @@
 
 using namespace Minty;
 
-void Minty::UITransform::update(Rect const& parentRect, Float const parentDepth, Float const parentRotation)
+Minty::UITransform::UITransform()
+	: m_anchorMode(AnchorMode::TopLeft), x(0.0f), z(0.0f), width(0.0f), height(0.0f), rotation(0.0f), m_globalDepth(0.0f), m_globalRect()
+{
+}
+
+void Minty::UITransform::update(Rect const &parentRect, Float const parentDepth, Float const parentRotation)
 {
 	// mask the anchor mode to get the vertical and horizontal modes
 	// the mask is needed so they are independent of one another
@@ -57,13 +62,13 @@ void Minty::UITransform::update(Rect const& parentRect, Float const parentDepth,
 		m_globalRect.y = parentRect.y + y;
 		m_globalRect.height = parentRect.height - height - m_globalRect.y;
 	}
-	
+
 	// update the global depth, rotation
 	m_globalDepth = parentDepth + z;
 	m_globalRotation = parentRotation + rotation;
 }
 
-void Minty::UITransform::serialize(Writer& writer) const
+void Minty::UITransform::serialize(Writer &writer) const
 {
 	writer.write("AnchorMode", m_anchorMode);
 	writer.write("X", x);
@@ -74,7 +79,7 @@ void Minty::UITransform::serialize(Writer& writer) const
 	writer.write("Rotation", Math::RAD2DEG * rotation);
 }
 
-Bool Minty::UITransform::deserialize(Reader& reader)
+Bool Minty::UITransform::deserialize(Reader &reader)
 {
 	reader.read("AnchorMode", m_anchorMode);
 	if (!reader.read("X", x))
@@ -97,7 +102,7 @@ Bool Minty::UITransform::deserialize(Reader& reader)
 	{
 		reader.read("Bottom", height);
 	}
-	if(reader.read("Rotation", rotation))
+	if (reader.read("Rotation", rotation))
 	{
 		rotation = Math::DEG2RAD * rotation;
 	}

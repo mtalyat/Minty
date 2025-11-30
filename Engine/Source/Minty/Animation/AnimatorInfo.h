@@ -21,7 +21,7 @@ namespace Minty
         /**
          * @brief The Asset ID.
          */
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
         /**
          * @brief The FSM controlling the animations.

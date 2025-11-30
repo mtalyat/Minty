@@ -1,6 +1,6 @@
 #pragma once
 #include "Minty/Core/Types.h"
-#include "Minty/Core/Macro.h"
+#include "Minty/Core/Enum.h"
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
@@ -36,7 +36,7 @@ namespace Minty
 		All = 0b111111,
 	};
 
-	MINTY_ENUM_FLAGS_OPERATORS(AnchorMode);
+	MINTY_ENABLE_ENUM_OPERATORS(AnchorMode);
 
 	String to_string(AnchorMode const obj);
 	AnchorMode parse_to_anchor_mode(String const& string);

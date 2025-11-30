@@ -22,76 +22,70 @@ namespace Minty
 	class Mesh
 		: public Asset
 	{
-#pragma region Variables
-
-	protected:
-		ListContainer m_vertices;
-		Owner<Buffer> m_vertexBuffer;
-
-		ListContainer m_indices;
-		Owner<Buffer> m_indexBuffer;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
+		/**
+		 * @brief Creates a new Mesh.
+		 * @param info The arguments.
+		 */
 		Mesh(MeshInfo const& info);
 
-		~Mesh()
-		{
-		}
+		~Mesh() = default;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the vertices of this Mesh.
-		/// </summary>
-		/// <returns>The ListContainer with the data.</returns>
+		/**
+		 * @brief Gets the vertices of this Mesh.
+		 * @return The ListContainer with the data.
+		 */
 		ListContainer& get_vertices() { return m_vertices; }
 
-		/// <summary>
-		/// Gets the vertices of this Mesh.
-		/// </summary>
-		/// <returns>The ListContainer with the data.</returns>
+		/**
+		 * @brief Gets the vertices of this Mesh.
+		 * @return The ListContainer with the data.
+		 */
 		ListContainer const& get_vertices() const { return m_vertices; }
 
-		/// <summary>
-		/// Gets the vertex Buffer of this Mesh.
-		/// </summary>
-		/// <returns>The vertex Buffer.</returns>
-		Ref<Buffer> get_vertex_buffer() const { return m_vertexBuffer.create_ref(); }
+		/**
+		 * @brief Gets the vertex Buffer of this Mesh.
+		 * @return The vertex Buffer.
+		 */
+		Ref<Buffer> get_vertex_buffer() const { return m_vertexBuffer.to_ref(); }
 
-		/// <summary>
-		/// Gets the indices of this Mesh.
-		/// </summary>
-		/// <returns>The ListContainer with the data.</returns>
+		/**
+		 * @brief Gets the indices of this Mesh.
+		 * @return The ListContainer with the data.
+		 */
 		ListContainer& get_indices() { return m_indices; }
 
-		/// <summary>
-		/// Gets the indices of this Mesh.
-		/// </summary>
-		/// <returns>The ListContainer with the data.</returns>
+		/**
+		 * @brief Gets the indices of this Mesh.
+		 * @return The ListContainer with the data.
+		 */
 		ListContainer const& get_indices() const { return m_indices; }
 
-		/// <summary>
-		/// Gets the index Buffer of this Mesh.
-		/// </summary>
-		/// <returns>The index Buffer.</returns>
-		Ref<Buffer> get_index_buffer() const { return m_indexBuffer.create_ref(); }
+		/**
+		 * @brief Gets the index Buffer of this Mesh.
+		 * @return The index Buffer.
+		 */
+		Ref<Buffer> get_index_buffer() const { return m_indexBuffer.to_ref(); }
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Mesh.</returns>
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return Mesh.
+		 */
 		AssetType get_asset_type() const override { return AssetType::Mesh; }
 
 #pragma endregion
 
 #pragma region Methods
+
+	public:
+		static Shared<Mesh> create(MeshInfo const& info);
 
 	private:
 		void initialize(MeshInfo const& info);
@@ -102,10 +96,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Variables
 
-	public:
-		static Owner<Mesh> create(MeshInfo const& info = {});
+	protected:
+		ListContainer m_vertices;
+		Shared<Buffer> m_vertexBuffer;
+
+		ListContainer m_indices;
+		Shared<Buffer> m_indexBuffer;
 
 #pragma endregion
 	};

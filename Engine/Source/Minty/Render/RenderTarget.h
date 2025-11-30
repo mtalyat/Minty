@@ -17,7 +17,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The RenderPass this RenderTarget belongs to.
@@ -63,7 +63,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -94,7 +94,7 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>RenderTarget.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::RenderTarget; }
+		inline AssetType get_asset_type() const override { return AssetType::RenderTarget; }
 
 #pragma endregion
 
@@ -117,7 +117,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A RenderTarget Owner.</returns>
-		static Owner<RenderTarget> create(RenderTargetInfo const& info = {});
+		static Shared<RenderTarget> create(RenderTargetInfo const& info = {});
 
 #pragma endregion
 	};

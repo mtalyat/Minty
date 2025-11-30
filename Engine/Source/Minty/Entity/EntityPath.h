@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ENTITY_ENTITYPATH_H
+#define MINTY_ENTITY_ENTITYPATH_H
+
+/**
+ * @file EntityPath.h
+ * @brief Header file defining the EntityPath class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Entity/Entity.h"
@@ -6,35 +14,27 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// An EntityPath is a relational path from an Entity to another Entity.
-	/// </summary>
+	/**
+	 * @brief An EntityPath is a relational path from an Entity to another Entity.
+	 */
 	class EntityPath
 		: public Parseable
 	{
-#pragma region Variables
-
-	private:
-		// the path to the (child) entity, relative to the (parent) entity
-		Vector<Byte> m_path;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty EntityPath.
-		/// </summary>
+		/**
+		 * @brief Creates an empty EntityPath.
+		 */
 		EntityPath()
 			: m_path()
 		{
 		}
 		
-		/// <summary>
-		/// Creates an EntityPath from the given path.
-		/// </summary>
-		/// <param name="path">The child indices, going down the hierarchy.</param>
+		/**
+		 * @brief Creates an EntityPath from the given path.
+		 * @param path The child indices, going down the hierarchy.
+		 */
 		EntityPath(Vector<Byte> const& path)
 			: m_path(path)
 		{
@@ -42,21 +42,21 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 		
-		/// <summary>
-		/// Gets the index path to the child entity.
-		/// </summary>
-		/// <returns>The path.</returns>
+		/**
+		 * @brief Gets the index path to the child entity.
+		 * @return The path.
+		 */
 		Vector<Byte> const& get_path() const
 		{
 			return m_path;
 		}
 
-		/// <summary>
-		/// Checks if this EntityPath is empty.
-		/// </summary>
-		/// <returns>True if empty.</returns>
+		/**
+		 * @brief Checks if this EntityPath is empty.
+		 * @return True if empty.
+		 */
 		Bool is_empty() const
 		{
 			return m_path.is_empty();
@@ -71,5 +71,15 @@ namespace Minty
 		String to_string() const override;
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		// the path to the (child) entity, relative to the (parent) entity
+		Vector<Byte> m_path;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_ENTITY_ENTITYPATH_H

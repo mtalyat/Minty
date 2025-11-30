@@ -58,7 +58,7 @@ namespace Minty
 		 * @brief Gets the internal data pointer.
 		 * @returns A pointer to the internal data.
 		 */
-		inline void* get_data() const override { return mp_data; }
+		inline Any get_data() const override { return mp_data; }
 
 		/**
 		 * @brief Gets the number of bytes in this Container.

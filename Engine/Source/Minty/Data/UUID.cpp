@@ -7,25 +7,55 @@
 
 using namespace Minty;
 
+Minty::UUID::UUID()
+	: m_id(0)
+{
+}
+
+Minty::UUID::UUID(Byte const (&id)[UUID_BYTE_SIZE])
+	: m_id(0)
+{
+	for (Size i = 0; i < UUID_BYTE_SIZE; ++i)
+	{
+		m_id[i] = id[i];
+	}
+}
+
+Minty::UUID::UUID(StringView const &string)
+	: m_id(0)
+{
+	if (string.is_empty())
+	{
+		return;
+	}
+
+	decode_base16(string.get_data(), string.get_size(), m_id, sizeof(Byte) * UUID_BYTE_SIZE);
+}
+
 UUID Minty::UUID::create()
 {
-    return UUID(Math::random_ulong());
+	UInt64 randomValues[2];
+	randomValues[0] = Math::random_ulong();
+	randomValues[1] = Math::random_ulong();
+	return UUID(reinterpret_cast<Byte const (&)[UUID_BYTE_SIZE]>(randomValues));
 }
 
 String Minty::to_string(UUID const obj)
 {
-	ID data = obj.get_data();
-	return encode_base16(&data, sizeof(ID));
+	Char buffer[UUID_BYTE_SIZE * 2 + 1];
+	encode_base16(obj.get_bytes(), UUID_BYTE_SIZE, buffer, sizeof(buffer));
+	buffer[UUID_BYTE_SIZE * 2] = '\0';
+	return String(buffer);
 }
 
-UUID Minty::parse_to_uuid(String const& string)
+UUID Minty::parse_to_uuid(String const &string)
 {
 	UUID value;
 	parse_try_uuid(string, value);
 	return value;
 }
 
-Bool Minty::parse_try_uuid(String const& string, UUID& value)
+Bool Minty::parse_try_uuid(String const &string, UUID &value)
 {
 	// check if empty or "NULL"
 	if (string.is_empty())
@@ -46,6 +76,6 @@ Bool Minty::parse_try_uuid(String const& string, UUID& value)
 		return false;
 	}
 
-	decode_base16(string, &value, sizeof(ID));
+	value = UUID(string.get_view());
 	return true;
 }

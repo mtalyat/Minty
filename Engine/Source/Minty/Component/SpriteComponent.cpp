@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "SpriteComponent.h"
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/Sprite.h"
 #include "Minty/Render/SpriteAtlas.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
@@ -31,18 +33,17 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 
 		AssetType assetType = asset->get_asset_type();
 
-		MINTY_ASSERT(assetType == AssetType::Sprite || assetType == AssetType::SpriteAtlas,
-			F("SpriteComponent: Asset with ID {} is not a Sprite or SpriteAtlas.", id));
+		MINTY_ASSERT(assetType == AssetType::Sprite || assetType == AssetType::SpriteAtlas, ErrorCode::Asset_InvalidDependencyType, id);
 
 		// handle different types
 		switch (assetType)
 		{
 		case AssetType::Sprite:
-			sprite = asset.cast_to<Sprite>();
+			sprite = asset.cast<Sprite>();
 			break;
 		case AssetType::SpriteAtlas:
 		{
-			Ref<SpriteAtlas> atlas = asset.cast_to<SpriteAtlas>();
+			Ref<SpriteAtlas> atlas = asset.cast<SpriteAtlas>();
 
 			// read the group of the index, which defaults to group 0
 			Int groupIndex;

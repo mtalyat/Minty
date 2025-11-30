@@ -1,32 +1,45 @@
-#pragma once
-#include "Minty/Animation/Animation.h"
-#include "Minty/Animation/Animator.h"
+#ifndef MINTY_COMPONENT_ANIMATORCOMPONENT_H
+#define MINTY_COMPONENT_ANIMATORCOMPONENT_H
+
+/**
+ * @file AnimatorComponent.h
+ * @brief Header file defining the AnimatorComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
+#include "Minty/Core/Types.h"
+#include "Minty/Data/Pointer.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Handles animating an Entity.
-	/// </summary>
+	class Animator;
+	class Animation;
+
+	/**
+	 * @brief Handles animating an Entity.
+	 */
 	struct AnimatorComponent
 		: public Component
 	{
-		/// <summary>
-		/// The Animator to use for this Component.
-		/// </summary>
+		/**
+		 * @brief The Animator to use for this Component.
+		 */
 		Ref<Animator> animator = nullptr;
 
-		/// <summary>
-		/// The current Animation being played.
-		/// </summary>
+		/**
+		 * @brief The current Animation being played.
+		 */
 		Ref<Animation> animation = nullptr;
 
-		/// <summary>
-		/// The current time in the Animation.
-		/// </summary>
+		/**
+		 * @brief The current time in the Animation.
+		 */
 		Float time = 0.0f;
 
 		virtual void serialize(Writer& writer) const override;
 		virtual Bool deserialize(Reader& reader) override;
 	};
 }
+
+#endif // MINTY_COMPONENT_ANIMATORCOMPONENT_H

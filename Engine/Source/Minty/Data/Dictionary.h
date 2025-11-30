@@ -252,7 +252,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/**
@@ -307,9 +307,9 @@ namespace Minty
 		 * @param key The key.
 		 * @returns The value.
 		 */
-		Value& at(Key const& key)
+		Value const& at(Key const& key) const
 		{
-			Node* node = mp_root;
+			Node const* node = mp_root;
 			while (node)
 			{
 				if (m_compare(key, node->data.get_first()))
@@ -335,9 +335,9 @@ namespace Minty
 		 * @param key The key.
 		 * @returns The value.
 		 */
-		Value const& at(Key const& key) const
+		Value& at(Key const& key)
 		{
-			Node const* node = mp_root;
+			Node* node = mp_root;
 			while (node)
 			{
 				if (m_compare(key, node->data.get_first()))
@@ -356,38 +356,6 @@ namespace Minty
 
 			// not found
 			MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
-		}
-
-		/**
-		 * @brief Finds the Iterator for the given Key.
-		 * @param key The Key to find.
-		 * @returns An Iterator to the found element, or end() if not found.
-		 */
-		Iterator find(Key const& key)
-		{
-			Node* node = mp_root;
-			Vector<Node*> stack;
-
-			while (node)
-			{
-				if (m_compare(key, node->data.get_first()))
-				{
-					stack.add(node);
-					node = node->left;
-				}
-				else if (m_compare(node->data.get_first(), key))
-				{
-					node = node->right;
-				}
-				else
-				{
-					// Found the node, stack is set for in-order traversal
-					return Iterator(node, std::move(stack));
-				}
-			}
-
-			// not found
-			return end();
 		}
 
 		/**
@@ -415,6 +383,38 @@ namespace Minty
 				{
 					// Found the node, stack is set for in-order traversal
 					return ConstIterator(node, std::move(stack));
+				}
+			}
+
+			// not found
+			return end();
+		}
+
+		/**
+		 * @brief Finds the Iterator for the given Key.
+		 * @param key The Key to find.
+		 * @returns An Iterator to the found element, or end() if not found.
+		 */
+		Iterator find(Key const& key)
+		{
+			Node* node = mp_root;
+			Vector<Node*> stack;
+
+			while (node)
+			{
+				if (m_compare(key, node->data.get_first()))
+				{
+					stack.add(node);
+					node = node->left;
+				}
+				else if (m_compare(node->data.get_first(), key))
+				{
+					node = node->right;
+				}
+				else
+				{
+					// Found the node, stack is set for in-order traversal
+					return Iterator(node, std::move(stack));
 				}
 			}
 

@@ -1,13 +1,14 @@
 #include "pch.h"
-#include "TimeManager.h"
+#include "TimeController.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Core/Constant.h"
-#include "Minty/Time/TimeManagerInfo.h"
+#include "Minty/Time/TimeControllerInfo.h"
 #include "Minty/Time/Time.h"
+#include "Minty/Application/Application.h"
 
 using namespace Minty;
 
-Minty::TimeManager::TimeManager(TimeManagerInfo const &info)
+Minty::TimeController::TimeController(TimeControllerInfo const &info)
     : m_running(false)
     , m_time(0)
     , m_unscaledTime(0.0f)
@@ -21,7 +22,7 @@ Minty::TimeManager::TimeManager(TimeManagerInfo const &info)
     , m_maxFixedUpdatesPerFrame(info.maxFixedUpdatesPerFrame)
 {}
 
-void Minty::TimeManager::start()
+void Minty::TimeController::start()
 {
     // MINTY_ASSERT(m_running == false, ErrorCode::Object_AlreadyRunning);
     m_running = true;
@@ -34,13 +35,13 @@ void Minty::TimeManager::start()
     m_fixedTimeAccumulator = 0.0f;
 }
 
-void Minty::TimeManager::stop()
+void Minty::TimeController::stop()
 {
     // MINTY_ASSERT(m_running == true, ErrorCode::Object_NotRunning);
     m_running = false;
 }
 
-Int Minty::TimeManager::update()
+Int Minty::TimeController::update()
 {
     // MINTY_ASSERT(m_running == true, ErrorCode::Object_NotRunning);
 
@@ -72,4 +73,14 @@ Int Minty::TimeManager::update()
     }
 
     return fixedUpdates;
+}
+
+Unique<TimeController> Minty::TimeController::create(TimeControllerInfo const &info)
+{
+    return Unique<TimeController>::create(info);
+}
+
+TimeController &Minty::TimeController::get_singleton()
+{
+    return Application::get_singleton().get_time_manager();
 }

@@ -6,11 +6,11 @@
 
 using namespace Minty;
 
-Owner<Surface> Minty::Surface::create(SurfaceInfo const& info)
+Shared<Surface> Minty::Surface::create(SurfaceInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Surface>(info);
+	return Shared<Vulkan_Surface>(info);
 #else
-	return Owner<Surface>();
+	return Shared<Surface>();
 #endif // MINTY_VULKAN
 }

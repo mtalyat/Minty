@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_RENDERATTACHMENT_H
+#define MINTY_RENDER_RENDERATTACHMENT_H
+
+/**
+ * @file RenderAttachment.h
+ * @brief Header file defining the RenderAttachment struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/ImageLayout.h"
@@ -7,32 +15,32 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds data for an attachment in a render pass.
-	/// </summary>
+	/**
+	 * @brief Holds data for an attachment in a render pass.
+	 */
 	struct RenderAttachment
 	{
-#pragma region Classes
+#pragma region Types
 
 	public:
-		/// <summary>
-		/// The type.
-		/// </summary>
+		/**
+		 * @brief The type.
+		 */
 		enum class Type
 		{
-			/// <summary>
-			/// Invalid.
-			/// </summary>
+			/**
+			 * @brief Invalid.
+			 */
 			Undefined,
 
-			/// <summary>
-			/// Color attachment.
-			/// </summary>
+			/**
+			 * @brief Color attachment.
+			 */
 			Color,
 
-			/// <summary>
-			/// Depth attachment.
-			/// </summary>
+			/**
+			 * @brief Depth attachment.
+			 */
 			Depth
 		};
 
@@ -41,31 +49,33 @@ namespace Minty
 #pragma region Variables
 
 	public:
-		/// <summary>
-		/// The Type of this attachment.
-		/// </summary>
+		/**
+		 * @brief The Type of this attachment.
+		 */
 		Type type = Type::Undefined;
 
-		/// <summary>
-		/// The load operation to perform.
-		/// </summary>
+		/**
+		 * @brief The load operation to perform.
+		 */
 		LoadOperation loadOperation = LoadOperation::DontCare;
 
-		/// <summary>
-		/// The store operation to perform.
-		/// </summary>
+		/**
+		 * @brief The store operation to perform.
+		 */
 		StoreOperation storeOperation = StoreOperation::DontCare;
 
-		/// <summary>
-		/// The initial layout of this attachment.
-		/// </summary>
+		/**
+		 * @brief The initial layout of this attachment.
+		 */
 		ImageLayout initialLayout = ImageLayout::Undefined;
 
-		/// <summary>
-		/// The final layout of this attachment.
-		/// </summary>
+		/**
+		 * @brief The final layout of this attachment.
+		 */
 		ImageLayout finalLayout = ImageLayout::Undefined;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_RENDER_RENDERATTACHMENT_H

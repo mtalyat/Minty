@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "RenderManager.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Render/Camera.h"
@@ -12,6 +12,7 @@
 #include "Minty/Render/Shader.h"
 #include "Minty/Render/Texture.h"
 #include "Minty/Event/WindowResizeEvent.h"
+#include "Minty/Render/RenderManagerInfo.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
@@ -19,18 +20,18 @@
 
 using namespace Minty;
 
-Owner<RenderManager> Minty::RenderManager::create(RenderManagerInfo const& info)
+Unique<RenderManager> Minty::RenderManager::create(RenderManagerInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_RenderManager>(info);
+	return Unique<Vulkan_RenderManager>::create(info);
 #else
-	return Owner<RenderManager>();
+	return Unique<RenderManager>();
 #endif // MINTY_VULKAN
 }
 
 RenderManager& Minty::RenderManager::get_singleton()
 {
-	return Context::get_singleton().get_render_manager();
+	return Application::get_singleton().get_render_manager();
 }
 
 void Minty::RenderManager::clear_binds()
@@ -154,7 +155,7 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
 	// if no window given, use the Context's window
 	if (m_window == nullptr)
 	{
-		m_window = Context::get_singleton().get_window_ref();
+		m_window = Application::get_singleton().get_window_ref();
 	}
 
 	MINTY_ASSERT(m_window != nullptr, ErrorCode::Argument_ExpectedNonNull);

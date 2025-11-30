@@ -31,8 +31,8 @@ void Minty::RenderPass::refresh()
 	Vector<Ref<Image>> surfaceImages = surface->get_images();
 
 	// set the render pass to self
-	Owner<RenderPass> self = Owner<RenderPass>(this);
-	info.renderPass = self.create_ref();
+	Shared<RenderPass> self = Shared<RenderPass>(this);
+	info.renderPass = self.to_ref();
 
 	for (RenderTarget* target : m_renderTargets)
 	{
@@ -71,11 +71,11 @@ void Minty::RenderPass::unregister_render_target(RenderTarget* const renderTarge
 	m_renderTargets.remove(renderTarget);
 }
 
-Owner<RenderPass> Minty::RenderPass::create(RenderPassInfo const& info)
+Shared<RenderPass> Minty::RenderPass::create(RenderPassInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_RenderPass>(info);
+	return Shared<Vulkan_RenderPass>(info);
 #else
-    return Owner<RenderPass>();
+    return Shared<RenderPass>();
 #endif // MINTY_VULKAN
 }

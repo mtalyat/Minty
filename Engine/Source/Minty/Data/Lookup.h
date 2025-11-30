@@ -22,8 +22,9 @@ namespace Minty
 	 * @brief A Lookup data structure that maps String or Key to Value.
 	 * @tparam Key The type of the key.
 	 * @tparam Value The type of the value.
+	 * @tparam Allocator The type of the memory allocator to use.
 	 */
-	template<typename Key, typename Value, typename AllocatorType = DefaultAllocator>
+	template<typename Key, typename Value, typename Allocator = DefaultAllocator>
 	class Lookup
 	{
 #pragma region Iterators
@@ -42,59 +43,42 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Lookup.
-		/// </summary>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Lookup(AllocatorType const allocator = AllocatorType::Default)
-			: m_values(allocator)
-			, m_strings(allocator)
-			, m_keys(allocator)
+		/**
+		 * @brief Creates an empty Lookup.
+		 */
+		Lookup()
+			: m_values()
+			, m_strings()
+			, m_keys()
 		{
 		}
 
-		/// <summary>
-		/// Creates a Lookup with the given capacity.
-		/// </summary>
-		/// <param name="capacity">The starting capacity to use.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Lookup(Size const capacity, AllocatorType const allocator = AllocatorType::Default)
-			: m_values(allocator)
-			, m_strings(allocator)
-			, m_keys(allocator)
+		/**
+		 * @brief Creates a Lookup with the given capacity.
+		 * @param capacity The initial capacity.
+		 */
+		Lookup(Size const capacity)
+			: m_values()
+			, m_strings()
+			, m_keys()
 		{
 			reserve(capacity);
 		}
 
-		/// <summary>
-		/// Creates a Lookup with the given list of key-value pairs.
-		/// </summary>
-		/// <param name="list">A list of key-value pairs.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Lookup(std::initializer_list<Tuple<String, Key, Value>> const& list, AllocatorType const allocator = AllocatorType::Default)
-			: m_values(allocator)
-			, m_strings(allocator)
-			, m_keys(allocator)
+		/**
+		 * @brief Creates a Lookup from an initializer list of key-value pairs.
+		 * @param list The initializer list of key-value pairs.
+		 */
+		Lookup(std::initializer_list<Tuple<String, Key, Value>> const& list)
+			: m_values()
+			, m_strings()
+			, m_keys()
 		{
 			reserve(list.size() * 2);
 			for (Tuple<String, Key, Value> const& pair : list)
 			{
 				add(pair.get_first(), pair.get_second());
 			}
-		}
-
-		Lookup(Lookup const& other)
-			: m_values(other.m_values)
-			, m_strings(other.m_strings)
-			, m_keys(other.m_keys)
-		{
-		}
-
-		Lookup(Lookup&& other) noexcept
-			: m_values(std::move(other.m_values))
-			, m_strings(std::move(other.m_strings))
-			, m_keys(std::move(other.m_keys))
-		{
 		}
 
 		~Lookup()
@@ -107,47 +91,10 @@ namespace Minty
 #pragma region Operators
 
 	public:
-		Lookup& operator=(Lookup const& other)
-		{
-			if (this != &other)
-			{
-				m_values = other.m_values;
-				m_strings = other.m_strings;
-				m_keys = other.m_keys;
-			}
-			return *this;
-		}
-
-		Lookup& operator=(Lookup&& other) noexcept
-		{
-			if (this != &other)
-			{
-				m_values = std::move(other.m_values);
-				m_strings = std::move(other.m_strings);
-				m_keys = std::move(other.m_keys);
-			}
-			return *this;
-		}
-
-		constexpr Value& operator[](String const& key)
-		{
-			return at(key);
-		}
-
-		constexpr Value& operator[](Key const& key)
-		{
-			return at(key);
-		}
-
-		constexpr Value const& operator[](String const& key) const
-		{
-			return at(key);
-		}
-
-		constexpr Value const& operator[](Key const& key) const
-		{
-			return at(key);
-		}
+		constexpr Value& operator[](String const& key) { return at(key); }
+		constexpr Value& operator[](Key const& key) { return at(key); }
+		constexpr Value const& operator[](String const& key) const { return at(key); }
+		constexpr Value const& operator[](Key const& key) const { return at(key); }
 
 #pragma endregion
 
@@ -458,9 +405,9 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Vector<Tuple<String, Key, Value>> m_values;
-		Map<String, Size> m_strings;
-		Map<Key, Size> m_keys;
+		Vector<Tuple<String, Key, Value>, Allocator> m_values;
+		Map<String, Size, Allocator> m_strings;
+		Map<Key, Size, Allocator> m_keys;
 
 #pragma endregion
 	};

@@ -13,7 +13,7 @@ namespace Minty
 		VkBuffer m_buffer;
 		VkDeviceMemory m_memory;
 		VkDeviceSize m_size;
-		void* mp_mappedMemory;
+		Any mp_mappedMemory;
 
 #pragma endregion
 
@@ -26,16 +26,16 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		void* get_data() const override;
+		Any get_data() const override;
 
 		void set_data(void const* const data) override;
 
 		Size get_size() const override { return static_cast<Size>(m_size); }
 
-		void* get_native() const override { return m_buffer; }
+		Any get_native() const override { return m_buffer; }
 
 		VkBuffer get_buffer() const { return m_buffer; }
 

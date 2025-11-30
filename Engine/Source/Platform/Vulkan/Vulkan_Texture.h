@@ -23,7 +23,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		VkSampler get_sampler() const { return m_sampler; }

@@ -70,7 +70,7 @@ void Minty::SpriteAtlas::on_unload()
 	}
 }
 
-Owner<SpriteAtlas> Minty::SpriteAtlas::create(SpriteAtlasInfo const& info)
+Shared<SpriteAtlas> Minty::SpriteAtlas::create(SpriteAtlasInfo const& info)
 {
-	return Owner<SpriteAtlas>(new SpriteAtlas(info));
+	return Shared<SpriteAtlas>(new SpriteAtlas(info));
 }

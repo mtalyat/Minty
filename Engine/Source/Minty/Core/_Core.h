@@ -1,6 +1,3 @@
-#pragma once
-
-#include "Base.h"
 #include "Compression.h"
 #include "Constant.h"
 #include "Encoding.h"

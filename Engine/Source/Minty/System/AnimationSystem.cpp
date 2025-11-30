@@ -26,7 +26,7 @@ void Minty::AnimationSystem::on_frame_update(Timestep const& time)
 	{
 		// update the animator
 		Ref<Animation>& animation = animatorComp.animation;
-		UUID currentId = animation == nullptr ? UUID(INVALID_ID) : animation->get_id();
+		UUID currentId = animation == nullptr ? UUID(UUID()) : animation->get_id();
 		UUID newId = animatorComp.animator->update(animation, animatorComp.time);
 
 		// if ID changed, reset animation data
@@ -58,7 +58,7 @@ void Minty::AnimationSystem::on_frame_update(Timestep const& time)
 		}
 
 		// if the animator time is below zero, then the animator has paused, so do nothing
-		// OR if the animation ID is INVALID_ID, do nothing
+		// OR if the animation ID is UUID(), do nothing
 		if (animatorComp.time < 0.0f || !animatorComp.animation)
 		{
 			continue;

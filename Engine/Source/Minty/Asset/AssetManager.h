@@ -30,7 +30,6 @@ namespace Minty
 	class MaterialTemplate;
 	class Mesh;
 	class Prefab;
-	struct RenderAttachment;
 	class RenderPass;
 	class RenderTarget;
 	class Scene;
@@ -40,32 +39,11 @@ namespace Minty
 	class SpriteAtlas;
 	class Texture;
 	class Viewport;
+	struct AssetManagerInfo;
+	struct RenderAttachment;
 
 	class AssetManager;
 	using AssetJob = Function<void(AssetManager&, UUID const)>;
-
-	/// <summary>
-	/// Arguments for creates an AssetManager.
-	/// </summary>
-	struct AssetManagerInfo
-	{
-		/// <summary>
-		/// A list of Wrap files to load on initialization.
-		/// </summary>
-		List<Path> wraps = {};
-
-#ifdef MINTY_DEBUG
-		/// <summary>
-		/// If true, the AssetManager will save the paths of the Assets.
-		/// </summary>
-		Bool savePaths = true;
-#else
-		/// <summary>
-		/// If true, the AssetManager will save the paths of the Assets.
-		/// </summary>
-		Bool savePaths = false;
-#endif
-	};
 
 	/// <summary>
 	/// Handles loading and unloading of Assets.
@@ -73,7 +51,7 @@ namespace Minty
 	class AssetManager
 		: public Manager
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		enum class Location
@@ -88,7 +66,7 @@ namespace Minty
 
 		struct AssetData
 		{
-			Owner<Asset> asset = nullptr;
+			Shared<Asset> asset = nullptr;
 			Path path = "";
 		};
 
@@ -115,9 +93,7 @@ namespace Minty
 	public:
 		AssetManager(AssetManagerInfo const& info);
 
-		~AssetManager() override
-		{
-		}
+		~AssetManager() override;
 
 #pragma endregion
 
@@ -138,7 +114,7 @@ namespace Minty
 		Ref<T> create_from_loaded(Path const& path, Args&& ...args)
 		{
 			// create new asset
-			Owner<T> asset = T::create(std::forward<Args>(args)...);
+			Shared<T> asset = T::create(std::forward<Args>(args)...);
 
 			// trigger load
 			asset->on_load();
@@ -146,7 +122,7 @@ namespace Minty
 			// add to asset manager
 			add(path, asset);
 
-			return asset.create_ref();
+			return asset.to_ref();
 		}
 
 		void run_completion_jobs();
@@ -162,16 +138,11 @@ namespace Minty
 
 	public:
 		/// <summary>
-		/// Reads the ID from the corresponding meta file for the given path to an Asset.
+		/// Reads the UUID from the corresponding meta file for the given path to an Asset.
 		/// </summary>
 		/// <param name="path">The path to the Asset.</param>
-		/// <returns>The ID stored within the Asset's meta file.</returns>
-		ID read_id(Path const& path) const;
-
-		/// <summary>
-		/// Shuts down the AssetManager.
-		/// </summary>
-		void dispose() override;
+		/// <returns>The UUID stored within the Asset's meta file.</returns>
+		UUID read_id(Path const& path) const;
 
 		/// <summary>
 		/// Called every frame.
@@ -468,12 +439,12 @@ namespace Minty
 		Ref<T> create(Args&&... args)
 		{
 			// create new asset
-			Owner<T> asset = T::create(std::forward<Args>(args)...);
+			Shared<T> asset = T::create(std::forward<Args>(args)...);
 
 			// add to asset manager
 			add(asset);
 
-			return asset.create_ref();
+			return asset.to_ref();
 		}
 
 		/// <summary>
@@ -481,13 +452,13 @@ namespace Minty
 		/// </summary>
 		/// <param name="path">The Path to the </param>
 		/// <param name="asset">The Asset to add.</param>
-		void add(Path const& path, Owner<Asset> const& asset);
+		void add(Path const& path, Shared<Asset> const& asset);
 
 		/// <summary>
 		/// Adds the given Asset to this AssetManager.
 		/// </summary>
 		/// <param name="asset">The Asset to add.</param>
-		void add(Owner<Asset> const& asset)
+		void add(Shared<Asset> const& asset)
 		{
 			add(Path(), asset);
 		}
@@ -515,7 +486,7 @@ namespace Minty
 		template<typename T>
 		Ref<T> get(UUID const id) const
 		{
-			return get_asset(id).cast_to<T>();
+			return get_asset(id).cast<T>();
 		}
 
 		/// <summary>
@@ -582,7 +553,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="id">The ID of the Asset to remove.</param>
 		/// <returns>The Asset that was removed.</returns>
-		Owner<Asset> remove(UUID const id);
+		Shared<Asset> remove(UUID const id);
 
 		/// <summary>
 		/// Clones the loaded Asset with the given ID.
@@ -604,7 +575,7 @@ namespace Minty
 
 			// create new asset of same type
 			UUID newId = UUID::create();
-			Owner<T> newAsset = T::create();
+			Shared<T> newAsset = T::create();
 
 			// copy data
 			*newAsset.get() = *asset.get();
@@ -614,7 +585,7 @@ namespace Minty
 			add(newAsset);
 
 			// return cloned asset
-			return newAsset.create_ref();
+			return newAsset.to_ref();
 		}
 
 		/// <summary>
@@ -698,7 +669,7 @@ namespace Minty
 	private:
 		Ref<GenericAsset> load_generic(Path const& path, UUID const id);
 
-		Owner<Image> create_image(Path const& path, UUID const id);
+		Shared<Image> create_image(Path const& path, UUID const id);
 
 		Ref<Animation> load_animation(Path const& path, UUID const id);
 
@@ -750,7 +721,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A AssetManager Owner.</returns>
-		static Owner<AssetManager> create(AssetManagerInfo const& info = {});
+		static Unique<AssetManager> create(AssetManagerInfo const& info = {});
 
 		/// <summary>
 		/// Gets the active Context's AssetManager.

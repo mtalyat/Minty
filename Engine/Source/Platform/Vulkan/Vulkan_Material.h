@@ -13,12 +13,12 @@ namespace Minty
 	class Vulkan_Material
 		: public Material
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct FrameData
 		{
-			Vector<Owner<Vulkan_Buffer>> buffers;
+			Vector<Shared<Vulkan_Buffer>> buffers;
 			VkDescriptorSet descriptorSet = VK_NULL_HANDLE;
 		};
 

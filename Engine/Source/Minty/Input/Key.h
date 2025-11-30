@@ -1,12 +1,20 @@
-#pragma once
+#ifndef MINTY_INPUT_KEY_H
+#define MINTY_INPUT_KEY_H
+
+/**
+ * @file Key.h
+ * @brief Header file for keyboard key enumeration.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A key on the keyboard.
-	/// </summary>
+	/**
+	 * @brief Keyboard keys.
+	 */
 	enum class Key
 	{
 		Unknown = -1,
@@ -139,3 +147,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Key>(String const& string, Key& value) { return parse_try_key(string, value); }
 }
+
+#endif // MINTY_INPUT_KEY_H

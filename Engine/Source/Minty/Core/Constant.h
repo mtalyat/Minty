@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_CORE_CONSTANT_H
+#define MINTY_CORE_CONSTANT_H
+
+/**
+ * @file Constant.h
+ * @brief Header file defining various constants used throughout the Minty engine.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
 
@@ -223,8 +231,8 @@ namespace Minty
 
 #pragma region UUID
 
-	constexpr ID INVALID_ID = 0;
-	constexpr Size UUID_HEX_CHAR_COUNT = 16;
+	constexpr Size UUID_BYTE_SIZE = 16;
+	constexpr Size UUID_HEX_SIZE = 32;
 
 #pragma endregion
 
@@ -281,3 +289,5 @@ namespace Minty
 
 #pragma endregion
 }
+
+#endif // MINTY_CORE_CONSTANT_H

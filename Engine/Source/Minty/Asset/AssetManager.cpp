@@ -3,7 +3,9 @@
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/Animator.h"
 #include "Minty/Core/Format.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
+#include "Minty/Asset/Asset.h"
+#include "Minty/Asset/AssetManagerInfo.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/Prefab.h"
 #include "Minty/Library/STB.h"
@@ -25,24 +27,34 @@
 #include "Minty/Render/Viewport.h"
 #include "Minty/Event/WindowResizeEvent.h"
 #include "Minty/Time/Timestep.h"
+#include "Minty/Job/JobManager.h"
+#include "Minty/Animation/AnimationInfo.h"
+#include "Minty/Animation/AnimatorInfo.h"
+#include "Minty/Tool/Util.h"
+#include "Minty/FSM/FSM.h"
+#include "Minty/Audio/AudioClip.h"
 
 using namespace Minty;
 
-Minty::AssetManager::AssetManager(AssetManagerInfo const& info)
-	: m_savePaths(info.savePaths)
-	, m_assets()
-	, m_assetTypes()
-	, m_handles()
-	, m_assetsMutex()
-	, m_wrapper()
+Minty::AssetManager::AssetManager(AssetManagerInfo const &info)
+	: m_savePaths(info.savePaths), m_assets(), m_assetTypes(), m_handles(), m_assetsMutex(), m_wrapper()
 {
-	for (Path const& path : info.wraps)
+	for (Path const &path : info.wraps)
 	{
 		load_wrap(path);
 	}
 }
 
-AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
+Minty::AssetManager::~AssetManager()
+{
+	// sync to finish loading/unloading
+	sync();
+
+	// unload the rest
+	unload_all();
+}
+
+AssetManager::Location Minty::AssetManager::get_location(Path const &path) const
 {
 	if (m_wrapper.contains(path))
 	{
@@ -57,12 +69,12 @@ AssetManager::Location Minty::AssetManager::get_location(Path const& path) const
 	return Location::Undefined;
 }
 
-ID Minty::AssetManager::read_id(Path const& path) const
+UUID Minty::AssetManager::read_id(Path const &path) const
 {
 	if (!exists(path))
 	{
 		// return invalid if no file
-		return INVALID_ID;
+		return UUID();
 	}
 
 	Path metaPath = Asset::get_meta_path(path);
@@ -70,7 +82,7 @@ ID Minty::AssetManager::read_id(Path const& path) const
 	if (!exists(metaPath))
 	{
 		// return invalid if no meta file
-		return INVALID_ID;
+		return UUID();
 	}
 
 	Vector<String> lines = read_lines(metaPath);
@@ -78,23 +90,21 @@ ID Minty::AssetManager::read_id(Path const& path) const
 	if (lines.is_empty())
 	{
 		// return invalid if empty meta file
-		return INVALID_ID;
+		return UUID();
 	}
 
-	// get ID from first line
-	String const& line = lines.front();
-	MINTY_ASSERT(line.starts_with(": ") && line.get_size() == 18, ErrorCode::Asset_InvalidFormat, metaPath.to_string());
+	// get UUID from first line
+	String const &line = lines.front();
+	MINTY_ASSERT(line.starts_with(": ") && line.get_size() == UUID_HEX_SIZE + 2, ErrorCode::Asset_InvalidFormat, metaPath.to_string());
 
-	// get the ID
-	String idString = line.sub(2, 16);
-	UUID id = parse_to<UUID>(idString);
-
-	return id;
+	// get the UUID
+	String const idString = line.sub(2, UUID_HEX_SIZE);
+	return UUID(idString);
 }
 
-File* Minty::AssetManager::open(Path const& path) const
+File *Minty::AssetManager::open(Path const &path) const
 {
-	File* file = nullptr;
+	File *file = nullptr;
 
 	switch (get_location(path))
 	{
@@ -103,14 +113,14 @@ File* Minty::AssetManager::open(Path const& path) const
 		break;
 	case Location::Wrapper:
 		file = new VirtualFile();
-		m_wrapper.open(path, *static_cast<VirtualFile*>(file));
+		m_wrapper.open(path, *static_cast<VirtualFile *>(file));
 		break;
 	}
 
 	return file;
 }
 
-void Minty::AssetManager::close(File* file) const
+void Minty::AssetManager::close(File *file) const
 {
 	file->close();
 	delete file;
@@ -125,7 +135,7 @@ void Minty::AssetManager::run_completion_jobs()
 			// get the ID and the Job
 			auto tuple = m_onCompletions.pop();
 			UUID const id = tuple.get_first();
-			AssetJob const& job = tuple.get_second();
+			AssetJob const &job = tuple.get_second();
 
 			// run the Job
 			job(*this, id);
@@ -133,7 +143,7 @@ void Minty::AssetManager::run_completion_jobs()
 	}
 }
 
-Ref<Asset> Minty::AssetManager::load_asset(Path const& path, AssetType const type, UUID const id)
+Ref<Asset> Minty::AssetManager::load_asset(Path const &path, AssetType const type, UUID const id)
 {
 	switch (type)
 	{
@@ -181,18 +191,7 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const& path, AssetType const typ
 	}
 }
 
-void Minty::AssetManager::dispose()
-{
-	// sync to finish loading/unloading
-	sync();
-
-	// unload the rest
-	unload_all();
-
-	Manager::dispose();
-}
-
-void Minty::AssetManager::frame_update(Timestep const& time)
+void Minty::AssetManager::frame_update(Timestep const &time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -208,14 +207,14 @@ void Minty::AssetManager::sync()
 	Vector<Handle> handles(m_handles.get_size());
 	{
 		std::unique_lock lock(m_assetsMutex);
-		for (auto const& pair : m_handles)
+		for (auto const &pair : m_handles)
 		{
 			handles.add(pair.get_second());
 		}
 	}
 
 	// wait for them all
-	JobManager& jobManager = JobManager::get_singleton();
+	JobManager &jobManager = JobManager::get_singleton();
 	jobManager.wait(handles);
 
 	// clear the handles
@@ -234,7 +233,7 @@ Bool Minty::AssetManager::is_syncing() const
 	return m_handles.get_size() > 0;
 }
 
-Bool Minty::AssetManager::load_wrap(Path const& path)
+Bool Minty::AssetManager::load_wrap(Path const &path)
 {
 	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound, path);
 
@@ -243,12 +242,12 @@ Bool Minty::AssetManager::load_wrap(Path const& path)
 	return true;
 }
 
-Bool Minty::AssetManager::exists(Path const& path) const
+Bool Minty::AssetManager::exists(Path const &path) const
 {
 	return m_wrapper.contains(path) || Path::exists(path);
 }
 
-Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
+Bool Minty::AssetManager::open_reader(Path const &path, Reader *&reader) const
 {
 	// if no file, fail
 	if (!exists(path))
@@ -266,7 +265,7 @@ Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
 	}
 
 	// create container
-	ConstantContainer* container = new ConstantContainer(bytes.get_data(), bytes.get_size());
+	ConstantContainer *container = new ConstantContainer(bytes.get_data(), bytes.get_size());
 
 	// create reader
 	reader = new TextMemoryReader(container);
@@ -275,7 +274,7 @@ Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
 	String includePath;
 	if (reader->read("import", includePath))
 	{
-		Reader* includeReader = nullptr;
+		Reader *includeReader = nullptr;
 		if (open_reader(Path(includePath), includeReader))
 		{
 			// merge the include into this reader and replace with the included reader
@@ -288,12 +287,12 @@ Bool Minty::AssetManager::open_reader(Path const& path, Reader*& reader) const
 	return true;
 }
 
-void Minty::AssetManager::close_reader(Reader*& reader) const
+void Minty::AssetManager::close_reader(Reader *&reader) const
 {
 	MINTY_ASSERT(reader != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// delete the container
-	ConstantContainer* container = static_cast<ConstantContainer*>(reader->get_source());
+	ConstantContainer *container = static_cast<ConstantContainer *>(reader->get_source());
 	delete container;
 
 	// delete the reader
@@ -301,25 +300,25 @@ void Minty::AssetManager::close_reader(Reader*& reader) const
 	reader = nullptr;
 }
 
-Bool Minty::AssetManager::open_writer(Path const& path, Writer*& writer) const
+Bool Minty::AssetManager::open_writer(Path const &path, Writer *&writer) const
 {
 	if (!Path::exists(path.get_parent()))
 	{
 		return false;
 	}
 
-	File* file = new PhysicalFile(path, File::Flags::Write);
+	File *file = new PhysicalFile(path, File::Flags::Write);
 	writer = new TextFileWriter(file);
 
 	return true;
 }
 
-void Minty::AssetManager::close_writer(Writer*& writer) const
+void Minty::AssetManager::close_writer(Writer *&writer) const
 {
 	MINTY_ASSERT(writer != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// close the file
-	File* file = static_cast<File*>(writer->get_source());
+	File *file = static_cast<File *>(writer->get_source());
 	close(file);
 
 	// delete the writer
@@ -327,13 +326,13 @@ void Minty::AssetManager::close_writer(Writer*& writer) const
 	writer = nullptr;
 }
 
-UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onCompletion)
+UUID Minty::AssetManager::schedule_load(Path const &path, AssetJob const &onCompletion)
 {
 	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound, path);
 	Path metaPath = Asset::get_meta_path(path);
 	MINTY_ASSERT(exists(metaPath), ErrorCode::Asset_MissingMeta, metaPath);
 
-	JobManager& jobManager = JobManager::get_singleton();
+	JobManager &jobManager = JobManager::get_singleton();
 
 	// get UUID for reference
 	UUID id = read_id(path);
@@ -343,11 +342,9 @@ UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onComp
 
 	// use a job to load the asset in the background
 	Handle handle = jobManager.schedule([this, path, id]()
-		{
-			load_asset(path);
-		});
+										{ load_asset(path); });
 	handle = jobManager.schedule([this, id, onCompletion]()
-		{
+								 {
 			// remove handle
 			{
 				std::unique_lock lock(m_handlesMutex);
@@ -357,8 +354,7 @@ UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onComp
 			{
 				std::unique_lock lock(m_onCompletionsMutex);
 				m_onCompletions.push({ id, onCompletion });
-			}
-		}, handle);
+			} }, handle);
 
 	// add final handle to the list
 	{
@@ -370,32 +366,30 @@ UUID Minty::AssetManager::schedule_load(Path const& path, AssetJob const& onComp
 	return id;
 }
 
-Ref<Asset> Minty::AssetManager::load_asset(Path const& path)
+Ref<Asset> Minty::AssetManager::load_asset(Path const &path)
 {
 #ifdef MINTY_DEBUG
 	MINTY_ASSERT(exists(path), ErrorCode::File_NotFound, path);
 	Path metaPath = Asset::get_meta_path(path);
 	MINTY_ASSERT(exists(metaPath), ErrorCode::Asset_MissingMeta, metaPath);
-#endif // MINTY_DEBUG  
+#endif // MINTY_DEBUG
 
 	AssetType type = Asset::get_asset_type(path);
 	return load_asset(path, type);
 }
 
-void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const& onCompletion)
+void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const &onCompletion)
 {
 	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 	MINTY_ASSERT(!m_handles.contains(id), ErrorCode::Asset_Busy, id);
 
-	JobManager& jobManager = JobManager::get_singleton();
+	JobManager &jobManager = JobManager::get_singleton();
 
 	// use a job to unload the asset in the background
 	Handle handle = jobManager.schedule([this, id]()
-		{
-			unload(id);
-		});
+										{ unload(id); });
 	handle = jobManager.schedule([this, id, onCompletion]()
-		{
+								 {
 			// remove handle
 			{
 				std::unique_lock lock(m_handlesMutex);
@@ -405,8 +399,7 @@ void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const& onCompl
 			{
 				std::unique_lock lock(m_onCompletionsMutex);
 				m_onCompletions.push({ id, onCompletion });
-			}
-		}, handle);
+			} }, handle);
 
 	{
 		std::unique_lock lock(m_handlesMutex);
@@ -419,7 +412,7 @@ void Minty::AssetManager::unload(UUID const id)
 	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 
 	// get the asset
-	Owner<Asset> asset = m_assets.at(id).asset;
+	Shared<Asset> asset = m_assets.at(id).asset;
 
 	// unload
 	asset->on_unload();
@@ -440,7 +433,7 @@ void Minty::AssetManager::reload(UUID const id)
 	Ref<Asset> asset = get_asset(id);
 
 	// open the file
-	Reader* reader = nullptr;
+	Reader *reader = nullptr;
 	Bool const openReaderResult = open_reader(path, reader);
 	MINTY_ASSERT(openReaderResult, ErrorCode::File_FailedToOpen, path);
 
@@ -455,7 +448,7 @@ void Minty::AssetManager::reload(UUID const id)
 void Minty::AssetManager::unload_all()
 {
 	// unload all assets
-	for (auto const& pair : m_assets)
+	for (auto const &pair : m_assets)
 	{
 		pair.get_second().asset->on_unload();
 	}
@@ -465,7 +458,7 @@ void Minty::AssetManager::unload_all()
 	m_assetTypes.clear();
 }
 
-void Minty::AssetManager::add(Path const& path, Owner<Asset> const& asset)
+void Minty::AssetManager::add(Path const &path, Shared<Asset> const &asset)
 {
 	// create asset data
 	AssetData data;
@@ -521,14 +514,14 @@ Ref<Asset> Minty::AssetManager::get_asset(UUID const id) const
 	}
 
 	// return the asset
-	return it->get_second().asset.create_ref();
+	return it->get_second().asset.to_ref();
 }
 
 Ref<Asset> Minty::AssetManager::at_asset(UUID const id) const
 {
 	std::unique_lock lock(m_assetsMutex);
 	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
-	return m_assets.at(id).asset.create_ref();
+	return m_assets.at(id).asset.to_ref();
 }
 
 Path Minty::AssetManager::get_asset_path(UUID const id) const
@@ -543,7 +536,7 @@ Path Minty::AssetManager::get_asset_path(UUID const id) const
 
 	// find asset
 	auto it = m_assets.find(id);
-	
+
 	// ignore if not found
 	if (it == m_assets.end())
 	{
@@ -566,18 +559,18 @@ String Minty::AssetManager::get_asset_name(UUID const id) const
 
 	// get path
 	std::unique_lock lock(m_assetsMutex);
-	Path const& path = m_assets.at(id).path;
+	Path const &path = m_assets.at(id).path;
 
 	// get name
 	return path.get_name().get_string();
 }
 
-Owner<Asset> Minty::AssetManager::remove(UUID const id)
+Shared<Asset> Minty::AssetManager::remove(UUID const id)
 {
 	MINTY_ASSERT(contains(id), ErrorCode::Asset_NotLoaded, id);
 
 	// get asset
-	Owner<Asset> asset;
+	Shared<Asset> asset;
 	{
 		std::unique_lock lock(m_assetsMutex);
 		asset = m_assets.at(id).asset;
@@ -607,9 +600,9 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 	// some types inherently have no dependents, some do
 	MINTY_NOT_IMPLEMENTED();
 
-	//switch (type)
+	// switch (type)
 	//{
-	//case AssetType::Shader:
+	// case AssetType::Shader:
 	//	// MaterialTemplates use Shaders
 	//	for (auto const materialTemplate : get_by_type<MaterialTemplate>())
 	//	{
@@ -620,7 +613,7 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 	//		}
 	//	}
 	//	break;
-	//case AssetType::MaterialTemplate:
+	// case AssetType::MaterialTemplate:
 	//	// Materials use MaterialTemplates
 	//	for (auto const material : get_by_type<Material>())
 	//	{
@@ -630,10 +623,10 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 	//		}
 	//	}
 	//	break;
-	//case AssetType::Material:
+	// case AssetType::Material:
 	//	// TODO: models depend on materials?
 	//	break;
-	//case AssetType::Texture:
+	// case AssetType::Texture:
 	//	// Sprites use Textures
 	//	for (auto const sprite : get_by_type<Sprite>())
 	//	{
@@ -655,7 +648,7 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 	//		}
 	//	}
 	//	break;
-	//case AssetType::FontVariant:
+	// case AssetType::FontVariant:
 	//	// Fonts use FontVariants
 	//	for (auto const font : get_by_type<Font>())
 	//	{
@@ -667,12 +660,12 @@ Vector<Ref<Asset>> Minty::AssetManager::get_dependents(UUID const id) const
 	//			}
 	//		}
 	//	}
-	//}
+	// }
 
 	return result;
 }
 
-Vector<Byte> Minty::AssetManager::read_bytes(Path const& path) const
+Vector<Byte> Minty::AssetManager::read_bytes(Path const &path) const
 {
 	Location const location = get_location(path);
 	MINTY_ASSERT(location != Location::Undefined, ErrorCode::File_NotFound, path);
@@ -688,7 +681,7 @@ Vector<Byte> Minty::AssetManager::read_bytes(Path const& path) const
 	return Vector<Byte>();
 }
 
-String Minty::AssetManager::read_text(Path const& path) const
+String Minty::AssetManager::read_text(Path const &path) const
 {
 	Vector<Byte> bytes = read_bytes(path);
 
@@ -698,25 +691,23 @@ String Minty::AssetManager::read_text(Path const& path) const
 	}
 
 	// create string from bytes
-	return String::from_bytes(bytes.get_data(), bytes.get_size());
+	return String(StringView(reinterpret_cast<Char const *>(bytes.get_data()), bytes.get_size()));
 }
 
-Vector<String> Minty::AssetManager::read_lines(Path const& path) const
+Vector<String> Minty::AssetManager::read_lines(Path const &path) const
 {
-	String text = read_text(path);
-
-	// split into lines
-	return text.split_lines();
+	String const text = read_text(path);
+	return Util::split_lines(text);
 }
 
-Int Minty::AssetManager::check_dependency(UUID const id, Path const& path, String const& name, Bool const required) const
+Int Minty::AssetManager::check_dependency(UUID const id, Path const &path, String const &name, Bool const required) const
 {
 	// if invalid id (0), set to null
 	if (!id.is_valid())
 	{
 		if (required)
 		{
-			Debug::write_error(F("Cannot load \"{}\". \"{}\"'s ID was invalid.", path, name));
+			MINTY_ERROR(ErrorCode::UUID_Invalid, path, name);
 		}
 
 		return 2;
@@ -725,20 +716,20 @@ Int Minty::AssetManager::check_dependency(UUID const id, Path const& path, Strin
 	// if asset id is valid but asset with id DNE, set to null
 	if (!id.is_valid() || !contains(id))
 	{
-		Debug::write_error(F("Cannot load \"{}\": requires a dependency \"{}\" with ID {} that has not been loaded yet.", path, name, id));
+		MINTY_ERROR(ErrorCode::Asset_MissingDependency, path, name, id);
 		return -1;
 	}
 
 	return 0;
 }
 
-Int Minty::AssetManager::read_attachment(Path const& path, Reader& reader, String const& name, RenderAttachment& attachment, Bool const required) const
+Int Minty::AssetManager::read_attachment(Path const &path, Reader &reader, String const &name, RenderAttachment &attachment, Bool const required) const
 {
 	if (!reader.indent(name))
 	{
 		if (required)
 		{
-			Debug::write_error(F("Cannot load \"{}\". Missing \"{}\".", path, name));
+			MINTY_ERROR(ErrorCode::Asset_InvalidFormat, path, name);
 		}
 		return 1;
 	}
@@ -748,34 +739,31 @@ Int Minty::AssetManager::read_attachment(Path const& path, Reader& reader, Strin
 	reader.read("Store", attachment.storeOperation, StoreOperation::DontCare);
 	reader.read("Initial", attachment.initialLayout, ImageLayout::Undefined);
 	reader.read("Final", attachment.finalLayout, ImageLayout::Undefined);
-
 	reader.outdent();
 
 	return 0;
 }
 
-Ref<GenericAsset> Minty::AssetManager::load_generic(Path const& path, UUID const id)
+Ref<GenericAsset> Minty::AssetManager::load_generic(Path const &path, UUID const id)
 {
 	Vector<Byte> bytes = read_bytes(path);
 
-	GenericAssetInfo info
-	{
+	GenericAssetInfo info{
 		.id = id,
-		.data = ConstantContainer(bytes.get_data(), bytes.get_size())
-	};
+		.data = ConstantContainer(bytes.get_data(), bytes.get_size())};
 
 	return create_from_loaded<GenericAsset>(path, info);
 }
 
-Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
+Shared<Image> Minty::AssetManager::create_image(Path const &path, UUID const id)
 {
 	// get image data
 	Vector<Byte> bytes = read_bytes(path);
 
 	// get pixel data
 	int width, height, channels;
-	stbi_uc* data = stbi_load_from_memory(static_cast<stbi_uc*>(bytes.get_data()), static_cast<int>(bytes.get_size()), &width, &height, &channels, static_cast<int>(ImagePixelFormat::RedGreenBlueAlpha));
-	char const* reason = stbi_failure_reason();
+	stbi_uc *data = stbi_load_from_memory(static_cast<stbi_uc *>(bytes.get_data()), static_cast<int>(bytes.get_size()), &width, &height, &channels, static_cast<int>(ImagePixelFormat::RedGreenBlueAlpha));
+	char const *reason = stbi_failure_reason();
 	MINTY_ASSERT(data != nullptr, ErrorCode::Asset_LoadFailed, path, reason ? String(reason) : F("Unknown error"));
 
 	// create the image
@@ -785,7 +773,7 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	info.pixelData = data;
 	info.pixelDataSize = static_cast<Size>(width) * static_cast<Size>(height) * 4 * sizeof(Byte);
 
-	Reader* reader;
+	Reader *reader;
 	Path metaPath = Asset::get_meta_path(path);
 	if (open_reader(metaPath, reader))
 	{
@@ -813,7 +801,7 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	}
 
 	// create the image
-	Owner<Image> image = Image::create(info);
+	Shared<Image> image = Image::create(info);
 
 	// free the pixel data
 	stbi_image_free(data);
@@ -821,14 +809,14 @@ Owner<Image> Minty::AssetManager::create_image(Path const& path, UUID const id)
 	return image;
 }
 
-Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const id)
+Ref<Animation> Minty::AssetManager::load_animation(Path const &path, UUID const id)
 {
 	// create info
 	AnimationInfo info{};
 	info.id = id;
 
 	// read values from the file
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read values
@@ -859,10 +847,10 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 		// ensure all action indices are valid
 		for (Size i = 0; i < info.actions.get_size(); i++)
 		{
-			AnimationAction const& action = info.actions.at(i);
+			AnimationAction const &action = info.actions.at(i);
 			MINTY_ASSERT(
 				(info.entities.get_size() == 0 && action.entityIndex == 0) ||
-				(action.entityIndex < info.entities.get_size()), 
+					(action.entityIndex < info.entities.get_size()),
 				ErrorCode::Animation_InvalidEntityIndex, path);
 			MINTY_ASSERT(action.componentIndex < info.components.get_size(), ErrorCode::Animation_InvalidComponentIndex, path);
 			for (Size j = 0; j < action.values.get_size(); j++)
@@ -893,11 +881,12 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				String actionIndicesString;
 				Bool const readActionIndicesResult = reader->read(i, actionIndicesString);
 				MINTY_ASSERT(readActionIndicesResult, ErrorCode::Serialization_ReadValue, path);
-				actionIndicesString = actionIndicesString.strip();
-				Vector<String> actionIndicesParts = actionIndicesString.split(ANIMATION_ACTION_GROUP);
+				StringBuilder builder(actionIndicesString);
+				builder.strip();
+				Vector<String> actionIndicesParts = Util::split(builder.to_string(), ANIMATION_ACTION_GROUP);
 				Vector<Size> actionIndices;
 				actionIndices.reserve(actionIndicesParts.get_size());
-				for (String const& part : actionIndicesParts)
+				for (String const &part : actionIndicesParts)
 				{
 					// convert to size
 					Size const index = parse_to<Size>(part);
@@ -905,7 +894,7 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 				}
 
 				// add to the info
-				info.steps.add({ time, std::move(actionIndices) });
+				info.steps.add({time, std::move(actionIndices)});
 			}
 
 			reader->outdent();
@@ -917,10 +906,10 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 		if (reader->read("Reset", resetStepsString))
 		{
 			// split each step by comma
-			Vector<String> resetStepsParts = resetStepsString.split(ANIMATION_ACTION_GROUP);
+			Vector<String> resetStepsParts = Util::split(resetStepsString, ANIMATION_ACTION_GROUP);
 
 			// read each step
-			for (String const& part : resetStepsParts)
+			for (String const &part : resetStepsParts)
 			{
 				// convert to size
 				Size const index = parse_to<Size>(part);
@@ -935,19 +924,21 @@ Ref<Animation> Minty::AssetManager::load_animation(Path const& path, UUID const 
 	return create_from_loaded<Animation>(path, info);
 }
 
-Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id)
+Ref<Animator> Minty::AssetManager::load_animator(Path const &path, UUID const id)
 {
 	// create info
+	FSM fsm;
 	AnimatorInfo info{};
 	info.id = id;
-	
+
 	// read values from the file
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read value, directly as an FSM
-		info.fsm.deserialize(*reader);
-		info.fsm.reset();
+		fsm.deserialize(*reader);
+		fsm.reset();
+		info.fsm = &fsm;
 
 		// read other values
 		reader->read("Force", info.force);
@@ -956,12 +947,12 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id
 
 		// check each state value
 		// each one should be a valid UUID, or empty
-		for (auto const& [name, stateId, state] : info.fsm.get_states())
+		for (auto const &[name, stateId, state] : fsm.get_states())
 		{
-			Variable const& variable = state.get_value();
+			Variable const &variable = state.get_value();
 
 			// if empty, skip
-			if(variable.is_empty())
+			if (variable.is_empty())
 			{
 				continue;
 			}
@@ -984,7 +975,7 @@ Ref<Animator> Minty::AssetManager::load_animator(Path const& path, UUID const id
 	return create_from_loaded<Animator>(path, info);
 }
 
-Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path, UUID const id)
+Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const &path, UUID const id)
 {
 	// create info
 	AudioClipInfo info{};
@@ -1001,7 +992,7 @@ Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path, UUID const
 
 	// read values from meta
 	Path metaPath = Asset::get_meta_path(path);
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(metaPath, reader))
 	{
 		// read values
@@ -1016,14 +1007,14 @@ Ref<AudioClip> Minty::AssetManager::load_audio_clip(Path const& path, UUID const
 	return create_from_loaded<AudioClip>(path, info);
 }
 
-Ref<Camera> Minty::AssetManager::load_camera(Path const& path, UUID const id)
+Ref<Camera> Minty::AssetManager::load_camera(Path const &path, UUID const id)
 {
 	// create the info
 	CameraInfo info{};
 	info.id = id;
 
 	// read values from the file
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read values
@@ -1043,14 +1034,14 @@ Ref<Camera> Minty::AssetManager::load_camera(Path const& path, UUID const id)
 	return create_from_loaded<Camera>(path, info);
 }
 
-Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
+Ref<Font> Minty::AssetManager::load_font(Path const &path, UUID const id)
 {
 	// create info
 	FontInfo info{};
 	info.id = id;
 
 	// read the font data
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read values
@@ -1059,7 +1050,7 @@ Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 		if (reader->read("Variants", variantIds))
 		{
 			// get the variants
-			for (UUID const& variantId : variantIds)
+			for (UUID const &variantId : variantIds)
 			{
 				Ref<FontVariant> variant = get<FontVariant>(variantId);
 				MINTY_ASSERT(variant != nullptr, ErrorCode::Asset_MissingDependency, path, variantId);
@@ -1074,7 +1065,7 @@ Ref<Font> Minty::AssetManager::load_font(Path const& path, UUID const id)
 	return create_from_loaded<Font>(path, info);
 }
 
-Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID const id)
+Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const &path, UUID const id)
 {
 	// create the info
 	FontVariantInfo info{};
@@ -1086,7 +1077,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 	Vector<String> lines = read_lines(path);
 	Float widthScale = 1.0f;
 	Float heightScale = 1.0f;
-	for (String const& line : lines)
+	for (String const &line : lines)
 	{
 		// split by tabs
 		Vector<String> parts = line.split();
@@ -1096,7 +1087,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 		{
 			FontChar fontChar{};
 
-			for (String const& part : parts)
+			for (String const &part : parts)
 			{
 				if (part.is_empty())
 				{
@@ -1144,7 +1135,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 			char first = 0;
 			char second = 0;
 			float amount = 0;
-			for (String const& part : parts)
+			for (String const &part : parts)
 			{
 				if (part.is_empty())
 				{
@@ -1166,11 +1157,11 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 			}
 
 			// pack kerning into info
-			info.kernings.add({ first, second, amount });
+			info.kernings.add({first, second, amount});
 		}
 		else if (line.starts_with("info "))
 		{
-			for (String const& part : parts)
+			for (String const &part : parts)
 			{
 				if (part.is_empty())
 				{
@@ -1201,7 +1192,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 		}
 		else if (line.starts_with("common "))
 		{
-			for (String const& part : parts)
+			for (String const &part : parts)
 			{
 				if (part.is_empty())
 				{
@@ -1219,7 +1210,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 			// textures to load
 			Path directoryPath = path.get_parent();
 
-			for (String const& part : parts)
+			for (String const &part : parts)
 			{
 				if (part.is_empty())
 				{
@@ -1240,7 +1231,7 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 			{
 				break;
 			}
-			
+
 			// get size
 			UInt2 textureSize = info.texture->get_size();
 
@@ -1256,19 +1247,19 @@ Ref<FontVariant> Minty::AssetManager::load_font_variant(Path const& path, UUID c
 	return create_from_loaded<FontVariant>(path, info);
 }
 
-Ref<Image> Minty::AssetManager::load_image(Path const& path, UUID const id)
+Ref<Image> Minty::AssetManager::load_image(Path const &path, UUID const id)
 {
 	// create the image using the path and ID
-	Owner<Image> image = create_image(path, id);
+	Shared<Image> image = create_image(path, id);
 
 	// add to the asset manager
 	add(path, image);
 
 	// done
-	return image.create_ref();
+	return image.to_ref();
 }
 
-static void read_values(Reader& reader, Cargo& values)
+static void read_values(Reader &reader, Cargo &values)
 {
 	String objectName;
 	String valueName;
@@ -1313,14 +1304,14 @@ static void read_values(Reader& reader, Cargo& values)
 	}
 }
 
-Ref<Material> Minty::AssetManager::load_material(Path const& path, UUID const id)
+Ref<Material> Minty::AssetManager::load_material(Path const &path, UUID const id)
 {
 	// create info
 	MaterialInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// get template
@@ -1343,14 +1334,14 @@ Ref<Material> Minty::AssetManager::load_material(Path const& path, UUID const id
 	return create_from_loaded<Material>(path, info);
 }
 
-Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& path, UUID const id)
+Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const &path, UUID const id)
 {
 	// create info
 	MaterialTemplateInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		if (find_dependency<Shader>(path, *reader, "Shader", info.shader, true))
@@ -1372,7 +1363,7 @@ Ref<MaterialTemplate> Minty::AssetManager::load_material_template(Path const& pa
 	return create_from_loaded<MaterialTemplate>(path, info);
 }
 
-Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
+Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const &path, UUID const id)
 {
 	MeshInfo info{};
 	info.id = id;
@@ -1396,7 +1387,7 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
 	Float2 coord;
 	Float3 normal;
 
-	for (auto const& line : lines)
+	for (auto const &line : lines)
 	{
 		ss = std::istringstream(line.get_data());
 		ss >> token;
@@ -1491,7 +1482,7 @@ Ref<Mesh> Minty::AssetManager::load_mesh_obj(Path const& path, UUID const id)
 	return create_from_loaded<Mesh>(path, info);
 }
 
-Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
+Ref<Mesh> Minty::AssetManager::load_mesh(Path const &path, UUID const id)
 {
 	String extension = path.get_extension().get_string();
 
@@ -1503,14 +1494,14 @@ Ref<Mesh> Minty::AssetManager::load_mesh(Path const& path, UUID const id)
 	MINTY_ABORT(ErrorCode::Asset_UnknownType, path);
 }
 
-Ref<Prefab> Minty::AssetManager::load_prefab(Path const& path, UUID const id)
+Ref<Prefab> Minty::AssetManager::load_prefab(Path const &path, UUID const id)
 {
 	// create info
 	PrefabInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// just save the values
@@ -1522,7 +1513,7 @@ Ref<Prefab> Minty::AssetManager::load_prefab(Path const& path, UUID const id)
 	return create_from_loaded<Prefab>(path, info);
 }
 
-Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID const id)
+Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const &path, UUID const id)
 {
 	// create info
 	RenderPassInfo info{};
@@ -1531,13 +1522,13 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID con
 	// read values
 	RenderAttachment colorAttachment{};
 	RenderAttachment depthAttachment{};
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read color attachment
 		if (reader->indent("Attachments"))
 		{
-			if(!read_attachment(path, *reader, "Color", colorAttachment, true))
+			if (!read_attachment(path, *reader, "Color", colorAttachment, true))
 			{
 				colorAttachment.type = RenderAttachment::Type::Color;
 				info.colorAttachment = &colorAttachment;
@@ -1547,7 +1538,7 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID con
 				depthAttachment.type = RenderAttachment::Type::Depth;
 				info.depthAttachment = &depthAttachment;
 			}
-			
+
 			reader->outdent();
 		}
 	}
@@ -1555,14 +1546,14 @@ Ref<RenderPass> Minty::AssetManager::load_render_pass(Path const& path, UUID con
 	return create_from_loaded<RenderPass>(path, info);
 }
 
-Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID const id)
+Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const &path, UUID const id)
 {
 	// create info
 	RenderTargetInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		reader->read("RenderPass", info.renderPass);
@@ -1571,9 +1562,9 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 		{
 			// if "Surface", automatically grab the images from the surface
 			MINTY_ASSERT(images == "Surface", ErrorCode::Serialization_InvalidFormat, path, F("Invalid image name: \"{}\". Must provide a valid name (Surface), or a list of Image IDs to use.", images));
-			
+
 			// get the surface images
-			RenderManager& renderManager = RenderManager::get_singleton();
+			RenderManager &renderManager = RenderManager::get_singleton();
 			Ref<Surface> surface = renderManager.get_surface();
 			MINTY_ASSERT(surface != nullptr, ErrorCode::Asset_MissingDependency, path);
 			info.surfaceBound = true;
@@ -1623,14 +1614,14 @@ Ref<RenderTarget> Minty::AssetManager::load_render_target(Path const& path, UUID
 	return create_from_loaded<RenderTarget>(path, info);
 }
 
-Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
+Ref<Shader> Minty::AssetManager::load_shader(Path const &path, UUID const id)
 {
 	// create info
 	ShaderInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// render pass
@@ -1663,7 +1654,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
 				// get the input
-				ShaderInput& input = info.inputs[i];
+				ShaderInput &input = info.inputs[i];
 
 				// get the name
 				if (!reader->read_name(i, input.name))
@@ -1709,7 +1700,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 							}
 
 							// add to the input
-							input.data.add({ name, Variable(type) });
+							input.data.add({name, Variable(type)});
 
 							// add to total size
 							UInt typeSize = static_cast<UInt>(sizeof_type(type));
@@ -1743,7 +1734,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 			UInt location;
 			for (Size i = 0; i < reader->get_size(); i++)
 			{
-				ShaderBinding& shaderBinding = info.vertexInput.bindings[i];
+				ShaderBinding &shaderBinding = info.vertexInput.bindings[i];
 
 				// read the binding
 				if (!reader->read_name(i, name) || !try_uint(name, binding))
@@ -1763,12 +1754,12 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 				{
 					// allot space for attributes
 					shaderBinding.attributes.resize(reader->get_size(), ShaderAttribute{});
-					
+
 					// read each attribute
 					location = UINT_MAX;
 					for (Size j = 0; j < reader->get_size(); j++)
 					{
-						ShaderAttribute& shaderAttribute = shaderBinding.attributes[j];
+						ShaderAttribute &shaderAttribute = shaderBinding.attributes[j];
 
 						// get attribute location
 						if (!reader->read_name(j, name) || !try_uint(name, location))
@@ -1824,7 +1815,7 @@ Ref<Shader> Minty::AssetManager::load_shader(Path const& path, UUID const id)
 	return create_from_loaded<Shader>(path, info);
 }
 
-Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path, UUID const id)
+Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const &path, UUID const id)
 {
 	// create info
 	ShaderModuleInfo info{};
@@ -1838,7 +1829,7 @@ Ref<ShaderModule> Minty::AssetManager::load_shader_module(Path const& path, UUID
 	return create_from_loaded<ShaderModule>(path, info);
 }
 
-static void read_sprite_slice(Reader& reader, SpriteSlice& slice, CoordinateMode const defaultCoordinateMode = CoordinateMode::Normalized)
+static void read_sprite_slice(Reader &reader, SpriteSlice &slice, CoordinateMode const defaultCoordinateMode = CoordinateMode::Normalized)
 {
 	reader.read("CoordinateMode", slice.coordinateMode, defaultCoordinateMode);
 	reader.read("Offset", slice.offset);
@@ -1847,14 +1838,14 @@ static void read_sprite_slice(Reader& reader, SpriteSlice& slice, CoordinateMode
 	reader.read("PPU", slice.pixelsPerUnit);
 }
 
-Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
+Ref<Sprite> Minty::AssetManager::load_sprite(Path const &path, UUID const id)
 {
 	// create info
 	SpriteInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read values
@@ -1867,14 +1858,14 @@ Ref<Sprite> Minty::AssetManager::load_sprite(Path const& path, UUID const id)
 	return create_from_loaded<Sprite>(path, info);
 }
 
-Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID const id)
+Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const &path, UUID const id)
 {
 	// create info
 	SpriteAtlasInfo info{};
 	info.id = id;
 
 	// read values
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(path, reader))
 	{
 		// read values
@@ -1959,33 +1950,33 @@ Ref<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const& path, UUID c
 
 			reader->outdent();
 		}
-		
+
 		close_reader(reader);
 	}
 
 	return create_from_loaded<SpriteAtlas>(path, info);
 }
 
-Ref<Texture> Minty::AssetManager::load_texture(Path const& path, UUID const id)
+Ref<Texture> Minty::AssetManager::load_texture(Path const &path, UUID const id)
 {
 	// create info
 	TextureInfo info{};
 	info.id = id;
-	
+
 	// read meta file
 	Path metaPath = Asset::get_meta_path(path);
-	Reader* reader;
+	Reader *reader;
 	if (open_reader(metaPath, reader))
 	{
 		// create image
 		UUID imageId = UUID::create();
-		Owner<Image> image = create_image(path, imageId);
+		Shared<Image> image = create_image(path, imageId);
 
 		// add image to asset manager
 		add(path, image);
 
 		// set info values
-		info.image = image.create_ref();
+		info.image = image.to_ref();
 		reader->read("Filter", info.filter, Filter::Linear);
 		reader->read("AddressMode", info.addressMode, AddressMode::Repeat);
 
@@ -1995,12 +1986,12 @@ Ref<Texture> Minty::AssetManager::load_texture(Path const& path, UUID const id)
 	return create_from_loaded<Texture>(path, info);
 }
 
-Owner<AssetManager> Minty::AssetManager::create(AssetManagerInfo const& info)
+Unique<AssetManager> Minty::AssetManager::create(AssetManagerInfo const &info)
 {
-	return Owner<AssetManager>(info);
+	return Unique<AssetManager>::create(info);
 }
 
-AssetManager& Minty::AssetManager::get_singleton()
+AssetManager &Minty::AssetManager::get_singleton()
 {
-	return Context::get_singleton().get_asset_manager();
+	return Application::get_singleton().get_asset_manager();
 }

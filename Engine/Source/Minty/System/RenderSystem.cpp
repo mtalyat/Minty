@@ -36,7 +36,7 @@ struct Minty::RenderSystem::RenderInfo
 {
 	Ref<Shader> shader = nullptr;
 	Ref<Material> material = nullptr;
-	Vector<Tuple<String, void*, Size>> inputs;
+	Vector<Tuple<String, Any, Size>> inputs;
 	Entity canvas = INVALID_ENTITY; // for UI rendering
 
 	Ref<Mesh> mesh = nullptr;

@@ -24,7 +24,7 @@ namespace Minty
 	template<typename Key, typename Value, typename Allocator = DefaultAllocator>
 	class Map
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Node
@@ -437,7 +437,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/**
@@ -503,7 +503,7 @@ namespace Minty
 		 * @param key The key of the pair.
 		 * @param value The value of the pair.
 		 */
-		void add(Key const& key, Value&& value)
+		void add(Key const& key, Value const& value)
 		{
 			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
 
@@ -516,6 +516,31 @@ namespace Minty
 			// insert into bucket
 			Size index = hash(key);
 			Node* node = Allocator::construct<Node>(key, std::move(value));
+			node->next = mp_table[index];
+			mp_table[index] = node;
+
+			// add to size
+			++m_size;
+		}
+
+		/**
+		 * @brief Adds a key-value pair to the Map.
+		 * @param key The key of the pair.
+		 * @param value The value of the pair.
+		 */
+		void add(Key const& key, Value&& value)
+		{
+			MINTY_ASSERT(!contains(key), ErrorCode::Argument_KeyAlreadyExists);
+
+			// rehash if necessary
+			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
+			{
+				rehash();
+			}
+
+			// insert into bucket
+			Size index = hash(key);
+			Node* node = Allocator::construct<Node>(std::move(key), std::move(value));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 

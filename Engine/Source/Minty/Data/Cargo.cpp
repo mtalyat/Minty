@@ -111,42 +111,6 @@ Minty::Cargo::Iterator Minty::Cargo::find(String const &name)
 	return it;
 }
 
-ConstantContainer Minty::Object::pack() const
-{
-	// get the size of the container
-	Size size = 0;
-	Type type;
-	for (auto const &[name, variable] : m_variables)
-	{
-		type = variable.get_type();
-		size += sizeof_type(type);
-	}
-
-	// create the container
-	ConstantContainer container(size);
-
-	// pack data into the container
-	Size offset = 0;
-	for (auto const &[name, variable] : m_variables)
-	{
-		type = variable.get_type();
-		Size typeSize = sizeof_type(type);
-		// if variable is empty, set to zeros, otherwise set the variable data
-		if (variable.is_empty())
-		{
-			Byte *ptr = static_cast<Byte *>(container.get_data()) + offset;
-			memset(ptr, 0, typeSize);
-		}
-		else
-		{
-			container.set_at(variable.get_data().get_data(), typeSize, offset);
-		}
-		offset += typeSize;
-	}
-
-	return container;
-}
-
 Minty::Cargo::ConstIterator Minty::Cargo::find(String const &name) const
 {
 	auto it = m_objects.begin();

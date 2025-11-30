@@ -11,42 +11,6 @@
 namespace Minty
 {
 	/// <summary>
-	/// Arguments for a Window.
-	/// </summary>
-	struct WindowInfo
-	{
-		/// <summary>
-		/// The ID.
-		/// </summary>
-		UUID id = INVALID_ID;
-
-		/// <summary>
-		/// The position of the Window.
-		/// </summary>
-		Int2 position = { 100, 100 };
-
-		/// <summary>
-		/// The size of the Window.
-		/// </summary>
-		UInt2 size = { 960, 540 };
-
-		/// <summary>
-		/// The title of the Window.
-		/// </summary>
-		String title = MINTY_NAME;
-
-		/// <summary>
-		/// The path to the icon image.
-		/// </summary>
-		Path icon = TEXT_EMPTY;
-
-		/// <summary>
-		/// Called when an Event is triggered.
-		/// </summary>
-		EventCallbackFunction eventCallback = nullptr;
-	};
-
-	/// <summary>
 	/// A Window object.
 	/// </summary>
 	class Window
@@ -78,7 +42,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -145,7 +109,7 @@ namespace Minty
 		/// Gets the native Window object.
 		/// </summary>
 		/// <returns>A pointer to the native object.</returns>
-		virtual void* get_native() const = 0;
+		virtual Any get_native() const = 0;
 
 		/// <summary>
 		/// Sets the event callback function.
@@ -213,9 +177,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The info.</param>
 		/// <returns>A Window Owner.</returns>
-		static Window* create(WindowInfo const& info);
-
-		inline static void destroy(Window* p_window) { delete p_window; }
+		static Unique<Window> create(WindowInfo const& info);
 
 #pragma endregion
 	};

@@ -137,7 +137,7 @@ namespace Minty
 
 		static void free_memory(VkDevice const device, VkDeviceMemory const memory);
 
-		static void* map_memory(VkDevice const device, VkDeviceMemory const memory, VkDeviceSize const offset, VkDeviceSize const size);
+		static Any map_memory(VkDevice const device, VkDeviceMemory const memory, VkDeviceSize const offset, VkDeviceSize const size);
 
 		static void unmap_memory(VkDevice const device, VkDeviceMemory const memory);
 

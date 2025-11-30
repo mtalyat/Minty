@@ -28,7 +28,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The priority of the Shader. Higher priority Shaders are rendered first.
@@ -162,7 +162,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -225,7 +225,7 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>Shader.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Shader; }
+		inline AssetType get_asset_type() const override { return AssetType::Shader; }
 
 #pragma endregion
 
@@ -259,7 +259,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A Shader Owner.</returns>
-		static Owner<Shader> create(ShaderInfo const& info = {});
+		static Shared<Shader> create(ShaderInfo const& info = {});
 
 #pragma endregion
 	};

@@ -1,16 +1,35 @@
-#pragma once
+#ifndef MINTY_INPUT_CURSORMODE_H
+#define MINTY_INPUT_CURSORMODE_H
+
+/**
+ * @file CursorMode.h
+ * @brief Header file for cursor mode enumeration.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The visual state of the cursor.
-	/// </summary>
+	/**
+	 * @brief The visual state of the cursor.
+	 */
 	enum class CursorMode
 	{
+		/**
+		 * @brief Normal cursor mode.
+		 */
 		Normal,
+
+		/**
+		 * @brief Hidden cursor mode.
+		 */
 		Hidden,
+		
+		/**
+		 * @brief Disabled cursor mode.
+		 */
 		Disabled,
 	};
 
@@ -22,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<CursorMode>(String const& string, CursorMode& value) { return parse_try_cursor_mode(string, value); }
 }
+
+#endif // MINTY_INPUT_CURSORMODE_H

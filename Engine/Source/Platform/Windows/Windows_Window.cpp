@@ -192,7 +192,7 @@ void Minty::Windows_Window::set_cursor_mode(CursorMode const mode)
 	}
 }
 
-void* Minty::Windows_Window::get_native() const
+Any Minty::Windows_Window::get_native() const
 {
 	return mp_window;
 }

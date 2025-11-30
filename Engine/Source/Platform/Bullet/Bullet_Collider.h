@@ -36,10 +36,10 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		inline void* get_native() const override { return mp_shape; }
+		inline Any get_native() const override { return mp_shape; }
 
 		inline btCollisionShape* get_collision_shape() const
 		{

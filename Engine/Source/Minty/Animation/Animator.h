@@ -40,7 +40,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/**
@@ -99,7 +99,7 @@ namespace Minty
 		 * @param info The arguments for the Animator.
 		 * @return The created Animator.
 		 */
-		static Owner<Animator> create(AnimatorInfo const& info);
+		static Shared<Animator> create(AnimatorInfo const& info);
 
 #pragma endregion
 	};

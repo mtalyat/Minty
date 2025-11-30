@@ -21,10 +21,10 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		inline void* get_native() const override { return mp_body; }
+		inline Any get_native() const override { return mp_body; }
 
 		inline btRigidBody* get_rigid_body() const { return mp_body; }
 

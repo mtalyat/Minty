@@ -87,8 +87,8 @@ void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulk
 	for (Size i = 0; i < m_images.get_size(); i++)
 	{
 		imageInfo.id = UUID::create();
-		Owner<Image> vulkanImage = Owner<Vulkan_Image>(imageInfo, swapchainImages.at(i));
-		m_images.at(i) = vulkanImage.create_ref();
+		Shared<Image> vulkanImage = Shared<Vulkan_Image>(imageInfo, swapchainImages.at(i));
+		m_images.at(i) = vulkanImage.to_ref();
 		assetManager.add(vulkanImage);
 		vulkanImage.release();
 	}

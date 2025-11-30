@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "FontFlags.h"
+#include "Minty/Data/StringBuilder.h"
 
 using namespace Minty;
 
@@ -10,10 +11,16 @@ String Minty::to_string(FontFlags const obj)
 		return "None";
 	}
 
-	String result = "";
-	if (static_cast<Bool>(obj & FontFlags::Bold)) result += "Bold";
-	if (static_cast<Bool>(obj & FontFlags::Italic)) result += "Italic";
-	return result;
+	StringBuilder builder;
+	if (static_cast<Bool>(obj & FontFlags::Bold))
+	{
+		builder.append("Bold");
+	}
+	if (static_cast<Bool>(obj & FontFlags::Italic))
+	{
+		builder.append("Italic");
+	}
+	return builder.to_string();
 }
 
 FontFlags Minty::parse_to_font_flags(String const& string)

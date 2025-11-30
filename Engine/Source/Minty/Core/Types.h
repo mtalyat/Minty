@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_CORE_TYPES_H
+#define MINTY_CORE_TYPES_H
+
+/**
+ * @file Types.h
+ * @brief Header file defining core type aliases.
+ * @author Mitchell Talyat
+ */
+
 #include <cstdint>
 #include <typeindex>
 #include <chrono>
@@ -58,4 +66,9 @@ namespace Minty
 		{ a <= b } -> std::convertible_to<bool>;
 		{ a >= b } -> std::convertible_to<bool>;
 	};
+
+	class Event;
+	using EventCallbackFunction = Function<void(Event&)>;
 }
+
+#endif // MINTY_CORE_TYPES_H

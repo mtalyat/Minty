@@ -1,13 +1,21 @@
-#pragma once
+#ifndef MINTY_ENTITY_ENTITYVIEW_H
+#define MINTY_ENTITY_ENTITYVIEW_H
+
+/**
+ * @file EntityView.h
+ * @brief Header file defining the EntityView class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Entity/Entity.h"
 #include "Minty/Library/EnTT.h"
 
 namespace Minty
 {
-    /// <summary>
-    /// A view of Entities in the EntityManager with the given Components.
-    /// </summary>
-    /// <typeparam name="View">The type of view.</typeparam>
+    /**
+     * @brief A view of Entities in the EntityManager with the given Components.
+     * @tparam View The type of view.
+     */
     template<typename View>
     class EntityView
     {
@@ -21,10 +29,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new EntityView using the given view.
-		/// </summary>
-		/// <param name="view">The view.</param>
+		/**
+		 * @brief Creates a new EntityView using the given view.
+		 * @param view The view.
+		 */
 		EntityView(View const& view)
 			: m_view(view)
 		{
@@ -36,13 +44,13 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the maximum number of Entities in the view.
-		/// </summary>
-		/// <returns>The max count.</returns>
+		/**
+		 * @brief Gets the maximum number of Entities in the view.
+		 * @return The max count.
+		 */
 		Size get_size() const
 		{
 			return m_view.size();
@@ -53,28 +61,28 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary> 
-		/// Allows iterating over the Entities and Components in the view.
-		/// </summary>
-		/// <returns>The iterator.</returns>
+		/**
+		 * @brief Allows iterating over the Entities and Components in the view.
+		 * @return The iterator.
+		 */
 		auto each()
 		{
 			return m_view.each();
 		}
 
-		/// <summary>
-		/// Allows iterating over the Entities and Components in the view.
-		/// </summary>
-		/// <returns>The iterator.</returns>
+		/**
+		 * @brief Allows iterating over the Entities and Components in the view.
+		 * @return The iterator.
+		 */
 		auto each() const
 		{
 			return m_view.each();
 		}
 
-		/// <summary>
-		/// Specifies the Component type to use when ordering the Entities.
-		/// </summary>
-		/// <typeparam name="T">The Component type.</typeparam>
+		/**
+		 * @brief Specifies the Component type to use when ordering the Entities.
+		 * @tparam T The Component type.
+		 */
 		template<typename T>
 		void use()
 		{
@@ -84,3 +92,5 @@ namespace Minty
 #pragma endregion
     };
 }
+
+#endif // MINTY_ENTITY_ENTITYVIEW_H

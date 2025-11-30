@@ -13,7 +13,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = {};
 
 		/// <summary>
 		/// The byte data.
@@ -45,7 +45,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -70,7 +70,7 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>The AssetType.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Generic; }
+		inline AssetType get_asset_type() const override { return AssetType::Generic; }
 
 #pragma endregion
 
@@ -82,7 +82,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The info.</param>
 		/// <returns>A GenericAsset Owner.</returns>
-		static Owner<GenericAsset> create(GenericAssetInfo const& info = {});
+		static Shared<GenericAsset> create(GenericAssetInfo const& info = {});
 
 #pragma endregion
 

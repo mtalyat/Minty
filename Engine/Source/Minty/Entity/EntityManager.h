@@ -1,12 +1,15 @@
-#pragma once
-#include "Minty/Component/Component.h"
-#include "Minty/Component/RelationshipComponent.h"
+#ifndef MINTY_ENTITY_ENTITYMANAGER_H
+#define MINTY_ENTITY_ENTITYMANAGER_H
+
+/**
+ * @file EntityManager.h
+ * @brief Defines the EntityManager class responsible for managing Entities.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
-#include "Minty/Entity/EntityPath.h"
-#include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Entity/EntityView.h"
-#include "Minty/Entity/Prefab.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
@@ -15,67 +18,47 @@
 
 namespace Minty
 {
+	class EntityPath;
+	class Prefab;
+	class Scene;
+	struct EntityManagerInfo;
+	struct RelationshipComponent;
 	struct TransformComponent;
 	struct UITransformComponent;
 
-	/// <summary>
-	/// The arguments for an EntityManager.
-	/// </summary>
-	struct EntityManagerInfo
-	{
-
-	};
-
-	/// <summary>
-	/// Manages all Entities in the game.
-	/// </summary>
+	/**
+	 * @brief The EntityManager is responsible for creating, managing, and destroying Entities within a Scene.
+	 */
 	class EntityManager
-		: public SubManager, public SerializableObject
+		: public SubManager,
+		  public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		entt::registry m_registry;
-		Map<UUID, Entity> m_ids;
-
-		Bool m_needsSorted;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new EntityManager using the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		EntityManager(Scene* scene, EntityManagerInfo const& info)
-			: SubManager(scene)
-			, m_registry()
-			, m_ids()
-			, m_needsSorted(false)
-		{
-		}
+		/**
+		 * @brief Constructs an EntityManager for the given Scene with the specified info.
+		 * @param scene The Scene this EntityManager belongs to.
+		 * @param info The EntityManagerInfo containing initialization parameters.
+		 */
+		EntityManager(Scene *scene, EntityManagerInfo const &info);
 
-		EntityManager(EntityManager&& other) noexcept
-			: SubManager(std::move(other))
-			, m_registry(std::move(other.m_registry))
-			, m_ids(std::move(other.m_ids))
-			, m_needsSorted(std::move(other.m_needsSorted))
-		{
-		}
+		/**
+		 * @brief Move constructor.
+		 * @param other The EntityManager to move from.
+		 */
+		EntityManager(EntityManager &&other) noexcept;
 
-		~EntityManager()
-		{
-			MINTY_ASSERT(!is_initialized(), ErrorCode::Object_NeverDisposed);
-		}
+		~EntityManager() override = default;
+
+		EntityManager(EntityManager const &) = delete;
 
 #pragma endregion
 
 #pragma region Operators
 
 	public:
-		EntityManager& operator=(EntityManager&& other) noexcept
+		EntityManager &operator=(EntityManager &&other) noexcept
 		{
 			if (this != &other)
 			{
@@ -85,467 +68,525 @@ namespace Minty
 			return *this;
 		}
 
+		EntityManager &operator=(EntityManager const &) = delete;
+
 #pragma endregion
 
-#pragma region Get Set
-
-	private:
-		void remove_from_parent(RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp);
-
-		void add_to_parent(Entity const entity, RelationshipComponent& relationshipComp, RelationshipComponent& parentRelationshipComp);
+#pragma region Accessors
 
 	public:
+		/**
+		 * @brief Gets the unique ID of the given Entity.
+		 * @param entity The Entity.
+		 */
 		UUID get_id(Entity const entity) const;
 
+		/**
+		 * @brief Sets the unique ID of the given Entity.
+		 * @param entity The Entity.
+		 * @param id The unique ID to set.
+		 */
 		void set_id(Entity const entity, UUID const id);
 
+		/**
+		 * @brief Gets the Entity with the given unique ID.
+		 * @param id The unique ID.
+		 */
 		Entity get_entity(UUID const id) const;
 
-		Entity get_entity(Entity const source, EntityPath const& path) const;
+		/**
+		 * @brief Gets the Entity at the given EntityPath, starting from the source Entity.
+		 * @param source The source Entity.
+		 * @param path The EntityPath.
+		 */
+		Entity get_entity(Entity const source, EntityPath const &path) const;
 
-		// name (UUID)
+		/**
+		 * @brief Gets a string representation of the given Entity.
+		 * @param entity The Entity.
+		 * @returns The string representation, in the format "Name (ID)".
+		 */
 		String get_entity_string(Entity const entity) const;
 
+		/**
+		 * @brief Enables or disables the given Entity.
+		 * @param entity The Entity.
+		 * @param enabled True to enable, false to disable.
+		 */
 		void set_enabled(Entity const entity, Bool const enabled);
 
+		/**
+		 * @brief Checks if the given Entity is enabled.
+		 * @param entity The Entity.
+		 */
 		Bool get_enabled(Entity const entity) const;
 
+		/**
+		 * @brief Sets the visibility of the given Entity.
+		 * @param entity The Entity.
+		 * @param visible True to make visible, false to make invisible.
+		 */
 		void set_visible(Entity const entity, Bool const visible);
 
+		/**
+		 * @brief Checks if the given Entity is visible.
+		 * @param entity The Entity.
+		 */
 		Bool get_visible(Entity const entity) const;
 
+		/**
+		 * @brief Sets the layer of the given Entity.
+		 * @param entity The Entity.
+		 * @param layer The Layer to set.
+		 */
 		void set_layer(Entity const entity, Layer const layer);
 
+		/**
+		 * @brief Gets the layer of the given Entity.
+		 * @param entity The Entity.
+		 */
 		Layer get_layer(Entity const entity) const;
 
+		/**
+		 * @brief Sets the parent of the given Entity.
+		 * @param entity The Entity.
+		 * @param parent The parent Entity.
+		 */
 		void set_parent(Entity const entity, Entity const parent);
 
+		/**
+		 * @brief Gets the parent of the given Entity.
+		 * @param entity The Entity.
+		 */
 		Entity get_parent(Entity const entity) const;
 
+		/**
+		 * @brief Gets the child of the given Entity at the specified index.
+		 * @param entity The Entity.
+		 * @param index The index of the child.
+		 */
 		Entity get_child(Entity const entity, Size const index) const;
 
+		/**
+		 * @brief Gets the name of the given Entity.
+		 * @param entity The Entity.
+		 */
 		String get_name(Entity const entity) const;
 
-		void set_name(Entity const entity, String const& name);
+		/**
+		 * @brief Sets the name of the given Entity.
+		 * @param entity The Entity.
+		 * @param name The name to set.
+		 */
+		void set_name(Entity const entity, String const &name);
 
-		Size get_size() const { return m_registry.storage<Entity>()->in_use(); }
+		/**
+		 * @brief Gets the total number of Entities managed.
+		 * @returns The number of Entities.
+		 */
+		inline Size get_size() const { return m_registry.storage<Entity>()->in_use(); }
+
+	private:
+		void remove_from_parent(RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp);
+
+		void add_to_parent(Entity const entity, RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp);
 
 #pragma endregion
 
 #pragma region Methods
 
-	private:
-		// finalizes dirty components
-		void finalize_dirties();
-
-		Entity create_entity_smart(String const& name, UUID const id);
-
-		// preps the entity for destruction
-		void strip_entity(Entity const entity);
-
-		void update_transform(Entity const entity, Entity const parent, TransformComponent& transformComp);
-
-		void update_uiTransform(Entity const entity, Entity const parent, UITransformComponent& uiTransformComp);
-
 	public:
-		/// <summary>
-		/// Called when the Manager is created.
-		/// </summary>
-		void initialize() override;
+		/**
+		 * @brief Called when the Scene is loaded.
+		 */
+		void on_scene_load() override;
 
-		/// <summary>
-		/// Called every frame.
-		/// </summary>
-		void frame_update(Timestep const& time) override;
-		
-		/// <summary>
-		/// Called after every update operation.
-		/// </summary>
+		/**
+		 * @brief Called every frame to update Entities.
+		 * @param time The Timestep since the last frame.
+		 */
+		void frame_update(Timestep const &time) override;
+
+		/**
+		 * @brief Finalizes the EntityManager, cleaning up resources.
+		 */
 		void finalize() override;
 
-		/// <summary>
-		/// Checks if this manager contains an Entity with the given ID.
-		/// </summary>
-		/// <param name="id">The ID of the Entity.</param>
-		/// <returns>True if an Entity with the ID exists.</returns>
-		Bool contains(UUID const id) const
-		{
-			return m_ids.contains(id);
-		}
+		/**
+		 * @brief Checks if this manager contains an Entity with the given ID.
+		 * @param id The Entity ID.
+		 * @returns True if the Entity exists.
+		 */
+		inline Bool contains(UUID const id) const { return m_ids.contains(id); }
 
-		/// <summary>
-		/// Checks if this manager contains the given Entity.
-		/// </summary>
-		/// <param name="entity">The Entity.</param>
-		/// <returns>True if the given Entity exists.</returns>
-		Bool contains(Entity const entity) const
-		{
-			return m_registry.valid(entity);
-		}
+		/**
+		 * @brief Checks if this manager contains the given Entity.
+		 * @param entity The Entity.
+		 */
+		inline Bool contains(Entity const entity) const { return m_registry.valid(entity); }
 
-		/// <summary>
-		/// Checks if the given Entity's layer mask contains the given Layer.
-		/// </summary>
-		/// <param name="entity">The Entity.</param>
-		/// <param name="layer">The Layer(s).</param>
-		/// <returns>True if the layer is within the Entity's layers.</returns>
+		/**
+		 * @brief Checks if the given Entity is in the specified Layer.
+		 * @param entity The Entity.
+		 * @param layer The Layer.
+		 * @returns True if the Entity is in the Layer.
+		 */
 		Bool is_in_layer(Entity const entity, Layer const layer) const;
 
-		/// <summary>
-		/// Checks if the given mask contains the given Entity's layer.
-		/// </summary>
-		/// <param name="entity">The Entity.</param>
-		/// <param name="mask">The Layer(s).</param>
-		/// <returns>True if the Entity's layers are within the layer mask.</returns>
+		/**
+		 * @brief Checks if the given Entity is in the specified Layer mask.
+		 * @param entity The Entity.
+		 * @param mask The Layer mask.
+		 * @returns True if the Entity is in the Layer mask.
+		 */
 		Bool is_in_mask(Entity const entity, Layer const mask) const;
 
-		/// <summary>
-		/// Marks the given Entity as dirty. Dirty components need to be refreshed.
-		/// </summary>
-		/// <param name="entity">The Entity.</param>
+		/**
+		 * @brief Marks the given Entity as dirty. Dirty components need to be refreshed.
+		 * @param entity The Entity.
+		 */
 		void dirty(Entity const entity);
 
-		/// <summary>
-		/// Forcefully refreshes the given Entity. This will update all Components of the Entity, even if they are not dirty.
-		/// </summary>
-		/// <param name="entity">The Entity.</param>
+		/**
+		 * @brief Forcefully refreshes the given Entity. This will update all Components of the Entity, even if they are not dirty.
+		 * @param entity The Entity.
+		 */
 		void refresh(Entity const entity);
 
-		/// <summary>
-		/// Creates an empty Entity.
-		/// </summary>
-		/// <returns>The Entity.</returns>
+		/**
+		 * @brief Creates an empty Entity.
+		 * @returns The Entity.
+		 */
 		Entity create_entity();
 
-		/// <summary>
-		/// Creates an Entity with the given ID.
-		/// </summary>
-		/// <param name="id">The Entity ID.</param>
-		/// <returns>The Entity.</returns>
+		/**
+		 * @brief Creates an Entity with the given ID.
+		 * @param id The Entity ID.
+		 * @returns The Entity.
+		 */
 		Entity create_entity(UUID const id);
 
-		/// <summary>
-		/// Creates a new entity with the specified name.
-		/// </summary>
-		/// <param name="name">The name to assign to the newly created entity.</param>
-		/// <returns>The Entity.</returns>
-		Entity create_entity(String const& name);
+		/**
+		 * @brief Creates a new entity with the specified name.
+		 * @param name The name to assign to the newly created entity.
+		 * @returns The Entity.
+		 */
+		Entity create_entity(String const &name);
 
-		/// <summary>
-		/// Creates a new entity with the specified parent entity.
-		/// </summary>
-		/// <param name="parent">The parent entity to associate with the newly created entity.</param>
-		/// <returns>The Entity.</returns>
+		/**
+		 * @brief Creates a new entity with the specified parent entity.
+		 * @param parent The parent entity to associate with the newly created entity.
+		 * @returns The Entity.
+		 */
 		Entity create_entity(Entity const parent);
 
-		/// <summary>
-		/// Creates a new Entity with the specified name and unique identifier.
-		/// </summary>
-		/// <param name="name">The name to assign to the new Entity.</param>
-		/// <param name="id">The unique identifier (UUID) for the new Entity.</param>
-		/// <returns>The Entity.</returns>
-		Entity create_entity(String const& name, UUID const id);
+		/**
+		 * @brief Creates a new Entity with the specified name and unique identifier.
+		 * @param name The name to assign to the new Entity.
+		 * @param id The unique identifier (UUID) for the new Entity.
+		 * @returns The Entity.
+		 */
+		Entity create_entity(String const &name, UUID const id);
 
-		/// <summary>
-		/// Creates a new entity with the specified name, unique identifier, and parent entity.
-		/// </summary>
-		/// <param name="name">The name to assign to the new entity.</param>
-		/// <param name="id">The unique identifier for the new entity.</param>
-		/// <param name="parent">The parent entity to associate with the new entity.</param>
-		/// <returns>The Entity.</returns>
-		Entity create_entity(String const& name, UUID const id, Entity const parent);
+		/**
+		 * @brief Creates a new entity with the specified name, unique identifier, and parent entity.
+		 * @param name The name to assign to the new entity.
+		 * @param id The unique identifier for the new entity.
+		 * @param parent The parent entity to associate with the new entity.
+		 * @returns The Entity.
+		 */
+		Entity create_entity(String const &name, UUID const id, Entity const parent);
 
-		/// <summary>
-		/// Spawns a new entity from the specified prefab.
-		/// </summary>
-		/// <param name="prefab">A constant reference to the prefab used to create the entity.</param>
-		/// <returns>The spawned Entity.</returns>
-		Entity spawn_entity(Ref<Prefab> const& prefab);
+		/**
+		 * @brief Spawns a new entity from the specified prefab.
+		 * @param prefab A constant reference to the prefab used to create the entity.
+		 * @returns The spawned Entity.
+		 */
+		Entity spawn_entity(Ref<Prefab> const &prefab);
 
-		/// <summary>
-		/// Creates and returns a new entity instance from the specified prefab with the given name.
-		/// </summary>
-		/// <param name="prefab">A reference to the prefab used to instantiate the entity.</param>
-		/// <param name="name">The name to assign to the newly spawned entity.</param>
-		/// <returns>The newly created entity instance.</returns>
-		Entity spawn_entity(Ref<Prefab> const& prefab, String const& name);
+		/**
+		 * @brief Creates and returns a new entity instance from the specified prefab with the given name.
+		 * @param prefab A reference to the prefab used to instantiate the entity.
+		 * @param name The name to assign to the newly spawned entity.
+		 * @returns The newly created entity instance.
+		 */
+		Entity spawn_entity(Ref<Prefab> const &prefab, String const &name);
 
-		/// <summary>
-		/// Spawns a new entity from the given prefab with the specified unique identifier.
-		/// </summary>
-		/// <param name="prefab">A reference to the prefab used to create the entity.</param>
-		/// <param name="id">The unique identifier to assign to the spawned entity.</param>
-		/// <returns>The newly spawned entity.</returns>
-		Entity spawn_entity(Ref<Prefab> const& prefab, UUID const id);
+		/**
+		 * @brief Spawns a new entity from the given prefab with the specified unique identifier.
+		 * @param prefab A reference to the prefab used to create the entity.
+		 * @param id The unique identifier to assign to the spawned entity.
+		 * @returns The newly spawned entity.
+		 */
+		Entity spawn_entity(Ref<Prefab> const &prefab, UUID const id);
 
-		/// <summary>
-		/// Spawns a new entity from the given prefab, optionally attaching it to a parent entity.
-		/// </summary>
-		/// <param name="prefab">A reference to the prefab to instantiate.</param>
-		/// <param name="parent">The parent entity to which the new entity will be attached.</param>
-		/// <returns>The newly spawned entity.</returns>
-		Entity spawn_entity(Ref<Prefab> const& prefab, Entity const parent);
+		/**
+		 * @brief Spawns a new entity from the given prefab, optionally attaching it to a parent entity.
+		 * @param prefab A reference to the prefab to instantiate.
+		 * @param parent The parent entity to which the new entity will be attached.
+		 * @returns The newly spawned entity.
+		 */
+		Entity spawn_entity(Ref<Prefab> const &prefab, Entity const parent);
 
-		/// <summary>
-		/// Creates and returns a new entity instance from the specified prefab.
-		/// </summary>
-		/// <param name="prefab">A reference to the prefab to instantiate.</param>
-		/// <param name="name">The name to assign to the spawned entity.</param>
-		/// <param name="id">The unique identifier to assign to the entity.</param>
-		/// <returns>The newly spawned entity.</returns>
-		Entity spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id);
+		/**
+		 * @brief Creates and returns a new entity instance from the specified prefab.
+		 * @param prefab A reference to the prefab to instantiate.
+		 * @param name The name to assign to the spawned entity.
+		 * @param id The unique identifier to assign to the entity.
+		 * @returns The newly spawned entity.
+		 */
+		Entity spawn_entity(Ref<Prefab> const &prefab, String const &name, UUID const id);
 
-		/// <summary>
-		/// Creates and returns a new entity instance from a prefab.
-		/// </summary>
-		/// <param name="prefab">A reference to the prefab to instantiate.</param>
-		/// <param name="name">The name to assign to the spawned entity.</param>
-		/// <param name="id">The unique identifier to assign to the entity.</param>
-		/// <param name="parent">The parent entity to which the new entity will be attached.</param>
-		/// <returns>The newly spawned entity.</returns>
-		Entity spawn_entity(Ref<Prefab> const& prefab, String const& name, UUID const id, Entity const parent);
+		/**
+		 * @brief Creates and returns a new entity instance from a prefab.
+		 * @param prefab A reference to the prefab to instantiate.
+		 * @param name The name to assign to the spawned entity.
+		 * @param id The unique identifier to assign to the entity.
+		 * @param parent The parent entity to which the new entity will be attached.
+		 * @returns The newly spawned entity.
+		 */
+		Entity spawn_entity(Ref<Prefab> const &prefab, String const &name, UUID const id, Entity const parent);
 
-		/// <summary>
-		/// Adds a Component to the given Entity.
-		/// </summary>
-		/// <typeparam name="ComponentType"></typeparam>
-		/// <typeparam name="...Args"></typeparam>
-		/// <param name="entity"></param>
-		/// <param name="...args"></param>
-		/// <returns></returns>
-		template<typename ComponentType, typename... Args>
-		ComponentType& add_component(Entity const entity, Args&&... args)
+		/**
+		 * @brief Adds a Component to the given Entity.
+		 * @tparam ComponentType The type of Component.
+		 * @tparam Args Variadic template arguments.
+		 * @param entity The Entity.
+		 * @param args Arguments to forward to the Component constructor.
+		 * @returns A reference to the newly added Component.
+		 */
+		template <typename ComponentType, typename... Args>
+		ComponentType &add_component(Entity const entity, Args &&...args)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_DuplicateComponent);
 			return m_registry.emplace<ComponentType>(entity, std::forward<Args>(args)...);
 		}
 
-		/// <summary>
-		/// Adds a component with the specified name to the given entity and returns a reference to the newly added component.
-		/// </summary>
-		/// <param name="entity">The entity to which the component will be added.</param>
-		/// <param name="name">The name of the component to add.</param>
-		/// <returns>A reference to the newly added component.</returns>
-		Component& add_component(Entity const entity, String const& name);
+		/**
+		 * @brief Adds a component with the specified name to the given entity and returns a reference to the newly added component.
+		 * @param entity The entity to which the component will be added.
+		 * @param name The name of the component to add.
+		 * @returns A reference to the newly added component.
+		 */
+		Component &add_component(Entity const entity, String const &name);
 
-		/// <summary>
-		/// Retrieves a reference to a component of the specified type from the given entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <returns>A reference to the component of the specified type associated with the entity.</returns>
-		template<typename ComponentType>
-		ComponentType& get_component(Entity const entity)
+		/**
+		 * @brief Retrieves a reference to a component of the specified type from the given entity.
+		 * @tparam ComponentType The type of the component to retrieve.
+		 * @param entity The entity from which to retrieve the component.
+		 * @returns A reference to the component of the specified type associated with the entity.
+		 */
+		template <typename ComponentType>
+		ComponentType &get_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_MissingComponent);
 			return m_registry.get<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Retrieves a reference to a component of the specified type from the given entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <returns>A constant reference to the component of the specified type associated with the entity.</returns>
-		template<typename ComponentType>
-		ComponentType const& get_component(Entity const entity) const
+		/**
+		 * @brief Retrieves a reference to a component of the specified type from the given entity.
+		 * @tparam ComponentType The type of the component to retrieve.
+		 * @param entity The entity from which to retrieve the component.
+		 * @returns A constant reference to the component of the specified type associated with the entity.
+		 */
+		template <typename ComponentType>
+		ComponentType const &get_component(Entity const entity) const
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_MissingComponent);
 			return m_registry.get<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Retrieves a reference to a component of the specified entity by name.
-		/// </summary>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <param name="name">The name of the component to retrieve.</param>
-		/// <returns>A reference to the requested component.</returns>
-		Component& get_component(Entity const entity, String const& name);
+		/**
+		 * @brief Retrieves a reference to a component of the specified entity by name.
+		 * @param entity The entity from which to retrieve the component.
+		 * @param name The name of the component to retrieve.
+		 * @returns A reference to the requested component.
+		 */
+		Component &get_component(Entity const entity, String const &name);
 
-		/// <summary>
-		/// Retrieves a constant reference to a component of the specified entity by name.
-		/// </summary>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <param name="name">The name of the component to retrieve.</param>
-		/// <returns>A constant reference to the requested component.</returns>
-		Component const& get_component(Entity const entity, String const& name) const;
+		/**
+		 * @brief Retrieves a constant reference to a component of the specified entity by name.
+		 * @param entity The entity from which to retrieve the component.
+		 * @param name The name of the component to retrieve.
+		 * @returns A constant reference to the requested component.
+		 */
+		Component const &get_component(Entity const entity, String const &name) const;
 
-		/// <summary>
-		/// Retrieves a component of the specified type from the given entity, or adds it if it does not exist.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to retrieve or add.</typeparam>
-		/// <param name="entity">The entity from which to get or add the component.</param>
-		/// <returns>A reference to the component of the specified type associated with the entity.</returns>
-		template<typename ComponentType>
-		ComponentType& get_or_add_component(Entity const entity)
+		/**
+		 * @brief Retrieves a component of the specified type from the given entity, or adds it if it does not exist.
+		 * @tparam ComponentType The type of the component to retrieve or add.
+		 * @param entity The entity from which to get or add the component.
+		 * @returns A reference to the component of the specified type associated with the entity.
+		 */
+		template <typename ComponentType>
+		ComponentType &get_or_add_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.get_or_emplace<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Retrieves a component by name from the specified entity, or adds it if it does not exist.
-		/// </summary>
-		/// <param name="entity">The entity from which to retrieve or add the component.</param>
-		/// <param name="name">The name of the component to retrieve or add.</param>
-		/// <returns>A reference to the retrieved or newly added component.</returns>
-		Component& get_or_add_component(Entity const entity, String const& name);
+		/**
+		 * @brief Retrieves a component by name from the specified entity, or adds it if it does not exist.
+		 * @param entity The entity from which to retrieve or add the component.
+		 * @param name The name of the component to retrieve or add.
+		 * @returns A reference to the retrieved or newly added component.
+		 */
+		Component &get_or_add_component(Entity const entity, String const &name);
 
-		/// <summary>
-		/// Attempts to retrieve a pointer to a component of the specified type from the given entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <returns>A pointer to the component of the specified type if it exists; otherwise, nullptr.</returns>
-		template<typename ComponentType>
-		ComponentType* try_get_component(Entity const entity)
+		/**
+		 * @brief Attempts to retrieve a pointer to a component of the specified type from the given entity.
+		 * @tparam ComponentType The type of the component to retrieve.
+		 * @param entity The entity from which to retrieve the component.
+		 * @returns A pointer to the component of the specified type if it exists; otherwise, nullptr.
+		 */
+		template <typename ComponentType>
+		ComponentType *try_get_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Attempts to retrieve a pointer to a component of the specified type from the given entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to retrieve.</typeparam>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <returns>A pointer to the component of the specified type if it exists; otherwise, nullptr.</returns>
-		template<typename ComponentType>
-		ComponentType const* try_get_component(Entity const entity) const
+		/**
+		 * @brief Attempts to retrieve a pointer to a component of the specified type from the given entity.
+		 * @tparam ComponentType The type of the component to retrieve.
+		 * @param entity The entity from which to retrieve the component.
+		 * @returns A pointer to the component of the specified type if it exists; otherwise, nullptr.
+		 */
+		template <typename ComponentType>
+		ComponentType const *try_get_component(Entity const entity) const
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.try_get<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Attempts to retrieve a component from the specified entity by name.
-		/// </summary>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <param name="name">The name of the component to retrieve.</param>
-		/// <returns>A pointer to the component if found; otherwise, nullptr.</returns>
-		Component* try_get_component(Entity const entity, String const& name);
+		/**
+		 * @brief Attempts to retrieve a component from the specified entity by name.
+		 * @param entity The entity from which to retrieve the component.
+		 * @param name The name of the component to retrieve.
+		 * @returns A pointer to the component if found; otherwise, nullptr.
+		 */
+		Component *try_get_component(Entity const entity, String const &name);
 
-		/// <summary>
-		/// Attempts to retrieve a component from the specified entity by name.
-		/// </summary>
-		/// <param name="entity">The entity from which to retrieve the component.</param>
-		/// <param name="name">The name of the component to retrieve.</param>
-		/// <returns>A pointer to the component if found; otherwise, nullptr.</returns>
-		Component const* try_get_component(Entity const entity, String const& name) const;
+		/**
+		 * @brief Attempts to retrieve a component from the specified entity by name.
+		 * @param entity The entity from which to retrieve the component.
+		 * @param name The name of the component to retrieve.
+		 * @returns A pointer to the component if found; otherwise, nullptr.
+		 */
+		Component const *try_get_component(Entity const entity, String const &name) const;
 
-		/// <summary>
-		/// Checks if the specified entity has a component of the given type.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to check for.</typeparam>
-		/// <param name="entity">The entity to check for the component.</param>
-		/// <returns>True if the entity has the specified component; otherwise, false.</returns>
-		template<typename ComponentType>
+		/**
+		 * @brief Checks if the specified entity has a component of the given type.
+		 * @tparam ComponentType The type of the component to check for.
+		 * @param entity The entity to check for the component.
+		 * @returns True if the entity has the specified component; otherwise, false.
+		 */
+		template <typename ComponentType>
 		Bool has_component(Entity const entity) const
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.all_of<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Checks whether the specified entity has a component with the given name.
-		/// </summary>
-		/// <param name="entity">The entity to check for the component.</param>
-		/// <param name="name">The name of the component to look for.</param>
-		/// <returns>True if the entity has a component with the specified name; otherwise, false.</returns>
-		Bool has_component(Entity const entity, String const& name) const;
+		/**
+		 * @brief Checks whether the specified entity has a component with the given name.
+		 * @param entity The entity to check for the component.
+		 * @param name The name of the component to look for.
+		 * @returns True if the entity has a component with the specified name; otherwise, false.
+		 */
+		Bool has_component(Entity const entity, String const &name) const;
 
-		/// <summary>
-		/// Checks if the specified entity has all components of the given types.
-		/// </summary>
-		/// <typeparam name="ComponentTypes">The types of the components to check for.</typeparam>
-		/// <param name="entity">The entity to check for the components.</param>
-		/// <returns>True if the entity has all the specified components; otherwise, false.</returns>
-		template<typename... ComponentTypes>
+		/**
+		 * @brief Checks if the specified entity has all components of the given types.
+		 * @tparam ComponentTypes The types of the components to check for.
+		 * @param entity The entity to check for the components.
+		 * @returns True if the entity has all the specified components; otherwise, false.
+		 */
+		template <typename... ComponentTypes>
 		Bool has_all_components(Entity const entity) const
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.all_of<ComponentTypes...>(entity);
 		}
 
-		/// <summary>
-		/// Checks if the specified entity has any components of the given types.
-		/// </summary>
-		/// <typeparam name="ComponentTypes">The types of the components to check for.</typeparam>
-		/// <param name="entity">The entity to check for the components.</param>
-		/// <returns>True if the entity has any of the specified components; otherwise, false.</returns>
-		template<typename... ComponentTypes>
+		/**
+		 * @brief Checks if the specified entity has any components of the given types.
+		 * @tparam ComponentTypes The types of the components to check for.
+		 * @param entity The entity to check for the components.
+		 * @returns True if the entity has any of the specified components; otherwise, false.
+		 */
+		template <typename... ComponentTypes>
 		Bool has_any_components(Entity const entity) const
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			return m_registry.any_of<ComponentTypes...>(entity);
 		}
 
-		/// <summary>
-		/// Removes a component of the specified type from an entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of the component to remove from the entity.</typeparam>
-		/// <param name="entity">The entity from which the component will be removed.</param>
-		template<typename ComponentType>
+		/**
+		 * @brief Removes a component of the specified type from an entity.
+		 * @tparam ComponentType The type of the component to remove from the entity.
+		 * @param entity The entity from which the component will be removed.
+		 */
+		template <typename ComponentType>
 		void remove_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			m_registry.remove<ComponentType>(entity);
 		}
 
-		/// <summary>
-		/// Removes a component with the specified name from the given entity.
-		/// </summary>
-		/// <param name="entity">The entity from which the component will be removed.</param>
-		/// <param name="name">The name of the component to remove.</param>
-		void remove_component(Entity const entity, String const& name);
+		/**
+		 * @brief Removes a component with the specified name from the given entity.
+		 * @param entity The entity from which the component will be removed.
+		 * @param name The name of the component to remove.
+		 */
+		void remove_component(Entity const entity, String const &name);
 
-		/// <summary>
-		/// Destroys all Entities.
-		/// </summary>
+		/**
+		 * @brief Destroys all Entities.
+		 */
 		void clear();
 
-		/// <summary>
-		/// Destroys all Components of the given type.
-		/// If any Entity has this Component, it will be removed.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of Component.</typeparam>
-		template<typename ComponentType>
+		/**
+		 * @brief Destroys all Components of the given type. If any Entity has this Component, it will be removed.
+		 * @tparam ComponentType The type of Component.
+		 */
+		template <typename ComponentType>
 		void clear()
 		{
 			m_registry.clear<ComponentType>();
 		}
 
-		/// <summary>
-		/// Clears the Component from the given Entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of Component.</typeparam>
-		/// <param name="entity">The Entity.</param>
-		template<typename ComponentType>
+		/**
+		 * @brief Clears the Component from the given Entity.
+		 * @tparam ComponentType The type of Component.
+		 * @param entity The Entity.
+		 */
+		template <typename ComponentType>
 		void clear(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
-			if(m_registry.all_of<ComponentType>(entity))
+			if (m_registry.all_of<ComponentType>(entity))
 			{
 				m_registry.remove<ComponentType>(entity);
 			}
 		}
 
-		/// <summary>
-		/// Adds or replaces the component on the given Entity.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of Component.</typeparam>
-		/// <param name="entity">The Entity to add the Component to.</param>
-		template<typename ComponentType>
+		/**
+		 * @brief Adds or replaces the component on the given Entity.
+		 * @tparam ComponentType The type of Component.
+		 * @param entity The Entity to add the Component to.
+		 */
+		template <typename ComponentType>
 		void mark(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			m_registry.emplace_or_replace<ComponentType>(entity);
 
 			// mark children as well
-			RelationshipComponent const* const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
+			RelationshipComponent const *const relationshipComp = m_registry.try_get<RelationshipComponent>(entity);
 			if (relationshipComp && relationshipComp->children > 0)
 			{
 				Entity child = relationshipComp->first;
@@ -557,11 +598,11 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Adds or replaces the component on all Entities.
-		/// </summary>
-		/// <typeparam name="ComponentType">The type of Component.</typeparam>
-		template<typename ComponentType>
+		/**
+		 * @brief Adds or replaces the component on all Entities.
+		 * @tparam ComponentType The type of Component.
+		 */
+		template <typename ComponentType>
 		void mark_all()
 		{
 			for (auto const [entity] : m_registry.storage<Entity>().each())
@@ -570,145 +611,155 @@ namespace Minty
 			}
 		}
 
-        /// <summary>
-        /// Gets an EntityView with the given Components.
-        /// </summary>
-        /// <typeparam name="...Include">The Component types to include.</typeparam>
-        /// <typeparam name="...Exclude">The Component types to exclude.</typeparam>
-        /// <returns>A view containing all of the Entities with the given Component types.</returns>
-        template<typename... Include, typename... Exclude>
-        auto view(entt::exclude_t<Exclude...> exclude = entt::exclude_t{})
-        {
+		/**
+		 * @brief Gets an EntityView with the given Components.
+		 * @tparam Include The Component types to include.
+		 * @tparam Exclude The Component types to exclude.
+		 * @param exclude The exclude parameter.
+		 * @returns A view containing all of the Entities with the given Component types.
+		 */
+		template <typename... Include, typename... Exclude>
+		auto view(entt::exclude_t<Exclude...> exclude = entt::exclude_t{})
+		{
 			return EntityView(m_registry.view<Include...>(exclude));
-        }
+		}
 
-		/// <summary>
-		/// Sorts all of the Entities.
-		/// The order is based on the RelationshipComponent hierarchy.
-		/// </summary>
+		/**
+		 * @brief Sorts all of the Entities. The order is based on the RelationshipComponent hierarchy.
+		 */
 		void sort();
 
-		/// <summary>
-		/// Sorts the Entities with the given Component type.
-		/// </summary>
-		/// <typeparam name="T">The Component type.</typeparam>
-		/// <param name="compare">The compare function.</param>
-		template<typename T>
-		void sort(Function<Bool(T const&, T const&)> const& compare)
+		/**
+		 * @brief Sorts the Entities with the given Component type.
+		 * @tparam T The Component type.
+		 * @param compare The compare function.
+		 */
+		template <typename T>
+		void sort(Function<Bool(T const &, T const &)> const &compare)
 		{
 			m_registry.sort<T>(compare);
 		}
 
-		/// <summary>
-		/// Sorts the Entities with the given Component type.
-		/// </summary>
-		/// <typeparam name="T">The Component type.</typeparam>
-		/// <param name="compare">The compare function.</param>
-		template<typename T>
-		void sort(Function<Bool(Entity const, Entity const)> const& compare)
+		/**
+		 * @brief Sorts the Entities with the given Component type.
+		 * @tparam T The Component type.
+		 * @param compare The compare function.
+		 */
+		template <typename T>
+		void sort(Function<Bool(Entity const, Entity const)> const &compare)
 		{
 			m_registry.sort<T>(compare);
 		}
 
-		/// <summary>
-		/// Swaps the positions of two sibling entities.
-		/// </summary>
-		/// <param name="left">The first sibling entity to swap.</param>
-		/// <param name="right">The second sibling entity to swap.</param>
+		/**
+		 * @brief Swaps the positions of two sibling entities.
+		 * @param left The first sibling entity to swap.
+		 * @param right The second sibling entity to swap.
+		 */
 		void swap_siblings(Entity const left, Entity const right);
 
-		/// <summary>
-		/// Advances the specified entity to its next state or position.
-		/// </summary>
-		/// <param name="entity">The entity to be moved to the next state or position.</param>
+		/**
+		 * @brief Advances the specified entity to its next state or position.
+		 * @param entity The entity to be moved to the next state or position.
+		 */
 		void move_to_next(Entity const entity);
 
-		/// <summary>
-		/// Moves the specified entity to its previous position or state.
-		/// </summary>
-		/// <param name="entity">The entity to be moved to the previous position or state.</param>
+		/**
+		 * @brief Moves the specified entity to its previous position or state.
+		 * @param entity The entity to be moved to the previous position or state.
+		 */
 		void move_to_previous(Entity const entity);
 
-		/// <summary>
-		/// Moves the specified entity to the first position.
-		/// </summary>
-		/// <param name="entity">The entity to move to the first position.</param>
+		/**
+		 * @brief Moves the specified entity to the first position.
+		 * @param entity The entity to move to the first position.
+		 */
 		void move_to_first(Entity const entity);
 
-		/// <summary>
-		/// Moves the specified entity to the last position.
-		/// </summary>
-		/// <param name="entity">The entity to move to the last position.</param>
+		/**
+		 * @brief Moves the specified entity to the last position.
+		 * @param entity The entity to move to the last position.
+		 */
 		void move_to_last(Entity const entity);
 
-		/// <summary>
-		/// Destroys the given Entity.
-		/// </summary>
-		/// <param name="entity"></param>
+		/**
+		 * @brief Destroys the given Entity.
+		 * @param entity The Entity.
+		 */
 		void destroy(Entity const entity);
 
-		/// <summary>
-		/// Destroys all Entities with the given Component type.
-		/// </summary>
-		/// <typeparam name="ComponentType"></typeparam>
-		template<typename ComponentType>
+		/**
+		 * @brief Destroys all Entities with the given Component type.
+		 * @tparam ComponentType The type of Component.
+		 */
+		template <typename ComponentType>
 		void destroy_with()
 		{
-			for(auto&& [entity, comp] : m_registry.view<ComponentType>().each())
+			for (auto &&[entity, comp] : m_registry.view<ComponentType>().each())
 			{
 				destroy(entity);
 			}
 		}
 
-		/// <summary>
-		/// Destroys the given Entity immediately.
-		/// </summary>
-		/// <param name="entity">The Entity to destroy.</param>
+		/**
+		 * @brief Destroys the given Entity immediately.
+		 * @param entity The Entity to destroy.
+		 */
 		void destroy_immediately(Entity const entity);
 
-		/// <summary>
-		/// Destroys all Entities with a DestroyComponent.
-		/// </summary>
+		/**
+		 * @brief Destroys all Entities with a DestroyComponent.
+		 */
 		void cleanup();
+		
+		void serialize(Writer &writer) const override;
+		Bool deserialize(Reader &reader) override;
+		
+		/**
+		 * @brief Creates a new EntityManager with the given arguments.
+		 * @param scene The Scene this EntityManager belongs to.
+		 * @param info The arguments.
+		 * @returns An EntityManager Owner.
+		 */
+		static Shared<EntityManager> create(Scene *scene, EntityManagerInfo const &info);
 
-#pragma region Serialization
+		/**
+		 * @brief Gets the singleton EntityManager for the active Scene.
+		 * @returns The EntityManager.
+		 */
+		static EntityManager &get_singleton();
 
 	private:
-		Bool deserialize_entities(Reader& reader, Map<UUID, Entity>* idMap = nullptr, Entity const baseEntity = INVALID_ENTITY);
+		// finalizes dirty components
+		void finalize_dirties();
 
-		Bool deserialize_components(Reader& reader, Entity const entity, Map<UUID, Entity>* idMap = nullptr);
+		Entity create_entity_smart(String const &name, UUID const id);
 
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+		// preps the entity for destruction
+		void strip_entity(Entity const entity);
 
-#pragma endregion
+		void update_transform(Entity const entity, Entity const parent, TransformComponent &transformComp);
 
-#pragma endregion
+		void update_uiTransform(Entity const entity, Entity const parent, UITransformComponent &uiTransformComp);
 
-#pragma region Statics
+		Bool deserialize_entities(Reader &reader, Map<UUID, Entity> *idMap = nullptr, Entity const baseEntity = INVALID_ENTITY);
 
-	public:
-		/// <summary>
-		/// Creates a new EntityManager with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>An EntityManager Owner.</returns>
-		static Owner<EntityManager> create(Scene* scene, EntityManagerInfo const& info = {});
-
-		/// <summary>
-		/// Gets the singleton EntityManager for the active Scene.
-		/// </summary>
-		/// <returns>The EntityManager.</returns>
-		static EntityManager& get_singleton();
-
-#pragma region Entity Serialization Utility
-
-		private:
-			static void deserialize_entity_header(Reader& reader, Size const index, String& name, UUID& id, UUID& prefabId);
+		Bool deserialize_components(Reader &reader, Entity const entity, Map<UUID, Entity> *idMap = nullptr);
+		
+		static void deserialize_entity_header(Reader &reader, Size const index, String &name, UUID &id, UUID &prefabId);
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		entt::registry m_registry;
+
+		Map<UUID, Entity> m_ids;
+		Bool m_needsSorted;
+
 #pragma endregion
-};
+	};
 }
+
+#endif // MINTY_ENTITY_ENTITYMANAGER_H

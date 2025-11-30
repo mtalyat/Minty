@@ -1,23 +1,11 @@
 #include "pch.h"
 #include "System.h"
 #include "Minty/Scene/Scene.h"
+#include "Minty/System/SystemInfo.h"
 
 using namespace Minty;
 
-Ref<Scene> const &Minty::System::get_scene() const
+Minty::System::System(SystemInfo const &info)
+	: SerializableObject(), m_scene(info.scene), m_data(info.info), m_priority(info.priority)
 {
-	MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
-	return m_scene;
-}
-
-EntityManager &Minty::System::get_entity_manager() const
-{
-	MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
-	return m_scene->get_entity_manager();
-}
-
-SystemManager &Minty::System::get_system_manager() const
-{
-	MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
-	return m_scene->get_system_manager();
 }

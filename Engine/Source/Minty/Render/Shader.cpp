@@ -67,11 +67,11 @@ void Minty::Shader::unregister_material(Material* const material)
 	m_materials.remove(material);
 }
 
-Owner<Shader> Minty::Shader::create(ShaderInfo const& info)
+Shared<Shader> Minty::Shader::create(ShaderInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Shader>(info);
+	return Shared<Vulkan_Shader>(info);
 #else
-    return Owner<Shader>();
+    return Shared<Shader>();
 #endif // MINTY_VULKAN
 }

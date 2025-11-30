@@ -1,12 +1,21 @@
-#pragma once
+#ifndef MINTY_INPUT_KEYMODIFIERS_H
+#define MINTY_INPUT_KEYMODIFIERS_H
+
+/**
+ * @file KeyModifiers.h
+ * @brief Header file for key modifier enumeration.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The modifer keys that can be held.
-	/// </summary>
+	/**
+	 * @brief The modifer keys that can be held.
+	 */
 	enum class KeyModifiers
 	{
 		Shift = 0b000001,
@@ -17,7 +26,7 @@ namespace Minty
 		NumLock = 0b100000
 	};
 
-	MINTY_ENUM_FLAGS_OPERATORS(KeyModifiers)
+	MINTY_ENABLE_ENUM_OPERATORS(KeyModifiers)
 
 	String to_string(KeyModifiers const obj);
 	KeyModifiers parse_to_key_modifiers(String const& string);
@@ -27,3 +36,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<KeyModifiers>(String const& string, KeyModifiers& value) { return parse_try_key_modifiers(string, value); }
 }
+
+#endif // MINTY_INPUT_KEYMODIFIERS_H

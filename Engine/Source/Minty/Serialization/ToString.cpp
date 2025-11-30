@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "ToString.h"
+#include "Minty/Data/StringBuilder.h"
 #include <sstream>
 
 using namespace Minty;
 
-#define MINTY_TO_STRING_1(value) std::stringstream ss; ss << value; return String(ss.str().c_str())
-#define MINTY_TO_STRING_2(value0, value1) std::stringstream ss; ss << "(" << to_string(value0) << ", " << to_string(value1) << ")"; return String(ss.str().c_str())
-#define MINTY_TO_STRING_3(value0, value1, value2) std::stringstream ss; ss << "(" << to_string(value0) << ", " << to_string(value1) << ", " << to_string(value2) << ")"; return String(ss.str().c_str())
-#define MINTY_TO_STRING_4(value0, value1, value2, value3) std::stringstream ss; ss << "(" << to_string(value0) << ", " << to_string(value1) << ", " << to_string(value2) << ", " << to_string(value3) << ")"; return String(ss.str().c_str())
+#define MINTY_TO_STRING_1(value) StringBuilder builder; builder.append(to_string(value)); return builder.to_string()
+#define MINTY_TO_STRING_2(value0, value1) StringBuilder builder; builder.append('('); builder.append(to_string(value0)); builder.append(", "); builder.append(to_string(value1)); builder.append(')'); return builder.to_string()
+#define MINTY_TO_STRING_3(value0, value1, value2) StringBuilder builder; builder.append('('); builder.append(to_string(value0)); builder.append(", "); builder.append(to_string(value1)); builder.append(", "); builder.append(to_string(value2)); builder.append(')'); return builder.to_string()
+#define MINTY_TO_STRING_4(value0, value1, value2, value3) StringBuilder builder; builder.append('('); builder.append(to_string(value0)); builder.append(", "); builder.append(to_string(value1)); builder.append(", "); builder.append(to_string(value2)); builder.append(", "); builder.append(to_string(value3)); builder.append(')'); return builder.to_string()
 
 String Minty::to_string(Bool const value)
 {
@@ -152,6 +153,11 @@ String Minty::to_string(Double const value)
 String Minty::to_string(String const& value)
 {
 	return value;
+}
+
+String Minty::to_string(StringView const &value)
+{
+    return String(value);
 }
 
 #undef MINTY_TO_STRING_1

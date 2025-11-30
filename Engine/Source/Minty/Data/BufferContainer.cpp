@@ -138,7 +138,7 @@ Bool Minty::BufferContainer::reserve(Size const newCapacity)
 	info.size = newCapacity;
 	info.usage = m_usage;
 
-	Owner<Buffer> newBuffer = Buffer::create(info);
+	Shared<Buffer> newBuffer = Buffer::create(info);
 
 	// update reference and data
 	m_buffer = newBuffer;

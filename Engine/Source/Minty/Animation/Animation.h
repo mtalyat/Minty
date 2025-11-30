@@ -28,7 +28,7 @@ namespace Minty
 	class Animation
 		: public Asset
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		using StepKey = ULong;
@@ -50,7 +50,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/**
@@ -98,7 +98,7 @@ namespace Minty
 		 * @param info The arguments for the Animation.
 		 * @return The created Animation.
 		 */
-		static Owner<Animation> create(AnimationInfo const& info);
+		static Shared<Animation> create(AnimationInfo const& info);
 		
 	private:
 		StepKey compile_key(Index const entityIndex, Index const componentIndex, AnimationActionType const type) const;

@@ -57,7 +57,7 @@ Minty::Vulkan_Buffer::~Vulkan_Buffer()
 	Vulkan_Renderer::free_memory(renderManager.get_device(), m_memory);
 }
 
-void* Minty::Vulkan_Buffer::get_data() const
+Any Minty::Vulkan_Buffer::get_data() const
 {
 	MINTY_ASSERT(is_frequent(), ErrorCode::Argument_InvalidState);
 
@@ -82,7 +82,7 @@ void Minty::Vulkan_Buffer::set_data(void const* const data)
 		VkDeviceMemory stagingBufferMemory = Vulkan_Renderer::allocate_buffer_memory(renderManager.get_device(), renderManager.get_physical_device(), stagingBuffer, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
 		// copy data to staging buffer
-		void* mappedMemory = Vulkan_Renderer::map_memory(renderManager.get_device(), stagingBufferMemory, 0, get_size());
+		Any mappedMemory = Vulkan_Renderer::map_memory(renderManager.get_device(), stagingBufferMemory, 0, get_size());
 		memcpy(mappedMemory, data, get_size());
 		Vulkan_Renderer::unmap_memory(renderManager.get_device(), stagingBufferMemory);
 

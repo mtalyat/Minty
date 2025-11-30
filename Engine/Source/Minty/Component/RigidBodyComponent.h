@@ -1,18 +1,29 @@
-#pragma once
+#ifndef MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
+#define MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
+
+/**
+ * @file RigidBodyComponent.h
+ * @brief Header file defining the RigidBodyComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
-#include "Minty/Physics/RigidBody.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a RigidBody for an Entity.
-	/// </summary>
+	class RigidBody;
+
+	/**
+	 * @brief Holds a RigidBody for an Entity.
+	 */
 	struct RigidBodyComponent
 		: public Component
 	{
-		/// <summary>
-		/// The RigidBody associated with this component.
-		/// </summary>
-		Owner<RigidBody> rigidBody;
+		/**
+		 * @brief The RigidBody associated with this component.
+		 */
+		Shared<RigidBody> rigidBody;
 	};
 }
+
+#endif // MINTY_COMPONENT_RIGIDBODYCOMPONENT_H

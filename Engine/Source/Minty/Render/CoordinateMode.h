@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_COORDINATEMODE_H
+#define MINTY_RENDER_COORDINATEMODE_H
+
+/**
+ * @file CoordinateMode.h
+ * @brief Header file defining the CoordinateMode enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how coordinates are interpreted.
-	/// </summary>
+	/**
+	 * @brief Determines how coordinates are interpreted.
+	 */
 	enum class CoordinateMode
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// Each coordinate is represented with a float that falls within the range of [0, 1].
-		/// </summary>
+		/**
+		 * @brief Each coordinate is represented with a float that falls within the range of [0, 1].
+		 */
 		Normalized = 1,
 
-		/// <summary>
-		/// Each coordinate is represented with an integer that falls within the range of [0, size], where size is the width or height, respectively.
-		/// </summary>
+		/**
+		 * @brief Each coordinate is represented with an integer that falls within the range of [0, size], where size is the width or height, respectively.
+		 */
 		Pixel = 2,
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<CoordinateMode>(String const& string, CoordinateMode& value) { return parse_try_coordinate_mode(string, value); }
 }
+
+#endif // MINTY_RENDER_COORDINATEMODE_H

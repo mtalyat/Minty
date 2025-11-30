@@ -64,14 +64,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/**
 		 * @brief Gets the internal Buffer data pointer.
 		 * @returns A pointer to the internal Buffer data.
 		 */
-		inline void* get_data() const override { return m_buffer->get_data(); }
+		inline Any get_data() const override { return m_buffer->get_data(); }
 
 		/**
 		 * @brief Gets the size of this BufferContainer.
@@ -89,7 +89,7 @@ namespace Minty
 		 * @brief Gets a reference to the internal Buffer.
 		 * @returns A reference to the internal Buffer.
 		 */
-		inline Ref<Buffer> get_buffer() const { return m_buffer.create_ref(); }
+		inline Ref<Buffer> get_buffer() const { return m_buffer.to_ref(); }
 
 #pragma endregion
 
@@ -143,7 +143,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Owner<Buffer> m_buffer;
+		Shared<Buffer> m_buffer;
 		BufferUsage m_usage;
 		Size m_capacity;
 		Size m_size;

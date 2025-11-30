@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Material.h"
+#include "Minty/Render/MaterialInfo.h"
 #include "Minty/Render/MaterialTemplate.h"
 #include "Minty/Render/Shader.h"
 #ifdef MINTY_VULKAN
@@ -78,17 +79,17 @@ Bool Minty::Material::try_set_input(String const& name, void const* const data, 
 	return true;
 }
 
-Bool Minty::Material::get_input(String const& name, void* const data, Size const size) const
+Bool Minty::Material::get_input(String const& name, Any const data, Size const size) const
 {
 	// if this Material has a value for the input, copy it
 	return false;
 }
 
-Owner<Material> Minty::Material::create(MaterialInfo const& info)
+Shared<Material> Minty::Material::create(MaterialInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Material>(info);
+	return Shared<Vulkan_Material>::create(info);
 #else
-	return Owner<Material>();
+	return Shared<Material>();
 #endif // MINTY_VULKAN
 }

@@ -29,7 +29,7 @@ void Minty::RelationshipComponent::serialize(Writer& writer) const
 Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 {
 	// get the serialization data
-	void* const userData = reader.get_user_data();
+	Any const userData = reader.get_user_data();
 	MINTY_ASSERT(userData != nullptr, ErrorCode::InvalidUserData);
 	EntitySerializationData* entityData = static_cast<EntitySerializationData*>(userData);
 
@@ -37,7 +37,7 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 	MINTY_ASSERT(entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// read the parent id
-	UUID const parentId = INVALID_ID;
+	UUID const parentId = UUID();
 	if (reader.read_default(parentId) || reader.read("Parent", parentId))
 	{
 		// get the parent entity

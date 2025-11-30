@@ -2,6 +2,7 @@
 #include "MaterialTemplate.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Render/Shader.h"
+#include "Minty/Render/MaterialTemplateInfo.h"
 
 using namespace Minty;
 
@@ -41,7 +42,7 @@ Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateInfo const& info)
 	}
 }
 
-Owner<MaterialTemplate> Minty::MaterialTemplate::create(MaterialTemplateInfo const& info)
+Shared<MaterialTemplate> Minty::MaterialTemplate::create(MaterialTemplateInfo const& info)
 {
-    return Owner<MaterialTemplate>(info);
+    return Shared<MaterialTemplate>::create(info);
 }

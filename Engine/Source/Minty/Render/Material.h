@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_MATERIAL_H
+#define MINTY_RENDER_MATERIAL_H
+
+/**
+ * @file Material.h
+ * @brief Header file defining the Material class and MaterialInfo struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/Cargo.h"
 #include "Minty/Data/Map.h"
@@ -8,36 +16,116 @@
 namespace Minty
 {
 	class MaterialTemplate;
-
-	/// <summary>
-	/// Arguments for a Material.
-	/// </summary>
-	struct MaterialInfo
-	{
-		/// <summary>
-		/// The ID.
-		/// </summary>
-		UUID id = INVALID_ID;
-
-		/// <summary>
-		/// The MaterialTemplate for this Material.
-		/// </summary>
-		Ref<MaterialTemplate> materialTemplate = nullptr;
-
-		/// <summary>
-		/// The values of this Material. These override the default values in the MaterialTemplate.
-		/// </summary>
-		Cargo values;
-
-		/// <summary>
-		/// The stencil value for this Material. This requires this Material's Shader to have stencil testing enabled.
-		/// </summary>
-		UInt stencil = 0;
-	};
+	struct MaterialInfo;
 
 	class Material
 		: public Asset
 	{
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates a new Material.
+		 * @param info The arguments.
+		 */
+		Material(MaterialInfo const& info);
+
+		virtual ~Material() override;
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		/**
+		 * @brief Gets the MaterialTemplate that this Material uses.
+		 * @return The MaterialTemplate.
+		 */
+		Ref<MaterialTemplate> const& get_material_template() const { return m_materialTemplate; }
+
+		/**
+		 * @brief Gets the values of this Material.
+		 * @return The values.
+		 */
+		Cargo const& get_inputs() const { return m_cargo; }
+
+		/**
+		 * @brief Checks if this Material has an input with the given name.
+		 * @param name The name of the input.
+		 * @return True if the input exists.
+		 */
+		Bool has_input(String const& name) const;
+
+		/**
+		 * @brief Gets the input value for this Material with the given name.
+		 * @param name The name of the input.
+		 * @return A reference to the Map containing the input object data.
+		 */
+		Object const& get_input(String const& name) const;
+
+		/**
+		 * @brief Gets an input value for this Material.
+		 * @param name The name of the input.
+		 * @param data A pointer to the data to set.
+		 * @param size The size of the data in bytes.
+		 */
+		virtual void set_input(String const& name, void const* const data, Size const size) = 0;
+
+		/**
+		 * @brief Tries to set the input data for this Material, if it exists.
+		 * @param name The name of the input.
+		 * @param data A pointer to the data to set.
+		 * @param size The size of the data in bytes.
+		 * @return True, on success.
+		 */
+		Bool try_set_input(String const& name, void const* const data, Size const size);
+
+		/**
+		 * @brief Gets the input data for this Material with the given name.
+		 * @param name The name of the input data.
+		 * @param data A pointer to the location to copy the data.
+		 * @param size The size of the data pointer.
+		 * @return True on a successful copy, otherwise false.
+		 */
+		Bool get_input(String const& name, Any const data, Size const size) const;
+
+		/**
+		 * @brief Sets the object's stencil value.
+		 * @param stencil The stencil value.
+		 */
+		void set_stencil(UInt const stencil) { m_stencil = stencil; }
+
+		/**
+		 * @brief Gets the object's stencil value.
+		 * @return The stencil value.
+		 */
+		UInt get_stencil() const { return m_stencil; }
+
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return Material.
+		 */
+		inline AssetType get_asset_type() const override { return AssetType::Material; }
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Called when this Material is binded for rendering.
+		 */
+		virtual void on_bind() = 0;
+
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		static Shared<Material> create(MaterialInfo const& info);
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -46,111 +134,7 @@ namespace Minty
 		UInt m_stencil;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates a new Material.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		Material(MaterialInfo const& info);
-
-		virtual ~Material() override;
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets the MaterialTemplate that this Material uses.
-		/// </summary>
-		/// <returns>The MaterialTemplate.</returns>
-		Ref<MaterialTemplate> const& get_material_template() const { return m_materialTemplate; }
-
-		/// <summary>
-		/// Gets the values of this Material.
-		/// </summary>
-		/// <returns>The values.</returns>
-		Cargo const& get_inputs() const { return m_cargo; }
-
-		/// <summary>
-		/// Checks if this Material has an input with the given name.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
-		Bool has_input(String const& name) const;
-
-		/// <summary>
-		/// Gets the input value for this Material with the given name.
-		/// </summary>
-		/// <param name="name">The name of the input.</param>
-		/// <returns>A reference to the Map containing the input object data.</returns>
-		Object const& get_input(String const& name) const;
-
-		/// <summary>
-		/// Gets an input value for this Material.
-		/// </summary>
-		/// <param name="name">The name of the input.</param>
-		/// <param name="data">A pointer to the data to set.</param>
-		/// <param name="size">The size of the data in bytes.</param>
-		virtual void set_input(String const& name, void const* const data, Size const size) = 0;
-
-		/// <summary>
-		/// Tries to set the input data for this Material, if it exists.
-		/// </summary>
-		/// <param name="name">The name of the input.</param>
-		/// <param name="data">A pointer to the data to set.</param>
-		/// <param name="size">The size of the data in bytes.</param>
-		/// <returns>True, on success.</returns>
-		Bool try_set_input(String const& name, void const* const data, Size const size);
-
-		/// <summary>
-		/// Gets the input data for this Material with the given name.
-		/// </summary>
-		/// <param name="name">The name of the input data.</param>
-		/// <param name="data">A pointer to the location to copy the data.</param>
-		/// <param name="size">The size of the data pointer.</param>
-		/// <returns>True on a successful copy, otherwise false.</returns>
-		Bool get_input(String const& name, void* const data, Size const size) const;
-
-		/// <summary>
-		/// Sets the object's stencil value.
-		/// </summary>
-		/// <param name="stencil">The stencil value.</param>
-		void set_stencil(UInt const stencil) { m_stencil = stencil; }
-
-		/// <summary>
-		/// Gets the object's stencil value.
-		/// </summary>
-		/// <returns>The stencil value.</returns>
-		UInt get_stencil() const { return m_stencil; }
-
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Material.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Material; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		/// <summary>
-		/// Called when this Material is binded for rendering.
-		/// </summary>
-		virtual void on_bind() = 0;
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		static Owner<Material> create(MaterialInfo const& info = {});
-
-#pragma endregion
-
 	};
 }
+
+#endif // MINTY_RENDER_MATERIAL_H

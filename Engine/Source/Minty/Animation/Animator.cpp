@@ -42,7 +42,7 @@ UUID Minty::Animator::get_current_animation() const
 	}
 
 	// no animation
-	return INVALID_ID;
+	return UUID();
 }
 
 UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const currentTime)
@@ -72,12 +72,13 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 				State const *const state = &mp_fsm->get_current_state();
 				if (visitedStates.contains(state))
 				{
-					String statesString = "";
+					StringBuilder statesBuilder;
 					for (State const *const visitedState : visitedStatesInOrder)
 					{
-						statesString += F("{} -> ", visitedState->get_value().get<UUID>());
+						statesBuilder.append(visitedState->get_value().get<UUID>());
+						statesBuilder.append(" -> ");
 					}
-					MINTY_ERROR(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesString));
+					MINTY_ERROR(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesBuilder.to_string());
 					break; // break out of the loop to prevent infinite recursion
 				}
 				visitedStates.add(state);
@@ -90,14 +91,14 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 	// if no current state, return invalid ID
 	if (!mp_fsm->has_current_state())
 	{
-		return INVALID_ID;
+		return UUID();
 	}
 
 	// get ID from the current state
 	return mp_fsm->get_current_state().get_value().get<UUID>();
 }
 
-Owner<Animator> Minty::Animator::create(AnimatorInfo const &info)
+Shared<Animator> Minty::Animator::create(AnimatorInfo const &info)
 {
-	return Owner<Animator>(info);
+	return Shared<Animator>::create(info);
 }

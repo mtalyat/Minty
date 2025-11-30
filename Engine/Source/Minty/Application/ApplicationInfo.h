@@ -20,7 +20,7 @@ namespace Minty
     struct InputManagerInfo;
     struct RenderManagerInfo;
     struct SceneManagerInfo;
-    struct TimeManagerInfo;
+    struct TimeControllerInfo;
 
     /**
      * @brief The arguments for an Application.
@@ -83,9 +83,9 @@ namespace Minty
         SceneManagerInfo* sceneManagerInfo = nullptr;
 
         /**
-         * @brief The Time Manager info to use for the Application.
+         * @brief The Time Controller info to use for the Application.
          */
-        TimeManagerInfo* timeManagerInfo = nullptr;
+        TimeControllerInfo* timeControllerInfo = nullptr;
     };
 }
 

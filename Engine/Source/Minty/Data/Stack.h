@@ -1,62 +1,57 @@
-#pragma once
+#ifndef MINTY_DATA_STACK_H
+#define MINTY_DATA_STACK_H
+
+/**
+ * @file Stack.h
+ * @brief Header file for the Stack class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
-#include "Minty/Core/Macro.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds a collection of elements with a dynamic size, as a first in, last out queue.
-	/// </summary>
-	/// <typeparam name="T">Then type of element.</typeparam>
-	template<typename T>
+	/**
+	 * @class Stack
+	 * @brief A simple stack implementation using a dynamic array.
+	 * @tparam T The type of elements stored in the stack.
+	 * @tparam Allocator The type of allocator used for memory management.
+	 */
+	template<typename T, typename Allocator = DefaultAllocator>
 	class Stack
 	{
-#pragma region Variables
-
-	private:
-		AllocatorType m_allocator;
-		Size m_capacity;
-		Size m_size;
-		T* mp_data;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Stack.
-		/// </summary>
-		/// <param name="allocator">The memory allocator to use.</param>
-		constexpr Stack(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates an empty Stack.
+		 */
+		explicit Stack()
+			: m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
 		{
 		}
 
-		/// <summary>
-		/// Creates an empty Stack with the given capacity.
-		/// </summary>
-		/// <param name="capacity">The maximum number of elements.</param>
-		/// <param name="allocator">The memory allocator to use.</param>
-		Stack(Size const capacity, AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
+		/**
+		 * @brief Creates a Stack with the given initial capacity.
+		 * @param capacity The initial capacity.
+		 */
+		explicit Stack(Size const capacity)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
 		{
 			reserve(capacity);
 		}
 
-		/// <summary>
-		/// Copies the given Stack.
-		/// </summary>
-		/// <param name="other">The Stack to copy.</param>
+		/**
+		 * @brief Copies the given Stack.
+		 * @param other The Stack to copy.
+		 */
 		Stack(Stack const& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(0)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_data(nullptr)
 		{
@@ -69,13 +64,12 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Moves the given Stack.
-		/// </summary>
-		/// <param name="other">The Stack to move.</param>
+		/**
+		 * @brief Moves the given Stack.
+		 * @param other The Stack to move.
+		 */
 		Stack(Stack&& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
+			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
@@ -85,7 +79,7 @@ namespace Minty
 			other.mp_data = nullptr;
 		}
 
-		constexpr ~Stack()
+		~Stack()
 		{
 			clear();
 			if (mp_data)
@@ -99,21 +93,20 @@ namespace Minty
 #pragma region Operators
 
 	public:
-		constexpr Stack& operator=(Stack const& other)
+		Stack& operator=(Stack const& other)
 		{
 			if (this != &other)
 			{
 				if (mp_data)
 				{
-					deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
+					Allocator::deallocate(mp_data);
 					mp_data = nullptr;
 				}
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				if (other.mp_data)
 				{
-					mp_data = static_cast<T*>(allocate(m_capacity * sizeof(T), m_allocator));
+					mp_data = static_cast<T*>(Allocator::allocate(m_capacity * sizeof(T)));
 					for (Size i = 0; i < m_size; ++i)
 					{
 						new (&mp_data[i]) T(other.mp_data[i]);
@@ -124,20 +117,18 @@ namespace Minty
 			return *this;
 		}
 		
-		constexpr Stack& operator=(Stack&& other) noexcept
+		Stack& operator=(Stack&& other) noexcept
 		{
 			if (this != &other)
 			{
 				if (mp_data)
 				{
-					deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
+					Allocator::deallocate(mp_data);
 					mp_data = nullptr;
 				}
-				m_allocator = other.m_allocator;
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_data = other.mp_data;
-				other.m_allocator = AllocatorType::Default;
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_data = nullptr;
@@ -147,42 +138,48 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the capacity of this Stack.
-		/// </summary>
-		/// <returns>The maximum number of elements.</returns>
-		constexpr Size get_capacity() const { return m_capacity; }
+		/**
+		 * @brief Gets the capacity of this Stack.
+		 * @returns The capacity.
+		 */
+		inline Size get_capacity() const { return m_capacity; }
 
-		/// <summary>
-		/// Gets the size of this Stack.
-		/// </summary>
-		/// <returns>The number of elements.</returns>
-		constexpr Size get_size() const { return m_size; }
+		/**
+		* @brief Gets the size of this Stack.
+		* @returns The number of elements.
+		*/
+		inline Size get_size() const { return m_size; }
 
-		/// <summary>
-		/// Gets the internal pointer to the data.
-		/// </summary>
-		/// <returns>A pointer to the data.</returns>
-		constexpr T* get_data() { return mp_data; }
+		/**
+		* @brief Gets the internal pointer to the data.
+		* @returns A pointer to the data.
+		*/
+		inline T* get_data() { return mp_data; }
 
-		/// <summary>
-		/// Gets the internal pointer to the data.
-		/// </summary>
-		/// <returns>A pointer to the data.</returns>
-		constexpr T const* get_data() const { return mp_data; }
+		/**
+		* @brief Gets the internal pointer to the data.
+		* @returns A pointer to the data.
+		*/
+		inline T const* get_data() const { return mp_data; }
+
+		/**
+		 * @brief Checks if this Stack is empty.
+		 * @returns True, if the size is zero.
+		 */
+		inline Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Resizes the internal array to the given capacity, if it is larger than the current capacity.
-		/// </summary>
-		/// <param name="capacity">The new capacity of the Stack.</param>
+		/**
+		 * @brief Resizes the internal array to the given capacity, if it is larger than the current capacity.
+		 * @param capacity The new capacity of the Stack.
+		 */
 		void reserve(Size const capacity)
 		{
 			// do nothing if smaller or equal capacity
@@ -210,10 +207,10 @@ namespace Minty
 			m_capacity = capacity;
 		}
 
-		/// <summary>
-		/// Adds an element to the end of the Stack.
-		/// </summary>
-		/// <param name="value">The value to push.</param>
+		/**
+		 * @brief Adds an element to the end of the Stack.
+		 * @param value The value to push.
+		 */
 		void push(T const& value)
 		{
 			// if larger than capacity, reserve more
@@ -230,14 +227,14 @@ namespace Minty
 			}
 
 			// push value
-			void* ptr = &mp_data[m_size++];
+			Any ptr = &mp_data[m_size++];
 			new (ptr) T(value);
 		}
 
-		/// <summary>
-		/// Adds an element to the end of the Stack.
-		/// </summary>
-		/// <param name="value">The value to push.</param>
+		/**
+		 * @brief Adds an element to the end of the Stack.
+		 * @param value The value to push.
+		 */
 		void push(T&& value)
 		{
 			// if larger than capacity, reserve more
@@ -254,13 +251,13 @@ namespace Minty
 			}
 
 			// push value
-			void* ptr = &mp_data[m_size++];
+			Any ptr = &mp_data[m_size++];
 			new (ptr) T(std::move(value));
 		}
 
-		/// <summary>
-		/// Removes the next element in the Stack.
-		/// </summary>
+		/**
+		 * @brief Removes the next element in the Stack.
+		 */
 		T pop()
 		{
 			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
@@ -272,35 +269,29 @@ namespace Minty
 			return std::move(mp_data[m_size]);
 		}
 
-		/// <summary>
-		/// Checks if this Stack is empty.
-		/// </summary>
-		/// <returns>True, if the size is zero.</returns>
-		Bool is_empty() const { return m_size == 0; }
-
-		/// <summary>
-		/// Gets the top element of the Stack.
-		/// </summary>
-		/// <returns>The topmost element of the Stack.</returns>
-		constexpr T& peek()
+		/**
+		 * @brief Gets the top element of the Stack.\
+		 * @returns The topmost element of the Stack.
+		 */
+		inline T& peek()
 		{
 			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_data[m_size - 1];
 		}
 
-		/// <summary>
-		/// Gets the top element of the Stack.
-		/// </summary>
-		/// <returns>The topmost element of the Stack.</returns>
-		constexpr T const& peek() const
+		/**
+		 * @brief Gets the top element of the Stack.\
+		 * @returns The topmost element of the Stack.
+		 */
+		inline T const& peek() const
 		{
 			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_data[m_size - 1];
 		}
 
-		/// <summary>
-		/// Removes all elements from the Stack.
-		/// </summary>
+		/**
+		 * @brief Clears the contents of the Stack.
+		 */
 		void clear()
 		{
 			for (Size i = 0; i < m_size; ++i)
@@ -311,5 +302,16 @@ namespace Minty
 		}
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		Size m_capacity;
+		Size m_size;
+		T* mp_data;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_STACK_H

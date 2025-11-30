@@ -1,25 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_DEPTHMODE_H
+#define MINTY_RENDER_DEPTHMODE_H
+
+/**
+ * @file DepthMode.h
+ * @brief Header file defining the DepthMode enum.
+ * @author Mitchell Talyat
+ */
 
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
+	/**
+	 * @brief Determines how depth buffering is handled.
+	 */
 	enum class DepthMode
 	{
-		/// <summary>
-		/// Do not use depth buffer.
-		/// </summary>
+		/**
+		 * @brief Do not use depth buffer.
+		 */
 		None,
 
-		/// <summary>
-		/// Write to the depth buffer.
-		/// </summary>
+		/**
+		 * @brief Write to the depth buffer.
+		 */
 		Write,
 
-		/// <summary>
-		/// Test the depth buffer.
-		/// </summary>
+		/**
+		 * @brief Test the depth buffer.
+		 */
 		Test
 	};
 
@@ -31,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<DepthMode>(String const& string, DepthMode& value) { return parse_try_depth_mode(string, value); }
 }
+
+#endif // MINTY_RENDER_DEPTHMODE_H

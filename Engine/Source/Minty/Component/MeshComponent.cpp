@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "MeshComponent.h"
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Render/Material.h"
+#include "Minty/Render/Mesh.h"
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
@@ -20,7 +22,7 @@ void Minty::MeshComponent::serialize(Writer& writer) const
 		}
 		else
 		{
-			writer.write("Mesh", INVALID_ID);
+			writer.write("Mesh", UUID());
 		}
 	}
 
@@ -30,7 +32,7 @@ void Minty::MeshComponent::serialize(Writer& writer) const
 	}
 	else
 	{
-		writer.write("Material", INVALID_ID);
+		writer.write("Material", UUID());
 	}
 }
 
@@ -45,7 +47,7 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 	// read mesh ID
 	if (type == MeshType::Custom)
 	{
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 		if (!reader.read("Mesh", id))
 		{
 			mesh = nullptr;
@@ -61,7 +63,7 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 	}
 
 	// read material ID
-	UUID id = INVALID_ID;
+	UUID id = UUID();
 	if (reader.read("Material", id))
 	{
 		material = AssetManager::get_singleton().get<Material>(id);

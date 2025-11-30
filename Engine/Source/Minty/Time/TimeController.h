@@ -1,27 +1,29 @@
 #pragma once
+#include "Minty/Core/Types.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Time/Time.h"
 #include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
-	struct TimeManagerInfo;
+    struct TimeControllerInfo;
 
     /**
-     * @class TimeManager
+     * @class TimeController
      * @brief Class for managing time and delta times in the engine.
      */
-    class TimeManager
+    class TimeController
     {
 #pragma region Constructors
 
     public:
         /**
-         * @brief Constructs a new TimeManager with the specified information.
-         * @param info The TimeManagerInfo structure containing initialization parameters.
+         * @brief Constructs a new TimeController with the specified information.
+         * @param info The TimeControllerInfo structure containing initialization parameters.
          */
-        TimeManager(TimeManagerInfo const &info);
+        TimeController(TimeControllerInfo const &info);
 
-        ~TimeManager() = default;
+        ~TimeController() = default;
 
 #pragma endregion
 
@@ -32,7 +34,7 @@ namespace Minty
          * @brief Gets the current unscaled time in seconds.
          * @return The unscaled time as a Float.
          */
-        Timestep get_frame_timestep() const { return Timestep(m_scaledDelta, m_scaledTime);}
+        Timestep get_frame_timestep() const { return Timestep(m_scaledDelta, m_scaledTime); }
 
         /**
          * @brief Gets the current fixed timestep.
@@ -46,20 +48,32 @@ namespace Minty
 
     public:
         /**
-         * @brief Starts the time manager, initializing timing variables.
+         * @brief Starts the TimeController, initializing timing variables.
          */
         void start();
 
         /**
-         * @brief Stops the time manager.
+         * @brief Stops the TimeController.
          */
         void stop();
 
         /**
-         * @brief Updates the time manager, calculating delta times and updating accumulators.
+         * @brief Updates the TimeController, calculating delta times and updating accumulators.
          * @return The number of fixed updates performed this frame.
          */
         Int update();
+
+        /**
+         * @brief Creates a new TimeController instance.
+         * @param info The TimeControllerInfo structure containing initialization parameters.
+         */
+        static Unique<TimeController> create(TimeControllerInfo const &info);
+
+        /**
+         * @brief Gets the active Application's TimeController.
+         * @return The TimeController singleton.
+         */
+        static TimeController &get_singleton();
 
 #pragma endregion
 

@@ -1,32 +1,43 @@
-#pragma once
+#ifndef MINTY_PHYSICS_RAYCASTHIT_H
+#define MINTY_PHYSICS_RAYCASTHIT_H
+
+/**
+ * @file RaycastHit.h
+ * @brief Header file defining the RaycastHit struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
+#include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Represents a Raycast hit.
-	/// </summary>
+	/**
+	 * @brief Represents a Raycast hit.
+	 */
 	struct RaycastHit
 	{
-		/// <summary>
-		/// The position of the hit.
-		/// </summary>
+		/**
+		 * @brief The position of the hit.
+		 */
 		Float3 point = Math::ZERO;
 
-		/// <summary>
-		/// The normal of the surface hit.
-		/// </summary>
+		/**
+		 * @brief The normal of the surface hit.
+		 */
 		Float3 normal = Math::UP;
 		
-		/// <summary>
-		/// The distance from the ray's origin to the hit point.
-		/// </summary>
+		/**
+		 * @brief The distance from the ray's origin to the hit point.
+		 */
 		Float distance = 0.0f;
 		
-		/// <summary>
-		/// The Entity that was hit.
-		/// </summary>
+		/**
+		 * @brief The Entity that was hit.
+		 */
 		Entity entity = INVALID_ENTITY;
 	};
 }
+
+#endif // MINTY_PHYSICS_RAYCASTHIT_H

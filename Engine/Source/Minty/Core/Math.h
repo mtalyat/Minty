@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_CORE_MATH_H
+#define MINTY_CORE_MATH_H
+
+/**
+ * @file Math.h
+ * @brief Header file defining mathematical types and constants.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Library/GLM.h"
 #include <limits>
@@ -1775,3 +1783,5 @@ namespace std {
 		}
 	};
 }
+
+#endif // MINTY_CORE_MATH_H

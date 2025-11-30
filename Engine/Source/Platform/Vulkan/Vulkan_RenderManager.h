@@ -45,7 +45,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	private:
 		inline void advance_frame() { m_currentFrameIndex = (m_currentFrameIndex + 1) % FRAMES_PER_FLIGHT; }

@@ -664,9 +664,30 @@ namespace Minty
 		 * @brief Gets the element at the given index.
 		 * @param index The index of the element to get.
 		 */
-		void add(T&& value)
+		void add(T const& value)
 		{
 			Node* node = Allocator::construct<Node>(value);
+			if (mp_head == nullptr)
+			{
+				mp_head = node;
+				mp_tail = node;
+			}
+			else
+			{
+				mp_tail->next = node;
+				node->prev = mp_tail;
+				mp_tail = node;
+			}
+			++m_size;
+		}
+
+		/**
+		 * @brief Gets the element at the given index.
+		 * @param index The index of the element to get.
+		 */
+		void add(T&& value)
+		{
+			Node* node = Allocator::construct<Node>(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;

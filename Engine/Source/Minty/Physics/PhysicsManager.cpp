@@ -1,16 +1,21 @@
 #include "pch.h"
 #include "PhysicsManager.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
+#include "Minty/Physics/PhysicsManagerInfo.h"
 
 using namespace Minty;
 
-Owner<PhysicsManager> Minty::PhysicsManager::create(PhysicsManagerInfo const& info)
+Minty::PhysicsManager::PhysicsManager(PhysicsManagerInfo const &info)
+	: Manager()
 {
-	return Owner<PhysicsManager>(info);
 }
 
-PhysicsManager& Minty::PhysicsManager::get_singleton()
+Unique<PhysicsManager> Minty::PhysicsManager::create(PhysicsManagerInfo const &info)
 {
-	Context& context = Context::get_singleton();
-	return context.get_physics_manager();
+	return Unique<PhysicsManager>::create(info);
+}
+
+PhysicsManager &Minty::PhysicsManager::get_singleton()
+{
+	return Application::get_singleton().get_physics_manager();
 }

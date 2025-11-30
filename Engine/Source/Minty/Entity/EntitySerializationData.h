@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ENTITY_ENTITYSERIALIZATIONDATA_H
+#define MINTY_ENTITY_ENTITYSERIALIZATIONDATA_H
+
+/**
+ * @file EntitySerializationData.h
+ * @brief Header file defining the EntitySerializationData struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Entity/Entity.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/UUID.h"
@@ -7,31 +15,33 @@ namespace Minty
 {
 	class EntityManager;
 
-	/// <summary>
-	/// The data used to serialize an Entity and its Components.
-	/// </summary>
+	/**
+	 * @brief The data used to serialize an Entity and its Components.
+	 */
 	struct EntitySerializationData
 	{
-		/// <summary>
-		/// The Entity being serialized.
-		/// </summary>
+		/**
+		 * @brief The Entity being serialized.
+		 */
 		Entity entity;
 
-		/// <summary>
-		/// The EntityManager that owns this Entity.
-		/// </summary>
+		/**
+		 * @brief The EntityManager that owns this Entity.
+		 */
 		EntityManager* entityManager;
 
-		/// <summary>
-		/// Mapping of IDs for prefab Entities to scene Entities.
-		/// </summary>
+		/**
+		 * @brief Mapping of IDs for prefab Entities to scene Entities.
+		 */
 		Map<UUID, Entity> const* idMap = nullptr;
 
-		/// <summary>
-		/// Gets the Entity with the given ID. Uses the ID map if it is available.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the Entity with the given ID. Uses the ID map if it is available.
+		 * @param id The ID to look up.
+		 * @return The Entity with the given ID.
+		 */
 		Entity get_entity(UUID const id);
 	};
 }
+
+#endif // MINTY_ENTITY_ENTITYSERIALIZATIONDATA_H

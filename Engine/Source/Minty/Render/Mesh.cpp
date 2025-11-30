@@ -208,7 +208,7 @@ void Minty::Mesh::initialize_cube()
 #undef BOTTOM_RIGHT
 }
 
-Owner<Mesh> Minty::Mesh::create(MeshInfo const& info)
+Shared<Mesh> Minty::Mesh::create(MeshInfo const& info)
 {
-	return Owner<Mesh>(info);
+	return Shared<Mesh>(info);
 }

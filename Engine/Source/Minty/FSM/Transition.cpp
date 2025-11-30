@@ -11,7 +11,7 @@ void Minty::Transition::add_condition(Condition const& condition)
 	m_conditions.add(condition);
 }
 
-Bool Minty::Transition::evaluate(BasicScope const& scope) const
+Bool Minty::Transition::evaluate(Scope const& scope) const
 {
 	for (auto const& condition : m_conditions)
 	{

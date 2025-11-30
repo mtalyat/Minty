@@ -1,30 +1,31 @@
-#pragma once
+#ifndef MINTY_MANAGER_SUBMANAGER_H
+#define MINTY_MANAGER_SUBMANAGER_H
+
+/**
+ * @file SubManager.h
+ * @brief Defines the SubManager class representing a Manager within a Scene.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Manager/Manager.h"
 
 namespace Minty
 {
 	class Scene;
 
-	/// <summary>
-	/// A SubManager is a Manager that resides within a Scene, instead of a Context.
-	/// </summary>
+	/**
+	 * @brief A SubManager is a Manager that belongs to a specific Scene.
+	 */
 	class SubManager
 		: public Manager
 	{
-#pragma region Variables
-
-	private:
-		Scene* mp_scene = nullptr;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new SubManager for the given Scene.
-		/// </summary>
-		/// <param name="scene">The Scene this SubManager belongs to.</param>
+		/**
+		 * @brief Constructs a SubManager belonging to the given Scene.
+		 * @param scene The Scene this SubManager belongs to.
+		 */
 		SubManager(Scene* scene)
 			: Manager()
 			, mp_scene(scene)
@@ -34,15 +35,39 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Scene this SubManager belongs to.
-		/// </summary>
-		/// <returns>The Scene.</returns>
+		/**
+		 * @brief Gets the Scene this SubManager belongs to.
+		 * @returns The Scene.
+		 */
 		Scene& get_scene() const { return *mp_scene; }
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Called when the Scene is loaded.
+		 */
+		virtual void on_scene_load() {}
+
+		/**
+		 * @brief Called when the Scene is unloaded.
+		 */
+		virtual void on_scene_unload() {}
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Scene* mp_scene = nullptr;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_MANAGER_SUBMANAGER_H

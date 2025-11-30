@@ -1,36 +1,45 @@
-#pragma once
+#ifndef MINTY_RENDER_IMAGETYPE_H
+#define MINTY_RENDER_IMAGETYPE_H
+
+/**
+ * @file ImageType.h
+ * @brief Header file defining the ImageType enum.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The amount of dimensions on the image.
-	/// </summary>
+	/**
+	 * @brief The amount of dimensions on the image.
+	 */
 	enum class ImageType
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// One dimensional.
-		/// </summary>
+		/**
+		 * @brief One dimensional.
+		 */
 		D1 = 1,
 
-		/// <summary>
-		/// Two dimensional.
-		/// </summary>
+		/**
+		 * @brief Two dimensional.
+		 */
 		D2 = 2,
 
-		/// <summary>
-		/// Three dimensional.
-		/// </summary>
+		/**
+		 * @brief Three dimensional.
+		 */
 		D3 = 3,
 	};
 
-	MINTY_ENUM_OPERATORS(ImageType);
+	MINTY_ENABLE_ENUM_OPERATORS(ImageType);
 
 	String to_string(ImageType const obj);
 	ImageType parse_to_image_type(String const& string);
@@ -40,3 +49,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ImageType>(String const& string, ImageType& value) { return parse_try_image_type(string, value); }
 }
+
+#endif // MINTY_RENDER_IMAGETYPE_H

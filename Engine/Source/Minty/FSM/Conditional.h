@@ -1,42 +1,50 @@
-#pragma once
+#ifndef MINTY_FSM_CONDITIONAL_H
+#define MINTY_FSM_CONDITIONAL_H
+
+/**
+ * @file Conditional.h
+ * @brief Header file for FSM Conditional enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// An equality condition.
-	/// </summary>
+	/**
+	 * @brief An equality condition.
+	 */
 	enum class Conditional
 	{
-		/// <summary>
-		/// ==
-		/// </summary>
+		/**
+		 * @brief ==
+		 */
 		Equal,
 
-		/// <summary>
-		/// !=
-		/// </summary>
+		/**
+		 * @brief !=
+		 */
 		NotEqual,
 
-		/// <summary>
-		/// >
-		/// </summary>
+		/**
+		 * @brief >
+		 */
 		GreaterThan,
 
-		/// <summary>
-		/// >=
-		/// </summary>
+		/**
+		 * @brief >=
+		 */
 		GreaterThanOrEqual,
 
-		/// <summary>
-		/// <
-		/// </summary>
+		/**
+		 * @brief <
+		 */
 		LessThan,
 
-		/// <summary>
-		/// <=
-		/// </summary>
+		/**
+		 * @brief <=
+		 */
 		LessThanOrEqual,
 	};
 
@@ -69,3 +77,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Conditional>(String const& string, Conditional& value) { return parse_try_conditional(string, value); }
 }
+
+#endif // MINTY_FSM_CONDITIONAL_H

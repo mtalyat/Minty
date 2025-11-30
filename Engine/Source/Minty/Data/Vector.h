@@ -478,7 +478,7 @@ namespace Minty
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		void add(T&& value)
+		void add(T const& value)
 		{
 			// if larger than capacity, reserve more
 			if (get_size() >= get_capacity())
@@ -495,6 +495,69 @@ namespace Minty
 
 			// add value
 			m_data.add(value);
+		}
+
+		/**
+		 * @brief Gets the value at the specified index.
+		 * @param index The index of the value to get.
+		 */
+		void add(T&& value)
+		{
+			// if larger than capacity, reserve more
+			if (get_size() >= get_capacity())
+			{
+				if (get_capacity() == 0)
+				{
+					reserve(DEFAULT_COLLECTION_SIZE);
+				}
+				else
+				{
+					reserve(get_capacity() * 2);
+				}
+			}
+
+			// add value
+			m_data.add(std::move(value));
+		}
+
+		/**
+		 * @brief Gets the value at the specified index.
+		 * @param index The index of the value to get.
+		 */
+		void insert(Size const index, T const& value)
+		{
+			MINTY_ASSERT(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
+
+			// add to end
+			if (index == get_size())
+			{
+				add(value);
+				return;
+			}
+
+			// if larger than capacity, reserve more
+			if (get_size() >= get_capacity())
+			{
+				if (get_capacity() == 0)
+				{
+					reserve(DEFAULT_COLLECTION_SIZE);
+				}
+				else
+				{
+					reserve(get_capacity() * 2);
+				}
+			}
+
+			m_data.resize(get_size() + 1);
+
+			// move data
+			for (Size i = get_size(); i > index; --i)
+			{
+				mp_data[i] = std::move(mp_data[i - 1]);
+			}
+
+			// add value
+			mp_data[index] = value;
 		}
 
 		/**
@@ -534,7 +597,7 @@ namespace Minty
 			}
 
 			// add value
-			mp_data[index] = value;
+			mp_data[index] = std::move(value);
 		}
 
 		/**

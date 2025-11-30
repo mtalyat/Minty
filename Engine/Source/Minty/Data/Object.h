@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_DATA_OBJECT_H
+#define MINTY_DATA_OBJECT_H
+
+/**
+ * @file Object.h
+ * @brief Defines the Object class for a collection of named Variables.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/Tuple.h"
 #include "Minty/Data/Variable.h"
 #include "Minty/Data/Vector.h"
@@ -6,133 +14,123 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// A collection of named Variables.
-	/// </summary>
+	/**
+	 * @class Object
+	 * @brief A collection of named Variables.
+	 */
 	class Object
 	{
-#pragma region Variables
-
-	private:
-		Vector<Tuple<String, Variable>> m_variables;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Object.
-		/// </summary>
-		Object()
-			: m_variables()
-		{
-		}
+		/**
+		 * @brief Creates an empty Object.
+		 */
+		Object();
 
-		/// <summary>
-		/// Creates an empty Object with the given name and capacity.
-		/// </summary>
-		/// <param name="capcity">The Variable capacity.</param>
-		Object(Size const capcity)
-			: m_variables(capcity)
-		{
-		}
+		/**
+		 * @brief Creates an empty Object with the given name and capacity.
+		 * @param capcity The Variable capacity.
+		 */
+		Object(Size const capcity);
 
-		/// <summary>
-		/// Creates an Object with the given name and list of Variables.
-		/// </summary>
-		/// <param name="list">A list of names and Variables.</param>
-		Object(std::initializer_list<Tuple<String, Variable>> const& list)
-			: m_variables(list)
-		{
-		}
+		/**
+		 * @brief Creates an Object with the given name and list of Variables.
+		 * @param list A list of names and Variables.
+		 */
+		Object(std::initializer_list<Tuple<String, Variable>> const& list);
 
-		/// <summary>
-		/// Creates an Object with the given name and list of Variables.
-		/// </summary>
-		/// <param name="variables">The Variables.</param>
-		Object(Vector<Tuple<String, Variable>> const& variables)
-			: m_variables(variables)
-		{
-		}
-
+		/**
+		 * @brief Creates an Object with the given name and list of Variables.
+		 * @param variables The Variables.
+		 */
+		
+		Object(Vector<Tuple<String, Variable>> const& variables);
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets a Vector of all the Variables in this Object.
-		/// </summary>
-		/// <returns>The list.</returns>
-		Vector<Tuple<String, Variable>> const& get_variables() const { return m_variables; }
+		/**
+		 * @brief Gets a Vector of all the Variables in this Object.
+		 * @return The list.
+		 */
+		inline Vector<Tuple<String, Variable>> const& get_variables() const { return m_variables; }
 
-		/// <summary>
-		/// Gets the number of Variables in this Object.
-		/// </summary>
-		/// <returns>The size.</returns>
-		Size get_size() const { return m_variables.get_size(); }
+		/**
+		 * @brief Gets the number of Variables in this Object.
+		 * @return The size.
+		 */
+		inline Size get_size() const { return m_variables.get_size(); }
 
-		/// <summary>
-		/// Checks if this Object is empty.
-		/// </summary>
-		/// <returns>True if no Variables are in this Object.</returns>
-		Bool is_empty() const { return m_variables.is_empty(); }
+		/**
+		 * @brief Checks if this Object is empty.
+		 * @return True if no Variables are in this Object.
+		 */
+		inline Bool is_empty() const { return m_variables.is_empty(); }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if this Object has a Variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Variable.</param>
-		/// <returns>True if a Variable with the given name exists.</returns>
+		/**
+		 * @brief Checks if this Object has a Variable with the given name.
+		 * @param name The name of the Variable.
+		 * @return True if a Variable with the given name exists.
+		 */
 		Bool contains(String const& name) const;
 
-		/// <summary>
-		/// Gets the Variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Variable.</param>
-		/// <returns>A const reference to the Variable.</returns>
+		/**
+		 * @brief Gets the Variable with the given name.
+		 * @param name The name of the Variable.
+		 * @return A const reference to the Variable.
+		 */
 		Variable const& at(String const& name) const;
 
-		/// <summary>
-		/// Gets the Variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Variable.</param>
-		/// <returns>A const reference to the Variable.</returns>
+		/**
+		 * @brief Gets the Variable with the given name.
+		 * @param name The name of the Variable.
+		 * @return A const reference to the Variable.
+		 */
 		Variable& at(String const& name);
 
-		/// <summary>
-		/// Adds a Variable to this Object.
-		/// </summary>
-		/// <param name="name">The name of the Variable.</param>
-		/// <param name="variable">The Variable.</param>
+		/**
+		 * @brief Adds a Variable to this Object.
+		 * @param name The name of the Variable.
+		 * @param variable The Variable.
+		 */
 		void add(String const& name, Variable const& variable);
 
-		/// <summary>
-		/// Sets the Variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Variable.</param>
-		/// <param name="variable">The Variable.</param>
+		/**
+		 * @brief Sets the Variable with the given name.
+		 * @param name The name of the Variable.
+		 * @param variable The Variable.
+		 */
 		void set(String const& name, Variable const& variable);
 
-		/// <summary>
-		/// Removes the Variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Variable.</param>
-		/// <returns>True if a Variable with the given name was removed.</returns>
+		/**
+		 * @brief Removes the Variable with the given name.
+		 * @param name The name of the Variable.
+		 * @return True if a Variable with the given name was removed.
+		 */
 		Bool remove(String const& name);
 
-		/// <summary>
-		/// Packs the data within this Cargo into a byte array.
-		/// </summary>
-		/// <returns>A ConstContainer containing the byte data.</returns>
+		/**
+		 * @brief Packs the data within this Cargo into a byte array.
+		 * @return A ConstContainer containing the byte data.
+		 */
 		ConstantContainer pack() const;
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		Vector<Tuple<String, Variable>> m_variables;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_OBJECT_H

@@ -1,12 +1,20 @@
-#pragma once
+#ifndef MINTY_INPUT_MOUSEBUTTON_H
+#define MINTY_INPUT_MOUSEBUTTON_H
+
+/**
+ * @file MouseButton.h
+ * @brief Header file for mouse button enumeration.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A button on the mouse.
-	/// </summary>
+	/**
+	 * @brief A button on the mouse.
+	 */
 	enum class MouseButton
 	{
 		Button1 = 0,
@@ -31,3 +39,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<MouseButton>(String const& string, MouseButton& value) { return parse_try_mouse_button(string, value); }
 }
+
+#endif // MINTY_INPUT_MOUSEBUTTON_H

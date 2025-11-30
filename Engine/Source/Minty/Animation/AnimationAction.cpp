@@ -28,7 +28,9 @@ UInt get_split(Size const index, Vector<String> const& split, UInt const default
 Bool Minty::AnimationAction::parse(String const& text)
 {
 	// format: type?:entity/component:variable/value,variable/value,variable/value...
-	String strippedText = text.strip();
+	StringBuilder textBuilder(text);
+	textBuilder.strip();
+	String const strippedText = textBuilder.to_string();
 	Vector<String> halves = Util::split(strippedText, ANIMATION_ACTION_HALF);
 	MINTY_ASSERT(halves.get_size() == 2 || halves.get_size() == 3, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
@@ -84,25 +86,35 @@ Bool Minty::AnimationAction::parse(String const& text)
 
 String Minty::AnimationAction::to_string() const
 {
+	StringBuilder builder;
+
 	// get major half
 	String flagString = type == AnimationActionType::None ? "" : Minty::to_string(static_cast<UInt>(type));
 	String entityString = entityIndex == Animation::MAX_ENTITY_INDEX ? "" : Minty::to_string(entityIndex);
 	String componentString = componentIndex == Animation::MAX_COMPONENT_INDEX ? "" : Minty::to_string(componentIndex);
-	String majorString = F("{}{}{}{}{}", flagString, ANIMATION_ACTION_DELIMITER, entityString, ANIMATION_ACTION_DELIMITER, componentString);
+	builder.append(flagString);
+	builder.append(ANIMATION_ACTION_DELIMITER);
+	builder.append(entityString);
+	builder.append(ANIMATION_ACTION_DELIMITER);
+	builder.append(componentString);
+
+	// add separator
+	builder.append(ANIMATION_ACTION_HALF);
 
 	// get minor half
-	String minorString = "";
 	for (Size i = 0; i < values.get_size(); i++)
 	{
 		if (i > 0)
 		{
-			minorString += String(ANIMATION_ACTION_GROUP, 1);
+			builder.append(ANIMATION_ACTION_GROUP);
 		}
 		auto const [variableIndex, valueIndex] = values.at(i);
 		String variableString = variableIndex == Animation::MAX_VARIABLE_INDEX ? "" : Minty::to_string(variableIndex);
 		String valueString = valueIndex == Animation::MAX_VALUE_INDEX ? "" : Minty::to_string(valueIndex);
-		minorString += F("{}{}{}", variableString, ANIMATION_ACTION_DELIMITER, valueString);
+		builder.append(variableString);
+		builder.append(ANIMATION_ACTION_DELIMITER);
+		builder.append(valueString);
 	}
 
-	return F("{}{}{}", majorString, ANIMATION_ACTION_HALF, minorString);
+	return builder.to_string();
 }

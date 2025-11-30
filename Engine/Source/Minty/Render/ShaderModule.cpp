@@ -6,11 +6,11 @@
 
 using namespace Minty;
 
-Owner<ShaderModule> Minty::ShaderModule::create(ShaderModuleInfo const& info)
+Shared<ShaderModule> Minty::ShaderModule::create(ShaderModuleInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_ShaderModule>(info);
+	return Shared<Vulkan_ShaderModule>(info);
 #else
-    return Owner<ShaderModule>();
+    return Shared<ShaderModule>();
 #endif // MINTY_VULKAN
 }

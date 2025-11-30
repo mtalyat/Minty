@@ -18,7 +18,7 @@ namespace Minty
 		/// <summary>
 		/// The Asset ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The Texture that this Sprite uses.
@@ -62,7 +62,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	private:
 		// converts coords from normalized to CoordinateMode coords
@@ -185,7 +185,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A Sprite Owner.</returns>
-		static Owner<Sprite> create(SpriteInfo const& info = {});
+		static Shared<Sprite> create(SpriteInfo const& info = {});
 
 #pragma endregion
 	};

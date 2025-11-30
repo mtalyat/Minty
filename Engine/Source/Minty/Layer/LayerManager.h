@@ -1,34 +1,102 @@
-#pragma once
+#ifndef MINTY_LAYER_LAYERMANAGER_H
+#define MINTY_LAYER_LAYERMANAGER_H
+
+/**
+ * @file LayerManager.h
+ * @brief Header file for the LayerManager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Debug/Assert.h"
 #include "Minty/Manager/Manager.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for creating a LayerManager.
-	/// </summary>
-	struct LayerManagerInfo
-	{
-		/// <summary>
-		/// The layer collision matrix data.
-		/// Each tuple contains the name of the layer, the layer itself, and the layer mask of the layers it collides with.
-		/// Each bit, starting with the least significant bit, corresponds to the layer index of the layer it collides with.
-		/// </summary>
-		Vector<Tuple<String, Layer, Layer>> layerCollisions = {
-			{ "None", LAYER_NONE, ~LAYER_MASK_ALL },
-			{ "Default", LAYER_DEFAULT, LAYER_MASK_ALL }
-		};
-	};
+	struct LayerManagerInfo;
 
-	/// <summary>
-	/// Controls the layers in the engine.
-	/// </summary>
+	/**
+	 * @brief Controls the layers in the engine.
+	 */
 	class LayerManager
 		: public Manager
 	{
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates a new LayerManager with the given arguments.
+		 * @param info The arguments.
+		 */
+		LayerManager(LayerManagerInfo const& info);
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		/**
+		 * @brief Gets the name of the given Layer.
+		 * @param layer The Layer.
+		 * @return The name of the Layer.
+		 */
+		inline String const& get_name(Layer const layer) const
+		{
+			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
+			return m_names[layer];
+		}
+		
+		/**
+		 * @brief Gets the first Layer with the given name.
+		 * @param name The name of the Layer.
+		 * @return The Layer index, or LAYER_NONE if no Layer was found.
+		 */
+		Layer get_layer(String const& name) const;
+
+		/**
+		 * @brief Gets the Layer mask for the given Layer.
+		 * @param layer The Layer.
+		 * @return The Layer mask.
+		 */
+		inline Layer get_mask(Layer const layer) const
+		{
+			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
+			return m_matrix[layer];
+		}
+
+		/**
+		 * @brief Determines whether a collision occurs between two layers.
+		 * @param layerA The first layer to check for collision.
+		 * @param layerB The second layer to check for collision.
+		 * @return True if a collision is detected between the two layers; otherwise, false.
+		 */
+		Bool check_for_collision(Layer const layerA, Layer const layerB) const;
+
+		/**
+		 * @brief Converts the layer index to a bit.
+		 * @param layer The Layer index.
+		 * @return The Layer as a bit.
+		 */
+		inline static Layer layer_to_bit(Layer const layer) { return 1 << layer; }
+
+		/**
+		 * @brief Creates a new LayerManager with the given arguments.
+		 * @param info The arguments.
+		 * @return A LayerManager Owner.
+		 */
+		static Unique<LayerManager> create(LayerManagerInfo const& info);
+
+		/**
+		 * @brief Gets the active Context's LayerManager.
+		 * @return The LayerManager.
+		 */
+		static LayerManager& get_singleton();
+
+#pragma endregion
+
 #pragma region Variables
 
 	private:
@@ -37,87 +105,7 @@ namespace Minty
 		Layer m_matrix[LAYER_COUNT];
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates a new LayerManager with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		LayerManager(LayerManagerInfo const& info);
-
-#pragma endregion
-
-#pragma region Get Set
-
-	public:
-		/// <summary>
-		/// Gets the name of the given Layer.
-		/// </summary>
-		/// <param name="layer">The Layer.</param>
-		/// <returns>The name of the Layer.</returns>
-		inline String const& get_name(Layer const layer) const
-		{
-			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
-			return m_names[layer];
-		}
-		
-		/// <summary>
-		/// Gets the first Layer with the given name.
-		/// </summary>
-		/// <param name="name">The name of the Layer.</param>
-		/// <returns>The Layer index, opr LAYER_NONE if no Layer was found..</returns>
-		Layer get_layer(String const& name) const;
-
-		/// <summary>
-		/// Gets the Layer mask for the given Layer.
-		/// </summary>
-		/// <param name="layer"></param>
-		/// <returns></returns>
-		inline Layer get_mask(Layer const layer) const
-		{
-			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
-			return m_matrix[layer];
-		}
-
-		/// <summary>
-		/// Determines whether a collision occurs between two layers.
-		/// </summary>
-		/// <param name="layerA">The first layer to check for collision.</param>
-		/// <param name="layerB">The second layer to check for collision.</param>
-		/// <returns>True if a collision is detected between the two layers; otherwise, false.</returns>
-		Bool check_for_collision(Layer const layerA, Layer const layerB) const;
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		/// <summary>
-		/// Converts the layer index to a bit.
-		/// </summary>
-		/// <param name="layer"></param>
-		/// <returns></returns>
-		static inline Layer layer_to_bit(Layer const layer)
-		{
-			return 1 << layer;
-		}
-
-		/// <summary>
-		/// Creates a new LayerManager with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A LayerManager Owner.</returns>
-		static Owner<LayerManager> create(LayerManagerInfo const& info = {});
-
-		/// <summary>
-		/// Gets the active Context's LayerManager.
-		/// </summary>
-		/// <returns>The LayerManager.</returns>
-		static LayerManager& get_singleton();
-
-#pragma endregion
-
 	};
 }
+
+#endif // MINTY_LAYER_LAYERMANAGER_H

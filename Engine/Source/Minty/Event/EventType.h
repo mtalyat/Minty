@@ -1,69 +1,72 @@
-#pragma once
+#ifndef MINTY_EVENT_EVENTTYPE_H
+#define MINTY_EVENT_EVENTTYPE_H
 
 namespace Minty
 {
-	/// <summary>
-	/// Describes the type of an Event.
-	/// </summary>
+	/**
+	 * @brief Describes the type of an Event.
+	 */
 	enum class EventType
 	{
-		/// <summary>
-		/// No event.
-		/// </summary>
+		/**
+		 * @brief No event.
+		 */
 		None = 0,
 
-		/// <summary>
-		/// When a Window is closed.
-		/// </summary>
+		/**
+		 * @brief When a Window is closed.
+		 */
 		WindowClose,
 		
-		/// <summary>
-		/// When a Window is resized.
-		/// </summary>
+		/**
+		 * @brief When a Window is resized.
+		 */
 		WindowResize,
 
 		//WindowFocus,
 		//WindowUnfocus,
 		//WindowMoved,
 
-		/// <summary>
-		/// When a Key is pressed or released.
-		/// </summary>
+		/**
+		 * @brief When a Key is pressed or released.
+		 */
 		Key,
 
-		/// <summary>
-		/// When a Mouse Button is pressed or released.
-		/// </summary>
+		/**
+		 * @brief When a Mouse Button is pressed or released.
+		 */
 		MouseButton,
 
-		/// <summary>
-		/// The the Mouse is moved.
-		/// </summary>
+		/**
+		 * @brief The the Mouse is moved.
+		 */
 		MouseMove,
 
-		/// <summary>
-		/// When the Mouse is scrolled.
-		/// </summary>
+		/**
+		 * @brief When the Mouse is scrolled.
+		 */
 		MouseScroll,
 
-		/// <summary>
-		/// When a Gamepad is connected.
-		/// </summary>
+		/**
+		 * @brief When a Gamepad is connected.
+		 */
 		GamepadConnect,
 
-		/// <summary>
-		/// When a Gamepad is disconnected.
-		/// </summary>
+		/**
+		 * @brief When a Gamepad is disconnected.
+		 */
 		GamepadDisconnect,
 
-		/// <summary>
-		/// When a Gamepad Button is pressed or released.
-		/// </summary>
+		/**
+		 * @brief When a Gamepad Button is pressed or released.
+		 */
 		GamepadButton,
 
-		/// <summary>
-		/// When a Gamepad Axis is moved.
-		/// </summary>
+		/**
+		 * @brief When a Gamepad Axis is moved.
+		 */
 		GamepadAxis,
 	};
 }
+
+#endif // MINTY_EVENT_EVENTTYPE_H

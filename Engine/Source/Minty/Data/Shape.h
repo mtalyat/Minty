@@ -1,47 +1,55 @@
-#pragma once
+#ifndef MINTY_DATA_SHAPE_H
+#define MINTY_DATA_SHAPE_H
+
+/**
+ * @file Shape.h
+ * @brief Defines the Shape enum for collider and mesh shapes.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Defines a shape for a collider or a mesh.
-	/// </summary>
+	/**
+	 * @brief Enum representing different shapes.
+	 */
 	enum class Shape
 	{
-		/// <summary>
-		/// No shape.
-		/// </summary>
+		/**
+		 * @brief No shape.
+		 */
 		Empty,
 
-		/// <summary>
-		/// A rectangular prism.
-		/// </summary>
+		/**
+		 * @brief A rectangular prism.
+		 */
 		Box,
 
-		/// <summary>
-		/// A sphere.
-		/// </summary>
+		/**
+		 * @brief A sphere.
+		 */
 		Sphere,
 
-		/// <summary>
-		/// A capsule.
-		/// </summary>
+		/**
+		 * @brief A capsule.
+		 */
 		Capsule,
 
-		/// <summary>
-		/// A cylinder.
-		/// </summary>
+		/**
+		 * @brief A cylinder.
+		 */
 		Cylinder,
 
-		/// <summary>
-		/// A cone.
-		/// </summary>
+		/**
+		 * @brief A cone.
+		 */
 		Cone,
 
-		/// <summary>
-		/// A custom shape.
-		/// </summary>
+		/**
+		 * @brief A custom shape.
+		 */
 		Custom,
 	};
 
@@ -53,3 +61,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Shape>(String const& string, Shape& value) { return parse_try_shape(string, value); }
 }
+
+#endif // MINTY_DATA_SHAPE_H

@@ -33,14 +33,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		void* get_native() const override { return m_image; }
+		Any get_native() const override { return m_image; }
 
 		void set_pixels(void const* const data, Size const size) override;
 
-		void get_pixels(void* const outData, Size const size) const override;
+		void get_pixels(Any const outData, Size const size) const override;
 
 		VkImage get_image() const { return m_image; }
 

@@ -1,23 +1,22 @@
 #include "StringBuilder.h"
-#include "Minty/Memory/MemoryManager.h"
-#include "Minty/Debug/Debug.h"
-#include "Minty/Data/String.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
-Minty::StringBuilder::StringBuilder(AllocatorType const allocator)
-    : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
+Minty::StringBuilder::StringBuilder()
+    : mp_data(nullptr), m_size(0), m_capacity(0)
 {
 }
 
-Minty::StringBuilder::StringBuilder(Size const initialCapacity, AllocatorType const allocator)
-    : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
+Minty::StringBuilder::StringBuilder(Size const initialCapacity)
+    : mp_data(nullptr), m_size(0), m_capacity(0)
 {
     reserve(initialCapacity);
 }
 
-Minty::StringBuilder::StringBuilder(String const& initialString, AllocatorType const allocator)
-    : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator(allocator)
+Minty::StringBuilder::StringBuilder(StringView const& initialString)
+    : mp_data(nullptr), m_size(0), m_capacity(0)
 {
     reserve(initialString.get_size());
 }
@@ -26,8 +25,7 @@ Minty::StringBuilder::~StringBuilder()
 {
     if (mp_data)
     {
-        MemoryManager &memoryManager = MemoryManager::get_singleton();
-        memoryManager.deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
+        DefaultAllocator::deallocate(static_cast<Any>(mp_data));
     }
 }
 
@@ -40,14 +38,13 @@ void Minty::StringBuilder::reserve(Size const newCapacity)
     }
 
     // Allocate new memory and copy existing data
-    MemoryManager &memoryManager = MemoryManager::get_singleton();
-    void *const ptr = memoryManager.allocate((newCapacity) * sizeof(Char), m_allocator);
-    // MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed);
+    Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (newCapacity + 1));
+    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed);
     Char *const newData = static_cast<Char *>(ptr);
     if (mp_data)
     {
         std::memcpy(newData, mp_data, m_size * sizeof(Char));
-        memoryManager.deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
+        DefaultAllocator::deallocate(static_cast<Any>(mp_data));
     }
     mp_data = newData;
     m_capacity = newCapacity;
@@ -76,7 +73,7 @@ void Minty::StringBuilder::append(Char const c)
     mp_data[m_size] = '\0';
 }
 
-void Minty::StringBuilder::append(String const& str)
+void Minty::StringBuilder::append(StringView const &str)
 {
     // Reserve more space if needed
     Size const requiredCapacity = m_size + str.get_size();
@@ -98,7 +95,339 @@ void Minty::StringBuilder::append(String const& str)
     mp_data[m_size] = '\0';
 }
 
-String Minty::StringBuilder::to_string(AllocatorType const allocator) const
+
+Char Minty::StringBuilder::index(Size const index) const
 {
-    return String(mp_data, allocator);
+    MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    return mp_data[index];
+}
+
+Char const &Minty::StringBuilder::at(Size const index) const
+{
+    MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    return mp_data[index];
+}
+
+Int Minty::StringBuilder::compare(StringView const other) const noexcept
+{
+    if (m_size < other.get_size())
+    {
+        return -1;
+    }
+    else if (m_size > other.get_size())
+    {
+        return 1;
+    }
+
+    for (Size i = 0; i < m_size; ++i)
+    {
+        if (mp_data[i] < other[i])
+        {
+            return -1;
+        }
+        else if (mp_data[i] > other[i])
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+Size Minty::StringBuilder::find_first(Char const c, Size const startIndex) const noexcept
+{
+    for (Size i = startIndex; i < m_size; ++i)
+    {
+        if (mp_data[i] == c)
+        {
+            return i;
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_first(StringView const str, Size const startIndex) const noexcept
+{
+    if (str.get_size() == 0 || str.get_size() > m_size)
+    {
+        return INVALID_INDEX;
+    }
+
+    for (Size i = startIndex; i <= m_size - str.get_size(); ++i)
+    {
+        Bool found = true;
+        for (Size j = 0; j < str.get_size(); ++j)
+        {
+            if (mp_data[i + j] != str[j])
+            {
+                found = false;
+                break;
+            }
+        }
+        if (found)
+        {
+            return i;
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_last(Char const c, Size const startIndex) const noexcept
+{
+    Size start = (startIndex == INVALID_INDEX) ? m_size - 1 : startIndex;
+    for (Size i = start; i != static_cast<Size>(-1); --i)
+    {
+        if (mp_data[i] == c)
+        {
+            return i;
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_last(StringView const str, Size const startIndex) const noexcept
+{
+    if (str.get_size() == 0 || str.get_size() > m_size)
+    {
+        return INVALID_INDEX;
+    }
+
+    Size start = (startIndex == INVALID_INDEX) ? m_size - str.get_size() : startIndex;
+    for (Size i = start; i != static_cast<Size>(-1); --i)
+    {
+        Bool found = true;
+        for (Size j = 0; j < str.get_size(); ++j)
+        {
+            if (mp_data[i + j] != str[j])
+            {
+                found = false;
+                break;
+            }
+        }
+        if (found)
+        {
+            return i;
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_first_of(StringView const chars, Size const startIndex) const noexcept
+{
+    for (Size i = startIndex; i < m_size; ++i)
+    {
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[i] == chars[j])
+            {
+                return i;
+            }
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_last_of(StringView const chars, Size const startIndex) const noexcept
+{
+    Size start = (startIndex == INVALID_INDEX) ? m_size - 1 : startIndex;
+    for (Size i = start; i != static_cast<Size>(-1); --i)
+    {
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[i] == chars[j])
+            {
+                return i;
+            }
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_first_not_of(StringView const chars, Size const startIndex) const noexcept
+{
+    for (Size i = startIndex; i < m_size; ++i)
+    {
+        Bool found = false;
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[i] == chars[j])
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            return i;
+        }
+    }
+    return INVALID_INDEX;
+}
+
+Size Minty::StringBuilder::find_last_not_of(StringView const chars, Size const startIndex) const noexcept
+{
+    Size start = (startIndex == INVALID_INDEX) ? m_size - 1 : startIndex;
+    for (Size i = start; i != static_cast<Size>(-1); --i)
+    {
+        Bool found = false;
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[i] == chars[j])
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            return i;
+        }
+    }
+    return INVALID_INDEX;
+}
+
+String Minty::StringBuilder::sub(Size const startIndex, Size const count) const noexcept
+{
+    if (startIndex >= m_size)
+    {
+        return String();
+    }
+
+    Size actualCount = count;
+    if (count == INVALID_INDEX || startIndex + count > m_size)
+    {
+        actualCount = m_size - startIndex;
+    }
+
+    return String(StringView(mp_data + startIndex, actualCount));
+}
+
+Bool Minty::StringBuilder::starts_with(StringView const str) const noexcept
+{
+    for (Size i = 0; i < str.get_size(); ++i)
+    {
+        if (m_size < str.get_size() || mp_data[i] != str[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+Bool Minty::StringBuilder::ends_with(StringView const str) const noexcept
+{
+    for (Size i = 0; i < str.get_size(); ++i)
+    {
+        if (m_size < str.get_size() || mp_data[m_size - str.get_size() + i] != str[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void Minty::StringBuilder::to_lower()
+{
+    for (Size i = 0; i < m_size; ++i)
+    {
+        mp_data[i] = static_cast<Char>(std::tolower(mp_data[i]));
+    }
+}
+
+void Minty::StringBuilder::to_upper()
+{
+    for (Size i = 0; i < m_size; ++i)
+    {
+        mp_data[i] = static_cast<Char>(std::toupper(mp_data[i]));
+    }
+}
+
+void Minty::StringBuilder::trim_start(StringView const chars)
+{
+    Size startIndex = 0;
+    while (startIndex < m_size)
+    {
+        Bool found = false;
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[startIndex] == chars[j])
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            break;
+        }
+        startIndex++;
+    }
+    if (startIndex > 0)
+    {
+        Size newSize = m_size - startIndex;
+        std::memmove(mp_data, mp_data + startIndex, newSize * sizeof(Char));
+        m_size = newSize;
+        mp_data[m_size] = '\0';
+    }
+}
+
+void Minty::StringBuilder::trim_end(StringView const chars)
+{
+    Size endIndex = m_size;
+    while (endIndex > 0)
+    {
+        Bool found = false;
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[endIndex - 1] == chars[j])
+            {
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            break;
+        }
+        endIndex--;
+    }
+    if (endIndex < m_size)
+    {
+        m_size = endIndex;
+        mp_data[m_size] = '\0';
+    }
+}
+
+void Minty::StringBuilder::trim(StringView const chars)
+{
+    trim_start(chars);
+    trim_end(chars);
+}
+
+void Minty::StringBuilder::strip(StringView const chars)
+{
+    Size writeIndex = 0;
+    for (Size readIndex = 0; readIndex < m_size; ++readIndex)
+    {
+        Bool toStrip = false;
+        for (Size j = 0; j < chars.get_size(); ++j)
+        {
+            if (mp_data[readIndex] == chars[j])
+            {
+                toStrip = true;
+                break;
+            }
+        }
+        if (!toStrip)
+        {
+            mp_data[writeIndex] = mp_data[readIndex];
+            writeIndex++;
+        }
+    }
+    m_size = writeIndex;
+    mp_data[m_size] = '\0';
+}
+
+void Minty::StringBuilder::replace(StringView const target, StringView const replacement)
+{
+
 }

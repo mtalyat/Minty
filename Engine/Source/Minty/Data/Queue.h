@@ -1,17 +1,26 @@
-#pragma once
-#include "Minty/Core/Macro.h"
+#ifndef MINTY_DATA_QUEUE_H
+#define MINTY_DATA_QUEUE_H
+
+/**
+ * @file Queue.h
+ * @brief Header file for the Queue class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Provides a collection of elements with a first in, first out queue.
-	/// </summary>
-	/// <typeparam name="T">The type of elements.</typeparam>
-	template<typename T>
+	/**
+	 * @class Queue
+	 * @brief A simple FIFO queue implementation using a doubly linked list.
+	 * @tparam T The type of elements stored in the queue.
+	 */
+	template<typename T, typename Allocator = DefaultAllocator>
 	class Queue
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct Node
@@ -36,38 +45,25 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Variables
-
-	private:
-		AllocatorType m_allocator;
-		Node* mp_head;
-		Node* mp_tail;
-		Size m_size;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Queue.
-		/// </summary>
-		/// <param name="allocator">The memory allocator to use.</param>
-		constexpr Queue(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, mp_head(nullptr)
+		/**
+		 * @brief Creates an empty Queue.
+		 */
+		constexpr Queue()
+			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
 		}
 
-		/// <summary>
-		/// Copies the given Queue.
-		/// </summary>
-		/// <param name="other">The Queue to copy.</param>
+		/**
+		 * @brief Copies the given Queue.
+		 * @param other The Queue to copy.
+		 */
 		Queue(Queue const& other)
-			: m_allocator(other.m_allocator)
-			, mp_head(nullptr)
+			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
 		{
@@ -79,17 +75,15 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Moves the given Queue.
-		/// </summary>
-		/// <param name="other">The Queue to move.</param>
+		/**
+		 * @brief Moves the given Queue.
+		 * @param other The Queue to move.
+		 */
 		Queue(Queue&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, mp_head(other.mp_head)
+			: mp_head(other.mp_head)
 			, mp_tail(other.mp_tail)
 			, m_size(other.m_size)
 		{
-			other.m_allocator = AllocatorType::Default;
 			other.mp_head = nullptr;
 			other.mp_tail = nullptr;
 			other.m_size = 0;
@@ -102,7 +96,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				destruct<Node>(temp, m_allocator);
+				Allocator::destruct<Node>(temp);
 			}
 		}
 
@@ -120,7 +114,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					destruct<Node>(temp, m_allocator);
+					Allocator::destruct<Node>(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -144,13 +138,11 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					destruct<Node>(temp, m_allocator);
+					Allocator::destruct<Node>(temp);
 				}
-				m_allocator = other.m_allocator;
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
 				m_size = other.m_size;
-				other.m_allocator = AllocatorType::Default;
 				other.mp_head = nullptr;
 				other.mp_tail = nullptr;
 				other.m_size = 0;
@@ -160,27 +152,33 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the size of this Queue.
-		/// </summary>
-		/// <returns>The number of elements.</returns>
-		Size get_size() const { return m_size; }
+		/**
+		 * @brief Gets the size of this Queue.
+		 * @returns The size.
+		 */
+		inline Size get_size() const { return m_size; }
+		
+		/**
+		 * @brief Checks if this Queue is empty.
+		 * @returns True if the Queue is empty.
+		 */
+		inline Bool is_empty() const { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Pushes a copy of the given value to the Queue.
-		/// </summary>
-		/// <param name="value">The value to push.</param>
+		/**
+		 * @brief Pushes the given value to the Queue.
+		 * @param value The value to push.
+		 */
 		void push(T const& value)
 		{
-			Node* node = construct<Node>(m_allocator, value);
+			Node* node = Allocator::construct<Node>(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -195,13 +193,13 @@ namespace Minty
 			++m_size;
 		}
 
-		/// <summary>
-		/// Pushes the given value to the Queue.
-		/// </summary>
-		/// <param name="value">The value to push.</param>
+		/**
+		 * @brief Pushes the given value to the Queue.
+		 * @param value The value to push.
+		 */
 		void push(T&& value)
 		{
-			Node* node = construct<Node>(m_allocator, std::move(value));
+			Node* node = Allocator::construct<Node>(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -216,9 +214,10 @@ namespace Minty
 			++m_size;
 		}
 
-		/// <summary>
-		/// Pops the next element in the Queue.
-		/// </summary>
+		/**
+		 * @brief Pops the next value from the Queue.
+		 * @returns The popped value.
+		 */
 		T pop()
 		{
 			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
@@ -237,7 +236,7 @@ namespace Minty
 
 			// get the data
 			T data = std::move(node->data);
-			destruct<Node>(node, m_allocator);
+			Allocator::destruct<Node>(node);
 			
 			// update size
 			--m_size;
@@ -245,35 +244,29 @@ namespace Minty
 			return data;
 		}
 
-		/// <summary>
-		/// Checks if this Queue is empty.
-		/// </summary>
-		/// <returns>True, if size is zero.</returns>
-		Bool is_empty() const { return m_size == 0; }
-
-		/// <summary>
-		/// Gets the next element to be popped in the Queue.
-		/// </summary>
-		/// <returns>A reference to the next element.</returns>
+		/**
+		 * @brief Gets the next element to be popped in the Queue.
+		 * @returns A reference to the next element.
+		 */
 		T& peek()
 		{
 			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_head->data;
 		}
 
-		/// <summary>
-		/// Gets the next element to be popped in the Queue.
-		/// </summary>
-		/// <returns>A reference to the next element.</returns>
+		/**
+		 * @brief Gets the next element to be popped in the Queue.
+		 * @returns A const reference to the next element.
+		 */
 		T const& peek() const
 		{
 			MINTY_ASSERT(m_size > 0, ErrorCode::Object_EmptyContainer);
 			return mp_head->data;
 		}
-
-		/// <summary>
-		/// Pops all elements from this Queue.
-		/// </summary>
+		
+		/**
+		 * @brief Clears all elements from the Queue.
+		 */
 		void clear()
 		{
 			Node* node = mp_head;
@@ -281,7 +274,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				destruct<Node>(temp, m_allocator);
+				Allocator::destruct<Node>(temp);
 			}
 			mp_head = nullptr;
 			mp_tail = nullptr;
@@ -289,5 +282,16 @@ namespace Minty
 		}
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		Node* mp_head;
+		Node* mp_tail;
+		Size m_size;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_QUEUE_H

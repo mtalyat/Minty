@@ -13,7 +13,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Owner<PhysicsSimulation> m_simulation;
+		Shared<PhysicsSimulation> m_simulation;
 		Float m_accumulator;
 
 #pragma endregion
@@ -29,7 +29,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>

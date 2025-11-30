@@ -1,12 +1,19 @@
-#pragma once
+#ifndef MINTY_COMPONENT_MASKCOMPONENT_H
+#define MINTY_COMPONENT_MASKCOMPONENT_H
+
+/**
+ * @file MaskComponent.h
+ * @brief Header file defining the MaskComponent structure.
+ * @author Mitchell Talyat
+ */
 
 #include "Minty/Component/Component.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A component that holds a mask value.
-	/// </summary>
+	/**
+	 * @brief A component that holds a mask value.
+	 */
 	struct MaskComponent
 		: public Component
 	{
@@ -16,3 +23,5 @@ namespace Minty
 		Bool deserialize(Reader& reader) override;
 	};
 }
+
+#endif // MINTY_COMPONENT_MASKCOMPONENT_H

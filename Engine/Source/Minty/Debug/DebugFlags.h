@@ -1,63 +1,73 @@
-#pragma once
+#ifndef MINTY_DEBUG_DEBUGFLAGS_H
+#define MINTY_DEBUG_DEBUGFLAGS_H
+
+/**
+ * @file DebugFlags.h
+ * @brief Header file defining debug flag enums.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Enum.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Flags for determining how to write debug information.
-	/// </summary>
+	/**
+	 * @brief Flags for determining how to write debug information.
+	 */
 	enum class DebugFlags
 	{
-		/// <summary>
-		/// Do not write any debug information.
-		/// </summary>
+		/**
+		 * @brief Do not write any debug information.
+		 */
 		None = 0,
 
-		/// <summary>
-		/// Write info messages.
-		/// </summary>
+		/**
+		 * @brief Write info messages.
+		 */
 		Info = 1 << 0,
 
-		/// <summary>
-		/// Write message messages.
-		/// </summary>
+		/**
+		 * @brief Write message messages.
+		 */
 		Message = 1 << 1,
 
-		/// <summary>
-		/// Write warning messages.
-		/// </summary>
+		/**
+		 * @brief Write warning messages.
+		 */
 		Warning = 1 << 2,
 
-		/// <summary>
-		/// Write error messages.
-		/// </summary>
+		/**
+		 * @brief Write error messages.
+		 */
 		Error = 1 << 3,
 
-		/// <summary>
-		/// Write critical messages.
-		/// </summary>
+		/**
+		 * @brief Write critical messages.
+		 */
 		Critical = 1 << 4,
 
-		/// <summary>
-		/// Write stack trace messages on critical errors.
-		/// </summary>
+		/**
+		 * @brief Write stack trace messages on critical errors.
+		 */
 		StackTrace = 1 << 5,
 
-		/// <summary>
-		/// Break on critical errors.
-		/// </summary>
+		/**
+		 * @brief Break on critical errors.
+		 */
 		Break = 1 << 6,
 
-		/// <summary>
-		/// Log all messages and perform debug operations.
-		/// </summary>
+		/**
+		 * @brief Log all messages and perform debug operations.
+		 */
 		All = Info | Message | Warning | Error | Critical | StackTrace | Break,
 
-		/// <summary>
-		/// Default logging state.
-		/// </summary>
+		/**
+		 * @brief Default logging state.
+		 */
 		Default = Info | Message | Warning | Error | Critical,
 	};
 
 	MINTY_ENABLE_ENUM_OPERATORS(DebugFlags)
 }
+
+#endif // MINTY_DEBUG_DEBUGFLAGS_H

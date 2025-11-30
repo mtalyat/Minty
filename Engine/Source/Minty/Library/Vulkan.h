@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MINTY_LIBRARY_VULKAN_H
+#define MINTY_LIBRARY_VULKAN_H
+
 #include "Minty/Debug/Debug.h"
 
 // just include GLFW, it has Vulkan in it
@@ -17,3 +19,5 @@ namespace Minty
 {
 	constexpr Size DESCRIPTOR_POOL_SIZE = 32;
 }
+
+#endif // MINTY_LIBRARY_VULKAN_H

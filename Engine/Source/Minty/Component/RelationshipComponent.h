@@ -1,56 +1,66 @@
-#pragma once
+#ifndef MINTY_COMPONENT_RELATIONSHIPCOMPONENT_H
+#define MINTY_COMPONENT_RELATIONSHIPCOMPONENT_H
+
+/**
+ * @file RelationshipComponent.h
+ * @brief Header file defining the RelationshipComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
 #include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds relationship data for an Entity.
-	/// </summary>
+	/**
+	 * @brief Holds the relationship data of an Entity in a hierarchy.
+	 */
 	struct RelationshipComponent
 		: public Component
 	{
-		/// <summary>
-		/// The index of this Entity among its siblings.
-		/// </summary>
+		/**
+		 * @brief The index of this Entity among its siblings.
+		 */
 		UInt index = 0;
 
-		/// <summary>
-		/// The depth of this Entity in the tree.
-		/// </summary>
+		/**
+		 * @brief The depth of this Entity in the tree.
+		 */
 		UInt depth = 0;
 
-		/// <summary>
-		/// The number of children this Entity has.
-		/// </summary>
+		/**
+		 * @brief The number of children this Entity has.
+		 */
 		UInt children = 0;
 
-		/// <summary>
-		/// The first child this Entity has.
-		/// </summary>
+		/**
+		 * @brief The first child this Entity has.
+		 */
 		Entity first = INVALID_ENTITY;
 
-		/// <summary>
-		/// The last child this Entity has.
-		/// </summary>
+		/**
+		 * @brief The last child this Entity has.
+		 */
 		Entity last = INVALID_ENTITY;
 
-		/// <summary>
-		/// The previous sibling this Entity has.
-		/// </summary>
+		/**
+		 * @brief The previous sibling this Entity has.
+		 */
 		Entity prev = INVALID_ENTITY;
 
-		/// <summary>
-		/// The next sibling this Entity has.
-		/// </summary>
+		/**
+		 * @brief The next sibling this Entity has.
+		 */
 		Entity next = INVALID_ENTITY;
 
-		/// <summary>
-		/// The parent this Entity is a child to.
-		/// </summary>
+		/**
+		 * @brief The parent this Entity is a child to.
+		 */
 		Entity parent = INVALID_ENTITY;
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;
 	};
 }
+
+#endif // MINTY_COMPONENT_RELATIONSHIPCOMPONENT_H

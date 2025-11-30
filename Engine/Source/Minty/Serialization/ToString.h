@@ -46,4 +46,5 @@ namespace Minty
     String to_string(Float4 const &value);
     String to_string(Double const value);
     String to_string(String const &value);
+    String to_string(StringView const &value);
 }

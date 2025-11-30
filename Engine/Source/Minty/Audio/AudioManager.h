@@ -1,19 +1,21 @@
-#pragma once
-#include "Minty/Audio/AudioClip.h"
-#include "Minty/Audio/AudioListener.h"
-#include "Minty/Audio/AudioSource.h"
+#ifndef MINTY_AUDIO_AUDIOMANAGER_H
+#define MINTY_AUDIO_AUDIOMANAGER_H
+
+/**
+ * @file AudioManager.h
+ * @brief Header file defining the AudioManager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Manager/Manager.h"
 #include "Minty/Data/Pointer.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments used to create an AudioManager.
-	/// </summary>
-	struct AudioManagerInfo
-	{
-
-	};
+	class AudioSource;
+	class AudioListener;
+	class AudioClip;
+	struct AudioManagerInfo;
 
 	/// <summary>
 	/// Handles audio playback and management.
@@ -24,62 +26,56 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new AudioManager using the given AudioManagerInfo.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
 		AudioManager(AudioManagerInfo const& info)
-			: Manager()
-		{
-		}
+			: Manager() {}
 
 		virtual ~AudioManager()
 		{
+			stop_all();
 		}
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Checks if the given handle is valid.
-		/// </summary>
-		/// <param name="handle">The Handle.</param>
-		/// <returns>True if the Handle points to a valid audio clip.</returns>
+		/**
+		 * @brief Checks if the given handle is valid.
+		 * @param handle The handle to check.
+		 */
 		virtual Bool is_valid(Handle const handle) const = 0;
 
-		/// <summary>
-		/// Sets the audio listener data.
-		/// </summary>
-		/// <param name="listener">The listener data.</param>
+		/**
+		 * @brief Sets the audio listener data.
+		 * @param listener The listener data.
+		 */
 		virtual void set_audio_listener(AudioListener const& listener) = 0;
 
-		/// <summary>
-		/// Sets the audio source data for the source with the given Handle.
-		/// </summary>
-		/// <param name="handle">The Handle for the desired audio source.</param>
-		/// <param name="source">The source data.</param>
+		/**
+		 * @brief Sets the audio source data for the source with the given Handle.
+		 * @param handle The Handle for the desired audio source.
+		 * @param source The source data.
+		 */
 		virtual void set_audio_source(Handle const handle, AudioSource const& source) = 0;
 
-		/// <summary>
-		/// Sets the pause state of the audio with the given handle.
-		/// </summary>
-		/// <param name="handle">The handle to the audio.</param>
-		/// <param name="paused">The pause state.</param>
+		/**
+		 * @brief Sets the pause state of the audio with the given handle.
+		 * @param handle The handle to the audio.
+		 * @param paused The pause state.
+		 */
 		virtual void set_pause(Handle const handle, Bool const paused) = 0;
 
-		/// <summary>
-		/// Gets the pause state of the audio with the given handle.
-		/// </summary>
-		/// <param name="handle">The handle to the audio.</param>
-		/// <returns>The pause state.</returns>
+		/**
+		 * @brief Gets the pause state of the audio with the given handle.
+		 * @param handle The handle to the audio.
+		 * @return The pause state.
+		 */
 		virtual Bool get_pause(Handle const handle) const = 0;
 
-		/// <summary>
-		/// Sets the pause state of all audio.
-		/// </summary>
-		/// <param name="paused">The pause state.</param>
+		/**
+		 * @brief Sets the pause state of all audio.
+		 * @param paused The pause state.
+		 */
 		virtual void set_pause_all(Bool const paused) = 0;
 
 #pragma endregion
@@ -87,71 +83,63 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Called when this AudioManager is destroyed.
-		/// </summary>
-		void dispose() override;
-
-		/// <summary>
-		/// Plays the given AudioClip in 2D space.
-		/// </summary>
-		/// <param name="clip">The clip to play.</param>
-		/// <param name="volume">The volume percentage to start at.</param>
-		/// <param name="pan">The pan to start at. -1 is left, 1 is right.</param>
-		/// <param name="paused">If true, the clip will pause immediately.</param>
-		/// <param name="bus">The audio bus to play on.</param>
-		/// <returns>The handle to the clip that has begun to play.</returns>
+		/**
+		 * @brief Plays the given AudioClip in 2D space.
+		 * @param clip The clip to play.
+		 * @param volume The volume percentage to start at.
+		 * @param pan The pan to start at. -1 is left, 1 is right.
+		 * @param paused If true, the clip will pause immediately.
+		 * @param bus The audio bus to play on.
+		 * @return The handle to the clip that has begun to play.
+		 */
 		virtual Handle play(Ref<AudioClip> const& clip, Float const volume = -1.0f, Float const pan = 0.0f, Bool const paused = false, UInt const bus = 0) = 0;
 
-		/// <summary>
-		/// Plays the given AudioClip in 3D space.
-		/// </summary>
-		/// <param name="clip">The clip to play.</param>
-		/// <param name="source">The audio source data to set.</param>
-		/// <param name="volume">The volume percentage to start at.</param>
-		/// <param name="paused">If true, the clip will pause immediately.</param>
-		/// <param name="bus">The audio bus to play on.</param>
-		/// <returns>The handle to the clip that has begun to play.</returns>
+		/**
+		 * @brief Plays the given AudioClip in 3D space.
+		 * @param clip The clip to play.
+		 * @param source The audio source data to set.
+		 * @param volume The volume percentage to start at.
+		 * @param paused If true, the clip will pause immediately.
+		 * @param bus The audio bus to play on.
+		 * @return The handle to the clip that has begun to play.
+		 */
 		virtual Handle play_object(Ref<AudioClip> const& clip, AudioSource const& source, Float const volume = -1.0f, Bool const paused = false, UInt const bus = 0) = 0;
 
-		/// <summary>
-		/// Plays the given AudioClip in the background.
-		/// </summary>
-		/// <param name="clip">The clip to play.</param>
-		/// <param name="volume">The volume percentage to start at.</param>
-		/// <param name="paused">If true, the clip will pause immediately.</param>
-		/// <param name="bus">The audio bus to play on.</param>
-		/// <returns>The handle to the clip that has begun to play.</returns>
+		/**
+		 * @brief Plays the given AudioClip in the background.
+		 * @param clip The clip to play.
+		 * @param volume The volume percentage to start at.
+		 * @param paused If true, the clip will pause immediately.
+		 * @param bus The audio bus to play on.
+		 * @return The handle to the clip that has begun to play.
+		 */
 		virtual Handle play_background(Ref<AudioClip> const& clip, Float const volume = -1.0f, Bool const paused = false, UInt const bus = 0) = 0;
 
-		/// <summary>
-		/// Stops the audio with the given handle.
-		/// </summary>
-		/// <param name="handle">The handle to the audio.</param>
+		/**
+		 * @brief Stops the audio with the given handle.
+		 * @param handle The handle to the audio.
+		 */
 		virtual void stop(Handle const handle) = 0;
 
-		/// <summary>
-		/// Stops all audio.
-		/// </summary>
+		/**
+		 * @brief Stops all audio.
+		 */
 		virtual void stop_all() = 0;
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		/// <summary>
-		/// Gets the singleton instance of the AudioManager.
-		/// </summary>
-		/// <returns>The singleton.</returns>
+		
+		/**
+		 * @brief Gets the singleton instance of the AudioManager.
+		 * @return The singleton.
+		 */
 		static AudioManager& get_singleton();
 
-		/// <summary>
-		/// Creates a new AudioManager using the given AudioManagerInfo.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		static Owner<AudioManager> create(AudioManagerInfo const& info = {});
+		/**
+		 * @brief Creates a new AudioManager using the given AudioManagerInfo.
+		 * @param info The arguments.
+		 */
+		static Unique<AudioManager> create(AudioManagerInfo const& info);
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_AUDIO_AUDIOMANAGER_H

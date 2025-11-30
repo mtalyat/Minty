@@ -28,6 +28,15 @@ namespace Minty
 
     template<typename Enum>
     constexpr std::enable_if_t<Minty::EnableEnumOperators<Enum>::enable, Enum>
+    operator|=(Enum& lhs, Enum const rhs)
+    {
+        using Underlying = std::underlying_type_t<Enum>;
+        lhs = static_cast<Enum>(static_cast<Underlying>(lhs) | static_cast<Underlying>(rhs));
+        return lhs;
+    }
+
+    template<typename Enum>
+    constexpr std::enable_if_t<Minty::EnableEnumOperators<Enum>::enable, Enum>
     operator&(Enum const lhs, Enum const rhs)
     {
         using Underlying = std::underlying_type_t<Enum>;
@@ -36,10 +45,28 @@ namespace Minty
 
     template<typename Enum>
     constexpr std::enable_if_t<Minty::EnableEnumOperators<Enum>::enable, Enum>
+    operator&=(Enum& lhs, Enum const rhs)
+    {
+        using Underlying = std::underlying_type_t<Enum>;
+        lhs = static_cast<Enum>(static_cast<Underlying>(lhs) & static_cast<Underlying>(rhs));
+        return lhs;
+    }
+
+    template<typename Enum>
+    constexpr std::enable_if_t<Minty::EnableEnumOperators<Enum>::enable, Enum>
     operator^(Enum const lhs, Enum const rhs)
     {
         using Underlying = std::underlying_type_t<Enum>;
         return static_cast<Enum>(static_cast<Underlying>(lhs) ^ static_cast<Underlying>(rhs));
+    }
+
+    template<typename Enum>
+    constexpr std::enable_if_t<Minty::EnableEnumOperators<Enum>::enable, Enum>
+    operator^=(Enum& lhs, Enum const rhs)
+    {
+        using Underlying = std::underlying_type_t<Enum>;
+        lhs = static_cast<Enum>(static_cast<Underlying>(lhs) ^ static_cast<Underlying>(rhs));
+        return lhs;
     }
 
     template<typename Enum>

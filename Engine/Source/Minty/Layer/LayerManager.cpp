@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "LayerManager.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Layer/LayerManagerInfo.h"
 #ifdef MINTY_DEBUG
 #include "Minty/Data/Set.h"
 #endif // MINTY_DEBUG
@@ -102,13 +103,12 @@ Bool Minty::LayerManager::check_for_collision(Layer const layerA, Layer const la
 	return (maskA & bitB) != 0;
 }
 
-Owner<LayerManager> Minty::LayerManager::create(LayerManagerInfo const& info)
+Unique<LayerManager> Minty::LayerManager::create(LayerManagerInfo const& info)
 {
-	return Owner<LayerManager>(info);
+	return Unique<LayerManager>::create(info);
 }
 
 LayerManager& Minty::LayerManager::get_singleton()
 {
-	Context& context = Context::get_singleton();
-	return context.get_layer_manager();
+	return Application::get_singleton().get_layer_manager();
 }

@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_IMAGE_ASPECT_H
+#define MINTY_RENDER_IMAGE_ASPECT_H
+
+/**
+ * @file ImageAspect.h
+ * @brief Header file defining the ImageAspect enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the image is used in the pipeline.
-	/// </summary>
+	/**
+	 * @brief Determines how the image is used in the pipeline.
+	 */
 	enum class ImageAspect
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// Used for color.
-		/// </summary>
+		/**
+		 * @brief Used for color.
+		 */
 		Color = 1,
 
-		/// <summary>
-		/// Used for depth.
-		/// </summary>
+		/**
+		 * @brief Used for depth.
+		 */
 		Depth = 2,
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ImageAspect>(String const& string, ImageAspect& value) { return parse_try_image_aspect(string, value); }
 }
+
+#endif // MINTY_RENDER_IMAGE_ASPECT_H

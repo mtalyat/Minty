@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Animation.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Animation/AnimationInfo.h"
+#include "Minty/Animation/AnimationActionFlags.h"
+#include "Minty/Application/Application.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Serialization/Reader.h"
@@ -32,11 +34,11 @@ Minty::Animation::Animation(AnimationInfo const& info)
 
 	// get the component infos from the names
 	m_components.resize(info.components.get_size(), nullptr);
-	Context const& context = Context::get_singleton();
+	Application& app = Application::get_singleton();
 	for (Size i = 0; i < info.components.get_size(); i++)
 	{
 		// get the component info
-		m_components.at(i) = context.get_component_info(info.components.at(i));
+		m_components.at(i) = &app.get_component_info(info.components.at(i));
 		MINTY_ASSERT(m_components.at(i) != nullptr, ErrorCode::Component_NotRegistered, info.components.at(i));
 	}
 
@@ -513,7 +515,7 @@ void Minty::Animation::reset(Entity const thisEntity, EntityManager& entityManag
 	}
 }
 
-Owner<Animation> Minty::Animation::create(AnimationInfo const& info)
+Shared<Animation> Minty::Animation::create(AnimationInfo const& info)
 {
-	return Owner<Animation>(info);
+	return Shared<Animation>::create(info);
 }

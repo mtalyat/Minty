@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ColliderComponent.h"
+#include "Minty/Physics/Collider.h"
 #include "Minty/Render/Mesh.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"

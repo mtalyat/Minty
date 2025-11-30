@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_FILTER_H
+#define MINTY_RENDER_FILTER_H
+
+/**
+ * @file Filter.h
+ * @brief Header file defining the Filter enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the image data is filtered.
-	/// </summary>
+	/**
+	 * @brief Determines how the image data is filtered.
+	 */
 	enum class Filter
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// Use the nearest pixel.
-		/// </summary>
+		/**
+		 * @brief Use the nearest pixel.
+		 */
 		Nearest = 1,
 
-		/// <summary>
-		/// Linearly interpolate between pixels.
-		/// </summary>
+		/**
+		 * @brief Linearly interpolate between pixels.
+		 */
 		Linear = 2,
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Filter>(String const& string, Filter& value) { return parse_try_filter(string, value); }
 }
+
+#endif // MINTY_RENDER_FILTER_H

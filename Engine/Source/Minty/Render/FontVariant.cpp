@@ -4,6 +4,7 @@
 #include "Minty/Render/Material.h"
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Render/Texture.h"
+#include "Minty/Render/FontVariantInfo.h"
 
 using namespace Minty;
 
@@ -60,7 +61,7 @@ Float Minty::FontVariant::get_kerning(Char const left, Char const right) const
 	return found->get_second();
 }
 
-Owner<FontVariant> Minty::FontVariant::create(FontVariantInfo const& info)
+Shared<FontVariant> Minty::FontVariant::create(FontVariantInfo const& info)
 {
-	return Owner<FontVariant>(info);
+	return Shared<FontVariant>::create(info);
 }

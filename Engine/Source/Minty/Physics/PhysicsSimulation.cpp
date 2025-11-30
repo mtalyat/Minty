@@ -7,12 +7,12 @@
 
 using namespace Minty;
 
-Owner<PhysicsSimulation> Minty::PhysicsSimulation::create(PhysicsSimulationInfo const& info)
+Shared<PhysicsSimulation> Minty::PhysicsSimulation::create(PhysicsSimulationInfo const& info)
 {
 #if defined(MINTY_BULLET)
-	return Owner<Bullet_PhysicsSimulation>(info);
+	return Shared<Bullet_PhysicsSimulation>(info);
 #else
-    return Owner<PhysicsSimulation>();
+    return Shared<PhysicsSimulation>();
 #endif
 }
 

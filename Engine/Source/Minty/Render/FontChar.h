@@ -1,51 +1,61 @@
-#pragma once
+#ifndef MINTY_RENDER_FONTCHAR_H
+#define MINTY_RENDER_FONTCHAR_H
+
+/**
+ * @file FontChar.h
+ * @brief Header file defining the FontChar struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds data for a single character in a Font.
-	/// </summary>
+	/**
+	 * @brief Holds data for a single character in a Font.
+	 */
 	struct FontChar
 	{
-		/// <summary>
-		/// The character.
-		/// </summary>
+		/**
+		 * @brief The character.
+		 */
 		Char id;
 
-		/// <summary>
-		/// The x position within the texture.
-		/// </summary>
+		/**
+		 * @brief The x position within the texture.
+		 */
 		Float x;
 
-		/// <summary>
-		/// The y position within the texture.
-		/// </summary>
+		/**
+		 * @brief The y position within the texture.
+		 */
 		Float y;
 
-		/// <summary>
-		/// The width of the character in the texture.
-		/// </summary>
+		/**
+		 * @brief The width of the character in the texture.
+		 */
 		Float width;
 
-		/// <summary>
-		/// The height of the character in the texture.
-		/// </summary>
+		/**
+		 * @brief The height of the character in the texture.
+		 */
 		Float height;
 
-		/// <summary>
-		/// The x offset to apply when rendering this character.
-		/// </summary>
+		/**
+		 * @brief The x offset to apply when rendering this character.
+		 */
 		Float xOffset;
 		
-		/// <summary>
-		/// The y offset to apply when rendering this character.
-		/// </summary>
+		/**
+		 * @brief The y offset to apply when rendering this character.
+		 */
 		Float yOffset;
 
-		/// <summary>
-		/// The distance to advance the cursor after rendering this character.
-		/// </summary>
+		/**
+		 * @brief The distance to advance the cursor after rendering this character.
+		 */
 		Float xAdvance;
 	};
 }
+
+#endif // MINTY_RENDER_FONTCHAR_H

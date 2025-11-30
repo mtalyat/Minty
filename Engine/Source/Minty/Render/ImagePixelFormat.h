@@ -1,35 +1,50 @@
-#pragma once
+#ifndef MINTY_RENDER_IMAGEPIXELFORMAT_H
+#define MINTY_RENDER_IMAGEPIXELFORMAT_H
+
+/**
+ * @file ImagePixelFormat.h
+ * @brief Header file defining the ImagePixelFormat enum.
+ * @author Mitchell Talyat
+ */
+
+#include "Minty/Core/Enum.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The format for how pixels are read.
-	/// </summary>
+	/**
+	 * @brief The format for how pixels are read.
+	 */
 	enum class ImagePixelFormat
 	{
-		/// <summary>
-		/// No format.
-		/// </summary>
+		/**
+		 * @brief No format.
+		 */
 		None = 0,
-		/// <summary>
-		/// Gray channel only.
-		/// </summary>
+
+		/**
+		 * @brief Gray channel only.
+		 */
 		Gray = 1,
-		/// <summary>
-		/// Gray and alpha channels.
-		/// </summary>
+
+		/**
+		 * @brief Gray and alpha channels.
+		 */
 		GrayAlpha = 2,
-		/// <summary>
-		/// Red, green and blue channels.
-		/// </summary>
+
+		/**
+		 * @brief Red, green and blue channels.
+		 */
 		RedGreenBlue = 3,
-		/// <summary>
-		/// Red, green, blue and alpha channels.
-		/// </summary>
+
+		/**
+		 * @brief Red, green, blue and alpha channels.
+		 */
 		RedGreenBlueAlpha = 4,
 	};
+
+	MINTY_ENABLE_ENUM_OPERATORS(ImagePixelFormat);
 
 	String to_string(ImagePixelFormat const obj);
 	ImagePixelFormat parse_to_image_pixel_format(String const& string);
@@ -39,3 +54,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ImagePixelFormat>(String const& string, ImagePixelFormat& value) { return parse_try_image_pixel_format(string, value); }
 }
+
+#endif // MINTY_RENDER_IMAGEPIXELFORMAT_H

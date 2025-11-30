@@ -14,7 +14,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The Image this Texture uses.
@@ -68,7 +68,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -94,7 +94,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<Texture> create(TextureInfo const& info = {});
+		static Shared<Texture> create(TextureInfo const& info = {});
 
 #pragma endregion
 

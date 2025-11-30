@@ -6,11 +6,11 @@
 
 using namespace Minty;
 
-Owner<Texture> Minty::Texture::create(TextureInfo const& info)
+Shared<Texture> Minty::Texture::create(TextureInfo const& info)
 {
 #if defined(MINTY_VULKAN)
-	return Owner<Vulkan_Texture>(info);
+	return Shared<Vulkan_Texture>(info);
 #else
-    return Owner<Texture>();
+    return Shared<Texture>();
 #endif // MINTY_VULKAN
 }

@@ -1,17 +1,67 @@
-#pragma once
+#ifndef MINTY_STRING_H
+#define MINTY_STRING_H
+
+/**
+ * @file String.h
+ * @brief Header file for string utilities.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
-#include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/Tuple.h"
-#include <utility>
+#include "Minty/Data/StringView.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A collection of text.
-	/// </summary>
-	class String
-	{
+	/**
+	 * @class String
+	 * @brief Class representing an immutable string.
+	 */
+    class String
+    {
+#pragma region Constructors
+
+    public:
+		/**
+		 * @brief Creates an empty String.
+		 */
+        String();
+
+		/**
+		 * @brief Creates a String from a StringView.
+		 * @param view The StringView to create the String from.
+		 */
+        String(StringView const view);
+
+		/**
+		 * @brief Creates a String from a C-style string.
+		 * @param cstr The C-style string.
+		 */
+        String(Char const* const cstr);
+
+		/**
+		 * @brief Creates a String from a character with a specified length.
+		 * @param c The character to repeat.
+		 * @param count The number of times to repeat the character.
+		 */
+        explicit String(Char const c, Size const count = 1);
+
+		/**
+		 * @brief Copy constructor.
+		 * @param other The String to copy from.
+		 */
+        String(String const& other);
+
+		/**
+		 * @brief Move constructor.
+		 * @param other The String to move from.
+		 */
+        String(String&& other) noexcept;
+
+        ~String();
+
+#pragma endregion
+
 #pragma region Iterators
 
 	public:
@@ -111,448 +161,235 @@ namespace Minty
 			Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
 		};
 
-		/// <summary>
-		/// Gets an Iterator to the beginning of the String.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first character.</returns>
 		Iterator begin() { return Iterator(mp_data); }
-
-		/// <summary>
-		/// Gets an Iterator to the end of the String.
-		/// </summary>
-		/// <returns>An Iterator pointing to the null terminating character.</returns>
 		Iterator end() { return Iterator(mp_data + m_size); }
-
-		/// <summary>
-		/// Gets an Iterator to the beginning of the String.
-		/// </summary>
-		/// <returns>An Iterator pointing to the first character.</returns>
 		ConstIterator begin() const { return ConstIterator(mp_data); }
-
-		/// <summary>
-		/// Gets an Iterator to the end of the String.
-		/// </summary>
-		/// <returns>An Iterator pointing to the null terminating character.</returns>
 		ConstIterator end() const { return ConstIterator(mp_data + m_size); }
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		AllocatorType m_allocator;
-		Size m_capacity;
-		Size m_size;
-		Char* mp_data;
-
-#pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates an empty String.
-		/// </summary>
-		/// <param name="allocator">The Allocator to use.</param>
-		constexpr String(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_capacity(0)
-			, m_size(0)
-			, mp_data(nullptr)
-		{
-		}
-
-		/// <summary>
-		/// Creates a String and reserves the given capacity.
-		/// </summary>
-		/// <param name="capacity">The amount of characters to allocate.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		explicit String(Size const capacity, AllocatorType const allocator = AllocatorType::Default);
-
-		/// <summary>
-		/// Creates a String and copies the given data.
-		/// </summary>
-		/// <param name="data">The text to copy.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		String(Char const* const data, AllocatorType const allocator = AllocatorType::Default);
-
-		/// <summary>
-		/// Creates a string with the given character repeated the given amount of times.
-		/// </summary>
-		/// <param name="character">The character to repeat.</param>
-		/// <param name="count">The number of characters to repeat.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		explicit String(Char const character, Size const count, AllocatorType const allocator = AllocatorType::Default);
-
-		/// <summary>
-		/// Copies the given String.
-		/// </summary>
-		/// <param name="other">The String to copy.</param>
-		String(String const& other)
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_data(static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator)))
-		{
-			memcpy(mp_data, other.mp_data, m_size * sizeof(Char));
-			mp_data[m_size] = '\0';
-		}
-
-		/// <summary>
-		/// Moves the given String.
-		/// </summary>
-		/// <param name="other">The String to move.</param>
-		String(String&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_data(other.mp_data)
-		{
-			other.m_allocator = AllocatorType::Default;
-			other.m_capacity = 0;
-			other.m_size = 0;
-			other.mp_data = nullptr;
-		}
-
-		~String()
-		{
-			if (mp_data)
-			{
-				deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
-			}
-		}
 
 #pragma endregion
 
 #pragma region Operators
 
 	public:
-		String& operator=(String const& other)
-		{
-			if (this != &other)
-			{
-				if (m_capacity < other.m_size || m_allocator != other.m_allocator || !mp_data)
-				{
-					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
-					m_allocator = other.m_allocator;
-					m_capacity = other.m_capacity;
-					mp_data = static_cast<Char*>(allocate((m_capacity + 1) * sizeof(Char), m_allocator));
-				}
-				m_size = other.m_size;
-				memcpy(mp_data, other.mp_data, m_size * sizeof(Char));
-				mp_data[m_size] = '\0';
-			}
-			return *this;
-		}
-
-		String& operator=(String&& other) noexcept
-		{
-			if (this != &other)
-			{
-				if (mp_data)
-				{
-					deallocate(mp_data, (m_capacity + 1) * sizeof(Char), m_allocator);
-				}
-				m_allocator = other.m_allocator;
-				m_capacity = other.m_capacity;
-				m_size = other.m_size;
-				mp_data = other.mp_data;
-				other.m_capacity = 0;
-				other.m_size = 0;
-				other.mp_data = nullptr;
-			}
-			return *this;
-		}
-
-		Char operator[](Size const index) const
-		{
-			return at(index);
-		}
-
-		Bool operator==(String const& other) const
-		{
-			return m_size == other.m_size && memcmp(mp_data, other.mp_data, m_size * sizeof(Char)) == 0;
-		}
-
-		Bool operator!=(String const& other) const
-		{
-			return !(*this == other);
-		}
-
-		Bool operator<(String const& other) const
-		{
-			Size const length = m_size < other.m_size ? m_size : other.m_size;
-			int result = std::memcmp(mp_data, other.mp_data, length);
-
-			if (result < 0) {
-				return true;
-			}
-			else if (result > 0) {
-				return false;
-			}
-			return m_size < other.m_size;
-		}
-
-		Bool operator>(String const& other) const
-		{
-			return other < *this;
-		}
-
-		Bool operator<=(String const& other) const
-		{
-			return !(other < *this);
-		}
-
-		Bool operator>=(String const& other) const
-		{
-			return !(*this < other);
-		}
-
-		String operator+(String const& other) const;
-
-		String& operator+=(String const& other)
-		{
-			return append(other);
-		}
-
-		friend std::ostream& operator<<(std::ostream& stream, String const& str);
-
+        operator StringView() const noexcept { return StringView(mp_data, m_size); }
+        String& operator=(String const& other);
+        String& operator=(String&& other) noexcept;
+        Char& operator[](Size const index) { return at(index); }
+		Char operator[](Size const index) const { return this->index(index); }
+		Bool operator==(StringView const other) const noexcept { return compare(other) == 0; }
+		Bool operator!=(StringView const other) const noexcept { return !(*this == other); }
+		Bool operator<(StringView const other) const noexcept { return compare(other) < 0; }
+		Bool operator<=(StringView const other) const noexcept { return compare(other) <= 0; }
+		Bool operator>(StringView const other) const noexcept { return compare(other) > 0; }
+		Bool operator>=(StringView const other) const noexcept { return compare(other) >= 0; }
+		String operator+(StringView const other) const;
+        
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the capacity of the String.
-		/// </summary>
-		/// <returns>The capacity.</returns>
-		constexpr Size get_capacity() const { return m_capacity; }
+		/**
+		 * @brief Gets the underlying string data.
+		 * @return Pointer to the string data.
+		 */
+        inline Char const* get_data() const noexcept { return mp_data; }
 
-		/// <summary>
-		/// Gets the size of the String.
-		/// </summary>
-		/// <returns>The size.</returns>
-		constexpr Size get_size() const { return m_size; }
+		/**
+		 * @brief Gets the underlying string data.
+		 * @return Pointer to the string data.
+		 */
+		inline Char* get_data() noexcept { return mp_data; }
 
-		/// <summary>
-		/// Gets the data of the String.
-		/// </summary>
-		/// <returns>The pointer to the internal text data.</returns>
-		constexpr Char* get_data() const { return mp_data; }
+		/**
+		 * @brief Gets the size of the string.
+		 * @return Size of the string.
+		 */
+        inline Size get_size() const noexcept { return m_size; }
+
+		/**
+		 * @brief Gets the length of the string.
+		 * @return Length of the string.
+		 */
+        inline Size get_length() const noexcept { return m_size; }
+
+        /**
+		 * @brief Gets the capacity of the string.
+		 * @return Capacity of the string.
+		 */
+        inline Size get_capacity() const noexcept { return m_capacity; }
+
+		/**
+		 * @brief Gets a StringView of the string.
+		 * @return StringView of the string.
+		 */
+        inline StringView get_view() const noexcept { return StringView(mp_data, m_size); }
+
+		/**
+		 * @brief Checks if the string is empty.
+		 * @return True if the string is empty, false otherwise.
+		 */
+        inline Bool is_empty() const noexcept { return m_size == 0; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Allocates characters using the given capacity.
-		/// </summary>
-		/// <param name="capacity">The new capacity.</param>
-		void reserve(Size const capacity);
+		/**
+		 * @brief Gets the character at the specified index.
+		 * @param index Index of the character.
+		 */
+        Char index(Size const index) const;
 
-		/// <summary>
-		/// Resizes the String to the given size. Reallocates if necessary.
-		/// </summary>
-		/// <param name="size">The new size.</param>
-		/// <param name="value">The character to fill the new space with.</param>
-		void resize(Size const size, Char const value = ' ');
+		/**
+		 * @brief Gets a const reference to the character at the specified index.
+		 * @param index Index of the character.
+		 */
+		Char const& at(Size const index) const;
 
-		/// <summary>
-		/// Adds the given String to the end of this String.
-		/// </summary>
-		/// <param name="other">The other String to add.</param>
-		/// <returns>This String.</returns>
-		String& append(String const& other);
+		/**
+		 * @brief Gets a reference to the character at the specified index.
+		 * @param index Index of the character.
+		 */
+        inline Char& at(Size const index) { return const_cast<Char&>(static_cast<String const&>(*this).at(index)); }
 
-		/// <summary>
-		/// Adds the given Char to the end of this String.
-		/// </summary>
-		/// <param name="character">The character to add.</param>
-		/// <returns>This String.</returns>
-		String& append(Char const character);
+		/**
+		 * @brief Compares this String with another.
+		 * @param other The other String to compare with.
+		 * @return An integer less than, equal to, or greater than zero if this String is found, 
+		 *  respectively, to be less than, to match, or be greater than the other String.
+		 */
+		Int compare(StringView const other) const noexcept;
 
-		/// <summary>
-		/// Checks if this String is empty.
-		/// </summary>
-		/// <returns>True if the String is empty.</returns>
-		constexpr Bool is_empty() const { return m_size == 0; }
+		/**
+		 * @brief Gets a reference to the first character.
+		 * @return Reference to the first character.
+		 */
+		inline Char& front() { return at(0); }
 
-		/// <summary>
-		/// Gets the character at the given index.
-		/// </summary>
-		/// <param name="index">The index.</param>
-		/// <returns>The character.</returns>
-		Char at(Size const index) const;
+		/**
+		 * @brief Gets the first character.
+		 * @return The first character.
+		 */
+		inline Char front() const { return at(0); }
 
-		/// <summary>
-		/// Gets the first character in the String.
-		/// </summary>
-		/// <returns>The first character.</returns>
-		constexpr Char front() const { return at(0); }
+		/**
+		 * @brief Gets a reference to the last character.
+		 * @return Reference to the last character.
+		 */
+		inline Char& back() { return at(m_size - 1); }
 
-		/// <summary>
-		/// Gets the last character in the String.
-		/// </summary>
-		/// <returns>The last character.</returns>
-		constexpr Char back() const { return at(m_size - 1); }
+		/**
+		 * @brief Gets the last character.
+		 * @return The last character.
+		 */
+		inline Char back() const { return at(m_size - 1); }
 
-		/// <summary>
-		/// Gets the sub string starting from the given index.
-		/// </summary>
-		/// <param name="start">The index of the first character.</param>
-		/// <param name="length">The number of characters to use.</param>
-		/// <returns>A new String with the text within the given range.</returns>
-		String sub(Size const start, Size const length) const;
-
-		/// <summary>
-		/// Gets the sub string starting from the given index to the end of the String.
-		/// </summary>
-		/// <param name="start">The index of the first character.</param>
-		/// <returns>A new String with the text within the given range.</returns>
-		String sub(Size const start) const;
-
-		/// <summary>
-		/// Removes the characters from the start of this String.
-		/// </summary>
-		/// <param name="characters">The characters to remove.</param>
-		/// <returns>The new String without the characters at the beginning.</returns>
-		String trim_start(String const& characters = TEXT_WHITESPACE) const;
-
-		/// <summary>
-		/// Removes all trailing characters from the end of the string that match any character in the specified set.
-		/// </summary>
-		/// <param name="characters">A string containing the set of characters to remove from the end of the string. Defaults to whitespace characters if not specified.</param>
-		/// <returns>A new string with the specified characters removed from the end.</returns>
-		String trim_end(String const& characters = TEXT_WHITESPACE) const;
-
-		/// <summary>
-		/// Removes leading and trailing whitespace characters from the string.
-		/// </summary>
-		/// <param name="whitespace">A string containing the characters to be considered as whitespace. Defaults to TEXT_WHITESPACE.</param>
-		/// <returns>A new string with leading and trailing whitespace characters removed.</returns>
-		String trim(String const& whitespace = TEXT_WHITESPACE) const;
-
-		/// <summary>
-		/// Removes any of the given characters from this String.
-		/// </summary>
-		/// <param name="characters">The characters to remove.</param>
-		/// <returns>A new string with the characters removed.</returns>
-		String strip(String const& characters = TEXT_WHITESPACE) const;
-
-		/// <summary>
-		/// Finds the first occurrence of the given sub string.
-		/// </summary>
-		/// <param name="sub">The text to find.</param>
-		/// <param name="index">The index of the first character to start searching at.</param>
-		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find_first(String const& sub, Size const index = 0) const;
-
-		/// <summary>
-		/// Finds the first occurrence of the given character.
-		/// </summary>
-		/// <param name="character">The character to find.</param>
-		/// <param name="index">The index of the first character to start searching at.</param>
-		/// <returns>The index to the found text, or INVALID_INDEX if not found.</returns>
-		Size find_first(Char const character, Size const index = 0) const;
-
-		/// <summary>
-		/// Finds the first occurrence of a character within the given sub String.
-		/// </summary>
-		/// <param name="characters">The characters to use.</param>
-		/// <param name="index">The starting index.</param>
-		/// <returns>The index of the first character found.</returns>
-		Size find_first_of(String const& characters, Size const index = 0) const;
-
-		/// <summary>
-		/// Finds the first occurrence of a character not within the given sub String.
-		/// </summary>
-		/// <param name="characters">The characters to use.</param>
-		/// <param name="index">The starting index.</param>
-		/// <returns>The index of the first character found.</returns>
-		Size find_first_not_of(String const& characters, Size const index = 0) const;
-
-		Size find_last(String const& sub, Size const index = INVALID_INDEX) const;
-
-		Size find_last(Char const character, Size const index = INVALID_INDEX) const;
-
-		Size find_last_of(String const& characters, Size const index = INVALID_INDEX) const;
-
-		Size find_last_not_of(String const& characters, Size const index = INVALID_INDEX) const;
-
-		/// <summary>
-		/// Checks if this String contains the given sub string.
-		/// </summary>
-		/// <param name="sub">The text to check.</param>
-		/// <returns>True if found.</returns>
-		Bool contains(String const& sub) const
-		{
-			return find_first(sub) != INVALID_INDEX;
-		}
+		/**
+		 * @brief Finds the first occurrence of a character or substring.
+		 * @param c The character to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or SIZE_MAX if not found.
+		 */
+		Size find_first(Char const c, Size const startIndex = 0) const noexcept;
 		
-		/// <summary>
-		/// Checks if this String contains the given character.
-		/// </summary>
-		/// <param name="character">The character to check.</param>
-		/// <returns>True if found.</returns>
-		Bool contains(Char const character) const
-		{
-			return find_first(character) != INVALID_INDEX;
-		}
+		/**
+		 * @brief Finds the first occurrence of a substring.
+		 * @param str The substring to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_first(StringView const str, Size const startIndex = 0) const noexcept;
 
-		/// <summary>
-		/// Checks if this String starts with the given sub string.
-		/// </summary>
-		/// <param name="sub">The text to check.</param>
-		/// <returns>True, if this String starts with sub.</returns>
-		Bool starts_with(String const& sub) const;
+		/**
+		 * @brief Finds the last occurrence of a character or substring.
+		 * @param c The character to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last(Char const c, Size const startIndex = INVALID_INDEX) const noexcept;
+		
+		/**
+		 * @brief Finds the last occurrence of a substring.
+		 * @param str The substring to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last(StringView const str, Size const startIndex = INVALID_INDEX) const noexcept;
 
-		/// <summary>
-		/// Checks if this String ends with the given sub string.
-		/// </summary>
-		/// <param name="sub">The text to check.</param>
-		/// <returns>True, if this String ends with sub.</returns>
-		Bool ends_with(String const& sub) const;
+		/**
+		 * @brief Finds the first occurrence of any character from a set.
+		 * @param chars The set of characters to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_first_of(StringView const chars, Size const startIndex = 0) const noexcept;
 
-		/// <summary>
-		/// Converts the given text to upper case.
-		/// </summary>
-		/// <param name="str">The text to convert.</param>
-		/// <returns>A copy of the given String, uppercased.</returns>
-		String to_upper() const;
+		/**
+		 * @brief Finds the last occurrence of any character from a set.
+		 * @param chars The set of characters to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
 
-		/// <summary>
-		/// Converts the given text to lower case.
-		/// </summary>
-		/// <param name="str">The text to convert.</param>
-		/// <returns>A copy of the given String, lowercased.</returns>
-		String to_lower() const;
+		/**
+		 * @brief Finds the first occurrence of any character not in a set.
+		 * @param chars The set of characters to exclude.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_first_not_of(StringView const chars, Size const startIndex = 0) const noexcept;
 
-		/// <summary>
-		/// Replaces all occurrences of the given text with the replacement text.
-		/// </summary>
-		/// <param name="str">The text to search within.</param>
-		/// <param name="find">The text to find.</param>
-		/// <param name="replace">The text to replace it with.</param>
-		/// <returns>A new string with the text replaced.</returns>
-		String replace(String const& find, String const& replace) const;
+		/**
+		 * @brief Finds the last occurrence of any character not in a set.
+		 * @param chars The set of characters to exclude.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last_not_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
+
+		/**
+		 * @brief Extracts a substring from the string.
+		 * @param startIndex The starting index of the substring.
+		 * @param count The number of characters to include in the substring.
+		 * @return The extracted substring.
+		 */
+		String sub(Size const startIndex, Size const count = INVALID_INDEX) const noexcept;
+
+		/**
+		 * @brief Checks if the string starts with a given substring.
+		 * @param str The substring to check.
+		 * @return True if the string starts with the substring, false otherwise.
+		 */
+		Bool starts_with(StringView const str) const noexcept;
+
+		/**
+		 * @brief Checks if the string ends with a given substring.
+		 * @param str The substring to check.
+		 * @return True if the string ends with the substring, false otherwise.
+		 */
+		Bool ends_with(StringView const str) const noexcept;
+
+		/**
+		 * @brief Checks if the string contains a given substring.
+		 * @param str The substring to check.
+		 * @return True if the string contains the substring, false otherwise.
+		 */
+		inline Bool contains(StringView const str) const noexcept { return find_first(str) != INVALID_INDEX; }
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Variables
 
-	public:
-		/// <summary>
-		/// Creates a String from the given bytes.
-		/// </summary>
-		/// <param name="data">A pointer to the array of bytes.</param>
-		/// <param name="size">The number of bytes.</param>
-		/// <param name="allocator">The allocator.</param>
-		/// <returns>A new null terminated String, with a copy of the given data.</returns>
-		static String from_bytes(void const* const data, Size const size, AllocatorType const allocator = AllocatorType::Default);
-
+    private:
+        Char* mp_data;
+        Size m_size;
+        Size m_capacity;
+        
 #pragma endregion
-	};
+    };
 }
 
 namespace std
@@ -562,7 +399,14 @@ namespace std
 	{
 		std::size_t operator()(Minty::String const& str) const
 		{
-			return std::hash<std::string_view>()(std::string_view(str.get_data(), str.get_size()));
+			std::size_t hash = 0;
+            for (std::size_t i = 0; i < str.get_size(); ++i)
+            {
+                hash = hash * 31 + static_cast<std::size_t>(str[i]);
+            }
+            return hash;
 		}
 	};
 }
+
+#endif // MINTY_STRING_H

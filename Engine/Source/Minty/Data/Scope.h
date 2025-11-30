@@ -1,164 +1,111 @@
-#pragma once
+#ifndef MINTY_DATA_SCOPE_H
+#define MINTY_DATA_SCOPE_H
+
+/**
+ * @file Scope.h
+ * @brief Defines the Scope class for managing named variables.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Lookup.h"
 #include "Minty/Data/UUID.h"
-#include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/SerializableObject.h"
-#include "Minty/Serialization/Writer.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A Scope is a collection of values.
-	/// </summary>
-	template<Comparable T>
+	/**
+	 * @class Scope
+	 * @brief Manages a collection of named variables identified by UUIDs.
+	 */
 	class Scope
 		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		Lookup<UUID, T> m_values;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Scope.
-		/// </summary>
-		Scope()
-			: m_values()
-		{
-		}
+		/**
+		 * @brief Creates an empty Scope.
+		 */
+		Scope();
 
-		~Scope()
-		{
-		}
+		~Scope() = default;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the value of the variable with the given name.
-		/// </summary>
-		/// <param name="key">The ID of the variable.</param>
-		/// <returns>The value of the variable.</returns>
-		T const& get_value(UUID const key) const { return m_values.at(key); }
+		/**
+		 * @brief Gets the value of the variable with the given ID.
+		 * @param key The ID.
+		 * @returns The value.
+		 */
+		inline Int const &get_value(UUID const key) const { return m_values.at(key); }
 
-		/// <summary>
-		/// Gets the name of the variable with the given ID.
-		/// </summary>
-		/// <param name="key">The ID.</param>
-		/// <returns>The name.</returns>
-		String const& get_name(UUID const key) const { return m_values.get_string(key); }
+		/**
+		 * @brief Gets the name of the variable with the given ID.
+		 * @param key The ID.
+		 * @returns The name.
+		 */
+		inline String const &get_name(UUID const key) const { return m_values.get_string(key); }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if this Scope contains the given variable.
-		/// </summary>
-		/// <param name="key">The ID of the variable.</param>
-		/// <returns></returns>
-		Bool contains(UUID const key) const { return m_values.contains(key); }
+		/**
+		 * @brief Checks if a variable with the given ID exists in this Scope.
+		 * @param key The ID.
+		 * @returns True if the variable exists.
+		 */
+		inline Bool contains(UUID const key) const { return m_values.contains(key); }
 
-		/// <summary>
-		/// Finds the ID of the variable with the given name.
-		/// </summary>
-		/// <param name="name">The name of the variable to find.</param>
-		/// <returns>The UUID of the variable, or INVALID_ID if none found.</returns>
-		UUID find(String const& name) const
-		{
-			auto found = m_values.find(name);
-			if (found == m_values.end())
-			{
-				return INVALID_ID;
-			}
-			return found->get_second();
-		}
+		/**
+		 * @brief Finds the ID of the variable with the given name.
+		 * @param name The name of the variable.
+		 * @returns The ID of the variable, or UUID() if not found.
+		 */
+		UUID find(String const &name) const;
 
-		/// <summary>
-		/// Adds the given value to this Scope.
-		/// </summary>
-		/// <param name="name">The name of the variable to create.</param>
-		/// <param name="value">The initial value of the variable.</param>
-		/// <returns>The ID of the variable.</returns>
-		UUID add(String const& name, T const& value)
-		{
-			UUID id = UUID::create();
-			m_values.add(name, id, value);
-			return id;
-		}
+		/**
+		 * @brief Adds a variable with the given name and value to this Scope.
+		 * @param name The name of the variable.
+		 * @param value The initial value of the variable.
+		 * @returns The ID of the variable.
+		 */
+		UUID add(String const &name, Int const value);
 
-		/// <summary>
-		/// Sets the value of the variable with the given ID.
-		/// </summary>
-		/// <param name="id">The ID.</param>
-		/// <param name="value">The value.</param>
-		void set(UUID const id, T const& value)
-		{
-			MINTY_ASSERT(m_values.contains(id), ErrorCode::Argument_KeyNotFound, id);
-			m_values.at(id) = value;
-		}
+		/**
+		 * @brief Sets the value of the variable with the given ID.
+		 * @param id The ID.
+		 * @param value The new value.
+		 */
+		void set(UUID const id, Int const value);
 
-		/// <summary>
-		/// Removes all variables from this Scope.
-		/// </summary>
-		void clear()
-		{
-			m_values.clear();
-		}
+		/**
+		 * @brief Clears all variables from this Scope.
+		 */
+		inline void clear() { m_values.clear(); }
 
-		/// <summary>
-		/// Zeros all variables in this Scope.
-		/// </summary>
-		void reset()
-		{
-			for (auto&& [string, key, value] : m_values)
-			{
-				memset(&value, 0, sizeof(T));
-			}
-		}
+		/**
+		 * @brief Resets all variable values in this Scope to zero.
+		 */
+		void reset();
 
-		void serialize(Writer& writer) const override
-		{
-			// write each name: value in the scope as a pair
-			for (auto const& [string, key, value] : m_values)
-			{
-				writer.write(string, value);
-			}
-		}
-		Bool deserialize(Reader& reader) override
-		{
-			clear();
+		void serialize(Writer &writer) const override;
+		Bool deserialize(Reader &reader) override;
 
-			// read each name: value in the scope as a pair
-			String name;
-			T value;
-			for (Size i = 0; i < reader.get_size(); i++)
-			{
-				Bool const nameResult = reader.read_name(i, name);
-				MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
+#pragma endregion
 
-				Bool const valueResult = reader.read(i, value);
-				MINTY_ASSERT(valueResult, ErrorCode::Serialization_ReadValue);
+#pragma region Variables
 
-				// add to scope
-				UUID id = UUID::create();
-				m_values.add(name, id, value);
-			}
-
-			return true;
-		}
+	private:
+		Lookup<UUID, Int> m_values;
 
 #pragma endregion
 	};
-
-	using BasicScope = Scope<Int>;
 }
+
+#endif // MINTY_DATA_SCOPE_H

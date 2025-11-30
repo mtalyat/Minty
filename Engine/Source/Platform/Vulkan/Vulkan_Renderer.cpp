@@ -54,7 +54,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 	VkDebugUtilsMessageTypeFlagsEXT messageType,
 	const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-	void* pUserData)
+	Any pUserData)
 {
 	Char const* message = pCallbackData->pMessage;
 
@@ -658,9 +658,9 @@ void Minty::Vulkan_Renderer::free_memory(VkDevice const device, VkDeviceMemory c
 	vkFreeMemory(device, memory, nullptr);
 }
 
-void* Minty::Vulkan_Renderer::map_memory(VkDevice const device, VkDeviceMemory const memory, VkDeviceSize const offset, VkDeviceSize const size)
+Any Minty::Vulkan_Renderer::map_memory(VkDevice const device, VkDeviceMemory const memory, VkDeviceSize const offset, VkDeviceSize const size)
 {
-	VK_ASSERT_RESULT_RETURN_OBJECT(void*, vkMapMemory(device, memory, offset, size, 0, &object), "Failed to map memory.");
+	VK_ASSERT_RESULT_RETURN_OBJECT(Any, vkMapMemory(device, memory, offset, size, 0, &object), "Failed to map memory.");
 }
 
 void Minty::Vulkan_Renderer::unmap_memory(VkDevice const device, VkDeviceMemory const memory)

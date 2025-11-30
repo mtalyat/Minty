@@ -32,7 +32,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		Bool is_valid(Handle const handle) const override;

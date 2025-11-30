@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Condition.h"
 #include "Conditional.h"
 #include "FSM.h"

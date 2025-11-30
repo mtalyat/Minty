@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Camera.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Render/CameraInfo.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 
@@ -55,7 +56,7 @@ Bool Minty::Camera::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<Camera> Minty::Camera::create(CameraInfo const& info)
+Shared<Camera> Minty::Camera::create(CameraInfo const& info)
 {
-	return Owner<Camera>(info);
+	return Shared<Camera>::create(info);
 }

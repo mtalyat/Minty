@@ -16,7 +16,7 @@ namespace Minty
 	/// </summary>
 	class Wrap
 	{
-#pragma region Classes
+#pragma region Types
 
 	public:
 		/// <summary>
@@ -194,7 +194,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>

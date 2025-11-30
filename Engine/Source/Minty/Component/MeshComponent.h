@@ -1,10 +1,23 @@
-#pragma once
+#ifndef MINTY_COMPONENT_MESHCOMPONENT_H
+#define MINTY_COMPONENT_MESHCOMPONENT_H
+
+/**
+ * @file MeshComponent.h
+ * @brief Header file defining the MeshComponent structure.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Component/Component.h"
-#include "Minty/Render/Material.h"
-#include "Minty/Render/Mesh.h"
+#include "Minty/Render/MeshType.h"
 
 namespace Minty
 {
+	class Material;
+	class Mesh;
+
+	/**
+	 * @brief Holds the Mesh and Material of an Entity.
+	 */
 	struct MeshComponent
 		: public Component
 	{
@@ -18,3 +31,5 @@ namespace Minty
 		Bool deserialize(Reader& reader) override;
 	};
 }
+
+#endif // MINTY_COMPONENT_MESHCOMPONENT_H

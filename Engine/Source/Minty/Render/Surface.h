@@ -16,7 +16,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The desired format for the surface.
@@ -49,7 +49,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -86,7 +86,7 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>Surface.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::Surface; }
+		inline AssetType get_asset_type() const override { return AssetType::Surface; }
 
 #pragma endregion
 
@@ -109,7 +109,7 @@ namespace Minty
 		/// </summary>
 		/// <param name="info">The arguments.</param>
 		/// <returns>A Surface Owner.</returns>
-		Owner<Surface> create(SurfaceInfo const& info = {});
+		Shared<Surface> create(SurfaceInfo const& info = {});
 
 #pragma endregion
 

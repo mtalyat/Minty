@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PhysicsSystem.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Component/ColliderComponent.h"
 #include "Minty/Component/DestroyComponent.h"
@@ -20,7 +20,7 @@ Minty::PhysicsSystem::PhysicsSystem(SystemInfo const& info)
 	, m_simulation()
 	, m_accumulator(0.0f)
 {
-	Context& context = Context::get_singleton();
+	Context& context = Application::get_singleton();
 	
 	// create the simulation based on data from the physics manager
 	PhysicsSimulationInfo simulationInfo{};

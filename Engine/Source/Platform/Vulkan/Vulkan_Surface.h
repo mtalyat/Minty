@@ -37,7 +37,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		UInt2 get_size() const override { return UInt2(m_extent.width, m_extent.height); }

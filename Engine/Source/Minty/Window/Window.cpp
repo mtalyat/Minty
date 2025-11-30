@@ -5,12 +5,13 @@
 
 using namespace Minty;
 
-Window* Minty::Window::create(WindowInfo const &info)
+Unique<Window> Minty::Window::create(WindowInfo const &info)
 {
 #ifdef MINTY_WINDOWS
-	return new Windows_Window(info);
+	return Unique<Windows_Window>::create(info);
 #else
-	MINTY_ABORT(ErrorCode::NotSupported);
+	MINTY_NOT_IMPLEMENTED();
+	return nullptr;
 #endif // MINTY_WINDOWS
 }
 

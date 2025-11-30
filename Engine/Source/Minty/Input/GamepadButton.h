@@ -1,12 +1,20 @@
-#pragma once
+#ifndef MINTY_INPUT_GAMEPADBUTTON_H
+#define MINTY_INPUT_GAMEPADBUTTON_H
+
+/**
+ * @file GamepadButton.h
+ * @brief Header file for gamepad button enumeration.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A button on a gamepad.
-	/// </summary>
+	/**
+	 * @brief A button on a gamepad.
+	 */
 	enum class GamepadButton
 	{
 		ButtonSouth = 0,
@@ -34,3 +42,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<GamepadButton>(String const& string, GamepadButton& value) { return parse_try_gamepad_button(string, value); }
 }
+
+#endif // MINTY_INPUT_GAMEPADBUTTON_H

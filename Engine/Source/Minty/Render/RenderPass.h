@@ -15,7 +15,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The color attachment, if any.
@@ -59,7 +59,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -78,13 +78,13 @@ namespace Minty
 		/// Gets the AssetType for this Asset.
 		/// </summary>
 		/// <returns>RenderPass.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::RenderPass; }
+		inline AssetType get_asset_type() const override { return AssetType::RenderPass; }
 
 		/// <summary>
 		/// Gets the native RenderPass object.
 		/// </summary>
 		/// <returns>The native object.</returns>
-		virtual void* get_native() const = 0;
+		virtual Any get_native() const = 0;
 
 #pragma endregion
 
@@ -113,7 +113,7 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Owner<RenderPass> create(RenderPassInfo const& info = {});
+		static Shared<RenderPass> create(RenderPassInfo const& info = {});
 
 #pragma endregion
 

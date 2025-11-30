@@ -1,9 +1,16 @@
 #include "pch.h"
 #include "Prefab.h"
+#include "Minty/Entity/PrefabInfo.h"
+#include "Minty/Serialization/Node.h"
 
 using namespace Minty;
 
-Owner<Prefab> Minty::Prefab::create(PrefabInfo const& info)
+Minty::Prefab::Prefab(PrefabInfo const &info)
+    : Asset(info.id), m_data(info.source)
 {
-    return Owner<Prefab>(info);
+}
+
+Shared<Prefab> Minty::Prefab::create(PrefabInfo const &info)
+{
+    return Shared<Prefab>::create(info);
 }

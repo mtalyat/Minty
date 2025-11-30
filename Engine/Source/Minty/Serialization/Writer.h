@@ -46,7 +46,7 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
@@ -59,7 +59,7 @@ namespace Minty
 		/// Gets the data source for this Reader.
 		/// </summary>
 		/// <returns>A pointer to the data source.</returns>
-		virtual void* get_source() const = 0;
+		virtual Any get_source() const = 0;
 
 		/// <summary>
 		/// Gets the depth in the Node structure.
@@ -349,14 +349,14 @@ namespace Minty
 		virtual void write_typed(String const& name, void const* const data, Type const type) = 0;
 
 		/// <summary>
-		/// Writes the given Asset's ID. If null, writes INVALID_ID.
+		/// Writes the given Asset's ID. If null, writes UUID().
 		/// </summary>
 		/// <param name="name">The name of the Asset.</param>
 		/// <param name="asset">The Asset.</param>
 		void write_asset(String const& name, Ref<Asset> const& asset);
 
 		/// <summary>
-		/// Writes the given Asset's ID. If null, writes INVALID_ID.
+		/// Writes the given Asset's ID. If null, writes UUID().
 		/// </summary>
 		/// <typeparam name="T">The type of Asset.</typeparam>
 		/// <param name="name">The name of the Asset.</param>
@@ -428,10 +428,10 @@ namespace Minty
 	/// </summary>
 	class WriterStorageBehavior
 	{
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		virtual void* get_source() const = 0;
+		virtual Any get_source() const = 0;
 
 #pragma endregion
 
@@ -463,7 +463,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		FileWriterBehavior(void* const file)
+		FileWriterBehavior(Any const file)
 			: mp_file(static_cast<File*>(file))
 		{
 		}
@@ -474,10 +474,10 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		void* get_source() const override { return mp_file; }
+		Any get_source() const override { return mp_file; }
 
 #pragma endregion
 
@@ -502,7 +502,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		MemoryWriterBehavior(void* const container)
+		MemoryWriterBehavior(Any const container)
 			: mp_data(static_cast<Container*>(container))
 		{
 		}
@@ -513,10 +513,10 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		void* get_source() const override { return mp_data; }
+		Any get_source() const override { return mp_data; }
 
 #pragma endregion
 
@@ -593,7 +593,7 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		WriterImplementation(void* const source)
+		WriterImplementation(Any const source)
 			: FormatBehavior()
 			, StorageBehavior(source)
 			, m_depth(0)
@@ -605,14 +605,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
 		/// <summary>
 		/// Gets the data source for this Reader.
 		/// </summary>
 		/// <returns>A pointer to the data source.</returns>
-		void* get_source() const override { return StorageBehavior::get_source(); }
+		Any get_source() const override { return StorageBehavior::get_source(); }
 
 		/// <summary>
 		/// Gets the depth in the Node structure.

@@ -121,7 +121,7 @@ void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
 	renderManager.finish_command_buffer_single(commandBuffer, graphicsQueue);
 }
 
-void Minty::Vulkan_Image::get_pixels(void* const outData, Size const size) const
+void Minty::Vulkan_Image::get_pixels(Any const outData, Size const size) const
 {
 	MINTY_ASSERT(m_owner, ErrorCode::Argument_InvalidState);
 	MINTY_ASSERT(outData != nullptr, ErrorCode::Argument_ExpectedNonNull);

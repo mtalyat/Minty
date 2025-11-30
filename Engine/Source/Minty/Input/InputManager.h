@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_INPUT_INPUTMANAGER_H
+#define MINTY_INPUT_INPUTMANAGER_H
+
+/**
+ * @file InputManager.h
+ * @brief Header file for the InputManager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Manager/Manager.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
@@ -6,31 +14,21 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for an InputManager.
-	/// </summary>
-	struct InputManagerInfo
-	{
+	struct InputManagerInfo;
 
-	};
-
+	/**
+	 * @brief The InputManager handles input devices and events.
+	 */
 	class InputManager
 		: public Manager
 	{
-#pragma region Variables
-
-	private:
-		static InputManager* s_instance;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new InputManager.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
+		/**
+		 * @brief Creates a new InputManager.
+		 * @param info The arguments.
+		 */
 		InputManager(InputManagerInfo const& info)
 			: Manager()
 		{
@@ -48,23 +46,31 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Methods
 
 	public:
-		/// <summary>
-		/// Gets the active Context's InputManager.
-		/// </summary>
-		/// <returns>The singleton.</returns>
+		/**
+		 * @brief Gets the active Context's InputManager.
+		 * @return The singleton.
+		 */
 		static InputManager& get_instance();
 
-		/// <summary>
-		/// Creates a new InputManager.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>An InputManager Owner.</returns>
-		static Owner<InputManager> create(InputManagerInfo const& info = {});
+		/**
+		 * @brief Creates a new InputManager.
+		 * @param info The arguments.
+		 * @return An InputManager Owner.
+		 */
+		static Unique<InputManager> create(InputManagerInfo const& info);
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		static InputManager* s_instance;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_INPUT_INPUTMANAGER_H

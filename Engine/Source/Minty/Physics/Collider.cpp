@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Collider.h"
+#include "Minty/Physics/ColliderInfo.h"
 #include "Minty/Render/Mesh.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
@@ -10,32 +11,15 @@
 
 using namespace Minty;
 
-Owner<Collider> Minty::Collider::create(ColliderInfo const& info)
-{
-	// create a shape collider or a mesh collider based on the shape type
-	switch (info.shape)
-	{
-	case Shape::Empty:
-		// no collider
-		return Owner<Collider>();
-	case Shape::Custom:
-		// custom mesh collider
-#if defined(MINTY_BULLET)
-		return Owner<Bullet_MeshCollider>(info);
-#else
-		return Owner<Collider>();
-#endif
-	default:
-		// simple shape collider
-#if defined(MINTY_BULLET)
-		return Owner<Bullet_ShapeCollider>(info);
-#else
-		return Owner<Collider>();
-#endif
-	}
-}
+Minty::Collider::Collider(ColliderInfo const &info)
+			: m_shape(info.shape)
+			, m_mesh(info.mesh)
+			, m_size(info.size)
+			, m_isStatic(info.isStatic)
+		{
+		}
 
-void Minty::Collider::serialize(Writer& writer) const
+void Minty::Collider::serialize(Writer &writer) const
 {
 	writer.write("Shape", m_shape);
 	if (m_shape == Shape::Empty)
@@ -77,4 +61,29 @@ Bool Minty::Collider::deserialize(Reader& reader)
 	}
 	reader.read("Static", m_isStatic);
 	return true;
+}
+
+Shared<Collider> Minty::Collider::create(ColliderInfo const& info)
+{
+	// create a shape collider or a mesh collider based on the shape type
+	switch (info.shape)
+	{
+	case Shape::Empty:
+		// no collider
+		return Shared<Collider>();
+	case Shape::Custom:
+		// custom mesh collider
+#if defined(MINTY_BULLET)
+		return Shared<Bullet_MeshCollider>(info);
+#else
+		return Shared<Collider>();
+#endif
+	default:
+		// simple shape collider
+#if defined(MINTY_BULLET)
+		return Shared<Bullet_ShapeCollider>(info);
+#else
+		return Shared<Collider>();
+#endif
+	}
 }

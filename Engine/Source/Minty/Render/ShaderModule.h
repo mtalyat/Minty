@@ -12,7 +12,7 @@ namespace Minty
 		/// <summary>
 		/// The ID.
 		/// </summary>
-		UUID id = INVALID_ID;
+		UUID id = UUID();
 
 		/// <summary>
 		/// The data of the ShaderModule.
@@ -58,20 +58,20 @@ namespace Minty
 		/// Gets the AssetType of this Asset.
 		/// </summary>
 		/// <returns>ShaderModule.</returns>
-		constexpr AssetType get_asset_type() const { return AssetType::ShaderModule; }
+		inline AssetType get_asset_type() const { return AssetType::ShaderModule; }
 
 		/// <summary>
 		/// Gets the native ShaderModule object.
 		/// </summary>
 		/// <returns>A pointer to the native object.</returns>
-		virtual void* get_native() const = 0;
+		virtual Any get_native() const = 0;
 
 #pragma endregion
 
 #pragma region Statics
 
 	public:
-		static Owner<ShaderModule> create(ShaderModuleInfo const& info = {});
+		static Shared<ShaderModule> create(ShaderModuleInfo const& info = {});
 
 #pragma endregion
 	};

@@ -1,15 +1,22 @@
-#pragma once
+#ifndef MINTY_CORE_TYPE_H
+#define MINTY_CORE_TYPE_H
+
+/**
+ * @file Type.h
+ * @brief Header file defining the Type enumeration.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
-#include "Minty/Data/String.h"
 #include "Minty/Serialization/ToString.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Represents a type of data.
-	/// </summary>
+	/**
+	 * @brief Enumeration of various data types.
+	 */
 	enum class Type
 	{
 		Undefined,
@@ -78,3 +85,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Type>(String const& string, Type& value) { return parse_try_type(string, value); }
 }
+
+#endif // MINTY_CORE_TYPE_H

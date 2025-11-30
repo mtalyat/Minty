@@ -100,7 +100,7 @@ Char Minty::VirtualFile::read()
 	return PhysicalFile::read();
 }
 
-void Minty::VirtualFile::read(void* const buffer, Size_t const size)
+void Minty::VirtualFile::read(Any const buffer, Size_t const size)
 {
     // if at the end of the file, stop
     MINTY_ASSERT(!end_of_file(), ErrorCode::File_EndOfFileReached);

@@ -18,7 +18,7 @@ namespace Minty
 	class RenderSystem
 		: public System
 	{
-#pragma region Classes
+#pragma region Types
 
 	private:
 		struct RenderInfo;

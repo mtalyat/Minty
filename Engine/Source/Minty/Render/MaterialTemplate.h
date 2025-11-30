@@ -1,51 +1,36 @@
-#pragma once
+#ifndef MINTY_RENDER_MATERIALTEMPLATE_H
+#define MINTY_RENDER_MATERIALTEMPLATE_H
+
+/**
+ * @file MaterialTemplate.h
+ * @brief Header file defining the MaterialTemplate class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
-#include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Cargo.h"
-#include "Minty/Data/Map.h"
-#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Data/Variable.h"
-#include "Minty/Data/Vector.h"
+#include "Minty/Debug/Assert.h"
 
 namespace Minty
 {
 	class Shader;
+	struct MaterialTemplateInfo;
 
-	/// <summary>
-	/// The arguments for a MaterialTemplate.
-	/// </summary>
-	struct MaterialTemplateInfo
-	{
-		UUID id = INVALID_ID;
-
-		Ref<Shader> shader = nullptr;
-
-		Cargo values;
-	};
-
-	/// <summary>
-	/// Holds a collection of default values for a Material.
-	/// </summary>
+	/**
+	 * @brief Holds a collection of default values for a Material.
+	 */
 	class MaterialTemplate
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		Ref<Shader> m_shader;
-		Cargo m_cargo;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new MaterialTemplate.
-		/// </summary>
-		/// <param name="info"></param>
+		/**
+		 * @brief Creates a new MaterialTemplate.
+		 * @param info The arguments.
+		 */
 		MaterialTemplate(MaterialTemplateInfo const& info);
 
 		virtual ~MaterialTemplate() override
@@ -54,57 +39,61 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Shader that this MaterialTemplate uses.
-		/// </summary>
-		/// <returns>The Shader.</returns>
-		Ref<Shader> const& get_shader() const { return m_shader; }
+		/**
+		 * @brief Gets the Shader that this MaterialTemplate uses.
+		 * @return The Shader.
+		 */
+		inline Ref<Shader> const& get_shader() const { return m_shader; }
 
-		/// <summary>
-		/// Gets the values of this MaterialTemplate.
-		/// </summary>
-		/// <returns>The values.</returns>
-		Cargo const& get_inputs() const { return m_cargo; }
+		/**
+		 * @brief Gets the values of this MaterialTemplate.
+		 * @return The values.
+		 */
+		inline Cargo const& get_inputs() const { return m_cargo; }
 
-		/// <summary>
-		/// Checks if this MaterialTemplate has an input with the given name.
-		/// </summary>
-		/// <param name="name">The name of the input.</param>
-		/// <returns>True if it contains the input.</returns>
-		Bool has_input(String const& name) const { return m_cargo.contains(name); }
+		/**
+		 * @brief Checks if this MaterialTemplate has an input with the given name.
+		 * @param name The name of the input.
+		 * @return True if it contains the input.
+		 */
+		inline Bool has_input(String const& name) const { return m_cargo.contains(name); }
 
-		/// <summary>
-		/// Gets the input value for this MaterialTemplate.
-		/// </summary>
-		/// <param name="name">The name of the input value.</param>
-		/// <returns>A reference to the map of values for the object.</returns>
-		Object const& get_input(String const& name) const
+		/**
+		 * @brief Gets the input value for this MaterialTemplate.
+		 * @param name The name of the input value.
+		 * @return A reference to the map of values for the object.
+		 */
+		inline Object const& get_input(String const& name) const
 		{
 			MINTY_ASSERT(m_cargo.contains(name), ErrorCode::Argument_KeyNotFound, name);
 			return m_cargo.at(name);
 		}
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>MaterialTemplate.</returns>
-		constexpr AssetType get_asset_type() const override { return AssetType::MaterialTemplate; }
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return MaterialTemplate.
+		 */
+		inline AssetType get_asset_type() const override { return AssetType::MaterialTemplate; }
+
+		/**
+		 * @brief Creates a new MaterialTemplate.
+		 * @param info The arguments.
+		 */
+		static Shared<MaterialTemplate> create(MaterialTemplateInfo const& info);
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Variables
 
-	public:
-		/// <summary>
-		/// Creates a new MaterialTemplate.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		static Owner<MaterialTemplate> create(MaterialTemplateInfo const& info = {});
+	private:
+		Ref<Shader> m_shader;
+		Cargo m_cargo;
 
 #pragma endregion
-
 	};
 }
+
+#endif // MINTY_RENDER_MATERIALTEMPLATE_H

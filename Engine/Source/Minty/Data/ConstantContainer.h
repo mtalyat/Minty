@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_DATA_CONSTANTCONTAINER_H
+#define MINTY_DATA_CONSTANTCONTAINER_H
+
+/**
+ * @file ConstantContainer.h
+ * @brief Defines the ConstantContainer class for immutable memory storage.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/MemoryContainer.h"
 
 namespace Minty
@@ -66,3 +74,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_DATA_CONSTANTCONTAINER_H

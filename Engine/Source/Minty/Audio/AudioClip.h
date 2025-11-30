@@ -1,92 +1,62 @@
-#pragma once
+#ifndef MINTY_AUDIO_AUDIOCLIP_H
+#define MINTY_AUDIO_AUDIOCLIP_H
+
+/**
+ * @file AudioClip.h
+ * @brief Header file defining the AudioClip class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/Vector.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments used to create an AudioClip.
-	/// </summary>
-	struct AudioClipInfo
-	{
-		/// <summary>
-		/// The ID of the AudioClip.
-		/// </summary>
-		UUID id;
-
-		/// <summary>
-		/// The byte data of the AudioClip.
-		/// </summary>
-		Vector<Byte> data;
-
-		/// <summary>
-		/// The starting volume of the AudioClip.
-		/// </summary>
-		Float volume = 1.0f;
-
-		/// <summary>
-		/// If true, the AudioClip will loop.
-		/// </summary>
-		Bool loop = false;
-
-		/// <summary>
-		/// The loop point of the AudioClip. 0.0 = start, 1.0 = end.
-		/// </summary>
-		Float loopPoint = 0.0f;
-
-		/// <summary>
-		/// If true, the AudioClip can only be played once at a time.
-		/// </summary>
-		Bool exclusive = false;
-	};
-
+	struct AudioClipInfo;
+	
+	/**
+	 * @brief Class representing an audio clip asset.
+	 */
 	class AudioClip
 		: public Asset
 	{
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new AudioClip using the given AudioClipInfo.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		AudioClip(AudioClipInfo const& info)
-			: Asset(info.id)
-		{
-		}
+		/**
+		 * @brief Creates an AudioClip with the given arguments.
+		 * @param info The arguments.
+		 */
+		AudioClip(AudioClipInfo const& info);
 
-		virtual ~AudioClip()
-		{
-		}
+		virtual ~AudioClip() = default;
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the native audio clip object.
-		/// </summary>
-		/// <returns>The object.</returns>
-		virtual void* get_native() const = 0;
+		/**
+		 * @brief Gets the native audio clip object.
+		 * @return The native audio clip object.
+		 */
+		virtual Any get_native() const = 0;
 
-		/// <summary>
-		/// Gets the type of this Asset.
-		/// </summary>
-		/// <returns>AudioClip.</returns>
+		/**
+		 * @brief Gets the AssetType of this AudioClip.
+		 * @return The AssetType.
+		 */
 		AssetType get_asset_type() const override { return AssetType::AudioClip; }
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		/// <summary>
-		/// Creates a new AudioClip using the given AudioClipInfo.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		static Owner<AudioClip> create(AudioClipInfo const& info = {});
+		
+		/**
+		 * @brief Creates an AudioClip with the given arguments.
+		 * @param info The arguments.
+		 * @return A Shared pointer to the created AudioClip.
+		 */
+		static Shared<AudioClip> create(AudioClipInfo const& info);
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_AUDIO_AUDIOCLIP_H

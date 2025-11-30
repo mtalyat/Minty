@@ -6,11 +6,11 @@
 
 using namespace Minty;
 
-Owner<Viewport> Minty::Viewport::create(ViewportInfo const& info)
+Shared<Viewport> Minty::Viewport::create(ViewportInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Owner<Vulkan_Viewport>(info);
+	return Shared<Vulkan_Viewport>(info);
 #else
-    return Owner<Viewport>();
+    return Shared<Viewport>();
 #endif // MINTY_VULKAN
 }

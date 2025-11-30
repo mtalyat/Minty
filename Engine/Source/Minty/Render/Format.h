@@ -1,17 +1,25 @@
-#pragma once
+#ifndef MINTY_RENDER_FORMAT_H
+#define MINTY_RENDER_FORMAT_H
+
+/**
+ * @file Format.h
+ * @brief Header file defining the Format enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-    /// <summary>
-	/// Determines the format of an image.
-    /// </summary>
+    /**
+	 * @brief Determines the format of an image.
+     */
     enum class Format
     {
-        /// <summary>
-        /// Invalid.
-        /// </summary>
+        /**
+         * @brief Invalid.
+         */
         Undefined = 0,
         R4G4_UNORM_PACK8 = 1,
         R4G4B4A4_UNORM_PACK16 = 2,
@@ -148,3 +156,5 @@ namespace Minty
 
 	Size format_get_size(Format const format);
 }
+
+#endif // MINTY_RENDER_FORMAT_H

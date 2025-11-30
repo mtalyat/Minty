@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Font.h"
 #include "Minty/Core/Format.h"
+#include "Minty/Render/FontInfo.h"
 #include "Minty/Render/FontVariant.h"
 
 using namespace Minty;
@@ -48,7 +49,7 @@ Vector<Ref<FontVariant>> Minty::Font::get_variants() const
 	return variants;
 }
 
-Owner<Font> Minty::Font::create(FontInfo const& info)
+Shared<Font> Minty::Font::create(FontInfo const& info)
 {
-	return Owner<Font>(info);
+	return Shared<Font>::create(info);
 }

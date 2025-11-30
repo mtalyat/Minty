@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "TextComponent.h"
+#include "Minty/Component/DirtyTextComponent.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Entity/EntitySerializationData.h"
+#include "Minty/Render/Font.h"
+#include "Minty/Render/FontVariant.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 

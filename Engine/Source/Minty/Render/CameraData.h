@@ -1,39 +1,51 @@
-#pragma once
+#ifndef MINTY_RENDER_CAMERADATA_H
+#define MINTY_RENDER_CAMERADATA_H
+
+/**
+ * @file CameraData.h
+ * @brief Header file defining the CameraData struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
-#include "Minty/Render/Camera.h"
-#include "Minty/Render/Viewport.h"
+#include "Minty/Data/Pointer.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Holds information needed for a Camera for rendering.
-	/// </summary>
+	class Camera;
+	class Viewport;
+
+	/**
+	 * @brief Holds information needed for a Camera for rendering.
+	 */
 	struct CameraData
 	{
-		/// <summary>
-		/// The position of the Camera.
-		/// </summary>
+		/**
+		 * @brief The position of the Camera.
+		 */
 		Float3 position = Float3();
 
-		/// <summary>
-		/// The rotation of the Camera.
-		/// </summary>
+		/**
+		 * @brief The rotation of the Camera.
+		 */
 		Quaternion rotation = Math::identity<Quaternion>();
 
-		/// <summary>
-		/// The Camera data.
-		/// </summary>
+		/**
+		 * @brief The Camera data.
+		 */
 		Ref<Camera> camera = nullptr;
 
-		/// <summary>
-		/// The view to render the Camera to.
-		/// </summary>
+		/**
+		 * @brief The view to render the Camera to.
+		 */
 		Ref<Viewport> viewport = nullptr;
 
-		/// <summary>
-		/// Gets the transformation matrix for the Camera.
-		/// </summary>
-		/// <returns>The Matrix.</returns>
+		/**
+		 * @brief Gets the transformation matrix for the Camera.
+		 * @return The Matrix.
+		 */
 		Matrix4 get_transformation_matrix() const;
 	};
 }
+
+#endif // MINTY_RENDER_CAMERADATA_H

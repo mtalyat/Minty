@@ -1,13 +1,39 @@
 #include "pch.h"
 #include "EntityManager.h"
-#include "Minty/Component/_Component.h"
-#include "Minty/Context/Context.h"
+#include "Minty/Application/Application.h"
+#include "Minty/Asset/AssetManager.h"
+#include "Minty/Component/CanvasComponent.h"
+#include "Minty/Component/DirtyComponent.h"
+#include "Minty/Component/EnabledComponent.h"
+#include "Minty/Component/LayerComponent.h"
+#include "Minty/Component/MeshComponent.h"
+#include "Minty/Component/NameComponent.h"
+#include "Minty/Component/RelationshipComponent.h"
+#include "Minty/Component/TextComponent.h"
+#include "Minty/Component/TransformComponent.h"
+#include "Minty/Component/UITransformComponent.h"
+#include "Minty/Component/UUIDComponent.h"
+#include "Minty/Component/VisibleComponent.h"
+#include "Minty/Data/Stack.h"
 #include "Minty/Debug/Trace.h"
+#include "Minty/Entity/EntityPath.h"
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Entity/Prefab.h"
+#include "Minty/Render/MeshInfo.h"
 #include "Minty/Render/Texture.h"
+#include "Minty/Window/Window.h"
 
 using namespace Minty;
+
+Minty::EntityManager::EntityManager(Scene *scene, EntityManagerInfo const &info)
+	: SubManager(scene), m_registry(), m_ids(), m_needsSorted(false)
+{
+}
+
+Minty::EntityManager::EntityManager(EntityManager &&other) noexcept
+	: SubManager(std::move(other)), m_registry(std::move(other.m_registry)), m_ids(std::move(other.m_ids)), m_needsSorted(std::move(other.m_needsSorted))
+{
+}
 
 void Minty::EntityManager::remove_from_parent(RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp)
 {
@@ -96,7 +122,7 @@ UUID Minty::EntityManager::get_id(Entity const entity) const
 {
 	if (entity == INVALID_ENTITY)
 	{
-		return INVALID_ID;
+		return UUID();
 	}
 
 	UUIDComponent const *uuidComponent = m_registry.try_get<UUIDComponent>(entity);
@@ -105,7 +131,7 @@ UUID Minty::EntityManager::get_id(Entity const entity) const
 		return uuidComponent->id;
 	}
 	// no related ID
-	return INVALID_ID;
+	return UUID();
 }
 
 void Minty::EntityManager::set_id(Entity const entity, UUID const id)
@@ -502,10 +528,8 @@ void Minty::EntityManager::finalize_dirties()
 		info.type = MeshType::Custom;
 
 		// (re)generate the mesh
-		info.vertices = ListContainer(sizeof(Float) * 4, textComp.text.get_size());
-		ListContainer &vertices = info.vertices;
-		info.indices = ListContainer(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
-		ListContainer &indices = info.indices;
+		ListContainer vertices(sizeof(Float) * 4, textComp.text.get_size());
+		ListContainer indices(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
 
 		Float xAdvance = 0.0f;
 		Float yAdvance = 0.0f;
@@ -586,6 +610,14 @@ void Minty::EntityManager::finalize_dirties()
 			last = c;
 		}
 
+		// set the mesh data
+		info.vertexData = vertices.get_data();
+		info.vertexStride = vertices.get_stride();
+		info.vertexCount = vertices.get_count();
+		info.indexData = indices.get_data();
+		info.indexStride = indices.get_stride();
+		info.indexCount = indices.get_count();
+
 		// create the new mesh
 		// if no mesh, create a new mesh quickly
 		if (meshComp.mesh == nullptr)
@@ -613,7 +645,7 @@ void Minty::EntityManager::finalize_dirties()
 		for (auto &&[entity, uiTransformComp, canvasComp, dirtyComp, enabledComp] : view.each())
 		{
 			// get window size as a rect
-			Window &window = Context::get_singleton().get_window();
+			Window &window = Application::get_singleton().get_window();
 			UInt2 windowSize = window.get_size();
 			Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
@@ -740,7 +772,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	}
 
 	// get window size as a rect
-	Window &window = Context::get_singleton().get_window();
+	Window &window = Application::get_singleton().get_window();
 	UInt2 windowSize = window.get_size();
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
@@ -1007,15 +1039,15 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String cons
 
 Component &Minty::EntityManager::add_component(Entity const entity, String const &name)
 {
-	Context &context = Context::get_singleton();
-	ComponentData const *info = context.get_component_info(name);
+	Application& app = Application::get_singleton();
+	ComponentData const *info = app.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	return info->create(*this, entity);
 }
 
 Component &Minty::EntityManager::get_component(Entity const entity, String const &name)
 {
-	Context &context = Context::get_singleton();
+	Context &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	Component *component = info->get(*this, entity);
@@ -1025,7 +1057,7 @@ Component &Minty::EntityManager::get_component(Entity const entity, String const
 
 Component const &Minty::EntityManager::get_component(Entity const entity, String const &name) const
 {
-	Context const &context = Context::get_singleton();
+	Context const &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	Component const *component = info->get_const(*this, entity);
@@ -1035,7 +1067,7 @@ Component const &Minty::EntityManager::get_component(Entity const entity, String
 
 Component &Minty::EntityManager::get_or_add_component(Entity const entity, String const &name)
 {
-	Context &context = Context::get_singleton();
+	Context &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	Component *component = info->get(*this, entity);
@@ -1053,7 +1085,7 @@ Component &Minty::EntityManager::get_or_add_component(Entity const entity, Strin
 
 Component *Minty::EntityManager::try_get_component(Entity const entity, String const &name)
 {
-	Context &context = Context::get_singleton();
+	Context &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	Component *component = info->get(*this, entity);
@@ -1062,7 +1094,7 @@ Component *Minty::EntityManager::try_get_component(Entity const entity, String c
 
 Component const *Minty::EntityManager::try_get_component(Entity const entity, String const &name) const
 {
-	Context const &context = Context::get_singleton();
+	Context const &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	Component const *component = info->get_const(*this, entity);
@@ -1071,7 +1103,7 @@ Component const *Minty::EntityManager::try_get_component(Entity const entity, St
 
 Bool Minty::EntityManager::has_component(Entity const entity, String const &name) const
 {
-	Context const &context = Context::get_singleton();
+	Context const &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	Component const *component = info->get_const(*this, entity);
@@ -1080,7 +1112,7 @@ Bool Minty::EntityManager::has_component(Entity const entity, String const &name
 
 void Minty::EntityManager::remove_component(Entity const entity, String const &name)
 {
-	Context &context = Context::get_singleton();
+	Context &context = Application::get_singleton();
 	ComponentData const *info = context.get_component_info(name);
 	MINTY_ASSERT(info, ErrorCode::Component_NotRegistered, name);
 	info->destroy(*this, entity);
@@ -1410,12 +1442,10 @@ void Minty::EntityManager::destroy(Entity const entity)
 	}
 }
 
-void Minty::EntityManager::initialize()
+void Minty::EntityManager::on_scene_load()
 {
 	// dirty all components on load
 	mark_all<DirtyComponent>();
-
-	Manager::initialize();
 }
 
 void Minty::EntityManager::frame_update(Timestep const &time)
@@ -1600,7 +1630,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const entity, Map<UUID, Entity> *idMap)
 {
-	Context const &context = Context::get_singleton();
+	Context const &context = Application::get_singleton();
 
 	EntitySerializationData data{};
 	data.entityManager = this;
@@ -1618,7 +1648,7 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 		// fix name
 		componentName = componentName.trim_end();
 
-		ComponentData const& info = context.get_component_info(componentName);
+		ComponentData const &info = context.get_component_info(componentName);
 
 		// get the component
 		Component *component = info.get(*this, data.entity);
@@ -1656,15 +1686,15 @@ Bool Minty::EntityManager::deserialize(Reader &reader)
 	return deserialize_entities(reader);
 }
 
-Owner<EntityManager> Minty::EntityManager::create(Scene *scene, EntityManagerInfo const &info)
+Shared<EntityManager> Minty::EntityManager::create(Scene *scene, EntityManagerInfo const &info)
 {
-	return Owner<EntityManager>(scene, info);
+	return Shared<EntityManager>(scene, info);
 }
 
 EntityManager &Minty::EntityManager::get_singleton()
 {
 	// get the active scene
-	Ref<Scene> const &activeScene = Context::get_singleton().get_scene_manager().get_active();
+	Ref<Scene> const &activeScene = Application::get_singleton().get_scene_manager().get_active();
 	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_entity_manager();
 }
@@ -1700,10 +1730,10 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		if (prefabIndex != INVALID_INDEX || prefabIndexEnd != INVALID_INDEX)
 		{
 			// Malformed prefab ID in entity ID string. Expecting [ and ] to be UUID_HEX_CHAR_COUNT characters apart, with a UUID in between them.
-			MINTY_ASSERT(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX && prefabIndexEnd - prefabIndex - 1 == UUID_HEX_CHAR_COUNT, ErrorCode::Serialization_InvalidFormat, idString);
+			MINTY_ASSERT(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX && prefabIndexEnd - prefabIndex - 1 == UUID_HEX_SIZE, ErrorCode::Serialization_InvalidFormat, idString);
 
 			// there is a prefab
-			String prefabIdString = idString.sub(prefabIndex + 1, UUID_HEX_CHAR_COUNT);
+			String prefabIdString = idString.sub(prefabIndex + 1, UUID_HEX_SIZE);
 			prefabId = parse_to_uuid(prefabIdString);
 
 			// remove prefab from id string
@@ -1712,7 +1742,7 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		}
 		else
 		{
-			prefabId = INVALID_ID;
+			prefabId = UUID();
 		}
 
 		// get the ID, if any
@@ -1722,12 +1752,12 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		}
 		else
 		{
-			id = INVALID_ID;
+			id = UUID();
 		}
 	}
 	else
 	{
-		id = INVALID_ID;
-		prefabId = INVALID_ID;
+		id = UUID();
+		prefabId = UUID();
 	}
 }

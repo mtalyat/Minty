@@ -9,6 +9,9 @@
 #include "Minty/Debug/Trace.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Scene/SceneInfo.h"
+#include "Minty/System/SystemManager.h"
+#include "Minty/Entity/EntityManager.h"
 
 using namespace Minty;
 
@@ -148,7 +151,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 	{
 		// unload the asset
 		AssetData& assetData = m_loadedAssets.at(path);
-		if (assetData.id != INVALID_ID)
+		if (assetData.id.is_valid())
 		{
 			assetManager.unload(assetData.id);
 		}
@@ -183,7 +186,7 @@ void Minty::Scene::unload_assets()
 		AssetData& assetData = m_loadedAssets.at(assetPath);
 
 		// unload the asset
-		if (assetData.id != INVALID_ID)
+		if (assetData.id.is_valid())
 		{
 			assetManager.unload(assetData.id);
 		}
@@ -298,7 +301,7 @@ Bool Minty::Scene::deserialize(Reader& reader)
 	return true;
 }
 
-Owner<Scene> Minty::Scene::create(SceneInfo const& info)
+Shared<Scene> Minty::Scene::create(SceneInfo const& info)
 {
-	return Owner<Scene>(info);
+	return Shared<Scene>(info);
 }

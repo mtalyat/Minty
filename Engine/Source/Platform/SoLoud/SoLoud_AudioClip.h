@@ -23,10 +23,10 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Get Set
+#pragma region Accessors
 
 	public:
-		void* get_native() const override { return mp_clip; }
+		Any get_native() const override { return mp_clip; }
 
 #pragma endregion
 

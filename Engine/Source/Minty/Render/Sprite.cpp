@@ -121,7 +121,7 @@ void Minty::Sprite::set_pivot(Float2 const& pivot)
 	}
 }
 
-Owner<Sprite> Minty::Sprite::create(SpriteInfo const& info)
+Shared<Sprite> Minty::Sprite::create(SpriteInfo const& info)
 {
-	return Owner<Sprite>(info);
+	return Shared<Sprite>(info);
 }
