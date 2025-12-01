@@ -1,4 +1,4 @@
-@REM @echo off
+@echo off
 cls
 
 @rem Parse command line arguments
