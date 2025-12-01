@@ -13,6 +13,8 @@
 #include "Minty/Render/Texture.h"
 #include "Minty/Event/WindowResizeEvent.h"
 #include "Minty/Render/RenderManagerInfo.h"
+#include "Minty/Window/Window.h"
+#include "Minty/Render/Surface.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
@@ -159,6 +161,11 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
 	}
 
 	MINTY_ASSERT(m_window != nullptr, ErrorCode::Argument_ExpectedNonNull);
+}
+
+Format Minty::RenderManager::get_color_attachment_format() const
+{
+    return m_surface->get_format();
 }
 
 Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)

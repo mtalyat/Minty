@@ -12,15 +12,10 @@
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Window/Window.h"
-#include "Minty/Render/Buffer.h"
-#include "Minty/Render/CameraData.h"
 #include "Minty/Render/Format.h"
-#include "Minty/Render/Image.h"
 #include "Minty/Render/MaskMode.h"
 #include "Minty/Render/MeshType.h"
 #include "Minty/Render/Space.h"
-#include "Minty/Render/Surface.h"
 
 namespace Minty
 {
@@ -30,9 +25,14 @@ namespace Minty
 	class Mesh;
 	class Viewport;
 	class Camera;
+	class CameraData;
 	class Texture;
 	class Transform;
 	class Surface;
+	class Image;
+	class Window;
+	class Event;
+	class Buffer;
 	struct RenderManagerInfo;
 
 	/**
@@ -135,7 +135,7 @@ namespace Minty
 		 * @brief Gets the color attachment format of the current Surface.
 		 * @return The attachment Format.
 		 */
-		inline Format get_color_attachment_format() const { return m_surface->get_format(); }
+		Format get_color_attachment_format() const;
 
 		/**
 		 * @brief Gets the depth attachment format of the current depth Image.
@@ -201,20 +201,53 @@ namespace Minty
 		 */
 		virtual void end_pass();
 
+		/**
+		 * @brief Handles an Event.
+		 * @param event The Event to handle.
+		 */
 		void handle_event(Event& event) override;
 
+		/**
+		 * @brief Binds a Shader for rendering.
+		 * @param shader The Shader to bind.
+		 */
 		void bind_shader(Ref<Shader> const& shader);
 
+		/**
+		 * @brief Binds a Material for rendering.
+		 * @param material The Material to bind.
+		 */
 		void bind_material(Ref<Material> const& material);
 
+		/**
+		 * @brief Binds a Mesh for rendering.
+		 * @param mesh The Mesh to bind.
+		 */
 		void bind_mesh(Ref<Mesh> const& mesh);
 
+		/**
+		 * @brief Binds a Vertex Buffer for rendering.
+		 * @param buffer The Buffer to bind.
+		 * @param binding The binding index.
+		 */
 		void bind_vertex_buffer(Ref<Buffer> const& buffer, UInt const binding = 0);
 
+		/**
+		 * @brief Binds an Index Buffer for rendering.
+		 * @param buffer The Buffer to bind.
+		 */
 		void bind_index_buffer(Ref<Buffer> const& buffer);
 		
+		/**
+		 * @brief Draws the currently bound Mesh.
+		 */
 		void draw_mesh(Ref<Mesh> const& mesh);
 
+		/**
+		 * @brief Draws the currently bound Mesh with instancing.
+		 * @param instanceCount The number of instances to draw.
+		 * @param vertexCount The number of vertices per instance.
+		 */
 		void draw_instances(UInt const instanceCount, UInt const vertexCount);
 		
 		/**
@@ -222,7 +255,7 @@ namespace Minty
 		 * @param info The arguments.
 		 * @return A RenderManager Owner.
 		 */
-		static Unique<RenderManager> create(RenderManagerInfo const& info = {});
+		static Unique<RenderManager> create(RenderManagerInfo const& info);
 
 		/**
 		 * @brief Gets the active Context's RenderManager.
