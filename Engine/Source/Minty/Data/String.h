@@ -213,12 +213,6 @@ namespace Minty
 		 */
         inline Size get_length() const noexcept { return m_size; }
 
-        /**
-		 * @brief Gets the capacity of the string.
-		 * @return Capacity of the string.
-		 */
-        inline Size get_capacity() const noexcept { return m_capacity; }
-
 		/**
 		 * @brief Gets a StringView of the string.
 		 * @return StringView of the string.
@@ -379,6 +373,22 @@ namespace Minty
 		 */
 		inline Bool contains(StringView const str) const noexcept { return find_first(str) != INVALID_INDEX; }
 
+		String to_lower() const;
+
+		String to_upper() const;
+
+		String trim_start(StringView const chars = TEXT_WHITESPACE) const;
+
+		String trim_end(StringView const chars = TEXT_WHITESPACE) const;
+
+		String trim(StringView const chars = TEXT_WHITESPACE) const;
+
+		String strip(StringView const chars = TEXT_WHITESPACE) const;
+
+		String replace(Char const oldChar, Char const newChar) const;
+
+		String replace(StringView const oldStr, StringView const newStr) const;
+
 #pragma endregion
 
 #pragma region Variables
@@ -386,7 +396,6 @@ namespace Minty
     private:
         Char* mp_data;
         Size m_size;
-        Size m_capacity;
         
 #pragma endregion
     };

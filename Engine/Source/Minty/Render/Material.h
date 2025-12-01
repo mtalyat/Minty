@@ -69,7 +69,7 @@ namespace Minty
 		 * @param data A pointer to the data to set.
 		 * @param size The size of the data in bytes.
 		 */
-		virtual void set_input(String const& name, void const* const data, Size const size) = 0;
+		virtual void set_input(String const& name, AnyConst const data, Size const size) = 0;
 
 		/**
 		 * @brief Tries to set the input data for this Material, if it exists.
@@ -78,7 +78,7 @@ namespace Minty
 		 * @param size The size of the data in bytes.
 		 * @return True, on success.
 		 */
-		Bool try_set_input(String const& name, void const* const data, Size const size);
+		Bool try_set_input(String const& name, AnyConst const data, Size const size);
 
 		/**
 		 * @brief Gets the input data for this Material with the given name.

@@ -7,11 +7,12 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Manager/Manager.h"
+#include "Minty/Asset/AssetType.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Manager/Manager.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/MaskMode.h"
 #include "Minty/Render/MeshType.h"

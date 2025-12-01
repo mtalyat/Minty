@@ -47,7 +47,7 @@ namespace Minty
 		 * @param data A pointer to the byte data.
 		 * @param size The size of the data in bytes.
 		 */
-		virtual void set_pixels(void const* const data, Size const size) = 0;
+		virtual void set_pixels(AnyConst const data, Size const size) = 0;
 
 		/**
 		 * @brief Pure virtual method that retrieves pixel data and writes it into a caller-provided output buffer.

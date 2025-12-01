@@ -23,12 +23,13 @@
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
 #include "Minty/Render/Mesh.h"
-#include "Minty/Render/Renderer.h"
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Render/Shader.h"
 #include "Minty/Scene/Scene.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Render/CameraData.h"
+#include "Minty/Render/Sprite.h"
 
 using namespace Minty;
 
@@ -100,7 +101,7 @@ void Minty::RenderSystem::render_scene(CameraData const& cameraInfo)
 				info.material->set_input(name, data, size);
 
 				// free the data when done, as it was cloned when added to the render map
-				deallocate(data, size, AllocatorType::Default);
+				DefaultAllocator::deallocate(data);
 			}
 
 			// if there is a canvas, update it
@@ -170,7 +171,8 @@ void Minty::RenderSystem::render_3d_meshes(CameraData const& cameraInfo, RenderM
 			.material = material,
 			.mesh = mesh
 		};
-		info.inputs.add({ "object", clone(transformation, AllocatorType::Default), sizeof(Matrix4) });
+		Matrix4* const clone = DefaultAllocator::construct<Matrix4>(transformation);
+		info.inputs.add({ "object", clone, sizeof(Matrix4) });
 		renderMap.add(shader->get_priority(), std::move(info));
 	}
 }
@@ -373,7 +375,10 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 			.canvas = uiTransformComp.canvas,
 			.mesh = mesh
 		};
-		info.inputs.add({ "push", copy(pushData.get_data(), pushData.get_size(), AllocatorType::Default), pushData.get_size() });
+		Any const data = DefaultAllocator::allocate(pushData.get_size());
+		MINTY_ASSERT(data != nullptr, ErrorCode::Memory_AllocationFailed);
+		memcpy(data, pushData.get_data(), pushData.get_size());
+		info.inputs.add({ "push", data, pushData.get_size() });
 		renderMap.add(shader->get_priority(), std::move(info));
 	}
 }
@@ -467,6 +472,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 		// get resources
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		Entity const entity = batch.get_object<Entity>(1);
 		MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<Shader> const& shader = materialTemplate->get_shader();
 		MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));

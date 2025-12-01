@@ -1,38 +1,49 @@
-#pragma once
+#ifndef MINTY_SYSTEM_AUDIOSYSTEM_H
+#define MINTY_SYSTEM_AUDIOSYSTEM_H
+
+/**
+ * @file AudioSystem.h
+ * @brief Header file defining the AudioSystem class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/System/System.h"
 
 namespace Minty
 {
+	/**
+	 * @brief Manages audio playback within a Scene.
+	 */
 	class AudioSystem
 		: public System
 	{
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new AudioSystem using the given SystemInfo.
-		/// </summary>
+		/**
+		 * @brief Creates a new AudioSystem using the given SystemInfo.
+		 */
 		AudioSystem(SystemInfo const& info);
 
-		~AudioSystem() override
-		{
-		}
+		~AudioSystem() override = default;
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Called when the Scene is unloaded.
-		/// </summary>
+		/**
+		 * @brief Called when the Scene is unloaded.
+		 */
 		void on_unload() override;
 
-		/// <summary>
-		/// Called when the Scene is finalized.
-		/// </summary>
+		/**
+		 * @brief Called when the Scene is finalized.
+		 */
 		void on_finalize() override;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_SYSTEM_AUDIOSYSTEM_H

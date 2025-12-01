@@ -1,23 +1,31 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERINPUTTYPE_H
+#define MINTY_RENDER_SHADERINPUTTYPE_H
+
+/**
+ * @file ShaderInputType.h
+ * @brief Header file defining the ShaderInputType enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines the type of input for a shader.
-	/// </summary>
+	/**
+	 * @brief Determines the type of input for a shader.
+	 */
 	enum class ShaderInputType
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 		Sample = 1,
 
-		/// <summary>
-		/// An image with a sampler.
-		/// </summary>
+		/**
+		 * @brief An image with a sampler.
+		 */
 		CombinedImageSampler = 2,
 
 		SampledImage = 3,
@@ -25,22 +33,22 @@ namespace Minty
 		UniformTexelBuffer = 5,
 		StorageTexelBuffer = 6,
 
-		/// <summary>
-		/// A uniform buffer, used for changing data.
-		/// </summary>
+		/**
+		 * @brief A uniform buffer, used for changing data.
+		 */
 		UniformBuffer = 7,
 
-		/// <summary>
-		/// A storage buffer, used for infrequently changing data.
-		/// </summary>
+		/**
+		 * @brief A storage buffer, used for infrequently changing data.
+		 */
 		StorageBuffer = 8,
 
 		UniformBufferDynamic = 9,
 		StorageBufferDynamic = 10,
 
-		/// <summary>
-		/// A push constant, meant for frequently changing data.
-		/// </summary>
+		/**
+		 * @brief A push constant, meant for frequently changing data.
+		 */
 		PushConstant = 11,
 	};
 
@@ -52,3 +60,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ShaderInputType>(String const& string, ShaderInputType& value) { return parse_try_shader_input_type(string, value); }
 }
+
+#endif // MINTY_RENDER_SHADERINPUTTYPE_H

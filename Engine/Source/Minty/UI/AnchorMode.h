@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_UI_ANCHORMODE_H
+#define MINTY_UI_ANCHORMODE_H
+
+/**
+ * @file AnchorMode.h
+ * @brief Header file defining the AnchorMode enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Enum.h"
 #include "Minty/Serialization/Parse.h"
@@ -6,9 +14,9 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the anchor is applied to the UI element.
-	/// </summary>
+	/**
+	 * @brief Determines how the anchor is applied to the UI element.
+	 */
 	enum class AnchorMode : Int
 	{
 		Empty = 0,
@@ -46,3 +54,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<AnchorMode>(String const& string, AnchorMode& value) { return parse_try_anchor_mode(string, value); }
 }
+
+#endif // MINTY_UI_ANCHORMODE_H

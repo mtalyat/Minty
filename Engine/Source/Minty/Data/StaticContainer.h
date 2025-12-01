@@ -36,7 +36,7 @@ namespace Minty
 		 * @param data The byte data.
 		 * @param size The size of the data in bytes.
 		 */
-		StaticContainer(void const* const data, Size const size);
+		StaticContainer(AnyConst const data, Size const size);
 
 #pragma endregion
 
@@ -49,7 +49,7 @@ namespace Minty
 		 * @param size The number of bytes to append.
 		 * @returns True if appended successfully.
 		 */
-		Bool append(void const* const data, Size const size) override;
+		Bool append(AnyConst const data, Size const size) override;
 
 		/**
 		 * @brief Sets the new capacity for this Container. Fails if capacity is different than current.

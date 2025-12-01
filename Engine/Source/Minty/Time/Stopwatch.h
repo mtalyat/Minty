@@ -1,41 +1,29 @@
-#pragma once
+#ifndef MINTY_TIME_STOPWATCH_H
+#define MINTY_TIME_STOPWATCH_H
+
+/**
+ * @file Stopwatch.h
+ * @brief Header file defining the Stopwatch class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 
 namespace Minty
 {
-    /// <summary>
-    /// Holds data for time elapsed over a time period recorded.
-    /// </summary>
+    /**
+     * @brief Holds data for time elapsed over a time period recorded.
+     */
     class Stopwatch
     {
-#pragma region Variables
-
-    private:
-        /// <summary>
-        /// The start time in nanoseconds, when this Stopwatch was started.
-        /// </summary>
-        TimePoint m_start;
-
-        /// <summary>
-        /// The total amount of time in nanoseconds that have passed.
-        /// </summary>
-        TimePoint m_elapsed;
-
-        /// <summary>
-        /// Is the Stopwatch currently recording time?
-        /// </summary>
-        Bool m_running;
-
-#pragma endregion
-
 #pragma region Constructors
 
     public:
-        /// <summary>
-        /// Creates a new Stopwatch.
-        /// </summary>
+        /**
+         * @brief Creates a new Stopwatch.
+         */
         Stopwatch();
 
 #pragma endregion
@@ -43,22 +31,22 @@ namespace Minty
 #pragma region Accessors
 
     public:
-        /// <summary>
-        /// How much time has elapsed since the start?
-        /// </summary>
-        /// <returns>Time elapsed in nanoseconds.</returns>
+        /**
+         * @brief How much time has elapsed since the start?
+         * @return Time elapsed in nanoseconds.
+         */
         TimePoint get_elapsed() const;
 
-        /// <summary>
-        /// How much time (in seconds) have elapsed since the start?
-        /// </summary>
-        /// <returns></returns>
+        /**
+         * @brief How much time (in seconds) have elapsed since the start?
+         * @return
+         */
         Float get_elapsed_s() const;
 
-        /// <summary>
-        /// How much time has elapsed since the start, as a string.
-        /// </summary>
-        /// <returns></returns>
+        /**
+         * @brief How much time has elapsed since the start, as a string.
+         * @return
+         */
         String get_elapsed_string() const;
 
 #pragma endregion
@@ -66,52 +54,58 @@ namespace Minty
 #pragma region Methods
 
     public:
-        /// <summary>
-        /// Start recording time.
-        /// </summary>
+        /**
+         * @brief Start recording time.
+         */
         void start();
 
-        /// <summary>
-        /// Stop recording time.
-        /// </summary>
+        /**
+         * @brief Stop recording time.
+         */
         void stop();
 
-        /// <summary>
-        /// Reset the time recorded (elapsed time to zero).
-        /// </summary>
+        /**
+         * @brief Reset the time recorded (elapsed time to zero).
+         */
         void reset();
 
-        /// <summary>
-        /// Checks if this Stopwatch is recording time.
-        /// </summary>
-        /// <returns></returns>
-        constexpr Bool is_running() const { return m_running; }
+        /**
+         * @brief Checks if this Stopwatch is recording time.
+         * @return
+         */
+        inline Bool is_running() const { return m_running; }
 
-        /// <summary>
-        /// Attempts to lap. Returns the number of laps that have occured.
-        /// 
-		/// Ex. If the time elapsed is 10 seconds, and the mod is 3 seconds, the result will be 3, while setting the new elapsed time to 1.
-        /// </summary>
-        /// <param name="mod">The lap length in TimePoint.</param>
-        /// <returns>The maximum number of laps.</returns>
+        /**
+         * @brief Attempts to lap. Returns the number of laps that have occured.
+         * 
+	 * Ex. If the time elapsed is 10 seconds, and the mod is 3 seconds, the result will be 3, while setting the new elapsed time to 1.
+         * @param mod The lap length in TimePoint.
+         * @return The maximum number of laps.
+         */
         Size lap(TimePoint const mod);
 
-        /// <summary>
-        /// Stop, reset and start.
-        /// </summary>
+        /**
+         * @brief Stop, reset and start.
+         */
         inline void restart() { stop(); reset(); start(); }
+
+        /**
+         * @brief Creates a new Stopwatch, and starts it immediately after.
+         * @return
+         */
+        static Stopwatch start_new() { Stopwatch watch; watch.start(); return std::move(watch); }
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Variables
 
-    public:
-        /// <summary>
-        /// Creates a new Stopwatch, and starts it immediately after.
-        /// </summary>
-        /// <returns></returns>
-        static Stopwatch start_new() { Stopwatch watch; watch.start(); return std::move(watch); }
+    private:
+        TimePoint m_start;
+        TimePoint m_elapsed;
+        Bool m_running;
 
 #pragma endregion
     };
 }
+
+#endif // MINTY_TIME_STOPWATCH_H

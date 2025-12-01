@@ -15,6 +15,12 @@
 #include "Minty/Render/RenderManagerInfo.h"
 #include "Minty/Window/Window.h"
 #include "Minty/Render/Surface.h"
+#include "Minty/Render/Viewport.h"
+#include "Minty/Render/MeshInfo.h"
+#include "Minty/Application/Application.h"
+#include "Minty/Asset/AssetManager.h"
+#include "Minty/Render/MaterialInfo.h"
+#include "Minty/Render/CameraData.h"z
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
@@ -208,8 +214,8 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 		switch (space)
 		{
 		case Space::D3:
-			templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
-			break;
+		break;
+		templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
 		case Space::UI:
 			templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
 			break;
@@ -256,7 +262,7 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 
 	AssetManager& assetManager = AssetManager::get_singleton();
 	Ref<MaterialTemplate> const& materialTemplate = assetManager.get<MaterialTemplate>(templateId);
-	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId));
+	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId);
 	return materialTemplate;
 }
 
@@ -334,23 +340,6 @@ void Minty::RenderManager::refresh()
 	{
 		renderPass->refresh();
 	}
-}
-
-void Minty::RenderManager::initialize()
-{
-	Manager::initialize();
-}
-
-void Minty::RenderManager::dispose()
-{
-	Manager::dispose();
-
-	// dispose default materials
-	m_surface.release();
-	m_depthStencilImage.release();
-	m_defaultViewport.release();
-	m_defaultMeshes.clear();
-	m_defaultMaterials.clear();
 }
 
 Bool Minty::RenderManager::start_frame()

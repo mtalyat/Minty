@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_TIME_TIME_H
+#define MINTY_TIME_TIME_H
+
+/**
+ * @file Time.h
+ * @brief Header file defining the Time utility class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 
@@ -49,3 +57,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_TIME_TIME_H

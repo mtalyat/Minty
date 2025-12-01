@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_WRITER_H
+#define MINTY_SERIALIZATION_WRITER_H
+
+/**
+ * @file Writer.h
+ * @brief Header file defining the Writer class for serialization.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Math.h"
 #include "Minty/Serialization/Parse.h"
@@ -26,21 +34,18 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		AllocatorType m_allocator;
-		List<void const*> m_dataStack;
+		List<AnyConst> m_dataStack;
 
 #pragma endregion
 
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Writer.
-		/// </summary>
-		/// <param name="allocator">The Allocator to use.</param>
-		Writer(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_dataStack(allocator)
+		/**
+		 * @brief Creates a new Writer.
+		 */
+		Writer()
+			: m_dataStack()
 		{
 		}
 
@@ -49,22 +54,22 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the top of the data stack.
-		/// </summary>
-		/// <returns>A pointer to the data, or null if nothing in the data stack.</returns>
-		void const* get_user_data() const;
+		/**
+		 * @brief Gets the top of the data stack.
+		 * @return A pointer to the data, or null if nothing in the data stack.
+		 */
+		AnyConst get_user_data() const;
 
-		/// <summary>
-		/// Gets the data source for this Reader.
-		/// </summary>
-		/// <returns>A pointer to the data source.</returns>
+		/**
+		 * @brief Gets the data source for this Reader.
+		 * @return A pointer to the data source.
+		 */
 		virtual Any get_source() const = 0;
 
-		/// <summary>
-		/// Gets the depth in the Node structure.
-		/// </summary>
-		/// <returns>The number of indents made from the root Node.</returns>
+		/**
+		 * @brief Gets the depth in the Node structure.
+		 * @return The number of indents made from the root Node.
+		 */
 		virtual Size get_depth() const = 0;
 
 #pragma endregion
@@ -72,32 +77,32 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Adds data to the top of the data stack.
-		/// </summary>
-		/// <param name="data">The pointer to the data to add.</param>
-		void push_user_data(void const* const data);
+		/**
+		 * @brief Adds data to the top of the data stack.
+		 * @param data The pointer to the data to add.
+		 */
+		void push_user_data(AnyConst const data);
 
-		/// <summary>
-		/// Removes the top of the data stack.
-		/// </summary>
+		/**
+		 * @brief Removes the top of the data stack.
+		 */
 		void pop_user_data();
 
-		/// <summary>
-		/// Steps into the next child Node.
-		/// </summary>
+		/**
+		 * @brief Steps into the next child Node.
+		 */
 		virtual void indent() = 0;
 
-		/// <summary>
-		/// Steps into the child Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of the child to indent into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Steps into the child Node with the given name.
+		 * @param name The name of the child to indent into.
+		 * @return True on success.
+		 */
 		virtual void indent(String const& name) = 0;
 
-		/// <summary>
-		/// Steps out of the current Node, back to its parent.
-		/// </summary>
+		/**
+		 * @brief Steps out of the current Node, back to its parent.
+		 */
 		virtual void outdent() = 0;
 
 #pragma region Writing
@@ -132,10 +137,10 @@ namespace Minty
 		virtual void write_type(String const& name, Type const& obj) = 0;
 
 	public:
-		/// <summary>
-		/// Writes a Node with no value.
-		/// </summary>
-		/// <param name="name"></param>
+		/**
+		 * @brief Writes a Node with no value.
+		 * @param name
+		 */
 		void write(String const& name) { write_empty(name); }
 
 		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
@@ -340,27 +345,27 @@ namespace Minty
 			outdent();
 		}
 
-		/// <summary>
-		/// Writes the data with the given Type.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <param name="data">A pointer to the byte data.</param>
-		/// <param name="type">The Type.</param>
-		virtual void write_typed(String const& name, void const* const data, Type const type) = 0;
+		/**
+		 * @brief Writes the data with the given Type.
+		 * @param name The name.
+		 * @param data A pointer to the byte data.
+		 * @param type The Type.
+		 */
+		virtual void write_typed(String const& name, AnyConst const data, Type const type) = 0;
 
-		/// <summary>
-		/// Writes the given Asset's ID. If null, writes UUID().
-		/// </summary>
-		/// <param name="name">The name of the Asset.</param>
-		/// <param name="asset">The Asset.</param>
+		/**
+		 * @brief Writes the given Asset's ID. If null, writes UUID().
+		 * @param name The name of the Asset.
+		 * @param asset The Asset.
+		 */
 		void write_asset(String const& name, Ref<Asset> const& asset);
 
-		/// <summary>
-		/// Writes the given Asset's ID. If null, writes UUID().
-		/// </summary>
-		/// <typeparam name="T">The type of Asset.</typeparam>
-		/// <param name="name">The name of the Asset.</param>
-		/// <param name="asset">The Asset.</param>
+		/**
+		 * @brief Writes the given Asset's ID. If null, writes UUID().
+		 * @tparam T The type of Asset.
+		 * @param name The name of the Asset.
+		 * @param asset The Asset.
+		 */
 		template<typename T>
 		void write(String const& name, T const& asset
 		, typename std::enable_if<is_asset<T>::value, int>::type = 0)
@@ -377,9 +382,9 @@ namespace Minty
 
 #pragma region Behavior Base
 
-	/// <summary>
-	/// The base class for Writer behaviors that handle the formatting of the data.
-	/// </summary>
+	/**
+	 * @brief The base class for Writer behaviors that handle the formatting of the data.
+	 */
 	class WriterFormatBehavior
 	{
 #pragma region Methods
@@ -418,14 +423,14 @@ namespace Minty
 		virtual void write_string_to_buffer(String const& data, Vector<Byte>& buffer) = 0;
 		virtual void write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer) = 0;
 		virtual void write_type_to_buffer(Type const data, Vector<Byte>& buffer) = 0;
-		virtual void write_typed_to_buffer(void const* const data, Vector<Byte>& buffer, Type const type) = 0;
+		virtual void write_typed_to_buffer(AnyConst const data, Vector<Byte>& buffer, Type const type) = 0;
 
 #pragma endregion
 	};
 
-	/// <summary>
-	/// The base class for Reader behaviors that handle the storage of the data.
-	/// </summary>
+	/**
+	 * @brief The base class for Reader behaviors that handle the storage of the data.
+	 */
 	class WriterStorageBehavior
 	{
 #pragma region Accessors
@@ -438,7 +443,7 @@ namespace Minty
 #pragma region Methods
 
 	protected:
-		virtual void write_data(void const* const data, Size const size) = 0;
+		virtual void write_data(AnyConst const data, Size const size) = 0;
 
 #pragma endregion
 	};
@@ -447,9 +452,9 @@ namespace Minty
 
 #pragma region Behaviors
 
-	/// <summary>
-	/// Writes data to a File.
-	/// </summary>
+	/**
+	 * @brief Writes data to a File.
+	 */
 	class FileWriterBehavior
 		: private WriterStorageBehavior
 	{
@@ -484,7 +489,7 @@ namespace Minty
 #pragma region Methods
 
 	protected:
-		void write_data(void const* const data, Size const size) override;
+		void write_data(AnyConst const data, Size const size) override;
 
 #pragma endregion
 	};
@@ -523,14 +528,14 @@ namespace Minty
 #pragma region Methods
 
 	protected:
-		void write_data(void const* const data, Size const size) override;
+		void write_data(AnyConst const data, Size const size) override;
 
 #pragma endregion
 	};
 
-	/// <summary>
-	/// Writes data as plain text.
-	/// </summary>
+	/**
+	 * @brief Writes data as plain text.
+	 */
 	class TextWriterBehavior
 		: private WriterFormatBehavior
 	{
@@ -570,7 +575,7 @@ namespace Minty
 		void write_string_to_buffer(String const& data, Vector<Byte>& buffer) override;
 		void write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer) override;
 		void write_type_to_buffer(Type const data, Vector<Byte>& buffer) override;
-		void write_typed_to_buffer(void const* const data, Vector<Byte>& buffer, Type const type) override;
+		void write_typed_to_buffer(AnyConst const data, Vector<Byte>& buffer, Type const type) override;
 
 #pragma endregion
 	};
@@ -608,16 +613,16 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the data source for this Reader.
-		/// </summary>
-		/// <returns>A pointer to the data source.</returns>
+		/**
+		 * @brief Gets the data source for this Reader.
+		 * @return A pointer to the data source.
+		 */
 		Any get_source() const override { return StorageBehavior::get_source(); }
 
-		/// <summary>
-		/// Gets the depth in the Node structure.
-		/// </summary>
-		/// <returns>The number of indents made from the root Node.</returns>
+		/**
+		 * @brief Gets the depth in the Node structure.
+		 * @return The number of indents made from the root Node.
+		 */
 		Size get_depth() const override { return m_depth; }
 
 #pragma endregion
@@ -625,19 +630,19 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Steps into the next child Node.
-		/// </summary>
+		/**
+		 * @brief Steps into the next child Node.
+		 */
 		void indent() override
 		{
 			m_depth++;
 		}
 
-		/// <summary>
-		/// Steps into the child Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of the child to indent into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Steps into the child Node with the given name.
+		 * @param name The name of the child to indent into.
+		 * @return True on success.
+		 */
 		void indent(String const& name) override
 		{
 			if (!name.is_empty())
@@ -647,9 +652,9 @@ namespace Minty
 			indent();
 		}
 
-		/// <summary>
-		/// Steps out of the current Node, back to its parent.
-		/// </summary>
+		/**
+		 * @brief Steps out of the current Node, back to its parent.
+		 */
 		void outdent() override
 		{
 			MINTY_ASSERT(m_depth > 0, ErrorCode::Object_InvalidOperation);
@@ -1123,7 +1128,7 @@ namespace Minty
 		}
 
 	public:
-		void write_typed(String const& name, void const* const data, Type const type) override
+		void write_typed(String const& name, AnyConst const data, Type const type) override
 		{
 			// write to memory buffer
 			Vector<Byte> buffer;
@@ -1156,3 +1161,5 @@ namespace Minty
 
 #pragma endregion
 }
+
+#endif // MINTY_SERIALIZATION_WRITER_H

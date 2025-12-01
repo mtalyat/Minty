@@ -31,7 +31,7 @@ namespace Minty
 	public:
 		Any get_data() const override;
 
-		void set_data(void const* const data) override;
+		void set_data(AnyConst const data) override;
 
 		Size get_size() const override { return static_cast<Size>(m_size); }
 

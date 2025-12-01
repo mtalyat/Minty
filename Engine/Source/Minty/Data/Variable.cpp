@@ -35,7 +35,7 @@ void Minty::Variable::set_type(Type const type)
 	m_type = type;
 }
 
-void Minty::Variable::set_data(void const* const data)
+void Minty::Variable::set_data(AnyConst const data)
 {
 	if (data)
 	{

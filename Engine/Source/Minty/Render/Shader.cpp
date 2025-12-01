@@ -2,6 +2,7 @@
 #include "Shader.h"
 #include "Minty/Render/ShaderModule.h"
 #include "Minty/Render/Material.h"
+#include "Minty/Render/ShaderInfo.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Shader.h"
 #endif // MINTY_VULKAN
@@ -37,7 +38,7 @@ Minty::Shader::Shader(ShaderInfo const& info)
 	}
 }
 
-void Minty::Shader::set_global_input(String const& name, void const* const data, Size const size)
+void Minty::Shader::set_global_input(String const& name, AnyConst const data, Size const size)
 {
 	MINTY_ASSERT(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
@@ -70,7 +71,7 @@ void Minty::Shader::unregister_material(Material* const material)
 Shared<Shader> Minty::Shader::create(ShaderInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Shared<Vulkan_Shader>(info);
+	return Shared<Vulkan_Shader>::create(info);
 #else
     return Shared<Shader>();
 #endif // MINTY_VULKAN

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_TOSTRING_H
+#define MINTY_SERIALIZATION_TOSTRING_H
+
+/**
+ * @file ToString.h
+ * @brief Header file defining to_string functions for various types.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
@@ -48,3 +56,5 @@ namespace Minty
     String to_string(String const &value);
     String to_string(StringView const &value);
 }
+
+#endif // MINTY_SERIALIZATION_TOSTRING_H

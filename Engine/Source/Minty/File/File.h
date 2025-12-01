@@ -305,7 +305,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual void write(void const* const buffer, Size_t const size) = 0;
+		virtual void write(AnyConst const buffer, Size_t const size) = 0;
 
 		/**
 		 * @brief Writes the given line of text to the file, and moves the cursor the appropriate amount of bytes.

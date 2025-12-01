@@ -38,7 +38,7 @@ namespace Minty
 	public:
 		Any get_native() const override { return m_image; }
 
-		void set_pixels(void const* const data, Size const size) override;
+		void set_pixels(AnyConst const data, Size const size) override;
 
 		void get_pixels(Any const outData, Size const size) const override;
 

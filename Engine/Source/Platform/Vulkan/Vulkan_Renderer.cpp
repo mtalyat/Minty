@@ -796,7 +796,7 @@ Bool Minty::Vulkan_Renderer::has_stencil_component(VkFormat const format)
 	return format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT;
 }
 
-VkShaderModule Minty::Vulkan_Renderer::create_shader_module(VkDevice const device, void const* const data, Size const size)
+VkShaderModule Minty::Vulkan_Renderer::create_shader_module(VkDevice const device, AnyConst const data, Size const size)
 {
 	MINTY_ASSERT(device != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
@@ -1313,7 +1313,7 @@ void Minty::Vulkan_Renderer::copy_image_to_buffer(VkCommandBuffer const commandB
 	vkCmdCopyImageToBuffer(commandBuffer, srcImage, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, dstBuffer, 1, &copyRegion);
 }
 
-void Minty::Vulkan_Renderer::update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data)
+void Minty::Vulkan_Renderer::update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, AnyConst const data)
 {
 	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(pipelineLayout != VK_NULL_HANDLE, ErrorCode::Argument_ExpectedNonNull);

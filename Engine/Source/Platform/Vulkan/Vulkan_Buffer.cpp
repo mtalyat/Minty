@@ -64,7 +64,7 @@ Any Minty::Vulkan_Buffer::get_data() const
 	return mp_mappedMemory;
 }
 
-void Minty::Vulkan_Buffer::set_data(void const* const data)
+void Minty::Vulkan_Buffer::set_data(AnyConst const data)
 {
 	MINTY_ASSERT(data, ErrorCode::Argument_ExpectedNonNull);
 

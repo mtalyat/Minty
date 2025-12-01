@@ -2,6 +2,9 @@
 #include "Wrap.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Math.h"
+#include "Minty/File/PhysicalFile.h"
+#include "Minty/File/VirtualFile.h"
+#include "Minty/Core/Compression.h"
 
 using namespace Minty;
 
@@ -401,7 +404,7 @@ Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 	else
 	{
 		data = new Byte[size];
-        Bool const uncompressResult = decompress(fileData, sourceSize, data, size);
+        Bool const uncompressResult = uncompress(data, size, fileData, sourceSize);
         delete[] fileData;
 		if (!uncompressResult)
 		{

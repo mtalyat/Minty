@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_ISPARSEABLE_H
+#define MINTY_SERIALIZATION_ISPARSEABLE_H
+
+/**
+ * @file IsParseable.h
+ * @brief Header file defining the is_parseable type trait.
+ * @author Mitchell Talyat
+ */
+
 #include <type_traits>
 
 namespace Minty
@@ -9,3 +17,5 @@ namespace Minty
 	template<typename T>
 	struct is_parseable<T, std::enable_if_t<std::is_base_of_v<Parseable, T>>> : std::true_type {};
 }
+
+#endif // MINTY_SERIALIZATION_ISPARSEABLE_H

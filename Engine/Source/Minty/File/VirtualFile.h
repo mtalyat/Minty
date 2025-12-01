@@ -175,7 +175,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual void write(void const* const buffer, Size_t const size) override;
+		virtual void write(AnyConst const buffer, Size_t const size) override;
 
 #pragma endregion
 

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERBINDING_H
+#define MINTY_RENDER_SHADERBINDING_H
+
+/**
+ * @file ShaderBinding.h
+ * @brief Header file defining the ShaderBinding struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Vector.h"
@@ -7,24 +15,26 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Information for a binding in a Shader.
-	/// </summary>
+	/**
+	 * @brief Information for a binding in a Shader.
+	 */
 	struct ShaderBinding
 	{
-		/// <summary>
-		/// The binding index of this binding in the Shader.
-		/// </summary>
+		/**
+		 * @brief The binding index of this binding in the Shader.
+		 */
 		UInt binding = 0;
 
-		/// <summary>
-		/// The input rate of the binding.
-		/// </summary>
+		/**
+		 * @brief The input rate of the binding.
+		 */
 		ShaderInputRate inputRate = ShaderInputRate::Undefined;
 
-		/// <summary>
-		/// The attributes within this binding.
-		/// </summary>
+		/**
+		 * @brief The attributes within this binding.
+		 */
 		Vector<ShaderAttribute> attributes;
 	};
 }
+
+#endif // MINTY_RENDER_SHADERBINDING_H

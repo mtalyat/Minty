@@ -127,7 +127,7 @@ Bool Minty::PhysicalFile::read_line(String& line)
     return false;
 }
 
-void Minty::PhysicalFile::write(void const* const buffer, Size_t const size)
+void Minty::PhysicalFile::write(AnyConst const buffer, Size_t const size)
 {
     m_stream.write(static_cast<Char const* const>(buffer), size);
 }

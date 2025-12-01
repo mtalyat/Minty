@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_READER_H
+#define MINTY_SERIALIZATION_READER_H
+
+/**
+ * @file Reader.h
+ * @brief Header file defining the Reader class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Math.h"
@@ -34,9 +42,9 @@ namespace Minty
 
 #pragma region Base
 
-	/// <summary>
-	/// Handles reading data from a source, formatted in a Minty Node structure.
-	/// </summary>
+	/**
+	 * @brief Handles reading data from a source, formatted in a Minty Node structure.
+	 */
 	class Reader
 	{
 #pragma region Variables
@@ -52,13 +60,11 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Reader.
-		/// </summary>
-		/// <param name="allocator">The Allocator to use.</param>
-		Reader(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_dataStack(allocator)
+		/**
+		 * @brief Creates a new Reader.
+		 */
+		Reader()
+			: m_dataStack()
 		{
 		}
 
@@ -67,46 +73,46 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the top of the data stack.
-		/// </summary>
-		/// <returns>A pointer to the data, or null if nothing in the data stack.</returns>
+		/**
+		 * @brief Gets the top of the data stack.
+		 * @return A pointer to the data, or null if nothing in the data stack.
+		 */
 		Any get_user_data() const;
 
-		/// <summary>
-		/// Gets the data source for this Reader.
-		/// </summary>
-		/// <returns>A pointer to the data source.</returns>
+		/**
+		 * @brief Gets the data source for this Reader.
+		 * @return A pointer to the data source.
+		 */
 		virtual Any get_source() const = 0;
 
-		/// <summary>
-		/// Gets the depth in the Node structure.
-		/// </summary>
-		/// <returns>The number of indents made from the root Node.</returns>
+		/**
+		 * @brief Gets the depth in the Node structure.
+		 * @return The number of indents made from the root Node.
+		 */
 		virtual Size get_depth() const = 0;
 
-		/// <summary>
-		/// Gets the root Node this Reader has.
-		/// </summary>
-		/// <returns>The root Node.</returns>
+		/**
+		 * @brief Gets the root Node this Reader has.
+		 * @return The root Node.
+		 */
 		virtual Node& get_root_node() = 0;
 
-		/// <summary>
-		/// Gets the root Node this Reader has.
-		/// </summary>
-		/// <returns>The root Node.</returns>
+		/**
+		 * @brief Gets the root Node this Reader has.
+		 * @return The root Node.
+		 */
 		virtual Node const& get_root_node() const = 0;
 		
-		/// <summary>
-		/// Gets the current Node this Reader is on.
-		/// </summary>
-		/// <returns>The active Node.</returns>
+		/**
+		 * @brief Gets the current Node this Reader is on.
+		 * @return The active Node.
+		 */
 		virtual Node const& get_node() const = 0;
 
-		/// <summary>
-		/// Gets the number of child Nodes in the current Node.
-		/// </summary>
-		/// <returns>The number of children.</returns>
+		/**
+		 * @brief Gets the number of child Nodes in the current Node.
+		 * @return The number of children.
+		 */
 		Size get_size() const { return get_node().get_children_size(); }
 
 #pragma endregion
@@ -114,48 +120,48 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Adds data to the top of the data stack.
-		/// </summary>
-		/// <param name="data">The pointer to the data to add.</param>
+		/**
+		 * @brief Adds data to the top of the data stack.
+		 * @param data The pointer to the data to add.
+		 */
 		void push_user_data(Any const data);
 
-		/// <summary>
-		/// Removes the top of the data stack.
-		/// </summary>
+		/**
+		 * @brief Removes the top of the data stack.
+		 */
 		void pop_user_data();
 
-		/// <summary>
-		/// Steps into the child Node at the given index.
-		/// </summary>
-		/// <param name="index">The index of the child to indent into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Steps into the child Node at the given index.
+		 * @param index The index of the child to indent into.
+		 * @return True on success.
+		 */
 		virtual Bool indent(Size const index) = 0;
 
-		/// <summary>
-		/// Steps into the child Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of the child to indent into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Steps into the child Node with the given name.
+		 * @param name The name of the child to indent into.
+		 * @return True on success.
+		 */
 		virtual Bool indent(String const& name) = 0;
 
-		/// <summary>
-		/// Steps out of the current Node, back to its parent.
-		/// </summary>
+		/**
+		 * @brief Steps out of the current Node, back to its parent.
+		 */
 		virtual void outdent() = 0;
 
-		/// <summary>
-		/// Checks if this Reader is valid.
-		/// </summary>
-		/// <returns>True when valid.</returns>
+		/**
+		 * @brief Checks if this Reader is valid.
+		 * @return True when valid.
+		 */
 		virtual Bool is_valid() const = 0;
 
-		/// <summary>
-		/// Adds the value of another Reader to this one.
-		/// The values of the other Reader will override the values of this Reader when conflicts occur,
-		/// otherwise the values will be appended.
-		/// </summary>
-		/// <param name="other">The other Reader to merge with this one.</param>
+		/**
+		 * @brief Adds the value of another Reader to this one.
+		 * The values of the other Reader will override the values of this Reader when conflicts occur,
+		 * otherwise the values will be appended.
+		 * @param other The other Reader to merge with this one.
+		 */
 		virtual Bool merge(Reader const& other) = 0;
 
 #pragma region Reading
@@ -205,22 +211,22 @@ namespace Minty
 		Bool read_object(Size const index, SerializableObject& obj);
 
 	public:
-		/// <summary>
-		/// Reads the name of the Node at the given index.
-		/// </summary>
-		/// <param name="index">The index of the child Node.</param>
-		/// <param name="obj">The object to read the data into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the name of the Node at the given index.
+		 * @param index The index of the child Node.
+		 * @param obj The object to read the data into.
+		 * @return True on success.
+		 */
 		virtual Bool read_name(Size const index, String& obj) const = 0;
 
-		/// <summary>
-		/// Read the data from the Node at the given index.
-		/// </summary>
-		/// <typeparam name="T">The type of data to read.</typeparam>
-		/// <typeparam name="type">A non-Serializable type.</typeparam>
-		/// <param name="index">The index of the Node to read from.</param>
-		/// <param name="obj">The object to read the data into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Read the data from the Node at the given index.
+		 * @tparam T The type of data to read.
+		 * @tparam type A non-Serializable type.
+		 * @param index The index of the Node to read from.
+		 * @param obj The object to read the data into.
+		 * @return True on success.
+		 */
 		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
 		Bool read(Size const index, T& obj)
 		{
@@ -233,55 +239,55 @@ namespace Minty
 			return false;
 		}
 
-		/// <summary>
-		/// Read the data from the Node at the given index.
-		/// </summary>
-		/// <typeparam name="T">The type of data to read.</typeparam>
-		/// <typeparam name="type">A Serializable type.</typeparam>
-		/// <param name="index">The index of the Node to read from.</param>
-		/// <param name="obj">The object to read the data into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Read the data from the Node at the given index.
+		 * @tparam T The type of data to read.
+		 * @tparam type A Serializable type.
+		 * @param index The index of the Node to read from.
+		 * @param obj The object to read the data into.
+		 * @return True on success.
+		 */
 		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && is_serializable_object<T>::value, int>::type = 0>
 		Bool read(Size const index, T& obj)
 		{
 			return read_object(index, obj);
 		}
 
-		/// <summary>
-		/// Reads the data from the Node at the given index.
-		/// </summary>
-		/// <typeparam name="T">The type of data to read.</typeparam>
-		/// <typeparam name="type">A Serializable type.</typeparam>
-		/// <param name="index">The index of the Node to read from.</param>
-		/// <param name="obj">The object to read the data into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the data from the Node at the given index.
+		 * @tparam T The type of data to read.
+		 * @tparam type A Serializable type.
+		 * @param index The index of the Node to read from.
+		 * @param obj The object to read the data into.
+		 * @return True on success.
+		 */
 		template<typename T, typename std::enable_if<!is_asset<T>::value && is_serializable<T>::value, int>::type = 0>
 		Bool read(Size const index, T& obj)
 		{
 			return obj.deserialize(*this, index);
 		}
 
-		/// <summary>
-		/// Read the data from the Node at the given name.
-		/// </summary>
-		/// <typeparam name="T">The type of data to read.</typeparam>
-		/// <param name="name">The name of the Node to read from.</param>
-		/// <param name="obj">The object to read the data into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Read the data from the Node at the given name.
+		 * @tparam T The type of data to read.
+		 * @param name The name of the Node to read from.
+		 * @param obj The object to read the data into.
+		 * @return True on success.
+		 */
 		template<typename T>
 		Bool read(String const& name, T& obj)
 		{
 			return read(get_index(name), obj);
 		}
 
-		/// <summary>
-		/// Reads the data from the Node at the given index.
-		/// </summary>
-		/// <typeparam name="T">The type of the data.</typeparam>
-		/// <param name="index">The index to the data.</param>
-		/// <param name="obj">The object to set.</param>
-		/// <param name="defaultValue">The default value to set obj to, if no value found.</param>
-		/// <returns>True if set using the found value, otherwise false if the default was used.</returns>
+		/**
+		 * @brief Reads the data from the Node at the given index.
+		 * @tparam T The type of the data.
+		 * @param index The index to the data.
+		 * @param obj The object to set.
+		 * @param defaultValue The default value to set obj to, if no value found.
+		 * @return True if set using the found value, otherwise false if the default was used.
+		 */
 		template<typename T>
 		Bool read(Size const index, T& obj, T const& defaultValue)
 		{
@@ -293,14 +299,14 @@ namespace Minty
 			return false;
 		}
 
-		/// <summary>
-		/// Reads the data from the Node with the given name.
-		/// </summary>
-		/// <typeparam name="T">The type of the data.</typeparam>
-		/// <param name="name">The name of the data.</param>
-		/// <param name="obj">The object to set.</param>
-		/// <param name="defaultValue">The default value to set obj to, if no value found.</param>
-		/// <returns>True if set using the found value, otherwise false if the default was used.</returns>
+		/**
+		 * @brief Reads the data from the Node with the given name.
+		 * @tparam T The type of the data.
+		 * @param name The name of the data.
+		 * @param obj The object to set.
+		 * @param defaultValue The default value to set obj to, if no value found.
+		 * @return True if set using the found value, otherwise false if the default was used.
+		 */
 		template<typename T>
 		Bool read(String const& name, T& obj, T const& defaultValue)
 		{
@@ -602,54 +608,54 @@ namespace Minty
 			return false;
 		}
 
-		/// <summary>
-		/// Reads the data with the given Type.
-		/// </summary>
-		/// <param name="index">The index of the value.</param>
-		/// <param name="data">The value. Expects data to point to a buffer equal to or greater in size than the Type size.</param>
-		/// <param name="type">The Type.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the data with the given Type.
+		 * @param index The index of the value.
+		 * @param data The value. Expects data to point to a buffer equal to or greater in size than the Type size.
+		 * @param type The Type.
+		 * @return True on success.
+		 */
 		virtual Bool read_typed(Size const index, Any const data, Type& type) = 0;
 
-		/// <summary>
-		/// Reads the data with the given Type.
-		/// </summary>
-		/// <param name="name">The name of the value.</param>
-		/// <param name="data">The value. Expects data to point to a buffer equal to or greater in size than the Type size.</param>
-		/// <param name="type">The Type.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the data with the given Type.
+		 * @param name The name of the value.
+		 * @param data The value. Expects data to point to a buffer equal to or greater in size than the Type size.
+		 * @param type The Type.
+		 * @return True on success.
+		 */
 		Bool read_typed(String const& name, Any const data, Type& type)
 		{
 			return read_typed(get_index(name), data, type);
 		}
 
-		/// <summary>
-		/// Reads the ID of the Asset and populates the given Asset if found.
-		/// </summary>
-		/// <param name="index">The index of the Node to read.</param>
-		/// <param name="asset">The Asset.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the ID of the Asset and populates the given Asset if found.
+		 * @param index The index of the Node to read.
+		 * @param asset The Asset.
+		 * @return True on success.
+		 */
 		Bool read_asset(Size const index, Ref<Asset>& asset);
 
-		/// <summary>
-		/// Reads the ID of the Asset and populates the given Asset if found.
-		/// </summary>
-		/// <param name="name">The name of the Node to read.</param>
-		/// <param name="asset">The Asset.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the ID of the Asset and populates the given Asset if found.
+		 * @param name The name of the Node to read.
+		 * @param asset The Asset.
+		 * @return True on success.
+		 */
 		Bool read_asset(String const& name, Ref<Asset>& asset)
 		{
 			return read_asset(get_index(name), asset);
 		}
 
-		/// <summary>
-		/// Reads the ID of the Asset and populates the given Asset if found.
-		/// </summary>
-		/// <typeparam name="T">The type of Asset.</typeparam>
-		/// <typeparam name="type">The type.</typeparam>
-		/// <param name="index">The index of the Asset.</param>
-		/// <param name="asset">The Asset.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the ID of the Asset and populates the given Asset if found.
+		 * @tparam T The type of Asset.
+		 * @tparam type The type.
+		 * @param index The index of the Asset.
+		 * @param asset The Asset.
+		 * @return True on success.
+		 */
 		template<typename T>
 		Bool read(Size const index, T& asset,
 			typename std::enable_if<is_asset<T>::value, int>::type = 0)
@@ -660,12 +666,12 @@ namespace Minty
 			return result;
 		}
 
-		/// <summary>
-		/// Reads the value of the current node into the given object.
-		/// </summary>
-		/// <typeparam name="T">The type of object.</typeparam>
-		/// <param name="obj">The object.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the value of the current node into the given object.
+		 * @tparam T The type of object.
+		 * @param obj The object.
+		 * @return True on success.
+		 */
 		template<typename T>
 		Bool read_default(T& obj)
 		{
@@ -693,9 +699,9 @@ namespace Minty
 
 #pragma region Behavior Base
 
-	/// <summary>
-	/// The base class for Reader behaviors that handle the formatting of the data.
-	/// </summary>
+	/**
+	 * @brief The base class for Reader behaviors that handle the formatting of the data.
+	 */
 	class ReaderFormatBehavior
 	{
 #pragma region Methods
@@ -742,18 +748,18 @@ namespace Minty
 #pragma endregion
 	};
 
-	/// <summary>
-	/// The base class for Reader behaviors that handle the storage of the data.
-	/// </summary>
+	/**
+	 * @brief The base class for Reader behaviors that handle the storage of the data.
+	 */
 	class ReaderStorageBehavior
 	{
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the pointer to the data source.
-		/// </summary>
-		/// <returns>A pointer to the data source.</returns>
+		/**
+		 * @brief Gets the pointer to the data source.
+		 * @return A pointer to the data source.
+		 */
 		virtual Any get_source() const = 0;
 
 #pragma endregion
@@ -771,19 +777,19 @@ namespace Minty
 
 #pragma region Behaviors
 
-	/// <summary>
-	/// Handles reading from a Node data source.
-	/// </summary>
+	/**
+	 * @brief Handles reading from a Node data source.
+	 */
 	class NodeReaderBehavior
 		: private ReaderStorageBehavior
 	{
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new NodeReaderBehavior.
-		/// </summary>
-		/// <param name="ignore">This argument is ignored.</param>
+		/**
+		 * @brief Creates a new NodeReaderBehavior.
+		 * @param ignore This argument is ignored.
+		 */
 		NodeReaderBehavior(Any const ignore)
 		{
 		}
@@ -797,10 +803,10 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Returns nullptr.
-		/// </summary>
-		/// <returns>Nullptr.</returns>
+		/**
+		 * @brief Returns nullptr.
+		 * @return Nullptr.
+		 */
 		Any get_source() const override { return nullptr; }
 
 #pragma endregion
@@ -814,9 +820,9 @@ namespace Minty
 #pragma endregion
 	};
 
-	/// <summary>
-	/// Handles reading from a file data source.
-	/// </summary>
+	/**
+	 * @brief Handles reading from a file data source.
+	 */
 	class FileReaderBehavior
 		: private ReaderStorageBehavior
 	{
@@ -830,10 +836,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new FileReaderBehavior.
-		/// </summary>
-		/// <param name="file">The File to read from.</param>
+		/**
+		 * @brief Creates a new FileReaderBehavior.
+		 * @param file The File to read from.
+		 */
 		FileReaderBehavior(Any const file)
 			: mp_file(static_cast<File*>(file))
 		{
@@ -848,10 +854,10 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the pointer to the File data source.
-		/// </summary>
-		/// <returns>A pointer to the File.</returns>
+		/**
+		 * @brief Gets the pointer to the File data source.
+		 * @return A pointer to the File.
+		 */
 		Any get_source() const { return mp_file; }
 
 #pragma endregion
@@ -865,9 +871,9 @@ namespace Minty
 #pragma endregion
 	};
 
-	/// <summary>
-	/// Handles reading from memory data source.
-	/// </summary>
+	/**
+	 * @brief Handles reading from memory data source.
+	 */
 	class MemoryReaderBehavior
 		: private ReaderStorageBehavior
 	{
@@ -882,10 +888,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new MemoryReaderBehavior.
-		/// </summary>
-		/// <param name="data">The data to read from.</param>
+		/**
+		 * @brief Creates a new MemoryReaderBehavior.
+		 * @param data The data to read from.
+		 */
 		MemoryReaderBehavior(Any const data)
 			: mp_data(static_cast<Container*>(data))
 			, m_index(0)
@@ -901,10 +907,10 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the memory source.
-		/// </summary>
-		/// <returns>A pointer to the memory source.</returns>
+		/**
+		 * @brief Gets the memory source.
+		 * @return A pointer to the memory source.
+		 */
 		Any get_source() const override { return mp_data; }
 
 #pragma endregion
@@ -918,9 +924,9 @@ namespace Minty
 #pragma endregion
 	};
 
-	/// <summary>
-	/// Reads plain text data.
-	/// </summary>
+	/**
+	 * @brief Reads plain text data.
+	 */
 	class TextReaderBehavior
 		: private ReaderFormatBehavior
 	{
@@ -972,11 +978,11 @@ namespace Minty
 
 #pragma region Implementation
 
-	/// <summary>
-	/// Combines the Reader with the FormatBehavior and StorageBehavior.
-	/// </summary>
-	/// <typeparam name="FormatBehavior">The format behavior to use.</typeparam>
-	/// <typeparam name="StorageBehavior">The storage behavior to use.</typeparam>
+	/**
+	 * @brief Combines the Reader with the FormatBehavior and StorageBehavior.
+	 * @tparam FormatBehavior The format behavior to use.
+	 * @tparam StorageBehavior The storage behavior to use.
+	 */
 	template<typename FormatBehavior, typename StorageBehavior>
 	class ReaderImplementation
 		: public Reader, private FormatBehavior, private StorageBehavior
@@ -1005,11 +1011,11 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new ReaderImplementation using the given data source.
-		/// </summary>
-		/// <param name="source">A pointer to the appropriate data source for this Reader.</param>
-		/// <param name="allocator">The Allocator to use.</param>
+		/**
+		 * @brief Creates a new ReaderImplementation using the given data source.
+		 * @param source A pointer to the appropriate data source for this Reader.
+		 * @param allocator The Allocator to use.
+		 */
 		ReaderImplementation(Any const source, AllocatorType const allocator = AllocatorType::Default)
 			: Reader(allocator)
 			, FormatBehavior()
@@ -1035,11 +1041,11 @@ namespace Minty
 			m_nodeStack.push({ 0, mp_node });
 		}
 
-		/// <summary>
-		/// Creates a new ReaderImplementation using the given data source.
-		/// </summary>
-		/// <param name="root">The root Node data source.</param>
-		/// <param name="allocator">The Allocator to use.</param>
+		/**
+		 * @brief Creates a new ReaderImplementation using the given data source.
+		 * @param root The root Node data source.
+		 * @param allocator The Allocator to use.
+		 */
 		ReaderImplementation(Node const& root, AllocatorType const allocator = AllocatorType::Default)
 			: Reader(allocator)
 			, FormatBehavior()
@@ -1062,34 +1068,34 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the data source for this Reader.
-		/// </summary>
-		/// <returns>A pointer to the data source.</returns>
+		/**
+		 * @brief Gets the data source for this Reader.
+		 * @return A pointer to the data source.
+		 */
 		Any get_source() const override { return StorageBehavior::get_source(); }
 
-		/// <summary>
-		/// Gets the depth in the Node structure.
-		/// </summary>
-		/// <returns>The number of indents made from the root Node.</returns>
+		/**
+		 * @brief Gets the depth in the Node structure.
+		 * @return The number of indents made from the root Node.
+		 */
 		Size get_depth() const override { return m_depth; }
 
-		/// <summary>
-		/// Gets the root Node this Reader has.
-		/// </summary>
-		/// <returns>The root Node.</returns>
+		/**
+		 * @brief Gets the root Node this Reader has.
+		 * @return The root Node.
+		 */
 		Node& get_root_node() override { return *mp_node; }
 
-		/// <summary>
-		/// Gets the root Node this Reader has.
-		/// </summary>
-		/// <returns>The root Node.</returns>
+		/**
+		 * @brief Gets the root Node this Reader has.
+		 * @return The root Node.
+		 */
 		Node const& get_root_node() const override { return *mp_node; }
 
-		/// <summary>
-		/// Gets the current Node this Reader is on.
-		/// </summary>
-		/// <returns>The active Node.</returns>
+		/**
+		 * @brief Gets the current Node this Reader is on.
+		 * @return The active Node.
+		 */
 		Node const& get_node() const override { return *m_nodeStack.peek().node; }
 
 #pragma endregion
@@ -1097,11 +1103,11 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Steps into the child Node at the given index.
-		/// </summary>
-		/// <param name="index">The index of the child to indent into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Steps into the child Node at the given index.
+		 * @param index The index of the child to indent into.
+		 * @return True on success.
+		 */
 		Bool indent(Size const index) override
 		{
 			Node const& node = get_node();
@@ -1114,19 +1120,19 @@ namespace Minty
 			return false;
 		}
 
-		/// <summary>
-		/// Steps into the child Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of the child to indent into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Steps into the child Node with the given name.
+		 * @param name The name of the child to indent into.
+		 * @return True on success.
+		 */
 		Bool indent(String const& name) override
 		{
 			return indent(this->get_index(name));
 		}
 
-		/// <summary>
-		/// Steps out of the current Node, back to its parent.
-		/// </summary>
+		/**
+		 * @brief Steps out of the current Node, back to its parent.
+		 */
 		void outdent() override
 		{
 			MINTY_ASSERT(m_depth > 0, ErrorCode::Object_InvalidOperation);
@@ -1138,19 +1144,19 @@ namespace Minty
 			m_depth--;
 		}
 
-		/// <summary>
-		/// Checks if this Reader is valid. The reader is valid when the depth is equal to the size of the node stack. 
-		/// A Reader becomes invalid when it attempts to indent() into a child Node that does not exist.
-		/// </summary>
-		/// <returns>True when valid.</returns>
+		/**
+		 * @brief Checks if this Reader is valid. The reader is valid when the depth is equal to the size of the node stack. 
+		 * A Reader becomes invalid when it attempts to indent() into a child Node that does not exist.
+		 * @return True when valid.
+		 */
 		Bool is_valid() const override { return m_depth + 1 == m_nodeStack.get_size(); }
 
-		/// <summary>
-		/// Reads the name of the Node at the given index.
-		/// </summary>
-		/// <param name="index">The index of the child Node.</param>
-		/// <param name="obj">The object to read the data into.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Reads the name of the Node at the given index.
+		 * @param index The index of the child Node.
+		 * @param obj The object to read the data into.
+		 * @return True on success.
+		 */
 		Bool read_name(Size const index, String& obj) const override
 		{
 			if (is_valid())
@@ -1165,12 +1171,12 @@ namespace Minty
 			return false;
 		}
 
-		/// <summary>
-		/// Adds the value of another Reader to this one.
-		/// The values of the other Reader will override the values of this Reader when conflicts occur,
-		/// otherwise the values will be appended.
-		/// </summary>
-		/// <param name="other">The other Reader to merge with this one.</param>
+		/**
+		 * @brief Adds the value of another Reader to this one.
+		 * The values of the other Reader will override the values of this Reader when conflicts occur,
+		 * otherwise the values will be appended.
+		 * @param other The other Reader to merge with this one.
+		 */
 		Bool merge(Reader const& other) override
 		{
 			// compare nodes and merge
@@ -1712,3 +1718,5 @@ namespace Minty
 
 #pragma endregion
 }
+
+#endif // MINTY_SERIALIZATION_READER_H

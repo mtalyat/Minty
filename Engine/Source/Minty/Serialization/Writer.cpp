@@ -7,7 +7,7 @@
 
 using namespace Minty;
 
-void const* Minty::Writer::get_user_data() const
+AnyConst Minty::Writer::get_user_data() const
 {
 	if (m_dataStack.get_size() == 0)
 	{
@@ -17,7 +17,7 @@ void const* Minty::Writer::get_user_data() const
 	return m_dataStack.peek();
 }
 
-void Minty::Writer::push_user_data(void const* const data)
+void Minty::Writer::push_user_data(AnyConst const data)
 {
 	m_dataStack.push(data);
 }
@@ -29,12 +29,12 @@ void Minty::Writer::pop_user_data()
 	m_dataStack.pop();
 }
 
-void Minty::FileWriterBehavior::write_data(void const* const data, Size const size)
+void Minty::FileWriterBehavior::write_data(AnyConst const data, Size const size)
 {
 	mp_file->write(data, size);
 }
 
-void Minty::MemoryWriterBehavior::write_data(void const* const data, Size const size)
+void Minty::MemoryWriterBehavior::write_data(AnyConst const data, Size const size)
 {
 	mp_data->append(data, size);
 }
@@ -191,7 +191,7 @@ void Minty::TextWriterBehavior::write_type_to_buffer(Type const data, Vector<Byt
 	write_string_to_buffer(Minty::to_string(data), buffer);
 }
 
-void Minty::TextWriterBehavior::write_typed_to_buffer(void const* const data, Vector<Byte>& buffer, Type const type)
+void Minty::TextWriterBehavior::write_typed_to_buffer(AnyConst const data, Vector<Byte>& buffer, Type const type)
 {
 	switch (type)
 	{

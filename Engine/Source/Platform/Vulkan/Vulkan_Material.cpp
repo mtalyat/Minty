@@ -264,7 +264,7 @@ void Minty::Vulkan_Material::on_bind()
 	}
 }
 
-void Minty::Vulkan_Material::set_input(String const& name, void const* const data, Size const size)
+void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, Size const size)
 {
 	// check if the input exists
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);

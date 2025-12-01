@@ -16,7 +16,7 @@ void Minty::RelationshipComponent::serialize(Writer& writer) const
 	}
 
 	// get the serialization data
-	void const* userData = writer.get_user_data();
+	AnyConst userData = writer.get_user_data();
 	EntitySerializationData const* entityData = static_cast<EntitySerializationData const*>(userData);
 
 	// get the parent id

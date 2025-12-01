@@ -65,7 +65,7 @@ Object const& Minty::Material::get_input(String const& name) const
 	return m_materialTemplate->get_input(name);
 }
 
-Bool Minty::Material::try_set_input(String const& name, void const* const data, Size const size)
+Bool Minty::Material::try_set_input(String const& name, AnyConst const data, Size const size)
 {
 	Ref<Shader> shader = m_materialTemplate->get_shader();
 	if (!shader->contains_input(name))

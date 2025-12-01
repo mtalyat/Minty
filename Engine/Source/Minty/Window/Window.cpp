@@ -1,9 +1,17 @@
 #include "pch.h"
 #include "Window.h"
 #include "Minty/Core/Macro.h"
+#include "Minty/Window/WindowInfo.h"
+#ifdef MINTY_WINDOWS
 #include "Platform/Windows/Windows_Window.h"
+#endif // MINTY_WINDOWS
 
 using namespace Minty;
+
+Minty::Window::Window(WindowInfo const &info)
+	: m_position(info.position), m_size(info.size), m_title(info.title), m_eventCallback(info.eventCallback), m_id(info.id)
+{
+}
 
 Unique<Window> Minty::Window::create(WindowInfo const &info)
 {
@@ -13,9 +21,4 @@ Unique<Window> Minty::Window::create(WindowInfo const &info)
 	MINTY_NOT_IMPLEMENTED();
 	return nullptr;
 #endif // MINTY_WINDOWS
-}
-
-Minty::Window::Window(WindowInfo const &info)
-	: m_id(info.id), m_position(info.position), m_size(info.size), m_title(info.title), m_eventCallback(info.eventCallback)
-{
 }

@@ -45,7 +45,7 @@ namespace Minty
 		 * @brief Sets the Byte data of this Buffer.
 		 * @param data The new Byte data.
 		 */
-		virtual void set_data(void const* const data) = 0;
+		virtual void set_data(AnyConst const data) = 0;
 
 		/**
 		 * @brief Gets the size of this Buffer in bytes.

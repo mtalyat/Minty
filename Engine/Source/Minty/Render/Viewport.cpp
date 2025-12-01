@@ -1,16 +1,26 @@
 #include "pch.h"
 #include "Viewport.h"
+#include "Minty/Render/ViewportInfo.h"
+#include "Minty/Debug/Assert.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Viewport.h"
 #endif // MINTY_VULKAN
 
 using namespace Minty;
 
-Shared<Viewport> Minty::Viewport::create(ViewportInfo const& info)
+Shared<Viewport> Minty::Viewport::create(ViewportInfo const &info)
 {
 #ifdef MINTY_VULKAN
-	return Shared<Vulkan_Viewport>(info);
+    return Shared<Vulkan_Viewport>::create(info);
 #else
     return Shared<Viewport>();
 #endif // MINTY_VULKAN
+}
+
+Minty::Viewport::Viewport(ViewportInfo const &info)
+    : Asset(info.id)
+{
+    MINTY_ASSERT(info.minDepth >= 0.0f && info.minDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.minDepth);
+    MINTY_ASSERT(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.maxDepth);
+    MINTY_ASSERT(info.minDepth <= info.maxDepth, ErrorCode::Argument_IncorrectOrder, info.minDepth, info.maxDepth);
 }

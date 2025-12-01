@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-Bool Minty::Container::set(void const* const data, Size const size)
+Bool Minty::Container::set(AnyConst const data, Size const size)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);

@@ -1,81 +1,89 @@
-#pragma once
-#include "Minty/Core/Compression.h"
+#ifndef MINTY_WRAP_WRAP_H
+#define MINTY_WRAP_WRAP_H
+
+/**
+ * @file Wrap.h
+ * @brief Header file defining the Wrap class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
-#include "Minty/File/PhysicalFile.h"
-#include "Minty/File/VirtualFile.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Simulates a file system within a single file. This is useful for packaging multiple files into a single file.
-	/// </summary>
+	class PhysicalFile;
+	class VirtualFile;
+
+	/**
+	 * @brief Simulates a file system within a single file. This is useful for packaging multiple files into a single file.
+	 */
 	class Wrap
 	{
 #pragma region Types
 
 	public:
-		/// <summary>
-		/// The type of the Wrap file.
-		/// </summary>
+		/**
+		 * @brief The type of the Wrap file.
+		 */
 		enum class Type : uint16_t
 		{
-			/// <summary>
-			/// This file has no type. Ignore it.
-			/// </summary>
+			/**
+			 * @brief This file has no type. Ignore it.
+			 */
 			None = 0,
-			/// <summary>
-			/// This file is a base file.
-			/// </summary>
+			/**
+			 * @brief This file is a base file.
+			 */
 			File = 1,
-			/// <summary>
-			/// This file should override some data.
-			/// </summary>
+			/**
+			 * @brief This file should override some data.
+			 */
 			Update = 2,
 		};
 
-		/// <summary>
-		/// The header information for a .wrap file. Holds meta data about the file itself.
-		/// </summary>
+		/**
+		 * @brief The header information for a .wrap file. Holds meta data about the file itself.
+		 */
 		struct Header
 		{
-			/// <summary>
-			/// The ID to ensure that this is in fact a Wrap file.
-			/// </summary>
+			/**
+			 * @brief The ID to ensure that this is in fact a Wrap file.
+			 */
 			Char id[WRAP_MAGIC_SIZE] = { 'W', 'R', 'A', 'P' };
 
-			/// <summary>
-			/// The type of Wrap file.
-			/// </summary>
+			/**
+			 * @brief The type of Wrap file.
+			 */
 			Type type = Type::None;
 
-			/// <summary>
-			/// The Wrap version.
-			/// </summary>
+			/**
+			 * @brief The Wrap version.
+			 */
 			uint16_t wrapVersion = 0;
 
-			/// <summary>
-			/// The content version.
-			/// </summary>
+			/**
+			 * @brief The content version.
+			 */
 			uint32_t contentVersion = 0;
 
-			/// <summary>
-			/// The base path of every virtual file Entry within this Wrap.
-			/// </summary>
+			/**
+			 * @brief The base path of every virtual file Entry within this Wrap.
+			 */
 			Char basePath[WRAP_HEADER_PATH_SIZE] = "";
 
-			/// <summary>
-			/// The name of this Wrap.
-			/// </summary>
+			/**
+			 * @brief The name of this Wrap.
+			 */
 			Char name[WRAP_HEADER_NAME_SIZE] = "";
 
-			/// <summary>
-			/// The number of Entries within this Wrap.
-			/// </summary>
+			/**
+			 * @brief The number of Entries within this Wrap.
+			 */
 			uint32_t entryCount = 0;
 
 			Header()
@@ -89,39 +97,39 @@ namespace Minty
 			Header& operator=(Header const& other);
 		};
 
-		/// <summary>
-		/// The entry information for a virtual file that is stored within the .wrap file.
-		/// </summary>
+		/**
+		 * @brief The entry information for a virtual file that is stored within the .wrap file.
+		 */
 		struct Entry
 		{
-			/// <summary>
-			/// The path to this Entry within the Wrap file.
-			/// </summary>
+			/**
+			 * @brief The path to this Entry within the Wrap file.
+			 */
 			Char path[WRAP_ENTRY_PATH_SIZE] = "";
 
-			/// <summary>
-			/// The compression level of this data in the Wrap file.
-			/// </summary>
+			/**
+			 * @brief The compression level of this data in the Wrap file.
+			 */
 			Byte compressionLevel = 0;
 
-			/// <summary>
-			/// The reserved size of the data within the Wrap file.
-			/// </summary>
+			/**
+			 * @brief The reserved size of the data within the Wrap file.
+			 */
 			uint32_t reservedSize = 0;
 
-			/// <summary>
-			/// The size of the data after compression, if any.
-			/// </summary>
+			/**
+			 * @brief The size of the data after compression, if any.
+			 */
 			uint32_t compressedSize = 0;
 
-			/// <summary>
-			/// The size of the data before compression, if any.
-			/// </summary>
+			/**
+			 * @brief The size of the data before compression, if any.
+			 */
 			uint32_t uncompressedSize = 0;
 
-			/// <summary>
-			/// The offset to the data within the Wrap file.
-			/// </summary>
+			/**
+			 * @brief The offset to the data within the Wrap file.
+			 */
 			uint32_t offset = 0;
 
 			Entry()
@@ -135,6 +143,218 @@ namespace Minty
 
 			Bool is_empty() const { return uncompressedSize == 0; }
 		};
+
+#pragma endregion
+
+#pragma region Constructors
+
+	public:
+		/**
+		 * @brief Creates an empty Wrap.
+		 */
+		Wrap()
+			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_empties(), m_indexed()
+		{
+		}
+
+		/**
+		 * @brief Creates and loads a Wrap file at the given path.
+		 * @param path The path to the Wrap file on the disk.
+		 */
+		Wrap(Path const& path)
+			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_indexed()
+		{
+			load(path);
+		}
+
+		/**
+		 * @brief Creates a new Wrap file with the given name, base path, and content version.
+		 * @param path The path to the Wrap file on the disk.
+		 * @param name The name of the Wrap file.
+		 * @param entryCount The number of entries in the Wrap file.
+		 * @param base The base path all files within the Wrap file.
+		 * @param contentVersion The version of the content within the Wrap file.
+		 * @param type The type of the Wrap file.
+		 * @param compressionThreshold The threshold at which to start compressing files. Anything below this value will not be compressed.
+		 */
+		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File, Size const compressionThreshold = KB);
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		/**
+		 * @brief Gets the base path of each file within this Wrap.
+		 * @return
+		 */
+		Char const* get_base_path() const;
+
+		/**
+		 * @brief Sets the base path of each file within this Wrap.
+		 * @param path
+		 */
+		void set_base_path(Path const& path);
+
+		/**
+		 * @brief Gets the Path that this Wrap file is located at.
+		 * @return
+		 */
+		Path const& get_path() const;
+
+		/**
+		 * @brief Gets the name of this Wrap file.
+		 * @return
+		 */
+		Char const* get_name() const;
+
+		/**
+		 * @brief Sets the name of this Wrap file.
+		 * @param name
+		 */
+		void set_name(String const& name);
+
+		/**
+		 * @brief Gets the Wrap version of this Wrap file.
+		 * @return
+		 */
+		uint16_t get_wrap_version() const;
+
+		/**
+		 * @brief Gets the content version of this Wrap file.
+		 * @return
+		 */
+		uint32_t get_content_version() const;
+
+		/**
+		 * @brief Gets the type of this Wrap file.
+		 * @return
+		 */
+		Type get_type() const;
+
+		/**
+		 * @brief Sets the Type for this Wrap file.
+		 * @param type
+		 */
+		void set_type(Type const type);
+
+		/**
+		 * @brief Gets the size of the Wrap file.
+		 * @return
+		 */
+		Size get_size() const;
+
+		/**
+		 * @brief Gets the number of entries in this Wrap.
+		 * @return
+		 */
+		Size get_entry_count() const;
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Loads the Wrap file at the given path.
+		 * @param path The Path of the Wrap file.
+		 */
+		void load(Path const& path);
+
+		/**
+		 * @brief Flushes all changes within this Wrap to the disk.
+		 */
+		void flush();
+
+	private:
+		// writes the header to the file
+		void write_header(PhysicalFile& wrapFile) const;
+
+		// writes the entry at the given index to the file
+		void write_entry(PhysicalFile& wrapFile, Size const index) const;
+
+		// adds the given entry to m_wraps, then returns the index of it
+		uint32_t add_entry(Entry& entry);
+
+#pragma region Files
+
+	private:
+		// forces the given path to include the base path if it doesn't already
+		Path fix_path(Path const& path) const;
+
+		// forces the given path to be relative to the base path
+		Path relative_path(Path const& path) const;
+
+	public:
+		/**
+		 * @brief Adds the file at the given physicalPath to the Wrap at the given virtualPath.
+		 * @param physicalPath The path to the file to read and add to the Wrap file.
+		 * @param virtualPath The path of the file within the Wrap file.
+		 * @param compression The level of compression for the given file.
+		 * @param reservedSize The reserved size of the chunk to store the file within. If the reservedSize is 0, it will default to the size of the file at the physicalPath.
+		 */
+		void add(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compression = CompressionLevel::Default, uint32_t const reservedSize = 0);
+
+		/**
+		 * @brief Checks if the Wrap contains a file with the given path.
+		 * @param path The path to check.
+		 * @return
+		 */
+		Bool contains(Path const& path) const;
+
+		/**
+		 * @brief Opens a file at the given path using the given VirtualFile.
+		 * @param path The path at which to open a file.
+		 * @param file The file object to use to open with.
+		 * @return
+		 */
+		Bool open(Path const& path, VirtualFile& file) const;
+
+		/**
+		 * @brief Opens, reads, uncompresses (if needed) and returns the data from the file at the given path.
+		 * @param path The path at which to open a file.
+		 * @return The uncompressed data from the file, or an empty vector if no file found.
+		 */
+		Vector<Byte> read_bytes(Path const& path) const;
+
+		/**
+		 * @brief Gets the Entry at the given index.
+		 * @param index
+		 * @return
+		 */
+		Entry const& get_entry(Size const index) const;
+
+		/**
+		 * @brief Gets the Entry at the given path.
+		 * @param index
+		 * @return
+		 */
+		Entry const& get_entry(Path const& path) const;
+
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Statics
+
+	public:
+		/**
+		 * @brief Checks if there is a valid Wrap file at the given path.
+		 * @param path The Path to a file.
+		 * @return True if the file exists, and is a Wrap file.
+		 */
+		static Bool exists(Path const& path);
+
+		/**
+		 * @brief Loads or creates a new Wrap if none exists.
+		 * @param path
+		 * @param name
+		 * @param entryCount
+		 * @param base
+		 * @param contentVersion
+		 * @return
+		 */
+		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File);
 
 #pragma endregion
 
@@ -158,217 +378,7 @@ namespace Minty
 		Map<Path, Size> m_indexed;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/// <summary>
-		/// Creates an empty Wrap.
-		/// </summary>
-		Wrap()
-			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_empties(), m_indexed()
-		{
-		}
-
-		/// <summary>
-		/// Creates and loads a Wrap file at the given path.
-		/// </summary>
-		/// <param name="path">The path to the Wrap file on the disk.</param>
-		Wrap(Path const& path)
-			: m_path(), m_compressionThreshold(KB), m_header(), m_entries(), m_indexed()
-		{
-			load(path);
-		}
-
-		/// <summary>
-		/// Creates a new Wrap file with the given name, base path, and content version.
-		/// </summary>
-		/// <param name="path">The path to the Wrap file on the disk.</param>
-		/// <param name="name">The name of the Wrap file.</param>
-		/// <param name="entryCount">The number of entries in the Wrap file.</param>
-		/// <param name="base">The base path all files within the Wrap file.</param>
-		/// <param name="contentVersion">The version of the content within the Wrap file.</param>
-		/// <param name="type">The type of the Wrap file.</param>
-		/// <param name="compressionThreshold">The threshold at which to start compressing files. Anything below this value will not be compressed.</param>
-		Wrap(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File, Size const compressionThreshold = KB);
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		/// <summary>
-		/// Gets the base path of each file within this Wrap.
-		/// </summary>
-		/// <returns></returns>
-		Char const* get_base_path() const;
-
-		/// <summary>
-		/// Sets the base path of each file within this Wrap.
-		/// </summary>
-		/// <param name="path"></param>
-		void set_base_path(Path const& path);
-
-		/// <summary>
-		/// Gets the Path that this Wrap file is located at.
-		/// </summary>
-		/// <returns></returns>
-		Path const& get_path() const;
-
-		/// <summary>
-		/// Gets the name of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		Char const* get_name() const;
-
-		/// <summary>
-		/// Sets the name of this Wrap file.
-		/// </summary>
-		/// <param name="name"></param>
-		void set_name(String const& name);
-
-		/// <summary>
-		/// Gets the Wrap version of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		uint16_t get_wrap_version() const;
-
-		/// <summary>
-		/// Gets the content version of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		uint32_t get_content_version() const;
-
-		/// <summary>
-		/// Gets the type of this Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		Type get_type() const;
-
-		/// <summary>
-		/// Sets the Type for this Wrap file.
-		/// </summary>
-		/// <param name="type"></param>
-		void set_type(Type const type);
-
-		/// <summary>
-		/// Gets the size of the Wrap file.
-		/// </summary>
-		/// <returns></returns>
-		Size get_size() const;
-
-		/// <summary>
-		/// Gets the number of entries in this Wrap.
-		/// </summary>
-		/// <returns></returns>
-		Size get_entry_count() const;
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		/// <summary>
-		/// Loads the Wrap file at the given path.
-		/// </summary>
-		/// <param name="path">The Path of the Wrap file.</param>
-		void load(Path const& path);
-
-		/// <summary>
-		/// Flushes all changes within this Wrap to the disk.
-		/// </summary>
-		void flush();
-
-	private:
-		// writes the header to the file
-		void write_header(PhysicalFile& wrapFile) const;
-
-		// writes the entry at the given index to the file
-		void write_entry(PhysicalFile& wrapFile, Size const index) const;
-
-		// adds the given entry to m_wraps, then returns the index of it
-		uint32_t add_entry(Entry& entry);
-
-#pragma region Files
-
-	private:
-		// forces the given path to include the base path if it doesn't already
-		Path fix_path(Path const& path) const;
-
-		// forces the given path to be relative to the base path
-		Path relative_path(Path const& path) const;
-
-	public:
-		/// <summary>
-		/// Adds the file at the given physicalPath to the Wrap at the given virtualPath.
-		/// </summary>
-		/// <param name="physicalPath">The path to the file to read and add to the Wrap file.</param>
-		/// <param name="virtualPath">The path of the file within the Wrap file.</param>
-		/// <param name="compression">The level of compression for the given file.</param>
-		/// <param name="reservedSize">The reserved size of the chunk to store the file within. If the reservedSize is 0, it will default to the size of the file at the physicalPath.</param>
-		void add(Path const& physicalPath, Path const& virtualPath, CompressionLevel const compression = CompressionLevel::Default, uint32_t const reservedSize = 0);
-
-		/// <summary>
-		/// Checks if the Wrap contains a file with the given path.
-		/// </summary>
-		/// <param name="path">The path to check.</param>
-		/// <returns></returns>
-		Bool contains(Path const& path) const;
-
-		/// <summary>
-		/// Opens a file at the given path using the given VirtualFile.
-		/// </summary>
-		/// <param name="path">The path at which to open a file.</param>
-		/// <param name="file">The file object to use to open with.</param>
-		/// <returns></returns>
-		Bool open(Path const& path, VirtualFile& file) const;
-
-		/// <summary>
-		/// Opens, reads, uncompresses (if needed) and returns the data from the file at the given path.
-		/// </summary>
-		/// <param name="path">The path at which to open a file.</param>
-		/// <returns>The uncompressed data from the file, or an empty vector if no file found.</returns>
-		Vector<Byte> read_bytes(Path const& path) const;
-
-		/// <summary>
-		/// Gets the Entry at the given index.
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		Entry const& get_entry(Size const index) const;
-
-		/// <summary>
-		/// Gets the Entry at the given path.
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		Entry const& get_entry(Path const& path) const;
-
-#pragma endregion
-
-#pragma endregion
-
-#pragma region Statics
-
-	public:
-		/// <summary>
-		/// Checks if there is a valid Wrap file at the given path.
-		/// </summary>
-		/// <param name="path">The Path to a file.</param>
-		/// <returns>True if the file exists, and is a Wrap file.</returns>
-		static Bool exists(Path const& path);
-
-		/// <summary>
-		/// Loads or creates a new Wrap if none exists.
-		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="name"></param>
-		/// <param name="entryCount"></param>
-		/// <param name="base"></param>
-		/// <param name="contentVersion"></param>
-		/// <returns></returns>
-		static Wrap load_or_create(Path const& path, String const& name, uint32_t const entryCount, Path const& base = "", uint32_t const contentVersion = 0, Type const type = Type::File);
-
-#pragma endregion
 	};
 }
+
+#endif // MINTY_WRAP_WRAP_H

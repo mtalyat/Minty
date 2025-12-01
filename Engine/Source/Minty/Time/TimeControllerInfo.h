@@ -1,26 +1,36 @@
-#pragma once
+#ifndef MINTY_TIME_TIMECONTROLLERINFO_H
+#define MINTY_TIME_TIMECONTROLLERINFO_H
+
+/**
+ * @file TimeControllerInfo.h
+ * @brief Header file defining the TimeControllerInfo struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for a TimeManager.
-	/// </summary>
+	/**
+	 * @brief The arguments for a TimeManager.
+	 */
 	struct TimeControllerInfo
 	{
-		/// <summary>
-		/// The fixed time step in seconds.
-		/// </summary>
+		/**
+		 * @brief The fixed time step in seconds.
+		 */
 		Float fixedTimeStep = 0.02f;
 
-		/// <summary>
-		/// The maximum allowed time step in seconds.
-		/// </summary>
+		/**
+		 * @brief The maximum allowed time step in seconds.
+		 */
 		Float maxAllowedTimeStep = 0.25f;
 
-		/// <summary>
-		/// The maximum number of fixed updates to perform per frame.
-		/// </summary>
+		/**
+		 * @brief The maximum number of fixed updates to perform per frame.
+		 */
 		Int maxFixedUpdatesPerFrame = 5;
 	};
 }
+
+#endif // MINTY_TIME_TIMECONTROLLERINFO_H

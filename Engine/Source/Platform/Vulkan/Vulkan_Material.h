@@ -56,7 +56,7 @@ namespace Minty
 	public:
 		void on_bind() override;
 
-		void set_input(String const& name, void const* const data, Size const size) override;
+		void set_input(String const& name, AnyConst const data, Size const size) override;
 
 #pragma endregion
 	};

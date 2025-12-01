@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_NODE_H
+#define MINTY_SERIALIZATION_NODE_H
+
+/**
+ * @file Node.h
+ * @brief Header file defining the Node class for serialization.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/DynamicContainer.h"
 #include "Minty/Data/Map.h"
@@ -10,60 +18,37 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Represents an object that contains data, and a list of children nodes.
-	/// </summary>
+	/**
+	 * @brief Represents an object that contains data, and a list of children nodes.
+	 */
 	class Node
 		: public Serializable
 	{
-#pragma region Variables
-
-	private:
-		AllocatorType m_allocator;
-
-		// the name of this node
-		String m_name;
-
-		// the data in this node
-		DynamicContainer m_data;
-		
-		// list of children
-		Vector<Node> m_children;
-
-		// lookup of children
-		Map<String, Int> m_lookup;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Create an empty Node.
-		/// </summary>
-		/// <param name="allocator">The Allocator to use.</param>
-		Node(AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_name(allocator)
-			, m_data(allocator)
-			, m_children(allocator)
-			, m_lookup(allocator)
+		/**
+		 * @brief Create an empty Node.
+		 */
+		Node()
+			: m_name()
+			, m_data()
+			, m_children()
+			, m_lookup()
 		{
 		}
 
-		/// <summary>
-		/// Creates a Node with the given name and data.
-		/// </summary>
-		/// <param name="name">The name of this Node.</param>
-		/// <param name="data">The data of this Node.</param>
-		/// <param name="size">The size of the data in bytes.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Node(String const& name, void const* const data, Size const size, AllocatorType const allocator = AllocatorType::Default)
-			: m_allocator(allocator)
-			, m_name(name)
-			, m_data(allocator)
-			, m_children(allocator)
-			, m_lookup(allocator)
+		/**
+		 * @brief Creates a Node with the given name and data.
+		 * @param name The name of this Node.
+		 * @param data The data of this Node.
+		 * @param size The size of the data in bytes.
+		 */
+		Node(String const& name, AnyConst const data, Size const size)
+			: m_name(name)
+			, m_data()
+			, m_children()
+			, m_lookup()
 		{
 			if (data && size)
 			{
@@ -71,47 +56,43 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Creates a Node with the given name and data.
-		/// </summary>
-		/// <param name="name">The name of this Node.</param>
-		/// <param name="value">The string data of this Node.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Node(String const& name, String const& value, AllocatorType const allocator = AllocatorType::Default)
-			: Node(name, value.get_data(), value.get_size(), allocator)
+		/**
+		 * @brief Creates a Node with the given name and data.
+		 * @param name The name of this Node.
+		 * @param value The string data of this Node.
+		 */
+		Node(String const& name, String const& value)
+			: Node(name, value.get_data(), value.get_size())
 		{
 		}
 
-		/// <summary>
-		/// Creates a Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of this Node.</param>
-		/// <param name="allocator">The Allocator to use.</param>
-		Node(String const& name, AllocatorType const allocator = AllocatorType::Default)
-			: Node(name, nullptr, 0, allocator)
+		/**
+		 * @brief Creates a Node with the given name.
+		 * @param name The name of this Node.
+		 */
+		Node(String const& name)
+			: Node(name, nullptr, 0)
 		{
 		}
 
-		/// <summary>
-		/// Copies the given Node.
-		/// </summary>
-		/// <param name="other">The Node to copy.</param>
+		/**
+		 * @brief Copies the given Node.
+		 * @param other The Node to copy.
+		 */
 		Node(Node const& other)
-			: m_allocator(other.m_allocator)
-			, m_name(other.m_name)
+			: m_name(other.m_name)
 			, m_data(other.m_data)
 			, m_children(other.m_children)
 			, m_lookup(other.m_lookup)
 		{
 		}
 
-		/// <summary>
-		/// Moves the given Node.
-		/// </summary>
-		/// <param name="other">The Node to move.</param>
+		/**
+		 * @brief Moves the given Node.
+		 * @param other The Node to move.
+		 */
 		Node(Node&& other) noexcept
-			: m_allocator(other.m_allocator)
-			, m_name(std::move(other.m_name))
+			: m_name(std::move(other.m_name))
 			, m_data(std::move(other.m_data))
 			, m_children(std::move(other.m_children))
 			, m_lookup(std::move(other.m_lookup))
@@ -156,36 +137,36 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the name of this Node.
-		/// </summary>
-		/// <returns>The name of this Node.</returns>
-		String const& get_name() const { return m_name; }
+		/**
+		 * @brief Gets the name of this Node.
+		 * @return The name of this Node.
+		 */
+		inline String const& get_name() const { return m_name; }
 
-		/// <summary>
-		/// Sets the name of this Node.
-		/// </summary>
-		/// <param name="name">The new name of this Node.</param>
-		void set_name(String const& name) { m_name = name; }
+		/**
+		 * @brief Sets the name of this Node.
+		 * @param name The new name of this Node.
+		 */
+		inline void set_name(String const& name) { m_name = name; }
 
-		/// <summary>
-		/// Gets the data of this Node.
-		/// </summary>
-		/// <returns>The data container.</returns>
-		DynamicContainer const& get_data() const { return m_data; }
+		/**
+		 * @brief Gets the data of this Node.
+		 * @return The data container.
+		 */
+		inline DynamicContainer const& get_data() const { return m_data; }
 
-		/// <summary>
-		/// Gets the data as a String.
-		/// </summary>
-		/// <returns>The Node's data, but as a String.</returns>
+		/**
+		 * @brief Gets the data as a String.
+		 * @return The Node's data, but as a String.
+		 */
 		String get_data_string() const;
 
-		/// <summary>
-		/// Sets the data of this Node.
-		/// </summary>
-		/// <param name="data">The data in bytes.</param>
-		/// <param name="size">The number of bytes.</param>
-		void set_data(void const* const data, Size const size)
+		/**
+		 * @brief Sets the data of this Node.
+		 * @param data The data in bytes.
+		 * @param size The number of bytes.
+		 */
+		inline void set_data(AnyConst const data, Size const size)
 		{
 			if (data && size)
 			{
@@ -197,11 +178,11 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Sets the data of this Node.
-		/// </summary>
-		/// <param name="text">The String containing the data for this Node.</param>
-		void set_data(String const& text)
+		/**
+		 * @brief Sets the data of this Node.
+		 * @param text The String containing the data for this Node.
+		 */
+		inline void set_data(String const& text)
 		{
 			if (!text.is_empty())
 			{
@@ -213,127 +194,137 @@ namespace Minty
 			}
 		}
 
-		/// <summary>
-		/// Gets the number of children in this Node.
-		/// </summary>
-		/// <returns>The number of child Nodes.</returns>
-		Size get_children_size() const { return m_children.get_size(); }
+		/**
+		 * @brief Gets the number of children in this Node.
+		 * @return The number of child Nodes.
+		 */
+		inline Size get_children_size() const { return m_children.get_size(); }
 
-		/// <summary>
-		/// Gets the Vector of children Nodes.
-		/// </summary>
-		/// <returns>The child Nodes.</returns>
-		Vector<Node>& get_children() { return m_children; }
+		/**
+		 * @brief Gets the Vector of children Nodes.
+		 * @return The child Nodes.
+		 */
+		inline Vector<Node>& get_children() { return m_children; }
 
-		/// <summary>
-		/// Gets the Vector of children Nodes.
-		/// </summary>
-		/// <returns>The child Nodes.</returns>
-		Vector<Node> const& get_children() const { return m_children; }
+		/**
+		 * @brief Gets the Vector of children Nodes.
+		 * @return The child Nodes.
+		 */
+		inline Vector<Node> const& get_children() const { return m_children; }
 
 #pragma endregion
 
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Checks if a child Node with the given index exists.
-		/// </summary>
-		/// <param name="index">The index of the child Node.</param>
-		/// <returns>True, if a child Node with the given index exists.</returns>
-		Bool has_child(Size const index) const
+		/**
+		 * @brief Checks if a child Node with the given index exists.
+		 * @param index The index of the child Node.
+		 * @return True, if a child Node with the given index exists.
+		 */
+		inline Bool has_child(Size const index) const
 		{
 			return index < m_children.get_size();
 		}
 
-		/// <summary>
-		/// Checks if a child Node with the given name exists.
-		/// </summary>
-		/// <param name="name">The name of the child Node.</param>
-		/// <returns>True, if a child Node with the given name exists.</returns>
-		Bool has_child(String const& name) const
+		/**
+		 * @brief Checks if a child Node with the given name exists.
+		 * @param name The name of the child Node.
+		 * @return True, if a child Node with the given name exists.
+		 */
+		inline Bool has_child(String const& name) const
 		{
 			return m_lookup.contains(name);
 		}
 
-		/// <summary>
-		/// Gets the child Node at the given index.
-		/// </summary>
-		/// <param name="index">The index of the child Node.</param>
-		/// <returns>The Node at the given index.</returns>
+		/**
+		 * @brief Gets the child Node at the given index.
+		 * @param index The index of the child Node.
+		 * @return The Node at the given index.
+		 */
 		Node const& get_child(Size const index) const;
 
-		/// <summary>
-		/// Gets the child Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of the child Node.</param>
-		/// <returns>The Node with the given name.</returns>
+		/**
+		 * @brief Gets the child Node with the given name.
+		 * @param name The name of the child Node.
+		 * @return The Node with the given name.
+		 */
 		Node const& get_child(String const& name) const;
 
-		/// <summary>
-		/// Gets the index of the child Node with the given name.
-		/// </summary>
-		/// <param name="name">The name of the child.</param>
-		/// <returns>The index to the child, or -1 if the child does not exist.</returns>
-		Int get_child_index(String const& name) const
+		/**
+		 * @brief Gets the index of the child Node with the given name.
+		 * @param name The name of the child.
+		 * @return The index to the child, or -1 if the child does not exist.
+		 */
+		inline Int get_child_index(String const& name) const
 		{
 			auto found = m_lookup.find(name);
 			return found != m_lookup.end() ? found->get_second() : -1;
 		}
 
-		/// <summary>
-		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
-		/// </summary>
-		/// <param name="name">The name of the Node.</param>
-		/// <param name="data">The data of the Node.</param>
-		/// <param name="size">The size of the data in bytes.</param>
-		/// <returns>The added Node.</returns>
-		Node& add_child(String const& name, void const* const data, Size const size);
+		/**
+		 * @brief Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		 * @param name The name of the Node.
+		 * @param data The data of the Node.
+		 * @param size The size of the data in bytes.
+		 * @return The added Node.
+		 */
+		Node& add_child(String const& name, AnyConst const data, Size const size);
 
-		/// <summary>
-		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
-		/// </summary>
-		/// <param name="name">The name of the Node.</param>
-		/// <param name="value">The String data of the Node.</param>
-		/// <returns>The added Node.</returns>
-		Node& add_child(String const& name, String const& value)
+		/**
+		 * @brief Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		 * @param name The name of the Node.
+		 * @param value The String data of the Node.
+		 * @return The added Node.
+		 */
+		inline Node& add_child(String const& name, String const& value)
 		{
 			return add_child(name, value.get_data(), value.get_size());
 		}
 
-		/// <summary>
-		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
-		/// </summary>
-		/// <param name="name">The name of the Node to add.</param>
-		/// <returns>The added Node.</returns>
-		Node& add_child(String const& name)
+		/**
+		 * @brief Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		 * @param name The name of the Node to add.
+		 * @return The added Node.
+		 */
+		inline Node& add_child(String const& name)
 		{
 			return add_child(name, nullptr, 0);
 		}
 
-		/// <summary>
-		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
-		/// </summary>
-		/// <param name="node">The Node to add a copy of.</param>
-		/// <returns>The child Node.</returns>
+		/**
+		 * @brief Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		 * @param node The Node to add a copy of.
+		 * @return The child Node.
+		 */
 		Node& add_child(Node const& node);
 
-		/// <summary>
-		/// Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
-		/// </summary>
-		/// <param name="node">The Node to add.</param>
-		/// <returns>The child Node.</returns>
+		/**
+		 * @brief Adds a Node as a child. Will not add if the name already exists, or if the name is empty.
+		 * @param node The Node to add.
+		 * @return The child Node.
+		 */
 		Node& add_child(Node&& node);
 
-		/// <summary>
-		/// Merge the contents or state of another Node into this Node.
-		/// </summary>
-		/// <param name="other">The node to merge into this one.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Merge the contents or state of another Node into this Node.
+		 * @param other The node to merge into this one.
+		 * @return True on success.
+		 */
 		Bool merge(Node const& other);
 
 		void serialize(Writer& writer, String const& name) const override;
 		Bool deserialize(Reader& reader, Size const index) override;
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		String m_name;
+		DynamicContainer m_data;
+		Vector<Node> m_children;
+		Map<String, Int> m_lookup;
 
 #pragma endregion
 	};
@@ -346,3 +337,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Node>(String const& string, Node& value) { return parse_try_node(string, value); }
 }
+
+#endif // MINTY_SERIALIZATION_NODE_H

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_SERIALIZABLEOBJECT_H
+#define MINTY_SERIALIZATION_SERIALIZABLEOBJECT_H
+
+/**
+ * @file SerializableObject.h
+ * @brief Header file defining the SerializableObject interface.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 
 namespace Minty
@@ -6,25 +14,27 @@ namespace Minty
 	class Writer;
 	class Reader;
 
-	/// <summary>
-	/// An interface for multiple-attribute objects to be written and read from.
-	/// </summary>
+	/**
+	 * @brief Interface for objects that can be serialized and deserialized.
+	 */
 	class SerializableObject
 	{
 	public:
 		virtual ~SerializableObject() = default;
 
-		/// <summary>
-		/// Write this object's data to the writer.
-		/// </summary>
-		/// <param name="writer">The Writer to write to.</param>
+		/**
+		 * @brief Write this object's data to the writer.
+		 * @param writer The Writer to write to.
+		 */
 		virtual void serialize(Writer& writer) const = 0;
 
-		/// <summary>
-		/// Read this object's data from the reader.
-		/// </summary>
-		/// <param name="reader">The Reader to read from.</param>
-		/// <returns>True on success.</returns>
+		/**
+		 * @brief Read this object's data from the reader.
+		 * @param reader The Reader to read from.
+		 * @return True on success.
+		 */
 		virtual Bool deserialize(Reader& reader) = 0;
 	};
 }
+
+#endif // MINTY_SERIALIZATION_SERIALIZABLEOBJECT_H

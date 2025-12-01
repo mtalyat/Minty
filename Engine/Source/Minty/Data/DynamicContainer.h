@@ -37,7 +37,7 @@ namespace Minty
 		 * @param data The byte data.
 		 * @param size The size of the data in bytes.
 		 */
-		DynamicContainer(void const* const data, Size const size);
+		DynamicContainer(AnyConst const data, Size const size);
 
 #pragma endregion
 
@@ -50,7 +50,7 @@ namespace Minty
 		 * @param size The number of bytes to append.
 		 * @return True if appended successfully.
 		 */
-		virtual Bool append(void const* const data, Size const size) override;
+		virtual Bool append(AnyConst const data, Size const size) override;
 
 		/**
 		 * @brief Sets the new capacity for this Container.

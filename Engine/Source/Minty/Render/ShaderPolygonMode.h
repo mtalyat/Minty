@@ -1,32 +1,40 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERPOLYGONMODE_H
+#define MINTY_RENDER_SHADERPOLYGONMODE_H
+
+/**
+ * @file ShaderPolygonMode.h
+ * @brief Header file defining the ShaderPolygonMode enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines how the polygons are being drawn.
-	/// </summary>
+	/**
+	 * @brief Determines how the polygons are being drawn.
+	 */
 	enum class ShaderPolygonMode
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// Fill the polygon.
-		/// </summary>
+		/**
+		 * @brief Fill the polygon.
+		 */
 		Fill = 1,
 
-		/// <summary>
-		/// Draw the outlines of the polygon.
-		/// </summary>
+		/**
+		 * @brief Draw the outlines of the polygon.
+		 */
 		Line = 2,
 
-		/// <summary>
-		/// Draw the points of the polygon.
-		/// </summary>
+		/**
+		 * @brief Draw the points of the polygon.
+		 */
 		Point = 3,
 	};
 
@@ -38,3 +46,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ShaderPolygonMode>(String const& string, ShaderPolygonMode& value) { return parse_try_shader_polygon_mode(string, value); }
 }
+
+#endif // MINTY_RENDER_SHADERPOLYGONMODE_H

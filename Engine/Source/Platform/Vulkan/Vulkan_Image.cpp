@@ -88,7 +88,7 @@ static VkImageLayout usage_to_layout(Minty::ImageUsage const usage)
 	}
 }
 
-void Minty::Vulkan_Image::set_pixels(void const* const data, Size const size)
+void Minty::Vulkan_Image::set_pixels(AnyConst const data, Size const size)
 {
 	MINTY_ASSERT(!m_immutable, ErrorCode::Argument_InvalidState);
 	MINTY_ASSERT(m_owner, ErrorCode::Argument_InvalidState);

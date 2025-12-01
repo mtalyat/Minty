@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_ISSERIALIZABLE_H
+#define MINTY_SERIALIZATION_ISSERIALIZABLE_H
+
+/**
+ * @file IsSerializable.h
+ * @brief Header file defining the is_serializable and is_serializable_object type traits.
+ * @author Mitchell Talyat
+ */
+
 #include <type_traits>
 
 namespace Minty
@@ -15,3 +23,5 @@ namespace Minty
 	template<typename T>
 	struct is_serializable_object<T, std::enable_if_t<std::is_base_of_v<SerializableObject, T>>> : std::true_type {};
 }
+
+#endif // MINTY_SERIALIZATION_ISSERIALIZABLE_H

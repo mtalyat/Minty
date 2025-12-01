@@ -1,22 +1,32 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERATTRIBUTE_H
+#define MINTY_RENDER_SHADERATTRIBUTE_H
+
+/**
+ * @file ShaderAttribute.h
+ * @brief Header file defining the ShaderAttribute struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Information for an attribute in a Shader.
-	/// </summary>
+	/**
+	 * @brief Information for an attribute in a Shader.
+	 */
 	struct ShaderAttribute
 	{
-		/// <summary>
-		/// The location of the attribute in the shader.
-		/// </summary>
+		/**
+		 * @brief The location of the attribute in the shader.
+		 */
 		UInt location = 0;
 
-		/// <summary>
-		/// The type of the attribute.
-		/// </summary>
+		/**
+		 * @brief The type of the attribute.
+		 */
 		Type type = Type::Undefined;
 	};
 }
+
+#endif // MINTY_RENDER_SHADERATTRIBUTE_H

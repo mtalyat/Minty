@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_TIME_TIMECONTROLLER_H
+#define MINTY_TIME_TIMECONTROLLER_H
+
+/**
+ * @file TimeController.h
+ * @brief Header file defining the TimeController class and TimeControllerInfo struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Time/Time.h"
@@ -95,3 +103,5 @@ namespace Minty
 #pragma endregion
     };
 }
+
+#endif // MINTY_TIME_TIMECONTROLLER_H

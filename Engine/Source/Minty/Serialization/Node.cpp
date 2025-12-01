@@ -4,6 +4,7 @@
 #include "Minty/Data/Stack.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Tool/Util.h"
 
 using namespace Minty;
 
@@ -14,7 +15,7 @@ String Minty::Node::get_data_string() const
 		return String();
 	}
 
-	String text(0, m_data.get_size(), m_allocator);
+	String text(0, m_data.get_size());
 	memcpy(text.get_data(), m_data.get_data(), m_data.get_size());
 	return text;
 }
@@ -33,7 +34,7 @@ Node const &Minty::Node::get_child(String const &name) const
 
 Node &Minty::Node::add_child(String const &name, void const *const data, Size const size)
 {
-	Node child(name, data, size, m_allocator);
+	Node child(name, data, size);
 	return add_child(std::move(child));
 }
 
@@ -132,7 +133,7 @@ static Bool is_word_character(Char const c)
 Node Minty::parse_to_node(String const &string)
 {
 	// split lines
-	Vector<String> lines = string.split_lines();
+	Vector<String> lines = Util::split_lines(string);
 
 	// parse node
 	int indent = 0;
@@ -157,8 +158,7 @@ Node Minty::parse_to_node(String const &string)
 	Bool inBlockComment = false;
 	for (String &line : lines)
 	{
-		String cleanLine;
-		cleanLine.reserve(line.get_size());
+		StringBuilder cleanLineBuilder(line.get_size());
 		Size i = 0;
 		while (i < line.get_size())
 		{
@@ -187,12 +187,13 @@ Node Minty::parse_to_node(String const &string)
 			}
 			else
 			{
-				cleanLine.append(c);
+				cleanLineBuilder.append(c);
 				i++;
 			}
 		}
 		// remove whitespace from the end of the line, since that does nothing
-		line = cleanLine.trim_end();
+		cleanLineBuilder.trim_end();
+		line = cleanLineBuilder.to_string();
 	}
 
 	Vector<Tuple<String, NodeMacro>> macros;
@@ -235,12 +236,12 @@ Node Minty::parse_to_node(String const &string)
 				if (nameEnd < line.get_size() && line.at(nameEnd) == '(')
 				{
 					// find end of args
-					Tuple<Size, Size> argGroup = line.find_group('(', ')', nameEnd);
+					Tuple<Size, Size> argGroup = Util::find_group(line, '(', ')', nameEnd);
 					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, ErrorCode::Serialization_InvalidFormat);	  // "#define found the wrong group."
 					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat); // "#define missing ')'.");
 
 					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
-					macro.parameters = argLine.split(',');
+					macro.parameters = Util::split(argLine, ',');
 					for (String &param : macro.parameters)
 					{
 						param = param.trim();
@@ -316,9 +317,9 @@ Node Minty::parse_to_node(String const &string)
 					// if params, replace those
 					if (!macro.parameters.is_empty())
 					{
-						auto [start, count] = macroLine.find_group('(', ')', mStart + name.get_size());
+						auto [start, count] = Util::find_group(macroLine, '(', ')', mStart + name.get_size());
 						MINTY_ASSERT(start != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" missing its arguments.", name));
-						Vector<String> parts = macroLine.sub(start, count).split(',');
+						Vector<String> parts = Util::split(macroLine.sub(start, count), ',');
 						MINTY_ASSERT(parts.get_size() == macro.parameters.get_size(), ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" has an incorrect number of arguments.", name));
 						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
 						{

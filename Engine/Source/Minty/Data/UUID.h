@@ -36,6 +36,13 @@ namespace Minty
 		UUID(Byte const (&id)[UUID_BYTE_SIZE]);
 
 		/**
+		 * @brief Create a UUID from two 64-bit integers.
+		 * @param id_high The high 64 bits.
+		 * @param id_low The low 64 bits.
+		 */
+		UUID(UInt64 const id_high, UInt64 const id_low = 0);
+
+		/**
 		 * @brief Create a UUID from a string representation.
 		 * @param string The string representation of the UUID.
 		 */

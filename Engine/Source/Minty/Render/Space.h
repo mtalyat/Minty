@@ -1,32 +1,40 @@
-#pragma once
+#ifndef MINTY_RENDER_SPACE_H
+#define MINTY_RENDER_SPACE_H
+
+/**
+ * @file Space.h
+ * @brief Header file defining the Space enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Classifies the Space that an object is in.
-	/// </summary>
+	/**
+	 * @brief Classifies the Space that an object is in.
+	 */
 	enum class Space
 	{
-		/// <summary>
-		/// Invalid space.
-		/// </summary>
+		/**
+		 * @brief Invalid space.
+		 */
 		Undefined,
 
-		/// <summary>
-		/// 3D world space.
-		/// </summary>
+		/**
+		 * @brief 3D world space.
+		 */
 		D3,
 
-		/// <summary>
-		/// 2D world space.
-		/// </summary>
+		/**
+		 * @brief 2D world space.
+		 */
 		D2,
 
-		/// <summary>
-		/// User Interface space.
-		/// </summary>
+		/**
+		 * @brief User Interface space.
+		 */
 		UI,
 	};
 
@@ -38,3 +46,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<Space>(String const& string, Space& value) { return parse_try_space(string, value); }
 }
+
+#endif // MINTY_RENDER_SPACE_H

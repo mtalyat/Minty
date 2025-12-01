@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERFRONTFACE_H
+#define MINTY_RENDER_SHADERFRONTFACE_H
+
+/**
+ * @file ShaderFrontFace.h
+ * @brief Header file defining the ShaderFrontFace enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines which side of the polygon is the front.
-	/// </summary>
+	/**
+	 * @brief Determines which side of the polygon is the front.
+	 */
 	enum class ShaderFrontFace
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// The front face is determined by the counter-clockwise winding order.
-		/// </summary>
+		/**
+		 * @brief The front face is determined by the counter-clockwise winding order.
+		 */
 		CounterClockwise = 1,
 
-		/// <summary>
-		/// The front face is determined by the clockwise winding order.
-		/// </summary>
+		/**
+		 * @brief The front face is determined by the clockwise winding order.
+		 */
 		Clockwise = 2,
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ShaderFrontFace>(String const& string, ShaderFrontFace& value) { return parse_try_shader_front_face(string, value); }
 }
+
+#endif // MINTY_RENDER_SHADERFRONTFACE_H

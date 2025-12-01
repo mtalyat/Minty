@@ -22,14 +22,14 @@ namespace Minty
 
 #pragma region Assets
 
-	constexpr Size DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
-	constexpr Size DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
-	constexpr Size DEFAULT_ASSET_TEXT_SHADER = 0xdef000000000000c;
-	constexpr Size DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
-	constexpr Size DEFAULT_ASSET_UI_MATERIAL_TEMPLATE = 0xdef0000000000011;
-	constexpr Size DEFAULT_ASSET_UI_MASK_WRITE_MATERIAL_TEMPLATE = 0xdef0000000000021;
-	constexpr Size DEFAULT_ASSET_UI_MASK_TEST_MATERIAL_TEMPLATE = 0xdef0000000000022;
-	constexpr Size DEFAULT_ASSET_TEXTURE = 0xdef0000000000000;
+	constexpr UInt64 DEFAULT_ASSET_SPRITE_SHADER = 0xdef000000000000b;
+	constexpr UInt64 DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE = 0xdef000000000000f;
+	constexpr UInt64 DEFAULT_ASSET_TEXT_SHADER = 0xdef000000000000c;
+	constexpr UInt64 DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE = 0xdef0000000000010;
+	constexpr UInt64 DEFAULT_ASSET_UI_MATERIAL_TEMPLATE = 0xdef0000000000011;
+	constexpr UInt64 DEFAULT_ASSET_UI_MASK_WRITE_MATERIAL_TEMPLATE = 0xdef0000000000021;
+	constexpr UInt64 DEFAULT_ASSET_UI_MASK_TEST_MATERIAL_TEMPLATE = 0xdef0000000000022;
+	constexpr UInt64 DEFAULT_ASSET_TEXTURE = 0xdef0000000000000;
 
 #pragma endregion
 
@@ -53,24 +53,24 @@ namespace Minty
 
 #pragma region Defaults
 
-	/// <summary>
-	/// The default capacity that collections used, if not explicitly given one.
-	/// </summary>
+	/**
+	 * @brief The default capacity that collections used, if not explicitly given one.
+	 */
 	constexpr Size DEFAULT_COLLECTION_SIZE = 16;
 
-	/// <summary>
-	/// The default threshold for rehashing a hashed collection.
-	/// </summary>
+	/**
+	 * @brief The default threshold for rehashing a hashed collection.
+	 */
 	constexpr Float DEFAULT_COLLECTION_REHASH_THRESHOLD = 0.75f;
 
-	/// <summary>
-	/// The default width of a Canvas.
-	/// </summary>
+	/**
+	 * @brief The default width of a Canvas.
+	 */
 	constexpr Int DEFAULT_CANVAS_RESOLUTION_X = 1920;
 
-	/// <summary>
-	/// The default height of a Canvas.
-	/// </summary>
+	/**
+	 * @brief The default height of a Canvas.
+	 */
 	constexpr Int DEFAULT_CANVAS_RESOLUTION_Y = 1080;
 
 #pragma endregion
@@ -121,42 +121,42 @@ namespace Minty
 
 #pragma region Indexing
 
-	/// <summary>
-	/// Represents an invalid index.
-	/// </summary>
+	/**
+	 * @brief Represents an invalid index.
+	 */
 	constexpr Size INVALID_INDEX = -1;
 
 #pragma endregion
 
 #pragma region Input
 
-	/// <summary>
-	/// The threshold for a joystick to be considered non-zero.
-	/// </summary>
+	/**
+	 * @brief The threshold for a joystick to be considered non-zero.
+	 */
 	constexpr Float JOYSTICK_DEADZONE = 0.1f;
 
 #pragma endregion
 
 #pragma region Layer
 
-	/// <summary>
-	/// No Layers.
-	/// </summary>
+	/**
+	 * @brief No Layers.
+	 */
 	constexpr Layer LAYER_NONE = 0;
 
-	/// <summary>
-	/// The Default Layer.
-	/// </summary>
+	/**
+	 * @brief The Default Layer.
+	 */
 	constexpr Layer LAYER_DEFAULT = 1;
 
-	/// <summary>
-	/// The maximum number of Layers that can be used in the engine.
-	/// </summary>
+	/**
+	 * @brief The maximum number of Layers that can be used in the engine.
+	 */
 	constexpr Layer LAYER_COUNT = 32;
 
-	/// <summary>
-	/// All Layers.
-	/// </summary>
+	/**
+	 * @brief All Layers.
+	 */
 	constexpr Layer LAYER_MASK_ALL = ~0;
 
 #pragma endregion
@@ -207,24 +207,24 @@ namespace Minty
 
 #pragma region Units of Measurement
 
-	/// <summary>
-	/// The number of bytes in a byte.
-	/// </summary>
+	/**
+	 * @brief The number of bytes in a byte.
+	 */
 	constexpr Size B = sizeof(Byte);
 
-	/// <summary>
-	/// The number of bytes in a kilobyte.
-	/// </summary>
+	/**
+	 * @brief The number of bytes in a kilobyte.
+	 */
 	constexpr Size KB = 1024 * B;
 
-	/// <summary>
-	/// The number of bytes in a megabyte.
-	/// </summary>
+	/**
+	 * @brief The number of bytes in a megabyte.
+	 */
 	constexpr Size MB = 1024 * KB;
 
-	/// <summary>
-	/// The number of bytes in a gigabyte.
-	/// </summary>
+	/**
+	 * @brief The number of bytes in a gigabyte.
+	 */
 	constexpr Size GB = 1024 * MB;
 
 #pragma endregion
@@ -238,34 +238,34 @@ namespace Minty
 
 #pragma region Wrap
 
-	/// <summary>
-	/// The first bytes in any Wrap file.
-	/// </summary>
+	/**
+	 * @brief The first bytes in any Wrap file.
+	 */
 	constexpr Char const* WRAP_MAGIC = "WRAP";
 
-	/// <summary>
-	/// The number of magic bytes in a Wrap file.
-	/// </summary>
+	/**
+	 * @brief The number of magic bytes in a Wrap file.
+	 */
 	constexpr Size WRAP_MAGIC_SIZE = 4;
 
-	/// <summary>
-	/// The maximum size of a Wrap header path.
-	/// </summary>
+	/**
+	 * @brief The maximum size of a Wrap header path.
+	 */
 	constexpr Size const WRAP_HEADER_PATH_SIZE = 100;
 
-	/// <summary>
-	/// The maximum size of a Wrap header name.
-	/// </summary>
+	/**
+	 * @brief The maximum size of a Wrap header name.
+	 */
 	constexpr Size const WRAP_HEADER_NAME_SIZE = 50;
 
-	/// <summary>
-	/// The maximum size of a Wrap entry path.
-	/// </summary>
+	/**
+	 * @brief The maximum size of a Wrap entry path.
+	 */
 	constexpr Size const WRAP_ENTRY_PATH_SIZE = 255;
 
-	/// <summary>
-	/// The current Wrap version.
-	/// </summary>
+	/**
+	 * @brief The current Wrap version.
+	 */
 	constexpr uint16_t const WRAP_VERSION = 0;
 
 #pragma endregion

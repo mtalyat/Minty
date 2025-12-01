@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERINPUTRATE_H
+#define MINTY_RENDER_SHADERINPUTRATE_H
+
+/**
+ * @file ShaderInputRate.h
+ * @brief Header file defining the ShaderInputRate enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines what data is being inputted to the shader.
-	/// </summary>
+	/**
+	 * @brief Determines what data is being inputted to the shader.
+	 */
 	enum class ShaderInputRate
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined = 0,
 
-		/// <summary>
-		/// The shader is using vertex data.
-		/// </summary>
+		/**
+		 * @brief The shader is using vertex data.
+		 */
 		Vertex = 1,
 
-		/// <summary>
-		/// The shader is using instance data.
-		/// </summary>
+		/**
+		 * @brief The shader is using instance data.
+		 */
 		Instance = 2
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ShaderInputRate>(String const& string, ShaderInputRate& value) { return parse_try_shader_input_rate(string, value); }
 }
+
+#endif // MINTY_RENDER_SHADERINPUTRATE_H

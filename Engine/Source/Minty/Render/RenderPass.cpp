@@ -3,6 +3,7 @@
 #include "Minty/Render/Image.h"
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Render/Surface.h"
+#include "Minty/Render/RenderPassInfo.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_RenderPass.h"
 #endif // MINTY_VULKAN
@@ -55,8 +56,6 @@ void Minty::RenderPass::refresh()
 		// refresh the target
 		target->refresh(info);
 	}
-
-	self.kill();
 }
 
 void Minty::RenderPass::register_render_target(RenderTarget* const renderTarget)

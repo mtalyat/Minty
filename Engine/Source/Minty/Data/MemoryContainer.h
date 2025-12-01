@@ -81,13 +81,13 @@ namespace Minty
 		 * @brief Sets the bytes at the given index and size.
 		 * @param data The bytes to set.
 		 */
-		void set_at(void const* const data, Size const size, Size const index) override;
+		void set_at(AnyConst const data, Size const size, Size const index) override;
 		
 		/**
 		 * @brief Gets the bytes at the given index.
 		 * @param index The index to get from.
 		 */
-		void const* get_at(Size const index) const override;
+		AnyConst get_at(Size const index) const override;
 
 		/**
 		 * @brief Clears this Container.

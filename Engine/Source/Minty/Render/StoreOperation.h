@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_STOREOPERATION_H
+#define MINTY_RENDER_STOREOPERATION_H
+
+/**
+ * @file StoreOperation.h
+ * @brief Header file defining the StoreOperation enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// The store operation.
-	/// </summary>
+	/**
+	 * @brief The store operation.
+	 */
 	enum class StoreOperation
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined,
 
-		/// <summary>
-		/// Does nothing with the current data.
-		/// </summary>
+		/**
+		 * @brief Does nothing with the current data.
+		 */
 		DontCare,
 
-		/// <summary>
-		/// Stores the current data.
-		/// </summary>
+		/**
+		 * @brief Stores the current data.
+		 */
 		Store,
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<StoreOperation>(String const& string, StoreOperation& value) { return parse_try_store_operation(string, value); }
 }
+
+#endif // MINTY_RENDER_STOREOPERATION_H

@@ -41,7 +41,7 @@ Minty::Application::Application(ApplicationInfo const &info)
 
 	if (info.windowInfo)
 	{
-		m_window = Window::create(*info.windowInfo);
+		m_window = Window::create(*info.windowInfo).to_shared();
 		m_window->set_event_callback([this](Event &event)
 									 { handle_event(event); });
 	}

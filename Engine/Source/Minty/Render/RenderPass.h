@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_RENDERPASS_H
+#define MINTY_RENDER_RENDERPASS_H
+
+/**
+ * @file RenderPass.h
+ * @brief Header file for the RenderPass class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
@@ -7,30 +15,11 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// The arguments for a RenderPass.
-	/// </summary>
-	struct RenderPassInfo
-	{
-		/// <summary>
-		/// The ID.
-		/// </summary>
-		UUID id = UUID();
+	struct RenderPassInfo;
 
-		/// <summary>
-		/// The color attachment, if any.
-		/// </summary>
-		RenderAttachment const* colorAttachment = nullptr;
-
-		/// <summary>
-		/// The depth attachment, if any.
-		/// </summary>
-		RenderAttachment const* depthAttachment = nullptr;
-	};
-
-	/// <summary>
-	/// A RenderPass handles the attachments used for rendering.
-	/// </summary>
+	/**
+	 * @brief A RenderPass handles the attachments used for rendering.
+	 */
 	class RenderPass
 		: public Asset
 	{
@@ -47,43 +36,41 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new RenderPass.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
+		/**
+		 * @brief Creates a new RenderPass.
+		 * @param info The arguments.
+		 */
 		RenderPass(RenderPassInfo const& info);
 
-		virtual ~RenderPass() override
-		{
-		}
+		virtual ~RenderPass() override = default;
 
 #pragma endregion
 
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Checks if this RenderPass has a color attachment.
-		/// </summary>
-		/// <returns>True, if there is a color attachment.</returns>
+		/**
+		 * @brief Checks if this RenderPass has a color attachment.
+		 * @return True, if there is a color attachment.
+		 */
 		inline Bool has_color_attachment() const { return m_colorAttachment; }
 
-		/// <summary>
-		/// Checks if this RenderPass has a depth attachment.
-		/// </summary>
-		/// <returns>True, if there is a depth attachment.</returns>
+		/**
+		 * @brief Checks if this RenderPass has a depth attachment.
+		 * @return True, if there is a depth attachment.
+		 */
 		inline Bool has_depth_attachment() const { return m_depthAttachment; }
 
-		/// <summary>
-		/// Gets the AssetType for this Asset.
-		/// </summary>
-		/// <returns>RenderPass.</returns>
+		/**
+		 * @brief Gets the AssetType for this Asset.
+		 * @return RenderPass.
+		 */
 		inline AssetType get_asset_type() const override { return AssetType::RenderPass; }
 
-		/// <summary>
-		/// Gets the native RenderPass object.
-		/// </summary>
-		/// <returns>The native object.</returns>
+		/**
+		 * @brief Gets the native RenderPass object.
+		 * @return The native object.
+		 */
 		virtual Any get_native() const = 0;
 
 #pragma endregion
@@ -91,21 +78,21 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Reinitializes all of the RenderTargets that use this RenderPass.
-		/// </summary>
+		/**
+		 * @brief Reinitializes all of the RenderTargets that use this RenderPass.
+		 */
 		void refresh();
 
-		/// <summary>
-		/// Registers a RenderTarget with this RenderPass.
-		/// </summary>
-		/// <param name="renderTarget">The RenderTarget.</param>
+		/**
+		 * @brief Registers a RenderTarget with this RenderPass.
+		 * @param renderTarget The RenderTarget.
+		 */
 		void register_render_target(RenderTarget* const renderTarget);
 
-		/// <summary>
-		/// Registers a RenderTarget with this RenderPass.
-		/// </summary>
-		/// <param name="renderTarget">The RenderTarget.</param>
+		/**
+		 * @brief Registers a RenderTarget with this RenderPass.
+		 * @param renderTarget The RenderTarget.
+		 */
 		void unregister_render_target(RenderTarget* const renderTarget);
 
 #pragma endregion
@@ -113,9 +100,15 @@ namespace Minty
 #pragma region Statics
 
 	public:
-		static Shared<RenderPass> create(RenderPassInfo const& info = {});
+		/**
+		 * @brief Creates a new RenderPass.
+		 * @param info The arguments.
+		 * @return A RenderPass Owner.
+		 */
+		static Shared<RenderPass> create(RenderPassInfo const& info);
 
 #pragma endregion
-
 	};
 }
+
+#endif // MINTY_RENDER_RENDERPASS_H

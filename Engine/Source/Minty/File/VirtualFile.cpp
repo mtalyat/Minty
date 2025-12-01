@@ -145,7 +145,7 @@ Bool Minty::VirtualFile::read_line(String& line)
     return false;
 }
 
-void Minty::VirtualFile::write(void const* const buffer, Size_t const size)
+void Minty::VirtualFile::write(AnyConst const buffer, Size_t const size)
 {
     // cap the size to not go out of bounds
 	Size_t cappedSize = size;

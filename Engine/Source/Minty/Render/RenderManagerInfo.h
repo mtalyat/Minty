@@ -30,7 +30,6 @@ namespace Minty
          */
 		Format targetSurfaceFormat = Format::Default;
 	};
-
 }
 
 #endif // MINTY_RENDER_RENDERMANAGERINFO_H

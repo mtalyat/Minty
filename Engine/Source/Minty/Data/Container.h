@@ -75,7 +75,7 @@ namespace Minty
 		 * @param size The number of bytes to set.
 		 * @returns True if set successfully.
 		 */
-		virtual Bool set(void const* const data, Size const size);
+		virtual Bool set(AnyConst const data, Size const size);
 
 		/**
 		 * @brief Gets the bytes at the given index.
@@ -136,7 +136,7 @@ namespace Minty
 		virtual Bool resize(Size const size) = 0;
 		
 	protected:
-		inline virtual Bool append_one(void const* const object, Size const size) { return append(object, size); }
+		inline virtual Bool append_one(AnyConst const object, Size const size) { return append(object, size); }
 
 #pragma endregion
 	};

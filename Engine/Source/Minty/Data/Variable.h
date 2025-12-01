@@ -39,7 +39,7 @@ namespace Minty
 		 * @brief Creates a Variable with the given Type and data.
 		 * @param type The Type of Variable.
 		 */
-		Variable(Type const type, void const* const data);
+		Variable(Type const type, AnyConst const data);
 
 		/**
 		 * @brief Creates a Variable with the given value.
@@ -128,7 +128,7 @@ namespace Minty
 		 * @param type The new Type.
 		 * @param data The new data.
 		 */
-		void set_data(Type const type, void const* const data)
+		void set_data(Type const type, AnyConst const data)
 		{
 			set_type(type);
 			set_data(data);
@@ -138,7 +138,7 @@ namespace Minty
 		 * @brief Sets the data of this Variable.
 		 * @param data The new data.
 		 */
-		void set_data(void const* const data);
+		void set_data(AnyConst const data);
 
 		/**
 		 * @brief Tries to get the data of this Variable.

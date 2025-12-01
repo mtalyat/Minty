@@ -1,24 +1,34 @@
-#pragma once
+#ifndef MINTY_RENDER_STENCILMODE_H
+#define MINTY_RENDER_STENCILMODE_H
+
+/**
+ * @file StencilMode.h
+ * @brief Header file defining the StencilMode enum.
+ * @author Mitchell Talyat
+ */
 
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
+	/**
+	 * @brief Determines how stencil buffering is handled.
+	 */
 	enum class StencilMode
 	{
-		/// <summary>
-		/// Do not use stencil buffer.
-		/// </summary>
+		/**
+		 * @brief Do not use stencil buffer.
+		 */
 		None,
 
-		/// <summary>
-		/// Write to the stencil buffer.
-		/// </summary>
+		/**
+		 * @brief Write to the stencil buffer.
+		 */
 		Write,
 
-		/// <summary>
-		/// Test the stencil buffer.
-		/// </summary>
+		/**
+		 * @brief Test the stencil buffer.
+		 */
 		Test
 	};
 
@@ -30,3 +40,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<StencilMode>(String const& string, StencilMode& value) { return parse_try_stencil_mode(string, value); }
 }
+
+#endif // MINTY_RENDER_STENCILMODE_H

@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SYSTEM_RENDERSYSTEM_H
+#define MINTY_SYSTEM_RENDERSYSTEM_H
+
+/**
+ * @file RenderSystem.h
+ * @brief Header file defining the RenderSystem class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/BufferContainerFactory.h"
 #include "Minty/System/System.h"
 #include "Minty/Entity/Entity.h"
@@ -12,9 +20,9 @@ namespace Minty
 	class RenderManager;
 	class Shader;
 
-	/// <summary>
-	/// Handles rendering the Scene.
-	/// </summary>
+	/**
+	 * @brief Handles rendering the Scene.
+	 */
 	class RenderSystem
 		: public System
 	{
@@ -26,30 +34,25 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Variables
-
-	private:
-		BufferContainerFactory m_bufferContainerFactory;
-		UUID m_3dSpriteGroupId;
-		UUID m_uiSpriteGroupId;
-		Entity m_canvasEntity;
-		Ref<Shader> m_canvasShader;
-		Canvas m_canvas;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
+		/**
+		 * @brief Creates a RenderSystem using the given SystemInfo.
+		 */
 		RenderSystem(SystemInfo const& info);
 
-		~RenderSystem()
-		{
-		}
+		~RenderSystem() override = default;
 
 #pragma endregion
 
 #pragma region Methods
+
+	public:
+		/**
+		 * @brief Called when the Scene is rendered.
+		 */
+		void on_render() override;
 
 	private:
 		// draws everything
@@ -75,9 +78,20 @@ namespace Minty
 		// draws the sprites in screen space
 		void render_ui_sprites(CameraData const& cameraInfo, RenderManager& renderManager, EntityManager& entityManager, RenderMap& renderMap);
 
-	public:
-		void on_render() override;
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		BufferContainerFactory m_bufferContainerFactory;
+		UUID m_3dSpriteGroupId;
+		UUID m_uiSpriteGroupId;
+		Entity m_canvasEntity;
+		Ref<Shader> m_canvasShader;
+		Canvas m_canvas;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_SYSTEM_RENDERSYSTEM_H

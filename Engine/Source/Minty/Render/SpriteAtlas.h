@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_SPRITEATLAS_H
+#define MINTY_RENDER_SPRITEATLAS_H
+
+/**
+ * @file SpriteAtlas.h
+ * @brief Header file defining the SpriteAtlas class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Rect.h"
@@ -14,31 +22,11 @@ namespace Minty
 	class AssetManager;
 	class Texture;
 	class Sprite;
+	struct SpriteAtlasInfo;
 
-	/// <summary>
-	/// The arguments to build a SpriteAtlas.
-	/// </summary>
-	struct SpriteAtlasInfo
-	{
-		/// <summary>
-		/// The ID of this Atlas.
-		/// </summary>
-		UUID id = UUID();
-
-		/// <summary>
-		/// The Texture that this Atlas uses.
-		/// </summary>
-		Ref<Texture> texture = nullptr;
-
-		/// <summary>
-		/// The Sprite groups within this Atlas.
-		/// </summary>
-		Vector<SpriteGroup> groups;
-	};
-
-	/// <summary>
-	/// A SpriteAtlas is a collection of Sprites that share the same Texture.
-	/// </summary>
+	/**
+	 * @brief A SpriteAtlas is a collection of Sprites that share the same Texture.
+	 */
 	class SpriteAtlas
 		: public Asset
 	{
@@ -53,10 +41,10 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new SpriteAtlas with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
+		/**
+		 * @brief Creates a new SpriteAtlas with the given arguments.
+		 * @param info The arguments.
+		 */
 		SpriteAtlas(SpriteAtlasInfo const& info);
 
 #pragma endregion
@@ -64,41 +52,41 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Texture used by this SpriteAtlas.
-		/// </summary>
-		/// <returns></returns>
+		/**
+		 * @brief Gets the Texture used by this SpriteAtlas.
+		 * @return The Texture.
+		 */
 		inline Ref<Texture> const& get_texture() const { return m_texture; }
 
-		/// <summary>
-		/// Gets the Group with the given index.
-		/// </summary>
-		/// <param name="index">The index of the Group.</param>
-		/// <returns>The Group.</returns>
+		/**
+		 * @brief Gets the Group with the given index.
+		 * @param index The index of the Group.
+		 * @return The Group.
+		 */
 		inline SpriteGroup const& get_group(Int const index) const
 		{
 			MINTY_ASSERT(index >= 0 && index < m_groups.get_size(), ErrorCode::Argument_OutOfBounds);
 			return m_groups[index];
 		}
 
-		/// <summary>
-		/// Gets the ID of the Sprite at the given index in the specified group.
-		/// </summary>
-		/// <param name="groupIndex">The Group the Sprite ID is in.</param>
-		/// <param name="index">The 2D index of the Sprite ID.</param>
-		/// <returns>The Sprite ID.</returns>
+		/**
+		 * @brief Gets the ID of the Sprite at the given index in the specified group.
+		 * @param groupIndex The Group the Sprite ID is in.
+		 * @param index The 2D index of the Sprite ID.
+		 * @return The Sprite ID.
+		 */
 		inline UUID get_sprite_id(Int const groupIndex, Int2 const index) const
 		{
 			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), ErrorCode::Argument_OutOfBounds);
 			return m_groups[groupIndex].get_id(index);
 		}
 
-		/// <summary>
-		/// Gets the ID of the Sprite at the given index in the specified group.
-		/// </summary>
-		/// <param name="groupIndex">The Group the Sprite ID is in.</param>
-		/// <param name="index">The 1D index of the Sprite ID.</param>
-		/// <returns>The Sprite ID.</returns>
+		/**
+		 * @brief Gets the ID of the Sprite at the given index in the specified group.
+		 * @param groupIndex The Group the Sprite ID is in.
+		 * @param index The 1D index of the Sprite ID.
+		 * @return The Sprite ID.
+		 */
 		inline UUID get_sprite_id(Int const groupIndex, Int const index) const
 		{
 			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), ErrorCode::Argument_OutOfBounds);
@@ -108,20 +96,20 @@ namespace Minty
 			return m_groups[groupIndex].get_id(indexX, indexY);
 		}
 
-		/// <summary>
-		/// Gets the Sprite at the given index in the specified group.
-		/// </summary>
-		/// <param name="groupIndex">The Group the Sprite is in.</param>
-		/// <param name="index">The 2D index of the Sprite.</param>
-		/// <returns>The Sprite.</returns>
+		/**
+		 * @brief Gets the Sprite at the given index in the specified group.
+		 * @param groupIndex The Group the Sprite is in.
+		 * @param index The 2D index of the Sprite.
+		 * @return The Sprite.
+		 */
 		Ref<Sprite> get_sprite(Int const groupIndex, Int2 const index) const;
 
-		/// <summary>
-		/// Gets the Sprite at the given index in the specified group.
-		/// </summary>
-		/// <param name="groupIndex">The Group the Sprite is in.</param>
-		/// <param name="index">The 1D index of the Sprite.</param>
-		/// <returns>The Sprite.</returns>
+		/**
+		 * @brief Gets the Sprite at the given index in the specified group.
+		 * @param groupIndex The Group the Sprite is in.
+		 * @param index The 1D index of the Sprite.
+		 * @return The Sprite.
+		 */
 		Ref<Sprite> get_sprite(Int const groupIndex, Int const index) const;
 
 #pragma endregion
@@ -129,35 +117,32 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Called when the Asset is loaded into the AssetManager.
-		/// </summary>
+		/**
+		 * @brief Called when the Asset is loaded into the AssetManager.
+		 */
 		void on_load();
 
-		/// <summary>
-		/// Called when the Asset is unloaded from the AssetManager.
-		/// </summary>
+		/**
+		 * @brief Called when the Asset is unloaded from the AssetManager.
+		 */
 		void on_unload();
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>The AssetType.</returns>
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return The AssetType.
+		 */
 		inline AssetType get_asset_type() const { return AssetType::SpriteAtlas; }
 
-#pragma endregion
-
-#pragma region Static
-
-	public:
-		/// <summary>
-		/// Creates a new SpriteAtlas with the given arguments.
-		/// </summary>
-		/// <param name="info">The arguments.</param>
-		/// <returns>A SpriteAtlas Owner.</returns>
-		static Shared<SpriteAtlas> create(SpriteAtlasInfo const& info = {});
+		/**
+		 * @brief Creates a new SpriteAtlas with the given arguments.
+		 * @param info The arguments.
+		 * @return A SpriteAtlas Owner.
+		 */
+		static Shared<SpriteAtlas> create(SpriteAtlasInfo const& info);
 
 #pragma endregion
 
 	};
 }
+
+#endif // MINTY_RENDER_SPRITEATLAS_H

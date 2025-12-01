@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_TOOL_ARGUMENTPARSER_H
+#define MINTY_TOOL_ARGUMENTPARSER_H
+
+/**
+ * @file ArgumentParser.h
+ * @brief Header file defining the ArgumentParser class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/String.h"
@@ -6,9 +14,9 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Handles parsing the command line.
-	/// </summary>
+	/**
+	 * @brief Handles parsing the command line.
+	 */
 	class ArgumentParser
 	{
 #pragma region Types
@@ -27,19 +35,12 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Variables
-
-	private:
-		Vector<Parameter> m_positionalParams;
-		Vector<Parameter> m_flagParams;
-		Map<String, Int> m_flagIndices;
-		Map<String, Argument> m_args;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
+		/**
+		 * @brief Creates an ArgumentParser.
+		 */
 		ArgumentParser()
 			: m_positionalParams()
 			, m_flagParams()
@@ -53,46 +54,55 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		/// <summary>
-		/// Adds a positional parameter to the list of parameters to parse for.
-		/// </summary>
-		/// <param name="name">The name of the parameter.</param>
-		/// <param name="argc">The maximum number of string arguments to capture. Set to zero to be optional Must be at least 0.</param>
+		/**
+		 * @brief Adds a positional parameter to the list of parameters to parse for.
+		 * @param name The name of the parameter.
+		 * @param argc The maximum number of string arguments to capture. Set to zero to be optional Must be at least 0.
+		 */
 		void add_parameter(String const& name, Int const argc = 1);
 
-		/// <summary>
-		/// Adds a flag parameter to the list of parameters to parse for. Flag parameters are denoted by either "-name" or "-flag".
-		/// </summary>
-		/// <param name="name">The name of the parameter.</param>
-		/// <param name="flag">The flag identifier. Optional.</param>
-		/// <param name="argc">The number of following arguments after the flag. Must be at least 0.</param>
+		/**
+		 * @brief Adds a flag parameter to the list of parameters to parse for. Flag parameters are denoted by either "-name" or "-flag".
+		 * @param name The name of the parameter.
+		 * @param flag The flag identifier. Optional.
+		 * @param argc The number of following arguments after the flag. Must be at least 0.
+		 */
 		void add_parameter(String const& name, String const& flag, Int const argc = 1);
 
-		/// <summary>
-		/// Parses the loaded parameters.
-		/// </summary>
-		/// <param name="argc">The number of args to parse.</param>
-		/// <param name="argv">The arguments to parse.</param>
+		/**
+		 * @brief Parses the loaded parameters.
+		 * @param argc The number of args to parse.
+		 * @param argv The arguments to parse.
+		 */
 		void parse(Int const argc, Char const* argv[]);
 
-		/// <summary>
-		/// Gets the argument by name, if the argument was provided.
-		/// </summary>
-		/// <param name="name">The name of the parameter.</param>
-		/// <param name="arg">The argument to fill with the values.</param>
-		/// <returns>True if the argument was found.</returns>
+		/**
+		 * @brief Gets the argument by name, if the argument was provided.
+		 * @param name The name of the parameter.
+		 * @param arg The argument to fill with the values.
+		 * @return True if the argument was found.
+		 */
 		Vector<String> const& get_argument(String const& name) const;
 
-		/// <summary>
-		/// Checks if the argument was provided.
-		/// </summary>
-		/// <param name="name">The name of the parameter.</param>
-		/// <returns>True if there was an argument provided with the name of the given parameter.</returns>
-		inline Bool has_argument(String const& name) const
-		{
-			return m_args.contains(name);
-		}
+		/**
+		 * @brief Checks if the argument was provided.
+		 * @param name The name of the parameter.
+		 * @return True if there was an argument provided with the name of the given parameter.
+		 */
+		inline Bool has_argument(String const& name) const { return m_args.contains(name); }
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Vector<Parameter> m_positionalParams;
+		Vector<Parameter> m_flagParams;
+		Map<String, Int> m_flagIndices;
+		Map<String, Argument> m_args;
 
 #pragma endregion
 	};
 }
+
+#endif // MINTY_TOOL_ARGUMENTPARSER_H

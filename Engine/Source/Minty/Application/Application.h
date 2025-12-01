@@ -80,6 +80,17 @@ namespace Minty
 		}
 
 		/**
+		 * @brief Gets a Ref to the Window of the Application.
+		 * @note This will be invalid if no Window was created using the ApplicationInfo.
+		 * @return The Ref to the Window.
+		 */
+		Ref<Window> get_window_ref() const
+		{
+			MINTY_ASSERT(m_window != nullptr, ErrorCode::Object_InvalidState);
+			return m_window.to_ref();
+		}
+
+		/**
 		 * @note This will be invalid if no MemoryManager was created using the ApplicationInfo.
 		 * @brief Gets the MemoryManager of the Application.
 		 * @return The MemoryManager.
@@ -318,7 +329,7 @@ namespace Minty
 
 	private:
 		Bool m_running;
-		Unique<Window> m_window;
+		Shared<Window> m_window;
 		Unique<MemoryManager> m_memoryManager;
 		Unique<JobManager> m_jobManager;
 		Unique<AudioManager> m_audioManager;

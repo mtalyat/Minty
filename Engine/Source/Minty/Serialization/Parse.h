@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_SERIALIZATION_PARSE_H
+#define MINTY_SERIALIZATION_PARSE_H
+
+/**
+ * @file Parse.h
+ * @brief Header file defining parsing functions.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
@@ -7,12 +15,6 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Parses the given string into the given value.
-	/// </summary>
-	/// <typeparam name="T">The type to parse to.</typeparam>
-	/// <param name="string">The String to parse from.</param>
-	/// <param name="value">The value to parse into.</param>
 	template<typename T>
 	std::enable_if_t<is_parseable<T>::value, T> 
 		parse_to(String const& string)
@@ -22,13 +24,6 @@ namespace Minty
 		return t;
 	}
 
-	/// <summary>
-	/// Attempts to parse the given string into the given value.
-	/// </summary>
-	/// <typeparam name="T">The type to parse to.</typeparam>
-	/// <param name="string">The String to parse from.</param>
-	/// <param name="value">The value to parse into.</param>
-	/// <returns>True on success.</returns>
 	template<typename T>
 	std::enable_if_t<is_parseable<T>::value, Bool> 
 		parse_try(String const& string, T& value)
@@ -42,12 +37,6 @@ namespace Minty
 		return false;
 	}
 
-	/// <summary>
-	/// Parses the given string into the given value.
-	/// </summary>
-	/// <typeparam name="T">The type to parse to.</typeparam>
-	/// <param name="string">The String to parse from.</param>
-	/// <param name="value">The value to parse into.</param>
 	template<typename T>
 	std::enable_if_t<!is_parseable<T>::value, T> 
 		parse_to(String const& string)
@@ -55,13 +44,6 @@ namespace Minty
 		MINTY_NOT_IMPLEMENTED(typeid(T).name());
 	}
 
-	/// <summary>
-	/// Attempts to parse the given string into the given value.
-	/// </summary>
-	/// <typeparam name="T">The type to parse to.</typeparam>
-	/// <param name="string">The String to parse from.</param>
-	/// <param name="value">The value to parse into.</param>
-	/// <returns>True on success.</returns>
 	template<typename T>
 	std::enable_if_t<!is_parseable<T>::value, Bool> 
 		parse_try(String const& string, T& value)
@@ -383,3 +365,5 @@ namespace Minty
 		return true;
 	}
 }
+
+#endif // MINTY_SERIALIZATION_PARSE_H

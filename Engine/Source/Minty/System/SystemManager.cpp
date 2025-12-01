@@ -2,29 +2,62 @@
 #include "SystemManager.h"
 #include "Minty/Application/Application.h"
 #include "Minty/Debug/Trace.h"
+#include "Minty/System/SystemManagerInfo.h"
+#include "Minty/System/SystemInfo.h"
+#include "Minty/System/System.h"
+#include "Minty/System/SystemData.h"
+#include "Minty/Event/Event.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
+#include "Minty/Scene/SceneManager.h"
+#include "Minty/Scene/Scene.h"
 
 using namespace Minty;
 
-System* Minty::SystemManager::add(SystemData const* data, Int const priority)
+Minty::SystemManager::SystemManager(Scene *scene, SystemManagerInfo const &info)
+	: SubManager(scene), m_scene(info.scene), m_systems(), m_systemsByType()
 {
-	MINTY_ASSERT(data != nullptr, ErrorCode::System_NotRegistered);
+	// load all of the systems
+	for (auto const &[priority, list] : m_systems)
+	{
+		for (System *system : list)
+		{
+			system->on_load();
+		}
+	}
+}
 
+Minty::SystemManager::~SystemManager()
+{
+	// unload and delete all of the systems
+	for (auto const &[priority, list] : m_systems)
+	{
+		for (System *system : list)
+		{
+			system->on_unload();
+			delete system;
+		}
+	}
+}
+
+System *Minty::SystemManager::add(SystemData const &data, Int const priority)
+{
 	// create the system
 	SystemInfo info{};
 	info.priority = priority;
 	info.scene = m_scene;
-	info.info = data;
-	System* system = data->create(info);
+	info.info = &data;
+	System *system = data.create(info);
 
-	MINTY_ASSERT(!m_systemsByType.contains(data->typeId), ErrorCode::Argument_KeyAlreadyExists, data->name);
+	MINTY_ASSERT(!m_systemsByType.contains(data.typeId), ErrorCode::Argument_KeyAlreadyExists, data.name);
 
 	// add the system
-	m_systemsByType.add(data->typeId, system);
+	m_systemsByType.add(data.typeId, system);
 	auto found = m_systems.find(priority);
 	if (found == m_systems.end())
 	{
 		// create a new list for this priority
-		m_systems.add(priority, { system });
+		m_systems.add(priority, {system});
 	}
 	else
 	{
@@ -35,32 +68,31 @@ System* Minty::SystemManager::add(SystemData const* data, Int const priority)
 	return system;
 }
 
-System* Minty::SystemManager::add(SystemData const* data)
+System *Minty::SystemManager::add(SystemData const &data)
 {
-	MINTY_ASSERT(data != nullptr, ErrorCode::System_NotRegistered);
-	return add(data, data->defaultPriority);
+	return add(data, data.defaultPriority);
 }
 
-System* Minty::SystemManager::add(TypeID const& typeId)
+System *Minty::SystemManager::add(TypeID const &typeId)
 {
 	// get info from type
 	return add(Application::get_singleton().get_system_info(typeId));
 }
 
-System* Minty::SystemManager::add(String const& name)
+System *Minty::SystemManager::add(String const &name)
 {
 	return add(Application::get_singleton().get_system_info(name));
 }
 
-System* Minty::SystemManager::add(String const& name, Int const priority)
+System *Minty::SystemManager::add(String const &name, Int const priority)
 {
 	return add(Application::get_singleton().get_system_info(name), priority);
 }
 
-System* Minty::SystemManager::get_system(String const& name) const
+System *Minty::SystemManager::get_system(String const &name) const
 {
 	// get the system info
-	SystemData const& data = Application::get_singleton().get_system_info(name);
+	SystemData const &data = Application::get_singleton().get_system_info(name);
 
 	// get the system by type
 	auto it = m_systemsByType.find(data.typeId);
@@ -75,61 +107,28 @@ System* Minty::SystemManager::get_system(String const& name) const
 	return it->get_second();
 }
 
-void Minty::SystemManager::initialize()
-{
-	// load all of the systems
-	for (auto const& [priority, list] : m_systems)
-	{
-		for (System* system : list)
-		{
-			system->on_load();
-		}
-	}
-
-	Manager::initialize();
-}
-
-void Minty::SystemManager::dispose()
-{
-	// unload and delete all of the systems
-	for (auto const& [priority, list] : m_systems)
-	{
-		for (System* system : list)
-		{
-			system->on_unload();
-			delete system;
-		}
-	}
-
-	// clear data
-	m_systems.clear();
-	m_systemsByType.clear();
-
-	Manager::dispose();
-}
-
-void Minty::SystemManager::frame_update(Timestep const& time)
+void Minty::SystemManager::frame_update(Timestep const &time)
 {
 	MINTY_TRACE_SCOPE();
 
 	// update all of the systems
-	for (auto const& [priority, list] : m_systems)
+	for (auto const &[priority, list] : m_systems)
 	{
-		for (System* system : list)
+		for (System *system : list)
 		{
 			system->on_frame_update(time);
 		}
 	}
 }
 
-void Minty::SystemManager::fixed_update(Timestep const& time)
+void Minty::SystemManager::fixed_update(Timestep const &time)
 {
 	MINTY_TRACE_SCOPE();
 
 	// fixed update all of the systems
-	for (auto const& [priority, list] : m_systems)
+	for (auto const &[priority, list] : m_systems)
 	{
-		for (System* system : list)
+		for (System *system : list)
 		{
 			system->on_fixed_update(time);
 		}
@@ -141,9 +140,9 @@ void Minty::SystemManager::finalize()
 	MINTY_TRACE_SCOPE();
 
 	// finalize all of the systems
-	for (auto const& [priority, list] : m_systems)
+	for (auto const &[priority, list] : m_systems)
 	{
-		for (System* system : list)
+		for (System *system : list)
 		{
 			system->on_finalize();
 		}
@@ -155,23 +154,23 @@ void Minty::SystemManager::render()
 	MINTY_TRACE_SCOPE();
 
 	// render all of the systems
-	for (auto const& [priority, list] : m_systems)
+	for (auto const &[priority, list] : m_systems)
 	{
-		for (System* system : list)
+		for (System *system : list)
 		{
 			system->on_render();
 		}
 	}
 }
 
-void Minty::SystemManager::handle_event(Event& event)
+void Minty::SystemManager::handle_event(Event &event)
 {
 	MINTY_TRACE_SCOPE();
 
 	// pass the event on to each of the systems
-	for (auto const& [priority, list] : m_systems)
+	for (auto const &[priority, list] : m_systems)
 	{
-		for (System* system : list)
+		for (System *system : list)
 		{
 			system->on_event(event);
 
@@ -183,12 +182,12 @@ void Minty::SystemManager::handle_event(Event& event)
 	}
 }
 
-void Minty::SystemManager::serialize(Writer& writer) const
+void Minty::SystemManager::serialize(Writer &writer) const
 {
 	// serialize each system
-	for (auto const& [priority, list] : m_systems)
+	for (auto const &[priority, list] : m_systems)
 	{
-		for (System* system : list)
+		for (System *system : list)
 		{
 			// write the name, only write the priority if it is not the default priority
 			if (priority != system->get_data()->defaultPriority)
@@ -208,7 +207,7 @@ void Minty::SystemManager::serialize(Writer& writer) const
 	}
 }
 
-Bool Minty::SystemManager::deserialize(Reader& reader)
+Bool Minty::SystemManager::deserialize(Reader &reader)
 {
 	// deserialize each system
 	String name;
@@ -221,7 +220,7 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 		}
 
 		// get the system if it already exists
-		System* system = get_system(name);
+		System *system = get_system(name);
 
 		Int priority;
 		if (system)
@@ -235,7 +234,7 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 				if (it == m_systems.end())
 				{
 					// create a new list for this priority
-					m_systems.add(priority, { system });
+					m_systems.add(priority, {system});
 				}
 				else
 				{
@@ -274,15 +273,15 @@ Bool Minty::SystemManager::deserialize(Reader& reader)
 	return true;
 }
 
-Shared<SystemManager> Minty::SystemManager::create(Scene* scene, SystemManagerInfo const& info)
+Shared<SystemManager> Minty::SystemManager::create(Scene *scene, SystemManagerInfo const &info)
 {
-	return Shared<SystemManager>(scene, info);
+	return Shared<SystemManager>::create(scene, info);
 }
 
-SystemManager& Minty::SystemManager::get_singleton()
+SystemManager &Minty::SystemManager::get_singleton()
 {
-	// get active scene
-	Ref<Scene> const& activeScene = Application::get_singleton().get_scene_manager().get_active();
+	// get from the active scene
+	Ref<Scene> const &activeScene = Application::get_singleton().get_scene_manager().get_active();
 	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_system_manager();
 }

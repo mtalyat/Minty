@@ -2,6 +2,8 @@
 #include "SpriteAtlas.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Render/Sprite.h"
+#include "Minty/Render/SpriteInfo.h"
+#include "Minty/Render/SpriteAtlasInfo.h"
 
 using namespace Minty;
 
@@ -72,5 +74,5 @@ void Minty::SpriteAtlas::on_unload()
 
 Shared<SpriteAtlas> Minty::SpriteAtlas::create(SpriteAtlasInfo const& info)
 {
-	return Shared<SpriteAtlas>(new SpriteAtlas(info));
+	return Shared<SpriteAtlas>::create(info);
 }

@@ -1,36 +1,37 @@
-#pragma once
+#ifndef MINTY_UI_CANVAS_H
+#define MINTY_UI_CANVAS_H
+
+/**
+ * @file Canvas.h
+ * @brief Header file defining the Canvas class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Math.h"
+#include "Minty/Core/Types.h"
 #include "Minty/Data/Rect.h"
 #include "Minty/Serialization/SerializableObject.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// A canvas is a 2D space where UI elements are drawn.
-	/// </summary>
+	/**
+	 * @brief A canvas is a 2D space where UI elements are drawn.
+	 */
 	class Canvas
 		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		// the resolution that the canvas emulates
-		Int2 m_resolution;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates an empty Canvas.
-		/// </summary>
+		/**
+		 * @brief Creates an empty Canvas.
+		 */
 		Canvas();
 
-		/// <summary>
-		/// Creates a new canvas with the given resolution.
-		/// </summary>
-		/// <param name="resolution">The resolution of the canvas.</param>
+		/**
+		 * @brief Creates a new canvas with the given resolution.
+		 * @param resolution The resolution of the canvas.
+		 */
 		Canvas(Int2 const resolution)
 			: m_resolution(resolution)
 		{
@@ -41,32 +42,23 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the resolution of the canvas.
-		/// </summary>
-		/// <returns>The resolution of the canvas.</returns>
-		Int2 get_resolution() const
-		{
-			return m_resolution;
-		}
+		/**
+		 * @brief Gets the resolution of the canvas.
+		 * @return The resolution of the canvas.
+		 */
+		inline Int2 get_resolution() const { return m_resolution; }
 
-		/// <summary>
-		/// Sets the resolution of the canvas.
-		/// </summary>
-		/// <param name="resolution">The resolution of the canvas.</param>
-		void set_resolution(Int2 const resolution)
-		{
-			m_resolution = resolution;
-		}
+		/**
+		 * @brief Sets the resolution of the canvas.
+		 * @param resolution The resolution of the canvas.
+		 */
+		inline void set_resolution(Int2 const resolution) { m_resolution = resolution; }
 
-		/// <summary>
-		/// Gets the rectangle of this Canvas.
-		/// </summary>
-		/// <returns>A Rect that resembles this Canvas area.</returns>
-		Rect get_rect() const
-		{
-			return Rect(0, 0, static_cast<Float>(m_resolution.x), static_cast<Float>(m_resolution.y));
-		}
+		/**
+		 * @brief Gets the rectangle of this Canvas.
+		 * @return A Rect that resembles this Canvas area.
+		 */
+		inline Rect get_rect() const { return Rect(0, 0, static_cast<Float>(m_resolution.x), static_cast<Float>(m_resolution.y)); }
 
 #pragma endregion
 
@@ -77,5 +69,15 @@ namespace Minty
 		Bool deserialize(Reader& reader) override;
 
 #pragma endregion
+
+#pragma region Variables
+
+	private:
+		// the resolution that the canvas emulates
+		Int2 m_resolution;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_UI_CANVAS_H

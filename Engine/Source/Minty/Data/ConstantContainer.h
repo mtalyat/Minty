@@ -37,7 +37,7 @@ namespace Minty
 		 * @param data The data to copy.
 		 * @param size The size in bytes.
 		 */
-		ConstantContainer(void const* const data, Size const size);
+		ConstantContainer(AnyConst const data, Size const size);
 
 #pragma endregion
 
@@ -50,7 +50,7 @@ namespace Minty
 		 * @param size The number of bytes.
 		 * @return False.
 		 */
-		inline Bool append(void const* const data, Size const size) override { return false; }
+		inline Bool append(AnyConst const data, Size const size) override { return false; }
 
 		/**
 		 * @brief Clears this Container by zeroing out its data.

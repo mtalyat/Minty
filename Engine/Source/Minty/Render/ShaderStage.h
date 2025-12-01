@@ -1,27 +1,35 @@
-#pragma once
+#ifndef MINTY_RENDER_SHADERSTAGE_H
+#define MINTY_RENDER_SHADERSTAGE_H
+
+/**
+ * @file ShaderStage.h
+ * @brief Header file defining the ShaderStage enum.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parse.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Determines the stage of the shader.
-	/// </summary>
+	/**
+	 * @brief Determines the stage of the shader.
+	 */
 	enum class ShaderStage
 	{
-		/// <summary>
-		/// Invalid.
-		/// </summary>
+		/**
+		 * @brief Invalid.
+		 */
 		Undefined,
 		
-		/// <summary>
-		/// The vertex shader stage.
-		/// </summary>
+		/**
+		 * @brief The vertex shader stage.
+		 */
 		Vertex,
 
-		/// <summary>
-		/// The fragment shader stage.
-		/// </summary>
+		/**
+		 * @brief The fragment shader stage.
+		 */
 		Fragment
 	};
 
@@ -33,3 +41,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<ShaderStage>(String const& string, ShaderStage& value) { return parse_try_shader_stage(string, value); }
 }
+
+#endif // MINTY_RENDER_SHADERSTAGE_H

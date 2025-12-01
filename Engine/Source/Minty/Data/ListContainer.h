@@ -37,7 +37,7 @@ namespace Minty
 		 * @brief Creates a ListContainer with the given data, stride, and count.
 		 * @param data The byte data.
 		 */
-		ListContainer(void const* const data, Size const stride, Size const count);
+		ListContainer(AnyConst const data, Size const stride, Size const count);
 
 #pragma endregion
 
@@ -78,27 +78,27 @@ namespace Minty
 		 * @param count The number of elements to set.
 		 * @param index The index of the element(s) to set.
 		 */
-		void set_at(void const* const data, Size const count, Size const index) override;
+		void set_at(AnyConst const data, Size const count, Size const index) override;
 
 		/**
 		 * @brief Gets the bytes of the element at the given index.
 		 * @param index The index of the element to get.
 		 */
-		void const* get_at(Size const index) const override;
+		AnyConst get_at(Size const index) const override;
 
 		/**
 		 * @brief Sets the element bytes for this Container.
 		 * @param data The bytes of the element(s) to set.
 		 * @param count The number of elements to set.
 		 */
-		Bool set(void const* const data, Size const count) override;
+		Bool set(AnyConst const data, Size const count) override;
 
 		/**
 		 * @brief Adds the given element bytes to the end of the data within this Container.
 		 * @param data The bytes of the element(s) to append.
 		 * @param count The number of elements to append.
 		 */
-		Bool append(void const* const data, Size const count = 1) override;
+		Bool append(AnyConst const data, Size const count = 1) override;
 
 		/**
 		 * @brief Sets the new capacity for this Container.
@@ -115,7 +115,7 @@ namespace Minty
 		Bool resize(Size const count) override;
 
 	protected:
-		Bool append_one(void const* const object, Size const size) override
+		Bool append_one(AnyConst const object, Size const size) override
 		{
 			MINTY_ASSERT(size == m_stride, ErrorCode::Argument_InvalidSize); // object size must match stride
 			return append(object, 1);

@@ -3,6 +3,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Render/Texture.h"
+#include "Minty/Render/SpriteInfo.h"
 
 using namespace Minty;
 
@@ -123,5 +124,5 @@ void Minty::Sprite::set_pivot(Float2 const& pivot)
 
 Shared<Sprite> Minty::Sprite::create(SpriteInfo const& info)
 {
-	return Shared<Sprite>(info);
+	return Shared<Sprite>::create(info);
 }

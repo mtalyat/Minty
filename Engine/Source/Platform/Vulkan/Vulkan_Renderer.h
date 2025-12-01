@@ -185,7 +185,7 @@ namespace Minty
 #pragma region Shader Module
 
 	public:
-		static VkShaderModule create_shader_module(VkDevice const device, void const* const data, Size const size);
+		static VkShaderModule create_shader_module(VkDevice const device, AnyConst const data, Size const size);
 
 		static void destroy_shader_module(VkDevice const device, VkShaderModule const shaderModule);
 
@@ -281,7 +281,7 @@ namespace Minty
 
 		static void copy_image_to_buffer(VkCommandBuffer const commandBuffer, VkQueue const queue, VkImage const srcImage, VkBuffer const dstBuffer, const uint32_t width, const uint32_t height);
 
-		static void update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, void const* const data);
+		static void update_push_constants(VkCommandBuffer const commandBuffer, VkPipelineLayout const pipelineLayout, VkShaderStageFlags const stageFlags, uint32_t const offset, uint32_t const size, AnyConst const data);
 
 #pragma endregion
 

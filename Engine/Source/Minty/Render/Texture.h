@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_RENDER_TEXTURE_H
+#define MINTY_RENDER_TEXTURE_H
+
+/**
+ * @file Texture.h
+ * @brief Header file defining the Texture class and TextureInfo struct.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Render/AddressMode.h"
 #include "Minty/Render/Filter.h"
@@ -6,63 +14,22 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Arguments for creating a Texture.
-	/// </summary>
-	struct TextureInfo
-	{
-		/// <summary>
-		/// The ID.
-		/// </summary>
-		UUID id = UUID();
+	struct TextureInfo;
 
-		/// <summary>
-		/// The Image this Texture uses.
-		/// </summary>
-		Ref<Image> image;
-
-		/// <summary>
-		/// The filter to use for this Texture.
-		/// </summary>
-		Filter filter = Filter::Undefined;
-
-		/// <summary>
-		/// The coordinate address mode to use for this Texture.
-		/// </summary>
-		AddressMode addressMode = AddressMode::Repeat;
-
-		/// <summary>
-		/// When true, the coordinates are normalized to the range [0, 1]. Otherwise, they are from [0, width] and [0, height].
-		/// </summary>
-		Bool normalizeCoordinates = true;
-	};
-
-	/// <summary>
-	/// An Image used for rendering.
-	/// </summary>
+	/**
+	 * @brief An Image used for rendering.
+	 */
 	class Texture
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		Ref<Image> m_image;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		/// <summary>
-		/// Creates a new Texture.
-		/// </summary>
-		/// <param name="info">The Texture info.</param>
-		Texture(TextureInfo const& info)
-			: Asset(info.id)
-			, m_image(info.image)
-		{
-			MINTY_ASSERT(m_image != nullptr, ErrorCode::Argument_ExpectedNonNull);
-		}
+		/**
+		 * @brief Creates a new Texture.
+		 * @param info The Texture info.
+		 */
+		Texture(TextureInfo const& info);
 
 		virtual ~Texture() = default;
 
@@ -71,32 +38,45 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the Image this Texture uses.
-		/// </summary>
-		/// <returns>The Image.</returns>
+		/**
+		 * @brief Gets the Image this Texture uses.
+		 * @return The Image.
+		 */
 		Ref<Image> const& get_image() const { return m_image; }
 
-		/// <summary>
-		/// Gets the size of this Texture.
-		/// </summary>
-		/// <returns>The width and height of this Texture's image in pixels.</returns>
-		UInt2 get_size() const { return m_image->get_size(); }
+		/**
+		 * @brief Gets the size of this Texture.
+		 * @return The width and height of this Texture's image in pixels.
+		 */
+		inline UInt2 get_size() const { return m_image->get_size(); }
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>Texture.</returns>
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return Texture.
+		 */
 		AssetType get_asset_type() const override { return AssetType::Texture; }
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Methods
 
 	public:
-		static Shared<Texture> create(TextureInfo const& info = {});
+		/**
+		 * @brief Creates a new Texture.
+		 * @param info The arguments.
+		 * @return A Texture Owner.
+		 */
+		static Shared<Texture> create(TextureInfo const& info);
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		Ref<Image> m_image;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_RENDER_TEXTURE_H

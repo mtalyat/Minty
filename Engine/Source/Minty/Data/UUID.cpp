@@ -21,8 +21,15 @@ Minty::UUID::UUID(Byte const (&id)[UUID_BYTE_SIZE])
 	}
 }
 
-Minty::UUID::UUID(StringView const &string)
+Minty::UUID::UUID(UInt64 const id_high, UInt64 const id_low)
 	: m_id(0)
+{
+	std::memcpy(m_id, &id_high, sizeof(UInt64));
+	std::memcpy(m_id + sizeof(UInt64), &id_low, sizeof(UInt64));
+}
+
+Minty::UUID::UUID(StringView const &string)
+    : m_id(0)
 {
 	if (string.is_empty())
 	{
