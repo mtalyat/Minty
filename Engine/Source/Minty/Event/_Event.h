@@ -1,4 +1,4 @@
-#pragma once
+// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
 #include "Event.h"
 #include "EventState.h"

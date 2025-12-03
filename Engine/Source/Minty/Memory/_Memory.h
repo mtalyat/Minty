@@ -1,3 +1,5 @@
+// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
+
 #include "AllocatorType.h"
 #include "DefaultAllocator.h"
 #include "FrameAllocator.h"

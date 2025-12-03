@@ -1,3 +1,5 @@
+// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
+
 #include "AnimatorComponent.h"
 #include "AudioListenerComponent.h"
 #include "AudioSourceComponent.h"
@@ -5,6 +7,7 @@
 #include "CanvasComponent.h"
 #include "ColliderComponent.h"
 #include "Component.h"
+#include "ComponentData.h"
 #include "DestroyComponent.h"
 #include "DirtyComponent.h"
 #include "DirtyTextComponent.h"

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(Minty VERSION 1.0.0 LANGUAGES CXX)
 
+set(TOP ${CMAKE_CURRENT_SOURCE_DIR}/../..)
+
 # Set C++23 standard
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -202,6 +204,13 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
+)
+
+# Add custom command to generate files
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E echo "Generating directory headers..."
+    COMMAND python "${TOP}/Tools/Build/generate_directory_headers.py"
+        "${SOURCE_DIR}/Minty"
 )
 
 # Print configuration info

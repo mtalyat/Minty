@@ -1,3 +1,5 @@
+// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
+
 #include "Animation.h"
 #include "AnimationAction.h"
 #include "AnimationActionFlags.h"

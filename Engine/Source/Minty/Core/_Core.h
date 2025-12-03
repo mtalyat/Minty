@@ -1,4 +1,7 @@
+// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
+
 #include "Compression.h"
+#include "CompressionLevel.h"
 #include "Constant.h"
 #include "Encoding.h"
 #include "Enum.h"
