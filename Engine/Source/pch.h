@@ -6,6 +6,23 @@
 
 #include "Minty/Core/Macro.h"
 
+#include "Minty/Library/GLFW.h"
+#ifndef MINTY_BULLET
+#include "Minty/Library/Bullet.h"
+#endif // MINTY_BULLET
+#include "Minty/Library/EnTT.h"
+#include "Minty/Library/GLM.h"
+#ifdef MINTY_SOLOUD
+#include "Minty/Library/SoLoud.h"
+#endif // MINTY_SOLOUD
+#include "Minty/Library/STB.h"
+#ifdef MINTY_TRACE
+#include "Minty/Library/Tracy.h"
+#endif // MINTY_TRACE
+#ifdef MINTY_VULKAN
+#include "Minty/Library/Vulkan.h"
+#endif // MINTY_VULKAN
+
 #include "Minty/Core/Enum.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Math.h"
@@ -59,22 +76,15 @@
 #include "Minty/Memory/MemoryStackInfo.h"
 #include "Minty/Memory/PersistentAllocator.h"
 #include "Minty/Memory/TaskAllocator.h"
-
-#ifndef MINTY_BULLET
-#include "Minty/Library/Bullet.h"
-#endif // MINTY_BULLET
-#include "Minty/Library/EnTT.h"
-#include "Minty/Library/GLFW.h"
-#include "Minty/Library/GLM.h"
-#ifdef MINTY_SOLOUD
-#include "Minty/Library/SoLoud.h"
-#endif // MINTY_SOLOUD
-#include "Minty/Library/STB.h"
-#ifdef MINTY_TRACE
-#include "Minty/Library/Tracy.h"
-#endif // MINTY_TRACE
-#ifdef MINTY_VULKAN
-#include "Minty/Library/Vulkan.h"
-#endif // MINTY_VULKAN
+#include "Minty/Serialization/IsParseable.h"
+#include "Minty/Serialization/IsSerializable.h"
+#include "Minty/Serialization/Node.h"
+#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parseable.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Serializable.h"
+#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Writer.h"
 
 #endif //MINTY_PCH_H

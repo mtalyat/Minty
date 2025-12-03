@@ -135,6 +135,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:MINTY_DEBUG>
     $<$<CONFIG:Release>:NDEBUG>
     $<$<CONFIG:Release>:MINTY_RELEASE>
+    _CRT_SECURE_NO_WARNINGS # Suppress CRT security warnings
 )
 
 # Feature-based definitions
