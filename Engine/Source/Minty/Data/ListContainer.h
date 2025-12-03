@@ -9,6 +9,7 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Data/DynamicContainer.h"
+#include "Minty/Debug/Debug.h"
 
 namespace Minty
 {
@@ -54,7 +55,7 @@ namespace Minty
 		 * @brief Sets the stride (size of each element in bytes) for this Container.
 		 * @param stride The size of an element in bytes.
 		 */
-		void set_stride(Size const stride)
+		inline void set_stride(Size const stride)
 		{
 			MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
 			MINTY_ASSERT(m_size % stride == 0, ErrorCode::Argument_InvalidSize); // size must be multiple of stride
@@ -65,7 +66,7 @@ namespace Minty
 		 * @brief Gets the number of elements in this Container.
 		 * @returns The number of elements.
 		 */
-		Size get_count() const { return m_size / m_stride; }
+		inline Size get_count() const { return m_size / m_stride; }
 
 #pragma endregion
 
@@ -115,7 +116,7 @@ namespace Minty
 		Bool resize(Size const count) override;
 
 	protected:
-		Bool append_one(AnyConst const object, Size const size) override
+		inline Bool append_one(AnyConst const object, Size const size) override
 		{
 			MINTY_ASSERT(size == m_stride, ErrorCode::Argument_InvalidSize); // object size must match stride
 			return append(object, 1);

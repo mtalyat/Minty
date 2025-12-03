@@ -117,6 +117,12 @@ namespace Minty
 		 */
 		static Shared<Image> create(ImageInfo const& info);
 
+		/**
+		 * @brief Creates a default Image (1x1 size, Undefined format, D2 type, Optimal tiling, Color aspect, Sampled usage, not immutable).
+		 * @return An Image Owner.
+		 */
+		static Shared<Image> create();
+
 #pragma endregion
 
 #pragma region Variables

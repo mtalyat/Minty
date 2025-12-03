@@ -11,11 +11,10 @@
 #include "Minty/Component/Component.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Audio/AudioClip.h"
 
 namespace Minty
 {
-	class AudioClip;
-
 	/**
 	 * @brief A Component that holds the data for playing audio.
 	 */

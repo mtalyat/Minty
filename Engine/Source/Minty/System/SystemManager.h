@@ -8,12 +8,14 @@
  */
 
 #include "Minty/Data/Dictionary.h"
+#include "Minty/Data/Lookup.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Manager/SubManager.h"
 #include "Minty/Serialization/SerializableObject.h"
+#include "Minty/System/SystemData.h"
 
 namespace Minty
 {
@@ -29,19 +31,15 @@ namespace Minty
 		: public SubManager,
 		  public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		Ref<Scene> m_scene;
-		Dictionary<Int, Set<System *>> m_systems;
-		Map<TypeID, System *> m_systemsByType;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		SystemManager(Scene *scene, SystemManagerInfo const &info);
+		/**
+		 * @brief Constructs a SystemManager belonging to the given Scene with the specified info.
+		 * @param scene The Scene this SystemManager belongs to.
+		 * @param info The SystemManagerInfo containing initialization parameters.
+		 */
+		SystemManager(Ref<Scene> const& scene, SystemManagerInfo const &info);
 
 		~SystemManager() override;
 
@@ -60,13 +58,6 @@ namespace Minty
 
 #pragma region Methods
 
-	private:
-		System *add(SystemData const& data, Int const priority);
-
-		System *add(SystemData const& data);
-
-		System *add(TypeID const &typeId);
-
 	public:
 		/**
 		 * @brief Adds the type of System to the SystemManager, creating a new instance of it.
@@ -76,7 +67,7 @@ namespace Minty
 		template <typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
 		T *add()
 		{
-			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
+			MINTY_ASSERT_F(!m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
 			// add using type
 			return static_cast<T *>(add(typeid(T)));
@@ -91,7 +82,7 @@ namespace Minty
 		template <typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
 		T *add(Int const priority)
 		{
-			MINTY_ASSERT(!m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
+			MINTY_ASSERT_F(!m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
 			// add using type
 			return static_cast<T *>(add(typeid(T), priority));
@@ -169,7 +160,7 @@ namespace Minty
 		template <typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
 		T &at() const
 		{
-			MINTY_ASSERT(m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyNotFound, typeid(T).name());
+			MINTY_ASSERT_F(m_systemsByType.contains(typeid(T)), ErrorCode::Argument_KeyNotFound, typeid(T).name());
 			return static_cast<T &>(*m_systems.at(m_systemsByType.at(typeid(T))));
 		}
 
@@ -205,17 +196,94 @@ namespace Minty
 		Bool deserialize(Reader &reader) override;
 
 		/**
+		 * @brief Registers a System type with the SystemManager.
+		 * @tparam T The System type.
+		 * @param name The name of the System.
+		 * @param priority The default priority of the System.
+		 */
+		template <typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
+		static void register_system(String const &name, Int const priority = 0)
+		{
+			MINTY_ASSERT_F(!s_registeredSystems.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+			MINTY_ASSERT_F(!s_registeredSystems.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
+
+			SystemData info{
+				.name = name,
+				.typeId = typeid(T),
+				.create = [](SystemInfo const &info) -> System *
+				{
+					return new T(info);
+				},
+				.defaultPriority = priority};
+
+			s_registeredSystems.add(name, typeid(T), info);
+		}
+
+		/**
+		 * @brief Gets the SystemData for the System with the given name.
+		 * @param name The name of the System.
+		 */
+		inline static SystemData const &get_system_info(String const &name)
+		{
+			MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+			MINTY_ASSERT_F(s_registeredSystems.contains(name), ErrorCode::System_NotRegistered, name);
+			return s_registeredSystems.at(name);
+		}
+
+		/**
+		 * @brief Gets the SystemData for the System with the given TypeID.
+		 * @param typeId The TypeID of the System.
+		 */
+		inline static SystemData const &get_system_info(TypeID const &typeId)
+		{
+			MINTY_ASSERT_F(s_registeredSystems.contains(typeId), ErrorCode::System_NotRegistered, typeId.name());
+			return s_registeredSystems.at(typeId);
+		}
+
+		/**
+		 * @brief Clears all registered systems.
+		 */
+		inline static void clear_registered_systems()
+		{
+			s_registeredSystems.clear();
+		}
+
+		/**
 		 * @brief Creates a new SystemManager with the given arguments.
 		 * @param info The arguments.
 		 * @return A SystemManager Owner.
 		 */
-		static Shared<SystemManager> create(Scene *scene, SystemManagerInfo const &info);
+		static Shared<SystemManager> create(Ref<Scene> const& scene, SystemManagerInfo const &info);
+
+		/**
+		 * @brief Creates a new SystemManager with default settings.
+		 * @param scene The Scene to which the SystemManager belongs.
+		 * @return A Shared pointer to the created SystemManager.
+		 */
+		static Shared<SystemManager> create(Ref<Scene> const& scene);
 
 		/**
 		 * @brief Gets the SystemManager for the active Scene.
 		 * @return The SystemManager.
 		 */
 		static SystemManager &get_singleton();
+
+	private:
+		System *add(SystemData const& data, Int const priority);
+
+		System *add(SystemData const& data);
+
+		System *add(TypeID const &typeId);
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Dictionary<Int, Set<System *>> m_systems;
+		Map<TypeID, System *> m_systemsByType;
+		
+		static Lookup<TypeID, SystemData> s_registeredSystems;
 
 #pragma endregion
 	};

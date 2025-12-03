@@ -21,7 +21,7 @@ Minty::ConstantContainer::ConstantContainer(Size const size)
 	}
 }
 
-Minty::ConstantContainer::ConstantContainer(void const *const data, Size const size)
+Minty::ConstantContainer::ConstantContainer(AnyConst const data, Size const size)
 	: MemoryContainer()
 {
 	if (data && size)

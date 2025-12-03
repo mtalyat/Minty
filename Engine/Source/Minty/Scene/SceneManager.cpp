@@ -5,6 +5,7 @@
 #include "Minty/Debug/Trace.h"
 #include "Minty/Job/JobManager.h"
 #include "Minty/Scene/Scene.h"
+#include "Minty/Scene/SceneInfo.h"
 #include "Minty/Scene/SceneManagerInfo.h"
 
 using namespace Minty;
@@ -12,7 +13,7 @@ using namespace Minty;
 Minty::SceneManager::SceneManager(SceneManagerInfo const &info)
 	: Manager(), m_initialScene(info.initialScene), m_scenes(), m_activeScene(nullptr), m_nextScene(nullptr)
 {
-	MINTY_ASSERT(m_initialScene.is_empty() || Path::exists(m_initialScene), ErrorCode::Argument_InvalidValue, m_initialScene);
+	MINTY_ASSERT_F(m_initialScene.is_empty() || Path::exists(m_initialScene), ErrorCode::Argument_InvalidValue, m_initialScene);
 
 	// load the initial scene, if not loaded
 	if (!m_initialScene.is_empty())
@@ -90,7 +91,7 @@ Ref<Scene> Minty::SceneManager::load(Shared<Scene> const &scene, Bool const setA
 
 void Minty::SceneManager::unload(UUID const id)
 {
-	MINTY_ASSERT(contains(id), ErrorCode::Argument_KeyNotFound, id);
+	MINTY_ASSERT_F(contains(id), ErrorCode::Argument_KeyNotFound, id);
 
 	// get the scene
 	Shared<Scene> scene = m_scenes.at(id).scene;
@@ -111,7 +112,7 @@ void Minty::SceneManager::unload(UUID const id)
 
 void Minty::SceneManager::reload(UUID const id)
 {
-	MINTY_ASSERT(contains(id), ErrorCode::Argument_KeyNotFound, id);
+	MINTY_ASSERT_F(contains(id), ErrorCode::Argument_KeyNotFound, id);
 
 	// get the scene data
 	SceneData &sceneData = m_scenes.at(id);
@@ -164,7 +165,7 @@ UUID Minty::SceneManager::schedule_load(Path const &path, Job const &onCompletio
 
 void Minty::SceneManager::schedule_unload(UUID const id, Job const &onCompletion)
 {
-	MINTY_ASSERT(m_scenes.contains(id), ErrorCode::Argument_KeyNotFound, id);
+	MINTY_ASSERT_F(m_scenes.contains(id), ErrorCode::Argument_KeyNotFound, id);
 
 	JobManager &jobManager = JobManager::get_singleton();
 	jobManager.schedule([this, id, onCompletion]()
@@ -262,6 +263,12 @@ void Minty::SceneManager::refresh()
 Unique<SceneManager> Minty::SceneManager::create(SceneManagerInfo const &info)
 {
 	return Unique<SceneManager>::create(info);
+}
+
+Unique<SceneManager> Minty::SceneManager::create()
+{
+	SceneManagerInfo info{};
+	return create(info);
 }
 
 SceneManager &Minty::SceneManager::get_singleton()

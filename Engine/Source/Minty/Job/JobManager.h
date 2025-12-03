@@ -165,6 +165,12 @@ namespace Minty
 		static Unique<JobManager> create(JobManagerInfo const& info);
 
 		/**
+		 * @brief Creates a new JobManager with default settings.
+		 * @return A JobManager Owner.
+		 */
+		static Unique<JobManager> create();
+
+		/**
 		 * @brief Gets the active Context's JobManager.
 		 * @return The JobManager.
 		 */

@@ -9,12 +9,12 @@
 
 #include "Minty/Component/Component.h"
 #include "Minty/Data/Color.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Render/Sprite.h"
+#include "Minty/Render/MaterialTemplate.h"
 
 namespace Minty
 {
-	class Sprite;
-	class MaterialTemplate;
-
 	/**
 	 * @brief Holds a Sprite that is used by this Entity.
 	 */

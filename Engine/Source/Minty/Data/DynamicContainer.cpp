@@ -16,7 +16,7 @@ Minty::DynamicContainer::DynamicContainer(Size const capacity)
 	reserve(capacity);
 }
 
-Minty::DynamicContainer::DynamicContainer(void const *const data, Size const size)
+Minty::DynamicContainer::DynamicContainer(AnyConst const data, Size const size)
 	: MemoryContainer()
 {
 	if (data && size)
@@ -25,7 +25,7 @@ Minty::DynamicContainer::DynamicContainer(void const *const data, Size const siz
 	}
 }
 
-Bool Minty::DynamicContainer::append(void const *const data, Size const size)
+Bool Minty::DynamicContainer::append(AnyConst const data, Size const size)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);

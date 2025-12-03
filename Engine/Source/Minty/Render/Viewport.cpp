@@ -8,6 +8,14 @@
 
 using namespace Minty;
 
+Minty::Viewport::Viewport(ViewportInfo const &info)
+    : Asset(info.id)
+{
+    MINTY_ASSERT_F(info.minDepth >= 0.0f && info.minDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.minDepth);
+    MINTY_ASSERT_F(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.maxDepth);
+    MINTY_ASSERT_F(info.minDepth <= info.maxDepth, ErrorCode::Argument_IncorrectOrder, info.minDepth, info.maxDepth);
+}
+
 Shared<Viewport> Minty::Viewport::create(ViewportInfo const &info)
 {
 #ifdef MINTY_VULKAN
@@ -17,10 +25,8 @@ Shared<Viewport> Minty::Viewport::create(ViewportInfo const &info)
 #endif // MINTY_VULKAN
 }
 
-Minty::Viewport::Viewport(ViewportInfo const &info)
-    : Asset(info.id)
+Shared<Viewport> Minty::Viewport::create()
 {
-    MINTY_ASSERT(info.minDepth >= 0.0f && info.minDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.minDepth);
-    MINTY_ASSERT(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.maxDepth);
-    MINTY_ASSERT(info.minDepth <= info.maxDepth, ErrorCode::Argument_IncorrectOrder, info.minDepth, info.maxDepth);
+    ViewportInfo info{};
+    return create(info);
 }

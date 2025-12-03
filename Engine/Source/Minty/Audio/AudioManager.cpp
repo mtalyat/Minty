@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AudioManager.h"
 #include "Minty/Application/Application.h"
+#include "Minty/Audio/AudioManagerInfo.h"
 #ifdef MINTY_SOLOUD
 #include "Platform/SoLoud/SoLoud_AudioManager.h"
 #endif // MINTY_SOLOUD
@@ -20,4 +21,10 @@ Unique<AudioManager> Minty::AudioManager::create(AudioManagerInfo const& info)
 	MINTY_NOT_IMPLEMENTED();
 	return Unique<AudioManager>();
 #endif // MINTY_SOLOUD
+}
+
+Unique<AudioManager> Minty::AudioManager::create()
+{
+	AudioManagerInfo info{};
+	return create(info);
 }

@@ -13,7 +13,7 @@ Minty::String::String(StringView const view)
     : mp_data(nullptr), m_size(view.get_size())
 {
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
     mp_data = static_cast<Char *>(ptr);
     memcpy(mp_data, view.get_data(), sizeof(Char) * m_size);
     mp_data[m_size] = '\0';
@@ -23,7 +23,7 @@ Minty::String::String(Char const *const cstr)
     : mp_data(nullptr), m_size(std::char_traits<Char>::length(cstr))
 {
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
     mp_data = static_cast<Char *>(ptr);
     memcpy(mp_data, cstr, sizeof(Char) * m_size);
     mp_data[m_size] = '\0';
@@ -33,7 +33,7 @@ Minty::String::String(Char const c, Size const count)
     : mp_data(nullptr), m_size(count)
 {
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
     mp_data = static_cast<Char *>(ptr);
     memset(mp_data, c, sizeof(Char) * m_size);
     mp_data[m_size] = '\0';
@@ -43,7 +43,7 @@ Minty::String::String(String const &other)
     : mp_data(nullptr), m_size(other.m_size)
 {
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
     mp_data = static_cast<Char *>(ptr);
     memcpy(mp_data, other.mp_data, sizeof(Char) * m_size);
     mp_data[m_size] = '\0';
@@ -77,7 +77,7 @@ String &Minty::String::operator=(String const &other)
         // copy data from other
         m_size = other.m_size;
         Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (m_size + 1));
-        MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
+        MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (m_size + 1));
         mp_data = static_cast<Char *>(ptr);
         memcpy(mp_data, other.mp_data, sizeof(Char) * m_size);
         mp_data[m_size] = '\0';
@@ -110,7 +110,7 @@ String Minty::String::operator+(StringView const other) const
     String result;
     result.m_size = m_size + other.get_size();
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (result.m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
     result.mp_data = static_cast<Char *>(ptr);
     memcpy(result.mp_data, mp_data, sizeof(Char) * m_size);
     memcpy(result.mp_data + m_size, other.get_data(), sizeof(Char) * other.get_size());
@@ -120,13 +120,13 @@ String Minty::String::operator+(StringView const other) const
 
 Char Minty::String::index(Size const index) const
 {
-    MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
     return mp_data[index];
 }
 
 Char const &Minty::String::at(Size const index) const
 {
-    MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
     return mp_data[index];
 }
 
@@ -459,7 +459,7 @@ String Minty::String::strip(StringView const chars) const
     String result;
     result.m_size = m_size;
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (result.m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
     result.mp_data = static_cast<Char *>(ptr);
 
     Size writeIndex = 0;
@@ -490,7 +490,7 @@ String Minty::String::replace(Char const oldChar, Char const newChar) const
     String result;
     result.m_size = m_size;
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (result.m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
     result.mp_data = static_cast<Char *>(ptr);
 
     for (Size i = 0; i < m_size; ++i)
@@ -534,7 +534,7 @@ String Minty::String::replace(StringView const oldStr, StringView const newStr) 
     String result;
     result.m_size = newSize;
     Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (result.m_size + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
+    MINTY_ASSERT_F(ptr != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char) * (result.m_size + 1));
     result.mp_data = static_cast<Char *>(ptr);
 
     // Perform replacement

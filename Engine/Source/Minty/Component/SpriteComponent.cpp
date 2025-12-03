@@ -6,6 +6,7 @@
 #include "Minty/Render/SpriteAtlas.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
@@ -29,11 +30,11 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 		// get the asset with the given ID
 		Ref<Asset> asset = assetManager.get_asset(id);
 
-		MINTY_ASSERT(asset != nullptr, ErrorCode::Asset_MissingDependency, id);
+		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_MissingDependency, id);
 
 		AssetType assetType = asset->get_asset_type();
 
-		MINTY_ASSERT(assetType == AssetType::Sprite || assetType == AssetType::SpriteAtlas, ErrorCode::Asset_InvalidDependencyType, id);
+		MINTY_ASSERT_F(assetType == AssetType::Sprite || assetType == AssetType::SpriteAtlas, ErrorCode::Asset_InvalidDependencyType, id);
 
 		// handle different types
 		switch (assetType)
@@ -75,7 +76,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 				}
 				else
 				{
-					MINTY_ABORT(ErrorCode::Asset_InvalidConfiguration, id, indexText);
+					MINTY_ABORT_F(ErrorCode::Asset_InvalidConfiguration, id, indexText);
 					return false;
 				}
 			}

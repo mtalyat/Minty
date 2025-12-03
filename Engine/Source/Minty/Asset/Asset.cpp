@@ -94,7 +94,7 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	// extension not found
 	if (found == types.end())
 	{
-		MINTY_ABORT(ErrorCode::Asset_UnknownType, path);
+		MINTY_ABORT_F(ErrorCode::Asset_UnknownType, path);
 		return AssetType::Generic;
 	}
 
@@ -151,7 +151,7 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 	// extension not found
 	if (found == types.end())
 	{
-		MINTY_ABORT(ErrorCode::Asset_UnknownType, typeId.name());
+		MINTY_ABORT_F(ErrorCode::Asset_UnknownType, typeId.name());
 		return AssetType::Generic;
 	}
 

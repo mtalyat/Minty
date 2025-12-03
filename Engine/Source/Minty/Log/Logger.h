@@ -2,6 +2,7 @@
 #define MINTY_LOG_LOGGER_H
 
 #include "Minty/Data/String.h"
+#include "Minty/Data/StringView.h"
 #include "Minty/Log/LogLevel.h"
 #include "Minty/Data/Queue.h"
 #include <thread>
@@ -68,7 +69,7 @@ namespace Minty
          * @param level The log level.
          * @param message The message to log.
          */
-        void log(LogLevel const level, String const& message);
+        void log(LogLevel const level, StringView const message);
 
         /**
          * @brief Flush the log queue, ensuring all log entries are processed.

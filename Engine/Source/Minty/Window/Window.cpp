@@ -22,3 +22,9 @@ Unique<Window> Minty::Window::create(WindowInfo const &info)
 	return nullptr;
 #endif // MINTY_WINDOWS
 }
+
+Unique<Window> Minty::Window::create()
+{
+	WindowInfo info{};
+	return create(info);
+}

@@ -151,7 +151,7 @@ namespace Minty
 		 * @brief Gets the AssetType of this Asset.
 		 * @return Camera.
 		 */
-		inline inline AssetType get_asset_type() const override { return AssetType::Camera; }
+		inline AssetType get_asset_type() const override { return AssetType::Camera; }
 
 #pragma endregion
 
@@ -167,6 +167,12 @@ namespace Minty
 		 * @return A Camera Owner.
 		 */
 		static Shared<Camera> create(CameraInfo const& info);
+
+		/**
+		 * @brief Creates a default Camera.
+		 * @return A Camera Owner.
+		 */
+		static Shared<Camera> create();
 
 #pragma endregion
 

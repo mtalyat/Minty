@@ -53,7 +53,7 @@ namespace Minty
 #pragma region Operators
 
 	public:
-		inline Bool operator==(UUID const other) const { return std::memcmp(m_id, other.m_id, UUID_BYTE_SIZE) == 0; }
+		inline Bool operator==(UUID const other) const { return std::memcmp(m_data, other.m_data, UUID_BYTE_SIZE) == 0; }
 		inline Bool operator!=(UUID const other) const { return !(*this == other); }
 
 #pragma endregion
@@ -65,7 +65,7 @@ namespace Minty
 		 * @brief Gets the raw data of the UUID.
 		 * @returns A pointer to the raw byte data of the UUID.
 		 */
-		inline Byte const* get_bytes() const noexcept { return m_id; }
+		inline Byte const* get_data() const noexcept { return m_data; }
 		
 		/**
 		 * @brief Gets the raw data of the UUID.
@@ -85,12 +85,19 @@ namespace Minty
 		 */
 		static UUID create();
 
+		/**
+		 * @brief Generates a new UUID with a random value.
+		 * @note This is an alias for UUID::create().
+		 * @returns The newly generated UUID.
+		 */
+		inline static UUID generate() { return create(); }
+
 #pragma endregion
 
 #pragma region Variables
 
 	private:
-		Byte m_id[UUID_BYTE_SIZE];
+		Byte m_data[UUID_BYTE_SIZE];
 
 #pragma endregion
 	};
@@ -111,11 +118,11 @@ namespace std
 	{
 		std::size_t operator()(Minty::UUID const& value) const
 		{
-			const Byte* data = reinterpret_cast<const Byte*>(&value);
+			Minty::Byte const* const data = value.get_data();
 			std::size_t hash = 0;
-			for (Size i = 0; i < Minty::UUID_BYTE_SIZE; ++i)
+			for (std::size_t i = 0; i < Minty::UUID_BYTE_SIZE; ++i)
 			{
-				hash ^= std::hash<Byte>()(data[i]) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+				hash ^= std::hash<Minty::Byte>()(data[i]) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 			}
 			return hash;
 		}

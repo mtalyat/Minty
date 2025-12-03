@@ -75,7 +75,7 @@ Bool Minty::Operation::copy(Path const& from, Path const& to)
 	}
 	catch (std::filesystem::filesystem_error& e)
 	{
-		MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, e.what());
+		MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, e.what());
 		return false;
 	}
 
@@ -104,12 +104,12 @@ Bool Minty::Operation::copy_all(Path const& from, Path const& to)
 	{
 		if (!Path::exists(from))
 		{
-			MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, "Source path does not exist.");
+			MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, "Source path does not exist.");
 			return false;
 		}
 		else if (!Path::is_directory(from))
 		{
-			MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, "Source path is not a directory.");
+			MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, "Source path is not a directory.");
 			return false;
 		}
 
@@ -139,12 +139,12 @@ Bool Minty::Operation::copy_all(Path const& from, Path const& to)
 	}
 	catch (std::filesystem::filesystem_error& e)
 	{
-		MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, e.what());
+		MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, e.what());
 		return false;
 	}
 	catch (std::exception& e)
 	{
-		MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, e.what());
+		MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, e.what());
 		return false;
 	}
 
@@ -157,12 +157,12 @@ Bool Minty::Operation::copy_some(Path const& from, Path const& to, Set<String> c
 	{
 		if (!Path::exists(from))
 		{
-			MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, "Source path does not exist.");
+			MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, "Source path does not exist.");
 			return false;
 		}
 		else if (!Path::is_directory(from))
 		{
-			MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, "Source path is not a directory.");
+			MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, "Source path is not a directory.");
 			return false;
 		}
 
@@ -198,12 +198,12 @@ Bool Minty::Operation::copy_some(Path const& from, Path const& to, Set<String> c
 	}
 	catch (std::filesystem::filesystem_error& e)
 	{
-		MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, e.what());
+		MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, e.what());
 		return false;
 	}
 	catch (std::exception& e)
 	{
-		MINTY_ERROR(ErrorCode::OS_CopyFailed, from, to, e.what());
+		MINTY_ERROR_F(ErrorCode::OS_CopyFailed, from, to, e.what());
 		return false;
 	}
 
@@ -219,13 +219,13 @@ String Minty::Operation::get_environment_variable(String const& name)
 
 	if (err)
 	{
-		MINTY_ERROR(ErrorCode::OS_EnvironmentVariableNotFound, name);
+		MINTY_ERROR_F(ErrorCode::OS_EnvironmentVariableNotFound, name);
 
 		return "";
 	}
 	else if (buffer == nullptr)
 	{
-		MINTY_ERROR(ErrorCode::OS_EnvironmentVariableNotFound, name);
+		MINTY_ERROR_F(ErrorCode::OS_EnvironmentVariableNotFound, name);
 
 		return "";
 	}

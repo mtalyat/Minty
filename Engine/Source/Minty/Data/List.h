@@ -535,7 +535,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::destruct<Node>(temp);
+					Allocator::template destruct<Node>(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -559,7 +559,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::destruct<Node>(temp);
+					Allocator::template destruct<Node>(temp);
 				}
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
@@ -634,7 +634,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::destruct<Node>(temp);
+					Allocator::template destruct<Node>(temp);
 				}
 			}
 			else if (size > m_size)
@@ -643,7 +643,7 @@ namespace Minty
 				Node* node = mp_tail;
 				for (Size i = 0; i < size - m_size; ++i)
 				{
-					node = Allocator::construct<Node>(value);
+					node = Allocator::template construct<Node>(value);
 					node->prev = mp_tail;
 					if (mp_tail)
 					{
@@ -666,7 +666,7 @@ namespace Minty
 		 */
 		void add(T const& value)
 		{
-			Node* node = Allocator::construct<Node>(value);
+			Node* node = Allocator::template construct<Node>(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -687,7 +687,7 @@ namespace Minty
 		 */
 		void add(T&& value)
 		{
-			Node* node = Allocator::construct<Node>(std::move(value));
+			Node* node = Allocator::template construct<Node>(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -763,7 +763,7 @@ namespace Minty
 			Node* prevNode = nextNode ? nextNode->prev : nullptr;
 
 			// make new node
-			Node* newNode = construct<Node>(m_allocator, value);
+			Node* newNode = Allocator::template construct<Node>(value);
 
 			// link them together
 			newNode->next = nextNode;
@@ -836,7 +836,7 @@ namespace Minty
 					mp_head = nullptr;
 				}
 				mp_tail = prevNode;
-				destruct<Node>(node, m_allocator);
+				Allocator::template destruct<Node>(node);
 				--m_size;
 			}
 		}
@@ -983,7 +983,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				destruct<Node>(temp, m_allocator);
+				Allocator::template destruct<Node>(temp);
 			}
 
 			m_size = 0;

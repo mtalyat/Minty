@@ -18,10 +18,6 @@ namespace Minty
      */
     struct SystemManagerInfo
     {
-        /**
-         * @brief The Scene this SystemManager belongs to.
-         */
-        Ref<Scene> scene = nullptr;
     };
 }
 #endif // MINTY_SYSTEM_SYSTEMMANAGERINFO_H

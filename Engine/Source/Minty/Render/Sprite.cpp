@@ -41,7 +41,7 @@ Float2 Minty::Sprite::get_coords(Float2 const raw) const
 			raw.y * static_cast<Float>(textureSize.y));
 	}
 	default:
-		MINTY_NOT_IMPLEMENTED(m_coordinateMode);
+		MINTY_NOT_IMPLEMENTED();
 	}
 }
 
@@ -60,7 +60,7 @@ Float2 Minty::Sprite::set_coords(Float2 const raw) const
 			raw.y / static_cast<Float>(textureSize.y));
 	}
 		default:
-			MINTY_NOT_IMPLEMENTED(m_coordinateMode);
+			MINTY_NOT_IMPLEMENTED();
 	}
 }
 
@@ -118,11 +118,17 @@ void Minty::Sprite::set_pivot(Float2 const& pivot)
 		break;
 	}
 	default:
-		MINTY_NOT_IMPLEMENTED(m_coordinateMode);
+		MINTY_NOT_IMPLEMENTED();
 	}
 }
 
 Shared<Sprite> Minty::Sprite::create(SpriteInfo const& info)
 {
 	return Shared<Sprite>::create(info);
+}
+
+Shared<Sprite> Minty::Sprite::create()
+{
+	SpriteInfo info{};
+	return create(info);
 }

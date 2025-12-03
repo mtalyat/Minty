@@ -3,6 +3,7 @@
 #include "Minty/Debug/Trace.h"
 #include "Minty/Time/Timestep.h"
 #include "Minty/Application/ApplicationInfo.h"
+#include "Minty/Data/Path.h"
 
 #include "Minty/Window/Window.h"
 #include "Minty/Window/WindowInfo.h"
@@ -28,13 +29,15 @@
 #include "Minty/Scene/SceneManagerInfo.h"
 #include "Minty/Time/TimeController.h"
 #include "Minty/Time/TimeControllerInfo.h"
+#include "Minty/File/PhysicalFile.h"
+#include "Minty/Event/Event.h"
 
 using namespace Minty;
 
 Application *Minty::Application::s_instance = nullptr;
 
 Minty::Application::Application(ApplicationInfo const &info)
-	: m_running(false), m_window(nullptr), m_memoryManager(nullptr), m_jobManager(nullptr), m_audioManager(nullptr), m_layerManager(nullptr), m_physicsManager(nullptr), m_assetManager(nullptr), m_inputManager(nullptr), m_renderManager(nullptr), m_sceneManager(nullptr), m_timeController(nullptr), m_managers(), m_registeredSystems(), m_registeredComponents()
+	: m_running(false), m_window(nullptr), m_memoryManager(nullptr), m_jobManager(nullptr), m_audioManager(nullptr), m_layerManager(nullptr), m_physicsManager(nullptr), m_assetManager(nullptr), m_inputManager(nullptr), m_renderManager(nullptr), m_sceneManager(nullptr), m_timeController(nullptr), m_managers()
 {
 	MINTY_ASSERT(s_instance == nullptr, ErrorCode::Singleton_AlreadyExists);
 	s_instance = this;
@@ -139,40 +142,34 @@ void Minty::Application::step()
 	MINTY_TRACE_SCOPE();
 
 	// finalize managers
-	m_context->finalize();
+	finalize();
 
 	// render managers
-	m_context->render();
+	render();
 
 	// process events
-	m_context->process_events();
+	process_events();
 
 	// perform updates for frame and fixed updates
 	Int const fixedUpdates = m_timeController->update();
 
 	Timestep const time = m_timeController->get_frame_timestep();
-	m_context->frame_update(time);
+	frame_update(time);
 
 	for (Int i = 0; i < fixedUpdates; i++)
 	{
 		Timestep const fixedTime = m_timeController->get_fixed_timestep();
-		m_context->fixed_update(fixedTime);
+		fixed_update(fixedTime);
 	}
 }
 
 void Minty::Application::run()
 {
-	// initialize
-	m_context->initialize();
-
-	// get the window and start running
-	Window &window = m_context->get_window();
-
 	m_timeController->start();
 
 	// run the application loop
 	m_running = true;
-	while (m_running && window.is_open())
+	while (m_running && m_window->is_open())
 	{
 		step();
 	}
@@ -181,16 +178,13 @@ void Minty::Application::run()
 	m_timeController->stop();
 
 	// if window is still open, close it
-	if (window.is_open())
+	if (m_window->is_open())
 	{
-		window.close();
+		m_window->close();
 	}
 
 	// sync operations before moving on (threads, rendering, etc.)
-	m_context->sync();
-
-	// dispose the context
-	m_context->dispose();
+	sync();
 }
 
 Unique<Application> Minty::Application::open(Path const &path)
@@ -205,7 +199,7 @@ Unique<Application> Minty::Application::open(Path const &path)
 
 	// read the file
 	PhysicalFile file(path, File::Flags::Read);
-	MINTY_ASSERT(file.is_open(), ErrorCode::File_FailedToOpen, path);
+	MINTY_ASSERT_F(file.is_open(), ErrorCode::File_FailedToOpen, path);
 
 	// open a reader
 	TextFileReader reader(&file);
@@ -359,6 +353,58 @@ Unique<Application> Minty::Application::open(Path const &path)
 Unique<Application> Minty::Application::create(ApplicationInfo const &info)
 {
 	return Unique<Application>::create(info);
+}
+
+Unique<Application> Minty::Application::create()
+{
+	ApplicationInfo info{};
+	MINTY_NOT_IMPLEMENTED(); // TODO: fill in default info
+	return create(info);
+}
+
+void Minty::Application::finalize()
+{
+	for (Manager *const manager : m_managers)
+	{
+		manager->finalize();
+	}
+}
+
+void Minty::Application::render()
+{
+	for (Manager *const manager : m_managers)
+	{
+		manager->render();
+	}
+}
+
+void Minty::Application::process_events()
+{
+	m_window->process_events();
+}
+
+void Minty::Application::sync()
+{
+	for (Manager *const manager : m_managers)
+	{
+		manager->sync();
+	}
+}
+
+void Minty::Application::frame_update(Timestep const time)
+{
+	for (Manager *const manager : m_managers)
+	{
+		manager->frame_update(time);
+	}
+}
+
+void Minty::Application::fixed_update(Timestep const time)
+{
+	for (Manager *const manager : m_managers)
+	{
+		manager->fixed_update(time);
+	}
 }
 
 void Minty::Application::handle_event(Event &event)

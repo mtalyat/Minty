@@ -23,7 +23,7 @@ Minty::Logger::~Logger()
     }
 }
 
-void Minty::Logger::log(LogLevel const level, String const &message)
+void Minty::Logger::log(LogLevel const level, StringView const message)
 {
     if ((m_enabledLevels & level) == LogLevel::None)
     {

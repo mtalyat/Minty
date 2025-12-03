@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PhysicalFile.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
@@ -23,7 +24,7 @@ void Minty::PhysicalFile::open(Path const& path, Flags const flags)
     // check if open
     if (!m_stream.is_open())
     {
-		MINTY_ABORT(ErrorCode::File_FailedToOpen, path);
+		MINTY_ERROR_F(ErrorCode::File_FailedToOpen, path);
     }
 }
 

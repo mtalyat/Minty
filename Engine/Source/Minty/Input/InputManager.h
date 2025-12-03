@@ -62,6 +62,12 @@ namespace Minty
 		 */
 		static Unique<InputManager> create(InputManagerInfo const& info);
 
+		/**
+		 * @brief Creates a new InputManager with default settings.
+		 * @return An InputManager Owner.
+		 */
+		static Unique<InputManager> create();
+
 #pragma endregion
 
 #pragma region Variables

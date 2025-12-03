@@ -55,6 +55,12 @@ namespace Minty
 		 */
 		static Shared<ShaderModule> create(ShaderModuleInfo const& info);
 
+		/**
+		 * @brief Creates a default ShaderModule.
+		 * @return A ShaderModule Owner.
+		 */
+		static Shared<ShaderModule> create();
+
 #pragma endregion
 	};
 }

@@ -15,6 +15,12 @@ Unique<PhysicsManager> Minty::PhysicsManager::create(PhysicsManagerInfo const &i
 	return Unique<PhysicsManager>::create(info);
 }
 
+Unique<PhysicsManager> Minty::PhysicsManager::create()
+{
+	PhysicsManagerInfo info{};
+	return create(info);
+}
+
 PhysicsManager &Minty::PhysicsManager::get_singleton()
 {
 	return Application::get_singleton().get_physics_manager();

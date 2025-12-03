@@ -179,7 +179,7 @@ namespace Minty
 		void set(T const& value)
 		{
 			Type newType = type_typeid(typeid(T));
-			MINTY_ASSERT(newType < Type::Object, ErrorCode::Argument_InvalidType, newType);
+			MINTY_ASSERT_F(newType < Type::Object, ErrorCode::Argument_InvalidType, newType);
 
 			if (newType != m_type)
 			{

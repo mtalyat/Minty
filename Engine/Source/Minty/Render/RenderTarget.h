@@ -16,32 +16,7 @@ namespace Minty
 {
 	class Image;
 	class RenderPass;
-
-	/**
-	 * @brief The arguments for a RenderTarget.
-	 */
-	struct RenderTargetInfo
-	{
-		/**
-		 * @brief The ID.
-		 */
-		UUID id = UUID();
-
-		/**
-		 * @brief The RenderPass this RenderTarget belongs to.
-		 */
-		Ref<RenderPass> renderPass = nullptr;
-
-		/**
-		 * @brief The images this RenderTarget uses.
-		 */
-		Vector<Ref<Image>> images;
-
-		/**
-		 * @brief If true, the RenderTarget is bound to the screen surface.
-		 */
-		Bool surfaceBound = false;
-	};
+	struct RenderTargetInfo;
 
 	/**
 	 * @brief Represents a target that can be rendered to. (ex. a framebuffer/the screen, an image, etc.)
@@ -111,7 +86,13 @@ namespace Minty
 		 * @param info The arguments.
 		 * @return A RenderTarget Owner.
 		 */
-		static Shared<RenderTarget> create(RenderTargetInfo const& info = {});
+		static Shared<RenderTarget> create(RenderTargetInfo const& info);
+
+		/**
+		 * @brief Creates a default RenderTarget.
+		 * @return A RenderTarget Owner.
+		 */
+		static Shared<RenderTarget> create();
 
 #pragma endregion
 

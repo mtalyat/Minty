@@ -76,3 +76,9 @@ Shared<SpriteAtlas> Minty::SpriteAtlas::create(SpriteAtlasInfo const& info)
 {
 	return Shared<SpriteAtlas>::create(info);
 }
+
+Shared<SpriteAtlas> Minty::SpriteAtlas::create()
+{
+	SpriteAtlasInfo info{};
+	return create(info);
+}

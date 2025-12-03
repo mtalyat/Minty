@@ -58,7 +58,7 @@ Bool Minty::FSM::evaluate(Bool const continuous)
 
 			if (!visitedStates.add(state))
 			{
-				MINTY_ERROR(ErrorCode::InfiniteLoop, state);
+				MINTY_ERROR_F(ErrorCode::InfiniteLoop, state);
 				return false;
 			}
 		} while (continuous && next != UUID());
@@ -168,7 +168,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 	// read starting state
 	if (reader.read("Start", name))
 	{
-		MINTY_ASSERT(m_states.contains(name), ErrorCode::Serialization_DataNotFound, name);
+		MINTY_ASSERT_F(m_states.contains(name), ErrorCode::Serialization_DataNotFound, name);
 		m_startingStateId = m_states.get_key(name);
 	}
 

@@ -1,5 +1,5 @@
 @echo off
-cls
+setlocal EnableDelayedExpansion
 
 @rem Parse command line arguments
 
@@ -91,6 +91,9 @@ goto success
 set "PROJECT=%~1"
 pushd "%~dp0\%PROJECT%\Build"
 
+rem Capture start time
+set "start_time=%time%"
+
 if defined CLEAN (
   @echo Cleaning %PROJECT%...
   if exist "Output" (
@@ -112,7 +115,9 @@ if defined BUILD (
   pushd "Output"
   
   rem Generate build files
-  cmake .. -A %ARCHITECTURE%
+  @echo Configuring to config.log...
+  cmake .. -A %ARCHITECTURE% > config.log 2>&1
+  @echo Done.
   
   if not "%ERRORLEVEL%"=="0" (
     echo CMake configuration failed!
@@ -122,7 +127,9 @@ if defined BUILD (
   )
   
   rem Build the project
-  powershell "cmake --build . --config %CONFIG% 2>&1 | tee build.log"
+  @echo Building to build.log...
+  cmake --build . --config %CONFIG% > build.log 2>&1
+  @echo Done.
   
   if not "%ERRORLEVEL%"=="0" (
     echo Build failed!
@@ -169,8 +176,54 @@ if defined RUN (
   )
 )
 
+rem Capture end time
+set "end_time=%time%"
+
+rem Convert times to centiseconds for calculation
+call :time_to_centiseconds "%start_time%" start_cs
+call :time_to_centiseconds "%end_time%" end_cs
+
+rem Calculate elapsed time
+set /a elapsed_cs=end_cs-start_cs
+
+rem Handle midnight rollover
+if !elapsed_cs! lss 0 set /a elapsed_cs+=8640000
+
+rem Convert back to HH:MM:SS
+call :centiseconds_to_time !elapsed_cs! elapsed_time
+
+echo Elapsed time for %PROJECT%: !elapsed_time!
+
 @rem "%~dp0\%PROJECT%\Build"
 popd
+exit /b 0
+
+:time_to_centiseconds
+rem Convert HH:MM:SS.cc to total centiseconds
+set "t=%~1"
+set "t=!t::= !"
+set "t=!t:.= !"
+for /f "tokens=1-4" %%a in ("!t!") do (
+    set /a "h=100%%a %% 100"
+    set /a "m=100%%b %% 100"
+    set /a "s=100%%c %% 100"
+    set /a "csec=100%%d %% 100"
+    set /a "result=((h*60+m)*60+s)*100+csec"
+)
+set "%~2=!result!"
+exit /b 0
+
+:centiseconds_to_time
+rem Convert centiseconds to HH:MM:SS.cc
+set /a h=%~1/360000
+set /a m=(%~1%%360000)/6000
+set /a s=(%~1%%6000)/100
+set /a cs=%~1%%100
+if !h! lss 10 set "h=0!h!"
+if !m! lss 10 set "m=0!m!"
+if !s! lss 10 set "s=0!s!"
+if !cs! lss 10 set "cs=0!cs!"
+set "%~2=!h!:!m!:!s!.!cs!"
 exit /b 0
 
 :print_usage

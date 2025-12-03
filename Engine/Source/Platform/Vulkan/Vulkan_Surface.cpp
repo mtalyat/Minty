@@ -4,6 +4,8 @@
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
 #include "Platform/Vulkan/Vulkan_Image.h"
+#include "Minty/Render/SurfaceInfo.h"
+#include "Minty/Render/ImageInfo.h"
 
 using namespace Minty;
 
@@ -87,7 +89,7 @@ void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulk
 	for (Size i = 0; i < m_images.get_size(); i++)
 	{
 		imageInfo.id = UUID::create();
-		Shared<Image> vulkanImage = Shared<Vulkan_Image>(imageInfo, swapchainImages.at(i));
+		Shared<Image> vulkanImage = Shared<Vulkan_Image>::create(imageInfo, swapchainImages.at(i));
 		m_images.at(i) = vulkanImage.to_ref();
 		assetManager.add(vulkanImage);
 		vulkanImage.release();
@@ -115,11 +117,11 @@ void Minty::Vulkan_Surface::dispose_swapchain()
 
 void Minty::Vulkan_Surface::refresh()
 {
-	Debug::write_message("Refreshing surface...");
+	MINTY_LOG_MESSAGE("Refreshing surface...");
 	// recreate the swapchain
 	dispose_swapchain();
 	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(renderManager.get_physical_device(), m_surface);
 	initialize_swapchain(m_format, renderManager, queueFamilyIndices);
-	Debug::write_message(F("Surface refreshed with new size: {}.", get_size()));
+	MINTY_LOG_MESSAGE_F("Surface refreshed with new size: {}.", get_size());
 }

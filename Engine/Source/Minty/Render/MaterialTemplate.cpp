@@ -18,7 +18,7 @@ Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateInfo const& info)
 	// check for all valid inputs
 	for (auto const& [name, cargo] : get_inputs())
 	{
-		MINTY_ASSERT(m_shader->contains_input(name), ErrorCode::Argument_KeyNotFound, name);
+		MINTY_ASSERT_F(m_shader->contains_input(name), ErrorCode::Argument_KeyNotFound, name);
 	}
 
 #endif // MINTY_DEBUG
@@ -45,4 +45,10 @@ Minty::MaterialTemplate::MaterialTemplate(MaterialTemplateInfo const& info)
 Shared<MaterialTemplate> Minty::MaterialTemplate::create(MaterialTemplateInfo const& info)
 {
     return Shared<MaterialTemplate>::create(info);
+}
+
+Shared<MaterialTemplate> Minty::MaterialTemplate::create()
+{
+	MaterialTemplateInfo info{};
+	return create(info);
 }

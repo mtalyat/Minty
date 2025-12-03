@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Manager/Manager.h"
+#include "Minty/Data/Pointer.h"
 
 namespace Minty
 {
@@ -26,9 +27,9 @@ namespace Minty
 		 * @brief Constructs a SubManager belonging to the given Scene.
 		 * @param scene The Scene this SubManager belongs to.
 		 */
-		SubManager(Scene* scene)
+		SubManager(Ref<Scene> const& scene)
 			: Manager()
-			, mp_scene(scene)
+			, m_scene(scene)
 		{
 			MINTY_ASSERT(scene != nullptr, ErrorCode::Argument_ExpectedNonNull);
 		}
@@ -42,7 +43,13 @@ namespace Minty
 		 * @brief Gets the Scene this SubManager belongs to.
 		 * @returns The Scene.
 		 */
-		Scene& get_scene() const { return *mp_scene; }
+		Scene& get_scene() const { return *m_scene; }
+
+		/**
+		 * @brief Gets the Ref pointer to the Scene this SubManager belongs to.
+		 * @returns The Ref pointer to the Scene.
+		 */
+		Ref<Scene> const& get_scene_ref() const { return m_scene; }
 
 #pragma endregion
 
@@ -64,7 +71,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Scene* mp_scene = nullptr;
+		Ref<Scene> m_scene = nullptr;
 
 #pragma endregion
 	};

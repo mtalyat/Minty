@@ -46,7 +46,7 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 			// if no more args...
 			if (i >= argc || argv[i][0] == '-') // no more args OR next flag
 			{
-				MINTY_ASSERT(count == 0, ErrorCode::CommandLine_NotEnoughArguments, param.name);
+				MINTY_ASSERT_F(count == 0, ErrorCode::CommandLine_NotEnoughArguments, param.name);
 				break;
 			}
 			m_args[param.name].args.add(argv[i]);
@@ -108,6 +108,6 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 Vector<String> const& Minty::ArgumentParser::get_argument(String const& name) const
 {
 	MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
-	MINTY_ASSERT(m_args.contains(name), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(m_args.contains(name), ErrorCode::Argument_KeyNotFound, name);
 	return m_args[name].args;
 }

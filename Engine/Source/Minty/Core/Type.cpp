@@ -211,7 +211,7 @@ TypeID Minty::typeid_type(Type const type)
 	case Type::MultilineString:
 		return typeid(String);
 	default:
-		MINTY_NOT_IMPLEMENTED(type);
+		MINTY_NOT_IMPLEMENTED();
 	}
 }
 
@@ -285,7 +285,7 @@ Size Minty::sizeof_type(Type const type)
 	case Type::MultilineString:
 		return sizeof(String);
 	default:
-		MINTY_NOT_IMPLEMENTED(type);
+		MINTY_NOT_IMPLEMENTED();
 	}
 }
 
@@ -328,7 +328,7 @@ String Minty::to_string(Type const type)
 	case Type::Count: return "Count";
 	}
 
-	MINTY_NOT_IMPLEMENTED(type);
+	MINTY_NOT_IMPLEMENTED();
 	return String();
 }
 

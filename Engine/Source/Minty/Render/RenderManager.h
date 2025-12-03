@@ -12,6 +12,7 @@
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Data/UUID.h"
 #include "Minty/Manager/Manager.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Render/MaskMode.h"
@@ -26,7 +27,6 @@ namespace Minty
 	class Mesh;
 	class Viewport;
 	class Camera;
-	class CameraData;
 	class Texture;
 	class Transform;
 	class Surface;
@@ -34,6 +34,7 @@ namespace Minty
 	class Window;
 	class Event;
 	class Buffer;
+	struct CameraData;
 	struct RenderManagerInfo;
 
 	/**
@@ -95,11 +96,11 @@ namespace Minty
 			return false;
 		}
 
-		inline void set_surface(Shared<Surface>&& surface) { m_surface = std::move(surface); }
+		void set_surface(Shared<Surface>&& surface);
 
-		inline void set_depth_image(Shared<Image>&& image) { m_depthStencilImage = std::move(image); }
+		void set_depth_image(Shared<Image>&& image);
 
-		inline void set_default_viewport(Shared<Viewport>&& viewport) { m_defaultViewport = std::move(viewport); }
+		void set_default_viewport(Shared<Viewport>&& viewport);
 
 	public:
 		/**
@@ -142,7 +143,7 @@ namespace Minty
 		 * @brief Gets the depth attachment format of the current depth Image.
 		 * @return The attachment Format.
 		 */
-		inline Format get_depth_attachment_format() const { return m_depthStencilImage->get_format(); }
+		Format get_depth_attachment_format() const;
 
 		/**
 		 * @brief Gets the default Mesh for the given type.
@@ -257,6 +258,12 @@ namespace Minty
 		 * @return A RenderManager Owner.
 		 */
 		static Unique<RenderManager> create(RenderManagerInfo const& info);
+
+		/**
+		 * @brief Creates a new RenderManager with default settings.
+		 * @return A RenderManager Owner.
+		 */
+		static Unique<RenderManager> create();
 
 		/**
 		 * @brief Gets the active Context's RenderManager.

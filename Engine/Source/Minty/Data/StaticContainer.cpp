@@ -20,7 +20,7 @@ Minty::StaticContainer::StaticContainer(Size const capacity)
 	}
 }
 
-Minty::StaticContainer::StaticContainer(void const *const data, Size const size)
+Minty::StaticContainer::StaticContainer(AnyConst const data, Size const size)
 	: MemoryContainer()
 {
 	if (data && size)
@@ -32,7 +32,7 @@ Minty::StaticContainer::StaticContainer(void const *const data, Size const size)
 	}
 }
 
-Bool Minty::StaticContainer::append(void const *const data, Size const size)
+Bool Minty::StaticContainer::append(AnyConst const data, Size const size)
 {
 	// can append to a static container, as long as the capacity allows for it
 	if (m_size + size > m_capacity)

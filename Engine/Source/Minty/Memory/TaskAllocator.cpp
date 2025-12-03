@@ -3,6 +3,8 @@
 #include "Minty/Memory/MemoryStack.h"
 #include "Minty/Memory/MemoryStackInfo.h"
 
+using namespace Minty;
+
 void Minty::TaskAllocator::initialize(MemoryStackInfo const &info, Size const count)
 {
     MINTY_ASSERT(s_memoryStacks == nullptr, ErrorCode::Object_AlreadyInitialized);

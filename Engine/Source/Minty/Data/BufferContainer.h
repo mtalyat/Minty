@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Data/Container.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Render/BufferUsage.h"
 
 namespace Minty
@@ -54,6 +55,8 @@ namespace Minty
 		 */
 		BufferContainer(BufferContainer&& other) noexcept;
 
+		~BufferContainer();
+
 #pragma endregion
 
 #pragma region Operators
@@ -71,7 +74,7 @@ namespace Minty
 		 * @brief Gets the internal Buffer data pointer.
 		 * @returns A pointer to the internal Buffer data.
 		 */
-		inline Any get_data() const override { return m_buffer->get_data(); }
+		Any get_data() const override;
 
 		/**
 		 * @brief Gets the size of this BufferContainer.

@@ -17,7 +17,7 @@ Minty::ListContainer::ListContainer(Size const stride, Size const capacity)
 	reserve(capacity);
 }
 
-Minty::ListContainer::ListContainer(void const *const data, Size const stride, Size const count)
+Minty::ListContainer::ListContainer(AnyConst const data, Size const stride, Size const count)
 	: DynamicContainer(), m_stride(stride)
 {
 	MINTY_ASSERT(stride > 0, ErrorCode::Argument_ExpectedNonZero);
@@ -28,7 +28,7 @@ Minty::ListContainer::ListContainer(void const *const data, Size const stride, S
 	}
 }
 
-void Minty::ListContainer::set_at(void const *const data, Size const count, Size const index)
+void Minty::ListContainer::set_at(AnyConst const data, Size const count, Size const index)
 {
 	DynamicContainer::set_at(data, count * m_stride, index * m_stride);
 }
@@ -38,12 +38,12 @@ void const *Minty::ListContainer::get_at(Size const index) const
 	return DynamicContainer::get_at(index * m_stride);
 }
 
-Bool Minty::ListContainer::set(void const *const data, Size const count)
+Bool Minty::ListContainer::set(AnyConst const data, Size const count)
 {
 	return DynamicContainer::set(data, count);
 }
 
-Bool Minty::ListContainer::append(void const *const data, Size const count)
+Bool Minty::ListContainer::append(AnyConst const data, Size const count)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(count > 0, ErrorCode::Argument_ExpectedNonZero);

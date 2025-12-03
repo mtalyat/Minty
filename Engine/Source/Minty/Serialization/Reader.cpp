@@ -57,7 +57,7 @@ Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
 
 		AssetManager& assetManager = AssetManager::get_singleton();
 		asset = assetManager.get_asset(id);
-		MINTY_ASSERT(asset != nullptr, ErrorCode::Asset_LoadFailed, id);
+		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_LoadFailed, id);
 
 		// asset found and set
 		return true;
@@ -110,7 +110,7 @@ Vector<Byte> Minty::MemoryReaderBehavior::read_all()
 	return memoryData;
 }
 
-Node Minty::TextReaderBehavior::read_node(const Any const data, Size const size) const
+Node Minty::TextReaderBehavior::read_node(AnyConst const data, Size const size) const
 {
 	// get contents of file as text for parsing
 	Vector<Char> contents;
@@ -125,231 +125,231 @@ Node Minty::TextReaderBehavior::read_node(const Any const data, Size const size)
 	return parse_to_node(text);
 }
 
-Bool Minty::TextReaderBehavior::read_bool_from_buffer(const Any const data, Size const size) const
+Bool Minty::TextReaderBehavior::read_bool_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return to_bool(text);
 }
-Bool2 Minty::TextReaderBehavior::read_bool2_from_buffer(const Any const data, Size const size) const
+Bool2 Minty::TextReaderBehavior::read_bool2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return to_bool2(text);
 }
-Bool3 Minty::TextReaderBehavior::read_bool3_from_buffer(const Any const data, Size const size) const
+Bool3 Minty::TextReaderBehavior::read_bool3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return to_bool3(text);
 }
-Bool4 Minty::TextReaderBehavior::read_bool4_from_buffer(const Any const data, Size const size) const
+Bool4 Minty::TextReaderBehavior::read_bool4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return to_bool4(text);
 }
-Char Minty::TextReaderBehavior::read_char_from_buffer(const Any const data, Size const size) const
+Char Minty::TextReaderBehavior::read_char_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return text.front();
 }
-Byte Minty::TextReaderBehavior::read_byte_from_buffer(const Any const data, Size const size) const
+Byte Minty::TextReaderBehavior::read_byte_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Byte>(text);
 }
-Short Minty::TextReaderBehavior::read_short_from_buffer(const Any const data, Size const size) const
+Short Minty::TextReaderBehavior::read_short_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Short>(text);
 }
-UShort Minty::TextReaderBehavior::read_ushort_from_buffer(const Any const data, Size const size) const
+UShort Minty::TextReaderBehavior::read_ushort_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<UShort>(text);
 }
-Int Minty::TextReaderBehavior::read_int_from_buffer(const Any const data, Size const size) const
+Int Minty::TextReaderBehavior::read_int_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Int>(text);
 }
-Int2 Minty::TextReaderBehavior::read_int2_from_buffer(const Any const data, Size const size) const
+Int2 Minty::TextReaderBehavior::read_int2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Int2>(text);
 }
-Int3 Minty::TextReaderBehavior::read_int3_from_buffer(const Any const data, Size const size) const
+Int3 Minty::TextReaderBehavior::read_int3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Int3>(text);
 }
-Int4 Minty::TextReaderBehavior::read_int4_from_buffer(const Any const data, Size const size) const
+Int4 Minty::TextReaderBehavior::read_int4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Int4>(text);
 }
-UInt Minty::TextReaderBehavior::read_uint_from_buffer(const Any const data, Size const size) const
+UInt Minty::TextReaderBehavior::read_uint_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<UInt>(text);
 }
-UInt2 Minty::TextReaderBehavior::read_uint2_from_buffer(const Any const data, Size const size) const
+UInt2 Minty::TextReaderBehavior::read_uint2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<UInt2>(text);
 }
-UInt3 Minty::TextReaderBehavior::read_uint3_from_buffer(const Any const data, Size const size) const
+UInt3 Minty::TextReaderBehavior::read_uint3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<UInt3>(text);
 }
-UInt4 Minty::TextReaderBehavior::read_uint4_from_buffer(const Any const data, Size const size) const
+UInt4 Minty::TextReaderBehavior::read_uint4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<UInt4>(text);
 }
-Long Minty::TextReaderBehavior::read_long_from_buffer(const Any const data, Size const size) const
+Long Minty::TextReaderBehavior::read_long_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Long>(text);
 }
-Long2 Minty::TextReaderBehavior::read_long2_from_buffer(const Any const data, Size const size) const
+Long2 Minty::TextReaderBehavior::read_long2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Long2>(text);
 }
-Long3 Minty::TextReaderBehavior::read_long3_from_buffer(const Any const data, Size const size) const
+Long3 Minty::TextReaderBehavior::read_long3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Long3>(text);
 }
-Long4 Minty::TextReaderBehavior::read_long4_from_buffer(const Any const data, Size const size) const
+Long4 Minty::TextReaderBehavior::read_long4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Long4>(text);
 }
-ULong Minty::TextReaderBehavior::read_ulong_from_buffer(const Any const data, Size const size) const
+ULong Minty::TextReaderBehavior::read_ulong_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<ULong>(text);
 }
-ULong2 Minty::TextReaderBehavior::read_ulong2_from_buffer(const Any const data, Size const size) const
+ULong2 Minty::TextReaderBehavior::read_ulong2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<ULong2>(text);
 }
-ULong3 Minty::TextReaderBehavior::read_ulong3_from_buffer(const Any const data, Size const size) const
+ULong3 Minty::TextReaderBehavior::read_ulong3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<ULong3>(text);
 }
-ULong4 Minty::TextReaderBehavior::read_ulong4_from_buffer(const Any const data, Size const size) const
+ULong4 Minty::TextReaderBehavior::read_ulong4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<ULong4>(text);
 }
-Float Minty::TextReaderBehavior::read_float_from_buffer(const Any const data, Size const size) const
+Float Minty::TextReaderBehavior::read_float_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Float>(text);
 }
-Float2 Minty::TextReaderBehavior::read_float2_from_buffer(const Any const data, Size const size) const
+Float2 Minty::TextReaderBehavior::read_float2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Float2>(text);
 }
-Float3 Minty::TextReaderBehavior::read_float3_from_buffer(const Any const data, Size const size) const
+Float3 Minty::TextReaderBehavior::read_float3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Float3>(text);
 }
-Float4 Minty::TextReaderBehavior::read_float4_from_buffer(const Any const data, Size const size) const
+Float4 Minty::TextReaderBehavior::read_float4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Float4>(text);
 }
-Double Minty::TextReaderBehavior::read_double_from_buffer(const Any const data, Size const size) const
+Double Minty::TextReaderBehavior::read_double_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Double>(text);
 }
-Double2 Minty::TextReaderBehavior::read_double2_from_buffer(const Any const data, Size const size) const
+Double2 Minty::TextReaderBehavior::read_double2_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Double2>(text);
 }
-Double3 Minty::TextReaderBehavior::read_double3_from_buffer(const Any const data, Size const size) const
+Double3 Minty::TextReaderBehavior::read_double3_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Double3>(text);
 }
-Double4 Minty::TextReaderBehavior::read_double4_from_buffer(const Any const data, Size const size) const
+Double4 Minty::TextReaderBehavior::read_double4_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
 	return Math::evaluate<Double4>(text);
 }
-String Minty::TextReaderBehavior::read_string_from_buffer(const Any const data, Size const size) const
+String Minty::TextReaderBehavior::read_string_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return "";
 
@@ -360,7 +360,7 @@ String Minty::TextReaderBehavior::read_string_from_buffer(const Any const data, 
 	return String(text.get_data());
 }
 
-UUID Minty::TextReaderBehavior::read_uuid_from_buffer(const Any const data, Size const size) const
+UUID Minty::TextReaderBehavior::read_uuid_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
@@ -369,7 +369,7 @@ UUID Minty::TextReaderBehavior::read_uuid_from_buffer(const Any const data, Size
 	return id;
 }
 
-Type Minty::TextReaderBehavior::read_type_from_buffer(const Any const data, Size const size) const
+Type Minty::TextReaderBehavior::read_type_from_buffer(AnyConst const data, Size const size) const
 {
 	if (!size) return {};
 
@@ -377,7 +377,7 @@ Type Minty::TextReaderBehavior::read_type_from_buffer(const Any const data, Size
 	return parse_to_type(text);
 }
 
-Any Minty::TextReaderBehavior::read_typed_from_buffer(const Any const data, Size const size, Type const type) const
+Any Minty::TextReaderBehavior::read_typed_from_buffer(AnyConst const data, Size const size, Type const type) const
 {
 	if (!size) return nullptr;
 
@@ -563,7 +563,7 @@ Any Minty::TextReaderBehavior::read_typed_from_buffer(const Any const data, Size
 	}
 	break;
 	default:
-		MINTY_NOT_IMPLEMENTED(to_string(type));
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	return output;

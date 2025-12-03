@@ -77,6 +77,12 @@ namespace Minty
 		 */
 		static Shared<RigidBody> create(RigidBodyInfo const& info);
 
+		/**
+		 * @brief Creates a default RigidBody.
+		 * @return A RigidBody Owner.
+		 */
+		static Shared<RigidBody> create();
+
 #pragma endregion
 
 #pragma region Variables

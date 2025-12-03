@@ -13,6 +13,11 @@
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderPass.h"
 #include "Platform/Vulkan/Vulkan_RenderTarget.h"
+#include "Minty/Render/ViewportInfo.h"
+#include "Minty/Render/ImageInfo.h"
+#include "Minty/Render/RenderManagerInfo.h"
+#include "Minty/Render/SurfaceInfo.h"
+#include "Minty/Render/CameraData.h"
 
 using namespace Minty;
 
@@ -33,6 +38,96 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const& info)
 	, m_currentFrameIndex(0)
 	, m_passesMade(0)
 {
+	// create instance
+	m_instance = Vulkan_Renderer::create_instance();
+
+	// set up debugging
+#ifdef MINTY_DEBUG
+	m_debugMessenger = Vulkan_Renderer::create_debug_messenger(m_instance);
+#endif // MINTY_DEBUG
+
+	// create surface
+	Ref<Window> const& window = get_window();
+	VkSurfaceKHR surface = Vulkan_Renderer::create_surface(m_instance, window);
+
+	// get physical device
+	m_physicalDevice = Vulkan_Renderer::select_physical_device(m_instance, surface);
+
+	// get queue families
+	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, surface);
+
+	// create device
+	m_device = Vulkan_Renderer::create_device(m_physicalDevice, queueFamilyIndices);
+
+	// create surface/swapchain object
+	SurfaceInfo surfaceInfo{};
+	surfaceInfo.id = UUID::create();
+	surfaceInfo.targetFormat = m_targetSurfaceFormat;
+	surfaceInfo.window = window;
+	Shared<Surface> vulkanSurface = Shared<Vulkan_Surface>::create(surfaceInfo, surface, *this, queueFamilyIndices);
+	m_vulkanSurface = vulkanSurface.to_ref();
+	set_surface(std::move(vulkanSurface));
+
+	// get queues
+	m_graphicsQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.graphicsFamily.value());
+	m_presentQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.presentFamily.value());
+
+	// create command pool
+	m_commandPool = Vulkan_Renderer::create_command_pool(m_device, queueFamilyIndices.graphicsFamily.value());
+
+	// create depth resources
+	create_depth_resources();
+
+	// initialize frames
+	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
+	{
+		initialize_frame(m_frames.at(i));
+	}
+
+	// create defaults
+	//     viewport
+	UInt2 swapchainSize = m_vulkanSurface->get_size();
+	ViewportInfo viewportInfo{};
+	viewportInfo.id = UUID::create();
+	viewportInfo.viewSize = swapchainSize;
+	viewportInfo.maskSize = swapchainSize;
+	set_default_viewport(Viewport::create(viewportInfo));
+}
+
+Minty::Vulkan_RenderManager::~Vulkan_RenderManager()
+{
+	// sync first
+	sync();
+
+	// remove references
+	m_vulkanSurface.release();
+
+	// dispose frames
+	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
+	{
+		dispose_frame(m_frames.at(i));
+	}
+
+	// destroy depth resources
+	destroy_depth_resources();
+
+	// destroy command pool
+	Vulkan_Renderer::destroy_command_pool(m_device, m_commandPool);
+	m_commandPool = VK_NULL_HANDLE;
+
+	// destroy device
+	Vulkan_Renderer::destroy_device(m_device);
+	m_device = VK_NULL_HANDLE;
+
+	// destroy debug messenger
+#ifdef MINTY_DEBUG
+	Vulkan_Renderer::destroy_debug_messenger(m_instance, m_debugMessenger);
+	m_debugMessenger = VK_NULL_HANDLE;
+#endif // MINTY_DEBUG
+
+	// destroy instance
+	Vulkan_Renderer::destroy_instance(m_instance);
+	m_instance = VK_NULL_HANDLE;
 }
 
 // gets the current frame's command buffer
@@ -75,7 +170,7 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	depthImageInfo.type = ImageType::D2;
 	depthImageInfo.usage = ImageUsage::DepthStencil;
 	depthImageInfo.immutable = false;
-	set_depth_image(Shared<Vulkan_Image>(depthImageInfo));
+	set_depth_image(Shared<Vulkan_Image>::create(depthImageInfo));
 }
 
 void Minty::Vulkan_RenderManager::destroy_depth_resources()
@@ -87,104 +182,6 @@ void Minty::Vulkan_RenderManager::recreate_depth_resources()
 {
 	destroy_depth_resources();
 	create_depth_resources();
-}
-
-void Minty::Vulkan_RenderManager::initialize()
-{
-	// create instance
-	m_instance = Vulkan_Renderer::create_instance();
-
-	// set up debugging
-#ifdef MINTY_DEBUG
-	m_debugMessenger = Vulkan_Renderer::create_debug_messenger(m_instance);
-#endif // MINTY_DEBUG
-
-	// create surface
-	Ref<Window> const& window = get_window();
-	VkSurfaceKHR surface = Vulkan_Renderer::create_surface(m_instance, window);
-
-	// get physical device
-	m_physicalDevice = Vulkan_Renderer::select_physical_device(m_instance, surface);
-
-	// get queue families
-	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(m_physicalDevice, surface);
-
-	// create device
-	m_device = Vulkan_Renderer::create_device(m_physicalDevice, queueFamilyIndices);
-
-	// create surface/swapchain object
-	SurfaceInfo surfaceInfo{};
-	surfaceInfo.id = UUID::create();
-	surfaceInfo.targetFormat = m_targetSurfaceFormat;
-	surfaceInfo.window = window;
-	Shared<Surface> vulkanSurface = Shared<Vulkan_Surface>(surfaceInfo, surface, *this, queueFamilyIndices);
-	m_vulkanSurface = vulkanSurface.to_ref();
-	set_surface(std::move(vulkanSurface));
-
-	// get queues
-	m_graphicsQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.graphicsFamily.value());
-	m_presentQueue = Vulkan_Renderer::get_device_queue(m_device, queueFamilyIndices.presentFamily.value());
-
-	// create command pool
-	m_commandPool = Vulkan_Renderer::create_command_pool(m_device, queueFamilyIndices.graphicsFamily.value());
-
-	// create depth resources
-	create_depth_resources();
-
-	// initialize frames
-	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
-	{
-		initialize_frame(m_frames.at(i));
-	}
-
-	RenderManager::initialize();
-
-	// create defaults
-	//     viewport
-	UInt2 swapchainSize = m_vulkanSurface->get_size();
-	ViewportInfo viewportInfo{};
-	viewportInfo.id = UUID::create();
-	viewportInfo.viewSize = swapchainSize;
-	viewportInfo.maskSize = swapchainSize;
-	set_default_viewport(Viewport::create(viewportInfo));
-}
-
-void Minty::Vulkan_RenderManager::dispose()
-{
-	// sync first
-	sync();
-
-	RenderManager::dispose();
-
-	// remove references
-	m_vulkanSurface.release();
-
-	// dispose frames
-	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
-	{
-		dispose_frame(m_frames.at(i));
-	}
-
-	// destroy depth resources
-	destroy_depth_resources();
-
-	// destroy command pool
-	Vulkan_Renderer::destroy_command_pool(m_device, m_commandPool);
-	m_commandPool = VK_NULL_HANDLE;
-
-	// destroy device
-	Vulkan_Renderer::destroy_device(m_device);
-	m_device = VK_NULL_HANDLE;
-
-	// destroy debug messenger
-#ifdef MINTY_DEBUG
-	Vulkan_Renderer::destroy_debug_messenger(m_instance, m_debugMessenger);
-	m_debugMessenger = VK_NULL_HANDLE;
-#endif // MINTY_DEBUG
-
-	// destroy instance
-	Vulkan_Renderer::destroy_instance(m_instance);
-	m_instance = VK_NULL_HANDLE;
 }
 
 void Minty::Vulkan_RenderManager::sync()

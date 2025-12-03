@@ -90,6 +90,12 @@ namespace Minty
 		static Unique<LayerManager> create(LayerManagerInfo const& info);
 
 		/**
+		 * @brief Creates a new LayerManager with default settings.
+		 * @return A LayerManager Owner.
+		 */
+		static Unique<LayerManager> create();
+
+		/**
 		 * @brief Gets the active Context's LayerManager.
 		 * @return The LayerManager.
 		 */

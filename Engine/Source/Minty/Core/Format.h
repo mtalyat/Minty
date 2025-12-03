@@ -42,10 +42,10 @@ namespace Minty
      * @return The formatted string.
      */
     template <typename... Args>
-    String format(AllocatorType const allocator, String const formatStr, Args const &...args)
+    String format(String const formatStr, Args const &...args)
     {
         Size formatSize = formatStr.get_size();
-        StringBuilder builder(formatStr.get_size() * 2, allocator);
+        StringBuilder builder(formatStr.get_size() * 2);
         Size argIndex = 0;
         constexpr Size argCount = sizeof...(args);
 
@@ -109,20 +109,7 @@ namespace Minty
             ++argIndex;
         }
 
-        return builder.to_string(allocator);
-    }
-
-    /**
-     * @brief Format a string using the specified format and arguments with the default allocator.
-     * @tparam Args The types of the arguments to format.
-     * @param format The format string.
-     * @param args The arguments to format into the string.
-     * @return The formatted string.
-     */
-    template <typename... Args>
-    inline String format(String const formatStr, Args const &...args)
-    {
-        return format(AllocatorType::Default, formatStr, args...);
+        return builder.to_string();
     }
 }
 

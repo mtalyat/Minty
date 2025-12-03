@@ -38,8 +38,9 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	for (Size i = 0; i < info.components.get_size(); i++)
 	{
 		// get the component info
-		m_components.at(i) = &app.get_component_info(info.components.at(i));
-		MINTY_ASSERT(m_components.at(i) != nullptr, ErrorCode::Component_NotRegistered, info.components.at(i));
+		// TODO: Fix this line... could cause issues in the future
+		m_components.at(i) = &EntityManager::get_component_info(info.components.at(i));
+		MINTY_ASSERT_F(m_components.at(i) != nullptr, ErrorCode::Component_NotRegistered, info.components.at(i));
 	}
 
 	// make space for the steps
@@ -48,14 +49,14 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	Map<StepKey, Set<StepValue>> valuesEdited;
 	for (auto const& [time, actionIndices] : info.steps)
 	{
-		MINTY_ASSERT(time >= 0.0f, ErrorCode::Animation_NegativeTime, time);
-		MINTY_ASSERT(time == lastTime, ErrorCode::Animation_DuplicateTime, time);
-		MINTY_ASSERT(time > lastTime, ErrorCode::Animation_IncorrectTimeOrder, time);
+		MINTY_ASSERT_F(time >= 0.0f, ErrorCode::Animation_NegativeTime, time);
+		MINTY_ASSERT_F(time == lastTime, ErrorCode::Animation_DuplicateTime, time);
+		MINTY_ASSERT_F(time > lastTime, ErrorCode::Animation_IncorrectTimeOrder, time);
 
 		// create the steplist
 		for(Size const actionIndex : actionIndices)
 		{
-			MINTY_ASSERT(actionIndex < info.actions.get_size(), ErrorCode::Animation_InvalidActionIndex, actionIndex);
+			MINTY_ASSERT_F(actionIndex < info.actions.get_size(), ErrorCode::Animation_InvalidActionIndex, actionIndex);
 
 			AnimationAction const& action = info.actions.at(actionIndex);
 			StepKey key;
@@ -101,7 +102,7 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	Set<StepValue> valuesEditedSet;
 	for(auto const& actionIndex : info.resetSteps)
 	{
-		MINTY_ASSERT(actionIndex < info.actions.get_size(), ErrorCode::Animation_InvalidActionIndex, actionIndex);
+		MINTY_ASSERT_F(actionIndex < info.actions.get_size(), ErrorCode::Animation_InvalidActionIndex, actionIndex);
 
 		AnimationAction const& action = info.actions.at(actionIndex);
 		StepKey key;
@@ -214,7 +215,7 @@ void Minty::Animation::perform_action(StepKey const key, Vector<StepValue> const
 
 void Minty::Animation::perform_action(AnimationAction const& action, Entity const thisEntity, EntityManager& entityManager) const
 {
-	MINTY_ASSERT(action.entityIndex < MAX_ENTITY_INDEX, ErrorCode::Animation_InvalidEntityIndex, action.entityIndex);
+	MINTY_ASSERT_F(action.entityIndex < MAX_ENTITY_INDEX, ErrorCode::Animation_InvalidEntityIndex, action.entityIndex);
 
 	// get the entity based on the path
 	Entity entity = entityManager.get_entity(thisEntity, m_entities.at(action.entityIndex));
@@ -226,7 +227,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 		return;
 	}
 
-	MINTY_ASSERT(action.componentIndex < MAX_COMPONENT_INDEX, ErrorCode::Animation_InvalidComponentIndex, action.componentIndex);
+	MINTY_ASSERT_F(action.componentIndex < MAX_COMPONENT_INDEX, ErrorCode::Animation_InvalidComponentIndex, action.componentIndex);
 
 	// get the component
 	ComponentData const* componentInfo = m_components.at(action.componentIndex);
@@ -326,7 +327,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// get the entity
 		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
-		MINTY_ASSERT(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, m_entities.at(entityIndex).to_string());
+		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, m_entities.at(entityIndex).to_string());
 
 		// get the component
 		ComponentData const* componentInfo = m_components.at(componentIndex);
@@ -518,4 +519,10 @@ void Minty::Animation::reset(Entity const thisEntity, EntityManager& entityManag
 Shared<Animation> Minty::Animation::create(AnimationInfo const& info)
 {
 	return Shared<Animation>::create(info);
+}
+
+Shared<Animation> Minty::Animation::create()
+{
+	AnimationInfo info{};
+	return create(info);
 }

@@ -10,12 +10,11 @@
 #include "Minty/Component/Component.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Animation/Animator.h"
+#include "Minty/Animation/Animation.h"
 
 namespace Minty
 {
-	class Animator;
-	class Animation;
-
 	/**
 	 * @brief Handles animating an Entity.
 	 */

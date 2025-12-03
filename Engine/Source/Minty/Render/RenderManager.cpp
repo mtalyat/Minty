@@ -20,7 +20,7 @@
 #include "Minty/Application/Application.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Render/MaterialInfo.h"
-#include "Minty/Render/CameraData.h"z
+#include "Minty/Render/CameraData.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
@@ -35,6 +35,12 @@ Unique<RenderManager> Minty::RenderManager::create(RenderManagerInfo const& info
 #else
 	return Unique<RenderManager>();
 #endif // MINTY_VULKAN
+}
+
+Unique<RenderManager> Minty::RenderManager::create()
+{
+	RenderManagerInfo info{};
+	return create(info);
 }
 
 RenderManager& Minty::RenderManager::get_singleton()
@@ -169,9 +175,29 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
 	MINTY_ASSERT(m_window != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }
 
+void Minty::RenderManager::set_surface(Shared<Surface> &&surface)
+{
+	m_surface = std::move(surface);
+}
+
+void Minty::RenderManager::set_depth_image(Shared<Image> &&image)
+{
+	m_depthStencilImage = std::move(image);
+}
+
+void Minty::RenderManager::set_default_viewport(Shared<Viewport> &&viewport)
+{
+	m_defaultViewport = std::move(viewport);
+}
+
 Format Minty::RenderManager::get_color_attachment_format() const
 {
     return m_surface->get_format();
+}
+
+Format Minty::RenderManager::get_depth_attachment_format() const
+{
+    return m_depthStencilImage->get_format(); 
 }
 
 Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
@@ -220,7 +246,7 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 			templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
 			break;
 		default:
-			MINTY_NOT_IMPLEMENTED(to_string(space));
+			MINTY_NOT_IMPLEMENTED();
 		}
 		break;
 	case AssetType::FontVariant:
@@ -230,11 +256,11 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 			templateId = DEFAULT_ASSET_TEXT_MATERIAL_TEMPLATE;
 			break;
 		default:
-			MINTY_NOT_IMPLEMENTED(to_string(space));
+			MINTY_NOT_IMPLEMENTED();
 		}
 		break;
 	default:
-		MINTY_NOT_IMPLEMENTED(to_string(assetType));
+		MINTY_NOT_IMPLEMENTED();
 		break;
 	}
 	if (mask != MaskMode::None)
@@ -250,19 +276,19 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 				templateId = DEFAULT_ASSET_UI_MASK_TEST_MATERIAL_TEMPLATE;
 				break;
 			default:
-				MINTY_NOT_IMPLEMENTED(to_string(mask));
+				MINTY_NOT_IMPLEMENTED();
 			}
 		}
 		else
 		{
 			// "Variants are only supported for UI MaterialTemplates, not for type {}."
-			MINTY_ABORT(ErrorCode::Argument_InvalidValue, to_string(assetType));
+			MINTY_ABORT_F(ErrorCode::Argument_InvalidValue, to_string(assetType));
 		}
 	}
 
 	AssetManager& assetManager = AssetManager::get_singleton();
 	Ref<MaterialTemplate> const& materialTemplate = assetManager.get<MaterialTemplate>(templateId);
-	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId);
+	MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId);
 	return materialTemplate;
 }
 

@@ -1,31 +1,23 @@
 #include "pch.h"
 #include "SoLoud_AudioManager.h"
+#include "Minty/Core/Math.h"
+#include "Minty/Audio/AudioListener.h"
+#include "Minty/Audio/AudioSource.h"
+#include "Minty/Audio/AudioClip.h"
 
 using namespace Minty;
 
-void Minty::SoLoud_AudioManager::initialize()
+Minty::SoLoud_AudioManager::SoLoud_AudioManager(AudioManagerInfo const &info)
+	: AudioManager(info), m_engine(new SoLoud::Soloud()), m_dirty(false)
 {
-	AudioManager::initialize();
-
 	m_engine->init(SoLoud::Soloud::CLIP_ROUNDOFF | SoLoud::Soloud::LEFT_HANDED_3D);
 	m_dirty = true;
 }
 
-void Minty::SoLoud_AudioManager::dispose()
+Minty::SoLoud_AudioManager::~SoLoud_AudioManager()
 {
-	AudioManager::dispose();
-
 	m_engine->deinit();
-}
-
-void Minty::SoLoud_AudioManager::finalize()
-{
-	// if something changed, apply those changes
-	if (m_dirty)
-	{
-		m_engine->update3dAudio();
-		m_dirty = false;
-	}
+	delete m_engine;
 }
 
 Bool Minty::SoLoud_AudioManager::is_valid(Handle const handle) const
@@ -33,12 +25,12 @@ Bool Minty::SoLoud_AudioManager::is_valid(Handle const handle) const
 	return m_engine->isValidVoiceHandle(handle);
 }
 
-void Minty::SoLoud_AudioManager::set_audio_listener(AudioListener const& listener)
+void Minty::SoLoud_AudioManager::set_audio_listener(AudioListener const &listener)
 {
-	Float3 const& position = listener.get_position();
-	Float3 const& forward = listener.get_forward();
-	Float3 const& up = listener.get_up();
-	Float3 const& velocity = listener.get_velocity();
+	Float3 const &position = listener.get_position();
+	Float3 const &forward = listener.get_forward();
+	Float3 const &up = listener.get_up();
+	Float3 const &velocity = listener.get_velocity();
 
 	m_engine->set3dListenerParameters(
 		position.x,
@@ -52,15 +44,14 @@ void Minty::SoLoud_AudioManager::set_audio_listener(AudioListener const& listene
 		up.z,
 		velocity.x,
 		velocity.y,
-		velocity.z
-	);
+		velocity.z);
 	m_dirty = true;
 }
 
-void Minty::SoLoud_AudioManager::set_audio_source(Handle const handle, AudioSource const& source)
+void Minty::SoLoud_AudioManager::set_audio_source(Handle const handle, AudioSource const &source)
 {
-	Float3 const& position = source.get_position();
-	Float3 const& velocity = source.get_velocity();
+	Float3 const &position = source.get_position();
+	Float3 const &velocity = source.get_velocity();
 
 	m_engine->set3dSourceParameters(
 		handle,
@@ -69,18 +60,15 @@ void Minty::SoLoud_AudioManager::set_audio_source(Handle const handle, AudioSour
 		position.z,
 		velocity.x,
 		velocity.y,
-		velocity.z
-	);
+		velocity.z);
 	m_engine->set3dSourceAttenuation(
 		handle,
 		static_cast<unsigned int>(source.get_attenuation()),
-		source.get_attenuation_rolloff()
-	);
+		source.get_attenuation_rolloff());
 	m_engine->set3dSourceMinMaxDistance(
 		handle,
 		source.get_min_distance(),
-		source.get_max_distance()
-	);
+		source.get_max_distance());
 	m_dirty = true;
 }
 
@@ -99,23 +87,32 @@ void Minty::SoLoud_AudioManager::set_pause_all(Bool const paused)
 	m_engine->setPauseAll(paused);
 }
 
-Handle Minty::SoLoud_AudioManager::play(Ref<AudioClip> const& clip, Float const volume, Float const pan, Bool const paused, UInt const bus)
+void Minty::SoLoud_AudioManager::finalize()
 {
-	SoLoud::Wav* wav = static_cast<SoLoud::Wav*>(clip->get_native());
+	// if something changed, apply those changes
+	if (m_dirty)
+	{
+		m_engine->update3dAudio();
+		m_dirty = false;
+	}
+}
+
+Handle Minty::SoLoud_AudioManager::play(Ref<AudioClip> const &clip, Float const volume, Float const pan, Bool const paused, UInt const bus)
+{
+	SoLoud::Wav *wav = static_cast<SoLoud::Wav *>(clip->get_native());
 	return m_engine->play(
 		*wav,
 		volume,
 		pan,
 		paused,
-		bus
-	);
+		bus);
 }
 
-Handle Minty::SoLoud_AudioManager::play_object(Ref<AudioClip> const& clip, AudioSource const& source, Float const volume, Bool const paused, UInt const bus)
+Handle Minty::SoLoud_AudioManager::play_object(Ref<AudioClip> const &clip, AudioSource const &source, Float const volume, Bool const paused, UInt const bus)
 {
-	Float3 const& position = source.get_position();
-	Float3 const& velocity = source.get_velocity();
-	SoLoud::Wav* wav = static_cast<SoLoud::Wav*>(clip->get_native());
+	Float3 const &position = source.get_position();
+	Float3 const &velocity = source.get_velocity();
+	SoLoud::Wav *wav = static_cast<SoLoud::Wav *>(clip->get_native());
 	Handle handle = m_engine->play3d(
 		*wav,
 		position.x,
@@ -126,31 +123,27 @@ Handle Minty::SoLoud_AudioManager::play_object(Ref<AudioClip> const& clip, Audio
 		velocity.z,
 		volume,
 		paused,
-		bus
-	);
+		bus);
 	m_engine->set3dSourceAttenuation(
 		handle,
 		static_cast<unsigned int>(source.get_attenuation()),
-		source.get_attenuation_rolloff()
-	);
+		source.get_attenuation_rolloff());
 	m_engine->set3dSourceMinMaxDistance(
 		handle,
 		source.get_min_distance(),
-		source.get_max_distance()
-	);
+		source.get_max_distance());
 	m_dirty = true;
 	return handle;
 }
 
-Handle Minty::SoLoud_AudioManager::play_background(Ref<AudioClip> const& clip, Float const volume, Bool const paused, UInt const bus)
+Handle Minty::SoLoud_AudioManager::play_background(Ref<AudioClip> const &clip, Float const volume, Bool const paused, UInt const bus)
 {
-	SoLoud::Wav* wav = static_cast<SoLoud::Wav*>(clip->get_native());
+	SoLoud::Wav *wav = static_cast<SoLoud::Wav *>(clip->get_native());
 	return m_engine->playBackground(
 		*wav,
 		volume,
 		paused,
-		bus
-	);
+		bus);
 }
 
 void Minty::SoLoud_AudioManager::stop(Handle const handle)

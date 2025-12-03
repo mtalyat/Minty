@@ -11,6 +11,7 @@
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringView.h"
 #include "Minty/Memory/AllocatorType.h"
+#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -42,8 +43,8 @@ namespace Minty
          * @param initialString The initial string to initialize the string builder with.
          * @param allocator The allocator to use for memory management. Default is Allocator::Default.
          */
-        StringBuilder(StringView const& initialString);
-        
+        StringBuilder(StringView const &initialString);
+
         ~StringBuilder();
 
 #pragma endregion
@@ -55,7 +56,7 @@ namespace Minty
          * @brief Gets a C-style string representing the current contents of the StringBuilder.
          * @return A pointer to the C-style string data.
          */
-        Char const* get_data() const noexcept { return mp_data; }
+        Char const *get_data() const noexcept { return mp_data; }
 
         /**
          * @brief Gets the size of the StringBuilder.
@@ -100,149 +101,162 @@ namespace Minty
          * @brief Appends a string to the end of the StringBuilder.
          * @param str The string to append.
          */
-        void append(StringView const& str);
+        void append(StringView const &str);
 
-        template<typename T>
-        void append(T const& value)
+        /**
+         * @brief Appends a String to the end of the StringBuilder.
+         * @param str The String to append.
+         */
+        inline void append(String const &str) { append(StringView(str)); }
+
+        template <typename T>
+        void append(T const &value)
         {
             append(Minty::to_string(value));
         }
 
         /**
-		 * @brief Gets the character at the specified index.
-		 * @param index Index of the character.
-		 */
+         * @brief Gets the character at the specified index.
+         * @param index Index of the character.
+         */
         Char index(Size const index) const;
 
-		/**
-		 * @brief Gets a const reference to the character at the specified index.
-		 * @param index Index of the character.
-		 */
-		Char const& at(Size const index) const;
+        /**
+         * @brief Gets a const reference to the character at the specified index.
+         * @param index Index of the character.
+         */
+        Char const &at(Size const index) const;
 
-		/**
-		 * @brief Gets a reference to the character at the specified index.
-		 * @param index Index of the character.
-		 */
-        inline Char& at(Size const index) { return const_cast<Char&>(static_cast<StringBuilder const&>(*this).at(index)); }
+        /**
+         * @brief Gets a reference to the character at the specified index.
+         * @param index Index of the character.
+         */
+        inline Char &at(Size const index) { return const_cast<Char &>(static_cast<StringBuilder const &>(*this).at(index)); }
 
-		/**
-		 * @brief Compares this String with another.
-		 * @param other The other String to compare with.
-		 * @return An integer less than, equal to, or greater than zero if this String is found, 
-		 *  respectively, to be less than, to match, or be greater than the other String.
-		 */
-		Int compare(StringView const other) const noexcept;
+        /**
+         * @brief Compares this String with another.
+         * @param other The other String to compare with.
+         * @return An integer less than, equal to, or greater than zero if this String is found,
+         *  respectively, to be less than, to match, or be greater than the other String.
+         */
+        Int compare(StringView const other) const noexcept;
 
-		/**
-		 * @brief Gets a reference to the first character.
-		 * @return Reference to the first character.
-		 */
-		inline Char& front() { return at(0); }
+        /**
+         * @brief Gets a reference to the first character.
+         * @return Reference to the first character.
+         */
+        inline Char &front() { return at(0); }
 
-		/**
-		 * @brief Gets the first character.
-		 * @return The first character.
-		 */
-		inline Char front() const { return at(0); }
+        /**
+         * @brief Gets the first character.
+         * @return The first character.
+         */
+        inline Char front() const { return at(0); }
 
-		/**
-		 * @brief Gets a reference to the last character.
-		 * @return Reference to the last character.
-		 */
-		inline Char& back() { return at(m_size - 1); }
+        /**
+         * @brief Gets a reference to the last character.
+         * @return Reference to the last character.
+         */
+        inline Char &back() { return at(m_size - 1); }
 
-		/**
-		 * @brief Gets the last character.
-		 * @return The last character.
-		 */
-		inline Char back() const { return at(m_size - 1); }
+        /**
+         * @brief Gets the last character.
+         * @return The last character.
+         */
+        inline Char back() const { return at(m_size - 1); }
 
-		/**
-		 * @brief Finds the first occurrence of a character or substring.
-		 * @param c The character to find.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the first occurrence, or SIZE_MAX if not found.
-		 */
-		Size find_first(Char const c, Size const startIndex = 0) const noexcept;
-		
-		/**
-		 * @brief Finds the first occurrence of a substring.
-		 * @param str The substring to find.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_first(StringView const str, Size const startIndex = 0) const noexcept;
+        /**
+         * @brief Finds the first occurrence of a character or substring.
+         * @param c The character to find.
+         * @param startIndex The index to start the search from.
+         * @return The index of the first occurrence, or SIZE_MAX if not found.
+         */
+        Size find_first(Char const c, Size const startIndex = 0) const noexcept;
 
-		/**
-		 * @brief Finds the last occurrence of a character or substring.
-		 * @param c The character to find.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_last(Char const c, Size const startIndex = INVALID_INDEX) const noexcept;
-		
-		/**
-		 * @brief Finds the last occurrence of a substring.
-		 * @param str The substring to find.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_last(StringView const str, Size const startIndex = INVALID_INDEX) const noexcept;
+        /**
+         * @brief Finds the first occurrence of a substring.
+         * @param str The substring to find.
+         * @param startIndex The index to start the search from.
+         * @return The index of the first occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_first(StringView const str, Size const startIndex = 0) const noexcept;
 
-		/**
-		 * @brief Finds the first occurrence of any character from a set.
-		 * @param chars The set of characters to find.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_first_of(StringView const chars, Size const startIndex = 0) const noexcept;
+        /**
+         * @brief Finds the last occurrence of a character or substring.
+         * @param c The character to find.
+         * @param startIndex The index to start the search from.
+         * @return The index of the last occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_last(Char const c, Size const startIndex = INVALID_INDEX) const noexcept;
 
-		/**
-		 * @brief Finds the last occurrence of any character from a set.
-		 * @param chars The set of characters to find.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_last_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
+        /**
+         * @brief Finds the last occurrence of a substring.
+         * @param str The substring to find.
+         * @param startIndex The index to start the search from.
+         * @return The index of the last occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_last(StringView const str, Size const startIndex = INVALID_INDEX) const noexcept;
 
-		/**
-		 * @brief Finds the first occurrence of any character not in a set.
-		 * @param chars The set of characters to exclude.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_first_not_of(StringView const chars, Size const startIndex = 0) const noexcept;
+        /**
+         * @brief Finds the first occurrence of any character from a set.
+         * @param chars The set of characters to find.
+         * @param startIndex The index to start the search from.
+         * @return The index of the first occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_first_of(StringView const chars, Size const startIndex = 0) const noexcept;
 
-		/**
-		 * @brief Finds the last occurrence of any character not in a set.
-		 * @param chars The set of characters to exclude.
-		 * @param startIndex The index to start the search from.
-		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
-		 */
-		Size find_last_not_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
+        /**
+         * @brief Finds the last occurrence of any character from a set.
+         * @param chars The set of characters to find.
+         * @param startIndex The index to start the search from.
+         * @return The index of the last occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_last_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
 
-		/**
-		 * @brief Extracts a substring from the string.
-		 * @param startIndex The starting index of the substring.
-		 * @param count The number of characters to include in the substring.
-		 * @return The extracted substring.
-		 */
-		String sub(Size const startIndex, Size const count = INVALID_INDEX) const noexcept;
+        /**
+         * @brief Finds the first occurrence of any character not in a set.
+         * @param chars The set of characters to exclude.
+         * @param startIndex The index to start the search from.
+         * @return The index of the first occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_first_not_of(StringView const chars, Size const startIndex = 0) const noexcept;
 
-		/**
-		 * @brief Checks if the string starts with a given substring.
-		 * @param str The substring to check.
-		 * @return True if the string starts with the substring, false otherwise.
-		 */
-		Bool starts_with(StringView const str) const noexcept;
+        /**
+         * @brief Finds the last occurrence of any character not in a set.
+         * @param chars The set of characters to exclude.
+         * @param startIndex The index to start the search from.
+         * @return The index of the last occurrence, or INVALID_INDEX if not found.
+         */
+        Size find_last_not_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
 
-		/**
-		 * @brief Checks if the string ends with a given substring.
-		 * @param str The substring to check.
-		 * @return True if the string ends with the substring, false otherwise.
-		 */
-		Bool ends_with(StringView const str) const noexcept;
+        /**
+         * @brief Extracts a substring from the string.
+         * @param startIndex The starting index of the substring.
+         * @param count The number of characters to include in the substring.
+         * @return The extracted substring.
+         */
+        String sub(Size const startIndex, Size const count = INVALID_INDEX) const noexcept;
+
+        /**
+         * @brief Slices the StringBuilder to only include the specified range.
+         * @param startIndex The starting index of the slice.
+         * @param count The number of characters to include in the slice.
+         */
+        void slice(Size const startIndex, Size const count = INVALID_INDEX) noexcept;
+
+        /**
+         * @brief Checks if the string starts with a given substring.
+         * @param str The substring to check.
+         * @return True if the string starts with the substring, false otherwise.
+         */
+        Bool starts_with(StringView const str) const noexcept;
+
+        /**
+         * @brief Checks if the string ends with a given substring.
+         * @param str The substring to check.
+         * @return True if the string ends with the substring, false otherwise.
+         */
+        Bool ends_with(StringView const str) const noexcept;
 
         /**
          * @brief Converts all characters in the StringBuilder to lowercase.
@@ -302,7 +316,7 @@ namespace Minty
 #pragma region Variables
 
     private:
-        Char* mp_data;
+        Char *mp_data;
         Size m_size;
         Size m_capacity;
 

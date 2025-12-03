@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "RenderTarget.h"
 #include "Minty/Render/RenderPass.h"
+#include "Minty/Render/RenderTargetInfo.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_RenderTarget.h"
 #endif // MINTY_VULKAN
@@ -31,8 +32,14 @@ Minty::RenderTarget::~RenderTarget()
 Shared<RenderTarget> Minty::RenderTarget::create(RenderTargetInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Shared<Vulkan_RenderTarget>(info);
+	return Shared<Vulkan_RenderTarget>::create(info);
 #else
 	return Shared<RenderTarget>();
 #endif // MINTY_VULKAN
+}
+
+Shared<RenderTarget> Minty::RenderTarget::create()
+{
+	RenderTargetInfo info{};
+	return create(info);
 }

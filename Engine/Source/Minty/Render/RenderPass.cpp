@@ -4,6 +4,8 @@
 #include "Minty/Render/RenderManager.h"
 #include "Minty/Render/Surface.h"
 #include "Minty/Render/RenderPassInfo.h"
+#include "Minty/Render/RenderTarget.h"
+#include "Minty/Render/RenderTargetInfo.h"
 #ifdef MINTY_VULKAN
 #include "Platform/Vulkan/Vulkan_RenderPass.h"
 #endif // MINTY_VULKAN
@@ -73,8 +75,14 @@ void Minty::RenderPass::unregister_render_target(RenderTarget* const renderTarge
 Shared<RenderPass> Minty::RenderPass::create(RenderPassInfo const& info)
 {
 #ifdef MINTY_VULKAN
-	return Shared<Vulkan_RenderPass>(info);
+	return Shared<Vulkan_RenderPass>::create(info);
 #else
     return Shared<RenderPass>();
 #endif // MINTY_VULKAN
+}
+
+Shared<RenderPass> Minty::RenderPass::create()
+{
+	RenderPassInfo info{};
+	return create(info);
 }

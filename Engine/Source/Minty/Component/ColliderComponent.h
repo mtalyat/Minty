@@ -8,11 +8,11 @@
  */
 
 #include "Minty/Component/Component.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Physics/Collider.h"
 
 namespace Minty
-{
-	class Collider;
-	
+{	
 	/**
 	 * @brief Holds a Collider for an Entity.
 	 */
@@ -22,7 +22,7 @@ namespace Minty
 		/**
 		 * @brief The Collider.
 		 */
-		Shared<Collider> collider;
+		Shared<Collider> collider = nullptr;
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;

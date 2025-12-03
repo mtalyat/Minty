@@ -193,7 +193,7 @@ namespace Minty
 			}
 			else
 			{
-				MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
+				MINTY_ABORT_F(ErrorCode::Math_InvalidToken, token);
 			}
 		}
 
@@ -270,7 +270,7 @@ namespace Minty
 				}
 				else
 				{
-					MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
+					MINTY_ABORT_F(ErrorCode::Math_InvalidToken, token);
 				}
 			}
 
@@ -289,7 +289,7 @@ namespace Minty
 		T evaluate_2(String const &expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 2, ErrorCode::Argument_InvalidFormat, expression);
+			MINTY_ASSERT_F(args.get_size() == 2, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1))};
@@ -299,7 +299,7 @@ namespace Minty
 		T evaluate_3(String const &expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 3, ErrorCode::Argument_InvalidFormat, expression);
+			MINTY_ASSERT_F(args.get_size() == 3, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1)),
@@ -310,7 +310,7 @@ namespace Minty
 		T evaluate_4(String const &expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT(args.get_size() == 4, ErrorCode::Argument_InvalidFormat, expression);
+			MINTY_ASSERT_F(args.get_size() == 4, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1)),
@@ -368,11 +368,11 @@ namespace Minty
 				else
 				{
 					// something else
-					MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
+					MINTY_ABORT_F(ErrorCode::Math_InvalidToken, token);
 				}
 			}
 
-			MINTY_ASSERT(stack.get_size() == 1, ErrorCode::Math_EvaluationFailed, expression);
+			MINTY_ASSERT_F(stack.get_size() == 1, ErrorCode::Math_EvaluationFailed, expression);
 
 			// last value left on stack should be the result
 			return stack.peek();

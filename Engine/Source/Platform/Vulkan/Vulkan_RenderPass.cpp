@@ -2,6 +2,7 @@
 #include "Vulkan_RenderPass.h"
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
+#include "Minty/Render/RenderPassInfo.h"
 
 using namespace Minty;
 

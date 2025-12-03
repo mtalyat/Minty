@@ -90,7 +90,9 @@ namespace Minty
 
         Library = 600,
         Library_InitializationFailed,
-        Library_LibraryError,
+        Library_GLFW,
+        Library_Vulkan,
+        Library_EnTT,
 
         Serialization = 700,
         Serialization_InvalidFormat,

@@ -2,13 +2,14 @@
 #include "EntityPath.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Tool/Util.h"
 
 using namespace Minty;
 
 Bool Minty::EntityPath::parse(String const& text)
 {
 	// split the string into parts
-	Vector<String> parts = text.split('/');
+	Vector<String> parts = Util::split(text, '/');
 
 	// parse to the path
 	m_path.reserve(parts.get_size());
@@ -38,13 +39,14 @@ String Minty::EntityPath::to_string() const
 	}
 
 	// compile the path into a string separated by /
-	String result = Minty::to_string(m_path.front());
+	StringBuilder builder(m_path.get_size() * 4);
+	builder.append(Minty::to_string(m_path.front()));
 	for (Size i = 1; i < m_path.get_size(); i++)
 	{
-		result.append('/');
-		result.append(Minty::to_string(m_path.at(i)));
+		builder.append('/');
+		builder.append(Minty::to_string(m_path.at(i)));
 	}
 
 	// write that
-	return result;
+	return builder.to_string();
 }

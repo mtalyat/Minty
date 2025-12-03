@@ -21,6 +21,7 @@ namespace Minty
 	class SystemManager;
 	class PhysicsSimulation;
 	class Event;
+	class Manager;
 	struct SceneInfo;
 
 	/**
@@ -173,6 +174,12 @@ namespace Minty
 		 * @returns The newly created Scene.
 		 */
 		static Shared<Scene> create(SceneInfo const& info);
+
+		/**
+		 * @brief Creates a new default Scene.
+		 * @returns The newly created Scene.
+		 */
+		static Shared<Scene> create();
 
 	private:
 		// loads the assets controlled by this Scene

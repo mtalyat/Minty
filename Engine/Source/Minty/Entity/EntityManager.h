@@ -7,14 +7,17 @@
  * @author Mitchell Talyat
  */
 
+#include "Minty/Component/RelationshipComponent.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Entity/EntityView.h"
+#include "Minty/Data/Lookup.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Manager/SubManager.h"
 #include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Component/ComponentData.h"
 
 namespace Minty
 {
@@ -22,7 +25,6 @@ namespace Minty
 	class Prefab;
 	class Scene;
 	struct EntityManagerInfo;
-	struct RelationshipComponent;
 	struct TransformComponent;
 	struct UITransformComponent;
 
@@ -41,7 +43,7 @@ namespace Minty
 		 * @param scene The Scene this EntityManager belongs to.
 		 * @param info The EntityManagerInfo containing initialization parameters.
 		 */
-		EntityManager(Scene *scene, EntityManagerInfo const &info);
+		EntityManager(Ref<Scene> const& scene, EntityManagerInfo const &info);
 
 		/**
 		 * @brief Move constructor.
@@ -714,6 +716,68 @@ namespace Minty
 		
 		void serialize(Writer &writer) const override;
 		Bool deserialize(Reader &reader) override;
+
+		/**
+		 * @brief Registers a Component type with the EntityManager.
+		 * @tparam T The Component type.
+		 * @param name The name of the Component.
+		 */
+		template <typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
+		static void register_component(String const &name)
+		{
+			MINTY_ASSERT_F(!s_registeredComponents.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+			MINTY_ASSERT_F(!s_registeredComponents.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
+
+			ComponentData info{
+				.name = name,
+				.create = [](EntityManager &entityManager, Entity const entity) -> Component &
+				{
+					return entityManager.add_component<T>(entity);
+				},
+				.get = [](EntityManager &entityManager, Entity const entity) -> Component *
+				{
+					return entityManager.try_get_component<T>(entity);
+				},
+				.get_const = [](EntityManager const &entityManager, Entity const entity) -> Component const *
+				{
+					return entityManager.try_get_component<T>(entity);
+				},
+				.destroy = [](EntityManager &entityManager, Entity const entity) -> void
+				{
+					entityManager.remove_component<T>(entity);
+				}};
+
+			s_registeredComponents.add(name, typeid(T), info);
+		}
+
+		/**
+		 * @brief Gets the ComponentData for the Component with the given name.
+		 * @param name The name of the Component.
+		 */
+		inline static ComponentData const &get_component_info(String const &name)
+		{
+			MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
+			MINTY_ASSERT_F(s_registeredComponents.contains(name), ErrorCode::Component_NotRegistered, name);
+			return s_registeredComponents.at(name);
+		}
+
+		/**
+		 * @brief Gets the ComponentData for the Component with the given TypeID.
+		 * @param typeId The TypeID of the Component.
+		 */
+		inline static ComponentData const &get_component_info(TypeID const &typeId)
+		{
+			MINTY_ASSERT_F(s_registeredComponents.contains(typeId), ErrorCode::Component_NotRegistered, typeId.name());
+			return s_registeredComponents.at(typeId);
+		}
+
+		/**
+		 * @brief Clears all registered components.
+		 */
+		inline static void clear_registered_components()
+		{
+			s_registeredComponents.clear();
+		}
 		
 		/**
 		 * @brief Creates a new EntityManager with the given arguments.
@@ -721,7 +785,14 @@ namespace Minty
 		 * @param info The arguments.
 		 * @returns An EntityManager Owner.
 		 */
-		static Shared<EntityManager> create(Scene *scene, EntityManagerInfo const &info);
+		static Shared<EntityManager> create(Ref<Scene> const& scene, EntityManagerInfo const &info);
+
+		/**
+		 * @brief Creates a default EntityManager.
+		 * @param scene The Scene this EntityManager belongs to.
+		 * @returns An EntityManager Owner.
+		 */
+		static Shared<EntityManager> create(Ref<Scene> const& scene);
 
 		/**
 		 * @brief Gets the singleton EntityManager for the active Scene.
@@ -757,6 +828,8 @@ namespace Minty
 
 		Map<UUID, Entity> m_ids;
 		Bool m_needsSorted;
+		
+		static Lookup<TypeID, ComponentData> s_registeredComponents;
 
 #pragma endregion
 	};

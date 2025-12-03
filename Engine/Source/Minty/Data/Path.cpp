@@ -136,6 +136,69 @@ Bool Minty::Path::create(Path const& path)
 	return std::filesystem::create_directories(path.m_path);
 }
 
+void Minty::Path::destroy(Path const &path)
+{
+	std::filesystem::remove_all(path.m_path);
+}
+
+Vector<Path> Minty::Path::get_files(Path const &path, Bool const recursive)
+{
+    MINTY_ASSERT_F(exists(path), ErrorCode::File_NotFound, path);
+	MINTY_ASSERT_F(is_directory(path), ErrorCode::File_NotADirectory, path);
+
+	Vector<Path> paths;
+	Queue<Path> directoriesToCheck;
+	directoriesToCheck.push(path);
+
+	while (!directoriesToCheck.is_empty())
+	{
+		Path current = directoriesToCheck.pop();
+		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		{
+			if (entry.is_regular_file())
+			{
+				paths.add(Path(entry.path().string().data()));
+			}
+			else if (recursive && entry.is_directory())
+			{
+				directoriesToCheck.push(Path(entry.path().string().data()));
+			}
+		}
+	}
+	
+	return paths;
+}
+
+Vector<Path> Minty::Path::get_directories(Path const &path, Bool const recursive)
+{
+    MINTY_ASSERT_F(exists(path), ErrorCode::File_NotFound, path);
+	MINTY_ASSERT_F(is_directory(path), ErrorCode::File_NotADirectory, path);
+
+	Vector<Path> paths;
+	Queue<Path> directoriesToCheck;
+	directoriesToCheck.push(path);
+
+	while (!directoriesToCheck.is_empty())
+	{
+		Path current = directoriesToCheck.pop();
+		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		{
+			if (entry.is_directory())
+			{
+				Path entryPath = Path(entry.path().string().data());
+				paths.add(entryPath);
+
+				if (recursive)
+				{
+					directoriesToCheck.push(entryPath);
+				}
+			}
+		}
+	}
+
+	return paths;
+}
+
 std::ostream& Minty::operator<<(std::ostream& stream, Path const& path)
 {
 	String str = path.get_string();

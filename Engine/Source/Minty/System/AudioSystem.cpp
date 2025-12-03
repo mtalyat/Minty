@@ -8,6 +8,9 @@
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Scene/Scene.h"
+#include "Minty/System/SystemInfo.h"
+#include "Minty/Audio/AudioListener.h"
+#include "Minty/Audio/AudioSource.h"
 
 using namespace Minty;
 

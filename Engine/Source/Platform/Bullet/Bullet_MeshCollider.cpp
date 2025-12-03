@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Bullet_MeshCollider.h"
 #include "Minty/Render/Mesh.h"
+#include "Minty/Physics/ColliderInfo.h"
 
 using namespace Minty;
 
@@ -35,7 +36,7 @@ Minty::Bullet_MeshCollider::Bullet_MeshCollider(ColliderInfo const& info)
 	}
 	else
 	{
-		MINTY_ABORT(ErrorCode::Asset_Mesh_InvalidStride, indices.get_stride());
+		MINTY_ABORT_F(ErrorCode::Asset_Mesh_InvalidStride, indices.get_stride());
 	}
 
 	// add it to the interface

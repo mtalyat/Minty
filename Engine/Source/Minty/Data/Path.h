@@ -11,6 +11,8 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parseable.h"
+#include "Minty/Debug/Debug.h"
+#include "Minty/Data/Vector.h"
 #include <filesystem>
 
 namespace Minty
@@ -232,7 +234,7 @@ namespace Minty
 		 * @brief Gets the Path as a String.
 		 * @returns The Path as a String.
 		 */
-		String get_string() const { return String(m_path.generic_string().c_str()); }
+		inline String get_string() const { return String(m_path.generic_string().c_str()); }
 
 		/**
 		 * @brief Gets the absolute Path.
@@ -287,47 +289,44 @@ namespace Minty
 		 * @brief Checks if this Path is empty.
 		 * @returns True if the Path is empty.
 		 */
-		constexpr Bool is_empty() const { return get_size() == 0; }
+		inline Bool is_empty() const { return get_size() == 0; }
 
 		/**
 		 * @brief Checks if this Path has an extension.
 		 * @returns True if the Path has an extension.
 		 */
-		Bool has_extension() const { return m_path.has_extension(); }
+		inline Bool has_extension() const { return m_path.has_extension(); }
 
 		/**
 		 * @brief Checks if this Path has the given extension.
 		 * @param extension The extension to check for, including the '.'.
 		 * @returns True if the path has the given extension.
 		 */
-		Bool has_extension(Path const& extension) const
-		{
-			return m_path.has_extension() && m_path.extension() == extension.m_path;
-		}
+		inline Bool has_extension(Path const& extension) const{ return m_path.has_extension() && m_path.extension() == extension.m_path; }
 
 		/**
 		 * @brief Checks if this Path has a parent directory.
 		 * @returns True if there is a parent directory.
 		 */
-		Bool has_parent() const { return m_path.has_parent_path(); }
+		inline Bool has_parent() const { return m_path.has_parent_path(); }
 
 		/**
 		 * @brief Gets the extension of this Path.
 		 * @returns A Path with the extension.
 		 */
-		Path get_extension() { return Path(m_path.extension().string().c_str()); }
+		inline Path get_extension() { return Path(m_path.extension().string().c_str()); }
 
 		/**
 		 * @brief Gets the name of the file.
 		 * @returns A Path with the file name and extension.
 		 */
-		Path get_file_name() const { return Path(m_path.filename().string().c_str()); }
+		inline Path get_file_name() const { return Path(m_path.filename().string().c_str()); }
 
 		/**
 		 * @brief Gets the name of the file without the extension.
 		 * @returns A Path with the file name.
 		 */
-		Path get_name() const { return Path(m_path.stem().string().c_str()); }
+		inline Path get_name() const { return Path(m_path.stem().string().c_str()); }
 
 		/**
 		 * @brief Reads the data for this object from a String.
@@ -376,6 +375,28 @@ namespace Minty
 		 * @returns True, if the directories were created.
 		 */
 		static Bool create(Path const& path);
+
+		/**
+		 * @brief Destroys the file or directory at the given Path.
+		 * @param path The Path to destroy.
+		 */
+		static void destroy(Path const& path);
+
+		/**
+		 * @brief Gets the files at the given Path.
+		 * @param path The Path to get the files from.
+		 * @param recursive Whether to get files recursively.
+		 * @returns A Vector of Paths representing the files.
+		 */
+		static Vector<Path> get_files(Path const& path, Bool const recursive = false);
+
+		/**
+		 * @brief Gets the directories at the given Path.
+		 * @param path The Path to get the directories from.
+		 * @param recursive Whether to get directories recursively.
+		 * @returns A Vector of Paths representing the directories.
+		 */
+		static Vector<Path> get_directories(Path const& path, Bool const recursive = false);
 
 #pragma endregion
 

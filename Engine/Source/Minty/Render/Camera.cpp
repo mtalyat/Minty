@@ -60,3 +60,9 @@ Shared<Camera> Minty::Camera::create(CameraInfo const& info)
 {
 	return Shared<Camera>::create(info);
 }
+
+Shared<Camera> Minty::Camera::create()
+{
+	CameraInfo info{};
+	return create(info);
+}

@@ -13,6 +13,7 @@
 #include "Minty/Debug/Assert.h"
 #include "Minty/System/SystemData.h"
 #include "Minty/Component/ComponentData.h"
+#include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
@@ -29,6 +30,8 @@ namespace Minty
 	class SceneManager;
 	class TimeController;
 	class Event;
+	class Manager;
+	class Path;
 
 	/**
 	 * @brief The main Application class that manages the application lifecycle.
@@ -230,78 +233,6 @@ namespace Minty
 		 */
 		void run();
 
-		template <typename T, typename = std::enable_if_t<std::is_base_of_v<System, T>>>
-		void register_system(String const &name, Int const priority = 0)
-		{
-			MINTY_ASSERT(!m_registeredSystems.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
-			MINTY_ASSERT(!m_registeredSystems.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
-
-			SystemData info{
-				.name = name,
-				.typeId = typeid(T),
-				.create = [](SystemInfo const &info) -> System *
-				{
-					return new T(info);
-				},
-				.defaultPriority = priority};
-
-			m_registeredSystems.add(name, typeid(T), info);
-		}
-
-		inline SystemData const &get_system_info(String const &name) const
-		{
-			MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
-			MINTY_ASSERT(m_registeredSystems.contains(name), ErrorCode::System_NotRegistered, name);
-			return m_registeredSystems.at(name);
-		}
-
-		inline SystemData const &get_system_info(TypeID const &typeId) const
-		{
-			MINTY_ASSERT(m_registeredSystems.contains(typeId), ErrorCode::System_NotRegistered, typeId.name());
-			return m_registeredSystems.at(typeId);
-		}
-
-		template <typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
-		void register_component(String const &name)
-		{
-			MINTY_ASSERT(!m_registeredComponents.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
-			MINTY_ASSERT(!m_registeredComponents.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
-
-			ComponentData info{
-				.name = name,
-				.create = [](EntityManager &entityManager, Entity const entity) -> Component &
-				{
-					return entityManager.add_component<T>(entity);
-				},
-				.get = [](EntityManager &entityManager, Entity const entity) -> Component *
-				{
-					return entityManager.try_get_component<T>(entity);
-				},
-				.get_const = [](EntityManager const &entityManager, Entity const entity) -> Component const *
-				{
-					return entityManager.try_get_component<T>(entity);
-				},
-				.destroy = [](EntityManager &entityManager, Entity const entity) -> void
-				{
-					entityManager.remove_component<T>(entity);
-				}};
-
-			m_registeredComponents.add(name, typeid(T), info);
-		}
-
-		inline ComponentData const &get_component_info(String const &name) const
-		{
-			MINTY_ASSERT(!name.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
-			MINTY_ASSERT(m_registeredComponents.contains(name), ErrorCode::Component_NotRegistered, name);
-			return m_registeredComponents.at(name);
-		}
-
-		inline ComponentData const &get_component_info(TypeID const &typeId) const
-		{
-			MINTY_ASSERT(m_registeredComponents.contains(typeId), ErrorCode::Component_NotRegistered, typeId.name());
-			return m_registeredComponents.at(typeId);
-		}
-
 		/**
 		 * @brief Creates a new Application using the configuration file at the given path.
 		 * @param path The path to the configuration file.
@@ -316,12 +247,30 @@ namespace Minty
 		 */
 		static Unique<Application> create(ApplicationInfo const &info);
 
-	private:
 		/**
-		 * @brief Handles an event sent to the Application.
-		 * @param event The event to handle.
+		 * @brief Creates a new Application with default settings.
+		 * @return An Application Owner.
 		 */
+		static Unique<Application> create();
+
+	private:
+		void finalize();
+		
+		void render();
+
+		void process_events();
+
+		void sync();
+
+		void frame_update(Timestep const time);
+
+		void fixed_update(Timestep const time);
+
 		void handle_event(Event &event);
+
+		void register_components();
+
+		void register_systems();
 
 #pragma endregion
 
@@ -341,9 +290,6 @@ namespace Minty
 		Unique<SceneManager> m_sceneManager;
 		Unique<TimeController> m_timeController;
 		Vector<Manager *> m_managers;
-
-		Lookup<TypeID, SystemData> m_registeredSystems;
-		Lookup<TypeID, ComponentData> m_registeredComponents;
 
 		static Application *s_instance;
 

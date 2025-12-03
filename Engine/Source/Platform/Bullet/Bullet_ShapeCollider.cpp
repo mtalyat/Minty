@@ -3,6 +3,7 @@
 #include "Minty/Debug/Debug.h"
 #include "Minty/Render/Mesh.h"
 #include "Platform/Bullet/Bullet_Physics.h"
+#include "Minty/Physics/ColliderInfo.h"
 
 using namespace Minty;
 

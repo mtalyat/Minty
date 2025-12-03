@@ -132,6 +132,7 @@ target_compile_definitions(Minty PRIVATE
     $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:_DEBUG>
     $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:MINTY_DEBUG>
     $<$<CONFIG:Release>:NDEBUG>
+    $<$<CONFIG:Release>:MINTY_RELEASE>
 )
 
 # Feature-based definitions

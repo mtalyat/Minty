@@ -140,6 +140,12 @@ namespace Minty
 		 */
 		static Shared<SpriteAtlas> create(SpriteAtlasInfo const& info);
 
+		/**
+		 * @brief Creates a default SpriteAtlas.
+		 * @return A SpriteAtlas Owner.
+		 */
+		static Shared<SpriteAtlas> create();
+
 #pragma endregion
 
 	};

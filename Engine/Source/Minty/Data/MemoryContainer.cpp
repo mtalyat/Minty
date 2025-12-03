@@ -61,11 +61,11 @@ MemoryContainer &Minty::MemoryContainer::operator=(MemoryContainer &&other) noex
 	return *this;
 }
 
-void Minty::MemoryContainer::set_at(void const *const data, Size const size, Size const index)
+void Minty::MemoryContainer::set_at(AnyConst const data, Size const size, Size const index)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
-	MINTY_ASSERT(index + size <= m_size, ErrorCode::Argument_InvalidSize, size);
+	MINTY_ASSERT_F(index + size <= m_size, ErrorCode::Argument_InvalidSize, size);
 
 	// copy into data
 	memcpy(&mp_data[index], data, size);
@@ -73,7 +73,7 @@ void Minty::MemoryContainer::set_at(void const *const data, Size const size, Siz
 
 void const *Minty::MemoryContainer::get_at(Size const index) const
 {
-	MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+	MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 	return &mp_data[index];
 }
 

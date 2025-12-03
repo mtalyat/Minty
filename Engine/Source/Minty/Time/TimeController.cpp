@@ -80,6 +80,12 @@ Unique<TimeController> Minty::TimeController::create(TimeControllerInfo const &i
     return Unique<TimeController>::create(info);
 }
 
+Unique<TimeController> Minty::TimeController::create()
+{
+    TimeControllerInfo info{};
+    return create(info);
+}
+
 TimeController &Minty::TimeController::get_singleton()
 {
     return Application::get_singleton().get_time_manager();

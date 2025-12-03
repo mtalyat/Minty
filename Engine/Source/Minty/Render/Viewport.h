@@ -120,6 +120,12 @@ namespace Minty
 		 */
 		static Shared<Viewport> create(ViewportInfo const& info);
 
+		/**
+		 * @brief Creates a default Viewport.
+		 * @return A Viewport Owner.
+		 */
+		static Shared<Viewport> create();
+
 #pragma endregion
 	};
 }

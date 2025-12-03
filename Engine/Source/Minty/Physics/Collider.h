@@ -73,6 +73,12 @@ namespace Minty
 		 */
 		static Shared<Collider> create(ColliderInfo const& info);
 
+		/**
+		 * @brief Creates a default Collider (Box shape, size (1,1,1), non-static).
+		 * @return A Collider Owner.
+		 */
+		static Shared<Collider> create();
+
 #pragma endregion
 
 #pragma region Variables

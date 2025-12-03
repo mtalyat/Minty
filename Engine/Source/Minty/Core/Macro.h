@@ -12,21 +12,9 @@
 #include <format>
 #include <filesystem>
 
-#pragma region Debug
-
-#ifdef NDEBUG
-#define MINTY_RELEASE
-#endif // NDEBUG
-#if defined(_DEBUG) || !defined(MINTY_RELEASE)
-#define MINTY_DEBUG
-#endif // _DEBUG
 #if !defined(MINTY_DEBUG) && !defined(MINTY_RELEASE)
 #error "Either MINTY_DEBUG or MINTY_RELEASE must be defined."
 #endif // !MINTY_DEBUG && !MINTY_RELEASE
-
-#pragma endregion
-
-#pragma region OS
 
 #ifdef _WIN32
 #define MINTY_WINDOWS
@@ -36,12 +24,6 @@
 #error "Unsupported operating system."
 #endif
 
-#pragma endregion
-
-#pragma region Tool
-
 #define MINTY_MAKE_VERSION(major, minor, patch) (((static_cast<uint32_t>(major)) << 22U) | ((static_cast<uint32_t>(minor)) << 12U) | (static_cast<uint32_t>(patch)))
-
-#pragma endregion
 
 #endif // MINTY_CORE_MACRO_H

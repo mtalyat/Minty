@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BufferUsage.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Data/StringBuilder.h"
 
 using namespace Minty;
 
@@ -19,7 +20,7 @@ String Minty::to_string(BufferUsage const obj)
 		return "Undefined";
 	}
 
-	String output = "";
+	StringBuilder output;
 	Size objValue = static_cast<Size>(obj);
 	Size usage = 1;
 	Size const max = static_cast<Size>(BufferUsage::Max);
@@ -27,7 +28,8 @@ String Minty::to_string(BufferUsage const obj)
 	{
 		if (usage & objValue)
 		{
-			output += s_usageStrings[index] + "|";
+			output.append(s_usageStrings[index]);
+			output.append("|");
 		}
 	}
 	MINTY_ASSERT(output.get_size() > 0, ErrorCode::Serialization_Failed);

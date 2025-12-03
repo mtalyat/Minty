@@ -14,3 +14,9 @@ Shared<Prefab> Minty::Prefab::create(PrefabInfo const &info)
 {
     return Shared<Prefab>::create(info);
 }
+
+Shared<Prefab> Minty::Prefab::create()
+{
+    PrefabInfo info{};
+    return create(info);
+}

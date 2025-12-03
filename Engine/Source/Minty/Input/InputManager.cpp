@@ -16,3 +16,9 @@ Unique<InputManager> Minty::InputManager::create(InputManagerInfo const& info)
 {
 	return Unique<InputManager>::create(info);
 }
+
+Unique<InputManager> Minty::InputManager::create()
+{
+	InputManagerInfo info{};
+    return create(info);
+}

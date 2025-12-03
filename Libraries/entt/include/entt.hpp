@@ -1,11 +1,11 @@
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 
 // CUSTOM MODIFICATIONS
 // define a custom assert macro to override the default one so we can see the message
 #ifndef ENTT_ASSERT
 #include <iostream>
 #include <cassert>
-#define ENTT_ASSERT(condition, message) if(!(condition)) do { Minty::Debug::write_abort("EnTT Assertion Failed: " message); } while(false)
+#define ENTT_ASSERT(condition, message) MINTY_ASSERT_F(condition, Minty::ErrorCode::Library_EnTT, message)
 #endif
 
 #ifndef ENTT_ASSERT_CONSTEXPR

@@ -11,6 +11,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
@@ -18,7 +19,7 @@ namespace Minty
 	class Transform;
 	class Collider;
 	class RigidBody;
-	class RaycastHit;
+	struct RaycastHit;
 
 	/**
 	 * @brief Simulates physics.
@@ -141,6 +142,12 @@ namespace Minty
 		 * @return A PhysicsSimulation Owner.
 		 */
 		static Shared<PhysicsSimulation> create(PhysicsSimulationInfo const& info);
+
+		/**
+		 * @brief Creates a default PhysicsSimulation.
+		 * @return A PhysicsSimulation Owner.
+		 */
+		static Shared<PhysicsSimulation> create();
 
 #pragma endregion
 

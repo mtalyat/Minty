@@ -16,8 +16,14 @@ Minty::Texture::Texture(TextureInfo const &info)
 Shared<Texture> Minty::Texture::create(TextureInfo const &info)
 {
 #if defined(MINTY_VULKAN)
-    return Shared<Vulkan_Texture>(info);
+    return Shared<Vulkan_Texture>::create(info);
 #else
     return Shared<Texture>();
 #endif // MINTY_VULKAN
+}
+
+Shared<Texture> Minty::Texture::create()
+{
+    TextureInfo info{};
+    return create(info);
 }

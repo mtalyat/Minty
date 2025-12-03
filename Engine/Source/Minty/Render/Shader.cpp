@@ -33,20 +33,20 @@ Minty::Shader::Shader(ShaderInfo const& info)
 	// copy inputs into map
 	for (ShaderInput const& input : info.inputs)
 	{
-		MINTY_ASSERT(!m_inputs.contains(input.name), ErrorCode::Argument_DuplicateValue, input.name);
+		MINTY_ASSERT_F(!m_inputs.contains(input.name), ErrorCode::Argument_DuplicateValue, input.name);
 		m_inputs.add(input.name, input);
 	}
 }
 
 void Minty::Shader::set_global_input(String const& name, AnyConst const data, Size const size)
 {
-	MINTY_ASSERT(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedAboveZero);
 
 	ShaderInput const& input = m_inputs.at(name);
 
-	MINTY_ASSERT(size <= m_inputs.at(name).size, ErrorCode::Argument_InvalidSize, name);
+	MINTY_ASSERT_F(size <= m_inputs.at(name).size, ErrorCode::Argument_InvalidSize, name);
 
 	for (Material* const material : m_materials)
 	{
@@ -75,4 +75,10 @@ Shared<Shader> Minty::Shader::create(ShaderInfo const& info)
 #else
     return Shared<Shader>();
 #endif // MINTY_VULKAN
+}
+
+Shared<Shader> Minty::Shader::create()
+{
+	ShaderInfo info{};
+	return create(info);
 }

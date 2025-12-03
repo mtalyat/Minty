@@ -85,7 +85,18 @@ namespace Minty
 #pragma region Methods
 
 	public:
+		/**
+		 * @brief Creates a new Mesh.
+		 * @param info The arguments.
+		 * @return A Mesh Owner.
+		 */
 		static Shared<Mesh> create(MeshInfo const& info);
+
+		/**
+		 * @brief Creates a default Mesh.
+		 * @return A Mesh Owner.
+		 */
+		static Shared<Mesh> create();
 
 	private:
 		void initialize(MeshInfo const& info);

@@ -24,7 +24,7 @@ Bool Minty::LayerComponent::deserialize(Reader& reader)
 		LayerManager& layerManager = LayerManager::get_singleton();
 		layer = layerManager.get_layer(layerName);
 
-		MINTY_ASSERT(layer != LAYER_NONE, ErrorCode::Layer_NotFound, layerName);
+		MINTY_ASSERT_F(layer != LAYER_NONE, ErrorCode::Layer_NotFound, layerName);
 
 		return true;
 	}

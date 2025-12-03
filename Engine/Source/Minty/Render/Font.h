@@ -89,6 +89,12 @@ namespace Minty
 		 */
 		static Shared<Font> create(FontInfo const& info);
 
+		/**
+		 * @brief Creates a default Font.
+		 * @return A Font Owner.
+		 */
+		static Shared<Font> create();
+
 	private:
 		static ID create_font_id(UInt const size, FontFlags const flags)
 		{

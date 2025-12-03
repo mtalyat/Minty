@@ -144,6 +144,12 @@ namespace Minty
 		 */
 		static Shared<Sprite> create(SpriteInfo const& info);
 
+		/**
+		 * @brief Creates a default Sprite.
+		 * @return A Sprite Owner.
+		 */	
+		static Shared<Sprite> create();
+
 #pragma endregion
 
 #pragma region Variables

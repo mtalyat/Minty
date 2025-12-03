@@ -12,10 +12,10 @@
 #include "Minty/Debug/Assert.h"
 #include "Minty/Serialization/SerializableObject.h"
 #include "Minty/Time/Timestep.h"
+#include "Minty/Scene/Scene.h"
 
 namespace Minty
 {
-	class Scene;
 	class EntityManager;
 	class Event;
 	class SystemManager;
@@ -23,10 +23,9 @@ namespace Minty
 	struct SystemData;
 	struct SystemInfo;
 
-	/// <summary>
-	/// The base class for all systems.
-	/// Systems are used to provide logic for entities and components.
-	/// </summary>
+	/**
+	 * @brief The base class for all Systems. Systems contain logic that operates on Entities and Components within a Scene.
+	 */
 	class System
 		: public SerializableObject
 	{

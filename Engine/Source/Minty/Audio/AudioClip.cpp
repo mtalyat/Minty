@@ -20,3 +20,9 @@ Shared<AudioClip> Minty::AudioClip::create(AudioClipInfo const &info)
 	return Shared<AudioClip>();
 #endif // MINTY_SOLOUD
 }
+
+Shared<AudioClip> Minty::AudioClip::create()
+{
+	AudioClipInfo info{};
+	return create(info);
+}

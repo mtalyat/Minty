@@ -2,6 +2,7 @@
 #include "BufferContainer.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Render/Buffer.h"
+#include "Minty/Render/BufferInfo.h"
 
 using namespace Minty;
 
@@ -34,6 +35,10 @@ Minty::BufferContainer::BufferContainer(BufferContainer &&other) noexcept
 	other.m_size = 0;
 }
 
+Minty::BufferContainer::~BufferContainer()
+{
+}
+
 BufferContainer &Minty::BufferContainer::operator=(BufferContainer const &other)
 {
 	if (this != &other)
@@ -59,10 +64,15 @@ BufferContainer &Minty::BufferContainer::operator=(BufferContainer &&other) noex
 	return *this;
 }
 
-void Minty::BufferContainer::set_at(void const *const data, Size const size, Size const index)
+Any Minty::BufferContainer::get_data() const
+{
+	return m_buffer->get_data();
+}
+
+void Minty::BufferContainer::set_at(AnyConst const data, Size const size, Size const index)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	MINTY_ASSERT(index + size <= m_size, ErrorCode::Argument_InvalidSize, size);
+	MINTY_ASSERT_F(index + size <= m_size, ErrorCode::Argument_InvalidSize, size);
 
 	Byte *containerData = static_cast<Byte *>(m_buffer->get_data());
 
@@ -71,12 +81,12 @@ void Minty::BufferContainer::set_at(void const *const data, Size const size, Siz
 
 void const *Minty::BufferContainer::get_at(Size const index) const
 {
-	MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+	MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
 	Byte *containerData = static_cast<Byte *>(m_buffer->get_data());
 	return &containerData[index];
 }
 
-Bool Minty::BufferContainer::append(void const *const data, Size const size)
+Bool Minty::BufferContainer::append(AnyConst const data, Size const size)
 {
 	MINTY_ASSERT(data != nullptr, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);

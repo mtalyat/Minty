@@ -9,6 +9,7 @@
 
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Data/Vector.h"
 #include "Minty/Render/Format.h"
 
 namespace Minty

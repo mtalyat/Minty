@@ -31,7 +31,7 @@ namespace Minty
 		 * @brief Creates an empty Vector.
 		 */
 		Vector()
-			: m_data()
+			: mp_data(nullptr), m_size(0), m_capacity(0)
 		{}
 
 		/**
@@ -39,7 +39,7 @@ namespace Minty
 		 * @param capacity The initial capacity of the Vector.
 		 */
 		Vector(Size const capacity)
-			: m_data()
+			: mp_data(nullptr), m_size(0), m_capacity(0)
 		{
 			reserve(capacity);
 		}
@@ -50,7 +50,7 @@ namespace Minty
 		 * @param value The value to initialize the elements with.
 		 */
 		Vector(Size const size, T const& value)
-			: m_data()
+			: mp_data(nullptr), m_size(0), m_capacity(0)
 		{
 			resize(size, value);
 		}
@@ -60,7 +60,7 @@ namespace Minty
 		 * @param list The initializer list containing the elements to add to the Vector.
 		 */
 		Vector(std::initializer_list<T> const& list)
-			: m_data()
+			: mp_data(nullptr), m_size(0), m_capacity(0)
 		{
 			reserve(list.size());
 
@@ -440,16 +440,18 @@ namespace Minty
 			}
 
 			// create new array
-			BoxVector<T, Allocator> newData(capacity);
+			T* newData = static_cast<T*>(Allocator::allocate(capacity * sizeof(T)));
+			MINTY_ASSERT(newData != nullptr, ErrorCode::Memory_AllocationFailed);
 			
 			// move data over, if it exists
-			for (Size i = 0; i < m_data.get_size(); ++i)
+			for (Size i = 0; i < m_size; ++i)
 			{
-				newData.add(std::move(m_data[i]));
+				newData[i] = std::move(mp_data[i]);
 			}
 
 			// replace data
-			m_data = std::move(newData);
+			mp_data = std::move(newData);
+			m_capacity = capacity;
 		}
 
 		/**
@@ -471,7 +473,24 @@ namespace Minty
 				reserve(size);
 			}
 
-			m_data.resize(size, std::forward<Args>(args)...);
+			// initialize new elements
+			if (size > get_size())
+			{
+				for (Size i = get_size(); i < size; ++i)
+				{
+					mp_data[i] = T(std::forward<Args>(args)...);
+				}
+			}
+			// destruct removed elements
+			else if (size < get_size())
+			{
+				for (Size i = size; i < get_size(); ++i)
+				{
+					mp_data[i].~T();
+				}
+			}
+
+			m_size = size;
 		}
 
 		/**
@@ -494,7 +513,7 @@ namespace Minty
 			}
 
 			// add value
-			m_data.add(value);
+			mp_data[m_size++] = value;
 		}
 
 		/**
@@ -517,7 +536,7 @@ namespace Minty
 			}
 
 			// add value
-			m_data.add(std::move(value));
+			mp_data[m_size++] = std::move(value);
 		}
 
 		/**
@@ -526,7 +545,7 @@ namespace Minty
 		 */
 		void insert(Size const index, T const& value)
 		{
-			MINTY_ASSERT(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
 
 			// add to end
 			if (index == get_size())
@@ -547,8 +566,6 @@ namespace Minty
 					reserve(get_capacity() * 2);
 				}
 			}
-
-			m_data.resize(get_size() + 1);
 
 			// move data
 			for (Size i = get_size(); i > index; --i)
@@ -558,6 +575,7 @@ namespace Minty
 
 			// add value
 			mp_data[index] = value;
+			++m_size;
 		}
 
 		/**
@@ -566,12 +584,12 @@ namespace Minty
 		 */
 		void insert(Size const index, T&& value)
 		{
-			MINTY_ASSERT(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
 
 			// add to end
 			if (index == get_size())
 			{
-				add(value);
+				add(std::move(value));
 				return;
 			}
 
@@ -588,8 +606,6 @@ namespace Minty
 				}
 			}
 
-			m_data.resize(get_size() + 1);
-
 			// move data
 			for (Size i = get_size(); i > index; --i)
 			{
@@ -598,6 +614,7 @@ namespace Minty
 
 			// add value
 			mp_data[index] = std::move(value);
+			++m_size;
 		}
 
 		/**
@@ -606,7 +623,7 @@ namespace Minty
 		 */
 		void remove(Size const index)
 		{
-			MINTY_ASSERT(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
 
 			// move data
 			for (Size i = index; i < get_size() - 1; ++i)
@@ -614,7 +631,7 @@ namespace Minty
 				mp_data[i] = std::move(mp_data[i + 1]);
 			}
 
-			m_data.resize(get_size() - 1);
+			m_size--;
 		}
 
 		/**
@@ -623,8 +640,8 @@ namespace Minty
 		 */
 		void remove(Size const index, Size const count)
 		{
-			MINTY_ASSERT(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
-			MINTY_ASSERT(index + count <= get_size(), ErrorCode::Argument_InvalidSize, count);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index + count <= get_size(), ErrorCode::Argument_InvalidSize, count);
 			MINTY_ASSERT(count != 0, ErrorCode::Argument_ExpectedNonZero);
 
 			// move data
@@ -633,7 +650,7 @@ namespace Minty
 				mp_data[i] = std::move(mp_data[i + count]);
 			}
 
-			m_data.resize(get_size() - count);
+			m_size -= count;
 		}
 
 		/**
@@ -641,14 +658,22 @@ namespace Minty
 		 * @param index The index of the element.
 		 * @returns A reference to the element at the given index.
 		 */
-		inline T& at(Size const index) { return m_data.at(index); }
+		inline T& at(Size const index)
+		{
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			return mp_data[index];
+		}
 		
 		/**
 		 * @brief Gets the element at the given index.
 		 * @param index The index of the element.
 		 * @returns A const reference to the element at the given index.
 		 */
-		inline T const& at(Size const index) const { return m_data.at(index); }
+		inline T const& at(Size const index) const
+		{
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			return mp_data[index];
+		}
 
 		/**
 		 * @brief Gets the first element in the Vector.
@@ -682,8 +707,8 @@ namespace Minty
 		 */
 		Vector<T> sub(Size const index, Size const length) const
 		{
-			MINTY_ASSERT(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
-			MINTY_ASSERT(index + length <= get_size(), ErrorCode::Argument_InvalidSize, length);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index + length <= get_size(), ErrorCode::Argument_InvalidSize, length);
 			MINTY_ASSERT(length > 0, ErrorCode::Argument_ExpectedNonZero);
 
 			// create new array
@@ -753,7 +778,9 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		BoxVector<T, Allocator> m_data;
+		T* mp_data = nullptr;
+		Size m_size = 0;
+		Size m_capacity = 0;
 
 #pragma endregion
 	};

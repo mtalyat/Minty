@@ -52,10 +52,25 @@ void Minty::Debug::set_flags(DebugFlags const flags)
     logger.set_enabled_levels(levels);
 }
 
-void Minty::Debug::log(LogLevel const level, String const &message)
+void Minty::Debug::log(LogLevel const level, StringView const message)
 {
     Logger& logger = get_logger();
     logger.log(level, message);
+}
+
+void Minty::Debug::log(LogLevel const level, ErrorCode const errorCode)
+{
+    Logger& logger = get_logger();
+    String message = get_error_message(errorCode);
+    logger.log(level, message);
+}
+
+void Minty::Debug::log(LogLevel const level, ErrorCode const errorCode, StringView const message)
+{
+    Logger& logger = get_logger();
+    StringView const errorMessage = get_error_message(errorCode);
+    String const fullMessage = String(errorMessage) + message;
+    logger.log(level, fullMessage);
 }
 
 void Minty::Debug::flush()

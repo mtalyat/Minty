@@ -147,8 +147,12 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Library error. ";
     case ErrorCode::Library_InitializationFailed:
         return "Library error. Initialization failed. ";
-    case ErrorCode::Library_LibraryError:
-        return "Library error. A library-specific error occurred. ";
+    case ErrorCode::Library_GLFW:
+        return "Library error. GLFW error. ";
+    case ErrorCode::Library_Vulkan:
+        return "Library error. Vulkan error. ";
+    case ErrorCode::Library_EnTT:
+        return "Library error. EnTT error. ";
 
     case ErrorCode::Serialization:
         return "Serialization error. ";

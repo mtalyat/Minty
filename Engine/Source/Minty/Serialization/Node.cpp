@@ -5,6 +5,7 @@
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Tool/Util.h"
+#include "Minty/Debug/Assert.h"
 
 using namespace Minty;
 
@@ -22,17 +23,17 @@ String Minty::Node::get_data_string() const
 
 Node const &Minty::Node::get_child(Size const index) const
 {
-	MINTY_ASSERT(index < m_children.get_size(), ErrorCode::Argument_OutOfBounds, index);
+	MINTY_ASSERT_F(index < m_children.get_size(), ErrorCode::Argument_OutOfBounds, index);
 	return m_children[index];
 }
 
 Node const &Minty::Node::get_child(String const &name) const
 {
-	MINTY_ASSERT(m_lookup.contains(name), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(m_lookup.contains(name), ErrorCode::Argument_KeyNotFound, name);
 	return m_children[m_lookup[name]];
 }
 
-Node &Minty::Node::add_child(String const &name, void const *const data, Size const size)
+Node &Minty::Node::add_child(String const &name, AnyConst const data, Size const size)
 {
 	Node child(name, data, size);
 	return add_child(std::move(child));
@@ -41,7 +42,7 @@ Node &Minty::Node::add_child(String const &name, void const *const data, Size co
 Node &Minty::Node::add_child(Node const &node)
 {
 	String const &name = node.get_name();
-	MINTY_ASSERT(!m_lookup.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+	MINTY_ASSERT_F(!m_lookup.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
 	Int const index = static_cast<Int>(m_children.get_size());
 	m_children.add(node);
 	if (!name.is_empty())
@@ -318,9 +319,9 @@ Node Minty::parse_to_node(String const &string)
 					if (!macro.parameters.is_empty())
 					{
 						auto [start, count] = Util::find_group(macroLine, '(', ')', mStart + name.get_size());
-						MINTY_ASSERT(start != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" missing its arguments.", name));
+						MINTY_ASSERT_F(start != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" missing its arguments.", name));
 						Vector<String> parts = Util::split(macroLine.sub(start, count), ',');
-						MINTY_ASSERT(parts.get_size() == macro.parameters.get_size(), ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" has an incorrect number of arguments.", name));
+						MINTY_ASSERT_F(parts.get_size() == macro.parameters.get_size(), ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" has an incorrect number of arguments.", name));
 						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
 						{
 							args.add({macro.parameters.at(argIndex), parts.at(argIndex)});
@@ -435,7 +436,7 @@ Node Minty::parse_to_node(String const &string)
 		// if new indent is too deep, ignore
 		if (indentChange > 1)
 		{
-			MINTY_LOG_WARNING(F("Discarding line, invalid indent change of {}: {}", indentChange, line));
+			MINTY_LOG_WARNING_F("Discarding line, invalid indent change of {}: {}", indentChange, line);
 			continue;
 		}
 

@@ -9,6 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Debug/Debug.h"
 
 namespace Minty
 {
@@ -96,7 +97,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				Allocator::destruct<Node>(temp);
+				Allocator::template destruct<Node>(temp);
 			}
 		}
 
@@ -114,7 +115,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::destruct<Node>(temp);
+					Allocator::template destruct<Node>(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -138,7 +139,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::destruct<Node>(temp);
+					Allocator::template destruct<Node>(temp);
 				}
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
@@ -178,7 +179,7 @@ namespace Minty
 		 */
 		void push(T const& value)
 		{
-			Node* node = Allocator::construct<Node>(value);
+			Node* node = Allocator::template construct<Node>(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -199,7 +200,7 @@ namespace Minty
 		 */
 		void push(T&& value)
 		{
-			Node* node = Allocator::construct<Node>(std::move(value));
+			Node* node = Allocator::template construct<Node>(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -236,7 +237,7 @@ namespace Minty
 
 			// get the data
 			T data = std::move(node->data);
-			Allocator::destruct<Node>(node);
+			Allocator::template destruct<Node>(node);
 			
 			// update size
 			--m_size;
@@ -274,7 +275,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				Allocator::destruct<Node>(temp);
+				Allocator::template destruct<Node>(temp);
 			}
 			mp_head = nullptr;
 			mp_tail = nullptr;

@@ -156,7 +156,7 @@ namespace Minty
         T& at(Size const index)
         {
             MINTY_ASSERT(mp_data != nullptr, ErrorCode::Object_InvalidState);
-            MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+            MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
             return mp_data[index];
         }
 
@@ -168,19 +168,7 @@ namespace Minty
         T const& at(Size const index) const
         {
             MINTY_ASSERT(mp_data != nullptr, ErrorCode::Object_InvalidState);
-            MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
-            return mp_data[index];
-        }
-
-        /**
-         * @brief Get the value at the specified index.
-         * @param index The index of the value to get.
-         * @return A copy of the value at the specified index.
-         */
-        T index(Size const index) const
-        {
-            MINTY_ASSERT(mp_data != nullptr, ErrorCode::Object_InvalidState);
-            MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+            MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
             return mp_data[index];
         }
 

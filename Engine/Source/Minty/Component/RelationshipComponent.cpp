@@ -42,7 +42,7 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 	{
 		// get the parent entity
 		Entity const parent = entityData->get_entity(parentId);
-		MINTY_ASSERT(parent != INVALID_ENTITY, ErrorCode::Entity_NotValid, parentId);
+		MINTY_ASSERT_F(parent != INVALID_ENTITY, ErrorCode::Entity_NotValid, parentId);
 
 		// set the parent
 		entityManager->set_parent(entityData->entity, parent);

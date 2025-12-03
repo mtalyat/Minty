@@ -7,28 +7,12 @@ namespace Minty
 	class SoLoud_AudioManager
 		: public AudioManager
 	{
-#pragma region Variables
-
-	private:
-		SoLoud::Soloud* m_engine;
-		Bool m_dirty;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		SoLoud_AudioManager(AudioManagerInfo const& info)
-			: AudioManager(info)
-			, m_engine(new SoLoud::Soloud())
-			, m_dirty(false)
-		{
-		}
+		SoLoud_AudioManager(AudioManagerInfo const& info);
 
-		~SoLoud_AudioManager()
-		{
-			delete m_engine;
-		}
+		~SoLoud_AudioManager();
 
 #pragma endregion
 
@@ -52,10 +36,6 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		void initialize() override;
-
-		void dispose() override;
-
 		void finalize() override;
 
 		Handle play(Ref<AudioClip> const& clip, Float const volume, Float const pan, Bool const paused, UInt const bus) override;
@@ -67,6 +47,14 @@ namespace Minty
 		void stop(Handle const handle) override;
 
 		void stop_all() override;
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		SoLoud::Soloud* m_engine;
+		Bool m_dirty;
 
 #pragma endregion
 	};

@@ -73,7 +73,6 @@ namespace Minty
 			, m_size(other.m_size)
 			, mp_data(other.mp_data)
 		{
-			other.m_allocator = AllocatorType::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_data = nullptr;
@@ -84,7 +83,7 @@ namespace Minty
 			clear();
 			if (mp_data)
 			{
-				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
+				Allocator::deallocate(mp_data);
 			}
 		}
 
@@ -189,7 +188,7 @@ namespace Minty
 			}
 
 			// create new array
-			T* newData = static_cast<T*>(allocate(capacity * sizeof(T), m_allocator));
+			T* newData = static_cast<T*>(Allocator::allocate(capacity * sizeof(T)));
 
 			// move data over, if it exists
 			if (mp_data)
@@ -199,7 +198,7 @@ namespace Minty
 				{
 					new (&newData[i]) T(std::move(mp_data[i]));
 				}
-				deallocate(mp_data, m_capacity * sizeof(T), m_allocator);
+				Allocator::deallocate(mp_data);
 			}
 
 			// replace data

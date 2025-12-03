@@ -14,21 +14,14 @@ namespace Minty
 {
 	class Animation;
 	struct AnimatorInfo;
+	class FSM;
 
-	/// <summary>
-	/// Handles animating an Entity.
-	/// </summary>
+	/**
+	 * @brief The Animator is responsible for controlling animations on an Entity using a finite state machine (FSM).
+	 */
 	class Animator
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		FSM* mp_fsm;
-		Bool m_force;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -100,6 +93,20 @@ namespace Minty
 		 * @return The created Animator.
 		 */
 		static Shared<Animator> create(AnimatorInfo const& info);
+
+		/**
+		 * @brief Creates a default Animator.
+		 * @return The created default Animator.
+		 */
+		static Shared<Animator> create();
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		FSM* mp_fsm;
+		Bool m_force;
 
 #pragma endregion
 	};

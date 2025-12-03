@@ -15,8 +15,14 @@ Minty::Buffer::Buffer(BufferInfo const &info)
 Shared<Buffer> Minty::Buffer::create(BufferInfo const &info)
 {
 #ifdef MINTY_VULKAN
-	return Shared<Vulkan_Buffer>(info);
+	return Shared<Vulkan_Buffer>::create(info);
 #else
 	return Shared<Buffer>();
 #endif // MINTY_VULKAN
+}
+
+Shared<Buffer> Minty::Buffer::create()
+{
+	BufferInfo info{};
+	return create(info);
 }

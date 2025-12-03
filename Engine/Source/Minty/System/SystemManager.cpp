@@ -14,8 +14,10 @@
 
 using namespace Minty;
 
-Minty::SystemManager::SystemManager(Scene *scene, SystemManagerInfo const &info)
-	: SubManager(scene), m_scene(info.scene), m_systems(), m_systemsByType()
+Lookup<TypeID, SystemData> Minty::SystemManager::s_registeredSystems;
+
+Minty::SystemManager::SystemManager(Ref<Scene> const& scene, SystemManagerInfo const &info)
+	: SubManager(scene), m_systems(), m_systemsByType()
 {
 	// load all of the systems
 	for (auto const &[priority, list] : m_systems)
@@ -45,11 +47,11 @@ System *Minty::SystemManager::add(SystemData const &data, Int const priority)
 	// create the system
 	SystemInfo info{};
 	info.priority = priority;
-	info.scene = m_scene;
+	info.scene = get_scene_ref();
 	info.info = &data;
 	System *system = data.create(info);
 
-	MINTY_ASSERT(!m_systemsByType.contains(data.typeId), ErrorCode::Argument_KeyAlreadyExists, data.name);
+	MINTY_ASSERT_F(!m_systemsByType.contains(data.typeId), ErrorCode::Argument_KeyAlreadyExists, data.name);
 
 	// add the system
 	m_systemsByType.add(data.typeId, system);
@@ -76,23 +78,23 @@ System *Minty::SystemManager::add(SystemData const &data)
 System *Minty::SystemManager::add(TypeID const &typeId)
 {
 	// get info from type
-	return add(Application::get_singleton().get_system_info(typeId));
+	return add(get_system_info(typeId));
 }
 
 System *Minty::SystemManager::add(String const &name)
 {
-	return add(Application::get_singleton().get_system_info(name));
+	return add(get_system_info(name));
 }
 
 System *Minty::SystemManager::add(String const &name, Int const priority)
 {
-	return add(Application::get_singleton().get_system_info(name), priority);
+	return add(get_system_info(name), priority);
 }
 
 System *Minty::SystemManager::get_system(String const &name) const
 {
 	// get the system info
-	SystemData const &data = Application::get_singleton().get_system_info(name);
+	SystemData const &data = get_system_info(name);
 
 	// get the system by type
 	auto it = m_systemsByType.find(data.typeId);
@@ -264,7 +266,7 @@ Bool Minty::SystemManager::deserialize(Reader &reader)
 		// deserialize the system
 		if (!system->deserialize(reader))
 		{
-			MINTY_ABORT(ErrorCode::Serialization_Failed, name);
+			MINTY_ABORT_F(ErrorCode::Serialization_Failed, name);
 		}
 
 		reader.outdent();
@@ -273,9 +275,15 @@ Bool Minty::SystemManager::deserialize(Reader &reader)
 	return true;
 }
 
-Shared<SystemManager> Minty::SystemManager::create(Scene *scene, SystemManagerInfo const &info)
+Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene, SystemManagerInfo const &info)
 {
 	return Shared<SystemManager>::create(scene, info);
+}
+
+Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene)
+{
+	SystemManagerInfo info{};
+	return create(scene, info);
 }
 
 SystemManager &Minty::SystemManager::get_singleton()

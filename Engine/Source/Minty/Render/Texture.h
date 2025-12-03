@@ -68,6 +68,12 @@ namespace Minty
 		 */
 		static Shared<Texture> create(TextureInfo const& info);
 
+		/**
+		 * @brief Creates a default Texture.
+		 * @return A Texture Owner.
+		 */
+		static Shared<Texture> create();
+
 #pragma endregion
 
 #pragma region Variables

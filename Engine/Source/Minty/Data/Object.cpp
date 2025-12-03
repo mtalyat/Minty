@@ -63,7 +63,7 @@ Variable &Minty::Object::at(String const &name)
 
 void Minty::Object::add(String const &name, Variable const &variable)
 {
-    MINTY_ASSERT(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+    MINTY_ASSERT_F(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
     m_variables.add({name, variable});
 }
 

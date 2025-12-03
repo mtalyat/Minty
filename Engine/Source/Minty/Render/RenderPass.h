@@ -107,6 +107,12 @@ namespace Minty
 		 */
 		static Shared<RenderPass> create(RenderPassInfo const& info);
 
+		/**
+		 * @brief Creates a default RenderPass.
+		 * @return A RenderPass Owner.
+		 */
+		static Shared<RenderPass> create();
+
 #pragma endregion
 	};
 }

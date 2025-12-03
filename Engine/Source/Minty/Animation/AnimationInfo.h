@@ -15,7 +15,7 @@ namespace Minty
 {
     class EntityPath;
     class Node;
-    class AnimationAction;
+    struct AnimationAction;
 
     /// <summary>
 	/// The arguments for an animation.

@@ -68,7 +68,7 @@ namespace Minty
 		 */
 		inline Object const& get_input(String const& name) const
 		{
-			MINTY_ASSERT(m_cargo.contains(name), ErrorCode::Argument_KeyNotFound, name);
+			MINTY_ASSERT_F(m_cargo.contains(name), ErrorCode::Argument_KeyNotFound, name);
 			return m_cargo.at(name);
 		}
 
@@ -83,6 +83,12 @@ namespace Minty
 		 * @param info The arguments.
 		 */
 		static Shared<MaterialTemplate> create(MaterialTemplateInfo const& info);
+
+		/**
+		 * @brief Creates a default MaterialTemplate.
+		 * @return A Shared pointer to the created MaterialTemplate.
+		 */
+		static Shared<MaterialTemplate> create();
 
 #pragma endregion
 

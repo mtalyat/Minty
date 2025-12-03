@@ -52,7 +52,7 @@ Bool Minty::Material::has_input(String const& name) const
 
 Object const& Minty::Material::get_input(String const& name) const
 {
-	MINTY_ASSERT(has_input(name), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(has_input(name), ErrorCode::Argument_KeyNotFound, name);
 
 	// check self
 	auto it = m_cargo.find(name);
@@ -92,4 +92,10 @@ Shared<Material> Minty::Material::create(MaterialInfo const& info)
 #else
 	return Shared<Material>();
 #endif // MINTY_VULKAN
+}
+
+Shared<Material> Minty::Material::create()
+{
+	MaterialInfo info{};
+	return create(info);
 }

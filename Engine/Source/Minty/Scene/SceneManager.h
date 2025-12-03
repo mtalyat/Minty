@@ -7,8 +7,10 @@
  * @author Mitchell Talyat
  */
 
+#include "Minty/Data/Map.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Data/UUID.h"
 #include "Minty/Manager/Manager.h"
 
 namespace Minty
@@ -157,6 +159,12 @@ namespace Minty
 		 * @return A Unique pointer to the created SceneManager.
 		 */
 		static Unique<SceneManager> create(SceneManagerInfo const& info);
+
+		/**
+		 * @brief Creates a new SceneManager with default settings.
+		 * @return A Unique pointer to the created SceneManager.
+		 */
+		static Unique<SceneManager> create();
 
 		/**
 		 * @brief Gets the singleton instance of the SceneManager.

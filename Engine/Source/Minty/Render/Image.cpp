@@ -27,3 +27,9 @@ Shared<Image> Minty::Image::create(ImageInfo const &info)
 	return Shared<Image>();
 #endif // MINTY_VULKAN
 }
+
+Shared<Image> Minty::Image::create()
+{
+	ImageInfo info{};
+	return create(info);
+}

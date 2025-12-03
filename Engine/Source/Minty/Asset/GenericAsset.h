@@ -1,90 +1,91 @@
-#pragma once
+#ifndef MINTY_ASSET_GENERICASSET_H
+#define MINTY_ASSET_GENERICASSET_H
+
+/**
+ * @file GenericAsset.h
+ * @brief Header file defining the GenericAsset class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Data/ConstantContainer.h"
 #include "Minty/Data/Pointer.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Arguments for creating a GenericAsset.
-	/// </summary>
-	struct GenericAssetInfo
-	{
-		/// <summary>
-		/// The ID.
-		/// </summary>
-		UUID id = {};
-
-		/// <summary>
-		/// The byte data.
-		/// </summary>
-		ConstantContainer data = {};
-	};
-
-	/// <summary>
-	/// A generic Asset.
-	/// </summary>
+	struct GenericAssetInfo;
+	
+	/**
+	 * @brief A generic Asset. It could be anything!
+	 */
 	class GenericAsset
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		ConstantContainer m_data;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
-		GenericAsset(GenericAssetInfo const& info)
-			: Asset(info.id)
-			, m_data(info.data)
-		{
-		}
+		/**
+		 * @brief Creates a new GenericAsset.
+		 * @param info The info.
+		 */
+		GenericAsset(GenericAssetInfo const& info);
 
 #pragma endregion
 
 #pragma region Accessors
 
 	public:
-		/// <summary>
-		/// Gets the data of this Asset.
-		/// </summary>
-		/// <returns>The ConstantContainer with the data for this Asset.</returns>
+		/**
+		 * @brief Gets the data of this Asset.
+		 * @return The ConstantContainer with the data for this Asset.
+		 */
 		ConstantContainer& get_data() { return m_data; }
 
-		/// <summary>
-		/// Gets the data of this Asset.
-		/// </summary>
-		/// <returns>The ConstantContainer with the data for this Asset.</returns>
+		/**
+		 * @brief Gets the data of this Asset.
+		 * @return The ConstantContainer with the data for this Asset.
+		 */
 		ConstantContainer const& get_data() const { return m_data; }
 
-		/// <summary>
-		/// Gets the data of this Asset as a String.
-		/// </summary>
-		/// <returns>A String of the data.</returns>
+		/**
+		 * @brief Gets the data of this Asset as a String.
+		 * @return A String of the data.
+		 */
 		String get_text() const;
 
-		/// <summary>
-		/// Gets the AssetType of this Asset.
-		/// </summary>
-		/// <returns>The AssetType.</returns>
+		/**
+		 * @brief Gets the AssetType of this Asset.
+		 * @return The AssetType.
+		 */
 		inline AssetType get_asset_type() const override { return AssetType::Generic; }
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Methods
 
 	public:
-		/// <summary>
-		/// Creates a new GenericAsset.
-		/// </summary>
-		/// <param name="info">The info.</param>
-		/// <returns>A GenericAsset Owner.</returns>
-		static Shared<GenericAsset> create(GenericAssetInfo const& info = {});
+		/**
+		 * @brief Creates a new GenericAsset.
+		 * @param info The info.
+		 * @return A GenericAsset Owner.
+		 */
+		static Shared<GenericAsset> create(GenericAssetInfo const& info);
+
+		/**
+		 * @brief Creates a default GenericAsset.
+		 * @return A GenericAsset Owner.
+		 */
+		static Shared<GenericAsset> create();
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		ConstantContainer m_data;
+
+#pragma endregion
 	};
 }
+
+#endif // MINTY_ASSET_GENERICASSET_H

@@ -61,7 +61,7 @@ Object const &Minty::Cargo::at(String const &name) const
 
 void Minty::Cargo::add(String const &name, Object const &object)
 {
-	MINTY_ASSERT(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+	MINTY_ASSERT_F(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
 	m_objects.add({name, object});
 }
 

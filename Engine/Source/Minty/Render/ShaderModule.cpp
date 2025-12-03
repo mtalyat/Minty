@@ -22,3 +22,9 @@ Shared<ShaderModule> Minty::ShaderModule::create(ShaderModuleInfo const &info)
     return Shared<ShaderModule>();
 #endif // MINTY_VULKAN
 }
+
+Shared<ShaderModule> Minty::ShaderModule::create()
+{
+    ShaderModuleInfo info{};
+    return create(info);
+}

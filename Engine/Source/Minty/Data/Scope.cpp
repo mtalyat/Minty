@@ -28,7 +28,7 @@ UUID Minty::Scope::add(String const &name, Int const value)
 
 void Minty::Scope::set(UUID const id, Int const value)
 {
-    MINTY_ASSERT(m_values.contains(id), ErrorCode::Argument_KeyNotFound, id);
+    MINTY_ASSERT_F(m_values.contains(id), ErrorCode::Argument_KeyNotFound, id);
     m_values.at(id) = value;
 }
 

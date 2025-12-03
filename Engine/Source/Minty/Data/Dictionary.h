@@ -11,6 +11,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
+#include "Minty/Data/Vector.h"
 
 namespace Minty
 {
@@ -541,7 +542,7 @@ namespace Minty
 			{
 				inserted = true;
 				m_size++;
-				return construct<Node>(m_allocator, key, value);
+				return Allocator::template construct<Node>(key, value);
 			}
 
 			if (m_compare(key, n->data.get_first()))
@@ -576,12 +577,12 @@ namespace Minty
 				erased = true;
 				if (!n->left) {
 					Node* right = n->right;
-					destruct<Node>(n, m_allocator);
+					Allocator::template destruct<Node>(n);
 					return right;
 				}
 				if (!n->right) {
 					Node* left = n->left;
-					destruct<Node>(n, m_allocator);
+					Allocator::template destruct<Node>(n);
 					return left;
 				}
 				Node* m = min(n->right);
@@ -596,7 +597,7 @@ namespace Minty
 			if (!n) return;
 			clear(n->left);
 			clear(n->right);
-			destruct<Node>(n, m_allocator);
+			Allocator::template destruct<Node>(n);
 		}
 
 #pragma endregion

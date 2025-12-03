@@ -2,6 +2,7 @@
 #include "Minty/Render/Surface.h"
 #include "Minty/Library/Vulkan.h"
 #include "Minty/Render/Format.h"
+#include "Minty/Data/Vector.h"
 
 namespace Minty
 {

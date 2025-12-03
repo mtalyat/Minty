@@ -8,13 +8,13 @@
  */
 
 #include "Minty/Component/Component.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Render/MeshType.h"
+#include "Minty/Render/Mesh.h"
+#include "Minty/Render/Material.h"
 
 namespace Minty
 {
-	class Material;
-	class Mesh;
-
 	/**
 	 * @brief Holds the Mesh and Material of an Entity.
 	 */

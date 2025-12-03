@@ -76,7 +76,13 @@ namespace Minty
 		 * @param info The info to use.
 		 * @return A Buffer Owner.
 		 */
-		static Shared<Buffer> create(BufferInfo const& info = {});
+		static Shared<Buffer> create(BufferInfo const& info);
+
+		/**
+		 * @brief Creates a default Buffer (size 0, usage Undefined, not frequent).
+		 * @return A Buffer Owner.
+		 */		
+		static Shared<Buffer> create();
 
 #pragma endregion
 

@@ -16,7 +16,7 @@ Minty::Variable::Variable()
 		{
 		}
 
-        Minty::Variable::Variable(Type const type, void const *const data)
+        Minty::Variable::Variable(Type const type, AnyConst const data)
 			: m_type(type)
 			, m_data(data, sizeof_type(type))
 		{
@@ -29,7 +29,7 @@ Bool Minty::Variable::operator==(Variable const &other) const
 
 void Minty::Variable::set_type(Type const type)
 {
-	MINTY_ASSERT(type < Type::Object, ErrorCode::Argument_InvalidValue, type);
+	MINTY_ASSERT_F(type < Type::Object, ErrorCode::Argument_InvalidValue, type);
 
 	clear();
 	m_type = type;

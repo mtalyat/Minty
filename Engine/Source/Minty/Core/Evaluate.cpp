@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Evaluate.h"
 #include "Minty/Data/Set.h"
+#include "Minty/Tool/Util.h"
 #include <regex>
 #include <string>
 
@@ -116,7 +117,7 @@ Float Minty::Internal::evaluate_operator(String const& token, Float const left, 
 	}
 	else
 	{
-		MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
+		MINTY_ABORT_F(ErrorCode::Math_InvalidToken, token);
 	}
 }
 
@@ -152,7 +153,7 @@ Double Minty::Internal::evaluate_operator(String const& token, Double const left
 	}
 	else
 	{
-		MINTY_ABORT(ErrorCode::Math_InvalidToken, token);
+		MINTY_ABORT_F(ErrorCode::Math_InvalidToken, token);
 	}
 }
 
@@ -182,5 +183,5 @@ Vector<String> Minty::Internal::split_into_args(String const& expression)
 	String text = expression.sub(1, expression.get_size() - 2);
 
 	// split by commas, but ignore commas inside parentheses
-	return text.split_smart(',', "(", ")");
+	return Util::split_smart(text, ',', "(", ")");
 }

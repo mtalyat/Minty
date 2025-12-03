@@ -78,6 +78,11 @@ namespace Minty
         static Unique<TimeController> create(TimeControllerInfo const &info);
 
         /**
+         * @brief Creates a new TimeController instance with default settings.
+         */
+        static Unique<TimeController> create();
+
+        /**
          * @brief Gets the active Application's TimeController.
          * @return The TimeController singleton.
          */

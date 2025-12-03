@@ -8,11 +8,10 @@
  */
 
 #include "Minty/Component/Component.h"
+#include "Minty/Physics/RigidBody.h"
 
 namespace Minty
 {
-	class RigidBody;
-
 	/**
 	 * @brief Holds a RigidBody for an Entity.
 	 */
@@ -22,7 +21,7 @@ namespace Minty
 		/**
 		 * @brief The RigidBody associated with this component.
 		 */
-		Shared<RigidBody> rigidBody;
+		Shared<RigidBody> rigidBody = nullptr;
 	};
 }
 

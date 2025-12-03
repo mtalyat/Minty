@@ -13,6 +13,7 @@
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Core/CompressionLevel.h"
 
 namespace Minty
 {

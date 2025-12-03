@@ -4,6 +4,8 @@
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Animation/Animator.h"
+#include "Minty/Animation/Animation.h"
 
 using namespace Minty;
 
@@ -21,7 +23,7 @@ Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 
 		// make a copy of the animator
 		animator = assetManager.clone<Animator>(id);
-		MINTY_ASSERT(animator != nullptr, ErrorCode::Asset_MissingDependency, id);
+		MINTY_ASSERT_F(animator != nullptr, ErrorCode::Asset_MissingDependency, id);
 
 		// get the animation
 		id = animator->get_current_animation();

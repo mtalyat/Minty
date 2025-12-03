@@ -55,6 +55,12 @@ namespace Minty
 		 */
 		static Shared<AudioClip> create(AudioClipInfo const& info);
 
+		/**
+		 * @brief Creates a default AudioClip.
+		 * @return A Shared pointer to the created default AudioClip.
+		 */
+		static Shared<AudioClip> create();
+
 #pragma endregion
 	};
 }

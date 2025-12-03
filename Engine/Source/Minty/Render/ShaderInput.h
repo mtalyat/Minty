@@ -5,7 +5,9 @@
 #include "Minty/Render/ShaderInputType.h"
 #include "Minty/Data/Map.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Variable.h"
+#include "Minty/Data/Vector.h"
 
 namespace Minty
 {

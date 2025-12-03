@@ -9,6 +9,8 @@
 #include "Platform/Vulkan/Vulkan_Shader.h"
 #include "Platform/Vulkan/Vulkan_Texture.h"
 #include "Platform/Vulkan/Vulkan_Image.h"
+#include "Minty/Render/MaterialInfo.h"
+#include "Minty/Render/BufferInfo.h"
 
 using namespace Minty;
 
@@ -26,7 +28,7 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialInfo const& info)
 	// check for all valid inputs
 	for (auto const& [name, cargo] : get_inputs())
 	{
-		MINTY_ASSERT(shader->contains_input(name), ErrorCode::Argument_KeyNotFound, name);
+		MINTY_ASSERT_F(shader->contains_input(name), ErrorCode::Argument_KeyNotFound, name);
 	}
 
 #endif // MINTY_DEBUG
@@ -116,7 +118,7 @@ void Minty::Vulkan_Material::initialize_frames(Ref<Vulkan_Shader> const& shader,
 				bufferInfo.frequent = descriptor.frequent;
 				bufferInfo.size = descriptor.size * descriptor.count;
 				bufferInfo.usage = BufferUsage::Uniform;
-				frameData.buffers.at(index) = Shared<Vulkan_Buffer>(bufferInfo);
+				frameData.buffers.at(index) = Shared<Vulkan_Buffer>::create(bufferInfo);
 			}
 		}
 	}
@@ -164,7 +166,7 @@ void Minty::Vulkan_Material::initialize_descriptor_sets(Vector<ShaderInput> cons
 				descriptorWrite.descriptorCount = 1; // how many to update
 
 				// buffer
-				Ref<Vulkan_Buffer> vulkanBuffer = frame.buffers.at(shader->get_buffer_index(descriptor.name));
+				Ref<Vulkan_Buffer> vulkanBuffer = frame.buffers.at(shader->get_buffer_index(descriptor.name)).to_ref();
 
 				VkDescriptorBufferInfo bufferInfo{};
 				bufferInfo.buffer = static_cast<VkBuffer>(vulkanBuffer->get_native());
@@ -273,7 +275,7 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 	// get material template
 	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
 	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState);
-	MINTY_ASSERT(materialTemplate->has_input(name), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(materialTemplate->has_input(name), ErrorCode::Argument_KeyNotFound, name);
 
 	// get shader
 	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast<Vulkan_Shader>();
@@ -295,10 +297,10 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 		for (FrameData& frame : m_frames)
 		{
 			// get the buffer
-			Ref<Vulkan_Buffer> vulkanBuffer = frame.buffers.at(index);
+			Ref<Vulkan_Buffer> vulkanBuffer = frame.buffers.at(index).to_ref();
 
 			MINTY_ASSERT(vulkanBuffer != nullptr, ErrorCode::Object_InvalidState);
-			MINTY_ASSERT(vulkanBuffer->get_size() == size, ErrorCode::Argument_InvalidValue, name);
+			MINTY_ASSERT_F(vulkanBuffer->get_size() == size, ErrorCode::Argument_InvalidValue, name);
 
 			// set the data
 			vulkanBuffer->set_data(data);
@@ -318,8 +320,8 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 		for (UInt i = 0; i < input.count; i++)
 		{
 			textureId = textureIds[i];
-			MINTY_ASSERT(textureId.is_valid(), ErrorCode::Argument_InvalidValue, name);
-			MINTY_ASSERT(assetManager.contains(textureId), ErrorCode::Argument_InvalidValue, name);
+			MINTY_ASSERT_F(textureId.is_valid(), ErrorCode::Argument_InvalidValue, name);
+			MINTY_ASSERT_F(assetManager.contains(textureId), ErrorCode::Argument_InvalidValue, name);
 			Ref<Texture> texture = assetManager.get<Texture>(textureId);
 			MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState);
 			Ref<Image> const& image = texture->get_image();
@@ -368,7 +370,7 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 		Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
 		VkCommandBuffer commandBuffer = renderManager.get_current_command_buffer();
 		VkShaderStageFlags shaderStage = Vulkan_Renderer::to_vulkan(input.stage);
-		MINTY_ASSERT(input.size == size, ErrorCode::Argument_InvalidValue, name); // "Push constant size ({}) does not match the given size ({}).", input.size, size
+		MINTY_ASSERT_F(input.size == size, ErrorCode::Argument_InvalidValue, name); // "Push constant size ({}) does not match the given size ({}).", input.size, size
 
 		// update push constants
 		Vulkan_Renderer::update_push_constants(commandBuffer, shader->get_pipeline_layout(), shaderStage, static_cast<uint32_t>(input.offset), static_cast<uint32_t>(input.size), data);

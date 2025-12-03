@@ -3,6 +3,7 @@
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/AnimatorInfo.h"
 #include "Minty/FSM/FSM.h"
+#include "Minty/Debug/Assert.h"
 #if defined(MINTY_DEBUG)
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
@@ -22,14 +23,14 @@ Minty::Animator::Animator(AnimatorInfo const &info)
 void Minty::Animator::set_variable(String const &name, Int const value)
 {
 	UUID variableId = mp_fsm->find_variable(name);
-	MINTY_ASSERT(variableId.is_valid(), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(variableId.is_valid(), ErrorCode::Argument_KeyNotFound, name);
 	mp_fsm->set_variable(variableId, value);
 }
 
 Int Minty::Animator::get_variable(String const &name) const
 {
 	UUID variableId = mp_fsm->find_variable(name);
-	MINTY_ASSERT(variableId.is_valid(), ErrorCode::Argument_KeyNotFound, name);
+	MINTY_ASSERT_F(variableId.is_valid(), ErrorCode::Argument_KeyNotFound, name);
 	return mp_fsm->get_variable(variableId);
 }
 
@@ -78,7 +79,7 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 						statesBuilder.append(visitedState->get_value().get<UUID>());
 						statesBuilder.append(" -> ");
 					}
-					MINTY_ERROR(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesBuilder.to_string());
+					MINTY_ERROR_F(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesBuilder.to_string());
 					break; // break out of the loop to prevent infinite recursion
 				}
 				visitedStates.add(state);
@@ -101,4 +102,10 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 Shared<Animator> Minty::Animator::create(AnimatorInfo const &info)
 {
 	return Shared<Animator>::create(info);
+}
+
+Shared<Animator> Minty::Animator::create()
+{
+	AnimatorInfo info{};
+	return create(info);
 }

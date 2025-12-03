@@ -74,16 +74,22 @@ Shared<Collider> Minty::Collider::create(ColliderInfo const& info)
 	case Shape::Custom:
 		// custom mesh collider
 #if defined(MINTY_BULLET)
-		return Shared<Bullet_MeshCollider>(info);
+		return Shared<Bullet_MeshCollider>::create(info);
 #else
 		return Shared<Collider>();
 #endif
 	default:
 		// simple shape collider
 #if defined(MINTY_BULLET)
-		return Shared<Bullet_ShapeCollider>(info);
+		return Shared<Bullet_ShapeCollider>::create(info);
 #else
 		return Shared<Collider>();
 #endif
 	}
+}
+
+Shared<Collider> Minty::Collider::create()
+{
+	ColliderInfo info{};
+	return create(info);
 }

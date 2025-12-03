@@ -115,7 +115,7 @@ Vector<String> Minty::Util::split(String const &str, Char const delimiter)
 
 Vector<String> Minty::Util::split_smart(String const &str, Char const delimiter, String const &open, String const &close)
 {
-	MINTY_ASSERT(open.get_size() == close.get_size(), ErrorCode::Argument_InvalidSize, open.get_size(), close.get_size());
+	MINTY_ASSERT_F(open.get_size() == close.get_size(), ErrorCode::Argument_InvalidSize, open.get_size(), close.get_size());
 
 	// find all occurances of the delimiter
 	Vector<Size> indices;
@@ -194,7 +194,7 @@ Vector<String> Minty::Util::split(String const &str, String const &delimiter)
 
 Vector<String> Minty::Util::split_smart(String const &str, String const &delimiter, String const &open, String const &close)
 {
-	MINTY_ASSERT(open.get_size() == close.get_size(), ErrorCode::Argument_InvalidSize, open.get_size(), close.get_size());
+	MINTY_ASSERT_F(open.get_size() == close.get_size(), ErrorCode::Argument_InvalidSize, open.get_size(), close.get_size());
 
 	// find all occurances of the delimiter
 	Vector<Size> indices;
@@ -220,7 +220,7 @@ Vector<String> Minty::Util::split_smart(String const &str, String const &delimit
 					continue;
 				}
 
-				if (memcmp(&mp_data[index], delimiter.mp_data, sizeof(Char) * delimiter.get_size()) == 0)
+				if (memcmp(&str.at(index), delimiter.get_data(), sizeof(Char) * delimiter.get_size()) == 0)
 				{
 					// found a delimiter not in a group
 					break;
@@ -291,7 +291,7 @@ Vector<Path> Minty::Util::get_files(Path const& path, Bool const recursive)
 	while (!directoriesToCheck.is_empty())
 	{
 		Path current = directoriesToCheck.pop();
-		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		for (auto const& entry : std::filesystem::directory_iterator(std::filesystem::path(current.get_string().get_data())))
 		{
 			if (entry.is_regular_file())
 			{
@@ -319,7 +319,7 @@ Vector<Path> Minty::Util::get_directories(Path const& path, Bool const recursive
 	while (!directoriesToCheck.is_empty())
 	{
 		Path current = directoriesToCheck.pop();
-		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		for (auto const& entry : std::filesystem::directory_iterator(std::filesystem::path(current.get_string().get_data())))
 		{
 			if (entry.is_directory())
 			{
@@ -349,7 +349,7 @@ Vector<Path> Minty::Util::get_contents(Path const& path, Bool const recursive)
 	while (!directoriesToCheck.is_empty())
 	{
 		Path current = directoriesToCheck.pop();
-		for (auto const& entry : std::filesystem::directory_iterator(current.m_path))
+		for (auto const& entry : std::filesystem::directory_iterator(std::filesystem::path(current.get_string().get_data())))
 		{
 			if (entry.is_regular_file())
 			{

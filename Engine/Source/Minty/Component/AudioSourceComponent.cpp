@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "AudioSourceComponent.h"
+#include "Minty/Audio/AudioClip.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 

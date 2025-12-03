@@ -11,7 +11,9 @@
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Scene/SceneInfo.h"
 #include "Minty/System/SystemManager.h"
+#include "Minty/System/SystemManagerInfo.h"
 #include "Minty/Entity/EntityManager.h"
+#include "Minty/Entity/EntityManagerInfo.h"
 
 using namespace Minty;
 
@@ -26,12 +28,11 @@ Minty::Scene::Scene(SceneInfo const& info)
 {
 	// create the entity manager
 	EntityManagerInfo entityManagerInfo{};
-	m_entityManager = EntityManager::create(this, entityManagerInfo);
+	m_entityManager = EntityManager::create(create_ref(), entityManagerInfo);
 
 	// create the system manager
 	SystemManagerInfo systemManagerInfo{};
-	systemManagerInfo.scene = create_ref();
-	m_systemManager = SystemManager::create(this, systemManagerInfo);
+	m_systemManager = SystemManager::create(create_ref(), systemManagerInfo);
 }
 
 Minty::Scene::Scene(Scene&& other) noexcept
@@ -96,7 +97,7 @@ Scene& Minty::Scene::operator=(Scene&& other) noexcept
 	return *this;
 }
 
-void Minty::Scene::load_assets(Vector<Path> const& newAssets)
+void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 {
 	// load all of the assets into the Scene
 	Set<Path> loaded;
@@ -129,7 +130,7 @@ void Minty::Scene::load_assets(Vector<Path> const& newAssets)
 
 		// load the asset
 		Ref<Asset> asset = assetManager.load_asset(assetPath);
-		MINTY_ASSERT(asset != nullptr, ErrorCode::Asset_LoadFailed, assetPath);
+		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_LoadFailed, assetPath);
 		assetData.id = asset->get_id();
 
 		// add the path to registered assets
@@ -207,8 +208,8 @@ void Minty::Scene::on_load()
 {
 	MINTY_TRACE_SCOPE();
 
-	m_systemManager->initialize();
-	m_entityManager->initialize();
+	m_systemManager->on_scene_load();
+	m_entityManager->on_scene_load();
 	
 	load_assets(m_assets);
 }
@@ -219,8 +220,8 @@ void Minty::Scene::on_unload()
 
 	unload_assets();
 
-	m_systemManager->dispose();
-	m_entityManager->dispose();
+	m_systemManager->on_scene_unload();
+	m_entityManager->on_scene_unload();
 }
 
 void Minty::Scene::on_frame_update(Timestep const& time)
@@ -303,5 +304,11 @@ Bool Minty::Scene::deserialize(Reader& reader)
 
 Shared<Scene> Minty::Scene::create(SceneInfo const& info)
 {
-	return Shared<Scene>(info);
+	return Shared<Scene>::create(info);
+}
+
+Shared<Scene> Minty::Scene::create()
+{
+	SceneInfo info{};
+	return create(info);
 }

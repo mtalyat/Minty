@@ -34,7 +34,7 @@ Minty::LayerManager::LayerManager(LayerManagerInfo const& info)
 #ifdef MINTY_DEBUG
 		if (!usedLayers.add(layer))
 		{
-			MINTY_ABORT(ErrorCode::Argument_KeyAlreadyExists, layer);
+			MINTY_ABORT_F(ErrorCode::Argument_KeyAlreadyExists, layer);
 		}
 #endif // MINTY_DEBUG
 		Layer const mask = layerCollision.get_third();
@@ -106,6 +106,12 @@ Bool Minty::LayerManager::check_for_collision(Layer const layerA, Layer const la
 Unique<LayerManager> Minty::LayerManager::create(LayerManagerInfo const& info)
 {
 	return Unique<LayerManager>::create(info);
+}
+
+Unique<LayerManager> Minty::LayerManager::create()
+{
+	LayerManagerInfo info{};
+	return create(info);
 }
 
 LayerManager& Minty::LayerManager::get_singleton()

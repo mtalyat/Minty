@@ -124,6 +124,12 @@ namespace Minty
 		 */
 		static Shared<FontVariant> create(FontVariantInfo const &info);
 
+		/**
+		 * @brief Creates a default FontVariant.
+		 * @return A FontVariant Owner.
+		 */
+		static Shared<FontVariant> create();
+
 #pragma endregion
 	};
 }

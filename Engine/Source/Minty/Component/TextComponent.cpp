@@ -25,7 +25,7 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 	EntitySerializationData* data = static_cast<EntitySerializationData*>(reader.get_user_data());
 	MINTY_ASSERT(data != nullptr, ErrorCode::InvalidUserData);
 	MINTY_ASSERT(data->entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	MINTY_ASSERT(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entity);
+	MINTY_ASSERT_F(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entity);
 
 	// mark as dirty
 	EntityManager& entityManager = *data->entityManager;
@@ -50,7 +50,7 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 		fontVariant = font->get(fontSize, fontFlags);
 		if (fontVariant == nullptr)
 		{
-			MINTY_ABORT(ErrorCode::Asset_MissingDependency, font->get_name(), fontSize, to_string(fontFlags));
+			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, font->get_name(), fontSize, to_string(fontFlags));
 			return false; // no variant found
 		}
 	}

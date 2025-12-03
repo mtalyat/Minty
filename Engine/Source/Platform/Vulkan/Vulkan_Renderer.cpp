@@ -168,7 +168,7 @@ VkInstance Minty::Vulkan_Renderer::create_instance()
 
 	// validation layers
 #ifdef MINTY_DEBUG
-	MINTY_ASSERT(check_validation_layer_support(), ErrorCode::Render_UnsupportedFeature); // "Validation layers requested, but not available."
+	MINTY_ASSERT_F(check_validation_layer_support(), ErrorCode::Render_UnsupportedFeature); // "Validation layers requested, but not available."
 	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.get_size());
 	createInfo.ppEnabledLayerNames = validationLayers.get_data();
 #else
@@ -222,8 +222,11 @@ static Bool check_device_extension_support(VkPhysicalDevice const physicalDevice
 	availableExtensions.resize(extensionCount, VkExtensionProperties{});
 	vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionCount, availableExtensions.get_data());
 
-	Set<String> requiredExtensions;
-	requiredExtensions.add(deviceExtensions.begin(), deviceExtensions.end());
+	Set<String> requiredExtensions(deviceExtensions.get_capacity());
+	for (auto const& ext : deviceExtensions)
+	{
+		requiredExtensions.add(ext);
+	}
 
 	for (auto const& extension : availableExtensions)
 	{
@@ -1221,7 +1224,7 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 			sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
 			break;
 		default:
-			MINTY_ABORT(ErrorCode::Render_UnsupportedTransition, static_cast<Size>(oldLayout), static_cast<Size>(newLayout));
+			MINTY_ABORT_F(ErrorCode::Render_UnsupportedTransition, static_cast<Size>(oldLayout), static_cast<Size>(newLayout));
 	}
 	switch (newLayout)
 	{
@@ -1238,7 +1241,7 @@ void Minty::Vulkan_Renderer::transition_image_layout(VkCommandBuffer const comma
 			destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
 			break;
 		default:
-			MINTY_ABORT(ErrorCode::Render_UnsupportedTransition, static_cast<Size>(oldLayout), static_cast<Size>(newLayout));
+			MINTY_ABORT_F(ErrorCode::Render_UnsupportedTransition, static_cast<Size>(oldLayout), static_cast<Size>(newLayout));
 	}
 
 	vkCmdPipelineBarrier(commandBuffer, sourceStage, destinationStage, 0, 0, nullptr, 0, nullptr, 1, &barrier);

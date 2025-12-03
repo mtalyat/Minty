@@ -11,12 +11,11 @@
 #include "Minty/Data/Color.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/String.h"
+#include "Minty/Render/Font.h"
+#include "Minty/Render/FontVariant.h"
 
 namespace Minty
 {
-	class Font;
-	class FontVariant;
-
 	/**
 	 * @brief Holds Text data for an Entity.
 	 */

@@ -26,7 +26,6 @@
 #include "Mesh.h"
 #include "MeshType.h"
 #include "Perspective.h"
-#include "Renderer.h"
 #include "RenderAttachment.h"
 #include "RenderManager.h"
 #include "RenderPass.h"

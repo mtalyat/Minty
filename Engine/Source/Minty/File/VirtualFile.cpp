@@ -10,9 +10,9 @@ PhysicalFile::Size_t Minty::VirtualFile::get_size() const
 
 void Minty::VirtualFile::open(Path const& path, Flags const flags, Position_t const offset, Size const size)
 {
-    MINTY_ASSERT((flags & Flags::Truncate) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
-	MINTY_ASSERT((flags & Flags::Append) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
-	MINTY_ASSERT((flags & Flags::Write) == Flags::None || (flags & Flags::Read) != Flags::None, ErrorCode::File_FlagNotSupported, flags);
+    MINTY_ASSERT_F((flags & Flags::Truncate) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
+	MINTY_ASSERT_F((flags & Flags::Append) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
+	MINTY_ASSERT_F((flags & Flags::Write) == Flags::None || (flags & Flags::Read) != Flags::None, ErrorCode::File_FlagNotSupported, flags);
 
     PhysicalFile::open(path, flags);
     m_virtualOffset = offset;

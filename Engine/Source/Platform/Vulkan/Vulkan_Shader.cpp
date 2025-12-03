@@ -6,6 +6,7 @@
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
 #include "Platform/Vulkan/Vulkan_Viewport.h"
 #include "Platform/Vulkan/Vulkan_RenderPass.h"
+#include "Minty/Render/ShaderInfo.h"
 
 using namespace Minty;
 
@@ -123,7 +124,7 @@ void Minty::Vulkan_Shader::initialize_descriptor_set_layout(ShaderInfo const& in
 		uint32_t bindingIndex = static_cast<UInt>(i);
 
 		// find shader binding info
-		MINTY_ASSERT(m_bindings.contains(bindingIndex), ErrorCode::Render_ShaderConfiguration); // F("Missing ShaderBinding for binding: {}.", i)
+		MINTY_ASSERT_F(m_bindings.contains(bindingIndex), ErrorCode::Render_ShaderConfiguration); // F("Missing ShaderBinding for binding: {}.", i)
 
 		BindingData const& bindingInfo = m_bindings.at(bindingIndex);
 

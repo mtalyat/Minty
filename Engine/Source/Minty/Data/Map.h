@@ -324,7 +324,7 @@ namespace Minty
 		Map(Map const& other)
 			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
-			, mp_table(Allocator::construct_array<Node*>(m_capacity))
+			, mp_table(Allocator::template construct_array<Node*>(m_capacity))
 		{
 			for (Size i = 0; i < m_capacity; ++i)
 			{
@@ -332,7 +332,7 @@ namespace Minty
 				Node* prev = nullptr;
 				while (node)
 				{
-					Node* newNode = Allocator::construct<Node>(node->get_key(), node->get_value());
+					Node* newNode = Allocator::template construct<Node>(node->get_key(), node->get_value());
 					if (prev)
 					{
 						prev->next = newNode;
@@ -366,7 +366,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
+				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
 			}
 		}
 
@@ -382,14 +382,14 @@ namespace Minty
 				clear();
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_table = Allocator::construct_array<Node*>(m_capacity);
+				mp_table = Allocator::template construct_array<Node*>(m_capacity);
 				for (Size i = 0; i < m_capacity; ++i)
 				{
 					Node* node = other.mp_table[i];
 					Node* prev = nullptr;
 					while (node)
 					{
-						Node* newNode = Allocator::construct<Node>(node->get_key(), node->get_value());
+						Node* newNode = Allocator::template construct<Node>(node->get_key(), node->get_value());
 						if (prev)
 						{
 							prev->next = newNode;
@@ -475,7 +475,7 @@ namespace Minty
 				return;
 			}
 
-			Node** newTable = Allocator::construct_array<Node*>(capacity);
+			Node** newTable = Allocator::template construct_array<Node*>(capacity);
 
 			if (m_capacity > 0)
 			{
@@ -491,7 +491,7 @@ namespace Minty
 						node = next;
 					}
 				}
-				Allocator::destruct_array<Node*>(mp_table, m_capacity);
+				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
 			}
 
 			mp_table = newTable;
@@ -515,7 +515,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = Allocator::construct<Node>(key, std::move(value));
+			Node* node = Allocator::template construct<Node>(key, std::move(value));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -540,7 +540,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = Allocator::construct<Node>(std::move(key), std::move(value));
+			Node* node = Allocator::template construct<Node>(std::move(key), std::move(value));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -575,7 +575,7 @@ namespace Minty
 					{
 						mp_table[index] = node->next;
 					}
-					Allocator::destruct<Node>(node);
+					Allocator::template destruct<Node>(node);
 					--m_size;
 					return true;
 				}
@@ -699,7 +699,7 @@ namespace Minty
 					{
 						Node* temp = node;
 						node = node->next;
-						destruct<Node>(temp, m_allocator);
+						Allocator::template destruct<Node>(temp);
 					}
 					mp_table[i] = nullptr;
 				}

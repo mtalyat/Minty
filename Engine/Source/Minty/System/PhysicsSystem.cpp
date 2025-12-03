@@ -41,8 +41,8 @@ void Minty::PhysicsSystem::initialize_entities()
 	// check for disabled entities
 	for (auto &&[entity, colliderComp, simulateComp] : entityManager.view<ColliderComponent, SimulateComponent const>(entt::exclude<RigidBodyComponent, EnabledComponent>).each())
 	{
-		MINTY_ASSERT(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
-		MINTY_ASSERT(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
+		MINTY_ASSERT_F(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
 
 		// remove from physics simulation
 		m_simulation->remove_static(*colliderComp.collider);
@@ -54,9 +54,9 @@ void Minty::PhysicsSystem::initialize_entities()
 	// check for enabled, non-simulated entities
 	for (auto &&[entity, transformComp, colliderComp, enabledComp] : entityManager.view<TransformComponent, ColliderComponent, EnabledComponent const>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
 	{
-		MINTY_ASSERT(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
-		MINTY_ASSERT(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState);				 // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
-		MINTY_ASSERT(colliderComp.collider->get_shape() != Shape::Empty, ErrorCode::Component_InvalidState); // "Collider must have a non-empty shape. Entity: {}", entityManager.get_name(entity)
+		MINTY_ASSERT_F(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState);				 // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
+		MINTY_ASSERT_F(colliderComp.collider->get_shape() != Shape::Empty, ErrorCode::Component_InvalidState); // "Collider must have a non-empty shape. Entity: {}", entityManager.get_name(entity)
 
 		// add to physics simulation
 		Layer layer = entityManager.get_layer(entity);

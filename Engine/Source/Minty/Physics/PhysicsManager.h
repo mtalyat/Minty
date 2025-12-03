@@ -44,6 +44,12 @@ namespace Minty
 		static Unique<PhysicsManager> create(PhysicsManagerInfo const& info);
 
 		/**
+		 * @brief Creates a new PhysicsManager with default settings.
+		 * @return A PhysicsManager Owner.
+		 */
+		static Unique<PhysicsManager> create();
+
+		/**
 		 * @brief Gets the singleton PhysicsManager for the active Scene.
 		 * @return The PhysicsManager.
 		 */

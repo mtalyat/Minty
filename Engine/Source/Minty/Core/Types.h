@@ -39,6 +39,7 @@ namespace Minty
 	using Double = Float64;
 	using Any = void*;
 	using AnyConst = void const*;
+	using Null = std::nullptr_t;
 	
 	using Size = size_t;
 	using ID = uint64_t;

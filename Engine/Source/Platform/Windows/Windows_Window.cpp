@@ -4,6 +4,7 @@
 #include "Minty/Core/Format.h"
 #include "Minty/Event/_Event.h"
 #include "Minty/Library/STB.h"
+#include "Minty/Window/WindowInfo.h"
 
 using namespace Minty;
 
@@ -11,7 +12,7 @@ Int Windows_Window::s_windowCount = 0;
 
 static void error_callback(Int error, Char const* description)
 {
-	MINTY_ERROR(ErrorCode::Library_LibraryError, F("GLFW error ({}): {}", error, description).get_data());
+	MINTY_ERROR_F(ErrorCode::Library_GLFW, F("GLFW error ({}): {}", error, description).get_data());
 }
 
 Minty::Windows_Window::Windows_Window(WindowInfo const& info)
@@ -155,7 +156,7 @@ UInt2 Minty::Windows_Window::get_framebuffer_size() const
 {
 	Int2 size;
 	glfwGetFramebufferSize(mp_window, &size.x, &size.y);
-	MINTY_ASSERT(size.x >= 0 && size.y >= 0, ErrorCode::Object_InvalidState, size.x, size.y);
+	MINTY_ASSERT_F(size.x >= 0 && size.y >= 0, ErrorCode::Object_InvalidState, size.x, size.y);
 	return UInt2(static_cast<UInt>(size.x), static_cast<UInt>(size.y));
 }
 
@@ -199,10 +200,10 @@ Any Minty::Windows_Window::get_native() const
 
 void Minty::Windows_Window::set_icon(Path const& path)
 {
-	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound, path);
+	MINTY_ASSERT_F(Path::exists(path), ErrorCode::File_NotFound, path);
 	GLFWimage icon;
 	icon.pixels = stbi_load(path.get_string().get_data(), &icon.width, &icon.height, nullptr, 4);
-	MINTY_ASSERT(icon.pixels != nullptr, ErrorCode::Render_FailedToLoadImage, path);
+	MINTY_ASSERT_F(icon.pixels != nullptr, ErrorCode::Render_FailedToLoadImage, path);
 	glfwSetWindowIcon(mp_window, 1, &icon);
 	stbi_image_free(icon.pixels);
 }

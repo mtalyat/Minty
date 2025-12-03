@@ -126,7 +126,7 @@ Handle Minty::JobManager::create_job(Vector<Job> const &batch, Vector<Handle> co
 	{
 		// add new job
 		std::unique_lock lock(m_jobsMutex);
-		MINTY_ASSERT(!m_jobs.contains(handle), ErrorCode::Threading_HandleAlreadyExists, handle);
+		MINTY_ASSERT_F(!m_jobs.contains(handle), ErrorCode::Threading_HandleAlreadyExists, handle);
 		m_jobs.add(handle, jobData);
 
 		// add this job as dependents to the dependencies
@@ -170,7 +170,7 @@ void Minty::JobManager::create_batch(Handle const handle, Vector<Job> const &bat
 {
 	{
 		std::unique_lock lock(m_batchesMutex);
-		MINTY_ASSERT(!m_batches.contains(handle), ErrorCode::Argument_KeyAlreadyExists, handle);
+		MINTY_ASSERT_F(!m_batches.contains(handle), ErrorCode::Argument_KeyAlreadyExists, handle);
 		m_batches.add(handle, batch);
 	}
 }
@@ -253,6 +253,12 @@ void Minty::JobManager::wait(Vector<Handle> const &handles)
 Unique<JobManager> Minty::JobManager::create(JobManagerInfo const &info)
 {
 	return Unique<JobManager>::create(info);
+}
+
+Unique<JobManager> Minty::JobManager::create()
+{
+	JobManagerInfo info{};
+	return create(info);
 }
 
 JobManager &Minty::JobManager::get_singleton()

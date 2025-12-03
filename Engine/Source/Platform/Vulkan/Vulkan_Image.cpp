@@ -4,6 +4,8 @@
 #include "Vulkan_Renderer.h"
 #include "Vulkan_RenderManager.h"
 #include "Vulkan_Buffer.h"
+#include "Minty/Render/ImageInfo.h"
+#include "Minty/Render/BufferInfo.h"
 
 using namespace Minty;
 

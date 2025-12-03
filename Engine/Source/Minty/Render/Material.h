@@ -122,7 +122,17 @@ namespace Minty
 #pragma region Statics
 
 	public:
+		/**
+		 * @brief Creates a new Material.
+		 * @param info The arguments.
+		 */
 		static Shared<Material> create(MaterialInfo const& info);
+
+		/**
+		 * @brief Creates a default Material.
+		 * @return A Shared pointer to the created Material.
+		 */
+		static Shared<Material> create();
 
 #pragma endregion
 

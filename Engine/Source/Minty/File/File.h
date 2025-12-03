@@ -9,6 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Data/Vector.h"
 #include <fstream>
 
 namespace Minty

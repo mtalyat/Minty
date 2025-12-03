@@ -9,6 +9,8 @@
 
 #include "Minty/Animation/AnimationActionFlags.h"
 #include "Minty/Serialization/Parseable.h"
+#include "Minty/Data/Tuple.h"
+#include "Minty/Data/Vector.h"
 
 namespace Minty
 {

@@ -173,6 +173,12 @@ namespace Minty
 		 */
 		static Unique<Window> create(WindowInfo const& info);
 
+		/**
+		 * @brief Creates a new Window with default settings.
+		 * @return A Window Owner.
+		 */
+		static Unique<Window> create();
+
 #pragma endregion
 
 #pragma region Variables

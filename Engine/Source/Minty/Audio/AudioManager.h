@@ -138,6 +138,11 @@ namespace Minty
 		 */
 		static Unique<AudioManager> create(AudioManagerInfo const& info);
 
+		/**
+		 * @brief Creates a new AudioManager with default settings.
+		 */
+		static Unique<AudioManager> create();
+
 #pragma endregion
 	};
 }

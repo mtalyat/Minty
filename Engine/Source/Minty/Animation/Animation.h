@@ -99,6 +99,12 @@ namespace Minty
 		 * @return The created Animation.
 		 */
 		static Shared<Animation> create(AnimationInfo const& info);
+
+		/**
+		 * @brief Creates a default Animation.
+		 * @return The created default Animation.
+		 */
+		static Shared<Animation> create();
 		
 	private:
 		StepKey compile_key(Index const entityIndex, Index const componentIndex, AnimationActionType const type) const;

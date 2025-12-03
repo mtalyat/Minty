@@ -274,7 +274,7 @@ void Minty::TextWriterBehavior::write_typed_to_buffer(AnyConst const data, Vecto
 		write_uuid_to_buffer(*static_cast<UUID const* const>(data), buffer);
 		break;
 	default:
-		MINTY_NOT_IMPLEMENTED(to_string(type));
+		MINTY_NOT_IMPLEMENTED();
 	}
 }
 

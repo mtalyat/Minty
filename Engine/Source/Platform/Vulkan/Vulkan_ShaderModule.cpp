@@ -2,6 +2,7 @@
 #include "Vulkan_ShaderModule.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
 #include "Platform/Vulkan/Vulkan_Renderer.h"
+#include "Minty/Render/ShaderModuleInfo.h"
 
 using namespace Minty;
 

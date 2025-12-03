@@ -20,3 +20,9 @@ Shared<RigidBody> Minty::RigidBody::create(RigidBodyInfo const &info)
     return Shared<RigidBody>();
 #endif
 }
+
+Shared<RigidBody> Minty::RigidBody::create()
+{
+    RigidBodyInfo info{};
+    return create(info);
+}

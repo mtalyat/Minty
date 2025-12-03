@@ -98,13 +98,13 @@ void Minty::StringBuilder::append(StringView const &str)
 
 Char Minty::StringBuilder::index(Size const index) const
 {
-    MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
     return mp_data[index];
 }
 
 Char const &Minty::StringBuilder::at(Size const index) const
 {
-    MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
     return mp_data[index];
 }
 
@@ -299,6 +299,28 @@ String Minty::StringBuilder::sub(Size const startIndex, Size const count) const 
     }
 
     return String(StringView(mp_data + startIndex, actualCount));
+}
+
+void Minty::StringBuilder::slice(Size const startIndex, Size const count) noexcept
+{
+    if (startIndex >= m_size)
+    {
+        clear();
+        return;
+    }
+
+    Size actualCount = count;
+    if (count == INVALID_INDEX || startIndex + count > m_size)
+    {
+        actualCount = m_size - startIndex;
+    }
+
+    if (startIndex > 0)
+    {
+        std::memmove(mp_data, mp_data + startIndex, actualCount * sizeof(Char));
+    }
+    m_size = actualCount;
+    mp_data[m_size] = '\0';
 }
 
 Bool Minty::StringBuilder::starts_with(StringView const str) const noexcept

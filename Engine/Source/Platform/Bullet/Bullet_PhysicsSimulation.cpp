@@ -9,6 +9,8 @@
 #include "Platform/Bullet/Bullet_RigidBody.h"
 #include "Platform/Bullet/Bullet_ShapeCollider.h"
 #include "Platform/Bullet/Bullet_Object.h"
+#include "Minty/Physics/PhysicsSimulationInfo.h"
+#include "Minty/Physics/RaycastHit.h"
 
 using namespace Minty;
 

@@ -200,23 +200,11 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Variables
-
-	private:
-		Size m_capacity;
-		Size m_size;
-		Node** mp_table;
-		Node* mp_head;
-		Node* mp_tail;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
 		Ordered()
-			: m_allocator()
-			, m_capacity(0)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 			, mp_head(nullptr)
@@ -225,8 +213,7 @@ namespace Minty
 		}
 
 		Ordered(Size const capacity)
-			: m_allocator()
-			, m_capacity(capacity)
+			: m_capacity(capacity)
 			, m_size(0)
 			, mp_table(nullptr)
 			, mp_head(nullptr)
@@ -236,8 +223,7 @@ namespace Minty
 		}
 
 		Ordered(std::initializer_list<T> const& list)
-			: m_allocator(allocator)
-			, m_capacity(0)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 			, mp_head(nullptr)
@@ -271,7 +257,6 @@ namespace Minty
 			, mp_head(other.mp_head)
 			, mp_tail(other.mp_tail)
 		{
-			other.m_allocator = AllocatorType::Default;
 			other.m_capacity = 0;
 			other.m_size = 0;
 			other.mp_table = nullptr;
@@ -284,7 +269,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				Allocator::destruct_array<Node*>(mp_table, m_capacity);
+				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
 				mp_table = nullptr;
 			}
 		}
@@ -315,7 +300,7 @@ namespace Minty
 				clear();
 				if (mp_table)
 				{
-					Allocator::destruct_array<Node*>(mp_table, m_capacity);
+					Allocator::template destruct_array<Node*>(mp_table, m_capacity);
 				}
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
@@ -370,7 +355,7 @@ namespace Minty
 				return;
 			}
 
-			Node** newTable = construct_array<Node*>(capacity, m_allocator);
+			Node** newTable = Allocator::template construct_array<Node*>(capacity);
 			for (Size i = 0; i < capacity; ++i)
 			{
 				newTable[i] = nullptr;
@@ -388,10 +373,48 @@ namespace Minty
 					node->next = newTable[index];
 					newTable[index] = node;
 				}
-				destruct_array<Node*>(mp_table, m_capacity, m_allocator);
+				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
 			}
 			mp_table = newTable;
 			m_capacity = capacity;
+		}
+
+		/**
+		 * @brief Adds a key to this Ordered set.
+		 * @param key The key to add.
+		 */
+		Bool add(T const& key)
+		{
+			if (contains(key))
+			{
+				return false;
+			}
+
+			if (m_size >= m_capacity * DEFAULT_COLLECTION_REHASH_THRESHOLD)
+			{
+				rehash();
+			}
+
+			Size index = hash(key);
+			Node* node = Allocator::template construct<Node>(key);
+			node->next = mp_table[index];
+			mp_table[index] = node;
+
+			/** Insert into order list */
+			node->prevOrder = mp_tail;
+			node->nextOrder = nullptr;
+			if (mp_tail)
+			{
+				mp_tail->nextOrder = node;
+			}
+			else
+			{
+				mp_head = node;
+			}
+			mp_tail = node;
+
+			++m_size;
+			return true;
 		}
 
 		/**
@@ -411,7 +434,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = Allocator::construct<Node>(key);
+			Node* node = Allocator::template construct<Node>(std::move(key));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -478,7 +501,7 @@ namespace Minty
 						mp_tail = node->prevOrder;
 					}
 
-					destruct<Node>(node, m_allocator);
+					Allocator::template destruct<Node>(node);
 					--m_size;
 					return true;
 				}
@@ -553,7 +576,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->nextOrder;
-				destruct<Node>(temp, m_allocator);
+				Allocator::template destruct<Node>(temp);
 			}
 			if (mp_table)
 			{
@@ -589,6 +612,17 @@ namespace Minty
 				reserve(m_capacity * 2);
 			}
 		}
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Size m_capacity;
+		Size m_size;
+		Node** mp_table;
+		Node* mp_head;
+		Node* mp_tail;
 
 #pragma endregion
 	};

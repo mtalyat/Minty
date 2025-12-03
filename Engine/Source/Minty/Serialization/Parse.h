@@ -11,6 +11,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/Serialization/IsParseable.h"
 
 namespace Minty
@@ -41,14 +42,14 @@ namespace Minty
 	std::enable_if_t<!is_parseable<T>::value, T> 
 		parse_to(String const& string)
 	{
-		MINTY_NOT_IMPLEMENTED(typeid(T).name());
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	template<typename T>
 	std::enable_if_t<!is_parseable<T>::value, Bool> 
 		parse_try(String const& string, T& value)
 	{
-		MINTY_NOT_IMPLEMENTED(typeid(T).name());
+		MINTY_NOT_IMPLEMENTED();
 	}
 
 	Bool to_bool(String const& string);

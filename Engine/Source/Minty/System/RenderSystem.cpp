@@ -17,6 +17,8 @@
 #include "Minty/Data/Dictionary.h"
 #include "Minty/Data/StaticContainer.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Data/Tuple.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Layer/LayerManager.h"
@@ -217,7 +219,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraData const& cameraInfo, Render
 
 		// get the batch based on the material
 		Ref<Texture> const& texture = sprite->get_texture();
-		MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::D3);
 		Batch<1, Ref<Material>>& batch = batchFactory.get_or_create_batch({ material });
@@ -295,7 +297,7 @@ void Minty::RenderSystem::update_canvas(Entity const entity, Ref<Shader> const& 
 
 	// get canvas
 	CanvasComponent* canvasComp = entityManager.try_get_component<CanvasComponent>(entity);
-	MINTY_ASSERT(canvasComp != nullptr, ErrorCode::Entity_MissingComponent, entityManager.get_name(entity));
+	MINTY_ASSERT_F(canvasComp != nullptr, ErrorCode::Entity_MissingComponent, entityManager.get_name(entity));
 	Canvas const& canvas = canvasComp->canvas;
 
 	// if same shader and same size, do nothing
@@ -357,9 +359,9 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 		Ref<Mesh> const& mesh = meshComp.mesh;
 		Ref<Material> const& material = meshComp.material;
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
-		MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<Shader> const& shader = materialTemplate->get_shader();
-		MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 
 		// update push constant info
 		pushData.clear();
@@ -422,7 +424,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 
 		// get the texture
 		Ref<Texture> const& texture = sprite->get_texture();
-		MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 
 		// get the material to use
@@ -438,7 +440,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 			stencil = entityManager.get_component<MaskedComponent>(entity).value;
 		}
 		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI, mask);
-		MINTY_ASSERT(material != nullptr, ErrorCode::OperationFailed, entityManager.get_name(entity));
+		MINTY_ASSERT_F(material != nullptr, ErrorCode::OperationFailed, entityManager.get_name(entity));
 		if (mask != MaskMode::None)
 		{
 			material->set_stencil(stencil);
@@ -473,9 +475,9 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
 		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
 		Entity const entity = batch.get_object<Entity>(1);
-		MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<Shader> const& shader = materialTemplate->get_shader();
-		MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Entity const canvasEntity = batch.get_object<Entity>(1);
 
 		// update the instanced container with the data

@@ -79,7 +79,7 @@ Minty::MemoryManager::MemoryManager(MemoryManagerInfo const &info)
 			{
 				MINTY_PERSISTENT_ALLOCATOR_CASES(INITIALIZE)
 				default:
-					MINTY_ABORT(ErrorCode::Memory_SizeMismatch, poolInfo.blockSize);
+					MINTY_ABORT_F(ErrorCode::Memory_SizeMismatch, poolInfo.blockSize);
 			}
 			m_persistentSizes[i] = poolInfo.blockSize;
 		}
@@ -112,7 +112,7 @@ Minty::MemoryManager::~MemoryManager()
 			{
 				MINTY_PERSISTENT_ALLOCATOR_CASES(SHUTDOWN)
 				default:
-					MINTY_ABORT(ErrorCode::Memory_SizeMismatch, poolSize);
+					MINTY_ABORT_F(ErrorCode::Memory_SizeMismatch, poolSize);
 			}
 		}
 
@@ -195,7 +195,7 @@ Any Minty::MemoryManager::allocate_persistent(Size const size)
 	{
 		MINTY_PERSISTENT_ALLOCATOR_CASES(ALLOCATE)
 		default:
-			MINTY_ABORT(ErrorCode::Memory_SizeMismatch, m_persistentSizes[poolIndex]);
+			MINTY_ABORT_F(ErrorCode::Memory_SizeMismatch, m_persistentSizes[poolIndex]);
 	}
 }
 
@@ -242,13 +242,19 @@ void Minty::MemoryManager::deallocate_persistent(Any const ptr)
 	{
 		MINTY_PERSISTENT_ALLOCATOR_CASES(DEALLOCATE)
 		default:
-			MINTY_ABORT(ErrorCode::Memory_SizeMismatch, m_persistentSizes[poolIndex]);
+			MINTY_ABORT_F(ErrorCode::Memory_SizeMismatch, m_persistentSizes[poolIndex]);
 	}
 }
 
 Unique<MemoryManager> Minty::MemoryManager::create(MemoryManagerInfo const &info)
 {
 	return Unique<MemoryManager>::create(info);
+}
+
+Unique<MemoryManager> Minty::MemoryManager::create()
+{
+	MemoryManagerInfo info{};
+	return create(info);
 }
 
 MemoryManager &Minty::MemoryManager::get_singleton()

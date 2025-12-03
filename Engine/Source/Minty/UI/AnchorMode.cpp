@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "AnchorMode.h"
+#include "Minty/Data/StringBuilder.h"
 
 using namespace Minty;
 
@@ -13,14 +14,14 @@ String Minty::to_string(AnchorMode const obj)
     }
 
 	// default case
-    String result = "";
-	if (static_cast<Bool>(obj & AnchorMode::Top)) result += "Top";
-	if (static_cast<Bool>(obj & AnchorMode::Middle)) result += "Middle";
-	if (static_cast<Bool>(obj & AnchorMode::Bottom)) result += "Bottom";
-	if (static_cast<Bool>(obj & AnchorMode::Left)) result += "Left";
-	if (static_cast<Bool>(obj & AnchorMode::Center)) result += "Center";
-	if (static_cast<Bool>(obj & AnchorMode::Right)) result += "Right";
-	return result;
+    StringBuilder result;
+	if (static_cast<Bool>(obj & AnchorMode::Top)) result.append("Top");
+	if (static_cast<Bool>(obj & AnchorMode::Middle)) result.append("Middle");
+	if (static_cast<Bool>(obj & AnchorMode::Bottom)) result.append("Bottom");
+	if (static_cast<Bool>(obj & AnchorMode::Left)) result.append("Left");
+	if (static_cast<Bool>(obj & AnchorMode::Center)) result.append("Center");
+	if (static_cast<Bool>(obj & AnchorMode::Right)) result.append("Right");
+	return result.to_string();
 }
 
 AnchorMode Minty::parse_to_anchor_mode(String const& string)

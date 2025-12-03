@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Render/MeshInfo.h"
+#include "Minty/Render/BufferInfo.h"
 
 using namespace Minty;
 
@@ -14,8 +15,8 @@ Minty::Mesh::Mesh(MeshInfo const& info)
 {
 	// vertices and indices must be empty for non-custom types
 	// vertices and indices must be non-empty for custom types
-	MINTY_ASSERT(info.type == MeshType::Custom || (info.vertices.is_empty() && info.indices.is_empty()), ErrorCode::Argument_ExpectedEmpty);
-	MINTY_ASSERT(info.type != MeshType::Custom || (!info.vertices.is_empty() && !info.indices.is_empty()), ErrorCode::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(info.type == MeshType::Custom || (info.vertexCount == 0 && info.indexCount == 0), ErrorCode::Argument_ExpectedEmpty);
+	MINTY_ASSERT(info.type != MeshType::Custom || (info.vertexCount != 0 && info.indexCount != 0), ErrorCode::Argument_ExpectedNonEmpty);
 
 	switch (info.type)
 	{
@@ -35,9 +36,9 @@ Minty::Mesh::Mesh(MeshInfo const& info)
 	}
 }
 
-void Minty::Mesh::initialize(MeshInfo const& info)
+void Minty::Mesh::initialize(MeshInfo const &info)
 {
-	m_vertices = info.vertices;
+	m_vertices = ListContainer(info.vertexData, info.vertexStride, info.vertexCount);
 	BufferInfo vertexBufferInfo{};
 	vertexBufferInfo.data = m_vertices.get_data();
 	vertexBufferInfo.size = m_vertices.get_size();
@@ -45,7 +46,7 @@ void Minty::Mesh::initialize(MeshInfo const& info)
 	vertexBufferInfo.frequent = false;
 	m_vertexBuffer = Buffer::create(vertexBufferInfo);
 
-	m_indices = info.indices;
+	m_indices = ListContainer(info.indexData, info.indexStride, info.indexCount);
 	BufferInfo indexBufferInfo{};
 	indexBufferInfo.data = m_indices.get_data();
 	indexBufferInfo.size = m_indices.get_size();
@@ -88,9 +89,13 @@ void Minty::Mesh::initialize_quad()
 	// create info
 	MeshInfo info{};
 	Size const vertexStride = sizeof(Float) * 8;
-	info.vertices = ListContainer(vertices, vertexStride, sizeof(vertices) / vertexStride);
+	info.vertexData = vertices;
+	info.vertexStride = vertexStride;
+	info.vertexCount = sizeof(vertices) / vertexStride;
 	Size const indexStride = sizeof(UShort);
-	info.indices = ListContainer(indices, indexStride, sizeof(indices) / indexStride);
+	info.indexData = indices;
+	info.indexStride = indexStride;
+	info.indexCount = sizeof(indices) / indexStride;
 
 	initialize(info);
 
@@ -182,9 +187,13 @@ void Minty::Mesh::initialize_cube()
 
 	MeshInfo info{};
 	Size const vertexStride = sizeof(Float) * 8;
-	info.vertices = ListContainer(vertices, vertexStride, sizeof(vertices) / (vertexStride));
+	info.vertexData = vertices;
+	info.vertexStride = vertexStride;
+	info.vertexCount = sizeof(vertices) / (vertexStride);
 	Size const indexStride = sizeof(UShort);
-	info.indices = ListContainer(indices, indexStride, sizeof(indices) / indexStride);
+	info.indexData = indices;
+	info.indexStride = indexStride;
+	info.indexCount = sizeof(indices) / indexStride;
 	initialize(info);
 
 #undef SIZE
@@ -210,5 +219,11 @@ void Minty::Mesh::initialize_cube()
 
 Shared<Mesh> Minty::Mesh::create(MeshInfo const& info)
 {
-	return Shared<Mesh>(info);
+	return Shared<Mesh>::create(info);
+}
+
+Shared<Mesh> Minty::Mesh::create()
+{
+	MeshInfo info{};
+	return create(info);
 }

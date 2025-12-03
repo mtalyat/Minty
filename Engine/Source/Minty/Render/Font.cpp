@@ -16,7 +16,7 @@ Minty::Font::Font(FontInfo const& info)
 	{
 		MINTY_ASSERT(variant != nullptr, ErrorCode::Argument_ExpectedNonNull);
 		ID key = create_font_id(variant->get_size(), variant->get_flags());
-		MINTY_ASSERT(!m_variants.contains(key), ErrorCode::Argument_KeyAlreadyExists, variant->get_size(), variant->get_flags());
+		MINTY_ASSERT_F(!m_variants.contains(key), ErrorCode::Argument_KeyAlreadyExists, variant->get_size(), variant->get_flags());
 		m_variants.add(key, variant);
 	}
 }
@@ -24,7 +24,7 @@ Minty::Font::Font(FontInfo const& info)
 Ref<FontVariant> const& Minty::Font::at(UInt const size, FontFlags const flags) const
 {
 	ID key = create_font_id(size, flags);
-	MINTY_ASSERT(m_variants.contains(key), ErrorCode::Argument_KeyNotFound, size, flags);
+	MINTY_ASSERT_F(m_variants.contains(key), ErrorCode::Argument_KeyNotFound, size, flags);
 	return m_variants.at(key);
 }
 
@@ -52,4 +52,10 @@ Vector<Ref<FontVariant>> Minty::Font::get_variants() const
 Shared<Font> Minty::Font::create(FontInfo const& info)
 {
 	return Shared<Font>::create(info);
+}
+
+Shared<Font> Minty::Font::create()
+{
+	FontInfo info{};
+	return create(info);
 }

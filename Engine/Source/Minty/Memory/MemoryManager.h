@@ -126,6 +126,12 @@ namespace Minty
 		static Unique<MemoryManager> create(MemoryManagerInfo const& info);
 
 		/**
+		 * @brief Creates a new MemoryManager with default settings.
+		 * @return A MemoryManager Owner.
+		 */
+		static Unique<MemoryManager> create();
+
+		/**
 		 * @brief Gets the singleton MemoryManager.
 		 * @return The MemoryManager singleton.
 		 */

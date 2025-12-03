@@ -90,7 +90,7 @@ namespace Minty
 		 */
 		ShaderInput const& get_input(String const& name) const
 		{
-			MINTY_ASSERT(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
+			MINTY_ASSERT_F(m_inputs.contains(name), ErrorCode::Argument_KeyNotFound, name);
 			return m_inputs[name];
 		}
 
@@ -142,6 +142,12 @@ namespace Minty
 		 * @return A Shader Owner.
 		 */
 		static Shared<Shader> create(ShaderInfo const& info);
+
+		/**
+		 * @brief Creates a default Shader.
+		 * @return A Shader Owner.
+		 */
+		static Shared<Shader> create();
 
 #pragma endregion
 

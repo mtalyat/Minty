@@ -33,7 +33,7 @@ Minty::FontVariant::FontVariant(FontVariantInfo const& info)
 	for (auto const& [left, right, value] : info.kernings)
 	{
 		Int kerningId = compact_kerning(left, right);
-		MINTY_ASSERT(!m_kernings.contains(kerningId), ErrorCode::Argument_DuplicateValue, left, right);
+		MINTY_ASSERT_F(!m_kernings.contains(kerningId), ErrorCode::Argument_DuplicateValue, left, right);
 		m_kernings.add(kerningId, value);
 	}
 }
@@ -64,4 +64,10 @@ Float Minty::FontVariant::get_kerning(Char const left, Char const right) const
 Shared<FontVariant> Minty::FontVariant::create(FontVariantInfo const& info)
 {
 	return Shared<FontVariant>::create(info);
+}
+
+Shared<FontVariant> Minty::FontVariant::create()
+{
+	FontVariantInfo info{};
+	return create(info);
 }

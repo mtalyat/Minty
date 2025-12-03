@@ -39,9 +39,7 @@ namespace Minty
 	public:
 		Vulkan_RenderManager(RenderManagerInfo const& info);
 
-		~Vulkan_RenderManager()
-		{
-		}
+		~Vulkan_RenderManager() override;
 
 #pragma endregion
 
@@ -89,10 +87,6 @@ namespace Minty
 		void recreate_depth_resources() override;
 
 	public:
-		void initialize() override;
-
-		void dispose() override;
-
 		void sync() override;
 
 		Bool start_frame() override;

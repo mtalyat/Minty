@@ -2,6 +2,7 @@
 #include "Vulkan_Viewport.h"
 #include "Platform/Vulkan/Vulkan_Renderer.h"
 #include "Platform/Vulkan/Vulkan_RenderManager.h"
+#include "Minty/Render/ViewportInfo.h"
 
 using namespace Minty;
 

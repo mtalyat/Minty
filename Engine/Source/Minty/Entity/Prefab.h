@@ -79,6 +79,12 @@ namespace Minty
 		 */
 		static Shared<Prefab> create(PrefabInfo const& info);
 
+		/**
+		 * @brief Creates a default Prefab.
+		 * @return A Prefab Owner.
+		 */
+		static Shared<Prefab> create();
+
 #pragma endregion
 	};
 }
