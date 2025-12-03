@@ -53,7 +53,7 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 
 	// get the values
 	m_variableId = scope.find(parts[0]);
-	MINTY_ASSERT_F(m_variableId != UUID(), ErrorCode::Serialization_DataNotFound, parts[0]);
+	MINTY_ASSERT_F(m_variableId != UUID(), ErrorCode::Serialization_InvalidData, parts[0]);
 	m_conditional = parse_to_conditional(parts[1]);
 	m_value = parse_to<Int>(parts[2]);
 

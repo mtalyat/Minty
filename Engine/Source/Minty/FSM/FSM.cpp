@@ -168,7 +168,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 	// read starting state
 	if (reader.read("Start", name))
 	{
-		MINTY_ASSERT_F(m_states.contains(name), ErrorCode::Serialization_DataNotFound, name);
+		MINTY_ASSERT_F(m_states.contains(name), ErrorCode::Serialization_InvalidData, name);
 		m_startingStateId = m_states.get_key(name);
 	}
 

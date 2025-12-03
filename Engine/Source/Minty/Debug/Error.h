@@ -96,11 +96,13 @@ namespace Minty
 
         Serialization = 700,
         Serialization_InvalidFormat,
+        Serialization_InvalidValue,
+        Serialization_InvalidData,
         Serialization_UnexpectedEndOfData,
-        Serialization_DataNotFound,
         Serialization_Failed,
         Serialization_ReadName,
         Serialization_ReadValue,
+        Serialization_MissingRequired,
 
         Entity = 800,
         Entity_NotValid,

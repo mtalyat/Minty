@@ -89,11 +89,11 @@ file(GLOB ZLIB_HEADERS "${LIBRARIES_DIR}/zlib/include/*.h")
 set(TRACY_HEADERS "${LIBRARIES_DIR}/tracy/include/Tracy.hpp")
 
 # Precompiled header
-# set(PCH_SOURCE "${SOURCE_DIR}/pch.cpp")
-# set(PCH_HEADER "${SOURCE_DIR}/pch.h")
+set(PCH_SOURCE "${SOURCE_DIR}/pch.cpp")
+set(PCH_HEADER "${SOURCE_DIR}/pch.h")
 
 # Create the static library
-add_library(Minty STATIC
+add_library(${PROJECT_NAME} STATIC
     ${MINTY_SOURCES}
     ${MINTY_HEADERS}
     ${THIRD_PARTY_SOURCES}
@@ -104,7 +104,7 @@ add_library(Minty STATIC
 )
 
 # Set precompiled header
-# target_precompile_headers(Minty PRIVATE "${PCH_HEADER}")
+target_precompile_headers(${PROJECT_NAME} PRIVATE "${PCH_HEADER}")
 
 # # Set the precompiled header source to create mode
 # set_source_files_properties(${PCH_SOURCE} PROPERTIES
@@ -112,7 +112,7 @@ add_library(Minty STATIC
 # )
 
 # Include directories
-target_include_directories(Minty PUBLIC
+target_include_directories(${PROJECT_NAME} PUBLIC
     ${SOURCE_DIR}
     ${LIBRARIES_DIR}/bullet/include
     ${LIBRARIES_DIR}/entt/include
@@ -126,7 +126,7 @@ target_include_directories(Minty PUBLIC
 )
 
 # Preprocessor definitions
-target_compile_definitions(Minty PRIVATE
+target_compile_definitions(${PROJECT_NAME} PRIVATE
     UNICODE
     _UNICODE
     $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:_DEBUG>
@@ -137,24 +137,24 @@ target_compile_definitions(Minty PRIVATE
 
 # Feature-based definitions
 if(MINTY_VULKAN)
-    target_compile_definitions(Minty PRIVATE MINTY_VULKAN)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_VULKAN)
 endif()
 
 if(MINTY_SOLOUD)
-    target_compile_definitions(Minty PRIVATE MINTY_SOLOUD)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_SOLOUD)
 endif()
 
 if(MINTY_BULLET)
-    target_compile_definitions(Minty PRIVATE MINTY_BULLET)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_BULLET)
 endif()
 
 if(MINTY_TRACE)
-    target_compile_definitions(Minty PRIVATE MINTY_TRACE TRACY_ENABLE)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_TRACE TRACY_ENABLE)
 endif()
 
 # Compiler flags
 if(MSVC)
-    target_compile_options(Minty PRIVATE
+    target_compile_options(${PROJECT_NAME} PRIVATE
         /W3                     # Warning level 3
         /permissive-            # Standards conformance mode
         /Zc:wchar_t             # wchar_t is a native type
@@ -176,20 +176,20 @@ if(MSVC)
     )
     
     # Linker flags for release
-    target_link_options(Minty PRIVATE
+    target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:/LTCG> # Link-time code generation
     )
 endif()
 
 # Link directories
-target_link_directories(Minty PUBLIC
+target_link_directories(${PROJECT_NAME} PUBLIC
     ${LIBRARIES_DIR}/vulkan/lib
     ${LIBRARIES_DIR}/glfw/lib
     ${LIBRARIES_DIR}/bullet/lib/$<CONFIG>
 )
 
 # Link libraries
-target_link_libraries(Minty PUBLIC
+target_link_libraries(${PROJECT_NAME} PUBLIC
     vulkan-1
     glfw3_mt
     BulletCollision
@@ -198,16 +198,11 @@ target_link_libraries(Minty PUBLIC
 )
 
 # Output directory - match devenv.bat expectations
-set_target_properties(Minty PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
 )
-
-# IDE organization (Visual Studio filters)
-source_group(TREE ${SOURCE_DIR} FILES ${MINTY_SOURCES} ${MINTY_HEADERS})
-source_group("Libraries\\zlib" FILES ${ZLIB_HEADERS})
-source_group("Libraries\\tracy" FILES ${TRACY_HEADERS})
 
 # Print configuration info
 message(STATUS "Minty Library Configuration:")

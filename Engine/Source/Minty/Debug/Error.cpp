@@ -158,12 +158,20 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Serialization error. ";
     case ErrorCode::Serialization_InvalidFormat:
         return "Serialization error. Invalid format. ";
+    case ErrorCode::Serialization_InvalidValue:
+        return "Serialization error. Invalid value. ";
+    case ErrorCode::Serialization_InvalidData:
+        return "Serialization error. Invalid reader or writer user data. ";
     case ErrorCode::Serialization_UnexpectedEndOfData:
         return "Serialization error. Unexpected end of data. ";
-    case ErrorCode::Serialization_DataNotFound:
-        return "Serialization error. Data not found. ";
     case ErrorCode::Serialization_Failed:
         return "Serialization error. Operation failed. ";
+    case ErrorCode::Serialization_ReadName:
+        return "Serialization error. Failed to read name. ";
+    case ErrorCode::Serialization_ReadValue:
+        return "Serialization error. Failed to read value. ";
+    case ErrorCode::Serialization_MissingRequired:
+        return "Serialization error. Missing required key-value pair. ";
 
     case ErrorCode::Entity:
         return "Entity error. ";
