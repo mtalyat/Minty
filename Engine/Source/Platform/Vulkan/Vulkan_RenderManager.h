@@ -75,6 +75,8 @@ namespace Minty
 #pragma region Methods
 
 	private:
+		void initialize() override;
+
 		void initialize_frame(Vulkan_Frame& frame);
 
 		void dispose_frame(Vulkan_Frame& frame);

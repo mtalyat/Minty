@@ -120,13 +120,13 @@ String Minty::String::operator+(StringView const other) const
 
 Char Minty::String::index(Size const index) const
 {
-    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfRange, index);
     return mp_data[index];
 }
 
 Char const &Minty::String::at(Size const index) const
 {
-    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfRange, index);
     return mp_data[index];
 }
 

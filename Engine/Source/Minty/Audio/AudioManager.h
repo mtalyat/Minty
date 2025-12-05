@@ -29,10 +29,7 @@ namespace Minty
 		AudioManager(AudioManagerInfo const& info)
 			: Manager() {}
 
-		virtual ~AudioManager()
-		{
-			stop_all();
-		}
+		virtual ~AudioManager() = default;
 
 #pragma endregion
 

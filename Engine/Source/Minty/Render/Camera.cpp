@@ -20,7 +20,7 @@ Minty::Camera::Camera(CameraInfo const& info)
 	, m_renderTarget(info.renderTarget)
 {
 	MINTY_ASSERT(info.perspective != Perspective::Undefined, ErrorCode::Argument_ExpectedNonDefault);
-	MINTY_ASSERT(info.fov > 0.0f && info.fov < 180.0f, ErrorCode::Argument_OutOfBounds);
+	MINTY_ASSERT(info.fov > 0.0f && info.fov < 180.0f, ErrorCode::Argument_OutOfRange);
 	MINTY_ASSERT(info.nearPlane > 0.0f, ErrorCode::Argument_ExpectedAboveZero);
 	MINTY_ASSERT(info.farPlane > info.nearPlane, ErrorCode::Argument_IncorrectOrder);
 	MINTY_ASSERT(info.size > 0.0f, ErrorCode::Argument_ExpectedAboveZero);

@@ -333,7 +333,7 @@ namespace Minty
 		 * @param text A String of this object.
 		 * @returns True on success.
 		 */
-		Bool parse(String const& text) override;
+		Bool parse(StringView const text) override;
 
 		/**
 		 * @brief Converts the data in this object to a String.

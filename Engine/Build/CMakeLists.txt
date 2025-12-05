@@ -81,6 +81,9 @@ set(THIRD_PARTY_SOURCES
     "${LIBRARIES_DIR}/soloud/include/soloud_wav.cpp"
     "${LIBRARIES_DIR}/soloud/include/soloud_wavstream.cpp"
     "${LIBRARIES_DIR}/soloud/include/stb_vorbis.cpp"
+
+    # STB source
+    "${SOURCE_DIR}/Minty/Library/STB.cpp"
     
     # Tracy source
     "${LIBRARIES_DIR}/tracy/TracyClient.cpp"

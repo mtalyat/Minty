@@ -40,7 +40,9 @@ void Minty::decode_base16(Char const *const data, Size const size, Any const buf
 	for (Size i = 0; i < groupSize; ++i)
 	{
 		// copy characters to buffer
-		memcpy(tempBuffer, data + ((size - 1 - i) * 2), sizeof(Char) * 2);
+		tempBuffer[0] = data[size - 2 - i * 2];
+		tempBuffer[1] = data[size - 1 - i * 2];
+		
 		// convert to byte
 		bytes[i] = static_cast<Byte>(std::stoul(tempBuffer, nullptr, 16));
 	}

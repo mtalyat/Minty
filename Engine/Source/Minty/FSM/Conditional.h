@@ -73,9 +73,9 @@ namespace Minty
 	Conditional parse_to_conditional(String const& string);
 	Bool parse_try_conditional(String const& string, Conditional& value);
 	template<>
-	inline Conditional parse_to<Conditional>(String const& string) { return parse_to_conditional(string); }
+	inline Conditional parse_to<Conditional>(StringView const string) { return parse_to_conditional(string); }
 	template<>
-	inline Bool parse_try<Conditional>(String const& string, Conditional& value) { return parse_try_conditional(string, value); }
+	inline Bool parse_try<Conditional>(StringView const string, Conditional& value) { return parse_try_conditional(string, value); }
 }
 
 #endif // MINTY_FSM_CONDITIONAL_H

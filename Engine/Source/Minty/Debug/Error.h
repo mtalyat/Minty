@@ -36,6 +36,7 @@ namespace Minty
         Memory_StrongLeakDetected,
         Memory_InvalidPointer,
         Memory_SizeMismatch,
+        Memory_UnallowedSize,
         
         Argument = 200,
         Argument_ExpectedNonZero,
@@ -45,7 +46,7 @@ namespace Minty
         Argument_ExpectedEmpty,
         Argument_ExpectedNonDefault,
         Argument_ExpectedAboveZero,
-        Argument_OutOfBounds,
+        Argument_OutOfRange,
         Argument_ForeignPointer,
         Argument_AlignmentMismatch,
         Argument_IncorrectOrder,
@@ -168,6 +169,7 @@ namespace Minty
         Render_UnsupportedTransition,
         Render_ShaderConfiguration,
         Render_FailedToLoadImage,
+        Render_FailedToRender,
 
         Physics = 1500,
 

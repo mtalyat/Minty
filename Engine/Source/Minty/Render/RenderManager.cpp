@@ -28,7 +28,7 @@
 
 using namespace Minty;
 
-Unique<RenderManager> Minty::RenderManager::create(RenderManagerInfo const& info)
+Unique<RenderManager> Minty::RenderManager::create(RenderManagerInfo const &info)
 {
 #ifdef MINTY_VULKAN
 	return Unique<Vulkan_RenderManager>::create(info);
@@ -43,7 +43,7 @@ Unique<RenderManager> Minty::RenderManager::create()
 	return create(info);
 }
 
-RenderManager& Minty::RenderManager::get_singleton()
+RenderManager &Minty::RenderManager::get_singleton()
 {
 	return Application::get_singleton().get_render_manager();
 }
@@ -55,7 +55,7 @@ void Minty::RenderManager::clear_binds()
 	m_boundShader = nullptr;
 }
 
-void Minty::RenderManager::bind_shader(Ref<Shader> const& shader)
+void Minty::RenderManager::bind_shader(Ref<Shader> const &shader)
 {
 	MINTY_ASSERT(shader != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
@@ -73,7 +73,7 @@ void Minty::RenderManager::bind_shader(Ref<Shader> const& shader)
 	m_boundShader->on_bind();
 }
 
-void Minty::RenderManager::bind_material(Ref<Material> const& material)
+void Minty::RenderManager::bind_material(Ref<Material> const &material)
 {
 	MINTY_ASSERT(material != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
@@ -94,7 +94,7 @@ void Minty::RenderManager::bind_material(Ref<Material> const& material)
 	m_boundMaterial->on_bind();
 }
 
-void Minty::RenderManager::bind_mesh(Ref<Mesh> const& mesh)
+void Minty::RenderManager::bind_mesh(Ref<Mesh> const &mesh)
 {
 	MINTY_ASSERT(mesh != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
@@ -109,10 +109,10 @@ void Minty::RenderManager::bind_mesh(Ref<Mesh> const& mesh)
 	bind_index_buffer(m_boundMesh->get_index_buffer());
 }
 
-void Minty::RenderManager::bind_vertex_buffer(Ref<Buffer> const& buffer, UInt const binding)
+void Minty::RenderManager::bind_vertex_buffer(Ref<Buffer> const &buffer, UInt const binding)
 {
 #ifdef MINTY_VULKAN
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 	Vulkan_Renderer::bind_vertex_buffer(
 		renderManager.get_current_command_buffer(),
 		static_cast<VkBuffer>(buffer->get_native()),
@@ -120,22 +120,22 @@ void Minty::RenderManager::bind_vertex_buffer(Ref<Buffer> const& buffer, UInt co
 #endif // MINTY_VULKAN
 }
 
-void Minty::RenderManager::bind_index_buffer(Ref<Buffer> const& buffer)
+void Minty::RenderManager::bind_index_buffer(Ref<Buffer> const &buffer)
 {
 #ifdef MINTY_VULKAN
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 	Vulkan_Renderer::bind_index_buffer(
 		renderManager.get_current_command_buffer(),
 		static_cast<VkBuffer>(buffer->get_native()));
 #endif // MINTY_VULKAN
 }
 
-void Minty::RenderManager::draw_mesh(Ref<Mesh> const& mesh)
+void Minty::RenderManager::draw_mesh(Ref<Mesh> const &mesh)
 {
 	MINTY_ASSERT(mesh != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 #if defined(MINTY_VULKAN)
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 	renderManager.draw_indices(static_cast<UInt>(mesh->get_indices().get_count()));
 #endif // MINTY_VULKAN
 }
@@ -146,25 +146,13 @@ void Minty::RenderManager::draw_instances(UInt const instanceCount, UInt const v
 	MINTY_ASSERT(vertexCount > 0, ErrorCode::Argument_ExpectedNonZero);
 
 #if defined(MINTY_VULKAN)
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 	renderManager.draw_instances(instanceCount, vertexCount);
 #endif // MINTY_VULKAN
 }
 
-Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
-	: m_state(State::Idle)
-	, m_window(info.window)
-	, m_resizePending(false)
-	, m_boundShader(nullptr)
-	, m_boundMaterial(nullptr)
-	, m_boundMesh(nullptr)
-	, m_camera(nullptr)
-	, m_cameraMatrix()
-	, m_surface(nullptr)
-	, m_depthStencilImage(nullptr)
-	, m_defaultViewport(nullptr)
-	, m_defaultMeshes()
-	, m_defaultMaterials()
+Minty::RenderManager::RenderManager(RenderManagerInfo const &info)
+	: m_state(State::Idle), m_window(info.window), m_resizePending(false), m_boundShader(nullptr), m_boundMaterial(nullptr), m_boundMesh(nullptr), m_camera(nullptr), m_cameraMatrix(), m_surface(nullptr), m_depthStencilImage(nullptr), m_defaultViewport(nullptr), m_defaultMeshes(), m_defaultMaterials()
 {
 	// if no window given, use the Context's window
 	if (m_window == nullptr)
@@ -192,12 +180,12 @@ void Minty::RenderManager::set_default_viewport(Shared<Viewport> &&viewport)
 
 Format Minty::RenderManager::get_color_attachment_format() const
 {
-    return m_surface->get_format();
+	return m_surface->get_format();
 }
 
 Format Minty::RenderManager::get_depth_attachment_format() const
 {
-    return m_depthStencilImage->get_format(); 
+	return m_depthStencilImage->get_format();
 }
 
 Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
@@ -224,7 +212,7 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	MeshInfo info{};
 	info.id = UUID::create();
 	info.type = type;
-	AssetManager& assetManager = AssetManager::get_singleton();
+	AssetManager &assetManager = AssetManager::get_singleton();
 	Ref<Mesh> mesh = assetManager.create<Mesh>(info);
 	m_defaultMeshes.add(type, mesh);
 
@@ -240,8 +228,8 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 		switch (space)
 		{
 		case Space::D3:
-		break;
-		templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
+			templateId = DEFAULT_ASSET_SPRITE_MATERIAL_TEMPLATE;
+			break;
 		case Space::UI:
 			templateId = DEFAULT_ASSET_UI_MATERIAL_TEMPLATE;
 			break;
@@ -286,16 +274,16 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 		}
 	}
 
-	AssetManager& assetManager = AssetManager::get_singleton();
-	Ref<MaterialTemplate> const& materialTemplate = assetManager.get<MaterialTemplate>(templateId);
+	AssetManager &assetManager = AssetManager::get_singleton();
+	Ref<MaterialTemplate> const &materialTemplate = assetManager.get<MaterialTemplate>(templateId);
 	MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId);
 	return materialTemplate;
 }
 
-Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask)
+Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const &texture, Ref<MaterialTemplate> const &materialTemplate, AssetType const assetType, Space const space, MaskMode const mask)
 {
 	MINTY_ASSERT(texture != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	
+
 	TexMatKey key = create_texmat_key(texture->get_id(), assetType, space);
 
 	auto found = m_defaultMaterials.find(key);
@@ -311,10 +299,10 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const& tex
 	MaterialInfo info{};
 	info.id = UUID::create();
 
-	AssetManager& assetManager = AssetManager::get_singleton();
-	
+	AssetManager &assetManager = AssetManager::get_singleton();
+
 	// get the material template based on the asset type and the space, if none given
-	if(materialTemplate != nullptr)
+	if (materialTemplate != nullptr)
 	{
 		info.materialTemplate = materialTemplate;
 	}
@@ -361,8 +349,8 @@ void Minty::RenderManager::refresh()
 	defaultViewport->set_size(size);
 
 	// refresh default render passes
-	AssetManager& assetManager = AssetManager::get_singleton();
-	for (auto const& renderPass : assetManager.get_by_type<RenderPass>())
+	AssetManager &assetManager = AssetManager::get_singleton();
+	for (auto const &renderPass : assetManager.get_by_type<RenderPass>())
 	{
 		renderPass->refresh();
 	}
@@ -402,7 +390,7 @@ void Minty::RenderManager::end_frame()
 	m_state = State::Idle;
 }
 
-Bool Minty::RenderManager::start_pass(CameraData const& cameraInfo)
+Bool Minty::RenderManager::start_pass(CameraData const &cameraInfo)
 {
 	MINTY_ASSERT(m_state != State::Idle, ErrorCode::Render_NotRenderingFrame);
 	MINTY_ASSERT(m_state != State::Pass, ErrorCode::Render_AlreadyRenderingPass);
@@ -442,7 +430,7 @@ void Minty::RenderManager::end_pass()
 	m_state = State::Frame;
 }
 
-void Minty::RenderManager::handle_event(Event& event)
+void Minty::RenderManager::handle_event(Event &event)
 {
 	if (event.get_type() == EventType::WindowResize)
 	{

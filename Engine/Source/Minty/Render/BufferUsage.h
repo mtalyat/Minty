@@ -57,9 +57,9 @@ namespace Minty
     BufferUsage parse_to_buffer_usage(String const& string);
     Bool parse_try_buffer_usage(String const& string, BufferUsage& value);
     template<>
-    inline BufferUsage parse_to<BufferUsage>(String const& string) { return parse_to_buffer_usage(string); }
+    inline BufferUsage parse_to<BufferUsage>(StringView const string) { return parse_to_buffer_usage(string); }
     template<>
-    inline Bool parse_try<BufferUsage>(String const& string, BufferUsage& value) { return parse_try_buffer_usage(string, value); }
+    inline Bool parse_try<BufferUsage>(StringView const string, BufferUsage& value) { return parse_try_buffer_usage(string, value); }
 }
 
 #endif // MINTY_RENDER_BUFFERUSAGE_H

@@ -11,8 +11,8 @@ using namespace Minty;
 Minty::Viewport::Viewport(ViewportInfo const &info)
     : Asset(info.id)
 {
-    MINTY_ASSERT_F(info.minDepth >= 0.0f && info.minDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.minDepth);
-    MINTY_ASSERT_F(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, ErrorCode::Argument_OutOfBounds, info.maxDepth);
+    MINTY_ASSERT_F(info.minDepth >= 0.0f && info.minDepth <= 1.0f, ErrorCode::Argument_OutOfRange, info.minDepth);
+    MINTY_ASSERT_F(info.maxDepth >= 0.0f && info.maxDepth <= 1.0f, ErrorCode::Argument_OutOfRange, info.maxDepth);
     MINTY_ASSERT_F(info.minDepth <= info.maxDepth, ErrorCode::Argument_IncorrectOrder, info.minDepth, info.maxDepth);
 }
 

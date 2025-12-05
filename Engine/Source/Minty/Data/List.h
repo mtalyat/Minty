@@ -604,7 +604,7 @@ namespace Minty
 		 * @param value The value to initialize new elements with.
 		 */
 		template<typename... Args>
-		void resize(Size const size, Args&&... value)
+		void resize(Size const size, Args const&... value)
 		{
 			if (size < m_size)
 			{
@@ -720,7 +720,7 @@ namespace Minty
 		 */
 		void insert(Size const index, T const& value)
 		{
-			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfRange);
 			// add to end
 			if (index == m_size)
 			{
@@ -738,7 +738,7 @@ namespace Minty
 		 */
 		void insert(Size const index, T&& value)
 		{
-			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index <= m_size, ErrorCode::Argument_OutOfRange);
 			// add to end
 			if (index == m_size)
 			{
@@ -796,7 +796,7 @@ namespace Minty
 		 */
 		void remove(Size const index)
 		{
-			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfRange);
 
 			Iterator it = begin() + index;
 			remove(it);
@@ -808,7 +808,7 @@ namespace Minty
 		 */
 		void remove(Size const index, Size const count)
 		{
-			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfRange);
 			MINTY_ASSERT(index + count <= m_size, ErrorCode::Argument_InvalidSize);
 			MINTY_ASSERT(count > 0, ErrorCode::Argument_ExpectedNonZero);
 
@@ -848,7 +848,7 @@ namespace Minty
 		 */
 		T& at(Size const index)
 		{
-			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfRange);
 			Iterator it = begin() + index;
 			return *it;
 		}
@@ -860,7 +860,7 @@ namespace Minty
 		 */
 		T const& at(Size const index) const
 		{
-			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfRange);
 			ConstIterator it = begin() + index;
 			return *it;
 		}
@@ -908,7 +908,7 @@ namespace Minty
 		 */
 		List<T> sub(Size const index, Size const length) const
 		{
-			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index < m_size, ErrorCode::Argument_OutOfRange);
 			MINTY_ASSERT(index + length <= m_size, ErrorCode::Argument_InvalidSize);
 			MINTY_ASSERT(length > 0, ErrorCode::Argument_ExpectedNonZero);
 			List<T> result;

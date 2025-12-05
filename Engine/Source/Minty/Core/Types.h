@@ -42,7 +42,6 @@ namespace Minty
 	using Null = std::nullptr_t;
 	
 	using Size = size_t;
-	using ID = uint64_t;
 	using Handle = uint32_t;
 	using Layer = Int;
 	using TimePoint = int64_t;

@@ -37,9 +37,9 @@ namespace Minty
 	CursorMode parse_to_cursor_mode(String const& string);
 	Bool parse_try_cursor_mode(String const& string, CursorMode& value);
 	template<>
-	inline CursorMode parse_to<CursorMode>(String const& string) { return parse_to_cursor_mode(string); }
+	inline CursorMode parse_to<CursorMode>(StringView const string) { return parse_to_cursor_mode(string); }
 	template<>
-	inline Bool parse_try<CursorMode>(String const& string, CursorMode& value) { return parse_try_cursor_mode(string, value); }
+	inline Bool parse_try<CursorMode>(StringView const string, CursorMode& value) { return parse_try_cursor_mode(string, value); }
 }
 
 #endif // MINTY_INPUT_CURSORMODE_H

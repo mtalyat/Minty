@@ -42,9 +42,9 @@ namespace Minty
 	Space parse_to_space(String const& string);
 	Bool parse_try_space(String const& string, Space& value);
 	template<>
-	inline Space parse_to<Space>(String const& string) { return parse_to_space(string); }
+	inline Space parse_to<Space>(StringView const string) { return parse_to_space(string); }
 	template<>
-	inline Bool parse_try<Space>(String const& string, Space& value) { return parse_try_space(string, value); }
+	inline Bool parse_try<Space>(StringView const string, Space& value) { return parse_try_space(string, value); }
 }
 
 #endif // MINTY_RENDER_SPACE_H

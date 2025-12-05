@@ -1730,11 +1730,12 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		if (prefabIndex != INVALID_INDEX || prefabIndexEnd != INVALID_INDEX)
 		{
 			// Malformed prefab ID in entity ID string. Expecting [ and ] to be UUID_HEX_CHAR_COUNT characters apart, with a UUID in between them.
-			MINTY_ASSERT_F(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX && prefabIndexEnd - prefabIndex - 1 == UUID_HEX_SIZE, ErrorCode::Serialization_InvalidFormat, idString);
+			MINTY_ASSERT_F(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, idString);
+			StringView prefabIdView = idString.peek(prefabIndex + 1, prefabIndexEnd - prefabIndex - 1);
 
 			// there is a prefab
-			String prefabIdString = idString.sub(prefabIndex + 1, UUID_HEX_SIZE);
-			prefabId = parse_to_uuid(prefabIdString);
+			Bool const prefabParseResult = prefabId.parse(prefabIdView);
+			MINTY_ASSERT_F(prefabParseResult, ErrorCode::Serialization_InvalidFormat, prefabIdView);
 
 			// remove prefab from id string
 			idString = idString.sub(0, prefabIndex) + idString.sub(prefabIndexEnd + 1);
@@ -1748,16 +1749,17 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		// get the ID, if any
 		if (!idString.is_empty())
 		{
-			id = parse_to_uuid(idString);
+			Bool const idParseResult = id.parse(idString);
+			MINTY_ASSERT_F(idParseResult, ErrorCode::Serialization_InvalidFormat, idString);
 		}
 		else
 		{
-			id = UUID();
+			id.clear();
 		}
 	}
 	else
 	{
-		id = UUID();
-		prefabId = UUID();
+		id.clear();
+		prefabId.clear();
 	}
 }

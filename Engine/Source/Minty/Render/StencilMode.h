@@ -36,9 +36,9 @@ namespace Minty
 	StencilMode parse_to_stencil_mode(String const& string);
 	Bool parse_try_stencil_mode(String const& string, StencilMode& value);
 	template<>
-	inline StencilMode parse_to<StencilMode>(String const& string) { return parse_to_stencil_mode(string); }
+	inline StencilMode parse_to<StencilMode>(StringView const string) { return parse_to_stencil_mode(string); }
 	template<>
-	inline Bool parse_try<StencilMode>(String const& string, StencilMode& value) { return parse_try_stencil_mode(string, value); }
+	inline Bool parse_try<StencilMode>(StringView const string, StencilMode& value) { return parse_try_stencil_mode(string, value); }
 }
 
 #endif // MINTY_RENDER_STENCILMODE_H

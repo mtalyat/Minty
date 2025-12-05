@@ -9,8 +9,7 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/BoxVector.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 #include "Minty/Memory/DefaultAllocator.h"
 #include <iterator>
 
@@ -70,7 +69,38 @@ namespace Minty
 			}
 		}
 
-		~Vector() = default;
+		Vector(Vector const& other)
+			: mp_data(static_cast<T*>(Allocator::template allocate(other.m_capacity * sizeof(T))))
+			, m_size(other.m_size)
+			, m_capacity(other.m_capacity)
+		{
+			for (Size i = 0; i < m_size; ++i)
+			{
+				new (&mp_data[i]) T(other.mp_data[i]);
+			}
+		}
+
+		Vector(Vector&& other) noexcept
+			: mp_data(other.mp_data)
+			, m_size(other.m_size)
+			, m_capacity(other.m_capacity)
+		{
+			other.mp_data = nullptr;
+			other.m_size = 0;
+			other.m_capacity = 0;
+		}
+
+		~Vector()
+		{
+			if (mp_data)
+			{
+				for (Size i = 0; i < m_size; ++i)
+				{
+					mp_data[i].~T();
+				}
+				Allocator::template deallocate(mp_data);
+			}
+		}
 
 #pragma endregion
 
@@ -375,6 +405,58 @@ namespace Minty
 #pragma region Operators
 
 	public:
+		Vector& operator=(Vector const& other)
+		{
+			if (this != &other)
+			{
+				// clear current data
+				if (mp_data)
+				{
+					for (Size i = 0; i < m_size; ++i)
+					{
+						mp_data[i].~T();
+					}
+					Allocator::template deallocate(mp_data);
+				}
+
+				// copy data from other
+				m_capacity = other.m_capacity;
+				m_size = other.m_size;
+				mp_data = static_cast<T*>(Allocator::template allocate(m_capacity * sizeof(T)));
+				for (Size i = 0; i < m_size; ++i)
+				{
+					new (&mp_data[i]) T(other.mp_data[i]);
+				}
+			}
+			return *this;
+		}
+
+		Vector& operator=(Vector&& other) noexcept
+		{
+			if (this != &other)
+			{
+				// clear current data
+				if (mp_data)
+				{
+					for (Size i = 0; i < m_size; ++i)
+					{
+						mp_data[i].~T();
+					}
+					Allocator::template deallocate(mp_data);
+				}
+
+				// move data from other
+				mp_data = other.mp_data;
+				m_size = other.m_size;
+				m_capacity = other.m_capacity;
+
+				other.mp_data = nullptr;
+				other.m_size = 0;
+				other.m_capacity = 0;
+			}
+			return *this;
+		}
+
 		/**
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
@@ -446,7 +528,7 @@ namespace Minty
 			// move data over, if it exists
 			for (Size i = 0; i < m_size; ++i)
 			{
-				newData[i] = std::move(mp_data[i]);
+				new (&newData[i]) T(std::move(mp_data[i]));
 			}
 
 			// replace data
@@ -478,7 +560,7 @@ namespace Minty
 			{
 				for (Size i = get_size(); i < size; ++i)
 				{
-					mp_data[i] = T(std::forward<Args>(args)...);
+					new (&mp_data[i]) T(std::forward<Args>(args)...);
 				}
 			}
 			// destruct removed elements
@@ -513,7 +595,7 @@ namespace Minty
 			}
 
 			// add value
-			mp_data[m_size++] = value;
+			new (&mp_data[m_size++]) T(value);
 		}
 
 		/**
@@ -536,7 +618,7 @@ namespace Minty
 			}
 
 			// add value
-			mp_data[m_size++] = std::move(value);
+			new (&mp_data[m_size++]) T(std::move(value));
 		}
 
 		/**
@@ -545,7 +627,7 @@ namespace Minty
 		 */
 		void insert(Size const index, T const& value)
 		{
-			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfRange, index);
 
 			// add to end
 			if (index == get_size())
@@ -584,7 +666,7 @@ namespace Minty
 		 */
 		void insert(Size const index, T&& value)
 		{
-			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfRange, index);
 
 			// add to end
 			if (index == get_size())
@@ -623,7 +705,7 @@ namespace Minty
 		 */
 		void remove(Size const index)
 		{
-			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 
 			// move data
 			for (Size i = index; i < get_size() - 1; ++i)
@@ -640,7 +722,7 @@ namespace Minty
 		 */
 		void remove(Size const index, Size const count)
 		{
-			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 			MINTY_ASSERT_F(index + count <= get_size(), ErrorCode::Argument_InvalidSize, count);
 			MINTY_ASSERT(count != 0, ErrorCode::Argument_ExpectedNonZero);
 
@@ -660,7 +742,7 @@ namespace Minty
 		 */
 		inline T& at(Size const index)
 		{
-			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 			return mp_data[index];
 		}
 		
@@ -671,7 +753,7 @@ namespace Minty
 		 */
 		inline T const& at(Size const index) const
 		{
-			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 			return mp_data[index];
 		}
 
@@ -707,7 +789,7 @@ namespace Minty
 		 */
 		Vector<T> sub(Size const index, Size const length) const
 		{
-			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfBounds, index);
+			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 			MINTY_ASSERT_F(index + length <= get_size(), ErrorCode::Argument_InvalidSize, length);
 			MINTY_ASSERT(length > 0, ErrorCode::Argument_ExpectedNonZero);
 

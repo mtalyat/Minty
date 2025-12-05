@@ -16,6 +16,62 @@ namespace Minty
      */
     class StringView
     {
+#pragma region Iterators
+
+	public:
+		class ConstIterator
+		{
+			friend class StringView;
+
+		public:
+			using iterator_category = std::forward_iterator_tag;
+			using value_type = Char;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type const*;
+			using reference = value_type const&;
+
+		private:
+			pointer mp_ptr;
+
+		private:
+			explicit ConstIterator(pointer const data)
+				: mp_ptr(data)
+			{
+			}
+
+		public:
+			reference operator*()
+			{
+				return *mp_ptr;
+			}
+
+			ConstIterator& operator++()
+			{
+				++mp_ptr;
+				return *this;
+			}
+
+			ConstIterator operator++(int)
+			{
+				ConstIterator temp = *this;
+				++mp_ptr;
+				return temp;
+			}
+
+			ConstIterator operator+(Size const value)
+			{
+				return ConstIterator(mp_ptr + value);
+			}
+
+			Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
+			Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
+		};
+
+		ConstIterator begin() const { return ConstIterator(mp_data); }
+		ConstIterator end() const { return ConstIterator(mp_data + m_size); }
+
+#pragma endregion
+
 #pragma region Constructors
 
     public:
@@ -51,7 +107,7 @@ namespace Minty
 #pragma region Operators
 
     public:
-        constexpr Char operator[](Size const index) const { return mp_data[index]; }
+        inline Char operator[](Size const index) const { return this->index(index); }
         constexpr Bool operator==(StringView const &other) const noexcept { return compare(other) == 0; }
         constexpr Bool operator!=(StringView const &other) const noexcept { return compare(other) != 0; }
         constexpr Bool operator<(StringView const &other) const noexcept { return compare(other) < 0; }
@@ -93,6 +149,18 @@ namespace Minty
 #pragma region Methods
 
     public:
+		/**
+		 * @brief Gets the character at the specified index.
+		 * @param index Index of the character.
+		 */
+        Char index(Size const index) const;
+
+		/**
+		 * @brief Gets a const reference to the character at the specified index.
+		 * @param index Index of the character.
+		 */
+		inline Char at(Size const index) const { return this->index(index); }
+
         /**
          * @brief Compares this StringView with another.
          * @param other The other StringView to compare with.

@@ -22,44 +22,49 @@ namespace Minty
 		None = 0,
 
 		/**
+		 * @brief Write debug messages.
+		 */
+		Debug = 0x1,
+
+		/**
 		 * @brief Write info messages.
 		 */
-		Info = 1 << 0,
+		Info = 0x2,
 
 		/**
 		 * @brief Write message messages.
 		 */
-		Message = 1 << 1,
+		Message = 0x4,
 
 		/**
 		 * @brief Write warning messages.
 		 */
-		Warning = 1 << 2,
+		Warning = 0x8,
 
 		/**
 		 * @brief Write error messages.
 		 */
-		Error = 1 << 3,
+		Error = 0x10,
 
 		/**
 		 * @brief Write critical messages.
 		 */
-		Critical = 1 << 4,
+		Critical = 0x20,
 
 		/**
 		 * @brief Write stack trace messages on critical errors.
 		 */
-		StackTrace = 1 << 5,
+		StackTrace = 0x40,
 
 		/**
 		 * @brief Break on critical errors.
 		 */
-		Break = 1 << 6,
+		Break = 0x80,
 
 		/**
 		 * @brief Log all messages and perform debug operations.
 		 */
-		All = Info | Message | Warning | Error | Critical | StackTrace | Break,
+		All = Debug | Info | Message | Warning | Error | Critical | StackTrace | Break,
 
 		/**
 		 * @brief Default logging state.

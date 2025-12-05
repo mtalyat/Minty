@@ -50,9 +50,9 @@ namespace Minty
 	AnchorMode parse_to_anchor_mode(String const& string);
 	Bool parse_try_anchor_mode(String const& string, AnchorMode& value);
 	template<>
-	inline AnchorMode parse_to<AnchorMode>(String const& string) { return parse_to_anchor_mode(string); }
+	inline AnchorMode parse_to<AnchorMode>(StringView const string) { return parse_to_anchor_mode(string); }
 	template<>
-	inline Bool parse_try<AnchorMode>(String const& string, AnchorMode& value) { return parse_try_anchor_mode(string, value); }
+	inline Bool parse_try<AnchorMode>(StringView const string, AnchorMode& value) { return parse_try_anchor_mode(string, value); }
 }
 
 #endif // MINTY_UI_ANCHORMODE_H

@@ -66,9 +66,9 @@ namespace Minty
 		 */
 		inline UUID get_id(Int const x, Int const y) const
 		{
-			MINTY_ASSERT(x >= 0 && x < m_count.x && y >= 0 && y < m_count.y, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(x >= 0 && x < m_count.x && y >= 0 && y < m_count.y, ErrorCode::Argument_OutOfRange);
 			Size const i = static_cast<Size>(y) * m_count.x + x;
-			MINTY_ASSERT(i < m_ids.get_size(), ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(i < m_ids.get_size(), ErrorCode::Argument_OutOfRange);
 			return m_ids[i];
 		}
 

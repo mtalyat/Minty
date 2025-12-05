@@ -31,6 +31,8 @@
 #include "Minty/Time/TimeControllerInfo.h"
 #include "Minty/File/PhysicalFile.h"
 #include "Minty/Event/Event.h"
+#include "Minty/Entity/EntityManager.h"
+#include "Minty/System/SystemManager.h"
 
 using namespace Minty;
 
@@ -41,6 +43,9 @@ Minty::Application::Application(ApplicationInfo const &info)
 {
 	MINTY_ASSERT(s_instance == nullptr, ErrorCode::Singleton_AlreadyExists);
 	s_instance = this;
+
+	register_components();
+	register_systems();
 
 	if (info.windowInfo)
 	{
@@ -94,6 +99,7 @@ Minty::Application::Application(ApplicationInfo const &info)
 	if (info.renderManagerInfo)
 	{
 		m_renderManager = RenderManager::create(*info.renderManagerInfo);
+		m_renderManager->initialize();
 		m_managers.add(m_renderManager.get());
 	}
 
@@ -127,6 +133,9 @@ Minty::Application::~Application()
 	m_sceneManager.release();
 	m_timeController.release();
 	m_managers.clear();
+
+	unregister_systems();
+	unregister_components();
 
 	s_instance = nullptr;
 }
@@ -165,11 +174,14 @@ void Minty::Application::step()
 
 void Minty::Application::run()
 {
+	MINTY_ASSERT(!m_running, ErrorCode::Object_InvalidState);
+	MINTY_ASSERT(m_timeController != nullptr, ErrorCode::Object_InvalidState);
+
 	m_timeController->start();
 
 	// run the application loop
 	m_running = true;
-	while (m_running && m_window->is_open())
+	while (m_running && m_window != nullptr && m_window->is_open())
 	{
 		step();
 	}
@@ -178,7 +190,7 @@ void Minty::Application::run()
 	m_timeController->stop();
 
 	// if window is still open, close it
-	if (m_window->is_open())
+	if (m_window != nullptr && m_window->is_open())
 	{
 		m_window->close();
 	}
@@ -346,6 +358,15 @@ Unique<Application> Minty::Application::open(Path const &path)
 
 		info.sceneManagerInfo = &sceneManagerInfo;
 	}
+	if(reader.indent("Time"))
+	{
+		reader.read("FixedTimestep", timeControllerInfo.fixedTimestep);
+		reader.read("MaxAllowedTimestep", timeControllerInfo.maxAllowedTimestep);
+		reader.read("MaxFixedUpdatesPerFrame", timeControllerInfo.maxFixedUpdatesPerFrame);
+		reader.outdent();
+
+		info.timeControllerInfo = &timeControllerInfo;
+	}
 
 	return create(info);
 }
@@ -420,4 +441,14 @@ void Minty::Application::handle_event(Event &event)
 			break;
 		}
 	}
+}
+
+void Minty::Application::unregister_components()
+{
+	EntityManager::clear_registered_components();
+}
+
+void Minty::Application::unregister_systems()
+{
+	SystemManager::clear_registered_systems();
 }

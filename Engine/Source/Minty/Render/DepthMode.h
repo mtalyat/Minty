@@ -37,9 +37,9 @@ namespace Minty
 	DepthMode parse_to_depth_mode(String const& string);
 	Bool parse_try_depth_mode(String const& string, DepthMode& value);
 	template<>
-	inline DepthMode parse_to<DepthMode>(String const& string) { return parse_to_depth_mode(string); }
+	inline DepthMode parse_to<DepthMode>(StringView const string) { return parse_to_depth_mode(string); }
 	template<>
-	inline Bool parse_try<DepthMode>(String const& string, DepthMode& value) { return parse_try_depth_mode(string, value); }
+	inline Bool parse_try<DepthMode>(StringView const string, DepthMode& value) { return parse_try_depth_mode(string, value); }
 }
 
 #endif // MINTY_RENDER_DEPTHMODE_H

@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Data/String.h"
+#include "Minty/Data/StringView.h"
 
 namespace Minty
 {
@@ -22,7 +22,7 @@ namespace Minty
 		 * @param text A String of this object.
 		 * @return True on success.
 		 */
-		virtual Bool parse(String const& text) = 0;
+		virtual Bool parse(StringView const text) = 0;
 
 		/**
 		 * @brief Converts the data in this object to a String.

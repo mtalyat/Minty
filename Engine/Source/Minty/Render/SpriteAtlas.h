@@ -65,7 +65,7 @@ namespace Minty
 		 */
 		inline SpriteGroup const& get_group(Int const index) const
 		{
-			MINTY_ASSERT(index >= 0 && index < m_groups.get_size(), ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(index >= 0 && index < m_groups.get_size(), ErrorCode::Argument_OutOfRange);
 			return m_groups[index];
 		}
 
@@ -77,7 +77,7 @@ namespace Minty
 		 */
 		inline UUID get_sprite_id(Int const groupIndex, Int2 const index) const
 		{
-			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), ErrorCode::Argument_OutOfRange);
 			return m_groups[groupIndex].get_id(index);
 		}
 
@@ -89,7 +89,7 @@ namespace Minty
 		 */
 		inline UUID get_sprite_id(Int const groupIndex, Int const index) const
 		{
-			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(groupIndex >= 0 && groupIndex < m_groups.get_size(), ErrorCode::Argument_OutOfRange);
 			Int const width = m_groups[groupIndex].get_count().x;
 			Int const indexY = index / width;
 			Int const indexX = index - indexY * width;

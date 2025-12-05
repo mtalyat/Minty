@@ -269,9 +269,9 @@ namespace Minty
 	Color parse_to_color(String const& string);
 	Bool parse_try_color(String const& string, Color& value);
 	template<>
-	inline Color parse_to<Color>(String const& string) { return parse_to_color(string); }
+	inline Color parse_to<Color>(StringView const string) { return parse_to_color(string); }
 	template<>
-	inline Bool parse_try<Color>(String const& string, Color& value) { return parse_try_color(string, value); }
+	inline Bool parse_try<Color>(StringView const string, Color& value) { return parse_try_color(string, value); }
 }
 
 namespace std

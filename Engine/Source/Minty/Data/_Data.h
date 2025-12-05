@@ -5,7 +5,6 @@
 #include "BatchFactory.h"
 #include "Box.h"
 #include "BoxArray.h"
-#include "BoxVector.h"
 #include "BufferContainer.h"
 #include "BufferContainerFactory.h"
 #include "Cargo.h"

@@ -31,6 +31,23 @@ namespace Minty
                 append_value(builder, args...);
             }
         }
+
+        template <typename T>
+        void append_value_with_spacing(StringBuilder &builder, T const &value)
+        {
+            builder.append(' ');
+            builder.append(to_string(value));
+        }
+
+        template <typename T, typename... Args>
+        void append_value_with_spacing(StringBuilder &builder, T const &value, Args const &...args)
+        {
+            builder.append(to_string(value));
+            if constexpr (sizeof...(args) > 0)
+            {
+                append_value(builder, args...);
+            }
+        }
     }
 
     /**
@@ -105,7 +122,7 @@ namespace Minty
         while (argIndex < argCount)
         {
             Size currentIndex = 0;
-            ((currentIndex++ == argIndex ? Internal::append_value(builder, args) : void(0)), ...);
+            ((currentIndex++ == argIndex ? Internal::append_value_with_spacing(builder, args) : void(0)), ...);
             ++argIndex;
         }
 

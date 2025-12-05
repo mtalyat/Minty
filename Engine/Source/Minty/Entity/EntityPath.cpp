@@ -6,7 +6,7 @@
 
 using namespace Minty;
 
-Bool Minty::EntityPath::parse(String const& text)
+Bool Minty::EntityPath::parse(StringView const text)
 {
 	// split the string into parts
 	Vector<String> parts = Util::split(text, '/');

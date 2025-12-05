@@ -45,9 +45,9 @@ namespace Minty
 	ImageType parse_to_image_type(String const& string);
 	Bool parse_try_image_type(String const& string, ImageType& value);
 	template<>
-	inline ImageType parse_to<ImageType>(String const& string) { return parse_to_image_type(string); }
+	inline ImageType parse_to<ImageType>(StringView const string) { return parse_to_image_type(string); }
 	template<>
-	inline Bool parse_try<ImageType>(String const& string, ImageType& value) { return parse_try_image_type(string, value); }
+	inline Bool parse_try<ImageType>(StringView const string, ImageType& value) { return parse_try_image_type(string, value); }
 }
 
 #endif // MINTY_RENDER_IMAGETYPE_H

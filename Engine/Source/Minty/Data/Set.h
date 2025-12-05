@@ -276,7 +276,7 @@ namespace Minty
 		 * @param capacity The initial capacity.
 		 */
 		Set(Size const capacity)
-			: m_capacity(capacity)
+			: m_capacity(0)
 			, m_size(0)
 			, mp_table(nullptr)
 		{

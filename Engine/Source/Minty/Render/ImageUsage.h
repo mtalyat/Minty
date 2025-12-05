@@ -61,9 +61,9 @@ namespace Minty
 	ImageUsage parse_to_image_usage(String const& string);
 	Bool parse_try_image_usage(String const& string, ImageUsage& value);
 	template<>
-	inline ImageUsage parse_to<ImageUsage>(String const& string) { return parse_to_image_usage(string); }
+	inline ImageUsage parse_to<ImageUsage>(StringView const string) { return parse_to_image_usage(string); }
 	template<>
-	inline Bool parse_try<ImageUsage>(String const& string, ImageUsage& value) { return parse_try_image_usage(string, value); }
+	inline Bool parse_try<ImageUsage>(StringView const string, ImageUsage& value) { return parse_try_image_usage(string, value); }
 }
 
 #endif // MINTY_RENDER_IMAGEUSAGE_H

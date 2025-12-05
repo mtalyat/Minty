@@ -5,6 +5,8 @@
 
 using namespace Minty;
 
+MemoryStack* FrameAllocator::s_memoryStack = nullptr;
+
 void Minty::FrameAllocator::initialize(MemoryStackInfo const &info)
 {
     MINTY_ASSERT(s_memoryStack == nullptr,  ErrorCode::Object_AlreadyInitialized);

@@ -333,9 +333,9 @@ namespace Minty
 	Node parse_to_node(String const& string);
 	Bool parse_try_node(String const& string, Node& value);
 	template<>
-	inline Node parse_to<Node>(String const& string) { return parse_to_node(string); }
+	inline Node parse_to<Node>(StringView const string) { return parse_to_node(string); }
 	template<>
-	inline Bool parse_try<Node>(String const& string, Node& value) { return parse_try_node(string, value); }
+	inline Bool parse_try<Node>(StringView const string, Node& value) { return parse_try_node(string, value); }
 }
 
 #endif // MINTY_SERIALIZATION_NODE_H

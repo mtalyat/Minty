@@ -158,10 +158,10 @@ namespace Minty
  * @brief Macro to log a formatted debug message.
  * @note Only active in debug builds.
  */
-#define MINTY_LOG_DEBUG_F(fmt, ...)                            \
-    do                                                         \
-    {                                                          \
-        MINTY_LOG(Minty::LogLevel::Debug, fmt, ##__VA_ARGS__); \
+#define MINTY_LOG_DEBUG_F(fmt, ...)                               \
+    do                                                            \
+    {                                                             \
+        MINTY_LOG(Minty::LogLevel::Debug, F(fmt, ##__VA_ARGS__)); \
     } while (0)
 #else
 #define MINTY_LOG_DEBUG(msg, ...)
@@ -182,10 +182,10 @@ namespace Minty
  * @brief Macro to log a formatted info message.
  * @note Only active in debug builds.
  */
-#define MINTY_LOG_INFO_F(fmt, ...)                            \
-    do                                                        \
-    {                                                         \
-        MINTY_LOG(Minty::LogLevel::Info, fmt, ##__VA_ARGS__); \
+#define MINTY_LOG_INFO_F(fmt, ...)                               \
+    do                                                           \
+    {                                                            \
+        MINTY_LOG(Minty::LogLevel::Info, F(fmt, ##__VA_ARGS__)); \
     } while (0)
 #else
 #define MINTY_LOG_INFO(msg, ...)
@@ -318,14 +318,14 @@ namespace Minty
  * @brief Macro to assert a condition with a formatted message.
  * @note Only active in debug builds.
  */
-#define MINTY_ASSERT_F(condition, errorCode, ...)                                        \
-    do                                                                                   \
-    {                                                                                    \
-        if (!(condition))                                                                \
-        {                                                                                \
-            Minty::set_error(errorCode);                                                 \
-            MINTY_LOG_CRITICAL_F(F(Minty::get_error_message(errorCode), ##__VA_ARGS__)); \
-        }                                                                                \
+#define MINTY_ASSERT_F(condition, errorCode, ...)                                     \
+    do                                                                                \
+    {                                                                                 \
+        if (!(condition))                                                             \
+        {                                                                             \
+            Minty::set_error(errorCode);                                              \
+            MINTY_LOG_CRITICAL_F(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
+        }                                                                             \
     } while (0)
 #else
 #define MINTY_ASSERT_F(condition, errorCode)

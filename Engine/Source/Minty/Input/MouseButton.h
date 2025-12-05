@@ -35,9 +35,9 @@ namespace Minty
 	MouseButton parse_to_mouse_button(String const& string);
 	Bool parse_try_mouse_button(String const& string, MouseButton& value);
 	template<>
-	inline MouseButton parse_to<MouseButton>(String const& string) { return parse_to_mouse_button(string); }
+	inline MouseButton parse_to<MouseButton>(StringView const string) { return parse_to_mouse_button(string); }
 	template<>
-	inline Bool parse_try<MouseButton>(String const& string, MouseButton& value) { return parse_try_mouse_button(string, value); }
+	inline Bool parse_try<MouseButton>(StringView const string, MouseButton& value) { return parse_try_mouse_button(string, value); }
 }
 
 #endif // MINTY_INPUT_MOUSEBUTTON_H

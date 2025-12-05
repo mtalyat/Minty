@@ -46,9 +46,9 @@ namespace Minty
 	AnimationActionType parse_to_animation_action_type(String const& string);
 	Bool parse_try_animation_action_type(String const& string, AnimationActionType& value);
 	template<>
-	inline AnimationActionType parse_to<AnimationActionType>(String const& string) { return parse_to_animation_action_type(string); }
+	inline AnimationActionType parse_to<AnimationActionType>(StringView const string) { return parse_to_animation_action_type(string); }
 	template<>
-	inline Bool parse_try<AnimationActionType>(String const& string, AnimationActionType& value) { return parse_try_animation_action_type(string, value); }
+	inline Bool parse_try<AnimationActionType>(StringView const string, AnimationActionType& value) { return parse_try_animation_action_type(string, value); }
 }
 
 #endif // MINTY_ANIMATION_ANIMATIONACTIONFLAGS_H

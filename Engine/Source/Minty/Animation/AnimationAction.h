@@ -40,7 +40,7 @@ namespace Minty
 		 */
 		Vector<Tuple<UInt, UInt>> values;
 
-		Bool parse(String const& text) override;
+		Bool parse(StringView const text) override;
 		String to_string() const override;
 	};
 }

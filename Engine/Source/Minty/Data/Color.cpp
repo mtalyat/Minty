@@ -88,25 +88,25 @@ Bool Minty::parse_try_color(String const &string, Color &value)
 Minty::Color::Color(Int const r, Int const g, Int const b, Int const a)
 	: a(static_cast<Channel_t>(a)), b(static_cast<Channel_t>(b)), g(static_cast<Channel_t>(g)), r(static_cast<Channel_t>(r))
 {
-	MINTY_ASSERT_F(r >= 0, ErrorCode::Argument_OutOfBounds, r);
-	MINTY_ASSERT_F(g >= 0, ErrorCode::Argument_OutOfBounds, g);
-	MINTY_ASSERT_F(b >= 0, ErrorCode::Argument_OutOfBounds, b);
-	MINTY_ASSERT_F(a >= 0, ErrorCode::Argument_OutOfBounds, a);
-	MINTY_ASSERT_F(r <= MAX_CHANNEL, ErrorCode::Argument_OutOfBounds, r);
-	MINTY_ASSERT_F(g <= MAX_CHANNEL, ErrorCode::Argument_OutOfBounds, g);
-	MINTY_ASSERT_F(b <= MAX_CHANNEL, ErrorCode::Argument_OutOfBounds, b);
-	MINTY_ASSERT_F(a <= MAX_CHANNEL, ErrorCode::Argument_OutOfBounds, a);
+	MINTY_ASSERT_F(r >= 0, ErrorCode::Argument_OutOfRange, r);
+	MINTY_ASSERT_F(g >= 0, ErrorCode::Argument_OutOfRange, g);
+	MINTY_ASSERT_F(b >= 0, ErrorCode::Argument_OutOfRange, b);
+	MINTY_ASSERT_F(a >= 0, ErrorCode::Argument_OutOfRange, a);
+	MINTY_ASSERT_F(r <= MAX_CHANNEL, ErrorCode::Argument_OutOfRange, r);
+	MINTY_ASSERT_F(g <= MAX_CHANNEL, ErrorCode::Argument_OutOfRange, g);
+	MINTY_ASSERT_F(b <= MAX_CHANNEL, ErrorCode::Argument_OutOfRange, b);
+	MINTY_ASSERT_F(a <= MAX_CHANNEL, ErrorCode::Argument_OutOfRange, a);
 }
 
 Minty::Color::Color(Float const r, Float const g, Float const b, Float const a)
 	: a(static_cast<Channel_t>(a * MAX_CHANNEL)), b(static_cast<Channel_t>(b * MAX_CHANNEL)), g(static_cast<Channel_t>(g * MAX_CHANNEL)), r(static_cast<Channel_t>(r * MAX_CHANNEL))
 {
-	MINTY_ASSERT_F(r >= 0.0f, ErrorCode::Argument_OutOfBounds, r);
-	MINTY_ASSERT_F(g >= 0.0f, ErrorCode::Argument_OutOfBounds, g);
-	MINTY_ASSERT_F(b >= 0.0f, ErrorCode::Argument_OutOfBounds, b);
-	MINTY_ASSERT_F(a >= 0.0f, ErrorCode::Argument_OutOfBounds, a);
-	MINTY_ASSERT_F(r <= 1.0f, ErrorCode::Argument_OutOfBounds, r);
-	MINTY_ASSERT_F(g <= 1.0f, ErrorCode::Argument_OutOfBounds, g);
-	MINTY_ASSERT_F(b <= 1.0f, ErrorCode::Argument_OutOfBounds, b);
-	MINTY_ASSERT_F(a <= 1.0f, ErrorCode::Argument_OutOfBounds, a);
+	MINTY_ASSERT_F(r >= 0.0f, ErrorCode::Argument_OutOfRange, r);
+	MINTY_ASSERT_F(g >= 0.0f, ErrorCode::Argument_OutOfRange, g);
+	MINTY_ASSERT_F(b >= 0.0f, ErrorCode::Argument_OutOfRange, b);
+	MINTY_ASSERT_F(a >= 0.0f, ErrorCode::Argument_OutOfRange, a);
+	MINTY_ASSERT_F(r <= 1.0f, ErrorCode::Argument_OutOfRange, r);
+	MINTY_ASSERT_F(g <= 1.0f, ErrorCode::Argument_OutOfRange, g);
+	MINTY_ASSERT_F(b <= 1.0f, ErrorCode::Argument_OutOfRange, b);
+	MINTY_ASSERT_F(a <= 1.0f, ErrorCode::Argument_OutOfRange, a);
 }

@@ -272,6 +272,10 @@ namespace Minty
 
 		void register_systems();
 
+		void unregister_components();
+
+		void unregister_systems();
+
 #pragma endregion
 
 #pragma region Variables

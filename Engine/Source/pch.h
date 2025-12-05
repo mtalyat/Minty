@@ -15,7 +15,6 @@
 #ifdef MINTY_SOLOUD
 #include "Minty/Library/SoLoud.h"
 #endif // MINTY_SOLOUD
-#include "Minty/Library/STB.h"
 #ifdef MINTY_TRACE
 #include "Minty/Library/Tracy.h"
 #endif // MINTY_TRACE
@@ -31,7 +30,6 @@
 #include "Minty/Data/Array.h"
 #include "Minty/Data/Box.h"
 #include "Minty/Data/BoxArray.h"
-#include "Minty/Data/BoxVector.h"
 #include "Minty/Data/BufferContainer.h"
 #include "Minty/Data/Cargo.h"
 #include "Minty/Data/Color.h"

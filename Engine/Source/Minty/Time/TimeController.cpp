@@ -16,9 +16,9 @@ Minty::TimeController::TimeController(TimeControllerInfo const &info)
     , m_unscaledDelta(0.0f)
     , m_scaledDelta(0.0f)
     , m_timeScale(1.0f)
-    , m_fixedTimeStep(info.fixedTimeStep)
+    , m_fixedTimeStep(info.fixedTimestep)
     , m_fixedTimeAccumulator(0.0f)
-    , m_maxAllowedTimeStep(info.maxAllowedTimeStep)
+    , m_maxAllowedTimeStep(info.maxAllowedTimestep)
     , m_maxFixedUpdatesPerFrame(info.maxFixedUpdatesPerFrame)
 {}
 

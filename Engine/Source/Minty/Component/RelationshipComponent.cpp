@@ -37,7 +37,7 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 	MINTY_ASSERT(entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
 	// read the parent id
-	UUID const parentId = UUID();
+	UUID parentId;
 	if (reader.read_default(parentId) || reader.read("Parent", parentId))
 	{
 		// get the parent entity

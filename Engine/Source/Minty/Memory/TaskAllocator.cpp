@@ -5,11 +5,15 @@
 
 using namespace Minty;
 
+MemoryStack *TaskAllocator::s_memoryStacks = nullptr;
+Size TaskAllocator::s_stackCount = 0;
+Size TaskAllocator::s_currentStack = 0;
+
 void Minty::TaskAllocator::initialize(MemoryStackInfo const &info, Size const count)
 {
     MINTY_ASSERT(s_memoryStacks == nullptr, ErrorCode::Object_AlreadyInitialized);
 
-    s_memoryStacks = reinterpret_cast<MemoryStack*>(new Byte[count * sizeof(MemoryStack)]);
+    s_memoryStacks = reinterpret_cast<MemoryStack *>(new Byte[count * sizeof(MemoryStack)]);
     s_stackCount = count;
     s_currentStack = 0;
     for (Size i = 0; i < count; i++)
@@ -26,7 +30,7 @@ void Minty::TaskAllocator::shutdown()
     {
         s_memoryStacks[i].~MemoryStack();
     }
-    delete[] reinterpret_cast<Byte*>(s_memoryStacks);
+    delete[] reinterpret_cast<Byte *>(s_memoryStacks);
     s_memoryStacks = nullptr;
     s_stackCount = 0;
     s_currentStack = 0;

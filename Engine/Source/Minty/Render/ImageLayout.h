@@ -75,9 +75,9 @@ namespace Minty
 	ImageLayout parse_to_image_layout(String const& string);
 	Bool parse_try_image_layout(String const& string, ImageLayout& value);
 	template<>
-	inline ImageLayout parse_to<ImageLayout>(String const& string) { return parse_to_image_layout(string); }
+	inline ImageLayout parse_to<ImageLayout>(StringView const string) { return parse_to_image_layout(string); }
 	template<>
-	inline Bool parse_try<ImageLayout>(String const& string, ImageLayout& value) { return parse_try_image_layout(string, value); }
+	inline Bool parse_try<ImageLayout>(StringView const string, ImageLayout& value) { return parse_try_image_layout(string, value); }
 }
 
 #endif // MINTY_RENDER_IMAGELAYOUT_H

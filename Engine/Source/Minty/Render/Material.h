@@ -18,6 +18,9 @@ namespace Minty
 	class MaterialTemplate;
 	struct MaterialInfo;
 
+	constexpr Size STENCIL_MIN = 0;
+	constexpr Size STENCIL_MAX = 255;
+
 	class Material
 		: public Asset
 	{
@@ -93,13 +96,13 @@ namespace Minty
 		 * @brief Sets the object's stencil value.
 		 * @param stencil The stencil value.
 		 */
-		void set_stencil(UInt const stencil) { m_stencil = stencil; }
+		void set_stencil(UInt const stencil);
 
 		/**
 		 * @brief Gets the object's stencil value.
 		 * @return The stencil value.
 		 */
-		UInt get_stencil() const { return m_stencil; }
+		inline UInt get_stencil() const { return m_stencil; }
 
 		/**
 		 * @brief Gets the AssetType of this Asset.

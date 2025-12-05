@@ -14,10 +14,15 @@ using namespace Minty;
 Minty::Animator::Animator(AnimatorInfo const &info)
 	: Asset(info.id), mp_fsm(nullptr), m_force(info.force)
 {
-	MINTY_ASSERT(info.id.is_valid(), ErrorCode::UUID_Invalid);
-	MINTY_ASSERT(mp_fsm != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	if (info.fsm)
+	{
+		mp_fsm = new FSM(*info.fsm);
+	}
+}
 
-	mp_fsm = new FSM(*info.fsm);
+Minty::Animator::~Animator()
+{
+	delete mp_fsm;
 }
 
 void Minty::Animator::set_variable(String const &name, Int const value)

@@ -23,7 +23,7 @@ String Minty::Node::get_data_string() const
 
 Node const &Minty::Node::get_child(Size const index) const
 {
-	MINTY_ASSERT_F(index < m_children.get_size(), ErrorCode::Argument_OutOfBounds, index);
+	MINTY_ASSERT_F(index < m_children.get_size(), ErrorCode::Argument_OutOfRange, index);
 	return m_children[index];
 }
 

@@ -37,9 +37,9 @@ namespace Minty
 	ShaderStage parse_to_shader_stage(String const& string);
 	Bool parse_try_shader_stage(String const& string, ShaderStage& value);
 	template<>
-	inline ShaderStage parse_to<ShaderStage>(String const& string) { return parse_to_shader_stage(string); }
+	inline ShaderStage parse_to<ShaderStage>(StringView const string) { return parse_to_shader_stage(string); }
 	template<>
-	inline Bool parse_try<ShaderStage>(String const& string, ShaderStage& value) { return parse_try_shader_stage(string, value); }
+	inline Bool parse_try<ShaderStage>(StringView const string, ShaderStage& value) { return parse_try_shader_stage(string, value); }
 }
 
 #endif // MINTY_RENDER_SHADERSTAGE_H

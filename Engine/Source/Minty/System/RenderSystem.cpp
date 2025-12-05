@@ -506,6 +506,13 @@ void Minty::RenderSystem::on_render()
 	EntityManager& entityManager = m_scene->get_entity_manager();
 	RenderManager& renderManager = RenderManager::get_singleton();
 
+	// start the frame
+	if(!renderManager.start_frame())
+	{
+		MINTY_ERROR(ErrorCode::Render_FailedToRender);
+		return;
+	}
+
 	// render each camera
 	Int count = 0;
 	for (auto const& [cameraEntity, cameraComp, enabledComp] : entityManager.view<CameraComponent, EnabledComponent const>().each())
@@ -536,4 +543,6 @@ void Minty::RenderSystem::on_render()
 	}
 
 	MINTY_ASSERT(count > 0, ErrorCode::Scene_MissingCamera);
+
+	renderManager.end_frame();
 }

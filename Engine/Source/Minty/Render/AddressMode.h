@@ -52,9 +52,9 @@ namespace Minty
 	AddressMode parse_to_address_mode(String const& string);
 	Bool parse_try_address_mode(String const& string, AddressMode& value);
 	template<>
-	inline AddressMode parse_to<AddressMode>(String const& string) { return parse_to_address_mode(string); }
+	inline AddressMode parse_to<AddressMode>(StringView const string) { return parse_to_address_mode(string); }
 	template<>
-	inline Bool parse_try<AddressMode>(String const& string, AddressMode& value) { return parse_try_address_mode(string, value); }
+	inline Bool parse_try<AddressMode>(StringView const string, AddressMode& value) { return parse_try_address_mode(string, value); }
 }
 
 #endif // MINTY_RENDER_ADDRESSMODE_H

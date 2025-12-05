@@ -81,9 +81,9 @@ namespace Minty
 	Type parse_to_type(String const& string);
 	Bool parse_try_type(String const& string, Type& value);
 	template<>
-	inline Type parse_to<Type>(String const& string) { return parse_to_type(string); }
+	inline Type parse_to<Type>(StringView const string) { return parse_to_type(string); }
 	template<>
-	inline Bool parse_try<Type>(String const& string, Type& value) { return parse_try_type(string, value); }
+	inline Bool parse_try<Type>(StringView const string, Type& value) { return parse_try_type(string, value); }
 }
 
 #endif // MINTY_CORE_TYPE_H

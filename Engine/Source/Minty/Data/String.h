@@ -353,6 +353,17 @@ namespace Minty
 		String sub(Size const startIndex, Size const count = INVALID_INDEX) const noexcept;
 
 		/**
+		 * @brief Peeks at a portion of the string without creating a new String.
+		 * @param startIndex The starting index of the portion.
+		 * @param count The number of characters to include in the portion.
+		 * @return A StringView representing the portion of the string.
+		 */
+		inline StringView peek(Size const startIndex, Size const count = INVALID_INDEX) const noexcept
+		{
+			return StringView(mp_data + startIndex, (count == INVALID_INDEX || startIndex + count > m_size) ? (m_size - startIndex) : count);
+		}
+
+		/**
 		 * @brief Checks if the string starts with a given substring.
 		 * @param str The substring to check.
 		 * @return True if the string starts with the substring, false otherwise.

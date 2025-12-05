@@ -67,7 +67,7 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		Bool parse(String const& text) override;
+		Bool parse(StringView const text) override;
 		String to_string() const override;
 
 #pragma endregion

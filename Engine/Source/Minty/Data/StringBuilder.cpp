@@ -19,6 +19,7 @@ Minty::StringBuilder::StringBuilder(StringView const& initialString)
     : mp_data(nullptr), m_size(0), m_capacity(0)
 {
     reserve(initialString.get_size());
+    append(initialString);
 }
 
 Minty::StringBuilder::~StringBuilder()
@@ -98,13 +99,13 @@ void Minty::StringBuilder::append(StringView const &str)
 
 Char Minty::StringBuilder::index(Size const index) const
 {
-    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfRange, index);
     return mp_data[index];
 }
 
 Char const &Minty::StringBuilder::at(Size const index) const
 {
-    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+    MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfRange, index);
     return mp_data[index];
 }
 

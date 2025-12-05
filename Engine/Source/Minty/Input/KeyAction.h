@@ -26,9 +26,9 @@ namespace Minty
 	KeyAction parse_to_key_action(String const& string);
 	Bool parse_try_key_action(String const& string, KeyAction& value);
 	template<>
-	inline KeyAction parse_to<KeyAction>(String const& string) { return parse_to_key_action(string); }
+	inline KeyAction parse_to<KeyAction>(StringView const string) { return parse_to_key_action(string); }
 	template<>
-	inline Bool parse_try<KeyAction>(String const& string, KeyAction& value) { return parse_try_key_action(string, value); }
+	inline Bool parse_try<KeyAction>(StringView const string, KeyAction& value) { return parse_try_key_action(string, value); }
 }
 
 #endif // MINTY_INPUT_KEYACTION_H

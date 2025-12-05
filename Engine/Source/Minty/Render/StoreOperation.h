@@ -37,9 +37,9 @@ namespace Minty
 	StoreOperation parse_to_store_operation(String const& string);
 	Bool parse_try_store_operation(String const& string, StoreOperation& value);
 	template<>
-	inline StoreOperation parse_to<StoreOperation>(String const& string) { return parse_to_store_operation(string); }
+	inline StoreOperation parse_to<StoreOperation>(StringView const string) { return parse_to_store_operation(string); }
 	template<>
-	inline Bool parse_try<StoreOperation>(String const& string, StoreOperation& value) { return parse_try_store_operation(string, value); }
+	inline Bool parse_try<StoreOperation>(StringView const string, StoreOperation& value) { return parse_try_store_operation(string, value); }
 }
 
 #endif // MINTY_RENDER_STOREOPERATION_H

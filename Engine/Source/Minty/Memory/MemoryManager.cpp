@@ -52,9 +52,9 @@ using namespace Minty;
 Minty::MemoryManager::MemoryManager(MemoryManagerInfo const &info)
 	: Manager()
 {	
-	MINTY_ASSERT(info.taskStackInfo != nullptr && info.taskStackCount > 0, ErrorCode::Memory_AllocatorNotInitialized);
-	MINTY_ASSERT(info.persistentPoolInfos != nullptr || info.persistentPoolInfoCount > 0, ErrorCode::Memory_AllocatorNotInitialized);
-	MINTY_ASSERT(info.persistentPoolInfoCount <= MAX_PERSISTENT_POOLS, ErrorCode::Argument_OutOfBounds);
+	MINTY_ASSERT(info.taskStackInfo == nullptr || info.taskStackCount > 0, ErrorCode::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(info.persistentPoolInfos == nullptr || info.persistentPoolInfoCount > 0, ErrorCode::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(info.persistentPoolInfos == nullptr || info.persistentPoolInfoCount <= MAX_PERSISTENT_POOLS, ErrorCode::Argument_OutOfRange);
 
 	m_frameInitialized = info.frameStackInfo != nullptr;
 	m_taskInitialized = info.taskStackInfo != nullptr && info.taskStackCount > 0;
@@ -79,7 +79,7 @@ Minty::MemoryManager::MemoryManager(MemoryManagerInfo const &info)
 			{
 				MINTY_PERSISTENT_ALLOCATOR_CASES(INITIALIZE)
 				default:
-					MINTY_ABORT_F(ErrorCode::Memory_SizeMismatch, poolInfo.blockSize);
+					MINTY_ABORT_F(ErrorCode::Memory_UnallowedSize, poolInfo.blockSize);
 			}
 			m_persistentSizes[i] = poolInfo.blockSize;
 		}

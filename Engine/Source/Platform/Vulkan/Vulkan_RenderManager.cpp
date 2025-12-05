@@ -38,6 +38,54 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const& info)
 	, m_currentFrameIndex(0)
 	, m_passesMade(0)
 {
+	
+}
+
+Minty::Vulkan_RenderManager::~Vulkan_RenderManager()
+{
+	// sync first
+	sync();
+
+	// remove references
+	m_vulkanSurface.release();
+
+	// dispose frames
+	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
+	{
+		dispose_frame(m_frames.at(i));
+	}
+
+	// destroy depth resources
+	destroy_depth_resources();
+
+	// destroy command pool
+	Vulkan_Renderer::destroy_command_pool(m_device, m_commandPool);
+	m_commandPool = VK_NULL_HANDLE;
+
+	// destroy device
+	Vulkan_Renderer::destroy_device(m_device);
+	m_device = VK_NULL_HANDLE;
+
+	// destroy debug messenger
+#ifdef MINTY_DEBUG
+	Vulkan_Renderer::destroy_debug_messenger(m_instance, m_debugMessenger);
+	m_debugMessenger = VK_NULL_HANDLE;
+#endif // MINTY_DEBUG
+
+	// destroy instance
+	Vulkan_Renderer::destroy_instance(m_instance);
+	m_instance = VK_NULL_HANDLE;
+}
+
+// gets the current frame's command buffer
+VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
+{
+	MINTY_ASSERT(get_state() == State::Pass, ErrorCode::Object_InvalidState); // "Attempting to get the current command buffer while not rendering a pass."
+	return m_frames[m_currentFrameIndex].commandBuffer;
+}
+
+void Minty::Vulkan_RenderManager::initialize()
+{
 	// create instance
 	m_instance = Vulkan_Renderer::create_instance();
 
@@ -94,50 +142,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const& info)
 	set_default_viewport(Viewport::create(viewportInfo));
 }
 
-Minty::Vulkan_RenderManager::~Vulkan_RenderManager()
-{
-	// sync first
-	sync();
-
-	// remove references
-	m_vulkanSurface.release();
-
-	// dispose frames
-	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
-	{
-		dispose_frame(m_frames.at(i));
-	}
-
-	// destroy depth resources
-	destroy_depth_resources();
-
-	// destroy command pool
-	Vulkan_Renderer::destroy_command_pool(m_device, m_commandPool);
-	m_commandPool = VK_NULL_HANDLE;
-
-	// destroy device
-	Vulkan_Renderer::destroy_device(m_device);
-	m_device = VK_NULL_HANDLE;
-
-	// destroy debug messenger
-#ifdef MINTY_DEBUG
-	Vulkan_Renderer::destroy_debug_messenger(m_instance, m_debugMessenger);
-	m_debugMessenger = VK_NULL_HANDLE;
-#endif // MINTY_DEBUG
-
-	// destroy instance
-	Vulkan_Renderer::destroy_instance(m_instance);
-	m_instance = VK_NULL_HANDLE;
-}
-
-// gets the current frame's command buffer
-VkCommandBuffer Minty::Vulkan_RenderManager::get_current_command_buffer() const
-{
-	MINTY_ASSERT(get_state() == State::Pass, ErrorCode::Object_InvalidState); // "Attempting to get the current command buffer while not rendering a pass."
-	return m_frames[m_currentFrameIndex].commandBuffer;
-}
-
-void Minty::Vulkan_RenderManager::initialize_frame(Vulkan_Frame& frame)
+void Minty::Vulkan_RenderManager::initialize_frame(Vulkan_Frame &frame)
 {
 	frame.commandBuffer = Vulkan_Renderer::create_command_buffer(m_device, m_commandPool);
 

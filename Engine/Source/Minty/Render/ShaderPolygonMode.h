@@ -42,9 +42,9 @@ namespace Minty
 	ShaderPolygonMode parse_to_shader_polygon_mode(String const& string);
 	Bool parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value);
 	template<>
-	inline ShaderPolygonMode parse_to<ShaderPolygonMode>(String const& string) { return parse_to_shader_polygon_mode(string); }
+	inline ShaderPolygonMode parse_to<ShaderPolygonMode>(StringView const string) { return parse_to_shader_polygon_mode(string); }
 	template<>
-	inline Bool parse_try<ShaderPolygonMode>(String const& string, ShaderPolygonMode& value) { return parse_try_shader_polygon_mode(string, value); }
+	inline Bool parse_try<ShaderPolygonMode>(StringView const string, ShaderPolygonMode& value) { return parse_try_shader_polygon_mode(string, value); }
 }
 
 #endif // MINTY_RENDER_SHADERPOLYGONMODE_H

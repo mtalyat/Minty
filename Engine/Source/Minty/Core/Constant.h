@@ -232,7 +232,9 @@ namespace Minty
 #pragma region UUID
 
 	constexpr Size UUID_BYTE_SIZE = 16;
-	constexpr Size UUID_HEX_SIZE = 32;
+	constexpr Size UUID_BYTE_SIZE_HALF = UUID_BYTE_SIZE / 2;
+	constexpr Size UUID_HEX_SIZE_FULL = 32;
+	constexpr Size UUID_HEX_SIZE_HALF = UUID_HEX_SIZE_FULL / 2;
 
 #pragma endregion
 

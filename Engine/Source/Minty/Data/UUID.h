@@ -10,6 +10,7 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parseable.h"
 #include "Minty/Serialization/ToString.h"
 #include "Minty/Data/StringView.h"
 
@@ -20,6 +21,7 @@ namespace Minty
 	 * @brief A Universally Unique Identifier (UUID) class.
 	 */
 	class UUID
+		: public Parseable
 	{
 #pragma region Constructors
 
@@ -40,13 +42,13 @@ namespace Minty
 		 * @param id_high The high 64 bits.
 		 * @param id_low The low 64 bits.
 		 */
-		UUID(UInt64 const id_high, UInt64 const id_low = 0);
+		UUID(UInt64 const id_low, UInt64 const id_high = 0);
 
 		/**
 		 * @brief Create a UUID from a string representation.
 		 * @param string The string representation of the UUID.
 		 */
-		UUID(StringView const& string);
+		UUID(StringView const &string);
 
 #pragma endregion
 
@@ -65,8 +67,8 @@ namespace Minty
 		 * @brief Gets the raw data of the UUID.
 		 * @returns A pointer to the raw byte data of the UUID.
 		 */
-		inline Byte const* get_data() const noexcept { return m_data; }
-		
+		inline Byte const *get_data() const noexcept { return m_data; }
+
 		/**
 		 * @brief Gets the raw data of the UUID.
 		 * @returns A pointer to the raw byte data of the UUID.
@@ -78,7 +80,24 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		
+		/**
+		 * @brief Clears the UUID, setting it to an invalid state.
+		 */
+		void clear();
+
+		/**
+		 * @brief Reads the data for this object from a String.
+		 * @param text A String of this object.
+		 * @return True on success.
+		 */
+		Bool parse(StringView const text) override;
+
+		/**
+		 * @brief Converts the data in this object to a String.
+		 * @return A String of this object.
+		 */
+		String to_string() const override;
+
 		/**
 		 * @brief Creates a new UUID with a random value.
 		 * @returns The newly created UUID.
@@ -101,24 +120,16 @@ namespace Minty
 
 #pragma endregion
 	};
-
-	String to_string(UUID const obj);
-	UUID parse_to_uuid(String const& string);
-	Bool parse_try_uuid(String const& string, UUID& value);
-	template<>
-	inline UUID parse_to<UUID>(String const& string) { return parse_to_uuid(string); }
-	template<>
-	inline Bool parse_try<UUID>(String const& string, UUID& value) { return parse_try_uuid(string, value); }
 }
 
 namespace std
 {
-	template<>
+	template <>
 	struct hash<Minty::UUID>
 	{
-		std::size_t operator()(Minty::UUID const& value) const
+		std::size_t operator()(Minty::UUID const &value) const
 		{
-			Minty::Byte const* const data = value.get_data();
+			Minty::Byte const *const data = value.get_data();
 			std::size_t hash = 0;
 			for (std::size_t i = 0; i < Minty::UUID_BYTE_SIZE; ++i)
 			{

@@ -143,9 +143,9 @@ namespace Minty
 	Key parse_to_key(String const& string);
 	Bool parse_try_key(String const& string, Key& value);
 	template<>
-	inline Key parse_to<Key>(String const& string) { return parse_to_key(string); }
+	inline Key parse_to<Key>(StringView const string) { return parse_to_key(string); }
 	template<>
-	inline Bool parse_try<Key>(String const& string, Key& value) { return parse_try_key(string, value); }
+	inline Bool parse_try<Key>(StringView const string, Key& value) { return parse_try_key(string, value); }
 }
 
 #endif // MINTY_INPUT_KEY_H

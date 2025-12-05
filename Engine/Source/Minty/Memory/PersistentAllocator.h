@@ -14,6 +14,9 @@
 
 namespace Minty
 {
+    constexpr Size PERSISTENT_ALLOCATOR_MIN = 8;
+    constexpr Size PERSISTENT_ALLOCATOR_MAX = 4096;
+
     /**
      * @class PersistentAllocator
      * @brief Static class providing memory allocation and deallocation using the persistent allocator.
@@ -21,7 +24,7 @@ namespace Minty
     template<Size N>
     class PersistentAllocator
     {
-        static_assert((N & (N - 1)) == 0 && N >= 8 && N <= 4096, "N must be a power of 2, between 8 and 4096 inclusive.");
+        static_assert((N & (N - 1)) == 0 && N >= PERSISTENT_ALLOCATOR_MIN && N <= PERSISTENT_ALLOCATOR_MAX, "N must be a power of 2, between PERSISTENT_ALLOCATOR_MIN and PERSISTENT_ALLOCATOR_MAX inclusive.");
 
 #pragma region Constructors
 

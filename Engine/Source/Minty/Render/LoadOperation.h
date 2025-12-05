@@ -42,9 +42,9 @@ namespace Minty
 	LoadOperation parse_to_load_operation(String const& string);
 	Bool parse_try_load_operation(String const& string, LoadOperation& value);
 	template<>
-	inline LoadOperation parse_to<LoadOperation>(String const& string) { return parse_to_load_operation(string); }
+	inline LoadOperation parse_to<LoadOperation>(StringView const string) { return parse_to_load_operation(string); }
 	template<>
-	inline Bool parse_try<LoadOperation>(String const& string, LoadOperation& value) { return parse_try_load_operation(string, value); }
+	inline Bool parse_try<LoadOperation>(StringView const string, LoadOperation& value) { return parse_try_load_operation(string, value); }
 }
 
 #endif // MINTY_RENDER_LOADOPERATION_H

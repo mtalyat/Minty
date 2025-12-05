@@ -34,6 +34,9 @@ void Minty::Debug::set_flags(DebugFlags const flags)
     // Set the logger's enabled levels based on the flags
     Logger& logger = get_logger();
     LogLevel levels = LogLevel::None;
+    if ((flags & DebugFlags::Debug) != DebugFlags::None) {
+        levels = levels | LogLevel::Debug;
+    }
     if ((flags & DebugFlags::Info) != DebugFlags::None) {
         levels = levels | LogLevel::Info;
     }

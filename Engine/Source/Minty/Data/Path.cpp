@@ -95,7 +95,7 @@ Path& Minty::Path::append(Path const& other)
 	return *this;
 }
 
-Bool Minty::Path::parse(String const& text)
+Bool Minty::Path::parse(StringView const text)
 {
 	m_path = text.get_data();
 	return true;

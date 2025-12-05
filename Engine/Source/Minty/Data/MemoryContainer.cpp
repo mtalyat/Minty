@@ -73,7 +73,7 @@ void Minty::MemoryContainer::set_at(AnyConst const data, Size const size, Size c
 
 void const *Minty::MemoryContainer::get_at(Size const index) const
 {
-	MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfBounds, index);
+	MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfRange, index);
 	return &mp_data[index];
 }
 

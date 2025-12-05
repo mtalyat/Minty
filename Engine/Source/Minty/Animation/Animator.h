@@ -31,6 +31,8 @@ namespace Minty
 		 */
 		Animator(AnimatorInfo const& info);
 
+		~Animator();
+
 #pragma endregion
 
 #pragma region Accessors

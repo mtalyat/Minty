@@ -38,9 +38,9 @@ namespace Minty
 	GamepadButton parse_to_gamepad_button(String const& string);
 	Bool parse_try_gamepad_button(String const& string, GamepadButton& value);
 	template<>
-	inline GamepadButton parse_to<GamepadButton>(String const& string) { return parse_to_gamepad_button(string); }
+	inline GamepadButton parse_to<GamepadButton>(StringView const string) { return parse_to_gamepad_button(string); }
 	template<>
-	inline Bool parse_try<GamepadButton>(String const& string, GamepadButton& value) { return parse_try_gamepad_button(string, value); }
+	inline Bool parse_try<GamepadButton>(StringView const string, GamepadButton& value) { return parse_try_gamepad_button(string, value); }
 }
 
 #endif // MINTY_INPUT_GAMEPADBUTTON_H

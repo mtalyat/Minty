@@ -56,9 +56,9 @@ namespace Minty
 	ShaderInputType parse_to_shader_input_type(String const& string);
 	Bool parse_try_shader_input_type(String const& string, ShaderInputType& value);
 	template<>
-	inline ShaderInputType parse_to<ShaderInputType>(String const& string) { return parse_to_shader_input_type(string); }
+	inline ShaderInputType parse_to<ShaderInputType>(StringView const string) { return parse_to_shader_input_type(string); }
 	template<>
-	inline Bool parse_try<ShaderInputType>(String const& string, ShaderInputType& value) { return parse_try_shader_input_type(string, value); }
+	inline Bool parse_try<ShaderInputType>(StringView const string, ShaderInputType& value) { return parse_try_shader_input_type(string, value); }
 }
 
 #endif // MINTY_RENDER_SHADERINPUTTYPE_H

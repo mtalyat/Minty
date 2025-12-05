@@ -37,9 +37,9 @@ namespace Minty
 	Perspective parse_to_perspective(String const& string);
 	Bool parse_try_perspective(String const& string, Perspective& value);
 	template<>
-	inline Perspective parse_to<Perspective>(String const& string) { return parse_to_perspective(string); }
+	inline Perspective parse_to<Perspective>(StringView const string) { return parse_to_perspective(string); }
 	template<>
-	inline Bool parse_try<Perspective>(String const& string, Perspective& value) { return parse_try_perspective(string, value); }
+	inline Bool parse_try<Perspective>(StringView const string, Perspective& value) { return parse_try_perspective(string, value); }
 }
 
 #endif // MINTY_RENDER_PERSPECTIVE_H

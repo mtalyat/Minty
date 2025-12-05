@@ -13,12 +13,14 @@ Minty::Material::Material(MaterialInfo const& info)
 	: Asset(info.id)
 	, m_materialTemplate(info.materialTemplate)
 	, m_cargo(info.values)
+	, m_stencil(0)
 {
-	MINTY_ASSERT(m_materialTemplate != nullptr, ErrorCode::Argument_ExpectedNonNull);
+	MINTY_ASSERT(info.materialTemplate != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
-	Ref<Shader> shader = m_materialTemplate->get_shader();
+	set_stencil(info.stencil);
 
 	// add self to shader
+	Ref<Shader> shader = m_materialTemplate->get_shader();
 	shader->register_material(this);
 }
 
@@ -83,6 +85,12 @@ Bool Minty::Material::get_input(String const& name, Any const data, Size const s
 {
 	// if this Material has a value for the input, copy it
 	return false;
+}
+
+void Minty::Material::set_stencil(UInt const stencil)
+{
+	MINTY_ASSERT_F(stencil >= STENCIL_MIN && stencil <= STENCIL_MAX, ErrorCode::Argument_OutOfRange, stencil, STENCIL_MIN, STENCIL_MAX);
+	m_stencil = stencil;
 }
 
 Shared<Material> Minty::Material::create(MaterialInfo const& info)

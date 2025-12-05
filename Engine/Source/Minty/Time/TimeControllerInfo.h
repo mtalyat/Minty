@@ -19,12 +19,12 @@ namespace Minty
 		/**
 		 * @brief The fixed time step in seconds.
 		 */
-		Float fixedTimeStep = 0.02f;
+		Float fixedTimestep = 0.02f;
 
 		/**
 		 * @brief The maximum allowed time step in seconds.
 		 */
-		Float maxAllowedTimeStep = 0.25f;
+		Float maxAllowedTimestep = 0.25f;
 
 		/**
 		 * @brief The maximum number of fixed updates to perform per frame.

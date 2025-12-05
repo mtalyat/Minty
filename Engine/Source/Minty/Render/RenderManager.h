@@ -177,6 +177,11 @@ namespace Minty
 
 	public:
 		/**
+		 * @brief Initializes the RenderManager.
+		 */
+		virtual void initialize() = 0;
+
+		/**
 		 * @brief Prepares to render a frame.
 		 * @return True, on success. Returns false when the frame should be skipped.
 		 */

@@ -55,7 +55,7 @@ void Minty::MemoryStack::deallocate(Any const ptr)
 
 	// Check that pointer is not beyond current offset
 	MINTY_ASSERT(bytePtr <= mp_data + m_size,
-				 ErrorCode::Argument_OutOfBounds);
+				 ErrorCode::Argument_OutOfRange);
 
 #endif // MINTY_DEBUG
 

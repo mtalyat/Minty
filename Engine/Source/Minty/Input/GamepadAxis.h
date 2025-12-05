@@ -29,9 +29,9 @@ namespace Minty
 	GamepadAxis parse_to_gamepad_axis(String const& string);
 	Bool parse_try_gamepad_axis(String const& string, GamepadAxis& value);
 	template<>
-	inline GamepadAxis parse_to<GamepadAxis>(String const& string) { return parse_to_gamepad_axis(string); }
+	inline GamepadAxis parse_to<GamepadAxis>(StringView const string) { return parse_to_gamepad_axis(string); }
 	template<>
-	inline Bool parse_try<GamepadAxis>(String const& string, GamepadAxis& value) { return parse_try_gamepad_axis(string, value); }
+	inline Bool parse_try<GamepadAxis>(StringView const string, GamepadAxis& value) { return parse_try_gamepad_axis(string, value); }
 }
 
 #endif // MINTY_INPUT_GAMEPADAXIS_H

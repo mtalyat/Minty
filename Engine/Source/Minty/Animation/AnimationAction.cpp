@@ -25,7 +25,7 @@ UInt get_split(Size const index, Vector<String> const& split, UInt const default
 	return value;
 }
 
-Bool Minty::AnimationAction::parse(String const& text)
+Bool Minty::AnimationAction::parse(StringView const text)
 {
 	// format: type?:entity/component:variable/value,variable/value,variable/value...
 	StringBuilder textBuilder(text);

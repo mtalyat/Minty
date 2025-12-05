@@ -16,6 +16,7 @@ Minty::SoLoud_AudioManager::SoLoud_AudioManager(AudioManagerInfo const &info)
 
 Minty::SoLoud_AudioManager::~SoLoud_AudioManager()
 {
+	stop_all();
 	m_engine->deinit();
 	delete m_engine;
 }

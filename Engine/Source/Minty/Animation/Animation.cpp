@@ -50,7 +50,7 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	for (auto const& [time, actionIndices] : info.steps)
 	{
 		MINTY_ASSERT_F(time >= 0.0f, ErrorCode::Animation_NegativeTime, time);
-		MINTY_ASSERT_F(time == lastTime, ErrorCode::Animation_DuplicateTime, time);
+		MINTY_ASSERT_F(time != lastTime, ErrorCode::Animation_DuplicateTime, time);
 		MINTY_ASSERT_F(time > lastTime, ErrorCode::Animation_IncorrectTimeOrder, time);
 
 		// create the steplist
@@ -284,7 +284,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 }
 
 template<typename T>
-static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result, Bool(*try_func)(String const&, T&))
+static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result, Bool(*try_func)(StringView const, T&))
 {
 	T leftValue, rightValue;
 	if (try_func(left, leftValue) && try_func(right, rightValue))

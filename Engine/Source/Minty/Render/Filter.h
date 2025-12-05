@@ -37,9 +37,9 @@ namespace Minty
 	Filter parse_to_filter(String const& string);
 	Bool parse_try_filter(String const& string, Filter& value);
 	template<>
-	inline Filter parse_to<Filter>(String const& string) { return parse_to_filter(string); }
+	inline Filter parse_to<Filter>(StringView const string) { return parse_to_filter(string); }
 	template<>
-	inline Bool parse_try<Filter>(String const& string, Filter& value) { return parse_try_filter(string, value); }
+	inline Bool parse_try<Filter>(StringView const string, Filter& value) { return parse_try_filter(string, value); }
 }
 
 #endif // MINTY_RENDER_FILTER_H

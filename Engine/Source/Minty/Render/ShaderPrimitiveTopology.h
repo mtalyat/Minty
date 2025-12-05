@@ -57,9 +57,9 @@ namespace Minty
 	ShaderPrimitiveTopology parse_to_shader_primitive_topology(String const& string);
 	Bool parse_try_shader_primitive_topology(String const& string, ShaderPrimitiveTopology& value);
 	template<>
-	inline ShaderPrimitiveTopology parse_to<ShaderPrimitiveTopology>(String const& string) { return parse_to_shader_primitive_topology(string); }
+	inline ShaderPrimitiveTopology parse_to<ShaderPrimitiveTopology>(StringView const string) { return parse_to_shader_primitive_topology(string); }
 	template<>
-	inline Bool parse_try<ShaderPrimitiveTopology>(String const& string, ShaderPrimitiveTopology& value) { return parse_try_shader_primitive_topology(string, value); }
+	inline Bool parse_try<ShaderPrimitiveTopology>(StringView const string, ShaderPrimitiveTopology& value) { return parse_try_shader_primitive_topology(string, value); }
 }
 
 #endif // MINTY_RENDER_SHADERPRIMITIVETOPOLOGY_H

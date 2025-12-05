@@ -40,9 +40,9 @@ namespace Minty
 	FontFlags parse_to_font_flags(String const& string);
 	Bool parse_try_font_flags(String const& string, FontFlags& value);
 	template<>
-	inline FontFlags parse_to<FontFlags>(String const& string) { return parse_to_font_flags(string); }
+	inline FontFlags parse_to<FontFlags>(StringView const string) { return parse_to_font_flags(string); }
 	template<>
-	inline Bool parse_try<FontFlags>(String const& string, FontFlags& value) { return parse_try_font_flags(string, value); }
+	inline Bool parse_try<FontFlags>(StringView const string, FontFlags& value) { return parse_try_font_flags(string, value); }
 }
 
 #endif // MINTY_RENDER_FONTFLAGS_H

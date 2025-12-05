@@ -37,9 +37,9 @@ namespace Minty
 	ImageAspect parse_to_image_aspect(String const& string);
 	Bool parse_try_image_aspect(String const& string, ImageAspect& value);
 	template<>
-	inline ImageAspect parse_to<ImageAspect>(String const& string) { return parse_to_image_aspect(string); }
+	inline ImageAspect parse_to<ImageAspect>(StringView const string) { return parse_to_image_aspect(string); }
 	template<>
-	inline Bool parse_try<ImageAspect>(String const& string, ImageAspect& value) { return parse_try_image_aspect(string, value); }
+	inline Bool parse_try<ImageAspect>(StringView const string, ImageAspect& value) { return parse_try_image_aspect(string, value); }
 }
 
 #endif // MINTY_RENDER_IMAGE_ASPECT_H

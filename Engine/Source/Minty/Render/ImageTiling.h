@@ -40,9 +40,9 @@ namespace Minty
 	ImageTiling parse_to_image_tiling(String const& string);
 	Bool parse_try_image_tiling(String const& string, ImageTiling& value);
 	template<>
-	inline ImageTiling parse_to<ImageTiling>(String const& string) { return parse_to_image_tiling(string); }
+	inline ImageTiling parse_to<ImageTiling>(StringView const string) { return parse_to_image_tiling(string); }
 	template<>
-	inline Bool parse_try<ImageTiling>(String const& string, ImageTiling& value) { return parse_try_image_tiling(string, value); }
+	inline Bool parse_try<ImageTiling>(StringView const string, ImageTiling& value) { return parse_try_image_tiling(string, value); }
 }
 
 #endif // MINTY_RENDER_IMAGETILING_H

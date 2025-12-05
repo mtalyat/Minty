@@ -44,9 +44,9 @@ namespace Minty
 	ShaderCullMode parse_to_shader_cull_mode(String const& string);
 	Bool parse_try_shader_cull_mode(String const& string, ShaderCullMode& value);
 	template<>
-	inline ShaderCullMode parse_to<ShaderCullMode>(String const& string) { return parse_to_shader_cull_mode(string); }
+	inline ShaderCullMode parse_to<ShaderCullMode>(StringView const string) { return parse_to_shader_cull_mode(string); }
 	template<>
-	inline Bool parse_try<ShaderCullMode>(String const& string, ShaderCullMode& value) { return parse_try_shader_cull_mode(string, value); }
+	inline Bool parse_try<ShaderCullMode>(StringView const string, ShaderCullMode& value) { return parse_try_shader_cull_mode(string, value); }
 }
 
 #endif // MINTY_RENDER_SHADERCULLMODE_H

@@ -37,9 +37,9 @@ namespace Minty
 	CoordinateMode parse_to_coordinate_mode(String const& string);
 	Bool parse_try_coordinate_mode(String const& string, CoordinateMode& value);
 	template<>
-	inline CoordinateMode parse_to<CoordinateMode>(String const& string) { return parse_to_coordinate_mode(string); }
+	inline CoordinateMode parse_to<CoordinateMode>(StringView const string) { return parse_to_coordinate_mode(string); }
 	template<>
-	inline Bool parse_try<CoordinateMode>(String const& string, CoordinateMode& value) { return parse_try_coordinate_mode(string, value); }
+	inline Bool parse_try<CoordinateMode>(StringView const string, CoordinateMode& value) { return parse_try_coordinate_mode(string, value); }
 }
 
 #endif // MINTY_RENDER_COORDINATEMODE_H

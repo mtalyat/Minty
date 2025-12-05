@@ -116,10 +116,10 @@ UUID Minty::AssetManager::read_id(Path const &path) const
 
 	// get UUID from first line
 	String const &line = lines.front();
-	MINTY_ASSERT_F(line.starts_with(": ") && line.get_size() == UUID_HEX_SIZE + 2, ErrorCode::Asset_InvalidFormat, metaPath.to_string());
+	MINTY_ASSERT_F(line.starts_with(": "), ErrorCode::Asset_InvalidFormat, metaPath.to_string());
 
 	// get the UUID
-	String const idString = line.sub(2, UUID_HEX_SIZE);
+	String const idString = line.sub(2, UUID_HEX_SIZE_FULL);
 	return UUID(idString);
 }
 
@@ -391,12 +391,14 @@ Ref<Asset> Minty::AssetManager::load_asset(Path const &path)
 {
 #ifdef MINTY_DEBUG
 	MINTY_ASSERT_F(exists(path), ErrorCode::File_NotFound, path);
-	Path metaPath = Asset::get_meta_path(path);
+	Path const metaPath = Asset::get_meta_path(path);
 	MINTY_ASSERT_F(exists(metaPath), ErrorCode::Asset_MissingMeta, metaPath);
 #endif // MINTY_DEBUG
 
-	AssetType type = Asset::get_asset_type(path);
-	return load_asset(path, type);
+	AssetType const type = Asset::get_asset_type(path);
+	Ref<Asset> const asset = load_asset(path, type);
+	MINTY_LOG_DEBUG_F("Loaded Asset: ID={}, Type={}, Path={}", asset->get_id(), to_string(type), path.to_string());
+	return asset;
 }
 
 void Minty::AssetManager::schedule_unload(UUID const id, AssetJob const &onCompletion)

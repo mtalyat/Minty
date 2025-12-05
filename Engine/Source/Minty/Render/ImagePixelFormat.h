@@ -50,9 +50,9 @@ namespace Minty
 	ImagePixelFormat parse_to_image_pixel_format(String const& string);
 	Bool parse_try_image_pixel_format(String const& string, ImagePixelFormat& value);
 	template<>
-	inline ImagePixelFormat parse_to<ImagePixelFormat>(String const& string) { return parse_to_image_pixel_format(string); }
+	inline ImagePixelFormat parse_to<ImagePixelFormat>(StringView const string) { return parse_to_image_pixel_format(string); }
 	template<>
-	inline Bool parse_try<ImagePixelFormat>(String const& string, ImagePixelFormat& value) { return parse_try_image_pixel_format(string, value); }
+	inline Bool parse_try<ImagePixelFormat>(StringView const string, ImagePixelFormat& value) { return parse_try_image_pixel_format(string, value); }
 }
 
 #endif // MINTY_RENDER_IMAGEPIXELFORMAT_H

@@ -43,7 +43,7 @@ namespace Minty
 	AssetType parse_to_asset_type(String const& string);
 	Bool parse_try_asset_type(String const& string, AssetType& value);
 	template<>
-	inline AssetType parse_to<AssetType>(String const& string) { return parse_to_asset_type(string); }
+	inline AssetType parse_to<AssetType>(StringView const string) { return parse_to_asset_type(string); }
 	template<>
-	inline Bool parse_try<AssetType>(String const& string, AssetType& value) { return parse_try_asset_type(string, value); }
+	inline Bool parse_try<AssetType>(StringView const string, AssetType& value) { return parse_try_asset_type(string, value); }
 }

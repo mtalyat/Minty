@@ -45,7 +45,7 @@ namespace Minty
 		 */
 		inline String const& get_name(Layer const layer) const
 		{
-			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfRange);
 			return m_names[layer];
 		}
 		
@@ -63,7 +63,7 @@ namespace Minty
 		 */
 		inline Layer get_mask(Layer const layer) const
 		{
-			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfBounds);
+			MINTY_ASSERT(layer >= 0 && layer < LAYER_COUNT, ErrorCode::Argument_OutOfRange);
 			return m_matrix[layer];
 		}
 

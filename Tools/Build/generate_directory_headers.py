@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 AUTO_GENERATED_NOTICE = "// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY."
+IGNORED_DIRECTORIES = {"Library", "Generated"}
 
 def generate_combined_header(directory_path):
     """
@@ -29,6 +30,10 @@ def generate_combined_header(directory_path):
     
     # Get directory name
     dir_name = dir_path.name
+
+    # Skip ignored directories
+    if dir_name in IGNORED_DIRECTORIES:
+        return True
     
     # Find all .h files in the directory (non-recursive)
     h_files = sorted([f for f in dir_path.iterdir() if f.is_file() and f.suffix == '.h'])

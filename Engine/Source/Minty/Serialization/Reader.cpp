@@ -365,7 +365,8 @@ UUID Minty::TextReaderBehavior::read_uuid_from_buffer(AnyConst const data, Size 
 	if (!size) return {};
 
 	String text = read_string_from_buffer(data, size);
-	UUID id = parse_to_uuid(text);
+	UUID id;
+	id.parse(text);
 	return id;
 }
 

@@ -524,10 +524,8 @@ namespace Minty
          * @brief Creates a Source object.
          */
         Source()
-            : mp_counter(nullptr)
-        {
-            DefaultAllocator::construct<PointerCounter>(1, 0);
-        }
+            : mp_counter(DefaultAllocator::construct<PointerCounter>(1, 0))
+        {}
 
         ~Source()
         {
