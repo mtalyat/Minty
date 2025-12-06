@@ -75,6 +75,12 @@ namespace Minty
 
 	public:
 		/**
+		 * @brief Checks if the Scene is currently loaded.
+		 * @returns True if loaded, otherwise false.
+		 */
+		inline Bool is_loaded() const { return m_loaded; }
+
+		/**
 		 * @brief Gets the UUID of this Scene.
 		 * @returns The UUID.
 		 */
@@ -195,6 +201,7 @@ namespace Minty
 	private:
 		UUID m_id;
 		String m_name;
+		Bool m_loaded;
 
 		Shared<EntityManager> m_entityManager;
 		Shared<SystemManager> m_systemManager;

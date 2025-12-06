@@ -165,6 +165,16 @@ namespace Minty
 		}
 
 		/**
+		 * @brief Called when the Scene is loaded.
+		 */
+		void on_scene_load();
+
+		/**
+		 * @brief Called when the Scene is unloaded.
+		 */
+		void on_scene_unload();
+
+		/**
 		 * @brief Called every frame.
 		 * @param time The time information for the frame update.
 		 */

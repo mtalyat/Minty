@@ -20,6 +20,7 @@ using namespace Minty;
 Minty::Scene::Scene(SceneInfo const& info)
 	: m_id(info.id)
 	, m_name(info.name)
+	, m_loaded(false)
 	, m_entityManager(nullptr)
 	, m_systemManager(nullptr)
 	, m_loadedAssets()
@@ -38,6 +39,7 @@ Minty::Scene::Scene(SceneInfo const& info)
 Minty::Scene::Scene(Scene&& other) noexcept
 	: m_id(std::move(other.m_id))
 	, m_name(std::move(other.m_name))
+	, m_loaded(std::move(other.m_loaded))
 	, m_entityManager(std::move(other.m_entityManager))
 	, m_systemManager(std::move(other.m_systemManager))
 	, m_loadedAssets()
@@ -73,6 +75,7 @@ Scene& Minty::Scene::operator=(Scene&& other) noexcept
 	{
 		m_id = std::move(other.m_id);
 		m_name = std::move(other.m_name);
+		m_loaded = std::move(other.m_loaded);
 		m_entityManager = std::move(other.m_entityManager);
 		m_systemManager = std::move(other.m_systemManager);
 		// the target scene now owns the registered assets from the other scene
@@ -212,6 +215,8 @@ void Minty::Scene::on_load()
 	m_entityManager->on_scene_load();
 	
 	load_assets(m_assets);
+
+	m_loaded = true;
 }
 
 void Minty::Scene::on_unload()
@@ -222,6 +227,8 @@ void Minty::Scene::on_unload()
 
 	m_systemManager->on_scene_unload();
 	m_entityManager->on_scene_unload();
+
+	m_loaded = false;
 }
 
 void Minty::Scene::on_frame_update(Timestep const& time)

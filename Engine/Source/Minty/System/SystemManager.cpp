@@ -67,6 +67,12 @@ System *Minty::SystemManager::add(SystemData const &data, Int const priority)
 		found->get_second().add(system);
 	}
 
+	// if the scene is loaded, load the system
+	if (get_scene().is_loaded())
+	{
+		system->on_load();
+	}
+
 	return system;
 }
 
@@ -107,6 +113,34 @@ System *Minty::SystemManager::get_system(String const &name) const
 
 	// return the system
 	return it->get_second();
+}
+
+void Minty::SystemManager::on_scene_load()
+{
+	MINTY_TRACE_SCOPE();
+
+	// load all of the systems
+	for (auto const &[priority, list] : m_systems)
+	{
+		for (System *system : list)
+		{
+			system->on_load();
+		}
+	}
+}
+
+void Minty::SystemManager::on_scene_unload()
+{
+	MINTY_TRACE_SCOPE();
+
+	// unload all of the systems
+	for (auto const &[priority, list] : m_systems)
+	{
+		for (System *system : list)
+		{
+			system->on_unload();
+		}
+	}
 }
 
 void Minty::SystemManager::frame_update(Timestep const &time)

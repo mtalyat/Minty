@@ -1441,6 +1441,8 @@ void Minty::EntityManager::destroy(Entity const entity)
 
 void Minty::EntityManager::on_scene_load()
 {
+	MINTY_TRACE_SCOPE();
+
 	// dirty all components on load
 	mark_all<DirtyComponent>();
 }
