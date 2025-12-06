@@ -30,6 +30,7 @@ String Minty::to_string(AssetType const obj)
 	case AssetType::FontVariant: return "FontVariant";
 	case AssetType::Font: return "Font";
 	case AssetType::Mesh: return "Mesh";
+	case AssetType::Prefab: return "Prefab";
 
 	default: return "";
 	}
@@ -60,6 +61,7 @@ AssetType Minty::parse_to_asset_type(String const& string)
 	if (string == "FontVariant") return AssetType::FontVariant;
 	if (string == "Font") return AssetType::Font;
 	if (string == "Mesh") return AssetType::Mesh;
+	if (string == "Prefab") return AssetType::Prefab;
 
 	return AssetType();
 }

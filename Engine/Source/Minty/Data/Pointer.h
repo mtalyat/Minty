@@ -182,8 +182,16 @@ namespace Minty
         inline Bool operator!=(Ref const &other) const { return mp_ptr != other.mp_ptr; }
         inline Bool operator!=(T *const other) const { return mp_ptr != other; }
         inline Bool operator!=(Null const) const { return mp_ptr != nullptr; }
-        inline T *operator->() const { return mp_ptr; }
-        inline T &operator*() const { return *mp_ptr; }
+        inline T *operator->() const
+        {
+            MINTY_ASSERT(mp_ptr != nullptr, ErrorCode::Object_InvalidState);
+            return mp_ptr;
+        }
+        inline T &operator*() const
+        {
+            MINTY_ASSERT(mp_ptr != nullptr, ErrorCode::Object_InvalidState);
+            return *mp_ptr;
+        }
         inline operator Bool() const { return mp_ptr != nullptr; }
 
 #pragma endregion
@@ -412,8 +420,16 @@ namespace Minty
         inline Bool operator!=(Shared const &other) const { return mp_ptr != other.mp_ptr; }
         inline Bool operator!=(T *const other) const { return mp_ptr != other; }
         inline Bool operator!=(Null const) const { return mp_ptr != nullptr; }
-        inline T *operator->() const { return mp_ptr; }
-        inline T &operator*() const { return *mp_ptr; }
+        inline T *operator->() const
+        {
+            MINTY_ASSERT(mp_ptr != nullptr, ErrorCode::Object_InvalidState);
+            return mp_ptr;
+        }
+        inline T &operator*() const
+        {
+            MINTY_ASSERT(mp_ptr != nullptr, ErrorCode::Object_InvalidState);
+            return *mp_ptr;
+        }
         inline operator Bool() const { return mp_ptr != nullptr; }
 
 #pragma endregion
@@ -681,8 +697,16 @@ namespace Minty
         inline Bool operator!=(Unique const &other) const { return mp_ptr != other.mp_ptr; }
         inline Bool operator!=(T *const other) const { return mp_ptr != other; }
         inline Bool operator!=(Null const) const { return mp_ptr != nullptr; }
-        inline T *operator->() const { return mp_ptr; }
-        inline T &operator*() const { return *mp_ptr; }
+        inline T *operator->() const
+        {
+            MINTY_ASSERT(mp_ptr != nullptr, ErrorCode::Object_InvalidState);
+            return mp_ptr;
+        }
+        inline T &operator*() const
+        {
+            MINTY_ASSERT(mp_ptr != nullptr, ErrorCode::Object_InvalidState);
+            return *mp_ptr;
+        }
         inline operator Bool() const { return mp_ptr != nullptr; }
 
         Unique &operator=(Unique const &) = delete;
