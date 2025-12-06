@@ -199,7 +199,7 @@ void Minty::SceneManager::fixed_update(Timestep const &time)
 	// update the active scene
 	if (m_activeScene != nullptr)
 	{
-		m_activeScene->on_frame_update(time);
+		m_activeScene->on_fixed_update(time);
 	}
 	else
 	{
