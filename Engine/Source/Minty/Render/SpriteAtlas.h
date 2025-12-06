@@ -30,14 +30,6 @@ namespace Minty
 	class SpriteAtlas
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		Ref<Texture> m_texture;
-		Vector<SpriteGroup> m_groups;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -148,6 +140,13 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Variables
+
+	private:
+		Ref<Texture> m_texture;
+		Vector<SpriteGroup> m_groups;
+
+#pragma endregion
 	};
 }
 
