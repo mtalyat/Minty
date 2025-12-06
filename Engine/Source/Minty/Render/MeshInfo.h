@@ -21,7 +21,7 @@ namespace Minty
         /**
          * @brief The UUID of the Mesh.
          */
-		UUID id;
+		UUID id = {};
 
         /**
          * @brief The type of the Mesh.

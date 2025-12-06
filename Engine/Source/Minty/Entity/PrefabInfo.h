@@ -20,12 +20,12 @@ namespace Minty
         /**
          * @brief The unique identifier for the Prefab.
          */
-        UUID id;
+        UUID id = {};
 
         /**
          * @brief The source data for the Prefab.
          */
-        Node source;
+        Node source = {};
     };
 }
 

@@ -25,7 +25,7 @@ namespace Minty
         /**
          * @brief The ID.
          */
-        UUID id = UUID();
+        UUID id = {};
 
         /**
          * @brief The RenderPass this RenderTarget belongs to.

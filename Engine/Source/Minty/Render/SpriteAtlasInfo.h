@@ -25,7 +25,7 @@ namespace Minty
 		/**
 		 * @brief The ID of this Atlas.
 		 */
-		UUID id = UUID();
+		UUID id = {};
 
 		/**
 		 * @brief The Texture that this Atlas uses.
@@ -35,7 +35,7 @@ namespace Minty
 		/**
 		 * @brief The Sprite groups within this Atlas.
 		 */
-		Vector<SpriteGroup> groups;
+		Vector<SpriteGroup> groups = {};
 	};
 }
 

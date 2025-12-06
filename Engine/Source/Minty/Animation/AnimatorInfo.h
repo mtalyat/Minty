@@ -26,7 +26,7 @@ namespace Minty
         /**
          * @brief The FSM controlling the animations.
          */
-		FSM* fsm;
+		FSM* fsm = nullptr;
 
         /**
          * @brief If true, animations will transition as soon as possible.

@@ -35,7 +35,7 @@ namespace Minty
 		/**
 		 * @brief The ID.
 		 */
-		UUID id = UUID();
+		UUID id = {};
 
 		/**
 		 * @brief The priority of the Shader. Higher priority Shaders are rendered first.

@@ -24,7 +24,7 @@ namespace Minty
 		/**
 		 * @brief The Asset ID.
 		 */
-		UUID id = UUID();
+		UUID id = {};
 
 		/**
 		 * @brief The Texture that this Sprite uses.

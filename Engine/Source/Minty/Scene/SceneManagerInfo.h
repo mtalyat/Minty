@@ -19,7 +19,7 @@ namespace Minty
         /**
          * @brief The path to the first scene to load.
          */
-        Path initialScene;
+        Path initialScene = {};
     };
 }
 
