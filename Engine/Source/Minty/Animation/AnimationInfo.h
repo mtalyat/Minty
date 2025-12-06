@@ -17,66 +17,66 @@ namespace Minty
     class Node;
     struct AnimationAction;
 
-    /// <summary>
-	/// The arguments for an animation.
-	/// </summary>
+    /**
+	 * @brief The arguments for an animation.
+	 */
 	struct AnimationInfo
 	{
-		/// <summary>
-		/// The Asset ID.
-		/// </summary>
+		/**
+		 * @brief The Asset ID.
+		 */
 		UUID id = UUID();
 
-		/// <summary>
-		/// The amount of time this animation takes to complete, in seconds.
-		/// </summary>
+		/**
+		 * @brief The amount of time this animation takes to complete, in seconds.
+		 */
 		Float duration = 0.0f;
 
-		/// <summary>
-		/// When true, the animation will restart after it ends.
-		/// </summary>
+		/**
+		 * @brief When true, the animation will restart after it ends.
+		 */
 		Bool loop = false;
 
-		/// <summary>
-		/// The paths to the Entities to animate.
-		/// </summary>
+		/**
+		 * @brief The paths to the Entities to animate.
+		 */
 		Vector<EntityPath> entities;
 
-		/// <summary>
-		/// The components being modified by this Animation.
-		/// </summary>
+		/**
+		 * @brief The components being modified by this Animation.
+		 */
 		Vector<String> components;
 
-		/// <summary>
-		/// The names of the variables being modified by this Animation that are rigid (not interpolated).
-		/// </summary>
+		/**
+		 * @brief The names of the variables being modified by this Animation that are rigid (not interpolated).
+		 */
 		Vector<String> rigidVariables;
 
-		/// <summary>
-		/// The names of the variables being modified by this Animation that are smooth (interpolated).
-		/// </summary>
+		/**
+		 * @brief The names of the variables being modified by this Animation that are smooth (interpolated).
+		 */
 		Vector<String> smoothVariables;
 
-		/// <summary>
-		/// The values to set the variables to.
-		/// </summary>
+		/**
+		 * @brief The values to set the variables to.
+		 */
 		Vector<Node> values;
 
-		/// <summary>
-		/// The actions to take during the Animation.
-		/// </summary>
+		/**
+		 * @brief The actions to take during the Animation.
+		 */
 		Vector<AnimationAction> actions;
 
-		/// <summary>
-		/// The times and indices to the actions to take during the Animation.
-		/// The times are expected to be in ascending order.
-		/// There are to be no duplicate times.
-		/// </summary>
+		/**
+		 * @brief The times and indices to the actions to take during the Animation.
+		 * The times are expected to be in ascending order.
+		 * There are to be no duplicate times.
+		 */
 		Vector<Tuple<Float, Vector<Size>>> steps;
 
-		/// <summary>
-		/// Indices to the actions to take to reset the Animation to the beginning.
-		/// </summary>
+		/**
+		 * @brief Indices to the actions to take to reset the Animation to the beginning.
+		 */
 		Vector<Size> resetSteps;
 	};
 }
