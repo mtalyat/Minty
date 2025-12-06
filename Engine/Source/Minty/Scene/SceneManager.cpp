@@ -271,7 +271,14 @@ Unique<SceneManager> Minty::SceneManager::create()
 	return create(info);
 }
 
-SceneManager &Minty::SceneManager::get_singleton()
+Unique<SceneManager> const& Minty::SceneManager::get_instance()
 {
 	return Application::get_singleton().get_scene_manager();
+}
+
+SceneManager& Minty::SceneManager::get_singleton()
+{
+	Unique<SceneManager> const& instance = Application::get_singleton().get_scene_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_SceneManagerNotInitialized);
+	return *instance;
 }

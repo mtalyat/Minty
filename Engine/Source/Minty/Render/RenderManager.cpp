@@ -43,9 +43,16 @@ Unique<RenderManager> Minty::RenderManager::create()
 	return create(info);
 }
 
-RenderManager &Minty::RenderManager::get_singleton()
+Unique<RenderManager> const& Minty::RenderManager::get_instance()
 {
 	return Application::get_singleton().get_render_manager();
+}
+
+RenderManager& Minty::RenderManager::get_singleton()
+{
+	Unique<RenderManager> const& instance = Application::get_singleton().get_render_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_RenderManagerNotInitialized);
+	return *instance;
 }
 
 void Minty::RenderManager::clear_binds()
@@ -157,7 +164,7 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const &info)
 	// if no window given, use the Context's window
 	if (m_window == nullptr)
 	{
-		m_window = Application::get_singleton().get_window_ref();
+		m_window = Application::get_singleton().get_window().to_ref();
 	}
 
 	MINTY_ASSERT(m_window != nullptr, ErrorCode::Argument_ExpectedNonNull);

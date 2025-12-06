@@ -114,7 +114,14 @@ Unique<LayerManager> Minty::LayerManager::create()
 	return create(info);
 }
 
-LayerManager& Minty::LayerManager::get_singleton()
+Unique<LayerManager> const& Minty::LayerManager::get_instance()
 {
 	return Application::get_singleton().get_layer_manager();
+}
+
+LayerManager& Minty::LayerManager::get_singleton()
+{
+	Unique<LayerManager> const& instance = Application::get_singleton().get_layer_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_LayerManagerNotInitialized);
+	return *instance;
 }

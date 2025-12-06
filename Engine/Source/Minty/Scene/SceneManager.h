@@ -170,6 +170,12 @@ namespace Minty
 		 * @brief Gets the singleton instance of the SceneManager.
 		 * @return A reference to the SceneManager singleton.
 		 */
+		static Unique<SceneManager> const& get_instance();
+
+		/**
+		 * @brief Gets the singleton instance of the SceneManager.
+		 * @return A reference to the SceneManager.
+		 */
 		static SceneManager& get_singleton();
 
 #pragma endregion

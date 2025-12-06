@@ -86,7 +86,13 @@ namespace Minty
          * @brief Gets the active Application's TimeController.
          * @return The TimeController singleton.
          */
-        static TimeController &get_singleton();
+        static Unique<TimeController> const& get_instance();
+
+        /**
+         * @brief Gets the active Application's TimeController.
+         * @return A reference to the TimeController.
+         */
+        static TimeController& get_singleton();
 
 #pragma endregion
 

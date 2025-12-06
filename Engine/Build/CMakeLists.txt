@@ -212,7 +212,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 # Add custom command to generate files
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E echo "Generating directory headers..."
     COMMAND python "${TOP}/Tools/Build/generate_directory_headers.py"
         "${SOURCE_DIR}/Minty"
 )

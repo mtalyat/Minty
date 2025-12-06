@@ -257,9 +257,16 @@ Unique<MemoryManager> Minty::MemoryManager::create()
 	return create(info);
 }
 
-MemoryManager &Minty::MemoryManager::get_singleton()
+Unique<MemoryManager> const& Minty::MemoryManager::get_instance()
 {
 	return Application::get_singleton().get_memory_manager();
+}
+
+MemoryManager& Minty::MemoryManager::get_singleton()
+{
+	Unique<MemoryManager> const& instance = Application::get_singleton().get_memory_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_MemoryManagerNotInitialized);
+	return *instance;
 }
 
 Size Minty::MemoryManager::get_persistent_index(Size const size) const

@@ -210,6 +210,19 @@ namespace Minty
         Wrap_EntryLimitReached,
         Wrap_CompressionFailed,
         Wrap_UncompressionFailed,
+
+        Application = 2500,
+        Application_WindowNotInitialized,
+        Application_MemoryManagerNotInitialized,
+        Application_JobManagerNotInitialized,
+        Application_AudioManagerNotInitialized,
+        Application_LayerManagerNotInitialized,
+        Application_PhysicsManagerNotInitialized,
+        Application_AssetManagerNotInitialized,
+        Application_InputManagerNotInitialized,
+        Application_RenderManagerNotInitialized,
+        Application_SceneManagerNotInitialized,
+        Application_TimeControllerNotInitialized,
         
         Unknown = ~0U
     };

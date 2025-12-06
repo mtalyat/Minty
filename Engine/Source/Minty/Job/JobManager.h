@@ -174,6 +174,12 @@ namespace Minty
 		 * @brief Gets the active Context's JobManager.
 		 * @return The JobManager.
 		 */
+		static Unique<JobManager> const& get_instance();
+
+		/**
+		 * @brief Gets the active Context's JobManager.
+		 * @return A reference to the JobManager.
+		 */
 		static JobManager& get_singleton();
 
 #pragma endregion

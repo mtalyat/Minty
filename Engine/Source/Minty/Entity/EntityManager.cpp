@@ -37,7 +37,7 @@ using namespace Minty;
 
 Lookup<TypeID, ComponentData> EntityManager::s_registeredComponents;
 
-Minty::EntityManager::EntityManager(Ref<Scene> const& scene, EntityManagerInfo const &info)
+Minty::EntityManager::EntityManager(Ref<Scene> const &scene, EntityManagerInfo const &info)
 	: SubManager(scene), m_registry(), m_ids(), m_needsSorted(false)
 {
 }
@@ -651,16 +651,17 @@ void Minty::EntityManager::finalize_dirties()
 	clear<DirtyTextComponent>();
 
 	// update dirty canvas transforms
+	Shared<Window> const &window = Application::get_singleton().get_window();
+	if (window)
 	{
+		// get window size as a rect
+		UInt2 windowSize = window->get_size();
+		Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
+
 		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const, EnabledComponent const>();
 		view.use<UITransformComponent>();
 		for (auto &&[entity, uiTransformComp, canvasComp, dirtyComp, enabledComp] : view.each())
 		{
-			// get window size as a rect
-			Window &window = Application::get_singleton().get_window();
-			UInt2 windowSize = window.get_size();
-			Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
-
 			// canvas controls the size and position
 			uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
 			uiTransformComp.transform.set_size(windowRect.width, windowRect.height);
@@ -784,8 +785,8 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	}
 
 	// get window size as a rect
-	Window &window = Application::get_singleton().get_window();
-	UInt2 windowSize = window.get_size();
+	Shared<Window> const& window = Application::get_singleton().get_window();
+	UInt2 windowSize = window->get_size();
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
 	// if no parent and no canvas, default to Window rect
@@ -1051,13 +1052,13 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String cons
 
 Component &Minty::EntityManager::add_component(Entity const entity, String const &name)
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	return info.create(*this, entity);
 }
 
 Component &Minty::EntityManager::get_component(Entity const entity, String const &name)
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	Component *component = info.get(*this, entity);
 	MINTY_ASSERT_F(component, ErrorCode::Entity_MissingComponent, name);
 	return *component;
@@ -1065,7 +1066,7 @@ Component &Minty::EntityManager::get_component(Entity const entity, String const
 
 Component const &Minty::EntityManager::get_component(Entity const entity, String const &name) const
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	Component const *component = info.get_const(*this, entity);
 	MINTY_ASSERT_F(component, ErrorCode::Entity_MissingComponent, name);
 	return *component;
@@ -1073,7 +1074,7 @@ Component const &Minty::EntityManager::get_component(Entity const entity, String
 
 Component &Minty::EntityManager::get_or_add_component(Entity const entity, String const &name)
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	Component *component = info.get(*this, entity);
 	if (component == nullptr)
 	{
@@ -1089,28 +1090,28 @@ Component &Minty::EntityManager::get_or_add_component(Entity const entity, Strin
 
 Component *Minty::EntityManager::try_get_component(Entity const entity, String const &name)
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	Component *component = info.get(*this, entity);
 	return component;
 }
 
 Component const *Minty::EntityManager::try_get_component(Entity const entity, String const &name) const
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	Component const *component = info.get_const(*this, entity);
 	return component;
 }
 
 Bool Minty::EntityManager::has_component(Entity const entity, String const &name) const
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	Component const *component = info.get_const(*this, entity);
 	return component != nullptr;
 }
 
 void Minty::EntityManager::remove_component(Entity const entity, String const &name)
 {
-	ComponentData const& info = get_component_info(name);
+	ComponentData const &info = get_component_info(name);
 	info.destroy(*this, entity);
 }
 
@@ -1680,12 +1681,12 @@ Bool Minty::EntityManager::deserialize(Reader &reader)
 	return deserialize_entities(reader);
 }
 
-Shared<EntityManager> Minty::EntityManager::create(Ref<Scene> const& scene, EntityManagerInfo const &info)
+Shared<EntityManager> Minty::EntityManager::create(Ref<Scene> const &scene, EntityManagerInfo const &info)
 {
 	return Shared<EntityManager>::create(scene, info);
 }
 
-Shared<EntityManager> Minty::EntityManager::create(Ref<Scene> const& scene)
+Shared<EntityManager> Minty::EntityManager::create(Ref<Scene> const &scene)
 {
 	EntityManagerInfo info{};
 	return create(scene, info);
@@ -1694,7 +1695,7 @@ Shared<EntityManager> Minty::EntityManager::create(Ref<Scene> const& scene)
 EntityManager &Minty::EntityManager::get_singleton()
 {
 	// get the active scene
-	Ref<Scene> const &activeScene = Application::get_singleton().get_scene_manager().get_active();
+	Ref<Scene> const &activeScene = SceneManager::get_singleton().get_active();
 	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_entity_manager();
 }

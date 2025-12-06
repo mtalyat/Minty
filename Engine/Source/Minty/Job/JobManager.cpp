@@ -261,7 +261,14 @@ Unique<JobManager> Minty::JobManager::create()
 	return create(info);
 }
 
-JobManager &Minty::JobManager::get_singleton()
+Unique<JobManager> const& Minty::JobManager::get_instance()
 {
 	return Application::get_singleton().get_job_manager();
+}
+
+JobManager& Minty::JobManager::get_singleton()
+{
+	Unique<JobManager> const& instance = Application::get_singleton().get_job_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_JobManagerNotInitialized);
+	return *instance;
 }

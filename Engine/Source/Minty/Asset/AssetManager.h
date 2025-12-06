@@ -714,6 +714,12 @@ namespace Minty
 		 * @brief Gets the active Context's AssetManager.
 		 * @return The AssetManager.
 		 */
+		static Unique<AssetManager> const& get_instance();
+
+		/**
+		 * @brief Gets the active Context's AssetManager.
+		 * @return A reference to the AssetManager.
+		 */
 		static AssetManager& get_singleton();
 
 #pragma endregion

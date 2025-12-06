@@ -289,7 +289,7 @@ Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene)
 SystemManager &Minty::SystemManager::get_singleton()
 {
 	// get from the active scene
-	Ref<Scene> const &activeScene = Application::get_singleton().get_scene_manager().get_active();
+	Ref<Scene> const &activeScene = SceneManager::get_singleton().get_active();
 	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
 	return activeScene->get_system_manager();
 }

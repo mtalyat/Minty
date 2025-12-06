@@ -2030,7 +2030,14 @@ Unique<AssetManager> Minty::AssetManager::create()
 	return create(info);
 }
 
-AssetManager &Minty::AssetManager::get_singleton()
+AssetManager& Minty::AssetManager::get_singleton()
+{
+	Unique<AssetManager> const& instance = Application::get_singleton().get_asset_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_AssetManagerNotInitialized);
+	return *instance;
+}
+
+Unique<AssetManager> const& Minty::AssetManager::get_instance()
 {
 	return Application::get_singleton().get_asset_manager();
 }

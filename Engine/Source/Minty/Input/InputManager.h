@@ -53,7 +53,13 @@ namespace Minty
 		 * @brief Gets the active Context's InputManager.
 		 * @return The singleton.
 		 */
-		static InputManager& get_instance();
+		static InputManager& get_singleton();
+
+		/**
+		 * @brief Gets the singleton InputManager for the application.
+		 * @return A reference to the InputManager.
+		 */
+		static Unique<InputManager> const& get_instance();
 
 		/**
 		 * @brief Creates a new InputManager.

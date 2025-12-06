@@ -21,7 +21,14 @@ Unique<PhysicsManager> Minty::PhysicsManager::create()
 	return create(info);
 }
 
-PhysicsManager &Minty::PhysicsManager::get_singleton()
+Unique<PhysicsManager> const& Minty::PhysicsManager::get_instance()
 {
 	return Application::get_singleton().get_physics_manager();
+}
+
+PhysicsManager& Minty::PhysicsManager::get_singleton()
+{
+	Unique<PhysicsManager> const& instance = Application::get_singleton().get_physics_manager();
+	MINTY_ASSERT(instance, ErrorCode::Application_PhysicsManagerNotInitialized);
+	return *instance;
 }

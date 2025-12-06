@@ -135,6 +135,12 @@ namespace Minty
 		 * @brief Gets the singleton MemoryManager.
 		 * @return The MemoryManager singleton.
 		 */
+		static Unique<MemoryManager> const& get_instance();
+
+		/**
+		 * @brief Gets the singleton MemoryManager.
+		 * @return A reference to the MemoryManager.
+		 */
 		static MemoryManager& get_singleton();
 
 	private:

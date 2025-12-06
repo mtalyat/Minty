@@ -76,32 +76,16 @@ namespace Minty
 		 * @note This will be invalid if no Window was created using the ApplicationInfo.
 		 * @return The Window.
 		 */
-		Window &get_window() const
-		{
-			MINTY_ASSERT(m_window != nullptr, ErrorCode::Object_InvalidState);
-			return *m_window;
-		}
-
-		/**
-		 * @brief Gets a Ref to the Window of the Application.
-		 * @note This will be invalid if no Window was created using the ApplicationInfo.
-		 * @return The Ref to the Window.
-		 */
-		Ref<Window> get_window_ref() const
-		{
-			MINTY_ASSERT(m_window != nullptr, ErrorCode::Object_InvalidState);
-			return m_window.to_ref();
-		}
+		Shared<Window> const& get_window() const { return m_window; }
 
 		/**
 		 * @note This will be invalid if no MemoryManager was created using the ApplicationInfo.
 		 * @brief Gets the MemoryManager of the Application.
 		 * @return The MemoryManager.
 		 */
-		MemoryManager &get_memory_manager() const
+		Unique<MemoryManager> const& get_memory_manager() const
 		{
-			MINTY_ASSERT(m_memoryManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_memoryManager;
+			return m_memoryManager;
 		}
 
 		/**
@@ -109,10 +93,9 @@ namespace Minty
 		 * @note This will be invalid if no JobManager was created using the ApplicationInfo.
 		 * @return The JobManager.
 		 */
-		JobManager &get_job_manager() const
+		Unique<JobManager> const& get_job_manager() const
 		{
-			MINTY_ASSERT(m_jobManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_jobManager;
+			return m_jobManager;
 		}
 
 		/**
@@ -120,10 +103,9 @@ namespace Minty
 		 * @note This will be invalid if no AudioManager was created using the ApplicationInfo.
 		 * @return The AudioManager.
 		 */
-		AudioManager &get_audio_manager() const
+		Unique<AudioManager> const& get_audio_manager() const
 		{
-			MINTY_ASSERT(m_audioManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_audioManager;
+			return m_audioManager;
 		}
 
 		/**
@@ -131,10 +113,9 @@ namespace Minty
 		 * @note This will be invalid if no LayerManager was created using the ApplicationInfo.
 		 * @return The LayerManager.
 		 */
-		LayerManager &get_layer_manager() const
+		Unique<LayerManager> const& get_layer_manager() const
 		{
-			MINTY_ASSERT(m_layerManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_layerManager;
+			return m_layerManager;
 		}
 
 		/**
@@ -142,10 +123,9 @@ namespace Minty
 		 * @note This will be invalid if no PhysicsManager was created using the ApplicationInfo.
 		 * @return The PhysicsManager.
 		 */
-		PhysicsManager &get_physics_manager() const
+		Unique<PhysicsManager> const& get_physics_manager() const
 		{
-			MINTY_ASSERT(m_physicsManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_physicsManager;
+			return m_physicsManager;
 		}
 
 		/**
@@ -153,10 +133,9 @@ namespace Minty
 		 * @note This will be invalid if no AssetManager was created using the ApplicationInfo.
 		 * @return The AssetManager.
 		 */
-		AssetManager &get_asset_manager() const
+		Unique<AssetManager> const& get_asset_manager() const
 		{
-			MINTY_ASSERT(m_assetManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_assetManager;
+			return m_assetManager;
 		}
 
 		/**
@@ -164,10 +143,9 @@ namespace Minty
 		 * @note This will be invalid if no InputManager was created using the ApplicationInfo.
 		 * @return The InputManager.
 		 */
-		InputManager &get_input_manager() const
+		Unique<InputManager> const& get_input_manager() const
 		{
-			MINTY_ASSERT(m_inputManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_inputManager;
+			return m_inputManager;
 		}
 
 		/**
@@ -175,10 +153,9 @@ namespace Minty
 		 * @note This will be invalid if no RenderManager was created using the ApplicationInfo.
 		 * @return The RenderManager.
 		 */
-		RenderManager &get_render_manager() const
+		Unique<RenderManager> const& get_render_manager() const
 		{
-			MINTY_ASSERT(m_renderManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_renderManager;
+			return m_renderManager;
 		}
 
 		/**
@@ -186,10 +163,9 @@ namespace Minty
 		 * @note This will be invalid if no SceneManager was created using the ApplicationInfo.
 		 * @return The SceneManager.
 		 */
-		SceneManager &get_scene_manager() const
+		Unique<SceneManager> const& get_scene_manager() const
 		{
-			MINTY_ASSERT(m_sceneManager != nullptr, ErrorCode::Object_InvalidState);
-			return *m_sceneManager;
+			return m_sceneManager;
 		}
 
 		/**
@@ -197,10 +173,9 @@ namespace Minty
 		 * @note This will be invalid if no TimeManager was created using the ApplicationInfo.
 		 * @return The TimeManager.
 		 */
-		TimeController &get_time_manager() const
+		Unique<TimeController> const& get_time_manager() const
 		{
-			MINTY_ASSERT(m_timeController != nullptr, ErrorCode::Object_InvalidState);
-			return *m_timeController;
+			return m_timeController;
 		}
 
 		/**

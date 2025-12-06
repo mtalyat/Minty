@@ -127,6 +127,12 @@ namespace Minty
 		 * @brief Gets the singleton instance of the AudioManager.
 		 * @return The singleton.
 		 */
+		static Unique<AudioManager> const& get_instance();
+
+		/**
+		 * @brief Gets the singleton instance of the AudioManager.
+		 * @return A reference to the AudioManager.
+		 */
 		static AudioManager& get_singleton();
 
 		/**

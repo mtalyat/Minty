@@ -2,6 +2,11 @@ import os
 import sys
 from pathlib import Path
 
+# Add parent directory to path for imports when run as a script
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+from Util import file_generation
+
 AUTO_GENERATED_NOTICE = "// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY."
 IGNORED_DIRECTORIES = {"Library", "Generated"}
 
@@ -33,13 +38,13 @@ def generate_combined_header(directory_path):
 
     # Skip ignored directories
     if dir_name in IGNORED_DIRECTORIES:
-        return True
+        return False
     
     # Find all .h files in the directory (non-recursive)
     h_files = sorted([f for f in dir_path.iterdir() if f.is_file() and f.suffix == '.h'])
     
     if not h_files:
-        return True  # No .h files to process, but not an error
+        return False  # No .h files to process, but not an error
     
     # Create output filename
     output_filename = f"_{dir_name}.h"
@@ -59,13 +64,7 @@ def generate_combined_header(directory_path):
     lines.append("")
     
     # Write to file
-    try:
-        with open(output_path, 'w') as f:
-            f.write('\n'.join(lines))
-        return True
-    except Exception as e:
-        print(f"  Error writing file: {e}")
-        return False
+    return file_generation.update_generated_file(output_path, '\n'.join(lines))
 
 
 def generate_main_header(source_path, subdirs_with_headers):
@@ -101,13 +100,7 @@ def generate_main_header(source_path, subdirs_with_headers):
     lines.append(f"#endif // {src_name.upper()}_H")
     lines.append("")
     
-    try:
-        with open(output_path, 'w') as f:
-            f.write('\n'.join(lines))
-        return True
-    except Exception as e:
-        print(f"\nError writing main header: {e}")
-        return False
+    return file_generation.update_generated_file(output_path, '\n'.join(lines))
 
 
 def process_source_directory(source_path):
@@ -141,12 +134,13 @@ def process_source_directory(source_path):
     successful_subdirs = []
     for subdir in subdirs:
         if generate_combined_header(subdir):
+            print(f'Updated {subdir.name}.')
             success_count += 1
             successful_subdirs.append(subdir.name)
     
     # Generate the main header file
-    if successful_subdirs:
-        generate_main_header(source_path, successful_subdirs)
+    if successful_subdirs and generate_main_header(source_path, successful_subdirs):
+        print(f'Updated {src_path.name}.h.')
     
     return success_count
 
@@ -159,8 +153,8 @@ def main():
         sys.exit(1)
     
     source_path = sys.argv[1]
-    success_count = process_source_directory(source_path)
-    sys.exit(0 if success_count > 0 else 1)
+    process_source_directory(source_path)
+    sys.exit(0)
 
 
 if __name__ == "__main__":

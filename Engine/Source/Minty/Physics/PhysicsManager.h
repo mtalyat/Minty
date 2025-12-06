@@ -53,6 +53,12 @@ namespace Minty
 		 * @brief Gets the singleton PhysicsManager for the active Scene.
 		 * @return The PhysicsManager.
 		 */
+		static Unique<PhysicsManager> const& get_instance();
+
+		/**
+		 * @brief Gets the singleton PhysicsManager for the active Scene.
+		 * @return A reference to the PhysicsManager.
+		 */
 		static PhysicsManager& get_singleton();
 
 #pragma endregion

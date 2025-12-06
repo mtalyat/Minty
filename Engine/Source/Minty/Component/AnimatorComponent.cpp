@@ -16,20 +16,25 @@ void Minty::AnimatorComponent::serialize(Writer& writer) const
 
 Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 {
+	auto const& assetManager = AssetManager::get_instance();
+	if(!assetManager)
+	{
+		MINTY_ERROR(ErrorCode::Application_AssetManagerNotInitialized);
+		return false;
+	}
+
 	UUID id;
 	if (reader.read_default(id) || reader.read("Animator", id))
 	{
-		AssetManager& assetManager = AssetManager::get_singleton();
-
 		// make a copy of the animator
-		animator = assetManager.clone<Animator>(id);
+		animator = assetManager->clone<Animator>(id);
 		MINTY_ASSERT_F(animator != nullptr, ErrorCode::Asset_MissingDependency, id);
 
 		// get the animation
 		id = animator->get_current_animation();
 		if (id.is_valid())
 		{
-			animation = assetManager.get<Animation>(id);
+			animation = assetManager->get<Animation>(id);
 		}
 	}
 

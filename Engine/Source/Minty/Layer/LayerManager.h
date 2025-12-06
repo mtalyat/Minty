@@ -99,6 +99,12 @@ namespace Minty
 		 * @brief Gets the active Context's LayerManager.
 		 * @return The LayerManager.
 		 */
+		static Unique<LayerManager> const& get_instance();
+
+		/**
+		 * @brief Gets the active Context's LayerManager.
+		 * @return A reference to the LayerManager.
+		 */
 		static LayerManager& get_singleton();
 
 #pragma endregion
