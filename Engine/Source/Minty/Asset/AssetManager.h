@@ -13,32 +13,31 @@
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Wrap/Wrapper.h"
+#include "Minty/Animation/Animation.h"
+#include "Minty/Animation/Animator.h"
+#include "Minty/Audio/AudioClip.h"
+#include "Minty/Render/Camera.h"
+#include "Minty/Render/Font.h"
+#include "Minty/Render/FontVariant.h"
+#include "Minty/Render/Image.h"
+#include "Minty/Render/Material.h"
+#include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/Mesh.h"
+#include "Minty/Entity/Prefab.h"
+#include "Minty/Render/RenderPass.h"
+#include "Minty/Render/RenderTarget.h"
+#include "Minty/Render/Shader.h"
+#include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/Sprite.h"
+#include "Minty/Render/SpriteAtlas.h"
+#include "Minty/Render/Texture.h"
+#include "Minty/Render/Viewport.h"
 #include <mutex>
 
 #include "Minty/Asset/GenericAsset.h"
 
 namespace Minty
 {
-	class Animation;
-	class Animator;
-	class AudioClip;
-	class Camera;
-	class Font;
-	class FontVariant;
-	class Image;
-	class Material;
-	class MaterialTemplate;
-	class Mesh;
-	class Prefab;
-	class RenderPass;
-	class RenderTarget;
-	class Scene;
-	class Shader;
-	class ShaderModule;
-	class Sprite;
-	class SpriteAtlas;
-	class Texture;
-	class Viewport;
 	struct AssetManagerInfo;
 	struct RenderAttachment;
 
@@ -128,6 +127,13 @@ namespace Minty
 		Bool exists(Path const& path) const;
 
 		/**
+		 * @brief Checks if an Asset with the given UUID exists.
+		 * @param id The UUID of the Asset.
+		 * @return True if the Asset is loaded.
+		 */
+		Bool exists(UUID const id) const;
+
+		/**
 		 * @brief Opens a Reader to the Asset at the given Path.
 		 * @param path The Path to the Asset to read.
 		 * @param reader The Reader to use.
@@ -168,7 +174,7 @@ namespace Minty
 		 * @param path The Path to the Asset.
 		 * @return A reference to the loaded Asset.
 		 */
-		Ref<Asset> load_asset(Path const& path);
+		Shared<Asset> load_asset(Path const& path);
 
 		/**
 		 * @brief Loads the Asset of the given type at the given Path.
@@ -177,9 +183,9 @@ namespace Minty
 		 * @return A reference to the loaded Asset.
 		 */
 		template<typename T>
-		Ref<T> load(Path const& path)
+		Shared<T> load(Path const& path)
 		{
-			return static_cast<Ref<T>>(load_asset(path));
+			return load_asset(path).cast<T>();
 		}
 
 		/**
@@ -188,7 +194,7 @@ namespace Minty
 		 * @return A reference to the loaded Animation Asset.
 		 */
 		template<>
-		inline Ref<Animation> load<Animation>(Path const& path)
+		inline Shared<Animation> load<Animation>(Path const& path)
 		{
 			return load_animation(path, read_id(path));
 		}
@@ -199,7 +205,7 @@ namespace Minty
 		 * @return A reference to the loaded Animator Asset.
 		 */
 		template<>
-		inline Ref<Animator> load<Animator>(Path const& path)
+		inline Shared<Animator> load<Animator>(Path const& path)
 		{
 			return load_animator(path, read_id(path));
 		}
@@ -210,7 +216,7 @@ namespace Minty
 		 * @return A reference to the loaded AudioClip Asset.
 		 */
 		template<>
-		inline Ref<AudioClip> load<AudioClip>(Path const& path)
+		inline Shared<AudioClip> load<AudioClip>(Path const& path)
 		{
 			return load_audio_clip(path, read_id(path));
 		}
@@ -221,7 +227,7 @@ namespace Minty
 		 * @return A reference to the loaded Camera Asset.
 		 */
 		template<>
-		inline Ref<Camera> load<Camera>(Path const& path)
+		inline Shared<Camera> load<Camera>(Path const& path)
 		{
 			return load_camera(path, read_id(path));
 		}
@@ -232,7 +238,7 @@ namespace Minty
 		 * @return A reference to the loaded Font Asset.
 		 */
 		template<>
-		inline Ref<Font> load<Font>(Path const& path)
+		inline Shared<Font> load<Font>(Path const& path)
 		{
 			return load_font(path, read_id(path));
 		}
@@ -243,7 +249,7 @@ namespace Minty
 		 * @return A reference to the loaded FontVariant Asset.
 		 */
 		template<>
-		inline Ref<FontVariant> load<FontVariant>(Path const& path)
+		inline Shared<FontVariant> load<FontVariant>(Path const& path)
 		{
 			return load_font_variant(path, read_id(path));
 		}
@@ -254,7 +260,7 @@ namespace Minty
 		 * @return A reference to the loaded Image Asset.
 		 */
 		template<>
-		inline Ref<Image> load<Image>(Path const& path)
+		inline Shared<Image> load<Image>(Path const& path)
 		{
 			return load_image(path, read_id(path));
 		}
@@ -265,7 +271,7 @@ namespace Minty
 		 * @return A reference to the loaded Material Asset.
 		 */
 		template<>
-		inline Ref<Material> load<Material>(Path const& path)
+		inline Shared<Material> load<Material>(Path const& path)
 		{
 			return load_material(path, read_id(path));
 		}
@@ -276,7 +282,7 @@ namespace Minty
 		 * @return A reference to the loaded MaterialTemplate Asset.
 		 */
 		template<>
-		inline Ref<MaterialTemplate> load<MaterialTemplate>(Path const& path)
+		inline Shared<MaterialTemplate> load<MaterialTemplate>(Path const& path)
 		{
 			return load_material_template(path, read_id(path));
 		}
@@ -287,7 +293,7 @@ namespace Minty
 		 * @return A reference to the loaded Mesh Asset.
 		 */
 		template<>
-		inline Ref<Mesh> load<Mesh>(Path const& path)
+		inline Shared<Mesh> load<Mesh>(Path const& path)
 		{
 			return load_mesh(path, read_id(path));
 		}
@@ -298,7 +304,7 @@ namespace Minty
 		 * @return A reference to the loaded Prefab Asset.
 		 */
 		template<>
-		inline Ref<Prefab> load<Prefab>(Path const& path)
+		inline Shared<Prefab> load<Prefab>(Path const& path)
 		{
 			return load_prefab(path, read_id(path));
 		}
@@ -309,7 +315,7 @@ namespace Minty
 		 * @return A reference to the loaded RenderPass Asset.
 		 */
 		template<>
-		inline Ref<RenderPass> load<RenderPass>(Path const& path)
+		inline Shared<RenderPass> load<RenderPass>(Path const& path)
 		{
 			return load_render_pass(path, read_id(path));
 		}
@@ -320,7 +326,7 @@ namespace Minty
 		 * @return A reference to the loaded Shader Asset.
 		 */
 		template<>
-		inline Ref<Shader> load<Shader>(Path const& path)
+		inline Shared<Shader> load<Shader>(Path const& path)
 		{
 			return load_shader(path, read_id(path));
 		}
@@ -331,7 +337,7 @@ namespace Minty
 		 * @return A reference to the loaded ShaderModule Asset.
 		 */
 		template<>
-		inline Ref<ShaderModule> load<ShaderModule>(Path const& path)
+		inline Shared<ShaderModule> load<ShaderModule>(Path const& path)
 		{
 			return load_shader_module(path, read_id(path));
 		}
@@ -342,7 +348,7 @@ namespace Minty
 		 * @return A reference to the loaded Sprite Asset.
 		 */
 		template<>
-		inline Ref<Sprite> load<Sprite>(Path const& path)
+		inline Shared<Sprite> load<Sprite>(Path const& path)
 		{
 			return load_sprite(path, read_id(path));
 		}
@@ -353,7 +359,7 @@ namespace Minty
 		 * @return A reference to the loaded Texture Asset.
 		 */
 		template<>
-		inline Ref<Texture> load<Texture>(Path const& path)
+		inline Shared<Texture> load<Texture>(Path const& path)
 		{
 			return load_texture(path, read_id(path));
 		}
@@ -390,7 +396,7 @@ namespace Minty
 		 * @return A reference to the newly created Asset.
 		 */
 		template<typename T, typename... Args>
-		Ref<T> create(Args&&... args)
+		Shared<T> create(Args&&... args)
 		{
 			// create new asset
 			Shared<T> asset = T::create(std::forward<Args>(args)...);
@@ -398,7 +404,7 @@ namespace Minty
 			// add to asset manager
 			add(asset);
 
-			return asset.to_ref();
+			return asset;
 		}
 
 		/**
@@ -429,7 +435,14 @@ namespace Minty
 		 * @param id The ID of the loaded Asset to get.
 		 * @return A reference to the loaded Asset with the given ID, or a null Asset if not found.
 		 */
-		Ref<Asset> get_asset(UUID const id) const;
+		Ref<Asset> get_asset_ref(UUID const id) const;
+		
+		/**
+		 * @brief Gets a shared pointer to the Asset with the given ID.
+		 * @param id The ID of the loaded Asset to get.
+		 * @return A shared pointer to the loaded Asset with the given ID.
+		 */
+		Shared<Asset> get_asset(UUID const id) const;
 
 		/**
 		 * @brief Gets the Asset with the given ID.
@@ -438,7 +451,18 @@ namespace Minty
 		 * @return A reference to the loaded Asset with the given ID, or a null Asset if not found.
 		 */
 		template<typename T>
-		Ref<T> get(UUID const id) const
+		Ref<T> get_ref(UUID const id) const
+		{
+			return get_asset_ref(id).cast<T>();
+		}
+
+		/**
+		 * @brief Gets a shared pointer to the Asset with the given ID.
+		 * @param id The ID of the loaded Asset to get.
+		 * @return A shared pointer to the loaded Asset with the given ID.
+		 */
+		template<typename T>
+		Shared<T> get(UUID const id) const
 		{
 			return get_asset(id).cast<T>();
 		}
@@ -448,7 +472,14 @@ namespace Minty
 		 * @param id The ID of the loaded Asset to get.
 		 * @return A reference to the loaded Asset with the given ID.
 		 */
-		Ref<Asset> at_asset(UUID const id) const;
+		Ref<Asset> at_asset_ref(UUID const id) const;
+
+		/**
+		 * @brief Gets a shared pointer to the Asset with the given ID.
+		 * @param id The ID of the loaded Asset to get.
+		 * @return A shared pointer to the loaded Asset with the given ID.
+		 */
+		Shared<Asset> const& at_asset(UUID const id) const;
 
 		/**
 		 * @brief Gets the Asset with the given ID.
@@ -457,9 +488,15 @@ namespace Minty
 		 * @return A reference to the loaded Asset with the given ID.
 		 */
 		template<typename T>
-		Ref<T> at(UUID const id) const
+		Ref<T> at_ref(UUID const id) const
 		{
-			return static_cast<Ref<T>>(at_asset(id));
+			return static_cast<Ref<T>>(at_asset_ref(id));
+		}
+
+		template<typename T>
+		Shared<T> at(UUID const id) const
+		{
+			return at_asset(id).cast<T>();
 		}
 
 		/**
@@ -482,7 +519,7 @@ namespace Minty
 			Vector<Ref<T>> assets(found->get_second().get_size());
 			for (UUID const id : found->get_second())
 			{
-				assets.add(at<T>(id));
+				assets.add(at_ref<T>(id));
 			}
 
 			return assets;
@@ -519,7 +556,7 @@ namespace Minty
 		Ref<T> clone(UUID const id)
 		{
 			// get asset to clone
-			Ref<T> asset = get<T>(id);
+			Ref<T> asset = get_ref<T>(id);
 
 			// do nothing if null
 			if (asset == nullptr)
@@ -582,7 +619,7 @@ namespace Minty
 
 		// creates a new asset with the given path and args (from a load_xxx function)
 		template<typename T, typename... Args>
-		Ref<T> create_from_loaded(Path const& path, Args&& ...args)
+		Shared<T> create_from_loaded(Path const& path, Args&& ...args)
 		{
 			// create new asset
 			Shared<T> asset = T::create(std::forward<Args>(args)...);
@@ -593,19 +630,19 @@ namespace Minty
 			// add to asset manager
 			add(path, asset);
 
-			return asset.to_ref();
+			return asset;
 		}
 
 		void run_completion_jobs();
 
 		// loads the Asset at the given Path, using the AssetType to determine how to load it
-		inline Ref<Asset> load_asset(Path const& path, AssetType const type)
+		inline Shared<Asset> load_asset(Path const& path, AssetType const type)
 		{
 			return load_asset(path, type, read_id(path));
 		}
 
 		// loads the Asset at the given Path, using the AssetType to determine how to load it and the given ID
-		Ref<Asset> load_asset(Path const& path, AssetType const type, UUID const id);
+		Shared<Asset> load_asset(Path const& path, AssetType const type, UUID const id);
 
 #pragma region Load
 
@@ -613,7 +650,7 @@ namespace Minty
 
 	private:
 		template<typename T>
-		Int find_dependency(Path const& path, Reader& reader, String const& name, Ref<T>& asset, bool required) const
+		Int find_dependency(Path const& path, Reader& reader, String const& name, Shared<T>& asset, bool required) const
 		{
 			UUID id{};
 
@@ -648,47 +685,47 @@ namespace Minty
 #pragma endregion
 
 	private:
-		Ref<GenericAsset> load_generic(Path const& path, UUID const id);
+		Shared<GenericAsset> load_generic(Path const& path, UUID const id);
 
 		Shared<Image> create_image(Path const& path, UUID const id);
 
-		Ref<Animation> load_animation(Path const& path, UUID const id);
+		Shared<Animation> load_animation(Path const& path, UUID const id);
 
-		Ref<Animator> load_animator(Path const& path, UUID const id);
+		Shared<Animator> load_animator(Path const& path, UUID const id);
 
-		Ref<AudioClip> load_audio_clip(Path const& path, UUID const id);
+		Shared<AudioClip> load_audio_clip(Path const& path, UUID const id);
 
-		Ref<Camera> load_camera(Path const& path, UUID const id);
+		Shared<Camera> load_camera(Path const& path, UUID const id);
 
-		Ref<Font> load_font(Path const& path, UUID const id);
+		Shared<Font> load_font(Path const& path, UUID const id);
 
-		Ref<FontVariant> load_font_variant(Path const& path, UUID const id);
+		Shared<FontVariant> load_font_variant(Path const& path, UUID const id);
 
-		Ref<Image> load_image(Path const& path, UUID const id);
+		Shared<Image> load_image(Path const& path, UUID const id);
 
-		Ref<Material> load_material(Path const& path, UUID const id);
+		Shared<Material> load_material(Path const& path, UUID const id);
 
-		Ref<MaterialTemplate> load_material_template(Path const& path, UUID const id);
+		Shared<MaterialTemplate> load_material_template(Path const& path, UUID const id);
 
-		Ref<Mesh> load_mesh_obj(Path const& path, UUID const id);
+		Shared<Mesh> load_mesh_obj(Path const& path, UUID const id);
 
-		Ref<Mesh> load_mesh(Path const& path, UUID const id);
+		Shared<Mesh> load_mesh(Path const& path, UUID const id);
 
-		Ref<Prefab> load_prefab(Path const& path, UUID const id);
+		Shared<Prefab> load_prefab(Path const& path, UUID const id);
 
-		Ref<RenderPass> load_render_pass(Path const& path, UUID const id);
+		Shared<RenderPass> load_render_pass(Path const& path, UUID const id);
 
-		Ref<RenderTarget> load_render_target(Path const& path, UUID const id);
+		Shared<RenderTarget> load_render_target(Path const& path, UUID const id);
 
-		Ref<Shader> load_shader(Path const& path, UUID const id);
+		Shared<Shader> load_shader(Path const& path, UUID const id);
 
-		Ref<ShaderModule> load_shader_module(Path const& path, UUID const id);
+		Shared<ShaderModule> load_shader_module(Path const& path, UUID const id);
 
-		Ref<Sprite> load_sprite(Path const& path, UUID const id);
+		Shared<Sprite> load_sprite(Path const& path, UUID const id);
 
-		Ref<SpriteAtlas> load_sprite_atlas(Path const& path, UUID const id);
+		Shared<SpriteAtlas> load_sprite_atlas(Path const& path, UUID const id);
 
-		Ref<Texture> load_texture(Path const& path, UUID const id);
+		Shared<Texture> load_texture(Path const& path, UUID const id);
 
 #pragma endregion
 

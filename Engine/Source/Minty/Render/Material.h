@@ -12,10 +12,10 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Variable.h"
+#include "Minty/Render/MaterialTemplate.h"
 
 namespace Minty
 {
-	class MaterialTemplate;
 	struct MaterialInfo;
 
 	constexpr Size STENCIL_MIN = 0;
@@ -44,7 +44,7 @@ namespace Minty
 		 * @brief Gets the MaterialTemplate that this Material uses.
 		 * @return The MaterialTemplate.
 		 */
-		Ref<MaterialTemplate> const& get_material_template() const { return m_materialTemplate; }
+		Shared<MaterialTemplate> const& get_material_template() const { return m_materialTemplate; }
 
 		/**
 		 * @brief Gets the values of this Material.
@@ -142,7 +142,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Ref<MaterialTemplate> m_materialTemplate;
+		Shared<MaterialTemplate> m_materialTemplate;
 		Cargo m_cargo;
 		UInt m_stencil;
 

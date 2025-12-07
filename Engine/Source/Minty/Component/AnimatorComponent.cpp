@@ -34,7 +34,7 @@ Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 		id = animator->get_current_animation();
 		if (id.is_valid())
 		{
-			animation = assetManager->get<Animation>(id);
+			animation = assetManager->get_ref<Animation>(id);
 		}
 	}
 

@@ -281,7 +281,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderInfo const& info)
 	inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
 
 	// viewport and scissor
-	Ref<Vulkan_Viewport> vulkanViewport = static_cast<Ref<Vulkan_Viewport>>(info.viewport);
+	Shared<Vulkan_Viewport> vulkanViewport = info.viewport.cast<Vulkan_Viewport>();
 	const VkViewport* viewport = &vulkanViewport->get_viewport();
 	const VkRect2D* scissor = &vulkanViewport->get_scissor();
 
@@ -447,7 +447,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderInfo const& info)
 
 	pipelineInfo.layout = m_pipelineLayout;
 
-	pipelineInfo.renderPass = static_cast<Ref<Vulkan_RenderPass>>(info.renderPass)->get_render_pass();
+	pipelineInfo.renderPass = info.renderPass.cast<Vulkan_RenderPass>()->get_render_pass();
 	pipelineInfo.subpass = 0;
 
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;

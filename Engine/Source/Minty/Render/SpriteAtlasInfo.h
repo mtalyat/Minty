@@ -12,11 +12,10 @@
 #include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Render/SpriteGroup.h"
+#include "Minty/Render/Texture.h"
 
 namespace Minty
 {
-    class Texture;
-
     /**
 	 * @brief The arguments to build a SpriteAtlas.
 	 */
@@ -30,7 +29,7 @@ namespace Minty
 		/**
 		 * @brief The Texture that this Atlas uses.
 		 */
-		Ref<Texture> texture = nullptr;
+		Shared<Texture> texture = nullptr;
 
 		/**
 		 * @brief The Sprite groups within this Atlas.

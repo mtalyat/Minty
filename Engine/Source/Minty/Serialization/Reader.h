@@ -634,7 +634,25 @@ namespace Minty
 		 * @param asset The Asset.
 		 * @return True on success.
 		 */
-		Bool read_asset(Size const index, Ref<Asset>& asset);
+		Bool read_asset(Size const index, Shared<Asset>& asset);
+
+		/**
+		 * @brief Reads the ID of the Asset and populates the given Asset if found.
+		 * @param index The index of the Node to read.
+		 * @param asset The Asset.
+		 * @return True on success.
+		 */
+		inline Bool read_asset(Size const index, Ref<Asset>& asset)
+		{
+			Shared<Asset> temp;
+			if (read_asset(index, temp))
+			{
+				asset = temp.to_ref();
+				return true;
+			}
+
+			return false;
+		}
 
 		/**
 		 * @brief Reads the ID of the Asset and populates the given Asset if found.
@@ -642,7 +660,18 @@ namespace Minty
 		 * @param asset The Asset.
 		 * @return True on success.
 		 */
-		Bool read_asset(String const& name, Ref<Asset>& asset)
+		inline Bool read_asset(String const& name, Shared<Asset>& asset)
+		{
+			return read_asset(get_index(name), asset);
+		}
+
+		/**
+		 * @brief Reads the ID of the Asset and populates the given Asset if found.
+		 * @param name The name of the Node to read.
+		 * @param asset The Asset.
+		 * @return True on success.
+		 */
+		inline Bool read_asset(String const& name, Ref<Asset>& asset)
 		{
 			return read_asset(get_index(name), asset);
 		}
@@ -659,7 +688,7 @@ namespace Minty
 		Bool read(Size const index, T& asset,
 			typename std::enable_if<is_asset<T>::value, int>::type = 0)
 		{
-			Ref<Asset> assetRef = static_cast<Ref<Asset>>(asset);
+			auto assetRef = asset.cast<Asset>();
 			Bool result = read_asset(index, assetRef);
 			asset = static_cast<T>(assetRef);
 			return result;

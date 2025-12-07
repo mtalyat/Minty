@@ -11,10 +11,10 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Render/RenderAttachment.h"
-#include "Minty/Render/RenderTarget.h"
 
 namespace Minty
 {
+	class RenderTarget;
 	struct RenderPassInfo;
 
 	/**
@@ -23,16 +23,6 @@ namespace Minty
 	class RenderPass
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		// all targets that use this RenderPass
-		Set<RenderTarget*> m_renderTargets;
-		Bool m_colorAttachment;
-		Bool m_depthAttachment;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -112,6 +102,16 @@ namespace Minty
 		 * @return A RenderPass Owner.
 		 */
 		static Shared<RenderPass> create();
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		// all targets that use this RenderPass
+		Set<RenderTarget*> m_renderTargets;
+		Bool m_colorAttachment;
+		Bool m_depthAttachment;
 
 #pragma endregion
 	};

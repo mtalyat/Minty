@@ -41,6 +41,9 @@ namespace Minty
         }
     };
 
+    template<typename T, typename Allocator>
+    class Shared;
+
     /**
      * @class Ref
      * @brief A simple implementation of a reference-counted pointer.
@@ -95,7 +98,7 @@ namespace Minty
         Ref(Ref<U, Allocator> &&other)
             : mp_ptr(static_cast<T *>(other.get())), mp_counter(other.get_counter())
         {
-            other.kill();
+            other.clear();
         }
 
         /**
@@ -118,7 +121,7 @@ namespace Minty
         Ref(Ref &&other) noexcept
             : mp_ptr(other.mp_ptr), mp_counter(other.mp_counter)
         {
-            other.kill();
+            other.clear();
         }
 
         ~Ref()
@@ -228,7 +231,7 @@ namespace Minty
                 {
                     Allocator::template destruct<PointerCounter>(mp_counter);
                 }
-                kill();
+                clear();
             }
         }
 
@@ -236,7 +239,7 @@ namespace Minty
          * @brief Kills the pointer, setting it to null without modifying reference counts.
          * @attention This should be used with caution as it can lead to dangling pointers.
          */
-        inline void kill()
+        inline void clear()
         {
             mp_ptr = nullptr;
             mp_counter = nullptr;
@@ -250,6 +253,15 @@ namespace Minty
         Ref<U, Allocator> cast() const
         {
             return Ref<U, Allocator>(static_cast<U *>(mp_ptr), mp_counter);
+        }
+
+        /**
+         * @brief Converts the Ref pointer to a Shared pointer.
+         * @return A Shared pointer managing the same object.
+         */
+        Shared<T, Allocator> to_shared() const
+        {
+            return Shared<T, Allocator>(mp_ptr, mp_counter);
         }
 
 #pragma endregion
@@ -312,7 +324,7 @@ namespace Minty
         explicit Shared(T *const ptr, PointerCounter *const counter)
             : mp_ptr(ptr), mp_counter(counter)
         {
-            MINTY_ASSERT(ptr != nullptr, ErrorCode::Argument_InvalidValue);
+            MINTY_ASSERT((ptr == nullptr && counter == nullptr) || (ptr != nullptr && counter != nullptr), ErrorCode::Argument_InvalidValue);
             if (counter)
             {
                 ++mp_counter->strongCount;
@@ -345,7 +357,7 @@ namespace Minty
         Shared(Shared<U, Allocator> &&other)
             : mp_ptr(static_cast<T *>(other.get())), mp_counter(other.get_counter())
         {
-            other.kill();
+            other.clear();
         }
 
         /**
@@ -368,7 +380,7 @@ namespace Minty
         Shared(Shared &&other) noexcept
             : mp_ptr(other.mp_ptr), mp_counter(other.mp_counter)
         {
-            other.kill();
+            other.clear();
         }
 
         ~Shared()
@@ -468,7 +480,7 @@ namespace Minty
                         Allocator::template destruct<PointerCounter>(mp_counter);
                     }
                 }
-                kill();
+                clear();
             }
         }
 
@@ -476,7 +488,7 @@ namespace Minty
          * @brief Kills the pointer, setting it to null without modifying reference counts.
          * @attention This should be used with caution as it can lead to dangling pointers.
          */
-        void kill()
+        void clear()
         {
             mp_ptr = nullptr;
             mp_counter = nullptr;
@@ -643,7 +655,7 @@ namespace Minty
         Unique(Unique<U, Allocator> &&other)
             : mp_ptr(static_cast<T *>(other.get()))
         {
-            other.kill();
+            other.clear();
         }
 
         /**
@@ -653,7 +665,7 @@ namespace Minty
         Unique(Unique &&other) noexcept
             : mp_ptr(other.mp_ptr)
         {
-            other.kill();
+            other.clear();
         }
 
         ~Unique()
@@ -738,7 +750,7 @@ namespace Minty
             if (mp_ptr)
             {
                 Allocator::template destruct<T>(mp_ptr);
-                kill();
+                clear();
             }
         }
 
@@ -746,7 +758,7 @@ namespace Minty
          * @brief Kills the pointer, setting it to null.
          * @attention This should be used with caution as it can lead to dangling pointers.
          */
-        inline void kill()
+        inline void clear()
         {
             mp_ptr = nullptr;
         }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Minty/Render/Surface.h"
 #include "Minty/Library/Vulkan.h"
+#include "Minty/Render/Image.h"
 #include "Minty/Render/Format.h"
 #include "Minty/Data/Vector.h"
 
@@ -22,7 +23,7 @@ namespace Minty
 		VkExtent2D m_extent;
 		Format m_format;
 		uint32_t m_index;
-		Vector<Ref<Image>> m_images;
+		Vector<Shared<Image>> m_images;
 
 #pragma endregion
 
@@ -48,11 +49,10 @@ namespace Minty
 		inline VkExtent2D get_extent() const { return m_extent; }
 		inline uint32_t& get_current_image_index_ref() { return m_index; }
 
-
 		Format get_format() const override { return m_format; }
 		UInt get_current_image_index() const override { return m_index; }
-		Ref<Image> const& get_current_image() const override { return m_images.at(m_index); }
-		Vector<Ref<Image>> const& get_images() const override { return m_images; }
+		Shared<Image> const& get_current_image() const override { return m_images.at(m_index); }
+		Vector<Shared<Image>> const& get_images() const override { return m_images; }
 
 #pragma endregion
 

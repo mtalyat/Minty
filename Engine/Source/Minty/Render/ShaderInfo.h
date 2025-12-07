@@ -20,13 +20,12 @@
 #include "Minty/Render/StencilMode.h"
 #include "Minty/Render/ShaderVertexInput.h"
 #include "Minty/Render/ShaderInput.h"
+#include "Minty/Render/Viewport.h"
+#include "Minty/Render/ShaderModule.h"
+#include "Minty/Render/RenderPass.h"
 
 namespace Minty
 {
-    class Viewport;
-    class ShaderModule;
-    class RenderPass;
-
     /**
 	 * @brief The arguments for a Shader.
 	 */
@@ -45,12 +44,12 @@ namespace Minty
 		/**
 		 * @brief The viewport this Shader is used to render to.
 		 */
-		Ref<Viewport> viewport = nullptr;
+		Shared<Viewport> viewport = nullptr;
 
 		/**
 		 * @brief The ShaderModule for the fragment shader.
 		 */
-		Ref<ShaderModule> fragmentShaderModule = nullptr;
+		Shared<ShaderModule> fragmentShaderModule = nullptr;
 
 		/**
 		 * @brief The name of the main function for the fragment shader module.
@@ -60,7 +59,7 @@ namespace Minty
 		/**
 		 * @brief The ShaderModule for the vertex shader.
 		 */
-		Ref<ShaderModule> vertexShaderModule = nullptr;
+		Shared<ShaderModule> vertexShaderModule = nullptr;
 
 		/**
 		 * @brief The name of the main function for the vertex shader module.
@@ -70,7 +69,7 @@ namespace Minty
 		/**
 		 * @brief The RenderPass this Shader is used to render to.
 		 */
-		Ref<RenderPass> renderPass = nullptr;
+		Shared<RenderPass> renderPass = nullptr;
 
 		/**
 		 * @brief The primitive topology of the Shader.

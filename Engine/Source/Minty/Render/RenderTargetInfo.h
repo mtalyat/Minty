@@ -11,12 +11,11 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Render/RenderPass.h"
+#include "Minty/Render/Image.h"
 
 namespace Minty
 {
-    class RenderPass;
-    class Image;
-
     /**
      * @brief The arguments for a RenderTarget.
      */
@@ -30,12 +29,12 @@ namespace Minty
         /**
          * @brief The RenderPass this RenderTarget belongs to.
          */
-        Ref<RenderPass> renderPass = nullptr;
+        Shared<RenderPass> renderPass = nullptr;
 
         /**
          * @brief The images this RenderTarget uses.
          */
-        Vector<Ref<Image>> images;
+        Vector<Shared<Image>> images;
 
         /**
          * @brief If true, the RenderTarget is bound to the screen surface.

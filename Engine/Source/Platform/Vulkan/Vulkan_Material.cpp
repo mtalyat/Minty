@@ -20,7 +20,7 @@ Minty::Vulkan_Material::Vulkan_Material(MaterialInfo const& info)
 	, m_pool(VK_NULL_HANDLE)
 {
 	MINTY_ASSERT(info.materialTemplate != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	Ref<Vulkan_Shader> shader = info.materialTemplate->get_shader().cast<Vulkan_Shader>();
+	Ref<Vulkan_Shader> shader = info.materialTemplate->get_shader().cast<Vulkan_Shader>().to_ref();
 	Map<String, ShaderInput> const& inputs = shader->get_inputs();
 
 #ifdef MINTY_DEBUG
@@ -60,16 +60,8 @@ Minty::Vulkan_Material::~Vulkan_Material()
 		descriptorSets.at(i) = frame.descriptorSet;
 	}
 	// free descriptor sets, if the shader still exists
-	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	if (materialTemplate == nullptr)
-	{
-		return;
-	}
-	Ref<Shader> const& shader = materialTemplate->get_shader();
-	if (shader == nullptr)
-	{
-		return;
-	}
+	Shared<MaterialTemplate> const& materialTemplate = get_material_template();
+	Shared<Shader> const& shader = materialTemplate->get_shader();
 	Vulkan_Renderer::free_descriptor_sets(Vulkan_RenderManager::get_singleton().get_device(), m_pool, descriptorSets);
 }
 
@@ -191,8 +183,8 @@ void Minty::Vulkan_Material::initialize_descriptor_sets(Vector<ShaderInput> cons
 void Minty::Vulkan_Material::set_initial_values()
 {
 	// set initial values
-	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	Ref<Shader> const& shader = materialTemplate->get_shader();
+	Shared<MaterialTemplate> const& materialTemplate = get_material_template();
+	Shared<Shader> const& shader = materialTemplate->get_shader();
 	Set<String> setValues;
 
 	// set all override values in the material
@@ -240,10 +232,8 @@ void Minty::Vulkan_Material::on_bind()
 	VkCommandBuffer commandBuffer = renderManager.get_current_command_buffer();
 
 	// get shader
-	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState);
-	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast<Vulkan_Shader>();
-	MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState);
+	Shared<MaterialTemplate> const& materialTemplate = get_material_template();
+	Shared<Vulkan_Shader> shader = materialTemplate->get_shader().cast<Vulkan_Shader>();
 
 	// get current frame data
 	FrameData& frame = m_frames.at(renderManager.get_current_frame_index());
@@ -273,13 +263,11 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 	MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedNonZero);
 
 	// get material template
-	Ref<MaterialTemplate> const& materialTemplate = get_material_template();
-	MINTY_ASSERT(materialTemplate != nullptr, ErrorCode::Object_InvalidState);
+	Shared<MaterialTemplate> const& materialTemplate = get_material_template();
 	MINTY_ASSERT_F(materialTemplate->has_input(name), ErrorCode::Argument_KeyNotFound, name);
 
 	// get shader
-	Ref<Vulkan_Shader> shader = materialTemplate->get_shader().cast<Vulkan_Shader>();
-	MINTY_ASSERT(shader != nullptr, ErrorCode::Object_InvalidState);
+	Shared<Vulkan_Shader> shader = materialTemplate->get_shader().cast<Vulkan_Shader>();
 
 	// get the input
 	ShaderInput const& input = shader->get_input(name);
@@ -322,10 +310,8 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 			textureId = textureIds[i];
 			MINTY_ASSERT_F(textureId.is_valid(), ErrorCode::Argument_InvalidValue, name);
 			MINTY_ASSERT_F(assetManager.contains(textureId), ErrorCode::Argument_InvalidValue, name);
-			Ref<Texture> texture = assetManager.get<Texture>(textureId);
+			Ref<Texture> texture = assetManager.get_ref<Texture>(textureId);
 			MINTY_ASSERT(texture != nullptr, ErrorCode::Object_InvalidState);
-			Ref<Image> const& image = texture->get_image();
-			MINTY_ASSERT(image != nullptr, ErrorCode::Object_InvalidState);
 		}
 #endif
 
@@ -348,8 +334,8 @@ void Minty::Vulkan_Material::set_input(String const& name, AnyConst const data, 
 			for (UInt i = 0; i < input.count; i++)
 			{
 				textureId = textureIds[i];
-				Ref<Vulkan_Texture> texture = assetManager.get<Texture>(textureId).cast<Vulkan_Texture>();
-				Ref<Vulkan_Image> image = texture->get_image().cast<Vulkan_Image>();
+				Ref<Vulkan_Texture> texture = assetManager.get_ref<Texture>(textureId).cast<Vulkan_Texture>();
+				Ref<Vulkan_Image> image = texture->get_image().to_ref().cast<Vulkan_Image>();
 
 				VkDescriptorImageInfo imageInfo{};
 				imageInfo.sampler = static_cast<VkSampler>(texture->get_sampler());

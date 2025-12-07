@@ -163,13 +163,13 @@ void Minty::RenderSystem::render_3d_meshes(CameraData const& cameraInfo, RenderM
 		// get resources
 		Ref<Material> const& material = meshComp.material;
 		Ref<Mesh> const& mesh = meshComp.mesh;
-		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
-		Ref<Shader> const& shader = materialTemplate->get_shader();
+		Shared<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		Shared<Shader> const& shader = materialTemplate->get_shader();
 		Matrix4 transformation = transformComp.transform.get_global_matrix();
 
 		// add to render map
 		RenderInfo info = {
-			.shader = shader,
+			.shader = shader.to_ref(),
 			.material = material,
 			.mesh = mesh
 		};
@@ -218,10 +218,10 @@ void Minty::RenderSystem::render_3d_sprites(CameraData const& cameraInfo, Render
 		}
 
 		// get the batch based on the material
-		Ref<Texture> const& texture = sprite->get_texture();
+		Ref<Texture> const& texture = sprite->get_texture().to_ref();
 		MINTY_ASSERT_F(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
-		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::D3);
+		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::D3).to_ref();
 		Batch<1, Ref<Material>>& batch = batchFactory.get_or_create_batch({ material });
 
 		// get the values for this instance
@@ -268,8 +268,8 @@ void Minty::RenderSystem::render_3d_sprites(CameraData const& cameraInfo, Render
 	{
 		// get resources
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
-		Ref<MaterialTemplate> materialTemplate = material->get_material_template();
-		Ref<Shader> shader = materialTemplate->get_shader();
+		Shared<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		Shared<Shader> const& shader = materialTemplate->get_shader();
 
 		// update the instanced container with the data
 		BufferContainer& container = m_bufferContainerFactory.get_container(batch.get_data_size());
@@ -277,7 +277,7 @@ void Minty::RenderSystem::render_3d_sprites(CameraData const& cameraInfo, Render
 
 		// add to render map
 		RenderInfo info = {
-			.shader = shader,
+			.shader = shader.to_ref(),
 			.material = material,
 			.vertexBuffer = container.get_buffer(),
 			.instanceCount = static_cast<UInt>(batch.get_count()),
@@ -358,10 +358,8 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 		// get resources
 		Ref<Mesh> const& mesh = meshComp.mesh;
 		Ref<Material> const& material = meshComp.material;
-		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
-		MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
-		Ref<Shader> const& shader = materialTemplate->get_shader();
-		MINTY_ASSERT_F(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		Shared<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		Shared<Shader> const& shader = materialTemplate->get_shader();
 
 		// update push constant info
 		pushData.clear();
@@ -372,7 +370,7 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 
 		// add to render map
 		RenderInfo info = {
-			.shader = shader,
+			.shader = shader.to_ref(),
 			.material = material,
 			.canvas = uiTransformComp.canvas,
 			.mesh = mesh
@@ -423,8 +421,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 		}
 
 		// get the texture
-		Ref<Texture> const& texture = sprite->get_texture();
-		MINTY_ASSERT_F(texture != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
+		Ref<Texture> texture = sprite->get_texture().to_ref();
 		Ref<MaterialTemplate> const& materialTemplate = spriteComp.materialTemplate;
 
 		// get the material to use
@@ -439,7 +436,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 			mask = MaskMode::Test;
 			stencil = entityManager.get_component<MaskedComponent>(entity).value;
 		}
-		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI, mask);
+		material = renderManager.get_default_material(texture, materialTemplate, AssetType::Sprite, Space::UI, mask).to_ref();
 		MINTY_ASSERT_F(material != nullptr, ErrorCode::OperationFailed, entityManager.get_name(entity));
 		if (mask != MaskMode::None)
 		{
@@ -473,11 +470,9 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 	{
 		// get resources
 		Ref<Material> material = batch.get_object<Ref<Material>>(0);
-		Ref<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		Shared<MaterialTemplate> const& materialTemplate = material->get_material_template();
+		Shared<Shader> const& shader = materialTemplate->get_shader();
 		Entity const entity = batch.get_object<Entity>(1);
-		MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
-		Ref<Shader> const& shader = materialTemplate->get_shader();
-		MINTY_ASSERT_F(shader != nullptr, ErrorCode::Object_InvalidState, entityManager.get_name(entity));
 		Entity const canvasEntity = batch.get_object<Entity>(1);
 
 		// update the instanced container with the data
@@ -485,7 +480,7 @@ void Minty::RenderSystem::render_ui_sprites(CameraData const& cameraInfo, Render
 		container.set(batch.get_data(), batch.get_data_size());
 
 		RenderInfo info = {
-			.shader = shader,
+			.shader = shader.to_ref(),
 			.material = material,
 			.canvas = canvasEntity,
 			.vertexBuffer = container.get_buffer(),

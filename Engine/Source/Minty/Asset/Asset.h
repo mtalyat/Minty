@@ -23,6 +23,10 @@ namespace Minty
 	template<typename T>
 	struct is_asset<Ref<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
 
+	// Specialization for Shared<T> where T derives from Asset
+	template<typename T>
+	struct is_asset<Shared<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};
+
 	//// Specialization for Shared<T> where T derives from Asset
 	//template<typename T>
 	//struct is_asset<Shared<T>, std::enable_if_t<std::is_base_of_v<Asset, T>>> : std::true_type {};

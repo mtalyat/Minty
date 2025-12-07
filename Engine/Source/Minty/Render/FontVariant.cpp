@@ -20,7 +20,7 @@ Minty::FontVariant::FontVariant(FontVariantInfo const& info)
 {
 	// get the material based on the texture
 	RenderManager& renderManager = RenderManager::get_singleton();
-	m_material = renderManager.get_default_material(m_texture, nullptr, AssetType::FontVariant, Space::UI);
+	m_material = renderManager.get_default_material(m_texture, nullptr, AssetType::FontVariant, Space::UI).to_ref();
 
 	// initiale the characters map
 	m_characters.reserve(info.characters.get_size());

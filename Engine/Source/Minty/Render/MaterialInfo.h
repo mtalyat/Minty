@@ -10,11 +10,10 @@
 #include "Minty/Data/Cargo.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Render/MaterialTemplate.h"
 
 namespace Minty
 {
-    class MaterialTemplate;
-
     /**
 	 * @brief Arguments for a Material.
 	 */
@@ -28,7 +27,7 @@ namespace Minty
 		/**
 		 * @brief The MaterialTemplate for this Material.
 		 */
-		Ref<MaterialTemplate> materialTemplate = nullptr;
+		Shared<MaterialTemplate> materialTemplate = nullptr;
 
 		/**
 		 * @brief The values of this Material. These override the default values in the MaterialTemplate.

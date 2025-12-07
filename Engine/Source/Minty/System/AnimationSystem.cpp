@@ -39,7 +39,7 @@ void Minty::AnimationSystem::on_frame_update(Timestep const& time)
 			}
 
 			// reset animator component
-			animatorComp.animation = assetManager.get<Animation>(newId);
+			animatorComp.animation = assetManager.get_ref<Animation>(newId);
 			animatorComp.time = 0.0f;
 		}
 		else if (animation != nullptr && animatorComp.time >= animation->get_duration())

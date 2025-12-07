@@ -58,13 +58,13 @@ namespace Minty
 		 * @brief Gets the current image for this frame.
 		 * @return The image at the current image index.
 		 */
-		virtual Ref<Image> const& get_current_image() const = 0;
+		virtual Shared<Image> const& get_current_image() const = 0;
 
 		/**
 		 * @brief Gets the images of this surface.
 		 * @return A list of images used for this surface.
 		 */
-		virtual Vector<Ref<Image>> const& get_images() const = 0;
+		virtual Vector<Shared<Image>> const& get_images() const = 0;
 
 		/**
 		 * @brief Gets the AssetType of this Asset.

@@ -19,13 +19,13 @@ Minty::SpriteAtlas::SpriteAtlas(SpriteAtlasInfo const& info)
 Ref<Sprite> Minty::SpriteAtlas::get_sprite(Int const groupIndex, Int2 const index) const
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
-	return assetManager.get<Sprite>(get_sprite_id(groupIndex, index));
+	return assetManager.get_ref<Sprite>(get_sprite_id(groupIndex, index));
 }
 
 Ref<Sprite> Minty::SpriteAtlas::get_sprite(Int const groupIndex, Int const index) const
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
-	return assetManager.get<Sprite>(get_sprite_id(groupIndex, index));
+	return assetManager.get_ref<Sprite>(get_sprite_id(groupIndex, index));
 }
 
 void Minty::SpriteAtlas::on_load()

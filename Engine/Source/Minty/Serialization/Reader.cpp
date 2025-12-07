@@ -43,7 +43,7 @@ Bool Minty::Reader::read_object(Size const index, SerializableObject& obj)
 	return false;
 }
 
-Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
+Bool Minty::Reader::read_asset(Size const index, Shared<Asset>& asset)
 {
 	UUID id{};
 	if (read(index, id))
@@ -57,10 +57,7 @@ Bool Minty::Reader::read_asset(Size const index, Ref<Asset>& asset)
 
 		AssetManager& assetManager = AssetManager::get_singleton();
 		asset = assetManager.get_asset(id);
-		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_LoadFailed, id);
-
-		// asset found and set
-		return true;
+		return asset != nullptr;
 	}
 
 	// no ID read

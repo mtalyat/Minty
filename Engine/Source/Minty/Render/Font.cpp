@@ -21,14 +21,14 @@ Minty::Font::Font(FontInfo const& info)
 	}
 }
 
-Ref<FontVariant> const& Minty::Font::at(UInt const size, FontFlags const flags) const
+Shared<FontVariant> const& Minty::Font::at(UInt const size, FontFlags const flags) const
 {
 	ID key = create_font_id(size, flags);
 	MINTY_ASSERT_F(m_variants.contains(key), ErrorCode::Argument_KeyNotFound, size, flags);
 	return m_variants.at(key);
 }
 
-Ref<FontVariant> Minty::Font::get(UInt const size, FontFlags const flags) const
+Shared<FontVariant> Minty::Font::get(UInt const size, FontFlags const flags) const
 {
 	ID key = create_font_id(size, flags);
 	auto found = m_variants.find(key);
@@ -39,9 +39,9 @@ Ref<FontVariant> Minty::Font::get(UInt const size, FontFlags const flags) const
 	return found->get_second();
 }
 
-Vector<Ref<FontVariant>> Minty::Font::get_variants() const
+Vector<Shared<FontVariant>> Minty::Font::get_variants() const
 {
-	Vector<Ref<FontVariant>> variants(m_variants.get_size());
+	Vector<Shared<FontVariant>> variants(m_variants.get_size());
 	for (auto const& pair : m_variants)
 	{
 		variants.add(pair.get_second());

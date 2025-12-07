@@ -47,7 +47,7 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 	if (font != nullptr)
 	{
 		// if font is set, try to get the variant
-		fontVariant = font->get(fontSize, fontFlags);
+		fontVariant = font->get(fontSize, fontFlags).to_ref();
 		if (fontVariant == nullptr)
 		{
 			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, font->get_name(), fontSize, to_string(fontFlags));

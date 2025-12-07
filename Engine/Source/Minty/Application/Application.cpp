@@ -121,17 +121,18 @@ Minty::Application::~Application()
 	MINTY_ASSERT(s_instance != nullptr, ErrorCode::Singleton_DoesNotExist);
 	MINTY_ASSERT(s_instance == this, ErrorCode::Singleton_DifferentObject);
 
-	m_window.release();
-	m_memoryManager.release();
-	m_jobManager.release();
-	m_audioManager.release();
-	m_layerManager.release();
-	m_physicsManager.release();
-	m_assetManager.release();
-	m_inputManager.release();
-	m_renderManager.release();
-	m_sceneManager.release();
 	m_timeController.release();
+	m_sceneManager.release();
+	m_inputManager.release();
+	m_assetManager.release();
+	m_physicsManager.release();
+	m_layerManager.release();
+	m_audioManager.release();
+	m_renderManager.release();
+	m_jobManager.release();
+	m_memoryManager.release();
+	m_window.release();
+	
 	m_managers.clear();
 
 	unregister_systems();

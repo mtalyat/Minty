@@ -35,7 +35,7 @@ namespace Minty
         /**
          * @brief The variants this Font will use.
          */
-        Vector<Ref<FontVariant>> variants;
+        Vector<Shared<FontVariant>> variants;
     };
 }
 

@@ -53,20 +53,20 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 			mesh = nullptr;
 		}
 		AssetManager& assetManager = AssetManager::get_singleton();
-		mesh = assetManager.get<Mesh>(id);
+		mesh = assetManager.get_ref<Mesh>(id);
 	}
 	else
 	{
 		// get default mesh
 		RenderManager& renderManager = RenderManager::get_singleton();
-		mesh = renderManager.get_default_mesh(type);
+		mesh = renderManager.get_default_mesh(type).to_ref();
 	}
 
 	// read material ID
 	UUID id = UUID();
 	if (reader.read("Material", id))
 	{
-		material = AssetManager::get_singleton().get<Material>(id);
+		material = AssetManager::get_singleton().get_ref<Material>(id);
 	}
 	else
 	{

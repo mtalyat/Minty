@@ -12,10 +12,10 @@
 #include "Minty/Data/Cargo.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Render/Shader.h"
 
 namespace Minty
 {
-	class Shader;
 	struct MaterialTemplateInfo;
 
 	/**
@@ -46,7 +46,7 @@ namespace Minty
 		 * @brief Gets the Shader that this MaterialTemplate uses.
 		 * @return The Shader.
 		 */
-		inline Ref<Shader> const& get_shader() const { return m_shader; }
+		inline Shared<Shader> const& get_shader() const { return m_shader; }
 
 		/**
 		 * @brief Gets the values of this MaterialTemplate.
@@ -95,7 +95,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Ref<Shader> m_shader;
+		Shared<Shader> m_shader;
 		Cargo m_cargo;
 
 #pragma endregion

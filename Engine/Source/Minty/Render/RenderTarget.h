@@ -11,11 +11,11 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Render/RenderPass.h"
+#include "Minty/Render/Image.h"
 
 namespace Minty
 {
-	class Image;
-	class RenderPass;
 	struct RenderTargetInfo;
 
 	/**
@@ -50,13 +50,13 @@ namespace Minty
 		 * @brief Gets the RenderPass this RenderTarget belongs to.
 		 * @return The RenderPass.
 		 */
-		Ref<RenderPass> const& get_render_pass() const { return m_renderPass; }
+		Shared<RenderPass> const& get_render_pass() const { return m_renderPass; }
 
 		/**
 		 * @brief Gets the images this RenderTarget uses.
 		 * @return The images.
 		 */
-		Vector<Ref<Image>> const& get_images() const { return m_images; }
+		Vector<Shared<Image>> const& get_images() const { return m_images; }
 
 		/**
 		 * @brief Gets the size of this RenderTarget in pixels.
@@ -99,8 +99,8 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Ref<RenderPass> m_renderPass;
-		Vector<Ref<Image>> m_images;
+		Shared<RenderPass> m_renderPass;
+		Vector<Shared<Image>> m_images;
 		Bool m_surfaceBound; // if true, the RenderTarget is bound to the screen surface
 
 #pragma endregion

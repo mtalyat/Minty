@@ -11,11 +11,10 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Render/SpriteSlice.h"
+#include "Minty/Render/Texture.h"
 
 namespace Minty
 {
-    class Texture;
-
     /**
 	 * @brief The arguments for a Sprite.
 	 */
@@ -29,7 +28,7 @@ namespace Minty
 		/**
 		 * @brief The Texture that this Sprite uses.
 		 */
-		Ref<Texture> texture = nullptr;
+		Shared<Texture> texture = nullptr;
 
 		/**
 		 * @brief The slice of the Texture this Sprite uses.

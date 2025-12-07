@@ -9,30 +9,29 @@
 
 using namespace Minty;
 
-
 // special constructor to create the initial surface
-Minty::Vulkan_Surface::Vulkan_Surface(SurfaceInfo const& info, VkSurfaceKHR const surface, Vulkan_RenderManager& renderManager, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
+Minty::Vulkan_Surface::Vulkan_Surface(SurfaceInfo const &info, VkSurfaceKHR const surface, Vulkan_RenderManager &renderManager, Vulkan_QueueFamilyIndices const &queueFamilyIndices)
 	: Surface(info),
-	m_surface(surface),
-	m_swapchain(VK_NULL_HANDLE),
-	m_extent({ 0, 0 }),
-	m_format(Format::Undefined),
-	m_index(0),
-	m_images()
+	  m_surface(surface),
+	  m_swapchain(VK_NULL_HANDLE),
+	  m_extent({0, 0}),
+	  m_format(Format::Undefined),
+	  m_index(0),
+	  m_images()
 {
 	initialize_swapchain(info.targetFormat, renderManager, queueFamilyIndices);
 }
 
-Minty::Vulkan_Surface::Vulkan_Surface(SurfaceInfo const& info)
+Minty::Vulkan_Surface::Vulkan_Surface(SurfaceInfo const &info)
 	: Surface(info),
-	m_surface(VK_NULL_HANDLE),
-	m_swapchain(VK_NULL_HANDLE),
-	m_extent({ 0, 0 }),
-	m_format(Format::Undefined),
-	m_index(0),
-	m_images()
+	  m_surface(VK_NULL_HANDLE),
+	  m_swapchain(VK_NULL_HANDLE),
+	  m_extent({0, 0}),
+	  m_format(Format::Undefined),
+	  m_index(0),
+	  m_images()
 {
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 
 	// create the surface
 	m_surface = Vulkan_Renderer::create_surface(renderManager.get_instance(), info.window);
@@ -48,13 +47,13 @@ Minty::Vulkan_Surface::~Vulkan_Surface()
 {
 	dispose_swapchain();
 
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 
 	// destroy surface
 	Vulkan_Renderer::destroy_surface(renderManager.get_instance(), m_surface);
 }
 
-void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulkan_RenderManager& renderManager, Vulkan_QueueFamilyIndices const& queueFamilyIndices)
+void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulkan_RenderManager &renderManager, Vulkan_QueueFamilyIndices const &queueFamilyIndices)
 {
 	// get swapchain support details
 	Vulkan_SwapchainSupportDetails swapchainSupport = Vulkan_Renderer::query_swapchain_support(renderManager.get_physical_device(), m_surface);
@@ -76,8 +75,8 @@ void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulk
 	Vector<VkImage> swapchainImages = Vulkan_Renderer::get_swapchain_images(renderManager.get_device(), m_swapchain);
 
 	// create the images
-	AssetManager& assetManager = AssetManager::get_singleton();
-	m_images.resize(swapchainImages.get_size(), Ref<Image>());
+	AssetManager &assetManager = AssetManager::get_singleton();
+	m_images.resize(swapchainImages.get_size(), nullptr);
 	ImageInfo imageInfo{};
 	imageInfo.aspect = ImageAspect::Color;
 	imageInfo.format = m_format;
@@ -90,7 +89,7 @@ void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulk
 	{
 		imageInfo.id = UUID::create();
 		Shared<Image> vulkanImage = Shared<Vulkan_Image>::create(imageInfo, swapchainImages.at(i));
-		m_images.at(i) = vulkanImage.to_ref();
+		m_images.at(i) = vulkanImage;
 		assetManager.add(vulkanImage);
 		vulkanImage.release();
 	}
@@ -98,17 +97,21 @@ void Minty::Vulkan_Surface::initialize_swapchain(Format const targetFormat, Vulk
 
 void Minty::Vulkan_Surface::dispose_swapchain()
 {
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
-	AssetManager& assetManager = AssetManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
+	auto const &assetManager = AssetManager::get_instance();
 
-	// unload swapchain images
-	for (auto const& image : m_images)
+	// unload swapchain images, if the asset manager exists
+	if (assetManager)
 	{
-		if (image != nullptr)
+		for (auto const &image : m_images)
 		{
-			assetManager.unload(image->get_id());
+			if (image != nullptr)
+			{
+				assetManager->unload(image->get_id());
+			}
 		}
 	}
+
 	m_images.clear();
 
 	// destroy swapchain
@@ -120,7 +123,7 @@ void Minty::Vulkan_Surface::refresh()
 	MINTY_LOG_MESSAGE("Refreshing surface...");
 	// recreate the swapchain
 	dispose_swapchain();
-	Vulkan_RenderManager& renderManager = Vulkan_RenderManager::get_singleton();
+	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(renderManager.get_physical_device(), m_surface);
 	initialize_swapchain(m_format, renderManager, queueFamilyIndices);
 	MINTY_LOG_MESSAGE_F("Surface refreshed with new size: {}.", get_size());

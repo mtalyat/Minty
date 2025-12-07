@@ -28,7 +28,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 	if (reader.read_default(id) || reader.read("Sprite", id))
 	{
 		// get the asset with the given ID
-		Ref<Asset> asset = assetManager.get_asset(id);
+		Ref<Asset> asset = assetManager.get_asset_ref(id);
 
 		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_MissingDependency, id);
 
@@ -83,7 +83,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 
 			// get the sprite from the atlas
 			id = atlas->get_sprite_id(groupIndex, index2d);
-			sprite = assetManager.get<Sprite>(id);
+			sprite = assetManager.get_ref<Sprite>(id);
 
 			break;
 		}
@@ -92,7 +92,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 
 	if (reader.read("MaterialTemplate", id))
 	{
-		materialTemplate = assetManager.get<MaterialTemplate>(id);
+		materialTemplate = assetManager.get_ref<MaterialTemplate>(id);
 	}
 
 	reader.read("Color", color);

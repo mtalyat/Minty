@@ -42,7 +42,7 @@ namespace Minty
 		 * @brief Gets the Image this Texture uses.
 		 * @return The Image.
 		 */
-		Ref<Image> const& get_image() const { return m_image; }
+		Shared<Image> const& get_image() const { return m_image; }
 
 		/**
 		 * @brief Gets the size of this Texture.
@@ -79,7 +79,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Ref<Image> m_image;
+		Shared<Image> m_image;
 
 #pragma endregion
 	};

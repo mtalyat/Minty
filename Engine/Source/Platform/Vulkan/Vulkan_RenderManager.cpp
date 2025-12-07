@@ -46,17 +46,14 @@ Minty::Vulkan_RenderManager::~Vulkan_RenderManager()
 	// sync first
 	sync();
 
-	// remove references
-	m_vulkanSurface.release();
+	// free default resources before anything else
+	release_default_resources();
 
 	// dispose frames
 	for (Size i = 0; i < FRAMES_PER_FLIGHT; ++i)
 	{
 		dispose_frame(m_frames.at(i));
 	}
-
-	// destroy depth resources
-	destroy_depth_resources();
 
 	// destroy command pool
 	Vulkan_Renderer::destroy_command_pool(m_device, m_commandPool);
@@ -314,7 +311,7 @@ Bool Minty::Vulkan_RenderManager::start_pass(CameraData const& cameraInfo)
 
 	// get vulkan render target and pass
 	Ref<Vulkan_RenderTarget> vulkanRenderTarget = renderTarget.cast<Vulkan_RenderTarget>();
-	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().cast<Vulkan_RenderPass>();
+	Ref<Vulkan_RenderPass> vulkanRenderPass = vulkanRenderTarget->get_render_pass().to_ref().cast<Vulkan_RenderPass>();
 
 	// get render area
 	// remember: Viewport determines where to render within this area, so this area should be the whole screen

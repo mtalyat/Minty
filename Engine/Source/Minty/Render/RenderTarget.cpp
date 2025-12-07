@@ -8,10 +8,6 @@
 
 using namespace Minty;
 
-/// <summary>
-/// Creates a new RenderTarget.
-/// </summary>
-/// <param name="info">The arguments.</param>
 Minty::RenderTarget::RenderTarget(RenderTargetInfo const& info)
 	: Asset(info.id)
 	, m_renderPass(info.renderPass)

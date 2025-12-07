@@ -20,9 +20,27 @@ Minty::Animator::Animator(AnimatorInfo const &info)
 	}
 }
 
+Minty::Animator::Animator(Animator const &other)
+	: Asset(other.get_id()), mp_fsm(new FSM(*other.mp_fsm)), m_force(other.m_force)
+{
+}
+
 Minty::Animator::~Animator()
 {
 	delete mp_fsm;
+}
+
+Animator &Minty::Animator::operator=(Animator const &other)
+{
+	if (this != &other)
+	{
+		// remove old FSM
+		delete mp_fsm;
+		// copy new FSM
+		mp_fsm = new FSM(*other.mp_fsm);
+		m_force = other.m_force;
+	}
+	return *this;
 }
 
 void Minty::Animator::set_variable(String const &name, Int const value)

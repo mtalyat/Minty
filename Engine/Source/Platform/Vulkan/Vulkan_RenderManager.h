@@ -13,27 +13,6 @@ namespace Minty
 	class Vulkan_RenderManager
 		: public RenderManager
 	{
-#pragma region Variables
-
-	private:
-		VkInstance m_instance;
-		VkDebugUtilsMessengerEXT m_debugMessenger;
-		Format m_targetSurfaceFormat;
-		Ref<Vulkan_Surface> m_vulkanSurface;
-		VkPhysicalDevice m_physicalDevice;
-		VkDevice m_device;
-		VkQueue m_graphicsQueue;
-		VkQueue m_presentQueue;
-		VkCommandPool m_commandPool;
-
-		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
-		Size m_currentFrameIndex = 0;
-
-		// number of passes done in the current frame
-		Size m_passesMade;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -137,6 +116,27 @@ namespace Minty
 		{
 			return static_cast<Vulkan_RenderManager&>(RenderManager::get_singleton());
 		}
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		VkInstance m_instance;
+		VkDebugUtilsMessengerEXT m_debugMessenger;
+		Format m_targetSurfaceFormat;
+		Ref<Vulkan_Surface> m_vulkanSurface;
+		VkPhysicalDevice m_physicalDevice;
+		VkDevice m_device;
+		VkQueue m_graphicsQueue;
+		VkQueue m_presentQueue;
+		VkCommandPool m_commandPool;
+
+		Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
+		Size m_currentFrameIndex = 0;
+
+		// number of passes done in the current frame
+		Size m_passesMade;
 
 #pragma endregion
 };

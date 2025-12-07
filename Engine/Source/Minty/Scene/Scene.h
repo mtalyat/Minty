@@ -160,12 +160,6 @@ namespace Minty
 		void register_asset(UUID const assetId);
 
 		/**
-		 * @brief Registers an Asset to the Scene. The Scene takes ownership of the Asset.
-		 * @param asset The Asset to register.
-		 */
-		inline void register_asset(Ref<Asset> const& asset) { register_asset(asset->get_id()); }
-
-		/**
 		 * @brief Unregisters an Asset from the Scene by its UUID. The Scene releases ownership of the Asset.
 		 * @param assetId The UUID of the Asset to unregister.
 		 */

@@ -12,11 +12,10 @@
 #include "Minty/Data/UUID.h"
 #include "Minty/Render/AddressMode.h"
 #include "Minty/Render/Filter.h"
+#include "Minty/Render/Image.h"
 
 namespace Minty
 {
-    class Image;
-
     /**
 	 * @brief Arguments for creating a Texture.
 	 */
@@ -30,7 +29,7 @@ namespace Minty
 		/**
 		 * @brief The Image this Texture uses.
 		 */
-		Ref<Image> image;
+		Shared<Image> image;
 
 		/**
 		 * @brief The filter to use for this Texture.

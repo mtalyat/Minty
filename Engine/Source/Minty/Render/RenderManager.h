@@ -76,7 +76,7 @@ namespace Minty
 		 */
 		RenderManager(RenderManagerInfo const& info);
 
-		virtual ~RenderManager() = default;
+		virtual ~RenderManager();
 
 #pragma endregion
 
@@ -113,25 +113,19 @@ namespace Minty
 		 * @brief Gets the Surface that this RenderManager is rendering to.
 		 * @return The Surface.
 		 */
-		inline Ref<Surface> get_surface() const { return m_surface.to_ref(); }
+		inline Shared<Surface> const& get_surface() const { return m_surface; }
 
 		/**
 		 * @brief Gets the depth Image used for depth testing.
 		 * @return The depth Image.
 		 */
-		inline Ref<Image> get_depth_image() const { return m_depthStencilImage.to_ref(); }
-
-		/**
-		 * @brief Gets the default Viewport that renders to the entire Surface.
-		 * @return The default Viewport.
-		 */
-		inline Ref<Viewport> get_default_viewport() { return m_defaultViewport.to_ref(); }
+		inline Shared<Image> const& get_depth_image() const { return m_depthStencilImage; }
 
 		/**
 		 * @brief Gets the default Viewport that renders to the entire Window.
 		 * @return The default Viewport.
 		 */
-		inline Ref<Viewport> get_default_viewport() const { return m_defaultViewport.to_ref(); }
+		inline Shared<Viewport> const& get_default_viewport() const { return m_defaultViewport; }
 
 		/**
 		 * @brief Gets the color attachment format of the current Surface.
@@ -150,7 +144,7 @@ namespace Minty
 		 * @param type The type of Mesh. Cannot be Custom.
 		 * @return A Ref to a Mesh that corresponds with the type, or nullptr if the type is Empty.
 		 */
-		Ref<Mesh> get_default_mesh(MeshType const type);
+		Shared<Mesh> const& get_default_mesh(MeshType const type);
 
 		/**
 		 * @brief Gets the default MaterialTemplate for the give AssetType, Space, and variant.
@@ -159,7 +153,7 @@ namespace Minty
 		 * @param mask The mask mode of the MaterialTemplate.
 		 * @return The default MaterialTemplate.
 		 */
-		Ref<MaterialTemplate> get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
+		Shared<MaterialTemplate> get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
 
 		/**
 		 * @brief Gets the default Material for the given Texture, AssetType, Space and variant.
@@ -169,7 +163,7 @@ namespace Minty
 		 * @param mask The mask mode of the MaterialTemplate.
 		 * @return The default Material.
 		 */
-		Ref<Material> get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
+		Shared<Material> const& get_default_material(Ref<Texture> const& texture, Ref<MaterialTemplate> const& materialTemplate, AssetType const assetType, Space const space, MaskMode const mask = MaskMode::None);
 
 #pragma endregion
 
@@ -288,6 +282,9 @@ namespace Minty
 		 */
 		void refresh();
 
+		// releases default resources, like the surface, depth stencil image, default viewport, etc.
+		void release_default_resources();
+
 		virtual	void recreate_depth_resources() = 0;
 
 	private:
@@ -325,8 +322,8 @@ namespace Minty
 		// default resources
 
 		Shared<Viewport> m_defaultViewport;
-		Map<MeshType, Ref<Mesh>> m_defaultMeshes;
-		Map<TexMatKey, Ref<Material>> m_defaultMaterials;
+		Map<MeshType, Shared<Mesh>> m_defaultMeshes;
+		Map<TexMatKey, Shared<Material>> m_defaultMaterials;
 
 #pragma endregion
 	};

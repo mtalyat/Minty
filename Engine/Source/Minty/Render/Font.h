@@ -12,10 +12,10 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Render/FontFlags.h"
+#include "Minty/Render/FontVariant.h"
 
 namespace Minty
 {
-	class FontVariant;
 	struct FontInfo;
 
 	/**
@@ -60,7 +60,7 @@ namespace Minty
 		 * @param flags The flags of the Font.
 		 * @return The FontVariant.
 		 */
-		Ref<FontVariant> const& at(UInt const size, FontFlags const flags = FontFlags::None) const;
+		Shared<FontVariant> const& at(UInt const size, FontFlags const flags = FontFlags::None) const;
 
 		/**
 		 * @brief Attempts to get the variant for the given size and flags. If no variant is found, nullptr is returned.
@@ -68,13 +68,13 @@ namespace Minty
 		 * @param flags The flags of the Font.
 		 * @return The FontVariant, or nullptr if no FontVariant found.
 		 */
-		Ref<FontVariant> get(UInt const size, FontFlags const flags = FontFlags::None) const;
+		Shared<FontVariant> get(UInt const size, FontFlags const flags = FontFlags::None) const;
 
 		/**
 		 * @brief Gets all of the variants for this Font.
 		 * @return The FontVariants in a Vector.
 		 */
-		Vector<Ref<FontVariant>> get_variants() const;
+		Vector<Shared<FontVariant>> get_variants() const;
 
 		/**
 		 * @brief Gets the AssetType of this Asset.
@@ -107,7 +107,7 @@ namespace Minty
 
 	private:
 		String m_name;
-		Map<ID, Ref<FontVariant>> m_variants;
+		Map<ID, Shared<FontVariant>> m_variants;
 
 #pragma endregion
 	};

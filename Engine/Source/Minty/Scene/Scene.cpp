@@ -132,7 +132,7 @@ void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 		assetData.index = i;
 
 		// load the asset
-		Ref<Asset> asset = assetManager.load_asset(assetPath);
+		Shared<Asset> asset = assetManager.load_asset(assetPath);
 		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_LoadFailed, assetPath);
 		assetData.id = asset->get_id();
 

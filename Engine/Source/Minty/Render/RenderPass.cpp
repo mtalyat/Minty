@@ -29,18 +29,17 @@ void Minty::RenderPass::refresh()
 
 	// get a reference to the surface images for any RenderTargets that are surface bound
 	RenderManager& renderManager = RenderManager::get_singleton();
-	Ref<Surface> surface = renderManager.get_surface();
+	Shared<Surface> const& surface = renderManager.get_surface();
 	MINTY_ASSERT(surface != nullptr, ErrorCode::Render_NoSurface);
-	Vector<Ref<Image>> surfaceImages = surface->get_images();
-
-	// set the render pass to self
-	Shared<RenderPass> self = Shared<RenderPass>(this);
-	info.renderPass = self.to_ref();
+	Vector<Shared<Image>> const& surfaceImages = surface->get_images();
 
 	for (RenderTarget* target : m_renderTargets)
 	{
 		// set ID to the target's ID
 		info.id = target->get_id();
+
+		// set RenderPass to target's RenderPass
+		info.renderPass = target->get_render_pass();
 
 		// if surface bound, set the images to the surface images
 		info.surfaceBound = target->is_surface_bound();

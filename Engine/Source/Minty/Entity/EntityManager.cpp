@@ -636,7 +636,7 @@ void Minty::EntityManager::finalize_dirties()
 		{
 			// create new mesh outright
 			info.id = UUID::create();
-			meshComp.mesh = assetManager.create<Mesh>(info);
+			meshComp.mesh = assetManager.create<Mesh>(info).to_ref();
 		}
 		else
 		{
@@ -1563,7 +1563,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 		{
 			// get the prefab
 			MINTY_ASSERT_F(assetManager.contains(prefabComponent->id), ErrorCode::Asset_NotLoaded, prefabComponent->id);
-			Ref<Prefab> prefab = assetManager.get<Prefab>(prefabComponent->id);
+			Ref<Prefab> prefab = assetManager.get_ref<Prefab>(prefabComponent->id);
 
 			// remove prefab component, as it is not needed anymore
 			m_registry.remove<PrefabComponent>(entity);

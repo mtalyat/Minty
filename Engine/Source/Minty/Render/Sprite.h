@@ -12,10 +12,10 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Rect.h"
 #include "Minty/Render/SpriteSlice.h"
+#include "Minty/Render/Texture.h"
 
 namespace Minty
 {
-	class Texture;
 	class MaterialTemplate;
 	struct SpriteInfo;
 
@@ -30,9 +30,7 @@ namespace Minty
 	public:
 		Sprite(SpriteInfo const& info);
 
-		~Sprite()
-		{
-		}
+		~Sprite() = default;
 
 #pragma endregion
 
@@ -51,7 +49,7 @@ namespace Minty
 		 * @brief Gets the Texture used by this Sprite.
 		 * @return The Texture.
 		 */
-		inline Ref<Texture> const& get_texture() const { return m_texture; }
+		inline Shared<Texture> const& get_texture() const { return m_texture; }
 
 		/**
 		 * @brief Gets the CoordinateMode of this Sprite.
@@ -155,7 +153,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Ref<Texture> m_texture; // the texture this Sprite uses
+		Shared<Texture> m_texture; // the texture this Sprite uses
 		// the slice data of the Sprite
 		CoordinateMode m_coordinateMode;
 		Float2 m_offset; // the offset of the Sprite within the Texture

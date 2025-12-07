@@ -20,7 +20,7 @@ Minty::Material::Material(MaterialInfo const& info)
 	set_stencil(info.stencil);
 
 	// add self to shader
-	Ref<Shader> shader = m_materialTemplate->get_shader();
+	Shared<Shader> const& shader = m_materialTemplate->get_shader();
 	shader->register_material(this);
 }
 
@@ -29,7 +29,7 @@ Minty::Material::~Material()
 	if (m_materialTemplate == nullptr) return;
 
 	// remove self from shader
-	Ref<Shader> shader = m_materialTemplate->get_shader();
+	Shared<Shader> const& shader = m_materialTemplate->get_shader();
 	shader->unregister_material(this);
 }
 
@@ -69,7 +69,7 @@ Object const& Minty::Material::get_input(String const& name) const
 
 Bool Minty::Material::try_set_input(String const& name, AnyConst const data, Size const size)
 {
-	Ref<Shader> shader = m_materialTemplate->get_shader();
+	Shared<Shader> const& shader = m_materialTemplate->get_shader();
 	if (!shader->contains_input(name))
 	{
 		// does not exist

@@ -16,11 +16,11 @@
 #include "Minty/Render/CoordinateMode.h"
 #include "Minty/Render/SpriteSlice.h"
 #include "Minty/Render/SpriteGroup.h"
+#include "Minty/Render/Texture.h"
 
 namespace Minty
 {
 	class AssetManager;
-	class Texture;
 	class Sprite;
 	struct SpriteAtlasInfo;
 
@@ -48,7 +48,7 @@ namespace Minty
 		 * @brief Gets the Texture used by this SpriteAtlas.
 		 * @return The Texture.
 		 */
-		inline Ref<Texture> const& get_texture() const { return m_texture; }
+		inline Shared<Texture> const& get_texture() const { return m_texture; }
 
 		/**
 		 * @brief Gets the Group with the given index.
@@ -143,7 +143,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Ref<Texture> m_texture;
+		Shared<Texture> m_texture;
 		Vector<SpriteGroup> m_groups;
 
 #pragma endregion

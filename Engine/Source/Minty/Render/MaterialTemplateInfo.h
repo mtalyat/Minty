@@ -10,11 +10,10 @@
 #include "Minty/Data/Cargo.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
+#include "Minty/Render/Shader.h"
 
 namespace Minty
 {
-    class Shader;
-
     /**
      * @brief The arguments for a MaterialTemplate.
      */
@@ -28,7 +27,7 @@ namespace Minty
         /**
          * @brief The Shader for this MaterialTemplate.
          */
-        Ref<Shader> shader = nullptr;
+        Shared<Shader> shader = nullptr;
 
         /**
          * @brief The default values for this MaterialTemplate.

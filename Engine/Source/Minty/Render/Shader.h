@@ -21,11 +21,11 @@
 #include "Minty/Render/ShaderVertexInput.h"
 #include "Minty/Render/DepthMode.h"
 #include "Minty/Render/StencilMode.h"
+#include "Minty/Render/RenderPass.h"
 
 namespace Minty
 {
 	class Material;
-	class RenderPass;
 	class ShaderModule;
 	class Viewport;
 	struct ShaderInfo;
@@ -74,7 +74,7 @@ namespace Minty
 		 * @brief Gets the RenderPass this Shader is used to render to.
 		 * @return The RenderPass.
 		 */
-		Ref<RenderPass> const& get_render_pass() const { return m_renderPass; }
+		Shared<RenderPass> const& get_render_pass() const { return m_renderPass; }
 
 		/**
 		 * @brief Checks if this Shader contains an input with the given name.
@@ -156,7 +156,7 @@ namespace Minty
 	private:
 		Int m_priority;
 		// the render pass this Shader belongs to
-		Ref<RenderPass> m_renderPass;
+		Shared<RenderPass> m_renderPass;
 		// list of inputs to the shader (for verification when setting values)
 		Map<String, ShaderInput> m_inputs;
 		// list of materials that use this shader (for global updates)

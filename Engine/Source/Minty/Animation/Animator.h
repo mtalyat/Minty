@@ -29,9 +29,22 @@ namespace Minty
 		 * @brief Creates an Animator with the given arguments.
 		 * @param info The arguments for the Animator.
 		 */
-		Animator(AnimatorInfo const& info);
+		Animator(AnimatorInfo const &info);
+
+		/**
+		 * @brief Copy constructor.
+		 * @param other The Animator to copy from.
+		 */
+		Animator(Animator const &other);
 
 		~Animator();
+
+#pragma endregion
+
+#pragma region Operators
+
+	public:
+		Animator &operator=(Animator const &other);
 
 #pragma endregion
 
@@ -55,14 +68,14 @@ namespace Minty
 		 * @param name The name of the variable.
 		 * @param value The new value of the variable.
 		 */
-		void set_variable(String const& name, Int const value);
+		void set_variable(String const &name, Int const value);
 
 		/**
 		 * @brief Gets the value of the variable with the given name.
 		 * @param name The name of the variable.
 		 * @return The value of the variable.
 		 */
-		Int get_variable(String const& name) const;
+		Int get_variable(String const &name) const;
 
 		/**
 		 * @brief Gets the Asset ID of the current Animation.
@@ -87,14 +100,14 @@ namespace Minty
 		 * @param currentTime The current time of the Animation.
 		 * @return The Asset ID of the current Animation after the update.
 		 */
-		UUID update(Ref<Animation> const& currentAnimation, Float const currentTime);
-		
+		UUID update(Ref<Animation> const &currentAnimation, Float const currentTime);
+
 		/**
 		 * @brief Creates a new Animator from the given AnimatorInfo.
 		 * @param info The arguments for the Animator.
 		 * @return The created Animator.
 		 */
-		static Shared<Animator> create(AnimatorInfo const& info);
+		static Shared<Animator> create(AnimatorInfo const &info);
 
 		/**
 		 * @brief Creates a default Animator.
@@ -107,7 +120,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		FSM* mp_fsm;
+		FSM *mp_fsm;
 		Bool m_force;
 
 #pragma endregion

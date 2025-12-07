@@ -170,6 +170,18 @@ Minty::RenderManager::RenderManager(RenderManagerInfo const &info)
 	MINTY_ASSERT(m_window != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }
 
+Minty::RenderManager::~RenderManager()
+{
+	MINTY_ASSERT_F(
+		m_surface == nullptr &&
+		m_depthStencilImage == nullptr &&
+		m_defaultViewport == nullptr &&
+		m_defaultMeshes.is_empty() &&
+		m_defaultMaterials.is_empty(),
+		ErrorCode::Object_InvalidState,
+		"RenderManager default resources were not released before destruction. Call release_default_resources() before destroying the RenderManager.");
+}
+
 void Minty::RenderManager::set_surface(Shared<Surface> &&surface)
 {
 	m_surface = std::move(surface);
@@ -195,7 +207,7 @@ Format Minty::RenderManager::get_depth_attachment_format() const
 	return m_depthStencilImage->get_format();
 }
 
-Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
+Shared<Mesh> const& Minty::RenderManager::get_default_mesh(MeshType const type)
 {
 	MINTY_ASSERT(type != MeshType::Custom, ErrorCode::Argument_InvalidValue);
 
@@ -204,15 +216,9 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	if (found != m_defaultMeshes.end())
 	{
 		// already exists
-		Ref<Mesh> mesh = found->get_second();
+		Shared<Mesh> const& mesh = found->get_second();
 		MINTY_ASSERT(mesh != nullptr, ErrorCode::Object_InvalidState);
 		return mesh;
-	}
-
-	// if empty
-	if (type == MeshType::Empty)
-	{
-		return nullptr;
 	}
 
 	// create the mesh
@@ -220,13 +226,12 @@ Ref<Mesh> Minty::RenderManager::get_default_mesh(MeshType const type)
 	info.id = UUID::create();
 	info.type = type;
 	AssetManager &assetManager = AssetManager::get_singleton();
-	Ref<Mesh> mesh = assetManager.create<Mesh>(info);
+	Shared<Mesh> const& mesh = assetManager.create<Mesh>(info);
 	m_defaultMeshes.add(type, mesh);
-
-	return mesh;
+	return m_defaultMeshes.at(type);
 }
 
-Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask)
+Shared<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetType const assetType, Space const space, MaskMode const mask)
 {
 	UUID templateId;
 	switch (assetType)
@@ -282,12 +287,12 @@ Ref<MaterialTemplate> Minty::RenderManager::get_default_material_template(AssetT
 	}
 
 	AssetManager &assetManager = AssetManager::get_singleton();
-	Ref<MaterialTemplate> const &materialTemplate = assetManager.get<MaterialTemplate>(templateId);
-	MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, assetType, space, templateId);
+	Shared<MaterialTemplate> materialTemplate = assetManager.at<MaterialTemplate>(templateId);
+	MINTY_ASSERT_F(materialTemplate != nullptr, ErrorCode::Asset_NotLoaded, templateId);
 	return materialTemplate;
 }
 
-Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const &texture, Ref<MaterialTemplate> const &materialTemplate, AssetType const assetType, Space const space, MaskMode const mask)
+Shared<Material> const& Minty::RenderManager::get_default_material(Ref<Texture> const &texture, Ref<MaterialTemplate> const &materialTemplate, AssetType const assetType, Space const space, MaskMode const mask)
 {
 	MINTY_ASSERT(texture != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
@@ -297,7 +302,7 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const &tex
 	if (found != m_defaultMaterials.end())
 	{
 		// return existing Material
-		Ref<Material> material = found->get_second();
+		Shared<Material> const& material = found->get_second();
 		MINTY_ASSERT(material != nullptr, ErrorCode::Object_InvalidState);
 		return material;
 	}
@@ -311,7 +316,7 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const &tex
 	// get the material template based on the asset type and the space, if none given
 	if (materialTemplate != nullptr)
 	{
-		info.materialTemplate = materialTemplate;
+		info.materialTemplate = materialTemplate.to_shared();
 	}
 	else
 	{
@@ -323,13 +328,10 @@ Ref<Material> Minty::RenderManager::get_default_material(Ref<Texture> const &tex
 	object.add("texSampler", texture->get_id());
 	info.values.add("texture", object);
 
-	// create the material
-	Ref<Material> material = assetManager.create<Material>(info);
-
-	// add to default materials
+	// create and add the material
+	Shared<Material> const& material = assetManager.create<Material>(info);
 	m_defaultMaterials.add(key, material);
-
-	return material;
+	return m_defaultMaterials.at(key);
 }
 
 void Minty::RenderManager::refresh()
@@ -340,7 +342,7 @@ void Minty::RenderManager::refresh()
 	sync();
 
 	// refresh the surface
-	Ref<Surface> surface = get_surface();
+	Shared<Surface> const& surface = get_surface();
 	if (surface != nullptr)
 	{
 		surface->refresh();
@@ -352,7 +354,7 @@ void Minty::RenderManager::refresh()
 	UInt2 size = surface->get_size();
 
 	// refresh the default viewport
-	Ref<Viewport> defaultViewport = get_default_viewport();
+	Shared<Viewport> const& defaultViewport = get_default_viewport();
 	defaultViewport->set_size(size);
 
 	// refresh default render passes
@@ -361,6 +363,15 @@ void Minty::RenderManager::refresh()
 	{
 		renderPass->refresh();
 	}
+}
+
+void Minty::RenderManager::release_default_resources()
+{
+	m_surface.release();
+	m_depthStencilImage.release();
+	m_defaultViewport.release();
+	m_defaultMeshes.clear();
+	m_defaultMaterials.clear();
 }
 
 Bool Minty::RenderManager::start_frame()
