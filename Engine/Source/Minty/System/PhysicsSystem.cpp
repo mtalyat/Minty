@@ -112,6 +112,9 @@ void Minty::PhysicsSystem::on_fixed_update(Timestep const &time)
 		m_simulation->set_dynamic(transformComp.transform, *colliderComp.collider, *bodyComp.rigidBody);
 	}
 
+	// perform a physics step
+	m_simulation->step(time.get_elapsed());
+
 	// update the world data with the physics simulation data
 	for (auto &&[entity, transformComp, colliderComp, bodyComp, simulateComp, enabledComp] : entityManager.view<TransformComponent, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, EnabledComponent const>().each())
 	{

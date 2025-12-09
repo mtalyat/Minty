@@ -8,11 +8,10 @@
  */
 
 #include "Minty/System/System.h"
+#include "Minty/Physics/PhysicsSimulation.h"
 
 namespace Minty
 {
-	class PhysicsSimulation;
-
 	/**
 	 * @brief Handles physics in a Scene.
 	 */
@@ -25,7 +24,7 @@ namespace Minty
 		/**
 		 * @brief Creates a PhysicsSystem using the given SystemInfo.
 		 */
-		PhysicsSystem(SystemInfo const& info);
+		PhysicsSystem(SystemInfo const &info);
 
 		~PhysicsSystem() override = default;
 
@@ -38,7 +37,7 @@ namespace Minty
 		 * @brief Gets the PhysicsSimulation used by this PhysicsSystem.
 		 * @return The simulation.
 		 */
-		inline PhysicsSimulation& get_simulation() const { return *m_simulation; }
+		inline PhysicsSimulation &get_simulation() const { return *m_simulation; }
 
 #pragma endregion
 
@@ -59,7 +58,7 @@ namespace Minty
 		 * @brief Called when the Scene is fixed updated.
 		 * @param time The time information for the fixed update.
 		 */
-		void on_fixed_update(Timestep const& time) override;
+		void on_fixed_update(Timestep const &time) override;
 
 		/**
 		 * @brief Called when the Scene is finalized.
