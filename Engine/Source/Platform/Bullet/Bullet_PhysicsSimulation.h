@@ -42,8 +42,6 @@ namespace Minty
 		void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) override;
 		void remove_static(Collider& collider) override;
 		void remove_dynamic(Collider& collider, RigidBody& body) override;
-		void set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body) override;
-		void get_dynamic(Transform& transform, Collider const& collider, RigidBody& body) override;
 		Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const override;
 		void clear() override;
 

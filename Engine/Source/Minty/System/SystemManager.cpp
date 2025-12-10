@@ -143,7 +143,7 @@ void Minty::SystemManager::on_scene_unload()
 	}
 }
 
-void Minty::SystemManager::frame_update(Timestep const &time)
+void Minty::SystemManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -157,7 +157,7 @@ void Minty::SystemManager::frame_update(Timestep const &time)
 	}
 }
 
-void Minty::SystemManager::fixed_update(Timestep const &time)
+void Minty::SystemManager::fixed_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 

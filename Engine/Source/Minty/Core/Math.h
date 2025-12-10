@@ -762,6 +762,18 @@ namespace Minty
 			return Double4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
 		}
 
+		/**
+		 * @brief Gets the spherical linear interpolation between two quaternions.
+		 * @param left The starting quaternion.
+		 * @param right The ending quaternion.
+		 * @param t The interpolation factor. 0.0 is left, 1.0 is right.
+		 * @return The slerped quaternion.
+		 */
+		inline Quaternion slerp(Quaternion const& left, Quaternion const& right, Float const t)
+		{
+			return glm::slerp(left, right, t);
+		}
+
 		/// <summary>
 		/// Gets the position between left and right, based on t, and clamps it between left and right.
 		/// </summary>

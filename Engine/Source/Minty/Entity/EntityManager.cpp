@@ -1447,7 +1447,7 @@ void Minty::EntityManager::on_scene_load()
 	mark_all<DirtyComponent>();
 }
 
-void Minty::EntityManager::frame_update(Timestep const &time)
+void Minty::EntityManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -1459,8 +1459,13 @@ void Minty::EntityManager::frame_update(Timestep const &time)
 
 	// refresh the dirty components
 	finalize_dirties();
+}
 
-	Manager::frame_update(time);
+void Minty::EntityManager::fixed_update(Timestep const time)
+{
+	MINTY_TRACE_SCOPE();
+
+	// update any transforms from the position, rotation, scale changes
 }
 
 void Minty::EntityManager::finalize()
@@ -1472,8 +1477,6 @@ void Minty::EntityManager::finalize()
 
 	// refresh the dirty components
 	finalize_dirties();
-
-	Manager::finalize();
 }
 
 void Minty::EntityManager::destroy_immediately(Entity const entity)

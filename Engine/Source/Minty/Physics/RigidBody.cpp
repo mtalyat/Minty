@@ -8,8 +8,8 @@
 using namespace Minty;
 
 Minty::RigidBody::RigidBody(RigidBodyInfo const &info)
-    : m_isKinematic(info.isKinematic), m_mass(info.mass)
 {
+    
 }
 
 Shared<RigidBody> Minty::RigidBody::create(RigidBodyInfo const &info)

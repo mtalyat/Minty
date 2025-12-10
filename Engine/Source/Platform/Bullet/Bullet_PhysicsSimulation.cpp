@@ -145,16 +145,6 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(Collider& collider, RigidBo
 	btBody.set_rigid_body(nullptr);
 }
 
-void Minty::Bullet_PhysicsSimulation::set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body)
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
-void Minty::Bullet_PhysicsSimulation::get_dynamic(Transform& transform, Collider const& collider, RigidBody& body)
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
 Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer, Layer const layerMask, Float const maxDistance) const
 {
 	// if too small of a distance, nothing is going to be hit

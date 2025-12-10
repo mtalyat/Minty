@@ -178,13 +178,13 @@ namespace Minty
 		 * @brief Called every frame.
 		 * @param time The time information for the frame update.
 		 */
-		void frame_update(Timestep const &time) override;
+		void frame_update(Timestep const time) override;
 
 		/**
 		 * @brief Called at a fixed interval.
 		 * @param time The time information for the fixed update.
 		 */
-		void fixed_update(Timestep const &time) override;
+		void fixed_update(Timestep const time) override;
 
 		/**
 		 * @brief Called after every update operation.

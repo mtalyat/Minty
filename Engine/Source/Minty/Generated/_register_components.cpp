@@ -1,5 +1,6 @@
 // THIS FILE IS AUTO GENERATED
 // DO NOT MODIFY THIS FILE DIRECTLY
+// jk, it is not auto generated... yet.
 
 #include "Minty/Application/Application.h"
 #include "Minty/Entity/EntityManager.h"

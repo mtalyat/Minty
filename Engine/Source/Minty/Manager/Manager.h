@@ -34,13 +34,13 @@ namespace Minty
 		 * @brief Called once a frame.
 		 * @param time The time information for the frame.
 		 */
-		virtual void frame_update(Timestep const& time) {}
+		virtual void frame_update(Timestep const time) {}
 
 		/**
 		 * @brief Called at a fixed interval.
 		 * @param time The time information for the update.
 		 */
-		virtual void fixed_update(Timestep const& time) {}
+		virtual void fixed_update(Timestep const time) {}
 
 		/**
 		 * @brief Called at the end of the frame to finalize operations.

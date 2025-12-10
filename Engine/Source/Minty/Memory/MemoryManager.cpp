@@ -138,7 +138,7 @@ Minty::MemoryManager::~MemoryManager()
 	}
 }
 
-void Minty::MemoryManager::frame_update(Timestep const &time)
+void Minty::MemoryManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 

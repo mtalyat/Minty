@@ -4,7 +4,6 @@
 #include "Minty/Component/ColliderComponent.h"
 #include "Minty/Component/DestroyComponent.h"
 #include "Minty/Component/RigidBodyComponent.h"
-#include "Minty/Component/SimulateComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Serialization/Reader.h"
@@ -231,7 +230,7 @@ void Minty::Scene::on_unload()
 	m_loaded = false;
 }
 
-void Minty::Scene::on_frame_update(Timestep const& time)
+void Minty::Scene::on_frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -239,7 +238,7 @@ void Minty::Scene::on_frame_update(Timestep const& time)
 	m_entityManager->frame_update(time);
 }
 
-void Minty::Scene::on_fixed_update(Timestep const& time)
+void Minty::Scene::on_fixed_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 

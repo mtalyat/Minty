@@ -99,7 +99,7 @@ namespace Minty
 		 * @brief Called every frame.
 		 * @param time The timestep for the frame update.
 		 */
-		void frame_update(Timestep const& time) override;
+		void frame_update(Timestep const time) override;
 
 		/**
 		 * @brief Waits for all asset loading/unloading operations to finish.

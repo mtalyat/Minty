@@ -129,13 +129,13 @@ namespace Minty
 		 * @brief Called once per frame to update the Scene.
 		 * @param time The Timestep representing the time since the last frame.
 		 */
-		void on_frame_update(Timestep const& time);
+		void on_frame_update(Timestep const time);
 
 		/**
 		 * @brief Called at a fixed interval to update the Scene.
 		 * @param time The Timestep representing the fixed time step.
 		 */
-		void on_fixed_update(Timestep const& time);
+		void on_fixed_update(Timestep const time);
 
 		/**
 		 * @brief Called when the Scene is being finalized.

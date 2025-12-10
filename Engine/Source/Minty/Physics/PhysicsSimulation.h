@@ -104,22 +104,6 @@ namespace Minty
 		virtual void remove_dynamic(Collider& collider, RigidBody& body) = 0;
 
 		/**
-		 * @brief Updates the transform of a dynamic Collider with a RigidBody in the physics simulation.
-		 * @param transform The Transform.
-		 * @param collider The Collider.
-		 * @param body The RigidBody.
-		 */
-		virtual void set_dynamic(Transform const& transform, Collider const& collider, RigidBody const& body) = 0;
-
-		/**
-		 * @brief Updates the transform from a dynamic Collider with a RigidBody in the physics simulation.
-		 * @param transform The Transform.
-		 * @param collider The Collider.
-		 * @param body The RigidBody.
-		 */
-		virtual void get_dynamic(Transform& transform, Collider const& collider, RigidBody& body) = 0;
-
-		/**
 		 * @brief Performs a raycast in the physics simulation.
 		 * @param origin The origin of the ray.
 		 * @param direction The direction of the ray.

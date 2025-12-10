@@ -212,7 +212,7 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path, AssetType const 
 	}
 }
 
-void Minty::AssetManager::frame_update(Timestep const &time)
+void Minty::AssetManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 

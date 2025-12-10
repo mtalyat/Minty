@@ -62,11 +62,13 @@ namespace Minty
 		 * @param rotation The new local rotation.
 		 */
 		inline void set_local_rotation(Quaternion const& rotation) { m_localRotation = rotation; }
+
 		/**
 		 * @brief Gets the global rotation of the Transform.
 		 * @returns The global rotation.
 		 */
 		inline Quaternion get_global_rotation() const { return Math::extract_rotation(m_globalMatrix); }
+
 		/**
 		 * @brief Gets the local scale of the Transform.
 		 * @returns The local scale.
@@ -78,6 +80,7 @@ namespace Minty
 		 * @param scale The new local scale.
 		 */
 		inline void set_local_scale(Float3 const& scale) { m_localScale = scale; }
+
 		/**
 		 * @brief Gets the global scale of the Transform.
 		 * @returns The global scale.

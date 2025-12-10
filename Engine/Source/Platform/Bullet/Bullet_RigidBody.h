@@ -7,13 +7,6 @@ namespace Minty
 	class Bullet_RigidBody
 		: public RigidBody
 	{
-#pragma region Variables
-
-	private:
-		btRigidBody* mp_body = nullptr;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -28,12 +21,53 @@ namespace Minty
 
 		inline btRigidBody* get_rigid_body() const { return mp_body; }
 
-		inline void set_rigid_body(btRigidBody* body)
-		{
-			mp_body = body;
-		}
+		inline void set_rigid_body(btRigidBody* body) { mp_body = body; }
+
+		Bool is_static() const override;
+
+		void set_static(Bool const isStatic) override;
+
+		Bool is_dynamic() const override;
+
+		Bool is_kinematic() const override;
+
+		void set_kinematic(Bool const isKinematic) override;
+		
+		Float get_mass() const override;
+
+		void set_mass(Float const mass) override;
+
+		Float3 get_position() const override;
+
+		void set_position(Float3 const& position) override;
+
+		Quaternion get_rotation() const override;
+
+		void set_rotation(Quaternion const& rotation) override;
+
+		Float3 get_linear_velocity() const override;
+
+		void set_linear_velocity(Float3 const& velocity) override;
+	
+		Float get_friction() const override;
+		void set_friction(Float const friction) override;
+		Float get_bounce() const override;
+		void set_bounce(Float const bounce) override;
 
 #pragma endregion
 
+#pragma region Methods
+
+	public:
+		void add_force(Float3 const& force, Force const mode) override;
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		btRigidBody* mp_body = nullptr;
+
+#pragma endregion
 	};
 }

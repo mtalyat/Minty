@@ -207,7 +207,13 @@ namespace Minty
 		 * @brief Called every frame to update Entities.
 		 * @param time The Timestep since the last frame.
 		 */
-		void frame_update(Timestep const &time) override;
+		void frame_update(Timestep const time) override;
+
+		/**
+		 * @brief Called at a fixed interval to update Entities.
+		 * @param time The Timestep since the last fixed update.
+		 */
+		void fixed_update(Timestep const time) override;
 
 		/**
 		 * @brief Finalizes the EntityManager, cleaning up resources.

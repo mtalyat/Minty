@@ -173,7 +173,7 @@ namespace Minty
 		 * @note This will be invalid if no TimeManager was created using the ApplicationInfo.
 		 * @return The TimeManager.
 		 */
-		Unique<TimeController> const& get_time_manager() const
+		Unique<TimeController> const& get_time_controller() const
 		{
 			return m_timeController;
 		}

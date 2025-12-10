@@ -39,7 +39,7 @@ namespace Minty
 		 * @brief Called when the Scene is updated.
 		 * @param time
 		 */
-		void on_frame_update(Timestep const& time) override;
+		void on_frame_update(Timestep const time) override;
 
 #pragma endregion
 	};

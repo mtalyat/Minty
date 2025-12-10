@@ -57,10 +57,20 @@ namespace Minty
 		 * @brief Gets the Scene this System belongs to.
 		 * @returns The Scene.
 		 */
-		inline Ref<Scene> const &get_scene() const
+		inline Ref<Scene> const &get_scene_ref() const
 		{
 			MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
 			return m_scene;
+		}
+
+		/**
+		 * @brief Gets the Scene this System belongs to.
+		 * @returns The Scene.
+		 */
+		inline Scene &get_scene() const
+		{
+			MINTY_ASSERT(m_scene != nullptr, ErrorCode::Object_InvalidState);
+			return *m_scene;
 		}
 		
 		/**
@@ -108,13 +118,13 @@ namespace Minty
 		 * @brief Called when the Scene is frame updated.
 		 * @param time The time information for the frame update.
 		 */
-		virtual void on_frame_update(Timestep const &time) {}
+		virtual void on_frame_update(Timestep const time) {}
 		
 		/**
 		 * @brief Called when the Scene is fixed updated.
 		 * @param time The time information for the fixed update.
 		 */
-		virtual void on_fixed_update(Timestep const &time) {}
+		virtual void on_fixed_update(Timestep const time) {}
 
 		/**
 		 * @brief Called when the Scene is finalized.

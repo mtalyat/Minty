@@ -50,7 +50,7 @@ namespace Minty
 		 * @brief Called once a frame. Advances to the next task memory stack, then frees temporary and task memory.
 		 * @param time The time information for the frame.
 		 */
-		void frame_update(Timestep const& time) override;
+		void frame_update(Timestep const time) override;
 
 		/**
 		 * @brief Allocates memory using the given allocator.

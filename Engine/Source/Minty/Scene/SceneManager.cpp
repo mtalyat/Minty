@@ -177,7 +177,7 @@ void Minty::SceneManager::schedule_unload(UUID const id, Job const &onCompletion
 			onCompletion(); });
 }
 
-void Minty::SceneManager::frame_update(Timestep const &time)
+void Minty::SceneManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 
@@ -192,7 +192,7 @@ void Minty::SceneManager::frame_update(Timestep const &time)
 	}
 }
 
-void Minty::SceneManager::fixed_update(Timestep const &time)
+void Minty::SceneManager::fixed_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 

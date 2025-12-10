@@ -88,12 +88,12 @@ Unique<TimeController> Minty::TimeController::create()
 
 Unique<TimeController> const& Minty::TimeController::get_instance()
 {
-    return Application::get_singleton().get_time_manager();
+    return Application::get_singleton().get_time_controller();
 }
 
 TimeController& Minty::TimeController::get_singleton()
 {
-    Unique<TimeController> const& instance = Application::get_singleton().get_time_manager();
+    Unique<TimeController> const& instance = Application::get_singleton().get_time_controller();
     MINTY_ASSERT(instance, ErrorCode::Application_TimeControllerNotInitialized);
     return *instance;
 }
