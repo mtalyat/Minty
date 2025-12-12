@@ -11,6 +11,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Shape.h"
+#include "Minty/Render/Mesh.h"
 #include "Minty/Serialization/SerializableObject.h"
 
 namespace Minty
@@ -41,16 +42,34 @@ namespace Minty
 
 	public:
 		/**
+		 * @brief Checks if this Collider is static.
+		 * @return True if static, otherwise false.
+		 */
+		inline Bool is_static() const { return m_isStatic; }
+
+		/**
 		 * @brief Gets the Shape of this Collider.
 		 * @return The Shape.
 		 */
 		inline Shape get_shape() const { return m_shape; }
 
 		/**
-		 * @brief Checks if this Collider is static.
-		 * @return True if static, otherwise false.
+		 * @brief Gets the offset of this Collider.
+		 * @return The offset.
 		 */
-		inline Bool is_static() const { return m_isStatic; }
+		inline Float3 const& get_offset() const { return m_offset; }
+
+		/**
+		 * @brief Gets the size of this Collider.
+		 * @return The size.
+		 */
+		inline Float3 const& get_size() const { return m_size; }
+
+		/**
+		 * @brief Gets the Mesh used for this Collider if the Shape is Custom.
+		 * @return The Mesh Owner.
+		 */
+		inline Shared<Mesh> const& get_mesh() const { return m_mesh; }
 
 		/**
 		 * @brief Gets the native pointer to the underlying physics object.
@@ -85,7 +104,8 @@ namespace Minty
 
 	private:
 		Shape m_shape;
-		Ref<Mesh> m_mesh; // only used if shape is Custom
+		Shared<Mesh> m_mesh; // only used if shape is Custom
+		Float3 m_offset;
 		Float3 m_size;
 		Bool m_isStatic;
 

@@ -11,7 +11,7 @@ Minty::Bullet_MeshCollider::Bullet_MeshCollider(ColliderInfo const& info)
 	MINTY_ASSERT(info.shape == Shape::Custom, ErrorCode::Argument_InvalidValue);
 	MINTY_ASSERT(info.mesh != nullptr, ErrorCode::Argument_ExpectedNonNull);
 
-	Ref<Mesh> mesh = info.mesh;
+	Shared<Mesh> const& mesh = info.mesh;
 	ListContainer const& vertices = mesh->get_vertices();
 	ListContainer const& indices = mesh->get_indices();
 

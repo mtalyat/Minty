@@ -453,7 +453,10 @@ namespace Minty
 		template <typename ComponentType>
 		ComponentType *try_get_component(Entity const entity)
 		{
-			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
+			if(!m_registry.valid(entity))
+			{
+				return nullptr;
+			}
 			return m_registry.try_get<ComponentType>(entity);
 		}
 

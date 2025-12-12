@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Core/Types.h"
+#include "Minty/Physics/Collider.h"
 
 namespace Minty
 {
@@ -22,9 +23,29 @@ namespace Minty
         Bool isKinematic = false;
 
         /**
+         * @brief Whether the rigid body is static.
+         */
+        Bool isStatic = false;
+
+        /**
          * @brief The mass of the rigid body.
          */
         Float mass = 1.0f;
+
+        /**
+         * @brief The friction of the rigid body.
+         */
+        Float friction = 0.5f;
+
+        /**
+         * @brief The bounciness of the rigid body.
+         */
+        Float bounciness = 0.0f;
+
+        /**
+         * @brief The collider associated with the rigid body.
+         */
+        Shared<Collider> collider = nullptr;
     };
 }
 

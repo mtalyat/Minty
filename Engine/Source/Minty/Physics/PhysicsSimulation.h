@@ -80,15 +80,13 @@ namespace Minty
 		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
 
 		/**
-		 * @brief Adds a dynamic Collider with a RigidBody to the physics simulation.
+		 * @brief Adds a dynamic RigidBody to the physics simulation.
 		 * @param entity The Entity.
-		 * @param transform The Transform.
-		 * @param collider The Collider.
 		 * @param body The RigidBody.
 		 * @param layer The Layer.
 		 * @param layerMask The Layer mask.
 		 */
-		virtual void add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
+		virtual void add_dynamic(Entity const entity, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
 
 		/**
 		 * @brief Removes a static Collider from the physics simulation.
@@ -97,11 +95,10 @@ namespace Minty
 		virtual void remove_static(Collider& collider) = 0;
 
 		/**
-		 * @brief Removes a dynamic Collider with a RigidBody from the physics simulation.
-		 * @param collider The Collider.
+		 * @brief Removes a dynamic RigidBody from the physics simulation.
 		 * @param body The RigidBody.
 		 */
-		virtual void remove_dynamic(Collider& collider, RigidBody& body) = 0;
+		virtual void remove_dynamic(RigidBody& body) = 0;
 
 		/**
 		 * @brief Performs a raycast in the physics simulation.

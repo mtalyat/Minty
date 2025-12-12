@@ -1,5 +1,8 @@
 #pragma once
+#include "Minty/Data/Pointer.h"
+#include "Minty/Entity/Entity.h"
 #include "Minty/Library/Bullet.h"
+#include "Minty/Physics/Collider.h"
 #include "Minty/Physics/RigidBody.h"
 
 namespace Minty
@@ -12,16 +15,14 @@ namespace Minty
 	public:
 		Bullet_RigidBody(RigidBodyInfo const& info);
 
+		~Bullet_RigidBody();
+
 #pragma endregion
 
 #pragma region Accessors
 
 	public:
 		inline Any get_native() const override { return mp_body; }
-
-		inline btRigidBody* get_rigid_body() const { return mp_body; }
-
-		inline void set_rigid_body(btRigidBody* body) { mp_body = body; }
 
 		Bool is_static() const override;
 
@@ -50,9 +51,16 @@ namespace Minty
 		void set_linear_velocity(Float3 const& velocity) override;
 	
 		Float get_friction() const override;
+		
 		void set_friction(Float const friction) override;
+		
 		Float get_bounce() const override;
+		
 		void set_bounce(Float const bounce) override;
+
+		void set_entity(Entity const entity);
+
+		Entity get_entity() const;
 
 #pragma endregion
 
@@ -66,7 +74,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		btRigidBody* mp_body = nullptr;
+		btRigidBody* mp_body;
 
 #pragma endregion
 	};

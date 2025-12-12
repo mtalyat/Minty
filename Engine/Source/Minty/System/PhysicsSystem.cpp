@@ -13,6 +13,7 @@
 #include "Minty/Component/ScaleComponent.h"
 #include "Minty/Component/GravityComponent.h"
 #include "Minty/Component/TransformComponent.h"
+#include "Minty/Component/VelocityComponent.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Physics/PhysicsManager.h"
 #include "Minty/Scene/Scene.h"
@@ -55,6 +56,16 @@ void Minty::PhysicsSystem::initialize_entities()
 		// remove simulate component
 		entityManager.remove_component<SimulateComponent>(entity);
 	}
+	for (auto &&[entity, bodyComp, simulateComp] : entityManager.view<RigidBodyComponent, SimulateComponent const>(entt::exclude<EnabledComponent>).each())
+	{
+		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+
+		// remove from physics simulation
+		m_simulation->remove_dynamic(*bodyComp.rigidBody);
+
+		// remove simulate component
+		entityManager.remove_component<SimulateComponent>(entity);
+	}
 
 	// check for enabled, non-simulated entities
 	for (auto &&[entity, transformComp, colliderComp, enabledComp] : entityManager.view<TransformComponent, ColliderComponent, EnabledComponent const>(entt::exclude<RigidBodyComponent, SimulateComponent, DestroyComponent>).each())
@@ -70,6 +81,16 @@ void Minty::PhysicsSystem::initialize_entities()
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);
 	}
+	for(auto &&[entity, bodyComp, enabledComp] : entityManager.view<RigidBodyComponent, EnabledComponent const>(entt::exclude<SimulateComponent, DestroyComponent>).each())
+	{
+		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+
+		// add to physics simulation
+		m_simulation->add_dynamic(entity, *bodyComp.rigidBody);
+
+		// add simulate component
+		entityManager.add_component<SimulateComponent>(entity);
+	}
 }
 
 void Minty::PhysicsSystem::deinitialize_entities()
@@ -80,10 +101,16 @@ void Minty::PhysicsSystem::deinitialize_entities()
 	EntityManager &entityManager = scene->get_entity_manager();
 
 	// clear simulation
-	for (auto &&[entity, colliderComp, bodyComp, simulateComp] : entityManager.view<ColliderComponent const, RigidBodyComponent const, SimulateComponent const>().each())
+	for (auto &&[entity, bodyComp, simulateComp] : entityManager.view<RigidBodyComponent const, SimulateComponent const>().each())
 	{
+		if(!bodyComp.rigidBody)
+		{
+			MINTY_ERROR(ErrorCode::Component_InvalidState);
+			continue;
+		}
+
 		// remove from physics simulation
-		m_simulation->remove_dynamic(*colliderComp.collider, *bodyComp.rigidBody);
+		m_simulation->remove_dynamic(*bodyComp.rigidBody);
 
 		// remove simulate component
 		entityManager.remove_component<SimulateComponent>(entity);
@@ -98,11 +125,15 @@ void Minty::PhysicsSystem::update_simulated_entities(Timestep const time)
 	// apply gravity to entities with GravityComponent
 	for (auto const &[entity, bodyComp, gravityComp, simulateComp, enabledComp] : entityManager.view<RigidBodyComponent const, GravityComponent const, SimulateComponent const, EnabledComponent const>().each())
 	{
-		if(!bodyComp.rigidBody || !bodyComp.rigidBody->is_dynamic())
+		// throw an error if no rigid body, somehow
+		MINTY_ASSERT(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState);\
+
+		if(!bodyComp.rigidBody->is_dynamic())
 		{
+			// only apply to dynamic bodies
 			continue;
 		}
-		
+
 		// apply gravity force
 		Float3 const gravityForce = gravityComp.scale * m_simulation->get_gravity();
 		bodyComp.rigidBody->add_force(gravityForce, Force::Continuous);
@@ -155,6 +186,11 @@ void Minty::PhysicsSystem::update_simulation_from_world(Timestep const time)
 				physicsComp.previousRotation = rotationComp->rotation;
 			}
 		}
+
+		if(VelocityComponent const* velocityComp = entityManager.try_get_component<VelocityComponent const>(entity))
+		{
+			body.set_linear_velocity(velocityComp->velocity);
+		}
 	}
 }
 
@@ -196,6 +232,11 @@ void Minty::PhysicsSystem::update_world_from_simulation(Timestep const time)
 			{
 				rotationComp->rotation = body.get_rotation();
 			}
+		}
+
+		if(VelocityComponent* velocityComp = entityManager.try_get_component<VelocityComponent>(entity))
+		{
+			velocityComp->velocity = body.get_linear_velocity();
 		}
 	}
 }
@@ -279,6 +320,9 @@ void Minty::PhysicsSystem::on_fixed_update(Timestep const time)
 	// initialize any new entities
 	initialize_entities();
 
+	// update simulated entities
+	update_simulated_entities(time);
+
 	// update the physics simulation data with the world data
 	update_simulation_from_world(time);
 
@@ -299,10 +343,20 @@ void Minty::PhysicsSystem::on_finalize()
 	EntityManager &entityManager = scene->get_entity_manager();
 
 	// remove any entities marked for destruction from the physics simulation
-	for (auto &&[entity, transformComp, colliderComp, bodyComp, simulateComp, destroyComp] : entityManager.view<TransformComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, DestroyComponent const>().each())
+	for (auto &&[entity, simulateComp, destroyComp] : entityManager.view<SimulateComponent const, DestroyComponent const>().each())
 	{
-		// remove from physics manager
-		m_simulation->remove_dynamic(*colliderComp.collider, *bodyComp.rigidBody);
+		// remove from physics simulation
+		RigidBodyComponent const* bodyComp = entityManager.try_get_component<RigidBodyComponent>(entity);
+		if(bodyComp != nullptr && bodyComp->rigidBody != nullptr)
+		{
+			m_simulation->remove_dynamic(*bodyComp->rigidBody);
+		}
+		else
+		{
+			ColliderComponent const* colliderComp = entityManager.try_get_component<ColliderComponent>(entity);
+			MINTY_ASSERT_F(colliderComp != nullptr && colliderComp->collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+			m_simulation->remove_static(*colliderComp->collider);
+		}
 
 		// remove simulate component
 		entityManager.remove_component<SimulateComponent>(entity);

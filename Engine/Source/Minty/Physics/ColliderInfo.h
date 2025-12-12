@@ -11,11 +11,10 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Shape.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Render/Mesh.h"
 
 namespace Minty
 {
-    class Mesh;
-
     /**
 	 * @brief The arguments for a Collider.
 	 */
@@ -29,7 +28,12 @@ namespace Minty
 		/**
 		 * @brief The data for a custom Shape.
 		 */
-		Ref<Mesh> mesh = nullptr;
+		Shared<Mesh> mesh = nullptr;
+
+		/**
+		 * @brief The offset of the collider.
+		 */
+		Float3 offset = Math::ZERO;
 
 		/**
 		 * @brief The size of the collider.

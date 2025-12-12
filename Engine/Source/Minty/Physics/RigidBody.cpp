@@ -8,8 +8,9 @@
 using namespace Minty;
 
 Minty::RigidBody::RigidBody(RigidBodyInfo const &info)
+    : m_collider(info.collider)
 {
-    
+    MINTY_ASSERT(info.collider != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }
 
 Shared<RigidBody> Minty::RigidBody::create(RigidBodyInfo const &info)

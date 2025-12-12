@@ -213,7 +213,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Add custom command to generate files
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
     COMMAND python "${TOP}/Tools/Build/generate_directory_headers.py"
-        "${SOURCE_DIR}/Minty"
+    COMMAND python "${TOP}/Tools/Build/generate_register_sources.py"
 )
 
 # Print configuration info

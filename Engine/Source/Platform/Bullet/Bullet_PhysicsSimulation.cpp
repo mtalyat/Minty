@@ -71,39 +71,10 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 	mp_dynamicsWorld->addCollisionObject(collisionObject, LayerManager::layer_to_bit(layer), layerMask);
 }
 
-void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Transform const& transform, Collider& collider, RigidBody& body, Layer const layer, Layer const layerMask)
+void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody& body, Layer const layer, Layer const layerMask)
 {
 	// get data
-	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
-	Bullet_RigidBody& btBody = static_cast<Bullet_RigidBody&>(body);
-	btCollisionShape* shape = btCollider.get_collision_shape();
-
-	// create transform data
-	btTransform btTransform = Bullet_Physics::to_bullet(transform);
-
-	// set inertia
-	btVector3 inertia(0, 0, 0);
-	shape->calculateLocalInertia(btBody.get_mass(), inertia);
-
-	// create motion state
-	btMotionState* motionState = new btDefaultMotionState(btTransform);
-
-	// create rigid body construction info
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(btBody.get_mass(), motionState, shape, inertia);
-
-	// create the rigid body
-	btRigidBody* rigidBody = new btRigidBody(rbInfo);
-
-	// create object data
-	Bullet_Object* objectData = new Bullet_Object();
-	objectData->entity = entity;
-
-	// set the user pointer to the object data
-	rigidBody->setUserPointer(objectData);
-
-	// set data
-	btBody.set_rigid_body(rigidBody);
-	btCollider.set_collision_object(rigidBody);
+	btRigidBody* const rigidBody = static_cast<btRigidBody*>(body.get_native());
 
 	// add the rigid body to the dynamics world
 	mp_dynamicsWorld->addRigidBody(rigidBody, LayerManager::layer_to_bit(layer), layerMask);
@@ -125,24 +96,13 @@ void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
 	btCollider.set_collision_object(nullptr);
 }
 
-void Minty::Bullet_PhysicsSimulation::remove_dynamic(Collider& collider, RigidBody& body)
+void Minty::Bullet_PhysicsSimulation::remove_dynamic(RigidBody& body)
 {
+	// get data
+	btRigidBody* const rigidBody = static_cast<btRigidBody*>(body.get_native());
+
 	// remove from dynamics world
-	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
-	Bullet_RigidBody& btBody = static_cast<Bullet_RigidBody&>(body);
-	btCollisionObject* collisionObject = btCollider.get_collision_object();
-	btRigidBody* rigidBody = btBody.get_rigid_body();
-	MINTY_ASSERT(collisionObject != nullptr && rigidBody != nullptr, ErrorCode::Argument_KeyNotFound);
 	mp_dynamicsWorld->removeRigidBody(rigidBody);
-
-	// delete user data
-	delete collisionObject->getUserPointer();
-
-	// delete the rigid body and motion state
-	delete rigidBody->getMotionState();
-	delete rigidBody;
-	btCollider.set_collision_object(nullptr);
-	btBody.set_rigid_body(nullptr);
 }
 
 Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer, Layer const layerMask, Float const maxDistance) const

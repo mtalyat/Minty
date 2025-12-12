@@ -10,6 +10,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
+#include "Minty/Physics/Collider.h"
 #include "Minty/Physics/Force.h"
 
 namespace Minty
@@ -37,6 +38,12 @@ namespace Minty
 #pragma region Accessors
 
 	public:
+		/**
+		 * @brief Gets the Collider associated with this RigidBody.
+		 * @return The Collider Owner.
+		 */
+		inline Shared<Collider> const& get_collider() const { return m_collider; }
+
 		/**
 		 * @brief Gets if this rigid body is static.
 		 * @return True if static.
@@ -169,6 +176,13 @@ namespace Minty
 		 * @return A RigidBody Owner.
 		 */
 		static Shared<RigidBody> create();
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Shared<Collider> m_collider;
 
 #pragma endregion
 	};

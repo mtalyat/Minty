@@ -2,15 +2,17 @@ import os
 import sys
 from pathlib import Path
 
-RESULT_ERROR = 0
-RESULT_IGNORE = 1
-RESULT_PASS = 2
-RESULT_SUCCESS = 3
-
 # Add parent directory to path for imports when run as a script
 if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).parent.parent))
 from Util import file_generation
+
+SOURCE_ROOT = Path(__file__).parent.parent.parent / 'Engine' / 'Source' / 'Minty'
+
+RESULT_ERROR = 0
+RESULT_IGNORE = 1
+RESULT_PASS = 2
+RESULT_SUCCESS = 3
 
 AUTO_GENERATED_NOTICE = "// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY."
 IGNORED_DIRECTORIES = {"Library", "Generated"}
@@ -113,7 +115,7 @@ def generate_main_header(source_path, subdirs_with_headers):
     return file_generation.update_generated_file(output_path, '\n'.join(lines))
 
 
-def process_source_directory(source_path):
+def process_source_directory():
     """
     Processes a source directory by generating combined headers for each subdirectory.
     
@@ -123,21 +125,21 @@ def process_source_directory(source_path):
     Returns:
         Number of successfully generated headers
     """
-    src_path = Path(source_path)
+    src_path = Path(SOURCE_ROOT)
     
     if not src_path.exists():
-        print(f"Error: Source directory '{source_path}' does not exist.")
+        print(f"Error: Source directory '{src_path}' does not exist.")
         return 0
     
     if not src_path.is_dir():
-        print(f"Error: '{source_path}' is not a directory.")
+        print(f"Error: '{src_path}' is not a directory.")
         return 0
     
     # Find all subdirectories
     subdirs = sorted([d for d in src_path.iterdir() if d.is_dir()])
     
     if not subdirs:
-        print(f"No subdirectories found in '{source_path}'.")
+        print(f"No subdirectories found in '{src_path}'.")
         return 0
     
     successful_subdirs = []
@@ -152,21 +154,12 @@ def process_source_directory(source_path):
             print(f'Error processing {subdir.name}.')
     
     # Generate the main header file
-    if generate_main_header(source_path, successful_subdirs):
+    if generate_main_header(src_path, successful_subdirs):
         print(f'Updated {src_path.name}.h.')
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python generate_directory_header.py <source_directory_path>")
-        print("Example: python generate_directory_header.py C:\\path\\to\\Engine\\Source\\Minty")
-        print("\nThis will process each subdirectory and generate combined headers.")
-        sys.exit(1)
-    
-    source_path = sys.argv[1]
-    process_source_directory(source_path)
-    sys.exit(0)
-
+    process_source_directory()
 
 if __name__ == "__main__":
     main()

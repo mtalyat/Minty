@@ -22,6 +22,9 @@ namespace Minty
 		 * @brief The RigidBody associated with this component.
 		 */
 		Shared<RigidBody> rigidBody = nullptr;
+		
+		void serialize(Writer& writer) const override;
+		Bool deserialize(Reader& reader) override;
 	};
 }
 

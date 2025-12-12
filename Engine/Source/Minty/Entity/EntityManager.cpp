@@ -1451,9 +1451,6 @@ void Minty::EntityManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
 
-	// remove any entities that are marked for destruction
-	cleanup();
-
 	// sort the entities
 	sort();
 
@@ -1471,6 +1468,9 @@ void Minty::EntityManager::fixed_update(Timestep const time)
 void Minty::EntityManager::finalize()
 {
 	MINTY_TRACE_SCOPE();
+
+	// remove any entities that are marked for destruction
+	cleanup();
 
 	// sort the entities
 	sort();
@@ -1664,7 +1664,7 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 		{
 			if (!component->deserialize(reader))
 			{
-				MINTY_ABORT(ErrorCode::OperationFailed);
+				MINTY_ABORT(ErrorCode::Serialization_Failed);
 			}
 
 			reader.outdent();

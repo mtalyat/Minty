@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Bullet_RigidBody.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Physics/RigidBodyInfo.h"
+#include "Platform/Bullet/Bullet_Collider.h"
+#include "Platform/Bullet/Bullet_Object.h"
+#include "Platform/Bullet/Bullet_Physics.h"
 
 using namespace Minty;
 
@@ -8,7 +12,43 @@ Minty::Bullet_RigidBody::Bullet_RigidBody(RigidBodyInfo const& info)
 	: RigidBody(info)
 	, mp_body(nullptr)
 {
-	
+	// get data
+	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(*info.collider.get());
+	btCollisionShape* const shape = btCollider.get_collision_shape();
+
+	// create transform data
+	btTransform btTransform = btTransform::getIdentity();
+
+	// set inertia
+	btVector3 inertia(0, 0, 0);
+	shape->calculateLocalInertia(info.mass, inertia);
+
+	// create motion state
+	btMotionState* motionState = new btDefaultMotionState(btTransform);
+
+	// create rigid body construction info
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, motionState, shape, inertia);
+
+	// create the rigid body
+	btRigidBody* rigidBody = new btRigidBody(rbInfo);
+
+	// create object data
+	Bullet_Object* objectData = new Bullet_Object();
+	rigidBody->setUserPointer(objectData);
+
+	// set data
+	mp_body = rigidBody;
+	btCollider.set_collision_object(rigidBody);
+}
+
+Minty::Bullet_RigidBody::~Bullet_RigidBody()
+{
+	delete mp_body->getUserPointer();
+	delete mp_body->getMotionState();
+	delete mp_body;
+
+	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(*get_collider().get());
+	btCollider.set_collision_object(nullptr);
 }
 
 Bool Minty::Bullet_RigidBody::is_static() const
@@ -137,6 +177,20 @@ Float Minty::Bullet_RigidBody::get_bounce() const
 void Minty::Bullet_RigidBody::set_bounce(Float const bounce)
 {
 	mp_body->setRestitution(static_cast<btScalar>(bounce));
+}
+
+void Minty::Bullet_RigidBody::set_entity(Entity const entity)
+{
+	Bullet_Object* objectData = static_cast<Bullet_Object*>(mp_body->getUserPointer());
+	MINTY_ASSERT(objectData != nullptr, ErrorCode::Argument_KeyNotFound);
+	objectData->entity = entity;
+}
+
+Entity Minty::Bullet_RigidBody::get_entity() const
+{
+	Bullet_Object* objectData = static_cast<Bullet_Object*>(mp_body->getUserPointer());
+	MINTY_ASSERT(objectData != nullptr, ErrorCode::Argument_KeyNotFound);
+	return objectData->entity;
 }
 
 void Minty::Bullet_RigidBody::add_force(Float3 const &force, Force const mode)

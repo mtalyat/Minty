@@ -12,33 +12,16 @@
 using namespace Minty;
 
 Minty::Collider::Collider(ColliderInfo const &info)
-			: m_shape(info.shape)
-			, m_mesh(info.mesh)
-			, m_size(info.size)
-			, m_isStatic(info.isStatic)
-		{
-		}
+	: m_shape(info.shape), m_mesh(info.mesh), m_offset(info.offset), m_size(info.size), m_isStatic(info.isStatic)
+{
+}
 
 void Minty::Collider::serialize(Writer &writer) const
 {
-	writer.write("Shape", m_shape);
-	if (m_shape == Shape::Empty)
-	{
-		return; // no data to serialize
-	}
-	writer.write("Size", m_size);
-	if (m_shape == Shape::Custom && m_mesh != nullptr)
-	{
-		writer.write("Mesh", m_mesh);
-	}
-	else
-	{
-		writer.write("Mesh", Ref<Mesh>());
-	}
-	writer.write("Static", m_isStatic);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::Collider::deserialize(Reader& reader)
+Bool Minty::Collider::deserialize(Reader &reader)
 {
 	// read the shape
 	reader.read("Shape", m_shape);
@@ -49,6 +32,7 @@ Bool Minty::Collider::deserialize(Reader& reader)
 		m_isStatic = false;
 		return true; // no data to deserialize
 	}
+	reader.read("Offset", m_offset);
 	reader.read("Size", m_size);
 	if (m_shape == Shape::Custom)
 	{
@@ -63,7 +47,7 @@ Bool Minty::Collider::deserialize(Reader& reader)
 	return true;
 }
 
-Shared<Collider> Minty::Collider::create(ColliderInfo const& info)
+Shared<Collider> Minty::Collider::create(ColliderInfo const &info)
 {
 	// create a shape collider or a mesh collider based on the shape type
 	switch (info.shape)
