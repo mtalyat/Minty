@@ -181,7 +181,7 @@ namespace Minty
 
 #pragma region Variables
 
-	private:
+	protected:
 		Shared<Collider> m_collider;
 
 #pragma endregion

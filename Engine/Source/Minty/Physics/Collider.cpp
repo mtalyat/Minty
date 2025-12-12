@@ -5,8 +5,7 @@
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 #ifdef MINTY_BULLET
-#include "Platform/Bullet/Bullet_ShapeCollider.h"
-#include "Platform/Bullet/Bullet_MeshCollider.h"
+#include "Platform/Bullet/Bullet_Collider.h"
 #endif
 
 using namespace Minty;
@@ -55,17 +54,9 @@ Shared<Collider> Minty::Collider::create(ColliderInfo const &info)
 	case Shape::Empty:
 		// no collider
 		return Shared<Collider>();
-	case Shape::Custom:
-		// custom mesh collider
-#if defined(MINTY_BULLET)
-		return Shared<Bullet_MeshCollider>::create(info);
-#else
-		return Shared<Collider>();
-#endif
 	default:
-		// simple shape collider
 #if defined(MINTY_BULLET)
-		return Shared<Bullet_ShapeCollider>::create(info);
+		return Shared<Bullet_Collider>::create(info);
 #else
 		return Shared<Collider>();
 #endif

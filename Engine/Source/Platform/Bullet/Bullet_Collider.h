@@ -21,18 +21,9 @@ namespace Minty
 #pragma region Constructors
 
 	public:
-		Bullet_Collider(ColliderInfo const& info)
-			: Collider(info)
-			, mp_shape(nullptr)
-			, mp_object(nullptr)
-		{
-		}
+		Bullet_Collider(ColliderInfo const& info);
 
-		virtual ~Bullet_Collider()
-		{
-			delete mp_shape;
-			delete mp_object;
-		}
+		~Bullet_Collider() override;
 
 #pragma endregion
 
@@ -51,12 +42,11 @@ namespace Minty
 			return mp_object;
 		}
 
-		inline void set_collision_object(btCollisionObject* object)
+		inline void set_collision_object(btCollisionObject* const object)
 		{
 			mp_object = object;
 		}
 
 #pragma endregion
-
 	};
 }

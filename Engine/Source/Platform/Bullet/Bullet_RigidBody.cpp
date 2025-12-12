@@ -38,6 +38,8 @@ Minty::Bullet_RigidBody::Bullet_RigidBody(RigidBodyInfo const& info)
 
 	// set data
 	mp_body = rigidBody;
+	btCollisionObject* oldCollisionObject = btCollider.get_collision_object();
+	MINTY_ASSERT(oldCollisionObject == nullptr, ErrorCode::Object_InvalidState);
 	btCollider.set_collision_object(rigidBody);
 }
 
@@ -47,8 +49,11 @@ Minty::Bullet_RigidBody::~Bullet_RigidBody()
 	delete mp_body->getMotionState();
 	delete mp_body;
 
-	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(*get_collider().get());
-	btCollider.set_collision_object(nullptr);
+	if(m_collider)
+	{
+		Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(*m_collider.get());
+		btCollider.set_collision_object(nullptr);
+	}
 }
 
 Bool Minty::Bullet_RigidBody::is_static() const
