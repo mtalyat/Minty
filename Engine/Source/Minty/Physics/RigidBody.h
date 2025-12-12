@@ -11,6 +11,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Physics/Collider.h"
+#include "Minty/Physics/Constraints.h"
 #include "Minty/Physics/Force.h"
 
 namespace Minty
@@ -145,6 +146,18 @@ namespace Minty
 		 * @param bounce The bounce.
 		 */
 		virtual void set_bounce(Float const bounce) = 0;
+
+		/**
+		 * @brief Gets the constraints applied to the rigid body.
+		 * @return The constraints.
+		 */
+		virtual Constraints get_constraints() const = 0;
+
+		/**
+		 * @brief Sets the constraints applied to the rigid body.
+		 * @param constraints The constraints.
+		 */
+		virtual void set_rotation_constraints(Constraints const constraints) = 0;
 
 		/**
 		 * @brief Gets the native pointer to the underlying physics object.

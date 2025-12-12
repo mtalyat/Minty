@@ -72,5 +72,15 @@ Bool Minty::MeshComponent::deserialize(Reader& reader)
 	{
 		material = nullptr;
 	}
-	return mesh != nullptr && material != nullptr;
+	if(mesh == nullptr)
+	{
+		MINTY_ERROR_F(ErrorCode::Serialization_MissingRequired, "Mesh");
+		return false;
+	}
+	if(material == nullptr)
+	{
+		MINTY_ERROR_F(ErrorCode::Serialization_MissingRequired, "Material");
+		return false;
+	}
+	return true;
 }

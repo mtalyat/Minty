@@ -77,7 +77,7 @@ namespace Minty
 		 * @param layer The Layer.
 		 * @param layerMask The Layer mask.
 		 */
-		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
+		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer, Layer const layerMask) = 0;
 
 		/**
 		 * @brief Adds a dynamic RigidBody to the physics simulation.
@@ -86,7 +86,7 @@ namespace Minty
 		 * @param layer The Layer.
 		 * @param layerMask The Layer mask.
 		 */
-		virtual void add_dynamic(Entity const entity, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) = 0;
+		virtual void add_dynamic(Entity const entity, RigidBody& body, Layer const layer, Layer const layerMask) = 0;
 
 		/**
 		 * @brief Removes a static Collider from the physics simulation.

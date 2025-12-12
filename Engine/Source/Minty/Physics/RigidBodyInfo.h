@@ -9,6 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Physics/Collider.h"
+#include "Minty/Physics/Constraints.h"
 
 namespace Minty
 {
@@ -40,7 +41,12 @@ namespace Minty
         /**
          * @brief The bounciness of the rigid body.
          */
-        Float bounciness = 0.0f;
+        Float bounce = 0.0f;
+
+        /**
+        * @brief The constraints applied to the rigid body.
+        */
+        Constraints rotationConstraints = Constraints::None;
 
         /**
          * @brief The collider associated with the rigid body.

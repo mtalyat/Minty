@@ -41,6 +41,13 @@ Minty::Bullet_RigidBody::Bullet_RigidBody(RigidBodyInfo const& info)
 	btCollisionObject* oldCollisionObject = btCollider.get_collision_object();
 	MINTY_ASSERT(oldCollisionObject == nullptr, ErrorCode::Object_InvalidState);
 	btCollider.set_collision_object(rigidBody);
+
+	// set initial properties
+	set_friction(info.friction);
+	set_bounce(info.bounce);
+	set_kinematic(info.isKinematic);
+	set_static(info.isStatic);
+	set_rotation_constraints(info.rotationConstraints);
 }
 
 Minty::Bullet_RigidBody::~Bullet_RigidBody()
@@ -182,6 +189,43 @@ Float Minty::Bullet_RigidBody::get_bounce() const
 void Minty::Bullet_RigidBody::set_bounce(Float const bounce)
 {
 	mp_body->setRestitution(static_cast<btScalar>(bounce));
+}
+
+Constraints Minty::Bullet_RigidBody::get_constraints() const
+{
+	btVector3 angularFactor = mp_body->getAngularFactor();
+	Constraints constraints = Constraints::None;
+	if (angularFactor.getX() == 0)
+	{
+		constraints = constraints | Constraints::X;
+	}
+	if (angularFactor.getY() == 0)
+	{
+		constraints = constraints | Constraints::Y;
+	}
+	if (angularFactor.getZ() == 0)
+	{
+		constraints = constraints | Constraints::Z;
+	}
+	return constraints;
+}
+
+void Minty::Bullet_RigidBody::set_rotation_constraints(Constraints const constraints)
+{
+	btVector3 angularFactor(1, 1, 1);
+	if ((constraints & Constraints::X) == Constraints::X)
+	{
+		angularFactor.setX(0);
+	}
+	if ((constraints & Constraints::Y) == Constraints::Y)
+	{
+		angularFactor.setY(0);
+	}
+	if ((constraints & Constraints::Z) == Constraints::Z)
+	{
+		angularFactor.setZ(0);
+	}
+	mp_body->setAngularFactor(angularFactor);
 }
 
 void Minty::Bullet_RigidBody::set_entity(Entity const entity)

@@ -23,7 +23,12 @@ Bool Minty::RigidBodyComponent::deserialize(Reader &reader)
         reader.read("Static", info.isStatic);
         reader.read("Mass", info.mass);
         reader.read("Friction", info.friction);
-        reader.read("Bounciness", info.bounciness);
+        reader.read("Bounce", info.bounce);
+        if(reader.indent("Constraints"))
+        {
+            reader.read("Rotation", info.rotationConstraints);
+            reader.outdent();
+        }
         
         if(!reader.read("Collider", info.collider))
         {

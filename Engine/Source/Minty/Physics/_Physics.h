@@ -3,6 +3,7 @@
 #include "Collider.h"
 #include "ColliderInfo.h"
 #include "CollisionData.h"
+#include "Constraints.h"
 #include "Force.h"
 #include "PhysicsManager.h"
 #include "PhysicsManagerInfo.h"

@@ -75,8 +75,9 @@ void Minty::PhysicsSystem::initialize_entities()
 		MINTY_ASSERT_F(colliderComp.collider->get_shape() != Shape::Empty, ErrorCode::Component_InvalidState); // "Collider must have a non-empty shape. Entity: {}", entityManager.get_name(entity)
 
 		// add to physics simulation
-		Layer layer = entityManager.get_layer(entity);
-		m_simulation->add_static(entity, transformComp.transform, *colliderComp.collider, layer, layerManager.get_mask(layer));
+		Layer const layer = entityManager.get_layer(entity);
+		Layer const mask = layerManager.get_mask(layer);
+		m_simulation->add_static(entity, transformComp.transform, *colliderComp.collider, layer, mask);
 
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);
@@ -86,7 +87,9 @@ void Minty::PhysicsSystem::initialize_entities()
 		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
 
 		// add to physics simulation
-		m_simulation->add_dynamic(entity, *bodyComp.rigidBody);
+		Layer const layer = entityManager.get_layer(entity);
+		Layer const mask = layerManager.get_mask(layer);
+		m_simulation->add_dynamic(entity, *bodyComp.rigidBody, layer, mask);
 
 		// add simulate component
 		entityManager.add_component<SimulateComponent>(entity);

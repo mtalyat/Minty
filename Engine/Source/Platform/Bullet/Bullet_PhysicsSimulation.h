@@ -38,8 +38,8 @@ namespace Minty
 
 	public:
 		void step(Float const elapsedTime) override;
-		void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) override;
-		void add_dynamic(Entity const entity, RigidBody& body, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL) override;
+		void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer, Layer const layerMask) override;
+		void add_dynamic(Entity const entity, RigidBody& body, Layer const layer, Layer const layerMask) override;
 		void remove_static(Collider& collider) override;
 		void remove_dynamic(RigidBody& body) override;
 		Bool raycast(Float3 const& origin, Float3 const& direction, RaycastHit& hit, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const override;

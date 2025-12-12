@@ -22,6 +22,11 @@ MeshType Minty::parse_to_mesh_type(String const& string)
 	if (string == "Custom") return MeshType::Custom;
 	if (string == "Quad") return MeshType::Quad;
 	if (string == "Cube") return MeshType::Cube;
+	if(string == "Box")
+	{
+		MINTY_LOG_WARNING("Parsing \"Box\" as a MeshType. Did you mean Cube?");
+		return MeshType::Cube;
+	}
 
 	return MeshType();
 }

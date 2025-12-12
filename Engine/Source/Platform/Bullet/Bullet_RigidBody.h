@@ -58,6 +58,10 @@ namespace Minty
 		
 		void set_bounce(Float const bounce) override;
 
+		Constraints get_constraints() const override;
+
+		void set_rotation_constraints(Constraints const constraints) override;
+
 		void set_entity(Entity const entity);
 
 		Entity get_entity() const;

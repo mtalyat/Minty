@@ -6,7 +6,6 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
     : Collider(info), mp_shape(nullptr), mp_object(nullptr)
 {
     btVector3 size = btVector3(static_cast<btScalar>(info.size.x), static_cast<btScalar>(info.size.y), static_cast<btScalar>(info.size.z));
-    btVector3 offset = btVector3(static_cast<btScalar>(info.offset.x), static_cast<btScalar>(info.offset.y), static_cast<btScalar>(info.offset.z));
 
     // create shape based on info
     switch (info.shape)
@@ -58,6 +57,17 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
     default:
         MINTY_NOT_IMPLEMENTED();
         break;
+    }
+
+    // if an offset given, apply it
+    btVector3 offset = btVector3(static_cast<btScalar>(info.offset.x), static_cast<btScalar>(info.offset.y), static_cast<btScalar>(info.offset.z));
+    if(info.offset != Math::ZERO)
+    {
+        btCompoundShape* const rootShape = new btCompoundShape();
+        btTransform localTransform = btTransform::getIdentity();
+        localTransform.setOrigin(offset);
+        rootShape->addChildShape(localTransform, mp_shape);
+        mp_shape = rootShape;
     }
 
     // if static, create a collision object
