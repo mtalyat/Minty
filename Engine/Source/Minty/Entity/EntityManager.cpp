@@ -14,6 +14,9 @@
 #include "Minty/Component/UITransformComponent.h"
 #include "Minty/Component/UUIDComponent.h"
 #include "Minty/Component/VisibleComponent.h"
+#include "Minty/Component/PositionComponent.h"
+#include "Minty/Component/RotationComponent.h"
+#include "Minty/Component/ScaleComponent.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityPath.h"
@@ -863,22 +866,39 @@ void Minty::EntityManager::refresh(Entity const entity)
 	}
 
 	// if parent is dirty, refresh it as well
-	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	RelationshipComponent const *const relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
 	if (relationshipComponent && relationshipComponent->parent != INVALID_ENTITY && has_component<DirtyComponent>(relationshipComponent->parent))
 	{
 		// refresh the parent
 		refresh(relationshipComponent->parent);
 	}
 
-	// if Transform, update global matrix
-	TransformComponent *transformComponent = m_registry.try_get<TransformComponent>(entity);
+	// if Transform, update from Position, Rotation and Scale, then update the global matrix
+	TransformComponent * const transformComponent = m_registry.try_get<TransformComponent>(entity);
 	if (transformComponent)
 	{
+		PositionComponent const* const positionComponent = m_registry.try_get<PositionComponent>(entity);
+		RotationComponent const* const rotationComponent = m_registry.try_get<RotationComponent>(entity);
+		ScaleComponent const* const scaleComponent = m_registry.try_get<ScaleComponent>(entity);
+
+		if(positionComponent)
+		{
+			transformComponent->transform.set_local_position(positionComponent->position);
+		}
+		if(rotationComponent)
+		{
+			transformComponent->transform.set_local_rotation(rotationComponent->rotation);
+		}
+		if(scaleComponent)
+		{
+			transformComponent->transform.set_local_scale(scaleComponent->scale);
+		}
+
 		update_transform(entity, get_parent(entity), *transformComponent);
 	}
 
 	// if UITransform, update the global rect
-	UITransformComponent *uiTransformComponent = m_registry.try_get<UITransformComponent>(entity);
+	UITransformComponent *const uiTransformComponent = m_registry.try_get<UITransformComponent>(entity);
 	if (uiTransformComponent)
 	{
 		update_uiTransform(entity, get_parent(entity), *uiTransformComponent);
