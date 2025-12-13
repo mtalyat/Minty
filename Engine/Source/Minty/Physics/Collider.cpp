@@ -11,7 +11,7 @@
 using namespace Minty;
 
 Minty::Collider::Collider(ColliderInfo const &info)
-	: m_shape(info.shape), m_mesh(info.mesh), m_offset(info.offset), m_size(info.size), m_isStatic(info.isStatic)
+	: m_shape(info.shape), m_mesh(info.mesh)
 {
 }
 
@@ -22,28 +22,8 @@ void Minty::Collider::serialize(Writer &writer) const
 
 Bool Minty::Collider::deserialize(Reader &reader)
 {
-	// read the shape
-	reader.read("Shape", m_shape);
-	if (m_shape == Shape::Empty)
-	{
-		m_size = Math::ZERO;
-		m_mesh = nullptr;
-		m_isStatic = false;
-		return true; // no data to deserialize
-	}
-	reader.read("Offset", m_offset);
-	reader.read("Size", m_size);
-	if (m_shape == Shape::Custom)
-	{
-		// read the mesh if custom shape
-		reader.read("Mesh", m_mesh);
-	}
-	else
-	{
-		m_mesh = nullptr; // no mesh for non-custom shapes
-	}
-	reader.read("Static", m_isStatic);
-	return true;
+	MINTY_NOT_IMPLEMENTED();
+	return false;
 }
 
 Shared<Collider> Minty::Collider::create(ColliderInfo const &info)

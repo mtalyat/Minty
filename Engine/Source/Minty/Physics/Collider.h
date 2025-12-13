@@ -17,6 +17,7 @@
 namespace Minty
 {
 	class Mesh;
+	class Transform;
 	struct ColliderInfo;
 
 	/**
@@ -45,7 +46,7 @@ namespace Minty
 		 * @brief Checks if this Collider is static.
 		 * @return True if static, otherwise false.
 		 */
-		inline Bool is_static() const { return m_isStatic; }
+		virtual Bool is_static() const = 0;
 
 		/**
 		 * @brief Gets the Shape of this Collider.
@@ -57,13 +58,49 @@ namespace Minty
 		 * @brief Gets the offset of this Collider.
 		 * @return The offset.
 		 */
-		inline Float3 const& get_offset() const { return m_offset; }
+		virtual Float3 get_offset() const = 0;
 
 		/**
 		 * @brief Gets the size of this Collider.
 		 * @return The size.
 		 */
-		inline Float3 const& get_size() const { return m_size; }
+		virtual Float3 get_size() const = 0;
+
+		/**
+		 * @brief Gets the position of this Collider.
+		 * @return The position.
+		 */
+		virtual Float3 get_position() const = 0;
+
+		/**
+		 * @brief Sets the position of this Collider.
+		 * @param position The new position.
+		 */
+		virtual void set_position(Float3 const& position) = 0;
+
+		/**
+		 * @brief Gets the rotation of this Collider.
+		 * @return The rotation.
+		 */
+		virtual Quaternion get_rotation() const = 0;
+
+		/**
+		 * @brief Sets the rotation of this Collider.
+		 * @param rotation The new rotation.
+		 */
+		virtual void set_rotation(Quaternion const& rotation) = 0;
+
+		/**
+		 * @brief Gets the transform of this Collider.
+		 * @param out_transform The output Transform.
+		 */
+		virtual void get_transform(Transform& out_transform) const = 0;
+
+		/**
+		 * @brief Sets the transform of this Collider.
+		 * @param transform The new transform.
+		 */
+		virtual void set_transform(Transform const& transform) = 0;
 
 		/**
 		 * @brief Gets the Mesh used for this Collider if the Shape is Custom.
@@ -105,9 +142,6 @@ namespace Minty
 	private:
 		Shape m_shape;
 		Shared<Mesh> m_mesh; // only used if shape is Custom
-		Float3 m_offset;
-		Float3 m_size;
-		Bool m_isStatic;
 
 #pragma endregion
 	};

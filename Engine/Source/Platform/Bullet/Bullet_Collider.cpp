@@ -1,6 +1,9 @@
 #include "Bullet_Collider.h"
+#include "Minty/Data/Transform.h"
 #include "Minty/Physics/ColliderInfo.h"
 #include "Platform/Bullet/Bullet_Object.h"
+
+using namespace Minty;
 
 Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
     : Collider(info), mp_shape(nullptr), mp_object(nullptr)
@@ -63,11 +66,14 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
     btVector3 offset = btVector3(static_cast<btScalar>(info.offset.x), static_cast<btScalar>(info.offset.y), static_cast<btScalar>(info.offset.z));
     if(info.offset != Math::ZERO)
     {
-        btCompoundShape* const rootShape = new btCompoundShape();
+        btCompoundShape * const root = new btCompoundShape();
         btTransform localTransform = btTransform::getIdentity();
         localTransform.setOrigin(offset);
-        rootShape->addChildShape(localTransform, mp_shape);
-        mp_shape = rootShape;
+        root->addChildShape(localTransform, mp_shape);
+        mp_root = root;
+    } else
+    {
+        mp_root = mp_shape;
     }
 
     // if static, create a collision object
@@ -79,7 +85,7 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
 
         // create the collision object
         btCollisionObject *collisionObject = new btCollisionObject();
-        collisionObject->setCollisionShape(mp_shape);
+        collisionObject->setCollisionShape(mp_root);
         collisionObject->setWorldTransform(btTransform);
 
         // create object data
@@ -88,6 +94,9 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
 
         // update collider
         mp_object = collisionObject;
+
+        // set collision flags
+        mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
     }
 }
 
@@ -101,3 +110,90 @@ Minty::Bullet_Collider::~Bullet_Collider()
     }
 }
 
+Bool Minty::Bullet_Collider::is_static() const
+{
+    return mp_object != nullptr && (mp_object->getCollisionFlags() & btCollisionObject::CF_STATIC_OBJECT) != 0;
+}
+
+Float3 Minty::Bullet_Collider::get_size() const
+{
+    // get the half extents from the shape
+    btVector3 halfExtents;
+    if (mp_shape->isCompound())
+    {
+        btBoxShape* const boxShape = dynamic_cast<btBoxShape*>(mp_shape);
+        if (boxShape == nullptr)
+        {
+            MINTY_ABORT_F(ErrorCode::Object_InvalidState, "Expected shape to be a box shape.");
+        }
+        halfExtents = boxShape->getHalfExtentsWithMargin();
+    }
+    return Float3(static_cast<Float>(halfExtents.x()), static_cast<Float>(halfExtents.y()), static_cast<Float>(halfExtents.z()));
+}
+
+Float3 Minty::Bullet_Collider::get_offset() const
+{
+    // get the position from the shape, if it is not the root
+    if(mp_root == mp_shape)
+    {
+        return Math::ZERO;
+    }
+    btCompoundShape* const compoundShape = dynamic_cast<btCompoundShape*>(mp_root);
+    MINTY_ASSERT(compoundShape != nullptr, ErrorCode::Object_InvalidState);
+    btTransform const localTransform = compoundShape->getChildTransform(0);
+    btVector3 const origin = localTransform.getOrigin();
+    return Float3(static_cast<Float>(origin.x()), static_cast<Float>(origin.y()), static_cast<Float>(origin.z()));
+}
+
+Float3 Minty::Bullet_Collider::get_position() const
+{
+    // get the position from the root object
+    btVector3 const btPosition = mp_object->getWorldTransform().getOrigin();
+    return Float3(static_cast<Float>(btPosition.x()), static_cast<Float>(btPosition.y()), static_cast<Float>(btPosition.z()));
+}
+
+void Minty::Bullet_Collider::set_position(Float3 const &position)
+{
+    // set the position on the root object
+    btVector3 const btPosition = btVector3(static_cast<btScalar>(position.x), static_cast<btScalar>(position.y), static_cast<btScalar>(position.z));
+    btTransform transform = mp_object->getWorldTransform();
+    transform.setOrigin(btPosition);
+    mp_object->setWorldTransform(transform);
+}
+
+Quaternion Minty::Bullet_Collider::get_rotation() const
+{
+    // get the rotation from the root object
+    btQuaternion const btRotation = mp_object->getWorldTransform().getRotation();
+    return Quaternion(static_cast<Float>(btRotation.w()), static_cast<Float>(btRotation.x()), static_cast<Float>(btRotation.y()), static_cast<Float>(btRotation.z()));
+}
+
+void Minty::Bullet_Collider::set_rotation(Quaternion const &rotation)
+{
+    // set the rotation on the root object
+    btQuaternion const btRotation = btQuaternion(static_cast<btScalar>(rotation.x), static_cast<btScalar>(rotation.y), static_cast<btScalar>(rotation.z), static_cast<btScalar>(rotation.w));
+    btTransform transform = mp_object->getWorldTransform();
+    transform.setRotation(btRotation);
+    mp_object->setWorldTransform(transform);
+}
+
+void Minty::Bullet_Collider::get_transform(Transform &out_transform) const
+{
+    // get the transform from the root object
+    btTransform const btTransform = mp_object->getWorldTransform();
+    out_transform.set_local_position(Float3(static_cast<Float>(btTransform.getOrigin().x()), static_cast<Float>(btTransform.getOrigin().y()), static_cast<Float>(btTransform.getOrigin().z())));
+    btQuaternion const btRotation = btTransform.getRotation();
+    out_transform.set_local_rotation(Quaternion(static_cast<Float>(btRotation.w()), static_cast<Float>(btRotation.x()), static_cast<Float>(btRotation.y()), static_cast<Float>(btRotation.z())));
+}
+
+void Minty::Bullet_Collider::set_transform(Transform const &transform)
+{
+    // set the transform on the root object
+    btVector3 const btPosition = btVector3(static_cast<btScalar>(transform.get_global_position().x), static_cast<btScalar>(transform.get_global_position().y), static_cast<btScalar>(transform.get_global_position().z));
+    Quaternion const rotation = transform.get_global_rotation();
+    btQuaternion const btRotation = btQuaternion(static_cast<btScalar>(rotation.x), static_cast<btScalar>(rotation.y), static_cast<btScalar>(rotation.z), static_cast<btScalar>(rotation.w));
+    btTransform btTransform = btTransform::getIdentity();
+    btTransform.setOrigin(btPosition);
+    btTransform.setRotation(btRotation);
+    mp_object->setWorldTransform(btTransform);
+}

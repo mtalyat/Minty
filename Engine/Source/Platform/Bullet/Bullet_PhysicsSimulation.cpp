@@ -10,6 +10,11 @@
 #include "Platform/Bullet/Bullet_Object.h"
 #include "Minty/Physics/PhysicsSimulationInfo.h"
 #include "Minty/Physics/RaycastHit.h"
+#ifdef MINTY_DEBUG
+#include "Minty/Scene/Scene.h"
+#include "Minty/Scene/SceneManager.h"
+#include "Minty/Entity/EntityManager.h"
+#endif // MINTY_DEBUG
 
 using namespace Minty;
 
@@ -48,26 +53,23 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 	// get data
 	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(collider);
 
-	// create transform data
-	btTransform btTransform = Bullet_Physics::to_bullet(transform);
-
-	// create the collision object
-	btCollisionObject* collisionObject = new btCollisionObject();
-	collisionObject->setCollisionShape(btCollider.get_collision_shape());
-	collisionObject->setWorldTransform(btTransform);
-
-	// create object data
-	Bullet_Object* objectData = new Bullet_Object();
-	objectData->entity = entity;
-
-	// set the user pointer to the object data
-	collisionObject->setUserPointer(objectData);
-
-	// update collider
-	btCollider.set_collision_object(collisionObject);
+	// update the transform
+	btCollider.set_transform(transform);
 
 	// add the collision object to the dynamics world
-	mp_dynamicsWorld->addCollisionObject(collisionObject, LayerManager::layer_to_bit(layer), layerMask);
+	mp_dynamicsWorld->addCollisionObject(btCollider.get_collision_object(), LayerManager::layer_to_bit(layer), layerMask);
+
+	#ifdef MINTY_DEBUG
+
+	Bullet_Object* objectData = static_cast<Bullet_Object*>(btCollider.get_collision_object()->getUserPointer());
+	MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
+	SceneManager& sceneManager = SceneManager::get_singleton();
+	Ref<Scene> const& scene = sceneManager.get_active();
+	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
+	EntityManager& entityManager = scene->get_entity_manager();
+	MINTY_LOG_DEBUG_F("Added static Collider from simulation: {}", entityManager.get_entity_string(objectData->entity));
+
+	#endif // MINTY_DEBUG
 }
 
 void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody& body, Layer const layer, Layer const layerMask)
@@ -87,12 +89,17 @@ void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
 	MINTY_ASSERT(collisionObject != nullptr, ErrorCode::Argument_KeyNotFound);
 	mp_dynamicsWorld->removeCollisionObject(collisionObject);
 
-	// delete user data
-	delete collisionObject->getUserPointer();
+	#ifdef MINTY_DEBUG
 
-	// delete the collision object
-	delete collisionObject;
-	btCollider.set_collision_object(nullptr);
+	Bullet_Object* objectData = static_cast<Bullet_Object*>(collisionObject->getUserPointer());
+	MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
+	SceneManager& sceneManager = SceneManager::get_singleton();
+	Ref<Scene> const& scene = sceneManager.get_active();
+	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
+	EntityManager& entityManager = scene->get_entity_manager();
+	MINTY_LOG_DEBUG_F("Removed static Collider from simulation: {}", entityManager.get_entity_string(objectData->entity));
+
+	#endif // MINTY_DEBUG
 }
 
 void Minty::Bullet_PhysicsSimulation::remove_dynamic(RigidBody& body)
