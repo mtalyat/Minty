@@ -65,7 +65,7 @@ void Minty::StringBuilder::append(Char const c)
     // Reserve more space if needed
     if (m_size + 1 >= m_capacity || m_capacity == 0)
     {
-        reserve(m_capacity * 2);
+        reserve(m_capacity == 0 ? DEFAULT_COLLECTION_SIZE : m_capacity * 2);
     }
 
     // Append character
@@ -76,6 +76,12 @@ void Minty::StringBuilder::append(Char const c)
 
 void Minty::StringBuilder::append(StringView const &str)
 {
+    // skip if empty
+    if(str.get_size() == 0)
+    {
+        return;
+    }
+
     // Reserve more space if needed
     Size const requiredCapacity = m_size + str.get_size();
     if (requiredCapacity > m_capacity)
