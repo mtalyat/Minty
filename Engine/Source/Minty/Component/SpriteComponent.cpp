@@ -46,10 +46,9 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 		case AssetType::SpriteAtlas:
 		{
 			Ref<SpriteAtlas> atlas = source.cast<SpriteAtlas>();
-			
-			// read the group of the index, which defaults to group 0
-			Int groupIndex;
-			reader.read("Group", groupIndex, 0);
+
+			// read the group of the index
+			reader.read("Group", group);
 
 			// read the index of the sprite in the atlas
 			// could be either a 1D or 2D index
@@ -67,7 +66,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 				if (try_int(indexText, index1d))
 				{
 					// convert into 2D index
-					Int2 count = atlas->get_group(groupIndex).get_count();
+					Int2 count = atlas->get_group(group).get_count();
 					index2d.y = index1d / count.x;
 					index2d.x = index1d - index2d.y * count.x;
 				}
@@ -83,7 +82,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 			}
 
 			// get the sprite from the atlas
-			id = atlas->get_sprite_id(groupIndex, index2d);
+			id = atlas->get_sprite_id(group, index2d);
 			sprite = assetManager.get_ref<Sprite>(id);
 
 			break;

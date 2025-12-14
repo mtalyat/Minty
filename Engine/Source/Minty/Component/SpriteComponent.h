@@ -42,6 +42,11 @@ namespace Minty
 		Color color = Color::white();
 
 		/**
+		 * @brief The group this Sprite belongs to for rendering purposes. 0 is the default group.
+		 */
+		Int group = 0;
+
+		/**
 		 * @brief Indicates whether the X axis should be flipped.
 		 */
 		Bool flipX = false;
