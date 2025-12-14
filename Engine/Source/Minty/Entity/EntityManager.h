@@ -170,6 +170,12 @@ namespace Minty
 		Entity get_child(Entity const entity, Size const index) const;
 
 		/**
+		 * @brief Gets the number of children the given Entity has.
+		 * @param entity The Entity.
+		 */
+		Size get_child_count(Entity const entity) const;
+
+		/**
 		 * @brief Gets the name of the given Entity.
 		 * @param entity The Entity.
 		 */

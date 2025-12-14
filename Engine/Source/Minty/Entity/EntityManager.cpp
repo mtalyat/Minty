@@ -490,6 +490,16 @@ Entity Minty::EntityManager::get_child(Entity const entity, Size const index) co
 	return INVALID_ENTITY;
 }
 
+Size Minty::EntityManager::get_child_count(Entity const entity) const
+{
+	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
+	if (relationshipComponent)
+	{
+		return relationshipComponent->children;
+	}
+	return 0;
+}
+
 String Minty::EntityManager::get_name(Entity const entity) const
 {
 	NameComponent const *nameComponent = m_registry.try_get<NameComponent>(entity);
