@@ -297,9 +297,14 @@ namespace Minty
 		void clear();
 
 		/**
-		 * @brief Resets this FSM to its starting state.
+		 * @brief Resets this FSM to its starting state. Clears all variable values to zero.
 		 */
 		void reset();
+
+		/** 
+		 * @brief Restarts this FSM to its starting state. Does not clear variable values.
+		 */
+		void restart();
 
 		void serialize(Writer& writer) const override;
 		Bool deserialize(Reader& reader) override;

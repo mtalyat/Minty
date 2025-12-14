@@ -22,6 +22,11 @@ namespace Minty
 		: public Component
 	{
 		/**
+		 * @brief The source Asset for this SpriteComponent. Could be a Sprite or SpriteAtlas.
+		 */
+		Ref<Asset> source = nullptr;
+
+		/**
 		 * @brief The Sprite that this Component uses.
 		 */
 		Ref<Sprite> sprite = nullptr;

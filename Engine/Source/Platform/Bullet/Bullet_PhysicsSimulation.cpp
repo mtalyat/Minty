@@ -67,7 +67,7 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 	Ref<Scene> const& scene = sceneManager.get_active();
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager& entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Added static Collider from simulation: {}", entityManager.get_entity_string(objectData->entity));
+	MINTY_LOG_DEBUG_F("Added static Collider from simulation: {}", entityManager.to_string(objectData->entity));
 
 	#endif // MINTY_DEBUG
 }
@@ -97,7 +97,7 @@ void Minty::Bullet_PhysicsSimulation::remove_static(Collider& collider)
 	Ref<Scene> const& scene = sceneManager.get_active();
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager& entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Removed static Collider from simulation: {}", entityManager.get_entity_string(objectData->entity));
+	MINTY_LOG_DEBUG_F("Removed static Collider from simulation: {}", entityManager.to_string(objectData->entity));
 
 	#endif // MINTY_DEBUG
 }

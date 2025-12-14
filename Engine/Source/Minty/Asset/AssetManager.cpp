@@ -2,6 +2,7 @@
 #include "AssetManager.h"
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/Animator.h"
+#include "Minty/Core/Evaluate.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Application/Application.h"
 #include "Minty/Asset/Asset.h"
@@ -876,7 +877,6 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 		reader->read("Loop", info.loop);
 		reader->read("Entities", info.entities);
 		reader->read("Components", info.components);
-		MINTY_ASSERT_F(!info.components.is_empty(), ErrorCode::Animation_NotEnoughComponents, path);
 		if (reader->indent("Variables"))
 		{
 			reader->read("Rigid", info.rigidVariables);
@@ -886,7 +886,6 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 		}
 		reader->read("Values", info.values);
 		reader->read("Actions", info.actions);
-		MINTY_ASSERT_F(!info.actions.is_empty(), ErrorCode::Animation_NotEnoughActions, path);
 
 #ifdef MINTY_DEBUG
 
@@ -921,7 +920,7 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 				Bool readNameResult = reader->read_name(i, timeString);
 				MINTY_ASSERT_F(readNameResult, ErrorCode::Serialization_ReadName, path);
 
-				time = parse_to<Float>(timeString);
+				time = Math::evaluate<Float>(timeString);
 
 				// read the action indices
 				String actionIndicesString;
@@ -935,7 +934,7 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 				for (String const &part : actionIndicesParts)
 				{
 					// convert to size
-					Size const index = parse_to<Size>(part);
+					Size const index = Math::evaluate<Size>(part);
 					actionIndices.add(index);
 				}
 
@@ -945,7 +944,6 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 
 			reader->outdent();
 		}
-		MINTY_ASSERT_F(!info.steps.is_empty(), ErrorCode::Animation_NotEnoughSteps, path);
 
 		// read reset steps
 		String resetStepsString;
@@ -958,7 +956,7 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 			for (String const &part : resetStepsParts)
 			{
 				// convert to size
-				Size const index = parse_to<Size>(part);
+				Size const index = Math::evaluate<Size>(part);
 				info.resetSteps.add(index);
 			}
 		}
@@ -983,7 +981,7 @@ Shared<Animator> Minty::AssetManager::load_animator(Path const &path, UUID const
 	{
 		// read value, directly as an FSM
 		fsm.deserialize(*reader);
-		fsm.reset();
+		fsm.restart();
 		info.fsm = &fsm;
 
 		// read other values

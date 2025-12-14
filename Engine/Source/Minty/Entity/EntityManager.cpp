@@ -230,7 +230,7 @@ Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const &p
 	return entity;
 }
 
-String Minty::EntityManager::get_entity_string(Entity const entity) const
+String Minty::EntityManager::to_string(Entity const entity) const
 {
 	String const &name = get_name(entity);
 	UUID const id = get_id(entity);

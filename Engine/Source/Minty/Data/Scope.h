@@ -21,6 +21,19 @@ namespace Minty
 	class Scope
 		: public SerializableObject
 	{
+#pragma region Iterators
+
+	public:
+		using Iterator = typename Lookup<UUID, Int>::Iterator;
+		using ConstIterator = typename Lookup<UUID, Int>::ConstIterator;
+
+		inline Iterator begin() { return m_values.begin(); }
+		inline Iterator end() { return m_values.end(); }
+		inline ConstIterator begin() const { return m_values.begin(); }
+		inline ConstIterator end() const { return m_values.end(); }
+
+#pragma endregion
+
 #pragma region Constructors
 
 	public:

@@ -94,12 +94,17 @@ void Minty::FSM::reset()
 {
 	// reset scope
 	m_scope.reset();
+	
+	restart();
+}
 
+void Minty::FSM::restart()
+{
 	// set current state to starting state
 	m_currentStateId = m_startingStateId;
 }
 
-void Minty::FSM::serialize(Writer& writer) const
+void Minty::FSM::serialize(Writer &writer) const
 {
 	// add this to push data
 	writer.push_user_data(this);

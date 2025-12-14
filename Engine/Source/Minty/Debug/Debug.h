@@ -97,7 +97,7 @@ namespace Minty
 #ifdef MINTY_DEBUG
 // if debugging and using Visual Studio, insert debug break
 #ifdef _MSC_VER
-#define MINTY_BREAK() __debugbreak()
+#define MINTY_BREAK() do { Minty::Debug::flush(); __debugbreak(); } while(0)
 #else
 #error "Debug break not implemented for this compiler."
 #endif // _MSC_VER

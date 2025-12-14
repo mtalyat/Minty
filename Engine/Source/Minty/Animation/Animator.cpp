@@ -4,6 +4,9 @@
 #include "Minty/Animation/AnimatorInfo.h"
 #include "Minty/FSM/FSM.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Component/AnimatorComponent.h"
+#include "Minty/Entity/EntityManager.h"
+#include "Minty/Asset/AssetManager.h"
 #if defined(MINTY_DEBUG)
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
@@ -120,6 +123,56 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 
 	// get ID from the current state
 	return mp_fsm->get_current_state().get_value().get<UUID>();
+}
+
+void Minty::Animator::flush(AnimatorComponent &animatorComp, Float const deltaTime, Entity const thisEntity, EntityManager &entityManager)
+{
+	// update the animator
+	Ref<Animation> &animation = animatorComp.animation;
+	UUID currentId = animation == nullptr ? UUID(UUID()) : animation->get_id();
+	UUID newId = animatorComp.animator->update(animation, animatorComp.time);
+
+	// if ID changed, reset animation data
+	if (currentId != newId)
+	{
+		// reset animation
+		if (animation != nullptr)
+		{
+			animation->reset(thisEntity, entityManager);
+		}
+
+		// reset animator component
+		AssetManager &assetManager = AssetManager::get_singleton();
+		animatorComp.animation = assetManager.get_ref<Animation>(newId);
+		animatorComp.time = 0.0f;
+	}
+	else if (animation != nullptr && animatorComp.time >= animation->get_duration())
+	{
+		// if tried to change, and no change, and looping...
+		if (animatorComp.animation->is_looping())
+		{
+			// reset the time to zero to start the animation over
+			animatorComp.time = 0.0f;
+		}
+		else
+		{
+			// set to idle
+			animatorComp.time = -1.0f;
+		}
+	}
+
+	// if the animator time is below zero, then the animator has paused, so do nothing
+	// OR if the animation null, do nothing
+	if (animatorComp.time < 0.0f || !animatorComp.animation)
+	{
+		return;
+	}
+
+	// animate with it
+	animatorComp.animation->animate(animatorComp.time, deltaTime, thisEntity, entityManager);
+
+	// assuming something has changed that needs updating, so dirty the entity
+	entityManager.dirty(thisEntity);
 }
 
 Shared<Animator> Minty::Animator::create(AnimatorInfo const &info)

@@ -108,7 +108,7 @@ namespace Minty
 		 * @param entity The Entity.
 		 * @returns The string representation, in the format "Name (ID)".
 		 */
-		String get_entity_string(Entity const entity) const;
+		String to_string(Entity const entity) const;
 
 		/**
 		 * @brief Enables or disables the given Entity.

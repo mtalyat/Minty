@@ -9,11 +9,14 @@
 
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
+#include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
 	class Animation;
+	class EntityManager;
 	struct AnimatorInfo;
+	struct AnimatorComponent;
 	class FSM;
 
 	/**
@@ -84,6 +87,12 @@ namespace Minty
 		UUID get_current_animation() const;
 
 		/**
+		 * @brief Gets the FSM used by this Animator.
+		 * @return A pointer to the FSM.
+		 */
+		FSM const* get_fsm() const { return mp_fsm; }
+
+		/**
 		 * @brief Gets the AssetType of this Asset.
 		 * @return The AssetType::Animator.
 		 */
@@ -101,6 +110,15 @@ namespace Minty
 		 * @return The Asset ID of the current Animation after the update.
 		 */
 		UUID update(Ref<Animation> const &currentAnimation, Float const currentTime);
+
+		/**
+		 * @brief Flushes the AnimatorComponent to apply any changes from the Animator.
+		 * @param animatorComp The AnimatorComponent to flush.
+		 * @param deltaTime The time elapsed since the last update.
+		 * @param thisEntity The Entity this AnimatorComponent belongs to.
+		 * @param entityManager The EntityManager managing the Entity.
+		 */
+		void flush(AnimatorComponent &animatorComp, Float const deltaTime, Entity const thisEntity, EntityManager &entityManager);
 
 		/**
 		 * @brief Creates a new Animator from the given AnimatorInfo.

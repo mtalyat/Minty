@@ -5,6 +5,7 @@
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Tool/Util.h"
+#include "Minty/Core/Evaluate.h"
 
 using namespace Minty;
 
@@ -55,7 +56,7 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 	m_variableId = scope.find(parts[0]);
 	MINTY_ASSERT_F(m_variableId != UUID(), ErrorCode::Serialization_InvalidData, parts[0]);
 	m_conditional = parse_to_conditional(parts[1]);
-	m_value = parse_to<Int>(parts[2]);
+	m_value = Math::evaluate<Int>(parts[2]);
 
 	return true;
 }

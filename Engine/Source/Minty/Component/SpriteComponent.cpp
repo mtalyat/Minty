@@ -28,24 +28,25 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 	if (reader.read_default(id) || reader.read("Sprite", id))
 	{
 		// get the asset with the given ID
-		Ref<Asset> asset = assetManager.get_asset_ref(id);
+		source = assetManager.get_asset_ref(id);
+		MINTY_ASSERT_F(source != nullptr, ErrorCode::Asset_MissingDependency, id);
+	}
 
-		MINTY_ASSERT_F(asset != nullptr, ErrorCode::Asset_MissingDependency, id);
-
-		AssetType assetType = asset->get_asset_type();
-
+	if(source != nullptr)
+	{
+		AssetType assetType = source->get_asset_type();
 		MINTY_ASSERT_F(assetType == AssetType::Sprite || assetType == AssetType::SpriteAtlas, ErrorCode::Asset_InvalidDependencyType, id);
 
 		// handle different types
 		switch (assetType)
 		{
 		case AssetType::Sprite:
-			sprite = asset.cast<Sprite>();
+			sprite = source.cast<Sprite>();
 			break;
 		case AssetType::SpriteAtlas:
 		{
-			Ref<SpriteAtlas> atlas = asset.cast<SpriteAtlas>();
-
+			Ref<SpriteAtlas> atlas = source.cast<SpriteAtlas>();
+			
 			// read the group of the index, which defaults to group 0
 			Int groupIndex;
 			reader.read("Group", groupIndex, 0);
