@@ -12,6 +12,7 @@
 #include "Minty/Data/Shape.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Render/Mesh.h"
+#include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
@@ -45,6 +46,12 @@ namespace Minty
 		 * If static, it cannot move, rotate, deform, or have a RigidBody.
 		 */
 		Bool isStatic = false;
+
+		/**
+		 * @brief If the Collider is a trigger or not.
+		 * If a trigger, it will not physically interact with other Colliders.
+		 */
+		Bool isTrigger = false;
 	};
 }
 

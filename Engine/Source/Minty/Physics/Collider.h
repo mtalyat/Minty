@@ -19,6 +19,7 @@ namespace Minty
 	class Mesh;
 	class Transform;
 	struct ColliderInfo;
+	struct CollisionData;
 
 	/**
 	 * @brief The base class for all physics Colliders.
@@ -46,7 +47,13 @@ namespace Minty
 		 * @brief Checks if this Collider is static.
 		 * @return True if static, otherwise false.
 		 */
-		virtual Bool is_static() const = 0;
+		inline Bool is_static() const { return m_isStatic; }
+
+		/**
+		 * @brief Checks if this Collider is a trigger.
+		 * @return True if a trigger, otherwise false.
+		 */
+		inline Bool is_trigger() const { return m_isTrigger; }
 
 		/**
 		 * @brief Gets the Shape of this Collider.
@@ -109,6 +116,42 @@ namespace Minty
 		inline Shared<Mesh> const& get_mesh() const { return m_mesh; }
 
 		/**
+		 * @brief Calls the on enter collision function.
+		 * @param func The function to call.
+		 */
+		void invoke_on_enter(CollisionData const& data) const
+		{
+			if (m_onEnter)
+			{
+				m_onEnter(data);
+			}
+		}
+
+		/**
+		 * @brief Calls the on stay collision function.
+		 * @param func The function to call.
+		 */
+		void invoke_on_stay(CollisionData const& data) const
+		{
+			if (m_onStay)
+			{
+				m_onStay(data);
+			}
+		}
+
+		/**
+		 * @brief Calls the on exit collision function.
+		 * @param func The function to call.
+		 */
+		void invoke_on_exit(CollisionData const& data) const
+		{
+			if (m_onExit)
+			{
+				m_onExit(data);
+			}
+		}
+
+		/**
 		 * @brief Gets the native pointer to the underlying physics object.
 		 * @return The pointer to the native object.
 		 */
@@ -142,6 +185,11 @@ namespace Minty
 	private:
 		Shape m_shape;
 		Shared<Mesh> m_mesh; // only used if shape is Custom
+		Function<void(CollisionData const&)> m_onEnter;
+		Function<void(CollisionData const&)> m_onStay;
+		Function<void(CollisionData const&)> m_onExit;
+		Bool m_isStatic;
+		Bool m_isTrigger;
 
 #pragma endregion
 	};

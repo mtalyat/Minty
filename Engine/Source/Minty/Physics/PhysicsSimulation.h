@@ -35,6 +35,8 @@ namespace Minty
 		 */
 		PhysicsSimulation(PhysicsSimulationInfo const& info);
 
+		virtual ~PhysicsSimulation() = default;
+
 #pragma endregion
 
 #pragma region Accessors

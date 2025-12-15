@@ -11,15 +11,6 @@ namespace Minty
 	class Bullet_Collider
 		: public Collider
 	{
-#pragma region Variables
-
-	protected:
-		btCollisionShape *mp_root;
-		btCollisionShape *mp_shape;
-		btCollisionObject *mp_object;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -32,9 +23,7 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		inline Any get_native() const override { return mp_shape; }
-
-		Bool is_static() const override;
+		inline Any get_native() const override { return mp_object; }
 
 		Float3 get_size() const override;
 
@@ -66,7 +55,32 @@ namespace Minty
 		{
 			MINTY_ASSERT(mp_object == nullptr || object == nullptr, ErrorCode::Object_InvalidState);
 			mp_object = object;
+
+			// set flags if not null
+			if(mp_object != nullptr)
+			{
+				// if static, set the flag
+				if (is_static())
+				{
+					mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+				}
+
+				// if a trigger, set the flag
+				if (is_trigger())
+				{
+					mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+				}
+			}
 		}
+
+#pragma endregion
+
+#pragma region Variables
+
+	protected:
+		btCollisionShape *mp_root;
+		btCollisionShape *mp_shape;
+		btCollisionObject *mp_object;
 
 #pragma endregion
 	};

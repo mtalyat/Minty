@@ -93,10 +93,7 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
         collisionObject->setUserPointer(objectData);
 
         // update collider
-        mp_object = collisionObject;
-
-        // set collision flags
-        mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+        set_collision_object(collisionObject);
     }
 }
 
@@ -108,11 +105,6 @@ Minty::Bullet_Collider::~Bullet_Collider()
         delete static_cast<Bullet_Object *>(mp_object->getUserPointer());
         delete mp_object;
     }
-}
-
-Bool Minty::Bullet_Collider::is_static() const
-{
-    return mp_object != nullptr && (mp_object->getCollisionFlags() & btCollisionObject::CF_STATIC_OBJECT) != 0;
 }
 
 Float3 Minty::Bullet_Collider::get_size() const
