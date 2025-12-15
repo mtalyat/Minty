@@ -34,6 +34,7 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 		reader.read("Offset", info.offset);
 		reader.read("Size", info.size);
 		reader.read("Static", info.isStatic);
+		reader.read("Trigger", info.isTrigger);
 		if (info.shape == Shape::Custom)
 		{
 			reader.read("Mesh", info.mesh);
