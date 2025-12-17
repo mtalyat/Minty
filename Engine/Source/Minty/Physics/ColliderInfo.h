@@ -24,7 +24,7 @@ namespace Minty
 		/**
 		 * @brief The shape of the collider.
 		 */
-		Shape shape = Shape::Empty;
+		Shape shape = Shape::Box;
 
 		/**
 		 * @brief The data for a custom Shape.
@@ -52,6 +52,21 @@ namespace Minty
 		 * If a trigger, it will not physically interact with other Colliders.
 		 */
 		Bool isTrigger = false;
+
+		/**
+		 * @brief The function to call on enter collision.
+		 */
+		CollisionCallback onEnter = nullptr;
+
+		/**
+		 * @brief The function to call on stay collision.
+		 */
+		CollisionCallback onStay = nullptr;
+
+		/**
+		 * @brief The function to call on exit collision.
+		 */
+		CollisionCallback onExit = nullptr;
 	};
 }
 

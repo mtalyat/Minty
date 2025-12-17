@@ -65,13 +65,13 @@ namespace Minty
 		 * @brief Gets the offset of this Collider.
 		 * @return The offset.
 		 */
-		virtual Float3 get_offset() const = 0;
+		Float3 get_offset() const { return m_offset; }
 
 		/**
 		 * @brief Gets the size of this Collider.
 		 * @return The size.
 		 */
-		virtual Float3 get_size() const = 0;
+		Float3 get_size() const { return m_size; }
 
 		/**
 		 * @brief Gets the position of this Collider.
@@ -116,6 +116,12 @@ namespace Minty
 		inline Shared<Mesh> const& get_mesh() const { return m_mesh; }
 
 		/**
+		 * @brief Sets the on stay collision function.
+		 * @param func The function to set.
+		 */
+		void set_on_enter(CollisionCallback const& func) { m_onEnter = func; }
+
+		/**
 		 * @brief Calls the on enter collision function.
 		 * @param func The function to call.
 		 */
@@ -128,6 +134,12 @@ namespace Minty
 		}
 
 		/**
+		 * @brief Sets the on stay collision function.
+		 * @param func The function to set.
+		 */
+		void set_on_stay(CollisionCallback const& func) { m_onStay = func; }
+
+		/**
 		 * @brief Calls the on stay collision function.
 		 * @param func The function to call.
 		 */
@@ -138,6 +150,12 @@ namespace Minty
 				m_onStay(data);
 			}
 		}
+
+		/**
+		 * @brief Sets the on exit collision function.
+		 * @param func The function to set.
+		 */
+		void set_on_exit(CollisionCallback const& func) { m_onExit = func; }
 
 		/**
 		 * @brief Calls the on exit collision function.
@@ -185,9 +203,11 @@ namespace Minty
 	private:
 		Shape m_shape;
 		Shared<Mesh> m_mesh; // only used if shape is Custom
-		Function<void(CollisionData const&)> m_onEnter;
-		Function<void(CollisionData const&)> m_onStay;
-		Function<void(CollisionData const&)> m_onExit;
+		CollisionCallback m_onEnter;
+		CollisionCallback m_onStay;
+		CollisionCallback m_onExit;
+		Float3 m_offset;
+		Float3 m_size;
 		Bool m_isStatic;
 		Bool m_isTrigger;
 

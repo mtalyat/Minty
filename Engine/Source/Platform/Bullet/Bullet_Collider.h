@@ -25,10 +25,6 @@ namespace Minty
 	public:
 		inline Any get_native() const override { return mp_object; }
 
-		Float3 get_size() const override;
-
-		Float3 get_offset() const override;
-
 		Float3 get_position() const override;
 
 		void set_position(Float3 const &position) override;

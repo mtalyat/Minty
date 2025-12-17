@@ -47,7 +47,7 @@ namespace Minty
 		/**
 		 * @brief Called when an Event is triggered.
 		 */
-		EventCallbackFunction eventCallback = nullptr;
+		EventCallback eventCallback = nullptr;
 	};
 }
 

@@ -29,7 +29,7 @@ Minty::UUID::UUID(UInt64 const id_low, UInt64 const id_high)
 }
 
 Minty::UUID::UUID(StringView const &string)
-    : m_data(0)
+	: m_data(0)
 {
 	if (string.is_empty())
 	{
@@ -45,7 +45,7 @@ UUID Minty::UUID::create()
 	UInt64 randomValues[2];
 	randomValues[0] = Math::random_ulong();
 	randomValues[1] = Math::random_ulong();
-	return UUID(reinterpret_cast<Byte const (&)[UUID_BYTE_SIZE]>(randomValues));
+	return UUID(reinterpret_cast<Byte const(&)[UUID_BYTE_SIZE]>(randomValues));
 }
 
 void Minty::UUID::clear()
@@ -55,7 +55,7 @@ void Minty::UUID::clear()
 
 Bool Minty::UUID::parse(StringView const text)
 {
-    // check if empty or "NULL"
+	// check if empty or "NULL"
 	if (text.is_empty())
 	{
 		clear();
@@ -76,27 +76,40 @@ Bool Minty::UUID::parse(StringView const text)
 
 	// if the size is incorrect, return invalid UUID
 	Size const size = text.get_size();
-	if(size == UUID_HEX_SIZE_FULL)
+	if (size == UUID_HEX_SIZE_FULL)
 	{
 		// full UUID string
 		decode_base16(text.get_data(), text.get_size(), m_data, sizeof(Byte) * UUID_BYTE_SIZE);
-	} else if (size == UUID_HEX_SIZE_HALF)
+	}
+	else if (size == UUID_HEX_SIZE_HALF)
 	{
 		// short UUID string
 		std::memset(m_data + UUID_BYTE_SIZE_HALF, 0, UUID_BYTE_SIZE_HALF);
 		decode_base16(text.get_data(), text.get_size(), m_data, UUID_BYTE_SIZE_HALF);
-	} else
+	}
+	else
 	{
 		MINTY_ABORT(ErrorCode::Serialization_InvalidFormat);
 	}
-	
+
 	return true;
 }
 
 String Minty::UUID::to_string() const
 {
-    Char buffer[UUID_HEX_SIZE_FULL + 1];
-	encode_base16(m_data, UUID_BYTE_SIZE, buffer, sizeof(buffer));
-	buffer[UUID_HEX_SIZE_FULL] = '\0';
-	return String(buffer);
+	// if the high bits are zero, return the short version
+	if (*static_cast<UInt64 const *>(static_cast<void const *>(m_data + UUID_BYTE_SIZE_HALF)) == 0)
+	{
+		Char buffer[UUID_HEX_SIZE_HALF + 1];
+		encode_base16(m_data, UUID_BYTE_SIZE_HALF, buffer, sizeof(buffer));
+		buffer[UUID_HEX_SIZE_HALF] = '\0';
+		return String(buffer);
+	}
+	else
+	{
+		Char buffer[UUID_HEX_SIZE_FULL + 1];
+		encode_base16(m_data, UUID_BYTE_SIZE, buffer, sizeof(buffer));
+		buffer[UUID_HEX_SIZE_FULL] = '\0';
+		return String(buffer);
+	}
 }

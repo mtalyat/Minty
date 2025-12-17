@@ -19,11 +19,9 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 	{
 		// no existing collider, so create new one
 		ColliderInfo info{};
-		if (!reader.read_default(info.shape) && !reader.read("Shape", info.shape))
+		if (!reader.read_default(info.shape))
 		{
-			// could not read shape
-			MINTY_ERROR_F(ErrorCode::Serialization_MissingRequired, "Shape");
-			return false;
+			reader.read("Shape", info.shape);
 		}
 		if (info.shape == Shape::Empty)
 		{

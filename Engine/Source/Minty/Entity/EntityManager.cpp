@@ -235,28 +235,42 @@ String Minty::EntityManager::to_string(Entity const entity) const
 	String const &name = get_name(entity);
 	UUID const id = get_id(entity);
 
-	if (name.is_empty())
+	StringBuilder builder;
+
+	// if there is a parent, prepend the parent's string
+	Entity const parent = get_parent(entity);
+	if (parent != INVALID_ENTITY)
 	{
-		if (id.is_valid())
+		String const parentString = to_string(parent);
+		if (!parentString.is_empty())
 		{
-			return format("({})", id);
+			builder.append(parentString);
 		}
 		else
 		{
-			return "";
+			builder.append('_');
+		}
+		builder.append("->");
+	}
+
+	// append this entity's name and/or ID
+	if(!name.is_empty())
+	{
+		builder.append(name);
+		if (id.is_valid())
+		{
+			builder.append(format(" ({})", id));
 		}
 	}
 	else
 	{
 		if (id.is_valid())
 		{
-			return format("{} ({})", name, id);
-		}
-		else
-		{
-			return name;
+			builder.append(format("({})", id));
 		}
 	}
+
+	return builder.to_string();
 }
 
 void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
@@ -798,7 +812,7 @@ void Minty::EntityManager::update_uiTransform(Entity const entity, Entity const 
 	}
 
 	// get window size as a rect
-	Shared<Window> const& window = Application::get_singleton().get_window();
+	Shared<Window> const &window = Application::get_singleton().get_window();
 	UInt2 windowSize = window->get_size();
 	Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
@@ -884,22 +898,22 @@ void Minty::EntityManager::refresh(Entity const entity)
 	}
 
 	// if Transform, update from Position, Rotation and Scale, then update the global matrix
-	TransformComponent * const transformComponent = m_registry.try_get<TransformComponent>(entity);
+	TransformComponent *const transformComponent = m_registry.try_get<TransformComponent>(entity);
 	if (transformComponent)
 	{
-		PositionComponent const* const positionComponent = m_registry.try_get<PositionComponent>(entity);
-		RotationComponent const* const rotationComponent = m_registry.try_get<RotationComponent>(entity);
-		ScaleComponent const* const scaleComponent = m_registry.try_get<ScaleComponent>(entity);
+		PositionComponent const *const positionComponent = m_registry.try_get<PositionComponent>(entity);
+		RotationComponent const *const rotationComponent = m_registry.try_get<RotationComponent>(entity);
+		ScaleComponent const *const scaleComponent = m_registry.try_get<ScaleComponent>(entity);
 
-		if(positionComponent)
+		if (positionComponent)
 		{
 			transformComponent->transform.set_local_position(positionComponent->position);
 		}
-		if(rotationComponent)
+		if (rotationComponent)
 		{
 			transformComponent->transform.set_local_rotation(rotationComponent->rotation);
 		}
-		if(scaleComponent)
+		if (scaleComponent)
 		{
 			transformComponent->transform.set_local_scale(scaleComponent->scale);
 		}

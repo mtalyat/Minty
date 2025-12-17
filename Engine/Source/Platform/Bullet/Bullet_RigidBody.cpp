@@ -144,6 +144,13 @@ void Minty::Bullet_RigidBody::set_position(Float3 const &position)
 	btTransform transform = mp_body->getWorldTransform();
 	transform.setOrigin(btVector3(static_cast<btScalar>(position.x), static_cast<btScalar>(position.y), static_cast<btScalar>(position.z)));
 	mp_body->setWorldTransform(transform);
+
+	if(btMotionState* const motionState = mp_body->getMotionState())
+	{
+		motionState->setWorldTransform(transform);
+	}
+
+	mp_body->activate();
 }
 
 Quaternion Minty::Bullet_RigidBody::get_rotation() const
@@ -158,6 +165,13 @@ void Minty::Bullet_RigidBody::set_rotation(Quaternion const& rotation)
 	btTransform transform = mp_body->getWorldTransform();
 	transform.setRotation(btQuaternion(static_cast<btScalar>(rotation.x), static_cast<btScalar>(rotation.y), static_cast<btScalar>(rotation.z), static_cast<btScalar>(rotation.w)));
 	mp_body->setWorldTransform(transform);
+
+	if (btMotionState* const motionState = mp_body->getMotionState())
+	{
+		motionState->setWorldTransform(transform);
+	}
+	
+	mp_body->activate();
 }
 
 Float3 Minty::Bullet_RigidBody::get_linear_velocity() const

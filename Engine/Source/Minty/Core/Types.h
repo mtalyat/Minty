@@ -68,7 +68,10 @@ namespace Minty
 	};
 
 	class Event;
-	using EventCallbackFunction = Function<void(Event&)>;
+	using EventCallback = Function<void(Event&)>;
+
+	struct CollisionData;
+	using CollisionCallback = Function<void(CollisionData const&)>;
 }
 
 #endif // MINTY_CORE_TYPES_H

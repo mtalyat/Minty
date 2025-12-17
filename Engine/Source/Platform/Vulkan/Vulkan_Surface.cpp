@@ -120,11 +120,11 @@ void Minty::Vulkan_Surface::dispose_swapchain()
 
 void Minty::Vulkan_Surface::refresh()
 {
-	MINTY_LOG_MESSAGE("Refreshing surface...");
+	MINTY_LOG_INFO("Refreshing surface...");
 	// recreate the swapchain
 	dispose_swapchain();
 	Vulkan_RenderManager &renderManager = Vulkan_RenderManager::get_singleton();
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(renderManager.get_physical_device(), m_surface);
 	initialize_swapchain(m_format, renderManager, queueFamilyIndices);
-	MINTY_LOG_MESSAGE_F("Surface refreshed with new size: {}.", get_size());
+	MINTY_LOG_INFO_F("Surface refreshed with new size: {}.", get_size());
 }

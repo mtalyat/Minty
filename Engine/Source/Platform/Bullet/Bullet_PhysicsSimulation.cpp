@@ -64,6 +64,12 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 		btCollisionObject const *const objA = contactManifold->getBody0();
 		btCollisionObject const *const objB = contactManifold->getBody1();
 
+		// ignore if both are static
+		if (objA->isStaticObject() && objB->isStaticObject())
+		{
+			continue;
+		}
+
 		// get the user data
 		Bullet_Object *const objectDataA = static_cast<Bullet_Object *>(objA->getUserPointer());
 		MINTY_ASSERT(objectDataA != nullptr, ErrorCode::InvalidUserData);
@@ -101,7 +107,14 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 
 				// get the collision type
 				CollisionPair const collisionPair = CollisionPair(objectDataA, objectDataB);
-				if (!m_previousCollisions.contains(collisionPair))
+				Bool const newCollision = !m_previousCollisions.contains(collisionPair);
+
+				SceneManager& sceneManager = SceneManager::get_singleton();
+				Ref<Scene> const& scene = sceneManager.get_active();
+				MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
+				EntityManager& entityManager = scene->get_entity_manager();
+
+				if (newCollision)
 				{
 					// new collision
 					if (objectDataA->collider != nullptr)

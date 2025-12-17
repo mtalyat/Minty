@@ -97,13 +97,23 @@ namespace Minty
 #ifdef MINTY_DEBUG
 // if debugging and using Visual Studio, insert debug break
 #ifdef _MSC_VER
-#define MINTY_BREAK() do { Minty::Debug::flush(); __debugbreak(); } while(0)
+#define MINTY_BREAK() do { MINTY_LOG_FLUSH(); __debugbreak(); } while(0)
 #else
 #error "Debug break not implemented for this compiler."
 #endif // _MSC_VER
 #else
 #define MINTY_BREAK()
 #endif // MINTY_DEBUG
+
+/**
+ * @brief Macro to flush the debug output.
+ * @note Always active.
+ */
+#define MINTY_LOG_FLUSH() \
+    do                  \
+    {                   \
+        Minty::Debug::flush(); \
+    } while (0)
 
 /**
  * @brief Macro to log a message with a specified log level.
@@ -262,7 +272,7 @@ namespace Minty
     do                                                   \
     {                                                    \
         MINTY_LOG_TRACE(Minty::LogLevel::Critical, msg); \
-        Minty::Debug::flush();                           \
+        MINTY_LOG_FLUSH();                           \
         MINTY_BREAK();                                   \
     } while (0)
 /**
@@ -273,7 +283,7 @@ namespace Minty
     do                                                                     \
     {                                                                      \
         MINTY_LOG_TRACE(Minty::LogLevel::Critical, F(fmt, ##__VA_ARGS__)); \
-        Minty::Debug::flush();                                             \
+        MINTY_LOG_FLUSH();                                             \
         MINTY_BREAK();                                                     \
     } while (0)
 

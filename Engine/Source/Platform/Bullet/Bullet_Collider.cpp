@@ -107,36 +107,6 @@ Minty::Bullet_Collider::~Bullet_Collider()
     }
 }
 
-Float3 Minty::Bullet_Collider::get_size() const
-{
-    // get the half extents from the shape
-    btVector3 halfExtents;
-    if (mp_shape->isCompound())
-    {
-        btBoxShape* const boxShape = dynamic_cast<btBoxShape*>(mp_shape);
-        if (boxShape == nullptr)
-        {
-            MINTY_ABORT_F(ErrorCode::Object_InvalidState, "Expected shape to be a box shape.");
-        }
-        halfExtents = boxShape->getHalfExtentsWithMargin();
-    }
-    return Float3(static_cast<Float>(halfExtents.x()), static_cast<Float>(halfExtents.y()), static_cast<Float>(halfExtents.z()));
-}
-
-Float3 Minty::Bullet_Collider::get_offset() const
-{
-    // get the position from the shape, if it is not the root
-    if(mp_root == mp_shape)
-    {
-        return Math::ZERO;
-    }
-    btCompoundShape* const compoundShape = dynamic_cast<btCompoundShape*>(mp_root);
-    MINTY_ASSERT(compoundShape != nullptr, ErrorCode::Object_InvalidState);
-    btTransform const localTransform = compoundShape->getChildTransform(0);
-    btVector3 const origin = localTransform.getOrigin();
-    return Float3(static_cast<Float>(origin.x()), static_cast<Float>(origin.y()), static_cast<Float>(origin.z()));
-}
-
 Float3 Minty::Bullet_Collider::get_position() const
 {
     // get the position from the root object

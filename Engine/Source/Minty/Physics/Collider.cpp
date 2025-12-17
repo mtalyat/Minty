@@ -11,7 +11,7 @@
 using namespace Minty;
 
 Minty::Collider::Collider(ColliderInfo const &info)
-	: m_shape(info.shape), m_mesh(info.mesh), m_onEnter(nullptr), m_onStay(nullptr), m_onExit(nullptr), m_isStatic(info.isStatic), m_isTrigger(info.isTrigger)
+	: m_shape(info.shape), m_mesh(info.mesh), m_onEnter(nullptr), m_onStay(nullptr), m_onExit(nullptr), m_offset(info.offset), m_size(info.size), m_isStatic(info.isStatic), m_isTrigger(info.isTrigger)
 {
 }
 

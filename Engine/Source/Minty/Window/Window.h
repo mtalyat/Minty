@@ -109,7 +109,7 @@ namespace Minty
 		 * @brief Sets the event callback function.
 		 * @param callback The event callback function.
 		 */
-		void set_event_callback(EventCallbackFunction const& callback)
+		void set_event_callback(EventCallback const& callback)
 		{
 			m_eventCallback = callback;
 		}
@@ -187,7 +187,7 @@ namespace Minty
 		Int2 m_position;
 		UInt2 m_size;
 		String m_title;
-		EventCallbackFunction m_eventCallback;
+		EventCallback m_eventCallback;
 
 	private:
 		UUID m_id;
