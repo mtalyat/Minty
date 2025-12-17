@@ -39,6 +39,22 @@ namespace Minty
 		 */
 		inline PhysicsSimulation &get_simulation() const { return *m_simulation; }
 
+		/**
+		 * @brief Gets the snap size used for snapping entities.
+		 * @return The snap size.
+		 */
+		inline Float get_snap_size() const { return m_snapSize; }
+
+		/**
+		 * @brief Sets the snap size used for snapping entities.
+		 * @param size The snap size.
+		 */
+		inline void set_snap_size(Float const size)
+		{
+			MINTY_ASSERT(size >= 0.0f, ErrorCode::Argument_OutOfRange); 
+			m_snapSize = size;
+		}
+
 #pragma endregion
 
 #pragma region Methods
@@ -91,6 +107,7 @@ namespace Minty
 	private:
 		Shared<PhysicsSimulation> m_simulation;
 		Timestep m_lastUpdateTimestep;
+		Float m_snapSize = 0.0f;
 
 #pragma endregion
 	};

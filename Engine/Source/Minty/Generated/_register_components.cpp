@@ -30,6 +30,7 @@ void Minty::Application::register_components()
     EntityManager::register_component<RigidBodyComponent>("RigidBody");
     EntityManager::register_component<RotationComponent>("Rotation");
     EntityManager::register_component<ScaleComponent>("Scale");
+    EntityManager::register_component<SnapComponent>("Snap");
     EntityManager::register_component<SpriteComponent>("Sprite");
     EntityManager::register_component<TextComponent>("Text");
     EntityManager::register_component<TransformComponent>("Transform");

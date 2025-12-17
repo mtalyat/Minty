@@ -25,6 +25,7 @@
 #include "RigidBodyComponent.h"
 #include "RotationComponent.h"
 #include "ScaleComponent.h"
+#include "SnapComponent.h"
 #include "SpriteComponent.h"
 #include "TextComponent.h"
 #include "TransformComponent.h"

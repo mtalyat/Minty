@@ -14,6 +14,7 @@
 #include "Minty/Component/GravityComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Component/VelocityComponent.h"
+#include "Minty/Component/SnapComponent.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Physics/PhysicsManager.h"
 #include "Minty/Scene/Scene.h"
@@ -311,7 +312,7 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 	Float const alpha = (time.get_total() - m_lastUpdateTimestep.get_total()) / m_lastUpdateTimestep.get_elapsed();
 
 	// for each entity with a transform and physics components, lerp from the old data to the new data for smooth rendering
-	for (auto &&[entity, transformComp, physicsComp, colliderComp, bodyComp, simulateComp, enabledComp] : entityManager.view<TransformComponent, PhysicsComponent const, ColliderComponent const, RigidBodyComponent const, SimulateComponent const, EnabledComponent const>().each())
+	for (auto &&[entity, transformComp, physicsComp, bodyComp, simulateComp, enabledComp] : entityManager.view<TransformComponent, PhysicsComponent const, RigidBodyComponent const, SimulateComponent const, EnabledComponent const>().each())
 	{
 		// if there is a parent, base this transform off of the parent's global transform
 		TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
@@ -352,6 +353,20 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 				Float3 const interpolatedScale = Math::lerp(physicsComp.previousScale, scaleComp->scale, alpha);
 				transformComp.transform.set_local_scale(interpolatedScale);
 			}
+		}
+
+		entityManager.dirty(entity);
+	}
+
+	// if a snap size is set, snap entities to the grid
+	if (m_snapSize > 0.0f)
+	{
+		for (auto &&[entity, transformComp, snapComp, simulateComp, enabledComp] : entityManager.view<TransformComponent, SnapComponent const, SimulateComponent const, EnabledComponent const>().each())
+		{
+			Transform &transform = transformComp.transform;
+			Float3 snapped = Math::snap(transform.get_local_position(), m_snapSize);
+			transform.set_local_position(snapped);
+			entityManager.dirty(entity);
 		}
 	}
 }
