@@ -79,68 +79,75 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 		MINTY_ASSERT(objectDataB != nullptr, ErrorCode::InvalidUserData);
 		Entity const entityB = objectDataB->entity;
 
-		// check each contact point
 		Int const numContacts = contactManifold->getNumContacts();
-		for (Int j = 0; j < numContacts; j++)
+
+		// TODO: determine how to handle multiple contact points properly
+		Float3 point;
+		Float3 otherPoint;
+		Float3 normal;
+		Float distance;
+		if (numContacts > 0)
 		{
-			btManifoldPoint const &pt = contactManifold->getContactPoint(j);
+			btManifoldPoint const &pt = contactManifold->getContactPoint(0);
+			point = Bullet_Physics::to_minty(pt.getPositionWorldOnA());
+			otherPoint = Bullet_Physics::to_minty(pt.getPositionWorldOnB());
+			normal = Bullet_Physics::to_minty(pt.m_normalWorldOnB);
+			distance = pt.getDistance();
+		}
+		else
+		{
+			point = Math::ZERO;
+			otherPoint = Math::ZERO;
+			normal = Math::ZERO;
+			distance = 0.0f;
+		}
 
-			// check if penetrating
-			if (pt.getDistance() < 0.0f)
+		// get the collision data
+		CollisionData collisionDataA{};
+		collisionDataA.entity = entityA;
+		collisionDataA.otherEntity = entityB;
+		collisionDataA.point = point;
+		collisionDataA.otherPoint = otherPoint;
+		collisionDataA.normal = normal;
+		collisionDataA.distance = distance;
+
+		CollisionData collisionDataB{};
+		collisionDataB.entity = entityB;
+		collisionDataB.otherEntity = entityA;
+		collisionDataB.point = otherPoint;
+		collisionDataB.otherPoint = point;
+		collisionDataB.normal = -normal;
+		collisionDataB.distance = distance;
+
+		// get the collision type
+		CollisionPair const collisionPair = CollisionPair(objectDataA, objectDataB);
+		Bool const newCollision = !m_previousCollisions.contains(collisionPair);
+
+		if (newCollision)
+		{
+			// new collision
+			if (objectDataA->collider != nullptr)
 			{
-				// get the collision data
-				CollisionData collisionDataA{};
-				collisionDataA.entity = entityA;
-				collisionDataA.otherEntity = entityB;
-				collisionDataA.point = Bullet_Physics::to_minty(pt.getPositionWorldOnA());
-				collisionDataA.otherPoint = Bullet_Physics::to_minty(pt.getPositionWorldOnB());
-				collisionDataA.normal = Bullet_Physics::to_minty(pt.m_normalWorldOnB);
-				collisionDataA.distance = pt.getDistance();
-
-				CollisionData collisionDataB{};
-				collisionDataB.entity = entityB;
-				collisionDataB.otherEntity = entityA;
-				collisionDataB.point = Bullet_Physics::to_minty(pt.getPositionWorldOnB());
-				collisionDataB.otherPoint = Bullet_Physics::to_minty(pt.getPositionWorldOnA());
-				collisionDataB.normal = -Bullet_Physics::to_minty(pt.m_normalWorldOnB);
-				collisionDataB.distance = pt.getDistance();
-
-				// get the collision type
-				CollisionPair const collisionPair = CollisionPair(objectDataA, objectDataB);
-				Bool const newCollision = !m_previousCollisions.contains(collisionPair);
-
-				SceneManager& sceneManager = SceneManager::get_singleton();
-				Ref<Scene> const& scene = sceneManager.get_active();
-				MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
-				EntityManager& entityManager = scene->get_entity_manager();
-
-				if (newCollision)
-				{
-					// new collision
-					if (objectDataA->collider != nullptr)
-					{
-						objectDataA->collider->invoke_on_enter(collisionDataA);
-					}
-					if (objectDataB->collider != nullptr)
-					{
-						objectDataB->collider->invoke_on_enter(collisionDataB);
-					}
-					m_currentCollisions.add(collisionPair);
-				}
-				else
-				{
-					// ongoing collision
-					if (objectDataA->collider != nullptr)
-					{
-						objectDataA->collider->invoke_on_stay(collisionDataA);
-					}
-					if (objectDataB->collider != nullptr)
-					{
-						objectDataB->collider->invoke_on_stay(collisionDataB);
-					}
-					m_currentCollisions.add(collisionPair);
-				}
+				objectDataA->collider->invoke_on_enter(collisionDataA);
 			}
+			if (objectDataB->collider != nullptr)
+			{
+				objectDataB->collider->invoke_on_enter(collisionDataB);
+			}
+			m_currentCollisions.add(collisionPair);
+		}
+		else
+		{
+			// ongoing collision
+			if (objectDataA->collider != nullptr)
+			{
+				objectDataA->collider->invoke_on_stay(collisionDataA);
+			}
+			if (objectDataB->collider != nullptr)
+			{
+				objectDataB->collider->invoke_on_stay(collisionDataB);
+			}
+			m_currentCollisions.add(collisionPair);
 		}
 	}
 
