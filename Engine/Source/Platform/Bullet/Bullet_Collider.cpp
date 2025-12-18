@@ -6,7 +6,7 @@
 using namespace Minty;
 
 Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
-    : Collider(info), mp_shape(nullptr), mp_object(nullptr)
+    : Collider(info), mp_root(nullptr), mp_shape(nullptr), mp_object(nullptr)
 {
     btVector3 size = btVector3(static_cast<btScalar>(info.size.x), static_cast<btScalar>(info.size.y), static_cast<btScalar>(info.size.z));
 
@@ -64,14 +64,15 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
 
     // if an offset given, apply it
     btVector3 offset = btVector3(static_cast<btScalar>(info.offset.x), static_cast<btScalar>(info.offset.y), static_cast<btScalar>(info.offset.z));
-    if(info.offset != Math::ZERO)
+    if (info.offset != Math::ZERO)
     {
-        btCompoundShape * const root = new btCompoundShape();
+        btCompoundShape *const root = new btCompoundShape();
         btTransform localTransform = btTransform::getIdentity();
         localTransform.setOrigin(offset);
         root->addChildShape(localTransform, mp_shape);
         mp_root = root;
-    } else
+    }
+    else
     {
         mp_root = mp_shape;
     }
@@ -100,7 +101,7 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
 Minty::Bullet_Collider::~Bullet_Collider()
 {
     delete mp_shape;
-    if(mp_object)
+    if (mp_object)
     {
         delete static_cast<Bullet_Object *>(mp_object->getUserPointer());
         delete mp_object;
@@ -158,4 +159,26 @@ void Minty::Bullet_Collider::set_transform(Transform const &transform)
     btTransform.setOrigin(btPosition);
     btTransform.setRotation(btRotation);
     mp_object->setWorldTransform(btTransform);
+}
+
+void Minty::Bullet_Collider::set_collision_object(btCollisionObject *const object)
+{
+    MINTY_ASSERT(mp_object == nullptr || object == nullptr, ErrorCode::Object_InvalidState);
+    mp_object = object;
+
+    // set flags if not null
+    if (mp_object != nullptr)
+    {
+        // if static, set the flag
+        if (is_static())
+        {
+            mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+        }
+
+        // if a trigger, set the flag
+        if (is_trigger())
+        {
+            mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+        }
+    }
 }

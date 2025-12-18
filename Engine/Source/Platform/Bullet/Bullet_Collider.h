@@ -47,27 +47,7 @@ namespace Minty
 			return mp_object;
 		}
 
-		inline void set_collision_object(btCollisionObject *const object)
-		{
-			MINTY_ASSERT(mp_object == nullptr || object == nullptr, ErrorCode::Object_InvalidState);
-			mp_object = object;
-
-			// set flags if not null
-			if(mp_object != nullptr)
-			{
-				// if static, set the flag
-				if (is_static())
-				{
-					mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
-				}
-
-				// if a trigger, set the flag
-				if (is_trigger())
-				{
-					mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-				}
-			}
-		}
+		void set_collision_object(btCollisionObject *const object);
 
 #pragma endregion
 
