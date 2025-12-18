@@ -1,11 +1,11 @@
-#include "Minty/Debug/Debug.h"
+#include "Minty/Debug/Assert.h"
 
 // CUSTOM MODIFICATIONS
 // define a custom assert macro to override the default one so we can see the message
 #ifndef ENTT_ASSERT
 #include <iostream>
 #include <cassert>
-#define ENTT_ASSERT(condition, message) if(!(condition)) do { Minty::Debug::write_abort("EnTT Assertion Failed: " message); } while(false)
+#define ENTT_ASSERT(condition, message) MINTY_ASSERT_F(condition, Minty::ErrorCode::Library_EnTT, message)
 #endif
 
 #ifndef ENTT_ASSERT_CONSTEXPR
@@ -22639,7 +22639,7 @@ public:
      * @brief Estimates the number of entities iterated by the view.
      * @return Estimated number of entities iterated by the view.
      */
-    [[nodiscard]] size_type size_hint() const noexcept {
+    [[nodiscard]] size_type size() const noexcept {
         return view ? view->size() : size_type{};
     }
 
@@ -32547,7 +32547,7 @@ public:
         : basic_flow{allocator_type{}} {}
 
     /**
-     * @brief Constructs a flow builder with a given allocator.
+     * @brief Constructs a flow info with a given allocator.
      * @param allocator The allocator to use.
      */
     explicit basic_flow(const allocator_type &allocator)
@@ -32586,13 +32586,13 @@ public:
 
     /**
      * @brief Default copy assignment operator.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &operator=(const basic_flow &) = default;
 
     /**
      * @brief Default move assignment operator.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &operator=(basic_flow &&) noexcept = default;
 
@@ -32613,7 +32613,7 @@ public:
         return vertices.cbegin()[pos];
     }
 
-    /*! @brief Clears the flow builder. */
+    /*! @brief Clears the flow info. */
     void clear() noexcept {
         index.first() = {};
         vertices.clear();
@@ -32622,8 +32622,8 @@ public:
     }
 
     /**
-     * @brief Exchanges the contents with those of a given flow builder.
-     * @param other Flow builder to exchange the content with.
+     * @brief Exchanges the contents with those of a given flow info.
+     * @param other Flow info to exchange the content with.
      */
     void swap(basic_flow &other) {
         using std::swap;
@@ -32642,9 +32642,9 @@ public:
     }
 
     /**
-     * @brief Binds a task to a flow builder.
+     * @brief Binds a task to a flow info.
      * @param value Task identifier.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &bind(const id_type value) {
         sync_on += (sync_on == vertices.size());
@@ -32655,7 +32655,7 @@ public:
 
     /**
      * @brief Turns the current task into a sync point.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &sync() {
         ENTT_ASSERT(index.first() < vertices.size(), "Invalid node");
@@ -32672,7 +32672,7 @@ public:
      * @brief Assigns a resource to the current task with a given access mode.
      * @param res Resource identifier.
      * @param is_rw Access mode.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &set(const id_type res, bool is_rw = false) {
         emplace(res, is_rw);
@@ -32682,7 +32682,7 @@ public:
     /**
      * @brief Assigns a read-only resource to the current task.
      * @param res Resource identifier.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &ro(const id_type res) {
         emplace(res, false);
@@ -32694,7 +32694,7 @@ public:
      * @tparam It Type of input iterator.
      * @param first An iterator to the first element of the range of elements.
      * @param last An iterator past the last element of the range of elements.
-     * @return This flow builder.
+     * @return This flow info.
      */
     template<typename It>
     std::enable_if_t<std::is_same_v<std::remove_const_t<typename std::iterator_traits<It>::value_type>, id_type>, basic_flow &>
@@ -32709,7 +32709,7 @@ public:
     /**
      * @brief Assigns a writable resource to the current task.
      * @param res Resource identifier.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &rw(const id_type res) {
         emplace(res, true);
@@ -32721,7 +32721,7 @@ public:
      * @tparam It Type of input iterator.
      * @param first An iterator to the first element of the range of elements.
      * @param last An iterator past the last element of the range of elements.
-     * @return This flow builder.
+     * @return This flow info.
      */
     template<typename It>
     std::enable_if_t<std::is_same_v<std::remove_const_t<typename std::iterator_traits<It>::value_type>, id_type>, basic_flow &>
@@ -33169,10 +33169,10 @@ class basic_organizer final {
 
     template<typename... RO, typename... RW>
     void track_dependencies(std::size_t index, const bool requires_registry, type_list<RO...>, type_list<RW...>) {
-        builder.bind(static_cast<id_type>(index));
-        builder.set(type_hash<Registry>::value(), requires_registry || (sizeof...(RO) + sizeof...(RW) == 0u));
-        (builder.ro(type_hash<RO>::value()), ...);
-        (builder.rw(type_hash<RW>::value()), ...);
+        info.bind(static_cast<id_type>(index));
+        info.set(type_hash<Registry>::value(), requires_registry || (sizeof...(RO) + sizeof...(RW) == 0u));
+        (info.ro(type_hash<RO>::value()), ...);
+        (info.rw(type_hash<RW>::value()), ...);
     }
 
 public:
@@ -33394,7 +33394,7 @@ public:
     std::vector<vertex> graph() {
         std::vector<vertex> adjacency_list{};
         adjacency_list.reserve(vertices.size());
-        auto adjacency_matrix = builder.graph();
+        auto adjacency_matrix = info.graph();
 
         for(auto curr: adjacency_matrix.vertices()) {
             const auto iterable = adjacency_matrix.in_edges(curr);
@@ -33412,13 +33412,13 @@ public:
 
     /*! @brief Erases all elements from a container. */
     void clear() {
-        builder.clear();
+        info.clear();
         vertices.clear();
     }
 
 private:
     std::vector<vertex_data> vertices;
-    flow builder;
+    flow info;
 };
 
 } // namespace entt
@@ -39270,7 +39270,7 @@ public:
      * @brief Estimates the number of entities iterated by the view.
      * @return Estimated number of entities iterated by the view.
      */
-    [[nodiscard]] size_type size_hint() const {
+    [[nodiscard]] size_type size() const {
         return pools.empty() ? size_type{} : pools.front()->size();
     }
 
@@ -42607,7 +42607,7 @@ public:
      * @brief Estimates the number of entities iterated by the view.
      * @return Estimated number of entities iterated by the view.
      */
-    [[nodiscard]] size_type size_hint() const noexcept {
+    [[nodiscard]] size_type size() const noexcept {
         return view ? view->size() : size_type{};
     }
 
@@ -50648,7 +50648,7 @@ public:
         : basic_flow{allocator_type{}} {}
 
     /**
-     * @brief Constructs a flow builder with a given allocator.
+     * @brief Constructs a flow info with a given allocator.
      * @param allocator The allocator to use.
      */
     explicit basic_flow(const allocator_type &allocator)
@@ -50687,13 +50687,13 @@ public:
 
     /**
      * @brief Default copy assignment operator.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &operator=(const basic_flow &) = default;
 
     /**
      * @brief Default move assignment operator.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &operator=(basic_flow &&) noexcept = default;
 
@@ -50714,7 +50714,7 @@ public:
         return vertices.cbegin()[pos];
     }
 
-    /*! @brief Clears the flow builder. */
+    /*! @brief Clears the flow info. */
     void clear() noexcept {
         index.first() = {};
         vertices.clear();
@@ -50723,8 +50723,8 @@ public:
     }
 
     /**
-     * @brief Exchanges the contents with those of a given flow builder.
-     * @param other Flow builder to exchange the content with.
+     * @brief Exchanges the contents with those of a given flow info.
+     * @param other Flow info to exchange the content with.
      */
     void swap(basic_flow &other) {
         using std::swap;
@@ -50743,9 +50743,9 @@ public:
     }
 
     /**
-     * @brief Binds a task to a flow builder.
+     * @brief Binds a task to a flow info.
      * @param value Task identifier.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &bind(const id_type value) {
         sync_on += (sync_on == vertices.size());
@@ -50756,7 +50756,7 @@ public:
 
     /**
      * @brief Turns the current task into a sync point.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &sync() {
         ENTT_ASSERT(index.first() < vertices.size(), "Invalid node");
@@ -50773,7 +50773,7 @@ public:
      * @brief Assigns a resource to the current task with a given access mode.
      * @param res Resource identifier.
      * @param is_rw Access mode.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &set(const id_type res, bool is_rw = false) {
         emplace(res, is_rw);
@@ -50783,7 +50783,7 @@ public:
     /**
      * @brief Assigns a read-only resource to the current task.
      * @param res Resource identifier.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &ro(const id_type res) {
         emplace(res, false);
@@ -50795,7 +50795,7 @@ public:
      * @tparam It Type of input iterator.
      * @param first An iterator to the first element of the range of elements.
      * @param last An iterator past the last element of the range of elements.
-     * @return This flow builder.
+     * @return This flow info.
      */
     template<typename It>
     std::enable_if_t<std::is_same_v<std::remove_const_t<typename std::iterator_traits<It>::value_type>, id_type>, basic_flow &>
@@ -50810,7 +50810,7 @@ public:
     /**
      * @brief Assigns a writable resource to the current task.
      * @param res Resource identifier.
-     * @return This flow builder.
+     * @return This flow info.
      */
     basic_flow &rw(const id_type res) {
         emplace(res, true);
@@ -50822,7 +50822,7 @@ public:
      * @tparam It Type of input iterator.
      * @param first An iterator to the first element of the range of elements.
      * @param last An iterator past the last element of the range of elements.
-     * @return This flow builder.
+     * @return This flow info.
      */
     template<typename It>
     std::enable_if_t<std::is_same_v<std::remove_const_t<typename std::iterator_traits<It>::value_type>, id_type>, basic_flow &>

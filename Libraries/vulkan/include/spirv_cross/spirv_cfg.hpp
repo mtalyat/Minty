@@ -146,10 +146,10 @@ private:
 	bool has_visited_forward_edge(uint32_t to) const;
 };
 
-class DominatorBuilder
+class DominatorInfo
 {
 public:
-	DominatorBuilder(const CFG &cfg);
+	DominatorInfo(const CFG &cfg);
 
 	void add_block(uint32_t block);
 	uint32_t get_dominator() const

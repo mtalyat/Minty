@@ -1,0 +1,23 @@
+#include "pch.h"
+#include "CameraComponent.h"
+#include "Minty/Asset/AssetManager.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
+
+using namespace Minty;
+
+void Minty::CameraComponent::serialize(Writer& writer) const
+{
+	if (camera == nullptr)
+	{
+		writer.write("Camera", UUID());
+		return;
+	}
+
+	writer.write("Camera", camera->get_id());
+}
+
+Bool Minty::CameraComponent::deserialize(Reader& reader)
+{
+	return reader.read_default<Ref<Camera>>(camera) || reader.read("Camera", camera);
+}

@@ -1,3 +1,4 @@
+Priority: -1000000
 Inputs
     push
         Type: PushConstant
@@ -29,6 +30,7 @@ CullMode: None
 FrontFace: Clockwise
 LineWidth: 1
 Transparency: True
+DepthTest: False
 RenderPass: def000000000001c
 Bindings
     0: Vertex

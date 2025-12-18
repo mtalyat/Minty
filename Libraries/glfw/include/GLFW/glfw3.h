@@ -118,7 +118,7 @@ extern "C" {
 /* It is customary to use APIENTRY for OpenGL function pointer declarations on
  * all platforms.  Additionally, the Windows OpenGL header needs APIENTRY.
  */
-#if !defined(APIENTRY)
+#ifndef APIENTRY
  #if defined(_WIN32)
   #define APIENTRY __stdcall
  #else

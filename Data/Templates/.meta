@@ -1,0 +1,15 @@
+.ani.minty,Animation
+.anr.minty,Animator
+.cam.minty,Camera
+.fnt.minty,Font
+.frag,Fragment Shader Module
+.mat.minty,Material
+.mtp.minty,Material Template
+.pre.minty,Prefab
+.rpa.minty,Render Pass
+.rta.minty,Render Target
+.sat.minty,Sprite Atlas
+.sce.minty,Scene
+.sha.minty,Shader
+.spr.minty,Sprite
+.vert,Vertex Shader Module

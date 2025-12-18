@@ -1,0 +1,109 @@
+#include "pch.h"
+#include "Material.h"
+#include "Minty/Render/MaterialInfo.h"
+#include "Minty/Render/MaterialTemplate.h"
+#include "Minty/Render/Shader.h"
+#ifdef MINTY_VULKAN
+#include "Platform/Vulkan/Vulkan_Material.h"
+#endif // MINTY_VULKAN
+
+using namespace Minty;
+
+Minty::Material::Material(MaterialInfo const& info)
+	: Asset(info.id)
+	, m_materialTemplate(info.materialTemplate)
+	, m_cargo(info.values)
+	, m_stencil(0)
+{
+	MINTY_ASSERT(info.materialTemplate != nullptr, ErrorCode::Argument_ExpectedNonNull);
+
+	set_stencil(info.stencil);
+
+	// add self to shader
+	Shared<Shader> const& shader = m_materialTemplate->get_shader();
+	shader->register_material(this);
+}
+
+Minty::Material::~Material()
+{
+	if (m_materialTemplate == nullptr) return;
+
+	// remove self from shader
+	Shared<Shader> const& shader = m_materialTemplate->get_shader();
+	shader->unregister_material(this);
+}
+
+Bool Minty::Material::has_input(String const& name) const
+{
+	// check self
+	if (m_cargo.contains(name))
+	{
+		return true;
+	}
+
+	// check template
+	MINTY_ASSERT(m_materialTemplate != nullptr, ErrorCode::Object_InvalidState);
+	if (m_materialTemplate->has_input(name))
+	{
+		return true;
+	}
+
+	// not found
+	return false;
+}
+
+Object const& Minty::Material::get_input(String const& name) const
+{
+	MINTY_ASSERT_F(has_input(name), ErrorCode::Argument_KeyNotFound, name);
+
+	// check self
+	auto it = m_cargo.find(name);
+	if (it != m_cargo.end())
+	{
+		return it->get_second();
+	}
+
+	// must be in template
+	return m_materialTemplate->get_input(name);
+}
+
+Bool Minty::Material::try_set_input(String const& name, AnyConst const data, Size const size)
+{
+	Shared<Shader> const& shader = m_materialTemplate->get_shader();
+	if (!shader->contains_input(name))
+	{
+		// does not exist
+		return false;
+	}
+
+	// exists
+	set_input(name, data, size);
+	return true;
+}
+
+Bool Minty::Material::get_input(String const& name, Any const data, Size const size) const
+{
+	// if this Material has a value for the input, copy it
+	return false;
+}
+
+void Minty::Material::set_stencil(UInt const stencil)
+{
+	MINTY_ASSERT_F(stencil >= STENCIL_MIN && stencil <= STENCIL_MAX, ErrorCode::Argument_OutOfRange, stencil, STENCIL_MIN, STENCIL_MAX);
+	m_stencil = stencil;
+}
+
+Shared<Material> Minty::Material::create(MaterialInfo const& info)
+{
+#ifdef MINTY_VULKAN
+	return Shared<Vulkan_Material>::create(info);
+#else
+	return Shared<Material>();
+#endif // MINTY_VULKAN
+}
+
+Shared<Material> Minty::Material::create()
+{
+	MaterialInfo info{};
+	return create(info);
+}

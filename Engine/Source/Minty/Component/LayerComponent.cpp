@@ -1,0 +1,33 @@
+#include "pch.h"
+#include "LayerComponent.h"
+#include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/Writer.h"
+#include "Minty/Layer/LayerManager.h"
+
+using namespace Minty;
+
+void Minty::LayerComponent::serialize(Writer& writer) const
+{
+	LayerManager& layerManager = LayerManager::get_singleton();
+
+	// get layer's name
+	writer.write("Layer", layerManager.get_name(layer));
+}
+
+Bool Minty::LayerComponent::deserialize(Reader& reader)
+{
+	// read the name of the layer
+	String layerName;
+	if (reader.read_default(layerName) || reader.read("Layer", layerName))
+	{
+		// get the layer from the name
+		LayerManager& layerManager = LayerManager::get_singleton();
+		layer = layerManager.get_layer(layerName);
+
+		MINTY_ASSERT_F(layer != LAYER_NONE, ErrorCode::Layer_NotFound, layerName);
+
+		return true;
+	}
+
+	return false;
+}

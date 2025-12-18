@@ -1,3 +1,4 @@
+Priority: 0
 Inputs
     camera
         Type: UniformBuffer
@@ -28,8 +29,9 @@ Bindings
         1: Float2
         2: Float2
         3: Float2
-        4: Float
-        5: Matrix4
+        4: Float2
+        5: UInt
+        6: Matrix4
 Stages
     Vertex: def0000000000005
     Fragment: def0000000000004

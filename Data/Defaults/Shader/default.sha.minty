@@ -1,3 +1,4 @@
+Priority: 0
 Inputs
     object
         Type: PushConstant
