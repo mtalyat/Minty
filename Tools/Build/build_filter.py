@@ -28,6 +28,9 @@ WARNING_COLOR = '\033[30;103m'  # Black, Yellow
 NORMAL_COLOR = '\033[30;47m'  # Black, White
 PATH_COLOR = '\033[90;40m'  # Dark Gray, Black
 
+FAIL_COLOR = '\033[30;41m'  # Black, Red Background
+SUCCESS_COLOR = '\033[30;42m'  # Black, Green Background
+
 ERROR_OBJECT = FilterObject(' ERR ', RE_ERROR, LINE_TYPE_ERROR, ERROR_COLOR)    # Black, Red
 WARNING_OBJECT = FilterObject(' WRN ', RE_WARNING, LINE_TYPE_WARNING, WARNING_COLOR)  # Black, Yellow
 
@@ -104,16 +107,25 @@ def main() -> int:
 
         # Print summary to stdout
         
-        sys.stdout.write(f'\n\tBuild Summary:\n')
-        for filter_obj in FILTER_OBJECTS:
-            count = counts.get(filter_obj.line_type, 0)
-            if count > 0:
-                sys.stdout.write(f'{filter_obj.color}{filter_obj.name}{COLOR_RESET}: {count}\n')
-            else:
-                sys.stdout.write(f'{NORMAL_COLOR}{filter_obj.name}{COLOR_RESET}: {count}\n')
+        code = 0
+        if len(counts) > 0 and (len(counts) != 1 or (LINE_TYPE_NORMAL not in counts)):
+            sys.stdout.write(f'\n\tBuild Summary:\n')
+            for filter_obj in sorted(FILTER_OBJECTS, key=lambda fo: fo.line_type):
+                count = counts.get(filter_obj.line_type, 0)
+                if count > 0:
+                    sys.stdout.write(f'{filter_obj.color}{filter_obj.name}{COLOR_RESET}: {count}\n')
+            sys.stdout.write('\n')
+            sys.stdout.flush()
+            code = counts.get(LINE_TYPE_ERROR, 0)
+        
+        if code == 0:
+            sys.stdout.write(f'{SUCCESS_COLOR} SUCCESS {COLOR_RESET}\n')
+        else:
+            sys.stdout.write(f'{FAIL_COLOR} FAIL {COLOR_RESET}\n')
+        
         sys.stdout.flush()
 
-        return counts.get(LINE_TYPE_ERROR, 0)
+        return code
                 
     except KeyboardInterrupt:
         # Handle Ctrl+C gracefully
