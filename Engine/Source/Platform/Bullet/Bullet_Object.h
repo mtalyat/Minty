@@ -1,4 +1,5 @@
 #pragma once
+#include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
 #include "Minty/Library/Bullet.h"
 
@@ -12,5 +13,11 @@ namespace Minty
 
 		// the collider associated with the object (if any)
 		Collider* collider = nullptr;
+
+		// the layer this object is on
+		Layer layerBit = 0;
+
+		// the layer mask (which layers this object can collide with)
+		Layer layerMask = 0;
 	};
 }

@@ -31,7 +31,10 @@ using namespace Minty;
 static void set_rigidbody_values(Entity const entity, EntityManager &entityManager, RigidBody &body)
 {
 	// if there is a parent, base this transform off of the parent's global transform
-	TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
+	TransformComponent const * const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
+	PositionComponent const * const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
+	RotationComponent const * const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
+	TransformComponent const * const parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
 
 	// save previous transform for interpolation
 	PhysicsComponent &physicsComp = entityManager.get_or_add_component<PhysicsComponent>(entity);
@@ -39,18 +42,26 @@ static void set_rigidbody_values(Entity const entity, EntityManager &entityManag
 	// set transform based on Position, Rotation, Scale components if they exist
 	if (parentTransformComp)
 	{
-		if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
+		if(positionComp)
 		{
 			body.set_position(parentTransformComp->transform.get_global_position() + positionComp->position);
+		}
+		else if (transformComp)
+		{
+			body.set_position(parentTransformComp->transform.get_global_position() + transformComp->transform.get_local_position());
 		}
 		else
 		{
 			body.set_position(parentTransformComp->transform.get_global_position());
 		}
 		physicsComp.previousPosition = body.get_position();
-		if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
+		if (rotationComp)
 		{
 			body.set_rotation(parentTransformComp->transform.get_global_rotation() + rotationComp->rotation);
+		}
+		else if (transformComp)
+		{
+			body.set_rotation(parentTransformComp->transform.get_global_rotation() + transformComp->transform.get_local_rotation());
 		}
 		else
 		{
@@ -60,15 +71,23 @@ static void set_rigidbody_values(Entity const entity, EntityManager &entityManag
 	}
 	else
 	{
-		if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
+		if (positionComp)
 		{
 			body.set_position(positionComp->position);
 			physicsComp.previousPosition = positionComp->position;
+		} else if (transformComp)
+		{
+			body.set_position(transformComp->transform.get_local_position());
+			physicsComp.previousPosition = transformComp->transform.get_local_position();
 		}
-		if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
+		if (rotationComp)
 		{
 			body.set_rotation(rotationComp->rotation);
 			physicsComp.previousRotation = rotationComp->rotation;
+		} else if (transformComp)
+		{
+			body.set_rotation(transformComp->transform.get_local_rotation());
+			physicsComp.previousRotation = transformComp->transform.get_local_rotation();
 		}
 	}
 

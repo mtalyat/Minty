@@ -59,6 +59,13 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 	for (int i = 0; i < numManifolds; i++)
 	{
 		btPersistentManifold *const contactManifold = dispatcher->getManifoldByIndexInternal(i);
+		Int const numContacts = contactManifold->getNumContacts();
+
+		// skip if no actual contact points (stale/persistent manifold)
+		if (numContacts == 0)
+		{
+			continue;
+		}
 
 		// get the two collision objects
 		btCollisionObject const *const objA = contactManifold->getBody0();
@@ -79,28 +86,21 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 		MINTY_ASSERT(objectDataB != nullptr, ErrorCode::InvalidUserData);
 		Entity const entityB = objectDataB->entity;
 
-		Int const numContacts = contactManifold->getNumContacts();
+		// check if these objects should collide based on layer masks
+		Layer const layerBitA = objectDataA->layerBit;
+		Layer const layerBitB = objectDataB->layerBit;
+		if ((objectDataA->layerMask & layerBitB) == 0 || (objectDataB->layerMask & layerBitA) == 0)
+		{
+			// these layers should not collide, skip callbacks
+			continue;
+		}
 
 		// TODO: determine how to handle multiple contact points properly
-		Float3 point;
-		Float3 otherPoint;
-		Float3 normal;
-		Float distance;
-		if (numContacts > 0)
-		{
-			btManifoldPoint const &pt = contactManifold->getContactPoint(0);
-			point = Bullet_Physics::to_minty(pt.getPositionWorldOnA());
-			otherPoint = Bullet_Physics::to_minty(pt.getPositionWorldOnB());
-			normal = Bullet_Physics::to_minty(pt.m_normalWorldOnB);
-			distance = pt.getDistance();
-		}
-		else
-		{
-			point = Math::ZERO;
-			otherPoint = Math::ZERO;
-			normal = Math::ZERO;
-			distance = 0.0f;
-		}
+		btManifoldPoint const &pt = contactManifold->getContactPoint(0);
+		Float3 const point = Bullet_Physics::to_minty(pt.getPositionWorldOnA());
+		Float3 const otherPoint = Bullet_Physics::to_minty(pt.getPositionWorldOnB());
+		Float3 const normal = Bullet_Physics::to_minty(pt.m_normalWorldOnB);
+		Float const distance = pt.getDistance();
 
 		// get the collision data
 		CollisionData collisionDataA{};
@@ -206,6 +206,8 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 	MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
 	objectData->entity = entity;
 	objectData->collider = &collider;
+	objectData->layerBit = LayerManager::layer_to_bit(layer);
+	objectData->layerMask = layerMask;
 
 #ifdef MINTY_DEBUG
 
@@ -220,6 +222,8 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 
 void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody &body, Layer const layer, Layer const layerMask)
 {
+	LayerManager &layerManager = LayerManager::get_singleton();
+
 	// get data
 	btRigidBody *const rigidBody = static_cast<btRigidBody *>(body.get_native());
 
@@ -231,6 +235,8 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody
 	MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
 	objectData->entity = entity;
 	objectData->collider = body.get_collider().get();
+	objectData->layerBit = layerManager.layer_to_bit(layer);
+	objectData->layerMask = layerMask;
 
 #ifdef MINTY_DEBUG
 
@@ -294,6 +300,8 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(RigidBody &body)
 	// clear user data
 	objectData->entity = INVALID_ENTITY;
 	objectData->collider = nullptr;
+	objectData->layerBit = 0;
+	objectData->layerMask = 0;
 }
 
 Bool Minty::Bullet_PhysicsSimulation::raycast(Float3 const &origin, Float3 const &direction, RaycastHit &hit, Layer const layer, Layer const layerMask, Float const maxDistance) const

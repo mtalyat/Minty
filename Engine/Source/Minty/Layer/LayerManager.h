@@ -73,7 +73,7 @@ namespace Minty
 		 * @param layerB The second layer to check for collision.
 		 * @return True if a collision is detected between the two layers; otherwise, false.
 		 */
-		Bool check_for_collision(Layer const layerA, Layer const layerB) const;
+		Bool can_collide(Layer const layerA, Layer const layerB) const;
 
 		/**
 		 * @brief Converts the layer index to a bit.
