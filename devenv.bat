@@ -80,7 +80,7 @@ if /i "%4"=="x64" (
 @rem Process each project
 for %%P in (%PROJECTS%) do (
   call :process_project "%%P"
-  if not "%ERRORLEVEL%"=="0" (
+  if not "!ERRORLEVEL!"=="0" (
     goto failure
   )
 )
@@ -116,11 +116,10 @@ if defined BUILD (
   
   rem Generate build files
   @echo Configuring to config.log...
-  cmake .. -A %ARCHITECTURE% > config.log 2>&1
-  @echo Done.
+  cmake .. -A %ARCHITECTURE% 2>&1 > config.log
   
-  if not "%ERRORLEVEL%"=="0" (
-    echo CMake configuration failed!
+  if not "!ERRORLEVEL!"=="0" (
+    echo CMake configuration failed. See config.log for details.
     popd
     popd
     exit /b 1
@@ -128,18 +127,18 @@ if defined BUILD (
   
   rem Build the project
   @echo Building to build.log...
-  cmake --build . --config %CONFIG% > build.log 2>&1
-  @echo Done.
-  
-  if not "%ERRORLEVEL%"=="0" (
-    echo Build failed!
+  @REM cmake --build . --config %CONFIG% > build.log 2>&1
+  cmake --build . --config %CONFIG% 2>&1 | python "%MINTY_PATH%Tools\Build\build_filter.py" build.log
+    
+  if not "!ERRORLEVEL!"=="0" (
+    echo Build failed. See build.log for details.
     popd
     popd
     exit /b 1
   )
   
   if not exist "%CONFIG%" (
-    echo Build failed! %CONFIG% not found.
+    echo Build failed. %CONFIG% not found.
     popd
     popd
     exit /b 1
@@ -158,8 +157,8 @@ if defined BUILD (
   rem Copy built binaries into bin directory (check both paths)
   xcopy "Output\%CONFIG%\*" "Bin\%CONFIG%" /E /Y /I 2>&1 > nul
   
-  if not "%ERRORLEVEL%"=="0" (
-    echo Copying binaries failed!
+  if not "!ERRORLEVEL!"=="0" (
+    echo Copying binaries failed.
     popd
     exit /b 1
   )

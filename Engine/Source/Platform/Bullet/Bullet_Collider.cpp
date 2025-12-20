@@ -180,5 +180,5 @@ void Minty::Bullet_Collider::set_collision_object(btCollisionObject *const objec
         {
             mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
         }
-    }
+    }][]
 }
