@@ -383,9 +383,26 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 #ifdef MINTY_DEBUG
 	// check if this entity is a child of the parent
 	Entity current = parent;
+	Vector<Entity> visited;
+	visited.add(entity);
 	while (current != INVALID_ENTITY)
 	{
-		MINTY_ASSERT(current != entity, ErrorCode::Entity_CyclicRelationship);
+		visited.add(current);
+		if(current == entity)
+		{
+			StringBuilder builder;
+			for (Entity const e : visited)
+			{
+				builder.append(to_string(e));
+				builder.append(", ");
+			}
+			builder.slice(0, builder.get_size() - 2);
+			MINTY_ERROR_F(
+				ErrorCode::Entity_CyclicRelationship,
+				"Cyclic relationship detected when setting parent. Visited entities: {}",
+				builder.to_view());
+			break;
+		}
 		// get the relationship component
 		RelationshipComponent const *temp = m_registry.try_get<RelationshipComponent>(current);
 		if (!temp)
