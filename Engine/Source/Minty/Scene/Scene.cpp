@@ -13,6 +13,7 @@
 #include "Minty/System/SystemManagerInfo.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Entity/EntityManagerInfo.h"
+#include "Minty/Scene/SceneManager.h"
 
 using namespace Minty;
 
@@ -97,6 +98,11 @@ Scene& Minty::Scene::operator=(Scene&& other) noexcept
 	}
 
 	return *this;
+}
+
+Ref<Scene> const &Minty::Scene::get_active()
+{
+	return SceneManager::get_singleton().get_active();
 }
 
 void Minty::Scene::load_assets(Vector<Path> const &newAssets)
