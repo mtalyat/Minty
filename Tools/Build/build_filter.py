@@ -28,8 +28,8 @@ WARNING_COLOR = '\033[30;103m'  # Black, Yellow
 NORMAL_COLOR = '\033[30;47m'  # Black, White
 PATH_COLOR = '\033[90;40m'  # Dark Gray, Black
 
-FAIL_COLOR = '\033[30;41m'  # Black, Red Background
-SUCCESS_COLOR = '\033[30;42m'  # Black, Green Background
+FAIL_COLOR = '\033[97;41m'  # Bright White, Red Background
+SUCCESS_COLOR = '\033[97;42m'  # Bright White, Green Background
 
 ERROR_OBJECT = FilterObject(' ERR ', RE_ERROR, LINE_TYPE_ERROR, ERROR_COLOR)    # Black, Red
 WARNING_OBJECT = FilterObject(' WRN ', RE_WARNING, LINE_TYPE_WARNING, WARNING_COLOR)  # Black, Yellow
@@ -99,7 +99,7 @@ def main() -> int:
                 # Get the information from the error, warning, etc. to print
                 info_text = line[text_match.end():].strip() if text_match else line.strip()
                 info_text = re.sub(fr'[\[\(\<].*?[\]\)\>]', '', info_text).strip()  # Remove anything in brackets
-                info_text += f' [{current_path}{PATH_COLOR}{current_line_numbers}{COLOR_RESET}]' # Append file path with line numbers
+                info_text += f' {PATH_COLOR}[{current_path}{current_line_numbers}]{COLOR_RESET}' # Append file path with line numbers
 
                 # Print to stdout with color coding
                 sys.stdout.write(f'{filter_obj.color}{filter_obj.name}{COLOR_RESET} {info_text}\n')
