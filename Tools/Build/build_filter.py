@@ -98,7 +98,8 @@ def main() -> int:
                             # Print the new file name
                             terminal_width = get_terminal_width()
                             line_name = str(Path(line_path).name)
-                            sys.stdout.write(f'\r    {line_name}{" " * (terminal_width - len(line_name) - 5)}')
+                            spacing = '    '
+                            sys.stdout.write(f'\r{spacing}{line_name}{" " * (terminal_width - len(line_name) - len(spacing))}')
                             current_path = line_path
                             # If not a normal line, add a newline after the file name
                             if line_type != LINE_TYPE_NORMAL:
@@ -130,11 +131,10 @@ def main() -> int:
             sys.stdout.flush()
             code = counts.get(LINE_TYPE_ERROR, 0)
         
-        if code == 0:
-            sys.stdout.write(f'{SUCCESS_COLOR} SUCCESS {COLOR_RESET}\n')
-        else:
-            sys.stdout.write(f'{FAIL_COLOR} FAIL {COLOR_RESET}\n')
-        
+        width = get_terminal_width()
+        text = ' SUCCESS ' if code == 0 else ' FAIL '
+        color = SUCCESS_COLOR if code == 0 else FAIL_COLOR
+        sys.stdout.write(f'\r{color}{text}{COLOR_RESET}{" " * (width - len(text))}\n')
         sys.stdout.flush()
 
         return code
