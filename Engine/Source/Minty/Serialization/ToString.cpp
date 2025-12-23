@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "ToString.h"
 #include "Minty/Data/StringBuilder.h"
+#include "Minty/Entity/EntityManager.h"
+#include "Minty/Scene/Scene.h"
 #include <string>
 #include <sstream>
 
@@ -10,6 +12,19 @@ using namespace Minty;
 #define MINTY_TO_STRING_2(value0, value1) StringBuilder builder; builder.append('('); builder.append(to_string(value0)); builder.append(", "); builder.append(to_string(value1)); builder.append(')'); return builder.to_string()
 #define MINTY_TO_STRING_3(value0, value1, value2) StringBuilder builder; builder.append('('); builder.append(to_string(value0)); builder.append(", "); builder.append(to_string(value1)); builder.append(", "); builder.append(to_string(value2)); builder.append(')'); return builder.to_string()
 #define MINTY_TO_STRING_4(value0, value1, value2, value3) StringBuilder builder; builder.append('('); builder.append(to_string(value0)); builder.append(", "); builder.append(to_string(value1)); builder.append(", "); builder.append(to_string(value2)); builder.append(", "); builder.append(to_string(value3)); builder.append(')'); return builder.to_string()
+
+String Minty::to_string(Entity const entity)
+{
+    Ref<Scene> const& scene = Scene::get_active();
+    if (scene != nullptr)
+    {
+        EntityManager& entityManager = scene->get_entity_manager();
+        return entityManager.to_string(entity);
+    }
+
+    Size const entityValue = static_cast<Size>(entity);
+    return to_string(entityValue);
+}
 
 String Minty::to_string(Bool const value)
 {

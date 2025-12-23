@@ -181,6 +181,12 @@ namespace Minty
 		 */
 		static Shared<Scene> create();
 
+		/**
+		 * @brief Gets the active Scene from the SceneManager.
+		 * @returns A reference to the active Scene.
+		 */
+		static Ref<Scene> const& get_active();
+
 	private:
 		// loads the assets controlled by this Scene
 		void load_assets(Vector<Path> const& newAssets);

@@ -12,23 +12,10 @@
 #include "Minty/Data/String.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Serialization/IsParseable.h"
+#include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
-    template <typename T>
-    std::enable_if_t<is_parseable<T>::value, String>
-    to_string(T const &value)
-    {
-        return value.to_string();
-    }
-
-    template <typename T>
-    std::enable_if_t<!is_parseable<T>::value, String>
-    to_string(T const value)
-    {
-        MINTY_NOT_IMPLEMENTED();
-    }
-
     String to_string(Bool const value);
     String to_string(Bool2 const &value);
     String to_string(Bool3 const &value);
@@ -55,6 +42,21 @@ namespace Minty
     String to_string(Double const value);
     String to_string(String const &value);
     String to_string(StringView const &value);
+    String to_string(Entity const entity);
+
+    template <typename T>
+    std::enable_if_t<is_parseable<T>::value, String>
+    to_string(T const &value)
+    {
+        return value.to_string();
+    }
+
+    template <typename T>
+    std::enable_if_t<!is_parseable<T>::value, String>
+    to_string(T const value)
+    {
+        MINTY_NOT_IMPLEMENTED();
+    }
 }
 
 #endif // MINTY_SERIALIZATION_TOSTRING_H
