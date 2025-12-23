@@ -97,7 +97,12 @@ namespace Minty
 #ifdef MINTY_DEBUG
 // if debugging and using Visual Studio, insert debug break
 #ifdef _MSC_VER
-#define MINTY_BREAK() do { MINTY_LOG_FLUSH(); __debugbreak(); } while(0)
+#define MINTY_BREAK()      \
+    do                     \
+    {                      \
+        MINTY_LOG_FLUSH(); \
+        __debugbreak();    \
+    } while (0)
 #else
 #error "Debug break not implemented for this compiler."
 #endif // _MSC_VER
@@ -109,9 +114,9 @@ namespace Minty
  * @brief Macro to flush the debug output.
  * @note Always active.
  */
-#define MINTY_LOG_FLUSH() \
-    do                  \
-    {                   \
+#define MINTY_LOG_FLUSH()      \
+    do                         \
+    {                          \
         Minty::Debug::flush(); \
     } while (0)
 
@@ -272,7 +277,7 @@ namespace Minty
     do                                                   \
     {                                                    \
         MINTY_LOG_TRACE(Minty::LogLevel::Critical, msg); \
-        MINTY_LOG_FLUSH();                           \
+        MINTY_LOG_FLUSH();                               \
         MINTY_BREAK();                                   \
     } while (0)
 /**
@@ -283,7 +288,7 @@ namespace Minty
     do                                                                     \
     {                                                                      \
         MINTY_LOG_TRACE(Minty::LogLevel::Critical, F(fmt, ##__VA_ARGS__)); \
-        MINTY_LOG_FLUSH();                                             \
+        MINTY_LOG_FLUSH();                                                 \
         MINTY_BREAK();                                                     \
     } while (0)
 
@@ -368,6 +373,7 @@ namespace Minty
     {                                                         \
         Minty::set_error(errorCode);                          \
         MINTY_LOG_ERROR(Minty::get_error_message(errorCode)); \
+        MINTY_BREAK();                                        \
     } while (0)
 /**
  * @brief Macro to log and set a formatted error.
@@ -378,6 +384,7 @@ namespace Minty
     {                                                                             \
         Minty::set_error(errorCode);                                              \
         MINTY_LOG_ERROR_F(F(Minty::get_error_message(errorCode), ##__VA_ARGS__)); \
+        MINTY_BREAK();                                                            \
     } while (0)
 
 #endif // MINTY_DEBUG_DEBUG_H
