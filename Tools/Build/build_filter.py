@@ -1,10 +1,11 @@
 import sys
 import re
 from pathlib import Path
+import shutil
 
 RE_ERROR = r'error(?::| [a-zA-Z]\d+:)'
 RE_WARNING = r'warning(?::| [a-zA-Z]\d+:)'
-RE_FILE_PATH = r'([a-zA-Z]:)?(\\|/)?([\w\-. ]+(\\|/))*[\w\-. ]+\.\w+'
+RE_FILE_PATH = r'^([a-zA-Z]:)?(\\|/)?([\w\-. ]+(\\|/))*[\w\-. ]+\.\w+'
 
 LINE_TYPE_ERROR = 0
 LINE_TYPE_WARNING = 1
@@ -26,6 +27,7 @@ class FilterObject:
 ERROR_COLOR = '\033[30;101m'  # Black, Red
 WARNING_COLOR = '\033[30;103m'  # Black, Yellow
 NORMAL_COLOR = '\033[30;47m'  # Black, White
+INVERTED_COLOR = '\033[37;40m'  # White, Black
 PATH_COLOR = '\033[90;40m'  # Dark Gray, Black
 
 FAIL_COLOR = '\033[97;41m'  # Bright White, Red Background
@@ -45,7 +47,11 @@ def get_line_type(line: str) -> int:
     for filter_obj in FILTER_OBJECTS:
         if filter_obj.pattern.search(line):
             return filter_obj.line_type
-    return LINE_TYPE_NORMAL    
+    return LINE_TYPE_NORMAL
+
+def get_terminal_width() -> int:
+    """Get the width of the terminal."""
+    return shutil.get_terminal_size((80, 20)).columns
 
 def main() -> int:
     """Main function to filter build logs."""
@@ -67,7 +73,7 @@ def main() -> int:
                 # Write all content to log file
                 log.write(line)
                 log.flush()  # Ensure immediate write
-                
+
                 line_type = LINE_TYPE_NORMAL
                 for filter_obj in FILTER_OBJECTS:
                     text_match = filter_obj.pattern.search(line)
@@ -76,25 +82,31 @@ def main() -> int:
                         break
                 counts[line_type] = counts.get(line_type, 0) + 1
 
-                # If it's a normal line, skip further processing
-                if line_type == LINE_TYPE_NORMAL:
-                    continue
-
                 # Get the file path, if any
                 file_match = re.search(RE_FILE_PATH, line)
                 if file_match:
-                    line_path = file_match.group(0)
+                    line_path = file_match.group(0).strip()
 
-                    # Get the line numbers if present
-                    line_numbers_match = re.search(r'^\((\d+)(,\s*\d+)?\)', line[file_match.end():])
-                    if line_numbers_match:
-                        current_line_numbers = line_numbers_match.group(0)
+                    if line_path.endswith('.cpp') or line_path.endswith('.h'):
+                        # Get the line numbers if present
+                        line_numbers_match = re.search(r'^\((\d+)(,\s*\d+)?\)', line[file_match.end():])
+                        if line_numbers_match:
+                            current_line_numbers = line_numbers_match.group(0)
 
-                    # Print the file name if it has changed
-                    if current_path != line_path:
-                        line_name = str(Path(line_path).name)  # Just the file name
-                        sys.stdout.write(f'{'\n' if current_path != '' else ''}\t{line_name}\n')
-                        current_path = line_path
+                        # Print the file name if it has changed
+                        if current_path != line_path:
+                            # Print the new file name
+                            terminal_width = get_terminal_width()
+                            line_name = str(Path(line_path).name)
+                            sys.stdout.write(f'\r    {line_name}{" " * (terminal_width - len(line_name) - 5)}')
+                            current_path = line_path
+                            # If not a normal line, add a newline after the file name
+                            if line_type != LINE_TYPE_NORMAL:
+                                sys.stdout.write('\n')
+
+                # If it's a normal line, skip further processing
+                if line_type == LINE_TYPE_NORMAL:
+                    continue
                 
                 # Get the information from the error, warning, etc. to print
                 info_text = line[text_match.end():].strip() if text_match else line.strip()
@@ -109,7 +121,7 @@ def main() -> int:
         
         code = 0
         if len(counts) > 0 and (len(counts) != 1 or (LINE_TYPE_NORMAL not in counts)):
-            sys.stdout.write(f'\n\tBuild Summary:\n')
+            sys.stdout.write(f'\n\n\t{INVERTED_COLOR}Build Summary:{COLOR_RESET}\n')
             for filter_obj in sorted(FILTER_OBJECTS, key=lambda fo: fo.line_type):
                 count = counts.get(filter_obj.line_type, 0)
                 if count > 0:
