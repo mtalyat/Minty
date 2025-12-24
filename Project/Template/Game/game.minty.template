@@ -1,0 +1,24 @@
+Window
+    Position: (100, 100)
+    Size: (960, 540)
+    Title: <<<NAME>>>
+Memory
+    Frame: 4 * MB
+    Task: (4 * MB, 4)
+Job
+    Threads: 4
+Audio
+Layer
+    Layers
+        None: (0, 0)
+        Default: (1, ~1)
+Physics
+Asset
+    SavePaths: True
+    Wraps
+        - Defaults.wrap
+Input
+Render
+Scene
+    Initial: Assets/game.sce.minty
+Time
