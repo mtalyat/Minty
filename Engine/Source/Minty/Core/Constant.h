@@ -84,7 +84,7 @@ namespace Minty
 	constexpr Char const* EXTENSION_CONTEXT = EXTENSION_MINTY;
 	constexpr Char const* EXTENSION_AUDIO_CLIP_WAV = ".wav";
 	constexpr Char const* EXTENSION_AUDIO_CLIP_MP3 = ".mp3";
-	constexpr Char const* EXTENSION_BITMAP = ".bmp";
+	constexpr Char const* EXTENSION_BMP = ".bmp";
 	constexpr Char const* EXTENSION_CAMERA = ".cam.minty";
 	constexpr Char const* EXTENSION_CSV = ".csv";
 	constexpr Char const* EXTENSION_FONT = ".fnt.minty";

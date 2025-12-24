@@ -1,6 +1,8 @@
 // THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
 
 #include "AddressMode.h"
+#include "Bitmap.h"
+#include "BitmapInfo.h"
 #include "Buffer.h"
 #include "BufferInfo.h"
 #include "BufferUsage.h"

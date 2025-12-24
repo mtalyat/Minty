@@ -1,15 +1,22 @@
-#pragma once
+#ifndef MINTY_ASSET_ASSETTYPE_H
+#define MINTY_ASSET_ASSETTYPE_H
+
+/**
+ * @file AssetType.h
+ * @brief Header file defining the AssetType enum and related functions.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Core/Types.h"
 #include "Minty/Serialization/Parse.h"
 #include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
-	/// <summary>
-	/// Types of Assets that can be loaded into the engine.
-	/// 
-	/// This determines the loading order of the Assets when loading the Scene.
-	/// </summary>
+	/**
+	 * @enum AssetType
+	 * @brief Represents the type of an Asset.
+	 */
 	enum class AssetType
 	{
 		Generic,
@@ -20,6 +27,7 @@ namespace Minty
 		Animation,
 		Animator,
 		Viewport,
+		Bitmap,
 		Image,
 		Texture,
 		Surface,
@@ -47,3 +55,5 @@ namespace Minty
 	template<>
 	inline Bool parse_try<AssetType>(StringView const string, AssetType& value) { return parse_try_asset_type(string, value); }
 }
+
+#endif // MINTY_ASSET_ASSETTYPE_H

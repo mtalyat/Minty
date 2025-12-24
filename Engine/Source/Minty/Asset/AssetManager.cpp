@@ -10,6 +10,7 @@
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/Prefab.h"
 #include "Minty/Library/STB.h"
+#include "Minty/Render/BitmapInfo.h"
 #include "Minty/Render/Font.h"
 #include "Minty/Render/FontVariant.h"
 #include "Minty/Render/Image.h"
@@ -171,6 +172,8 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path, AssetType const 
 	{
 	case AssetType::Generic:
 		return load_generic(path, id);
+	case AssetType::Bitmap:
+		return load_bitmap(path, id);
 	case AssetType::Image:
 		return load_image(path, id);
 	case AssetType::Material:
@@ -213,6 +216,40 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path, AssetType const 
 	}
 }
 
+String Minty::AssetManager::read_type(Path const &path) const
+{
+	if (!exists(path))
+	{
+		// return invalid if no file
+		return "";
+	}
+
+	Path metaPath = Asset::get_meta_path(path);
+	if (!exists(metaPath))
+	{
+		// return invalid if no meta file
+		return "";
+	}
+
+	Vector<String> lines = read_lines(metaPath);
+	if (lines.is_empty())
+	{
+		// return invalid if empty meta file
+		return "";
+	}
+
+	// get type from first line with "Type: "
+	for (String const &line : lines)
+	{
+		if (line.starts_with("Type: "))
+		{
+			return line.sub(6);
+		}
+	}
+
+	return "";
+}
+
 void Minty::AssetManager::frame_update(Timestep const time)
 {
 	MINTY_TRACE_SCOPE();
@@ -224,9 +261,9 @@ void Minty::AssetManager::frame_update(Timestep const time)
 void Minty::AssetManager::sync()
 {
 	MINTY_TRACE_SCOPE();
-	
-	auto const& jobManager = JobManager::get_instance();
-	
+
+	auto const &jobManager = JobManager::get_instance();
+
 	// if no job manager, nothing to wait for, because no jobs can run
 	if (!jobManager)
 	{
@@ -409,7 +446,26 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path)
 	MINTY_ASSERT_F(exists(metaPath), ErrorCode::Asset_MissingMeta, metaPath);
 #endif // MINTY_DEBUG
 
-	AssetType const type = Asset::get_asset_type(path);
+	AssetType type = Asset::get_asset_type(path);
+	// if the asset type is image, get the type from the meta file
+	if (type == AssetType::Image)
+	{
+		String const typeString = read_type(path);
+		if (!typeString.is_empty())
+		{
+			if(!parse_try_asset_type(typeString, type))
+			{
+				MINTY_ERROR(ErrorCode::Serialization_InvalidValue);
+				type = AssetType::Texture;
+			}
+		}
+		else
+		{
+			// default to texture
+			type = AssetType::Texture;
+		}
+	}
+
 	Shared<Asset> const asset = load_asset(path, type);
 	MINTY_LOG_DEBUG_F("Loaded Asset: ID={}, Type={}, Path={}", asset->get_id(), to_string(type), path.to_string());
 	return asset;
@@ -467,7 +523,7 @@ void Minty::AssetManager::reload(UUID const id)
 	Path path = get_asset_path(id);
 
 	// get the asset
-	Shared<Asset> const& asset = get_asset(id);
+	Shared<Asset> const &asset = get_asset(id);
 
 	// open the file
 	Reader *reader = nullptr;
@@ -543,7 +599,7 @@ Ref<Asset> Minty::AssetManager::get_asset_ref(UUID const id) const
 
 Shared<Asset> Minty::AssetManager::get_asset(UUID const id) const
 {
-    std::unique_lock lock(m_assetsMutex);
+	std::unique_lock lock(m_assetsMutex);
 
 	// find the asset
 	auto it = m_assets.find(id);
@@ -564,9 +620,9 @@ Ref<Asset> Minty::AssetManager::at_asset_ref(UUID const id) const
 	return at_asset(id).to_ref();
 }
 
-Shared<Asset> const& Minty::AssetManager::at_asset(UUID const id) const
+Shared<Asset> const &Minty::AssetManager::at_asset(UUID const id) const
 {
-    std::unique_lock lock(m_assetsMutex);
+	std::unique_lock lock(m_assetsMutex);
 	MINTY_ASSERT_F(contains(id), ErrorCode::Asset_NotLoaded, id);
 	return m_assets.at(id).asset;
 }
@@ -1051,6 +1107,18 @@ Shared<AudioClip> Minty::AssetManager::load_audio_clip(Path const &path, UUID co
 	}
 
 	return create_from_loaded<AudioClip>(path, info);
+}
+
+Shared<Bitmap> Minty::AssetManager::load_bitmap(Path const &path, UUID const id)
+{
+	// create info
+	BitmapInfo info{};
+	info.id = id;
+
+	// read values from the file
+	info.data = Bitmap::load(path, info.width, info.height, info.channels);
+
+	return create_from_loaded<Bitmap>(path, info);
 }
 
 Shared<Camera> Minty::AssetManager::load_camera(Path const &path, UUID const id)
@@ -2051,14 +2119,14 @@ Unique<AssetManager> Minty::AssetManager::create()
 	return create(info);
 }
 
-AssetManager& Minty::AssetManager::get_singleton()
+AssetManager &Minty::AssetManager::get_singleton()
 {
-	Unique<AssetManager> const& instance = Application::get_singleton().get_asset_manager();
+	Unique<AssetManager> const &instance = Application::get_singleton().get_asset_manager();
 	MINTY_ASSERT(instance, ErrorCode::Application_AssetManagerNotInitialized);
 	return *instance;
 }
 
-Unique<AssetManager> const& Minty::AssetManager::get_instance()
+Unique<AssetManager> const &Minty::AssetManager::get_instance()
 {
 	return Application::get_singleton().get_asset_manager();
 }

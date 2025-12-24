@@ -14,6 +14,7 @@ String Minty::to_string(AssetType const obj)
 	case AssetType::Animation: return "Animation";
 	case AssetType::Animator: return "Animator";
 	case AssetType::Viewport: return "Viewport";
+	case AssetType::Bitmap: return "Bitmap";
 	case AssetType::Image: return "Image";
 	case AssetType::Texture: return "Texture";
 	case AssetType::Surface: return "Surface";
@@ -45,6 +46,7 @@ AssetType Minty::parse_to_asset_type(String const& string)
 	if (string == "Animation") return AssetType::Animation;
 	if (string == "Animator") return AssetType::Animator;
 	if (string == "Viewport") return AssetType::Viewport;
+	if (string == "Bitmap") return AssetType::Bitmap;
 	if (string == "Image") return AssetType::Image;
 	if (string == "Texture") return AssetType::Texture;
 	if (string == "Surface") return AssetType::Surface;

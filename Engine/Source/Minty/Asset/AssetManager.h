@@ -16,6 +16,7 @@
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/Animator.h"
 #include "Minty/Audio/AudioClip.h"
+#include "Minty/Render/Bitmap.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/Font.h"
 #include "Minty/Render/FontVariant.h"
@@ -94,6 +95,13 @@ namespace Minty
 		 * @return The UUID stored within the Asset's meta file.
 		 */
 		UUID read_id(Path const& path) const;
+
+		/**
+		 * @brief Reads the Asset type from the corresponding meta file for the given path to an Asset.
+		 * @param path The path to the Asset.
+		 * @return The AssetType stored within the Asset's meta file.
+		 */
+		String read_type(Path const& path) const;
 
 		/**
 		 * @brief Called every frame.
@@ -219,6 +227,17 @@ namespace Minty
 		inline Shared<AudioClip> load<AudioClip>(Path const& path)
 		{
 			return load_audio_clip(path, read_id(path));
+		}
+
+		/**
+		 * @brief Loads the Asset specifically as a Bitmap at the given Path.
+		 * @param path The Path to the Bitmap Asset.
+		 * @return A reference to the loaded Bitmap Asset.
+		 */
+		template<>
+		inline Shared<Bitmap> load<Bitmap>(Path const& path)
+		{
+			return load_bitmap(path, read_id(path));
 		}
 
 		/**
@@ -694,6 +713,8 @@ namespace Minty
 		Shared<Animator> load_animator(Path const& path, UUID const id);
 
 		Shared<AudioClip> load_audio_clip(Path const& path, UUID const id);
+
+		Shared<Bitmap> load_bitmap(Path const& path, UUID const id);
 
 		Shared<Camera> load_camera(Path const& path, UUID const id);
 
