@@ -1,4 +1,9 @@
 import os
+import sys
+from pathlib import Path
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+from Util import command
 
 def set_environment_variable(key: str, value: str, permanent: bool) -> None:
     """
@@ -11,9 +16,9 @@ def set_environment_variable(key: str, value: str, permanent: bool) -> None:
     if permanent:
         if os.name == 'nt':
             # Windows
-            import winreg
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment', 0, winreg.KEY_SET_VALUE) as env_key:
-                winreg.SetValueEx(env_key, key, 0, winreg.REG_SZ, value)
+            command.run_command(f'setx {key} "{value}"') # /m for system-wide
+        else:
+            print("Permanent environment variable setting is not implemented for this OS.")
     os.environ[key] = value
 
 def get_environment_variable(key: str, permanent: bool) -> str | None:
@@ -29,11 +34,9 @@ def get_environment_variable(key: str, permanent: bool) -> str | None:
     if permanent:
         if os.name == 'nt':
             # Windows
-            import winreg
-            try:
-                with winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Environment', 0, winreg.KEY_READ) as env_key:
-                    value, _ = winreg.QueryValueEx(env_key, key)
-                    return value
-            except FileNotFoundError:
-                return None
+            _, value = command.run_command(f'reg query "HKCU\\Environment" /v {key}')
+            if value:
+                return value.split()[-1]
+        else:
+            print("Permanent environment variable setting is not implemented for this OS.")
     return os.environ.get(key)
