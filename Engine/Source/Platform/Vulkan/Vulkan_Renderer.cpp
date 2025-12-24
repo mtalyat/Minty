@@ -643,7 +643,7 @@ uint32_t Minty::Vulkan_Renderer::find_memory_type(VkPhysicalDevice const physica
 		}
 	}
 
-	MINTY_ABORT(ErrorCode::Render_QueryFailed); // "Failed to find_first suitable memory type."
+	MINTY_ABORT(ErrorCode::Render_QueryFailed); // "Failed to find suitable memory type."
 }
 
 VkDeviceMemory Minty::Vulkan_Renderer::allocate_memory(VkDevice const device, VkDeviceSize const size, const uint32_t memoryTypeIndex)
