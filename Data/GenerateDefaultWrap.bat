@@ -1,7 +1,7 @@
 @echo off
 
 :: Path to the Wrapper exeutable
-set "WRAPPER=%~dp0../Wrapper/Source/x64/Debug/Wrapper.exe"
+set "WRAPPER=%~dp0..\Wrapper\Build\Bin\Release\Wrapper.exe"
 
 :: Path to shader compiler
 set "SHADER_COMPILER=glsLangValidator"
@@ -31,9 +31,10 @@ if exist "%~dp0Defaults.wrap" (
     %WRAPPER% wrap %~dp0Defaults -b Defaults
 )
 
-if %ERRORLEVEL% equ 0 (
+if %ERRORLEVEL%==0 (
     :: Copy the generated wrap file to other directories
-    copy /Y "%~dp0Defaults.wrap" "%~dp0../Minty/Test/Assets/test.wrap" >nul
+    echo.
+    copy /Y "%~dp0Defaults.wrap" "%~dp0..\Project\Template\Game\Defaults.wrap"
 ) else (
     echo Failed to generate Defaults.wrap
     exit /b %ERRORLEVEL%
