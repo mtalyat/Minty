@@ -343,14 +343,14 @@ namespace Minty
         }                                                                             \
     } while (0)
 #else
-#define MINTY_ASSERT_F(condition, errorCode)
+#define MINTY_ASSERT(condition, errorCode)
 #define MINTY_ASSERT_F(condition, errorCode, ...)
 #endif
 
 #ifdef MINTY_DEBUG
 /**
  * @brief Macro to indicate a not implemented code path.
- * @note Only active in debug builds.
+ * @note Always active.
  */
 #define MINTY_NOT_IMPLEMENTED()                                                         \
     do                                                                                  \
@@ -361,7 +361,17 @@ namespace Minty
         std::abort();                                                                   \
     } while (0)
 #else
-#define MINTY_NOT_IMPLEMENTED()
+/**
+ * @brief Macro to indicate a not implemented code path.
+ * @note Always active.
+ */
+#define MINTY_NOT_IMPLEMENTED()                                                         \
+    do                                                                                  \
+    {                                                                                   \
+        Minty::set_error(Minty::ErrorCode::NotImplemented);                             \
+        MINTY_LOG_CRITICAL(Minty::get_error_message(Minty::ErrorCode::NotImplemented)); \
+        std::abort();                                                                   \
+    } while (0)
 #endif
 
 /**
