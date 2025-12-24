@@ -82,7 +82,8 @@ def main() -> int:
         start_time = time.time()
 
         # Verify project path exists
-        project_path = Path(project).resolve()
+        project_path = Path(original_cwd) / project
+        project_path = project_path.resolve()
         if not project_path.exists() or not project_path.is_dir():
             print(f'  Error: Project path {project_path} does not exist or is not a directory.')
             continue

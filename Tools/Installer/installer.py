@@ -1,7 +1,7 @@
 import sys
 import argparse
 from pathlib import Path
-sys.path.append(str(Path(__file__).parent / "Util"))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from Util import environment
 
 def main() -> int:
