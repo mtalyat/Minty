@@ -226,7 +226,7 @@ namespace Minty
 				},
 				.defaultPriority = priority};
 
-			s_registeredSystems.add(name, typeid(T), info);
+			s_registeredSystems.add(name, typeid(T), std::move(info));
 		}
 
 		/**

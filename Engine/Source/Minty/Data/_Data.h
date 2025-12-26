@@ -3,8 +3,6 @@
 #include "Array.h"
 #include "Batch.h"
 #include "BatchFactory.h"
-#include "Box.h"
-#include "BoxArray.h"
 #include "BufferContainer.h"
 #include "BufferContainerFactory.h"
 #include "Cargo.h"

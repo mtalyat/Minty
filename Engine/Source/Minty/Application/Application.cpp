@@ -137,6 +137,9 @@ Minty::Application::~Application()
 
 	unregister_systems();
 	unregister_components();
+	
+	// flush any remaining logs
+	Debug::flush();
 
 	s_instance = nullptr;
 }
@@ -252,15 +255,6 @@ Unique<Application> Minty::Application::open(Path const &path)
 			stackInfo.capacity = tempFrame;
 			stackInfos.add(stackInfo);
 			memoryManagerInfo.frameStackInfo = &stackInfos.back();
-		}
-		ULong2 tempTask;
-		if (reader.read("Task", tempTask))
-		{
-			MemoryStackInfo stackInfo{};
-			stackInfo.capacity = tempTask.x;
-			memoryManagerInfo.taskStackCount = tempTask.y;
-			stackInfos.add(stackInfo);
-			memoryManagerInfo.taskStackInfo = &stackInfos.back();
 		}
 		Vector<ULong2> tempPersistent;
 		if (reader.read("Persistent", tempPersistent))
@@ -403,6 +397,10 @@ void Minty::Application::render()
 void Minty::Application::process_events()
 {
 	m_window->process_events();
+}
+
+void Minty::Application::advance_memory()
+{
 }
 
 void Minty::Application::sync()

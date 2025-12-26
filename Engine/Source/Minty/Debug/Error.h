@@ -30,6 +30,7 @@ namespace Minty
         Memory_AllocationFailed,
         Memory_DeallocationFailed,
         Memory_AllocatorNotInitialized,
+        Memory_AllocatorAlreadyInitialized,
         Memory_NoSuitableAllocatorFound,
         Memory_AllocatorMismatch,
         Memory_WeakLeakDetected,

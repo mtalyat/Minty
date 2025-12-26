@@ -762,7 +762,7 @@ namespace Minty
 					entityManager.remove_component<T>(entity);
 				}};
 
-			s_registeredComponents.add(name, typeid(T), info);
+			s_registeredComponents.add(name, typeid(T), std::move(info));
 		}
 
 		/**

@@ -76,6 +76,13 @@ namespace Minty
          */
         void flush();
 
+        /**
+         * @brief Prints a log message directly without queuing.
+         * @param level The log level.
+         * @param message The message to print.
+         */
+        static void print(LogLevel const level, StringView const message);
+
     private:
         void worker_thread();
         void process_log_entry(LogEntry const& entry);
@@ -89,7 +96,7 @@ namespace Minty
         Queue<LogEntry> m_logQueue;
         std::mutex m_queueMutex;
         std::condition_variable m_queueCondition;
-        std::atomic<bool> m_isRunning;
+        std::atomic<Bool> m_isRunning;
         std::thread m_workerThread;
 
 #pragma endregion

@@ -26,7 +26,7 @@ Minty::StringBuilder::~StringBuilder()
 {
     if (mp_data)
     {
-        DefaultAllocator::deallocate(static_cast<Any>(mp_data));
+        DefaultAllocator<Char>().deallocate(mp_data);
     }
 }
 
@@ -39,13 +39,12 @@ void Minty::StringBuilder::reserve(Size const newCapacity)
     }
 
     // Allocate new memory and copy existing data
-    Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (newCapacity + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed);
-    Char *const newData = static_cast<Char *>(ptr);
+    Char *const newData = DefaultAllocator<Char>().allocate(newCapacity + 1);
+    MINTY_ASSERT(newData != nullptr, ErrorCode::Memory_AllocationFailed);
     if (mp_data)
     {
         std::memcpy(newData, mp_data, m_size * sizeof(Char));
-        DefaultAllocator::deallocate(static_cast<Any>(mp_data));
+        DefaultAllocator<Char>().deallocate(mp_data);
     }
     mp_data = newData;
     m_capacity = newCapacity;

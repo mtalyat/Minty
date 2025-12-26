@@ -17,8 +17,9 @@ namespace Minty
 	/**
 	 * @brief A Set is a collection of unique keys, stored in a hash table.
 	 * @tparam T The type of the keys.
+	 * @tparam AllocatorType The allocator type to use for memory management.
 	 */
-	template<typename T, typename Allocator = DefaultAllocator>
+	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class Set
 	{
 #pragma region Types
@@ -41,6 +42,9 @@ namespace Minty
 			{
 			}
 		};
+
+		using Allocator = AllocatorType<Node>;
+		using AllocatorList = AllocatorType<Node*>;
 
 #pragma endregion
 
@@ -306,7 +310,7 @@ namespace Minty
 		Set(Set const& other)
 			: m_capacity(other.m_capacity)
 			, m_size(other.m_size)
-			, mp_table(Allocator::template construct_array<Node*>(m_capacity))
+			, mp_table(AllocatorList().construct_array(m_capacity))
 		{
 			for (Size i = 0; i < m_capacity; ++i)
 			{
@@ -314,7 +318,7 @@ namespace Minty
 				Node* prev = nullptr;
 				while (node)
 				{
-					Node* newNode = Allocator::template construct<Node>(node->key);
+					Node* newNode = Allocator().construct(node->key);
 					if (prev)
 					{
 						prev->next = newNode;
@@ -348,7 +352,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
+				AllocatorList().destruct_array(mp_table, m_capacity);
 			}
 		}
 
@@ -364,14 +368,14 @@ namespace Minty
 				clear();
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_table = Allocator::template construct_array<Node*>(m_capacity);
+				mp_table = AllocatorList().construct_array(m_capacity);
 				for (Size i = 0; i < m_capacity; ++i)
 				{
 					Node* node = other.mp_table[i];
 					Node* prev = nullptr;
 					while (node)
 					{
-						Node* newNode = Allocator::template construct<Node>(node->key);
+						Node* newNode = Allocator().construct(node->key);
 						if (prev)
 						{
 							prev->next = newNode;
@@ -443,7 +447,7 @@ namespace Minty
 				return;
 			}
 
-			Node** newTable = Allocator::template construct_array<Node*>(capacity);
+			Node** newTable = AllocatorList().construct_array(capacity);
 			if (m_capacity > 0)
 			{
 				for (Size i = 0; i < m_capacity; ++i)
@@ -458,7 +462,7 @@ namespace Minty
 						node = next;
 					}
 				}
-				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
+				AllocatorList().destruct_array(mp_table, m_capacity);
 			}
 			mp_table = newTable;
 			m_capacity = capacity;
@@ -484,7 +488,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = Allocator::template construct<Node>(key);
+			Node* node = Allocator().construct(key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -514,7 +518,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = Allocator::template construct<Node>(key);
+			Node* node = Allocator().construct(key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -550,7 +554,7 @@ namespace Minty
 					{
 						mp_table[index] = node->next;
 					}
-					Allocator::template destruct<Node>(node);
+					Allocator().destruct(node);
 					--m_size;
 					return true;
 				}
@@ -632,7 +636,7 @@ namespace Minty
 					{
 						Node* temp = node;
 						node = node->next;
-						Allocator::template destruct<Node>(temp);
+						Allocator().destruct(temp);
 					}
 					mp_table[i] = nullptr;
 				}

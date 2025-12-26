@@ -41,18 +41,26 @@ namespace Minty
         }
     };
 
-    template<typename T, typename Allocator>
+    template<typename T, template<typename> class AllocatorType>
     class Shared;
 
     /**
      * @class Ref
      * @brief A simple implementation of a reference-counted pointer.
      * @tparam T The type of the object being managed.
-     * @tparam Allocator The allocator type used for memory management.
+     * @tparam AllocatorType The allocator type used for memory management.
      */
-    template <typename T, typename Allocator = DefaultAllocator>
+    template <typename T, template<typename> class AllocatorType = DefaultAllocator>
     class Ref
     {
+#pragma region Types
+
+    private:
+        using Allocator = AllocatorType<T>;
+        using AllocatorCounter = AllocatorType<PointerCounter>;
+
+#pragma endregion
+
 #pragma region Constructors
 
     public:
@@ -81,7 +89,7 @@ namespace Minty
          * @param other The other Ref pointer to copy from.
          */
         template <typename U>
-        Ref(Ref<U, Allocator> const &other)
+        Ref(Ref<U, AllocatorType> const &other)
             : mp_ptr(static_cast<T *>(other.get())), mp_counter(other.get_counter())
         {
             if (mp_counter)
@@ -95,7 +103,7 @@ namespace Minty
          * @param other The other Ref pointer to move from.
          */
         template <typename U>
-        Ref(Ref<U, Allocator> &&other)
+        Ref(Ref<U, AllocatorType> &&other)
             : mp_ptr(static_cast<T *>(other.get())), mp_counter(other.get_counter())
         {
             other.clear();
@@ -229,7 +237,7 @@ namespace Minty
                 --mp_counter->weakCount;
                 if (mp_counter->strongCount == 0 && mp_counter->weakCount == 0)
                 {
-                    Allocator::template destruct<PointerCounter>(mp_counter);
+                    AllocatorCounter().destruct(mp_counter);
                 }
                 clear();
             }
@@ -250,18 +258,18 @@ namespace Minty
          * @tparam U The target type to cast to.
          */
         template <typename U>
-        Ref<U, Allocator> cast() const
+        Ref<U, AllocatorType> cast() const
         {
-            return Ref<U, Allocator>(static_cast<U *>(mp_ptr), mp_counter);
+            return Ref<U, AllocatorType>(static_cast<U *>(mp_ptr), mp_counter);
         }
 
         /**
          * @brief Converts the Ref pointer to a Shared pointer.
          * @return A Shared pointer managing the same object.
          */
-        Shared<T, Allocator> to_shared() const
+        Shared<T, AllocatorType> to_shared() const
         {
-            return Shared<T, Allocator>(mp_ptr, mp_counter);
+            return Shared<T, AllocatorType>(mp_ptr, mp_counter);
         }
 
 #pragma endregion
@@ -279,11 +287,19 @@ namespace Minty
      * @class Shared
      * @brief A simple implementation of a shared pointer.
      * @tparam T The type of the object being managed.
-     * @tparam Allocator The allocator type used for memory management.
+     * @tparam AllocatorType The allocator type used for memory management.
      */
-    template <typename T, typename Allocator = DefaultAllocator>
+    template <typename T, template<typename> class AllocatorType = DefaultAllocator>
     class Shared
     {
+#pragma region Types
+
+    private:
+        using Allocator = AllocatorType<T>;
+        using AllocatorCounter = AllocatorType<PointerCounter>;
+
+#pragma endregion
+
 #pragma region Constructors
 
     public:
@@ -312,7 +328,7 @@ namespace Minty
         {
             if (ptr)
             {
-                mp_counter = Allocator::template construct<PointerCounter>(1, 0);
+                mp_counter = AllocatorCounter().construct(1, 0);
             }
         }
 
@@ -331,7 +347,7 @@ namespace Minty
             }
             else
             {
-                mp_counter = Allocator::template construct<PointerCounter>(1, 0);
+                mp_counter = AllocatorCounter().construct(1, 0);
             }
         }
 
@@ -340,7 +356,7 @@ namespace Minty
          * @param other The other Shared pointer to copy from.
          */
         template <typename U>
-        Shared(Shared<U, Allocator> const &other)
+        Shared(Shared<U, AllocatorType> const &other)
             : mp_ptr(static_cast<T *>(other.get())), mp_counter(other.get_counter())
         {
             if (mp_counter)
@@ -354,7 +370,7 @@ namespace Minty
          * @param other The other Shared pointer to move from.
          */
         template <typename U>
-        Shared(Shared<U, Allocator> &&other)
+        Shared(Shared<U, AllocatorType> &&other)
             : mp_ptr(static_cast<T *>(other.get())), mp_counter(other.get_counter())
         {
             other.clear();
@@ -474,10 +490,10 @@ namespace Minty
                 --mp_counter->strongCount;
                 if (mp_counter->strongCount == 0)
                 {
-                    Allocator::template destruct<T>(mp_ptr);
+                    Allocator().destruct(mp_ptr);
                     if (mp_counter->weakCount == 0)
                     {
-                        Allocator::template destruct<PointerCounter>(mp_counter);
+                        AllocatorCounter().destruct(mp_counter);
                     }
                 }
                 clear();
@@ -499,18 +515,18 @@ namespace Minty
          * @tparam U The target type to cast to.
          */
         template <typename U>
-        Shared<U, Allocator> cast() const
+        Shared<U, AllocatorType> cast() const
         {
-            return Shared<U, Allocator>(static_cast<U *>(mp_ptr), mp_counter);
+            return Shared<U, AllocatorType>(static_cast<U *>(mp_ptr), mp_counter);
         }
 
         /**
          * @brief Converts the Shared pointer to a Ref pointer.
          * @return A Ref pointer managing the same object.
          */
-        Ref<T, Allocator> to_ref() const
+        Ref<T, AllocatorType> to_ref() const
         {
-            return Ref<T, Allocator>(mp_ptr, mp_counter);
+            return Ref<T, AllocatorType>(mp_ptr, mp_counter);
         }
 
         /**
@@ -520,9 +536,9 @@ namespace Minty
          * @return A Shared pointer managing the newly constructed object.
          */
         template <typename... Args>
-        static Shared<T, Allocator> create(Args &&...args)
+        static Shared<T, AllocatorType> create(Args &&...args)
         {
-            return Shared<T, Allocator>(Allocator::template construct<T>(std::forward<Args>(args)...));
+            return Shared<T, AllocatorType>(Allocator().construct(std::forward<Args>(args)...));
         }
 
 #pragma endregion
@@ -552,7 +568,7 @@ namespace Minty
          * @brief Creates a Source object.
          */
         Source()
-            : mp_counter(DefaultAllocator::construct<PointerCounter>(1, 0))
+            : mp_counter(DefaultAllocator<PointerCounter>().construct(1, 0))
         {}
 
         ~Source()
@@ -560,7 +576,7 @@ namespace Minty
             --mp_counter->strongCount;
             if (mp_counter->strongCount == 0 && mp_counter->weakCount == 0)
             {
-                DefaultAllocator::destruct(mp_counter);
+                DefaultAllocator<PointerCounter>().destruct(mp_counter);
                 mp_counter = nullptr;
             }
         }
@@ -614,11 +630,18 @@ namespace Minty
      * @class Unique
      * @brief A simple implementation of a unique pointer.
      * @tparam T The type of the object being managed.
-     * @tparam Allocator The allocator type used for memory management.
+     * @tparam AllocatorType The allocator type used for memory management.
      */
-    template <typename T, typename Allocator = DefaultAllocator>
+    template <typename T, template<typename> class AllocatorType = DefaultAllocator>
     class Unique
     {
+#pragma region Types
+
+    private:
+        using Allocator = AllocatorType<T>;
+
+#pragma endregion
+
 #pragma region Constructors
 
     public:
@@ -652,7 +675,7 @@ namespace Minty
          * @tparam U The type of the other Unique pointer.
          */
         template <typename U>
-        Unique(Unique<U, Allocator> &&other)
+        Unique(Unique<U, AllocatorType> &&other)
             : mp_ptr(static_cast<T *>(other.get()))
         {
             other.clear();
@@ -672,7 +695,7 @@ namespace Minty
         {
             if (mp_ptr)
             {
-                Allocator::template destruct<T>(mp_ptr);
+                Allocator().destruct(mp_ptr);
             }
         }
 
@@ -687,7 +710,7 @@ namespace Minty
         {
             if (this != &other)
             {
-                Allocator::template destruct<T>(mp_ptr);
+                Allocator().destruct(mp_ptr);
                 mp_ptr = other.mp_ptr;
                 other.mp_ptr = nullptr;
             }
@@ -697,7 +720,7 @@ namespace Minty
         {
             if (mp_ptr != other)
             {
-                Allocator::template destruct<T>(mp_ptr);
+                Allocator().destruct(mp_ptr);
                 mp_ptr = other;
             }
             return *this;
@@ -749,7 +772,7 @@ namespace Minty
         {
             if (mp_ptr)
             {
-                Allocator::template destruct<T>(mp_ptr);
+                Allocator().destruct(mp_ptr);
                 clear();
             }
         }
@@ -768,18 +791,18 @@ namespace Minty
          * @tparam U The target type to cast to.
          */
         template <typename U>
-        Unique<U, Allocator> cast() const
+        Unique<U, AllocatorType> cast() const
         {
-            return Unique<U, Allocator>(static_cast<U *>(mp_ptr));
+            return Unique<U, AllocatorType>(static_cast<U *>(mp_ptr));
         }
 
         /**
          * @brief Converts the Unique pointer to a Shared pointer.
          * @return A Shared pointer managing the same object.
          */
-        Shared<T, Allocator> to_shared()
+        Shared<T, AllocatorType> to_shared()
         {
-            Shared<T, Allocator> shared(mp_ptr);
+            Shared<T, AllocatorType> shared(mp_ptr);
             mp_ptr = nullptr;
             return shared;
         }
@@ -791,9 +814,9 @@ namespace Minty
          * @return A Unique pointer managing the newly constructed object.
          */
         template <typename... Args>
-        static Unique<T, Allocator> create(Args &&...args)
+        static Unique<T, AllocatorType> create(Args &&...args)
         {
-            return Unique<T, Allocator>(Allocator::template construct<T>(std::forward<Args>(args)...));
+            return Unique<T, AllocatorType>(Allocator().construct(std::forward<Args>(args)...));
         }
 
 #pragma endregion
@@ -810,28 +833,28 @@ namespace Minty
 // std::hash specializations for Minty pointer types
 namespace std
 {
-    template <typename T, typename Allocator>
-    struct hash<Minty::Ref<T, Allocator>>
+    template <typename T, template<typename> class AllocatorType>
+    struct hash<Minty::Ref<T, AllocatorType>>
     {
-        size_t operator()(const Minty::Ref<T, Allocator>& ref) const noexcept
+        size_t operator()(const Minty::Ref<T, AllocatorType>& ref) const noexcept
         {
             return hash<T*>{}(ref.get());
         }
     };
 
-    template <typename T, typename Allocator>
-    struct hash<Minty::Shared<T, Allocator>>
+    template <typename T, template<typename> class AllocatorType>
+    struct hash<Minty::Shared<T, AllocatorType>>
     {
-        size_t operator()(const Minty::Shared<T, Allocator>& shared) const noexcept
+        size_t operator()(const Minty::Shared<T, AllocatorType>& shared) const noexcept
         {
             return hash<T*>{}(shared.get());
         }
     };
 
-    template <typename T, typename Allocator>
-    struct hash<Minty::Unique<T, Allocator>>
+    template <typename T, template<typename> class AllocatorType>
+    struct hash<Minty::Unique<T, AllocatorType>>
     {
-        size_t operator()(const Minty::Unique<T, Allocator>& unique) const noexcept
+        size_t operator()(const Minty::Unique<T, AllocatorType>& unique) const noexcept
         {
             return hash<T*>{}(unique.get());
         }

@@ -16,6 +16,8 @@
 
 namespace Minty
 {
+    class Logger;
+
     /**
      * @class Debug
      * @brief Class providing debug utilities such as logging and error handling.
@@ -50,6 +52,17 @@ namespace Minty
 #pragma region Methods
 
     public:
+        /**
+         * @brief Initializes the debug system with the specified flags.
+         * @param flags The DebugFlags to initialize with.
+         */
+        static void initialize(DebugFlags const flags);
+
+        /**
+         * @brief Disposes of the debug system.
+         */
+        static void dispose();
+
         /**
          * @brief Logs a message with the specified log level.
          * @param level The log level.
@@ -89,6 +102,7 @@ namespace Minty
 
     private:
         static DebugFlags s_flags;
+        static Logger *sp_logger;
 
 #pragma endregion
     };
@@ -277,7 +291,6 @@ namespace Minty
     do                                                   \
     {                                                    \
         MINTY_LOG_TRACE(Minty::LogLevel::Critical, msg); \
-        MINTY_LOG_FLUSH();                               \
         MINTY_BREAK();                                   \
     } while (0)
 /**
@@ -288,7 +301,6 @@ namespace Minty
     do                                                                     \
     {                                                                      \
         MINTY_LOG_TRACE(Minty::LogLevel::Critical, F(fmt, ##__VA_ARGS__)); \
-        MINTY_LOG_FLUSH();                                                 \
         MINTY_BREAK();                                                     \
     } while (0)
 
@@ -383,7 +395,6 @@ namespace Minty
     {                                                         \
         Minty::set_error(errorCode);                          \
         MINTY_LOG_ERROR(Minty::get_error_message(errorCode)); \
-        MINTY_BREAK();                                        \
     } while (0)
 /**
  * @brief Macro to log and set a formatted error.
@@ -394,7 +405,32 @@ namespace Minty
     {                                                                             \
         Minty::set_error(errorCode);                                              \
         MINTY_LOG_ERROR_F(F(Minty::get_error_message(errorCode), ##__VA_ARGS__)); \
-        MINTY_BREAK();                                                            \
     } while (0)
 
+/**
+ * @brief Macro to check a condition and log an error if it fails.
+ * @note Always active.
+ */
+#define MINTY_CHECK(condition, errorCode) \
+do \
+{\
+    if (!(condition)) \
+    { \
+        MINTY_ERROR(errorCode); \
+    } \
+} while(0)
+
+/**
+ * @brief Macro to check a condition and log an error if it fails.
+ * @note Always active.
+ */
+#define MINTY_CHECK_F(condition, errorCode, ...) \
+do \
+{\
+    if (!(condition)) \
+    { \
+        MINTY_ERROR_F(errorCode, ##__VA_ARGS__); \
+    } \
+} while(0)
+    
 #endif // MINTY_DEBUG_DEBUG_H

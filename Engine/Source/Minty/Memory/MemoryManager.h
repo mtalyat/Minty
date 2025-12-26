@@ -4,7 +4,6 @@
 #include "Minty/Core/Macro.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Memory/AllocatorType.h"
 
 namespace Minty
 {
@@ -53,73 +52,6 @@ namespace Minty
 		void frame_update(Timestep const time) override;
 
 		/**
-		 * @brief Allocates memory using the given allocator.
-		 * @param allocator The allocator to use.
-		 * @param size The size of memory to allocate in bytes.
-		 * @return A pointer to the allocated memory.
-		 */
-		Any allocate(AllocatorType const allocator, Size const size);
-		
-		/**
-		 * @brief Allocates memory using the default system allocator.
-		 * @param size The size of memory to allocate in bytes.
-		 * @return A pointer to the allocated memory.
-		 */
-		Any allocate_default(Size const size);
-
-		/**
-		 * @brief Allocates memory using the temporary memory stack.
-		 * @param size The size of memory to allocate in bytes.
-		 * @return A pointer to the allocated memory.
-		 */
-		Any allocate_frame(Size const size);
-
-		/**
-		 * @brief Allocates memory using the task memory stack.
-		 * @param size The size of memory to allocate in bytes.
-		 * @return A pointer to the allocated memory.
-		 */
-		Any allocate_task(Size const size);
-
-		/**
-		 * @brief Allocates memory using the persistent memory pools.
-		 * @param size The size of memory to allocate in bytes.
-		 * @return A pointer to the allocated memory.
-		 */
-		Any allocate_persistent(Size const size);
-
-		/**
-		 * @brief Deallocates memory using the given allocator.
-		 * @param allocator The allocator to use.
-		 * @param ptr The pointer to deallocate.
-		 */
-		void deallocate(AllocatorType const allocator, Any const ptr);
-
-		/**
-		 * @brief Deallocates memory using the default system allocator.
-		 * @param ptr The pointer to deallocate.
-		 */
-		void deallocate_default(Any const ptr);
-
-		/**
-		 * @brief Deallocates memory using the temporary memory stack.
-		 * @param ptr The pointer to deallocate.
-		 */
-		void deallocate_frame(Any const ptr);
-
-		/**
-		 * @brief Deallocates memory using the task memory stack.
-		 * @param ptr The pointer to deallocate.
-		 */
-		void deallocate_task(Any const ptr);
-
-		/**
-		 * @brief Deallocates memory using the persistent memory pools.
-		 * @param ptr The pointer to deallocate.
-		 */
-		void deallocate_persistent(Any const ptr);
-
-		/**
 		 * @brief Creates the singleton MemoryManager.
 		 * @param info The arguments for creating the MemoryManager.
 		 */
@@ -142,22 +74,6 @@ namespace Minty
 		 * @return A reference to the MemoryManager.
 		 */
 		static MemoryManager& get_singleton();
-
-	private:
-		// gets the index to the persistent memory pool to use, given the size in bytes
-		Size get_persistent_index(Size const size) const;
-
-#pragma endregion
-
-#pragma region Variables
-
-	private:
-		Bool m_initialized;
-		Bool m_frameInitialized;
-		Bool m_taskInitialized;
-		Bool m_persistentInitialized;
-		Size m_persistentSizes[MAX_PERSISTENT_POOLS];
-		Size m_persistentMap[MAX_PERSISTENT_POOL_SIZE + 1];
 
 #pragma endregion
 	};

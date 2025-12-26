@@ -1024,6 +1024,8 @@ namespace Minty
 			Node const* node;
 		};
 
+		using NodeAllocator = DefaultAllocator<Node>;
+
 #pragma endregion
 
 #pragma region Variables
@@ -1048,7 +1050,7 @@ namespace Minty
 			, FormatBehavior()
 			, StorageBehavior(source)
 			, m_depth(0)
-			, mp_node(DefaultAllocator::template construct<Node>())
+			, mp_node(NodeAllocator().construct())
 			, m_nodeStack()
 		{
 			Vector<Byte> data = this->read_all();
@@ -1077,7 +1079,7 @@ namespace Minty
 			, FormatBehavior()
 			, StorageBehavior(nullptr)
 			, m_depth(0)
-			, mp_node(DefaultAllocator::template construct<Node>())
+			, mp_node(NodeAllocator().construct())
 			, m_nodeStack()
 		{
 			*mp_node = root;
@@ -1086,7 +1088,7 @@ namespace Minty
 
 		virtual ~ReaderImplementation()
 		{
-			DefaultAllocator::template destruct(mp_node);
+			NodeAllocator().destruct(mp_node);
 		}
 
 #pragma endregion

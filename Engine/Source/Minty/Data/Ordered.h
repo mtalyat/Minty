@@ -16,8 +16,9 @@ namespace Minty
 	/**
 	 * Holds an ordered set of unique keys, preserving insertion order.
 	 * @tparam T The type of the keys.
+	 * @tparam AllocatorType The allocator type to use for memory management.
 	 */
-	template<typename T, typename Allocator = DefaultAllocator>
+	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class Ordered
 	{
 #pragma region Types
@@ -46,6 +47,9 @@ namespace Minty
 			{
 			}
 		};
+
+		using Allocator = AllocatorType<Node>;
+		using AllocatorList = AllocatorType<Node*>;
 
 #pragma endregion
 
@@ -269,7 +273,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
+				AllocatorList().destruct_array(mp_table, m_capacity);
 				mp_table = nullptr;
 			}
 		}
@@ -300,7 +304,7 @@ namespace Minty
 				clear();
 				if (mp_table)
 				{
-					Allocator::template destruct_array<Node*>(mp_table, m_capacity);
+					AllocatorList().destruct_array(mp_table, m_capacity);
 				}
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
@@ -355,7 +359,7 @@ namespace Minty
 				return;
 			}
 
-			Node** newTable = Allocator::template construct_array<Node*>(capacity);
+			Node** newTable = AllocatorList().construct_array(capacity);
 			for (Size i = 0; i < capacity; ++i)
 			{
 				newTable[i] = nullptr;
@@ -373,7 +377,7 @@ namespace Minty
 					node->next = newTable[index];
 					newTable[index] = node;
 				}
-				Allocator::template destruct_array<Node*>(mp_table, m_capacity);
+				AllocatorList().destruct_array(mp_table, m_capacity);
 			}
 			mp_table = newTable;
 			m_capacity = capacity;
@@ -396,7 +400,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = Allocator::template construct<Node>(key);
+			Node* node = Allocator().construct(key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -434,7 +438,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = Allocator::template construct<Node>(std::move(key));
+			Node* node = Allocator().construct(std::move(key));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -501,7 +505,7 @@ namespace Minty
 						mp_tail = node->prevOrder;
 					}
 
-					Allocator::template destruct<Node>(node);
+					Allocator().destruct(node);
 					--m_size;
 					return true;
 				}
@@ -576,7 +580,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->nextOrder;
-				Allocator::template destruct<Node>(temp);
+				Allocator().destruct(temp);
 			}
 			if (mp_table)
 			{

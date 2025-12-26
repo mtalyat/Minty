@@ -11,7 +11,7 @@ Minty::MemoryContainer::MemoryContainer()
 }
 
 Minty::MemoryContainer::MemoryContainer(MemoryContainer const &other)
-	: m_capacity(other.m_capacity), m_size(other.m_size), mp_data(static_cast<Byte *>(DefaultAllocator::allocate(m_capacity)))
+	: m_capacity(other.m_capacity), m_size(other.m_size), mp_data(DefaultAllocator<Byte>().allocate(m_capacity))
 {
 	memcpy(mp_data, other.mp_data, m_size);
 }
@@ -28,7 +28,7 @@ Minty::MemoryContainer::~MemoryContainer()
 {
 	if (mp_data)
 	{
-		DefaultAllocator::deallocate(mp_data);
+		DefaultAllocator<Byte>().deallocate(mp_data);
 		mp_data = nullptr;
 	}
 	m_capacity = 0;
@@ -41,7 +41,7 @@ MemoryContainer &Minty::MemoryContainer::operator=(MemoryContainer const &other)
 	{
 		m_capacity = other.m_capacity;
 		m_size = other.m_size;
-		mp_data = static_cast<Byte *>(DefaultAllocator::allocate(m_capacity));
+		mp_data = DefaultAllocator<Byte>().allocate(m_capacity);
 		memcpy(mp_data, other.mp_data, m_size);
 	}
 	return *this;

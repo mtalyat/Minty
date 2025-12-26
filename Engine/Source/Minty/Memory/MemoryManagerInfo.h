@@ -25,16 +25,6 @@ namespace Minty
 		MemoryStackInfo* frameStackInfo = nullptr;
 
         /**
-         * @brief Information for the task memory stacks.
-         */
-		MemoryStackInfo* taskStackInfo = nullptr;
-
-        /**
-         * @brief The number of task memory stacks to create.
-         */
-		Size taskStackCount = 0;
-
-        /**
          * @brief Information for the persistent memory pools.
          */
 		MemoryPoolInfo* persistentPoolInfos = nullptr;

@@ -16,11 +16,18 @@ namespace Minty
 	 * @class Stack
 	 * @brief A simple stack implementation using a dynamic array.
 	 * @tparam T The type of elements stored in the stack.
-	 * @tparam Allocator The type of allocator used for memory management.
+	 * @tparam AllocatorType The type of allocator used for memory management.
 	 */
-	template<typename T, typename Allocator = DefaultAllocator>
+	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class Stack
 	{
+#pragma region Types
+
+	private:
+		using Allocator = AllocatorType<T>;
+
+#pragma endregion
+
 #pragma region Constructors
 
 	public:
@@ -83,7 +90,7 @@ namespace Minty
 			clear();
 			if (mp_data)
 			{
-				Allocator::deallocate(mp_data);
+				Allocator().deallocate(mp_data);
 			}
 		}
 
@@ -98,14 +105,14 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					Allocator::deallocate(mp_data);
+					Allocator().deallocate(mp_data);
 					mp_data = nullptr;
 				}
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				if (other.mp_data)
 				{
-					mp_data = static_cast<T*>(Allocator::allocate(m_capacity * sizeof(T)));
+					mp_data = static_cast<T*>(Allocator().allocate(m_capacity * sizeof(T)));
 					for (Size i = 0; i < m_size; ++i)
 					{
 						new (&mp_data[i]) T(other.mp_data[i]);
@@ -122,7 +129,7 @@ namespace Minty
 			{
 				if (mp_data)
 				{
-					Allocator::deallocate(mp_data);
+					Allocator().deallocate(mp_data);
 					mp_data = nullptr;
 				}
 				m_capacity = other.m_capacity;
@@ -188,7 +195,7 @@ namespace Minty
 			}
 
 			// create new array
-			T* newData = static_cast<T*>(Allocator::allocate(capacity * sizeof(T)));
+			T* newData = static_cast<T*>(Allocator().allocate(capacity * sizeof(T)));
 
 			// move data over, if it exists
 			if (mp_data)
@@ -198,7 +205,7 @@ namespace Minty
 				{
 					new (&newData[i]) T(std::move(mp_data[i]));
 				}
-				Allocator::deallocate(mp_data);
+				Allocator().deallocate(mp_data);
 			}
 
 			// replace data

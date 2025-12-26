@@ -16,7 +16,7 @@ Minty::StaticContainer::StaticContainer(Size const capacity)
 	if (capacity)
 	{
 		m_capacity = capacity;
-		mp_data = static_cast<Byte *>(DefaultAllocator::allocate(capacity));
+		mp_data = DefaultAllocator<Byte>().allocate(capacity);
 	}
 }
 
@@ -27,7 +27,7 @@ Minty::StaticContainer::StaticContainer(AnyConst const data, Size const size)
 	{
 		m_capacity = size;
 		m_size = size;
-		mp_data = static_cast<Byte *>(DefaultAllocator::allocate(size));
+		mp_data = DefaultAllocator<Byte>().allocate(size);
 		memcpy(mp_data, data, size);
 	}
 }

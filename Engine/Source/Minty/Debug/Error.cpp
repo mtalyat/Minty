@@ -34,6 +34,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Memory error. Memory deallocation failed. Check for double free.";
     case ErrorCode::Memory_AllocatorNotInitialized:
         return "Memory error. Memory allocator not initialized.";
+    case ErrorCode::Memory_AllocatorAlreadyInitialized:
+        return "Memory error. Memory allocator already initialized.";
     case ErrorCode::Memory_NoSuitableAllocatorFound:
         return "Memory error. No suitable allocator found for requested size and alignment.";
     case ErrorCode::Memory_AllocatorMismatch:

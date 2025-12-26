@@ -76,7 +76,7 @@ Bool Minty::DynamicContainer::reserve(Size const capacity)
 		return true;
 
 	// allocate a new array
-	Byte *newData = static_cast<Byte *>(DefaultAllocator::allocate(capacity));
+	Byte *newData = static_cast<Byte *>(DefaultAllocator<Byte>().allocate(capacity));
 
 	// copy over existing data, if any
 	if (mp_data)
@@ -84,7 +84,7 @@ Bool Minty::DynamicContainer::reserve(Size const capacity)
 		memcpy(newData, mp_data, m_size);
 
 		// delete old array
-		DefaultAllocator::deallocate(mp_data);
+		DefaultAllocator<Byte>().deallocate(mp_data);
 	}
 
 	// update reference and data
