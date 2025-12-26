@@ -214,7 +214,7 @@ Unique<Application> Minty::Application::open(Path const &path)
 	MINTY_ASSERT(Path::is_file(path), ErrorCode::File_NotAFile);
 
 	// read the file
-	PhysicalFile file(path, File::Flags::Read);
+	PhysicalFile file(path, FileFlags::Read);
 	MINTY_ASSERT_F(file.is_open(), ErrorCode::File_FailedToOpen, path);
 
 	// open a reader

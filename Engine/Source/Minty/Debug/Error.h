@@ -84,6 +84,8 @@ namespace Minty
         File_FlagNotSupported,
         File_PathTooLong,
         File_EndOfFileReached,
+        File_ReadFailed,
+        File_WriteFailed,
 
         Singleton = 500,
         Singleton_AlreadyExists,

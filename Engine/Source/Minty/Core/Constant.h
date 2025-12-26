@@ -77,39 +77,47 @@ namespace Minty
 
 #pragma region Extensions
 
-	constexpr Char const* EXTENSION_MINTY = ".minty";
+	constexpr Char const *EXTENSION_MINTY = ".minty";
 
-	constexpr Char const* EXTENSION_ANIMATION = ".ani.minty";
-	constexpr Char const* EXTENSION_ANIMATOR = ".anr.minty";
-	constexpr Char const* EXTENSION_CONTEXT = EXTENSION_MINTY;
-	constexpr Char const* EXTENSION_AUDIO_CLIP_WAV = ".wav";
-	constexpr Char const* EXTENSION_AUDIO_CLIP_MP3 = ".mp3";
-	constexpr Char const* EXTENSION_BMP = ".bmp";
-	constexpr Char const* EXTENSION_CAMERA = ".cam.minty";
-	constexpr Char const* EXTENSION_CSV = ".csv";
-	constexpr Char const* EXTENSION_FONT = ".fnt.minty";
-	constexpr Char const* EXTENSION_FONT_VARIANT = ".fnt";
-	constexpr Char const* EXTENSION_JPEG = ".jpeg";
-	constexpr Char const* EXTENSION_JPG = ".jpg";
-	constexpr Char const* EXTENSION_MATERIAL = ".mat.minty";
-	constexpr Char const* EXTENSION_MATERIAL_TEMPLATE = ".mtp.minty";
-	constexpr Char const* EXTENSION_MESH_OBJECT = ".obj";
-	constexpr Char const* EXTENSION_META = ".meta";
-	constexpr Char const* EXTENSION_PNG = ".png";
-	constexpr Char const* EXTENSION_PREFAB = ".pre.minty";
-	constexpr Char const* EXTENSION_RENDER_PASS = ".rpa.minty";
-	constexpr Char const* EXTENSION_RENDER_TARGET = ".rta.minty";
-	constexpr Char const* EXTENSION_SCENE = ".sce.minty";
-	constexpr Char const* EXTENSION_SCRIPT = ".cs";
-	constexpr Char const* EXTENSION_SHADER = ".sha.minty";
-	constexpr Char const* EXTENSION_SHADER_CODE = ".glsl";
-	constexpr Char const* EXTENSION_SHADER_CODE_FRAGMENT = ".frag";
-	constexpr Char const* EXTENSION_SHADER_CODE_VERTEX = ".vert";
-	constexpr Char const* EXTENSION_SHADER_MODULE = ".spv";
-	constexpr Char const* EXTENSION_SPRITE = ".spr.minty";
-	constexpr Char const* EXTENSION_SPRITE_ATLAS = ".sat.minty";
-	constexpr Char const* EXTENSION_TEXT = ".txt";
-	constexpr Char const* EXTENSION_WRAP = ".wrap";
+	constexpr Char const *EXTENSION_ANIMATION = ".ani.minty";
+	constexpr Char const *EXTENSION_ANIMATOR = ".anr.minty";
+	constexpr Char const *EXTENSION_CONTEXT = EXTENSION_MINTY;
+	constexpr Char const *EXTENSION_AUDIO_CLIP_WAV = ".wav";
+	constexpr Char const *EXTENSION_AUDIO_CLIP_MP3 = ".mp3";
+	constexpr Char const *EXTENSION_BMP = ".bmp";
+	constexpr Char const *EXTENSION_CAMERA = ".cam.minty";
+	constexpr Char const *EXTENSION_CSV = ".csv";
+	constexpr Char const *EXTENSION_FONT = ".fnt.minty";
+	constexpr Char const *EXTENSION_FONT_VARIANT = ".fnt";
+	constexpr Char const *EXTENSION_JPEG = ".jpeg";
+	constexpr Char const *EXTENSION_JPG = ".jpg";
+	constexpr Char const *EXTENSION_MATERIAL = ".mat.minty";
+	constexpr Char const *EXTENSION_MATERIAL_TEMPLATE = ".mtp.minty";
+	constexpr Char const *EXTENSION_MESH_OBJECT = ".obj";
+	constexpr Char const *EXTENSION_META = ".meta";
+	constexpr Char const *EXTENSION_PNG = ".png";
+	constexpr Char const *EXTENSION_PREFAB = ".pre.minty";
+	constexpr Char const *EXTENSION_RENDER_PASS = ".rpa.minty";
+	constexpr Char const *EXTENSION_RENDER_TARGET = ".rta.minty";
+	constexpr Char const *EXTENSION_SCENE = ".sce.minty";
+	constexpr Char const *EXTENSION_SCRIPT = ".cs";
+	constexpr Char const *EXTENSION_SHADER = ".sha.minty";
+	constexpr Char const *EXTENSION_SHADER_CODE = ".glsl";
+	constexpr Char const *EXTENSION_SHADER_CODE_FRAGMENT = ".frag";
+	constexpr Char const *EXTENSION_SHADER_CODE_VERTEX = ".vert";
+	constexpr Char const *EXTENSION_SHADER_MODULE = ".spv";
+	constexpr Char const *EXTENSION_SPRITE = ".spr.minty";
+	constexpr Char const *EXTENSION_SPRITE_ATLAS = ".sat.minty";
+	constexpr Char const *EXTENSION_TEXT = ".txt";
+	constexpr Char const *EXTENSION_WRAP = ".wrap";
+
+#pragma endregion
+
+#pragma region File
+
+	constexpr FilePosition INVALID_FILE_POSITION = -1;
+	#undef INVALID_FILE_SIZE
+	constexpr FileSize INVALID_FILE_SIZE = -1;
 
 #pragma endregion
 
@@ -163,7 +171,7 @@ namespace Minty
 
 #pragma region Minty
 
-	constexpr Char const* MINTY_NAME = "Minty";
+	constexpr Char const *MINTY_NAME = "Minty";
 	constexpr UInt MINTY_VERSION_MAJOR = 0;
 	constexpr UInt MINTY_VERSION_MINOR = 1;
 	constexpr UInt MINTY_VERSION_PATCH = 0;
@@ -198,10 +206,10 @@ namespace Minty
 
 #pragma region Text
 
-	constexpr Char const* TEXT_EMPTY = "";
-	constexpr Char const* TEXT_WHITESPACE = " \n\r\t\v\b\f";
-	constexpr Char const* TEXT_OPEN = "([{<\"";
-	constexpr Char const* TEXT_CLOSE = ")]}>\"";
+	constexpr Char const *TEXT_EMPTY = "";
+	constexpr Char const *TEXT_WHITESPACE = " \n\r\t\v\b\f";
+	constexpr Char const *TEXT_OPEN = "([{<\"";
+	constexpr Char const *TEXT_CLOSE = ")]}>\"";
 
 #pragma endregion
 
@@ -243,7 +251,7 @@ namespace Minty
 	/**
 	 * @brief The first bytes in any Wrap file.
 	 */
-	constexpr Char const* WRAP_MAGIC = "WRAP";
+	constexpr Char const *WRAP_MAGIC = "WRAP";
 
 	/**
 	 * @brief The number of magic bytes in a Wrap file.

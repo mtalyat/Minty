@@ -35,7 +35,7 @@ Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCoun
     }
 
     // open file, open with truncate to override any existing file
-    PhysicalFile file(m_path, File::Flags::Write | File::Flags::Binary | File::Flags::Truncate);
+    PhysicalFile file(m_path, FileFlags::Write | FileFlags::Binary | FileFlags::Truncate);
 
     // write header
     write_header(file);
@@ -58,7 +58,7 @@ void Minty::Wrap::load(Path const& path)
     m_path = absolutePath;
 
     // open the file
-    PhysicalFile file(m_path, File::Flags::Read | File::Flags::Binary);
+    PhysicalFile file(m_path, FileFlags::Read | FileFlags::Binary);
 
     // read header data
     file.read(&m_header, sizeof(Header));
@@ -98,7 +98,7 @@ void Minty::Wrap::load(Path const& path)
 void Minty::Wrap::flush()
 {
 	// open file, open with truncate to override any existing file
-	PhysicalFile file(m_path, File::Flags::Write | File::Flags::Binary | File::Flags::Truncate);
+	PhysicalFile file(m_path, FileFlags::Write | FileFlags::Binary | FileFlags::Truncate);
 
 	// write header
 	write_header(file);
@@ -114,13 +114,13 @@ void Minty::Wrap::flush()
 
 void Minty::Wrap::write_header(PhysicalFile& wrapFile) const
 {
-    wrapFile.seek_write(0);
+    wrapFile.set_position(0);
     wrapFile.write(&m_header, sizeof(Header));
 }
 
 void Minty::Wrap::write_entry(PhysicalFile& wrapFile, Size const index) const
 {
-    wrapFile.seek_write(sizeof(Header) + sizeof(Entry) * index);
+    wrapFile.set_position(sizeof(Header) + sizeof(Entry) * index);
     wrapFile.write(&m_entries.at(index), sizeof(Entry));
 }
 
@@ -276,13 +276,13 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
 	MINTY_ASSERT(!virtualPath.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
     // open wrap file
-    PhysicalFile wrapFile(m_path, File::Flags::ReadWrite | File::Flags::Binary);
+    PhysicalFile wrapFile(m_path, FileFlags::ReadWrite | FileFlags::Binary);
 
     // open file
-    PhysicalFile file(physicalPath, File::Flags::Read | File::Flags::Binary);
+    PhysicalFile file(physicalPath, FileFlags::Read | FileFlags::Binary);
 
     // read the data from the file
-    File::Size_t fileSize = file.get_size();
+    FileSize fileSize = file.get_size();
     Byte* fileData = new Byte[fileSize];
     file.read(fileData, fileSize);
 
@@ -325,7 +325,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
         // replace source
         delete[] fileData;
         fileData = compressedData;
-        fileSize = static_cast<File::Size_t>(destSize);
+        fileSize = static_cast<FileSize>(destSize);
     }
 
     // set size and offset
@@ -345,7 +345,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
 
     // write to file
     write_entry(wrapFile, index);
-    wrapFile.seek_write(entry.offset, File::Direction::Begin);
+    wrapFile.set_position(entry.offset, FileDirection::Begin);
     wrapFile.write(fileData, fileSize);
 
     // cleanup
@@ -371,7 +371,7 @@ Bool Minty::Wrap::open(Path const& path, VirtualFile& file) const
     Entry const& entry = get_entry(fixedPath);
 
     // open file in the given virtual file
-    file.open(m_path, File::Flags::Read | File::Flags::Binary, entry.offset, entry.uncompressedSize);
+    file.open(m_path, FileFlags::Read | FileFlags::Binary, entry.offset, entry.uncompressedSize);
 
     return true;
 }
@@ -387,7 +387,7 @@ Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 
     // read all data from file
     Entry const& entry = get_entry(path);
-    File::Size_t fileSize = static_cast<File::Size_t>(entry.compressedSize);
+    FileSize fileSize = static_cast<FileSize>(entry.compressedSize);
     Byte* fileData = new Byte[fileSize];
     file.read(fileData, fileSize);
 
@@ -475,7 +475,7 @@ Bool Minty::Wrap::exists(Path const& path)
 	}
 
 	// open the file
-	PhysicalFile file(path, File::Flags::Read | File::Flags::Binary);
+	PhysicalFile file(path, FileFlags::Read | FileFlags::Binary);
 
     // cannot be a Wrap if smaller than a header
 	if (file.get_size() < sizeof(Header))

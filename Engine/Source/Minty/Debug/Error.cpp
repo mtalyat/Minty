@@ -139,6 +139,10 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "File error. Path too long.";
     case ErrorCode::File_EndOfFileReached:
         return "File error. End of file reached.";
+    case ErrorCode::File_ReadFailed:
+        return "File error. Read operation failed.";
+    case ErrorCode::File_WriteFailed:
+        return "File error. Write operation failed.";
 
     case ErrorCode::Singleton:
         return "Singleton error.";

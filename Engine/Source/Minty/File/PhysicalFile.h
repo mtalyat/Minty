@@ -30,7 +30,7 @@ namespace Minty
 		 * @param path The Path to the File.
 		 * @param flags The Flags for accessing the file.
 		 */
-		PhysicalFile(Path const& path, Flags const flags)
+		PhysicalFile(Path const& path, FileFlags const flags)
 			: File() {
 			open(path, flags);
 		}
@@ -76,7 +76,7 @@ namespace Minty
 		 * @brief Gets the size of the file.
 		 * @return The size of the file.
 		 */
-		virtual Size_t get_size() const override;
+		virtual FileSize get_size() const override;
 
 #pragma endregion
 
@@ -95,7 +95,7 @@ namespace Minty
 		 * @param path The location of the File to open.
 		 * @param flags The accessor Flags for this File.
 		 */
-		virtual void open(Path const& path, Flags const flags) override;
+		virtual Bool open(Path const& path, FileFlags const flags) override;
 
 		/**
 		 * @brief Pushes any cached changes to the disk.
@@ -108,49 +108,23 @@ namespace Minty
 		virtual void close() override;
 
 		/**
+		 * @brief Gets the current position of the cursor.
+		 * @return The current position of the cursor.
+		 */
+		virtual FilePosition get_position() override;
+
+		/**
 		 * @brief Moves the cursor(s) to a new location within the file.
 		 * @param offset The offset at which the file is relative to the direction.
 		 * @param dir The anchor point of the offset.
 		 */
-		virtual void seek(Position_t const offset, Direction const dir = Direction::Begin) override;
-
-		/**
-		 * @brief Moves the read cursor to a new location within the file.
-		 * @param offset The offset at which the file is relative to the direction.
-		 * @param dir The anchor point of the offset.
-		 */
-		virtual void seek_read(Position_t const offset, Direction const dir = Direction::Begin) override;
-
-		/**
-		 * @brief Moves the write cursor to a new location within the file.
-		 * @param offset The offset at which the file is relative to the direction.
-		 * @param dir The anchor point of the offset.
-		 */
-		virtual void seek_write(Position_t const offset, Direction const dir = Direction::Begin) override;
+		virtual void set_position(FilePosition const offset, FileDirection const dir = FileDirection::Begin) override;
 
 		/**
 		 * @brief Checks if the cursor is at or past the end of the file.
 		 * @return True if at or past the end of the file.
 		 */
 		virtual Bool end_of_file() override;
-
-		/**
-		 * @brief Gets the current position of the cursor.
-		 * @return The current position of the cursor.
-		 */
-		virtual Position_t tell() override;
-
-		/**
-		 * @brief Gets the current position of the read cursor.
-		 * @return The current position of the read cursor.
-		 */
-		virtual Position_t tell_read() override;
-
-		/**
-		 * @brief Gets the current position of the write cursor.
-		 * @return The current position of the write cursor.
-		 */
-		virtual Position_t tell_write() override;
 
 		/**
 		 * @brief Checks the next character after the cursor.
@@ -169,7 +143,7 @@ namespace Minty
 		 * @param buffer The location to read the data to.
 		 * @param size The number of bytes to read.
 		 */
-		virtual void read(Any const buffer, Size_t const size) override;
+		virtual Bool read(Any const buffer, FileSize const size) override;
 
 		/**
 		 * @brief Reads the next line of text, and moves the cursor the appropriate amount of bytes.
@@ -183,7 +157,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual void write(AnyConst const buffer, Size_t const size) override;
+		virtual Bool write(AnyConst const buffer, FileSize const size) override;
 
 #pragma endregion
 

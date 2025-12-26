@@ -132,7 +132,7 @@ File *Minty::AssetManager::open(Path const &path) const
 	switch (get_location(path))
 	{
 	case Location::FileSystem:
-		file = new PhysicalFile(path, File::Flags::Read | File::Flags::Binary);
+		file = new PhysicalFile(path, FileFlags::Read | FileFlags::Binary);
 		break;
 	case Location::Wrapper:
 		file = new VirtualFile();
@@ -379,7 +379,7 @@ Bool Minty::AssetManager::open_writer(Path const &path, Writer *&writer) const
 		return false;
 	}
 
-	File *file = new PhysicalFile(path, File::Flags::Write);
+	File *file = new PhysicalFile(path, FileFlags::Write);
 	writer = new TextFileWriter(file);
 
 	return true;

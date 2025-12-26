@@ -50,6 +50,9 @@ namespace Minty
 	using TypeInfo = std::type_info;
 	using TypeIndex = Size;
 
+	using FilePosition = long long;
+	using FileSize = long long;
+
 	template<typename T>
 	using Function = std::function<T>;
 
