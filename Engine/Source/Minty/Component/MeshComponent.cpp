@@ -9,78 +9,48 @@
 
 using namespace Minty;
 
-void Minty::MeshComponent::serialize(Writer& writer) const
+void Minty::Serializer<MeshComponent>::serialize(Writer &writer, MeshComponent const &value)
 {
-	writer.write("Type", type);
-
-	// if type is custom, print the mesh ID
-	if (type == MeshType::Custom)
-	{
-		if (mesh != nullptr)
-		{
-			writer.write("Mesh", mesh->get_id());
-		}
-		else
-		{
-			writer.write("Mesh", UUID());
-		}
-	}
-
-	if (material != nullptr)
-	{
-		writer.write("Material", material->get_id());
-	}
-	else
-	{
-		writer.write("Material", UUID());
-	}
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::MeshComponent::deserialize(Reader& reader)
+void Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent &value)
 {
 	// read type
-	if (!reader.read_default(type))
+	if (!reader.read_default(value.type))
 	{
-		reader.read("Type", type, MeshType::Custom);
+		reader.read("Type", value.type, MeshType::Custom);
 	}
 
 	// read mesh ID
-	if (type == MeshType::Custom)
+	if (value.type == MeshType::Custom)
 	{
 		UUID id = UUID();
 		if (!reader.read("Mesh", id))
 		{
-			mesh = nullptr;
+			value.mesh = nullptr;
 		}
-		AssetManager& assetManager = AssetManager::get_singleton();
-		mesh = assetManager.get_ref<Mesh>(id);
+		AssetManager &assetManager = AssetManager::get_singleton();
+		value.mesh = assetManager.get_ref<Mesh>(id);
 	}
 	else
 	{
 		// get default mesh
-		RenderManager& renderManager = RenderManager::get_singleton();
-		mesh = renderManager.get_default_mesh(type).to_ref();
+		RenderManager &renderManager = RenderManager::get_singleton();
+		value.mesh = renderManager.get_default_mesh(value.type).to_ref();
 	}
 
 	// read material ID
 	UUID id = UUID();
 	if (reader.read("Material", id))
 	{
-		material = AssetManager::get_singleton().get_ref<Material>(id);
+		value.material = AssetManager::get_singleton().get_ref<Material>(id);
 	}
 	else
 	{
-		material = nullptr;
+		value.material = nullptr;
 	}
-	if(mesh == nullptr)
-	{
-		MINTY_ERROR_F(ErrorCode::Serialization_MissingRequired, "Mesh");
-		return false;
-	}
-	if(material == nullptr)
-	{
-		MINTY_ERROR_F(ErrorCode::Serialization_MissingRequired, "Material");
-		return false;
-	}
-	return true;
+
+	MINTY_CHECK_F(value.mesh != nullptr, ErrorCode::Serialization_MissingRequired, "Mesh");
+	MINTY_CHECK_F(value.material != nullptr, ErrorCode::Serialization_MissingRequired, "Material");
 }

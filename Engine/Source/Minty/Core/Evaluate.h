@@ -14,7 +14,7 @@
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/Vector.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {

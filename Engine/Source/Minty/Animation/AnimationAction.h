@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Animation/AnimationActionFlags.h"
-#include "Minty/Serialization/Parseable.h"
+#include "Minty/Serialization/Parser.h"
 #include "Minty/Data/Tuple.h"
 #include "Minty/Data/Vector.h"
 
@@ -18,7 +18,6 @@ namespace Minty
 	 * @brief An action to be taken during an animation at a specific time.
 	 */
 	struct AnimationAction
-		: public Parseable
 	{
 		/**
 		 * @brief The index to the Entity to act upon.
@@ -33,15 +32,18 @@ namespace Minty
 		/**
 		 * @brief The flags to use on this step.
 		 */
-		AnimationActionType type = AnimationActionType::None;
+		AnimationActionFlags type = AnimationActionFlags::None;
 
 		/**
 		 * @brief A vector of key-value variable-names and values to set when the time is reached.
 		 */
 		Vector<Tuple<UInt, UInt>> values;
+	};
 
-		Bool parse(StringView const text) override;
-		String to_string() const override;
+	struct Parser<AnimationAction>
+	{
+		static Bool parse(StringView const str, AnimationAction &value);
+		static String to_string(AnimationAction const &value);
 	};
 }
 

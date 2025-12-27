@@ -21,14 +21,27 @@ namespace Minty
 	struct MeshComponent
 		: public Component
 	{
+		/**
+		 * @brief The type of mesh.
+		 */
 		MeshType type = MeshType::Empty;
 
+		/**
+		 * @brief The mesh of the entity.
+		 */
 		Ref<Mesh> mesh = nullptr;
 
+		/**
+		 * @brief The material of the entity.
+		 */
 		Ref<Material> material = nullptr;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<MeshComponent>
+	{
+		static void serialize(Writer& writer, MeshComponent const& value);
+		static void deserialize(Reader& reader, MeshComponent& value);
 	};
 }
 

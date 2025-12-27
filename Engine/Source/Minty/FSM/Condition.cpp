@@ -15,7 +15,7 @@ Bool Minty::Condition::evaluate(Scope const& scope) const
 	Int value = scope.get_value(m_variableId);
 
 	// check the conditional
-	return Minty::evaluate(value, m_conditional, m_value);
+	return Minty::evaluate_conditional(value, m_conditional, m_value);
 }
 
 void Minty::Condition::serialize(Writer& writer, String const& name) const

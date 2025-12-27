@@ -5,12 +5,15 @@
 
 using namespace Minty;
 
-void Minty::MaskComponent::serialize(Writer& writer) const
+void Minty::Serializer<MaskComponent>::serialize(Writer &writer, MaskComponent const &value)
 {
-	writer.write("Value", value);
+	writer.write("Value", value.value);
 }
 
-Bool Minty::MaskComponent::deserialize(Reader& reader)
+void Minty::Serializer<MaskComponent>::deserialize(Reader &reader, MaskComponent &value)
 {
-	return reader.read_default(value) || reader.read("Value", value);
+	if(!reader.read_default(value.value))
+	{
+		reader.read("Value", value.value);
+	}
 }

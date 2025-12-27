@@ -1,8 +1,30 @@
 #include "pch.h"
 #include "Conditional.h"
 #include "Minty/Data/Scope.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
+
+static constexpr Size CONDITIONAL_COUNT = 6;
+static constexpr Char const* CONDITIONAL_STRINGS[CONDITIONAL_COUNT] =
+{
+	"Equal",
+	"NotEqual",
+	"GreaterThan",
+	"GreaterThanOrEqual",
+	"LessThan",
+	"LessThanOrEqual"
+};
+
+Bool Minty::Parser<Conditional>::parse(StringView const str, Conditional &value)
+{
+    return Tool::try_parse_enum(str, CONDITIONAL_STRINGS, CONDITIONAL_COUNT, reinterpret_cast<Size&>(value));
+}
+
+String Minty::Parser<Conditional>::to_string(Conditional const &value)
+{
+    return String();
+}
 
 String Minty::to_string(Conditional const obj)
 {

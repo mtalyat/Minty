@@ -10,16 +10,16 @@
 
 using namespace Minty;
 
-void Minty::SpriteComponent::serialize(Writer& writer) const
+void Minty::Serializer<SpriteComponent>::serialize(Writer &writer, SpriteComponent const &value)
 {
-	writer.write("Sprite", sprite);
-	writer.write("MaterialTemplate", materialTemplate);
-	writer.write("Color", color);
-	writer.write("FlipX", flipX);
-	writer.write("FlipY", flipY);
+	writer.write("Sprite", value.sprite);
+	writer.write("MaterialTemplate", value.materialTemplate);
+	writer.write("Color", value.color);
+	writer.write("FlipX", value.flipX);
+	writer.write("FlipY", value.flipY);
 }
 
-Bool Minty::SpriteComponent::deserialize(Reader& reader)
+void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteComponent &value)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
@@ -28,25 +28,24 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 	if (reader.read_default(id) || reader.read("Sprite", id))
 	{
 		// get the asset with the given ID
-		source = assetManager.get_asset_ref(id);
-		MINTY_ASSERT_F(source != nullptr, ErrorCode::Asset_MissingDependency, id);
+		value.source = assetManager.get_asset_ref(id);
+		MINTY_ASSERT_F(value.source != nullptr, ErrorCode::Asset_MissingDependency, id);
 	}
 
-	if(source != nullptr)
+	if(value.source != nullptr)
 	{
-		AssetType assetType = source->get_asset_type();
+		AssetType assetType = value.source->get_asset_type();
 		MINTY_ASSERT_F(assetType == AssetType::Sprite || assetType == AssetType::SpriteAtlas, ErrorCode::Asset_InvalidDependencyType, id);
 
 		// handle different types
 		switch (assetType)
 		{
 		case AssetType::Sprite:
-			sprite = source.cast<Sprite>();
+			value.sprite = value.source.cast<Sprite>();
 			break;
 		case AssetType::SpriteAtlas:
 		{
-			Ref<SpriteAtlas> atlas = source.cast<SpriteAtlas>();
-
+			Ref<SpriteAtlas> atlas = value.source.cast<SpriteAtlas>();
 			// read the group of the index
 			reader.read("Group", group);
 
@@ -66,7 +65,7 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 				if (try_int(indexText, index1d))
 				{
 					// convert into 2D index
-					Int2 count = atlas->get_group(group).get_count();
+					Int2 count = atlas->get_group(value.group).get_count();
 					index2d.y = index1d / count.x;
 					index2d.x = index1d - index2d.y * count.x;
 				}
@@ -82,8 +81,8 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 			}
 
 			// get the sprite from the atlas
-			id = atlas->get_sprite_id(group, index2d);
-			sprite = assetManager.get_ref<Sprite>(id);
+			id = atlas->get_sprite_id(value.group, index2d);
+			value.sprite = assetManager.get_ref<Sprite>(id);
 
 			break;
 		}
@@ -92,12 +91,10 @@ Bool Minty::SpriteComponent::deserialize(Reader& reader)
 
 	if (reader.read("MaterialTemplate", id))
 	{
-		materialTemplate = assetManager.get_ref<MaterialTemplate>(id);
+		value.materialTemplate = assetManager.get_ref<MaterialTemplate>(id);
 	}
 
-	reader.read("Color", color);
-	reader.read("FlipX", flipX);
-	reader.read("FlipY", flipY);
-
-	return true;
+	reader.read("Color", value.color);
+	reader.read("FlipX", value.flipX);
+	reader.read("FlipY", value.flipY);
 }

@@ -9,8 +9,7 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -265,13 +264,12 @@ namespace Minty
 #pragma endregion
 	};
 
-	String to_string(Color const obj);
-	Color parse_to_color(String const& string);
-	Bool parse_try_color(String const& string, Color& value);
 	template<>
-	inline Color parse_to<Color>(StringView const string) { return parse_to_color(string); }
-	template<>
-	inline Bool parse_try<Color>(StringView const string, Color& value) { return parse_try_color(string, value); }
+	struct Parser<Color>
+	{
+        static Bool parse(StringView const str, Color &value);
+        static String to_string(Color const &value);
+	};
 }
 
 namespace std

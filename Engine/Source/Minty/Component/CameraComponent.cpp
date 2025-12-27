@@ -6,18 +6,21 @@
 
 using namespace Minty;
 
-void Minty::CameraComponent::serialize(Writer& writer) const
+void Minty::Serializer<CameraComponent>::serialize(Writer &writer, CameraComponent const &value)
 {
-	if (camera == nullptr)
+	if (value.camera == nullptr)
 	{
 		writer.write("Camera", UUID());
 		return;
 	}
 
-	writer.write("Camera", camera->get_id());
+	writer.write("Camera", value.camera->get_id());
 }
 
-Bool Minty::CameraComponent::deserialize(Reader& reader)
+void Minty::Serializer<CameraComponent>::deserialize(Reader &reader, CameraComponent &value)
 {
-	return reader.read_default<Ref<Camera>>(camera) || reader.read("Camera", camera);
+	if(!reader.read_default<UUID>(value.cameraId))
+	{
+		reader.read("Camera", value.cameraId);
+	}
 }

@@ -41,9 +41,13 @@ namespace Minty
 		 * @brief The specific variant of the font to render the text in.
 		 */
 		Ref<FontVariant> fontVariant = nullptr;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<TextComponent>
+	{
+		static void serialize(Writer& writer, TextComponent const& value);
+		static void deserialize(Reader& reader, TextComponent& value);
 	};
 }
 

@@ -10,16 +10,16 @@
 
 using namespace Minty;
 
-void Minty::TextComponent::serialize(Writer& writer) const
+void Minty::Serializer<TextComponent>::serialize(Writer &writer, TextComponent const &value)
 {
-	writer.write("Text", text);
-	writer.write("Color", color);
-	writer.write("Font", font);
-	writer.write("Size", fontVariant == nullptr ?  0 : fontVariant->get_size());
-	writer.write("Flags", fontVariant == nullptr ? FontFlags::None : fontVariant->get_flags());
+	writer.write("Text", value.text);
+	writer.write("Color", value.color);
+	writer.write("Font", value.font);
+	writer.write("Size", value.fontVariant == nullptr ?  0 : value.fontVariant->get_size());
+	writer.write("Flags", value.fontVariant == nullptr ? FontFlags::None : value.fontVariant->get_flags());
 }
 
-Bool Minty::TextComponent::deserialize(Reader& reader)
+void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent &value)
 {
 	// get data
 	EntitySerializationData* data = static_cast<EntitySerializationData*>(reader.get_user_data());
@@ -32,10 +32,10 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 	entityManager.mark<DirtyTextComponent>(data->entity);
 
 	// read text info
-	reader.read_default(text);
-	reader.read<String>("Text", text, "");
-	reader.read("Color", color, Color::white());
-	reader.read<Ref<Font>>("Font", font, nullptr);
+	reader.read_default(value.text);
+	reader.read<String>("Text", value.text, "");
+	reader.read("Color", value.color, Color::white());
+	reader.read<Ref<Font>>("Font", value.font, nullptr);
 
 	// read variant info
 	UInt fontSize;
@@ -44,20 +44,18 @@ Bool Minty::TextComponent::deserialize(Reader& reader)
 	reader.read<FontFlags>("Flags", fontFlags, FontFlags::None);
 
 	// get variant if able
-	if (font != nullptr)
+	if (value.font != nullptr)
 	{
 		// if font is set, try to get the variant
-		fontVariant = font->get(fontSize, fontFlags).to_ref();
-		if (fontVariant == nullptr)
+		value.fontVariant = value.font->get(fontSize, fontFlags).to_ref();
+		if (value.fontVariant == nullptr)
 		{
-			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, font->get_name(), fontSize, to_string(fontFlags));
+			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, value.font->get_name(), fontSize, to_string(fontFlags));
 			return false; // no variant found
 		}
 	}
 	else
 	{
-		fontVariant = nullptr; // no font set
+		value.fontVariant = nullptr; // no font set
 	}
-
-	return true;
 }

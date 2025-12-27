@@ -58,22 +58,28 @@ namespace Minty
         Char const *get_data() const noexcept { return mp_data; }
 
         /**
+         * @brief Checks if the StringBuilder is empty.
+         * @return True if empty, false otherwise.
+         */
+        inline Bool is_empty() const noexcept { return m_size == 0; }
+
+        /**
          * @brief Gets the size of the StringBuilder.
          * @return The size.
          */
-        Size get_size() const noexcept { return m_size; }
+        inline Size get_size() const noexcept { return m_size; }
 
         /**
          * @brief Gets the length of the StringBuilder.
          * @return The length.
          */
-        Size get_length() const noexcept { return m_size; }
+        inline Size get_length() const noexcept { return m_size; }
 
         /**
          * @brief Gets the capacity of the StringBuilder.
          * @return The capacity.
          */
-        Size get_capacity() const noexcept { return m_capacity; }
+        inline Size get_capacity() const noexcept { return m_capacity; }
 
 #pragma endregion
 

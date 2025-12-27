@@ -23,9 +23,13 @@ namespace Minty
          * @brief The gravity vector applied to the entity.
          */
         Float scale = 1.0f;
-        
-        void serialize(Writer& writer) const override;
-        Bool deserialize(Reader& reader) override;
+    };
+
+    template<>
+    struct Serializer<GravityComponent>
+    {
+        static void serialize(Writer& writer, GravityComponent const& value);
+        static void deserialize(Reader& reader, GravityComponent& value);
     };
 }
 

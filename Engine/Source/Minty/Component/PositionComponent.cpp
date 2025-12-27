@@ -4,16 +4,15 @@
 
 using namespace Minty;
 
-void Minty::PositionComponent::serialize(Writer &writer) const
+void Minty::Serializer<PositionComponent>::serialize(Writer &writer, PositionComponent const &value)
 {
-    writer.write("Position", position);
+    writer.write("Position", value.position);
 }
 
-Bool Minty::PositionComponent::deserialize(Reader &reader)
+void Minty::Serializer<PositionComponent>::deserialize(Reader &reader, PositionComponent &value)
 {
-    if(!reader.read_default(position))
+    if(!reader.read_default(value.position))
     {
-        reader.read("Position", position);
+        reader.read("Position", value.position);
     }
-    return true;
 }

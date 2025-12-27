@@ -60,9 +60,13 @@ namespace Minty
 		 * @brief The far distance for the audio source.
 		 */
 		Float maxDistance = DEFAULT_AUDIO_MAX_DISTANCE;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<AudioSourceComponent>
+	{
+		static void serialize(Writer& writer, AudioSourceComponent const& value);
+		static void deserialize(Reader& reader, AudioSourceComponent& value);
 	};
 }
 

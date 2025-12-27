@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Core/Math.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -16,17 +16,8 @@ namespace Minty
 	 * @brief Holds the data for an audio listener.
 	 */
 	class AudioListener
-		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		Float3 position = Float3(0.0f, 0.0f, 0.0f);
-		Float3 forward = Float3(0.0f, 0.0f, 1.0f);
-		Float3 up = Float3(0.0f, 1.0f, 0.0f);
-		Float3 velocity = Float3(0.0f, 0.0f, 0.0f);
-
-#pragma endregion
+		friend struct Serializer<AudioListener>;
 
 #pragma region Constructors
 
@@ -35,27 +26,25 @@ namespace Minty
 		 * @brief Creates an empty AudioListener.
 		 */
 		AudioListener()
-			: SerializableObject()
-			, position(Float3(0.0f, 0.0f, 0.0f))
-			, forward(Float3(0.0f, 0.0f, 1.0f))
-			, up(Float3(0.0f, 1.0f, 0.0f))
-			, velocity(Float3(0.0f, 0.0f, 0.0f))
+			: m_position(Float3(0.0f, 0.0f, 0.0f))
+			, m_forward(Float3(0.0f, 0.0f, 1.0f))
+			, m_up(Float3(0.0f, 1.0f, 0.0f))
+			, m_velocity(Float3(0.0f, 0.0f, 0.0f))
 		{
 		}
 
 		/**
 		 * @brief Creates a new AudioListener with the given parameters.
 		 * @param position The position of the audio listener in 3D space.
-		 * @param forward The forward direction vector of the audio listener.
-		 * @param up The up direction vector of the audio listener.
+		 * @param m_forward The m_forward direction vector of the audio listener.
+		 * @param m_up The m_up direction vector of the audio listener.
 		 * @param velocity The velocity vector of the audio listener.
 		 */
-		AudioListener(Float3 const& position, Float3 const& forward, Float3 const& up, Float3 const& velocity)
-			: SerializableObject()
-			, position(position)
-			, forward(forward)
-			, up(up)
-			, velocity(velocity)
+		AudioListener(Float3 const& position, Float3 const& m_forward, Float3 const& m_up, Float3 const& velocity)
+			: m_position(position)
+			, m_forward(m_forward)
+			, m_up(m_up)
+			, m_velocity(velocity)
 		{
 		}
 
@@ -68,59 +57,67 @@ namespace Minty
 		 * @brief Gets the position of the audio listener.
 		 * @return The position as a Float3.
 		 */
-		inline Float3 const& get_position() const { return position; }
+		inline Float3 const& get_position() const { return m_position; }
 
 		/**
 		 * @brief Sets the position of the audio listener.
 		 * @param value The new position as a Float3.
 		 */
-		inline void set_position(Float3 const& value) { position = value; }
+		inline void set_position(Float3 const& value) { m_position = value; }
 
 		/**
-		 * @brief Gets the forward direction of the audio listener.
-		 * @return The forward direction as a Float3.
+		 * @brief Gets the m_forward direction of the audio listener.
+		 * @return The m_forward direction as a Float3.
 		 */
-		inline Float3 const& get_forward() const { return forward; }
+		inline Float3 const& get_forward() const { return m_forward; }
 
 		/**
-		 * @brief Sets the forward direction of the audio listener.
-		 * @param value The new forward direction as a Float3.
+		 * @brief Sets the m_forward direction of the audio listener.
+		 * @param value The new m_forward direction as a Float3.
 		 */
-		inline void set_forward(Float3 const& value) { forward = value; }
+		inline void set_forward(Float3 const& value) { m_forward = value; }
 
 		/**
-		 * @brief Gets the up direction of the audio listener.
-		 * @return The up direction as a Float3.
+		 * @brief Gets the m_up direction of the audio listener.
+		 * @return The m_up direction as a Float3.
 		 */
-		inline Float3 const& get_up() const { return up; }
+		inline Float3 const& get_up() const { return m_up; }
 
 		/**
-		 * @brief Sets the up direction of the audio listener.
-		 * @param value The new up direction as a Float3.
+		 * @brief Sets the m_up direction of the audio listener.
+		 * @param value The new m_up direction as a Float3.
 		 */
-		inline void set_up(Float3 const& value) { up = value; }
+		inline void set_up(Float3 const& value) { m_up = value; }
 
 		/**
 		 * @brief Gets the velocity of the audio listener.
 		 * @return The velocity as a Float3.
 		 */
-		inline Float3 const& get_velocity() const { return velocity; }
+		inline Float3 const& get_velocity() const { return m_velocity; }
 
 		/**
 		 * @brief Sets the velocity of the audio listener.
 		 * @param value The new velocity as a Float3.
 		 */
-		inline void set_velocity(Float3 const& value) { velocity = value; }
+		inline void set_velocity(Float3 const& value) { m_velocity = value; }
 
 #pragma endregion
 
-#pragma region Methods
+#pragma region Variables
 
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	private:
+		Float3 m_position;
+		Float3 m_forward;
+		Float3 m_up;
+		Float3 m_velocity;
 
 #pragma endregion
+	};
+
+	struct Serializer<AudioListener>
+	{
+		static void serialize(Writer& writer, AudioListener const& value);
+        static void deserialize(Reader& reader, AudioListener& value);
 	};
 }
 

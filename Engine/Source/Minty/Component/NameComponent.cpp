@@ -5,14 +5,15 @@
 
 using namespace Minty;
 
-void Minty::NameComponent::serialize(Writer& writer) const
+void Minty::Serializer<NameComponent>::serialize(Writer &writer, NameComponent const &value)
 {
 	writer.write("Name", name);
 }
 
-Bool Minty::NameComponent::deserialize(Reader& reader)
+void Minty::Serializer<NameComponent>::deserialize(Reader &reader, NameComponent &value)
 {
-	reader.read_default(name);
-	reader.read("Name", name);
-	return true;
+	if(!reader.read_default(value.name))
+	{
+		reader.read("Name", value.name);
+	}
 }

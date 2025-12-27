@@ -4,7 +4,7 @@
 #include "Minty/Audio/Attenuation.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Math.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -12,19 +12,8 @@ namespace Minty
 	 * @brief Holds the data for an audio source.
 	 */
 	class AudioSource
-		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		Float3 m_position;
-		Float3 m_velocity;
-		Attenuation m_attenuation;
-		Float m_attenuationRolloff;
-		Float m_minDistance;
-		Float m_maxDistance;
-
-#pragma endregion
+		friend struct Serializer<AudioSource>;
 
 #pragma region Constructors
 
@@ -146,14 +135,25 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
+#pragma region Variables
 
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	private:
+		Float3 m_position;
+		Float3 m_velocity;
+		Attenuation m_attenuation;
+		Float m_attenuationRolloff;
+		Float m_minDistance;
+		Float m_maxDistance;
 
 #pragma endregion
 	};
+
+	template<>
+    struct Serializer<AudioSource>
+    {
+        static void serialize(Writer& writer, AudioSource const& value);
+        static void deserialize(Reader& reader, AudioSource& value);
+    };
 }
 
 #endif // MINTY_AUDIO_AUDIOSOURCE_H

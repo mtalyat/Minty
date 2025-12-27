@@ -1,568 +1,336 @@
 #include "pch.h"
 #include "Reader.h"
-#include "Minty/Asset/AssetManager.h"
-#include "Minty/Core/Format.h"
-#include "Minty/Core/Evaluate.h"
-#include "Minty/Data/UUID.h"
-#include "Minty/Serialization/Serializable.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Data/StringBuilder.h"
+#include "Minty/Stream/Stream.h"
+#include "Minty/Serialization/Parser.h"
 
 using namespace Minty;
 
-Any Minty::Reader::get_user_data() const
+Minty::TextReader::TextReader(Unique<Stream>&& stream)
+    : Reader(std::move(stream))
+    , m_nextKey()
+    , m_nextIndent(0)
+    , m_currentIndent(0)
 {
-	if (m_dataStack.get_size() == 0)
-	{
-		return nullptr;
-	}
-
-	return m_dataStack.peek();
 }
 
-void Minty::Reader::push_user_data(Any const data)
+Bool Minty::TextReader::indent()
 {
-	m_dataStack.push(data);
+    // Get the next key and indent level
+    if(!has_next())
+    {
+        if(!get_next_key(m_nextKey))
+        {
+            return false;
+        }
+    }
+
+    // If the next indent is greater than the current, indent
+    if(m_nextIndent > m_currentIndent)
+    {
+        MINTY_ASSERT(m_nextIndent == m_currentIndent + 1, ErrorCode::Serialization_InvalidFormat); // Cannot indent more than one level at a time
+        m_currentIndent = m_nextIndent;
+        return true;
+    }
+    return false;
 }
 
-void Minty::Reader::pop_user_data()
+void Minty::TextReader::outdent()
 {
-	MINTY_ASSERT(m_dataStack.get_size() > 0, ErrorCode::Object_EmptyContainer);
-
-	m_dataStack.pop();
+    MINTY_ASSERT(m_currentIndent > 0, ErrorCode::Serialization_InvalidFormat); // Cannot outdent past root level
+    m_currentIndent--;
 }
 
-Bool Minty::Reader::read_object(Size const index, SerializableObject& obj)
+Bool Minty::TextReader::read(Any data, Size const size)
 {
-	if (indent(index))
-	{
-		Bool result = obj.deserialize(*this);
-		outdent();
-		return result;
-	}
-
-	return false;
+    return m_stream->read(data, size);
 }
 
-Bool Minty::Reader::read_asset(Size const index, Shared<Asset>& asset)
+Bool Minty::TextReader::read_bool(Bool &value)
 {
-	UUID id{};
-	if (read(index, id))
-	{
-		// if ID is empty, that is okay, set to null
-		if (!id.is_valid())
-		{
-			asset = nullptr;
-			return true;
-		}
-
-		AssetManager& assetManager = AssetManager::get_singleton();
-		asset = assetManager.get_asset(id);
-		return asset != nullptr;
-	}
-
-	// no ID read
-	return false;
+    Char buffer;
+    if(!read_char(buffer))
+    {
+        return false;
+    }
+    value = buffer != 0 && buffer != '0' && buffer != 'f' && buffer != 'F';
+    return true;
 }
 
-void Minty::FileReaderBehavior::read_data(Any const data, Size const size)
+Bool Minty::TextReader::read_byte(Byte &value)
 {
-	MINTY_ASSERT(mp_file != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	MINTY_ASSERT(mp_file->is_open(), ErrorCode::Argument_InvalidState);
-
-	mp_file->read(data, size);
+    UInt64 temp;
+    if(!read_uint64(temp))
+    {
+        return false;
+    }
+    value = static_cast<Byte>(temp);
+    return true;
 }
 
-Vector<Byte> Minty::FileReaderBehavior::read_all()
+Bool Minty::TextReader::read_char(Char &value)
 {
-	Vector<Byte> fileData;
-	fileData.resize(mp_file->get_size(), 0);
-	read_data(fileData.get_data(), fileData.get_size());
-	return fileData;
+    return read(&value, sizeof(Char));
 }
 
-void Minty::MemoryReaderBehavior::read_data(Any const data, Size const size)
+Bool Minty::TextReader::read_int32(Int32 &value)
 {
-	// read from current index
-	Byte* memoryData = static_cast<Byte*>(mp_data->get_data());
-	memcpy(data, &memoryData[m_index], size);
-
-	// incremement position
-	m_index += size;
+    Int64 temp;
+    if(!read_int64(temp))
+    {
+        return false;
+    }
+    value = static_cast<Int32>(temp);
+    return true;
 }
 
-Vector<Byte> Minty::MemoryReaderBehavior::read_all()
+Bool Minty::TextReader::read_uint32(UInt32 &value)
 {
-	// save position
-	Size index = m_index;
-	m_index = 0;
-
-	// read all data
-	Vector<Byte> memoryData;
-	memoryData.resize(mp_data->get_size(), 0);
-	read_data(memoryData.get_data(), memoryData.get_size());
-
-	// set position back
-	m_index = index;
-
-	return memoryData;
+    UInt64 temp;
+    if(!read_uint64(temp))
+    {
+        return false;
+    }
+    value = static_cast<UInt32>(temp);
+    return true;
 }
 
-Node Minty::TextReaderBehavior::read_node(AnyConst const data, Size const size) const
+Bool Minty::TextReader::read_float32(Float32 &value)
 {
-	// get contents of file as text for parsing
-	Vector<Char> contents;
-	contents.resize(size + 1, 0);
-	contents[size] = 0; // set 0 at the end for good measure
-	memcpy(contents.get_data(), data, size);
-
-	// get string
-	String text(contents.get_data());
-
-	// parse it
-	return parse_to_node(text);
+    Float64 temp;
+    if(!read_float64(temp))
+    {
+        return false;
+    }
+    value = static_cast<Float32>(temp);
+    return true;
 }
 
-Bool Minty::TextReaderBehavior::read_bool_from_buffer(AnyConst const data, Size const size) const
+Bool Minty::TextReader::read_int64(Int64 &value)
 {
-	if (!size) return {};
+    if(m_stream->end_of_stream())
+    {
+        return false;
+    }
 
-	String text = read_string_from_buffer(data, size);
-	return to_bool(text);
-}
-Bool2 Minty::TextReaderBehavior::read_bool2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
+    StringBuilder builder;
+    Char ch = m_stream->peek();
+    if(ch == '-' || ch == '+')
+    {
+        builder.append(ch);
+        m_stream->read(&ch, sizeof(Char));
+    }
 
-	String text = read_string_from_buffer(data, size);
-	return to_bool2(text);
-}
-Bool3 Minty::TextReaderBehavior::read_bool3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
+    read_digits(builder);
 
-	String text = read_string_from_buffer(data, size);
-	return to_bool3(text);
-}
-Bool4 Minty::TextReaderBehavior::read_bool4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
+    if(builder.get_length() == 0)
+    {
+        return false;
+    }
 
-	String text = read_string_from_buffer(data, size);
-	return to_bool4(text);
-}
-Char Minty::TextReaderBehavior::read_char_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return text.front();
-}
-Byte Minty::TextReaderBehavior::read_byte_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Byte>(text);
-}
-Short Minty::TextReaderBehavior::read_short_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Short>(text);
-}
-UShort Minty::TextReaderBehavior::read_ushort_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<UShort>(text);
-}
-Int Minty::TextReaderBehavior::read_int_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Int>(text);
-}
-Int2 Minty::TextReaderBehavior::read_int2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Int2>(text);
-}
-Int3 Minty::TextReaderBehavior::read_int3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Int3>(text);
-}
-Int4 Minty::TextReaderBehavior::read_int4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Int4>(text);
-}
-UInt Minty::TextReaderBehavior::read_uint_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<UInt>(text);
-}
-UInt2 Minty::TextReaderBehavior::read_uint2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<UInt2>(text);
-}
-UInt3 Minty::TextReaderBehavior::read_uint3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<UInt3>(text);
-}
-UInt4 Minty::TextReaderBehavior::read_uint4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<UInt4>(text);
-}
-Long Minty::TextReaderBehavior::read_long_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Long>(text);
-}
-Long2 Minty::TextReaderBehavior::read_long2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Long2>(text);
-}
-Long3 Minty::TextReaderBehavior::read_long3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Long3>(text);
-}
-Long4 Minty::TextReaderBehavior::read_long4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Long4>(text);
-}
-ULong Minty::TextReaderBehavior::read_ulong_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<ULong>(text);
-}
-ULong2 Minty::TextReaderBehavior::read_ulong2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<ULong2>(text);
-}
-ULong3 Minty::TextReaderBehavior::read_ulong3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<ULong3>(text);
-}
-ULong4 Minty::TextReaderBehavior::read_ulong4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<ULong4>(text);
-}
-Float Minty::TextReaderBehavior::read_float_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Float>(text);
-}
-Float2 Minty::TextReaderBehavior::read_float2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Float2>(text);
-}
-Float3 Minty::TextReaderBehavior::read_float3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Float3>(text);
-}
-Float4 Minty::TextReaderBehavior::read_float4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Float4>(text);
-}
-Double Minty::TextReaderBehavior::read_double_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Double>(text);
-}
-Double2 Minty::TextReaderBehavior::read_double2_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Double2>(text);
-}
-Double3 Minty::TextReaderBehavior::read_double3_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Double3>(text);
-}
-Double4 Minty::TextReaderBehavior::read_double4_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return {};
-
-	String text = read_string_from_buffer(data, size);
-	return Math::evaluate<Double4>(text);
-}
-String Minty::TextReaderBehavior::read_string_from_buffer(AnyConst const data, Size const size) const
-{
-	if (!size) return "";
-
-	Vector<Char> text;
-	text.resize(size + 1, 0);
-	memcpy(text.get_data(), data, sizeof(Char) * size);
-	text.at(size) = '\0';
-	return String(text.get_data());
+    return Parser<Int64>::parse(builder.GetView(), value);
 }
 
-UUID Minty::TextReaderBehavior::read_uuid_from_buffer(AnyConst const data, Size const size) const
+Bool Minty::TextReader::read_uint64(UInt64 &value)
 {
-	if (!size) return {};
+    if(m_stream->end_of_stream())
+    {
+        return false;
+    }
 
-	String text = read_string_from_buffer(data, size);
-	UUID id;
-	id.parse(text);
-	return id;
+    StringBuilder builder;
+    Char ch = m_stream->peek();
+    if(ch == '-' || ch == '+')
+    {
+        builder.append(ch);
+        m_stream->read(&ch, sizeof(Char));
+    }
+
+    read_digits(builder);
+
+    if(builder.get_length() == 0)
+    {
+        return false;
+    }
+
+    return Parser<UInt64>::parse(builder.GetView(), value);
 }
 
-Type Minty::TextReaderBehavior::read_type_from_buffer(AnyConst const data, Size const size) const
+Bool Minty::TextReader::read_float64(Float64 &value)
 {
-	if (!size) return {};
+    if(m_stream->end_of_stream())
+    {
+        return false;
+    }
 
-	String text = read_string_from_buffer(data, size);
-	return parse_to_type(text);
+    StringBuilder builder;
+    Char ch = m_stream->peek();
+
+    if(ch == '-' || ch == '+')
+    {
+        builder.append(ch);
+        m_stream->read(&ch, sizeof(Char));
+    }
+
+    read_digits(builder);
+
+    ch = m_stream->peek();
+    if(ch == '.')
+    {
+        builder.append(ch);
+        m_stream->read(&ch, sizeof(Char));
+        read_digits(builder);
+    }
+
+    if(builder.get_length() == 0)
+    {
+        return false;
+    }
+
+    return Parser<Float64>::parse(builder.GetView(), value);
 }
 
-Any Minty::TextReaderBehavior::read_typed_from_buffer(AnyConst const data, Size const size, Type const type) const
+Bool Minty::TextReader::read_string(String &value)
 {
-	if (!size) return nullptr;
+    StringBuilder builder;
+    Char ch = m_stream->peek();
+    if (ch != '\"')
+    {
+        return false;
+    }
+    
+    // Consume the opening quote
+    m_stream->read(&ch, sizeof(Char));
 
-	Any output;
-	Size outputSize = sizeof_type(type);
+    // Read the string until the closing quote
+    while (true)
+    {
+        m_stream->read(&ch, sizeof(Char));
 
-	switch (type)
-	{
-	case Type::Bool:
-	{
-		auto temp = read_bool_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Bool2:
-	{
-		auto temp = read_bool2_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Bool3:
-	{
-		auto temp = read_bool3_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Bool4:
-	{
-		auto temp = read_bool4_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Char:
-	{
-		auto temp = read_char_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Byte:
-	{
-		auto temp = read_byte_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Short:
-	{
-		auto temp = read_short_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::UShort:
-	{
-		auto temp = read_ushort_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Int:
-	{
-		auto temp = read_int_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Int2:
-	{
-		auto temp = read_int2_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Int3:
-	{
-		auto temp = read_int3_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Int4:
-	{
-		auto temp = read_int4_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::UInt:
-	{
-		auto temp = read_uint_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::UInt2:
-	{
-		auto temp = read_uint2_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::UInt3:
-	{
-		auto temp = read_uint3_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::UInt4:
-	{
-		auto temp = read_uint4_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Long:
-	{
-		auto temp = read_long_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::ULong:
-	case Type::Size:
-	{
-		auto temp = read_ulong_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Float:
-	{
-		auto temp = read_float_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Float2:
-	{
-		auto temp = read_float2_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Float3:
-	{
-		auto temp = read_float3_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Float4:
-	{
-		auto temp = read_float4_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Double:
-	{
-		auto temp = read_double_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::String:
-	{
-		auto temp = read_string_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	case Type::Object:
-	{
-		auto temp = read_uuid_from_buffer(data, size);
-		output = new Byte[outputSize];
-		memcpy(output, &temp, outputSize);
-	}
-	break;
-	default:
-		MINTY_NOT_IMPLEMENTED();
-	}
+        MINTY_ASSERT(!m_stream->end_of_stream(), ErrorCode::Serialization_UnexpectedEndOfData);
+        MINTY_ASSERT(ch != '\0', ErrorCode::Serialization_InvalidFormat);
 
-	return output;
+        if (ch == '\\')
+        {
+            // Handle escape sequences
+            m_stream->read(&ch, sizeof(Char));
+            switch (ch)
+            {
+                case 'n':
+                    builder.append('\n');
+                    break;
+                case 't':
+                    builder.append('\t');
+                    break;
+                case 'r':
+                    builder.append('\r');
+                    break;
+                case '\\':
+                    builder.append('\\');
+                    break;
+                case '\"':
+                    builder.append('\"');
+                    break;
+                default:
+                    // Unknown escape sequence
+                    MINTY_ABORT(ErrorCode::Serialization_InvalidFormat);
+                    return false;
+            }
+        } else if (ch == '\"')
+        {
+            break;
+        }
+        else
+        {
+            builder.append(ch);
+        }
+    }
+
+    value = builder.ToString();
+    return true;
+}
+
+Bool Minty::TextReader::get_next_key(String &key)
+{
+    // If we already have a next key, return it
+    if(!m_nextKey.IsEmpty())
+    {
+        key = m_nextKey;
+        return true;
+    }
+
+    // Read the next indent and key
+    StringBuilder builder;
+    Char ch;
+    while(!m_stream->end_of_stream())
+    {
+        m_stream->read(&ch, sizeof(Char));
+        if(ch == ':')
+        {
+            m_stream->read(&ch, sizeof(Char)); // Consume the space after the colon
+            MINTY_ASSERT(ch == ' ', ErrorCode::Serialization_InvalidFormat);
+            break;
+        } else if (ch == '\n' || ch == '\r')
+        {
+            ch = m_stream->peek();
+            if(ch == '\n' || ch == '\r')
+            {
+                m_stream->read(&ch, sizeof(Char)); // Consume the second newline character
+            }
+            break;
+        }
+        else
+        {
+            builder.append(ch);
+            break;
+        }
+    }
+    m_nextKey = builder.ToString();
+    return true;
+}
+
+Bool Minty::TextReader::check_key(StringView const key)
+{
+    // If no key, get the next key
+    if(!has_next())
+    {
+        if(!get_next_key(m_nextKey))
+        {
+            return false;
+        }
+    }
+
+    // Check if the keys match
+    if(m_nextKey.GetView() != key)
+    {
+        return false;
+    }
+
+    // Clear the next key since it has been matched
+    m_nextKey.Clear();
+    return true;
+}
+
+void Minty::TextReader::read_digits(StringBuilder &builder)
+{
+    Size const startLength = builder.get_length();
+    Char ch;
+    while (!m_stream->end_of_stream())
+    {
+        ch = m_stream->peek();
+        if (ch >= '0' && ch <= '9')
+        {
+            builder.append(ch);
+            m_stream->read(&ch, sizeof(Char));
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
+Minty::Reader::Reader(Unique<Stream> &&stream)
+    : m_stream(std::move(stream))
+{
 }

@@ -8,14 +8,14 @@
 
 using namespace Minty;
 
-void Minty::ColliderComponent::serialize(Writer& writer) const
+void Minty::Serializer<ColliderComponent>::serialize(Writer &writer, ColliderComponent const &value)
 {
 	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::ColliderComponent::deserialize(Reader& reader)
+void Minty::Serializer<ColliderComponent>::deserialize(Reader &reader, ColliderComponent &value)
 {
-	if(!collider)
+	if(!value.collider)
 	{
 		// no existing collider, so create new one
 		ColliderInfo info{};
@@ -26,7 +26,7 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 		if (info.shape == Shape::Empty)
 		{
 			// read shape, but it is empty, so do nothing
-			collider = Collider::create(info);
+			value.collider = Collider::create(info);
 			return true;
 		}
 		reader.read("Offset", info.offset);
@@ -37,11 +37,9 @@ Bool Minty::ColliderComponent::deserialize(Reader& reader)
 		{
 			reader.read("Mesh", info.mesh);
 		}
-		collider = Collider::create(info);
+		value.collider = Collider::create(info);
 	} else
 	{
 		MINTY_NOT_IMPLEMENTED(); // overriding existing collider is not supported
 	}
-
-	return true;
 }

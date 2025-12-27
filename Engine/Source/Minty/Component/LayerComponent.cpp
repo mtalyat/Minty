@@ -6,15 +6,15 @@
 
 using namespace Minty;
 
-void Minty::LayerComponent::serialize(Writer& writer) const
+void Minty::Serializer<LayerComponent>::serialize(Writer &writer, LayerComponent const &value)
 {
 	LayerManager& layerManager = LayerManager::get_singleton();
 
 	// get layer's name
-	writer.write("Layer", layerManager.get_name(layer));
+	writer.write("Layer", layerManager.get_name(value.layer));
 }
 
-Bool Minty::LayerComponent::deserialize(Reader& reader)
+void Minty::Serializer<LayerComponent>::deserialize(Reader &reader, LayerComponent &value)
 {
 	// read the name of the layer
 	String layerName;
@@ -22,12 +22,9 @@ Bool Minty::LayerComponent::deserialize(Reader& reader)
 	{
 		// get the layer from the name
 		LayerManager& layerManager = LayerManager::get_singleton();
-		layer = layerManager.get_layer(layerName);
+		value.layer = layerManager.get_layer(layerName);
 
-		MINTY_ASSERT_F(layer != LAYER_NONE, ErrorCode::Layer_NotFound, layerName);
-
-		return true;
+		MINTY_ASSERT_F(value.layer != LAYER_NONE, ErrorCode::Layer_NotFound, layerName);
 	}
-
-	return false;
 }
+	

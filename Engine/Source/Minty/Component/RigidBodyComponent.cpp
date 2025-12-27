@@ -8,14 +8,14 @@
 
 using namespace Minty;
 
-void Minty::RigidBodyComponent::serialize(Writer &writer) const
+void Minty::Serializer<RigidBodyComponent>::serialize(Writer &writer, RigidBodyComponent const &value)
 {
     MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::RigidBodyComponent::deserialize(Reader &reader)
+void Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBodyComponent &value)
 {
-    if (!rigidBody)
+    if (!value.rigidBody)
     {
         // get rigid body info
         RigidBodyInfo info{};
@@ -44,7 +44,7 @@ Bool Minty::RigidBodyComponent::deserialize(Reader &reader)
         }
 
         // create new rigid body
-        rigidBody = RigidBody::create(info);
+        value.rigidBody = RigidBody::create(info);
     }
     else
     {
@@ -52,32 +52,30 @@ Bool Minty::RigidBodyComponent::deserialize(Reader &reader)
         Bool tempBool;
         if(reader.read("Kinematic", tempBool))
         {
-            rigidBody->set_kinematic(tempBool);
+            value.rigidBody->set_kinematic(tempBool);
         }
         if(reader.read("Static", tempBool))
         {
-            rigidBody->set_static(tempBool);
+            value.rigidBody->set_static(tempBool);
         }
         Float tempFloat;
         if(reader.read("Mass", tempFloat))
         {
-            rigidBody->set_mass(tempFloat);
+            value.rigidBody->set_mass(tempFloat);
         }
         if(reader.read("Friction", tempFloat))
         {
-            rigidBody->set_friction(tempFloat);
+            value.rigidBody->set_friction(tempFloat);
         }
         if(reader.read("Bounciness", tempFloat))
         {
-            rigidBody->set_bounce(tempFloat);
+            value.rigidBody->set_bounce(tempFloat);
         }
         Shared<Collider> tempCollider;
-        if(reader.read("Collider", tempCollider) && tempCollider != nullptr && tempCollider != rigidBody->get_collider())
+        if(reader.read("Collider", tempCollider) && tempCollider != nullptr && tempCollider != value.rigidBody->get_collider())
         {
             // changing collider of existing rigid body is not supported
             MINTY_ERROR(ErrorCode::Component_InvalidState);
         }
     }
-
-    return true;
 }

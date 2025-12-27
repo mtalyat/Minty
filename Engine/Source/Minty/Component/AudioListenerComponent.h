@@ -17,8 +17,7 @@ namespace Minty
 	 */
 	struct AudioListenerComponent
 		: public Component
-	{
-	};
+	{};
 }
 
 #endif // MINTY_COMPONENT_AUDIOLISTENERCOMPONENT_H

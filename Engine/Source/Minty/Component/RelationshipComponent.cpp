@@ -7,10 +7,10 @@
 
 using namespace Minty;
 
-void Minty::RelationshipComponent::serialize(Writer& writer) const
+void Minty::Serializer<RelationshipComponent>::serialize(Writer &writer, RelationshipComponent const &value)
 {
 	// if no parent, print nothing
-	if (parent == INVALID_ENTITY)
+	if (value.parent == INVALID_ENTITY)
 	{
 		return;
 	}
@@ -20,13 +20,13 @@ void Minty::RelationshipComponent::serialize(Writer& writer) const
 	EntitySerializationData const* entityData = static_cast<EntitySerializationData const*>(userData);
 
 	// get the parent id
-	UUID parentId = entityData->entityManager->get_id(parent);
+	UUID parentId = entityData->entityManager->get_id(value.parent);
 	
 	// write that id
 	writer.write("Parent", parentId);
 }
 
-Bool Minty::RelationshipComponent::deserialize(Reader& reader)
+void Minty::Serializer<RelationshipComponent>::deserialize(Reader &reader, RelationshipComponent &value)
 {
 	// get the serialization data
 	Any const userData = reader.get_user_data();
@@ -45,13 +45,11 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 		MINTY_ASSERT_F(parent != INVALID_ENTITY, ErrorCode::Entity_NotValid, parentId);
 
 		// set the parent
-		entityManager->set_parent(entityData->entity, parent);
+		entityManager->set_parent(entityData->entity, value.parent);
 	}
 	else
 	{
 		// set parent as root
 		entityManager->set_parent(entityData->entity, INVALID_ENTITY);
 	}
-
-	return true;
 }

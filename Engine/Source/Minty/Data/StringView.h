@@ -162,6 +162,18 @@ namespace Minty
 		inline Char at(Size const index) const { return this->index(index); }
 
         /**
+         * @brief Gets the first character in the string view.
+         * @return The first character.
+         */
+        inline Char front() const { return this->index(0); }
+
+        /**
+         * @brief Gets the last character in the string view.
+         * @return The last character.
+         */
+        inline Char back() const { return this->index(m_size - 1); }
+
+        /**
          * @brief Compares this StringView with another.
          * @param other The other StringView to compare with.
          * @return An integer less than, equal to, or greater than zero if this StringView is found,
@@ -191,6 +203,14 @@ namespace Minty
             }
             return 0;
         }
+
+        /**
+         * @brief Gets a substring of the string view.
+         * @param startIndex The starting index of the substring.
+         * @param count The number of characters in the substring. Defaults to SIZE_MAX to get until the end.
+         * @return A new StringView representing the substring.
+         */
+        StringView sub(Size const startIndex, Size const count = SIZE_MAX) const noexcept;
 
 #pragma endregion
 

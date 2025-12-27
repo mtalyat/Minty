@@ -8,8 +8,7 @@
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -21,7 +20,7 @@ namespace Minty
 	{
 		Generic,
 		Wrap,
-		Info, // application info
+		Info,
 		Script,
 		AudioClip,
 		Animation,
@@ -47,13 +46,11 @@ namespace Minty
 		Prefab,
 	};
 
-	String to_string(AssetType const obj);
-	AssetType parse_to_asset_type(String const& string);
-	Bool parse_try_asset_type(String const& string, AssetType& value);
-	template<>
-	inline AssetType parse_to<AssetType>(StringView const string) { return parse_to_asset_type(string); }
-	template<>
-	inline Bool parse_try<AssetType>(StringView const string, AssetType& value) { return parse_try_asset_type(string, value); }
+	struct Parser<AssetType>
+	{
+		static Bool parse(StringView const str, AssetType &value);
+		static String to_string(AssetType const &value);
+	};
 }
 
 #endif // MINTY_ASSET_ASSETTYPE_H

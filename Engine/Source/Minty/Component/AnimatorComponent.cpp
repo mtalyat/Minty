@@ -9,12 +9,12 @@
 
 using namespace Minty;
 
-void Minty::AnimatorComponent::serialize(Writer& writer) const
+void Minty::Serializer<AnimatorComponent>::serialize(Writer &writer, AnimatorComponent const &value)
 {
 	writer.write("Animator", animator->get_id());
 }
 
-Bool Minty::AnimatorComponent::deserialize(Reader& reader)
+void Minty::Serializer<AnimatorComponent>::deserialize(Reader &reader, AnimatorComponent &value)
 {
 	auto const& assetManager = AssetManager::get_instance();
 	if(!assetManager)
@@ -37,6 +37,4 @@ Bool Minty::AnimatorComponent::deserialize(Reader& reader)
 			animation = assetManager->get_ref<Animation>(id);
 		}
 	}
-
-	return true;
 }

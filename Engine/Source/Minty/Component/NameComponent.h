@@ -18,10 +18,17 @@ namespace Minty
 	struct NameComponent
 		: public Component
 	{
+		/**
+		 * @brief The name of the entity.
+		 */
 		String name = "";
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<NameComponent>
+	{
+		static void serialize(Writer& writer, NameComponent const& value);
+		static void deserialize(Reader& reader, NameComponent& value);
 	};
 }
 

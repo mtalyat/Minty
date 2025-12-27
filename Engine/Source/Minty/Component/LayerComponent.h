@@ -19,10 +19,17 @@ namespace Minty
 	struct LayerComponent
 		: public Component
 	{
+		/**
+		 * @brief The layer of the entity.
+		 */
 		Layer layer = LAYER_DEFAULT;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<LayerComponent>
+	{
+		static void serialize(Writer& writer, LayerComponent const& value);
+		static void deserialize(Reader& reader, LayerComponent& value);
 	};
 }
 

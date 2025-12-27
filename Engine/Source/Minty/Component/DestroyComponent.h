@@ -18,6 +18,13 @@ namespace Minty
 		: public Component
 	{
 	};
+
+	template<>
+	struct Serializer<DestroyComponent>
+	{
+		static void serialize(Writer& writer, DestroyComponent const& value){}
+		static void deserialize(Reader& reader, DestroyComponent& value){}
+	};
 }
 
 #endif // MINTY_COMPONENT_DESTROYCOMPONENT_H

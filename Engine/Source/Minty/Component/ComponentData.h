@@ -9,6 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/Data/String.h"
 
 namespace Minty
 {

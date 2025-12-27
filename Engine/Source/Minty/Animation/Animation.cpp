@@ -134,7 +134,7 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	}
 }
 
-Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index const componentIndex, AnimationActionType const type) const
+Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index const componentIndex, AnimationActionFlags const type) const
 {
 	// pack the indices into a single key
 	return
@@ -143,12 +143,12 @@ Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index 
 			((static_cast<StepKey>(type) & MAX_FLAGS_INDEX) << FLAGS_OFFSET));
 }
 
-void Minty::Animation::extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionType& type) const
+void Minty::Animation::extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionFlags& type) const
 {
 	// extract the entity and component indices from the key
 	entityIndex = static_cast<Index>((key >> ENTITY_OFFSET) & MAX_ENTITY_INDEX);
 	componentIndex = static_cast<Index>((key >> COMPONENT_OFFSET) & MAX_COMPONENT_INDEX);
-	type = static_cast<AnimationActionType>((key >> FLAGS_OFFSET) & MAX_FLAGS_INDEX);
+	type = static_cast<AnimationActionFlags>((key >> FLAGS_OFFSET) & MAX_FLAGS_INDEX);
 }
 
 Animation::StepValue Minty::Animation::compile_value(Index const variableIndex, Index const valueIndex) const
@@ -181,10 +181,10 @@ void Minty::Animation::build_action(StepKey& key, Vector<StepValue>& values, Ani
 	}
 
 	// if the action has smooth variables, it must be a smooth action
-	AnimationActionType type = action.type;
+	AnimationActionFlags type = action.type;
 	if (hasSmooth)
 	{
-		type |= AnimationActionType::Smooth;
+		type |= AnimationActionFlags::Smooth;
 	}
 
 	// compile the key
@@ -234,7 +234,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	Component* component = componentInfo->get(entityManager, entity);
 
 	// determine what to do based on the flags
-	if ((action.type & AnimationActionType::Add) != AnimationActionType::None)
+	if ((action.type & AnimationActionFlags::Add) != AnimationActionFlags::None)
 	{
 		if (component == nullptr)
 		{
@@ -242,7 +242,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 		}
 		return;
 	}
-	if ((action.type & AnimationActionType::Remove) != AnimationActionType::None)
+	if ((action.type & AnimationActionFlags::Remove) != AnimationActionFlags::None)
 	{
 		if (component != nullptr)
 		{
@@ -322,7 +322,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// check if the key is smooth or rigid
 		Index entityIndex, componentIndex;
-		AnimationActionType type;
+		AnimationActionFlags type;
 		extract_key(key, entityIndex, componentIndex, type);
 
 		// get the entity
@@ -334,7 +334,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		Component* component = componentInfo->get(entityManager, entity);
 
 		// determine what to do based on the flags
-		if ((type & AnimationActionType::Add) != AnimationActionType::None)
+		if ((type & AnimationActionFlags::Add) != AnimationActionFlags::None)
 		{
 			if (component == nullptr)
 			{
@@ -342,7 +342,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 			}
 			continue;
 		}
-		if ((type & AnimationActionType::Remove) != AnimationActionType::None)
+		if ((type & AnimationActionFlags::Remove) != AnimationActionFlags::None)
 		{
 			if (component != nullptr)
 			{
@@ -352,7 +352,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		}
 
 		// normal step
-		Bool const interpolate = (type & AnimationActionType::Smooth) != AnimationActionType::None;
+		Bool const interpolate = (type & AnimationActionFlags::Smooth) != AnimationActionFlags::None;
 
 		// behave differently based on the interpolation type
 		if (interpolate)

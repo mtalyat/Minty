@@ -3,12 +3,12 @@
 
 using namespace Minty;
 
-void Minty::CanvasComponent::serialize(Writer& writer) const
+void Minty::Serializer<CanvasComponent>::serialize(Writer &writer, CanvasComponent const &value)
 {
-	canvas.serialize(writer);
+	Serializer<Canvas>::serialize(writer, value.canvas);
 }
 
-Bool Minty::CanvasComponent::deserialize(Reader& reader)
+void Minty::Serializer<CanvasComponent>::deserialize(Reader &reader, CanvasComponent &value)
 {
-	return canvas.deserialize(reader);
+	Serializer<Canvas>::deserialize(reader, value.canvas);
 }
