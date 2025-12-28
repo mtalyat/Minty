@@ -22,16 +22,14 @@ UUID Minty::State::evaluate(Scope const& scope) const
 	return UUID();
 }
 
-void Minty::State::serialize(Writer& writer) const
+void Minty::Serializer<State>::serialize(Writer &writer, State const &value)
 {
-	writer.write("Value", m_value);
-	writer.write("Transitions", m_transitions);
+	writer.write("Value", value.m_value);
+	writer.write("Transitions", value.m_transitions);
 }
 
-Bool Minty::State::deserialize(Reader& reader)
+void Minty::Serializer<State>::deserialize(Reader &reader, State &value)
 {
-	reader.read("Value", m_value);
-	reader.read("Transitions", m_transitions);
-
-	return true;
+	reader.read("Value", value.m_value);
+	reader.read("Transitions", value.m_transitions);
 }

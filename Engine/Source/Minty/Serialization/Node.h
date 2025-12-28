@@ -12,9 +12,8 @@
 #include "Minty/Data/Map.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/Vector.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/Serializable.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -22,7 +21,6 @@ namespace Minty
 	 * @brief Represents an object that contains data, and a list of children nodes.
 	 */
 	class Node
-		: public Serializable
 	{
 #pragma region Constructors
 
@@ -313,9 +311,6 @@ namespace Minty
 		 */
 		Bool merge(Node const& other);
 
-		void serialize(Writer& writer, String const& name) const override;
-		Bool deserialize(Reader& reader, Size const index) override;
-
 #pragma endregion
 
 #pragma region Variables
@@ -328,14 +323,20 @@ namespace Minty
 
 #pragma endregion
 	};
+	
+	template<>
+	struct Parser<Node>
+	{
+		static Bool parse(StringView const str, Node& value);
+		static String to_string(Node const& obj);
+	};
 
-	String to_string(Node const& obj);
-	Node parse_to_node(String const& string);
-	Bool parse_try_node(String const& string, Node& value);
-	template<>
-	inline Node parse_to<Node>(StringView const string) { return parse_to_node(string); }
-	template<>
-	inline Bool parse_try<Node>(StringView const string, Node& value) { return parse_try_node(string, value); }
+    template<>
+    struct Serializer<Node>
+    {
+        static void serialize(Writer& writer, Node const& value);
+        static void deserialize(Reader& reader, Node& value);
+    };
 }
 
 #endif // MINTY_SERIALIZATION_NODE_H

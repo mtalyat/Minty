@@ -18,5 +18,5 @@ Bool Minty::Parser<AnimationActionFlags>::parse(StringView const str, AnimationA
 
 String Minty::Parser<AnimationActionFlags>::to_string(AnimationActionFlags const &value)
 {
-    return Tool::to_string_enum_flags(reinterpret_cast<Size>(value), ANIMATIONACTIONFLAGS_STRINGS, ANIMATIONACTIONFLAGS_COUNT);
+    return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(value), ANIMATIONACTIONFLAGS_STRINGS, ANIMATIONACTIONFLAGS_COUNT);
 }

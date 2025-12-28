@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -146,15 +145,14 @@ namespace Minty
         Default = R8G8B8A8_SRGB
     };
 
-    String to_string(Format const obj);
-    Format parse_to_format(String const& string);
-    Bool parse_try_format(String const& string, Format& value);
-    template<>
-    inline Format parse_to<Format>(StringView const string) { return parse_to_format(string); }
-    template<>
-    inline Bool parse_try<Format>(StringView const string, Format& value) { return parse_try_format(string, value); }
-
 	Size format_get_size(Format const format);
+
+    template<>
+    struct Parser<Format>
+    {
+        static Bool parse(StringView const str, Format& value);
+        static String to_string(Format const& obj);
+    };
 }
 
 #endif // MINTY_RENDER_FORMAT_H

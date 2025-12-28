@@ -1,48 +1,56 @@
 #include "pch.h"
 #include "AnchorMode.h"
-#include "Minty/Data/StringBuilder.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(AnchorMode const obj)
+static constexpr Size ANCHORMODE_COUNT = 6;
+static constexpr Char const* ANCHORMODE_STRINGS[ANCHORMODE_COUNT] =
 {
-	// special cases
-    switch (obj)
-    {
-	case AnchorMode::Empty: return "Empty";
-	case AnchorMode::All: return "All";
-    }
+	"Top",
+	"Middle",
+	"Bottom",
+	"Left",
+	"Center",
+	"Right"
+};
 
-	// default case
-    StringBuilder result;
-	if (static_cast<Bool>(obj & AnchorMode::Top)) result.append("Top");
-	if (static_cast<Bool>(obj & AnchorMode::Middle)) result.append("Middle");
-	if (static_cast<Bool>(obj & AnchorMode::Bottom)) result.append("Bottom");
-	if (static_cast<Bool>(obj & AnchorMode::Left)) result.append("Left");
-	if (static_cast<Bool>(obj & AnchorMode::Center)) result.append("Center");
-	if (static_cast<Bool>(obj & AnchorMode::Right)) result.append("Right");
-	return result.to_string();
+Bool Minty::Parser<AnchorMode>::parse(StringView const str, AnchorMode &value)
+{
+	// check aliases
+	if (str == "Vertical")
+	{
+		value = AnchorMode::Vertical;
+		return true;
+	}
+	else if (str == "Horizontal")
+	{
+		value = AnchorMode::Horizontal;
+		return true;
+	} else if (str == "All")
+	{
+		value = AnchorMode::All;
+		return true;
+	}
+
+    return Tool::try_parse_enum_flags(str, ANCHORMODE_STRINGS, ANCHORMODE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-AnchorMode Minty::parse_to_anchor_mode(String const& string)
+String Minty::Parser<AnchorMode>::to_string(AnchorMode const &value)
 {
-	// special cases
-	if (string == "Empty") return AnchorMode::Empty;
-	if (string == "All") return AnchorMode::All;
+	// check aliases
+	if (value == AnchorMode::Vertical)
+	{
+		return "Vertical";
+	}
+	else if (value == AnchorMode::Horizontal)
+	{
+		return "Horizontal";
+	}
+	else if (value == AnchorMode::All)
+	{
+		return "All";
+	}
 
-	// default case
-	AnchorMode result = AnchorMode::Empty;
-	if (string.contains("Top")) result |= AnchorMode::Top;
-	if (string.contains("Middle")) result |= AnchorMode::Middle;
-	if (string.contains("Bottom")) result |= AnchorMode::Bottom;
-	if (string.contains("Left")) result |= AnchorMode::Left;
-	if (string.contains("Center")) result |= AnchorMode::Center;
-	if (string.contains("Right")) result |= AnchorMode::Right;
-	return result;
-}
-
-Bool Minty::parse_try_anchor_mode(String const& string, AnchorMode& value)
-{
-	value = parse_to_anchor_mode(string);
-	return string == "Empty" || value != AnchorMode::Empty;
+	return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(value), ANCHORMODE_STRINGS, ANCHORMODE_COUNT);
 }

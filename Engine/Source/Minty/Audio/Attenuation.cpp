@@ -19,5 +19,5 @@ Bool Minty::Parser<Attenuation>::parse(StringView const str, Attenuation &value)
 
 String Minty::Parser<Attenuation>::to_string(Attenuation const &value)
 {
-    return Tool::to_string_enum(static_cast<Size>(value), ATTENUATION_STRINGS, ATTENUATION_COUNT);
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), ATTENUATION_STRINGS, ATTENUATION_COUNT);
 }

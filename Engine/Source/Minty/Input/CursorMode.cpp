@@ -1,31 +1,23 @@
 #include "pch.h"
 #include "CursorMode.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(CursorMode const obj)
-{
-	switch (obj)
-	{
-	case CursorMode::Normal: return "Normal";
-	case CursorMode::Hidden: return "Hidden";
-	case CursorMode::Disabled: return "Disabled";
+static constexpr Size CURSORMODE_COUNT = 3;
+static constexpr Char const* CURSORMODE_STRINGS[CURSORMODE_COUNT] = 
+{ 
+	"Normal", 
+	"Hidden", 
+	"Disabled"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<CursorMode>::parse(StringView const str, CursorMode &value)
+{
+	return Tool::try_parse_enum(str, CURSORMODE_STRINGS, CURSORMODE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-CursorMode Minty::parse_to_cursor_mode(String const& string)
+String Minty::Parser<CursorMode>::to_string(CursorMode const &obj)
 {
-	if (string == "Normal") return CursorMode::Normal;
-	if (string == "Hidden") return CursorMode::Hidden;
-	if (string == "Disabled") return CursorMode::Disabled;
-
-	return CursorMode();
-}
-
-Bool Minty::parse_try_cursor_mode(String const& string, CursorMode& value)
-{
-	value = parse_to_cursor_mode(string);
-	return true;
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), CURSORMODE_STRINGS, CURSORMODE_COUNT);
 }

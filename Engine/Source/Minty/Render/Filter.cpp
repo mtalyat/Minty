@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "Filter.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(Filter const obj)
+static constexpr Size FILTER_COUNT = 3;
+static constexpr Char const* FILTER_STRINGS[FILTER_COUNT] = 
 {
-	switch (obj)
-	{
-	case Filter::Nearest: return "Nearest";
-	case Filter::Linear: return "Linear";
+	"Undefined",
+	"Nearest",
+	"Linear"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<Filter>::parse(StringView const str, Filter &value)
+{
+    return Tool::try_parse_enum(str, FILTER_STRINGS, FILTER_COUNT, reinterpret_cast<Size&>(value));
 }
 
-Filter Minty::parse_to_filter(String const& string)
+String Minty::Parser<Filter>::to_string(Filter const &obj)
 {
-	if (string == "Nearest") return Filter::Nearest;
-	if (string == "Linear") return Filter::Linear;
-
-	return Filter();
-}
-
-Bool Minty::parse_try_filter(String const& string, Filter& value)
-{
-	value = parse_to_filter(string);
-	return value != Filter();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), FILTER_STRINGS, FILTER_COUNT);
 }

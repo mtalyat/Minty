@@ -49,7 +49,7 @@ namespace Minty
             {
                 return false;
             }
-            return read(key.GetView(), value);
+            return read(key.get_view(), value);
         }
 
         virtual Bool indent() = 0;
@@ -153,7 +153,7 @@ namespace Minty
 
     private:
         void read_digits(StringBuilder& builder);
-        inline Bool has_next() { return !m_nextKey.IsEmpty(); }
+        inline Bool has_next() { return !m_nextKey.is_empty(); }
 
 #pragma endregion
 

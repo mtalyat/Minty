@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -37,14 +36,13 @@ namespace Minty
 		 */
 		Point = 3,
 	};
-
-	String to_string(ShaderPolygonMode const obj);
-	ShaderPolygonMode parse_to_shader_polygon_mode(String const& string);
-	Bool parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value);
+	
 	template<>
-	inline ShaderPolygonMode parse_to<ShaderPolygonMode>(StringView const string) { return parse_to_shader_polygon_mode(string); }
-	template<>
-	inline Bool parse_try<ShaderPolygonMode>(StringView const string, ShaderPolygonMode& value) { return parse_try_shader_polygon_mode(string, value); }
+	struct Parser<ShaderPolygonMode>
+	{
+		static Bool parse(StringView const str, ShaderPolygonMode& value);
+		static String to_string(ShaderPolygonMode const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_SHADERPOLYGONMODE_H

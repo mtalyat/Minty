@@ -15,28 +15,26 @@ Matrix4 Minty::Transform::get_local_matrix() const
 	return glm::translate(Matrix4(1.0f), m_localPosition) * glm::mat4_cast(m_localRotation) * glm::scale(Matrix4(1.0f), m_localScale);
 }
 
-void Minty::Transform::serialize(Writer &writer) const
+void Minty::Serializer<Transform>::serialize(Writer &writer, Transform const &value)
 {
-	writer.write("Position", m_localPosition);
-	Float3 eulerAngles = Math::to_euler(m_localRotation);
+	writer.write("Position", value.m_localPosition);
+	Float3 eulerAngles = Math::to_euler(value.m_localRotation);
 	// convert radians to degrees
 	eulerAngles *= Math::RAD2DEG;
 	writer.write("Rotation", eulerAngles);
-	writer.write("Scale", m_localScale);
+	writer.write("Scale", value.m_localScale);
 }
 
-Bool Minty::Transform::deserialize(Reader &reader)
+void Minty::Serializer<Transform>::deserialize(Reader &reader, Transform &value)
 {
-	reader.read_default(m_localPosition);
-	reader.read("Position", m_localPosition);
+	reader.read_default(value.m_localPosition);
+	reader.read("Position", value.m_localPosition);
 	Float3 eulerAngles;
 	if (reader.read("Rotation", eulerAngles))
 	{
 		// convert degrees to radians
 		eulerAngles *= Math::DEG2RAD;
-		m_localRotation = Math::to_cartesian(eulerAngles);
+		value.m_localRotation = Math::to_cartesian(eulerAngles);
 	}
-	reader.read("Scale", m_localScale);
-
-	return true;
+	reader.read("Scale", value.m_localScale);
 }

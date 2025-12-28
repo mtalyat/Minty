@@ -1,31 +1,24 @@
 #include "pch.h"
 #include "ImageType.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ImageType const obj)
+static constexpr Size IMAGETYPE_COUNT = 4;
+static constexpr Char const* IMAGETYPE_STRINGS[IMAGETYPE_COUNT] =
 {
-	switch (obj)
-	{
-	case ImageType::D1: return "D1";
-	case ImageType::D2: return "D2";
-	case ImageType::D3: return "D3";
+	"Undefined",
+	"D1",
+	"D2",
+	"D3"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ImageType>::parse(StringView const str, ImageType &value)
+{
+	return Tool::try_parse_enum(str, IMAGETYPE_STRINGS, IMAGETYPE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ImageType Minty::parse_to_image_type(String const& string)
+String Minty::Parser<ImageType>::to_string(ImageType const &obj)
 {
-	if (string == "D1") return ImageType::D1;
-	if (string == "D2") return ImageType::D2;
-	if (string == "D3") return ImageType::D3;
-
-	return ImageType();
-}
-
-Bool Minty::parse_try_image_type(String const& string, ImageType& value)
-{
-	value = parse_to_image_type(string);
-	return value != ImageType();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), IMAGETYPE_STRINGS, IMAGETYPE_COUNT);
 }

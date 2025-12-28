@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "ImageTiling.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ImageTiling const obj)
+static constexpr Size IMAGETILING_COUNT = 3;
+static constexpr Char const* IMAGETILING_STRINGS[IMAGETILING_COUNT] =
 {
-	switch (obj)
-	{
-	case ImageTiling::Optimal: return "Optimal";
-	case ImageTiling::Linear: return "Linear";
+	"Undefined",
+	"Optimal",
+	"Linear"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ImageTiling>::parse(StringView const str, ImageTiling &value)
+{
+    return Tool::try_parse_enum(str, IMAGETILING_STRINGS, IMAGETILING_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ImageTiling Minty::parse_to_image_tiling(String const& string)
+String Minty::Parser<ImageTiling>::to_string(ImageTiling const &obj)
 {
-	if (string == "Optimal") return ImageTiling::Optimal;
-	if (string == "Linear") return ImageTiling::Linear;
-
-	return ImageTiling();
-}
-
-Bool Minty::parse_try_image_tiling(String const& string, ImageTiling& value)
-{
-	value = parse_to_image_tiling(string);
-	return value != ImageTiling();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), IMAGETILING_STRINGS, IMAGETILING_COUNT);
 }

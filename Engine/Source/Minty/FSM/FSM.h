@@ -11,7 +11,7 @@
 #include "Minty/Data/Scope.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/FSM/State.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -19,8 +19,9 @@ namespace Minty
 	 * @brief A Finite State Machine (FSM) is a model of computation that can be in one of a finite number of states at any given time.
 	 */
 	class FSM
-		: public SerializableObject
 	{
+		friend struct Serializer<FSM>;
+
 #pragma region Constructors
 
 	public:
@@ -306,9 +307,6 @@ namespace Minty
 		 */
 		void restart();
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
 #pragma endregion
 
 #pragma region Variables
@@ -320,6 +318,13 @@ namespace Minty
 		UUID m_startingStateId;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<FSM>
+	{
+		static void serialize(Writer& writer, FSM const& value);
+		static void deserialize(Reader& reader, FSM& value);
 	};
 }
 

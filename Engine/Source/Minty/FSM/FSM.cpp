@@ -104,22 +104,22 @@ void Minty::FSM::restart()
 	m_currentStateId = m_startingStateId;
 }
 
-void Minty::FSM::serialize(Writer &writer) const
+void Minty::Serializer<FSM>::serialize(Writer &writer, FSM const &value)
 {
 	// add this to push data
 	writer.push_user_data(this);
 
-	writer.write("Scope", m_scope);
-	if (m_startingStateId.is_valid())
+	writer.write("Scope", value.m_scope);
+	if (value.m_startingStateId.is_valid())
 	{
 		// get the name of the starting state
-		String name = m_states.get_string(m_startingStateId);
+		String name = value.m_states.get_string(value.m_startingStateId);
 		writer.write("Start", name);
 	}
 	
 	// write all states
 	writer.indent("States");
-	for (auto const& [string, key, value] : m_states)
+	for (auto const& [string, key, value] : value.m_states)
 	{
 		writer.write(string, value);
 	}
@@ -129,15 +129,15 @@ void Minty::FSM::serialize(Writer &writer) const
 	writer.pop_user_data();
 }
 
-Bool Minty::FSM::deserialize(Reader& reader)
+void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 {
-	clear();
+	value.clear();
 
 	// add this to push data
 	reader.push_user_data(this);
 
 	// read scope
-	reader.read("Scope", m_scope);
+	reader.read("Scope", value.m_scope);
 
 	// read states
 	String name;
@@ -148,7 +148,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 		{
 			Bool const nameResult = reader.read_name(i, name);
 			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
-			m_states.add(name, UUID::create(), State());
+			value.m_states.add(name, UUID::create(), State());
 		}
 
 		// read the states
@@ -160,7 +160,7 @@ Bool Minty::FSM::deserialize(Reader& reader)
 
 			// get the state
 			// no need to check if not found, just added the state above
-			State& state = m_states.at(name);
+			State& state = value.m_states.at(name);
 
 			// read the state values
 			Bool const readResult = reader.read(i, state);
@@ -173,11 +173,9 @@ Bool Minty::FSM::deserialize(Reader& reader)
 	// read starting state
 	if (reader.read("Start", name))
 	{
-		MINTY_ASSERT_F(m_states.contains(name), ErrorCode::Serialization_InvalidData, name);
-		m_startingStateId = m_states.get_key(name);
+		MINTY_ASSERT_F(value.m_states.contains(name), ErrorCode::Serialization_InvalidData, name);
+		value.m_startingStateId = value.m_states.get_key(name);
 	}
 
 	reader.pop_user_data();
-
-	return true;
 }

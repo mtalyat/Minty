@@ -10,7 +10,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Entity/Entity.h"
-#include "Minty/Serialization/Parseable.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -18,8 +18,9 @@ namespace Minty
 	 * @brief An EntityPath is a relational path from an Entity to another Entity.
 	 */
 	class EntityPath
-		: public Parseable
 	{
+		friend struct Parser<EntityPath>;
+
 #pragma region Constructors
 
 	public:
@@ -64,14 +65,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
-
-	public:
-		Bool parse(StringView const text) override;
-		String to_string() const override;
-
-#pragma endregion
-
 #pragma region Variables
 
 	private:
@@ -79,6 +72,13 @@ namespace Minty
 		Vector<Byte> m_path;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Parser<EntityPath>
+	{
+		static Bool parse(StringView const str, EntityPath &value);
+		static String to_string(EntityPath const &value);
 	};
 }
 

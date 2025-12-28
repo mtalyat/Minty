@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "ShaderFrontFace.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ShaderFrontFace const obj)
+static constexpr Size SHADERFRONTFACE_COUNT = 3;
+static constexpr Char const* SHADERFRONTFACE_STRINGS[SHADERFRONTFACE_COUNT] =
 {
-	switch (obj)
-	{
-	case ShaderFrontFace::CounterClockwise: return "CounterClockwise";
-	case ShaderFrontFace::Clockwise: return "Clockwise";
+	"Undefined",
+	"CounterClockwise",
+	"Clockwise"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ShaderFrontFace>::parse(StringView const str, ShaderFrontFace &value)
+{
+    return Tool::try_parse_enum(str, SHADERFRONTFACE_STRINGS, SHADERFRONTFACE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ShaderFrontFace Minty::parse_to_shader_front_face(String const& string)
+String Minty::Parser<ShaderFrontFace>::to_string(ShaderFrontFace const &obj)
 {
-	if (string == "CounterClockwise") return ShaderFrontFace::CounterClockwise;
-	if (string == "Clockwise") return ShaderFrontFace::Clockwise;
-
-	return ShaderFrontFace();
-}
-
-Bool Minty::parse_try_shader_front_face(String const& string, ShaderFrontFace& value)
-{
-	value = parse_to_shader_front_face(string);
-	return value != ShaderFrontFace();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), SHADERFRONTFACE_STRINGS, SHADERFRONTFACE_COUNT);
 }

@@ -11,7 +11,7 @@
 #include "Minty/Data/Scope.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/FSM/Conditional.h"
-#include "Minty/Serialization/Serializable.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -19,8 +19,9 @@ namespace Minty
 	 * @brief A single condition that must be met in order for a transition to occur.
 	 */
 	class Condition
-		: public Serializable
 	{
+		friend struct ItemSerializer<Condition>;
+
 #pragma region Constructors
 
 	public:
@@ -59,9 +60,6 @@ namespace Minty
 		 */
 		Bool evaluate(Scope const& scope) const;
 
-		void serialize(Writer& writer, String const& name) const override;
-		Bool deserialize(Reader& reader, Size const index) override;
-
 #pragma endregion
 
 #pragma region Variables
@@ -72,6 +70,13 @@ namespace Minty
 		Int m_value;
 
 #pragma endregion
+	};
+
+	template<>
+	struct ItemSerializer<Condition>
+	{
+		static void serialize_item(Writer& writer, StringView const name, Condition const& value);
+        static void deserialize_item(Reader& reader, Size const index, Condition& value);
 	};
 }
 

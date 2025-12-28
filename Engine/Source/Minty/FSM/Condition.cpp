@@ -18,26 +18,26 @@ Bool Minty::Condition::evaluate(Scope const& scope) const
 	return Minty::evaluate_conditional(value, m_conditional, m_value);
 }
 
-void Minty::Condition::serialize(Writer& writer, String const& name) const
+void Minty::ItemSerializer<Condition>::serialize_item(Writer &writer, StringView const name, Condition const &value)
 {
-    // get scope from user data
+	// get scope from user data
 	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 	Scope const& scope = fsm->get_scope();
 	
     // get the variable name
-	String const& variableName = scope.get_name(m_variableId);
+	String const& variableName = scope.get_name(value.m_variableId);
 
 	// compile into a string
-	String conditionString = F("{} {} {}", variableName, Minty::to_string(m_conditional), m_value);
+	String conditionString = F("{} {} {}", variableName, Minty::to_string(value.m_conditional), value.m_value);
 
 	// write the condition string
 	writer.write(name, conditionString);
 }
 
-Bool Minty::Condition::deserialize(Reader& reader, Size const index)
+void Minty::ItemSerializer<Condition>::deserialize_item(Reader &reader, Size const index, Condition &value)
 {
-	// read the condition string
+	 // read the condition string
 	String conditionString;
 	Bool const readResult = reader.read(index, conditionString);
 	MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
@@ -53,10 +53,8 @@ Bool Minty::Condition::deserialize(Reader& reader, Size const index)
 	Scope& scope = fsm->get_scope();
 
 	// get the values
-	m_variableId = scope.find(parts[0]);
-	MINTY_ASSERT_F(m_variableId != UUID(), ErrorCode::Serialization_InvalidData, parts[0]);
-	m_conditional = parse_to_conditional(parts[1]);
-	m_value = Math::evaluate<Int>(parts[2]);
-
-	return true;
+	value.m_variableId = scope.find(parts[0]);
+	MINTY_ASSERT_F(value.m_variableId != UUID(), ErrorCode::Serialization_InvalidData, parts[0]);
+	value.m_conditional = parse_to_conditional(parts[1]);
+	value.m_value = Math::evaluate<Int>(parts[2]);
 }

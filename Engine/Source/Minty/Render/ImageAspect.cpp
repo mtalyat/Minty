@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "ImageAspect.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ImageAspect const obj)
+static constexpr Size IMAGEASPECT_COUNT = 3;
+static constexpr Char const* IMAGEASPECT_STRINGS[IMAGEASPECT_COUNT] =
 {
-	switch (obj)
-	{
-	case ImageAspect::Color: return "Color";
-	case ImageAspect::Depth: return "Depth";
+	"Undefined",
+	"Color",
+	"Depth"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ImageAspect>::parse(StringView const str, ImageAspect &value)
+{
+	return Tool::try_parse_enum(str, IMAGEASPECT_STRINGS, IMAGEASPECT_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ImageAspect Minty::parse_to_image_aspect(String const& string)
+String Minty::Parser<ImageAspect>::to_string(ImageAspect const &obj)
 {
-	if (string == "Color") return ImageAspect::Color;
-	if (string == "Depth") return ImageAspect::Depth;
-
-	return ImageAspect();
-}
-
-Bool Minty::parse_try_image_aspect(String const& string, ImageAspect& value)
-{
-	value = parse_to_image_aspect(string);
-	return value != ImageAspect();
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), IMAGEASPECT_STRINGS, IMAGEASPECT_COUNT);
 }

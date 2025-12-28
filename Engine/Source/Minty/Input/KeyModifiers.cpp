@@ -1,37 +1,26 @@
 #include "pch.h"
 #include "KeyModifiers.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(KeyModifiers const obj)
+static constexpr Size KEYMODIFIERS_COUNT = 6;
+static constexpr Char const* KEYMODIFIERS_STRINGS[KEYMODIFIERS_COUNT] =
 {
-	switch (obj)
-	{
-	case KeyModifiers::Shift: return "Shift";
-	case KeyModifiers::Control: return "Control";
-	case KeyModifiers::Alt: return "Alt";
-	case KeyModifiers::Super: return "Super";
-	case KeyModifiers::CapsLock: return "CapsLock";
-	case KeyModifiers::NumLock: return "NumLock";
+	"Shift",
+	"Control",
+	"Alt",
+	"Super",
+	"CapsLock",
+	"NumLock"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<KeyModifiers>::parse(StringView const str, KeyModifiers &value)
+{
+    return Tool::try_parse_enum_flags(str, KEYMODIFIERS_STRINGS, KEYMODIFIERS_COUNT, reinterpret_cast<Size&>(value));
 }
 
-KeyModifiers Minty::parse_to_key_modifiers(String const& string)
+String Minty::Parser<KeyModifiers>::to_string(KeyModifiers const &obj)
 {
-	if (string == "Shift") return KeyModifiers::Shift;
-	if (string == "Control") return KeyModifiers::Control;
-	if (string == "Alt") return KeyModifiers::Alt;
-	if (string == "Super") return KeyModifiers::Super;
-	if (string == "CapsLock") return KeyModifiers::CapsLock;
-	if (string == "NumLock") return KeyModifiers::NumLock;
-
-	return KeyModifiers();
-}
-
-Bool Minty::parse_try_key_modifiers(String const& string, KeyModifiers& value)
-{
-	value = parse_to_key_modifiers(string);
-	return true;
+    return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), KEYMODIFIERS_STRINGS, KEYMODIFIERS_COUNT);
 }

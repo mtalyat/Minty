@@ -10,7 +10,6 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringView.h"
-#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -113,12 +112,6 @@ namespace Minty
          * @param str The String to append.
          */
         inline void append(String const &str) { append(StringView(str)); }
-
-        template <typename T>
-        void append(T const &value)
-        {
-            append(Minty::to_string(value));
-        }
 
         /**
          * @brief Gets the character at the specified index.

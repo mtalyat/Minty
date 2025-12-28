@@ -40,18 +40,18 @@ void Minty::Scope::reset()
     }
 }
 
-void Minty::Scope::serialize(Writer &writer) const
+void Minty::Serializer<Scope>::serialize(Writer &writer, Scope const &scope)
 {
     // write each name: value in the scope as a pair
-    for (auto const &[string, key, value] : m_values)
+    for (auto const &[string, key, value] : scope.m_values)
     {
         writer.write(string, value);
     }
 }
 
-Bool Minty::Scope::deserialize(Reader &reader)
+void Minty::Serializer<Scope>::deserialize(Reader &reader, Scope &scope)
 {
-    clear();
+    scope.clear();
 
     // read each name: value in the scope as a pair
     String name;
@@ -66,8 +66,6 @@ Bool Minty::Scope::deserialize(Reader &reader)
 
         // add to scope
         UUID id = UUID::create();
-        m_values.add(name, id, value);
+        scope.m_values.add(name, id, value);
     }
-
-    return true;
 }

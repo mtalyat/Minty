@@ -6,45 +6,45 @@
 
 using namespace Minty;
 
-Bool Minty::EntityPath::parse(StringView const text)
+Bool Minty::Parser<EntityPath>::parse(StringView const str, EntityPath &value)
 {
-	// split the string into parts
-	Vector<String> parts = Util::split(text, '/');
+    // split the string into parts
+	Vector<String> parts = Util::split(str, '/');
 
 	// parse to the path
-	m_path.reserve(parts.get_size());
+	value.m_path.reserve(parts.get_size());
 	for (Size i = 0; i < parts.get_size(); i++)
 	{
 		// parse the byte
 		Byte b;
-		if (!try_byte(parts.at(i), b))
+		if (!Parser<Byte>::parse(parts.at(i), b))
 		{
 			// failed to parse
 			return false;
 		}
 		
 		// add to the path
-		m_path.add(b);
+		value.m_path.add(b);
 	}
 
 	return true;
 }
 
-String Minty::EntityPath::to_string() const
+String Minty::Parser<EntityPath>::to_string(EntityPath const &value)
 {
 	// write empty string if nothing
-	if (m_path.is_empty())
+	if (value.is_empty())
 	{
 		return "";
 	}
 
 	// compile the path into a string separated by /
-	StringBuilder builder(m_path.get_size() * 4);
-	builder.append(Minty::to_string(m_path.front()));
-	for (Size i = 1; i < m_path.get_size(); i++)
+	StringBuilder builder(value.m_path.get_size() * 4);
+	builder.append(Parser<Byte>::to_string(value.m_path.front()));
+	for (Size i = 1; i < value.m_path.get_size(); i++)
 	{
 		builder.append('/');
-		builder.append(Minty::to_string(m_path.at(i)));
+		builder.append(Parser<Byte>::to_string(value.m_path.at(i)));
 	}
 
 	// write that

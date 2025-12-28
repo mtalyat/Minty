@@ -22,8 +22,7 @@ namespace Minty
 		 * @brief Creates an empty AudioSource.
 		 */
 		AudioSource()
-			: SerializableObject()
-			, m_position(Float3(0.0f, 0.0f, 0.0f))
+			: m_position(Float3(0.0f, 0.0f, 0.0f))
 			, m_velocity(Float3(0.0f, 0.0f, 0.0f))
 			, m_attenuation(Attenuation::LinearDistance)
 			, m_attenuationRolloff(DEFAULT_AUDIO_ATTENUATION_ROLL_OFF)
@@ -42,8 +41,7 @@ namespace Minty
 		 * @param maxDistance The maximum distance at which attenuation is applied.
 		 */
 		AudioSource(Float3 const& position, Float3 const& velocity, Attenuation attenuation, Float attenuationRolloff, Float minDistance, Float maxDistance)
-			: SerializableObject()
-			, m_position(position)
+			: m_position(position)
 			, m_velocity(velocity)
 			, m_attenuation(attenuation)
 			, m_attenuationRolloff(attenuationRolloff)

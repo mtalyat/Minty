@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "ShaderInputRate.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ShaderInputRate const obj)
+static constexpr Size SHADERINPUTRATE_COUNT = 3;
+static constexpr Char const* SHADERINPUTRATE_STRINGS[SHADERINPUTRATE_COUNT] =
 {
-	switch (obj)
-	{
-	case ShaderInputRate::Vertex: return "Vertex";
-	case ShaderInputRate::Instance: return "Instance";
+	"Undefined",
+	"Vertex",
+	"Instance"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ShaderInputRate>::parse(StringView const str, ShaderInputRate &value)
+{
+    return Tool::try_parse_enum(str, SHADERINPUTRATE_STRINGS, SHADERINPUTRATE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ShaderInputRate Minty::parse_to_shader_input_rate(String const& string)
+String Minty::Parser<ShaderInputRate>::to_string(ShaderInputRate const &obj)
 {
-	if (string == "Vertex") return ShaderInputRate::Vertex;
-	if (string == "Instance") return ShaderInputRate::Instance;
-
-	return ShaderInputRate();
-}
-
-Bool Minty::parse_try_shader_input_rate(String const& string, ShaderInputRate& value)
-{
-	value = parse_to_shader_input_rate(string);
-	return value != ShaderInputRate();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), SHADERINPUTRATE_STRINGS, SHADERINPUTRATE_COUNT);
 }

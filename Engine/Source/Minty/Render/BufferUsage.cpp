@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "BufferUsage.h"
-#include "Minty/Debug/Assert.h"
-#include "Minty/Data/StringBuilder.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-static String const s_usageStrings[] = {
+static constexpr Size BUFFERUSAGE_COUNT = 5;
+static constexpr Char const* BUFFERUSAGE_STRINGS[BUFFERUSAGE_COUNT] = {
 	"TransferSrc",
 	"TransferDst",
 	"Vertex",
@@ -13,42 +13,12 @@ static String const s_usageStrings[] = {
 	"Uniform"
 };
 
-String Minty::to_string(BufferUsage const obj)
+Bool Minty::Parser<BufferUsage>::parse(StringView const str, BufferUsage &value)
 {
-	if (obj == BufferUsage::Undefined)
-	{
-		return "Undefined";
-	}
-
-	StringBuilder output;
-	Size objValue = static_cast<Size>(obj);
-	Size usage = 1;
-	Size const max = static_cast<Size>(BufferUsage::Max);
-	for (Size index = 0; usage <= max; usage <<= 1, index++)
-	{
-		if (usage & objValue)
-		{
-			output.append(s_usageStrings[index]);
-			output.append("|");
-		}
-	}
-	MINTY_ASSERT(output.get_size() > 0, ErrorCode::Serialization_Failed);
-	return output.sub(0, output.get_size() - 1);
+    return Tool::try_parse_enum_flags(str, BUFFERUSAGE_STRINGS, BUFFERUSAGE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-BufferUsage Minty::parse_to_buffer_usage(String const& string)
+String Minty::Parser<BufferUsage>::to_string(BufferUsage const &obj)
 {
-	if (string.contains("TransferSrc")) return BufferUsage::TransferSrc;
-	if (string.contains("TransferDst")) return BufferUsage::TransferDst;
-	if (string.contains("Vertex")) return BufferUsage::Vertex;
-	if (string.contains("Index")) return BufferUsage::Index;
-	if (string.contains("Uniform")) return BufferUsage::Uniform;
-
-	return BufferUsage();
-}
-
-Bool Minty::parse_try_buffer_usage(String const& string, BufferUsage& value)
-{
-	value = parse_to_buffer_usage(string);
-	return value != BufferUsage();
+	return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), BUFFERUSAGE_STRINGS, BUFFERUSAGE_COUNT);
 }

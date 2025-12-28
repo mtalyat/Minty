@@ -13,7 +13,7 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Render/Perspective.h"
 #include "Minty/Render/RenderTarget.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -158,9 +158,6 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
 		/**
 		 * @brief Creates a new Camera.
 		 * @param info The arguments.
@@ -190,6 +187,13 @@ namespace Minty
 		Ref<RenderTarget> m_renderTarget;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<Camera>
+	{
+		static void serialize(Writer& writer, Camera const& value);
+		static void deserialize(Reader& reader, Camera& value);
 	};
 }
 

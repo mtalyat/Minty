@@ -1,43 +1,29 @@
 #include "pch.h"
 #include "ImageLayout.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ImageLayout const obj)
+static constexpr Size IMAGELAYOUT_COUNT = 9;
+static constexpr Char const* IMAGELAYOUT_STRINGS[IMAGELAYOUT_COUNT] =
 {
-	switch (obj)
-	{
-	case ImageLayout::General: return "General";
-	case ImageLayout::ColorAttachment: return "ColorAttachment";
-	case ImageLayout::DepthStencilAttachment: return "DepthStencilAttachment";
-	case ImageLayout::DepthStencilReadOnly: return "DepthStencilReadOnly";
-	case ImageLayout::ShaderReadOnly: return "ShaderReadOnly";
-	case ImageLayout::TransferSource: return "TransferSource";
-	case ImageLayout::TransferDestination: return "TransferDestination";
-	case ImageLayout::Preinitialized: return "Preinitialized";
-	case ImageLayout::Presentation: return "Presentation";
+	"General",
+	"ColorAttachment",
+	"DepthStencilAttachment",
+	"DepthStencilReadOnly",
+	"ShaderReadOnly",
+	"TransferSource",
+	"TransferDestination",
+	"Preinitialized",
+	"Presentation"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ImageLayout>::parse(StringView const str, ImageLayout &value)
+{
+    return Tool::try_parse_enum(str, IMAGELAYOUT_STRINGS, IMAGELAYOUT_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ImageLayout Minty::parse_to_image_layout(String const& string)
+String Minty::Parser<ImageLayout>::to_string(ImageLayout const &obj)
 {
-	if (string == "General") return ImageLayout::General;
-	if (string == "ColorAttachment") return ImageLayout::ColorAttachment;
-	if (string == "DepthStencilAttachment") return ImageLayout::DepthStencilAttachment;
-	if (string == "DepthStencilReadOnly") return ImageLayout::DepthStencilReadOnly;
-	if (string == "ShaderReadOnly") return ImageLayout::ShaderReadOnly;
-	if (string == "TransferSource") return ImageLayout::TransferSource;
-	if (string == "TransferDestination") return ImageLayout::TransferDestination;
-	if (string == "Preinitialized") return ImageLayout::Preinitialized;
-	if (string == "Presentation") return ImageLayout::Presentation;
-
-	return ImageLayout();
-}
-
-Bool Minty::parse_try_image_layout(String const& string, ImageLayout& value)
-{
-	value = parse_to_image_layout(string);
-	return value != ImageLayout();
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), IMAGELAYOUT_STRINGS, IMAGELAYOUT_COUNT);
 }

@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -56,14 +55,13 @@ namespace Minty
 	};
 
 	MINTY_ENABLE_ENUM_OPERATORS(ImageUsage);
-
-	String to_string(ImageUsage const obj);
-	ImageUsage parse_to_image_usage(String const& string);
-	Bool parse_try_image_usage(String const& string, ImageUsage& value);
+	
 	template<>
-	inline ImageUsage parse_to<ImageUsage>(StringView const string) { return parse_to_image_usage(string); }
-	template<>
-	inline Bool parse_try<ImageUsage>(StringView const string, ImageUsage& value) { return parse_try_image_usage(string, value); }
+	struct Parser<ImageUsage>
+	{
+		static Bool parse(StringView const str, ImageUsage& value);
+		static String to_string(ImageUsage const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_IMAGEUSAGE_H

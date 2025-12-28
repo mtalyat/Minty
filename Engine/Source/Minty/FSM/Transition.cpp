@@ -25,26 +25,36 @@ Bool Minty::Transition::evaluate(Scope const& scope) const
 
 void Minty::Transition::serialize(Writer& writer, String const& name) const
 {
-	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
-	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
-	String stateName = fsm->get_state_name(m_stateId);
-	writer.write(name, stateName);
-	writer.write(name, m_conditions);
 }
 
 Bool Minty::Transition::deserialize(Reader& reader, Size const index)
 {
-	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
+
+
+	return true;
+}
+
+void Minty::ItemSerializer<Transition>::serialize_item(Writer &writer, StringView const name, Transition const &value)
+{
+	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
+	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
+
+	String stateName = fsm->get_state_name(value.m_stateId);
+	writer.write(name, stateName);
+	writer.write(name, value.m_conditions);
+}
+
+void Minty::ItemSerializer<Transition>::deserialize_item(Reader &reader, Size const index, Transition &value)
+{
+		FSM* fsm = static_cast<FSM*>(reader.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
 	String stateName;
 	if (reader.read(index, stateName))
 	{
 		// name read successfully
-		m_stateId = fsm->find_state(stateName);
+		value.m_stateId = fsm->find_state(stateName);
 	}
-	reader.read(index, m_conditions);
-
-	return true;
+	reader.read(index, value.m_conditions);
 }

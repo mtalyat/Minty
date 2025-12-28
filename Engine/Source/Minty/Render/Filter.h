@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +32,13 @@ namespace Minty
 		 */
 		Linear = 2,
 	};
-
-	String to_string(Filter const obj);
-	Filter parse_to_filter(String const& string);
-	Bool parse_try_filter(String const& string, Filter& value);
+	
 	template<>
-	inline Filter parse_to<Filter>(StringView const string) { return parse_to_filter(string); }
-	template<>
-	inline Bool parse_try<Filter>(StringView const string, Filter& value) { return parse_try_filter(string, value); }
+	struct Parser<Filter>
+	{
+		static Bool parse(StringView const str, Filter& value);
+		static String to_string(Filter const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_FILTER_H

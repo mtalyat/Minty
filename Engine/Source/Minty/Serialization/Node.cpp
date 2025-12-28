@@ -115,11 +115,6 @@ Bool Minty::Node::deserialize(Reader &reader, Size const index)
 	return true;
 }
 
-String Minty::to_string(Node const &obj)
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
 struct NodeMacro
 {
 	Vector<String> parameters;
@@ -131,10 +126,10 @@ static Bool is_word_character(Char const c)
 	return isalnum(c) || c == '_';
 }
 
-Node Minty::parse_to_node(String const &string)
+Bool Minty::Parser<Node>::parse(StringView const str, Node &outValue)
 {
-	// split lines
-	Vector<String> lines = Util::split_lines(string);
+    // split lines
+	Vector<String> lines = Util::split_lines(str);
 
 	// parse node
 	int indent = 0;
@@ -146,7 +141,7 @@ Node Minty::parse_to_node(String const &string)
 	// if no lines, node is empty
 	if (lines.is_empty())
 	{
-		return root;
+		return false;
 	}
 
 	Stack<Node *> nodeStack;
@@ -517,10 +512,36 @@ Node Minty::parse_to_node(String const &string)
 		node->add_child(key, value);
 	}
 
-	return root;
+	outValue = root;
+	return true;
 }
 
-Bool Minty::parse_try_node(String const &string, Node &value)
+String Minty::Parser<Node>::to_string(Node const &obj)
 {
 	MINTY_NOT_IMPLEMENTED();
+	return String();
+}
+
+void Minty::Serializer<Node>::serialize(Writer &writer, Node const &value)
+{
+	MINTY_NOT_IMPLEMENTED();
+
+	// // write this value
+	// writer.write(name, get_data_string());
+
+	// // write children
+	// writer.indent();
+	// for (auto const &child : m_children)
+	// {
+	// 	child.serialize(writer, child.get_name());
+	// }
+	// writer.outdent();
+}
+
+void Minty::Serializer<Node>::deserialize(Reader &reader, Node &value)
+{
+	MINTY_NOT_IMPLEMENTED();
+	
+	// // directly copy the node from the reader to this
+	// *this = reader.get_node().get_child(index);
 }

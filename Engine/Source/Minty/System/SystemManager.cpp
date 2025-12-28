@@ -218,10 +218,29 @@ void Minty::SystemManager::handle_event(Event &event)
 	}
 }
 
-void Minty::SystemManager::serialize(Writer &writer) const
+Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene, SystemManagerInfo const &info)
+{
+	return Shared<SystemManager>::create(scene, info);
+}
+
+Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene)
+{
+	SystemManagerInfo info{};
+	return create(scene, info);
+}
+
+SystemManager &Minty::SystemManager::get_singleton()
+{
+	// get from the active scene
+	Ref<Scene> const &activeScene = SceneManager::get_singleton().get_active();
+	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
+	return activeScene->get_system_manager();
+}
+
+void Minty::Serializer<SystemManager>::serialize(Writer &writer, SystemManager const &value)
 {
 	// serialize each system
-	for (auto const &[priority, list] : m_systems)
+	for (auto const &[priority, list] : value.m_systems)
 	{
 		for (System *system : list)
 		{
@@ -243,9 +262,9 @@ void Minty::SystemManager::serialize(Writer &writer) const
 	}
 }
 
-Bool Minty::SystemManager::deserialize(Reader &reader)
+void Minty::Serializer<SystemManager>::deserialize(Reader &reader, SystemManager &value)
 {
-	// deserialize each system
+	// deserialize each system and its priority
 	String name;
 	for (Size i = 0; i < reader.get_size(); i++)
 	{
@@ -270,12 +289,12 @@ Bool Minty::SystemManager::deserialize(Reader &reader)
 				if (it == m_systems.end())
 				{
 					// create a new list for this priority
-					m_systems.add(priority, {system});
+					value.m_systems.add(priority, {system});
 				}
 				else
 				{
 					// add to the existing list
-					m_systems.at(priority).add(system);
+					value.m_systems.at(priority).add(system);
 				}
 			}
 		}
@@ -285,45 +304,13 @@ Bool Minty::SystemManager::deserialize(Reader &reader)
 			if (reader.read(i, priority))
 			{
 				// use priority since it was given
-				system = add(name, priority);
+				system = value.add(name, priority);
 			}
 			else
 			{
 				// use default priority
-				system = add(name);
+				system = value.add(name);
 			}
 		}
-
-		// enter system
-		reader.indent(i);
-
-		// deserialize the system
-		if (!system->deserialize(reader))
-		{
-			MINTY_ABORT_F(ErrorCode::Serialization_Failed, name);
-		}
-
-		reader.outdent();
 	}
-
-	return true;
-}
-
-Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene, SystemManagerInfo const &info)
-{
-	return Shared<SystemManager>::create(scene, info);
-}
-
-Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene)
-{
-	SystemManagerInfo info{};
-	return create(scene, info);
-}
-
-SystemManager &Minty::SystemManager::get_singleton()
-{
-	// get from the active scene
-	Ref<Scene> const &activeScene = SceneManager::get_singleton().get_active();
-	MINTY_ASSERT(activeScene != nullptr, ErrorCode::Scene_NoActiveScene);
-	return activeScene->get_system_manager();
 }

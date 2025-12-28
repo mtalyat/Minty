@@ -40,5 +40,5 @@ Bool Minty::Parser<AssetType>::parse(StringView const str, AssetType &value)
 
 String Minty::Parser<AssetType>::to_string(AssetType const &value)
 {
-    return Tool::to_string_enum(static_cast<Size>(value), ASSETTYPE_STRINGS, ASSETTYPE_COUNT);
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), ASSETTYPE_STRINGS, ASSETTYPE_COUNT);
 }

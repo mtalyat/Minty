@@ -1737,16 +1737,6 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 	return true;
 }
 
-void Minty::EntityManager::serialize(Writer &writer) const
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
-Bool Minty::EntityManager::deserialize(Reader &reader)
-{
-	return deserialize_entities(reader);
-}
-
 Shared<EntityManager> Minty::EntityManager::create(Ref<Scene> const &scene, EntityManagerInfo const &info)
 {
 	return Shared<EntityManager>::create(scene, info);
@@ -1829,4 +1819,14 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		id.clear();
 		prefabId.clear();
 	}
+}
+
+void Minty::Serializer<EntityManager>::serialize(Writer &writer, EntityManager const &entityManager)
+{
+    MINTY_NOT_IMPLEMENTED();
+}
+
+void Minty::Serializer<EntityManager>::deserialize(Reader &reader, EntityManager &entityManager)
+{
+	entityManager.deserialize_entities(reader);
 }

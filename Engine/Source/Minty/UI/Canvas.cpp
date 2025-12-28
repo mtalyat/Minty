@@ -13,12 +13,15 @@ Minty::Canvas::Canvas()
 {
 }
 
-void Minty::Canvas::serialize(Writer& writer) const
+void Minty::Serializer<Canvas>::serialize(Writer &writer, Canvas const &value)
 {
-	writer.write("Resolution", m_resolution);
+	writer.write("Resolution", value.m_resolution);
 }
 
-Bool Minty::Canvas::deserialize(Reader& reader)
+void Minty::Serializer<Canvas>::deserialize(Reader &reader, Canvas &value)
 {
-	return reader.read_default(m_resolution) || reader.read("Resolution", m_resolution);
+	if(!reader.read_default(value.m_resolution))
+	{
+		reader.read("Resolution", value.m_resolution);
+	}
 }

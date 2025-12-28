@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "StoreOperation.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(StoreOperation const obj)
+static constexpr Size STOREOPERATION_COUNT = 3;
+static constexpr Char const* STOREOPERATION_STRINGS[STOREOPERATION_COUNT] =
 {
-	switch (obj)
-	{
-	case StoreOperation::DontCare: return "DontCare";
-	case StoreOperation::Store: return "Store";
+	"Undefined",
+	"DontCare",
+	"Store"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<StoreOperation>::parse(StringView const str, StoreOperation &value)
+{
+    return Tool::try_parse_enum(str, STOREOPERATION_STRINGS, STOREOPERATION_COUNT, reinterpret_cast<Size&>(value));
 }
 
-StoreOperation Minty::parse_to_store_operation(String const& string)
+String Minty::Parser<StoreOperation>::to_string(StoreOperation const &value)
 {
-	if (string == "DontCare") return StoreOperation::DontCare;
-	if (string == "Store") return StoreOperation::Store;
-
-	return StoreOperation();
-}
-
-Bool Minty::parse_try_store_operation(String const& string, StoreOperation& value)
-{
-	value = parse_to_store_operation(string);
-	return value != StoreOperation();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(value), STOREOPERATION_STRINGS, STOREOPERATION_COUNT);
 }

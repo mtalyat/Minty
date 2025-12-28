@@ -9,8 +9,6 @@
 
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Math.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Array.h"
@@ -22,8 +20,8 @@
 #include "Minty/Data/UUID.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/File/File.h"
-#include "Minty/Serialization/IsSerializable.h"
 #include "Minty/Serialization/Node.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {

@@ -8,9 +8,7 @@
  */
 
 #include "Minty/Core/Enum.h"
-#include "Minty/Core/Macro.h"
 #include "Minty/Serialization/Parser.h"
-#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {

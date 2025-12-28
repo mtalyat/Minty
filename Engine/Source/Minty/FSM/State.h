@@ -11,7 +11,7 @@
 #include "Minty/Data/Variable.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/FSM/Transition.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -20,8 +20,9 @@ namespace Minty
 	 * Each state holds a single Variable value.
 	 */
 	class State
-		: public SerializableObject
-	{	
+	{
+		friend struct Serializer<State>;
+
 #pragma region Constructors
 
 	public:
@@ -81,9 +82,6 @@ namespace Minty
 		 */
 		UUID evaluate(Scope const& scope) const;
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
 #pragma endregion
 
 #pragma region Variables
@@ -93,6 +91,13 @@ namespace Minty
 		Vector<Transition> m_transitions;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<State>
+	{
+		static void serialize(Writer& writer, State const& value);
+		static void deserialize(Reader& reader, State& value);
 	};
 }
 

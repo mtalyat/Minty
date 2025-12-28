@@ -70,13 +70,10 @@
 #include "Minty/Memory/MemoryStack.h"
 #include "Minty/Memory/MemoryStackInfo.h"
 #include "Minty/Memory/PersistentAllocator.h"
-#include "Minty/Serialization/IsSerializable.h"
 #include "Minty/Serialization/Node.h"
 #include "Minty/Serialization/Parser.h"
 #include "Minty/Serialization/Reader.h"
-#include "Minty/Serialization/Serializable.h"
-#include "Minty/Serialization/SerializableObject.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Serializer.h"
 #include "Minty/Serialization/Writer.h"
 
 #endif //MINTY_PCH_H

@@ -1,55 +1,35 @@
 #include "pch.h"
 #include "GamepadButton.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(GamepadButton const obj)
+static constexpr Size GAMEPADBUTTON_COUNT = 15;
+static constexpr Char const* GAMEPADBUTTON_STRINGS[GAMEPADBUTTON_COUNT] =
 {
-	switch (obj)
-	{
-	case GamepadButton::ButtonSouth: return "ButtonSouth";
-	case GamepadButton::ButtonEast: return "ButtonEast";
-	case GamepadButton::ButtonWest: return "ButtonWest";
-	case GamepadButton::ButtonNorth: return "ButtonNorth";
-	case GamepadButton::LeftBumper: return "LeftBumper";
-	case GamepadButton::RightBumper: return "RightBumper";
-	case GamepadButton::Back: return "Back";
-	case GamepadButton::Start: return "Start";
-	case GamepadButton::Home: return "Home";
-	case GamepadButton::LeftThumb: return "LeftThumb";
-	case GamepadButton::RightThumb: return "RightThumb";
-	case GamepadButton::DpadUp: return "DpadUp";
-	case GamepadButton::DpadRight: return "DpadRight";
-	case GamepadButton::DpadDown: return "DpadDown";
-	case GamepadButton::DpadLeft: return "DpadLeft";
+	"ButtonSouth",
+	"ButtonEast",
+	"ButtonWest",
+	"ButtonNorth",
+	"LeftBumper",
+	"RightBumper",
+	"Back",
+	"Start",
+	"Home",
+	"LeftThumb",
+	"RightThumb",
+	"DpadUp",
+	"DpadRight",
+	"DpadDown",
+	"DpadLeft"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<GamepadButton>::parse(StringView const str, GamepadButton &value)
+{
+    return Tool::try_parse_enum(str, GAMEPADBUTTON_STRINGS, GAMEPADBUTTON_COUNT, reinterpret_cast<Size&>(value));
 }
 
-GamepadButton Minty::parse_to_gamepad_button(String const& string)
+String Minty::Parser<GamepadButton>::to_string(GamepadButton const& obj)
 {
-	if (string == "ButtonSouth") return GamepadButton::ButtonSouth;
-	if (string == "ButtonEast") return GamepadButton::ButtonEast;
-	if (string == "ButtonWest") return GamepadButton::ButtonWest;
-	if (string == "ButtonNorth") return GamepadButton::ButtonNorth;
-	if (string == "LeftBumper") return GamepadButton::LeftBumper;
-	if (string == "RightBumper") return GamepadButton::RightBumper;
-	if (string == "Back") return GamepadButton::Back;
-	if (string == "Start") return GamepadButton::Start;
-	if (string == "Home") return GamepadButton::Home;
-	if (string == "LeftThumb") return GamepadButton::LeftThumb;
-	if (string == "RightThumb") return GamepadButton::RightThumb;
-	if (string == "DpadUp") return GamepadButton::DpadUp;
-	if (string == "DpadRight") return GamepadButton::DpadRight;
-	if (string == "DpadDown") return GamepadButton::DpadDown;
-	if (string == "DpadLeft") return GamepadButton::DpadLeft;
-
-	return GamepadButton();
-}
-
-Bool Minty::parse_try_gamepad_button(String const& string, GamepadButton& value)
-{
-	value = parse_to_gamepad_button(string);
-	return true;
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), GAMEPADBUTTON_STRINGS, GAMEPADBUTTON_COUNT);
 }

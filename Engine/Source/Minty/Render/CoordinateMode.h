@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +32,13 @@ namespace Minty
 		 */
 		Pixel = 2,
 	};
-
-	String to_string(CoordinateMode const obj);
-	CoordinateMode parse_to_coordinate_mode(String const& string);
-	Bool parse_try_coordinate_mode(String const& string, CoordinateMode& value);
+	
 	template<>
-	inline CoordinateMode parse_to<CoordinateMode>(StringView const string) { return parse_to_coordinate_mode(string); }
-	template<>
-	inline Bool parse_try<CoordinateMode>(StringView const string, CoordinateMode& value) { return parse_try_coordinate_mode(string, value); }
+	struct Parser<CoordinateMode>
+	{
+		static Bool parse(StringView const str, CoordinateMode& value);
+		static String to_string(CoordinateMode const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_COORDINATEMODE_H

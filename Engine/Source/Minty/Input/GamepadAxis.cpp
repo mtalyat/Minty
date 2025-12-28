@@ -3,35 +3,23 @@
 
 using namespace Minty;
 
-String Minty::to_string(GamepadAxis const obj)
+static constexpr Size GAMEPADAXIS_COUNT = 6;
+static constexpr Char const* GAMEPADAXIS_STRINGS[GAMEPADAXIS_COUNT] =
 {
-	switch (obj)
-	{
-	case GamepadAxis::LeftX: return "LeftX";
-	case GamepadAxis::LeftY: return "LeftY";
-	case GamepadAxis::RightX: return "RightX";
-	case GamepadAxis::RightY: return "RightY";
-	case GamepadAxis::LeftTrigger: return "LeftTrigger";
-	case GamepadAxis::RightTrigger: return "RightTrigger";
+	"LeftX",
+	"LeftY",
+	"RightX",
+	"RightY",
+	"LeftTrigger",
+	"RightTrigger"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<GamepadAxis>::parse(StringView const str, GamepadAxis &value)
+{
+    return Tool::try_parse_enum(str, GAMEPADAXIS_STRINGS, GAMEPADAXIS_COUNT, reinterpret_cast<Size&>(value));
 }
 
-GamepadAxis Minty::parse_to_gamepad_axis(String const& string)
+String Minty::Parser<GamepadAxis>::to_string(GamepadAxis const &obj)
 {
-	if (string == "LeftX") return GamepadAxis::LeftX;
-	if (string == "LeftY") return GamepadAxis::LeftY;
-	if (string == "RightX") return GamepadAxis::RightX;
-	if (string == "RightY") return GamepadAxis::RightY;
-	if (string == "LeftTrigger") return GamepadAxis::LeftTrigger;
-	if (string == "RightTrigger") return GamepadAxis::RightTrigger;
-
-	return GamepadAxis();
-}
-
-Bool Minty::parse_try_gamepad_axis(String const& string, GamepadAxis& value)
-{
-	value = parse_to_gamepad_axis(string);
-	return true;
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), GAMEPADAXIS_STRINGS, GAMEPADAXIS_COUNT);
 }

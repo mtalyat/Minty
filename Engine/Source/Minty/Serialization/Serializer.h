@@ -27,6 +27,20 @@ namespace Minty
     };
     
     */
+
+    template<typename T>
+    struct ItemSerializer;
+
+    /*
+    
+    template<>
+    struct ItemSerializer<NAME>
+    {
+        static void serialize_item(Writer& writer, StringView const name, NAME const& value);
+        static void deserialize_item(Reader& reader, Size const index, NAME& value);
+    };
+
+    */
 }
 
 #endif // MINTY_SERIALIZATION_SERIALIZER_H

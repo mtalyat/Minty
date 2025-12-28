@@ -46,6 +46,7 @@ namespace Minty
 		Prefab,
 	};
 
+	template<>
 	struct Parser<AssetType>
 	{
 		static Bool parse(StringView const str, AssetType &value);

@@ -2,8 +2,6 @@
 #include "Writer.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Data/UUID.h"
-#include "Minty/Serialization/Serializable.h"
-#include "Minty/Serialization/SerializableObject.h"
 
 using namespace Minty;
 

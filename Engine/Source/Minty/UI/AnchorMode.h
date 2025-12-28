@@ -9,8 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Enum.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -28,8 +27,8 @@ namespace Minty
 		Center = 0b010000,
 		Right = 0b100000,
 
-		VerticalMask = 0b000111,
-		HorizontalMask = 0b111000,
+		Vertical = 0b000111,
+		Horizontal = 0b111000,
 
 		TopLeft = Top | Left,
 		TopCenter = Top | Center,
@@ -46,13 +45,12 @@ namespace Minty
 
 	MINTY_ENABLE_ENUM_OPERATORS(AnchorMode);
 
-	String to_string(AnchorMode const obj);
-	AnchorMode parse_to_anchor_mode(String const& string);
-	Bool parse_try_anchor_mode(String const& string, AnchorMode& value);
-	template<>
-	inline AnchorMode parse_to<AnchorMode>(StringView const string) { return parse_to_anchor_mode(string); }
-	template<>
-	inline Bool parse_try<AnchorMode>(StringView const string, AnchorMode& value) { return parse_try_anchor_mode(string, value); }
+    template<>
+    struct Parser<AnchorMode>
+    {
+        static Bool parse(StringView const str, AnchorMode &value);
+        static String to_string(AnchorMode const &value);
+    };
 }
 
 #endif // MINTY_UI_ANCHORMODE_H

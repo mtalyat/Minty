@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "Perspective.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(Perspective const obj)
+static constexpr Size PERSPECTIVE_COUNT = 3;
+static constexpr Char const* PERSPECTIVE_STRINGS[PERSPECTIVE_COUNT] =
 {
-	switch (obj)
-	{
-	case Perspective::Perspective: return "Perspective";
-	case Perspective::Orthographic: return "Orthographic";
+	"Undefined",
+	"Perspective",
+	"Orthographic"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<Perspective>::parse(StringView const str, Perspective &value)
+{
+    return Tool::try_parse_enum(str, PERSPECTIVE_STRINGS, PERSPECTIVE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-Perspective Minty::parse_to_perspective(String const& string)
+String Minty::Parser<Perspective>::to_string(Perspective const &obj)
 {
-	if (string == "Perspective") return Perspective::Perspective;
-	if (string == "Orthographic") return Perspective::Orthographic;
-
-	return Perspective();
-}
-
-Bool Minty::parse_try_perspective(String const& string, Perspective& value)
-{
-	value = parse_to_perspective(string);
-	return value != Perspective();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), PERSPECTIVE_STRINGS, PERSPECTIVE_COUNT);
 }

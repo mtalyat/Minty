@@ -161,5 +161,5 @@ Bool Minty::Parser<Type>::parse(StringView const str, Type &value)
 
 String Minty::Parser<Type>::to_string(Type const &value)
 {
-    return Tool::to_string_enum(reinterpret_cast<Size>(value), TYPE_STRINGS, TYPE_COUNT);
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), TYPE_STRINGS, TYPE_COUNT);
 }

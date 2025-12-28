@@ -10,7 +10,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Rect.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -18,8 +18,9 @@ namespace Minty
 	 * @brief A canvas is a 2D space where UI elements are drawn.
 	 */
 	class Canvas
-		: public SerializableObject
 	{
+		friend struct Serializer<Canvas>;
+
 #pragma region Constructors
 
 	public:
@@ -62,14 +63,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
-
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
-#pragma endregion
-
 #pragma region Variables
 
 	private:
@@ -77,6 +70,13 @@ namespace Minty
 		Int2 m_resolution;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<Canvas>
+	{
+		static void serialize(Writer &writer, Canvas const &value);
+		static void deserialize(Reader &reader, Canvas &value);
 	};
 }
 

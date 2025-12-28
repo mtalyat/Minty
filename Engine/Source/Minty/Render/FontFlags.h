@@ -8,8 +8,7 @@
  */
 
 #include "Minty/Core/Enum.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -26,23 +25,22 @@ namespace Minty
 		/**
 		 * @brief The font is bold.
 		 */
-		Bold = 1 << 0,
+		Bold = 0x1,
 
 		/**
 		 * @brief The font is italic.
 		 */
-		Italic = 1 << 1
+		Italic = 0x2
 	};
 
 	MINTY_ENABLE_ENUM_OPERATORS(FontFlags)
 
-	String to_string(FontFlags const obj);
-	FontFlags parse_to_font_flags(String const& string);
-	Bool parse_try_font_flags(String const& string, FontFlags& value);
 	template<>
-	inline FontFlags parse_to<FontFlags>(StringView const string) { return parse_to_font_flags(string); }
-	template<>
-	inline Bool parse_try<FontFlags>(StringView const string, FontFlags& value) { return parse_try_font_flags(string, value); }
+	struct Parser<FontFlags>
+	{
+		static Bool parse(StringView const str, FontFlags& value);
+		static String to_string(FontFlags const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_FONTFLAGS_H

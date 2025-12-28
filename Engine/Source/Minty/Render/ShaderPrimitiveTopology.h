@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -52,14 +51,13 @@ namespace Minty
 		 */
 		TriangleFan = 6,
 	};
-
-	String to_string(ShaderPrimitiveTopology const obj);
-	ShaderPrimitiveTopology parse_to_shader_primitive_topology(String const& string);
-	Bool parse_try_shader_primitive_topology(String const& string, ShaderPrimitiveTopology& value);
+	
 	template<>
-	inline ShaderPrimitiveTopology parse_to<ShaderPrimitiveTopology>(StringView const string) { return parse_to_shader_primitive_topology(string); }
-	template<>
-	inline Bool parse_try<ShaderPrimitiveTopology>(StringView const string, ShaderPrimitiveTopology& value) { return parse_try_shader_primitive_topology(string, value); }
+	struct Parser<ShaderPrimitiveTopology>
+	{
+		static Bool parse(StringView const str, ShaderPrimitiveTopology& value);
+		static String to_string(ShaderPrimitiveTopology const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_SHADERPRIMITIVETOPOLOGY_H

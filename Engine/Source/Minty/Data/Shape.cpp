@@ -23,5 +23,5 @@ Bool Minty::Parser<Shape>::parse(StringView const str, Shape &value)
 
 String Minty::Parser<Shape>::to_string(Shape const &value)
 {
-    return Tool::to_string_enum(reinterpret_cast<Size>(value), SHAPE_STRINGS, SHAPE_COUNT);
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), SHAPE_STRINGS, SHAPE_COUNT);
 }

@@ -1,31 +1,24 @@
 #include "pch.h"
 #include "ShaderPolygonMode.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ShaderPolygonMode const obj)
+static constexpr Size SHADERPOLYGONMODE_COUNT = 4;
+static constexpr Char const* SHADERPOLYGONMODE_STRINGS[SHADERPOLYGONMODE_COUNT] =
 {
-	switch (obj)
-	{
-	case ShaderPolygonMode::Fill: return "Fill";
-	case ShaderPolygonMode::Line: return "Line";
-	case ShaderPolygonMode::Point: return "Point";
+	"Undefined",
+	"Fill",
+	"Line",
+	"Point"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ShaderPolygonMode>::parse(StringView const str, ShaderPolygonMode &value)
+{
+    return Tool::try_parse_enum(str, SHADERPOLYGONMODE_STRINGS, SHADERPOLYGONMODE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-ShaderPolygonMode Minty::parse_to_shader_polygon_mode(String const& string)
+String Minty::Parser<ShaderPolygonMode>::to_string(ShaderPolygonMode const &obj)
 {
-	if (string == "Fill") return ShaderPolygonMode::Fill;
-	if (string == "Line") return ShaderPolygonMode::Line;
-	if (string == "Point") return ShaderPolygonMode::Point;
-
-	return ShaderPolygonMode();
-}
-
-Bool Minty::parse_try_shader_polygon_mode(String const& string, ShaderPolygonMode& value)
-{
-	value = parse_to_shader_polygon_mode(string);
-	return value != ShaderPolygonMode();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), SHADERPOLYGONMODE_STRINGS, SHADERPOLYGONMODE_COUNT);
 }

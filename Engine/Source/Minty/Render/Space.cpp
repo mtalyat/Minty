@@ -1,31 +1,24 @@
 #include "pch.h"
 #include "Space.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(Space const obj)
+static constexpr Size SPACE_COUNT = 4;
+static constexpr Char const* SPACE_STRINGS[SPACE_COUNT] =
 {
-	switch (obj)
-	{
-	case Space::D3: return "D3";
-	case Space::D2: return "D2";
-	case Space::UI: return "UI";
+	"Undefined",
+	"D3",
+	"D2",
+	"UI"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<Space>::parse(StringView const str, Space &value)
+{
+    return Tool::try_parse_enum(str, SPACE_STRINGS, SPACE_COUNT, reinterpret_cast<Size&>(value));
 }
 
-Space Minty::parse_to_space(String const& string)
+String Minty::Parser<Space>::to_string(Space const &value)
 {
-	if (string == "D3") return Space::D3;
-	if (string == "D2") return Space::D2;
-	if (string == "UI") return Space::UI;
-
-	return Space();
-}
-
-Bool Minty::parse_try_space(String const& string, Space& value)
-{
-	value = parse_to_space(string);
-	return true;
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(value), SPACE_STRINGS, SPACE_COUNT);
 }

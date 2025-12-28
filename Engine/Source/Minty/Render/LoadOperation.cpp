@@ -1,31 +1,24 @@
 #include "pch.h"
 #include "LoadOperation.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(LoadOperation const obj)
+static constexpr Size LOADOPERATION_COUNT = 4;
+static constexpr Char const* LOADOPERATION_STRINGS[LOADOPERATION_COUNT] =
 {
-	switch (obj)
-	{
-	case LoadOperation::DontCare: return "DontCare";
-	case LoadOperation::Load: return "Load";
-	case LoadOperation::Clear: return "Clear";
+	"Undefined",
+	"DontCare",
+	"Load",
+	"Clear"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<LoadOperation>::parse(StringView const str, LoadOperation &value)
+{
+    return Tool::try_parse_enum(str, LOADOPERATION_STRINGS, LOADOPERATION_COUNT, reinterpret_cast<Size&>(value));
 }
 
-LoadOperation Minty::parse_to_load_operation(String const& string)
+String Minty::Parser<LoadOperation>::to_string(LoadOperation const &obj)
 {
-	if (string == "DontCare") return LoadOperation::DontCare;
-	if (string == "Load") return LoadOperation::Load;
-	if (string == "Clear") return LoadOperation::Clear;
-
-	return LoadOperation();
-}
-
-Bool Minty::parse_try_load_operation(String const& string, LoadOperation& value)
-{
-	value = parse_to_load_operation(string);
-	return value != LoadOperation();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), LOADOPERATION_STRINGS, LOADOPERATION_COUNT);
 }

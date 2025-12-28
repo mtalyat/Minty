@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +31,13 @@ namespace Minty
 		 */
 		Disabled,
 	};
-
-	String to_string(CursorMode const obj);
-	CursorMode parse_to_cursor_mode(String const& string);
-	Bool parse_try_cursor_mode(String const& string, CursorMode& value);
+	
 	template<>
-	inline CursorMode parse_to<CursorMode>(StringView const string) { return parse_to_cursor_mode(string); }
-	template<>
-	inline Bool parse_try<CursorMode>(StringView const string, CursorMode& value) { return parse_try_cursor_mode(string, value); }
+	struct Parser<CursorMode>
+	{
+		static Bool parse(StringView const str, CursorMode& value);
+		static String to_string(CursorMode const& obj);
+	};
 }
 
 #endif // MINTY_INPUT_CURSORMODE_H

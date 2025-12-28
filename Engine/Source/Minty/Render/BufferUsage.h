@@ -8,8 +8,7 @@
  */
 
 #include "Minty/Core/Enum.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -53,13 +52,12 @@ namespace Minty
 
 	MINTY_ENABLE_ENUM_OPERATORS(BufferUsage)
 
-    String to_string(BufferUsage const obj);
-    BufferUsage parse_to_buffer_usage(String const& string);
-    Bool parse_try_buffer_usage(String const& string, BufferUsage& value);
     template<>
-    inline BufferUsage parse_to<BufferUsage>(StringView const string) { return parse_to_buffer_usage(string); }
-    template<>
-    inline Bool parse_try<BufferUsage>(StringView const string, BufferUsage& value) { return parse_try_buffer_usage(string, value); }
+    struct Parser<BufferUsage>
+    {
+        static Bool parse(StringView const str, BufferUsage& value);
+        static String to_string(BufferUsage const& obj);
+    };
 }
 
 #endif // MINTY_RENDER_BUFFERUSAGE_H

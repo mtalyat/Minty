@@ -7,6 +7,7 @@
  * @author Mitchell Talyat
  */
 
+#include "Minty/Component/ComponentData.h"
 #include "Minty/Component/RelationshipComponent.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
@@ -16,8 +17,7 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Manager/SubManager.h"
-#include "Minty/Serialization/SerializableObject.h"
-#include "Minty/Component/ComponentData.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -32,9 +32,10 @@ namespace Minty
 	 * @brief The EntityManager is responsible for creating, managing, and destroying Entities within a Scene.
 	 */
 	class EntityManager
-		: public SubManager,
-		  public SerializableObject
+		: public SubManager
 	{
+		friend struct Serializer<EntityManager>;
+
 #pragma region Constructors
 
 	public:
@@ -728,9 +729,6 @@ namespace Minty
 		 * @brief Destroys all Entities with a DestroyComponent.
 		 */
 		void cleanup();
-		
-		void serialize(Writer &writer) const override;
-		Bool deserialize(Reader &reader) override;
 
 		/**
 		 * @brief Registers a Component type with the EntityManager.
@@ -847,6 +845,13 @@ namespace Minty
 		static Lookup<TypeID, ComponentData> s_registeredComponents;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<EntityManager>
+	{
+		static void serialize(Writer &writer, EntityManager const &entityManager);
+		static void deserialize(Reader &reader, EntityManager &entityManager);
 	};
 }
 

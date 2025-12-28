@@ -96,9 +96,6 @@ namespace Minty
 		 */
 		virtual AssetType get_asset_type() const = 0;
 
-		virtual void serialize(Writer& writer) const override { MINTY_NOT_IMPLEMENTED(); }
-		virtual Bool deserialize(Reader& reader) override { MINTY_NOT_IMPLEMENTED(); return false; }
-
 #pragma endregion
 
 #pragma region Statics

@@ -285,35 +285,6 @@ void Minty::Scene::unregister_asset(UUID const assetId)
 	m_registeredAssets.remove(assetId);
 }
 
-void Minty::Scene::serialize(Writer& writer) const
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
-Bool Minty::Scene::deserialize(Reader& reader)
-{
-	// load new assets, unload old assets
-	Vector<Path> assetPaths;
-	reader.read("Assets", assetPaths);
-	load_assets(assetPaths);
-
-	// read the systems
-	if (reader.indent("Systems"))
-	{
-		m_systemManager->deserialize(reader);
-		reader.outdent();
-	}
-
-	// read the entities
-	if (reader.indent("Entities"))
-	{
-		m_entityManager->deserialize(reader);
-		reader.outdent();
-	}
-
-	return true;
-}
-
 Shared<Scene> Minty::Scene::create(SceneInfo const& info)
 {
 	return Shared<Scene>::create(info);
@@ -323,4 +294,31 @@ Shared<Scene> Minty::Scene::create()
 {
 	SceneInfo info{};
 	return create(info);
+}
+
+void Minty::Serializer<Scene>::serialize(Writer &writer, Scene const &value)
+{
+	MINTY_NOT_IMPLEMENTED();
+}
+
+void Minty::Serializer<Scene>::deserialize(Reader &reader, Scene &value)
+{
+	// load new assets, unload old assets
+	Vector<Path> assetPaths;
+	reader.read("Assets", assetPaths);
+	load_assets(assetPaths);
+
+	// read the systems
+	if (reader.indent("Systems"))
+	{
+		Serializer<SystemManager>::deserialize(reader, *value.m_systemManager);
+		reader.outdent();
+	}
+
+	// read the entities
+	if (reader.indent("Entities"))
+	{
+		Serializer<EntityManager>::deserialize(reader, *value.m_entityManager);
+		reader.outdent();
+	}
 }

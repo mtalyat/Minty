@@ -1,40 +1,22 @@
 #include "pch.h"
 #include "FontFlags.h"
-#include "Minty/Data/StringBuilder.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(FontFlags const obj)
+static constexpr Size FONTFLAGS_COUNT = 2;
+static constexpr Char const* FONTFLAGS_STRINGS[FONTFLAGS_COUNT] = 
 {
-	if (obj == FontFlags::None)
-	{
-		return "None";
-	}
+	"Bold",
+	"Italic"
+};
 
-	StringBuilder builder;
-	if (static_cast<Bool>(obj & FontFlags::Bold))
-	{
-		builder.append("Bold");
-	}
-	if (static_cast<Bool>(obj & FontFlags::Italic))
-	{
-		builder.append("Italic");
-	}
-	return builder.to_string();
+Bool Minty::Parser<FontFlags>::parse(StringView const str, FontFlags &value)
+{
+    return Tool::try_parse_enum_flags(str, FONTFLAGS_STRINGS, FONTFLAGS_COUNT, reinterpret_cast<Size&>(value));
 }
 
-FontFlags Minty::parse_to_font_flags(String const& string)
+String Minty::Parser<FontFlags>::to_string(FontFlags const &obj)
 {
-	if (string == "None") return FontFlags::None;
-
-	FontFlags result = FontFlags::None;
-	if (string.contains("Bold")) { result |= FontFlags::Bold; }
-	if (string.contains("Italic")) { result |= FontFlags::Italic; }
-	return result;
-}
-
-Bool Minty::parse_try_font_flags(String const& string, FontFlags& value)
-{
-	value = parse_to_font_flags(string);
-	return string == "None" || value != FontFlags::None;
+    return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), FONTFLAGS_STRINGS, FONTFLAGS_COUNT);
 }

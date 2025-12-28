@@ -6,21 +6,19 @@
 using namespace Minty;
 
 Minty::Variable::Variable()
-			: m_type(Type::Undefined)
-		{
-		}
+	: m_type(Type::Undefined)
+{
+}
 
-        Minty::Variable::Variable(Type const type)
-			: m_type(type)
-			, m_data()
-		{
-		}
+Minty::Variable::Variable(Type const type)
+	: m_type(type), m_data()
+{
+}
 
-        Minty::Variable::Variable(Type const type, AnyConst const data)
-			: m_type(type)
-			, m_data(data, sizeof_type(type))
-		{
-		}
+Minty::Variable::Variable(Type const type, AnyConst const data)
+	: m_type(type), m_data(data, sizeof_type(type))
+{
+}
 
 Bool Minty::Variable::operator==(Variable const &other) const
 {
@@ -48,32 +46,30 @@ void Minty::Variable::set_data(AnyConst const data)
 	}
 }
 
-void Minty::Variable::serialize(Writer& writer, String const& name) const
+void Minty::ItemSerializer<Variable>::serialize_item(Writer &writer, StringView const name, Variable const &value)
 {
-	if (m_data.get_size() == 0)
+	if (value.is_empty())
 	{
-		// no value
-		writer.write(name, m_type);
-	}
-	else
+		// just the type
+		writer.write_type(name, value.get_type());
+	} else
 	{
-		// value
-		writer.write_typed(name, m_data.get_data(), m_type);
+		// typed data
+		writer.write_typed(name, value.get_data().get_data(), value.get_type());
 	}
 }
 
-Bool Minty::Variable::deserialize(Reader& reader, Size const index)
+void Minty::ItemSerializer<Variable>::deserialize_item(Reader &reader, Size const index, Variable &value)
 {
-	// make space for data
-	m_data.resize(64 * sizeof(Byte));
-	if (!reader.read_typed(index, m_data.get_data(), m_type))
+	// read typed data
+	value.m_data.resize(64 * sizeof(Byte));
+	if (!reader.read_typed(index, value.m_data.get_data(), value.m_type))
 	{
 		// failed to read data
-		m_data.clear();
-		return m_type != Type::Undefined;
+		value.m_data.clear();
+		return;
 	}
 	// successfully read data
-	// scale to proper size
-	m_data.resize(sizeof_type(m_type));
-	return true;
+	// scale down to proper size
+	value.m_data.resize(sizeof_type(value.m_type));
 }

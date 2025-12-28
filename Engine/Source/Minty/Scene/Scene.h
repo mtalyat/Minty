@@ -12,7 +12,7 @@
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 #include "Minty/Time/Timestep.h"
 
 namespace Minty
@@ -28,8 +28,10 @@ namespace Minty
 	 * @brief A Scene represents a collection of entities and systems that define a particular state or level in the application.
 	 */
 	class Scene
-		: public SerializableObject, public Source<Scene>
+		: public Source<Scene>
 	{
+		friend struct Serializer<Scene>;
+
 #pragma region Types
 
 	private:
@@ -217,6 +219,13 @@ namespace Minty
 		Set<UUID> m_registeredAssets;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<Scene>
+	{
+		static void serialize(Writer& writer, Scene const& value);
+		static void deserialize(Reader& reader, Scene& value);
 	};
 }
 

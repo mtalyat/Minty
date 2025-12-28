@@ -10,9 +10,8 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/String.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Serialization/SerializableObject.h"
-#include "Minty/Time/Timestep.h"
 #include "Minty/Scene/Scene.h"
+#include "Minty/Time/Timestep.h"
 
 namespace Minty
 {
@@ -27,7 +26,6 @@ namespace Minty
 	 * @brief The base class for all Systems. Systems contain logic that operates on Entities and Components within a Scene.
 	 */
 	class System
-		: public SerializableObject
 	{
 		friend class SystemManager;
 
@@ -141,9 +139,6 @@ namespace Minty
 		 * @param event The Event.
 		 */
 		virtual void on_event(Event &event) {}
-
-		virtual void serialize(Writer &writer) const override {}
-		virtual Bool deserialize(Reader &reader) override { return true; }
 
 #pragma endregion
 
