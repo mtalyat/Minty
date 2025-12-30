@@ -114,7 +114,7 @@ Vector<Byte> Minty::File::read_bytes()
 	MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
 	// get size in bytes
-	set_position(0, FileDirection::End);
+	set_position(0, StreamDirection::End);
 	Size size = get_position();
 
 	// make space in vector
@@ -122,7 +122,7 @@ Vector<Byte> Minty::File::read_bytes()
 	bytes.resize(size, 0);
 
 	// read bytes
-	set_position(0, FileDirection::Begin);
+	set_position(0, StreamDirection::Begin);
 	read(bytes.get_data(), size);
 
 	return bytes;

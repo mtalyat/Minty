@@ -11,8 +11,5 @@ void Minty::Serializer<VelocityComponent>::serialize(Writer &writer, VelocityCom
 
 void Minty::Serializer<VelocityComponent>::deserialize(Reader &reader, VelocityComponent &value)
 {
-    if(!reader.read_default(value.velocity))
-    {
-        reader.read("Velocity", value.velocity);
-    }
+    reader.read("Velocity", value.velocity);
 }

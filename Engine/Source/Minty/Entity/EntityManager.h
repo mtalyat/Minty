@@ -758,7 +758,16 @@ namespace Minty
 				.destroy = [](EntityManager &entityManager, Entity const entity) -> void
 				{
 					entityManager.remove_component<T>(entity);
-				}};
+				},
+				.serialize = [](Writer &writer, Component const& component) -> void
+				{
+					Serializer<T>::serialize(writer, static_cast<T const&>(component));
+				},
+				.deserialize = [](Reader &reader, Component& component) -> void
+				{
+					Serializer<T>::deserialize(reader, static_cast<T&>(component));
+				},
+			};
 
 			s_registeredComponents.add(name, typeid(T), std::move(info));
 		}
@@ -830,7 +839,7 @@ namespace Minty
 
 		Bool deserialize_components(Reader &reader, Entity const entity, Map<UUID, Entity> *idMap = nullptr);
 		
-		static void deserialize_entity_header(Reader &reader, Size const index, String &name, UUID &id, UUID &prefabId);
+		static Bool read_entity_header(Reader &reader, String &name, UUID &id, UUID &prefabId);
 
 #pragma endregion
 

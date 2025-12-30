@@ -40,6 +40,7 @@ namespace Minty
 		Vector<Tuple<UInt, UInt>> values;
 	};
 
+	template<>
 	struct Parser<AnimationAction>
 	{
 		static Bool parse(StringView const str, AnimationAction &value);

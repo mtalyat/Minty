@@ -254,7 +254,7 @@ String Minty::EntityManager::to_string(Entity const entity) const
 	}
 
 	// append this entity's name and/or ID
-	if(!name.is_empty())
+	if (!name.is_empty())
 	{
 		builder.append(name);
 		if (id.is_valid())
@@ -270,7 +270,7 @@ String Minty::EntityManager::to_string(Entity const entity) const
 		}
 	}
 
-	return builder.to_string();
+	return builder.get_string();
 }
 
 void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
@@ -388,7 +388,7 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 	while (current != INVALID_ENTITY)
 	{
 		visited.add(current);
-		if(current == entity)
+		if (current == entity)
 		{
 			StringBuilder builder;
 			for (Entity const e : visited)
@@ -400,7 +400,7 @@ void Minty::EntityManager::set_parent(Entity const entity, Entity const parent)
 			MINTY_ERROR_F(
 				ErrorCode::Entity_CyclicRelationship,
 				"Cyclic relationship detected when setting parent. Visited entities: {}",
-				builder.to_view());
+				builder.get_view());
 			break;
 		}
 		// get the relationship component
@@ -584,12 +584,12 @@ void Minty::EntityManager::finalize_dirties()
 		info.type = MeshType::Custom;
 
 		// (re)generate the mesh
-		ListContainer vertices(sizeof(Float) * 4, textComp.text.get_size());
-		ListContainer indices(sizeof(UShort), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
+		ListContainer vertices(sizeof(Float32) * 4, textComp.text.get_size());
+		ListContainer indices(sizeof(UInt16), (textComp.text.get_size() * 6) / 4); // 6 indices for every 4 vertices
 
-		Float xAdvance = 0.0f;
-		Float yAdvance = 0.0f;
-		UShort index = 0;
+		Float32 xAdvance = 0.0f;
+		Float32 yAdvance = 0.0f;
+		UInt16 index = 0;
 
 		Ref<Font> const &font = textComp.font;
 		Ref<FontVariant> const &fontVariant = textComp.fontVariant;
@@ -651,12 +651,11 @@ void Minty::EntityManager::finalize_dirties()
 
 			// create indices, always in the same order
 			indices.append_object(index);
-			indices.append_object(static_cast<UShort>(index + 1));
-			indices.append_object(static_cast<UShort>(index + 2));
+			indices.append_object(static_cast<UInt16>(index + 1));
+			indices.append_object(static_cast<UInt16>(index + 2));
 			indices.append_object(index);
-			indices.append_object(static_cast<UShort>(index + 2));
-			indices.append_object(static_cast<UShort>(index + 3));
-
+			indices.append_object(static_cast<UInt16>(index + 2));
+			indices.append_object(static_cast<UInt16>(index + 3));
 			index += 4;
 
 			// advance the "cursor"
@@ -1056,7 +1055,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 	String name;
 	UUID id;
 	UUID prefabId;
-	deserialize_entity_header(reader, 0, name, id, prefabId);
+	read_entity_header(reader, 0, name, id, prefabId);
 
 	// create the first entity
 	Entity entity = create_entity(name);
@@ -1568,22 +1567,24 @@ void Minty::EntityManager::cleanup()
 
 Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity> *idMap, Entity const baseEntity)
 {
+	AssetManager &assetManager = AssetManager::get_singleton();
+
 	// NOTE: The entities must be all loaded before the components, as some components will have Entity dependencies.
 
-	// get entities
-	Vector<Entity> entities;
-	entities.resize(reader.get_size(), INVALID_ENTITY);
-	for (Size i = 0; i < reader.get_size(); i++)
-	{
-		// get header info
-		String name;
-		UUID id;
-		UUID prefabId;
-		deserialize_entity_header(reader, i, name, id, prefabId);
+	// save a bookmark since the reader will have to come back to re-read the skipped data
+	Handle const bookmark = reader.save_bookmark();
 
+	// get entities by themselves
+	Vector<Entity> entities;
+	Bool firstEntity = true;
+	String name;
+	UUID id;
+	UUID prefabId;
+	while (read_entity_header(reader, name, id, prefabId))
+	{
 		// get or create the entity
 		Entity entity;
-		if (i == 0 && baseEntity != INVALID_ENTITY)
+		if (firstEntity && baseEntity != INVALID_ENTITY)
 		{
 			entity = baseEntity;
 		}
@@ -1591,6 +1592,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 		{
 			entity = create_entity(name);
 		}
+		firstEntity = false;
 
 		// map the ID, or set it directly if no map
 		if (idMap && id.is_valid())
@@ -1607,14 +1609,25 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 		{
 			// add the prefab ID component
 			PrefabComponent &prefabIdComponent = m_registry.emplace<PrefabComponent>(entity);
-			prefabIdComponent.id = prefabId;
+			Ref<Prefab> prefab = assetManager.get_ref<Prefab>(prefabId);
+			prefabIdComponent.prefab = std::move(prefab);
 		}
 
-		entities[i] = entity;
+		entities.add(entity);
 	}
 
-	// get components/prefabs
-	AssetManager &assetManager = AssetManager::get_singleton();
+	// return to the bookmark to read the components
+	reader.load_bookmark(bookmark);
+
+	// get components/prefabs for each entity
+	for (Entity const entity : entities)
+	{
+		reader.indent();
+		
+		
+
+		reader.outdent();
+	}
 	for (Size i = 0; i < entities.get_size(); i++)
 	{
 		Entity const entity = entities[i];
@@ -1648,7 +1661,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 				String name;
 				UUID id;
 				UUID prefabId;
-				deserialize_entity_header(reader, j, name, id, prefabId);
+				read_entity_header(reader, j, name, id, prefabId);
 
 				// get the entity to override
 				MINTY_ASSERT_F(prefabIdMap.contains(prefabId), ErrorCode::Asset_Prefab_OverrideNotFound, prefabId, prefab->get_id());
@@ -1756,24 +1769,13 @@ EntityManager &Minty::EntityManager::get_singleton()
 	return activeScene->get_entity_manager();
 }
 
-void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const index, String &name, UUID &id, UUID &prefabId)
+Bool Minty::EntityManager::read_entity_header(Reader &reader, String &name, UUID &id, UUID &prefabId)
 {
-	// get name
-	if (!reader.read_name(index, name))
-	{
-		name = "";
-	}
-
-	// get ID string
+	// get name and ID string
 	String idString;
-	reader.read(index, idString);
-
-	// if name starts with "- " and idString is empty, it is a prefab ID
-	if (name.starts_with("- ") && idString.is_empty())
+	if (!reader.read_next(name, idString))
 	{
-		// this is a prefab ID
-		idString = name.sub(2); // remove the "- " prefix
-		name = "";
+		return false;
 	}
 
 	if (!idString.is_empty())
@@ -1788,11 +1790,14 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		{
 			// Malformed prefab ID in entity ID string. Expecting [ and ] to be UUID_HEX_CHAR_COUNT characters apart, with a UUID in between them.
 			MINTY_ASSERT_F(prefabIndex != INVALID_INDEX && prefabIndexEnd != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, idString);
-			StringView prefabIdView = idString.peek(prefabIndex + 1, prefabIndexEnd - prefabIndex - 1);
+			StringView const prefabIdView = idString.peek(prefabIndex + 1, prefabIndexEnd - prefabIndex - 1);
 
 			// there is a prefab
-			Bool const prefabParseResult = prefabId.parse(prefabIdView);
-			MINTY_ASSERT_F(prefabParseResult, ErrorCode::Serialization_InvalidFormat, prefabIdView);
+			if (!Parser<UUID>::parse(prefabIdView, prefabId))
+			{
+				MINTY_ERROR_F(ErrorCode::Serialization_InvalidFormat, prefabIdView);
+				prefabId.clear();
+			}
 
 			// remove prefab from id string
 			idString = idString.sub(0, prefabIndex) + idString.sub(prefabIndexEnd + 1);
@@ -1800,17 +1805,17 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 		}
 		else
 		{
-			prefabId = UUID();
+			prefabId.clear();
 		}
 
 		// get the ID, if any
-		if (!idString.is_empty())
+		if (idString.is_empty())
 		{
-			Bool const idParseResult = id.parse(idString);
-			MINTY_ASSERT_F(idParseResult, ErrorCode::Serialization_InvalidFormat, idString);
+			id.clear();
 		}
-		else
+		else if (!Parser<UUID>::parse(idString, id))
 		{
+			MINTY_ERROR_F(ErrorCode::Serialization_InvalidFormat, idString);
 			id.clear();
 		}
 	}
@@ -1823,7 +1828,7 @@ void Minty::EntityManager::deserialize_entity_header(Reader &reader, Size const 
 
 void Minty::Serializer<EntityManager>::serialize(Writer &writer, EntityManager const &entityManager)
 {
-    MINTY_NOT_IMPLEMENTED();
+	MINTY_NOT_IMPLEMENTED();
 }
 
 void Minty::Serializer<EntityManager>::deserialize(Reader &reader, EntityManager &entityManager)

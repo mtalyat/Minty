@@ -8,7 +8,7 @@
 
 using namespace Minty;
 
-static constexpr COLOR_NAMED_COUNT = 8;
+static constexpr Size COLOR_NAMED_COUNT = 8;
 static constexpr Tuple<Char const*, Color> COLOR_NAMED_VALUES[COLOR_NAMED_COUNT] =
 {
 	{ "Black", Color::black() },
@@ -54,7 +54,8 @@ Bool Minty::Parser<Color>::parse(StringView const str, Color &value)
 	{
 		if (str == name)
 		{
-			return color;
+			value = color;
+			return true;
 		}
 	}
 
@@ -88,7 +89,8 @@ Bool Minty::Parser<Color>::parse(StringView const str, Color &value)
 		}
 	}
 
-	Color::Color_t value = 0;
-	decode_base16(builder.get_data(), builder.get_size(), &value, sizeof(Color::Color_t));
-	return Color(value);
+	Color::Color_t colorValue = 0;
+	decode_base16(builder.get_data(), builder.get_size(), &colorValue, sizeof(Color::Color_t));
+	value = Color(colorValue);
+	return true;
 }

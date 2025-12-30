@@ -143,6 +143,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "File error. Read operation failed.";
     case ErrorCode::File_WriteFailed:
         return "File error. Write operation failed.";
+    case ErrorCode::File_Empty:
+        return "File error. File is empty.";
 
     case ErrorCode::Singleton:
         return "Singleton error.";
@@ -172,6 +174,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Serialization error. Invalid value.";
     case ErrorCode::Serialization_InvalidData:
         return "Serialization error. Invalid reader or writer user data.";
+    case ErrorCode::Serialization_InvalidIndentation:
+        return "Serialization error. Invalid indentation level. Ensure indentation levels are properly managed.";
     case ErrorCode::Serialization_UnexpectedEndOfData:
         return "Serialization error. Unexpected end of data.";
     case ErrorCode::Serialization_Failed:
@@ -182,6 +186,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Serialization error. Failed to read value.";
     case ErrorCode::Serialization_MissingRequired:
         return "Serialization error. Missing required key-value pair.";
+    case ErrorCode::Serialization_InvalidBookmark:
+        return "Serialization error. Invalid bookmark handle.";
 
     case ErrorCode::Entity:
         return "Entity error.";

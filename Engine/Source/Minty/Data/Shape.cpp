@@ -18,7 +18,7 @@ static constexpr Char const* SHAPE_STRINGS[SHAPE_COUNT] =
 
 Bool Minty::Parser<Shape>::parse(StringView const str, Shape &value)
 {
-    return Tool::parse_enum(str, SHAPE_STRINGS, SHAPE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHAPE_STRINGS, SHAPE_COUNT, reinterpret_cast<Size&>(value));
 }
 
 String Minty::Parser<Shape>::to_string(Shape const &value)

@@ -14,6 +14,8 @@
 namespace Minty
 {
 	class EntityManager;
+	class Reader;
+	class Writer;
 	struct Component;
 
 	struct ComponentData
@@ -27,6 +29,10 @@ namespace Minty
 		Function<Component const *(EntityManager const &, Entity const)> get_const;
 
 		Function<void(EntityManager &, Entity const)> destroy;
+
+		Function<void(Writer &writer, Component const&)> serialize;
+
+		Function<void(Reader &reader, Component&)> deserialize;
 	};
 }
 

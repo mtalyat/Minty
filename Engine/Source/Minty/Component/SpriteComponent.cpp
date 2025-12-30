@@ -25,7 +25,7 @@ void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteCompo
 
 	// read the ID
 	UUID id;
-	if (reader.read_default(id) || reader.read("Sprite", id))
+	if (reader.read("Sprite", id))
 	{
 		// get the asset with the given ID
 		value.source = assetManager.get_asset_ref(id);
@@ -47,7 +47,7 @@ void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteCompo
 		{
 			Ref<SpriteAtlas> atlas = value.source.cast<SpriteAtlas>();
 			// read the group of the index
-			reader.read("Group", group);
+			reader.read("Group", value.group);
 
 			// read the index of the sprite in the atlas
 			// could be either a 1D or 2D index
@@ -62,21 +62,21 @@ void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteCompo
 			else
 			{
 				// parse index
-				if (try_int(indexText, index1d))
+				if (Parser<Int>::parse(indexText, index1d))
 				{
 					// convert into 2D index
 					Int2 count = atlas->get_group(value.group).get_count();
 					index2d.y = index1d / count.x;
 					index2d.x = index1d - index2d.y * count.x;
 				}
-				else if (try_int2(indexText, index2d))
+				else if (Parser<Int2>::parse(indexText, index2d))
 				{
 					// do nothing
 				}
 				else
 				{
 					MINTY_ABORT_F(ErrorCode::Asset_InvalidConfiguration, id, indexText);
-					return false;
+					return;
 				}
 			}
 

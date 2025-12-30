@@ -177,7 +177,7 @@ Byte *Minty::Bitmap::load(Path const &path, UInt &width, UInt &height, UInt &cha
 {
     // load the image using stb_image
     Int temp_width, temp_height, temp_channels;
-    Byte* data = stbi_load(path.to_string().get_data(), &temp_width, &temp_height, &temp_channels, 0);
+    Byte* data = stbi_load(path.get_string().get_data(), &temp_width, &temp_height, &temp_channels, 0);
     if (!data)
     {
         MINTY_ERROR(ErrorCode::Render_FailedToLoadImage);
@@ -199,15 +199,4 @@ Shared<Bitmap> Minty::Bitmap::create(BitmapInfo const &info)
 Shared<Bitmap> Minty::Bitmap::create()
 {
     return Shared<Bitmap>(new Bitmap(BitmapInfo{}));
-}
-
-void Minty::Bitmap::serialize(Writer &writer) const
-{
-    MINTY_NOT_IMPLEMENTED();
-}
-
-Bool Minty::Bitmap::deserialize(Reader &reader)
-{
-    MINTY_NOT_IMPLEMENTED();
-    return false;
 }

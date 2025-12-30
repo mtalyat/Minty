@@ -39,6 +39,12 @@ namespace Minty::Util
 
     Vector<String> split_lines(String const &str);
 
+    // Converts a string to a safe string by escaping special characters.
+    String to_safe_string(StringView const str);
+
+    // Converts a string to an unsafe string by unescaping special characters.
+    String to_unsafe_string(StringView const str);
+
     /**
      * @brief Gets the files within the directory at the given Path.
      * @param path The path to the directory.

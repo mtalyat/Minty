@@ -114,6 +114,7 @@ namespace Minty
 #pragma endregion
 	};
 
+	template<>
 	struct Serializer<AudioListener>
 	{
 		static void serialize(Writer& writer, AudioListener const& value);

@@ -189,7 +189,7 @@ Bool Minty::Parser<Node>::parse(StringView const str, Node &outValue)
 		}
 		// remove whitespace from the end of the line, since that does nothing
 		cleanLineBuilder.trim_end();
-		line = cleanLineBuilder.to_string();
+		line = cleanLineBuilder.get_string();
 	}
 
 	Vector<Tuple<String, NodeMacro>> macros;

@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Core/Types.h"
+#include "Minty/Stream/StreamDirection.h"
 
 namespace Minty
 {
@@ -27,6 +28,17 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Accessors
+
+    public:
+        virtual StreamPosition get_position() = 0;
+
+        virtual void set_position(StreamPosition const position, StreamDirection const direction = StreamDirection::Begin) = 0;
+
+        virtual StreamSize get_size() const = 0;
+
+#pragma endregion
+
 #pragma region Methods
 
     public:
@@ -37,6 +49,8 @@ namespace Minty
         virtual Char peek() = 0;
 
         virtual Bool end_of_stream() = 0;
+
+        virtual void flush() = 0;
 
 #pragma endregion
     };

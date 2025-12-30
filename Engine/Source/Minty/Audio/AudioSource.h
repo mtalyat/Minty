@@ -50,9 +50,7 @@ namespace Minty
 		{
 		}
 
-		~AudioSource() override
-		{
-		}
+		~AudioSource() = default;
 
 #pragma endregion
 

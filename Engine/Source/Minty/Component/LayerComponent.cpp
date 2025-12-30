@@ -18,7 +18,7 @@ void Minty::Serializer<LayerComponent>::deserialize(Reader &reader, LayerCompone
 {
 	// read the name of the layer
 	String layerName;
-	if (reader.read_default(layerName) || reader.read("Layer", layerName))
+	if (reader.read("Layer", layerName))
 	{
 		// get the layer from the name
 		LayerManager& layerManager = LayerManager::get_singleton();

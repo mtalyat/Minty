@@ -11,8 +11,5 @@ void Serializer<ScaleComponent>::serialize(Writer &writer, ScaleComponent const 
 
 void Serializer<ScaleComponent>::deserialize(Reader &reader, ScaleComponent &value)
 {
-    if(!reader.read_default(value.scale))
-    {
-        reader.read("Scale", value.scale);
-    }
+    reader.read("Scale", value.scale);
 }

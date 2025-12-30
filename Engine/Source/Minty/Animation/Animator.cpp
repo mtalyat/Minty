@@ -102,10 +102,12 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 					StringBuilder statesBuilder;
 					for (State const *const visitedState : visitedStatesInOrder)
 					{
-						statesBuilder.append(visitedState->get_value().get<UUID>());
+						UUID const& id = visitedState->get_value().get<UUID>();
+						statesBuilder.append(Parser<UUID>::to_string(id));
 						statesBuilder.append(" -> ");
 					}
-					MINTY_ERROR_F(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesBuilder.to_string());
+					UUID const& id = state->get_value().get<UUID>();
+					MINTY_ERROR_F(ErrorCode::InfiniteLoop, id, "->", statesBuilder.get_string());
 					break; // break out of the loop to prevent infinite recursion
 				}
 				visitedStates.add(state);

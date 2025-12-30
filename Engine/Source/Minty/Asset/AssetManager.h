@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ASSET_ASSETMANAGER_H
+#define MINTY_ASSET_ASSETMANAGER_H
+
+/**
+ * @file AssetManager.h
+ * @brief Header file defining the AssetManager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Manager/Manager.h"
 #include "Minty/Core/Format.h"
@@ -147,13 +155,7 @@ namespace Minty
 		 * @param reader The Reader to use.
 		 * @return True if successfully found and opened.
 		 */
-		Bool open_reader(Path const& path, Reader*& reader) const;
-
-		/**
-		 * @brief Closes the given Reader.
-		 * @param reader The Reader that was opened previously.
-		 */
-		void close_reader(Reader*& reader) const;
+		Unique<Reader> open_reader(Path const& path) const;
 
 		/**
 		 * @brief Opens a Writer to the Asset at the given Path.
@@ -161,13 +163,7 @@ namespace Minty
 		 * @param writer The Writer to use.
 		 * @return True if successfully opened.
 		 */
-		Bool open_writer(Path const& path, Writer*& writer) const;
-
-		/**
-		 * @brief Closes the given Writer.
-		 * @param writer The Writer that was opened previously.
-		 */
-		void close_writer(Writer*& writer) const;
+		Unique<Writer> open_writer(Path const& path) const;
 
 		/**
 		 * @brief Queues the Asset at the given Path to be loaded.
@@ -395,13 +391,7 @@ namespace Minty
 		 * @param id The ID of the Asset to unload.
 		 */
 		void unload(UUID const id);
-
-		/**
-		 * @brief Reloads the Asset with the given ID.
-		 * @param id The ID of the Asset.
-		 */
-		void reload(UUID const id);
-
+		
 		/**
 		 * @brief Unloads all Assets stored within this AssetManager.
 		 */
@@ -799,3 +789,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_ASSET_ASSETMANAGER_H

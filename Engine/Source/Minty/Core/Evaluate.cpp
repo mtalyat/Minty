@@ -122,7 +122,7 @@ Float Minty::Internal::evaluate_operator(String const& token, Float const left, 
 }
 
 template<>
-Double Minty::Internal::evaluate_operator(String const& token, Double const left, Double const right)
+WFloat Minty::Internal::evaluate_operator(String const& token, WFloat const left, WFloat const right)
 {
 	// operator
 	if (token == "**")

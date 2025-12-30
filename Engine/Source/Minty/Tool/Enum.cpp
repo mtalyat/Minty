@@ -102,5 +102,5 @@ String Minty::Tool::to_string_enum_flags(Size const value, Char const *const *co
         }
     }
 
-    return builder.to_string();
+    return builder.get_string();
 }

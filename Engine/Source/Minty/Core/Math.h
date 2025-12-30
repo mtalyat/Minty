@@ -27,21 +27,21 @@ namespace Minty
 	using UInt3 = glm::uvec3;
 	using UInt4 = glm::uvec4;
 
-	using Long2 = glm::vec<2, Long>;
-	using Long3 = glm::vec<3, Long>;
-	using Long4 = glm::vec<4, Long>;
+	using WInt2 = glm::vec<2, WInt>;
+	using WInt3 = glm::vec<3, WInt>;
+	using WInt4 = glm::vec<4, WInt>;
 
-	using ULong2 = glm::vec<2, ULong>;
-	using ULong3 = glm::vec<3, ULong>;
-	using ULong4 = glm::vec<4, ULong>;
+	using UWInt2 = glm::vec<2, UWInt>;
+	using UWInt3 = glm::vec<3, UWInt>;
+	using UWInt4 = glm::vec<4, UWInt>;
 
 	using Float2 = glm::vec2;
 	using Float3 = glm::vec3;
 	using Float4 = glm::vec4;
 
-	using Double2 = glm::dvec2;
-	using Double3 = glm::dvec3;
-	using Double4 = glm::dvec4;
+	using WFloat2 = glm::dvec2;
+	using WFloat3 = glm::dvec3;
+	using WFloat4 = glm::dvec4;
 
 	using Quaternion = glm::quat;
 
@@ -256,9 +256,9 @@ namespace Minty
 		/// <param name="value">The value to round.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double2 round(Double2 const value)
+		constexpr WFloat2 round(WFloat2 const value)
 		{
-			return Double2(std::round(value.x), std::round(value.y));
+			return WFloat2(std::round(value.x), std::round(value.y));
 		}
 
 		/// <summary>
@@ -267,9 +267,9 @@ namespace Minty
 		/// <param name="value">The value to round.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double3 round(Double3 const value)
+		constexpr WFloat3 round(WFloat3 const value)
 		{
-			return Double3(std::round(value.x), std::round(value.y), std::round(value.z));
+			return WFloat3(std::round(value.x), std::round(value.y), std::round(value.z));
 		}
 
 		/// <summary>
@@ -278,9 +278,9 @@ namespace Minty
 		/// <param name="value">The value to round.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double4 round(Double4 const value)
+		constexpr WFloat4 round(WFloat4 const value)
 		{
-			return Double4(std::round(value.x), std::round(value.y), std::round(value.z), std::round(value.w));
+			return WFloat4(std::round(value.x), std::round(value.y), std::round(value.z), std::round(value.w));
 		}
 
 		/// <summary>
@@ -359,9 +359,9 @@ namespace Minty
 		/// <param name="value">The value to snap.</param>
 		/// <param name="snapValue">The value to snap by.</param>
 		/// <returns>The result.</returns>
-		constexpr Double2 snap(Double2 const value, Double const snapValue)
+		constexpr WFloat2 snap(WFloat2 const value, WFloat const snapValue)
 		{
-			return Double2(std::round(value.x / snapValue) * snapValue, std::round(value.y / snapValue) * snapValue);
+			return WFloat2(std::round(value.x / snapValue) * snapValue, std::round(value.y / snapValue) * snapValue);
 		}
 
 		/// <summary>
@@ -371,9 +371,9 @@ namespace Minty
 		/// <param name="value">The value to snap.</param>
 		/// <param name="snapValue">The value to snap by.</param>
 		/// <returns>The result.</returns>
-		constexpr Double3 snap(Double3 const value, Double const snapValue)
+		constexpr WFloat3 snap(WFloat3 const value, WFloat const snapValue)
 		{
-			return Double3(
+			return WFloat3(
 				std::round(value.x / snapValue) * snapValue,
 				std::round(value.y / snapValue) * snapValue,
 				std::round(value.z / snapValue) * snapValue);
@@ -386,9 +386,9 @@ namespace Minty
 		/// <param name="value">The value to snap.</param>
 		/// <param name="snapValue">The value to snap by.</param>
 		/// <returns>The result.</returns>
-		constexpr Double4 snap(Double4 const value, Double const snapValue)
+		constexpr WFloat4 snap(WFloat4 const value, WFloat const snapValue)
 		{
-			return Double4(
+			return WFloat4(
 				std::round(value.x / snapValue) * snapValue,
 				std::round(value.y / snapValue) * snapValue,
 				std::round(value.z / snapValue) * snapValue,
@@ -447,9 +447,9 @@ namespace Minty
 		/// <param name="value">The value to floor.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double2 floor(Double2 const value)
+		constexpr WFloat2 floor(WFloat2 const value)
 		{
-			return Double2(std::floor(value.x), std::floor(value.y));
+			return WFloat2(std::floor(value.x), std::floor(value.y));
 		}
 
 		/// <summary>
@@ -458,9 +458,9 @@ namespace Minty
 		/// <param name="value">The value to floor.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double3 floor(Double3 const value)
+		constexpr WFloat3 floor(WFloat3 const value)
 		{
-			return Double3(std::floor(value.x), std::floor(value.y), std::floor(value.z));
+			return WFloat3(std::floor(value.x), std::floor(value.y), std::floor(value.z));
 		}
 
 		/// <summary>
@@ -469,9 +469,9 @@ namespace Minty
 		/// <param name="value">The value to floor.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double4 floor(Double4 const value)
+		constexpr WFloat4 floor(WFloat4 const value)
 		{
-			return Double4(std::floor(value.x), std::floor(value.y), std::floor(value.z), std::floor(value.w));
+			return WFloat4(std::floor(value.x), std::floor(value.y), std::floor(value.z), std::floor(value.w));
 		}
 
 		/// <summary>
@@ -539,9 +539,9 @@ namespace Minty
 		/// <param name="value">The value to ceiling.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double2 ceiling(Double2 const value)
+		constexpr WFloat2 ceiling(WFloat2 const value)
 		{
-			return Double2(std::ceil(value.x), std::ceil(value.y));
+			return WFloat2(std::ceil(value.x), std::ceil(value.y));
 		}
 
 		/// <summary>
@@ -550,9 +550,9 @@ namespace Minty
 		/// <param name="value">The value to ceiling.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double3 ceiling(Double3 const value)
+		constexpr WFloat3 ceiling(WFloat3 const value)
 		{
-			return Double3(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z));
+			return WFloat3(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z));
 		}
 
 		/// <summary>
@@ -561,9 +561,9 @@ namespace Minty
 		/// <param name="value">The value to ceiling.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double4 ceiling(Double4 const value)
+		constexpr WFloat4 ceiling(WFloat4 const value)
 		{
-			return Double4(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z), std::ceil(value.w));
+			return WFloat4(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z), std::ceil(value.w));
 		}
 
 		/// <summary>
@@ -718,7 +718,7 @@ namespace Minty
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
 		template<>
-		constexpr Double lerp(Double const left, Double const right, Float const t)
+		constexpr WFloat lerp(WFloat const left, WFloat const right, Float const t)
 		{
 			return left + (right - left) * t;
 		}
@@ -731,9 +731,9 @@ namespace Minty
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
 		template<>
-		constexpr Double2 lerp(Double2 const left, Double2 const right, Float const t)
+		constexpr WFloat2 lerp(WFloat2 const left, WFloat2 const right, Float const t)
 		{
-			return Double2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+			return WFloat2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
 		}
 
 		/// <summary>
@@ -744,9 +744,9 @@ namespace Minty
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
 		template<>
-		constexpr Double3 lerp(Double3 const left, Double3 const right, Float const t)
+		constexpr WFloat3 lerp(WFloat3 const left, WFloat3 const right, Float const t)
 		{
-			return Double3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+			return WFloat3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
 		}
 
 		/// <summary>
@@ -757,9 +757,9 @@ namespace Minty
 		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
 		/// <returns>The lerped value.</returns>
 		template<>
-		constexpr Double4 lerp(Double4 const left, Double4 const right, Float const t)
+		constexpr WFloat4 lerp(WFloat4 const left, WFloat4 const right, Float const t)
 		{
-			return Double4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+			return WFloat4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
 		}
 
 		/**
@@ -854,9 +854,9 @@ namespace Minty
 		/// <param name="value">The value to operate on.</param>
 		/// <returns>The result.</returns>
 		template<>
-		inline Double2 abs(Double2 const value)
+		inline WFloat2 abs(WFloat2 const value)
 		{
-			return Double2(abs(value.x), abs(value.y));
+			return WFloat2(abs(value.x), abs(value.y));
 		}
 		/// <summary>
 		/// Gets the absolute value of the given value.
@@ -865,9 +865,9 @@ namespace Minty
 		/// <param name="value">The value to operate on.</param>
 		/// <returns>The result.</returns>
 		template<>
-		inline Double3 abs(Double3 const value)
+		inline WFloat3 abs(WFloat3 const value)
 		{
-			return Double3(abs(value.x), abs(value.y), abs(value.z));
+			return WFloat3(abs(value.x), abs(value.y), abs(value.z));
 		}
 		/// <summary>
 		/// Gets the absolute value of the given value.
@@ -876,9 +876,9 @@ namespace Minty
 		/// <param name="value">The value to operate on.</param>
 		/// <returns>The result.</returns>
 		template<>
-		inline Double4 abs(Double4 const value)
+		inline WFloat4 abs(WFloat4 const value)
 		{
-			return Double4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+			return WFloat4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
 		}
 
 		/// <summary>
@@ -922,9 +922,9 @@ namespace Minty
 		/// <param name="value">The value to operate on.</param>
 		/// <returns>The result.</returns>
 		template<>
-		inline Long2 abs(Long2 const value)
+		inline WInt2 abs(WInt2 const value)
 		{
-			return Long2(abs(value.x), abs(value.y));
+			return WInt2(abs(value.x), abs(value.y));
 		}
 		/// <summary>
 		/// Gets the absolute value of the given value.
@@ -933,9 +933,9 @@ namespace Minty
 		/// <param name="value">The value to operate on.</param>
 		/// <returns>The result.</returns>
 		template<>
-		inline Long3 abs(Long3 const value)
+		inline WInt3 abs(WInt3 const value)
 		{
-			return Long3(abs(value.x), abs(value.y), abs(value.z));
+			return WInt3(abs(value.x), abs(value.y), abs(value.z));
 		}
 		/// <summary>
 		/// Gets the absolute value of the given value.
@@ -944,9 +944,9 @@ namespace Minty
 		/// <param name="value">The value to operate on.</param>
 		/// <returns>The result.</returns>
 		template<>
-		inline Long4 abs(Long4 const value)
+		inline WInt4 abs(WInt4 const value)
 		{
-			return Long4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+			return WInt4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
 		}
 
 		/// <summary>
@@ -1102,7 +1102,7 @@ namespace Minty
 		/// <param name="exponent">The exponent value.</param>
 		/// <returns>Base to the power of exponent.</returns>
 		template<>
-		inline Double pow(Double const base, Double const exponent)
+		inline WFloat pow(WFloat const base, WFloat const exponent)
 		{
 			return std::pow(base, exponent);
 		}
@@ -1190,7 +1190,7 @@ namespace Minty
 		/// <param name="divisor">The divisor.</param>
 		/// <returns>The result.</returns>
 		template<>
-		constexpr Double mod(Double const value, Double const divisor)
+		constexpr WFloat mod(WFloat const value, WFloat const divisor)
 		{
 			return value - Math::floor(value / divisor) * divisor;
 		}
@@ -1497,60 +1497,60 @@ namespace Minty
 		UInt random_uint();
 
 		/// <summary>
-		/// Returns a random Double in the range [min, max).
+		/// Returns a random WFloat in the range [min, max).
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (exclusive).</param>
-		/// <returns>A random Double in the given range.</returns>
-		Double random_double(Double const min, Double const max);
+		/// <returns>A random WFloat in the given range.</returns>
+		WFloat random_double(WFloat const min, WFloat const max);
 
 		/// <summary>
-		/// Returns a random Double in the range [0.0, 1.0).
+		/// Returns a random WFloat in the range [0.0, 1.0).
 		/// </summary>
-		/// <returns>A random Double.</returns>
-		Double random_double();
+		/// <returns>A random WFloat.</returns>
+		WFloat random_double();
 
 		/// <summary>
-		/// Returns a random Long in the range [min, max].
-		/// </summary>
-		/// <param name="min">The minimum value (inclusive).</param>
-		/// <param name="max">The maximum value (inclusive).</param>
-		/// <returns>A random Long in the given range.</returns>
-		Long random_long(Long const min, Long const max);
-
-		/// <summary>
-		/// Returns a random Long in the range [LONG_MIN, LONG_MAX].
-		/// </summary>
-		/// <returns>A random Long.</returns>
-		Long random_long();
-
-		/// <summary>
-		/// Returns a random ULong in the range [min, max].
+		/// Returns a random WInt in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (inclusive).</param>
-		/// <returns>A random ULong in the given range.</returns>
-		ULong random_ulong(ULong const min, ULong const max);
+		/// <returns>A random WInt in the given range.</returns>
+		WInt random_long(WInt const min, WInt const max);
 
 		/// <summary>
-		/// Returns a random ULong in the range [ULONG_MIN, ULONG_MAX].
+		/// Returns a random WInt in the range [LONG_MIN, LONG_MAX].
 		/// </summary>
-		/// <returns>A random ULong.</returns>
-		ULong random_ulong();
+		/// <returns>A random WInt.</returns>
+		WInt random_long();
+
+		/// <summary>
+		/// Returns a random UWInt in the range [min, max].
+		/// </summary>
+		/// <param name="min">The minimum value (inclusive).</param>
+		/// <param name="max">The maximum value (inclusive).</param>
+		/// <returns>A random UWInt in the given range.</returns>
+		UWInt random_ulong(UWInt const min, UWInt const max);
+
+		/// <summary>
+		/// Returns a random UWInt in the range [ULONG_MIN, ULONG_MAX].
+		/// </summary>
+		/// <returns>A random UWInt.</returns>
+		UWInt random_ulong();
 
 		/// <summary>
 		/// Returns a random value of the specified type.
 		/// </summary>
-		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, Double, Long, ULong.</typeparam>
+		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, WFloat, WInt, UWInt.</typeparam>
 		/// <returns>A random value of the specified type.</returns>
 		template<typename T>
 		inline T random() requires (
 			std::is_same_v<T, Float> ||
 			std::is_same_v<T, Int> ||
 			std::is_same_v<T, UInt> ||
-			std::is_same_v<T, Double> ||
-			std::is_same_v<T, Long> ||
-			std::is_same_v<T, ULong>)
+			std::is_same_v<T, WFloat> ||
+			std::is_same_v<T, WInt> ||
+			std::is_same_v<T, UWInt>)
 		{
 			return T();
 		}
@@ -1586,31 +1586,31 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Returns a random Double in the range [0.0, 1.0).
+		/// Returns a random WFloat in the range [0.0, 1.0).
 		/// </summary>
-		/// <returns>A random Double.</returns>
+		/// <returns>A random WFloat.</returns>
 		template<>
-		inline Double random<Double>()
+		inline WFloat random<WFloat>()
 		{
 			return random_double();
 		}
 
 		/// <summary>
-		/// Returns a random Long in the range [LONG_MIN, LONG_MAX].
+		/// Returns a random WInt in the range [LONG_MIN, LONG_MAX].
 		/// </summary>
-		/// <returns>A random Long.</returns>
+		/// <returns>A random WInt.</returns>
 		template<>
-		inline Long random<Long>()
+		inline WInt random<WInt>()
 		{
 			return random_long();
 		}
 
 		/// <summary>
-		/// Returns a random ULong in the range [ULONG_MIN, ULONG_MAX].
+		/// Returns a random UWInt in the range [ULONG_MIN, ULONG_MAX].
 		/// </summary>
-		/// <returns>A random ULong.</returns>
+		/// <returns>A random UWInt.</returns>
 		template<>
-		inline ULong random<ULong>()
+		inline UWInt random<UWInt>()
 		{
 			return random_ulong();
 		}
@@ -1618,7 +1618,7 @@ namespace Minty
 		/// <summary>
 		/// Returns a random value of the specified type in the range [min, max).
 		/// </summary>
-		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, Double, Long, ULong.</typeparam>
+		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, WFloat, WInt, UWInt.</typeparam>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (exclusive).</param>
 		/// <returns>A random value of the specified type in the given range.</returns>
@@ -1627,9 +1627,9 @@ namespace Minty
 			std::is_same_v<T, Float> ||
 			std::is_same_v<T, Int> ||
 			std::is_same_v<T, UInt> ||
-			std::is_same_v<T, Double> ||
-			std::is_same_v<T, Long> ||
-			std::is_same_v<T, ULong>)
+			std::is_same_v<T, WFloat> ||
+			std::is_same_v<T, WInt> ||
+			std::is_same_v<T, UWInt>)
 		{
 			return random(min, max);
 		}
@@ -1671,37 +1671,37 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Returns a random Double in the range [min, max).
+		/// Returns a random WFloat in the range [min, max).
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (exclusive).</param>
-		/// <returns>A random Double in the given range.</returns>
+		/// <returns>A random WFloat in the given range.</returns>
 		template<>
-		inline Double random<Double>(Double const min, Double const max)
+		inline WFloat random<WFloat>(WFloat const min, WFloat const max)
 		{
 			return random_double(min, max);
 		}
 
 		/// <summary>
-		/// Returns a random Long in the range [min, max].
+		/// Returns a random WInt in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (inclusive).</param>
-		/// <returns>A random Long in the given range.</returns>
+		/// <returns>A random WInt in the given range.</returns>
 		template<>
-		inline Long random<Long>(Long const min, Long const max)
+		inline WInt random<WInt>(WInt const min, WInt const max)
 		{
 			return random_long(min, max);
 		}
 
 		/// <summary>
-		/// Returns a random ULong in the range [min, max].
+		/// Returns a random UWInt in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (inclusive).</param>
-		/// <returns>A random ULong in the given range.</returns>
+		/// <returns>A random UWInt in the given range.</returns>
 		template<>
-		inline ULong random<ULong>(ULong const min, ULong const max)
+		inline UWInt random<UWInt>(UWInt const min, UWInt const max)
 		{
 			return random_ulong(min, max);
 		}

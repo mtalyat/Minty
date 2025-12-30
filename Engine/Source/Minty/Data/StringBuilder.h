@@ -102,6 +102,12 @@ namespace Minty
         void append(Char const c);
 
         /**
+         * @brief Appends a C-style string to the end of the StringBuilder.
+         * @param cstr The C-style string to append.
+         */
+        void append(Char const *const cstr);
+
+        /**
          * @brief Appends a string to the end of the StringBuilder.
          * @param str The string to append.
          */
@@ -301,13 +307,13 @@ namespace Minty
          * @brief Converts the StringBuilder to a StringView.
          * @return The resulting StringView.
          */
-        inline StringView to_view() const { return StringView(mp_data, m_size); }
+        inline StringView get_view() const { return StringView(mp_data, m_size); }
 
         /**
          * @brief Converts the StringBuilder to a String.
          * @return The resulting String.
          */
-        inline String to_string() const { return String(to_view()); }
+        inline String get_string() const { return String(get_view()); }
 
 #pragma endregion
 

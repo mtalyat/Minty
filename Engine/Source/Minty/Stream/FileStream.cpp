@@ -9,21 +9,33 @@ Minty::FileStream::FileStream(Shared<File> const &file)
 {
 }
 
+StreamPosition Minty::FileStream::get_position()
+{
+    return m_file->get_position();
+}
+
+void Minty::FileStream::set_position(StreamPosition const position, StreamDirection const direction)
+{
+    m_file->set_position(position, direction);
+}
+
+StreamSize Minty::FileStream::get_size() const
+{
+    return m_file->get_size();
+}
+
 Bool Minty::FileStream::write(AnyConst const data, Size const size)
 {
-    MINTY_ASSERT(m_file != nullptr, ErrorCode::Object_InvalidState);
-
-    return m_file->write(data, static_cast<FileSize>(size));
+    return m_file->write(data, static_cast<StreamSize>(size));
 }
 
 Bool Minty::FileStream::read(Any data, Size const size)
 {
-    MINTY_ASSERT(m_file != nullptr, ErrorCode::Object_InvalidState);
     MINTY_ASSERT(!end_of_stream(), ErrorCode::Object_InvalidState);
 
-    FilePosition const start = m_file->get_position();
+    StreamPosition const start = m_file->get_position();
 
-    FileSize const bytesRead = m_file->read(data, static_cast<FileSize>(size));
+    StreamSize const bytesRead = m_file->read(data, static_cast<StreamSize>(size));
 
     // If no bytes were read, return false
     if (bytesRead == 0)
@@ -32,9 +44,9 @@ Bool Minty::FileStream::read(Any data, Size const size)
     }
 
     // If fewer bytes were read than requested, reset the position and return false
-    if (bytesRead < static_cast<FileSize>(size))
+    if (bytesRead < static_cast<StreamSize>(size))
     {
-        m_file->set_position(start, FileDirection::Begin);
+        m_file->set_position(start, StreamDirection::Begin);
         return false;
     }
 
@@ -44,8 +56,6 @@ Bool Minty::FileStream::read(Any data, Size const size)
 
 Char Minty::FileStream::peek()
 {
-    MINTY_ASSERT(m_file != nullptr, ErrorCode::Object_InvalidState);
-    
     if(end_of_stream())
     {
         return '\0';
@@ -56,7 +66,10 @@ Char Minty::FileStream::peek()
 
 Bool Minty::FileStream::end_of_stream()
 {
-    MINTY_ASSERT(m_file != nullptr, ErrorCode::Object_InvalidState);
-
     return m_file->end_of_file();
+}
+
+void Minty::FileStream::flush()
+{
+    m_file->flush();
 }

@@ -57,14 +57,14 @@ Bool Minty::Parser<UUID>::parse(StringView const str, UUID &value)
 	}
 
 	// check if the string is a valid UUID
-	switch(text.get_size())
+	switch(str.get_size())
 	{
 	case UUID_HEX_SIZE_FULL: // full UUID string
-		decode_base16(text.get_data(), text.get_size(), m_data, sizeof(Byte) * UUID_BYTE_SIZE);
+		decode_base16(str.get_data(), str.get_size(), value.m_data, sizeof(Byte) * UUID_BYTE_SIZE);
 		break;
 	case UUID_HEX_SIZE_HALF: // half UUID string
-		std::memset(m_data + UUID_BYTE_SIZE_HALF, 0, UUID_BYTE_SIZE_HALF);
-		decode_base16(text.get_data(), text.get_size(), m_data, UUID_BYTE_SIZE_HALF);
+		std::memset(value.m_data + UUID_BYTE_SIZE_HALF, 0, UUID_BYTE_SIZE_HALF);
+		decode_base16(str.get_data(), str.get_size(), value.m_data, UUID_BYTE_SIZE_HALF);
 		break;
 	default: // invalid size
 		return false;
@@ -76,17 +76,17 @@ Bool Minty::Parser<UUID>::parse(StringView const str, UUID &value)
 String Minty::Parser<UUID>::to_string(UUID const &value)
 {
     // if the high bits are zero, return the short version
-	if (*static_cast<UInt64 const *>(static_cast<void const *>(m_data + UUID_BYTE_SIZE_HALF)) == 0)
+	if (*static_cast<UInt64 const *>(static_cast<void const *>(value.m_data + UUID_BYTE_SIZE_HALF)) == 0)
 	{
 		Char buffer[UUID_HEX_SIZE_HALF + 1];
-		encode_base16(m_data, UUID_BYTE_SIZE_HALF, buffer, sizeof(buffer));
+		encode_base16(value.m_data, UUID_BYTE_SIZE_HALF, buffer, sizeof(buffer));
 		buffer[UUID_HEX_SIZE_HALF] = '\0';
 		return String(buffer);
 	}
 	else
 	{
 		Char buffer[UUID_HEX_SIZE_FULL + 1];
-		encode_base16(m_data, UUID_BYTE_SIZE, buffer, sizeof(buffer));
+		encode_base16(value.m_data, UUID_BYTE_SIZE, buffer, sizeof(buffer));
 		buffer[UUID_HEX_SIZE_FULL] = '\0';
 		return String(buffer);
 	}

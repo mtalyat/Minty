@@ -19,8 +19,11 @@ void Minty::Serializer<CameraComponent>::serialize(Writer &writer, CameraCompone
 
 void Minty::Serializer<CameraComponent>::deserialize(Reader &reader, CameraComponent &value)
 {
-	if(!reader.read_default<UUID>(value.cameraId))
+	UUID id;
+	if(reader.read("Camera", id))
 	{
-		reader.read("Camera", value.cameraId);
+		AssetManager& assetManager = AssetManager::get_singleton();
+		value.camera = assetManager.get_ref<Camera>(id);
+		MINTY_ASSERT_F(value.camera != nullptr, ErrorCode::Asset_MissingDependency, id);
 	}
 }

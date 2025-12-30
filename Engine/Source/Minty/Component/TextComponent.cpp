@@ -25,23 +25,22 @@ void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent
 	EntitySerializationData* data = static_cast<EntitySerializationData*>(reader.get_user_data());
 	MINTY_ASSERT(data != nullptr, ErrorCode::InvalidUserData);
 	MINTY_ASSERT(data->entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	MINTY_ASSERT_F(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entity);
+	MINTY_ASSERT_F(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entityManager->to_string(data->entity));
 
 	// mark as dirty
 	EntityManager& entityManager = *data->entityManager;
 	entityManager.mark<DirtyTextComponent>(data->entity);
 
 	// read text info
-	reader.read_default(value.text);
-	reader.read<String>("Text", value.text, "");
-	reader.read("Color", value.color, Color::white());
-	reader.read<Ref<Font>>("Font", value.font, nullptr);
+	reader.read<String>("Text", value.text);
+	reader.read("Color", value.color);
+	reader.read<Ref<Font>>("Font", value.font);
 
 	// read variant info
 	UInt fontSize;
-	reader.read<UInt>("Size", fontSize, 0);
+	reader.read<UInt>("Size", fontSize);
 	FontFlags fontFlags;
-	reader.read<FontFlags>("Flags", fontFlags, FontFlags::None);
+	reader.read<FontFlags>("Flags", fontFlags);
 
 	// get variant if able
 	if (value.font != nullptr)
@@ -50,8 +49,8 @@ void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent
 		value.fontVariant = value.font->get(fontSize, fontFlags).to_ref();
 		if (value.fontVariant == nullptr)
 		{
-			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, value.font->get_name(), fontSize, to_string(fontFlags));
-			return false; // no variant found
+			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, value.font->get_name(), fontSize, fontFlags);
+			return; // no variant found
 		}
 	}
 	else

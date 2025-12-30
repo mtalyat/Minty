@@ -76,7 +76,7 @@ namespace Minty
 		 * @brief Gets the size of the file.
 		 * @return The size of the file.
 		 */
-		virtual FileSize get_size() const override;
+		virtual StreamSize get_size() const override;
 
 #pragma endregion
 
@@ -111,14 +111,14 @@ namespace Minty
 		 * @brief Gets the current position of the cursor.
 		 * @return The current position of the cursor.
 		 */
-		virtual FilePosition get_position() override;
+		virtual StreamPosition get_position() override;
 
 		/**
 		 * @brief Moves the cursor(s) to a new location within the file.
 		 * @param offset The offset at which the file is relative to the direction.
 		 * @param dir The anchor point of the offset.
 		 */
-		virtual void set_position(FilePosition const offset, FileDirection const dir = FileDirection::Begin) override;
+		virtual void set_position(StreamPosition const offset, StreamDirection const dir = StreamDirection::Begin) override;
 
 		/**
 		 * @brief Checks if the cursor is at or past the end of the file.
@@ -143,7 +143,7 @@ namespace Minty
 		 * @param buffer The location to read the data to.
 		 * @param size The number of bytes to read.
 		 */
-		virtual Bool read(Any const buffer, FileSize const size) override;
+		virtual Bool read(Any const buffer, StreamSize const size) override;
 
 		/**
 		 * @brief Reads the next line of text, and moves the cursor the appropriate amount of bytes.
@@ -157,7 +157,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual Bool write(AnyConst const buffer, FileSize const size) override;
+		virtual Bool write(AnyConst const buffer, StreamSize const size) override;
 
 #pragma endregion
 

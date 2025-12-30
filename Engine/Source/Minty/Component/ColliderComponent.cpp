@@ -19,15 +19,12 @@ void Minty::Serializer<ColliderComponent>::deserialize(Reader &reader, ColliderC
 	{
 		// no existing collider, so create new one
 		ColliderInfo info{};
-		if (!reader.read_default(info.shape))
-		{
-			reader.read("Shape", info.shape);
-		}
+		reader.read("Shape", info.shape);
 		if (info.shape == Shape::Empty)
 		{
 			// read shape, but it is empty, so do nothing
 			value.collider = Collider::create(info);
-			return true;
+			return;
 		}
 		reader.read("Offset", info.offset);
 		reader.read("Size", info.size);

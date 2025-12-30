@@ -166,9 +166,6 @@ namespace Minty
 		 * @param assetId The UUID of the Asset to unregister.
 		 */
 		void unregister_asset(UUID const assetId);
-		
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
 
 		/**
 		 * @brief Creates a new Scene with the given SceneInfo.

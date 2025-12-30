@@ -9,8 +9,8 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Parser.h"
 #include "Minty/Data/StringView.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -20,6 +20,8 @@ namespace Minty
 	 */
 	class UUID
 	{
+		friend struct Parser<UUID>;
+
 #pragma region Constructors
 
 	public:

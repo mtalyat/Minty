@@ -126,7 +126,7 @@ namespace Minty
             ++argIndex;
         }
 
-        return builder.to_string();
+        return builder.get_string();
     }
 }
 

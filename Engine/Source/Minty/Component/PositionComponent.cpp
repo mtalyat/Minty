@@ -11,8 +11,5 @@ void Minty::Serializer<PositionComponent>::serialize(Writer &writer, PositionCom
 
 void Minty::Serializer<PositionComponent>::deserialize(Reader &reader, PositionComponent &value)
 {
-    if(!reader.read_default(value.position))
-    {
-        reader.read("Position", value.position);
-    }
+    reader.read("Position", value.position);
 }

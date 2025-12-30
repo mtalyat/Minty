@@ -15,7 +15,7 @@ namespace Minty
      * @enum FileDirection
      * @brief Enumeration for file seek directions.
      */
-    enum class FileDirection
+    enum class StreamDirection
     {
         /**
          * @brief Beginning of the file.
@@ -33,7 +33,7 @@ namespace Minty
         End = 2
     };
 
-    MINTY_ENABLE_ENUM_OPERATORS(FileDirection)
+    MINTY_ENABLE_ENUM_OPERATORS(StreamDirection)
 }
 
 #endif // MINTY_FILE_FILEDIRECTION_H

@@ -1,289 +1,42 @@
 #include "pch.h"
 #include "Writer.h"
-#include "Minty/Core/Format.h"
-#include "Minty/Data/UUID.h"
 
 using namespace Minty;
 
-AnyConst Minty::Writer::get_user_data() const
+Minty::Writer::Writer(Shared<Stream> const& stream)
+    : m_stream(stream), m_userStack()
 {
-	if (m_dataStack.get_size() == 0)
-	{
-		return nullptr;
-	}
-
-	return m_dataStack.peek();
 }
 
-void Minty::Writer::push_user_data(AnyConst const data)
+Bool Minty::Writer::write_to_stream(AnyConst const data, Size const size)
 {
-	m_dataStack.push(data);
+    return m_stream->write(data, size);
 }
 
-void Minty::Writer::pop_user_data()
+Bool Minty::Writer::write_typed_value(Type const type, AnyConst const data)
 {
-	MINTY_ASSERT(m_dataStack.get_size() > 0, ErrorCode::Object_EmptyContainer);
-
-	m_dataStack.pop();
-}
-
-void Minty::FileWriterBehavior::write_data(AnyConst const data, Size const size)
-{
-	mp_file->write(data, size);
-}
-
-void Minty::MemoryWriterBehavior::write_data(AnyConst const data, Size const size)
-{
-	mp_data->append(data, size);
-}
-
-void Minty::TextWriterBehavior::write_indent_to_buffer(Size const indent, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(String('\t', indent), buffer);
-}
-
-Bool Minty::TextWriterBehavior::write_name_to_buffer(String const& data, Vector<Byte>& buffer)
-{
-	MINTY_ASSERT(data.get_size() < 256, ErrorCode::Argument_InvalidSize);
-
-	if (data.is_empty())
-	{
-		// no name: do bullet point
-		write_string_to_buffer("- ", buffer);
-		return false;
-	}
-	else
-	{
-		// yes name: write name
-		write_string_to_buffer(data, buffer);
-		return true;
-	}
-}
-
-void Minty::TextWriterBehavior::write_separator_to_buffer(Vector<Byte>& buffer)
-{
-	write_string_to_buffer(": ", buffer);
-}
-
-void Minty::TextWriterBehavior::write_space_to_buffer(Vector<Byte>& buffer)
-{
-	write_string_to_buffer(" ", buffer);
-}
-
-void Minty::TextWriterBehavior::write_end_to_buffer(Vector<Byte>& buffer)
-{
-	write_string_to_buffer("\n", buffer);
-}
-
-void Minty::TextWriterBehavior::write_string_to_buffer(String const& data, Vector<Byte>& buffer)
-{
-	// add string to buffer
-	Size offset = buffer.get_size();
-	buffer.resize(offset + data.get_size(), 0);
-	memcpy(buffer.get_data() + offset, data.get_data(), data.get_size());
-}
-
-void Minty::TextWriterBehavior::write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-
-void Minty::TextWriterBehavior::write_bool_to_buffer(Bool const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_bool2_to_buffer(Bool2 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_bool3_to_buffer(Bool3 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_bool4_to_buffer(Bool4 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_char_to_buffer(Char const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_byte_to_buffer(Byte const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_short_to_buffer(Short const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_ushort_to_buffer(UShort const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_int_to_buffer(Int const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_int2_to_buffer(Int2 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_int3_to_buffer(Int3 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_int4_to_buffer(Int4 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_uint_to_buffer(UInt const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_uint2_to_buffer(UInt2 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_uint3_to_buffer(UInt3 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_uint4_to_buffer(UInt4 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_long_to_buffer(Long const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_ulong_to_buffer(ULong const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_size_to_buffer(Size const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_float_to_buffer(Float const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_float2_to_buffer(Float2 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_float3_to_buffer(Float3 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_float4_to_buffer(Float4 const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_double_to_buffer(Double const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-void Minty::TextWriterBehavior::write_type_to_buffer(Type const data, Vector<Byte>& buffer)
-{
-	write_string_to_buffer(Minty::to_string(data), buffer);
-}
-
-void Minty::TextWriterBehavior::write_typed_to_buffer(AnyConst const data, Vector<Byte>& buffer, Type const type)
-{
-	switch (type)
-	{
-	case Type::Bool:
-		write_bool_to_buffer(*static_cast<Bool const* const>(data), buffer);
-		break;
-	case Type::Bool2:
-		write_bool2_to_buffer(*static_cast<Bool2 const* const>(data), buffer);
-		break;
-	case Type::Bool3:
-		write_bool3_to_buffer(*static_cast<Bool3 const* const>(data), buffer);
-		break;
-	case Type::Bool4:
-		write_bool4_to_buffer(*static_cast<Bool4 const* const>(data), buffer);
-		break;
-	case Type::Char:
-		write_char_to_buffer(*static_cast<Char const* const>(data), buffer);
-		break;
-	case Type::Byte:
-		write_byte_to_buffer(*static_cast<Byte const* const>(data), buffer);
-		break;
-	case Type::Short:
-		write_short_to_buffer(*static_cast<Short const* const>(data), buffer);
-		break;
-	case Type::UShort:
-		write_ushort_to_buffer(*static_cast<UShort const* const>(data), buffer);
-		break;
-	case Type::Int:
-		write_int_to_buffer(*static_cast<Int const* const>(data), buffer);
-		break;
-	case Type::Int2:
-		write_int2_to_buffer(*static_cast<Int2 const* const>(data), buffer);
-		break;
-	case Type::Int3:
-		write_int3_to_buffer(*static_cast<Int3 const* const>(data), buffer);
-		break;
-	case Type::Int4:
-		write_int4_to_buffer(*static_cast<Int4 const* const>(data), buffer);
-		break;
-	case Type::UInt:
-		write_uint_to_buffer(*static_cast<UInt const* const>(data), buffer);
-		break;
-	case Type::UInt2:
-		write_uint2_to_buffer(*static_cast<UInt2 const* const>(data), buffer);
-		break;
-	case Type::UInt3:
-		write_uint3_to_buffer(*static_cast<UInt3 const* const>(data), buffer);
-		break;
-	case Type::UInt4:
-		write_uint4_to_buffer(*static_cast<UInt4 const* const>(data), buffer);
-		break;
-	case Type::Long:
-		write_long_to_buffer(*static_cast<Long const* const>(data), buffer);
-		break;
-	case Type::ULong:
-		write_ulong_to_buffer(*static_cast<ULong const* const>(data), buffer);
-		break;
-	case Type::Size:
-		write_size_to_buffer(*static_cast<Size const* const>(data), buffer);
-		break;
-	case Type::Float:
-		write_float_to_buffer(*static_cast<Float const* const>(data), buffer);
-		break;
-	case Type::Float2:
-		write_float2_to_buffer(*static_cast<Float2 const* const>(data), buffer);
-		break;
-	case Type::Float3:
-		write_float3_to_buffer(*static_cast<Float3 const* const>(data), buffer);
-		break;
-	case Type::Float4:
-		write_float4_to_buffer(*static_cast<Float4 const* const>(data), buffer);
-		break;
-	case Type::Double:
-		write_double_to_buffer(*static_cast<Double const* const>(data), buffer);
-		break;
-	case Type::String:
-		write_string_to_buffer(*static_cast<String const* const>(data), buffer);
-		break;
-	case Type::Object:
-		write_uuid_to_buffer(*static_cast<UUID const* const>(data), buffer);
-		break;
-	default:
-		MINTY_NOT_IMPLEMENTED();
-	}
-}
-
-void Minty::Writer::write_asset(String const& name, Ref<Asset> const& asset)
-{
-	if (asset == nullptr)
-	{
-		write(name, UUID(UUID()));
-	}
-	else
-	{
-		write(name, asset->get_id());
-	}
+    switch(type)
+    {
+    case Type::Bool:
+        return write_bool(*reinterpret_cast<Bool const*>(data));
+    case Type::Char:
+        return write_char(*reinterpret_cast<Char const*>(data));
+    case Type::Byte:
+        return write_byte(*reinterpret_cast<Byte const*>(data));
+    case Type::Int:
+        return write_int32(*reinterpret_cast<Int32 const*>(data));
+    case Type::UInt:
+        return write_uint32(*reinterpret_cast<UInt32 const*>(data));
+    case Type::Float:
+        return write_float32(*reinterpret_cast<Float32 const*>(data));
+    case Type::WInt:
+        return write_int64(*reinterpret_cast<Int64 const*>(data));
+    case Type::UWInt:
+        return write_uint64(*reinterpret_cast<UInt64 const*>(data));
+    case Type::WFloat:
+        return write_float64(*reinterpret_cast<Float64 const*>(data));
+    default:
+        MINTY_NOT_IMPLEMENTED();
+        return false;
+    }
 }

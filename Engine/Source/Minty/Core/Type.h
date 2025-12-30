@@ -9,6 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -24,8 +25,6 @@ namespace Minty
 		Bool4,
 		Char,
 		Byte,
-		Short,
-		UShort,
 		Int,
 		Int2,
 		Int3,
@@ -34,14 +33,14 @@ namespace Minty
 		UInt2,
 		UInt3,
 		UInt4,
-		Long,
-		ULong,
+		WInt,
+		UWInt,
 		Size,
 		Float,
 		Float2,
 		Float3,
 		Float4,
-		Double,
+		WFloat,
 		Matrix2,
 		Matrix3,
 		Matrix4,

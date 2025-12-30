@@ -31,7 +31,7 @@ namespace Minty
 #pragma region Types
 
 	private:
-		using StepKey = ULong;
+		using StepKey = UWInt;
 		using StepValue = UInt;
 
 	public:

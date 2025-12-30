@@ -51,19 +51,19 @@ void Minty::ItemSerializer<Variable>::serialize_item(Writer &writer, StringView 
 	if (value.is_empty())
 	{
 		// just the type
-		writer.write_type(name, value.get_type());
+		writer.write(name, value.get_type());
 	} else
 	{
 		// typed data
-		writer.write_typed(name, value.get_data().get_data(), value.get_type());
+		writer.write(name, value.get_type(), value.get_data().get_data());
 	}
 }
 
-void Minty::ItemSerializer<Variable>::deserialize_item(Reader &reader, Size const index, Variable &value)
+void Minty::ItemSerializer<Variable>::deserialize_item(Reader &reader, StringView const name, Variable &value)
 {
 	// read typed data
 	value.m_data.resize(64 * sizeof(Byte));
-	if (!reader.read_typed(index, value.m_data.get_data(), value.m_type))
+	if (!reader.read(name, value.m_type, value.m_data.get_data()))
 	{
 		// failed to read data
 		value.m_data.clear();

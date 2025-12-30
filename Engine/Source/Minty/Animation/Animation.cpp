@@ -7,6 +7,9 @@
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Serialization/TextReader.h"
+#include "Minty/Serialization/TextWriter.h"
+#include "Minty/Stream/MemoryStream.h"
 
 using namespace Minty;
 
@@ -255,18 +258,22 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	MINTY_ASSERT(component != nullptr, ErrorCode::Animation_ComponentNotFound);
 
 	// build and add all of the values to set
-	Node root{};
+	Shared<DynamicContainer> const container = Shared<DynamicContainer>::create();
+	Shared<Stream> const stream = Shared<MemoryStream>::create(container);
+	
+	// TODO: do not use text writer, use binary writer
+	TextWriter writer(stream);
 	for (auto const& [variableIndex, valueIndex] : action.values)
 	{
 		// get the variable name
 		String const& variableName = m_variables.at(variableIndex).get_first();
 
 		// get a copy of the value to set
-		Node value = m_values.at(valueIndex);
-		value.set_name(variableName);
-
-		// add the value to the root node
-		root.add_child(std::move(value));
+		Node const& value = m_values.at(valueIndex);
+		String const strValue = Parser<Node>::to_string(value);
+		
+		// write the value to the writer
+		writer.write(variableName, strValue);
 	}
 
 	// create serialization data
@@ -277,21 +284,22 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	};
 
 	// deserialize the data
-	TextNodeReader reader(root);
+	stream->set_position(0);
+	TextReader reader(stream);
 	reader.push_user_data(&data);
-	component->deserialize(reader);
+	componentInfo->deserialize(reader, *component);
 	reader.pop_user_data();
 }
 
 template<typename T>
-static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result, Bool(*try_func)(StringView const, T&))
+static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result)
 {
 	T leftValue, rightValue;
-	if (try_func(left, leftValue) && try_func(right, rightValue))
+	if (Parser<T>::parse(left, leftValue) && Parser<T>::parse(right, rightValue))
 	{
 		// if both are valid, interpolate
 		T interpolatedValue = static_cast<T>(Math::lerp(leftValue, rightValue, t));
-		result = to_string(interpolatedValue);
+		result = Parser<T>::to_string(interpolatedValue);
 		return true;
 	}
 	return false;
@@ -327,7 +335,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// get the entity
 		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
-		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, m_entities.at(entityIndex).to_string());
+		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, Parser<EntityPath>::to_string(m_entities.at(entityIndex)));
 
 		// get the component
 		ComponentData const* componentInfo = m_components.at(componentIndex);
@@ -414,7 +422,10 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				}
 			}
 
-			Node root;
+			Shared<DynamicContainer> const container = Shared<DynamicContainer>::create();
+			Shared<Stream> const stream = Shared<MemoryStream>::create(container);
+			// TODO: replace with binary writer
+			TextWriter writer(stream);
 			for (auto const& [variableIndex, timeValue] : previousValues)
 			{
 				auto const& [previousTime, previousValueIndex] = timeValue;
@@ -424,9 +435,9 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				if(!variableSmooth || it == nextValues.end())
 				{
 					// if no next value, no interpolation, use the previous value
-					Node node = m_values.at(timeValue.get_second());
-					node.set_name(variableName);
-					root.add_child(std::move(node));
+					Node const& node = m_values.at(timeValue.get_second());
+					String const nodeStr = Parser<Node>::to_string(node);
+					writer.write(variableName, nodeStr);
 				}
 				else
 				{
@@ -441,24 +452,21 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 					String resultValue;
 
 					// figure out the type of the variable based on the value
-					if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_long)) {} // signed integers
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_double)) {} // floating point values
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int2)) {} // int2
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int3)) {} // int3
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int4)) {} // int4
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float2)) {} // float2
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float3)) {} // float3
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float4)) {} // float4
+					if (interpolate_nodes<Int64>(previousValue, nextValue, t, resultValue)) {} // signed integers
+					else if (interpolate_nodes<Float64>(previousValue, nextValue, t, resultValue)) {} // floating point values
+					else if (interpolate_nodes<Int2>(previousValue, nextValue, t, resultValue)) {} // int2
+					else if (interpolate_nodes<Int3>(previousValue, nextValue, t, resultValue)) {} // int3
+					else if (interpolate_nodes<Int4>(previousValue, nextValue, t, resultValue)) {} // int4
+					else if (interpolate_nodes<Float2>(previousValue, nextValue, t, resultValue)) {} // float2
+					else if (interpolate_nodes<Float3>(previousValue, nextValue, t, resultValue)) {} // float3
+					else if (interpolate_nodes<Float4>(previousValue, nextValue, t, resultValue)) {} // float4
 					else
 					{
 						MINTY_LOG_ERROR(F("Interpolation between \"{}\" and \"{}\" is not supported.", previousValue, nextValue));
 					}
 
 					// create the node with the interpolated value and add it to the root
-					Node node;
-					node.set_name(variableName);
-					node.set_data(resultValue);
-					root.add_child(std::move(node));
+					writer.write(variableName, resultValue);
 				}
 			}
 
@@ -470,9 +478,9 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 			};
 
 			// deserialize the data
-			TextNodeReader reader(root);
+			TextReader reader(stream);
 			reader.push_user_data(&data);
-			component->deserialize(reader);
+			componentInfo->deserialize(reader, *component);
 			reader.pop_user_data();
 		}
 		else

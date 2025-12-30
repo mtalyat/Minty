@@ -232,6 +232,133 @@ static Bool parse_floating_point(StringView const str, T &value)
     return true;
 }
 
+template<typename T, typename SingleT>
+static Bool parse_2(StringView const str, T &value, Bool (*parseFunc)(StringView const, SingleT &))
+{
+    if (str.is_empty())
+    {
+        return false;
+    }
+
+    if (!str.starts_with('(') || !str.ends_with(')'))
+    {
+        return false;
+    }
+
+    Size separatorIndex = str.find(',');
+    if (separatorIndex == String::npos)
+    {
+        return false;
+    }
+
+    StringView firstPart = str.sub(1, separatorIndex - 1).trim();
+    StringView secondPart = str.sub(separatorIndex + 1, str.get_size() - separatorIndex - 2).trim();
+
+    SingleT firstValue;
+    SingleT secondValue;
+
+    if (!parseFunc(firstPart, firstValue) || !parseFunc(secondPart, secondValue))
+    {
+        return false;
+    }
+
+    value = T(firstValue, secondValue);
+    return true;
+}
+
+template<typename T, typename SingleT>
+static Bool parse_3(StringView const str, T &value, Bool (*parseFunc)(StringView const, SingleT &))
+{
+    if (str.is_empty())
+    {
+        return false;
+    }
+
+    if (!str.starts_with('(') || !str.ends_with(')'))
+    {
+        return false;
+    }
+
+    Size firstSeparatorIndex = str.find(',');
+    if (firstSeparatorIndex == String::npos)
+    {
+        return false;
+    }
+
+    Size secondSeparatorIndex = str.find(',', firstSeparatorIndex + 1);
+    if (secondSeparatorIndex == String::npos)
+    {
+        return false;
+    }
+
+    StringView firstPart = str.sub(1, firstSeparatorIndex - 1).trim();
+    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1).trim();
+    StringView thirdPart = str.sub(secondSeparatorIndex + 1, str.get_size() - secondSeparatorIndex - 2).trim();
+
+    SingleT firstValue;
+    SingleT secondValue;
+    SingleT thirdValue;
+
+    if (!parseFunc(firstPart, firstValue) || !parseFunc(secondPart, secondValue) || !parseFunc(thirdPart, thirdValue))
+    {
+        return false;
+    }
+
+    value = T(firstValue, secondValue, thirdValue);
+    return true;
+}
+
+template<typename T, typename SingleT>
+static Bool parse_4(StringView const str, T &value, Bool (*parseFunc)(StringView const, SingleT &))
+{
+    if (str.is_empty())
+    {
+        return false;
+    }
+
+    if (!str.starts_with('(') || !str.ends_with(')'))
+    {
+        return false;
+    }
+
+    Size firstSeparatorIndex = str.find(',');
+    if (firstSeparatorIndex == String::npos)
+    {
+        return false;
+    }
+
+    Size secondSeparatorIndex = str.find(',', firstSeparatorIndex + 1);
+    if (secondSeparatorIndex == String::npos)
+    {
+        return false;
+    }
+
+    Size thirdSeparatorIndex = str.find(',', secondSeparatorIndex + 1);
+    if (thirdSeparatorIndex == String::npos)
+    {
+        return false;
+    }
+
+    StringView firstPart = str.sub(1, firstSeparatorIndex - 1).trim();
+    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1).trim();
+    StringView thirdPart = str.sub(secondSeparatorIndex + 1, thirdSeparatorIndex - secondSeparatorIndex - 1).trim();
+    StringView fourthPart = str.sub(thirdSeparatorIndex + 1, str.get_size() - thirdSeparatorIndex - 2).trim();
+
+    SingleT firstValue;
+    SingleT secondValue;
+    SingleT thirdValue;
+    SingleT fourthValue;
+
+    if (!parseFunc(firstPart, firstValue) || !parseFunc(secondPart, secondValue) ||
+        !parseFunc(thirdPart, thirdValue) || !parseFunc(fourthPart, fourthValue))
+    {
+        return false;
+    }
+
+    value = T(firstValue, secondValue, thirdValue, fourthValue);
+    return true;
+}
+
 template<typename T>
 static String to_string_integer_unsigned(T const &value)
 {
@@ -316,6 +443,48 @@ static String to_string_floating_point(T const &value)
     }
 
     return result;
+}
+
+template<typename T, typename SingleT>
+static String to_string_2(T const &value, String (*toStringFunc)(SingleT const &))
+{
+    StringBuilder builder;
+    builder.append('(');
+    builder.append(toStringFunc(value.x));
+    builder.append(", ");
+    builder.append(toStringFunc(value.y));
+    builder.append(')');
+    return builder.to_string();
+}
+
+template<typename T, typename SingleT>
+static String to_string_3(T const &value, String (*toStringFunc)(SingleT const &))
+{
+    StringBuilder builder;
+    builder.append('(');
+    builder.append(toStringFunc(value.x));
+    builder.append(", ");
+    builder.append(toStringFunc(value.y));
+    builder.append(", ");
+    builder.append(toStringFunc(value.z));
+    builder.append(')');
+    return builder.to_string();
+}
+
+template<typename T, typename SingleT>
+static String to_string_4(T const &value, String (*toStringFunc)(SingleT const &))
+{
+    StringBuilder builder;
+    builder.append('(');
+    builder.append(toStringFunc(value.x));
+    builder.append(", ");
+    builder.append(toStringFunc(value.y));
+    builder.append(", ");
+    builder.append(toStringFunc(value.z));
+    builder.append(", ");
+    builder.append(toStringFunc(value.w));
+    builder.append(')');
+    return builder.to_string();
 }
 
 Bool Minty::Parser<Bool>::parse(StringView const str, Bool &value)
@@ -415,14 +584,14 @@ String Minty::Parser<UInt64>::to_string(UInt64 const &value)
     return to_string_integer_unsigned<UInt64>(value);
 }
 
-Bool Minty::Parser<Float32>::parse(StringView const str, Float32 &value)
+Bool Minty::Parser<Float>::parse(StringView const str, Float &value)
 {
-    return parse_floating_point<Float32>(str, value);
+    return parse_floating_point<Float>(str, value);
 }
 
-String Minty::Parser<Float32>::to_string(Float32 const &value)
+String Minty::Parser<Float>::to_string(Float const &value)
 {
-    return to_string_floating_point<Float32>(value);
+    return to_string_floating_point<Float>(value);
 }
 
 Bool Minty::Parser<Float64>::parse(StringView const str, Float64 &value)
@@ -433,4 +602,230 @@ Bool Minty::Parser<Float64>::parse(StringView const str, Float64 &value)
 String Minty::Parser<Float64>::to_string(Float64 const &value)
 {
     return to_string_floating_point<Float64>(value);
+}
+
+Bool Minty::Parser<Char>::parse(StringView const str, Char &value)
+{
+    if (str.is_empty())
+    {
+        return false;
+    }
+
+    value = str.front();
+    return true;
+}
+
+String Minty::Parser<Char>::to_string(Char const &value)
+{
+    return String(value, 1);
+}
+
+Bool Minty::Parser<Bool2>::parse(StringView const str, Bool2 &value)
+{
+    return parse_2<Bool2, Bool>(str, value, Minty::Parser<Bool>::parse);
+}
+
+String Minty::Parser<Bool2>::to_string(Bool2 const &value)
+{
+    return to_string_2<Bool2, Bool>(value, Minty::Parser<Bool>::to_string);
+}
+
+Bool Minty::Parser<Bool3>::parse(StringView const str, Bool3 &value)
+{
+    return parse_3<Bool3, Bool>(str, value, Minty::Parser<Bool>::parse);
+}
+
+String Minty::Parser<Bool3>::to_string(Bool3 const &value)
+{
+    return to_string_3<Bool3, Bool>(value, Minty::Parser<Bool>::to_string);
+}
+
+Bool Minty::Parser<Bool4>::parse(StringView const str, Bool4 &value)
+{
+    return parse_4<Bool4, Bool>(str, value, Minty::Parser<Bool>::parse);
+}
+
+String Minty::Parser<Bool4>::to_string(Bool4 const &value)
+{
+    return to_string_4<Bool4, Bool>(value, Minty::Parser<Bool>::to_string);
+}
+
+Bool Minty::Parser<Int2>::parse(StringView const str, Int2 &value)
+{
+    return parse_2<Int2, Int>(str, value, Minty::Parser<Int>::parse);
+}
+
+String Minty::Parser<Int2>::to_string(Int2 const &value)
+{
+    return to_string_2<Int2, Int>(value, Minty::Parser<Int>::to_string);
+}
+
+Bool Minty::Parser<Int3>::parse(StringView const str, Int3 &value)
+{
+    return parse_3<Int3, Int>(str, value, Minty::Parser<Int>::parse);
+}
+
+String Minty::Parser<Int3>::to_string(Int3 const &value)
+{
+    return to_string_3<Int3, Int>(value, Minty::Parser<Int>::to_string);
+}
+
+Bool Minty::Parser<Int4>::parse(StringView const str, Int4 &value)
+{
+    return parse_4<Int4, Int>(str, value, Minty::Parser<Int>::parse);
+}
+
+String Minty::Parser<Int4>::to_string(Int4 const &value)
+{
+    return to_string_4<Int4, Int>(value, Minty::Parser<Int>::to_string);
+}
+
+Bool Minty::Parser<UInt2>::parse(StringView const str, UInt2 &value)
+{
+    return parse_2<UInt2, UInt>(str, value, Minty::Parser<UInt>::parse);
+}
+
+String Minty::Parser<UInt2>::to_string(UInt2 const &value)
+{
+    return to_string_2<UInt2, UInt>(value, Minty::Parser<UInt>::to_string);
+}
+
+Bool Minty::Parser<UInt3>::parse(StringView const str, UInt3 &value)
+{
+    return parse_3<UInt3, UInt>(str, value, Minty::Parser<UInt>::parse);
+}
+
+String Minty::Parser<UInt3>::to_string(UInt3 const &value)
+{
+    return to_string_3<UInt3, UInt>(value, Minty::Parser<UInt>::to_string);
+}
+
+Bool Minty::Parser<UInt4>::parse(StringView const str, UInt4 &value)
+{
+    return parse_4<UInt4, UInt>(str, value, Minty::Parser<UInt>::parse);
+}
+
+String Minty::Parser<UInt4>::to_string(UInt4 const &value)
+{
+    return to_string_4<UInt4, UInt>(value, Minty::Parser<UInt>::to_string);
+}
+
+Bool Minty::Parser<Float2>::parse(StringView const str, Float2 &value)
+{
+    return parse_2<Float2, Float>(str, value, Minty::Parser<Float>::parse);
+}
+
+String Minty::Parser<Float2>::to_string(Float2 const &value)
+{
+    return to_string_2<Float2, Float>(value, Minty::Parser<Float>::to_string);
+}
+
+Bool Minty::Parser<Float3>::parse(StringView const str, Float3 &value)
+{
+    return parse_3<Float3, Float>(str, value, Minty::Parser<Float>::parse);
+}
+
+String Minty::Parser<Float3>::to_string(Float3 const &value)
+{
+    return to_string_3<Float3, Float>(value, Minty::Parser<Float>::to_string);
+}
+
+Bool Minty::Parser<Float4>::parse(StringView const str, Float4 &value)
+{
+    return parse_4<Float4, Float>(str, value, Minty::Parser<Float>::parse);
+}
+
+String Minty::Parser<Float4>::to_string(Float4 const &value)
+{
+    return to_string_4<Float4, Float>(value, Minty::Parser<Float>::to_string);
+}
+
+Bool Minty::Parser<WInt2>::parse(StringView const str, WInt2 &value)
+{
+    return parse_2<WInt2, WInt>(str, value, Minty::Parser<WInt>::parse);
+}
+
+String Minty::Parser<WInt2>::to_string(WInt2 const &value)
+{
+    return to_string_2<WInt2, WInt>(value, Minty::Parser<WInt>::to_string);
+}
+
+Bool Minty::Parser<WInt3>::parse(StringView const str, WInt3 &value)
+{
+    return parse_3<WInt3, WInt>(str, value, Minty::Parser<WInt>::parse);
+}
+
+String Minty::Parser<WInt3>::to_string(WInt3 const &value)
+{
+    return to_string_3<WInt3, WInt>(value, Minty::Parser<WInt>::to_string);
+}
+
+Bool Minty::Parser<WInt4>::parse(StringView const str, WInt4 &value)
+{
+    return parse_4<WInt4, WInt>(str, value, Minty::Parser<WInt>::parse);
+}
+
+String Minty::Parser<WInt4>::to_string(WInt4 const &value)
+{
+    return to_string_4<WInt4, WInt>(value, Minty::Parser<WInt>::to_string);
+}
+
+Bool Minty::Parser<UWInt2>::parse(StringView const str, UWInt2 &value)
+{
+    return parse_2<UWInt2, UWInt>(str, value, Minty::Parser<UWInt>::parse);
+}
+
+String Minty::Parser<UWInt2>::to_string(UWInt2 const &value)
+{
+    return to_string_2<UWInt2, UWInt>(value, Minty::Parser<UWInt>::to_string);
+}
+
+Bool Minty::Parser<UWInt3>::parse(StringView const str, UWInt3 &value)
+{
+    return parse_3<UWInt3, UWInt>(str, value, Minty::Parser<UWInt>::parse);
+}
+
+String Minty::Parser<UWInt3>::to_string(UWInt3 const &value)
+{
+    return to_string_3<UWInt3, UWInt>(value, Minty::Parser<UWInt>::to_string);
+}
+
+Bool Minty::Parser<UWInt4>::parse(StringView const str, UWInt4 &value)
+{
+    return parse_4<UWInt4, UWInt>(str, value, Minty::Parser<UWInt>::parse);
+}
+
+String Minty::Parser<UWInt4>::to_string(UWInt4 const &value)
+{
+    return to_string_4<UWInt4, UWInt>(value, Minty::Parser<UWInt>::to_string);
+}
+
+Bool Minty::Parser<WFloat2>::parse(StringView const str, WFloat2 &value)
+{
+    return parse_2<WFloat2, WFloat>(str, value, Minty::Parser<WFloat>::parse);
+}
+
+String Minty::Parser<WFloat2>::to_string(WFloat2 const &value)
+{
+    return to_string_2<WFloat2, WFloat>(value, Minty::Parser<WFloat>::to_string);
+}
+
+Bool Minty::Parser<WFloat3>::parse(StringView const str, WFloat3 &value)
+{
+    return parse_3<WFloat3, WFloat>(str, value, Minty::Parser<WFloat>::parse);
+}
+
+String Minty::Parser<WFloat3>::to_string(WFloat3 const &value)
+{
+    return to_string_3<WFloat3, WFloat>(value, Minty::Parser<WFloat>::to_string);
+}
+
+Bool Minty::Parser<WFloat4>::parse(StringView const str, WFloat4 &value)
+{
+    return parse_4<WFloat4, WFloat>(str, value, Minty::Parser<WFloat>::parse);
+}
+
+String Minty::Parser<WFloat4>::to_string(WFloat4 const &value)
+{
+    return to_string_4<WFloat4, WFloat>(value, Minty::Parser<WFloat>::to_string);
 }

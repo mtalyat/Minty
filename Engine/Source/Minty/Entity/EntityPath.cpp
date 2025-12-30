@@ -48,5 +48,5 @@ String Minty::Parser<EntityPath>::to_string(EntityPath const &value)
 	}
 
 	// write that
-	return builder.to_string();
+	return builder.get_string();
 }

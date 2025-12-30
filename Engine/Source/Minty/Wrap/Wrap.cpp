@@ -282,7 +282,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
     PhysicalFile file(physicalPath, FileFlags::Read | FileFlags::Binary);
 
     // read the data from the file
-    FileSize fileSize = file.get_size();
+    StreamSize fileSize = file.get_size();
     Byte* fileData = new Byte[fileSize];
     file.read(fileData, fileSize);
 
@@ -308,8 +308,8 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
     if (static_cast<Bool>(compressionLevel))
     {
         // calculate sizes
-        ULong sourceSize = static_cast<ULong>(fileSize);
-        ULong destSize = compress_bound(sourceSize);
+        UWInt sourceSize = static_cast<UWInt>(fileSize);
+        UWInt destSize = compress_bound(sourceSize);
 
         // create dest buffer
         Byte* compressedData = new Byte[destSize];
@@ -325,7 +325,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
         // replace source
         delete[] fileData;
         fileData = compressedData;
-        fileSize = static_cast<FileSize>(destSize);
+        fileSize = static_cast<StreamSize>(destSize);
     }
 
     // set size and offset
@@ -345,7 +345,7 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
 
     // write to file
     write_entry(wrapFile, index);
-    wrapFile.set_position(entry.offset, FileDirection::Begin);
+    wrapFile.set_position(entry.offset, StreamDirection::Begin);
     wrapFile.write(fileData, fileSize);
 
     // cleanup
@@ -387,13 +387,13 @@ Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
 
     // read all data from file
     Entry const& entry = get_entry(path);
-    FileSize fileSize = static_cast<FileSize>(entry.compressedSize);
+    StreamSize fileSize = static_cast<StreamSize>(entry.compressedSize);
     Byte* fileData = new Byte[fileSize];
     file.read(fileData, fileSize);
 
     // uncompress it
-    ULong sourceSize = static_cast<ULong>(entry.compressedSize);
-    ULong size = static_cast<ULong>(entry.uncompressedSize);
+    UWInt sourceSize = static_cast<UWInt>(entry.compressedSize);
+    UWInt size = static_cast<UWInt>(entry.uncompressedSize);
     Byte* data = nullptr;
 	// uncompress it, if it is compressed
 	if (entry.compressedSize == entry.uncompressedSize)

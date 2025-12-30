@@ -17,10 +17,7 @@ void Minty::Serializer<MeshComponent>::serialize(Writer &writer, MeshComponent c
 void Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent &value)
 {
 	// read type
-	if (!reader.read_default(value.type))
-	{
-		reader.read("Type", value.type, MeshType::Custom);
-	}
+	reader.read("Type", value.type);
 
 	// read mesh ID
 	if (value.type == MeshType::Custom)

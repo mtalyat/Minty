@@ -205,6 +205,34 @@ namespace Minty
         }
 
         /**
+         * @brief Checks if the string view starts with the specified prefix.
+         * @param prefix The prefix to check.
+         * @return True if the string view starts with the prefix, false otherwise.
+         */
+        Bool starts_with(StringView const prefix) const noexcept;
+
+        /**
+         * @brief Checks if the string view starts with the specified character.
+         * @param c The character to check.
+         * @return True if the string view starts with the character, false otherwise.
+         */
+        inline Bool starts_with(Char const c) const noexcept { return !is_empty() && mp_data[0] == c; }
+
+        /**
+         * @brief Checks if the string view ends with the specified suffix.
+         * @param suffix The suffix to check.
+         * @return True if the string view ends with the suffix, false otherwise.
+         */
+        Bool ends_with(StringView const suffix) const noexcept;
+        
+        /**
+         * @brief Checks if the string view ends with the specified character.
+         * @param c The character to check.
+         * @return True if the string view ends with the character, false otherwise.
+         */
+        inline Bool ends_with(Char const c) const noexcept { return !is_empty() && mp_data[m_size - 1] == c; }
+
+        /**
          * @brief Gets a substring of the string view.
          * @param startIndex The starting index of the substring.
          * @param count The number of characters in the substring. Defaults to SIZE_MAX to get until the end.

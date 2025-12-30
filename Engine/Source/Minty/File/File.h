@@ -10,7 +10,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Vector.h"
-#include "Minty/File/FileDirection.h"
+#include "Minty/Stream/StreamDirection.h"
 #include "Minty/File/FileFlags.h"
 #include <fstream>
 
@@ -99,7 +99,7 @@ namespace Minty
 		 * @brief Gets the size of the file.
 		 * @return The size of the file.
 		 */
-		virtual FileSize get_size() const = 0;
+		virtual StreamSize get_size() const = 0;
 
 #pragma endregion
 
@@ -133,14 +133,14 @@ namespace Minty
 		 * @brief Gets the current position of the cursor.
 		 * @return The current position of the cursor.
 		 */
-		virtual FilePosition get_position() = 0;
+		virtual StreamPosition get_position() = 0;
 
 		/**
 		 * @brief Moves the cursor(s) to a new location within the file.
 		 * @param offset The offset at which the file is relative to the direction.
 		 * @param dir The anchor point of the offset.
 		 */
-		virtual void set_position(FilePosition const offset, FileDirection const dir = FileDirection::Begin) = 0;
+		virtual void set_position(StreamPosition const offset, StreamDirection const dir = StreamDirection::Begin) = 0;
 
 		/**
 		 * @brief Checks if the cursor is at or past the end of the file.
@@ -165,7 +165,7 @@ namespace Minty
 		 * @param buffer The location to read the data to.
 		 * @param size The number of bytes to read.
 		 */
-		virtual Bool read(Any const buffer, FileSize const size) = 0;
+		virtual Bool read(Any const buffer, StreamSize const size) = 0;
 
 		/**
 		 * @brief Reads the next line of text, and moves the cursor the appropriate amount of bytes.
@@ -197,7 +197,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual Bool write(AnyConst const buffer, FileSize const size) = 0;
+		virtual Bool write(AnyConst const buffer, StreamSize const size) = 0;
 
 		/**
 		 * @brief Writes the given line of text to the file, and moves the cursor the appropriate amount of bytes.

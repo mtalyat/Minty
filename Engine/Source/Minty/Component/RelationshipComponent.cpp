@@ -38,7 +38,7 @@ void Minty::Serializer<RelationshipComponent>::deserialize(Reader &reader, Relat
 
 	// read the parent id
 	UUID parentId;
-	if (reader.read_default(parentId) || reader.read("Parent", parentId))
+	if (reader.read("Parent", parentId))
 	{
 		// get the parent entity
 		Entity const parent = entityData->get_entity(parentId);

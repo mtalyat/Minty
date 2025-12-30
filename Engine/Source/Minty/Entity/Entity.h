@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Library/EnTT.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -20,6 +21,13 @@ namespace Minty
 	 * @brief An invalid entity.
 	 */
 	constexpr Entity INVALID_ENTITY = entt::null;
+
+    template<>
+    struct Parser<Entity>
+    {
+        static Bool parse(StringView const str, Entity &value);
+        static String to_string(Entity const &value);
+    };
 }
 
 #endif // MINTY_ENTITY_ENTITY_H

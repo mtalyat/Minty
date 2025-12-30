@@ -20,47 +20,47 @@ void Minty::UITransform::update(Rect const &parentRect, Float const parentDepth,
 	// update horizontal
 	if ((horizontal & AnchorMode::Left) == horizontal)
 	{
-		m_globalRect.m_x = parentRect.m_x + m_x;
+		m_globalRect.x = parentRect.x + m_x;
 		m_globalRect.width = m_width;
 	}
 	else if ((horizontal & AnchorMode::Center) == horizontal)
 	{
-		m_globalRect.m_x = parentRect.m_x + m_x + (parentRect.width * 0.5f);
+		m_globalRect.x = parentRect.x + m_x + (parentRect.width * 0.5f);
 		m_globalRect.width = m_width;
 	}
 	else if ((horizontal & AnchorMode::Right) == horizontal)
 	{
-		m_globalRect.m_x = parentRect.m_x + m_x + parentRect.width;
+		m_globalRect.x = parentRect.x + m_x + parentRect.width;
 		m_globalRect.width = m_width;
 	}
 	else
 	{
 		// stretch
-		m_globalRect.m_x = parentRect.m_x + m_x;
-		m_globalRect.width = parentRect.width - m_width - m_globalRect.m_x;
+		m_globalRect.x = parentRect.x + m_x;
+		m_globalRect.width = parentRect.width - m_width - m_globalRect.x;
 	}
 
 	// update vertical
 	if ((vertical & AnchorMode::Top) == vertical)
 	{
-		m_globalRect.m_y = parentRect.m_y + m_y;
+		m_globalRect.y = parentRect.y + m_y;
 		m_globalRect.height = m_height;
 	}
 	else if ((vertical & AnchorMode::Middle) == vertical)
 	{
-		m_globalRect.m_y = parentRect.m_y + m_y + (parentRect.height * 0.5f);
+		m_globalRect.y = parentRect.y + m_y + (parentRect.height * 0.5f);
 		m_globalRect.height = m_height;
 	}
 	else if ((vertical & AnchorMode::Bottom) == vertical)
 	{
-		m_globalRect.m_y = parentRect.m_y + m_y + parentRect.height;
+		m_globalRect.y = parentRect.y + m_y + parentRect.height;
 		m_globalRect.height = m_height;
 	}
 	else
 	{
 		// stretch
-		m_globalRect.m_y = parentRect.m_y + m_y;
-		m_globalRect.height = parentRect.height - m_height - m_globalRect.m_y;
+		m_globalRect.y = parentRect.y + m_y;
+		m_globalRect.height = parentRect.height - m_height - m_globalRect.y;
 	}
 
 	// update the global depth, rotation

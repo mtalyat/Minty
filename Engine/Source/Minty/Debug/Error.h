@@ -86,6 +86,7 @@ namespace Minty
         File_EndOfFileReached,
         File_ReadFailed,
         File_WriteFailed,
+        File_Empty,
 
         Singleton = 500,
         Singleton_AlreadyExists,
@@ -102,11 +103,13 @@ namespace Minty
         Serialization_InvalidFormat,
         Serialization_InvalidValue,
         Serialization_InvalidData,
+        Serialization_InvalidIndentation,
         Serialization_UnexpectedEndOfData,
         Serialization_Failed,
         Serialization_ReadName,
         Serialization_ReadValue,
         Serialization_MissingRequired,
+        Serialization_InvalidBookmark,
 
         Entity = 800,
         Entity_NotValid,

@@ -29,7 +29,18 @@ namespace Minty
          * @brief Creates a FileStream that reads/writes to the given File.
          * @param file The File to read/write to.
          */
-        explicit FileStream(Shared<File> const& file);
+        explicit FileStream(Shared<File> const &file);
+
+#pragma endregion
+
+#pragma region Accessors
+
+    public:
+        StreamPosition get_position() override;
+
+        void set_position(StreamPosition const position, StreamDirection const direction = StreamDirection::Begin) override;
+
+        StreamSize get_size() const override;
 
 #pragma endregion
 
@@ -64,6 +75,11 @@ namespace Minty
          * @return True if at the end of the stream, false otherwise.
          */
         Bool end_of_stream() override;
+
+        /**
+         * @brief Flushes any buffered data to the file.
+         */
+        void flush() override;
 
 #pragma endregion
 

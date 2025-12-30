@@ -47,14 +47,14 @@ void Minty::PhysicalFile::close()
     }
 }
 
-FilePosition Minty::PhysicalFile::get_position()
+StreamPosition Minty::PhysicalFile::get_position()
 {
     MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
-    return static_cast<FilePosition>(m_stream.tellg());
+    return static_cast<StreamPosition>(m_stream.tellg());
 }
 
-void Minty::PhysicalFile::set_position(FilePosition const offset, FileDirection const dir)
+void Minty::PhysicalFile::set_position(StreamPosition const offset, StreamDirection const dir)
 {
     MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
@@ -70,7 +70,7 @@ Bool Minty::PhysicalFile::end_of_file()
     return !m_stream.is_open() || m_stream.eof();
 }
 
-FileSize Minty::PhysicalFile::get_size() const
+StreamSize Minty::PhysicalFile::get_size() const
 {
     MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
@@ -107,7 +107,7 @@ Char Minty::PhysicalFile::read()
     }
 }
 
-Bool Minty::PhysicalFile::read(Any const buffer, FileSize const size)
+Bool Minty::PhysicalFile::read(Any const buffer, StreamSize const size)
 {
     MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
@@ -133,7 +133,7 @@ Bool Minty::PhysicalFile::read_line(String& line)
     return false;
 }
 
-Bool Minty::PhysicalFile::write(AnyConst const buffer, FileSize const size)
+Bool Minty::PhysicalFile::write(AnyConst const buffer, StreamSize const size)
 {
     MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 

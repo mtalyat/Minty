@@ -12,8 +12,5 @@ void Minty::Serializer<MaskedComponent>::serialize(Writer &writer, MaskedCompone
 
 void Minty::Serializer<MaskedComponent>::deserialize(Reader &reader, MaskedComponent &value)
 {
-	if (!reader.read_default(value.value))
-	{
-		reader.read("Value", value.value);
-	}
+	reader.read("Value", value.value);
 }

@@ -42,6 +42,7 @@ namespace Minty
 		Default = LinearDistance,
 	};
 
+	template<>
 	struct Parser<Attenuation>
 	{
 		static Bool parse(StringView const str, Attenuation &value);

@@ -3,6 +3,7 @@
 #include "Minty/Animation/Animation.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Tool/Util.h"
+#include "Minty/Serialization/Parser.h"
 
 using namespace Minty;
 
@@ -18,7 +19,7 @@ static UInt get_split(Size const index, Vector<String> const& split, UInt const 
 		return defaultValue;
 	}
 	UInt value = 0;
-	if (!try_uint(part, value))
+	if (!Parser<UInt>::parse(part, value))
 	{
 		return defaultValue;
 	}
@@ -28,9 +29,9 @@ static UInt get_split(Size const index, Vector<String> const& split, UInt const 
 Bool Minty::Parser<AnimationAction>::parse(StringView const str, AnimationAction &value)
 {
     // format: type?:entity/component:variable/value,variable/value,variable/value...
-	StringBuilder textBuilder(text);
+	StringBuilder textBuilder(str);
 	textBuilder.strip();
-	String const strippedText = textBuilder.to_string();
+	String const strippedText = textBuilder.get_string();
 	Vector<String> halves = Util::split(strippedText, ANIMATION_ACTION_HALF);
 	MINTY_ASSERT_F(halves.get_size() == 2 || halves.get_size() == 3, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
@@ -89,9 +90,9 @@ String Minty::Parser<AnimationAction>::to_string(AnimationAction const &value)
     StringBuilder builder;
 
 	// get major half
-	String flagString = value.type == AnimationActionFlags::None ? "" : Minty::to_string(static_cast<UInt>(value.type));
-	String entityString = value.entityIndex == Animation::MAX_ENTITY_INDEX ? "" : Minty::to_string(value.entityIndex);
-	String componentString = value.componentIndex == Animation::MAX_COMPONENT_INDEX ? "" : Minty::to_string(value.componentIndex);
+	String flagString = value.type == AnimationActionFlags::None ? "" : Parser<UInt>::to_string(static_cast<UInt>(value.type));
+	String entityString = value.entityIndex == Animation::MAX_ENTITY_INDEX ? "" : Parser<UInt>::to_string(value.entityIndex);
+	String componentString = value.componentIndex == Animation::MAX_COMPONENT_INDEX ? "" : Parser<UInt>::to_string(value.componentIndex);
 	builder.append(flagString);
 	builder.append(ANIMATION_ACTION_DELIMITER);
 	builder.append(entityString);
@@ -109,12 +110,12 @@ String Minty::Parser<AnimationAction>::to_string(AnimationAction const &value)
 			builder.append(ANIMATION_ACTION_GROUP);
 		}
 		auto const [variableIndex, valueIndex] = value.values.at(i);
-		String variableString = variableIndex == Animation::MAX_VARIABLE_INDEX ? "" : Minty::to_string(variableIndex);
-		String valueString = valueIndex == Animation::MAX_VALUE_INDEX ? "" : Minty::to_string(valueIndex);
+		String variableString = variableIndex == Animation::MAX_VARIABLE_INDEX ? "" : Parser<UInt>::to_string(variableIndex);
+		String valueString = valueIndex == Animation::MAX_VALUE_INDEX ? "" : Parser<UInt>::to_string(valueIndex);
 		builder.append(variableString);
 		builder.append(ANIMATION_ACTION_DELIMITER);
 		builder.append(valueString);
 	}
 
-	return builder.to_string();
+	return builder.get_string();
 }

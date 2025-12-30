@@ -11,8 +11,5 @@ void Minty::Serializer<GravityComponent>::serialize(Writer &writer, GravityCompo
 
 void Minty::Serializer<GravityComponent>::deserialize(Reader &reader, GravityComponent &value)
 {
-    if(!reader.read_default(value.scale))
-    {
-        reader.read("Scale", value.scale);
-    }
+    reader.read("Scale", value.scale);
 }

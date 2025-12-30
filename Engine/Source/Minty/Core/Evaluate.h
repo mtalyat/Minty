@@ -36,8 +36,17 @@ namespace Minty
 					{"PI", static_cast<T>(Math::PI)},
 					{"BYTE", static_cast<T>(sizeof(Byte))},
 					{"CHAR", static_cast<T>(sizeof(Char))},
-					{"SHORT", static_cast<T>(sizeof(Short))},
-					{"USHORT", static_cast<T>(sizeof(UShort))},
+					{"INT8", static_cast<T>(sizeof(Int8))},
+					{"INT16", static_cast<T>(sizeof(Int16))},
+					{"INT32", static_cast<T>(sizeof(Int32))},
+					{"INT64", static_cast<T>(sizeof(Int64))},
+					{"UINT8", static_cast<T>(sizeof(UInt8))},
+					{"UINT16", static_cast<T>(sizeof(UInt16))},
+					{"UINT32", static_cast<T>(sizeof(UInt32))},
+					{"UINT64", static_cast<T>(sizeof(UInt64))},
+					{"FLOAT32", static_cast<T>(sizeof(Float32))},
+					{"FLOAT64", static_cast<T>(sizeof(Float64))},
+					{"BOOL", static_cast<T>(sizeof(Bool))},
 					{"INT", static_cast<T>(sizeof(Int))},
 					{"INT2", static_cast<T>(sizeof(Int2))},
 					{"INT3", static_cast<T>(sizeof(Int3))},
@@ -46,23 +55,23 @@ namespace Minty
 					{"UINT2", static_cast<T>(sizeof(UInt2))},
 					{"UINT3", static_cast<T>(sizeof(UInt3))},
 					{"UINT4", static_cast<T>(sizeof(UInt4))},
-					{"LONG", static_cast<T>(sizeof(Long))},
-					{"LONG2", static_cast<T>(sizeof(Long2))},
-					{"LONG3", static_cast<T>(sizeof(Long3))},
-					{"LONG4", static_cast<T>(sizeof(Long4))},
-					{"ULONG", static_cast<T>(sizeof(ULong))},
-					{"ULONG2", static_cast<T>(sizeof(ULong2))},
-					{"ULONG3", static_cast<T>(sizeof(ULong3))},
-					{"ULONG4", static_cast<T>(sizeof(ULong4))},
+					{"WINT", static_cast<T>(sizeof(WInt))},
+					{"WINT2", static_cast<T>(sizeof(WInt2))},
+					{"WINT3", static_cast<T>(sizeof(WInt3))},
+					{"WINT4", static_cast<T>(sizeof(WInt4))},
+					{"UWINT", static_cast<T>(sizeof(UWInt))},
+					{"UWINT2", static_cast<T>(sizeof(UWInt2))},
+					{"UWINT3", static_cast<T>(sizeof(UWInt3))},
+					{"UWINT4", static_cast<T>(sizeof(UWInt4))},
 					{"SIZE", static_cast<T>(sizeof(Size))},
 					{"FLOAT", static_cast<T>(sizeof(Float))},
 					{"FLOAT2", static_cast<T>(sizeof(Float2))},
 					{"FLOAT3", static_cast<T>(sizeof(Float3))},
 					{"FLOAT4", static_cast<T>(sizeof(Float4))},
-					{"DOUBLE", static_cast<T>(sizeof(Double))},
-					{"DOUBLE2", static_cast<T>(sizeof(Double2))},
-					{"DOUBLE3", static_cast<T>(sizeof(Double3))},
-					{"DOUBLE4", static_cast<T>(sizeof(Double4))},
+					{"WFLOAT", static_cast<T>(sizeof(WFloat))},
+					{"WFLOAT2", static_cast<T>(sizeof(WFloat2))},
+					{"WFLOAT3", static_cast<T>(sizeof(WFloat3))},
+					{"WFLOAT4", static_cast<T>(sizeof(WFloat4))},
 					{"MATRIX2", static_cast<T>(sizeof(Matrix2))},
 					{"MATRIX3", static_cast<T>(sizeof(Matrix3))},
 					{"MATRIX4", static_cast<T>(sizeof(Matrix4))},
@@ -81,7 +90,7 @@ namespace Minty
 					value = static_cast<T>(Math::random_float());
 					return true;
 				}
-				else if constexpr (std::is_same_v<T, Double>)
+				else if constexpr (std::is_same_v<T, WFloat>)
 				{
 					value = static_cast<T>(Math::random_double());
 					return true;
@@ -96,12 +105,12 @@ namespace Minty
 					value = static_cast<T>(Math::random_uint());
 					return true;
 				}
-				else if constexpr (std::is_same_v<T, Long>)
+				else if constexpr (std::is_same_v<T, WInt>)
 				{
 					value = static_cast<T>(Math::random_long());
 					return true;
 				}
-				else if constexpr (std::is_same_v<T, ULong>)
+				else if constexpr (std::is_same_v<T, UWInt>)
 				{
 					value = static_cast<T>(Math::random_ulong());
 					return true;
@@ -201,7 +210,7 @@ namespace Minty
 		Float evaluate_operator(String const &token, Float const left, Float const right);
 
 		template <>
-		Double evaluate_operator(String const &token, Double const left, Double const right);
+		WFloat evaluate_operator(String const &token, WFloat const left, WFloat const right);
 
 		// splits the expression into String tokens
 		Vector<String> split_into_tokens(String const &expression);
@@ -220,11 +229,11 @@ namespace Minty
 			Stack<String> operators;
 
 			String token;
-			float value;
+			Float value;
 			for (auto const &token : unsortedTokens)
 			{
 				T t;
-				if (parse_try<T>(token, t) || try_get_constant(token, value))
+				if (Parser<T>::parse(token, t) || try_get_constant(token, value))
 				{
 					// push value to tokens
 					tokens.add(token);
@@ -344,7 +353,7 @@ namespace Minty
 			Int operationCount;
 			for (String const &token : tokens)
 			{
-				if (parse_try(token, left) || Internal::try_get_constant<T>(token, left))
+				if (Parser<T>::parse(token, left) || Internal::try_get_constant<T>(token, left))
 				{
 					// operand, push value onto stack
 					stack.push(left);
@@ -441,34 +450,34 @@ namespace Minty
 		}
 
 		/**
-		 * @brief Evaluates an expression into a Long2.
+		 * @brief Evaluates an expression into a WInt2.
 		 * @param expression The string expression to evaluate.
-		 * @return The evaluated Long2 result.
+		 * @return The evaluated WInt2 result.
 		 */
 		template <>
-		inline Long2 evaluate(String const &expression)
+		inline WInt2 evaluate(String const &expression)
 		{
-			return Internal::evaluate_2<Long2, Long>(expression);
+			return Internal::evaluate_2<WInt2, WInt>(expression);
 		}
 		/**
-		 * @brief Evaluates an expression into a Long3.
+		 * @brief Evaluates an expression into a WInt3.
 		 * @param expression The string expression to evaluate.
-		 * @return The evaluated Long3 result.
+		 * @return The evaluated WInt3 result.
 		 */
 		template <>
-		inline Long3 evaluate(String const &expression)
+		inline WInt3 evaluate(String const &expression)
 		{
-			return Internal::evaluate_3<Long3, Long>(expression);
+			return Internal::evaluate_3<WInt3, WInt>(expression);
 		}
 		/**
-		 * @brief Evaluates an expression into a Long4.
+		 * @brief Evaluates an expression into a WInt4.
 		 * @param expression The string expression to evaluate.
-		 * @return The evaluated Long4 result.
+		 * @return The evaluated WInt4 result.
 		 */
 		template <>
-		inline Long4 evaluate(String const &expression)
+		inline WInt4 evaluate(String const &expression)
 		{
-			return Internal::evaluate_4<Long4, Long>(expression);
+			return Internal::evaluate_4<WInt4, WInt>(expression);
 		}
 
 		/**
@@ -477,9 +486,9 @@ namespace Minty
 		 * @return The evaluated ULong2 result.
 		 */
 		template <>
-		inline ULong2 evaluate(String const &expression)
+		inline UWInt2 evaluate(String const &expression)
 		{
-			return Internal::evaluate_2<ULong2, ULong>(expression);
+			return Internal::evaluate_2<UWInt2, UWInt>(expression);
 		}
 		/**
 		 * @brief Evaluates an expression into a ULong3.
@@ -487,9 +496,9 @@ namespace Minty
 		 * @return The evaluated ULong3 result.
 		 */
 		template <>
-		inline ULong3 evaluate(String const &expression)
+		inline UWInt3 evaluate(String const &expression)
 		{
-			return Internal::evaluate_3<ULong3, ULong>(expression);
+			return Internal::evaluate_3<UWInt3, UWInt>(expression);
 		}
 		/**
 		 * @brief Evaluates an expression into a ULong4.
@@ -497,9 +506,9 @@ namespace Minty
 		 * @return The evaluated ULong4 result.
 		 */
 		template <>
-		inline ULong4 evaluate(String const &expression)
+		inline UWInt4 evaluate(String const &expression)
 		{
-			return Internal::evaluate_4<ULong4, ULong>(expression);
+			return Internal::evaluate_4<UWInt4, UWInt>(expression);
 		}
 
 		/**
@@ -534,34 +543,34 @@ namespace Minty
 		}
 
 		/**
-		 * @brief Evaluates an expression into a Double2.
+		 * @brief Evaluates an expression into a WFloat2.
 		 * @param expression The string expression to evaluate.
-		 * @return The evaluated Double2 result.
+		 * @return The evaluated WFloat2 result.
 		 */
 		template <>
-		inline Double2 evaluate(String const &expression)
+		inline WFloat2 evaluate(String const &expression)
 		{
-			return Internal::evaluate_2<Double2, Double>(expression);
+			return Internal::evaluate_2<WFloat2, WFloat>(expression);
 		}
 		/**
-		 * @brief Evaluates an expression into a Double3.
+		 * @brief Evaluates an expression into a WFloat3.
 		 * @param expression The string expression to evaluate.
-		 * @return The evaluated Double3 result.
+		 * @return The evaluated WFloat3 result.
 		 */
 		template <>
-		inline Double3 evaluate(String const &expression)
+		inline WFloat3 evaluate(String const &expression)
 		{
-			return Internal::evaluate_3<Double3, Double>(expression);
+			return Internal::evaluate_3<WFloat3, WFloat>(expression);
 		}
 		/**
-		 * @brief Evaluates an expression into a Double4.
+		 * @brief Evaluates an expression into a WFloat4.
 		 * @param expression The string expression to evaluate.
-		 * @return The evaluated Double4 result.
+		 * @return The evaluated WFloat4 result.
 		 */
 		template <>
-		inline Double4 evaluate(String const &expression)
+		inline WFloat4 evaluate(String const &expression)
 		{
-			return Internal::evaluate_4<Double4, Double>(expression);
+			return Internal::evaluate_4<WFloat4, WFloat>(expression);
 		}
 	}
 }

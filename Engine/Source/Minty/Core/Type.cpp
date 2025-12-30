@@ -10,7 +10,7 @@
 
 using namespace Minty;
 
-static constexpr Size TYPE_COUNT = 33;
+static constexpr Size TYPE_COUNT = 31;
 static constexpr Char const* TYPE_STRINGS[TYPE_COUNT] =
 {
 	"Undefined",
@@ -20,8 +20,6 @@ static constexpr Char const* TYPE_STRINGS[TYPE_COUNT] =
 	"Bool4",
 	"Char",
 	"Byte",
-	"Short",
-	"UShort",
 	"Int",
 	"Int2",
 	"Int3",
@@ -30,14 +28,14 @@ static constexpr Char const* TYPE_STRINGS[TYPE_COUNT] =
 	"UInt2",
 	"UInt3",
 	"UInt4",
-	"Long",
-	"ULong",
+	"WInt",
+	"UWInt",
 	"Size",
 	"Float",
 	"Float2",
 	"Float3",
 	"Float4",
-	"Double",
+	"WFloat",
 	"Matrix2",
 	"Matrix3",
 	"Matrix4",
@@ -47,17 +45,15 @@ static constexpr Char const* TYPE_STRINGS[TYPE_COUNT] =
 	"String",
 	"MultilineString",
 };
-static constexpr TypeID TYPE_TYPEIDS[TYPE_COUNT] =
+static TypeID TYPE_TYPEIDS[TYPE_COUNT] =
 {
-	typeid(std::nullptr_t),
+	typeid(Any),
 	typeid(Bool),
 	typeid(Bool2),
 	typeid(Bool3),
 	typeid(Bool4),
 	typeid(Char),
 	typeid(Byte),
-	typeid(Short),
-	typeid(UShort),
 	typeid(Int),
 	typeid(Int2),
 	typeid(Int3),
@@ -66,14 +62,14 @@ static constexpr TypeID TYPE_TYPEIDS[TYPE_COUNT] =
 	typeid(UInt2),
 	typeid(UInt3),
 	typeid(UInt4),
-	typeid(Long),
-	typeid(ULong),
+	typeid(WInt),
+	typeid(UWInt),
 	typeid(Size),
 	typeid(Float),
 	typeid(Float2),
 	typeid(Float3),
 	typeid(Float4),
-	typeid(Double),
+	typeid(WFloat),
 	typeid(Matrix2),
 	typeid(Matrix3),
 	typeid(Matrix4),
@@ -92,8 +88,6 @@ static constexpr Size TYPE_SIZES[TYPE_COUNT] =
 	sizeof(Bool4),
 	sizeof(Char),
 	sizeof(Byte),
-	sizeof(Short),
-	sizeof(UShort),
 	sizeof(Int),
 	sizeof(Int2),
 	sizeof(Int3),
@@ -102,14 +96,14 @@ static constexpr Size TYPE_SIZES[TYPE_COUNT] =
 	sizeof(UInt2),
 	sizeof(UInt3),
 	sizeof(UInt4),
-	sizeof(Long),
-	sizeof(ULong),
+	sizeof(WInt),
+	sizeof(UWInt),
 	sizeof(Size),
 	sizeof(Float),
 	sizeof(Float2),
 	sizeof(Float3),
 	sizeof(Float4),
-	sizeof(Double),
+	sizeof(WFloat),
 	sizeof(Matrix2),
 	sizeof(Matrix3),
 	sizeof(Matrix4),
@@ -126,7 +120,7 @@ Type Minty::type_typeid(TypeID const typeId)
 	{
 		if (typeId == TYPE_TYPEIDS[i])
 		{
-			return reinterpret_cast<Type>(i);
+			return static_cast<Type>(i);
 		}
 	}
 	return Type::Undefined;
@@ -134,7 +128,7 @@ Type Minty::type_typeid(TypeID const typeId)
 
 TypeID Minty::typeid_type(Type const type)
 {
-	Size const index = reinterpret_cast<Size>(type);
+	Size const index = static_cast<Size>(type);
 
 	if(index >= TYPE_COUNT)
 	{
@@ -145,7 +139,7 @@ TypeID Minty::typeid_type(Type const type)
 
 Size Minty::sizeof_type(Type const type)
 {
-	Size const index = reinterpret_cast<Size>(type);
+	Size const index = static_cast<Size>(type);
 
 	if(index >= TYPE_COUNT)
 	{

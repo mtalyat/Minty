@@ -11,30 +11,25 @@ using namespace Minty;
 
 void Minty::Serializer<AnimatorComponent>::serialize(Writer &writer, AnimatorComponent const &value)
 {
-	writer.write("Animator", animator->get_id());
+	writer.write("Animator", value.animator->get_id());
 }
 
 void Minty::Serializer<AnimatorComponent>::deserialize(Reader &reader, AnimatorComponent &value)
 {
-	auto const& assetManager = AssetManager::get_instance();
-	if(!assetManager)
-	{
-		MINTY_ERROR(ErrorCode::Application_AssetManagerNotInitialized);
-		return false;
-	}
+	AssetManager& assetManager = AssetManager::get_singleton();
 
 	UUID id;
-	if (reader.read_default(id) || reader.read("Animator", id))
+	if (reader.read("Animator", id))
 	{
 		// make a copy of the animator
-		animator = assetManager->clone<Animator>(id);
-		MINTY_ASSERT_F(animator != nullptr, ErrorCode::Asset_MissingDependency, id);
+		value.animator = assetManager.clone<Animator>(id);
+		MINTY_ASSERT_F(value.animator != nullptr, ErrorCode::Asset_MissingDependency, id);
 
 		// get the animation
-		id = animator->get_current_animation();
+		id = value.animator->get_current_animation();
 		if (id.is_valid())
 		{
-			animation = assetManager->get_ref<Animation>(id);
+			value.animation = assetManager.get_ref<Animation>(id);
 		}
 	}
 }

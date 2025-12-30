@@ -73,6 +73,17 @@ void Minty::StringBuilder::append(Char const c)
     mp_data[m_size] = '\0';
 }
 
+void Minty::StringBuilder::append(Char const *const cstr)
+{
+    // skip if null or empty
+    if(cstr == nullptr || cstr[0] == '\0')
+    {
+        return;
+    }
+
+    append(StringView(cstr));
+}
+
 void Minty::StringBuilder::append(StringView const &str)
 {
     // skip if empty

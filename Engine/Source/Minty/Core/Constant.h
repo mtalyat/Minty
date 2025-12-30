@@ -115,9 +115,9 @@ namespace Minty
 
 #pragma region File
 
-	constexpr FilePosition INVALID_FILE_POSITION = -1;
+	constexpr StreamPosition INVALID_FILE_POSITION = -1;
 	#undef INVALID_FILE_SIZE
-	constexpr FileSize INVALID_FILE_SIZE = -1;
+	constexpr StreamSize INVALID_FILE_SIZE = -1;
 
 #pragma endregion
 

@@ -278,6 +278,31 @@ Vector<String> Minty::Util::split_lines(String const &str)
 	return split(str.replace("\r\n", "\n"), '\n');
 }
 
+String Minty::Util::to_safe_string(StringView const str)
+{
+	StringBuilder builder(str);
+
+	// escape special characters
+	builder.replace("\\", "\\\\");
+	builder.replace("\n", "\\n");
+	builder.replace("\r", "\\r");
+	builder.replace("\t", "\\t");
+
+    return builder.get_string();
+}
+
+String Minty::Util::to_unsafe_string(StringView const str)
+{
+	StringBuilder builder(str);
+
+	// unescape special characters
+	builder.replace("\\n", "\n");
+	builder.replace("\\r", "\r");
+	builder.replace("\\t", "\t");
+	builder.replace("\\\\", "\\");
+
+	return builder.get_string();
+}
 
 Vector<Path> Minty::Util::get_files(Path const& path, Bool const recursive)
 {

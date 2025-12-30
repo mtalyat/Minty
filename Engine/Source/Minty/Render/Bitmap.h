@@ -114,9 +114,6 @@ namespace Minty
 #pragma region Methods
 
     public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-        
         /**
          * @brief Loads the Bitmap from the specified path.
          * @param path The path to load the Bitmap from.
@@ -148,7 +145,6 @@ namespace Minty
 
 #pragma endregion
     };
-
 }
 
 #endif // MINTY_RENDER_BITMAP_H

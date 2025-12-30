@@ -40,6 +40,7 @@ namespace Minty
 
 	MINTY_ENABLE_ENUM_OPERATORS(AnimationActionFlags)
 
+	template<>
 	struct Parser<AnimationActionFlags>
 	{
 		static Bool parse(StringView const str, AnimationActionFlags &value);

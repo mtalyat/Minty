@@ -11,9 +11,9 @@ static std::mt19937_64 s_randomEngine64(s_randomDevice());
 static std::uniform_real_distribution<Float> s_uniformDistributionFloat;
 static std::uniform_int_distribution<Int> s_uniformDistributionInt;
 static std::uniform_int_distribution<UInt> s_uniformDistributionUInt;
-static std::uniform_real_distribution<Double> s_uniformDistributionDouble;
-static std::uniform_int_distribution<Long> s_uniformDistributionLong;
-static std::uniform_int_distribution<ULong> s_uniformDistributionULong;
+static std::uniform_real_distribution<WFloat> s_uniformDistributionDouble;
+static std::uniform_int_distribution<WInt> s_uniformDistributionLong;
+static std::uniform_int_distribution<UWInt> s_uniformDistributionULong;
 
 Float3 Minty::Math::normalize(Float3 const& value)
 {
@@ -199,35 +199,35 @@ UInt Minty::Math::random_uint()
 	return s_uniformDistributionUInt(s_randomEngine);
 }
 
-Double Minty::Math::random_double(Double const min, Double const max)
+WFloat Minty::Math::random_double(WFloat const min, WFloat const max)
 {
-	std::uniform_real_distribution<Double> dist(min, max);
+	std::uniform_real_distribution<WFloat> dist(min, max);
 	return dist(s_randomEngine64);
 }
 
-Double Minty::Math::random_double()
+WFloat Minty::Math::random_double()
 {
 	return s_uniformDistributionDouble(s_randomEngine64);
 }
 
-Long Minty::Math::random_long(Long const min, Long const max)
+WInt Minty::Math::random_long(WInt const min, WInt const max)
 {
-	std::uniform_int_distribution<Long> dist(min, max);
+	std::uniform_int_distribution<WInt> dist(min, max);
 	return dist(s_randomEngine64);
 }
 
-Long Minty::Math::random_long()
+WInt Minty::Math::random_long()
 {
 	return s_uniformDistributionLong(s_randomEngine64);
 }
 
-ULong Minty::Math::random_ulong(ULong const min, ULong const max)
+UWInt Minty::Math::random_ulong(UWInt const min, UWInt const max)
 {
-	std::uniform_int_distribution<ULong> dist(min, max);
+	std::uniform_int_distribution<UWInt> dist(min, max);
 	return dist(s_randomEngine64);
 }
 
-ULong Minty::Math::random_ulong()
+UWInt Minty::Math::random_ulong()
 {
 	return s_uniformDistributionULong(s_randomEngine64);
 }

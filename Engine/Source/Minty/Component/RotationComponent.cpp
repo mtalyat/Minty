@@ -11,8 +11,5 @@ void Minty::Serializer<RotationComponent>::serialize(Writer &writer, RotationCom
 
 void Minty::Serializer<RotationComponent>::deserialize(Reader &reader, RotationComponent &value)
 {
-    if(!reader.read_default(value.rotation))
-    {
-        reader.read("Rotation", value.rotation);
-    }
+    reader.read("Rotation", value.rotation);
 }

@@ -571,7 +571,7 @@ namespace Minty
             : mp_counter(DefaultAllocator<PointerCounter>().construct(1, 0))
         {}
 
-        ~Source()
+        virtual ~Source()
         {
             --mp_counter->strongCount;
             if (mp_counter->strongCount == 0 && mp_counter->weakCount == 0)
