@@ -111,7 +111,7 @@ class FilterLogger:
         
         # Get the information from the error, warning, etc. to print
         info_text = line[text_match.end():].strip() if text_match else line.strip()
-        info_text = re.sub(fr'[\[\(\<].*?[\]\)\>]', '', info_text).strip()  # Remove anything in brackets
+        info_text = re.sub(fr'\[.*?\]', '', info_text).strip()  # Remove anything in brackets
         if self.current_path:
             info_text += f' {PATH_COLOR}[{self.current_path}{self.current_line_numbers}]{COLOR_RESET}' # Append file path with line numbers
 
