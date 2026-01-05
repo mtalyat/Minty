@@ -52,16 +52,16 @@ void Minty::MemoryStream::set_position(StreamPosition const position, StreamDire
     switch (direction)
     {
         case StreamDirection::Begin:
-            MINTY_ASSERT(position >= 0 && position <= m_container->get_size(), ErrorCode::Argument_OutOfRange);
+            MINTY_ASSERT(position >= 0 && position <= static_cast<StreamPosition>(m_container->get_size()), ErrorCode::Argument_OutOfRange);
             m_position = position;
             break;
         case StreamDirection::Current:
-            MINTY_ASSERT(m_position + position <= m_container->get_size() && m_position + position >= 0, ErrorCode::Argument_OutOfRange);
+            MINTY_ASSERT(m_position + position <= static_cast<StreamPosition>(m_container->get_size()) && m_position + position >= 0, ErrorCode::Argument_OutOfRange);
             m_position += position;
             break;
         case StreamDirection::End:
-            MINTY_ASSERT(position <= 0 && m_container->get_size() + position >= 0, ErrorCode::Argument_OutOfRange);
-            m_position = m_container->get_size() + position;
+            MINTY_ASSERT(position <= 0 && static_cast<StreamPosition>(m_container->get_size()) + position >= 0, ErrorCode::Argument_OutOfRange);
+            m_position = static_cast<StreamPosition>(m_container->get_size()) + position;
             break;
         default:
             MINTY_NOT_IMPLEMENTED();

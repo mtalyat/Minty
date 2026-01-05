@@ -308,8 +308,8 @@ void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, Compres
     if (static_cast<Bool>(compressionLevel))
     {
         // calculate sizes
-        UWInt sourceSize = static_cast<UWInt>(fileSize);
-        UWInt destSize = compress_bound(sourceSize);
+        WUInt sourceSize = static_cast<WUInt>(fileSize);
+        WUInt destSize = compress_bound(sourceSize);
 
         // create dest buffer
         Byte* compressedData = new Byte[destSize];
@@ -392,8 +392,8 @@ Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
     file.read(fileData, fileSize);
 
     // uncompress it
-    UWInt sourceSize = static_cast<UWInt>(entry.compressedSize);
-    UWInt size = static_cast<UWInt>(entry.uncompressedSize);
+    WUInt sourceSize = static_cast<WUInt>(entry.compressedSize);
+    WUInt size = static_cast<WUInt>(entry.uncompressedSize);
     Byte* data = nullptr;
 	// uncompress it, if it is compressed
 	if (entry.compressedSize == entry.uncompressedSize)

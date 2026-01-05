@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "TextReader.h"
 #include "Minty/Data/StringBuilder.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 
 using namespace Minty;
 
@@ -255,7 +255,7 @@ Bool Minty::TextReader::read_string(String &value)
         }
     }
 
-    value = Util::to_unsafe_string(builder.get_view());
+    value = Tool::to_unsafe_string(builder.get_view());
     return true;
 }
 

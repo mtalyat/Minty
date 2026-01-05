@@ -106,27 +106,7 @@ void Minty::FSM::restart()
 
 void Minty::Serializer<FSM>::serialize(Writer &writer, FSM const &value)
 {
-	// add this to push data
-	writer.push_user_data(this);
-
-	writer.write("Scope", value.m_scope);
-	if (value.m_startingStateId.is_valid())
-	{
-		// get the name of the starting state
-		String name = value.m_states.get_string(value.m_startingStateId);
-		writer.write("Start", name);
-	}
-	
-	// write all states
-	writer.indent("States");
-	for (auto const& [string, key, value] : value.m_states)
-	{
-		writer.write(string, value);
-	}
-	writer.outdent();
-
-	// remove this from push data
-	writer.pop_user_data();
+	MINTY_NOT_IMPLEMENTED();
 }
 
 void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
@@ -134,7 +114,7 @@ void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 	value.clear();
 
 	// add this to push data
-	reader.push_user_data(this);
+	reader.push_user_data(&value);
 
 	// read scope
 	reader.read("Scope", value.m_scope);
@@ -143,28 +123,22 @@ void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 	String name;
 	if (reader.indent("States"))
 	{
-		// read the names
-		for (Size i = 0; i < reader.get_size(); i++)
-		{
-			Bool const nameResult = reader.read_name(i, name);
-			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
-			value.m_states.add(name, UUID::create(), State());
-		}
-
 		// read the states
-		State state;
-		for (Size i = 0; i < reader.get_size(); i++)
+		while(reader.read_next(name))
 		{
-			Bool const nameResult = reader.read_name(i, name);
-			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
+			// not implemented: override existing states
+			if(value.m_states.contains(name))
+			{
+				MINTY_NOT_IMPLEMENTED();
+				continue;
+			}
 
-			// get the state
-			// no need to check if not found, just added the state above
-			State& state = value.m_states.at(name);
+			// create the state
+			value.m_states.add(name, UUID::create(), State());
 
 			// read the state values
-			Bool const readResult = reader.read(i, state);
-			MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
+			State& state = value.m_states.at(name);
+			Serializer<State>::deserialize(reader, state);
 		}
 
 		reader.outdent();

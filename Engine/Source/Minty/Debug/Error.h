@@ -106,8 +106,8 @@ namespace Minty
         Serialization_InvalidIndentation,
         Serialization_UnexpectedEndOfData,
         Serialization_Failed,
-        Serialization_ReadName,
-        Serialization_ReadValue,
+        Serialization_Write,
+        Serialization_Read,
         Serialization_MissingRequired,
         Serialization_InvalidBookmark,
 

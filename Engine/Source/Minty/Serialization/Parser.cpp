@@ -198,7 +198,8 @@ static Bool parse_floating_point(StringView const str, T &value)
     }
 
     Bool decimalFound = false;
-    T decimalFactor = 0.1;
+    T decimalFactor = static_cast<T>(0.1);
+    T const decimalFactorReduction = static_cast<T>(0.1);
     T result = 0;
     for (Size i = startIndex; i < str.get_size(); ++i)
     {
@@ -225,7 +226,7 @@ static Bool parse_floating_point(StringView const str, T &value)
         else
         {
             result += static_cast<T>(c - '0') * decimalFactor;
-            decimalFactor *= 0.1;
+            decimalFactor *= decimalFactorReduction;
         }
     }
     value = isNegative ? -result : result;
@@ -245,14 +246,14 @@ static Bool parse_2(StringView const str, T &value, Bool (*parseFunc)(StringView
         return false;
     }
 
-    Size separatorIndex = str.find(',');
-    if (separatorIndex == String::npos)
+    Size separatorIndex = str.find_first(',');
+    if (separatorIndex == INVALID_INDEX)
     {
         return false;
     }
 
-    StringView firstPart = str.sub(1, separatorIndex - 1).trim();
-    StringView secondPart = str.sub(separatorIndex + 1, str.get_size() - separatorIndex - 2).trim();
+    StringView firstPart = str.sub(1, separatorIndex - 1);
+    StringView secondPart = str.sub(separatorIndex + 1, str.get_size() - separatorIndex - 2);
 
     SingleT firstValue;
     SingleT secondValue;
@@ -279,21 +280,21 @@ static Bool parse_3(StringView const str, T &value, Bool (*parseFunc)(StringView
         return false;
     }
 
-    Size firstSeparatorIndex = str.find(',');
-    if (firstSeparatorIndex == String::npos)
+    Size firstSeparatorIndex = str.find_first(',');
+    if (firstSeparatorIndex == INVALID_INDEX)
     {
         return false;
     }
 
-    Size secondSeparatorIndex = str.find(',', firstSeparatorIndex + 1);
-    if (secondSeparatorIndex == String::npos)
+    Size secondSeparatorIndex = str.find_first(',', firstSeparatorIndex + 1);
+    if (secondSeparatorIndex == INVALID_INDEX)
     {
         return false;
     }
 
-    StringView firstPart = str.sub(1, firstSeparatorIndex - 1).trim();
-    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1).trim();
-    StringView thirdPart = str.sub(secondSeparatorIndex + 1, str.get_size() - secondSeparatorIndex - 2).trim();
+    StringView firstPart = str.sub(1, firstSeparatorIndex - 1);
+    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1);
+    StringView thirdPart = str.sub(secondSeparatorIndex + 1, str.get_size() - secondSeparatorIndex - 2);
 
     SingleT firstValue;
     SingleT secondValue;
@@ -321,28 +322,28 @@ static Bool parse_4(StringView const str, T &value, Bool (*parseFunc)(StringView
         return false;
     }
 
-    Size firstSeparatorIndex = str.find(',');
-    if (firstSeparatorIndex == String::npos)
+    Size firstSeparatorIndex = str.find_first(',');
+    if (firstSeparatorIndex == INVALID_INDEX)
     {
         return false;
     }
 
-    Size secondSeparatorIndex = str.find(',', firstSeparatorIndex + 1);
-    if (secondSeparatorIndex == String::npos)
+    Size secondSeparatorIndex = str.find_first(',', firstSeparatorIndex + 1);
+    if (secondSeparatorIndex == INVALID_INDEX)
     {
         return false;
     }
 
-    Size thirdSeparatorIndex = str.find(',', secondSeparatorIndex + 1);
-    if (thirdSeparatorIndex == String::npos)
+    Size thirdSeparatorIndex = str.find_first(',', secondSeparatorIndex + 1);
+    if (thirdSeparatorIndex == INVALID_INDEX)
     {
         return false;
     }
 
-    StringView firstPart = str.sub(1, firstSeparatorIndex - 1).trim();
-    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1).trim();
-    StringView thirdPart = str.sub(secondSeparatorIndex + 1, thirdSeparatorIndex - secondSeparatorIndex - 1).trim();
-    StringView fourthPart = str.sub(thirdSeparatorIndex + 1, str.get_size() - thirdSeparatorIndex - 2).trim();
+    StringView firstPart = str.sub(1, firstSeparatorIndex - 1);
+    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1);
+    StringView thirdPart = str.sub(secondSeparatorIndex + 1, thirdSeparatorIndex - secondSeparatorIndex - 1);
+    StringView fourthPart = str.sub(thirdSeparatorIndex + 1, str.get_size() - thirdSeparatorIndex - 2);
 
     SingleT firstValue;
     SingleT secondValue;
@@ -368,16 +369,17 @@ static String to_string_integer_unsigned(T const &value)
     }
 
     T temp = value;
-    String result;
+    StringBuilder builder;
 
     while (temp > 0)
     {
-        Char digit = static_cast<Char>((temp % 10) + '0');
-        result.insert(0, &digit, 1);
+        Char const digit = static_cast<Char>((temp % 10) + '0');
+        builder.append(digit);
         temp /= 10;
     }
 
-    return result;
+    builder.reverse();
+    return builder.get_string();
 }
 
 template<typename T>
@@ -390,50 +392,51 @@ static String to_string_integer_signed(T const &value)
 
     Bool isNegative = value < 0;
     T temp = isNegative ? -value : value;
-    String result;
+    StringBuilder builder;
 
     while (temp > 0)
     {
-        Char digit = static_cast<Char>((temp % 10) + '0');
-        result.insert(0, &digit, 1);
+        Char const digit = static_cast<Char>((temp % 10) + '0');
+        builder.append(digit);
         temp /= 10;
     }
 
     if (isNegative)
     {
         Char minus = '-';
-        result.insert(0, &minus, 1);
+        builder.append(minus);
     }
 
-    return result;
+    builder.reverse();
+    return builder.get_string();
 }
 
 template<typename T>
 static String to_string_floating_point(T const &value)
 {
-    String result;
+    StringBuilder builder;
     T temp = value;
 
     if (temp < 0)
     {
-        result.append('-');
+        builder.append('-');
         temp = -temp;
     }
 
-    T integerPart = static_cast<T>(temp);
+    WInt integerPart = static_cast<WInt>(temp);
     T fractionalPart = temp - integerPart;
 
-    result.append(to_string_integer_unsigned(static_cast<std::make_unsigned_t<T>>(integerPart)));
+    builder.append(to_string_integer_unsigned(static_cast<WUInt>(integerPart)));
 
     if (fractionalPart > 0)
     {
-        result.append('.');
+        builder.append('.');
 
         for (Size i = 0; i < 6; ++i) // Limit to 6 decimal places
         {
             fractionalPart *= 10;
             Char digit = static_cast<Char>(static_cast<Int32>(fractionalPart) + '0');
-            result.append(digit);
+            builder.append(digit);
             fractionalPart -= static_cast<Int32>(fractionalPart);
             if (fractionalPart == 0)
             {
@@ -442,7 +445,7 @@ static String to_string_floating_point(T const &value)
         }
     }
 
-    return result;
+    return builder.get_string();
 }
 
 template<typename T, typename SingleT>
@@ -454,7 +457,7 @@ static String to_string_2(T const &value, String (*toStringFunc)(SingleT const &
     builder.append(", ");
     builder.append(toStringFunc(value.y));
     builder.append(')');
-    return builder.to_string();
+    return builder.get_string();
 }
 
 template<typename T, typename SingleT>
@@ -468,7 +471,7 @@ static String to_string_3(T const &value, String (*toStringFunc)(SingleT const &
     builder.append(", ");
     builder.append(toStringFunc(value.z));
     builder.append(')');
-    return builder.to_string();
+    return builder.get_string();
 }
 
 template<typename T, typename SingleT>
@@ -484,7 +487,7 @@ static String to_string_4(T const &value, String (*toStringFunc)(SingleT const &
     builder.append(", ");
     builder.append(toStringFunc(value.w));
     builder.append(')');
-    return builder.to_string();
+    return builder.get_string();
 }
 
 Bool Minty::Parser<Bool>::parse(StringView const str, Bool &value)
@@ -772,32 +775,32 @@ String Minty::Parser<WInt4>::to_string(WInt4 const &value)
 
 Bool Minty::Parser<UWInt2>::parse(StringView const str, UWInt2 &value)
 {
-    return parse_2<UWInt2, UWInt>(str, value, Minty::Parser<UWInt>::parse);
+    return parse_2<UWInt2, WUInt>(str, value, Minty::Parser<WUInt>::parse);
 }
 
 String Minty::Parser<UWInt2>::to_string(UWInt2 const &value)
 {
-    return to_string_2<UWInt2, UWInt>(value, Minty::Parser<UWInt>::to_string);
+    return to_string_2<UWInt2, WUInt>(value, Minty::Parser<WUInt>::to_string);
 }
 
 Bool Minty::Parser<UWInt3>::parse(StringView const str, UWInt3 &value)
 {
-    return parse_3<UWInt3, UWInt>(str, value, Minty::Parser<UWInt>::parse);
+    return parse_3<UWInt3, WUInt>(str, value, Minty::Parser<WUInt>::parse);
 }
 
 String Minty::Parser<UWInt3>::to_string(UWInt3 const &value)
 {
-    return to_string_3<UWInt3, UWInt>(value, Minty::Parser<UWInt>::to_string);
+    return to_string_3<UWInt3, WUInt>(value, Minty::Parser<WUInt>::to_string);
 }
 
 Bool Minty::Parser<UWInt4>::parse(StringView const str, UWInt4 &value)
 {
-    return parse_4<UWInt4, UWInt>(str, value, Minty::Parser<UWInt>::parse);
+    return parse_4<UWInt4, WUInt>(str, value, Minty::Parser<WUInt>::parse);
 }
 
 String Minty::Parser<UWInt4>::to_string(UWInt4 const &value)
 {
-    return to_string_4<UWInt4, UWInt>(value, Minty::Parser<UWInt>::to_string);
+    return to_string_4<UWInt4, WUInt>(value, Minty::Parser<WUInt>::to_string);
 }
 
 Bool Minty::Parser<WFloat2>::parse(StringView const str, WFloat2 &value)

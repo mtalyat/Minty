@@ -25,6 +25,8 @@ namespace Minty
 	class Camera
 		: public Asset
 	{
+		friend struct Serializer<Camera>;
+
 #pragma region Constructors
 
 	public:

@@ -59,7 +59,7 @@ namespace Minty
 					{"WINT2", static_cast<T>(sizeof(WInt2))},
 					{"WINT3", static_cast<T>(sizeof(WInt3))},
 					{"WINT4", static_cast<T>(sizeof(WInt4))},
-					{"UWINT", static_cast<T>(sizeof(UWInt))},
+					{"UWINT", static_cast<T>(sizeof(WUInt))},
 					{"UWINT2", static_cast<T>(sizeof(UWInt2))},
 					{"UWINT3", static_cast<T>(sizeof(UWInt3))},
 					{"UWINT4", static_cast<T>(sizeof(UWInt4))},
@@ -110,7 +110,7 @@ namespace Minty
 					value = static_cast<T>(Math::random_long());
 					return true;
 				}
-				else if constexpr (std::is_same_v<T, UWInt>)
+				else if constexpr (std::is_same_v<T, WUInt>)
 				{
 					value = static_cast<T>(Math::random_ulong());
 					return true;
@@ -488,7 +488,7 @@ namespace Minty
 		template <>
 		inline UWInt2 evaluate(String const &expression)
 		{
-			return Internal::evaluate_2<UWInt2, UWInt>(expression);
+			return Internal::evaluate_2<UWInt2, WUInt>(expression);
 		}
 		/**
 		 * @brief Evaluates an expression into a ULong3.
@@ -498,7 +498,7 @@ namespace Minty
 		template <>
 		inline UWInt3 evaluate(String const &expression)
 		{
-			return Internal::evaluate_3<UWInt3, UWInt>(expression);
+			return Internal::evaluate_3<UWInt3, WUInt>(expression);
 		}
 		/**
 		 * @brief Evaluates an expression into a ULong4.
@@ -508,7 +508,7 @@ namespace Minty
 		template <>
 		inline UWInt4 evaluate(String const &expression)
 		{
-			return Internal::evaluate_4<UWInt4, UWInt>(expression);
+			return Internal::evaluate_4<UWInt4, WUInt>(expression);
 		}
 
 		/**

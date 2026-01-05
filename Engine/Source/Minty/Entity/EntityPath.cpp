@@ -2,14 +2,14 @@
 #include "EntityPath.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 
 using namespace Minty;
 
 Bool Minty::Parser<EntityPath>::parse(StringView const str, EntityPath &value)
 {
     // split the string into parts
-	Vector<String> parts = Util::split(str, '/');
+	Vector<String> parts = Tool::split(str, '/');
 
 	// parse to the path
 	value.m_path.reserve(parts.get_size());

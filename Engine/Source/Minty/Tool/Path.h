@@ -9,9 +9,7 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Data/Path.h"
-#include "Minty/Data/String.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/Tuple.h"
 #include "Minty/Data/Vector.h"
 
 namespace Minty
@@ -19,32 +17,8 @@ namespace Minty
     class String;
 }
 
-namespace Minty::Util
+namespace Minty::Tool
 {
-    Tuple<Size, Size> find_group(String const &str, Char const open, Char const close, Size const index = 0);
-
-    Vector<Tuple<Size, Size>> find_groups(String const &str, Char const open, Char const close, Size const index = 0);
-
-    Vector<String> split_by_indices(String const &str, Vector<Size> const &indices, Size delimiterSize);
-
-    Vector<String> split(String const &str, Char const delimiter);
-
-    Vector<String> split_smart(String const &str, Char const delimiter, String const &open = TEXT_OPEN, String const &close = TEXT_CLOSE);
-
-    Vector<String> split(String const &str, String const &delimiter);
-
-    Vector<String> split_smart(String const &str, String const &delimiter, String const &open = TEXT_OPEN, String const &close = TEXT_CLOSE);
-
-    Vector<String> split(String const &str);
-
-    Vector<String> split_lines(String const &str);
-
-    // Converts a string to a safe string by escaping special characters.
-    String to_safe_string(StringView const str);
-
-    // Converts a string to an unsafe string by unescaping special characters.
-    String to_unsafe_string(StringView const str);
-
     /**
      * @brief Gets the files within the directory at the given Path.
      * @param path The path to the directory.

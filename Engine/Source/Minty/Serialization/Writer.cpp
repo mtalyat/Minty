@@ -31,7 +31,7 @@ Bool Minty::Writer::write_typed_value(Type const type, AnyConst const data)
         return write_float32(*reinterpret_cast<Float32 const*>(data));
     case Type::WInt:
         return write_int64(*reinterpret_cast<Int64 const*>(data));
-    case Type::UWInt:
+    case Type::WUInt:
         return write_uint64(*reinterpret_cast<UInt64 const*>(data));
     case Type::WFloat:
         return write_float64(*reinterpret_cast<Float64 const*>(data));

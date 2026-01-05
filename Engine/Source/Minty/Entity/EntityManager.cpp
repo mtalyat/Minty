@@ -3,8 +3,8 @@
 #include "Minty/Application/Application.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/CanvasComponent.h"
-#include "Minty/Component/DirtyComponent.h"
-#include "Minty/Component/EnabledComponent.h"
+#include "Minty/Component/DirtyTag.h"
+#include "Minty/Component/EnabledTag.h"
 #include "Minty/Component/LayerComponent.h"
 #include "Minty/Component/MeshComponent.h"
 #include "Minty/Component/NameComponent.h"
@@ -13,7 +13,7 @@
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Component/UITransformComponent.h"
 #include "Minty/Component/UUIDComponent.h"
-#include "Minty/Component/VisibleComponent.h"
+#include "Minty/Component/VisibleTag.h"
 #include "Minty/Component/PositionComponent.h"
 #include "Minty/Component/RotationComponent.h"
 #include "Minty/Component/ScaleComponent.h"
@@ -28,8 +28,8 @@
 #include "Minty/Data/ListContainer.h"
 #include "Minty/Render/Mesh.h"
 #include "Minty/Render/FontVariant.h"
-#include "Minty/Component/DirtyTextComponent.h"
-#include "Minty/Component/DestroyComponent.h"
+#include "Minty/Component/DirtyTextTag.h"
+#include "Minty/Component/DestroyTag.h"
 #include "Minty/Component/PrefabComponent.h"
 #include "Minty/Scene/SceneManager.h"
 #include "Minty/Scene/Scene.h"
@@ -279,11 +279,11 @@ void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
 	{
 		if (enabled)
 		{
-			m_registry.emplace<EnabledComponent>(entity);
+			m_registry.emplace<EnabledTag>(entity);
 		}
 		else
 		{
-			m_registry.remove<EnabledComponent>(entity);
+			m_registry.remove<EnabledTag>(entity);
 		}
 	}
 
@@ -302,7 +302,7 @@ void Minty::EntityManager::set_enabled(Entity const entity, Bool const enabled)
 
 Bool Minty::EntityManager::get_enabled(Entity const entity) const
 {
-	return m_registry.all_of<EnabledComponent>(entity);
+	return m_registry.all_of<EnabledTag>(entity);
 }
 
 void Minty::EntityManager::set_visible(Entity const entity, Bool const visible)
@@ -311,11 +311,11 @@ void Minty::EntityManager::set_visible(Entity const entity, Bool const visible)
 	{
 		if (visible)
 		{
-			m_registry.emplace<VisibleComponent>(entity);
+			m_registry.emplace<VisibleTag>(entity);
 		}
 		else
 		{
-			m_registry.remove<VisibleComponent>(entity);
+			m_registry.remove<VisibleTag>(entity);
 		}
 	}
 
@@ -334,7 +334,7 @@ void Minty::EntityManager::set_visible(Entity const entity, Bool const visible)
 
 Bool Minty::EntityManager::get_visible(Entity const entity) const
 {
-	return m_registry.all_of<VisibleComponent>(entity);
+	return m_registry.all_of<VisibleTag>(entity);
 }
 
 void Minty::EntityManager::set_layer(Entity const entity, Layer const layer)
@@ -564,7 +564,7 @@ void Minty::EntityManager::finalize_dirties()
 
 	// update dirty text components
 	AssetManager &assetManager = AssetManager::get_singleton();
-	for (auto &&[entity, uiTransformComp, textComp, meshComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent const, TextComponent const, MeshComponent, DirtyComponent const, EnabledComponent const>().each())
+	for (auto &&[entity, uiTransformComp, textComp, meshComp] : m_registry.view<UITransformComponent const, TextComponent const, MeshComponent, DirtyTag const, EnabledTag const>().each())
 	{
 		// if no font or variant or text, destroy the mesh
 		if (textComp.font == nullptr || textComp.fontVariant == nullptr || textComp.text == nullptr || textComp.text.is_empty())
@@ -691,7 +691,7 @@ void Minty::EntityManager::finalize_dirties()
 		// update the material
 		meshComp.material = fontVariant->get_material();
 	}
-	clear<DirtyTextComponent>();
+	clear<DirtyTextTag>();
 
 	// update dirty canvas transforms
 	Shared<Window> const &window = Application::get_singleton().get_window();
@@ -701,9 +701,9 @@ void Minty::EntityManager::finalize_dirties()
 		UInt2 windowSize = window->get_size();
 		Rect windowRect(0.0f, 0.0f, static_cast<Float>(windowSize.x), static_cast<Float>(windowSize.y));
 
-		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyComponent const, EnabledComponent const>();
+		auto view = m_registry.view<UITransformComponent, CanvasComponent const, DirtyTag const, EnabledTag const>();
 		view.use<UITransformComponent>();
-		for (auto &&[entity, uiTransformComp, canvasComp, dirtyComp, enabledComp] : view.each())
+		for (auto &&[entity, uiTransformComp, canvasComp] : view.each())
 		{
 			// canvas controls the size and position
 			uiTransformComp.transform.set_position(windowRect.x, windowRect.y);
@@ -714,9 +714,9 @@ void Minty::EntityManager::finalize_dirties()
 
 	// update entities with relationships
 	{
-		auto view = m_registry.view<RelationshipComponent, DirtyComponent const, EnabledComponent const>();
+		auto view = m_registry.view<RelationshipComponent, DirtyTag const, EnabledTag const>();
 		view.use<RelationshipComponent>();
-		for (auto &&[entity, relationshipComp, dirtyComp, enabledComp] : view.each())
+		for (auto &&[entity, relationshipComp] : view.each())
 		{
 			if (TransformComponent *transformComp = m_registry.try_get<TransformComponent>(entity))
 			{
@@ -730,19 +730,19 @@ void Minty::EntityManager::finalize_dirties()
 	}
 
 	// update entities without relationships
-	for (auto &&[entity, transformComp, dirtyComp, enabledComp] : m_registry.view<TransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
+	for (auto &&[entity, transformComp] : m_registry.view<TransformComponent, DirtyTag const, EnabledTag const>(entt::exclude<RelationshipComponent>).each())
 	{
 		// if no relationship, update the transform with no parent
 		update_transform(entity, INVALID_ENTITY, transformComp);
 	}
-	for (auto &&[entity, uiTransformComp, dirtyComp, enabledComp] : m_registry.view<UITransformComponent, DirtyComponent const, EnabledComponent const>(entt::exclude<RelationshipComponent>).each())
+	for (auto &&[entity, uiTransformComp] : m_registry.view<UITransformComponent, DirtyTag const, EnabledTag const>(entt::exclude<RelationshipComponent>).each())
 	{
 		// if no relationship, update the UITransform with no parent
 		update_uiTransform(entity, INVALID_ENTITY, uiTransformComp);
 	}
 
 	// clear all dirties
-	clear<DirtyComponent>();
+	clear<DirtyTag>();
 }
 
 Entity Minty::EntityManager::create_entity_smart(String const &name, UUID const id)
@@ -867,7 +867,7 @@ Bool Minty::EntityManager::is_in_mask(Entity const entity, Layer const mask) con
 void Minty::EntityManager::dirty(Entity const entity)
 {
 	// mark the entity as dirty
-	m_registry.emplace_or_replace<DirtyComponent>(entity);
+	m_registry.emplace_or_replace<DirtyTag>(entity);
 
 	// stop if no children
 	RelationshipComponent const *relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
@@ -882,7 +882,7 @@ void Minty::EntityManager::dirty(Entity const entity)
 	while (!entitiesToDirty.is_empty())
 	{
 		Entity currentEntity = entitiesToDirty.pop();
-		m_registry.emplace_or_replace<DirtyComponent>(currentEntity);
+		m_registry.emplace_or_replace<DirtyTag>(currentEntity);
 
 		// get the relationship component
 		RelationshipComponent const &relationship = m_registry.get<RelationshipComponent>(currentEntity);
@@ -900,14 +900,14 @@ void Minty::EntityManager::dirty(Entity const entity)
 void Minty::EntityManager::refresh(Entity const entity)
 {
 	// remove dirty component
-	if (m_registry.all_of<DirtyComponent>(entity))
+	if (m_registry.all_of<DirtyTag>(entity))
 	{
-		m_registry.remove<DirtyComponent>(entity);
+		m_registry.remove<DirtyTag>(entity);
 	}
 
 	// if parent is dirty, refresh it as well
 	RelationshipComponent const *const relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
-	if (relationshipComponent && relationshipComponent->parent != INVALID_ENTITY && has_component<DirtyComponent>(relationshipComponent->parent))
+	if (relationshipComponent && relationshipComponent->parent != INVALID_ENTITY && has_component<DirtyTag>(relationshipComponent->parent))
 	{
 		// refresh the parent
 		refresh(relationshipComponent->parent);
@@ -1045,24 +1045,21 @@ Entity Minty::EntityManager::create_entity(String const &name, UUID const id, En
 Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 {
 	MINTY_ASSERT(prefab != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	TextNodeReader reader(prefab->get_node());
-	if (reader.get_size() == 0)
-	{
-		return INVALID_ENTITY;
-	}
+	Unique<Reader> reader = prefab->open_reader();
+	MINTY_ASSERT(reader != nullptr, ErrorCode::Serialization_Read);
 
 	// get the header of the first entity
 	String name;
 	UUID id;
 	UUID prefabId;
-	read_entity_header(reader, 0, name, id, prefabId);
+	read_entity_header(*reader, name, id, prefabId);
 
 	// create the first entity
 	Entity entity = create_entity(name);
 
 	// deserialize the entities
 	Map<UUID, Entity> idMap;
-	deserialize_entities(reader, &idMap, entity);
+	deserialize_entities(*reader, &idMap, entity);
 
 	// refresh the entity so it is ready to be used
 	refresh(entity);
@@ -1481,9 +1478,9 @@ void Minty::EntityManager::destroy(Entity const entity)
 	MINTY_ASSERT(contains(entity), ErrorCode::Entity_NotValid);
 
 	// mark the entity for destruction, if not already marked
-	if (!m_registry.all_of<DestroyComponent>(entity))
+	if (!m_registry.all_of<DestroyTag>(entity))
 	{
-		m_registry.emplace<DestroyComponent>(entity);
+		m_registry.emplace<DestroyTag>(entity);
 	}
 
 	// destroy all children as well
@@ -1504,7 +1501,7 @@ void Minty::EntityManager::on_scene_load()
 	MINTY_TRACE_SCOPE();
 
 	// dirty all components on load
-	mark_all<DirtyComponent>();
+	mark_all<DirtyTag>();
 }
 
 void Minty::EntityManager::frame_update(Timestep const time)
@@ -1553,10 +1550,10 @@ void Minty::EntityManager::destroy_immediately(Entity const entity)
 void Minty::EntityManager::cleanup()
 {
 	// destroy all entities that are marked for destruction
-	auto view = m_registry.view<DestroyComponent>();
+	auto view = m_registry.view<DestroyTag>();
 
 	// strip all entities before destroying them
-	for (auto &&[entity, destroyComponent] : view.each())
+	for (auto &&[entity] : view.each())
 	{
 		strip_entity(entity);
 	}
@@ -1610,6 +1607,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 			// add the prefab ID component
 			PrefabComponent &prefabIdComponent = m_registry.emplace<PrefabComponent>(entity);
 			Ref<Prefab> prefab = assetManager.get_ref<Prefab>(prefabId);
+			MINTY_ASSERT_F(prefab != nullptr, ErrorCode::Asset_NotLoaded, prefabId);
 			prefabIdComponent.prefab = std::move(prefab);
 		}
 
@@ -1624,45 +1622,26 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 	{
 		reader.indent();
 		
-		
-
-		reader.outdent();
-	}
-	for (Size i = 0; i < entities.get_size(); i++)
-	{
-		Entity const entity = entities[i];
-
-		reader.indent(i);
-
-		// if a prefab, handle differently
 		PrefabComponent const *const prefabComponent = m_registry.try_get<PrefabComponent>(entity);
 		if (prefabComponent)
 		{
-			// get the prefab
-			MINTY_ASSERT_F(assetManager.contains(prefabComponent->id), ErrorCode::Asset_NotLoaded, prefabComponent->id);
-			Ref<Prefab> prefab = assetManager.get_ref<Prefab>(prefabComponent->id);
+			// prefab override
 
-			// remove prefab component, as it is not needed anymore
+			// get the prefab, which was loaded in the previous pass
+			Ref<Prefab> prefab = std::move(prefabComponent->prefab);
 			m_registry.remove<PrefabComponent>(entity);
 
 			// deserialize the prefab
-			Node const &prefabNode = prefab->get_node();
-			TextNodeReader prefabReader(prefabNode);
+			Unique<Reader> prefabReader = prefab->open_reader();
 			Map<UUID, Entity> prefabIdMap;
-			if (!deserialize_entities(prefabReader, &prefabIdMap, entity))
+			if (!deserialize_entities(*prefabReader, &prefabIdMap, entity))
 			{
 				MINTY_ABORT(ErrorCode::OperationFailed);
 			}
 
 			// read the override values
-			for (Size j = 0; j < reader.get_size(); j++)
+			while(read_entity_header(reader, name, id, prefabId))
 			{
-				// get header info
-				String name;
-				UUID id;
-				UUID prefabId;
-				read_entity_header(reader, j, name, id, prefabId);
-
 				// get the entity to override
 				MINTY_ASSERT_F(prefabIdMap.contains(prefabId), ErrorCode::Asset_Prefab_OverrideNotFound, prefabId, prefab->get_id());
 				Entity const overrideEntity = prefabIdMap.at(prefabId);
@@ -1680,7 +1659,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 				}
 
 				// deserialize the components
-				reader.indent(j);
+				reader.indent();
 
 				if (!deserialize_components(reader, overrideEntity, idMap))
 				{
@@ -1689,13 +1668,10 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 				reader.outdent();
 			}
-		}
-		else
+		} else
 		{
-			if (!deserialize_components(reader, entity, idMap))
-			{
-				MINTY_ABORT(ErrorCode::OperationFailed);
-			}
+			// normal entity
+			deserialize_components(reader, entity, idMap);
 		}
 
 		reader.outdent();
@@ -1714,33 +1690,25 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 
 	// read each component on the Entity
 	String componentName;
-	for (Size i = 0; i < reader.get_size(); i++)
+	while(reader.read_next(componentName))
 	{
-		Bool const nameResult = reader.read_name(i, componentName);
-		MINTY_ASSERT(nameResult && !componentName.is_empty(), ErrorCode::Serialization_ReadName);
-
-		// fix name
 		componentName = componentName.trim_end();
-
-		ComponentData const &info = get_component_info(componentName);
+		MINTY_ASSERT(!componentName.is_empty(), ErrorCode::Serialization_InvalidFormat);
 
 		// get the component
+		ComponentData const &info = get_component_info(componentName);
 		Component *component = info.get(*this, data.entity);
 
 		// create the component if it does not exist yet
-		if (!component)
+		if (component == nullptr)
 		{
 			component = &info.create(*this, data.entity);
 		}
 
 		// deserialize the component
-		if (reader.indent(i))
+		if (reader.indent())
 		{
-			if (!component->deserialize(reader))
-			{
-				MINTY_ABORT(ErrorCode::Serialization_Failed);
-			}
-
+			info.deserialize(reader, *component);
 			reader.outdent();
 		}
 	}
@@ -1824,6 +1792,8 @@ Bool Minty::EntityManager::read_entity_header(Reader &reader, String &name, UUID
 		id.clear();
 		prefabId.clear();
 	}
+
+	return true;
 }
 
 void Minty::Serializer<EntityManager>::serialize(Writer &writer, EntityManager const &entityManager)

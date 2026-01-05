@@ -251,7 +251,7 @@ Unique<Application> Minty::Application::open(Path const &path)
 	}
 	if (reader.indent("Memory"))
 	{
-		UWInt tempFrame;
+		WUInt tempFrame;
 		if (reader.read("Frame", tempFrame))
 		{
 			MemoryStackInfo stackInfo{};

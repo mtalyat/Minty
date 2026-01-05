@@ -73,14 +73,14 @@ void Minty::Mesh::initialize_quad()
 #define BOTTOM_RIGHT 1.0f, 1.0f
 
 	// create data
-	Float vertices[] =
+	Float32 vertices[] =
 	{
 		LEFT_TOP_BACK, UP, TOP_LEFT,
 		LEFT_TOP_FRONT, UP, BOTTOM_LEFT,
 		RIGHT_TOP_BACK, UP, TOP_RIGHT,
 		RIGHT_TOP_FRONT, UP, BOTTOM_RIGHT
 	};
-	UShort indices[] =
+	UInt16 indices[] =
 	{
 		0, 1, 2,
 		0, 2, 3
@@ -88,11 +88,11 @@ void Minty::Mesh::initialize_quad()
 
 	// create info
 	MeshInfo info{};
-	Size const vertexStride = sizeof(Float) * 8;
+	Size const vertexStride = sizeof(Float32) * 8;
 	info.vertexData = vertices;
 	info.vertexStride = vertexStride;
 	info.vertexCount = sizeof(vertices) / vertexStride;
-	Size const indexStride = sizeof(UShort);
+	Size const indexStride = sizeof(UInt16);
 	info.indexData = indices;
 	info.indexStride = indexStride;
 	info.indexCount = sizeof(indices) / indexStride;
@@ -136,7 +136,7 @@ void Minty::Mesh::initialize_cube()
 #define BOTTOM_LEFT 0.0f, 1.0f
 #define BOTTOM_RIGHT 1.0f, 1.0f
 
-	Float vertices[] =
+	Float32 vertices[] =
 	{
 		// UP
 		LEFT_TOP_BACK, UP, TOP_RIGHT,
@@ -175,7 +175,7 @@ void Minty::Mesh::initialize_cube()
 		RIGHT_BOTTOM_BACK, BACKWARD, BOTTOM_RIGHT,
 	};
 
-	UShort indices[] =
+	UInt16 indices[] =
 	{
 		0, 1, 2, 0, 2, 3,
 		4, 5, 6, 4, 6, 7,
@@ -186,11 +186,11 @@ void Minty::Mesh::initialize_cube()
 	};
 
 	MeshInfo info{};
-	Size const vertexStride = sizeof(Float) * 8;
+	Size const vertexStride = sizeof(Float32) * 8;
 	info.vertexData = vertices;
 	info.vertexStride = vertexStride;
 	info.vertexCount = sizeof(vertices) / (vertexStride);
-	Size const indexStride = sizeof(UShort);
+	Size const indexStride = sizeof(UInt16);
 	info.indexData = indices;
 	info.indexStride = indexStride;
 	info.indexCount = sizeof(indices) / indexStride;

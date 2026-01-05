@@ -371,7 +371,7 @@ namespace Minty
 		 * @returns A reference to the newly added Component.
 		 */
 		template <typename ComponentType, typename... Args>
-		ComponentType &add_component(Entity const entity, Args &&...args)
+		inline decltype(auto) add_component(Entity const entity, Args &&...args)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
 			MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_DuplicateComponent);
@@ -726,7 +726,7 @@ namespace Minty
 		void destroy_immediately(Entity const entity);
 
 		/**
-		 * @brief Destroys all Entities with a DestroyComponent.
+		 * @brief Destroys all Entities with a DestroyTag.
 		 */
 		void cleanup();
 

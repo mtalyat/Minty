@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Evaluate.h"
 #include "Minty/Data/Set.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 #include <regex>
 #include <string>
 
@@ -183,5 +183,5 @@ Vector<String> Minty::Internal::split_into_args(String const& expression)
 	String text = expression.sub(1, expression.get_size() - 2);
 
 	// split by commas, but ignore commas inside parentheses
-	return Util::split_smart(text, ',', "(", ")");
+	return Tool::split_smart(text, ',', "(", ")");
 }

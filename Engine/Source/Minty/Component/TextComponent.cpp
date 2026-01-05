@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "TextComponent.h"
-#include "Minty/Component/DirtyTextComponent.h"
+#include "Minty/Component/DirtyTextTag.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Render/Font.h"
@@ -29,7 +29,7 @@ void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent
 
 	// mark as dirty
 	EntityManager& entityManager = *data->entityManager;
-	entityManager.mark<DirtyTextComponent>(data->entity);
+	entityManager.mark<DirtyTextTag>(data->entity);
 
 	// read text info
 	reader.read<String>("Text", value.text);

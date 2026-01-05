@@ -2,8 +2,8 @@
 #define MINTY_COMPONENT_SNAPCOMPONENT_H
 
 /**
- * @file SnapComponent.h
- * @brief Header file for the SnapComponent.
+ * @file SnapTag.h
+ * @brief Header file for the SnapTag.
  * @author Mitchell Talyat
  */
 
@@ -12,19 +12,19 @@
 namespace Minty
 {
     /**
-     * @struct SnapComponent
+     * @struct SnapTag
      * @brief Component indicating that an entity should snap to a grid or specific positions.
      */
-    struct SnapComponent 
+    struct SnapTag 
         : public Component
     {
     };
 
     template<>
-    struct Serializer<SnapComponent>
+    struct Serializer<SnapTag>
     {
-        static void serialize(Writer& writer, SnapComponent const& value){}
-        static void deserialize(Reader& reader, SnapComponent& value){}
+        static void serialize(Writer& writer, SnapTag const& value){}
+        static void deserialize(Reader& reader, SnapTag& value){}
     };
 }
 

@@ -2,8 +2,8 @@
 #define MINTY_COMPONENT_DESTROYCOMPONENT_H
 
 /**
- * @file DestroyComponent.h
- * @brief Header file defining the DestroyComponent structure.
+ * @file DestroyTag.h
+ * @brief Header file defining the DestroyTag structure.
  * @author Mitchell Talyat
  */
 
@@ -14,16 +14,16 @@ namespace Minty
 	/**
 	 * @brief Marks an Entity for destruction.
 	 */
-	struct DestroyComponent
+	struct DestroyTag
 		: public Component
 	{
 	};
 
 	template<>
-	struct Serializer<DestroyComponent>
+	struct Serializer<DestroyTag>
 	{
-		static void serialize(Writer& writer, DestroyComponent const& value){}
-		static void deserialize(Reader& reader, DestroyComponent& value){}
+		static void serialize(Writer& writer, DestroyTag const& value){}
+		static void deserialize(Reader& reader, DestroyTag& value){}
 	};
 }
 

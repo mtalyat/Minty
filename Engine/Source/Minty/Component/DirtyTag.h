@@ -2,8 +2,8 @@
 #define MINTY_COMPONENT_DIRTYCOMPONENT_H
 
 /**
- * @file DirtyComponent.h
- * @brief Header file defining the DirtyComponent structure.
+ * @file DirtyTag.h
+ * @brief Header file defining the DirtyTag structure.
  * @author Mitchell Talyat
  */
 
@@ -14,16 +14,16 @@ namespace Minty
 	/**
 	 * @brief If an Entity has this component, it is dirty.
 	 */
-	struct DirtyComponent
+	struct DirtyTag
 		: public Component
 	{
 	};
 
 	template<>
-	struct Serializer<DirtyComponent>
+	struct Serializer<DirtyTag>
 	{
-		static void serialize(Writer& writer, DirtyComponent const& value){}
-		static void deserialize(Reader& reader, DirtyComponent& value){}
+		static void serialize(Writer& writer, DirtyTag const& value){}
+		static void deserialize(Reader& reader, DirtyTag& value){}
 	};
 }
 

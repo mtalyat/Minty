@@ -15,7 +15,7 @@ namespace Minty
 	/**
 	 * @brief Gets the maximum size of compressed data for a given source size.
 	 */
-	UWInt compress_bound(UWInt const sourceSize);
+	WUInt compress_bound(WUInt const sourceSize);
 
 	/**
 	 * @brief Compresses the given data from source to destination.
@@ -26,7 +26,7 @@ namespace Minty
 	 * @param level The level to compress the data to.
 	 * @return True on successful compression.
 	 */
-	Bool compress(Any const destination, UWInt& destinationSize, AnyConst const source, UWInt const sourceSize, CompressionLevel const level = CompressionLevel::Default);
+	Bool compress(Any const destination, WUInt& destinationSize, AnyConst const source, WUInt const sourceSize, CompressionLevel const level = CompressionLevel::Default);
 
 	/**
 	 * @brief Uncompresses the given data from source to destination.
@@ -36,7 +36,7 @@ namespace Minty
 	 * @param sourceSize The size of the compressed data.
 	 * @return True on successful uncompression.
 	 */
-	Bool uncompress(Any const destination, UWInt& destinationSize, AnyConst const source, UWInt& sourceSize);
+	Bool uncompress(Any const destination, WUInt& destinationSize, AnyConst const source, WUInt& sourceSize);
 }
 
 #endif // MINTY_CORE_COMPRESSION_H

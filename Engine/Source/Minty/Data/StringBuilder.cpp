@@ -470,3 +470,15 @@ void Minty::StringBuilder::replace(StringView const target, StringView const rep
 {
 
 }
+
+void Minty::StringBuilder::reverse() noexcept
+{
+    Size const halfSize = m_size / 2;
+    Size const sizeMinusOne = m_size - 1;
+    for (Size i = 0; i < halfSize; ++i)
+    {
+        Char temp = mp_data[i];
+        mp_data[i] = mp_data[sizeMinusOne - i];
+        mp_data[sizeMinusOne - i] = temp;
+    }
+}

@@ -76,7 +76,7 @@ namespace Minty
 	struct ItemSerializer<Condition>
 	{
 		static void serialize_item(Writer& writer, StringView const name, Condition const& value);
-        static void deserialize_item(Reader& reader, Size const index, Condition& value);
+        static void deserialize_item(Reader& reader, StringView const name, Condition& value);
 	};
 }
 

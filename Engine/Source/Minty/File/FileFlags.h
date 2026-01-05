@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Core/Enum.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -59,6 +60,13 @@ namespace Minty
     };
 
     MINTY_ENABLE_ENUM_OPERATORS(FileFlags)
+    
+    template<>
+    struct Parser<FileFlags>
+    {
+        static Bool parse(StringView const str, FileFlags &value);
+        static String to_string(FileFlags const &value);
+    };
 }
 
 #endif // MINTY_FILE_FILEFLAGS_H

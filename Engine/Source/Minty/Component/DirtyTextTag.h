@@ -2,8 +2,8 @@
 #define MINTY_COMPONENT_DIRTYTEXTCOMPONENT_H
 
 /**
- * @file DirtyTextComponent.h
- * @brief Header file defining the DirtyTextComponent structure.
+ * @file DirtyTextTag.h
+ * @brief Header file defining the DirtyTextTag structure.
  * @author Mitchell Talyat
  */
 
@@ -14,16 +14,16 @@ namespace Minty
     /**
      * @brief Marks an Entity as having a dirty TextComponent.
      */
-    struct DirtyTextComponent
+    struct DirtyTextTag
         : public Component
     {
     };
 
     template<>
-    struct Serializer<DirtyTextComponent>
+    struct Serializer<DirtyTextTag>
     {
-        static void serialize(Writer& writer, DirtyTextComponent const& value){}
-        static void deserialize(Reader& reader, DirtyTextComponent& value){}
+        static void serialize(Writer& writer, DirtyTextTag const& value){}
+        static void deserialize(Reader& reader, DirtyTextTag& value){}
     };
 }
 

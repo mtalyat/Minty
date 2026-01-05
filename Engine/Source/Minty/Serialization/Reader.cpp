@@ -46,7 +46,7 @@ Bool Minty::Reader::read_typed_value(Type const type, Any data)
         return read_float32(*reinterpret_cast<Float32*>(data));
     case Type::WInt:
         return read_int64(*reinterpret_cast<Int64*>(data));
-    case Type::UWInt:
+    case Type::WUInt:
         return read_uint64(*reinterpret_cast<UInt64*>(data));
     case Type::WFloat:
         return read_float64(*reinterpret_cast<Float64*>(data));

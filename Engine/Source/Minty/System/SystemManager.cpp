@@ -239,78 +239,27 @@ SystemManager &Minty::SystemManager::get_singleton()
 
 void Minty::Serializer<SystemManager>::serialize(Writer &writer, SystemManager const &value)
 {
-	// serialize each system
-	for (auto const &[priority, list] : value.m_systems)
-	{
-		for (System *system : list)
-		{
-			// write the name, only write the priority if it is not the default priority
-			if (priority != system->get_data()->defaultPriority)
-			{
-				writer.write(system->get_data()->name, priority);
-			}
-			else
-			{
-				writer.write(system->get_data()->name);
-			}
-
-			// write the system data
-			writer.indent();
-			system->serialize(writer);
-			writer.outdent();
-		}
-	}
+	MINTY_NOT_IMPLEMENTED();
 }
 
 void Minty::Serializer<SystemManager>::deserialize(Reader &reader, SystemManager &value)
 {
 	// deserialize each system and its priority
 	String name;
-	for (Size i = 0; i < reader.get_size(); i++)
+	Int priority;
+	while(reader.read_next(name, priority))
 	{
-		if (!reader.read_name(i, name))
+		System* const system = value.get_system(name);
+		
+		// if the system exists, this is not yet supported
+		if(system != nullptr)
 		{
-			// failed to read name
+			MINTY_NOT_IMPLEMENTED();
+			// in the future, move the system if the new priority is different
 			continue;
 		}
 
-		// get the system if it already exists
-		System *system = get_system(name);
-
-		Int priority;
-		if (system)
-		{
-			// move the system if it has a new priority
-			if (reader.read(i, priority) && priority != system->get_priority())
-			{
-				m_systems.at(system->get_priority()).remove(system);
-				system->m_priority = priority;
-				auto it = m_systems.find(priority);
-				if (it == m_systems.end())
-				{
-					// create a new list for this priority
-					value.m_systems.add(priority, {system});
-				}
-				else
-				{
-					// add to the existing list
-					value.m_systems.at(priority).add(system);
-				}
-			}
-		}
-		else
-		{
-			// read the priority and create a new system
-			if (reader.read(i, priority))
-			{
-				// use priority since it was given
-				system = value.add(name, priority);
-			}
-			else
-			{
-				// use default priority
-				system = value.add(name);
-			}
-		}
+		// create the system
+		value.add(name, priority);
 	}
 }

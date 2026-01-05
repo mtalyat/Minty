@@ -2,8 +2,8 @@
 #define MINTY_COMPONENT_ENABLEDCOMPONENT_H
 
 /**
- * @file EnabledComponent.h
- * @brief Header file defining the EnabledComponent structure.
+ * @file EnabledTag.h
+ * @brief Header file defining the EnabledTag structure.
  * @author Mitchell Talyat
  */
 
@@ -14,16 +14,16 @@ namespace Minty
 	/**
 	 * @brief If an Entity has this component, it is enabled.
 	 */
-	struct EnabledComponent
+	struct EnabledTag
 		: public Component
 	{
 	};
 
 	template<>
-	struct Serializer<EnabledComponent>
+	struct Serializer<EnabledTag>
 	{
-		static void serialize(Writer& writer, EnabledComponent const& value){}
-		static void deserialize(Reader& reader, EnabledComponent& value){}
+		static void serialize(Writer& writer, EnabledTag const& value){}
+		static void deserialize(Reader& reader, EnabledTag& value){}
 	};
 }
 

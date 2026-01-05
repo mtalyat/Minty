@@ -27,7 +27,7 @@ namespace Minty
 #pragma region Types
 
 	private:
-		using ID = UWInt;
+		using ID = WUInt;
 
 #pragma endregion
 

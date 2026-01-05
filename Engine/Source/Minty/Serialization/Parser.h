@@ -116,6 +116,13 @@ namespace Minty
     };
 
     template<>
+    struct Parser<Char*>
+    {
+        inline static Bool parse(StringView const str, Char*& value) { return false; }
+        inline static String to_string(Char* const& value) { return StringView(value); }
+    };
+
+    template<>
     struct Parser<Char const*>
     {
         inline static Bool parse(StringView const str, Char const*& value) { return false; }

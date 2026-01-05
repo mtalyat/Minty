@@ -32,7 +32,8 @@
 #include "Minty/Job/JobManager.h"
 #include "Minty/Animation/AnimationInfo.h"
 #include "Minty/Animation/AnimatorInfo.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/Path.h"
+#include "Minty/Tool/String.h"
 #include "Minty/FSM/FSM.h"
 #include "Minty/Audio/AudioClip.h"
 #include "Minty/Render/ImageInfo.h"
@@ -747,7 +748,7 @@ String Minty::AssetManager::read_text(Path const &path) const
 Vector<String> Minty::AssetManager::read_lines(Path const &path) const
 {
 	String const text = read_text(path);
-	return Util::split_lines(text);
+	return Tool::split_lines(text);
 }
 
 Int Minty::AssetManager::check_dependency(UUID const id, Path const &path, String const &name, Bool const required) const
@@ -935,7 +936,7 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 				// read the action indices
 				StringBuilder builder(actionIndicesString);
 				builder.strip();
-				Vector<String> actionIndicesParts = Util::split(builder.get_string(), ANIMATION_ACTION_GROUP);
+				Vector<String> actionIndicesParts = Tool::split(builder.get_string(), ANIMATION_ACTION_GROUP);
 				Vector<Size> actionIndices;
 				actionIndices.reserve(actionIndicesParts.get_size());
 				for (String const &part : actionIndicesParts)
@@ -957,7 +958,7 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 		if (reader->read("Reset", resetStepsString))
 		{
 			// split each step by comma
-			Vector<String> resetStepsParts = Util::split(resetStepsString, ANIMATION_ACTION_GROUP);
+			Vector<String> resetStepsParts = Tool::split(resetStepsString, ANIMATION_ACTION_GROUP);
 
 			// read each step
 			for (String const &part : resetStepsParts)
@@ -1131,7 +1132,7 @@ Shared<FontVariant> Minty::AssetManager::load_font_variant(Path const &path, UUI
 	for (String const &line : lines)
 	{
 		// split by tabs
-		Vector<String> parts = Util::split(line, '\t');
+		Vector<String> parts = Tool::split(line, '\t');
 
 		// determine what to do based on first word in line
 		if (line.starts_with("char "))

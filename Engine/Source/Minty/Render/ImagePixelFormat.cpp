@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ImagePixelFormat.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 

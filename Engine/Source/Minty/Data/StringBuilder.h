@@ -315,6 +315,11 @@ namespace Minty
          */
         inline String get_string() const { return String(get_view()); }
 
+        /**
+         * @brief Reverses the contents of the StringBuilder.
+         */
+        void reverse() noexcept;
+
 #pragma endregion
 
 #pragma region Variables

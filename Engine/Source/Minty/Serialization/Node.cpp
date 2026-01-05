@@ -4,7 +4,7 @@
 #include "Minty/Data/Stack.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 #include "Minty/Debug/Assert.h"
 
 using namespace Minty;
@@ -94,27 +94,6 @@ Bool Minty::Node::merge(Node const &other)
 	return true;
 }
 
-void Minty::Node::serialize(Writer &writer, String const &name) const
-{
-	// write this value
-	writer.write(name, get_data_string());
-
-	// write children
-	writer.indent();
-	for (auto const &child : m_children)
-	{
-		child.serialize(writer, child.get_name());
-	}
-	writer.outdent();
-}
-
-Bool Minty::Node::deserialize(Reader &reader, Size const index)
-{
-	// directly copy the node from the reader to this
-	*this = reader.get_node().get_child(index);
-	return true;
-}
-
 struct NodeMacro
 {
 	Vector<String> parameters;
@@ -129,7 +108,7 @@ static Bool is_word_character(Char const c)
 Bool Minty::Parser<Node>::parse(StringView const str, Node &outValue)
 {
     // split lines
-	Vector<String> lines = Util::split_lines(str);
+	Vector<String> lines = Tool::split_lines(str);
 
 	// parse node
 	int indent = 0;
@@ -232,12 +211,12 @@ Bool Minty::Parser<Node>::parse(StringView const str, Node &outValue)
 				if (nameEnd < line.get_size() && line.at(nameEnd) == '(')
 				{
 					// find end of args
-					Tuple<Size, Size> argGroup = Util::find_group(line, '(', ')', nameEnd);
+					Tuple<Size, Size> argGroup = Tool::find_group(line, '(', ')', nameEnd);
 					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, ErrorCode::Serialization_InvalidFormat);	  // "#define found the wrong group."
 					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat); // "#define missing ')'.");
 
 					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
-					macro.parameters = Util::split(argLine, ',');
+					macro.parameters = Tool::split(argLine, ',');
 					for (String &param : macro.parameters)
 					{
 						param = param.trim();
@@ -313,9 +292,9 @@ Bool Minty::Parser<Node>::parse(StringView const str, Node &outValue)
 					// if params, replace those
 					if (!macro.parameters.is_empty())
 					{
-						auto [start, count] = Util::find_group(macroLine, '(', ')', mStart + name.get_size());
+						auto [start, count] = Tool::find_group(macroLine, '(', ')', mStart + name.get_size());
 						MINTY_ASSERT_F(start != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" missing its arguments.", name));
-						Vector<String> parts = Util::split(macroLine.sub(start, count), ',');
+						Vector<String> parts = Tool::split(macroLine.sub(start, count), ',');
 						MINTY_ASSERT_F(parts.get_size() == macro.parameters.get_size(), ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" has an incorrect number of arguments.", name));
 						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
 						{

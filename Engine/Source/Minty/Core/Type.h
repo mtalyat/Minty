@@ -34,7 +34,7 @@ namespace Minty
 		UInt3,
 		UInt4,
 		WInt,
-		UWInt,
+		WUInt,
 		Size,
 		Float,
 		Float2,

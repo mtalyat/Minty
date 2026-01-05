@@ -32,7 +32,7 @@ namespace Minty
 	using Int = Int32;
 	using UInt = UInt32;
 	using WInt = Int64;
-	using UWInt = UInt64;
+	using WUInt = UInt64;
 	using Float = Float32;
 	using WFloat = Float64;
 	using Any = void*;

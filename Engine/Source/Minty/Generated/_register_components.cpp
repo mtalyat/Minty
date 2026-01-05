@@ -9,15 +9,10 @@ using namespace Minty;
 void Minty::Application::register_components()
 {
     EntityManager::register_component<AnimatorComponent>("Animator");
-    EntityManager::register_component<AudioListenerComponent>("AudioListener");
     EntityManager::register_component<AudioSourceComponent>("AudioSource");
     EntityManager::register_component<CameraComponent>("Camera");
     EntityManager::register_component<CanvasComponent>("Canvas");
     EntityManager::register_component<ColliderComponent>("Collider");
-    EntityManager::register_component<DestroyComponent>("Destroy");
-    EntityManager::register_component<DirtyComponent>("Dirty");
-    EntityManager::register_component<DirtyTextComponent>("DirtyText");
-    EntityManager::register_component<EnabledComponent>("Enabled");
     EntityManager::register_component<GravityComponent>("Gravity");
     EntityManager::register_component<LayerComponent>("Layer");
     EntityManager::register_component<MaskComponent>("Mask");
@@ -30,12 +25,10 @@ void Minty::Application::register_components()
     EntityManager::register_component<RigidBodyComponent>("RigidBody");
     EntityManager::register_component<RotationComponent>("Rotation");
     EntityManager::register_component<ScaleComponent>("Scale");
-    EntityManager::register_component<SnapComponent>("Snap");
     EntityManager::register_component<SpriteComponent>("Sprite");
     EntityManager::register_component<TextComponent>("Text");
     EntityManager::register_component<TransformComponent>("Transform");
     EntityManager::register_component<UITransformComponent>("UITransform");
     EntityManager::register_component<UUIDComponent>("UUID");
     EntityManager::register_component<VelocityComponent>("Velocity");
-    EntityManager::register_component<VisibleComponent>("Visible");
 }

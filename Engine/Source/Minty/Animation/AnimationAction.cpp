@@ -2,7 +2,7 @@
 #include "AnimationAction.h"
 #include "Minty/Animation/Animation.h"
 #include "Minty/Core/Format.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 #include "Minty/Serialization/Parser.h"
 
 using namespace Minty;
@@ -32,7 +32,7 @@ Bool Minty::Parser<AnimationAction>::parse(StringView const str, AnimationAction
 	StringBuilder textBuilder(str);
 	textBuilder.strip();
 	String const strippedText = textBuilder.get_string();
-	Vector<String> halves = Util::split(strippedText, ANIMATION_ACTION_HALF);
+	Vector<String> halves = Tool::split(strippedText, ANIMATION_ACTION_HALF);
 	MINTY_ASSERT_F(halves.get_size() == 2 || halves.get_size() == 3, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
 	Size offset = 0;
@@ -57,13 +57,13 @@ Bool Minty::Parser<AnimationAction>::parse(StringView const str, AnimationAction
 		}
 	}
 
-	Vector<String> majorParts = Util::split(halves.at(offset), ANIMATION_ACTION_DELIMITER);
+	Vector<String> majorParts = Tool::split(halves.at(offset), ANIMATION_ACTION_DELIMITER);
 	// AnimationAction must have at 2 parts before the last ANIMATION_ACTION_HALF, split by ANIMATION_ACTION_DELIMITER
 	MINTY_ASSERT_F(majorParts.get_size() == 2, ErrorCode::Animation_InvalidActionFormat, strippedText);
 	Vector<String> minorParts;
 	if (offset + 1 < halves.get_size())
 	{
-		minorParts = Util::split(halves.at(offset + 1), ANIMATION_ACTION_GROUP);
+		minorParts = Tool::split(halves.at(offset + 1), ANIMATION_ACTION_GROUP);
 	}
 
 	value.entityIndex = get_split(0, majorParts, Animation::MAX_ENTITY_INDEX);
@@ -73,7 +73,7 @@ Bool Minty::Parser<AnimationAction>::parse(StringView const str, AnimationAction
 	value.values.resize(minorParts.get_size(), Tuple<UInt, UInt>());
 	for (Size i = 0; i < minorParts.get_size(); i++)
 	{
-		Vector<String> parts = Util::split(minorParts.at(i), ANIMATION_ACTION_DELIMITER);
+		Vector<String> parts = Tool::split(minorParts.at(i), ANIMATION_ACTION_DELIMITER);
 		// AnimationAction value at index i must have exactly one ANIMATION_ACTION_DELIMITER
 		MINTY_ASSERT_F(parts.get_size() == 2, ErrorCode::Animation_InvalidActionFormat, strippedText);
 

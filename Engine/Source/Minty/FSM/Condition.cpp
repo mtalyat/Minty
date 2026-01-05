@@ -4,7 +4,7 @@
 #include "Minty/FSM/FSM.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 #include "Minty/Core/Evaluate.h"
 
 using namespace Minty;
@@ -29,21 +29,21 @@ void Minty::ItemSerializer<Condition>::serialize_item(Writer &writer, StringView
 	String const& variableName = scope.get_name(value.m_variableId);
 
 	// compile into a string
-	String conditionString = F("{} {} {}", variableName, Minty::to_string(value.m_conditional), value.m_value);
+	String conditionString = F("{} {} {}", variableName, value.m_conditional, value.m_value);
 
 	// write the condition string
 	writer.write(name, conditionString);
 }
 
-void Minty::ItemSerializer<Condition>::deserialize_item(Reader &reader, Size const index, Condition &value)
+void Minty::ItemSerializer<Condition>::deserialize_item(Reader &reader, StringView const name, Condition &value)
 {
 	 // read the condition string
 	String conditionString;
-	Bool const readResult = reader.read(index, conditionString);
-	MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
+	Bool const readResult = reader.read(name, conditionString);
+	MINTY_ASSERT(readResult, ErrorCode::Serialization_Read);
 
 	// split the condition string into parts
-	Vector<String> parts = Util::split(conditionString);
+	Vector<String> parts = Tool::split(conditionString);
 	// "Condition string must have 3 parts, split by spaces."
 	MINTY_ASSERT(parts.get_size() == 3, ErrorCode::Serialization_InvalidFormat);
 
@@ -55,6 +55,10 @@ void Minty::ItemSerializer<Condition>::deserialize_item(Reader &reader, Size con
 	// get the values
 	value.m_variableId = scope.find(parts[0]);
 	MINTY_ASSERT_F(value.m_variableId != UUID(), ErrorCode::Serialization_InvalidData, parts[0]);
-	value.m_conditional = parse_to_conditional(parts[1]);
+	if(!Parser<Conditional>::parse(parts[1], value.m_conditional))
+	{
+		MINTY_ERROR_F(ErrorCode::Serialization_InvalidFormat, parts[1]);
+		value.m_conditional = Conditional::Equal;
+	}
 	value.m_value = Math::evaluate<Int>(parts[2]);
 }

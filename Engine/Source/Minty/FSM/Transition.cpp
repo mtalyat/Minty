@@ -23,38 +23,21 @@ Bool Minty::Transition::evaluate(Scope const& scope) const
 	return true;
 }
 
-void Minty::Transition::serialize(Writer& writer, String const& name) const
-{
-
-}
-
-Bool Minty::Transition::deserialize(Reader& reader, Size const index)
-{
-
-
-	return true;
-}
-
 void Minty::ItemSerializer<Transition>::serialize_item(Writer &writer, StringView const name, Transition const &value)
 {
-	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
-	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
-
-	String stateName = fsm->get_state_name(value.m_stateId);
-	writer.write(name, stateName);
-	writer.write(name, value.m_conditions);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::ItemSerializer<Transition>::deserialize_item(Reader &reader, Size const index, Transition &value)
+void Minty::ItemSerializer<Transition>::deserialize_item(Reader &reader, StringView const name, Transition &value)
 {
-		FSM* fsm = static_cast<FSM*>(reader.get_user_data());
+	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
 	String stateName;
-	if (reader.read(index, stateName))
+	if (reader.read(name, stateName))
 	{
 		// name read successfully
 		value.m_stateId = fsm->find_state(stateName);
 	}
-	reader.read(index, value.m_conditions);
+	reader.read(name, value.m_conditions);
 }

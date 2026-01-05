@@ -6,12 +6,12 @@
 
 using namespace Minty;
 
-UWInt Minty::compress_bound(UWInt const sourceSize)
+WUInt Minty::compress_bound(WUInt const sourceSize)
 {
 	return compressBound(static_cast<uLong>(sourceSize));
 }
 
-Bool Minty::compress(Any const destination, UWInt& destinationSize, AnyConst const source, UWInt const sourceSize, CompressionLevel const level)
+Bool Minty::compress(Any const destination, WUInt& destinationSize, AnyConst const source, WUInt const sourceSize, CompressionLevel const level)
 {
 	MINTY_ASSERT(destination, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(source, ErrorCode::Argument_ExpectedNonNull);
@@ -25,7 +25,7 @@ Bool Minty::compress(Any const destination, UWInt& destinationSize, AnyConst con
 	return result == Z_OK;
 }
 
-Bool Minty::uncompress(Any const destination, UWInt& destinationSize, AnyConst const source, UWInt& sourceSize)
+Bool Minty::uncompress(Any const destination, WUInt& destinationSize, AnyConst const source, WUInt& sourceSize)
 {
 	MINTY_ASSERT(destination, ErrorCode::Argument_ExpectedNonNull);
 	MINTY_ASSERT(source, ErrorCode::Argument_ExpectedNonNull);

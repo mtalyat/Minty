@@ -2,7 +2,7 @@
 #include "Minty/Stream/Stream.h"
 #include "Minty/Data/String.h"
 #include "Minty/Serialization/Parser.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 
 using namespace Minty;
 
@@ -57,6 +57,8 @@ Bool Minty::TextWriter::write_key(StringView const key)
         write_to_stream(key.get_data(), key.get_size());
         write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH);
     }
+
+    return true;
 }
 
 Bool Minty::TextWriter::write_break()
@@ -140,7 +142,7 @@ Bool Minty::TextWriter::write_string(StringView const value)
 {
     StringBuilder builder;
     builder.append('"');
-    String const safeString = Util::to_safe_string(value);
+    String const safeString = Tool::to_safe_string(value);
     builder.append(safeString);
     builder.append('"');
     return write_to_stream(builder.get_data(), builder.get_size());

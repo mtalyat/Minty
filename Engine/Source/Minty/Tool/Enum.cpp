@@ -1,5 +1,5 @@
 #include "Enum.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Data/StringBuilder.h"
 
@@ -30,7 +30,7 @@ Bool Minty::Tool::try_parse_enum(StringView const view, Char const *const *const
 
 Size Minty::Tool::parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount)
 {
-    Vector<String> parts = Util::split(view, '|');
+    Vector<String> parts = Tool::split(view, '|');
     Size result = 0;
 
     for (String const &part : parts)
@@ -40,7 +40,7 @@ Size Minty::Tool::parse_enum_flags(StringView const view, Char const *const *con
         {
             if (trimmedPart == enumStrings[i])
             {
-                result |= (1 << i);
+                result |= (1ull << i);
                 break;
             }
         }
@@ -51,7 +51,7 @@ Size Minty::Tool::parse_enum_flags(StringView const view, Char const *const *con
 
 Bool Minty::Tool::try_parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount, Size &outValue)
 {
-    Vector<String> parts = Util::split(view, '|');
+    Vector<String> parts = Tool::split(view, '|');
     Size result = 0;
     Size i;
 
@@ -62,7 +62,7 @@ Bool Minty::Tool::try_parse_enum_flags(StringView const view, Char const *const 
         {
             if (trimmedPart == enumStrings[i])
             {
-                result |= (1 << i);
+                result |= (1ull << i);
                 break;
             }
         }
@@ -92,7 +92,7 @@ String Minty::Tool::to_string_enum_flags(Size const value, Char const *const *co
 
     for (Size i = 0; i < enumCount; ++i)
     {
-        if (value & (1 << i))
+        if (value & (1ull << i))
         {
             if (!builder.is_empty())
             {

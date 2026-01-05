@@ -31,9 +31,9 @@ namespace Minty
 	using WInt3 = glm::vec<3, WInt>;
 	using WInt4 = glm::vec<4, WInt>;
 
-	using UWInt2 = glm::vec<2, UWInt>;
-	using UWInt3 = glm::vec<3, UWInt>;
-	using UWInt4 = glm::vec<4, UWInt>;
+	using UWInt2 = glm::vec<2, WUInt>;
+	using UWInt3 = glm::vec<3, WUInt>;
+	using UWInt4 = glm::vec<4, WUInt>;
 
 	using Float2 = glm::vec2;
 	using Float3 = glm::vec3;
@@ -1525,23 +1525,23 @@ namespace Minty
 		WInt random_long();
 
 		/// <summary>
-		/// Returns a random UWInt in the range [min, max].
+		/// Returns a random WUInt in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (inclusive).</param>
-		/// <returns>A random UWInt in the given range.</returns>
-		UWInt random_ulong(UWInt const min, UWInt const max);
+		/// <returns>A random WUInt in the given range.</returns>
+		WUInt random_ulong(WUInt const min, WUInt const max);
 
 		/// <summary>
-		/// Returns a random UWInt in the range [ULONG_MIN, ULONG_MAX].
+		/// Returns a random WUInt in the range [ULONG_MIN, ULONG_MAX].
 		/// </summary>
-		/// <returns>A random UWInt.</returns>
-		UWInt random_ulong();
+		/// <returns>A random WUInt.</returns>
+		WUInt random_ulong();
 
 		/// <summary>
 		/// Returns a random value of the specified type.
 		/// </summary>
-		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, WFloat, WInt, UWInt.</typeparam>
+		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, WFloat, WInt, WUInt.</typeparam>
 		/// <returns>A random value of the specified type.</returns>
 		template<typename T>
 		inline T random() requires (
@@ -1550,7 +1550,7 @@ namespace Minty
 			std::is_same_v<T, UInt> ||
 			std::is_same_v<T, WFloat> ||
 			std::is_same_v<T, WInt> ||
-			std::is_same_v<T, UWInt>)
+			std::is_same_v<T, WUInt>)
 		{
 			return T();
 		}
@@ -1606,11 +1606,11 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Returns a random UWInt in the range [ULONG_MIN, ULONG_MAX].
+		/// Returns a random WUInt in the range [ULONG_MIN, ULONG_MAX].
 		/// </summary>
-		/// <returns>A random UWInt.</returns>
+		/// <returns>A random WUInt.</returns>
 		template<>
-		inline UWInt random<UWInt>()
+		inline WUInt random<WUInt>()
 		{
 			return random_ulong();
 		}
@@ -1618,7 +1618,7 @@ namespace Minty
 		/// <summary>
 		/// Returns a random value of the specified type in the range [min, max).
 		/// </summary>
-		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, WFloat, WInt, UWInt.</typeparam>
+		/// <typeparam name="T">The type of value to return. Supported types: Float, Int, UInt, WFloat, WInt, WUInt.</typeparam>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (exclusive).</param>
 		/// <returns>A random value of the specified type in the given range.</returns>
@@ -1629,7 +1629,7 @@ namespace Minty
 			std::is_same_v<T, UInt> ||
 			std::is_same_v<T, WFloat> ||
 			std::is_same_v<T, WInt> ||
-			std::is_same_v<T, UWInt>)
+			std::is_same_v<T, WUInt>)
 		{
 			return random(min, max);
 		}
@@ -1695,13 +1695,13 @@ namespace Minty
 		}
 
 		/// <summary>
-		/// Returns a random UWInt in the range [min, max].
+		/// Returns a random WUInt in the range [min, max].
 		/// </summary>
 		/// <param name="min">The minimum value (inclusive).</param>
 		/// <param name="max">The maximum value (inclusive).</param>
-		/// <returns>A random UWInt in the given range.</returns>
+		/// <returns>A random WUInt in the given range.</returns>
 		template<>
-		inline UWInt random<UWInt>(UWInt const min, UWInt const max)
+		inline WUInt random<WUInt>(WUInt const min, WUInt const max)
 		{
 			return random_ulong(min, max);
 		}

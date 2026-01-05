@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/ColliderComponent.h"
-#include "Minty/Component/DestroyComponent.h"
+#include "Minty/Component/DestroyTag.h"
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Debug/Trace.h"
@@ -306,7 +306,7 @@ void Minty::Serializer<Scene>::deserialize(Reader &reader, Scene &value)
 	// load new assets, unload old assets
 	Vector<Path> assetPaths;
 	reader.read("Assets", assetPaths);
-	load_assets(assetPaths);
+    value.load_assets(assetPaths);
 
 	// read the systems
 	if (reader.indent("Systems"))

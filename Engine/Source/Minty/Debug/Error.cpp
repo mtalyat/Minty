@@ -180,10 +180,10 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Serialization error. Unexpected end of data.";
     case ErrorCode::Serialization_Failed:
         return "Serialization error. Operation failed.";
-    case ErrorCode::Serialization_ReadName:
-        return "Serialization error. Failed to read name.";
-    case ErrorCode::Serialization_ReadValue:
-        return "Serialization error. Failed to read value.";
+    case ErrorCode::Serialization_Write:
+        return "Serialization error. Write operation failed.";
+    case ErrorCode::Serialization_Read:
+        return "Serialization error. Read operation failed.";
     case ErrorCode::Serialization_MissingRequired:
         return "Serialization error. Missing required key-value pair.";
     case ErrorCode::Serialization_InvalidBookmark:

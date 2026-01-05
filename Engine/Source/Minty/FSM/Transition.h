@@ -88,7 +88,7 @@ namespace Minty
     struct ItemSerializer<Transition>
     {
 		static void serialize_item(Writer& writer, StringView const name, Transition const& value);
-		static void deserialize_item(Reader& reader, Size const index, Transition& value);
+		static void deserialize_item(Reader& reader, StringView const name, Transition& value);
     };
 }
 

@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-static constexpr Size FORMAT_COUNT = 96;
+static constexpr Size FORMAT_COUNT = 122;
 static constexpr Char const* FORMAT_STRINGS[FORMAT_COUNT] = {
 	"Undefined",
 	"R4G4_UNORM_PACK8",
@@ -280,7 +280,7 @@ Bool Minty::Parser<Format>::parse(StringView const str, Format &value)
 		return true;
 	}
 
-    return Tool::parse_string_to_enum(str, reinterpret_cast<Size&>(value), FORMAT_STRINGS, FORMAT_COUNT);
+    return Tool::try_parse_enum(str, FORMAT_STRINGS, FORMAT_COUNT, reinterpret_cast<Size&>(value));
 }
 
 String Minty::Parser<Format>::to_string(Format const &obj)

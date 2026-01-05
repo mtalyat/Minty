@@ -13,7 +13,7 @@ static std::uniform_int_distribution<Int> s_uniformDistributionInt;
 static std::uniform_int_distribution<UInt> s_uniformDistributionUInt;
 static std::uniform_real_distribution<WFloat> s_uniformDistributionDouble;
 static std::uniform_int_distribution<WInt> s_uniformDistributionLong;
-static std::uniform_int_distribution<UWInt> s_uniformDistributionULong;
+static std::uniform_int_distribution<WUInt> s_uniformDistributionULong;
 
 Float3 Minty::Math::normalize(Float3 const& value)
 {
@@ -221,13 +221,13 @@ WInt Minty::Math::random_long()
 	return s_uniformDistributionLong(s_randomEngine64);
 }
 
-UWInt Minty::Math::random_ulong(UWInt const min, UWInt const max)
+WUInt Minty::Math::random_ulong(WUInt const min, WUInt const max)
 {
-	std::uniform_int_distribution<UWInt> dist(min, max);
+	std::uniform_int_distribution<WUInt> dist(min, max);
 	return dist(s_randomEngine64);
 }
 
-UWInt Minty::Math::random_ulong()
+WUInt Minty::Math::random_ulong()
 {
 	return s_uniformDistributionULong(s_randomEngine64);
 }

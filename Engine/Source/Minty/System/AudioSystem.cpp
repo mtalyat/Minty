@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "AudioSystem.h"
 #include "Minty/Audio/AudioManager.h"
-#include "Minty/Component/AudioListenerComponent.h"
+#include "Minty/Component/AudioListenerTag.h"
 #include "Minty/Component/AudioSourceComponent.h"
-#include "Minty/Component/EnabledComponent.h"
+#include "Minty/Component/EnabledTag.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Entity/EntityManager.h"
@@ -38,7 +38,7 @@ void Minty::AudioSystem::on_finalize()
 
 	// get the audio listener
 	Size count = 0;
-	for (auto const& [entity, audioListenerComp, enabledComp] : entityManager.view<AudioListenerComponent, EnabledComponent const>().each())
+	for (auto const& [entity] : entityManager.view<AudioListenerTag const, EnabledTag const>().each())
 	{
 		// ignore if not the first
 		MINTY_ASSERT(count == 0, ErrorCode::Scene_TooManyListeners);
@@ -75,7 +75,7 @@ void Minty::AudioSystem::on_finalize()
 	}
 
 	// if any entities were disabled, stop their audio
-	for (auto const& [entity, audioSourceComp] : entityManager.view<AudioSourceComponent>(entt::exclude_t<EnabledComponent>()).each())
+	for (auto const& [entity, audioSourceComp] : entityManager.view<AudioSourceComponent>(entt::exclude_t<EnabledTag>()).each())
 	{
 		// ignore if already not playing
 		if (audioSourceComp.handle == INVALID_HANDLE)
@@ -89,7 +89,7 @@ void Minty::AudioSystem::on_finalize()
 	}
 
 	// track progress of audio sources and update them
-	for (auto const& [entity, audioSourceComp, enabledComp] : entityManager.view<AudioSourceComponent, EnabledComponent const>().each())
+	for (auto const& [entity, audioSourceComp] : entityManager.view<AudioSourceComponent, EnabledTag const>().each())
 	{
 		// start playing if supposed to
 		if (audioSourceComp.play)

@@ -20,8 +20,5 @@ void Minty::Serializer<Canvas>::serialize(Writer &writer, Canvas const &value)
 
 void Minty::Serializer<Canvas>::deserialize(Reader &reader, Canvas &value)
 {
-	if(!reader.read_default(value.m_resolution))
-	{
-		reader.read("Resolution", value.m_resolution);
-	}
+	reader.read("Resolution", value.m_resolution);
 }
