@@ -79,42 +79,49 @@ namespace Minty
 		 * @param name The name of the Variable.
 		 * @return True if a Variable with the given name exists.
 		 */
-		Bool contains(String const& name) const;
+		Bool contains(StringView const name) const;
 
 		/**
 		 * @brief Gets the Variable with the given name.
 		 * @param name The name of the Variable.
 		 * @return A const reference to the Variable.
 		 */
-		Variable const& at(String const& name) const;
+		Variable const& at(StringView const name) const;
 
 		/**
 		 * @brief Gets the Variable with the given name.
 		 * @param name The name of the Variable.
 		 * @return A const reference to the Variable.
 		 */
-		Variable& at(String const& name);
+		Variable& at(StringView const name);
 
 		/**
 		 * @brief Adds a Variable to this Object.
 		 * @param name The name of the Variable.
 		 * @param variable The Variable.
 		 */
-		void add(String const& name, Variable const& variable);
+		void add(StringView const name, Variable const& variable);
+
+		/**
+		 * @brief Adds a Variable to this Object.
+		 * @param name The name of the Variable.
+		 * @param variable The Variable.
+		 */
+		void add(StringView const name, Variable&& variable);
 
 		/**
 		 * @brief Sets the Variable with the given name.
 		 * @param name The name of the Variable.
 		 * @param variable The Variable.
 		 */
-		void set(String const& name, Variable const& variable);
+		void set(StringView const name, Variable const& variable);
 
 		/**
 		 * @brief Removes the Variable with the given name.
 		 * @param name The name of the Variable.
 		 * @return True if a Variable with the given name was removed.
 		 */
-		Bool remove(String const& name);
+		Bool remove(StringView const name);
 
 		/**
 		 * @brief Packs the data within this Cargo into a byte array.

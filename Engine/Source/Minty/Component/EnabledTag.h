@@ -18,13 +18,6 @@ namespace Minty
 		: public Component
 	{
 	};
-
-	template<>
-	struct Serializer<EnabledTag>
-	{
-		static void serialize(Writer& writer, EnabledTag const& value){}
-		static void deserialize(Reader& reader, EnabledTag& value){}
-	};
 }
 
 #endif // MINTY_COMPONENT_ENABLEDCOMPONENT_H

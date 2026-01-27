@@ -8,14 +8,12 @@
  */
 
 #include "Minty/Core/Types.h"
+#include <concepts>
 
 namespace Minty
 {
     class Reader;
     class Writer;
-
-    template<typename T>
-    struct Serializer;
 
     /*
     
@@ -23,24 +21,20 @@ namespace Minty
     struct Serializer<NAME>
     {
         static void serialize(Writer& writer, NAME const& value);
-        static void deserialize(Reader& reader, NAME& value);
+        static Bool deserialize(Reader& reader, NAME& value);
     };
     
     */
 
     template<typename T>
-    struct ItemSerializer;
+    struct Serializer;
 
-    /*
-    
-    template<>
-    struct ItemSerializer<NAME>
+    template<typename T>
+    concept Serializable = requires(Writer& writer, Reader& reader, T const& writeValue, T& readValue)
     {
-        static void serialize_item(Writer& writer, StringView const name, NAME const& value);
-        static void deserialize_item(Reader& reader, StringView const name, NAME& value);
+        { Serializer<T>::serialize(writer, writeValue) } -> std::same_as<void>;
+        { Serializer<T>::deserialize(reader, readValue) } -> std::same_as<Bool>;
     };
-
-    */
 }
 
 #endif // MINTY_SERIALIZATION_SERIALIZER_H

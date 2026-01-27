@@ -6,10 +6,11 @@ using namespace Minty;
 
 void Minty::Serializer<GravityComponent>::serialize(Writer &writer, GravityComponent const &value)
 {
-    writer.write("Scale", value.scale);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<GravityComponent>::deserialize(Reader &reader, GravityComponent &value)
+Bool Minty::Serializer<GravityComponent>::deserialize(Reader &reader, GravityComponent &value)
 {
-    reader.read("Scale", value.scale);
+    reader.read_primary("Scale", value.scale);
+    return true;
 }

@@ -66,7 +66,7 @@ namespace Minty
 	struct Serializer<AudioSourceComponent>
 	{
 		static void serialize(Writer& writer, AudioSourceComponent const& value);
-		static void deserialize(Reader& reader, AudioSourceComponent& value);
+		static Bool deserialize(Reader& reader, AudioSourceComponent& value);
 	};
 }
 

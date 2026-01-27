@@ -242,9 +242,9 @@ namespace Minty
 		AnchorMode m_anchorMode;
 		Float m_x;
 		Float m_y;
-		Float m_z; // depth
 		Float m_width;
 		Float m_height;
+		Float m_z; // depth
 		Float m_rotation;
 
 		Float m_globalDepth;
@@ -258,7 +258,7 @@ namespace Minty
 	struct Serializer<UITransform>
 	{
 		static void serialize(Writer& writer, UITransform const& value);
-		static void deserialize(Reader& reader, UITransform& value);
+		static Bool deserialize(Reader& reader, UITransform& value);
 	};
 }
 

@@ -13,6 +13,7 @@
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
+#include "Minty/Data/StringView.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Serialization/Parser.h"
 
@@ -22,16 +23,16 @@ namespace Minty
 	namespace Math
 	{
 		template <typename T>
-		T evaluate(String const &);
+		T evaluate(StringView const);
 	}
 
 	namespace Internal
 	{
 		// attempts to get a constant value from the given string
 		template <typename T>
-		Bool try_get_constant(String const &str, T &value)
+		Bool try_get_constant(StringView const str, T &value)
 		{
-			static Map<String, T> const constants =
+			static Map<StringView, T> const constants =
 				{
 					{"PI", static_cast<T>(Math::PI)},
 					{"BYTE", static_cast<T>(sizeof(Byte))},
@@ -81,9 +82,7 @@ namespace Minty
 					{"MB", static_cast<T>(MB)},
 					{"GB", static_cast<T>(GB)}};
 
-			String fixedStr = str.to_upper();
-
-			if (fixedStr == "RANDOM")
+			if (str == "RANDOM")
 			{
 				if constexpr (std::is_same_v<T, Float>)
 				{
@@ -123,7 +122,7 @@ namespace Minty
 				}
 			}
 
-			auto found = constants.find(fixedStr);
+			auto found = constants.find(str);
 			if (found == constants.end())
 			{
 				return false;
@@ -134,20 +133,20 @@ namespace Minty
 		}
 
 		// checks if the given string is the name of a function
-		Bool is_function(String const &str);
+		Bool is_function(StringView const str);
 
 		// returns the precedence of the given operator as an Int
 		// https://en.cppreference.com/w/c/language/operator_precedence
-		Int operator_precedence(String const &str);
+		Int operator_precedence(StringView const str);
 
 		// returns the number of operators in the given expression for the given operation
-		Int operator_count(String const &str);
+		Int operator_count(StringView const str);
 
 		// checks if the operator is left to right associative
-		Bool operator_left_to_right(String const &str);
+		Bool operator_left_to_right(StringView const str);
 
 		template <typename T>
-		T evaluate_operator(String const &token, T const left, T const right)
+		T evaluate_operator(StringView const token, T const left, T const right)
 		{
 			// operator
 			if (token == "**")
@@ -207,13 +206,13 @@ namespace Minty
 		}
 
 		template <>
-		Float evaluate_operator(String const &token, Float const left, Float const right);
+		Float evaluate_operator(StringView const token, Float const left, Float const right);
 
 		template <>
-		WFloat evaluate_operator(String const &token, WFloat const left, WFloat const right);
+		WFloat evaluate_operator(StringView const token, WFloat const left, WFloat const right);
 
 		// splits the expression into String tokens
-		Vector<String> split_into_tokens(String const &expression);
+		Vector<String> split_into_tokens(StringView const expression);
 
 		// https://en.wikipedia.org/wiki/Shunting_yard_algorithm
 		template <typename T>
@@ -268,7 +267,7 @@ namespace Minty
 						tokens.add(operators.pop());
 					}
 
-					MINTY_ASSERT(!operators.is_empty(), ErrorCode::Math_MismatchedParentheses);
+					MINTY_CHECK(!operators.is_empty(), ErrorCode::Math_MismatchedParentheses);
 
 					operators.pop();
 
@@ -279,36 +278,36 @@ namespace Minty
 				}
 				else
 				{
-					MINTY_ABORT_F(ErrorCode::Math_InvalidToken, token);
+					MINTY_ERROR_F(ErrorCode::Math_InvalidToken, token);
 				}
 			}
 
 			while (!operators.is_empty())
 			{
-				MINTY_ASSERT(operators.peek() != "(", ErrorCode::Math_MismatchedParentheses);
+				MINTY_CHECK(operators.peek() != "(", ErrorCode::Math_MismatchedParentheses);
 
 				tokens.add(operators.pop());
 			}
 		}
 
 		// splits the expression (arg0, arg1, ...) into a Vector of arguments
-		Vector<String> split_into_args(String const &expression);
+		Vector<String> split_into_args(StringView const expression);
 
 		template <typename T, typename SubT>
-		T evaluate_2(String const &expression)
+		T evaluate_2(StringView const expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT_F(args.get_size() == 2, ErrorCode::Argument_InvalidFormat, expression);
+			MINTY_CHECK_F(args.get_size() == 2, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1))};
 		}
 
 		template <typename T, typename SubT>
-		T evaluate_3(String const &expression)
+		T evaluate_3(StringView const expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT_F(args.get_size() == 3, ErrorCode::Argument_InvalidFormat, expression);
+			MINTY_CHECK_F(args.get_size() == 3, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1)),
@@ -316,10 +315,10 @@ namespace Minty
 		}
 
 		template <typename T, typename SubT>
-		T evaluate_4(String const &expression)
+		T evaluate_4(StringView const expression)
 		{
 			Vector<String> args = Internal::split_into_args(expression);
-			MINTY_ASSERT_F(args.get_size() == 4, ErrorCode::Argument_InvalidFormat, expression);
+			MINTY_CHECK_F(args.get_size() == 4, ErrorCode::Argument_InvalidFormat, expression);
 			return T{
 				Minty::Math::evaluate<SubT>(args.at(0)),
 				Minty::Math::evaluate<SubT>(args.at(1)),
@@ -337,7 +336,7 @@ namespace Minty
 		 * @return The result.
 		 */
 		template <typename T>
-		T evaluate(String const &expression)
+		T evaluate(StringView const expression)
 		{
 			// get tokens
 			Vector<String> tokens = Internal::split_into_tokens(expression);
@@ -351,7 +350,7 @@ namespace Minty
 			T left = {};
 			T right = {};
 			Int operationCount;
-			for (String const &token : tokens)
+			for (StringView const token : tokens)
 			{
 				if (Parser<T>::parse(token, left) || Internal::try_get_constant<T>(token, left))
 				{
@@ -373,6 +372,8 @@ namespace Minty
 				}
 				else if (Internal::is_function(token))
 				{
+					// TODO: functions
+					MINTY_NOT_IMPLEMENTED();
 				}
 				else
 				{
@@ -381,7 +382,13 @@ namespace Minty
 				}
 			}
 
-			MINTY_ASSERT_F(stack.get_size() == 1, ErrorCode::Math_EvaluationFailed, expression);
+			if(stack.get_size() != 1)
+			{
+				MINTY_ERROR_F(ErrorCode::Math_EvaluationFailed, expression);
+				
+				// return default value for safety
+				return T{};
+			}
 
 			// last value left on stack should be the result
 			return stack.peek();
@@ -393,7 +400,7 @@ namespace Minty
 		 * @return The evaluated Int2 result.
 		 */
 		template <>
-		inline Int2 evaluate(String const &expression)
+		inline Int2 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_2<Int2, Int>(expression);
 		}
@@ -403,7 +410,7 @@ namespace Minty
 		 * @return The evaluated Int3 result.
 		 */
 		template <>
-		inline Int3 evaluate(String const &expression)
+		inline Int3 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_3<Int3, Int>(expression);
 		}
@@ -413,7 +420,7 @@ namespace Minty
 		 * @return The evaluated Int4 result.
 		 */
 		template <>
-		inline Int4 evaluate(String const &expression)
+		inline Int4 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_4<Int4, Int>(expression);
 		}
@@ -424,7 +431,7 @@ namespace Minty
 		 * @return The evaluated UInt2 result.
 		 */
 		template <>
-		inline UInt2 evaluate(String const &expression)
+		inline UInt2 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_2<UInt2, UInt>(expression);
 		}
@@ -434,7 +441,7 @@ namespace Minty
 		 * @return The evaluated UInt3 result.
 		 */
 		template <>
-		inline UInt3 evaluate(String const &expression)
+		inline UInt3 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_3<UInt3, UInt>(expression);
 		}
@@ -444,7 +451,7 @@ namespace Minty
 		 * @return The evaluated UInt4 result.
 		 */
 		template <>
-		inline UInt4 evaluate(String const &expression)
+		inline UInt4 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_4<UInt4, UInt>(expression);
 		}
@@ -455,7 +462,7 @@ namespace Minty
 		 * @return The evaluated WInt2 result.
 		 */
 		template <>
-		inline WInt2 evaluate(String const &expression)
+		inline WInt2 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_2<WInt2, WInt>(expression);
 		}
@@ -465,7 +472,7 @@ namespace Minty
 		 * @return The evaluated WInt3 result.
 		 */
 		template <>
-		inline WInt3 evaluate(String const &expression)
+		inline WInt3 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_3<WInt3, WInt>(expression);
 		}
@@ -475,7 +482,7 @@ namespace Minty
 		 * @return The evaluated WInt4 result.
 		 */
 		template <>
-		inline WInt4 evaluate(String const &expression)
+		inline WInt4 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_4<WInt4, WInt>(expression);
 		}
@@ -486,7 +493,7 @@ namespace Minty
 		 * @return The evaluated ULong2 result.
 		 */
 		template <>
-		inline UWInt2 evaluate(String const &expression)
+		inline UWInt2 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_2<UWInt2, WUInt>(expression);
 		}
@@ -496,7 +503,7 @@ namespace Minty
 		 * @return The evaluated ULong3 result.
 		 */
 		template <>
-		inline UWInt3 evaluate(String const &expression)
+		inline UWInt3 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_3<UWInt3, WUInt>(expression);
 		}
@@ -506,7 +513,7 @@ namespace Minty
 		 * @return The evaluated ULong4 result.
 		 */
 		template <>
-		inline UWInt4 evaluate(String const &expression)
+		inline UWInt4 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_4<UWInt4, WUInt>(expression);
 		}
@@ -517,7 +524,7 @@ namespace Minty
 		 * @return The evaluated Float2 result.
 		 */
 		template <>
-		inline Float2 evaluate(String const &expression)
+		inline Float2 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_2<Float2, Float>(expression);
 		}
@@ -527,7 +534,7 @@ namespace Minty
 		 * @return The evaluated Float3 result.
 		 */
 		template <>
-		inline Float3 evaluate(String const &expression)
+		inline Float3 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_3<Float3, Float>(expression);
 		}
@@ -537,7 +544,7 @@ namespace Minty
 		 * @return The evaluated Float4 result.
 		 */
 		template <>
-		inline Float4 evaluate(String const &expression)
+		inline Float4 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_4<Float4, Float>(expression);
 		}
@@ -548,7 +555,7 @@ namespace Minty
 		 * @return The evaluated WFloat2 result.
 		 */
 		template <>
-		inline WFloat2 evaluate(String const &expression)
+		inline WFloat2 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_2<WFloat2, WFloat>(expression);
 		}
@@ -558,7 +565,7 @@ namespace Minty
 		 * @return The evaluated WFloat3 result.
 		 */
 		template <>
-		inline WFloat3 evaluate(String const &expression)
+		inline WFloat3 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_3<WFloat3, WFloat>(expression);
 		}
@@ -568,7 +575,7 @@ namespace Minty
 		 * @return The evaluated WFloat4 result.
 		 */
 		template <>
-		inline WFloat4 evaluate(String const &expression)
+		inline WFloat4 evaluate(StringView const expression)
 		{
 			return Internal::evaluate_4<WFloat4, WFloat>(expression);
 		}

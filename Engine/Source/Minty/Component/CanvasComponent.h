@@ -28,7 +28,7 @@ namespace Minty
 	struct Serializer<CanvasComponent>
 	{
 		static void serialize(Writer& writer, CanvasComponent const& value);
-		static void deserialize(Reader& reader, CanvasComponent& value);
+		static Bool deserialize(Reader& reader, CanvasComponent& value);
 	};
 }
 

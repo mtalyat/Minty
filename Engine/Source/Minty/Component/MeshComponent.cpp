@@ -14,21 +14,19 @@ void Minty::Serializer<MeshComponent>::serialize(Writer &writer, MeshComponent c
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent &value)
+Bool Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent &value)
 {
 	// read type
-	reader.read("Type", value.type);
+	reader.read_primary("Type", value.type);
 
-	// read mesh ID
-	if (value.type == MeshType::Custom)
+	// read mesh
+	UUID meshId;
+	if (reader.read("Mesh", meshId))
 	{
-		UUID id = UUID();
-		if (!reader.read("Mesh", id))
-		{
-			value.mesh = nullptr;
-		}
+		value.type = MeshType::Custom;
+
 		AssetManager &assetManager = AssetManager::get_singleton();
-		value.mesh = assetManager.get_ref<Mesh>(id);
+		value.mesh = assetManager.get_ref<Mesh>(meshId);
 	}
 	else
 	{
@@ -38,16 +36,18 @@ void Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent
 	}
 
 	// read material ID
-	UUID id = UUID();
-	if (reader.read("Material", id))
+	UUID materialId;
+	if (reader.read("Material", materialId))
 	{
-		value.material = AssetManager::get_singleton().get_ref<Material>(id);
+		value.material = AssetManager::get_singleton().get_ref<Material>(materialId);
 	}
 	else
 	{
 		value.material = nullptr;
 	}
 
-	MINTY_CHECK_F(value.mesh != nullptr, ErrorCode::Serialization_MissingRequired, "Mesh");
-	MINTY_CHECK_F(value.material != nullptr, ErrorCode::Serialization_MissingRequired, "Material");
+	// MeshComponent requires both Mesh and Material to be set, or both to be null
+	MINTY_CHECK((value.mesh != nullptr && value.material != nullptr) || (value.mesh == nullptr && value.material == nullptr), ErrorCode::Serialization_InvalidData);
+	
+	return true;
 }

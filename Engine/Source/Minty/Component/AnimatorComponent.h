@@ -41,7 +41,7 @@ namespace Minty
 	struct Serializer<AnimatorComponent>
 	{
 		static void serialize(Writer& writer, AnimatorComponent const& value);
-		static void deserialize(Reader& reader, AnimatorComponent& value);
+		static Bool deserialize(Reader& reader, AnimatorComponent& value);
 	};
 }
 

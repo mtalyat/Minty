@@ -61,6 +61,7 @@
 #include "Minty/Serialization/TextReader.h"
 #include "Minty/Serialization/TextWriter.h"
 #include "Minty/Stream/FileStream.h"
+#include "Minty/Serialization/EvaluatedTypes.h"
 
 using namespace Minty;
 
@@ -139,28 +140,32 @@ UUID Minty::AssetManager::read_id(Path const &path) const
 	return id;
 }
 
-File *Minty::AssetManager::open(Path const &path) const
+Unique<File> Minty::AssetManager::open(Path const &path) const
 {
-	File *file = nullptr;
-
 	switch (get_location(path))
 	{
 	case Location::FileSystem:
-		file = new PhysicalFile(path, FileFlags::Read | FileFlags::Binary);
-		break;
+	{
+		Unique<PhysicalFile> file = Unique<PhysicalFile>::create();
+		if (!file->open(path, FileFlags::Read))
+		{
+			return Unique<File>();
+		}
+		return file;
+	}
 	case Location::Wrapper:
-		file = new VirtualFile();
-		m_wrapper.open(path, *static_cast<VirtualFile *>(file));
-		break;
+	{
+		Unique<VirtualFile> file = Unique<VirtualFile>::create();
+		if (!m_wrapper.open(path, *file))
+		{
+			return Unique<File>();
+		}
+		return file;
+	}
 	}
 
-	return file;
-}
-
-void Minty::AssetManager::close(File *file) const
-{
-	file->close();
-	delete file;
+	MINTY_NOT_IMPLEMENTED();
+	return Unique<File>();
 }
 
 void Minty::AssetManager::run_completion_jobs()
@@ -364,7 +369,11 @@ Unique<Writer> Minty::AssetManager::open_writer(Path const &path) const
 		return Unique<Writer>();
 	}
 
-	Shared<File> const file = Shared<PhysicalFile>::create(path, FileFlags::Write);
+	Shared<File> const file = Shared<PhysicalFile>::create();
+	if (!file->open(path, FileFlags::Write | FileFlags::Truncate))
+	{
+		return Unique<Writer>();
+	}
 	Shared<Stream> const stream = Shared<FileStream>::create(file);
 	Unique<Writer> writer = Unique<TextWriter>::create(stream);
 	return std::move(writer);
@@ -439,6 +448,13 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path)
 	}
 
 	Shared<Asset> const asset = load_asset(path, type);
+
+	if(asset == nullptr)
+	{
+		MINTY_ERROR_F(ErrorCode::Asset_LoadFailed, path);
+		return nullptr;
+	}
+
 	MINTY_LOG_DEBUG_F("Loaded Asset: ID={}, Type={}, Path={}", asset->get_id(), type, path);
 	return asset;
 }
@@ -484,6 +500,8 @@ void Minty::AssetManager::unload(UUID const id)
 
 	// remove from the lists
 	remove(id);
+
+	MINTY_LOG_DEBUG_F("Unloaded Asset: ID={}", id);
 }
 
 void Minty::AssetManager::unload_all()
@@ -751,6 +769,30 @@ Vector<String> Minty::AssetManager::read_lines(Path const &path) const
 	return Tool::split_lines(text);
 }
 
+Bool Minty::AssetManager::deserialize_asset_raw(Reader &reader, StringView const name, Shared<Asset> &asset)
+{
+	UUID id;
+	if (!reader.read(name, id))
+	{
+		return false;
+	}
+
+	asset = get_asset(id);
+	return asset != nullptr;
+}
+
+Bool Minty::AssetManager::deserialize_asset_ref_raw(Reader &reader, StringView const name, Ref<Asset> &assetRef)
+{
+	UUID id;
+	if (!reader.read(name, id))
+	{
+		return false;
+	}
+
+	assetRef = get_asset_ref(id);
+	return assetRef != nullptr;
+}
+
 Int Minty::AssetManager::check_dependency(UUID const id, Path const &path, String const &name, Bool const required) const
 {
 	// if invalid id (0), set to null
@@ -786,19 +828,19 @@ Int Minty::AssetManager::read_attachment(Path const &path, Reader &reader, Strin
 	}
 
 	// read the attachment data
-	if(!reader.read("Load", attachment.loadOperation))
+	if (!reader.read("Load", attachment.loadOperation))
 	{
 		attachment.loadOperation = LoadOperation::DontCare;
 	}
-	if(!reader.read("Store", attachment.storeOperation))
+	if (!reader.read("Store", attachment.storeOperation))
 	{
 		attachment.storeOperation = StoreOperation::DontCare;
 	}
-	if(!reader.read("Initial", attachment.initialLayout))
+	if (!reader.read("Initial", attachment.initialLayout))
 	{
 		attachment.initialLayout = ImageLayout::Undefined;
 	}
-	if(!reader.read("Final", attachment.finalLayout))
+	if (!reader.read("Final", attachment.finalLayout))
 	{
 		attachment.finalLayout = ImageLayout::Undefined;
 	}
@@ -809,11 +851,11 @@ Int Minty::AssetManager::read_attachment(Path const &path, Reader &reader, Strin
 
 Shared<GenericAsset> Minty::AssetManager::load_generic(Path const &path, UUID const id)
 {
-	Vector<Byte> bytes = read_bytes(path);
-
+	Vector<Byte> const bytes = read_bytes(path);
+	Shared<ConstantContainer> const data = Shared<ConstantContainer>::create(bytes.get_data(), bytes.get_size());
 	GenericAssetInfo info{
 		.id = id,
-		.data = ConstantContainer(bytes.get_data(), bytes.get_size())};
+		.data = std::move(data)};
 
 	return create_from_loaded<GenericAsset>(path, info);
 }
@@ -859,6 +901,10 @@ Shared<Image> Minty::AssetManager::create_image(Path const &path, UUID const id)
 		{
 			info.usage = ImageUsage::Sampled;
 		}
+
+		// ignore texture values
+		reader->ignore("Filter");
+		reader->ignore("AddressMode");
 	}
 
 	// create the image
@@ -1083,7 +1129,7 @@ Shared<Camera> Minty::AssetManager::load_camera(Path const &path, UUID const id)
 		reader->read("AspectRatio", info.aspectRatio);
 		reader->read("Size", info.size);
 		reader->read("Layer", info.layer);
-		reader->read("RenderTarget", info.renderTarget);
+		deserialize_asset_ref(*reader, "RenderTarget", info.renderTarget);
 	}
 
 	return create_from_loaded<Camera>(path, info);
@@ -1322,20 +1368,23 @@ static void read_values(Reader &reader, Cargo &values)
 {
 	String objectName;
 	String valueName;
+	Type type;
+	Byte buffer[64];
 	Variable valueVariable;
 
 	// read each object
-	while (reader.read_next(objectName))
+	while (reader.indent_next(objectName))
 	{
-		reader.indent();
-
 		// read names and variables for each value
 		Object object;
-		while (reader.read_next(valueName, valueVariable))
+		while (reader.read_next(valueName, type, buffer))
 		{
 			// add to the object values
-			object.add(valueName, valueVariable);
+			object.add(valueName, Variable(type, buffer));
 		}
+
+		// add to the cargo values
+		values.add(objectName, object);
 
 		reader.outdent();
 	}
@@ -1598,7 +1647,8 @@ Shared<RenderTarget> Minty::AssetManager::load_render_target(Path const &path, U
 	// read values
 	if (Unique<Reader> const reader = open_reader(path))
 	{
-		reader->read("RenderPass", info.renderPass);
+		AssetManager &assetManager = AssetManager::get_singleton();
+		assetManager.deserialize_asset(*reader, "RenderPass", info.renderPass);
 		String images;
 		if (reader->read("Images", images) && !images.is_empty())
 		{
@@ -1658,12 +1708,6 @@ Shared<Shader> Minty::AssetManager::load_shader(Path const &path, UUID const id)
 	// read values
 	if (Unique<Reader> const reader = open_reader(path))
 	{
-		// render pass
-		if (find_dependency<RenderPass>(path, *reader, "RenderPass", info.renderPass, true))
-		{
-			return nullptr;
-		}
-
 		// config
 		reader->read("Priority", info.priority);
 		reader->read("PrimitiveTopology", info.primitiveTopology);
@@ -1677,124 +1721,10 @@ Shared<Shader> Minty::AssetManager::load_shader(Path const &path, UUID const id)
 		reader->read("StencilMode", info.stencilMode);
 		reader->read("StencilTestOp", info.stencilTestOp);
 
-		// inputs (uniform, push, etc.)
-		if (reader->indent("Inputs"))
+		// render pass
+		if (find_dependency<RenderPass>(path, *reader, "RenderPass", info.renderPass, true))
 		{
-			// offset for push constants
-			Size offset = 0;
-			String name;
-			Type type;
-
-			while (reader->read_next(name))
-			{
-				// get the input and set the name
-				ShaderInput input{};
-				input.name = std::move(name);
-
-				// step in to read values
-				if (reader->indent())
-				{
-					// get basic data
-					reader->read("Binding", input.binding);
-					reader->read("Stage", input.stage);
-					reader->read("Type", input.type);
-					reader->read("Count", input.count);
-					reader->read("Frequent", input.frequent);
-
-					// set offset if push constant
-					if (input.type == ShaderInputType::PushConstant)
-					{
-						MINTY_ASSERT_F(input.stage == ShaderStage::Vertex, ErrorCode::Asset_Shader_PushConstantLocation, path, input.name);
-						input.offset = offset;
-					}
-
-					// read structure
-					if (reader->indent("Structure"))
-					{
-						while(reader->read_next(name, type))
-						{
-							// add to the input
-							input.data.add({name, Variable(type)});
-
-							// add to total size
-							UInt typeSize = static_cast<UInt>(sizeof_type(type));
-							input.size += typeSize;
-						}
-
-						reader->outdent();
-					}
-
-					// adjust offset if push constant, so next push const is aligned
-					if (input.type == ShaderInputType::PushConstant)
-					{
-						offset += input.size;
-					}
-
-					reader->outdent();
-				}
-
-				info.inputs.add(std::move(input));
-			}
-
-			reader->outdent();
-		}
-
-		// bindings
-		if (reader->indent("Bindings"))
-		{
-			String name; // key str
-			UInt binding = UINT_MAX; // key
-			ShaderInputRate inputRate; // value
-			UInt location;
-			Type type;
-			while(reader->read_next(name, inputRate))
-			{
-				ShaderBinding shaderBinding{};
-
-				// read the binding
-				if(!Parser<UInt>::parse(name.get_data(), binding))
-				{
-					// if the first binding, this += will make it wrap around to 0
-					// otherwise, go to the next binding
-					binding += 1;
-				}
-				shaderBinding.binding = binding;
-
-				// set the input rate
-				shaderBinding.inputRate = inputRate;
-
-				// read attributes
-				if (reader->indent())
-				{
-					// read each attribute
-					location = UINT_MAX;
-					while(reader->read_next(name, type))
-					{
-						ShaderAttribute shaderAttribute{};
-
-						// get attribute location
-						if (!Parser<UInt>::parse(name.get_data(), location))
-						{
-							// set location to last location + 1
-							location += 1;
-						}
-						shaderAttribute.location = location;
-
-						// get attribute type
-						shaderAttribute.type = type;
-
-						// add to the binding
-						shaderBinding.attributes.add(std::move(shaderAttribute));
-					}
-
-					reader->outdent();
-				}
-
-				// add to the info
-				info.vertexInput.bindings.add(std::move(shaderBinding));
-			}
-
-			reader->outdent();
+			return nullptr;
 		}
 
 		// modules
@@ -1808,6 +1738,120 @@ Shared<Shader> Minty::AssetManager::load_shader(Path const &path, UUID const id)
 			if (find_dependency<ShaderModule>(path, *reader, "Fragment", info.fragmentShaderModule, true))
 			{
 				return nullptr;
+			}
+
+			reader->outdent();
+		}
+
+		// bindings
+		if (reader->indent("Bindings"))
+		{
+			String name;			   // key str
+			UInt binding = UINT_MAX;   // key
+			ShaderInputRate inputRate; // value
+			UInt location;
+			Type type;
+			while (reader->indent_next(name, inputRate))
+			{
+				ShaderBinding shaderBinding{};
+
+				// read the binding
+				if (!Parser<UInt>::parse(name.get_data(), binding))
+				{
+					// if the first binding, this += will make it wrap around to 0
+					// otherwise, go to the next binding
+					binding += 1;
+				}
+				shaderBinding.binding = binding;
+
+				// set the input rate
+				shaderBinding.inputRate = inputRate;
+
+				// read attributes
+				// read each attribute
+				location = UINT_MAX;
+				while (reader->read_next(name, type))
+				{
+					ShaderAttribute shaderAttribute{};
+
+					// get attribute location
+					if (!Parser<UInt>::parse(name.get_data(), location))
+					{
+						// set location to last location + 1
+						location += 1;
+					}
+					shaderAttribute.location = location;
+
+					// get attribute type
+					shaderAttribute.type = type;
+
+					// add to the binding
+					shaderBinding.attributes.add(std::move(shaderAttribute));
+				}
+
+				// add to the info
+				info.vertexInput.bindings.add(std::move(shaderBinding));
+
+				reader->outdent();
+			}
+
+			reader->outdent();
+		}
+
+		// inputs (uniform, push, etc.)
+		if (reader->indent("Inputs"))
+		{
+			// offset for push constants
+			Size offset = 0;
+			String name;
+			Type type;
+
+			while (reader->indent_next(name))
+			{
+				// get the input and set the name
+				ShaderInput input{};
+				input.name = std::move(name);
+
+				// get basic data
+				reader->read("Type", input.type);
+				reader->read("Stage", input.stage);
+				reader->read("Set", input.set);
+				reader->read("Binding", input.binding);
+				reader->read("Count", input.count);
+				reader->read("Frequent", input.frequent);
+
+				// set offset if push constant
+				if (input.type == ShaderInputType::PushConstant)
+				{
+					MINTY_ASSERT_F(input.stage == ShaderStage::Vertex, ErrorCode::Asset_Shader_PushConstantLocation, path, input.name);
+					input.offset = offset;
+				}
+
+				// read structure
+				if (reader->indent("Structure"))
+				{
+					while (reader->read_next(name, type))
+					{
+						// add to the input
+						input.data.add({name, Variable(type)});
+
+						// add to total size
+						UInt typeSize = static_cast<UInt>(sizeof_type(type));
+						input.size += typeSize;
+					}
+
+					reader->outdent();
+				}
+
+				// adjust offset if push constant, so next push const is aligned
+				if (input.type == ShaderInputType::PushConstant)
+				{
+					offset += input.size;
+				}
+
+				info.inputs.add(std::move(input));
+
+				reader->outdent();
 			}
 
 			reader->outdent();
@@ -1841,7 +1885,7 @@ Shared<ShaderModule> Minty::AssetManager::load_shader_module(Path const &path, U
 
 static void read_sprite_slice(Reader &reader, SpriteSlice &slice, CoordinateMode const defaultCoordinateMode = CoordinateMode::Normalized)
 {
-	if(!reader.read("CoordinateMode", slice.coordinateMode))
+	if (!reader.read("CoordinateMode", slice.coordinateMode))
 	{
 		slice.coordinateMode = defaultCoordinateMode;
 	}
@@ -1861,7 +1905,8 @@ Shared<Sprite> Minty::AssetManager::load_sprite(Path const &path, UUID const id)
 	if (Unique<Reader> const reader = open_reader(path))
 	{
 		// read values
-		reader->read("Texture", info.texture);
+		AssetManager &assetManager = AssetManager::get_singleton();
+		assetManager.deserialize_asset(*reader, "Texture", info.texture);
 		read_sprite_slice(*reader, info.slice);
 	}
 
@@ -1878,9 +1923,10 @@ Shared<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const &path, UUI
 	if (Unique<Reader> const reader = open_reader(path))
 	{
 		// read values
-		reader->read("Texture", info.texture);
+		AssetManager &assetManager = AssetManager::get_singleton();
+		assetManager.deserialize_asset(*reader, "Texture", info.texture);
 		CoordinateMode defaultCoordinateMode;
-		if(!reader->read("CoordinateMode", defaultCoordinateMode))
+		if (!reader->read("CoordinateMode", defaultCoordinateMode))
 		{
 			defaultCoordinateMode = CoordinateMode::Normalized;
 		}
@@ -1889,71 +1935,65 @@ Shared<SpriteAtlas> Minty::AssetManager::load_sprite_atlas(Path const &path, UUI
 		if (reader->indent("Groups"))
 		{
 			String name;
-			while(reader->read_next(name))
+			while (reader->indent_next(name))
 			{
-				if(reader->indent())
+				SpriteSlice slice{};
+				Int2 count{};
+
+				// read data
+				read_sprite_slice(*reader, slice, defaultCoordinateMode);
+				reader->read("Count", count);
+
+				// Sprites is overrides for specific slices, so they can have their own, static IDs.
+				// The other Sprites within the Count range will have random IDs, generated every time the game is ran.
+				Map<Int2, UUID> overrides;
+				if (reader->indent("IDs"))
 				{
-					SpriteSlice slice;
-					Int2 count;
-
-					// read data
-					read_sprite_slice(*reader, slice, defaultCoordinateMode);
-					reader->read("Count", count);
-
-					// Sprites is overrides for specific slices, so they can have their own, static IDs.
-					// The other Sprites within the Count range will have random IDs, generated every time the game is ran.
-					Map<Int2, UUID> overrides;
-					if (reader->indent("IDs"))
+					Int2 index; // key
+					UUID id;	// value
+					while (reader->read_next(name, id))
 					{
-						Int2 index; // key
-						UUID id; // value
-						while(reader->read_next(name, id))
-						{
-							// read the index
-							if (!Parser<Int2>::parse(name, index))
-							{
-								continue;
-							}
+						// read the index
+						index = Evaluator<Int2>::evaluate(name);
 
-							// add to overrides
-							overrides.add(index, id);
-						}
-
-						reader->outdent();
+						// add to overrides
+						overrides.add(index, id);
 					}
-
-					// turn the overrides into a vector, and fill any missing IDs with random UUIDs
-					Vector<UUID> spriteIds(static_cast<Size>(count.y) * count.x);
-					for (Int y = 0; y < count.y; y++)
-					{
-						for (Int x = 0; x < count.x; x++)
-						{
-							Int2 spriteIndex2D = Int2(x, y);
-							UUID spriteId;
-							auto it = overrides.find(spriteIndex2D);
-							if (it != overrides.end())
-							{
-								// if override exists, use it
-								spriteId = it->get_second();
-							}
-							else
-							{
-								// otherwise, generate a random ID
-								spriteId = UUID::create();
-							}
-
-							spriteIds.add(std::move(spriteId));
-						}
-					}
-
-					// create group
-					SpriteGroup group(std::move(slice), count, std::move(spriteIds));
-
-					// add to info
-					info.groups.add(std::move(group));
 
 					reader->outdent();
 				}
+
+				// turn the overrides into a vector, and fill any missing IDs with random UUIDs
+				Vector<UUID> spriteIds(static_cast<Size>(count.y) * count.x);
+				for (Int y = 0; y < count.y; y++)
+				{
+					for (Int x = 0; x < count.x; x++)
+					{
+						Int2 spriteIndex2D = Int2(x, y);
+						UUID spriteId;
+						auto it = overrides.find(spriteIndex2D);
+						if (it != overrides.end())
+						{
+							// if override exists, use it
+							spriteId = it->get_second();
+						}
+						else
+						{
+							// otherwise, generate a random ID
+							spriteId = UUID::create();
+						}
+
+						spriteIds.add(std::move(spriteId));
+					}
+				}
+
+				// create group
+				SpriteGroup group(std::move(slice), count, std::move(spriteIds));
+
+				// add to info
+				info.groups.add(std::move(group));
+
+				reader->outdent();
 			}
 
 			reader->outdent();
@@ -1982,11 +2022,11 @@ Shared<Texture> Minty::AssetManager::load_texture(Path const &path, UUID const i
 
 		// set info values
 		info.image = image;
-		if(!reader->read("Filter", info.filter))
+		if (!reader->read("Filter", info.filter))
 		{
 			info.filter = Filter::Linear;
 		}
-		if(!reader->read("AddressMode", info.addressMode))
+		if (!reader->read("AddressMode", info.addressMode))
 		{
 			info.addressMode = AddressMode::Repeat;
 		}

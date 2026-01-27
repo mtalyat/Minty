@@ -148,7 +148,7 @@ namespace Minty
     struct Serializer<AudioSource>
     {
         static void serialize(Writer& writer, AudioSource const& value);
-        static void deserialize(Reader& reader, AudioSource& value);
+        static Bool deserialize(Reader& reader, AudioSource& value);
     };
 }
 

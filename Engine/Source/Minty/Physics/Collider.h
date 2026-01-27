@@ -216,7 +216,7 @@ namespace Minty
 	struct Serializer<Collider>
 	{
 		static void serialize(Writer& writer, Collider const& value);
-		static void deserialize(Reader& reader, Collider& value);
+		static Bool deserialize(Reader& reader, Collider& value);
 	};
 }
 

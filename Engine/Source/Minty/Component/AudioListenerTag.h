@@ -24,7 +24,7 @@ namespace Minty
     struct Serializer<AudioListenerTag>
     {
         static void serialize(Writer& writer, AudioListenerTag const& value) {}
-        static void deserialize(Reader& reader, AudioListenerTag& value) {}
+        static Bool deserialize(Reader& reader, AudioListenerTag& value) {}
     };
 }
 

@@ -94,3 +94,12 @@ Bool Minty::Parser<Color>::parse(StringView const str, Color &value)
 	value = Color(colorValue);
 	return true;
 }
+
+String Minty::Parser<Color>::to_string(Color const &value)
+{
+	static constexpr Size BUFFER_SIZE = 9; // 8 characters + null terminator
+	Char buffer[BUFFER_SIZE] = { 0 };
+	Color::Color_t colorValue = value.value;
+	encode_base16(&colorValue, sizeof(Color::Color_t), buffer, BUFFER_SIZE - 1);
+	return String(buffer);
+}

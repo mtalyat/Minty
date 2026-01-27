@@ -6,7 +6,7 @@
 using namespace Minty;
 
 Minty::UITransform::UITransform()
-	: m_anchorMode(AnchorMode::TopLeft), m_x(0.0f), m_z(0.0f), m_width(0.0f), m_height(0.0f), m_rotation(0.0f), m_globalDepth(0.0f), m_globalRect()
+	: m_anchorMode(AnchorMode::TopLeft), m_x(0.0f), m_width(0.0f), m_height(0.0f), m_z(0.0f), m_rotation(0.0f), m_globalDepth(0.0f), m_globalRect()
 {
 }
 
@@ -70,16 +70,10 @@ void Minty::UITransform::update(Rect const &parentRect, Float const parentDepth,
 
 void Minty::Serializer<UITransform>::serialize(Writer &writer, UITransform const &value)
 {
-	writer.write("AnchorMode", value.m_anchorMode);
-	writer.write("X", value.m_x);
-	writer.write("Y", value.m_y);
-	writer.write("Z", value.m_z);
-	writer.write("Width", value.m_width);
-	writer.write("Height", value.m_height);
-	writer.write("Rotation", Math::RAD2DEG * value.m_rotation);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<UITransform>::deserialize(Reader &reader, UITransform &value)
+Bool Minty::Serializer<UITransform>::deserialize(Reader &reader, UITransform &value)
 {
 	reader.read("AnchorMode", value.m_anchorMode);
 	if (!reader.read("X", value.m_x))
@@ -90,10 +84,6 @@ void Minty::Serializer<UITransform>::deserialize(Reader &reader, UITransform &va
 	{
 		reader.read("Top", value.m_y);
 	}
-	if (!reader.read("Z", value.m_z))
-	{
-		reader.read("Depth", value.m_z);
-	}
 	if (!reader.read("Width", value.m_width))
 	{
 		reader.read("Right", value.m_width);
@@ -102,9 +92,14 @@ void Minty::Serializer<UITransform>::deserialize(Reader &reader, UITransform &va
 	{
 		reader.read("Bottom", value.m_height);
 	}
+	if (!reader.read("Z", value.m_z))
+	{
+		reader.read("Depth", value.m_z);
+	}
 	Float degrees = 0.0f;
 	if (reader.read("Rotation", degrees))
 	{
 		value.m_rotation = Math::DEG2RAD * degrees;
 	}
+	return true;
 }

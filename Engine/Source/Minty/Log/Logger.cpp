@@ -10,7 +10,7 @@ using namespace Minty;
 static constexpr Size LOG_BATCH_SIZE = 64;
 
 Minty::Logger::Logger(LoggerInfo const &info)
-    : m_enabledLevels(info.enabledLevels), m_logQueue(), m_queueMutex(), m_queueCondition(), m_isRunning(true), m_workerThread()
+    : m_enabledLevels(info.enabledLevels), m_logQueue(), m_queueMutex(), m_queueCondition(), m_flushCondition(), m_pendingEntries(0), m_isRunning(true), m_workerThread()
 {
     // initialize worker thread after all members are initialized
     m_workerThread = std::thread(&Logger::worker_thread, this);
@@ -42,6 +42,7 @@ void Minty::Logger::log(LogLevel const level, StringView const message)
     {
         std::lock_guard<std::mutex> lock(m_queueMutex);
         m_logQueue.push(std::move(entry));
+        m_pendingEntries++;
     }
 
     m_queueCondition.notify_one();
@@ -50,8 +51,8 @@ void Minty::Logger::log(LogLevel const level, StringView const message)
 void Minty::Logger::flush()
 {
     std::unique_lock<std::mutex> lock(m_queueMutex);
-    m_queueCondition.wait(lock, [this]()
-                          { return m_logQueue.is_empty() || !m_isRunning; });
+    m_flushCondition.wait(lock, [this]()
+                          { return m_pendingEntries == 0 || !m_isRunning; });
 }
 
 void Minty::Logger::print(LogLevel const level, StringView const message)
@@ -116,6 +117,13 @@ void Minty::Logger::worker_thread()
         for (Size i = 0; i < batchSize; ++i)
         {
             process_log_entry(logBatch[i]);
+        }
+
+        // decrement pending entries and notify flush
+        {
+            std::lock_guard<std::mutex> lock(m_queueMutex);
+            m_pendingEntries -= batchSize;
+            m_flushCondition.notify_all();
         }
         batchSize = 0;
     }

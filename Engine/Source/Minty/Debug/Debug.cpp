@@ -90,15 +90,6 @@ void Minty::Debug::log(LogLevel const level, ErrorCode const errorCode, StringVi
     log(level, fullMessage);
 }
 
-void Minty::Debug::flush()
-{
-    // If there is a logger, flush it, otherwise flushing is a no-op
-    if(sp_logger)
-    {
-        sp_logger->flush();
-    }
-}
-
 void Minty::Debug::log_stack_trace()
 {
     if ((s_flags & DebugFlags::StackTrace) == DebugFlags::None) {
@@ -186,4 +177,26 @@ void Minty::Debug::log_stack_trace()
 
     SymCleanup(process);
 #endif
+}
+
+void Minty::Debug::log_location(LogLevel const level, StringView const file, UInt const line)
+{
+    StringBuilder builder;
+    builder.append('[');
+    builder.append(file);
+    builder.append('(');
+    builder.append(Parser<UInt>::to_string(line));
+    builder.append(')');
+    builder.append(']');
+
+    Minty::Debug::log(level, builder.get_view());
+}
+
+void Minty::Debug::flush()
+{
+    // If there is a logger, flush it, otherwise flushing is a no-op
+    if(sp_logger)
+    {
+        sp_logger->flush();
+    }
 }

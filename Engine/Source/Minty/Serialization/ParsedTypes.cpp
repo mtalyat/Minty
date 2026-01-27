@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "Reader.h"
-#include "Parser.h"
+#include "ParsedTypes.h"
+#include "Minty/Core/Evaluate.h"
 
 using namespace Minty;
 
@@ -83,6 +83,12 @@ static Bool parse_integer_unsigned(StringView const str, T &value)
         startIndex = 1;
     }
 
+    // Check for empty string after sign
+    if (startIndex == str.get_size())
+    {
+        return false;
+    }
+
     if (str.get_size() > 2 && str[startIndex] == '0')
     {
         switch (str[startIndex + 1])
@@ -107,6 +113,7 @@ static Bool parse_integer_unsigned(StringView const str, T &value)
         result = result * 10 + static_cast<T>(c - '0');
     }
 
+    value = result;
     return true;
 }
 
@@ -129,6 +136,12 @@ static Bool parse_integer_signed(StringView const str, T &value)
     else if (str[0] == '+')
     {
         startIndex = 1;
+    }
+
+    // Check for empty string after sign
+    if (startIndex == str.get_size())
+    {
+        return false;
     }
 
     if (str.get_size() > 2 && str[startIndex] == '0')
@@ -197,6 +210,12 @@ static Bool parse_floating_point(StringView const str, T &value)
         startIndex = 1;
     }
 
+    // Check for empty string after sign
+    if (startIndex == str.get_size())
+    {
+        return false;
+    }
+
     Bool decimalFound = false;
     T decimalFactor = static_cast<T>(0.1);
     T const decimalFactorReduction = static_cast<T>(0.1);
@@ -253,7 +272,7 @@ static Bool parse_2(StringView const str, T &value, Bool (*parseFunc)(StringView
     }
 
     StringView firstPart = str.sub(1, separatorIndex - 1);
-    StringView secondPart = str.sub(separatorIndex + 1, str.get_size() - separatorIndex - 2);
+    StringView secondPart = str.sub(separatorIndex + 2, str.get_size() - separatorIndex - 3);
 
     SingleT firstValue;
     SingleT secondValue;
@@ -293,8 +312,8 @@ static Bool parse_3(StringView const str, T &value, Bool (*parseFunc)(StringView
     }
 
     StringView firstPart = str.sub(1, firstSeparatorIndex - 1);
-    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1);
-    StringView thirdPart = str.sub(secondSeparatorIndex + 1, str.get_size() - secondSeparatorIndex - 2);
+    StringView secondPart = str.sub(firstSeparatorIndex + 2, secondSeparatorIndex - firstSeparatorIndex - 2);
+    StringView thirdPart = str.sub(secondSeparatorIndex + 2, str.get_size() - secondSeparatorIndex - 3);
 
     SingleT firstValue;
     SingleT secondValue;
@@ -341,9 +360,9 @@ static Bool parse_4(StringView const str, T &value, Bool (*parseFunc)(StringView
     }
 
     StringView firstPart = str.sub(1, firstSeparatorIndex - 1);
-    StringView secondPart = str.sub(firstSeparatorIndex + 1, secondSeparatorIndex - firstSeparatorIndex - 1);
-    StringView thirdPart = str.sub(secondSeparatorIndex + 1, thirdSeparatorIndex - secondSeparatorIndex - 1);
-    StringView fourthPart = str.sub(thirdSeparatorIndex + 1, str.get_size() - thirdSeparatorIndex - 2);
+    StringView secondPart = str.sub(firstSeparatorIndex + 2, secondSeparatorIndex - firstSeparatorIndex - 2);
+    StringView thirdPart = str.sub(secondSeparatorIndex + 2, thirdSeparatorIndex - secondSeparatorIndex - 2);
+    StringView fourthPart = str.sub(thirdSeparatorIndex + 2, str.get_size() - thirdSeparatorIndex - 3);
 
     SingleT firstValue;
     SingleT secondValue;

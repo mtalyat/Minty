@@ -14,7 +14,7 @@ static constexpr Char const* KEYACTION_STRINGS[KEYACTION_COUNT] =
 
 Bool Minty::Parser<KeyAction>::parse(StringView const str, KeyAction &value)
 {
-    return Tool::try_parse_enum(str, KEYACTION_STRINGS, KEYACTION_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, KEYACTION_STRINGS, KEYACTION_COUNT, value);
 }
 
 String Minty::Parser<KeyAction>::to_string(KeyAction const &obj)

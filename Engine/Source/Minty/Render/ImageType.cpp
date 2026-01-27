@@ -15,7 +15,7 @@ static constexpr Char const* IMAGETYPE_STRINGS[IMAGETYPE_COUNT] =
 
 Bool Minty::Parser<ImageType>::parse(StringView const str, ImageType &value)
 {
-	return Tool::try_parse_enum(str, IMAGETYPE_STRINGS, IMAGETYPE_COUNT, reinterpret_cast<Size&>(value));
+	return Tool::try_parse_enum(str, IMAGETYPE_STRINGS, IMAGETYPE_COUNT, value);
 }
 
 String Minty::Parser<ImageType>::to_string(ImageType const &obj)

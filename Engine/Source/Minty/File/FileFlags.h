@@ -39,24 +39,24 @@ namespace Minty
         ReadWrite = 0x3,
 
         /**
+         * @brief Set the file position to the end when opened.
+         */
+        AtEnd = 0x4,
+
+        /**
          * @brief Open file in append mode.
          */
-        Append = 0x4,
+        Append = 0x8,
 
         /**
          * @brief Open file in binary mode.
          */
-        Binary = 0x8,
+        Binary = 0x10,
 
         /**
          * @brief Truncate file to zero length if it exists.
          */
-        Truncate = 0x10,
-
-        /**
-         * @brief Create the file if it does not exist.
-         */
-        Create = 0x20
+        Truncate = 0x20,
     };
 
     MINTY_ENABLE_ENUM_OPERATORS(FileFlags)

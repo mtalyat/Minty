@@ -20,7 +20,7 @@ namespace Minty
 	 */
 	class Condition
 	{
-		friend struct ItemSerializer<Condition>;
+		friend struct Serializer<Condition>;
 
 #pragma region Constructors
 
@@ -73,10 +73,10 @@ namespace Minty
 	};
 
 	template<>
-	struct ItemSerializer<Condition>
+	struct Serializer<Condition>
 	{
-		static void serialize_item(Writer& writer, StringView const name, Condition const& value);
-        static void deserialize_item(Reader& reader, StringView const name, Condition& value);
+		static void serialize(Writer& writer, Condition const& value);
+        static Bool deserialize(Reader& reader, Condition& value);
 	};
 }
 

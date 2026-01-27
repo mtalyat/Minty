@@ -123,7 +123,7 @@ namespace Minty
 	struct Serializer<Transform>
 	{
 		static void serialize(Writer& writer, Transform const& value);
-		static void deserialize(Reader& reader, Transform& value);
+		static Bool deserialize(Reader& reader, Transform& value);
 	};
 }
 

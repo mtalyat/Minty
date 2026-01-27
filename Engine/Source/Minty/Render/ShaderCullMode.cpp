@@ -16,7 +16,7 @@ static constexpr Char const* SHADERCULLMODE_STRINGS[SHADERCULLMODE_COUNT] =
 
 Bool Minty::Parser<ShaderCullMode>::parse(StringView const str, ShaderCullMode &value)
 {
-    return Tool::try_parse_enum(str, SHADERCULLMODE_STRINGS, SHADERCULLMODE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERCULLMODE_STRINGS, SHADERCULLMODE_COUNT, value);
 }
 
 String Minty::Parser<ShaderCullMode>::to_string(ShaderCullMode const &obj)

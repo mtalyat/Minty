@@ -25,7 +25,7 @@ namespace Minty
 	struct Serializer<UUIDComponent>
 	{
 		static void serialize(Writer& writer, UUIDComponent const& value);
-		static void deserialize(Reader& reader, UUIDComponent& value);
+		static Bool deserialize(Reader& reader, UUIDComponent& value);
 	};
 }
 

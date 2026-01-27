@@ -7,25 +7,22 @@
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Serialization/EvaluatedTypes.h"
 
 using namespace Minty;
 
 void Minty::Serializer<SpriteComponent>::serialize(Writer &writer, SpriteComponent const &value)
 {
-	writer.write("Sprite", value.sprite);
-	writer.write("MaterialTemplate", value.materialTemplate);
-	writer.write("Color", value.color);
-	writer.write("FlipX", value.flipX);
-	writer.write("FlipY", value.flipY);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteComponent &value)
+Bool Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteComponent &value)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
 	// read the ID
 	UUID id;
-	if (reader.read("Sprite", id))
+	if (reader.read_primary("Sprite", id))
 	{
 		// get the asset with the given ID
 		value.source = assetManager.get_asset_ref(id);
@@ -52,7 +49,6 @@ void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteCompo
 			// read the index of the sprite in the atlas
 			// could be either a 1D or 2D index
 			String indexText;
-			Int index1d;
 			Int2 index2d;
 			if (!reader.read("Index", indexText))
 			{
@@ -62,21 +58,16 @@ void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteCompo
 			else
 			{
 				// parse index
-				if (Parser<Int>::parse(indexText, index1d))
+				if(indexText.contains(','))
 				{
-					// convert into 2D index
-					Int2 count = atlas->get_group(value.group).get_count();
+					Int2 const count = atlas->get_group(value.group).get_count();
+					index2d = Evaluator<Int2>::evaluate(indexText);
+				} else
+				{
+					Int const index1d = Evaluator<Int>::evaluate(indexText);
+					Int2 const count = atlas->get_group(value.group).get_count();
 					index2d.y = index1d / count.x;
 					index2d.x = index1d - index2d.y * count.x;
-				}
-				else if (Parser<Int2>::parse(indexText, index2d))
-				{
-					// do nothing
-				}
-				else
-				{
-					MINTY_ABORT_F(ErrorCode::Asset_InvalidConfiguration, id, indexText);
-					return;
 				}
 			}
 
@@ -97,4 +88,6 @@ void Minty::Serializer<SpriteComponent>::deserialize(Reader &reader, SpriteCompo
 	reader.read("Color", value.color);
 	reader.read("FlipX", value.flipX);
 	reader.read("FlipY", value.flipY);
+
+	return true;
 }

@@ -67,6 +67,14 @@ Bool Minty::StringView::ends_with(StringView const suffix) const noexcept
 
 StringView Minty::StringView::sub(Size const startIndex, Size const size) const noexcept
 {
-    MINTY_ASSERT_F(startIndex + size <= m_size, ErrorCode::Argument_OutOfRange, startIndex, m_size);
+    // if size is SIZE_MAX, return from startIndex to the end
+    if(size == SIZE_MAX)
+    {
+        return StringView(mp_data + startIndex, m_size - startIndex);
+    }
+
+    // otherwise use the provided size
+    // need to make two comparisons to avoid overflow
+    MINTY_ASSERT_F(size <= m_size && startIndex + size <= m_size, ErrorCode::Argument_OutOfRange, startIndex, m_size);
     return StringView(mp_data + startIndex, size);
 }

@@ -28,8 +28,9 @@ void Minty::Serializer<State>::serialize(Writer &writer, State const &value)
 	writer.write("Transitions", value.m_transitions);
 }
 
-void Minty::Serializer<State>::deserialize(Reader &reader, State &value)
+Bool Minty::Serializer<State>::deserialize(Reader &reader, State &value)
 {
 	reader.read("Value", value.m_value);
 	reader.read("Transitions", value.m_transitions);
+	return true;
 }

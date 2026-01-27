@@ -12,14 +12,10 @@ using namespace Minty;
 
 void Minty::Serializer<TextComponent>::serialize(Writer &writer, TextComponent const &value)
 {
-	writer.write("Text", value.text);
-	writer.write("Color", value.color);
-	writer.write("Font", value.font);
-	writer.write("Size", value.fontVariant == nullptr ?  0 : value.fontVariant->get_size());
-	writer.write("Flags", value.fontVariant == nullptr ? FontFlags::None : value.fontVariant->get_flags());
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent &value)
+Bool Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent &value)
 {
 	// get data
 	EntitySerializationData* data = static_cast<EntitySerializationData*>(reader.get_user_data());
@@ -32,7 +28,7 @@ void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent
 	entityManager.mark<DirtyTextTag>(data->entity);
 
 	// read text info
-	reader.read<String>("Text", value.text);
+	reader.read_primary<String>("Text", value.text);
 	reader.read("Color", value.color);
 	reader.read<Ref<Font>>("Font", value.font);
 
@@ -50,11 +46,13 @@ void Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent
 		if (value.fontVariant == nullptr)
 		{
 			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, value.font->get_name(), fontSize, fontFlags);
-			return; // no variant found
+			return false; // no variant found
 		}
 	}
 	else
 	{
 		value.fontVariant = nullptr; // no font set
 	}
+
+	return true;
 }

@@ -300,7 +300,7 @@ namespace Minty
 	struct Serializer<SystemManager>
 	{
 		static void serialize(Writer &writer, SystemManager const &value);
-		static void deserialize(Reader &reader, SystemManager &value);
+		static Bool deserialize(Reader &reader, SystemManager &value);
 	};
 }
 

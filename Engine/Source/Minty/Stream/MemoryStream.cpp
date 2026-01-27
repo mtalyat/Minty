@@ -7,7 +7,7 @@ MemoryStream::MemoryStream(Shared<Container> const& container)
 {
 }
 
-Bool MemoryStream::write(AnyConst const data, Size const size)
+void MemoryStream::write(AnyConst const data, Size const size)
 {
     // ensure there is enough capacity
     Size const requiredSize = m_position + size;
@@ -15,17 +15,13 @@ Bool MemoryStream::write(AnyConst const data, Size const size)
     {
         Size const newSize = m_container->get_capacity() == 0 ? requiredSize : m_container->get_capacity() * 2;
         Bool const reserved = m_container->reserve(newSize);
-        if (!reserved)
-        {
-            return false;
-        }
+        MINTY_ASSERT(reserved, ErrorCode::Memory_AllocationFailed);
     }
 
     // copy data into container
     m_container->resize(requiredSize);
     m_container->set_at(data, size, m_position);
     m_position += size;
-    return true;
 }
 
 Bool MemoryStream::read(Any data, Size const size)

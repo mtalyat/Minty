@@ -14,10 +14,10 @@ static constexpr Char const* ATTENUATION_STRINGS[ATTENUATION_COUNT] = {
 
 Bool Minty::Parser<Attenuation>::parse(StringView const str, Attenuation &value)
 {
-    return Tool::try_parse_enum(str, ATTENUATION_STRINGS, ATTENUATION_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, ATTENUATION_STRINGS, ATTENUATION_COUNT, value);
 }
 
 String Minty::Parser<Attenuation>::to_string(Attenuation const &value)
 {
-    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), ATTENUATION_STRINGS, ATTENUATION_COUNT);
+    return Tool::to_string_enum(value, ATTENUATION_STRINGS, ATTENUATION_COUNT);
 }

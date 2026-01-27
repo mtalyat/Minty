@@ -26,16 +26,6 @@ namespace Minty
 		PhysicalFile() = default;
 
 		/**
-		 * @brief Creates a PhysicalFile with the given Path and Flags.
-		 * @param path The Path to the File.
-		 * @param flags The Flags for accessing the file.
-		 */
-		PhysicalFile(Path const& path, FileFlags const flags)
-			: File() {
-			open(path, flags);
-		}
-
-		/**
 		 * @brief Moves the given PhysicalFile.
 		 * @param other The PhysicalFile to move.
 		 */
@@ -157,7 +147,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual Bool write(AnyConst const buffer, StreamSize const size) override;
+		virtual void write(AnyConst const buffer, StreamSize const size) override;
 
 #pragma endregion
 

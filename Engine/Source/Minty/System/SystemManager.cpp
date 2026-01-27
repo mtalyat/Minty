@@ -242,12 +242,12 @@ void Minty::Serializer<SystemManager>::serialize(Writer &writer, SystemManager c
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<SystemManager>::deserialize(Reader &reader, SystemManager &value)
+Bool Minty::Serializer<SystemManager>::deserialize(Reader &reader, SystemManager &value)
 {
 	// deserialize each system and its priority
 	String name;
 	Int priority;
-	while(reader.read_next(name, priority))
+	while(reader.read_next_optional(name, priority, 0))
 	{
 		System* const system = value.get_system(name);
 		
@@ -262,4 +262,5 @@ void Minty::Serializer<SystemManager>::deserialize(Reader &reader, SystemManager
 		// create the system
 		value.add(name, priority);
 	}
+	return true;
 }

@@ -11,6 +11,7 @@
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringBuilder.h"
 #include "Minty/Serialization/Parser.h"
+#include "Minty/Serialization/ParsedTypes.h"
 
 namespace Minty
 {

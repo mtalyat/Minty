@@ -54,7 +54,7 @@ namespace Minty
          * @param size The size of the data to write.
          * @return True if the write was successful, false otherwise.
          */
-        Bool write(AnyConst const data, Size const size) override;
+        void write(AnyConst const data, Size const size) override;
 
         /**
          * @brief Reads data from the file stream.

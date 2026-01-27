@@ -11,15 +11,15 @@ using namespace Minty;
 
 void Minty::Serializer<AnimatorComponent>::serialize(Writer &writer, AnimatorComponent const &value)
 {
-	writer.write("Animator", value.animator->get_id());
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<AnimatorComponent>::deserialize(Reader &reader, AnimatorComponent &value)
+Bool Minty::Serializer<AnimatorComponent>::deserialize(Reader &reader, AnimatorComponent &value)
 {
 	AssetManager& assetManager = AssetManager::get_singleton();
 
 	UUID id;
-	if (reader.read("Animator", id))
+	if (reader.read_primary("Animator", id))
 	{
 		// make a copy of the animator
 		value.animator = assetManager.clone<Animator>(id);
@@ -32,4 +32,5 @@ void Minty::Serializer<AnimatorComponent>::deserialize(Reader &reader, AnimatorC
 			value.animation = assetManager.get_ref<Animation>(id);
 		}
 	}
+	return true;
 }

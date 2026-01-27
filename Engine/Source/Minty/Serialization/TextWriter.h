@@ -33,24 +33,21 @@ namespace Minty
 
 #pragma region Methods
 
-    public:
-        Bool indent() override;
-        void outdent() override;
-
     protected:
-        Bool write_key(StringView const key) override;
-        Bool write_break() override;
-		Bool write_type_value_pair(Type const type, AnyConst const data) override;
-        Bool write_bool(Bool const value) override;
-        Bool write_byte(Byte const value) override;
-        Bool write_char(Char const value) override;
-        Bool write_int32(Int32 const value) override;
-        Bool write_uint32(UInt32 const value) override;
-        Bool write_float32(Float32 const value) override;
-        Bool write_int64(Int64 const value) override;
-        Bool write_uint64(UInt64 const value) override;
-        Bool write_float64(Float64 const value) override;
-        Bool write_string(StringView const value) override;
+        void write_key(StringView const key) override;
+        void write_break() override;
+		void write_type_value_pair(Type const type, AnyConst const data) override;
+        void write_bool(Bool const value) override;
+        void write_byte(Byte const value) override;
+        void write_char(Char const value) override;
+        void write_int32(Int32 const value) override;
+        void write_uint32(UInt32 const value) override;
+        void write_float32(Float32 const value) override;
+        void write_int64(Int64 const value) override;
+        void write_uint64(UInt64 const value) override;
+        void write_float64(Float64 const value) override;
+        void write_string(StringView const value) override;
+		void write_raw_value(StringView const value) override;
 
 #pragma endregion
 

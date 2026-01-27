@@ -28,7 +28,7 @@ namespace Minty
     struct Serializer<VelocityComponent>
     {
         static void serialize(Writer& writer, VelocityComponent const& value);
-        static void deserialize(Reader& reader, VelocityComponent& value);
+        static Bool deserialize(Reader& reader, VelocityComponent& value);
     };
 }
 

@@ -9,7 +9,8 @@ void Minty::Serializer<PrefabComponent>::serialize(Writer &writer, PrefabCompone
     MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<PrefabComponent>::deserialize(Reader &reader, PrefabComponent &value)
+Bool Minty::Serializer<PrefabComponent>::deserialize(Reader &reader, PrefabComponent &value)
 {
     MINTY_NOT_IMPLEMENTED();
+    return false;
 }

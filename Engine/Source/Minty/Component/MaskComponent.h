@@ -27,7 +27,7 @@ namespace Minty
 	struct Serializer<MaskComponent>
 	{
 		static void serialize(Writer& writer, MaskComponent const& value);
-		static void deserialize(Reader& reader, MaskComponent& value);
+		static Bool deserialize(Reader& reader, MaskComponent& value);
 	};
 }
 

@@ -109,7 +109,7 @@ void Minty::Serializer<FSM>::serialize(Writer &writer, FSM const &value)
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
+Bool Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 {
 	value.clear();
 
@@ -124,7 +124,7 @@ void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 	if (reader.indent("States"))
 	{
 		// read the states
-		while(reader.read_next(name))
+		while(reader.indent_next(name))
 		{
 			// not implemented: override existing states
 			if(value.m_states.contains(name))
@@ -139,6 +139,8 @@ void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 			// read the state values
 			State& state = value.m_states.at(name);
 			Serializer<State>::deserialize(reader, state);
+
+			reader.outdent();
 		}
 
 		reader.outdent();
@@ -152,4 +154,6 @@ void Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 	}
 
 	reader.pop_user_data();
+
+	return true;
 }

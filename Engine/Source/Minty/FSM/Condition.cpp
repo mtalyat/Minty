@@ -18,28 +18,16 @@ Bool Minty::Condition::evaluate(Scope const& scope) const
 	return Minty::evaluate_conditional(value, m_conditional, m_value);
 }
 
-void Minty::ItemSerializer<Condition>::serialize_item(Writer &writer, StringView const name, Condition const &value)
+void Minty::Serializer<Condition>::serialize(Writer &writer, Condition const &value)
 {
-	// get scope from user data
-	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
-	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
-	Scope const& scope = fsm->get_scope();
-	
-    // get the variable name
-	String const& variableName = scope.get_name(value.m_variableId);
-
-	// compile into a string
-	String conditionString = F("{} {} {}", variableName, value.m_conditional, value.m_value);
-
-	// write the condition string
-	writer.write(name, conditionString);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::ItemSerializer<Condition>::deserialize_item(Reader &reader, StringView const name, Condition &value)
+Bool Minty::Serializer<Condition>::deserialize(Reader &reader, Condition &value)
 {
-	 // read the condition string
+	// read the condition string
 	String conditionString;
-	Bool const readResult = reader.read(name, conditionString);
+	Bool const readResult = reader.read_inline(conditionString);
 	MINTY_ASSERT(readResult, ErrorCode::Serialization_Read);
 
 	// split the condition string into parts
@@ -61,4 +49,5 @@ void Minty::ItemSerializer<Condition>::deserialize_item(Reader &reader, StringVi
 		value.m_conditional = Conditional::Equal;
 	}
 	value.m_value = Math::evaluate<Int>(parts[2]);
+	return true;
 }

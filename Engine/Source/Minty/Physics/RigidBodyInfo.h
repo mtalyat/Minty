@@ -19,16 +19,6 @@ namespace Minty
     struct RigidBodyInfo
     {
         /**
-         * @brief Whether the rigid body is kinematic.
-         */
-        Bool isKinematic = false;
-
-        /**
-         * @brief Whether the rigid body is static.
-         */
-        Bool isStatic = false;
-
-        /**
          * @brief The mass of the rigid body.
          */
         Float mass = 1.0f;
@@ -44,14 +34,24 @@ namespace Minty
         Float bounce = 0.0f;
 
         /**
-        * @brief The constraints applied to the rigid body.
-        */
+         * @brief The constraints applied to the rigid body.
+         */
         Constraints rotationConstraints = Constraints::None;
 
         /**
          * @brief The collider associated with the rigid body.
          */
         Shared<Collider> collider = nullptr;
+
+        /**
+         * @brief Whether the rigid body is kinematic.
+         */
+        Bool isKinematic = false;
+
+        /**
+         * @brief Whether the rigid body is static.
+         */
+        Bool isStatic = false;
     };
 }
 

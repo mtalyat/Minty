@@ -280,7 +280,7 @@ Bool Minty::Parser<Format>::parse(StringView const str, Format &value)
 		return true;
 	}
 
-    return Tool::try_parse_enum(str, FORMAT_STRINGS, FORMAT_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, FORMAT_STRINGS, FORMAT_COUNT, value);
 }
 
 String Minty::Parser<Format>::to_string(Format const &obj)

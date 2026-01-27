@@ -15,7 +15,7 @@ void Minty::Serializer<AudioSource>::serialize(Writer &writer, AudioSource const
 	writer.write("Max", value.m_maxDistance);
 }
 
-void Minty::Serializer<AudioSource>::deserialize(Reader &reader, AudioSource &value)
+Bool Minty::Serializer<AudioSource>::deserialize(Reader &reader, AudioSource &value)
 {
 	reader.read("Position", value.m_position);
 	reader.read("Velocity", value.m_velocity);
@@ -23,4 +23,5 @@ void Minty::Serializer<AudioSource>::deserialize(Reader &reader, AudioSource &va
 	reader.read("AttenuationRolloff", value.m_attenuationRolloff);
 	reader.read("Min", value.m_minDistance);
 	reader.read("Max", value.m_maxDistance);
+	return true;
 }

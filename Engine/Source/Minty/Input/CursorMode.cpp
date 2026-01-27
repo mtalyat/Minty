@@ -14,7 +14,7 @@ static constexpr Char const* CURSORMODE_STRINGS[CURSORMODE_COUNT] =
 
 Bool Minty::Parser<CursorMode>::parse(StringView const str, CursorMode &value)
 {
-	return Tool::try_parse_enum(str, CURSORMODE_STRINGS, CURSORMODE_COUNT, reinterpret_cast<Size&>(value));
+	return Tool::try_parse_enum(str, CURSORMODE_STRINGS, CURSORMODE_COUNT, value);
 }
 
 String Minty::Parser<CursorMode>::to_string(CursorMode const &obj)

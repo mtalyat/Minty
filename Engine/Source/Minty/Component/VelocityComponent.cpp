@@ -6,10 +6,11 @@ using namespace Minty;
 
 void Minty::Serializer<VelocityComponent>::serialize(Writer &writer, VelocityComponent const &value)
 {
-    writer.write("Velocity", value.velocity);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<VelocityComponent>::deserialize(Reader &reader, VelocityComponent &value)
+Bool Minty::Serializer<VelocityComponent>::deserialize(Reader &reader, VelocityComponent &value)
 {
-    reader.read("Velocity", value.velocity);
+    reader.read_primary("Velocity", value.velocity);
+    return true;
 }

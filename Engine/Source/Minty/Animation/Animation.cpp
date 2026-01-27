@@ -10,6 +10,7 @@
 #include "Minty/Serialization/TextReader.h"
 #include "Minty/Serialization/TextWriter.h"
 #include "Minty/Stream/MemoryStream.h"
+#include "Minty/Serialization/EvaluatedTypes.h"
 
 using namespace Minty;
 
@@ -241,7 +242,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	{
 		if (component == nullptr)
 		{
-			component = &componentInfo->create(entityManager, entity);
+			componentInfo->create(entityManager, entity);
 		}
 		return;
 	}
@@ -294,15 +295,11 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 template<typename T>
 static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result)
 {
-	T leftValue, rightValue;
-	if (Parser<T>::parse(left, leftValue) && Parser<T>::parse(right, rightValue))
-	{
-		// if both are valid, interpolate
-		T interpolatedValue = static_cast<T>(Math::lerp(leftValue, rightValue, t));
-		result = Parser<T>::to_string(interpolatedValue);
-		return true;
-	}
-	return false;
+	T const leftValue = Evaluator<T>::evaluate(left);
+	T const rightValue = Evaluator<T>::evaluate(right);
+	T const interpolatedValue = static_cast<T>(Math::lerp(leftValue, rightValue, t));
+	result = Parser<T>::to_string(interpolatedValue);
+	return true;
 }
 
 // return true when animation is completed
@@ -346,7 +343,8 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		{
 			if (component == nullptr)
 			{
-				component = &componentInfo->create(entityManager, entity);
+				componentInfo->create(entityManager, entity);
+				component = componentInfo->get(entityManager, entity);
 			}
 			continue;
 		}

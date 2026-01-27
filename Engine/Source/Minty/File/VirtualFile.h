@@ -28,18 +28,6 @@ namespace Minty
 		{
 		}
 
-		/**
-		 * @brief Creates a VirtualFile with the given Path and Flags, as well as the given virtual offset and size within the PhyiscalFile.
-		 * @param path The Path to the File.
-		 * @param flags The Flags for accessing the file.
-		 * @param offset The offset within the PhysicalFile.
-		 * @param size The size within the PhysicalFile.
-		 */
-		VirtualFile(Path const& path, FileFlags const flags, StreamPosition const offset, Size const size)
-			: PhysicalFile(), m_virtualOffset(), m_virtualSize() {
-			open(path, flags, offset, size);
-		}
-
 		VirtualFile(VirtualFile const& other) = delete;
 
 		/**
@@ -162,7 +150,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual Bool write(AnyConst const buffer, StreamSize const size) override;
+		virtual void write(AnyConst const buffer, StreamSize const size) override;
 
 #pragma endregion
 

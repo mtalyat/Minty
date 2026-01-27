@@ -15,7 +15,7 @@ static constexpr Char const* MESHTYPE_STRINGS[MESHTYPE_COUNT] =
 
 Bool Minty::Parser<MeshType>::parse(StringView const str, MeshType &value)
 {
-    return Tool::try_parse_enum(str, MESHTYPE_STRINGS, MESHTYPE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, MESHTYPE_STRINGS, MESHTYPE_COUNT, value);
 }
 
 String Minty::Parser<MeshType>::to_string(MeshType const &obj)

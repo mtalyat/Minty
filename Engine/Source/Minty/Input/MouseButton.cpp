@@ -30,18 +30,16 @@ static constexpr Char const* MOUSEBUTTON_ALIASES[MOUSEBUTTON_ALIAS_COUNT] =
 Bool Minty::Parser<MouseButton>::parse(StringView const str, MouseButton &value)
 {
     // check special cases
-	Size const index = Tool::parse_enum(str, MOUSEBUTTON_ALIASES, MOUSEBUTTON_ALIAS_COUNT);
-	if(index < MOUSEBUTTON_ALIAS_COUNT)
+	if(Tool::try_parse_enum(str, MOUSEBUTTON_STRINGS, MOUSEBUTTON_COUNT, value))
 	{
-		value = static_cast<MouseButton>(index);
 		return true;
 	}
 
 	// check normal cases
-	return Tool::try_parse_enum(str, MOUSEBUTTON_STRINGS, MOUSEBUTTON_COUNT, reinterpret_cast<Size&>(value));
+	return Tool::try_parse_enum(str, MOUSEBUTTON_STRINGS, MOUSEBUTTON_COUNT, value);
 }
 
 String Minty::Parser<MouseButton>::to_string(MouseButton const &obj)
 {
-    return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), MOUSEBUTTON_STRINGS, MOUSEBUTTON_COUNT);
+    return Tool::to_string_enum(obj, MOUSEBUTTON_STRINGS, MOUSEBUTTON_COUNT);
 }

@@ -108,8 +108,12 @@ namespace Minty
         Serialization_Failed,
         Serialization_Write,
         Serialization_Read,
-        Serialization_MissingRequired,
+        Serialization_MissingKey,
         Serialization_InvalidBookmark,
+        Serialization_InconsistentIndentation,
+        Serialization_UnsupportedType,
+        Serialization_IgnoredData,
+        Serialization_MissingValue,
 
         Entity = 800,
         Entity_NotValid,
@@ -122,6 +126,7 @@ namespace Minty
         Component_NotRegistered,
         Component_AlreadyRegistered,
         Component_InvalidState,
+        Component_InvalidOperation,
 
         System = 1000,
         System_NotRegistered,

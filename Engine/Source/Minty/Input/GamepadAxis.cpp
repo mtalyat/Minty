@@ -17,7 +17,7 @@ static constexpr Char const* GAMEPADAXIS_STRINGS[GAMEPADAXIS_COUNT] =
 
 Bool Minty::Parser<GamepadAxis>::parse(StringView const str, GamepadAxis &value)
 {
-    return Tool::try_parse_enum(str, GAMEPADAXIS_STRINGS, GAMEPADAXIS_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, GAMEPADAXIS_STRINGS, GAMEPADAXIS_COUNT, value);
 }
 
 String Minty::Parser<GamepadAxis>::to_string(GamepadAxis const &obj)

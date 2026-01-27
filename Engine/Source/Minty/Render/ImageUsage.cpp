@@ -17,10 +17,10 @@ static constexpr Char const* USAGE_STRINGS[USAGE_COUNT] =
 
 Bool Minty::Parser<ImageUsage>::parse(StringView const str, ImageUsage &value)
 {
-    return Tool::try_parse_enum_flags(str, USAGE_STRINGS, USAGE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum_flags(str, USAGE_STRINGS, USAGE_COUNT, value);
 }
 
 String Minty::Parser<ImageUsage>::to_string(ImageUsage const &obj)
 {
-	return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), USAGE_STRINGS, USAGE_COUNT);
+	return Tool::to_string_enum_flags(obj, USAGE_STRINGS, USAGE_COUNT);
 }

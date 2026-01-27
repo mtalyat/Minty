@@ -24,9 +24,9 @@ StreamSize Minty::FileStream::get_size() const
     return m_file->get_size();
 }
 
-Bool Minty::FileStream::write(AnyConst const data, Size const size)
+void Minty::FileStream::write(AnyConst const data, Size const size)
 {
-    return m_file->write(data, static_cast<StreamSize>(size));
+    m_file->write(data, static_cast<StreamSize>(size));
 }
 
 Bool Minty::FileStream::read(Any data, Size const size)

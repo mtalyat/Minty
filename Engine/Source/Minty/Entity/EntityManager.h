@@ -18,6 +18,7 @@
 #include "Minty/Data/UUID.h"
 #include "Minty/Manager/SubManager.h"
 #include "Minty/Serialization/Serializer.h"
+#include "Minty/Debug/Assert.h"
 
 namespace Minty
 {
@@ -44,7 +45,7 @@ namespace Minty
 		 * @param scene The Scene this EntityManager belongs to.
 		 * @param info The EntityManagerInfo containing initialization parameters.
 		 */
-		EntityManager(Ref<Scene> const& scene, EntityManagerInfo const &info);
+		EntityManager(Ref<Scene> const &scene, EntityManagerInfo const &info);
 
 		/**
 		 * @brief Move constructor.
@@ -368,7 +369,7 @@ namespace Minty
 		 * @tparam Args Variadic template arguments.
 		 * @param entity The Entity.
 		 * @param args Arguments to forward to the Component constructor.
-		 * @returns A reference to the newly added Component.
+		 * @returns A reference to the newly added Component, or void if the Component is a Tag.
 		 */
 		template <typename ComponentType, typename... Args>
 		inline decltype(auto) add_component(Entity const entity, Args &&...args)
@@ -382,9 +383,9 @@ namespace Minty
 		 * @brief Adds a component with the specified name to the given entity and returns a reference to the newly added component.
 		 * @param entity The entity to which the component will be added.
 		 * @param name The name of the component to add.
-		 * @returns A reference to the newly added component.
+		 * @returns A pointer to the newly added component, if applicable.
 		 */
-		Component &add_component(Entity const entity, String const &name);
+		Component* add_component(Entity const entity, String const &name);
 
 		/**
 		 * @brief Retrieves a reference to a component of the specified type from the given entity.
@@ -396,7 +397,7 @@ namespace Minty
 		ComponentType &get_component(Entity const entity)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
-			MINTY_ASSERT(m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_MissingComponent);
+			MINTY_ASSERT_F(m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_MissingComponent, get_component_info(typeid(ComponentType)).name);
 			return m_registry.get<ComponentType>(entity);
 		}
 
@@ -460,7 +461,7 @@ namespace Minty
 		template <typename ComponentType>
 		ComponentType *try_get_component(Entity const entity)
 		{
-			if(!m_registry.valid(entity))
+			if (!m_registry.valid(entity))
 			{
 				return nullptr;
 			}
@@ -730,46 +731,72 @@ namespace Minty
 		 */
 		void cleanup();
 
-		/**
-		 * @brief Registers a Component type with the EntityManager.
-		 * @tparam T The Component type.
-		 * @param name The name of the Component.
-		 */
 		template <typename T, typename = std::enable_if_t<std::is_base_of_v<Component, T>>>
-		static void register_component(String const &name)
+		static void register_component(StringView const name)
 		{
 			MINTY_ASSERT_F(!s_registeredComponents.contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
 			MINTY_ASSERT_F(!s_registeredComponents.contains(typeid(T)), ErrorCode::Argument_KeyAlreadyExists, typeid(T).name());
 
-			ComponentData info{
-				.name = name,
-				.create = [](EntityManager &entityManager, Entity const entity) -> Component &
-				{
-					return entityManager.add_component<T>(entity);
-				},
-				.get = [](EntityManager &entityManager, Entity const entity) -> Component *
-				{
-					return entityManager.try_get_component<T>(entity);
-				},
-				.get_const = [](EntityManager const &entityManager, Entity const entity) -> Component const *
-				{
-					return entityManager.try_get_component<T>(entity);
-				},
-				.destroy = [](EntityManager &entityManager, Entity const entity) -> void
-				{
-					entityManager.remove_component<T>(entity);
-				},
-				.serialize = [](Writer &writer, Component const& component) -> void
-				{
-					Serializer<T>::serialize(writer, static_cast<T const&>(component));
-				},
-				.deserialize = [](Reader &reader, Component& component) -> void
-				{
-					Serializer<T>::deserialize(reader, static_cast<T&>(component));
-				},
-			};
+			if constexpr (sizeof(T) <= 1u)
+			{
+				// tags do not have data to serialize, so they cannot be gotten, serialized, or deserialized
+				ComponentData info{
+					.name = name,
+					.create = [](EntityManager &entityManager, Entity const entity) -> Component *
+					{
+						entityManager.add_component<T>(entity);
+						return nullptr;
+					},
+					.destroy = [](EntityManager &entityManager, Entity const entity) -> void
+					{
+						entityManager.remove_component<T>(entity);
+					},
+					.get = [](EntityManager &entityManager, Entity const entity) -> Component *
+					{
+						return nullptr;
+					},
+					.get_const = [](EntityManager const &entityManager, Entity const entity) -> Component const *
+					{
+						return nullptr;
+					},
+					.serialize = [](Writer &writer, Component const &component) -> void {},
+					.deserialize = [](Reader &reader, Component &component) -> void {},
+				};
 
-			s_registeredComponents.add(name, typeid(T), std::move(info));
+				s_registeredComponents.add(name, typeid(T), std::move(info));
+			}
+			else
+			{
+				ComponentData info{
+					.name = name,
+					.create = [](EntityManager &entityManager, Entity const entity) -> Component *
+					{
+						return &entityManager.add_component<T>(entity);
+					},
+					.destroy = [](EntityManager &entityManager, Entity const entity) -> void
+					{
+						entityManager.remove_component<T>(entity);
+					},
+					.get = [](EntityManager &entityManager, Entity const entity) -> Component *
+					{
+						return entityManager.try_get_component<T>(entity);
+					},
+					.get_const = [](EntityManager const &entityManager, Entity const entity) -> Component const *
+					{
+						return entityManager.try_get_component<T>(entity);
+					},
+					.serialize = [](Writer &writer, Component const &component) -> void
+					{
+						Serializer<T>::serialize(writer, static_cast<T const &>(component));
+					},
+					.deserialize = [](Reader &reader, Component &component) -> void
+					{
+						Serializer<T>::deserialize(reader, static_cast<T &>(component));
+					},
+				};
+
+				s_registeredComponents.add(name, typeid(T), std::move(info));
+			}
 		}
 
 		/**
@@ -800,21 +827,21 @@ namespace Minty
 		{
 			s_registeredComponents.clear();
 		}
-		
+
 		/**
 		 * @brief Creates a new EntityManager with the given arguments.
 		 * @param scene The Scene this EntityManager belongs to.
 		 * @param info The arguments.
 		 * @returns An EntityManager Owner.
 		 */
-		static Shared<EntityManager> create(Ref<Scene> const& scene, EntityManagerInfo const &info);
+		static Shared<EntityManager> create(Ref<Scene> const &scene, EntityManagerInfo const &info);
 
 		/**
 		 * @brief Creates a default EntityManager.
 		 * @param scene The Scene this EntityManager belongs to.
 		 * @returns An EntityManager Owner.
 		 */
-		static Shared<EntityManager> create(Ref<Scene> const& scene);
+		static Shared<EntityManager> create(Ref<Scene> const &scene);
 
 		/**
 		 * @brief Gets the singleton EntityManager for the active Scene.
@@ -838,8 +865,8 @@ namespace Minty
 		Bool deserialize_entities(Reader &reader, Map<UUID, Entity> *idMap = nullptr, Entity const baseEntity = INVALID_ENTITY);
 
 		Bool deserialize_components(Reader &reader, Entity const entity, Map<UUID, Entity> *idMap = nullptr);
-		
-		static Bool read_entity_header(Reader &reader, String &name, UUID &id, UUID &prefabId);
+
+		static Bool indent_entity_header(Reader &reader, String &name, UUID &id, UUID &prefabId);
 
 #pragma endregion
 
@@ -850,17 +877,17 @@ namespace Minty
 
 		Map<UUID, Entity> m_ids;
 		Bool m_needsSorted;
-		
+
 		static Lookup<TypeID, ComponentData> s_registeredComponents;
 
 #pragma endregion
 	};
 
-	template<>
+	template <>
 	struct Serializer<EntityManager>
 	{
 		static void serialize(Writer &writer, EntityManager const &entityManager);
-		static void deserialize(Reader &reader, EntityManager &entityManager);
+		static Bool deserialize(Reader &reader, EntityManager &entityManager);
 	};
 }
 

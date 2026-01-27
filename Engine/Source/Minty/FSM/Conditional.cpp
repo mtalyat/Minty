@@ -27,13 +27,13 @@ static constexpr Char const* CONDITIONAL_SYMBOLS[CONDITIONAL_COUNT] =
 
 Bool Minty::Parser<Conditional>::parse(StringView const str, Conditional &value)
 {
-    Bool const result = Tool::try_parse_enum(str, CONDITIONAL_STRINGS, CONDITIONAL_COUNT, reinterpret_cast<Size&>(value));
+    Bool const result = Tool::try_parse_enum(str, CONDITIONAL_STRINGS, CONDITIONAL_COUNT, value);
 	if(result)
 	{
 		return true;
 	}
 
-	return Tool::try_parse_enum(str, CONDITIONAL_SYMBOLS, CONDITIONAL_COUNT, reinterpret_cast<Size&>(value));
+	return Tool::try_parse_enum(str, CONDITIONAL_SYMBOLS, CONDITIONAL_COUNT, value);
 }
 
 String Minty::Parser<Conditional>::to_string(Conditional const &value)

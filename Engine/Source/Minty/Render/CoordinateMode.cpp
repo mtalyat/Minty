@@ -13,7 +13,7 @@ static constexpr Char const* COORDINATEMODE_STRINGS[COORDINATEMODE_COUNT] = {
 
 Bool Minty::Parser<CoordinateMode>::parse(StringView const str, CoordinateMode &value)
 {
-    return Tool::try_parse_enum(str, COORDINATEMODE_STRINGS, COORDINATEMODE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, COORDINATEMODE_STRINGS, COORDINATEMODE_COUNT, value);
 }
 
 String Minty::Parser<CoordinateMode>::to_string(CoordinateMode const &obj)

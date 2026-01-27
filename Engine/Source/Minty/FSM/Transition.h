@@ -19,7 +19,7 @@ namespace Minty
 	 */
 	class Transition
 	{
-		friend struct ItemSerializer<Transition>;
+		friend struct Serializer<Transition>;
 
 #pragma region Variables
 
@@ -85,10 +85,10 @@ namespace Minty
 	};
 
 	template<>
-    struct ItemSerializer<Transition>
+    struct Serializer<Transition>
     {
-		static void serialize_item(Writer& writer, StringView const name, Transition const& value);
-		static void deserialize_item(Reader& reader, StringView const name, Transition& value);
+		static void serialize(Writer& writer, Transition const& value);
+		static Bool deserialize(Reader& reader, Transition& value);
     };
 }
 

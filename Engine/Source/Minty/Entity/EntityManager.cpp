@@ -975,6 +975,8 @@ Entity Minty::EntityManager::create_entity(UUID const id)
 	// link ID to Entity
 	m_ids.add(id, entity);
 
+	MINTY_LOG_DEBUG_F("[Entity {} UUID={}]", static_cast<UInt>(entity), id);
+
 	// done
 	return entity;
 }
@@ -990,6 +992,8 @@ Entity Minty::EntityManager::create_entity(String const &name)
 		NameComponent &nameComponent = m_registry.emplace<NameComponent>(entity);
 		nameComponent.name = name;
 	}
+
+	MINTY_LOG_DEBUG_F("[Entity {} Name='{}']", static_cast<UInt>(entity), name);
 
 	// done
 	return entity;
@@ -1025,6 +1029,8 @@ Entity Minty::EntityManager::create_entity(String const &name, UUID const id)
 
 	// link ID to Entity
 	m_ids.add(id, entity);
+	
+	MINTY_LOG_DEBUG_F("[Entity {} Name='{}' UUID={}]", static_cast<UInt>(entity), name, id);
 
 	// done
 	return entity;
@@ -1048,11 +1054,22 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 	Unique<Reader> reader = prefab->open_reader();
 	MINTY_ASSERT(reader != nullptr, ErrorCode::Serialization_Read);
 
+	MINTY_LOG_DEBUG_F("Spawning entity from prefab '{}'", prefab->get_id());
+	
 	// get the header of the first entity
+	Handle const bookmark = reader->save_bookmark();
 	String name;
 	UUID id;
 	UUID prefabId;
-	read_entity_header(*reader, name, id, prefabId);
+	Bool const success = indent_entity_header(*reader, name, id, prefabId);
+	if(success)
+	{
+		reader->outdent();
+	} else
+	{
+		MINTY_ERROR(ErrorCode::Serialization_Read);
+	}
+	reader->load_bookmark(bookmark);
 
 	// create the first entity
 	Entity entity = create_entity(name);
@@ -1099,7 +1116,6 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String cons
 
 Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String const &name, UUID const id, Entity const parent)
 {
-
 	Entity const entity = spawn_entity(prefab);
 	set_name(entity, name);
 	set_id(entity, id);
@@ -1107,7 +1123,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab, String cons
 	return entity;
 }
 
-Component &Minty::EntityManager::add_component(Entity const entity, String const &name)
+Component *Minty::EntityManager::add_component(Entity const entity, String const &name)
 {
 	ComponentData const &info = get_component_info(name);
 	return info.create(*this, entity);
@@ -1136,13 +1152,11 @@ Component &Minty::EntityManager::get_or_add_component(Entity const entity, Strin
 	if (component == nullptr)
 	{
 		// create the component if it does not exist
-		return info.create(*this, entity);
-	}
-	else
-	{
-		// return the existing component
+		component = info.create(*this, entity);
+		MINTY_ASSERT_F(component, ErrorCode::Component_InvalidOperation, name);
 		return *component;
 	}
+	return *component;
 }
 
 Component *Minty::EntityManager::try_get_component(Entity const entity, String const &name)
@@ -1577,7 +1591,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 	String name;
 	UUID id;
 	UUID prefabId;
-	while (read_entity_header(reader, name, id, prefabId))
+	while (indent_entity_header(reader, name, id, prefabId))
 	{
 		// get or create the entity
 		Entity entity;
@@ -1612,6 +1626,8 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 		}
 
 		entities.add(entity);
+
+		reader.outdent();
 	}
 
 	// return to the bookmark to read the components
@@ -1620,8 +1636,8 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 	// get components/prefabs for each entity
 	for (Entity const entity : entities)
 	{
-		reader.indent();
-		
+		reader.indent_next(name);
+
 		PrefabComponent const *const prefabComponent = m_registry.try_get<PrefabComponent>(entity);
 		if (prefabComponent)
 		{
@@ -1640,7 +1656,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 			}
 
 			// read the override values
-			while(read_entity_header(reader, name, id, prefabId))
+			while (indent_entity_header(reader, name, id, prefabId))
 			{
 				// get the entity to override
 				MINTY_ASSERT_F(prefabIdMap.contains(prefabId), ErrorCode::Asset_Prefab_OverrideNotFound, prefabId, prefab->get_id());
@@ -1659,8 +1675,6 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 				}
 
 				// deserialize the components
-				reader.indent();
-
 				if (!deserialize_components(reader, overrideEntity, idMap))
 				{
 					MINTY_ABORT(ErrorCode::OperationFailed);
@@ -1668,7 +1682,8 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 				reader.outdent();
 			}
-		} else
+		}
+		else
 		{
 			// normal entity
 			deserialize_components(reader, entity, idMap);
@@ -1688,9 +1703,11 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 	data.idMap = idMap;
 	reader.push_user_data(&data);
 
+	MINTY_LOG_DEBUG_F("Deserializing components for Entity {}", static_cast<UInt>(entity));
+
 	// read each component on the Entity
 	String componentName;
-	while(reader.read_next(componentName))
+	while (reader.indent_next(componentName))
 	{
 		componentName = componentName.trim_end();
 		MINTY_ASSERT(!componentName.is_empty(), ErrorCode::Serialization_InvalidFormat);
@@ -1702,15 +1719,13 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 		// create the component if it does not exist yet
 		if (component == nullptr)
 		{
-			component = &info.create(*this, data.entity);
+			component = info.create(*this, data.entity);
 		}
 
 		// deserialize the component
-		if (reader.indent())
-		{
-			info.deserialize(reader, *component);
-			reader.outdent();
-		}
+		info.deserialize(reader, *component);
+
+		reader.outdent();
 	}
 
 	reader.pop_user_data();
@@ -1737,11 +1752,11 @@ EntityManager &Minty::EntityManager::get_singleton()
 	return activeScene->get_entity_manager();
 }
 
-Bool Minty::EntityManager::read_entity_header(Reader &reader, String &name, UUID &id, UUID &prefabId)
+Bool Minty::EntityManager::indent_entity_header(Reader &reader, String &name, UUID &id, UUID &prefabId)
 {
 	// get name and ID string
 	String idString;
-	if (!reader.read_next(name, idString))
+	if (!reader.indent_next_optional(name, idString, String()))
 	{
 		return false;
 	}
@@ -1801,7 +1816,8 @@ void Minty::Serializer<EntityManager>::serialize(Writer &writer, EntityManager c
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<EntityManager>::deserialize(Reader &reader, EntityManager &entityManager)
+Bool Minty::Serializer<EntityManager>::deserialize(Reader &reader, EntityManager &entityManager)
 {
 	entityManager.deserialize_entities(reader);
+	return true;
 }

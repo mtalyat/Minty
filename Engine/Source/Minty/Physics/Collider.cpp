@@ -43,7 +43,8 @@ void Minty::Serializer<Collider>::serialize(Writer &writer, Collider const &valu
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<Collider>::deserialize(Reader &reader, Collider &value)
+Bool Minty::Serializer<Collider>::deserialize(Reader &reader, Collider &value)
 {
 	MINTY_NOT_IMPLEMENTED();
+	return false;
 }

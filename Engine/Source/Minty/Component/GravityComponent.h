@@ -29,7 +29,7 @@ namespace Minty
     struct Serializer<GravityComponent>
     {
         static void serialize(Writer& writer, GravityComponent const& value);
-        static void deserialize(Reader& reader, GravityComponent& value);
+        static Bool deserialize(Reader& reader, GravityComponent& value);
     };
 }
 

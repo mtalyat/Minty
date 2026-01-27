@@ -8,7 +8,7 @@ void Minty::Serializer<TransformComponent>::serialize(Writer &writer, TransformC
 	Serializer<Transform>::serialize(writer, value.transform);	
 }
 
-void Minty::Serializer<TransformComponent>::deserialize(Reader &reader, TransformComponent &value)
+Bool Minty::Serializer<TransformComponent>::deserialize(Reader &reader, TransformComponent &value)
 {
-	Serializer<Transform>::deserialize(reader, value.transform);
+	return Serializer<Transform>::deserialize(reader, value.transform);
 }

@@ -40,7 +40,7 @@ void Minty::Serializer<Camera>::serialize(Writer &writer, Camera const &value)
 	writer.write("LayerMask", value.m_layer);
 }
 
-void Minty::Serializer<Camera>::deserialize(Reader &reader, Camera &value)
+Bool Minty::Serializer<Camera>::deserialize(Reader &reader, Camera &value)
 {
 	reader.read("Perspective", value.m_perspective);
 	// read as degrees, store as radians
@@ -54,4 +54,5 @@ void Minty::Serializer<Camera>::deserialize(Reader &reader, Camera &value)
 	reader.read("AspectRatio", value.m_aspectRatio);
 	reader.read("Size", value.m_size);
 	reader.read("LayerMask", value.m_layer);
+	return true;
 }

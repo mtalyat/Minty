@@ -96,6 +96,8 @@ namespace Minty
         Queue<LogEntry> m_logQueue;
         std::mutex m_queueMutex;
         std::condition_variable m_queueCondition;
+        std::condition_variable m_flushCondition;
+        Size m_pendingEntries;
         std::atomic<Bool> m_isRunning;
         std::thread m_workerThread;
 

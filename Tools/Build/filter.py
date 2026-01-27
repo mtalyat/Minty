@@ -3,8 +3,8 @@ import re
 from pathlib import Path
 import shutil
 
-RE_ERROR = r'error(?::| [a-zA-Z]+\d+:)'
-RE_WARNING = r'warning(?::| [a-zA-Z]+\d+:)'
+RE_ERROR = r'\S.*?error(?::| [a-zA-Z]+\d+:)'
+RE_WARNING = r'\S.*?warning(?::| [a-zA-Z]+\d+:)'
 RE_FILE_PATH = r'^([a-zA-Z]:)?(\\|/)?([\w\-. ]+(\\|/))*[\w\-. ]+\.\w+'
 
 LINE_TYPE_ERROR = 0

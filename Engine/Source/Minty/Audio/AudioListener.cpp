@@ -13,10 +13,11 @@ void Minty::Serializer<AudioListener>::serialize(Writer &writer, AudioListener c
 	writer.write("Velocity", value.m_velocity);
 }
 
-void Minty::Serializer<AudioListener>::deserialize(Reader &reader, AudioListener &value)
+Bool Minty::Serializer<AudioListener>::deserialize(Reader &reader, AudioListener &value)
 {
 	reader.read("Position", value.m_position);
 	reader.read("Forward", value.m_forward);
 	reader.read("Up", value.m_up);
 	reader.read("Velocity", value.m_velocity);
+	return true;
 }

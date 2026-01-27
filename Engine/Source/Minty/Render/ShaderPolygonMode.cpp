@@ -15,7 +15,7 @@ static constexpr Char const* SHADERPOLYGONMODE_STRINGS[SHADERPOLYGONMODE_COUNT] 
 
 Bool Minty::Parser<ShaderPolygonMode>::parse(StringView const str, ShaderPolygonMode &value)
 {
-    return Tool::try_parse_enum(str, SHADERPOLYGONMODE_STRINGS, SHADERPOLYGONMODE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERPOLYGONMODE_STRINGS, SHADERPOLYGONMODE_COUNT, value);
 }
 
 String Minty::Parser<ShaderPolygonMode>::to_string(ShaderPolygonMode const &obj)

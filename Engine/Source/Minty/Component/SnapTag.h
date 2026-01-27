@@ -24,7 +24,7 @@ namespace Minty
     struct Serializer<SnapTag>
     {
         static void serialize(Writer& writer, SnapTag const& value){}
-        static void deserialize(Reader& reader, SnapTag& value){}
+        static Bool deserialize(Reader& reader, SnapTag& value){}
     };
 }
 

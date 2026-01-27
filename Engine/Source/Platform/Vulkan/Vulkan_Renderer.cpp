@@ -1873,12 +1873,14 @@ VkFilter Minty::Vulkan_Renderer::to_vulkan(Minty::Filter const filter)
 	{
 	case Filter::Undefined:
 		MINTY_ABORT(ErrorCode::NotSupported);
+		break;
 	case Filter::Nearest:
 		return VK_FILTER_NEAREST;
 	case Filter::Linear:
 		return VK_FILTER_LINEAR;
 	default:
 		MINTY_NOT_IMPLEMENTED();
+		break;
 	}
 
 	return VK_FILTER_MAX_ENUM;

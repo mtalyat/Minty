@@ -16,7 +16,7 @@ static constexpr Char const* IMAGEPIXELFORMAT_STRINGS[IMAGEPIXELFORMAT_COUNT] =
 
 Bool Minty::Parser<ImagePixelFormat>::parse(StringView const str, ImagePixelFormat &value)
 {
-    return Tool::try_parse_enum(str, IMAGEPIXELFORMAT_STRINGS, IMAGEPIXELFORMAT_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, IMAGEPIXELFORMAT_STRINGS, IMAGEPIXELFORMAT_COUNT, value);
 }
 
 String Minty::Parser<ImagePixelFormat>::to_string(ImagePixelFormat const &obj)

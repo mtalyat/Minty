@@ -30,38 +30,41 @@ namespace Minty
          */
         TextReader(Shared<Stream> const& stream);
 
-        ~TextReader() override = default;
+        ~TextReader() override;
 
 #pragma endregion
 
 #pragma region Methods
 
-    public:
-        Bool indent() override;
-        Bool indent(StringView const key) override;
-        void outdent() override;
-        Handle save_bookmark() override;
-        void load_bookmark(Handle const bookmark) override;
-
     protected:
-        Bool read_bool(Bool &value) override;
-        Bool read_byte(Byte &value) override;
-        Bool read_char(Char &value) override;
-        Bool read_int32(Int32 &value) override;
-        Bool read_uint32(UInt32 &value) override;
-        Bool read_float32(Float32 &value) override;
-        Bool read_int64(Int64 &value) override;
-        Bool read_uint64(UInt64 &value) override;
-        Bool read_float64(Float64 &value) override;
+        Bool read_bool(Bool *const value) override;
+        Bool read_byte(Byte *const value) override;
+        Bool read_char(Char *const value) override;
+        Bool read_int32(Int32 *const value) override;
+        Bool read_uint32(UInt32 *const value) override;
+        Bool read_float32(Float32 *const value) override;
+        Bool read_int64(Int64 *const value) override;
+        Bool read_uint64(UInt64 *const value) override;
+        Bool read_float64(Float64 *const value) override;
+        Bool read_tuple(Any const buffer, Size const elementSize, UInt const count, Function<Bool(Any)> const& readFunc) override;
         Bool read_string(String &value) override;
+        Bool read_raw_value(String& value, Bool const ignoreSeparator = false) override;
         Bool read_type_value_pair(Type &type, Any data) override;
 
         Bool get_next_key(String &key) override;
         Bool check_key(StringView const key) override;
+        inline Bool check_key() override { return m_hasNextKey; }
+        inline Bool check_value() override { return m_hasNextValue; }
+        Bool consume_next_key() override;
+        Bool consume_next_value(Bool const force = false) override;
+        void skip_remaining() override;
 
     private:
         void read_digits(StringBuilder &builder);
-        inline Bool has_next() { return !m_nextKey.is_empty(); }
+        Bool check_for_comment();
+        Bool check_for_indentation(UInt& indentLevel);
+        Bool check_for_break();
+        void skip_line();
 
 #pragma endregion
 
@@ -70,8 +73,8 @@ namespace Minty
     private:
         String m_nextKey;
         UInt m_nextIndent;
-        UInt m_currentIndent;
-        Map<Handle, Tuple<StreamPosition, UInt>> m_bookmarks;
+        Bool m_hasNextKey;
+        Bool m_hasNextValue;
 
 #pragma endregion
     };

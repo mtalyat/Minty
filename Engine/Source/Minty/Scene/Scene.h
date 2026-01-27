@@ -222,7 +222,7 @@ namespace Minty
 	struct Serializer<Scene>
 	{
 		static void serialize(Writer& writer, Scene const& value);
-		static void deserialize(Reader& reader, Scene& value);
+		static Bool deserialize(Reader& reader, Scene& value);
 	};
 }
 

@@ -331,7 +331,7 @@ void Minty::Vulkan_Shader::initialize_pipeline(ShaderInfo const& info)
 		depthStencil.depthWriteEnable = info.depthMode == DepthMode::Write ? VK_TRUE : VK_FALSE;
 
 		// transparent shaders should not write to depth
-		MINTY_ASSERT((info.transparency == true && info.depthMode != DepthMode::Write) || info.depthMode == DepthMode::Write, ErrorCode::Render_ShaderConfiguration); // "Transparent shaders must have depth write disabled."
+		MINTY_ASSERT((info.transparency == true && info.depthMode != DepthMode::Write) || info.depthMode >= DepthMode::Write, ErrorCode::Render_ShaderConfiguration); // "Transparent shaders must have depth write disabled."
 
 		// set depth comparison operation
 		depthStencil.depthCompareOp = Vulkan_Renderer::to_vulkan(info.depthTestOp);

@@ -14,7 +14,7 @@ static constexpr Char const* PERSPECTIVE_STRINGS[PERSPECTIVE_COUNT] =
 
 Bool Minty::Parser<Perspective>::parse(StringView const str, Perspective &value)
 {
-    return Tool::try_parse_enum(str, PERSPECTIVE_STRINGS, PERSPECTIVE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, PERSPECTIVE_STRINGS, PERSPECTIVE_COUNT, value);
 }
 
 String Minty::Parser<Perspective>::to_string(Perspective const &obj)

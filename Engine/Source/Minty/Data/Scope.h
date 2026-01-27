@@ -122,7 +122,7 @@ namespace Minty
 	struct Serializer<Scope>
 	{
 		static void serialize(Writer& writer, Scope const& value);
-		static void deserialize(Reader& reader, Scope& value);
+		static Bool deserialize(Reader& reader, Scope& value);
 	};
 }
 

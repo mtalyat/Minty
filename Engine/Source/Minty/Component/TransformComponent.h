@@ -28,7 +28,7 @@ namespace Minty
 	struct Serializer<TransformComponent>
 	{
 		static void serialize(Writer& writer, TransformComponent const& value);
-		static void deserialize(Reader& reader, TransformComponent& value);
+		static Bool deserialize(Reader& reader, TransformComponent& value);
 	};
 }
 

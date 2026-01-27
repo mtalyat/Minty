@@ -3,40 +3,48 @@
 
 using namespace Minty;
 
-Minty::Writer::Writer(Shared<Stream> const& stream)
+Minty::Writer::Writer(Shared<Stream> const &stream)
     : m_stream(stream), m_userStack()
 {
 }
 
-Bool Minty::Writer::write_to_stream(AnyConst const data, Size const size)
+void Minty::Writer::write_to_stream(AnyConst const data, Size const size)
 {
-    return m_stream->write(data, size);
+    m_stream->write(data, size);
 }
 
-Bool Minty::Writer::write_typed_value(Type const type, AnyConst const data)
+void Minty::Writer::write_typed_value(Type const type, AnyConst const data)
 {
-    switch(type)
+    switch (type)
     {
     case Type::Bool:
-        return write_bool(*reinterpret_cast<Bool const*>(data));
+        write_bool(*reinterpret_cast<Bool const *>(data));
+        return;
     case Type::Char:
-        return write_char(*reinterpret_cast<Char const*>(data));
+        write_char(*reinterpret_cast<Char const *>(data));
+        return;
     case Type::Byte:
-        return write_byte(*reinterpret_cast<Byte const*>(data));
+        write_byte(*reinterpret_cast<Byte const *>(data));
+        return;
     case Type::Int:
-        return write_int32(*reinterpret_cast<Int32 const*>(data));
+        write_int32(*reinterpret_cast<Int32 const *>(data));
+        return;
     case Type::UInt:
-        return write_uint32(*reinterpret_cast<UInt32 const*>(data));
+        write_uint32(*reinterpret_cast<UInt32 const *>(data));
+        return;
     case Type::Float:
-        return write_float32(*reinterpret_cast<Float32 const*>(data));
+        write_float32(*reinterpret_cast<Float32 const *>(data));
+        return;
     case Type::WInt:
-        return write_int64(*reinterpret_cast<Int64 const*>(data));
+        write_int64(*reinterpret_cast<Int64 const *>(data));
+        return;
     case Type::WUInt:
-        return write_uint64(*reinterpret_cast<UInt64 const*>(data));
+        write_uint64(*reinterpret_cast<UInt64 const *>(data));
+        return;
     case Type::WFloat:
-        return write_float64(*reinterpret_cast<Float64 const*>(data));
-    default:
-        MINTY_NOT_IMPLEMENTED();
-        return false;
+        write_float64(*reinterpret_cast<Float64 const *>(data));
+        return;
     }
+    
+    MINTY_NOT_IMPLEMENTED();
 }

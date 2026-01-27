@@ -17,10 +17,10 @@ static constexpr Char const* KEYMODIFIERS_STRINGS[KEYMODIFIERS_COUNT] =
 
 Bool Minty::Parser<KeyModifiers>::parse(StringView const str, KeyModifiers &value)
 {
-    return Tool::try_parse_enum_flags(str, KEYMODIFIERS_STRINGS, KEYMODIFIERS_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum_flags(str, KEYMODIFIERS_STRINGS, KEYMODIFIERS_COUNT, value);
 }
 
 String Minty::Parser<KeyModifiers>::to_string(KeyModifiers const &obj)
 {
-    return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), KEYMODIFIERS_STRINGS, KEYMODIFIERS_COUNT);
+    return Tool::to_string_enum_flags(obj, KEYMODIFIERS_STRINGS, KEYMODIFIERS_COUNT);
 }

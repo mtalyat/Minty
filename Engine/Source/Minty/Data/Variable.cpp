@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Variable.h"
+#include "Minty/Core/Constant.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Serialization/Reader.h"
 
@@ -27,8 +28,6 @@ Bool Minty::Variable::operator==(Variable const &other) const
 
 void Minty::Variable::set_type(Type const type)
 {
-	MINTY_ASSERT_F(type < Type::Object, ErrorCode::Argument_InvalidValue, type);
-
 	clear();
 	m_type = type;
 }
@@ -46,30 +45,25 @@ void Minty::Variable::set_data(AnyConst const data)
 	}
 }
 
-void Minty::ItemSerializer<Variable>::serialize_item(Writer &writer, StringView const name, Variable const &value)
+void Minty::Serializer<Variable>::serialize(Writer &writer, Variable const &value)
 {
-	if (value.is_empty())
-	{
-		// just the type
-		writer.write(name, value.get_type());
-	} else
-	{
-		// typed data
-		writer.write(name, value.get_type(), value.get_data().get_data());
-	}
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::ItemSerializer<Variable>::deserialize_item(Reader &reader, StringView const name, Variable &value)
+Bool Minty::Serializer<Variable>::deserialize(Reader &reader, Variable &value)
 {
 	// read typed data
-	value.m_data.resize(64 * sizeof(Byte));
-	if (!reader.read(name, value.m_type, value.m_data.get_data()))
+	Type type;
+	Byte buffer[TYPE_MAX_SIZE];
+	if(!reader.read_inline(type, buffer))
 	{
-		// failed to read data
+		// failed to read any data
+		value.m_type = Type::Undefined;
 		value.m_data.clear();
-		return;
+		return false;
 	}
-	// successfully read data
-	// scale down to proper size
-	value.m_data.resize(sizeof_type(value.m_type));
+
+	// set the type and data
+	value.set_data(type, buffer);
+	return true;
 }

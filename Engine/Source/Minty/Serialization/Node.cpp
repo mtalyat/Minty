@@ -517,10 +517,46 @@ void Minty::Serializer<Node>::serialize(Writer &writer, Node const &value)
 	// writer.outdent();
 }
 
-void Minty::Serializer<Node>::deserialize(Reader &reader, Node &value)
+Bool Minty::Serializer<Node>::deserialize(Reader &reader, Node &value)
 {
-	MINTY_NOT_IMPLEMENTED();
-	
-	// // directly copy the node from the reader to this
-	// *this = reader.get_node().get_child(index);
+	Node root;
+	Stack<Node*> nodeStack;
+	nodeStack.push(&root);
+	String tempName;
+	String tempValue;
+
+	do
+	{
+		Node& node = *nodeStack.peek();
+
+		if (reader.indent_next(tempName, tempValue))
+		{
+			node.add_child(Node(tempName, tempValue));
+			nodeStack.push(&node.get_children().back());
+			continue;
+		}
+
+		if(reader.indent(tempName))
+		{
+			node.add_child(Node(tempName));
+			nodeStack.push(&node.get_children().back());
+			continue;
+		}
+
+		// if no checks were successful, pop node
+		nodeStack.pop();
+
+		// if stack is empty, we are done
+		if (nodeStack.is_empty())
+		{
+			break;
+		}
+		
+		// decrease indent and continue
+		reader.outdent();
+
+	} while(true);
+
+	value = root;
+	return true;
 }

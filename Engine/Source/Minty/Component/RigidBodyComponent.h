@@ -28,7 +28,7 @@ namespace Minty
 	struct Serializer<RigidBodyComponent>
 	{
 		static void serialize(Writer& writer, RigidBodyComponent const& value);
-		static void deserialize(Reader& reader, RigidBodyComponent& value);
+		static Bool deserialize(Reader& reader, RigidBodyComponent& value);
 	};
 }
 

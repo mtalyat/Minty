@@ -13,10 +13,10 @@ static constexpr Char const* FONTFLAGS_STRINGS[FONTFLAGS_COUNT] =
 
 Bool Minty::Parser<FontFlags>::parse(StringView const str, FontFlags &value)
 {
-    return Tool::try_parse_enum_flags(str, FONTFLAGS_STRINGS, FONTFLAGS_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum_flags(str, FONTFLAGS_STRINGS, FONTFLAGS_COUNT, value);
 }
 
 String Minty::Parser<FontFlags>::to_string(FontFlags const &obj)
 {
-    return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), FONTFLAGS_STRINGS, FONTFLAGS_COUNT);
+    return Tool::to_string_enum_flags(obj, FONTFLAGS_STRINGS, FONTFLAGS_COUNT);
 }

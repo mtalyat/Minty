@@ -4,9 +4,10 @@
 
 using namespace Minty;
 
-static constexpr Size IMAGELAYOUT_COUNT = 9;
+static constexpr Size IMAGELAYOUT_COUNT = 10;
 static constexpr Char const* IMAGELAYOUT_STRINGS[IMAGELAYOUT_COUNT] =
 {
+	"Undefined",
 	"General",
 	"ColorAttachment",
 	"DepthStencilAttachment",
@@ -20,7 +21,7 @@ static constexpr Char const* IMAGELAYOUT_STRINGS[IMAGELAYOUT_COUNT] =
 
 Bool Minty::Parser<ImageLayout>::parse(StringView const str, ImageLayout &value)
 {
-    return Tool::try_parse_enum(str, IMAGELAYOUT_STRINGS, IMAGELAYOUT_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, IMAGELAYOUT_STRINGS, IMAGELAYOUT_COUNT, value);
 }
 
 String Minty::Parser<ImageLayout>::to_string(ImageLayout const &obj)

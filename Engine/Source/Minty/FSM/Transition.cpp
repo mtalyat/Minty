@@ -23,21 +23,32 @@ Bool Minty::Transition::evaluate(Scope const& scope) const
 	return true;
 }
 
-void Minty::ItemSerializer<Transition>::serialize_item(Writer &writer, StringView const name, Transition const &value)
+void Minty::Serializer<Transition>::serialize(Writer &writer, Transition const &value)
 {
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::ItemSerializer<Transition>::deserialize_item(Reader &reader, StringView const name, Transition &value)
+Bool Minty::Serializer<Transition>::deserialize(Reader &reader, Transition &value)
 {
 	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
 	String stateName;
-	if (reader.read(name, stateName))
+	if(reader.read_inline(stateName))
 	{
 		// name read successfully
 		value.m_stateId = fsm->find_state(stateName);
+	} else
+	{
+		MINTY_ERROR(ErrorCode::Serialization_MissingValue);
 	}
-	reader.read(name, value.m_conditions);
+
+	value.m_conditions.clear();
+	String dummy;
+	Condition condition;
+	while(reader.read_next(dummy, condition))
+	{
+		value.m_conditions.add(condition);
+	}
+	return true;
 }

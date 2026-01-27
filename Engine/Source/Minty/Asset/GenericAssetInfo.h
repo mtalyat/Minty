@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Data/ConstantContainer.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Data/UUID.h"
 
 namespace Minty
@@ -25,7 +26,7 @@ namespace Minty
 		/**
 		 * @brief The byte data.
 		 */
-		ConstantContainer data = {};
+		Shared<ConstantContainer> data = {};
 	};
 }
 

@@ -6,10 +6,11 @@ using namespace Minty;
 
 void Serializer<ScaleComponent>::serialize(Writer &writer, ScaleComponent const &value)
 {
-    writer.write("Scale", value.scale);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-void Serializer<ScaleComponent>::deserialize(Reader &reader, ScaleComponent &value)
+Bool Serializer<ScaleComponent>::deserialize(Reader &reader, ScaleComponent &value)
 {
-    reader.read("Scale", value.scale);
+    reader.read_primary("Scale", value.scale);
+    return true;
 }

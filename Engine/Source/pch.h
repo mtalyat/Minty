@@ -72,8 +72,12 @@
 #include "Minty/Memory/PersistentAllocator.h"
 #include "Minty/Serialization/Node.h"
 #include "Minty/Serialization/Parser.h"
+#include "Minty/Serialization/ParsedTypes.h"
 #include "Minty/Serialization/Reader.h"
+#include "Minty/Serialization/SerializedTypes.h"
 #include "Minty/Serialization/Serializer.h"
+#include "Minty/Serialization/TextReader.h"
+#include "Minty/Serialization/TextWriter.h"
 #include "Minty/Serialization/Writer.h"
 
 #endif //MINTY_PCH_H

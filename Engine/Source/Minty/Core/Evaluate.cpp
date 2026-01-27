@@ -8,13 +8,13 @@
 using namespace Minty;
 
 // checks if the given string is the name of a function
-Bool Minty::Internal::is_function(String const& str)
+Bool Minty::Internal::is_function(StringView const str)
 {
 	// TODO: implement a list of functions
 	return false;
 }
 
-Int Minty::Internal::operator_precedence(String const& str)
+Int Minty::Internal::operator_precedence(StringView const str)
 {
 	static Map<String, Int> const precedence =
 	{
@@ -44,7 +44,7 @@ Int Minty::Internal::operator_precedence(String const& str)
 	}
 }
 
-Int Minty::Internal::operator_count(String const& str)
+Int Minty::Internal::operator_count(StringView const str)
 {
 	static Map<String, Int> const precedence =
 	{
@@ -74,7 +74,7 @@ Int Minty::Internal::operator_count(String const& str)
 	}
 }
 
-Bool Minty::Internal::operator_left_to_right(String const& str)
+Bool Minty::Internal::operator_left_to_right(StringView const str)
 {
 	static Set<String> rightToLeft
 	{
@@ -86,7 +86,7 @@ Bool Minty::Internal::operator_left_to_right(String const& str)
 
 // TODO: make generic that works for float and double together (enable if float type? like is_floating_point?)
 template<>
-Float Minty::Internal::evaluate_operator(String const& token, Float const left, Float const right)
+Float Minty::Internal::evaluate_operator(StringView const token, Float const left, Float const right)
 {
 	// operator
 	if (token == "**")
@@ -122,7 +122,7 @@ Float Minty::Internal::evaluate_operator(String const& token, Float const left, 
 }
 
 template<>
-WFloat Minty::Internal::evaluate_operator(String const& token, WFloat const left, WFloat const right)
+WFloat Minty::Internal::evaluate_operator(StringView const token, WFloat const left, WFloat const right)
 {
 	// operator
 	if (token == "**")
@@ -158,7 +158,7 @@ WFloat Minty::Internal::evaluate_operator(String const& token, WFloat const left
 }
 
 // splits the expression into String tokens
-Vector<String> Minty::Internal::split_into_tokens(String const& expression) {
+Vector<String> Minty::Internal::split_into_tokens(StringView const expression) {
 	std::regex tokenRegex(R"(0[xX][a-fA-F0-9]+|0[bB][01]+|-?\d+(\.\d+)?|[a-zA-Z]+|\+|\-|\*\*|\*|\/|\%|\&|\||\^|\~|\(|\))");
 	Vector<String> tokens;
 
@@ -167,13 +167,15 @@ Vector<String> Minty::Internal::split_into_tokens(String const& expression) {
 	auto words_end = std::sregex_iterator();
 
 	for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
-		tokens.add((*i).str().c_str());
+		std::string const str = (*i).str();
+		Char const* const cStr = str.c_str();
+		tokens.add(cStr);
 	}
 
 	return tokens;
 }
 
-Vector<String> Minty::Internal::split_into_args(String const& expression)
+Vector<String> Minty::Internal::split_into_args(StringView const expression)
 {
 	MINTY_ASSERT(!expression.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 	MINTY_ASSERT(expression.front() == '(', ErrorCode::Argument_InvalidFormat);

@@ -26,7 +26,7 @@ namespace Minty
 	struct Serializer<PrefabComponent>
 	{
 		static void serialize(Writer& writer, PrefabComponent const& value);
-		static void deserialize(Reader& reader, PrefabComponent& value);
+		static Bool deserialize(Reader& reader, PrefabComponent& value);
 	};
 }
 

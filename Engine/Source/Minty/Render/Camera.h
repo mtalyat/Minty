@@ -195,7 +195,7 @@ namespace Minty
 	struct Serializer<Camera>
 	{
 		static void serialize(Writer& writer, Camera const& value);
-		static void deserialize(Reader& reader, Camera& value);
+		static Bool deserialize(Reader& reader, Camera& value);
 	};
 }
 

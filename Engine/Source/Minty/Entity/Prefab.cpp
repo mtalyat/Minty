@@ -14,6 +14,11 @@ Minty::Prefab::Prefab(PrefabInfo const &info)
 
 Unique<Reader> Minty::Prefab::open_reader() const
 {
+    if(m_data->get_size() == 0)
+    {
+        return nullptr;
+    }
+    
     Shared<Stream> const stream = Shared<MemoryStream>::create(m_data);
     Unique<Reader> reader = Unique<TextReader>::create(stream); // TODO: not text reader
     return std::move(reader);

@@ -335,7 +335,7 @@ namespace Minty
     struct Serializer<Node>
     {
         static void serialize(Writer& writer, Node const& value);
-        static void deserialize(Reader& reader, Node& value);
+        static Bool deserialize(Reader& reader, Node& value);
     };
 }
 

@@ -8,7 +8,7 @@ void Minty::Serializer<UITransformComponent>::serialize(Writer &writer, UITransf
 	Serializer<UITransform>::serialize(writer, value.transform);
 }
 
-void Minty::Serializer<UITransformComponent>::deserialize(Reader &reader, UITransformComponent &value)
+Bool Minty::Serializer<UITransformComponent>::deserialize(Reader &reader, UITransformComponent &value)
 {
-	Serializer<UITransform>::deserialize(reader, value.transform);
+	return Serializer<UITransform>::deserialize(reader, value.transform);
 }

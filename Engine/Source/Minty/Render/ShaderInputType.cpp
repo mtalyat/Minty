@@ -23,5 +23,5 @@ static constexpr Char const* SHADERINPUTTYPE_STRINGS[SHADERINPUTTYPE_COUNT] =
 
 Bool Minty::Parser<ShaderInputType>::parse(StringView const str, ShaderInputType &value)
 {
-    return Tool::try_parse_enum(str, SHADERINPUTTYPE_STRINGS, SHADERINPUTTYPE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERINPUTTYPE_STRINGS, SHADERINPUTTYPE_COUNT, value);
 }

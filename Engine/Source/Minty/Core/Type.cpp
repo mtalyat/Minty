@@ -150,7 +150,7 @@ Size Minty::sizeof_type(Type const type)
 
 Bool Minty::Parser<Type>::parse(StringView const str, Type &value)
 {
-    return Tool::try_parse_enum(str, TYPE_STRINGS, TYPE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, TYPE_STRINGS, TYPE_COUNT, value);
 }
 
 String Minty::Parser<Type>::to_string(Type const &value)

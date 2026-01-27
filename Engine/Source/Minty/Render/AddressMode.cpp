@@ -17,7 +17,7 @@ static constexpr Char const* ADDRESSMODE_STRINGS[ADDRESSMODE_COUNT] =
 
 Bool Minty::Parser<AddressMode>::parse(StringView const str, AddressMode &value)
 {
-    return Tool::try_parse_enum(str, ADDRESSMODE_STRINGS, ADDRESSMODE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, ADDRESSMODE_STRINGS, ADDRESSMODE_COUNT, value);
 }
 
 String Minty::Parser<AddressMode>::to_string(AddressMode const &obj)

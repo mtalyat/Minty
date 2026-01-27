@@ -15,7 +15,7 @@ static constexpr Char const* SPACE_STRINGS[SPACE_COUNT] =
 
 Bool Minty::Parser<Space>::parse(StringView const str, Space &value)
 {
-    return Tool::try_parse_enum(str, SPACE_STRINGS, SPACE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SPACE_STRINGS, SPACE_COUNT, value);
 }
 
 String Minty::Parser<Space>::to_string(Space const &value)

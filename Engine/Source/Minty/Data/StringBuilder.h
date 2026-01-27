@@ -57,6 +57,12 @@ namespace Minty
         Char const *get_data() const noexcept { return mp_data; }
 
         /**
+         * @brief Gets a mutable C-style string representing the current contents of the StringBuilder.
+         * @return A pointer to the C-style string data.
+         */
+        Char* get_data() noexcept { return mp_data; }
+
+        /**
          * @brief Checks if the StringBuilder is empty.
          * @return True if empty, false otherwise.
          */

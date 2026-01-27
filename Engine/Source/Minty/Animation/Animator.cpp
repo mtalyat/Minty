@@ -65,7 +65,10 @@ UUID Minty::Animator::get_current_animation() const
 	if (mp_fsm->has_current_state())
 	{
 		// yes animation
-		return mp_fsm->get_current_state().get_value().get<UUID>();
+		State& currentState = mp_fsm->get_current_state();
+		Variable const& value = currentState.get_value();
+		UUID const animationId = value.get<UUID>();
+		return animationId;
 	}
 
 	// no animation

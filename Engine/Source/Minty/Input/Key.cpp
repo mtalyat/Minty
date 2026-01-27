@@ -357,7 +357,7 @@ static constexpr Char const* KEY_STRINGS[KEY_COUNT] =
 
 Bool Minty::Parser<Key>::parse(StringView const str, Key &value)
 {
-    return Tool::try_parse_enum(str, KEY_STRINGS, KEY_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, KEY_STRINGS, KEY_COUNT, value);
 }
 
 String Minty::Parser<Key>::to_string(Key const &obj)

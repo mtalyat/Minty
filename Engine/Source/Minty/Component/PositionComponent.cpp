@@ -6,10 +6,11 @@ using namespace Minty;
 
 void Minty::Serializer<PositionComponent>::serialize(Writer &writer, PositionComponent const &value)
 {
-    writer.write("Position", value.position);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<PositionComponent>::deserialize(Reader &reader, PositionComponent &value)
+Bool Minty::Serializer<PositionComponent>::deserialize(Reader &reader, PositionComponent &value)
 {
-    reader.read("Position", value.position);
+    reader.read_primary("Position", value.position);
+    return true;
 }

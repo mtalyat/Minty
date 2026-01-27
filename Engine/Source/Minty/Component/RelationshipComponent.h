@@ -63,7 +63,7 @@ namespace Minty
 	struct Serializer<RelationshipComponent>
 	{
 		static void serialize(Writer& writer, RelationshipComponent const& value);
-		static void deserialize(Reader& reader, RelationshipComponent& value);
+		static Bool deserialize(Reader& reader, RelationshipComponent& value);
 	};
 }
 

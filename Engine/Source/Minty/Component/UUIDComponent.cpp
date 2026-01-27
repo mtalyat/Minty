@@ -9,7 +9,8 @@ void Minty::Serializer<UUIDComponent>::serialize(Writer &writer, UUIDComponent c
     MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<UUIDComponent>::deserialize(Reader &reader, UUIDComponent &value)
+Bool Minty::Serializer<UUIDComponent>::deserialize(Reader &reader, UUIDComponent &value)
 {
-    MINTY_NOT_IMPLEMENTED();
+    reader.read_primary("ID", value.id);
+    return true;
 }

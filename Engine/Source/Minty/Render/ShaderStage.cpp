@@ -14,7 +14,7 @@ static constexpr Char const* SHADERSTAGE_STRINGS[SHADERSTAGE_COUNT] =
 
 Bool Minty::Parser<ShaderStage>::parse(StringView const str, ShaderStage &value)
 {
-    return Tool::try_parse_enum(str, SHADERSTAGE_STRINGS, SHADERSTAGE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERSTAGE_STRINGS, SHADERSTAGE_COUNT, value);
 }
 
 String Minty::Parser<ShaderStage>::to_string(ShaderStage const &value)

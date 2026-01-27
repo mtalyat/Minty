@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <Minty.h>
 
 using namespace Minty;
@@ -336,7 +337,7 @@ int main(Int argc, Char const* argv[])
 		{
 			compression = CompressionLevel::High;
 		}
-		else if (try_int(compressionStr, compressionInt))
+		else if (Parser<Int>::parse(compressionStr, compressionInt))
 		{
 			compression = static_cast<CompressionLevel>(compressionInt);
 		}
@@ -477,7 +478,7 @@ int main(Int argc, Char const* argv[])
 
 	// get version
 	uint32_t version;
-	if (!parser.has_argument("version") || !try_uint(parser.get_argument("version").front(), version))
+	if (!parser.has_argument("version") || !Parser<UInt>::parse(parser.get_argument("version").front(), version))
 	{
 		// Default: version is 0
 		version = 0;

@@ -211,13 +211,14 @@ Unique<Application> Minty::Application::open(Path const &path)
 
 	// check if the path is valid
 	MINTY_ASSERT(!path.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
-	MINTY_ASSERT(path.has_extension(".minty"), ErrorCode::Argument_InvalidFormat);
-	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound);
-	MINTY_ASSERT(Path::is_file(path), ErrorCode::File_NotAFile);
+	MINTY_ASSERT_F(path.has_extension(".minty"), ErrorCode::Argument_InvalidFormat, path);
+	MINTY_ASSERT_F(Path::exists(path), ErrorCode::File_NotFound, path);
+	MINTY_ASSERT_F(Path::is_file(path), ErrorCode::File_NotAFile, path);
 
 	// read the file
-	Shared<PhysicalFile> file = Shared<PhysicalFile>::create(path, FileFlags::Read);
-	MINTY_ASSERT_F(file->is_open(), ErrorCode::File_FailedToOpen, path);
+	Shared<PhysicalFile> file = Shared<PhysicalFile>::create();
+	Bool const openResult = file->open(path, FileFlags::Read);
+	MINTY_ASSERT_F(openResult, ErrorCode::File_FailedToOpen, path);
 
 	// open a reader
 	Shared<FileStream> fileStream = Shared<FileStream>::create(file);

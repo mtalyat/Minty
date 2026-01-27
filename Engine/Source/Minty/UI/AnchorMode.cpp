@@ -33,7 +33,7 @@ Bool Minty::Parser<AnchorMode>::parse(StringView const str, AnchorMode &value)
 		return true;
 	}
 
-    return Tool::try_parse_enum_flags(str, ANCHORMODE_STRINGS, ANCHORMODE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum_flags(str, ANCHORMODE_STRINGS, ANCHORMODE_COUNT, value);
 }
 
 String Minty::Parser<AnchorMode>::to_string(AnchorMode const &value)
@@ -52,5 +52,5 @@ String Minty::Parser<AnchorMode>::to_string(AnchorMode const &value)
 		return "All";
 	}
 
-	return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(value), ANCHORMODE_STRINGS, ANCHORMODE_COUNT);
+	return Tool::to_string_enum_flags(value, ANCHORMODE_STRINGS, ANCHORMODE_COUNT);
 }

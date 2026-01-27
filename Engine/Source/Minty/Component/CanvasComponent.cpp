@@ -8,7 +8,7 @@ void Minty::Serializer<CanvasComponent>::serialize(Writer &writer, CanvasCompone
 	Serializer<Canvas>::serialize(writer, value.canvas);
 }
 
-void Minty::Serializer<CanvasComponent>::deserialize(Reader &reader, CanvasComponent &value)
+Bool Minty::Serializer<CanvasComponent>::deserialize(Reader &reader, CanvasComponent &value)
 {
-	Serializer<Canvas>::deserialize(reader, value.canvas);
+	return Serializer<Canvas>::deserialize(reader, value.canvas);
 }

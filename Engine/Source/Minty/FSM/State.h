@@ -97,7 +97,7 @@ namespace Minty
 	struct Serializer<State>
 	{
 		static void serialize(Writer& writer, State const& value);
-		static void deserialize(Reader& reader, State& value);
+		static Bool deserialize(Reader& reader, State& value);
 	};
 }
 

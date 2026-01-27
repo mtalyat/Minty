@@ -107,6 +107,8 @@ Ref<Scene> const &Minty::Scene::get_active()
 
 void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 {
+	MINTY_LOG_DEBUG("Scene start loading assets...");
+
 	// load all of the assets into the Scene
 	Set<Path> loaded;
 	AssetManager& assetManager = AssetManager::get_singleton();
@@ -171,10 +173,14 @@ void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 
 	// update assets list
 	m_assets = newAssets;
+	
+	MINTY_LOG_DEBUG("Scene done loading assets.");
 }
 
 void Minty::Scene::unload_assets()
 {
+	MINTY_LOG_DEBUG("Scene start unloading assets...");
+
 	// unload all of the assets from the Scene
 	AssetManager& assetManager = AssetManager::get_singleton();
 
@@ -210,6 +216,8 @@ void Minty::Scene::unload_assets()
 	// clear the registered assets
 	m_loadedAssets.clear();
 	m_registeredAssets.clear();
+
+	MINTY_LOG_DEBUG("Scene done unloading assets.");
 }
 
 void Minty::Scene::on_load()
@@ -301,7 +309,7 @@ void Minty::Serializer<Scene>::serialize(Writer &writer, Scene const &value)
 	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<Scene>::deserialize(Reader &reader, Scene &value)
+Bool Minty::Serializer<Scene>::deserialize(Reader &reader, Scene &value)
 {
 	// load new assets, unload old assets
 	Vector<Path> assetPaths;
@@ -321,4 +329,6 @@ void Minty::Serializer<Scene>::deserialize(Reader &reader, Scene &value)
 		Serializer<EntityManager>::deserialize(reader, *value.m_entityManager);
 		reader.outdent();
 	}
+
+	return true;
 }

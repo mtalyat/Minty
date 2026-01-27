@@ -14,7 +14,7 @@ static constexpr Char const* SHADERFRONTFACE_STRINGS[SHADERFRONTFACE_COUNT] =
 
 Bool Minty::Parser<ShaderFrontFace>::parse(StringView const str, ShaderFrontFace &value)
 {
-    return Tool::try_parse_enum(str, SHADERFRONTFACE_STRINGS, SHADERFRONTFACE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERFRONTFACE_STRINGS, SHADERFRONTFACE_COUNT, value);
 }
 
 String Minty::Parser<ShaderFrontFace>::to_string(ShaderFrontFace const &obj)

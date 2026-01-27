@@ -29,7 +29,7 @@ namespace Minty
 	struct Serializer<ColliderComponent>
 	{
 		static void serialize(Writer& writer, ColliderComponent const& value);
-		static void deserialize(Reader& reader, ColliderComponent& value);
+		static Bool deserialize(Reader& reader, ColliderComponent& value);
 	};
 }
 

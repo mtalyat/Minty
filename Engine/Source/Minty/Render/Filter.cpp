@@ -14,7 +14,7 @@ static constexpr Char const* FILTER_STRINGS[FILTER_COUNT] =
 
 Bool Minty::Parser<Filter>::parse(StringView const str, Filter &value)
 {
-    return Tool::try_parse_enum(str, FILTER_STRINGS, FILTER_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, FILTER_STRINGS, FILTER_COUNT, value);
 }
 
 String Minty::Parser<Filter>::to_string(Filter const &obj)

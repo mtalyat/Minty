@@ -5,7 +5,7 @@
 
 using namespace Minty;
 
-Size Minty::Tool::parse_enum(StringView const view, Char const *const *const enumStrings, Size const enumCount)
+Size Minty::Internal::parse_enum(StringView const view, Char const *const *const enumStrings, Size const enumCount)
 {
     for (Size i = 0; i < enumCount; ++i)
     {
@@ -17,7 +17,7 @@ Size Minty::Tool::parse_enum(StringView const view, Char const *const *const enu
     return enumCount;
 }
 
-Bool Minty::Tool::try_parse_enum(StringView const view, Char const *const *const enumStrings, Size const enumCount, Size &outValue)
+Bool Minty::Internal::try_parse_enum(StringView const view, Char const *const *const enumStrings, Size const enumCount, Size &outValue)
 {
     Size const result = parse_enum(view, enumStrings, enumCount);
     if (result < enumCount)
@@ -28,7 +28,7 @@ Bool Minty::Tool::try_parse_enum(StringView const view, Char const *const *const
     return false;
 }
 
-Size Minty::Tool::parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount)
+Size Minty::Internal::parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount)
 {
     Vector<String> parts = Tool::split(view, '|');
     Size result = 0;
@@ -49,7 +49,7 @@ Size Minty::Tool::parse_enum_flags(StringView const view, Char const *const *con
     return result;
 }
 
-Bool Minty::Tool::try_parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount, Size &outValue)
+Bool Minty::Internal::try_parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount, Size &outValue)
 {
     Vector<String> parts = Tool::split(view, '|');
     Size result = 0;
@@ -77,7 +77,7 @@ Bool Minty::Tool::try_parse_enum_flags(StringView const view, Char const *const 
     return true;
 }
 
-String Minty::Tool::to_string_enum(Size const value, Char const *const *const enumStrings, Size const enumCount)
+String Minty::Internal::to_string_enum(Size const value, Char const *const *const enumStrings, Size const enumCount)
 {
     if (value < enumCount)
     {
@@ -86,7 +86,7 @@ String Minty::Tool::to_string_enum(Size const value, Char const *const *const en
     return String();
 }
 
-String Minty::Tool::to_string_enum_flags(Size const value, Char const *const *const enumStrings, Size const enumCount)
+String Minty::Internal::to_string_enum_flags(Size const value, Char const *const *const enumStrings, Size const enumCount)
 {
     StringBuilder builder;
 

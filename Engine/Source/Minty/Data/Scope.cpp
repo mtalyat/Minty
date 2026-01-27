@@ -49,7 +49,7 @@ void Minty::Serializer<Scope>::serialize(Writer &writer, Scope const &scope)
     }
 }
 
-void Minty::Serializer<Scope>::deserialize(Reader &reader, Scope &scope)
+Bool Minty::Serializer<Scope>::deserialize(Reader &reader, Scope &scope)
 {
     scope.clear();
 
@@ -62,4 +62,6 @@ void Minty::Serializer<Scope>::deserialize(Reader &reader, Scope &scope)
         UUID id = UUID::create();
         scope.m_values.add(name, id, value);
     }
+
+    return true;
 }

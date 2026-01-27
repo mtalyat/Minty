@@ -7,10 +7,11 @@ using namespace Minty;
 
 void Minty::Serializer<MaskedComponent>::serialize(Writer &writer, MaskedComponent const &value)
 {
-	writer.write("Value", value.value);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<MaskedComponent>::deserialize(Reader &reader, MaskedComponent &value)
+Bool Minty::Serializer<MaskedComponent>::deserialize(Reader &reader, MaskedComponent &value)
 {
-	reader.read("Value", value.value);
+	reader.read_primary("Value", value.value);
+	return true;
 }

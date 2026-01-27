@@ -14,7 +14,7 @@ static constexpr Char const* STENCILMODE_STRINGS[STENCILMODE_COUNT] =
 
 Bool Minty::Parser<StencilMode>::parse(StringView const str, StencilMode &value)
 {
-    return Tool::try_parse_enum(str, STENCILMODE_STRINGS, STENCILMODE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, STENCILMODE_STRINGS, STENCILMODE_COUNT, value);
 }
 
 String Minty::Parser<StencilMode>::to_string(StencilMode const &obj)

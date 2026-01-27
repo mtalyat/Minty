@@ -13,6 +13,7 @@
 
 namespace Minty
 {
+	class Reader;
 	struct GenericAssetInfo;
 	
 	/**
@@ -39,13 +40,7 @@ namespace Minty
 		 * @brief Gets the data of this Asset.
 		 * @return The ConstantContainer with the data for this Asset.
 		 */
-		ConstantContainer& get_data() { return m_data; }
-
-		/**
-		 * @brief Gets the data of this Asset.
-		 * @return The ConstantContainer with the data for this Asset.
-		 */
-		ConstantContainer const& get_data() const { return m_data; }
+		Shared<ConstantContainer> const& get_data() { return m_data; }
 
 		/**
 		 * @brief Gets the data of this Asset as a String.
@@ -65,6 +60,12 @@ namespace Minty
 
 	public:
 		/**
+		 * @brief Opens a Reader for this Asset's data.
+		 * @return A Reader Unique pointer.
+		 */
+		Unique<Reader> open_reader() const;
+
+		/**
 		 * @brief Creates a new GenericAsset.
 		 * @param info The info.
 		 * @return A GenericAsset Owner.
@@ -82,7 +83,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		ConstantContainer m_data;
+		Shared<ConstantContainer> m_data;
 
 #pragma endregion
 	};

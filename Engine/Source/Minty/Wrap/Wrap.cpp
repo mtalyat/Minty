@@ -35,7 +35,9 @@ Minty::Wrap::Wrap(Path const& path, String const& name, uint32_t const entryCoun
     }
 
     // open file, open with truncate to override any existing file
-    PhysicalFile file(m_path, FileFlags::Write | FileFlags::Binary | FileFlags::Truncate);
+    PhysicalFile file;
+    Bool const openResult = file.open(m_path, FileFlags::Write | FileFlags::Binary | FileFlags::Truncate);
+    MINTY_ASSERT_F(openResult, ErrorCode::File_FailedToOpen, m_path);
 
     // write header
     write_header(file);
@@ -58,7 +60,9 @@ void Minty::Wrap::load(Path const& path)
     m_path = absolutePath;
 
     // open the file
-    PhysicalFile file(m_path, FileFlags::Read | FileFlags::Binary);
+    PhysicalFile file;
+    Bool const openResult = file.open(m_path, FileFlags::Read | FileFlags::Binary);
+    MINTY_ASSERT_F(openResult, ErrorCode::File_FailedToOpen, m_path);
 
     // read header data
     file.read(&m_header, sizeof(Header));
@@ -82,14 +86,15 @@ void Minty::Wrap::load(Path const& path)
         Entry& entry = m_entries.at(i);
         file.read(&entry, sizeof(Entry));
 
-        // add path and index
-        m_indexed.add(fix_path(entry.path), i);
-
-        // add to empties if empty
+        // if the entry is empty, add to empties and continue
         if (entry.is_empty())
         {
             m_empties.add(i);
+            continue;
         }
+
+        // add path and index if not empty
+        m_indexed.add(fix_path(entry.path), i);
     }
 
     file.close();
@@ -98,7 +103,9 @@ void Minty::Wrap::load(Path const& path)
 void Minty::Wrap::flush()
 {
 	// open file, open with truncate to override any existing file
-	PhysicalFile file(m_path, FileFlags::Write | FileFlags::Binary | FileFlags::Truncate);
+	PhysicalFile file;
+	Bool const openResult = file.open(m_path, FileFlags::Write | FileFlags::Binary | FileFlags::Truncate);
+	MINTY_ASSERT_F(openResult, ErrorCode::File_FailedToOpen, m_path);
 
 	// write header
 	write_header(file);
@@ -271,15 +278,19 @@ uint32_t Minty::Wrap::get_content_version() const
 
 void Minty::Wrap::add(Path const& physicalPath, Path const& virtualPath, CompressionLevel compressionLevel, uint32_t const reservedSize)
 {
-	MINTY_ASSERT(Path::exists(physicalPath), ErrorCode::File_NotFound);
-	MINTY_ASSERT(Path::is_file(physicalPath), ErrorCode::File_NotAFile);
+	MINTY_ASSERT_F(Path::exists(physicalPath), ErrorCode::File_NotFound, physicalPath);
+	MINTY_ASSERT_F(Path::is_file(physicalPath), ErrorCode::File_NotAFile, physicalPath);
 	MINTY_ASSERT(!virtualPath.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
 
     // open wrap file
-    PhysicalFile wrapFile(m_path, FileFlags::ReadWrite | FileFlags::Binary);
+    PhysicalFile wrapFile;
+    Bool const openResult = wrapFile.open(m_path, FileFlags::Read | FileFlags::Write | FileFlags::Binary);
+    MINTY_ASSERT_F(openResult, ErrorCode::File_FailedToOpen, m_path);
 
     // open file
-    PhysicalFile file(physicalPath, FileFlags::Read | FileFlags::Binary);
+    PhysicalFile file;
+    Bool const openResult2 = file.open(physicalPath, FileFlags::Read | FileFlags::Binary);
+    MINTY_ASSERT_F(openResult2, ErrorCode::File_FailedToOpen, physicalPath);
 
     // read the data from the file
     StreamSize fileSize = file.get_size();
@@ -371,9 +382,7 @@ Bool Minty::Wrap::open(Path const& path, VirtualFile& file) const
     Entry const& entry = get_entry(fixedPath);
 
     // open file in the given virtual file
-    file.open(m_path, FileFlags::Read | FileFlags::Binary, entry.offset, entry.uncompressedSize);
-
-    return true;
+    return file.open(m_path, FileFlags::Read | FileFlags::Binary, entry.offset, entry.uncompressedSize);
 }
 
 Vector<Byte> Minty::Wrap::read_bytes(Path const& path) const
@@ -475,7 +484,11 @@ Bool Minty::Wrap::exists(Path const& path)
 	}
 
 	// open the file
-	PhysicalFile file(path, FileFlags::Read | FileFlags::Binary);
+	PhysicalFile file;
+    if (!file.open(path, FileFlags::Read | FileFlags::Binary))
+    {
+        return false;
+    }
 
     // cannot be a Wrap if smaller than a header
 	if (file.get_size() < sizeof(Header))

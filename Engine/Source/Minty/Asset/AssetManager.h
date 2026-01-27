@@ -616,15 +616,50 @@ namespace Minty
 		 */
 		Vector<String> read_lines(Path const& path) const;
 
+		/**
+		 * @brief Deserializes an Asset of the given type.
+		 * @tparam T The type of Asset to deserialize.
+		 * @param reader The Reader to use.
+		 * @param name The name associated with the Asset.
+		 * @param asset Reference to store the deserialized Asset.
+		 * @return True if successfully deserialized.
+		 */
+		template<typename T>
+		Bool deserialize_asset(Reader& reader, StringView const name, Shared<T>& asset)
+		{
+			Shared<Asset> baseAsset;
+			Bool result = deserialize_asset_raw(reader, name, baseAsset);
+			asset = baseAsset.cast<T>();
+			return result;
+		}
+
+		/**
+		 * @brief Deserializes an Asset reference of the given type.
+		 * @tparam T The type of Asset to deserialize.
+		 * @param reader The Reader to use.
+		 * @param name The name associated with the Asset.
+		 * @param assetRef Reference to store the deserialized Asset reference.
+		 * @return True if successfully deserialized.
+		 */
+		template<typename T>
+		Bool deserialize_asset_ref(Reader& reader, StringView const name, Ref<T>& assetRef)
+		{
+			Ref<Asset> baseAssetRef;
+			Bool result = deserialize_asset_ref_raw(reader, name, baseAssetRef);
+			assetRef = baseAssetRef.cast<T>();
+			return result;
+		}
+
 	private:
+		Bool deserialize_asset_raw(Reader& reader, StringView const name, Shared<Asset>& asset);
+
+		Bool deserialize_asset_ref_raw(Reader& reader, StringView const name, Ref<Asset>& assetRef);
+
 		// determines where the file is located at the given path
 		Location get_location(Path const& path) const;
 
 		// opens a file at the given path
-		File* open(Path const& path) const;
-
-		// closes an opened file
-		void close(File* file) const;
+		Unique<File> open(Path const& path) const;
 
 		// creates a new asset with the given path and args (from a load_xxx function)
 		template<typename T, typename... Args>

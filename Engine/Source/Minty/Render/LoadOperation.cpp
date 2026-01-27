@@ -15,7 +15,7 @@ static constexpr Char const* LOADOPERATION_STRINGS[LOADOPERATION_COUNT] =
 
 Bool Minty::Parser<LoadOperation>::parse(StringView const str, LoadOperation &value)
 {
-    return Tool::try_parse_enum(str, LOADOPERATION_STRINGS, LOADOPERATION_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, LOADOPERATION_STRINGS, LOADOPERATION_COUNT, value);
 }
 
 String Minty::Parser<LoadOperation>::to_string(LoadOperation const &obj)

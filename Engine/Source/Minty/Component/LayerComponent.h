@@ -29,7 +29,7 @@ namespace Minty
 	struct Serializer<LayerComponent>
 	{
 		static void serialize(Writer& writer, LayerComponent const& value);
-		static void deserialize(Reader& reader, LayerComponent& value);
+		static Bool deserialize(Reader& reader, LayerComponent& value);
 	};
 }
 

@@ -17,17 +17,12 @@ Matrix4 Minty::Transform::get_local_matrix() const
 
 void Minty::Serializer<Transform>::serialize(Writer &writer, Transform const &value)
 {
-	writer.write("Position", value.m_localPosition);
-	Float3 eulerAngles = Math::to_euler(value.m_localRotation);
-	// convert radians to degrees
-	eulerAngles *= Math::RAD2DEG;
-	writer.write("Rotation", eulerAngles);
-	writer.write("Scale", value.m_localScale);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<Transform>::deserialize(Reader &reader, Transform &value)
+Bool Minty::Serializer<Transform>::deserialize(Reader &reader, Transform &value)
 {
-	reader.read("Position", value.m_localPosition);
+	reader.read_primary("Position", value.m_localPosition);
 	Float3 eulerAngles;
 	if (reader.read("Rotation", eulerAngles))
 	{
@@ -36,4 +31,6 @@ void Minty::Serializer<Transform>::deserialize(Reader &reader, Transform &value)
 		value.m_localRotation = Math::to_cartesian(eulerAngles);
 	}
 	reader.read("Scale", value.m_localScale);
+
+	return true;
 }

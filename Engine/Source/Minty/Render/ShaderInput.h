@@ -11,56 +11,59 @@
 
 namespace Minty
 {
-	/// <summary>
-	/// Information for an input in a Shader.
-	/// </summary>
+	/**
+	 * @brief Information for an input in a Shader.
+	 */
 	struct ShaderInput
 	{
-		/// <summary>
-		/// The binding of this input in the Shader.
-		/// </summary>
-		UInt binding = 0;
-
-		/// <summary>
-		/// The stage of the Shader this input is used in.
-		/// </summary>
-		ShaderStage stage = ShaderStage::Undefined;
-
-		/// <summary>
-		/// The type of the input.
-		/// </summary>
-		ShaderInputType type = ShaderInputType::Undefined;
-
-		/// <summary>
-		/// The number of elements in this input. Should be 1 for non-array inputs.
-		/// </summary>
-		UInt count = 1;
-
-		/// <summary>
-		/// When true, this input is optimized to be updated every frame.
-		/// </summary>
-		Bool frequent = false;
-
-		/// <summary>
-		/// The name of this input.
-		/// </summary>
+		/**
+		 * @brief The name of this input.
+		 */
 		String name = "";
 
-		/// <summary>
-		/// A collection of Variables that are within this input.
-		/// </summary>
-		Vector<Tuple<String, Variable>> data;
+		/**
+		 * @brief The type of the input.
+		 */
+		ShaderInputType type = ShaderInputType::Undefined;
 
-		/// <summary>
-		/// The size of the input in bytes, for one element.
-		///		Ex. For an array of 10 Floats, this would be sizeof(Float).
-		/// Only use this for inputs that need a buffer (such as a uniform constant).
-		/// </summary>
+		/**
+		 * @brief The stage of the Shader this input is used in.
+		 */
+		ShaderStage stage = ShaderStage::Undefined;
+
+		/**
+		 * @brief The set of this input in the Shader.
+		 */
+		UInt set = 0;
+
+		/**
+		 * @brief The binding of this input in the Shader.
+		 */
+		UInt binding = 0;
+
+		/**
+		 * @brief The number of elements in this input. Should be 1 for non-array inputs.
+		 */
+		UInt count = 1;
+
+		/**
+		 * @brief The size of the input in bytes, for one element. Ex. For an array of 10 Floats, this would be sizeof(Float). Only use this for inputs that need a buffer (such as a uniform constant).
+		 */
 		Size size = 0;
 
-		/// <summary>
-		/// The offset of the input in bytes.
-		/// </summary>
+		/**
+		 * @brief The offset of the input in bytes.
+		 */
 		Size offset = 0;
+
+		/**
+		 * @brief When true, this input is optimized to be updated every frame.
+		 */
+		Bool frequent = false;
+
+		/**
+		 * @brief A collection of Variables that are within this input.
+		 */
+		Vector<Tuple<String, Variable>> data;
 	};
 }

@@ -18,7 +18,7 @@ static constexpr Char const* SHADERPRIMITIVETOPOLOGY_STRINGS[SHADERPRIMITIVETOPO
 
 Bool Minty::Parser<ShaderPrimitiveTopology>::parse(StringView const str, ShaderPrimitiveTopology &value)
 {
-    return Tool::try_parse_enum(str, SHADERPRIMITIVETOPOLOGY_STRINGS, SHADERPRIMITIVETOPOLOGY_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERPRIMITIVETOPOLOGY_STRINGS, SHADERPRIMITIVETOPOLOGY_COUNT, value);
 }
 
 String Minty::Parser<ShaderPrimitiveTopology>::to_string(ShaderPrimitiveTopology const &obj)

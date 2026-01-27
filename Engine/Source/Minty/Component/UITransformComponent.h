@@ -34,7 +34,7 @@ namespace Minty
 	struct Serializer<UITransformComponent>
 	{
 		static void serialize(Writer& writer, UITransformComponent const& value);
-		static void deserialize(Reader& reader, UITransformComponent& value);
+		static Bool deserialize(Reader& reader, UITransformComponent& value);
 	};
 }
 

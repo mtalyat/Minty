@@ -11,6 +11,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Serialization/Serializer.h"
 #include <iterator>
 
 namespace Minty
@@ -23,6 +24,8 @@ namespace Minty
 	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class Vector
 	{
+		friend struct Serializer<Vector<T, AllocatorType>>;
+
 #pragma region Types
 
 	private:

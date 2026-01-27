@@ -42,7 +42,7 @@ namespace Minty
 #pragma region Methods
 
     public:
-        virtual Bool write(AnyConst const data, Size const size) = 0;
+        virtual void write(AnyConst const data, Size const size) = 0;
 
         virtual Bool read(Any data, Size const size) = 0;
 

@@ -76,7 +76,7 @@ namespace Minty
 	struct Serializer<Canvas>
 	{
 		static void serialize(Writer &writer, Canvas const &value);
-		static void deserialize(Reader &reader, Canvas &value);
+		static Bool deserialize(Reader &reader, Canvas &value);
 	};
 }
 

@@ -130,15 +130,11 @@ Bool Minty::VirtualFile::read_line(String& line)
     return false;
 }
 
-Bool Minty::VirtualFile::write(AnyConst const buffer, StreamSize const size)
+void Minty::VirtualFile::write(AnyConst const buffer, StreamSize const size)
 {
-    // if going out of bounds, do not write
-    StreamPosition const position = get_position();
-    if(position + size > m_virtualSize)
-    {
-        MINTY_ERROR(ErrorCode::File_WriteFailed);
-        return false;
-    }
+    // check if going out of bounds
+    // it is the responsibility of the caller to ensure they do not write past the virtual size
+    MINTY_ASSERT(get_position() + size <= m_virtualSize, ErrorCode::File_WriteFailed);
 
-    return PhysicalFile::write(buffer, size);
+    PhysicalFile::write(buffer, size);
 }

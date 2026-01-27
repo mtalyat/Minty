@@ -15,10 +15,11 @@ Minty::Canvas::Canvas()
 
 void Minty::Serializer<Canvas>::serialize(Writer &writer, Canvas const &value)
 {
-	writer.write("Resolution", value.m_resolution);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-void Minty::Serializer<Canvas>::deserialize(Reader &reader, Canvas &value)
+Bool Minty::Serializer<Canvas>::deserialize(Reader &reader, Canvas &value)
 {
-	reader.read("Resolution", value.m_resolution);
+	reader.read_primary("Resolution", value.m_resolution);
+	return true;
 }

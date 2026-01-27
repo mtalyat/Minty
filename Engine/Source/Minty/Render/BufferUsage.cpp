@@ -15,10 +15,10 @@ static constexpr Char const* BUFFERUSAGE_STRINGS[BUFFERUSAGE_COUNT] = {
 
 Bool Minty::Parser<BufferUsage>::parse(StringView const str, BufferUsage &value)
 {
-    return Tool::try_parse_enum_flags(str, BUFFERUSAGE_STRINGS, BUFFERUSAGE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum_flags(str, BUFFERUSAGE_STRINGS, BUFFERUSAGE_COUNT, value);
 }
 
 String Minty::Parser<BufferUsage>::to_string(BufferUsage const &obj)
 {
-	return Tool::to_string_enum_flags(reinterpret_cast<Size const&>(obj), BUFFERUSAGE_STRINGS, BUFFERUSAGE_COUNT);
+	return Tool::to_string_enum_flags(obj, BUFFERUSAGE_STRINGS, BUFFERUSAGE_COUNT);
 }

@@ -14,7 +14,7 @@ static constexpr Char const* SHADERINPUTRATE_STRINGS[SHADERINPUTRATE_COUNT] =
 
 Bool Minty::Parser<ShaderInputRate>::parse(StringView const str, ShaderInputRate &value)
 {
-    return Tool::try_parse_enum(str, SHADERINPUTRATE_STRINGS, SHADERINPUTRATE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, SHADERINPUTRATE_STRINGS, SHADERINPUTRATE_COUNT, value);
 }
 
 String Minty::Parser<ShaderInputRate>::to_string(ShaderInputRate const &obj)

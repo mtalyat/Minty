@@ -46,7 +46,7 @@ namespace Minty
 #pragma region Methods
 
     public:
-        Bool write(AnyConst const data, Size const size) override;
+        void write(AnyConst const data, Size const size) override;
 
         Bool read(Any data, Size const size) override;
 

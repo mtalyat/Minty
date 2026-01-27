@@ -324,7 +324,7 @@ namespace Minty
 	struct Serializer<FSM>
 	{
 		static void serialize(Writer& writer, FSM const& value);
-		static void deserialize(Reader& reader, FSM& value);
+		static Bool deserialize(Reader& reader, FSM& value);
 	};
 }
 

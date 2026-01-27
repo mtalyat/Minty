@@ -20,7 +20,7 @@ namespace Minty
 	 */
 	class Variable
 	{
-		friend struct ItemSerializer<Variable>;
+		friend struct Serializer<Variable>;
 
 #pragma region Constructors
 
@@ -223,10 +223,10 @@ namespace Minty
 	};
 
 	template<>
-    struct ItemSerializer<Variable>
+    struct Serializer<Variable>
     {
-		static void serialize_item(Writer& writer, StringView const name, Variable const& value);
-		static void deserialize_item(Reader& reader, StringView const name, Variable& value);
+		static void serialize(Writer& writer, Variable const& value);
+        static Bool deserialize(Reader& reader, Variable& value);
     };
 }
 

@@ -4,6 +4,7 @@ using namespace Minty;
 
 static ErrorCode s_errorCode = ErrorCode::None;
 
+// TODO: change this to use an array of messages instead of a switch statement
 Char const *Minty::get_error_message(ErrorCode const code)
 {
     switch (code)
@@ -184,10 +185,18 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Serialization error. Write operation failed.";
     case ErrorCode::Serialization_Read:
         return "Serialization error. Read operation failed.";
-    case ErrorCode::Serialization_MissingRequired:
-        return "Serialization error. Missing required key-value pair.";
+    case ErrorCode::Serialization_MissingKey:
+        return "Serialization error. Missing key detected. A key was expected but not found in the data.";
     case ErrorCode::Serialization_InvalidBookmark:
         return "Serialization error. Invalid bookmark handle.";
+    case ErrorCode::Serialization_InconsistentIndentation:
+        return "Serialization error. Inconsistent indentation detected. Mixing of tabs and spaces is not allowed.";
+    case ErrorCode::Serialization_UnsupportedType:
+        return "Serialization error. Unsupported type encountered during serialization or deserialization. Ensure that the type has the proper serialization or parsing methods defined.";
+    case ErrorCode::Serialization_IgnoredData:
+        return "Serialization error. Ignored data detected. Some data in the stream was not read or processed.";
+    case ErrorCode::Serialization_MissingValue:
+        return "Serialization error. Missing value detected. A key was found without an associated value, when a value was expected.";
 
     case ErrorCode::Entity:
         return "Entity error.";
@@ -210,6 +219,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Component error. Component already registered.";
     case ErrorCode::Component_InvalidState:
         return "Component error. Component is in an invalid state for the requested operation.";
+    case ErrorCode::Component_InvalidOperation:
+        return "Component error. Invalid operation for the component type (component vs tag).";
 
     case ErrorCode::System:
         return "System error.";

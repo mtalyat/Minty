@@ -4,6 +4,38 @@
 
 using namespace Minty;
 
+static std::ios_base::openmode minty_to_ios_base(FileFlags const flags)
+{
+    std::ios_base::openmode mode = std::ios_base::openmode(0);
+
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Read))
+    {
+        mode |= std::ios_base::in;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Write))
+    {
+        mode |= std::ios_base::out;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::AtEnd))
+    {
+        mode |= std::ios_base::ate;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Append))
+    {
+        mode |= std::ios_base::app;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Binary))
+    {
+        mode |= std::ios_base::binary;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Truncate))
+    {
+        mode |= std::ios_base::trunc;
+    }
+
+    return mode;
+}
+
 Bool Minty::PhysicalFile::is_open() const
 {
     return m_stream.is_open();
@@ -14,16 +46,19 @@ Bool Minty::PhysicalFile::open(Path const& path, FileFlags const flags)
     // close if open
     close();
 
+    // open the file
+    m_stream = std::fstream(path.get_string().get_data(), minty_to_ios_base(flags));
+
+    // check if open
+    if(!m_stream.is_open())
+    {
+        return false;
+    }
+
     m_path = path;
     m_flags = flags;
 
-    // open the file
-    m_stream = std::fstream(path.get_string().get_data(), static_cast<std::ios_base::openmode>(flags));
-
-    // check if open
-    Bool const isOpen = m_stream.is_open();
-    MINTY_ASSERT_F(isOpen, ErrorCode::File_FailedToOpen, path.get_string());
-    return isOpen;
+    return true;
 }
 
 void Minty::PhysicalFile::flush()
@@ -133,10 +168,9 @@ Bool Minty::PhysicalFile::read_line(String& line)
     return false;
 }
 
-Bool Minty::PhysicalFile::write(AnyConst const buffer, StreamSize const size)
+void Minty::PhysicalFile::write(AnyConst const buffer, StreamSize const size)
 {
     MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
     m_stream.write(static_cast<Char const* const>(buffer), size);
-    return true;
 }

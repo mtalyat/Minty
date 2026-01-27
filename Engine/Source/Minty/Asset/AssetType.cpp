@@ -36,10 +36,10 @@ static constexpr Char const* ASSETTYPE_STRINGS[ASSETTYPE_COUNT] = {
 
 Bool Minty::Parser<AssetType>::parse(StringView const str, AssetType &value)
 {
-    return Tool::try_parse_enum(str, ASSETTYPE_STRINGS, ASSETTYPE_COUNT, reinterpret_cast<Size&>(value));
+    return Tool::try_parse_enum(str, ASSETTYPE_STRINGS, ASSETTYPE_COUNT, value);
 }
 
 String Minty::Parser<AssetType>::to_string(AssetType const &value)
 {
-    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), ASSETTYPE_STRINGS, ASSETTYPE_COUNT);
+    return Tool::to_string_enum(value, ASSETTYPE_STRINGS, ASSETTYPE_COUNT);
 }

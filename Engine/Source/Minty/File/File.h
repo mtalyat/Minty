@@ -33,17 +33,6 @@ namespace Minty
 		{
 		}
 
-		/**
-		 * @brief Creates a File with the given Path and Flags.
-		 * @param path The Path to the File.
-		 * @param flags The Flags for accessing the file.
-		 */
-		File(Path const& path, FileFlags const flags)
-			: m_path(path)
-			, m_flags(flags)
-		{
-		}
-
 		File(File const& other) = delete;
 
 		/**
@@ -197,25 +186,25 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual Bool write(AnyConst const buffer, StreamSize const size) = 0;
+		virtual void write(AnyConst const buffer, StreamSize const size) = 0;
 
 		/**
 		 * @brief Writes the given line of text to the file, and moves the cursor the appropriate amount of bytes.
 		 * @param line The line of text to write.
 		 */
-		Bool write_text(String const& text);
+		void write_text(String const& text);
 
 		/**
 		 * @brief Writes the given lines of text to the file, and moves the cursor the appropriate amount of bytes.
 		 * @param lines The lines of text to write.
 		 */
-		Bool write_lines(Vector<String> const& lines);
+		void write_lines(Vector<String> const& lines);
 
 		/**
 		 * @brief Writes the given bytes of data to the file, and moves the cursor the appropriate amount of bytes.
 		 * @param bytes The bytes of data to write.
 		 */
-		Bool write_bytes(Vector<Byte> const& bytes);
+		void write_bytes(Vector<Byte> const& bytes);
 
 		/**
 		 * @brief Copies a File from one location to another.
