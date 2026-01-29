@@ -334,26 +334,27 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// get the component
 		ComponentData const* componentInfo = m_components.at(componentIndex);
-		Component* component = componentInfo->get(entityManager, entity);
 
 		// determine what to do based on the flags
 		if ((type & AnimationActionFlags::Add) != AnimationActionFlags::None)
 		{
-			if (component == nullptr)
+			if(!componentInfo->has(entityManager, entity))
 			{
 				componentInfo->create(entityManager, entity);
-				component = componentInfo->get(entityManager, entity);
 			}
 			continue;
 		}
 		if ((type & AnimationActionFlags::Remove) != AnimationActionFlags::None)
 		{
-			if (component != nullptr)
+			if (componentInfo->has(entityManager, entity))
 			{
 				componentInfo->destroy(entityManager, entity);
 			}
 			continue;
 		}
+
+		Component* component = componentInfo->get(entityManager, entity);
+		MINTY_ASSERT(component != nullptr, ErrorCode::Animation_ComponentNotFound);
 
 		// normal step
 		Bool const interpolate = (type & AnimationActionFlags::Smooth) != AnimationActionFlags::None;

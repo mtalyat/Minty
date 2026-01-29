@@ -375,7 +375,7 @@ namespace Minty
 		inline decltype(auto) add_component(Entity const entity, Args &&...args)
 		{
 			MINTY_ASSERT(m_registry.valid(entity), ErrorCode::Entity_NotValid);
-			MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_DuplicateComponent);
+	 		MINTY_ASSERT(!m_registry.all_of<ComponentType>(entity), ErrorCode::Entity_DuplicateComponent);
 			return m_registry.emplace<ComponentType>(entity, std::forward<Args>(args)...);
 		}
 
@@ -751,6 +751,10 @@ namespace Minty
 					{
 						entityManager.remove_component<T>(entity);
 					},
+					.has = [](EntityManager &entityManager, Entity const entity) -> Bool
+					{
+						return entityManager.has_component<T>(entity);
+					},
 					.get = [](EntityManager &entityManager, Entity const entity) -> Component *
 					{
 						return nullptr;
@@ -776,6 +780,10 @@ namespace Minty
 					.destroy = [](EntityManager &entityManager, Entity const entity) -> void
 					{
 						entityManager.remove_component<T>(entity);
+					},
+					.has = [](EntityManager &entityManager, Entity const entity) -> Bool
+					{
+						return entityManager.has_component<T>(entity);
 					},
 					.get = [](EntityManager &entityManager, Entity const entity) -> Component *
 					{

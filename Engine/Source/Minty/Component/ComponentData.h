@@ -39,6 +39,11 @@ namespace Minty
 		Function<void(EntityManager &, Entity const)> destroy = nullptr;
 
 		/**
+		 * @brief Function to check if an Entity has the Component.
+		 */
+		Function<Bool(EntityManager &, Entity const)> has = nullptr;
+
+		/**
 		 * @brief Function to get the Component from an Entity.
 		 */
 		Function<Component *(EntityManager &, Entity const)> get = nullptr;
