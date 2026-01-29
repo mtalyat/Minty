@@ -8,6 +8,8 @@ using namespace Minty;
 
 Bool Minty::Parser<EntityPath>::parse(StringView const str, EntityPath &value)
 {
+	value.clear();
+	
     // split the string into parts
 	Vector<String> parts = Tool::split(str, '/');
 
@@ -50,3 +52,13 @@ String Minty::Parser<EntityPath>::to_string(EntityPath const &value)
 	// write that
 	return builder.get_string();
 }
+
+Minty::EntityPath::EntityPath()
+			: m_path()
+		{
+		}
+
+        Minty::EntityPath::EntityPath(Vector<Byte> const &path)
+			: m_path(path)
+		{
+		}

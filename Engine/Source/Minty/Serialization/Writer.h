@@ -23,6 +23,37 @@ namespace Minty
 	 */
 	class Writer
 	{
+#pragma region Types
+
+	protected:
+		/**
+		 * @brief The state of the Writer.
+		 */
+		enum class State
+		{
+			/**
+			* @brief The last write was completed.
+			*/
+			None,
+
+			/**
+			 * @brief Unknown state.
+			 */
+			Unknown,
+
+			/**
+			 * @brief The last write was a key.
+			 */
+			Key,
+			
+			/**
+			 * @brief The last write was an empty key.
+			 */
+			Empty,
+		};
+
+#pragma endregion
+
 #pragma region Constructors
 
 	public:
@@ -56,6 +87,12 @@ namespace Minty
 		 */
 		inline AnyConst get_user_data() const { return m_userStack.peek(); }
 
+	protected:
+		inline State get_state() const { return m_state; }
+
+	private:
+		inline void set_state(State const state) { m_state = state; }
+
 #pragma endregion
 
 #pragma region Methods
@@ -72,8 +109,11 @@ namespace Minty
 		void write(StringView const key, T const& value)
 		{
 			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_kvp_separator();
 			specialized_write<T>(value);
 			write_break();
+			set_state(State::None);
 		}
 
 		/**
@@ -85,26 +125,175 @@ namespace Minty
 		void write(StringView const key, Type const type, AnyConst const value)
 		{
 			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_kvp_separator();
 			write_type_value_pair(type, value);
 			write_break();
+			set_state(State::None);
+		}
+
+		/**
+		 * @brief Writes an optional value associated with the given key.
+		 * @tparam T The type of the value to write.
+		 * @param key The key associated with the value.
+		 * @param value The value to write.
+		 * @param defaultValue The default value to compare against.
+		 */
+		template<typename T>
+		void write_optional(StringView const key, T const& value, T const& defaultValue)
+		{
+			if (value != defaultValue)
+			{
+				write<T>(key, value);
+			}
+		}
+
+		/**
+		 * @brief Writes an optional type-value pair associated with the given key.
+		 * @param key The key associated with the value.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
+		 * @param defaultType The default type to compare against.
+		 * @param defaultValue Pointer to the default value to compare against.
+		 */
+		void write_optional(StringView const key, Type const type, AnyConst const value, Type const defaultType, AnyConst const defaultValue)
+		{
+			if (type != defaultType)
+			{
+				write(key, type, value);
+				return;
+			}
+
+			Size const typeSize = sizeof_type(type);
+			if (std::memcmp(value, defaultValue, typeSize) != 0)
+			{
+				write(key, type, value);
+			}
+		}
+
+		/**
+		 * @brief Writes an inline value (no key).
+		 * @tparam T The type of the value to write.
+		 * @param value The value to write.
+		 */
+		template<typename T>
+		void write_inline(T const& value)
+		{
+			if(static_cast<Size>(get_state()) < static_cast<Size>(State::Key))
+			{
+				// must have written a key before writing an inline value
+				MINTY_ERROR(ErrorCode::Serialization_Write);
+				return;
+			}
+			specialized_write<T>(value);
+			write_break();
+			set_state(State::None);
+		}
+
+		/**
+		 * @brief Writes an inline type-value pair (no key).
+		 * @param type The type of the value.
+		 * @param data Pointer to the value to write.
+		 */
+		void write_inline(Type const type, AnyConst const data)
+		{
+			if(static_cast<Size>(get_state()) < static_cast<Size>(State::Key))
+			{
+				// must have written a key before writing an inline value
+				MINTY_ERROR(ErrorCode::Serialization_Write);
+				return;
+			}
+			write_type_value_pair(type, data);
+			write_break();
+			set_state(State::None);
 		}
 
 		/**
 		 * @brief Writes a key and increases the indentation level for writing nested structures.
 		 * @param key The key to write.
 		 */
-		inline void indent(StringView const key)
+		void indent(StringView const key)
 		{
 			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
 			increase_indentation();
 		}
 
 		/**
-		 * @brief Increases the indentation level for writing nested structures.
+		 * @brief Writes a key-value pair and increases the indentation level for writing nested structures.
+		 * @tparam T The type of the value to write.
+		 * @param key The key to write.
+		 * @param value The value to write.
 		 */
-		inline void indent()
+		template<typename T>
+		void indent(StringView const key, T const& value)
 		{
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_kvp_separator();
+			specialized_write<T>(value);
 			increase_indentation();
+		}
+
+		/**
+		 * @brief Writes a type-value pair and increases the indentation level for writing nested structures.
+		 * @param key The key to write.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
+		 */
+		void indent(StringView const key, Type const type, AnyConst const value)
+		{
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_type_value_pair(type, value);
+			increase_indentation();
+		}
+
+		/**
+		 * @brief Writes an optional key-value pair and increases the indentation level for writing nested structures.
+		 * @tparam T The type of the value to write.
+		 * @param key The key to write.
+		 * @param value The value to write.
+		 * @param defaultValue The default value to compare against.
+		 */
+		template<typename T>
+		void indent_optional(StringView const key, T const& value, T const& defaultValue)
+		{
+			if (value != defaultValue)
+			{
+				indent<T>(key, value);
+			}
+			else
+			{
+				indent(key);
+			}
+		}
+
+		/**
+		 * @brief Writes an optional type-value pair and increases the indentation level for writing nested structures.
+		 * @param key The key to write.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
+		 * @param defaultType The default type to compare against.
+		 * @param defaultValue Pointer to the default value to compare against.
+		 */
+		void indent_optional(StringView const key, Type const type, AnyConst const value, Type const defaultType, AnyConst const defaultValue)
+		{
+			if (type != defaultType)
+			{
+				indent(key, type, value);
+				return;
+			}
+
+			Size const typeSize = sizeof_type(type);
+			if (std::memcmp(value, defaultValue, typeSize) != 0)
+			{
+				indent(key, type, value);
+			}
+			else
+			{
+				indent(key);
+			}
 		}
 
 		/**
@@ -113,12 +302,14 @@ namespace Minty
 		inline void outdent()
 		{
 			decrease_indentation();
+			set_state(State::Unknown);
 		}
 
 	protected:
 		void write_to_stream(AnyConst const data, Size const size);
 		virtual void write_key(StringView const key) = 0;
-		virtual void write_break() {}
+		virtual void write_break() = 0;
+		virtual void write_kvp_separator() = 0;
 		virtual void write_type_value_pair(Type const type, AnyConst const data) = 0;
 		virtual void write_bool(Bool const value) = 0;
 		virtual void write_byte(Byte const value) = 0;
@@ -191,6 +382,8 @@ namespace Minty
 		void specialized_write(T const& value)
 		{
 			write_primitive<T>(value);
+			write_break();
+			set_state(State::None);
 		}
 
 		template<typename T>
@@ -199,6 +392,8 @@ namespace Minty
 		{
 			String const valueStr = Parser<T>::to_string(value);
 			write_raw_value(valueStr);
+			write_break();
+			set_state(State::None);
 		}
 
 		template<typename T>
@@ -208,6 +403,7 @@ namespace Minty
 			increase_indentation();
 			Serializer<T>::serialize(*this, value);
 			decrease_indentation();
+			set_state(State::None);
 		}
 
 #pragma region Variables
@@ -216,6 +412,7 @@ namespace Minty
 		Shared<Stream> m_stream;
 		Stack<AnyConst> m_userStack;
 		Int m_indent;
+		State m_state;
 
 #pragma endregion
 	};

@@ -31,7 +31,8 @@ namespace Minty
             T element;
             while(reader.read_next(dummyName, element))
             {
-                value.add(element);
+                value.add(std::move(element));
+                element = {};
             }
             return true;
         }

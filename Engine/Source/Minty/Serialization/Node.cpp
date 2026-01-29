@@ -105,445 +105,66 @@ static Bool is_word_character(Char const c)
 	return isalnum(c) || c == '_';
 }
 
-Bool Minty::Parser<Node>::parse(StringView const str, Node &outValue)
-{
-    // split lines
-	Vector<String> lines = Tool::split_lines(str);
-
-	// parse node
-	int indent = 0;
-	String key;
-	String value;
-
-	Node root;
-
-	// if no lines, node is empty
-	if (lines.is_empty())
-	{
-		return false;
-	}
-
-	Stack<Node *> nodeStack;
-	nodeStack.push(&root);
-	Node *node = nodeStack.peek();
-
-	int const SPACES_PER_TAB = 4;
-
-	// remove all comments from the lines
-	Bool inBlockComment = false;
-	for (String &line : lines)
-	{
-		StringBuilder cleanLineBuilder(line.get_size());
-		Size i = 0;
-		while (i < line.get_size())
-		{
-			Char const c = line.at(i);
-			if (inBlockComment)
-			{
-				if (c == '-' && i + 1 < line.get_size() && line.at(i + 1) == '#')
-				{
-					inBlockComment = false;
-					i += 2;
-				}
-				else
-				{
-					i++;
-				}
-			}
-			else if (c == '#' && i + 1 < line.get_size() && line.at(i + 1) == '-')
-			{
-				inBlockComment = true;
-				i += 2;
-			}
-			else if (c == '#' && i + 1 < line.get_size() && line.at(i + 1) == ' ')
-			{
-				// single-line comment, skip to end of line
-				break;
-			}
-			else
-			{
-				cleanLineBuilder.append(c);
-				i++;
-			}
-		}
-		// remove whitespace from the end of the line, since that does nothing
-		cleanLineBuilder.trim_end();
-		line = cleanLineBuilder.get_string();
-	}
-
-	Vector<Tuple<String, NodeMacro>> macros;
-	for (Size lineIndex = 0; lineIndex < lines.get_size(); lineIndex++)
-	{
-		String line = lines.at(lineIndex);
-
-		// skip empty
-		if (line.get_size() == 0)
-		{
-			continue;
-		}
-
-		// read macros or other special lines
-		if (line.front() == '#')
-		{
-			if (line.starts_with("#define"))
-			{
-				Size nameIndex = 8;
-
-				// find end of name
-				Size nameEnd = nameIndex;
-				for (; nameEnd < line.get_size(); nameEnd++)
-				{
-					Char c = line.at(nameEnd);
-					if (!isalnum(c) && c != '_')
-					{
-						break;
-					}
-				}
-
-				// if end is (, get args
-
-				// get name
-				String macroName = line.sub(nameIndex, nameEnd - nameIndex);
-				// get macro data
-				NodeMacro macro{};
-				// if has arguments
-				Size valueIndex = nameEnd;
-				if (nameEnd < line.get_size() && line.at(nameEnd) == '(')
-				{
-					// find end of args
-					Tuple<Size, Size> argGroup = Tool::find_group(line, '(', ')', nameEnd);
-					MINTY_ASSERT(argGroup.get_first() == nameEnd + 1, ErrorCode::Serialization_InvalidFormat);	  // "#define found the wrong group."
-					MINTY_ASSERT(argGroup.get_second() != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat); // "#define missing ')'.");
-
-					String argLine = line.sub(argGroup.get_first(), argGroup.get_second());
-					macro.parameters = Tool::split(argLine, ',');
-					for (String &param : macro.parameters)
-					{
-						param = param.trim();
-					}
-
-					valueIndex = argGroup.get_first() + argGroup.get_second() + 1;
-				}
-
-				// get value
-				String value = line.sub(valueIndex + 1, line.get_size() - valueIndex - 1);
-				while (value.ends_with("\\"))
-				{
-					macro.values.add(value.sub(0, value.get_size() - 1));
-
-					lineIndex++;
-					if (lineIndex == lines.get_size())
-					{
-						value = "";
-						break;
-					}
-					value = lines.at(lineIndex);
-				}
-				if (!value.is_empty())
-				{
-					macro.values.add(value);
-				}
-
-				// add to macros
-				macros.add({macroName, std::move(macro)});
-			}
-
-			// skip line if started with #
-			continue;
-		}
-
-		// replace macros
-		Size macroLineNumber = 0;
-		Size macroLineCount = 1;
-		while (macroLineNumber < macroLineCount)
-		{
-			String macroLine = lines.at(macroLineNumber + lineIndex);
-
-			Size macroIndex = 0;
-			while (macroIndex < macros.get_size())
-			{
-				auto const &[name, macro] = macros.at(macroIndex);
-
-				Size mStart = macroLine.find_first(name);
-				Size mEnd = mStart + name.get_size();
-
-				if (mStart == INVALID_INDEX)
-				{
-					macroIndex++;
-					continue;
-				}
-
-				Size count = 0;
-				while (mStart != INVALID_INDEX)
-				{
-					// check if the macro is a valid word, by itself
-					if ((mStart != 0 && is_word_character(macroLine.at(mStart - 1))) ||
-						(mEnd < macroLine.get_size() && is_word_character(macroLine.at(mEnd))))
-					{
-						// skip, not the right macro
-						mStart = mEnd;
-						mStart = macroLine.find_first(name, mStart + 1);
-						mEnd = mStart + name.get_size();
-						continue;
-					}
-
-					Vector<Tuple<String, String>> args;
-
-					// if params, replace those
-					if (!macro.parameters.is_empty())
-					{
-						auto [start, count] = Tool::find_group(macroLine, '(', ')', mStart + name.get_size());
-						MINTY_ASSERT_F(start != INVALID_INDEX, ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" missing its arguments.", name));
-						Vector<String> parts = Tool::split(macroLine.sub(start, count), ',');
-						MINTY_ASSERT_F(parts.get_size() == macro.parameters.get_size(), ErrorCode::Serialization_InvalidFormat, name); // F("Macro \"{}\" has an incorrect number of arguments.", name));
-						for (Size argIndex = 0; argIndex < parts.get_size(); argIndex++)
-						{
-							args.add({macro.parameters.at(argIndex), parts.at(argIndex)});
-						}
-						mEnd = start + count + 1;
-					}
-
-					// get text before and after the macro
-					String before = macroLine.sub(0, mStart);
-					String after = macroLine.sub(mEnd, macroLine.get_size() - mEnd);
-
-					// insert lines and replace args as they are inserted
-					Size valueCount = macro.values.get_size();
-					for (Size valueIndex = 0; valueIndex < valueCount; valueIndex++)
-					{
-						// get value
-						String value = macro.values.at(valueIndex);
-
-						// replace args
-						for (auto const &[find, replace] : args)
-						{
-							value = value.replace(find, replace);
-						}
-
-						// insert before and after as needed
-						if (valueIndex == 0)
-						{
-							value = before + value;
-						}
-						if (valueIndex == valueCount - 1)
-						{
-							value = value + after;
-						}
-
-						// replace or insert the line
-						if (valueIndex == 0)
-						{
-							// replace line
-							lines.at(macroLineNumber + lineIndex) = value;
-						}
-						else
-						{
-							// insert a line
-							lines.insert(macroLineNumber + lineIndex + valueIndex, value);
-							macroLineCount++;
-						}
-					}
-
-					count++;
-
-					mStart = macroLine.find_first(name, mStart + 1);
-					mEnd = mStart + name.get_size();
-				}
-
-				if (count)
-				{
-					// if the macro replaced anything, re-evaluate the line
-					macroLineNumber--;
-					macroIndex = macros.get_size();
-					break;
-				}
-
-				macroIndex++;
-			}
-
-			macroLineNumber++;
-		}
-
-		// re-get line
-		line = lines.at(lineIndex);
-
-		// skip empty/whitespace line
-		Size solidIndex = line.find_first_not_of(TEXT_WHITESPACE);
-		if (solidIndex == INVALID_INDEX)
-		{
-			continue;
-		}
-
-		// if first line starts with a ": ", then that is the data for the root node
-		if (line.starts_with(": "))
-		{
-			String temp = line.sub(2, line.get_size() - 2);
-			root.set_data(temp.get_data(), temp.get_size());
-			continue;
-		}
-
-		// count number of tabs (indents)
-
-		int spaces = 0;
-		for (char const c : line)
-		{
-			if (c == ' ')
-			{
-				// add once space
-				spaces += 1;
-			}
-			else if (c == '\t')
-			{
-				// multiple sapces
-				spaces += SPACES_PER_TAB;
-			}
-			else
-			{
-				// done
-				break;
-			}
-		}
-		int i = spaces / SPACES_PER_TAB;
-
-		int indentChange = i - indent;
-
-		// if new indent is too deep, ignore
-		if (indentChange > 1)
-		{
-			MINTY_LOG_WARNING_F("Discarding line, invalid indent change of {}: {}", indentChange, line);
-			continue;
-		}
-
-		// check change in index
-		if (indentChange > 0)
-		{
-			nodeStack.push(&node->get_children().back());
-
-			// start using that as active node
-			node = nodeStack.peek();
-
-			// update indent
-			indent = i;
-		}
-		else if (indentChange < 0)
-		{
-			// going down, so pop down X nodes, where X is the difference between indents
-			for (; indentChange < 0; indentChange++)
-			{
-				nodeStack.pop();
-			}
-
-			// update node reference
-			node = nodeStack.peek();
-
-			// update indent
-			indent = i;
-		}
-
-		// remove indents for parsing
-		if (spaces > 0)
-		{
-			line = line.sub(solidIndex, line.get_size() - solidIndex);
-		}
-
-		if (line.starts_with("- "))
-		{
-			// bullet point, use "" as key and the whole line as the value
-			key = "";
-			value = line.sub(2, line.get_size() - 2);
-			value = value.replace("\\n", "\n");
-		}
-		else
-		{
-			// String::split by colon, if there is one
-			Size split = line.find_first(':');
-
-			if (split == INVALID_INDEX)
-			{
-				// no String::split, just key
-				key = line;
-				value = "";
-			}
-			else
-			{
-				// String::split: implies key: value
-				key = line.sub(0, split);
-				// ignore ": "
-				Size size = line.get_size() - split - 2;
-				if (split < line.get_size() - 2)
-				{
-					// something on other side of ": "
-					value = line.sub(split + 2, size);
-				}
-				else
-				{
-					// nothing on other side of the ": "
-					value = "";
-				}
-				value = value.replace("\\n", "\n");
-			}
-		}
-
-		// get index of newNode
-		Size index = node->get_children().get_size();
-
-		// add node to children
-		node->add_child(key, value);
-	}
-
-	outValue = root;
-	return true;
-}
-
-String Minty::Parser<Node>::to_string(Node const &obj)
-{
-	MINTY_NOT_IMPLEMENTED();
-	return String();
-}
-
 void Minty::Serializer<Node>::serialize(Writer &writer, Node const &value)
 {
-	MINTY_NOT_IMPLEMENTED();
+	// write the node's data, if any
+	if (value.has_data())
+	{
+		String const dataStr = value.get_data_string();
+		if (!dataStr.is_empty())
+		{
+			writer.write_inline(dataStr);
+		}
+	}
 
-	// // write this value
-	// writer.write(name, get_data_string());
-
-	// // write children
-	// writer.indent();
-	// for (auto const &child : m_children)
-	// {
-	// 	child.serialize(writer, child.get_name());
-	// }
-	// writer.outdent();
+	// write all children
+	for (auto const &child : value.get_children())
+	{
+		String const& childName = child.get_name();
+		String const childData = child.get_data_string();
+		writer.indent(childName);
+		serialize(writer, child);
+		writer.outdent();
+	}
 }
 
 Bool Minty::Serializer<Node>::deserialize(Reader &reader, Node &value)
 {
-	Node root;
-	Stack<Node*> nodeStack;
-	nodeStack.push(&root);
 	String tempName;
 	String tempValue;
+	Node root;
+
+	// read the root node's value, if any
+	if (reader.read_inline(tempValue))
+	{
+		root.set_data(tempValue.get_data(), tempValue.get_size());
+	}
+
+	// working stack to keep track of the current node
+	Stack<Node*> nodeStack;
+
+	// start with the root node
+	nodeStack.push(&root);
 
 	do
 	{
 		Node& node = *nodeStack.peek();
 
-		if (reader.indent_next(tempName, tempValue))
+		// try to read next key-value pair and indent in case there are more child nodes
+		tempValue = "";
+		if (reader.indent_next_optional(tempName, tempValue))
 		{
+			// create and add a child
 			node.add_child(Node(tempName, tempValue));
+
+			// add the new child to the operating stack
 			nodeStack.push(&node.get_children().back());
+
+			// move on and operate on that child
 			continue;
 		}
 
-		if(reader.indent(tempName))
-		{
-			node.add_child(Node(tempName));
-			nodeStack.push(&node.get_children().back());
-			continue;
-		}
-
-		// if no checks were successful, pop node
+		// if no checks were successful, pop node and continue work on previous node
 		nodeStack.pop();
 
 		// if stack is empty, we are done
@@ -552,7 +173,8 @@ Bool Minty::Serializer<Node>::deserialize(Reader &reader, Node &value)
 			break;
 		}
 		
-		// decrease indent and continue
+		// decrease indent after a pop,
+		// but only for the non-root nodes
 		reader.outdent();
 
 	} while(true);

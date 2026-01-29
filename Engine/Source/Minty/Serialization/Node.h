@@ -210,6 +210,12 @@ namespace Minty
 		 */
 		inline Vector<Node> const& get_children() const { return m_children; }
 
+		/**
+		 * @brief Checks if this Node has data.
+		 * @return True, if this Node has data.
+		 */
+		inline Bool has_data() const { return m_data.get_size() > 0; }
+
 #pragma endregion
 
 #pragma region Methods
@@ -322,13 +328,6 @@ namespace Minty
 		Map<String, Int> m_lookup;
 
 #pragma endregion
-	};
-	
-	template<>
-	struct Parser<Node>
-	{
-		static Bool parse(StringView const str, Node& value);
-		static String to_string(Node const& obj);
 	};
 
     template<>

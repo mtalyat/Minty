@@ -271,10 +271,7 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 
 		// get a copy of the value to set
 		Node const& value = m_values.at(valueIndex);
-		String const strValue = Parser<Node>::to_string(value);
-		
-		// write the value to the writer
-		writer.write(variableName, strValue);
+		writer.write(variableName, value);
 	}
 
 	// create serialization data
@@ -331,7 +328,8 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		extract_key(key, entityIndex, componentIndex, type);
 
 		// get the entity
-		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
+		EntityPath const& childPath = m_entities.at(entityIndex);
+		Entity const entity = entityManager.get_entity(thisEntity, childPath);
 		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, Parser<EntityPath>::to_string(m_entities.at(entityIndex)));
 
 		// get the component
@@ -434,8 +432,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				{
 					// if no next value, no interpolation, use the previous value
 					Node const& node = m_values.at(timeValue.get_second());
-					String const nodeStr = Parser<Node>::to_string(node);
-					writer.write(variableName, nodeStr);
+					writer.write(variableName, node);
 				}
 				else
 				{

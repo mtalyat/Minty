@@ -36,6 +36,7 @@ namespace Minty
     protected:
         void write_key(StringView const key) override;
         void write_break() override;
+		void write_kvp_separator() override;
 		void write_type_value_pair(Type const type, AnyConst const data) override;
         void write_bool(Bool const value) override;
         void write_byte(Byte const value) override;

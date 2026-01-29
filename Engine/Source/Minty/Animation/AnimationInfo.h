@@ -28,16 +28,6 @@ namespace Minty
 		UUID id = UUID();
 
 		/**
-		 * @brief The amount of time this animation takes to complete, in seconds.
-		 */
-		Float duration = 0.0f;
-
-		/**
-		 * @brief When true, the animation will restart after it ends.
-		 */
-		Bool loop = false;
-
-		/**
 		 * @brief The paths to the Entities to animate.
 		 */
 		Vector<EntityPath> entities;
@@ -78,6 +68,16 @@ namespace Minty
 		 * @brief Indices to the actions to take to reset the Animation to the beginning.
 		 */
 		Vector<Size> resetSteps;
+
+		/**
+		 * @brief The amount of time this animation takes to complete, in seconds.
+		 */
+		Float duration = 0.0f;
+
+		/**
+		 * @brief When true, the animation will restart after it ends.
+		 */
+		Bool loop = false;
 	};
 }
 

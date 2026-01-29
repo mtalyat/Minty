@@ -222,15 +222,13 @@ namespace Minty
             // consume the key
             consume_next_key();
 
-            // do nothing if no value
-            if (!check_value())
+            // read the value with that key
+            if(!specialized_read<T>(value))
             {
                 value = defaultValue;
-                return true;
             }
 
-            // read the value with that key
-            return specialized_read<T>(value);
+            return true;
         }
 
         /**
@@ -344,20 +342,14 @@ namespace Minty
                 return false;
             }
 
-            // do nothing if no value
-            if (!check_value())
+            // read the value
+            if(!specialized_read<T>(value))
             {
                 return false;
             }
 
             // consume the key
             consume_next_key();
-
-            // read the value
-            if(!specialized_read<T>(value))
-            {
-                return false;
-            }
 
             // indent
             increase_indentation();
@@ -385,23 +377,14 @@ namespace Minty
             // consume the key
             consume_next_key();
 
-            // do nothing if no value
-            if (!check_value())
-            {
-                // indent
-                value = defaultValue;
-                increase_indentation();
-                return true;
-            }
-
-            // read the value
-            if(!specialized_read<T>(value))
-            {
-                return false;
-            }
-
             // indent
             increase_indentation();
+
+            // read the value
+            if (!specialized_read<T>(value))
+            {
+                value = defaultValue;
+            }
 
             return true;
         }

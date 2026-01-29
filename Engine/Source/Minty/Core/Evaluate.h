@@ -338,6 +338,12 @@ namespace Minty
 		template <typename T>
 		T evaluate(StringView const expression)
 		{
+			// if empty, return default value
+			if (expression.is_empty())
+			{
+				return T{};
+			}
+			
 			// get tokens
 			Vector<String> tokens = Internal::split_into_tokens(expression);
 

@@ -21,12 +21,13 @@ Handle Minty::Reader::save_bookmark()
 
 void Minty::Reader::load_bookmark(Handle const bookmark)
 {
+    // consume any pending key/value
+    consume_next_key_and_value();
+
     MINTY_ASSERT_F(m_bookmarks.contains(bookmark), ErrorCode::Serialization_InvalidBookmark, bookmark);
     Tuple<StreamPosition, UInt> const &data = m_bookmarks[bookmark];
     get_stream()->set_position(data.get_first());
     m_indent = data.get_second();
-
-    consume_next_key();
 }
 
 Bool Minty::Reader::read_from_stream(Any data, Size const size)

@@ -134,7 +134,7 @@ void Minty::Animator::flush(AnimatorComponent &animatorComp, Float const deltaTi
 {
 	// update the animator
 	Ref<Animation> &animation = animatorComp.animation;
-	UUID currentId = animation == nullptr ? UUID(UUID()) : animation->get_id();
+	UUID currentId = animation == nullptr ? UUID() : animation->get_id();
 	UUID newId = animatorComp.animator->update(animation, animatorComp.time);
 
 	// if ID changed, reset animation data

@@ -2,12 +2,17 @@
 #include "Minty/Memory/DefaultAllocator.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Tool/String.h"
+#include "Minty/Core/Constant.h"
 
 using namespace Minty;
 
 Minty::String::String()
     : mp_data(nullptr), m_size(0)
 {
+    // allocate an empty string
+    mp_data = DefaultAllocator<Char>().allocate(1);
+    MINTY_ASSERT_F(mp_data != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char));
+    mp_data[0] = '\0';
 }
 
 Minty::String::String(StringView const view)

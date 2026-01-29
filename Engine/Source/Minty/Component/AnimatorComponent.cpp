@@ -24,13 +24,6 @@ Bool Minty::Serializer<AnimatorComponent>::deserialize(Reader &reader, AnimatorC
 		// make a copy of the animator
 		value.animator = assetManager.clone<Animator>(id);
 		MINTY_ASSERT_F(value.animator != nullptr, ErrorCode::Asset_MissingDependency, id);
-
-		// get the animation
-		id = value.animator->get_current_animation();
-		if (id.is_valid())
-		{
-			value.animation = assetManager.get_ref<Animation>(id);
-		}
 	}
 	return true;
 }

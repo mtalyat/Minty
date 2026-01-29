@@ -1583,7 +1583,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 	// NOTE: The entities must be all loaded before the components, as some components will have Entity dependencies.
 
 	// save a bookmark since the reader will have to come back to re-read the skipped data
-	Handle const bookmark = reader.save_bookmark();
+	Handle bookmark = reader.save_bookmark();
 
 	// get entities by themselves
 	Vector<Entity> entities;

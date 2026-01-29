@@ -24,8 +24,7 @@ UUID Minty::State::evaluate(Scope const& scope) const
 
 void Minty::Serializer<State>::serialize(Writer &writer, State const &value)
 {
-	writer.write("Value", value.m_value);
-	writer.write("Transitions", value.m_transitions);
+	MINTY_NOT_IMPLEMENTED();
 }
 
 Bool Minty::Serializer<State>::deserialize(Reader &reader, State &value)

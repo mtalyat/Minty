@@ -21,36 +21,20 @@ namespace Minty
 	{
 		friend struct Serializer<Transition>;
 
-#pragma region Variables
-
-	private:
-		UUID m_stateId;
-		Vector<Condition> m_conditions;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
 		/**
 		 * @brief Creates an empty Transition.
 		 */
-		Transition()
-			: m_stateId(UUID())
-			, m_conditions()
-		{
-		}
+		Transition();
 
 		/**
 		 * @brief Creates a Transition with the given state ID and conditions.
 		 * @param stateId The ID of the State to transition to.
 		 * @param conditions The conditions to check.
 		 */
-		Transition(UUID const stateId, Vector<Condition> const& conditions)
-			: m_stateId(stateId)
-			, m_conditions(conditions)
-		{
-		}
+		Transition(UUID const stateId, Vector<Condition> const& conditions);
 
 #pragma endregion
 
@@ -80,6 +64,14 @@ namespace Minty
 		 * @return True if this Transition is valid, otherwise false.
 		 */
 		Bool evaluate(Scope const& scope) const;
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		UUID m_stateId;
+		Vector<Condition> m_conditions;
 
 #pragma endregion
 	};

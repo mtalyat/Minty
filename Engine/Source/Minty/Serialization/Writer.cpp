@@ -4,7 +4,7 @@
 using namespace Minty;
 
 Minty::Writer::Writer(Shared<Stream> const &stream)
-    : m_stream(stream), m_userStack()
+    : m_stream(stream), m_userStack(), m_indent(0), m_state(State::None)
 {
 }
 

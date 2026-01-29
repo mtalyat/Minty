@@ -27,19 +27,13 @@ namespace Minty
 		/**
 		 * @brief Creates an empty EntityPath.
 		 */
-		EntityPath()
-			: m_path()
-		{
-		}
+		EntityPath();
 		
 		/**
 		 * @brief Creates an EntityPath from the given path.
 		 * @param path The child indices, going down the hierarchy.
 		 */
-		EntityPath(Vector<Byte> const& path)
-			: m_path(path)
-		{
-		}
+		EntityPath(Vector<Byte> const& path);
 
 #pragma endregion
 
@@ -49,19 +43,23 @@ namespace Minty
 		 * @brief Gets the index path to the child entity.
 		 * @return The path.
 		 */
-		Vector<Byte> const& get_path() const
-		{
-			return m_path;
-		}
+		Vector<Byte> const& get_path() const { return m_path; }
 
 		/**
 		 * @brief Checks if this EntityPath is empty.
 		 * @return True if empty.
 		 */
-		Bool is_empty() const
-		{
-			return m_path.is_empty();
-		}
+		Bool is_empty() const { return m_path.is_empty(); }
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
+		/**
+		 * @brief Clears the EntityPath.
+		 */
+		inline void clear() { m_path.clear(); }
 
 #pragma endregion
 

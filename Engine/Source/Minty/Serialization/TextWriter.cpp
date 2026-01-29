@@ -20,6 +20,12 @@ Minty::TextWriter::TextWriter(Shared<Stream> const& stream)
 
 void Minty::TextWriter::write_key(StringView const key)
 {
+    // if the next item is a value, finish the previous line
+    if(get_state() != State::None)
+    {
+        write_break();
+    }
+
     // write indentation
     for (Size i = 0; i < m_indentLevel; i++)
     {
@@ -27,20 +33,32 @@ void Minty::TextWriter::write_key(StringView const key)
     }
 
     // write key
-    if (key.is_empty())
-    {
-        write_to_stream(UNNAMED_KEY, UNNAMED_KEY_LENGTH);
-    }
-    else
+    if (!key.is_empty())
     {
         write_to_stream(key.get_data(), key.get_size());
-        write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH);
     }
 }
 
 void Minty::TextWriter::write_break()
 {
     write_to_stream(&BREAK_CHAR, sizeof(Char));
+}
+
+void Minty::TextWriter::write_kvp_separator()
+{
+    switch(get_state())
+    {
+        case State::Key:
+            write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH);
+            break;
+        case State::Empty:
+            write_to_stream(UNNAMED_KEY, UNNAMED_KEY_LENGTH);
+            break;
+        default:
+            // no key written before value
+            MINTY_ERROR(ErrorCode::Serialization_Write);
+            break;
+    }
 }
 
 void Minty::TextWriter::write_type_value_pair(Type const type, AnyConst const data)
