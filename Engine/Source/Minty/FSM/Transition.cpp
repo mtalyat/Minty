@@ -6,14 +6,24 @@
 
 using namespace Minty;
 
-void Minty::Transition::add_condition(Condition const& condition)
+Minty::Transition::Transition()
+	: m_stateId(), m_conditions()
+{
+}
+
+Minty::Transition::Transition(UUID const stateId, Vector<Condition> const &conditions)
+	: m_stateId(stateId), m_conditions(conditions)
+{
+}
+
+void Minty::Transition::add_condition(Condition const &condition)
 {
 	m_conditions.add(condition);
 }
 
-Bool Minty::Transition::evaluate(Scope const& scope) const
+Bool Minty::Transition::evaluate(Scope const &scope) const
 {
-	for (auto const& condition : m_conditions)
+	for (auto const &condition : m_conditions)
 	{
 		if (!condition.evaluate(scope))
 		{
@@ -23,28 +33,34 @@ Bool Minty::Transition::evaluate(Scope const& scope) const
 	return true;
 }
 
-void Minty::Transition::serialize(Writer& writer, String const& name) const
+void Minty::Serializer<Transition>::serialize(Writer &writer, Transition const &value)
 {
-	FSM const* fsm = static_cast<FSM const*>(writer.get_user_data());
-	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
-
-	String stateName = fsm->get_state_name(m_stateId);
-	writer.write(name, stateName);
-	writer.write(name, m_conditions);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::Transition::deserialize(Reader& reader, Size const index)
+Bool Minty::Serializer<Transition>::deserialize(Reader &reader, Transition &value)
 {
-	FSM* fsm = static_cast<FSM*>(reader.get_user_data());
+	FSM *fsm = static_cast<FSM *>(reader.get_user_data());
 	MINTY_ASSERT(fsm != nullptr, ErrorCode::InvalidUserData);
 
 	String stateName;
-	if (reader.read(index, stateName))
+	if (reader.read_inline(stateName))
 	{
 		// name read successfully
-		m_stateId = fsm->find_state(stateName);
+		value.m_stateId = fsm->find_state(stateName);
+		MINTY_CHECK_F(value.m_stateId.is_valid(), ErrorCode::Serialization_InvalidData, stateName); // state not found
 	}
-	reader.read(index, m_conditions);
+	else
+	{
+		MINTY_ERROR(ErrorCode::Serialization_MissingValue);
+	}
 
+	value.m_conditions.clear();
+	String dummy;
+	Condition condition;
+	while (reader.read_next(dummy, condition))
+	{
+		value.m_conditions.add(condition);
+	}
 	return true;
 }

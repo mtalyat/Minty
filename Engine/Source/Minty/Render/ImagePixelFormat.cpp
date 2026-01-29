@@ -1,33 +1,25 @@
 #include "pch.h"
 #include "ImagePixelFormat.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ImagePixelFormat const obj)
+static constexpr Size IMAGEPIXELFORMAT_COUNT = 5;
+static constexpr Char const* IMAGEPIXELFORMAT_STRINGS[IMAGEPIXELFORMAT_COUNT] =
 {
-	switch (obj)
-	{
-	case ImagePixelFormat::Gray: return "Gray";
-	case ImagePixelFormat::GrayAlpha: return "GrayAlpha";
-	case ImagePixelFormat::RedGreenBlue: return "RedGreenBlue";
-	case ImagePixelFormat::RedGreenBlueAlpha: return "RedGreenBlueAlpha";
+	"None",
+	"Gray",
+	"GrayAlpha",
+	"RedGreenBlue",
+	"RedGreenBlueAlpha"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ImagePixelFormat>::parse(StringView const str, ImagePixelFormat &value)
+{
+    return Tool::try_parse_enum(str, IMAGEPIXELFORMAT_STRINGS, IMAGEPIXELFORMAT_COUNT, value);
 }
 
-ImagePixelFormat Minty::parse_to_image_pixel_format(String const& string)
+String Minty::Parser<ImagePixelFormat>::to_string(ImagePixelFormat const &obj)
 {
-	if (string == "Gray") return ImagePixelFormat::Gray;
-	if (string == "GrayAlpha") return ImagePixelFormat::GrayAlpha;
-	if (string == "RedGreenBlue") return ImagePixelFormat::RedGreenBlue;
-	if (string == "RedGreenBlueAlpha") return ImagePixelFormat::RedGreenBlueAlpha;
-
-	return ImagePixelFormat();
-}
-
-Bool Minty::parse_try_image_pixel_format(String const& string, ImagePixelFormat& value)
-{
-	value = parse_to_image_pixel_format(string);
-	return value != ImagePixelFormat();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), IMAGEPIXELFORMAT_STRINGS, IMAGEPIXELFORMAT_COUNT);
 }

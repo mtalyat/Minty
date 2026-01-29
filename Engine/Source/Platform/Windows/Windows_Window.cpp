@@ -92,7 +92,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 			}
 		});
 
-	glfwSetCursorPosCallback(mp_window, [](GLFWwindow* window, Double x, Double y)
+	glfwSetCursorPosCallback(mp_window, [](GLFWwindow* window, WFloat x, WFloat y)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
 			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);
@@ -103,7 +103,7 @@ Minty::Windows_Window::Windows_Window(WindowInfo const& info)
 			}
 		});
 
-	glfwSetScrollCallback(mp_window, [](GLFWwindow* window, Double xOffset, Double yOffset)
+	glfwSetScrollCallback(mp_window, [](GLFWwindow* window, WFloat xOffset, WFloat yOffset)
 		{
 			Windows_Window* obj = static_cast<Windows_Window*>(glfwGetWindowUserPointer(window));
 			MINTY_ASSERT(obj, ErrorCode::InvalidUserData);

@@ -10,7 +10,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Lookup.h"
 #include "Minty/Data/UUID.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -19,8 +19,9 @@ namespace Minty
 	 * @brief Manages a collection of named variables identified by UUIDs.
 	 */
 	class Scope
-		: public SerializableObject
 	{
+		friend struct Serializer<Scope>;
+
 #pragma region Iterators
 
 	public:
@@ -107,9 +108,6 @@ namespace Minty
 		 */
 		void reset();
 
-		void serialize(Writer &writer) const override;
-		Bool deserialize(Reader &reader) override;
-
 #pragma endregion
 
 #pragma region Variables
@@ -118,6 +116,13 @@ namespace Minty
 		Lookup<UUID, Int> m_values;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<Scope>
+	{
+		static void serialize(Writer& writer, Scope const& value);
+		static Bool deserialize(Reader& reader, Scope& value);
 	};
 }
 

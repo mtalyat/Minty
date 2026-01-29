@@ -22,9 +22,13 @@ namespace Minty
 		 * @brief The Canvas data.
 		 */
 		Canvas canvas;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<CanvasComponent>
+	{
+		static void serialize(Writer& writer, CanvasComponent const& value);
+		static Bool deserialize(Reader& reader, CanvasComponent& value);
 	};
 }
 

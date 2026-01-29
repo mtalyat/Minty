@@ -28,9 +28,13 @@ namespace Minty
 		 * @brief The UITransform data.
 		 */
 		UITransform transform;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<UITransformComponent>
+	{
+		static void serialize(Writer& writer, UITransformComponent const& value);
+		static Bool deserialize(Reader& reader, UITransformComponent& value);
 	};
 }
 

@@ -22,16 +22,16 @@ namespace Minty
 	struct AnimationInfo;
 	struct ComponentData;
 
-	/// <summary>
-	/// A single animation. A collection of actions to move or change an Entity.
-	/// </summary>
+	/**
+	 * @brief The Animation class represents an animation that can be applied to Entities.
+	 */
 	class Animation
 		: public Asset
 	{
 #pragma region Types
 
 	private:
-		using StepKey = ULong;
+		using StepKey = WUInt;
 		using StepValue = UInt;
 
 	public:
@@ -107,9 +107,9 @@ namespace Minty
 		static Shared<Animation> create();
 		
 	private:
-		StepKey compile_key(Index const entityIndex, Index const componentIndex, AnimationActionType const type) const;
+		StepKey compile_key(Index const entityIndex, Index const componentIndex, AnimationActionFlags const type) const;
 
-		void extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionType& flags) const;
+		void extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionFlags& flags) const;
 
 		StepValue compile_value(Index const variableIndex, Index const valueIndex) const;
 

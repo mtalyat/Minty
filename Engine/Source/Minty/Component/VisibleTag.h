@@ -2,8 +2,8 @@
 #define MINTY_COMPONENT_VISIBLECOMPONENT_H
 
 /**
- * @file VisibleComponent.h
- * @brief Header file defining the VisibleComponent structure.
+ * @file VisibleTag.h
+ * @brief Header file defining the VisibleTag structure.
  * @author Mitchell Talyat
  */
 
@@ -14,7 +14,7 @@ namespace Minty
 	/**
 	 * @brief If an Entity has this component, it is visible.
 	 */
-	struct VisibleComponent
+	struct VisibleTag
 		: public Component
 	{
 	};

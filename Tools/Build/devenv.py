@@ -107,6 +107,10 @@ def main() -> int:
             # Remove Bin directory if it exists
             if os.path.exists(project_build_bin_path):
                 shutil.rmtree(project_build_bin_path)
+            
+            # Remove Output directory if it exists
+            if os.path.exists(project_build_output_path):
+                shutil.rmtree(project_build_output_path)
 
         # Build
         if action & ACTION_BUILD:
@@ -129,10 +133,11 @@ def main() -> int:
 
             # Run the CMake config
             code, message = command.run_command(f'cmake .. -A {architecture_name}', cwd=project_build_output_path)
+            with open(config_log_path, 'w') as config_log_file:
+                config_log_file.write(message)
 
             if code != 0:
-                print(f'Error: CMake configuration failed for project {project}. See {config_log_path} for details.')
-                print(f'Code: {code}, Message: {message}')
+                print(f'Error: CMake configuration failed with code {code} for project {project}. See {config_log_path} for details.')
                 continue
 
             # Run the build
@@ -145,8 +150,7 @@ def main() -> int:
             code = filter_logger.done()
             
             if code != 0:
-                print(f'Error: Build failed for project {project}. See {build_log_path} for details.')
-                print(f'Code: {code}')
+                print(f'Error: Build failed with code {code} for project {project}. See {build_log_path} for details.')
                 continue
 
             # Copy built files to Bin directory

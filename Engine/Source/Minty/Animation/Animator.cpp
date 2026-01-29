@@ -65,7 +65,10 @@ UUID Minty::Animator::get_current_animation() const
 	if (mp_fsm->has_current_state())
 	{
 		// yes animation
-		return mp_fsm->get_current_state().get_value().get<UUID>();
+		State& currentState = mp_fsm->get_current_state();
+		Variable const& value = currentState.get_value();
+		UUID const animationId = value.get<UUID>();
+		return animationId;
 	}
 
 	// no animation
@@ -102,10 +105,12 @@ UUID Minty::Animator::update(Ref<Animation> const &currentAnimation, Float const
 					StringBuilder statesBuilder;
 					for (State const *const visitedState : visitedStatesInOrder)
 					{
-						statesBuilder.append(visitedState->get_value().get<UUID>());
+						UUID const& id = visitedState->get_value().get<UUID>();
+						statesBuilder.append(Parser<UUID>::to_string(id));
 						statesBuilder.append(" -> ");
 					}
-					MINTY_ERROR_F(ErrorCode::InfiniteLoop, state->get_value().get<UUID>(), "->", statesBuilder.to_string());
+					UUID const& id = state->get_value().get<UUID>();
+					MINTY_ERROR_F(ErrorCode::InfiniteLoop, id, "->", statesBuilder.get_string());
 					break; // break out of the loop to prevent infinite recursion
 				}
 				visitedStates.add(state);
@@ -129,7 +134,7 @@ void Minty::Animator::flush(AnimatorComponent &animatorComp, Float const deltaTi
 {
 	// update the animator
 	Ref<Animation> &animation = animatorComp.animation;
-	UUID currentId = animation == nullptr ? UUID(UUID()) : animation->get_id();
+	UUID currentId = animation == nullptr ? UUID() : animation->get_id();
 	UUID newId = animatorComp.animator->update(animation, animatorComp.time);
 
 	// if ID changed, reset animation data

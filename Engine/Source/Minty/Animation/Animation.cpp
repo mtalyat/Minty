@@ -7,6 +7,10 @@
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Serialization/TextReader.h"
+#include "Minty/Serialization/TextWriter.h"
+#include "Minty/Stream/MemoryStream.h"
+#include "Minty/Serialization/EvaluatedTypes.h"
 
 using namespace Minty;
 
@@ -134,7 +138,7 @@ Minty::Animation::Animation(AnimationInfo const& info)
 	}
 }
 
-Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index const componentIndex, AnimationActionType const type) const
+Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index const componentIndex, AnimationActionFlags const type) const
 {
 	// pack the indices into a single key
 	return
@@ -143,12 +147,12 @@ Animation::StepKey Minty::Animation::compile_key(Index const entityIndex, Index 
 			((static_cast<StepKey>(type) & MAX_FLAGS_INDEX) << FLAGS_OFFSET));
 }
 
-void Minty::Animation::extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionType& type) const
+void Minty::Animation::extract_key(StepKey const key, Index& entityIndex, Index& componentIndex, AnimationActionFlags& type) const
 {
 	// extract the entity and component indices from the key
 	entityIndex = static_cast<Index>((key >> ENTITY_OFFSET) & MAX_ENTITY_INDEX);
 	componentIndex = static_cast<Index>((key >> COMPONENT_OFFSET) & MAX_COMPONENT_INDEX);
-	type = static_cast<AnimationActionType>((key >> FLAGS_OFFSET) & MAX_FLAGS_INDEX);
+	type = static_cast<AnimationActionFlags>((key >> FLAGS_OFFSET) & MAX_FLAGS_INDEX);
 }
 
 Animation::StepValue Minty::Animation::compile_value(Index const variableIndex, Index const valueIndex) const
@@ -181,10 +185,10 @@ void Minty::Animation::build_action(StepKey& key, Vector<StepValue>& values, Ani
 	}
 
 	// if the action has smooth variables, it must be a smooth action
-	AnimationActionType type = action.type;
+	AnimationActionFlags type = action.type;
 	if (hasSmooth)
 	{
-		type |= AnimationActionType::Smooth;
+		type |= AnimationActionFlags::Smooth;
 	}
 
 	// compile the key
@@ -234,15 +238,15 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	Component* component = componentInfo->get(entityManager, entity);
 
 	// determine what to do based on the flags
-	if ((action.type & AnimationActionType::Add) != AnimationActionType::None)
+	if ((action.type & AnimationActionFlags::Add) != AnimationActionFlags::None)
 	{
 		if (component == nullptr)
 		{
-			component = &componentInfo->create(entityManager, entity);
+			componentInfo->create(entityManager, entity);
 		}
 		return;
 	}
-	if ((action.type & AnimationActionType::Remove) != AnimationActionType::None)
+	if ((action.type & AnimationActionFlags::Remove) != AnimationActionFlags::None)
 	{
 		if (component != nullptr)
 		{
@@ -255,18 +259,19 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	MINTY_ASSERT(component != nullptr, ErrorCode::Animation_ComponentNotFound);
 
 	// build and add all of the values to set
-	Node root{};
+	Shared<DynamicContainer> const container = Shared<DynamicContainer>::create();
+	Shared<Stream> const stream = Shared<MemoryStream>::create(container);
+	
+	// TODO: do not use text writer, use binary writer
+	TextWriter writer(stream);
 	for (auto const& [variableIndex, valueIndex] : action.values)
 	{
 		// get the variable name
 		String const& variableName = m_variables.at(variableIndex).get_first();
 
 		// get a copy of the value to set
-		Node value = m_values.at(valueIndex);
-		value.set_name(variableName);
-
-		// add the value to the root node
-		root.add_child(std::move(value));
+		Node const& value = m_values.at(valueIndex);
+		writer.write(variableName, value);
 	}
 
 	// create serialization data
@@ -277,24 +282,21 @@ void Minty::Animation::perform_action(AnimationAction const& action, Entity cons
 	};
 
 	// deserialize the data
-	TextNodeReader reader(root);
+	stream->set_position(0);
+	TextReader reader(stream);
 	reader.push_user_data(&data);
-	component->deserialize(reader);
+	componentInfo->deserialize(reader, *component);
 	reader.pop_user_data();
 }
 
 template<typename T>
-static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result, Bool(*try_func)(StringView const, T&))
+static Bool interpolate_nodes(String const& left, String const& right, Float const t, String& result)
 {
-	T leftValue, rightValue;
-	if (try_func(left, leftValue) && try_func(right, rightValue))
-	{
-		// if both are valid, interpolate
-		T interpolatedValue = static_cast<T>(Math::lerp(leftValue, rightValue, t));
-		result = to_string(interpolatedValue);
-		return true;
-	}
-	return false;
+	T const leftValue = Evaluator<T>::evaluate(left);
+	T const rightValue = Evaluator<T>::evaluate(right);
+	T const interpolatedValue = static_cast<T>(Math::lerp(leftValue, rightValue, t));
+	result = Parser<T>::to_string(interpolatedValue);
+	return true;
 }
 
 // return true when animation is completed
@@ -322,27 +324,29 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 
 		// check if the key is smooth or rigid
 		Index entityIndex, componentIndex;
-		AnimationActionType type;
+		AnimationActionFlags type;
 		extract_key(key, entityIndex, componentIndex, type);
 
 		// get the entity
-		Entity const entity = entityManager.get_entity(thisEntity, m_entities.at(entityIndex));
-		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, m_entities.at(entityIndex).to_string());
+		EntityPath const& childPath = m_entities.at(entityIndex);
+		Entity const entity = entityManager.get_entity(thisEntity, childPath);
+		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, Parser<EntityPath>::to_string(m_entities.at(entityIndex)));
 
 		// get the component
 		ComponentData const* componentInfo = m_components.at(componentIndex);
 		Component* component = componentInfo->get(entityManager, entity);
 
 		// determine what to do based on the flags
-		if ((type & AnimationActionType::Add) != AnimationActionType::None)
+		if ((type & AnimationActionFlags::Add) != AnimationActionFlags::None)
 		{
 			if (component == nullptr)
 			{
-				component = &componentInfo->create(entityManager, entity);
+				componentInfo->create(entityManager, entity);
+				component = componentInfo->get(entityManager, entity);
 			}
 			continue;
 		}
-		if ((type & AnimationActionType::Remove) != AnimationActionType::None)
+		if ((type & AnimationActionFlags::Remove) != AnimationActionFlags::None)
 		{
 			if (component != nullptr)
 			{
@@ -352,7 +356,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		}
 
 		// normal step
-		Bool const interpolate = (type & AnimationActionType::Smooth) != AnimationActionType::None;
+		Bool const interpolate = (type & AnimationActionFlags::Smooth) != AnimationActionFlags::None;
 
 		// behave differently based on the interpolation type
 		if (interpolate)
@@ -414,7 +418,10 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				}
 			}
 
-			Node root;
+			Shared<DynamicContainer> const container = Shared<DynamicContainer>::create();
+			Shared<Stream> const stream = Shared<MemoryStream>::create(container);
+			// TODO: replace with binary writer
+			TextWriter writer(stream);
 			for (auto const& [variableIndex, timeValue] : previousValues)
 			{
 				auto const& [previousTime, previousValueIndex] = timeValue;
@@ -424,9 +431,8 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				if(!variableSmooth || it == nextValues.end())
 				{
 					// if no next value, no interpolation, use the previous value
-					Node node = m_values.at(timeValue.get_second());
-					node.set_name(variableName);
-					root.add_child(std::move(node));
+					Node const& node = m_values.at(timeValue.get_second());
+					writer.write(variableName, node);
 				}
 				else
 				{
@@ -441,24 +447,21 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 					String resultValue;
 
 					// figure out the type of the variable based on the value
-					if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_long)) {} // signed integers
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_double)) {} // floating point values
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int2)) {} // int2
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int3)) {} // int3
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_int4)) {} // int4
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float2)) {} // float2
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float3)) {} // float3
-					else if (interpolate_nodes(previousValue, nextValue, t, resultValue, try_float4)) {} // float4
+					if (interpolate_nodes<Int64>(previousValue, nextValue, t, resultValue)) {} // signed integers
+					else if (interpolate_nodes<Float64>(previousValue, nextValue, t, resultValue)) {} // floating point values
+					else if (interpolate_nodes<Int2>(previousValue, nextValue, t, resultValue)) {} // int2
+					else if (interpolate_nodes<Int3>(previousValue, nextValue, t, resultValue)) {} // int3
+					else if (interpolate_nodes<Int4>(previousValue, nextValue, t, resultValue)) {} // int4
+					else if (interpolate_nodes<Float2>(previousValue, nextValue, t, resultValue)) {} // float2
+					else if (interpolate_nodes<Float3>(previousValue, nextValue, t, resultValue)) {} // float3
+					else if (interpolate_nodes<Float4>(previousValue, nextValue, t, resultValue)) {} // float4
 					else
 					{
 						MINTY_LOG_ERROR(F("Interpolation between \"{}\" and \"{}\" is not supported.", previousValue, nextValue));
 					}
 
 					// create the node with the interpolated value and add it to the root
-					Node node;
-					node.set_name(variableName);
-					node.set_data(resultValue);
-					root.add_child(std::move(node));
+					writer.write(variableName, resultValue);
 				}
 			}
 
@@ -470,9 +473,9 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 			};
 
 			// deserialize the data
-			TextNodeReader reader(root);
+			TextReader reader(stream);
 			reader.push_user_data(&data);
-			component->deserialize(reader);
+			componentInfo->deserialize(reader, *component);
 			reader.pop_user_data();
 		}
 		else

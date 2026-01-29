@@ -22,9 +22,13 @@ namespace Minty
          * @brief The position of the entity.
          */
         Float3 position = Math::ZERO;
-        
-		void serialize(Writer& writer) const override;
-	    Bool deserialize(Reader& reader) override;
+    };
+
+    template<>
+    struct Serializer<PositionComponent>
+    {
+        static void serialize(Writer& writer, PositionComponent const& value);
+        static Bool deserialize(Reader& reader, PositionComponent& value);
     };
 }
 

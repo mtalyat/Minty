@@ -6,27 +6,19 @@
 
 using namespace Minty;
 
-void Minty::AudioSourceComponent::serialize(Writer& writer) const
+void Minty::Serializer<AudioSourceComponent>::serialize(Writer &writer, AudioSourceComponent const &value)
 {
-	writer.write("AudioClip", audioClip);
-	writer.write("Play", play);
-	writer.write("Volume", volume);
-	writer.write("Attenuation", attenuation);
-	writer.write("AttenuationRollOff", attenuationRollOff);
-	writer.write("Min", minDistance);
-	writer.write("Max", maxDistance);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::AudioSourceComponent::deserialize(Reader& reader)
+Bool Minty::Serializer<AudioSourceComponent>::deserialize(Reader &reader, AudioSourceComponent &value)
 {
-	reader.read_default(audioClip);
-	reader.read("AudioClip", audioClip);
-	reader.read("Play", play);
-	reader.read("Volume", volume);
-	reader.read("Attenuation", attenuation);
-	reader.read("AttenuationRollOff", attenuationRollOff);
-	reader.read("Min", minDistance);
-	reader.read("Max", maxDistance);
-
+	reader.read_primary("AudioClip", value.audioClip);
+	reader.read("Play", value.play);
+	reader.read("Volume", value.volume);
+	reader.read("Attenuation", value.attenuation);
+	reader.read("AttenuationRollOff", value.attenuationRollOff);
+	reader.read("Min", value.minDistance);
+	reader.read("Max", value.maxDistance);
 	return true;
 }

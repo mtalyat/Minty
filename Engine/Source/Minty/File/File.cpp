@@ -27,8 +27,8 @@ void Minty::File::destroy(Path const& path)
 
 Vector<String> Minty::File::read_lines(Path const& path)
 {
-	PhysicalFile file(path, FileFlags::Read);
-	if(!file.is_open())
+	PhysicalFile file;
+	if(!file.open(path, FileFlags::Read))
 	{
 		return Vector<String>();
 	}
@@ -37,8 +37,8 @@ Vector<String> Minty::File::read_lines(Path const& path)
 
 Vector<Byte> Minty::File::read_bytes(Path const& path)
 {
-	PhysicalFile file(path, FileFlags::Read | FileFlags::Binary);
-	if (!file.is_open())
+	PhysicalFile file;
+	if(!file.open(path, FileFlags::Read | FileFlags::Binary))
 	{
 		return Vector<Byte>();
 	}
@@ -47,8 +47,8 @@ Vector<Byte> Minty::File::read_bytes(Path const& path)
 
 String Minty::File::read_text(Path const& path)
 {
-	PhysicalFile file(path, FileFlags::Read);
-	if (!file.is_open())
+	PhysicalFile file;
+	if (!file.open(path, FileFlags::Read))
 	{
 		return String();
 	}
@@ -57,32 +57,35 @@ String Minty::File::read_text(Path const& path)
 
 Bool Minty::File::write_lines(Path const& path, Vector<String> const& lines)
 {
-	PhysicalFile file(path, FileFlags::Write);
-	if (!file.is_open())
+	PhysicalFile file;
+	if (!file.open(path, FileFlags::Write))
 	{
 		return false;
 	}
-	return file.write_lines(lines);
+	file.write_lines(lines);
+	return true;
 }
 
 Bool Minty::File::write_bytes(Path const& path, Vector<Byte> const& bytes)
 {
-	PhysicalFile file(path, FileFlags::Write | FileFlags::Binary);
-	if (!file.is_open())
+	PhysicalFile file;
+	if (!file.open(path, FileFlags::Write | FileFlags::Binary))
 	{
 		return false;
 	}
-	return file.write_bytes(bytes);
+	file.write_bytes(bytes);
+	return true;
 }
 
 Bool Minty::File::write_text(Path const& path, String const& text)
 {
-	PhysicalFile file(path, FileFlags::Write);
-	if (!file.is_open())
+	PhysicalFile file;
+	if (!file.open(path, FileFlags::Write))
 	{
 		return false;
 	}
-	return file.write_text(text);
+	file.write_text(text);
+	return true;
 }
 
 String Minty::File::read_text()
@@ -114,7 +117,7 @@ Vector<Byte> Minty::File::read_bytes()
 	MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
 	// get size in bytes
-	set_position(0, FileDirection::End);
+	set_position(0, StreamDirection::End);
 	Size size = get_position();
 
 	// make space in vector
@@ -122,40 +125,33 @@ Vector<Byte> Minty::File::read_bytes()
 	bytes.resize(size, 0);
 
 	// read bytes
-	set_position(0, FileDirection::Begin);
+	set_position(0, StreamDirection::Begin);
 	read(bytes.get_data(), size);
 
 	return bytes;
 }
 
-Bool Minty::File::write_text(String const& text)
+void Minty::File::write_text(String const& text)
 {
 	MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
-	return write(text.get_data(), text.get_size());
+	write(text.get_data(), text.get_size());
 }
 
-Bool Minty::File::write_lines(Vector<String> const& lines)
+void Minty::File::write_lines(Vector<String> const& lines)
 {
 	MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
 	for (String const& line : lines)
 	{
-		if(!write(line.get_data(), line.get_size()))
-		{
-			return false;
-		}
-		if(!write("\n", sizeof(Char)))
-		{
-			return false;
-		}
+		write(line.get_data(), line.get_size());
+		write("\n", sizeof(Char));
 	}
-	return true;
 }
 
-Bool Minty::File::write_bytes(Vector<Byte> const& bytes)
+void Minty::File::write_bytes(Vector<Byte> const& bytes)
 {
 	MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
-	return write(bytes.get_data(), bytes.get_size());
+	write(bytes.get_data(), bytes.get_size());
 }

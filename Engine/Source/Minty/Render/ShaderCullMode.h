@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -39,14 +38,13 @@ namespace Minty
 		 */
 		Both = 4,
 	};
-
-	String to_string(ShaderCullMode const obj);
-	ShaderCullMode parse_to_shader_cull_mode(String const& string);
-	Bool parse_try_shader_cull_mode(String const& string, ShaderCullMode& value);
+	
 	template<>
-	inline ShaderCullMode parse_to<ShaderCullMode>(StringView const string) { return parse_to_shader_cull_mode(string); }
-	template<>
-	inline Bool parse_try<ShaderCullMode>(StringView const string, ShaderCullMode& value) { return parse_try_shader_cull_mode(string, value); }
+	struct Parser<ShaderCullMode>
+	{
+		static Bool parse(StringView const str, ShaderCullMode& value);
+		static String to_string(ShaderCullMode const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_SHADERCULLMODE_H

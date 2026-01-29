@@ -8,8 +8,7 @@
  */
 
 #include "Minty/Core/Enum.h"
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -70,14 +69,13 @@ namespace Minty
 	};
 
 	MINTY_ENABLE_ENUM_OPERATORS(ImageLayout);
-
-	String to_string(ImageLayout const obj);
-	ImageLayout parse_to_image_layout(String const& string);
-	Bool parse_try_image_layout(String const& string, ImageLayout& value);
+	
 	template<>
-	inline ImageLayout parse_to<ImageLayout>(StringView const string) { return parse_to_image_layout(string); }
-	template<>
-	inline Bool parse_try<ImageLayout>(StringView const string, ImageLayout& value) { return parse_try_image_layout(string, value); }
+	struct Parser<ImageLayout>
+	{
+		static Bool parse(StringView const str, ImageLayout& value);
+		static String to_string(ImageLayout const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_IMAGELAYOUT_H

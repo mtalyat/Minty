@@ -1,31 +1,22 @@
 #include "pch.h"
 #include "AnimationActionFlags.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(AnimationActionType const obj)
-{
-	switch (obj)
-	{
-	case AnimationActionType::Smooth: return "Smooth";
-	case AnimationActionType::Add: return "Add";
-	case AnimationActionType::Remove: return "Remove";
+static constexpr Size ANIMATIONACTIONFLAGS_COUNT = 3;
+static constexpr Char const* ANIMATIONACTIONFLAGS_STRINGS[ANIMATIONACTIONFLAGS_COUNT] = {
+	"Smooth",
+	"Add",
+	"Remove"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<AnimationActionFlags>::parse(StringView const str, AnimationActionFlags &value)
+{
+    return Tool::try_parse_enum_flags(str, ANIMATIONACTIONFLAGS_STRINGS, ANIMATIONACTIONFLAGS_COUNT, value);
 }
 
-AnimationActionType Minty::parse_to_animation_action_type(String const& string)
+String Minty::Parser<AnimationActionFlags>::to_string(AnimationActionFlags const &value)
 {
-	if (string == "Smooth") return AnimationActionType::Smooth;
-	if (string == "Add") return AnimationActionType::Add;
-	if (string == "Remove") return AnimationActionType::Remove;
-
-	return AnimationActionType();
-}
-
-Bool Minty::parse_try_animation_action_type(String const& string, AnimationActionType& value)
-{
-	value = parse_to_animation_action_type(string);
-	return true;
+    return Tool::to_string_enum_flags(value, ANIMATIONACTIONFLAGS_STRINGS, ANIMATIONACTIONFLAGS_COUNT);
 }

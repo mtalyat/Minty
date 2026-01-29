@@ -9,10 +9,8 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/Parseable.h"
-#include "Minty/Serialization/ToString.h"
 #include "Minty/Data/StringView.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -21,8 +19,9 @@ namespace Minty
 	 * @brief A Universally Unique Identifier (UUID) class.
 	 */
 	class UUID
-		: public Parseable
 	{
+		friend struct Parser<UUID>;
+
 #pragma region Constructors
 
 	public:
@@ -43,12 +42,6 @@ namespace Minty
 		 * @param id_low The low 64 bits.
 		 */
 		UUID(UInt64 const id_low, UInt64 const id_high = 0);
-
-		/**
-		 * @brief Create a UUID from a string representation.
-		 * @param string The string representation of the UUID.
-		 */
-		UUID(StringView const &string);
 
 #pragma endregion
 
@@ -86,19 +79,6 @@ namespace Minty
 		void clear();
 
 		/**
-		 * @brief Reads the data for this object from a String.
-		 * @param text A String of this object.
-		 * @return True on success.
-		 */
-		Bool parse(StringView const text) override;
-
-		/**
-		 * @brief Converts the data in this object to a String.
-		 * @return A String of this object.
-		 */
-		String to_string() const override;
-
-		/**
 		 * @brief Creates a new UUID with a random value.
 		 * @returns The newly created UUID.
 		 */
@@ -120,6 +100,13 @@ namespace Minty
 
 #pragma endregion
 	};
+
+    template<>
+    struct Parser<UUID>
+    {
+        static Bool parse(StringView const str, UUID &value);
+        static String to_string(UUID const &value);
+    };
 }
 
 namespace std

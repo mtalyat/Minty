@@ -9,8 +9,7 @@
 
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -90,7 +89,7 @@ namespace Minty
 		 * @param b The blue value.
 		 * @param a The alpha value.
 		 */
-		explicit Color(Channel_t const r, Channel_t const g, Channel_t const b, Channel_t const a = MAX_CHANNEL)
+		explicit constexpr Color(Channel_t const r, Channel_t const g, Channel_t const b, Channel_t const a = MAX_CHANNEL)
 			: a(a)
 			, b(b)
 			, g(g)
@@ -212,49 +211,49 @@ namespace Minty
 		 * @brief Creates a black color.
 		 * @returns The black color.
 		 */
-		inline static Color black() { return Color(MIN_CHANNEL, MIN_CHANNEL, MIN_CHANNEL); }
+		constexpr static Color black() { return Color(MIN_CHANNEL, MIN_CHANNEL, MIN_CHANNEL); }
 
 		/**
 		 * @brief Creates a red color.
 		 * @returns The red color.
 		 */
-		inline static Color red() { return Color(MAX_CHANNEL, MIN_CHANNEL, MIN_CHANNEL); }
+		constexpr static Color red() { return Color(MAX_CHANNEL, MIN_CHANNEL, MIN_CHANNEL); }
 
 		/**
 		 * @brief Creates a green color.
 		 * @returns The green color.
 		 */
-		inline static Color green() { return Color(MIN_CHANNEL, MAX_CHANNEL, MIN_CHANNEL); }
+		constexpr static Color green() { return Color(MIN_CHANNEL, MAX_CHANNEL, MIN_CHANNEL); }
 
 		/**
 		 * @brief Creates a blue color.
 		 * @returns The blue color.
 		 */
-		inline static Color blue() { return Color(MIN_CHANNEL, MIN_CHANNEL, MAX_CHANNEL); }
+		constexpr static Color blue() { return Color(MIN_CHANNEL, MIN_CHANNEL, MAX_CHANNEL); }
 
 		/**
 		 * @brief Creates a white color.
 		 * @returns The white color.
 		 */
-		inline static Color white() { return Color(MAX_CHANNEL, MAX_CHANNEL, MAX_CHANNEL); }
+		constexpr static Color white() { return Color(MAX_CHANNEL, MAX_CHANNEL, MAX_CHANNEL); }
 
 		/**
 		 * @brief Creates a yellow color.
 		 * @returns The yellow color.
 		 */
-		inline static Color yellow() { return Color(MAX_CHANNEL, MAX_CHANNEL, MIN_CHANNEL); }
+		constexpr static Color yellow() { return Color(MAX_CHANNEL, MAX_CHANNEL, MIN_CHANNEL); }
 
 		/**
 		 * @brief Creates a cyan color.
 		 * @returns The cyan color.
 		 */
-		inline static Color cyan() { return Color(MIN_CHANNEL, MAX_CHANNEL, MAX_CHANNEL); }
+		constexpr static Color cyan() { return Color(MIN_CHANNEL, MAX_CHANNEL, MAX_CHANNEL); }
 
 		/**
 		 * @brief Creates a magenta color.
 		 * @returns The magenta color.
 		 */
-		inline static Color magenta() { return Color(MAX_CHANNEL, MIN_CHANNEL, MAX_CHANNEL); }
+		constexpr static Color magenta() { return Color(MAX_CHANNEL, MIN_CHANNEL, MAX_CHANNEL); }
 
 	private:
 		inline static Float to_linear(Float value)
@@ -265,13 +264,12 @@ namespace Minty
 #pragma endregion
 	};
 
-	String to_string(Color const obj);
-	Color parse_to_color(String const& string);
-	Bool parse_try_color(String const& string, Color& value);
 	template<>
-	inline Color parse_to<Color>(StringView const string) { return parse_to_color(string); }
-	template<>
-	inline Bool parse_try<Color>(StringView const string, Color& value) { return parse_try_color(string, value); }
+	struct Parser<Color>
+	{
+        static Bool parse(StringView const str, Color &value);
+        static String to_string(Color const &value);
+	};
 }
 
 namespace std

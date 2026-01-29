@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -49,7 +48,7 @@ namespace Minty
 	};
 
 	template<Comparable T>
-	Bool evaluate(T const& left, Conditional const conditional, T const& right)
+	Bool evaluate_conditional(T const& left, Conditional const conditional, T const& right)
 	{
 		switch (conditional)
 		{
@@ -69,13 +68,12 @@ namespace Minty
 		return false;
 	}
 
-	String to_string(Conditional const obj);
-	Conditional parse_to_conditional(String const& string);
-	Bool parse_try_conditional(String const& string, Conditional& value);
-	template<>
-	inline Conditional parse_to<Conditional>(StringView const string) { return parse_to_conditional(string); }
-	template<>
-	inline Bool parse_try<Conditional>(StringView const string, Conditional& value) { return parse_try_conditional(string, value); }
+    template<>
+    struct Parser<Conditional>
+    {
+        static Bool parse(StringView const str, Conditional &value);
+        static String to_string(Conditional const &value);
+    };
 }
 
 #endif // MINTY_FSM_CONDITIONAL_H

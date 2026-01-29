@@ -4,17 +4,13 @@
 
 using namespace Minty;
 
-void Minty::GravityComponent::serialize(Writer &writer) const
+void Minty::Serializer<GravityComponent>::serialize(Writer &writer, GravityComponent const &value)
 {
-    writer.write("Scale", scale);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::GravityComponent::deserialize(Reader &reader)
+Bool Minty::Serializer<GravityComponent>::deserialize(Reader &reader, GravityComponent &value)
 {
-    if(!reader.read_default(scale))
-    {
-        reader.read("Scale", scale);
-    }
-
+    reader.read_primary("Scale", value.scale);
     return true;
 }

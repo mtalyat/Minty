@@ -104,67 +104,54 @@ void Minty::FSM::restart()
 	m_currentStateId = m_startingStateId;
 }
 
-void Minty::FSM::serialize(Writer &writer) const
+void Minty::Serializer<FSM>::serialize(Writer &writer, FSM const &value)
 {
-	// add this to push data
-	writer.push_user_data(this);
-
-	writer.write("Scope", m_scope);
-	if (m_startingStateId.is_valid())
-	{
-		// get the name of the starting state
-		String name = m_states.get_string(m_startingStateId);
-		writer.write("Start", name);
-	}
-	
-	// write all states
-	writer.indent("States");
-	for (auto const& [string, key, value] : m_states)
-	{
-		writer.write(string, value);
-	}
-	writer.outdent();
-
-	// remove this from push data
-	writer.pop_user_data();
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::FSM::deserialize(Reader& reader)
+Bool Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 {
-	clear();
+	value.clear();
 
 	// add this to push data
-	reader.push_user_data(this);
+	reader.push_user_data(&value);
 
 	// read scope
-	reader.read("Scope", m_scope);
+	reader.read("Scope", value.m_scope);
 
 	// read states
 	String name;
 	if (reader.indent("States"))
 	{
-		// read the names
-		for (Size i = 0; i < reader.get_size(); i++)
+		Handle const bookmark = reader.save_bookmark();
+
+		// read just the state names so states can reference each other out of order
+		while(reader.indent_next(name))
 		{
-			Bool const nameResult = reader.read_name(i, name);
-			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
-			m_states.add(name, UUID::create(), State());
+			// not implemented: override existing states
+			if(value.m_states.contains(name))
+			{
+				MINTY_NOT_IMPLEMENTED();
+				continue;
+			}
+
+			// create the state
+			value.m_states.add(name, UUID::create(), State());
+
+			reader.outdent();
 		}
 
-		// read the states
-		State state;
-		for (Size i = 0; i < reader.get_size(); i++)
+		// go back to the bookmark
+		reader.load_bookmark(bookmark);
+
+		// read the states again, but this time read the full data
+		while(reader.indent_next(name))
 		{
-			Bool const nameResult = reader.read_name(i, name);
-			MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
-
-			// get the state
-			// no need to check if not found, just added the state above
-			State& state = m_states.at(name);
-
 			// read the state values
-			Bool const readResult = reader.read(i, state);
-			MINTY_ASSERT(readResult, ErrorCode::Serialization_ReadValue);
+			State& state = value.m_states.at(name);
+			Serializer<State>::deserialize(reader, state);
+
+			reader.outdent();
 		}
 
 		reader.outdent();
@@ -173,8 +160,8 @@ Bool Minty::FSM::deserialize(Reader& reader)
 	// read starting state
 	if (reader.read("Start", name))
 	{
-		MINTY_ASSERT_F(m_states.contains(name), ErrorCode::Serialization_InvalidData, name);
-		m_startingStateId = m_states.get_key(name);
+		MINTY_ASSERT_F(value.m_states.contains(name), ErrorCode::Serialization_InvalidData, name);
+		value.m_startingStateId = value.m_states.get_key(name);
 	}
 
 	reader.pop_user_data();

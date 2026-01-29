@@ -35,9 +35,13 @@ namespace Minty
 		 * @brief The current time in the Animation.
 		 */
 		Float time = 0.0f;
+	};
 
-		virtual void serialize(Writer& writer) const override;
-		virtual Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<AnimatorComponent>
+	{
+		static void serialize(Writer& writer, AnimatorComponent const& value);
+		static Bool deserialize(Reader& reader, AnimatorComponent& value);
 	};
 }
 

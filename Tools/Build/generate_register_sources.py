@@ -56,7 +56,7 @@ def generate_component_registration(directory_path, output_path):
         f for f in dir_path.iterdir()
         if f.is_file() 
         and f.suffix == '.h' 
-        and f.stem.endswith('Component')
+        and (f.stem.endswith('Component') or f.stem.endswith('Tag'))
         and not f.name.startswith(IGNORED_FILENAME_START)
     ])
     
@@ -70,7 +70,12 @@ def generate_component_registration(directory_path, output_path):
         class_name = comp_file.stem  # e.g., "TransformComponent"
 
         # Remove "Component" suffix for registration name
-        reg_name = class_name.replace('Component', '')
+        if class_name.endswith('Component'):
+            reg_name = class_name[:-len('Component')]
+        elif class_name.endswith('Tag'):
+            reg_name = class_name[:-len('Tag')]
+        else:
+            reg_name = class_name
 
         # If the reg_name is empty (e.g., class name was just "Component"), skip it
         if not reg_name:
@@ -100,7 +105,6 @@ def generate_component_registration(directory_path, output_path):
     # Write to file
     content = '\n'.join(lines)
     return file_generation.update_generated_file(out_path, content)
-
 
 def generate_system_registration(directory_path, output_path):
     """

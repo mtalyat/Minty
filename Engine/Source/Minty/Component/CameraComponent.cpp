@@ -6,18 +6,19 @@
 
 using namespace Minty;
 
-void Minty::CameraComponent::serialize(Writer& writer) const
+void Minty::Serializer<CameraComponent>::serialize(Writer &writer, CameraComponent const &value)
 {
-	if (camera == nullptr)
-	{
-		writer.write("Camera", UUID());
-		return;
-	}
-
-	writer.write("Camera", camera->get_id());
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::CameraComponent::deserialize(Reader& reader)
+Bool Minty::Serializer<CameraComponent>::deserialize(Reader &reader, CameraComponent &value)
 {
-	return reader.read_default<Ref<Camera>>(camera) || reader.read("Camera", camera);
+	UUID id;
+	if(reader.read_primary("Camera", id))
+	{
+		AssetManager& assetManager = AssetManager::get_singleton();
+		value.camera = assetManager.get_ref<Camera>(id);
+		MINTY_ASSERT_F(value.camera != nullptr, ErrorCode::Asset_MissingDependency, id);
+	}
+	return true;
 }

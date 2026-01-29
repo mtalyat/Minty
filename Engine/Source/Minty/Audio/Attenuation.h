@@ -7,6 +7,8 @@
  * @author Mitchell Talyat
  */
 
+#include "Minty/Serialization/Parser.h"
+
 namespace Minty
 {
 	/**
@@ -38,6 +40,13 @@ namespace Minty
 		 * @brief Default attenuation mode, set to LinearDistance.
 		 */
 		Default = LinearDistance,
+	};
+
+	template<>
+	struct Parser<Attenuation>
+	{
+		static Bool parse(StringView const str, Attenuation &value);
+		static String to_string(Attenuation const &value);
 	};
 }
 

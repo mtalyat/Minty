@@ -18,7 +18,14 @@ namespace Minty
 	struct UUIDComponent
 		: public Component
 	{
-		UUID id = UUID();
+		UUID id = {};
+	};
+
+	template<>
+	struct Serializer<UUIDComponent>
+	{
+		static void serialize(Writer& writer, UUIDComponent const& value);
+		static Bool deserialize(Reader& reader, UUIDComponent& value);
 	};
 }
 

@@ -73,6 +73,17 @@ void Minty::StringBuilder::append(Char const c)
     mp_data[m_size] = '\0';
 }
 
+void Minty::StringBuilder::append(Char const *const cstr)
+{
+    // skip if null or empty
+    if(cstr == nullptr || cstr[0] == '\0')
+    {
+        return;
+    }
+
+    append(StringView(cstr));
+}
+
 void Minty::StringBuilder::append(StringView const &str)
 {
     // skip if empty
@@ -458,4 +469,16 @@ void Minty::StringBuilder::strip(StringView const chars)
 void Minty::StringBuilder::replace(StringView const target, StringView const replacement)
 {
 
+}
+
+void Minty::StringBuilder::reverse() noexcept
+{
+    Size const halfSize = m_size / 2;
+    Size const sizeMinusOne = m_size - 1;
+    for (Size i = 0; i < halfSize; ++i)
+    {
+        Char temp = mp_data[i];
+        mp_data[i] = mp_data[sizeMinusOne - i];
+        mp_data[sizeMinusOne - i] = temp;
+    }
 }

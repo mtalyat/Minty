@@ -57,9 +57,13 @@ namespace Minty
 		 * @brief The parent this Entity is a child to.
 		 */
 		Entity parent = INVALID_ENTITY;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<RelationshipComponent>
+	{
+		static void serialize(Writer& writer, RelationshipComponent const& value);
+		static Bool deserialize(Reader& reader, RelationshipComponent& value);
 	};
 }
 

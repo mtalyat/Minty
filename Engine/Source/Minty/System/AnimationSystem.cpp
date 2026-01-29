@@ -4,7 +4,7 @@
 #include "Minty/Animation/Animator.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/AnimatorComponent.h"
-#include "Minty/Component/EnabledComponent.h"
+#include "Minty/Component/EnabledTag.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Scene/Scene.h"
 #include "Minty/Entity/EntityManager.h"
@@ -20,7 +20,7 @@ void Minty::AnimationSystem::on_frame_update(Timestep const time)
 	EntityManager &entityManager = m_scene->get_entity_manager();
 
 	// update all entities with an animator
-	for (auto &&[entity, animatorComp, enabledComp] : entityManager.view<AnimatorComponent, EnabledComponent const>().each())
+	for (auto &&[entity, animatorComp] : entityManager.view<AnimatorComponent, EnabledTag const>().each())
 	{
 		animatorComp.animator->flush(animatorComp, deltaTime, entity, entityManager);
 	}

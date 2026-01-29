@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +32,13 @@ namespace Minty
 		 */
 		Depth = 2,
 	};
-
-	String to_string(ImageAspect const obj);
-	ImageAspect parse_to_image_aspect(String const& string);
-	Bool parse_try_image_aspect(String const& string, ImageAspect& value);
+	
 	template<>
-	inline ImageAspect parse_to<ImageAspect>(StringView const string) { return parse_to_image_aspect(string); }
-	template<>
-	inline Bool parse_try<ImageAspect>(StringView const string, ImageAspect& value) { return parse_try_image_aspect(string, value); }
+	struct Parser<ImageAspect>
+	{
+		static Bool parse(StringView const str, ImageAspect& value);
+		static String to_string(ImageAspect const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_IMAGE_ASPECT_H

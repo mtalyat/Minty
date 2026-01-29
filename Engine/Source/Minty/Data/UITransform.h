@@ -10,7 +10,7 @@
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Rect.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 #include "Minty/UI/AnchorMode.h"
 
 namespace Minty
@@ -20,8 +20,9 @@ namespace Minty
 	 * @brief Represents a transformation for UI elements.
 	 */
 	class UITransform
-		: public SerializableObject
 	{
+		friend struct Serializer<UITransform>;
+
 #pragma region Constructors
 
 	public:
@@ -51,136 +52,133 @@ namespace Minty
 		 * @brief Gets the x position of this UI element.
 		 * @returns The x position.
 		 */
-		inline Float get_x() const { return x; }
+		inline Float get_x() const { return m_x; }
 
 		/**
 		 * @brief Sets the x position of this UI element.
 		 * @param x The x position.
 		 */
-		inline void set_x(Float const& x) { this->x = x; }
+		inline void set_x(Float const& x) { m_x = x; }
 
 		/**
 		 * @brief Gets the left position of this UI element.
 		 * @returns The left position (same as x).
 		 */
-		inline Float get_left() const { return x; }
+		inline Float get_left() const { return m_x; }
 
 		/**
 		 * @brief Sets the left position of this UI element.
 		 * @param left The left position.
 		 */
-		inline void set_left(Float const& left) { this->x = left; }
+		inline void set_left(Float const& left) { m_x = left; }
 
 		/**
 		 * @brief Gets the y position of this UI element.
 		 * @returns The y position.
 		 */
-		inline Float get_y() const { return y; }
+		inline Float get_y() const { return m_y; }
 
 		/**
 		 * @brief Sets the y position of this UI element.
 		 * @param y The y position.
 		 */
-		inline void set_y(Float const& y) { this->y = y; }
+		inline void set_y(Float const& y) { m_y = y; }
 
 		/**
 		 * @brief Gets the top position of this UI element.
 		 * @returns The top position.
 		 */
-		inline Float get_top() const { return y; }
+		inline Float get_top() const { return m_y; }
 
 		/**
 		 * @brief Sets the top position of this UI element.
 		 * @param top The top position.
 		 */
-		inline void set_top(Float const& top) { this->y = top; }
+		inline void set_top(Float const& top) { m_y = top; }
 
 		/**
 		 * @brief Gets the z position (depth) of this UI element.
 		 * @returns The z position (depth).
 		 */
-		inline Float get_z() const { return z; }
+		inline Float get_z() const { return m_z; }
 
 		/**
 		 * @brief Sets the z position (depth) of this UI element.
 		 * @param z The z position (depth).
 		 */
-		inline void set_z(Float const& z) { this->z = z; }
+		inline void set_z(Float const& z) { m_z = z; }
 
 		/**
 		 * @brief Gets the depth (z position) of this UI element.
 		 * @returns The depth.
 		 */
-		inline Float get_depth() const { return z; }
+		inline Float get_depth() const { return m_z; }
 
 		/**
 		 * @brief Sets the depth (z position) of this UI element.
 		 * @param depth The depth (z position).
 		 */
-		inline void set_depth(Float const& depth) { this->z = depth; }
+		inline void set_depth(Float const& depth) { m_z = depth; }
 
 		/**
 		 * @brief Gets the width of this UI element.
 		 * @returns The width.
 		 */
-		inline Float get_width() const { return width; }
+		inline Float get_width() const { return m_width; }
 
 		/**
 		* @brief Sets the width of this UI element.
 		* @param width The width.
 		*/
-		inline void set_width(Float const& width) { this->width = width; }
+		inline void set_width(Float const& width) { m_width = width; }
 
 		/**
 		 * @brief Gets the right position of this UI element.
 		 * @returns The right position.
 		 */
-		inline Float get_right() const { return width; }
+		inline Float get_right() const { return m_width; }
 
 		/**
 		 * @brief Sets the right position of this UI element.
 		 * @param right The right position.
 		 */
-		inline void set_right(Float const& right)
-		{
-			this->width = right;
-		}
+		inline void set_right(Float const& right) { m_width = right; }
 
 		/**
 		 * @brief Gets the height of this UI element.
 		 * @returns The height.
 		 */
-		inline Float get_height() const { return height; }
+		inline Float get_height() const { return m_height; }
 
 		/**
 		 * @brief Sets the height of this UI element.
 		 * @param height The height.
 		 */
-		inline void set_height(Float const& height) { this->height = height; }
+		inline void set_height(Float const& height) { m_height = height; }
 
 		/**
 		 * @brief Gets the bottom position of this UI element.
 		 * @returns The bottom position.
 		 */
-		inline Float get_bottom() const { return height; }
+		inline Float get_bottom() const { return m_height; }
 
 		/**
 		 * @brief Sets the bottom position of this UI element.
 		 * @param bottom The bottom position.
 		 */
-		inline void set_bottom(Float const& bottom) { this->height = bottom; }
+		inline void set_bottom(Float const& bottom) { m_height = bottom; }
 
 		/**
 		 * @brief Gets the rotation of this UI element.
 		 * @returns The rotation in radians.
 		 */
-		inline Float get_rotation() const { return rotation; }
+		inline Float get_rotation() const { return m_rotation; }
 
 		/**
 		 * @brief Sets the rotation of this UI element.
 		 * @param rotation The rotation in radians.
 		 */
-		inline void set_rotation(Float const& rotation) { this->rotation = rotation; }
+		inline void set_rotation(Float const& rotation) { m_rotation = rotation; }
 
 		/**
 		 * @brief Gets the global rotation of this UI element.
@@ -193,14 +191,14 @@ namespace Minty
 		 * @param x The x coordinate.
 		 * @param y The y coordinate.
 		 */
-		inline void set_position(Float const& x, Float const& y) { this->x = x; this->y = y; }
+		inline void set_position(Float const& x, Float const& y) { m_x = x; m_y = y; }
 
 		/**
 		 * @brief Sets the size of this UI element.
 		 * @param width The width.
 		 * @param height The height.
 		 */
-		inline void set_size(Float const& width, Float const& height) { this->width = width; this->height = height; }
+		inline void set_size(Float const& width, Float const& height) { m_width = width; m_height = height; }
 
 		/**
 		 * @brief Gets the global rectangle of this UI element.
@@ -236,27 +234,31 @@ namespace Minty
 		 */
 		void update(Rect const& parentRect, Float const parentDepth, Float const parentRotation);
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
 #pragma endregion
 
 #pragma region Variables
 
 	private:
 		AnchorMode m_anchorMode;
-		Float x;
-		Float y;
-		Float z; // depth
-		Float width;
-		Float height;
-		Float rotation;
+		Float m_x;
+		Float m_y;
+		Float m_width;
+		Float m_height;
+		Float m_z; // depth
+		Float m_rotation;
 
 		Float m_globalDepth;
 		Rect m_globalRect;
 		Float m_globalRotation;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<UITransform>
+	{
+		static void serialize(Writer& writer, UITransform const& value);
+		static Bool deserialize(Reader& reader, UITransform& value);
 	};
 }
 

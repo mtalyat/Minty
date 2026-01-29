@@ -378,6 +378,13 @@ namespace Minty
 		Bool ends_with(StringView const str) const noexcept;
 
 		/**
+		 * @brief Checks if the string contains a given character.
+		 * @param c The character to check.
+		 * @return True if the string contains the character, false otherwise.
+		 */
+		inline Bool contains(Char const c) const noexcept { return find_first(c) != INVALID_INDEX; }
+
+		/**
 		 * @brief Checks if the string contains a given substring.
 		 * @param str The substring to check.
 		 * @return True if the string contains the substring, false otherwise.

@@ -7,34 +7,50 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Asset/Asset.h"
-#include "Minty/Core/Math.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
-#include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/Array.h"
-#include "Minty/Data/List.h"
-#include "Minty/Data/Map.h"
-#include "Minty/Data/Set.h"
+#include "Minty/Core/Type.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Data/Stack.h"
-#include "Minty/Data/String.h"
-#include "Minty/Data/UUID.h"
-#include "Minty/Data/Vector.h"
-#include "Minty/File/File.h"
-#include "Minty/Serialization/IsSerializable.h"
-#include "Minty/Serialization/Node.h"
+#include "Minty/Data/StringView.h"
+#include "Minty/Serialization/Parser.h"
+#include "Minty/Serialization/Serializer.h"
+#include "Minty/Stream/Stream.h"
 
 namespace Minty
 {
-#pragma region Base
-
+	/**
+	 * @brief A Writer writes data to a stream.
+	 */
 	class Writer
 	{
-#pragma region Variables
+#pragma region Types
 
-	private:
-		List<AnyConst> m_dataStack;
+	protected:
+		/**
+		 * @brief The state of the Writer.
+		 */
+		enum class State
+		{
+			/**
+			* @brief The last write was completed.
+			*/
+			None,
+
+			/**
+			 * @brief Unknown state.
+			 */
+			Unknown,
+
+			/**
+			 * @brief The last write was a key.
+			 */
+			Key,
+			
+			/**
+			 * @brief The last write was an empty key.
+			 */
+			Empty,
+		};
 
 #pragma endregion
 
@@ -42,12 +58,12 @@ namespace Minty
 
 	public:
 		/**
-		 * @brief Creates a new Writer.
+		 * @brief Creates a Writer with the given stream.
+		 * @param stream The stream to write to.
 		 */
-		Writer()
-			: m_dataStack()
-		{
-		}
+		Writer(Shared<Stream> const& stream);
+
+		virtual ~Writer() = default;
 
 #pragma endregion
 
@@ -55,575 +71,27 @@ namespace Minty
 
 	public:
 		/**
-		 * @brief Gets the top of the data stack.
-		 * @return A pointer to the data, or null if nothing in the data stack.
+		 * @brief Pushes user data onto the user data stack.
+		 * @param userData Pointer to the user data.
 		 */
-		AnyConst get_user_data() const;
+		inline void push_user_data(AnyConst const userData) { m_userStack.push(userData); }
 
 		/**
-		 * @brief Gets the data source for this Reader.
-		 * @return A pointer to the data source.
+		 * @brief Pops user data from the user data stack.
 		 */
-		virtual Any get_source() const = 0;
+		inline void pop_user_data() { m_userStack.pop(); }
 
 		/**
-		 * @brief Gets the depth in the Node structure.
-		 * @return The number of indents made from the root Node.
+		 * @brief Gets the user data associated with the Writer.
+		 * @return Pointer to the user data.
 		 */
-		virtual Size get_depth() const = 0;
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		/**
-		 * @brief Adds data to the top of the data stack.
-		 * @param data The pointer to the data to add.
-		 */
-		void push_user_data(AnyConst const data);
-
-		/**
-		 * @brief Removes the top of the data stack.
-		 */
-		void pop_user_data();
-
-		/**
-		 * @brief Steps into the next child Node.
-		 */
-		virtual void indent() = 0;
-
-		/**
-		 * @brief Steps into the child Node with the given name.
-		 * @param name The name of the child to indent into.
-		 * @return True on success.
-		 */
-		virtual void indent(String const& name) = 0;
-
-		/**
-		 * @brief Steps out of the current Node, back to its parent.
-		 */
-		virtual void outdent() = 0;
-
-#pragma region Writing
+		inline AnyConst get_user_data() const { return m_userStack.peek(); }
 
 	protected:
-		virtual void write_empty(String const& name) = 0;
-		virtual void write_bool(String const& name, Bool const& obj) = 0;
-		virtual void write_bool2(String const& name, Bool2 const& obj) = 0;
-		virtual void write_bool3(String const& name, Bool3 const& obj) = 0;
-		virtual void write_bool4(String const& name, Bool4 const& obj) = 0;
-		virtual void write_char(String const& name, Char const& obj) = 0;
-		virtual void write_byte(String const& name, Byte const& obj) = 0;
-		virtual void write_short(String const& name, Short const& obj) = 0;
-		virtual void write_ushort(String const& name, UShort const& obj) = 0;
-		virtual void write_int(String const& name, Int const& obj) = 0;
-		virtual void write_int2(String const& name, Int2 const& obj) = 0;
-		virtual void write_int3(String const& name, Int3 const& obj) = 0;
-		virtual void write_int4(String const& name, Int4 const& obj) = 0;
-		virtual void write_uint(String const& name, UInt const& obj) = 0;
-		virtual void write_uint2(String const& name, UInt2 const& obj) = 0;
-		virtual void write_uint3(String const& name, UInt3 const& obj) = 0;
-		virtual void write_uint4(String const& name, UInt4 const& obj) = 0;
-		virtual void write_long(String const& name, Long const& obj) = 0;
-		virtual void write_ulong(String const& name, ULong const& obj) = 0;
-		virtual void write_size(String const& name, Size const& obj) = 0;
-		virtual void write_float(String const& name, Float const& obj) = 0;
-		virtual void write_float2(String const& name, Float2 const& obj) = 0;
-		virtual void write_float3(String const& name, Float3 const& obj) = 0;
-		virtual void write_float4(String const& name, Float4 const& obj) = 0;
-		virtual void write_double(String const& name, Double const& obj) = 0;
-		virtual void write_string(String const& name, String const& obj) = 0;
-		virtual void write_type(String const& name, Type const& obj) = 0;
-
-	public:
-		/**
-		 * @brief Writes a Node with no value.
-		 * @param name
-		 */
-		void write(String const& name) { write_empty(name); }
-
-		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
-		void write(String const& name, T const& data)
-		{
-			// default: write as string
-			write_string(name, to_string(data));
-		}
-
-		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value&& is_serializable_object<T>::value, int>::type = 0>
-		void write(String const& name, T const& data)
-		{
-			indent(name);
-			data.serialize(*this);
-			outdent();
-		}
-
-		template<typename T, typename std::enable_if<!is_asset<T>::value&& is_serializable<T>::value, int>::type = 0>
-		void write(String const& name, T const& data)
-		{
-			data.serialize(*this, name);
-		}
-
-		template<>
-		void write(String const& name, Bool const& data)
-		{
-			write_bool(name, data);
-		}
-		template<>
-		void write(String const& name, Bool2 const& data)
-		{
-			write_bool2(name, data);
-		}
-		template<>
-		void write(String const& name, Bool3 const& data)
-		{
-			write_bool3(name, data);
-		}
-		template<>
-		void write(String const& name, Bool4 const& data)
-		{
-			write_bool4(name, data);
-		}
-		template<>
-		void write(String const& name, Char const& data)
-		{
-			write_char(name, data);
-		}
-		template<>
-		void write(String const& name, Byte const& data)
-		{
-			write_byte(name, data);
-		}
-		template<>
-		void write(String const& name, Short const& data)
-		{
-			write_short(name, data);
-		}
-		template<>
-		void write(String const& name, UShort const& data)
-		{
-			write_ushort(name, data);
-		}
-		template<>
-		void write(String const& name, Int const& data)
-		{
-			write_int(name, data);
-		}
-		template<>
-		void write(String const& name, Int2 const& data)
-		{
-			write_int2(name, data);
-		}
-		template<>
-		void write(String const& name, Int3 const& data)
-		{
-			write_int3(name, data);
-		}
-		template<>
-		void write(String const& name, Int4 const& data)
-		{
-			write_int4(name, data);
-		}
-		template<>
-		void write(String const& name, UInt const& data)
-		{
-			write_uint(name, data);
-		}
-		template<>
-		void write(String const& name, UInt2 const& data)
-		{
-			write_uint2(name, data);
-		}
-		template<>
-		void write(String const& name, UInt3 const& data)
-		{
-			write_uint3(name, data);
-		}
-		template<>
-		void write(String const& name, UInt4 const& data)
-		{
-			write_uint4(name, data);
-		}
-		template<>
-		void write(String const& name, Long const& data)
-		{
-			write_long(name, data);
-		}
-		template<>
-		void write(String const& name, ULong const& data)
-		{
-			write_ulong(name, data);
-		}
-		template<>
-		void write(String const& name, Float const& data)
-		{
-			write_float(name, data);
-		}
-		template<>
-		void write(String const& name, Float2 const& data)
-		{
-			write_float2(name, data);
-		}
-		template<>
-		void write(String const& name, Float3 const& data)
-		{
-			write_float3(name, data);
-		}
-		template<>
-		void write(String const& name, Float4 const& data)
-		{
-			write_float4(name, data);
-		}
-		template<>
-		void write(String const& name, Double const& data)
-		{
-			write_double(name, data);
-		}
-		template<>
-		void write(String const& name, String const& data)
-		{
-			write_string(name, data);
-		}
-		template<>
-		void write(String const& name, Type const& data)
-		{
-			write_type(name, data);
-		}
-
-		template<typename T, Size S>
-		void write(String const& name, Array<T, S> const& data)
-		{
-			indent(name);
-			for (Size i = 0; i < S; i++)
-			{
-				write("", data[i]);
-			}
-			outdent();
-		}
-
-		template<typename T>
-		void write(String const& name, List<T> const& data)
-		{
-			indent(name);
-			for (Size i = 0; i < data.size(); i++)
-			{
-				write("", data[i]);
-			}
-			outdent();
-		}
-
-		template<typename T>
-		void write(String const& name, Vector<T> const& data)
-		{
-			indent(name);
-			for (Size i = 0; i < data.get_size(); i++)
-			{
-				write("", data[i]);
-			}
-			outdent();
-		}
-
-		template<typename T>
-		void write(String const& name, Set<T> const& data)
-		{
-			indent(name);
-			for (Size i = 0; i < data.get_size(); i++)
-			{
-				write("", data[i]);
-			}
-			outdent();
-		}
-
-		template<typename T>
-		void write(String const& name, Map<String, T> const& data)
-		{
-			indent(name);
-			for (auto const& [key, value] : data)
-			{
-				write(key, value);
-			}
-			outdent();
-		}
-
-		/**
-		 * @brief Writes the data with the given Type.
-		 * @param name The name.
-		 * @param data A pointer to the byte data.
-		 * @param type The Type.
-		 */
-		virtual void write_typed(String const& name, AnyConst const data, Type const type) = 0;
-
-		/**
-		 * @brief Writes the given Asset's ID. If null, writes UUID().
-		 * @param name The name of the Asset.
-		 * @param asset The Asset.
-		 */
-		void write_asset(String const& name, Ref<Asset> const& asset);
-
-		/**
-		 * @brief Writes the given Asset's ID. If null, writes UUID().
-		 * @tparam T The type of Asset.
-		 * @param name The name of the Asset.
-		 * @param asset The Asset.
-		 */
-		template<typename T>
-		void write(String const& name, T const& asset
-		, typename std::enable_if<is_asset<T>::value, int>::type = 0)
-		{
-			write_asset(name, asset);
-		}
-
-#pragma endregion
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Behavior Base
-
-	/**
-	 * @brief The base class for Writer behaviors that handle the formatting of the data.
-	 */
-	class WriterFormatBehavior
-	{
-#pragma region Methods
-
-	protected:
-		virtual void write_indent_to_buffer(Size const indent, Vector<Byte>& buffer) = 0;
-		virtual Bool write_name_to_buffer(String const& data, Vector<Byte>& buffer) = 0;
-		virtual void write_separator_to_buffer(Vector<Byte>& buffer) = 0;
-		virtual void write_space_to_buffer(Vector<Byte>& buffer) = 0;
-		virtual void write_end_to_buffer(Vector<Byte>& buffer) = 0;
-
-		virtual void write_bool_to_buffer(Bool const data, Vector<Byte>& buffer) = 0;
-		virtual void write_bool2_to_buffer(Bool2 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_bool3_to_buffer(Bool3 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_bool4_to_buffer(Bool4 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_char_to_buffer(Char const data, Vector<Byte>& buffer) = 0;
-		virtual void write_byte_to_buffer(Byte const data, Vector<Byte>& buffer) = 0;
-		virtual void write_short_to_buffer(Short const data, Vector<Byte>& buffer) = 0;
-		virtual void write_ushort_to_buffer(UShort const data, Vector<Byte>& buffer) = 0;
-		virtual void write_int_to_buffer(Int const data, Vector<Byte>& buffer) = 0;
-		virtual void write_int2_to_buffer(Int2 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_int3_to_buffer(Int3 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_int4_to_buffer(Int4 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_uint_to_buffer(UInt const data, Vector<Byte>& buffer) = 0;
-		virtual void write_uint2_to_buffer(UInt2 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_uint3_to_buffer(UInt3 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_uint4_to_buffer(UInt4 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_long_to_buffer(Long const data, Vector<Byte>& buffer) = 0;
-		virtual void write_ulong_to_buffer(ULong const data, Vector<Byte>& buffer) = 0;
-		virtual void write_size_to_buffer(Size const data, Vector<Byte>& buffer) = 0;
-		virtual void write_float_to_buffer(Float const data, Vector<Byte>& buffer) = 0;
-		virtual void write_float2_to_buffer(Float2 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_float3_to_buffer(Float3 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_float4_to_buffer(Float4 const data, Vector<Byte>& buffer) = 0;
-		virtual void write_double_to_buffer(Double const data, Vector<Byte>& buffer) = 0;
-		virtual void write_string_to_buffer(String const& data, Vector<Byte>& buffer) = 0;
-		virtual void write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer) = 0;
-		virtual void write_type_to_buffer(Type const data, Vector<Byte>& buffer) = 0;
-		virtual void write_typed_to_buffer(AnyConst const data, Vector<Byte>& buffer, Type const type) = 0;
-
-#pragma endregion
-	};
-
-	/**
-	 * @brief The base class for Reader behaviors that handle the storage of the data.
-	 */
-	class WriterStorageBehavior
-	{
-#pragma region Accessors
-
-	public:
-		virtual Any get_source() const = 0;
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		virtual void write_data(AnyConst const data, Size const size) = 0;
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Behaviors
-
-	/**
-	 * @brief Writes data to a File.
-	 */
-	class FileWriterBehavior
-		: private WriterStorageBehavior
-	{
-#pragma region Variables
+		inline State get_state() const { return m_state; }
 
 	private:
-		File* mp_file;
-
-#pragma endregion
-
-#pragma region Constructors
-
-	public:
-		FileWriterBehavior(Any const file)
-			: mp_file(static_cast<File*>(file))
-		{
-		}
-
-		virtual ~FileWriterBehavior()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		Any get_source() const override { return mp_file; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		void write_data(AnyConst const data, Size const size) override;
-
-#pragma endregion
-	};
-
-	class MemoryWriterBehavior
-		: private WriterStorageBehavior
-	{
-#pragma region Variables
-
-	private:
-		Container* mp_data;
-
-#pragma endregion
-
-#pragma region Constructors
-
-	public:
-		MemoryWriterBehavior(Any const container)
-			: mp_data(static_cast<Container*>(container))
-		{
-		}
-
-		virtual ~MemoryWriterBehavior()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		Any get_source() const override { return mp_data; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		void write_data(AnyConst const data, Size const size) override;
-
-#pragma endregion
-	};
-
-	/**
-	 * @brief Writes data as plain text.
-	 */
-	class TextWriterBehavior
-		: private WriterFormatBehavior
-	{
-#pragma region Methods
-
-	protected:
-		void write_indent_to_buffer(Size const indent, Vector<Byte>& buffer) override;
-		Bool write_name_to_buffer(String const& data, Vector<Byte>& buffer) override;
-		void write_separator_to_buffer(Vector<Byte>& buffer) override;
-		void write_space_to_buffer(Vector<Byte>& buffer) override;
-		void write_end_to_buffer(Vector<Byte>& buffer) override;
-
-		void write_bool_to_buffer(Bool const data, Vector<Byte>& buffer) override;
-		void write_bool2_to_buffer(Bool2 const data, Vector<Byte>& buffer) override;
-		void write_bool3_to_buffer(Bool3 const data, Vector<Byte>& buffer) override;
-		void write_bool4_to_buffer(Bool4 const data, Vector<Byte>& buffer) override;
-		void write_char_to_buffer(Char const data, Vector<Byte>& buffer) override;
-		void write_byte_to_buffer(Byte const data, Vector<Byte>& buffer) override;
-		void write_short_to_buffer(Short const data, Vector<Byte>& buffer) override;
-		void write_ushort_to_buffer(UShort const data, Vector<Byte>& buffer) override;
-		void write_int_to_buffer(Int const data, Vector<Byte>& buffer) override;
-		void write_int2_to_buffer(Int2 const data, Vector<Byte>& buffer) override;
-		void write_int3_to_buffer(Int3 const data, Vector<Byte>& buffer) override;
-		void write_int4_to_buffer(Int4 const data, Vector<Byte>& buffer) override;
-		void write_uint_to_buffer(UInt const data, Vector<Byte>& buffer) override;
-		void write_uint2_to_buffer(UInt2 const data, Vector<Byte>& buffer) override;
-		void write_uint3_to_buffer(UInt3 const data, Vector<Byte>& buffer) override;
-		void write_uint4_to_buffer(UInt4 const data, Vector<Byte>& buffer) override;
-		void write_long_to_buffer(Long const data, Vector<Byte>& buffer) override;
-		void write_ulong_to_buffer(ULong const data, Vector<Byte>& buffer) override;
-		void write_size_to_buffer(Size const data, Vector<Byte>& buffer) override;
-		void write_float_to_buffer(Float const data, Vector<Byte>& buffer) override;
-		void write_float2_to_buffer(Float2 const data, Vector<Byte>& buffer) override;
-		void write_float3_to_buffer(Float3 const data, Vector<Byte>& buffer) override;
-		void write_float4_to_buffer(Float4 const data, Vector<Byte>& buffer) override;
-		void write_double_to_buffer(Double const data, Vector<Byte>& buffer) override;
-		void write_string_to_buffer(String const& data, Vector<Byte>& buffer) override;
-		void write_uuid_to_buffer(UUID const data, Vector<Byte>& buffer) override;
-		void write_type_to_buffer(Type const data, Vector<Byte>& buffer) override;
-		void write_typed_to_buffer(AnyConst const data, Vector<Byte>& buffer, Type const type) override;
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Implementation
-
-	template<typename FormatBehavior, typename StorageBehavior>
-	class WriterImplementation
-		: public Writer, private FormatBehavior, private StorageBehavior
-	{
-#pragma region Variables
-
-	private:
-		Size m_depth;
-
-#pragma endregion
-
-#pragma region Constructors
-
-	public:
-		WriterImplementation(Any const source)
-			: FormatBehavior()
-			, StorageBehavior(source)
-			, m_depth(0)
-		{
-		}
-		virtual ~WriterImplementation()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		/**
-		 * @brief Gets the data source for this Reader.
-		 * @return A pointer to the data source.
-		 */
-		Any get_source() const override { return StorageBehavior::get_source(); }
-
-		/**
-		 * @brief Gets the depth in the Node structure.
-		 * @return The number of indents made from the root Node.
-		 */
-		Size get_depth() const override { return m_depth; }
+		inline void set_state(State const state) { m_state = state; }
 
 #pragma endregion
 
@@ -631,535 +99,323 @@ namespace Minty
 
 	public:
 		/**
-		 * @brief Steps into the next child Node.
+		 * @brief Writes a value associated with the given key.
+		 * @tparam T The type of the value to write.
+		 * @param key The key associated with the value.
+		 * @param value The value to write.
+		 * @returns True if the value was written successfully, false otherwise.
 		 */
-		void indent() override
+		template<typename T>
+		void write(StringView const key, T const& value)
 		{
-			m_depth++;
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_kvp_separator();
+			specialized_write<T>(value);
+			write_break();
+			set_state(State::None);
 		}
 
 		/**
-		 * @brief Steps into the child Node with the given name.
-		 * @param name The name of the child to indent into.
-		 * @return True on success.
+		 * @brief Writes a type-value pair associated with the given key.
+		 * @param key The key associated with the value.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
 		 */
-		void indent(String const& name) override
+		void write(StringView const key, Type const type, AnyConst const value)
 		{
-			if (!name.is_empty())
-			{
-				Writer::write(name);
-			}
-			indent();
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_kvp_separator();
+			write_type_value_pair(type, value);
+			write_break();
+			set_state(State::None);
 		}
 
 		/**
-		 * @brief Steps out of the current Node, back to its parent.
+		 * @brief Writes an optional value associated with the given key.
+		 * @tparam T The type of the value to write.
+		 * @param key The key associated with the value.
+		 * @param value The value to write.
+		 * @param defaultValue The default value to compare against.
 		 */
-		void outdent() override
+		template<typename T>
+		void write_optional(StringView const key, T const& value, T const& defaultValue)
 		{
-			MINTY_ASSERT(m_depth > 0, ErrorCode::Object_InvalidOperation);
-			m_depth--;
-		}
-
-#pragma region Write
-
-	protected:
-		void write_empty(String const& name) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			this->write_name_to_buffer(name, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_bool(String const& name, Bool const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
+			if (value != defaultValue)
 			{
-				this->write_separator_to_buffer(buffer);
+				write<T>(key, value);
 			}
-			this->write_bool_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
 		}
 
-		void write_bool2(String const& name, Bool2 const& obj) override
+		/**
+		 * @brief Writes an optional type-value pair associated with the given key.
+		 * @param key The key associated with the value.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
+		 * @param defaultType The default type to compare against.
+		 * @param defaultValue Pointer to the default value to compare against.
+		 */
+		void write_optional(StringView const key, Type const type, AnyConst const value, Type const defaultType, AnyConst const defaultValue)
 		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
+			if (type != defaultType)
 			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_bool2_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_bool3(String const& name, Bool3 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_bool3_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_bool4(String const& name, Bool4 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_bool4_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_char(String const& name, Char const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_char_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_byte(String const& name, Byte const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_byte_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_short(String const& name, Short const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_short_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_ushort(String const& name, UShort const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_ushort_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_int(String const& name, Int const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_int_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_int2(String const& name, Int2 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_int2_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_int3(String const& name, Int3 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_int3_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_int4(String const& name, Int4 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_int4_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_uint(String const& name, UInt const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_uint_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_uint2(String const& name, UInt2 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_uint2_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_uint3(String const& name, UInt3 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_uint3_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_uint4(String const& name, UInt4 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_uint4_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_long(String const& name, Long const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_long_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_ulong(String const& name, ULong const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_ulong_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_size(String const& name, Size const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_size_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_float(String const& name, Float const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_float_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_float2(String const& name, Float2 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_float2_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_float3(String const& name, Float3 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_float3_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_float4(String const& name, Float4 const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_float4_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_double(String const& name, Double const& obj) override
-		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
-			{
-				this->write_separator_to_buffer(buffer);
-			}
-			this->write_double_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
-		}
-
-		void write_string(String const& name, String const& obj) override
-		{
-			if (obj.is_empty())
-			{
-				write_empty(name);
+				write(key, type, value);
 				return;
 			}
 
-			String fixedObj = obj.replace("\n", "\\n");
-
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
+			Size const typeSize = sizeof_type(type);
+			if (std::memcmp(value, defaultValue, typeSize) != 0)
 			{
-				this->write_separator_to_buffer(buffer);
+				write(key, type, value);
 			}
-			this->write_string_to_buffer(fixedObj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
 		}
 
-		void write_type(String const& name, Type const& obj) override
+		/**
+		 * @brief Writes an inline value (no key).
+		 * @tparam T The type of the value to write.
+		 * @param value The value to write.
+		 */
+		template<typename T>
+		void write_inline(T const& value)
 		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
+			if(static_cast<Size>(get_state()) < static_cast<Size>(State::Key))
 			{
-				this->write_separator_to_buffer(buffer);
+				// must have written a key before writing an inline value
+				MINTY_ERROR(ErrorCode::Serialization_Write);
+				return;
 			}
-			this->write_type_to_buffer(obj, buffer);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
+			specialized_write<T>(value);
+			write_break();
+			set_state(State::None);
 		}
 
-	public:
-		void write_typed(String const& name, AnyConst const data, Type const type) override
+		/**
+		 * @brief Writes an inline type-value pair (no key).
+		 * @param type The type of the value.
+		 * @param data Pointer to the value to write.
+		 */
+		void write_inline(Type const type, AnyConst const data)
 		{
-			// write to memory buffer
-			Vector<Byte> buffer;
-			buffer.reserve(256);
-			this->write_indent_to_buffer(m_depth, buffer);
-			if (this->write_name_to_buffer(name, buffer))
+			if(static_cast<Size>(get_state()) < static_cast<Size>(State::Key))
 			{
-				this->write_separator_to_buffer(buffer);
+				// must have written a key before writing an inline value
+				MINTY_ERROR(ErrorCode::Serialization_Write);
+				return;
 			}
-			this->write_type_to_buffer(type, buffer);
-			this->write_separator_to_buffer(buffer);
-			this->write_typed_to_buffer(data, buffer, type);
-			this->write_end_to_buffer(buffer);
-
-			// write to stream
-			this->write_data(buffer.get_data(), buffer.get_size());
+			write_type_value_pair(type, data);
+			write_break();
+			set_state(State::None);
 		}
 
-#pragma endregion
+		/**
+		 * @brief Writes a key and increases the indentation level for writing nested structures.
+		 * @param key The key to write.
+		 */
+		void indent(StringView const key)
+		{
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			increase_indentation();
+		}
+
+		/**
+		 * @brief Writes a key-value pair and increases the indentation level for writing nested structures.
+		 * @tparam T The type of the value to write.
+		 * @param key The key to write.
+		 * @param value The value to write.
+		 */
+		template<typename T>
+		void indent(StringView const key, T const& value)
+		{
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_kvp_separator();
+			specialized_write<T>(value);
+			increase_indentation();
+		}
+
+		/**
+		 * @brief Writes a type-value pair and increases the indentation level for writing nested structures.
+		 * @param key The key to write.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
+		 */
+		void indent(StringView const key, Type const type, AnyConst const value)
+		{
+			write_key(key);
+			set_state(key.is_empty() ? State::Empty : State::Key);
+			write_type_value_pair(type, value);
+			increase_indentation();
+		}
+
+		/**
+		 * @brief Writes an optional key-value pair and increases the indentation level for writing nested structures.
+		 * @tparam T The type of the value to write.
+		 * @param key The key to write.
+		 * @param value The value to write.
+		 * @param defaultValue The default value to compare against.
+		 */
+		template<typename T>
+		void indent_optional(StringView const key, T const& value, T const& defaultValue)
+		{
+			if (value != defaultValue)
+			{
+				indent<T>(key, value);
+			}
+			else
+			{
+				indent(key);
+			}
+		}
+
+		/**
+		 * @brief Writes an optional type-value pair and increases the indentation level for writing nested structures.
+		 * @param key The key to write.
+		 * @param type The type of the value.
+		 * @param value Pointer to the value to write.
+		 * @param defaultType The default type to compare against.
+		 * @param defaultValue Pointer to the default value to compare against.
+		 */
+		void indent_optional(StringView const key, Type const type, AnyConst const value, Type const defaultType, AnyConst const defaultValue)
+		{
+			if (type != defaultType)
+			{
+				indent(key, type, value);
+				return;
+			}
+
+			Size const typeSize = sizeof_type(type);
+			if (std::memcmp(value, defaultValue, typeSize) != 0)
+			{
+				indent(key, type, value);
+			}
+			else
+			{
+				indent(key);
+			}
+		}
+
+		/**
+		 * @brief Decreases the indentation level for writing nested structures.
+		 */
+		inline void outdent()
+		{
+			decrease_indentation();
+			set_state(State::Unknown);
+		}
+
+	protected:
+		void write_to_stream(AnyConst const data, Size const size);
+		virtual void write_key(StringView const key) = 0;
+		virtual void write_break() = 0;
+		virtual void write_kvp_separator() = 0;
+		virtual void write_type_value_pair(Type const type, AnyConst const data) = 0;
+		virtual void write_bool(Bool const value) = 0;
+		virtual void write_byte(Byte const value) = 0;
+		virtual void write_char(Char const value) = 0;
+		virtual void write_int32(Int32 const value) = 0;
+		virtual void write_uint32(UInt32 const value) = 0;
+		virtual void write_float32(Float32 const value) = 0;
+		virtual void write_int64(Int64 const value) = 0;
+		virtual void write_uint64(UInt64 const value) = 0;
+		virtual void write_float64(Float64 const value) = 0;
+		virtual void write_string(StringView const value) = 0;
+		virtual void write_raw_value(StringView const value) = 0;
+		void write_typed_value(Type const type, AnyConst const data);
+
+	private:
+		inline void increase_indentation()
+		{
+			MINTY_ASSERT(m_indent < SERIALIZATION_MAX_INDENTATION, ErrorCode::Serialization_InvalidIndentation);
+			++m_indent;
+		}
+
+		inline void decrease_indentation()
+		{
+			MINTY_ASSERT(m_indent > 0, ErrorCode::Serialization_InvalidIndentation);
+			--m_indent;
+		}
+
+		template<typename T>
+		Bool write_primitive(T const& value)
+		{
+			MINTY_ABORT_F(ErrorCode::Serialization_UnsupportedType, typeid(T).name());
+			return false;
+		}
+
+		template<>
+		inline Bool write_primitive<Bool>(Bool const& value) { write_bool(value); }
+
+		template<>
+		inline Bool write_primitive<Byte>(Byte const& value) { write_byte(value); }
+
+		template<>
+		inline Bool write_primitive<Char>(Char const& value) { write_char(value); }
+
+		template<>
+		inline Bool write_primitive<Int32>(Int32 const& value) { write_int32(value); }
+
+		template<>
+		inline Bool write_primitive<UInt32>(UInt32 const& value) { write_uint32(value); }
+
+		template<>
+		inline Bool write_primitive<Float32>(Float32 const& value) { write_float32(value); }
+
+		template<>
+		inline Bool write_primitive<Int64>(Int64 const& value) { write_int64(value); }
+
+		template<>
+		inline Bool write_primitive<UInt64>(UInt64 const& value) { write_uint64(value); }
+
+		template<>
+		inline Bool write_primitive<Float64>(Float64 const& value) { write_float64(value); }
+
+		template<>
+		inline Bool write_primitive<StringView>(StringView const& value) { write_string(value); }
+
+		template<>
+		inline Bool write_primitive<String>(String const& value) { write_string(value.get_view()); }
+
+		template<typename T>
+		requires(!Parsable<T> && !Serializable<T>)
+		void specialized_write(T const& value)
+		{
+			write_primitive<T>(value);
+			write_break();
+			set_state(State::None);
+		}
+
+		template<typename T>
+		requires(Parsable<T> && !Serializable<T>)
+		void specialized_write(T const& value)
+		{
+			String const valueStr = Parser<T>::to_string(value);
+			write_raw_value(valueStr);
+			write_break();
+			set_state(State::None);
+		}
+
+		template<typename T>
+		requires Serializable<T>
+		void specialized_write(T const& value)
+		{
+			increase_indentation();
+			Serializer<T>::serialize(*this, value);
+			decrease_indentation();
+			set_state(State::None);
+		}
+
+#pragma region Variables
+
+	private:
+		Shared<Stream> m_stream;
+		Stack<AnyConst> m_userStack;
+		Int m_indent;
+		State m_state;
 
 #pragma endregion
 	};
-
-#pragma endregion
-
-#pragma region Writers
-
-	using TextFileWriter = WriterImplementation<TextWriterBehavior, FileWriterBehavior>;
-	using TextMemoryWriter = WriterImplementation<TextWriterBehavior, MemoryWriterBehavior>;
-
-#pragma endregion
 }
 
 #endif // MINTY_SERIALIZATION_WRITER_H

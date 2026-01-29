@@ -12,7 +12,7 @@
 #include "Minty/Data/Tuple.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Component/Component.h"
-#include "Minty/Serialization/Node.h"
+#include "Minty/Data/ConstantContainer.h"
 
 namespace Minty
 {
@@ -24,13 +24,6 @@ namespace Minty
 	class Prefab
 		: public Asset
 	{
-#pragma region Variables
-
-	private:
-		Node m_data;
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -50,12 +43,6 @@ namespace Minty
 
 	public:
 		/**
-		 * @brief Gets the data within this Prefab.
-		 * @return The data.
-		 */
-		Node const& get_node() const { return m_data; }
-
-		/**
 		 * @brief Gets the AssetType of this Asset.
 		 * @return Prefab.
 		 */
@@ -66,12 +53,12 @@ namespace Minty
 #pragma region Methods
 
 	public:
+		/**
+		 * @brief Opens a Reader for this Prefab's data.
+		 * @return A Unique Reader.
+		 */
+		Unique<Reader> open_reader() const;
 
-#pragma endregion
-
-#pragma region Statics
-
-	public:
 		/**
 		 * @brief Creates a new Prefab from the given arguments.
 		 * @param info The arguments.
@@ -84,6 +71,13 @@ namespace Minty
 		 * @return A Prefab Owner.
 		 */
 		static Shared<Prefab> create();
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Shared<ConstantContainer> m_data;
 
 #pragma endregion
 	};

@@ -15,7 +15,7 @@ namespace Minty
     /**
      * @brief Used to tag objects that should be controlled by the physics simulation.
      */
-    struct SimulateComponent
+    struct SimulateTag
         : public Component
     {
     };

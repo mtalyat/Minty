@@ -15,17 +15,6 @@ Minty::Collider::Collider(ColliderInfo const &info)
 {
 }
 
-void Minty::Collider::serialize(Writer &writer) const
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
-Bool Minty::Collider::deserialize(Reader &reader)
-{
-	MINTY_NOT_IMPLEMENTED();
-	return false;
-}
-
 Shared<Collider> Minty::Collider::create(ColliderInfo const &info)
 {
 	// create a shape collider or a mesh collider based on the shape type
@@ -47,4 +36,15 @@ Shared<Collider> Minty::Collider::create()
 {
 	ColliderInfo info{};
 	return create(info);
+}
+
+void Minty::Serializer<Collider>::serialize(Writer &writer, Collider const &value)
+{
+	MINTY_NOT_IMPLEMENTED();
+}
+
+Bool Minty::Serializer<Collider>::deserialize(Reader &reader, Collider &value)
+{
+	MINTY_NOT_IMPLEMENTED();
+	return false;
 }

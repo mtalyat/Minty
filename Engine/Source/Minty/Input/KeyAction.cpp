@@ -1,31 +1,23 @@
 #include "pch.h"
 #include "KeyAction.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(KeyAction const obj)
+static constexpr Size KEYACTION_COUNT = 3;
+static constexpr Char const* KEYACTION_STRINGS[KEYACTION_COUNT] =
 {
-	switch (obj)
-	{
-	case KeyAction::Up: return "Up";
-	case KeyAction::Down: return "Down";
-	case KeyAction::Hold: return "Hold";
+	"Up",
+	"Down",
+	"Hold",
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<KeyAction>::parse(StringView const str, KeyAction &value)
+{
+    return Tool::try_parse_enum(str, KEYACTION_STRINGS, KEYACTION_COUNT, value);
 }
 
-KeyAction Minty::parse_to_key_action(String const& string)
+String Minty::Parser<KeyAction>::to_string(KeyAction const &obj)
 {
-	if (string == "Up") return KeyAction::Up;
-	if (string == "Down") return KeyAction::Down;
-	if (string == "Hold") return KeyAction::Hold;
-
-	return KeyAction();
-}
-
-Bool Minty::parse_try_key_action(String const& string, KeyAction& value)
-{
-	value = parse_to_key_action(string);
-	return true;
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), KEYACTION_STRINGS, KEYACTION_COUNT);
 }

@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +31,13 @@ namespace Minty
 		 */
 		Orthographic,
 	};
-
-	String to_string(Perspective const obj);
-	Perspective parse_to_perspective(String const& string);
-	Bool parse_try_perspective(String const& string, Perspective& value);
+	
 	template<>
-	inline Perspective parse_to<Perspective>(StringView const string) { return parse_to_perspective(string); }
-	template<>
-	inline Bool parse_try<Perspective>(StringView const string, Perspective& value) { return parse_try_perspective(string, value); }
+	struct Parser<Perspective>
+	{
+		static Bool parse(StringView const str, Perspective& value);
+		static String to_string(Perspective const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_PERSPECTIVE_H

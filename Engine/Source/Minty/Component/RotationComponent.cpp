@@ -4,16 +4,13 @@
 
 using namespace Minty;
 
-void Minty::RotationComponent::serialize(Writer &writer) const
+void Minty::Serializer<RotationComponent>::serialize(Writer &writer, RotationComponent const &value)
 {
-    writer.write("Rotation", rotation);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::RotationComponent::deserialize(Reader &reader)
+Bool Minty::Serializer<RotationComponent>::deserialize(Reader &reader, RotationComponent &value)
 {
-    if(!reader.read_default(rotation))
-    {
-        reader.read("Rotation", rotation);
-    }
+    reader.read_primary("Rotation", value.rotation);
     return true;
 }

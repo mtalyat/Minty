@@ -47,16 +47,6 @@ namespace Minty
 		Shared<Viewport> viewport = nullptr;
 
 		/**
-		 * @brief The ShaderModule for the fragment shader.
-		 */
-		Shared<ShaderModule> fragmentShaderModule = nullptr;
-
-		/**
-		 * @brief The name of the main function for the fragment shader module.
-		 */
-		String fragmentShaderModuleEntryPoint = "main";
-
-		/**
 		 * @brief The ShaderModule for the vertex shader.
 		 */
 		Shared<ShaderModule> vertexShaderModule = nullptr;
@@ -65,6 +55,16 @@ namespace Minty
 		 * @brief The name of the main function for the vertex shader module.
 		 */
 		String vertexShaderModuleEntryPoint = "main";
+
+		/**
+		 * @brief The ShaderModule for the fragment shader.
+		 */
+		Shared<ShaderModule> fragmentShaderModule = nullptr;
+
+		/**
+		 * @brief The name of the main function for the fragment shader module.
+		 */
+		String fragmentShaderModuleEntryPoint = "main";
 
 		/**
 		 * @brief The RenderPass this Shader is used to render to.

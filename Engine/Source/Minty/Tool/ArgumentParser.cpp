@@ -46,7 +46,8 @@ void ArgumentParser::parse(Int const argc, Char const* argv[])
 			// if no more args...
 			if (i >= argc || argv[i][0] == '-') // no more args OR next flag
 			{
-				MINTY_ASSERT_F(count == 0, ErrorCode::CommandLine_NotEnoughArguments, param.name);
+				// if positive count, show error, as they are required
+				MINTY_ASSERT_F(count < 0, ErrorCode::CommandLine_NotEnoughArguments, param.name);
 				break;
 			}
 			m_args[param.name].args.add(argv[i]);

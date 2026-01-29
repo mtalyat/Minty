@@ -49,14 +49,10 @@ Ref<Scene> Minty::SceneManager::load(Path const &path, Bool const setAsActive)
 	Shared<Scene> scene = Scene::create(info);
 
 	// deserialize the Scene
-	Reader *reader;
-	if (assetManager.open_reader(path, reader))
+	if (Unique<Reader> const reader = assetManager.open_reader(path))
 	{
 		// deserialize the scene
-		scene->deserialize(*reader);
-
-		// close the reader
-		assetManager.close_reader(reader);
+		Serializer<Scene>::deserialize(*reader, *scene);
 	}
 
 	// add the Scene
@@ -125,16 +121,9 @@ void Minty::SceneManager::reload(UUID const id)
 
 	// open the file
 	AssetManager &assetManager = AssetManager::get_singleton();
-	Reader *reader = nullptr;
-	if (!assetManager.open_reader(path, reader))
+	if(Unique<Reader> const reader = assetManager.open_reader(path))
 	{
-		MINTY_ABORT(ErrorCode::File_FailedToOpen);
-	}
-
-	// deserialize the scene again
-	if (!scene->deserialize(*reader))
-	{
-		MINTY_ABORT(ErrorCode::OperationFailed);
+		Serializer<Scene>::deserialize(*reader, *scene);
 	}
 
 	// TODO: implement deserialization for all asset types
@@ -145,9 +134,6 @@ void Minty::SceneManager::reload(UUID const id)
 	//	// reload the asset
 	//	assetManager.reload(assetId);
 	// }
-
-	// close the reader
-	assetManager.close_reader(reader);
 }
 
 UUID Minty::SceneManager::schedule_load(Path const &path, Job const &onCompletion, Bool const setAsActive)

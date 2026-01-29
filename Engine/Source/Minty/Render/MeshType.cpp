@@ -1,38 +1,24 @@
 #include "pch.h"
 #include "MeshType.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(MeshType const obj)
+static constexpr Size MESHTYPE_COUNT = 4;
+static constexpr Char const* MESHTYPE_STRINGS[MESHTYPE_COUNT] =
 {
-	switch (obj)
-	{
-	case MeshType::Empty: return "Empty";
-	case MeshType::Custom: return "Custom";
-	case MeshType::Quad: return "Quad";
-	case MeshType::Cube: return "Cube";
+	"Empty",
+	"Custom",
+	"Quad",
+	"Cube"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<MeshType>::parse(StringView const str, MeshType &value)
+{
+    return Tool::try_parse_enum(str, MESHTYPE_STRINGS, MESHTYPE_COUNT, value);
 }
 
-MeshType Minty::parse_to_mesh_type(String const& string)
+String Minty::Parser<MeshType>::to_string(MeshType const &obj)
 {
-	if (string == "Empty") return MeshType::Empty;
-	if (string == "Custom") return MeshType::Custom;
-	if (string == "Quad") return MeshType::Quad;
-	if (string == "Cube") return MeshType::Cube;
-	if(string == "Box")
-	{
-		MINTY_LOG_WARNING("Parsing \"Box\" as a MeshType. Did you mean Cube?");
-		return MeshType::Cube;
-	}
-
-	return MeshType();
-}
-
-Bool Minty::parse_try_mesh_type(String const& string, MeshType& value)
-{
-	value = parse_to_mesh_type(string);
-	return value != MeshType() || string == "Empty";
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), MESHTYPE_STRINGS, MESHTYPE_COUNT);
 }

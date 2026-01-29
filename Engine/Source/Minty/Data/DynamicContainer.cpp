@@ -73,7 +73,9 @@ Bool Minty::DynamicContainer::reserve(Size const capacity)
 {
 	// ignore if below capacity
 	if (capacity <= m_capacity)
+	{
 		return true;
+	}
 
 	// allocate a new array
 	Byte *newData = static_cast<Byte *>(DefaultAllocator<Byte>().allocate(capacity));

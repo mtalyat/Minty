@@ -4,7 +4,7 @@
 #include "Minty/Audio/Attenuation.h"
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Math.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -12,19 +12,8 @@ namespace Minty
 	 * @brief Holds the data for an audio source.
 	 */
 	class AudioSource
-		: public SerializableObject
 	{
-#pragma region Variables
-
-	private:
-		Float3 m_position;
-		Float3 m_velocity;
-		Attenuation m_attenuation;
-		Float m_attenuationRolloff;
-		Float m_minDistance;
-		Float m_maxDistance;
-
-#pragma endregion
+		friend struct Serializer<AudioSource>;
 
 #pragma region Constructors
 
@@ -33,8 +22,7 @@ namespace Minty
 		 * @brief Creates an empty AudioSource.
 		 */
 		AudioSource()
-			: SerializableObject()
-			, m_position(Float3(0.0f, 0.0f, 0.0f))
+			: m_position(Float3(0.0f, 0.0f, 0.0f))
 			, m_velocity(Float3(0.0f, 0.0f, 0.0f))
 			, m_attenuation(Attenuation::LinearDistance)
 			, m_attenuationRolloff(DEFAULT_AUDIO_ATTENUATION_ROLL_OFF)
@@ -53,8 +41,7 @@ namespace Minty
 		 * @param maxDistance The maximum distance at which attenuation is applied.
 		 */
 		AudioSource(Float3 const& position, Float3 const& velocity, Attenuation attenuation, Float attenuationRolloff, Float minDistance, Float maxDistance)
-			: SerializableObject()
-			, m_position(position)
+			: m_position(position)
 			, m_velocity(velocity)
 			, m_attenuation(attenuation)
 			, m_attenuationRolloff(attenuationRolloff)
@@ -63,9 +50,7 @@ namespace Minty
 		{
 		}
 
-		~AudioSource() override
-		{
-		}
+		~AudioSource() = default;
 
 #pragma endregion
 
@@ -146,14 +131,25 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
+#pragma region Variables
 
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	private:
+		Float3 m_position;
+		Float3 m_velocity;
+		Attenuation m_attenuation;
+		Float m_attenuationRolloff;
+		Float m_minDistance;
+		Float m_maxDistance;
 
 #pragma endregion
 	};
+
+	template<>
+    struct Serializer<AudioSource>
+    {
+        static void serialize(Writer& writer, AudioSource const& value);
+        static Bool deserialize(Reader& reader, AudioSource& value);
+    };
 }
 
 #endif // MINTY_AUDIO_AUDIOSOURCE_H

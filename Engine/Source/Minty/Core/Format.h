@@ -10,7 +10,8 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringBuilder.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
+#include "Minty/Serialization/ParsedTypes.h"
 
 namespace Minty
 {
@@ -19,13 +20,13 @@ namespace Minty
         template <typename T>
         void append_value(StringBuilder &builder, T const &value)
         {
-            builder.append(to_string(value));
+            builder.append(Parser<T>::to_string(value));
         }
 
         template <typename T, typename... Args>
         void append_value(StringBuilder &builder, T const &value, Args const &...args)
         {
-            builder.append(to_string(value));
+            builder.append(Parser<T>::to_string(value));
             if constexpr (sizeof...(args) > 0)
             {
                 append_value(builder, args...);
@@ -36,13 +37,13 @@ namespace Minty
         void append_value_with_spacing(StringBuilder &builder, T const &value)
         {
             builder.append(' ');
-            builder.append(to_string(value));
+            builder.append(Parser<T>::to_string(value));
         }
 
         template <typename T, typename... Args>
         void append_value_with_spacing(StringBuilder &builder, T const &value, Args const &...args)
         {
-            builder.append(to_string(value));
+            builder.append(Parser<T>::to_string(value));
             if constexpr (sizeof...(args) > 0)
             {
                 append_value(builder, args...);
@@ -126,7 +127,7 @@ namespace Minty
             ++argIndex;
         }
 
-        return builder.to_string();
+        return builder.get_string();
     }
 }
 

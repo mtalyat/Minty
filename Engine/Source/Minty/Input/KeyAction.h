@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -21,14 +20,13 @@ namespace Minty
 		Down = 1,
 		Hold = 2
 	};
-
-	String to_string(KeyAction const obj);
-	KeyAction parse_to_key_action(String const& string);
-	Bool parse_try_key_action(String const& string, KeyAction& value);
+	
 	template<>
-	inline KeyAction parse_to<KeyAction>(StringView const string) { return parse_to_key_action(string); }
-	template<>
-	inline Bool parse_try<KeyAction>(StringView const string, KeyAction& value) { return parse_try_key_action(string, value); }
+	struct Parser<KeyAction>
+	{
+		static Bool parse(StringView const str, KeyAction& value);
+		static String to_string(KeyAction const& obj);
+	};
 }
 
 #endif // MINTY_INPUT_KEYACTION_H

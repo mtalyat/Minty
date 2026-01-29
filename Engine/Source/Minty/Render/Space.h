@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -37,14 +36,13 @@ namespace Minty
 		 */
 		UI,
 	};
-
-	String to_string(Space const obj);
-	Space parse_to_space(String const& string);
-	Bool parse_try_space(String const& string, Space& value);
+	
 	template<>
-	inline Space parse_to<Space>(StringView const string) { return parse_to_space(string); }
-	template<>
-	inline Bool parse_try<Space>(StringView const string, Space& value) { return parse_try_space(string, value); }
+	struct Parser<Space>
+	{
+		static Bool parse(StringView const str, Space& value);
+		static String to_string(Space const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_SPACE_H

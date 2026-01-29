@@ -8,24 +8,55 @@
  */
 
 #include "Minty/Core/Types.h"
+#include "Minty/Data/String.h"
 #include "Minty/Entity/Entity.h"
 
 namespace Minty
 {
 	class EntityManager;
+	class Reader;
+	class Writer;
 	struct Component;
 
+	/**
+	 * @brief Struct containing data and functions for managing Components.
+	 */
 	struct ComponentData
 	{
-		String name;
+		/**
+		 * @brief The name of the Component.
+		 */
+		String name = "";
 
-		Function<Component &(EntityManager &, Entity const)> create;
+		/**
+		 * @brief Function to create the Component on an Entity.
+		 */
+		Function<Component *(EntityManager &, Entity const)> create = nullptr;
 
-		Function<Component *(EntityManager &, Entity const)> get;
+		/**
+		 * @brief Function to destroy the Component from an Entity.
+		 */
+		Function<void(EntityManager &, Entity const)> destroy = nullptr;
 
-		Function<Component const *(EntityManager const &, Entity const)> get_const;
+		/**
+		 * @brief Function to get the Component from an Entity.
+		 */
+		Function<Component *(EntityManager &, Entity const)> get = nullptr;
 
-		Function<void(EntityManager &, Entity const)> destroy;
+		/**
+		 * @brief Function to get the const Component from an Entity.
+		 */
+		Function<Component const *(EntityManager const &, Entity const)> get_const = nullptr;
+
+		/**
+		 * @brief Function to serialize the Component.
+		 */
+		Function<void(Writer &writer, Component const&)> serialize = nullptr;
+
+		/**
+		 * @brief Function to deserialize the Component.
+		 */
+		Function<void(Reader &reader, Component&)> deserialize = nullptr;
 	};
 }
 

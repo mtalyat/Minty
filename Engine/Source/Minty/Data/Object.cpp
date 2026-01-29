@@ -23,7 +23,7 @@ Minty::Object::Object(Vector<Tuple<String, Variable>> const &variables)
 {
 }
 
-Bool Minty::Object::contains(String const &name) const
+Bool Minty::Object::contains(StringView const name) const
 {
     for (auto const &[varName, variable] : m_variables)
     {
@@ -35,7 +35,7 @@ Bool Minty::Object::contains(String const &name) const
     return false;
 }
 
-Variable const &Minty::Object::at(String const &name) const
+Variable const &Minty::Object::at(StringView const name) const
 {
     for (auto const &[varName, variable] : m_variables)
     {
@@ -48,7 +48,7 @@ Variable const &Minty::Object::at(String const &name) const
     MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 }
 
-Variable &Minty::Object::at(String const &name)
+Variable &Minty::Object::at(StringView const name)
 {
     for (auto &[varName, variable] : m_variables)
     {
@@ -61,13 +61,19 @@ Variable &Minty::Object::at(String const &name)
     MINTY_ABORT(ErrorCode::Argument_KeyNotFound);
 }
 
-void Minty::Object::add(String const &name, Variable const &variable)
+void Minty::Object::add(StringView const name, Variable const &variable)
 {
     MINTY_ASSERT_F(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
-    m_variables.add({name, variable});
+    m_variables.add({String(name), variable});
 }
 
-void Minty::Object::set(String const &name, Variable const &variable)
+void Minty::Object::add(StringView const name, Variable &&variable)
+{
+    MINTY_ASSERT_F(!contains(name), ErrorCode::Argument_KeyAlreadyExists, name);
+    m_variables.add({String(name), std::move(variable)});
+}
+
+void Minty::Object::set(StringView const name, Variable const &variable)
 {
     for (auto &[varName, var] : m_variables)
     {
@@ -79,10 +85,10 @@ void Minty::Object::set(String const &name, Variable const &variable)
     }
 
     // if not found, add new
-    m_variables.add({name, variable});
+    m_variables.add({String(name), variable});
 }
 
-Bool Minty::Object::remove(String const &name)
+Bool Minty::Object::remove(StringView const name)
 {
     for (Size i = 0; i < m_variables.get_size(); ++i)
     {

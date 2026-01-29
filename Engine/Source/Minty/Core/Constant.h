@@ -115,9 +115,9 @@ namespace Minty
 
 #pragma region File
 
-	constexpr FilePosition INVALID_FILE_POSITION = -1;
+	constexpr StreamPosition INVALID_FILE_POSITION = -1;
 	#undef INVALID_FILE_SIZE
-	constexpr FileSize INVALID_FILE_SIZE = -1;
+	constexpr StreamSize INVALID_FILE_SIZE = -1;
 
 #pragma endregion
 
@@ -193,6 +193,12 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Serialization
+
+	constexpr Size SERIALIZATION_MAX_INDENTATION = 255;
+
+#pragma endregion
+
 #pragma region Time
 
 	constexpr TimePoint ONE_NANOSECOND = 1ll;
@@ -210,6 +216,15 @@ namespace Minty
 	constexpr Char const *TEXT_WHITESPACE = " \n\r\t\v\b\f";
 	constexpr Char const *TEXT_OPEN = "([{<\"";
 	constexpr Char const *TEXT_CLOSE = ")]}>\"";
+
+#pragma endregion
+
+#pragma region Type
+
+	/**
+	 * @brief The maximum size of any Type in bytes.
+	 */
+	constexpr Size TYPE_MAX_SIZE = 64;
 
 #pragma endregion
 

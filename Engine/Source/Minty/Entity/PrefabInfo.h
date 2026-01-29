@@ -8,7 +8,8 @@
  */
 
 #include "Minty/Data/UUID.h"
-#include "Minty/Serialization/Node.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Data/ConstantContainer.h"
 
 namespace Minty
 {
@@ -25,7 +26,7 @@ namespace Minty
         /**
          * @brief The source data for the Prefab.
          */
-        Node source = {};
+        Shared<ConstantContainer> source = nullptr;
     };
 }
 

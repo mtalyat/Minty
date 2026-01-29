@@ -8,7 +8,7 @@
  */
 
 #include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +32,13 @@ namespace Minty
 		 */
 		Test
 	};
-
-	String to_string(DepthMode const obj);
-	DepthMode parse_to_depth_mode(String const& string);
-	Bool parse_try_depth_mode(String const& string, DepthMode& value);
+	
 	template<>
-	inline DepthMode parse_to<DepthMode>(StringView const string) { return parse_to_depth_mode(string); }
-	template<>
-	inline Bool parse_try<DepthMode>(StringView const string, DepthMode& value) { return parse_try_depth_mode(string, value); }
+	struct Parser<DepthMode>
+	{
+		static Bool parse(StringView const str, DepthMode& value);
+		static String to_string(DepthMode const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_DEPTHMODE_H

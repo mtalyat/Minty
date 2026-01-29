@@ -22,9 +22,13 @@ namespace Minty
          * @brief The rotation of the entity.
          */
         Quaternion rotation = Math::identity<Quaternion>();
-        
-        void serialize(Writer& writer) const override;
-        Bool deserialize(Reader& reader) override;
+    };
+
+    template<>
+    struct Serializer<RotationComponent>
+    {
+        static void serialize(Writer& writer, RotationComponent const& value);
+        static Bool deserialize(Reader& reader, RotationComponent& value);
     };
 }
 

@@ -7,6 +7,21 @@
 			"command": ".\\devenv.bat build minty",
 			"problemMatcher": [],
 			"group": "build"
+		},
+		{
+			"label": "Build Wrapper",
+			"type": "shell",
+			"command": ".\\devenv.bat build wrapper",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Run Wrapper (Debug)",
+			"type": "shell",
+			"command": ".\\devenv.bat run wrapper",
+			"problemMatcher": [],
+			"group": "test",
+			"dependsOn": "Build Wrapper"
 		}
 	]
 }

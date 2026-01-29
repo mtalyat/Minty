@@ -10,7 +10,7 @@
 #include "Minty/Core/Constant.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
-#include "Minty/Serialization/Parseable.h"
+#include "Minty/Serialization/Parser.h"
 #include "Minty/Debug/Debug.h"
 #include "Minty/Data/Vector.h"
 #include <filesystem>
@@ -22,8 +22,9 @@ namespace Minty
 	 * @brief Represents a file system path.
 	 */
 	class Path
-		: public Parseable
 	{
+		friend struct Parser<Path>;
+
 #pragma region Iterators
 
 	public:
@@ -329,19 +330,6 @@ namespace Minty
 		inline Path get_name() const { return Path(m_path.stem().string().c_str()); }
 
 		/**
-		 * @brief Reads the data for this object from a String.
-		 * @param text A String of this object.
-		 * @returns True on success.
-		 */
-		Bool parse(StringView const text) override;
-
-		/**
-		 * @brief Converts the data in this object to a String.
-		 * @returns A String of this object.
-		 */
-		String to_string() const override;
-		
-		/**
 		 * @brief Checks if the given Path exists.
 		 * @param path The Path to check.
 		 * @returns True, if the path is valid and exists on the disk.
@@ -407,6 +395,13 @@ namespace Minty
 
 #pragma endregion
 	};
+
+    template<>
+    struct Parser<Path>
+    {
+        static Bool parse(StringView const str, Path &value);
+        static String to_string(Path const &value);
+    };
 }
 
 namespace std

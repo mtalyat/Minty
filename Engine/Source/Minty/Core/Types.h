@@ -29,29 +29,27 @@ namespace Minty
 	using Bool = bool;
 	using Char = char;
 	using Byte = UInt8;
-	using Short = Int16;
-	using UShort = UInt16;
 	using Int = Int32;
 	using UInt = UInt32;
-	using Long = Int64;
-	using ULong = UInt64;
+	using WInt = Int64;
+	using WUInt = UInt64;
 	using Float = Float32;
-	using Double = Float64;
+	using WFloat = Float64;
 	using Any = void*;
 	using AnyConst = void const*;
 	using Null = std::nullptr_t;
 	
 	using Size = size_t;
-	using Handle = uint32_t;
+	using Handle = UInt32;
 	using Layer = Int;
-	using TimePoint = int64_t;
+	using TimePoint = Int64;
 
 	using TypeID = std::type_index;
 	using TypeInfo = std::type_info;
 	using TypeIndex = Size;
 
-	using FilePosition = long long;
-	using FileSize = long long;
+	using StreamPosition = long long;
+	using StreamSize = long long;
 
 	template<typename T>
 	using Function = std::function<T>;

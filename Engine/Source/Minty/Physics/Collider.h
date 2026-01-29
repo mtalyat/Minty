@@ -12,7 +12,7 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Shape.h"
 #include "Minty/Render/Mesh.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -25,8 +25,9 @@ namespace Minty
 	 * @brief The base class for all physics Colliders.
 	 */
 	class Collider
-		: public SerializableObject
 	{
+		friend struct Serializer<Collider>;
+
 #pragma region Constructors
 
 	public:
@@ -180,9 +181,6 @@ namespace Minty
 #pragma region Methods
 
 	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
 		/**
 		 * @brief Creates a new Collider with the given arguments.
 		 * @param info The arguments.
@@ -212,6 +210,13 @@ namespace Minty
 		Bool m_isTrigger;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<Collider>
+	{
+		static void serialize(Writer& writer, Collider const& value);
+		static Bool deserialize(Reader& reader, Collider& value);
 	};
 }
 

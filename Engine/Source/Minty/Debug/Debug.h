@@ -85,16 +85,24 @@ namespace Minty
         static void log(LogLevel const level, ErrorCode const errorCode, StringView const message);
 
         /**
-         * @brief Sets the foreground color for terminal output.
-         * @param color The color to set.
-         */
-        static void flush();
-
-        /**
          * @brief Logs the current stack trace to the debug output.
          * @note This function is only available in debug builds when DebugFlags::StackTrace is enabled.
          */
         static void log_stack_trace();
+
+        /**
+         * @brief Logs the location in the code (file and line number).
+         * @param level The log level.
+         * @param file The file name.
+         * @param line The line number.
+         */
+        static void log_location(LogLevel const level, StringView const file, UInt const line);
+
+        /**
+         * @brief Sets the foreground color for terminal output.
+         * @param color The color to set.
+         */
+        static void flush();
 
 #pragma endregion
 
@@ -157,11 +165,11 @@ namespace Minty
  * @brief Macro to log a message with a specified log level. Includes file, function and line number.
  * @note Always active.
  */
-#define MINTY_LOG_TRACE(level, msg)                 \
-    do                                              \
-    {                                               \
-        Minty::Debug::log(level, "{" __FILE__ "}"); \
-        Minty::Debug::log(level, msg);              \
+#define MINTY_LOG_TRACE(level, msg)                            \
+    do                                                         \
+    {                                                          \
+        Minty::Debug::log_location(level, __FILE__, __LINE__); \
+        Minty::Debug::log(level, msg);                         \
     } while (0)
 /**
  * @brief Macro to log a formatted message with a specified log level. Includes file, function and line number.
@@ -243,27 +251,67 @@ namespace Minty
 #ifdef MINTY_DEBUG
 /**
  * @brief Macro to log a warning message.
- * @note Only active in debug builds.
+ * @note Always active.
  */
-#define MINTY_LOG_WARNING(msg)                    \
-    do                                            \
-    {                                             \
-        MINTY_LOG(Minty::LogLevel::Warning, msg); \
+#define MINTY_LOG_WARNING(msg)                          \
+    do                                                  \
+    {                                                   \
+        MINTY_LOG_TRACE(Minty::LogLevel::Warning, msg); \
+        MINTY_LOG_FLUSH();                              \
     } while (0)
 /**
  * @brief Macro to log a formatted warning message.
- * @note Only active in debug builds.
+ * @note Always active.
  */
-#define MINTY_LOG_WARNING_F(fmt, ...)                               \
-    do                                                              \
-    {                                                               \
-        MINTY_LOG(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
+#define MINTY_LOG_WARNING_F(fmt, ...)                                     \
+    do                                                                    \
+    {                                                                     \
+        MINTY_LOG_TRACE(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG_FLUSH();                                                \
     } while (0)
 #else
-#define MINTY_LOG_WARNING(msg, ...)
-#define MINTY_LOG_WARNING_F(fmt, ...)
+/**
+ * @brief Macro to log a warning message.
+ * @note Always active.
+ */
+#define MINTY_LOG_WARNING(msg)                          \
+    do                                                  \
+    {                                                   \
+        MINTY_LOG_TRACE(Minty::LogLevel::Warning, msg); \
+    } while (0)
+/**
+ * @brief Macro to log a formatted warning message.
+ * @note Always active.
+ */
+#define MINTY_LOG_WARNING_F(fmt, ...)                                     \
+    do                                                                    \
+    {                                                                     \
+        MINTY_LOG_TRACE(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
+    } while (0)
 #endif
 
+#ifdef MINTY_DEBUG
+/**
+ * @brief Macro to log an error message.
+ * @note Always active.
+ */
+#define MINTY_LOG_ERROR(msg)                          \
+    do                                                \
+    {                                                 \
+        MINTY_LOG_TRACE(Minty::LogLevel::Error, msg); \
+        MINTY_LOG_FLUSH();                            \
+    } while (0)
+/**
+ * @brief Macro to log a formatted error message.
+ * @note Always active.
+ */
+#define MINTY_LOG_ERROR_F(fmt, ...)                                     \
+    do                                                                  \
+    {                                                                   \
+        MINTY_LOG_TRACE(Minty::LogLevel::Error, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG_FLUSH();                                              \
+    } while (0)
+#else
 /**
  * @brief Macro to log an error message.
  * @note Always active.
@@ -282,6 +330,7 @@ namespace Minty
     {                                                                   \
         MINTY_LOG_TRACE(Minty::LogLevel::Error, F(fmt, ##__VA_ARGS__)); \
     } while (0)
+#endif
 
 /**
  * @brief Macro to log a fatal message.
@@ -387,6 +436,25 @@ namespace Minty
 #endif
 
 /**
+ * @brief Macro to log a warning.
+ * @note Always active.
+ */
+#define MINTY_WARNING(errorCode)                                \
+    do                                                          \
+    {                                                           \
+        MINTY_LOG_WARNING(Minty::get_error_message(errorCode)); \
+    } while (0)
+/**
+ * @brief Macro to log a formatted warning.
+ * @note Always active.
+ */
+#define MINTY_WARNING_F(errorCode, ...)                                          \
+    do                                                                           \
+    {                                                                            \
+        MINTY_LOG_WARNING_F(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
+    } while (0)
+
+/**
  * @brief Macro to log and set an error.
  * @note Always active.
  */
@@ -395,16 +463,18 @@ namespace Minty
     {                                                         \
         Minty::set_error(errorCode);                          \
         MINTY_LOG_ERROR(Minty::get_error_message(errorCode)); \
+        MINTY_BREAK();                                        \
     } while (0)
 /**
  * @brief Macro to log and set a formatted error.
  * @note Always active.
  */
-#define MINTY_ERROR_F(errorCode, ...)                                             \
-    do                                                                            \
-    {                                                                             \
-        Minty::set_error(errorCode);                                              \
-        MINTY_LOG_ERROR_F(F(Minty::get_error_message(errorCode), ##__VA_ARGS__)); \
+#define MINTY_ERROR_F(errorCode, ...)                                          \
+    do                                                                         \
+    {                                                                          \
+        Minty::set_error(errorCode);                                           \
+        MINTY_LOG_ERROR_F(Minty::get_error_message(errorCode), ##__VA_ARGS__); \
+        MINTY_BREAK();                                                        \
     } while (0)
 
 /**
@@ -412,25 +482,25 @@ namespace Minty
  * @note Always active.
  */
 #define MINTY_CHECK(condition, errorCode) \
-do \
-{\
-    if (!(condition)) \
-    { \
-        MINTY_ERROR(errorCode); \
-    } \
-} while(0)
+    do                                    \
+    {                                     \
+        if (!(condition))                 \
+        {                                 \
+            MINTY_ERROR(errorCode);       \
+        }                                 \
+    } while (0)
 
 /**
  * @brief Macro to check a condition and log an error if it fails.
  * @note Always active.
  */
-#define MINTY_CHECK_F(condition, errorCode, ...) \
-do \
-{\
-    if (!(condition)) \
-    { \
-        MINTY_ERROR_F(errorCode, ##__VA_ARGS__); \
-    } \
-} while(0)
-    
+#define MINTY_CHECK_F(condition, errorCode, ...)     \
+    do                                               \
+    {                                                \
+        if (!(condition))                            \
+        {                                            \
+            MINTY_ERROR_F(errorCode, ##__VA_ARGS__); \
+        }                                            \
+    } while (0)
+
 #endif // MINTY_DEBUG_DEBUG_H

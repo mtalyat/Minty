@@ -2,11 +2,12 @@
 #include "AnimationAction.h"
 #include "Minty/Animation/Animation.h"
 #include "Minty/Core/Format.h"
-#include "Minty/Tool/Util.h"
+#include "Minty/Tool/String.h"
+#include "Minty/Serialization/Parser.h"
 
 using namespace Minty;
 
-UInt get_split(Size const index, Vector<String> const& split, UInt const defaultValue)
+static UInt get_split(Size const index, Vector<String> const& split, UInt const defaultValue)
 {
 	if (index >= split.get_size())
 	{
@@ -18,27 +19,27 @@ UInt get_split(Size const index, Vector<String> const& split, UInt const default
 		return defaultValue;
 	}
 	UInt value = 0;
-	if (!try_uint(part, value))
+	if (!Parser<UInt>::parse(part, value))
 	{
 		return defaultValue;
 	}
 	return value;
 }
 
-Bool Minty::AnimationAction::parse(StringView const text)
+Bool Minty::Parser<AnimationAction>::parse(StringView const str, AnimationAction &value)
 {
-	// format: type?:entity/component:variable/value,variable/value,variable/value...
-	StringBuilder textBuilder(text);
+    // format: type?:entity/component:variable/value,variable/value,variable/value...
+	StringBuilder textBuilder(str);
 	textBuilder.strip();
-	String const strippedText = textBuilder.to_string();
-	Vector<String> halves = Util::split(strippedText, ANIMATION_ACTION_HALF);
+	String const strippedText = textBuilder.get_string();
+	Vector<String> halves = Tool::split(strippedText, ANIMATION_ACTION_HALF);
 	MINTY_ASSERT_F(halves.get_size() == 2 || halves.get_size() == 3, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
 	Size offset = 0;
 
 	// check if first one is the type
 	String const& typeString = halves.at(0);
-	type = AnimationActionType::None;
+	value.type = AnimationActionFlags::None;
 	if (typeString.get_size() == 1 && isalpha(typeString.front()))
 	{
 		Char typeChar = toupper(typeString.front());
@@ -48,50 +49,50 @@ Bool Minty::AnimationAction::parse(StringView const text)
 
 		if (typeChar == 'A')
 		{
-			type = AnimationActionType::Add;
+			value.type = AnimationActionFlags::Add;
 		}
 		else if (typeChar == 'R')
 		{
-			type = AnimationActionType::Remove;
+			value.type = AnimationActionFlags::Remove;
 		}
 	}
 
-	Vector<String> majorParts = Util::split(halves.at(offset), ANIMATION_ACTION_DELIMITER);
+	Vector<String> majorParts = Tool::split(halves.at(offset), ANIMATION_ACTION_DELIMITER);
 	// AnimationAction must have at 2 parts before the last ANIMATION_ACTION_HALF, split by ANIMATION_ACTION_DELIMITER
 	MINTY_ASSERT_F(majorParts.get_size() == 2, ErrorCode::Animation_InvalidActionFormat, strippedText);
 	Vector<String> minorParts;
 	if (offset + 1 < halves.get_size())
 	{
-		minorParts = Util::split(halves.at(offset + 1), ANIMATION_ACTION_GROUP);
+		minorParts = Tool::split(halves.at(offset + 1), ANIMATION_ACTION_GROUP);
 	}
 
-	entityIndex = get_split(0, majorParts, Animation::MAX_ENTITY_INDEX);
-	componentIndex = get_split(1, majorParts, Animation::MAX_COMPONENT_INDEX);
+	value.entityIndex = get_split(0, majorParts, Animation::MAX_ENTITY_INDEX);
+	value.componentIndex = get_split(1, majorParts, Animation::MAX_COMPONENT_INDEX);
 
 	// set minor data
-	values.resize(minorParts.get_size(), Tuple<UInt, UInt>());
+	value.values.resize(minorParts.get_size(), Tuple<UInt, UInt>());
 	for (Size i = 0; i < minorParts.get_size(); i++)
 	{
-		Vector<String> parts = Util::split(minorParts.at(i), ANIMATION_ACTION_DELIMITER);
+		Vector<String> parts = Tool::split(minorParts.at(i), ANIMATION_ACTION_DELIMITER);
 		// AnimationAction value at index i must have exactly one ANIMATION_ACTION_DELIMITER
 		MINTY_ASSERT_F(parts.get_size() == 2, ErrorCode::Animation_InvalidActionFormat, strippedText);
 
 		UInt variableIndex = get_split(0, parts, Animation::MAX_VARIABLE_INDEX);
 		UInt valueIndex = get_split(1, parts, Animation::MAX_VALUE_INDEX);
-		values[i] = Tuple<UInt, UInt>(variableIndex, valueIndex);
+		value.values[i] = Tuple<UInt, UInt>(variableIndex, valueIndex);
 	}
 
 	return true;
 }
 
-String Minty::AnimationAction::to_string() const
+String Minty::Parser<AnimationAction>::to_string(AnimationAction const &value)
 {
-	StringBuilder builder;
+    StringBuilder builder;
 
 	// get major half
-	String flagString = type == AnimationActionType::None ? "" : Minty::to_string(static_cast<UInt>(type));
-	String entityString = entityIndex == Animation::MAX_ENTITY_INDEX ? "" : Minty::to_string(entityIndex);
-	String componentString = componentIndex == Animation::MAX_COMPONENT_INDEX ? "" : Minty::to_string(componentIndex);
+	String flagString = value.type == AnimationActionFlags::None ? "" : Parser<UInt>::to_string(static_cast<UInt>(value.type));
+	String entityString = value.entityIndex == Animation::MAX_ENTITY_INDEX ? "" : Parser<UInt>::to_string(value.entityIndex);
+	String componentString = value.componentIndex == Animation::MAX_COMPONENT_INDEX ? "" : Parser<UInt>::to_string(value.componentIndex);
 	builder.append(flagString);
 	builder.append(ANIMATION_ACTION_DELIMITER);
 	builder.append(entityString);
@@ -102,19 +103,19 @@ String Minty::AnimationAction::to_string() const
 	builder.append(ANIMATION_ACTION_HALF);
 
 	// get minor half
-	for (Size i = 0; i < values.get_size(); i++)
+	for (Size i = 0; i < value.values.get_size(); i++)
 	{
 		if (i > 0)
 		{
 			builder.append(ANIMATION_ACTION_GROUP);
 		}
-		auto const [variableIndex, valueIndex] = values.at(i);
-		String variableString = variableIndex == Animation::MAX_VARIABLE_INDEX ? "" : Minty::to_string(variableIndex);
-		String valueString = valueIndex == Animation::MAX_VALUE_INDEX ? "" : Minty::to_string(valueIndex);
+		auto const [variableIndex, valueIndex] = value.values.at(i);
+		String variableString = variableIndex == Animation::MAX_VARIABLE_INDEX ? "" : Parser<UInt>::to_string(variableIndex);
+		String valueString = valueIndex == Animation::MAX_VALUE_INDEX ? "" : Parser<UInt>::to_string(valueIndex);
 		builder.append(variableString);
 		builder.append(ANIMATION_ACTION_DELIMITER);
 		builder.append(valueString);
 	}
 
-	return builder.to_string();
+	return builder.get_string();
 }

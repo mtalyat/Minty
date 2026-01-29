@@ -1,33 +1,25 @@
 #include "pch.h"
 #include "ShaderCullMode.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ShaderCullMode const obj)
+static constexpr Size SHADERCULLMODE_COUNT = 5;
+static constexpr Char const* SHADERCULLMODE_STRINGS[SHADERCULLMODE_COUNT] =
 {
-	switch (obj)
-	{
-	case ShaderCullMode::None: return "None";
-	case ShaderCullMode::Front: return "Front";
-	case ShaderCullMode::Back: return "Back";
-	case ShaderCullMode::Both: return "Both";
+	"Undefined",
+	"None",
+	"Front",
+	"Back",
+	"Both"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ShaderCullMode>::parse(StringView const str, ShaderCullMode &value)
+{
+    return Tool::try_parse_enum(str, SHADERCULLMODE_STRINGS, SHADERCULLMODE_COUNT, value);
 }
 
-ShaderCullMode Minty::parse_to_shader_cull_mode(String const& string)
+String Minty::Parser<ShaderCullMode>::to_string(ShaderCullMode const &obj)
 {
-	if (string == "None") return ShaderCullMode::None;
-	if (string == "Front") return ShaderCullMode::Front;
-	if (string == "Back") return ShaderCullMode::Back;
-	if (string == "Both") return ShaderCullMode::Both;
-
-	return ShaderCullMode();
-}
-
-Bool Minty::parse_try_shader_cull_mode(String const& string, ShaderCullMode& value)
-{
-	value = parse_to_shader_cull_mode(string);
-	return value != ShaderCullMode();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), SHADERCULLMODE_STRINGS, SHADERCULLMODE_COUNT);
 }

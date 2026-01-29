@@ -10,7 +10,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Enum.h"
 #include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -30,14 +30,13 @@ namespace Minty
     };
 
     MINTY_ENABLE_ENUM_OPERATORS(Constraints)
-
-    String to_string(Constraints const obj);
-    Constraints parse_to_constraints(String const &string);
-    Bool parse_try_constraints(String const &string, Constraints &value);
-    template <>
-    inline Constraints parse_to<Constraints>(StringView const string) { return parse_to_constraints(string); }
-    template <>
-    inline Bool parse_try<Constraints>(StringView const string, Constraints &value) { return parse_try_constraints(string, value); }
+    
+    template<>
+    struct Parser<Constraints>
+    {
+        static Bool parse(StringView const str, Constraints& value);
+        static String to_string(Constraints const& obj);
+    };
 }
 
 #endif // MINTY_PHYSICS_CONSTRAINTS_H

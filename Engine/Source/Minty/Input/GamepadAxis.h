@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -24,14 +23,13 @@ namespace Minty
 		LeftTrigger = 4,
 		RightTrigger = 5,
 	};
-
-	String to_string(GamepadAxis const obj);
-	GamepadAxis parse_to_gamepad_axis(String const& string);
-	Bool parse_try_gamepad_axis(String const& string, GamepadAxis& value);
+	
 	template<>
-	inline GamepadAxis parse_to<GamepadAxis>(StringView const string) { return parse_to_gamepad_axis(string); }
-	template<>
-	inline Bool parse_try<GamepadAxis>(StringView const string, GamepadAxis& value) { return parse_try_gamepad_axis(string, value); }
+	struct Parser<GamepadAxis>
+	{
+		static Bool parse(StringView const str, GamepadAxis& value);
+		static String to_string(GamepadAxis const& obj);
+	};
 }
 
 #endif // MINTY_INPUT_GAMEPADAXIS_H

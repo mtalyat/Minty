@@ -7,26 +7,12 @@
 
 using namespace Minty;
 
-void Minty::RelationshipComponent::serialize(Writer& writer) const
+void Minty::Serializer<RelationshipComponent>::serialize(Writer &writer, RelationshipComponent const &value)
 {
-	// if no parent, print nothing
-	if (parent == INVALID_ENTITY)
-	{
-		return;
-	}
-
-	// get the serialization data
-	AnyConst userData = writer.get_user_data();
-	EntitySerializationData const* entityData = static_cast<EntitySerializationData const*>(userData);
-
-	// get the parent id
-	UUID parentId = entityData->entityManager->get_id(parent);
-	
-	// write that id
-	writer.write("Parent", parentId);
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::RelationshipComponent::deserialize(Reader& reader)
+Bool Minty::Serializer<RelationshipComponent>::deserialize(Reader &reader, RelationshipComponent &value)
 {
 	// get the serialization data
 	Any const userData = reader.get_user_data();
@@ -38,20 +24,19 @@ Bool Minty::RelationshipComponent::deserialize(Reader& reader)
 
 	// read the parent id
 	UUID parentId;
-	if (reader.read_default(parentId) || reader.read("Parent", parentId))
+	if (reader.read_primary("Parent", parentId))
 	{
 		// get the parent entity
-		Entity const parent = entityData->get_entity(parentId);
-		MINTY_ASSERT_F(parent != INVALID_ENTITY, ErrorCode::Entity_NotValid, parentId);
+		Entity const newParent = entityData->get_entity(parentId);
+		MINTY_CHECK_F(newParent != INVALID_ENTITY, ErrorCode::Entity_NotValid, parentId);
 
 		// set the parent
-		entityManager->set_parent(entityData->entity, parent);
+		entityManager->set_parent(entityData->entity, newParent);
 	}
 	else
 	{
 		// set parent as root
 		entityManager->set_parent(entityData->entity, INVALID_ENTITY);
 	}
-
 	return true;
 }

@@ -1,12 +1,18 @@
 #include "String.h"
 #include "Minty/Memory/DefaultAllocator.h"
 #include "Minty/Debug/Assert.h"
+#include "Minty/Tool/String.h"
+#include "Minty/Core/Constant.h"
 
 using namespace Minty;
 
 Minty::String::String()
     : mp_data(nullptr), m_size(0)
 {
+    // allocate an empty string
+    mp_data = DefaultAllocator<Char>().allocate(1);
+    MINTY_ASSERT_F(mp_data != nullptr, ErrorCode::Memory_AllocationFailed, sizeof(Char));
+    mp_data[0] = '\0';
 }
 
 Minty::String::String(StringView const view)
@@ -126,27 +132,7 @@ Char const &Minty::String::at(Size const index) const
 
 Int Minty::String::compare(StringView const other) const noexcept
 {
-    if (m_size < other.get_size())
-    {
-        return -1;
-    }
-    else if (m_size > other.get_size())
-    {
-        return 1;
-    }
-
-    for (Size i = 0; i < m_size; ++i)
-    {
-        if (mp_data[i] < other[i])
-        {
-            return -1;
-        }
-        else if (mp_data[i] > other[i])
-        {
-            return 1;
-        }
-    }
-    return 0;
+    return Tool::compare(mp_data, m_size, other);
 }
 
 Size Minty::String::find_first(Char const c, Size const startIndex) const noexcept
@@ -163,142 +149,37 @@ Size Minty::String::find_first(Char const c, Size const startIndex) const noexce
 
 Size Minty::String::find_first(StringView const str, Size const startIndex) const noexcept
 {
-    if (str.get_size() == 0 || str.get_size() > m_size)
-    {
-        return INVALID_INDEX;
-    }
-
-    for (Size i = startIndex; i <= m_size - str.get_size(); ++i)
-    {
-        Bool found = true;
-        for (Size j = 0; j < str.get_size(); ++j)
-        {
-            if (mp_data[i + j] != str[j])
-            {
-                found = false;
-                break;
-            }
-        }
-        if (found)
-        {
-            return i;
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_first(mp_data, m_size, str, startIndex);
 }
 
 Size Minty::String::find_last(Char const c, Size const startIndex) const noexcept
 {
-    Size start = (startIndex == INVALID_INDEX) ? m_size - 1 : startIndex;
-    for (Size i = start; i != static_cast<Size>(-1); --i)
-    {
-        if (mp_data[i] == c)
-        {
-            return i;
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_last(mp_data, m_size, c, startIndex);
 }
 
 Size Minty::String::find_last(StringView const str, Size const startIndex) const noexcept
 {
-    if (str.get_size() == 0 || str.get_size() > m_size)
-    {
-        return INVALID_INDEX;
-    }
-
-    Size start = (startIndex == INVALID_INDEX) ? m_size - str.get_size() : startIndex;
-    for (Size i = start; i != static_cast<Size>(-1); --i)
-    {
-        Bool found = true;
-        for (Size j = 0; j < str.get_size(); ++j)
-        {
-            if (mp_data[i + j] != str[j])
-            {
-                found = false;
-                break;
-            }
-        }
-        if (found)
-        {
-            return i;
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_last(mp_data, m_size, str, startIndex);
 }
 
 Size Minty::String::find_first_of(StringView const chars, Size const startIndex) const noexcept
 {
-    for (Size i = startIndex; i < m_size; ++i)
-    {
-        for (Size j = 0; j < chars.get_size(); ++j)
-        {
-            if (mp_data[i] == chars[j])
-            {
-                return i;
-            }
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_first_of(mp_data, m_size, chars, startIndex);
 }
 
 Size Minty::String::find_last_of(StringView const chars, Size const startIndex) const noexcept
 {
-    Size start = (startIndex == INVALID_INDEX) ? m_size - 1 : startIndex;
-    for (Size i = start; i != static_cast<Size>(-1); --i)
-    {
-        for (Size j = 0; j < chars.get_size(); ++j)
-        {
-            if (mp_data[i] == chars[j])
-            {
-                return i;
-            }
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_last_of(mp_data, m_size, chars, startIndex);
 }
 
 Size Minty::String::find_first_not_of(StringView const chars, Size const startIndex) const noexcept
 {
-    for (Size i = startIndex; i < m_size; ++i)
-    {
-        Bool found = false;
-        for (Size j = 0; j < chars.get_size(); ++j)
-        {
-            if (mp_data[i] == chars[j])
-            {
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            return i;
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_first_not_of(mp_data, m_size, chars, startIndex);
 }
 
 Size Minty::String::find_last_not_of(StringView const chars, Size const startIndex) const noexcept
 {
-    Size start = (startIndex == INVALID_INDEX) ? m_size - 1 : startIndex;
-    for (Size i = start; i != static_cast<Size>(-1); --i)
-    {
-        Bool found = false;
-        for (Size j = 0; j < chars.get_size(); ++j)
-        {
-            if (mp_data[i] == chars[j])
-            {
-                found = true;
-                break;
-            }
-        }
-        if (!found)
-        {
-            return i;
-        }
-    }
-    return INVALID_INDEX;
+    return Tool::find_last_not_of(mp_data, m_size, chars, startIndex);
 }
 
 String Minty::String::sub(Size const startIndex, Size const count) const noexcept
@@ -319,26 +200,12 @@ String Minty::String::sub(Size const startIndex, Size const count) const noexcep
 
 Bool Minty::String::starts_with(StringView const str) const noexcept
 {
-    for (Size i = 0; i < str.get_size(); ++i)
-    {
-        if (m_size < str.get_size() || mp_data[i] != str[i])
-        {
-            return false;
-        }
-    }
-    return true;
+    return Tool::starts_with(mp_data, m_size, str);
 }
 
 Bool Minty::String::ends_with(StringView const str) const noexcept
 {
-    for (Size i = 0; i < str.get_size(); ++i)
-    {
-        if (m_size < str.get_size() || mp_data[m_size - str.get_size() + i] != str[i])
-        {
-            return false;
-        }
-    }
-    return true;
+    return Tool::ends_with(mp_data, m_size, str);
 }
 
 String Minty::String::to_lower() const
