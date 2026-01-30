@@ -4,5 +4,6 @@ Near: 0.1
 Far: 100.0
 Color: #000000
 AspectRatio: 16 / 9
+Size: 5
 Layer: All
 RenderTarget: def000000000001e
