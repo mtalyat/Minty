@@ -33,7 +33,8 @@ namespace Minty
 		Remove = 0x2,
 
 		/**
-		 * @brief Enable interpolation for the action.
+		 * @brief Enable interpolation for the action. 
+		 * This is set automatically if any variables used are marked as smooth.
 		 */
 		Smooth = 0x4,
 	};

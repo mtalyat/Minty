@@ -235,6 +235,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Animation error. Negative time value provided.";
     case ErrorCode::Animation_DuplicateTime:
         return "Animation error. Duplicate time value detected in animation steps.";
+    case ErrorCode::Animation_DuplicateAction:
+        return "Animation error. Duplicate action detected for the same entity/component in a single step.";
     case ErrorCode::Animation_IncorrectTimeOrder:
         return "Animation error. Animation steps are not in correct time order.";
     case ErrorCode::Animation_InvalidActionFormat:
@@ -261,6 +263,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Animation error. Not enough steps provided for animation.";
     case ErrorCode::Animation_NotEnoughComponents:
         return "Animation error. Not enough components provided for animation.";
+    case ErrorCode::Animation_InvalidVariableMode:
+        return "Animation error. Invalid variable mode for animation. Check if the variable is marked as smooth or rigid correctly.";
 
     case ErrorCode::Asset:
         return "Asset error.";

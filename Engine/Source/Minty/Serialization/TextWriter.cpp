@@ -72,6 +72,10 @@ void Minty::TextWriter::write_type_value_pair(Type const type, AnyConst const da
 
     // write the value, based on type
     write_typed_value(type, data);
+
+    // finish the line
+    write_break();
+	set_state(State::None);
 }
 
 void Minty::TextWriter::write_bool(Bool const value)

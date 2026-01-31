@@ -135,6 +135,7 @@ namespace Minty
         Animation = 1100,
         Animation_NegativeTime,
         Animation_DuplicateTime,
+        Animation_DuplicateAction,
         Animation_IncorrectTimeOrder,
         Animation_InvalidActionFormat,
         Animation_InvalidActionType,
@@ -148,6 +149,7 @@ namespace Minty
         Animation_NotEnoughActions,
         Animation_NotEnoughSteps,
         Animation_NotEnoughComponents,
+        Animation_InvalidVariableMode,
 
         Asset = 1200,
         Asset_InvalidFormat,

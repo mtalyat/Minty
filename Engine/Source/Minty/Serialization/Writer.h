@@ -90,7 +90,6 @@ namespace Minty
 	protected:
 		inline State get_state() const { return m_state; }
 
-	private:
 		inline void set_state(State const state) { m_state = state; }
 
 #pragma endregion
@@ -112,8 +111,6 @@ namespace Minty
 			set_state(key.is_empty() ? State::Empty : State::Key);
 			write_kvp_separator();
 			specialized_write<T>(value);
-			write_break();
-			set_state(State::None);
 		}
 
 		/**
@@ -128,8 +125,6 @@ namespace Minty
 			set_state(key.is_empty() ? State::Empty : State::Key);
 			write_kvp_separator();
 			write_type_value_pair(type, value);
-			write_break();
-			set_state(State::None);
 		}
 
 		/**
@@ -186,8 +181,6 @@ namespace Minty
 				return;
 			}
 			specialized_write<T>(value);
-			write_break();
-			set_state(State::None);
 		}
 
 		/**
@@ -204,8 +197,6 @@ namespace Minty
 				return;
 			}
 			write_type_value_pair(type, data);
-			write_break();
-			set_state(State::None);
 		}
 
 		/**

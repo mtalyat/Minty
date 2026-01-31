@@ -938,8 +938,35 @@ Shared<Animation> Minty::AssetManager::load_animation(Path const &path, UUID con
 		reader->read("Components", info.components);
 		if (reader->indent("Variables"))
 		{
-			reader->read("Rigid", info.rigidVariables);
-			reader->read("Smooth", info.smoothVariables);
+			String modeString; // key
+			String name; // value
+			Char mode;
+			while(reader->read_next(modeString, name))
+			{
+				// get the mode from the string, or default
+				if(modeString.is_empty())
+				{
+					// default to rigid
+					mode = 'R';
+				} else
+				{
+					mode = modeString.front();
+				}
+
+				// add to the appropriate list
+				switch(mode)
+				{
+				case 'R':
+					info.rigidVariables.add(name);
+					break;
+				case 'S':
+					info.smoothVariables.add(name);
+					break;
+				default:
+					MINTY_ERROR_F(ErrorCode::Animation_InvalidVariableMode, path, name, mode);
+					break;
+				}
+			}
 
 			reader->outdent();
 		}

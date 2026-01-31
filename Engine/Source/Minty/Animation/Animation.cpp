@@ -14,6 +14,16 @@
 
 using namespace Minty;
 
+namespace Minty
+{
+	struct VariableInfo
+	{
+		Bool used;
+		Float time;
+		Animation::Index valueIndex;
+	};
+}
+
 Minty::Animation::Animation(AnimationInfo const& info)
 	: Asset(info.id)
 	, m_duration(info.duration)
@@ -338,6 +348,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		// determine what to do based on the flags
 		if ((type & AnimationActionFlags::Add) != AnimationActionFlags::None)
 		{
+			// add the component if it does not exist
 			if(!componentInfo->has(entityManager, entity))
 			{
 				componentInfo->create(entityManager, entity);
@@ -346,20 +357,23 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 		}
 		if ((type & AnimationActionFlags::Remove) != AnimationActionFlags::None)
 		{
+			// remove the component if it exists
 			if (componentInfo->has(entityManager, entity))
 			{
 				componentInfo->destroy(entityManager, entity);
 			}
 			continue;
 		}
+		// else normal animation action
 
+		// get the component itself
 		Component* component = componentInfo->get(entityManager, entity);
 		MINTY_ASSERT(component != nullptr, ErrorCode::Animation_ComponentNotFound);
 
 		// normal step
-		Bool const interpolate = (type & AnimationActionFlags::Smooth) != AnimationActionFlags::None;
-
+		
 		// behave differently based on the interpolation type
+		Bool const interpolate = (type & AnimationActionFlags::Smooth) != AnimationActionFlags::None;
 		if (interpolate)
 		{
 			// find the last value of each variable before the new time
@@ -372,7 +386,10 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 					break;
 				}
 			}
-			Map<Index, Tuple<Float, Index>> previousValues;
+			// collect previous and next values for each variable
+			Vector<VariableInfo> previousValues;
+			previousValues.resize(m_variables.get_size(), VariableInfo{ false, 0.0f, 0 });
+			Size valueCount = 0;
 			for(Size i = 0; i < index; i++)
 			{
 				// get the index to check
@@ -385,19 +402,24 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				{
 					Index variableIndex, valueIndex;
 					extract_value(value, variableIndex, valueIndex);
-					if (!previousValues.contains(variableIndex))
+					if(previousValues.at(variableIndex).used)
 					{
-						previousValues.add(variableIndex, { stepTime, valueIndex });
+						// already have a previous value for this variable
+						continue;
 					}
+					previousValues.at(variableIndex) = { true, stepTime, valueIndex };
+					valueCount++;
 				}
 
 				// if all variables have been set, break
-				if (previousValues.get_size() == count)
+				if (valueCount == count)
 				{
 					break;
 				}
 			}
-			Map<Index, Tuple<Float, Index>> nextValues;
+			Vector<VariableInfo> nextValues;
+			nextValues.resize(m_variables.get_size(), VariableInfo{ false, 0.0f, 0 });
+			valueCount = 0;
 			for (Size i = index; i < times.get_size(); i++)
 			{
 				auto const& [stepTime, values] = times.at(i);
@@ -406,14 +428,17 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 				{
 					Index variableIndex, valueIndex;
 					extract_value(value, variableIndex, valueIndex);
-					if (!nextValues.contains(variableIndex))
+					if(nextValues.at(variableIndex).used)
 					{
-						nextValues.add(variableIndex, { stepTime, valueIndex });
+						// already have a next value for this variable
+						continue;
 					}
+					nextValues.at(variableIndex) = { true, stepTime, valueIndex };
+					valueCount++;
 				}
 
 				// if all variables have been set, break
-				if (nextValues.get_size() == count)
+				if (valueCount == count)
 				{
 					break;
 				}
@@ -423,26 +448,31 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 			Shared<Stream> const stream = Shared<MemoryStream>::create(container);
 			// TODO: replace with binary writer
 			TextWriter writer(stream);
-			for (auto const& [variableIndex, timeValue] : previousValues)
+			index = -1;
+			for (auto const& previousInfo : previousValues)
 			{
-				auto const& [previousTime, previousValueIndex] = timeValue;
-				auto const& [variableName, variableSmooth] = m_variables.at(variableIndex);
-				auto it = nextValues.find(variableIndex);
+				index++;
+				if (!previousInfo.used)
+				{
+					// no previous value for this variable
+					continue;
+				}
+				auto const& [variableName, variableSmooth] = m_variables.at(index);
+				VariableInfo const& nextInfo = nextValues.at(index);
 
-				if(!variableSmooth || it == nextValues.end())
+				if(!variableSmooth || !nextInfo.used)
 				{
 					// if no next value, no interpolation, use the previous value
-					Node const& node = m_values.at(timeValue.get_second());
+					Node const& node = m_values.at(previousInfo.valueIndex);
 					writer.write(variableName, node);
 				}
 				else
 				{
 					// if next value exists, interpolate
-					auto const& [nextTime, nextValueIndex] = it->get_second();
-					Float t = (newTime - previousTime) / (nextTime - previousTime);
+					Float t = (newTime - previousInfo.time) / (nextInfo.time - previousInfo.time);
 
-					Node const& previousNode = m_values.at(previousValueIndex);
-					Node const& nextNode = m_values.at(it->get_second().get_second());
+					Node const& previousNode = m_values.at(previousInfo.valueIndex);
+					Node const& nextNode = m_values.at(nextInfo.valueIndex);
 					String previousValue = previousNode.get_data_string();
 					String nextValue = nextNode.get_data_string();
 					String resultValue;
@@ -474,6 +504,7 @@ Bool Minty::Animation::animate(Float& time, Float const elapsedTime, Entity cons
 			};
 
 			// deserialize the data
+			stream->reset();
 			TextReader reader(stream);
 			reader.push_user_data(&data);
 			componentInfo->deserialize(reader, *component);
