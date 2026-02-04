@@ -220,6 +220,14 @@ namespace Minty
         inline StringView get_view() const noexcept { return StringView(mp_data, m_size); }
 
 		/**
+		 * @brief Gets a substring as a StringView.
+		 * @param startIndex The starting index of the substring.
+		 * @param count The number of characters in the substring.
+		 * @return StringView of the substring.
+		 */
+		StringView get_view(Size const startIndex, Size const count = INVALID_INDEX) const noexcept;
+
+		/**
 		 * @brief Checks if the string is empty.
 		 * @return True if the string is empty, false otherwise.
 		 */
@@ -260,25 +268,25 @@ namespace Minty
 		 * @brief Gets a reference to the first character.
 		 * @return Reference to the first character.
 		 */
-		inline Char& front() { return at(0); }
+		inline Char& front() noexcept { return mp_data[0]; }
 
 		/**
 		 * @brief Gets the first character.
 		 * @return The first character.
 		 */
-		inline Char front() const { return at(0); }
+		inline Char front() const noexcept { return mp_data[0]; }
 
 		/**
 		 * @brief Gets a reference to the last character.
 		 * @return Reference to the last character.
 		 */
-		inline Char& back() { return at(m_size - 1); }
+		inline Char& back() noexcept { return mp_data[m_size - 1]; }
 
 		/**
 		 * @brief Gets the last character.
 		 * @return The last character.
 		 */
-		inline Char back() const { return at(m_size - 1); }
+		inline Char back() const noexcept { return mp_data[m_size - 1]; }
 
 		/**
 		 * @brief Finds the first occurrence of a character or substring.
@@ -371,11 +379,25 @@ namespace Minty
 		Bool starts_with(StringView const str) const noexcept;
 
 		/**
+		 * @brief Checks if the string starts with a given character.
+		 * @param c The character to check.
+		 * @return True if the string starts with the character, false otherwise.
+		 */
+		inline Bool starts_with(Char const c) const noexcept { return !is_empty() && front() == c; }
+
+		/**
 		 * @brief Checks if the string ends with a given substring.
 		 * @param str The substring to check.
 		 * @return True if the string ends with the substring, false otherwise.
 		 */
 		Bool ends_with(StringView const str) const noexcept;
+
+		/**
+		 * @brief Checks if the string ends with a given character.
+		 * @param c The character to check.
+		 * @return True if the string ends with the character, false otherwise.
+		 */
+		inline Bool ends_with(Char const c) const noexcept { return !is_empty() && back() == c; }
 
 		/**
 		 * @brief Checks if the string contains a given character.
@@ -391,20 +413,60 @@ namespace Minty
 		 */
 		inline Bool contains(StringView const str) const noexcept { return find_first(str) != INVALID_INDEX; }
 
+		/**
+		 * @brief Converts the string to lowercase.
+		 * @return A new String in lowercase.
+		 */
 		String to_lower() const;
 
+		/**
+		 * @brief Converts the string to uppercase.
+		 * @return A new String in uppercase.
+		 */
 		String to_upper() const;
 
+		/**
+		 * @brief Trims characters from the start of the string.
+		 * @param chars The characters to trim. Defaults to whitespace characters.
+		 * @return A new String with the characters trimmed from the start.
+		 */
 		String trim_start(StringView const chars = TEXT_WHITESPACE) const;
 
+		/**
+		 * @brief Trims characters from the end of the string.
+		 * @param chars The characters to trim. Defaults to whitespace characters.
+		 * @return A new String with the characters trimmed from the end.
+		 */
 		String trim_end(StringView const chars = TEXT_WHITESPACE) const;
 
+		/**
+		 * @brief Trims characters from both ends of the string.
+		 * @param chars The characters to trim. Defaults to whitespace characters.
+		 * @return A new String with the characters trimmed from both ends.
+		 */
 		String trim(StringView const chars = TEXT_WHITESPACE) const;
 
+		/**
+		 * @brief Strips characters from both ends of the string.
+		 * @param chars The characters to strip. Defaults to whitespace characters.
+		 * @return A new String with the characters stripped from both ends.
+		 */
 		String strip(StringView const chars = TEXT_WHITESPACE) const;
 
+		/**
+		 * @brief Replaces all occurrences of a character with another character.
+		 * @param oldChar The character to be replaced.
+		 * @param newChar The character to replace with.
+		 * @return A new String with the characters replaced.
+		 */
 		String replace(Char const oldChar, Char const newChar) const;
 
+		/**
+		 * @brief Replaces all occurrences of a substring with another substring.
+		 * @param oldStr The substring to be replaced.
+		 * @param newStr The substring to replace with.
+		 * @return A new String with the substrings replaced.
+		 */
 		String replace(StringView const oldStr, StringView const newStr) const;
 
 #pragma endregion

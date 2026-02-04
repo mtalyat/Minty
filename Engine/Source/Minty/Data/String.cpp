@@ -118,6 +118,22 @@ String Minty::String::operator+(StringView const other) const
     return result;
 }
 
+StringView Minty::String::get_view(Size const startIndex, Size const count) const noexcept
+{
+    if (startIndex >= m_size)
+    {
+        return StringView();
+    }
+
+    Size actualCount = count;
+    if (count == INVALID_INDEX || startIndex + count > m_size)
+    {
+        actualCount = m_size - startIndex;
+    }
+
+    return StringView(mp_data + startIndex, actualCount);
+}
+
 Char Minty::String::index(Size const index) const
 {
     MINTY_ASSERT_F(index < m_size, ErrorCode::Argument_OutOfRange, index);
