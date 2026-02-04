@@ -150,6 +150,7 @@ namespace Minty
         Animation_NotEnoughSteps,
         Animation_NotEnoughComponents,
         Animation_InvalidVariableMode,
+        Animation_ScopedVariableNotFound,
 
         Asset = 1200,
         Asset_InvalidFormat,

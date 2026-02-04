@@ -265,6 +265,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Animation error. Not enough components provided for animation.";
     case ErrorCode::Animation_InvalidVariableMode:
         return "Animation error. Invalid variable mode for animation. Check if the variable is marked as smooth or rigid correctly.";
+    case ErrorCode::Animation_ScopedVariableNotFound:
+        return "Animation error. Scoped variable not found in the provided scope. Check that the animator contains the correct scoped variable names.";
 
     case ErrorCode::Asset:
         return "Asset error.";
