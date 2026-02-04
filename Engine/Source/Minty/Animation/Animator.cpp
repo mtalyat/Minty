@@ -134,8 +134,10 @@ void Minty::Animator::flush(AnimatorComponent &animatorComp, Float const deltaTi
 {
 	// update the animator
 	Ref<Animation> &animation = animatorComp.animation;
+	Ref<Animator> const& animator = animatorComp.animator;
+	Scope const& scope = animator->mp_fsm->get_scope();
 	UUID currentId = animation == nullptr ? UUID() : animation->get_id();
-	UUID newId = animatorComp.animator->update(animation, animatorComp.time);
+	UUID newId = animator->update(animation, animatorComp.time);
 
 	// if ID changed, reset animation data
 	if (currentId != newId)
@@ -143,7 +145,7 @@ void Minty::Animator::flush(AnimatorComponent &animatorComp, Float const deltaTi
 		// reset animation
 		if (animation != nullptr)
 		{
-			animation->reset(thisEntity, entityManager);
+			animation->reset(thisEntity, entityManager, scope);
 		}
 
 		// reset animator component
@@ -174,7 +176,7 @@ void Minty::Animator::flush(AnimatorComponent &animatorComp, Float const deltaTi
 	}
 
 	// animate with it
-	animatorComp.animation->animate(animatorComp.time, deltaTime, thisEntity, entityManager);
+	animatorComp.animation->animate(animatorComp.time, deltaTime, thisEntity, entityManager, scope);
 
 	// assuming something has changed that needs updating, so dirty the entity
 	entityManager.dirty(thisEntity);

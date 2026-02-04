@@ -5,8 +5,9 @@ Entities
 Components
     - MyComponent
 Variables
-    MyRigid: Rigid
-    MySmooth: Smooth
+    - MyRigidVariable
+    R: MyRigidVariable2
+    S: MySmoothVariable
 Values
     - MyValue
 Actions

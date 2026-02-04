@@ -19,6 +19,7 @@
 namespace Minty
 {
 	class EntityManager;
+	class Scope;
 	struct AnimationInfo;
 	struct ComponentData;
 
@@ -82,16 +83,18 @@ namespace Minty
 		 * @param elapsedTime The time to advance the Animation by, in seconds.
 		 * @param thisEntity The Entity being animated.
 		 * @param entityManager The EntityManager thisEntity belongs to.
+		 * @param scope The Scope containing any variables for the Animation.
 		 * @return True if the Animation is still playing, false if it has ended.
 		 */
-		Bool animate(Float& time, Float const elapsedTime, Entity const thisEntity, EntityManager& entityManager) const;
+		Bool animate(Float& time, Float const elapsedTime, Entity const thisEntity, EntityManager& entityManager, Scope const& scope) const;
 
 		/**
 		 * @brief Resets the animated Entities to their original state before the Animation was played.
 		 * @param thisEntity The Entity being animated.
 		 * @param entityManager The EntityManager thisEntity belongs to.
+		 * @param scope The Scope containing any variables for the Animation.
 		 */
-		void reset(Entity const thisEntity, EntityManager& entityManager);
+		void reset(Entity const thisEntity, EntityManager& entityManager, Scope const& scope) const;
 
 		/**
 		 * @brief Creates a new Animation from the given AnimationInfo.
