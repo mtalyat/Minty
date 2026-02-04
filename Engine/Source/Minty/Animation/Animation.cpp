@@ -191,7 +191,7 @@ void Minty::Animation::build_action(StepKey &key, Vector<StepValue> &values, Ani
 	key = compile_key(action.entityIndex, action.componentIndex, type);
 }
 
-void Minty::Animation::perform_action(StepKey const key, Vector<StepValue> const &values, Entity const thisEntity, EntityManager &entityManager) const
+void Minty::Animation::perform_action(StepKey const key, Vector<StepValue> const &values, Entity const thisEntity, EntityManager &entityManager, Scope const &scope) const
 {
 	// extract the key
 	AnimationAction action;
@@ -210,10 +210,10 @@ void Minty::Animation::perform_action(StepKey const key, Vector<StepValue> const
 	}
 
 	// perform the action
-	perform_action(action, thisEntity, entityManager);
+	perform_action(action, thisEntity, entityManager, scope);
 }
 
-void Minty::Animation::perform_action(AnimationAction const &action, Entity const thisEntity, EntityManager &entityManager) const
+void Minty::Animation::perform_action(AnimationAction const &action, Entity const thisEntity, EntityManager &entityManager, Scope const &scope) const
 {
 	MINTY_ASSERT_F(action.entityIndex < MAX_ENTITY_INDEX, ErrorCode::Animation_InvalidEntityIndex, action.entityIndex);
 
@@ -265,9 +265,25 @@ void Minty::Animation::perform_action(AnimationAction const &action, Entity cons
 		// get the variable name
 		String const &variableName = m_variables.at(variableIndex).get_first();
 
-		// get a copy of the value to set
+		// get the value
 		Node const &value = m_values.at(valueIndex);
-		writer.write(variableName, value);
+		String const valueString = value.get_data_string();
+
+		// check if the value exists in the scope
+		if (valueString.starts_with('{') && valueString.ends_with('}'))
+		{
+			// write the scoped variable's value
+			StringView const scopedName = valueString.get_view(1, valueString.get_size() - 2);
+			UUID const scopeId = scope.find(scopedName);
+			MINTY_ASSERT_F(scopeId.is_valid(), ErrorCode::Animation_ScopedVariableNotFound, scopedName);
+			Int const scopeValue = scope.get_value(scopeId);
+			writer.write(variableName, scopeValue);
+		}
+		else
+		{
+			// write the direct value
+			writer.write(variableName, value);
+		}
 	}
 
 	// create serialization data
@@ -446,29 +462,28 @@ Bool Minty::Animation::animate(Float &time, Float const elapsedTime, Entity cons
 				// get the variable name
 				auto const &[variableName, variableSmooth] = m_variables.at(index);
 
-				// check if the variable is a scoped variable
-				Bool const isScoped = variableName.starts_with('{') && variableName.ends_with('}');
-
 				// get the next value info
 				VariableInfo const &nextInfo = nextValues.at(index);
 
 				// do not interpolate if: scoped variable, rigid variable, or no next value
-				if (isScoped || !variableSmooth || !nextInfo.used)
+				if (!variableSmooth || !nextInfo.used)
 				{
-					// if scoped, get that variable from the scope
-					// if not, just use the previous value
-					if (isScoped)
+					Node const& valueNode = m_values.at(previousInfo.valueIndex);
+					String const valueString = valueNode.get_data_string();
+
+					// check if the value is a scoped variable
+					if(valueString.starts_with('{') && valueString.ends_with('}'))
 					{
-						StringView const scopedName = variableName.get_view(1, variableName.get_size() - 2);
-						UUID const variableID = scope.find(scopedName);
-						MINTY_ASSERT_F(variableID.is_valid(), ErrorCode::Animation_ScopedVariableNotFound, scopedName);
-						Int const value = scope.get_value(variableID);
-						writer.write(variableName, value);
-					}
-					else
+						// write the scoped variable's value
+						StringView const scopedName = valueString.get_view(1, valueString.get_size() - 2);
+						UUID const scopeId = scope.find(scopedName);
+						MINTY_ASSERT_F(scopeId.is_valid(), ErrorCode::Animation_ScopedVariableNotFound, scopedName);
+						Int const scopeValue = scope.get_value(scopeId);
+						writer.write(variableName, scopeValue);
+					} else
 					{
-						Node const &node = m_values.at(previousInfo.valueIndex);
-						writer.write(variableName, node);
+						// write the direct value
+						writer.write(variableName, valueNode);
 					}
 				}
 				else
@@ -548,7 +563,7 @@ Bool Minty::Animation::animate(Float &time, Float const elapsedTime, Entity cons
 				}
 
 				// found the step
-				perform_action(key, values, thisEntity, entityManager);
+				perform_action(key, values, thisEntity, entityManager, scope);
 			}
 		}
 	}
@@ -566,7 +581,7 @@ void Minty::Animation::reset(Entity const thisEntity, EntityManager &entityManag
 	for (auto const &[key, step] : m_resetSteps)
 	{
 		// perform the action
-		perform_action(key, step.get_second(), thisEntity, entityManager);
+		perform_action(key, step.get_second(), thisEntity, entityManager, scope);
 	}
 }
 

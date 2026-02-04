@@ -9,7 +9,7 @@ Minty::Scope::Scope()
 {
 }
 
-UUID Minty::Scope::find(String const &name) const
+UUID Minty::Scope::find(StringView const name) const
 {
     auto found = m_values.find(name);
     if (found == m_values.end())
@@ -19,7 +19,7 @@ UUID Minty::Scope::find(String const &name) const
     return found->get_second();
 }
 
-UUID Minty::Scope::add(String const &name, Int const value)
+UUID Minty::Scope::add(String const& name, Int const value)
 {
     UUID id = UUID::create();
     m_values.add(name, id, value);

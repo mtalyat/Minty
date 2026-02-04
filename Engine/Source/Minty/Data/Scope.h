@@ -81,7 +81,7 @@ namespace Minty
 		 * @param name The name of the variable.
 		 * @returns The ID of the variable, or UUID() if not found.
 		 */
-		UUID find(String const &name) const;
+		UUID find(StringView const name) const;
 
 		/**
 		 * @brief Adds a variable with the given name and value to this Scope.
@@ -89,7 +89,7 @@ namespace Minty
 		 * @param value The initial value of the variable.
 		 * @returns The ID of the variable.
 		 */
-		UUID add(String const &name, Int const value);
+		UUID add(String const& name, Int const value);
 
 		/**
 		 * @brief Sets the value of the variable with the given ID.

@@ -120,9 +120,9 @@ namespace Minty
 
 		void build_action(StepKey& key, Vector<StepValue>& values, AnimationAction const& action) const;
 
-		void perform_action(StepKey const key, Vector<StepValue> const& values, Entity const thisEntity, EntityManager& entityManager) const;
+		void perform_action(StepKey const key, Vector<StepValue> const& values, Entity const thisEntity, EntityManager& entityManager, Scope const& scope) const;
 
-		void perform_action(AnimationAction const& action, Entity const thisEntity, EntityManager& entityManager) const;
+		void perform_action(AnimationAction const& action, Entity const thisEntity, EntityManager& entityManager, Scope const& scope) const;
 
 #pragma endregion
 
