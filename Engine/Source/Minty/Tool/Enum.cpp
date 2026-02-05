@@ -51,24 +51,55 @@ Size Minty::Internal::parse_enum_flags(StringView const view, Char const *const 
 
 Bool Minty::Internal::try_parse_enum_flags(StringView const view, Char const *const *const enumStrings, Size const enumCount, Size &outValue)
 {
-    Vector<String> parts = Tool::split(view, '|');
     Size result = 0;
+    Size index = 0;
     Size i;
 
-    for (String const &part : parts)
+    // iterate until a part is found
+    while (index < view.get_size())
     {
-        String trimmedPart = part.trim();
+        for (i = index; i < view.get_size(); ++i)
+        {
+            Char const c = view[i];
+
+            if (i > index)
+            {
+                // break on delimiter
+                if (c == ' ' || c == '|' || isupper(c))
+                {
+                    break;
+                }
+            }
+            else
+            {
+                // skip leading spaces or delimiters
+                if (c == ' ' || c == '|')
+                {
+                    ++index;
+                    continue;
+                }
+            }
+        }
+
+        // get the part
+        StringView const part = view.sub(index, i - index);
+        
+        // move on to the next part
+        index = i;
+
+        // find the matching enum value
         for (i = 0; i < enumCount; ++i)
         {
-            if (trimmedPart == enumStrings[i])
+            if (part == enumStrings[i])
             {
                 result |= (1ull << i);
                 break;
             }
         }
-        if(i == enumCount)
+
+        // if no match was found, return false
+        if (i == enumCount)
         {
-            // No matching enum found
             return false;
         }
     }
