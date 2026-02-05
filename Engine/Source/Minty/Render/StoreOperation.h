@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +31,13 @@ namespace Minty
 		 */
 		Store,
 	};
-
-	String to_string(StoreOperation const obj);
-	StoreOperation parse_to_store_operation(String const& string);
-	Bool parse_try_store_operation(String const& string, StoreOperation& value);
+	
 	template<>
-	inline StoreOperation parse_to<StoreOperation>(StringView const string) { return parse_to_store_operation(string); }
-	template<>
-	inline Bool parse_try<StoreOperation>(StringView const string, StoreOperation& value) { return parse_try_store_operation(string, value); }
+	struct Parser<StoreOperation>
+	{
+		static Bool parse(StringView const str, StoreOperation& value);
+		static String to_string(StoreOperation const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_STOREOPERATION_H

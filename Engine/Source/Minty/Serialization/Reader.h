@@ -1,1748 +1,679 @@
-#ifndef MINTY_SERIALIZATION_READER_H
-#define MINTY_SERIALIZATION_READER_H
+#ifndef MINTY_SOURCE_SERIALIZE_READER_H
+#define MINTY_SOURCE_SERIALIZE_READER_H
 
 /**
  * @file Reader.h
- * @brief Header file defining the Reader class.
+ * @brief Header file defining the Reader class for serialization.
  * @author Mitchell Talyat
  */
 
-#include "Minty/Asset/Asset.h"
-#include "Minty/Core/Format.h"
-#include "Minty/Core/Math.h"
-#include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Data/Array.h"
-#include "Minty/Data/List.h"
-#include "Minty/Data/Map.h"
-#include "Minty/Data/Set.h"
+#include "Minty/Core/Type.h"
+#include "Minty/Data/Pointer.h"
 #include "Minty/Data/Stack.h"
 #include "Minty/Data/String.h"
-#include "Minty/Data/UUID.h"
-#include "Minty/Data/Vector.h"
-#include "Minty/Debug/Debug.h"
-#include "Minty/File/File.h"
-#include "Minty/Serialization/IsSerializable.h"
-#include "Minty/Serialization/Node.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Memory/DefaultAllocator.h"
-#include "Minty/Serialization/Node.h"
+#include "Minty/Data/Map.h"
+#include "Minty/Data/Tuple.h"
+#include "Minty/Serialization/Evaluator.h"
+#include "Minty/Serialization/Parser.h"
+#include "Minty/Serialization/Serializer.h"
+#include "Minty/Stream/Stream.h"
 
 namespace Minty
 {
-	class TextReaderBehavior;
-	class FileReaderBehavior;
-	class NodeReaderBehavior;
-	class MemoryReaderBehavior;
-
-	template<typename, typename>
-	class ReaderImplementation;
-
-	using TextFileReader = ReaderImplementation<TextReaderBehavior, FileReaderBehavior>;
-	using TextNodeReader = ReaderImplementation<TextReaderBehavior, NodeReaderBehavior>;
-	using TextMemoryReader = ReaderImplementation<TextReaderBehavior, MemoryReaderBehavior>;
-
-#pragma region Base
-
-	/**
-	 * @brief Handles reading data from a source, formatted in a Minty Node structure.
-	 */
-	class Reader
-	{
-#pragma region Variables
-
-	private:
-		List<Any> m_dataStack;
-
-#pragma endregion
-
+    /**
+     * @brief A Reader reads data from a stream.
+     */
+    class Reader
+    {
 #pragma region Constructors
 
-	public:
-		/**
-		 * @brief Creates a new Reader.
-		 */
-		Reader()
-			: m_dataStack()
-		{
-		}
+    public:
+        /**
+         * @brief Creates a Reader with the given stream.
+         * @param stream The stream to read from.
+         */
+        Reader(Shared<Stream> const &stream);
+
+        virtual ~Reader() = default;
 
 #pragma endregion
 
 #pragma region Accessors
 
-	public:
-		/**
-		 * @brief Gets the top of the data stack.
-		 * @return A pointer to the data, or null if nothing in the data stack.
-		 */
-		Any get_user_data() const;
+    public:
+        /**
+         * @brief Pushes user data onto the user data stack.
+         * @param userData Pointer to the user data.
+         */
+        inline void push_user_data(Any const userData) { m_userStack.push(userData); }
 
-		/**
-		 * @brief Gets the data source for this Reader.
-		 * @return A pointer to the data source.
-		 */
-		virtual Any get_source() const = 0;
+        /**
+         * @brief Pops user data from the user data stack.
+         */
+        inline void pop_user_data() { m_userStack.pop(); }
 
-		/**
-		 * @brief Gets the depth in the Node structure.
-		 * @return The number of indents made from the root Node.
-		 */
-		virtual Size get_depth() const = 0;
+        /**
+         * @brief Gets the user data associated with the Reader.
+         * @return Pointer to the user data.
+         */
+        inline Any get_user_data() const
+        {
+            if (m_userStack.is_empty())
+            {
+                return nullptr;
+            }
+            return m_userStack.peek();
+        }
 
-		/**
-		 * @brief Gets the root Node this Reader has.
-		 * @return The root Node.
-		 */
-		virtual Node& get_root_node() = 0;
+        /**
+         * @brief Gets the stream associated with this Reader.
+         * @return Shared pointer to the stream.
+         */
+        inline Shared<Stream> const &get_stream() const { return m_stream; }
 
-		/**
-		 * @brief Gets the root Node this Reader has.
-		 * @return The root Node.
-		 */
-		virtual Node const& get_root_node() const = 0;
-		
-		/**
-		 * @brief Gets the current Node this Reader is on.
-		 * @return The active Node.
-		 */
-		virtual Node const& get_node() const = 0;
-
-		/**
-		 * @brief Gets the number of child Nodes in the current Node.
-		 * @return The number of children.
-		 */
-		Size get_size() const { return get_node().get_children_size(); }
+        /**
+         * @brief Gets the current indentation level.
+         * @return The current indentation level.
+         */
+        inline UInt get_indent() const { return m_indent; }
 
 #pragma endregion
 
 #pragma region Methods
 
-	public:
-		/**
-		 * @brief Adds data to the top of the data stack.
-		 * @param data The pointer to the data to add.
-		 */
-		void push_user_data(Any const data);
-
-		/**
-		 * @brief Removes the top of the data stack.
-		 */
-		void pop_user_data();
-
-		/**
-		 * @brief Steps into the child Node at the given index.
-		 * @param index The index of the child to indent into.
-		 * @return True on success.
-		 */
-		virtual Bool indent(Size const index) = 0;
-
-		/**
-		 * @brief Steps into the child Node with the given name.
-		 * @param name The name of the child to indent into.
-		 * @return True on success.
-		 */
-		virtual Bool indent(String const& name) = 0;
-
-		/**
-		 * @brief Steps out of the current Node, back to its parent.
-		 */
-		virtual void outdent() = 0;
-
-		/**
-		 * @brief Checks if this Reader is valid.
-		 * @return True when valid.
-		 */
-		virtual Bool is_valid() const = 0;
-
-		/**
-		 * @brief Adds the value of another Reader to this one.
-		 * The values of the other Reader will override the values of this Reader when conflicts occur,
-		 * otherwise the values will be appended.
-		 * @param other The other Reader to merge with this one.
-		 */
-		virtual Bool merge(Reader const& other) = 0;
-
-#pragma region Reading
-
-	protected:
-		inline Int get_index(String const& name) const
-		{
-			return get_node().get_child_index(name);
-		}
-
-		virtual Bool read_bool(Size const index, Bool& obj) const = 0;
-		virtual Bool read_bool2(Size const index, Bool2& obj) const = 0;
-		virtual Bool read_bool3(Size const index, Bool3& obj) const = 0;
-		virtual Bool read_bool4(Size const index, Bool4& obj) const = 0;
-		virtual Bool read_char(Size const index, Char& obj) const = 0;
-		virtual Bool read_byte(Size const index, Byte& obj) const = 0;
-		virtual Bool read_short(Size const index, Short& obj) const = 0;
-		virtual Bool read_ushort(Size const index, UShort& obj) const = 0;
-		virtual Bool read_int(Size const index, Int& obj) const = 0;
-		virtual Bool read_int2(Size const index, Int2& obj) const = 0;
-		virtual Bool read_int3(Size const index, Int3& obj) const = 0;
-		virtual Bool read_int4(Size const index, Int4& obj) const = 0;
-		virtual Bool read_uint(Size const index, UInt& obj) const = 0;
-		virtual Bool read_uint2(Size const index, UInt2& obj) const = 0;
-		virtual Bool read_uint3(Size const index, UInt3& obj) const = 0;
-		virtual Bool read_uint4(Size const index, UInt4& obj) const = 0;
-		virtual Bool read_long(Size const index, Long& obj) const = 0;
-		virtual Bool read_long2(Size const index, Long2& obj) const = 0;
-		virtual Bool read_long3(Size const index, Long3& obj) const = 0;
-		virtual Bool read_long4(Size const index, Long4& obj) const = 0;
-		virtual Bool read_ulong(Size const index, ULong& obj) const = 0;
-		virtual Bool read_ulong2(Size const index, ULong2& obj) const = 0;
-		virtual Bool read_ulong3(Size const index, ULong3& obj) const = 0;
-		virtual Bool read_ulong4(Size const index, ULong4& obj) const = 0;
-		virtual Bool read_float(Size const index, Float& obj) const = 0;
-		virtual Bool read_float2(Size const index, Float2& obj) const = 0;
-		virtual Bool read_float3(Size const index, Float3& obj) const = 0;
-		virtual Bool read_float4(Size const index, Float4& obj) const = 0;
-		virtual Bool read_double(Size const index, Double& obj) const = 0;
-		virtual Bool read_double2(Size const index, Double2& obj) const = 0;
-		virtual Bool read_double3(Size const index, Double3& obj) const = 0;
-		virtual Bool read_double4(Size const index, Double4& obj) const = 0;
-		virtual Bool read_string(Size const index, String& obj) const = 0;
-		virtual Bool read_type(Size const index, Type& obj) const = 0;
-
-	private:
-		Bool read_object(Size const index, SerializableObject& obj);
-
-	public:
-		/**
-		 * @brief Reads the name of the Node at the given index.
-		 * @param index The index of the child Node.
-		 * @param obj The object to read the data into.
-		 * @return True on success.
-		 */
-		virtual Bool read_name(Size const index, String& obj) const = 0;
-
-		/**
-		 * @brief Read the data from the Node at the given index.
-		 * @tparam T The type of data to read.
-		 * @tparam type A non-Serializable type.
-		 * @param index The index of the Node to read from.
-		 * @param obj The object to read the data into.
-		 * @return True on success.
-		 */
-		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && !is_serializable_object<T>::value, int>::type = 0>
-		Bool read(Size const index, T& obj)
-		{
-			// default: read as string
-			String stringData;
-			if (read_string(index, stringData) && parse_try<T>(stringData, obj))
-			{
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * @brief Read the data from the Node at the given index.
-		 * @tparam T The type of data to read.
-		 * @tparam type A Serializable type.
-		 * @param index The index of the Node to read from.
-		 * @param obj The object to read the data into.
-		 * @return True on success.
-		 */
-		template<typename T, typename std::enable_if<!is_asset<T>::value && !is_serializable<T>::value && is_serializable_object<T>::value, int>::type = 0>
-		Bool read(Size const index, T& obj)
-		{
-			return read_object(index, obj);
-		}
-
-		/**
-		 * @brief Reads the data from the Node at the given index.
-		 * @tparam T The type of data to read.
-		 * @tparam type A Serializable type.
-		 * @param index The index of the Node to read from.
-		 * @param obj The object to read the data into.
-		 * @return True on success.
-		 */
-		template<typename T, typename std::enable_if<!is_asset<T>::value && is_serializable<T>::value, int>::type = 0>
-		Bool read(Size const index, T& obj)
-		{
-			return obj.deserialize(*this, index);
-		}
-
-		/**
-		 * @brief Read the data from the Node at the given name.
-		 * @tparam T The type of data to read.
-		 * @param name The name of the Node to read from.
-		 * @param obj The object to read the data into.
-		 * @return True on success.
-		 */
-		template<typename T>
-		Bool read(String const& name, T& obj)
-		{
-			return read(get_index(name), obj);
-		}
-
-		/**
-		 * @brief Reads the data from the Node at the given index.
-		 * @tparam T The type of the data.
-		 * @param index The index to the data.
-		 * @param obj The object to set.
-		 * @param defaultValue The default value to set obj to, if no value found.
-		 * @return True if set using the found value, otherwise false if the default was used.
-		 */
-		template<typename T>
-		Bool read(Size const index, T& obj, T const& defaultValue)
-		{
-			if (read(index, obj))
-			{
-				return true;
-			}
-			obj = defaultValue;
-			return false;
-		}
-
-		/**
-		 * @brief Reads the data from the Node with the given name.
-		 * @tparam T The type of the data.
-		 * @param name The name of the data.
-		 * @param obj The object to set.
-		 * @param defaultValue The default value to set obj to, if no value found.
-		 * @return True if set using the found value, otherwise false if the default was used.
-		 */
-		template<typename T>
-		Bool read(String const& name, T& obj, T const& defaultValue)
-		{
-			return read(get_index(name), obj, defaultValue);
-		}
-
-		template<>
-		Bool read(Size const index, Bool& data)
-		{
-			return read_bool(index, data);
-		}
-		template<>
-		Bool read(Size const index, Bool2& data)
-		{
-			return read_bool2(index, data);
-		}
-		template<>
-		Bool read(Size const index, Bool3& data)
-		{
-			return read_bool3(index, data);
-		}
-		template<>
-		Bool read(Size const index, Bool4& data)
-		{
-			return read_bool4(index, data);
-		}
-		template<>
-		Bool read(Size const index, Char& data)
-		{
-			return read_char(index, data);
-		}
-		template<>
-		Bool read(Size const index, Byte& data)
-		{
-			return read_byte(index, data);
-		}
-		template<>
-		Bool read(Size const index, Short& data)
-		{
-			return read_short(index, data);
-		}
-		template<>
-		Bool read(Size const index, UShort& data)
-		{
-			return read_ushort(index, data);
-		}
-		template<>
-		Bool read(Size const index, Int& data)
-		{
-			return read_int(index, data);
-		}
-		template<>
-		Bool read(Size const index, Int2& data)
-		{
-			return read_int2(index, data);
-		}
-		template<>
-		Bool read(Size const index, Int3& data)
-		{
-			return read_int3(index, data);
-		}
-		template<>
-		Bool read(Size const index, Int4& data)
-		{
-			return read_int4(index, data);
-		}
-		template<>
-		Bool read(Size const index, UInt& data)
-		{
-			return read_uint(index, data);
-		}
-		template<>
-		Bool read(Size const index, UInt2& data)
-		{
-			return read_uint2(index, data);
-		}
-		template<>
-		Bool read(Size const index, UInt3& data)
-		{
-			return read_uint3(index, data);
-		}
-		template<>
-		Bool read(Size const index, UInt4& data)
-		{
-			return read_uint4(index, data);
-		}
-		template<>
-		Bool read(Size const index, Long& data)
-		{
-			return read_long(index, data);
-		}
-		template<>
-		Bool read(Size const index, Long2& data)
-		{
-			return read_long2(index, data);
-		}
-		template<>
-		Bool read(Size const index, Long3& data)
-		{
-			return read_long3(index, data);
-		}
-		template<>
-		Bool read(Size const index, Long4& data)
-		{
-			return read_long4(index, data);
-		}
-		template<>
-		Bool read(Size const index, ULong& data)
-		{
-			return read_ulong(index, data);
-		}
-		template<>
-		Bool read(Size const index, ULong2& data)
-		{
-			return read_ulong2(index, data);
-		}
-		template<>
-		Bool read(Size const index, ULong3& data)
-		{
-			return read_ulong3(index, data);
-		}
-		template<>
-		Bool read(Size const index, ULong4& data)
-		{
-			return read_ulong4(index, data);
-		}
-		template<>
-		Bool read(Size const index, Float& data)
-		{
-			return read_float(index, data);
-		}
-		template<>
-		Bool read(Size const index, Float2& data)
-		{
-			return read_float2(index, data);
-		}
-		template<>
-		Bool read(Size const index, Float3& data)
-		{
-			return read_float3(index, data);
-		}
-		template<>
-		Bool read(Size const index, Float4& data)
-		{
-			return read_float4(index, data);
-		}
-		template<>
-		Bool read(Size const index, Double& data)
-		{
-			return read_double(index, data);
-		}
-		template<>
-		Bool read(Size const index, Double2& data)
-		{
-			return read_double2(index, data);
-		}
-		template<>
-		Bool read(Size const index, Double3& data)
-		{
-			return read_double3(index, data);
-		}
-		template<>
-		Bool read(Size const index, Double4& data)
-		{
-			return read_double4(index, data);
-		}
-		template<>
-		Bool read(Size const index, String& data)
-		{
-			return read_string(index, data);
-		}
-		template<>
-		Bool read(Size const index, Type& data)
-		{
-			return read_type(index, data);
-		}
-
-		template<typename T, Size S>
-		Bool read(Size const index, Array<T, S>& data)
-		{
-			if (indent(index))
-			{
-				// read each elements
-				for (Size i = 0; i < S; i++)
-				{
-					if (!read<T>(i, data[i]))
-					{
-						// could not read element
-						return false;
-					}
-				}
-				outdent();
-				return true;
-			}
-			return false;
-		}
-
-		template<typename T>
-		Bool read(Size const index, List<T>& data)
-		{
-			if (indent(index))
-			{
-				// resize the list
-				Size size = get_size();
-				data.clear();
-
-				// read each element
-				T obj;
-				for (Size i = 0; i < size; i++)
-				{
-					Bool const result = read<T>(i, obj);
-					MINTY_ASSERT(result, ErrorCode::Serialization_ReadValue);
-					data.add(obj);
-				}
-
-				outdent();
-				return true;
-			}
-			return false;
-		}
-
-		template<typename T>
-		Bool read(Size const index, Vector<T>& data)
-		{
-			if (indent(index))
-			{
-				// resize the vector
-				Size size = get_size();
-				data.clear();
-				data.reserve(size);
-
-				// read each element
-				T obj;
-				for (Size i = 0; i < size; i++)
-				{
-					Bool const result = read<T>(i, obj);
-					MINTY_ASSERT(result, ErrorCode::Serialization_ReadValue);
-					data.add(obj);
-				}
-
-				outdent();
-
-				return true;
-			}
-
-			return false;
-		}
-
-		template<typename T>
-		Bool read(Size const index, Set<T>& data)
-		{
-			if (indent(index))
-			{
-				// resize the set
-				Size size = get_size();
-				data.reserve(size);
-
-				// read each element
-				T obj;
-				for (Size i = 0; i < size; i++)
-				{
-					Bool const result = read<T>(i, obj);
-					MINTY_ASSERT(result, ErrorCode::Serialization_ReadValue);
-					data.add(obj);
-				}
-
-				outdent();
-				return true;
-			}
-			return false;
-		}
-
-		template<typename T>
-		Bool read(Size const index, Map<String, T>& data)
-		{
-			if (indent(index))
-			{
-				// resize the map
-				Size size = get_size();
-				data.reserve(size);
-
-				// read each element
-				String key;
-				T value;
-				for (Size i = 0; i < size; i++)
-				{
-					Bool const keyResult = read_name(i, key);
-					MINTY_ASSERT(keyResult, ErrorCode::Serialization_ReadName);
-
-					Bool const valueResult = read<T>(i, value);
-					MINTY_ASSERT(valueResult, ErrorCode::Serialization_ReadValue);
-					
-					data.add(key, value);
-				}
-
-				outdent();
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * @brief Reads the data with the given Type.
-		 * @param index The index of the value.
-		 * @param data The value. Expects data to point to a buffer equal to or greater in size than the Type size.
-		 * @param type The Type.
-		 * @return True on success.
-		 */
-		virtual Bool read_typed(Size const index, Any const data, Type& type) = 0;
-
-		/**
-		 * @brief Reads the data with the given Type.
-		 * @param name The name of the value.
-		 * @param data The value. Expects data to point to a buffer equal to or greater in size than the Type size.
-		 * @param type The Type.
-		 * @return True on success.
-		 */
-		Bool read_typed(String const& name, Any const data, Type& type)
-		{
-			return read_typed(get_index(name), data, type);
-		}
-
-		/**
-		 * @brief Reads the ID of the Asset and populates the given Asset if found.
-		 * @param index The index of the Node to read.
-		 * @param asset The Asset.
-		 * @return True on success.
-		 */
-		Bool read_asset(Size const index, Shared<Asset>& asset);
-
-		/**
-		 * @brief Reads the ID of the Asset and populates the given Asset if found.
-		 * @param index The index of the Node to read.
-		 * @param asset The Asset.
-		 * @return True on success.
-		 */
-		inline Bool read_asset(Size const index, Ref<Asset>& asset)
-		{
-			Shared<Asset> temp;
-			if (read_asset(index, temp))
-			{
-				asset = temp.to_ref();
-				return true;
-			}
-
-			return false;
-		}
-
-		/**
-		 * @brief Reads the ID of the Asset and populates the given Asset if found.
-		 * @param name The name of the Node to read.
-		 * @param asset The Asset.
-		 * @return True on success.
-		 */
-		inline Bool read_asset(String const& name, Shared<Asset>& asset)
-		{
-			return read_asset(get_index(name), asset);
-		}
-
-		/**
-		 * @brief Reads the ID of the Asset and populates the given Asset if found.
-		 * @param name The name of the Node to read.
-		 * @param asset The Asset.
-		 * @return True on success.
-		 */
-		inline Bool read_asset(String const& name, Ref<Asset>& asset)
-		{
-			return read_asset(get_index(name), asset);
-		}
-
-		/**
-		 * @brief Reads the ID of the Asset and populates the given Asset if found.
-		 * @tparam T The type of Asset.
-		 * @tparam type The type.
-		 * @param index The index of the Asset.
-		 * @param asset The Asset.
-		 * @return True on success.
-		 */
-		template<typename T>
-		Bool read(Size const index, T& asset,
-			typename std::enable_if<is_asset<T>::value, int>::type = 0)
-		{
-			auto assetRef = asset.cast<Asset>();
-			Bool result = read_asset(index, assetRef);
-			asset = static_cast<T>(assetRef);
-			return result;
-		}
-
-		/**
-		 * @brief Reads the value of the current node into the given object.
-		 * @tparam T The type of object.
-		 * @param obj The object.
-		 * @return True on success.
-		 */
-		template<typename T>
-		Bool read_default(T& obj)
-		{
-			// create temporary reader with just the value from this node
-			Node const& current = get_node();
-			DynamicContainer const& data = current.get_data();
-			if(data.get_size() == 0)
-			{
-				// always fail if no data
-				return false;
-			}
-			Node tempRoot{};
-			Node temp(TEXT_EMPTY, data.get_data(), data.get_size());
-			tempRoot.add_child(temp);
-			TextNodeReader reader(tempRoot);
-			return reader.read<T>(0, obj);
-		}
-
-#pragma endregion
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Behavior Base
-
-	/**
-	 * @brief The base class for Reader behaviors that handle the formatting of the data.
-	 */
-	class ReaderFormatBehavior
-	{
-#pragma region Methods
-
-	protected:
-		virtual Node read_node(AnyConst const data, Size const size) const = 0;
-		virtual Bool read_bool_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Bool2 read_bool2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Bool3 read_bool3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Bool4 read_bool4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Char read_char_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Byte read_byte_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Short read_short_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual UShort read_ushort_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Int read_int_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Int2 read_int2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Int3 read_int3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Int4 read_int4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual UInt read_uint_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual UInt2 read_uint2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual UInt3 read_uint3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual UInt4 read_uint4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Long read_long_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Long2 read_long2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Long3 read_long3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Long4 read_long4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual ULong read_ulong_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual ULong2 read_ulong2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual ULong3 read_ulong3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual ULong4 read_ulong4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Float read_float_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Float2 read_float2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Float3 read_float3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Float4 read_float4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Double read_double_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Double2 read_double2_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Double3 read_double3_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Double4 read_double4_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual String read_string_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual UUID read_uuid_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Type read_type_from_buffer(AnyConst const data, Size const size) const = 0;
-		virtual Any read_typed_from_buffer(AnyConst const data, Size const size, Type const type) const = 0;
-
-#pragma endregion
-	};
-
-	/**
-	 * @brief The base class for Reader behaviors that handle the storage of the data.
-	 */
-	class ReaderStorageBehavior
-	{
-#pragma region Accessors
-
-	public:
-		/**
-		 * @brief Gets the pointer to the data source.
-		 * @return A pointer to the data source.
-		 */
-		virtual Any get_source() const = 0;
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		virtual void read_data(Any const data, Size const size) = 0;
-		virtual Vector<Byte> read_all() = 0;
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Behaviors
-
-	/**
-	 * @brief Handles reading from a Node data source.
-	 */
-	class NodeReaderBehavior
-		: private ReaderStorageBehavior
-	{
-#pragma region Constructors
-
-	public:
-		/**
-		 * @brief Creates a new NodeReaderBehavior.
-		 * @param ignore This argument is ignored.
-		 */
-		NodeReaderBehavior(Any const ignore)
-		{
-		}
-
-		virtual ~NodeReaderBehavior()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		/**
-		 * @brief Returns nullptr.
-		 * @return Nullptr.
-		 */
-		Any get_source() const override { return nullptr; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		void read_data(Any const data, Size const size) override {}
-		Vector<Byte> read_all() override { return {}; }
-
-#pragma endregion
-	};
-
-	/**
-	 * @brief Handles reading from a file data source.
-	 */
-	class FileReaderBehavior
-		: private ReaderStorageBehavior
-	{
-#pragma region Variables
-
-	private:
-		File* mp_file;
-
-#pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/**
-		 * @brief Creates a new FileReaderBehavior.
-		 * @param file The File to read from.
-		 */
-		FileReaderBehavior(Any const file)
-			: mp_file(static_cast<File*>(file))
-		{
-		}
-
-		virtual ~FileReaderBehavior()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		/**
-		 * @brief Gets the pointer to the File data source.
-		 * @return A pointer to the File.
-		 */
-		Any get_source() const { return mp_file; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		void read_data(Any const data, Size const size) override;
-		Vector<Byte> read_all() override;
-
-#pragma endregion
-	};
-
-	/**
-	 * @brief Handles reading from memory data source.
-	 */
-	class MemoryReaderBehavior
-		: private ReaderStorageBehavior
-	{
-#pragma region Variables
-
-	private:
-		Container* mp_data;
-		Size m_index;
-
-#pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/**
-		 * @brief Creates a new MemoryReaderBehavior.
-		 * @param data The data to read from.
-		 */
-		MemoryReaderBehavior(Any const data)
-			: mp_data(static_cast<Container*>(data))
-			, m_index(0)
-		{
-		}
-
-		virtual ~MemoryReaderBehavior()
-		{
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		/**
-		 * @brief Gets the memory source.
-		 * @return A pointer to the memory source.
-		 */
-		Any get_source() const override { return mp_data; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	protected:
-		void read_data(Any const data, Size const size) override;
-		Vector<Byte> read_all() override;
-
-#pragma endregion
-	};
-
-	/**
-	 * @brief Reads plain text data.
-	 */
-	class TextReaderBehavior
-		: private ReaderFormatBehavior
-	{
-#pragma region Methods
-
-	protected:
-		Node read_node(AnyConst const data, Size const size) const override;
-		Bool read_bool_from_buffer(AnyConst const data, Size const size) const override;
-		Bool2 read_bool2_from_buffer(AnyConst const data, Size const size) const override;
-		Bool3 read_bool3_from_buffer(AnyConst const data, Size const size) const override;
-		Bool4 read_bool4_from_buffer(AnyConst const data, Size const size) const override;
-		Char read_char_from_buffer(AnyConst const data, Size const size) const override;
-		Byte read_byte_from_buffer(AnyConst const data, Size const size) const override;
-		Short read_short_from_buffer(AnyConst const data, Size const size) const override;
-		UShort read_ushort_from_buffer(AnyConst const data, Size const size) const override;
-		Int read_int_from_buffer(AnyConst const data, Size const size) const override;
-		Int2 read_int2_from_buffer(AnyConst const data, Size const size) const override;
-		Int3 read_int3_from_buffer(AnyConst const data, Size const size) const override;
-		Int4 read_int4_from_buffer(AnyConst const data, Size const size) const override;
-		UInt read_uint_from_buffer(AnyConst const data, Size const size) const override;
-		UInt2 read_uint2_from_buffer(AnyConst const data, Size const size) const override;
-		UInt3 read_uint3_from_buffer(AnyConst const data, Size const size) const override;
-		UInt4 read_uint4_from_buffer(AnyConst const data, Size const size) const override;
-		Long read_long_from_buffer(AnyConst const data, Size const size) const override;
-		Long2 read_long2_from_buffer(AnyConst const data, Size const size) const override;
-		Long3 read_long3_from_buffer(AnyConst const data, Size const size) const override;
-		Long4 read_long4_from_buffer(AnyConst const data, Size const size) const override;
-		ULong read_ulong_from_buffer(AnyConst const data, Size const size) const override;
-		ULong2 read_ulong2_from_buffer(AnyConst const data, Size const size) const override;
-		ULong3 read_ulong3_from_buffer(AnyConst const data, Size const size) const override;
-		ULong4 read_ulong4_from_buffer(AnyConst const data, Size const size) const override;
-		Float read_float_from_buffer(AnyConst const data, Size const size) const override;
-		Float2 read_float2_from_buffer(AnyConst const data, Size const size) const override;
-		Float3 read_float3_from_buffer(AnyConst const data, Size const size) const override;
-		Float4 read_float4_from_buffer(AnyConst const data, Size const size) const override;
-		Double read_double_from_buffer(AnyConst const data, Size const size) const override;
-		Double2 read_double2_from_buffer(AnyConst const data, Size const size) const override;
-		Double3 read_double3_from_buffer(AnyConst const data, Size const size) const override;
-		Double4 read_double4_from_buffer(AnyConst const data, Size const size) const override;
-		String read_string_from_buffer(AnyConst const data, Size const size) const override;
-		UUID read_uuid_from_buffer(AnyConst const data, Size const size) const override;
-		Type read_type_from_buffer(AnyConst const data, Size const size) const override;
-		Any read_typed_from_buffer(AnyConst const data, Size const size, Type const type) const override;
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Implementation
-
-	/**
-	 * @brief Combines the Reader with the FormatBehavior and StorageBehavior.
-	 * @tparam FormatBehavior The format behavior to use.
-	 * @tparam StorageBehavior The storage behavior to use.
-	 */
-	template<typename FormatBehavior, typename StorageBehavior>
-	class ReaderImplementation
-		: public Reader, private FormatBehavior, private StorageBehavior
-	{
-#pragma region Types
-
-	private:
-		struct NodeData
-		{
-			Size index;
-			Node const* node;
-		};
+    public:
+        /**
+         * @brief Reads a value associated with the given key.
+         * @tparam T The type of the value to read.
+         * @param key The key associated with the value.
+         * @param value Reference to store the read value.
+         * @returns True if the value was read successfully, false otherwise.
+         */
+        template <typename T>
+        Bool read(StringView const key, T &value)
+        {
+            // Check key and value- if the key does not match or the value is not present, return false
+            if (!check_key(key))
+            {
+                return false;
+            }
+
+            // Consume the key
+            consume_next_key();
+
+            // Read the value
+            return specialized_read<T>(value);
+        }
+
+        /**
+         * @brief Reads a type-value pair associated with the given key.
+         * @tparam T The type of the value to read.
+         * @param key The key associated with the value.
+         * @param type Reference to store the read type.
+         * @param data Pointer to store the read value.
+         * @returns True if the type-value pair was read successfully, false otherwise.
+         */
+        Bool read(StringView const key, Type &type, Any const data)
+        {
+            // Check key- if not present or does not match, return false
+            if (!check_key_and_value(key))
+            {
+                return false;
+            }
+
+            // consume the key and value
+            consume_next_key();
+
+            // Read the type-value pair
+            return read_type_value_pair(type, data);
+        }
+
+        /**
+         * @brief Reads the next key.
+         * @tparam T The type of the value to read.
+         * @param key Reference to store the read key.
+         * @returns True if the key was read successfully, false otherwise.
+         */
+        Bool read_next(String &key)
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                // there is no next key
+                return false;
+            }
+
+            // consume the key and value
+            consume_next_key_and_value();
+
+            return true;
+        }
+
+        /**
+         * @brief Reads the next key-value pair.
+         * @tparam T The type of the value to read.
+         * @param key Reference to store the read key.
+         * @param value Reference to store the read value.
+         * @returns True if the key-value pair was read successfully, false otherwise.
+         */
+        template <typename T>
+        Bool read_next(String &key, T &value)
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                return false;
+            }
+
+            // consume the key
+            consume_next_key();
+
+            // read the value with that key
+            return specialized_read<T>(value);
+        }
+
+        /**
+         * @brief Reads the next key-type-value triplet.
+         * @tparam T The type of the value to read.
+         * @param key Reference to store the read key.
+         * @param type Reference to store the read type.
+         * @param data Pointer to store the read value.
+         * @returns True if the key-type-value triplet was read successfully, false otherwise.
+         */
+        Bool read_next(String &key, Type &type, Any const data)
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                return false;
+            }
+
+            // do nothing if no value
+            if (!check_value())
+            {
+                return false;
+            }
+
+            // consume the key
+            consume_next_key();
+
+            // read the type-value pair
+            return read_type_value_pair(type, data);
+        }
+
+        /**
+         * @brief Reads the next optional key-value pair.
+         * @tparam T The type of the value to read.
+         * @param key Reference to store the read key.
+         * @param value Reference to store the read value.
+         * @param defaultValue The default value to use if the value is not present.
+         * @returns True if the key-value pair was read successfully, false otherwise.
+         */
+        template<typename T>
+        Bool read_next_optional(String &key, T &value, T const& defaultValue = {})
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                return false;
+            }
+
+            // consume the key
+            consume_next_key();
+
+            // read the value with that key
+            if(!specialized_read<T>(value))
+            {
+                value = defaultValue;
+            }
+
+            return true;
+        }
+
+        /**
+         * @brief Reads an inline value (no key).
+         * @tparam T The type of the value to read.
+         * @param value Reference to store the read value.
+         * @returns True if the value was read successfully, false otherwise.
+         */
+        template<typename T>
+        Bool read_inline(T &value)
+        {
+            // There must be no key, but there must be a value
+            if(check_key() || !check_value())
+            {
+                return false;
+            }
+
+            return specialized_read<T>(value);
+        }
+
+        /**
+         * @brief Reads an inline type-value pair (no key).
+         * @param type Reference to store the read type.
+         * @param data Pointer to store the read value.
+         * @returns True if the type-value pair was read successfully, false otherwise.
+         */
+        Bool read_inline(Type &type, Any const data)
+        {
+            // There must be no key, but there must be a value
+            if(check_key() || !check_value())
+            {
+                return false;
+            }
+
+            return read_type_value_pair(type, data);
+        }
+
+        /**
+         * @brief Reads a primary value, trying inline first, then with key.
+         * @tparam T The type of the value to read.
+         * @param key The key associated with the value.
+         * @param value Reference to store the read value.
+         * @returns True if the value was read successfully, false otherwise.
+         */
+        template<typename T>
+        Bool read_primary(StringView const key, T &value)
+        {
+            // Read inline if able
+            if (read_inline(value))
+            {
+                return true;
+            }
+
+            // Otherwise read with key
+            return read(key, value);
+        }
+
+        /**
+         * @brief Reads a primary type-value pair, trying inline first, then with key.
+         * @param key The key associated with the value.
+         * @param type Reference to store the read type.
+         * @param data Pointer to store the read value.
+         * @returns True if the type-value pair was read successfully, false otherwise.
+         */
+        Bool read_primary(StringView const key, Type &type, Any const data)
+        {
+            // Read inline if able
+            if (read_inline(type, data))
+            {
+                return true;
+            }
+
+            // Otherwise read with key
+            return read(key, type, data);
+        }
+
+        /**
+         * @brief Increases the indentation level for reading nested structures.
+         * @returns True if successful, false otherwise.
+         */
+        Bool indent_next(String &key)
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                return false;
+            }
+
+            // consume the key and value
+            consume_next_key();
+
+            // indent
+            increase_indentation();
+
+            return true;
+        }
+
+        /**
+         * @brief Increases the indentation level for reading nested structures with a key and reads the value.
+         * @tparam T The type of the value to read.
+         * @param key The key associated with the nested structure.
+         * @param value Reference to store the read value.
+         * @returns True if successful, false otherwise.
+         */
+        template <typename T>
+        Bool indent_next(String &key, T &value)
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                return false;
+            }
+
+            // read the value
+            if(!specialized_read<T>(value))
+            {
+                return false;
+            }
+
+            // consume the key
+            consume_next_key();
+
+            // indent
+            increase_indentation();
+
+            return true;
+        }
+
+        /**
+         * @brief Increases the indentation level for reading nested structures with an optional key and reads the value.
+         * @tparam T The type of the value to read.
+         * @param key The key associated with the nested structure.
+         * @param value Reference to store the read value.
+         * @param defaultValue The default value to use if the value is not present.
+         * @returns True if successful, false otherwise.
+         */
+        template<typename T>
+        Bool indent_next_optional(String &key, T &value, T const& defaultValue = {})
+        {
+            // get the next key
+            if (!get_next_key(key))
+            {
+                return false;
+            }
+
+            // consume the key
+            consume_next_key();
+
+            // indent
+            increase_indentation();
+
+            // read the value
+            if (!specialized_read<T>(value))
+            {
+                value = defaultValue;
+            }
+
+            return true;
+        }
+
+        /**
+         * @brief Increases the indentation level for reading nested structures with a key. Only increases the indent if the given key is found.
+         * @param key The key associated with the nested structure.
+         * @returns True if successful, false otherwise.
+         */
+        Bool indent(StringView const key)
+        {
+            // Check key- if not present or does not match, return false
+            if (!check_key(key))
+            {
+                return false;
+            }
+
+            // consume the key and value
+            consume_next_key();
+
+            // indent
+            increase_indentation();
+
+            return true;
+        }
+
+        /**
+         * @brief Decreases the indentation level for reading nested structures.
+         */
+        inline void outdent()
+        {
+            decrease_indentation();
+        }
+
+        /**
+         * @brief Ignores the key and its associated value, if present.
+         * @param key The key to ignore.
+         */
+        void ignore(StringView const key)
+        {
+            if(check_key(key))
+            {
+                consume_next_key_and_value();
+            }
+        }
+
+        /**
+         * @brief Saves the current position in the stream as a bookmark.
+         * @returns The bookmark ID.
+         */
+        Handle save_bookmark();
+
+        /**
+         * @brief Loads the position in the stream associated with the given bookmark.
+         * @param bookmark The bookmark ID.
+         */
+        void load_bookmark(Handle const bookmark);
+
+    protected:
+        Bool read_from_stream(Any data, Size const size);
+        Bool peek(Char &ch);
+        virtual Bool read_bool(Bool *const value) = 0;
+        virtual Bool read_byte(Byte *const value) = 0;
+        virtual Bool read_char(Char *const value) = 0;
+        virtual Bool read_int32(Int32 *const value) = 0;
+        virtual Bool read_uint32(UInt32 *const value) = 0;
+        virtual Bool read_float32(Float32 *const value) = 0;
+        virtual Bool read_int64(Int64 *const value) = 0;
+        virtual Bool read_uint64(UInt64 *const value) = 0;
+        virtual Bool read_float64(Float64 *const value) = 0;
+        virtual Bool read_tuple(Any const buffer, Size const elementSize, UInt const count, Function<Bool(Any)> const& readFunc) = 0;
+        virtual Bool read_string(String &value) = 0;
+        virtual Bool read_raw_value(String &value, Bool const ignoreSeparator = false) = 0;
+        virtual Bool read_type_value_pair(Type &type, Any data) = 0;
+        Bool read_typed_value(Type const type, Any data);
+
+        // gets the next key in the stream
+        virtual Bool get_next_key(String &key) = 0;
+        // checks if the current key matches the given key
+        virtual Bool check_key(StringView const key) = 0;
+        // checks if there is a current key without consuming it
+        virtual Bool check_key() = 0;
+        // checks if there is a value for the current key without consuming it
+        virtual Bool check_value() = 0;
+        // checks both key and value
+        Bool check_key_and_value(StringView const key)
+        {
+            if (!check_key(key))
+            {
+                return false;
+            }
+
+            if (!check_value())
+            {
+                MINTY_WARNING_F(ErrorCode::Serialization_MissingValue, key);
+                return false;
+            }
+
+            return true;
+        }
+        virtual Bool consume_next_key() = 0;
+        virtual Bool consume_next_value(Bool const force = false) = 0;
+        inline void consume_next_key_and_value()
+        {
+            consume_next_key();
+            consume_next_value();
+        }
+        virtual void skip_remaining() = 0;
+
+    private:
+        inline void increase_indentation()
+        {
+            MINTY_ASSERT(m_indent < SERIALIZATION_MAX_INDENTATION, ErrorCode::Serialization_InvalidIndentation);
+            ++m_indent;
+        }
+        inline void decrease_indentation()
+        {
+            MINTY_ASSERT(m_indent > 0, ErrorCode::Serialization_InvalidIndentation);
+            skip_remaining();
+            --m_indent;
+        }
+
+        template <typename T>
+        Bool read_primitive(T &value)
+        {
+            MINTY_ABORT_F(ErrorCode::Serialization_UnsupportedType, typeid(T).name());
+            return false;
+        }
+
+        template <>
+        inline Bool read_primitive<Bool>(Bool &value) { return read_bool(&value); }
+
+        template <>
+        inline Bool read_primitive<Byte>(Byte &value) { return read_byte(&value); }
+
+        template <>
+        inline Bool read_primitive<Char>(Char &value) { return read_char(&value); }
+
+        template <>
+        inline Bool read_primitive<Int32>(Int32 &value) { return read_int32(&value); }
+
+        template <>
+        inline Bool read_primitive<UInt32>(UInt32 &value) { return read_uint32(&value); }
+
+        template <>
+        inline Bool read_primitive<Float32>(Float32 &value) { return read_float32(&value); }
+
+        template <>
+        inline Bool read_primitive<Int64>(Int64 &value) { return read_int64(&value); }
+
+        template <>
+        inline Bool read_primitive<UInt64>(UInt64 &value) { return read_uint64(&value); }
+
+        template <>
+        inline Bool read_primitive<Float64>(Float64 &value) { return read_float64(&value); }
+
+        template<>
+        inline Bool read_primitive(Int2 &value) { return read_tuple(&value, sizeof(Int32), 2, [this](Any data) { return read_int32(static_cast<Int32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(Int3 &value) { return read_tuple(&value, sizeof(Int32), 3, [this](Any data) { return read_int32(static_cast<Int32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(Int4 &value) { return read_tuple(&value, sizeof(Int32), 4, [this](Any data) { return read_int32(static_cast<Int32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(UInt2 &value) { return read_tuple(&value, sizeof(UInt32), 2, [this](Any data) { return read_uint32(static_cast<UInt32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(UInt3 &value) { return read_tuple(&value, sizeof(UInt32), 3, [this](Any data) { return read_uint32(static_cast<UInt32*>(data)); }); }
+        
+        template<>
+        inline Bool read_primitive(UInt4 &value) { return read_tuple(&value, sizeof(UInt32), 4, [this](Any data) { return read_uint32(static_cast<UInt32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(Float2 &value) { return read_tuple(&value, sizeof(Float32), 2, [this](Any data) { return read_float32(static_cast<Float32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(Float3 &value) { return read_tuple(&value, sizeof(Float32), 3, [this](Any data) { return read_float32(static_cast<Float32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(Float4 &value) { return read_tuple(&value, sizeof(Float32), 4, [this](Any data) { return read_float32(static_cast<Float32*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(WInt2 &value) { return read_tuple(&value, sizeof(Int64), 2, [this](Any data) { return read_int64(static_cast<Int64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(WInt3 &value) { return read_tuple(&value, sizeof(Int64), 3, [this](Any data) { return read_int64(static_cast<Int64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(WInt4 &value) { return read_tuple(&value, sizeof(Int64), 4, [this](Any data) { return read_int64(static_cast<Int64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(UWInt2 &value) { return read_tuple(&value, sizeof(UInt64), 2, [this](Any data) { return read_uint64(static_cast<UInt64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(UWInt3 &value) { return read_tuple(&value, sizeof(UInt64), 3, [this](Any data) { return read_uint64(static_cast<UInt64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(UWInt4 &value) { return read_tuple(&value, sizeof(UInt64), 4, [this](Any data) { return read_uint64(static_cast<UInt64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(WFloat2 &value) { return read_tuple(&value, sizeof(Float64), 2, [this](Any data) { return read_float64(static_cast<Float64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(WFloat3 &value) { return read_tuple(&value, sizeof(Float64), 3, [this](Any data) { return read_float64(static_cast<Float64*>(data)); }); }
+
+        template<>
+        inline Bool read_primitive(WFloat4 &value) { return read_tuple(&value, sizeof(Float64), 4, [this](Any data) { return read_float64(static_cast<Float64*>(data)); }); }
+
+        template <>
+        inline Bool read_primitive<String>(String &value) { return read_string(value); }
+        
+        // Specialized Read for primitive types.
+        template <typename T>
+            requires(!Evaluatable<T> && !Parsable<T> && !Serializable<T>)
+        Bool specialized_read(T &value)
+        {
+            if(!check_value())
+            {
+                return false;
+            }
+            Bool const result = read_primitive<T>(value);
+            consume_next_value();
+            return result;
+        }
+
+        // Specialzied Read for Evaluatable types.
+        template <typename T>
+            requires(Evaluatable<T> && !Serializable<T>)
+        Bool specialized_read(T &value)
+        {
+            if(!check_value())
+            {
+                return false;
+            }
+            String valueStr;
+            if (!read_raw_value(valueStr, true))
+            {
+                return false;
+            }
+            consume_next_value();
+            value = Evaluator<T>::evaluate(valueStr.get_view());
+            return true;
+        }
+
+        // Specialized Read for Parsable types.
+        template <typename T>
+            requires(Parsable<T> && !Evaluatable<T> && !Serializable<T>)
+        Bool specialized_read(T &value)
+        {
+            if(!check_value())
+            {
+                return false;
+            }
+            String valueStr;
+            if (!read_raw_value(valueStr, true))
+            {
+                return false;
+            }
+            consume_next_value();
+            return Parser<T>::parse(valueStr.get_view(), value);
+        }
+
+        // Specialized Read for Serializable types.
+        template <typename T>
+            requires Serializable<T>
+        Bool specialized_read(T &value)
+        {
+            // Step into and read the value
+            increase_indentation();
+            Bool const result = Serializer<T>::deserialize(*this, value);
+            consume_next_value();
+            decrease_indentation();
+            return result;
+        }
 
 #pragma endregion
 
 #pragma region Variables
 
-	private:
-		Size m_depth;
-		// root node
-		Node* mp_node;
-		Stack<NodeData> m_nodeStack;
+    private:
+        Shared<Stream> m_stream;
+        Stack<Any> m_userStack;
+        Map<Handle, Tuple<StreamPosition, UInt>> m_bookmarks;
+        UInt m_indent;
 
 #pragma endregion
-
-#pragma region Constructors
-
-	public:
-		/**
-		 * @brief Creates a new ReaderImplementation using the given data source.
-		 * @param source A pointer to the appropriate data source for this Reader.
-		 */
-		ReaderImplementation(Any const source)
-			: Reader()
-			, FormatBehavior()
-			, StorageBehavior(source)
-			, m_depth(0)
-			, mp_node(DefaultAllocator::template construct<Node>())
-			, m_nodeStack()
-		{
-			Vector<Byte> data = this->read_all();
-			if (data.get_size() > 0)
-			{
-				Vector<Byte> temp(data.get_size());
-				for (Byte b : data)
-				{
-					if (b != '\r')
-					{
-						temp.add(b);
-					}
-				}
-				data = std::move(temp);
-			}
-			*mp_node = this->read_node(data.get_data(), data.get_size());
-			m_nodeStack.push({ 0, mp_node });
-		}
-
-		/**
-		 * @brief Creates a new ReaderImplementation using the given data source.
-		 * @param root The root Node data source.
-		 */
-		ReaderImplementation(Node const& root)
-			: Reader()
-			, FormatBehavior()
-			, StorageBehavior(nullptr)
-			, m_depth(0)
-			, mp_node(DefaultAllocator::template construct<Node>())
-			, m_nodeStack()
-		{
-			*mp_node = root;
-			m_nodeStack.push({ 0, mp_node });
-		}
-
-		virtual ~ReaderImplementation()
-		{
-			DefaultAllocator::template destruct(mp_node);
-		}
-
-#pragma endregion
-
-#pragma region Accessors
-
-	public:
-		/**
-		 * @brief Gets the data source for this Reader.
-		 * @return A pointer to the data source.
-		 */
-		Any get_source() const override { return StorageBehavior::get_source(); }
-
-		/**
-		 * @brief Gets the depth in the Node structure.
-		 * @return The number of indents made from the root Node.
-		 */
-		Size get_depth() const override { return m_depth; }
-
-		/**
-		 * @brief Gets the root Node this Reader has.
-		 * @return The root Node.
-		 */
-		Node& get_root_node() override { return *mp_node; }
-
-		/**
-		 * @brief Gets the root Node this Reader has.
-		 * @return The root Node.
-		 */
-		Node const& get_root_node() const override { return *mp_node; }
-
-		/**
-		 * @brief Gets the current Node this Reader is on.
-		 * @return The active Node.
-		 */
-		Node const& get_node() const override { return *m_nodeStack.peek().node; }
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
-		/**
-		 * @brief Steps into the child Node at the given index.
-		 * @param index The index of the child to indent into.
-		 * @return True on success.
-		 */
-		Bool indent(Size const index) override
-		{
-			Node const& node = get_node();
-			if (is_valid() && index < node.get_children_size())
-			{
-				m_nodeStack.push({ index, &node.get_child(index) });
-				m_depth++;
-				return true;
-			}
-			return false;
-		}
-
-		/**
-		 * @brief Steps into the child Node with the given name.
-		 * @param name The name of the child to indent into.
-		 * @return True on success.
-		 */
-		Bool indent(String const& name) override
-		{
-			return indent(this->get_index(name));
-		}
-
-		/**
-		 * @brief Steps out of the current Node, back to its parent.
-		 */
-		void outdent() override
-		{
-			MINTY_ASSERT(m_depth > 0, ErrorCode::Object_InvalidOperation);
-
-			if (is_valid())
-			{
-				m_nodeStack.pop();
-			}
-			m_depth--;
-		}
-
-		/**
-		 * @brief Checks if this Reader is valid. The reader is valid when the depth is equal to the size of the node stack. 
-		 * A Reader becomes invalid when it attempts to indent() into a child Node that does not exist.
-		 * @return True when valid.
-		 */
-		Bool is_valid() const override { return m_depth + 1 == m_nodeStack.get_size(); }
-
-		/**
-		 * @brief Reads the name of the Node at the given index.
-		 * @param index The index of the child Node.
-		 * @param obj The object to read the data into.
-		 * @return True on success.
-		 */
-		Bool read_name(Size const index, String& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					obj = node.get_child(index).get_name();
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/**
-		 * @brief Adds the value of another Reader to this one.
-		 * The values of the other Reader will override the values of this Reader when conflicts occur,
-		 * otherwise the values will be appended.
-		 * @param other The other Reader to merge with this one.
-		 */
-		Bool merge(Reader const& other) override
-		{
-			// compare nodes and merge
-			return this->get_root_node().merge(other.get_root_node());
-		}
-
-	protected:
-		Bool read_bool(Size const index, Bool& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_bool_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_bool2(Size const index, Bool2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_bool2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_bool3(Size const index, Bool3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_bool3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_bool4(Size const index, Bool4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_bool4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_char(Size const index, Char& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_char_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_byte(Size const index, Byte& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_byte_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_short(Size const index, Short& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_short_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_ushort(Size const index, UShort& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_ushort_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_int(Size const index, Int& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_int_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_int2(Size const index, Int2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_int2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_int3(Size const index, Int3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_int3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_int4(Size const index, Int4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_int4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_uint(Size const index, UInt& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_uint_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_uint2(Size const index, UInt2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_uint2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_uint3(Size const index, UInt3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_uint3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_uint4(Size const index, UInt4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_uint4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_long(Size const index, Long& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_long_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_long2(Size const index, Long2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_long2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_long3(Size const index, Long3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_long3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_long4(Size const index, Long4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_long4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_ulong(Size const index, ULong& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_ulong_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_ulong2(Size const index, ULong2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_ulong2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_ulong3(Size const index, ULong3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_ulong3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_ulong4(Size const index, ULong4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_ulong4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_float(Size const index, Float& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_float_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_float2(Size const index, Float2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_float2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_float3(Size const index, Float3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_float3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_float4(Size const index, Float4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_float4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_double(Size const index, Double& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_double_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_double2(Size const index, Double2& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_double2_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_double3(Size const index, Double3& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_double3_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_double4(Size const index, Double4& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_double4_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_string(Size const index, String& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_string_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-		Bool read_type(Size const index, Type& obj) const override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& data = node.get_child(index).get_data();
-					obj = this->read_type_from_buffer(data.get_data(), data.get_size());
-					return true;
-				}
-			}
-			return false;
-		}
-
-		Bool read_typed(Size const index, Any const data, Type& type) override
-		{
-			if (is_valid())
-			{
-				Node const& node = get_node();
-				if (node.has_child(index))
-				{
-					Container const& container = node.get_child(index).get_data();
-					// find separator (: )
-					Char* ch = static_cast<Char*>(container.get_data());
-					Size i;
-					for (i = 0; i < container.get_size(); ++i)
-					{
-						if (ch[i] == ':' && ch[i + 1] == ' ')
-						{
-							break;
-						}
-					}
-					// read type
-					type = this->read_type_from_buffer(container.get_data(), i);
-					i += 2; // skip (: )
-					// if i over the size, no value
-					if (i >= container.get_size())
-					{
-						return false;
-					}
-					// value
-					Any temp = this->read_typed_from_buffer(&ch[i], container.get_size() - i, type);
-					if (!temp)
-					{
-						// failed to read typed data
-						return false;
-					}
-					// copy data over
-					memcpy(data, temp, sizeof_type(type));
-					// delete the temp data
-					delete temp;
-
-					return true;
-				}
-			}
-			return false;
-		}
-
-#pragma endregion
-	};
-
-#pragma endregion
-
-#pragma region Readers
-
-	using TextFileReader = ReaderImplementation<TextReaderBehavior, FileReaderBehavior>;
-	using TextNodeReader = ReaderImplementation<TextReaderBehavior, NodeReaderBehavior>;
-	using TextMemoryReader = ReaderImplementation<TextReaderBehavior, MemoryReaderBehavior>;
-
-#pragma endregion
+    };
 }
 
-#endif // MINTY_SERIALIZATION_READER_H
+#endif // MINTY_SOURCE_SERIALIZE_READER_H

@@ -9,7 +9,7 @@ Minty::Scope::Scope()
 {
 }
 
-UUID Minty::Scope::find(String const &name) const
+UUID Minty::Scope::find(StringView const name) const
 {
     auto found = m_values.find(name);
     if (found == m_values.end())
@@ -19,7 +19,7 @@ UUID Minty::Scope::find(String const &name) const
     return found->get_second();
 }
 
-UUID Minty::Scope::add(String const &name, Int const value)
+UUID Minty::Scope::add(String const& name, Int const value)
 {
     UUID id = UUID::create();
     m_values.add(name, id, value);
@@ -40,33 +40,27 @@ void Minty::Scope::reset()
     }
 }
 
-void Minty::Scope::serialize(Writer &writer) const
+void Minty::Serializer<Scope>::serialize(Writer &writer, Scope const &scope)
 {
     // write each name: value in the scope as a pair
-    for (auto const &[string, key, value] : m_values)
+    for (auto const &[string, key, value] : scope.m_values)
     {
         writer.write(string, value);
     }
 }
 
-Bool Minty::Scope::deserialize(Reader &reader)
+Bool Minty::Serializer<Scope>::deserialize(Reader &reader, Scope &scope)
 {
-    clear();
+    scope.clear();
 
     // read each name: value in the scope as a pair
     String name;
     Int value;
-    for (Size i = 0; i < reader.get_size(); i++)
+    while(reader.read_next(name, value))
     {
-        Bool const nameResult = reader.read_name(i, name);
-        MINTY_ASSERT(nameResult, ErrorCode::Serialization_ReadName);
-
-        Bool const valueResult = reader.read(i, value);
-        MINTY_ASSERT(valueResult, ErrorCode::Serialization_ReadValue);
-
         // add to scope
         UUID id = UUID::create();
-        m_values.add(name, id, value);
+        scope.m_values.add(name, id, value);
     }
 
     return true;

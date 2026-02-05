@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <Minty.h>
 
 using namespace Minty;
@@ -65,7 +66,7 @@ Action get_action(ArgumentParser const& parser)
 	}
 	else
 	{
-		Debug::write_error(F("Invalid action argument provided: {}", actionStr));
+		MINTY_LOG_ERROR_F("Invalid action argument provided: {}", actionStr);
 		return Action::Invalid;
 	}
 }
@@ -160,7 +161,7 @@ int main(Int argc, Char const* argv[])
 	// get path
 	if (!parser.has_argument("path"))
 	{
-		Debug::write_error("No path argument provided.");
+		MINTY_LOG_ERROR("No path argument provided.");
 		return 1;
 	}
 	Path path = parser.get_argument("path").front();
@@ -168,7 +169,7 @@ int main(Int argc, Char const* argv[])
 	// validate path
 	if (!Path::exists(path))
 	{
-		Debug::write_error(F("Path does not exist: {}", path));
+		MINTY_LOG_ERROR_F("Path does not exist: {}", path);
 		return 1;
 	}
 	switch (action)
@@ -177,7 +178,7 @@ int main(Int argc, Char const* argv[])
 	case Action::Update:
 		if (!Path::is_directory(path))
 		{
-			Debug::write_error(F("Path is not a directory: {}", path));
+			MINTY_LOG_ERROR_F("Path is not a directory: {}", path);
 			return 1;
 		}
 		break;
@@ -185,7 +186,7 @@ int main(Int argc, Char const* argv[])
 	case Action::Info:
 		if (!Wrap::exists(path))
 		{
-			Debug::write_error(F("Path is not a Wrap file: {}", path));
+			MINTY_LOG_ERROR_F("Path is not a Wrap file: {}", path);
 			return 1;
 		}
 		break;
@@ -210,7 +211,7 @@ int main(Int argc, Char const* argv[])
 			// check if the path2 exists in the wrap
 			if (!wrap->contains(path2))
 			{
-				Debug::write_error(F("Path does not exist in the Wrap file: {}", path2));
+				MINTY_LOG_ERROR_F("Path does not exist in the Wrap file: {}", path2);
 				return 1;
 			}
 
@@ -318,7 +319,7 @@ int main(Int argc, Char const* argv[])
 	CompressionLevel compression = CompressionLevel::Default;
 	if (parser.has_argument("compression"))
 	{
-		String compressionStr = String::to_lower(parser.get_argument("compression").front());
+		String compressionStr = parser.get_argument("compression").front().to_lower();
 		Int compressionInt;
 		if (compressionStr == "none")
 		{
@@ -336,13 +337,13 @@ int main(Int argc, Char const* argv[])
 		{
 			compression = CompressionLevel::High;
 		}
-		else if (try_int(compressionStr, compressionInt))
+		else if (Parser<Int>::parse(compressionStr, compressionInt))
 		{
 			compression = static_cast<CompressionLevel>(compressionInt);
 		}
 		else
 		{
-			Debug::write_error(F("Invalid compression argument provided: {}", compressionStr));
+			MINTY_LOG_ERROR_F("Invalid compression argument provided: {}", compressionStr);
 			return 1;
 		}
 	}
@@ -359,7 +360,7 @@ int main(Int argc, Char const* argv[])
 		// validate path2
 		if (!Wrap::exists(path2))
 		{
-			Debug::write_error(F("Wrap file does not exist at: {}. Cannot perform an update.", path2));
+			MINTY_LOG_ERROR_F("Wrap file does not exist at: {}. Cannot perform an update.", path2);
 			return 1;
 		}
 
@@ -477,7 +478,7 @@ int main(Int argc, Char const* argv[])
 
 	// get version
 	uint32_t version;
-	if (!parser.has_argument("version") || !try_uint(parser.get_argument("version").front(), version))
+	if (!parser.has_argument("version") || !Parser<UInt>::parse(parser.get_argument("version").front(), version))
 	{
 		// Default: version is 0
 		version = 0;
@@ -487,7 +488,7 @@ int main(Int argc, Char const* argv[])
 	Wrap::Type type;
 	if (parser.has_argument("type"))
 	{
-		String typeStr = String::to_lower(parser.get_argument("type").front());
+		String typeStr = parser.get_argument("type").front().to_lower();
 		if (typeStr == "file")
 		{
 			type = Wrap::Type::File;
@@ -498,7 +499,7 @@ int main(Int argc, Char const* argv[])
 		}
 		else
 		{
-			Debug::write_error(F("Invalid type argument provided: {}", typeStr));
+			MINTY_LOG_ERROR_F("Invalid type argument provided: {}", typeStr);
 			return 1;
 		}
 	}
@@ -517,7 +518,7 @@ int main(Int argc, Char const* argv[])
 		}
 		if (path2.is_empty())
 		{
-			Debug::write_error(F("No output path provided for wrapping: {}. Cannot perform an unwrap.", path));
+			MINTY_LOG_ERROR_F("No output path provided for wrapping: {}. Cannot perform an unwrap.", path);
 			delete wrap;
 			return 1;
 		}
@@ -549,7 +550,7 @@ int main(Int argc, Char const* argv[])
 		}
 		if (path2.is_empty())
 		{
-			Debug::write_error(F("No output path provided for unwrapping: {}. Cannot perform an unwrap.", path));
+			MINTY_LOG_ERROR_F("No output path provided for unwrapping: {}. Cannot perform an unwrap.", path);
 			delete wrap;
 			return 1;
 		}
@@ -608,6 +609,6 @@ int main(Int argc, Char const* argv[])
 	}
 
 	// if we get here, something went wrong
-	Debug::write_error("Invalid action specified.");
+	MINTY_LOG_ERROR("Invalid action specified.");
 	return 1;
 }

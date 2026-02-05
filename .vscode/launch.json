@@ -1,0 +1,17 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Wrapper",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/Wrapper/Build/Bin/Debug/Wrapper.exe",
+			"args": ["wrap", "${workspaceFolder}/Data/Defaults", "-b", "Defaults", "-o", "${workspaceFolder}/TEST.wrap"],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}/Wrapper/Build/Bin/Debug",
+			"environment": [],
+			"console": "integratedTerminal",
+			"preLaunchTask": "Build Wrapper"
+		}
+	]
+}

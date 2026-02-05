@@ -6,373 +6,154 @@
 #include "Minty/Data/String.h"
 #include "Minty/Data/UUID.h"
 #include "Minty/Data/Map.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
+static constexpr Size TYPE_COUNT = 31;
+static constexpr Char const* TYPE_STRINGS[TYPE_COUNT] =
+{
+	"Undefined",
+	"Bool",
+	"Bool2",
+	"Bool3",
+	"Bool4",
+	"Char",
+	"Byte",
+	"Int",
+	"Int2",
+	"Int3",
+	"Int4",
+	"UInt",
+	"UInt2",
+	"UInt3",
+	"UInt4",
+	"WInt",
+	"WUInt",
+	"Size",
+	"Float",
+	"Float2",
+	"Float3",
+	"Float4",
+	"WFloat",
+	"Matrix2",
+	"Matrix3",
+	"Matrix4",
+	"Quaternion",
+	"Color",
+	"Object",
+	"String",
+	"MultilineString",
+};
+static TypeID TYPE_TYPEIDS[TYPE_COUNT] =
+{
+	typeid(Any),
+	typeid(Bool),
+	typeid(Bool2),
+	typeid(Bool3),
+	typeid(Bool4),
+	typeid(Char),
+	typeid(Byte),
+	typeid(Int),
+	typeid(Int2),
+	typeid(Int3),
+	typeid(Int4),
+	typeid(UInt),
+	typeid(UInt2),
+	typeid(UInt3),
+	typeid(UInt4),
+	typeid(WInt),
+	typeid(WUInt),
+	typeid(Size),
+	typeid(Float),
+	typeid(Float2),
+	typeid(Float3),
+	typeid(Float4),
+	typeid(WFloat),
+	typeid(Matrix2),
+	typeid(Matrix3),
+	typeid(Matrix4),
+	typeid(Quaternion),
+	typeid(Color),
+	typeid(UUID),
+	typeid(String),
+	typeid(String),
+};
+static constexpr Size TYPE_SIZES[TYPE_COUNT] =
+{
+	sizeof(std::nullptr_t),
+	sizeof(Bool),
+	sizeof(Bool2),
+	sizeof(Bool3),
+	sizeof(Bool4),
+	sizeof(Char),
+	sizeof(Byte),
+	sizeof(Int),
+	sizeof(Int2),
+	sizeof(Int3),
+	sizeof(Int4),
+	sizeof(UInt),
+	sizeof(UInt2),
+	sizeof(UInt3),
+	sizeof(UInt4),
+	sizeof(WInt),
+	sizeof(WUInt),
+	sizeof(Size),
+	sizeof(Float),
+	sizeof(Float2),
+	sizeof(Float3),
+	sizeof(Float4),
+	sizeof(WFloat),
+	sizeof(Matrix2),
+	sizeof(Matrix3),
+	sizeof(Matrix4),
+	sizeof(Quaternion),
+	sizeof(Color),
+	sizeof(UUID),
+	sizeof(String),
+	sizeof(String),
+};
+
 Type Minty::type_typeid(TypeID const typeId)
 {
-	if (typeId == typeid(Bool))
+	for (Size i = 0; i < TYPE_COUNT; i++)
 	{
-		return Type::Bool;
+		if (typeId == TYPE_TYPEIDS[i])
+		{
+			return static_cast<Type>(i);
+		}
 	}
-	else if (typeId == typeid(Bool2))
-	{
-		return Type::Bool2;
-	}
-	else if (typeId == typeid(Bool3))
-	{
-		return Type::Bool3;
-	}
-	else if (typeId == typeid(Bool4))
-	{
-		return Type::Bool4;
-	}
-	else if (typeId == typeid(Char))
-	{
-		return Type::Char;
-	}
-	else if (typeId == typeid(Byte))
-	{
-		return Type::Byte;
-	}
-	else if (typeId == typeid(Short))
-	{
-		return Type::Short;
-	}
-	else if (typeId == typeid(UShort))
-	{
-		return Type::UShort;
-	}
-	else if (typeId == typeid(Int))
-	{
-		return Type::Int;
-	}
-	else if (typeId == typeid(Int2))
-	{
-		return Type::Int2;
-	}
-	else if (typeId == typeid(Int3))
-	{
-		return Type::Int3;
-	}
-	else if (typeId == typeid(Int4))
-	{
-		return Type::Int4;
-	}
-	else if (typeId == typeid(UInt))
-	{
-		return Type::UInt;
-	}
-	else if (typeId == typeid(UInt2))
-	{
-		return Type::UInt2;
-	}
-	else if (typeId == typeid(UInt3))
-	{
-		return Type::UInt3;
-	}
-	else if (typeId == typeid(UInt4))
-	{
-		return Type::UInt4;
-	}
-	else if (typeId == typeid(Long))
-	{
-		return Type::Long;
-	}
-	else if (typeId == typeid(ULong))
-	{
-		return Type::ULong;
-	}
-	else if (typeId == typeid(Size))
-	{
-		return Type::Size;
-	}
-	else if (typeId == typeid(Float))
-	{
-		return Type::Float;
-	}
-	else if (typeId == typeid(Float2))
-	{
-		return Type::Float2;
-	}
-	else if (typeId == typeid(Float3))
-	{
-		return Type::Float3;
-	}
-	else if (typeId == typeid(Float4))
-	{
-		return Type::Float4;
-	}
-	else if (typeId == typeid(Double))
-	{
-		return Type::Double;
-	}
-	else if (typeId == typeid(Matrix2))
-	{
-		return Type::Matrix2;
-	}
-	else if (typeId == typeid(Matrix3))
-	{
-		return Type::Matrix3;
-	}
-	else if (typeId == typeid(Matrix4))
-	{
-		return Type::Matrix4;
-	}
-	else if (typeId == typeid(Quaternion))
-	{
-		return Type::Quaternion;
-	}
-	else if (typeId == typeid(Color))
-	{
-		return Type::Color;
-	}
-	else if (typeId == typeid(UUID))
-	{
-		return Type::Object;
-	}
-	else if (typeId == typeid(String))
-	{
-		return Type::String;
-	}
-	else
-	{
-		return Type::Undefined;
-	}
+	return Type::Undefined;
 }
 
 TypeID Minty::typeid_type(Type const type)
 {
-	switch (type)
+	Size const index = static_cast<Size>(type);
+
+	if(index >= TYPE_COUNT)
 	{
-	case Type::Undefined:
-		return typeid(nullptr);
-	case Type::Bool:
-		return typeid(Bool);
-	case Type::Bool2:
-		return typeid(Bool2);
-	case Type::Bool3:
-		return typeid(Bool3);
-	case Type::Bool4:
-		return typeid(Bool4);
-	case Type::Char:
-		return typeid(Char);
-	case Type::Byte:
-		return typeid(Byte);
-	case Type::Short:
-		return typeid(Short);
-	case Type::UShort:
-		return typeid(UShort);
-	case Type::Int:
-		return typeid(Int);
-	case Type::Int2:
-		return typeid(Int2);
-	case Type::Int3:
-		return typeid(Int3);
-	case Type::Int4:
-		return typeid(Int4);
-	case Type::UInt:
-		return typeid(UInt);
-	case Type::UInt2:
-		return typeid(UInt2);
-	case Type::UInt3:
-		return typeid(UInt3);
-	case Type::UInt4:
-		return typeid(UInt4);
-	case Type::Long:
-		return typeid(Long);
-	case Type::ULong:
-		return typeid(ULong);
-	case Type::Size:
-		return typeid(Size);
-	case Type::Float:
-		return typeid(Float);
-	case Type::Float2:
-		return typeid(Float2);
-	case Type::Float3:
-		return typeid(Float3);
-	case Type::Float4:
-		return typeid(Float4);
-	case Type::Double:
-		return typeid(Double);
-	case Type::Matrix2:
-		return typeid(Matrix2);
-	case Type::Matrix3:
-		return typeid(Matrix3);
-	case Type::Matrix4:
-		return typeid(Matrix4);
-	case Type::Quaternion:
-		return typeid(Quaternion);
-	case Type::Color:
-		return typeid(Color);
-	case Type::Object:
-		return typeid(UUID);
-	case Type::String:
-	case Type::MultilineString:
-		return typeid(String);
-	default:
-		MINTY_NOT_IMPLEMENTED();
+		return TYPE_TYPEIDS[0];
 	}
+	return TYPE_TYPEIDS[index];
 }
 
 Size Minty::sizeof_type(Type const type)
 {
-	switch (type)
+	Size const index = static_cast<Size>(type);
+
+	if(index >= TYPE_COUNT)
 	{
-	case Type::Undefined:
-		return 0;
-	case Type::Bool:
-		return sizeof(Bool);
-	case Type::Bool2:
-		return sizeof(Bool2);
-	case Type::Bool3:
-		return sizeof(Bool3);
-	case Type::Bool4:
-		return sizeof(Bool4);
-	case Type::Char:
-		return sizeof(Char);
-	case Type::Byte:
-		return sizeof(Byte);
-	case Type::Short:
-		return sizeof(Short);
-	case Type::UShort:
-		return sizeof(UShort);
-	case Type::Int:
-		return sizeof(Int);
-	case Type::Int2:
-		return sizeof(Int2);
-	case Type::Int3:
-		return sizeof(Int3);
-	case Type::Int4:
-		return sizeof(Int4);
-	case Type::UInt:
-		return sizeof(UInt);
-	case Type::UInt2:
-		return sizeof(UInt2);
-	case Type::UInt3:
-		return sizeof(UInt3);
-	case Type::UInt4:
-		return sizeof(UInt4);
-	case Type::Long:
-		return sizeof(Long);
-	case Type::ULong:
-		return sizeof(ULong);
-	case Type::Size:
-		return sizeof(Size);
-	case Type::Float:
-		return sizeof(Float);
-	case Type::Float2:
-		return sizeof(Float2);
-	case Type::Float3:
-		return sizeof(Float3);
-	case Type::Float4:
-		return sizeof(Float4);
-	case Type::Double:
-		return sizeof(Double);
-	case Type::Matrix2:
-		return sizeof(Matrix2);
-	case Type::Matrix3:
-		return sizeof(Matrix3);
-	case Type::Matrix4:
-		return sizeof(Matrix4);
-	case Type::Quaternion:
-		return sizeof(Quaternion);
-	case Type::Color:
-		return sizeof(Color);
-	case Type::Object:
-		return sizeof(UUID);
-	case Type::String:
-	case Type::MultilineString:
-		return sizeof(String);
-	default:
-		MINTY_NOT_IMPLEMENTED();
+		return TYPE_SIZES[0];
 	}
+	return TYPE_SIZES[index];
 }
 
-String Minty::to_string(Type const type)
+Bool Minty::Parser<Type>::parse(StringView const str, Type &value)
 {
-	switch (type)
-	{
-	case Type::Bool: return "Bool";
-	case Type::Bool2: return "Bool2";
-	case Type::Bool3: return "Bool3";
-	case Type::Bool4: return "Bool4";
-	case Type::Char: return "Char";
-	case Type::Byte: return "Byte";
-	case Type::Short: return "Short";
-	case Type::UShort: return "UShort";
-	case Type::Int: return "Int";
-	case Type::Int2: return "Int2";
-	case Type::Int3: return "Int3";
-	case Type::Int4: return "Int4";
-	case Type::UInt: return "UInt";
-	case Type::UInt2: return "UInt2";
-	case Type::UInt3: return "UInt3";
-	case Type::UInt4: return "UInt4";
-	case Type::Long: return "Long";
-	case Type::ULong: return "ULong";
-	case Type::Size: return "Size";
-	case Type::Float: return "Float";
-	case Type::Float2: return "Float2";
-	case Type::Float3: return "Float3";
-	case Type::Float4: return "Float4";
-	case Type::Double: return "Double";
-	case Type::Matrix2: return "Matrix2";
-	case Type::Matrix3: return "Matrix3";
-	case Type::Matrix4: return "Matrix4";
-	case Type::Quaternion: return "Quaternion";
-	case Type::Color: return "Color";
-	case Type::Object: return "Object";
-	case Type::String: return "String";
-	case Type::MultilineString: return "MultilineString";
-	case Type::Count: return "Count";
-	}
-
-	MINTY_NOT_IMPLEMENTED();
-	return String();
+    return Tool::try_parse_enum(str, TYPE_STRINGS, TYPE_COUNT, value);
 }
 
-Type Minty::parse_to_type(String const& string)
+String Minty::Parser<Type>::to_string(Type const &value)
 {
-	if (string == "Bool") return Type::Bool;
-	if (string == "Bool2") return Type::Bool2;
-	if (string == "Bool3") return Type::Bool3;
-	if (string == "Bool4") return Type::Bool4;
-	if (string == "Char") return Type::Char;
-	if (string == "Byte") return Type::Byte;
-	if (string == "Short") return Type::Short;
-	if (string == "UShort") return Type::UShort;
-	if (string == "Int") return Type::Int;
-	if (string == "Int2") return Type::Int2;
-	if (string == "Int3") return Type::Int3;
-	if (string == "Int4") return Type::Int4;
-	if (string == "UInt") return Type::UInt;
-	if (string == "UInt2") return Type::UInt2;
-	if (string == "UInt3") return Type::UInt3;
-	if (string == "UInt4") return Type::UInt4;
-	if (string == "Long") return Type::Long;
-	if (string == "ULong") return Type::ULong;
-	if (string == "Size") return Type::Size;
-	if (string == "Float") return Type::Float;
-	if (string == "Float2") return Type::Float2;
-	if (string == "Float3") return Type::Float3;
-	if (string == "Float4") return Type::Float4;
-	if (string == "Double") return Type::Double;
-	if (string == "Matrix2") return Type::Matrix2;
-	if (string == "Matrix3") return Type::Matrix3;
-	if (string == "Matrix4") return Type::Matrix4;
-	if (string == "Quaternion") return Type::Quaternion;
-	if (string == "Color") return Type::Color;
-	if (string == "Object") return Type::Object;
-	if (string == "String") return Type::String;
-	if (string == "MultilineString") return Type::MultilineString;
-	if (string == "Count") return Type::Count;
-
-	return Type();
-}
-
-Bool Minty::parse_try_type(String const& string, Type& value)
-{
-	value = parse_to_type(string);
-	return value != Type();
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), TYPE_STRINGS, TYPE_COUNT);
 }

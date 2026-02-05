@@ -8,25 +8,24 @@
 
 using namespace Minty;
 
-void Minty::RigidBodyComponent::serialize(Writer &writer) const
+void Minty::Serializer<RigidBodyComponent>::serialize(Writer &writer, RigidBodyComponent const &value)
 {
     MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::RigidBodyComponent::deserialize(Reader &reader)
+Bool Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBodyComponent &value)
 {
-    if (!rigidBody)
+    if (!value.rigidBody)
     {
         // get rigid body info
         RigidBodyInfo info{};
-        reader.read("Kinematic", info.isKinematic);
-        reader.read("Static", info.isStatic);
         reader.read("Mass", info.mass);
         reader.read("Friction", info.friction);
         reader.read("Bounce", info.bounce);
         if(reader.indent("Constraints"))
         {
             reader.read("Rotation", info.rotationConstraints);
+            // TODO: position constraints
             reader.outdent();
         }
         
@@ -42,42 +41,57 @@ Bool Minty::RigidBodyComponent::deserialize(Reader &reader)
                 info.collider = colliderComp->collider;
             }
         }
+        
+        reader.read("Kinematic", info.isKinematic);
+        reader.read("Static", info.isStatic);
 
         // create new rigid body
-        rigidBody = RigidBody::create(info);
+        value.rigidBody = RigidBody::create(info);
     }
     else
     {
         // override existing rigid body
-        Bool tempBool;
-        if(reader.read("Kinematic", tempBool))
-        {
-            rigidBody->set_kinematic(tempBool);
-        }
-        if(reader.read("Static", tempBool))
-        {
-            rigidBody->set_static(tempBool);
-        }
         Float tempFloat;
         if(reader.read("Mass", tempFloat))
         {
-            rigidBody->set_mass(tempFloat);
+            value.rigidBody->set_mass(tempFloat);
         }
         if(reader.read("Friction", tempFloat))
         {
-            rigidBody->set_friction(tempFloat);
+            value.rigidBody->set_friction(tempFloat);
         }
-        if(reader.read("Bounciness", tempFloat))
+        if(reader.read("Bounce", tempFloat))
         {
-            rigidBody->set_bounce(tempFloat);
+            value.rigidBody->set_bounce(tempFloat);
         }
+
+        Constraints tempConstraints;
+        if(reader.indent("Constraints"))
+        {
+            if(reader.read("Rotation", tempConstraints))
+            {
+                value.rigidBody->set_rotation_constraints(tempConstraints);
+            }
+            // TODO: position constraints
+            reader.outdent();
+        }
+
         Shared<Collider> tempCollider;
-        if(reader.read("Collider", tempCollider) && tempCollider != nullptr && tempCollider != rigidBody->get_collider())
+        if(reader.read("Collider", tempCollider) && tempCollider != nullptr && tempCollider != value.rigidBody->get_collider())
         {
             // changing collider of existing rigid body is not supported
             MINTY_ERROR(ErrorCode::Component_InvalidState);
         }
+        
+        Bool tempBool;
+        if(reader.read("Kinematic", tempBool))
+        {
+            value.rigidBody->set_kinematic(tempBool);
+        }
+        if(reader.read("Static", tempBool))
+        {
+            value.rigidBody->set_static(tempBool);
+        }
     }
-
     return true;
 }

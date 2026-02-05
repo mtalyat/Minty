@@ -634,8 +634,8 @@ uint32_t Minty::Vulkan_Renderer::find_memory_type(VkPhysicalDevice const physica
 	vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
 
 	// find memory that is suitable for a buffer
-	// also find memory find memory with the given specific properties
-	for (uint32_t i = 0; memoryProperties.memoryTypeCount; i++)
+	// also find memory with the given specific properties
+	for (uint32_t i = 0; i < memoryProperties.memoryTypeCount; i++)
 	{
 		if ((typeFilter & (1 << i)) && (memoryProperties.memoryTypes[i].propertyFlags & properties) == properties)
 		{
@@ -643,7 +643,7 @@ uint32_t Minty::Vulkan_Renderer::find_memory_type(VkPhysicalDevice const physica
 		}
 	}
 
-	MINTY_ABORT(ErrorCode::Render_QueryFailed); // "Failed to find_first suitable memory type."
+	MINTY_ABORT(ErrorCode::Render_QueryFailed); // "Failed to find suitable memory type."
 }
 
 VkDeviceMemory Minty::Vulkan_Renderer::allocate_memory(VkDevice const device, VkDeviceSize const size, const uint32_t memoryTypeIndex)
@@ -1873,12 +1873,14 @@ VkFilter Minty::Vulkan_Renderer::to_vulkan(Minty::Filter const filter)
 	{
 	case Filter::Undefined:
 		MINTY_ABORT(ErrorCode::NotSupported);
+		break;
 	case Filter::Nearest:
 		return VK_FILTER_NEAREST;
 	case Filter::Linear:
 		return VK_FILTER_LINEAR;
 	default:
 		MINTY_NOT_IMPLEMENTED();
+		break;
 	}
 
 	return VK_FILTER_MAX_ENUM;

@@ -17,9 +17,9 @@ namespace Minty
 	class AudioClip;
 	struct AudioManagerInfo;
 
-	/// <summary>
-	/// Handles audio playback and management.
-	/// </summary>
+	/**
+	 * @brief The AudioManager is responsible for managing audio playback and settings.
+	 */
 	class AudioManager
 		: public Manager
 	{

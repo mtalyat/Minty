@@ -25,6 +25,7 @@
 #include "Minty/Render/_Render.h"
 #include "Minty/Scene/_Scene.h"
 #include "Minty/Serialization/_Serialization.h"
+#include "Minty/Stream/_Stream.h"
 #include "Minty/System/_System.h"
 #include "Minty/Time/_Time.h"
 #include "Minty/Tool/_Tool.h"

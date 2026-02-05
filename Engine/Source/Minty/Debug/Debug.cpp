@@ -4,6 +4,7 @@
 #include "Minty/Data/String.h"
 #include "Minty/Log/Logger.h"
 #include "Minty/Log/LoggerInfo.h"
+#include <filesystem>
 
 #ifdef MINTY_WINDOWS
 #include <windows.h>
@@ -14,25 +15,16 @@
 using namespace Minty;
 
 DebugFlags Debug::s_flags = DebugFlags::Default;
-
-Logger* s_logger = nullptr;
-
-static Logger& get_logger()
-{
-    if (!s_logger) {
-        LoggerInfo info;
-        s_logger = new Logger(info);
-    }
-    return *s_logger;
-}
+Logger* Debug::sp_logger = nullptr;
 
 void Minty::Debug::set_flags(DebugFlags const flags)
 {
+    MINTY_ASSERT(sp_logger != nullptr, ErrorCode::Object_NotInitialized);
+
     // Set the debug flags
     s_flags = flags;
 
     // Set the logger's enabled levels based on the flags
-    Logger& logger = get_logger();
     LogLevel levels = LogLevel::None;
     if ((flags & DebugFlags::Debug) != DebugFlags::None) {
         levels = levels | LogLevel::Debug;
@@ -52,41 +44,51 @@ void Minty::Debug::set_flags(DebugFlags const flags)
     if ((flags & DebugFlags::Critical) != DebugFlags::None) {
         levels = levels | LogLevel::Critical;
     }
-    logger.set_enabled_levels(levels);
+    sp_logger->set_enabled_levels(levels);
+}
+
+void Minty::Debug::initialize(DebugFlags const flags)
+{
+    MINTY_ASSERT(sp_logger == nullptr, ErrorCode::Object_AlreadyInitialized);
+
+    LoggerInfo info{};
+    info.enabledLevels = LogLevel::None;
+    sp_logger = new Logger(info);
+
+    set_flags(flags);
+}
+
+void Minty::Debug::dispose()
+{
+    MINTY_ASSERT(sp_logger != nullptr, ErrorCode::Object_NotInitialized);
+
+    delete sp_logger;
+    sp_logger = nullptr;
 }
 
 void Minty::Debug::log(LogLevel const level, StringView const message)
 {
-    Logger& logger = get_logger();
-    logger.log(level, message);
+    if(sp_logger)
+    {
+        sp_logger->log(level, message);
+    } else
+    {
+        Logger::print(level, message);
+    }
 }
 
 void Minty::Debug::log(LogLevel const level, ErrorCode const errorCode)
 {
-    Logger& logger = get_logger();
-    String message = get_error_message(errorCode);
-    logger.log(level, message);
+    StringView const message = get_error_message(errorCode);
+    log(level, message);
 }
 
 void Minty::Debug::log(LogLevel const level, ErrorCode const errorCode, StringView const message)
 {
-    Logger& logger = get_logger();
     StringView const errorMessage = get_error_message(errorCode);
     String const fullMessage = String(errorMessage) + message;
-    logger.log(level, fullMessage);
+    log(level, fullMessage);
 }
-
-void Minty::Debug::flush()
-{
-    // Do not flush if logger is not initialized
-    if(s_logger)
-    {
-        s_logger->flush();
-    }
-}
-
-#include <filesystem>
-// ... rest of your includes
 
 void Minty::Debug::log_stack_trace()
 {
@@ -175,4 +177,26 @@ void Minty::Debug::log_stack_trace()
 
     SymCleanup(process);
 #endif
+}
+
+void Minty::Debug::log_location(LogLevel const level, StringView const file, UInt const line)
+{
+    StringBuilder builder;
+    builder.append('[');
+    builder.append(file);
+    builder.append('(');
+    builder.append(Parser<UInt>::to_string(line));
+    builder.append(')');
+    builder.append(']');
+
+    Minty::Debug::log(level, builder.get_view());
+}
+
+void Minty::Debug::flush()
+{
+    // If there is a logger, flush it, otherwise flushing is a no-op
+    if(sp_logger)
+    {
+        sp_logger->flush();
+    }
 }

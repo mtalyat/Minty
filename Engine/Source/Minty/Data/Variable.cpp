@@ -1,26 +1,25 @@
 #include "pch.h"
 #include "Variable.h"
+#include "Minty/Core/Constant.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Serialization/Reader.h"
 
 using namespace Minty;
 
 Minty::Variable::Variable()
-			: m_type(Type::Undefined)
-		{
-		}
+	: m_type(Type::Undefined)
+{
+}
 
-        Minty::Variable::Variable(Type const type)
-			: m_type(type)
-			, m_data()
-		{
-		}
+Minty::Variable::Variable(Type const type)
+	: m_type(type), m_data()
+{
+}
 
-        Minty::Variable::Variable(Type const type, AnyConst const data)
-			: m_type(type)
-			, m_data(data, sizeof_type(type))
-		{
-		}
+Minty::Variable::Variable(Type const type, AnyConst const data)
+	: m_type(type), m_data(data, sizeof_type(type))
+{
+}
 
 Bool Minty::Variable::operator==(Variable const &other) const
 {
@@ -29,8 +28,6 @@ Bool Minty::Variable::operator==(Variable const &other) const
 
 void Minty::Variable::set_type(Type const type)
 {
-	MINTY_ASSERT_F(type < Type::Object, ErrorCode::Argument_InvalidValue, type);
-
 	clear();
 	m_type = type;
 }
@@ -48,32 +45,25 @@ void Minty::Variable::set_data(AnyConst const data)
 	}
 }
 
-void Minty::Variable::serialize(Writer& writer, String const& name) const
+void Minty::Serializer<Variable>::serialize(Writer &writer, Variable const &value)
 {
-	if (m_data.get_size() == 0)
-	{
-		// no value
-		writer.write(name, m_type);
-	}
-	else
-	{
-		// value
-		writer.write_typed(name, m_data.get_data(), m_type);
-	}
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::Variable::deserialize(Reader& reader, Size const index)
+Bool Minty::Serializer<Variable>::deserialize(Reader &reader, Variable &value)
 {
-	// make space for data
-	m_data.resize(64 * sizeof(Byte));
-	if (!reader.read_typed(index, m_data.get_data(), m_type))
+	// read typed data
+	Type type;
+	Byte buffer[TYPE_MAX_SIZE];
+	if(!reader.read_inline(type, buffer))
 	{
-		// failed to read data
-		m_data.clear();
-		return m_type != Type::Undefined;
+		// failed to read any data
+		value.m_type = Type::Undefined;
+		value.m_data.clear();
+		return false;
 	}
-	// successfully read data
-	// scale to proper size
-	m_data.resize(sizeof_type(m_type));
+
+	// set the type and data
+	value.set_data(type, buffer);
 	return true;
 }

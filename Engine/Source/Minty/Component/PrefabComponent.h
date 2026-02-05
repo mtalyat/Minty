@@ -8,7 +8,8 @@
  */
 
 #include "Minty/Component/Component.h"
-#include "Minty/Data/UUID.h"
+#include "Minty/Data/Pointer.h"
+#include "Minty/Entity/Prefab.h"
 
 namespace Minty
 {
@@ -18,7 +19,14 @@ namespace Minty
 	struct PrefabComponent
 		: public Component
 	{
-		UUID id;
+		Ref<Prefab> prefab = nullptr;
+	};
+
+	template<>
+	struct Serializer<PrefabComponent>
+	{
+		static void serialize(Writer& writer, PrefabComponent const& value);
+		static Bool deserialize(Reader& reader, PrefabComponent& value);
 	};
 }
 

@@ -16,9 +16,9 @@ namespace Minty
 	/**
 	 * @brief A doubly linked list implementation.
 	 * @tparam T The type of elements stored in the list.
-	 * @tparam Allocator The allocator type to use for memory management.
+	 * @tparam AllocatorType The allocator type to use for memory management.
 	 */
-	template<typename T, typename Allocator = DefaultAllocator>
+	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class List
 	{
 #pragma region Types
@@ -43,6 +43,8 @@ namespace Minty
 			{
 			}
 		};
+
+		using Allocator = AllocatorType<Node>;
 
 #pragma endregion
 
@@ -535,7 +537,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::template destruct<Node>(temp);
+					Allocator().destruct(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -559,7 +561,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::template destruct<Node>(temp);
+					Allocator().destruct(temp);
 				}
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
@@ -634,7 +636,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::template destruct<Node>(temp);
+					Allocator().destruct(temp);
 				}
 			}
 			else if (size > m_size)
@@ -643,7 +645,7 @@ namespace Minty
 				Node* node = mp_tail;
 				for (Size i = 0; i < size - m_size; ++i)
 				{
-					node = Allocator::template construct<Node>(value);
+					node = Allocator().construct(value);
 					node->prev = mp_tail;
 					if (mp_tail)
 					{
@@ -666,7 +668,7 @@ namespace Minty
 		 */
 		void add(T const& value)
 		{
-			Node* node = Allocator::template construct<Node>(value);
+			Node* node = Allocator().construct(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -687,7 +689,7 @@ namespace Minty
 		 */
 		void add(T&& value)
 		{
-			Node* node = Allocator::template construct<Node>(std::move(value));
+			Node* node = Allocator().construct(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -763,7 +765,7 @@ namespace Minty
 			Node* prevNode = nextNode ? nextNode->prev : nullptr;
 
 			// make new node
-			Node* newNode = Allocator::template construct<Node>(value);
+			Node* newNode = Allocator().construct(value);
 
 			// link them together
 			newNode->next = nextNode;
@@ -836,7 +838,7 @@ namespace Minty
 					mp_head = nullptr;
 				}
 				mp_tail = prevNode;
-				Allocator::template destruct<Node>(node);
+				Allocator().destruct(node);
 				--m_size;
 			}
 		}
@@ -983,7 +985,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				Allocator::template destruct<Node>(temp);
+				Allocator().destruct(temp);
 			}
 
 			m_size = 0;

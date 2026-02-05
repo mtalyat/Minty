@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -139,13 +138,12 @@ namespace Minty
 		Menu = 348,
 	};
 
-	String to_string(Key const obj);
-	Key parse_to_key(String const& string);
-	Bool parse_try_key(String const& string, Key& value);
 	template<>
-	inline Key parse_to<Key>(StringView const string) { return parse_to_key(string); }
-	template<>
-	inline Bool parse_try<Key>(StringView const string, Key& value) { return parse_try_key(string, value); }
+	struct Parser<Key>
+	{
+		static Bool parse(StringView const str, Key& value);
+		static String to_string(Key const& obj);
+	};
 }
 
 #endif // MINTY_INPUT_KEY_H

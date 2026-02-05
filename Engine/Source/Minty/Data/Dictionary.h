@@ -20,10 +20,10 @@ namespace Minty
 	 * @brief A key-value pair collection implemented as a balanced binary search tree (AVL Tree).
 	 * @tparam Key The type of keys in the dictionary.
 	 * @tparam Value The type of values in the dictionary.
-	 * @tparam Allocator The allocator type to use for memory management.
 	 * @tparam Compare The comparison functor for ordering keys.
+	 * @tparam AllocatorType The allocator type to use for memory management.
 	 */
-	template<typename Key, typename Value, typename Allocator = DefaultAllocator, typename Compare = std::less<Key>>
+	template<typename Key, typename Value, typename Compare = std::less<Key>, template<typename> class AllocatorType = DefaultAllocator>
 	class Dictionary
 	{
 #pragma region Types
@@ -50,6 +50,8 @@ namespace Minty
 			{
 			}
 		};
+
+		using Allocator = AllocatorType<Node>;
 
 #pragma endregion
 
@@ -542,7 +544,7 @@ namespace Minty
 			{
 				inserted = true;
 				m_size++;
-				return Allocator::template construct<Node>(key, value);
+				return Allocator().construct(key, value);
 			}
 
 			if (m_compare(key, n->data.get_first()))
@@ -577,12 +579,12 @@ namespace Minty
 				erased = true;
 				if (!n->left) {
 					Node* right = n->right;
-					Allocator::template destruct<Node>(n);
+					Allocator().destruct(n);
 					return right;
 				}
 				if (!n->right) {
 					Node* left = n->left;
-					Allocator::template destruct<Node>(n);
+					Allocator().destruct(n);
 					return left;
 				}
 				Node* m = min(n->right);
@@ -597,7 +599,7 @@ namespace Minty
 			if (!n) return;
 			clear(n->left);
 			clear(n->right);
-			Allocator::template destruct<Node>(n);
+			Allocator().destruct(n);
 		}
 
 #pragma endregion

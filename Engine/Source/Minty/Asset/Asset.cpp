@@ -9,6 +9,7 @@
 #include "Minty/Asset/GenericAsset.h"
 #include "Minty/Audio/AudioClip.h"
 #include "Minty/Entity/Prefab.h"
+#include "Minty/Render/Bitmap.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/Image.h"
 #include "Minty/Render/Texture.h"
@@ -35,11 +36,10 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 	{
 		{ EXTENSION_SCRIPT, AssetType::Script},
 
-		{ EXTENSION_BITMAP, AssetType::Image },
-
-		{ EXTENSION_JPG, AssetType::Texture },
-		{ EXTENSION_JPEG, AssetType::Texture },
-		{ EXTENSION_PNG, AssetType::Texture },
+		{ EXTENSION_BMP, AssetType::Image },
+		{ EXTENSION_JPG, AssetType::Image },
+		{ EXTENSION_JPEG, AssetType::Image },
+		{ EXTENSION_PNG, AssetType::Image },
 
 		{ EXTENSION_RENDER_PASS, AssetType::RenderPass },
 
@@ -105,6 +105,8 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 {
 	static Map<TypeID, AssetType> types
 	{
+		{ typeid(Bitmap), AssetType::Bitmap },
+
 		{ typeid(Image), AssetType::Image},
 
 		{ typeid(Texture), AssetType::Texture},

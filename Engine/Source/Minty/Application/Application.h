@@ -235,6 +235,8 @@ namespace Minty
 
 		void process_events();
 
+		void advance_memory();
+
 		void sync();
 
 		void frame_update(Timestep const time);

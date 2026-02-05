@@ -1,7 +1,5 @@
 Scope
     x: 0
-Start: State1
-Force: False
 States
     State1
         Value: Object: 0000000000000000
@@ -13,3 +11,5 @@ States
         Transitions
             - State1
                 - x == 0
+Start: State1
+Force: False

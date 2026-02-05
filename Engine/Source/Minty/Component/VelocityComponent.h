@@ -22,9 +22,13 @@ namespace Minty
          * @brief The velocity of the entity.
          */
         Float3 velocity = Math::ZERO;
-        
-        void serialize(Writer& writer) const override;
-        Bool deserialize(Reader& reader) override;
+    };
+
+    template<>
+    struct Serializer<VelocityComponent>
+    {
+        static void serialize(Writer& writer, VelocityComponent const& value);
+        static Bool deserialize(Reader& reader, VelocityComponent& value);
     };
 }
 

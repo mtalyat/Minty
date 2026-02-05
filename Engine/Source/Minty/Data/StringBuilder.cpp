@@ -26,7 +26,7 @@ Minty::StringBuilder::~StringBuilder()
 {
     if (mp_data)
     {
-        DefaultAllocator::deallocate(static_cast<Any>(mp_data));
+        DefaultAllocator<Char>().deallocate(mp_data);
     }
 }
 
@@ -39,13 +39,12 @@ void Minty::StringBuilder::reserve(Size const newCapacity)
     }
 
     // Allocate new memory and copy existing data
-    Any const ptr = DefaultAllocator::allocate(sizeof(Char) * (newCapacity + 1));
-    MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed);
-    Char *const newData = static_cast<Char *>(ptr);
+    Char *const newData = DefaultAllocator<Char>().allocate(newCapacity + 1);
+    MINTY_ASSERT(newData != nullptr, ErrorCode::Memory_AllocationFailed);
     if (mp_data)
     {
         std::memcpy(newData, mp_data, m_size * sizeof(Char));
-        DefaultAllocator::deallocate(static_cast<Any>(mp_data));
+        DefaultAllocator<Char>().deallocate(mp_data);
     }
     mp_data = newData;
     m_capacity = newCapacity;
@@ -72,6 +71,17 @@ void Minty::StringBuilder::append(Char const c)
     mp_data[m_size] = c;
     m_size++;
     mp_data[m_size] = '\0';
+}
+
+void Minty::StringBuilder::append(Char const *const cstr)
+{
+    // skip if null or empty
+    if(cstr == nullptr || cstr[0] == '\0')
+    {
+        return;
+    }
+
+    append(StringView(cstr));
 }
 
 void Minty::StringBuilder::append(StringView const &str)
@@ -459,4 +469,16 @@ void Minty::StringBuilder::strip(StringView const chars)
 void Minty::StringBuilder::replace(StringView const target, StringView const replacement)
 {
 
+}
+
+void Minty::StringBuilder::reverse() noexcept
+{
+    Size const halfSize = m_size / 2;
+    Size const sizeMinusOne = m_size - 1;
+    for (Size i = 0; i < halfSize; ++i)
+    {
+        Char temp = mp_data[i];
+        mp_data[i] = mp_data[sizeMinusOne - i];
+        mp_data[sizeMinusOne - i] = temp;
+    }
 }

@@ -9,7 +9,7 @@
 
 #include "Minty/Core/Math.h"
 #include "Minty/Core/Types.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -18,8 +18,9 @@ namespace Minty
 	 * @brief Represents the position, rotation, and scale of an object in 3D space.
 	 */
 	class Transform
-		: public SerializableObject
 	{
+		friend struct Serializer<Transform>;
+
 #pragma region Constructors
 
 	public:
@@ -107,14 +108,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Methods
-
-	public:
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
-
-#pragma endregion
-
 #pragma region Variables
 
 	private:
@@ -124,6 +117,13 @@ namespace Minty
 		Matrix4 m_globalMatrix;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<Transform>
+	{
+		static void serialize(Writer& writer, Transform const& value);
+		static Bool deserialize(Reader& reader, Transform& value);
 	};
 }
 

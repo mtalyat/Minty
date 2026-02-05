@@ -10,6 +10,8 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Path.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Stream/StreamDirection.h"
+#include "Minty/File/FileFlags.h"
 #include <fstream>
 
 namespace Minty
@@ -19,91 +21,6 @@ namespace Minty
 	 */
 	class File
 	{
-#pragma region Types
-
-	public:
-		using Position_t = std::streampos;
-		using Size_t = std::streamsize;
-
-		/**
-		 * @brief The direction to which accessing the File is relative to.
-		 */
-		enum class Direction
-		{
-			/**
-			 * @brief Refer to the beginning of the File.
-			 */
-			Begin = std::ios_base::beg,
-
-			/**
-			 * @brief Refer to the current cursor position.
-			 */
-			Current = std::ios_base::cur,
-
-			/**
-			 * @brief Refer to the end of the File.
-			 */
-			End = std::ios_base::end,
-		};
-
-		/**
-		 * @brief The accessor Flags for a File.
-		 */
-		enum class Flags : Int
-		{
-			/**
-			 * @brief No Flags.
-			 */
-			None = 0,
-
-			/**
-			 * @brief Read from the File.
-			 */
-			Read = std::ios_base::in,
-
-			/**
-			 * @brief Write to the File.
-			 */
-			Write = std::ios_base::out,
-
-			/**
-			 * @brief Read and/or write to the File.
-			 */
-			ReadWrite = std::ios_base::in | std::ios_base::out,
-
-			/**
-			 * @brief ???
-			 */
-			End = std::ios_base::end,
-
-			/**
-			 * @brief Add to the end of the File.
-			 */
-			Append = std::ios_base::app,
-
-			/**
-			 * @brief Cut off all extra existing data in the File.
-			 */
-			Truncate = std::ios_base::trunc,
-
-			/**
-			 * @brief Open the File in binary mode.
-			 */
-			Binary = std::ios_base::binary,
-		};
-
-		friend inline Flags operator|(Flags const left, Flags const right)
-		{
-			return static_cast<Flags>(static_cast<Int>(left) | static_cast<Int>(right));
-		}
-
-		friend inline Flags operator&(Flags const left, Flags const right)
-		{
-			return static_cast<Flags>(static_cast<Int>(left) & static_cast<Int>(right));
-		}
-
-#pragma endregion
-
 #pragma region Constructors
 
 	public:
@@ -112,18 +29,7 @@ namespace Minty
 		 */
 		File()
 			: m_path()
-			, m_flags(Flags::None)
-		{
-		}
-
-		/**
-		 * @brief Creates a File with the given Path and Flags.
-		 * @param path The Path to the File.
-		 * @param flags The Flags for accessing the file.
-		 */
-		File(Path const& path, Flags const flags)
-			: m_path(path)
-			, m_flags(flags)
+			, m_flags(FileFlags::None)
 		{
 		}
 
@@ -176,13 +82,13 @@ namespace Minty
 		 * @brief Gets the Flags for accessing this File.
 		 * @return The accessor flags.
 		 */
-		Flags get_flags() const { return m_flags; }
+		FileFlags get_flags() const { return m_flags; }
 
 		/**
 		 * @brief Gets the size of the file.
 		 * @return The size of the file.
 		 */
-		virtual Size_t get_size() const = 0;
+		virtual StreamSize get_size() const = 0;
 
 #pragma endregion
 
@@ -200,7 +106,7 @@ namespace Minty
 		 * @param path The location of the File to open.
 		 * @param flags The accessor Flags for this File.
 		 */
-		virtual void open(Path const& path, Flags const flags) = 0;
+		virtual Bool open(Path const& path, FileFlags const flags) = 0;
 
 		/**
 		 * @brief Pushes any cached changes to the disk.
@@ -213,49 +119,23 @@ namespace Minty
 		virtual void close() = 0;
 
 		/**
+		 * @brief Gets the current position of the cursor.
+		 * @return The current position of the cursor.
+		 */
+		virtual StreamPosition get_position() = 0;
+
+		/**
 		 * @brief Moves the cursor(s) to a new location within the file.
 		 * @param offset The offset at which the file is relative to the direction.
 		 * @param dir The anchor point of the offset.
 		 */
-		virtual void seek(Position_t const offset, Direction const dir = Direction::Begin) = 0;
-
-		/**
-		 * @brief Moves the read cursor to a new location within the file.
-		 * @param offset The offset at which the file is relative to the direction.
-		 * @param dir The anchor point of the offset.
-		 */
-		virtual void seek_read(Position_t const offset, Direction const dir = Direction::Begin) = 0;
-
-		/**
-		 * @brief Moves the write cursor to a new location within the file.
-		 * @param offset The offset at which the file is relative to the direction.
-		 * @param dir The anchor point of the offset.
-		 */
-		virtual void seek_write(Position_t const offset, Direction const dir = Direction::Begin) = 0;
+		virtual void set_position(StreamPosition const offset, StreamDirection const dir = StreamDirection::Begin) = 0;
 
 		/**
 		 * @brief Checks if the cursor is at or past the end of the file.
 		 * @return True if at or past the end of the file.
 		 */
 		virtual Bool end_of_file() = 0;
-
-		/**
-		 * @brief Gets the current position of the cursor.
-		 * @return The current position of the cursor.
-		 */
-		virtual Position_t tell() = 0;
-
-		/**
-		 * @brief Gets the current position of the read cursor.
-		 * @return The current position of the read cursor.
-		 */
-		virtual Position_t tell_read() = 0;
-
-		/**
-		 * @brief Gets the current position of the write cursor.
-		 * @return The current position of the write cursor.
-		 */
-		virtual Position_t tell_write() = 0;
 
 		/**
 		 * @brief Checks the next character after the cursor.
@@ -274,7 +154,7 @@ namespace Minty
 		 * @param buffer The location to read the data to.
 		 * @param size The number of bytes to read.
 		 */
-		virtual void read(Any const buffer, Size_t const size) = 0;
+		virtual Bool read(Any const buffer, StreamSize const size) = 0;
 
 		/**
 		 * @brief Reads the next line of text, and moves the cursor the appropriate amount of bytes.
@@ -306,7 +186,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual void write(AnyConst const buffer, Size_t const size) = 0;
+		virtual void write(AnyConst const buffer, StreamSize const size) = 0;
 
 		/**
 		 * @brief Writes the given line of text to the file, and moves the cursor the appropriate amount of bytes.
@@ -378,21 +258,21 @@ namespace Minty
 		 * @param path The Path to the File.
 		 * @param text The text to write.
 		 */
-		static void write_text(Path const& path, String const& text);
+		static Bool write_text(Path const& path, String const& text);
 
 		/**
 		 * @brief Writes all of the lines of text to a File.
 		 * @param path The Path to the File.
 		 * @param lines The lines to write.
 		 */
-		static void write_lines(Path const& path, Vector<String> const& lines);
+		static Bool write_lines(Path const& path, Vector<String> const& lines);
 
 		/**
 		 * @brief Writes all of the bytes to a File.
 		 * @param path The Path to the File.
 		 * @param bytes The bytes to write.
 		 */
-		static void write_bytes(Path const& path, Vector<Byte> const& bytes);
+		static Bool write_bytes(Path const& path, Vector<Byte> const& bytes);
 
 #pragma endregion
 
@@ -400,7 +280,7 @@ namespace Minty
 
 	protected:
 		Path m_path;
-		Flags m_flags;
+		FileFlags m_flags;
 
 #pragma endregion
 	};

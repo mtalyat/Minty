@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -29,15 +28,16 @@ namespace Minty
 		Left = Button1,
 		Right = Button2,
 		Middle = Button3,
+		X1 = Button4,
+		X2 = Button5
 	};
-
-	String to_string(MouseButton const obj);
-	MouseButton parse_to_mouse_button(String const& string);
-	Bool parse_try_mouse_button(String const& string, MouseButton& value);
+	
 	template<>
-	inline MouseButton parse_to<MouseButton>(StringView const string) { return parse_to_mouse_button(string); }
-	template<>
-	inline Bool parse_try<MouseButton>(StringView const string, MouseButton& value) { return parse_try_mouse_button(string, value); }
+	struct Parser<MouseButton>
+	{
+		static Bool parse(StringView const str, MouseButton& value);
+		static String to_string(MouseButton const& obj);
+	};
 }
 
 #endif // MINTY_INPUT_MOUSEBUTTON_H

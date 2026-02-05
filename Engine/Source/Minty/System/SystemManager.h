@@ -14,7 +14,7 @@
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
 #include "Minty/Manager/SubManager.h"
-#include "Minty/Serialization/SerializableObject.h"
+#include "Minty/Serialization/Serializer.h"
 #include "Minty/System/SystemData.h"
 
 namespace Minty
@@ -28,9 +28,10 @@ namespace Minty
 	 * @brief Manages all Systems in the game.
 	 */
 	class SystemManager
-		: public SubManager,
-		  public SerializableObject
+		: public SubManager
 	{
+		friend struct Serializer<SystemManager>;
+
 #pragma region Constructors
 
 	public:
@@ -202,9 +203,6 @@ namespace Minty
 		 */
 		void handle_event(Event &event) override;
 
-		void serialize(Writer &writer) const override;
-		Bool deserialize(Reader &reader) override;
-
 		/**
 		 * @brief Registers a System type with the SystemManager.
 		 * @tparam T The System type.
@@ -226,7 +224,7 @@ namespace Minty
 				},
 				.defaultPriority = priority};
 
-			s_registeredSystems.add(name, typeid(T), info);
+			s_registeredSystems.add(name, typeid(T), std::move(info));
 		}
 
 		/**
@@ -296,6 +294,13 @@ namespace Minty
 		static Lookup<TypeID, SystemData> s_registeredSystems;
 
 #pragma endregion
+	};
+
+	template<>
+	struct Serializer<SystemManager>
+	{
+		static void serialize(Writer &writer, SystemManager const &value);
+		static Bool deserialize(Reader &reader, SystemManager &value);
 	};
 }
 

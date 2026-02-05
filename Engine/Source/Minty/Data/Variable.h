@@ -10,7 +10,7 @@
 #include "Minty/Core/Type.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Data/DynamicContainer.h"
-#include "Minty/Serialization/Serializable.h"
+#include "Minty/Serialization/Serializer.h"
 
 namespace Minty
 {
@@ -19,8 +19,9 @@ namespace Minty
 	 * @brief A typed data storage class.
 	 */
 	class Variable
-		: public Serializable
 	{
+		friend struct Serializer<Variable>;
+
 #pragma region Constructors
 
 	public:
@@ -210,9 +211,6 @@ namespace Minty
 		 */
 		inline void clear() { m_data.clear(); }
 
-		void serialize(Writer& writer, String const& name) const override;
-		Bool deserialize(Reader& reader, Size const index) override;
-
 #pragma endregion
 
 #pragma region Variables
@@ -223,6 +221,13 @@ namespace Minty
 
 #pragma endregion
 	};
+
+	template<>
+    struct Serializer<Variable>
+    {
+		static void serialize(Writer& writer, Variable const& value);
+        static Bool deserialize(Reader& reader, Variable& value);
+    };
 }
 
 #endif // MINTY_DATA_VARIABLE_H

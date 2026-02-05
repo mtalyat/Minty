@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/Engine/Source",
+                "${workspaceFolder}/Libraries/bullet/include",
+                "${workspaceFolder}/Libraries/entt/include",
+                "${workspaceFolder}/Libraries/glfw/include",
+                "${workspaceFolder}/Libraries/glm/include",
+                "${workspaceFolder}/Libraries/soloud/include",
+                "${workspaceFolder}/Libraries/stb/include",
+                "${workspaceFolder}/Libraries/tracy/include",
+                "${workspaceFolder}/Libraries/vulkan/include",
+                "${workspaceFolder}/Libraries/zlib/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "MINTY_DEBUG",
+                "MINTY_WINDOWS",
+                "MINTY_VULKAN",
+                "MINTY_SOLOUD",
+                "MINTY_BULLET"
+            ],
+            "windowsSdkVersion": "10.0.26100.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c23",
+            "cppStandard": "c++23",
+            "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}

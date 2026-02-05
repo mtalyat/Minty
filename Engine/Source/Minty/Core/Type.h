@@ -9,8 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Core/Macro.h"
-#include "Minty/Serialization/ToString.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -26,8 +25,6 @@ namespace Minty
 		Bool4,
 		Char,
 		Byte,
-		Short,
-		UShort,
 		Int,
 		Int2,
 		Int3,
@@ -36,14 +33,14 @@ namespace Minty
 		UInt2,
 		UInt3,
 		UInt4,
-		Long,
-		ULong,
+		WInt,
+		WUInt,
 		Size,
 		Float,
 		Float2,
 		Float3,
 		Float4,
-		Double,
+		WFloat,
 		Matrix2,
 		Matrix3,
 		Matrix4,
@@ -56,34 +53,33 @@ namespace Minty
 		Count,
 	};
 
-	/// <summary>
-	/// Gets the Type from the given TypeID.
-	/// </summary>
-	/// <param name="typeId">The TypeID.</param>
-	/// <returns>The Type.</returns>
+	/**
+	 * @brief Gets the Type from the given TypeID.
+	 * @param typeId The TypeID.
+	 * @return The corresponding Type.
+	 */
 	Type type_typeid(TypeID const typeId);
 
-	/// <summary>
-	/// Gets the TypeID from the given Type.
-	/// </summary>
-	/// <param name="type">The Type.</param>
-	/// <returns>The TypeID.</returns>
+	/**
+	 * @brief Gets the TypeID from the given Type.
+	 * @param type The Type.
+	 * @return The corresponding TypeID.
+	 */
 	TypeID typeid_type(Type const type);
 
-	/// <summary>
-	/// Gets the size of the given Type in bytes.
-	/// </summary>
-	/// <param name="type">The Type.</param>
-	/// <returns>The size of the type that the Type represents, in bytes.</returns>
+	/**
+	 * @brief Gets the size in bytes of the given Type.
+	 * @param type The Type.
+	 * @return The size in bytes.
+	 */
 	Size sizeof_type(Type const type);
 
-	String to_string(Type const obj);
-	Type parse_to_type(String const& string);
-	Bool parse_try_type(String const& string, Type& value);
 	template<>
-	inline Type parse_to<Type>(StringView const string) { return parse_to_type(string); }
-	template<>
-	inline Bool parse_try<Type>(StringView const string, Type& value) { return parse_try_type(string, value); }
+    struct Parser<Type>
+    {
+        static Bool parse(StringView const str, Type &value);
+        static String to_string(Type const &value);
+    };
 }
 
 #endif // MINTY_CORE_TYPE_H

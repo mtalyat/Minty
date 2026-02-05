@@ -282,7 +282,7 @@ Shared<MaterialTemplate> Minty::RenderManager::get_default_material_template(Ass
 		else
 		{
 			// "Variants are only supported for UI MaterialTemplates, not for type {}."
-			MINTY_ABORT_F(ErrorCode::Argument_InvalidValue, to_string(assetType));
+			MINTY_ABORT_F(ErrorCode::Argument_InvalidValue, assetType);
 		}
 	}
 

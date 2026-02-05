@@ -37,11 +37,11 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
         indexedMesh.m_numVertices = static_cast<int>(vertices.get_count());
         indexedMesh.m_vertexBase = static_cast<unsigned char const *>(vertices.get_data());
         indexedMesh.m_vertexStride = static_cast<int>(vertices.get_stride());
-        if (indices.get_stride() == sizeof(UShort))
+        if (indices.get_stride() == sizeof(UInt16))
         {
             indexedMesh.m_indexType = PHY_SHORT; // use short indices
         }
-        else if (indices.get_stride() == sizeof(UInt))
+        else if (indices.get_stride() == sizeof(UInt32))
         {
             indexedMesh.m_indexType = PHY_INTEGER; // use integer indices
         }

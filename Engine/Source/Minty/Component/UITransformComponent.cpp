@@ -3,12 +3,12 @@
 
 using namespace Minty;
 
-void Minty::UITransformComponent::serialize(Writer& writer) const
+void Minty::Serializer<UITransformComponent>::serialize(Writer &writer, UITransformComponent const &value)
 {
-	transform.serialize(writer);
+	Serializer<UITransform>::serialize(writer, value.transform);
 }
 
-Bool Minty::UITransformComponent::deserialize(Reader& reader)
+Bool Minty::Serializer<UITransformComponent>::deserialize(Reader &reader, UITransformComponent &value)
 {
-	return transform.deserialize(reader);
+	return Serializer<UITransform>::deserialize(reader, value.transform);
 }

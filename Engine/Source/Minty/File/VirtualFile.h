@@ -28,18 +28,6 @@ namespace Minty
 		{
 		}
 
-		/**
-		 * @brief Creates a VirtualFile with the given Path and Flags, as well as the given virtual offset and size within the PhyiscalFile.
-		 * @param path The Path to the File.
-		 * @param flags The Flags for accessing the file.
-		 * @param offset The offset within the PhysicalFile.
-		 * @param size The size within the PhysicalFile.
-		 */
-		VirtualFile(Path const& path, Flags const flags, Position_t const offset, Size const size)
-			: PhysicalFile(), m_virtualOffset(), m_virtualSize() {
-			open(path, flags, offset, size);
-		}
-
 		VirtualFile(VirtualFile const& other) = delete;
 
 		/**
@@ -84,19 +72,19 @@ namespace Minty
 		 * @brief Gets the size of the file.
 		 * @return The size of the file.
 		 */
-		virtual Size_t get_size() const override;
+		virtual StreamSize get_size() const override;
 
 		/**
 		 * @brief Gets the position of this VirtualFile within the PhysicalFile.
 		 * @return The position of this VirtualFile.
 		 */
-		virtual Position_t get_virtual_offset() const { return m_virtualOffset; }
+		virtual StreamPosition get_virtual_offset() const { return m_virtualOffset; }
 
 		/**
 		 * @brief Gets the size of this VirtualFile within the PhysicalFile.
 		 * @return The size of this VirtualFile.
 		 */
-		virtual Size_t get_virtual_size() const { return m_virtualSize; }
+		virtual StreamSize get_virtual_size() const { return m_virtualSize; }
 
 #pragma endregion
 
@@ -110,39 +98,26 @@ namespace Minty
 		 * @param offset The offset within the PhysicalFile.
 		 * @param size The size within the PhysicalFile.
 		 */
-		virtual void open(Path const& path, Flags const flags, Position_t const offset, Size const size);
+		virtual Bool open(Path const& path, FileFlags const flags, StreamPosition const offset, Size const size);
+		
+		/**
+		 * @brief Gets the current position of the cursor.
+		 * @return The current position of the cursor.
+		 */
+		virtual StreamPosition get_position() override;
 
 		/**
-		 * @brief Moves the read cursor to a new location within the file.
+		 * @brief Moves the cursor(s) to a new location within the file.
 		 * @param offset The offset at which the file is relative to the direction.
 		 * @param dir The anchor point of the offset.
 		 */
-		virtual void seek_read(Position_t const offset, Direction dir = Direction::Begin) override;
-
-		/**
-		 * @brief Moves the write cursor to a new location within the file.
-		 * @param offset The offset at which the file is relative to the direction.
-		 * @param dir The anchor point of the offset.
-		 */
-		virtual void seek_write(Position_t const offset, Direction const dir = Direction::Begin) override;
+		virtual void set_position(StreamPosition const offset, StreamDirection const dir = StreamDirection::Begin) override;
 
 		/**
 		 * @brief Checks if the cursor is at or past the end of the file.
 		 * @return True if at or past the end of the file.
 		 */
 		virtual Bool end_of_file() override;
-
-		/**
-		 * @brief Gets the current position of the read cursor.
-		 * @return The current position of the read cursor.
-		 */
-		virtual Position_t tell_read() override;
-
-		/**
-		 * @brief Gets the current position of the write cursor.
-		 * @return The current position of the write cursor.
-		 */
-		virtual Position_t tell_write() override;
 
 		/**
 		 * @brief Checks the next character after the cursor.
@@ -161,7 +136,7 @@ namespace Minty
 		 * @param buffer The location to read the data to.
 		 * @param size The number of bytes to read.
 		 */
-		virtual void read(Any const buffer, Size_t const size) override;
+		virtual Bool read(Any const buffer, StreamSize const size) override;
 
 		/**
 		 * @brief Reads the next line of text, and moves the cursor the appropriate amount of bytes.
@@ -175,7 +150,7 @@ namespace Minty
 		 * @param buffer The location to write the data from.
 		 * @param size The number of bytes to write.
 		 */
-		virtual void write(AnyConst const buffer, Size_t const size) override;
+		virtual void write(AnyConst const buffer, StreamSize const size) override;
 
 #pragma endregion
 
@@ -183,9 +158,9 @@ namespace Minty
 
 	protected:
 		// offset within the physical file
-		Position_t m_virtualOffset;
+		StreamPosition m_virtualOffset;
 		// size within the physical file
-		Size_t m_virtualSize;
+		StreamSize m_virtualSize;
 
 #pragma endregion
 	};

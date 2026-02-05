@@ -3,82 +3,62 @@
 
 using namespace Minty;
 
-PhysicalFile::Size_t Minty::VirtualFile::get_size() const
+StreamSize Minty::VirtualFile::get_size() const
 {
     return m_virtualSize;
 }
 
-void Minty::VirtualFile::open(Path const& path, Flags const flags, Position_t const offset, Size const size)
+Bool Minty::VirtualFile::open(Path const& path, FileFlags const flags, StreamPosition const offset, Size const size)
 {
-    MINTY_ASSERT_F((flags & Flags::Truncate) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
-	MINTY_ASSERT_F((flags & Flags::Append) == Flags::None, ErrorCode::File_FlagNotSupported, flags);
-	MINTY_ASSERT_F((flags & Flags::Write) == Flags::None || (flags & Flags::Read) != Flags::None, ErrorCode::File_FlagNotSupported, flags);
+    MINTY_ASSERT_F((flags & FileFlags::Truncate) == FileFlags::None, ErrorCode::File_FlagNotSupported, flags);
+	MINTY_ASSERT_F((flags & FileFlags::Append) == FileFlags::None, ErrorCode::File_FlagNotSupported, flags);
+	MINTY_ASSERT_F((flags & FileFlags::Write) == FileFlags::None || (flags & FileFlags::Read) != FileFlags::None, ErrorCode::File_FlagNotSupported, flags);
+    MINTY_ASSERT(size > 0, ErrorCode::Argument_ExpectedAboveZero);
 
-    PhysicalFile::open(path, flags);
+    Bool const opened = PhysicalFile::open(path, flags);
+    if (!opened)
+    {
+        return false;
+    }
     m_virtualOffset = offset;
     m_virtualSize = size;
 
     // seek to beginning of the virtual file
-    seek_write(0);
-    seek_read(0);
+    set_position(0);
+
+    return true;
 }
 
-void Minty::VirtualFile::seek_read(Position_t const offset, Direction seekDir)
+StreamPosition Minty::VirtualFile::get_position()
 {
-    switch (seekDir)
+    StreamPosition value = PhysicalFile::get_position();
+    if (value == INVALID_FILE_POSITION)
     {
-    case Direction::Begin:
-        PhysicalFile::seek_read(m_virtualOffset + offset);
-        break;
-    case Direction::Current:
-        PhysicalFile::seek_read(offset);
-        break;
-    case Direction::End:
-        PhysicalFile::seek_read(offset + (m_virtualOffset + m_virtualSize));
-        break;
+        return INVALID_FILE_POSITION;
     }
+    return value - m_virtualOffset;
 }
 
-void Minty::VirtualFile::seek_write(Position_t const offset, Direction const seekDir)
+void Minty::VirtualFile::set_position(StreamPosition const offset, StreamDirection const dir)
 {
-    switch (seekDir)
+    switch (dir)
     {
-    case Direction::Begin:
-        PhysicalFile::seek_write(m_virtualOffset + offset);
+    case StreamDirection::Begin:
+        PhysicalFile::set_position(m_virtualOffset + offset);
         break;
-    case Direction::Current:
-        PhysicalFile::seek_write(offset);
+    case StreamDirection::Current:
+        PhysicalFile::set_position(offset);
         break;
-    case Direction::End:
-        PhysicalFile::seek_write(offset + (m_virtualOffset + m_virtualSize));
+    case StreamDirection::End:
+        PhysicalFile::set_position(offset + (m_virtualOffset + m_virtualSize));
         break;
     }
 }
 
 Bool Minty::VirtualFile::end_of_file()
 {
-	Position_t tellRead = tell_read();
+	StreamPosition tellRead = get_position();
     return PhysicalFile::end_of_file() || (tellRead >= m_virtualSize) || tellRead == -1;
-}
-
-PhysicalFile::Position_t Minty::VirtualFile::tell_read()
-{
-	Position_t value = PhysicalFile::tell_read();
-    if (value == -1)
-    {
-        return -1;
-    }
-    return value - m_virtualOffset;
-}
-
-PhysicalFile::Position_t Minty::VirtualFile::tell_write()
-{
-    Position_t value = PhysicalFile::tell_write();
-    if (value == -1)
-    {
-        return -1;
-    }
-    return value - m_virtualOffset;
 }
 
 Char Minty::VirtualFile::peek()
@@ -100,37 +80,42 @@ Char Minty::VirtualFile::read()
 	return PhysicalFile::read();
 }
 
-void Minty::VirtualFile::read(Any const buffer, Size_t const size)
+Bool Minty::VirtualFile::read(Any const buffer, StreamSize const size)
 {
-    // if at the end of the file, stop
-    MINTY_ASSERT(!end_of_file(), ErrorCode::File_EndOfFileReached);
+    // if not enough to read, stop
+    StreamPosition const position = get_position();
+    if(position + size > m_virtualSize)
+    {
+        MINTY_ERROR(ErrorCode::File_ReadFailed);
+        return false;
+    }
     
     // read as per normal
-    PhysicalFile::read(buffer, size);
+    return PhysicalFile::read(buffer, size);
 }
 
 Bool Minty::VirtualFile::read_line(String& line)
 {
-    Position_t before = tell_read();
+    StreamPosition before = get_position();
 
     // get the line
     std::string temp;
     if (std::getline(m_stream, temp))
     {
         // check if went past the end of the file
-		Position_t after = tell_read();
+		StreamPosition after = get_position();
         // if end of file, set to virtual size
-        if (after == -1)
+        if (after == INVALID_FILE_POSITION)
         {
 			after = m_virtualSize;
         }
 		if (after >= m_virtualSize)
 		{
             // go to end of file
-			seek_read(0, Direction::End);
+			set_position(0, StreamDirection::End);
 
             // cut off end of string
-			Size_t keep = m_virtualSize - before;
+			StreamSize keep = m_virtualSize - before;
 			temp = temp.substr(0, keep);
 		}
 
@@ -145,16 +130,11 @@ Bool Minty::VirtualFile::read_line(String& line)
     return false;
 }
 
-void Minty::VirtualFile::write(AnyConst const buffer, Size_t const size)
+void Minty::VirtualFile::write(AnyConst const buffer, StreamSize const size)
 {
-    // cap the size to not go out of bounds
-	Size_t cappedSize = size;
-    Position_t position = tell_write();
-	if (position + size > m_virtualSize)
-	{
-		cappedSize = m_virtualSize - position;
-	}
+    // check if going out of bounds
+    // it is the responsibility of the caller to ensure they do not write past the virtual size
+    MINTY_ASSERT(get_position() + size <= m_virtualSize, ErrorCode::File_WriteFailed);
 
-    // write as per normal
-    PhysicalFile::write(buffer, cappedSize);
+    PhysicalFile::write(buffer, size);
 }

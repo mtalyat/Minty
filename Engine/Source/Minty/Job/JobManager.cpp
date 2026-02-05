@@ -114,7 +114,7 @@ void Minty::JobManager::worker_thread()
 				std::unique_lock lock(m_jobsMutex);
 				m_jobs.remove(pair.get_second());
 			}
-			DefaultAllocator::destruct<JobData>(jobData);
+			DefaultAllocator<JobData>().destruct(jobData);
 		}
 	}
 }
@@ -122,7 +122,7 @@ void Minty::JobManager::worker_thread()
 Handle Minty::JobManager::create_job(Vector<Job> const &batch, Vector<Handle> const &dependencies)
 {
 	Handle handle = m_nextHandle++;
-	JobData *jobData = DefaultAllocator::construct<JobData>(dependencies.get_size(), batch.get_size());
+	JobData *jobData = DefaultAllocator<JobData>().construct(dependencies.get_size(), batch.get_size());
 	{
 		// add new job
 		std::unique_lock lock(m_jobsMutex);

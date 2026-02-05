@@ -18,7 +18,7 @@ namespace Minty
 	 * @brief A simple FIFO queue implementation using a doubly linked list.
 	 * @tparam T The type of elements stored in the queue.
 	 */
-	template<typename T, typename Allocator = DefaultAllocator>
+	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class Queue
 	{
 #pragma region Types
@@ -43,6 +43,8 @@ namespace Minty
 			{
 			}
 		};
+
+		using Allocator = AllocatorType<Node>;
 
 #pragma endregion
 
@@ -97,7 +99,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				Allocator::template destruct<Node>(temp);
+				Allocator().destruct(temp);
 			}
 		}
 
@@ -115,7 +117,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::template destruct<Node>(temp);
+					Allocator().destruct(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -139,7 +141,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator::template destruct<Node>(temp);
+					Allocator().destruct(temp);
 				}
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
@@ -179,7 +181,7 @@ namespace Minty
 		 */
 		void push(T const& value)
 		{
-			Node* node = Allocator::template construct<Node>(value);
+			Node* node = Allocator().construct(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -200,7 +202,7 @@ namespace Minty
 		 */
 		void push(T&& value)
 		{
-			Node* node = Allocator::template construct<Node>(std::move(value));
+			Node* node = Allocator().construct(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -237,7 +239,7 @@ namespace Minty
 
 			// get the data
 			T data = std::move(node->data);
-			Allocator::template destruct<Node>(node);
+			Allocator().destruct(node);
 			
 			// update size
 			--m_size;
@@ -275,7 +277,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				Allocator::template destruct<Node>(temp);
+				Allocator().destruct(temp);
 			}
 			mp_head = nullptr;
 			mp_tail = nullptr;

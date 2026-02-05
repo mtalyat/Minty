@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -21,6 +20,10 @@ namespace Minty
 		 * @brief Invalid.
 		 */
 		Undefined = 0,
+
+		/**
+		 * @brief A sampler.
+		 */
 		Sample = 1,
 
 		/**
@@ -28,9 +31,24 @@ namespace Minty
 		 */
 		CombinedImageSampler = 2,
 
+		/**
+		 * @brief An image without a sampler.
+		 */
 		SampledImage = 3,
+
+		/**
+		 * @brief A storage image.
+		 */
 		StorageImage = 4,
+
+		/**
+		 * @brief A uniform texel buffer.
+		 */
 		UniformTexelBuffer = 5,
+
+		/**
+		 * @brief A storage texel buffer.
+		 */
 		StorageTexelBuffer = 6,
 
 		/**
@@ -43,7 +61,14 @@ namespace Minty
 		 */
 		StorageBuffer = 8,
 
+		/**
+		 * @brief A dynamic uniform buffer.
+		 */
 		UniformBufferDynamic = 9,
+
+		/**
+		 * @brief A dynamic storage buffer.
+		 */
 		StorageBufferDynamic = 10,
 
 		/**
@@ -51,14 +76,13 @@ namespace Minty
 		 */
 		PushConstant = 11,
 	};
-
-	String to_string(ShaderInputType const obj);
-	ShaderInputType parse_to_shader_input_type(String const& string);
-	Bool parse_try_shader_input_type(String const& string, ShaderInputType& value);
+	
 	template<>
-	inline ShaderInputType parse_to<ShaderInputType>(StringView const string) { return parse_to_shader_input_type(string); }
-	template<>
-	inline Bool parse_try<ShaderInputType>(StringView const string, ShaderInputType& value) { return parse_try_shader_input_type(string, value); }
+	struct Parser<ShaderInputType>
+	{
+		static Bool parse(StringView const str, ShaderInputType& value);
+		static String to_string(ShaderInputType const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_SHADERINPUTTYPE_H

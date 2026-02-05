@@ -4,16 +4,13 @@
 
 using namespace Minty;
 
-void Minty::ScaleComponent::serialize(Writer &writer) const
+void Serializer<ScaleComponent>::serialize(Writer &writer, ScaleComponent const &value)
 {
-    writer.write("Scale", scale);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::ScaleComponent::deserialize(Reader &reader)
+Bool Serializer<ScaleComponent>::deserialize(Reader &reader, ScaleComponent &value)
 {
-    if(!reader.read_default(scale))
-    {
-        reader.read("Scale", scale);
-    }
+    reader.read_primary("Scale", value.scale);
     return true;
 }

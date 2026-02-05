@@ -1,29 +1,22 @@
 #include "pch.h"
 #include "CoordinateMode.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(CoordinateMode const obj)
-{
-	switch (obj)
-	{
-	case CoordinateMode::Normalized: return "Normalized";
-	case CoordinateMode::Pixel: return "Pixel";
+static constexpr Size COORDINATEMODE_COUNT = 3;
+static constexpr Char const* COORDINATEMODE_STRINGS[COORDINATEMODE_COUNT] = {
+	"Undefined",
+	"Normalized",
+	"Pixel"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<CoordinateMode>::parse(StringView const str, CoordinateMode &value)
+{
+    return Tool::try_parse_enum(str, COORDINATEMODE_STRINGS, COORDINATEMODE_COUNT, value);
 }
 
-CoordinateMode Minty::parse_to_coordinate_mode(String const& string)
+String Minty::Parser<CoordinateMode>::to_string(CoordinateMode const &obj)
 {
-	if (string == "Normalized") return CoordinateMode::Normalized;
-	if (string == "Pixel") return CoordinateMode::Pixel;
-
-	return CoordinateMode();
-}
-
-Bool Minty::parse_try_coordinate_mode(String const& string, CoordinateMode& value)
-{
-	value = parse_to_coordinate_mode(string);
-	return value != CoordinateMode();
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), COORDINATEMODE_STRINGS, COORDINATEMODE_COUNT);
 }

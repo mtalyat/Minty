@@ -3,12 +3,12 @@
 
 using namespace Minty;
 
-void Minty::TransformComponent::serialize(Writer& writer) const
+void Minty::Serializer<TransformComponent>::serialize(Writer &writer, TransformComponent const &value)
 {
-	transform.serialize(writer);
+	Serializer<Transform>::serialize(writer, value.transform);	
 }
 
-Bool Minty::TransformComponent::deserialize(Reader& reader)
+Bool Minty::Serializer<TransformComponent>::deserialize(Reader &reader, TransformComponent &value)
 {
-	return transform.deserialize(reader);
+	return Serializer<Transform>::deserialize(reader, value.transform);
 }

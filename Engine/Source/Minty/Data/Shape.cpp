@@ -1,39 +1,27 @@
 #include "pch.h"
 #include "Shape.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(Shape const obj)
+static constexpr Size SHAPE_COUNT = 7;
+static constexpr Char const* SHAPE_STRINGS[SHAPE_COUNT] =
 {
-	switch (obj)
-	{
-	case Shape::Empty: return "Empty";
-	case Shape::Box: return "Box";
-	case Shape::Sphere: return "Sphere";
-	case Shape::Capsule: return "Capsule";
-	case Shape::Cylinder: return "Cylinder";
-	case Shape::Cone: return "Cone";
-	case Shape::Custom: return "Custom";
+	"Empty",
+	"Box",
+	"Sphere",
+	"Capsule",
+	"Cylinder",
+	"Cone",
+	"Custom",
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<Shape>::parse(StringView const str, Shape &value)
+{
+    return Tool::try_parse_enum(str, SHAPE_STRINGS, SHAPE_COUNT, value);
 }
 
-Shape Minty::parse_to_shape(String const& string)
+String Minty::Parser<Shape>::to_string(Shape const &value)
 {
-	if (string == "Empty") return Shape::Empty;
-	if (string == "Box") return Shape::Box;
-	if (string == "Sphere") return Shape::Sphere;
-	if (string == "Capsule") return Shape::Capsule;
-	if (string == "Cylinder") return Shape::Cylinder;
-	if (string == "Cone") return Shape::Cone;
-	if (string == "Custom") return Shape::Custom;
-
-	return Shape();
-}
-
-Bool Minty::parse_try_shape(String const& string, Shape& value)
-{
-	value = parse_to_shape(string);
-	return value != Shape() || string == "Empty";
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(value), SHAPE_STRINGS, SHAPE_COUNT);
 }

@@ -11,6 +11,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Serialization/Serializer.h"
 #include <iterator>
 
 namespace Minty
@@ -18,11 +19,20 @@ namespace Minty
 	/**
 	 * @brief A dynamic array that can resize itself automatically when elements are added or removed.
 	 * @tparam T The type of elements stored in the Vector.
-	 * @tparam Allocator The memory allocator to use for allocating and deallocating memory.
+	 * @tparam AllocatorType The memory allocator to use for allocating and deallocating memory.
 	 */
-	template<typename T, typename Allocator = DefaultAllocator>
+	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
 	class Vector
 	{
+		friend struct Serializer<Vector<T, AllocatorType>>;
+
+#pragma region Types
+
+	private:
+		using Allocator = AllocatorType<T>;
+
+#pragma endregion
+
 #pragma region Constructors
 
 	public:
@@ -70,7 +80,7 @@ namespace Minty
 		}
 
 		Vector(Vector const& other)
-			: mp_data(static_cast<T*>(Allocator::template allocate(other.m_capacity * sizeof(T))))
+			: mp_data(Allocator().allocate(other.m_capacity))
 			, m_size(other.m_size)
 			, m_capacity(other.m_capacity)
 		{
@@ -98,7 +108,7 @@ namespace Minty
 				{
 					mp_data[i].~T();
 				}
-				Allocator::template deallocate(mp_data);
+				Allocator().deallocate(mp_data, m_capacity);
 			}
 		}
 
@@ -416,13 +426,13 @@ namespace Minty
 					{
 						mp_data[i].~T();
 					}
-					Allocator::template deallocate(mp_data);
+					Allocator().deallocate(mp_data, m_capacity);
 				}
 
 				// copy data from other
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_data = static_cast<T*>(Allocator::template allocate(m_capacity * sizeof(T)));
+				mp_data = Allocator().allocate(m_capacity);
 				for (Size i = 0; i < m_size; ++i)
 				{
 					new (&mp_data[i]) T(other.mp_data[i]);
@@ -442,7 +452,7 @@ namespace Minty
 					{
 						mp_data[i].~T();
 					}
-					Allocator::template deallocate(mp_data);
+					Allocator().deallocate(mp_data, m_capacity);
 				}
 
 				// move data from other
@@ -522,7 +532,7 @@ namespace Minty
 			}
 
 			// create new array
-			T* newData = static_cast<T*>(Allocator::allocate(capacity * sizeof(T)));
+			T* newData = Allocator().allocate(capacity);
 			MINTY_ASSERT(newData != nullptr, ErrorCode::Memory_AllocationFailed);
 			
 			// move data over, if it exists

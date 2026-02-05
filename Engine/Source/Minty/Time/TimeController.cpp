@@ -62,7 +62,7 @@ Int Minty::TimeController::update()
     m_scaledTime += m_scaledDelta;
 
     // Update fixed time accumulator
-    m_fixedTimeAccumulator += m_unscaledDelta;
+    m_fixedTimeAccumulator += m_scaledDelta;
 
     // Calculate number of fixed updates to perform
     Int fixedUpdates = 0;
@@ -70,6 +70,13 @@ Int Minty::TimeController::update()
     {
         m_fixedTimeAccumulator -= m_fixedTimeStep;
         fixedUpdates++;
+    }
+
+    if (fixedUpdates == m_maxFixedUpdatesPerFrame)
+    {
+        // Prevent spiral of death by resetting accumulator
+        MINTY_LOG_WARNING_F("Maximum fixed updates per frame reached ({}). Remaining time discarded ({}).", m_maxFixedUpdatesPerFrame, m_fixedTimeAccumulator);
+        m_fixedTimeAccumulator = 0.0f;
     }
 
     return fixedUpdates;

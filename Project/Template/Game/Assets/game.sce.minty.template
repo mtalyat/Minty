@@ -1,0 +1,22 @@
+Assets
+    - Defaults/RenderPass/default.rpa.minty
+    - Defaults/RenderTarget/default.rta.minty
+    - Defaults/Camera/default.cam.minty
+Systems
+    Render
+    Audio
+    Animation
+    Physics
+Entities
+    Camera: <<<UUID(1)>>>
+        Transform
+            Position: (0, 10, -10)
+            Rotation: (45, 0, 0)
+        Enabled
+        Camera: def000000000001d
+        AudioListener
+    Canvas: <<<UUID(2)>>>
+        UITransform
+        Canvas: (1920, 1080)
+        Relationship
+        Enabled

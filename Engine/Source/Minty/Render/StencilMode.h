@@ -7,7 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -31,14 +31,13 @@ namespace Minty
 		 */
 		Test
 	};
-
-	String to_string(StencilMode const obj);
-	StencilMode parse_to_stencil_mode(String const& string);
-	Bool parse_try_stencil_mode(String const& string, StencilMode& value);
+	
 	template<>
-	inline StencilMode parse_to<StencilMode>(StringView const string) { return parse_to_stencil_mode(string); }
-	template<>
-	inline Bool parse_try<StencilMode>(StringView const string, StencilMode& value) { return parse_try_stencil_mode(string, value); }
+	struct Parser<StencilMode>
+	{
+		static Bool parse(StringView const str, StencilMode& value);
+		static String to_string(StencilMode const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_STENCILMODE_H

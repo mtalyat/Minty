@@ -18,10 +18,17 @@ namespace Minty
 	struct TransformComponent
 		: public Component
 	{
+		/**
+		 * @brief The Transform of this Entity.
+		 */
 		Transform transform;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<TransformComponent>
+	{
+		static void serialize(Writer& writer, TransformComponent const& value);
+		static Bool deserialize(Reader& reader, TransformComponent& value);
 	};
 }
 

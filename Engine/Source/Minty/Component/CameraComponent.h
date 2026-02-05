@@ -22,9 +22,13 @@ namespace Minty
 		 * @brief The Camera.
 		 */
 		Ref<Camera> camera = nullptr;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<CameraComponent>
+	{
+		static void serialize(Writer& writer, CameraComponent const& value);
+		static Bool deserialize(Reader& reader, CameraComponent& value);
 	};
 }
 

@@ -4,6 +4,8 @@
 #include "Minty/Time/Timestep.h"
 #include "Minty/Application/ApplicationInfo.h"
 #include "Minty/Data/Path.h"
+#include "Minty/Serialization/TextReader.h"
+#include "Minty/Stream/FileStream.h"
 
 #include "Minty/Window/Window.h"
 #include "Minty/Window/WindowInfo.h"
@@ -137,6 +139,9 @@ Minty::Application::~Application()
 
 	unregister_systems();
 	unregister_components();
+	
+	// flush any remaining logs
+	Debug::flush();
 
 	s_instance = nullptr;
 }
@@ -206,16 +211,18 @@ Unique<Application> Minty::Application::open(Path const &path)
 
 	// check if the path is valid
 	MINTY_ASSERT(!path.is_empty(), ErrorCode::Argument_ExpectedNonEmpty);
-	MINTY_ASSERT(path.has_extension(".minty"), ErrorCode::Argument_InvalidFormat);
-	MINTY_ASSERT(Path::exists(path), ErrorCode::File_NotFound);
-	MINTY_ASSERT(Path::is_file(path), ErrorCode::File_NotAFile);
+	MINTY_ASSERT_F(path.has_extension(".minty"), ErrorCode::Argument_InvalidFormat, path);
+	MINTY_ASSERT_F(Path::exists(path), ErrorCode::File_NotFound, path);
+	MINTY_ASSERT_F(Path::is_file(path), ErrorCode::File_NotAFile, path);
 
 	// read the file
-	PhysicalFile file(path, File::Flags::Read);
-	MINTY_ASSERT_F(file.is_open(), ErrorCode::File_FailedToOpen, path);
+	Shared<PhysicalFile> file = Shared<PhysicalFile>::create();
+	Bool const openResult = file->open(path, FileFlags::Read);
+	MINTY_ASSERT_F(openResult, ErrorCode::File_FailedToOpen, path);
 
 	// open a reader
-	TextFileReader reader(&file);
+	Shared<FileStream> fileStream = Shared<FileStream>::create(file);
+	TextReader reader(fileStream);
 
 	// create the infos
 	WindowInfo windowInfo{};
@@ -245,7 +252,7 @@ Unique<Application> Minty::Application::open(Path const &path)
 	}
 	if (reader.indent("Memory"))
 	{
-		ULong tempFrame;
+		WUInt tempFrame;
 		if (reader.read("Frame", tempFrame))
 		{
 			MemoryStackInfo stackInfo{};
@@ -253,21 +260,12 @@ Unique<Application> Minty::Application::open(Path const &path)
 			stackInfos.add(stackInfo);
 			memoryManagerInfo.frameStackInfo = &stackInfos.back();
 		}
-		ULong2 tempTask;
-		if (reader.read("Task", tempTask))
-		{
-			MemoryStackInfo stackInfo{};
-			stackInfo.capacity = tempTask.x;
-			memoryManagerInfo.taskStackCount = tempTask.y;
-			stackInfos.add(stackInfo);
-			memoryManagerInfo.taskStackInfo = &stackInfos.back();
-		}
-		Vector<ULong2> tempPersistent;
+		Vector<UWInt2> tempPersistent;
 		if (reader.read("Persistent", tempPersistent))
 		{
 			MemoryPoolInfo poolInfo{};
 			poolInfos.reserve(tempPersistent.get_size());
-			for (ULong2 const &persistent : tempPersistent)
+			for (UWInt2 const &persistent : tempPersistent)
 			{
 				poolInfo.blockSize = static_cast<Size>(persistent.x);
 				poolInfo.blockCount = static_cast<Size>(persistent.y);
@@ -298,23 +296,11 @@ Unique<Application> Minty::Application::open(Path const &path)
 		if (reader.indent("Layers"))
 		{
 			layerManagerInfo.layerCollisions.clear();
-			layerManagerInfo.layerCollisions.reserve(reader.get_size());
 
 			String name;
 			Int2 layer;
-			for (Size i = 0; i < reader.get_size(); i++)
+			while(reader.read_next(name, layer))
 			{
-				// read layer name
-				if (!reader.read_name(i, name))
-				{
-					MINTY_ABORT(ErrorCode::Serialization_InvalidFormat);
-				}
-				// read layer data
-				if (!reader.read(i, layer))
-				{
-					MINTY_ABORT(ErrorCode::Serialization_InvalidFormat);
-				}
-
 				// add the layer collision
 				layerManagerInfo.layerCollisions.add(
 					{name, layer.x, layer.y});
@@ -403,6 +389,10 @@ void Minty::Application::render()
 void Minty::Application::process_events()
 {
 	m_window->process_events();
+}
+
+void Minty::Application::advance_memory()
+{
 }
 
 void Minty::Application::sync()

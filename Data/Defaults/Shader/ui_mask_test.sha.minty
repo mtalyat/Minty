@@ -1,4 +1,25 @@
 Priority: -1000000
+PrimitiveTopology: TriangleList
+PolygonMode: Fill
+CullMode: None
+FrontFace: Clockwise
+LineWidth: 1
+Transparency: True
+DepthMode: None
+StencilMode: Test
+StencilTestOp: Equal
+RenderPass: def000000000001c
+Stages
+    Vertex: def0000000000009
+    Fragment: def0000000000008
+Bindings
+    0: Instance
+        0: Float4
+        1: Float4
+        2: Float4
+        3: Float2
+        4: Float
+        5: Float
 Inputs
     canvas
         Type: UniformBuffer
@@ -17,24 +38,3 @@ Inputs
         Frequent: false
         Structure
             texSampler: Object
-PrimitiveTopology: TriangleList
-PolygonMode: Fill
-CullMode: None
-FrontFace: Clockwise
-LineWidth: 1
-Transparency: True
-DepthMode: None
-StencilMode: Test
-StencilTestOp: Equal
-RenderPass: def000000000001c
-Bindings
-    0: Instance
-        0: Float4
-        1: Float4
-        2: Float4
-        3: Float2
-        4: Float
-        5: Float
-Stages
-    Vertex: def0000000000009
-    Fragment: def0000000000008

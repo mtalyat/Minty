@@ -10,8 +10,6 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringView.h"
-#include "Minty/Memory/AllocatorType.h"
-#include "Minty/Serialization/ToString.h"
 
 namespace Minty
 {
@@ -59,22 +57,34 @@ namespace Minty
         Char const *get_data() const noexcept { return mp_data; }
 
         /**
+         * @brief Gets a mutable C-style string representing the current contents of the StringBuilder.
+         * @return A pointer to the C-style string data.
+         */
+        Char* get_data() noexcept { return mp_data; }
+
+        /**
+         * @brief Checks if the StringBuilder is empty.
+         * @return True if empty, false otherwise.
+         */
+        inline Bool is_empty() const noexcept { return m_size == 0; }
+
+        /**
          * @brief Gets the size of the StringBuilder.
          * @return The size.
          */
-        Size get_size() const noexcept { return m_size; }
+        inline Size get_size() const noexcept { return m_size; }
 
         /**
          * @brief Gets the length of the StringBuilder.
          * @return The length.
          */
-        Size get_length() const noexcept { return m_size; }
+        inline Size get_length() const noexcept { return m_size; }
 
         /**
          * @brief Gets the capacity of the StringBuilder.
          * @return The capacity.
          */
-        Size get_capacity() const noexcept { return m_capacity; }
+        inline Size get_capacity() const noexcept { return m_capacity; }
 
 #pragma endregion
 
@@ -98,6 +108,12 @@ namespace Minty
         void append(Char const c);
 
         /**
+         * @brief Appends a C-style string to the end of the StringBuilder.
+         * @param cstr The C-style string to append.
+         */
+        void append(Char const *const cstr);
+
+        /**
          * @brief Appends a string to the end of the StringBuilder.
          * @param str The string to append.
          */
@@ -108,12 +124,6 @@ namespace Minty
          * @param str The String to append.
          */
         inline void append(String const &str) { append(StringView(str)); }
-
-        template <typename T>
-        void append(T const &value)
-        {
-            append(Minty::to_string(value));
-        }
 
         /**
          * @brief Gets the character at the specified index.
@@ -303,13 +313,18 @@ namespace Minty
          * @brief Converts the StringBuilder to a StringView.
          * @return The resulting StringView.
          */
-        inline StringView to_view() const { return StringView(mp_data, m_size); }
+        inline StringView get_view() const { return StringView(mp_data, m_size); }
 
         /**
          * @brief Converts the StringBuilder to a String.
          * @return The resulting String.
          */
-        inline String to_string() const { return String(to_view()); }
+        inline String get_string() const { return String(get_view()); }
+
+        /**
+         * @brief Reverses the contents of the StringBuilder.
+         */
+        void reverse() noexcept;
 
 #pragma endregion
 

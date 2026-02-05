@@ -8,100 +8,159 @@
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Debug/Assert.h"
+#include "Minty/Debug/Debug.h"
 #include "Minty/Memory/MemoryPool.h"
 #include "Minty/Memory/MemoryPoolInfo.h"
 
 namespace Minty
 {
-    constexpr Size PERSISTENT_ALLOCATOR_MIN = 8;
-    constexpr Size PERSISTENT_ALLOCATOR_MAX = 4096;
+    struct PersistentAllocatorBase
+    {
+#pragma region Methods
+
+    public:
+        /**
+         * @brief Resets all memory pools, making all blocks available again.
+         * WARNING: This invalidates all pointers allocated from this allocator.
+         */
+        static void reset()
+        {
+            // do nothing if not initialized
+            if (sp_memoryPools != nullptr)
+            {
+                for (Size i = 0; i < s_memoryPoolCount; ++i)
+                {
+                    sp_memoryPools[i].reset();
+                }
+            }
+        }
+
+        /**
+         * @brief Initializes the persistent allocator with multiple memory pools of different sizes.
+         * @param infos Array of MemoryPoolInfo structures defining pool configurations.
+         * @param count Number of pools to create.
+         */
+        static void initialize(MemoryPoolInfo const *infos, Size const count)
+        {
+            MINTY_ASSERT(count > 0, ErrorCode::Argument_ExpectedAboveZero);
+
+            s_memoryPoolCount = count;
+            sp_memoryPools = static_cast<MemoryPool *>(::operator new(sizeof(MemoryPool) * count));
+
+            Size lastSize = 0;
+            for (Size i = 0; i < count; ++i)
+            {
+                MINTY_ASSERT_F(infos[i].blockSize > lastSize, ErrorCode::Memory_SizeMismatch, infos[i].blockSize, lastSize);
+                new (&sp_memoryPools[i]) MemoryPool(infos[i]);
+                lastSize = infos[i].blockSize;
+            }
+
+            // Determine the maximum size and create the pool map
+            s_maxSize = infos[count - 1].blockSize;
+            spp_memoryPoolMap = static_cast<MemoryPool **>(::operator new(sizeof(MemoryPool *) * (s_maxSize + 1)));
+            Size poolIndex = 0;
+            for (Size i = 0; i <= s_maxSize; ++i)
+            {
+                Size blockSize = infos[poolIndex].blockSize;
+                if (i > blockSize && poolIndex < count - 1)
+                {
+                    ++poolIndex;
+                    blockSize = infos[poolIndex].blockSize;
+                }
+                new (&spp_memoryPoolMap[i]) MemoryPool *(sp_memoryPools + poolIndex);
+            }
+        }
+
+        /**
+         * @brief Disposes of all memory pools and resets the allocator.
+         */
+        static void dispose()
+        {
+            if (sp_memoryPools == nullptr || spp_memoryPoolMap == nullptr)
+            {
+                return;
+            }
+            for (Size i = 0; i < s_memoryPoolCount; ++i)
+            {
+                MINTY_CHECK_F(sp_memoryPools[i].get_count() == 0, ErrorCode::Memory_WeakLeakDetected, sp_memoryPools[i].get_count() * sp_memoryPools[i].get_block_size());
+                sp_memoryPools[i].~MemoryPool();
+            }
+            ::operator delete(sp_memoryPools);
+            ::operator delete(spp_memoryPoolMap);
+            sp_memoryPools = nullptr;
+            spp_memoryPoolMap = nullptr;
+            s_memoryPoolCount = 0;
+            s_maxSize = 0;
+        }
+
+#pragma endregion
+
+#pragma region Variables
+
+    protected:
+        inline static MemoryPool *sp_memoryPools = nullptr;
+        inline static MemoryPool **spp_memoryPoolMap = nullptr;
+        inline static Size s_memoryPoolCount = 0;
+        inline static Size s_maxSize = 0;
+
+#pragma endregion
+    };
 
     /**
-     * @class PersistentAllocator
-     * @brief Static class providing memory allocation and deallocation using the persistent allocator.
+     * @brief A persistent allocator that allocates from multiple memory pools.
+     * @tparam T The type to allocate.
      */
-    template<Size N>
-    class PersistentAllocator
+    template <typename T>
+    struct PersistentAllocator
+        : public PersistentAllocatorBase
     {
-        static_assert((N & (N - 1)) == 0 && N >= PERSISTENT_ALLOCATOR_MIN && N <= PERSISTENT_ALLOCATOR_MAX, "N must be a power of 2, between PERSISTENT_ALLOCATOR_MIN and PERSISTENT_ALLOCATOR_MAX inclusive.");
+#pragma region Types
+
+    public:
+        using value_type = T;
+
+#pragma endregion
 
 #pragma region Constructors
 
     public:
-        PersistentAllocator() = delete;
-        ~PersistentAllocator() = delete;
+        PersistentAllocator() = default;
+        template <class U>
+        PersistentAllocator(const PersistentAllocator<U> &) noexcept {}
 
 #pragma endregion
 
 #pragma region Methods
 
     public:
-        /**
-         * @brief Initialize the persistent allocator with the specified information.
-         * @param info The MemoryPoolInfo containing initialization parameters.
-         */
-        static void initialize(MemoryPoolInfo const& info)
+        T *allocate(Size const count)
         {
-            MINTY_ASSERT(s_memoryPool == nullptr, ErrorCode::Object_AlreadyInitialized);
-            MINTY_ASSERT(info.blockSize == N, ErrorCode::Memory_SizeMismatch);
+            MINTY_ASSERT(sp_memoryPools != nullptr, ErrorCode::Memory_AllocatorNotInitialized);
+            MINTY_ASSERT(count > 0 && count * sizeof(T) <= s_maxSize, ErrorCode::Memory_UnallowedSize);
 
-            s_memoryPool = new MemoryPool(info);
+            Size const size = count * sizeof(T);
+            MemoryPool &pool = *spp_memoryPoolMap[size];
+            Any const ptr = pool.allocate();
+            return static_cast<T *>(ptr);
         }
 
-        /**
-         * @brief Shutdown the persistent allocator, freeing all allocated memory.
-         */
-        static void shutdown()
+        T *allocate()
         {
-            MINTY_ASSERT(s_memoryPool != nullptr, ErrorCode::Object_NotInitialized);
-
-            delete s_memoryPool;
+            return allocate(1);
         }
 
-        /**
-         * @brief Allocate memory using the persistent allocator.
-         * @param size The size of memory to allocate in bytes.
-         * @return A pointer to the allocated memory.
-         */
-        static Any allocate()
+        template <typename... Args>
+        T *construct(Args &&...args)
         {
-            MINTY_ASSERT(s_memoryPool != nullptr, ErrorCode::Object_NotInitialized);
-
-            return s_memoryPool->allocate();
-        }
-
-        /**
-         * @brief Deallocate memory using the persistent allocator.
-         * @param ptr The pointer to the memory to deallocate.
-         */
-        static void deallocate(Any const ptr)
-        {
-            MINTY_ASSERT(s_memoryPool != nullptr, ErrorCode::Object_NotInitialized);
-
-            s_memoryPool->deallocate(ptr);
-        }
-
-        /**
-         * @brief Construct an object of type T using the allocator.
-         * @tparam T The type of the object to construct.
-         */
-        template<typename T, typename... Args>
-        static T* construct(Args&&... args)
-        {
-            Any const ptr = allocate(sizeof(T));
+            Any const ptr = allocate();
             return new (ptr) T(std::forward<Args>(args)...);
         }
 
-        /**
-         * @brief Construct an array of objects of type T using the allocator.
-         * @tparam T The type of the objects to construct.
-         */
-        template<typename T, typename... Args>
-        static T* construct_array(Size const count, Args&&... args)
+        template <typename... Args>
+        T *construct_array(Size const count, Args &&...args)
         {
-            Any const ptr = allocate(sizeof(T) * count);
-            T* array = static_cast<T*>(ptr);
+            Any const ptr = allocate(count);
+            T *array = static_cast<T *>(ptr);
             for (Size i = 0; i < count; ++i)
             {
                 new (&array[i]) T(std::forward<Args>(args)...);
@@ -109,12 +168,36 @@ namespace Minty
             return array;
         }
 
-        /**
-         * @brief Destruct an object of type T and deallocate its memory.
-         * @tparam T The type of the object to destruct.
-         */
-        template<typename T>
-        static void destruct(T* const object)
+        T *construct_array(Size const count)
+        {
+            Any const ptr = allocate(count);
+            T *array = static_cast<T *>(ptr);
+            for (Size i = 0; i < count; ++i)
+            {
+                new (&array[i]) T();
+            }
+            return array;
+        }
+
+        void deallocate(T *const ptr, Size const count) noexcept
+        {
+            if (ptr == nullptr || sp_memoryPools == nullptr)
+            {
+                return;
+            }
+
+            // Find which pool this allocation belongs to
+            Size const size = count * sizeof(T);
+            MemoryPool &pool = *spp_memoryPoolMap[size];
+            pool.deallocate(static_cast<Any>(ptr));
+        }
+
+        void deallocate(T *const ptr) noexcept
+        {
+            deallocate(ptr, 1);
+        }
+
+        void destruct(T *const object)
         {
             if (object == nullptr)
             {
@@ -122,15 +205,10 @@ namespace Minty
             }
 
             object->~T();
-            deallocate(static_cast<Any>(object));
+            deallocate(object);
         }
 
-        /**
-         * @brief Destruct an array of objects of type T and deallocate their memory.
-         * @tparam T The type of the objects to destruct.
-         */
-        template<typename T>
-        static void destruct_array(T* const array, Size const count)
+        void destruct_array(T *const array, Size const count)
         {
             if (array == nullptr)
             {
@@ -141,15 +219,8 @@ namespace Minty
             {
                 array[i].~T();
             }
-            deallocate(static_cast<Any>(array));
+            deallocate(array, count);
         }
-
-#pragma endregion
-
-#pragma region Variables
-
-    private:
-        static MemoryPool* s_memoryPool;
 
 #pragma endregion
     };

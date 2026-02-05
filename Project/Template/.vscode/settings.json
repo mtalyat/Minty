@@ -1,0 +1,42 @@
+{
+    // GLSL Lint Extension Settings for Vulkan
+    "glsllint.glslangValidatorPath": "",
+    "glsllint.glslangValidatorArgs": [
+        "--target-env",
+        "vulkan1.3",
+        "--auto-map-locations"
+    ],
+    "glsllint.supportedLangsWithArbitraryExtensions": true,
+    "glsllint.additionalStageAssociations": {
+        ".vert": "vert",
+        ".frag": "frag", 
+        ".geom": "geom",
+        ".comp": "comp",
+        ".tesc": "tesc",
+        ".tese": "tese"
+    },
+    "glsllint.linkShader": false,
+    
+    // Temporarily disable GLSL Lint to test if it's the source of warnings
+    // Remove this line if you want linting back after confirming it works
+    "glsllint.enabledLanguages": [],
+    
+    // Alternative Shaderc GLSL Linter settings (if using that extension instead)
+    "vscode-shaderc.shaderStage": "auto",
+    "vscode-shaderc.targetEnvironment": "vulkan1.3",
+    
+    // File associations to ensure shader files are treated as GLSL
+    "files.associations": {
+        "*.vert": "glsl",
+        "*.frag": "glsl", 
+        "*.geom": "glsl",
+        "*.comp": "glsl",
+        "*.tesc": "glsl",
+        "*.tese": "glsl",
+        "*.glsl": "glsl"
+    },
+    
+    // Disable other potential sources of warnings
+    "glsl-canvas.refreshOnSave": false,
+    "shader-toy.reloadAutomatically": false
+}

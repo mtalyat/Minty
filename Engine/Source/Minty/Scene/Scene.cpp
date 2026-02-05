@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/ColliderComponent.h"
-#include "Minty/Component/DestroyComponent.h"
+#include "Minty/Component/DestroyTag.h"
 #include "Minty/Component/RigidBodyComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Debug/Trace.h"
@@ -107,6 +107,8 @@ Ref<Scene> const &Minty::Scene::get_active()
 
 void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 {
+	MINTY_LOG_DEBUG("Scene start loading assets...");
+
 	// load all of the assets into the Scene
 	Set<Path> loaded;
 	AssetManager& assetManager = AssetManager::get_singleton();
@@ -171,10 +173,14 @@ void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 
 	// update assets list
 	m_assets = newAssets;
+	
+	MINTY_LOG_DEBUG("Scene done loading assets.");
 }
 
 void Minty::Scene::unload_assets()
 {
+	MINTY_LOG_DEBUG("Scene start unloading assets...");
+
 	// unload all of the assets from the Scene
 	AssetManager& assetManager = AssetManager::get_singleton();
 
@@ -210,6 +216,8 @@ void Minty::Scene::unload_assets()
 	// clear the registered assets
 	m_loadedAssets.clear();
 	m_registeredAssets.clear();
+
+	MINTY_LOG_DEBUG("Scene done unloading assets.");
 }
 
 void Minty::Scene::on_load()
@@ -285,35 +293,6 @@ void Minty::Scene::unregister_asset(UUID const assetId)
 	m_registeredAssets.remove(assetId);
 }
 
-void Minty::Scene::serialize(Writer& writer) const
-{
-	MINTY_NOT_IMPLEMENTED();
-}
-
-Bool Minty::Scene::deserialize(Reader& reader)
-{
-	// load new assets, unload old assets
-	Vector<Path> assetPaths;
-	reader.read("Assets", assetPaths);
-	load_assets(assetPaths);
-
-	// read the systems
-	if (reader.indent("Systems"))
-	{
-		m_systemManager->deserialize(reader);
-		reader.outdent();
-	}
-
-	// read the entities
-	if (reader.indent("Entities"))
-	{
-		m_entityManager->deserialize(reader);
-		reader.outdent();
-	}
-
-	return true;
-}
-
 Shared<Scene> Minty::Scene::create(SceneInfo const& info)
 {
 	return Shared<Scene>::create(info);
@@ -323,4 +302,33 @@ Shared<Scene> Minty::Scene::create()
 {
 	SceneInfo info{};
 	return create(info);
+}
+
+void Minty::Serializer<Scene>::serialize(Writer &writer, Scene const &value)
+{
+	MINTY_NOT_IMPLEMENTED();
+}
+
+Bool Minty::Serializer<Scene>::deserialize(Reader &reader, Scene &value)
+{
+	// load new assets, unload old assets
+	Vector<Path> assetPaths;
+	reader.read("Assets", assetPaths);
+    value.load_assets(assetPaths);
+
+	// read the systems
+	if (reader.indent("Systems"))
+	{
+		Serializer<SystemManager>::deserialize(reader, *value.m_systemManager);
+		reader.outdent();
+	}
+
+	// read the entities
+	if (reader.indent("Entities"))
+	{
+		Serializer<EntityManager>::deserialize(reader, *value.m_entityManager);
+		reader.outdent();
+	}
+
+	return true;
 }

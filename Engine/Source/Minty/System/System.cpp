@@ -6,6 +6,6 @@
 using namespace Minty;
 
 Minty::System::System(SystemInfo const &info)
-	: SerializableObject(), m_scene(info.scene), m_data(info.info), m_priority(info.priority)
+	: m_scene(info.scene), m_data(info.info), m_priority(info.priority)
 {
 }

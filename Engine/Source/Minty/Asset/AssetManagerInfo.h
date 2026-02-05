@@ -8,35 +8,37 @@
  */
 
 #include "Minty/Core/Types.h"
+#include "Minty/Data/Vector.h"
+#include "Minty/Data/Path.h"
 
 namespace Minty
 {
     /**
      * @brief Configuration information for creating an AssetManager.
      */
-	struct AssetManagerInfo
-	{
+    struct AssetManagerInfo
+    {
         /**
          * @brief A list of wrap files to load assets from.
          */
-		List<Path> wraps = {};
+        Vector<Path> wraps = {};
 
 #ifdef MINTY_DEBUG
-        
+
         /**
          * @brief If true, the AssetManager will save the paths of the Assets.
          */
-		Bool savePaths = true;
+        Bool savePaths = true;
 
 #else
 
         /**
          * @brief If true, the AssetManager will save the paths of the Assets.
          */
-		Bool savePaths = false;
-        
+        Bool savePaths = false;
+
 #endif
-	};
+    };
 }
 
 #endif // MINTY_ASSET_ASSETMANAGERINFO_H

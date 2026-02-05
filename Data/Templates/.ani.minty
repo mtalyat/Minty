@@ -1,16 +1,15 @@
-Duration: 0.0
+Duration: 1.0
 Loop: False
 Entities
-    - 
+    - 0/0
 Components
-    - 
+    - MyComponent
 Variables
-    Rigid
-        - 
-    Smooth
-        - 
+    - MyRigidVariable
+    R: MyRigidVariable2
+    S: MySmoothVariable
 Values
-    - 
+    - MyValue
 Actions
     - 0:0/0:0/0
 Steps

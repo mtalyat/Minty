@@ -8,47 +8,45 @@
  */
 
 #include "Minty/Core/Enum.h"
-#include "Minty/Core/Macro.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
 	/**
 	 * @brief Flags for actions to be taken during animation.
 	 */
-	enum class AnimationActionType
+	enum class AnimationActionFlags
 	{
 		/**
 		 * @brief No action.
 		 */
-		None = 0,
+		None = 0x0,
 
 		/**
 		 * @brief Add the associated component to the entity.
 		 */
-		Add = 1 << 0,
+		Add = 0x1,
 
 		/**
 		 * @brief Remove the associated component from the entity.
 		 */
-		Remove = 1 << 1,
+		Remove = 0x2,
 
 		/**
-		 * @brief Enable interpolation for the action.
+		 * @brief Enable interpolation for the action. 
+		 * This is set automatically if any variables used are marked as smooth.
 		 */
-		Smooth = 1 << 2,
+		Smooth = 0x4,
 	};
 
-	MINTY_ENABLE_ENUM_OPERATORS(AnimationActionType)
+	MINTY_ENABLE_ENUM_OPERATORS(AnimationActionFlags)
 
-	String to_string(AnimationActionType const obj);
-	AnimationActionType parse_to_animation_action_type(String const& string);
-	Bool parse_try_animation_action_type(String const& string, AnimationActionType& value);
 	template<>
-	inline AnimationActionType parse_to<AnimationActionType>(StringView const string) { return parse_to_animation_action_type(string); }
-	template<>
-	inline Bool parse_try<AnimationActionType>(StringView const string, AnimationActionType& value) { return parse_try_animation_action_type(string, value); }
+	struct Parser<AnimationActionFlags>
+	{
+		static Bool parse(StringView const str, AnimationActionFlags &value);
+		static String to_string(AnimationActionFlags const &value);
+	};
 }
 
 #endif // MINTY_ANIMATION_ANIMATIONACTIONFLAGS_H

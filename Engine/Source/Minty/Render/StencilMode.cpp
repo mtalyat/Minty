@@ -1,32 +1,23 @@
 #include "pch.h"
 #include "StencilMode.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(StencilMode const obj)
+static constexpr Size STENCILMODE_COUNT = 3;
+static constexpr Char const* STENCILMODE_STRINGS[STENCILMODE_COUNT] =
 {
-    switch (obj)
-    {
-    case StencilMode::None: return "None";
-    case StencilMode::Write: return "Write";
-    case StencilMode::Test: return "Test";
-    default: return "Unknown";
-	}
+    "None",
+    "Write",
+    "Test"
+};
+
+Bool Minty::Parser<StencilMode>::parse(StringView const str, StencilMode &value)
+{
+    return Tool::try_parse_enum(str, STENCILMODE_STRINGS, STENCILMODE_COUNT, value);
 }
 
-StencilMode Minty::parse_to_stencil_mode(String const& string)
+String Minty::Parser<StencilMode>::to_string(StencilMode const &obj)
 {
-    if (string == "None") return StencilMode::None;
-    if (string == "Write") return StencilMode::Write;
-    if (string == "Test") return StencilMode::Test;
-    return StencilMode::None;
-}
-
-Bool Minty::parse_try_stencil_mode(String const& string, StencilMode& value)
-{
-    if (string == "None") { value = StencilMode::None; return true; }
-    if (string == "Write") { value = StencilMode::Write; return true; }
-    if (string == "Test") { value = StencilMode::Test; return true; }
-    value = StencilMode::None;
-    return false;
+    return Tool::to_string_enum(reinterpret_cast<Size const&>(obj), STENCILMODE_STRINGS, STENCILMODE_COUNT);
 }

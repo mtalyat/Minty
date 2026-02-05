@@ -4,86 +4,22 @@
 #include "Minty/Debug/Assert.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringBuilder.h"
+#include "Minty/Data/Tuple.h"
 
 using namespace Minty;
 
-String Minty::to_string(Color const obj)
+static constexpr Size COLOR_NAMED_COUNT = 8;
+static constexpr Tuple<Char const*, Color> COLOR_NAMED_VALUES[COLOR_NAMED_COUNT] =
 {
-	// convert to hex code
-	Char buffer[9] = { 0 };
-	encode_base16(&obj.value, sizeof(Color::Color_t), buffer, 8);
-	return String(buffer);
-}
-
-Color Minty::parse_to_color(String const &string)
-{
-	// check for common names
-	if (string == "Black")
-		return Color::black();
-	else if (string == "Red")
-		return Color::red();
-	else if (string == "Green")
-		return Color::green();
-	else if (string == "Blue")
-		return Color::blue();
-	else if (string == "White")
-		return Color::white();
-	else if (string == "Yellow")
-		return Color::yellow();
-	else if (string == "Cyan")
-		return Color::cyan();
-	else if (string == "Magenta")
-		return Color::magenta();
-
-	StringBuilder builder(string);
-	if (builder.starts_with("#"))
-	{
-		// remove #
-		builder.slice(1, builder.get_size() - 1);
-	}
-
-	// if string is 6 characters, add ff for alpha
-	if (builder.get_size() == 6)
-	{
-		// add ff for alpha
-		builder.append("ff");
-	}
-
-	MINTY_ASSERT_F(builder.get_size() == 8, ErrorCode::Argument_InvalidFormat, string);
-
-	Color::Color_t value = 0;
-	decode_base16(builder.get_data(), builder.get_size(), &value, sizeof(Color::Color_t));
-	return Color(value);
-}
-
-Bool Minty::parse_try_color(String const &string, Color &value)
-{
-	if (string.starts_with("#"))
-	{
-		// remove #
-		return parse_try_color(string.sub(1, string.get_size() - 1), value);
-	}
-
-	// if string is 6 characters, add ff for alpha
-	StringBuilder builder(string);
-	if (builder.get_size() == 6)
-	{
-		// add ff for alpha
-		builder.append("ff");
-	}
-
-	// ensure the string is valid
-	if (builder.get_size() != 8)
-	{
-		// not the correct number of characters
-		return false;
-	}
-
-	Color::Color_t color = 0;
-	decode_base16(builder.get_data(), builder.get_size(), &color, sizeof(Color::Color_t));
-	value = Color(color);
-	return true;
-}
+	{ "Black", Color::black() },
+	{ "Red", Color::red() },
+	{ "Green", Color::green() },
+	{ "Blue", Color::blue() },
+	{ "White", Color::white() },
+	{ "Yellow", Color::yellow() },
+	{ "Cyan", Color::cyan() },
+	{ "Magenta", Color::magenta() },
+};
 
 Minty::Color::Color(Int const r, Int const g, Int const b, Int const a)
 	: a(static_cast<Channel_t>(a)), b(static_cast<Channel_t>(b)), g(static_cast<Channel_t>(g)), r(static_cast<Channel_t>(r))
@@ -109,4 +45,61 @@ Minty::Color::Color(Float const r, Float const g, Float const b, Float const a)
 	MINTY_ASSERT_F(g <= 1.0f, ErrorCode::Argument_OutOfRange, g);
 	MINTY_ASSERT_F(b <= 1.0f, ErrorCode::Argument_OutOfRange, b);
 	MINTY_ASSERT_F(a <= 1.0f, ErrorCode::Argument_OutOfRange, a);
+}
+
+Bool Minty::Parser<Color>::parse(StringView const str, Color &value)
+{
+	// check for named colors
+    for(auto const& [name, color] : COLOR_NAMED_VALUES)
+	{
+		if (str == name)
+		{
+			value = color;
+			return true;
+		}
+	}
+
+	StringBuilder builder(str);
+
+	// remove the # if it exists
+	if (builder.starts_with("#"))
+	{
+		builder.slice(1);
+	}
+
+	// add the alpha if it is missing
+	if(builder.get_size() == 6)
+	{
+		builder.append("ff");
+	}
+
+	// if not the correct length, stop
+	if(builder.get_size() != 8)
+	{
+		return false;
+	}
+
+	// if not the correct characters, stop
+	for(Size i = 0; i < 8; i++)
+	{
+		Char const c = builder.index(i);
+		if((c < '0' || c > '9') && (c < 'a' || c > 'f') && (c < 'A' || c > 'F'))
+		{
+			return false;
+		}
+	}
+
+	Color::Color_t colorValue = 0;
+	decode_base16(builder.get_data(), builder.get_size(), &colorValue, sizeof(Color::Color_t));
+	value = Color(colorValue);
+	return true;
+}
+
+String Minty::Parser<Color>::to_string(Color const &value)
+{
+	static constexpr Size BUFFER_SIZE = 9; // 8 characters + null terminator
+	Char buffer[BUFFER_SIZE] = { 0 };
+	Color::Color_t colorValue = value.value;
+	encode_base16(&colorValue, sizeof(Color::Color_t), buffer, BUFFER_SIZE - 1);
+	return String(buffer);
 }

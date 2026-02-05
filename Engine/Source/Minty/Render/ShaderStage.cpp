@@ -1,29 +1,23 @@
 #include "pch.h"
 #include "ShaderStage.h"
+#include "Minty/Tool/Enum.h"
 
 using namespace Minty;
 
-String Minty::to_string(ShaderStage const obj)
+static constexpr Size SHADERSTAGE_COUNT = 3;
+static constexpr Char const* SHADERSTAGE_STRINGS[SHADERSTAGE_COUNT] =
 {
-	switch (obj)
-	{
-	case ShaderStage::Vertex: return "Vertex";
-	case ShaderStage::Fragment: return "Fragment";
+	"Undefined",
+	"Vertex",
+	"Fragment"
+};
 
-	default: return "";
-	}
+Bool Minty::Parser<ShaderStage>::parse(StringView const str, ShaderStage &value)
+{
+    return Tool::try_parse_enum(str, SHADERSTAGE_STRINGS, SHADERSTAGE_COUNT, value);
 }
 
-ShaderStage Minty::parse_to_shader_stage(String const& string)
+String Minty::Parser<ShaderStage>::to_string(ShaderStage const &value)
 {
-	if (string == "Vertex") return ShaderStage::Vertex;
-	if (string == "Fragment") return ShaderStage::Fragment;
-
-	return ShaderStage();
-}
-
-Bool Minty::parse_try_shader_stage(String const& string, ShaderStage& value)
-{
-	value = parse_to_shader_stage(string);
-	return value != ShaderStage();
+	return Tool::to_string_enum(reinterpret_cast<Size const&>(value), SHADERSTAGE_STRINGS, SHADERSTAGE_COUNT);
 }

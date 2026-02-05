@@ -4,6 +4,7 @@ using namespace Minty;
 
 static ErrorCode s_errorCode = ErrorCode::None;
 
+// TODO: change this to use an array of messages instead of a switch statement
 Char const *Minty::get_error_message(ErrorCode const code)
 {
     switch (code)
@@ -34,6 +35,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Memory error. Memory deallocation failed. Check for double free.";
     case ErrorCode::Memory_AllocatorNotInitialized:
         return "Memory error. Memory allocator not initialized.";
+    case ErrorCode::Memory_AllocatorAlreadyInitialized:
+        return "Memory error. Memory allocator already initialized.";
     case ErrorCode::Memory_NoSuitableAllocatorFound:
         return "Memory error. No suitable allocator found for requested size and alignment.";
     case ErrorCode::Memory_AllocatorMismatch:
@@ -137,6 +140,12 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "File error. Path too long.";
     case ErrorCode::File_EndOfFileReached:
         return "File error. End of file reached.";
+    case ErrorCode::File_ReadFailed:
+        return "File error. Read operation failed.";
+    case ErrorCode::File_WriteFailed:
+        return "File error. Write operation failed.";
+    case ErrorCode::File_Empty:
+        return "File error. File is empty.";
 
     case ErrorCode::Singleton:
         return "Singleton error.";
@@ -166,16 +175,28 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Serialization error. Invalid value.";
     case ErrorCode::Serialization_InvalidData:
         return "Serialization error. Invalid reader or writer user data.";
+    case ErrorCode::Serialization_InvalidIndentation:
+        return "Serialization error. Invalid indentation level. Ensure indentation levels are properly managed.";
     case ErrorCode::Serialization_UnexpectedEndOfData:
         return "Serialization error. Unexpected end of data.";
     case ErrorCode::Serialization_Failed:
         return "Serialization error. Operation failed.";
-    case ErrorCode::Serialization_ReadName:
-        return "Serialization error. Failed to read name.";
-    case ErrorCode::Serialization_ReadValue:
-        return "Serialization error. Failed to read value.";
-    case ErrorCode::Serialization_MissingRequired:
-        return "Serialization error. Missing required key-value pair.";
+    case ErrorCode::Serialization_Write:
+        return "Serialization error. Write operation failed.";
+    case ErrorCode::Serialization_Read:
+        return "Serialization error. Read operation failed.";
+    case ErrorCode::Serialization_MissingKey:
+        return "Serialization error. Missing key detected. A key was expected but not found in the data.";
+    case ErrorCode::Serialization_InvalidBookmark:
+        return "Serialization error. Invalid bookmark handle.";
+    case ErrorCode::Serialization_InconsistentIndentation:
+        return "Serialization error. Inconsistent indentation detected. Mixing of tabs and spaces is not allowed.";
+    case ErrorCode::Serialization_UnsupportedType:
+        return "Serialization error. Unsupported type encountered during serialization or deserialization. Ensure that the type has the proper serialization or parsing methods defined.";
+    case ErrorCode::Serialization_IgnoredData:
+        return "Serialization error. Ignored data detected. Some data in the stream was not read or processed.";
+    case ErrorCode::Serialization_MissingValue:
+        return "Serialization error. Missing value detected. A key was found without an associated value, when a value was expected.";
 
     case ErrorCode::Entity:
         return "Entity error.";
@@ -198,6 +219,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Component error. Component already registered.";
     case ErrorCode::Component_InvalidState:
         return "Component error. Component is in an invalid state for the requested operation.";
+    case ErrorCode::Component_InvalidOperation:
+        return "Component error. Invalid operation for the component type (component vs tag).";
 
     case ErrorCode::System:
         return "System error.";
@@ -212,6 +235,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Animation error. Negative time value provided.";
     case ErrorCode::Animation_DuplicateTime:
         return "Animation error. Duplicate time value detected in animation steps.";
+    case ErrorCode::Animation_DuplicateAction:
+        return "Animation error. Duplicate action detected for the same entity/component in a single step.";
     case ErrorCode::Animation_IncorrectTimeOrder:
         return "Animation error. Animation steps are not in correct time order.";
     case ErrorCode::Animation_InvalidActionFormat:
@@ -238,6 +263,10 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Animation error. Not enough steps provided for animation.";
     case ErrorCode::Animation_NotEnoughComponents:
         return "Animation error. Not enough components provided for animation.";
+    case ErrorCode::Animation_InvalidVariableMode:
+        return "Animation error. Invalid variable mode for animation. Check if the variable is marked as smooth or rigid correctly.";
+    case ErrorCode::Animation_ScopedVariableNotFound:
+        return "Animation error. Scoped variable not found in the provided scope. Check that the animator contains the correct scoped variable names.";
 
     case ErrorCode::Asset:
         return "Asset error.";

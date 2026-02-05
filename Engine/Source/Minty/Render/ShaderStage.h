@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/String.h"
-#include "Minty/Serialization/Parse.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -32,14 +31,13 @@ namespace Minty
 		 */
 		Fragment
 	};
-
-	String to_string(ShaderStage const obj);
-	ShaderStage parse_to_shader_stage(String const& string);
-	Bool parse_try_shader_stage(String const& string, ShaderStage& value);
+	
 	template<>
-	inline ShaderStage parse_to<ShaderStage>(StringView const string) { return parse_to_shader_stage(string); }
-	template<>
-	inline Bool parse_try<ShaderStage>(StringView const string, ShaderStage& value) { return parse_try_shader_stage(string, value); }
+	struct Parser<ShaderStage>
+	{
+		static Bool parse(StringView const str, ShaderStage& value);
+		static String to_string(ShaderStage const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_SHADERSTAGE_H

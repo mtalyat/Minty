@@ -95,17 +95,6 @@ Path& Minty::Path::append(Path const& other)
 	return *this;
 }
 
-Bool Minty::Path::parse(StringView const text)
-{
-	m_path = text.get_data();
-	return true;
-}
-
-String Minty::Path::to_string() const
-{
-	return get_string();
-}
-
 Bool Minty::Path::exists(Path const& path)
 {
 	return std::filesystem::exists(path.m_path);
@@ -204,4 +193,15 @@ std::ostream& Minty::operator<<(std::ostream& stream, Path const& path)
 	String str = path.get_string();
 	stream << str.get_data();
 	return stream;
+}
+
+Bool Minty::Parser<Path>::parse(StringView const str, Path &value)
+{
+	value.m_path = str.get_data();
+	return true;
+}
+
+String Minty::Parser<Path>::to_string(Path const &value)
+{
+	return value.get_string();
 }

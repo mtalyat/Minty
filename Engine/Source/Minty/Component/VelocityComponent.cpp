@@ -4,16 +4,13 @@
 
 using namespace Minty;
 
-void Minty::VelocityComponent::serialize(Writer &writer) const
+void Minty::Serializer<VelocityComponent>::serialize(Writer &writer, VelocityComponent const &value)
 {
-    writer.write("Velocity", velocity);
+    MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::VelocityComponent::deserialize(Reader &reader)
+Bool Minty::Serializer<VelocityComponent>::deserialize(Reader &reader, VelocityComponent &value)
 {
-    if(!reader.read_default(velocity))
-    {
-        reader.read("Velocity", velocity);
-    }
+    reader.read_primary("Velocity", value.velocity);
     return true;
 }

@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -47,14 +46,13 @@ namespace Minty
 		 */
 		MirroredClampToEdge = 5,
 	};
-
-	String to_string(AddressMode const obj);
-	AddressMode parse_to_address_mode(String const& string);
-	Bool parse_try_address_mode(String const& string, AddressMode& value);
+	
 	template<>
-	inline AddressMode parse_to<AddressMode>(StringView const string) { return parse_to_address_mode(string); }
-	template<>
-	inline Bool parse_try<AddressMode>(StringView const string, AddressMode& value) { return parse_try_address_mode(string, value); }
+	struct Parser<AddressMode>
+	{
+		static Bool parse(StringView const str, AddressMode& value);
+		static String to_string(AddressMode const& obj);
+	};
 }
 
 #endif // MINTY_RENDER_ADDRESSMODE_H

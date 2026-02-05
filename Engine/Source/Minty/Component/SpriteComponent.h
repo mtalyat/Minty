@@ -55,9 +55,13 @@ namespace Minty
 		 * @brief Indicates whether the Y axis should be flipped.
 		 */
 		Bool flipY = false;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<SpriteComponent>
+	{
+		static void serialize(Writer& writer, SpriteComponent const& value);
+		static Bool deserialize(Reader& reader, SpriteComponent& value);
 	};
 }
 

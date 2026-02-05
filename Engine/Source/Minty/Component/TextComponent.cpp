@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "TextComponent.h"
-#include "Minty/Component/DirtyTextComponent.h"
+#include "Minty/Component/DirtyTextTag.h"
 #include "Minty/Entity/EntityManager.h"
 #include "Minty/Entity/EntitySerializationData.h"
 #include "Minty/Render/Font.h"
@@ -10,53 +10,48 @@
 
 using namespace Minty;
 
-void Minty::TextComponent::serialize(Writer& writer) const
+void Minty::Serializer<TextComponent>::serialize(Writer &writer, TextComponent const &value)
 {
-	writer.write("Text", text);
-	writer.write("Color", color);
-	writer.write("Font", font);
-	writer.write("Size", fontVariant == nullptr ?  0 : fontVariant->get_size());
-	writer.write("Flags", fontVariant == nullptr ? FontFlags::None : fontVariant->get_flags());
+	MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::TextComponent::deserialize(Reader& reader)
+Bool Minty::Serializer<TextComponent>::deserialize(Reader &reader, TextComponent &value)
 {
 	// get data
 	EntitySerializationData* data = static_cast<EntitySerializationData*>(reader.get_user_data());
 	MINTY_ASSERT(data != nullptr, ErrorCode::InvalidUserData);
 	MINTY_ASSERT(data->entityManager != nullptr, ErrorCode::Argument_ExpectedNonNull);
-	MINTY_ASSERT_F(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entity);
+	MINTY_ASSERT_F(data->entityManager->contains(data->entity), ErrorCode::Entity_NotValid, data->entityManager->to_string(data->entity));
 
 	// mark as dirty
 	EntityManager& entityManager = *data->entityManager;
-	entityManager.mark<DirtyTextComponent>(data->entity);
+	entityManager.mark<DirtyTextTag>(data->entity);
 
 	// read text info
-	reader.read_default(text);
-	reader.read<String>("Text", text, "");
-	reader.read("Color", color, Color::white());
-	reader.read<Ref<Font>>("Font", font, nullptr);
+	reader.read_primary<String>("Text", value.text);
+	reader.read("Color", value.color);
+	reader.read<Ref<Font>>("Font", value.font);
 
 	// read variant info
 	UInt fontSize;
-	reader.read<UInt>("Size", fontSize, 0);
+	reader.read<UInt>("Size", fontSize);
 	FontFlags fontFlags;
-	reader.read<FontFlags>("Flags", fontFlags, FontFlags::None);
+	reader.read<FontFlags>("Flags", fontFlags);
 
 	// get variant if able
-	if (font != nullptr)
+	if (value.font != nullptr)
 	{
 		// if font is set, try to get the variant
-		fontVariant = font->get(fontSize, fontFlags).to_ref();
-		if (fontVariant == nullptr)
+		value.fontVariant = value.font->get(fontSize, fontFlags).to_ref();
+		if (value.fontVariant == nullptr)
 		{
-			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, font->get_name(), fontSize, to_string(fontFlags));
+			MINTY_ABORT_F(ErrorCode::Asset_MissingDependency, value.font->get_name(), fontSize, fontFlags);
 			return false; // no variant found
 		}
 	}
 	else
 	{
-		fontVariant = nullptr; // no font set
+		value.fontVariant = nullptr; // no font set
 	}
 
 	return true;

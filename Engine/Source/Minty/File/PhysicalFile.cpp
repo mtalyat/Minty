@@ -4,32 +4,67 @@
 
 using namespace Minty;
 
+static std::ios_base::openmode minty_to_ios_base(FileFlags const flags)
+{
+    std::ios_base::openmode mode = std::ios_base::openmode(0);
+
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Read))
+    {
+        mode |= std::ios_base::in;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Write))
+    {
+        mode |= std::ios_base::out;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::AtEnd))
+    {
+        mode |= std::ios_base::ate;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Append))
+    {
+        mode |= std::ios_base::app;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Binary))
+    {
+        mode |= std::ios_base::binary;
+    }
+    if (static_cast<UInt>(flags) & static_cast<UInt>(FileFlags::Truncate))
+    {
+        mode |= std::ios_base::trunc;
+    }
+
+    return mode;
+}
 
 Bool Minty::PhysicalFile::is_open() const
 {
     return m_stream.is_open();
 }
 
-void Minty::PhysicalFile::open(Path const& path, Flags const flags)
+Bool Minty::PhysicalFile::open(Path const& path, FileFlags const flags)
 {
     // close if open
     close();
 
+    // open the file
+    m_stream = std::fstream(path.get_string().get_data(), minty_to_ios_base(flags));
+
+    // check if open
+    if(!m_stream.is_open())
+    {
+        return false;
+    }
+
     m_path = path;
     m_flags = flags;
 
-    // open the file
-    m_stream = std::fstream(path.get_string().get_data(), static_cast<std::ios_base::openmode>(flags));
-
-    // check if open
-    if (!m_stream.is_open())
-    {
-		MINTY_ERROR_F(ErrorCode::File_FailedToOpen, path);
-    }
+    return true;
 }
 
 void Minty::PhysicalFile::flush()
 {
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
     m_stream.flush();
 }
 
@@ -42,56 +77,46 @@ void Minty::PhysicalFile::close()
         m_stream.close();
 
         // reset all data
-        m_flags = Flags::None;
+        m_flags = FileFlags::None;
         m_path = "";
     }
 }
 
-void Minty::PhysicalFile::seek(Position_t const offset, Direction const dir)
+StreamPosition Minty::PhysicalFile::get_position()
 {
-    seek_read(offset, dir);
-    seek_write(offset, dir);
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
+    return static_cast<StreamPosition>(m_stream.tellg());
 }
 
-void Minty::PhysicalFile::seek_read(Position_t const offset, Direction const dir)
+void Minty::PhysicalFile::set_position(StreamPosition const offset, StreamDirection const dir)
 {
-    m_stream.seekg(offset, static_cast<std::ios_base::seekdir>(dir));
-}
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
-void Minty::PhysicalFile::seek_write(Position_t const offset, Direction const dir)
-{
-    m_stream.seekp(offset, static_cast<std::ios_base::seekdir>(dir));
+    std::ios_base::seekdir const seekDir = static_cast<std::ios_base::seekdir>(dir);
+    std::streamoff const streamOffset = static_cast<std::streamoff>(offset);
+
+    m_stream.seekg(streamOffset, seekDir);
+    m_stream.seekp(streamOffset, seekDir);
 }
 
 Bool Minty::PhysicalFile::end_of_file()
-{
-    return m_stream.eof();
+{    
+    return !m_stream.is_open() || m_stream.eof();
 }
 
-File::Position_t Minty::PhysicalFile::tell()
+StreamSize Minty::PhysicalFile::get_size() const
 {
-	MINTY_ASSERT(tell_read() == tell_write(), ErrorCode::File_ReadWriteSyncMismatch);
-	return tell_read();
-}
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
 
-File::Position_t Minty::PhysicalFile::tell_read()
-{
-	return m_stream.tellg();
-}
-
-File::Position_t Minty::PhysicalFile::tell_write()
-{
-    return m_stream.tellp();
-}
-
-File::Size_t Minty::PhysicalFile::get_size() const
-{
     return std::filesystem::file_size(m_path.get_string().get_data());
 }
 
 Char Minty::PhysicalFile::peek()
 {
-	int result = m_stream.peek();
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
+	int const result = m_stream.peek();
     if (result == -1)
     {
 		return '\0';
@@ -104,16 +129,31 @@ Char Minty::PhysicalFile::peek()
 
 Char Minty::PhysicalFile::read()
 {
-    return m_stream.get();
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
+    int const result = m_stream.get();
+    if (result == -1)
+    {
+        return '\0';
+    }
+    else
+    {
+        return static_cast<Char>(result);
+    }
 }
 
-void Minty::PhysicalFile::read(Any const buffer, Size_t const size)
+Bool Minty::PhysicalFile::read(Any const buffer, StreamSize const size)
 {
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
     m_stream.read(static_cast<Char*>(buffer), size);
+    return true;
 }
 
 Bool Minty::PhysicalFile::read_line(String& line)
 {
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
     // get the line
 	std::string temp;
     if (std::getline(m_stream, temp))
@@ -128,7 +168,9 @@ Bool Minty::PhysicalFile::read_line(String& line)
     return false;
 }
 
-void Minty::PhysicalFile::write(AnyConst const buffer, Size_t const size)
+void Minty::PhysicalFile::write(AnyConst const buffer, StreamSize const size)
 {
+    MINTY_ASSERT(is_open(), ErrorCode::File_NotOpen);
+
     m_stream.write(static_cast<Char const* const>(buffer), size);
 }

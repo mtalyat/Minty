@@ -17,10 +17,17 @@ namespace Minty
 	struct MaskComponent
 		: public Component
 	{
+		/**
+		 * @brief The mask value.
+		 */
 		UInt value = 0;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<MaskComponent>
+	{
+		static void serialize(Writer& writer, MaskComponent const& value);
+		static Bool deserialize(Reader& reader, MaskComponent& value);
 	};
 }
 

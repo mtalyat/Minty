@@ -7,8 +7,7 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -53,13 +52,12 @@ namespace Minty
 		Custom,
 	};
 
-	String to_string(Shape const obj);
-	Shape parse_to_shape(String const& string);
-	Bool parse_try_shape(String const& string, Shape& value);
 	template<>
-	inline Shape parse_to<Shape>(StringView const string) { return parse_to_shape(string); }
-	template<>
-	inline Bool parse_try<Shape>(StringView const string, Shape& value) { return parse_try_shape(string, value); }
+    struct Parser<Shape>
+    {
+        static Bool parse(StringView const str, Shape &value);
+        static String to_string(Shape const &value);
+    };
 }
 
 #endif // MINTY_DATA_SHAPE_H

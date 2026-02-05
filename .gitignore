@@ -1,5 +1,16 @@
-.vscode
+# Build output directories
 Output/
 Bin/
+
+# For local files or notes
 Local/
 note.txt
+
+# Mac system files
+*.DS_Store
+
+# Python cache files
+__pycache__/
+
+# Log files
+*.log

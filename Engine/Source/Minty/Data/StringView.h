@@ -8,6 +8,7 @@
  */
 
 #include "Minty/Core/Types.h"
+#include "Minty/Core/Constant.h"
 
 namespace Minty
 {
@@ -108,12 +109,12 @@ namespace Minty
 
     public:
         inline Char operator[](Size const index) const { return this->index(index); }
-        constexpr Bool operator==(StringView const &other) const noexcept { return compare(other) == 0; }
-        constexpr Bool operator!=(StringView const &other) const noexcept { return compare(other) != 0; }
-        constexpr Bool operator<(StringView const &other) const noexcept { return compare(other) < 0; }
-        constexpr Bool operator<=(StringView const &other) const noexcept { return compare(other) <= 0; }
-        constexpr Bool operator>(StringView const &other) const noexcept { return compare(other) > 0; }
-        constexpr Bool operator>=(StringView const &other) const noexcept { return compare(other) >= 0; }
+        inline Bool operator==(StringView const &other) const noexcept { return compare(other) == 0; }
+        inline Bool operator!=(StringView const &other) const noexcept { return compare(other) != 0; }
+        inline Bool operator<(StringView const &other) const noexcept { return compare(other) < 0; }
+        inline Bool operator<=(StringView const &other) const noexcept { return compare(other) <= 0; }
+        inline Bool operator>(StringView const &other) const noexcept { return compare(other) > 0; }
+        inline Bool operator>=(StringView const &other) const noexcept { return compare(other) >= 0; }
 
 #pragma endregion
 
@@ -162,35 +163,124 @@ namespace Minty
 		inline Char at(Size const index) const { return this->index(index); }
 
         /**
+         * @brief Gets the first character in the string view.
+         * @return The first character.
+         */
+        inline Char front() const { return this->index(0); }
+
+        /**
+         * @brief Gets the last character in the string view.
+         * @return The last character.
+         */
+        inline Char back() const { return this->index(m_size - 1); }
+
+		/**
+		 * @brief Finds the first occurrence of a character or substring.
+		 * @param c The character to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or SIZE_MAX if not found.
+		 */
+		Size find_first(Char const c, Size const startIndex = 0) const noexcept;
+		
+		/**
+		 * @brief Finds the first occurrence of a substring.
+		 * @param str The substring to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_first(StringView const str, Size const startIndex = 0) const noexcept;
+
+		/**
+		 * @brief Finds the last occurrence of a character or substring.
+		 * @param c The character to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last(Char const c, Size const startIndex = INVALID_INDEX) const noexcept;
+		
+		/**
+		 * @brief Finds the last occurrence of a substring.
+		 * @param str The substring to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last(StringView const str, Size const startIndex = INVALID_INDEX) const noexcept;
+
+		/**
+		 * @brief Finds the first occurrence of any character from a set.
+		 * @param chars The set of characters to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_first_of(StringView const chars, Size const startIndex = 0) const noexcept;
+
+		/**
+		 * @brief Finds the last occurrence of any character from a set.
+		 * @param chars The set of characters to find.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
+
+		/**
+		 * @brief Finds the first occurrence of any character not in a set.
+		 * @param chars The set of characters to exclude.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the first occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_first_not_of(StringView const chars, Size const startIndex = 0) const noexcept;
+
+		/**
+		 * @brief Finds the last occurrence of any character not in a set.
+		 * @param chars The set of characters to exclude.
+		 * @param startIndex The index to start the search from.
+		 * @return The index of the last occurrence, or INVALID_INDEX if not found.
+		 */
+		Size find_last_not_of(StringView const chars, Size const startIndex = INVALID_INDEX) const noexcept;
+
+        /**
          * @brief Compares this StringView with another.
          * @param other The other StringView to compare with.
          * @return An integer less than, equal to, or greater than zero if this StringView is found,
          *  respectively, to be less than, to match, or be greater than the other StringView.
          */
-        constexpr Int compare(StringView const &other) const noexcept
-        {
-            if (m_size < other.m_size)
-            {
-                return -1;
-            }
-            else if (m_size > other.m_size)
-            {
-                return 1;
-            }
+        Int compare(StringView const &other) const noexcept;
 
-            for (Size i = 0; i < m_size; ++i)
-            {
-                if (mp_data[i] < other.mp_data[i])
-                {
-                    return -1;
-                }
-                else if (mp_data[i] > other.mp_data[i])
-                {
-                    return 1;
-                }
-            }
-            return 0;
-        }
+        /**
+         * @brief Checks if the string view starts with the specified prefix.
+         * @param prefix The prefix to check.
+         * @return True if the string view starts with the prefix, false otherwise.
+         */
+        Bool starts_with(StringView const prefix) const noexcept;
+
+        /**
+         * @brief Checks if the string view starts with the specified character.
+         * @param c The character to check.
+         * @return True if the string view starts with the character, false otherwise.
+         */
+        inline Bool starts_with(Char const c) const noexcept { return !is_empty() && mp_data[0] == c; }
+
+        /**
+         * @brief Checks if the string view ends with the specified suffix.
+         * @param suffix The suffix to check.
+         * @return True if the string view ends with the suffix, false otherwise.
+         */
+        Bool ends_with(StringView const suffix) const noexcept;
+        
+        /**
+         * @brief Checks if the string view ends with the specified character.
+         * @param c The character to check.
+         * @return True if the string view ends with the character, false otherwise.
+         */
+        inline Bool ends_with(Char const c) const noexcept { return !is_empty() && mp_data[m_size - 1] == c; }
+
+        /**
+         * @brief Gets a substring of the string view.
+         * @param startIndex The starting index of the substring.
+         * @param count The number of characters in the substring. Defaults to SIZE_MAX to get until the end.
+         * @return A new StringView representing the substring.
+         */
+        StringView sub(Size const startIndex, Size const count = SIZE_MAX) const noexcept;
 
 #pragma endregion
 

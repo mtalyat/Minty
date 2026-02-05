@@ -8,8 +8,7 @@
  */
 
 #include "Minty/Core/Enum.h"
-#include "Minty/Serialization/Parse.h"
-#include "Minty/Serialization/ToString.h"
+#include "Minty/Serialization/Parser.h"
 
 namespace Minty
 {
@@ -18,23 +17,50 @@ namespace Minty
 	 */
 	enum class KeyModifiers
 	{
-		Shift = 0b000001,
-		Control = 0b000010,
-		Alt = 0b000100,
-		Super = 0b001000,
-		CapsLock = 0b010000,
-		NumLock = 0b100000
+		/**
+		 * @brief No modifier keys are held.
+		 */
+		None = 0x0,
+
+		/**
+		 * @brief The Shift key is held.
+		 */
+		Shift = 0x1,
+
+		/**
+		 * @brief The Control key is held.
+		 */
+		Control = 0x2,
+
+		/**
+		 * @brief The Alt key is held.
+		 */
+		Alt = 0x4,
+
+		/**
+		 * @brief The Super (Windows/Command) key is held.
+		 */
+		Super = 0x8,
+
+		/**
+		 * @brief The Caps Lock key is active.
+		 */
+		CapsLock = 0x10,
+
+		/**
+		 * @brief The Num Lock key is active.
+		 */
+		NumLock = 0x20
 	};
 
 	MINTY_ENABLE_ENUM_OPERATORS(KeyModifiers)
-
-	String to_string(KeyModifiers const obj);
-	KeyModifiers parse_to_key_modifiers(String const& string);
-	Bool parse_try_key_modifiers(String const& string, KeyModifiers& value);
+	
 	template<>
-	inline KeyModifiers parse_to<KeyModifiers>(StringView const string) { return parse_to_key_modifiers(string); }
-	template<>
-	inline Bool parse_try<KeyModifiers>(StringView const string, KeyModifiers& value) { return parse_try_key_modifiers(string, value); }
+	struct Parser<KeyModifiers>
+	{
+		static Bool parse(StringView const str, KeyModifiers& value);
+		static String to_string(KeyModifiers const& obj);
+	};
 }
 
 #endif // MINTY_INPUT_KEYMODIFIERS_H

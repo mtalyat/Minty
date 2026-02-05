@@ -22,9 +22,13 @@ namespace Minty
          * @brief The scale of the entity.
          */
         Float3 scale = Math::ONE;
-        
-        void serialize(Writer& writer) const override;
-        Bool deserialize(Reader& reader) override;
+    };
+
+    template<>
+    struct Serializer<ScaleComponent>
+    {
+        static void serialize(Writer& writer, ScaleComponent const& value);
+        static Bool deserialize(Reader& reader, ScaleComponent& value);
     };
 }
 

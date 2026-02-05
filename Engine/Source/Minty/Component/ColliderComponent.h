@@ -23,9 +23,13 @@ namespace Minty
 		 * @brief The Collider.
 		 */
 		Shared<Collider> collider = nullptr;
+	};
 
-		void serialize(Writer& writer) const override;
-		Bool deserialize(Reader& reader) override;
+	template<>
+	struct Serializer<ColliderComponent>
+	{
+		static void serialize(Writer& writer, ColliderComponent const& value);
+		static Bool deserialize(Reader& reader, ColliderComponent& value);
 	};
 }
 

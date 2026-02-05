@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ASSET_ASSETMANAGER_H
+#define MINTY_ASSET_ASSETMANAGER_H
+
+/**
+ * @file AssetManager.h
+ * @brief Header file defining the AssetManager class.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/Asset.h"
 #include "Minty/Manager/Manager.h"
 #include "Minty/Core/Format.h"
@@ -16,6 +24,7 @@
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/Animator.h"
 #include "Minty/Audio/AudioClip.h"
+#include "Minty/Render/Bitmap.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/Font.h"
 #include "Minty/Render/FontVariant.h"
@@ -96,6 +105,13 @@ namespace Minty
 		UUID read_id(Path const& path) const;
 
 		/**
+		 * @brief Reads the Asset type from the corresponding meta file for the given path to an Asset.
+		 * @param path The path to the Asset.
+		 * @return The AssetType stored within the Asset's meta file.
+		 */
+		String read_type(Path const& path) const;
+
+		/**
 		 * @brief Called every frame.
 		 * @param time The timestep for the frame update.
 		 */
@@ -139,13 +155,7 @@ namespace Minty
 		 * @param reader The Reader to use.
 		 * @return True if successfully found and opened.
 		 */
-		Bool open_reader(Path const& path, Reader*& reader) const;
-
-		/**
-		 * @brief Closes the given Reader.
-		 * @param reader The Reader that was opened previously.
-		 */
-		void close_reader(Reader*& reader) const;
+		Unique<Reader> open_reader(Path const& path) const;
 
 		/**
 		 * @brief Opens a Writer to the Asset at the given Path.
@@ -153,13 +163,7 @@ namespace Minty
 		 * @param writer The Writer to use.
 		 * @return True if successfully opened.
 		 */
-		Bool open_writer(Path const& path, Writer*& writer) const;
-
-		/**
-		 * @brief Closes the given Writer.
-		 * @param writer The Writer that was opened previously.
-		 */
-		void close_writer(Writer*& writer) const;
+		Unique<Writer> open_writer(Path const& path) const;
 
 		/**
 		 * @brief Queues the Asset at the given Path to be loaded.
@@ -219,6 +223,17 @@ namespace Minty
 		inline Shared<AudioClip> load<AudioClip>(Path const& path)
 		{
 			return load_audio_clip(path, read_id(path));
+		}
+
+		/**
+		 * @brief Loads the Asset specifically as a Bitmap at the given Path.
+		 * @param path The Path to the Bitmap Asset.
+		 * @return A reference to the loaded Bitmap Asset.
+		 */
+		template<>
+		inline Shared<Bitmap> load<Bitmap>(Path const& path)
+		{
+			return load_bitmap(path, read_id(path));
 		}
 
 		/**
@@ -376,13 +391,7 @@ namespace Minty
 		 * @param id The ID of the Asset to unload.
 		 */
 		void unload(UUID const id);
-
-		/**
-		 * @brief Reloads the Asset with the given ID.
-		 * @param id The ID of the Asset.
-		 */
-		void reload(UUID const id);
-
+		
 		/**
 		 * @brief Unloads all Assets stored within this AssetManager.
 		 */
@@ -607,15 +616,50 @@ namespace Minty
 		 */
 		Vector<String> read_lines(Path const& path) const;
 
+		/**
+		 * @brief Deserializes an Asset of the given type.
+		 * @tparam T The type of Asset to deserialize.
+		 * @param reader The Reader to use.
+		 * @param name The name associated with the Asset.
+		 * @param asset Reference to store the deserialized Asset.
+		 * @return True if successfully deserialized.
+		 */
+		template<typename T>
+		Bool deserialize_asset(Reader& reader, StringView const name, Shared<T>& asset)
+		{
+			Shared<Asset> baseAsset;
+			Bool result = deserialize_asset_raw(reader, name, baseAsset);
+			asset = baseAsset.cast<T>();
+			return result;
+		}
+
+		/**
+		 * @brief Deserializes an Asset reference of the given type.
+		 * @tparam T The type of Asset to deserialize.
+		 * @param reader The Reader to use.
+		 * @param name The name associated with the Asset.
+		 * @param assetRef Reference to store the deserialized Asset reference.
+		 * @return True if successfully deserialized.
+		 */
+		template<typename T>
+		Bool deserialize_asset_ref(Reader& reader, StringView const name, Ref<T>& assetRef)
+		{
+			Ref<Asset> baseAssetRef;
+			Bool result = deserialize_asset_ref_raw(reader, name, baseAssetRef);
+			assetRef = baseAssetRef.cast<T>();
+			return result;
+		}
+
 	private:
+		Bool deserialize_asset_raw(Reader& reader, StringView const name, Shared<Asset>& asset);
+
+		Bool deserialize_asset_ref_raw(Reader& reader, StringView const name, Ref<Asset>& assetRef);
+
 		// determines where the file is located at the given path
 		Location get_location(Path const& path) const;
 
 		// opens a file at the given path
-		File* open(Path const& path) const;
-
-		// closes an opened file
-		void close(File* file) const;
+		Unique<File> open(Path const& path) const;
 
 		// creates a new asset with the given path and args (from a load_xxx function)
 		template<typename T, typename... Args>
@@ -694,6 +738,8 @@ namespace Minty
 		Shared<Animator> load_animator(Path const& path, UUID const id);
 
 		Shared<AudioClip> load_audio_clip(Path const& path, UUID const id);
+
+		Shared<Bitmap> load_bitmap(Path const& path, UUID const id);
 
 		Shared<Camera> load_camera(Path const& path, UUID const id);
 
@@ -778,3 +824,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_ASSET_ASSETMANAGER_H
