@@ -1082,8 +1082,12 @@ Shared<Animator> Minty::AssetManager::load_animator(Path const &path, UUID const
 			// check type
 			MINTY_ASSERT_F(variable.get_type() == Type::Object, ErrorCode::Asset_InvalidFormat, name, variable.get_type());
 
-			// check value
+			// check value, if any
 			UUID const id = variable.get<UUID>();
+			if (!id.is_valid())
+			{
+				continue; // skip invalid IDs
+			}
 			MINTY_ASSERT_F(contains(id), ErrorCode::Asset_MissingDependency, path, id);
 			MINTY_ASSERT_F(get_asset_ref(id)->get_asset_type() == AssetType::Animation, ErrorCode::Asset_InvalidDependencyType, name, id);
 		}
