@@ -91,12 +91,6 @@ namespace Minty
 		 */
 		void reset();
 
-		/**
-		 * @brief Extracts the size of the allocated block from the given pointer.
-		 * @param ptr The pointer to the allocated block.
-		 */
-		static Size extract_size(Any const ptr);
-
 	private:
 		void initialize_free_blocks();
 

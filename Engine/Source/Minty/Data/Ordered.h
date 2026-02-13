@@ -9,7 +9,8 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 
 namespace Minty
 {
@@ -18,7 +19,7 @@ namespace Minty
 	 * @tparam T The type of the keys.
 	 * @tparam AllocatorType The allocator type to use for memory management.
 	 */
-	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
+	template<typename T, typename Allocator = DefaultAllocator>
 	class Ordered
 	{
 #pragma region Types
@@ -47,9 +48,6 @@ namespace Minty
 			{
 			}
 		};
-
-		using Allocator = AllocatorType<Node>;
-		using AllocatorList = AllocatorType<Node*>;
 
 #pragma endregion
 
@@ -213,6 +211,7 @@ namespace Minty
 			, mp_table(nullptr)
 			, mp_head(nullptr)
 			, mp_tail(nullptr)
+			, m_allocator()
 		{
 		}
 
@@ -222,6 +221,7 @@ namespace Minty
 			, mp_table(nullptr)
 			, mp_head(nullptr)
 			, mp_tail(nullptr)
+			, m_allocator()
 		{
 			reserve(capacity);
 		}
@@ -232,6 +232,7 @@ namespace Minty
 			, mp_table(nullptr)
 			, mp_head(nullptr)
 			, mp_tail(nullptr)
+			, m_allocator()
 		{
 			reserve(list.size() * 2);
 			for (T const& key : list)
@@ -246,6 +247,7 @@ namespace Minty
 			, mp_table(nullptr)
 			, mp_head(nullptr)
 			, mp_tail(nullptr)
+			, m_allocator()
 		{
 			reserve(m_capacity);
 			for (Node const* node = other.mp_head; node; node = node->nextOrder)
@@ -260,6 +262,7 @@ namespace Minty
 			, mp_table(other.mp_table)
 			, mp_head(other.mp_head)
 			, mp_tail(other.mp_tail)
+			, m_allocator(std::move(other.m_allocator))
 		{
 			other.m_capacity = 0;
 			other.m_size = 0;
@@ -273,7 +276,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				AllocatorList().destruct_array(mp_table, m_capacity);
+				m_allocator.destruct_array(mp_table, m_capacity);
 				mp_table = nullptr;
 			}
 		}
@@ -304,13 +307,14 @@ namespace Minty
 				clear();
 				if (mp_table)
 				{
-					AllocatorList().destruct_array(mp_table, m_capacity);
+					m_allocator.destruct_array(mp_table, m_capacity);
 				}
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
+				m_allocator = std::move(other.m_allocator);
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;
@@ -359,7 +363,7 @@ namespace Minty
 				return;
 			}
 
-			Node** newTable = AllocatorList().construct_array(capacity);
+			Node** newTable = m_allocator.construct_array<Node*>(capacity);
 			for (Size i = 0; i < capacity; ++i)
 			{
 				newTable[i] = nullptr;
@@ -377,7 +381,7 @@ namespace Minty
 					node->next = newTable[index];
 					newTable[index] = node;
 				}
-				AllocatorList().destruct_array(mp_table, m_capacity);
+				m_allocator.destruct_array(mp_table, m_capacity);
 			}
 			mp_table = newTable;
 			m_capacity = capacity;
@@ -400,7 +404,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = Allocator().construct(key);
+			Node* node = m_allocator.construct<Node>(key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -438,7 +442,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = Allocator().construct(std::move(key));
+			Node* node = m_allocator.construct<Node>(std::move(key));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -505,7 +509,7 @@ namespace Minty
 						mp_tail = node->prevOrder;
 					}
 
-					Allocator().destruct(node);
+					m_allocator.destruct(node);
 					--m_size;
 					return true;
 				}
@@ -580,7 +584,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->nextOrder;
-				Allocator().destruct(temp);
+				m_allocator.destruct(temp);
 			}
 			if (mp_table)
 			{
@@ -627,6 +631,7 @@ namespace Minty
 		Node** mp_table;
 		Node* mp_head;
 		Node* mp_tail;
+		Allocator m_allocator;
 
 #pragma endregion
 	};

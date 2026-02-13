@@ -10,6 +10,8 @@
 #include "Minty/Data/BufferContainerFactory.h"
 #include "Minty/System/System.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 #include "Minty/UI/Canvas.h"
 
 namespace Minty
@@ -89,6 +91,8 @@ namespace Minty
 		Entity m_canvasEntity;
 		Ref<Shader> m_canvasShader;
 		Canvas m_canvas;
+		// TODO: replace with per-frame allocator
+		DefaultAllocator m_allocator;
 
 #pragma endregion
 	};

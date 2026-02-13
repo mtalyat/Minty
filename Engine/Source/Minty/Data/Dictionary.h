@@ -12,6 +12,8 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 
 namespace Minty
 {
@@ -21,9 +23,9 @@ namespace Minty
 	 * @tparam Key The type of keys in the dictionary.
 	 * @tparam Value The type of values in the dictionary.
 	 * @tparam Compare The comparison functor for ordering keys.
-	 * @tparam AllocatorType The allocator type to use for memory management.
+	 * @tparam Allocator The allocator type to use for memory management.
 	 */
-	template<typename Key, typename Value, typename Compare = std::less<Key>, template<typename> class AllocatorType = DefaultAllocator>
+	template<typename Key, typename Value, typename Compare = std::less<Key>, typename Allocator = DefaultAllocator>
 	class Dictionary
 	{
 #pragma region Types
@@ -51,8 +53,6 @@ namespace Minty
 			}
 		};
 
-		using Allocator = AllocatorType<Node>;
-
 #pragma endregion
 
 #pragma region Constructors
@@ -64,7 +64,8 @@ namespace Minty
 		Dictionary()
 			: mp_root(nullptr)
 			, m_size(0)
-			, m_compare(Compare())
+			, m_compare()
+			, m_allocator()
 		{
 		}
 
@@ -544,7 +545,7 @@ namespace Minty
 			{
 				inserted = true;
 				m_size++;
-				return Allocator().construct(key, value);
+				return m_allocator.construct<Node>(key, value);
 			}
 
 			if (m_compare(key, n->data.get_first()))
@@ -578,13 +579,19 @@ namespace Minty
 			else {
 				erased = true;
 				if (!n->left) {
-					Node* right = n->right;
-					Allocator().destruct(n);
+					Node* const right = n->right;
+					MINTY_ASSERT(right != n, ErrorCode::Object_InvalidState);
+					MINTY_ASSERT(right->left == nullptr, ErrorCode::Object_InvalidState);
+					MINTY_ASSERT(right->right == nullptr, ErrorCode::Object_InvalidState);
+					m_allocator.destruct(n);
 					return right;
 				}
 				if (!n->right) {
-					Node* left = n->left;
-					Allocator().destruct(n);
+					Node* const left = n->left;
+					MINTY_ASSERT(left != n, ErrorCode::Object_InvalidState);
+					MINTY_ASSERT(left->left == nullptr, ErrorCode::Object_InvalidState);
+					MINTY_ASSERT(left->right == nullptr, ErrorCode::Object_InvalidState);
+					m_allocator.destruct(n);
 					return left;
 				}
 				Node* m = min(n->right);
@@ -599,7 +606,7 @@ namespace Minty
 			if (!n) return;
 			clear(n->left);
 			clear(n->right);
-			Allocator().destruct(n);
+			m_allocator.destruct(n);
 		}
 
 #pragma endregion
@@ -610,6 +617,7 @@ namespace Minty
 		Node* mp_root;
 		Size m_size;
 		Compare m_compare;
+		Allocator m_allocator;
 
 #pragma endregion
 	};

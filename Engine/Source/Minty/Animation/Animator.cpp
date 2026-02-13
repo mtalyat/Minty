@@ -2,11 +2,11 @@
 #include "Animator.h"
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/AnimatorInfo.h"
-#include "Minty/FSM/FSM.h"
-#include "Minty/Debug/Assert.h"
-#include "Minty/Component/AnimatorComponent.h"
-#include "Minty/Entity/EntityManager.h"
 #include "Minty/Asset/AssetManager.h"
+#include "Minty/Component/AnimatorComponent.h"
+#include "Minty/Debug/Assert.h"
+#include "Minty/Entity/EntityManager.h"
+#include "Minty/FSM/FSM.h"
 #if defined(MINTY_DEBUG)
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Vector.h"
@@ -15,22 +15,26 @@
 using namespace Minty;
 
 Minty::Animator::Animator(AnimatorInfo const &info)
-	: Asset(info.id), mp_fsm(nullptr), m_force(info.force)
+	: Asset(info.id), mp_fsm(nullptr), m_force(info.force), m_allocator()
 {
 	if (info.fsm)
 	{
-		mp_fsm = new FSM(*info.fsm);
+		mp_fsm = m_allocator.construct<FSM>(*info.fsm);
 	}
 }
 
 Minty::Animator::Animator(Animator const &other)
-	: Asset(other.get_id()), mp_fsm(new FSM(*other.mp_fsm)), m_force(other.m_force)
+	: Asset(other.get_id()), mp_fsm(nullptr), m_force(other.m_force), m_allocator()
 {
+	if (other.mp_fsm)
+	{
+		mp_fsm = m_allocator.construct<FSM>(*other.mp_fsm);
+	}
 }
 
 Minty::Animator::~Animator()
 {
-	delete mp_fsm;
+	m_allocator.destruct(mp_fsm);
 }
 
 Animator &Minty::Animator::operator=(Animator const &other)
@@ -38,9 +42,15 @@ Animator &Minty::Animator::operator=(Animator const &other)
 	if (this != &other)
 	{
 		// remove old FSM
-		delete mp_fsm;
-		// copy new FSM
-		mp_fsm = new FSM(*other.mp_fsm);
+		m_allocator.destruct(mp_fsm);
+		// copy new FSM, if there is one
+		if (other.mp_fsm)
+		{
+			mp_fsm = m_allocator.construct<FSM>(*other.mp_fsm);
+		} else
+		{
+			mp_fsm = nullptr;
+		}
 		m_force = other.m_force;
 	}
 	return *this;

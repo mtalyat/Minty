@@ -193,10 +193,10 @@ Byte *Minty::Bitmap::load(Path const &path, UInt &width, UInt &height, UInt &cha
 
 Shared<Bitmap> Minty::Bitmap::create(BitmapInfo const &info)
 {
-    return Shared<Bitmap>(new Bitmap(info));
+    return Shared<Bitmap>::create(info);
 }
 
 Shared<Bitmap> Minty::Bitmap::create()
 {
-    return Shared<Bitmap>(new Bitmap(BitmapInfo{}));
+    return Shared<Bitmap>::create(BitmapInfo{});
 }

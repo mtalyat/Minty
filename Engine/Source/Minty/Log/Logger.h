@@ -1,7 +1,12 @@
 #ifndef MINTY_LOG_LOGGER_H
 #define MINTY_LOG_LOGGER_H
 
-#include "Minty/Data/String.h"
+/**
+ * @file Logger.h
+ * @brief Header file for the Logger class, which provides thread-safe logging functionality.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Data/StringView.h"
 #include "Minty/Log/LogLevel.h"
 #include "Minty/Data/Queue.h"
@@ -26,7 +31,7 @@ namespace Minty
         struct LogEntry
         {
             LogLevel level;
-            String message;
+            Char* message;
         };
 
 #pragma endregion

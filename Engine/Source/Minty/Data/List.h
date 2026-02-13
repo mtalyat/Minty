@@ -8,7 +8,8 @@
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 #include <iterator>
 
 namespace Minty
@@ -16,9 +17,9 @@ namespace Minty
 	/**
 	 * @brief A doubly linked list implementation.
 	 * @tparam T The type of elements stored in the list.
-	 * @tparam AllocatorType The allocator type to use for memory management.
+	 * @tparam Allocator The allocator type to use for memory management.
 	 */
-	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
+	template<typename T, typename Allocator = DefaultAllocator>
 	class List
 	{
 #pragma region Types
@@ -43,8 +44,6 @@ namespace Minty
 			{
 			}
 		};
-
-		using Allocator = AllocatorType<Node>;
 
 #pragma endregion
 
@@ -456,6 +455,7 @@ namespace Minty
 			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
+			, m_allocator()
 		{
 		}
 
@@ -468,6 +468,7 @@ namespace Minty
 			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
+			, m_allocator()
 		{
 			resize(size, std::forward<Args>(value)...);
 		}
@@ -480,6 +481,7 @@ namespace Minty
 			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
+			, m_allocator()
 		{
 			for (T const& value : list)
 			{
@@ -495,6 +497,7 @@ namespace Minty
 			: mp_head(nullptr)
 			, mp_tail(nullptr)
 			, m_size(0)
+			, m_allocator()
 		{
 			Node* node = other.mp_head;
 			while (node)
@@ -512,6 +515,7 @@ namespace Minty
 			: mp_head(other.mp_head)
 			, mp_tail(other.mp_tail)
 			, m_size(other.m_size)
+			, m_allocator(std::move(other.m_allocator))
 		{
 			other.mp_head = nullptr;
 			other.mp_tail = nullptr;
@@ -537,7 +541,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator().destruct(temp);
+					m_allocator.destruct(temp);
 				}
 				mp_head = nullptr;
 				mp_tail = nullptr;
@@ -561,11 +565,12 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator().destruct(temp);
+					m_allocator.destruct(temp);
 				}
 				mp_head = other.mp_head;
 				mp_tail = other.mp_tail;
 				m_size = other.m_size;
+				m_allocator = std::move(other.m_allocator);
 				other.mp_head = nullptr;
 				other.mp_tail = nullptr;
 				other.m_size = 0;
@@ -636,7 +641,7 @@ namespace Minty
 				{
 					Node* temp = node;
 					node = node->next;
-					Allocator().destruct(temp);
+					m_allocator.destruct(temp);
 				}
 			}
 			else if (size > m_size)
@@ -645,7 +650,7 @@ namespace Minty
 				Node* node = mp_tail;
 				for (Size i = 0; i < size - m_size; ++i)
 				{
-					node = Allocator().construct(value);
+					node = m_allocator.construct(value);
 					node->prev = mp_tail;
 					if (mp_tail)
 					{
@@ -668,7 +673,7 @@ namespace Minty
 		 */
 		void add(T const& value)
 		{
-			Node* node = Allocator().construct(value);
+			Node* node = m_allocator.construct(value);
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -689,7 +694,7 @@ namespace Minty
 		 */
 		void add(T&& value)
 		{
-			Node* node = Allocator().construct(std::move(value));
+			Node* node = m_allocator.construct(std::move(value));
 			if (mp_head == nullptr)
 			{
 				mp_head = node;
@@ -765,7 +770,7 @@ namespace Minty
 			Node* prevNode = nextNode ? nextNode->prev : nullptr;
 
 			// make new node
-			Node* newNode = Allocator().construct(value);
+			Node* newNode = m_allocator.construct(value);
 
 			// link them together
 			newNode->next = nextNode;
@@ -838,7 +843,7 @@ namespace Minty
 					mp_head = nullptr;
 				}
 				mp_tail = prevNode;
-				Allocator().destruct(node);
+				m_allocator.destruct(node);
 				--m_size;
 			}
 		}
@@ -985,7 +990,7 @@ namespace Minty
 			{
 				Node* temp = node;
 				node = node->next;
-				Allocator().destruct(temp);
+				m_allocator.destruct(temp);
 			}
 
 			m_size = 0;
@@ -999,6 +1004,7 @@ namespace Minty
 		Node* mp_head;
 		Node* mp_tail;
 		Size m_size;
+		Allocator m_allocator;
 
 #pragma endregion
 	};

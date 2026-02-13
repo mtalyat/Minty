@@ -69,7 +69,11 @@ namespace Minty
 		/**
 		 * @brief Default logging state.
 		 */
-		Default = Info | Message | Warning | Error | Critical,
+#ifdef MINTY_DEBUG
+		Default = All,
+#else
+		Default = Message | Warning | Error | Critical,
+#endif // MINTY_DEBUG
 	};
 
 	MINTY_ENABLE_ENUM_OPERATORS(DebugFlags)

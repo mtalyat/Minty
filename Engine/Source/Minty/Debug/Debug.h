@@ -91,14 +91,6 @@ namespace Minty
         static void log_stack_trace();
 
         /**
-         * @brief Logs the location in the code (file and line number).
-         * @param level The log level.
-         * @param file The file name.
-         * @param line The line number.
-         */
-        static void log_location(LogLevel const level, StringView const file, UInt const line);
-
-        /**
          * @brief Sets the foreground color for terminal output.
          * @param color The color to set.
          */
@@ -149,7 +141,7 @@ namespace Minty
 #define MINTY_LOG(level, msg)             \
     do                                    \
     {                                     \
-        Minty::Debug::log(level, F(msg)); \
+        Minty::Debug::log(level, msg); \
     } while (0)
 /**
  * @brief Macro to log a formatted message with a specified log level.
@@ -159,26 +151,6 @@ namespace Minty
     do                                                   \
     {                                                    \
         Minty::Debug::log(level, F(fmt, ##__VA_ARGS__)); \
-    } while (0)
-
-/**
- * @brief Macro to log a message with a specified log level. Includes file, function and line number.
- * @note Always active.
- */
-#define MINTY_LOG_TRACE(level, msg)                            \
-    do                                                         \
-    {                                                          \
-        Minty::Debug::log_location(level, __FILE__, __LINE__); \
-        Minty::Debug::log(level, msg);                         \
-    } while (0)
-/**
- * @brief Macro to log a formatted message with a specified log level. Includes file, function and line number.
- * @note Always active.
- */
-#define MINTY_LOG_TRACE_F(level, fmt, ...)                                                                           \
-    do                                                                                                               \
-    {                                                                                                                \
-        Minty::Debug::log(level, F("{{ {} -> {}(): {} }} {}", __FILE__, __func__, __LINE__, F(fmt, ##__VA_ARGS__))); \
     } while (0)
 
 #ifdef MINTY_DEBUG
@@ -256,7 +228,7 @@ namespace Minty
 #define MINTY_LOG_WARNING(msg)                          \
     do                                                  \
     {                                                   \
-        MINTY_LOG_TRACE(Minty::LogLevel::Warning, msg); \
+        MINTY_LOG(Minty::LogLevel::Warning, msg); \
         MINTY_LOG_FLUSH();                              \
     } while (0)
 /**
@@ -266,7 +238,7 @@ namespace Minty
 #define MINTY_LOG_WARNING_F(fmt, ...)                                     \
     do                                                                    \
     {                                                                     \
-        MINTY_LOG_TRACE(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
         MINTY_LOG_FLUSH();                                                \
     } while (0)
 #else
@@ -277,7 +249,7 @@ namespace Minty
 #define MINTY_LOG_WARNING(msg)                          \
     do                                                  \
     {                                                   \
-        MINTY_LOG_TRACE(Minty::LogLevel::Warning, msg); \
+        MINTY_LOG(Minty::LogLevel::Warning, msg); \
     } while (0)
 /**
  * @brief Macro to log a formatted warning message.
@@ -286,7 +258,7 @@ namespace Minty
 #define MINTY_LOG_WARNING_F(fmt, ...)                                     \
     do                                                                    \
     {                                                                     \
-        MINTY_LOG_TRACE(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG(Minty::LogLevel::Warning, F(fmt, ##__VA_ARGS__)); \
     } while (0)
 #endif
 
@@ -298,7 +270,7 @@ namespace Minty
 #define MINTY_LOG_ERROR(msg)                          \
     do                                                \
     {                                                 \
-        MINTY_LOG_TRACE(Minty::LogLevel::Error, msg); \
+        MINTY_LOG(Minty::LogLevel::Error, msg); \
         MINTY_LOG_FLUSH();                            \
     } while (0)
 /**
@@ -308,7 +280,7 @@ namespace Minty
 #define MINTY_LOG_ERROR_F(fmt, ...)                                     \
     do                                                                  \
     {                                                                   \
-        MINTY_LOG_TRACE(Minty::LogLevel::Error, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG(Minty::LogLevel::Error, F(fmt, ##__VA_ARGS__)); \
         MINTY_LOG_FLUSH();                                              \
     } while (0)
 #else
@@ -319,7 +291,7 @@ namespace Minty
 #define MINTY_LOG_ERROR(msg)                          \
     do                                                \
     {                                                 \
-        MINTY_LOG_TRACE(Minty::LogLevel::Error, msg); \
+        MINTY_LOG(Minty::LogLevel::Error, msg); \
     } while (0)
 /**
  * @brief Macro to log a formatted error message.
@@ -328,7 +300,7 @@ namespace Minty
 #define MINTY_LOG_ERROR_F(fmt, ...)                                     \
     do                                                                  \
     {                                                                   \
-        MINTY_LOG_TRACE(Minty::LogLevel::Error, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG(Minty::LogLevel::Error, F(fmt, ##__VA_ARGS__)); \
     } while (0)
 #endif
 
@@ -339,7 +311,7 @@ namespace Minty
 #define MINTY_LOG_CRITICAL(msg)                          \
     do                                                   \
     {                                                    \
-        MINTY_LOG_TRACE(Minty::LogLevel::Critical, msg); \
+        MINTY_LOG(Minty::LogLevel::Critical, msg); \
         MINTY_BREAK();                                   \
     } while (0)
 /**
@@ -349,7 +321,7 @@ namespace Minty
 #define MINTY_LOG_CRITICAL_F(fmt, ...)                                     \
     do                                                                     \
     {                                                                      \
-        MINTY_LOG_TRACE(Minty::LogLevel::Critical, F(fmt, ##__VA_ARGS__)); \
+        MINTY_LOG(Minty::LogLevel::Critical, F(fmt, ##__VA_ARGS__)); \
         MINTY_BREAK();                                                     \
     } while (0)
 

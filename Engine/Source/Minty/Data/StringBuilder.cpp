@@ -1,22 +1,21 @@
 #include "StringBuilder.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
 Minty::StringBuilder::StringBuilder()
-    : mp_data(nullptr), m_size(0), m_capacity(0)
+    : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
 {
 }
 
 Minty::StringBuilder::StringBuilder(Size const initialCapacity)
-    : mp_data(nullptr), m_size(0), m_capacity(0)
+    : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
 {
     reserve(initialCapacity);
 }
 
 Minty::StringBuilder::StringBuilder(StringView const& initialString)
-    : mp_data(nullptr), m_size(0), m_capacity(0)
+    : mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
 {
     reserve(initialString.get_size());
     append(initialString);
@@ -26,7 +25,7 @@ Minty::StringBuilder::~StringBuilder()
 {
     if (mp_data)
     {
-        DefaultAllocator<Char>().deallocate(mp_data);
+        m_allocator.deallocate(mp_data);
     }
 }
 
@@ -39,12 +38,12 @@ void Minty::StringBuilder::reserve(Size const newCapacity)
     }
 
     // Allocate new memory and copy existing data
-    Char *const newData = DefaultAllocator<Char>().allocate(newCapacity + 1);
+    Char *const newData = static_cast<Char*>(m_allocator.allocate(sizeof(Char) * (newCapacity + 1)));
     MINTY_ASSERT(newData != nullptr, ErrorCode::Memory_AllocationFailed);
     if (mp_data)
     {
         std::memcpy(newData, mp_data, m_size * sizeof(Char));
-        DefaultAllocator<Char>().deallocate(mp_data);
+        m_allocator.deallocate(mp_data);
     }
     mp_data = newData;
     m_capacity = newCapacity;
@@ -468,7 +467,7 @@ void Minty::StringBuilder::strip(StringView const chars)
 
 void Minty::StringBuilder::replace(StringView const target, StringView const replacement)
 {
-
+    MINTY_NOT_IMPLEMENTED();
 }
 
 void Minty::StringBuilder::reverse() noexcept

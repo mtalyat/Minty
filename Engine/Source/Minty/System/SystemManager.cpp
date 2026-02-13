@@ -225,8 +225,7 @@ Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene, Syst
 
 Shared<SystemManager> Minty::SystemManager::create(Ref<Scene> const& scene)
 {
-	SystemManagerInfo info{};
-	return create(scene, info);
+	return create(scene, SystemManagerInfo{});
 }
 
 SystemManager &Minty::SystemManager::get_singleton()

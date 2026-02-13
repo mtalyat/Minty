@@ -8,6 +8,8 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Container.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 
 namespace Minty
 {
@@ -108,6 +110,7 @@ namespace Minty
 		Size m_capacity;
 		Size m_size;
 		Byte* mp_data;
+		DefaultAllocator m_allocator;
 
 #pragma endregion
 	};

@@ -42,11 +42,11 @@ namespace Minty
 		static TimePoint get_system_time();
 
 		/**
-		 * @brief Format a time value (in nanoseconds) into a human-readable string.
-		 * @param time The time value in nanoseconds.
+		 * @brief Format a TimePoint into a human-readable string.
+		 * @param time The TimePoint to format.
 		 * @return Formatted time string.
 		 */
-		static String format(TimePoint const time);
+		static void format(TimePoint const time, Char* const buffer, Size const bufferSize);
 
 		/**
 		 * @brief Get the current timestamp as a formatted string.

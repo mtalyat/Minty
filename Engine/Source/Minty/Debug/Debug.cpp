@@ -179,19 +179,6 @@ void Minty::Debug::log_stack_trace()
 #endif
 }
 
-void Minty::Debug::log_location(LogLevel const level, StringView const file, UInt const line)
-{
-    StringBuilder builder;
-    builder.append('[');
-    builder.append(file);
-    builder.append('(');
-    builder.append(Parser<UInt>::to_string(line));
-    builder.append(')');
-    builder.append(']');
-
-    Minty::Debug::log(level, builder.get_view());
-}
-
 void Minty::Debug::flush()
 {
     // If there is a logger, flush it, otherwise flushing is a no-op

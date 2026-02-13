@@ -10,6 +10,8 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringView.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 
 namespace Minty
 {
@@ -334,6 +336,7 @@ namespace Minty
         Char *mp_data;
         Size m_size;
         Size m_capacity;
+        DefaultAllocator m_allocator;
 
 #pragma endregion
     };

@@ -36,8 +36,10 @@ void Minty::Logger::log(LogLevel const level, StringView const message)
     }
 
     // Create log entry
-    String messageCopy(message);
-    LogEntry entry{level, std::move(messageCopy)};
+    Char* messageData = new Char[message.get_size() + 1];
+    std::memcpy(messageData, message.get_data(), sizeof(Char) * message.get_size());
+    messageData[message.get_size()] = '\0';
+    LogEntry entry{level, messageData};
 
     {
         std::lock_guard<std::mutex> lock(m_queueMutex);
@@ -60,7 +62,9 @@ void Minty::Logger::print(LogLevel const level, StringView const message)
     // todo: combine into one string and print all at once
 
     // print timestamp
-    std::cout << "[" << Time::get_timestamp().get_data() << "] ";
+    Char buffer[64] = {0};
+    Time::format(Time::get_system_time(), buffer, sizeof(buffer));
+    std::cout << "[" << buffer << "] ";
 
     // print level
     switch (level)
@@ -131,5 +135,6 @@ void Minty::Logger::worker_thread()
 
 void Minty::Logger::process_log_entry(LogEntry const &entry)
 {
-    print(entry.level, entry.message.get_view());
+    print(entry.level, StringView(entry.message));
+    delete[] entry.message;
 }

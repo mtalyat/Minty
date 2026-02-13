@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DynamicContainer.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 
 using namespace Minty;
 
@@ -19,7 +19,7 @@ Minty::DynamicContainer::DynamicContainer(Size const capacity)
 Minty::DynamicContainer::DynamicContainer(AnyConst const data, Size const size)
 	: MemoryContainer()
 {
-	if (data && size)
+	if (data != nullptr && size > 0)
 	{
 		set(data, size);
 	}
@@ -78,7 +78,7 @@ Bool Minty::DynamicContainer::reserve(Size const capacity)
 	}
 
 	// allocate a new array
-	Byte *newData = static_cast<Byte *>(DefaultAllocator<Byte>().allocate(capacity));
+	Byte *const newData = static_cast<Byte *>(m_allocator.allocate(capacity));
 
 	// copy over existing data, if any
 	if (mp_data)
@@ -86,7 +86,7 @@ Bool Minty::DynamicContainer::reserve(Size const capacity)
 		memcpy(newData, mp_data, m_size);
 
 		// delete old array
-		DefaultAllocator<Byte>().deallocate(mp_data);
+		m_allocator.deallocate(mp_data);
 	}
 
 	// update reference and data

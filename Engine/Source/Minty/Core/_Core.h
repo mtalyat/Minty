@@ -7,6 +7,7 @@
 #include "Enum.h"
 #include "Evaluate.h"
 #include "Format.h"
+#include "Init.h"
 #include "Macro.h"
 #include "Math.h"
 #include "Type.h"

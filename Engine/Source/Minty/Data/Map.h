@@ -11,7 +11,8 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
 #include "Minty/Debug/Debug.h"
-#include "Minty/Memory/DefaultAllocator.h"
+#include "Minty/Memory/DebugAllocator.h"
+#include "Minty/Memory/HeapAllocator.h"
 
 namespace Minty
 {
@@ -19,9 +20,9 @@ namespace Minty
 	 * @brief A hash map implementation using separate chaining for collision resolution.
 	 * @tparam Key The type of keys stored in the map.
 	 * @tparam Value The type of values stored in the map.
-	 * @tparam AllocatorType The allocator type to use for memory management.
+	 * @tparam Allocator The allocator type to use for memory management.
 	 */
-	template <typename Key, typename Value, template <typename> class AllocatorType = DefaultAllocator>
+	template <typename Key, typename Value, typename Allocator = DefaultAllocator>
 	class Map
 	{
 #pragma region Types
@@ -57,9 +58,6 @@ namespace Minty
 				return data.get_second();
 			}
 		};
-
-		using Allocator = AllocatorType<Node>;
-		using AllocatorList = AllocatorType<Node *>;
 
 #pragma endregion
 
@@ -278,7 +276,7 @@ namespace Minty
 		 * @brief Creates an empty Map.
 		 */
 		Map()
-			: m_capacity(0), m_size(0), mp_table(nullptr)
+			: m_capacity(0), m_size(0), mp_table(nullptr), m_allocator()
 		{
 		}
 
@@ -287,7 +285,7 @@ namespace Minty
 		 * @param capacity The starting capacity to use.
 		 */
 		Map(Size const capacity)
-			: m_capacity(0), m_size(0), mp_table(nullptr)
+			: m_capacity(0), m_size(0), mp_table(nullptr), m_allocator()
 		{
 			reserve(capacity);
 		}
@@ -297,7 +295,7 @@ namespace Minty
 		 * @param list The initializer list of key-value pairs.
 		 */
 		Map(std::initializer_list<Tuple<Key, Value>> const &list)
-			: m_capacity(0), m_size(0), mp_table(nullptr)
+			: m_capacity(0), m_size(0), mp_table(nullptr), m_allocator()
 		{
 			reserve(list.size() * 2);
 			for (Tuple<Key, Value> const &pair : list)
@@ -311,15 +309,22 @@ namespace Minty
 		 * @param other The Map to copy.
 		 */
 		Map(Map const &other)
-			: m_capacity(other.m_capacity), m_size(other.m_size), mp_table(AllocatorList().construct_array(m_capacity))
+			: m_capacity(other.m_capacity), m_size(other.m_size), mp_table(nullptr), m_allocator()
 		{
+			if(m_capacity == 0)
+			{
+				return;
+			}
+			
+			mp_table = m_allocator.construct_array<Node *>(m_capacity);
+
 			for (Size i = 0; i < m_capacity; ++i)
 			{
 				Node *node = other.mp_table[i];
 				Node *prev = nullptr;
 				while (node)
 				{
-					Node *newNode = Allocator().construct(node->get_key(), node->get_value());
+					Node *const newNode = m_allocator.construct<Node>(node->get_key(), node->get_value());
 					if (prev)
 					{
 						prev->next = newNode;
@@ -339,7 +344,7 @@ namespace Minty
 		 * @param other The Map to move.
 		 */
 		Map(Map &&other) noexcept
-			: m_capacity(other.m_capacity), m_size(other.m_size), mp_table(other.mp_table)
+			: m_capacity(other.m_capacity), m_size(other.m_size), mp_table(other.mp_table), m_allocator(std::move(other.m_allocator))
 		{
 			other.m_capacity = 0;
 			other.m_size = 0;
@@ -351,7 +356,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				AllocatorList().destruct_array(mp_table, m_capacity);
+				m_allocator.destruct_array(mp_table, m_capacity);
 			}
 		}
 
@@ -365,26 +370,34 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
+				m_allocator.destruct_array(mp_table, m_capacity);
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_table = AllocatorList().construct_array(m_capacity, nullptr);
-				for (Size i = 0; i < m_capacity; ++i)
+				if (m_capacity == 0)
 				{
-					Node *node = other.mp_table[i];
-					Node *prev = nullptr;
-					while (node)
+					mp_table = nullptr;
+				}
+				else
+				{
+					mp_table = m_allocator.construct_array<Node *>(m_capacity, nullptr);
+					for (Size i = 0; i < m_capacity; ++i)
 					{
-						Node *newNode = Allocator().construct(node->get_key(), node->get_value());
-						if (prev)
+						Node *node = other.mp_table[i];
+						Node *prev = nullptr;
+						while (node)
 						{
-							prev->next = newNode;
+							Node *const newNode = m_allocator.construct<Node>(node->get_key(), node->get_value());
+							if (prev)
+							{
+								prev->next = newNode;
+							}
+							else
+							{
+								mp_table[i] = newNode;
+							}
+							prev = newNode;
+							node = node->next;
 						}
-						else
-						{
-							mp_table[i] = newNode;
-						}
-						prev = newNode;
-						node = node->next;
 					}
 				}
 			}
@@ -396,6 +409,7 @@ namespace Minty
 			if (this != &other)
 			{
 				clear();
+				m_allocator.destruct_array(mp_table, m_capacity);
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
@@ -460,7 +474,7 @@ namespace Minty
 				return;
 			}
 
-			Node **newTable = AllocatorList().construct_array(capacity);
+			Node **newTable = m_allocator.construct_array<Node *>(capacity);
 
 			if (m_capacity > 0)
 			{
@@ -476,7 +490,7 @@ namespace Minty
 						node = next;
 					}
 				}
-				AllocatorList().destruct_array(mp_table, m_capacity);
+				m_allocator.destruct_array(mp_table, m_capacity);
 			}
 			m_capacity = capacity;
 			mp_table = newTable;
@@ -499,7 +513,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node *node = Allocator().construct(key, std::move(value));
+			Node *const node = m_allocator.construct<Node>(key, std::move(value));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -524,7 +538,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node *node = Allocator().construct(std::move(key), std::move(value));
+			Node *const node = m_allocator.construct<Node>(std::move(key), std::move(value));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -559,7 +573,7 @@ namespace Minty
 					{
 						mp_table[index] = node->next;
 					}
-					Allocator().destruct(node);
+					m_allocator.destruct(node);
 					--m_size;
 					return true;
 				}
@@ -683,7 +697,7 @@ namespace Minty
 					{
 						Node *temp = node;
 						node = node->next;
-						Allocator().destruct(temp);
+						m_allocator.destruct(temp);
 					}
 					mp_table[i] = nullptr;
 				}
@@ -722,6 +736,7 @@ namespace Minty
 		Size m_capacity;
 		Size m_size;
 		Node **mp_table;
+		Allocator m_allocator;
 
 #pragma endregion
 	};
