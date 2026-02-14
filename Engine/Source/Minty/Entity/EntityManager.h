@@ -99,13 +99,6 @@ namespace Minty
 		Entity get_entity(UUID const id) const;
 
 		/**
-		 * @brief Gets the Entity at the given EntityPath, starting from the source Entity.
-		 * @param source The source Entity.
-		 * @param path The EntityPath.
-		 */
-		Entity get_entity(Entity const source, EntityPath const &path) const;
-
-		/**
 		 * @brief Gets a string representation of the given Entity.
 		 * @param entity The Entity.
 		 * @returns The string representation, in the format "Name (ID)".
@@ -170,6 +163,32 @@ namespace Minty
 		 * @param index The index of the child.
 		 */
 		Entity get_child(Entity const entity, Size const index) const;
+
+		/**
+		 * @brief Gets the nested child of the given Entity by traversing multiple indices.
+		 * @tparam Indices Variadic template for additional index types.
+		 * @param entity The Entity.
+		 * @param first The first child index.
+		 * @param rest Additional indices to traverse deeper into the hierarchy.
+		 * @returns The nested child Entity.
+		 */
+		template<typename... Indices>
+		Entity get_descendant(Entity const entity, Size const first, Indices const... rest) const
+		{
+			Entity child = get_child(entity, first);
+			if constexpr (sizeof...(rest) > 0)
+			{
+				return get_descendant(child, rest...);
+			}
+			return child;
+		}
+
+		/**
+		 * @brief Gets the descendant of the given Entity at the specified EntityPath.
+		 * @param entity The Entity.
+		 * @param path The EntityPath to traverse.
+		 */
+		Entity get_descendant(Entity const entity, EntityPath const &path) const;
 
 		/**
 		 * @brief Gets the number of children the given Entity has.
