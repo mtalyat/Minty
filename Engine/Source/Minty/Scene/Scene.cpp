@@ -3,7 +3,7 @@
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/ColliderComponent.h"
 #include "Minty/Component/DestroyTag.h"
-#include "Minty/Component/RigidBodyComponent.h"
+#include "Minty/Component/RigidbodyComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Serialization/Reader.h"

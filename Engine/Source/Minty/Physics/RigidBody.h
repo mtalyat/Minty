@@ -1,9 +1,9 @@
-#ifndef MINTY_PHYSICS_RIGIDBODY_H
-#define MINTY_PHYSICS_RIGIDBODY_H
+#ifndef MINTY_PHYSICS_Rigidbody_H
+#define MINTY_PHYSICS_Rigidbody_H
 
 /**
- * @file RigidBody.h
- * @brief Header file defining the RigidBody class and RigidBodyInfo struct.
+ * @file Rigidbody.h
+ * @brief Header file defining the Rigidbody class and RigidbodyInfo struct.
  * @author Mitchell Talyat
  */
 
@@ -16,12 +16,12 @@
 
 namespace Minty
 {
-	struct RigidBodyInfo;
+	struct RigidbodyInfo;
 
 	/**
 	 * @brief A physical object that can be moved and interacted with in the physics world.
 	 */
-	class RigidBody
+	class Rigidbody
 	{
 #pragma region Constructors
 
@@ -30,9 +30,9 @@ namespace Minty
 		 * @brief Creates a new rigid body with the given arguments.
 		 * @param info The arguments.
 		 */
-		RigidBody(RigidBodyInfo const& info);
+		Rigidbody(RigidbodyInfo const& info);
 
-		virtual ~RigidBody() = default;
+		virtual ~Rigidbody() = default;
 
 #pragma endregion
 
@@ -40,7 +40,7 @@ namespace Minty
 
 	public:
 		/**
-		 * @brief Gets the Collider associated with this RigidBody.
+		 * @brief Gets the Collider associated with this Rigidbody.
 		 * @return The Collider Owner.
 		 */
 		inline Shared<Collider> const& get_collider() const { return m_collider; }
@@ -178,17 +178,17 @@ namespace Minty
 		virtual void add_force(Float3 const& force, Force const mode) = 0;
 
 		/**
-		 * @brief Creates a new RigidBody with the given arguments.
+		 * @brief Creates a new Rigidbody with the given arguments.
 		 * @param info The arguments.
-		 * @return A RigidBody Owner.
+		 * @return A Rigidbody Owner.
 		 */
-		static Shared<RigidBody> create(RigidBodyInfo const& info);
+		static Shared<Rigidbody> create(RigidbodyInfo const& info);
 
 		/**
-		 * @brief Creates a default RigidBody.
-		 * @return A RigidBody Owner.
+		 * @brief Creates a default Rigidbody.
+		 * @return A Rigidbody Owner.
 		 */
-		static Shared<RigidBody> create();
+		static Shared<Rigidbody> create();
 
 #pragma endregion
 
@@ -201,4 +201,4 @@ namespace Minty
 	};
 }
 
-#endif // MINTY_PHYSICS_RIGIDBODY_H
+#endif // MINTY_PHYSICS_Rigidbody_H

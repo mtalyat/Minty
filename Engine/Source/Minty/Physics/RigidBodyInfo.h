@@ -1,9 +1,9 @@
-#ifndef MINTY_PHYSICS_RIGIDBODYINFO_H
-#define MINTY_PHYSICS_RIGIDBODYINFO_H
+#ifndef MINTY_PHYSICS_RigidbodyINFO_H
+#define MINTY_PHYSICS_RigidbodyINFO_H
 
 /**
- * @file RigidBodyInfo.h
- * @brief Header file defining the RigidBodyInfo struct.
+ * @file RigidbodyInfo.h
+ * @brief Header file defining the RigidbodyInfo struct.
  * @author Mitchell Talyat
  */
 
@@ -14,9 +14,9 @@
 namespace Minty
 {
     /**
-     * @brief The arguments to create a RigidBody.
+     * @brief The arguments to create a Rigidbody.
      */
-    struct RigidBodyInfo
+    struct RigidbodyInfo
     {
         /**
          * @brief The mass of the rigid body.
@@ -55,4 +55,4 @@ namespace Minty
     };
 }
 
-#endif // MINTY_PHYSICS_RIGIDBODYINFO_H
+#endif // MINTY_PHYSICS_RigidbodyINFO_H

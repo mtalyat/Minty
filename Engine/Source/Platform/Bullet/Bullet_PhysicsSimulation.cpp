@@ -6,7 +6,7 @@
 #include "Minty/Physics/PhysicsManager.h"
 #include "Platform/Bullet/Bullet_Collider.h"
 #include "Platform/Bullet/Bullet_Physics.h"
-#include "Platform/Bullet/Bullet_RigidBody.h"
+#include "Platform/Bullet/Bullet_Rigidbody.h"
 #include "Platform/Bullet/Bullet_Object.h"
 #include "Minty/Physics/PhysicsSimulationInfo.h"
 #include "Minty/Physics/RaycastHit.h"
@@ -220,18 +220,18 @@ void Minty::Bullet_PhysicsSimulation::add_static(Entity const entity, Transform 
 #endif // MINTY_DEBUG
 }
 
-void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody &body, Layer const layer, Layer const layerMask)
+void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Rigidbody &body, Layer const layer, Layer const layerMask)
 {
 	LayerManager &layerManager = LayerManager::get_singleton();
 
 	// get data
-	btRigidBody *const rigidBody = static_cast<btRigidBody *>(body.get_native());
+	btRigidBody *const rigidbody = static_cast<btRigidBody *>(body.get_native());
 
 	// add the rigid body to the dynamics world
-	mp_dynamicsWorld->addRigidBody(rigidBody, LayerManager::layer_to_bit(layer), layerMask);
+	mp_dynamicsWorld->addRigidBody(rigidbody, LayerManager::layer_to_bit(layer), layerMask);
 
 	// update the user data
-	Bullet_Object *const objectData = static_cast<Bullet_Object *>(rigidBody->getUserPointer());
+	Bullet_Object *const objectData = static_cast<Bullet_Object *>(rigidbody->getUserPointer());
 	MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
 	objectData->entity = entity;
 	objectData->collider = body.get_collider().get();
@@ -244,7 +244,7 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody
 	Ref<Scene> const &scene = sceneManager.get_active();
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager &entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Added dynamic RigidBody to simulation: {} / {}", entityManager.to_string(objectData->entity), objectData->collider->get_position());
+	MINTY_LOG_DEBUG_F("Added dynamic Rigidbody to simulation: {} / {}", entityManager.to_string(objectData->entity), objectData->collider->get_position());
 
 #endif // MINTY_DEBUG
 }
@@ -276,16 +276,16 @@ void Minty::Bullet_PhysicsSimulation::remove_static(Collider &collider)
 	objectData->collider = nullptr;
 }
 
-void Minty::Bullet_PhysicsSimulation::remove_dynamic(RigidBody &body)
+void Minty::Bullet_PhysicsSimulation::remove_dynamic(Rigidbody &body)
 {
 	// remove from collisions
-	btRigidBody *const rigidBody = static_cast<btRigidBody *>(body.get_native());
-	Bullet_Object *const objectData = static_cast<Bullet_Object *>(rigidBody->getUserPointer());
+	btRigidBody *const rigidbody = static_cast<btRigidBody *>(body.get_native());
+	Bullet_Object *const objectData = static_cast<Bullet_Object *>(rigidbody->getUserPointer());
 	MINTY_ASSERT(objectData != nullptr, ErrorCode::InvalidUserData);
 	remove_collisions_for_object(objectData);
 
 	// remove from dynamics world
-	mp_dynamicsWorld->removeRigidBody(rigidBody);
+	mp_dynamicsWorld->removeRigidBody(rigidbody);
 
 #ifdef MINTY_DEBUG
 
@@ -293,7 +293,7 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(RigidBody &body)
 	Ref<Scene> const &scene = sceneManager.get_active();
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager &entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Removed dynamic RigidBody from simulation: {}", entityManager.to_string(objectData->entity));
+	MINTY_LOG_DEBUG_F("Removed dynamic Rigidbody from simulation: {}", entityManager.to_string(objectData->entity));
 
 #endif // MINTY_DEBUG
 

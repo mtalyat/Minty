@@ -10,5 +10,5 @@
 #include "PhysicsSimulation.h"
 #include "PhysicsSimulationInfo.h"
 #include "RaycastHit.h"
-#include "RigidBody.h"
-#include "RigidBodyInfo.h"
+#include "Rigidbody.h"
+#include "RigidbodyInfo.h"

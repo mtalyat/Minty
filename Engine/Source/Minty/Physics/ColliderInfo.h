@@ -43,7 +43,7 @@ namespace Minty
 
 		/**
 		 * @brief If the Collider is static or not. 
-		 * If static, it cannot move, rotate, deform, or have a RigidBody.
+		 * If static, it cannot move, rotate, deform, or have a Rigidbody.
 		 */
 		Bool isStatic = false;
 

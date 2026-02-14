@@ -3,19 +3,19 @@
 #include "Minty/Entity/Entity.h"
 #include "Minty/Library/Bullet.h"
 #include "Minty/Physics/Collider.h"
-#include "Minty/Physics/RigidBody.h"
+#include "Minty/Physics/Rigidbody.h"
 
 namespace Minty
 {
-	class Bullet_RigidBody
-		: public RigidBody
+	class Bullet_Rigidbody
+		: public Rigidbody
 	{
 #pragma region Constructors
 
 	public:
-		Bullet_RigidBody(RigidBodyInfo const& info);
+		Bullet_Rigidbody(RigidbodyInfo const& info);
 
-		~Bullet_RigidBody();
+		~Bullet_Rigidbody();
 
 #pragma endregion
 

@@ -1,6 +1,6 @@
-#include "RigidBodyComponent.h"
+#include "RigidbodyComponent.h"
 #include "Minty/Component/ColliderComponent.h"
-#include "Minty/Physics/RigidBodyInfo.h"
+#include "Minty/Physics/RigidbodyInfo.h"
 #include "Minty/Serialization/Writer.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Entity/EntityManager.h"
@@ -8,17 +8,17 @@
 
 using namespace Minty;
 
-void Minty::Serializer<RigidBodyComponent>::serialize(Writer &writer, RigidBodyComponent const &value)
+void Minty::Serializer<RigidbodyComponent>::serialize(Writer &writer, RigidbodyComponent const &value)
 {
     MINTY_NOT_IMPLEMENTED();
 }
 
-Bool Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBodyComponent &value)
+Bool Minty::Serializer<RigidbodyComponent>::deserialize(Reader &reader, RigidbodyComponent &value)
 {
-    if (!value.rigidBody)
+    if (!value.rigidbody)
     {
         // get rigid body info
-        RigidBodyInfo info{};
+        RigidbodyInfo info{};
         reader.read("Mass", info.mass);
         reader.read("Friction", info.friction);
         reader.read("Bounce", info.bounce);
@@ -46,7 +46,7 @@ Bool Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBod
         reader.read("Static", info.isStatic);
 
         // create new rigid body
-        value.rigidBody = RigidBody::create(info);
+        value.rigidbody = Rigidbody::create(info);
     }
     else
     {
@@ -54,15 +54,15 @@ Bool Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBod
         Float tempFloat;
         if(reader.read("Mass", tempFloat))
         {
-            value.rigidBody->set_mass(tempFloat);
+            value.rigidbody->set_mass(tempFloat);
         }
         if(reader.read("Friction", tempFloat))
         {
-            value.rigidBody->set_friction(tempFloat);
+            value.rigidbody->set_friction(tempFloat);
         }
         if(reader.read("Bounce", tempFloat))
         {
-            value.rigidBody->set_bounce(tempFloat);
+            value.rigidbody->set_bounce(tempFloat);
         }
 
         Constraints tempConstraints;
@@ -70,14 +70,14 @@ Bool Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBod
         {
             if(reader.read("Rotation", tempConstraints))
             {
-                value.rigidBody->set_rotation_constraints(tempConstraints);
+                value.rigidbody->set_rotation_constraints(tempConstraints);
             }
             // TODO: position constraints
             reader.outdent();
         }
 
         Shared<Collider> tempCollider;
-        if(reader.read("Collider", tempCollider) && tempCollider != nullptr && tempCollider != value.rigidBody->get_collider())
+        if(reader.read("Collider", tempCollider) && tempCollider != nullptr && tempCollider != value.rigidbody->get_collider())
         {
             // changing collider of existing rigid body is not supported
             MINTY_ERROR(ErrorCode::Component_InvalidState);
@@ -86,11 +86,11 @@ Bool Minty::Serializer<RigidBodyComponent>::deserialize(Reader &reader, RigidBod
         Bool tempBool;
         if(reader.read("Kinematic", tempBool))
         {
-            value.rigidBody->set_kinematic(tempBool);
+            value.rigidbody->set_kinematic(tempBool);
         }
         if(reader.read("Static", tempBool))
         {
-            value.rigidBody->set_static(tempBool);
+            value.rigidbody->set_static(tempBool);
         }
     }
     return true;

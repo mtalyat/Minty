@@ -1,35 +1,35 @@
-#ifndef MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
-#define MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
+#ifndef MINTY_COMPONENT_RigidbodyCOMPONENT_H
+#define MINTY_COMPONENT_RigidbodyCOMPONENT_H
 
 /**
- * @file RigidBodyComponent.h
- * @brief Header file defining the RigidBodyComponent structure.
+ * @file RigidbodyComponent.h
+ * @brief Header file defining the RigidbodyComponent structure.
  * @author Mitchell Talyat
  */
 
 #include "Minty/Component/Component.h"
-#include "Minty/Physics/RigidBody.h"
+#include "Minty/Physics/Rigidbody.h"
 
 namespace Minty
 {
 	/**
-	 * @brief Holds a RigidBody for an Entity.
+	 * @brief Holds a Rigidbody for an Entity.
 	 */
-	struct RigidBodyComponent
+	struct RigidbodyComponent
 		: public Component
 	{
 		/**
-		 * @brief The RigidBody associated with this component.
+		 * @brief The Rigidbody associated with this component.
 		 */
-		Shared<RigidBody> rigidBody = nullptr;
+		Shared<Rigidbody> rigidbody = nullptr;
 	};
 
 	template<>
-	struct Serializer<RigidBodyComponent>
+	struct Serializer<RigidbodyComponent>
 	{
-		static void serialize(Writer& writer, RigidBodyComponent const& value);
-		static Bool deserialize(Reader& reader, RigidBodyComponent& value);
+		static void serialize(Writer& writer, RigidbodyComponent const& value);
+		static Bool deserialize(Reader& reader, RigidbodyComponent& value);
 	};
 }
 
-#endif // MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
+#endif // MINTY_COMPONENT_RigidbodyCOMPONENT_H

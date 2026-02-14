@@ -18,7 +18,7 @@ namespace Minty
 	struct PhysicsSimulationInfo;
 	class Transform;
 	class Collider;
-	class RigidBody;
+	class Rigidbody;
 	struct RaycastHit;
 
 	/**
@@ -82,13 +82,13 @@ namespace Minty
 		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer, Layer const layerMask) = 0;
 
 		/**
-		 * @brief Adds a dynamic RigidBody to the physics simulation.
+		 * @brief Adds a dynamic Rigidbody to the physics simulation.
 		 * @param entity The Entity.
-		 * @param body The RigidBody.
+		 * @param body The Rigidbody.
 		 * @param layer The Layer.
 		 * @param layerMask The Layer mask.
 		 */
-		virtual void add_dynamic(Entity const entity, RigidBody& body, Layer const layer, Layer const layerMask) = 0;
+		virtual void add_dynamic(Entity const entity, Rigidbody& body, Layer const layer, Layer const layerMask) = 0;
 
 		/**
 		 * @brief Removes a static Collider from the physics simulation.
@@ -97,10 +97,10 @@ namespace Minty
 		virtual void remove_static(Collider& collider) = 0;
 
 		/**
-		 * @brief Removes a dynamic RigidBody from the physics simulation.
-		 * @param body The RigidBody.
+		 * @brief Removes a dynamic Rigidbody from the physics simulation.
+		 * @param body The Rigidbody.
 		 */
-		virtual void remove_dynamic(RigidBody& body) = 0;
+		virtual void remove_dynamic(Rigidbody& body) = 0;
 
 		/**
 		 * @brief Performs a raycast in the physics simulation.

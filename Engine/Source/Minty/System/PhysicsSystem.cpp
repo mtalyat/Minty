@@ -6,7 +6,7 @@
 #include "Minty/Component/DestroyTag.h"
 #include "Minty/Component/EnabledTag.h"
 #include "Minty/Component/MeshComponent.h"
-#include "Minty/Component/RigidBodyComponent.h"
+#include "Minty/Component/RigidbodyComponent.h"
 #include "Minty/Component/_PhysicsComponents.h"
 #include "Minty/Component/PositionComponent.h"
 #include "Minty/Component/RotationComponent.h"
@@ -28,7 +28,7 @@
 using namespace Minty;
 
 // update rigidbody values from entity components
-static void set_rigidbody_values(Entity const entity, EntityManager &entityManager, RigidBody &body)
+static void set_rigidbody_values(Entity const entity, EntityManager &entityManager, Rigidbody &body)
 {
 	// if there is a parent, base this transform off of the parent's global transform
 	TransformComponent const * const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
@@ -98,7 +98,7 @@ static void set_rigidbody_values(Entity const entity, EntityManager &entityManag
 }
 
 // update entity components from rigidbody values
-static void get_rigidbody_values(Entity const entity, EntityManager &entityManager, RigidBody &body)
+static void get_rigidbody_values(Entity const entity, EntityManager &entityManager, Rigidbody &body)
 {
 	// if there is a parent, convert global transform to local
 	TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
@@ -152,10 +152,10 @@ void Minty::PhysicsSystem::initialize_entities()
 	LayerManager &layerManager = LayerManager::get_singleton();
 
 	// check for disabled entities
-	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent, SimulateTag const>(entt::exclude<RigidBodyComponent, EnabledTag>).each())
+	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent, SimulateTag const>(entt::exclude<RigidbodyComponent, EnabledTag>).each())
 	{
 		MINTY_ASSERT_F(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
-		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
+		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a Rigidbody. Entity: {}", entityManager.get_name(entity)
 
 		// remove from physics simulation
 		m_simulation->remove_static(*colliderComp.collider);
@@ -163,25 +163,25 @@ void Minty::PhysicsSystem::initialize_entities()
 		// remove simulate component
 		entityManager.remove_component<SimulateTag>(entity);
 	}
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent, SimulateTag const>(entt::exclude<EnabledTag>).each())
+	for (auto &&[entity, bodyComp] : entityManager.view<RigidbodyComponent, SimulateTag const>(entt::exclude<EnabledTag>).each())
 	{
-		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(bodyComp.rigidbody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
 
 		// remove from physics simulation
-		m_simulation->remove_dynamic(*bodyComp.rigidBody);
+		m_simulation->remove_dynamic(*bodyComp.rigidbody);
 
 		// update entity components from rigidbody values
-		get_rigidbody_values(entity, entityManager, *bodyComp.rigidBody);
+		get_rigidbody_values(entity, entityManager, *bodyComp.rigidbody);
 
 		// remove simulate component
 		entityManager.remove_component<SimulateTag>(entity);
 	}
 
 	// check for enabled, non-simulated entities
-	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent, EnabledTag const>(entt::exclude<RigidBodyComponent, SimulateTag, DestroyTag>).each())
+	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent, EnabledTag const>(entt::exclude<RigidbodyComponent, SimulateTag, DestroyTag>).each())
 	{
 		MINTY_ASSERT_F(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.to_string(entity));
-		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState, entityManager.to_string(entity));					// "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
+		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState, entityManager.to_string(entity));					// "Collider must be static if it does not have a Rigidbody. Entity: {}", entityManager.get_name(entity)
 		MINTY_ASSERT_F(colliderComp.collider->get_shape() != Shape::Empty, ErrorCode::Component_InvalidState, entityManager.to_string(entity)); // "Collider must have a non-empty shape. Entity: {}", entityManager.get_name(entity)
 
 		// add to physics simulation
@@ -201,17 +201,17 @@ void Minty::PhysicsSystem::initialize_entities()
 		// add simulate component
 		entityManager.add_component<SimulateTag>(entity);
 	}
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent, EnabledTag const>(entt::exclude<SimulateTag, DestroyTag>).each())
+	for (auto &&[entity, bodyComp] : entityManager.view<RigidbodyComponent, EnabledTag const>(entt::exclude<SimulateTag, DestroyTag>).each())
 	{
-		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		MINTY_ASSERT_F(bodyComp.rigidbody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
 
 		// add to physics simulation
 		Layer const layer = entityManager.get_layer(entity);
 		Layer const mask = layerManager.get_mask(layer);
-		m_simulation->add_dynamic(entity, *bodyComp.rigidBody, layer, mask);
+		m_simulation->add_dynamic(entity, *bodyComp.rigidbody, layer, mask);
 
 		// update rigidbody values from entity components
-		set_rigidbody_values(entity, entityManager, *bodyComp.rigidBody);
+		set_rigidbody_values(entity, entityManager, *bodyComp.rigidbody);
 
 		// add simulate component
 		entityManager.add_component<SimulateTag>(entity);
@@ -226,21 +226,21 @@ void Minty::PhysicsSystem::deinitialize_entities()
 	EntityManager &entityManager = scene->get_entity_manager();
 
 	// clear simulation
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent const, SimulateTag const>().each())
+	for (auto &&[entity, bodyComp] : entityManager.view<RigidbodyComponent const, SimulateTag const>().each())
 	{
-		if (!bodyComp.rigidBody)
+		if (!bodyComp.rigidbody)
 		{
 			MINTY_ERROR(ErrorCode::Component_InvalidState);
 			continue;
 		}
 
 		// remove from physics simulation
-		m_simulation->remove_dynamic(*bodyComp.rigidBody);
+		m_simulation->remove_dynamic(*bodyComp.rigidbody);
 
-		if (bodyComp.rigidBody->is_dynamic())
+		if (bodyComp.rigidbody->is_dynamic())
 		{
 			// update entity components from rigidbody values
-			get_rigidbody_values(entity, entityManager, *bodyComp.rigidBody);
+			get_rigidbody_values(entity, entityManager, *bodyComp.rigidbody);
 		}
 
 		// remove simulate component
@@ -254,12 +254,12 @@ void Minty::PhysicsSystem::update_simulated_entities(Timestep const time)
 	EntityManager &entityManager = scene.get_entity_manager();
 
 	// apply gravity to entities with GravityComponent
-	for (auto const &[entity, bodyComp, gravityComp] : entityManager.view<RigidBodyComponent const, GravityComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto const &[entity, bodyComp, gravityComp] : entityManager.view<RigidbodyComponent const, GravityComponent const, SimulateTag const, EnabledTag const>().each())
 	{
 		// throw an error if no rigid body, somehow
-		MINTY_ASSERT(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState);
+		MINTY_ASSERT(bodyComp.rigidbody != nullptr, ErrorCode::Component_InvalidState);
 
-		if (!bodyComp.rigidBody->is_dynamic())
+		if (!bodyComp.rigidbody->is_dynamic())
 		{
 			// only apply to dynamic bodies
 			continue;
@@ -267,7 +267,7 @@ void Minty::PhysicsSystem::update_simulated_entities(Timestep const time)
 
 		// apply gravity force
 		Float3 const gravityForce = gravityComp.scale * m_simulation->get_gravity();
-		bodyComp.rigidBody->add_force(gravityForce, Force::Continuous);
+		bodyComp.rigidbody->add_force(gravityForce, Force::Continuous);
 	}
 }
 
@@ -276,14 +276,14 @@ void Minty::PhysicsSystem::update_simulation_from_world(Timestep const time)
 	Scene &scene = get_scene();
 	EntityManager &entityManager = scene.get_entity_manager();
 
-	for (auto const &[entity, bodyComp] : entityManager.view<RigidBodyComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto const &[entity, bodyComp] : entityManager.view<RigidbodyComponent const, SimulateTag const, EnabledTag const>().each())
 	{
-		if (bodyComp.rigidBody == nullptr)
+		if (bodyComp.rigidbody == nullptr)
 		{
-			MINTY_LOG_WARNING_F("Entity {} has no RigidBody to update to simulation.", entityManager.to_string(entity));
+			MINTY_LOG_WARNING_F("Entity {} has no Rigidbody to update to simulation.", entityManager.to_string(entity));
 			continue;
 		}
-		RigidBody &body = *bodyComp.rigidBody;
+		Rigidbody &body = *bodyComp.rigidbody;
 
 		set_rigidbody_values(entity, entityManager, body);
 	}
@@ -294,14 +294,14 @@ void Minty::PhysicsSystem::update_world_from_simulation(Timestep const time)
 	Scene &scene = get_scene();
 	EntityManager &entityManager = scene.get_entity_manager();
 
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto &&[entity, bodyComp] : entityManager.view<RigidbodyComponent const, SimulateTag const, EnabledTag const>().each())
 	{
-		if (bodyComp.rigidBody == nullptr)
+		if (bodyComp.rigidbody == nullptr)
 		{
-			MINTY_LOG_WARNING_F("Entity {} has no RigidBody to update from simulation.", entityManager.to_string(entity));
+			MINTY_LOG_WARNING_F("Entity {} has no Rigidbody to update from simulation.", entityManager.to_string(entity));
 			continue;
 		}
-		RigidBody &body = *bodyComp.rigidBody;
+		Rigidbody &body = *bodyComp.rigidbody;
 
 		get_rigidbody_values(entity, entityManager, body);
 	}
@@ -331,7 +331,7 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 	Float const alpha = (time.get_total() - m_lastUpdateTimestep.get_total()) / m_lastUpdateTimestep.get_elapsed();
 
 	// for each entity with a transform and physics components, lerp from the old data to the new data for smooth rendering
-	for (auto &&[entity, transformComp, physicsComp, bodyComp] : entityManager.view<TransformComponent, PhysicsComponent const, RigidBodyComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto &&[entity, transformComp, physicsComp, bodyComp] : entityManager.view<TransformComponent, PhysicsComponent const, RigidbodyComponent const, SimulateTag const, EnabledTag const>().each())
 	{
 		// if there is a parent, base this transform off of the parent's global transform
 		TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
@@ -426,10 +426,10 @@ void Minty::PhysicsSystem::on_finalize()
 	for (auto &&[entity] : entityManager.view<SimulateTag const, DestroyTag const>().each())
 	{
 		// remove from physics simulation
-		RigidBodyComponent const *bodyComp = entityManager.try_get_component<RigidBodyComponent>(entity);
-		if (bodyComp != nullptr && bodyComp->rigidBody != nullptr)
+		RigidbodyComponent const *bodyComp = entityManager.try_get_component<RigidbodyComponent>(entity);
+		if (bodyComp != nullptr && bodyComp->rigidbody != nullptr)
 		{
-			m_simulation->remove_dynamic(*bodyComp->rigidBody);
+			m_simulation->remove_dynamic(*bodyComp->rigidbody);
 		}
 		else
 		{
