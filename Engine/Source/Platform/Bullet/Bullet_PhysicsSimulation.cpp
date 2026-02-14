@@ -244,7 +244,7 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, RigidBody
 	Ref<Scene> const &scene = sceneManager.get_active();
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager &entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Added dynamic RigidBody to simulation: {}", entityManager.to_string(objectData->entity));
+	MINTY_LOG_DEBUG_F("Added dynamic RigidBody to simulation: {} / {}", entityManager.to_string(objectData->entity), objectData->collider->get_position());
 
 #endif // MINTY_DEBUG
 }
