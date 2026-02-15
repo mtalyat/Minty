@@ -30,17 +30,27 @@ namespace Minty
         /**
          * @brief The previous position of the entity.
          */
-        Float3 previousPosition = Math::ZERO;
+        Float3 previousGlobalPosition = Math::ZERO;
 
         /**
          * @brief The previous rotation of the entity.
          */
-        Quaternion previousRotation = Math::identity<Quaternion>();
+        Quaternion previousGlobalRotation = Math::identity<Quaternion>();
 
         /**
-         * @brief The previous scale of the entity.
+         * @brief The previous position of the entity.
          */
-        Float3 previousScale = Math::ONE;
+        Float3 previousLocalPosition = Math::ZERO;
+
+        /**
+         * @brief The previous rotation of the entity.
+         */
+        Quaternion previousLocalRotation = Math::identity<Quaternion>();
+
+        /**
+         * @brief The previous velocity of the entity.
+         */
+        Float3 previousVelocity = Math::ZERO;
     };
 }
 

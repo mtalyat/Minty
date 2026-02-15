@@ -15,7 +15,12 @@ static std::uniform_real_distribution<WFloat> s_uniformDistributionDouble;
 static std::uniform_int_distribution<WInt> s_uniformDistributionLong;
 static std::uniform_int_distribution<WUInt> s_uniformDistributionULong;
 
-Float3 Minty::Math::normalize(Float3 const& value)
+Quaternion Minty::Math::inverse(Quaternion const &value)
+{
+    return glm::inverse(value);
+}
+
+Float3 Minty::Math::normalize(Float3 const &value)
 {
 	// edge case for zero vector
 	if (value.x == 0.0f && value.y == 0.0f && value.z == 0.0f)

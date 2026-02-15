@@ -238,15 +238,16 @@ void Minty::Bullet_PhysicsSimulation::add_dynamic(Entity const entity, Rigidbody
 	objectData->layerBit = layerManager.layer_to_bit(layer);
 	objectData->layerMask = layerMask;
 
-#ifdef MINTY_DEBUG
+// #ifdef MINTY_DEBUG
 
-	SceneManager &sceneManager = SceneManager::get_singleton();
-	Ref<Scene> const &scene = sceneManager.get_active();
-	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
-	EntityManager &entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Added dynamic Rigidbody to simulation: {} / {}", entityManager.to_string(objectData->entity), objectData->collider->get_position());
+// 	SceneManager &sceneManager = SceneManager::get_singleton();
+// 	Ref<Scene> const &scene = sceneManager.get_active();
+// 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
+// 	EntityManager &entityManager = scene->get_entity_manager();
+// 	Float3 const bodyPosition = Bullet_Physics::to_minty(rigidbody->getCenterOfMassPosition());
+// 	MINTY_LOG_DEBUG_F("Added dynamic Rigidbody to simulation: {} / {}", entityManager.to_string(objectData->entity), bodyPosition);
 
-#endif // MINTY_DEBUG
+// #endif // MINTY_DEBUG
 }
 
 void Minty::Bullet_PhysicsSimulation::remove_static(Collider &collider)
@@ -287,15 +288,16 @@ void Minty::Bullet_PhysicsSimulation::remove_dynamic(Rigidbody &body)
 	// remove from dynamics world
 	mp_dynamicsWorld->removeRigidBody(rigidbody);
 
-#ifdef MINTY_DEBUG
+// #ifdef MINTY_DEBUG
 
-	SceneManager &sceneManager = SceneManager::get_singleton();
-	Ref<Scene> const &scene = sceneManager.get_active();
-	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
-	EntityManager &entityManager = scene->get_entity_manager();
-	MINTY_LOG_DEBUG_F("Removed dynamic Rigidbody from simulation: {}", entityManager.to_string(objectData->entity));
+// 	SceneManager &sceneManager = SceneManager::get_singleton();
+// 	Ref<Scene> const &scene = sceneManager.get_active();
+// 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
+// 	EntityManager &entityManager = scene->get_entity_manager();
+// 	Float3 const bodyPosition = Bullet_Physics::to_minty(rigidbody->getCenterOfMassPosition());
+// 	MINTY_LOG_DEBUG_F("Removed dynamic Rigidbody from simulation: {} / {}", entityManager.to_string(objectData->entity), bodyPosition);
 
-#endif // MINTY_DEBUG
+// #endif // MINTY_DEBUG
 
 	// clear user data
 	objectData->entity = INVALID_ENTITY;

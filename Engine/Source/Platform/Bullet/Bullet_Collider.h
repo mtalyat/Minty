@@ -39,7 +39,7 @@ namespace Minty
 
 		inline btCollisionShape *get_collision_shape() const
 		{
-			return mp_shape;
+			return mp_root;
 		}
 
 		inline btCollisionObject *get_collision_object() const

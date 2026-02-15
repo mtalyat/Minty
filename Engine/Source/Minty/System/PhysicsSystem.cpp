@@ -27,109 +27,161 @@
 
 using namespace Minty;
 
+static Float3 get_position(TransformComponent const *const transformComp, PositionComponent const *const positionComp)
+{
+	if (positionComp)
+	{
+		return positionComp->position;
+	}
+	else if (transformComp)
+	{
+		return transformComp->transform.get_local_position();
+	}
+	else
+	{
+		return Math::ZERO;
+	}
+}
+
+static void set_position(TransformComponent *const transformComp, PositionComponent *const positionComp, Float3 const &position)
+{
+	if (positionComp)
+	{
+		positionComp->position = position;
+	}
+	else if (transformComp)
+	{
+		transformComp->transform.set_local_position(position);
+	}
+}
+
+static Quaternion get_rotation(TransformComponent const *const transformComp, RotationComponent const *const rotationComp)
+{
+	if (rotationComp)
+	{
+		return rotationComp->rotation;
+	}
+	else if (transformComp)
+	{
+		return transformComp->transform.get_local_rotation();
+	}
+	else
+	{
+		return Math::identity<Quaternion>();
+	}
+}
+
+static void set_rotation(TransformComponent *const transformComp, RotationComponent *const rotationComp, Quaternion const &rotation)
+{
+	if (rotationComp)
+	{
+		rotationComp->rotation = rotation;
+	}
+	else if (transformComp)
+	{
+		transformComp->transform.set_local_rotation(rotation);
+	}
+}
+
+static Float3 get_velocity(VelocityComponent const *const velocityComp)
+{
+	if (velocityComp)
+	{
+		return velocityComp->velocity;
+	}
+	else
+	{
+		return Math::ZERO;
+	}
+}
+
+static void set_velocity(VelocityComponent *const velocityComp, Float3 const &velocity)
+{
+	if (velocityComp)
+	{
+		velocityComp->velocity = velocity;
+	}
+}
+
 // update rigidbody values from entity components
 static void set_rigidbody_values(Entity const entity, EntityManager &entityManager, Rigidbody &body)
 {
 	// if there is a parent, base this transform off of the parent's global transform
-	TransformComponent const * const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
-	PositionComponent const * const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
-	RotationComponent const * const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
-	TransformComponent const * const parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
-
-	// save previous transform for interpolation
+	TransformComponent const *const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
+	PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
+	RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
+	VelocityComponent const *const velocityComp = entityManager.try_get_component<VelocityComponent const>(entity);
+	Entity const parent = entityManager.get_parent(entity);
+	TransformComponent const *const parentTransformComp = entityManager.try_get_component<TransformComponent const>(parent);
 	PhysicsComponent &physicsComp = entityManager.get_or_add_component<PhysicsComponent>(entity);
 
 	// set transform based on Position, Rotation, Scale components if they exist
+	physicsComp.previousLocalPosition = get_position(transformComp, positionComp);
+	physicsComp.previousLocalRotation = get_rotation(transformComp, rotationComp);
+	physicsComp.previousVelocity = get_velocity(velocityComp);
 	if (parentTransformComp)
 	{
-		if(positionComp)
-		{
-			body.set_position(parentTransformComp->transform.get_global_position() + positionComp->position);
-		}
-		else if (transformComp)
-		{
-			body.set_position(parentTransformComp->transform.get_global_position() + transformComp->transform.get_local_position());
-		}
-		else
-		{
-			body.set_position(parentTransformComp->transform.get_global_position());
-		}
-		physicsComp.previousPosition = body.get_position();
-		if (rotationComp)
-		{
-			body.set_rotation(parentTransformComp->transform.get_global_rotation() + rotationComp->rotation);
-		}
-		else if (transformComp)
-		{
-			body.set_rotation(parentTransformComp->transform.get_global_rotation() + transformComp->transform.get_local_rotation());
-		}
-		else
-		{
-			body.set_rotation(parentTransformComp->transform.get_global_rotation());
-		}
-		physicsComp.previousRotation = body.get_rotation();
+		physicsComp.previousGlobalPosition = parentTransformComp->transform.get_global_position() + physicsComp.previousLocalPosition;
+		physicsComp.previousGlobalRotation = parentTransformComp->transform.get_global_rotation() + physicsComp.previousLocalRotation;
 	}
 	else
 	{
-		if (positionComp)
-		{
-			body.set_position(positionComp->position);
-			physicsComp.previousPosition = positionComp->position;
-		} else if (transformComp)
-		{
-			body.set_position(transformComp->transform.get_local_position());
-			physicsComp.previousPosition = transformComp->transform.get_local_position();
-		}
-		if (rotationComp)
-		{
-			body.set_rotation(rotationComp->rotation);
-			physicsComp.previousRotation = rotationComp->rotation;
-		} else if (transformComp)
-		{
-			body.set_rotation(transformComp->transform.get_local_rotation());
-			physicsComp.previousRotation = transformComp->transform.get_local_rotation();
-		}
+		physicsComp.previousGlobalPosition = physicsComp.previousLocalPosition;
+		physicsComp.previousGlobalRotation = physicsComp.previousLocalRotation;
 	}
-
-	if (VelocityComponent const *velocityComp = entityManager.try_get_component<VelocityComponent const>(entity))
-	{
-		body.set_linear_velocity(velocityComp->velocity);
-	}
+	body.set_position(physicsComp.previousGlobalPosition);
+	body.set_rotation(physicsComp.previousGlobalRotation);
+	body.set_linear_velocity(physicsComp.previousVelocity);
 }
 
 // update entity components from rigidbody values
 static void get_rigidbody_values(Entity const entity, EntityManager &entityManager, Rigidbody &body)
 {
-	// if there is a parent, convert global transform to local
-	TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
+	// if there is a parent, base this transform off of the parent's global transform
+	TransformComponent *const transformComp = entityManager.try_get_component<TransformComponent>(entity);
+	PositionComponent *const positionComp = entityManager.try_get_component<PositionComponent>(entity);
+	RotationComponent *const rotationComp = entityManager.try_get_component<RotationComponent>(entity);
+	VelocityComponent *const velocityComp = entityManager.try_get_component<VelocityComponent>(entity);
+	Entity const parent = entityManager.get_parent(entity);
+	TransformComponent const *const parentTransformComp = entityManager.try_get_component<TransformComponent const>(parent);
+	PhysicsComponent const &physicsComp = entityManager.get_or_add_component<PhysicsComponent>(entity);
 
-	// set the entity's Position, Rotation, Scale components if they exist
+	// if a transform value was modified during a collision, then do not use the body's value: use the position
+
+	Float3 localPosition = get_position(transformComp, positionComp);
+	Float3 velocity = get_velocity(velocityComp);
+	if (localPosition == physicsComp.previousLocalPosition)
+	{
+		// if the position was not modified during a collision, then update it based on the body's position
+		if (parentTransformComp)
+		{
+			localPosition = body.get_position() - parentTransformComp->transform.get_global_position();
+		}
+		else
+		{
+			localPosition = body.get_position();
+		}
+		set_position(transformComp, positionComp, localPosition);
+	}
+	if(velocity == physicsComp.previousVelocity)
+	{
+		// if the velocity was not modified during a collision, then update it based on the body's velocity
+		set_velocity(velocityComp, body.get_linear_velocity());
+	}
+
 	if (parentTransformComp)
 	{
-		if (PositionComponent *positionComp = entityManager.try_get_component<PositionComponent>(entity))
-		{
-			positionComp->position = body.get_position() - parentTransformComp->transform.get_global_position();
-		}
-		if (RotationComponent *rotationComp = entityManager.try_get_component<RotationComponent>(entity))
+		if (rotationComp)
 		{
 			rotationComp->rotation = body.get_rotation() - parentTransformComp->transform.get_global_rotation();
 		}
 	}
 	else
 	{
-		if (PositionComponent *positionComp = entityManager.try_get_component<PositionComponent>(entity))
-		{
-			positionComp->position = body.get_position();
-		}
-		if (RotationComponent *rotationComp = entityManager.try_get_component<RotationComponent>(entity))
+		if (rotationComp)
 		{
 			rotationComp->rotation = body.get_rotation();
 		}
-	}
-
-	if (VelocityComponent *velocityComp = entityManager.try_get_component<VelocityComponent>(entity))
-	{
-		velocityComp->velocity = body.get_linear_velocity();
 	}
 }
 
@@ -341,36 +393,26 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 		{
 			if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
 			{
-				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousPosition, positionComp->position, alpha);
+				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousGlobalPosition, positionComp->position, alpha);
 				transformComp.transform.set_local_position(interpolatedPosition - parentTransformComp->transform.get_global_position());
 			}
 			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
-				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousRotation, rotationComp->rotation, alpha);
+				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
 				transformComp.transform.set_local_rotation(interpolatedRotation - parentTransformComp->transform.get_global_rotation());
-			}
-			if (ScaleComponent const *scaleComp = entityManager.try_get_component<ScaleComponent const>(entity))
-			{
-				Float3 const interpolatedScale = Math::lerp(physicsComp.previousScale, scaleComp->scale, alpha);
-				transformComp.transform.set_local_scale(interpolatedScale / parentTransformComp->transform.get_global_scale());
 			}
 		}
 		else
 		{
 			if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
 			{
-				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousPosition, positionComp->position, alpha);
+				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousGlobalPosition, positionComp->position, alpha);
 				transformComp.transform.set_local_position(interpolatedPosition);
 			}
 			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
-				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousRotation, rotationComp->rotation, alpha);
+				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
 				transformComp.transform.set_local_rotation(interpolatedRotation);
-			}
-			if (ScaleComponent const *scaleComp = entityManager.try_get_component<ScaleComponent const>(entity))
-			{
-				Float3 const interpolatedScale = Math::lerp(physicsComp.previousScale, scaleComp->scale, alpha);
-				transformComp.transform.set_local_scale(interpolatedScale);
 			}
 		}
 

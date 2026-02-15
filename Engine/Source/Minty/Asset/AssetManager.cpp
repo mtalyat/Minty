@@ -455,7 +455,7 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path)
 		return nullptr;
 	}
 
-	MINTY_LOG_DEBUG_F("Loaded Asset: ID={}, Type={}, Path={}", asset->get_id(), type, path);
+	// MINTY_LOG_DEBUG_F("Loaded Asset: ID={}, Type={}, Path={}", asset->get_id(), type, path);
 	return asset;
 }
 
@@ -501,7 +501,7 @@ void Minty::AssetManager::unload(UUID const id)
 	// remove from the lists
 	remove(id);
 
-	MINTY_LOG_DEBUG_F("Unloaded Asset: ID={}", id);
+	// MINTY_LOG_DEBUG_F("Unloaded Asset: ID={}", id);
 }
 
 void Minty::AssetManager::unload_all()

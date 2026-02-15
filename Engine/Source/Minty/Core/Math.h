@@ -1195,6 +1195,13 @@ namespace Minty
 			return value - Math::floor(value / divisor) * divisor;
 		}
 
+		/**
+		 * @brief Gets the inverse of the given quaternion.
+		 * @param value The quaternion to invert.
+		 * @return The inverse of the given quaternion.
+		 */
+		Quaternion inverse(Quaternion const& value);
+
 #pragma endregion
 
 #pragma region Utility
