@@ -4,6 +4,7 @@
 #include "Minty/Render/Mesh.h"
 #include "Minty/Serialization/Reader.h"
 #include "Minty/Serialization/Writer.h"
+#include "Minty/Physics/PhysicsManager.h"
 #ifdef MINTY_BULLET
 #include "Platform/Bullet/Bullet_Collider.h"
 #endif
@@ -11,8 +12,14 @@
 using namespace Minty;
 
 Minty::Collider::Collider(ColliderInfo const &info)
-	: m_shape(info.shape), m_mesh(info.mesh), m_onEnter(nullptr), m_onStay(nullptr), m_onExit(nullptr), m_offset(info.offset), m_size(info.size), m_isStatic(info.isStatic), m_isTrigger(info.isTrigger)
+	: m_shape(info.shape), m_mesh(info.mesh), m_material(info.material), m_onEnter(nullptr), m_onStay(nullptr), m_onExit(nullptr), m_offset(info.offset), m_size(info.size), m_isStatic(info.isStatic), m_isTrigger(info.isTrigger)
 {
+	// if no material was given, use the default material from the PhysicsManager
+	if (!m_material)
+	{
+		PhysicsManager& physicsManager = PhysicsManager::get_singleton();
+		m_material = physicsManager.get_default_material();
+	}
 }
 
 Shared<Collider> Minty::Collider::create(ColliderInfo const &info)

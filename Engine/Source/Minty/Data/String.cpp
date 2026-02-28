@@ -1,8 +1,7 @@
 #include "String.h"
-#include "Minty/Memory/HeapAllocator.h"
+#include "Minty/Core/Constant.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Tool/String.h"
-#include "Minty/Core/Constant.h"
 
 using namespace Minty;
 

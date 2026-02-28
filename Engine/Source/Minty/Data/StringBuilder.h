@@ -10,8 +10,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/String.h"
 #include "Minty/Data/StringView.h"
-#include "Minty/Memory/DebugAllocator.h"
-#include "Minty/Memory/HeapAllocator.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {

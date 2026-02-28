@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "ConstantContainer.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Memory/HeapAllocator.h"
 
 using namespace Minty;
 

@@ -73,14 +73,6 @@ namespace Minty
 
 	struct CollisionData;
 	using CollisionCallback = Function<void(CollisionData const&)>;
-
-#ifdef MINTY_DEBUG
-	class DebugAllocator;
-	using DefaultAllocator = DebugAllocator;
-#else
-	class HeapAllocator;
-	using DefaultAllocator = HeapAllocator;
-#endif // MINTY_DEBUG
 }
 
 #endif // MINTY_CORE_TYPES_H

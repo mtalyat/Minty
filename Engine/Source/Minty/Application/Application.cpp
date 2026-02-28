@@ -68,6 +68,12 @@ Minty::Application::Application(ApplicationInfo const &info)
 									 { handle_event(event); });
 	}
 
+	if (info.assetManagerInfo)
+	{
+		m_assetManager = AssetManager::create(*info.assetManagerInfo);
+		m_managers.add(m_assetManager.get());
+	}
+
 	if (info.audioManagerInfo)
 	{
 		m_audioManager = AudioManager::create(*info.audioManagerInfo);
@@ -86,23 +92,17 @@ Minty::Application::Application(ApplicationInfo const &info)
 		m_managers.add(m_physicsManager.get());
 	}
 
-	if (info.assetManagerInfo)
+	if (info.renderManagerInfo)
 	{
-		m_assetManager = AssetManager::create(*info.assetManagerInfo);
-		m_managers.add(m_assetManager.get());
+		m_renderManager = RenderManager::create(*info.renderManagerInfo);
+		m_renderManager->initialize();
+		m_managers.add(m_renderManager.get());
 	}
 
 	if (info.inputManagerInfo)
 	{
 		m_inputManager = InputManager::create(*info.inputManagerInfo);
 		m_managers.add(m_inputManager.get());
-	}
-
-	if (info.renderManagerInfo)
-	{
-		m_renderManager = RenderManager::create(*info.renderManagerInfo);
-		m_renderManager->initialize();
-		m_managers.add(m_renderManager.get());
 	}
 
 	if (info.sceneManagerInfo)
@@ -125,8 +125,8 @@ Minty::Application::~Application()
 
 	m_timeController.release();
 	m_sceneManager.release();
-	m_inputManager.release();
 	m_assetManager.release();
+	m_inputManager.release();
 	m_physicsManager.release();
 	m_layerManager.release();
 	m_audioManager.release();

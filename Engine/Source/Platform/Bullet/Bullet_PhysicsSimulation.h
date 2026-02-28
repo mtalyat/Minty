@@ -3,6 +3,7 @@
 #include "Minty/Physics/PhysicsSimulation.h"
 #include "Minty/Data/Set.h"
 #include "Minty/Data/Tuple.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
@@ -53,9 +54,24 @@ namespace std
 
 namespace Minty
 {
+	struct Bullet_Object;
+
 	class Bullet_PhysicsSimulation
 		: public PhysicsSimulation
 	{
+#pragma region Types
+
+	private:
+		struct EntityObjectData
+		{
+			Bullet_Object *data = nullptr;
+			btCollisionObject *object = nullptr;
+			btRigidBody *body = nullptr;
+			Bool isInSimulation = false;
+		};
+
+#pragma endregion
+
 #pragma region Constructors
 
 	public:
@@ -78,14 +94,16 @@ namespace Minty
 
 	public:
 		void step(Float const elapsedTime) override;
-		void add_static(Entity const entity, Transform const &transform, Collider &collider, Layer const layer, Layer const layerMask) override;
-		void add_dynamic(Entity const entity, Rigidbody &body, Layer const layer, Layer const layerMask) override;
-		void remove_static(Collider &collider) override;
-		void remove_dynamic(Rigidbody &body) override;
+		void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Float3 const worldPosition) override;
+		void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Rigidbody &rigidbody) override;
+		void unregister_entity(Entity const entity) override;
+		void add(Entity const entity) override;
+		void remove(Entity const entity) override;
 		Bool raycast(Float3 const &origin, Float3 const &direction, RaycastHit &hit, Layer const layer = LAYER_DEFAULT, Layer const layerMask = LAYER_MASK_ALL, Float const maxDistance = DEFAULT_PHYSICS_RAYCAST_DISTANCE) const override;
 		void clear() override;
 
 	private:
+		void register_entity(Entity const entity, Layer const layer, Layer const layerMask);
 		// removes all collisions involving the given object
 		void remove_collisions_for_object(AnyConst object);
 
@@ -99,6 +117,7 @@ namespace Minty
 		btCollisionDispatcher *mp_dispatcher;
 		btSequentialImpulseConstraintSolver *mp_solver;
 		btDiscreteDynamicsWorld *mp_dynamicsWorld;
+		Map<Entity, EntityObjectData> m_entityToObjectData;
 		Set<CollisionPair> m_previousCollisions;
 		Set<CollisionPair> m_currentCollisions;
 

@@ -25,6 +25,7 @@ namespace Minty
 		AudioClip,
 		Animation,
 		Animator,
+		PhysicsMaterial,
 		Viewport,
 		Bitmap,
 		Image,

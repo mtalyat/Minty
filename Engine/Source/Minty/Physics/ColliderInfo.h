@@ -11,8 +11,9 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Shape.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Render/Mesh.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/Physics/PhysicsMaterial.h"
+#include "Minty/Render/Mesh.h"
 
 namespace Minty
 {
@@ -30,6 +31,11 @@ namespace Minty
 		 * @brief The data for a custom Shape.
 		 */
 		Shared<Mesh> mesh = nullptr;
+
+		/**
+		 * @brief The PhysicsMaterial associated with this Collider.
+		 */
+		Shared<PhysicsMaterial> material = nullptr;
 
 		/**
 		 * @brief The offset of the collider.

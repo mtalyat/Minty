@@ -13,15 +13,23 @@
 namespace Minty
 {
     /**
-     * @brief Used to tag objects that should be controlled by the physics simulation.
+     * @brief Used to tag objects that have been registered to the physics simulation.
      */
-    struct SimulateTag
+    struct PhysicsRegisteredTag
         : public Component
     {
     };
 
     /**
-     * @brief Holds physics-related data for an Entity, from the previous fixed update.
+     * @brief Used to tag objects that should be controlled by the physics simulation.
+     */
+    struct PhysicsSimulationTag
+        : public Component
+    {
+    };
+
+    /**
+     * @brief Holds dynamic physics-related data for an Entity, from the previous fixed update.
      * Used to lerp between physics updates.
      */
     struct PhysicsComponent

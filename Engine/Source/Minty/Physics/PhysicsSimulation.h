@@ -72,35 +72,45 @@ namespace Minty
 		virtual void step(Float const elapsedTime) = 0;
 
 		/**
-		 * @brief Adds a static Collider to the physics simulation.
+		 * @brief Registers a Collider with the physics simulation.
 		 * @param entity The Entity.
-		 * @param transform The Transform.
-		 * @param collider The Collider.
 		 * @param layer The Layer.
-		 * @param layerMask The Layer mask.
+		 * @param layerMask The Layer mask to use.
+		 * @param collider The Collider.
+		 * @param worldPosition The world position to place the Collider at.
+		 * @note This does not add the Collider to the simulation, it only registers it so that it can be added later with add.
 		 */
-		virtual void add_static(Entity const entity, Transform const& transform, Collider& collider, Layer const layer, Layer const layerMask) = 0;
+		virtual void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Float3 const worldPosition) = 0;
 
 		/**
-		 * @brief Adds a dynamic Rigidbody to the physics simulation.
+		 * @brief Registers a Collider and Rigidbody with the physics simulation.
 		 * @param entity The Entity.
-		 * @param body The Rigidbody.
 		 * @param layer The Layer.
-		 * @param layerMask The Layer mask.
-		 */
-		virtual void add_dynamic(Entity const entity, Rigidbody& body, Layer const layer, Layer const layerMask) = 0;
-
-		/**
-		 * @brief Removes a static Collider from the physics simulation.
+		 * @param layerMask The Layer mask to use.
 		 * @param collider The Collider.
+		 * @param rigidbody The Rigidbody.
+		 * @note This does not add the Collider or Rigidbody to the simulation, it only registers them so that they can be added later with add.
 		 */
-		virtual void remove_static(Collider& collider) = 0;
+		virtual void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Rigidbody &rigidbody) = 0;
 
 		/**
-		 * @brief Removes a dynamic Rigidbody from the physics simulation.
-		 * @param body The Rigidbody.
+		 * @brief Unregisters an Entity from the physics simulation, removing any associated Colliders or Rigidbodies from the simulation and preventing them from being added again in the future unless re-registered.
+		 * @param entity The Entity.
 		 */
-		virtual void remove_dynamic(Rigidbody& body) = 0;
+		virtual void unregister_entity(Entity const entity) = 0;
+
+		/**
+		 * @brief Adds the corresponding physics object for an Entity to the simulation.
+		 * @param entity The Entity.
+		 * @note The Entity must have already been registered with the simulation, otherwise this function will not work correctly.
+		 */
+		virtual void add(Entity const entity) = 0;
+
+		/**
+		 * @brief Removes the corresponding physics object for an Entity from the simulation.
+		 * @param entity The Entity.
+		 */
+		virtual void remove(Entity const entity) = 0;
 
 		/**
 		 * @brief Performs a raycast in the physics simulation.

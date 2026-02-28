@@ -65,3 +65,26 @@ Bool Minty::Serializer<Scope>::deserialize(Reader &reader, Scope &scope)
 
     return true;
 }
+
+Bool Minty::Parser<Scope>::parse(StringView const str, Scope &value)
+{
+    MINTY_NOT_IMPLEMENTED();
+    return false;
+}
+
+String Minty::Parser<Scope>::to_string(Scope const &value)
+{
+    // useful for debugging
+    StringBuilder builder;
+    builder.append("{");
+    for (auto const &[string, key, val] : value.m_values)
+    {
+        builder.append(string);
+        builder.append("=");
+        builder.append(Parser<Int>::to_string(val));
+        builder.append(", ");
+    }
+    builder.slice(0, builder.get_size() - 2); // remove last comma and space
+    builder.append("}");
+    return builder.get_string();
+}

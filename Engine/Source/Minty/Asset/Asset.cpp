@@ -9,6 +9,7 @@
 #include "Minty/Asset/GenericAsset.h"
 #include "Minty/Audio/AudioClip.h"
 #include "Minty/Entity/Prefab.h"
+#include "Minty/Physics/PhysicsMaterial.h"
 #include "Minty/Render/Bitmap.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/Image.h"
@@ -70,6 +71,8 @@ AssetType Minty::Asset::get_asset_type(Path const& path)
 		{ EXTENSION_ANIMATION, AssetType::Animation },
 
 		{ EXTENSION_ANIMATOR, AssetType::Animator },
+
+		{ EXTENSION_PHYSICS_MATERIAL, AssetType::PhysicsMaterial },
 
 		{ EXTENSION_WRAP, AssetType::Wrap },
 
@@ -136,6 +139,8 @@ AssetType Minty::Asset::get_asset_type(TypeID const& typeId)
 		{ typeid(Animation), AssetType::Animation },
 
 		{ typeid(Animator), AssetType::Animator },
+
+		{ typeid(PhysicsMaterial), AssetType::PhysicsMaterial },
 
 		{ typeid(Wrap), AssetType::Wrap },
 

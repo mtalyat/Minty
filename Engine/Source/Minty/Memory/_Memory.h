@@ -2,6 +2,7 @@
 
 #include "Allocator.h"
 #include "DebugAllocator.h"
+#include "DefaultAllocator.h"
 #include "FrameAllocator.h"
 #include "HeapAllocator.h"
 #include "MemoryManager.h"

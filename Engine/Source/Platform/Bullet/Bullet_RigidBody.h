@@ -24,47 +24,30 @@ namespace Minty
 	public:
 		inline Any get_native() const override { return mp_body; }
 
-		Bool is_static() const override;
+		inline btRigidBody* get_rigidbody() const { return mp_body; }
+
+		// set and update values to the given body
+		void bind_rigidbody(btRigidBody* const body);
 
 		void set_static(Bool const isStatic) override;
 
-		Bool is_dynamic() const override;
-
-		Bool is_kinematic() const override;
-
 		void set_kinematic(Bool const isKinematic) override;
-		
-		Float get_mass() const override;
 
 		void set_mass(Float const mass) override;
 
-		Float3 get_position() const override;
-
-		void set_position(Float3 const& position) override;
-
-		Quaternion get_rotation() const override;
-
-		void set_rotation(Quaternion const& rotation) override;
-
-		Float3 get_linear_velocity() const override;
-
-		void set_linear_velocity(Float3 const& velocity) override;
-	
-		Float get_friction() const override;
-		
-		void set_friction(Float const friction) override;
-		
-		Float get_bounce() const override;
-		
-		void set_bounce(Float const bounce) override;
-
-		Constraints get_constraints() const override;
-
 		void set_rotation_constraints(Constraints const constraints) override;
 
-		void set_entity(Entity const entity);
+		Float3 get_simulation_position() const override;
 
-		Entity get_entity() const;
+		void set_simulation_position(Float3 const& position) override;
+
+		Quaternion get_simulation_rotation() const override;
+
+		void set_simulation_rotation(Quaternion const& rotation) override;
+
+		Float3 get_simulation_linear_velocity() const override;
+
+		void set_simulation_linear_velocity(Float3 const& velocity) override;
 
 #pragma endregion
 
@@ -72,6 +55,15 @@ namespace Minty
 
 	public:
 		void add_force(Float3 const& force, Force const mode) override;
+
+	private:
+		static void set_static(btRigidBody& body, Bool const isStatic);
+
+		static void set_kinematic(btRigidBody& body, Bool const isKinematic);
+
+		static void set_mass(btRigidBody& body, Float const mass);
+
+		static void set_rotation_constraints(btRigidBody& body, Constraints const constraints);
 
 #pragma endregion
 

@@ -11,8 +11,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Tuple.h"
 #include "Minty/Debug/Debug.h"
-#include "Minty/Memory/DebugAllocator.h"
-#include "Minty/Memory/HeapAllocator.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {

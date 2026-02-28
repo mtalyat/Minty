@@ -62,6 +62,7 @@
 #include "Minty/Serialization/TextWriter.h"
 #include "Minty/Stream/FileStream.h"
 #include "Minty/Serialization/EvaluatedTypes.h"
+#include "Minty/Physics/PhysicsMaterialInfo.h"
 
 using namespace Minty;
 
@@ -189,6 +190,8 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path, AssetType const 
 {
 	switch (type)
 	{
+	case AssetType::Prefab:
+		return load_prefab(path, id);
 	case AssetType::Generic:
 		return load_generic(path, id);
 	case AssetType::Bitmap:
@@ -227,8 +230,8 @@ Shared<Asset> Minty::AssetManager::load_asset(Path const &path, AssetType const 
 		return load_animator(path, id);
 	case AssetType::AudioClip:
 		return load_audio_clip(path, id);
-	case AssetType::Prefab:
-		return load_prefab(path, id);
+	case AssetType::PhysicsMaterial:
+		return load_physics_material(path, id);
 	default:
 		MINTY_ABORT_F(ErrorCode::Asset_UnknownType, type);
 		return nullptr;
@@ -2064,6 +2067,23 @@ Shared<Texture> Minty::AssetManager::load_texture(Path const &path, UUID const i
 	}
 
 	return create_from_loaded<Texture>(path, info);
+}
+
+Shared<PhysicsMaterial> Minty::AssetManager::load_physics_material(Path const &path, UUID const id)
+{
+    // create info
+	PhysicsMaterialInfo info{};
+	info.id = id;
+
+	// read values
+	if (Unique<Reader> const reader = open_reader(path))
+	{
+		reader->read("StaticFriction", info.staticFriction);
+		reader->read("DynamicFriction", info.dynamicFriction);
+		reader->read("Bounce", info.bounce);
+	}
+
+	return create_from_loaded<PhysicsMaterial>(path, info);
 }
 
 Unique<AssetManager> Minty::AssetManager::create(AssetManagerInfo const &info)

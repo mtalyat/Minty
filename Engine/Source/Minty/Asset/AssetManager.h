@@ -24,6 +24,8 @@
 #include "Minty/Animation/Animation.h"
 #include "Minty/Animation/Animator.h"
 #include "Minty/Audio/AudioClip.h"
+#include "Minty/Entity/Prefab.h"
+#include "Minty/Physics/PhysicsMaterial.h"
 #include "Minty/Render/Bitmap.h"
 #include "Minty/Render/Camera.h"
 #include "Minty/Render/Font.h"
@@ -32,7 +34,6 @@
 #include "Minty/Render/Material.h"
 #include "Minty/Render/MaterialTemplate.h"
 #include "Minty/Render/Mesh.h"
-#include "Minty/Entity/Prefab.h"
 #include "Minty/Render/RenderPass.h"
 #include "Minty/Render/RenderTarget.h"
 #include "Minty/Render/Shader.h"
@@ -377,6 +378,17 @@ namespace Minty
 		inline Shared<Texture> load<Texture>(Path const& path)
 		{
 			return load_texture(path, read_id(path));
+		}
+
+		/**
+		 * @brief Loads the Asset specifically as a PhysicsMaterial at the given Path.
+		 * @param path The Path to the PhysicsMaterial Asset.
+		 * @return A reference to the loaded PhysicsMaterial Asset.
+		 */
+		template<>
+		inline Shared<PhysicsMaterial> load<PhysicsMaterial>(Path const& path)
+		{
+			return load_physics_material(path, read_id(path));
 		}
 
 		/**
@@ -772,6 +784,8 @@ namespace Minty
 		Shared<SpriteAtlas> load_sprite_atlas(Path const& path, UUID const id);
 
 		Shared<Texture> load_texture(Path const& path, UUID const id);
+
+		Shared<PhysicsMaterial> load_physics_material(Path const& path, UUID const id);
 
 #pragma endregion
 

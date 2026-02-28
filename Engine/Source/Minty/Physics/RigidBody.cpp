@@ -8,9 +8,8 @@
 using namespace Minty;
 
 Minty::Rigidbody::Rigidbody(RigidbodyInfo const &info)
-    : m_collider(info.collider)
+    : m_rotationConstraints(info.rotationConstraints), m_mass(info.mass), m_isKinematic(info.isKinematic), m_isStatic(info.isStatic)
 {
-    MINTY_ASSERT(info.collider != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }
 
 Shared<Rigidbody> Minty::Rigidbody::create(RigidbodyInfo const &info)
@@ -26,4 +25,11 @@ Shared<Rigidbody> Minty::Rigidbody::create()
 {
     RigidbodyInfo info{};
     return create(info);
+}
+
+void Minty::Rigidbody::set_mass(Float const mass)
+{
+    // mass cannot be negative
+    MINTY_ASSERT(mass >= 0.0f, ErrorCode::Argument_ExpectedAboveZero);
+    m_mass = mass;
 }

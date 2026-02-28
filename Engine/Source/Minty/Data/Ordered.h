@@ -9,8 +9,7 @@
 
 #include "Minty/Core/Types.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Memory/DebugAllocator.h"
-#include "Minty/Memory/HeapAllocator.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {

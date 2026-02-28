@@ -18,6 +18,8 @@ Bool Minty::Serializer<ColliderComponent>::deserialize(Reader &reader, ColliderC
 {
 	if(!value.collider)
 	{
+		AssetManager &assetManager = AssetManager::get_singleton();
+
 		// no existing collider, so create new one
 		ColliderInfo info{};
 		reader.read_primary("Shape", info.shape);
@@ -29,9 +31,9 @@ Bool Minty::Serializer<ColliderComponent>::deserialize(Reader &reader, ColliderC
 		}
 		if (info.shape == Shape::Custom)
 		{
-			AssetManager &assetManager = AssetManager::get_singleton();
 			assetManager.deserialize_asset<Mesh>(reader, "Mesh", info.mesh);
 		}
+		assetManager.deserialize_asset<PhysicsMaterial>(reader, "Material", info.material);
 		reader.read("Offset", info.offset);
 		reader.read("Size", info.size);
 		reader.read("Static", info.isStatic);
