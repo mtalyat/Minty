@@ -40,7 +40,7 @@ namespace Minty
 		 * @param id The ID to look up.
 		 * @return The Entity with the given ID.
 		 */
-		Entity get_entity(UUID const id);
+		Entity get_entity(UUID const id) const;
 	};
 }
 
