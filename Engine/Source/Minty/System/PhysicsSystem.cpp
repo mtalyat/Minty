@@ -122,7 +122,7 @@ static void set_rigidbody_values(Entity const entity, EntityManager &entityManag
 	if (parentTransformComp)
 	{
 		physicsComp.previousGlobalPosition = parentTransformComp->transform.get_global_position() + physicsComp.previousLocalPosition;
-		physicsComp.previousGlobalRotation = parentTransformComp->transform.get_global_rotation() + physicsComp.previousLocalRotation;
+		physicsComp.previousGlobalRotation = parentTransformComp->transform.get_global_rotation() * physicsComp.previousLocalRotation;
 	}
 	else
 	{
@@ -149,6 +149,7 @@ static void get_rigidbody_values(Entity const entity, EntityManager &entityManag
 	// if a transform value was modified during a collision, then do not use the body's value: use the position
 
 	Float3 localPosition = get_position(transformComp, positionComp);
+	Quaternion localRotation = get_rotation(transformComp, rotationComp);
 	Float3 velocity = get_velocity(velocityComp);
 	if (localPosition == physicsComp.previousLocalPosition)
 	{
@@ -163,25 +164,23 @@ static void get_rigidbody_values(Entity const entity, EntityManager &entityManag
 		}
 		set_position(transformComp, positionComp, localPosition);
 	}
-	if(velocityComp && velocity == physicsComp.previousVelocity)
+	if(localRotation == physicsComp.previousLocalRotation)
+	{
+		// if the rotation was not modified during a collision, then update it based on the body's rotation
+		if (parentTransformComp)
+		{
+			localRotation = Math::inverse(parentTransformComp->transform.get_global_rotation()) * body.get_simulation_rotation();
+		}
+		else
+		{
+			localRotation = body.get_simulation_rotation();
+		}
+		set_rotation(transformComp, rotationComp, localRotation);
+	}
+	if (velocityComp && velocity == physicsComp.previousVelocity)
 	{
 		// if the velocity was not modified during a collision, then update it based on the body's velocity
 		velocityComp->velocity = body.get_simulation_linear_velocity();
-	}
-
-	if (parentTransformComp)
-	{
-		if (rotationComp)
-		{
-			rotationComp->rotation = body.get_simulation_rotation() - parentTransformComp->transform.get_global_rotation();
-		}
-	}
-	else
-	{
-		if (rotationComp)
-		{
-			rotationComp->rotation = body.get_simulation_rotation();
-		}
 	}
 }
 
@@ -275,7 +274,7 @@ void Minty::PhysicsSystem::initialize_entities()
 	for (auto &&[entity] : entityManager.view<PhysicsSimulationTag const>(entt::exclude<EnabledTag>).each())
 	{
 		m_simulation->remove(entity);
-		
+
 		// if entity is dynamic, clear the physics component since that data is not being used and does not need to be saved
 		entityManager.clear<PhysicsComponent>(entity);
 
@@ -294,7 +293,7 @@ void Minty::PhysicsSystem::deinitialize_entities()
 	for (auto &&[entity] : entityManager.view<PhysicsSimulationTag const>().each())
 	{
 		m_simulation->remove(entity);
-		
+
 		// if entity is dynamic, clear the physics component since that data is not being used and does not need to be saved
 		entityManager.clear<PhysicsComponent>(entity);
 
@@ -407,7 +406,12 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
 				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
-				transformComp.transform.set_local_rotation(interpolatedRotation - parentTransformComp->transform.get_global_rotation());
+				// Convert current local rotation to global: parent * local
+				Quaternion const currentGlobalRotation = parentTransformComp->transform.get_global_rotation() * rotationComp->rotation;
+				// Slerp between previous global and current global rotations
+				Quaternion const interpolatedGlobalRotation = Math::slerp(physicsComp.previousGlobalRotation, currentGlobalRotation, alpha);
+				// Convert back to local: inverse(parent) * global
+				transformComp.transform.set_local_rotation(Math::inverse(parentTransformComp->transform.get_global_rotation()) * interpolatedGlobalRotation);
 			}
 		}
 		else
@@ -476,7 +480,7 @@ void Minty::PhysicsSystem::on_finalize()
 	for (auto &&[entity] : entityManager.view<DestroyTag const, PhysicsSimulationTag const>().each())
 	{
 		m_simulation->remove(entity);
-		
+
 		// if entity is dynamic, clear the physics component since that data is not being used and does not need to be saved
 		entityManager.clear<PhysicsComponent>(entity);
 

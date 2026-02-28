@@ -82,6 +82,30 @@ namespace Minty
 		virtual void set_mass(Float const mass);
 
 		/**
+		 * @brief Gets the linear damping of the rigid body.
+		 * @return The linear damping.
+		 */
+		inline Float get_linear_damping() const { return m_linearDamping; }
+
+		/**
+		 * @brief Sets the linear damping of the rigid body.
+		 * @param linearDamping The linear damping.
+		 */
+		inline virtual void set_linear_damping(Float const linearDamping) { m_linearDamping = linearDamping; }
+
+		/**
+		 * @brief Gets the angular damping of the rigid body.
+		 * @return The angular damping.
+		 */
+		inline Float get_angular_damping() const { return m_angularDamping; }
+
+		/**
+		 * @brief Sets the angular damping of the rigid body.
+		 * @param angularDamping The angular damping.
+		 */
+		inline virtual void set_angular_damping(Float const angularDamping) { m_angularDamping = angularDamping; }
+
+		/**
 		 * @brief Gets the constraints applied to the rigid body.
 		 * @return The constraints.
 		 */
@@ -167,6 +191,8 @@ namespace Minty
 	public:
 		Constraints m_rotationConstraints;
 		Float m_mass;
+		Float m_linearDamping;
+		Float m_angularDamping;
 		Bool m_isKinematic;
 		Bool m_isStatic;
 

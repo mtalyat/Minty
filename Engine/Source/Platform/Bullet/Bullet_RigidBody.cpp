@@ -29,6 +29,7 @@ void Minty::Bullet_Rigidbody::bind_rigidbody(btRigidBody * const body)
 		set_kinematic(*body, is_kinematic());
 		set_mass(*body, get_mass());
 		set_rotation_constraints(*body, get_rotation_constraints());
+		set_damping(*body, get_linear_damping(), get_angular_damping());
 	}
 }
 
@@ -59,6 +60,26 @@ void Minty::Bullet_Rigidbody::set_mass(Float const mass)
 	if (mp_body)
 	{
 		set_mass(*mp_body, mass);
+	}
+}
+
+void Minty::Bullet_Rigidbody::set_linear_damping(Float const linearDamping)
+{
+	Rigidbody::set_linear_damping(linearDamping);
+
+	if (mp_body)
+	{
+		mp_body->setDamping(static_cast<btScalar>(linearDamping), mp_body->getAngularDamping());
+	}
+}
+
+void Minty::Bullet_Rigidbody::set_angular_damping(Float const angularDamping)
+{
+	Rigidbody::set_angular_damping(angularDamping);
+
+	if (mp_body)
+	{
+		mp_body->setDamping(mp_body->getLinearDamping(), static_cast<btScalar>(angularDamping));
 	}
 }
 
@@ -103,7 +124,7 @@ Quaternion Minty::Bullet_Rigidbody::get_simulation_rotation() const
 	
 	btTransform transform = mp_body->getWorldTransform();
 	btQuaternion rotation = transform.getRotation();
-	return Quaternion(static_cast<Float>(rotation.getX()), static_cast<Float>(rotation.getY()), static_cast<Float>(rotation.getZ()), static_cast<Float>(rotation.getW()));
+	return Bullet_Physics::to_minty(rotation);
 }
 
 void Minty::Bullet_Rigidbody::set_simulation_rotation(Quaternion const& rotation)
@@ -206,4 +227,9 @@ void Minty::Bullet_Rigidbody::set_rotation_constraints(btRigidBody& body, Constr
 		angularFactor.setZ(0);
 	}
 	body.setAngularFactor(angularFactor);
+}
+
+void Minty::Bullet_Rigidbody::set_damping(btRigidBody & body, Float const linearDamping, Float const angularDamping)
+{
+	body.setDamping(static_cast<btScalar>(linearDamping), static_cast<btScalar>(angularDamping));
 }

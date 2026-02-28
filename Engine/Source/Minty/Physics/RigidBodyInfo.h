@@ -28,6 +28,16 @@ namespace Minty
         Constraints rotationConstraints = Constraints::None;
 
         /**
+         * @brief The linear damping of the rigid body.
+         */
+        Float linearDamping = 0.0f;
+
+        /**
+         * @brief The angular damping of the rigid body.
+         */
+        Float angularDamping = 0.0f;
+
+        /**
          * @brief Whether the rigid body is kinematic.
          */
         Bool isKinematic = false;

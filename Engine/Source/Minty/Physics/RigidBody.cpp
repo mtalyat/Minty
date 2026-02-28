@@ -8,7 +8,7 @@
 using namespace Minty;
 
 Minty::Rigidbody::Rigidbody(RigidbodyInfo const &info)
-    : m_rotationConstraints(info.rotationConstraints), m_mass(info.mass), m_isKinematic(info.isKinematic), m_isStatic(info.isStatic)
+    : m_rotationConstraints(info.rotationConstraints), m_mass(info.mass), m_linearDamping(info.linearDamping), m_angularDamping(info.angularDamping), m_isKinematic(info.isKinematic), m_isStatic(info.isStatic)
 {
 }
 

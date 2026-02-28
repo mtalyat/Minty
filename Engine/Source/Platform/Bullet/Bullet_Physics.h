@@ -47,7 +47,7 @@ namespace Minty
 
 		inline static Quaternion to_minty(btQuaternion const &quaternion)
 		{
-			return Quaternion(quaternion.x(), quaternion.y(), quaternion.z(), quaternion.w());
+			return Quaternion(quaternion.w(), quaternion.x(), quaternion.y(), quaternion.z());
 		}
 
 #pragma endregion

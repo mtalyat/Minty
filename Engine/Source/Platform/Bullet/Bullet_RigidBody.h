@@ -35,6 +35,10 @@ namespace Minty
 
 		void set_mass(Float const mass) override;
 
+		void set_linear_damping(Float const linearDamping) override;
+
+		void set_angular_damping(Float const angularDamping) override;
+
 		void set_rotation_constraints(Constraints const constraints) override;
 
 		Float3 get_simulation_position() const override;
@@ -64,6 +68,8 @@ namespace Minty
 		static void set_mass(btRigidBody& body, Float const mass);
 
 		static void set_rotation_constraints(btRigidBody& body, Constraints const constraints);
+
+		static void set_damping(btRigidBody& body, Float const linearDamping, Float const angularDamping);
 
 #pragma endregion
 
