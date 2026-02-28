@@ -17,6 +17,10 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
         MINTY_ASSERT(info.size.x > 0 && info.size.y > 0 && info.size.z > 0, ErrorCode::Argument_ExpectedAboveZero);
         mp_shape = new btBoxShape(size * btScalar(0.5)); // Bullet uses half extents for box shapes
         break;
+    case Shape::Sphere:
+        MINTY_ASSERT(info.size.x > 0, ErrorCode::Argument_ExpectedAboveZero);
+        mp_shape = new btSphereShape(size.x() * btScalar(0.5)); // Bullet uses radius for sphere shapes, so take the x size and divide by 2
+        break;
     case Shape::Custom:
     {
         MINTY_ASSERT(info.shape == Shape::Custom, ErrorCode::Argument_InvalidValue);
