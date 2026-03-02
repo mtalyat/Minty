@@ -154,6 +154,18 @@ namespace Minty
 		virtual void set_simulation_linear_velocity(Float3 const& velocity) = 0;
 
 		/**
+		 * @brief Gets the angular velocity of the rigid body.
+		 * @return The angular velocity.
+		 */
+		virtual Float3 get_simulation_angular_velocity() const = 0;
+
+		/**
+		 * @brief Sets the angular velocity of the rigid body.
+		 * @param velocity The angular velocity.
+		 */
+		virtual void set_simulation_angular_velocity(Float3 const& velocity) = 0;
+
+		/**
 		 * @brief Gets the native pointer to the underlying physics object.
 		 * @return The pointer to the native object.
 		 */

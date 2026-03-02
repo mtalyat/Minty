@@ -180,7 +180,7 @@ static void get_rigidbody_values(Entity const entity, EntityManager &entityManag
 	if (velocityComp && velocity == physicsComp.previousVelocity)
 	{
 		// if the velocity was not modified during a collision, then update it based on the body's velocity
-		velocityComp->velocity = body.get_simulation_linear_velocity();
+		velocityComp->velocity = body.get_simulation_linear_velocity();;
 	}
 }
 
@@ -398,12 +398,12 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 		// set the transform based on Position, Rotation, Scale components if they exist
 		if (parentTransformComp)
 		{
-			if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
+			if (PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity))
 			{
 				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousGlobalPosition, positionComp->position, alpha);
 				transformComp.transform.set_local_position(interpolatedPosition - parentTransformComp->transform.get_global_position());
 			}
-			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
+			if (RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
 				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
 				// Convert current local rotation to global: parent * local
@@ -416,12 +416,12 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 		}
 		else
 		{
-			if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
+			if (PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity))
 			{
 				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousGlobalPosition, positionComp->position, alpha);
 				transformComp.transform.set_local_position(interpolatedPosition);
 			}
-			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
+			if (RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
 				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
 				transformComp.transform.set_local_rotation(interpolatedRotation);

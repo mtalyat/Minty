@@ -158,6 +158,22 @@ void Minty::Bullet_Rigidbody::set_simulation_linear_velocity(Float3 const &veloc
 	mp_body->setLinearVelocity(btVector3(static_cast<btScalar>(velocity.x), static_cast<btScalar>(velocity.y), static_cast<btScalar>(velocity.z)));
 }
 
+Float3 Minty::Bullet_Rigidbody::get_simulation_angular_velocity() const
+{
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
+	btVector3 const angularVelocity = mp_body->getAngularVelocity();
+	return Bullet_Physics::to_minty(angularVelocity);
+}
+
+void Minty::Bullet_Rigidbody::set_simulation_angular_velocity(Float3 const &velocity)
+{
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
+	btVector3 const angularVelocity = Bullet_Physics::to_bullet(velocity);
+	mp_body->setAngularVelocity(angularVelocity);
+}
+
 void Minty::Bullet_Rigidbody::add_force(Float3 const &force, Force const mode)
 {
 	switch(mode)

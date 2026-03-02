@@ -53,6 +53,10 @@ namespace Minty
 
 		void set_simulation_linear_velocity(Float3 const& velocity) override;
 
+		Float3 get_simulation_angular_velocity() const override;
+
+		void set_simulation_angular_velocity(Float3 const& velocity) override;
+
 #pragma endregion
 
 #pragma region Methods
