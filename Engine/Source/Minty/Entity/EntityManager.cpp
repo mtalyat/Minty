@@ -222,21 +222,24 @@ String Minty::EntityManager::to_string(Entity const entity) const
 		builder.append("->");
 	}
 
+	builder.append(Parser<Size>::to_string(static_cast<Size>(entity)));
+
 	// append this entity's name and/or ID
 	if (!name.is_empty())
 	{
+		builder.append(':');
 		builder.append(name);
-		if (id.is_valid())
-		{
-			builder.append(format(" ({})", id));
-		}
 	}
-	else
+	else if (id.is_valid())
 	{
-		if (id.is_valid())
-		{
-			builder.append(format("({})", id));
-		}
+		builder.append(':');
+	}
+
+	if (id.is_valid())
+	{
+		builder.append('(');
+		builder.append(Parser<UUID>::to_string(id));
+		builder.append(')');
 	}
 
 	return builder.get_string();
@@ -492,7 +495,7 @@ Entity Minty::EntityManager::get_child(Entity const entity, Size const index) co
 
 Entity Minty::EntityManager::get_descendant(Entity const entity, EntityPath const &path) const
 {
-    // if no path, it is the source entity
+	// if no path, it is the source entity
 	if (path.is_empty())
 	{
 		return entity;
@@ -975,7 +978,7 @@ Entity Minty::EntityManager::create_entity(UUID const id)
 	// link ID to Entity
 	m_ids.add(id, entity);
 
-	MINTY_LOG_DEBUG_F("[Entity {} UUID={}]", static_cast<UInt>(entity), id);
+	MINTY_LOG_INFO_F("[Entity {} UUID={}]", static_cast<UInt>(entity), id);
 
 	// done
 	return entity;
@@ -993,7 +996,7 @@ Entity Minty::EntityManager::create_entity(String const &name)
 		nameComponent.name = name;
 	}
 
-	MINTY_LOG_DEBUG_F("[Entity {} Name='{}']", static_cast<UInt>(entity), name);
+	MINTY_LOG_INFO_F("[Entity {} Name='{}']", static_cast<UInt>(entity), name);
 
 	// done
 	return entity;
@@ -1029,8 +1032,8 @@ Entity Minty::EntityManager::create_entity(String const &name, UUID const id)
 
 	// link ID to Entity
 	m_ids.add(id, entity);
-	
-	MINTY_LOG_DEBUG_F("[Entity {} Name='{}' UUID={}]", static_cast<UInt>(entity), name, id);
+
+	MINTY_LOG_INFO_F("[Entity {} Name='{}' UUID={}]", static_cast<UInt>(entity), name, id);
 
 	// done
 	return entity;
@@ -1054,18 +1057,19 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 	Unique<Reader> reader = prefab->open_reader();
 	MINTY_ASSERT(reader != nullptr, ErrorCode::Serialization_Read);
 
-	MINTY_LOG_DEBUG_F("Spawning entity from prefab '{}'", prefab->get_id());
-	
+	MINTY_LOG_INFO_F("Spawning entity from prefab '{}'", prefab->get_id());
+
 	// get the header of the first entity
 	Handle const bookmark = reader->save_bookmark();
 	String name;
 	UUID id;
 	UUID prefabId;
 	Bool const success = indent_entity_header(*reader, name, id, prefabId);
-	if(success)
+	if (success)
 	{
 		reader->outdent();
-	} else
+	}
+	else
 	{
 		MINTY_ERROR(ErrorCode::Serialization_Read);
 	}
@@ -1703,7 +1707,7 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 	data.idMap = idMap;
 	reader.push_user_data(&data);
 
-	MINTY_LOG_DEBUG_F("Deserializing components for Entity {}", static_cast<UInt>(entity));
+	MINTY_LOG_INFO_F("Deserializing components for Entity {}", static_cast<UInt>(entity));
 
 	// read each component on the Entity
 	String componentName;

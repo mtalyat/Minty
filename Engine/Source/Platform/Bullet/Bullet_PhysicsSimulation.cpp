@@ -200,7 +200,7 @@ void Minty::Bullet_PhysicsSimulation::step(Float const elapsedTime)
 	m_currentCollisions.clear();
 }
 
-void Minty::Bullet_PhysicsSimulation::register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Float3 const worldPosition)
+void Minty::Bullet_PhysicsSimulation::register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Transform const& transform)
 {
 	// register the entity, leave the rest for later
 	register_entity(entity, layer, layerMask);
@@ -214,7 +214,8 @@ void Minty::Bullet_PhysicsSimulation::register_entity(Entity const entity, Layer
 
 	// create the collision object and bind it
 	btTransform btTransform = btTransform::getIdentity();
-	btTransform.setOrigin(Bullet_Physics::to_bullet(worldPosition));
+	btTransform.setOrigin(Bullet_Physics::to_bullet(transform.get_local_position()));
+	btTransform.setRotation(Bullet_Physics::to_bullet(transform.get_local_rotation()));
 	btCollisionObject *collisionObject = new btCollisionObject();
 	collisionObject->setUserPointer(entityData.data);
 	collisionObject->setCollisionShape(collisionShape);

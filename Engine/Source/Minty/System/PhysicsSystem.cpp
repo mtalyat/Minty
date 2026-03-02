@@ -240,16 +240,32 @@ void Minty::PhysicsSystem::initialize_entities()
 		}
 
 		// get the world position of the entity for registering the collider in the correct place in the simulation
-		Float3 worldPosition = Math::ZERO;
+		Transform worldTransform{};
+		Entity const parent = entityManager.get_parent(entity);
+		TransformComponent const *const parentTransformComp = entityManager.try_get_component<TransformComponent const>(parent);
 		TransformComponent const *const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
 		PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
+		RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
+		if (parentTransformComp)
+		{
+			worldTransform.set_local_position(parentTransformComp->transform.get_global_position());
+			worldTransform.set_local_rotation(parentTransformComp->transform.get_global_rotation());
+		}
 		if (positionComp)
 		{
-			worldPosition = positionComp->position;
+			worldTransform.set_local_position(worldTransform.get_local_position() + positionComp->position);
 		}
 		else if (transformComp)
 		{
-			worldPosition = transformComp->transform.get_local_position();
+			worldTransform.set_local_position(worldTransform.get_local_position() + transformComp->transform.get_local_position());
+		}
+		if (rotationComp)
+		{
+			worldTransform.set_local_rotation(worldTransform.get_local_rotation() * rotationComp->rotation);
+		}
+		else if (transformComp)
+		{
+			worldTransform.set_local_rotation(worldTransform.get_local_rotation() * transformComp->transform.get_local_rotation());
 		}
 
 		// get layer data
@@ -257,7 +273,7 @@ void Minty::PhysicsSystem::initialize_entities()
 		layerMask = layerManager.get_mask(layer);
 
 		// register the entity with the simulation
-		m_simulation->register_entity(entity, layer, layerMask, *colliderComp.collider, worldPosition);
+		m_simulation->register_entity(entity, layer, layerMask, *colliderComp.collider, worldTransform);
 
 		entityManager.add_component<PhysicsRegisteredTag>(entity);
 	}

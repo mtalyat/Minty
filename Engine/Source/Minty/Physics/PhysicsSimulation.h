@@ -77,10 +77,10 @@ namespace Minty
 		 * @param layer The Layer.
 		 * @param layerMask The Layer mask to use.
 		 * @param collider The Collider.
-		 * @param worldPosition The world position to place the Collider at.
+		 * @param transform The Transform to use for the initial position and rotation of the Collider in the simulation.
 		 * @note This does not add the Collider to the simulation, it only registers it so that it can be added later with add.
 		 */
-		virtual void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Float3 const worldPosition) = 0;
+		virtual void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Transform const& transform) = 0;
 
 		/**
 		 * @brief Registers a Collider and Rigidbody with the physics simulation.

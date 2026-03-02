@@ -94,7 +94,7 @@ namespace Minty
 
 	public:
 		void step(Float const elapsedTime) override;
-		void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Float3 const worldPosition) override;
+		void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Transform const& transform) override;
 		void register_entity(Entity const entity, Layer const layer, Layer const layerMask, Collider &collider, Rigidbody &rigidbody) override;
 		void unregister_entity(Entity const entity) override;
 		void add(Entity const entity) override;
