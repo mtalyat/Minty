@@ -29,6 +29,11 @@ namespace Minty
 		FSM* fsm = nullptr;
 
         /**
+         * @brief The time scale for the Animator. A value of 1.0 means normal speed, 0.5 means half speed, etc.
+         */
+        Float timeScale = 1.0f;
+
+        /**
          * @brief If true, animations will transition as soon as possible.
          * Otherwise, they will wait until the current animation is finished.
          */
