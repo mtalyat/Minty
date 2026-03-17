@@ -78,6 +78,18 @@ namespace Minty
          */
         inline UInt get_indent() const { return m_indent; }
 
+        /**
+         * @brief Checks whether to check for ignored data at the current indent level when reading.
+         * @return True if checking for ignored data, false otherwise.
+         */
+        inline Bool get_validation() const { return m_validation; }
+
+        /**
+         * @brief Sets whether to check for ignored data at the current indent level when reading.
+         * @param checkForIgnoredData True to check for ignored data, false to ignore it.
+         */
+        inline void set_validation(Bool const checkForIgnoredData) { m_validation = checkForIgnoredData; }
+
 #pragma endregion
 
 #pragma region Methods
@@ -671,6 +683,7 @@ namespace Minty
         Stack<Any> m_userStack;
         Map<Handle, Tuple<StreamPosition, UInt>> m_bookmarks;
         UInt m_indent;
+        Bool m_validation; // when validating, check for ignored data and warn if found
 
 #pragma endregion
     };

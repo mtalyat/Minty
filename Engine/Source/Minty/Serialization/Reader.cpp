@@ -7,7 +7,7 @@
 using namespace Minty;
 
 Minty::Reader::Reader(Shared<Stream> const &stream)
-    : m_stream(stream), m_userStack(), m_bookmarks(), m_indent(0)
+    : m_stream(stream), m_userStack(), m_bookmarks(), m_indent(0), m_validation(true)
 {
 }
 

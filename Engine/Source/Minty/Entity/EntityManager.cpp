@@ -1061,6 +1061,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 
 	// get the header of the first entity
 	Handle const bookmark = reader->save_bookmark();
+	reader->set_validation(false);
 	String name;
 	UUID id;
 	UUID prefabId;
@@ -1074,6 +1075,7 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 		MINTY_ERROR(ErrorCode::Serialization_Read);
 	}
 	reader->load_bookmark(bookmark);
+	reader->set_validation(true);
 
 	// create the first entity
 	Entity entity = create_entity(name);
@@ -1588,6 +1590,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 	// save a bookmark since the reader will have to come back to re-read the skipped data
 	Handle bookmark = reader.save_bookmark();
+	reader.set_validation(false);
 
 	// get entities by themselves
 	Vector<Entity> entities;
@@ -1636,6 +1639,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 	// return to the bookmark to read the components
 	reader.load_bookmark(bookmark);
+	reader.set_validation(true);
 
 	// get components/prefabs for each entity
 	for (Entity const entity : entities)

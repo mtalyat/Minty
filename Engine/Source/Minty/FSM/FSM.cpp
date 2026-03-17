@@ -124,6 +124,7 @@ Bool Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 	if (reader.indent("States"))
 	{
 		Handle const bookmark = reader.save_bookmark();
+		reader.set_validation(false);
 
 		// read just the state names so states can reference each other out of order
 		while(reader.indent_next(name))
@@ -143,6 +144,7 @@ Bool Minty::Serializer<FSM>::deserialize(Reader &reader, FSM &value)
 
 		// go back to the bookmark
 		reader.load_bookmark(bookmark);
+		reader.set_validation(true);
 
 		// read the states again, but this time read the full data
 		while(reader.indent_next(name))
