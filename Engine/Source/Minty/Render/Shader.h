@@ -108,6 +108,12 @@ namespace Minty
 		 */
 		void set_global_input(String const& name, AnyConst const data, Size const size);
 
+		template <typename T>
+		inline void set_global_input(String const& name, T const& value)
+		{
+			set_global_input(name, static_cast<AnyConst>(&value), sizeof(T));
+		}
+
 		/**
 		 * @brief Gets the AssetType of this Asset.
 		 * @return Shader.
