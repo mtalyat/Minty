@@ -37,6 +37,17 @@ UUID Minty::UUID::create()
 	return UUID(reinterpret_cast<Byte const(&)[UUID_BYTE_SIZE]>(randomValues));
 }
 
+UUID Minty::UUID::from_string(StringView const str)
+{
+	UUID uuid;
+	if (!Parser<UUID>::parse(str, uuid))
+	{
+		MINTY_ERROR_F(ErrorCode::Argument_InvalidFormat, "Invalid UUID string: {}", str);
+		return UUID();
+	}
+	return uuid;
+}
+
 void Minty::UUID::clear()
 {
 	std::memset(m_data, 0, UUID_BYTE_SIZE);
