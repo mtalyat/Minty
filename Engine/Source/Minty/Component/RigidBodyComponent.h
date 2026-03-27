@@ -1,5 +1,5 @@
-#ifndef MINTY_COMPONENT_RigidbodyCOMPONENT_H
-#define MINTY_COMPONENT_RigidbodyCOMPONENT_H
+#ifndef MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
+#define MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
 
 /**
  * @file RigidbodyComponent.h
@@ -32,4 +32,4 @@ namespace Minty
 	};
 }
 
-#endif // MINTY_COMPONENT_RigidbodyCOMPONENT_H
+#endif // MINTY_COMPONENT_RIGIDBODYCOMPONENT_H
