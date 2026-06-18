@@ -19,7 +19,7 @@ namespace Minty
 	 * @tparam T The type of the keys.
 	 * @tparam AllocatorType The allocator type to use for memory management.
 	 */
-	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
+	template <typename T, typename Allocator = DefaultAllocator>
 	class Set
 	{
 #pragma region Types
@@ -28,23 +28,18 @@ namespace Minty
 		struct Node
 		{
 			T key;
-			Node* next;
+			Node *next;
 
-			Node(T const& key)
-				: key(key)
-				, next(nullptr)
+			Node(T const &key)
+				: key(key), next(nullptr)
 			{
 			}
 
-			Node(T&& key)
-				: key(std::move(key))
-				, next(nullptr)
+			Node(T &&key)
+				: key(std::move(key)), next(nullptr)
 			{
 			}
 		};
-
-		using Allocator = AllocatorType<Node>;
-		using AllocatorList = AllocatorType<Node*>;
 
 #pragma endregion
 
@@ -56,10 +51,10 @@ namespace Minty
 			friend class Set;
 
 		private:
-			Node** mp_table;
+			Node **mp_table;
 			Size m_capacity;
 			Size m_bucketIndex;
-			Node* mp_current;
+			Node *mp_current;
 
 		private:
 			void advance()
@@ -75,11 +70,8 @@ namespace Minty
 			}
 
 		private:
-			Iterator(Node** const table, Size const capacity, Size const bucketIndex, Node* const current)
-				: mp_table(table)
-				, m_capacity(capacity)
-				, m_bucketIndex(bucketIndex)
-				, mp_current(current)
+			Iterator(Node **const table, Size const capacity, Size const bucketIndex, Node *const current)
+				: mp_table(table), m_capacity(capacity), m_bucketIndex(bucketIndex), mp_current(current)
 			{
 				// if no current given, advance to next
 				if (bucketIndex < m_capacity && !mp_current)
@@ -89,19 +81,19 @@ namespace Minty
 			}
 
 		public:
-			T& operator*() const
+			T &operator*() const
 			{
 				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current->key;
 			}
 
-			T* operator->() const
+			T *operator->() const
 			{
 				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return &mp_current->key;
 			}
 
-			Iterator& operator++()
+			Iterator &operator++()
 			{
 				if (mp_current)
 				{
@@ -132,12 +124,12 @@ namespace Minty
 				return temp;
 			}
 
-			Bool operator==(Iterator const& other) const
+			Bool operator==(Iterator const &other) const
 			{
 				return mp_table == other.mp_table && m_capacity == other.m_capacity && m_bucketIndex == other.m_bucketIndex && mp_current == other.mp_current;
 			}
 
-			Bool operator!=(Iterator const& other) const
+			Bool operator!=(Iterator const &other) const
 			{
 				return !(*this == other);
 			}
@@ -148,10 +140,10 @@ namespace Minty
 			friend class Set;
 
 		private:
-			Node* const* mp_table;
+			Node *const *mp_table;
 			Size m_capacity;
 			Size m_bucketIndex;
-			Node const* mp_current;
+			Node const *mp_current;
 
 		private:
 			void advance()
@@ -167,11 +159,8 @@ namespace Minty
 			}
 
 		private:
-			ConstIterator(Node* const* const table, Size const capacity, Size const bucketIndex, Node const* const current)
-				: mp_table(table)
-				, m_capacity(capacity)
-				, m_bucketIndex(bucketIndex)
-				, mp_current(current)
+			ConstIterator(Node *const *const table, Size const capacity, Size const bucketIndex, Node const *const current)
+				: mp_table(table), m_capacity(capacity), m_bucketIndex(bucketIndex), mp_current(current)
 			{
 				// if no current given, advance to next
 				if (bucketIndex < m_capacity && !mp_current)
@@ -181,19 +170,19 @@ namespace Minty
 			}
 
 		public:
-			T const& operator*() const
+			T const &operator*() const
 			{
 				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return mp_current->key;
 			}
 
-			T const* operator->() const
+			T const *operator->() const
 			{
 				MINTY_ASSERT(mp_current, ErrorCode::Object_InvalidState);
 				return &mp_current->key;
 			}
 
-			ConstIterator& operator++()
+			ConstIterator &operator++()
 			{
 				if (mp_current)
 				{
@@ -224,12 +213,12 @@ namespace Minty
 				return temp;
 			}
 
-			Bool operator==(ConstIterator const& other) const
+			Bool operator==(ConstIterator const &other) const
 			{
 				return mp_table == other.mp_table && m_capacity == other.m_capacity && m_bucketIndex == other.m_bucketIndex && mp_current == other.mp_current;
 			}
 
-			Bool operator!=(ConstIterator const& other) const
+			Bool operator!=(ConstIterator const &other) const
 			{
 				return !(*this == other);
 			}
@@ -269,9 +258,7 @@ namespace Minty
 		 * @brief Creates an empty Set.
 		 */
 		Set()
-			: m_capacity(0)
-			, m_size(0)
-			, mp_table(nullptr)
+			: m_capacity(0), m_size(0), mp_table(nullptr), m_allocator()
 		{
 		}
 
@@ -280,9 +267,7 @@ namespace Minty
 		 * @param capacity The initial capacity.
 		 */
 		Set(Size const capacity)
-			: m_capacity(0)
-			, m_size(0)
-			, mp_table(nullptr)
+			: m_capacity(0), m_size(0), mp_table(nullptr), m_allocator()
 		{
 			reserve(capacity);
 		}
@@ -291,13 +276,11 @@ namespace Minty
 		 * @brief Creates a Set with the given initializer list.
 		 * @param list The list of keys to add.
 		 */
-		Set(std::initializer_list<T> const& list)
-			: m_capacity(0)
-			, m_size(0)
-			, mp_table(nullptr)
+		Set(std::initializer_list<T> const &list)
+			: m_capacity(0), m_size(0), mp_table(nullptr), m_allocator()
 		{
 			reserve(list.size() * 2);
-			for (T const& key : list)
+			for (T const &key : list)
 			{
 				add(key);
 			}
@@ -307,18 +290,23 @@ namespace Minty
 		 * @brief Copy constructor.
 		 * @param other The other Set to copy.
 		 */
-		Set(Set const& other)
-			: m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_table(AllocatorList().construct_array(m_capacity))
+		Set(Set const &other)
+			: m_capacity(other.m_capacity), m_size(other.m_size), mp_table(nullptr), m_allocator()
 		{
+			if (m_capacity == 0)
+			{
+				return;
+			}
+
+			mp_table = m_allocator.construct_array<Node *>(m_capacity, nullptr);
+
 			for (Size i = 0; i < m_capacity; ++i)
 			{
-				Node* node = other.mp_table[i];
-				Node* prev = nullptr;
+				Node *node = other.mp_table[i];
+				Node *prev = nullptr;
 				while (node)
 				{
-					Node* newNode = Allocator().construct(node->key);
+					Node *newNode = m_allocator.construct<Node>(node->key);
 					if (prev)
 					{
 						prev->next = newNode;
@@ -337,10 +325,8 @@ namespace Minty
 		 * @brief Move constructor.
 		 * @param other The other Set to move.
 		 */
-		Set(Set&& other) noexcept
-			: m_capacity(other.m_capacity)
-			, m_size(other.m_size)
-			, mp_table(other.mp_table)
+		Set(Set &&other) noexcept
+			: m_capacity(other.m_capacity), m_size(other.m_size), mp_table(other.mp_table), m_allocator(std::move(other.m_allocator))
 		{
 			other.m_capacity = 0;
 			other.m_size = 0;
@@ -352,7 +338,7 @@ namespace Minty
 			clear();
 			if (mp_table)
 			{
-				AllocatorList().destruct_array(mp_table, m_capacity);
+				m_allocator.destruct_array(mp_table, m_capacity);
 			}
 		}
 
@@ -361,45 +347,56 @@ namespace Minty
 #pragma region Operators
 
 	public:
-		Set& operator=(Set const& other)
+		Set &operator=(Set const &other)
 		{
 			if (this != &other)
 			{
 				clear();
+				m_allocator.destruct_array(mp_table, m_capacity);
+				m_allocator = Allocator();
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_table = AllocatorList().construct_array(m_capacity);
-				for (Size i = 0; i < m_capacity; ++i)
+				if (m_capacity == 0)
 				{
-					Node* node = other.mp_table[i];
-					Node* prev = nullptr;
-					while (node)
+					mp_table = nullptr;
+				}
+				else
+				{
+					mp_table = m_allocator.construct_array<Node *>(m_capacity, nullptr);
+					for (Size i = 0; i < m_capacity; ++i)
 					{
-						Node* newNode = Allocator().construct(node->key);
-						if (prev)
+						Node *node = other.mp_table[i];
+						Node *prev = nullptr;
+						while (node)
 						{
-							prev->next = newNode;
+							Node *const newNode = m_allocator.construct<Node>(node->key);
+							if (prev)
+							{
+								prev->next = newNode;
+							}
+							else
+							{
+								mp_table[i] = newNode;
+							}
+							prev = newNode;
+							node = node->next;
 						}
-						else
-						{
-							mp_table[i] = newNode;
-						}
-						prev = newNode;
-						node = node->next;
 					}
 				}
 			}
 			return *this;
 		}
 
-		Set& operator=(Set&& other) noexcept
+		Set &operator=(Set &&other) noexcept
 		{
 			if (this != &other)
 			{
 				clear();
+				m_allocator.destruct_array(mp_table, m_capacity);
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
 				mp_table = other.mp_table;
+				m_allocator = std::move(other.m_allocator);
 				other.m_capacity = 0;
 				other.m_size = 0;
 				other.mp_table = nullptr;
@@ -447,22 +444,22 @@ namespace Minty
 				return;
 			}
 
-			Node** newTable = AllocatorList().construct_array(capacity);
+			Node **newTable = m_allocator.construct_array<Node *>(capacity, nullptr);
 			if (m_capacity > 0)
 			{
 				for (Size i = 0; i < m_capacity; ++i)
 				{
-					Node* node = mp_table[i];
+					Node *node = mp_table[i];
 					while (node)
 					{
-						Node* next = node->next;
+						Node *next = node->next;
 						Size index = hash(node->key, capacity);
 						node->next = newTable[index];
 						newTable[index] = node;
 						node = next;
 					}
 				}
-				AllocatorList().destruct_array(mp_table, m_capacity);
+				m_allocator.destruct_array(mp_table, m_capacity);
 			}
 			mp_table = newTable;
 			m_capacity = capacity;
@@ -473,7 +470,7 @@ namespace Minty
 		 * @param key The key to add.
 		 * @returns True, if the key was added.
 		 */
-		Bool add(T const& key)
+		Bool add(T const &key)
 		{
 			if (contains(key))
 			{
@@ -488,7 +485,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = Allocator().construct(key);
+			Node *node = m_allocator.construct<Node>(key);
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -503,7 +500,7 @@ namespace Minty
 		 * @param key The key to add.
 		 * @returns True, if the key was added.
 		 */
-		Bool add(T&& key)
+		Bool add(T &&key)
 		{
 			if (contains(key))
 			{
@@ -518,7 +515,7 @@ namespace Minty
 
 			// insert into bucket
 			Size index = hash(key);
-			Node* node = Allocator().construct(key);
+			Node *node = m_allocator.construct<Node>(std::move(key));
 			node->next = mp_table[index];
 			mp_table[index] = node;
 
@@ -532,7 +529,7 @@ namespace Minty
 		 * @param key The key to remove.
 		 * @returns True, if the key was found and removed.
 		 */
-		Bool remove(T const& key)
+		Bool remove(T const &key)
 		{
 			if (m_size == 0)
 			{
@@ -540,8 +537,8 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = mp_table[index];
-			Node* prev = nullptr;
+			Node *node = mp_table[index];
+			Node *prev = nullptr;
 			while (node)
 			{
 				if (node->key == key)
@@ -554,7 +551,7 @@ namespace Minty
 					{
 						mp_table[index] = node->next;
 					}
-					Allocator().destruct(node);
+					m_allocator.destruct(node);
 					--m_size;
 					return true;
 				}
@@ -564,13 +561,13 @@ namespace Minty
 
 			return false;
 		}
-		
+
 		/**
 		 * @brief Finds the first occurrence of the given T.
 		 * @param key The T to find.
 		 * @returns An Iterator to the key-value pair with the given T.
 		 */
-		Iterator find(T const& key)
+		Iterator find(T const &key)
 		{
 			if (m_size == 0)
 			{
@@ -578,7 +575,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node* node = mp_table[index];
+			Node *node = mp_table[index];
 			while (node)
 			{
 				if (node->key == key)
@@ -589,13 +586,13 @@ namespace Minty
 			}
 			return end();
 		}
-		
+
 		/**
 		 * @brief Finds the first occurrence of the given T.
 		 * @param key The T to find.
 		 * @returns A ConstIterator to the key-value pair with the given T.
 		 */
-		ConstIterator find(T const& key) const
+		ConstIterator find(T const &key) const
 		{
 			if (m_capacity == 0)
 			{
@@ -603,7 +600,7 @@ namespace Minty
 			}
 
 			Size index = hash(key);
-			Node const* node = mp_table[index];
+			Node const *node = mp_table[index];
 			while (node)
 			{
 				if (node->key == key)
@@ -620,7 +617,7 @@ namespace Minty
 		 * @param key The key to check.
 		 * @returns True, if the key exists.
 		 */
-		Bool contains(T const& key) const { return find(key) != end(); }
+		Bool contains(T const &key) const { return find(key) != end(); }
 
 		/**
 		 * @brief Clears all keys from this Set.
@@ -631,12 +628,12 @@ namespace Minty
 			{
 				for (Size i = 0; i < m_capacity; ++i)
 				{
-					Node* node = mp_table[i];
+					Node *node = mp_table[i];
 					while (node)
 					{
-						Node* temp = node;
+						Node *temp = node;
 						node = node->next;
-						Allocator().destruct(temp);
+						m_allocator.destruct(temp);
 					}
 					mp_table[i] = nullptr;
 				}
@@ -645,12 +642,12 @@ namespace Minty
 		}
 
 	private:
-		Size hash(T const& key, Size const capacity) const
+		Size hash(T const &key, Size const capacity) const
 		{
 			return std::hash<T>{}(key) % capacity;
 		}
 
-		Size hash(T const& key) const
+		Size hash(T const &key) const
 		{
 			return hash(key, m_capacity);
 		}
@@ -674,7 +671,8 @@ namespace Minty
 	private:
 		Size m_capacity;
 		Size m_size;
-		Node** mp_table;
+		Node **mp_table;
+		Allocator m_allocator;
 
 #pragma endregion
 	};

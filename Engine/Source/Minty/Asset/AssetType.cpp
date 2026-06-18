@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-static constexpr Size ASSETTYPE_COUNT = 26;
+static constexpr Size ASSETTYPE_COUNT = 27;
 static constexpr Char const* ASSETTYPE_STRINGS[ASSETTYPE_COUNT] = {
 	"Generic",
 	"Wrap",
@@ -13,6 +13,7 @@ static constexpr Char const* ASSETTYPE_STRINGS[ASSETTYPE_COUNT] = {
 	"AudioClip",
 	"Animation",
 	"Animator",
+	"PhysicsMaterial",
 	"Viewport",
 	"Bitmap",
 	"Image",

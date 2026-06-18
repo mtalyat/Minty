@@ -7,6 +7,8 @@
 #include "Force.h"
 #include "PhysicsManager.h"
 #include "PhysicsManagerInfo.h"
+#include "PhysicsMaterial.h"
+#include "PhysicsMaterialInfo.h"
 #include "PhysicsSimulation.h"
 #include "PhysicsSimulationInfo.h"
 #include "RaycastHit.h"

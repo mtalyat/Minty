@@ -20,28 +20,25 @@ TimePoint Minty::Time::get_system_time()
     return static_cast<TimePoint>(std::chrono::duration_cast<std::chrono::nanoseconds>(epoch).count());
 }
 
-String Minty::Time::format(TimePoint const time)
+void Minty::Time::format(TimePoint const time, Char *const buffer, Size const bufferSize)
 {
-    // Fix the time_point construction issue
     auto nanoseconds = std::chrono::nanoseconds(time);
     auto duration = std::chrono::duration_cast<std::chrono::system_clock::duration>(nanoseconds);
     auto timePoint = std::chrono::system_clock::time_point(duration);
     
     auto timeT = std::chrono::system_clock::to_time_t(timePoint);
-    std::stringstream ss;
     std::tm timeStruct;
 #ifdef MINTY_WINDOWS
     localtime_s(&timeStruct, &timeT);
 #else
     #error "Platform not supported"
 #endif
-    ss << std::put_time(&timeStruct, "%Y-%m-%d %H:%M:%S");
-    
-    // Use the const char* constructor for your String class
-    return String(ss.str().c_str());
+    std::strftime(buffer, bufferSize, "%Y-%m-%d %H:%M:%S", &timeStruct);
 }
 
 String Minty::Time::get_timestamp()
 {
-    return format(get_system_time());
+    Char buffer[64] = {0};
+    format(get_system_time(), buffer, sizeof(buffer));
+    return String(buffer);
 }

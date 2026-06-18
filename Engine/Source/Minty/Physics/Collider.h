@@ -11,6 +11,7 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Shape.h"
+#include "Minty/Physics/PhysicsMaterial.h"
 #include "Minty/Render/Mesh.h"
 #include "Minty/Serialization/Serializer.h"
 
@@ -18,6 +19,7 @@ namespace Minty
 {
 	class Mesh;
 	class Transform;
+	class PhysicsMaterial;
 	struct ColliderInfo;
 	struct CollisionData;
 
@@ -66,49 +68,13 @@ namespace Minty
 		 * @brief Gets the offset of this Collider.
 		 * @return The offset.
 		 */
-		Float3 get_offset() const { return m_offset; }
+		inline Float3 get_offset() const { return m_offset; }
 
 		/**
 		 * @brief Gets the size of this Collider.
 		 * @return The size.
 		 */
-		Float3 get_size() const { return m_size; }
-
-		/**
-		 * @brief Gets the position of this Collider.
-		 * @return The position.
-		 */
-		virtual Float3 get_position() const = 0;
-
-		/**
-		 * @brief Sets the position of this Collider.
-		 * @param position The new position.
-		 */
-		virtual void set_position(Float3 const& position) = 0;
-
-		/**
-		 * @brief Gets the rotation of this Collider.
-		 * @return The rotation.
-		 */
-		virtual Quaternion get_rotation() const = 0;
-
-		/**
-		 * @brief Sets the rotation of this Collider.
-		 * @param rotation The new rotation.
-		 */
-		virtual void set_rotation(Quaternion const& rotation) = 0;
-
-		/**
-		 * @brief Gets the transform of this Collider.
-		 * @param out_transform The output Transform.
-		 */
-		virtual void get_transform(Transform& out_transform) const = 0;
-
-		/**
-		 * @brief Sets the transform of this Collider.
-		 * @param transform The new transform.
-		 */
-		virtual void set_transform(Transform const& transform) = 0;
+		inline Float3 get_size() const { return m_size; }
 
 		/**
 		 * @brief Gets the Mesh used for this Collider if the Shape is Custom.
@@ -117,10 +83,40 @@ namespace Minty
 		inline Shared<Mesh> const& get_mesh() const { return m_mesh; }
 
 		/**
+		 * @brief Gets the PhysicsMaterial associated with this Collider.
+		 * @return The PhysicsMaterial Owner.
+		 */
+		inline Shared<PhysicsMaterial> const& get_material() const { return m_material; }
+
+		/**
 		 * @brief Sets the on stay collision function.
 		 * @param func The function to set.
 		 */
 		void set_on_enter(CollisionCallback const& func) { m_onEnter = func; }
+
+		/**
+		 * @brief Sets the on stay collision function.
+		 * @param func The function to set.
+		 */
+		void set_on_stay(CollisionCallback const& func) { m_onStay = func; }
+
+		/**
+		 * @brief Sets the on exit collision function.
+		 * @param func The function to set.
+		 */
+		void set_on_exit(CollisionCallback const& func) { m_onExit = func; }
+
+		/**
+		 * @brief Gets the native pointer to the underlying physics object.
+		 * @return The pointer to the native object.
+		 */
+		virtual Any get_native() const = 0;
+
+#pragma endregion
+
+#pragma region Methods
+
+	public:
 
 		/**
 		 * @brief Calls the on enter collision function.
@@ -135,12 +131,6 @@ namespace Minty
 		}
 
 		/**
-		 * @brief Sets the on stay collision function.
-		 * @param func The function to set.
-		 */
-		void set_on_stay(CollisionCallback const& func) { m_onStay = func; }
-
-		/**
 		 * @brief Calls the on stay collision function.
 		 * @param func The function to call.
 		 */
@@ -151,12 +141,6 @@ namespace Minty
 				m_onStay(data);
 			}
 		}
-
-		/**
-		 * @brief Sets the on exit collision function.
-		 * @param func The function to set.
-		 */
-		void set_on_exit(CollisionCallback const& func) { m_onExit = func; }
 
 		/**
 		 * @brief Calls the on exit collision function.
@@ -170,17 +154,6 @@ namespace Minty
 			}
 		}
 
-		/**
-		 * @brief Gets the native pointer to the underlying physics object.
-		 * @return The pointer to the native object.
-		 */
-		virtual Any get_native() const = 0;
-
-#pragma endregion
-
-#pragma region Methods
-
-	public:
 		/**
 		 * @brief Creates a new Collider with the given arguments.
 		 * @param info The arguments.
@@ -201,6 +174,7 @@ namespace Minty
 	private:
 		Shape m_shape;
 		Shared<Mesh> m_mesh; // only used if shape is Custom
+		Shared<PhysicsMaterial> m_material;
 		CollisionCallback m_onEnter;
 		CollisionCallback m_onStay;
 		CollisionCallback m_onExit;

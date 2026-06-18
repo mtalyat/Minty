@@ -10,6 +10,7 @@
 #include "Minty/Asset/Asset.h"
 #include "Minty/Core/Types.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
@@ -93,6 +94,18 @@ namespace Minty
 		FSM const* get_fsm() const { return mp_fsm; }
 
 		/**
+		 * @brief Gets the time scale of this Animator.
+		 * @return The time scale.
+		 */
+		Float get_time_scale() const { return m_timeScale; }
+
+		/**
+		 * @brief Sets the time scale of this Animator.
+		 * @param timeScale The new time scale. A value of 1.0 means normal speed, 0.5 means half speed, etc.
+		 */
+		void set_time_scale(Float const timeScale) { m_timeScale = timeScale; }
+
+		/**
 		 * @brief Gets the AssetType of this Asset.
 		 * @return The AssetType::Animator.
 		 */
@@ -139,7 +152,9 @@ namespace Minty
 
 	private:
 		FSM *mp_fsm;
+		Float m_timeScale;
 		Bool m_force;
+		DefaultAllocator m_allocator;
 
 #pragma endregion
 	};

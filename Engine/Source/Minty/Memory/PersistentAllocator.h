@@ -7,18 +7,42 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Core/Types.h"
-#include "Minty/Debug/Debug.h"
+#include "Minty/Memory/Allocator.h"
 #include "Minty/Memory/MemoryPool.h"
 #include "Minty/Memory/MemoryPoolInfo.h"
 
 namespace Minty
 {
-    struct PersistentAllocatorBase
+    /**
+     * @brief A default allocator that uses the global new and delete operators.
+     */
+    class PersistentAllocator
+        : public Allocator<PersistentAllocator>
     {
+        friend class Allocator<PersistentAllocator>;
+
 #pragma region Methods
 
     public:
+        /**
+         * @brief Allocates memory of the given size.
+         * @param size The size of memory to allocate.
+         * @return A pointer to the allocated memory, or nullptr if allocation fails.
+         */
+        Any allocate(Size const size)
+        {
+            return this->allocate_impl(size);
+        }
+
+        /**
+         * @brief Deallocates the memory pointed to by ptr.
+         * @param ptr The pointer to the memory to deallocate.
+         */
+        void deallocate(Any const ptr) noexcept
+        {
+            this->deallocate_raw(ptr);
+        }
+
         /**
          * @brief Resets all memory pools, making all blocks available again.
          * WARNING: This invalidates all pointers allocated from this allocator.
@@ -93,6 +117,30 @@ namespace Minty
             s_maxSize = 0;
         }
 
+    private:
+        Any allocate_raw(Size const size)
+        {
+            MINTY_ASSERT(sp_memoryPools != nullptr, ErrorCode::Memory_AllocatorNotInitialized);
+            MINTY_ASSERT(size <= s_maxSize, ErrorCode::Memory_UnallowedSize);
+
+            MemoryPool &pool = *spp_memoryPoolMap[size];
+            Any const ptr = pool.allocate();
+            return ptr;
+        };
+
+        void deallocate_raw(Any const ptr) noexcept
+        {
+            if (ptr == nullptr || sp_memoryPools == nullptr)
+            {
+                return;
+            }
+
+            // Find which pool this allocation belongs to
+            Size const size = Tool::get_block_size(ptr);
+            MemoryPool &pool = *spp_memoryPoolMap[size];
+            pool.deallocate(ptr);
+        }
+
 #pragma endregion
 
 #pragma region Variables
@@ -102,125 +150,6 @@ namespace Minty
         inline static MemoryPool **spp_memoryPoolMap = nullptr;
         inline static Size s_memoryPoolCount = 0;
         inline static Size s_maxSize = 0;
-
-#pragma endregion
-    };
-
-    /**
-     * @brief A persistent allocator that allocates from multiple memory pools.
-     * @tparam T The type to allocate.
-     */
-    template <typename T>
-    struct PersistentAllocator
-        : public PersistentAllocatorBase
-    {
-#pragma region Types
-
-    public:
-        using value_type = T;
-
-#pragma endregion
-
-#pragma region Constructors
-
-    public:
-        PersistentAllocator() = default;
-        template <class U>
-        PersistentAllocator(const PersistentAllocator<U> &) noexcept {}
-
-#pragma endregion
-
-#pragma region Methods
-
-    public:
-        T *allocate(Size const count)
-        {
-            MINTY_ASSERT(sp_memoryPools != nullptr, ErrorCode::Memory_AllocatorNotInitialized);
-            MINTY_ASSERT(count > 0 && count * sizeof(T) <= s_maxSize, ErrorCode::Memory_UnallowedSize);
-
-            Size const size = count * sizeof(T);
-            MemoryPool &pool = *spp_memoryPoolMap[size];
-            Any const ptr = pool.allocate();
-            return static_cast<T *>(ptr);
-        }
-
-        T *allocate()
-        {
-            return allocate(1);
-        }
-
-        template <typename... Args>
-        T *construct(Args &&...args)
-        {
-            Any const ptr = allocate();
-            return new (ptr) T(std::forward<Args>(args)...);
-        }
-
-        template <typename... Args>
-        T *construct_array(Size const count, Args &&...args)
-        {
-            Any const ptr = allocate(count);
-            T *array = static_cast<T *>(ptr);
-            for (Size i = 0; i < count; ++i)
-            {
-                new (&array[i]) T(std::forward<Args>(args)...);
-            }
-            return array;
-        }
-
-        T *construct_array(Size const count)
-        {
-            Any const ptr = allocate(count);
-            T *array = static_cast<T *>(ptr);
-            for (Size i = 0; i < count; ++i)
-            {
-                new (&array[i]) T();
-            }
-            return array;
-        }
-
-        void deallocate(T *const ptr, Size const count) noexcept
-        {
-            if (ptr == nullptr || sp_memoryPools == nullptr)
-            {
-                return;
-            }
-
-            // Find which pool this allocation belongs to
-            Size const size = count * sizeof(T);
-            MemoryPool &pool = *spp_memoryPoolMap[size];
-            pool.deallocate(static_cast<Any>(ptr));
-        }
-
-        void deallocate(T *const ptr) noexcept
-        {
-            deallocate(ptr, 1);
-        }
-
-        void destruct(T *const object)
-        {
-            if (object == nullptr)
-            {
-                return;
-            }
-
-            object->~T();
-            deallocate(object);
-        }
-
-        void destruct_array(T *const array, Size const count)
-        {
-            if (array == nullptr)
-            {
-                return;
-            }
-
-            for (Size i = 0; i < count; ++i)
-            {
-                array[i].~T();
-            }
-            deallocate(array, count);
-        }
 
 #pragma endregion
     };

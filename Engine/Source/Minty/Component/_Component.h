@@ -22,7 +22,7 @@
 #include "PositionComponent.h"
 #include "PrefabComponent.h"
 #include "RelationshipComponent.h"
-#include "RigidBodyComponent.h"
+#include "RigidbodyComponent.h"
 #include "RotationComponent.h"
 #include "ScaleComponent.h"
 #include "SnapTag.h"

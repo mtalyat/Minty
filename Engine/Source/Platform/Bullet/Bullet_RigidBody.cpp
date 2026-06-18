@@ -1,146 +1,111 @@
 #include "pch.h"
-#include "Bullet_RigidBody.h"
+#include "Bullet_Rigidbody.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Physics/RigidBodyInfo.h"
+#include "Minty/Physics/RigidbodyInfo.h"
 #include "Platform/Bullet/Bullet_Collider.h"
 #include "Platform/Bullet/Bullet_Object.h"
 #include "Platform/Bullet/Bullet_Physics.h"
 
 using namespace Minty;
 
-Minty::Bullet_RigidBody::Bullet_RigidBody(RigidBodyInfo const& info)
-	: RigidBody(info)
-	, mp_body(nullptr)
+Minty::Bullet_Rigidbody::Bullet_Rigidbody(RigidbodyInfo const& info)
+	: Rigidbody(info), mp_body(nullptr)
 {
-	// get data
-	Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(*info.collider.get());
-	btCollisionShape* const shape = btCollider.get_collision_shape();
-
-	// create transform data
-	btTransform btTransform = btTransform::getIdentity();
-
-	// set inertia
-	btVector3 inertia(0, 0, 0);
-	shape->calculateLocalInertia(info.mass, inertia);
-
-	// create motion state
-	btMotionState* motionState = new btDefaultMotionState(btTransform);
-
-	// create rigid body construction info
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, motionState, shape, inertia);
-
-	// create the rigid body
-	btRigidBody* rigidBody = new btRigidBody(rbInfo);
-
-	// create object data
-	Bullet_Object* objectData = new Bullet_Object();
-	rigidBody->setUserPointer(objectData);
-
-	// set data
-	mp_body = rigidBody;
-	btCollisionObject* oldCollisionObject = btCollider.get_collision_object();
-	MINTY_ASSERT(oldCollisionObject == nullptr, ErrorCode::Object_InvalidState);
-	btCollider.set_collision_object(rigidBody);
-
-	// set initial properties
-	set_friction(info.friction);
-	set_bounce(info.bounce);
-	set_kinematic(info.isKinematic);
-	set_static(info.isStatic);
-	set_rotation_constraints(info.rotationConstraints);
 }
 
-Minty::Bullet_RigidBody::~Bullet_RigidBody()
+Minty::Bullet_Rigidbody::~Bullet_Rigidbody()
 {
-	delete mp_body->getUserPointer();
-	delete mp_body->getMotionState();
-	delete mp_body;
+	// mp_body not owned by the rigid body
+}
 
-	if(m_collider)
+void Minty::Bullet_Rigidbody::bind_rigidbody(btRigidBody * const body)
+{
+	// set the body and update values to match the rigid body properties
+	mp_body = body;
+
+	if (body)
 	{
-		Bullet_Collider& btCollider = static_cast<Bullet_Collider&>(*m_collider.get());
-		btCollider.set_collision_object(nullptr);
+		set_static(*body, is_static());
+		set_kinematic(*body, is_kinematic());
+		set_mass(*body, get_mass());
+		set_rotation_constraints(*body, get_rotation_constraints());
+		set_damping(*body, get_linear_damping(), get_angular_damping());
 	}
 }
 
-Bool Minty::Bullet_RigidBody::is_static() const
+void Minty::Bullet_Rigidbody::set_static(Bool const isStatic)
 {
-	return mp_body->isStaticObject();
-}
+	Rigidbody::set_static(isStatic);
 
-void Minty::Bullet_RigidBody::set_static(Bool const isStatic)
-{
-	if (isStatic)
+	if(mp_body)
 	{
-		mp_body->setMassProps(0.0f, btVector3(0, 0, 0));
-	}
-	else
-	{
-		Float mass = get_mass();
-		btVector3 localInertia(0, 0, 0);
-		if (mass != 0.0f)
-		{
-			mp_body->getCollisionShape()->calculateLocalInertia(static_cast<btScalar>(mass), localInertia);
-		}
-		mp_body->setMassProps(static_cast<btScalar>(mass), localInertia);
-		mp_body->updateInertiaTensor();
+		set_static(*mp_body, isStatic);
 	}
 }
 
-Bool Minty::Bullet_RigidBody::is_dynamic() const
+void Minty::Bullet_Rigidbody::set_kinematic(Bool const isKinematic)
 {
-	return !mp_body->isStaticOrKinematicObject();
-}
+	Rigidbody::set_kinematic(isKinematic);
 
-Bool Minty::Bullet_RigidBody::is_kinematic() const
-{
-    return mp_body->isKinematicObject();
-}
-
-void Minty::Bullet_RigidBody::set_kinematic(Bool const isKinematic)
-{
-	if (isKinematic)
+	if (mp_body)
 	{
-		mp_body->setCollisionFlags(mp_body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
-		mp_body->setActivationState(DISABLE_DEACTIVATION);
-	}
-	else
-	{
-		mp_body->setCollisionFlags(mp_body->getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
-		mp_body->setActivationState(ACTIVE_TAG);
+		set_kinematic(*mp_body, isKinematic);
 	}
 }
 
-Float Minty::Bullet_RigidBody::get_mass() const
+void Minty::Bullet_Rigidbody::set_mass(Float const mass)
 {
-    btScalar invMass = mp_body->getInvMass();
-	if (invMass == 0)
+	Rigidbody::set_mass(mass);
+
+	if (mp_body)
 	{
-		return 0.0f;
+		set_mass(*mp_body, mass);
 	}
-	return static_cast<Float>(1.0f / invMass);
 }
 
-void Minty::Bullet_RigidBody::set_mass(Float const mass)
+void Minty::Bullet_Rigidbody::set_linear_damping(Float const linearDamping)
 {
-	btVector3 localInertia(0, 0, 0);
-	if (mass != 0.0f)
+	Rigidbody::set_linear_damping(linearDamping);
+
+	if (mp_body)
 	{
-		mp_body->getCollisionShape()->calculateLocalInertia(static_cast<btScalar>(mass), localInertia);
+		mp_body->setDamping(static_cast<btScalar>(linearDamping), mp_body->getAngularDamping());
 	}
-	mp_body->setMassProps(static_cast<btScalar>(mass), localInertia);
-	mp_body->updateInertiaTensor();
 }
 
-Float3 Minty::Bullet_RigidBody::get_position() const
+void Minty::Bullet_Rigidbody::set_angular_damping(Float const angularDamping)
 {
+	Rigidbody::set_angular_damping(angularDamping);
+
+	if (mp_body)
+	{
+		mp_body->setDamping(mp_body->getLinearDamping(), static_cast<btScalar>(angularDamping));
+	}
+}
+
+void Minty::Bullet_Rigidbody::set_rotation_constraints(Constraints const constraints)
+{
+	Rigidbody::set_rotation_constraints(constraints);
+
+	if (mp_body)
+	{
+		set_rotation_constraints(*mp_body, constraints);
+	}
+}
+
+Float3 Minty::Bullet_Rigidbody::get_simulation_position() const
+{
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+
     btTransform transform = mp_body->getWorldTransform();
 	btVector3 origin = transform.getOrigin();
 	return Float3(static_cast<Float>(origin.getX()), static_cast<Float>(origin.getY()), static_cast<Float>(origin.getZ()));
 }
 
-void Minty::Bullet_RigidBody::set_position(Float3 const &position)
+void Minty::Bullet_Rigidbody::set_simulation_position(Float3 const &position)
 {
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+
 	btTransform transform = mp_body->getWorldTransform();
 	transform.setOrigin(btVector3(static_cast<btScalar>(position.x), static_cast<btScalar>(position.y), static_cast<btScalar>(position.z)));
 	mp_body->setWorldTransform(transform);
@@ -153,15 +118,19 @@ void Minty::Bullet_RigidBody::set_position(Float3 const &position)
 	mp_body->activate();
 }
 
-Quaternion Minty::Bullet_RigidBody::get_rotation() const
+Quaternion Minty::Bullet_Rigidbody::get_simulation_rotation() const
 {
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
 	btTransform transform = mp_body->getWorldTransform();
 	btQuaternion rotation = transform.getRotation();
-	return Quaternion(static_cast<Float>(rotation.getX()), static_cast<Float>(rotation.getY()), static_cast<Float>(rotation.getZ()), static_cast<Float>(rotation.getW()));
+	return Bullet_Physics::to_minty(rotation);
 }
 
-void Minty::Bullet_RigidBody::set_rotation(Quaternion const& rotation)
+void Minty::Bullet_Rigidbody::set_simulation_rotation(Quaternion const& rotation)
 {
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
 	btTransform transform = mp_body->getWorldTransform();
 	transform.setRotation(btQuaternion(static_cast<btScalar>(rotation.x), static_cast<btScalar>(rotation.y), static_cast<btScalar>(rotation.z), static_cast<btScalar>(rotation.w)));
 	mp_body->setWorldTransform(transform);
@@ -174,57 +143,91 @@ void Minty::Bullet_RigidBody::set_rotation(Quaternion const& rotation)
 	mp_body->activate();
 }
 
-Float3 Minty::Bullet_RigidBody::get_linear_velocity() const
+Float3 Minty::Bullet_Rigidbody::get_simulation_linear_velocity() const
 {
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
 	btVector3 velocity = mp_body->getLinearVelocity();
 	return Float3(static_cast<Float>(velocity.getX()), static_cast<Float>(velocity.getY()), static_cast<Float>(velocity.getZ()));
 }
 
-void Minty::Bullet_RigidBody::set_linear_velocity(Float3 const &velocity)
+void Minty::Bullet_Rigidbody::set_simulation_linear_velocity(Float3 const &velocity)
 {
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
 	mp_body->setLinearVelocity(btVector3(static_cast<btScalar>(velocity.x), static_cast<btScalar>(velocity.y), static_cast<btScalar>(velocity.z)));
 }
 
-Float Minty::Bullet_RigidBody::get_friction() const
+Float3 Minty::Bullet_Rigidbody::get_simulation_angular_velocity() const
 {
-	return static_cast<Float>(mp_body->getFriction());
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
+	btVector3 const angularVelocity = mp_body->getAngularVelocity();
+	return Bullet_Physics::to_minty(angularVelocity);
 }
 
-void Minty::Bullet_RigidBody::set_friction(Float const friction)
+void Minty::Bullet_Rigidbody::set_simulation_angular_velocity(Float3 const &velocity)
 {
-	mp_body->setFriction(static_cast<btScalar>(friction));
+	MINTY_ASSERT(mp_body != nullptr, ErrorCode::Object_NotRegistered);
+	
+	btVector3 const angularVelocity = Bullet_Physics::to_bullet(velocity);
+	mp_body->setAngularVelocity(angularVelocity);
 }
 
-Float Minty::Bullet_RigidBody::get_bounce() const
+void Minty::Bullet_Rigidbody::add_force(Float3 const &force, Force const mode)
 {
-	return static_cast<Float>(mp_body->getRestitution());
-}
-
-void Minty::Bullet_RigidBody::set_bounce(Float const bounce)
-{
-	mp_body->setRestitution(static_cast<btScalar>(bounce));
-}
-
-Constraints Minty::Bullet_RigidBody::get_constraints() const
-{
-	btVector3 angularFactor = mp_body->getAngularFactor();
-	Constraints constraints = Constraints::None;
-	if (angularFactor.getX() == 0)
+	switch(mode)
 	{
-		constraints = constraints | Constraints::X;
-	}
-	if (angularFactor.getY() == 0)
-	{
-		constraints = constraints | Constraints::Y;
-	}
-	if (angularFactor.getZ() == 0)
-	{
-		constraints = constraints | Constraints::Z;
-	}
-	return constraints;
+	case Force::Continuous:
+		mp_body->applyCentralForce(btVector3(static_cast<btScalar>(force.x * m_mass), static_cast<btScalar>(force.y * m_mass), static_cast<btScalar>(force.z * m_mass)));
+		break;
+	case Force::Impulse:
+		mp_body->applyCentralImpulse(btVector3(static_cast<btScalar>(force.x * m_mass), static_cast<btScalar>(force.y * m_mass), static_cast<btScalar>(force.z * m_mass)));
+		break;
+	default:
+		MINTY_NOT_IMPLEMENTED();
+		break;
+	};
 }
 
-void Minty::Bullet_RigidBody::set_rotation_constraints(Constraints const constraints)
+void Minty::Bullet_Rigidbody::set_static(btRigidBody& body, Bool const isStatic)
+{
+	if (isStatic)
+	{
+		body.setCollisionFlags(body.getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+	}
+	else
+	{
+		body.setCollisionFlags(body.getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
+	}
+}
+
+void Minty::Bullet_Rigidbody::set_kinematic(btRigidBody& body, Bool const isKinematic)
+{
+	if (isKinematic)
+	{
+		body.setCollisionFlags(body.getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		body.setActivationState(DISABLE_DEACTIVATION);
+	}
+	else
+	{
+		body.setCollisionFlags(body.getCollisionFlags() & ~btCollisionObject::CF_KINEMATIC_OBJECT);
+		body.setActivationState(ACTIVE_TAG);
+	}
+}
+
+void Minty::Bullet_Rigidbody::set_mass(btRigidBody& body, Float const mass)
+{
+	btVector3 localInertia(0, 0, 0);
+	if (mass >= 0.0f)
+	{
+		body.getCollisionShape()->calculateLocalInertia(static_cast<btScalar>(mass), localInertia);
+	}
+	body.setMassProps(static_cast<btScalar>(mass), localInertia);
+	body.updateInertiaTensor();
+}
+
+void Minty::Bullet_Rigidbody::set_rotation_constraints(btRigidBody& body, Constraints const constraints)
 {
 	btVector3 angularFactor(1, 1, 1);
 	if ((constraints & Constraints::X) == Constraints::X)
@@ -239,35 +242,10 @@ void Minty::Bullet_RigidBody::set_rotation_constraints(Constraints const constra
 	{
 		angularFactor.setZ(0);
 	}
-	mp_body->setAngularFactor(angularFactor);
+	body.setAngularFactor(angularFactor);
 }
 
-void Minty::Bullet_RigidBody::set_entity(Entity const entity)
+void Minty::Bullet_Rigidbody::set_damping(btRigidBody & body, Float const linearDamping, Float const angularDamping)
 {
-	Bullet_Object* objectData = static_cast<Bullet_Object*>(mp_body->getUserPointer());
-	MINTY_ASSERT(objectData != nullptr, ErrorCode::Argument_KeyNotFound);
-	objectData->entity = entity;
-}
-
-Entity Minty::Bullet_RigidBody::get_entity() const
-{
-	Bullet_Object* objectData = static_cast<Bullet_Object*>(mp_body->getUserPointer());
-	MINTY_ASSERT(objectData != nullptr, ErrorCode::Argument_KeyNotFound);
-	return objectData->entity;
-}
-
-void Minty::Bullet_RigidBody::add_force(Float3 const &force, Force const mode)
-{
-	switch(mode)
-	{
-	case Force::Continuous:
-		mp_body->applyCentralForce(btVector3(static_cast<btScalar>(force.x), static_cast<btScalar>(force.y), static_cast<btScalar>(force.z)));
-		break;
-	case Force::Impulse:
-		mp_body->applyCentralImpulse(btVector3(static_cast<btScalar>(force.x), static_cast<btScalar>(force.y), static_cast<btScalar>(force.z)));
-		break;
-	default:
-		MINTY_NOT_IMPLEMENTED();
-		break;
-	};
+	body.setDamping(static_cast<btScalar>(linearDamping), static_cast<btScalar>(angularDamping));
 }

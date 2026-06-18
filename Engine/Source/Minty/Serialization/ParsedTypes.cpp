@@ -606,14 +606,14 @@ String Minty::Parser<UInt64>::to_string(UInt64 const &value)
     return to_string_integer_unsigned<UInt64>(value);
 }
 
-Bool Minty::Parser<Float>::parse(StringView const str, Float &value)
+Bool Minty::Parser<Float32>::parse(StringView const str, Float &value)
 {
-    return parse_floating_point<Float>(str, value);
+    return parse_floating_point<Float32>(str, value);
 }
 
-String Minty::Parser<Float>::to_string(Float const &value)
+String Minty::Parser<Float32>::to_string(Float const &value)
 {
-    return to_string_floating_point<Float>(value);
+    return to_string_floating_point<Float32>(value);
 }
 
 Bool Minty::Parser<Float64>::parse(StringView const str, Float64 &value)
@@ -850,4 +850,14 @@ Bool Minty::Parser<WFloat4>::parse(StringView const str, WFloat4 &value)
 String Minty::Parser<WFloat4>::to_string(WFloat4 const &value)
 {
     return to_string_4<WFloat4, WFloat>(value, Minty::Parser<WFloat>::to_string);
+}
+
+Bool Minty::Parser<Quaternion>::parse(StringView const str, Quaternion &value)
+{
+    return parse_4<Quaternion, Float>(str, value, Minty::Parser<Float>::parse);
+}
+
+String Minty::Parser<Quaternion>::to_string(Quaternion const &value)
+{
+    return to_string_4<Quaternion, Float>(value, Minty::Parser<Float>::to_string);
 }

@@ -199,37 +199,6 @@ Entity Minty::EntityManager::get_entity(UUID const id) const
 	return INVALID_ENTITY;
 }
 
-Entity Minty::EntityManager::get_entity(Entity const source, EntityPath const &path) const
-{
-	// if no path, it is the source entity
-	if (path.is_empty())
-	{
-		return source;
-	}
-
-	// follow the children indices down until found
-	Entity entity = source;
-	RelationshipComponent const *relationshipComponent;
-	for (Byte index : path.get_path())
-	{
-		relationshipComponent = m_registry.try_get<RelationshipComponent>(entity);
-		if (!relationshipComponent)
-		{
-			return INVALID_ENTITY;
-		}
-
-		// get the child entity
-		entity = get_child(entity, index);
-		if (entity == INVALID_ENTITY)
-		{
-			return INVALID_ENTITY;
-		}
-	}
-
-	// found the entity
-	return entity;
-}
-
 String Minty::EntityManager::to_string(Entity const entity) const
 {
 	String const &name = get_name(entity);
@@ -253,21 +222,24 @@ String Minty::EntityManager::to_string(Entity const entity) const
 		builder.append("->");
 	}
 
+	builder.append(Parser<Size>::to_string(static_cast<Size>(entity)));
+
 	// append this entity's name and/or ID
 	if (!name.is_empty())
 	{
+		builder.append(':');
 		builder.append(name);
-		if (id.is_valid())
-		{
-			builder.append(format(" ({})", id));
-		}
 	}
-	else
+	else if (id.is_valid())
 	{
-		if (id.is_valid())
-		{
-			builder.append(format("({})", id));
-		}
+		builder.append(':');
+	}
+
+	if (id.is_valid())
+	{
+		builder.append('(');
+		builder.append(Parser<UUID>::to_string(id));
+		builder.append(')');
 	}
 
 	return builder.get_string();
@@ -519,6 +491,37 @@ Entity Minty::EntityManager::get_child(Entity const entity, Size const index) co
 		return child;
 	}
 	return INVALID_ENTITY;
+}
+
+Entity Minty::EntityManager::get_descendant(Entity const entity, EntityPath const &path) const
+{
+	// if no path, it is the source entity
+	if (path.is_empty())
+	{
+		return entity;
+	}
+
+	// follow the children indices down until found
+	Entity currentEntity = entity;
+	RelationshipComponent const *relationshipComponent;
+	for (Byte index : path.get_path())
+	{
+		relationshipComponent = m_registry.try_get<RelationshipComponent>(currentEntity);
+		if (!relationshipComponent)
+		{
+			return INVALID_ENTITY;
+		}
+
+		// get the child entity
+		currentEntity = get_child(currentEntity, index);
+		if (currentEntity == INVALID_ENTITY)
+		{
+			return INVALID_ENTITY;
+		}
+	}
+
+	// found the entity
+	return currentEntity;
 }
 
 Size Minty::EntityManager::get_child_count(Entity const entity) const
@@ -975,7 +978,7 @@ Entity Minty::EntityManager::create_entity(UUID const id)
 	// link ID to Entity
 	m_ids.add(id, entity);
 
-	MINTY_LOG_DEBUG_F("[Entity {} UUID={}]", static_cast<UInt>(entity), id);
+	MINTY_LOG_INFO_F("[Entity {} UUID={}]", static_cast<UInt>(entity), id);
 
 	// done
 	return entity;
@@ -993,7 +996,7 @@ Entity Minty::EntityManager::create_entity(String const &name)
 		nameComponent.name = name;
 	}
 
-	MINTY_LOG_DEBUG_F("[Entity {} Name='{}']", static_cast<UInt>(entity), name);
+	MINTY_LOG_INFO_F("[Entity {} Name='{}']", static_cast<UInt>(entity), name);
 
 	// done
 	return entity;
@@ -1029,8 +1032,8 @@ Entity Minty::EntityManager::create_entity(String const &name, UUID const id)
 
 	// link ID to Entity
 	m_ids.add(id, entity);
-	
-	MINTY_LOG_DEBUG_F("[Entity {} Name='{}' UUID={}]", static_cast<UInt>(entity), name, id);
+
+	MINTY_LOG_INFO_F("[Entity {} Name='{}' UUID={}]", static_cast<UInt>(entity), name, id);
 
 	// done
 	return entity;
@@ -1054,22 +1057,25 @@ Entity Minty::EntityManager::spawn_entity(Ref<Prefab> const &prefab)
 	Unique<Reader> reader = prefab->open_reader();
 	MINTY_ASSERT(reader != nullptr, ErrorCode::Serialization_Read);
 
-	MINTY_LOG_DEBUG_F("Spawning entity from prefab '{}'", prefab->get_id());
-	
+	MINTY_LOG_INFO_F("Spawning entity from prefab '{}'", prefab->get_id());
+
 	// get the header of the first entity
 	Handle const bookmark = reader->save_bookmark();
+	reader->set_validation(false);
 	String name;
 	UUID id;
 	UUID prefabId;
 	Bool const success = indent_entity_header(*reader, name, id, prefabId);
-	if(success)
+	if (success)
 	{
 		reader->outdent();
-	} else
+	}
+	else
 	{
 		MINTY_ERROR(ErrorCode::Serialization_Read);
 	}
 	reader->load_bookmark(bookmark);
+	reader->set_validation(true);
 
 	// create the first entity
 	Entity entity = create_entity(name);
@@ -1584,6 +1590,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 	// save a bookmark since the reader will have to come back to re-read the skipped data
 	Handle bookmark = reader.save_bookmark();
+	reader.set_validation(false);
 
 	// get entities by themselves
 	Vector<Entity> entities;
@@ -1632,6 +1639,7 @@ Bool Minty::EntityManager::deserialize_entities(Reader &reader, Map<UUID, Entity
 
 	// return to the bookmark to read the components
 	reader.load_bookmark(bookmark);
+	reader.set_validation(true);
 
 	// get components/prefabs for each entity
 	for (Entity const entity : entities)
@@ -1703,7 +1711,7 @@ Bool Minty::EntityManager::deserialize_components(Reader &reader, Entity const e
 	data.idMap = idMap;
 	reader.push_user_data(&data);
 
-	MINTY_LOG_DEBUG_F("Deserializing components for Entity {}", static_cast<UInt>(entity));
+	MINTY_LOG_INFO_F("Deserializing components for Entity {}", static_cast<UInt>(entity));
 
 	// read each component on the Entity
 	String componentName;

@@ -21,6 +21,7 @@ namespace Minty
 	class Scope
 	{
 		friend struct Serializer<Scope>;
+		friend struct Parser<Scope>;
 
 #pragma region Iterators
 
@@ -124,6 +125,13 @@ namespace Minty
 		static void serialize(Writer& writer, Scope const& value);
 		static Bool deserialize(Reader& reader, Scope& value);
 	};
+	
+	template<>
+    struct Parser<Scope>
+    {
+        static Bool parse(StringView const str, Scope &value);
+        static String to_string(Scope const &value);
+    };
 }
 
 #endif // MINTY_DATA_SCOPE_H

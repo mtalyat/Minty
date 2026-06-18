@@ -4,7 +4,7 @@
 
 using namespace Minty;
 
-Entity Minty::EntitySerializationData::get_entity(UUID const id)
+Entity Minty::EntitySerializationData::get_entity(UUID const id) const
 {
 	if (idMap)
 	{

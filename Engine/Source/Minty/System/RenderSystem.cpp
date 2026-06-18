@@ -72,6 +72,7 @@ Minty::RenderSystem::RenderSystem(SystemInfo const& info)
 	, m_canvasEntity(INVALID_ENTITY)
 	, m_canvasShader(nullptr)
 	, m_canvas()
+	, m_allocator()
 {
 }
 
@@ -103,7 +104,7 @@ void Minty::RenderSystem::render_scene(CameraData const& cameraInfo)
 				info.material->set_input(name, data, size);
 
 				// free the data when done, as it was cloned when added to the render map
-				DefaultAllocator<Byte>().deallocate(static_cast<Byte*>(data));
+				m_allocator.deallocate(data);
 			}
 
 			// if there is a canvas, update it
@@ -173,7 +174,7 @@ void Minty::RenderSystem::render_3d_meshes(CameraData const& cameraInfo, RenderM
 			.material = material,
 			.mesh = mesh
 		};
-		Any const ptr = DefaultAllocator<Byte>().allocate(sizeof(Matrix4));
+		Any const ptr = m_allocator.allocate(sizeof(Matrix4));
 		MINTY_ASSERT(ptr != nullptr, ErrorCode::Memory_AllocationFailed);
 		Matrix4* const clone = new (ptr) Matrix4(transformation);
 		info.inputs.add({ "object", clone, sizeof(Matrix4) });
@@ -377,7 +378,7 @@ void Minty::RenderSystem::render_ui_meshes(CameraData const& cameraInfo, RenderM
 			.canvas = uiTransformComp.canvas,
 			.mesh = mesh
 		};
-		Any const data = DefaultAllocator<Byte>().allocate(pushData.get_size());
+		Any const data = m_allocator.allocate(pushData.get_size());
 		MINTY_ASSERT(data != nullptr, ErrorCode::Memory_AllocationFailed);
 		memcpy(data, pushData.get_data(), pushData.get_size());
 		info.inputs.add({ "push", data, pushData.get_size() });

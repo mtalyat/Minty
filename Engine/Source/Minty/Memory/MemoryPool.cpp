@@ -86,19 +86,6 @@ void Minty::MemoryPool::reset()
 	initialize_free_blocks();
 }
 
-Size Minty::MemoryPool::extract_size(Any const ptr)
-{
-	if (ptr == nullptr)
-	{
-		return 0;
-	}
-
-	MINTY_ASSERT(reinterpret_cast<Size>(ptr) >= sizeof(Size), ErrorCode::Argument_InvalidValue);
-
-	Byte* const bytePtr = static_cast<Byte*>(ptr) - sizeof(Size);
-	return *reinterpret_cast<Size*>(bytePtr);
-}
-
 void Minty::MemoryPool::initialize_free_blocks()
 {
 	for (Size i = 0; i < m_blockCountCapacity; ++i)

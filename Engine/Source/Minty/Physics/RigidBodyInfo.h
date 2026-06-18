@@ -1,22 +1,21 @@
-#ifndef MINTY_PHYSICS_RIGIDBODYINFO_H
-#define MINTY_PHYSICS_RIGIDBODYINFO_H
+#ifndef MINTY_PHYSICS_RigidbodyINFO_H
+#define MINTY_PHYSICS_RigidbodyINFO_H
 
 /**
- * @file RigidBodyInfo.h
- * @brief Header file defining the RigidBodyInfo struct.
+ * @file RigidbodyInfo.h
+ * @brief Header file defining the RigidbodyInfo struct.
  * @author Mitchell Talyat
  */
 
 #include "Minty/Core/Types.h"
-#include "Minty/Physics/Collider.h"
 #include "Minty/Physics/Constraints.h"
 
 namespace Minty
 {
     /**
-     * @brief The arguments to create a RigidBody.
+     * @brief The arguments to create a Rigidbody.
      */
-    struct RigidBodyInfo
+    struct RigidbodyInfo
     {
         /**
          * @brief The mass of the rigid body.
@@ -24,24 +23,19 @@ namespace Minty
         Float mass = 1.0f;
 
         /**
-         * @brief The friction of the rigid body.
-         */
-        Float friction = 0.5f;
-
-        /**
-         * @brief The bounciness of the rigid body.
-         */
-        Float bounce = 0.0f;
-
-        /**
          * @brief The constraints applied to the rigid body.
          */
         Constraints rotationConstraints = Constraints::None;
 
         /**
-         * @brief The collider associated with the rigid body.
+         * @brief The linear damping of the rigid body.
          */
-        Shared<Collider> collider = nullptr;
+        Float linearDamping = 0.0f;
+
+        /**
+         * @brief The angular damping of the rigid body.
+         */
+        Float angularDamping = 0.0f;
 
         /**
          * @brief Whether the rigid body is kinematic.
@@ -55,4 +49,4 @@ namespace Minty
     };
 }
 
-#endif // MINTY_PHYSICS_RIGIDBODYINFO_H
+#endif // MINTY_PHYSICS_RigidbodyINFO_H

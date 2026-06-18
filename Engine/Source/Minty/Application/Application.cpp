@@ -46,16 +46,6 @@ Minty::Application::Application(ApplicationInfo const &info)
 	MINTY_ASSERT(s_instance == nullptr, ErrorCode::Singleton_AlreadyExists);
 	s_instance = this;
 
-	register_components();
-	register_systems();
-
-	if (info.windowInfo)
-	{
-		m_window = Window::create(*info.windowInfo).to_shared();
-		m_window->set_event_callback([this](Event &event)
-									 { handle_event(event); });
-	}
-
 	if (info.memoryManagerInfo)
 	{
 		m_memoryManager = MemoryManager::create(*info.memoryManagerInfo);
@@ -66,6 +56,22 @@ Minty::Application::Application(ApplicationInfo const &info)
 	{
 		m_jobManager = JobManager::create(*info.jobManagerInfo);
 		m_managers.add(m_jobManager.get());
+	}
+
+	register_components();
+	register_systems();
+
+	if (info.windowInfo)
+	{
+		m_window = Window::create(*info.windowInfo).make_shared();
+		m_window->set_event_callback([this](Event &event)
+									 { handle_event(event); });
+	}
+
+	if (info.assetManagerInfo)
+	{
+		m_assetManager = AssetManager::create(*info.assetManagerInfo);
+		m_managers.add(m_assetManager.get());
 	}
 
 	if (info.audioManagerInfo)
@@ -86,23 +92,17 @@ Minty::Application::Application(ApplicationInfo const &info)
 		m_managers.add(m_physicsManager.get());
 	}
 
-	if (info.assetManagerInfo)
+	if (info.renderManagerInfo)
 	{
-		m_assetManager = AssetManager::create(*info.assetManagerInfo);
-		m_managers.add(m_assetManager.get());
+		m_renderManager = RenderManager::create(*info.renderManagerInfo);
+		m_renderManager->initialize();
+		m_managers.add(m_renderManager.get());
 	}
 
 	if (info.inputManagerInfo)
 	{
 		m_inputManager = InputManager::create(*info.inputManagerInfo);
 		m_managers.add(m_inputManager.get());
-	}
-
-	if (info.renderManagerInfo)
-	{
-		m_renderManager = RenderManager::create(*info.renderManagerInfo);
-		m_renderManager->initialize();
-		m_managers.add(m_renderManager.get());
 	}
 
 	if (info.sceneManagerInfo)
@@ -125,21 +125,19 @@ Minty::Application::~Application()
 
 	m_timeController.release();
 	m_sceneManager.release();
-	m_inputManager.release();
 	m_assetManager.release();
+	m_inputManager.release();
 	m_physicsManager.release();
 	m_layerManager.release();
 	m_audioManager.release();
 	m_renderManager.release();
-	m_jobManager.release();
-	m_memoryManager.release();
 	m_window.release();
-	
-	m_managers.clear();
-
 	unregister_systems();
 	unregister_components();
-	
+	m_jobManager.release();
+	m_memoryManager.release();
+	m_managers.clear();
+
 	// flush any remaining logs
 	Debug::flush();
 
@@ -299,7 +297,7 @@ Unique<Application> Minty::Application::open(Path const &path)
 
 			String name;
 			Int2 layer;
-			while(reader.read_next(name, layer))
+			while (reader.read_next(name, layer))
 			{
 				// add the layer collision
 				layerManagerInfo.layerCollisions.add(
@@ -345,7 +343,7 @@ Unique<Application> Minty::Application::open(Path const &path)
 
 		info.sceneManagerInfo = &sceneManagerInfo;
 	}
-	if(reader.indent("Time"))
+	if (reader.indent("Time"))
 	{
 		reader.read("FixedTimestep", timeControllerInfo.fixedTimestep);
 		reader.read("MaxAllowedTimestep", timeControllerInfo.maxAllowedTimestep);

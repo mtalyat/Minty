@@ -1,3 +1,19 @@
+Priority: 0
+PrimitiveTopology: TriangleList
+PolygonMode: Fill
+CullMode: Back
+FrontFace: Clockwise
+LineWidth: 1
+Transparency: False
+RenderPass: def000000000001c
+Stages
+    Vertex: def0000000000003
+    Fragment: def0000000000002
+Bindings
+    0: Vertex
+        0: Float3
+        1: Float3
+        2: Float2
 Inputs
     object
         Type: PushConstant
@@ -20,18 +36,3 @@ Inputs
         Frequent: false
         Structure
             texSampler: Object
-PrimitiveTopology: TriangleList
-PolygonMode: Fill
-CullMode: Back
-FrontFace: Clockwise
-LineWidth: 1
-Transparency: False
-RenderPass: def000000000001c
-Bindings
-    0: Vertex
-        0: Float3
-        1: Float3
-        2: Float2
-Stages
-    Vertex: def0000000000003
-    Fragment: def0000000000002

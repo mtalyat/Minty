@@ -27,7 +27,7 @@ void Minty::Application::register_components()
     EntityManager::register_component<PositionComponent>("Position");
     EntityManager::register_component<PrefabComponent>("Prefab");
     EntityManager::register_component<RelationshipComponent>("Relationship");
-    EntityManager::register_component<RigidBodyComponent>("RigidBody");
+    EntityManager::register_component<RigidbodyComponent>("Rigidbody");
     EntityManager::register_component<RotationComponent>("Rotation");
     EntityManager::register_component<ScaleComponent>("Scale");
     EntityManager::register_component<SnapTag>("Snap");

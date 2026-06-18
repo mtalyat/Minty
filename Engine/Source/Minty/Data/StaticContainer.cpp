@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "StaticContainer.h"
 #include "Minty/Debug/Assert.h"
-#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
@@ -16,18 +15,18 @@ Minty::StaticContainer::StaticContainer(Size const capacity)
 	if (capacity)
 	{
 		m_capacity = capacity;
-		mp_data = DefaultAllocator<Byte>().allocate(capacity);
+		mp_data = static_cast<Byte*>(m_allocator.allocate(capacity));
 	}
 }
 
 Minty::StaticContainer::StaticContainer(AnyConst const data, Size const size)
 	: MemoryContainer()
 {
-	if (data && size)
+	if (data != nullptr && size > 0)
 	{
 		m_capacity = size;
 		m_size = size;
-		mp_data = DefaultAllocator<Byte>().allocate(size);
+		mp_data = static_cast<Byte*>(m_allocator.allocate(size));
 		memcpy(mp_data, data, size);
 	}
 }

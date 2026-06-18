@@ -2,12 +2,15 @@
 #include "PhysicsManager.h"
 #include "Minty/Application/Application.h"
 #include "Minty/Physics/PhysicsManagerInfo.h"
+#include "Minty/Physics/PhysicsMaterialInfo.h"
 
 using namespace Minty;
 
 Minty::PhysicsManager::PhysicsManager(PhysicsManagerInfo const &info)
-	: Manager()
+	: Manager(), m_defaultMaterial()
 {
+	PhysicsMaterialInfo defaultMaterialInfo{};
+	m_defaultMaterial = PhysicsMaterial::create(defaultMaterialInfo);
 }
 
 Unique<PhysicsManager> Minty::PhysicsManager::create(PhysicsManagerInfo const &info)

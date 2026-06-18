@@ -95,6 +95,7 @@ namespace Minty
 	constexpr Char const *EXTENSION_MATERIAL_TEMPLATE = ".mtp.minty";
 	constexpr Char const *EXTENSION_MESH_OBJECT = ".obj";
 	constexpr Char const *EXTENSION_META = ".meta";
+	constexpr Char const *EXTENSION_PHYSICS_MATERIAL = ".phy.minty";
 	constexpr Char const *EXTENSION_PNG = ".png";
 	constexpr Char const *EXTENSION_PREFAB = ".pre.minty";
 	constexpr Char const *EXTENSION_RENDER_PASS = ".rpa.minty";
@@ -184,6 +185,9 @@ namespace Minty
 	constexpr Float DEFAULT_PHYSICS_GRAVITY = -9.81f;
 	constexpr Float DEFAULT_PHYSICS_TIME_STEP = 1.0f / 60.0f;
 	constexpr Float DEFAULT_PHYSICS_RAYCAST_DISTANCE = 1000.0f;
+	constexpr Float DEFAULT_PHYSICS_FRICTION = 0.6f;
+	constexpr Float DEFAULT_PHYSICS_BOUNCE = 0.2f;
+	constexpr Float DEFAULT_PHYSICS_MASS = 1.0f;
 
 #pragma endregion
 

@@ -277,6 +277,13 @@ namespace Minty
         static Bool parse(StringView const str, WFloat4 &value);
         static String to_string(WFloat4 const &value);
     };
+
+    template<>
+    struct Parser<Quaternion>
+    {
+        static Bool parse(StringView const str, Quaternion &value);
+        static String to_string(Quaternion const &value);
+    };
 }
 
 #endif // MINTY_SERIALIZATION_PARSEDTYPES_H

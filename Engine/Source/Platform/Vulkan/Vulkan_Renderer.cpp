@@ -12,7 +12,8 @@ using namespace Minty;
 
 #pragma region Extensions
 
-static const Vector<Char const*> deviceExtensions = {
+constexpr Size DEVICE_EXTENSION_COUNT = 1;
+constexpr Char const* const DEVICE_EXTENSIONS[DEVICE_EXTENSION_COUNT] = {
 	VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
@@ -44,7 +45,8 @@ static Vector<Char const*> get_required_extensions()
 
 #pragma region Validation Layers
 
-static const Vector<Char const*> validationLayers = {
+constexpr Size VALIDATION_LAYER_COUNT = 1;
+constexpr Char const* const VALIDATION_LAYERS[VALIDATION_LAYER_COUNT] = {
 	"VK_LAYER_KHRONOS_validation"
 };
 
@@ -88,8 +90,9 @@ static Bool check_validation_layer_support()
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.get_data());
 
 	// validate that each layer we want exists
-	for (const char* layerName : validationLayers)
+	for (Size i = 0; i < VALIDATION_LAYER_COUNT; ++i)
 	{
+		Char const* const layerName = VALIDATION_LAYERS[i];
 		Bool layerFound = false;
 
 		for (auto const& layerProperties : availableLayers)
@@ -169,8 +172,8 @@ VkInstance Minty::Vulkan_Renderer::create_instance()
 	// validation layers
 #ifdef MINTY_DEBUG
 	MINTY_ASSERT_F(check_validation_layer_support(), ErrorCode::Render_UnsupportedFeature); // "Validation layers requested, but not available."
-	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.get_size());
-	createInfo.ppEnabledLayerNames = validationLayers.get_data();
+	createInfo.enabledLayerCount = static_cast<uint32_t>(VALIDATION_LAYER_COUNT);
+	createInfo.ppEnabledLayerNames = VALIDATION_LAYERS;
 #else
 	createInfo.enabledLayerCount = 0;
 	createInfo.ppEnabledLayerNames = nullptr;
@@ -222,10 +225,10 @@ static Bool check_device_extension_support(VkPhysicalDevice const physicalDevice
 	availableExtensions.resize(extensionCount, VkExtensionProperties{});
 	vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionCount, availableExtensions.get_data());
 
-	Set<String> requiredExtensions(deviceExtensions.get_capacity());
-	for (auto const& ext : deviceExtensions)
+	Set<String> requiredExtensions(DEVICE_EXTENSION_COUNT);
+	for (Size i = 0; i < DEVICE_EXTENSION_COUNT; ++i)
 	{
-		requiredExtensions.add(ext);
+		requiredExtensions.add(DEVICE_EXTENSIONS[i]);
 	}
 
 	for (auto const& extension : availableExtensions)
@@ -489,13 +492,13 @@ VkDevice Minty::Vulkan_Renderer::create_device(VkPhysicalDevice const physicalDe
 	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.get_size());
 	createInfo.pQueueCreateInfos = queueCreateInfos.get_data();
 	createInfo.pEnabledFeatures = &deviceFeatures;
-	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.get_size());
-	createInfo.ppEnabledExtensionNames = deviceExtensions.get_data();
+	createInfo.enabledExtensionCount = DEVICE_EXTENSION_COUNT;
+	createInfo.ppEnabledExtensionNames = DEVICE_EXTENSIONS;
 
 #ifdef MINTY_DEBUG
 	// tie in validation layers
-	createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.get_size());
-	createInfo.ppEnabledLayerNames = validationLayers.get_data();
+	createInfo.enabledLayerCount = static_cast<uint32_t>(VALIDATION_LAYER_COUNT);
+	createInfo.ppEnabledLayerNames = VALIDATION_LAYERS;
 #else
 	createInfo.enabledLayerCount = 0;
 #endif // MINTY_DEBUG

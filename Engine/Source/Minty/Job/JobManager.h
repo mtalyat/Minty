@@ -13,6 +13,7 @@
 #include "Minty/Data/Pointer.h"
 #include "Minty/Data/Queue.h"
 #include "Minty/Data/Vector.h"
+#include "Minty/Memory/DefaultAllocator.h"
 #include <thread>
 #include <condition_variable>
 #include <mutex>
@@ -204,6 +205,7 @@ namespace Minty
 		std::condition_variable m_condition;
 		// if the threads should stop running
 		Bool m_stop;
+		DefaultAllocator m_jobDataAllocator;
 
 #pragma endregion
 	};

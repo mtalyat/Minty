@@ -9,6 +9,7 @@
 
 #include "Minty/Data/Pointer.h"
 #include "Minty/Manager/Manager.h"
+#include "Minty/Physics/PhysicsMaterial.h"
 
 namespace Minty
 {
@@ -30,6 +31,13 @@ namespace Minty
 		PhysicsManager(PhysicsManagerInfo const& info);
 
 		~PhysicsManager() override = default;
+
+#pragma endregion
+
+#pragma region Accessors
+
+	public:
+		Shared<PhysicsMaterial> const& get_default_material() const { return m_defaultMaterial; }
 
 #pragma endregion
 
@@ -60,6 +68,13 @@ namespace Minty
 		 * @return A reference to the PhysicsManager.
 		 */
 		static PhysicsManager& get_singleton();
+
+#pragma endregion
+
+#pragma region Variables
+
+	private:
+		Shared<PhysicsMaterial> m_defaultMaterial;
 
 #pragma endregion
 	};

@@ -91,6 +91,14 @@ namespace Minty
 		 */
 		inline static UUID generate() { return create(); }
 
+		/**
+		 * @brief Creates a UUID from a string representation.
+		 * @param str The string representation of the UUID.
+		 * @returns The created UUID.
+		 * @throws std::invalid_argument if the string is not a valid UUID format.
+		 */
+		static UUID from_string(StringView const str);
+
 #pragma endregion
 
 #pragma region Variables

@@ -1,29 +1,35 @@
 #include "pch.h"
-#include "RigidBody.h"
-#include "Minty/Physics/RigidBodyInfo.h"
+#include "Rigidbody.h"
+#include "Minty/Physics/RigidbodyInfo.h"
 #ifdef MINTY_BULLET
-#include "Platform/Bullet/Bullet_RigidBody.h"
+#include "Platform/Bullet/Bullet_Rigidbody.h"
 #endif
 
 using namespace Minty;
 
-Minty::RigidBody::RigidBody(RigidBodyInfo const &info)
-    : m_collider(info.collider)
+Minty::Rigidbody::Rigidbody(RigidbodyInfo const &info)
+    : m_rotationConstraints(info.rotationConstraints), m_mass(info.mass), m_linearDamping(info.linearDamping), m_angularDamping(info.angularDamping), m_isKinematic(info.isKinematic), m_isStatic(info.isStatic)
 {
-    MINTY_ASSERT(info.collider != nullptr, ErrorCode::Argument_ExpectedNonNull);
 }
 
-Shared<RigidBody> Minty::RigidBody::create(RigidBodyInfo const &info)
+Shared<Rigidbody> Minty::Rigidbody::create(RigidbodyInfo const &info)
 {
 #if defined(MINTY_BULLET)
-    return Shared<Bullet_RigidBody>::create(info);
+    return Shared<Bullet_Rigidbody>::create(info);
 #else
-    return Shared<RigidBody>();
+    return Shared<Rigidbody>();
 #endif
 }
 
-Shared<RigidBody> Minty::RigidBody::create()
+Shared<Rigidbody> Minty::Rigidbody::create()
 {
-    RigidBodyInfo info{};
+    RigidbodyInfo info{};
     return create(info);
+}
+
+void Minty::Rigidbody::set_mass(Float const mass)
+{
+    // mass cannot be negative
+    MINTY_ASSERT(mass >= 0.0f, ErrorCode::Argument_ExpectedAboveZero);
+    m_mass = mass;
 }

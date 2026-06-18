@@ -41,6 +41,7 @@ namespace Minty
         
         Argument = 200,
         Argument_ExpectedNonZero,
+        Argument_ExpectedZero,
         Argument_ExpectedNonNull,
         Argument_ExpectedNull,
         Argument_ExpectedNonEmpty,
@@ -72,6 +73,8 @@ namespace Minty
         Object_EmptyContainer,
         Object_FullContainer,
         Object_CreationFailed,
+        Object_AlreadyRegistered,
+        Object_NotRegistered,
 
         File = 400,
         File_NotFound,
@@ -186,6 +189,9 @@ namespace Minty
         Render_FailedToRender,
 
         Physics = 1500,
+        Physics_InSimulation,
+        Physics_NotInSimulation,
+        Physics_RigidbodyRequiresCollider,
 
         Math = 1600,
         Math_DivideByZero,

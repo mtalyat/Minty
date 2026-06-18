@@ -56,6 +56,8 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Invalid argument error.";
     case ErrorCode::Argument_ExpectedNonZero:
         return "Invalid argument error. Expected non-zero value.";
+    case ErrorCode::Argument_ExpectedZero:
+        return "Invalid argument error. Expected zero value.";
     case ErrorCode::Argument_ExpectedNonNull:
         return "Invalid argument error. Expected non-null pointer.";
     case ErrorCode::Argument_ExpectedNull:
@@ -117,6 +119,10 @@ Char const *Minty::get_error_message(ErrorCode const code)
         return "Object error. Container is full.";
     case ErrorCode::Object_CreationFailed:
         return "Object error. Creation failed.";
+    case ErrorCode::Object_AlreadyRegistered:
+        return "Object error. Object already registered.";
+    case ErrorCode::Object_NotRegistered:
+        return "Object error. Object not registered.";
 
     case ErrorCode::File:
         return "File error.";
@@ -331,6 +337,12 @@ Char const *Minty::get_error_message(ErrorCode const code)
 
     case ErrorCode::Physics:
         return "Physics error.";
+    case ErrorCode::Physics_InSimulation:
+        return "Physics error. Entity is in the physics simulation.";
+    case ErrorCode::Physics_NotInSimulation:
+        return "Physics error. Entity is not in the physics simulation.";
+    case ErrorCode::Physics_RigidbodyRequiresCollider:
+        return "Physics error. Rigidbodies require a collider to be registered first. Register a collider for this entity before registering a rigidbody.";
 
     case ErrorCode::Math:
         return "Math error.";

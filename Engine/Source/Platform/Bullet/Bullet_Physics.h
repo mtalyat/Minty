@@ -6,6 +6,8 @@
 
 namespace Minty
 {
+	class PhysicsMaterial;
+
 	class Bullet_Physics
 	{
 #pragma region Constructors
@@ -16,39 +18,40 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Statics
+#pragma region Methods
+
+#pragma region Minty -> Bullet
 
 	public:
-		static btTransform to_bullet(Transform const& transform)
-		{
-			btTransform btTransform;
-			btTransform.setIdentity();
-			btTransform.setOrigin(to_bullet(transform.get_global_position()));
-			btTransform.setRotation(to_bullet(transform.get_global_rotation()));
-			return btTransform;
-		}
+		static btTransform to_bullet(Transform const &transform);
 
-		inline static btVector3 to_bullet(Float3 const& vector)
+		inline static btVector3 to_bullet(Float3 const &vector)
 		{
 			return btVector3(vector.x, vector.y, vector.z);
 		}
-		
-		inline static Float3 to_minty(btVector3 const& vector)
-		{
-			return Float3(vector.x(), vector.y(), vector.z());
-		}
 
-		inline static btQuaternion to_bullet(Quaternion const& quaternion)
+		inline static btQuaternion to_bullet(Quaternion const &quaternion)
 		{
 			return btQuaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
 		}
 
-		inline static Quaternion to_minty(btQuaternion const& quaternion)
+#pragma endregion
+
+#pragma region Bullet -> Minty
+
+	public:
+		inline static Float3 to_minty(btVector3 const &vector)
 		{
-			return Quaternion(quaternion.x(), quaternion.y(), quaternion.z(), quaternion.w());
+			return Float3(vector.x(), vector.y(), vector.z());
+		}
+
+		inline static Quaternion to_minty(btQuaternion const &quaternion)
+		{
+			return Quaternion(quaternion.w(), quaternion.x(), quaternion.y(), quaternion.z());
 		}
 
 #pragma endregion
 
+#pragma endregion
 	};
 }

@@ -3,12 +3,11 @@
 #include "Minty/Application/Application.h"
 #include "Minty/Debug/Assert.h"
 #include "Minty/Job/JobManagerInfo.h"
-#include "Minty/Memory/DefaultAllocator.h"
 
 using namespace Minty;
 
 Minty::JobManager::JobManager(JobManagerInfo const &info)
-	: m_threads(), m_nextHandle(0), m_jobs(), m_queue(), m_queueMutex(), m_stop(false)
+	: m_threads(), m_nextHandle(0), m_jobs(), m_queue(), m_queueMutex(), m_stop(false), m_jobDataAllocator()
 {
 	MINTY_ASSERT(info.threadCount > 0, ErrorCode::Argument_ExpectedNonZero);
 
@@ -114,7 +113,7 @@ void Minty::JobManager::worker_thread()
 				std::unique_lock lock(m_jobsMutex);
 				m_jobs.remove(pair.get_second());
 			}
-			DefaultAllocator<JobData>().destruct(jobData);
+			m_jobDataAllocator.destruct(jobData);
 		}
 	}
 }
@@ -122,7 +121,7 @@ void Minty::JobManager::worker_thread()
 Handle Minty::JobManager::create_job(Vector<Job> const &batch, Vector<Handle> const &dependencies)
 {
 	Handle handle = m_nextHandle++;
-	JobData *jobData = DefaultAllocator<JobData>().construct(dependencies.get_size(), batch.get_size());
+	JobData *jobData = m_jobDataAllocator.construct<JobData>(dependencies.get_size(), batch.get_size());
 	{
 		// add new job
 		std::unique_lock lock(m_jobsMutex);

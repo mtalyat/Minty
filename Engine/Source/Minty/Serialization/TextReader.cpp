@@ -154,7 +154,7 @@ Bool Minty::TextReader::read_tuple(Any const buffer, Size const elementSize, UIn
         }
 
         // Read the element
-        Any const elementPtr = static_cast<Byte*>(buffer) + (i * elementSize);
+        Any const elementPtr = static_cast<Byte *>(buffer) + (i * elementSize);
         if (!readFunc(elementPtr))
         {
             return false;
@@ -312,14 +312,14 @@ Bool Minty::TextReader::get_next_key(String &key)
     while (true)
     {
         // Remove file UUID if found
-        if(peek(ch) && ch == ':')
+        if (peek(ch) && ch == ':')
         {
             skip_line();
             continue;
         }
-        
+
         // Count indentation
-        if(!check_for_indentation(indentLevel))
+        if (!check_for_indentation(indentLevel))
         {
             indentLevel = 0;
         }
@@ -521,7 +521,7 @@ Bool Minty::TextReader::check_for_indentation(UInt &indentLevel)
 Bool Minty::TextReader::check_for_break()
 {
     Char ch;
-    if(peek(ch) && (ch == '\n' || ch == '\r'))
+    if (peek(ch) && (ch == '\n' || ch == '\r'))
     {
         read_from_stream(&ch, sizeof(Char));
         return true;
@@ -540,17 +540,19 @@ void Minty::TextReader::skip_line()
 
 void Minty::TextReader::skip_remaining()
 {
-    if (m_hasNextKey && m_nextIndent == get_indent())
+    while (get_next_key(m_nextKey))
     {
-        do
+        // if supposed to check for ignored data, warn about the ignored key
+        // otherwise just skip it without warning
+        if (get_validation())
         {
             // warn if there are unread keys at the current level
             // those unread keys either need to be read, or should be removed
             MINTY_WARNING_F(ErrorCode::Serialization_IgnoredData, get_indent(), m_nextKey);
+        }
 
-            // skip the key and value (if present)
-            consume_next_key();
-            consume_next_value();
-        } while (get_next_key(m_nextKey));
+        // skip the key and value (if present)
+        consume_next_key();
+        consume_next_value();
     }
 }

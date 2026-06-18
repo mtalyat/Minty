@@ -218,7 +218,7 @@ void Minty::Animation::perform_action(AnimationAction const &action, Entity cons
 	MINTY_ASSERT_F(action.entityIndex < MAX_ENTITY_INDEX, ErrorCode::Animation_InvalidEntityIndex, action.entityIndex);
 
 	// get the entity based on the path
-	Entity entity = entityManager.get_entity(thisEntity, m_entities.at(action.entityIndex));
+	Entity entity = entityManager.get_descendant(thisEntity, m_entities.at(action.entityIndex));
 
 	// if no entity, do nothing
 	if (entity == INVALID_ENTITY)
@@ -339,7 +339,7 @@ Bool Minty::Animation::animate(Float &time, Float const elapsedTime, Entity cons
 
 		// get the entity
 		EntityPath const &childPath = m_entities.at(entityIndex);
-		Entity const entity = entityManager.get_entity(thisEntity, childPath);
+		Entity const entity = entityManager.get_descendant(thisEntity, childPath);
 		MINTY_ASSERT_F(entity != INVALID_ENTITY, ErrorCode::Animation_EntityNotFound, Parser<EntityPath>::to_string(m_entities.at(entityIndex)));
 
 		// get the component

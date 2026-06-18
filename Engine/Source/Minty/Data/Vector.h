@@ -19,19 +19,12 @@ namespace Minty
 	/**
 	 * @brief A dynamic array that can resize itself automatically when elements are added or removed.
 	 * @tparam T The type of elements stored in the Vector.
-	 * @tparam AllocatorType The memory allocator to use for allocating and deallocating memory.
+	 * @tparam Allocator The memory allocator to use for allocating and deallocating memory.
 	 */
-	template<typename T, template<typename> class AllocatorType = DefaultAllocator>
+	template <typename T, typename Allocator = DefaultAllocator>
 	class Vector
 	{
-		friend struct Serializer<Vector<T, AllocatorType>>;
-
-#pragma region Types
-
-	private:
-		using Allocator = AllocatorType<T>;
-
-#pragma endregion
+		friend struct Serializer<Vector<T, Allocator>>;
 
 #pragma region Constructors
 
@@ -40,15 +33,16 @@ namespace Minty
 		 * @brief Creates an empty Vector.
 		 */
 		Vector()
-			: mp_data(nullptr), m_size(0), m_capacity(0)
-		{}
+			: mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
+		{
+		}
 
 		/**
 		 * @brief Creates a Vector with the given initial capacity.
 		 * @param capacity The initial capacity of the Vector.
 		 */
 		Vector(Size const capacity)
-			: mp_data(nullptr), m_size(0), m_capacity(0)
+			: mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
 		{
 			reserve(capacity);
 		}
@@ -58,42 +52,43 @@ namespace Minty
 		 * @param size The size of the Vector.
 		 * @param value The value to initialize the elements with.
 		 */
-		Vector(Size const size, T const& value)
-			: mp_data(nullptr), m_size(0), m_capacity(0)
+		Vector(Size const size, T const &value)
+			: mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
 		{
 			resize(size, value);
 		}
-		
+
 		/**
 		 * @brief Creates a Vector with the elements from the given initializer list.
 		 * @param list The initializer list containing the elements to add to the Vector.
 		 */
-		Vector(std::initializer_list<T> const& list)
-			: mp_data(nullptr), m_size(0), m_capacity(0)
+		Vector(std::initializer_list<T> const &list)
+			: mp_data(nullptr), m_size(0), m_capacity(0), m_allocator()
 		{
 			reserve(list.size());
 
-			for (T const& value : list)
+			for (T const &value : list)
 			{
 				add(value);
 			}
 		}
 
-		Vector(Vector const& other)
-			: mp_data(Allocator().allocate(other.m_capacity))
-			, m_size(other.m_size)
-			, m_capacity(other.m_capacity)
+		Vector(Vector const &other)
+			: mp_data(nullptr), m_size(other.m_size), m_capacity(other.m_capacity), m_allocator()
 		{
+			if (m_size == 0)
+			{
+				return;
+			}
+			mp_data = static_cast<T *>(m_allocator.allocate(sizeof(T) * m_capacity));
 			for (Size i = 0; i < m_size; ++i)
 			{
 				new (&mp_data[i]) T(other.mp_data[i]);
 			}
 		}
 
-		Vector(Vector&& other) noexcept
-			: mp_data(other.mp_data)
-			, m_size(other.m_size)
-			, m_capacity(other.m_capacity)
+		Vector(Vector &&other) noexcept
+			: mp_data(other.mp_data), m_size(other.m_size), m_capacity(other.m_capacity), m_allocator(std::move(other.m_allocator))
 		{
 			other.mp_data = nullptr;
 			other.m_size = 0;
@@ -108,7 +103,7 @@ namespace Minty
 				{
 					mp_data[i].~T();
 				}
-				Allocator().deallocate(mp_data, m_capacity);
+				m_allocator.deallocate(mp_data);
 			}
 		}
 
@@ -125,8 +120,8 @@ namespace Minty
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
 			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
+			using pointer = value_type *;
+			using reference = value_type &;
 
 		private:
 			pointer mp_ptr;
@@ -148,7 +143,7 @@ namespace Minty
 				return mp_ptr;
 			}
 
-			Iterator& operator++()
+			Iterator &operator++()
 			{
 				++mp_ptr;
 				return *this;
@@ -161,7 +156,7 @@ namespace Minty
 				return temp;
 			}
 
-			Iterator& operator--()
+			Iterator &operator--()
 			{
 				--mp_ptr;
 				return *this;
@@ -184,8 +179,8 @@ namespace Minty
 				return Iterator(mp_ptr - value);
 			}
 
-			inline Bool operator==(Iterator const& other) const { return mp_ptr == other.mp_ptr; }
-			inline Bool operator!=(Iterator const& other) const { return mp_ptr != other.mp_ptr; }
+			inline Bool operator==(Iterator const &other) const { return mp_ptr == other.mp_ptr; }
+			inline Bool operator!=(Iterator const &other) const { return mp_ptr != other.mp_ptr; }
 		};
 
 		class ConstIterator
@@ -196,8 +191,8 @@ namespace Minty
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
 			using difference_type = std::ptrdiff_t;
-			using pointer = value_type const*;
-			using reference = value_type const&;
+			using pointer = value_type const *;
+			using reference = value_type const &;
 
 		private:
 			pointer mp_ptr;
@@ -219,7 +214,7 @@ namespace Minty
 				return mp_ptr;
 			}
 
-			ConstIterator& operator++()
+			ConstIterator &operator++()
 			{
 				++mp_ptr;
 				return *this;
@@ -232,7 +227,7 @@ namespace Minty
 				return temp;
 			}
 
-			ConstIterator& operator--()
+			ConstIterator &operator--()
 			{
 				--mp_ptr;
 				return *this;
@@ -255,8 +250,8 @@ namespace Minty
 				return ConstIterator(mp_ptr - value);
 			}
 
-			inline Bool operator==(ConstIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			inline Bool operator!=(ConstIterator const& other) const { return mp_ptr != other.mp_ptr; }
+			inline Bool operator==(ConstIterator const &other) const { return mp_ptr == other.mp_ptr; }
+			inline Bool operator!=(ConstIterator const &other) const { return mp_ptr != other.mp_ptr; }
 		};
 
 		class ReverseIterator
@@ -267,8 +262,8 @@ namespace Minty
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
 			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
+			using pointer = value_type *;
+			using reference = value_type &;
 
 		private:
 			pointer mp_ptr;
@@ -290,7 +285,7 @@ namespace Minty
 				return mp_ptr;
 			}
 
-			ReverseIterator& operator++()
+			ReverseIterator &operator++()
 			{
 				--mp_ptr;
 				return *this;
@@ -303,7 +298,7 @@ namespace Minty
 				return temp;
 			}
 
-			ReverseIterator& operator--()
+			ReverseIterator &operator--()
 			{
 				++mp_ptr;
 				return *this;
@@ -326,8 +321,8 @@ namespace Minty
 				return ReverseIterator(mp_ptr + value);
 			}
 
-			inline Bool operator==(ReverseIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			inline Bool operator!=(ReverseIterator const& other) const { return mp_ptr != other.mp_ptr; }
+			inline Bool operator==(ReverseIterator const &other) const { return mp_ptr == other.mp_ptr; }
+			inline Bool operator!=(ReverseIterator const &other) const { return mp_ptr != other.mp_ptr; }
 		};
 
 		class ConstReverseIterator
@@ -338,8 +333,8 @@ namespace Minty
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
 			using difference_type = std::ptrdiff_t;
-			using pointer = value_type const*;
-			using reference = value_type const&;
+			using pointer = value_type const *;
+			using reference = value_type const &;
 
 		private:
 			pointer mp_ptr;
@@ -361,7 +356,7 @@ namespace Minty
 				return mp_ptr;
 			}
 
-			ConstReverseIterator& operator++()
+			ConstReverseIterator &operator++()
 			{
 				--mp_ptr;
 				return *this;
@@ -374,7 +369,7 @@ namespace Minty
 				return temp;
 			}
 
-			ConstReverseIterator& operator--()
+			ConstReverseIterator &operator--()
 			{
 				++mp_ptr;
 				return *this;
@@ -397,8 +392,8 @@ namespace Minty
 				return ConstReverseIterator(mp_ptr + value);
 			}
 
-			inline Bool operator==(ConstReverseIterator const& other) const { return mp_ptr == other.mp_ptr; }
-			inline Bool operator!=(ConstReverseIterator const& other) const { return mp_ptr != other.mp_ptr; }
+			inline Bool operator==(ConstReverseIterator const &other) const { return mp_ptr == other.mp_ptr; }
+			inline Bool operator!=(ConstReverseIterator const &other) const { return mp_ptr != other.mp_ptr; }
 		};
 
 		inline Iterator begin() { return Iterator(mp_data); }
@@ -415,7 +410,7 @@ namespace Minty
 #pragma region Operators
 
 	public:
-		Vector& operator=(Vector const& other)
+		Vector &operator=(Vector const &other)
 		{
 			if (this != &other)
 			{
@@ -426,22 +421,30 @@ namespace Minty
 					{
 						mp_data[i].~T();
 					}
-					Allocator().deallocate(mp_data, m_capacity);
+					m_allocator.deallocate(mp_data);
 				}
 
 				// copy data from other
 				m_capacity = other.m_capacity;
 				m_size = other.m_size;
-				mp_data = Allocator().allocate(m_capacity);
-				for (Size i = 0; i < m_size; ++i)
+				if (m_size == 0)
 				{
-					new (&mp_data[i]) T(other.mp_data[i]);
+					mp_data = nullptr;
+				}
+				else
+				{
+					mp_data = static_cast<T *>(m_allocator.allocate(sizeof(T) * m_capacity));
+					MINTY_ASSERT(mp_data != nullptr, ErrorCode::Memory_AllocationFailed);
+					for (Size i = 0; i < m_size; ++i)
+					{
+						new (&mp_data[i]) T(other.mp_data[i]);
+					}
 				}
 			}
 			return *this;
 		}
 
-		Vector& operator=(Vector&& other) noexcept
+		Vector &operator=(Vector &&other) noexcept
 		{
 			if (this != &other)
 			{
@@ -452,14 +455,14 @@ namespace Minty
 					{
 						mp_data[i].~T();
 					}
-					Allocator().deallocate(mp_data, m_capacity);
+					m_allocator.deallocate(mp_data);
 				}
 
 				// move data from other
 				mp_data = other.mp_data;
 				m_size = other.m_size;
 				m_capacity = other.m_capacity;
-
+				m_allocator = std::move(other.m_allocator);
 				other.mp_data = nullptr;
 				other.m_size = 0;
 				other.m_capacity = 0;
@@ -471,13 +474,13 @@ namespace Minty
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		inline T& operator[](Size const index) { return at(index); }
+		inline T &operator[](Size const index) { return at(index); }
 
 		/**
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		inline T const& operator[](Size const index) const { return at(index); }
+		inline T const &operator[](Size const index) const { return at(index); }
 
 #pragma endregion
 
@@ -500,13 +503,13 @@ namespace Minty
 		 * @brief Gets the internal pointer to the data.
 		 * @returns A pointer to the data.
 		 */
-		inline T* get_data() { return mp_data; }
+		inline T *get_data() { return mp_data; }
 
 		/**
 		 * @brief Gets the internal pointer to the data.
 		 * @returns A const pointer to the data.
 		 */
-		inline T const* get_data() const { return mp_data; }
+		inline T const *get_data() const { return mp_data; }
 
 		/**
 		 * @brief Checks if this Vector is empty.
@@ -532,9 +535,9 @@ namespace Minty
 			}
 
 			// create new array
-			T* newData = Allocator().allocate(capacity);
+			T *newData = static_cast<T *>(m_allocator.allocate(sizeof(T) * capacity));
 			MINTY_ASSERT(newData != nullptr, ErrorCode::Memory_AllocationFailed);
-			
+
 			// move data over, if it exists
 			for (Size i = 0; i < m_size; ++i)
 			{
@@ -542,7 +545,16 @@ namespace Minty
 			}
 
 			// replace data
-			mp_data = std::move(newData);
+			if (mp_data)
+			{
+				// data has been moved, so just deallocate old array
+				for (Size i = 0; i < m_size; ++i)
+				{
+					mp_data[i].~T();
+				}
+				m_allocator.deallocate(mp_data);
+			}
+			mp_data = newData;
 			m_capacity = capacity;
 		}
 
@@ -550,8 +562,8 @@ namespace Minty
 		 * @brief Resizes the Vector to the given size, initializing new elements with the given value.
 		 * @param size The new size of the Vector.
 		 */
-		template<typename... Args>
-		void resize(Size const size, Args&&... args)
+		template <typename... Args>
+		void resize(Size const size, Args &&...args)
 		{
 			// if same size, do nothing
 			if (size == get_size())
@@ -589,7 +601,7 @@ namespace Minty
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		void add(T const& value)
+		void add(T const &value)
 		{
 			// if larger than capacity, reserve more
 			if (get_size() >= get_capacity())
@@ -612,7 +624,7 @@ namespace Minty
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		void add(T&& value)
+		void add(T &&value)
 		{
 			// if larger than capacity, reserve more
 			if (get_size() >= get_capacity())
@@ -635,7 +647,7 @@ namespace Minty
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		void insert(Size const index, T const& value)
+		void insert(Size const index, T const &value)
 		{
 			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfRange, index);
 
@@ -674,7 +686,7 @@ namespace Minty
 		 * @brief Gets the value at the specified index.
 		 * @param index The index of the value to get.
 		 */
-		void insert(Size const index, T&& value)
+		void insert(Size const index, T &&value)
 		{
 			MINTY_ASSERT_F(index <= get_size(), ErrorCode::Argument_OutOfRange, index);
 
@@ -750,18 +762,18 @@ namespace Minty
 		 * @param index The index of the element.
 		 * @returns A reference to the element at the given index.
 		 */
-		inline T& at(Size const index)
+		inline T &at(Size const index)
 		{
 			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 			return mp_data[index];
 		}
-		
+
 		/**
 		 * @brief Gets the element at the given index.
 		 * @param index The index of the element.
 		 * @returns A const reference to the element at the given index.
 		 */
-		inline T const& at(Size const index) const
+		inline T const &at(Size const index) const
 		{
 			MINTY_ASSERT_F(index < get_size(), ErrorCode::Argument_OutOfRange, index);
 			return mp_data[index];
@@ -771,25 +783,25 @@ namespace Minty
 		 * @brief Gets the first element in the Vector.
 		 * @returns The first element.
 		 */
-		inline T& front() { return at(0); }
+		inline T &front() { return at(0); }
 
 		/**
 		 * @brief Gets the first element in the Vector.
 		 * @returns The first element.
 		 */
-		inline T const& front() const { return at(0); }
+		inline T const &front() const { return at(0); }
 
 		/**
 		 * @brief Gets the last element in the Vector.
 		 * @returns The last element.
 		 */
-		inline T& back() { return at(get_size() - 1); }
+		inline T &back() { return at(get_size() - 1); }
 
 		/**
 		 * @brief Gets the last element in the Vector.
 		 * @returns The last element.
 		 */
-		inline T const& back() const { return at(get_size() - 1); }
+		inline T const &back() const { return at(get_size() - 1); }
 
 		/**
 		 * @brief Creates a sub-Vector from the given index and length.
@@ -817,7 +829,7 @@ namespace Minty
 		 * @brief Finds the first occurrence of the given value.
 		 * @param value The value to find.
 		 */
-		Iterator find(T const& value)
+		Iterator find(T const &value)
 		{
 			for (Size i = 0; i < get_size(); ++i)
 			{
@@ -834,7 +846,7 @@ namespace Minty
 		 * @brief Finds the first occurrence of the given value.
 		 * @param value The value to find.
 		 */
-		ConstIterator find(T const& value) const
+		ConstIterator find(T const &value) const
 		{
 			for (Size i = 0; i < get_size(); ++i)
 			{
@@ -851,7 +863,7 @@ namespace Minty
 		 * @brief Checks if the Vector contains the given value.
 		 * @param value The value to check for.
 		 */
-		inline Bool contains(T const& value) const { return find(value) != end(); }
+		inline Bool contains(T const &value) const { return find(value) != end(); }
 
 		/**
 		 * @brief Removes all elements from the Vector.
@@ -870,9 +882,10 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		T* mp_data = nullptr;
-		Size m_size = 0;
-		Size m_capacity = 0;
+		T *mp_data;
+		Size m_size;
+		Size m_capacity;
+		Allocator m_allocator;
 
 #pragma endregion
 	};

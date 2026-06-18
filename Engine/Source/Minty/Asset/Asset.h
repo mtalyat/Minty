@@ -1,4 +1,12 @@
-#pragma once
+#ifndef MINTY_ASSET_ASSET_H
+#define MINTY_ASSET_ASSET_H
+
+/**
+ * @file Asset.h
+ * @brief Header file defining the Asset class and related functionality.
+ * @author Mitchell Talyat
+ */
+
 #include "Minty/Asset/AssetType.h"
 #include "Minty/Core/Format.h"
 #include "Minty/Core/Types.h"
@@ -73,7 +81,7 @@ namespace Minty
 		 * @brief Gets the UUID of this Asset.
 		 * @return The UUID.
 		 */
-		UUID get_id() const { return m_uuid; }
+		inline UUID get_id() const { return m_uuid; }
 
 #pragma endregion
 
@@ -125,3 +133,5 @@ namespace Minty
 #pragma endregion
 	};
 }
+
+#endif // MINTY_ASSET_ASSET_H

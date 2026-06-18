@@ -5,6 +5,10 @@
 
 namespace Minty
 {
+	// forward declarations
+	class Collider;
+	class Rigidbody;
+
 	// holds data for an object within the Bullet physics simulation
 	struct Bullet_Object
 	{
@@ -13,6 +17,9 @@ namespace Minty
 
 		// the collider associated with the object (if any)
 		Collider* collider = nullptr;
+
+		// the rigidbody associated with the object (if any)
+		Rigidbody* rigidbody = nullptr;
 
 		// the layer this object is on
 		Layer layerBit = 0;

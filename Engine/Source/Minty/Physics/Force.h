@@ -12,7 +12,7 @@
 namespace Minty
 {
     /**
-     * @brief The type of force to apply to a RigidBody.
+     * @brief The type of force to apply to a Rigidbody.
      */
     enum class Force
     {

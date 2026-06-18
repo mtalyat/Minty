@@ -6,7 +6,7 @@
 #include "Minty/Component/DestroyTag.h"
 #include "Minty/Component/EnabledTag.h"
 #include "Minty/Component/MeshComponent.h"
-#include "Minty/Component/RigidBodyComponent.h"
+#include "Minty/Component/RigidbodyComponent.h"
 #include "Minty/Component/_PhysicsComponents.h"
 #include "Minty/Component/PositionComponent.h"
 #include "Minty/Component/RotationComponent.h"
@@ -27,109 +27,160 @@
 
 using namespace Minty;
 
-// update rigidbody values from entity components
-static void set_rigidbody_values(Entity const entity, EntityManager &entityManager, RigidBody &body)
+static Float3 get_position(TransformComponent const *const transformComp, PositionComponent const *const positionComp)
 {
-	// if there is a parent, base this transform off of the parent's global transform
-	TransformComponent const * const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
-	PositionComponent const * const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
-	RotationComponent const * const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
-	TransformComponent const * const parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
-
-	// save previous transform for interpolation
-	PhysicsComponent &physicsComp = entityManager.get_or_add_component<PhysicsComponent>(entity);
-
-	// set transform based on Position, Rotation, Scale components if they exist
-	if (parentTransformComp)
+	if (positionComp)
 	{
-		if(positionComp)
-		{
-			body.set_position(parentTransformComp->transform.get_global_position() + positionComp->position);
-		}
-		else if (transformComp)
-		{
-			body.set_position(parentTransformComp->transform.get_global_position() + transformComp->transform.get_local_position());
-		}
-		else
-		{
-			body.set_position(parentTransformComp->transform.get_global_position());
-		}
-		physicsComp.previousPosition = body.get_position();
-		if (rotationComp)
-		{
-			body.set_rotation(parentTransformComp->transform.get_global_rotation() + rotationComp->rotation);
-		}
-		else if (transformComp)
-		{
-			body.set_rotation(parentTransformComp->transform.get_global_rotation() + transformComp->transform.get_local_rotation());
-		}
-		else
-		{
-			body.set_rotation(parentTransformComp->transform.get_global_rotation());
-		}
-		physicsComp.previousRotation = body.get_rotation();
+		return positionComp->position;
+	}
+	else if (transformComp)
+	{
+		return transformComp->transform.get_local_position();
 	}
 	else
 	{
-		if (positionComp)
-		{
-			body.set_position(positionComp->position);
-			physicsComp.previousPosition = positionComp->position;
-		} else if (transformComp)
-		{
-			body.set_position(transformComp->transform.get_local_position());
-			physicsComp.previousPosition = transformComp->transform.get_local_position();
-		}
-		if (rotationComp)
-		{
-			body.set_rotation(rotationComp->rotation);
-			physicsComp.previousRotation = rotationComp->rotation;
-		} else if (transformComp)
-		{
-			body.set_rotation(transformComp->transform.get_local_rotation());
-			physicsComp.previousRotation = transformComp->transform.get_local_rotation();
-		}
-	}
-
-	if (VelocityComponent const *velocityComp = entityManager.try_get_component<VelocityComponent const>(entity))
-	{
-		body.set_linear_velocity(velocityComp->velocity);
+		return Math::ZERO;
 	}
 }
 
-// update entity components from rigidbody values
-static void get_rigidbody_values(Entity const entity, EntityManager &entityManager, RigidBody &body)
+static void set_position(TransformComponent *const transformComp, PositionComponent *const positionComp, Float3 const &position)
 {
-	// if there is a parent, convert global transform to local
-	TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
-
-	// set the entity's Position, Rotation, Scale components if they exist
-	if (parentTransformComp)
+	if (positionComp)
 	{
-		if (PositionComponent *positionComp = entityManager.try_get_component<PositionComponent>(entity))
-		{
-			positionComp->position = body.get_position() - parentTransformComp->transform.get_global_position();
-		}
-		if (RotationComponent *rotationComp = entityManager.try_get_component<RotationComponent>(entity))
-		{
-			rotationComp->rotation = body.get_rotation() - parentTransformComp->transform.get_global_rotation();
-		}
+		positionComp->position = position;
+	}
+	else if (transformComp)
+	{
+		transformComp->transform.set_local_position(position);
+	}
+}
+
+static Quaternion get_rotation(TransformComponent const *const transformComp, RotationComponent const *const rotationComp)
+{
+	if (rotationComp)
+	{
+		return rotationComp->rotation;
+	}
+	else if (transformComp)
+	{
+		return transformComp->transform.get_local_rotation();
 	}
 	else
 	{
-		if (PositionComponent *positionComp = entityManager.try_get_component<PositionComponent>(entity))
-		{
-			positionComp->position = body.get_position();
-		}
-		if (RotationComponent *rotationComp = entityManager.try_get_component<RotationComponent>(entity))
-		{
-			rotationComp->rotation = body.get_rotation();
-		}
+		return Math::identity<Quaternion>();
 	}
+}
 
-	if (VelocityComponent *velocityComp = entityManager.try_get_component<VelocityComponent>(entity))
+static void set_rotation(TransformComponent *const transformComp, RotationComponent *const rotationComp, Quaternion const &rotation)
+{
+	if (rotationComp)
 	{
-		velocityComp->velocity = body.get_linear_velocity();
+		rotationComp->rotation = rotation;
+	}
+	else if (transformComp)
+	{
+		transformComp->transform.set_local_rotation(rotation);
+	}
+}
+
+static Float3 get_velocity(VelocityComponent const *const velocityComp)
+{
+	if (velocityComp)
+	{
+		return velocityComp->velocity;
+	}
+	else
+	{
+		return Math::ZERO;
+	}
+}
+
+static void set_velocity(VelocityComponent *const velocityComp, Float3 const &velocity)
+{
+	if (velocityComp)
+	{
+		velocityComp->velocity = velocity;
+	}
+}
+
+// update rigidbody values from entity components
+static void set_rigidbody_values(Entity const entity, EntityManager &entityManager, Rigidbody &body)
+{
+	// if there is a parent, base this transform off of the parent's global transform
+	TransformComponent const *const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
+	PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
+	RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
+	VelocityComponent const *const velocityComp = entityManager.try_get_component<VelocityComponent const>(entity);
+	Entity const parent = entityManager.get_parent(entity);
+	TransformComponent const *const parentTransformComp = entityManager.try_get_component<TransformComponent const>(parent);
+	PhysicsComponent &physicsComp = entityManager.get_or_add_component<PhysicsComponent>(entity);
+
+	// set transform based on Position, Rotation, Scale components if they exist
+	physicsComp.previousLocalPosition = get_position(transformComp, positionComp);
+	physicsComp.previousLocalRotation = get_rotation(transformComp, rotationComp);
+	physicsComp.previousVelocity = get_velocity(velocityComp);
+	if (parentTransformComp)
+	{
+		physicsComp.previousGlobalPosition = parentTransformComp->transform.get_global_position() + physicsComp.previousLocalPosition;
+		physicsComp.previousGlobalRotation = parentTransformComp->transform.get_global_rotation() * physicsComp.previousLocalRotation;
+	}
+	else
+	{
+		physicsComp.previousGlobalPosition = physicsComp.previousLocalPosition;
+		physicsComp.previousGlobalRotation = physicsComp.previousLocalRotation;
+	}
+	body.set_simulation_position(physicsComp.previousGlobalPosition);
+	body.set_simulation_rotation(physicsComp.previousGlobalRotation);
+	body.set_simulation_linear_velocity(physicsComp.previousVelocity);
+}
+
+// update entity components from rigidbody values
+static void get_rigidbody_values(Entity const entity, EntityManager &entityManager, Rigidbody &body)
+{
+	// if there is a parent, base this transform off of the parent's global transform
+	TransformComponent *const transformComp = entityManager.try_get_component<TransformComponent>(entity);
+	PositionComponent *const positionComp = entityManager.try_get_component<PositionComponent>(entity);
+	RotationComponent *const rotationComp = entityManager.try_get_component<RotationComponent>(entity);
+	VelocityComponent *const velocityComp = entityManager.try_get_component<VelocityComponent>(entity);
+	Entity const parent = entityManager.get_parent(entity);
+	TransformComponent const *const parentTransformComp = entityManager.try_get_component<TransformComponent const>(parent);
+	PhysicsComponent const &physicsComp = entityManager.get_or_add_component<PhysicsComponent>(entity);
+
+	// if a transform value was modified during a collision, then do not use the body's value: use the position
+
+	Float3 localPosition = get_position(transformComp, positionComp);
+	Quaternion localRotation = get_rotation(transformComp, rotationComp);
+	Float3 velocity = get_velocity(velocityComp);
+	if (localPosition == physicsComp.previousLocalPosition)
+	{
+		// if the position was not modified during a collision, then update it based on the body's position
+		if (parentTransformComp)
+		{
+			localPosition = body.get_simulation_position() - parentTransformComp->transform.get_global_position();
+		}
+		else
+		{
+			localPosition = body.get_simulation_position();
+		}
+		set_position(transformComp, positionComp, localPosition);
+	}
+	if(localRotation == physicsComp.previousLocalRotation)
+	{
+		// if the rotation was not modified during a collision, then update it based on the body's rotation
+		if (parentTransformComp)
+		{
+			localRotation = Math::inverse(parentTransformComp->transform.get_global_rotation()) * body.get_simulation_rotation();
+		}
+		else
+		{
+			localRotation = body.get_simulation_rotation();
+		}
+		set_rotation(transformComp, rotationComp, localRotation);
+	}
+	if (velocityComp && velocity == physicsComp.previousVelocity)
+	{
+		// if the velocity was not modified during a collision, then update it based on the body's velocity
+		velocityComp->velocity = body.get_simulation_linear_velocity();;
 	}
 }
 
@@ -150,71 +201,100 @@ void Minty::PhysicsSystem::initialize_entities()
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager &entityManager = scene->get_entity_manager();
 	LayerManager &layerManager = LayerManager::get_singleton();
+	Layer layer, layerMask;
 
-	// check for disabled entities
-	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent, SimulateTag const>(entt::exclude<RigidBodyComponent, EnabledTag>).each())
+	// check for unregistered entities with physics components and register them
+
+	// body and collider
+	for (auto &&[entity, bodyComp, colliderComp] : entityManager.view<RigidbodyComponent const, ColliderComponent const, EnabledTag const>(entt::exclude<PhysicsRegisteredTag>).each())
 	{
-		MINTY_ASSERT_F(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
-		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState); // "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
+		if (!bodyComp.rigidbody)
+		{
+			MINTY_ERROR(ErrorCode::Component_InvalidState);
+			continue;
+		}
 
-		// remove from physics simulation
-		m_simulation->remove_static(*colliderComp.collider);
+		if (!colliderComp.collider)
+		{
+			MINTY_ERROR(ErrorCode::Component_InvalidState);
+			continue;
+		}
 
-		// remove simulate component
-		entityManager.remove_component<SimulateTag>(entity);
+		// get layer data
+		layer = entityManager.get_layer(entity);
+		layerMask = layerManager.get_mask(layer);
+
+		// register the entity with the simulation, the position will be updated later since there is a rigidbody component
+		m_simulation->register_entity(entity, layer, layerMask, *colliderComp.collider, *bodyComp.rigidbody);
+
+		entityManager.add_component<PhysicsRegisteredTag>(entity);
 	}
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent, SimulateTag const>(entt::exclude<EnabledTag>).each())
+
+	// collider only
+	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent const, EnabledTag const>(entt::exclude<RigidbodyComponent, PhysicsRegisteredTag>).each())
 	{
-		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		if (!colliderComp.collider)
+		{
+			MINTY_ERROR(ErrorCode::Component_InvalidState);
+			continue;
+		}
 
-		// remove from physics simulation
-		m_simulation->remove_dynamic(*bodyComp.rigidBody);
-
-		// update entity components from rigidbody values
-		get_rigidbody_values(entity, entityManager, *bodyComp.rigidBody);
-
-		// remove simulate component
-		entityManager.remove_component<SimulateTag>(entity);
-	}
-
-	// check for enabled, non-simulated entities
-	for (auto &&[entity, colliderComp] : entityManager.view<ColliderComponent, EnabledTag const>(entt::exclude<RigidBodyComponent, SimulateTag, DestroyTag>).each())
-	{
-		MINTY_ASSERT_F(colliderComp.collider != nullptr, ErrorCode::Component_InvalidState, entityManager.to_string(entity));
-		MINTY_ASSERT_F(colliderComp.collider->is_static(), ErrorCode::Component_InvalidState, entityManager.to_string(entity));					// "Collider must be static if it does not have a RigidBody. Entity: {}", entityManager.get_name(entity)
-		MINTY_ASSERT_F(colliderComp.collider->get_shape() != Shape::Empty, ErrorCode::Component_InvalidState, entityManager.to_string(entity)); // "Collider must have a non-empty shape. Entity: {}", entityManager.get_name(entity)
-
-		// add to physics simulation
+		// get the world position of the entity for registering the collider in the correct place in the simulation
+		Transform worldTransform{};
+		Entity const parent = entityManager.get_parent(entity);
+		TransformComponent const *const parentTransformComp = entityManager.try_get_component<TransformComponent const>(parent);
 		TransformComponent const *const transformComp = entityManager.try_get_component<TransformComponent const>(entity);
-		Layer const layer = entityManager.get_layer(entity);
-		Layer const mask = layerManager.get_mask(layer);
-		if (transformComp != nullptr)
+		PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity);
+		RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity);
+		if (parentTransformComp)
 		{
-			m_simulation->add_static(entity, transformComp->transform, *colliderComp.collider, layer, mask);
+			worldTransform.set_local_position(parentTransformComp->transform.get_global_position());
+			worldTransform.set_local_rotation(parentTransformComp->transform.get_global_rotation());
 		}
-		else
+		if (positionComp)
 		{
-			Transform defaultTransform{};
-			m_simulation->add_static(entity, defaultTransform, *colliderComp.collider, layer, mask);
+			worldTransform.set_local_position(worldTransform.get_local_position() + positionComp->position);
+		}
+		else if (transformComp)
+		{
+			worldTransform.set_local_position(worldTransform.get_local_position() + transformComp->transform.get_local_position());
+		}
+		if (rotationComp)
+		{
+			worldTransform.set_local_rotation(worldTransform.get_local_rotation() * rotationComp->rotation);
+		}
+		else if (transformComp)
+		{
+			worldTransform.set_local_rotation(worldTransform.get_local_rotation() * transformComp->transform.get_local_rotation());
 		}
 
-		// add simulate component
-		entityManager.add_component<SimulateTag>(entity);
+		// get layer data
+		layer = entityManager.get_layer(entity);
+		layerMask = layerManager.get_mask(layer);
+
+		// register the entity with the simulation
+		m_simulation->register_entity(entity, layer, layerMask, *colliderComp.collider, worldTransform);
+
+		entityManager.add_component<PhysicsRegisteredTag>(entity);
 	}
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent, EnabledTag const>(entt::exclude<SimulateTag, DestroyTag>).each())
+
+	// check for enabled entities with physics components that are not yet simulated and add them to the simulation
+	for (auto &&[entity] : entityManager.view<PhysicsRegisteredTag const, EnabledTag const>(entt::exclude<PhysicsSimulationTag>).each())
 	{
-		MINTY_ASSERT_F(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
+		m_simulation->add(entity);
 
-		// add to physics simulation
-		Layer const layer = entityManager.get_layer(entity);
-		Layer const mask = layerManager.get_mask(layer);
-		m_simulation->add_dynamic(entity, *bodyComp.rigidBody, layer, mask);
+		entityManager.add_component<PhysicsSimulationTag>(entity);
+	}
 
-		// update rigidbody values from entity components
-		set_rigidbody_values(entity, entityManager, *bodyComp.rigidBody);
+	// check for disabled entities with physics components that are in the simulation and remove them from the simulation
+	for (auto &&[entity] : entityManager.view<PhysicsSimulationTag const>(entt::exclude<EnabledTag>).each())
+	{
+		m_simulation->remove(entity);
 
-		// add simulate component
-		entityManager.add_component<SimulateTag>(entity);
+		// if entity is dynamic, clear the physics component since that data is not being used and does not need to be saved
+		entityManager.clear<PhysicsComponent>(entity);
+
+		entityManager.remove_component<PhysicsSimulationTag>(entity);
 	}
 }
 
@@ -226,25 +306,20 @@ void Minty::PhysicsSystem::deinitialize_entities()
 	EntityManager &entityManager = scene->get_entity_manager();
 
 	// clear simulation
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent const, SimulateTag const>().each())
+	for (auto &&[entity] : entityManager.view<PhysicsSimulationTag const>().each())
 	{
-		if (!bodyComp.rigidBody)
-		{
-			MINTY_ERROR(ErrorCode::Component_InvalidState);
-			continue;
-		}
+		m_simulation->remove(entity);
 
-		// remove from physics simulation
-		m_simulation->remove_dynamic(*bodyComp.rigidBody);
+		// if entity is dynamic, clear the physics component since that data is not being used and does not need to be saved
+		entityManager.clear<PhysicsComponent>(entity);
 
-		if (bodyComp.rigidBody->is_dynamic())
-		{
-			// update entity components from rigidbody values
-			get_rigidbody_values(entity, entityManager, *bodyComp.rigidBody);
-		}
+		entityManager.remove_component<PhysicsSimulationTag>(entity);
+	}
+	for (auto &&[entity] : entityManager.view<PhysicsRegisteredTag const>().each())
+	{
+		m_simulation->unregister_entity(entity);
 
-		// remove simulate component
-		entityManager.remove_component<SimulateTag>(entity);
+		entityManager.remove_component<PhysicsRegisteredTag>(entity);
 	}
 }
 
@@ -254,12 +329,12 @@ void Minty::PhysicsSystem::update_simulated_entities(Timestep const time)
 	EntityManager &entityManager = scene.get_entity_manager();
 
 	// apply gravity to entities with GravityComponent
-	for (auto const &[entity, bodyComp, gravityComp] : entityManager.view<RigidBodyComponent const, GravityComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto const &[entity, bodyComp, gravityComp] : entityManager.view<RigidbodyComponent const, GravityComponent const, PhysicsSimulationTag const, EnabledTag const>().each())
 	{
 		// throw an error if no rigid body, somehow
-		MINTY_ASSERT(bodyComp.rigidBody != nullptr, ErrorCode::Component_InvalidState);
+		MINTY_ASSERT(bodyComp.rigidbody != nullptr, ErrorCode::Component_InvalidState);
 
-		if (!bodyComp.rigidBody->is_dynamic())
+		if (!bodyComp.rigidbody->is_dynamic())
 		{
 			// only apply to dynamic bodies
 			continue;
@@ -267,7 +342,7 @@ void Minty::PhysicsSystem::update_simulated_entities(Timestep const time)
 
 		// apply gravity force
 		Float3 const gravityForce = gravityComp.scale * m_simulation->get_gravity();
-		bodyComp.rigidBody->add_force(gravityForce, Force::Continuous);
+		bodyComp.rigidbody->add_force(gravityForce, Force::Continuous);
 	}
 }
 
@@ -276,14 +351,14 @@ void Minty::PhysicsSystem::update_simulation_from_world(Timestep const time)
 	Scene &scene = get_scene();
 	EntityManager &entityManager = scene.get_entity_manager();
 
-	for (auto const &[entity, bodyComp] : entityManager.view<RigidBodyComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto const &[entity, bodyComp] : entityManager.view<RigidbodyComponent const, PhysicsSimulationTag const, EnabledTag const>().each())
 	{
-		if (bodyComp.rigidBody == nullptr)
+		if (bodyComp.rigidbody == nullptr)
 		{
-			MINTY_LOG_WARNING_F("Entity {} has no RigidBody to update to simulation.", entityManager.to_string(entity));
+			MINTY_LOG_WARNING_F("Entity {} has no Rigidbody to update to simulation.", entityManager.to_string(entity));
 			continue;
 		}
-		RigidBody &body = *bodyComp.rigidBody;
+		Rigidbody &body = *bodyComp.rigidbody;
 
 		set_rigidbody_values(entity, entityManager, body);
 	}
@@ -294,14 +369,14 @@ void Minty::PhysicsSystem::update_world_from_simulation(Timestep const time)
 	Scene &scene = get_scene();
 	EntityManager &entityManager = scene.get_entity_manager();
 
-	for (auto &&[entity, bodyComp] : entityManager.view<RigidBodyComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto &&[entity, bodyComp] : entityManager.view<RigidbodyComponent const, PhysicsSimulationTag const, EnabledTag const>().each())
 	{
-		if (bodyComp.rigidBody == nullptr)
+		if (bodyComp.rigidbody == nullptr)
 		{
-			MINTY_LOG_WARNING_F("Entity {} has no RigidBody to update from simulation.", entityManager.to_string(entity));
+			MINTY_LOG_WARNING_F("Entity {} has no Rigidbody to update from simulation.", entityManager.to_string(entity));
 			continue;
 		}
-		RigidBody &body = *bodyComp.rigidBody;
+		Rigidbody &body = *bodyComp.rigidbody;
 
 		get_rigidbody_values(entity, entityManager, body);
 	}
@@ -331,7 +406,7 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 	Float const alpha = (time.get_total() - m_lastUpdateTimestep.get_total()) / m_lastUpdateTimestep.get_elapsed();
 
 	// for each entity with a transform and physics components, lerp from the old data to the new data for smooth rendering
-	for (auto &&[entity, transformComp, physicsComp, bodyComp] : entityManager.view<TransformComponent, PhysicsComponent const, RigidBodyComponent const, SimulateTag const, EnabledTag const>().each())
+	for (auto &&[entity, transformComp, physicsComp, bodyComp] : entityManager.view<TransformComponent, PhysicsComponent const, RigidbodyComponent const, PhysicsSimulationTag const, EnabledTag const>().each())
 	{
 		// if there is a parent, base this transform off of the parent's global transform
 		TransformComponent const *parentTransformComp = entityManager.try_get_component<TransformComponent const>(entityManager.get_parent(entity));
@@ -339,38 +414,33 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 		// set the transform based on Position, Rotation, Scale components if they exist
 		if (parentTransformComp)
 		{
-			if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
+			if (PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity))
 			{
-				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousPosition, positionComp->position, alpha);
+				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousGlobalPosition, positionComp->position, alpha);
 				transformComp.transform.set_local_position(interpolatedPosition - parentTransformComp->transform.get_global_position());
 			}
-			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
+			if (RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
-				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousRotation, rotationComp->rotation, alpha);
-				transformComp.transform.set_local_rotation(interpolatedRotation - parentTransformComp->transform.get_global_rotation());
-			}
-			if (ScaleComponent const *scaleComp = entityManager.try_get_component<ScaleComponent const>(entity))
-			{
-				Float3 const interpolatedScale = Math::lerp(physicsComp.previousScale, scaleComp->scale, alpha);
-				transformComp.transform.set_local_scale(interpolatedScale / parentTransformComp->transform.get_global_scale());
+				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
+				// Convert current local rotation to global: parent * local
+				Quaternion const currentGlobalRotation = parentTransformComp->transform.get_global_rotation() * rotationComp->rotation;
+				// Slerp between previous global and current global rotations
+				Quaternion const interpolatedGlobalRotation = Math::slerp(physicsComp.previousGlobalRotation, currentGlobalRotation, alpha);
+				// Convert back to local: inverse(parent) * global
+				transformComp.transform.set_local_rotation(Math::inverse(parentTransformComp->transform.get_global_rotation()) * interpolatedGlobalRotation);
 			}
 		}
 		else
 		{
-			if (PositionComponent const *positionComp = entityManager.try_get_component<PositionComponent const>(entity))
+			if (PositionComponent const *const positionComp = entityManager.try_get_component<PositionComponent const>(entity))
 			{
-				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousPosition, positionComp->position, alpha);
+				Float3 const interpolatedPosition = Math::lerp(physicsComp.previousGlobalPosition, positionComp->position, alpha);
 				transformComp.transform.set_local_position(interpolatedPosition);
 			}
-			if (RotationComponent const *rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
+			if (RotationComponent const *const rotationComp = entityManager.try_get_component<RotationComponent const>(entity))
 			{
-				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousRotation, rotationComp->rotation, alpha);
+				Quaternion const interpolatedRotation = Math::slerp(physicsComp.previousGlobalRotation, rotationComp->rotation, alpha);
 				transformComp.transform.set_local_rotation(interpolatedRotation);
-			}
-			if (ScaleComponent const *scaleComp = entityManager.try_get_component<ScaleComponent const>(entity))
-			{
-				Float3 const interpolatedScale = Math::lerp(physicsComp.previousScale, scaleComp->scale, alpha);
-				transformComp.transform.set_local_scale(interpolatedScale);
 			}
 		}
 
@@ -380,7 +450,7 @@ void Minty::PhysicsSystem::on_frame_update(Timestep const time)
 	// if a snap size is set, snap entities to the grid
 	if (m_snapSize > 0.0f)
 	{
-		for (auto &&[entity, transformComp] : entityManager.view<TransformComponent, SnapTag const, SimulateTag const, EnabledTag const>().each())
+		for (auto &&[entity, transformComp] : entityManager.view<TransformComponent, SnapTag const, PhysicsSimulationTag const, EnabledTag const>().each())
 		{
 			Transform &transform = transformComp.transform;
 			Float3 snapped = Math::snap(transform.get_local_position(), m_snapSize);
@@ -422,23 +492,20 @@ void Minty::PhysicsSystem::on_finalize()
 	MINTY_ASSERT(scene != nullptr, ErrorCode::Object_InvalidState);
 	EntityManager &entityManager = scene->get_entity_manager();
 
-	// remove any entities marked for destruction from the physics simulation
-	for (auto &&[entity] : entityManager.view<SimulateTag const, DestroyTag const>().each())
+	// check for entities marked for destruction and remove them from the simulation
+	for (auto &&[entity] : entityManager.view<DestroyTag const, PhysicsSimulationTag const>().each())
 	{
-		// remove from physics simulation
-		RigidBodyComponent const *bodyComp = entityManager.try_get_component<RigidBodyComponent>(entity);
-		if (bodyComp != nullptr && bodyComp->rigidBody != nullptr)
-		{
-			m_simulation->remove_dynamic(*bodyComp->rigidBody);
-		}
-		else
-		{
-			ColliderComponent const *colliderComp = entityManager.try_get_component<ColliderComponent>(entity);
-			MINTY_ASSERT_F(colliderComp != nullptr && colliderComp->collider != nullptr, ErrorCode::Component_InvalidState, entityManager.get_name(entity));
-			m_simulation->remove_static(*colliderComp->collider);
-		}
+		m_simulation->remove(entity);
 
-		// remove simulate component
-		entityManager.remove_component<SimulateTag>(entity);
+		// if entity is dynamic, clear the physics component since that data is not being used and does not need to be saved
+		entityManager.clear<PhysicsComponent>(entity);
+
+		entityManager.remove_component<PhysicsSimulationTag>(entity);
+	}
+	for (auto &&[entity] : entityManager.view<DestroyTag const, PhysicsRegisteredTag const>().each())
+	{
+		m_simulation->unregister_entity(entity);
+
+		entityManager.remove_component<PhysicsRegisteredTag>(entity);
 	}
 }

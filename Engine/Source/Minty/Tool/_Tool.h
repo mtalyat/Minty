@@ -2,6 +2,7 @@
 
 #include "ArgumentParser.h"
 #include "Enum.h"
+#include "Memory.h"
 #include "Operation.h"
 #include "Path.h"
 #include "String.h"

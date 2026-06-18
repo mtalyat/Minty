@@ -2,6 +2,7 @@
 #include "Minty/Physics/Collider.h"
 #include "Minty/Library/Bullet.h"
 #include "Minty/Debug/Debug.h"
+#include "Minty/Memory/DefaultAllocator.h"
 
 namespace Minty
 {
@@ -23,31 +24,18 @@ namespace Minty
 #pragma region Accessors
 
 	public:
-		inline Any get_native() const override { return mp_object; }
+		inline Any get_native() const override { return mp_root; }
 
-		Float3 get_position() const override;
+		inline btCollisionShape *get_collision_shape() const { return mp_root; }
 
-		void set_position(Float3 const &position) override;
+		inline btCollisionObject *get_collision_object() const { return mp_object; }
 
-		Quaternion get_rotation() const override;
+		void bind_collision_object(btCollisionObject *const collisionObject);
 
-		void set_rotation(Quaternion const& rotation) override;
+	private:
+		static void set_static(btCollisionObject &object, Bool const isStatic);
 
-		void get_transform(Transform& out_transform) const override;
-
-		void set_transform(Transform const& transform) override;
-
-		inline btCollisionShape *get_collision_shape() const
-		{
-			return mp_shape;
-		}
-
-		inline btCollisionObject *get_collision_object() const
-		{
-			return mp_object;
-		}
-
-		void set_collision_object(btCollisionObject *const object);
+		static void set_trigger(btCollisionObject &object, Bool const isTrigger);
 
 #pragma endregion
 
@@ -56,7 +44,8 @@ namespace Minty
 	protected:
 		btCollisionShape *mp_root;
 		btCollisionShape *mp_shape;
-		btCollisionObject *mp_object;
+		btCollisionObject *mp_object; // a reference to the collision object this collider is attached to
+		btTriangleIndexVertexArray *mp_meshInterface; // used for custom mesh colliders
 
 #pragma endregion
 	};

@@ -3,7 +3,7 @@
 #include "Minty/Asset/AssetManager.h"
 #include "Minty/Component/ColliderComponent.h"
 #include "Minty/Component/DestroyTag.h"
-#include "Minty/Component/RigidBodyComponent.h"
+#include "Minty/Component/RigidbodyComponent.h"
 #include "Minty/Component/TransformComponent.h"
 #include "Minty/Debug/Trace.h"
 #include "Minty/Serialization/Reader.h"
@@ -107,7 +107,7 @@ Ref<Scene> const &Minty::Scene::get_active()
 
 void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 {
-	MINTY_LOG_DEBUG("Scene start loading assets...");
+	// MINTY_LOG_DEBUG("Scene start loading assets...");
 
 	// load all of the assets into the Scene
 	Set<Path> loaded;
@@ -174,12 +174,12 @@ void Minty::Scene::load_assets(Vector<Path> const &newAssets)
 	// update assets list
 	m_assets = newAssets;
 	
-	MINTY_LOG_DEBUG("Scene done loading assets.");
+	// MINTY_LOG_DEBUG("Scene done loading assets.");
 }
 
 void Minty::Scene::unload_assets()
 {
-	MINTY_LOG_DEBUG("Scene start unloading assets...");
+	// MINTY_LOG_DEBUG("Scene start unloading assets...");
 
 	// unload all of the assets from the Scene
 	AssetManager& assetManager = AssetManager::get_singleton();
@@ -217,7 +217,7 @@ void Minty::Scene::unload_assets()
 	m_loadedAssets.clear();
 	m_registeredAssets.clear();
 
-	MINTY_LOG_DEBUG("Scene done unloading assets.");
+	// MINTY_LOG_DEBUG("Scene done unloading assets.");
 }
 
 void Minty::Scene::on_load()

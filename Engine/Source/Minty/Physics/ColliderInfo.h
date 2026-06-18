@@ -11,8 +11,9 @@
 #include "Minty/Core/Types.h"
 #include "Minty/Data/Shape.h"
 #include "Minty/Data/Pointer.h"
-#include "Minty/Render/Mesh.h"
 #include "Minty/Entity/Entity.h"
+#include "Minty/Physics/PhysicsMaterial.h"
+#include "Minty/Render/Mesh.h"
 
 namespace Minty
 {
@@ -32,6 +33,11 @@ namespace Minty
 		Shared<Mesh> mesh = nullptr;
 
 		/**
+		 * @brief The PhysicsMaterial associated with this Collider.
+		 */
+		Shared<PhysicsMaterial> material = nullptr;
+
+		/**
 		 * @brief The offset of the collider.
 		 */
 		Float3 offset = Math::ZERO;
@@ -43,7 +49,7 @@ namespace Minty
 
 		/**
 		 * @brief If the Collider is static or not. 
-		 * If static, it cannot move, rotate, deform, or have a RigidBody.
+		 * If static, it cannot move, rotate, deform, or have a Rigidbody.
 		 */
 		Bool isStatic = false;
 

@@ -6,7 +6,7 @@
 using namespace Minty;
 
 Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
-    : Collider(info), mp_root(nullptr), mp_shape(nullptr), mp_object(nullptr)
+    : Collider(info), mp_root(nullptr), mp_shape(nullptr), mp_object(nullptr), mp_meshInterface(nullptr)
 {
     btVector3 size = btVector3(static_cast<btScalar>(info.size.x), static_cast<btScalar>(info.size.y), static_cast<btScalar>(info.size.z));
 
@@ -16,6 +16,10 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
     case Shape::Box:
         MINTY_ASSERT(info.size.x > 0 && info.size.y > 0 && info.size.z > 0, ErrorCode::Argument_ExpectedAboveZero);
         mp_shape = new btBoxShape(size * btScalar(0.5)); // Bullet uses half extents for box shapes
+        break;
+    case Shape::Sphere:
+        MINTY_ASSERT(info.size.x > 0, ErrorCode::Argument_ExpectedAboveZero);
+        mp_shape = new btSphereShape(size.x() * btScalar(0.5)); // Bullet uses radius for sphere shapes, so take the x size and divide by 2
         break;
     case Shape::Custom:
     {
@@ -27,7 +31,7 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
         ListContainer const &indices = mesh->get_indices();
 
         // create the mesh interface
-        btTriangleIndexVertexArray *meshInterface = new btTriangleIndexVertexArray();
+        mp_meshInterface = new btTriangleIndexVertexArray();
 
         // set up an indexed mesh
         btIndexedMesh indexedMesh;
@@ -51,10 +55,10 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
         }
 
         // add it to the interface
-        meshInterface->addIndexedMesh(indexedMesh, indexedMesh.m_indexType);
+        mp_meshInterface->addIndexedMesh(indexedMesh, indexedMesh.m_indexType);
 
         // create the bvh shape
-        mp_shape = new btBvhTriangleMeshShape(meshInterface, true, true);
+        mp_shape = new btBvhTriangleMeshShape(mp_meshInterface, true, true);
     }
     break;
     default:
@@ -76,109 +80,66 @@ Minty::Bullet_Collider::Bullet_Collider(ColliderInfo const &info)
     {
         mp_root = mp_shape;
     }
-
-    // if static, create a collision object
-    if (info.isStatic)
-    {
-        // create transform data
-        btTransform btTransform = btTransform::getIdentity();
-        btTransform.setOrigin(offset);
-
-        // create the collision object
-        btCollisionObject *collisionObject = new btCollisionObject();
-        collisionObject->setCollisionShape(mp_root);
-        collisionObject->setWorldTransform(btTransform);
-
-        // create object data
-        Bullet_Object *objectData = new Bullet_Object();
-        collisionObject->setUserPointer(objectData);
-
-        // update collider
-        set_collision_object(collisionObject);
-    }
 }
 
 Minty::Bullet_Collider::~Bullet_Collider()
 {
-    delete mp_shape;
-    if (mp_object)
+    if(mp_root == mp_shape)
     {
-        delete static_cast<Bullet_Object *>(mp_object->getUserPointer());
-        delete mp_object;
+        // if the same, only destruct once
+        delete mp_root;
+    } else
+    {
+        // if different, destruct both
+        delete mp_root;
+        delete mp_shape;
+    }
+    delete mp_meshInterface;
+}
+
+void Minty::Bullet_Collider::bind_collision_object(btCollisionObject *const collisionObject)
+{
+    MINTY_ASSERT(mp_object == nullptr, ErrorCode::Object_AlreadyRegistered);
+
+    // set the collision object reference and update the properties on the collision object
+    mp_object = collisionObject;
+
+    if (collisionObject)
+    {
+        // static
+        set_static(*collisionObject, is_static());
+
+        // trigger
+        set_trigger(*collisionObject, is_trigger());
+
+        // physics material properties
+        Shared<PhysicsMaterial> const &material = get_material();
+        collisionObject->setFriction(material->get_dynamic_friction());
+        collisionObject->setRollingFriction(material->get_static_friction());
+        collisionObject->setRestitution(material->get_bounce());
     }
 }
 
-Float3 Minty::Bullet_Collider::get_position() const
+void Minty::Bullet_Collider::set_static(btCollisionObject &object, Bool const isStatic)
 {
-    // get the position from the root object
-    btVector3 const btPosition = mp_object->getWorldTransform().getOrigin();
-    return Float3(static_cast<Float>(btPosition.x()), static_cast<Float>(btPosition.y()), static_cast<Float>(btPosition.z()));
-}
-
-void Minty::Bullet_Collider::set_position(Float3 const &position)
-{
-    // set the position on the root object
-    btVector3 const btPosition = btVector3(static_cast<btScalar>(position.x), static_cast<btScalar>(position.y), static_cast<btScalar>(position.z));
-    btTransform transform = mp_object->getWorldTransform();
-    transform.setOrigin(btPosition);
-    mp_object->setWorldTransform(transform);
-}
-
-Quaternion Minty::Bullet_Collider::get_rotation() const
-{
-    // get the rotation from the root object
-    btQuaternion const btRotation = mp_object->getWorldTransform().getRotation();
-    return Quaternion(static_cast<Float>(btRotation.w()), static_cast<Float>(btRotation.x()), static_cast<Float>(btRotation.y()), static_cast<Float>(btRotation.z()));
-}
-
-void Minty::Bullet_Collider::set_rotation(Quaternion const &rotation)
-{
-    // set the rotation on the root object
-    btQuaternion const btRotation = btQuaternion(static_cast<btScalar>(rotation.x), static_cast<btScalar>(rotation.y), static_cast<btScalar>(rotation.z), static_cast<btScalar>(rotation.w));
-    btTransform transform = mp_object->getWorldTransform();
-    transform.setRotation(btRotation);
-    mp_object->setWorldTransform(transform);
-}
-
-void Minty::Bullet_Collider::get_transform(Transform &out_transform) const
-{
-    // get the transform from the root object
-    btTransform const btTransform = mp_object->getWorldTransform();
-    out_transform.set_local_position(Float3(static_cast<Float>(btTransform.getOrigin().x()), static_cast<Float>(btTransform.getOrigin().y()), static_cast<Float>(btTransform.getOrigin().z())));
-    btQuaternion const btRotation = btTransform.getRotation();
-    out_transform.set_local_rotation(Quaternion(static_cast<Float>(btRotation.w()), static_cast<Float>(btRotation.x()), static_cast<Float>(btRotation.y()), static_cast<Float>(btRotation.z())));
-}
-
-void Minty::Bullet_Collider::set_transform(Transform const &transform)
-{
-    // set the transform on the root object
-    btVector3 const btPosition = btVector3(static_cast<btScalar>(transform.get_global_position().x), static_cast<btScalar>(transform.get_global_position().y), static_cast<btScalar>(transform.get_global_position().z));
-    Quaternion const rotation = transform.get_global_rotation();
-    btQuaternion const btRotation = btQuaternion(static_cast<btScalar>(rotation.x), static_cast<btScalar>(rotation.y), static_cast<btScalar>(rotation.z), static_cast<btScalar>(rotation.w));
-    btTransform btTransform = btTransform::getIdentity();
-    btTransform.setOrigin(btPosition);
-    btTransform.setRotation(btRotation);
-    mp_object->setWorldTransform(btTransform);
-}
-
-void Minty::Bullet_Collider::set_collision_object(btCollisionObject *const object)
-{
-    MINTY_ASSERT(mp_object == nullptr || object == nullptr, ErrorCode::Object_InvalidState);
-    mp_object = object;
-
-    // set flags if not null
-    if (mp_object != nullptr)
+    if (isStatic)
     {
-        // if static, set the flag
-        if (is_static())
-        {
-            mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
-        }
+        object.setCollisionFlags(object.getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+    }
+    else
+    {
+        object.setCollisionFlags(object.getCollisionFlags() & ~btCollisionObject::CF_STATIC_OBJECT);
+    }
+}
 
-        // if a trigger, set the flag
-        if (is_trigger())
-        {
-            mp_object->setCollisionFlags(mp_object->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-        }
+void Minty::Bullet_Collider::set_trigger(btCollisionObject &object, Bool const isTrigger)
+{
+    if (isTrigger)
+    {
+        object.setCollisionFlags(object.getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+    }
+    else
+    {
+        object.setCollisionFlags(object.getCollisionFlags() & ~btCollisionObject::CF_NO_CONTACT_RESPONSE);
     }
 }

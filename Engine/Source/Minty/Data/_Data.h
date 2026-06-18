@@ -7,6 +7,7 @@
 #include "BufferContainerFactory.h"
 #include "Cargo.h"
 #include "Color.h"
+#include "Combine.h"
 #include "ConstantContainer.h"
 #include "Container.h"
 #include "Dictionary.h"

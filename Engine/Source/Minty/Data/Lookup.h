@@ -22,9 +22,9 @@ namespace Minty
 	 * @brief A Lookup data structure that maps String or Key to Value.
 	 * @tparam Key The type of the key.
 	 * @tparam Value The type of the value.
-	 * @tparam AllocatorType The type of the memory allocator to use.
+	 * @tparam Allocator The type of the memory allocator to use.
 	 */
-	template<typename Key, typename Value, template<typename> class AllocatorType = DefaultAllocator>
+	template<typename Key, typename Value, typename Allocator = DefaultAllocator>
 	class Lookup
 	{
 #pragma region Iterators
@@ -405,9 +405,9 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Vector<Tuple<String, Key, Value>, AllocatorType> m_values;
-		Map<String, Size, AllocatorType> m_strings;
-		Map<Key, Size, AllocatorType> m_keys;
+		Vector<Tuple<String, Key, Value>, Allocator> m_values;
+		Map<String, Size, Allocator> m_strings;
+		Map<Key, Size, Allocator> m_keys;
 
 #pragma endregion
 	};
