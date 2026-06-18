@@ -1,7 +1,0 @@
-// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
-
-#include "Condition.h"
-#include "Conditional.h"
-#include "FSM.h"
-#include "State.h"
-#include "Transition.h"

@@ -1,36 +1,7 @@
-// THIS FILE IS AUTO-GENERATED. DO NOT MODIFY.
-
-#ifndef MINTY_H
-#define MINTY_H
-
-#include "Minty/Animation/_Animation.h"
-#include "Minty/Application/_Application.h"
-#include "Minty/Asset/_Asset.h"
-#include "Minty/Audio/_Audio.h"
-#include "Minty/Component/_Component.h"
-#include "Minty/Core/_Core.h"
-#include "Minty/Data/_Data.h"
-#include "Minty/Debug/_Debug.h"
-#include "Minty/Entity/_Entity.h"
-#include "Minty/Event/_Event.h"
-#include "Minty/FSM/_FSM.h"
-#include "Minty/File/_File.h"
-#include "Minty/Input/_Input.h"
-#include "Minty/Job/_Job.h"
-#include "Minty/Layer/_Layer.h"
-#include "Minty/Log/_Log.h"
-#include "Minty/Manager/_Manager.h"
-#include "Minty/Memory/_Memory.h"
-#include "Minty/Physics/_Physics.h"
-#include "Minty/Render/_Render.h"
-#include "Minty/Scene/_Scene.h"
-#include "Minty/Serialization/_Serialization.h"
-#include "Minty/Stream/_Stream.h"
-#include "Minty/System/_System.h"
-#include "Minty/Time/_Time.h"
-#include "Minty/Tool/_Tool.h"
-#include "Minty/UI/_UI.h"
-#include "Minty/Window/_Window.h"
-#include "Minty/Wrap/_Wrap.h"
-
-#endif // MINTY_H
+#include "Audio/__Audio.h"
+#include "Core/__Core.h"
+#include "Event/__Event.h"
+#include "Input/__Input.h"
+#include "Render/__Render.h"
+#include "Resource/__Resource.h"
+#include "Window/__Window.h"

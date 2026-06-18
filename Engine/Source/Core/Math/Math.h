@@ -1,0 +1,1279 @@
+#ifndef MINTY_CORE_MATH_H
+#define MINTY_CORE_MATH_H
+
+/**
+ * @file Math.h
+ * @brief Header file defining mathematical types and constants.
+ * @author Mitchell Talyat
+ */
+
+#include "Platform/Type/Primitive.h"
+#include "Library/GLM/GLM.h"
+#include "Core/Type/Float2.h"
+#include "Core/Type/Float3.h"
+#include "Core/Type/Float4.h"
+#include "Core/Type/WFloat2.h"
+#include "Core/Type/WFloat3.h"
+#include "Core/Type/WFloat4.h"
+#include "Core/Type/Int2.h"
+#include "Core/Type/Int3.h"
+#include "Core/Type/Int4.h"
+#include "Core/Type/WInt2.h"
+#include "Core/Type/WInt3.h"
+#include "Core/Type/WInt4.h"
+#include "Core/Type/UInt2.h"
+#include "Core/Type/UInt3.h"
+#include "Core/Type/UInt4.h"
+
+namespace Minty
+{
+#pragma region Math
+
+	namespace Math
+	{
+#pragma region Constants
+
+		/// <summary>
+		/// PI.
+		/// </summary>
+		constexpr Float PI = 3.14159265358979323846f;
+
+		/// <summary>
+		/// PI * 2.
+		/// </summary>
+		constexpr Float TAU = 6.28318530717958647692f;
+
+		/// <summary>
+		/// Euler's number.
+		/// </summary>
+		constexpr Float E = 2.71828182845904523536f;
+
+		/// <summary>
+		/// The smallest value that is considered to be zero in floating point calculations.
+		/// </summary>
+		constexpr Float EPSILON = 0.00001f;
+
+		/// <summary>
+		/// 180 / PI.
+		/// </summary>
+		constexpr Float RAD2DEG = 57.2957795130823208768f;
+
+		/// <summary>
+		/// PI / 180.
+		/// </summary>
+		constexpr Float DEG2RAD = 0.01745329251994329577f;
+
+		/// <summary>
+		/// Infinity.
+		/// </summary>
+		constexpr Float INF = std::numeric_limits<Float>::infinity();
+
+		/// <summary>
+		/// Forward direction in 3D space.
+		/// </summary>
+		constexpr Float3 FORWARD = Float3(0.0f, 0.0f, 1.0f);
+
+		/// <summary>
+		/// Backward direction in 3D space.
+		/// </summary>
+		constexpr Float3 BACKWARD = Float3(0.0f, 0.0f, -1.0f);
+
+		/// <summary>
+		/// Up direction in 3D space.
+		/// </summary>
+		constexpr Float3 UP = Float3(0.0f, 1.0f, 0.0f);
+
+		/// <summary>
+		/// Down direction in 3D space.
+		/// </summary>
+		constexpr Float3 DOWN = Float3(0.0f, -1.0f, 0.0f);
+
+		/// <summary>
+		/// Left direction in 3D space.
+		/// </summary>
+		constexpr Float3 LEFT = Float3(-1.0f, 0.0f, 0.0f);
+
+		/// <summary>
+		/// Right direction in 3D space.
+		/// </summary>
+		constexpr Float3 RIGHT = Float3(1.0f, 0.0f, 0.0f);
+
+		/// <summary>
+		/// Zero vector in 3D space.
+		/// </summary>
+		constexpr Float3 ZERO = Float3(0.0f, 0.0f, 0.0f);
+
+		/// <summary>
+		/// One vector in 3D space.
+		/// </summary>
+		constexpr Float3 ONE = Float3(1.0f, 1.0f, 1.0f);
+
+#pragma endregion
+
+#pragma region Functions
+
+		/// <summary>
+		/// Returns the minimum of the two given values.
+		/// </summary>
+		/// <typeparam name="T">The type of value.</typeparam>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <returns>The lower of the two values.</returns>
+		template<typename T>
+		constexpr T min(T const a, T const b)
+		{
+			return a < b ? a : b;
+		}
+
+		/// <summary>
+		/// Returns the minimum of the given values.
+		/// </summary>
+		/// <typeparam name="T">The type of value.</typeparam>
+		/// <typeparam name="...Args">The type of value.</typeparam>
+		/// <param name="a">The first value.</param>
+		/// <param name="...args">The other values.</param>
+		/// <returns>The lowest of the values.</returns>
+		template<typename T, typename... Args>
+		constexpr T min(T const a, Args const... args)
+		{
+			return min(a, min(args...));
+		}
+
+		/// <summary>
+		/// Returns the maximum of the two given values.
+		/// </summary>
+		/// <typeparam name="T">The type of value.</typeparam>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <returns>The higher of the two values.</returns>
+		template<typename T>
+		constexpr T max(T const a, T const b)
+		{
+			return a > b ? a : b;
+		}
+
+		/// <summary>
+		/// Returns the maximum of the given values.
+		/// </summary>
+		/// <typeparam name="T">The type of value.</typeparam>
+		/// <typeparam name="...Args">The type of value.</typeparam>
+		/// <param name="a">The first value.</param>
+		/// <param name="...args">The other values.</param>
+		/// <returns>The highest of the values.</returns>
+		template<typename T, typename... Args>
+		constexpr T max(T const a, Args const... args)
+		{
+			return max(a, max(args...));
+		}
+
+		/// <summary>
+		/// Clamps the given value between the given minimum and maximum values.
+		/// </summary>
+		/// <typeparam name="T">The type of value.</typeparam>
+		/// <param name="value">The value to clamp.</param>
+		/// <param name="min">The minimum value.</param>
+		/// <param name="max">The maximum value.</param>
+		/// <returns>The value, clamped between min and max.</returns>
+		template<typename T>
+		constexpr T clamp(T const value, T const min, T const max)
+		{
+			return value < min ? min : (value > max ? max : value);
+		}
+
+		/// <summary>
+		/// Rounds the given value, and casts it to the given type, if necessary.
+		/// </summary>
+		/// <typeparam name="T_In">The input type.</typeparam>
+		/// <typeparam name="T_Out">The output type.</typeparam>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<typename T_In, typename T_Out = T_In>
+		constexpr T_Out round(T_In const value)
+		{
+			return static_cast<T_Out>(std::round(value));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float2 round(Float2 const value)
+		{
+			return Float2(std::round(value.x), std::round(value.y));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float3 round(Float3 const value)
+		{
+			return Float3(std::round(value.x), std::round(value.y), std::round(value.z));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float4 round(Float4 const value)
+		{
+			return Float4(std::round(value.x), std::round(value.y), std::round(value.z), std::round(value.w));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat2 round(WFloat2 const value)
+		{
+			return WFloat2(std::round(value.x), std::round(value.y));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat3 round(WFloat3 const value)
+		{
+			return WFloat3(std::round(value.x), std::round(value.y), std::round(value.z));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to round.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat4 round(WFloat4 const value)
+		{
+			return WFloat4(std::round(value.x), std::round(value.y), std::round(value.z), std::round(value.w));
+		}
+
+		/// <summary>
+		/// Rounds the given value to the nearest value based on the given precision. The precision is the number of decimal places to round to.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to round.</param>
+		/// <param name="precision">The precision, equal to (10 ^ precision). Ex. 2 will round the value to the closest 100.</param>
+		/// <returns>The value, rounded.</returns>
+		template<typename T>
+		constexpr T round(T const value, Int const precision)
+		{
+			return static_cast<T>(std::round(value / std::pow(10, precision)) * std::pow(10, precision));
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T snap(T const value, T const snapValue)
+		{
+			return static_cast<T>(std::round(value / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Float2 snap(Float2 const value, Float const snapValue)
+		{
+			return Float2(std::round(value.x / snapValue) * snapValue, std::round(value.y / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Float3 snap(Float3 const value, Float const snapValue)
+		{
+			return Float3(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr Float4 snap(Float4 const value, Float const snapValue)
+		{
+			return Float4(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue,
+				std::round(value.w / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr WFloat2 snap(WFloat2 const value, WFloat const snapValue)
+		{
+			return WFloat2(std::round(value.x / snapValue) * snapValue, std::round(value.y / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr WFloat3 snap(WFloat3 const value, WFloat const snapValue)
+		{
+			return WFloat3(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Snaps the given value to the nearest value based on the given snap value.
+		/// </summary>
+		/// <typeparam name="T">The type to snap.</typeparam>
+		/// <param name="value">The value to snap.</param>
+		/// <param name="snapValue">The value to snap by.</param>
+		/// <returns>The result.</returns>
+		constexpr WFloat4 snap(WFloat4 const value, WFloat const snapValue)
+		{
+			return WFloat4(
+				std::round(value.x / snapValue) * snapValue,
+				std::round(value.y / snapValue) * snapValue,
+				std::round(value.z / snapValue) * snapValue,
+				std::round(value.w / snapValue) * snapValue);
+		}
+
+		/// <summary>
+		/// Floors the given value, and casts it to the given type, if necessary.
+		/// </summary>
+		/// <typeparam name="T_In">The input type.</typeparam>
+		/// <typeparam name="T_Out">The output type.</typeparam>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<typename T_In, typename T_Out = T_In>
+		constexpr T_Out floor(T_In const value)
+		{
+			return static_cast<T_Out>(std::floor(value));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float2 floor(Float2 const value)
+		{
+			return Float2(std::floor(value.x), std::floor(value.y));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float3 floor(Float3 const value)
+		{
+			return Float3(std::floor(value.x), std::floor(value.y), std::floor(value.z));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float4 floor(Float4 const value)
+		{
+			return Float4(std::floor(value.x), std::floor(value.y), std::floor(value.z), std::floor(value.w));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat2 floor(WFloat2 const value)
+		{
+			return WFloat2(std::floor(value.x), std::floor(value.y));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat3 floor(WFloat3 const value)
+		{
+			return WFloat3(std::floor(value.x), std::floor(value.y), std::floor(value.z));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to floor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat4 floor(WFloat4 const value)
+		{
+			return WFloat4(std::floor(value.x), std::floor(value.y), std::floor(value.z), std::floor(value.w));
+		}
+
+		/// <summary>
+		/// Floors the given value to the nearest value based on the given precision. The precision is the number of decimal places to floor to.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to floor.</param>
+		/// <param name="precision">The precision, equal to (10 ^ precision). Ex. 2 will floor the value to the closest 100.</param>
+		/// <returns>The value, floored.</returns>
+		template<typename T>
+		constexpr T floor(T const value, Int const precision)
+		{
+			return static_cast<T>(std::floor(value / std::pow(10, precision)) * std::pow(10, precision));
+		}
+
+		/// <summary>
+		/// Ceilings the given value, and casts it to the given type, if necessary.
+		/// </summary>
+		/// <typeparam name="T_In">The input type.</typeparam>
+		/// <typeparam name="T_Out">The output type.</typeparam>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<typename T_In, typename T_Out = T_In>
+		constexpr T_Out ceiling(T_In const value)
+		{
+			return static_cast<T_Out>(std::ceil(value));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float2 ceiling(Float2 const value)
+		{
+			return Float2(std::ceil(value.x), std::ceil(value.y));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float3 ceiling(Float3 const value)
+		{
+			return Float3(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float4 ceiling(Float4 const value)
+		{
+			return Float4(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z), std::ceil(value.w));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat2 ceiling(WFloat2 const value)
+		{
+			return WFloat2(std::ceil(value.x), std::ceil(value.y));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat3 ceiling(WFloat3 const value)
+		{
+			return WFloat3(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest whole number.
+		/// </summary>
+		/// <param name="value">The value to ceiling.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat4 ceiling(WFloat4 const value)
+		{
+			return WFloat4(std::ceil(value.x), std::ceil(value.y), std::ceil(value.z), std::ceil(value.w));
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <typeparam name="T">The type of value to lerp.</typeparam>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<typename T>
+		constexpr T lerp(T const left, T const right, Float const t)
+		{
+			return left + Math::floor<Float, T>((right - left) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Int2 lerp(Int2 const left, Int2 const right, Float const t)
+		{
+			return Int2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Int3 lerp(Int3 const left, Int3 const right, Float const t)
+		{
+			return Int3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Int4 lerp(Int4 const left, Int4 const right, Float const t)
+		{
+			return Int4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr UInt2 lerp(UInt2 const left, UInt2 const right, Float const t)
+		{
+			return UInt2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr UInt3 lerp(UInt3 const left, UInt3 const right, Float const t)
+		{
+			return UInt3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr UInt4 lerp(UInt4 const left, UInt4 const right, Float const t)
+		{
+			return UInt4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float lerp(Float const left, Float const right, Float const t)
+		{
+			return left + (right - left) * t;
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float2 lerp(Float2 const left, Float2 const right, Float const t)
+		{
+			return Float2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float3 lerp(Float3 const left, Float3 const right, Float const t)
+		{
+			return Float3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr Float4 lerp(Float4 const left, Float4 const right, Float const t)
+		{
+			return Float4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr WFloat lerp(WFloat const left, WFloat const right, Float const t)
+		{
+			return left + (right - left) * t;
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr WFloat2 lerp(WFloat2 const left, WFloat2 const right, Float const t)
+		{
+			return WFloat2(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr WFloat3 lerp(WFloat3 const left, WFloat3 const right, Float const t)
+		{
+			return WFloat3(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t.
+		/// </summary>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<>
+		constexpr WFloat4 lerp(WFloat4 const left, WFloat4 const right, Float const t)
+		{
+			return WFloat4(left.x + (right.x - left.x) * t, left.y + (right.y - left.y) * t, left.z + (right.z - left.z) * t, left.w + (right.w - left.w) * t);
+		}
+
+		/// <summary>
+		/// Gets the position between left and right, based on t, and clamps it between left and right.
+		/// </summary>
+		/// <typeparam name="T">The type of value to lerp.</typeparam>
+		/// <param name="left">The lower bound.</param>
+		/// <param name="right">The upper bound.</param>
+		/// <param name="t">The percentage to lerp by. 0.0 is left, 1.0 is right.</param>
+		/// <returns>The lerped value.</returns>
+		template<typename T>
+		constexpr T lerp_clamped(T const left, T const right, Float const t)
+		{
+			return lerp(left, right, clamp(t, 0.0f, 1.0f));
+		}
+
+		/// <summary>
+		/// Ceilings the given value to the nearest value based on the given precision. The precision is the number of decimal places to ceiling to.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to ceiling.</param>
+		/// <param name="precision">The precision, equal to (10 ^ precision). Ex. 2 will ceiling the value to the closest 100.</param>
+		/// <returns>The value, ceilinged.</returns>
+		template<typename T>
+		constexpr T ceiling(T const value, Int const precision)
+		{
+			return static_cast<T>(std::ceil(value / std::pow(10, precision)) * std::pow(10, precision));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T abs(T const value)
+		{
+			return value < 0 ? -value : value;
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float2 abs(Float2 const value)
+		{
+			return Float2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float3 abs(Float3 const value)
+		{
+			return Float3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Float4 abs(Float4 const value)
+		{
+			return Float4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline WFloat2 abs(WFloat2 const value)
+		{
+			return WFloat2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline WFloat3 abs(WFloat3 const value)
+		{
+			return WFloat3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline WFloat4 abs(WFloat4 const value)
+		{
+			return WFloat4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int2 abs(Int2 const value)
+		{
+			return Int2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int3 abs(Int3 const value)
+		{
+			return Int3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline Int4 abs(Int4 const value)
+		{
+			return Int4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline WInt2 abs(WInt2 const value)
+		{
+			return WInt2(abs(value.x), abs(value.y));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline WInt3 abs(WInt3 const value)
+		{
+			return WInt3(abs(value.x), abs(value.y), abs(value.z));
+		}
+		/// <summary>
+		/// Gets the absolute value of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<>
+		inline WInt4 abs(WInt4 const value)
+		{
+			return WInt4(abs(value.x), abs(value.y), abs(value.z), abs(value.w));
+		}
+
+		/// <summary>
+		/// Gets the sine of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T sin(T const value)
+		{
+			return std::sin(value);
+		}
+
+		/// <summary>
+		/// Gets the cosine of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T cos(T const value)
+		{
+			return std::cos(value);
+		}
+
+		/// <summary>
+		/// Gets the tangent of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T tan(T const value)
+		{
+			return std::tan(value);
+		}
+
+		/// <summary>
+		/// Gets the arcsine of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T asin(T const value)
+		{
+			return std::asin(value);
+		}
+
+		/// <summary>
+		/// Gets the arccosine of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T acos(T const value)
+		{
+			return std::acos(value);
+		}
+
+		/// <summary>
+		/// Gets the arctangent of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value to operate on.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T atan(T const value)
+		{
+			return std::atan(value);
+		}
+
+		/// <summary>
+		/// Gets the arctangent 2 of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="y">The Y value.</param>
+		/// <param name="x">The X value.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T atan2(T const y, T const x)
+		{
+			return std::atan2(y, x);
+		}
+
+		/// <summary>
+		/// Gets the angle to the dx and dy values from the origin.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="dx">The X position.</param>
+		/// <param name="dy">The Y position.</param>
+		/// <returns>The angle based on the given position.</returns>
+		template<typename T>
+		constexpr T angle(T const dx, T const dy)
+		{
+			return atan2(dy, dx);
+		}
+
+		/// <summary>
+		/// Gets the square root of the given value.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T sqrt(T const value)
+		{
+			return std::sqrt(value);
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<typename T>
+		constexpr T pow(T const base, T const exponent)
+		{
+			if (exponent == 0) return 1;
+			if (exponent == 1) return base;
+
+			T temp = pow<T>(base, exponent / 2);
+			if (exponent % 2 == 0)
+			{
+				return temp * temp;
+			}
+
+			return base * temp * temp;
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<>
+		inline Float pow(Float const base, Float const exponent)
+		{
+			return std::powf(base, exponent);
+		}
+
+		/// <summary>
+		/// Gets the power of the given base to the given exponent.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="base">The base value.</param>
+		/// <param name="exponent">The exponent value.</param>
+		/// <returns>Base to the power of exponent.</returns>
+		template<>
+		inline WFloat pow(WFloat const base, WFloat const exponent)
+		{
+			return std::pow(base, exponent);
+		}
+
+		/// <summary>
+		/// Gets the distance from the origin to the given x and y values.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="x">The X position.</param>
+		/// <param name="y">The Y position.</param>
+		template<typename T>
+		constexpr T magnitude(T const x, T const y)
+		{
+			return sqrt(x * x + y * y);
+		}
+
+		/// <summary>
+		/// Gets the sign of the given value. 1 for positive, 0 for zero, and -1 for negative.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value.</param>
+		/// <returns>1, 0 or -1.</returns>
+		template<typename T>
+		constexpr Int sign(T const value)
+		{
+			return value < 0 ? -1 : (value > 0 ? 1 : 0);
+		}
+
+		/// <summary>
+		/// Gets the dot product of the two given Float3 values.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <returns>The dot product.</returns>
+		constexpr Float dot(Float3 const& a, Float3 const& b)
+		{
+			return a.x * b.x + a.y * b.y + a.z * b.z;
+		}
+
+		/// <summary>
+		/// Gets the cross product of the two given Float3 values.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <returns>The cross product.</returns>
+		constexpr Float3 cross(Float3 const& a, Float3 const& b)
+		{
+			return Float3(
+				a.y * b.z - a.z * b.y,
+				a.z * b.x - a.x * b.z,
+				a.x * b.y - a.y * b.x
+			);
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <typeparam name="T">The type.</typeparam>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<typename T>
+		constexpr T mod(T const value, T const divisor)
+		{
+			return value % divisor;
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr Float mod(Float const value, Float const divisor)
+		{
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+		/// <summary>
+		/// Performs a modulus operation on the given value and divisor.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <param name="divisor">The divisor.</param>
+		/// <returns>The result.</returns>
+		template<>
+		constexpr WFloat mod(WFloat const value, WFloat const divisor)
+		{
+			return value - Math::floor(value / divisor) * divisor;
+		}
+
+#pragma endregion
+
+#pragma region Utility
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float const a, Float const b, Float const epsilon = EPSILON)
+		{
+			return Math::abs(a - b) < epsilon;
+		}
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float2 const& a, Float2 const& b, Float const epsilon = EPSILON)
+		{
+			return close(a.x, b.x, epsilon) && close(a.y, b.y, epsilon);
+		}
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float3 const& a, Float3 const& b, Float const epsilon = EPSILON)
+		{
+			return close(a.x, b.x, epsilon) && close(a.y, b.y, epsilon) && close(a.z, b.z, epsilon);
+		}
+
+		/// <summary>
+		/// Checks if the two given Float values are close to each other, within the given epsilon.
+		/// </summary>
+		/// <param name="a">The first value.</param>
+		/// <param name="b">The second value.</param>
+		/// <param name="epsilon">The epsilon.</param>
+		/// <returns>True, if they are the same, or almost the same.</returns>
+		constexpr Bool close(Float4 const& a, Float4 const& b, Float const epsilon = EPSILON)
+		{
+			return close(a.x, b.x, epsilon) && close(a.y, b.y, epsilon) && close(a.z, b.z, epsilon) && close(a.w, b.w, epsilon);
+		}
+
+		/// <summary>
+		/// Normalizes the given Float3.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns>The result.</returns>
+		Float3 normalize(Float3 const& value);
+
+		/// <summary>
+		/// Gets the magnitude of the given Float3.
+		/// </summary>
+		/// <param name="value">The value.</param>
+		/// <returns>The result.</returns>
+		Float magnitude(Float3 const& value);
+
+		/// <summary>
+		/// Creates an identity of the given type.
+		/// </summary>
+		/// <typeparam name="T">The type to make an identity of.</typeparam>
+		/// <returns>A new instance of the type as an identity.</returns>
+		template<typename T>
+		constexpr T identity()
+		{
+			return glm::identity<T>();
+		}
+
+		template<>
+		constexpr Float4 identity()
+		{
+			return Float4(0.0f, 0.0f, 0.0f, 0.0f);
+		}
+
+		template<>
+		constexpr Float3 identity()
+		{
+			return Float3(0.0f, 0.0f, 0.0f);
+		}
+
+		template<>
+		constexpr Float2 identity()
+		{
+			return Float2(0.0f, 0.0f);
+		}
+
+		template<>
+		constexpr Float identity()
+		{
+			return 0.0f;
+		}
+
+		
+
+		
+
+#pragma endregion
+
+#pragma region Random
+
+		
+
+#pragma endregion
+	}
+
+#pragma endregion
+}
+
+#endif // MINTY_CORE_MATH_H

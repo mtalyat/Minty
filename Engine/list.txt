@@ -1,0 +1,45 @@
+    Resources:
+Textures (source image data)
+Audio clips
+Meshes/models
+Animations
+Fonts
+Materials (high-level)
+Shaders/source files
+Scenes/prefabs
+Scripts
+Config files
+Localization data
+Video files
+Heightmaps
+Skeletons
+Particle definitions
+UI layouts
+
+    Renderer:
+Textures (source image data)
+Audio clips
+Meshes/models
+Animations
+Fonts
+Materials (high-level)
+Shaders/source files
+Scenes/prefabs
+Scripts
+Config files
+Localization data
+Video files
+Heightmaps
+Skeletons
+Particle definitions
+UI layouts
+
+    Window:
+Windows
+Input devices
+Monitors
+Clipboard
+Cursor state
+OS events
+Timers
+Threads

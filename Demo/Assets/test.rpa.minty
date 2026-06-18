@@ -1,0 +1,14 @@
+: A9FE466CCD06333461FD0D0549FE4B22
+Attachments
+    -
+        Aspect: Color
+        Load: Clear
+        Store: Store
+        Initial: Undefined
+        Final: Presentation
+    -
+        Aspect: Depth
+        Load: Clear
+        Store: Store
+        Initial: Undefined
+        Final: DepthStencilAttachment

@@ -1,0 +1,43 @@
+: BE9F6D4F8A362FA1F9ADF9B5B6963186
+# Priority: 0
+RenderPass: A9FE466CCD06333461FD0D0549FE4B22
+PrimitiveTopology: TriangleList
+PolygonMode: Fill
+CullMode: Back
+FrontFace: Clockwise
+LineWidth: 1
+Transparency: False
+DepthMode: Write
+DepthTestOperation: <
+StencilMode: None
+StencilTestOperation: ==
+Stages
+    Vertex: 4EB2C7CEB7C53E0B97A7CF11A3DAF9C3
+    Fragment: C3B725158D49BF2B4365E49FCE64DBF8
+Attributes
+    0: Vertex
+        0: Float3
+        1: Float3
+        2: Float2
+Inputs
+    object
+        Type: PushConstant
+        Stage: Vertex
+        Object
+            transform: Matrix4
+    camera
+        Type: UniformBuffer
+        Stage: Vertex
+        Set: 0
+        Binding: 0
+        Frequent: true
+        Object
+            camera: Matrix4
+    texture
+        Type: CombinedImageSampler
+        Stage: Fragment
+        Set: 0
+        Binding: 1
+        Frequent: false
+        Object
+            texSampler: Object: F30D92BD9FE35248E75BA4BEF914E902

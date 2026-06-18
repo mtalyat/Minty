@@ -1,0 +1,150 @@
+#pragma once
+
+/**
+ * @file Vulkan_RenderManager.h
+ * @brief Vulkan_RenderManager class definition.
+ * @author Mitchell Talyat
+ */
+
+#include "Vulkan_Texture.h"
+#include "Vulkan_Frame.h"
+#include "Vulkan_Material.h"
+#include "Vulkan_Pipeline.h"
+#include "Vulkan_Shader.h"
+#include "Vulkan_Surface.h"
+#include "Vulkan_Viewport.h"
+#include "Vulkan_Buffer.h"
+#include "Vulkan_RenderTarget.h"
+#include "Vulkan_RenderPass.h"
+#include "Core/Data/Array.h"
+#include "Core/Data/HandlePool.h"
+#include "Core/Data/IndexPool.h"
+#include "Render/Constant/Render.h"
+#include "Render/Type/Handle.h"
+#include "Resource/Image/ImageLayout.h"
+
+namespace Minty
+{
+    struct RenderManagerInfo;
+    struct BufferInfo;
+    struct MaterialInfo;
+    struct PipelineInfo;
+    struct ShaderInfo;
+    struct SurfaceInfo;
+    struct TextureInfo;
+    struct ViewportInfo;
+    struct RenderPassInfo;
+    struct RenderAttachment;
+    struct RenderTargetInfo;
+
+    using Vulkan_PipelineLayoutHandle = Handle<Vulkan_PipelineLayoutData>;
+
+    class Vulkan_RenderManager
+    {
+#pragma region Constructor
+
+    public:
+        Vulkan_RenderManager(RenderManagerInfo const &info);
+        ~Vulkan_RenderManager();
+
+#pragma endregion
+
+#pragma region Methods
+
+    public:
+        TextureHandle create(TextureInfo const &info);
+        void destroy(TextureHandle const handle);
+        Bool is_valid(TextureHandle const handle) const;
+        void set_data(TextureHandle const handle, Span<Byte> const data);
+
+        SurfaceHandle create(SurfaceInfo const &surfaceInfo);
+        void destroy(SurfaceHandle const handle);
+        Bool is_valid(SurfaceHandle const handle) const;
+
+        ViewportHandle create(ViewportInfo const &viewportInfo);
+        void destroy(ViewportHandle const handle);
+        Bool is_valid(ViewportHandle const handle) const;
+
+        BufferHandle create(BufferInfo const &bufferInfo);
+        void destroy(BufferHandle const handle);
+        Bool is_valid(BufferHandle const handle) const;
+        void set_data(BufferHandle const handle, Span<Byte> const data);
+
+        ShaderHandle create(ShaderInfo const &shaderInfo);
+        void destroy(ShaderHandle const handle);
+        Bool is_valid(ShaderHandle const handle) const;
+
+        PipelineHandle create(PipelineInfo const &pipelineInfo);
+        void destroy(PipelineHandle const handle);
+        Bool is_valid(PipelineHandle const handle) const;
+
+        RenderPassHandle create(RenderPassInfo const &renderPassInfo);
+        void destroy(RenderPassHandle const handle);
+        Bool is_valid(RenderPassHandle const handle) const;
+
+        MaterialHandle create(MaterialInfo const &materialInfo);
+        void destroy(MaterialHandle const handle);
+        Bool is_valid(MaterialHandle const handle) const;
+
+        RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
+        void destroy(RenderTargetHandle const handle);
+        Bool is_valid(RenderTargetHandle const handle) const;
+        
+    private:
+        void create_depth_resources();
+        void destroy_depth_resources();
+        void recreate_depth_resources();
+
+        void create_frame(Vulkan_Frame &frame);
+        void destroy_frame(Vulkan_Frame &frame);
+
+        void create_attachment_description(RenderAttachment const &attachment, VkAttachmentDescription &description);
+        
+        void transition_layout(VkCommandBuffer const commandBuffer, TextureHandle const handle, VkImageLayout const layout);
+
+#pragma endregion
+
+#pragma region Variables
+
+    private:
+        // vulkan instance data:
+        VkInstance m_instance;
+#ifdef MINTY_DEBUG
+        VkDebugUtilsMessengerEXT m_debugMessenger;
+#endif
+        VkFormat m_targetSurfaceFormat;
+        VkPhysicalDevice m_physicalDevice;
+        VkDevice m_device;
+        VkQueue m_graphicsQueue;
+        VkQueue m_presentQueue;
+        VkCommandPool m_commandPool;
+
+        // frame data:
+        Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
+        Size m_currentFrameIndex = 0;
+
+        // rendering data:
+        Size m_passesMade;
+
+        // external pools
+        HandlePool<Vulkan_BufferData, Buffer> m_bufferDataPool;
+        HandlePool<Vulkan_MaterialData, Material> m_materialDataPool;
+        HandlePool<Vulkan_PipelineData, Pipeline> m_pipelineDataPool;
+        HandlePool<Vulkan_RenderPassData, RenderPass> m_renderPassDataPool;
+        HandlePool<Vulkan_RenderTargetData, RenderTarget> m_renderTargetDataPool;
+        HandlePool<Vulkan_ShaderData, Shader> m_shaderDataPool;
+        HandlePool<Vulkan_SurfaceData, Surface> m_surfaceDataPool;
+        HandlePool<Vulkan_TextureData, Texture> m_textureDataPool;
+        HandlePool<Vulkan_ViewportData, Viewport> m_viewportDataPool;
+
+        // internal pools
+        HandlePool<Vulkan_PipelineLayoutData> m_pipelineLayoutDataPool;
+
+        // global resources
+        SurfaceHandle m_surface;
+        TextureHandle m_depthStencilImage;
+        ViewportHandle m_defaultViewport;
+        
+#pragma endregion
+    };
+}

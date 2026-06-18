@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug demo_app",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/Output/Debug/demo_app.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "Build demo_app (Debug)"
+    }
+  ]
+}

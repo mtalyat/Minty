@@ -1,0 +1,50 @@
+#pragma once
+
+/**
+ * @file StreamDirection.h
+ * @brief Header file for stream direction enumeration.
+ * @author Mitchell Talyat
+ */
+
+#include "Platform/Type/Primitive.h"
+#include "Core/Type/Enum.h"
+
+namespace Minty
+{
+    /**
+     * @enum StreamDirectionEnum
+     * @brief Enumeration for stream seek directions.
+     */
+    enum class StreamDirectionEnum
+    {
+        /**
+         * @brief Beginning of the stream.
+         */
+        Begin = 0,
+
+        /**
+         * @brief Current position in the stream.
+         */
+        Current = 1,
+
+        /**
+         * @brief End of the stream.
+         */
+        End = 2,
+
+        Count,
+
+        Default = Begin
+    };
+
+    MINTY_ENABLE_ENUM_OPERATORS(StreamDirectionEnum)
+
+    struct StreamDirection
+    {
+        StreamDirectionEnum direction;
+
+        constexpr StreamDirection() : direction(StreamDirectionEnum::Default) {}
+        constexpr StreamDirection(StreamDirectionEnum d) : direction(d) {}
+        constexpr StreamDirectionEnum operator()() const { return direction; }
+    };
+}

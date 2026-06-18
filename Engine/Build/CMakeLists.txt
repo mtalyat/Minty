@@ -1,225 +1,243 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.24)
 
-project(Minty VERSION 1.0.0 LANGUAGES CXX)
+project(Minty VERSION 0.1.0 LANGUAGES CXX)
 
-set(TOP ${CMAKE_CURRENT_SOURCE_DIR}/../..)
+set(MINTY_ENGINE_ROOT "${CMAKE_CURRENT_LIST_DIR}/..")
+set(MINTY_SOURCE_ROOT "${MINTY_ENGINE_ROOT}/Source")
 
-# Set C++23 standard
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(MINTY_OUTPUT_DIR "${MINTY_ENGINE_ROOT}/Output" CACHE PATH "Root output directory for all generated files")
+set(MINTY_ARTIFACTS_DIR "${MINTY_OUTPUT_DIR}/Artifacts" CACHE PATH "Root artifacts directory")
 
-# Build configurations
-set(CMAKE_CONFIGURATION_TYPES "Debug;Debug-Trace;Release" CACHE STRING "" FORCE)
+set(MINTY_CXX_STANDARD 20 CACHE STRING "C++ standard used by Minty layer targets")
+set_property(CACHE MINTY_CXX_STANDARD PROPERTY STRINGS 17 20 23)
 
-# Options for features
-option(MINTY_VULKAN "Enable Vulkan rendering" ON)
-option(MINTY_SOLOUD "Enable SoLoud audio" ON)
-option(MINTY_BULLET "Enable Bullet physics" ON)
-option(MINTY_TRACE "Enable Tracy profiling (Debug-Trace only)" OFF)
+option(MINTY_ENABLE_PRECOMPILED_HEADERS "Use layer pch.h headers when available" ON)
+option(MINTY_ENABLE_MSVC_MULTIPROCESS "Enable MSVC /MP for faster parallel compilation" ON)
+option(MINTY_ENABLE_VULKAN "Enable Vulkan rendering backend compile definition" OFF)
+option(MINTY_ENABLE_SOLOUD "Enable SoLoud audio backend compile definition" OFF)
 
-# Set library paths
-set(LIBRARIES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../Libraries")
+set(MINTY_BUILD_LAYER "All" CACHE STRING "Top-level layer to build (dependencies are resolved automatically)")
+set_property(CACHE MINTY_BUILD_LAYER PROPERTY STRINGS All Audio Core Event Independence Input Library Libraries Platform Render Resource Scene Window World)
 
-# Source directory
-set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Source")
-
-# Collect all source files
-file(GLOB_RECURSE MINTY_SOURCES
-    "${SOURCE_DIR}/Minty/*.cpp"
-    "${SOURCE_DIR}/Platform/*.cpp"
+add_compile_definitions(
+	$<$<CONFIG:Debug>:MINTY_DEBUG>
+	$<$<NOT:$<CONFIG:Debug>>:MINTY_RELEASE>
+	$<$<BOOL:${MINTY_ENABLE_VULKAN}>:MINTY_VULKAN>
+	$<$<BOOL:${MINTY_ENABLE_SOLOUD}>:MINTY_SOLOUD>
 )
 
-# Collect all header files
-file(GLOB_RECURSE MINTY_HEADERS
-    "${SOURCE_DIR}/Minty/*.h"
-    "${SOURCE_DIR}/Platform/*.h"
-    "${SOURCE_DIR}/*.h"
-)
-
-# Third-party sources (zlib, SoLoud, Tracy)
-set(THIRD_PARTY_SOURCES
-    # zlib sources
-    "${LIBRARIES_DIR}/zlib/source/adler32.cpp"
-    "${LIBRARIES_DIR}/zlib/source/compress.cpp"
-    "${LIBRARIES_DIR}/zlib/source/crc32.cpp"
-    "${LIBRARIES_DIR}/zlib/source/deflate.cpp"
-    "${LIBRARIES_DIR}/zlib/source/gzclose.cpp"
-    "${LIBRARIES_DIR}/zlib/source/gzlib.cpp"
-    "${LIBRARIES_DIR}/zlib/source/gzread.cpp"
-    "${LIBRARIES_DIR}/zlib/source/gzwrite.cpp"
-    "${LIBRARIES_DIR}/zlib/source/infback.cpp"
-    "${LIBRARIES_DIR}/zlib/source/inffast.cpp"
-    "${LIBRARIES_DIR}/zlib/source/inflate.cpp"
-    "${LIBRARIES_DIR}/zlib/source/inftrees.cpp"
-    "${LIBRARIES_DIR}/zlib/source/trees.cpp"
-    "${LIBRARIES_DIR}/zlib/source/uncompr.cpp"
-    "${LIBRARIES_DIR}/zlib/source/zutil.cpp"
-    
-    # SoLoud sources
-    "${LIBRARIES_DIR}/soloud/include/dr_impl.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_audiosource.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_bus.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_3d.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_basicops.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_faderops.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_filterops.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_getters.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_setters.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_voicegroup.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_core_voiceops.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_fader.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_fft.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_fft_lut.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_file.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_filter.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_miniaudio.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_misc.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_queue.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_thread.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_wav.cpp"
-    "${LIBRARIES_DIR}/soloud/include/soloud_wavstream.cpp"
-    "${LIBRARIES_DIR}/soloud/include/stb_vorbis.cpp"
-
-    # STB source
-    "${SOURCE_DIR}/Minty/Library/STB.cpp"
-    
-    # Tracy source
-    "${LIBRARIES_DIR}/tracy/TracyClient.cpp"
-)
-
-# Third-party headers
-file(GLOB ZLIB_HEADERS "${LIBRARIES_DIR}/zlib/include/*.h")
-set(TRACY_HEADERS "${LIBRARIES_DIR}/tracy/include/Tracy.hpp")
-
-# Precompiled header
-set(PCH_SOURCE "${SOURCE_DIR}/pch.cpp")
-set(PCH_HEADER "${SOURCE_DIR}/pch.h")
-
-# Create the static library
-add_library(${PROJECT_NAME} STATIC
-    ${MINTY_SOURCES}
-    ${MINTY_HEADERS}
-    ${THIRD_PARTY_SOURCES}
-    ${ZLIB_HEADERS}
-    ${TRACY_HEADERS}
-    ${PCH_SOURCE}
-    ${PCH_HEADER}
-)
-
-# Set precompiled header
-target_precompile_headers(${PROJECT_NAME} PRIVATE "${PCH_HEADER}")
-
-# # Set the precompiled header source to create mode
-# set_source_files_properties(${PCH_SOURCE} PROPERTIES
-#     COMPILE_FLAGS "/Yc\"pch.h\""
-# )
-
-# Include directories
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${SOURCE_DIR}
-    ${LIBRARIES_DIR}/bullet/include
-    ${LIBRARIES_DIR}/entt/include
-    ${LIBRARIES_DIR}/glfw/include
-    ${LIBRARIES_DIR}/glm/include
-    ${LIBRARIES_DIR}/soloud/include
-    ${LIBRARIES_DIR}/stb/include
-    ${LIBRARIES_DIR}/tracy/include
-    ${LIBRARIES_DIR}/vulkan/include
-    ${LIBRARIES_DIR}/zlib/include
-)
-
-# Preprocessor definitions
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-    UNICODE
-    _UNICODE
-    $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:_DEBUG>
-    $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:MINTY_DEBUG>
-    $<$<CONFIG:Release>:NDEBUG>
-    $<$<CONFIG:Release>:MINTY_RELEASE>
-    _CRT_SECURE_NO_WARNINGS # Suppress CRT security warnings
-)
-
-# Feature-based definitions
-if(MINTY_VULKAN)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_VULKAN)
+if(WIN32)
+	add_compile_definitions(MINTY_WINDOWS)
+elseif(APPLE)
+	add_compile_definitions(MINTY_APPLE)
+elseif(UNIX)
+	add_compile_definitions(MINTY_LINUX)
 endif()
 
-if(MINTY_SOLOUD)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_SOLOUD)
+if(MSVC AND MINTY_ENABLE_MSVC_MULTIPROCESS)
+	add_compile_options(/MP)
 endif()
 
-if(MINTY_BULLET)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_BULLET)
+include(CMakeParseArguments)
+
+function(minty_collect_sources OUT_VAR BASE_DIR)
+	file(GLOB_RECURSE _minty_sources CONFIGURE_DEPENDS
+		"${BASE_DIR}/*.c"
+		"${BASE_DIR}/*.cc"
+		"${BASE_DIR}/*.cpp"
+		"${BASE_DIR}/*.cxx"
+		"${BASE_DIR}/*.h"
+		"${BASE_DIR}/*.hpp"
+		"${BASE_DIR}/*.inl"
+	)
+
+	set(${OUT_VAR} ${_minty_sources} PARENT_SCOPE)
+endfunction()
+
+function(minty_set_target_output_dirs TARGET_NAME LAYER_NAME)
+	set(_layer_root "${MINTY_ARTIFACTS_DIR}")
+
+	set_target_properties(${TARGET_NAME} PROPERTIES
+		ARCHIVE_OUTPUT_DIRECTORY "${_layer_root}"
+		LIBRARY_OUTPUT_DIRECTORY "${_layer_root}"
+		RUNTIME_OUTPUT_DIRECTORY "${_layer_root}"
+		PDB_OUTPUT_DIRECTORY "${_layer_root}"
+	)
+
+	foreach(cfg IN ITEMS Debug Release RelWithDebInfo MinSizeRel)
+		string(TOUPPER ${cfg} cfg_upper)
+		set_target_properties(${TARGET_NAME} PROPERTIES
+			ARCHIVE_OUTPUT_DIRECTORY_${cfg_upper} "${_layer_root}/${cfg}"
+			LIBRARY_OUTPUT_DIRECTORY_${cfg_upper} "${_layer_root}/${cfg}"
+			RUNTIME_OUTPUT_DIRECTORY_${cfg_upper} "${_layer_root}/${cfg}"
+			PDB_OUTPUT_DIRECTORY_${cfg_upper} "${_layer_root}/${cfg}"
+		)
+	endforeach()
+endfunction()
+
+function(minty_add_layer)
+	set(options HEADER_ONLY)
+	set(oneValueArgs NAME LAYER)
+	set(multiValueArgs SOURCES PUBLIC_INCLUDE_DIRS PRIVATE_INCLUDE_DIRS PUBLIC_DEPS PRIVATE_DEPS PUBLIC_DEFINITIONS PRIVATE_DEFINITIONS)
+
+	cmake_parse_arguments(MINTY "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+	if(NOT MINTY_NAME)
+		message(FATAL_ERROR "minty_add_layer requires NAME")
+	endif()
+
+	if(NOT MINTY_LAYER)
+		message(FATAL_ERROR "minty_add_layer requires LAYER")
+	endif()
+
+	if(MINTY_HEADER_ONLY)
+		add_library(${MINTY_NAME} INTERFACE)
+
+		if(MINTY_SOURCES)
+			target_sources(${MINTY_NAME} INTERFACE ${MINTY_SOURCES})
+		endif()
+
+		if(MINTY_PUBLIC_INCLUDE_DIRS)
+			target_include_directories(${MINTY_NAME} INTERFACE ${MINTY_PUBLIC_INCLUDE_DIRS})
+		endif()
+
+		if(MINTY_PUBLIC_DEPS)
+			target_link_libraries(${MINTY_NAME} INTERFACE ${MINTY_PUBLIC_DEPS})
+		endif()
+
+		if(MINTY_PUBLIC_DEFINITIONS)
+			target_compile_definitions(${MINTY_NAME} INTERFACE ${MINTY_PUBLIC_DEFINITIONS})
+		endif()
+
+		return()
+	endif()
+
+	add_library(${MINTY_NAME} STATIC ${MINTY_SOURCES})
+	target_compile_features(${MINTY_NAME} PUBLIC cxx_std_${MINTY_CXX_STANDARD})
+	minty_set_target_output_dirs(${MINTY_NAME} ${MINTY_LAYER})
+
+	if(MINTY_ENABLE_PRECOMPILED_HEADERS)
+		set(_minty_pch_header "${MINTY_SOURCE_ROOT}/${MINTY_LAYER}/pch.h")
+		if(EXISTS "${_minty_pch_header}")
+			target_precompile_headers(${MINTY_NAME} PRIVATE "${_minty_pch_header}")
+		endif()
+	endif()
+
+	if(MINTY_PUBLIC_INCLUDE_DIRS)
+		target_include_directories(${MINTY_NAME} PUBLIC ${MINTY_PUBLIC_INCLUDE_DIRS})
+	endif()
+
+	if(MINTY_PRIVATE_INCLUDE_DIRS)
+		target_include_directories(${MINTY_NAME} PRIVATE ${MINTY_PRIVATE_INCLUDE_DIRS})
+	endif()
+
+	if(MINTY_PUBLIC_DEPS)
+		target_link_libraries(${MINTY_NAME} PUBLIC ${MINTY_PUBLIC_DEPS})
+	endif()
+
+	if(MINTY_PRIVATE_DEPS)
+		target_link_libraries(${MINTY_NAME} PRIVATE ${MINTY_PRIVATE_DEPS})
+	endif()
+
+	if(MINTY_PUBLIC_DEFINITIONS)
+		target_compile_definitions(${MINTY_NAME} PUBLIC ${MINTY_PUBLIC_DEFINITIONS})
+	endif()
+
+	if(MINTY_PRIVATE_DEFINITIONS)
+		target_compile_definitions(${MINTY_NAME} PRIVATE ${MINTY_PRIVATE_DEFINITIONS})
+	endif()
+endfunction()
+
+function(minty_import_layer_dependency TARGET_NAME LAYER_NAME OUTPUT_NAME)
+	if(TARGET ${TARGET_NAME})
+		return()
+	endif()
+
+	set(_minty_candidate_paths
+		"${MINTY_ARTIFACTS_DIR}/Debug/${OUTPUT_NAME}.lib"
+		"${MINTY_ARTIFACTS_DIR}/Release/${OUTPUT_NAME}.lib"
+		"${MINTY_ARTIFACTS_DIR}/RelWithDebInfo/${OUTPUT_NAME}.lib"
+		"${MINTY_ARTIFACTS_DIR}/MinSizeRel/${OUTPUT_NAME}.lib"
+	)
+
+	set(_minty_found_any FALSE)
+	foreach(_minty_candidate IN LISTS _minty_candidate_paths)
+		if(EXISTS "${_minty_candidate}")
+			set(_minty_found_any TRUE)
+			break()
+		endif()
+	endforeach()
+
+	if(NOT _minty_found_any)
+		set(_minty_dependency_dir "${MINTY_SOURCE_ROOT}/${LAYER_NAME}")
+		set(_minty_dependency_binary_dir "${CMAKE_BINARY_DIR}/${LAYER_NAME}")
+		if(EXISTS "${_minty_dependency_dir}/CMakeLists.txt")
+			message(STATUS "Prebuilt dependency '${TARGET_NAME}' not found in ${MINTY_ARTIFACTS_DIR}/<Config>. Falling back to source dependency layer '${LAYER_NAME}'.")
+			add_subdirectory("${_minty_dependency_dir}" "${_minty_dependency_binary_dir}")
+			if(TARGET ${TARGET_NAME})
+				return()
+			endif()
+		endif()
+
+		message(FATAL_ERROR "Missing dependency '${TARGET_NAME}'. Expected prebuilt ${OUTPUT_NAME}.lib in ${MINTY_ARTIFACTS_DIR}/<Config> or source layer at ${_minty_dependency_dir}.")
+	endif()
+
+	add_library(${TARGET_NAME} STATIC IMPORTED GLOBAL)
+	set_target_properties(${TARGET_NAME} PROPERTIES
+		IMPORTED_LOCATION_DEBUG "${MINTY_ARTIFACTS_DIR}/Debug/${OUTPUT_NAME}.lib"
+		IMPORTED_LOCATION_RELEASE "${MINTY_ARTIFACTS_DIR}/Release/${OUTPUT_NAME}.lib"
+		IMPORTED_LOCATION_RELWITHDEBINFO "${MINTY_ARTIFACTS_DIR}/RelWithDebInfo/${OUTPUT_NAME}.lib"
+		IMPORTED_LOCATION_MINSIZEREL "${MINTY_ARTIFACTS_DIR}/MinSizeRel/${OUTPUT_NAME}.lib"
+	)
+endfunction()
+
+file(GLOB MINTY_LAYER_CMAKE_FILES RELATIVE "${MINTY_SOURCE_ROOT}" "${MINTY_SOURCE_ROOT}/*/CMakeLists.txt")
+set(MINTY_DISCOVERED_LAYERS)
+
+foreach(_layer_entry IN LISTS MINTY_LAYER_CMAKE_FILES)
+	get_filename_component(_layer_dir "${_layer_entry}" DIRECTORY)
+	list(APPEND MINTY_DISCOVERED_LAYERS "${_layer_dir}")
+endforeach()
+
+list(REMOVE_DUPLICATES MINTY_DISCOVERED_LAYERS)
+list(SORT MINTY_DISCOVERED_LAYERS)
+
+set(_minty_requested_layer "")
+string(TOLOWER "${MINTY_BUILD_LAYER}" _minty_requested_lower)
+
+if(_minty_requested_lower STREQUAL "all")
+	set(_minty_requested_layer "All")
+else()
+	foreach(_layer IN LISTS MINTY_DISCOVERED_LAYERS)
+		string(TOLOWER "${_layer}" _layer_lower)
+		if(_layer_lower STREQUAL _minty_requested_lower)
+			set(_minty_requested_layer "${_layer}")
+			break()
+		endif()
+	endforeach()
+
+	if(NOT _minty_requested_layer AND _minty_requested_lower STREQUAL "libraries")
+		foreach(_layer IN LISTS MINTY_DISCOVERED_LAYERS)
+			string(TOLOWER "${_layer}" _layer_lower)
+			if(_layer_lower STREQUAL "library")
+				set(_minty_requested_layer "${_layer}")
+				break()
+			endif()
+		endforeach()
+	endif()
 endif()
 
-if(MINTY_TRACE)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE MINTY_TRACE TRACY_ENABLE)
+if(NOT _minty_requested_layer)
+	string(REPLACE ";" ", " _minty_layer_list "${MINTY_DISCOVERED_LAYERS}")
+	message(FATAL_ERROR "Unknown MINTY_BUILD_LAYER='${MINTY_BUILD_LAYER}'. Discovered layers: ${_minty_layer_list}")
 endif()
 
-# Compiler flags
-if(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE
-        /W3                     # Warning level 3
-        /permissive-            # Standards conformance mode
-        /Zc:wchar_t             # wchar_t is a native type
-        /Zc:forScope            # Standard C++ for scoping rules
-        /Zc:inline              # Remove unreferenced function or data
-        /fp:precise             # Precise floating-point model
-        /GS                     # Buffer security check
-        /sdl                    # Additional security checks
-        $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:/MTd> # Multi-threaded debug runtime
-        $<$<CONFIG:Release>:/MT> # Multi-threaded release runtime
-        $<$<CONFIG:Release>:/O2> # Optimize for speed
-        $<$<CONFIG:Release>:/GL> # Whole program optimization
-        $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:/Od> # Disable optimization
-        $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:/RTC1> # Runtime checks
-        $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:/ZI> # Edit and continue debug info
-        $<$<OR:$<CONFIG:Debug>,$<STREQUAL:$<CONFIG>,Debug-Trace>>:/JMC> # Just my code debugging
-        $<$<CONFIG:Release>:/Zi> # Generate debug info
-        $<$<CONFIG:Release>:/MP> # Multi-processor compilation
-    )
-    
-    # Linker flags for release
-    target_link_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:/LTCG> # Link-time code generation
-    )
+if(_minty_requested_layer STREQUAL "All")
+	set(MINTY_USE_PREBUILT_DEPS OFF)
+	foreach(_layer IN LISTS MINTY_DISCOVERED_LAYERS)
+		add_subdirectory("${MINTY_SOURCE_ROOT}/${_layer}" "${CMAKE_BINARY_DIR}/${_layer}")
+	endforeach()
+else()
+	set(MINTY_USE_PREBUILT_DEPS ON)
+	add_subdirectory("${MINTY_SOURCE_ROOT}/${_minty_requested_layer}" "${CMAKE_BINARY_DIR}/${_minty_requested_layer}")
 endif()
-
-# Link directories
-target_link_directories(${PROJECT_NAME} PUBLIC
-    ${LIBRARIES_DIR}/vulkan/lib
-    ${LIBRARIES_DIR}/glfw/lib
-    ${LIBRARIES_DIR}/bullet/lib/$<CONFIG>
-)
-
-# Link libraries
-target_link_libraries(${PROJECT_NAME} PUBLIC
-    vulkan-1
-    glfw3_mt
-    BulletCollision
-    BulletDynamics
-    LinearMath
-)
-
-# Output directory - match devenv.bat expectations
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIG>"
-)
-
-# Add custom command to generate files
-add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND python "${TOP}/Tools/Build/generate_directory_headers.py"
-    COMMAND python "${TOP}/Tools/Build/generate_register_sources.py"
-)
-
-# Print configuration info
-message(STATUS "Minty Library Configuration:")
-message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")
-message(STATUS "  Vulkan: ${MINTY_VULKAN}")
-message(STATUS "  SoLoud: ${MINTY_SOLOUD}")
-message(STATUS "  Bullet: ${MINTY_BULLET}")
-message(STATUS "  Tracy: ${MINTY_TRACE}")
