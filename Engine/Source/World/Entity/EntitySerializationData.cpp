@@ -16,5 +16,5 @@ EntityHandle Minty::EntitySerializationData::get_entity(UUID const id) const
 		}
 	}
 	// get the entity normally
-	return entityManager->get_entity(id);
+	return entityManager->find_entity(id);
 }

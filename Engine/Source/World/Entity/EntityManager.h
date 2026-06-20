@@ -8,6 +8,7 @@
 
 namespace Minty
 {
+    struct RelationshipComponent;
     struct EntityManagerInfo;
 
     class EntityManager
@@ -43,6 +44,8 @@ namespace Minty
     public:
         EntityHandle create_entity();
         void destroy_entity(EntityHandle const entity);
+        EntityHandle find_entity(UUID const id) const;
+        String to_string(EntityHandle const entity) const;
 
         template<typename Component, typename... Args>
         decltype(auto) add_component(EntityHandle const entity, Args &&...args);
@@ -62,6 +65,12 @@ namespace Minty
         decltype(auto) get_component(EntityHandle const entity) const;
 
         template<typename Component>
+        Component* try_get_component(EntityHandle const entity);
+
+        template<typename Component>
+        Component const* try_get_component(EntityHandle const entity) const;
+
+        template<typename Component>
         Bool has_component(EntityHandle const entity) const;
 
         template<typename... Components>
@@ -76,10 +85,18 @@ namespace Minty
         template<typename Component>
         void register_component(StringView const name);
 
-    private:
-        inline entt::entity minty_to_entt(EntityHandle const entity) const { return static_cast<entt::entity>(entity); }
+        void set_parent(EntityHandle const entity, EntityHandle const parent);
 
-        inline EntityHandle entt_to_minty(entt::entity const entity) const { return static_cast<EntityHandle>(entity); }
+        EntityHandle get_parent(EntityHandle const entity) const;
+
+    private:
+        inline static entt::entity minty_to_entt(EntityHandle const entity) { return static_cast<entt::entity>(entity); }
+
+        inline static EntityHandle entt_to_minty(entt::entity const entity) { return static_cast<EntityHandle>(entity); }
+
+		void remove_from_parent(RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp);
+
+		void add_to_parent(EntityHandle const entity, RelationshipComponent &relationshipComp, RelationshipComponent &parentRelationshipComp);
 
 #pragma endregion
 
@@ -87,6 +104,7 @@ namespace Minty
 
     private:
         entt::registry m_registry;
+        Bool m_needsSorted;
 
         Registry<EntityHandle> m_registeredComponents;
 

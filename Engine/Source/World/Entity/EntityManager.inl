@@ -38,21 +38,35 @@ decltype(auto) Minty::EntityManager::get_component(EntityHandle const entity) co
 }
 
 template <typename Component>
-Bool Minty::EntityManager::has_component(EntityHandle const entity) const
+Component *Minty::EntityManager::try_get_component(EntityHandle const entity)
+{
+    MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
+    return m_registry.try_get<Component>(minty_to_entt(entity));
+}
+
+template <typename Component>
+Component const *Minty::EntityManager::try_get_component(EntityHandle const entity) const
+{
+    MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
+    return m_registry.try_get<Component>(minty_to_entt(entity));
+}
+
+template <typename Component>
+Minty::Bool Minty::EntityManager::has_component(EntityHandle const entity) const
 {
     MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
     return m_registry.any_of<Component>(minty_to_entt(entity));
 }
 
 template <typename... Components>
-Bool Minty::EntityManager::has_all_component(EntityHandle const entity) const
+Minty::Bool Minty::EntityManager::has_all_component(EntityHandle const entity) const
 {
     MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
     return m_registry.all_of<Components...>(minty_to_entt(entity));
 }
 
 template <typename... Components>
-Bool Minty::EntityManager::has_any_component(EntityHandle const entity) const
+Minty::Bool Minty::EntityManager::has_any_component(EntityHandle const entity) const
 {
     MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
     return m_registry.any_of<Components...>(minty_to_entt(entity));

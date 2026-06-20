@@ -237,6 +237,10 @@ def _has_child_aggregate_headers(directory: Path) -> bool:
 
 
 def _generate_layer_headers(layer: str) -> list[Path]:
+    # Library intentionally opts out of generated aggregate headers.
+    if layer.lower() == 'library':
+        return []
+
     layer_root = SOURCE_ROOT / layer
     if not layer_root.is_dir():
         raise ValueError(f'Layer directory does not exist: {layer_root}')
@@ -401,49 +405,55 @@ def main() -> int:
     # Start timer
     start_time = time.time()
 
-    for project in projects:
-        build_dir = _build_directory(project, config_name)
+    build_dirs = {project_name: _build_directory(project_name, config_name) for project_name in projects}
+    configure_commands: dict[str, list[str]] = {}
+    build_commands: dict[str, list[str]] = {}
+
+    for project_name in projects:
+        build_dir = build_dirs[project_name]
 
         configure_command = [
             'cmake',
             '-S', str(ROOT / 'Build'),
             '-B', str(build_dir),
-            f'-DMINTY_BUILD_LAYER={project}',
+            f'-DMINTY_BUILD_LAYER={project_name}',
             f'-DCMAKE_BUILD_TYPE={config_name}',
             f'-DMINTY_ARTIFACTS_DIR={str(ARTIFACTS_DIR)}',
         ]
+        if render == RENDER_VULKAN:
+            configure_command.append('-DMINTY_ENABLE_VULKAN=ON')
+        if audio == AUDIO_SOLOUD:
+            configure_command.append('-DMINTY_ENABLE_SOLOUD=ON')
 
         build_command = [
             'cmake',
             '--build', str(build_dir),
             '--config', config_name,
         ]
+        if project_name != 'All':
+            build_command.extend(['--target', f'minty_{project_name.lower()}'])
 
-        if render == RENDER_VULKAN:
-            configure_command.append('-DMINTY_ENABLE_VULKAN=ON')
-        if audio == AUDIO_SOLOUD:
-            configure_command.append('-DMINTY_ENABLE_SOLOUD=ON')
+        configure_commands[project_name] = configure_command
+        build_commands[project_name] = build_command
 
-        if project != 'All':
-            build_command.extend(['--target', f'minty_{project.lower()}'])
+    if action & ACTION_CLEAN:
+        print_line('Step 1/1: Cleaning', char=LINE_CHAR_LARGE)
+        for project_name in projects:
+            print_line(f'Project: {project_name}', char=LINE_CHAR_MED)
 
-        print_line(f'Project: {project}', char=LINE_CHAR_MED)
-
-        if action & ACTION_CLEAN:
-            print_line('Cleaning')
-
+            build_dir = build_dirs[project_name]
             if build_dir.exists():
                 shutil.rmtree(build_dir)
                 print(f'Removed {build_dir}')
 
             artifact_dir = _artifact_directory(config_name)
             if artifact_dir.exists():
-                if project == 'All':
+                if project_name == 'All':
                     shutil.rmtree(artifact_dir)
                     print(f'Removed {artifact_dir}')
                 else:
                     removed_artifacts: list[Path] = []
-                    artifact_stems = _artifact_stems_for_layer(project)
+                    artifact_stems = _artifact_stems_for_layer(project_name)
                     for artifact_path in artifact_dir.glob('*'):
                         if not artifact_path.is_file():
                             continue
@@ -457,23 +467,32 @@ def main() -> int:
                         for path in removed_artifacts:
                             print(f'  {path}')
             print_line()
+        print_line(char=LINE_CHAR_MED)
 
-        if action & ACTION_BUILD:
-            print_line('Building')
+    if action & ACTION_BUILD:
+        print_line('Step 1/3: Generating', char=LINE_CHAR_LARGE)
+        discovered_layers = _discover_layers()
+        for project_name in projects:
+            print_line(f'Project: {project_name}', char=LINE_CHAR_MED)
 
+            build_dir = build_dirs[project_name]
             _ensure_build_dir_source(build_dir, ROOT / 'Build')
-
             build_dir.mkdir(parents=True, exist_ok=True)
 
-            print('Generating...')
-            header_layers = _discover_layers() if project == 'All' else [project]
+            header_layers = discovered_layers if project_name == 'All' else [project_name]
             for layer_name in header_layers:
                 _generate_layer_headers(layer_name)
                 # generated_headers = _generate_layer_headers(layer_name)
                 # print(f'Ensured {len(generated_headers)} aggregate headers for {layer_name}.')
+            print_line()
+        print_line(char=LINE_CHAR_MED)
 
-            print('Configuring...')
+        print_line('Step 2/3: Configuring', char=LINE_CHAR_LARGE)
+        for project_name in projects:
+            print_line(f'Project: {project_name}', char=LINE_CHAR_MED)
+
             configure_return_code = 0
+            configure_command = configure_commands[project_name]
             if verbose:
                 configure_return_code = Command.print_command(configure_command, ROOT)
             else:
@@ -482,9 +501,15 @@ def main() -> int:
                     print(configure_text)
             if configure_return_code != 0:
                 return configure_return_code
+            print_line()
+        print_line(char=LINE_CHAR_MED)
 
-            print('Building...')
+        print_line('Step 3/3: Building', char=LINE_CHAR_LARGE)
+        for project_name in projects:
+            print_line(f'Project: {project_name}', char=LINE_CHAR_MED)
+
             build_return_code = 0
+            build_command = build_commands[project_name]
             if verbose:
                 build_return_code = Command.print_command(build_command, ROOT)
             else:
@@ -493,15 +518,15 @@ def main() -> int:
                     print(build_text)
             if build_return_code != 0:
                 return build_return_code
-            
             print_line()
+        print_line(char=LINE_CHAR_MED)
 
-        if action & ACTION_RUN:
-            print_line('Running')
+    if action & ACTION_RUN:
+        print_line('Step 1/1: Running', char=LINE_CHAR_LARGE)
+        for project_name in projects:
+            print_line(f'Project: {project_name}', char=LINE_CHAR_MED)
             print('Run action is not implemented yet.')
             print_line()
-        
-        # End of project
         print_line(char=LINE_CHAR_MED)
 
     # End timer and print duration

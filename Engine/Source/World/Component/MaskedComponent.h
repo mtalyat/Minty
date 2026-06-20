@@ -7,6 +7,7 @@
  */
 
 #include "Layer/LayerMask/LayerMask.h"
+#include "Core/Serialize/Serializer.h"
 
 namespace Minty
 {

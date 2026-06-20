@@ -7,6 +7,7 @@
  */
 
 #include "Core/Data/UUID.h"
+#include "Core/Serialize/Serializer.h"
 
 namespace Minty
 {
