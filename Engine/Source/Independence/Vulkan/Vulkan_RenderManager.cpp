@@ -1142,6 +1142,9 @@ RenderViewHandle Minty::Vulkan_RenderManager::create(RenderViewInfo const &rende
 		MINTY_NOT_IMPLEMENTED(); // "Unsupported camera perspective type."
 	}
 
+	// Flip Y axis so Y is up in Vulkan's coordinate system
+	renderViewData.projectionMatrix[1][1] *= -1.0f;
+
 	// Add to pool
 	RenderViewHandle const handle = m_renderViewDataPool.add(std::move(renderViewData));
 
