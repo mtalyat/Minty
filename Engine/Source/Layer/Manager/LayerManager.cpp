@@ -29,7 +29,7 @@ String Minty::LayerManager::get_layer_name(Layer const layer) const
     return m_layerToName[layer.value];
 }
 
-Mask Minty::LayerManager::get_layer_mask(Layer const layer) const
+LayerMask Minty::LayerManager::get_layer_mask(Layer const layer) const
 {
     MINTY_ASSERT(is_valid(layer), ErrorCodeEnum::Layer_NotFound, layer);
     return m_collisionMasks[layer.value];
@@ -49,7 +49,7 @@ Bool Minty::LayerManager::is_valid(String const &name) const
     return m_nameToLayer.contains(name);
 }
 
-Layer Minty::LayerManager::create_layer(String const &name, Mask const mask)
+Layer Minty::LayerManager::create_layer(String const &name, LayerMask const mask)
 {
     MINTY_ASSERT(!name.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -68,7 +68,7 @@ Layer Minty::LayerManager::create_layer(String const &name, Mask const mask)
     return LAYER_DEFAULT;
 }
 
-void Minty::LayerManager::create_layer(String const &name, Mask const mask, Layer const layer)
+void Minty::LayerManager::create_layer(String const &name, LayerMask const mask, Layer const layer)
 {
     MINTY_ASSERT(!name.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
     MINTY_ASSERT(!is_valid(layer), ErrorCodeEnum::Layer_AlreadyExists);
@@ -79,7 +79,7 @@ void Minty::LayerManager::create_layer(String const &name, Mask const mask, Laye
     m_collisionMasks[layer.value] = mask;
 
     // add the layer to all masks that have it
-    Mask const layerMask = layer.to_mask();
+    LayerMask const layerMask = layer.to_mask();
     for (LayerType i = 0; i < LAYER_COUNT; ++i)
     {
         if (mask.has_layer(i) || i == layer)
@@ -95,7 +95,7 @@ void Minty::LayerManager::destroy_layer(Layer const layer)
     MINTY_ASSERT(is_valid(layer), ErrorCodeEnum::Layer_NotFound, layer);
 
     // remove the layer from all masks
-    LayerType invertedLayerMask = ~layer.to_mask();
+    LayerMask invertedLayerMask = ~layer.to_mask();
     for (LayerType i = 0; i < LAYER_COUNT; ++i)
     {
         m_collisionMasks[i] &= invertedLayerMask;
@@ -105,7 +105,7 @@ void Minty::LayerManager::destroy_layer(Layer const layer)
     String const& name = m_layerToName[layer.value];
     m_nameToLayer.remove(name);
     m_layerToName[layer.value] = String();
-    m_collisionMasks[layer.value] = Mask();
+    m_collisionMasks[layer.value] = LayerMask();
 }
 
 LayerManager &Minty::LayerManager::get_singleton()

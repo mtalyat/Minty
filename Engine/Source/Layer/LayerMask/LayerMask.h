@@ -117,10 +117,10 @@ namespace Minty
         static String to_string(Layer const &value);
     };
 
-    template<typename T>
-    struct Parser<Mask<T>>
+    template<>
+    struct Parser<LayerMask>
     {
-        static Bool parse(StringView const str, Mask<T> &value);
-        static String to_string(Mask<T> const &value);
+        static Bool parse(StringView const str, LayerMask &value);
+        static String to_string(LayerMask const &value);
     };
 }

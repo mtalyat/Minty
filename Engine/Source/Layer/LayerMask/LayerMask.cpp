@@ -14,12 +14,12 @@ String Minty::Parser<Layer>::to_string(Layer const &value)
     return Parser<LayerType>::to_string(value.value);
 }
 
-Bool Minty::Parser<Mask>::parse(StringView const str, Mask &value)
+Bool Minty::Parser<LayerMask>::parse(StringView const str, LayerMask &value)
 {
     return Parser<MaskType>::parse(str, value.value);
 }
 
-String Minty::Parser<Mask>::to_string(Mask const &value)
+String Minty::Parser<LayerMask>::to_string(LayerMask const &value)
 {
     return Parser<MaskType>::to_string(value.value);
 }

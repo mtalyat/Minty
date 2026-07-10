@@ -34,7 +34,7 @@ namespace Minty
     public:
         Layer get_layer(String const& name) const;
         String get_layer_name(Layer const layer) const;
-        Mask get_layer_mask(Layer const layer) const;
+        LayerMask get_layer_mask(Layer const layer) const;
         Bool is_valid(Layer const layer) const;
         Bool is_valid(String const& name) const;
 
@@ -42,8 +42,8 @@ namespace Minty
 
     public:
 
-        Layer create_layer(String const& name, Mask const mask);
-        void create_layer(String const& name, Mask const mask, Layer const layer);
+        Layer create_layer(String const& name, LayerMask const mask);
+        void create_layer(String const& name, LayerMask const mask, Layer const layer);
         void destroy_layer(Layer const layer);
 
         static LayerManager& get_singleton();
@@ -55,7 +55,7 @@ namespace Minty
     private:
         Map<StringView, Layer> m_nameToLayer;
         Array<String, LAYER_COUNT> m_layerToName;
-        Array<Mask, LAYER_COUNT> m_collisionMasks;
+        Array<LayerMask, LAYER_COUNT> m_collisionMasks;
 
         static LayerManager* sp_singleton;
 

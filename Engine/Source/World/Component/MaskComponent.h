@@ -19,7 +19,7 @@ namespace Minty
 		/**
 		 * @brief The mask value.
 		 */
-		Mask mask = {};
+		LayerMask mask = MASK_ALL;
 	};
 
 	template<>
