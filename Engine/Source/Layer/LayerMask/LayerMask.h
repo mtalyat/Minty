@@ -17,13 +17,14 @@ namespace Minty
 
     struct Layer;
 
+    template<typename T = MaskType>
     struct Mask
     {
-        MaskType value;
+        T value;
 
         constexpr Mask() : value(MASK_DEFAULT) {}
-        constexpr Mask(MaskType mask) : value(mask) {}
-        constexpr operator MaskType() const { return value; }
+        constexpr Mask(T mask) : value(mask) {}
+        constexpr operator T() const { return value; }
 
         constexpr Mask operator~() const { return Mask(~value); }
         constexpr Bool operator&(Mask const &other) const { return (value & other.value) != 0; }
@@ -46,26 +47,26 @@ namespace Minty
         }
         constexpr Bool operator==(Mask const &other) const { return value == other.value; }
         constexpr Bool operator!=(Mask const &other) const { return value != other.value; }
-        constexpr Bool operator&(MaskType const &other) const { return (value & other) != 0; }
-        constexpr Mask &operator&=(MaskType const &other)
+        constexpr Bool operator&(T const &other) const { return (value & other) != 0; }
+        constexpr Mask &operator&=(T const &other)
         {
             value &= other;
             return *this;
         }
-        constexpr Bool operator|(MaskType const &other) const { return (value | other) != 0; }
-        constexpr Mask &operator|=(MaskType const &other)
+        constexpr Bool operator|(T const &other) const { return (value | other) != 0; }
+        constexpr Mask &operator|=(T const &other)
         {
             value |= other;
             return *this;
         }
-        constexpr Mask operator^(MaskType const &other) const { return Mask(value ^ other); }
-        constexpr Mask &operator^=(MaskType const &other)
+        constexpr Mask operator^(T const &other) const { return Mask(value ^ other); }
+        constexpr Mask &operator^=(T const &other)
         {
             value ^= other;
             return *this;
         }
-        constexpr Bool operator==(MaskType const &other) const { return value == other; }
-        constexpr Bool operator!=(MaskType const &other) const { return value != other; }
+        constexpr Bool operator==(T const &other) const { return value == other; }
+        constexpr Bool operator!=(T const &other) const { return value != other; }
 
         constexpr Bool has_layer(LayerType const layer) const;
     };
@@ -91,17 +92,22 @@ namespace Minty
         constexpr Bool operator<=(LayerType const &other) const { return value <= other; }
         constexpr Bool operator>=(LayerType const &other) const { return value >= other; }
 
-        constexpr Mask to_mask() const;
+        template<typename T = MaskType>
+        constexpr Mask<T> to_mask() const;
     };
 
-    constexpr Bool Minty::Mask::has_layer(LayerType const layer) const
+    using LayerMask = Mask<MaskType>;
+
+    template<typename T>
+    constexpr Bool Minty::Mask<T>::has_layer(LayerType const layer) const
     {
         return (value & (1 << layer)) != 0;
     }
 
-    constexpr Mask Minty::Layer::to_mask() const
+    template<typename T>
+    constexpr Mask<T> Minty::Layer::to_mask() const
     {
-        return Mask(1 << value);
+        return Mask<T>(1 << value);
     }
 
     template<>
@@ -111,10 +117,10 @@ namespace Minty
         static String to_string(Layer const &value);
     };
 
-    template<>
-    struct Parser<Mask>
+    template<typename T>
+    struct Parser<Mask<T>>
     {
-        static Bool parse(StringView const str, Mask &value);
-        static String to_string(Mask const &value);
+        static Bool parse(StringView const str, Mask<T> &value);
+        static String to_string(Mask<T> const &value);
     };
 }
