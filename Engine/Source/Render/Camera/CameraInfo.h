@@ -11,7 +11,8 @@
 #include "Core/Type/Color.h"
 #include "Core/Constant/Default.h"
 #include "Core/Constant/Invalid.h"
-#include "Resource/Type/Handle.h"
+#include "Render/Type/Handle.h"
+#include "Layer/LayerMask/LayerMask.h"
 
 namespace Minty
 {
@@ -60,11 +61,16 @@ namespace Minty
 		/**
 		 * @brief The layers to render.
 		 */
-		Layer layer = { ~0 };
+		LayerMask mask = MASK_ALL;
 
 		/**
 		 * @brief The RenderTarget to render to.
 		 */
 		RenderTargetHandle renderTarget = INVALID_HANDLE;
+
+		/**
+		 * @brief The Viewport to render to. Leave as INVALID_HANDLE to use the default viewport.
+		 */
+		ViewportHandle viewport = INVALID_HANDLE;
 	};
 }

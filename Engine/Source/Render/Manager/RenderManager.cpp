@@ -274,6 +274,21 @@ Bool Minty::RenderManager::is_valid(RenderTargetHandle const handle) const
     return mp_impl->renderManager.is_valid(handle);
 }
 
+CameraHandle Minty::RenderManager::create(CameraInfo const &cameraInfo)
+{
+    return mp_impl->renderManager.create(cameraInfo);
+}
+
+void Minty::RenderManager::destroy(CameraHandle const handle)
+{
+    mp_impl->renderManager.destroy(handle);
+}
+
+Bool Minty::RenderManager::is_valid(CameraHandle const handle) const
+{
+    return mp_impl->renderManager.is_valid(handle);
+}
+
 RenderManager &Minty::RenderManager::get_instance()
 {
     MINTY_ASSERT(s_instance != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);

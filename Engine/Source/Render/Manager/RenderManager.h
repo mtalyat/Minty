@@ -15,16 +15,17 @@
 namespace Minty
 {
     struct RenderManagerInfo;
+    struct BufferInfo;
+    struct CameraInfo;
     struct ImageInfo;
+    struct MaterialInfo;
     struct PipelineInfo;
-    struct TextureInfo;
+    struct RenderPassInfo;
+    struct RenderTargetInfo;
     struct ShaderInfo;
     struct SurfaceInfo;
+    struct TextureInfo;
     struct ViewportInfo;
-    struct RenderPassInfo;
-    struct BufferInfo;
-    struct MaterialInfo;
-    struct RenderTargetInfo;
 
     class RenderManager
     {
@@ -94,6 +95,10 @@ namespace Minty
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
         void destroy(RenderTargetHandle const handle);
         Bool is_valid(RenderTargetHandle const handle) const;
+
+        CameraHandle create(CameraInfo const &cameraInfo);
+        void destroy(CameraHandle const handle);
+        Bool is_valid(CameraHandle const handle) const;
 
         /**
          * @brief Gets the singleton instance of the RenderManager.

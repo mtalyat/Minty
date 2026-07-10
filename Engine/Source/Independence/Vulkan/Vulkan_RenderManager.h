@@ -14,6 +14,7 @@
 #include "Vulkan_Surface.h"
 #include "Vulkan_Viewport.h"
 #include "Vulkan_Buffer.h"
+#include "Vulkan_Camera.h"
 #include "Vulkan_RenderTarget.h"
 #include "Vulkan_RenderPass.h"
 #include "Core/Data/Array.h"
@@ -27,6 +28,7 @@ namespace Minty
 {
     struct RenderManagerInfo;
     struct BufferInfo;
+    struct CameraInfo;
     struct MaterialInfo;
     struct PipelineInfo;
     struct ShaderInfo;
@@ -89,6 +91,10 @@ namespace Minty
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
         void destroy(RenderTargetHandle const handle);
         Bool is_valid(RenderTargetHandle const handle) const;
+
+        CameraHandle create(CameraInfo const &cameraInfo);
+        void destroy(CameraHandle const handle);
+        Bool is_valid(CameraHandle const handle) const;
         
     private:
         void create_depth_resources();
@@ -128,6 +134,7 @@ namespace Minty
 
         // external pools
         HandlePool<Vulkan_BufferData, Buffer> m_bufferDataPool;
+        HandlePool<Vulkan_CameraData, Camera> m_cameraDataPool;
         HandlePool<Vulkan_MaterialData, Material> m_materialDataPool;
         HandlePool<Vulkan_PipelineData, Pipeline> m_pipelineDataPool;
         HandlePool<Vulkan_RenderPassData, RenderPass> m_renderPassDataPool;

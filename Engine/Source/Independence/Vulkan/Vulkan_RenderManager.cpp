@@ -18,6 +18,7 @@
 #include "Resource/RenderPass/RenderAttachment.h"
 #include "Render/RenderPass/RenderPassInfo.h"
 #include "Render/RenderTarget/RenderTargetInfo.h"
+#include "Render/Camera/CameraInfo.h"
 
 using namespace Minty;
 
@@ -1110,6 +1111,48 @@ void Minty::Vulkan_RenderManager::destroy(RenderTargetHandle const handle)
 Bool Minty::Vulkan_RenderManager::is_valid(RenderTargetHandle const handle) const
 {
 	return m_renderTargetDataPool.contains(handle);
+}
+
+CameraHandle Minty::Vulkan_RenderManager::create(CameraInfo const &cameraInfo)
+{
+	MINTY_ASSERT(cameraInfo.renderTarget != INVALID_HANDLE, ErrorCodeEnum::Argument_InvalidHandle);
+
+	// Create the Vulkan data
+	Vulkan_CameraData cameraData{};
+	cameraData.aspectRatio = cameraInfo.aspectRatio;
+	cameraData.color = cameraInfo.color;
+	cameraData.farPlane = cameraInfo.farPlane;
+	cameraData.fov = cameraInfo.fov;
+	cameraData.mask = cameraInfo.mask;
+	cameraData.nearPlane = cameraInfo.nearPlane;
+	cameraData.perspective = cameraInfo.perspective;
+	cameraData.renderTarget = cameraInfo.renderTarget;
+	cameraData.size = cameraInfo.size;
+
+	// Use the default viewport if none is provided
+	if (cameraInfo.viewport == INVALID_HANDLE)
+	{
+		cameraData.viewport = m_defaultViewport;
+	}
+	else
+	{
+		MINTY_ASSERT(is_valid(cameraInfo.viewport), ErrorCodeEnum::Argument_InvalidHandle);
+		cameraData.viewport = cameraInfo.viewport;
+	}
+
+	// Add to pool and return handle
+	return m_cameraDataPool.add(std::move(cameraData));
+}
+
+void Minty::Vulkan_RenderManager::destroy(CameraHandle const handle)
+{
+	MINTY_ASSERT(m_cameraDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+	m_cameraDataPool.remove(handle);
+}
+
+Bool Minty::Vulkan_RenderManager::is_valid(CameraHandle const handle) const
+{
+	return m_cameraDataPool.contains(handle);
 }
 
 void Minty::Vulkan_RenderManager::create_depth_resources()
