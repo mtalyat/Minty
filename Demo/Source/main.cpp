@@ -53,9 +53,9 @@ int main()
     renderTargetInfo.renderPass = renderPassHandle;
     renderTargetInfo.surface = surfaceHandle;
     RenderTargetHandle const renderTargetHandle = renderManager.create(renderTargetInfo);
-    CameraInfo cameraInfo{};
-    cameraInfo.renderTarget = renderTargetHandle;
-    CameraHandle const cameraHandle = renderManager.create(cameraInfo);
+    Camera camera{};
+    RenderViewInfo renderViewInfo{};
+    RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);
 
     while (windowManager.is_open(window))
     {

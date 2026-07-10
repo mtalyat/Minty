@@ -11,21 +11,11 @@ namespace Minty
         /**
          * @brief The position of the RenderView in world space.
          */
-        Float3 position;
+        Float3 position = Math::ZERO;
 
         /**
          * @brief The direction the RenderView is facing in world space.
          */
-        Float3 direction;
-        
-		/**
-		 * @brief The RenderTarget to render to.
-		 */
-		RenderTargetHandle renderTarget = INVALID_HANDLE;
-
-		/**
-		 * @brief The Viewport to render to. Leave as INVALID_HANDLE to use the default viewport.
-		 */
-		ViewportHandle viewport = INVALID_HANDLE;
+        Float3 direction = Math::FORWARD;
     };
 }
