@@ -23,7 +23,7 @@ struct RenderManager::Impl
 #endif
 
 Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
-    : mp_impl(nullptr)
+    : mp_impl(nullptr), m_state(State::Idle)
 {
     mp_impl = new Impl(info);
 
@@ -274,19 +274,35 @@ Bool Minty::RenderManager::is_valid(RenderTargetHandle const handle) const
     return mp_impl->renderManager.is_valid(handle);
 }
 
-CameraHandle Minty::RenderManager::create(CameraInfo const &cameraInfo)
+RenderViewHandle Minty::RenderManager::create(RenderViewInfo const &renderViewInfo, Camera const& camera)
 {
-    return mp_impl->renderManager.create(cameraInfo);
+    return mp_impl->renderManager.create(renderViewInfo, camera);
 }
 
-void Minty::RenderManager::destroy(CameraHandle const handle)
+void Minty::RenderManager::destroy(RenderViewHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    return mp_impl->renderManager.destroy(handle);
 }
 
-Bool Minty::RenderManager::is_valid(CameraHandle const handle) const
+Bool Minty::RenderManager::is_valid(RenderViewHandle const handle) const
 {
     return mp_impl->renderManager.is_valid(handle);
+}
+
+void Minty::RenderManager::update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+{
+    mp_impl->renderManager.update_view(handle, position, direction);
+}
+
+void Minty::RenderManager::set_view(RenderViewHandle const handle)
+{
+    mp_impl->renderManager.set_view(handle);
+}
+
+void Minty::RenderManager::set_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+{
+    mp_impl->renderManager.update_view(handle, position, direction);
+    mp_impl->renderManager.set_view(handle);
 }
 
 RenderManager &Minty::RenderManager::get_instance()

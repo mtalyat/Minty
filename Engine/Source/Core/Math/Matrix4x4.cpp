@@ -75,3 +75,26 @@ Quaternion Minty::Math::extract_rotation(Matrix4 const& value)
 {
 	return extract_rotation(value, extract_scale(value));
 }
+
+Matrix4 Minty::Math::perspective(Float const fov, Float const aspectRatio, Float const nearPlane, Float const farPlane)
+{
+    return glm::perspectiveLH(fov, aspectRatio, nearPlane, farPlane);
+}
+
+Matrix4 Minty::Math::orthographic(Float const size, Float const aspectRatio, Float const nearPlane, Float const farPlane)
+{
+	float const orthoHeight = size;
+	float const orthoWidth = size * aspectRatio;
+
+	float const left = -orthoWidth * 0.5f;
+	float const right = orthoWidth * 0.5f;
+	float const bottom = -orthoHeight * 0.5f;
+	float const top = orthoHeight * 0.5f;
+
+    return glm::orthoLH(left, right, bottom, top, nearPlane, farPlane);
+}
+
+Matrix4 Minty::Math::look_at(Float3 const &eye, Float3 const &target, Float3 const &up)
+{
+    return glm::lookAtLH(eye, target, up);
+}

@@ -86,15 +86,6 @@ namespace Minty
 		Quaternion angle_axis(Float const angle, Float3 const& axis);
 
 		/// <summary>
-		/// Creates a Quaternion that looks at the target position from the given eye position, using the given up vector.
-		/// </summary>
-		/// <param name="eye">The location of the object that is looking.</param>
-		/// <param name="target">The location to look at.</param>
-		/// <param name="up">The up direction.</param>
-		/// <returns>A Quaternion reflecting the given values.</returns>
-		Quaternion look_at(Float3 const& eye, Float3 const& target, Float3 const& up = UP);
-
-		/// <summary>
 		/// Converts the given Quaternion to Euler angles.
 		/// </summary>
 		/// <param name="value">The rotation, as a Quaternion.</param>

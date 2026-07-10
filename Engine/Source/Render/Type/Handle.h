@@ -13,9 +13,6 @@ namespace Minty
     class Buffer;
     using BufferHandle = Handle<Buffer>;
 
-    class Camera;
-    using CameraHandle = Handle<Camera>;
-
     class Material;
     using MaterialHandle = Handle<Material>;
 
@@ -30,6 +27,9 @@ namespace Minty
 
     class RenderTarget;
     using RenderTargetHandle = Handle<RenderTarget>;
+
+    class RenderView;
+    using RenderViewHandle = Handle<RenderView>;
 
     class Shader;
     using ShaderHandle = Handle<Shader>;

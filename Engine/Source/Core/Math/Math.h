@@ -1265,12 +1265,6 @@ namespace Minty
 		
 
 #pragma endregion
-
-#pragma region Random
-
-		
-
-#pragma endregion
 	}
 
 #pragma endregion

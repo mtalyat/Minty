@@ -13,12 +13,13 @@
 #include "Render/Buffer/BufferInfo.h"
 #include "Render/Shader/ShaderInfo.h"
 #include "Render/Pipeline/PipelineInfo.h"
+#include "Render/RenderView/RenderViewInfo.h"
 #include "Core/Tool/Copy.h"
 #include "Core/Data/Map.h"
 #include "Resource/RenderPass/RenderAttachment.h"
 #include "Render/RenderPass/RenderPassInfo.h"
 #include "Render/RenderTarget/RenderTargetInfo.h"
-#include "Render/Camera/CameraInfo.h"
+#include "Render/Camera/Camera.h"
 
 using namespace Minty;
 
@@ -75,7 +76,8 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	  m_commandPool(VK_NULL_HANDLE),
 	  m_frames(),
 	  m_currentFrameIndex(0),
-	  m_passesMade(0)
+	  m_passesMade(0),
+	  m_activeRenderView(INVALID_HANDLE)
 {
 	// create instance
 	m_instance = Vulkan_Renderer::create_instance();
@@ -1064,7 +1066,7 @@ RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &r
 
 		// If this render target does not have a surface, use the provided images as the render target images
 		imageHandles = renderTargetInfo.images;
-	} 
+	}
 	else
 	{
 		MINTY_ASSERT(is_valid(renderTargetInfo.surface), ErrorCodeEnum::Argument_InvalidHandle);
@@ -1113,46 +1115,78 @@ Bool Minty::Vulkan_RenderManager::is_valid(RenderTargetHandle const handle) cons
 	return m_renderTargetDataPool.contains(handle);
 }
 
-CameraHandle Minty::Vulkan_RenderManager::create(CameraInfo const &cameraInfo)
+RenderViewHandle Minty::Vulkan_RenderManager::create(RenderViewInfo const &renderViewInfo, Camera const &camera)
 {
-	MINTY_ASSERT(cameraInfo.renderTarget != INVALID_HANDLE, ErrorCodeEnum::Argument_InvalidHandle);
-
 	// Create the Vulkan data
-	Vulkan_CameraData cameraData{};
-	cameraData.aspectRatio = cameraInfo.aspectRatio;
-	cameraData.color = cameraInfo.color;
-	cameraData.farPlane = cameraInfo.farPlane;
-	cameraData.fov = cameraInfo.fov;
-	cameraData.mask = cameraInfo.mask;
-	cameraData.nearPlane = cameraInfo.nearPlane;
-	cameraData.perspective = cameraInfo.perspective;
-	cameraData.renderTarget = cameraInfo.renderTarget;
-	cameraData.size = cameraInfo.size;
+	Vulkan_RenderViewData renderViewData{};
+	renderViewData.position = renderViewInfo.position;
 
-	// Use the default viewport if none is provided
-	if (cameraInfo.viewport == INVALID_HANDLE)
+	// Create the projection matrix based on the camera's perspective or orthographic settings
+	switch (camera.perspective)
 	{
-		cameraData.viewport = m_defaultViewport;
-	}
-	else
-	{
-		MINTY_ASSERT(is_valid(cameraInfo.viewport), ErrorCodeEnum::Argument_InvalidHandle);
-		cameraData.viewport = cameraInfo.viewport;
+	case CameraPerspectiveEnum::Perspective:
+		renderViewData.projectionMatrix = Math::perspective(
+			camera.fov,
+			camera.aspectRatio,
+			camera.nearPlane,
+			camera.farPlane);
+		break;
+	case CameraPerspectiveEnum::Orthographic:
+		renderViewData.projectionMatrix = Math::orthographic(
+			camera.size,
+			camera.aspectRatio,
+			camera.nearPlane,
+			camera.farPlane);
+		break;
+	default:
+		MINTY_NOT_IMPLEMENTED(); // "Unsupported camera perspective type."
 	}
 
-	// Add to pool and return handle
-	return m_cameraDataPool.add(std::move(cameraData));
+	// Add to pool
+	RenderViewHandle const handle = m_renderViewDataPool.add(std::move(renderViewData));
+
+	// Create the view matrix based on the camera's position and direction
+	update_view(handle, renderViewInfo.position, camera.direction);
+
+	// If the active render view is invalid, set it to this one
+	if (m_activeRenderView == INVALID_HANDLE)
+	{
+		m_activeRenderView = handle;
+	}
+
+	// Return the handle
+	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(CameraHandle const handle)
+void Minty::Vulkan_RenderManager::destroy(RenderViewHandle const handle)
 {
-	MINTY_ASSERT(m_cameraDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
-	m_cameraDataPool.remove(handle);
+	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	m_renderViewDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(CameraHandle const handle) const
+Bool Minty::Vulkan_RenderManager::is_valid(RenderViewHandle const handle) const
 {
-	return m_cameraDataPool.contains(handle);
+	return m_renderViewDataPool.contains(handle);
+}
+
+void Minty::Vulkan_RenderManager::update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+{
+	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// get the render view data
+	Vulkan_RenderViewData &renderViewData = m_renderViewDataPool.at(handle);
+
+	// create the view matrix based on the position and direction
+	renderViewData.viewMatrix = Math::look_at(position, position + direction, Math::UP);
+	renderViewData.viewProjectionMatrix = renderViewData.projectionMatrix * renderViewData.viewMatrix;
+}
+
+void Minty::Vulkan_RenderManager::set_view(RenderViewHandle const handle)
+{
+	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	m_activeRenderView = handle;
 }
 
 void Minty::Vulkan_RenderManager::create_depth_resources()

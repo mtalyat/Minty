@@ -84,5 +84,11 @@ namespace Minty
 		/// <param name="value">The matrix.</param>
 		/// <returns>The rotation.</returns>
 		Quaternion extract_rotation(Matrix4 const& value);
+
+		Matrix4 perspective(Float const fov, Float const aspectRatio, Float const nearPlane, Float const farPlane);
+
+		Matrix4 orthographic(Float const size, Float const aspectRatio, Float const nearPlane, Float const farPlane);
+
+		Matrix4 look_at(Float3 const& eye, Float3 const& target, Float3 const& up = UP);
     }
 }

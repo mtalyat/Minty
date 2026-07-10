@@ -14,9 +14,9 @@
 #include "Vulkan_Surface.h"
 #include "Vulkan_Viewport.h"
 #include "Vulkan_Buffer.h"
-#include "Vulkan_Camera.h"
 #include "Vulkan_RenderTarget.h"
 #include "Vulkan_RenderPass.h"
+#include "Vulkan_RenderView.h"
 #include "Core/Data/Array.h"
 #include "Core/Data/HandlePool.h"
 #include "Core/Data/IndexPool.h"
@@ -35,9 +35,11 @@ namespace Minty
     struct SurfaceInfo;
     struct TextureInfo;
     struct ViewportInfo;
-    struct RenderPassInfo;
     struct RenderAttachment;
+    struct RenderPassInfo;
     struct RenderTargetInfo;
+    struct RenderViewInfo;
+    struct Camera;
 
     using Vulkan_PipelineLayoutHandle = Handle<Vulkan_PipelineLayoutData>;
 
@@ -92,9 +94,11 @@ namespace Minty
         void destroy(RenderTargetHandle const handle);
         Bool is_valid(RenderTargetHandle const handle) const;
 
-        CameraHandle create(CameraInfo const &cameraInfo);
-        void destroy(CameraHandle const handle);
-        Bool is_valid(CameraHandle const handle) const;
+        RenderViewHandle create(RenderViewInfo const &renderViewInfo, Camera const& camera);
+        void destroy(RenderViewHandle const handle);
+        Bool is_valid(RenderViewHandle const handle) const;
+        void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+        void set_view(RenderViewHandle const handle);
         
     private:
         void create_depth_resources();
@@ -134,11 +138,11 @@ namespace Minty
 
         // external pools
         HandlePool<Vulkan_BufferData, Buffer> m_bufferDataPool;
-        HandlePool<Vulkan_CameraData, Camera> m_cameraDataPool;
         HandlePool<Vulkan_MaterialData, Material> m_materialDataPool;
         HandlePool<Vulkan_PipelineData, Pipeline> m_pipelineDataPool;
         HandlePool<Vulkan_RenderPassData, RenderPass> m_renderPassDataPool;
         HandlePool<Vulkan_RenderTargetData, RenderTarget> m_renderTargetDataPool;
+        HandlePool<Vulkan_RenderViewData, RenderView> m_renderViewDataPool;
         HandlePool<Vulkan_ShaderData, Shader> m_shaderDataPool;
         HandlePool<Vulkan_SurfaceData, Surface> m_surfaceDataPool;
         HandlePool<Vulkan_TextureData, Texture> m_textureDataPool;
@@ -151,6 +155,9 @@ namespace Minty
         SurfaceHandle m_surface;
         TextureHandle m_depthStencilImage;
         ViewportHandle m_defaultViewport;
+
+        // active objects
+        RenderViewHandle m_activeRenderView;
         
 #pragma endregion
     };

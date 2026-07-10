@@ -16,16 +16,17 @@ namespace Minty
 {
     struct RenderManagerInfo;
     struct BufferInfo;
-    struct CameraInfo;
     struct ImageInfo;
     struct MaterialInfo;
     struct PipelineInfo;
     struct RenderPassInfo;
     struct RenderTargetInfo;
+    struct RenderViewInfo;
     struct ShaderInfo;
     struct SurfaceInfo;
     struct TextureInfo;
     struct ViewportInfo;
+    struct Camera;
 
     class RenderManager
     {
@@ -33,6 +34,19 @@ namespace Minty
 
     public:
         struct Impl;
+
+    private:
+        enum class State
+        {
+            // Not doing anything
+            Idle,
+
+            // Rendering a frame
+            Frame,
+
+            // Rendering a render pass
+            Pass
+        };
 
 #pragma endregion
 
@@ -96,9 +110,18 @@ namespace Minty
         void destroy(RenderTargetHandle const handle);
         Bool is_valid(RenderTargetHandle const handle) const;
 
-        CameraHandle create(CameraInfo const &cameraInfo);
-        void destroy(CameraHandle const handle);
-        Bool is_valid(CameraHandle const handle) const;
+        RenderViewHandle create(RenderViewInfo const &renderViewInfo, Camera const& camera);
+        void destroy(RenderViewHandle const handle);
+        Bool is_valid(RenderViewHandle const handle) const;
+        void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+        void set_view(RenderViewHandle const handle);
+        void set_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+
+        void begin_frame();
+        void end_frame();
+
+        void begin_pass(RenderPassHandle const handle);
+        void end_pass();
 
         /**
          * @brief Gets the singleton instance of the RenderManager.
@@ -182,6 +205,8 @@ namespace Minty
         Map<ShaderResourceHandle, ShaderHandle> m_shaderCache;
         Map<RenderPassResourceHandle, RenderPassHandle> m_renderPassCache;
         Map<PipelineResourceHandle, PipelineHandle> m_pipelineCache;
+
+        State m_state;
 
         static RenderManager *s_instance;
 
