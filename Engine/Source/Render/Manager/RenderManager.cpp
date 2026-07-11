@@ -482,6 +482,11 @@ void Minty::RenderManager::end_pass()
     m_state = State::Frame;
 }
 
+void Minty::RenderManager::draw()
+{
+    mp_impl->renderManager.draw();
+}
+
 RenderManager &Minty::RenderManager::get_instance()
 {
     MINTY_ASSERT(s_instance != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);

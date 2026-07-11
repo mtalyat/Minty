@@ -134,6 +134,9 @@ namespace Minty
         Bool begin_pass(RenderPassHandle const handle);
         void end_pass();
 
+        // draw the bound objects (geometry, material, pipeline, render view)
+        void draw();
+
         /**
          * @brief Gets the singleton instance of the RenderManager.
          * @return The RenderManager instance.

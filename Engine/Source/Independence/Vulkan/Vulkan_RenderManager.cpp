@@ -1505,6 +1505,24 @@ void Minty::Vulkan_RenderManager::end_pass()
 	Vulkan_Renderer::end_render_pass(currentFrame.commandBuffer);
 }
 
+void Minty::Vulkan_RenderManager::draw()
+{
+	// Make sure there is something to draw
+	MINTY_ASSERT(m_boundGeometry != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
+
+	// Get the current frame data
+	Vulkan_Frame const &currentFrame = get_current_frame();
+
+	// Get the geometry data
+	Vulkan_GeometryData const &geometryData = m_geometryDataPool.at(m_boundGeometry);
+
+	// Draw the geometry
+	Vulkan_Renderer::draw(
+		currentFrame.commandBuffer,
+		geometryData.vertexCount,
+		1);
+}
+
 void Minty::Vulkan_RenderManager::sync()
 {
 	// Sync the device

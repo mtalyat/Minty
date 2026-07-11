@@ -116,6 +116,9 @@ namespace Minty
         Bool begin_pass(RenderPassHandle const handle);
         void end_pass();
 
+        // draw the bound object
+        void draw();
+
         // sync the GPU with the CPU, waiting for all commands to finish executing
         void sync();
 
