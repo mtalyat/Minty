@@ -14,6 +14,7 @@
 #include "Render/Shader/ShaderInfo.h"
 #include "Render/Pipeline/PipelineInfo.h"
 #include "Render/RenderView/RenderViewInfo.h"
+#include "Render/Geometry/GeometryInfo.h"
 #include "Core/Tool/Copy.h"
 #include "Core/Data/Map.h"
 #include "Resource/RenderPass/RenderAttachment.h"
@@ -244,7 +245,7 @@ Bool Minty::Vulkan_RenderManager::is_valid(TextureHandle const handle) const
 	return m_textureDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::set_data(TextureHandle const handle, Span<Byte> const data)
+void Minty::Vulkan_RenderManager::set_data(TextureHandle const handle, View const data)
 {
 	MINTY_ASSERT(!data.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -440,7 +441,7 @@ Bool Minty::Vulkan_RenderManager::is_valid(BufferHandle const handle) const
 	return m_bufferDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, Span<Byte> const data)
+void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, View const data)
 {
 	MINTY_ASSERT(!data.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -462,7 +463,7 @@ void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, Span<Byte>
 
 	// copy data to staging buffer
 	Pointer const mappedMemory = Vulkan_Renderer::map_memory(m_device, stagingBufferMemory, 0, bufferData.size);
-	Tool::copy(data.get_data(), mappedMemory, data.get_size());
+		Tool::copy(data.get_data(), mappedMemory, data.get_size());
 	Vulkan_Renderer::unmap_memory(m_device, stagingBufferMemory);
 
 	// copy from staging buffer to buffer
@@ -1167,6 +1168,60 @@ void Minty::Vulkan_RenderManager::set_view(RenderViewHandle const handle)
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
 	m_activeRenderView = handle;
+}
+
+GeometryHandle Minty::Vulkan_RenderManager::create(GeometryInfo const &geometryInfo)
+{
+	MINTY_ASSERT(!geometryInfo.vertexData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(geometryInfo.vertexStride > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(!geometryInfo.indexData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(geometryInfo.indexStride > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
+
+	// Create the Vulkan data
+	Vulkan_GeometryData geometryData{};
+	geometryData.vertexCount = geometryInfo.vertexData.get_size() / geometryInfo.vertexStride;
+	geometryData.vertexStride = geometryInfo.vertexStride;
+	geometryData.indexCount = geometryInfo.indexData.get_size() / geometryInfo.indexStride;
+	geometryData.indexStride = geometryInfo.indexStride;
+
+	// Create the buffers
+	BufferInfo bufferInfo{};
+	bufferInfo.frequent = false;
+
+	// Create the vertex buffer
+	bufferInfo.data = geometryInfo.vertexData;
+	bufferInfo.usage = BufferUsageFlagsEnum::Vertex;
+	geometryData.vertexBuffer = create(bufferInfo);
+
+	// Create the index buffer
+	bufferInfo.data = geometryInfo.indexData;
+	bufferInfo.usage = BufferUsageFlagsEnum::Index;
+	geometryData.indexBuffer = create(bufferInfo);
+
+	// Add to pool and return handle
+	return m_geometryDataPool.add(std::move(geometryData));
+}
+
+void Minty::Vulkan_RenderManager::destroy(GeometryHandle const handle)
+{
+	MINTY_ASSERT(m_geometryDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// Get the geometry data
+	Vulkan_GeometryData const &geometryData = m_geometryDataPool.at(handle);
+
+	// Destroy the vertex buffer
+	destroy(geometryData.vertexBuffer);
+
+	// Destroy the index buffer
+	destroy(geometryData.indexBuffer);
+
+	// Remove from pool
+	m_geometryDataPool.remove(handle);
+}
+
+Bool Minty::Vulkan_RenderManager::is_valid(GeometryHandle const handle) const
+{
+    return m_geometryDataPool.contains(handle);
 }
 
 Bool Minty::Vulkan_RenderManager::begin_frame()

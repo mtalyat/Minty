@@ -46,7 +46,7 @@ ClipHandle Minty::SoLoud_AudioManager::create(ClipResourceHandle const resourceH
     
     // add data to an info and create a clip from it
     ClipInfo clipInfo{};
-    clipInfo.data = clipResource.data.span();
+    clipInfo.data = clipResource.data.view();
     clipInfo.volume = clipResource.volume;
     clipInfo.loopPoint = clipResource.loopPoint;
     clipInfo.looping = clipResource.looping;
@@ -65,7 +65,7 @@ ClipHandle Minty::SoLoud_AudioManager::create(ClipInfo const &clipInfo)
     MINTY_ASSERT(!clipInfo.data.is_empty(), ErrorCodeEnum::Audio_FailedToLoadClip);
     MINTY_ASSERT(clipInfo.data.get_size() <= static_cast<Size>(UINT_MAX), ErrorCodeEnum::Audio_FailedToLoadClip);
     SoLoud::result const result = clipData.wav.loadMem(
-        clipInfo.data.get_data(),
+        static_cast<unsigned char const*>(clipInfo.data.get_data()),
         static_cast<unsigned int>(clipInfo.data.get_size()),
         false,
         false

@@ -20,7 +20,7 @@ namespace Minty
         /**
          * @brief The data of the Buffer.
          */
-        Span<Byte> data = {};
+        View data = {};
 
         /**
          * @brief The usage of the Buffer.

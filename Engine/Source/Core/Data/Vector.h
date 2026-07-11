@@ -215,6 +215,9 @@ namespace Minty
 		// Implicit conversion to Span
 		operator Span<T>() const { return Span<T>(mp_data, m_size); }
 
+		// Implicit conversion to View
+		operator View() const { return View(mp_data, m_size); }
+
 #pragma endregion
 
 #pragma region Accessor
@@ -565,6 +568,14 @@ namespace Minty
 
             return Span<T>(mp_data + index, Math::min(length, get_size() - index));
         }
+
+		View view(Size const index = 0, Size const length = MAX_SIZE) const
+		{
+			MINTY_ASSERT_A(is_empty() || index < get_size(), ErrorCodeEnum::Argument_OutOfRange, index);
+			MINTY_ASSERT_A(length == MAX_SIZE || index + length <= get_size(), ErrorCodeEnum::Argument_InvalidSize, length);
+
+			return View(mp_data + index, Math::min(length, get_size() - index));
+		}
 
 		/**
 		 * @brief Finds the first occurrence of the given value.

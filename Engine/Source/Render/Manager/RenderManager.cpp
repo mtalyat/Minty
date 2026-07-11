@@ -366,6 +366,21 @@ void Minty::RenderManager::set_view(RenderViewHandle const handle, Float3 const 
     mp_impl->renderManager.set_view(handle);
 }
 
+GeometryHandle Minty::RenderManager::create(GeometryInfo const &geometryInfo)
+{
+    return mp_impl->renderManager.create(geometryInfo);
+}
+
+void Minty::RenderManager::destroy(GeometryHandle const handle)
+{
+    mp_impl->renderManager.destroy(handle);
+}
+
+Bool Minty::RenderManager::is_valid(GeometryHandle const handle) const
+{
+    return mp_impl->renderManager.is_valid(handle);
+}
+
 void Minty::RenderManager::begin_frame()
 {
     // validate state

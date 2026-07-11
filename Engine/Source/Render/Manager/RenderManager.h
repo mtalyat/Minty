@@ -17,6 +17,7 @@ namespace Minty
     struct RenderManagerInfo;
     struct BufferInfo;
     struct ImageInfo;
+    struct GeometryInfo;
     struct MaterialInfo;
     struct PipelineInfo;
     struct RenderPassInfo;
@@ -118,6 +119,10 @@ namespace Minty
         void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
         void set_view(RenderViewHandle const handle);
         void set_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+
+        GeometryHandle create(GeometryInfo const &geometryInfo);
+        void destroy(GeometryHandle const handle);
+        Bool is_valid(GeometryHandle const handle) const;
 
         void begin_frame();
         void end_frame();

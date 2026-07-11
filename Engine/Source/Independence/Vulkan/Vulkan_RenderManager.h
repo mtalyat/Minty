@@ -6,20 +6,22 @@
  * @author Mitchell Talyat
  */
 
-#include "Vulkan_Texture.h"
+#include "Vulkan_Buffer.h"
 #include "Vulkan_Frame.h"
+#include "Vulkan_Geometry.h"
 #include "Vulkan_Material.h"
 #include "Vulkan_Pipeline.h"
-#include "Vulkan_Shader.h"
-#include "Vulkan_Surface.h"
-#include "Vulkan_Viewport.h"
-#include "Vulkan_Buffer.h"
 #include "Vulkan_RenderTarget.h"
 #include "Vulkan_RenderPass.h"
 #include "Vulkan_RenderView.h"
+#include "Vulkan_Shader.h"
+#include "Vulkan_Surface.h"
+#include "Vulkan_Texture.h"
+#include "Vulkan_Viewport.h"
 #include "Core/Data/Array.h"
 #include "Core/Data/HandlePool.h"
 #include "Core/Data/IndexPool.h"
+#include "Core/Data/View.h"
 #include "Render/Constant/Render.h"
 #include "Render/Type/Handle.h"
 #include "Resource/Image/ImageLayout.h"
@@ -29,6 +31,7 @@ namespace Minty
     struct RenderManagerInfo;
     struct BufferInfo;
     struct CameraInfo;
+    struct GeometryInfo;
     struct MaterialInfo;
     struct PipelineInfo;
     struct ShaderInfo;
@@ -59,7 +62,7 @@ namespace Minty
         TextureHandle create(TextureInfo const &info);
         void destroy(TextureHandle const handle);
         Bool is_valid(TextureHandle const handle) const;
-        void set_data(TextureHandle const handle, Span<Byte> const data);
+        void set_data(TextureHandle const handle, View const data);
 
         SurfaceHandle create(SurfaceInfo const &surfaceInfo);
         void destroy(SurfaceHandle const handle);
@@ -72,7 +75,7 @@ namespace Minty
         BufferHandle create(BufferInfo const &bufferInfo);
         void destroy(BufferHandle const handle);
         Bool is_valid(BufferHandle const handle) const;
-        void set_data(BufferHandle const handle, Span<Byte> const data);
+        void set_data(BufferHandle const handle, View const data);
 
         ShaderHandle create(ShaderInfo const &shaderInfo);
         void destroy(ShaderHandle const handle);
@@ -99,6 +102,10 @@ namespace Minty
         Bool is_valid(RenderViewHandle const handle) const;
         void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
         void set_view(RenderViewHandle const handle);
+
+        GeometryHandle create(GeometryInfo const &geometryInfo);
+        void destroy(GeometryHandle const handle);
+        Bool is_valid(GeometryHandle const handle) const;
 
         Bool begin_frame();
         void end_frame();
@@ -157,6 +164,7 @@ namespace Minty
 
         // external pools
         HandlePool<Vulkan_BufferData, Buffer> m_bufferDataPool;
+        HandlePool<Vulkan_GeometryData, Geometry> m_geometryDataPool;
         HandlePool<Vulkan_MaterialData, Material> m_materialDataPool;
         HandlePool<Vulkan_PipelineData, Pipeline> m_pipelineDataPool;
         HandlePool<Vulkan_RenderPassData, RenderPass> m_renderPassDataPool;

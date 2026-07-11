@@ -15,7 +15,7 @@
 #include "Resource/Image/ImageUsage.h"
 #include "Platform/Type/Primitive.h"
 #include "Core/Type/UInt2.h"
-#include "Core/Data/Span.h"
+#include "Core/Data/View.h"
 
 namespace Minty
 {
@@ -35,7 +35,7 @@ namespace Minty
         /**
          * @brief The data for the texture.
          */
-        Span<Byte> data = {};
+        View data = {};
 
         /**
          * @brief The format of the texture.

@@ -2,7 +2,7 @@
 
 /**
  * @file MeshResource.h
- * @brief Header file defining the MeshResource class.
+ * @brief Header file defining the MeshResource struct.
  * @author Mitchell Talyat
  */
 

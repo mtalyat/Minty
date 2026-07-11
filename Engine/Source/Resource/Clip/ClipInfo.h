@@ -8,6 +8,7 @@
 
 #include "Platform/Type/Primitive.h"
 #include "Core/Data/ConstantContainer.h"
+#include "Core/Data/View.h"
 
 namespace Minty
 {
@@ -19,7 +20,7 @@ namespace Minty
         /**
          * @brief The raw audio data of the clip.
          */
-        Span<Byte> data = {};
+        View data = {};
         
         /**
          * @brief The volume of the audio clip, ranging from 0.0f (silent) to 1.0f (full volume).

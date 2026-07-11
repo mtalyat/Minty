@@ -13,6 +13,9 @@ namespace Minty
     class Buffer;
     using BufferHandle = Handle<Buffer>;
 
+    class Geometry;
+    using GeometryHandle = Handle<Geometry>;
+
     class Material;
     using MaterialHandle = Handle<Material>;
 

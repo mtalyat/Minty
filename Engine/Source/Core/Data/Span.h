@@ -7,6 +7,7 @@
  */
 
 #include "Platform/Type/Primitive.h"
+#include "Core/Data/View.h"
 
 namespace Minty
 {
@@ -50,17 +51,6 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Accessor
-
-    public:
-        inline Size get_size() const { return m_size; }
-
-        inline T *get_data() { return mp_data; }
-
-        inline T const *get_data() const { return mp_data; }
-
-#pragma endregion
-
 #pragma region Operator
 
         T &operator[](Size const index)
@@ -75,11 +65,20 @@ namespace Minty
             return mp_data[index];
         }
 
+        // Implicit conversion to View
+        operator View() const { return View(mp_data, m_size); }
+
 #pragma endregion
 
 #pragma region Accessor
 
     public:
+        inline Size get_size() const { return m_size; }
+
+        inline T *get_data() { return mp_data; }
+
+        inline T const *get_data() const { return mp_data; }
+
         /**
          * @brief Checks if this Span is empty (contains no elements).
          * @return True if the span is empty, false otherwise.
@@ -99,6 +98,24 @@ namespace Minty
         }
 
 #pragma endregion
+
+#pragma region Method
+
+        public:
+        inline Span<T> sub(Size const index, Size const length = MAX_SIZE) const
+        {
+            MINTY_ASSERT(is_empty() || index < get_size(), ErrorCodeEnum::Argument_OutOfRange);
+            MINTY_ASSERT(length == MAX_SIZE || index + length <= get_size(), ErrorCodeEnum::Argument_InvalidSize);
+
+            return Span<T>(mp_data + index, Math::min(length, get_size() - index));
+        }
+
+        inline View view() const
+        {
+            return View(mp_data, m_size);
+        }
+
+        #pragma endregion
 
 #pragma region Variable
 

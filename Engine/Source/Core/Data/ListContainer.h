@@ -62,6 +62,12 @@ namespace Minty
 		}
 
 		/**
+		 * @brief Gets the size of this Container in bytes.
+		 * @returns The size in bytes.
+		 */
+		inline Size get_size() const override { return m_size; }
+
+		/**
 		 * @brief Gets the number of elements in this Container.
 		 * @returns The number of elements.
 		 */

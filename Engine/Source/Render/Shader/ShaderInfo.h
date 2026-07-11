@@ -7,7 +7,7 @@
  */
 
 #include "Resource/Constant/Resource.h"
-#include "Core/Data/Span.h"
+#include "Core/Data/View.h"
 #include "Core/Data/StringView.h"
 #include "Resource/Shader/ShaderStage.h"
 
@@ -21,7 +21,7 @@ namespace Minty
         /**
          * @brief The raw byte data of the shader module. This should be in SPIR-V format for Vulkan.
          */
-        Span<Byte> data = {};
+        View data = {};
 
         /**
          * @brief The stage of the shader (vertex, fragment, etc.). This is used to determine how to use the shader module in the pipeline.
