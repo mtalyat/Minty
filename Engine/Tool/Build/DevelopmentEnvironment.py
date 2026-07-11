@@ -310,6 +310,25 @@ def _create_final_library(config_name: str, verbose: bool = False) -> int:
 
     vendor_libs = [Path(lib) for lib in vendor_libs if Path(lib).exists()]
 
+    if final_library.exists():
+        newest_input = 0.0
+        for input_library in [*input_libraries, *vendor_libs]:
+            try:
+                newest_input = max(newest_input, input_library.stat().st_mtime)
+            except OSError:
+                newest_input = 0.0
+                break
+
+        try:
+            final_mtime = final_library.stat().st_mtime
+        except OSError:
+            final_mtime = -1.0
+
+        if newest_input and final_mtime >= newest_input:
+            print(f'{final_library.name} is up to date; skipping merge.')
+            print_line(char=LINE_CHAR_LARGE)
+            return 0
+
     library_tool, use_link_lib_mode = _find_library_tool()
     if not library_tool:
         print('Error: unable to find MSVC library tool. Expected lib.exe (or link.exe) in PATH or discoverable through vswhere.')
@@ -429,6 +448,7 @@ def main() -> int:
             'cmake',
             '--build', str(build_dir),
             '--config', config_name,
+            '--parallel',
         ]
         if project_name != 'All':
             build_command.extend(['--target', f'minty_{project_name.lower()}'])

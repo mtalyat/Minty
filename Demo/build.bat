@@ -40,7 +40,7 @@ if errorlevel 1 (
 )
 
 echo [build] Building demo_app (%CONFIG%)...
-cmake --build "%BUILD_DIR%" --config "%CONFIG%" --target demo_app
+cmake --build "%BUILD_DIR%" --config "%CONFIG%" --target demo_app --parallel
 if errorlevel 1 (
     echo [build] Build failed.
     exit /b 1
