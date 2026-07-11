@@ -228,12 +228,12 @@ namespace Minty
 			Vector<StringView> unsortedTokens(tokens);
 
 			// clear output
-			tokens.clear();
+			tokens.clear(); 
 
 			// temp stack of operators
-			Stack<String> operators;
+			Stack<StringView> operators;
 
-			String token;
+			StringView token;
 			Float value;
 			for (auto const &token : unsortedTokens)
 			{

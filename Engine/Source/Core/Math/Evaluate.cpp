@@ -162,7 +162,7 @@ Vector<StringView> Minty::Internal::split_into_tokens(StringView const expressio
 	std::regex tokenRegex(R"(0[xX][a-fA-F0-9]+|0[bB][01]+|-?\d+(\.\d+)?|[a-zA-Z]+|\+|\-|\*\*|\*|\/|\%|\&|\||\^|\~|\(|\))");
 	Vector<StringView> tokens;
 
-	std::string stdExpression = expression.get_data();
+	std::string stdExpression = std::string(expression.get_data(), expression.get_size());
 	auto words_begin = std::sregex_iterator(stdExpression.begin(), stdExpression.end(), tokenRegex);
 	auto words_end = std::sregex_iterator();
 
@@ -170,7 +170,8 @@ Vector<StringView> Minty::Internal::split_into_tokens(StringView const expressio
 		std::smatch match = *i;
 		size_t index = match.position();
 		size_t size = match.length();
-		tokens.add(expression.sub(index, size));
+		StringView token = expression.sub(index, size);
+		tokens.add(std::move(token));
 	}
 
 	return tokens;
@@ -182,8 +183,8 @@ Vector<StringView> Minty::Internal::split_into_args(StringView const expression)
 	MINTY_ASSERT(expression.front() == '(', ErrorCodeEnum::Argument_InvalidFormat);
 	MINTY_ASSERT(expression.back() == ')', ErrorCodeEnum::Argument_InvalidFormat);
 
-	// remove ()
-	String text = expression.sub(1, expression.get_size() - 2);
+	// remove outside ()
+	StringView text = expression.sub(1, expression.get_size() - 2);
 
 	// split by commas, but ignore commas inside parentheses
 	return Tool::split_smart(text, ',', "(", ")");

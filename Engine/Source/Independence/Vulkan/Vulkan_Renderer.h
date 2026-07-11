@@ -17,7 +17,7 @@
 
 namespace Minty
 {
-	class Vulkan_SurfaceData;
+	struct Vulkan_SurfaceData;
 	class Window;
 
 	class Vulkan_Renderer

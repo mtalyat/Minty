@@ -76,7 +76,6 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	  m_commandPool(VK_NULL_HANDLE),
 	  m_frames(),
 	  m_currentFrameIndex(0),
-	  m_passesMade(0),
 	  m_defaultRenderTarget(INVALID_HANDLE),
 	  m_activeRenderView(INVALID_HANDLE)
 {
@@ -1211,15 +1210,14 @@ Bool Minty::Vulkan_RenderManager::begin_frame()
 
 void Minty::Vulkan_RenderManager::end_frame()
 {
-	// If no passes made, abort the frame
-	if (m_passesMade == 0)
-	{
-		abort_frame();
-		return;
-	}
-
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
+	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
+
+	// Always ensure the acquired swapchain image is in present layout before submission.
+	MINTY_ASSERT(surfaceData.index < surfaceData.images.get_size(), ErrorCodeEnum::Argument_OutOfRange);
+	TextureHandle const imageHandle = surfaceData.images.at(surfaceData.index);
+	transition_layout(currentFrame.commandBuffer, imageHandle, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
 
 	// End the command buffer recording for this frame
 	Vulkan_Renderer::end_command_buffer(currentFrame.commandBuffer);
@@ -1231,7 +1229,6 @@ void Minty::Vulkan_RenderManager::end_frame()
 		m_graphicsQueue);
 
 	// Preset the current frame
-	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
 	VkResult const presentResult = Vulkan_Renderer::present_frame(
 		m_presentQueue,
 		surfaceData,
@@ -1271,6 +1268,9 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	MINTY_ASSERT(m_viewportDataPool.contains(renderPassData.viewport), ErrorCodeEnum::Object_InvalidState);
 	Vulkan_ViewportData const &viewportData = m_viewportDataPool.at(renderPassData.viewport);
 
+	// Get current surface data for swapchain image index
+	Vulkan_SurfaceData const &surfaceData = m_surfaceDataPool.at(m_surface);
+
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
 
@@ -1283,7 +1283,7 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	Vulkan_Renderer::begin_render_pass(
 		currentFrame.commandBuffer,
 		renderPassData.renderPass,
-		renderPassData.framebuffers.at(m_currentFrameIndex),
+		renderPassData.framebuffers.at(surfaceData.index),
 		renderArea,
 		renderPassData.clearColor);
 
@@ -1297,9 +1297,6 @@ void Minty::Vulkan_RenderManager::end_pass()
 
 	// End the render pass
 	Vulkan_Renderer::end_render_pass(currentFrame.commandBuffer);
-
-	// Increment the pass count
-	m_passesMade += 1;
 }
 
 void Minty::Vulkan_RenderManager::sync()

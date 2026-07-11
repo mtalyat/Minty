@@ -368,8 +368,8 @@ void Minty::RenderManager::set_view(RenderViewHandle const handle, Float3 const 
 void Minty::RenderManager::begin_frame()
 {
     // validate state
-    MINTY_ASSERT(m_state != State::Frame, ErrorCodeEnum::Render_AlreadyRenderingFrame);
-    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    MINTY_ASSERT(m_state < State::Frame, ErrorCodeEnum::Render_AlreadyRenderingFrame);
+    MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
     m_state = State::Frame;
 
     mp_impl->renderManager.begin_frame();
@@ -378,8 +378,8 @@ void Minty::RenderManager::begin_frame()
 void Minty::RenderManager::end_frame()
 {
     // validate state
-    MINTY_ASSERT(m_state != State::Idle, ErrorCodeEnum::Render_NotRenderingFrame);
-    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
     mp_impl->renderManager.end_frame();
     
@@ -389,8 +389,8 @@ void Minty::RenderManager::end_frame()
 void Minty::RenderManager::begin_pass(RenderPassHandle const handle)
 {
     // validate state
-    MINTY_ASSERT(m_state != State::Idle, ErrorCodeEnum::Render_NotRenderingFrame);
-    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
     m_state = State::Pass;
 
@@ -400,8 +400,8 @@ void Minty::RenderManager::begin_pass(RenderPassHandle const handle)
 void Minty::RenderManager::end_pass()
 {
     // validate state
-    MINTY_ASSERT(m_state != State::Idle, ErrorCodeEnum::Render_NotRenderingFrame);
-    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
+    MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
     mp_impl->renderManager.end_pass();
 

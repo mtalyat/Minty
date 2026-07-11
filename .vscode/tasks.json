@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Engine (Debug)",
+      "type": "shell",
+      "command": ".\\build_all.bat",
+      "options": {
+        "cwd": "${workspaceFolder:Minty}/Engine"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Demo (Debug)",
+      "type": "shell",
+      "command": ".\\build.bat Debug",
+      "options": {
+        "cwd": "${workspaceFolder:Minty}/Demo"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Demo Stack (Debug)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build Engine (Debug)",
+        "Build Demo (Debug)"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

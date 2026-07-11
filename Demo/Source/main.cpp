@@ -51,9 +51,18 @@ int main()
     RenderViewInfo renderViewInfo{};
     RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);
 
+    // SETUP
+    renderManager.set_view(renderViewHandle);
+
+    // MAIN LOOP
     while (windowManager.is_open(window))
     {
         windowManager.process_events();
+
+        renderManager.begin_frame();
+        renderManager.begin_pass(renderPassHandle);
+        renderManager.end_pass();
+        renderManager.end_frame();
     }
 
 	return 0;

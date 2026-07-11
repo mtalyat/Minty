@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Demo Debug",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder:Minty}/Demo/Output/Debug/demo_app.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder:Minty}/Demo",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "Build Demo (Debug)"
+    },
+    {
+      "name": "Demo Debug (Rebuild Engine)",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder:Minty}/Demo/Output/Debug/demo_app.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder:Minty}/Demo",
+      "environment": [],
+      "console": "integratedTerminal",
+      "preLaunchTask": "Build Demo Stack (Debug)"
+    }
+  ]
+}
