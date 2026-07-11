@@ -57,21 +57,31 @@ int main()
     // MAIN LOOP
     while (windowManager.is_open(window))
     {
+        // Process events
         windowManager.process_events();
 
-        if (renderManager.begin_frame())
+        // Begin frame and pass
+        if (!renderManager.begin_frame())
         {
-            if (renderManager.begin_pass(renderPassHandle))
-            {
-                renderManager.bind(renderViewHandle);
-                renderManager.bind(pipelineHandle);
-                renderManager.bind(materialHandle);
-                renderManager.bind(geometryHandle);
-
-                renderManager.end_pass();
-            }
-            renderManager.end_frame();
+            continue;
         }
+        if (!renderManager.begin_pass(renderPassHandle))
+        {
+            renderManager.end_frame();
+            continue;
+        }
+
+        // Bind assets
+        renderManager.bind(renderViewHandle);
+        renderManager.bind(pipelineHandle);
+        renderManager.bind(materialHandle);
+        renderManager.bind(geometryHandle);
+
+        // Draw scene
+
+        // End pass and frame
+        renderManager.end_pass();
+        renderManager.end_frame();
     }
 
     return 0;
