@@ -110,6 +110,7 @@ ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourc
     ViewportResource const &viewportResource = resourceManager.at<ViewportResource>(resourceHandle);
 
     ViewportInfo viewportInfo{};
+    viewportInfo.dynamic = viewportResource.dynamic;
     viewportInfo.viewPosition = viewportResource.viewPosition;
     viewportInfo.viewSize = viewportResource.viewSize;
     viewportInfo.minDepth = viewportResource.minDepth;

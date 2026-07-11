@@ -153,6 +153,7 @@ namespace Minty
         // frame data:
         Array<Vulkan_Frame, FRAMES_PER_FLIGHT> m_frames;
         Size m_currentFrameIndex = 0;
+        Bool m_renderedToMainSurfaceThisFrame = false;
 
         // external pools
         HandlePool<Vulkan_BufferData, Buffer> m_bufferDataPool;

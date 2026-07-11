@@ -8,6 +8,7 @@ namespace Minty
 {
     struct Vulkan_RenderTargetData
     {
+        SurfaceHandle surface = INVALID_HANDLE;
         Vector<TextureHandle> images = {};
     };
 }

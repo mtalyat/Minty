@@ -18,6 +18,11 @@ namespace Minty
     struct ViewportInfo
     {
         /**
+         * @brief If true, this viewport will update to match the active surface size on refresh.
+         */
+        Bool dynamic = false;
+
+        /**
          * @brief The position of the viewport in pixels.
          */
         Float2 viewPosition = { 0.0f, 0.0f };

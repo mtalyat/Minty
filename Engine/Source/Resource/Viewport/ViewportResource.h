@@ -15,6 +15,7 @@ namespace Minty
 {
     struct ViewportResource
     {
+        Bool dynamic = false;
         Float2 viewPosition = { 0.0f, 0.0f };
         Float2 viewSize = { 0.0f, 0.0f };
         Float minDepth = 0.0f;

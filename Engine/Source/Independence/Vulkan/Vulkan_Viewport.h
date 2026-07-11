@@ -12,6 +12,7 @@ namespace Minty
 {
     struct Vulkan_ViewportData
     {
+        Bool dynamic = false;
         VkViewport viewport;
         VkRect2D scissor;
     };

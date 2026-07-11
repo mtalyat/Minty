@@ -11,6 +11,7 @@ Bool Minty::Serializer<ViewportResource>::serialize(Writer &writer, ViewportReso
 
 Bool Minty::Serializer<ViewportResource>::deserialize(Reader &reader, ViewportResource &value)
 {
+    Bool dynamic = value.dynamic;
     Float2 viewPosition = value.viewPosition;
     Float2 viewSize = value.viewSize;
     Float minDepth = value.minDepth;
@@ -18,6 +19,7 @@ Bool Minty::Serializer<ViewportResource>::deserialize(Reader &reader, ViewportRe
     Int2 scissorPosition = value.scissorPosition;
     UInt2 scissorSize = value.scissorSize;
 
+    reader.read("Dynamic", dynamic);
     reader.read("ViewPosition", viewPosition);
     reader.read("ViewSize", viewSize);
     reader.read("MinDepth", minDepth);
@@ -25,6 +27,7 @@ Bool Minty::Serializer<ViewportResource>::deserialize(Reader &reader, ViewportRe
     reader.read("ScissorPosition", scissorPosition);
     reader.read("ScissorSize", scissorSize);
 
+    value.dynamic = dynamic;
     value.viewPosition = viewPosition;
     value.viewSize = viewSize;
     value.minDepth = minDepth;

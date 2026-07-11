@@ -76,6 +76,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	  m_commandPool(VK_NULL_HANDLE),
 	  m_frames(),
 	  m_currentFrameIndex(0),
+	  m_renderedToMainSurfaceThisFrame(false),
 	  m_defaultRenderTarget(INVALID_HANDLE),
 	  m_activeRenderView(INVALID_HANDLE)
 {
@@ -323,6 +324,7 @@ ViewportHandle Minty::Vulkan_RenderManager::create(ViewportInfo const &viewportI
 {
 	// Create the Vulkan data
 	Vulkan_ViewportData viewportData{};
+	viewportData.dynamic = viewportInfo.dynamic;
 	viewportData.viewport.x = viewportInfo.viewPosition.x;
 	viewportData.viewport.y = viewportInfo.viewPosition.y;
 	viewportData.viewport.width = viewportInfo.viewSize.x;
@@ -1028,6 +1030,7 @@ RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &r
 
 	// Create the Vulkan data
 	Vulkan_RenderTargetData renderTargetData{};
+	renderTargetData.surface = renderTargetInfo.surface;
 
 	Span<TextureHandle> imageHandles;
 	if (renderTargetInfo.surface == INVALID_HANDLE)
@@ -1168,6 +1171,8 @@ void Minty::Vulkan_RenderManager::set_view(RenderViewHandle const handle)
 
 Bool Minty::Vulkan_RenderManager::begin_frame()
 {
+	m_renderedToMainSurfaceThisFrame = false;
+
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
 
@@ -1214,10 +1219,13 @@ void Minty::Vulkan_RenderManager::end_frame()
 	Vulkan_Frame &currentFrame = get_current_frame();
 	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
 
-	// Always ensure the acquired swapchain image is in present layout before submission.
-	MINTY_ASSERT(surfaceData.index < surfaceData.images.get_size(), ErrorCodeEnum::Argument_OutOfRange);
-	TextureHandle const imageHandle = surfaceData.images.at(surfaceData.index);
-	transition_layout(currentFrame.commandBuffer, imageHandle, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+	// If no pass rendered to the main surface this frame, force it to PRESENT.
+	if (!m_renderedToMainSurfaceThisFrame)
+	{
+		MINTY_ASSERT(surfaceData.index < surfaceData.images.get_size(), ErrorCodeEnum::Argument_OutOfRange);
+		TextureHandle const imageHandle = surfaceData.images.at(surfaceData.index);
+		transition_layout(currentFrame.commandBuffer, imageHandle, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+	}
 
 	// End the command buffer recording for this frame
 	Vulkan_Renderer::end_command_buffer(currentFrame.commandBuffer);
@@ -1259,6 +1267,8 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	// Get the render target data
 	MINTY_ASSERT(m_renderTargetDataPool.contains(renderPassData.renderTarget), ErrorCodeEnum::Object_InvalidState);
 	Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderPassData.renderTarget);
+	MINTY_ASSERT(!renderTargetData.images.is_empty(), ErrorCodeEnum::Object_InvalidState);
+	MINTY_ASSERT(!renderPassData.framebuffers.is_empty(), ErrorCodeEnum::Object_InvalidState);
 
 	// Get the active render view data
 	MINTY_ASSERT(m_renderViewDataPool.contains(m_activeRenderView), ErrorCodeEnum::Object_InvalidState);
@@ -1268,22 +1278,58 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	MINTY_ASSERT(m_viewportDataPool.contains(renderPassData.viewport), ErrorCodeEnum::Object_InvalidState);
 	Vulkan_ViewportData const &viewportData = m_viewportDataPool.at(renderPassData.viewport);
 
-	// Get current surface data for swapchain image index
-	Vulkan_SurfaceData const &surfaceData = m_surfaceDataPool.at(m_surface);
-
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
 
+	// Select framebuffer/image index.
+	Size framebufferIndex = 0;
+	if (renderTargetData.surface != INVALID_HANDLE)
+	{
+		MINTY_ASSERT(m_surfaceDataPool.contains(renderTargetData.surface), ErrorCodeEnum::Object_InvalidState);
+		Vulkan_SurfaceData const &targetSurfaceData = m_surfaceDataPool.at(renderTargetData.surface);
+		framebufferIndex = targetSurfaceData.index;
+
+		if (renderTargetData.surface == m_surface)
+		{
+			m_renderedToMainSurfaceThisFrame = true;
+		}
+	}
+	else if (renderTargetData.images.get_size() > 1)
+	{
+		framebufferIndex = m_currentFrameIndex;
+	}
+
+	if (framebufferIndex >= renderTargetData.images.get_size())
+	{
+		framebufferIndex = renderTargetData.images.get_size() - 1;
+	}
+	if (framebufferIndex >= renderPassData.framebuffers.get_size())
+	{
+		framebufferIndex = renderPassData.framebuffers.get_size() - 1;
+	}
+
+	Vulkan_TextureData &targetTextureData = m_textureDataPool.at(renderTargetData.images.at(framebufferIndex));
+	VkExtent2D const targetExtent = targetTextureData.size;
+
 	// Identify the render area based on the viewport
-	VkExtent2D const extent = { viewportData.viewport.width, viewportData.viewport.height };
 	VkOffset2D const offset = { static_cast<int32_t>(viewportData.viewport.x), static_cast<int32_t>(viewportData.viewport.y) };
+	uint32_t const maxWidth = offset.x < 0 ? 0u : (offset.x >= static_cast<int32_t>(targetExtent.width) ? 0u : targetExtent.width - static_cast<uint32_t>(offset.x));
+	uint32_t const maxHeight = offset.y < 0 ? 0u : (offset.y >= static_cast<int32_t>(targetExtent.height) ? 0u : targetExtent.height - static_cast<uint32_t>(offset.y));
+	VkExtent2D const extent = {
+		viewportData.viewport.width > maxWidth ? maxWidth : static_cast<uint32_t>(viewportData.viewport.width),
+		viewportData.viewport.height > maxHeight ? maxHeight : static_cast<uint32_t>(viewportData.viewport.height)};
 	VkRect2D const renderArea = { offset, extent };
+
+	// Track the attachment layout that this pass writes.
+	targetTextureData.layout = renderTargetData.surface != INVALID_HANDLE
+		? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+		: VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 	// Begin the render pass
 	Vulkan_Renderer::begin_render_pass(
 		currentFrame.commandBuffer,
 		renderPassData.renderPass,
-		renderPassData.framebuffers.at(surfaceData.index),
+		renderPassData.framebuffers.at(framebufferIndex),
 		renderArea,
 		renderPassData.clearColor);
 
@@ -1317,14 +1363,24 @@ void Minty::Vulkan_RenderManager::refresh()
 	// Recreate the depth resources
 	recreate_depth_resources();
 
-	// Recreate the framebuffers for all render passes that use this surface
+	// Rebind all render targets that depend on the main surface to the recreated swapchain images.
+	for (RenderTargetHandle const &renderTargetHandle : m_renderTargetDataPool.get_handles())
+	{
+		Vulkan_RenderTargetData &renderTargetData = m_renderTargetDataPool.at(renderTargetHandle);
+		if (renderTargetData.surface == m_surface)
+		{
+			renderTargetData.images = surfaceData.images;
+		}
+	}
+
+	// Recreate framebuffers for all render passes that render to the main surface.
 	for (RenderPassHandle const &renderPassHandle : m_renderPassDataPool.get_handles())
 	{
 		Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(renderPassHandle);
 		if (renderPassData.renderTarget != INVALID_HANDLE)
 		{
 			Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderPassData.renderTarget);
-			if (renderTargetData.images.get_size() > 0 && renderTargetData.images.at(0) == surfaceData.images.at(0))
+			if (renderTargetData.surface == m_surface)
 			{
 				destroy_render_pass_framebuffers(renderPassData);
 				create_render_pass_framebuffers(renderPassData, renderPassData.renderTarget);
@@ -1338,6 +1394,21 @@ void Minty::Vulkan_RenderManager::refresh()
 	defaultViewportData.viewport.height = static_cast<float>(surfaceData.extent.height);
 	defaultViewportData.scissor.extent.width = surfaceData.extent.width;
 	defaultViewportData.scissor.extent.height = surfaceData.extent.height;
+
+	// Resize all dynamic viewports to match the new surface size.
+	for (ViewportHandle const &viewportHandle : m_viewportDataPool.get_handles())
+	{
+		Vulkan_ViewportData &viewportData = m_viewportDataPool.at(viewportHandle);
+		if (!viewportData.dynamic)
+		{
+			continue;
+		}
+
+		viewportData.viewport.width = static_cast<float>(surfaceData.extent.width);
+		viewportData.viewport.height = static_cast<float>(surfaceData.extent.height);
+		viewportData.scissor.extent.width = surfaceData.extent.width;
+		viewportData.scissor.extent.height = surfaceData.extent.height;
+	}
 }
 
 void Minty::Vulkan_RenderManager::create_depth_resources()
