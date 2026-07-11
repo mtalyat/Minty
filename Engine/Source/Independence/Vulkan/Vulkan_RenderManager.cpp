@@ -1324,7 +1324,7 @@ void Minty::Vulkan_RenderManager::bind(GeometryHandle const handle)
 	Vulkan_Renderer::bind_vertex_buffer(
 		frame.commandBuffer,
 		vertexBufferData.buffer,
-		geometryData.vertexStride);
+		0); // TODO: be able to customize the binding index for the vertex buffer, in case multiple vertex buffers are used
 	
 	// Bind the index buffer
 	Vulkan_Renderer::bind_index_buffer(

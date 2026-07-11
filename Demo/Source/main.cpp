@@ -66,6 +66,7 @@ int main()
                 renderManager.bind(renderViewHandle);
                 renderManager.bind(pipelineHandle);
                 renderManager.bind(materialHandle);
+                renderManager.bind(geometryHandle);
 
                 renderManager.end_pass();
             }

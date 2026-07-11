@@ -126,6 +126,7 @@ namespace Minty
         GeometryHandle create(MeshResourceHandle const resourceHandle);
         void destroy(GeometryHandle const handle);
         Bool is_valid(GeometryHandle const handle) const;
+        void bind(GeometryHandle const handle);
 
         Bool begin_frame();
         void end_frame();

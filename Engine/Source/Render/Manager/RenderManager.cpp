@@ -411,6 +411,11 @@ Bool Minty::RenderManager::is_valid(GeometryHandle const handle) const
     return mp_impl->renderManager.is_valid(handle);
 }
 
+void Minty::RenderManager::bind(GeometryHandle const handle)
+{
+    mp_impl->renderManager.bind(handle);
+}
+
 Bool Minty::RenderManager::begin_frame()
 {
     // validate state
