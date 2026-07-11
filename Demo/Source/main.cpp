@@ -24,7 +24,6 @@ int main()
     AudioManager audioManager(audioInfo);
 
     ClipHandle const clipHandle = audioManager.create(clipResourceHandle);
-    audioManager.play(clipHandle);
 
     // WINDOW
     WindowManagerInfo windowManagerInfo{};
@@ -53,6 +52,7 @@ int main()
 
     // SETUP
     renderManager.set_view(renderViewHandle);
+    audioManager.play(clipHandle);
 
     // MAIN LOOP
     while (windowManager.is_open(window))
