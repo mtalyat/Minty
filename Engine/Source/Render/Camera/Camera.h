@@ -19,7 +19,5 @@ namespace Minty
         Float farPlane = 100.0f;
         Float aspectRatio = 16.0f / 9.0f;
         Float size = 5.0f;
-
-        Color color = Color::black();
     };
 }
