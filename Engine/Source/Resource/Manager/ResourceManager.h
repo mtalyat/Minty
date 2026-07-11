@@ -22,7 +22,7 @@
 #include "Resource/Data/ResourcePool.h"
 
 #include "Resource/Clip/ClipResource.h"
-#include "Resource/Geometry/GeometryResource.h"
+#include "Resource/Mesh/MeshResource.h"
 #include "Resource/Generic/GenericResource.h"
 #include "Resource/Image/ImageResource.h"
 #include "Resource/Material/MaterialResource.h"
@@ -252,7 +252,7 @@ namespace Minty
             {
                 return m_assets_clips;
             }
-            else if constexpr (std::is_same_v<T, GeometryResource>)
+            else if constexpr (std::is_same_v<T, MeshResource>)
             {
                 return m_assets_geometry;
             }
@@ -318,7 +318,7 @@ namespace Minty
     public:
         Wrapper m_wrapper;
         ResourcePool<ClipResource> m_assets_clips;
-        ResourcePool<GeometryResource> m_assets_geometry;
+        ResourcePool<MeshResource> m_assets_geometry;
         ResourcePool<GenericResource> m_assets_generic;
         ResourcePool<ImageResource> m_assets_images;
         ResourcePool<MaterialResource> m_assets_materials;

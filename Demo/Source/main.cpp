@@ -17,7 +17,7 @@ int main()
     ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("Assets/test.vert.sha.minty");
     PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("Assets/test.pip.minty");
     MaterialResourceHandle const materialResourceHandle = resourceManager.load<MaterialResource>("Assets/test.mat.minty");
-    GeometryResourceHandle const geometryResourceHandle = resourceManager.load<GeometryResource>("Assets/test.geo.minty");
+    MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Assets/test.msh.minty");
 
     // AUDIO
     AudioManagerInfo audioInfo{};

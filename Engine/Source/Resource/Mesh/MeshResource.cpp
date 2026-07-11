@@ -1,6 +1,5 @@
 #include "pch.h"
-#include "GeometryResource.h"
-#include "GeometryInfo.h"
+#include "MeshResource.h"
 #include "Core/Data/Path.h"
 #include "Core/Serialize/Reader.h"
 #include "Core/Serialize/Writer.h"
@@ -136,13 +135,13 @@ static Bool deserialize_obj(Vector<Byte> const& data, ListContainer& vertexConta
 	return true;
 }
 
-Bool Minty::Serializer<GeometryResource>::serialize(Writer &writer, GeometryResource const &value)
+Bool Minty::Serializer<MeshResource>::serialize(Writer &writer, MeshResource const &value)
 {
     MINTY_NOT_IMPLEMENTED();
     return Bool();
 }
 
-Bool Minty::Serializer<GeometryResource>::deserialize(Reader &reader, GeometryResource &value)
+Bool Minty::Serializer<MeshResource>::deserialize(Reader &reader, MeshResource &value)
 {
     // Data to read
     Path path;
