@@ -99,14 +99,32 @@ namespace Minty
         Bool is_valid(RenderViewHandle const handle) const;
         void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
         void set_view(RenderViewHandle const handle);
+
+        Bool begin_frame();
+        void end_frame();
+
+        Bool begin_pass(RenderPassHandle const handle);
+        void end_pass();
+
+        // sync the GPU with the CPU, waiting for all commands to finish executing
+        void sync();
+
+        // refresh the render manager, recreating any resources that need to be recreated
+        void refresh();
         
     private:
         void create_depth_resources();
         void destroy_depth_resources();
         void recreate_depth_resources();
 
+        void create_swapchain(Vulkan_SurfaceData &surfaceData);
+        void destroy_swapchain(Vulkan_SurfaceData &surfaceData);
+        void recreate_swapchain(Vulkan_SurfaceData &surfaceData);
+
         void create_frame(Vulkan_Frame &frame);
         void destroy_frame(Vulkan_Frame &frame);
+        inline Vulkan_Frame &get_current_frame() { return m_frames.at(m_currentFrameIndex); }
+        void abort_frame();
 
         void create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle);
         void destroy_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData);
@@ -137,7 +155,7 @@ namespace Minty
         Size m_currentFrameIndex = 0;
 
         // rendering data:
-        Size m_passesMade;
+        UInt m_passesMade;
 
         // external pools
         HandlePool<Vulkan_BufferData, Buffer> m_bufferDataPool;

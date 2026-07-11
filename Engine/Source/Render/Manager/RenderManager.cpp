@@ -305,6 +305,49 @@ void Minty::RenderManager::set_view(RenderViewHandle const handle, Float3 const 
     mp_impl->renderManager.set_view(handle);
 }
 
+void Minty::RenderManager::begin_frame()
+{
+    // validate state
+    MINTY_ASSERT(m_state != State::Frame, ErrorCodeEnum::Render_AlreadyRenderingFrame);
+    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+    m_state = State::Frame;
+
+    mp_impl->renderManager.begin_frame();
+}
+
+void Minty::RenderManager::end_frame()
+{
+    // validate state
+    MINTY_ASSERT(m_state != State::Idle, ErrorCodeEnum::Render_NotRenderingFrame);
+    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+
+    mp_impl->renderManager.end_frame();
+    
+    m_state = State::Idle;
+}
+
+void Minty::RenderManager::begin_pass(RenderPassHandle const handle)
+{
+    // validate state
+    MINTY_ASSERT(m_state != State::Idle, ErrorCodeEnum::Render_NotRenderingFrame);
+    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+
+    m_state = State::Pass;
+
+    mp_impl->renderManager.begin_pass(handle);
+}
+
+void Minty::RenderManager::end_pass()
+{
+    // validate state
+    MINTY_ASSERT(m_state != State::Idle, ErrorCodeEnum::Render_NotRenderingFrame);
+    MINTY_ASSERT(m_state != State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
+
+    mp_impl->renderManager.end_pass();
+
+    m_state = State::Frame;
+}
+
 RenderManager &Minty::RenderManager::get_instance()
 {
     MINTY_ASSERT(s_instance != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);

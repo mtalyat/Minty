@@ -10,6 +10,7 @@
 #include "Core/Data/Vector.h"
 #include "Core/Type/Handle.h"
 #include "Render/Type/Handle.h"
+#include "Window/Type/Handle.h"
 
 namespace Minty
 {
@@ -17,6 +18,7 @@ namespace Minty
 
 	struct Vulkan_SurfaceData
 	{
+		WindowHandle window;
 		VkSurfaceKHR surface;
 		VkSwapchainKHR swapchain;
 		VkExtent2D extent;

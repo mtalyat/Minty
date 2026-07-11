@@ -281,74 +281,17 @@ SurfaceHandle Minty::Vulkan_RenderManager::create(SurfaceInfo const &surfaceInfo
 	WindowManager const &windowManager = WindowManager::get_instance();
 	WindowHandle const windowHandle = get_window(windowManager, surfaceInfo.window);
 	Pointer const windowNative = windowManager.get_native(windowHandle);
-	UInt2 const framebufferSize = windowManager.get_framebuffer_size(windowHandle);
 
 	// Create the Vulkan data
 	Vulkan_SurfaceData surfaceData{};
+	surfaceData.window = windowHandle;
+	surfaceData.format = Converter<ImageFormat, VkFormat>::from_minty(surfaceInfo.format);
 
 	// Create the surface
 	surfaceData.surface = Vulkan_Renderer::create_surface(m_instance, windowNative);
 
-	// Get the queue families
-	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(
-		m_physicalDevice,
-		surfaceData.surface);
-
-	// Get swapchain support details
-	Vulkan_SwapchainSupportDetails swapchainSupport = Vulkan_Renderer::query_swapchain_support(
-		m_physicalDevice,
-		surfaceData.surface);
-
-	// Get size of swapchain
-	surfaceData.extent = Vulkan_Renderer::get_swapchain_extent(
-		swapchainSupport.capabilities,
-		framebufferSize);
-
-	// Get the surface format
-	VkSurfaceFormatKHR const surfaceFormat = Vulkan_Renderer::select_swap_surface_format(
-		swapchainSupport.formats,
-		Converter<ImageFormat, VkFormat>::from_minty(surfaceInfo.format));
-	surfaceData.format = surfaceFormat.format;
-
-	// Get the presentation mode
-	VkPresentModeKHR const presentMode = Vulkan_Renderer::select_swap_present_mode(
-		swapchainSupport.presentModes);
-
 	// Create the swapchain
-	surfaceData.swapchain = Vulkan_Renderer::create_swapchain(
-		m_device,
-		surfaceData.surface,
-		swapchainSupport,
-		queueFamilyIndices,
-		surfaceFormat,
-		surfaceData.extent,
-		presentMode);
-
-	// Get the swapchain images
-	Vector<VkImage> swapchainImages = Vulkan_Renderer::get_swapchain_images(
-		m_device,
-		surfaceData.swapchain);
-
-	// Create a TextureHandle for each swapchain image
-	surfaceData.images.reserve(swapchainImages.get_size());
-	for (VkImage const &swapchainImage : swapchainImages)
-	{
-		Vulkan_TextureData textureData{};
-		textureData.image = swapchainImage;
-		textureData.format = surfaceData.format;
-		textureData.size = surfaceData.extent;
-
-		// Create the view
-		textureData.view = Vulkan_Renderer::create_image_view(
-			m_device,
-			textureData.image,
-			textureData.format,
-			VK_IMAGE_ASPECT_COLOR_BIT);
-
-		// Add to pool and get handle
-		TextureHandle const imageHandle = m_textureDataPool.add(std::move(textureData));
-		surfaceData.images.add(imageHandle);
-	}
+	create_swapchain(surfaceData);
 
 	// Add to pool and return handle
 	return m_surfaceDataPool.add(std::move(surfaceData));
@@ -357,10 +300,10 @@ SurfaceHandle Minty::Vulkan_RenderManager::create(SurfaceInfo const &surfaceInfo
 void Minty::Vulkan_RenderManager::destroy(SurfaceHandle const handle)
 {
 	MINTY_ASSERT(m_surfaceDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
-	Vulkan_SurfaceData const &surfaceData = m_surfaceDataPool.at(handle);
+	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(handle);
 
 	// Destroy the swapchain and surface
-	Vulkan_Renderer::destroy_swapchain(m_device, surfaceData.swapchain);
+	destroy_swapchain(surfaceData);
 	Vulkan_Renderer::destroy_surface(m_instance, surfaceData.surface);
 
 	// Remove from pool
@@ -1219,6 +1162,182 @@ void Minty::Vulkan_RenderManager::set_view(RenderViewHandle const handle)
 	m_activeRenderView = handle;
 }
 
+Bool Minty::Vulkan_RenderManager::begin_frame()
+{
+	// Get the current frame data
+	Vulkan_Frame &currentFrame = get_current_frame();
+
+	// Wait for the fence to ensure the previous frame has finished
+	Vulkan_Renderer::wait_for_fence(m_device, currentFrame.inFlightFence);
+	Vulkan_Renderer::reset_fence(m_device, currentFrame.inFlightFence);
+
+	// Get the surface data for the current surface
+	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
+
+	// Get the next image from the swapchain
+	VkResult const swapchainResult = Vulkan_Renderer::get_next_swapchain_image_index(
+		m_device,
+		surfaceData.swapchain,
+		currentFrame.imageAvailableSemaphore,
+		surfaceData.index);
+
+	if (swapchainResult == VK_ERROR_OUT_OF_DATE_KHR)
+	{
+		abort_frame();
+
+		// The swapchain is out of date, so we need to recreate it
+		refresh();
+
+		return false;
+	}
+	else if (swapchainResult != VK_SUCCESS && swapchainResult != VK_SUBOPTIMAL_KHR)
+	{
+		MINTY_ERROR(ErrorCodeEnum::Render_FailedToRender); // "Failed to acquire swapchain image."
+	}
+
+	// Clear the command buffer for this frame
+	Vulkan_Renderer::reset_command_buffer(currentFrame.commandBuffer);
+
+	// Start new command buffer recording for this frame
+	Vulkan_Renderer::begin_command_buffer(currentFrame.commandBuffer);
+
+	return true;
+}
+
+void Minty::Vulkan_RenderManager::end_frame()
+{
+	// If no passes made, abort the frame
+	if (m_passesMade == 0)
+	{
+		abort_frame();
+		return;
+	}
+
+	// Get the current frame data
+	Vulkan_Frame &currentFrame = get_current_frame();
+
+	// End the command buffer recording for this frame
+	Vulkan_Renderer::end_command_buffer(currentFrame.commandBuffer);
+
+	// Submit the command buffer for execution
+	Vulkan_Renderer::submit_command_buffer(
+		currentFrame.commandBuffer,
+		currentFrame,
+		m_graphicsQueue);
+
+	// Preset the current frame
+	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
+	VkResult const presentResult = Vulkan_Renderer::present_frame(
+		m_presentQueue,
+		surfaceData,
+		currentFrame);
+
+	// Check if the swapchain is out of date after submission
+	if (presentResult == VK_ERROR_OUT_OF_DATE_KHR || presentResult == VK_SUBOPTIMAL_KHR)
+	{
+		// The swapchain is out of date, so we need to recreate it
+		refresh();
+	}
+	else if (presentResult != VK_SUCCESS)
+	{
+		MINTY_ERROR(ErrorCodeEnum::Render_FailedToRender); // "Failed to present swapchain image."
+	}
+
+	// Increment the frame index
+	m_currentFrameIndex = (m_currentFrameIndex + 1) % FRAMES_PER_FLIGHT;
+}
+
+Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
+{
+	MINTY_ASSERT(m_renderPassDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// Get the render pass data
+	Vulkan_RenderPassData const &renderPassData = m_renderPassDataPool.at(handle);
+
+	// Get the render target data
+	MINTY_ASSERT(m_renderTargetDataPool.contains(renderPassData.renderTarget), ErrorCodeEnum::Object_InvalidState);
+	Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderPassData.renderTarget);
+
+	// Get the active render view data
+	MINTY_ASSERT(m_renderViewDataPool.contains(m_activeRenderView), ErrorCodeEnum::Object_InvalidState);
+	Vulkan_RenderViewData const &renderViewData = m_renderViewDataPool.at(m_activeRenderView);
+
+	// Get viewport data
+	MINTY_ASSERT(m_viewportDataPool.contains(renderPassData.viewport), ErrorCodeEnum::Object_InvalidState);
+	Vulkan_ViewportData const &viewportData = m_viewportDataPool.at(renderPassData.viewport);
+
+	// Get the current frame data
+	Vulkan_Frame &currentFrame = get_current_frame();
+
+	// Identify the render area based on the viewport
+	VkExtent2D const extent = { viewportData.viewport.width, viewportData.viewport.height };
+	VkOffset2D const offset = { static_cast<int32_t>(viewportData.viewport.x), static_cast<int32_t>(viewportData.viewport.y) };
+	VkRect2D const renderArea = { offset, extent };
+
+	// Begin the render pass
+	Vulkan_Renderer::begin_render_pass(
+		currentFrame.commandBuffer,
+		renderPassData.renderPass,
+		renderPassData.framebuffers.at(m_currentFrameIndex),
+		renderArea,
+		renderPassData.clearColor);
+
+	return true;
+}
+
+void Minty::Vulkan_RenderManager::end_pass()
+{
+	// Get the current frame data
+	Vulkan_Frame &currentFrame = get_current_frame();
+
+	// End the render pass
+	Vulkan_Renderer::end_render_pass(currentFrame.commandBuffer);
+
+	// Increment the pass count
+	m_passesMade += 1;
+}
+
+void Minty::Vulkan_RenderManager::sync()
+{
+	// Sync the device
+	Vulkan_Renderer::sync_device(m_device);
+}
+
+void Minty::Vulkan_RenderManager::refresh()
+{
+	// Sync before refreshing
+	sync();
+
+	// Recreate the swapchain for the current surface
+	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
+	recreate_swapchain(surfaceData);
+
+	// Recreate the depth resources
+	recreate_depth_resources();
+
+	// Recreate the framebuffers for all render passes that use this surface
+	for (RenderPassHandle const &renderPassHandle : m_renderPassDataPool.get_handles())
+	{
+		Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(renderPassHandle);
+		if (renderPassData.renderTarget != INVALID_HANDLE)
+		{
+			Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderPassData.renderTarget);
+			if (renderTargetData.images.get_size() > 0 && renderTargetData.images.at(0) == surfaceData.images.at(0))
+			{
+				destroy_render_pass_framebuffers(renderPassData);
+				create_render_pass_framebuffers(renderPassData, renderPassData.renderTarget);
+			}
+		}
+	}
+
+	// Resize the default viewport to match the new surface size
+	Vulkan_ViewportData &defaultViewportData = m_viewportDataPool.at(m_defaultViewport);
+	defaultViewportData.viewport.width = static_cast<float>(surfaceData.extent.width);
+	defaultViewportData.viewport.height = static_cast<float>(surfaceData.extent.height);
+	defaultViewportData.scissor.extent.width = surfaceData.extent.width;
+	defaultViewportData.scissor.extent.height = surfaceData.extent.height;
+}
+
 void Minty::Vulkan_RenderManager::create_depth_resources()
 {
 	// get depth format
@@ -1258,6 +1377,97 @@ void Minty::Vulkan_RenderManager::recreate_depth_resources()
 	create_depth_resources();
 }
 
+void Minty::Vulkan_RenderManager::create_swapchain(Vulkan_SurfaceData &surfaceData)
+{
+    // Get the queue families
+	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(
+		m_physicalDevice,
+		surfaceData.surface);
+
+	// Get swapchain support details
+	Vulkan_SwapchainSupportDetails swapchainSupport = Vulkan_Renderer::query_swapchain_support(
+		m_physicalDevice,
+		surfaceData.surface);
+
+	// Get size of swapchain from the framebuffer size
+	WindowManager &windowManager = WindowManager::get_instance();
+	UInt2 const framebufferSize = windowManager.get_framebuffer_size(surfaceData.window);
+	surfaceData.extent = Vulkan_Renderer::get_swapchain_extent(
+		swapchainSupport.capabilities,
+		framebufferSize);
+
+	// Get the surface format
+	VkSurfaceFormatKHR const surfaceFormat = Vulkan_Renderer::select_swap_surface_format(
+		swapchainSupport.formats,
+		Converter<ImageFormat, VkFormat>::from_minty(surfaceData.format));
+	surfaceData.format = surfaceFormat.format;
+
+	// Get the presentation mode
+	VkPresentModeKHR const presentMode = Vulkan_Renderer::select_swap_present_mode(
+		swapchainSupport.presentModes);
+
+	// Create the swapchain
+	surfaceData.swapchain = Vulkan_Renderer::create_swapchain(
+		m_device,
+		surfaceData.surface,
+		swapchainSupport,
+		queueFamilyIndices,
+		surfaceFormat,
+		surfaceData.extent,
+		presentMode);
+
+	// Get the swapchain images
+	Vector<VkImage> swapchainImages = Vulkan_Renderer::get_swapchain_images(
+		m_device,
+		surfaceData.swapchain);
+
+	// Create a TextureHandle for each swapchain image
+	surfaceData.images.reserve(swapchainImages.get_size());
+	for (VkImage const &swapchainImage : swapchainImages)
+	{
+		Vulkan_TextureData textureData{};
+		textureData.image = swapchainImage;
+		textureData.format = surfaceData.format;
+		textureData.size = surfaceData.extent;
+
+		// Create the view
+		textureData.view = Vulkan_Renderer::create_image_view(
+			m_device,
+			textureData.image,
+			textureData.format,
+			VK_IMAGE_ASPECT_COLOR_BIT);
+
+		// Add to pool and get handle
+		TextureHandle const imageHandle = m_textureDataPool.add(std::move(textureData));
+		surfaceData.images.add(imageHandle);
+	}
+}
+
+void Minty::Vulkan_RenderManager::destroy_swapchain(Vulkan_SurfaceData &surfaceData)
+{
+	// Destroy the swapchain images
+	for (TextureHandle const &imageHandle : surfaceData.images)
+	{
+		Vulkan_TextureData const &textureData = m_textureDataPool.at(imageHandle);
+		Vulkan_Renderer::destroy_image_view(m_device, textureData.view);
+		m_textureDataPool.remove(imageHandle);
+	}
+	surfaceData.images.clear();
+
+	// Destroy the swapchain
+	if (surfaceData.swapchain != VK_NULL_HANDLE)
+	{
+		Vulkan_Renderer::destroy_swapchain(m_device, surfaceData.swapchain);
+		surfaceData.swapchain = VK_NULL_HANDLE;
+	}
+}
+
+void Minty::Vulkan_RenderManager::recreate_swapchain(Vulkan_SurfaceData &surfaceData)
+{
+	destroy_swapchain(surfaceData);
+	create_swapchain(surfaceData);
+}
+
 void Minty::Vulkan_RenderManager::create_frame(Vulkan_Frame &frame)
 {
 	frame.commandBuffer = Vulkan_Renderer::create_command_buffer(
@@ -1279,6 +1489,15 @@ void Minty::Vulkan_RenderManager::destroy_frame(Vulkan_Frame &frame)
 		m_device,
 		m_commandPool,
 		frame.commandBuffer);
+}
+
+void Minty::Vulkan_RenderManager::abort_frame()
+{
+	// Get the current frame data
+	Vulkan_Frame &currentFrame = get_current_frame();
+
+	// Reset the command buffer for this frame
+	Vulkan_Renderer::reset_command_buffer(currentFrame.commandBuffer);
 }
 
 void Minty::Vulkan_RenderManager::create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle)
