@@ -108,6 +108,9 @@ namespace Minty
         void create_frame(Vulkan_Frame &frame);
         void destroy_frame(Vulkan_Frame &frame);
 
+        void create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle);
+        void destroy_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData);
+
         void create_attachment_description(RenderAttachment const &attachment, VkAttachmentDescription &description);
         
         void transition_layout(VkCommandBuffer const commandBuffer, TextureHandle const handle, VkImageLayout const layout);

@@ -18,7 +18,8 @@ namespace Minty
     struct RenderTargetInfo
     {
         /**
-         * @brief The RenderPass this RenderTarget belongs to.
+		 * @brief Optional RenderPass to bind this target to at creation time.
+		 * If INVALID_HANDLE, this target can be attached by a RenderPass later.
          */
         RenderPassHandle renderPass = INVALID_HANDLE;
 

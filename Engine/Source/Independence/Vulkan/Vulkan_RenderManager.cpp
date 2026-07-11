@@ -951,6 +951,8 @@ Bool Minty::Vulkan_RenderManager::is_valid(PipelineHandle const handle) const
 
 RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &renderPassInfo)
 {
+	MINTY_CHECK(renderPassInfo.attachments.get_size() > 0, ErrorCodeEnum::Argument_ExpectedNonEmpty);
+
 	// Create the Vulkan data
 	Vector<VkAttachmentDescription> colorAttachmentDescriptions;
 	Vector<VkAttachmentDescription> depthAttachmentDescriptions;
@@ -979,6 +981,20 @@ RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &rende
 		m_device,
 		colorAttachmentDescriptions,
 		depthAttachmentDescriptions);
+	renderPassData.renderTarget = renderPassInfo.renderTarget;
+	renderPassData.viewport = renderPassInfo.viewport == INVALID_HANDLE ? m_defaultViewport : renderPassInfo.viewport;
+	renderPassData.clearDepth = renderPassInfo.clearDepth;
+	renderPassData.clearStencil = renderPassInfo.clearStencil;
+	Float4 const clearColor = renderPassInfo.clearColor.to_linear_float4();
+	renderPassData.clearColor.float32[0] = clearColor.x;
+	renderPassData.clearColor.float32[1] = clearColor.y;
+	renderPassData.clearColor.float32[2] = clearColor.z;
+	renderPassData.clearColor.float32[3] = clearColor.w;
+
+	if (renderPassData.renderTarget != INVALID_HANDLE)
+	{
+		create_render_pass_framebuffers(renderPassData, renderPassData.renderTarget);
+	}
 
 	// Add to pool and return handle
 	RenderPassHandle const handle = m_renderPassDataPool.add(std::move(renderPassData));
@@ -987,7 +1003,17 @@ RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &rende
 
 void Minty::Vulkan_RenderManager::destroy(RenderPassHandle const handle)
 {
-	MINTY_NOT_IMPLEMENTED();
+	MINTY_ASSERT(m_renderPassDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+	Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(handle);
+
+	destroy_render_pass_framebuffers(renderPassData);
+
+	if (renderPassData.renderPass != VK_NULL_HANDLE)
+	{
+		Vulkan_Renderer::destroy_render_pass(m_device, renderPassData.renderPass);
+	}
+
+	m_renderPassDataPool.remove(handle);
 }
 
 Bool Minty::Vulkan_RenderManager::is_valid(RenderPassHandle const handle) const
@@ -1056,9 +1082,6 @@ RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &r
 	// Create the Vulkan data
 	Vulkan_RenderTargetData renderTargetData{};
 
-	// Get render pass data for this render target
-	Vulkan_RenderPassData const &renderPassData = m_renderPassDataPool.at(renderTargetInfo.renderPass);
-
 	Span<TextureHandle> imageHandles;
 	if (renderTargetInfo.surface == INVALID_HANDLE)
 	{
@@ -1076,34 +1099,38 @@ RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &r
 		imageHandles = surfaceData.images;
 	}
 
-	// Create a framebuffer for each image in the render target
-	Vector<VkFramebuffer> framebuffers;
+	renderTargetData.images.reserve(imageHandles.get_size());
 	for (TextureHandle const &imageHandle : imageHandles)
 	{
-		Vulkan_TextureData &textureData = m_textureDataPool.at(imageHandle);
-
-		VkFramebuffer framebuffer = Vulkan_Renderer::create_framebuffer(
-			m_device,
-			renderPassData.renderPass,
-			textureData.size,
-			textureData.view,
-			m_depthStencilImage != INVALID_HANDLE ? m_textureDataPool.at(m_depthStencilImage).view : VK_NULL_HANDLE);
-		framebuffers.add(std::move(framebuffer));
+		renderTargetData.images.add(imageHandle);
 	}
 
-	// Add to pool and return handle
-	return m_renderTargetDataPool.add(std::move(renderTargetData));
+	RenderTargetHandle const handle = m_renderTargetDataPool.add(std::move(renderTargetData));
+
+	if (renderTargetInfo.renderPass != INVALID_HANDLE)
+	{
+		MINTY_ASSERT(m_renderPassDataPool.contains(renderTargetInfo.renderPass), ErrorCodeEnum::Argument_InvalidHandle);
+		Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(renderTargetInfo.renderPass);
+		destroy_render_pass_framebuffers(renderPassData);
+		renderPassData.renderTarget = handle;
+		create_render_pass_framebuffers(renderPassData, handle);
+	}
+
+	return handle;
 }
 
 void Minty::Vulkan_RenderManager::destroy(RenderTargetHandle const handle)
 {
 	MINTY_ASSERT(m_renderTargetDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
-	Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(handle);
 
-	// Destroy each framebuffer for this render target
-	for (VkFramebuffer const &framebuffer : renderTargetData.framebuffers)
+	for (RenderPassHandle const &renderPassHandle : m_renderPassDataPool.get_handles())
 	{
-		Vulkan_Renderer::destroy_framebuffer(m_device, framebuffer);
+		Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(renderPassHandle);
+		if (renderPassData.renderTarget == handle)
+		{
+			destroy_render_pass_framebuffers(renderPassData);
+			renderPassData.renderTarget = INVALID_HANDLE;
+		}
 	}
 
 	// Remove from pool
@@ -1252,6 +1279,38 @@ void Minty::Vulkan_RenderManager::destroy_frame(Vulkan_Frame &frame)
 		m_device,
 		m_commandPool,
 		frame.commandBuffer);
+}
+
+void Minty::Vulkan_RenderManager::create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle)
+{
+	MINTY_ASSERT(renderPassData.renderPass != VK_NULL_HANDLE, ErrorCodeEnum::Object_InvalidState);
+	MINTY_ASSERT(m_renderTargetDataPool.contains(renderTargetHandle), ErrorCodeEnum::Argument_InvalidHandle);
+
+	Vulkan_RenderTargetData const &renderTargetData = m_renderTargetDataPool.at(renderTargetHandle);
+	renderPassData.framebuffers.reserve(renderTargetData.images.get_size());
+
+	for (TextureHandle const &imageHandle : renderTargetData.images)
+	{
+		Vulkan_TextureData const &textureData = m_textureDataPool.at(imageHandle);
+
+		VkFramebuffer framebuffer = Vulkan_Renderer::create_framebuffer(
+			m_device,
+			renderPassData.renderPass,
+			textureData.size,
+			textureData.view,
+			m_depthStencilImage != INVALID_HANDLE ? m_textureDataPool.at(m_depthStencilImage).view : VK_NULL_HANDLE);
+		renderPassData.framebuffers.add(std::move(framebuffer));
+	}
+}
+
+void Minty::Vulkan_RenderManager::destroy_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData)
+{
+	for (VkFramebuffer const &framebuffer : renderPassData.framebuffers)
+	{
+		Vulkan_Renderer::destroy_framebuffer(m_device, framebuffer);
+	}
+
+	renderPassData.framebuffers.clear();
 }
 
 void Minty::Vulkan_RenderManager::create_attachment_description(RenderAttachment const &attachment, VkAttachmentDescription &description)
