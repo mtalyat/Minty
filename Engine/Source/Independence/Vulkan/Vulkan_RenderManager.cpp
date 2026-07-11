@@ -79,7 +79,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	  m_currentFrameIndex(0),
 	  m_renderedToMainSurfaceThisFrame(false),
 	  m_defaultRenderTarget(INVALID_HANDLE),
-	  m_activeRenderView(INVALID_HANDLE)
+	  m_boundRenderView(INVALID_HANDLE)
 {
 	// create instance
 	m_instance = Vulkan_Renderer::create_instance();
@@ -463,7 +463,7 @@ void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, View const
 
 	// copy data to staging buffer
 	Pointer const mappedMemory = Vulkan_Renderer::map_memory(m_device, stagingBufferMemory, 0, bufferData.size);
-		Tool::copy(data.get_data(), mappedMemory, data.get_size());
+	Tool::copy(data.get_data(), mappedMemory, data.get_size());
 	Vulkan_Renderer::unmap_memory(m_device, stagingBufferMemory);
 
 	// copy from staging buffer to buffer
@@ -618,6 +618,8 @@ PipelineHandle Minty::Vulkan_RenderManager::create(PipelineInfo const &pipelineI
 			descriptorSetLayoutHandles,
 			pushConstantRanges);
 	}
+	pipelineLayout.descriptorSetLayouts = std::move(descriptorSetLayouts);
+	pipelineLayout.pushConstants = std::move(pushConstants);
 
 	// Add layout to pool
 	Vulkan_PipelineLayoutHandle const layoutHandle = m_pipelineLayoutDataPool.add(pipelineLayout);
@@ -899,6 +901,30 @@ Bool Minty::Vulkan_RenderManager::is_valid(PipelineHandle const handle) const
 	return m_pipelineDataPool.contains(handle);
 }
 
+void Minty::Vulkan_RenderManager::bind(PipelineHandle const handle)
+{
+	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// do nothing if already bound
+	if (m_boundPipeline == handle)
+	{
+		return;
+	}
+	m_boundPipeline = handle;
+
+	// Get the pipeline data
+	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(handle);
+
+	// Get the frame data
+	Vulkan_Frame const &frame = get_current_frame();
+
+	// Bind the pipeline
+	Vulkan_Renderer::bind_pipeline(
+		frame.commandBuffer,
+		pipelineData.pipeline,
+		VK_PIPELINE_BIND_POINT_GRAPHICS);
+}
+
 RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &renderPassInfo)
 {
 	MINTY_CHECK(renderPassInfo.attachments.get_size() > 0, ErrorCodeEnum::Argument_ExpectedNonEmpty);
@@ -1025,6 +1051,41 @@ Bool Minty::Vulkan_RenderManager::is_valid(MaterialHandle const handle) const
 	return m_materialDataPool.contains(handle);
 }
 
+void Minty::Vulkan_RenderManager::bind(MaterialHandle const handle)
+{
+	MINTY_ASSERT(m_materialDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// do nothing if already bound
+	if (m_boundMaterial == handle)
+	{
+		return;
+	}
+	m_boundMaterial = handle;
+
+	// Get the material data
+	Vulkan_MaterialData const &materialData = m_materialDataPool.at(handle);
+
+	// Check that this material's pipeline is currently bound
+	MINTY_ASSERT(m_boundPipeline == materialData.pipelineHandle, ErrorCodeEnum::Render_InvalidBind); // "Material's pipeline is not currently bound."
+
+	// Get the frame data
+	Vulkan_Frame const &frame = get_current_frame();
+
+	// Get the pipeline layout for this material's pipeline
+	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(materialData.pipelineHandle);
+	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
+
+	// Get the current frame's descriptor sets for this material
+	VkDescriptorSet const descriptorSet = materialData.descriptorSets.at(m_currentFrameIndex);
+
+	// Bind the descriptor set for this material
+	Vulkan_Renderer::bind_descriptor_set(
+		frame.commandBuffer,
+		pipelineLayoutData.layout,
+		descriptorSet,
+		VK_PIPELINE_BIND_POINT_GRAPHICS);
+}
+
 RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &renderTargetInfo)
 {
 	MINTY_CHECK(renderTargetInfo.surface != INVALID_HANDLE || renderTargetInfo.images.get_size() > 0, ErrorCodeEnum::Argument_ExpectedNonEmpty);
@@ -1127,12 +1188,12 @@ RenderViewHandle Minty::Vulkan_RenderManager::create(RenderViewInfo const &rende
 	RenderViewHandle const handle = m_renderViewDataPool.add(std::move(renderViewData));
 
 	// Create the view matrix based on the camera's position and direction
-	update_view(handle, renderViewInfo.position, camera.direction);
+	update(handle, renderViewInfo.position, camera.direction);
 
 	// If the active render view is invalid, set it to this one
-	if (m_activeRenderView == INVALID_HANDLE)
+	if (m_boundRenderView == INVALID_HANDLE)
 	{
-		m_activeRenderView = handle;
+		m_boundRenderView = handle;
 	}
 
 	// Return the handle
@@ -1151,7 +1212,7 @@ Bool Minty::Vulkan_RenderManager::is_valid(RenderViewHandle const handle) const
 	return m_renderViewDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+void Minty::Vulkan_RenderManager::update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
 {
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1163,11 +1224,24 @@ void Minty::Vulkan_RenderManager::update_view(RenderViewHandle const handle, Flo
 	renderViewData.viewProjectionMatrix = renderViewData.projectionMatrix * renderViewData.viewMatrix;
 }
 
-void Minty::Vulkan_RenderManager::set_view(RenderViewHandle const handle)
+void Minty::Vulkan_RenderManager::bind(RenderViewHandle const handle)
 {
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
-	m_activeRenderView = handle;
+	// do nothing if already bound
+	if (m_boundRenderView == handle)
+	{
+		return;
+	}
+	m_boundRenderView = handle;
+
+	// get the render view data
+	Vulkan_RenderViewData const &renderViewData = m_renderViewDataPool.at(handle);
+
+	// get the frame data
+	Vulkan_Frame const &frame = get_current_frame();
+
+	// TODO: update the view and projection matrices in the uniform buffer for this frame
 }
 
 GeometryHandle Minty::Vulkan_RenderManager::create(GeometryInfo const &geometryInfo)
@@ -1221,7 +1295,7 @@ void Minty::Vulkan_RenderManager::destroy(GeometryHandle const handle)
 
 Bool Minty::Vulkan_RenderManager::is_valid(GeometryHandle const handle) const
 {
-    return m_geometryDataPool.contains(handle);
+	return m_geometryDataPool.contains(handle);
 }
 
 Bool Minty::Vulkan_RenderManager::begin_frame()
@@ -1325,10 +1399,6 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	MINTY_ASSERT(!renderTargetData.images.is_empty(), ErrorCodeEnum::Object_InvalidState);
 	MINTY_ASSERT(!renderPassData.framebuffers.is_empty(), ErrorCodeEnum::Object_InvalidState);
 
-	// Get the active render view data
-	MINTY_ASSERT(m_renderViewDataPool.contains(m_activeRenderView), ErrorCodeEnum::Object_InvalidState);
-	Vulkan_RenderViewData const &renderViewData = m_renderViewDataPool.at(m_activeRenderView);
-
 	// Get viewport data
 	MINTY_ASSERT(m_viewportDataPool.contains(renderPassData.viewport), ErrorCodeEnum::Object_InvalidState);
 	Vulkan_ViewportData const &viewportData = m_viewportDataPool.at(renderPassData.viewport);
@@ -1367,18 +1437,18 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	VkExtent2D const targetExtent = targetTextureData.size;
 
 	// Identify the render area based on the viewport
-	VkOffset2D const offset = { static_cast<int32_t>(viewportData.viewport.x), static_cast<int32_t>(viewportData.viewport.y) };
+	VkOffset2D const offset = {static_cast<int32_t>(viewportData.viewport.x), static_cast<int32_t>(viewportData.viewport.y)};
 	uint32_t const maxWidth = offset.x < 0 ? 0u : (offset.x >= static_cast<int32_t>(targetExtent.width) ? 0u : targetExtent.width - static_cast<uint32_t>(offset.x));
 	uint32_t const maxHeight = offset.y < 0 ? 0u : (offset.y >= static_cast<int32_t>(targetExtent.height) ? 0u : targetExtent.height - static_cast<uint32_t>(offset.y));
 	VkExtent2D const extent = {
 		viewportData.viewport.width > maxWidth ? maxWidth : static_cast<uint32_t>(viewportData.viewport.width),
 		viewportData.viewport.height > maxHeight ? maxHeight : static_cast<uint32_t>(viewportData.viewport.height)};
-	VkRect2D const renderArea = { offset, extent };
+	VkRect2D const renderArea = {offset, extent};
 
 	// Track the attachment layout that this pass writes.
 	targetTextureData.layout = renderTargetData.surface != INVALID_HANDLE
-		? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-		: VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+								   ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+								   : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
 	// Begin the render pass
 	Vulkan_Renderer::begin_render_pass(
@@ -1507,7 +1577,7 @@ void Minty::Vulkan_RenderManager::recreate_depth_resources()
 
 void Minty::Vulkan_RenderManager::create_swapchain(Vulkan_SurfaceData &surfaceData)
 {
-    // Get the queue families
+	// Get the queue families
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(
 		m_physicalDevice,
 		surfaceData.surface);

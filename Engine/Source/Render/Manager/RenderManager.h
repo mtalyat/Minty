@@ -102,11 +102,13 @@ namespace Minty
         PipelineHandle create(PipelineResourceHandle const resourceHandle);
         void destroy(PipelineHandle const handle);
         Bool is_valid(PipelineHandle const handle) const;
+        void bind(PipelineHandle const handle);
 
         MaterialHandle create(MaterialInfo const &materialInfo);
         MaterialHandle create(MaterialResourceHandle const resourceHandle);
         void destroy(MaterialHandle const handle);
         Bool is_valid(MaterialHandle const handle) const;
+        void bind(MaterialHandle const handle);
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
         RenderTargetHandle create(RenderTargetResourceHandle const resourceHandle);
@@ -116,18 +118,18 @@ namespace Minty
         RenderViewHandle create(RenderViewInfo const &renderViewInfo, Camera const& camera);
         void destroy(RenderViewHandle const handle);
         Bool is_valid(RenderViewHandle const handle) const;
-        void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
-        void set_view(RenderViewHandle const handle);
-        void set_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+        void update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+        void bind(RenderViewHandle const handle);
+        void bind(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
 
         GeometryHandle create(GeometryInfo const &geometryInfo);
         void destroy(GeometryHandle const handle);
         Bool is_valid(GeometryHandle const handle) const;
 
-        void begin_frame();
+        Bool begin_frame();
         void end_frame();
 
-        void begin_pass(RenderPassHandle const handle);
+        Bool begin_pass(RenderPassHandle const handle);
         void end_pass();
 
         /**

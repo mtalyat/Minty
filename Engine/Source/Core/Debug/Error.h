@@ -192,6 +192,7 @@ namespace Minty
         Render_ShaderConfiguration,
         Render_FailedToLoadImage,
         Render_FailedToRender,
+        Render_InvalidBind,
 
         Physics = 1500,
         Physics_InSimulation,

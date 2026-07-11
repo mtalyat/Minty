@@ -265,6 +265,12 @@ Bool Minty::RenderManager::is_valid(PipelineHandle const handle) const
     return mp_impl->renderManager.is_valid(handle);
 }
 
+void Minty::RenderManager::bind(PipelineHandle const handle)
+{
+	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
+    mp_impl->renderManager.bind(handle);
+}
+
 MaterialHandle Minty::RenderManager::create(MaterialInfo const &materialInfo)
 {
     return mp_impl->renderManager.create(materialInfo);
@@ -297,6 +303,12 @@ void Minty::RenderManager::destroy(MaterialHandle const handle)
 Bool Minty::RenderManager::is_valid(MaterialHandle const handle) const
 {
     return mp_impl->renderManager.is_valid(handle);
+}
+
+void Minty::RenderManager::bind(MaterialHandle const handle)
+{
+	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
+    mp_impl->renderManager.bind(handle);
 }
 
 RenderTargetHandle Minty::RenderManager::create(RenderTargetInfo const &renderTargetInfo)
@@ -350,20 +362,20 @@ Bool Minty::RenderManager::is_valid(RenderViewHandle const handle) const
     return mp_impl->renderManager.is_valid(handle);
 }
 
-void Minty::RenderManager::update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+void Minty::RenderManager::update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
 {
-    mp_impl->renderManager.update_view(handle, position, direction);
+    mp_impl->renderManager.update(handle, position, direction);
 }
 
-void Minty::RenderManager::set_view(RenderViewHandle const handle)
+void Minty::RenderManager::bind(RenderViewHandle const handle)
 {
-    mp_impl->renderManager.set_view(handle);
+    mp_impl->renderManager.bind(handle);
 }
 
-void Minty::RenderManager::set_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+void Minty::RenderManager::bind(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
 {
-    mp_impl->renderManager.update_view(handle, position, direction);
-    mp_impl->renderManager.set_view(handle);
+    mp_impl->renderManager.update(handle, position, direction);
+    mp_impl->renderManager.bind(handle);
 }
 
 GeometryHandle Minty::RenderManager::create(GeometryInfo const &geometryInfo)
@@ -381,18 +393,31 @@ Bool Minty::RenderManager::is_valid(GeometryHandle const handle) const
     return mp_impl->renderManager.is_valid(handle);
 }
 
-void Minty::RenderManager::begin_frame()
+Bool Minty::RenderManager::begin_frame()
 {
     // validate state
     MINTY_ASSERT(m_state < State::Frame, ErrorCodeEnum::Render_AlreadyRenderingFrame);
     MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
-    m_state = State::Frame;
 
-    mp_impl->renderManager.begin_frame();
+    if (mp_impl->renderManager.begin_frame())
+    {
+        m_state = State::Frame;
+        return true;
+    }
+    else
+    {
+        m_state = State::Idle;
+        return false;
+    }
 }
 
 void Minty::RenderManager::end_frame()
 {
+    if (m_state == State::Idle)
+    {
+        return;
+    }
+
     // validate state
     MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
     MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
@@ -402,19 +427,29 @@ void Minty::RenderManager::end_frame()
     m_state = State::Idle;
 }
 
-void Minty::RenderManager::begin_pass(RenderPassHandle const handle)
+Bool Minty::RenderManager::begin_pass(RenderPassHandle const handle)
 {
+    if (m_state == State::Idle)
+    {
+        return false;
+    }
+
     // validate state
     MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
     MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
     m_state = State::Pass;
 
-    mp_impl->renderManager.begin_pass(handle);
+    return mp_impl->renderManager.begin_pass(handle);
 }
 
 void Minty::RenderManager::end_pass()
 {
+    if (m_state == State::Idle)
+    {
+        return;
+    }
+
     // validate state
     MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
     MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);

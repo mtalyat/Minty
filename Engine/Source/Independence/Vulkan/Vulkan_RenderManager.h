@@ -84,6 +84,7 @@ namespace Minty
         PipelineHandle create(PipelineInfo const &pipelineInfo);
         void destroy(PipelineHandle const handle);
         Bool is_valid(PipelineHandle const handle) const;
+        void bind(PipelineHandle const handle);
 
         RenderPassHandle create(RenderPassInfo const &renderPassInfo);
         void destroy(RenderPassHandle const handle);
@@ -92,6 +93,7 @@ namespace Minty
         MaterialHandle create(MaterialInfo const &materialInfo);
         void destroy(MaterialHandle const handle);
         Bool is_valid(MaterialHandle const handle) const;
+        void bind(MaterialHandle const handle);
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
         void destroy(RenderTargetHandle const handle);
@@ -100,8 +102,8 @@ namespace Minty
         RenderViewHandle create(RenderViewInfo const &renderViewInfo, Camera const& camera);
         void destroy(RenderViewHandle const handle);
         Bool is_valid(RenderViewHandle const handle) const;
-        void update_view(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
-        void set_view(RenderViewHandle const handle);
+        void update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
+        void bind(RenderViewHandle const handle);
 
         GeometryHandle create(GeometryInfo const &geometryInfo);
         void destroy(GeometryHandle const handle);
@@ -184,8 +186,10 @@ namespace Minty
         RenderTargetHandle m_defaultRenderTarget;
         ViewportHandle m_defaultViewport;
 
-        // active objects
-        RenderViewHandle m_activeRenderView;
+        // bound objects
+        RenderViewHandle m_boundRenderView;
+        PipelineHandle m_boundPipeline;
+        MaterialHandle m_boundMaterial;
         
 #pragma endregion
     };

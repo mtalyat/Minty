@@ -4,7 +4,7 @@ using namespace Minty;
 
 int main()
 {
-	// RESOURCE
+    // RESOURCE
     ResourceManagerInfo info{};
     ResourceManager resourceManager(info);
 
@@ -51,7 +51,6 @@ int main()
     RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);
 
     // SETUP
-    renderManager.set_view(renderViewHandle);
     audioManager.play(clipHandle);
 
     // MAIN LOOP
@@ -59,11 +58,19 @@ int main()
     {
         windowManager.process_events();
 
-        renderManager.begin_frame();
-        renderManager.begin_pass(renderPassHandle);
-        renderManager.end_pass();
-        renderManager.end_frame();
+        if (renderManager.begin_frame())
+        {
+            if (renderManager.begin_pass(renderPassHandle))
+            {
+                renderManager.bind(renderViewHandle);
+                renderManager.bind(pipelineHandle);
+                renderManager.bind(materialHandle);
+
+                renderManager.end_pass();
+            }
+            renderManager.end_frame();
+        }
     }
 
-	return 0;
+    return 0;
 }
