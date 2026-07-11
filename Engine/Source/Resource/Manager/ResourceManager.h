@@ -29,8 +29,10 @@
 #include "Resource/Pipeline/PipelineResource.h"
 #include "Resource/Prefab/PrefabResource.h"
 #include "Resource/RenderPass/RenderPassResource.h"
+#include "Resource/RenderTarget/RenderTargetResource.h"
 #include "Resource/Shader/ShaderResource.h"
 #include "Resource/Texture/TextureResource.h"
+#include "Resource/Viewport/ViewportResource.h"
 
 namespace Minty
 {
@@ -278,6 +280,10 @@ namespace Minty
             {
                 return m_assets_renderPasses;
             }
+            else if constexpr (std::is_same_v<T, RenderTargetResource>)
+            {
+                return m_assets_renderTargets;
+            }
             else if constexpr (std::is_same_v<T, ShaderResource>)
             {
                 return m_assets_shaders;
@@ -285,6 +291,10 @@ namespace Minty
             else if constexpr (std::is_same_v<T, TextureResource>)
             {
                 return m_assets_textures;
+            }
+            else if constexpr (std::is_same_v<T, ViewportResource>)
+            {
+                return m_assets_viewports;
             }
             else
             {
@@ -315,8 +325,10 @@ namespace Minty
         ResourcePool<PipelineResource> m_assets_pipelines;
         ResourcePool<PrefabResource> m_assets_prefabs;
         ResourcePool<RenderPassResource> m_assets_renderPasses;
+        ResourcePool<RenderTargetResource> m_assets_renderTargets;
         ResourcePool<ShaderResource> m_assets_shaders;
         ResourcePool<TextureResource> m_assets_textures;
+        ResourcePool<ViewportResource> m_assets_viewports;
 
         static ResourceManager *s_instance;
 

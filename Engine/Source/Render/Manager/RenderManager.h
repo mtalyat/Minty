@@ -83,6 +83,7 @@ namespace Minty
         Bool is_valid(SurfaceHandle const handle) const;
 
         ViewportHandle create(ViewportInfo const &viewportInfo);
+        ViewportHandle create(ViewportResourceHandle const resourceHandle);
         void destroy(ViewportHandle const handle);
         Bool is_valid(ViewportHandle const handle) const;
 
@@ -107,6 +108,7 @@ namespace Minty
         Bool is_valid(MaterialHandle const handle) const;
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
+        RenderTargetHandle create(RenderTargetResourceHandle const resourceHandle);
         void destroy(RenderTargetHandle const handle);
         Bool is_valid(RenderTargetHandle const handle) const;
 
@@ -149,9 +151,17 @@ namespace Minty
             {
                 return m_renderPassCache;
             }
+            else if constexpr (std::is_same_v<ResourceHandle, RenderTargetResourceHandle> && std::is_same_v<Handle, RenderTargetHandle>)
+            {
+                return m_renderTargetCache;
+            }
             else if constexpr (std::is_same_v<ResourceHandle, PipelineResourceHandle> && std::is_same_v<Handle, PipelineHandle>)
             {
                 return m_pipelineCache;
+            }
+            else if constexpr (std::is_same_v<ResourceHandle, ViewportResourceHandle> && std::is_same_v<Handle, ViewportHandle>)
+            {
+                return m_viewportCache;
             }
             else
             {
@@ -204,7 +214,9 @@ namespace Minty
         Map<TextureResourceHandle, TextureHandle> m_textureCache;
         Map<ShaderResourceHandle, ShaderHandle> m_shaderCache;
         Map<RenderPassResourceHandle, RenderPassHandle> m_renderPassCache;
+        Map<RenderTargetResourceHandle, RenderTargetHandle> m_renderTargetCache;
         Map<PipelineResourceHandle, PipelineHandle> m_pipelineCache;
+        Map<ViewportResourceHandle, ViewportHandle> m_viewportCache;
 
         State m_state;
 

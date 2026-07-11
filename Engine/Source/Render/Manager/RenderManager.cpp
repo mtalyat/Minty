@@ -2,7 +2,9 @@
 #include "RenderManager.h"
 #include "RenderManagerInfo.h"
 #include "Resource/Manager/ResourceManager.h"
+#include "Render/RenderTarget/RenderTargetInfo.h"
 #include "Render/Texture/TextureInfo.h"
+#include "Render/Viewport/ViewportInfo.h"
 #include "Render/Shader/ShaderInfo.h"
 #include "Render/RenderPass/RenderPassInfo.h"
 #include "Render/Pipeline/PipelineInfo.h"
@@ -102,6 +104,24 @@ ViewportHandle Minty::RenderManager::create(ViewportInfo const &viewportInfo)
     return mp_impl->renderManager.create(viewportInfo);
 }
 
+ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourceHandle)
+{
+    ResourceManager &resourceManager = ResourceManager::get_instance();
+    ViewportResource const &viewportResource = resourceManager.at<ViewportResource>(resourceHandle);
+
+    ViewportInfo viewportInfo{};
+    viewportInfo.viewPosition = viewportResource.viewPosition;
+    viewportInfo.viewSize = viewportResource.viewSize;
+    viewportInfo.minDepth = viewportResource.minDepth;
+    viewportInfo.maxDepth = viewportResource.maxDepth;
+    viewportInfo.scissorPosition = viewportResource.scissorPosition;
+    viewportInfo.scissorSize = viewportResource.scissorSize;
+
+    ViewportHandle const handle = create(viewportInfo);
+    cache_handle<ViewportResourceHandle, ViewportHandle>(resourceHandle, handle);
+    return handle;
+}
+
 void Minty::RenderManager::destroy(ViewportHandle const handle)
 {
     mp_impl->renderManager.destroy(handle);
@@ -159,6 +179,25 @@ RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const res
     // Create info from it
     RenderPassInfo renderPassInfo{};
     renderPassInfo.attachments = renderPassResource.attachments;
+    renderPassInfo.clearColor = renderPassResource.clearColor;
+    renderPassInfo.clearDepth = renderPassResource.clearDepth;
+    renderPassInfo.clearStencil = renderPassResource.clearStencil;
+    renderPassInfo.renderTarget = renderPassResource.renderTarget == INVALID_HANDLE
+        ? INVALID_HANDLE
+        : get_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(renderPassResource.renderTarget);
+    renderPassInfo.viewport = renderPassResource.viewport == INVALID_HANDLE
+        ? INVALID_HANDLE
+        : get_cached_handle<ViewportResourceHandle, ViewportHandle>(renderPassResource.viewport);
+
+    if (renderPassInfo.renderTarget == INVALID_HANDLE && renderPassResource.renderTarget != INVALID_HANDLE)
+    {
+        renderPassInfo.renderTarget = create(renderPassResource.renderTarget);
+    }
+
+    if (renderPassInfo.viewport == INVALID_HANDLE && renderPassResource.viewport != INVALID_HANDLE)
+    {
+        renderPassInfo.viewport = create(renderPassResource.viewport);
+    }
 
     // Create the render pass
     RenderPassHandle const handle = create(renderPassInfo);
@@ -262,6 +301,27 @@ Bool Minty::RenderManager::is_valid(MaterialHandle const handle) const
 RenderTargetHandle Minty::RenderManager::create(RenderTargetInfo const &renderTargetInfo)
 {
     return mp_impl->renderManager.create(renderTargetInfo);
+}
+
+RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const resourceHandle)
+{
+    ResourceManager &resourceManager = ResourceManager::get_instance();
+    RenderTargetResource const &renderTargetResource = resourceManager.at<RenderTargetResource>(resourceHandle);
+
+    RenderTargetInfo renderTargetInfo{};
+    for (TextureResourceHandle const &textureResourceHandle : renderTargetResource.images)
+    {
+        TextureHandle textureHandle = get_cached_handle<TextureResourceHandle, TextureHandle>(textureResourceHandle);
+        if (textureHandle == INVALID_HANDLE)
+        {
+            textureHandle = create(textureResourceHandle);
+        }
+        renderTargetInfo.images.add(textureHandle);
+    }
+
+    RenderTargetHandle const handle = create(renderTargetInfo);
+    cache_handle<RenderTargetResourceHandle, RenderTargetHandle>(resourceHandle, handle);
+    return handle;
 }
 
 void Minty::RenderManager::destroy(RenderTargetHandle const handle)

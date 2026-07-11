@@ -11,6 +11,7 @@ int main()
     ClipResourceHandle const clipResourceHandle = resourceManager.load<ClipResource>("Assets/test2.clp.minty");
     ImageResourceHandle const imageResourceHandle = resourceManager.load<ImageResource>("Assets/test.img.minty");
     TextureResourceHandle const textureResourceHandle = resourceManager.load<TextureResource>("Assets/test.tex.minty");
+    ViewportResourceHandle const viewportResourceHandle = resourceManager.load<ViewportResource>("Assets/test.vpt.minty");
     RenderPassResourceHandle const renderPassResourceHandle = resourceManager.load<RenderPassResource>("Assets/test.rpa.minty");
     ShaderResourceHandle const shaderFragResourceHandle = resourceManager.load<ShaderResource>("Assets/test.frag.sha.minty");
     ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("Assets/test.vert.sha.minty");
@@ -46,13 +47,6 @@ int main()
     ShaderHandle const shaderVertHandle = renderManager.create(shaderVertResourceHandle);
     PipelineHandle const pipelineHandle = renderManager.create(pipelineResourceHandle);
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
-    SurfaceInfo surfaceInfo{};
-    surfaceInfo.window = window;
-    SurfaceHandle const surfaceHandle = renderManager.create(surfaceInfo);
-    RenderTargetInfo renderTargetInfo{};
-    renderTargetInfo.renderPass = renderPassHandle;
-    renderTargetInfo.surface = surfaceHandle;
-    RenderTargetHandle const renderTargetHandle = renderManager.create(renderTargetInfo);
     Camera camera{};
     RenderViewInfo renderViewInfo{};
     RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);

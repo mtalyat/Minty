@@ -175,6 +175,7 @@ namespace Minty
         // global resources
         SurfaceHandle m_surface;
         TextureHandle m_depthStencilImage;
+        RenderTargetHandle m_defaultRenderTarget;
         ViewportHandle m_defaultViewport;
 
         // active objects

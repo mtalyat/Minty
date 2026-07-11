@@ -77,6 +77,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	  m_frames(),
 	  m_currentFrameIndex(0),
 	  m_passesMade(0),
+	  m_defaultRenderTarget(INVALID_HANDLE),
 	  m_activeRenderView(INVALID_HANDLE)
 {
 	// create instance
@@ -134,6 +135,10 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	viewportInfo.viewSize = swapchainSize;
 	viewportInfo.scissorSize = swapchainSize;
 	m_defaultViewport = create(viewportInfo);
+
+	RenderTargetInfo renderTargetInfo{};
+	renderTargetInfo.surface = m_surface;
+	m_defaultRenderTarget = create(renderTargetInfo);
 }
 
 Minty::Vulkan_RenderManager::~Vulkan_RenderManager()
@@ -924,7 +929,7 @@ RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &rende
 		m_device,
 		colorAttachmentDescriptions,
 		depthAttachmentDescriptions);
-	renderPassData.renderTarget = renderPassInfo.renderTarget;
+	renderPassData.renderTarget = renderPassInfo.renderTarget == INVALID_HANDLE ? m_defaultRenderTarget : renderPassInfo.renderTarget;
 	renderPassData.viewport = renderPassInfo.viewport == INVALID_HANDLE ? m_defaultViewport : renderPassInfo.viewport;
 	renderPassData.clearDepth = renderPassInfo.clearDepth;
 	renderPassData.clearStencil = renderPassInfo.clearStencil;

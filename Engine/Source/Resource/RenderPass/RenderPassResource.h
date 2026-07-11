@@ -9,6 +9,8 @@
 #include "RenderAttachment.h"
 #include "Core/Serialize/Serializer.h"
 #include "Core/Data/Vector.h"
+#include "Core/Type/Color.h"
+#include "Resource/Type/Handle.h"
 
 namespace Minty
 {
@@ -18,6 +20,11 @@ namespace Minty
 	struct RenderPassResource
 	{
 		Vector<RenderAttachment> attachments;
+		RenderTargetResourceHandle renderTarget = INVALID_HANDLE;
+		ViewportResourceHandle viewport = INVALID_HANDLE;
+		Color clearColor = Color::black();
+		Float clearDepth = 1.0f;
+		UInt clearStencil = 0;
 	};
 
 	template<>

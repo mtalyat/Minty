@@ -41,9 +41,15 @@ namespace Minty
     struct RenderPassResource;
     using RenderPassResourceHandle = Handle<RenderPassResource>;
 
+    struct RenderTargetResource;
+    using RenderTargetResourceHandle = Handle<RenderTargetResource>;
+
     struct ShaderResource;
     using ShaderResourceHandle = Handle<ShaderResource>;
 
     struct TextureResource;
     using TextureResourceHandle = Handle<TextureResource>;
+
+    struct ViewportResource;
+    using ViewportResourceHandle = Handle<ViewportResource>;
 }
