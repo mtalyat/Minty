@@ -360,10 +360,10 @@ BufferHandle Minty::Vulkan_RenderManager::create(BufferInfo const &bufferInfo)
 	// Buffer data for convenience
 	VkBufferUsageFlags usage = Converter<BufferUsageFlags, VkBufferUsageFlags>::from_minty(bufferInfo.usage);
 	VkMemoryPropertyFlags memoryPropertyFlags;
-	VkDeviceSize size = bufferInfo.data.get_size();
 
 	// Create the Vulkan data
 	Vulkan_BufferData bufferData{};
+	bufferData.size = bufferInfo.data.get_size();
 
 	// If frequent, optimize for GPU access. If not, optimize for GPU transfer.
 	if (bufferInfo.frequent)
@@ -379,7 +379,7 @@ BufferHandle Minty::Vulkan_RenderManager::create(BufferInfo const &bufferInfo)
 	// Create the buffer
 	bufferData.buffer = Vulkan_Renderer::create_buffer(
 		m_device,
-		size,
+		bufferData.size,
 		usage);
 
 	// Allocate the memory
@@ -402,7 +402,7 @@ BufferHandle Minty::Vulkan_RenderManager::create(BufferInfo const &bufferInfo)
 			m_device,
 			bufferData.memory,
 			0,
-			size);
+			bufferData.size);
 	}
 
 	// Add to pool
@@ -460,6 +460,7 @@ void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, View const
 	// create staging buffer
 	VkBuffer stagingBuffer = Vulkan_Renderer::create_buffer(m_device, bufferData.size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT);
 	VkDeviceMemory stagingBufferMemory = Vulkan_Renderer::allocate_buffer_memory(m_device, m_physicalDevice, stagingBuffer, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+	Vulkan_Renderer::bind_buffer_memory(m_device, stagingBuffer, stagingBufferMemory);
 
 	// copy data to staging buffer
 	Pointer const mappedMemory = Vulkan_Renderer::map_memory(m_device, stagingBufferMemory, 0, bufferData.size);
@@ -1249,14 +1250,14 @@ GeometryHandle Minty::Vulkan_RenderManager::create(GeometryInfo const &geometryI
 	MINTY_ASSERT(!geometryInfo.vertexData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 	MINTY_ASSERT(geometryInfo.vertexStride > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
 	MINTY_ASSERT(!geometryInfo.indexData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
-	MINTY_ASSERT(geometryInfo.indexStride > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(geometryInfo.indexType.get_size() > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
 
 	// Create the Vulkan data
 	Vulkan_GeometryData geometryData{};
 	geometryData.vertexCount = geometryInfo.vertexData.get_size() / geometryInfo.vertexStride;
 	geometryData.vertexStride = geometryInfo.vertexStride;
-	geometryData.indexCount = geometryInfo.indexData.get_size() / geometryInfo.indexStride;
-	geometryData.indexStride = geometryInfo.indexStride;
+	geometryData.indexCount = geometryInfo.indexData.get_size() / geometryInfo.indexType.get_size();
+	geometryData.indexType = Converter<GeometryIndexType, VkIndexType>::from_minty(geometryInfo.indexType);
 
 	// Create the buffers
 	BufferInfo bufferInfo{};
@@ -1296,6 +1297,40 @@ void Minty::Vulkan_RenderManager::destroy(GeometryHandle const handle)
 Bool Minty::Vulkan_RenderManager::is_valid(GeometryHandle const handle) const
 {
 	return m_geometryDataPool.contains(handle);
+}
+
+void Minty::Vulkan_RenderManager::bind(GeometryHandle const handle)
+{
+	MINTY_ASSERT(m_geometryDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+	// do nothing if already bound
+	if (m_boundGeometry == handle)
+	{
+		return;
+	}
+	m_boundGeometry = handle;
+
+	// Get the frame data
+	Vulkan_Frame const &frame = get_current_frame();
+
+	// Get the geometry data
+	Vulkan_GeometryData const &geometryData = m_geometryDataPool.at(handle);
+
+	// Get the buffer datas
+	Vulkan_BufferData const &vertexBufferData = m_bufferDataPool.at(geometryData.vertexBuffer);
+	Vulkan_BufferData const &indexBufferData = m_bufferDataPool.at(geometryData.indexBuffer);
+
+	// Bind the vertex buffer
+	Vulkan_Renderer::bind_vertex_buffer(
+		frame.commandBuffer,
+		vertexBufferData.buffer,
+		geometryData.vertexStride);
+	
+	// Bind the index buffer
+	Vulkan_Renderer::bind_index_buffer(
+		frame.commandBuffer,
+		indexBufferData.buffer,
+		geometryData.indexType);
 }
 
 Bool Minty::Vulkan_RenderManager::begin_frame()

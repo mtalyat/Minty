@@ -46,6 +46,7 @@ int main()
     ShaderHandle const shaderVertHandle = renderManager.create(shaderVertResourceHandle);
     PipelineHandle const pipelineHandle = renderManager.create(pipelineResourceHandle);
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
+    GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
     Camera camera{};
     RenderViewInfo renderViewInfo{};
     RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);

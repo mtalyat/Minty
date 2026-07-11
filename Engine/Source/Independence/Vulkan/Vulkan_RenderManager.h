@@ -108,6 +108,7 @@ namespace Minty
         GeometryHandle create(GeometryInfo const &geometryInfo);
         void destroy(GeometryHandle const handle);
         Bool is_valid(GeometryHandle const handle) const;
+        void bind(GeometryHandle const handle);
 
         Bool begin_frame();
         void end_frame();
@@ -190,6 +191,7 @@ namespace Minty
         RenderViewHandle m_boundRenderView;
         PipelineHandle m_boundPipeline;
         MaterialHandle m_boundMaterial;
+        GeometryHandle m_boundGeometry;
         
 #pragma endregion
     };

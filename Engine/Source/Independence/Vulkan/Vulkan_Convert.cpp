@@ -526,3 +526,23 @@ VkAttachmentStoreOp Minty::Converter<StoreOperation, VkAttachmentStoreOp>::from_
 	MINTY_ABORT(ErrorCodeEnum::ConversionFailed);
 	return VK_ATTACHMENT_STORE_OP_MAX_ENUM;
 }
+
+GeometryIndexType Minty::Converter<GeometryIndexType, VkIndexType>::to_minty(VkIndexType const &value)
+{
+    MINTY_NOT_IMPLEMENTED();
+	return GeometryIndexType();
+}
+
+VkIndexType Minty::Converter<GeometryIndexType, VkIndexType>::from_minty(GeometryIndexType const &value)
+{
+	switch (value.value)
+	{
+	case GeometryIndexTypeEnum::UInt16:
+		return VK_INDEX_TYPE_UINT16;
+	case GeometryIndexTypeEnum::UInt32:
+		return VK_INDEX_TYPE_UINT32;
+	}
+
+	MINTY_ABORT(ErrorCodeEnum::ConversionFailed);
+	return VK_INDEX_TYPE_MAX_ENUM;
+}

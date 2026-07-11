@@ -9,6 +9,7 @@
 #include "Render/RenderPass/RenderPassInfo.h"
 #include "Render/Pipeline/PipelineInfo.h"
 #include "Render/Material/MaterialInfo.h"
+#include "Render/Geometry/GeometryInfo.h"
 
 using namespace Minty;
 
@@ -381,6 +382,23 @@ void Minty::RenderManager::bind(RenderViewHandle const handle, Float3 const &pos
 GeometryHandle Minty::RenderManager::create(GeometryInfo const &geometryInfo)
 {
     return mp_impl->renderManager.create(geometryInfo);
+}
+
+GeometryHandle Minty::RenderManager::create(MeshResourceHandle const resourceHandle)
+{
+    // Get resource data
+    ResourceManager &resourceManager = ResourceManager::get_instance();
+    MeshResource const &meshResource = resourceManager.at<MeshResource>(resourceHandle);
+
+    GeometryInfo geometryInfo{};
+    geometryInfo.vertexData = View(meshResource.vertexContainer.get_data(), meshResource.vertexContainer.get_size());
+    geometryInfo.vertexStride = meshResource.vertexContainer.get_stride();
+    geometryInfo.indexData = View(meshResource.indexContainer.get_data(), meshResource.indexContainer.get_size());
+    geometryInfo.indexType = GeometryIndexType::from_size(meshResource.indexContainer.get_stride());
+
+    GeometryHandle const handle = create(geometryInfo);
+    cache_handle<MeshResourceHandle, GeometryHandle>(resourceHandle, handle);
+    return handle;
 }
 
 void Minty::RenderManager::destroy(GeometryHandle const handle)

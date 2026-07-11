@@ -10,6 +10,7 @@
 #include "Core/Convert/Converter.h"
 #include "Core/Type/Conditional.h"
 #include "Render/Buffer/BufferUsage.h"
+#include "Render/Geometry/GeometryIndexType.h"
 #include "Resource/Image/ImageAspect.h"
 #include "Resource/Image/ImageFormat.h"
 #include "Resource/Image/ImageLayout.h"
@@ -169,5 +170,12 @@ namespace Minty
     {
         static StoreOperation to_minty(VkAttachmentStoreOp const& value);
         static VkAttachmentStoreOp from_minty(StoreOperation const& value);
+    };
+
+    template<>
+    struct Converter<GeometryIndexType, VkIndexType>
+    {
+        static GeometryIndexType to_minty(VkIndexType const& value);
+        static VkIndexType from_minty(GeometryIndexType const& value);
     };
 }

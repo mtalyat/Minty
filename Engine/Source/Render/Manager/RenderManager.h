@@ -123,6 +123,7 @@ namespace Minty
         void bind(RenderViewHandle const handle, Float3 const &position, Float3 const &direction);
 
         GeometryHandle create(GeometryInfo const &geometryInfo);
+        GeometryHandle create(MeshResourceHandle const resourceHandle);
         void destroy(GeometryHandle const handle);
         Bool is_valid(GeometryHandle const handle) const;
 
@@ -169,6 +170,10 @@ namespace Minty
             else if constexpr (std::is_same_v<ResourceHandle, ViewportResourceHandle> && std::is_same_v<Handle, ViewportHandle>)
             {
                 return m_viewportCache;
+            }
+            else if constexpr (std::is_same_v<ResourceHandle, MeshResourceHandle> && std::is_same_v<Handle, GeometryHandle>)
+            {
+                return m_geometryCache;
             }
             else
             {
@@ -224,6 +229,7 @@ namespace Minty
         Map<RenderTargetResourceHandle, RenderTargetHandle> m_renderTargetCache;
         Map<PipelineResourceHandle, PipelineHandle> m_pipelineCache;
         Map<ViewportResourceHandle, ViewportHandle> m_viewportCache;
+        Map<MeshResourceHandle, GeometryHandle> m_geometryCache;
 
         State m_state;
 

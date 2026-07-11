@@ -14,6 +14,6 @@ namespace Minty
 
         BufferHandle indexBuffer = INVALID_HANDLE;
         Size indexCount = 0;
-        Size indexStride = 0;
+        VkIndexType indexType = VK_INDEX_TYPE_UINT16;
     };
 }
