@@ -7,7 +7,7 @@
  */
 
 #include "PipelineInputType.h"
-#include "Core/Data/StringView.h"
+#include "Core/Data/String.h"
 #include "Core/Data/Tuple.h"
 #include "Core/Data/Variable.h"
 #include "Core/Data/Vector.h"
@@ -25,7 +25,7 @@ namespace Minty
 		/**
 		 * @brief The name of this input.
 		 */
-		StringView name = "";
+		String name = "";
 
 		/**
 		 * @brief The type of the input.

@@ -318,7 +318,9 @@ namespace Minty
 			{
 				for (Size i = get_size(); i < size; ++i)
 				{
-					new (&mp_data[i]) T(std::forward<Args>(args)...);
+						// Intentionally do not forward here: forwarding rvalue args repeatedly would
+						// move from the same object multiple times across iterations.
+						new (&mp_data[i]) T(args...);
 				}
 			}
 			// destruct removed elements

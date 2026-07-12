@@ -11,6 +11,9 @@
 #include "Resource/Type/Handle.h"
 #include "Render/Type/Handle.h"
 #include "Core/Data/Map.h"
+#include "Core/Data/StringView.h"
+#include "Core/Data/Variable.h"
+#include "Core/Data/Object.h"
 
 namespace Minty
 {
@@ -28,6 +31,7 @@ namespace Minty
     struct TextureInfo;
     struct ViewportInfo;
     struct Camera;
+    class Transform;
 
     class RenderManager
     {
@@ -102,12 +106,14 @@ namespace Minty
         PipelineHandle create(PipelineResourceHandle const resourceHandle);
         void destroy(PipelineHandle const handle);
         Bool is_valid(PipelineHandle const handle) const;
+        void update(PipelineHandle const handle, StringView const name, Variable const &value);
         void bind(PipelineHandle const handle);
 
         MaterialHandle create(MaterialInfo const &materialInfo);
         MaterialHandle create(MaterialResourceHandle const resourceHandle);
         void destroy(MaterialHandle const handle);
         Bool is_valid(MaterialHandle const handle) const;
+        void update(MaterialHandle const handle, StringView const name, Variable const &value);
         void bind(MaterialHandle const handle);
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
@@ -136,6 +142,9 @@ namespace Minty
 
         // draw the bound objects (geometry, material, pipeline, render view)
         void draw();
+        void draw(Object const &objectValues);
+        void draw(Transform const &transform);
+        void draw(Transform const &transform, Object const &objectValues);
 
         /**
          * @brief Gets the singleton instance of the RenderManager.

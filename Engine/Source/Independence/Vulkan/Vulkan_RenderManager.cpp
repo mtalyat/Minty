@@ -64,6 +64,30 @@ static VkImageLayout usage_to_layout(VkImageUsageFlags const usage)
 	}
 }
 
+static Bool is_buffer_input(PipelineInputType const type)
+{
+	return type == PipelineInputTypeEnum::UniformBuffer ||
+		type == PipelineInputTypeEnum::StorageBuffer ||
+		type == PipelineInputTypeEnum::UniformBufferDynamic ||
+		type == PipelineInputTypeEnum::StorageBufferDynamic;
+}
+
+static BufferUsageFlags to_buffer_usage(PipelineInputType const type)
+{
+	if (type == PipelineInputTypeEnum::UniformBuffer || type == PipelineInputTypeEnum::UniformBufferDynamic)
+	{
+		return BufferUsageFlagsEnum::Uniform;
+	}
+
+	if (type == PipelineInputTypeEnum::StorageBuffer || type == PipelineInputTypeEnum::StorageBufferDynamic)
+	{
+		return BufferUsageFlagsEnum::Uniform;
+	}
+
+	MINTY_NOT_SUPPORTED();
+	return BufferUsageFlagsEnum::Undefined;
+}
+
 Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	: m_instance(Vulkan_Renderer::create_instance()),
 #ifdef MINTY_DEBUG
@@ -591,7 +615,7 @@ PipelineHandle Minty::Vulkan_RenderManager::create(PipelineInfo const &pipelineI
 			m_device,
 			poolSizes,
 			MAX_MATERIAL_COUNT * FRAMES_PER_FLIGHT);
-		allocatorData.poolSize = MAX_MATERIAL_COUNT * FRAMES_PER_FLIGHT;
+		allocatorData.maxPoolSize = MAX_MATERIAL_COUNT * FRAMES_PER_FLIGHT;
 		allocatorData.poolSize = 0;
 	}
 
@@ -880,6 +904,149 @@ PipelineHandle Minty::Vulkan_RenderManager::create(PipelineInfo const &pipelineI
 		m_device,
 		pipelineInfoCreate);
 
+	// Allocate descriptor sets for each set in this pipeline. Set 0 is global and set 2 is object.
+	pipelineData.descriptorSets.resize(pipelineLayout.descriptorSetLayouts.get_size());
+	for (Size setIndex = 0; setIndex < pipelineLayout.descriptorSetLayouts.get_size(); ++setIndex)
+	{
+		Vulkan_DescriptorSetLayoutData const &descriptorSetLayout = pipelineLayout.descriptorSetLayouts.at(setIndex);
+		pipelineData.descriptorSets.at(setIndex) = Vulkan_Renderer::allocate_descriptor_sets_for_frames(
+			m_device,
+			descriptorSetLayout.allocatorData.descriptorPool,
+			descriptorSetLayout.layout);
+	}
+
+	Vector<VkWriteDescriptorSet> descriptorWrites;
+	Vector<VkDescriptorBufferInfo> descriptorBufferInfos;
+	Vector<VkDescriptorImageInfo> descriptorImageInfos;
+	descriptorWrites.reserve(pipelineInfo.inputs.get_size() * FRAMES_PER_FLIGHT);
+	descriptorBufferInfos.reserve(pipelineInfo.inputs.get_size() * FRAMES_PER_FLIGHT);
+	descriptorImageInfos.reserve(pipelineInfo.inputs.get_size() * FRAMES_PER_FLIGHT);
+
+	for (PipelineInput const &input : pipelineInfo.inputs)
+	{
+		if ((input.type == PipelineInputTypeEnum::CombinedImageSampler || input.type == PipelineInputTypeEnum::SampledImage) && input.count == 1)
+		{
+			TextureHandle defaultTextureHandle = INVALID_HANDLE;
+			for (TextureHandle const &textureHandle : m_textureDataPool.get_handles())
+			{
+				Vulkan_TextureData const &textureData = m_textureDataPool.at(textureHandle);
+				if (textureData.view == VK_NULL_HANDLE)
+				{
+					continue;
+				}
+
+				if ((textureData.usage & VK_IMAGE_USAGE_SAMPLED_BIT) == 0)
+				{
+					continue;
+				}
+
+				if (input.type == PipelineInputTypeEnum::CombinedImageSampler && textureData.sampler == VK_NULL_HANDLE)
+				{
+					continue;
+				}
+
+				defaultTextureHandle = textureHandle;
+				break;
+			}
+
+			MINTY_ASSERT(defaultTextureHandle != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
+			Vulkan_TextureData const &textureData = m_textureDataPool.at(defaultTextureHandle);
+
+			for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+			{
+				Size const imageInfoIndex = descriptorImageInfos.get_size();
+				descriptorImageInfos.add(VkDescriptorImageInfo{});
+				VkDescriptorImageInfo &descriptorImageInfo = descriptorImageInfos.at(imageInfoIndex);
+				descriptorImageInfo.sampler = input.type == PipelineInputTypeEnum::CombinedImageSampler ? textureData.sampler : VK_NULL_HANDLE;
+				descriptorImageInfo.imageView = textureData.view;
+				descriptorImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+
+				VkWriteDescriptorSet descriptorWrite{};
+				descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				descriptorWrite.dstSet = pipelineData.descriptorSets.at(input.set).at(frameIndex);
+				descriptorWrite.dstBinding = input.binding;
+				descriptorWrite.dstArrayElement = 0;
+				descriptorWrite.descriptorType = Converter<PipelineInputType, VkDescriptorType>::from_minty(input.type);
+				descriptorWrite.descriptorCount = 1;
+				descriptorWrite.pImageInfo = &descriptorImageInfo;
+				descriptorWrites.add(std::move(descriptorWrite));
+			}
+
+			continue;
+		}
+
+		if (!is_buffer_input(input.type) || input.count != 1)
+		{
+			continue;
+		}
+
+		if (input.set != 0 && input.set != 1 && input.set != 2)
+		{
+			continue;
+		}
+
+		MINTY_ASSERT(input.size > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
+
+		Vulkan_BufferInputStateData stateData{};
+		stateData.set = input.set;
+		stateData.binding = input.binding;
+		stateData.type = input.type;
+		stateData.object = input.object;
+
+		if (input.set != 1)
+		{
+			ConstantContainer packedObject = stateData.object.pack();
+			MINTY_ASSERT(packedObject.get_size() == input.size, ErrorCodeEnum::Render_ShaderConfiguration);
+
+			BufferInfo bufferInfo{};
+			bufferInfo.frequent = input.frequent;
+			bufferInfo.usage = to_buffer_usage(input.type);
+			bufferInfo.data = View(packedObject.get_data(), packedObject.get_size());
+
+			for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+			{
+				stateData.buffers.at(frameIndex) = create(bufferInfo);
+
+				Vulkan_BufferData const &bufferData = m_bufferDataPool.at(stateData.buffers.at(frameIndex));
+				Size const infoIndex = descriptorBufferInfos.get_size();
+				descriptorBufferInfos.add(VkDescriptorBufferInfo{});
+				VkDescriptorBufferInfo &descriptorBufferInfo = descriptorBufferInfos.at(infoIndex);
+				descriptorBufferInfo.buffer = bufferData.buffer;
+				descriptorBufferInfo.offset = 0;
+				descriptorBufferInfo.range = bufferData.size;
+
+				VkWriteDescriptorSet descriptorWrite{};
+				descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+				descriptorWrite.dstSet = pipelineData.descriptorSets.at(input.set).at(frameIndex);
+				descriptorWrite.dstBinding = input.binding;
+				descriptorWrite.dstArrayElement = 0;
+				descriptorWrite.descriptorType = Converter<PipelineInputType, VkDescriptorType>::from_minty(input.type);
+				descriptorWrite.descriptorCount = 1;
+				descriptorWrite.pBufferInfo = &descriptorBufferInfo;
+				descriptorWrites.add(std::move(descriptorWrite));
+			}
+		}
+
+		String const inputName(input.name);
+		if (input.set == 0)
+		{
+			pipelineData.globalInputs.add(inputName, std::move(stateData));
+		}
+		else if (input.set == 1)
+		{
+			pipelineData.materialInputTemplates.add(inputName, std::move(stateData));
+		}
+		else
+		{
+			pipelineData.objectInputs.add(inputName, std::move(stateData));
+		}
+	}
+
+	if (!descriptorWrites.is_empty())
+	{
+		Vulkan_Renderer::update_descriptor_sets(m_device, descriptorWrites);
+	}
+
 	// Add to pool and return handle
 	PipelineHandle const handle = m_pipelineDataPool.add(std::move(pipelineData));
 	return handle;
@@ -889,6 +1056,44 @@ void Minty::Vulkan_RenderManager::destroy(PipelineHandle const handle)
 {
 	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(handle);
+	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
+
+	for (auto const &[name, inputState] : pipelineData.globalInputs)
+	{
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			if (inputState.buffers.at(frameIndex) != INVALID_HANDLE)
+			{
+				destroy(inputState.buffers.at(frameIndex));
+			}
+		}
+	}
+
+	for (auto const &[name, inputState] : pipelineData.objectInputs)
+	{
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			if (inputState.buffers.at(frameIndex) != INVALID_HANDLE)
+			{
+				destroy(inputState.buffers.at(frameIndex));
+			}
+		}
+	}
+
+	for (Size setIndex = 0; setIndex < pipelineData.descriptorSets.get_size() && setIndex < pipelineLayoutData.descriptorSetLayouts.get_size(); ++setIndex)
+	{
+		Vector<VkDescriptorSet> descriptorSetsForFrames;
+		descriptorSetsForFrames.reserve(FRAMES_PER_FLIGHT);
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			descriptorSetsForFrames.add(pipelineData.descriptorSets.at(setIndex).at(frameIndex));
+		}
+
+		Vulkan_Renderer::free_descriptor_sets(
+			m_device,
+			pipelineLayoutData.descriptorSetLayouts.at(setIndex).allocatorData.descriptorPool,
+			descriptorSetsForFrames);
+	}
 
 	// Destroy the pipeline
 	Vulkan_Renderer::destroy_pipeline(m_device, pipelineData.pipeline);
@@ -902,19 +1107,41 @@ Bool Minty::Vulkan_RenderManager::is_valid(PipelineHandle const handle) const
 	return m_pipelineDataPool.contains(handle);
 }
 
+void Minty::Vulkan_RenderManager::update(PipelineHandle const handle, StringView const name, Variable const &value)
+{
+	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+	Vulkan_PipelineData &pipelineData = m_pipelineDataPool.at(handle);
+
+	Bool updated = false;
+	for (auto &[inputName, inputState] : pipelineData.globalInputs)
+	{
+		if (!inputState.object.contains(name))
+		{
+			continue;
+		}
+
+		inputState.object.set(name, value);
+		ConstantContainer packedObject = inputState.object.pack();
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			set_data(inputState.buffers.at(frameIndex), View(packedObject.get_data(), packedObject.get_size()));
+		}
+
+		updated = true;
+		break;
+	}
+
+	MINTY_ASSERT(updated, ErrorCodeEnum::Argument_KeyNotFound);
+}
+
 void Minty::Vulkan_RenderManager::bind(PipelineHandle const handle)
 {
 	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
-
-	// do nothing if already bound
-	if (m_boundPipeline == handle)
-	{
-		return;
-	}
 	m_boundPipeline = handle;
 
 	// Get the pipeline data
 	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(handle);
+	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
 
 	// Get the frame data
 	Vulkan_Frame const &frame = get_current_frame();
@@ -924,6 +1151,28 @@ void Minty::Vulkan_RenderManager::bind(PipelineHandle const handle)
 		frame.commandBuffer,
 		pipelineData.pipeline,
 		VK_PIPELINE_BIND_POINT_GRAPHICS);
+
+	// Bind global descriptor set (set 0) for this frame if this pipeline has one.
+	if (!pipelineData.descriptorSets.is_empty())
+	{
+		VkDescriptorSet const descriptorSet = pipelineData.descriptorSets.at(0).at(m_currentFrameIndex);
+		Vulkan_Renderer::bind_descriptor_set(
+			frame.commandBuffer,
+			pipelineLayoutData.layout,
+			descriptorSet,
+			0,
+			VK_PIPELINE_BIND_POINT_GRAPHICS);
+	}
+
+	// If a render view is already bound, keep the camera buffer in sync for this frame.
+	if (m_boundRenderView != INVALID_HANDLE && pipelineData.globalInputs.contains("camera"))
+	{
+		Vulkan_RenderViewData const &renderViewData = m_renderViewDataPool.at(m_boundRenderView);
+		Vulkan_BufferInputStateData const &inputState = pipelineData.globalInputs.at("camera");
+		set_data(
+			inputState.buffers.at(m_currentFrameIndex),
+			View(reinterpret_cast<Byte const *>(&renderViewData.viewProjectionMatrix), sizeof(renderViewData.viewProjectionMatrix)));
+	}
 }
 
 RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &renderPassInfo)
@@ -1005,22 +1254,79 @@ MaterialHandle Minty::Vulkan_RenderManager::create(MaterialInfo const &materialI
 	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
 
 	// Create descriptor sets for this material based on the pipeline layout
-	Vector<VkDescriptorSet> descriptorSets;
+	Vector<Array<VkDescriptorSet, FRAMES_PER_FLIGHT>> descriptorSets;
+	descriptorSets.resize(pipelineLayoutData.descriptorSetLayouts.get_size());
 	for (Vulkan_DescriptorSetLayoutData const &descriptorSetLayout : pipelineLayoutData.descriptorSetLayouts)
 	{
-		Array<VkDescriptorSet, FRAMES_PER_FLIGHT> descriptorSetsForFrames = Vulkan_Renderer::allocate_descriptor_sets_for_frames(
+		descriptorSets.at(descriptorSetLayout.id) = Vulkan_Renderer::allocate_descriptor_sets_for_frames(
 			m_device,
 			descriptorSetLayout.allocatorData.descriptorPool,
 			descriptorSetLayout.layout);
-		for (VkDescriptorSet const &descriptorSet : descriptorSetsForFrames)
-		{
-			descriptorSets.add(descriptorSet);
-		}
 	}
 
 	Vulkan_MaterialData materialData{};
 	materialData.pipelineHandle = materialInfo.pipeline;
 	materialData.descriptorSets = std::move(descriptorSets);
+
+	Vector<VkWriteDescriptorSet> descriptorWrites;
+	Vector<VkDescriptorBufferInfo> descriptorBufferInfos;
+	descriptorWrites.reserve(pipelineData.materialInputTemplates.get_size() * FRAMES_PER_FLIGHT);
+	descriptorBufferInfos.reserve(pipelineData.materialInputTemplates.get_size() * FRAMES_PER_FLIGHT);
+
+	for (auto const &[name, templateInput] : pipelineData.materialInputTemplates)
+	{
+		Vulkan_BufferInputStateData inputState = templateInput;
+
+		if (materialInfo.values.contains(name))
+		{
+			Object const &overrideObject = materialInfo.values.at(name);
+			for (auto const &[variableName, variable] : overrideObject.get_variables())
+			{
+				if (inputState.object.contains(variableName))
+				{
+					inputState.object.set(variableName, variable);
+				}
+			}
+		}
+
+		ConstantContainer packedObject = inputState.object.pack();
+		MINTY_ASSERT(!packedObject.is_empty(), ErrorCodeEnum::Object_EmptyContainer);
+
+		BufferInfo bufferInfo{};
+		bufferInfo.frequent = true;
+		bufferInfo.usage = to_buffer_usage(inputState.type);
+		bufferInfo.data = View(packedObject.get_data(), packedObject.get_size());
+
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			inputState.buffers.at(frameIndex) = create(bufferInfo);
+
+			Vulkan_BufferData const &bufferData = m_bufferDataPool.at(inputState.buffers.at(frameIndex));
+			Size const infoIndex = descriptorBufferInfos.get_size();
+			descriptorBufferInfos.add(VkDescriptorBufferInfo{});
+			VkDescriptorBufferInfo &descriptorBufferInfo = descriptorBufferInfos.at(infoIndex);
+			descriptorBufferInfo.buffer = bufferData.buffer;
+			descriptorBufferInfo.offset = 0;
+			descriptorBufferInfo.range = bufferData.size;
+
+			VkWriteDescriptorSet descriptorWrite{};
+			descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			descriptorWrite.dstSet = materialData.descriptorSets.at(1).at(frameIndex);
+			descriptorWrite.dstBinding = inputState.binding;
+			descriptorWrite.dstArrayElement = 0;
+			descriptorWrite.descriptorType = Converter<PipelineInputType, VkDescriptorType>::from_minty(inputState.type);
+			descriptorWrite.descriptorCount = 1;
+			descriptorWrite.pBufferInfo = &descriptorBufferInfo;
+			descriptorWrites.add(std::move(descriptorWrite));
+		}
+
+		materialData.inputs.add(name, std::move(inputState));
+	}
+
+	if (!descriptorWrites.is_empty())
+	{
+		Vulkan_Renderer::update_descriptor_sets(m_device, descriptorWrites);
+	}
 
 	// Add to pool and return handle
 	return m_materialDataPool.add(std::move(materialData));
@@ -1034,13 +1340,30 @@ void Minty::Vulkan_RenderManager::destroy(MaterialHandle const handle)
 	// Destroy each descriptor set for this material
 	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(materialData.pipelineHandle);
 	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
-	for (Size i = 0; i < materialData.descriptorSets.get_size(); i++)
+	for (auto const &[name, inputState] : materialData.inputs)
 	{
-		Vulkan_DescriptorSetLayoutData const &descriptorSetLayout = pipelineLayoutData.descriptorSetLayouts.at(i);
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			if (inputState.buffers.at(frameIndex) != INVALID_HANDLE)
+			{
+				destroy(inputState.buffers.at(frameIndex));
+			}
+		}
+	}
+
+	for (Size setIndex = 0; setIndex < materialData.descriptorSets.get_size() && setIndex < pipelineLayoutData.descriptorSetLayouts.get_size(); ++setIndex)
+	{
+		Vulkan_DescriptorSetLayoutData const &descriptorSetLayout = pipelineLayoutData.descriptorSetLayouts.at(setIndex);
+		Vector<VkDescriptorSet> descriptorSetsForFrames;
+		descriptorSetsForFrames.reserve(FRAMES_PER_FLIGHT);
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			descriptorSetsForFrames.add(materialData.descriptorSets.at(setIndex).at(frameIndex));
+		}
 		Vulkan_Renderer::free_descriptor_sets(
 			m_device,
 			descriptorSetLayout.allocatorData.descriptorPool,
-			materialData.descriptorSets);
+			descriptorSetsForFrames);
 	}
 
 	// Remove from pool
@@ -1050,6 +1373,33 @@ void Minty::Vulkan_RenderManager::destroy(MaterialHandle const handle)
 Bool Minty::Vulkan_RenderManager::is_valid(MaterialHandle const handle) const
 {
 	return m_materialDataPool.contains(handle);
+}
+
+void Minty::Vulkan_RenderManager::update(MaterialHandle const handle, StringView const name, Variable const &value)
+{
+	MINTY_ASSERT(m_materialDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+	Vulkan_MaterialData &materialData = m_materialDataPool.at(handle);
+
+	Bool updated = false;
+	for (auto &[inputName, inputState] : materialData.inputs)
+	{
+		if (!inputState.object.contains(name))
+		{
+			continue;
+		}
+
+		inputState.object.set(name, value);
+		ConstantContainer packedObject = inputState.object.pack();
+		for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+		{
+			set_data(inputState.buffers.at(frameIndex), View(packedObject.get_data(), packedObject.get_size()));
+		}
+
+		updated = true;
+		break;
+	}
+
+	MINTY_ASSERT(updated, ErrorCodeEnum::Argument_KeyNotFound);
 }
 
 void Minty::Vulkan_RenderManager::bind(MaterialHandle const handle)
@@ -1076,14 +1426,20 @@ void Minty::Vulkan_RenderManager::bind(MaterialHandle const handle)
 	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(materialData.pipelineHandle);
 	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
 
-	// Get the current frame's descriptor sets for this material
-	VkDescriptorSet const descriptorSet = materialData.descriptorSets.at(m_currentFrameIndex);
+	if (materialData.descriptorSets.get_size() <= 1)
+	{
+		return;
+	}
+
+	// Get the current frame's descriptor set (set 1) for this material
+	VkDescriptorSet const descriptorSet = materialData.descriptorSets.at(1).at(m_currentFrameIndex);
 
 	// Bind the descriptor set for this material
 	Vulkan_Renderer::bind_descriptor_set(
 		frame.commandBuffer,
 		pipelineLayoutData.layout,
 		descriptorSet,
+		1,
 		VK_PIPELINE_BIND_POINT_GRAPHICS);
 }
 
@@ -1228,21 +1584,24 @@ void Minty::Vulkan_RenderManager::update(RenderViewHandle const handle, Float3 c
 void Minty::Vulkan_RenderManager::bind(RenderViewHandle const handle)
 {
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
-
-	// do nothing if already bound
-	if (m_boundRenderView == handle)
-	{
-		return;
-	}
 	m_boundRenderView = handle;
 
 	// get the render view data
 	Vulkan_RenderViewData const &renderViewData = m_renderViewDataPool.at(handle);
 
-	// get the frame data
-	Vulkan_Frame const &frame = get_current_frame();
+	if (m_boundPipeline == INVALID_HANDLE)
+	{
+		return;
+	}
 
-	// TODO: update the view and projection matrices in the uniform buffer for this frame
+	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(m_boundPipeline);
+
+	// update the global uniform buffer for this frame with the view-projection matrix
+	if (pipelineData.globalInputs.contains("camera"))
+	{
+		Vulkan_BufferInputStateData const &inputState = pipelineData.globalInputs.at("camera");
+		set_data(inputState.buffers.at(m_currentFrameIndex), View(reinterpret_cast<Byte const *>(&renderViewData.viewProjectionMatrix), sizeof(renderViewData.viewProjectionMatrix)));
+	}
 }
 
 GeometryHandle Minty::Vulkan_RenderManager::create(GeometryInfo const &geometryInfo)
@@ -1503,23 +1862,98 @@ void Minty::Vulkan_RenderManager::end_pass()
 
 	// End the render pass
 	Vulkan_Renderer::end_render_pass(currentFrame.commandBuffer);
+
+	// Clear all bound objects
+	m_boundPipeline = INVALID_HANDLE;
+	m_boundMaterial = INVALID_HANDLE;
+	m_boundGeometry = INVALID_HANDLE;
+	m_boundRenderView = INVALID_HANDLE;
 }
 
-void Minty::Vulkan_RenderManager::draw()
+void Minty::Vulkan_RenderManager::draw(View const pushValues, Object const &objectValues)
 {
-	// Make sure there is something to draw
 	MINTY_ASSERT(m_boundGeometry != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
+	MINTY_ASSERT(m_boundPipeline != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
+	Vulkan_PipelineData &pipelineData = m_pipelineDataPool.at(m_boundPipeline);
 
-	// Get the current frame data
+	if (!pipelineData.objectInputs.is_empty())
+	{
+		for (auto const &[name, variable] : objectValues.get_variables())
+		{
+			Bool updated = false;
+			for (auto &[inputName, inputState] : pipelineData.objectInputs)
+			{
+				if (!inputState.object.contains(name))
+				{
+					continue;
+				}
+
+				inputState.object.set(name, variable);
+				ConstantContainer packedObject = inputState.object.pack();
+				for (Size frameIndex = 0; frameIndex < FRAMES_PER_FLIGHT; ++frameIndex)
+				{
+					set_data(inputState.buffers.at(frameIndex), View(packedObject.get_data(), packedObject.get_size()));
+				}
+
+				updated = true;
+				break;
+			}
+
+			MINTY_ASSERT(updated, ErrorCodeEnum::Argument_KeyNotFound);
+		}
+
+		if (pipelineData.descriptorSets.get_size() > 2)
+		{
+			Vulkan_Frame const &frame = get_current_frame();
+			Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
+			VkDescriptorSet const objectDescriptorSet = pipelineData.descriptorSets.at(2).at(m_currentFrameIndex);
+			Vulkan_Renderer::bind_descriptor_set(
+				frame.commandBuffer,
+				pipelineLayoutData.layout,
+				objectDescriptorSet,
+				2,
+				VK_PIPELINE_BIND_POINT_GRAPHICS);
+		}
+	}
+
 	Vulkan_Frame const &currentFrame = get_current_frame();
+	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
 
-	// Get the geometry data
+	// Update push constants
+	if (!pushValues.is_empty())
+	{
+		for (Vulkan_PushConstantData const &pushConstant : pipelineLayoutData.pushConstants)
+		{
+			MINTY_ASSERT(pushValues.get_size() >= pushConstant.offset + pushConstant.size, ErrorCodeEnum::Argument_OutOfRange);
+
+			Vulkan_Renderer::update_push_constants(
+				currentFrame.commandBuffer,
+				pipelineLayoutData.layout,
+				pushConstant.stageFlags,
+				pushConstant.offset,
+				pushConstant.size,
+				static_cast<Byte const *>(pushValues.get_data()) + pushConstant.offset);
+		}
+	}
+	else
+	{
+		for (Vulkan_PushConstantData const &pushConstant : pipelineLayoutData.pushConstants)
+		{
+			Vector<Byte> zeroData(pushConstant.size, 0);
+			Vulkan_Renderer::update_push_constants(
+				currentFrame.commandBuffer,
+				pipelineLayoutData.layout,
+				pushConstant.stageFlags,
+				pushConstant.offset,
+				pushConstant.size,
+				zeroData.get_data());
+		}
+	}
+
 	Vulkan_GeometryData const &geometryData = m_geometryDataPool.at(m_boundGeometry);
-
-	// Draw the geometry
-	Vulkan_Renderer::draw(
+	Vulkan_Renderer::draw_indexed(
 		currentFrame.commandBuffer,
-		geometryData.vertexCount,
+		geometryData.indexCount,
 		1);
 }
 

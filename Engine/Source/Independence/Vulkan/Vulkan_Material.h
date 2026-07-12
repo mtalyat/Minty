@@ -8,13 +8,17 @@
 
 #include "Library/Vulkan/Vulkan.h"
 #include "Core/Data/Vector.h"
+#include "Core/Data/Map.h"
+#include "Core/Data/Array.h"
 #include "Render/Type/Handle.h"
+#include "Vulkan_Pipeline.h"
 
 namespace Minty
 {
     struct Vulkan_MaterialData
     {
         PipelineHandle pipelineHandle = INVALID_HANDLE;
-        Vector<VkDescriptorSet> descriptorSets = {};
+        Vector<Array<VkDescriptorSet, FRAMES_PER_FLIGHT>> descriptorSets = {};
+        Map<String, Vulkan_BufferInputStateData> inputs = {};
     };
 }

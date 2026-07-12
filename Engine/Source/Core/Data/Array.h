@@ -39,13 +39,12 @@ namespace Minty
 		 * @brief Creates an Array with all elements set to the given value.
 		 * @param value The value to set all elements to.
 		 */
-		template<typename... Args>
-		constexpr Array(Args&&... args)
+		explicit constexpr Array(T const &value)
 			: m_data()
 		{
 			for (Size i = 0; i < N; ++i)
 			{
-				m_data[i] = T(std::forward<Args>(args)...);
+				m_data[i] = value;
 			}
 		}
 

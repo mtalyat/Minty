@@ -1134,13 +1134,13 @@ void Minty::Vulkan_Renderer::bind_pipeline(VkCommandBuffer const commandBuffer, 
 	vkCmdBindPipeline(commandBuffer, bindPoint, graphicsPipeline);
 }
 
-void Minty::Vulkan_Renderer::bind_descriptor_set(VkCommandBuffer const commandBuffer, VkPipelineLayout const graphicsPipelineLayout, VkDescriptorSet const descriptorSet, VkPipelineBindPoint const bindPoint)
+void Minty::Vulkan_Renderer::bind_descriptor_set(VkCommandBuffer const commandBuffer, VkPipelineLayout const graphicsPipelineLayout, VkDescriptorSet const descriptorSet, uint32_t const firstSet, VkPipelineBindPoint const bindPoint)
 {
 	MINTY_ASSERT(commandBuffer != VK_NULL_HANDLE, ErrorCodeEnum::Argument_ExpectedNonNull);
 	MINTY_ASSERT(graphicsPipelineLayout != VK_NULL_HANDLE, ErrorCodeEnum::Argument_ExpectedNonNull);
 	MINTY_ASSERT(descriptorSet != VK_NULL_HANDLE, ErrorCodeEnum::Argument_ExpectedNonNull);
 
-	vkCmdBindDescriptorSets(commandBuffer, bindPoint, graphicsPipelineLayout, 0, 1, &descriptorSet, 0, nullptr);
+	vkCmdBindDescriptorSets(commandBuffer, bindPoint, graphicsPipelineLayout, firstSet, 1, &descriptorSet, 0, nullptr);
 }
 
 void Minty::Vulkan_Renderer::bind_viewport(VkCommandBuffer const commandBuffer, VkViewport const &viewport)

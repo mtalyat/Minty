@@ -22,6 +22,9 @@
 #include "Core/Data/HandlePool.h"
 #include "Core/Data/IndexPool.h"
 #include "Core/Data/View.h"
+#include "Core/Data/StringView.h"
+#include "Core/Data/Variable.h"
+#include "Core/Data/Object.h"
 #include "Render/Constant/Render.h"
 #include "Render/Type/Handle.h"
 #include "Resource/Image/ImageLayout.h"
@@ -84,6 +87,7 @@ namespace Minty
         PipelineHandle create(PipelineInfo const &pipelineInfo);
         void destroy(PipelineHandle const handle);
         Bool is_valid(PipelineHandle const handle) const;
+        void update(PipelineHandle const handle, StringView const name, Variable const &value);
         void bind(PipelineHandle const handle);
 
         RenderPassHandle create(RenderPassInfo const &renderPassInfo);
@@ -93,6 +97,7 @@ namespace Minty
         MaterialHandle create(MaterialInfo const &materialInfo);
         void destroy(MaterialHandle const handle);
         Bool is_valid(MaterialHandle const handle) const;
+        void update(MaterialHandle const handle, StringView const name, Variable const &value);
         void bind(MaterialHandle const handle);
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
@@ -117,7 +122,7 @@ namespace Minty
         void end_pass();
 
         // draw the bound object
-        void draw();
+        void draw(View const pushValues, Object const &objectValues);
 
         // sync the GPU with the CPU, waiting for all commands to finish executing
         void sync();

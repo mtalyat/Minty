@@ -48,11 +48,15 @@ int main()
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
     Camera camera{};
+    camera.direction = Float3(0.0f, 0.0f, 1.0f);
+    camera.aspectRatio = static_cast<Float>(windowInfo.size.x) / static_cast<Float>(windowInfo.size.y);
     RenderViewInfo renderViewInfo{};
     RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);
 
     // SETUP
     audioManager.play(clipHandle);
+    Transform transform{};
+    transform.set_position(Float3(0.0f, 0.0f, 5.0f));
 
     // MAIN LOOP
     while (windowManager.is_open(window))
@@ -78,6 +82,7 @@ int main()
         renderManager.bind(geometryHandle);
 
         // Draw scene
+        renderManager.draw(transform);
 
         // End pass and frame
         renderManager.end_pass();

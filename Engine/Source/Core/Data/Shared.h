@@ -248,11 +248,11 @@ namespace Minty
          * @return A Shared pointer managing the newly constructed object.
          */
         template <typename... Args>
-        static Shared<T, Allocator> create(Args &&...args)
+        static Shared<T, Allocator> create(Args... args)
         {
             Shared<T, Allocator> result;
             Internal::PointerData<Allocator> *const counter = Internal::PointerData<Allocator>::create(1, 0);
-            result.mp_ptr = counter->allocator.construct<T>(std::forward<Args>(args)...);
+            result.mp_ptr = counter->allocator.construct<T>(std::move(args)...);
             result.mp_counter = counter;
             return result;
         }

@@ -10,6 +10,7 @@
 #include "Render/Pipeline/PipelineInfo.h"
 #include "Render/Material/MaterialInfo.h"
 #include "Render/Geometry/GeometryInfo.h"
+#include "Core/Data/Transform.h"
 
 using namespace Minty;
 
@@ -227,15 +228,28 @@ PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourc
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     PipelineResource const &pipelineResource = resourceManager.at<PipelineResource>(resourceHandle);
-    RenderPassResource const &renderPassResource = resourceManager.at<RenderPassResource>(pipelineResource.renderPass);
-    ShaderResource const &vertexShaderResource = resourceManager.at<ShaderResource>(pipelineResource.vertexShader);
-    ShaderResource const &fragmentShaderResource = resourceManager.at<ShaderResource>(pipelineResource.fragmentShader);
 
     // Create info from it
     PipelineInfo pipelineInfo{};
     pipelineInfo.renderPass = get_cached_handle<RenderPassResourceHandle, RenderPassHandle>(pipelineResource.renderPass);
     pipelineInfo.vertexShader = get_cached_handle<ShaderResourceHandle, ShaderHandle>(pipelineResource.vertexShader);
     pipelineInfo.fragmentShader = get_cached_handle<ShaderResourceHandle, ShaderHandle>(pipelineResource.fragmentShader);
+
+    if (pipelineInfo.renderPass == INVALID_HANDLE)
+    {
+        pipelineInfo.renderPass = create(pipelineResource.renderPass);
+    }
+
+    if (pipelineInfo.vertexShader == INVALID_HANDLE)
+    {
+        pipelineInfo.vertexShader = create(pipelineResource.vertexShader);
+    }
+
+    if (pipelineInfo.fragmentShader == INVALID_HANDLE)
+    {
+        pipelineInfo.fragmentShader = create(pipelineResource.fragmentShader);
+    }
+
     pipelineInfo.viewport = INVALID_HANDLE; // TODO: viewport
     pipelineInfo.primitiveTopology = pipelineResource.primitiveTopology;
     pipelineInfo.polygonMode = pipelineResource.polygonMode;
@@ -282,11 +296,14 @@ MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourc
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     MaterialResource const &materialResource = resourceManager.at<MaterialResource>(resourceHandle);
-    PipelineResource const &pipelineResource = resourceManager.at<PipelineResource>(materialResource.pipeline);
 
     // Create info from it
     MaterialInfo materialInfo{};
     materialInfo.pipeline = get_cached_handle<PipelineResourceHandle, PipelineHandle>(materialResource.pipeline);
+    if (materialInfo.pipeline == INVALID_HANDLE)
+    {
+        materialInfo.pipeline = create(materialResource.pipeline);
+    }
     materialInfo.values = materialResource.cargo;
     materialInfo.stencil = materialResource.stencil;
 
@@ -304,6 +321,16 @@ void Minty::RenderManager::destroy(MaterialHandle const handle)
 Bool Minty::RenderManager::is_valid(MaterialHandle const handle) const
 {
     return mp_impl->renderManager.is_valid(handle);
+}
+
+void Minty::RenderManager::update(PipelineHandle const handle, StringView const name, Variable const &value)
+{
+    mp_impl->renderManager.update(handle, name, value);
+}
+
+void Minty::RenderManager::update(MaterialHandle const handle, StringView const name, Variable const &value)
+{
+    mp_impl->renderManager.update(handle, name, value);
 }
 
 void Minty::RenderManager::bind(MaterialHandle const handle)
@@ -484,7 +511,22 @@ void Minty::RenderManager::end_pass()
 
 void Minty::RenderManager::draw()
 {
-    mp_impl->renderManager.draw();
+    mp_impl->renderManager.draw(View(), Object());
+}
+
+void Minty::RenderManager::draw(Object const &objectValues)
+{
+    mp_impl->renderManager.draw(View(), objectValues);
+}
+
+void Minty::RenderManager::draw(Transform const &transform)
+{
+    mp_impl->renderManager.draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), Object());
+}
+
+void Minty::RenderManager::draw(Transform const &transform, Object const &objectValues)
+{
+    mp_impl->renderManager.draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), objectValues);
 }
 
 RenderManager &Minty::RenderManager::get_instance()

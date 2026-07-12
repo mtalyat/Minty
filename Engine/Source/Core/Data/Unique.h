@@ -177,10 +177,10 @@ namespace Minty
          * @return A Unique pointer managing the newly constructed object.
          */
         template <typename... Args>
-        static Unique<T, Allocator> create(Args &&...args)
+        static Unique<T, Allocator> create(Args... args)
         {
             Unique<T, Allocator> result;
-            result.mp_ptr = result.m_allocator.construct<T>(std::forward<Args>(args)...);
+            result.mp_ptr = result.m_allocator.construct<T>(std::move(args)...);
             return result;
         }
 

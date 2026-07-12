@@ -244,7 +244,7 @@ namespace Minty
 
 		static void bind_pipeline(VkCommandBuffer const commandBuffer, VkPipeline const graphicsPipeline, VkPipelineBindPoint const bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
-		static void bind_descriptor_set(VkCommandBuffer const commandBuffer, VkPipelineLayout const graphicsPipelineLayout, VkDescriptorSet const descriptorSet, VkPipelineBindPoint const bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
+		static void bind_descriptor_set(VkCommandBuffer const commandBuffer, VkPipelineLayout const graphicsPipelineLayout, VkDescriptorSet const descriptorSet, uint32_t const firstSet = 0, VkPipelineBindPoint const bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
 		static void bind_viewport(VkCommandBuffer const commandBuffer, VkViewport const &viewport);
 
