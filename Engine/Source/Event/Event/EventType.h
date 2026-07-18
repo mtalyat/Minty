@@ -101,4 +101,11 @@ namespace Minty
         static Bool parse(StringView const str, EventTypeEnum &value);
         static String to_string(EventTypeEnum const &value);
     };
+
+	template<>
+	struct Parser<EventType>
+	{
+		static Bool parse(StringView const str, EventType &value) { return Parser<EventTypeEnum>::parse(str, value.type); }
+		static String to_string(EventType const &value) { return Parser<EventTypeEnum>::to_string(value.type); }
+	};
 }
