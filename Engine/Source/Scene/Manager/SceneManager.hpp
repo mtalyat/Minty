@@ -2,6 +2,7 @@
 
 #include "Scene/Type/handle.hpp"
 #include "Core/Data/Vector.hpp"
+#include "Core/Data/PriorityVector.hpp"
 #include "Core/Data/HandlePool.hpp"
 
 namespace Minty
@@ -46,7 +47,7 @@ namespace Minty
 
     private:
         HandlePool<Scene> m_scenes;
-        Vector<SceneHandle> m_activeScenes;
+        PriorityVector<SceneHandle> m_activeScenes;
 
 #pragma endregion
     };

@@ -33,6 +33,23 @@ namespace Minty
 
 #pragma endregion
 
+#pragma region Operator
+
+    public:
+        T &operator[](Size const index)
+        {
+            MINTY_ASSERT(index < m_data.get_size(), ErrorCodeEnum::Argument_OutOfRange);
+            return m_data[index];
+        }
+
+        T const &operator[](Size const index) const
+        {
+            MINTY_ASSERT(index < m_data.get_size(), ErrorCodeEnum::Argument_OutOfRange);
+            return m_data[index];
+        }
+
+#pragma endregion
+
 #pragma region Accessor
 
     public:
@@ -44,7 +61,7 @@ namespace Minty
 #pragma region Method
 
     public:
-        void add(Priority const priority, T const &value)
+        void add(T const &value, Priority const priority = PriorityEnum::Default)
         {
             // Find the correct position to insert the new value based on its priority
             Size insertIndex = 0;
@@ -58,7 +75,7 @@ namespace Minty
             m_data.insert(insertIndex, value);
         }
 
-        void add(Priority const priority, T &&value)
+        void add(T &&value, Priority const priority = PriorityEnum::Default)
         {
             // Find the correct position to insert the new value based on its priority
             Size insertIndex = 0;
@@ -70,6 +87,13 @@ namespace Minty
             // Insert the new value and its priority at the determined position
             m_priorities.insert(insertIndex, priority);
             m_data.insert(insertIndex, std::move(value));
+        }
+
+        void remove(Size const index)
+        {
+            MINTY_ASSERT(index < m_data.get_size(), ErrorCodeEnum::Argument_OutOfRange);
+            m_priorities.remove(index);
+            m_data.remove(index);
         }
 
         T &at(Size const index)

@@ -63,8 +63,11 @@ void Minty::SceneManager::activate(SceneHandle const handle)
         }
     }
 
+    // Get the scene data
+    Scene &scene = at(handle);
+
     // Add the scene to the active scenes list
-    m_activeScenes.add(handle);
+    m_activeScenes.add(handle, scene.get_priority());
 }
 
 void Minty::SceneManager::deactivate(SceneHandle const handle)
