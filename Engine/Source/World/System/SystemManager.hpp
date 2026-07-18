@@ -9,45 +9,37 @@
 #include "Core/Type/Function.hpp"
 #include "Core/Time/Timestep.hpp"
 #include "Platform/Type/Primitive.hpp"
+#include "Core/Data/PriorityVector.hpp"
+#include "Core/Data/Map.hpp"
 #include <concepts>
 
 namespace Minty
 {
     struct SystemManagerInfo;
+    struct Timestep;
+    class Event;
 
     class SystemManager
     {
 #pragma region Type
 
     private:
-        struct FrameUpdateHook
+        struct UpdateEventHook
         {
             Pointer system;
-            Function<void(Pointer, Timestep const&)> frameUpdateFunction;
+            Function<void(Pointer, Timestep const&)> func;
         };
 
-        struct FixedUpdateHook
+        struct EventEventHook
         {
             Pointer system;
-            Function<void(Pointer, Timestep const&)> fixedUpdateFunction;
+            Function<void(Pointer, Event&)> func;
         };
 
-        struct LateUpdateHook
+        struct EventHook
         {
             Pointer system;
-            Function<void(Pointer, Timestep const&)> lateUpdateFunction;
-        };
-
-        struct LoadHook
-        {
-            Pointer system;
-            Function<void(Pointer)> loadFunction;
-        };
-
-        struct UnloadHook
-        {
-            Pointer system;
-            Function<void(Pointer)> unloadFunction;
+            Function<void(Pointer)> func;
         };
 
 #pragma endregion
@@ -74,21 +66,33 @@ namespace Minty
         template <typename T, typename... Args>
         T &create_system(Args &&...args);
 
-        template <typename System>
-        void register_system(StringView const name);
+        template <typename T>
+        void destroy_system();
+
+        template <typename T>
+        void register_system(StringView const name, Int const priority);
+
+        // Events
+        void on_frame_update(Timestep const &timestep);
+        void on_fixed_update(Timestep const &timestep);
+        void on_finalize();
+        void on_render();
+        void on_event(Event &event);
 
 #pragma endregion
 
 #pragma region Variable
 
     private:
-        Vector<Pointer> m_systems;
-        Vector<FrameUpdateHook> m_frameUpdateHooks;
-        Vector<FixedUpdateHook> m_fixedUpdateHooks;
-        Vector<LateUpdateHook> m_lateUpdateHooks;
-        Vector<LoadHook> m_loadHooks;
-        Vector<UnloadHook> m_unloadHooks;
-        Registry<> m_registeredSystems;
+        Map<TypeID, Pointer> m_systems;
+        PriorityVector<UpdateEventHook> m_frameUpdateHooks;
+        PriorityVector<UpdateEventHook> m_fixedUpdateHooks;
+        PriorityVector<EventHook> m_finalizeHooks;
+        PriorityVector<EventHook> m_renderHooks;
+        PriorityVector<EventEventHook> m_eventHooks;
+        PriorityVector<EventHook> m_loadHooks;
+        PriorityVector<EventHook> m_unloadHooks;
+        Registry<Pointer> m_registeredSystems;
 
 #pragma endregion
     };
