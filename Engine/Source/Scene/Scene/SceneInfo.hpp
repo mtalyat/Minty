@@ -12,6 +12,6 @@ namespace Minty
         SystemManagerInfo systemManagerInfo = {};
 
         // The priority of the Scene when active
-        int priority = 0;
+        Int priority = 0;
     };
 }

@@ -36,7 +36,7 @@ namespace Minty
     public:
         inline EntityManager &get_entity_manager() { return *mp_entityManager; }
         inline SystemManager &get_system_manager() { return *mp_systemManager; }
-        inline int get_priority() const { return m_priority; }
+        inline Int get_priority() const { return m_priority; }
 
 #pragma endregion
 
@@ -56,7 +56,7 @@ namespace Minty
     private:
         EntityManager *mp_entityManager;
         SystemManager *mp_systemManager;
-        int m_priority;
+        Int m_priority;
 
 #pragma endregion
     };

@@ -60,7 +60,7 @@ namespace Minty
 #pragma region Method
 
     public:
-        void add(T const &value, int const priority = 0)
+        void add(T const &value, Int const priority = 0)
         {
             // Find the correct position to insert the new value based on its priority
             Size insertIndex = 0;
@@ -74,13 +74,13 @@ namespace Minty
             m_data.insert(insertIndex, value);
         }
 
-        void add(T &&value, int const priority = 0)
+        void add(T &&value, Int const priority = 0)
         {
             // Find the correct position to insert the new value based on its priority
-            Size insertIndex = 0;
-            while (insertIndex < m_priorities.get_size() && m_priorities[insertIndex] <= priority)
+            Size insertIndex = m_priorities.get_size();
+            while (insertIndex > 0 && m_priorities[insertIndex - 1] <= priority)
             {
-                ++insertIndex;
+                --insertIndex;
             }
 
             // Insert the new value and its priority at the determined position
@@ -111,7 +111,7 @@ namespace Minty
 
 #pragma region Variable
     private:
-        Vector<int> m_priorities;
+        Vector<Int> m_priorities;
         Vector<T> m_data;
 
 #pragma endregion
