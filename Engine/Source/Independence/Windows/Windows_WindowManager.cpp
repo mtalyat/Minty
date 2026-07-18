@@ -1,14 +1,14 @@
-#include "Windows_WindowManager.h"
-#include "Core/Debug/DebugF.h"
-#include "Event/Type/EventCallback.h"
-#include "Window/Window/WindowInfo.h"
-#include "Window/Manager/WindowManagerInfo.h"
+#include "Windows_WindowManager.hpp"
+#include "Core/Debug/DebugF.hpp"
+#include "Event/Type/EventCallback.hpp"
+#include "Window/Window/WindowInfo.hpp"
+#include "Window/Manager/WindowManagerInfo.hpp"
 
-#include "Event/Keyboard/__Keyboard.h"
-#include "Event/Mouse/__Mouse.h"
-#include "Event/Window/__Window.h"
-#include "Event/Gamepad/__Gamepad.h"
-#include "Input/Constant/__Constant.h"
+#include "Event/Keyboard/__Keyboard.hpp"
+#include "Event/Mouse/__Mouse.hpp"
+#include "Event/Window/__Window.hpp"
+#include "Event/Gamepad/__Gamepad.hpp"
+#include "Input/Constant/__Constant.hpp"
 
 using namespace Minty;
 

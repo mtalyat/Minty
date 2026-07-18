@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "Quaternion.h"
-#include "Matrix3x3.h"
+#include "pch.hpp"
+#include "Quaternion.hpp"
+#include "Matrix3x3.hpp"
 
 using namespace Minty;
 using namespace Minty::Math;

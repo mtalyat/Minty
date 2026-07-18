@@ -1,5 +1,5 @@
-#include "EventState.h"
-#include "Core/Tool/Enum.h"
+#include "EventState.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

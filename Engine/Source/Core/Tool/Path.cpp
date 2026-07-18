@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "Path.h"
-#include "Core/Data/Queue.h"
-#include "Core/Debug/DebugF.h"
+#include "pch.hpp"
+#include "Path.hpp"
+#include "Core/Data/Queue.hpp"
+#include "Core/Debug/DebugF.hpp"
 
 using namespace Minty;
 

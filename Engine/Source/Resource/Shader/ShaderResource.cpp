@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "ShaderResource.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Data/Path.h"
-#include "Resource/Manager/ResourceManager.h"
+#include "pch.hpp"
+#include "ShaderResource.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Data/Path.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
 
 using namespace Minty;
 

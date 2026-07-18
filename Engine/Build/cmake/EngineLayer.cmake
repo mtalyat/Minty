@@ -7,7 +7,6 @@ function(minty_collect_sources OUT_VAR BASE_DIR)
         "${BASE_DIR}/*.cc"
         "${BASE_DIR}/*.cpp"
         "${BASE_DIR}/*.cxx"
-        "${BASE_DIR}/*.h"
         "${BASE_DIR}/*.hpp"
         "${BASE_DIR}/*.inl"
     )
@@ -78,7 +77,11 @@ function(minty_add_layer)
     minty_set_target_output_dirs(${MINTY_NAME} ${MINTY_LAYER})
 
     if(MINTY_ENABLE_PRECOMPILED_HEADERS)
-        set(_minty_pch_header "${CMAKE_SOURCE_DIR}/${MINTY_LAYER}/pch.h")
+        set(_minty_pch_header "${CMAKE_SOURCE_DIR}/${MINTY_LAYER}/pch.hpp")
+        if(NOT EXISTS "${_minty_pch_header}")
+            set(_minty_pch_header "${CMAKE_SOURCE_DIR}/${MINTY_LAYER}/pch.h")
+        endif()
+
         if(EXISTS "${_minty_pch_header}")
             target_precompile_headers(${MINTY_NAME} PRIVATE "${_minty_pch_header}")
         endif()

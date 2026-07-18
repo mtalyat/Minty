@@ -1,6 +1,6 @@
-#include "PositionComponent.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
+#include "PositionComponent.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
 
 using namespace Minty;
 

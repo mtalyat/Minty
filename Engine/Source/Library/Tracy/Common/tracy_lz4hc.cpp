@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /*
     LZ4 HC - High Compression Mode of LZ4
     Copyright (C) 2011-2020, Yann Collet.

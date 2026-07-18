@@ -1,11 +1,11 @@
-#include "pch.h"
-#include "Reader.h"
-#include "Core/Data/StringBuilder.h"
-#include "Core/Stream/Stream.h"
-#include "Core/Serialize/Parser.h"
-#include "Core/Meta/Type.h"
-#include "Core/Data/UUID.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "Reader.hpp"
+#include "Core/Data/StringBuilder.hpp"
+#include "Core/Stream/Stream.hpp"
+#include "Core/Serialize/Parser.hpp"
+#include "Core/Meta/Type.hpp"
+#include "Core/Data/UUID.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

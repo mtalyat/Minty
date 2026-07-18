@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "TextWriter.h"
-#include "Core/Tool/String.h"
-#include "Core/Serialize/ParsedTypes.h"
-#include "Core/Data/StringBuilder.h"
+#include "pch.hpp"
+#include "TextWriter.hpp"
+#include "Core/Tool/String.hpp"
+#include "Core/Serialize/ParsedTypes.hpp"
+#include "Core/Data/StringBuilder.hpp"
 
 using namespace Minty;
 

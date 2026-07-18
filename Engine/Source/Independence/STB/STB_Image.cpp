@@ -1,4 +1,4 @@
-#include "STB_Image.h"
+#include "STB_Image.hpp"
 
 using namespace Minty;
 

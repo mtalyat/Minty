@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 #include "../common/TracyAlloc.hpp"
 
 #ifdef TRACY_USE_RPMALLOC

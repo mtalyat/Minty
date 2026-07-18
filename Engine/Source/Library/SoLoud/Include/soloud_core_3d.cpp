@@ -22,10 +22,10 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
 #include <math.h>
-#include "soloud_internal.h"
+#include "soloud_internal.hpp"
 
 // 3d audio operations
 

@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "Wrapper.h"
+#include "pch.hpp"
+#include "Wrapper.hpp"
 
 using namespace Minty;
 

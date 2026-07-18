@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "GeometryIndexType.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "GeometryIndexType.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

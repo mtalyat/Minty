@@ -22,9 +22,9 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
-#include "soloud_internal.h"
+#include "soloud_internal.hpp"
 
 // Setters - set various bits of SoLoud state
 

@@ -24,10 +24,10 @@ freely, subject to the following restrictions:
 
 // FFT based on fftreal by Laurent de Soras, under WTFPL
 
-#include "pch.h"
+#include "pch.hpp"
 
-#include "soloud.h"
-#include "soloud_fft.h"
+#include "soloud.hpp"
+#include "soloud_fft.hpp"
 #include <string.h>
 
 namespace fftimpl

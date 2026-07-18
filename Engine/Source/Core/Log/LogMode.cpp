@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "LogMode.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "LogMode.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

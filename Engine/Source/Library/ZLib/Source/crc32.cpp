@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* crc32.c -- compute the CRC-32 of a data stream
  * Copyright (C) 1995-2022 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -28,7 +28,7 @@
 #  endif /* !DYNAMIC_CRC_TABLE */
 #endif /* MAKECRCH */
 
-#include "zutil.h"      /* for Z_U4, Z_U8, z_crc_t, and FAR definitions */
+#include "zutil.hpp"      /* for Z_U4, Z_U8, z_crc_t, and FAR definitions */
 
  /*
   A CRC of a message is computed on N braids of words in the message, where
@@ -143,7 +143,7 @@ local z_word_t byte_swap(z_word_t word) {
  * Tables for byte-wise and braided CRC-32 calculations, and a table of powers
  * of x for combining CRC-32s, all made by make_crc_table().
  */
-#  include "crc32.h"
+#  include "crc32.hpp"
 #endif
 
 /* CRC polynomial. */
@@ -350,7 +350,7 @@ local void make_crc_table(void) {
         z_crc_t ltl[8][256];
         z_word_t big[8][256];
 
-        out = fopen("crc32.h", "w");
+        out = fopen("crc32.hpp", "w");
         if (out == NULL) return;
 
         /* write out little-endian CRC table to crc32.h */

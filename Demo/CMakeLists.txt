@@ -10,8 +10,8 @@ set(ENGINE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Engine")
 set(ENGINE_SOURCE_DIR "${ENGINE_DIR}/Source")
 set(ENGINE_ARTIFACTS_DIR "${ENGINE_DIR}/Output/Artifacts")
 
-if(NOT EXISTS "${ENGINE_SOURCE_DIR}/Minty.h")
-    message(FATAL_ERROR "Expected Engine root at ${ENGINE_SOURCE_DIR}, but Minty.h was not found.")
+if(NOT EXISTS "${ENGINE_SOURCE_DIR}/Minty.hpp" AND NOT EXISTS "${ENGINE_SOURCE_DIR}/Minty.h")
+    message(FATAL_ERROR "Expected Engine root at ${ENGINE_SOURCE_DIR}, but neither Minty.hpp nor Minty.h was found.")
 endif()
 
 function(resolve_engine_bundle out_var config_name)

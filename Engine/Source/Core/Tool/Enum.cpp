@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "Enum.h"
-#include "String.h"
-#include "Core/Data/Vector.h"
-#include "Core/Data/StringBuilder.h"
+#include "pch.hpp"
+#include "Enum.hpp"
+#include "String.hpp"
+#include "Core/Data/Vector.hpp"
+#include "Core/Data/StringBuilder.hpp"
 
 using namespace Minty;
 

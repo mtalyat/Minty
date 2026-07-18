@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* uncompr.c -- decompress a memory buffer
  * Copyright (C) 1995-2003, 2010, 2014, 2016 Jean-loup Gailly, Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -7,7 +7,7 @@
 /* @(#) $Id$ */
 
 #define ZLIB_INTERNAL
-#include "zlib.h"
+#include "zlib.hpp"
 
 /* ===========================================================================
      Decompresses the source buffer into the destination buffer.  *sourceLen is

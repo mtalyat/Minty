@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "RenderTargetResource.h"
-#include "Resource/Manager/ResourceManager.h"
+#include "pch.hpp"
+#include "RenderTargetResource.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
 
 using namespace Minty;
 

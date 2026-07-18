@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "MemoryContainer.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "MemoryContainer.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

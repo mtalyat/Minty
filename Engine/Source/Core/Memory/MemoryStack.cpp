@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "MemoryStack.h"
-#include "MemoryStackInfo.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "MemoryStack.hpp"
+#include "MemoryStackInfo.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

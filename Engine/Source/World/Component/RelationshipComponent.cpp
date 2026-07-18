@@ -1,10 +1,10 @@
-#include "pch.h"
-#include "RelationshipComponent.h"
-#include "Core/Debug/DebugF.h"
-#include "World/Entity/EntityManager.h"
-#include "World/Entity/EntitySerializationData.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
+#include "pch.hpp"
+#include "RelationshipComponent.hpp"
+#include "Core/Debug/DebugF.hpp"
+#include "World/Entity/EntityManager.hpp"
+#include "World/Entity/EntitySerializationData.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
 
 using namespace Minty;
 

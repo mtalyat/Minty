@@ -1,0 +1,21 @@
+#pragma once
+
+/**
+ * @file SoLoud_Convert.h
+ * @brief Header file defining the Converter specializations for SoLoud types.
+ * @author Mitchell Talyat
+ */
+
+#include "Library/SoLoud/SoLoud.hpp"
+#include "Core/Convert/Converter.hpp"
+#include "Audio/AudioSource/Attenuation.hpp"
+
+namespace Minty
+{
+    template<>
+    struct Converter<Attenuation, unsigned int>
+    {
+        static Attenuation to_minty(unsigned int const& value);
+        static unsigned int from_minty(Attenuation const& value);
+    };
+}

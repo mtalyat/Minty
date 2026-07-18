@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "MouseButton.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "MouseButton.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

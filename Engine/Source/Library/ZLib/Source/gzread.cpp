@@ -1,11 +1,11 @@
-#include "pch.h"
+#include "pch.hpp"
 #define _CRT_SECURE_NO_WARNINGS
 /* gzread.c -- zlib functions for reading gzip files
  * Copyright (C) 2004-2017 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#include "gzguts.h"
+#include "gzguts.hpp"
 
 /* Use read() to load a buffer -- return -1 on error, otherwise 0.  Read from
    state->fd, and update state->eof, state->err, and state->msg as appropriate.

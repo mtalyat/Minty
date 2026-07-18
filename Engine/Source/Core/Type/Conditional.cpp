@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "Conditional.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "Conditional.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

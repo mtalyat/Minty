@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "LayerMask.h"
-#include "Core/Serialize/ParsedTypes.h"
+#include "pch.hpp"
+#include "LayerMask.hpp"
+#include "Core/Serialize/ParsedTypes.hpp"
 
 using namespace Minty;
 

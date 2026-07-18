@@ -1,4 +1,4 @@
-#include "DebugAllocator.h"
+#include "DebugAllocator.hpp"
 
 using namespace Minty;
 

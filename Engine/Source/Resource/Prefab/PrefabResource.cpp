@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "PrefabResource.h"
+#include "pch.hpp"
+#include "PrefabResource.hpp"
 
 using namespace Minty;
 

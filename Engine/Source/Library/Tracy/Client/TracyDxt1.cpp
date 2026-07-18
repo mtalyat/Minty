@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 #include "TracyDxt1.hpp"
 #include "../common/TracyForceInline.hpp"
 

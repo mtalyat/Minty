@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "SystemManager.h"
-#include "SystemManagerInfo.h"
+#include "pch.hpp"
+#include "SystemManager.hpp"
+#include "SystemManagerInfo.hpp"
 
 using namespace Minty;
 

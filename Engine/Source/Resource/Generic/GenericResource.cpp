@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "GenericResource.h"
-#include "GenericResourceInfo.h"
+#include "pch.hpp"
+#include "GenericResource.hpp"
+#include "GenericResourceInfo.hpp"
 
 using namespace Minty;
 

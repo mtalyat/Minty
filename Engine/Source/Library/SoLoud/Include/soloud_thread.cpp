@@ -22,7 +22,7 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
 #if defined(_WIN32)||defined(_WIN64)
 #include <windows.h>
@@ -33,8 +33,8 @@ freely, subject to the following restrictions:
 #include <time.h>
 #endif
 
-#include "soloud.h"
-#include "soloud_thread.h"
+#include "soloud.hpp"
+#include "soloud_thread.hpp"
 
 namespace SoLoud
 {

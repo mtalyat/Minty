@@ -1,23 +1,23 @@
-#include "pch.h"
-#include "RenderManager.h"
-#include "RenderManagerInfo.h"
-#include "Resource/Manager/ResourceManager.h"
-#include "Render/RenderTarget/RenderTargetInfo.h"
-#include "Render/Texture/TextureInfo.h"
-#include "Render/Viewport/ViewportInfo.h"
-#include "Render/Shader/ShaderInfo.h"
-#include "Render/RenderPass/RenderPassInfo.h"
-#include "Render/Pipeline/PipelineInfo.h"
-#include "Render/Material/MaterialInfo.h"
-#include "Render/Geometry/GeometryInfo.h"
-#include "Core/Data/Transform.h"
+#include "pch.hpp"
+#include "RenderManager.hpp"
+#include "RenderManagerInfo.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
+#include "Render/RenderTarget/RenderTargetInfo.hpp"
+#include "Render/Texture/TextureInfo.hpp"
+#include "Render/Viewport/ViewportInfo.hpp"
+#include "Render/Shader/ShaderInfo.hpp"
+#include "Render/RenderPass/RenderPassInfo.hpp"
+#include "Render/Pipeline/PipelineInfo.hpp"
+#include "Render/Material/MaterialInfo.hpp"
+#include "Render/Geometry/GeometryInfo.hpp"
+#include "Core/Data/Transform.hpp"
 
 using namespace Minty;
 
 RenderManager* RenderManager::s_instance = nullptr;
 
 #ifdef MINTY_VULKAN
-#include "Independence/Vulkan/Vulkan_RenderManager.h"
+#include "Independence/Vulkan/Vulkan_RenderManager.hpp"
 struct RenderManager::Impl
 {
     Vulkan_RenderManager renderManager;

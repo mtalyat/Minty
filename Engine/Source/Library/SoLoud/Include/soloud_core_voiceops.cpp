@@ -22,9 +22,9 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
-#include "soloud.h"
+#include "soloud.hpp"
 
 // Direct voice operations (no mutexes - called from other functions)
 

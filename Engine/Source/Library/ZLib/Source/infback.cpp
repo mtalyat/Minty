@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* infback.c -- inflate using a call-back interface
  * Copyright (C) 1995-2022 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -11,10 +11,10 @@
    inflate_fast() can be used with either inflate.c or infback.c.
  */
 
-#include "zutil.h"
-#include "inftrees.h"
-#include "inflate.h"
-#include "inffast.h"
+#include "zutil.hpp"
+#include "inftrees.hpp"
+#include "inflate.hpp"
+#include "inffast.hpp"
 
 /*
    strm provides memory allocation functions in zalloc and zfree, or
@@ -107,7 +107,7 @@ local void fixedtables(struct inflate_state FAR *state) {
         virgin = 0;
     }
 #else /* !BUILDFIXED */
-#   include "inffixed.h"
+#   include "inffixed.hpp"
 #endif /* BUILDFIXED */
     state->lencode = lenfix;
     state->lenbits = 9;

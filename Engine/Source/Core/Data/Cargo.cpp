@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "Cargo.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
+#include "pch.hpp"
+#include "Cargo.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
 
 using namespace Minty;
 

@@ -1,12 +1,12 @@
-#include "pch.h"
-#include "MeshResource.h"
-#include "Core/Data/Path.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
-#include "Resource/Manager/ResourceManager.h"
-#include "Core/Tool/String.h"
-#include "Core/Serialize/ParsedTypes.h"
-#include "Core/Constant/File.h"
+#include "pch.hpp"
+#include "MeshResource.hpp"
+#include "Core/Data/Path.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
+#include "Core/Tool/String.hpp"
+#include "Core/Serialize/ParsedTypes.hpp"
+#include "Core/Constant/File.hpp"
 
 using namespace Minty;
 

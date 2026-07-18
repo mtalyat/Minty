@@ -11,7 +11,7 @@ set(MINTY_ARTIFACTS_DIR "${MINTY_OUTPUT_DIR}/Artifacts" CACHE PATH "Root artifac
 set(MINTY_CXX_STANDARD 20 CACHE STRING "C++ standard used by Minty layer targets")
 set_property(CACHE MINTY_CXX_STANDARD PROPERTY STRINGS 17 20 23)
 
-option(MINTY_ENABLE_PRECOMPILED_HEADERS "Use layer pch.h headers when available" ON)
+option(MINTY_ENABLE_PRECOMPILED_HEADERS "Use layer pch.hpp headers when available" ON)
 option(MINTY_ENABLE_MSVC_MULTIPROCESS "Enable MSVC /MP for faster parallel compilation" ON)
 option(MINTY_ENABLE_VULKAN "Enable Vulkan rendering backend compile definition" OFF)
 option(MINTY_ENABLE_SOLOUD "Enable SoLoud audio backend compile definition" OFF)
@@ -46,7 +46,6 @@ function(minty_collect_sources OUT_VAR BASE_DIR)
 		"${BASE_DIR}/*.cc"
 		"${BASE_DIR}/*.cpp"
 		"${BASE_DIR}/*.cxx"
-		"${BASE_DIR}/*.h"
 		"${BASE_DIR}/*.hpp"
 		"${BASE_DIR}/*.inl"
 	)
@@ -117,7 +116,11 @@ function(minty_add_layer)
 	minty_set_target_output_dirs(${MINTY_NAME} ${MINTY_LAYER})
 
 	if(MINTY_ENABLE_PRECOMPILED_HEADERS)
-		set(_minty_pch_header "${MINTY_SOURCE_ROOT}/${MINTY_LAYER}/pch.h")
+		set(_minty_pch_header "${MINTY_SOURCE_ROOT}/${MINTY_LAYER}/pch.hpp")
+		if(NOT EXISTS "${_minty_pch_header}")
+			set(_minty_pch_header "${MINTY_SOURCE_ROOT}/${MINTY_LAYER}/pch.h")
+		endif()
+
 		if(EXISTS "${_minty_pch_header}")
 			target_precompile_headers(${MINTY_NAME} PRIVATE "${_minty_pch_header}")
 		endif()

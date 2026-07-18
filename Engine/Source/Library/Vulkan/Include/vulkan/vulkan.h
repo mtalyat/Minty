@@ -7,81 +7,81 @@
 ** SPDX-License-Identifier: Apache-2.0
 */
 
-#include "vk_platform.h"
-#include "vulkan_core.h"
+#include "vk_platform.hpp"
+#include "vulkan_core.hpp"
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-#include "vulkan_android.h"
+#include "vulkan_android.hpp"
 #endif
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
 #include <zircon/types.h>
-#include "vulkan_fuchsia.h"
+#include "vulkan_fuchsia.hpp"
 #endif
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
-#include "vulkan_ios.h"
+#include "vulkan_ios.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-#include "vulkan_macos.h"
+#include "vulkan_macos.hpp"
 #endif
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
-#include "vulkan_metal.h"
+#include "vulkan_metal.hpp"
 #endif
 
 #ifdef VK_USE_PLATFORM_VI_NN
-#include "vulkan_vi.h"
+#include "vulkan_vi.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-#include "vulkan_wayland.h"
+#include "vulkan_wayland.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 #include <windows.h>
-#include "vulkan_win32.h"
+#include "vulkan_win32.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
 #include <xcb/xcb.h>
-#include "vulkan_xcb.h"
+#include "vulkan_xcb.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
 #include <X11/Xlib.h>
-#include "vulkan_xlib.h"
+#include "vulkan_xlib.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
 #include <directfb.h>
-#include "vulkan_directfb.h"
+#include "vulkan_directfb.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
-#include "vulkan_xlib_xrandr.h"
+#include "vulkan_xlib_xrandr.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_GGP
 #include <ggp_c/vulkan_types.h>
-#include "vulkan_ggp.h"
+#include "vulkan_ggp.hpp"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
 #include <screen/screen.h>
-#include "vulkan_screen.h"
+#include "vulkan_screen.hpp"
 #endif
 
 
@@ -93,7 +93,7 @@
 
 
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-#include "vulkan_beta.h"
+#include "vulkan_beta.hpp"
 #endif
 
 #endif // VULKAN_H_

@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "TracyApi.h"
+#include "TracyApi.hpp"
 
 namespace tracy
 {

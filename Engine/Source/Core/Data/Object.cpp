@@ -1,7 +1,7 @@
-#include "Object.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
+#include "Object.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
 
 using namespace Minty;
 

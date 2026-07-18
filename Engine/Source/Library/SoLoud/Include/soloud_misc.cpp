@@ -22,9 +22,9 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
-#include "soloud_misc.h"
+#include "soloud_misc.hpp"
 #include <math.h>
 
 namespace SoLoud

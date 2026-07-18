@@ -1,4 +1,4 @@
-#include <Minty.h>
+#include <Minty.hpp>
 
 using namespace Minty;
 
@@ -97,7 +97,7 @@ int main()
 
         // Bind assets
         renderManager.bind(renderViewHandle);
-        renderManager.bind(pipelineHandle);
+        renderManager.bind(pipelineHandle); 
         renderManager.bind(materialHandle);
         renderManager.bind(geometryHandle);
 

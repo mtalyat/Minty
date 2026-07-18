@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "EntitySerializationData.h"
-#include "World/Entity/EntityManager.h"
+#include "pch.hpp"
+#include "EntitySerializationData.hpp"
+#include "World/Entity/EntityManager.hpp"
 
 using namespace Minty;
 

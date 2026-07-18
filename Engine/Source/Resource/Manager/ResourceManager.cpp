@@ -1,13 +1,13 @@
-#include "pch.h"
-#include "ResourceManager.h"
-#include "ResourceManagerInfo.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Stream/FileStream.h"
-#include "Core/File/PhysicalFile.h"
-#include "Core/File/VirtualFile.h"
-#include "Core/Data/StringBuilder.h"
-#include "Core/Serialize/TextReader.h"
-#include "Core/Constant/File.h"
+#include "pch.hpp"
+#include "ResourceManager.hpp"
+#include "ResourceManagerInfo.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Stream/FileStream.hpp"
+#include "Core/File/PhysicalFile.hpp"
+#include "Core/File/VirtualFile.hpp"
+#include "Core/Data/StringBuilder.hpp"
+#include "Core/Serialize/TextReader.hpp"
+#include "Core/Constant/File.hpp"
 
 using namespace Minty;
 

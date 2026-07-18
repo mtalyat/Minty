@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "Color.h"
-#include "Core/Encoding/Encoding.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Data/StringBuilder.h"
-#include "Core/Data/Tuple.h"
+#include "pch.hpp"
+#include "Color.hpp"
+#include "Core/Encoding/Encoding.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Data/StringBuilder.hpp"
+#include "Core/Data/Tuple.hpp"
 
 using namespace Minty;
 

@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "FileStream.h"
-#include "Core/Debug/Debug.h"
-#include "Core/File/File.h"
+#include "pch.hpp"
+#include "FileStream.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/File/File.hpp"
 
 using namespace Minty;
 

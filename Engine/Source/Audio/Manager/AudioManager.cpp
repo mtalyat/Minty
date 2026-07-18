@@ -1,10 +1,10 @@
-#include "pch.h"
-#include "AudioManager.h"
+#include "pch.hpp"
+#include "AudioManager.hpp"
 
 using namespace Minty;
 
 #ifdef MINTY_SOLOUD
-#include "Independence/SoLoud/SoLoud_AudioManager.h"
+#include "Independence/SoLoud/SoLoud_AudioManager.hpp"
 struct AudioManager::Impl
 {
     SoLoud_AudioManager renderManager;

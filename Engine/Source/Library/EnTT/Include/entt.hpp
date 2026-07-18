@@ -1,4 +1,4 @@
-#include "Core/Debug/Debug.h"
+#include "Core/Debug/Debug.hpp"
 
 // CUSTOM MODIFICATIONS
 // define a custom assert macro to override the default one so we can see the message

@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "UUID.h"
-#include "Core/Encoding/Encoding.h"
-#include "Core/Math/Random.h"
+#include "pch.hpp"
+#include "UUID.hpp"
+#include "Core/Encoding/Encoding.hpp"
+#include "Core/Math/Random.hpp"
 
 using namespace Minty;
 

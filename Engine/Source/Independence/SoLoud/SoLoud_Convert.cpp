@@ -1,4 +1,4 @@
-#include "SoLoud_Convert.h"
+#include "SoLoud_Convert.hpp"
 
 using namespace Minty;
 

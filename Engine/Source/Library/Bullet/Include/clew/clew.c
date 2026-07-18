@@ -6,7 +6,7 @@
 //  (See accompanying file license.txt)
 //////////////////////////////////////////////////////////////////////////
 
-#include "clew.h"
+#include "clew.hpp"
 
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN

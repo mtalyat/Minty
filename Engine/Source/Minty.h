@@ -1,7 +1,0 @@
-#include "Audio/__Audio.h"
-#include "Core/__Core.h"
-#include "Event/__Event.h"
-#include "Input/__Input.h"
-#include "Render/__Render.h"
-#include "Resource/__Resource.h"
-#include "Window/__Window.h"

@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* inflate.c -- zlib decompression
  * Copyright (C) 1995-2022 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -81,10 +81,10 @@
  * The history for versions after 1.2.0 are in ChangeLog in zlib distribution.
  */
 
-#include "zutil.h"
-#include "inftrees.h"
-#include "inflate.h"
-#include "inffast.h"
+#include "zutil.hpp"
+#include "inftrees.hpp"
+#include "inflate.hpp"
+#include "inffast.hpp"
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
@@ -283,7 +283,7 @@ local void fixedtables(struct inflate_state FAR *state) {
         virgin = 0;
     }
 #else /* !BUILDFIXED */
-#   include "inffixed.h"
+#   include "inffixed.hpp"
 #endif /* BUILDFIXED */
     state->lencode = lenfix;
     state->lenbits = 9;

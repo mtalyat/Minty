@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* trees.c -- output deflated data using Huffman coding
  * Copyright (C) 1995-2024 Jean-loup Gailly
  * detect_data_type() function provided freely by Cosmin Truta, 2006
@@ -35,7 +35,7 @@
 
 /* #define GEN_TREES_H */
 
-#include "deflate.h"
+#include "deflate.hpp"
 
 #ifdef ZLIB_DEBUG
 #  include <ctype.h>
@@ -112,7 +112,7 @@ local int base_dist[D_CODES];
 /* First normalized distance for each code (0 = distance of 1) */
 
 #else
-#  include "trees.h"
+#  include "trees.hpp"
 #endif /* GEN_TREES_H */
 
 struct static_tree_desc_s {
@@ -386,7 +386,7 @@ local void tr_static_init(void) {
        ((i) % (width) == (width) - 1 ? ",\n" : ", "))
 
 void gen_trees_header(void) {
-    FILE *header = fopen("trees.h", "w");
+    FILE *header = fopen("trees.hpp", "w");
     int i;
 
     Assert (header != NULL, "Can't open trees.h");

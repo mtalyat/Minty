@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "ViewportResource.h"
+#include "pch.hpp"
+#include "ViewportResource.hpp"
 
 using namespace Minty;
 

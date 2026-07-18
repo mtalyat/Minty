@@ -22,15 +22,15 @@ misrepresented as being the original software.
 distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
 #undef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
 #include <string.h>
-#include "soloud.h"
-#include "soloud_file.h"
+#include "soloud.hpp"
+#include "soloud_file.hpp"
 
 namespace SoLoud
 {

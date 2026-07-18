@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "Random.h"
+#include "pch.hpp"
+#include "Random.hpp"
 #include <random>
 
 using namespace Minty;

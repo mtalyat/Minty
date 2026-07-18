@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "PipelineInputRate.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "PipelineInputRate.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

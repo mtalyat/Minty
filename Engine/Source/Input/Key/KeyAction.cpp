@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "KeyAction.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "KeyAction.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

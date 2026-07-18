@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "LayerManager.h"
+#include "pch.hpp"
+#include "LayerManager.hpp"
 
 using namespace Minty;
 

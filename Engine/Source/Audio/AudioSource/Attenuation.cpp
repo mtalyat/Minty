@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "Attenuation.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "Attenuation.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

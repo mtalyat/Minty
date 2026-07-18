@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* zutil.c -- target dependent utility functions for the compression library
  * Copyright (C) 1995-2017 Jean-loup Gailly
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -6,9 +6,9 @@
 
 /* @(#) $Id$ */
 
-#include "zutil.h"
+#include "zutil.hpp"
 #ifndef Z_SOLO
-#  include "gzguts.h"
+#  include "gzguts.hpp"
 #endif
 
 z_const char * const z_errmsg[10] = {

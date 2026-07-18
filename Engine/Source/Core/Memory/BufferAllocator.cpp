@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "BufferAllocator.h"
+#include "pch.hpp"
+#include "BufferAllocator.hpp"
 
 using namespace Minty;
 

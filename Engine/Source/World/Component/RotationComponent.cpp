@@ -1,6 +1,6 @@
-#include "RotationComponent.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
+#include "RotationComponent.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
 
 using namespace Minty;
 

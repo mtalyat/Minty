@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "Writer.h"
+#include "pch.hpp"
+#include "Writer.hpp"
 
 using namespace Minty;
 

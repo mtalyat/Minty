@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "Stopwatch.h"
-#include "Time.h"
-#include "Core/Constant/Convert.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "Stopwatch.hpp"
+#include "Time.hpp"
+#include "Core/Constant/Convert.hpp"
+#include "Core/Debug/Debug.hpp"
 #include <format>
 
 using namespace Minty;

@@ -66,7 +66,7 @@
 //  HEADER BEGINS HERE
 //
 
-#include "pch.h"
+#include "pch.hpp"
 
 #ifndef STB_VORBIS_INCLUDE_STB_VORBIS_H
 #define STB_VORBIS_INCLUDE_STB_VORBIS_H
@@ -79,7 +79,7 @@
 #include <stdio.h>
 #endif
 
-#include "soloud_file_hack_on.h"
+#include "soloud_file_hack_on.hpp"
 
 #ifdef __cplusplus
 extern "C" {
@@ -5557,4 +5557,4 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------------------------------------------------------------------------------
 */
-#include "soloud_file_hack_off.h"
+#include "soloud_file_hack_off.hpp"

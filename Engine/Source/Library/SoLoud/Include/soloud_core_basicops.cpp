@@ -22,10 +22,10 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
 #include <string.h>
-#include "soloud_internal.h"
+#include "soloud_internal.hpp"
 
 // Core "basic" operations - play, stop, etc
 

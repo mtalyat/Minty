@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "LayerComponent.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
-#include "Layer/Manager/LayerManager.h"
+#include "pch.hpp"
+#include "LayerComponent.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
+#include "Layer/Manager/LayerManager.hpp"
 
 using namespace Minty;
 

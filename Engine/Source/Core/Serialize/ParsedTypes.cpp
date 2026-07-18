@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "ParsedTypes.h"
-#include "Core/Data/StringBuilder.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "ParsedTypes.hpp"
+#include "Core/Data/StringBuilder.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

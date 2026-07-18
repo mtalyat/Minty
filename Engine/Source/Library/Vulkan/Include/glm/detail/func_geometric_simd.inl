@@ -1,7 +1,7 @@
 /// @ref core
 /// @file glm/detail/func_geometric_simd.inl
 
-#include "../simd/geometric.h"
+#include "../simd/geometric.hpp"
 
 #if GLM_ARCH & GLM_ARCH_SSE2_BIT
 

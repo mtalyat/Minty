@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "VirtualFile.h"
-#include "Core/Debug/DebugF.h"
+#include "pch.hpp"
+#include "VirtualFile.hpp"
+#include "Core/Debug/DebugF.hpp"
 
 using namespace Minty;
 

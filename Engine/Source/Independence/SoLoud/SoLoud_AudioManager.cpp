@@ -1,11 +1,11 @@
-#include "SoLoud_AudioManager.h"
-#include "SoLoud_Convert.h"
-#include "Audio/AudioListener/AudioListenerInfo.h"
-#include "Audio/AudioSource/AudioSourceInfo.h"
-#include "Core/Debug/Debug.h"
-#include "Resource/Manager/ResourceManager.h"
-#include "Core/Memory/FrameAllocator.h"
-#include "Resource/Clip/ClipInfo.h"
+#include "SoLoud_AudioManager.hpp"
+#include "SoLoud_Convert.hpp"
+#include "Audio/AudioListener/AudioListenerInfo.hpp"
+#include "Audio/AudioSource/AudioSourceInfo.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
+#include "Core/Memory/FrameAllocator.hpp"
+#include "Resource/Clip/ClipInfo.hpp"
 
 using namespace Minty;
 

@@ -7,8 +7,8 @@
 #include <string.h>
 #include <time.h>
 
-#include "tracy_concurrentqueue.h"
-#include "tracy_SPSCQueue.h"
+#include "tracy_concurrentqueue.hpp"
+#include "tracy_SPSCQueue.hpp"
 #include "TracyCallstack.hpp"
 #include "TracyKCore.hpp"
 #include "TracySysPower.hpp"

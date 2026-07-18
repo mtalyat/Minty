@@ -1,11 +1,11 @@
-#include "pch.h"
+#include "pch.hpp"
 /* inftrees.c -- generate Huffman trees for efficient decoding
  * Copyright (C) 1995-2024 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#include "zutil.h"
-#include "inftrees.h"
+#include "zutil.hpp"
+#include "inftrees.hpp"
 
 #define MAXBITS 15
 

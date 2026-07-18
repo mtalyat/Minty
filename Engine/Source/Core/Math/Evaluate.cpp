@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "Evaluate.h"
-#include "Core/Data/Set.h"
-#include "Core/Tool/String.h"
+#include "pch.hpp"
+#include "Evaluate.hpp"
+#include "Core/Data/Set.hpp"
+#include "Core/Tool/String.hpp"
 #include <regex>
 #include <string>
 

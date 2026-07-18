@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "CameraPerspective.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "CameraPerspective.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

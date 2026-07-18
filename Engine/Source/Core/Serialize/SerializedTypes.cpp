@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "SerializedTypes.h"
+#include "pch.hpp"
+#include "SerializedTypes.hpp"
 
 using namespace Minty;
 

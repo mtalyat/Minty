@@ -1,6 +1,6 @@
-#include "StringView.h"
-#include "Core/Debug/DebugF.h"
-#include "Core/Tool/String.h"
+#include "StringView.hpp"
+#include "Core/Debug/DebugF.hpp"
+#include "Core/Tool/String.hpp"
 
 using namespace Minty;
 

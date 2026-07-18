@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "TextureAddressMode.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "TextureAddressMode.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

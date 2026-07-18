@@ -1,5 +1,5 @@
-#include "Memory.h"
-#include "Core/Debug/Debug.h"
+#include "Memory.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

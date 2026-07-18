@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "Matrix4x4.h"
-#include "Matrix3x3.h"
+#include "pch.hpp"
+#include "Matrix4x4.hpp"
+#include "Matrix3x3.hpp"
 
 using namespace Minty;
 using namespace Minty::Math;

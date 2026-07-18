@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "PipelineDepthStencilMode.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "PipelineDepthStencilMode.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "StringBuilder.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "StringBuilder.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

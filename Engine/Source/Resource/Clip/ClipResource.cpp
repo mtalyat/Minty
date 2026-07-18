@@ -1,12 +1,12 @@
-#include "pch.h"
-#include "ClipResource.h"
-#include "ClipInfo.h"
-#include "Core/Constant/Invalid.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Data/Path.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Constant/Invalid.h"
-#include "Resource/Manager/ResourceManager.h"
+#include "pch.hpp"
+#include "ClipResource.hpp"
+#include "ClipInfo.hpp"
+#include "Core/Constant/Invalid.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Data/Path.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Constant/Invalid.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
 
 using namespace Minty;
 

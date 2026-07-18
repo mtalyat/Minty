@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "FileFlags.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "FileFlags.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

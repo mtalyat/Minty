@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "ImageLayout.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "ImageLayout.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

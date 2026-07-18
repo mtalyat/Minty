@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "PipelineFrontFace.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "PipelineFrontFace.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "String.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Tool/String.h"
-#include "Core/Debug/DebugF.h"
+#include "pch.hpp"
+#include "String.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Tool/String.hpp"
+#include "Core/Debug/DebugF.hpp"
 
 using namespace Minty;
 

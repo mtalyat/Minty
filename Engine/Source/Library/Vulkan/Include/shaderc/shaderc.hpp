@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 
-#include "shaderc.h"
+#include "shaderc.hpp"
 
 namespace shaderc {
 // A CompilationResult contains the compiler output, compilation status,

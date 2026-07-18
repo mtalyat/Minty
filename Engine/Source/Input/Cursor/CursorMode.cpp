@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "CursorMode.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "CursorMode.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

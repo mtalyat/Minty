@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "Math.h"
+#include "pch.hpp"
+#include "Math.hpp"
 #include <random>
 
 using namespace Minty;

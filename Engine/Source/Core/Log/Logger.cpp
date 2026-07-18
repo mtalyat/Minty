@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "Logger.h"
-#include "LoggerInfo.h"
-#include "Core/Data/Vector.h"
-#include "Core/Time/Time.h"
-#include "Core/File/PhysicalFile.h"
+#include "pch.hpp"
+#include "Logger.hpp"
+#include "LoggerInfo.hpp"
+#include "Core/Data/Vector.hpp"
+#include "Core/Time/Time.hpp"
+#include "Core/File/PhysicalFile.hpp"
 #include <iostream>
 
 using namespace Minty;

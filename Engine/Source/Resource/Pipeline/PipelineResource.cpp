@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "PipelineResource.h"
-#include "Core/Debug/Debug.h"
-#include "Resource/Manager/ResourceManager.h"
-#include "Core/Serialize/ParsedTypes.h"
+#include "pch.hpp"
+#include "PipelineResource.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
+#include "Core/Serialize/ParsedTypes.hpp"
 
 using namespace Minty;
 

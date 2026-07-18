@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "MaterialResource.h"
-#include "Resource/Manager/ResourceManager.h"
+#include "pch.hpp"
+#include "MaterialResource.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
 
 using namespace Minty;
 

@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "Time.h"
+#include "pch.hpp"
+#include "Time.hpp"
 #include <chrono>
 #include <sstream>
 #include <iomanip>

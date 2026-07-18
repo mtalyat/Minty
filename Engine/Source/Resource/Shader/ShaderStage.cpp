@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "ShaderStage.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "ShaderStage.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

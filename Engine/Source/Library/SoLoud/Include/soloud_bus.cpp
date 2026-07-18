@@ -22,11 +22,11 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 
-#include "soloud.h"
-#include "soloud_fft.h"
-#include "soloud_internal.h"
+#include "soloud.hpp"
+#include "soloud_fft.hpp"
+#include "soloud_internal.hpp"
 
 namespace SoLoud
 {

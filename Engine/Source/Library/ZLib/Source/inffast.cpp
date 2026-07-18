@@ -1,13 +1,13 @@
-#include "pch.h"
+#include "pch.hpp"
 /* inffast.c -- fast decoding
  * Copyright (C) 1995-2017 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#include "zutil.h"
-#include "inftrees.h"
-#include "inflate.h"
-#include "inffast.h"
+#include "zutil.hpp"
+#include "inftrees.hpp"
+#include "inflate.hpp"
+#include "inffast.hpp"
 
 #ifdef ASMINF
 #  pragma message("Assembler code may have bugs -- use at your own risk")

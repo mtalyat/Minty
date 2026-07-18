@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "PipelinePrimitiveTopology.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "PipelinePrimitiveTopology.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

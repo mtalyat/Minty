@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* deflate.c -- compress data using the deflation algorithm
  * Copyright (C) 1995-2024 Jean-loup Gailly and Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -50,7 +50,7 @@
 
 /* @(#) $Id$ */
 
-#include "deflate.h"
+#include "deflate.hpp"
 
 const char deflate_copyright[] =
    " deflate 1.3.1 Copyright 1995-2024 Jean-loup Gailly and Mark Adler ";

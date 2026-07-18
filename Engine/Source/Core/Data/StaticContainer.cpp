@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "StaticContainer.h"
+#include "pch.hpp"
+#include "StaticContainer.hpp"
 
 using namespace Minty;
 

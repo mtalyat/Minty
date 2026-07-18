@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "NameComponent.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
+#include "pch.hpp"
+#include "NameComponent.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
 
 using namespace Minty;
 

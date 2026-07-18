@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "Time.h"
-#include "TimeController.h"
-#include "TimeControllerInfo.h"
-#include "Core/Debug/DebugF.h"
-#include "Core/Constant/Convert.h"
+#include "pch.hpp"
+#include "Time.hpp"
+#include "TimeController.hpp"
+#include "TimeControllerInfo.hpp"
+#include "Core/Debug/DebugF.hpp"
+#include "Core/Constant/Convert.hpp"
 
 using namespace Minty;
 

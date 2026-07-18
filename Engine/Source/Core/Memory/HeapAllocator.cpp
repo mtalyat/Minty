@@ -1,6 +1,6 @@
-#include "HeapAllocator.h"
-#include "Core/Debug/Debug.h"
-#include "Core/Tool/Memory.h"
+#include "HeapAllocator.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Core/Tool/Memory.hpp"
 
 using namespace Minty;
 

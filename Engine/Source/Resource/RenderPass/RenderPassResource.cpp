@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "RenderPassResource.h"
-#include "Resource/Manager/ResourceManager.h"
+#include "pch.hpp"
+#include "RenderPassResource.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
 
 namespace
 {

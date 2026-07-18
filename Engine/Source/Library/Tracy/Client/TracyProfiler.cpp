@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 #ifdef TRACY_ENABLE
 
 #ifdef _WIN32

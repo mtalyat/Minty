@@ -1,7 +1,7 @@
-#include "PersistentAllocator.h"
-#include "Core/Debug/DebugF.h"
-#include "Core/Tool/Memory.h"
-#include "MemoryPoolInfo.h"
+#include "PersistentAllocator.hpp"
+#include "Core/Debug/DebugF.hpp"
+#include "Core/Tool/Memory.hpp"
+#include "MemoryPoolInfo.hpp"
 
 using namespace Minty;
 

@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "RenderAttachment.h"
+#include "pch.hpp"
+#include "RenderAttachment.hpp"
 
 using namespace Minty;
 

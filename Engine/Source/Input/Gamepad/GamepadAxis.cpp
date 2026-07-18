@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "GamepadAxis.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "GamepadAxis.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

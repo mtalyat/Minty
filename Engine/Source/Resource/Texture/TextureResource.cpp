@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "TextureResource.h"
-#include "Core/Serialize/Reader.h"
-#include "Core/Serialize/Writer.h"
-#include "Core/Data/Path.h"
-#include "Resource/Manager/ResourceManager.h"
+#include "pch.hpp"
+#include "TextureResource.hpp"
+#include "Core/Serialize/Reader.hpp"
+#include "Core/Serialize/Writer.hpp"
+#include "Core/Data/Path.hpp"
+#include "Resource/Manager/ResourceManager.hpp"
 
 using namespace Minty;
 

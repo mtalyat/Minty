@@ -22,14 +22,14 @@ freely, subject to the following restrictions:
    distribution.
 */
 
-#include "pch.h"
+#include "pch.hpp"
 #include <string.h>
 #include <stdlib.h>
 #include <math.h> // sin
 #include <float.h> // _controlfp
-#include "soloud_internal.h"
-#include "soloud_thread.h"
-#include "soloud_fft.h"
+#include "soloud_internal.hpp"
+#include "soloud_thread.hpp"
+#include "soloud_fft.hpp"
 
 
 #ifdef SOLOUD_SSE_INTRINSICS

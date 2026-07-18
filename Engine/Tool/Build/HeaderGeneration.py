@@ -20,7 +20,7 @@ def _is_directory_aggregate_header(path: Path) -> bool:
 
 def generate_directory_header(directory_path: str | Path) -> Path:
 	"""
-	Create or update a directory aggregate header named "__<DirectoryName>.h".
+	Create or update a directory aggregate header named "__<DirectoryName>.hpp".
 
 	Rules:
 	- Includes all header files in the given directory (excluding the generated
@@ -39,7 +39,7 @@ def generate_directory_header(directory_path: str | Path) -> Path:
 	if not directory.exists() or not directory.is_dir():
 		raise ValueError(f"Path is not a directory: {directory}")
 
-	output_name = f"__{directory.name}.h"
+	output_name = f"__{directory.name}.hpp"
 	output_path = directory / output_name
 
 	includes: list[str] = []
@@ -52,7 +52,7 @@ def generate_directory_header(directory_path: str | Path) -> Path:
 		if item.name == output_name:
 			continue
 
-		if item.name.lower() == "pch.h":
+		if item.name.lower() in {"pch.hpp", "pch.h"}:
 			continue
 
 		if item.stem.startswith("__"):
@@ -82,7 +82,7 @@ def generate_directory_header(directory_path: str | Path) -> Path:
 def _make_parser() -> argparse.ArgumentParser:
 	parser = argparse.ArgumentParser(
 		description=(
-			"Generate an aggregate header named __<DirectoryName>.h from headers "
+			"Generate an aggregate header named __<DirectoryName>.hpp from headers "
 			"in a directory and first-level subdirectory aggregate headers."
 		)
 	)

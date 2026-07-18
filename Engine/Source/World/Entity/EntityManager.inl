@@ -1,6 +1,6 @@
 #pragma once
-#include "Core/Debug/Debug.h"
-#include "EntityManager.h"
+#include "Core/Debug/Debug.hpp"
+#include "EntityManager.hpp"
 
 template <typename Component, typename... Args>
 decltype(auto) Minty::EntityManager::add_component(EntityHandle const entity, Args &&...args)

@@ -1,11 +1,11 @@
-#include "pch.h"
-#include "Wrap.h"
-#include "Core/Compression/Compression.h"
-#include "Core/Constant/File.h"
-#include "Core/File/PhysicalFile.h"
-#include "Core/File/VirtualFile.h"
-#include "Core/Math/Math.h"
-#include "Core/Tool/Format.h"
+#include "pch.hpp"
+#include "Wrap.hpp"
+#include "Core/Compression/Compression.hpp"
+#include "Core/Constant/File.hpp"
+#include "Core/File/PhysicalFile.hpp"
+#include "Core/File/VirtualFile.hpp"
+#include "Core/Math/Math.hpp"
+#include "Core/Tool/Format.hpp"
 
 using namespace Minty;
 

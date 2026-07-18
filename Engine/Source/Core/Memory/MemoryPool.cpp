@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "MemoryPool.h"
-#include "MemoryPoolInfo.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "MemoryPool.hpp"
+#include "MemoryPoolInfo.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

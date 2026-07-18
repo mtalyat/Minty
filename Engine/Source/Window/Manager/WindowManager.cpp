@@ -1,11 +1,11 @@
-#include "pch.h"
-#include "WindowManager.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "WindowManager.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 
 #ifdef MINTY_WINDOWS
-#include "Independence/Windows/Windows_WindowManager.h"
+#include "Independence/Windows/Windows_WindowManager.hpp"
 struct WindowManager::Impl
 {
     Windows_WindowManager windowManager;

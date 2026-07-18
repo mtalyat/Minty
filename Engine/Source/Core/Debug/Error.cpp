@@ -1,5 +1,5 @@
-#include "pch.h"
-#include "Error.h"
+#include "pch.hpp"
+#include "Error.hpp"
 
 using namespace Minty;
 

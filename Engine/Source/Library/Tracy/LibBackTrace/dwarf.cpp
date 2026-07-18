@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 /* dwarf.c -- Get file/line information from DWARF for backtraces.
    Copyright (C) 2012-2021 Free Software Foundation, Inc.
    Written by Ian Lance Taylor, Google.
@@ -31,7 +31,7 @@ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.  */
 
-#include "config.h"
+#include "config.hpp"
 
 #include <errno.h>
 #include <stdlib.h>

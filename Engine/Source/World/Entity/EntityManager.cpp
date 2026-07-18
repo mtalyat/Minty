@@ -1,14 +1,14 @@
-#include "pch.h"
-#include "EntityManager.h"
-#include "EntityManagerInfo.h"
-#include "Core/Constant/Invalid.h"
-#include "Core/Tool/Format.h"
-#include "Core/Debug/DebugF.h"
-#include "Core/Data/Stack.h"
+#include "pch.hpp"
+#include "EntityManager.hpp"
+#include "EntityManagerInfo.hpp"
+#include "Core/Constant/Invalid.hpp"
+#include "Core/Tool/Format.hpp"
+#include "Core/Debug/DebugF.hpp"
+#include "Core/Data/Stack.hpp"
 
-#include "World/Component/NameComponent.h"
-#include "World/Component/UUIDComponent.h"
-#include "World/Component/RelationshipComponent.h"
+#include "World/Component/NameComponent.hpp"
+#include "World/Component/UUIDComponent.hpp"
+#include "World/Component/RelationshipComponent.hpp"
 
 using namespace Minty;
 

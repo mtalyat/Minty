@@ -24,7 +24,7 @@
 #ifndef SPIRV_CROSS_GLSL_HPP
 #define SPIRV_CROSS_GLSL_HPP
 
-#include "GLSL.std.450.h"
+#include "GLSL.std.450.hpp"
 #include "spirv_cross.hpp"
 #include <unordered_map>
 #include <unordered_set>

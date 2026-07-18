@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "LoadOperation.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "LoadOperation.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

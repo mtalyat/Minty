@@ -1,7 +1,7 @@
-#include "pch.h"
-#include "Encoding.h"
-#include "Core/Tool/Format.h"
-#include "Core/Debug/Debug.h"
+#include "pch.hpp"
+#include "Encoding.hpp"
+#include "Core/Tool/Format.hpp"
+#include "Core/Debug/Debug.hpp"
 #include <sstream>
 
 using namespace Minty;

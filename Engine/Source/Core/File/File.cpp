@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "File.h"
-#include "PhysicalFile.h"
+#include "pch.hpp"
+#include "File.hpp"
+#include "PhysicalFile.hpp"
 
 using namespace Minty;
 

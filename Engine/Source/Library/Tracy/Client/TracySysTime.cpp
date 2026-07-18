@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.hpp"
 #include "TracySysTime.hpp"
 
 #ifdef TRACY_HAS_SYSTIME

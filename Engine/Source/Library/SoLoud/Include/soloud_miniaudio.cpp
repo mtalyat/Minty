@@ -21,11 +21,11 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source
 distribution.
 */
-#include "pch.h"
+#include "pch.hpp"
 
 #include <stdlib.h>
 
-#include "soloud.h"
+#include "soloud.hpp"
 
 #if !defined(WITH_MINIAUDIO)
 
@@ -42,7 +42,7 @@ namespace SoLoud
 #define MINIAUDIO_IMPLEMENTATION
 #define MA_NO_NULL
 #define MA_NO_DECODING
-#include "miniaudio.h"
+#include "miniaudio.hpp"
 #include <math.h>
 
 namespace SoLoud

@@ -1,5 +1,5 @@
-#include "Vulkan_Convert.h"
-#include "Core/Debug/Debug.h"
+#include "Vulkan_Convert.hpp"
+#include "Core/Debug/Debug.hpp"
 
 using namespace Minty;
 

@@ -1,8 +1,8 @@
-#include "pch.h"
-#include "Compression.h"
-#include "Core/Tool/Format.h"
-#include "Core/Debug/Debug.h"
-#include "Library/ZLib/ZLib.h"
+#include "pch.hpp"
+#include "Compression.hpp"
+#include "Core/Tool/Format.hpp"
+#include "Core/Debug/Debug.hpp"
+#include "Library/ZLib/ZLib.hpp"
 
 using namespace Minty;
 

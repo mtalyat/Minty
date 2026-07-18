@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "TextReader.h"
-#include "Core/Data/StringBuilder.h"
-#include "Core/Tool/String.h"
-#include "Core/Serialize/EvaluatedTypes.h"
-#include "Core/Debug/DebugF.h"
+#include "pch.hpp"
+#include "TextReader.hpp"
+#include "Core/Data/StringBuilder.hpp"
+#include "Core/Tool/String.hpp"
+#include "Core/Serialize/EvaluatedTypes.hpp"
+#include "Core/Debug/DebugF.hpp"
 
 using namespace Minty;
 

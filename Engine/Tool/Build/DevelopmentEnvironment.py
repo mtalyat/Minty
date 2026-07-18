@@ -223,7 +223,7 @@ def _has_direct_layer_headers(directory: Path) -> bool:
     return any(
         path.is_file()
         and _is_header_file(path)
-        and path.name.lower() != 'pch.h'
+        and path.name.lower() not in {'pch.hpp', 'pch.h'}
         and not path.stem.startswith('__')
         for path in directory.iterdir()
     )
@@ -231,7 +231,10 @@ def _has_direct_layer_headers(directory: Path) -> bool:
 
 def _has_child_aggregate_headers(directory: Path) -> bool:
     return any(
-        child.is_dir() and (child / f'__{child.name}.h').exists()
+        child.is_dir() and (
+            (child / f'__{child.name}.hpp').exists()
+            or (child / f'__{child.name}.h').exists()
+        )
         for child in directory.iterdir()
     )
 

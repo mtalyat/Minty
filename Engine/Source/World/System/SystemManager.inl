@@ -1,7 +1,7 @@
 #pragma once
-#include "Core/Debug/Debug.h"
-#include "SystemManager.h"
-#include "System.h"
+#include "Core/Debug/Debug.hpp"
+#include "SystemManager.hpp"
+#include "System.hpp"
 
 template <typename T, typename... Args>
 inline T &Minty::SystemManager::create_system(Args &&...args)

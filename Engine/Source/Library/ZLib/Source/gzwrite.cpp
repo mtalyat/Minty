@@ -1,11 +1,11 @@
-#include "pch.h"
+#include "pch.hpp"
 #define _CRT_SECURE_NO_WARNINGS
 /* gzwrite.c -- zlib functions for writing gzip files
  * Copyright (C) 2004-2019 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#include "gzguts.h"
+#include "gzguts.hpp"
 
 /* Initialize state for writing a gzip file.  Mark initialization by setting
    state->size to non-zero.  Return -1 on a memory allocation failure, or 0 on

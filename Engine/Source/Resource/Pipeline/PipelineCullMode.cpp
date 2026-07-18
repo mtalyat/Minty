@@ -1,6 +1,6 @@
-#include "pch.h"
-#include "PipelineCullMode.h"
-#include "Core/Tool/Enum.h"
+#include "pch.hpp"
+#include "PipelineCullMode.hpp"
+#include "Core/Tool/Enum.hpp"
 
 using namespace Minty;
 

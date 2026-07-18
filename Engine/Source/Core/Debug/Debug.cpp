@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "Debug.h"
-#include "Core/Log/Logger.h"
-#include "Core/Log/LoggerInfo.h"
-#include "Core/Data/StringBuilder.h"
-#include "Core/Debug/DebugInfo.h"
+#include "pch.hpp"
+#include "Debug.hpp"
+#include "Core/Log/Logger.hpp"
+#include "Core/Log/LoggerInfo.hpp"
+#include "Core/Data/StringBuilder.hpp"
+#include "Core/Debug/DebugInfo.hpp"
 #include <filesystem>
 #include <iostream>
 
