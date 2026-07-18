@@ -4,13 +4,18 @@ setlocal
 for %%I in ("%~dp0.") do set "ROOT=%%~fI"
 set "BUILD_DIR=%ROOT%\Output"
 set "CONFIG=Debug"
+set "SKIP_BUILD=0"
 
 if not "%~1"=="" set "CONFIG=%~1"
+if /I "%~2"=="/nobuild" set "SKIP_BUILD=1"
+if /I "%~2"=="--nobuild" set "SKIP_BUILD=1"
 
-call "%ROOT%\build.bat" "%CONFIG%"
-if errorlevel 1 (
-    echo [run] Build step failed.
-    exit /b 1
+if "%SKIP_BUILD%"=="0" (
+    call "%ROOT%\build.bat" "%CONFIG%"
+    if errorlevel 1 (
+        echo [run] Build step failed.
+        exit /b 1
+    )
 )
 
 set "EXE=%BUILD_DIR%\%CONFIG%\demo_app.exe"
