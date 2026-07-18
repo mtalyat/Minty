@@ -18,6 +18,7 @@ int main()
 
     // EVENTS
     LoggerInfo loggerInfo{};
+    loggerInfo.logMode = LogModeEnum::File;
     loggerInfo.path = "events.log";
     Logger eventLogger(loggerInfo);
     sp_eventLogger = &eventLogger;
@@ -75,7 +76,7 @@ int main()
     // SETUP
     audioManager.play(clipHandle);
     Transform transform{};
-    transform.set_position(Float3(0.0f, 0.0f, 5.0f));
+    transform.set_position(Float3(-5.0f, 0.0f, 5.0f));
 
     // MAIN LOOP
     while (windowManager.is_open(window))
