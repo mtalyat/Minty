@@ -54,7 +54,7 @@ namespace Minty
          * @brief Checks if the event has been processed.
          * @return True if the event has been processed, false otherwise.
          */
-        constexpr Bool is_processed() const { return state != EventStateEnum::Unhandled; }
+        constexpr Bool is_handled() const { return state != EventStateEnum::Unhandled; }
 
         /**
          * @brief Marks the event as handled, indicating that it has been processed and should not be further propagated or processed by other handlers.

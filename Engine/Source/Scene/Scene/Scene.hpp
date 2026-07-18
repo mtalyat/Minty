@@ -36,7 +36,7 @@ namespace Minty
     public:
         inline EntityManager &get_entity_manager() { return *mp_entityManager; }
         inline SystemManager &get_system_manager() { return *mp_systemManager; }
-        inline Priority get_priority() const { return m_priority; }
+        inline int get_priority() const { return m_priority; }
 
 #pragma endregion
 
@@ -47,7 +47,7 @@ namespace Minty
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
         void on_render();
-        void on_event(Event const &event);
+        void on_event(Event &event);
 
 #pragma endregion
 
@@ -56,7 +56,7 @@ namespace Minty
     private:
         EntityManager *mp_entityManager;
         SystemManager *mp_systemManager;
-        Priority m_priority;
+        int m_priority;
 
 #pragma endregion
     };

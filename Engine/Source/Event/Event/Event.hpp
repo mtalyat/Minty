@@ -48,7 +48,7 @@ namespace Minty
          * @brief Checks if the event has been processed.
          * @return True if the event has been processed, false otherwise.
          */
-        inline Bool is_processed() const { return m_state.is_processed(); }
+        inline Bool is_handled() const { return m_state.is_handled(); }
 
 #pragma endregion
 

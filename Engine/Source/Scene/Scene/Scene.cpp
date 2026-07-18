@@ -53,6 +53,6 @@ void Minty::Scene::on_render()
 {
 }
 
-void Minty::Scene::on_event(Event const &event)
+void Minty::Scene::on_event(Event &event)
 {
 }

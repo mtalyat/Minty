@@ -2,6 +2,7 @@
 #include "SceneManager.hpp"
 #include "Scene/Manager/SceneManagerInfo.hpp"
 #include "Scene/Scene/Scene.hpp"
+#include "Event/Event/Event.hpp"
 
 using namespace Minty;
 
@@ -125,11 +126,18 @@ void Minty::SceneManager::on_render()
     }
 }
 
-void Minty::SceneManager::on_event(Event const &event)
+void Minty::SceneManager::on_event(Event &event)
 {
     // Send the event to all active scenes until it has been handled
     for (SceneHandle const handle : m_activeScenes)
     {
+        // Stop sending the event if it has been handled
+        if (event.is_handled())
+        {
+            break;
+        }
+
+        // Send the event to the scene
         Scene &scene = at(handle);
         scene.on_event(event);
     }

@@ -39,7 +39,7 @@ namespace Minty
         void on_fixed_update(Timestep const &timestep);
         void on_finalize();
         void on_render();
-        void on_event(Event const &event);
+        void on_event(Event &event);
 
 #pragma endregion
 

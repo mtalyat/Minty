@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/Type/Priority.hpp"
 #include "Core/Data/Vector.hpp"
 
 namespace Minty
@@ -61,7 +60,7 @@ namespace Minty
 #pragma region Method
 
     public:
-        void add(T const &value, Priority const priority = PriorityEnum::Default)
+        void add(T const &value, int const priority = 0)
         {
             // Find the correct position to insert the new value based on its priority
             Size insertIndex = 0;
@@ -75,7 +74,7 @@ namespace Minty
             m_data.insert(insertIndex, value);
         }
 
-        void add(T &&value, Priority const priority = PriorityEnum::Default)
+        void add(T &&value, int const priority = 0)
         {
             // Find the correct position to insert the new value based on its priority
             Size insertIndex = 0;
@@ -112,7 +111,7 @@ namespace Minty
 
 #pragma region Variable
     private:
-        Vector<Priority> m_priorities;
+        Vector<int> m_priorities;
         Vector<T> m_data;
 
 #pragma endregion
