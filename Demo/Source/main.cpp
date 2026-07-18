@@ -2,8 +2,20 @@
 
 using namespace Minty;
 
+static Logger* sp_logger = nullptr;
+
+static void on_event(Event& event)
+{
+    sp_logger->log(SeverityFlagsEnum::Info, F("Event: State={}, Type={}", event.get_state(), event.get_type()));
+}
+
 int main()
 {
+    // DEBUG
+    LoggerInfo loggerInfo{};
+    Logger logger(loggerInfo);
+    sp_logger = &logger;
+
     // RESOURCE
     ResourceManagerInfo info{};
     ResourceManager resourceManager(info);
@@ -27,6 +39,7 @@ int main()
 
     // WINDOW
     WindowManagerInfo windowManagerInfo{};
+    windowManagerInfo.eventCallback = on_event;
     WindowManager windowManager(windowManagerInfo);
 
     WindowInfo windowInfo{};
