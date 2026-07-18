@@ -17,7 +17,6 @@ namespace Minty
 
     public:
         EntityManager(EntityManagerInfo const &info);
-        ~EntityManager();
 
         EntityManager(EntityManager const &) = delete;
 
