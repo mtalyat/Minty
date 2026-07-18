@@ -18,10 +18,6 @@ Minty::EntityManager::EntityManager(EntityManagerInfo const &info)
 {
 }
 
-Minty::EntityManager::~EntityManager()
-{
-}
-
 EntityHandle Minty::EntityManager::create_entity()
 {
     return entt_to_minty(m_registry.create());

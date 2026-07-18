@@ -20,7 +20,6 @@ namespace Minty
         ~EntityManager();
 
         EntityManager(EntityManager const &) = delete;
-        EntityManager(EntityManager &&) = delete;
 
 #pragma endregion
 
@@ -28,7 +27,6 @@ namespace Minty
 
     public:
         EntityManager &operator=(EntityManager const &) = delete;
-        EntityManager &operator=(EntityManager &&) = delete;
 
 #pragma endregion
 

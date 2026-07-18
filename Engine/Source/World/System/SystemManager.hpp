@@ -56,9 +56,7 @@ namespace Minty
 
     public:
         SystemManager(SystemManagerInfo const &info);
-        ~SystemManager();
 
-        SystemManager(SystemManager const &) = delete;
         SystemManager(SystemManager &&) = delete;
 
 #pragma endregion
@@ -66,7 +64,6 @@ namespace Minty
 #pragma region Operator
 
     public:
-        SystemManager &operator=(SystemManager const &) = delete;
         SystemManager &operator=(SystemManager &&) = delete;
 
 #pragma endregion

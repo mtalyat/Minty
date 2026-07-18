@@ -252,13 +252,13 @@ namespace Minty
             if (m_free.is_empty())
             {
                 index = static_cast<Index>(m_data.get_size());
-                m_data.add(std::forward<T>(value));
+                m_data.add(std::move(value));
                 m_generations.add(INITIAL_GENERATION);
             }
             else
             {
                 index = m_free.pop();
-                m_data.at(index) = std::forward<T>(value);
+                m_data.at(index) = std::move(value);
                 m_generations.at(index)++;
             }
 
@@ -305,7 +305,7 @@ namespace Minty
             MINTY_ASSERT(handle.index < m_data.get_size(), ErrorCodeEnum::Argument_OutOfRange);
             Generation const generation = m_generations.at(handle.index);
             MINTY_ASSERT(generation == handle.generation, ErrorCodeEnum::Argument_KeyNotFound);
-            m_data.at(handle.index) = T();
+            m_data.at(handle.index).~T();
             m_generations.at(handle.index) = INVALID_GENERATION;
             m_free.push(handle.index);
         }
