@@ -9,6 +9,7 @@
 #include "Core/Data/StringView.h"
 #include "Core/Data/Queue.h"
 #include "Core/Type/Severity.h"
+#include "Core/Log/LogMode.h"
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -17,6 +18,7 @@
 namespace Minty
 {
     struct LoggerInfo;
+    class PhysicalFile;
 
     /**
      * @class Logger
@@ -88,6 +90,7 @@ namespace Minty
         static void print(SeverityFlags const level, StringView const message);
 
     private:
+        void write(SeverityFlags const level, StringView const message);
         void worker_thread();
         void process_log_entry(LogEntry const& entry);
 
@@ -96,7 +99,9 @@ namespace Minty
 #pragma region Variables
 
     private:
+        LogMode m_logMode;
         SeverityFlags m_enabledLevels;
+        PhysicalFile* mp_logFile;
         Queue<LogEntry> m_logQueue;
         std::mutex m_queueMutex;
         std::condition_variable m_queueCondition;

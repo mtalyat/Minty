@@ -2,19 +2,25 @@
 
 using namespace Minty;
 
-static Logger* sp_logger = nullptr;
+static Logger* sp_eventLogger = nullptr;
 
 static void on_event(Event& event)
 {
-    sp_logger->log(SeverityFlagsEnum::Info, F("Event: State={}, Type={}", event.get_state(), event.get_type()));
+    sp_eventLogger->log(SeverityFlagsEnum::Info, F("Event: State={}, Type={}", event.get_state(), event.get_type()));
 }
 
 int main()
 {
     // DEBUG
+    DebugInfo debugInfo{};
+    debugInfo.loggerInfo.path = "debug.log";
+    Debug::initialize(debugInfo);
+
+    // EVENTS
     LoggerInfo loggerInfo{};
-    Logger logger(loggerInfo);
-    sp_logger = &logger;
+    loggerInfo.path = "events.log";
+    Logger eventLogger(loggerInfo);
+    sp_eventLogger = &eventLogger;
 
     // RESOURCE
     ResourceManagerInfo info{};

@@ -15,6 +15,7 @@
 namespace Minty
 {
     class Logger;
+    struct DebugInfo;
 
     /**
      * @class Debug
@@ -30,31 +31,14 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Accessors
-
-    public:
-        /**
-         * @brief Sets the debug flags.
-         * @param flags The SeverityFlags to set.
-         */
-        static void set_flags(SeverityFlagsEnum const flags);
-
-        /**
-         * @brief Gets the current debug flags.
-         * @return The current SeverityFlags.
-         */
-        inline static SeverityFlagsEnum get_flags() { return s_flags; }
-
-#pragma endregion
-
 #pragma region Methods
 
     public:
         /**
-         * @brief Initializes the debug system with the specified flags.
-         * @param flags The SeverityFlags to initialize with.
+         * @brief Initializes the debug system with the specified debug info.
+         * @param info The DebugInfo to initialize with.
          */
-        static void initialize(SeverityFlagsEnum const flags);
+        static void initialize(DebugInfo const& info);
 
         /**
          * @brief Disposes of the debug system.
@@ -125,6 +109,7 @@ namespace Minty
     private:
         static SeverityFlagsEnum s_flags;
         static Logger *sp_logger;
+        static Bool s_initialized;
 
 #pragma endregion
     };

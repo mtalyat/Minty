@@ -3,6 +3,7 @@
 #include "Core/Log/Logger.h"
 #include "Core/Log/LoggerInfo.h"
 #include "Core/Data/StringBuilder.h"
+#include "Core/Debug/DebugInfo.h"
 #include <filesystem>
 #include <iostream>
 
@@ -16,38 +17,23 @@ using namespace Minty;
 
 SeverityFlagsEnum Debug::s_flags = SeverityFlagsEnum::Default;
 Logger *Debug::sp_logger = nullptr;
+Bool Debug::s_initialized = false;
 
-void Minty::Debug::set_flags(SeverityFlagsEnum const flags)
+void Minty::Debug::initialize(DebugInfo const& info)
 {
-    MINTY_ASSERT(sp_logger != nullptr, ErrorCodeEnum::Object_NotInitialized);
+    MINTY_ASSERT(!s_initialized, ErrorCodeEnum::Object_AlreadyInitialized);
 
-    // Set the debug flags
-    s_flags = flags;
-
-    // Set the logger's enabled levels based on the flags
-    sp_logger->set_enabled_levels(flags);
-}
-
-void Minty::Debug::initialize(SeverityFlagsEnum const flags)
-{
-    MINTY_ASSERT(sp_logger == nullptr, ErrorCodeEnum::Object_AlreadyInitialized);
-
-    LoggerInfo info{};
-
-    // convert debug flags to log levels
-    info.enabledLevels = flags;
-
-    sp_logger = new Logger(info);
-
-    set_flags(flags);
+    sp_logger = new Logger(info.loggerInfo);
+    s_initialized = true;
 }
 
 void Minty::Debug::dispose()
 {
-    MINTY_ASSERT(sp_logger != nullptr, ErrorCodeEnum::Object_NotInitialized);
+    MINTY_ASSERT(s_initialized, ErrorCodeEnum::Object_NotInitialized);
 
     delete sp_logger;
     sp_logger = nullptr;
+    s_initialized = false;
 }
 
 void Minty::Debug::log(SeverityFlagsEnum const level, Char const* const message)
