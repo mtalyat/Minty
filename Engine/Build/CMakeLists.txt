@@ -17,7 +17,7 @@ option(MINTY_ENABLE_VULKAN "Enable Vulkan rendering backend compile definition" 
 option(MINTY_ENABLE_SOLOUD "Enable SoLoud audio backend compile definition" OFF)
 
 set(MINTY_BUILD_LAYER "All" CACHE STRING "Top-level layer to build (dependencies are resolved automatically)")
-set_property(CACHE MINTY_BUILD_LAYER PROPERTY STRINGS All Audio Core Event Independence Input Library Libraries Platform Render Resource Scene Window World)
+set_property(CACHE MINTY_BUILD_LAYER PROPERTY STRINGS All Application Audio Core Event Independence Input Library Libraries Platform Render Resource Scene Window World)
 
 add_compile_definitions(
 	$<$<CONFIG:Debug>:MINTY_DEBUG>
