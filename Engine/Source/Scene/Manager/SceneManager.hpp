@@ -31,8 +31,8 @@ namespace Minty
         void destroy(SceneHandle const handle);
         Scene &at(SceneHandle const handle);
         Scene const &at(SceneHandle const handle) const;
-        void activate(SceneHandle const handle);
-        void deactivate(SceneHandle const handle);
+        void enable(SceneHandle const handle);
+        void disable(SceneHandle const handle);
 
         // Event actions
         void on_frame_update(Timestep const &timestep);

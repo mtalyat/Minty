@@ -78,6 +78,10 @@ namespace Minty
         void on_finalize();
         void on_render();
         void on_event(Event &event);
+        void on_load();
+        void on_unload();
+        void on_enable();
+        void on_disable();
 
 #pragma endregion
 
@@ -92,6 +96,8 @@ namespace Minty
         PriorityVector<EventEventHook> m_eventHooks;
         PriorityVector<EventHook> m_loadHooks;
         PriorityVector<EventHook> m_unloadHooks;
+        PriorityVector<EventHook> m_enableHooks;
+        PriorityVector<EventHook> m_disableHooks;
         Registry<Pointer> m_registeredSystems;
 
 #pragma endregion

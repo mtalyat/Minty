@@ -40,4 +40,14 @@ namespace Minty
     concept HasOnUnload = requires(T &system) {
         { system.unload() } -> std::same_as<void>;
     };
+
+    template <typename T>
+    concept HasOnEnable = requires(T &system) {
+        { system.enable() } -> std::same_as<void>;
+    };
+
+    template <typename T>
+    concept HasOnDisable = requires(T &system) {
+        { system.disable() } -> std::same_as<void>;
+    };
 }

@@ -48,6 +48,10 @@ namespace Minty
         void on_finalize();
         void on_render();
         void on_event(Event &event);
+        void on_load();
+        void on_unload();
+        void on_enable();
+        void on_disable();
 
 #pragma endregion
 

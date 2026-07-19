@@ -39,20 +39,45 @@ Scene &Minty::Scene::operator=(Scene &&scene)
 
 void Minty::Scene::on_frame_update(Timestep const &timestep)
 {
+    mp_systemManager->on_frame_update(timestep);
 }
 
 void Minty::Scene::on_fixed_update(Timestep const &timestep)
 {
+    mp_systemManager->on_fixed_update(timestep);
 }
 
 void Minty::Scene::on_finalize()
 {
+    mp_systemManager->on_finalize();
 }
 
 void Minty::Scene::on_render()
 {
+    mp_systemManager->on_render();
 }
 
 void Minty::Scene::on_event(Event &event)
 {
+    mp_systemManager->on_event(event);
+}
+
+void Minty::Scene::on_load()
+{
+    mp_systemManager->on_load();
+}
+
+void Minty::Scene::on_unload()
+{
+    mp_systemManager->on_unload();
+}
+
+void Minty::Scene::on_enable()
+{
+    mp_systemManager->on_enable();
+}
+
+void Minty::Scene::on_disable()
+{
+    mp_systemManager->on_disable();
 }

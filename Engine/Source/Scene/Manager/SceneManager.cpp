@@ -31,7 +31,7 @@ void Minty::SceneManager::destroy(SceneHandle const handle)
     MINTY_ASSERT(m_scenes.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
     // If the scene is active, remove it from the active scenes list
-    deactivate(handle);
+    disable(handle);
 
     // Remove the Scene from the HandlePool
     m_scenes.remove(handle);
@@ -51,7 +51,7 @@ Scene const &Minty::SceneManager::at(SceneHandle const handle) const
     return m_scenes.at(handle);
 }
 
-void Minty::SceneManager::activate(SceneHandle const handle)
+void Minty::SceneManager::enable(SceneHandle const handle)
 {
     MINTY_ASSERT(m_scenes.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -69,9 +69,12 @@ void Minty::SceneManager::activate(SceneHandle const handle)
 
     // Add the scene to the active scenes list
     m_activeScenes.add(handle, scene.get_priority());
+
+    // Trigger the scene's enable event
+    scene.on_enable();
 }
 
-void Minty::SceneManager::deactivate(SceneHandle const handle)
+void Minty::SceneManager::disable(SceneHandle const handle)
 {
     MINTY_ASSERT(m_scenes.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -80,7 +83,14 @@ void Minty::SceneManager::deactivate(SceneHandle const handle)
     {
         if (m_activeScenes[i] == handle)
         {
+            // Remove the scene from the active scenes list
             m_activeScenes.remove(i);
+
+            // Trigger the scene's disable event
+            Scene &scene = at(handle);
+            scene.on_disable();
+
+            // Done
             return;
         }
     }
