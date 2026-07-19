@@ -73,6 +73,15 @@ int main()
     RenderViewInfo renderViewInfo{};
     RenderViewHandle const renderViewHandle = renderManager.create(renderViewInfo, camera);
 
+    // SCENE
+    SceneManagerInfo sceneManagerInfo{};
+    SceneManager sceneManager(sceneManagerInfo);
+    SceneInfo sceneInfo{};
+    SceneHandle const sceneHandle = sceneManager.create(sceneInfo);
+    Scene &scene = sceneManager.at(sceneHandle);
+    SystemManager &systemManager = scene.get_system_manager();
+    EntityManager &entityManager = scene.get_entity_manager();
+
     // SETUP
     audioManager.play(clipHandle);
     Transform transform{};
