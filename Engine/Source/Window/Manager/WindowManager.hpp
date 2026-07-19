@@ -9,6 +9,7 @@
 #include "Platform/Type/Primitive.hpp"
 #include "Window/Type/Handle.hpp"
 #include "Event/Type/EventCallback.hpp"
+#include "Core/Type/UInt2.hpp"
 
 namespace Minty
 {

@@ -6,7 +6,9 @@
 #include "Resource/Manager/ResourceManager.hpp"
 #include "Audio/Manager/AudioManager.hpp"
 #include "Render/Manager/RenderManager.hpp"
+#include "Input/Manager/InputManager.hpp"
 #include "Core/Time/TimeController.hpp"
+#include "Event/Event/Event.hpp"
 
 using namespace Minty;
 
@@ -16,11 +18,12 @@ Minty::Application::Application(ApplicationInfo const &info)
       mp_resourceManager(new ResourceManager(info.resourceManagerInfo)),
       mp_audioManager(new AudioManager(info.audioManagerInfo)),
       mp_renderManager(new RenderManager(info.renderManagerInfo)),
+      mp_inputManager(new InputManager(info.inputManagerInfo)),
       mp_timeController(new TimeController(info.timeControllerInfo)),
       m_running(false)
 {
     mp_windowManager->set_event_callback([this](Event &event)
-                                         { mp_sceneManager->on_event(event); });
+                                         { this->on_event(event); });
 }
 
 Minty::Application::~Application()
@@ -30,6 +33,7 @@ Minty::Application::~Application()
     delete mp_resourceManager;
     delete mp_audioManager;
     delete mp_renderManager;
+    delete mp_inputManager;
     delete mp_timeController;
 }
 
@@ -39,6 +43,7 @@ Minty::Application::Application(Application &&app)
       mp_resourceManager(app.mp_resourceManager),
       mp_audioManager(app.mp_audioManager),
       mp_renderManager(app.mp_renderManager),
+      mp_inputManager(app.mp_inputManager),
       mp_timeController(app.mp_timeController),
       m_running(app.m_running)
 {
@@ -47,6 +52,7 @@ Minty::Application::Application(Application &&app)
     app.mp_resourceManager = nullptr;
     app.mp_audioManager = nullptr;
     app.mp_renderManager = nullptr;
+    app.mp_inputManager = nullptr;
     app.mp_timeController = nullptr;
     app.m_running = false;
 }
@@ -60,6 +66,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         delete mp_resourceManager;
         delete mp_audioManager;
         delete mp_renderManager;
+        delete mp_inputManager;
         delete mp_timeController;
 
         mp_sceneManager = app.mp_sceneManager;
@@ -67,6 +74,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         mp_resourceManager = app.mp_resourceManager;
         mp_audioManager = app.mp_audioManager;
         mp_renderManager = app.mp_renderManager;
+        mp_inputManager = app.mp_inputManager;
         mp_timeController = app.mp_timeController;
         m_running = app.m_running;
 
@@ -75,6 +83,7 @@ Minty::Application &Minty::Application::operator=(Application &&app)
         app.mp_resourceManager = nullptr;
         app.mp_audioManager = nullptr;
         app.mp_renderManager = nullptr;
+        app.mp_inputManager = nullptr;
         app.mp_timeController = nullptr;
         app.m_running = false;
     }
@@ -115,4 +124,9 @@ void Minty::Application::run()
 void Minty::Application::quit()
 {
     m_running = false;
+}
+
+void Minty::Application::on_event(Event &event)
+{
+    // TODO
 }

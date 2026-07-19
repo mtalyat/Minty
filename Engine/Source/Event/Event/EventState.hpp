@@ -42,29 +42,29 @@ namespace Minty
      */
     struct EventState
     {
-        EventStateEnum state;
+        EventStateEnum value;
 
-        constexpr EventState() : state(EventStateEnum::Unhandled) {}
+        constexpr EventState() : value(EventStateEnum::Unhandled) {}
 
-        constexpr EventState(EventStateEnum const initialState) : state(initialState) {}
+        constexpr EventState(EventStateEnum const initialState) : value(initialState) {}
         
-        constexpr operator EventStateEnum() const { return state; }
+        constexpr operator EventStateEnum() const { return value; }
 
         /**
          * @brief Checks if the event has been processed.
          * @return True if the event has been processed, false otherwise.
          */
-        constexpr Bool is_handled() const { return state != EventStateEnum::Unhandled; }
+        constexpr Bool is_handled() const { return value != EventStateEnum::Unhandled; }
 
         /**
          * @brief Marks the event as handled, indicating that it has been processed and should not be further propagated or processed by other handlers.
          */
-        constexpr void handle() { state = EventStateEnum::Handled; }
+        constexpr void handle() { value = EventStateEnum::Handled; }
 
         /**
          * @brief Marks the event as canceled, indicating that it has been processed and should not be further propagated or processed by other handlers, and that any default behavior associated with the event should be prevented.
          */
-        constexpr void cancel() { state = EventStateEnum::Canceled; }
+        constexpr void cancel() { value = EventStateEnum::Canceled; }
     };
 
     template<>
@@ -77,7 +77,7 @@ namespace Minty
     template<>
     struct Parser<EventState>
     {
-        inline static Bool parse(StringView const str, EventState &value) { return Parser<EventStateEnum>::parse(str, value.state); }
-        inline static String to_string(EventState const &value) { return Parser<EventStateEnum>::to_string(value.state); }
+        inline static Bool parse(StringView const str, EventState &value) { return Parser<EventStateEnum>::parse(str, value.value); }
+        inline static String to_string(EventState const &value) { return Parser<EventStateEnum>::to_string(value.value); }
     };
 }

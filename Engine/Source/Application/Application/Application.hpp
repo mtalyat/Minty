@@ -10,6 +10,7 @@ namespace Minty
     class ResourceManager;
     class AudioManager;
     class RenderManager;
+    class InputManager;
     class TimeController;
     class Event;
 
@@ -43,6 +44,7 @@ namespace Minty
         inline ResourceManager &get_resource_manager() { return *mp_resourceManager; }
         inline AudioManager &get_audio_manager() { return *mp_audioManager; }
         inline RenderManager &get_render_manager() { return *mp_renderManager; }
+        inline InputManager &get_input_manager() { return *mp_inputManager; }
         inline TimeController &get_time_controller() { return *mp_timeController; }
 
 #pragma endregion
@@ -54,6 +56,9 @@ namespace Minty
 
         void quit();
 
+    private:
+        void on_event(Event &event);
+
 #pragma endregion
 
 #pragma region Variables
@@ -64,6 +69,7 @@ namespace Minty
         ResourceManager *mp_resourceManager;
         AudioManager *mp_audioManager;
         RenderManager *mp_renderManager;
+        InputManager *mp_inputManager;
         TimeController *mp_timeController;
         Bool m_running;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MouseScrollEvent.h
+ * @file MouseScrollEvent.hpp
  * @brief Header file defining the MouseScrollEvent class.
  * @author Mitchell Talyat
  */
@@ -22,10 +22,10 @@ namespace Minty
 	public:
 		/**
 		 * @brief Creates a new MouseScrollEvent.
-		 * @param offset The offset of the mouse.
+		 * @param scroll The offset of the mouse.
 		 */
-		MouseScrollEvent(Float2 const offset)
-			: m_offset(offset)
+		MouseScrollEvent(Float2 const scroll)
+			: m_scroll(scroll)
 		{
 		}
 
@@ -38,7 +38,7 @@ namespace Minty
 		 * @brief Gets the offset of this Event.
 		 * @return The offset.
 		 */
-		inline Float2 get_offset() const { return m_offset; }
+		inline Float2 get_scroll() const { return m_scroll; }
 
 		/**
 		 * @brief Gets the type of this Event.
@@ -51,7 +51,7 @@ namespace Minty
 #pragma region Variables
 
 	private:
-		Float2 m_offset;
+		Float2 m_scroll;
 
 #pragma endregion
 	};

@@ -28,18 +28,20 @@ namespace Minty
 
     struct KeyAction
     {
-        KeyActionEnum action;
+        KeyActionEnum value;
 
-        constexpr KeyAction() : action(KeyActionEnum::Up) {}
-        constexpr KeyAction(KeyActionEnum const action) : action(action) {}
+        constexpr KeyAction() : value(KeyActionEnum::Up) {}
+        constexpr KeyAction(KeyActionEnum const value) : value(value) {}
 
-        constexpr operator KeyActionEnum() const { return action; }
-        constexpr Bool operator==(KeyAction const& other) const { return action == other.action; }
-        constexpr Bool operator!=(KeyAction const& other) const { return action != other.action; }
+        constexpr operator KeyActionEnum() const { return value; }
+        constexpr Bool operator==(KeyAction const& other) const { return value == other.value; }
+        constexpr Bool operator!=(KeyAction const& other) const { return value != other.value; }
 
-        constexpr Bool is_up() const { return action == KeyActionEnum::Up; }
-        constexpr Bool is_down() const { return action == KeyActionEnum::Down; }
-        constexpr Bool is_hold() const { return action == KeyActionEnum::Hold; }
+        constexpr Bool is_up() const { return value == KeyActionEnum::Up; }
+        constexpr Bool is_down() const { return value == KeyActionEnum::Down; }
+        constexpr Bool is_hold() const { return value == KeyActionEnum::Hold; }
+        constexpr Bool is_pressed() const { return value == KeyActionEnum::Down || value == KeyActionEnum::Hold; }
+        constexpr Bool is_released() const { return value == KeyActionEnum::Up; }
     };
 
     template<>
@@ -52,7 +54,7 @@ namespace Minty
 	template<>
 	struct Parser<KeyAction>
 	{
-		inline static Bool parse(StringView const str, KeyAction& value) { return Parser<KeyActionEnum>::parse(str, value.action); }
-		inline static String to_string(KeyAction const& obj) { return Parser<KeyActionEnum>::to_string(obj.action); }
+		inline static Bool parse(StringView const str, KeyAction& value) { return Parser<KeyActionEnum>::parse(str, value.value); }
+		inline static String to_string(KeyAction const& obj) { return Parser<KeyActionEnum>::to_string(obj.value); }
 	};
 }

@@ -50,6 +50,16 @@ namespace Minty
          */
         inline Bool is_handled() const { return m_state.is_handled(); }
 
+        /**
+         * @brief Marks the event as handled, indicating that it has been processed and should not be further propagated or processed by other handlers.
+         */
+        inline void handle() { m_state.handle(); }
+        
+        /**
+         * @brief Marks the event as canceled, indicating that it has been processed and should not be further propagated or processed by other handlers, and that any default behavior associated with the event should be prevented.
+         */
+        inline void cancel() { m_state.cancel(); }
+
 #pragma endregion
 
 #pragma region Variable

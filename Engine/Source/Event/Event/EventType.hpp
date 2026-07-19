@@ -83,16 +83,16 @@ namespace Minty
 
     struct EventType
     {
-        EventTypeEnum type;
+        EventTypeEnum value;
 
-        constexpr EventType() : type(EventTypeEnum::Undefined) {}
+        constexpr EventType() : value(EventTypeEnum::Undefined) {}
 
-        constexpr EventType(EventTypeEnum const initialType) : type(initialType) {}
+        constexpr EventType(EventTypeEnum const initialType) : value(initialType) {}
         
-        constexpr operator EventTypeEnum() const { return type; }
+        constexpr operator EventTypeEnum() const { return value; }
 
-        constexpr Bool operator==(EventTypeEnum const other) const { return type == other; }
-        constexpr Bool operator!=(EventTypeEnum const other) const { return type != other; }
+        constexpr Bool operator==(EventTypeEnum const other) const { return value == other; }
+        constexpr Bool operator!=(EventTypeEnum const other) const { return value != other; }
     };
 
     template<>
@@ -105,7 +105,7 @@ namespace Minty
 	template<>
 	struct Parser<EventType>
 	{
-		static Bool parse(StringView const str, EventType &value) { return Parser<EventTypeEnum>::parse(str, value.type); }
-		static String to_string(EventType const &value) { return Parser<EventTypeEnum>::to_string(value.type); }
+		static Bool parse(StringView const str, EventType &value) { return Parser<EventTypeEnum>::parse(str, value.value); }
+		static String to_string(EventType const &value) { return Parser<EventTypeEnum>::to_string(value.value); }
 	};
 }

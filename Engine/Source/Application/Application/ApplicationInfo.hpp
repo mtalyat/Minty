@@ -5,6 +5,7 @@
 #include "Resource/Manager/ResourceManagerInfo.hpp"
 #include "Audio/Manager/AudioManagerInfo.hpp"
 #include "Render/Manager/RenderManagerInfo.hpp"
+#include "Input/Manager/InputManagerInfo.hpp"
 #include "Core/Time/TimeControllerInfo.hpp"
 
 namespace Minty
@@ -20,6 +21,8 @@ namespace Minty
         AudioManagerInfo audioManagerInfo = {};
         
         RenderManagerInfo renderManagerInfo = {};
+
+        InputManagerInfo inputManagerInfo = {};
 
         TimeControllerInfo timeControllerInfo = {};
     };
