@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Platform/Type/Primitive.hpp"
+#include "Application/Application/ApplicationData.hpp"
 
 namespace Minty
 {
     struct ApplicationInfo;
     class SceneManager;
-    class WindowManager;
     class ResourceManager;
     class AudioManager;
     class RenderManager;
@@ -40,7 +40,6 @@ namespace Minty
     public:
         inline Bool is_running() const { return m_running; }
         inline SceneManager &get_scene_manager() { return *mp_sceneManager; }
-        inline WindowManager &get_window_manager() { return *mp_windowManager; }
         inline ResourceManager &get_resource_manager() { return *mp_resourceManager; }
         inline AudioManager &get_audio_manager() { return *mp_audioManager; }
         inline RenderManager &get_render_manager() { return *mp_renderManager; }
@@ -56,16 +55,13 @@ namespace Minty
 
         void quit();
 
-    private:
-        void on_event(Event &event);
-
 #pragma endregion
 
 #pragma region Variables
 
     private:
+        ApplicationData m_data;
         SceneManager *mp_sceneManager;
-        WindowManager *mp_windowManager;
         ResourceManager *mp_resourceManager;
         AudioManager *mp_audioManager;
         RenderManager *mp_renderManager;

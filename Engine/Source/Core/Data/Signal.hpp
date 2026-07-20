@@ -43,6 +43,12 @@ namespace Minty
             return *this;
         }
 
+        Signal const&operator()(Args... args) const
+        {
+            emit(args...);
+            return *this;
+        }
+
 #pragma endregion
 
 #pragma region Methods
@@ -59,7 +65,7 @@ namespace Minty
             {
                 if (m_listeners[i].target_type() == listener.target_type())
                 {
-                    m_listeners.remove_at(i);
+                    m_listeners.remove(i);
                     return;
                 }
             }

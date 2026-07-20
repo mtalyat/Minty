@@ -9,6 +9,7 @@ namespace Minty
 {
     struct GamepadState
     {
+        Bool connected;
         BitArray<static_cast<Size>(GamepadButtonEnum::Count)> buttons;
         Array<Float, static_cast<Size>(GamepadAxisEnum::Count)> axes;
     };

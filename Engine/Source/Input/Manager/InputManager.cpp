@@ -6,8 +6,22 @@ using namespace Minty;
 Minty::InputManager::InputManager(InputManagerInfo const &info)
     : m_keyboardState(),
       m_mouseState(),
-      m_gamepadState()
+      m_gamepadStates()
 {
+    MINTY_ASSERT(sp_instance == nullptr, ErrorCodeEnum::Singleton_AlreadyExists);
+    sp_instance = this;
+}
+
+Minty::InputManager::~InputManager()
+{
+    MINTY_ASSERT(sp_instance == this, ErrorCodeEnum::Singleton_DifferentObject);
+    sp_instance = nullptr;
+}
+
+InputManager &Minty::InputManager::get_instance()
+{
+    MINTY_ASSERT(sp_instance != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);
+    return *sp_instance;
 }
 
 Bool Minty::InputManager::get_key(KeyEnum const key) const
@@ -50,22 +64,32 @@ void Minty::InputManager::set_mouse_button(MouseButtonEnum const button, Bool co
     m_mouseState.buttons.set(static_cast<Size>(button), pressed);
 }
 
-Bool Minty::InputManager::get_gamepad_button(GamepadButtonEnum const button) const
+void Minty::InputManager::set_gamepad_connected(Int const gamepad, Bool const connected)
 {
-    return m_gamepadState.buttons.get(static_cast<Size>(button));
+    m_gamepadStates.at(static_cast<Size>(gamepad)).connected = connected;
 }
 
-void Minty::InputManager::set_gamepad_button(GamepadButtonEnum const button, Bool const pressed)
+Bool Minty::InputManager::get_gamepad_connected(Int const gamepad) const
 {
-    m_gamepadState.buttons.set(static_cast<Size>(button), pressed);
+    return m_gamepadStates.at(static_cast<Size>(gamepad)).connected;
 }
 
-Float Minty::InputManager::get_gamepad_axis(GamepadAxisEnum const axis) const
+Bool Minty::InputManager::get_gamepad_button(Int const gamepad, GamepadButtonEnum const button) const
 {
-    return m_gamepadState.axes.at(static_cast<Size>(axis));
+    return m_gamepadStates.at(static_cast<Size>(gamepad)).buttons.get(static_cast<Size>(button));
 }
 
-void Minty::InputManager::set_gamepad_axis(GamepadAxisEnum const axis, Float const value)
+void Minty::InputManager::set_gamepad_button(Int const gamepad, GamepadButtonEnum const button, Bool const pressed)
 {
-    m_gamepadState.axes.at(static_cast<Size>(axis)) = value;
+    m_gamepadStates.at(static_cast<Size>(gamepad)).buttons.set(static_cast<Size>(button), pressed);
+}
+
+Float Minty::InputManager::get_gamepad_axis(Int const gamepad, GamepadAxisEnum const axis) const
+{
+    return m_gamepadStates.at(static_cast<Size>(gamepad)).axes.at(static_cast<Size>(axis));
+}
+
+void Minty::InputManager::set_gamepad_axis(Int const gamepad, GamepadAxisEnum const axis, Float const value)
+{
+    m_gamepadStates.at(static_cast<Size>(gamepad)).axes.at(static_cast<Size>(axis)) = value;
 }

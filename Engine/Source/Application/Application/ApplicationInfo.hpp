@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Application/Application/ApplicationData.hpp"
 #include "Scene/Manager/SceneManagerInfo.hpp"
-#include "Window/Manager/WindowManagerInfo.hpp"
 #include "Resource/Manager/ResourceManagerInfo.hpp"
 #include "Audio/Manager/AudioManagerInfo.hpp"
 #include "Render/Manager/RenderManagerInfo.hpp"
@@ -12,9 +12,9 @@ namespace Minty
 {
     struct ApplicationInfo
     {
-        SceneManagerInfo sceneManagerInfo = {};
+        ApplicationData data = {};
 
-        WindowManagerInfo windowManagerInfo = {};
+        SceneManagerInfo sceneManagerInfo = {};
         
         ResourceManagerInfo resourceManagerInfo = {};
         

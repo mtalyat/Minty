@@ -14,4 +14,6 @@ namespace Minty
      * @brief The deadzone for joystick axes, below which the value will be rounded to zero.
      */
     constexpr Float JOYSTICK_DEADZONE = 0.1f;
+
+    constexpr Size MAX_GAMEPADS = 16;
 }
