@@ -45,19 +45,15 @@ int main()
     ClipHandle const clipHandle = audioManager.create(clipResourceHandle);
 
     // WINDOW
-    WindowManagerInfo windowManagerInfo{};
-    windowManagerInfo.eventCallback = on_event;
-    WindowManager windowManager(windowManagerInfo);
-
     WindowInfo windowInfo{};
     windowInfo.title = "Minty Engine - Demo";
     windowInfo.size.x = 800;
     windowInfo.size.y = 600;
-    WindowHandle const window = windowManager.create(windowInfo);
+    Window window(windowInfo);
 
     // RENDER
     RenderManagerInfo renderManagerInfo{};
-    renderManagerInfo.window = window;
+    renderManagerInfo.window = &window;
     RenderManager renderManager(renderManagerInfo);
 
     TextureHandle const textureHandle = renderManager.create(textureResourceHandle);

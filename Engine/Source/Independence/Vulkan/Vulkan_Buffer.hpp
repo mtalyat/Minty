@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Buffer.h
+ * @file Vulkan_Buffer.hpp
  * @brief Vulkan_BufferData struct definition.
  * @author Mitchell Talyat
  */

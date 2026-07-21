@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Wrap.h
+ * @file Wrap.hpp
  * @brief Header file defining the Wrap class.
  * @author Mitchell Talyat
  */

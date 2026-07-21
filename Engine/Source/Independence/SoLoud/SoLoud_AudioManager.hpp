@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file SoLoud_AudioManager.h
+ * @file SoLoud_AudioManager.hpp
  * @brief Header file for the SoLoud implementation of the AudioManager.
  * @author Mitchell Talyat
  */

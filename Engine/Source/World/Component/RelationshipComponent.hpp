@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RelationshipComponent.h
+ * @file RelationshipComponent.hpp
  * @brief Header file defining the RelationshipComponent structure.
  * @author Mitchell Talyat
  */

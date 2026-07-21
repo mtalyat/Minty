@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Object.h
+ * @file Object.hpp
  * @brief Defines the Object class for a collection of named Variables.
  * @author Mitchell Talyat
  */

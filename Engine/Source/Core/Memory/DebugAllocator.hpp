@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file DebugAllocator.h
+ * @file DebugAllocator.hpp
  * @brief Header file for the DebugAllocator class.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Conditional.h
+ * @file Conditional.hpp
  * @brief Header file for FSM Conditional enum.
  * @author Mitchell Talyat
  */

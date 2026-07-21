@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadAxis.h
+ * @file GamepadAxis.hpp
  * @brief Header file for gamepad axis enumeration.
  * @author Mitchell Talyat
  */

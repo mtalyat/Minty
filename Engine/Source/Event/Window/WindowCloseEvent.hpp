@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WindowCloseEvent.h
+ * @file WindowCloseEvent.hpp
  * @brief Header file defining the WindowCloseEvent class.
  * @author Mitchell Talyat
  */

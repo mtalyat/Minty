@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineDepthStencilMode.h
+ * @file PipelineDepthStencilMode.hpp
  * @brief Header file defining the PipelineDepthStencilMode enum.
  * @author Mitchell Talyat
  */

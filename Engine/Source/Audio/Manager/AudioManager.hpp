@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AudioManager.h
+ * @file AudioManager.hpp
  * @brief Header file defining the AudioManager class.
  * @author Mitchell Talyat
  */

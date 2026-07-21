@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file KeyAction.h
+ * @file KeyAction.hpp
  * @brief Header file defining the KeyAction enum class.
  * @author Mitchell Talyat
  */

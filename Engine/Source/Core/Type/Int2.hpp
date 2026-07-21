@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Int2.h
+ * @file Int2.hpp
  * @brief Definition of the Int2 type.
  * @author Mitchell Talyat
  */

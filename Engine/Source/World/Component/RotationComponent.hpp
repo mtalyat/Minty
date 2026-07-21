@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RotationComponent.h
+ * @file RotationComponent.hpp
  * @brief Header file defining the RotationComponent class.
  * @author Mitchell Talyat
  */

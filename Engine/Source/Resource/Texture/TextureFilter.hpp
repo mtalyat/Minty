@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file TextureFilter.h
+ * @file TextureFilter.hpp
  * @brief TextureFilter enum definition.
  * @author Mitchell Talyat
  */

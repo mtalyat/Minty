@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file EvaluatedTypes.h
+ * @file EvaluatedTypes.hpp
  * @brief Header file defining evaluated types for the Minty engine.
  * @author Mitchell Talyat
  */

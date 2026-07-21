@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file DebugF.h
+ * @file DebugF.hpp
  * @brief Header file for debug utilities and formatted logging.
  * @author Mitchell Talyat
  */

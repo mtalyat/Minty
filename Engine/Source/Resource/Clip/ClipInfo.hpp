@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ClipInfo.h
+ * @file ClipInfo.hpp
  * @brief Defines the ClipInfo struct which contains information about an audio clip resource.
  * @author Mitchell Talyat
  */

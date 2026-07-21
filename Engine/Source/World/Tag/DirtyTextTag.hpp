@@ -1,5 +1,5 @@
 /**
- * @file DirtyTextTag.h
+ * @file DirtyTextTag.hpp
  * @brief Header file defining the DirtyTextTag structure.
  * @author Mitchell Talyat
  */

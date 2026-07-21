@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file CursorMode.h
+ * @file CursorMode.hpp
  * @brief Header file for cursor mode enumeration.
  * @author Mitchell Talyat
  */

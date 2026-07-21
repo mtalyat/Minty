@@ -1,5 +1,5 @@
 /**
- * @file EnabledTag.h
+ * @file EnabledTag.hpp
  * @brief Header file defining the EnabledTag structure.
  * @author Mitchell Talyat
  */

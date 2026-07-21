@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file SoLoud_Convert.h
+ * @file SoLoud_Convert.hpp
  * @brief Header file defining the Converter specializations for SoLoud types.
  * @author Mitchell Talyat
  */

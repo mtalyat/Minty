@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineFrontFace.h
+ * @file PipelineFrontFace.hpp
  * @brief Header file defining the PipelineFrontFace enum.
  * @author Mitchell Talyat
  */

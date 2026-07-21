@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Array.h
+ * @file Array.hpp
  * @brief Common array type definitions for the platform.
  * @author Mitchell Talyat
  */

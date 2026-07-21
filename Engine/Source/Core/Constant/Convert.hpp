@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Convert.h
+ * @file Convert.hpp
  * @brief Header file for type conversion constants.
  * @author Mitchell Talyat
  */

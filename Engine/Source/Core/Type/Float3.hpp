@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Float3.h
+ * @file Float3.hpp
  * @brief Definition of the Float3 type.
  * @author Mitchell Talyat
  */

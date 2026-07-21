@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Input/Binding/InputBindingType.hpp"
-#include "Input/Binding/Axis2DInputBinding.hpp"
+#include "Input/Binding/StickInputBinding.hpp"
 #include "Input/Binding/AxisInputBinding.hpp"
 #include "Input/Binding/ButtonInputBinding.hpp"
 
@@ -15,7 +15,7 @@ namespace Minty
         {
             ButtonInputBinding button;
             AxisInputBinding axis;
-            StickInputBinding axis2D;
+            StickInputBinding stick;
         };
     };
 }

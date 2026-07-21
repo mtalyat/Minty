@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file BufferAllocator.h
+ * @file BufferAllocator.hpp
  * @brief Header file for the BufferAllocator class, a simple allocator for temporary memory that is freed all at once by an outside source.
  * @author Mitchell Talyat
  */

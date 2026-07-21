@@ -2,7 +2,7 @@
 #define MINTY_CORE_ENCODING_H
 
 /**
- * @file Encoding.h
+ * @file Encoding.hpp
  * @brief Header file for encoding and decoding utilities.
  * @author Mitchell Talyat
  */

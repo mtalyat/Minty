@@ -1,5 +1,5 @@
 /**
- * @file DestroyTag.h
+ * @file DestroyTag.hpp
  * @brief Header file defining the DestroyTag structure.
  * @author Mitchell Talyat
  */

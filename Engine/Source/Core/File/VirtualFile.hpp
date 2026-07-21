@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file VirtualFile.h
+ * @file VirtualFile.hpp
  * @brief Header file for virtual file handling utilities.
  * @author Mitchell Talyat
  */

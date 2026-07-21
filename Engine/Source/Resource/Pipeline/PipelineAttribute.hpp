@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineAttribute.h
+ * @file PipelineAttribute.hpp
  * @brief Header file defining the PipelineAttribute struct.
  * @author Mitchell Talyat
  */

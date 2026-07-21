@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file CanvasComponent.h
+ * @file CanvasComponent.hpp
  * @brief Header file defining the CanvasComponent structure.
  * @author Mitchell Talyat
  */

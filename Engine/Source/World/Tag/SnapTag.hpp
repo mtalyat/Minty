@@ -1,5 +1,5 @@
 /**
- * @file SnapTag.h
+ * @file SnapTag.hpp
  * @brief Header file for the SnapTag.
  * @author Mitchell Talyat
  */

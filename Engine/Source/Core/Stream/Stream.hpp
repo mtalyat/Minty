@@ -2,7 +2,7 @@
 #define MINTY_STREAM_STREAM_H
 
 /**
- * @file Stream.h
+ * @file Stream.hpp
  * @brief Header file defining the Stream class for data streaming.
  * @author Mitchell Talyat
  */

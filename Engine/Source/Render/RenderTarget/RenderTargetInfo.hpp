@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RenderTargetInfo.h
+ * @file RenderTargetInfo.hpp
  * @brief Header file defining the RenderTargetInfo struct.
  * @author Mitchell Talyat
  */

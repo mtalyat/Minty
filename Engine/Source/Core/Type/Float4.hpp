@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Float4.h
+ * @file Float4.hpp
  * @brief Definition of the Float4 type.
  * @author Mitchell Talyat
  */

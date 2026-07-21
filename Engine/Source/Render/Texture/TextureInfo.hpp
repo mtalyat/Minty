@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file TextureInfo.h
+ * @file TextureInfo.hpp
  * @brief TextureInfo struct definition.
  * This file defines the TextureInfo struct, which contains metadata about a texture resource in the application.
  */

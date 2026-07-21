@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WInt4.h
+ * @file WInt4.hpp
  * @brief Definition of the WInt4 type.
  * @author Mitchell Talyat
  */

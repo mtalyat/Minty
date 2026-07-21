@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file StoreOperation.h
+ * @file StoreOperation.hpp
  * @brief Header file defining the StoreOperation enum.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FontInfo.h
+ * @file FontInfo.hpp
  * @brief Header file defining the FontInfo struct.
  * @author Mitchell Talyat
  */

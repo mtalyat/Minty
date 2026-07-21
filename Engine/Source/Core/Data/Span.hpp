@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Span.h
+ * @file Span.hpp
  * @brief A non-owning view over a contiguous sequence of elements.
  * @author Mitchell Talyat
  */

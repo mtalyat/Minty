@@ -2,7 +2,7 @@
 #define MINTY_DATA_UUID_H
 
 /**
- * @file UUID.h
+ * @file UUID.hpp
  * @brief Header file for the UUID class.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Error.h
+ * @file Error.hpp
  * @brief Header file for error handling utilities.
  * @author Mitchell Talyat
  */

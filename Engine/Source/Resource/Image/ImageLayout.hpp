@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageLayout.h
+ * @file ImageLayout.hpp
  * @brief Header file defining the ImageLayout enum.
  * @author Mitchell Talyat
  */

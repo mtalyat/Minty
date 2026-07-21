@@ -1,5 +1,5 @@
 /// @ref simd
-/// @file glm/simd/experimental.h
+/// @file glm/simd/experimental.hpp
 
 #pragma once
 

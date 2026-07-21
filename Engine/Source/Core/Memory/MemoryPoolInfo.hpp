@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MemoryManagerInfo.h
+ * @file MemoryManagerInfo.hpp
  * @brief Header file for MemoryManagerInfo structure.
  * @author Mitchell Talyat
  */

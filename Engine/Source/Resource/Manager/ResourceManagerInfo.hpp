@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ResourceManagerInfo.h
+ * @file ResourceManagerInfo.hpp
  * @brief Header file defining the ResourceManagerInfo struct.
  * @author Mitchell Talyat
  */

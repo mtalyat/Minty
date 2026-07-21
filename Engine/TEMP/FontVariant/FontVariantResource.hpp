@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FontVariant.h
+ * @file FontVariant.hpp
  * @brief Header file defining the FontVariant class.
  * @author Mitchell Talyat
  */

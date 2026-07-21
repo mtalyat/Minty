@@ -18,12 +18,6 @@ RenderManager* RenderManager::s_instance = nullptr;
 
 #ifdef MINTY_VULKAN
 #include "Independence/Vulkan/Vulkan_RenderManager.hpp"
-struct RenderManager::Impl
-{
-    Vulkan_RenderManager renderManager;
-};
-#else
-#   error "No render manager implementation defined for the current platform."
 #endif
 
 Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
@@ -45,7 +39,7 @@ Minty::RenderManager::~RenderManager()
 
 TextureHandle Minty::RenderManager::create(TextureInfo const &info)
 {
-    return mp_impl->renderManager.create(info);
+    return mp_impl->create(info);
 }
 
 TextureHandle Minty::RenderManager::create(TextureResourceHandle const resourceHandle)
@@ -78,32 +72,32 @@ TextureHandle Minty::RenderManager::create(TextureResourceHandle const resourceH
 
 void Minty::RenderManager::destroy(TextureHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(TextureHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 SurfaceHandle Minty::RenderManager::create(SurfaceInfo const &surfaceInfo)
 {
-    return mp_impl->renderManager.create(surfaceInfo);
+    return mp_impl->create(surfaceInfo);
 }
 
 void Minty::RenderManager::destroy(SurfaceHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(SurfaceHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 ViewportHandle Minty::RenderManager::create(ViewportInfo const &viewportInfo)
 {
-    return mp_impl->renderManager.create(viewportInfo);
+    return mp_impl->create(viewportInfo);
 }
 
 ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourceHandle)
@@ -127,17 +121,17 @@ ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourc
 
 void Minty::RenderManager::destroy(ViewportHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(ViewportHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 ShaderHandle Minty::RenderManager::create(ShaderInfo const &shaderInfo)
 {
-    return mp_impl->renderManager.create(shaderInfo);
+    return mp_impl->create(shaderInfo);
 }
 
 ShaderHandle Minty::RenderManager::create(ShaderResourceHandle const resourceHandle)
@@ -160,17 +154,17 @@ ShaderHandle Minty::RenderManager::create(ShaderResourceHandle const resourceHan
 
 void Minty::RenderManager::destroy(ShaderHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(ShaderHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 RenderPassHandle Minty::RenderManager::create(RenderPassInfo const &renderPassInfo)
 {
-    return mp_impl->renderManager.create(renderPassInfo);
+    return mp_impl->create(renderPassInfo);
 }
 
 RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const resourceHandle)
@@ -210,17 +204,17 @@ RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const res
 
 void Minty::RenderManager::destroy(RenderPassHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(RenderPassHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 PipelineHandle Minty::RenderManager::create(PipelineInfo const &pipelineInfo)
 {
-    return mp_impl->renderManager.create(pipelineInfo);
+    return mp_impl->create(pipelineInfo);
 }
 
 PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourceHandle)
@@ -272,23 +266,23 @@ PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourc
 
 void Minty::RenderManager::destroy(PipelineHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(PipelineHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 void Minty::RenderManager::bind(PipelineHandle const handle)
 {
 	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
-    mp_impl->renderManager.bind(handle);
+    mp_impl->bind(handle);
 }
 
 MaterialHandle Minty::RenderManager::create(MaterialInfo const &materialInfo)
 {
-    return mp_impl->renderManager.create(materialInfo);
+    return mp_impl->create(materialInfo);
 }
 
 MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourceHandle)
@@ -315,33 +309,33 @@ MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourc
 
 void Minty::RenderManager::destroy(MaterialHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(MaterialHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 void Minty::RenderManager::update(PipelineHandle const handle, StringView const name, Variable const &value)
 {
-    mp_impl->renderManager.update(handle, name, value);
+    mp_impl->update(handle, name, value);
 }
 
 void Minty::RenderManager::update(MaterialHandle const handle, StringView const name, Variable const &value)
 {
-    mp_impl->renderManager.update(handle, name, value);
+    mp_impl->update(handle, name, value);
 }
 
 void Minty::RenderManager::bind(MaterialHandle const handle)
 {
 	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
-    mp_impl->renderManager.bind(handle);
+    mp_impl->bind(handle);
 }
 
 RenderTargetHandle Minty::RenderManager::create(RenderTargetInfo const &renderTargetInfo)
 {
-    return mp_impl->renderManager.create(renderTargetInfo);
+    return mp_impl->create(renderTargetInfo);
 }
 
 RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const resourceHandle)
@@ -367,48 +361,48 @@ RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const
 
 void Minty::RenderManager::destroy(RenderTargetHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(RenderTargetHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 RenderViewHandle Minty::RenderManager::create(RenderViewInfo const &renderViewInfo, Camera const& camera)
 {
-    return mp_impl->renderManager.create(renderViewInfo, camera);
+    return mp_impl->create(renderViewInfo, camera);
 }
 
 void Minty::RenderManager::destroy(RenderViewHandle const handle)
 {
-    return mp_impl->renderManager.destroy(handle);
+    return mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(RenderViewHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 void Minty::RenderManager::update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
 {
-    mp_impl->renderManager.update(handle, position, direction);
+    mp_impl->update(handle, position, direction);
 }
 
 void Minty::RenderManager::bind(RenderViewHandle const handle)
 {
-    mp_impl->renderManager.bind(handle);
+    mp_impl->bind(handle);
 }
 
 void Minty::RenderManager::bind(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
 {
-    mp_impl->renderManager.update(handle, position, direction);
-    mp_impl->renderManager.bind(handle);
+    mp_impl->update(handle, position, direction);
+    mp_impl->bind(handle);
 }
 
 GeometryHandle Minty::RenderManager::create(GeometryInfo const &geometryInfo)
 {
-    return mp_impl->renderManager.create(geometryInfo);
+    return mp_impl->create(geometryInfo);
 }
 
 GeometryHandle Minty::RenderManager::create(MeshResourceHandle const resourceHandle)
@@ -430,17 +424,17 @@ GeometryHandle Minty::RenderManager::create(MeshResourceHandle const resourceHan
 
 void Minty::RenderManager::destroy(GeometryHandle const handle)
 {
-    mp_impl->renderManager.destroy(handle);
+    mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(GeometryHandle const handle) const
 {
-    return mp_impl->renderManager.is_valid(handle);
+    return mp_impl->is_valid(handle);
 }
 
 void Minty::RenderManager::bind(GeometryHandle const handle)
 {
-    mp_impl->renderManager.bind(handle);
+    mp_impl->bind(handle);
 }
 
 Bool Minty::RenderManager::begin_frame()
@@ -449,7 +443,7 @@ Bool Minty::RenderManager::begin_frame()
     MINTY_ASSERT(m_state < State::Frame, ErrorCodeEnum::Render_AlreadyRenderingFrame);
     MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
 
-    if (mp_impl->renderManager.begin_frame())
+    if (mp_impl->begin_frame())
     {
         m_state = State::Frame;
         return true;
@@ -472,7 +466,7 @@ void Minty::RenderManager::end_frame()
     MINTY_ASSERT(m_state < State::Pass, ErrorCodeEnum::Render_AlreadyRenderingPass);
     MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
-    mp_impl->renderManager.end_frame();
+    mp_impl->end_frame();
     
     m_state = State::Idle;
 }
@@ -490,7 +484,7 @@ Bool Minty::RenderManager::begin_pass(RenderPassHandle const handle)
 
     m_state = State::Pass;
 
-    return mp_impl->renderManager.begin_pass(handle);
+    return mp_impl->begin_pass(handle);
 }
 
 void Minty::RenderManager::end_pass()
@@ -504,29 +498,29 @@ void Minty::RenderManager::end_pass()
     MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
     MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
-    mp_impl->renderManager.end_pass();
+    mp_impl->end_pass();
 
     m_state = State::Frame;
 }
 
 void Minty::RenderManager::draw()
 {
-    mp_impl->renderManager.draw(View(), Object());
+    mp_impl->draw(View(), Object());
 }
 
 void Minty::RenderManager::draw(Object const &objectValues)
 {
-    mp_impl->renderManager.draw(View(), objectValues);
+    mp_impl->draw(View(), objectValues);
 }
 
 void Minty::RenderManager::draw(Transform const &transform)
 {
-    mp_impl->renderManager.draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), Object());
+    mp_impl->draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), Object());
 }
 
 void Minty::RenderManager::draw(Transform const &transform, Object const &objectValues)
 {
-    mp_impl->renderManager.draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), objectValues);
+    mp_impl->draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), objectValues);
 }
 
 RenderManager &Minty::RenderManager::get_instance()

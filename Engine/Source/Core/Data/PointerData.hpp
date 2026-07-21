@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PointerData.h
+ * @file PointerData.hpp
  * @brief Header file defining the PointerData struct for managing pointer data in the engine.
  * @author Mitchell Talyat
  */

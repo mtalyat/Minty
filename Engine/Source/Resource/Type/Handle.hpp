@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Handle.h
+ * @file Handle.hpp
  * @brief Header file defining handle types for the resource layer.
  * @author Mitchell Talyat
  */

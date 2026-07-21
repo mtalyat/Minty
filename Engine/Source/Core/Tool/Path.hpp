@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Path.h
+ * @file Path.hpp
  * @brief Header file for the Path tools.
  * @author Mitchell Talyat
  */

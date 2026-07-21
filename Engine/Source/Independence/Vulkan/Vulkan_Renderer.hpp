@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Renderer.h
+ * @file Vulkan_Renderer.hpp
  * @brief Vulkan_Renderer class definition.
  * @author Mitchell Talyat
  */

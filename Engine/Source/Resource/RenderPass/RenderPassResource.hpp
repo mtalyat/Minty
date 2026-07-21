@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RenderPass.h
+ * @file RenderPass.hpp
  * @brief Header file for the RenderPass class.
  * @author Mitchell Talyat
  */

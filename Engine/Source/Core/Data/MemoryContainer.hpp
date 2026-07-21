@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MemoryContainer.h
+ * @file MemoryContainer.hpp
  * @brief Header file for the MemoryContainer class.
  */
 

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Set.h
+ * @file Set.hpp
  * @brief Header file defining the Set class.
  * @author Mitchell Talyat
  */

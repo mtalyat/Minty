@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file IndexPool.h
+ * @file IndexPool.hpp
  * @brief Header file for the IndexPool class, a container that manages a pool of indices for storing objects.
  * @author Mitchell Talyat
  */

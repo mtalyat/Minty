@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MemoryStack.h
+ * @file MemoryStack.hpp
  * @brief Header file for the MemoryStack class.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Stopwatch.h
+ * @file Stopwatch.hpp
  * @brief Header file defining the Stopwatch class.
  * @author Mitchell Talyat
  */

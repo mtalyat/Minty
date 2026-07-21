@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ScaleComponent.h
+ * @file ScaleComponent.hpp
  * @brief Header file defining the ScaleComponent class.
  * @author Mitchell Talyat
  */

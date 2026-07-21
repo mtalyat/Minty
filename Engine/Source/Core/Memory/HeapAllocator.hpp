@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file HeapAllocator.h
+ * @file HeapAllocator.hpp
  * @brief Header file for the HeapAllocator class.
  * @author Mitchell Talyat
  */

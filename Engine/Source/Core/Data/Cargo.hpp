@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Cargo.h
+ * @file Cargo.hpp
  * @brief Header file for the Cargo class.
  * @author Mitchell Talyat
  */

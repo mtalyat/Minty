@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MaterialResource.h
+ * @file MaterialResource.hpp
  * @brief Header file defining the MaterialResource class and MaterialInfo struct.
  * @author Mitchell Talyat
  */

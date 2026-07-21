@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Macro.h
+ * @file Macro.hpp
  * @brief Common macro definitions for the platform.
  * @author Mitchell Talyat
  */

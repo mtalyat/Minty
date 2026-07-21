@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file DefaultAllocator.h
+ * @file DefaultAllocator.hpp
  * @brief Header file for the DefaultAllocator class.
  * @author Mitchell Talyat
  */

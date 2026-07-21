@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadConnectEvent.h
+ * @file GamepadConnectEvent.hpp
  * @brief Header file defining the GamepadConnectEvent class.
  * @author Mitchell Talyat
  */

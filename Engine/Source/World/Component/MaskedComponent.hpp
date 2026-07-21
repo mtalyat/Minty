@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MaskedComponent.h
+ * @file MaskedComponent.hpp
  * @brief Header file defining the MaskedComponent structure.
  * @author Mitchell Talyat
  */

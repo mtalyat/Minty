@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Severity.h
+ * @file Severity.hpp
  * @brief Header file defining the Severity enum for logging and error handling.
  * @author Mitchell Talyat
  */

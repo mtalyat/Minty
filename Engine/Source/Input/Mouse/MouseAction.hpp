@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MouseAction.h
+ * @file MouseAction.hpp
  * @brief Header file defining the MouseAction enum class.
  * @author Mitchell Talyat
  */

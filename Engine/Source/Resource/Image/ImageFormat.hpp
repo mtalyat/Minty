@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageFormat.h
+ * @file ImageFormat.hpp
  * @brief Header file defining the ImageFormat enum.
  * @author Mitchell Talyat
  */

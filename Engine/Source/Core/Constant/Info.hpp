@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Info.h
+ * @file Info.hpp
  * @brief Information for the engine.
  * @author Mitchell Talyat
  */

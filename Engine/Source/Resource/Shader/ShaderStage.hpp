@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ShaderStage.h
+ * @file ShaderStage.hpp
  * @brief Header file defining the ShaderStage enum.
  * @author Mitchell Talyat
  */

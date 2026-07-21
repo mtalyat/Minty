@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageType.h
+ * @file ImageType.hpp
  * @brief Header file defining the ImageType enum.
  * @author Mitchell Talyat
  */

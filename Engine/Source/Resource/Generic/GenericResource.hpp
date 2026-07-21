@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GenericResourceInfo.h
+ * @file GenericResourceInfo.hpp
  * @brief Header file defining the GenericResourceInfo struct.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Float2.h
+ * @file Float2.hpp
  * @brief Definition of the Float2 type.
  * @author Mitchell Talyat
  */

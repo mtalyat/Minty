@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Tool.h
+ * @file Tool.hpp
  * @brief Common utility functions for the platform.
  * @author Mitchell Talyat
  */

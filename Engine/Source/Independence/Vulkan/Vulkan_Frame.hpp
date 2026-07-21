@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Frame.h
+ * @file Vulkan_Frame.hpp
  * @brief Vulkan_Frame struct definition.
  * @author Mitchell Talyat
  */

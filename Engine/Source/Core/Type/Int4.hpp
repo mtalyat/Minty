@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Int4.h
+ * @file Int4.hpp
  * @brief Definition of the Int4 type.
  * @author Mitchell Talyat
  */

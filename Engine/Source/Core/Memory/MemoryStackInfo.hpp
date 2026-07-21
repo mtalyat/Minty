@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MemoryStackInfo.h
+ * @file MemoryStackInfo.hpp
  * @brief Header file for MemoryStackInfo structure.
  * @author Mitchell Talyat
  */

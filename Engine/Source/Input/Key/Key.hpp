@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Key.h
+ * @file Key.hpp
  * @brief Header file defining the Key enum class.
  * @author Mitchell Talyat
  */

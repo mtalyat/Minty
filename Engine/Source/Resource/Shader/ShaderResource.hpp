@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ShaderModule.h
+ * @file ShaderModule.hpp
  * @brief Header file defining the ShaderModule class and ShaderModuleInfo struct.
  * @author Mitchell Talyat
  */

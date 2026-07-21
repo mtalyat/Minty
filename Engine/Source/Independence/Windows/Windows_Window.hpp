@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Windows_Window.h
+ * @file Windows_Window.hpp
  * @brief Windows-specific implementation of the Window class, responsible for creating and managing a window on the Windows platform for rendering and user interaction.
  * @author Mitchell Talyat
  */

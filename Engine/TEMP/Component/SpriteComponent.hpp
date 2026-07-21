@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file SpriteComponent.h
+ * @file SpriteComponent.hpp
  * @brief Header file defining the SpriteComponent structure.
  * @author Mitchell Talyat
  */

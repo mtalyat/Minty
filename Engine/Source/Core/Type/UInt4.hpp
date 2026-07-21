@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file UInt4.h
+ * @file UInt4.hpp
  * @brief Definition of the UInt4 type.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file StaticContainer.h
+ * @file StaticContainer.hpp
  * @brief Header file for the StaticContainer class.
  * @author Mitchell Talyat
  */

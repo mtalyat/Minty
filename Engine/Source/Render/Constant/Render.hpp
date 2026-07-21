@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Render.h
+ * @file Render.hpp
  * @brief Constant definitions for the Render module.
  * @author Mitchell Talyat
  */

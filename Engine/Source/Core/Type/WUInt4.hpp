@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WUInt4.h
+ * @file WUInt4.hpp
  * @brief Definition of the WUInt4 type.
  * @author Mitchell Talyat
  */

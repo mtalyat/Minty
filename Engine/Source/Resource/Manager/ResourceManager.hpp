@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ResourceManager.h
+ * @file ResourceManager.hpp
  * @brief Header file defining the ResourceManager class for managing assets.
  * @author Mitchell Talyat
  */

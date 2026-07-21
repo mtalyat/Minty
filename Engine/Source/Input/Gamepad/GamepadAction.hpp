@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadAction.h
+ * @file GamepadAction.hpp
  * @brief Header file defining the GamepadAction enum class.
  * @author Mitchell Talyat
  */

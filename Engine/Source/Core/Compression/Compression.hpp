@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Compression.h
+ * @file Compression.hpp
  * @brief Header file for data compression functions.
  * @author Mitchell Talyat
  */

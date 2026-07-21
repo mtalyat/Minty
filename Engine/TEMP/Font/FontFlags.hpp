@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FontFlags.h
+ * @file FontFlags.hpp
  * @brief Header file defining the FontFlags enum.
  * @author Mitchell Talyat
  */

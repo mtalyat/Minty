@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Matrix3x3.h
+ * @file Matrix3x3.hpp
  * @brief Header file defining the Matrix3x3 type for the Minty engine.
  * @author Mitchell Talyat
  */

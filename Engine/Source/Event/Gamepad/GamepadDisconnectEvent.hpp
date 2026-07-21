@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadDisconnectEvent.h
+ * @file GamepadDisconnectEvent.hpp
  * @brief Header file defining the GamepadDisconnectEvent class.
  * @author Mitchell Talyat
  */

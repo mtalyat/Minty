@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AudioManagerInfo.h
+ * @file AudioManagerInfo.hpp
  * @brief Header file for the AudioManagerInfo struct.
  * @author Mitchell Talyat
  */

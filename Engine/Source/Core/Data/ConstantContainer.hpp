@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ConstantContainer.h
+ * @file ConstantContainer.hpp
  * @brief Defines the ConstantContainer class for immutable memory storage.
  * @author Mitchell Talyat
  */

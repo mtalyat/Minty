@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file SoLoud_AudioClip.h
+ * @file SoLoud_AudioClip.hpp
  * @brief Header file for the SoLoud implementation of the AudioClip.
  * @author Mitchell Talyat
  */

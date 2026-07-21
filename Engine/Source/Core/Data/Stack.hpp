@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Stack.h
+ * @file Stack.hpp
  * @brief Header file for the Stack class.
  * @author Mitchell Talyat
  */

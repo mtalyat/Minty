@@ -38,7 +38,7 @@ extern "C" {
  * Doxygen documentation
  *************************************************************************/
 
-/*! @file glfw3native.h
+/*! @file glfw3native.hpp
  *  @brief The header of the native access functions.
  *
  *  This is the header file of the native access functions.  See @ref native for

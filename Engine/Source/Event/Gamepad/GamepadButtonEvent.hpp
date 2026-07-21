@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadButtonEvent.h
+ * @file GamepadButtonEvent.hpp
  * @brief Header file defining the GamepadButtonEvent class.
  * @author Mitchell Talyat
  */

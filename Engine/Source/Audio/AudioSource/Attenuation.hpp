@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Attenuation.h
+ * @file Attenuation.hpp
  * @brief Header file defining the Attenuation enumeration.
  * @author Mitchell Talyat
  */

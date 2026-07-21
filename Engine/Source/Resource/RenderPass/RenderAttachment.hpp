@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RenderAttachment.h
+ * @file RenderAttachment.hpp
  * @brief Header file defining the RenderAttachment struct.
  * @author Mitchell Talyat
  */

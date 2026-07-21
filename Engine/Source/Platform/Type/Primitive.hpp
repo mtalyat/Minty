@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Primitive.h
+ * @file Primitive.hpp
  * @brief Common type definitions for the platform.
  * @author Mitchell Talyat
  */

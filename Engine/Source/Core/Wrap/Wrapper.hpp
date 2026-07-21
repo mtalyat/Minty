@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Wrapper.h
+ * @file Wrapper.hpp
  * @brief Header file defining the Wrapper class.
  * @author Mitchell Talyat
  */

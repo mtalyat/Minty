@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file CameraComponent.h
+ * @file CameraComponent.hpp
  * @brief Header file defining the CameraComponent structure.
  * @author Mitchell Talyat
  */

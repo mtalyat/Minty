@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Writer.h
+ * @file Writer.hpp
  * @brief Header file defining the Writer class for serialization.
  * @author Mitchell Talyat
  */

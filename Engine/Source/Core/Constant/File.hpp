@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file File.h
+ * @file File.hpp
  * @brief Header file for file-related constants.
  * @author Mitchell Talyat
  */

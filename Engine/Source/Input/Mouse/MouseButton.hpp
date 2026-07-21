@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MouseButton.h
+ * @file MouseButton.hpp
  * @brief Header file defining the MouseButton enum class.
  * @author Mitchell Talyat
  */

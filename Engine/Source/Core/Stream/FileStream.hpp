@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FileStream.h
+ * @file FileStream.hpp
  * @brief Header file defining the FileStream class for file serialization.
  * @author Mitchell Talyat
  */

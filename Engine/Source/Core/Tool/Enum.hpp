@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Enum.h
+ * @file Enum.hpp
  * @brief Header file defining macros for enum classes.
  * @author Mitchell Talyat
  */

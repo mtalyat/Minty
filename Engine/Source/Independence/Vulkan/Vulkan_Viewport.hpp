@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Viewport.h
+ * @file Vulkan_Viewport.hpp
  * @brief Header file defining the Vulkan_Viewport class.
  * @author Mitchell Talyat
  */

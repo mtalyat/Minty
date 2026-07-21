@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_QueueFamilyIndices.h
+ * @file Vulkan_QueueFamilyIndices.hpp
  * @brief Header file defining the Vulkan_QueueFamilyIndices struct.
  * @author Mitchell Talyat
  */

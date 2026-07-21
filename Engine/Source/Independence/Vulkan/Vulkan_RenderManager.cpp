@@ -4,7 +4,6 @@
 #include "Vulkan_SwapchainSupportDetails.hpp"
 #include "Vulkan_QueueFamilyIndices.hpp"
 #include "Core/Debug/Debug.hpp"
-#include "Window/Manager/WindowManager.hpp"
 #include "Render/Manager/RenderManagerInfo.hpp"
 #include "Render/Material/MaterialInfo.hpp"
 #include "Render/Surface/SurfaceInfo.hpp"
@@ -21,18 +20,19 @@
 #include "Render/RenderPass/RenderPassInfo.hpp"
 #include "Render/RenderTarget/RenderTargetInfo.hpp"
 #include "Render/Camera/Camera.hpp"
+#include "Window/Window/Window.hpp"
 
 using namespace Minty;
 
-static WindowHandle get_window(WindowManager const &windowManager, WindowHandle const handle)
+static Window& get_window(Window* const window)
 {
-	if (handle != INVALID_HANDLE)
+	if (window != nullptr)
 	{
-		return handle;
+		return *window;
 	}
 	else
 	{
-		return windowManager.get_main();
+		return Window::get_main();
 	}
 }
 
@@ -88,7 +88,7 @@ static BufferUsageFlags to_buffer_usage(PipelineInputType const type)
 	return BufferUsageFlagsEnum::Undefined;
 }
 
-Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
+Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 	: m_instance(Vulkan_Renderer::create_instance()),
 #ifdef MINTY_DEBUG
 	  m_debugMessenger(Vulkan_Renderer::create_debug_messenger(m_instance)),
@@ -114,9 +114,8 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 #endif // MINTY_DEBUG
 
 	// get the window to use
-	WindowManager const &windowManager = WindowManager::get_instance();
-	WindowHandle const windowHandle = get_window(windowManager, info.window);
-	Pointer const windowNative = windowManager.get_native(windowHandle);
+	Window& window = get_window(info.window);
+	Pointer const windowNative = window.get_native();
 
 	// create surface
 	VkSurfaceKHR surface = Vulkan_Renderer::create_surface(m_instance, windowNative);
@@ -133,7 +132,7 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	// create surface/swapchain object
 	SurfaceInfo surfaceInfo{};
 	surfaceInfo.format = ImageFormatEnum::Default;
-	surfaceInfo.window = windowHandle;
+	surfaceInfo.window = &window;
 	m_surface = create(surfaceInfo);
 
 	// get queues
@@ -166,11 +165,11 @@ Minty::Vulkan_RenderManager::Vulkan_RenderManager(RenderManagerInfo const &info)
 	m_defaultRenderTarget = create(renderTargetInfo);
 }
 
-Minty::Vulkan_RenderManager::~Vulkan_RenderManager()
+Minty::RenderManager::Impl::~Impl()
 {
 }
 
-TextureHandle Minty::Vulkan_RenderManager::create(TextureInfo const &textureInfo)
+TextureHandle Minty::RenderManager::Impl::create(TextureInfo const &textureInfo)
 {
 	// Image data for convenience
 	ImageUsageFlags usage = textureInfo.usage;
@@ -243,7 +242,7 @@ TextureHandle Minty::Vulkan_RenderManager::create(TextureInfo const &textureInfo
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(TextureHandle const handle)
+void Minty::RenderManager::Impl::destroy(TextureHandle const handle)
 {
 	MINTY_ASSERT(m_textureDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_TextureData const &textureData = m_textureDataPool.at(handle);
@@ -264,12 +263,12 @@ void Minty::Vulkan_RenderManager::destroy(TextureHandle const handle)
 	m_textureDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(TextureHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(TextureHandle const handle) const
 {
 	return m_textureDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::set_data(TextureHandle const handle, View const data)
+void Minty::RenderManager::Impl::set_data(TextureHandle const handle, View const data)
 {
 	MINTY_ASSERT(!data.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -305,16 +304,15 @@ void Minty::Vulkan_RenderManager::set_data(TextureHandle const handle, View cons
 	Vulkan_Renderer::finish_command_buffer_single(m_device, m_commandPool, commandBuffer, m_graphicsQueue);
 }
 
-SurfaceHandle Minty::Vulkan_RenderManager::create(SurfaceInfo const &surfaceInfo)
+SurfaceHandle Minty::RenderManager::Impl::create(SurfaceInfo const &surfaceInfo)
 {
 	// Get the window to use
-	WindowManager const &windowManager = WindowManager::get_instance();
-	WindowHandle const windowHandle = get_window(windowManager, surfaceInfo.window);
-	Pointer const windowNative = windowManager.get_native(windowHandle);
+	Window& window = get_window(surfaceInfo.window);
+	Pointer const windowNative = window.get_native();
 
 	// Create the Vulkan data
 	Vulkan_SurfaceData surfaceData{};
-	surfaceData.window = windowHandle;
+	surfaceData.window = &window;
 	surfaceData.format = Converter<ImageFormat, VkFormat>::from_minty(surfaceInfo.format);
 
 	// Create the surface
@@ -327,7 +325,7 @@ SurfaceHandle Minty::Vulkan_RenderManager::create(SurfaceInfo const &surfaceInfo
 	return m_surfaceDataPool.add(std::move(surfaceData));
 }
 
-void Minty::Vulkan_RenderManager::destroy(SurfaceHandle const handle)
+void Minty::RenderManager::Impl::destroy(SurfaceHandle const handle)
 {
 	MINTY_ASSERT(m_surfaceDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(handle);
@@ -340,12 +338,12 @@ void Minty::Vulkan_RenderManager::destroy(SurfaceHandle const handle)
 	m_surfaceDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(SurfaceHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(SurfaceHandle const handle) const
 {
 	return m_surfaceDataPool.contains(handle);
 }
 
-ViewportHandle Minty::Vulkan_RenderManager::create(ViewportInfo const &viewportInfo)
+ViewportHandle Minty::RenderManager::Impl::create(ViewportInfo const &viewportInfo)
 {
 	// Create the Vulkan data
 	Vulkan_ViewportData viewportData{};
@@ -365,7 +363,7 @@ ViewportHandle Minty::Vulkan_RenderManager::create(ViewportInfo const &viewportI
 	return m_viewportDataPool.add(std::move(viewportData));
 }
 
-void Minty::Vulkan_RenderManager::destroy(ViewportHandle const handle)
+void Minty::RenderManager::Impl::destroy(ViewportHandle const handle)
 {
 	MINTY_ASSERT(m_viewportDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	// Vulkan_ViewportData const &viewportData = m_viewportDataPool.at(handle);
@@ -374,12 +372,12 @@ void Minty::Vulkan_RenderManager::destroy(ViewportHandle const handle)
 	m_viewportDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(ViewportHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(ViewportHandle const handle) const
 {
 	return m_viewportDataPool.contains(handle);
 }
 
-BufferHandle Minty::Vulkan_RenderManager::create(BufferInfo const &bufferInfo)
+BufferHandle Minty::RenderManager::Impl::create(BufferInfo const &bufferInfo)
 {
 	// Buffer data for convenience
 	VkBufferUsageFlags usage = Converter<BufferUsageFlags, VkBufferUsageFlags>::from_minty(bufferInfo.usage);
@@ -438,7 +436,7 @@ BufferHandle Minty::Vulkan_RenderManager::create(BufferInfo const &bufferInfo)
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(BufferHandle const handle)
+void Minty::RenderManager::Impl::destroy(BufferHandle const handle)
 {
 	// Get the buffer data
 	MINTY_ASSERT(m_bufferDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
@@ -460,12 +458,12 @@ void Minty::Vulkan_RenderManager::destroy(BufferHandle const handle)
 	m_bufferDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(BufferHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(BufferHandle const handle) const
 {
 	return m_bufferDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, View const data)
+void Minty::RenderManager::Impl::set_data(BufferHandle const handle, View const data)
 {
 	MINTY_ASSERT(!data.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -501,7 +499,7 @@ void Minty::Vulkan_RenderManager::set_data(BufferHandle const handle, View const
 	Vulkan_Renderer::free_memory(m_device, stagingBufferMemory);
 }
 
-ShaderHandle Minty::Vulkan_RenderManager::create(ShaderInfo const &shaderInfo)
+ShaderHandle Minty::RenderManager::Impl::create(ShaderInfo const &shaderInfo)
 {
 	// Create the Vulkan data
 	Vulkan_ShaderData shaderData{};
@@ -519,7 +517,7 @@ ShaderHandle Minty::Vulkan_RenderManager::create(ShaderInfo const &shaderInfo)
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(ShaderHandle const handle)
+void Minty::RenderManager::Impl::destroy(ShaderHandle const handle)
 {
 	// Get the shader data
 	MINTY_ASSERT(m_shaderDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
@@ -532,12 +530,12 @@ void Minty::Vulkan_RenderManager::destroy(ShaderHandle const handle)
 	m_shaderDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(ShaderHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(ShaderHandle const handle) const
 {
 	return m_shaderDataPool.contains(handle);
 }
 
-PipelineHandle Minty::Vulkan_RenderManager::create(PipelineInfo const &pipelineInfo)
+PipelineHandle Minty::RenderManager::Impl::create(PipelineInfo const &pipelineInfo)
 {
 	// create a binding for each descriptor and push constant
 	Vector<Vulkan_DescriptorSetLayoutData> descriptorSetLayouts;
@@ -1052,7 +1050,7 @@ PipelineHandle Minty::Vulkan_RenderManager::create(PipelineInfo const &pipelineI
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(PipelineHandle const handle)
+void Minty::RenderManager::Impl::destroy(PipelineHandle const handle)
 {
 	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(handle);
@@ -1102,12 +1100,12 @@ void Minty::Vulkan_RenderManager::destroy(PipelineHandle const handle)
 	m_pipelineDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(PipelineHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(PipelineHandle const handle) const
 {
 	return m_pipelineDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::update(PipelineHandle const handle, StringView const name, Variable const &value)
+void Minty::RenderManager::Impl::update(PipelineHandle const handle, StringView const name, Variable const &value)
 {
 	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_PipelineData &pipelineData = m_pipelineDataPool.at(handle);
@@ -1134,7 +1132,7 @@ void Minty::Vulkan_RenderManager::update(PipelineHandle const handle, StringView
 	MINTY_ASSERT(updated, ErrorCodeEnum::Argument_KeyNotFound);
 }
 
-void Minty::Vulkan_RenderManager::bind(PipelineHandle const handle)
+void Minty::RenderManager::Impl::bind(PipelineHandle const handle)
 {
 	MINTY_ASSERT(m_pipelineDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	m_boundPipeline = handle;
@@ -1175,7 +1173,7 @@ void Minty::Vulkan_RenderManager::bind(PipelineHandle const handle)
 	}
 }
 
-RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &renderPassInfo)
+RenderPassHandle Minty::RenderManager::Impl::create(RenderPassInfo const &renderPassInfo)
 {
 	MINTY_CHECK(renderPassInfo.attachments.get_size() > 0, ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -1227,7 +1225,7 @@ RenderPassHandle Minty::Vulkan_RenderManager::create(RenderPassInfo const &rende
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(RenderPassHandle const handle)
+void Minty::RenderManager::Impl::destroy(RenderPassHandle const handle)
 {
 	MINTY_ASSERT(m_renderPassDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_RenderPassData &renderPassData = m_renderPassDataPool.at(handle);
@@ -1242,12 +1240,12 @@ void Minty::Vulkan_RenderManager::destroy(RenderPassHandle const handle)
 	m_renderPassDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(RenderPassHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(RenderPassHandle const handle) const
 {
 	return m_renderPassDataPool.contains(handle);
 }
 
-MaterialHandle Minty::Vulkan_RenderManager::create(MaterialInfo const &materialInfo)
+MaterialHandle Minty::RenderManager::Impl::create(MaterialInfo const &materialInfo)
 {
 	// Get the pipeline layout for this material's pipeline
 	Vulkan_PipelineData const &pipelineData = m_pipelineDataPool.at(materialInfo.pipeline);
@@ -1332,7 +1330,7 @@ MaterialHandle Minty::Vulkan_RenderManager::create(MaterialInfo const &materialI
 	return m_materialDataPool.add(std::move(materialData));
 }
 
-void Minty::Vulkan_RenderManager::destroy(MaterialHandle const handle)
+void Minty::RenderManager::Impl::destroy(MaterialHandle const handle)
 {
 	MINTY_ASSERT(m_materialDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_MaterialData const &materialData = m_materialDataPool.at(handle);
@@ -1370,12 +1368,12 @@ void Minty::Vulkan_RenderManager::destroy(MaterialHandle const handle)
 	m_materialDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(MaterialHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(MaterialHandle const handle) const
 {
 	return m_materialDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::update(MaterialHandle const handle, StringView const name, Variable const &value)
+void Minty::RenderManager::Impl::update(MaterialHandle const handle, StringView const name, Variable const &value)
 {
 	MINTY_ASSERT(m_materialDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	Vulkan_MaterialData &materialData = m_materialDataPool.at(handle);
@@ -1402,7 +1400,7 @@ void Minty::Vulkan_RenderManager::update(MaterialHandle const handle, StringView
 	MINTY_ASSERT(updated, ErrorCodeEnum::Argument_KeyNotFound);
 }
 
-void Minty::Vulkan_RenderManager::bind(MaterialHandle const handle)
+void Minty::RenderManager::Impl::bind(MaterialHandle const handle)
 {
 	MINTY_ASSERT(m_materialDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1443,7 +1441,7 @@ void Minty::Vulkan_RenderManager::bind(MaterialHandle const handle)
 		VK_PIPELINE_BIND_POINT_GRAPHICS);
 }
 
-RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &renderTargetInfo)
+RenderTargetHandle Minty::RenderManager::Impl::create(RenderTargetInfo const &renderTargetInfo)
 {
 	MINTY_CHECK(renderTargetInfo.surface != INVALID_HANDLE || renderTargetInfo.images.get_size() > 0, ErrorCodeEnum::Argument_ExpectedNonEmpty);
 
@@ -1488,7 +1486,7 @@ RenderTargetHandle Minty::Vulkan_RenderManager::create(RenderTargetInfo const &r
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(RenderTargetHandle const handle)
+void Minty::RenderManager::Impl::destroy(RenderTargetHandle const handle)
 {
 	MINTY_ASSERT(m_renderTargetDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1506,12 +1504,12 @@ void Minty::Vulkan_RenderManager::destroy(RenderTargetHandle const handle)
 	m_renderTargetDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(RenderTargetHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(RenderTargetHandle const handle) const
 {
 	return m_renderTargetDataPool.contains(handle);
 }
 
-RenderViewHandle Minty::Vulkan_RenderManager::create(RenderViewInfo const &renderViewInfo, Camera const &camera)
+RenderViewHandle Minty::RenderManager::Impl::create(RenderViewInfo const &renderViewInfo, Camera const &camera)
 {
 	// Create the Vulkan data
 	Vulkan_RenderViewData renderViewData{};
@@ -1557,19 +1555,19 @@ RenderViewHandle Minty::Vulkan_RenderManager::create(RenderViewInfo const &rende
 	return handle;
 }
 
-void Minty::Vulkan_RenderManager::destroy(RenderViewHandle const handle)
+void Minty::RenderManager::Impl::destroy(RenderViewHandle const handle)
 {
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
 	m_renderViewDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(RenderViewHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(RenderViewHandle const handle) const
 {
 	return m_renderViewDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
+void Minty::RenderManager::Impl::update(RenderViewHandle const handle, Float3 const &position, Float3 const &direction)
 {
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1581,7 +1579,7 @@ void Minty::Vulkan_RenderManager::update(RenderViewHandle const handle, Float3 c
 	renderViewData.viewProjectionMatrix = renderViewData.projectionMatrix * renderViewData.viewMatrix;
 }
 
-void Minty::Vulkan_RenderManager::bind(RenderViewHandle const handle)
+void Minty::RenderManager::Impl::bind(RenderViewHandle const handle)
 {
 	MINTY_ASSERT(m_renderViewDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 	m_boundRenderView = handle;
@@ -1604,7 +1602,7 @@ void Minty::Vulkan_RenderManager::bind(RenderViewHandle const handle)
 	}
 }
 
-GeometryHandle Minty::Vulkan_RenderManager::create(GeometryInfo const &geometryInfo)
+GeometryHandle Minty::RenderManager::Impl::create(GeometryInfo const &geometryInfo)
 {
 	MINTY_ASSERT(!geometryInfo.vertexData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 	MINTY_ASSERT(geometryInfo.vertexStride > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
@@ -1636,7 +1634,7 @@ GeometryHandle Minty::Vulkan_RenderManager::create(GeometryInfo const &geometryI
 	return m_geometryDataPool.add(std::move(geometryData));
 }
 
-void Minty::Vulkan_RenderManager::destroy(GeometryHandle const handle)
+void Minty::RenderManager::Impl::destroy(GeometryHandle const handle)
 {
 	MINTY_ASSERT(m_geometryDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1653,12 +1651,12 @@ void Minty::Vulkan_RenderManager::destroy(GeometryHandle const handle)
 	m_geometryDataPool.remove(handle);
 }
 
-Bool Minty::Vulkan_RenderManager::is_valid(GeometryHandle const handle) const
+Bool Minty::RenderManager::Impl::is_valid(GeometryHandle const handle) const
 {
 	return m_geometryDataPool.contains(handle);
 }
 
-void Minty::Vulkan_RenderManager::bind(GeometryHandle const handle)
+void Minty::RenderManager::Impl::bind(GeometryHandle const handle)
 {
 	MINTY_ASSERT(m_geometryDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1692,7 +1690,7 @@ void Minty::Vulkan_RenderManager::bind(GeometryHandle const handle)
 		geometryData.indexType);
 }
 
-Bool Minty::Vulkan_RenderManager::begin_frame()
+Bool Minty::RenderManager::Impl::begin_frame()
 {
 	m_renderedToMainSurfaceThisFrame = false;
 
@@ -1736,7 +1734,7 @@ Bool Minty::Vulkan_RenderManager::begin_frame()
 	return true;
 }
 
-void Minty::Vulkan_RenderManager::end_frame()
+void Minty::RenderManager::Impl::end_frame()
 {
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
@@ -1780,7 +1778,7 @@ void Minty::Vulkan_RenderManager::end_frame()
 	m_currentFrameIndex = (m_currentFrameIndex + 1) % FRAMES_PER_FLIGHT;
 }
 
-Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
+Bool Minty::RenderManager::Impl::begin_pass(RenderPassHandle const handle)
 {
 	MINTY_ASSERT(m_renderPassDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
 
@@ -1855,7 +1853,7 @@ Bool Minty::Vulkan_RenderManager::begin_pass(RenderPassHandle const handle)
 	return true;
 }
 
-void Minty::Vulkan_RenderManager::end_pass()
+void Minty::RenderManager::Impl::end_pass()
 {
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
@@ -1870,7 +1868,7 @@ void Minty::Vulkan_RenderManager::end_pass()
 	m_boundRenderView = INVALID_HANDLE;
 }
 
-void Minty::Vulkan_RenderManager::draw(View const pushValues, Object const &objectValues)
+void Minty::RenderManager::Impl::draw(View const pushValues, Object const &objectValues)
 {
 	MINTY_ASSERT(m_boundGeometry != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
 	MINTY_ASSERT(m_boundPipeline != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
@@ -1957,13 +1955,13 @@ void Minty::Vulkan_RenderManager::draw(View const pushValues, Object const &obje
 		1);
 }
 
-void Minty::Vulkan_RenderManager::sync()
+void Minty::RenderManager::Impl::sync()
 {
 	// Sync the device
 	Vulkan_Renderer::sync_device(m_device);
 }
 
-void Minty::Vulkan_RenderManager::refresh()
+void Minty::RenderManager::Impl::refresh()
 {
 	// Sync before refreshing
 	sync();
@@ -2023,7 +2021,7 @@ void Minty::Vulkan_RenderManager::refresh()
 	}
 }
 
-void Minty::Vulkan_RenderManager::create_depth_resources()
+void Minty::RenderManager::Impl::create_depth_resources()
 {
 	// get depth format
 	VkFormat depthFormat = Vulkan_Renderer::find_supported_depth_stencil_format(m_physicalDevice);
@@ -2046,7 +2044,7 @@ void Minty::Vulkan_RenderManager::create_depth_resources()
 	m_depthStencilImage = create(depthImageInfo);
 }
 
-void Minty::Vulkan_RenderManager::destroy_depth_resources()
+void Minty::RenderManager::Impl::destroy_depth_resources()
 {
 	// destroy depth image, if there is one
 	if (m_depthStencilImage != INVALID_HANDLE)
@@ -2056,13 +2054,13 @@ void Minty::Vulkan_RenderManager::destroy_depth_resources()
 	}
 }
 
-void Minty::Vulkan_RenderManager::recreate_depth_resources()
+void Minty::RenderManager::Impl::recreate_depth_resources()
 {
 	destroy_depth_resources();
 	create_depth_resources();
 }
 
-void Minty::Vulkan_RenderManager::create_swapchain(Vulkan_SurfaceData &surfaceData)
+void Minty::RenderManager::Impl::create_swapchain(Vulkan_SurfaceData &surfaceData)
 {
 	// Get the queue families
 	Vulkan_QueueFamilyIndices queueFamilyIndices = Vulkan_Renderer::find_queue_families(
@@ -2075,8 +2073,7 @@ void Minty::Vulkan_RenderManager::create_swapchain(Vulkan_SurfaceData &surfaceDa
 		surfaceData.surface);
 
 	// Get size of swapchain from the framebuffer size
-	WindowManager &windowManager = WindowManager::get_instance();
-	UInt2 const framebufferSize = windowManager.get_framebuffer_size(surfaceData.window);
+	UInt2 const framebufferSize = surfaceData.window->get_framebuffer_size();
 	surfaceData.extent = Vulkan_Renderer::get_swapchain_extent(
 		swapchainSupport.capabilities,
 		framebufferSize);
@@ -2128,7 +2125,7 @@ void Minty::Vulkan_RenderManager::create_swapchain(Vulkan_SurfaceData &surfaceDa
 	}
 }
 
-void Minty::Vulkan_RenderManager::destroy_swapchain(Vulkan_SurfaceData &surfaceData)
+void Minty::RenderManager::Impl::destroy_swapchain(Vulkan_SurfaceData &surfaceData)
 {
 	// Destroy the swapchain images
 	for (TextureHandle const &imageHandle : surfaceData.images)
@@ -2147,13 +2144,13 @@ void Minty::Vulkan_RenderManager::destroy_swapchain(Vulkan_SurfaceData &surfaceD
 	}
 }
 
-void Minty::Vulkan_RenderManager::recreate_swapchain(Vulkan_SurfaceData &surfaceData)
+void Minty::RenderManager::Impl::recreate_swapchain(Vulkan_SurfaceData &surfaceData)
 {
 	destroy_swapchain(surfaceData);
 	create_swapchain(surfaceData);
 }
 
-void Minty::Vulkan_RenderManager::create_frame(Vulkan_Frame &frame)
+void Minty::RenderManager::Impl::create_frame(Vulkan_Frame &frame)
 {
 	frame.commandBuffer = Vulkan_Renderer::create_command_buffer(
 		m_device,
@@ -2164,7 +2161,7 @@ void Minty::Vulkan_RenderManager::create_frame(Vulkan_Frame &frame)
 	frame.inFlightFence = Vulkan_Renderer::create_fence(m_device);
 }
 
-void Minty::Vulkan_RenderManager::destroy_frame(Vulkan_Frame &frame)
+void Minty::RenderManager::Impl::destroy_frame(Vulkan_Frame &frame)
 {
 	Vulkan_Renderer::destroy_fence(m_device, frame.inFlightFence);
 	Vulkan_Renderer::destroy_semaphore(m_device, frame.imageAvailableSemaphore);
@@ -2176,7 +2173,7 @@ void Minty::Vulkan_RenderManager::destroy_frame(Vulkan_Frame &frame)
 		frame.commandBuffer);
 }
 
-void Minty::Vulkan_RenderManager::abort_frame()
+void Minty::RenderManager::Impl::abort_frame()
 {
 	// Get the current frame data
 	Vulkan_Frame &currentFrame = get_current_frame();
@@ -2185,7 +2182,7 @@ void Minty::Vulkan_RenderManager::abort_frame()
 	Vulkan_Renderer::reset_command_buffer(currentFrame.commandBuffer);
 }
 
-void Minty::Vulkan_RenderManager::create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle)
+void Minty::RenderManager::Impl::create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle)
 {
 	MINTY_ASSERT(renderPassData.renderPass != VK_NULL_HANDLE, ErrorCodeEnum::Object_InvalidState);
 	MINTY_ASSERT(m_renderTargetDataPool.contains(renderTargetHandle), ErrorCodeEnum::Argument_InvalidHandle);
@@ -2207,7 +2204,7 @@ void Minty::Vulkan_RenderManager::create_render_pass_framebuffers(Vulkan_RenderP
 	}
 }
 
-void Minty::Vulkan_RenderManager::destroy_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData)
+void Minty::RenderManager::Impl::destroy_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData)
 {
 	for (VkFramebuffer const &framebuffer : renderPassData.framebuffers)
 	{
@@ -2217,7 +2214,7 @@ void Minty::Vulkan_RenderManager::destroy_render_pass_framebuffers(Vulkan_Render
 	renderPassData.framebuffers.clear();
 }
 
-void Minty::Vulkan_RenderManager::create_attachment_description(RenderAttachment const &attachment, VkAttachmentDescription &description)
+void Minty::RenderManager::Impl::create_attachment_description(RenderAttachment const &attachment, VkAttachmentDescription &description)
 {
 	// set format based on the attachment type
 
@@ -2250,7 +2247,7 @@ void Minty::Vulkan_RenderManager::create_attachment_description(RenderAttachment
 	description.flags = 0;
 }
 
-void Minty::Vulkan_RenderManager::transition_layout(VkCommandBuffer const commandBuffer, TextureHandle const handle, VkImageLayout const layout)
+void Minty::RenderManager::Impl::transition_layout(VkCommandBuffer const commandBuffer, TextureHandle const handle, VkImageLayout const layout)
 {
 	// Get the texture data
 	Vulkan_TextureData &textureData = m_textureDataPool.at(handle);

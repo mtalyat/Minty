@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ParsedTypes.h
+ * @file ParsedTypes.hpp
  * @brief Header file defining parsed types for the Minty engine.
  * @author Mitchell Talyat
  */

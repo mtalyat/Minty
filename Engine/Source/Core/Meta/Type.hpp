@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Type.h
+ * @file Type.hpp
  * @brief Header file defining the Type enumeration.
  * @author Mitchell Talyat
  */

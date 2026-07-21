@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file UITransformComponent.h
+ * @file UITransformComponent.hpp
  * @brief Header file defining the UITransformComponent structure.
  * @author Mitchell Talyat
  */

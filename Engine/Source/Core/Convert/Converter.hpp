@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Converter.h
+ * @file Converter.hpp
  * @brief Header file for conversion utilities.
  * @author Mitchell Talyat
  */

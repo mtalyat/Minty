@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AudioListenerInfo.h
+ * @file AudioListenerInfo.hpp
  * @brief Header file defining the AudioListenerInfo struct.
  * @author Mitchell Talyat
  */

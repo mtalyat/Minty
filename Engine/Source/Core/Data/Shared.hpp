@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Shared.h
+ * @file Shared.hpp
  * @brief Header file defining the Shared class for shared ownership in the engine.
  * @author Mitchell Talyat
  */

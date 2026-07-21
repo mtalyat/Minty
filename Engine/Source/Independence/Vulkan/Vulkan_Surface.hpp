@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Surface.h
+ * @file Vulkan_Surface.hpp
  * @brief Header file defining the Vulkan_Surface class.
  * @author Mitchell Talyat
  */
@@ -10,15 +10,15 @@
 #include "Core/Data/Vector.hpp"
 #include "Core/Type/Handle.hpp"
 #include "Render/Type/Handle.hpp"
-#include "Window/Type/Handle.hpp"
 
 namespace Minty
 {
+	class Window;
 	class ImageResource;
 
 	struct Vulkan_SurfaceData
 	{
-		WindowHandle window;
+		Window* window;
 		VkSurfaceKHR surface;
 		VkSwapchainKHR swapchain;
 		VkExtent2D extent;

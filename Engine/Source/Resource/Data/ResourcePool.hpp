@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ResourcePool.h
+ * @file ResourcePool.hpp
  * @brief Header file for the ResourcePool class, a container that manages a pool of handles for storing objects.
  * @author Mitchell Talyat
  */

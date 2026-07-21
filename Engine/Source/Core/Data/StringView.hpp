@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file StringView.h
+ * @file StringView.hpp
  * @brief Header file for the StringView class, which provides a non-owning view of a string.
  * @author Mitchell Talyat
  */

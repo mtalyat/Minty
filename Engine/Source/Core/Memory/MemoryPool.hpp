@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MemoryPool.h
+ * @file MemoryPool.hpp
  * @brief Header file for the MemoryPool class.
  * @author Mitchell Talyat
  */

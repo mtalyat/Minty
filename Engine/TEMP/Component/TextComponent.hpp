@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file TextComponent.h
+ * @file TextComponent.hpp
  * @brief Header file defining the TextComponent structure.
  * @author Mitchell Talyat
  */

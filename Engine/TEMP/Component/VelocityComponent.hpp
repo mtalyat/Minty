@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file VelocityComponent.h
+ * @file VelocityComponent.hpp
  * @brief Header file defining the VelocityComponent class.
  * @author Mitchell Talyat
  */

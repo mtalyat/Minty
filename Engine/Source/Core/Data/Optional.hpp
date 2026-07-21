@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Optional.h
+ * @file Optional.hpp
  * @brief Header file defining the Optional class template.
  * @author Mitchell Talyat
  */

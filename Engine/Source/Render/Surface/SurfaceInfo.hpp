@@ -1,25 +1,26 @@
 #pragma once
 
 /**
- * @file SurfaceInfo.h
+ * @file SurfaceInfo.hpp
  * @brief Header file defining the SurfaceInfo.
  * @author Mitchell Talyat
  */
 
 #include "Resource/Image/ImageFormat.hpp"
-#include "Window/Type/Handle.hpp"
 
 namespace Minty
 {
+	class Window;
+
     /**
 	 * @brief The arguments for creating a Surface.
 	 */
 	struct SurfaceInfo
 	{
 		/**
-		 * @brief The size of the surface.
+		 * @brief The window associated with the surface.
 		 */
-		WindowHandle window = INVALID_HANDLE;
+		Window* window = nullptr;
 
 		/**
 		 * @brief The format of the surface.

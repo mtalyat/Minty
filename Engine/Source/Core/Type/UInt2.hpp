@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file UInt2.h
+ * @file UInt2.hpp
  * @brief Definition of the UInt2 type.
  * @author Mitchell Talyat
  */

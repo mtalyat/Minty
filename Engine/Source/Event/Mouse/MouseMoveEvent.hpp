@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MouseMoveEvent.h
+ * @file MouseMoveEvent.hpp
  * @brief Header file defining the MouseMoveEvent class.
  * @author Mitchell Talyat
  */

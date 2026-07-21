@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Input.h
+ * @file Input.hpp
  * @brief Header file for input-related contants.
  * @author Mitchell Talyat
  */

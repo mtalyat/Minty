@@ -1,5 +1,5 @@
 /// @ref simd
-/// @file glm/simd/packing.h
+/// @file glm/simd/packing.hpp
 
 #pragma once
 

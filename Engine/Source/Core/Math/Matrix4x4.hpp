@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Matrix4x4.h
+ * @file Matrix4x4.hpp
  * @brief Header file defining the Matrix4x4 type for the Minty engine.
  * @author Mitchell Talyat
  */

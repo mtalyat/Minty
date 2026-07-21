@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Color.h
+ * @file Color.hpp
  * @brief Defines the Color struct for representing RGBA colors.
  * @author Mitchell Talyat
  */

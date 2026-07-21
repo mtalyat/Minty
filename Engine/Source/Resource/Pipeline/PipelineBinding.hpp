@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineBinding.h
+ * @file PipelineBinding.hpp
  * @brief Header file defining the PipelineBinding struct.
  * @author Mitchell Talyat
  */

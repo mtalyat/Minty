@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WInt3.h
+ * @file WInt3.hpp
  * @brief Definition of the WInt3 type.
  * @author Mitchell Talyat
  */

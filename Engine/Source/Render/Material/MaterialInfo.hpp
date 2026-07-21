@@ -2,7 +2,7 @@
 #define MINTY_RENDER_MATERIALINFO_H
 
 /**
- * @file MaterialInfo.h
+ * @file MaterialInfo.hpp
  * @brief Header file defining the MaterialInfo struct.
  * @author Mitchell Talyat
  */

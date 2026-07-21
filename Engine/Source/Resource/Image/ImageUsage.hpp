@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageUsage.h
+ * @file ImageUsage.hpp
  * @brief Header file defining the ImageUsage enum.
  * @author Mitchell Talyat
  */

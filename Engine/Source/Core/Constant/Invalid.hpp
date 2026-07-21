@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Invalid.h
+ * @file Invalid.hpp
  * @brief Common invalid definitions for the platform.
  * @author Mitchell Talyat
  */

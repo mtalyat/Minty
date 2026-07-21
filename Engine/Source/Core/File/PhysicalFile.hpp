@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PhysicalFile.h
+ * @file PhysicalFile.hpp
  * @brief Header file for physical file handling utilities.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Parser.h
+ * @file Parser.hpp
  * @brief Header file defining the Parser class for serialization.
  * @author Mitchell Talyat
  */

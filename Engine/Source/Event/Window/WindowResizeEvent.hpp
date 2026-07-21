@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WindowResizeEvent.h
+ * @file WindowResizeEvent.hpp
  * @brief Header file defining the WindowResizeEvent class.
  * @author Mitchell Talyat
  */

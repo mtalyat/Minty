@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WFloat2.h
+ * @file WFloat2.hpp
  * @brief Definition of the WFloat2 type.
  * @author Mitchell Talyat
  */

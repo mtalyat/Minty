@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file BufferInfo.h
+ * @file BufferInfo.hpp
  * @brief Header file defining the BufferInfo struct.
  * @author Mitchell Talyat
  */

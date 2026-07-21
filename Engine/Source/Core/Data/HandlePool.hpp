@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file HandlePool.h
+ * @file HandlePool.hpp
  * @brief Header file for the HandlePool class, a container that manages a pool of handles for storing objects.
  * @author Mitchell Talyat
  */

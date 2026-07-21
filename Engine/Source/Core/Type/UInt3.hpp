@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file UInt3.h
+ * @file UInt3.hpp
  * @brief Definition of the UInt3 type.
  * @author Mitchell Talyat
  */

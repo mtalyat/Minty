@@ -2,7 +2,7 @@
 #define MINTY_FORMAT_H
 
 /**
- * @file Format.h
+ * @file Format.hpp
  * @brief Header file for string formatting utilities.
  * @author Mitchell Talyat
  */

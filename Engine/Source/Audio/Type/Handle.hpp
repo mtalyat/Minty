@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Handle.h
+ * @file Handle.hpp
  * @brief Header file defining the Handle type for Audio layer.
  * @author Mitchell Talyat
  */

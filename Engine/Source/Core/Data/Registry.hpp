@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Registry.h
+ * @file Registry.hpp
  * @brief Header file for the Registry class.
  * @author Mitchell Talyat
  */

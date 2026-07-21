@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PersistentAllocator.h
+ * @file PersistentAllocator.hpp
  * @brief Header file for the PersistentAllocator class.
  * @author Mitchell Talyat
  */

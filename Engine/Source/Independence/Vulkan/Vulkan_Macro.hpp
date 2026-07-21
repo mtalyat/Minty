@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Macro.h
+ * @file Vulkan_Macro.hpp
  * @brief Header file defining macros for Vulkan error handling and assertions.
  * @author Mitchell Talyat
  */

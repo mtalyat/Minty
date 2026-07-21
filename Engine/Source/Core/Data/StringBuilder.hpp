@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file StringBuilder.h
+ * @file StringBuilder.hpp
  * @brief Header file for string builder utilities.
  * @author Mitchell Talyat
  */

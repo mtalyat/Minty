@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelinePolygonMode.h
+ * @file PipelinePolygonMode.hpp
  * @brief Header file defining the PipelinePolygonMode enum.
  * @author Mitchell Talyat
  */

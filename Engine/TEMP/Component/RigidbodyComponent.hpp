@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RigidbodyComponent.h
+ * @file RigidbodyComponent.hpp
  * @brief Header file defining the RigidbodyComponent structure.
  * @author Mitchell Talyat
  */

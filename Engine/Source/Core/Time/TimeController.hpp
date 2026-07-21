@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file TimeController.h
+ * @file TimeController.hpp
  * @brief Header file defining the TimeController class and TimeControllerInfo struct.
  * @author Mitchell Talyat
  */

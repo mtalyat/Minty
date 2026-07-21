@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Timestep.h
+ * @file Timestep.hpp
  * @brief Defines the Timestep class for managing time steps in the engine.
  * @author Mitchell Talyat
  */

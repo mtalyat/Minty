@@ -2,7 +2,7 @@
 #define MINTY_CORE_MATH_H
 
 /**
- * @file Math.h
+ * @file Math.hpp
  * @brief Header file defining mathematical types and constants.
  * @author Mitchell Talyat
  */

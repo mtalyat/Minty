@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file NameComponent.h
+ * @file NameComponent.hpp
  * @brief Header file defining the NameComponent structure.
  * @author Mitchell Talyat
  */

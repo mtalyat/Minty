@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineInfo.h
+ * @file PipelineInfo.hpp
  * @brief Header file defining the PipelineInfo struct.
  * @author Mitchell Talyat
  */

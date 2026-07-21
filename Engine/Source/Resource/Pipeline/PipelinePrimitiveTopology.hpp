@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelinePrimitiveTopology.h
+ * @file PipelinePrimitiveTopology.hpp
  * @brief Header file defining the PipelinePrimitiveTopology enum.
  * @author Mitchell Talyat
  */

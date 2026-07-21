@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file StreamDirection.h
+ * @file StreamDirection.hpp
  * @brief Header file for stream direction enumeration.
  * @author Mitchell Talyat
  */

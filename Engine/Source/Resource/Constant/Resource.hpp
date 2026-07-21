@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Resource.h
+ * @file Resource.hpp
  * @brief Header file defining resource types and the ResourceManager class.
  * @author Mitchell Talyat
  */

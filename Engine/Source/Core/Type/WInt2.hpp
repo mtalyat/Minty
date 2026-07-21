@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WInt2.h
+ * @file WInt2.hpp
  * @brief Definition of the WInt2 type.
  * @author Mitchell Talyat
  */

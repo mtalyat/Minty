@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RenderPassInfo.h
+ * @file RenderPassInfo.hpp
  * @brief Header file defining the RenderPassInfo struct.
  * @author Mitchell Talyat
  */

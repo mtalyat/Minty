@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Evaluate.h
+ * @file Evaluate.hpp
  * @brief Header file defining expression evaluation utilities.
  * @author Mitchell Talyat
  */

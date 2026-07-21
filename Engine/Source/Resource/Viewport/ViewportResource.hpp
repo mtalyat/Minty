@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ViewportResource.h
+ * @file ViewportResource.hpp
  * @brief Header file for the ViewportResource struct.
  * @author Mitchell Talyat
  */

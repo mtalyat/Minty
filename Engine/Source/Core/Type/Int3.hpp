@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Int3.h
+ * @file Int3.hpp
  * @brief Definition of the Int3 type.
  * @author Mitchell Talyat
  */

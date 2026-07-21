@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PositionComponent.h
+ * @file PositionComponent.hpp
  * @brief Header file defining the PositionComponent class.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file EntitySerializationData.h
+ * @file EntitySerializationData.hpp
  * @brief Header file defining the EntitySerializationData struct.
  * @author Mitchell Talyat
  */

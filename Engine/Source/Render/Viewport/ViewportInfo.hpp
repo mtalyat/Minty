@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ViewportInfo.h
+ * @file ViewportInfo.hpp
  * @brief Header file defining the ViewportInfo struct.
  * @author Mitchell Talyat
  */

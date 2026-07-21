@@ -6,13 +6,26 @@ using namespace Minty;
 #include "Independence/Windows/Windows_Window.hpp"
 #endif // MINTY_WINDOWS
 
+Window* Minty::Window::s_main = nullptr;
+
 Minty::Window::Window(WindowInfo const &info)
     : mp_impl(new Impl(info, this))
 {
+    // If no main window has been set, set this as the main window
+    if (s_main == nullptr)
+    {
+        s_main = this;
+    }
 }
 
 Minty::Window::~Window()
 {
+    // If this is the main window, clear it
+    if (s_main == this)
+    {
+        s_main = nullptr;
+    }
+
     delete mp_impl;
 }
 
@@ -49,4 +62,15 @@ inline Int2 Minty::Window::get_framebuffer_size() const
 Bool Minty::Window::is_open() const
 {
     return mp_impl->is_open();
+}
+
+Window &Minty::Window::get_main()
+{
+    MINTY_ASSERT(s_main != nullptr, ErrorCodeEnum::Singleton_DoesNotExist);
+    return *s_main;
+}
+
+void Minty::Window::set_main(Window *const window)
+{
+    s_main = window;
 }

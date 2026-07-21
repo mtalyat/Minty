@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MeshComponent.h
+ * @file MeshComponent.hpp
  * @brief Header file defining the MeshComponent structure.
  * @author Mitchell Talyat
  */

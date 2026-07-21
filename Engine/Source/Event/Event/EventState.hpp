@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file EventState.h
+ * @file EventState.hpp
  * @brief Header file for the EventState class, which manages the state of events in the application, allowing for tracking and handling of various events such as input, window events, and custom events.
  * @author Mitchell Talyat
  */

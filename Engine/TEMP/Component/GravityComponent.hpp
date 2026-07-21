@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GravityComponent.h
+ * @file GravityComponent.hpp
  * @brief Header file defining the GravityComponent class.
  * @author Mitchell Talyat
  */

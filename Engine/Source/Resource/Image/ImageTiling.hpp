@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageTiling.h
+ * @file ImageTiling.hpp
  * @brief Header file defining the ImageTiling enum.
  * @author Mitchell Talyat
  */

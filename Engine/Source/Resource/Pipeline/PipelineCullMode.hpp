@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineCullMode.h
+ * @file PipelineCullMode.hpp
  * @brief Header file defining the PipelineCullMode enum.
  * @author Mitchell Talyat
  */

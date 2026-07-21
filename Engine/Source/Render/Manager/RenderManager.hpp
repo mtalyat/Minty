@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RenderManager.h
+ * @file RenderManager.hpp
  * @brief RenderManager class definition.
  * @author Mitchell Talyat
  */
@@ -38,7 +38,7 @@ namespace Minty
 #pragma region Type
 
     public:
-        struct Impl;
+        class Impl;
 
     private:
         enum class State

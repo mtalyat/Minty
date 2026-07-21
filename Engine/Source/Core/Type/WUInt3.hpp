@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WUInt3.h
+ * @file WUInt3.hpp
  * @brief Definition of the WUInt3 type.
  * @author Mitchell Talyat
  */

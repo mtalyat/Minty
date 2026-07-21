@@ -4,7 +4,6 @@
 #include "Vulkan_SwapchainSupportDetails.hpp"
 #include "Vulkan_Frame.hpp"
 #include "Vulkan_Surface.hpp"
-#include "Window/Type/Handle.hpp"
 #include "Library/GLFW/GLFW.hpp"
 #include "Core/Debug/DebugF.hpp"
 #include "Core/Constant/Info.hpp"

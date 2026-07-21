@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Time.h
+ * @file Time.hpp
  * @brief Header file defining the Time utility class.
  * @author Mitchell Talyat
  */

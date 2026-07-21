@@ -1,5 +1,5 @@
 /**
- * @file AudioListenerTag.h
+ * @file AudioListenerTag.hpp
  * @brief Header file defining the AudioListenerTag structure.
  * @author Mitchell Talyat
  */

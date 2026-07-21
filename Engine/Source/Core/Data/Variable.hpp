@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Variable.h
+ * @file Variable.hpp
  * @brief Defines the Variable class for typed data storage.
  * @author Mitchell Talyat
  */

@@ -1,8 +1,8 @@
 #pragma once
 
 /**
- * @file Vulkan_RenderManager.h
- * @brief Vulkan_RenderManager class definition.
+ * @file Impl.hpp
+ * @brief Impl class definition.
  * @author Mitchell Talyat
  */
 
@@ -28,6 +28,7 @@
 #include "Render/Constant/Render.hpp"
 #include "Render/Type/Handle.hpp"
 #include "Resource/Image/ImageLayout.hpp"
+#include "Render/Manager/RenderManager.hpp"
 
 namespace Minty
 {
@@ -49,13 +50,13 @@ namespace Minty
 
     using Vulkan_PipelineLayoutHandle = Handle<Vulkan_PipelineLayoutData>;
 
-    class Vulkan_RenderManager
+    class RenderManager::Impl
     {
 #pragma region Constructor
 
     public:
-        Vulkan_RenderManager(RenderManagerInfo const &info);
-        ~Vulkan_RenderManager();
+        Impl(RenderManagerInfo const &info);
+        ~Impl();
 
 #pragma endregion
 

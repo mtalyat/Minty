@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Default.h
+ * @file Default.hpp
  * @brief Common default definitions for the platform.
  * @author Mitchell Talyat
  */

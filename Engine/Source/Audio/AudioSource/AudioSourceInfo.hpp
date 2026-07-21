@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AudioSourceInfo.h
+ * @file AudioSourceInfo.hpp
  * @brief Header file defining the AudioSourceInfo struct.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Unique.h
+ * @file Unique.hpp
  * @brief Header file defining the Unique class for unique ownership in the engine.
  * @author Mitchell Talyat
  */

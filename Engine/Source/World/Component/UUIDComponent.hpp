@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file UUIDComponent.h
+ * @file UUIDComponent.hpp
  * @brief Header file defining the UUIDComponent structure.
  * @author Mitchell Talyat
  */

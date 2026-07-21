@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MeshResource.h
+ * @file MeshResource.hpp
  * @brief Header file defining the MeshResource struct.
  * @author Mitchell Talyat
  */

@@ -53,6 +53,9 @@ public:
 
         Bool is_open() const;
 
+        static Window &get_main();
+        static void set_main(Window *const window);
+
 #pragma endregion
 
 #pragma region Variable
@@ -73,6 +76,7 @@ public:
 
     private:
         Impl *mp_impl;
+        static Window *s_main;
 
 #pragma endregion
     };

@@ -6,7 +6,7 @@
 #include "String.hpp"
 
 /**
- * @file Lookup.h
+ * @file Lookup.hpp
  * @brief Header file for the Lookup class.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Tuple.h
+ * @file Tuple.hpp
  * @brief Header file defining the Tuple class for holding multiple values.
  * @author Mitchell Talyat
  */

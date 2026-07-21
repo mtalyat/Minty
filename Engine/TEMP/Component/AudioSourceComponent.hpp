@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AudioSourceComponent.h
+ * @file AudioSourceComponent.hpp
  * @brief Header file defining the AudioSourceComponent structure.
  * @author Mitchell Talyat
  */

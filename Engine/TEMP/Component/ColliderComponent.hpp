@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ColliderComponent.h
+ * @file ColliderComponent.hpp
  * @brief Header file defining the ColliderComponent structure.
  * @author Mitchell Talyat
  */

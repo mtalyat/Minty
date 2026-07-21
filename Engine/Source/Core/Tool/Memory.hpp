@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Memory.h
+ * @file Memory.hpp
  * @brief Header file for memory management utilities.
  * @author Mitchell Talyat
  */

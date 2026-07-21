@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageAspect.h
+ * @file ImageAspect.hpp
  * @brief Header file defining the ImageAspect enum.
  * @author Mitchell Talyat
  */

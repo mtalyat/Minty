@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file RenderTargetResource.h
+ * @file RenderTargetResource.hpp
  * @brief Header file for the RenderTargetResource struct.
  * @author Mitchell Talyat
  */

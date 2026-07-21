@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file STB_Image.h
+ * @file STB_Image.hpp
  * @brief Header file for the STB image loading library.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file BufferUsage.h
+ * @file BufferUsage.hpp
  * @brief Header file defining the BufferUsage enum.
  * @author Mitchell Talyat
  */

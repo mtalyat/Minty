@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FileFlags.h
+ * @file FileFlags.hpp
  * @brief Header file for file flag definitions.
  * @author Mitchell Talyat
  */

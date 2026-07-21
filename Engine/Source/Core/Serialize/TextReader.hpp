@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file TextReader.h
+ * @file TextReader.hpp
  * @brief Header file defining the TextReader class for serialization.
  * @author Mitchell Talyat
  */

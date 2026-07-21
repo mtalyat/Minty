@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FontChar.h
+ * @file FontChar.hpp
  * @brief Header file defining the FontChar struct.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Limit.h
+ * @file Limit.hpp
  * @brief Common limit definitions for the platform.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineInputType.h
+ * @file PipelineInputType.hpp
  * @brief Header file defining the PipelineInputType enum.
  * @author Mitchell Talyat
  */

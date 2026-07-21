@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Copy.h
+ * @file Copy.hpp
  * @brief Header file for memory copy utilities.
  * @author Mitchell Talyat
  */

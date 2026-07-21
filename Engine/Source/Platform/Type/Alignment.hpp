@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Alignment.h
+ * @file Alignment.hpp
  * @brief Common alignment definitions for the platform.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file DynamicContainer.h
+ * @file DynamicContainer.hpp
  * @brief Header file for the DynamicContainer class.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file KeyEvent.h
+ * @file KeyEvent.hpp
  * @brief Header file defining the KeyEvent class.
  * @author Mitchell Talyat
  */

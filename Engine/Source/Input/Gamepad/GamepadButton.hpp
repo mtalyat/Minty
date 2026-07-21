@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadButton.h
+ * @file GamepadButton.hpp
  * @brief Header file for gamepad button enumeration.
  * @author Mitchell Talyat
  */

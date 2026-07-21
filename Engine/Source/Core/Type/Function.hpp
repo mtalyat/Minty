@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Function.h
+ * @file Function.hpp
  * @brief Header file defining the Function type for the Minty engine.
  * @author Mitchell Talyat
  */

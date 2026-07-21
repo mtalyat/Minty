@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Logger.h
+ * @file Logger.hpp
  * @brief Header file for the Logger class, which provides thread-safe logging functionality.
  * @author Mitchell Talyat
  */

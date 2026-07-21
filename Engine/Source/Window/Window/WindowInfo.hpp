@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file WindowInfo.h
+ * @file WindowInfo.hpp
  * @brief Window information struct definition, containing details about a window such as its title, size, and other properties.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Queue.h
+ * @file Queue.hpp
  * @brief Header file for the Queue class.
  * @author Mitchell Talyat
  */

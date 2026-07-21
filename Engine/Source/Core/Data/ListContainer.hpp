@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ListContainer.h
+ * @file ListContainer.hpp
  * @brief Header file for the ListContainer class.
  * @author Mitchell Talyat
  */

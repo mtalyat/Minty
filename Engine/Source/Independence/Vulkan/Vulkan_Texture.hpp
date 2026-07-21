@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Texture.h
+ * @file Vulkan_Texture.hpp
  * @brief Vulkan_TextureData struct definition.
  * @author Mitchell Talyat
  */

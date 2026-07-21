@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ImageInfo.h
+ * @file ImageInfo.hpp
  * @brief Header file defining the ImageInfo struct.
  * @author Mitchell Talyat
  */

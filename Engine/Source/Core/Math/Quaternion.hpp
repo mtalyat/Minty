@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Quaternion.h
+ * @file Quaternion.hpp
  * @brief Header file defining the Quaternion type for the Minty engine.
  * @author Mitchell Talyat
  */

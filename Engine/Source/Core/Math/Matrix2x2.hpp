@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Matrix2x2.h
+ * @file Matrix2x2.hpp
  * @brief Header file defining the Matrix2x2 type for the Minty engine.
  * @author Mitchell Talyat
  */

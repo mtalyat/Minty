@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PrefabComponent.h
+ * @file PrefabComponent.hpp
  * @brief Header file defining the PrefabComponent structure.
  * @author Mitchell Talyat
  */

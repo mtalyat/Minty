@@ -1,5 +1,5 @@
 /**
- * @file VisibleTag.h
+ * @file VisibleTag.hpp
  * @brief Header file defining the VisibleTag structure.
  * @author Mitchell Talyat
  */

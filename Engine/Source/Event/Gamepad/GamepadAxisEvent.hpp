@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file GamepadAxisEvent.h
+ * @file GamepadAxisEvent.hpp
  * @brief Header file defining the GamepadAxisEvent class.
  * @author Mitchell Talyat
  */

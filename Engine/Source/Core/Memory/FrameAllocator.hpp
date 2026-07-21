@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FrameAllocator.h
+ * @file FrameAllocator.hpp
  * @brief Header file for the FrameAllocator class.
  * @author Mitchell Talyat
  */

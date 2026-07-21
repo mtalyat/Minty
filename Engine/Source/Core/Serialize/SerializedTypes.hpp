@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file SerializedTypes.h
+ * @file SerializedTypes.hpp
  * @brief Header file defining serialized types for the Minty engine.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Random.h
+ * @file Random.hpp
  * @brief Header file for random number generation utilities.
  * @author Mitchell Talyat
  */

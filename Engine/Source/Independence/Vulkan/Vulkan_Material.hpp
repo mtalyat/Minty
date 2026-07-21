@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_Material.h
+ * @file Vulkan_Material.hpp
  * @brief Header file defining the Vulkan material data.
  * @author Mitchell Talyat
  */

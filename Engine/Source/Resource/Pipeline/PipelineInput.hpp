@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineInput.h
+ * @file PipelineInput.hpp
  * @brief Header file defining the PipelineInput struct.
  * @author Mitchell Talyat
  */

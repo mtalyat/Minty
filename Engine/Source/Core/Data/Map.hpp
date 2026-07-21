@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Map.h
+ * @file Map.hpp
  * @brief Header file for the Map class.
  * @author Mitchell Talyat
  */

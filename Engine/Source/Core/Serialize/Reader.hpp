@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Reader.h
+ * @file Reader.hpp
  * @brief Header file defining the Reader class for serialization.
  * @author Mitchell Talyat
  */

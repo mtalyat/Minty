@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineInputRate.h
+ * @file PipelineInputRate.hpp
  * @brief Header file defining the PipelineInputRate enum.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file PipelineResource.h
+ * @file PipelineResource.hpp
  * @brief PipelineResource struct definition.
  * @author Mitchell Talyat
  */

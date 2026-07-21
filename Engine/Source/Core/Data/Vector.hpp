@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vector.h
+ * @file Vector.hpp
  * @brief Common vector type definitions for the platform.
  * @author Mitchell Talyat
  */

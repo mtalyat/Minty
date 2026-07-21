@@ -2,7 +2,7 @@
 #define MINTY_DATA_PATH_H
 
 /**
- * @file Path.h
+ * @file Path.hpp
  * @brief Defines the Path class for representing file system paths.
  * @author Mitchell Talyat
  */

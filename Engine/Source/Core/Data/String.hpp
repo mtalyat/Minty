@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file String.h
+ * @file String.hpp
  * @brief Header file for string utilities.
  * @author Mitchell Talyat
  */

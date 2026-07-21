@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Ref.h
+ * @file Ref.hpp
  * @brief Header file defining the Ref class for reference counting in the engine.
  * @author Mitchell Talyat
  */

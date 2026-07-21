@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file MouseButtonEvent.h
+ * @file MouseButtonEvent.hpp
  * @brief Header file defining the MouseButtonEvent class.
  * @author Mitchell Talyat
  */

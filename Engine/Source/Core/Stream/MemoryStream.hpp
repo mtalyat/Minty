@@ -2,7 +2,7 @@
 #define MINTY_STREAM_MEMORYSTREAM_H
 
 /**
- * @file MemoryStream.h
+ * @file MemoryStream.hpp
  * @brief Header file defining the MemoryStream class for in-memory stream operations.
  * @author Mitchell Talyat
  */

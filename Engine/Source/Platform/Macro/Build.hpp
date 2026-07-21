@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Build.h
+ * @file Build.hpp
  * @brief Common build configuration definitions for the platform.
  * @author Mitchell Talyat
  */

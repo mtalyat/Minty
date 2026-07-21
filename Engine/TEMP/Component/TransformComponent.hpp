@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file TransformComponent.h
+ * @file TransformComponent.hpp
  * @brief Header file defining the TransformComponent structure.
  * @author Mitchell Talyat
  */

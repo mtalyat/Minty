@@ -2,7 +2,7 @@
 #define MINTY_MEMORY_ALLOCATOR_H
 
 /**
- * @file Allocator.h
+ * @file Allocator.hpp
  * @brief Header file for the Allocator class.
  * @author Mitchell Talyat
  */

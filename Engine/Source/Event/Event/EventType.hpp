@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file EventType.h
+ * @file EventType.hpp
  * @brief Header file defining the EventType class, which represents the type of an event in the application, allowing for categorization and handling of various events such as input, window events, and custom events.
  * @author Mitchell Talyat
  */

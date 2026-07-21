@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file KeyModifier.h
+ * @file KeyModifier.hpp
  * @brief Header file defining the KeyModifier enum class.
  * @author Mitchell Talyat
  */

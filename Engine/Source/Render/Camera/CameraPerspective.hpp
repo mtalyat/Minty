@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Perspective.h
+ * @file Perspective.hpp
  * @brief Header file defining the Perspective enum.
  * @author Mitchell Talyat
  */

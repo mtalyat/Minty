@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Bool4.h
+ * @file Bool4.hpp
  * @brief Header file defining the Bool4 type for the Minty engine.
  * @author Mitchell Talyat
  */

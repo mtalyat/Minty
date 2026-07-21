@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Convert.h
+ * @file Convert.hpp
  * @brief Header file defining the Converter specializations for Vulkan types.
  * @author Mitchell Talyat
  */

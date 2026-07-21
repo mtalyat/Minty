@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Comparable.h
+ * @file Comparable.hpp
  * @brief Header file defining the Comparable concept for types that can be compared using standard comparison operators.
  * @author Mitchell Talyat
  */

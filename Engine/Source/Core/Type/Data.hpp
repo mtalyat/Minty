@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Data.h
+ * @file Data.hpp
  * @brief Header file for data structures and types.
  * @author Mitchell Talyat
  */

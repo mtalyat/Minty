@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file FlagsEnum.h
+ * @file FlagsEnum.hpp
  * @brief Header file defining utilities for enums.
  * @author Mitchell Talyat
  */

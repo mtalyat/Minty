@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Handle.h
+ * @file Handle.hpp
  * @brief Header file for the Handle type.
  * @author Mitchell Talyat
  */

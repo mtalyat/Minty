@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file LayerComponent.h
+ * @file LayerComponent.hpp
  * @brief Header file defining the LayerComponent structure.
  * @author Mitchell Talyat
  */

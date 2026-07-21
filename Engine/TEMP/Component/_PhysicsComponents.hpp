@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Internal_PhysicsComponent.h
+ * @file Internal_PhysicsComponent.hpp
  * @brief Header file defining internal physics components.
  * @author Mitchell Talyat
  */

@@ -2,7 +2,7 @@
 #define MINTY_TOOL_STRING_H
 
 /**
- * @file String.h
+ * @file String.hpp
  * @brief Header file for string utilities in the Minty Tool module.
  * @author Mitchell Talyat
  */

@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Serializer.h
+ * @file Serializer.hpp
  * @brief Header file defining the Serializer class for serialization.
  * @author Mitchell Talyat
  */

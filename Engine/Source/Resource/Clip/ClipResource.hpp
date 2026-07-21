@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file ClipResource.h
+ * @file ClipResource.hpp
  * @brief ClipResource class definition.
  * This file defines the ClipResource class, which represents an audio clip resource in the application.
  */

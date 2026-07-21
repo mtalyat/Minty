@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file CompressionLevel.h
+ * @file CompressionLevel.hpp
  * @brief Defines the CompressionLevel enum for data compression levels.
  * @author Mitchell Talyat
  */

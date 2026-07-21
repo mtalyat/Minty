@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AnimatorComponent.h
+ * @file AnimatorComponent.hpp
  * @brief Header file defining the AnimatorComponent structure.
  * @author Mitchell Talyat
  */

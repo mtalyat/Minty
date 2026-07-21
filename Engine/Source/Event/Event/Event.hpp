@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Event.h
+ * @file Event.hpp
  * @brief Header file for the Event class, which represents an event in the application, allowing for tracking and handling of various events such as input, window events, and custom events.
  * @author Mitchell Talyat
  */

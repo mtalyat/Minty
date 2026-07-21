@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file AddressMode.h
+ * @file AddressMode.hpp
  * @brief Header file defining the AddressMode enum.
  * @author Mitchell Talyat
  */

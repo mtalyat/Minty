@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file LoadOperation.h
+ * @file LoadOperation.hpp
  * @brief Header file defining the LoadOperation enum.
  * @author Mitchell Talyat
  */

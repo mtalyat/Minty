@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Vulkan_SwapchainSupportDetails.h
+ * @file Vulkan_SwapchainSupportDetails.hpp
  * @brief Header file defining the Vulkan_SwapchainSupportDetails struct.
  * @author Mitchell Talyat
  */
