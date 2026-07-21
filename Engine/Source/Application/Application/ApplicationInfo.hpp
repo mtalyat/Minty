@@ -7,12 +7,15 @@
 #include "Render/Manager/RenderManagerInfo.hpp"
 #include "Input/Manager/InputManagerInfo.hpp"
 #include "Core/Time/TimeControllerInfo.hpp"
+#include "Window/Window/WindowInfo.hpp"
 
 namespace Minty
 {
     struct ApplicationInfo
     {
         ApplicationData data = {};
+
+        WindowInfo windowInfo = {};
 
         SceneManagerInfo sceneManagerInfo = {};
         

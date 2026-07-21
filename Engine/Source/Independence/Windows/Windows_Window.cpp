@@ -17,8 +17,8 @@ Minty::Window::Impl::Impl(WindowInfo const &info, Window *const owner)
 {
     // Create the GLFW window
     mp_window = glfwCreateWindow(
-        static_cast<Int>(info.size.x),
-        static_cast<Int>(info.size.y),
+        info.size.x,
+        info.size.y,
         info.title.get_data(),
         nullptr,  // Monitor
         nullptr); // Share
@@ -40,7 +40,7 @@ Minty::Window::Impl::Impl(WindowInfo const &info, Window *const owner)
 			Windows_CallbackData* callbackData = static_cast<Windows_CallbackData*>(glfwGetWindowUserPointer(window));
 			MINTY_ASSERT(callbackData, ErrorCodeEnum::InvalidUserData);
             MINTY_ASSERT(callbackData->window, ErrorCodeEnum::InvalidUserData);
-			callbackData->window->on_resize(UInt2(static_cast<UInt>(width), static_cast<UInt>(height))); });
+			callbackData->window->on_resize(Int2(width, height)); });
 
     glfwSetWindowCloseCallback(mp_window, [](GLFWwindow *window)
                                {

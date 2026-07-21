@@ -16,6 +16,7 @@ using namespace Minty;
 
 Minty::Application::Application(ApplicationInfo const &info)
     : m_data(info.data),
+    mp_window(nullptr),
       mp_sceneManager(nullptr),
       mp_resourceManager(nullptr),
       mp_audioManager(nullptr),
@@ -26,6 +27,9 @@ Minty::Application::Application(ApplicationInfo const &info)
 {
     // Initialize the platform
     Platform::initialize();
+
+    // Create the window
+    mp_window = new Window(info.windowInfo);
 
     // Create the managers
     mp_sceneManager = new SceneManager(info.sceneManagerInfo);
@@ -45,6 +49,9 @@ Minty::Application::~Application()
     delete mp_renderManager;
     delete mp_inputManager;
     delete mp_timeController;
+
+    // Delete the window
+    delete mp_window;
 
     // Shutdown the platform
     Platform::shutdown();
@@ -98,14 +105,9 @@ Minty::Application &Minty::Application::operator=(Application &&app)
     return *this;
 }
 
-void Minty::Application::run()
+Int Minty::Application::run()
 {
     Int fixedUpdates, i;
-
-    // Create a Window
-    WindowInfo windowInfo{};
-    windowInfo.title = m_data.name;
-    Window window(windowInfo);
 
     // Register Window events to InputManager
     Function keyListener = [this](KeyEnum key, KeyActionEnum action, KeyModifierFlagsEnum mods)
@@ -125,12 +127,13 @@ void Minty::Application::run()
         mp_inputManager->set_mouse_scroll(scroll);
     };
 
-    window.on_key += keyListener;
-    window.on_mouse_button += mouseButtonListener;
-    window.on_mouse_move += mouseMoveListener;
-    window.on_mouse_scroll += mouseScrollListener;
+    mp_window->on_key += keyListener;
+    mp_window->on_mouse_button += mouseButtonListener;
+    mp_window->on_mouse_move += mouseMoveListener;
+    mp_window->on_mouse_scroll += mouseScrollListener;
 
-    while (m_running && window.is_open())
+    m_running = true;
+    while (m_running && mp_window->is_open())
     {
         // Process events
         Platform::process_events();
@@ -160,10 +163,12 @@ void Minty::Application::run()
     Platform::sync();
 
     // Unregister Window events from InputManager
-    window.on_key -= keyListener;
-    window.on_mouse_button -= mouseButtonListener;
-    window.on_mouse_move -= mouseMoveListener;
-    window.on_mouse_scroll -= mouseScrollListener;
+    mp_window->on_key -= keyListener;
+    mp_window->on_mouse_button -= mouseButtonListener;
+    mp_window->on_mouse_move -= mouseMoveListener;
+    mp_window->on_mouse_scroll -= mouseScrollListener;
+
+    return 0;
 }
 
 void Minty::Application::quit()

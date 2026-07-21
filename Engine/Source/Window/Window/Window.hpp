@@ -62,7 +62,7 @@ public:
 
     public:
         // Window events
-        Signal<void(UInt2)> on_resize;
+        Signal<void(Int2)> on_resize;
         Signal<void()> on_focus;
         Signal<void()> on_lost_focus;
         Signal<void()> on_minimize;

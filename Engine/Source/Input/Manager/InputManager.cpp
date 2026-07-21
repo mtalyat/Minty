@@ -3,6 +3,8 @@
 
 using namespace Minty;
 
+InputManager* InputManager::sp_instance = nullptr;
+
 Minty::InputManager::InputManager(InputManagerInfo const &info)
     : m_keyboardState(),
       m_mouseState(),

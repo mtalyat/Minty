@@ -6,6 +6,7 @@
 namespace Minty
 {
     struct ApplicationInfo;
+    class Window;
     class SceneManager;
     class ResourceManager;
     class AudioManager;
@@ -39,6 +40,7 @@ namespace Minty
 
     public:
         inline Bool is_running() const { return m_running; }
+        inline Window& get_window() const { return *mp_window; }
         inline SceneManager &get_scene_manager() { return *mp_sceneManager; }
         inline ResourceManager &get_resource_manager() { return *mp_resourceManager; }
         inline AudioManager &get_audio_manager() { return *mp_audioManager; }
@@ -51,7 +53,7 @@ namespace Minty
 #pragma region Method
 
     public:
-        void run();
+        Int run();
 
         void quit();
 
@@ -61,6 +63,7 @@ namespace Minty
 
     private:
         ApplicationData m_data;
+        Window* mp_window;
         SceneManager *mp_sceneManager;
         ResourceManager *mp_resourceManager;
         AudioManager *mp_audioManager;

@@ -11,6 +11,17 @@ static void on_event(Event& event)
 
 int main()
 {
+    // APPLICATION
+    ApplicationInfo applicationInfo{};
+    applicationInfo.windowInfo.title = "Minty Engine - Demo";
+    applicationInfo.windowInfo.size.x = 800;
+    applicationInfo.windowInfo.size.y = 600;
+    Application app(applicationInfo);
+    return app.run();
+}
+
+int main_old()
+{
     // DEBUG
     DebugInfo debugInfo{};
     debugInfo.loggerInfo.path = "debug.log";
@@ -84,10 +95,9 @@ int main()
     transform.set_position(Float3(-5.0f, 0.0f, 5.0f));
 
     // MAIN LOOP
-    while (windowManager.is_open(window))
+    while (window.is_open())
     {
-        // Process events
-        windowManager.process_events();
+        // Process events...
 
         // Begin frame and pass
         if (!renderManager.begin_frame())

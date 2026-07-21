@@ -29,7 +29,7 @@ namespace Minty
         /**
          * @brief The size of the Window.
          */
-		UInt2 size = { 960, 540 };
+		Int2 size = { 960, 540 };
 
         /**
          * @brief The title of the Window.

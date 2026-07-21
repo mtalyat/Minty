@@ -1,3 +1,4 @@
+#include "Application/__Application.hpp"
 #include "Audio/__Audio.hpp"
 #include "Core/__Core.hpp"
 #include "Event/__Event.hpp"
