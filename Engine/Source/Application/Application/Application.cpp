@@ -16,7 +16,7 @@ using namespace Minty;
 
 Minty::Application::Application(ApplicationInfo const &info)
     : m_data(info.data),
-    mp_window(nullptr),
+      mp_window(nullptr),
       mp_sceneManager(nullptr),
       mp_resourceManager(nullptr),
       mp_audioManager(nullptr),

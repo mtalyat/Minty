@@ -13,5 +13,7 @@ namespace Minty
 
         // The priority of the Scene when active
         Int priority = 0;
+
+        String name = {};
     };
 }

@@ -51,6 +51,23 @@ Scene const &Minty::SceneManager::at(SceneHandle const handle) const
     return m_scenes.at(handle);
 }
 
+SceneHandle Minty::SceneManager::find(StringView const name) const
+{
+    // Search for the scene by name
+    Vector<SceneHandle> const handles = m_scenes.get_handles();
+    for (SceneHandle const handle : handles)
+    {
+        Scene const &scene = at(handle);
+        if (scene.get_name() == name)
+        {
+            return handle;
+        }
+    }
+
+    // If not found, return an invalid handle
+    return INVALID_HANDLE;
+}
+
 void Minty::SceneManager::enable(SceneHandle const handle)
 {
     MINTY_ASSERT(m_scenes.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);

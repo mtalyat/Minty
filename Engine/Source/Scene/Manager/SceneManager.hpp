@@ -4,6 +4,7 @@
 #include "Core/Data/Vector.hpp"
 #include "Core/Data/PriorityVector.hpp"
 #include "Core/Data/HandlePool.hpp"
+#include "Core/Data/StringView.hpp"
 
 namespace Minty
 {
@@ -31,6 +32,7 @@ namespace Minty
         void destroy(SceneHandle const handle);
         Scene &at(SceneHandle const handle);
         Scene const &at(SceneHandle const handle) const;
+        SceneHandle find(StringView const name) const;
         void enable(SceneHandle const handle);
         void disable(SceneHandle const handle);
 

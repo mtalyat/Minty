@@ -40,10 +40,5 @@ namespace Minty
          * @brief The icon of the Window.
          */
 		ImageResourceHandle icon = INVALID_INDEX;
-
-		/**
-		 * @brief Called when an Event is triggered.
-		 */
-		EventCallback eventCallback = nullptr;
     };
 }
