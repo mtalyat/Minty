@@ -4,11 +4,14 @@
 #include "Core/Type/Float3.hpp"
 #include "Core/Math/Quaternion.hpp"
 #include "Core/Math/Matrix4x4.hpp"
+#include "Core/Serialize/Serializer.hpp"
 
 namespace Minty
 {
     class Transform
     {
+        friend struct Serializer<Transform>;
+
 #pragma region Constructor
 
     public:
@@ -88,4 +91,11 @@ namespace Minty
 
 #pragma endregion
     };
+    
+	template<>
+	struct Serializer<Transform>
+	{
+		static void serialize(Writer& writer, Transform const& value);
+		static Bool deserialize(Reader& reader, Transform& value);
+	};
 }
