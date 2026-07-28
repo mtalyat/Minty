@@ -39,45 +39,45 @@ namespace Minty
 #pragma region Method
 
     public:
-        EntityHandle create_entity();
-        void destroy_entity(EntityHandle const entity);
-        EntityHandle find_entity(UUID const id) const;
+        EntityHandle create();
+        void destroy(EntityHandle const entity);
+        EntityHandle find(UUID const id) const;
         String to_string(EntityHandle const entity) const;
 
         template<typename Component, typename... Args>
-        decltype(auto) add_component(EntityHandle const entity, Args &&...args);
+        decltype(auto) add(EntityHandle const entity, Args &&...args);
 
         template<typename Component, typename... Args>
-        decltype(auto) get_or_add_component(EntityHandle const entity, Args &&...args);
+        decltype(auto) get_or_add(EntityHandle const entity, Args &&...args);
 
         template<typename Component, typename... Args>
-        decltype(auto) add_or_replace_component(EntityHandle const entity, Args &&...args);
+        decltype(auto) add_or_replace(EntityHandle const entity, Args &&...args);
 
-        Bool add_component_by_name(EntityHandle const entity, StringView const componentName);
-
-        template<typename Component>
-        decltype(auto) get_component(EntityHandle const entity);
+        Bool add_by_name(EntityHandle const entity, StringView const componentName);
 
         template<typename Component>
-        decltype(auto) get_component(EntityHandle const entity) const;
+        decltype(auto) get(EntityHandle const entity);
 
         template<typename Component>
-        Component* try_get_component(EntityHandle const entity);
+        decltype(auto) get(EntityHandle const entity) const;
 
         template<typename Component>
-        Component const* try_get_component(EntityHandle const entity) const;
+        Component* try_get(EntityHandle const entity);
 
         template<typename Component>
-        Bool has_component(EntityHandle const entity) const;
+        Component const* try_get(EntityHandle const entity) const;
+
+        template<typename Component>
+        Bool has(EntityHandle const entity) const;
 
         template<typename... Components>
-        Bool has_all_component(EntityHandle const entity) const;
+        Bool has_all(EntityHandle const entity) const;
 
         template<typename... Components>
-        Bool has_any_component(EntityHandle const entity) const;
+        Bool has_any(EntityHandle const entity) const;
 
         template<typename Component>
-        void remove_component(EntityHandle const entity);
+        void remove(EntityHandle const entity);
 
         template<typename Component>
         void register_component(StringView const name);

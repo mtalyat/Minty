@@ -23,11 +23,15 @@ int main()
     applicationInfo.windowInfo.size.y = 600;
     Application app(applicationInfo);
 
-    // Create world
+    // Create Scene
     SceneManager& sceneManager = app.get_scene_manager();
     SceneInfo sceneInfo{};
     sceneInfo.name = "Demo Scene";
     SceneHandle const sceneHandle = sceneManager.create(sceneInfo);
+
+    // Create camera entity
+    EntityManager& entityManager = sceneManager.at(sceneHandle).get_entity_manager();
+    EntityHandle const cameraEntity = entityManager.create();
 
     // Enable scene
     sceneManager.enable(sceneHandle);

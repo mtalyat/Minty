@@ -18,12 +18,12 @@ Minty::EntityManager::EntityManager(EntityManagerInfo const &info)
 {
 }
 
-EntityHandle Minty::EntityManager::create_entity()
+EntityHandle Minty::EntityManager::create()
 {
     return entt_to_minty(m_registry.create());
 }
 
-void Minty::EntityManager::destroy_entity(EntityHandle const entity)
+void Minty::EntityManager::destroy(EntityHandle const entity)
 {
     MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
 
@@ -31,7 +31,7 @@ void Minty::EntityManager::destroy_entity(EntityHandle const entity)
     m_registry.destroy(minty_to_entt(entity));
 }
 
-EntityHandle Minty::EntityManager::find_entity(UUID const id) const
+EntityHandle Minty::EntityManager::find(UUID const id) const
 {
     for(auto const& [entity, uuidComp] : m_registry.view<UUIDComponent>().each())
     {
@@ -57,7 +57,7 @@ String Minty::EntityManager::to_string(EntityHandle const entity) const
     }
 }
 
-Bool Minty::EntityManager::add_component_by_name(EntityHandle const entity, StringView const componentName)
+Bool Minty::EntityManager::add_by_name(EntityHandle const entity, StringView const componentName)
 {
     MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);
     MINTY_ASSERT(m_registeredComponents.is_registered(componentName), ErrorCodeEnum::Component_NotRegistered);
@@ -164,7 +164,7 @@ void Minty::EntityManager::set_parent(EntityHandle const entity, EntityHandle co
 	}
 
 	// // if the entity has a UITransform, update its Canvas value
-	// if (UITransformComponent *uiTransform = try_get_component<UITransformComponent>(entity))
+	// if (UITransformComponent *uiTransform = try_get<UITransformComponent>(entity))
 	// {
 	// 	uiTransform->canvas = INVALID_ENTITY;
 
@@ -173,14 +173,14 @@ void Minty::EntityManager::set_parent(EntityHandle const entity, EntityHandle co
 	// 	while (parent != INVALID_ENTITY)
 	// 	{
 	// 		// if parent has canvas, set value
-	// 		if (CanvasComponent *canvas = try_get_component<CanvasComponent>(parent))
+	// 		if (CanvasComponent *canvas = try_get<CanvasComponent>(parent))
 	// 		{
 	// 			uiTransform->canvas = parent;
 	// 			break;
 	// 		}
 
 	// 		// move to next parent
-	// 		RelationshipComponent const *parentRelationship = try_get_component<RelationshipComponent const>(parent);
+	// 		RelationshipComponent const *parentRelationship = try_get<RelationshipComponent const>(parent);
 	// 		if (!parentRelationship)
 	// 		{
 	// 			break;
@@ -192,7 +192,7 @@ void Minty::EntityManager::set_parent(EntityHandle const entity, EntityHandle co
 
 EntityHandle Minty::EntityManager::get_parent(EntityHandle const entity) const
 {
-    RelationshipComponent const *relationship = try_get_component<RelationshipComponent const>(entity);
+    RelationshipComponent const *relationship = try_get<RelationshipComponent const>(entity);
     if (!relationship)
     {
         return INVALID_ENTITY;
