@@ -23,15 +23,56 @@ int main()
     applicationInfo.windowInfo.size.y = 600;
     Application app(applicationInfo);
 
+    // Load data
+    ResourceManager& resourceManager = app.get_resource_manager();
+    ClipResourceHandle const clipResourceHandle = resourceManager.load<ClipResource>("Assets/test2.clp.minty");
+    ImageResourceHandle const imageResourceHandle = resourceManager.load<ImageResource>("Assets/test.img.minty");
+    TextureResourceHandle const textureResourceHandle = resourceManager.load<TextureResource>("Assets/test.tex.minty");
+    ViewportResourceHandle const viewportResourceHandle = resourceManager.load<ViewportResource>("Assets/test.vpt.minty");
+    RenderPassResourceHandle const renderPassResourceHandle = resourceManager.load<RenderPassResource>("Assets/test.rpa.minty");
+    ShaderResourceHandle const shaderFragResourceHandle = resourceManager.load<ShaderResource>("Assets/test.frag.sha.minty");
+    ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("Assets/test.vert.sha.minty");
+    PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("Assets/test.pip.minty");
+    MaterialResourceHandle const materialResourceHandle = resourceManager.load<MaterialResource>("Assets/test.mat.minty");
+    MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Assets/test.msh.minty");
+
+    // Create render data
+    RenderManager& renderManager = app.get_render_manager();
+    TextureHandle const textureHandle = renderManager.create(textureResourceHandle);
+    RenderPassHandle const renderPassHandle = renderManager.create(renderPassResourceHandle);
+    ShaderHandle const shaderFragHandle = renderManager.create(shaderFragResourceHandle);
+    ShaderHandle const shaderVertHandle = renderManager.create(shaderVertResourceHandle);
+    PipelineHandle const pipelineHandle = renderManager.create(pipelineResourceHandle);
+    MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
+    GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
+
     // Create Scene
     SceneManager& sceneManager = app.get_scene_manager();
     SceneInfo sceneInfo{};
     sceneInfo.name = "Demo Scene";
     SceneHandle const sceneHandle = sceneManager.create(sceneInfo);
 
+    // Modify the scene
+    Scene& scene = sceneManager.at(sceneHandle);
+    EntityManager& entityManager = scene.get_entity_manager();
+
     // Create camera entity
-    EntityManager& entityManager = sceneManager.at(sceneHandle).get_entity_manager();
     EntityHandle const cameraEntity = entityManager.create();
+    CameraComponent& cameraComponent = entityManager.add<CameraComponent>(cameraEntity, Unique<Camera>::create());
+    cameraComponent.camera->direction = Float3(0.0f, 0.0f, 1.0f); // TEMP, this should be updated by the engine
+    entityManager.add<TransformComponent>(cameraEntity, Transform{
+        Float3{0.0f, 0.0f, 0.0f}
+    });
+
+    // Create model entity
+    EntityHandle const modelEntity = entityManager.create();
+    entityManager.add<TransformComponent>(modelEntity, Transform{
+        Float3{0.0f, 0.0f, 5.0f}
+    });
+    entityManager.add<MeshComponent>(modelEntity, MeshComponent{
+        geometryHandle,
+        materialHandle
+    });
 
     // Enable scene
     sceneManager.enable(sceneHandle);
