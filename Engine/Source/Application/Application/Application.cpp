@@ -109,6 +109,7 @@ Int Minty::Application::run()
 {
     Int fixedUpdates, i;
 
+    // TODO: Move this out of run()
     // Register Window events to InputManager
     Function keyListener = [this](KeyEnum key, KeyActionEnum action, KeyModifierFlagsEnum mods)
     {
@@ -127,6 +128,7 @@ Int Minty::Application::run()
         mp_inputManager->set_mouse_scroll(scroll);
     };
 
+    // TODO: Move this out of run()
     mp_window->on_key += keyListener;
     mp_window->on_mouse_button += mouseButtonListener;
     mp_window->on_mouse_move += mouseMoveListener;
@@ -162,6 +164,7 @@ Int Minty::Application::run()
     // Sync the platform to ensure all events are processed before exiting
     Platform::sync();
 
+    // TODO: Move this out of run()
     // Unregister Window events from InputManager
     mp_window->on_key -= keyListener;
     mp_window->on_mouse_button -= mouseButtonListener;
