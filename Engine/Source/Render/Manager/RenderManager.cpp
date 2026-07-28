@@ -44,6 +44,13 @@ TextureHandle Minty::RenderManager::create(TextureInfo const &info)
 
 TextureHandle Minty::RenderManager::create(TextureResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    TextureHandle const cachedHandle = get_cached_handle<TextureResourceHandle, TextureHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     TextureResource const &textureResource = resourceManager.at<TextureResource>(resourceHandle);
@@ -102,9 +109,18 @@ ViewportHandle Minty::RenderManager::create(ViewportInfo const &viewportInfo)
 
 ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    ViewportHandle const cachedHandle = get_cached_handle<ViewportResourceHandle, ViewportHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
+    // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     ViewportResource const &viewportResource = resourceManager.at<ViewportResource>(resourceHandle);
 
+    // Create info from it
     ViewportInfo viewportInfo{};
     viewportInfo.dynamic = viewportResource.dynamic;
     viewportInfo.viewPosition = viewportResource.viewPosition;
@@ -114,6 +130,7 @@ ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourc
     viewportInfo.scissorPosition = viewportResource.scissorPosition;
     viewportInfo.scissorSize = viewportResource.scissorSize;
 
+    // Create the viewport, cache the handle, and return it
     ViewportHandle const handle = create(viewportInfo);
     cache_handle<ViewportResourceHandle, ViewportHandle>(resourceHandle, handle);
     return handle;
@@ -136,6 +153,13 @@ ShaderHandle Minty::RenderManager::create(ShaderInfo const &shaderInfo)
 
 ShaderHandle Minty::RenderManager::create(ShaderResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    ShaderHandle const cachedHandle = get_cached_handle<ShaderResourceHandle, ShaderHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     ShaderResource const &shaderResource = resourceManager.at<ShaderResource>(resourceHandle);
@@ -169,6 +193,13 @@ RenderPassHandle Minty::RenderManager::create(RenderPassInfo const &renderPassIn
 
 RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    RenderPassHandle const cachedHandle = get_cached_handle<RenderPassResourceHandle, RenderPassHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     RenderPassResource const &renderPassResource = resourceManager.at<RenderPassResource>(resourceHandle);
@@ -219,6 +250,13 @@ PipelineHandle Minty::RenderManager::create(PipelineInfo const &pipelineInfo)
 
 PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    PipelineHandle const cachedHandle = get_cached_handle<PipelineResourceHandle, PipelineHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     PipelineResource const &pipelineResource = resourceManager.at<PipelineResource>(resourceHandle);
@@ -287,6 +325,13 @@ MaterialHandle Minty::RenderManager::create(MaterialInfo const &materialInfo)
 
 MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    MaterialHandle const cachedHandle = get_cached_handle<MaterialResourceHandle, MaterialHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     MaterialResource const &materialResource = resourceManager.at<MaterialResource>(resourceHandle);
@@ -340,6 +385,13 @@ RenderTargetHandle Minty::RenderManager::create(RenderTargetInfo const &renderTa
 
 RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    RenderTargetHandle const cachedHandle = get_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     ResourceManager &resourceManager = ResourceManager::get_instance();
     RenderTargetResource const &renderTargetResource = resourceManager.at<RenderTargetResource>(resourceHandle);
 
@@ -407,6 +459,13 @@ GeometryHandle Minty::RenderManager::create(GeometryInfo const &geometryInfo)
 
 GeometryHandle Minty::RenderManager::create(MeshResourceHandle const resourceHandle)
 {
+    // Check if the handle is already cached
+    GeometryHandle const cachedHandle = get_cached_handle<MeshResourceHandle, GeometryHandle>(resourceHandle);
+    if (cachedHandle != INVALID_HANDLE)
+    {
+        return cachedHandle;
+    }
+
     // Get resource data
     ResourceManager &resourceManager = ResourceManager::get_instance();
     MeshResource const &meshResource = resourceManager.at<MeshResource>(resourceHandle);

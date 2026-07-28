@@ -25,7 +25,7 @@ Bool Minty::Serializer<LayerComponent>::deserialize(Reader &reader, LayerCompone
 			value.layer = layerManager.get_layer(layerName);
 		} else
 		{
-			MINTY_ERROR(ErrorCodeEnum::Serialization_InvalidValue, layerName);
+			MINTY_ERROR_A(ErrorCodeEnum::Serialization_InvalidValue, layerName.get_data());
 			value.layer = LAYER_DEFAULT;
 		}
 	}

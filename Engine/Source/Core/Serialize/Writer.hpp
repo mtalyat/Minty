@@ -297,23 +297,23 @@ namespace Minty
 		}
 
 	protected:
-		void write_to_stream(PointerConst const data, Size const size);
-		virtual void write_key(StringView const key) = 0;
-		virtual void write_break() = 0;
-		virtual void write_kvp_separator() = 0;
-		virtual void write_type_value_pair(TypeEnum const type, PointerConst const data) = 0;
-		virtual void write_bool(Bool const value) = 0;
-		virtual void write_byte(Byte const value) = 0;
-		virtual void write_char(Char const value) = 0;
-		virtual void write_int32(Int32 const value) = 0;
-		virtual void write_uint32(UInt32 const value) = 0;
-		virtual void write_float32(Float32 const value) = 0;
-		virtual void write_int64(Int64 const value) = 0;
-		virtual void write_uint64(UInt64 const value) = 0;
-		virtual void write_float64(Float64 const value) = 0;
-		virtual void write_string(StringView const value) = 0;
-		virtual void write_raw_value(StringView const value) = 0;
-		void write_typed_value(TypeEnum const type, PointerConst const data);
+		Bool write_to_stream(PointerConst const data, Size const size);
+		virtual Bool write_key(StringView const key) = 0;
+		virtual Bool write_break() = 0;
+		virtual Bool write_kvp_separator() = 0;
+		virtual Bool write_type_value_pair(TypeEnum const type, PointerConst const data) = 0;
+		virtual Bool write_bool(Bool const value) = 0;
+		virtual Bool write_byte(Byte const value) = 0;
+		virtual Bool write_char(Char const value) = 0;
+		virtual Bool write_int32(Int32 const value) = 0;
+		virtual Bool write_uint32(UInt32 const value) = 0;
+		virtual Bool write_float32(Float32 const value) = 0;
+		virtual Bool write_int64(Int64 const value) = 0;
+		virtual Bool write_uint64(UInt64 const value) = 0;
+		virtual Bool write_float64(Float64 const value) = 0;
+		virtual Bool write_string(StringView const value) = 0;
+		virtual Bool write_raw_value(StringView const value) = 0;
+		Bool write_typed_value(TypeEnum const type, PointerConst const data);
 
 	private:
 		inline void increase_indentation()
@@ -331,7 +331,7 @@ namespace Minty
 		template<typename T>
 		Bool write_primitive(T const& value)
 		{
-			MINTY_ABORT_F(ErrorCodeEnum::Serialization_UnsupportedType, typeid(T).name());
+			MINTY_ABORT_A(ErrorCodeEnum::Serialization_UnsupportedType, typeid(T).name());
 			return false;
 		}
 

@@ -236,6 +236,22 @@ namespace Minty
             return pool.get(handle);
         }
 
+        template <typename T>
+        Bool deserialize(Reader& reader, StringView const name, Handle<T>& handle) const
+        {
+            // Read the UUID
+            UUID id;
+            if (!reader.read(name, id))
+            {
+                return false;
+            }
+
+            // Get the handle for the UUID
+            ResourcePool<T> const &pool = get_pool<T>();
+            handle = pool.find_handle(id);
+            return handle != INVALID_HANDLE;
+        }
+
         static ResourceManager &get_instance();
 
     private:

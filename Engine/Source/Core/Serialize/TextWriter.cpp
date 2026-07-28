@@ -18,120 +18,142 @@ Minty::TextWriter::TextWriter(Shared<Stream> const& stream)
 {
 }
 
-void Minty::TextWriter::write_key(StringView const key)
+Bool Minty::TextWriter::write_key(StringView const key)
 {
     // if the next item is a value, finish the previous line
     if(get_state() != StateEnum::None)
     {
-        write_break();
+        if(!write_break())
+        {
+            return false;
+        }
     }
 
     // write indentation
     for (Size i = 0; i < m_indentLevel; i++)
     {
-        write_to_stream(&INDENT_CHAR, sizeof(Char));
+        if(!write_to_stream(&INDENT_CHAR, sizeof(Char)))
+        {
+            return false;
+        }
     }
 
     // write key
     if (!key.is_empty())
     {
-        write_to_stream(key.get_data(), key.get_size());
+        if(!write_to_stream(key.get_data(), key.get_size()))
+        {
+            return false;
+        }
     }
+
+    return true;
 }
 
-void Minty::TextWriter::write_break()
+Bool Minty::TextWriter::write_break()
 {
-    write_to_stream(&BREAK_CHAR, sizeof(Char));
+    return write_to_stream(&BREAK_CHAR, sizeof(Char));
 }
 
-void Minty::TextWriter::write_kvp_separator()
+Bool Minty::TextWriter::write_kvp_separator()
 {
     switch(get_state())
     {
         case StateEnum::Key:
-            write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH);
-            break;
+            return write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH);
         case StateEnum::Empty:
-            write_to_stream(UNNAMED_KEY, UNNAMED_KEY_LENGTH);
-            break;
+            return write_to_stream(UNNAMED_KEY, UNNAMED_KEY_LENGTH);
         default:
             // no key written before value
             MINTY_ERROR(ErrorCodeEnum::Serialization_Write);
-            break;
+            return false;
     }
 }
 
-void Minty::TextWriter::write_type_value_pair(TypeEnum const type, PointerConst const data)
+Bool Minty::TextWriter::write_type_value_pair(TypeEnum const type, PointerConst const data)
 {
     // write the type as a string
     String const temp = Parser<TypeEnum>::to_string(type);
-    write_to_stream(temp.get_data(), temp.get_size());
+    if(!write_to_stream(temp.get_data(), temp.get_size()))
+    {
+        return false;
+    }
 
     // write a separator, similar to a key value pair
-    write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH);
+    if(!write_to_stream(NAMED_KEY, NAMED_KEY_LENGTH))
+    {
+        return false;
+    }
 
     // write the value, based on type
-    write_typed_value(type, data);
+    if(!write_typed_value(type, data))
+    {
+        return false;
+    }
 
     // finish the line
-    write_break();
-	set_state(StateEnum::None);
+    if(!write_break())
+    {
+        return false;
+    }
+    set_state(StateEnum::None);
+    return true;
 }
 
-void Minty::TextWriter::write_bool(Bool const value)
+Bool Minty::TextWriter::write_bool(Bool const value)
 {
     Char const buffer = value ? '1' : '0';
-    write_to_stream(&buffer, sizeof(Char));
+    return write_to_stream(&buffer, sizeof(Char));
 }
 
-void Minty::TextWriter::write_byte(Byte const value)
+Bool Minty::TextWriter::write_byte(Byte const value)
 {
     String const temp = Parser<Byte>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_char(Char const value)
+Bool Minty::TextWriter::write_char(Char const value)
 {
-    write_to_stream(&value, sizeof(Char));
+    return write_to_stream(&value, sizeof(Char));
 }
 
-void Minty::TextWriter::write_int32(Int32 const value)
+Bool Minty::TextWriter::write_int32(Int32 const value)
 {
     String const temp = Parser<Int32>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_uint32(UInt32 const value)
+Bool Minty::TextWriter::write_uint32(UInt32 const value)
 {
     String const temp = Parser<UInt32>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_float32(Float32 const value)
+Bool Minty::TextWriter::write_float32(Float32 const value)
 {
     String const temp = Parser<Float32>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_int64(Int64 const value)
+Bool Minty::TextWriter::write_int64(Int64 const value)
 {
     String const temp = Parser<Int64>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_uint64(UInt64 const value)
+Bool Minty::TextWriter::write_uint64(UInt64 const value)
 {
     String const temp = Parser<UInt64>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_float64(Float64 const value)
+Bool Minty::TextWriter::write_float64(Float64 const value)
 {
     String const temp = Parser<Float64>::to_string(value);
-    write_to_stream(temp.get_data(), temp.get_size());
+    return write_to_stream(temp.get_data(), temp.get_size());
 }
 
-void Minty::TextWriter::write_string(StringView const value)
+Bool Minty::TextWriter::write_string(StringView const value)
 {
     String const safeString = Tool::to_safe_string(value);
 
@@ -139,10 +161,10 @@ void Minty::TextWriter::write_string(StringView const value)
     builder.append('"');
     builder.append(safeString);
     builder.append('"');
-    write_to_stream(builder.get_data(), builder.get_size());
+    return write_to_stream(builder.get_data(), builder.get_size());
 }
 
-void Minty::TextWriter::write_raw_value(StringView const value)
+Bool Minty::TextWriter::write_raw_value(StringView const value)
 {
-    write_to_stream(value.get_data(), value.get_size());
+    return write_to_stream(value.get_data(), value.get_size());
 }

@@ -8,43 +8,36 @@ Minty::Writer::Writer(Shared<Stream> const &stream)
 {
 }
 
-void Minty::Writer::write_to_stream(PointerConst const data, Size const size)
+Bool Minty::Writer::write_to_stream(PointerConst const data, Size const size)
 {
     m_stream->write(data, size);
+    return true;
 }
 
-void Minty::Writer::write_typed_value(TypeEnum const type, PointerConst const data)
+Bool Minty::Writer::write_typed_value(TypeEnum const type, PointerConst const data)
 {
     switch (type)
     {
     case TypeEnum::Bool:
-        write_bool(*reinterpret_cast<Bool const *>(data));
-        return;
+        return write_bool(*reinterpret_cast<Bool const *>(data));
     case TypeEnum::Char:
-        write_char(*reinterpret_cast<Char const *>(data));
-        return;
+        return write_char(*reinterpret_cast<Char const *>(data));
     case TypeEnum::Byte:
-        write_byte(*reinterpret_cast<Byte const *>(data));
-        return;
+        return write_byte(*reinterpret_cast<Byte const *>(data));
     case TypeEnum::Int:
-        write_int32(*reinterpret_cast<Int32 const *>(data));
-        return;
+        return write_int32(*reinterpret_cast<Int32 const *>(data));
     case TypeEnum::UInt:
-        write_uint32(*reinterpret_cast<UInt32 const *>(data));
-        return;
+        return write_uint32(*reinterpret_cast<UInt32 const *>(data));
     case TypeEnum::Float:
-        write_float32(*reinterpret_cast<Float32 const *>(data));
-        return;
+        return write_float32(*reinterpret_cast<Float32 const *>(data));
     case TypeEnum::WInt:
-        write_int64(*reinterpret_cast<Int64 const *>(data));
-        return;
+        return write_int64(*reinterpret_cast<Int64 const *>(data));
     case TypeEnum::WUInt:
-        write_uint64(*reinterpret_cast<UInt64 const *>(data));
-        return;
+        return write_uint64(*reinterpret_cast<UInt64 const *>(data));
     case TypeEnum::WFloat:
-        write_float64(*reinterpret_cast<Float64 const *>(data));
-        return;
+        return write_float64(*reinterpret_cast<Float64 const *>(data));
     }
     
     MINTY_NOT_IMPLEMENTED();
+    return false;
 }
