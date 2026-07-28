@@ -20,6 +20,21 @@ namespace Minty
         {
         }
 
+        Transform(Float3 const &position)
+            : m_position(position), m_scale(Math::ONE), m_rotation(), m_dirty(true)
+        {
+        }
+
+        Transform(Float3 const &position, Float3 const &scale)
+            : m_position(position), m_scale(scale), m_rotation(), m_dirty(true)
+        {
+        }
+
+        Transform(Float3 const &position, Float3 const &scale, Quaternion const &rotation)
+            : m_position(position), m_scale(scale), m_rotation(rotation), m_dirty(true)
+        {
+        }
+
 #pragma endregion
 
 #pragma region Accessors
