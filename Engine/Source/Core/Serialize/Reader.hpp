@@ -259,13 +259,16 @@ namespace Minty
         template<typename T>
         Bool read_inline(T &value)
         {
-            // There must be no key, but there must be a value
-            if(check_key() || !check_value())
-            {
-                return false;
-            }
+            // Outdent
+            decrease_indentation();
 
-            return specialized_read<T>(value);
+            // Read the value
+            Bool result = specialized_read<T>(value);
+
+            // Indent
+            increase_indentation();
+
+            return result;
         }
 
         /**
@@ -276,13 +279,16 @@ namespace Minty
          */
         Bool read_inline(TypeEnum &type, Pointer const data)
         {
-            // There must be no key, but there must be a value
-            if(check_key() || !check_value())
-            {
-                return false;
-            }
+            // Outdent
+            decrease_indentation();
 
-            return read_type_value_pair(type, data);
+            // Read the type-value pair
+            Bool result = read_type_value_pair(type, data);
+
+            // Indent
+            increase_indentation();
+
+            return result;
         }
 
         /**
@@ -295,8 +301,8 @@ namespace Minty
         template<typename T>
         Bool read_primary(StringView const key, T &value)
         {
-            // Read inline if able
-            if (read_inline(value))
+            // Read the data from the parent, if able
+            if(!check_key() && check_value() && specialized_read<T>(value))
             {
                 return true;
             }
@@ -314,8 +320,8 @@ namespace Minty
          */
         Bool read_primary(StringView const key, TypeEnum &type, Pointer const data)
         {
-            // Read inline if able
-            if (read_inline(type, data))
+            // Read the data from the parent, if able
+            if(!check_key() && check_value() && read_type_value_pair(type, data))
             {
                 return true;
             }

@@ -55,7 +55,7 @@ Bool Minty::Serializer<Variable>::deserialize(Reader &reader, Variable &value)
 	// read typed data
 	TypeEnum type;
 	Byte buffer[TYPE_MAX_SIZE]; // max size of any type
-	if(!reader.read_inline(type, buffer))
+	if(!reader.read_primary("Type", type, buffer))
 	{
 		// failed to read any data
 		value.m_type = TypeEnum::Undefined;
