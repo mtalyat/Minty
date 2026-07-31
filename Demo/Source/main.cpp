@@ -76,12 +76,13 @@ int main()
     // Create model entity
     EntityHandle const modelEntity = entityManager.create();
     entityManager.add<TransformComponent>(modelEntity, Transform{
-        Float3{0.0f, 0.0f, 5.0f}
+        Float3{-5.0f, 0.0f, 5.0f}
     });
     entityManager.add<MeshComponent>(modelEntity, MeshComponent{
         geometryHandle,
         materialHandle
     });
+    entityManager.add<VisibleTag>(modelEntity);
 
     // Enable scene
     sceneManager.enable(sceneHandle);
