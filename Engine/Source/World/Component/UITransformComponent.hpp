@@ -6,8 +6,8 @@
  * @author Mitchell Talyat
  */
 
-#include "Minty/Data/UITransform.h"
-#include "Minty/Entity/Entity.h"
+#include "Core/Data/UITransform.hpp"
+#include "World/Entity/Entity.hpp"
 
 namespace Minty
 {
@@ -19,7 +19,7 @@ namespace Minty
 		/**
 		 * @brief The Entity with a Canvas component that this UITransformComponent belongs to.
 		 */
-		Entity canvas = INVALID_ENTITY;
+		EntityHandle canvas = INVALID_ENTITY;
 
 		/**
 		 * @brief The UITransform data.
@@ -30,7 +30,7 @@ namespace Minty
 	template<>
 	struct Serializer<UITransformComponent>
 	{
-		static Bool serialize(Writer& writer, UITransformComponent const& value);
+		static void serialize(Writer& writer, UITransformComponent const& value);
 		static Bool deserialize(Reader& reader, UITransformComponent& value);
 	};
 }

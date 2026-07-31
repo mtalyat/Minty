@@ -1,9 +1,9 @@
-#include "pch.h"
-#include "UITransformComponent.h"
+#include "pch.hpp"
+#include "UITransformComponent.hpp"
 
 using namespace Minty;
 
-Bool Minty::Serializer<UITransformComponent>::serialize(Writer &writer, UITransformComponent const &value)
+void Minty::Serializer<UITransformComponent>::serialize(Writer &writer, UITransformComponent const &value)
 {
 	Serializer<UITransform>::serialize(writer, value.transform);
 }

@@ -40,10 +40,6 @@ namespace Minty
 	public:
 		void on_render();
 
-		void on_load();
-
-		void on_unload();
-
 	private:
 
 #pragma endregion

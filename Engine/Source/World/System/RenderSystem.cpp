@@ -77,11 +77,3 @@ void Minty::RenderSystem::on_render()
 	// End the frame
 	renderManager.end_frame();
 }
-
-void Minty::RenderSystem::on_load()
-{
-}
-
-void Minty::RenderSystem::on_unload()
-{
-}
