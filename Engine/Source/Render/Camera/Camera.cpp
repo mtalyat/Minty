@@ -1,15 +1,21 @@
 #include "pch.hpp"
 #include "Camera.hpp"
+#include "Render/Camera/CameraInfo.hpp"
 
 using namespace Minty;
 
 Minty::Camera::Camera()
-    : m_perspective(CameraPerspectiveEnum::Default),
-      m_fov(45.0f),
-      m_nearPlane(0.1f),
-      m_farPlane(100.0f),
-      m_aspectRatio(16.0f / 9.0f),
-      m_size(5.0f)
+    : Camera(CameraInfo{})
+{
+}
+
+Minty::Camera::Camera(CameraInfo const &info)
+    : m_perspective(info.perspective),
+      m_fov(info.fov),
+      m_nearPlane(info.nearPlane),
+      m_farPlane(info.farPlane),
+      m_aspectRatio(info.aspectRatio),
+      m_size(info.size)
 {
 }
 

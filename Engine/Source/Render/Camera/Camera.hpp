@@ -8,6 +8,8 @@
 
 namespace Minty
 {
+    struct CameraInfo;
+
     struct Camera
     {
         friend struct Serializer<Camera>;
@@ -16,6 +18,8 @@ namespace Minty
 
     public:
         Camera();
+
+        Camera(CameraInfo const &info);
 
 #pragma endregion
 
