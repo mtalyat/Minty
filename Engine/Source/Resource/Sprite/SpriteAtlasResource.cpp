@@ -28,10 +28,25 @@ Bool Minty::Serializer<SpriteAtlasResource>::deserialize(Reader &reader, SpriteA
     }
 
     reader.read("PPU", pixelsPerUnit);
+
+    // Read default coordinate mode if any given
+    CoordinateMode defaultCoordinateMode = CoordinateModeEnum::Normalized;
+    reader.read("CoordinateMode", defaultCoordinateMode);
+
+    // Read the groups
     if(!reader.read("Groups", spriteGroups))
     {
         MINTY_ERROR(ErrorCodeEnum::Serialization_MissingKey);
         return false;
+    }
+
+    // Replace any undefined coordinate modes with the default
+    for(SpriteLayoutGroup &group : spriteGroups)
+    {
+        if(group.layout.coordinateMode == CoordinateModeEnum::Undefined)
+        {
+            group.layout.coordinateMode = defaultCoordinateMode;
+        }
     }
 
     // Set the loaded data to the resource
