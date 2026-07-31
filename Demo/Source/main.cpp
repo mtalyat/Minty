@@ -65,10 +65,10 @@ int main()
 
     // Create camera entity
     EntityHandle const cameraEntity = entityManager.create();
-    CameraComponent& cameraComponent = entityManager.add<CameraComponent>(cameraEntity, Unique<Camera>::create());
+    CameraComponent& cameraComponent = entityManager.add<CameraComponent>(cameraEntity);
     RenderViewInfo renderViewInfo{};
     renderViewInfo.direction = Math::FORWARD;
-    cameraComponent.renderViewHandle = renderManager.create(renderViewInfo, *cameraComponent.camera);
+    cameraComponent.renderViewHandle = renderManager.create(renderViewInfo, cameraComponent.camera);
     entityManager.add<TransformComponent>(cameraEntity, Transform{
         Float3{0.0f, 0.0f, 0.0f}
     });
