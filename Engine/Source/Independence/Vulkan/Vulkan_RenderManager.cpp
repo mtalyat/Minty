@@ -1553,8 +1553,8 @@ RenderViewHandle Minty::RenderManager::Impl::create(RenderViewInfo const &render
 	// Add to pool
 	RenderViewHandle const handle = m_renderViewDataPool.add(std::move(renderViewData));
 
-	// Create the view matrix based on the camera's position and direction
-	update(handle, renderViewInfo.position, camera.get_direction());
+	// Create the view matrix based on the given position and direction
+	update(handle, renderViewInfo.position, renderViewInfo.direction);
 
 	// If the active render view is invalid, set it to this one
 	if (m_boundRenderView == INVALID_HANDLE)

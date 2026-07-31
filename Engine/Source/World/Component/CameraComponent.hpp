@@ -21,7 +21,7 @@ namespace Minty
 		/**
 		 * @brief The Camera.
 		 */
-		Unique<Camera> camera = nullptr;
+		Camera camera = {};
 
 		/**
 		 * @brief The RenderViewHandle associated with this CameraComponent.

@@ -40,11 +40,11 @@ void Minty::RenderSystem::on_render()
 		}
 
 		// Render each camera/view within the scene
-		auto const cameraView = entityManager.view<CameraComponent>();
-		for (auto &&[entity, cameraComp] : cameraView.each())
+		auto const cameraView = entityManager.view<CameraComponent, TransformComponent>();
+		for (auto &&[entity, cameraComp, transformComp] : cameraView.each())
 		{
-			// Update the RenderView associated with this CameraComponent
-			renderManager.update(cameraComp.renderViewHandle, cameraComp.camera->get_position(), cameraComp.camera->get_direction());
+			// Update the RenderView orientation
+			renderManager.update(cameraComp.renderViewHandle, transformComp.transform.get_position(), transformComp.transform.get_forward());
 
 			// Bind the RenderView for rendering
 			renderManager.bind(cameraComp.renderViewHandle);

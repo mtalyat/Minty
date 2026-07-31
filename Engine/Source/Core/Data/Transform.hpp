@@ -61,6 +61,21 @@ namespace Minty
             return m_rotation;
         }
 
+        Float3 get_forward() const
+        {
+            return m_rotation * Math::FORWARD;
+        }
+
+        Float3 get_up() const
+        {
+            return m_rotation * Math::UP;
+        }
+
+        Float3 get_right() const
+        {
+            return m_rotation * Math::RIGHT;
+        }
+
         Matrix4 const &get_local_matrix() const
         {
             if (m_dirty)

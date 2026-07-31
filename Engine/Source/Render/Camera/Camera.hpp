@@ -22,8 +22,6 @@ namespace Minty
 #pragma region Accessor
 
     public:
-        inline Float3 const &get_position() const { return m_position; }
-        inline Float3 const &get_direction() const { return m_direction; }
         inline CameraPerspective const &get_perspective() const { return m_perspective; }
         inline Float get_fov() const { return m_fov; }
         inline Float get_near_plane() const { return m_nearPlane; }
@@ -33,25 +31,10 @@ namespace Minty
 
 #pragma endregion
 
-#pragma region Method
-
-    public:
-        inline void update(Float3 const &newPosition, Float3 const &newDirection)
-        {
-            m_position = newPosition;
-            m_direction = newDirection;
-        }
-
-#pragma endregion
-
 #pragma region Variables
 
     private:
-        Float3 m_position;
-        Float3 m_direction;
-
         CameraPerspective m_perspective;
-
         Float m_fov;
         Float m_nearPlane;
         Float m_farPlane;

@@ -4,9 +4,7 @@
 using namespace Minty;
 
 Minty::Camera::Camera()
-    : m_position(0.0f, 0.0f, 0.0f),
-      m_direction(0.0f, 0.0f, 1.0f),
-      m_perspective(CameraPerspectiveEnum::Default),
+    : m_perspective(CameraPerspectiveEnum::Default),
       m_fov(45.0f),
       m_nearPlane(0.1f),
       m_farPlane(100.0f),
