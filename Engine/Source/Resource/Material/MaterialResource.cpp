@@ -19,8 +19,7 @@ Bool Minty::Serializer<MaterialResource>::deserialize(Reader &reader, MaterialRe
 
 	// Load pipeline
 	ResourceManager &resourceManager = ResourceManager::get_instance();
-	pipeline = resourceManager.read<PipelineResource>(reader, "Pipeline");
-	if (pipeline == INVALID_HANDLE)
+	if (!resourceManager.read<PipelineResource>(reader, "Pipeline", pipeline))
 	{
 		MINTY_ERROR_A(ErrorCodeEnum::Resource_LoadFailed, "Pipeline");
 		return false;

@@ -19,11 +19,11 @@ Bool Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent
 
 	// Get the handle for the mesh
 	MeshResourceHandle meshResourceHandle = INVALID_HANDLE;
-	resourceManager.deserialize(reader, "Mesh", meshResourceHandle);
+	resourceManager.read(reader, "Mesh", meshResourceHandle);
 
 	// Get the handle for the material
 	MaterialResourceHandle materialResourceHandle = INVALID_HANDLE;
-	resourceManager.deserialize(reader, "Material", materialResourceHandle);
+	resourceManager.read(reader, "Material", materialResourceHandle);
 
 	// If one of the handles is invalid, both must be invalid
 	if((meshResourceHandle == INVALID_HANDLE) != (materialResourceHandle == INVALID_HANDLE))

@@ -37,8 +37,7 @@ Bool Minty::Serializer<PipelineResource>::deserialize(Reader &reader, PipelineRe
     Vector<PipelineInput> inputs = value.inputs;
 
     // Read render pass
-    renderPassHandle = resourceManager.read<RenderPassResource>(reader, "RenderPass");
-    if (renderPassHandle == INVALID_HANDLE)
+    if (!resourceManager.read<RenderPassResource>(reader, "RenderPass", renderPassHandle))
     {
         MINTY_ERROR(ErrorCodeEnum::Serialization_MissingKey);
         return false;
@@ -59,15 +58,13 @@ Bool Minty::Serializer<PipelineResource>::deserialize(Reader &reader, PipelineRe
     // Read shaders
     if (reader.indent("Stages"))
     {
-        vertexShader = resourceManager.read<ShaderResource>(reader, "Vertex");
-        if (vertexShader == INVALID_HANDLE)
+        if (!resourceManager.read<ShaderResource>(reader, "Vertex", vertexShader))
         {
             MINTY_ERROR(ErrorCodeEnum::Serialization_MissingKey);
             return false;
         }
 
-        fragmentShader = resourceManager.read<ShaderResource>(reader, "Fragment");
-        if (fragmentShader == INVALID_HANDLE)
+        if (!resourceManager.read<ShaderResource>(reader, "Fragment", fragmentShader))
         {
             MINTY_ERROR(ErrorCodeEnum::Serialization_MissingKey);
             return false;

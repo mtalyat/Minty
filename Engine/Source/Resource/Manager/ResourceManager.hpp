@@ -103,22 +103,6 @@ namespace Minty
         Vector<Byte> read_file(Path const &path) const;
 
         template <typename T>
-        Handle<T> read(Reader &reader, StringView const name)
-        {
-            // Read the UUID
-            UUID id;
-            if (!reader.read(name, id))
-            {
-                return INVALID_HANDLE;
-            }
-
-            // Get the handle for the UUID
-            ResourcePool<T> const &pool = get_pool<T>();
-            Handle<T> const handle = pool.find_handle(id);
-            return handle;
-        }
-
-        template <typename T>
         Bool contains(UUID const &id) const
         {
             ResourcePool<T> const &pool = get_pool<T>();
@@ -237,7 +221,7 @@ namespace Minty
         }
 
         template <typename T>
-        Bool deserialize(Reader& reader, StringView const name, Handle<T>& handle) const
+        Bool read(Reader& reader, StringView const name, Handle<T>& handle) const
         {
             // Read the UUID
             UUID id;
