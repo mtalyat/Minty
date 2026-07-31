@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file DirtyTag.hpp
  * @brief Header file defining the DirtyTag structure.
@@ -14,3 +16,4 @@ namespace Minty
 	{
 	};
 }
+

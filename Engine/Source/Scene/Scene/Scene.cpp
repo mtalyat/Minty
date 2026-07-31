@@ -5,8 +5,8 @@
 using namespace Minty;
 
 Minty::Scene::Scene(SceneInfo const &info)
-    : mp_entityManager(new EntityManager(info.entityManagerInfo)),
-      mp_systemManager(new SystemManager(info.systemManagerInfo)),
+    : mp_entityManager(new EntityManager(info.entityManagerInfo, *this)),
+      mp_systemManager(new SystemManager(info.systemManagerInfo, *this)),
       m_priority(info.priority),
         m_name(info.name)
 {
@@ -18,6 +18,15 @@ Minty::Scene::Scene(Scene &&scene)
       m_priority(scene.m_priority),
       m_name(scene.m_name)
 {
+    if (mp_entityManager)
+    {
+        mp_entityManager->set_scene(*this);
+    }
+    if (mp_systemManager)
+    {
+        mp_systemManager->set_scene(*this);
+    }
+
     scene.mp_entityManager = nullptr;
     scene.mp_systemManager = nullptr;
 }
@@ -33,6 +42,15 @@ Scene &Minty::Scene::operator=(Scene &&scene)
         mp_systemManager = scene.mp_systemManager;
         m_priority = scene.m_priority;
         m_name = scene.m_name;
+
+        if (mp_entityManager)
+        {
+            mp_entityManager->set_scene(*this);
+        }
+        if (mp_systemManager)
+        {
+            mp_systemManager->set_scene(*this);
+        }
 
         scene.mp_entityManager = nullptr;
         scene.mp_systemManager = nullptr;

@@ -188,7 +188,9 @@ Bool Minty::RenderManager::is_valid(ShaderHandle const handle) const
 
 RenderPassHandle Minty::RenderManager::create(RenderPassInfo const &renderPassInfo)
 {
-    return mp_impl->create(renderPassInfo);
+    RenderPassHandle const handle = mp_impl->create(renderPassInfo);
+    m_passes.add(handle);
+    return handle;
 }
 
 RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const resourceHandle)
@@ -235,6 +237,14 @@ RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const res
 
 void Minty::RenderManager::destroy(RenderPassHandle const handle)
 {
+    for(Size i = 0; i < m_passes.get_size(); ++i)
+    {
+        if(m_passes[i] == handle)
+        {
+            m_passes.remove(i);
+            break;
+        }
+    }
     mp_impl->destroy(handle);
 }
 
@@ -376,6 +386,11 @@ void Minty::RenderManager::bind(MaterialHandle const handle)
 {
 	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
     mp_impl->bind(handle);
+}
+
+PipelineHandle Minty::RenderManager::get_pipeline(MaterialHandle const handle) const
+{
+    return mp_impl->get_pipeline(handle);
 }
 
 RenderTargetHandle Minty::RenderManager::create(RenderTargetInfo const &renderTargetInfo)

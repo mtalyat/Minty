@@ -16,6 +16,9 @@ int main()
     debugInfo.loggerInfo.path = "debug.log";
     Debug::initialize(debugInfo);
 
+    // TODO: move into application...
+    SystemManager::register_system<RenderSystem>("Render");
+
     // APPLICATION
     ApplicationInfo applicationInfo{};
     applicationInfo.windowInfo.title = "Minty Engine - Demo";
@@ -54,12 +57,18 @@ int main()
 
     // Modify the scene
     Scene& scene = sceneManager.at(sceneHandle);
+    SystemManager& systemManager = scene.get_system_manager();
     EntityManager& entityManager = scene.get_entity_manager();
+
+    // Add the systems
+    systemManager.create_system<RenderSystem>();
 
     // Create camera entity
     EntityHandle const cameraEntity = entityManager.create();
     CameraComponent& cameraComponent = entityManager.add<CameraComponent>(cameraEntity, Unique<Camera>::create());
-    cameraComponent.camera->direction = Float3(0.0f, 0.0f, 1.0f); // TEMP, this should be updated by the engine
+    RenderViewInfo renderViewInfo{};
+    renderViewInfo.direction = Math::FORWARD;
+    cameraComponent.renderViewHandle = renderManager.create(renderViewInfo, *cameraComponent.camera);
     entityManager.add<TransformComponent>(cameraEntity, Transform{
         Float3{0.0f, 0.0f, 0.0f}
     });

@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file AudioListenerTag.hpp
  * @brief Header file defining the AudioListenerTag structure.
@@ -14,3 +16,4 @@ namespace Minty
 	{
     };
 }
+

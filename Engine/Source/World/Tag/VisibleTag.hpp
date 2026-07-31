@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file VisibleTag.hpp
  * @brief Header file defining the VisibleTag structure.

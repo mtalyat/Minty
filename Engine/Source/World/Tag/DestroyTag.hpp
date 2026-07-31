@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file DestroyTag.hpp
  * @brief Header file defining the DestroyTag structure.
@@ -14,3 +16,4 @@ namespace Minty
 	{
 	};
 }
+

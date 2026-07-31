@@ -9,6 +9,7 @@
 #include "Render/Camera/Camera.hpp"
 #include "Core/Data/Unique.hpp"
 #include "Core/Serialize/Serializer.hpp"
+#include "Render/Type/Handle.hpp"
 
 namespace Minty
 {
@@ -21,6 +22,11 @@ namespace Minty
 		 * @brief The Camera.
 		 */
 		Unique<Camera> camera = nullptr;
+
+		/**
+		 * @brief The RenderViewHandle associated with this CameraComponent.
+		 */
+		RenderViewHandle renderViewHandle = INVALID_HANDLE;
 	};
 
 	template<>

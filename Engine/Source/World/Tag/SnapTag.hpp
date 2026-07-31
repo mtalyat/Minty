@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file SnapTag.hpp
  * @brief Header file for the SnapTag.
@@ -14,3 +16,4 @@ namespace Minty
     {
     };
 }
+

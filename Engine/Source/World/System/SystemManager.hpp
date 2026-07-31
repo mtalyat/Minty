@@ -18,6 +18,7 @@ namespace Minty
     struct SystemManagerInfo;
     struct Timestep;
     class Event;
+    class Scene;
 
     class SystemManager
     {
@@ -47,7 +48,7 @@ namespace Minty
 #pragma region Constructor
 
     public:
-        SystemManager(SystemManagerInfo const &info);
+        SystemManager(SystemManagerInfo const &info, Scene& scene);
 
         SystemManager(SystemManager &&) = delete;
 
@@ -63,14 +64,13 @@ namespace Minty
 #pragma region Method
 
     public:
+        inline void set_scene(Scene &scene) { mp_scene = &scene; }
+
         template <typename T, typename... Args>
         T &create_system(Args &&...args);
 
         template <typename T>
         void destroy_system();
-
-        template <typename T>
-        void register_system(StringView const name, Int const priority);
 
         // Events
         void on_frame_update(Timestep const &timestep);
@@ -83,11 +83,15 @@ namespace Minty
         void on_enable();
         void on_disable();
 
+        template <typename T>
+        static void register_system(StringView const name, Int const priority = 0);
+
 #pragma endregion
 
 #pragma region Variable
 
     private:
+        Scene* mp_scene;
         Map<TypeID, Pointer> m_systems;
         PriorityVector<UpdateEventHook> m_frameUpdateHooks;
         PriorityVector<UpdateEventHook> m_fixedUpdateHooks;
@@ -98,7 +102,8 @@ namespace Minty
         PriorityVector<EventHook> m_unloadHooks;
         PriorityVector<EventHook> m_enableHooks;
         PriorityVector<EventHook> m_disableHooks;
-        Registry<Pointer> m_registeredSystems;
+
+        static Registry<Pointer, SystemManager&> s_registeredSystems;
 
 #pragma endregion
     };

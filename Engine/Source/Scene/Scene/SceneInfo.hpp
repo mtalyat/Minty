@@ -2,6 +2,7 @@
 
 #include "World/Entity/EntityManagerInfo.hpp"
 #include "World/System/SystemManagerInfo.hpp"
+#include "Core/Data/String.hpp"
 
 namespace Minty
 {

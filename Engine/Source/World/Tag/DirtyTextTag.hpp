@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file DirtyTextTag.hpp
  * @brief Header file defining the DirtyTextTag structure.
@@ -13,3 +15,4 @@ namespace Minty
     {
     };
 }
+

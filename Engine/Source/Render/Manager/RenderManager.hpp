@@ -101,6 +101,7 @@ namespace Minty
         RenderPassHandle create(RenderPassResourceHandle const resourceHandle);
         void destroy(RenderPassHandle const handle);
         Bool is_valid(RenderPassHandle const handle) const;
+        inline Vector<RenderPassHandle> const &get_passes() const { return m_passes; }
 
         PipelineHandle create(PipelineInfo const &pipelineInfo);
         PipelineHandle create(PipelineResourceHandle const resourceHandle);
@@ -115,6 +116,7 @@ namespace Minty
         Bool is_valid(MaterialHandle const handle) const;
         void update(MaterialHandle const handle, StringView const name, Variable const &value);
         void bind(MaterialHandle const handle);
+        PipelineHandle get_pipeline(MaterialHandle const handle) const;
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
         RenderTargetHandle create(RenderTargetResourceHandle const resourceHandle);
@@ -235,6 +237,7 @@ namespace Minty
     private:
         Impl *mp_impl;
 
+        Vector<RenderPassHandle> m_passes;
         Map<MaterialResourceHandle, MaterialHandle> m_materialCache;
         Map<TextureResourceHandle, TextureHandle> m_textureCache;
         Map<ShaderResourceHandle, ShaderHandle> m_shaderCache;

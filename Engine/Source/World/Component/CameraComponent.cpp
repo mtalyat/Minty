@@ -10,6 +10,7 @@ void Minty::Serializer<CameraComponent>::serialize(Writer &writer, CameraCompone
 	// Serialize the CameraComponent's camera if it exists
 	if (value.camera)
 	{
+		MINTY_NOT_IMPLEMENTED(); // "Serialization of CameraComponent is not fully implemented yet."
 		writer.write("Camera", *value.camera);
 	}
 }
@@ -21,6 +22,8 @@ Bool Minty::Serializer<CameraComponent>::deserialize(Reader &reader, CameraCompo
 	{
 		value.camera = Unique<Camera>::create();
 	}
+
+	MINTY_NOT_IMPLEMENTED(); // "Deserialization of CameraComponent is not fully implemented yet."
 
 	// Read the Camera data from the reader into the CameraComponent's camera
 	return reader.read("Camera", *value.camera);

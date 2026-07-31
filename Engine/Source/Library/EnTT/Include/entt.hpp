@@ -8608,6 +8608,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -15572,6 +15573,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -27628,6 +27630,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -35147,6 +35150,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -45729,6 +45733,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -52873,6 +52878,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -74499,6 +74505,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -82642,6 +82649,7 @@ namespace entt {
  * @return The common remainder.
  */
 [[nodiscard]] inline constexpr std::size_t fast_mod(const std::size_t value, const std::size_t mod) noexcept {
+    if(!is_power_of_two(mod)) { std::cerr << "EnTT fast_mod invalid mod=" << mod << std::endl; }
     ENTT_ASSERT_CONSTEXPR(is_power_of_two(mod), "Value must be a power of two");
     return value & (mod - 1u);
 }
@@ -88715,3 +88723,8 @@ sink(sigh<Ret(Args...), Allocator> &) -> sink<sigh<Ret(Args...), Allocator>>;
 #endif
 
 // IWYU pragma: end_exports
+
+
+
+
+

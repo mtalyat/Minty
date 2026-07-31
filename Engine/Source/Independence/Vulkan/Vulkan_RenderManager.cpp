@@ -1441,6 +1441,17 @@ void Minty::RenderManager::Impl::bind(MaterialHandle const handle)
 		VK_PIPELINE_BIND_POINT_GRAPHICS);
 }
 
+PipelineHandle Minty::RenderManager::Impl::get_pipeline(MaterialHandle const handle) const
+{
+    MINTY_ASSERT(is_valid(handle), ErrorCodeEnum::Argument_KeyNotFound);
+    
+	// Get the material data
+	Vulkan_MaterialData const &materialData = m_materialDataPool.at(handle);
+
+	// Return the pipeline handle for this material
+	return materialData.pipelineHandle;
+}
+
 RenderTargetHandle Minty::RenderManager::Impl::create(RenderTargetInfo const &renderTargetInfo)
 {
 	MINTY_CHECK(renderTargetInfo.surface != INVALID_HANDLE || renderTargetInfo.images.get_size() > 0, ErrorCodeEnum::Argument_ExpectedNonEmpty);
@@ -1516,21 +1527,21 @@ RenderViewHandle Minty::RenderManager::Impl::create(RenderViewInfo const &render
 	renderViewData.position = renderViewInfo.position;
 
 	// Create the projection matrix based on the camera's perspective or orthographic settings
-	switch (camera.perspective)
+	switch (camera.get_perspective())
 	{
 	case CameraPerspectiveEnum::Perspective:
 		renderViewData.projectionMatrix = Math::perspective(
-			camera.fov,
-			camera.aspectRatio,
-			camera.nearPlane,
-			camera.farPlane);
+			camera.get_fov(),
+			camera.get_aspect_ratio(),
+			camera.get_near_plane(),
+			camera.get_far_plane());
 		break;
 	case CameraPerspectiveEnum::Orthographic:
 		renderViewData.projectionMatrix = Math::orthographic(
-			camera.size,
-			camera.aspectRatio,
-			camera.nearPlane,
-			camera.farPlane);
+			camera.get_size(),
+			camera.get_aspect_ratio(),
+			camera.get_near_plane(),
+			camera.get_far_plane());
 		break;
 	default:
 		MINTY_NOT_IMPLEMENTED(); // "Unsupported camera perspective type."
@@ -1543,7 +1554,7 @@ RenderViewHandle Minty::RenderManager::Impl::create(RenderViewInfo const &render
 	RenderViewHandle const handle = m_renderViewDataPool.add(std::move(renderViewData));
 
 	// Create the view matrix based on the camera's position and direction
-	update(handle, renderViewInfo.position, camera.direction);
+	update(handle, renderViewInfo.position, camera.get_direction());
 
 	// If the active render view is invalid, set it to this one
 	if (m_boundRenderView == INVALID_HANDLE)

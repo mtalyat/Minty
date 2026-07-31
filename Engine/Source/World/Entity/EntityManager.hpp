@@ -5,9 +5,11 @@
 #include "Core/Data/Registry.hpp"
 #include "Core/Data/UUID.hpp"
 #include "Core/Data/StringView.hpp"
+#include "World/Entity/EntityView.hpp"
 
 namespace Minty
 {
+    class Scene;
     struct RelationshipComponent;
     struct EntityManagerInfo;
 
@@ -16,7 +18,7 @@ namespace Minty
 #pragma region Constructor
 
     public:
-        EntityManager(EntityManagerInfo const &info);
+        EntityManager(EntityManagerInfo const &info, Scene& scene);
 
         EntityManager(EntityManager const &) = delete;
 
@@ -33,6 +35,8 @@ namespace Minty
 
     public:
         inline Bool is_valid(EntityHandle const entity) const { return m_registry.valid(minty_to_entt(entity)); }
+
+    inline void set_scene(Scene &scene) { mp_scene = &scene; }
 
 #pragma endregion
 
@@ -82,6 +86,16 @@ namespace Minty
         template<typename Component>
         void register_component(StringView const name);
 
+        inline entt::registry &get_registry() { return m_registry; }
+
+        inline entt::registry const &get_registry() const { return m_registry; }
+
+        template<typename... Components>
+        auto view();
+
+        template<typename... Components>
+        auto view() const;
+
         void set_parent(EntityHandle const entity, EntityHandle const parent);
 
         EntityHandle get_parent(EntityHandle const entity) const;
@@ -100,6 +114,7 @@ namespace Minty
 #pragma region Variable
 
     private:
+        Scene* mp_scene;
         entt::registry m_registry;
         Bool m_needsSorted;
 

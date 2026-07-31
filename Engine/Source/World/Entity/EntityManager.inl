@@ -95,3 +95,15 @@ void Minty::EntityManager::register_component(StringView const name)
     // add to registered components
     m_registeredComponents.register_type<Component>(std::move(componentData));
 }
+
+template<typename... Components>
+auto Minty::EntityManager::view()
+{
+    return EntityView<decltype(m_registry.view<Components...>())>(m_registry.view<Components...>());
+}
+
+template<typename... Components>
+auto Minty::EntityManager::view() const
+{
+    return EntityView<decltype(m_registry.view<Components...>())>(m_registry.view<Components...>());
+}

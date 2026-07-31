@@ -20,7 +20,7 @@ namespace Minty
 		 * @brief The handle to the Mesh.
 		 * @note If the Mesh is null, the Material must also be null.
 		 */
-		GeometryHandle mesh = INVALID_HANDLE;
+		GeometryHandle geometry = INVALID_HANDLE;
 
 		/**
 		 * @brief The handle to the Material.

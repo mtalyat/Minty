@@ -100,6 +100,7 @@ namespace Minty
         Bool is_valid(MaterialHandle const handle) const;
         void update(MaterialHandle const handle, StringView const name, Variable const &value);
         void bind(MaterialHandle const handle);
+        PipelineHandle get_pipeline(MaterialHandle const handle) const;
 
         RenderTargetHandle create(RenderTargetInfo const &renderTargetInfo);
         void destroy(RenderTargetHandle const handle);

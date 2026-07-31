@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * @file EnabledTag.hpp
  * @brief Header file defining the EnabledTag structure.
@@ -14,3 +16,4 @@ namespace Minty
 	{
 	};
 }
+

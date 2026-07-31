@@ -44,7 +44,7 @@ Bool Minty::Serializer<MeshComponent>::deserialize(Reader &reader, MeshComponent
 	MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
 
 	// Update the MeshComponent with the handles
-	value.mesh = geometryHandle;
+	value.geometry = geometryHandle;
 	value.material = materialHandle;
 
 	return true;

@@ -12,8 +12,9 @@
 
 using namespace Minty;
 
-Minty::EntityManager::EntityManager(EntityManagerInfo const &info)
-    : m_registry(),
+Minty::EntityManager::EntityManager(EntityManagerInfo const &info, Scene& scene)
+    : mp_scene(&scene),
+      m_registry(),
       m_registeredComponents()
 {
 }

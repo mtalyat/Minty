@@ -4,8 +4,11 @@
 
 using namespace Minty;
 
-Minty::SystemManager::SystemManager(SystemManagerInfo const &info)
-    : m_systems(),
+Registry<Pointer, SystemManager&> Minty::SystemManager::s_registeredSystems = {};
+
+Minty::SystemManager::SystemManager(SystemManagerInfo const &info, Scene& scene)
+    : mp_scene(&scene),
+      m_systems(),
       m_frameUpdateHooks(),
       m_fixedUpdateHooks(),
       m_finalizeHooks(),
@@ -14,8 +17,7 @@ Minty::SystemManager::SystemManager(SystemManagerInfo const &info)
       m_loadHooks(),
       m_unloadHooks(),
       m_enableHooks(),
-      m_disableHooks(),
-      m_registeredSystems()
+      m_disableHooks()
 {
 }
 
