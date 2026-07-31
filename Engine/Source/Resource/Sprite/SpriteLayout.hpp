@@ -11,7 +11,7 @@ namespace Minty
         /**
          * @brief The coordinate mode of the sprite layout.
          */
-        CoordinateMode coordinateMode = CoordinateModeEnum::Undefined;
+        CoordinateMode coordinateMode = CoordinateModeEnum::Normalized;
 
         /**
          * @brief The offset of the sprite within the texture.

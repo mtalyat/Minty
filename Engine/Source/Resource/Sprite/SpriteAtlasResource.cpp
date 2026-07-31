@@ -30,8 +30,8 @@ Bool Minty::Serializer<SpriteAtlasResource>::deserialize(Reader &reader, SpriteA
     reader.read("PPU", pixelsPerUnit);
 
     // Read default coordinate mode if any given
-    CoordinateMode defaultCoordinateMode = CoordinateModeEnum::Normalized;
-    reader.read("CoordinateMode", defaultCoordinateMode);
+    CoordinateMode coordinateModeOverride = CoordinateModeEnum::Normalized;
+    Bool const overrideCoordinateMode = reader.read("CoordinateMode", coordinateModeOverride);
 
     // Read the groups
     if(!reader.read("Groups", spriteGroups))
@@ -41,11 +41,14 @@ Bool Minty::Serializer<SpriteAtlasResource>::deserialize(Reader &reader, SpriteA
     }
 
     // Replace any undefined coordinate modes with the default
-    for(SpriteLayoutGroup &group : spriteGroups)
+    if(overrideCoordinateMode)
     {
-        if(group.layout.coordinateMode == CoordinateModeEnum::Undefined)
+        for(SpriteLayoutGroup &group : spriteGroups)
         {
-            group.layout.coordinateMode = defaultCoordinateMode;
+            if(group.layout.coordinateMode == CoordinateModeEnum::Undefined)
+            {
+                group.layout.coordinateMode = coordinateModeOverride;
+            }
         }
     }
 
