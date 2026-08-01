@@ -1,0 +1,8 @@
+: {UUID}
+Texture: {TARGET_UUID}
+PPU: 100
+Layout
+    Mode: Normalized
+    Offset: (0, 0)
+    Size: (1, 1)
+    Pivot: (0.5, 0.5)

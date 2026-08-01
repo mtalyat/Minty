@@ -1,0 +1,4 @@
+: {UUID}
+Path: {TARGET_PATH}
+Stage: Vertex
+Entry: main

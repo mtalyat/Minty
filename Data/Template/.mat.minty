@@ -1,0 +1,6 @@
+: {UUID}
+Pipeline: {TARGET_UUID}
+Data
+    texture
+        texSampler: Object: UUID
+Stencil: 0

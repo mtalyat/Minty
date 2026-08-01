@@ -1,0 +1,7 @@
+: {UUID}
+Image: {TARGET_UUID}
+Mip: 1
+Filter: Nearest
+AddressMode: Repeat
+Aspect: Color
+Normalize: True

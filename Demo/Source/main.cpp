@@ -31,14 +31,14 @@ int main()
     ClipResourceHandle const clipResourceHandle = resourceManager.load<ClipResource>("Assets/test2.clp.minty");
     ImageResourceHandle const imageResourceHandle = resourceManager.load<ImageResource>("Assets/test.img.minty");
     TextureResourceHandle const textureResourceHandle = resourceManager.load<TextureResource>("Assets/test.tex.minty");
-    ViewportResourceHandle const viewportResourceHandle = resourceManager.load<ViewportResource>("Assets/test.vpt.minty");
-    RenderPassResourceHandle const renderPassResourceHandle = resourceManager.load<RenderPassResource>("Assets/test.rpa.minty");
-    ShaderResourceHandle const shaderFragResourceHandle = resourceManager.load<ShaderResource>("Assets/test.frag.sha.minty");
-    ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("Assets/test.vert.sha.minty");
-    PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("Assets/test.pip.minty");
+    ViewportResourceHandle const viewportResourceHandle = resourceManager.load<ViewportResource>("../Data/Default/Viewport/default.vpt.minty");
+    RenderPassResourceHandle const renderPassResourceHandle = resourceManager.load<RenderPassResource>("../Data/Default/RenderPass/default.rpa.minty");
+    ShaderResourceHandle const shaderFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/default.frag.sha.minty");
+    ShaderResourceHandle const shaderVertResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/default.vert.sha.minty");
+    PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/default.pip.minty");
     MaterialResourceHandle const materialResourceHandle = resourceManager.load<MaterialResource>("Assets/test.mat.minty");
     MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Assets/test.msh.minty");
-    SpriteResourceHandle const spriteResourceHandle = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
+    // SpriteResourceHandle const spriteResourceHandle = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -49,7 +49,7 @@ int main()
     PipelineHandle const pipelineHandle = renderManager.create(pipelineResourceHandle);
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
-    SpriteHandle const spriteHandle = renderManager.create(spriteResourceHandle);
+    // SpriteHandle const spriteHandle = renderManager.create(spriteResourceHandle);
 
     // Create Scenes
     SceneManager& sceneManager = app.get_scene_manager();
@@ -115,7 +115,7 @@ int main()
     uiEntityManager.add<UITransformComponent>(spriteEntity, INVALID_ENTITY,
         UITransform{0.0f, 0.0f, 100.0f, 100.0f, AnchorEnumFlags::Center
         });
-    uiEntityManager.add<SpriteComponent>(spriteEntity, spriteHandle);
+    // uiEntityManager.add<SpriteComponent>(spriteEntity, spriteHandle);
 
     // Run application
     return app.run();

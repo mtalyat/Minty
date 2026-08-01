@@ -1,0 +1,8 @@
+: {UUID}
+Dynamic: true
+ViewPosition: (0.0, 0.0)
+ViewSize: (800.0, 600.0)
+MinDepth: 0.0
+MaxDepth: 1.0
+ScissorPosition: (0, 0)
+ScissorSize: (800, 600)
