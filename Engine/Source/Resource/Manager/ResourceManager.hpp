@@ -144,7 +144,11 @@ namespace Minty
 
             // Create a temporary T to deserialize into, then add it to the manager
             T resource{};
-            if (!Serializer<T>::deserialize(*reader, resource))
+            Path const oldWorkingDirectory = reader->get_working_directory();
+            reader->set_working_directory(path.get_parent());
+            Bool const deserialized = Serializer<T>::deserialize(*reader, resource);
+            reader->set_working_directory(oldWorkingDirectory);
+            if (!deserialized)
             {
                 MINTY_ERROR_A(ErrorCodeEnum::Resource_LoadFailed, path.get_string().get_data());
                 return INVALID_HANDLE;

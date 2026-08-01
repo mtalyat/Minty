@@ -10,6 +10,7 @@
 #include "Core/Constant/Limit.hpp"
 #include "Core/Data/Unique.hpp"
 #include "Core/Data/Stack.hpp"
+#include "Core/Data/Path.hpp"
 #include "Core/Data/String.hpp"
 #include "Core/Data/Map.hpp"
 #include "Core/Data/Tuple.hpp"
@@ -96,6 +97,18 @@ namespace Minty
          * @param checkForIgnoredData True to check for ignored data, false to ignore it.
          */
         inline void set_validation(Bool const checkForIgnoredData) { m_validation = checkForIgnoredData; }
+
+        /**
+         * @brief Gets the working directory used for relative Path reads.
+         * @return The working directory path.
+         */
+        inline Path const &get_working_directory() const { return m_workingDirectory; }
+
+        /**
+         * @brief Sets the working directory used for relative Path reads.
+         * @param workingDirectory The working directory path.
+         */
+        inline void set_working_directory(Path const &workingDirectory) { m_workingDirectory = workingDirectory; }
 
 #pragma endregion
 
@@ -672,6 +685,27 @@ namespace Minty
                 return false;
             }
             consume_next_value();
+
+            if constexpr (std::is_same_v<T, Path>)
+            {
+                Path parsedPath;
+                if (!Parser<Path>::parse(valueStr.get_view(), parsedPath))
+                {
+                    return false;
+                }
+
+                if (!parsedPath.is_absolute() && !m_workingDirectory.is_empty())
+                {
+                    value = m_workingDirectory / parsedPath;
+                }
+                else
+                {
+                    value = parsedPath;
+                }
+
+                return true;
+            }
+
             return Parser<T>::parse(valueStr.get_view(), value);
         }
 
@@ -696,6 +730,7 @@ namespace Minty
         Unique<Stream> m_stream;
         Stack<Pointer> m_userStack;
         Map<Bookmark, Tuple<StreamPosition, UInt>> m_bookmarks;
+        Path m_workingDirectory;
         UInt m_indent;
         Bool m_validation; // when validating, check for ignored data and warn if found
 

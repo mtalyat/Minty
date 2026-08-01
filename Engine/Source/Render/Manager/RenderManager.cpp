@@ -585,6 +585,12 @@ Bool Minty::RenderManager::is_valid(SpriteHandle const handle) const
     return m_spritePool.contains(handle);
 }
 
+Sprite const &Minty::RenderManager::get(SpriteHandle const handle) const
+{
+    MINTY_ASSERT(is_valid(handle), ErrorCodeEnum::Argument_KeyNotFound);
+    return m_spritePool.at(handle);
+}
+
 Bool Minty::RenderManager::begin_frame()
 {
     // validate state
@@ -669,6 +675,11 @@ void Minty::RenderManager::draw(Transform const &transform)
 void Minty::RenderManager::draw(Transform const &transform, Object const &objectValues)
 {
     mp_impl->draw(View(&transform.get_global_matrix(), sizeof(Matrix4)), objectValues);
+}
+
+void Minty::RenderManager::draw_batch(Size const count, View const data)
+{
+    mp_impl->draw_instanced(data, count);
 }
 
 RenderManager &Minty::RenderManager::get_instance()

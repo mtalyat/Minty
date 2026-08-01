@@ -5,7 +5,7 @@
 
 namespace Minty
 {
-    enum class FlipStateEnumFlags : Int
+    enum class FlipStateEnumFlags : UInt
     {
         None = 0,
         Horizontal = 1 << 0,
@@ -23,6 +23,7 @@ namespace Minty
         constexpr FlipState() : value(FlipStateEnumFlags::None) {}
         constexpr FlipState(FlipStateEnumFlags const value) : value(value) {}
         constexpr operator FlipStateEnumFlags() const { return value; }
+        constexpr operator UInt() const { return static_cast<UInt>(value); }
 
         constexpr Bool operator==(FlipStateEnumFlags const other) const { return value == other; }
         constexpr Bool operator!=(FlipStateEnumFlags const other) const { return value != other; }

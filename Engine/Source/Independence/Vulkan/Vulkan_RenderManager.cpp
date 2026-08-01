@@ -1977,6 +1977,39 @@ void Minty::RenderManager::Impl::draw(View const pushValues, Object const &objec
 		1);
 }
 
+void Minty::RenderManager::Impl::draw_instanced(View const instanceData, Size const instanceCount)
+{
+	MINTY_ASSERT(instanceCount > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
+	MINTY_ASSERT(!instanceData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
+	MINTY_ASSERT(m_boundPipeline != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
+
+	Vulkan_PipelineData &pipelineData = m_pipelineDataPool.at(m_boundPipeline);
+	Vulkan_Frame const &currentFrame = get_current_frame();
+	Vulkan_PipelineLayoutData const &pipelineLayoutData = m_pipelineLayoutDataPool.at(pipelineData.layoutHandle);
+
+	// Upload the per-instance data to a temporary vertex buffer.
+	BufferInfo bufferInfo{};
+	bufferInfo.data = instanceData;
+	bufferInfo.usage = BufferUsageFlagsEnum::Vertex;
+	bufferInfo.frequent = true;
+	BufferHandle const instanceBufferHandle = create(bufferInfo);
+	Vulkan_BufferData const &instanceBufferData = m_bufferDataPool.at(instanceBufferHandle);
+
+	// Bind the per-instance data to the next vertex input binding.
+	Vulkan_Renderer::bind_vertex_buffer(
+		currentFrame.commandBuffer,
+		instanceBufferData.buffer,
+		1);
+
+	// The sprite shader builds a quad from gl_VertexIndex, so we draw 6 vertices per instance.
+	Vulkan_Renderer::draw(
+		currentFrame.commandBuffer,
+		6u,
+		static_cast<uint32_t>(instanceCount));
+
+	destroy(instanceBufferHandle);
+}
+
 void Minty::RenderManager::Impl::sync()
 {
 	// Sync the device

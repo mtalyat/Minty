@@ -10,7 +10,7 @@
 using namespace Minty;
 
 Minty::Reader::Reader(Unique<Stream> &&stream)
-    : m_stream(std::move(stream)), m_userStack(), m_bookmarks(), m_indent(0), m_validation(true)
+    : m_stream(std::move(stream)), m_userStack(), m_bookmarks(), m_workingDirectory(), m_indent(0), m_validation(true)
 {
 }
 

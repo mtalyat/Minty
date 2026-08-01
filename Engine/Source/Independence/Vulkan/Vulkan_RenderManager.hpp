@@ -126,6 +126,7 @@ namespace Minty
 
         // draw the bound object
         void draw(View const pushValues, Object const &objectValues);
+        void draw_instanced(View const instanceData, Size const instanceCount);
 
         // sync the GPU with the CPU, waiting for all commands to finish executing
         void sync();

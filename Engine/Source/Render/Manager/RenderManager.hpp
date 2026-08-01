@@ -143,6 +143,7 @@ namespace Minty
         SpriteHandle create(SpriteResourceHandle const resourceHandle);
         void destroy(SpriteHandle const handle);
         Bool is_valid(SpriteHandle const handle) const;
+        Sprite const& get(SpriteHandle const handle) const;
 
         Bool begin_frame();
         void end_frame();
@@ -155,6 +156,8 @@ namespace Minty
         void draw(Object const &objectValues);
         void draw(Transform const &transform);
         void draw(Transform const &transform, Object const &objectValues);
+
+        void draw_batch(Size const count, View const data);
 
         /**
          * @brief Gets the singleton instance of the RenderManager.
@@ -177,6 +180,10 @@ namespace Minty
             else if constexpr (std::is_same_v<ResourceHandle, ShaderResourceHandle> && std::is_same_v<Handle, ShaderHandle>)
             {
                 return m_shaderCache;
+            }
+            else if constexpr (std::is_same_v<ResourceHandle, SpriteResourceHandle> && std::is_same_v<Handle, SpriteHandle>)
+            {
+                return m_spriteCache;
             }
             else if constexpr (std::is_same_v<ResourceHandle, RenderPassResourceHandle> && std::is_same_v<Handle, RenderPassHandle>)
             {

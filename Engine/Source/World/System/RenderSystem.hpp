@@ -6,8 +6,6 @@
  * @author Mitchell Talyat
  */
 
-
-
 namespace Minty
 {
 	class Scene;

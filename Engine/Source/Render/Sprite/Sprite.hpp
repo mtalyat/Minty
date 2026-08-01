@@ -27,6 +27,7 @@ namespace Minty
         inline Int2 get_size() const { return m_size; }
         inline Int2 get_pivot() const { return m_pivot; }
         inline Float get_pixels_per_unit() const { return m_pixelsPerUnit; }
+        inline Float get_scale() const { return m_scale; }
 
 #pragma endregion
 
@@ -38,6 +39,7 @@ namespace Minty
         Int2 m_size;
         Int2 m_pivot;
         Float m_pixelsPerUnit;
+        Float m_scale;
 
 #pragma endregion
     };

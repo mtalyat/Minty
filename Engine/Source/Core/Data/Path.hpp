@@ -255,6 +255,12 @@ namespace Minty
 		 */
 		Path get_parent() const;
 
+		/**
+		 * @brief Checks whether this path is absolute.
+		 * @returns True if absolute, false if relative.
+		 */
+		inline Bool is_absolute() const { return m_path.is_absolute(); }
+
 #pragma endregion
 
 #pragma region Methods
