@@ -38,6 +38,7 @@ int main()
     PipelineResourceHandle const pipelineResourceHandle = resourceManager.load<PipelineResource>("Assets/test.pip.minty");
     MaterialResourceHandle const materialResourceHandle = resourceManager.load<MaterialResource>("Assets/test.mat.minty");
     MeshResourceHandle const meshResourceHandle = resourceManager.load<MeshResource>("Assets/test.msh.minty");
+    SpriteResourceHandle const spriteResourceHandle = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -48,44 +49,73 @@ int main()
     PipelineHandle const pipelineHandle = renderManager.create(pipelineResourceHandle);
     MaterialHandle const materialHandle = renderManager.create(materialResourceHandle);
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
+    SpriteHandle const spriteHandle = renderManager.create(spriteResourceHandle);
 
-    // Create Scene
+    // Create Scenes
     SceneManager& sceneManager = app.get_scene_manager();
     SceneInfo sceneInfo{};
-    sceneInfo.name = "Demo Scene";
-    SceneHandle const sceneHandle = sceneManager.create(sceneInfo);
+    sceneInfo.name = "World Scene";
+    SceneHandle const worldSceneHandle = sceneManager.create(sceneInfo);
+    sceneInfo.name = "UI Scene";
+    SceneHandle const uiSceneHandle = sceneManager.create(sceneInfo);
 
-    // Modify the scene
-    Scene& scene = sceneManager.at(sceneHandle);
-    SystemManager& systemManager = scene.get_system_manager();
-    EntityManager& entityManager = scene.get_entity_manager();
+    // WORLD SCENE
+    Scene& worldScene = sceneManager.at(worldSceneHandle);
+    SystemManager& worldSystemManager = worldScene.get_system_manager();
+    EntityManager& worldEntityManager = worldScene.get_entity_manager();
 
     // Add the systems
-    systemManager.create_system<RenderSystem>();
+    worldSystemManager.create_system<RenderSystem>();
 
     // Create camera entity
-    EntityHandle const cameraEntity = entityManager.create();
-    CameraComponent& cameraComponent = entityManager.add<CameraComponent>(cameraEntity);
+    EntityHandle const cameraEntity = worldEntityManager.create();
+    CameraComponent& cameraComponent = worldEntityManager.add<CameraComponent>(cameraEntity);
     RenderViewInfo renderViewInfo{};
     renderViewInfo.direction = Math::FORWARD;
     cameraComponent.renderViewHandle = renderManager.create(renderViewInfo, cameraComponent.camera);
-    entityManager.add<TransformComponent>(cameraEntity, Transform{
+    worldEntityManager.add<TransformComponent>(cameraEntity, Transform{
         Float3{0.0f, 0.0f, 0.0f}
     });
 
     // Create model entity
-    EntityHandle const modelEntity = entityManager.create();
-    entityManager.add<TransformComponent>(modelEntity, Transform{
+    EntityHandle const modelEntity = worldEntityManager.create();
+    worldEntityManager.add<TransformComponent>(modelEntity, Transform{
         Float3{-5.0f, 0.0f, 5.0f}
     });
-    entityManager.add<MeshComponent>(modelEntity, MeshComponent{
+    worldEntityManager.add<MeshComponent>(modelEntity, MeshComponent{
         geometryHandle,
         materialHandle
     });
-    entityManager.add<VisibleTag>(modelEntity);
+    worldEntityManager.add<VisibleTag>(modelEntity);
 
     // Enable scene
-    sceneManager.enable(sceneHandle);
+    sceneManager.enable(worldSceneHandle);
+
+    // UI SCENE
+    Scene& uiScene = sceneManager.at(uiSceneHandle);
+    SystemManager& uiSystemManager = uiScene.get_system_manager();
+    EntityManager& uiEntityManager = uiScene.get_entity_manager();
+
+    // Add the systems
+    uiSystemManager.create_system<RenderSystem>();
+
+    // Create camera entity
+    EntityHandle const uiCameraEntity = uiEntityManager.create();
+    CameraComponent& uiCameraComponent = uiEntityManager.add<CameraComponent>(uiCameraEntity);
+    RenderViewInfo uiRenderViewInfo{};
+    uiRenderViewInfo.direction = Math::FORWARD;
+    uiCameraComponent.renderViewHandle = renderManager.create(uiRenderViewInfo, uiCameraComponent.camera);
+    uiEntityManager.add<TransformComponent>(uiCameraEntity);
+
+    // Create canvas entity
+    EntityHandle const canvasEntity = uiEntityManager.create();
+
+    // Create sprite entity
+    EntityHandle const spriteEntity = uiEntityManager.create();
+    uiEntityManager.add<UITransformComponent>(spriteEntity, INVALID_ENTITY,
+        UITransform{0.0f, 0.0f, 100.0f, 100.0f, AnchorEnumFlags::Center
+        });
+    uiEntityManager.add<SpriteComponent>(spriteEntity, spriteHandle);
 
     // Run application
     return app.run();

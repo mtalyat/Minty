@@ -7,7 +7,7 @@ using namespace Minty;
 
 Bool Minty::Serializer<SpriteLayout>::serialize(Writer &writer, SpriteLayout const &value)
 {
-    writer.write("CoordinateMode", value.coordinateMode);
+    writer.write("Mode", value.coordinateMode);
     writer.write("Offset", value.offset);
     writer.write("Size", value.size);
     writer.write("Pivot", value.pivot);
@@ -16,7 +16,7 @@ Bool Minty::Serializer<SpriteLayout>::serialize(Writer &writer, SpriteLayout con
 
 Bool Minty::Serializer<SpriteLayout>::deserialize(Reader &reader, SpriteLayout &value)
 {
-    reader.read("CoordinateMode", value.coordinateMode);
+    reader.read("Mode", value.coordinateMode);
     reader.read("Offset", value.offset);
     reader.read("Size", value.size);
     reader.read("Pivot", value.pivot);

@@ -1,0 +1,8 @@
+: 00000000000000000000000000000001
+Texture: F30D92BD9FE35248E75BA4BEF914E902
+PPU: 30
+Layout
+    Mode: Pixel
+    Offset: (0, 14*30)
+    Size: (30, 30)
+    Pivot: (15, 15)
