@@ -37,6 +37,9 @@ namespace Minty
     class Shader;
     using ShaderHandle = Handle<Shader>;
 
+    class Sprite;
+    using SpriteHandle = Handle<Sprite>;
+
     class Surface;
     using SurfaceHandle = Handle<Surface>;
 

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Render/Sprite/Sprite.hpp"
 #include "Render/Type/Handle.hpp"
 #include "Core/Type/Color.hpp"
 #include "Core/Type/FlipState.hpp"
@@ -12,7 +11,7 @@ namespace Minty
         /**
          * @brief The sprite to render.
          */
-        Sprite sprite = {};
+        SpriteHandle spriteHandle = INVALID_HANDLE;
 
         /**
          * @brief The material to use for rendering the sprite.

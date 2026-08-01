@@ -17,21 +17,21 @@ namespace Minty
         /**
          * @brief The offset of the sprite within the texture.
          */
-		Int2 m_offset = Int2(0, 0);
+		Int2 offset = Int2(0, 0);
 
         /**
          * @brief The size of the sprite within the texture.
          */
-		Int2 m_size = Int2(0, 0);
+		Int2 size = Int2(0, 0);
         
         /**
          * @brief The pivot of the sprite within the texture.
          */
-		Int2 m_pivot = Int2(0, 0);
+		Int2 pivot = Int2(0, 0);
 
         /**
          * @brief The number of pixels that fit within 1 unit of world space.
          */
-		Float m_pixelsPerUnit = 100.0f;
+		Float pixelsPerUnit = 100.0f;
     };
 }

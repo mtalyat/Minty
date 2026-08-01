@@ -31,6 +31,7 @@
 #include "Resource/RenderPass/RenderPassResource.hpp"
 #include "Resource/RenderTarget/RenderTargetResource.hpp"
 #include "Resource/Shader/ShaderResource.hpp"
+#include "Resource/Sprite/SpriteResource.hpp"
 #include "Resource/Texture/TextureResource.hpp"
 #include "Resource/Viewport/ViewportResource.hpp"
 
@@ -288,6 +289,10 @@ namespace Minty
             {
                 return m_assets_shaders;
             }
+            else if constexpr (std::is_same_v<T, SpriteResource>)
+            {
+                return m_assets_sprites;
+            }
             else if constexpr (std::is_same_v<T, TextureResource>)
             {
                 return m_assets_textures;
@@ -327,6 +332,7 @@ namespace Minty
         ResourcePool<RenderPassResource> m_assets_renderPasses;
         ResourcePool<RenderTargetResource> m_assets_renderTargets;
         ResourcePool<ShaderResource> m_assets_shaders;
+        ResourcePool<SpriteResource> m_assets_sprites;
         ResourcePool<TextureResource> m_assets_textures;
         ResourcePool<ViewportResource> m_assets_viewports;
 

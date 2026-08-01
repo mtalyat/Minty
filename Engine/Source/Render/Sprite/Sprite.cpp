@@ -11,9 +11,9 @@ Minty::Sprite::Sprite()
 
 Minty::Sprite::Sprite(SpriteInfo const &info)
     : m_textureHandle(info.textureHandle),
-      m_offset(info.m_offset),
-      m_size(info.m_size),
-      m_pivot(info.m_pivot),
-      m_pixelsPerUnit(info.m_pixelsPerUnit)
+      m_offset(info.offset),
+      m_size(info.size),
+      m_pivot(info.pivot),
+      m_pixelsPerUnit(info.pixelsPerUnit)
 {
 }

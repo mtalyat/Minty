@@ -10,17 +10,19 @@
 #include "Render/Pipeline/PipelineInfo.hpp"
 #include "Render/Material/MaterialInfo.hpp"
 #include "Render/Geometry/GeometryInfo.hpp"
+#include "Render/Sprite/SpriteInfo.hpp"
+#include "Render/Sprite/Sprite.hpp"
 #include "Core/Data/Transform.hpp"
 
 using namespace Minty;
 
-RenderManager* RenderManager::s_instance = nullptr;
+RenderManager *RenderManager::s_instance = nullptr;
 
 #ifdef MINTY_VULKAN
 #include "Independence/Vulkan/Vulkan_RenderManager.hpp"
 #endif
 
-Minty::RenderManager::RenderManager(RenderManagerInfo const& info)
+Minty::RenderManager::RenderManager(RenderManagerInfo const &info)
     : mp_impl(nullptr), m_state(State::Idle)
 {
     mp_impl = new Impl(info);
@@ -45,8 +47,8 @@ TextureHandle Minty::RenderManager::create(TextureInfo const &info)
 TextureHandle Minty::RenderManager::create(TextureResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    TextureHandle const cachedHandle = get_cached_handle<TextureResourceHandle, TextureHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    TextureHandle cachedHandle;
+    if (try_get_cached_handle<TextureResourceHandle, TextureHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -79,12 +81,19 @@ TextureHandle Minty::RenderManager::create(TextureResourceHandle const resourceH
 
 void Minty::RenderManager::destroy(TextureHandle const handle)
 {
+    // Destroy the texture and remove it from the cache
+    remove_cached_handle<TextureResourceHandle, TextureHandle>(handle);
     mp_impl->destroy(handle);
 }
 
 Bool Minty::RenderManager::is_valid(TextureHandle const handle) const
 {
     return mp_impl->is_valid(handle);
+}
+
+UInt2 Minty::RenderManager::get_size(TextureHandle const handle) const
+{
+    return mp_impl->get_size(handle);
 }
 
 SurfaceHandle Minty::RenderManager::create(SurfaceInfo const &surfaceInfo)
@@ -110,8 +119,8 @@ ViewportHandle Minty::RenderManager::create(ViewportInfo const &viewportInfo)
 ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    ViewportHandle const cachedHandle = get_cached_handle<ViewportResourceHandle, ViewportHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    ViewportHandle cachedHandle;
+    if (try_get_cached_handle<ViewportResourceHandle, ViewportHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -138,6 +147,8 @@ ViewportHandle Minty::RenderManager::create(ViewportResourceHandle const resourc
 
 void Minty::RenderManager::destroy(ViewportHandle const handle)
 {
+    // Destroy the viewport and remove it from the cache
+    remove_cached_handle<ViewportResourceHandle, ViewportHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -154,8 +165,8 @@ ShaderHandle Minty::RenderManager::create(ShaderInfo const &shaderInfo)
 ShaderHandle Minty::RenderManager::create(ShaderResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    ShaderHandle const cachedHandle = get_cached_handle<ShaderResourceHandle, ShaderHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    ShaderHandle cachedHandle;
+    if (try_get_cached_handle<ShaderResourceHandle, ShaderHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -178,6 +189,8 @@ ShaderHandle Minty::RenderManager::create(ShaderResourceHandle const resourceHan
 
 void Minty::RenderManager::destroy(ShaderHandle const handle)
 {
+    // Destroy the shader and remove it from the cache
+    remove_cached_handle<ShaderResourceHandle, ShaderHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -196,8 +209,8 @@ RenderPassHandle Minty::RenderManager::create(RenderPassInfo const &renderPassIn
 RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    RenderPassHandle const cachedHandle = get_cached_handle<RenderPassResourceHandle, RenderPassHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    RenderPassHandle cachedHandle;
+    if (try_get_cached_handle<RenderPassResourceHandle, RenderPassHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -213,21 +226,11 @@ RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const res
     renderPassInfo.clearDepth = renderPassResource.clearDepth;
     renderPassInfo.clearStencil = renderPassResource.clearStencil;
     renderPassInfo.renderTarget = renderPassResource.renderTarget == INVALID_HANDLE
-        ? INVALID_HANDLE
-        : get_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(renderPassResource.renderTarget);
+                                      ? INVALID_HANDLE
+                                      : get_or_create_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(renderPassResource.renderTarget);
     renderPassInfo.viewport = renderPassResource.viewport == INVALID_HANDLE
-        ? INVALID_HANDLE
-        : get_cached_handle<ViewportResourceHandle, ViewportHandle>(renderPassResource.viewport);
-
-    if (renderPassInfo.renderTarget == INVALID_HANDLE && renderPassResource.renderTarget != INVALID_HANDLE)
-    {
-        renderPassInfo.renderTarget = create(renderPassResource.renderTarget);
-    }
-
-    if (renderPassInfo.viewport == INVALID_HANDLE && renderPassResource.viewport != INVALID_HANDLE)
-    {
-        renderPassInfo.viewport = create(renderPassResource.viewport);
-    }
+                                  ? INVALID_HANDLE
+                                  : get_or_create_cached_handle<ViewportResourceHandle, ViewportHandle>(renderPassResource.viewport);
 
     // Create the render pass
     RenderPassHandle const handle = create(renderPassInfo);
@@ -237,14 +240,18 @@ RenderPassHandle Minty::RenderManager::create(RenderPassResourceHandle const res
 
 void Minty::RenderManager::destroy(RenderPassHandle const handle)
 {
-    for(Size i = 0; i < m_passes.get_size(); ++i)
+    // Remove the render pass from the list of passes
+    for (Size i = 0; i < m_passes.get_size(); ++i)
     {
-        if(m_passes[i] == handle)
+        if (m_passes[i] == handle)
         {
             m_passes.remove(i);
             break;
         }
     }
+
+    // Destroy the render pass and remove it from the cache
+    remove_cached_handle<RenderPassResourceHandle, RenderPassHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -261,8 +268,8 @@ PipelineHandle Minty::RenderManager::create(PipelineInfo const &pipelineInfo)
 PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    PipelineHandle const cachedHandle = get_cached_handle<PipelineResourceHandle, PipelineHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    PipelineHandle cachedHandle;
+    if (try_get_cached_handle<PipelineResourceHandle, PipelineHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -273,25 +280,9 @@ PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourc
 
     // Create info from it
     PipelineInfo pipelineInfo{};
-    pipelineInfo.renderPass = get_cached_handle<RenderPassResourceHandle, RenderPassHandle>(pipelineResource.renderPass);
-    pipelineInfo.vertexShader = get_cached_handle<ShaderResourceHandle, ShaderHandle>(pipelineResource.vertexShader);
-    pipelineInfo.fragmentShader = get_cached_handle<ShaderResourceHandle, ShaderHandle>(pipelineResource.fragmentShader);
-
-    if (pipelineInfo.renderPass == INVALID_HANDLE)
-    {
-        pipelineInfo.renderPass = create(pipelineResource.renderPass);
-    }
-
-    if (pipelineInfo.vertexShader == INVALID_HANDLE)
-    {
-        pipelineInfo.vertexShader = create(pipelineResource.vertexShader);
-    }
-
-    if (pipelineInfo.fragmentShader == INVALID_HANDLE)
-    {
-        pipelineInfo.fragmentShader = create(pipelineResource.fragmentShader);
-    }
-
+    pipelineInfo.renderPass = get_or_create_cached_handle<RenderPassResourceHandle, RenderPassHandle>(pipelineResource.renderPass);
+    pipelineInfo.vertexShader = get_or_create_cached_handle<ShaderResourceHandle, ShaderHandle>(pipelineResource.vertexShader);
+    pipelineInfo.fragmentShader = get_or_create_cached_handle<ShaderResourceHandle, ShaderHandle>(pipelineResource.fragmentShader);
     pipelineInfo.viewport = INVALID_HANDLE; // TODO: viewport
     pipelineInfo.primitiveTopology = pipelineResource.primitiveTopology;
     pipelineInfo.polygonMode = pipelineResource.polygonMode;
@@ -314,6 +305,8 @@ PipelineHandle Minty::RenderManager::create(PipelineResourceHandle const resourc
 
 void Minty::RenderManager::destroy(PipelineHandle const handle)
 {
+    // Destroy the pipeline and remove it from the cache
+    remove_cached_handle<PipelineResourceHandle, PipelineHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -324,7 +317,7 @@ Bool Minty::RenderManager::is_valid(PipelineHandle const handle) const
 
 void Minty::RenderManager::bind(PipelineHandle const handle)
 {
-	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
+    MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
     mp_impl->bind(handle);
 }
 
@@ -336,8 +329,8 @@ MaterialHandle Minty::RenderManager::create(MaterialInfo const &materialInfo)
 MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    MaterialHandle const cachedHandle = get_cached_handle<MaterialResourceHandle, MaterialHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    MaterialHandle cachedHandle;
+    if (try_get_cached_handle<MaterialResourceHandle, MaterialHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -348,11 +341,7 @@ MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourc
 
     // Create info from it
     MaterialInfo materialInfo{};
-    materialInfo.pipeline = get_cached_handle<PipelineResourceHandle, PipelineHandle>(materialResource.pipeline);
-    if (materialInfo.pipeline == INVALID_HANDLE)
-    {
-        materialInfo.pipeline = create(materialResource.pipeline);
-    }
+    materialInfo.pipeline = get_or_create_cached_handle<PipelineResourceHandle, PipelineHandle>(materialResource.pipeline);
     materialInfo.values = materialResource.cargo;
     materialInfo.stencil = materialResource.stencil;
 
@@ -364,6 +353,8 @@ MaterialHandle Minty::RenderManager::create(MaterialResourceHandle const resourc
 
 void Minty::RenderManager::destroy(MaterialHandle const handle)
 {
+    // Destroy the material and remove it from the cache
+    remove_cached_handle<MaterialResourceHandle, MaterialHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -384,7 +375,7 @@ void Minty::RenderManager::update(MaterialHandle const handle, StringView const 
 
 void Minty::RenderManager::bind(MaterialHandle const handle)
 {
-	MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
+    MINTY_ASSERT(m_state >= State::Pass, ErrorCodeEnum::Render_NotRenderingPass);
     mp_impl->bind(handle);
 }
 
@@ -401,8 +392,8 @@ RenderTargetHandle Minty::RenderManager::create(RenderTargetInfo const &renderTa
 RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    RenderTargetHandle const cachedHandle = get_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    RenderTargetHandle cachedHandle;
+    if (try_get_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -413,11 +404,7 @@ RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const
     RenderTargetInfo renderTargetInfo{};
     for (TextureResourceHandle const &textureResourceHandle : renderTargetResource.images)
     {
-        TextureHandle textureHandle = get_cached_handle<TextureResourceHandle, TextureHandle>(textureResourceHandle);
-        if (textureHandle == INVALID_HANDLE)
-        {
-            textureHandle = create(textureResourceHandle);
-        }
+        TextureHandle const textureHandle = get_or_create_cached_handle<TextureResourceHandle, TextureHandle>(textureResourceHandle);
         renderTargetInfo.images.add(textureHandle);
     }
 
@@ -428,6 +415,8 @@ RenderTargetHandle Minty::RenderManager::create(RenderTargetResourceHandle const
 
 void Minty::RenderManager::destroy(RenderTargetHandle const handle)
 {
+    // Destroy the render target and remove it from the cache
+    remove_cached_handle<RenderTargetResourceHandle, RenderTargetHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -436,7 +425,7 @@ Bool Minty::RenderManager::is_valid(RenderTargetHandle const handle) const
     return mp_impl->is_valid(handle);
 }
 
-RenderViewHandle Minty::RenderManager::create(RenderViewInfo const &renderViewInfo, Camera const& camera)
+RenderViewHandle Minty::RenderManager::create(RenderViewInfo const &renderViewInfo, Camera const &camera)
 {
     return mp_impl->create(renderViewInfo, camera);
 }
@@ -475,8 +464,8 @@ GeometryHandle Minty::RenderManager::create(GeometryInfo const &geometryInfo)
 GeometryHandle Minty::RenderManager::create(MeshResourceHandle const resourceHandle)
 {
     // Check if the handle is already cached
-    GeometryHandle const cachedHandle = get_cached_handle<MeshResourceHandle, GeometryHandle>(resourceHandle);
-    if (cachedHandle != INVALID_HANDLE)
+    GeometryHandle cachedHandle;
+    if (try_get_cached_handle<MeshResourceHandle, GeometryHandle>(resourceHandle, cachedHandle))
     {
         return cachedHandle;
     }
@@ -498,6 +487,8 @@ GeometryHandle Minty::RenderManager::create(MeshResourceHandle const resourceHan
 
 void Minty::RenderManager::destroy(GeometryHandle const handle)
 {
+    // Destroy the geometry and remove it from the cache
+    remove_cached_handle<MeshResourceHandle, GeometryHandle>(handle);
     mp_impl->destroy(handle);
 }
 
@@ -509,6 +500,89 @@ Bool Minty::RenderManager::is_valid(GeometryHandle const handle) const
 void Minty::RenderManager::bind(GeometryHandle const handle)
 {
     mp_impl->bind(handle);
+}
+
+SpriteHandle Minty::RenderManager::create(SpriteInfo const &spriteInfo)
+{
+    // Create the sprite
+    Sprite sprite(spriteInfo);
+
+    // Add it to the pool and return the handle
+    SpriteHandle const handle = m_spritePool.add(std::move(sprite));
+    return handle;
+}
+
+SpriteHandle Minty::RenderManager::create(SpriteResourceHandle const resourceHandle)
+{
+    // Check if the handle is already cached
+    SpriteHandle cachedHandle;
+    if (try_get_cached_handle<SpriteResourceHandle, SpriteHandle>(resourceHandle, cachedHandle))
+    {
+        return cachedHandle;
+    }
+
+    // Get resource data
+    ResourceManager &resourceManager = ResourceManager::get_instance();
+    SpriteResource const &spriteResource = resourceManager.at<SpriteResource>(resourceHandle);
+
+    // Create info from the resource
+    SpriteInfo spriteInfo{};
+    spriteInfo.textureHandle = get_or_create_cached_handle<TextureResourceHandle, TextureHandle>(spriteResource.textureResourceHandle);
+    spriteInfo.pixelsPerUnit = spriteResource.pixelsPerUnit;
+
+    // Use the layout to determine how to set the offset, size, and pivot of the sprite
+    switch (spriteResource.layout.coordinateMode)
+    {
+    case CoordinateModeEnum::Normalized:
+    {
+        UInt2 const textureSize = get_size(spriteInfo.textureHandle);
+        spriteInfo.offset = Int2(
+            static_cast<Int>(spriteResource.layout.offset.x * textureSize.x),
+            static_cast<Int>(spriteResource.layout.offset.y * textureSize.y));
+        spriteInfo.size = Int2(
+            static_cast<Int>(spriteResource.layout.size.x * textureSize.x),
+            static_cast<Int>(spriteResource.layout.size.y * textureSize.y));
+        spriteInfo.pivot = Int2(
+            static_cast<Int>(spriteResource.layout.pivot.x * textureSize.x),
+            static_cast<Int>(spriteResource.layout.pivot.y * textureSize.y));
+    }
+    break;
+    case CoordinateModeEnum::Pixel:
+    {
+        spriteInfo.offset = Int2(
+            static_cast<Int>(spriteResource.layout.offset.x),
+            static_cast<Int>(spriteResource.layout.offset.y));
+        spriteInfo.size = Int2(
+            static_cast<Int>(spriteResource.layout.size.x),
+            static_cast<Int>(spriteResource.layout.size.y));
+        spriteInfo.pivot = Int2(
+            static_cast<Int>(spriteResource.layout.pivot.x),
+            static_cast<Int>(spriteResource.layout.pivot.y));
+    }
+    break;
+    default:
+        MINTY_ERROR(ErrorCodeEnum::NotSupported);
+        break;
+    }
+
+    // Create the sprite
+    SpriteHandle const handle = create(spriteInfo);
+    cache_handle<SpriteResourceHandle, SpriteHandle>(resourceHandle, handle);
+    return handle;
+}
+
+void Minty::RenderManager::destroy(SpriteHandle const handle)
+{
+    // Remove the handle from the cache if it exists
+    remove_cached_handle<SpriteResourceHandle, SpriteHandle>(handle);
+
+    // Remove the sprite from the pool
+    m_spritePool.remove(handle);
+}
+
+Bool Minty::RenderManager::is_valid(SpriteHandle const handle) const
+{
+    return m_spritePool.contains(handle);
 }
 
 Bool Minty::RenderManager::begin_frame()
@@ -541,7 +615,7 @@ void Minty::RenderManager::end_frame()
     MINTY_ASSERT(m_state >= State::Frame, ErrorCodeEnum::Render_NotRenderingFrame);
 
     mp_impl->end_frame();
-    
+
     m_state = State::Idle;
 }
 

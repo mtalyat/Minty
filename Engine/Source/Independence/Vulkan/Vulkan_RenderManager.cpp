@@ -304,6 +304,17 @@ void Minty::RenderManager::Impl::set_data(TextureHandle const handle, View const
 	Vulkan_Renderer::finish_command_buffer_single(m_device, m_commandPool, commandBuffer, m_graphicsQueue);
 }
 
+UInt2 Minty::RenderManager::Impl::get_size(TextureHandle const handle) const
+{
+	MINTY_ASSERT(m_textureDataPool.contains(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
+    // Get the texture data
+	Vulkan_TextureData const &textureData = m_textureDataPool.at(handle);
+
+	// Return the size
+	return UInt2(textureData.size.width, textureData.size.height);
+}
+
 SurfaceHandle Minty::RenderManager::Impl::create(SurfaceInfo const &surfaceInfo)
 {
 	// Get the window to use

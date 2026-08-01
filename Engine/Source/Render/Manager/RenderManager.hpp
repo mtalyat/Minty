@@ -11,6 +11,7 @@
 #include "Resource/Type/Handle.hpp"
 #include "Render/Type/Handle.hpp"
 #include "Core/Data/Map.hpp"
+#include "Core/Data/HandlePool.hpp"
 #include "Core/Data/StringView.hpp"
 #include "Core/Data/Variable.hpp"
 #include "Core/Data/Object.hpp"
@@ -27,6 +28,7 @@ namespace Minty
     struct RenderTargetInfo;
     struct RenderViewInfo;
     struct ShaderInfo;
+    struct SpriteInfo;
     struct SurfaceInfo;
     struct TextureInfo;
     struct ViewportInfo;
@@ -82,6 +84,7 @@ namespace Minty
         TextureHandle create(TextureResourceHandle const resourceHandle);
         void destroy(TextureHandle const handle);
         Bool is_valid(TextureHandle const handle) const;
+        UInt2 get_size(TextureHandle const handle) const;
 
         SurfaceHandle create(SurfaceInfo const &surfaceInfo);
         void destroy(SurfaceHandle const handle);
@@ -135,6 +138,11 @@ namespace Minty
         void destroy(GeometryHandle const handle);
         Bool is_valid(GeometryHandle const handle) const;
         void bind(GeometryHandle const handle);
+
+        SpriteHandle create(SpriteInfo const &spriteInfo);
+        SpriteHandle create(SpriteResourceHandle const resourceHandle);
+        void destroy(SpriteHandle const handle);
+        Bool is_valid(SpriteHandle const handle) const;
 
         Bool begin_frame();
         void end_frame();
@@ -206,7 +214,7 @@ namespace Minty
         }
 
         template<typename ResourceHandle, typename Handle>
-        Handle get_cached_handle(ResourceHandle const resourceHandle)
+        Bool try_get_cached_handle(ResourceHandle const resourceHandle, Handle &outHandle)
         {
             Map<ResourceHandle, Handle> &cache = get_cache<ResourceHandle, Handle>();
             
@@ -214,20 +222,67 @@ namespace Minty
             auto it = cache.find(resourceHandle);
             if (it == cache.end())
             {
-                return INVALID_HANDLE;
+                return false;
             }
             
             // If found, check that it is still valid and return it
             Handle const handle = it->get_second();
             if (!is_valid(handle))
             {
-                // No longer valid, so remove it from the cache and return invalid
+                // No longer valid, so remove it from the cache and return false
                 cache.remove(resourceHandle);
-                return INVALID_HANDLE;
+                return false;
             }
 
-            // Valid handle found, return it
+            // Valid handle found, set outHandle and return true
+            outHandle = handle;
+            return true;
+        }
+
+        template<typename ResourceHandle, typename Handle>
+        Handle get_cached_handle(ResourceHandle const resourceHandle)
+        {
+            Map<ResourceHandle, Handle> &cache = get_cache<ResourceHandle, Handle>();
+            
+            // Find existing handle in the cache
+            auto it = cache.find(resourceHandle);
+            MINTY_ASSERT(it != cache.end(), ErrorCodeEnum::Argument_KeyNotFound);
+            
+            // If found, check that it is still valid and return it
+            Handle const handle = it->get_second();
+            MINTY_ASSERT(is_valid(handle), ErrorCodeEnum::Argument_KeyNotFound);
+
             return handle;
+        }
+
+        template<typename ResourceHandle, typename Handle>
+        void remove_cached_handle(Handle const handle)
+        {
+            Map<ResourceHandle, Handle> &cache = get_cache<ResourceHandle, Handle>();
+            
+            // Find the resource handle corresponding to the given handle
+            for (auto it = cache.begin(); it != cache.end(); ++it)
+            {
+                if (it->get_second() == handle)
+                {
+                    cache.remove(it->get_first());
+                    return;
+                }
+            }
+        }
+
+        template<typename ResourceHandle, typename Handle>
+        Handle get_or_create_cached_handle(ResourceHandle const resourceHandle)
+        {
+            Handle cachedHandle;
+            if (try_get_cached_handle<ResourceHandle, Handle>(resourceHandle, cachedHandle))
+            {
+                return cachedHandle;
+            }
+            
+            // Create a new handle for the resource
+            Handle newHandle = create(resourceHandle);
+            return newHandle;
         }
 
 #pragma endregion
@@ -237,7 +292,13 @@ namespace Minty
     private:
         Impl *mp_impl;
 
+        // List if passes for rendering
         Vector<RenderPassHandle> m_passes;
+
+        // Resources
+        HandlePool<Sprite> m_spritePool;
+
+        // Caches
         Map<MaterialResourceHandle, MaterialHandle> m_materialCache;
         Map<TextureResourceHandle, TextureHandle> m_textureCache;
         Map<ShaderResourceHandle, ShaderHandle> m_shaderCache;
@@ -246,6 +307,7 @@ namespace Minty
         Map<PipelineResourceHandle, PipelineHandle> m_pipelineCache;
         Map<ViewportResourceHandle, ViewportHandle> m_viewportCache;
         Map<MeshResourceHandle, GeometryHandle> m_geometryCache;
+        Map<SpriteResourceHandle, SpriteHandle> m_spriteCache;
 
         State m_state;
 

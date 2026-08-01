@@ -47,6 +47,9 @@ namespace Minty
     struct ShaderResource;
     using ShaderResourceHandle = Handle<ShaderResource>;
 
+    struct SpriteResource;
+    using SpriteResourceHandle = Handle<SpriteResource>;
+
     struct TextureResource;
     using TextureResourceHandle = Handle<TextureResource>;
 
