@@ -151,7 +151,6 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 		create_frame(m_frames.at(i));
 	}
 
-	// create defaults
 	//     viewport
 	Vulkan_SurfaceData const &m_vulkanSurface = m_surfaceDataPool.at(m_surface);
 	UInt2 const swapchainSize = {m_vulkanSurface.extent.width, m_vulkanSurface.extent.height};
@@ -163,6 +162,21 @@ Minty::RenderManager::Impl::Impl(RenderManagerInfo const &info)
 	RenderTargetInfo renderTargetInfo{};
 	renderTargetInfo.surface = m_surface;
 	m_defaultRenderTarget = create(renderTargetInfo);
+}
+
+void Minty::RenderManager::Impl::destroy_pending_buffers(Size const frameIndex)
+{
+	MINTY_ASSERT(frameIndex < FRAMES_PER_FLIGHT, ErrorCodeEnum::Argument_OutOfRange);
+
+	for (BufferHandle const handle : m_pendingBufferDestroy.at(frameIndex))
+	{
+		if (m_bufferDataPool.contains(handle))
+		{
+			destroy(handle);
+		}
+	}
+
+	m_pendingBufferDestroy.at(frameIndex).clear();
 }
 
 Minty::RenderManager::Impl::~Impl()
@@ -679,24 +693,16 @@ PipelineHandle Minty::RenderManager::Impl::create(PipelineInfo const &pipelineIn
 
 	Vector<VkVertexInputBindingDescription> bindingDescriptions;
 	Vector<VkVertexInputAttributeDescription> attributeDescriptions;
-	bindingDescriptions.resize(pipelineInfo.attributes.get_size(), VkVertexInputBindingDescription{});
-	for (Size i = 0; i < pipelineInfo.attributes.get_size(); i++)
+	for (PipelineBinding const &binding : pipelineInfo.attributes)
 	{
-		PipelineBinding const &binding = pipelineInfo.attributes.at(i);
-		VkVertexInputBindingDescription &vertexInputBinding = bindingDescriptions.at(i);
-		vertexInputBinding.binding = static_cast<uint32_t>(i);
+		VkVertexInputBindingDescription vertexInputBinding{};
+		vertexInputBinding.binding = binding.binding;
 		vertexInputBinding.inputRate = Converter<PipelineInputRate, VkVertexInputRate>::from_minty(binding.inputRate);
 
 		uint32_t offset = 0;
 
-		// create each attribute as well
-		for (Size j = 0; j < binding.attributes.get_size(); j++)
+		for (PipelineAttribute const &attribute : binding.attributes)
 		{
-			PipelineAttribute const &attribute = binding.attributes.at(j);
-			VkVertexInputAttributeDescription vertexInputAttribute{};
-
-			// treat matrices as multiple vectors
-			// all others have their own format
 			switch (attribute.type)
 			{
 			case TypeEnum::Matrix2:
@@ -704,42 +710,39 @@ PipelineHandle Minty::RenderManager::Impl::create(PipelineInfo const &pipelineIn
 				MINTY_NOT_IMPLEMENTED();
 			case TypeEnum::Matrix4:
 			{
-				uint32_t typeSize = static_cast<uint32_t>(sizeof(Float4));
+				uint32_t const typeSize = static_cast<uint32_t>(sizeof(Float4));
 				VkFormat const format = Converter<Type, VkFormat>::from_minty(TypeEnum::Float4);
 
-				for (Size k = 0; k < 4; k++)
+				for (Size k = 0; k < 4; ++k)
 				{
-					vertexInputAttribute.location = static_cast<uint32_t>(j + k);
+					VkVertexInputAttributeDescription vertexInputAttribute{};
+					vertexInputAttribute.location = attribute.location + static_cast<uint32_t>(k);
 					vertexInputAttribute.binding = vertexInputBinding.binding;
 					vertexInputAttribute.format = format;
-					vertexInputAttribute.offset = offset;
-
-					offset += typeSize;
-
+					vertexInputAttribute.offset = offset + typeSize * static_cast<uint32_t>(k);
 					attributeDescriptions.add(vertexInputAttribute);
 				}
 
-				j += 4;
-
+				offset += typeSize * 4;
 				break;
 			}
 			default:
 			{
-				vertexInputAttribute.location = static_cast<uint32_t>(j);
+				VkVertexInputAttributeDescription vertexInputAttribute{};
+				vertexInputAttribute.location = attribute.location;
 				vertexInputAttribute.binding = vertexInputBinding.binding;
 				vertexInputAttribute.format = Converter<Type, VkFormat>::from_minty(attribute.type);
 				vertexInputAttribute.offset = offset;
 
 				offset += static_cast<uint32_t>(attribute.type.get_size());
-
 				attributeDescriptions.add(vertexInputAttribute);
 				break;
 			}
 			}
 		}
 
-		// final offset is effectively the stride
 		vertexInputBinding.stride = offset;
+		bindingDescriptions.add(vertexInputBinding);
 	}
 
 	vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescriptions.get_size());
@@ -1723,6 +1726,8 @@ Bool Minty::RenderManager::Impl::begin_frame()
 	Vulkan_Renderer::wait_for_fence(m_device, currentFrame.inFlightFence);
 	Vulkan_Renderer::reset_fence(m_device, currentFrame.inFlightFence);
 
+	destroy_pending_buffers(m_currentFrameIndex);
+
 	// Get the surface data for the current surface
 	Vulkan_SurfaceData &surfaceData = m_surfaceDataPool.at(m_surface);
 
@@ -1982,6 +1987,7 @@ void Minty::RenderManager::Impl::draw_instanced(View const instanceData, Size co
 	MINTY_ASSERT(instanceCount > 0, ErrorCodeEnum::Argument_ExpectedAboveZero);
 	MINTY_ASSERT(!instanceData.is_empty(), ErrorCodeEnum::Argument_ExpectedNonEmpty);
 	MINTY_ASSERT(m_boundPipeline != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
+	MINTY_ASSERT(m_boundGeometry != INVALID_HANDLE, ErrorCodeEnum::Object_InvalidState);
 
 	Vulkan_PipelineData &pipelineData = m_pipelineDataPool.at(m_boundPipeline);
 	Vulkan_Frame const &currentFrame = get_current_frame();
@@ -2001,13 +2007,15 @@ void Minty::RenderManager::Impl::draw_instanced(View const instanceData, Size co
 		instanceBufferData.buffer,
 		1);
 
-	// The sprite shader builds a quad from gl_VertexIndex, so we draw 6 vertices per instance.
-	Vulkan_Renderer::draw(
+	Vulkan_GeometryData const &geometryData = m_geometryDataPool.at(m_boundGeometry);
+
+	// Draw instanced using the currently bound indexed geometry.
+	Vulkan_Renderer::draw_indexed(
 		currentFrame.commandBuffer,
-		6u,
+		geometryData.indexCount,
 		static_cast<uint32_t>(instanceCount));
 
-	destroy(instanceBufferHandle);
+	m_pendingBufferDestroy.at(m_currentFrameIndex).add(instanceBufferHandle);
 }
 
 void Minty::RenderManager::Impl::sync()

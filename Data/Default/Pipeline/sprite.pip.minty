@@ -1,29 +1,32 @@
-: BE9F6D4F8A362FA1F9ADF9B5B6963186
+: 7503177C2F25C313F4A1FB0DDA81CE7B
 RenderPass: A9FE466CCD06333461FD0D0549FE4B22
 PrimitiveTopology: TriangleList
 PolygonMode: Fill
-CullMode: Back
+CullMode: None
 FrontFace: Clockwise
 LineWidth: 1
-Transparency: False
-DepthMode: Write
+Transparency: True
+DepthMode: Test
 DepthTestOperation: <
 StencilMode: None
 StencilTestOperation: ==
 Stages
-    Vertex: 4EB2C7CEB7C53E0B97A7CF11A3DAF9C3
-    Fragment: C3B725158D49BF2B4365E49FCE64DBF8
+    Vertex: 9D2D616440A955AFC163BC19FCA1DB53
+    Fragment: 18BAA89F8CD52B15EF94D0BDCF0D8D18
 Attributes
     0: Vertex
-        0: Float3
-        1: Float3
-        2: Float2
+        0: Float2
+        1: Float2
+    1: Instance
+        2: Matrix4
+        6: Float4
+        7: Float2
+        8: Float2
+        9: Float2
+        10: Float
+        11: UInt
+        12: Float2
 Inputs
-    object
-        Type: PushConstant
-        Stage: Vertex
-        Object
-            transform: Matrix4
     camera
         Type: UniformBuffer
         Stage: Vertex
@@ -39,4 +42,4 @@ Inputs
         Binding: 1
         Frequent: false
         Object
-            texSampler: Object: F30D92BD9FE35248E75BA4BEF914E902
+            texSampler: Object: UUID

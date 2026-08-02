@@ -8,6 +8,7 @@
 #include "Core/Math/Matrix4x4.hpp"
 #include "Core/Type/Float4.hpp"
 #include "Core/Type/Float2.hpp"
+#include "Render/Geometry/GeometryInfo.hpp"
 #include "Render/Sprite/Sprite.hpp"
 
 #include "World/Component/CameraComponent.hpp"
@@ -19,6 +20,41 @@
 
 using namespace Minty;
 
+namespace
+{
+	struct SpriteQuadVertex
+	{
+		Float2 position;
+		Float2 texCoord;
+	};
+
+	GeometryHandle create_sprite_quad_geometry(RenderManager &renderManager)
+	{
+		static GeometryHandle s_spriteQuadGeometry = INVALID_HANDLE;
+		if (s_spriteQuadGeometry != INVALID_HANDLE)
+		{
+			return s_spriteQuadGeometry;
+		}
+
+		static constexpr SpriteQuadVertex quadVertices[] = {
+			{{0.0f, 0.0f}, {0.0f, 0.0f}},
+			{{0.0f, 1.0f}, {0.0f, 1.0f}},
+			{{1.0f, 0.0f}, {1.0f, 0.0f}},
+			{{1.0f, 1.0f}, {1.0f, 1.0f}}
+		};
+		static constexpr UInt16 quadIndices[] = {0, 1, 2, 1, 3, 2};
+
+		GeometryInfo geometryInfo{};
+		geometryInfo.vertexData = View(quadVertices, sizeof(quadVertices));
+		geometryInfo.vertexStride = sizeof(SpriteQuadVertex);
+		geometryInfo.indexData = View(quadIndices, sizeof(quadIndices));
+		geometryInfo.indexType = GeometryIndexType{GeometryIndexTypeEnum::UInt16};
+
+		s_spriteQuadGeometry = renderManager.create(geometryInfo);
+		return s_spriteQuadGeometry;
+	}
+}
+
 Minty::RenderSystem::RenderSystem(Scene &scene)
 	: mp_scene(&scene)
 {
@@ -29,7 +65,7 @@ void Minty::RenderSystem::on_render()
 {
 	RenderManager &renderManager = RenderManager::get_instance();
 
-	using SpriteBatch = Batch<Matrix4x4, Float4, Float2, Float2, Float2, Float, UInt32>;
+	using SpriteBatch = Batch<Matrix4x4, Float4, Float2, Float2, Float2, Float, UInt32, Float2>;
 
 	// Start the frame
 	if (!renderManager.begin_frame())
@@ -90,6 +126,7 @@ void Minty::RenderSystem::on_render()
 
 				// Get the sprite information
 				Sprite const &sprite = renderManager.get(spriteHandle);
+				UInt2 const textureSize = renderManager.get_size(sprite.get_texture_handle());
 
 				// Get the batch for this material, or create a new one if it doesn't exist
 				SpriteBatch &spriteBatch = spriteBatchFactory.get_or_create(materialHandle);
@@ -102,8 +139,13 @@ void Minty::RenderSystem::on_render()
 					sprite.get_size(),
 					sprite.get_pivot(),
 					sprite.get_scale(),
-					static_cast<UInt32>(spriteComp.flipState));
+					static_cast<UInt32>(spriteComp.flipState),
+					Float2(static_cast<Float>(textureSize.x), static_cast<Float>(textureSize.y)));
 			}
+
+			// Bind the shared quad geometry for sprite instancing
+			GeometryHandle const spriteGeometryHandle = create_sprite_quad_geometry(renderManager);
+			renderManager.bind(spriteGeometryHandle);
 
 			// Render all sprite batches
 			for (auto &&[materialHandle, spriteBatch] : spriteBatchFactory)

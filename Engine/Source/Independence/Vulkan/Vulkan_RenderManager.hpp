@@ -147,6 +147,7 @@ namespace Minty
         void destroy_frame(Vulkan_Frame &frame);
         inline Vulkan_Frame &get_current_frame() { return m_frames.at(m_currentFrameIndex); }
         void abort_frame();
+        void destroy_pending_buffers(Size const frameIndex);
 
         void create_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData, RenderTargetHandle const renderTargetHandle);
         void destroy_render_pass_framebuffers(Vulkan_RenderPassData &renderPassData);
@@ -204,6 +205,9 @@ namespace Minty
         PipelineHandle m_boundPipeline;
         MaterialHandle m_boundMaterial;
         GeometryHandle m_boundGeometry;
+
+        // temporary resources that must stay alive until their frame finishes
+        Array<Vector<BufferHandle>, FRAMES_PER_FLIGHT> m_pendingBufferDestroy;
         
 #pragma endregion
     };
