@@ -24,6 +24,56 @@ EntityHandle Minty::EntityManager::create()
     return entt_to_minty(m_registry.create());
 }
 
+EntityHandle Minty::EntityManager::create(UUID const id)
+{
+    entt::entity const entityEntt = m_registry.create();
+	m_registry.emplace<UUIDComponent>(entityEntt, id);
+	return entt_to_minty(entityEntt);
+}
+
+EntityHandle Minty::EntityManager::create(StringView const name)
+{
+    entt::entity const entityEntt = m_registry.create();
+	m_registry.emplace<NameComponent>(entityEntt, name);
+	return entt_to_minty(entityEntt);
+}
+
+EntityHandle Minty::EntityManager::create(UUID const id, StringView const name)
+{
+    entt::entity const entityEntt = m_registry.create();
+	m_registry.emplace<UUIDComponent>(entityEntt, id);
+	m_registry.emplace<NameComponent>(entityEntt, name);
+	return entt_to_minty(entityEntt);
+}
+
+EntityHandle Minty::EntityManager::create(EntityHandle const parent)
+{
+    EntityHandle const entity = create();
+	set_parent(entity, parent);
+	return entity;
+}
+
+EntityHandle Minty::EntityManager::create(UUID const id, EntityHandle const parent)
+{
+    EntityHandle const entity = create(id);
+	set_parent(entity, parent);
+	return entity;
+}
+
+EntityHandle Minty::EntityManager::create(StringView const name, EntityHandle const parent)
+{
+    EntityHandle const entity = create(name);
+	set_parent(entity, parent);
+	return entity;
+}
+
+EntityHandle Minty::EntityManager::create(UUID const id, StringView const name, EntityHandle const parent)
+{
+    EntityHandle const entity = create(id, name);
+	set_parent(entity, parent);
+	return entity;
+}
+
 void Minty::EntityManager::destroy(EntityHandle const entity)
 {
     MINTY_ASSERT(is_valid(entity), ErrorCodeEnum::Entity_NotValid);

@@ -44,6 +44,13 @@ namespace Minty
 
     public:
         EntityHandle create();
+        EntityHandle create(UUID const id);
+        EntityHandle create(StringView const name);
+        EntityHandle create(UUID const id, StringView const name);
+        EntityHandle create(EntityHandle const parent);
+        EntityHandle create(UUID const id, EntityHandle const parent);
+        EntityHandle create(StringView const name, EntityHandle const parent);
+        EntityHandle create(UUID const id, StringView const name, EntityHandle const parent);
         void destroy(EntityHandle const entity);
         EntityHandle find(UUID const id) const;
         String to_string(EntityHandle const entity) const;

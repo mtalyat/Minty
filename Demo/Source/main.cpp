@@ -106,37 +106,15 @@ int main()
     });
     worldEntityManager.add<VisibleTag>(spriteEntity);
 
+    // Create child entity
+    EntityHandle const childEntity = worldEntityManager.create();
+    worldEntityManager.set_parent(childEntity, spriteEntity);
+    worldEntityManager.add<TransformComponent>(childEntity, Transform{
+        Float3{0.0f, 0.0f, 1.0f}
+    });
+
     // Enable scene
     sceneManager.enable(worldSceneHandle);
-
-    // UI SCENE
-    // Scene& uiScene = sceneManager.at(uiSceneHandle);
-    // SystemManager& uiSystemManager = uiScene.get_system_manager();
-    // EntityManager& uiEntityManager = uiScene.get_entity_manager();
-
-    // // Add the systems
-    // uiSystemManager.create_system<RenderSystem>();
-
-    // // Create camera entity
-    // EntityHandle const uiCameraEntity = uiEntityManager.create();
-    // CameraComponent& uiCameraComponent = uiEntityManager.add<CameraComponent>(uiCameraEntity);
-    // RenderViewInfo uiRenderViewInfo{};
-    // uiRenderViewInfo.direction = Math::FORWARD;
-    // uiCameraComponent.renderViewHandle = renderManager.create(uiRenderViewInfo, uiCameraComponent.camera);
-    // uiEntityManager.add<TransformComponent>(uiCameraEntity);
-
-    // // Create canvas entity
-    // EntityHandle const canvasEntity = uiEntityManager.create();
-
-    // // Create sprite entity
-    // EntityHandle const spriteEntity = uiEntityManager.create();
-    // uiEntityManager.add<UITransformComponent>(spriteEntity, INVALID_ENTITY,
-    //     UITransform{0.0f, 0.0f, 100.0f, 100.0f, AnchorEnumFlags::Center
-    //     });
-    // uiEntityManager.add<SpriteComponent>(spriteEntity, spriteHandle);
-
-    // // Enable scene
-    // sceneManager.enable(uiSceneHandle);
 
     // Run application
     return app.run();
