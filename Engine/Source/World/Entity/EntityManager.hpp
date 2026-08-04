@@ -107,6 +107,13 @@ namespace Minty
 
         EntityHandle get_parent(EntityHandle const entity) const;
 
+        void on_finalize();
+
+        // Sorts the entities based on their depth in the hierarchy
+        void sort();
+
+        void update_global_transforms();
+        
     private:
         inline static entt::entity minty_to_entt(EntityHandle const entity) { return static_cast<entt::entity>(entity); }
 

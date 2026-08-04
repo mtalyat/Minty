@@ -31,19 +31,29 @@ namespace Minty
         void set_position(Float3 const &position)
         {
             m_position = position;
-            m_dirty = true;
+            m_localDirty = true;
+            m_globalDirty = true;
         }
 
         void set_scale(Float3 const &scale)
         {
             m_scale = scale;
-            m_dirty = true;
+            m_localDirty = true;
+            m_globalDirty = true;
         }
 
         void set_rotation(Quaternion const &rotation)
         {
             m_rotation = rotation;
-            m_dirty = true;
+            m_localDirty = true;
+            m_globalDirty = true;
+        }
+
+        // Engine-side world transform cache update.
+        void set_global_matrix(Matrix4 const &global)
+        {
+            m_global = global;
+            m_globalDirty = false;
         }
 
         Float3 const &get_position() const
@@ -78,20 +88,23 @@ namespace Minty
 
         Matrix4 const &get_local_matrix() const
         {
-            if (m_dirty)
+            if (m_localDirty)
             {
                 m_local = Math::translate(Math::identity<Matrix4>(), m_position) *
                           Math::to_matrix(m_rotation) *
                           Math::scale(Math::identity<Matrix4>(), m_scale);
-                m_dirty = false;
+                m_localDirty = false;
             }
             return m_local;
         }
 
-        Matrix4 const& get_global_matrix() const
+        Matrix4 const &get_global_matrix() const
         {
-            // TODO: get actual global matrix
-            return get_local_matrix();
+            if (m_globalDirty)
+            {
+                return get_local_matrix();
+            }
+            return m_global;
         }
 
 #pragma endregion
@@ -105,7 +118,9 @@ namespace Minty
 
         // cached matrices for local and global transforms
         Matrix4 mutable m_local;
-        Bool mutable m_dirty;
+        Matrix4 mutable m_global;
+        Bool mutable m_localDirty;
+        Bool mutable m_globalDirty;
 
 #pragma endregion
     };

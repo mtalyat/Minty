@@ -70,6 +70,7 @@ void Minty::Scene::on_fixed_update(Timestep const &timestep)
 
 void Minty::Scene::on_finalize()
 {
+    mp_entityManager->on_finalize();
     mp_systemManager->on_finalize();
 }
 

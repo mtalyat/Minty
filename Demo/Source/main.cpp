@@ -42,7 +42,8 @@ int main()
     ShaderResourceHandle const spriteFragResourceHandle = resourceManager.load<ShaderResource>("../Data/Default/Shader/sprite.frag.sha.minty");
     PipelineResourceHandle const spritePipelineResourceHandle = resourceManager.load<PipelineResource>("../Data/Default/Pipeline/sprite.pip.minty");
     MaterialResourceHandle const spriteMaterialResourceHandle = resourceManager.load<MaterialResource>("../Data/Default/Material/sprite.mat.minty");
-    SpriteResourceHandle const spriteResourceHandle = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
+    SpriteResourceHandle const spriteResourceHandle1 = resourceManager.load<SpriteResource>("Assets/test.spr.minty");
+    SpriteResourceHandle const spriteResourceHandle2 = resourceManager.load<SpriteResource>("Assets/test2.spr.minty");
 
     // Create render data
     RenderManager& renderManager = app.get_render_manager();
@@ -53,7 +54,8 @@ int main()
     GeometryHandle const geometryHandle = renderManager.create(meshResourceHandle);
     PipelineHandle const spritePipelineHandle = renderManager.create(spritePipelineResourceHandle);
     MaterialHandle const spriteMaterialHandle = renderManager.create(spriteMaterialResourceHandle);
-    SpriteHandle const spriteHandle = renderManager.create(spriteResourceHandle);
+    SpriteHandle const spriteHandle1 = renderManager.create(spriteResourceHandle1);
+    SpriteHandle const spriteHandle2 = renderManager.create(spriteResourceHandle2);
 
     // Create Scenes
     SceneManager& sceneManager = app.get_scene_manager();
@@ -101,17 +103,21 @@ int main()
         Float3{0.0f, 0.0f, 1.0f}
     });
     worldEntityManager.add<SpriteComponent>(spriteEntity, SpriteComponent{
-        spriteHandle,
+        spriteHandle1,
         spriteMaterialHandle
     });
     worldEntityManager.add<VisibleTag>(spriteEntity);
 
     // Create child entity
-    EntityHandle const childEntity = worldEntityManager.create();
-    worldEntityManager.set_parent(childEntity, spriteEntity);
+    EntityHandle const childEntity = worldEntityManager.create(spriteEntity);
     worldEntityManager.add<TransformComponent>(childEntity, Transform{
-        Float3{0.0f, 0.0f, 1.0f}
+        Float3{1.0f, 0.0f, 1.0f}
     });
+    worldEntityManager.add<SpriteComponent>(childEntity, SpriteComponent{
+        spriteHandle2,
+        spriteMaterialHandle
+    });
+    worldEntityManager.add<VisibleTag>(childEntity);
 
     // Enable scene
     sceneManager.enable(worldSceneHandle);
